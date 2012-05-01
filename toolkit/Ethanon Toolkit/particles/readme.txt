@@ -1,0 +1,1 @@
+All particle bitmaps must be in this folder. 

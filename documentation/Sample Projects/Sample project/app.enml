@@ -1,0 +1,12 @@
+window
+{
+	title = Ethanon Sample Project;
+	width = 1024; height = 768;
+	windowed = true;
+	vsync = true;
+}
+
+rendering
+{
+	richLighting = true;
+}

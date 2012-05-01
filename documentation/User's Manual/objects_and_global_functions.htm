@@ -1,0 +1,1728 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Ethanon Scripting - Objects and global functions</title>
+<base target="_self">
+<style fprolloverstyle>A:hover {color: #000000}
+span {
+	font-family: 'Courier New';
+	color: #000000;
+	font-size: 10pt;
+}
+.S5 {
+	font-weight: bold;
+	color: #00007F;
+}
+
+.S0 {
+	color: #808080;
+}
+.S10 {
+	font-weight: bold;
+	color: #000000;
+}
+.S2 {
+	font-family: 'Courier New';
+	color: #007F00;
+	font-size: 10pt;
+}
+.S6 {
+	color: #7F007F;
+}
+.S4 {
+	color: #007F7F;
+}
+A { text-decoration: none; }
+</style>
+</head>
+
+<body link="#2D3A5F" vlink="#2D3A5F" alink="#000000">
+
+<p align="center">
+<font face="Verdana" size="2"><a name="about">
+<img border="0" src="ethanon_logo_doc.png"></a></font></p>
+
+<p align="center"><b><font face="Verdana" size="6">Objects and functions</font></b></p>
+<p align="left"><b><font face="Verdana" size="2">4.3.1. <a href="#Name_syntax_">
+Name syntax</a><br>
+<br>
+4.3.2. <a href="#Objects">Objects</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#ETHEntity_">ETHEntity</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#ETHInput_">ETHInput</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#collisionBox">collisionBox</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#videoMode_">videoMode</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#file_">file</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#vector2">vector2</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#vector3__">vector3</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#vector3__">matrix4x4</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#ETHEntityArray">ETHEntityArray</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#dictionary">dictionary</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#dateTime">dateTime</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#enmlFile_and_enmlEntity">enmlFile and enmlEntity</a><br>
+<br>
+4.3.3. <a href="#Global_functions">Global functions</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#Entity_scene_and_handle_functions">Entity, scene 
+and handle functions</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#Application_control_functions">Application and 
+system functions</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#General_environment_functions">General environment 
+functions</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#Math_and_time_functions">Math and time functions</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#Drawing_functions">Drawing functions</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#Audio_and_multimedia_functions">Audio and 
+multimedia functions</a><br>
+<br>
+4.3.4. <a href="#Constants">Constants</a></font></b></p>
+<p align="left"><b><font face="Verdana" size="4">4.3.1. <a name="Name_syntax_">
+Name syntax</a></font></b></p>
+<p align="left"><font face="Verdana" size="2">All object and function names in 
+the EE scripting system follow certain rules to help the programmer to 
+differentiate between his own objects and the engine's objects and also to tell 
+what kind of object he is dealing with. These rules are:</font></p>
+<ul>
+	<li>
+	<p align="left"><font face="Verdana" size="2">Native objects with ETH* 
+	prefix are the ones that interact directly with the core engine, they may 
+	directly manipulate core engine objects.</font></p></li>
+	<li>
+	<p align="left"><font face="Verdana" size="2">All util, helper and data 
+	storage object names start with lower-case letters (e.g.: file, enmlFile, 
+	dateTime and collisionBox).</font></p></li>
+	<li>
+	<p align="left"><font face="Verdana" size="2">All native global functions 
+  start with upper-case letters, except for the basic math functions.</font></p></li>
+</ul>
+<p align="left"><b><font face="Verdana" size="4">4.3.2. <a name="Objects">Objects</a></font></b></p>
+<table border="0" width="100%" id="table1" cellspacing="0" cellpadding="0">
+	<tr>
+		<td bgcolor="#E4E8EF"><b><font size="4" face="Courier New">
+		<a name="ETHEntity_">ETHEntity</a></font><font face="Verdana" size="2"> 
+		- entity object</font></b><p><font face="Verdana" size="2">Reference 
+		object that describes an entity in the scene. A reference object must 
+		always be a @handle, never an instance. It allows entity manipulation.</font></p>
+		<p><font face="Verdana" size="2">The most common way of getting a handle 
+		to an entity is to use
+		<b>
+		<a target="_self" href="doc_main.htm#Entity_exclusive_callbacks">entity 
+		exclusive callbacks</a></b>, but they may also be retrieved with functions 
+		like </font><font size="2" face="Courier New">SeekEntity</font><font face="Verdana" size="2">.</font></p>
+		<p><font face="Verdana" size="2">While using an ETHEntity handle, make 
+		sure that the entity still exists, because if the program tries to 
+		manipulate an entity that has already been deleted the program will 
+		crash. Avoid storing ETHEntity handles externally.</font></p>
+		<p><font face="Verdana" size="2">Examples of ETHEntity usage:</font></p>
+		<table border="0" width="100%" id="table29" cellspacing="0" cellpadding="0">
+			<tr>
+				<td>
+				<div align="center">
+		<table border="1" width="80%" id="table30" bordercolorlight="#000000" cellspacing="0" cellpadding="0" bordercolordark="#000000">
+			<tr>
+				<td bgcolor="#FFFFFF">
+				<span style="font-family: Courier New; color: #000000; font-size: 10pt">
+				<span class="S2">// Moves the entity to the left</span><br />
+				<span class="S5">void</span><span class="S0"> </span>
+				ETHCallback_bullet<span class="S10">(</span><span class="S5">ETHEntity</span><span class="S0"> </span>
+				@thisEntity<span class="S10">)</span><br />
+<span class="S10">{</span></span><span class="S10"><br>
+				</span>
+<span style="font-family: Courier New; color: #000000; font-size: 10pt">
+<span class="S0">&nbsp;&nbsp;&nbsp; </span>thisEntity.AddToPosition<span class="S10">(</span><span class="S5">vector3</span><span class="S10">(</span></span><span><span class="S4">10</span></span><span style="font-family: Courier New; color: #000000; font-size: 10pt"><span class="S5">,</span></span><span><span class="S4">0</span></span><span style="font-family: Courier New; color: #000000; font-size: 10pt"><span class="S5">,</span></span><span><span class="S4">0</span></span><span style="font-family: Courier New; color: #000000; font-size: 10pt"><span class="S10">));</span><span class="S0"> </span></span>
+				<span class="S10"><br>
+				}</span></td>
+			</tr>
+		</table>
+					<p>&nbsp;</p>
+		<table border="1" width="80%" id="table31" bordercolorlight="#000000" cellspacing="0" cellpadding="0" bordercolordark="#000000">
+			<tr>
+				<td bgcolor="#FFFFFF"><span><span class="S2">// finds the starting 
+				point in the map</span><br />
+				<span class="S5">ETHEntity</span><span class="S0"> </span>@circle<span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S5">SeekEntity</span><span class="S10">(</span><span class="S6">"start_point.ent"</span><span class="S10">);</span><br />
+				<span class="S5">if</span><span class="S0"> </span><span class="S10">(</span>circle<span class="S0"> </span><span class="S10">!</span><span class="S5">is</span><span class="S0"> </span><span class="S5">null</span><span class="S10">)</span><br />
+				<span class="S10">{<br>
+&nbsp;&nbsp;&nbsp; </span><span class="S2">// Adds the main character to the 
+				scene, places<br>
+&nbsp;&nbsp;&nbsp; // him at the 
+				start point and gives him full HP</span><br />
+				<span class="S0">&nbsp; &nbsp; </span><span class="S5">int</span><span class="S0"> </span>
+				id<span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S5">AddEntity</span><span class="S10">(</span><span class="S6">"character.ent"</span><span class="S10">,</span><span class="S0"> </span>circle<span class="S10">.</span>GetPosition<span class="S10">(),</span><span class="S0"> </span><span class="S4">0.0f</span><span class="S10">);</span><span class="S0"> </span><span class="S2">// file name, position, angle</span><br />
+				<span class="S0">&nbsp; &nbsp; </span><span class="S5">ETHEntity</span><span class="S0"> </span>@character<span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S5">SeekEntity</span><span class="S10">(</span>id<span class="S10">);<br>
+&nbsp;&nbsp;&nbsp; </span>character<span class="S10">.</span><span class="S5">SetFloat</span><span class="S10">(</span><span class="S6">&quot;hp&quot;</span><span class="S10">,</span><span class="S0"> </span><span class="S4">
+				100.0f</span><span class="S10">);</span><br />
+				<span class="S10">}</span></span></td>
+			</tr>
+		</table>
+				</div>
+				</td>
+			</tr>
+		</table>
+		<p><b><font face="Verdana" size="2">Methods:</font></b></p>
+		<p><b><font face="Verdana" size="2">void </font></b>
+		<font face="Verdana" size="2">ETHEntity::</font><b><font face="Verdana" size="2">SetPosition(const
+		<a href="#vector3__">vector3</a> &amp;in)<br>
+		void </font></b><font face="Verdana" size="2">ETHEntity::</font><font face="Verdana" size="2"><b>SetPositionXY(const
+		<a href="#vector2">vector2</a> &amp;in)</b> // only affects X and Y axis<b><br>
+&nbsp;</b>-Moves the entity to the point passed as parameter.</font></p>
+		<p><b><font face="Verdana" size="2">void </font></b>
+		<font face="Verdana" size="2">ETHEntity::</font><b><font face="Verdana" size="2">AddToPosition(const
+		<a href="#vector3__">vector3</a> &amp;in)<br>
+		void </font></b><font face="Verdana" size="2">ETHEntity::</font><b><font face="Verdana" size="2">AddToPositionXY(const
+		<a href="#vector2">vector2</a> &amp;in)</font></b><font face="Verdana" size="2"> // only affects X 
+		and Y axis</font><font face="Verdana" size="2"><b><br>
+		</b>&nbsp;-Sums the vector passed as parameter to the owner's current 
+		position.</font></p>
+		<p><b><font face="Verdana" size="2"><a href="#vector3__">vector3</a> </font></b>
+		<font face="Verdana" size="2">ETHEntity::</font><b><font face="Verdana" size="2">GetPosition() 
+		const<br>
+		<a href="#vector2">vector2</a> </font></b><font face="Verdana" size="2">ETHEntity::</font><b><font face="Verdana" size="2">GetPositionXY() 
+		const</font></b><font face="Verdana" size="2"> // only returns X and Y 
+		axis</font><font face="Verdana" size="2"><b><br>
+&nbsp;-</b>Returns the entity position.</font></p>
+		<p><b><font face="Verdana" size="2"><a href="#vector2">vector2</a> </font></b>
+		<font face="Verdana" size="2">ETHEntity::</font><font face="Verdana" size="2"><b>GetSize() 
+		const<br>
+		</b>&nbsp;-Returns the sprite dimensions.</font></p>
+		<p><b><font face="Verdana" size="2">uint </font></b>
+		<font face="Verdana" size="2">ETHEntity::</font><font face="Verdana" size="2"><b>GetFrame() 
+		const<br>
+		</b>&nbsp;-Returns the  current frame.</font></p>
+		<p><b><font face="Verdana" size="2">uint </font></b>
+		<font face="Verdana" size="2">ETHEntity::</font><font face="Verdana" size="2"><b>GetNumFrames() 
+		const<br>
+		</b>&nbsp;-Returns the number of frames that the entity has.</font></p>
+		<p><font face="Verdana" size="2"><b>bool </b>ETHEntity::<b>SetSpriteCut(const 
+		uint col, const uint row)<br>
+		</b>&nbsp;-Reset the current sprite cut by <i>col</i> columns X <i>row</i> 
+		rows. This method will set the current sprite frame back to 0.</font></p>
+		<p><b><font face="Verdana" size="2">bool </font></b>
+		<font face="Verdana" size="2">ETHEntity::</font><b><font face="Verdana" size="2">SetFrame(const 
+		uint)<br>
+		bool </font></b><font face="Verdana" size="2">ETHEntity::</font><font face="Verdana" size="2"><b>SetFrame(const 
+		uint, const uint)</b><br>
+&nbsp;-Sets the current frame. You may choose to set it linearly passing only 
+		one uint or picking a frame from a 2D grid by passing two uints that represent the X and Y 
+		position of the frame.</font></p>
+		<p><b><font face="Verdana" size="2">int </font></b>
+		<font face="Verdana" size="2">ETHEntity::</font><font face="Verdana" size="2"><b>GetID() 
+		const<br>
+		</b>&nbsp;-Returns the current entity ID.</font></p>
+		<p><b><font face="Verdana" size="2">void </font></b>
+		<font face="Verdana" size="2">ETHEntity::</font><b><font face="Verdana" size="2">SetAngle(const 
+		float)<br>
+		float </font></b><font face="Verdana" size="2">ETHEntity::</font><font face="Verdana" size="2"><b>GetAngle() 
+		const<br>
+		</b></font><b><font face="Verdana" size="2">void </font></b>
+		<font face="Verdana" size="2">ETHEntity::</font><b><font face="Verdana" size="2">AddToAngle(const
+		float)<br>
+		</font></b><font face="Verdana" size="2">&nbsp;-Sets and gets the owner's angle. Vertical entities can't be 
+		rotated.</font></p>
+		<p><b><font face="Verdana" size="2">bool </font></b>
+		<font face="Verdana" size="2">ETHEntity::</font><font face="Verdana" size="2"><b>IsStatic() 
+		const<br>
+		</b>&nbsp;-Returns true if the entity is static.</font></p>
+		<p><b><font face="Verdana" size="2">void </font></b>
+		<font face="Verdana" size="2">ETHEntity::</font><font face="Verdana" size="2"><b>TurnDynamic()<br>
+		</b>&nbsp;-Permanently turns the entity into dynamic.</font></p>
+		<p><b><font face="Verdana" size="2">
+		<a target="_self" href="#collisionBox">collisionBox</a> </font></b>
+		<font face="Verdana" size="2">ETHEntity::</font><font face="Verdana" size="2"><b>GetCollisionBox() 
+		const<br>
+		</b>&nbsp;-Returns the current collision box.</font></p>
+		<p><b><font face="Verdana" size="2">string </font></b>
+		<font face="Verdana" size="2">ETHEntity::<b>GetEntityName() 
+		const<br>
+		</b>&nbsp;-Returns the  original file name (e.g.: &quot;zombie.ent&quot;).</font></p>
+		<p><b><font face="Verdana" size="2">bool </font></b>
+		<font face="Verdana" size="2">ETHEntity::</font><font face="Verdana" size="2"><b>Collidable() 
+		const<br>
+		</b>&nbsp;-Returns true if this is a collidable entity.</font></p>
+		<p><font face="Verdana" size="2"><b>void </b>ETHEntity::<b>SetCollision(const 
+		bool enable)<br>
+		</b>&nbsp;-Enables or disables collision for this entity.</font></p>
+		<p><b><font face="Verdana" size="2">bool </font></b>
+		<font face="Verdana" size="2">ETHEntity::<b>SetFloat(const 
+		string &amp;dataName, const float &amp;in)<br>
+		bool </b>ETHEntity::<b>SetInt(const 
+		string &amp;dataName, const int &amp;in)<br>
+		bool </b>ETHEntity::<b>SetUInt(const 
+		string &amp;dataName, const uint &amp;in)<br>
+		bool </b>ETHEntity::<b>SetString(const 
+		string &amp;dataName</b></font><font face="Verdana" size="2"><b>, const string &amp;in)<br>
+		<font face="Verdana" size="2">bool </font></b><font face="Verdana" size="2">ETHEntity::<b>SetVector2(const 
+		string &amp;dataName, const vector2 &amp;in)<br>
+        bool </b>ETHEntity::<b>SetVector3(const 
+		string &amp;dataName</b></font><font face="Verdana" size="2"><b>, const vector3 &amp;in)<br>
+        </b></font>&nbsp;-Adds custom variable to the entity. If a variable with same name is 
+		found, it'll just substitute the value for the new one if the type 
+		matches. <b> <a target="_self" href="doc_main.htm#Adding_custom_data">More 
+		about custom variables</a></b>.</font></p>
+		<font face="Verdana" size="2"><p><strong>void </strong>ETHEntity::<strong>AddToFloat(const string &amp;in, const float &amp;in)<br>
+	    void </strong>ETHEntity::<strong>AddToInt(const string &amp;in, const int &amp;in)<br>
+	    void </strong>ETHEntity::<strong>AddToUInt(const string &amp;in, const uint &amp;in)<br>
+	    void </strong>ETHEntity::<strong>AddToVector2(const string &amp;in, const vector2 &amp;in)<br>
+	    void </strong>ETHEntity::<strong>AddToVector3(const string &amp;in, const vector3 &amp;in)</strong><br>
+&nbsp;-Adds a value to a custom data.</p>
+		<p><strong>void </strong>ETHEntity::<strong>MultiplyFloat(const string &amp;in, const float &amp;in)<br>
+	    void </strong>ETHEntity::<strong>MultiplyInt(const string &amp;in, const int &amp;in)<br>
+	    void </strong>ETHEntity::<strong>MultiplyUInt(const string &amp;in, const uint &amp;in)<br>
+	    void </strong>ETHEntity::<strong>MultiplyVector2(const string &amp;in, const float &amp;in)<br>
+	    void </strong>ETHEntity::<strong>MultiplyVector3(const string &amp;in, const float &amp;in)</strong><br>
+		 &nbsp; -Multiplies a value to a custom data.
+		</p></font>
+		<p><b><font face="Verdana" size="2"><a target="_self" href="#DATA_TYPE">
+		DATA_TYPE</a> </font></b><font face="Verdana" size="2">ETHEntity::<b><a name="CheckCustomData">CheckCustomData</a>(const 
+		string &amp;</b></font><b><font face="Verdana" size="2">dataName</font></b><font face="Verdana" size="2"><b>) const<br>
+		</b>&nbsp;-Returns the data type. If there is no matching data for 
+		that name, it returns DT_NODATA. <b> <a target="_self" href="doc_main.htm#Adding_custom_data">More 
+		about custom variables</a></b>.</font></p>
+		<p><b><font face="Verdana" size="2">float </font></b>
+		<font face="Verdana" size="2">ETHEntity::</font><b><font face="Verdana" size="2">GetFloat(const 
+		string &amp;dataName) const<br>
+		int </font></b><font face="Verdana" size="2">ETHEntity::</font><b><font face="Verdana" size="2">GetInt(const 
+		string &amp;dataName) const<br>
+		uint </font></b><font face="Verdana" size="2">ETHEntity::</font><b><font face="Verdana" size="2">GetUInt(const 
+		string &amp;dataName) const<br>
+		string </font></b><font face="Verdana" size="2">ETHEntity::</font><font face="Verdana" size="2"><b>GetString(const 
+		string &amp;</b></font><b><font face="Verdana" size="2">dataName</font></b><font face="Verdana" size="2"><b>) const<br>
+		</b>&nbsp;-Retrieves custom data from the entity. If there is no data 
+		with that name it'll always return 0 or an empty string.
+		<b> <a target="_self" href="doc_main.htm#Adding_custom_data">More 
+		about custom variables</a></b>.</font></p>
+		<p><b><font face="Verdana" size="2">bool </font></b>
+		<font face="Verdana" size="2">ETHEntity::</font><font face="Verdana" size="2"><b>HasCustomData() 
+		const<br>
+		</b>&nbsp;-Returns true if the entity has custom variables in it. <b> <a target="_self" href="doc_main.htm#Adding_custom_data">More 
+		about custom variables</a></b>.</font></p>
+		<p><font face="Verdana" size="2"><b>bool </b>ETHEntity::<b>EraseData(const 
+		string &amp;name)<br>
+		</b>&nbsp;-Erases the custom variable whose name is sName. <b> <a target="_self" href="doc_main.htm#Adding_custom_data">More 
+		about custom variables</a></b>.</font><p><b><font face="Verdana" size="2">void </font></b>
+		<font face="Verdana" size="2">ETHEntity::</font><font face="Verdana" size="2"><b>DebugPrintCustomData() 
+		const<br>
+		</b>&nbsp;-Prints all the custom variables to the console screen. <b> <a target="_self" href="doc_main.htm#Adding_custom_data">More 
+		about custom variables</a></b>.</font></p>
+		<p><b><font face="Verdana" size="2">
+		<a target="_self" href="#ENTITY_TYPE">ENTITY_TYPE</a> </font></b>
+		<font face="Verdana" size="2">ETHEntity::</font><font face="Verdana" size="2"><b>GetType() 
+		const<br>
+&nbsp;</b>-Returns the entity type.</font></p>
+		<p><b><font face="Verdana" size="2">bool </font></b>
+		<font face="Verdana" size="2">ETHEntity::</font><b><font face="Verdana" size="2">SetSprite(const 
+		string &amp;in)<br>
+		bool </font></b><font face="Verdana" size="2">ETHEntity::</font><font face="Verdana" size="2"><b>SetNormal(const 
+		string &amp;in)<br>
+		</b>&nbsp;-Changes the current sprite or normal. Specify the exact file 
+		name. <a target="_self" href="doc_main.htm#Resource_directories">The 
+		files must be in the correct directory</a>.</font></p>
+		<p><b><font face="Verdana" size="2">void </font></b>
+		<font face="Verdana" size="2">ETHEntity::<b>SetSoundVolume(const float)<br>
+		</b>&nbsp;-Sets the entity sound volume (from 0.0f to 1.0f)</font></p>
+		<p><b><font face="Verdana" size="2">void </font></b>
+		<font face="Verdana" size="2">ETHEntity::<b>SilenceParticleSystems(const 
+		bool)<br>
+		</b>&nbsp;-Stop all sound effects that the entity may be playing.</font></p>
+		<p><b><font face="Verdana" size="2"><a href="#vector2">vector2</a> </font></b>
+		<font face="Verdana" size="2">ETHEntity::</font><b><font face="Verdana" size="2">GetScreenRectMin() 
+		const<br>
+		<a href="#vector2">vector2</a> </font></b><font face="Verdana" size="2">ETHEntity::<b>GetScreenRectMax() 
+		const<br>
+		</b>&nbsp;-Returns the minimum and maximum in screen point of the 
+		owner's bounding rectangle. Useful for checking whether the entity is in 
+		screen or not.</font><p><b><font face="Verdana" size="2">bool </font>
+		</b>
+		<font face="Verdana" size="2">ETHEntity::</font><font face="Verdana" size="2"><b>IsInvisible() 
+		const<br>
+		</b>&nbsp;-Returns true if this entity is invisible (has no sprite, 
+		light sources or particle systems). Invisible entities may be used for 
+		collision purposes.</font><p><b><font face="Verdana" size="2">bool
+		</font></b>
+		<font face="Verdana" size="2">ETHEntity::</font><font face="Verdana" size="2"><b>HasParticleSystem() 
+		const<br>
+		</b>&nbsp;-Returns true if the entity has any particle systems.</font><p>
+		<b><font face="Verdana" size="2">bool </font></b>
+		<font face="Verdana" size="2">ETHEntity::</font><font face="Verdana" size="2"><b>HasLightSource() 
+		const<br>
+		</b>&nbsp;-Returns true if the particle system has light sources.</font><p>
+		<font face="Verdana" size="2"><b>bool </b>ETHEntity::<b>HasSoundEffect() 
+		const</b><br>
+&nbsp;-Returns true if this entity has its own sound effects.</font><p>
+		<font face="Verdana" size="2"><b>void 
+		</b>ETHEntity::<b>SetLightRange(const float range)<br>
+		</b></font><b><font face="Verdana" size="2">float 
+		</font></b>
+		<font face="Verdana" size="2">ETHEntity::</font><b><font face="Verdana" size="2">GetLightRange() const<br>
+		</font></b><font face="Verdana" size="2">&nbsp;-Sets and gets the light 
+		range. If the entity has no light source, the Get function will return 
+		an unknown value.</font><p><font face="Verdana" size="2"><b>void 
+		</b>ETHEntity::<b>SetLightColor(const
+		</b></font>
+		<b><font face="Verdana" size="2"><a href="#vector3__">vector3</a>
+		</font></b><font face="Verdana" size="2"><b>&amp;color)<br>
+		</b></font>
+		<b><font face="Verdana" size="2"><a href="#vector3__">vector3</a>
+		</font></b>
+		<font face="Verdana" size="2">ETHEntity::<b>GetLightColor() const<br>
+		</b>&nbsp;-Sets and gets the light color. If the entity has no light 
+		source, the Get function will return an unknown color value.</font><p>
+		<b><font face="Verdana" size="2">void 
+		</font></b>
+		<font face="Verdana" size="2">ETHEntity::</font><b><font face="Verdana" size="2">SetEmissiveColor(const
+		<a href="#vector3__">vector3</a> 
+		&amp;color)<br>
+		<a href="#vector3__">vector3</a> 
+		</font></b>
+		<font face="Verdana" size="2">ETHEntity::</font><b><font face="Verdana" size="2">GetEmissiveColor() const<br>
+		</font></b><font face="Verdana" size="2">&nbsp;-Sets and gets the entity 
+		emissive (self-illumination) color.</font><p>
+		<font face="Verdana" size="2"><b>void 
+		</b>ETHEntity::<b>KillParticleSystem(const uint n)<br>
+		</b>&nbsp;-Kill the particle system <i>n</i>. 0 for slot A and 1 for 
+		slot B.</font><p><font face="Verdana" size="2"><b>bool
+		</b>ETHEntity::<b>ParticlesKilled(const uint n)<br>
+		</b>&nbsp;-Returns true if the particle system <i>n</i> is killed. 0 for 
+		slot A and 1 for slot B.</font><p><b><font face="Verdana" size="2">bool
+		</font></b>
+		<font face="Verdana" size="2">ETHEntity::</font><b><font face="Verdana" size="2">PlayParticleSystem(const uint n)<br>
+		</font></b><font face="Verdana" size="2">&nbsp;-Plays the particle 
+		system <i>n</i>. 0 for slot A and 1 for slot B.</font><p>
+		<font face="Verdana" size="2"><b>bool </b>ETHEntity::<b>AreParticlesOver() 
+		const</b><br>
+&nbsp;-Returns true if all particle systems are over.</font><p><b>
+		<font face="Verdana" size="2">void </font></b>
+		<font face="Verdana" size="2">ETHEntity::</font><b><font face="Verdana" size="2">SetColor(const <a href="#vector3__">vector3</a>
+		&amp;in)<br>
+		<a href="#vector3__">vector3</a>
+		</font></b>
+		<font face="Verdana" size="2">ETHEntity::</font><font face="Verdana" size="2"><b>GetColor()<br>
+		</b>&nbsp;-Sets and gets entity color.</font><p><b>
+		<font face="Verdana" size="2">void </font></b>
+		<font face="Verdana" size="2">ETHEntity::</font><b><font face="Verdana" size="2">SetAlpha(const 
+		float)<br>
+		float </font></b>
+		<font face="Verdana" size="2">ETHEntity::</font><font face="Verdana" size="2"><b>GetAlpha()<br>
+		</b>&nbsp;-Sets and gets the entity alpha (transparency) value.</font><p>
+		<font face="Verdana" size="2"><b>void </b>ETHEntity::<b>SetLayerDepth(const 
+		float)<br>
+		float </b>ETHEntity::<b>GetLayerDepth() const<br>
+		</b>&nbsp;-Sets and gets the layer depth from the entity. If the entity 
+		type is not <i>layerable</i>, the SetLayerDepth method will 
+		automatically convert the entity into ET_LAYERABLE.</font><p>
+		<font face="Verdana" size="2"><b>bool </b>ETHEntity::<b>IsAlive()<br>
+		</b>&nbsp;-Returns true if this entity is in the scene and false if it 
+		has been removed. It may happen if the DeleteEntity is called to remove 
+		an entity but other handles still keep it alive.</font><p>
+		<font face="Verdana" size="2"><b>void </b>ETHEntity::<b>Hide(const bool)</b><br>
+		<b>bool </b>ETHEntity::<b>IsHidden() const</b><br>
+&nbsp;-Hides the entity (true) or show it again (false). The IsHidden method 
+		tells whether the entity is hidden or not.</font><p>
+		<font face="Verdana" size="2"><b>bool </b>ETHEntity::<b>HasShadow() 
+		const<br>
+		</b>&nbsp;-Returns true if the entity has shadow.</font><p>
+		<font face="Verdana" size="2"><b>void </b>ETHEntity::<b>SetShadowZ(const 
+		float)</b><br>
+		<b>float </b>ETHEntity::<b>GetShadowZ() const</b><br>
+&nbsp;-Sets and gets the entity's shadow height (z-position). For a better 
+		looking scene the shadow Z-position must be equivalent to the floor 
+		height.</font><p>
+		<font face="Verdana" size="2"><b>vector2 </b>ETHEntity::<b>GetCurrentBucket() 
+		const<br>
+		</b>&nbsp;-Returns the entity's current bucket key. <b>
+		<a target="_self" href="doc_main.htm#Scene_buckets">More about scene 
+		buckets</a></b>.</font><p>
+		<font face="Verdana" size="2"><b>void </b>ETHEntity::<b>SetParticlePosition(const 
+		uint slot, const vector3 &amp;pos)</b><br>
+&nbsp;-Sets a new relative position to the entity's particle system (slot 0=A, 
+		slot 1=B).</font><p>
+		<font face="Verdana" size="2"><b>void </b>ETHEntity::<b>ScaleParticleSystem(const 
+		uint slot, const float)</b><br>
+&nbsp;-Scales the particle system (slot 0=A, slot 1=B).</font>
+		<p><font face="Verdana" size="2"><b>void </b>ETHEntity::<strong>MirrorParticleSystemX(const uint slot, const bool mirrorGravity)</strong><br>
+        <b>void </b>ETHEntity::<strong>MirrorParticleSystemY(const uint slot, const bool mirrorGravity)</strong><br>
+&nbsp;-Mirrors the particle system along the X- or Y-axis. Set the mirrorGravity parameter to true in order to mirror the gravity vector as well.</font>        
+		<p><font color="#808080"><b><font face="Verdana" size="2">string </font></b>
+		<font face="Verdana" size="2">ETHEntity::<b>GetOriginalFileName() 
+		const (deprecated)<br>
+		</b>-The same as ETHEntity::GetEntityName.</font></font></p>
+		<p>
+		&nbsp;</td>
+	</tr>
+	<tr>
+		<td bgcolor="#FFFFFF"><b><font face="Courier New" size="4"><br>
+		<a name="ETHInput_">ETHInput</a></font><font face="Verdana" size="2"> - 
+		input devices handler</font></b><p><font face="Verdana" size="2">Games 
+		may use the methods of the ETHInput object to perform keyboard, mouse or 
+		joystick input tests. This is a reference object and must always be a 
+		@handle, never an instance.</font><p><font face="Verdana" size="2">A 
+		handle to a valid ETHInput object may be retrieved at any time with the 
+		GetInputHandle function.</font><p><font face="Verdana" size="2">Examples 
+		of usage:<br>
+&nbsp;</font><table border="0" width="100%" id="table35" cellspacing="0" cellpadding="0">
+			<tr>
+				<td>
+				<div align="center">
+		<table border="1" width="80%" id="table36" bordercolorlight="#000000" cellspacing="0" cellpadding="0" bordercolordark="#000000">
+			<tr>
+				<td bgcolor="#FFFFFF">
+				<span><span class="S2">// if the user presses ESC, then quit</span><br />
+				<span class="S5">ETHInput</span><span class="S0"> </span>@input<span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S5">GetInputHandle</span><span class="S10">();</span><br />
+				<span class="S5">if</span><span class="S0"> </span><span class="S10">(</span>input<span class="S10">.</span>KeyDown<span class="S10">(</span><span class="S5">K_ESC</span><span class="S10">))</span><br />
+				<span class="S10">{</span><br />
+				<span class="S0">&nbsp; &nbsp; </span><span class="S5">Exit</span><span class="S10">();</span><br />
+				<span class="S10">}</span></span></td>
+			</tr>
+		</table>
+					<p>&nbsp;</p>
+		<table border="1" width="80%" id="table37" bordercolorlight="#000000" cellspacing="0" cellpadding="0" bordercolordark="#000000">
+			<tr>
+				<td bgcolor="#FFFFFF"><span><span class="S2">// gets the mouse 
+				cursor position</span><br />
+				<span class="S5">ETHInput</span><span class="S0"> </span>@input<span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S5">GetInputHandle</span><span class="S10">();</span><br />
+				<span class="S5">vector2</span><span class="S0"> </span>
+				cursorPos = input<span class="S10">.</span>GetCursorPos<span class="S10">();</span></span></td>
+			</tr>
+		</table>
+				</div>
+				</td>
+			</tr>
+		</table>
+		<p><b><font face="Verdana" size="2">Methods:</font></b></p>
+		<p><font size="2" face="Verdana"><b><a href="#KEY_STATE">KEY_STATE</a>
+		</b>ETHInput::<b>GetKeyState(const <a href="#KEY">KEY</a>)<br>
+		</b>&nbsp;-Returns the state of the keyboard key passed as parameter.</font><p>
+		<font size="2" face="Verdana"><b>bool </b>ETHInput::<b>KeyDown(const
+		<a href="#KEY">KEY</a>)<br>
+		</b>&nbsp;-Returns true if the keyboard key passed as parameter is being 
+		pressed.</font><p><font size="2" face="Verdana"><b><a href="#vector2">
+		vector2</a> </b>ETHInput::<b>GetCursorPos()<br>
+		void 
+		</b>ETHInput::<b>SetCursorPos(const
+		<a href="#vector2">vector2</a> &amp;in)<br>
+		</b>&nbsp;-Gets and sets the mouse cursor position.</font><p>
+		<font size="2" face="Verdana"><b>void </b>ETHInput::<b>SetCursorPos(const <a href="#vector2">vector2</a> &amp;in)<br>
+        </b>&nbsp;-Gets and sets the mouse cursor position.</font>
+		<p> <font size="2" face="Verdana"><b><a href="#vector2"></a></b></font>
+		  <font size="2" face="Verdana"><b><a href="#vector2">vector2</a></b> ETHInput::<b>GetCursorAbsolutePos()<br>
+          </b>&nbsp;-Returns the cursor absolute position in screen (which is not relative to the window).</font>
+		<p> <font size="2" face="Verdana"><b><a href="#vector2"></a></b></font><font size="2" face="Verdana"><b><a href="#vector2">vector2</a> </b>ETHInput::<b>GetMouseMove()<br>
+        </b>&nbsp;-Returns the cursor movement vector.</font>
+	      <p>
+		<font size="2" face="Verdana"><b>float </b>ETHInput::<b>GetWheelState()<br>
+		</b>&nbsp;-Returns the mouse wheel scroll value. Usually ranges between 
+		-1 and 1.</font><p>
+		<font size="2" face="Verdana"><b><a href="#KEY_STATE">KEY_STATE</a> </b>ETHInput::<b>GetLeftClickState()<br>
+		<a href="#KEY_STATE">KEY_STATE</a> </b>ETHInput::<b>GetRightClickState()<br>
+		<a href="#KEY_STATE">KEY_STATE</a> </b>ETHInput::<b>GetMiddleClickState()<br>
+		</b>&nbsp;-Returns the left, right and middle mouse button status.</font><p>
+		<font size="2" face="Verdana"><b>string </b>ETHInput::<b>GetLastCharInput() const<br>
+		</b>&nbsp;-Returns the last keyboard character entry.</font><p>
+		<font size="2" face="Verdana"><b>bool </b>ETHInput::<b>DetectJoysticks() const<br>
+		</b>&nbsp;-Detect joysticks.</font><p>
+		<font size="2" face="Verdana"><b><a href="#KEY_STATE">KEY_STATE</a> </b>ETHInput::<b>JoyButtonState(const uint, const 
+		<a href="#J_KEY">J_KEY</a>) const<br>
+		</b>&nbsp;-Returns the state of a joystick button. Specify the joystick 
+		ID in the first parameter.</font><p>
+		<font size="2" face="Verdana"><b>bool </b>ETHInput::<b>JoyButtonDown(const uint, const J_KEY) const<br>
+		</b>&nbsp;-Returns true if the joystick button is being pressed. Specify 
+		the joystick ID in the first parameter.</font><p>
+		<font size="2" face="Verdana"><b><a href="#J_STATUS">J_STATUS</a> </b>ETHInput::<b>GetJoystickStatus(const uint) const<br>
+		</b>&nbsp;-Returns the joystick status.</font><p>
+		<font size="2" face="Verdana"><b><a href="#vector2">vector2</a> </b>ETHInput::<b>GetJoystickXY(const uint) const<br>
+		</b>&nbsp;-Returns the joystick X and Y axis.</font><p>
+		<font size="2" face="Verdana"><b>float </b>ETHInput::<b>GetJoystickZ(const uint) const<br>
+		</b>&nbsp;-Returns the joystick Z axis.</font><p>
+		<font size="2" face="Verdana"><b>float </b>ETHInput::<b>GetJoystickRudder(const uint) const<br>
+		</b>&nbsp;-Returns the joystick rudder.</font><p>
+		<font size="2" face="Verdana"><b><a href="#vector2">vector2</a> </b>ETHInput::<b>GetJoystickUV(const uint) const<br>
+		</b>&nbsp;-Returns the joystick U and V axis.</font><p>
+		<font size="2" face="Verdana"><b><a href="#J_KEY">J_KEY</a> </b>ETHInput::<b>GetFirstButtonDown(const uint) const<br>
+		</b>&nbsp;-Returns the the first joystick button that is being pressed.</font><p>
+		<font size="2" face="Verdana"><b>uint </b>ETHInput::<b>GetNumJoyButtons(const uint) const<br>
+		</b>&nbsp;-Returns the number of buttons in the joystick.</font><p>
+		<font size="2" face="Verdana"><b>uint </b>ETHInput::<b>GetMaxJoysticks() const<br>
+		</b>&nbsp;-Returns the maximum number of joysticks supported.</font></td>
+	</tr>
+	<tr>
+		<td bgcolor="#E4E8EF"><b><font face="Courier New" size="4"><br>
+		<a name="collisionBox">collisionBox</a></font><font face="Verdana" size="2"> 
+		- collision box</font></b><p><font face="Verdana" size="2">Describes a 
+		collision box.<br>
+		</font><font size="2" face="Courier New">struct collisionBox<br>
+		{<br>
+&nbsp;&nbsp;&nbsp; <b><a href="#vector3__">vector3</a></b> pos, size;<br>
+		};</font></td>
+	</tr>
+	<tr>
+		<td bgcolor="#FFFFFF"><b><font face="Courier New" size="4"><br>
+		<a name="videoMode_">videoMode</a></font><font face="Verdana" size="2"> 
+		- video mode description</font></b><p><font face="Verdana" size="2">
+		Describes a video mode.<br>
+		</font>
+		<font face="Courier New" size="2">struct videoMode<br>
+		{<br>
+&nbsp;&nbsp;&nbsp; uint witdth, height; // screen size<br>
+&nbsp;&nbsp;&nbsp; <b><a href="#PIXEL_FORMAT">PIXEL_FORMAT</a></b> format;<br>
+		};</font></td>
+	</tr>
+	<tr>
+		<td bgcolor="#E4E8EF"><font face="Verdana"><br>
+		</font><b><font face="Courier New" size="4"><a name="file_">file</a></font><font face="Verdana" size="2"> 
+		- text file io</font></b>
+		<p><font face="Verdana" size="2">The following 
+		description and example were extracted from 
+		AngelScript's original documentation and source-code comments:</font><p>
+		<font face="Verdana" size="2">This class encapsulates a FILE pointer in 
+		a reference counted class.</font><p><b><font face="Verdana" size="2">
+		Example:<br>
+&nbsp;</font></b><table border="0" width="100%" id="table41" cellspacing="0" cellpadding="0">
+			<tr>
+				<td>
+				<div align="center">
+		<table border="1" width="80%" id="table42" bordercolorlight="#000000" cellspacing="0" cellpadding="0" bordercolordark="#000000">
+			<tr>
+				<td bgcolor="#FFFFFF">
+<span><span class="S5">file</span><span class="S0"> </span>f<span class="S10">;</span><br />
+<span class="S2">// Open the file in 'read' mode</span><br />
+<span class="S5">if</span><span class="S10"> (</span>f<span class="S10">.</span>open<span class="S10">(</span><span class="S6">"file.txt"</span><span class="S10">,</span><span class="S0"> </span><span class="S6">"r"</span><span class="S10">)</span><span class="S0"> </span><span class="S10">&gt;=</span><span class="S0"> </span><span class="S4">0</span><span class="S10">)</span><br />
+<span class="S10">{</span><br />
+<span class="S0">&nbsp; &nbsp; </span><span class="S2">// Read the whole file into the string buffer</span><br />
+<span class="S0">&nbsp; &nbsp; </span><span class="S5">string</span><span class="S0"> </span>str<span class="S10">;</span><br />
+<span class="S0">&nbsp; &nbsp; </span>f<span class="S10">.</span>readString<span class="S10">(</span>f<span class="S10">.</span>getSize<span class="S10">(),</span><span class="S0"> </span>str<span class="S10">);</span><span class="S0"> </span><br />
+<span class="S0">&nbsp; &nbsp; </span>f<span class="S10">.</span>close<span class="S10">();</span><br />
+<span class="S10">}</span></span></td>
+			</tr>
+		</table>
+				</div>
+				</td>
+			</tr>
+		</table>
+		<p><b><font face="Verdana" size="2">Methods:</font></b><p>
+		<font size="2" face="Verdana"><b>int </b>file::<b>open(const string 
+		&amp;fileName, const string &amp;mode)<br>
+		</b>&nbsp;-Opens a file to read (&quot;r&quot;), write (&quot;w&quot;) or append (&quot;a&quot;).</font><p>
+		<b><font size="2" face="Verdana">int </font></b>
+		<font face="Verdana" size="2">file::</font><b><font size="2" face="Verdana">close()<br>
+		</font></b><font size="2" face="Verdana">&nbsp;-Closes the file.</font><p>
+		<b><font size="2" face="Verdana">int </font></b>
+		<font face="Verdana" size="2">file::</font><b><font size="2" face="Verdana">getSize() 
+		const<br>
+		</font></b><font size="2" face="Verdana">&nbsp;-Returns the file size in 
+		bytes.</font><p><b><font size="2" face="Verdana">bool </font></b>
+		<font face="Verdana" size="2">file::</font><b><font size="2" face="Verdana">isEndOfFile() 
+		const<br>
+		</font></b><font size="2" face="Verdana">&nbsp;-Returns true if the end 
+		of the file is reached.</font><p><b><font size="2" face="Verdana">int
+		</font></b><font face="Verdana" size="2">file::</font><b><font size="2" face="Verdana">readString(uint 
+		length, string &amp;str)<br>
+		int </font></b><font face="Verdana" size="2">file::</font><b><font size="2" face="Verdana">readLine(string 
+		&amp;str)<br>
+		</font></b><font size="2" face="Verdana">&nbsp;-Read strings from file.</font><p>
+		<b><font size="2" face="Verdana">int </font></b>
+		<font face="Verdana" size="2">file::</font><b><font size="2" face="Verdana">writeString(const 
+		string &amp;str)<br>
+		</font></b><font size="2" face="Verdana">&nbsp;-Writes a string to file.</font>
+		<p><font size="2" face="Verdana"><strong>int64    </strong>file::<strong>readInt(uint bytes)</strong><br>
+	      <strong>uint64 </strong>file::<strong>readUInt(uint bytes)</strong><br>
+	    <strong>float </strong>file::<strong>readFloat()</strong><br>
+		  <strong>double </strong>file::<strong>readDouble()</strong></font><br>
+		  <font size="2" face="Verdana">&nbsp;-Read binary primitive data from file. <em>bytes</em> parameter refers to the binary length of the integer.</font>
+		
+<p><font size="2" face="Verdana"><strong>int      </strong>file::<strong>writeInt(int64 value, uint bytes)<br>
+int      </strong>file::<strong>writeUInt(uint64 value, uint bytes)<br>
+int      </strong>file::<strong>writeFloat(float value)<br>
+int      </strong>file::<strong>writeDouble(double value)</strong><br>
+&nbsp;-Write binary primitive data to file.</font> <font size="2" face="Verdana"><em>bytes</em> parameter refers to the binary length of the integer.</font>
+<p>
+        
+        
+        <b><font size="2" face="Verdana">int </font></b>
+		<font face="Verdana" size="2">file::</font><b><font size="2" face="Verdana">getPos() 
+		const<br>
+		int </font></b><font face="Verdana" size="2">file::</font><b><font size="2" face="Verdana">setPos(int 
+		pos)<br>
+		int </font></b><font face="Verdana" size="2">file::</font><b><font size="2" face="Verdana">movePos(int 
+		delta)<br>
+		</font></b><font size="2" face="Verdana">&nbsp;-Manages the cursor 
+	  position.</font></td>
+	</tr>
+	<tr>
+		<td bgcolor="#FFFFFF"><font face="Verdana"><br>
+		</font><b><font face="Courier New" size="4"><a name="vector2">vector2</a></font><font face="Verdana" size="2">/</font><font face="Courier New" size="4"><a name="vector3__">vector3</a></font><font face="Verdana" size="2">&nbsp; 
+		- two- and three-dimensional vector </font></b>
+		<p><font face="Verdana" size="2">Describes a two- and three-component 
+		vector including operator overloads. vector3 may also represent a color 
+		value XYZ/RGB in which the values for each channel may range between 0 
+		and 1.</font><br>
+		<font face="Courier New" size="2">struct vector2<br>
+		{<br>
+&nbsp;&nbsp;&nbsp; float x,y;<br>
+		};<br>
+		struct vector3<br>
+		{<br>
+&nbsp;&nbsp;&nbsp; float x,y,z;<br>
+		};</font>        
+		<p><b><font size="4" face="Courier New">matrix4x4</font><font face="Verdana" size="2">&nbsp; 
+		- a 4x4 matrix</font></b>
+        <p><font face="Verdana" size="2">Describes a 4x4 matrix.</font><br>
+        <font face="Courier New" size="2">struct matrix4x4<br>
+        {<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;float a11, a12, a13, a14;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;float a21, a22, a23, a24;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;float a31, a32, a33, a34;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;float a41, a42, a43, a44;<br>
+         &nbsp;&nbsp;&nbsp;&nbsp;float get(const uint i, const uint j) const;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;void set(const uint i, const uint j, const float value);<br>
+} </font>
+      <p>&nbsp;</p></td>
+	</tr>
+	<tr>
+		<td bgcolor="#E4E8EF"><font size="2" face="Verdana"><br>
+		</font><b><font face="Courier New" size="4"><a name="ETHEntityArray">
+		ETHEntityArray</a></font><font face="Verdana" size="2"> 
+		- dynamic entity array object</font></b><p>
+		<font size="2" face="Verdana">This object stores an array of entity 
+		handles (similar to pointers). The <b>
+		<a target="_self" href="#GetEntityArray">GetEntityArray</a></b> 
+		function may be used to build custom arrays from entities in scene. 
+		<a href="doc_main.htm#Entity_arrays"><b>M</b></a><b><a href="doc_main.htm#Entity_arrays">ore about entity 
+		arrays</a></b>.</font></p>
+		<p><font face="Verdana" size="2">Example:</font></p>
+		<table border="0" width="100%" id="table69" cellspacing="0" cellpadding="0">
+			<tr>
+				<td>
+				<div align="center">
+		<table border="1" width="80%" id="table70" bordercolorlight="#000000" cellspacing="0" cellpadding="0" bordercolordark="#000000">
+			<tr>
+				<td bgcolor="#FFFFFF">
+<span>
+<span class="S5">ETHEntityArray</span><span class="S0"> </span>g_Soldiers<span class="S10">;</span><br />
+<br />
+				<span class="S5">void</span><span class="S0"> </span>
+				StartGameLogic<span class="S10">()</span><br />
+<span class="S10">{</span><br />
+				<span class="S0">&nbsp; &nbsp; </span><span class="S2">// gets 
+the handles to each 
+				&quot;soldier.ent&quot; in scene</span><br />
+<span class="S0">&nbsp; &nbsp; </span><span class="S5">GetEntityArray</span><span class="S10">(</span><span class="S6">"soldier.ent"</span><span class="S10">,</span><span class="S0"> </span>g_Soldiers<span class="S10">);<br>
+				}<br>
+				<br>
+				</span><span class="S5">void</span><span class="S0"> </span>GameLoopLogic<span class="S10">()</span><br />
+<span class="S10">{</span><br />
+				<span class="S0">&nbsp; &nbsp; </span><span class="S2">// loops 
+through every &quot;soldier.ent&quot; in scene</span><br />
+<span class="S0">&nbsp; &nbsp; </span><span class="S5">const</span><span class="S0"> </span><span class="S5">uint</span><span class="S0"> </span>
+size<span class="S0"> </span><span class="S10">=</span><span class="S0"> </span>g_Soldiers<span class="S10">.</span>size<span class="S10">();</span><br />
+				<span class="S0">&nbsp; &nbsp; </span><span class="S5">for</span><span class="S0"> </span><span class="S10">(</span><span class="S5">uint</span><span class="S0"> </span>t<span class="S10">=</span><span class="S4">0</span><span class="S10">;</span><span class="S0"> </span>t<span class="S10">&lt;</span>size<span class="S10">;</span><span class="S0"> </span>t<span class="S10">++)</span><br />
+<span class="S0">&nbsp; &nbsp; </span><span class="S10">{</span><br />
+				<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">const</span><span class="S0"> </span><span class="S5">vector2</span><span class="S0"> </span>v2Pos<span class="S0"> </span><span class="S10">=</span><span class="S0"> </span>g_Soldiers<span class="S10">[</span>t<span class="S10">].</span>GetPositionXY<span class="S10">();</span><br />
+				<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span>g_Soldiers<span class="S10">[</span>t<span class="S10">].</span>AddToPositionXY<span class="S10">(</span>MoveSoldier<span class="S10">());</span><br />
+				<span class="S0">&nbsp; &nbsp; </span><span class="S10">}<br>
+				}</span></span></td>
+			</tr>
+		</table>
+				</div>
+				</td>
+			</tr>
+		</table>
+		<p><b><font face="Verdana" size="2">Methods:</font></b></p>
+		<p><b><font face="Verdana" size="2">uint </font></b>
+		<font face="Verdana" size="2">ETHEntityArray::</font><font face="Verdana" size="2"><b>size() 
+		const<br>
+		</b>&nbsp;-Returns the number of elements in the array.</font></p>
+		<p><b><font face="Verdana" size="2">void </font></b>
+		<font face="Verdana" size="2">ETHEntityArray::</font><font face="Verdana" size="2"><b>clear()<br>
+		</b>&nbsp;-Clears the array releasing all its handles.</font></p>
+		<p><b><font face="Verdana" size="2">void </font></b> <font face="Verdana" size="2">ETHEntityArray::</font><b><font size="2" face="Verdana">unique</font></b><font face="Verdana" size="2"><b>()<br>
+        </b>&nbsp;-Remove repeated entities from the array.</font></p>
+        <p><b><font face="Verdana" size="2">void </font></b> <font face="Verdana" size="2">ETHEntityArray::</font><b><font size="2" face="Verdana">removeDeadEntities</font></b><font face="Verdana" size="2"><b>()<br>
+        </b>&nbsp;-Remove all references to entities that have already been deleted from scene.</font></p>
+        <p><b><font face="Verdana" size="2">void </font></b>
+          <font face="Verdana" size="2">ETHEntityArray::<b><a name="push_back">push_back</a>(const 
+            ETHEntity &amp;in)<br>
+          </b>&nbsp;-Adds an entity handle to the end of the array.</font></p>
+		<p><font face="Verdana" size="2"><b>void </b>ETHEntityArray::<b><a name="operatoraddassign">operator</a>+=<br>
+		</b>&nbsp;-Add-assigns another array to the end of the current array. Example:</font></p>
+		<table border="0" width="100%" id="table77" cellspacing="0" cellpadding="0">
+			<tr>
+				<td>
+				<div align="center">
+		<table border="1" width="80%" id="table78" bordercolorlight="#000000" cellspacing="0" cellpadding="0" bordercolordark="#000000">
+			<tr>
+				<td bgcolor="#FFFFFF">
+<span>
+<span class="S5">ETHEntityArray</span><span class="S0"> </span>orcs<span class="S10">;</span><br />
+<span class="S5">GetEntityArray</span><span class="S10">(</span><span class="S6">"orc.ent"</span><span class="S10">,</span><span class="S0"> </span>orcs<span class="S10">);</span><br />
+<br />
+<span class="S5">ETHEntityArray</span><span class="S0"> </span>elfs<span class="S10">;</span><br />
+<span class="S5">GetEntityArray</span><span class="S10">(</span><span class="S6">"elf.ent"</span><span class="S10">,</span><span class="S0"> </span>elfs<span class="S10">);</span><br />
+<span class="S0">&nbsp; &nbsp; </span><br />
+<span class="S5">ETHEntityArray</span><span class="S0"> </span>soldiers<span class="S10">;</span><br />
+soldiers<span class="S0"> </span><span class="S10">+=</span><span class="S0"> </span>orcs<span class="S10">;</span><br />
+soldiers<span class="S0"> </span><span class="S10">+=</span><span class="S0"> </span>elfs<span class="S10">;<br>
+				</span><span class="S2">// now the &quot;soldiers&quot; array holds all 
+				elf and orc handles<br>
+				<br>
+				// Clears the &quot;orcs&quot; and &quot;elfs&quot; arrays but the &quot;soldiers&quot; array still 
+				stores the handles</span><br>
+				orcs<span class="S10">.</span>clear<span class="S10">();<br>
+				</span>elfs<span class="S10">.</span>clear<span class="S10">();</span></span></td>
+			</tr>
+		</table>
+				</div>
+				</td>
+			</tr>
+		</table>
+		<p>&nbsp;</td>
+	</tr>
+	<tr>
+		<td bgcolor="#FFFFFF"><br>
+		<a name="dictionary"><b><font face="Courier New" size="4">dictionary</font></b></a><b><font face="Verdana" size="2"> 
+		- hash map with string key</font></b><p><font face="Verdana" size="2">The following 
+		description and example was extracted from AngelScript's original documentation and source-code comments:</font><p>
+		<font face="Verdana" size="2">The dictionary object maps string values 
+		to values or objects of other types.</font><p>
+		<font face="Verdana" size="2"><i>-Public script interface:</i></font><p>
+		<font size="2" face="Courier New">class dictionary<br>
+		{<br>
+&nbsp;&nbsp;&nbsp; void set(const string &amp;in key, ? &amp;in value);<br>
+&nbsp;&nbsp;&nbsp; bool get(const string &amp;in value, ? &amp;out value) const;<br>
+		<br>
+&nbsp;&nbsp;&nbsp; void set(const string &amp;in key, int64 &amp;in value);<br>
+		</font><font size="2" face="Courier New">&nbsp;&nbsp;&nbsp; bool 
+		get(const string &amp;in key, int64 &amp;out value) const;<br>
+		<br>
+&nbsp;&nbsp;&nbsp; void set(const string &amp;in key, double &amp;in value);<br>
+&nbsp;&nbsp;&nbsp; bool get(const string &amp;in key, double &amp;out value) const;<br>
+		<br>
+&nbsp;&nbsp;&nbsp; bool exists(const string &amp;in key) const;<br>
+&nbsp;&nbsp;&nbsp; void delete(const string &amp;in key);<br>
+&nbsp;&nbsp;&nbsp; void deleteAll();<br>
+		}</font><p><i><font face="Verdana" size="2">-Script example:</font></i><p>
+		<font face="Courier New" size="2">dictionary dict;<br>
+		obj object;<br>
+		obj @handle;<br>
+		<br>
+		dict.set(&quot;one&quot;, 1);<br>
+		dict.set(&quot;object&quot;, object);<br>
+		dict.set(&quot;handle&quot;, @handle);<br>
+		<br>
+		if( dict.exists(&quot;one&quot;) )<br>
+		{<br>
+&nbsp;&nbsp;&nbsp; bool found = dict.get(&quot;handle&quot;, @handle);<br>
+&nbsp;&nbsp;&nbsp; if( found )<br>
+&nbsp;&nbsp;&nbsp; {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dict.delete(&quot;object&quot;);<br>
+&nbsp;&nbsp;&nbsp; }<br>
+		}<br>
+		<br>
+		dict.deleteAll();</font><p>&nbsp;</td>
+	</tr>
+	<tr>
+		<td bgcolor="#E4E8EF"><br>
+		<b><font face="Courier New" size="4"><a name="dateTime">dateTime</a></font><font face="Verdana" size="2"> 
+		- system date and time retriever</font></b><p>
+		<font face="Verdana" size="2">The dateTime object retrieves the system date and 
+		time automatically as soon as it is instantiated (its default 
+		constructor calls the ::update method):</font><p>
+		<font face="Verdana" size="2"><i>-object public scope<br>
+		</i></font><font size="2" face="Courier New">class dateTime<br>
+		{<br>
+&nbsp;&nbsp;&nbsp; uint update()<br>
+&nbsp;&nbsp;&nbsp; uint getDay() const<br>
+&nbsp;&nbsp;&nbsp; uint getMonth() const <br>
+&nbsp;&nbsp;&nbsp; uint getYear() const<br>
+&nbsp;&nbsp;&nbsp; uint getHours() const<br>
+&nbsp;&nbsp;&nbsp; uint getMinutes() const<br>
+&nbsp;&nbsp;&nbsp; uint getSeconds() const<br>
+		}</font><p><font face="Verdana" size="2">dateTime properties won't be 
+		kept automatically up-to-date. To reutilize an instance, call the update 
+		method first.</font><p><font face="Verdana" size="2">Sample:</font><p>
+		<font face="Courier New" size="2">dateTime dt;<br>
+		print(&quot;The time is &quot; + dt.getHours() + &quot;:&quot; + dt.getMinutes() + &quot;\n&quot;);<br>
+		print(&quot;The day is &quot; + dt.getDay());<br>
+		<br>
+		...<br>
+		...<br>
+		<br>
+		dt.update();<br>
+		print(&quot;The time is &quot; + dt.getHours() + &quot;:&quot; + dt.getMinutes() + &quot;\n&quot;);<br>
+		print(&quot;The day is &quot; + dt.getDay());</font><p>&nbsp;</td>
+	</tr>
+	<tr>
+		<td><br>
+		<a name="enmlFile_and_enmlEntity"><b><font face="Courier New" size="4">
+		enmlFile</font></b> <b><font face="Verdana" size="2">and</font></b>
+		<font face="Courier New" size="4"><b>enmlEntity</b></font></a><b><font face="Verdana" size="2"> 
+		- ENML (Easy Non-Markup Language) parsers</font></b><p>
+		<font face="Verdana" size="2">ENML is an human readable parsing language 
+		which is very similar to INI files but with a different syntax. It 
+		separates its values into global entity scopes, and their attributes are 
+		all based on strings.</font></p>
+		<p><font face="Verdana" size="2">These objects are very useful for more 
+		specific save game data, such as high scores, user data and preferences, 
+		and more. It was designed to be very easy to write and read and as it 
+		may work directly with strings, the programmer may implement his own 
+		cryptography algorithm to protect the data.</font></p>
+		<p><font face="Verdana" size="2">Objects:</font></p>
+		<p><font face="Courier New" size="2">class enmlEntity<br>
+		{<br>
+&nbsp;&nbsp;&nbsp; // clear all data in the entity<br>
+&nbsp;&nbsp;&nbsp; void clear();<br>
+		<br>
+&nbsp;&nbsp;&nbsp; // adds a new attribute to the entity<br>
+&nbsp;&nbsp;&nbsp; void add(const string &amp;nameKey, string attribute);<br>
+		<br>
+&nbsp;&nbsp;&nbsp; // gets an attribute string<br>
+&nbsp;&nbsp;&nbsp; string get(const string &amp;nameKey);<br>
+		<br>
+&nbsp;&nbsp;&nbsp; // returns a attribute name list separated by commas<br>
+&nbsp;&nbsp;&nbsp; string getAttributeNames() const;<br>
+		}<br>
+		<br>
+		class enmlFile<br>
+		{<br>
+&nbsp;&nbsp;&nbsp; // clears all files in it<br>
+&nbsp;&nbsp;&nbsp; void clear();<br>
+		<br>
+&nbsp;&nbsp;&nbsp; // adds an entity to the file parser<br>
+&nbsp;&nbsp;&nbsp; void addEntity(const string &amp;entityName, const enmlEntity 
+		&amp;in);<br>
+		<br>
+&nbsp;&nbsp;&nbsp; // generates an ENML file string<br>
+&nbsp;&nbsp;&nbsp; string generateString() const;<br>
+		<br>
+&nbsp;&nbsp;&nbsp; // reads an ENML file string and parses its values<br>
+&nbsp;&nbsp;&nbsp; uint parseString(const string &amp;str);<br>
+		<br>
+&nbsp;&nbsp;&nbsp; // returns true if the entity exists <br>
+&nbsp;&nbsp;&nbsp; bool exists(const string &amp;entityName) const;<br>
+		<br>
+&nbsp;&nbsp;&nbsp; // Returns the value of the 'attribute' in the 'entity' in 
+		the file<br>
+&nbsp;&nbsp;&nbsp; string get(const string &amp;entity, const string &amp;attribute) 
+		const;<br>
+		<br>
+&nbsp;&nbsp;&nbsp; // parses numerical attributes in the file<br>
+&nbsp;&nbsp;&nbsp; bool getDouble(const string &amp;entity, const string &amp;attrib, 
+		double &amp;out) const;<br>
+&nbsp;&nbsp;&nbsp; bool getInt(const string &amp;entity, const string &amp;attrib, int 
+		&amp;out) const;<br>
+&nbsp;&nbsp;&nbsp; bool getUInt(const string &amp;entity, const string &amp;attrib, uint 
+		&amp;out) const;<br>
+&nbsp;&nbsp;&nbsp; bool getFloat(const string &amp;entity, const string &amp;attrib, 
+		float &amp;out) const;<br>
+		<br>
+&nbsp;&nbsp;&nbsp; // returns the last parsing error message<br>
+&nbsp;&nbsp;&nbsp; string getErrorString() const;<br>
+		<br>
+&nbsp;&nbsp;&nbsp; // returns a string containing all entity names separated by 
+		commas<br>
+&nbsp;&nbsp;&nbsp; string getEntityNames() const;<br>
+		<br>
+&nbsp;&nbsp;&nbsp; // returns a string containing all attributes in the 'entity' 
+		separated by commas<br>
+&nbsp;&nbsp;&nbsp; string getAttributeNames(const string &amp;entity) const;<br>
+		<br>
+&nbsp;&nbsp;&nbsp; // writes the internal data to a file<br>
+&nbsp;&nbsp;&nbsp; void writeToFile(const string &amp;fileName) const;<br>
+		<br>
+&nbsp;&nbsp;&nbsp; // reads an ENML file and parses its data<br>
+&nbsp;&nbsp;&nbsp; bool parseFromFile(const string &amp;fileName);<br>
+		}</font></p>
+		<p><u><b><font face="Verdana" size="2">Tutorial:</font></b></u></p>
+		<p><font face="Verdana" size="2"><b>The syntax:</b></font></p>
+		<p><font size="2" face="Courier New">[<u>test.txt</u>]<br>
+		// my first entity<br>
+		theWall<br>
+		{<br>
+&nbsp;&nbsp;&nbsp; // each attribute's value ends with a ';' character.<br>
+&nbsp;&nbsp;&nbsp; artist = Pink Floyd;<br>
+&nbsp;&nbsp;&nbsp; // use '\;' to write ';' characters into the attribute<br>
+&nbsp;&nbsp;&nbsp; formation = David Gilmour\; Nick Mason\; Roger Waters\; Bob 
+		Klose;<br>
+&nbsp;&nbsp;&nbsp; year = 1979;<br>
+		}<br>
+		<br>
+		// my second entity<br>
+		myCar<br>
+		{<br>
+&nbsp;&nbsp;&nbsp; name = Beetle;<br>
+&nbsp;&nbsp;&nbsp; year = 1978; cc = 1500;<br>
+&nbsp;&nbsp;&nbsp; Manufacturer = Volkswagen;<br>
+		<br>
+&nbsp;&nbsp;&nbsp; // it also supports multi-line values:<br>
+&nbsp;&nbsp;&nbsp; sucessorList = <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Volkswagen Golf<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Volkswagen Jetta (Sedan)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Volkswagen New Beetle<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Volkswagen Gol (in Brazil); // don't 
+		forget to finish with ';'<br>
+		}<br>
+		<br>
+		numbers<br>
+		{<br>
+&nbsp;&nbsp;&nbsp; pi = 3.1415;<br>
+&nbsp;&nbsp;&nbsp; posX = 1.5;<br>
+&nbsp;&nbsp;&nbsp; myInteger = 13;<br>
+		}</font></p>
+		<p><font face="Verdana" size="2"><b>Reading an ENML file and retrieving 
+		data:</b></font></p>
+		<p><font face="Courier New" size="2">const string str = 
+		GetStringFromFile(&quot;test.txt&quot;);<br>
+		<br>
+		enmlFile f;<br>
+		f.parseString(str);<br>
+		string name = f.get(&quot;myCar&quot;, &quot;name&quot;);<br>
+		string artist = f.get(&quot;theWall&quot;, &quot;artist&quot;);<br>
+		<br>
+		double myPi;<br>
+		f.getDouble(&quot;numbers&quot;, &quot;pi&quot;, myPi);<br>
+		<br>
+		float posX;<br>
+		f.getFloat(&quot;numbers&quot;, &quot;posX&quot;, posX);<br>
+		<br>
+		uint myInteger;<br>
+		f.getUInt(&quot;numbers&quot;, &quot;myInteger&quot;, myInteger);</font></p>
+		<p><font face="Verdana" size="2"><b>Writing an ENML file:<br>
+		</b><br>
+		</font><font size="2" face="Courier New">enmlFile f;<br>
+		<br>
+		enmlEntity entity;<br>
+		entity.add(&quot;class&quot;, &quot;rogue&quot;);<br>
+		entity.add(&quot;level&quot;, &quot;85&quot;);<br>
+		entity.add(&quot;name&quot;, &quot;Nathan&quot;);<br>
+		f.addEntity(&quot;partyMember0&quot;, entity);<br>
+		<br>
+		entity.clear();<br>
+		entity.add(&quot;class&quot;, &quot;paladin&quot;);<br>
+		entity.add(&quot;level&quot;, &quot;71&quot;);<br>
+		entity.add(&quot;name&quot;, &quot;John&quot;);<br>
+		f.addEntity(&quot;partyMember1&quot;, entity);<br>
+		<br>
+		string str = f.generateString();<br>
+		SaveStringToFile(&quot;myFile.txt&quot;, str);</font></p>
+		<p><b><font face="Verdana" size="2">That will produce:</font></b></p>
+		<p><font size="2" face="Courier New">partyMember0<br>
+		{<br>
+&nbsp;&nbsp;&nbsp; class = rogue;<br>
+&nbsp;&nbsp;&nbsp; level = 85;<br>
+&nbsp;&nbsp;&nbsp; name = Nathan;<br>
+		}<br>
+		<br>
+		partyMember1<br>
+		{<br>
+&nbsp;&nbsp;&nbsp; class = paladin;<br>
+&nbsp;&nbsp;&nbsp; level = 71;<br>
+&nbsp;&nbsp;&nbsp; name = John;<br>
+		}</font></p>
+		<p><font face="Verdana" size="2"><b>Things it cannot do:<br>
+		</b>-Can't have entity trees (entities inside another entity). All entities MUST be 
+		global.<br>
+		-Values that start with a return character.<br>
+		-Receive attributes with empty values</font></p>
+		<p><font face="Verdana" size="2"><b>Remarks:</b><br>
+		-In the files, use '\\' and '\;' to write '\' and ';' characters to 
+		attribute files<br>
+		-Use '/' for comments. It won't work inside value definitions.</font><p>&nbsp;</td>
+	</tr>
+</table>
+<p align="left"><b><font face="Verdana" size="4">4.3.3. 
+<a name="Global_functions">Global functions</a></font></b></p>
+<table border="0" width="100%" id="table43" cellpadding="0" style="border-collapse: collapse">
+	<tr>
+		<td bgcolor="#E4E8EF">
+		<b><font face="Verdana" size="4">
+		<a name="Entity_scene_and_handle_functions">Entity, scene and handle 
+		functions</a>:</font></b><p><font face="Verdana" size="2"><b>
+		<a href="#ETHEntity_">ETHEntity</a> @SeekEntity(const string &amp;fileName)<br>
+		</b>&nbsp;-Returns a pointer to an entity whose original file name 
+		equals fileName (e.g.: &quot;level_boss.esc&quot;). Returns null if it couldn't 
+		be found.<br>
+&nbsp;-If the selected entity is <b>
+		<a target="_self" href="doc_main.htm#Temporary_entities">temporary</a></b>, 
+		this function returns null.</font></p>
+		<p><font face="Verdana" size="2"><b><a href="#ETHEntity_">ETHEntity</a>
+		</b></font><b><font face="Verdana" size="2">@SeekEntity(const int id)<br>
+		</font></b><font face="Verdana" size="2">&nbsp;-Returns a pointer to the 
+		entity whose ID equals nID. Returns null if it couldn't be found.<br>
+&nbsp;-If the selected entity is <b>
+		<a target="_self" href="doc_main.htm#Temporary_entities">temporary</a></b>, 
+		this function returns null.</font></p>
+		<p><b><font face="Verdana" size="2"><a href="#ETHInput_">ETHInput</a> @GetInputHandle()<br>
+		</font></b><font face="Verdana" size="2">&nbsp;-Returns a pointer to the 
+		input object.</font></p>
+		<p><b><font face="Verdana" size="2">void LoadScene(const string &amp;fileName)<br>
+		</font></b><font face="Verdana" size="2">&nbsp;-Loads a scene without <b>
+		<a href="doc_main.htm#Pre-loop_and_loop_fuctions">onSceneLoaded and onSceneUpdate 
+		functions</a></b>.</font></p>
+		<p><b><font face="Verdana" size="2">void LoadScene(const string &amp;fileName, 
+		const string &amp;preLoopFuncName, const string &amp;onSceneUpdateFuncName)<br>
+		</font></b><font face="Verdana" size="2">&nbsp;-Loads a scene with <b>
+		<a target="_self" href="doc_main.htm#Pre-loop_and_loop_fuctions">onSceneLoaded and/or onSceneUpdate 
+		functions</a></b>.</font></p>
+		<p><b><font face="Verdana" size="2">void LoadScene(const string &amp;fileName, 
+		const string &amp;preLoopFuncName, const string &amp;onSceneUpdateFuncName, const string &amp;onResumeFuncName)<br>
+        </font></b><font face="Verdana" size="2">&nbsp;-Loads a scene with <b> <a target="_self" href="doc_main.htm#Pre-loop_and_loop_fuctions">onSceneLoaded, onSceneUpdate 
+		or onResume functions</a></b>.</font></p>
+		<p><b><font face="Verdana" size="2">void LoadScene(const string &amp;fileName, 
+		const string &amp;preLoopFuncName, const string &amp;onSceneUpdateFuncName, const string &amp;onResumeFuncName, const vector2 
+		&amp;v2BucketSize)<br>
+        </font></b><font face="Verdana" size="2">&nbsp;-Loads a scene with <b> <a href="doc_main.htm#Pre-loop_and_loop_fuctions">onSceneLoaded, onSceneUpdate 
+		or onResume functions</a></b> and bucket size set to v2BucketSize.<b> <a target="_self" href="doc_main.htm#Scene_buckets">More about scene 
+		buckets</a></b>.</font></p>
+        <p><b><font face="Verdana" size="2"></font></b><b><font face="Verdana" size="2"></font></b><b><font face="Verdana" size="2"></font></b><b><font face="Verdana" size="2">void LoadScene(const string &amp;fileName, 
+		const string &amp;preLoopFuncName, const string &amp;onSceneUpdateFuncName, const vector2 
+		&amp;v2BucketSize)<br>
+		</font></b><font face="Verdana" size="2">&nbsp;-Loads a scene with 
+		<b><a target="_self" href="doc_main.htm#Pre-loop_and_loop_fuctions">onSceneLoaded, onSceneUpdate 
+		or onResume functions</a></b> and bucket size set to v2BucketSize.<b>
+		<a target="_self" href="doc_main.htm#Scene_buckets">More about scene 
+		buckets</a></b>.</font></p>
+		<p><font face="Verdana" size="2"><b>bool SaveScene(const string &amp;in)<br>
+		</b>&nbsp;-Saves the current scene to a file. All <b>
+		<a href="doc_main.htm#Adding_custom_data">custom data</a></b> stored in 
+		the entities will be saved in the file and will be loaded normally 
+		whenever the new file is loaded.</font></p>
+		<p><font face="Verdana" size="2"><b>int AddEntity(const string &amp;fileName, 
+		const vector3 &amp;pos, const float angle)<br>
+		</b>&nbsp;-Adds to scene an entity whose name equals fileName. An initial 
+		position and angle must be set. <b>
+		<a href="doc_main.htm#Resource_directories">The entity file must be in 
+		its correct directory</a></b>.<br>
+&nbsp;-This function returns the new entity ID.</font></p>
+		<p><font face="Verdana" size="2"><b>int AddEntity(const string &amp;fileName, 
+		const vector3 &amp;pos, ETHEntity@ &amp;out)</b><br>
+		&nbsp;-Adds to scene an entity whose name equals fileName. An initial 
+		position and angle must be set. <b>
+		<a href="doc_main.htm#Resource_directories">The entity file must be in 
+		its correct directory</a></b>.<br>
+&nbsp;-A handle to the new entity<i> </i> will be assigned to <i>out</i> (and 
+		that is the only way to get handles to temporary entities).<br>
+&nbsp;-This function returns the new entity ID.<br>
+&nbsp;Example of usage:</font></p>
+		<table border="0" width="100%" id="table60" cellspacing="0" cellpadding="0">
+			<tr>
+				<td>
+				<div align="center">
+		<table border="1" width="80%" id="table61" bordercolorlight="#000000" cellspacing="0" cellpadding="0" bordercolordark="#000000">
+			<tr>
+				<td bgcolor="#FFFFFF">
+<span><span class="S2">// Adds a character and assign some custom data to it</span><span class="S5"><br>
+ETHEntity</span><span class="S0"> </span>@character<span class="S10">;</span><span class="S5"><br>
+AddEntity</span><span class="S10">(</span><span class="S6">"knight.ent"</span><span class="S10">,</span><span class="S0"> </span>
+pos<span class="S10">,</span><span class="S0"> </span>character<span class="S10">);</span><br />
+character<span class="S10">.</span><span class="S5">SetFloat</span><span class="S10">(</span><span class="S6">"speed"</span><span class="S10">,</span><span class="S0"> </span><span class="S4">100.0f</span><span class="S10">);</span><br />
+character<span class="S10">.</span><span class="S5">SetUInt</span><span class="S10">(</span><span class="S6">"strength"</span><span class="S10">,</span><span class="S0"> </span>
+<span class="S4">38</span><span class="S10">);</span></span></td>
+			</tr>
+		</table>
+				</div>
+				</td>
+			</tr>
+		</table>
+		<p><font face="Verdana" size="2"><b>int AddEntity(const string &amp;fileName, 
+		const vector3 &amp;pos, const string &amp;alternativeName)<br>
+		</b>&nbsp;-Adds a new entity to the scene but instead of naming it with 
+		the default value (the actual file name), gives an alternative name to 
+		it. </font></p>
+		<p><b><font face="Verdana" size="2">ETHEntity @DeleteEntity(ETHEntity 
+		&amp;in)<br>
+		</font></b><font face="Verdana" size="2">&nbsp;-Deletes the entity 
+		passed as parameter and returns null if it has been successfully 
+		deleted, otherwise it will return a handle to the object itself. For 
+		safety reasons, it is recommended to assign the return value directly to 
+		the handle, so will will be null if the entity no longer exists. This 
+		call removes the entity from the scene, be it wont guarantee that the 
+		memory will be freed as long as there are other handles alive. For this 
+		reason, avoid having more than one handle to the same entity (specially 
+		if they are global). Example:</font></p>
+		<table border="0" width="100%" id="table64" cellspacing="0" cellpadding="0">
+			<tr>
+				<td>
+				<div align="center">
+		<table border="1" width="80%" id="table65" bordercolorlight="#000000" cellspacing="0" cellpadding="0" bordercolordark="#000000">
+			<tr>
+				<td bgcolor="#FFFFFF">
+<span>@character<span class="S10"> =</span><span class="S0"> </span><span class="S5">DeleteEntity</span><span class="S10">(</span>character<span class="S10">);<br>
+</span><span class="S5">if</span><span class="S0"> </span><span class="S10">(</span>character<span class="S0"> </span><span class="S5">is</span><span class="S0"> </span><span class="S5">null</span><span class="S10">)</span><br />
+<span class="S10">{</span><br />
+<span class="S0">&nbsp; &nbsp; </span><span class="S5">print</span><span class="S10">(</span><span class="S6">"It 
+has been successfully deleted\n"</span><span class="S10">);</span><br />
+<span class="S10">}</span></span></td>
+			</tr>
+		</table>
+				</div>
+				</td>
+			</tr>
+		</table>
+		<p><font face="Verdana" size="2"><b>void AddLight(const vector3 &amp;pos, 
+		const vector3 &amp;color, const float range, const bool castShadow)<br>
+		</b>&nbsp;-Adds an <b><a href="doc_main.htm#Lights_and_entities">odd 
+		dynamic light</a></b> to the scene. To keep the light on it must be 
+		added at every frame.</font></p>
+		<p><font face="Verdana" size="2"><b>uint GetNumEntities()<br>
+		</b>&nbsp;-Returns the number of entities in the scene.</font></p>
+		<p><font face="Verdana" size="2"><b>int GetNumRenderedEntities()<br>
+		</b>&nbsp;-Returns the number of entities drawn. If the scene has never 
+		been drawn yet, returns -1.</font></p>
+		<p><font face="Verdana" size="2"><b>int GetLastID()<br>
+		</b>&nbsp;-Returns the ID that the next entity added to the scene will 
+		receive.</font></p>
+		<p><font face="Verdana" size="2"><b>bool <a name="GetEntityArray">
+		GetEntityArray</a>(const string &amp;name, ETHEntityArray &amp;outArray)<br>
+		</b>&nbsp;-Creates an array of entity handles (pointers) containing 
+		every 
+		entity whose name match <em>name</em> and stores the array in the <b>
+		<a href="#ETHEntityArray">ETHEntityArray</a></b> object. This function is accumulative, it means that previous data 
+		in the array will be kept, even repeated items. Example of usage:</font></p>
+		<table border="0" width="100%" id="table73" cellspacing="0" cellpadding="0">
+			<tr>
+				<td>
+				<div align="center">
+		<table border="1" width="80%" id="table74" bordercolorlight="#000000" cellspacing="0" cellpadding="0" bordercolordark="#000000">
+			<tr>
+				<td bgcolor="#FFFFFF">
+<span><span class="S2">// Get all fire.ent handles</span><br />
+<span class="S5">GetEntityArray</span><span class="S10">(</span><span class="S6">"fire.ent"</span><span class="S10">,</span><span class="S0"> </span>fireEntities<span class="S10">);</span><br />
+<span class="S5">const</span><span class="S0"> </span><span class="S5">uint</span><span class="S0"> </span>
+numFire<span class="S0"> </span><span class="S10">=</span><span class="S0"> </span>fireEntities<span class="S10">.</span>size<span class="S10">();</span><br />
+<br />
+<span class="S2">// Loops through all &quot;fire.ent&quot; entities</span><br />
+<span class="S5">for</span><span class="S0"> </span><span class="S10">(</span><span class="S5">uint</span><span class="S0"> </span>t<span class="S10">=</span><span class="S4">0</span><span class="S10">;</span><span class="S0"> </span>t<span class="S10">&lt;</span>numFire<span class="S10">;</span><span class="S0"> </span>t<span class="S10">++)</span><br />
+<span class="S10">{</span><br />
+<span class="S2">&nbsp;&nbsp;&nbsp; // convert them to dynamic entities<br>
+</span><span class="S0">&nbsp; &nbsp; </span>fireEntities<span class="S10">[</span>t<span class="S10">].</span>TurnDynamic<span class="S10">();</span><br />
+<span class="S10">}</span><br />
+<span class="S0">&nbsp; &nbsp; </span><br />
+<span class="S2">// Now release the handles</span><br />
+fireEntities<span class="S10">.</span>clear<span class="S10">();</span></span></td>
+			</tr>
+		</table>
+				</div>
+				</td>
+			</tr>
+		</table>
+		<p><font face="Verdana" size="2"><b>bool GetEntitiesFromBucket(const 
+		vector2 &amp;v2Bucket, ETHEntityArray &amp;outArray)<br>
+		</b>&nbsp;-Fills the array with the entities from bucket v2Bucket. This 
+		function is accumulative, it means that previous data in the array will 
+		be kept, even repeated items. <b>
+		<a target="_self" href="doc_main.htm#Scene_buckets">More about scene 
+		buckets</a></b>. </font></p>
+		<p><font face="Verdana" size="2"><b>void 
+		GetVisibleEntities(ETHEntityArray &amp;outArray)</b><br>
+&nbsp;-Fills the array with all visible entities. All entities from buckets 
+		that are currently being drawn will be added to the array. This function 
+		is accumulative, it means that previous data in the array will be kept, 
+		even repeated items.</font></p>
+		<p><font face="Verdana" size="2"><b>void GetIntersectingEntities(const 
+		vector2 &amp;v2Here, ETHEntityArray &amp;outArray, const bool screenSpace)<br>
+		</b>&nbsp;-Fills the array with the entities that intersect with the 
+		point v2Here. If screenSpace is set to true, the intersection test will 
+		be performed in screen space, otherwise it will all be performed in 
+		world space. This function is useful to perform entity picking.</font></p>
+		<p><font face="Verdana" size="2"><b>bool AddFloatData(const string &amp;entityName, 
+		const string &amp;dataName, const float)<br>
+		bool AddIntData(const string &amp;entityName, const string &amp;dataName, const 
+		int)<br>
+		bool AddUIntData(const string &amp;entityName, const string &amp;dataName, const 
+		uint)<br>
+		bool AddStringData(const string &amp;entityName, const string &amp;dataName, 
+		const string &amp;in)<br>
+		</b>&nbsp;-Adds custom data to every entity whose name matches entityName. <b> <a target="_self" href="doc_main.htm#Adding_custom_data">More 
+		about custom variables</a></b>.</font></p>
+		<p><font face="Verdana" size="2"><b>float GetMaxHeight()<br>
+		float GetMinHeight()<br>
+		</b>&nbsp;-Returns the maximum and the minimum bounding rectangle height 
+		for the whole scene.</font></p>
+		<p><font face="Verdana" size="2"><b>string GetSceneFileName()<br>
+		</b>&nbsp;-Returns the scene file name.</font></p>
+		<p><font face="Verdana" size="2"><b>vector2 GetBucket(const vector2 
+		&amp;v2Point)<br>
+		</b>&nbsp;-Calculates and returns the bucket key to which the point in space 
+		v2Point belongs. For example, in a scene with 256x256 pixels buckets, 
+		the point (300,128) belongs to bucket (1,0).</font></p>
+		<p><font face="Verdana" size="2"><b>void SetBorderBucketsDrawing(const 
+		bool enable)<br>
+		</b>&nbsp;-Enables or disables the <b>
+		<a href="doc_main.htm#Optimization_tip">border bucket drawing</a></b>.<b><br>
+		bool IsDrawingBorderBuckets()</b><br>
+&nbsp;-Returns true if the border buckets are being drawn and false otherwise.
+		</font></p>
+		<p>&nbsp;</td>
+	</tr>
+	<tr>
+		<td bgcolor="#FFFFFF">
+		<b><font face="Verdana" size="4">
+		<a name="Application_control_functions">Application and system functions</a>:</font></b><p>
+		<b><font face="Verdana" size="2">void Exit()<br>
+		</font></b><font face="Verdana" size="2">&nbsp;-Exits the program.</font></p>
+		<p><font face="Verdana" size="2"><b>void SetWindowProperties(const 
+		string &amp;windowTitle, const uint width, const uint height, const bool 
+		windowed, const bool vsync, const <a href="#PIXEL_FORMAT">PIXEL_FORMAT</a>)<br>
+		</b>&nbsp;-Set or resets window properties.</font></p>
+		<p><font face="Verdana" size="2"><b>uint GetScreenWidth()<br>
+		uint GetScreenHeight()<br>
+		</b>&nbsp;-Returns screen dimensions.</font></p>
+		<p><font face="Verdana" size="2"><b>void HideCursor(const bool)<br>
+		</b>&nbsp;-Hides or shows the default mouse cursor.</font></p>
+		<p><font face="Verdana" size="2"><b><a href="#vector2">vector2</a> 
+		GetScreenSize()<br>
+		</b>&nbsp;-Returns the current screen size.</font></p>
+		<p><font face="Verdana" size="2"><b>bool Windowed()<br>
+		</b>&nbsp;-Returns true if the application is on windowed mode.</font></p>
+		<p><b><font face="Verdana" size="2">void print(const string &amp;in)<br>
+		void print_float(const float)<br>
+		void print_int(const int)<br>
+		void print_uint(const uint)<br>
+		</font></b><font face="Verdana" size="2">&nbsp;-Prints to the console 
+		window.</font></p>
+		<p><font face="Verdana" size="2"><b><a href="#vector2">vector2</a> 
+		GetSystemScreenSize()</b><br>
+&nbsp;-Returns the system screen size (if the application is running on windowed 
+		mode, the system screen dimension will probably differ from the back 
+		buffer's).</font></p>
+		<p><font face="Verdana" size="2"><b>bool IsPixelShaderSupported()<br>
+		</b>&nbsp;-Returns true if the GPU supports the required pixel shader 
+		model.</font></p>
+		<p><font face="Verdana" size="2"><b>void SetPositionRoundUp(const bool enable)<br>
+		bool GetPositionRoundUp()<br>
+		</b>&nbsp;-Sets and gets the scene rounding up state. When it's enabled, 
+		the camera and every entity will have its position rounded up by an 
+		integer number, preserving aliased edges.</font></p>
+		<p><font face="Verdana" size="2"><b>string GetProgramPath()<br>
+		</b>&nbsp;-Returns the current full program path (without the last 
+		slash).</font></p>
+		<p><font face="Verdana" size="2"><b>string GetAbsolutePath(const string 
+		&amp;fileName)</b><br>
+&nbsp;-Returns the absolute path of fileName. Example:</font></p>
+		<table border="0" width="100%" id="table81" cellspacing="0" cellpadding="0">
+			<tr>
+				<td>
+				<div align="center">
+		<table border="1" width="80%" id="table82" bordercolorlight="#000000" cellspacing="0" cellpadding="0" bordercolordark="#000000">
+			<tr>
+				<td bgcolor="#FFFFFF">
+				<span><span class="S5">string</span><span class="S0"> </span>str<span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S5">GetAbsolutePath</span><span class="S10">(</span><span class="S6">&quot;assets/my_resource.file&quot;</span><span class="S10">);</span><br />
+				<span class="S2">// </span></span><span class="S2">str equals 
+				&quot;C:/MY GAME DIRECTORY/assets/my_resource.file&quot;</span></td>
+			</tr>
+		</table>
+				</div>
+				</td>
+			</tr>
+		</table>
+		<p><font face="Verdana" size="2"><b>void EnableQuitKeys(const bool enable)</b><br>
+&nbsp;-Enables or disables the window quit shortcuts (alt+F4 on windows for 
+		instance).</font></p>
+		<p><font face="Verdana" size="2"><b>int GetArgc()</b><br>
+        <b>string GetArgv(const int n)</b><br>
+&nbsp;-Retrieves the application's main function's argc and argv parameters.</font></p>
+		<p><b><font face="Verdana" size="2">uint GetVideoModeCount()<br>
+	    </font></b><font face="Verdana" size="2">&nbsp;-Returns the number of 
+		    supported video modes. <b><a href="#Supported_video_modes_list_example">
+	        See the usage example</a></b>.</font></p>
+		<p><b><font face="Verdana" size="2"><a href="#videoMode_">videoMode</a> 
+		GetVideoMode(const uint n)<br>
+		</font></b><font face="Verdana" size="2">&nbsp;-Returns the video mode
+		<i>n</i>. <b><a href="#Supported_video_modes_list_example">See the usage 
+		example</a></b>.</font></p>
+		<p><font face="Verdana" size="2"><b>string GetStringFromFile(const 
+		string &amp;fileName)<br>
+		</b>&nbsp;-Reads the file whose name is passed as argument and returns 
+		its content as a string. Is the file is not found, returns an empty 
+		string.</font></p>
+		<p><font face="Verdana" size="2"><b>bool SaveStringToFile(const string &amp;fileName, 
+		const string &amp;str)<br>
+		</b>&nbsp;-Saves the string str to the file.</font></p>
+		<p><font face="Verdana" size="2">
+		<a name="Supported_video_modes_list_example">Supported video modes list 
+		example</a>:</font></p>
+		<table border="0" width="100%" id="table52" cellspacing="0" cellpadding="0">
+			<tr>
+				<td>
+				<div align="center">
+		<table border="1" width="80%" id="table53" bordercolorlight="#000000" cellspacing="0" cellpadding="0" bordercolordark="#000000">
+			<tr>
+				<td bgcolor="#FFFFFF">
+				<span><span class="S5">for</span><span class="S0"> </span><span class="S10">(</span><span class="S5">uint</span><span class="S0"> </span>t<span class="S10">=</span><span class="S4">0</span><span class="S10">;</span><span class="S0"> </span>t<span class="S10">&lt;</span><span class="S5">GetVideoModeCount</span><span class="S10">();</span><span class="S0"> </span>t<span class="S10">++)</span><br />
+				<span class="S10">{</span><br />
+				<span class="S0">&nbsp; &nbsp; </span><span class="S5">videoMode</span><span class="S0"> </span>mode<span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S5">GetVideoMode</span><span class="S10">(</span>t<span class="S10">);<br>
+&nbsp;&nbsp;&nbsp; </span><span class="S2">// do something with 'mode'</span><br />
+				<span class="S10">}</span></span></td>
+			</tr>
+		</table>
+				</div>
+				</td>
+			</tr>
+		</table>
+		<p>&nbsp;</td>
+	</tr>
+	<tr>
+		<td bgcolor="#E4E8EF">
+		<b><font face="Verdana" size="4">
+		<a name="General_environment_functions">General environment functions</a>:</font></b><p>
+		<b><font face="Verdana" size="2">bool GenerateLightmaps()<br>
+		</font></b><font face="Verdana" size="2">&nbsp;-Generate scene lightmaps. 
+		This function may be used to reset lighting whenever a static entity is 
+		added or removed. Avoid using it because it is very slow.</font></p>
+		<p><font face="Verdana" size="2"><b>void SetAmbientLight(const vector3 
+		&amp;color)<br>
+		</b><b>vector3 GetAmbientLight()<br>
+        </b>&nbsp;-Sets/Gets the ambient light. Use x, y and z as RGB values.</font></p>
+		<p><font face="Verdana" size="2"><b>void SetCameraPos(const vector2 
+		&amp;pos)<br>
+		</b>&nbsp;-Set the camera position.</font></p>
+		<p><font face="Verdana" size="2"><b>void AddToCameraPos(const vector2 
+		&amp;add)<br>
+		</b>&nbsp;-Moves the camera.</font></p>
+		<p><font face="Verdana" size="2"><b>vector2 GetCameraPos()<br>
+		</b>&nbsp;-Gets the camera position.</font></p>
+		<p><font face="Verdana" size="2"><b>vector2 GetWorldSpaceCursorPos2()<br>
+		  vector3 GetWorldSpaceCursorPos3()
+	    <br>
+        </b>&nbsp;-Returns the current cursor position in world space as a 2D or 3D vector.</font></p>
+		<p><font face="Verdana" size="2"><b>vector2 GetLastCameraPos()</b><br>
+&nbsp;-Gets the camera in-scene position used in the last time the scene was drawn.</font></p>
+		<p><font face="Verdana" size="2"><b>void EnableLightmaps(const bool enable)<br>
+		</b>&nbsp;-Enables or disable pre-rendered lightmaps. It is recommended 
+		to leave it enabled.</font></p>
+		<p><font face="Verdana" size="2"><b>void UsePixelShaders(const bool 
+		enable)<br>
+		</b>&nbsp;-Enables or disables pixel shaders.</font></p>
+		<p><font face="Verdana" size="2"><b>void EnableRealTimeShadows(const 
+		bool enable)<br>
+		</b>&nbsp;-Enables or disables real-time shadows.</font></p>
+		<p><b><font face="Verdana" size="2">bool SetBackgroundImage(const string 
+		&amp;in)</font></b><font face="Verdana" size="2"><b><br>
+		void PositionBackgroundImage(const <a href="#vector2">vector2</a> &amp;min, 
+		const <a href="#vector2">vector2</a> &amp;max)<br>
+		</b>-Draws a background image and stretches it.</font></p>
+		<p><font face="Verdana" size="2"><b>void SetBackgroundColor(const uint)<br>
+		uint GetBackgroundColor()<br>
+		</b>-Sets and gets the background color.</font></p>
+		<p><font face="Verdana" size="2"><b>void SetHaloRotation(const bool)<br>
+		</b>&nbsp;-Enables the fake lens-flare rotation effect for the halos.</font></p>
+		<p><font face="Verdana" size="2"><b>void SetPositionRoundUp(const bool)<br>
+		bool GetPositionRoundUp()<br>
+		</b>&nbsp;-Sets the positioning rounding up for sprites. Positioning 
+		rounding up produces much smoother movements but may cause image 
+		blurring.</font></p>
+		<p>&nbsp;</td>
+	</tr>
+	<tr>
+		<td bgcolor="#FFFFFF">
+		<b><font face="Verdana" size="4"><a name="Math_and_time_functions">Math 
+		and time functions</a>:</font></b><p><b><font face="Verdana" size="2">
+		float GetTimeF()<br>
+		uint GetTime()<br>
+		</font></b><font face="Verdana" size="2">&nbsp;-Returns the elapsed time 
+		in milliseconds.</font></p>
+		<p><font face="Verdana" size="2"><b>int rand(const int n)<br>
+		int rand(const int min, const int max)<br>
+		float randF(const float f)<br>
+		float randF(const float min, const float max)<br>
+		</b>&nbsp;-Random number generators.</font></p>
+		<p><font face="Verdana" size="2"><b>float GetFPSRate()<br>
+		</b>&nbsp;-Returns the current frames per second rate.</font></p>
+		<p><b><font face="Verdana" size="2">float UnitsPerSecond(const float 
+		speed)<br>
+		</font></b><font face="Verdana" size="2">&nbsp;-Returns the approximate 
+		distance that an entity should move at this frame to keep a regular 
+		speed units per second speed.</font></p>
+		<p><font face="Verdana" size="2"><b><a href="#vector3__">vector3</a> 
+		normalize(const <a href="#vector3__">vector3</a> &amp;in)<br>
+		<a href="#vector2">vector2</a> normalize(const <a href="#vector2">
+		vector2</a> &amp;in)<br>
+		</b>&nbsp;-Normalizes vectors.</font></p>
+		<p><font face="Verdana" size="2"><b>float radianToDegree(const float)<br>
+		float degreeToRadian(const float)<br>
+		</b>&nbsp;-Converts radian to degree and degree to radian.</font></p>
+		<p><font face="Verdana" size="2"><b>uint ARGB(const uint8, const uint8, 
+		const uint8, const uint8)<br>
+		</b>&nbsp;-Converts alpha, red, green, and blue values to a 32-bit color 
+		format.</font></p>
+		<p><font face="Verdana" size="2"><b>float ParseFloat(const string &amp;in)<br>
+		int ParseInt(const string &amp;in)<br>
+		uint ParseUInt(const string &amp;in)<br>
+		</b>&nbsp;-Parse a string into a float, int or uint.</font></p>
+		<p><font face="Verdana" size="2">Other math functions include:<b><br>
+		</b>&nbsp;-<b>cos</b>,<b> sin</b>,<b> tan</b>,<b> asin</b>,<b> acos</b>,<b> 
+		atan</b>,<b> atan2</b>,<b> cosh</b>,<b> sinh</b>,<b> tanh</b>,<b> max</b>,<b> 
+		min</b>,<b> log</b>,<b> log10</b>,<b> pow</b>,<b> sqrt</b>,<b> ceil</b>,<b> sign</b>, <b> 
+		floor </b>, <b> abs</b> and <b>getAngle</b> (same as atan2)</font></p>
+		<p><font face="Verdana" size="2">Vector math functions:<b><br>
+        </b>&nbsp;-<b>length(vector2)</b>,<b> length(vector3)</b>,<b> distance(vector2, vector2)</b>,<b> distance(vector3, vector3)</b>.</font></p>
+        <p><font face="Verdana" size="2"><b>matrix4x4 scale(const float x, const float y, const float z)<br>
+        matrix4x4 translate(const float x, const float y, const float z)<br>
+        matrix4x4 rotateX(const float theta)<br>
+        matrix4x4 rotateY(const float theta)<br>
+        matrix4x4 rotateZ(const float theta)<br>
+          matrix4x4 multiply(const matrix4x4 &amp;m1, const matrix4x4 &amp;m2)<br>
+        </b>&nbsp;-General use matrix operations. Always return the resulting matrix.</font></p>
+		<p><font face="Verdana" size="2"><b>bool Collide(const ETHEntity &amp;in)<br>
+	    bool Collide(const ETHEntity &amp;in, ETHEntity@ &amp;out)<br>
+	    </b>&nbsp;-Returns true if the entity passed as first parameter 
+		  collides against any other entity. You can optionally pass an entity 
+		  handle to the second parameter to retrieve a handle to the second 
+		  entity.</font></p>
+		<p><b><font face="Verdana" size="2">bool CollideStatic(const ETHEntity 
+		&amp;in)<br>
+		bool CollideStatic(const ETHEntity &amp;in, ETHEntity@ &amp;out)<br>
+		</font></b><font face="Verdana" size="2">&nbsp;-Returns true if the 
+		entity passed as first parameter collides against any other <u>
+		static</u> entity. You can optionally pass an entity handle to the 
+		second parameter to retrieve a handle to the second entity.</font></p>
+		<p><b><font face="Verdana" size="2">bool CollideDynamic(const ETHEntity 
+		&amp;in)<br>
+		bool CollideDynamic(const ETHEntity &amp;in, int &amp;out)<br>
+		</font></b><font face="Verdana" size="2">&nbsp;-Returns true if the 
+		entity passed to the first parameter collides against any other <u>
+		dynamic</u> entity. You can optionally pass an entity handle to the 
+		second parameter to retrieve a handle to the second entity.</font></p>
+		<p><font face="Verdana" size="2">Example of box collision detection:</font></p>
+		<table border="0" width="100%" id="table50" cellspacing="0" cellpadding="0">
+			<tr>
+				<td>
+				<div align="center">
+		<table border="1" width="80%" id="table51" bordercolorlight="#000000" cellspacing="0" cellpadding="0" bordercolordark="#000000">
+			<tr>
+				<td bgcolor="#FFFFFF">
+				<span><span class="S5">ETHEntity</span><span class="S0"> </span>@second<span class="S10">;</span><br />
+				<span class="S5">if</span><span class="S0"> </span><span class="S10">(</span><span class="S5">CollideStatic</span><span class="S10">(</span>thisEntity<span class="S10">,</span><span class="S0"> </span>second<span class="S10">))</span><br />
+				<span class="S10">{</span><br />
+				<span class="S0">&nbsp; &nbsp; </span><span class="S5">print</span><span class="S10">(</span><span class="S6">"thisEntity collides against "</span><span class="S0"> </span><span class="S10">+</span><span class="S0"> </span>second<span class="S10">.</span>GetOriginalFileName<span class="S10">());</span><br />
+				<span class="S10">}</span></span></td>
+			</tr>
+		</table>
+					<p>&nbsp;</div>
+				</td>
+			</tr>
+		</table>
+		</td>
+	</tr>
+	<tr>
+		<td bgcolor="#E4E8EF">
+		<b><font face="Verdana" size="4"><a name="Drawing_functions">Drawing 
+		functions</a>:</font></b>
+		<p><font face="Verdana" size="2"><b>void 
+		DrawText(const <a href="#vector2">vector2</a> &amp;position, const string 
+		&amp;text, const string &amp;bitmapFontFile, const uint color)<br>
+		</b>&nbsp;-Draws a text string to the screen. This function supports bitmap fonts exported by the AngelCode's BMFont tool (<u>*.fnt files on text mode</u>). The fonts may use multiple bitmap pages, <u>but it is highly recommended to use only one page for better performance</u>.<br>
+The *.fnt font files and all its pages must be in the "{project_path}/data/" folder or its equivalent package.
+Ethanon Engine includes to the projects some default bitmap fonts (that were generated with the AngelCode's BMFont):<br>
+-{project_path}/data/Verdana14.fnt<br>
+-{project_path}/data/Verdana14_shadow.fnt<br>
+-{project_path}/data/Verdana20.fnt<br>
+-{project_path}/data/Verdana20_shadow.fnt<br>
+-{project_path}/data/Verdana24.fnt<br>
+-{project_path}/data/Verdana24_shadow.fnt<br>
+-{project_path}/data/Verdana30.fnt<br>
+-{project_path}/data/Verdana30_shadow.fnt<br>
+-{project_path}/data/Verdana64.fnt<br>
+All these font files are included by default but the user may create and edit his own fonts with BMFont. </font></p>
+
+<table border="0" width="100%" id="table50" cellspacing="0" cellpadding="0">
+		  <tr>
+				<td>
+				<div align="center">
+		<table border="1" width="80%" id="table51" bordercolorlight="#000000" cellspacing="0" cellpadding="0" bordercolordark="#000000">
+			<tr>
+				<td bgcolor="#FFFFFF"><span class="S5"><span class="S2">// text drawing example</span><br>
+				  DrawText</span><span class="S10">(</span><span class="S5">vector2</span><span class="S10">(</span><span class="S4">0</span><span class="S10">,</span><span class="S4">200</span><span class="S10">),</span><span class="S0"> </span><span class="S6">"Text drawing test!"</span><span class="S10">,</span><span class="S0"> </span><span class="S6">"Verdana14_shadow.fnt"</span><span class="S10">,</span><span class="S0"> </span><span class="S5">ARGB</span><span class="S10">(</span><span class="S4">250</span><span class="S10">,</span><span class="S4">255</span><span class="S10">,</span><span class="S4">255</span><span class="S10">,</span><span class="S4">255</span><span class="S10">));</span></td>
+			</tr>
+		</table>
+					<p>&nbsp;</div>
+				</td>
+			</tr>
+		</table>
+
+		<p><b><font face="Verdana" size="2">void DrawFadingText(const </font>
+		</b><font face="Verdana" size="2"><b><a href="#vector2">vector2</a> </b>
+		</font><b><font face="Verdana" size="2">&amp;pos, const string &amp;text, const 
+		string &amp;<b>bitmapFontFile</b>, const uint color, const uint lifeTime)<br>
+		</font></b><font face="Verdana" size="2">&nbsp;-Draws a temporary fading 
+		text string to the screen. The life time is specified by the lifeTime 
+		variable.</font></p>
+		<p><b><font face="Verdana" size="2"><b><a href="#vector2">vector2</a></b> ComputeCarretPosition(const string &<b>bitmapFontFile</b>, const string &text, const uint cursorPos)<br>
+        </font></b><font face="Verdana" size="2">&nbsp;-Computes and returns the carret's 2D position according to the cursor.</font></p>
+        
+		<p><b><font face="Verdana" size="2"><b><a href="#vector2">vector2</a></b> ComputeTextBoxSize(const string &amp;<b>bitmapFontFile</b>, const string &amp;text)<br>
+		</font></b><font face="Verdana" size="2">&nbsp;-Computes and returns the text's bounding box size.</font></p>
+
+        <p><font face="Verdana" size="2"><b></b></font><font face="Verdana" size="2"><b>void LoadSprite(const string &amp;fileName)<br>
+        </b>&nbsp;-Loads a non-entity sprite. Can be used to draw menus and such 
+          things.</font></p>
+		<p><b><font face="Verdana" size="2">void DrawSprite(const string &amp;</font></b><font face="Verdana" size="2"><b>fileName</b></font><font face="Verdana" size="2"><b>, 
+		const <a href="#vector2">vector2</a> &amp;pos, const uint color)<br>
+		</b>&nbsp;-Draws a non-entity sprite whose name is fileName.</font></p>
+		<p><b><font face="Verdana" size="2">void DrawShapedSprite(const string &amp;</font></b><font face="Verdana" size="2"><b>fileName</b></font><b><font face="Verdana" size="2">, 
+		const </font></b><font face="Verdana" size="2"><b><a href="#vector2">
+		vector2</a> </b></font><b><font face="Verdana" size="2">&amp;pos, const
+		</font></b><font face="Verdana" size="2"><b><a href="#vector2">vector2</a>
+		</b></font><b><font face="Verdana" size="2">&amp;size, const uint color)<br>
+		</font></b><font face="Verdana" size="2">&nbsp;-Draws a custom-sized 
+		non-entity sprite whose name is sFileName.</font></p>
+		<p><font face="Verdana" size="2"><b>void DrawSpriteZ(const string &amp;fileName, 
+		const float depth, const vector2 &amp;</b></font><b><font face="Verdana" size="2">pos</font></b><font face="Verdana" size="2"><b>, 
+		const uint </b></font><b><font face="Verdana" size="2">color</font></b><font face="Verdana" size="2"><b>)<br>
+		void DrawShapedSpriteZ(const string &amp;fileName, const float depth, const 
+		vector2 &amp;</b></font><b><font face="Verdana" size="2">pos</font></b><font face="Verdana" size="2"><b>, 
+		const vector2 &amp;</b></font><b><font face="Verdana" size="2">size</font></b><font face="Verdana" size="2"><b>, 
+		const uint </b></font><b><font face="Verdana" size="2">color</font></b><font face="Verdana" size="2"><b>)<br>
+		</b>&nbsp;-The same as DrawSprite and DrawShapedSprite functions but 
+		these functions assign custom Z-depth values to the sprites for 
+		automatic hardware z-sorting.</font></p>
+		<p><b><font face="Verdana" size="2">vector2 GetSpriteSize(const string &amp;</font></b><font face="Verdana" size="2"><b>fileName</b></font><b><font face="Verdana" size="2">)<br>
+		</font></b><font face="Verdana" size="2">&nbsp;-Returns the size of a 
+		non-entity sprite whose name is fileName.</font></p>
+		<p><b><font face="Verdana" size="2">void DrawRectangle(const </font></b>
+		<font face="Verdana" size="2"><b><a href="#vector2">vector2</a> </b>
+		</font><b><font face="Verdana" size="2">&amp;pos, const </font></b>
+		<font face="Verdana" size="2"><b><a href="#vector2">vector2</a> </b>
+		</font><b><font face="Verdana" size="2">&amp;size, const uint color1, const 
+		uint color2, const uint color3, const uint color4)<br>
+		</font></b><font face="Verdana" size="2">&nbsp;-Draws a rectangle.</font></p>
+		<p><b><font face="Verdana" size="2">void DrawLine(const </font></b>
+		<font face="Verdana" size="2"><b><a href="#vector2">vector2</a> </b>
+		</font><b><font face="Verdana" size="2">&amp;pos0, const </font></b>
+		<font face="Verdana" size="2"><b><a href="#vector2">vector2</a> </b>
+		</font><b><font face="Verdana" size="2">&amp;pos1, const uint color0, const 
+		uint color1, const float width)<br>
+		</font></b><font face="Verdana" size="2">&nbsp;-Draws a line.</font></p>
+		<p>&nbsp;</td>
+	</tr>
+	<tr>
+		<td bgcolor="#FFFFFF">
+		<b><font face="Verdana" size="4">
+		<a name="Audio_and_multimedia_functions">Audio and multimedia functions</a>:</font></b><p>
+		<font face="Verdana" size="2"><b>bool LoadMusic(const string &amp;fileName)<br>
+		</b>&nbsp;-Loads a music sample. Long lasting ambient sound effects 
+		should also use this function.</font></p>
+		<p><b><font face="Verdana" size="2">bool LoadSoundEffect(const string &amp;fileName)<br>
+		</font></b><font face="Verdana" size="2">&nbsp;-Loads a sound effect 
+		sample.</font></p>
+		<p><font face="Verdana" size="2"><b>bool PlaySample(const string &amp;fileName)<br>
+		</b>&nbsp;-Plays the sample whose file name is fileName.</font></p>
+		<p><b><font face="Verdana" size="2">bool LoopSample(const string &amp;</font></b><font face="Verdana" size="2"><b>fileName</b></font><b><font face="Verdana" size="2">, 
+		const bool enable)<br>
+		</font></b><font face="Verdana" size="2">&nbsp;-Loops the sample whose file 
+		name is fileName.</font></p>
+		<p><b><font face="Verdana" size="2">bool StopSample(const string &amp;</font></b><font face="Verdana" size="2"><b>fileName</b></font><b><font face="Verdana" size="2">)<br>
+		</font></b><font face="Verdana" size="2">&nbsp;-Stops the sample whose file 
+		name is fileName.</font></p>
+		<p><b><font face="Verdana" size="2">bool PauseSample(const string &amp;</font></b><font face="Verdana" size="2"><b>fileName</b></font><b><font face="Verdana" size="2">)<br>
+		</font></b><font face="Verdana" size="2">&nbsp;-Pauses the sample whose file 
+		name is fileName.</font></p>
+		<p><b><font face="Verdana" size="2">bool SetSampleVolume(const string &amp;</font></b><font face="Verdana" size="2"><b>fileName</b></font><b><font face="Verdana" size="2">, 
+		const float)<br>
+		</font></b><font face="Verdana" size="2">&nbsp;-Sets the sample whose file 
+		name is fileName volume. 0.0 = completely silent/1.0 = full 
+		volume.</font></p>
+		<p><b><font face="Verdana" size="2">bool SetSamplePan(const string &amp;</font></b><font face="Verdana" size="2"><b>fileName</b></font><b><font face="Verdana" size="2">, 
+		const float)<br>
+		</font></b><font face="Verdana" size="2">&nbsp;-Sets the sample whose file 
+		name is fileName pan. -1.0 = completely to the left/0 = in 
+		the middle/1 = completely to the right.</font></p>
+		<p><b><font face="Verdana" size="2">bool SampleExists(const string &amp;</font></b><font face="Verdana" size="2"><b>fileName</b></font><b><font face="Verdana" size="2">)<br>
+		</font></b><font face="Verdana" size="2">&nbsp;-Returns true if the sample 
+		whose file name is fileName exists.</font></p>
+		<p><b><font face="Verdana" size="2">bool IsSamplePlaying(const string &amp;</font></b><font face="Verdana" size="2"><b>fileName</b></font><b><font face="Verdana" size="2">)<br>
+		</font></b><font face="Verdana" size="2">&nbsp;-Returns true if the sample 
+		whose file name is fileName is being played.</font></p>
+		<p><font face="Verdana" size="2"><b>void PlayCutscene(const string &amp;in)<br>
+		</b>&nbsp;-Plays a video cutscene.</font></p>
+		<p>&nbsp;</td>
+	</tr>
+</table>
+
+<p align="left"><b><font face="Verdana" size="4">4.3.4. <a name="Constants">Constants</a></font></b></p>
+<table border="0" width="100%" id="table27" cellpadding="0" style="border-collapse: collapse">
+	<tr>
+		<td bgcolor="#E4E8EF">
+		<p><b><font face="Verdana" size="2"><a name="Globals">Globals</a></font></b><font face="Verdana" size="2"> 
+		- global constants</font><font face="Verdana" size="1"><br>
+&nbsp;const float PI = 3.141592654f;<br>
+&nbsp;const float PIb = 1.570796327f;</font></p>
+
+		<p><b><font face="Verdana" size="2">enum <a name="KEY">KEY</a></font></b><font face="Verdana" size="2"> 
+		- keyboard keys</font><font face="Verdana" size="1"><br>
+&nbsp;K_UP <br>
+&nbsp;K_DOWN <br>
+&nbsp;K_LEFT <br>
+&nbsp;K_RIGHT <br>
+&nbsp;K_PAGEDOWN <br>
+&nbsp;K_PAGEUP <br>
+&nbsp;K_SPACE <br>
+&nbsp;K_ENTER <br>
+&nbsp;K_DELETE <br>
+&nbsp;K_HOME <br>
+&nbsp;K_END <br>
+&nbsp;K_INSERT <br>
+&nbsp;K_PAUSE <br>
+&nbsp;K_ESC <br>
+&nbsp;K_BACK <br>
+&nbsp;K_BACKSPACE <br>
+&nbsp;K_TAB <br>
+&nbsp;K_PRINTSCREEN <br>
+&nbsp;K_SUBTRACT <br>
+&nbsp;K_ADD <br>
+&nbsp;K_F1 - K_F24 <br>
+&nbsp;K_A - K_Z <br>
+&nbsp;K_0&nbsp; - K_9 <br>
+&nbsp;K_MINUS <br>
+&nbsp;K_PLUS <br>
+&nbsp;K_COMMA <br>
+&nbsp;K_DOT <br>
+&nbsp;K_CTRL <br>
+&nbsp;K_ALT <br>
+&nbsp;K_SHIFT <br>
+&nbsp;K_RMOUSE<br>
+&nbsp;K_LMOUSE <br>
+&nbsp;K_MMOUSE</font></p><p><b><font face="Verdana" size="2">enum <a name="J_KEY">
+		J_KEY</a></b> - joystick buttons<b><br>
+		</b>
+		</font><font face="Verdana" size="1">&nbsp;JK_01 - B_32 <br>
+&nbsp;JK_UP <br>
+&nbsp;JK_DOWN <br>
+&nbsp;JK_LEFT <br>
+&nbsp;JK_RIGHT</font></p>
+		<p><font face="Verdana" size="2"><b>enum <a name="KEY_STATE">KEY_STATE</a></b><br>
+		</font><font face="Verdana" size="1">&nbsp;KS_HIT		: the key/button 
+		has just been pressed<br>
+&nbsp;KS_UP		: the key/button is not being pressed<br>
+&nbsp;KS_DOWN		: the key/button is being pressed <br>
+&nbsp;KS_RELEASE	: the key/button has just been released</font></p>
+		<p><font face="Verdana" size="2"><b>enum <a name="ENTITY_TYPE">
+		ENTITY_TYPE</a></b><br>
+		</font><font face="Verdana" size="1">&nbsp;ET_HORIZONTAL<br>
+&nbsp;ET_VERTICAL<br>
+&nbsp;ET_LAYERABLE <br>
+&nbsp;ET_OVERALL <em>(deprecated)</em><br>
+&nbsp;ET_GROUND_DECAL <em>(deprecated)</em><br>
+&nbsp;ET_OPAQUE_DECAL <em>(deprecated)</em></font></p>
+		<p><font face="Verdana" size="2"><b>enum <a name="DATA_TYPE">DATA_TYPE</a></b><br>
+		</font><font face="Verdana" size="1">&nbsp;DT_NODATA <br>
+&nbsp;DT_INT <br>
+&nbsp;DT_UINT <br>
+&nbsp;DT_FLOAT <br>
+&nbsp;DT_STRING</font></p>
+		<p><font face="Verdana" size="2"><b>enum <a name="PIXEL_FORMAT">
+		PIXEL_FORMAT</a></b><br>
+		</font><font face="Verdana" size="1">&nbsp;PF32BIT<br>
+&nbsp;PF16BIT<br>
+&nbsp;PFUNKNOWN</font></p>
+		<p><font face="Verdana" size="2"><b>enum <a name="J_STATUS">J_STATUS</a></b> 
+		- joystick status<br>
+		</font><font face="Verdana" size="1">&nbsp;JS_DETECTED<br>
+&nbsp;JS_NOTDETECTED<br>
+&nbsp;JS_INVALID</font></td>
+	</tr>
+</table>
+
+<p align="center"><b><font face="Verdana" size="2">Ethanon Engine (C) Copyright 
+2008-2012 André Santee</font></b></p>
+
+</body>
+
+</html>

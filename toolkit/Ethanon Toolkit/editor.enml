@@ -1,0 +1,17 @@
+window
+{
+	title = Ethanon Editor;
+	width = 1024;
+	height = 768;
+	windowed = true;
+	vsync = true;
+}
+startup
+{
+	//project = ethproj fullpath filename;
+	//scene = esc fullpath filename;
+}
+rendering
+{
+	richLighting = true;
+}

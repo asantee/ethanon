@@ -1,0 +1,41 @@
+From an e-mail I sent out to audiere-devel:
+
+----
+The following is all just guessing based on what I've seen.  As Donald
+Norman calls it, "naive physics".  :) But it's useful information
+nonetheless...
+
+After doing more testing, it seems that DirectSound doesn't like to
+mix very small buffers.  On my machine, when I create and play a
+DirectSound buffer smaller than 1000 samples, I get lots of nasty
+clicking and popping both before and after the sound itself.  It seems
+this is what Enno was running into on Windows XP, just with slightly
+larger sound files...  (2500 samples or so.)  When 'streaming' a small
+sound, Audiere internally allocates a much larger buffer (two seconds
+or so) and feeds data to it.  Since the buffer is bigger, there is no
+clicking and popping when playing it.
+
+Strangely, the clicks and pops also occur in the winmm sound driver...
+perhaps because winmm only writes audio when it is available, so a
+small waveOutWrite is bad...  (?)  I'll have to do more investigation
+here.
+
+Anyway, I'm thinking of adding a device parameter to the directsound
+device so that the user can specify the minimum buffer size.  Any
+buffer smaller than that size will be enlarged (with silence) before
+being passed to DirectSound.  It seems to me that this would solve the
+problem...  Any thoughts?  What should the default size of the buffer
+be?
+----
+
+Some URLs I found:
+
+http://sound.media.mit.edu/mpeg4/saol-users/0250.html
+http://msdn.microsoft.com/library/default.asp?url=/library/en-us/directx9_c/directx/htm/usingbuffersefficiently.asp
+
+
+The best long-term solution is to implement a pure software mixer
+built upon a low-latency audio output system such as PortAudio, ASIO,
+or DirectSound.  The mixer must be much higher quality and more
+optimized than the one in Audiere now.  It should do cubic resampling
+and use MMX or SSE to mix.

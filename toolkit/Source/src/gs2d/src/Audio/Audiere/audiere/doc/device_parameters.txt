@@ -1,0 +1,48 @@
+Each device in Audiere supports a set of parameters that are used to
+customize the device's behavior or performance.  If a device
+encounters parameters it does not understand, it ignores them.
+
+This document describes parameters available for each device.
+
+--
+
+The DirectSound device ("directsound", default on Windows) supports
+the following parameters:
+
+buffer (int) : The length of the streaming audio buffer in
+               milliseconds.  A shorter buffer means lower latency,
+               but could skip more often and suffer reduced
+               performance.  The default is one second.
+
+device_guid (string) : The GUID representing the device DirectSound
+                       should use.  The user of Audiere is responsible
+                       for implementing device enumeration and
+                       selection.  The string should be in the format
+                       returned by UuidToString.  If not specified,
+                       DirectSound uses the default device.
+
+global (boolean) : This device sets the DSBCAP_GLOBALFOCUS bit on all
+                   of its streams.  This means the application's
+                   sounds can be heard even when the application loses
+                   focus.  If set to false, the application's sounds
+                   can only be heard when it has focus.  The default
+                   is true.
+
+min_buffer_size (int) : The minimum length of non-streaming audio
+                        buffers (in frames).  Some combinations of
+                        sound cards, drivers, and operating systems
+                        cannot handle buffers under a certain length.
+                        When this parameter is set, any buffers
+                        smaller than it will be enlarged.  Setting
+                        this parameter is not without consequence,
+                        however.  If a buffer has been enlarged and is
+                        set to repeat, there will be some silence
+                        between repeats.
+
+--
+
+The OSS device ("oss", default on Linux) supports the following
+parameters:
+
+device (string) : The file device Audiere should write to.  The
+                  default is "/dev/dsp".

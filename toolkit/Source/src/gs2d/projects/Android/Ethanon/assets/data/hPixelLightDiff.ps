@@ -1,0 +1,41 @@
+#define float4 vec4
+#define float3 vec3
+#define float2 vec2
+#define float4x4 mat4
+
+#ifdef GL_FRAGMENT_PRECISION_HIGH
+  precision highp float;
+#else
+  precision mediump float;
+#endif
+
+uniform sampler2D diffuse;
+uniform sampler2D normalMap;
+
+varying lowp vec4    v_color;
+varying mediump vec2 v_texCoord;
+varying vec3         v_vertPos3D;
+
+uniform float squaredRange;
+uniform float3 lightPos;
+uniform float4 lightColor;
+
+void main()
+{
+	lowp float4 diffuseColor = texture2D(diffuse, v_texCoord);
+	lowp float3 normalColor = texture2D(normalMap, v_texCoord).xyz;
+
+	float3 lightVec = v_vertPos3D - lightPos;
+
+	normalColor = -(2.0 * (normalColor - 0.5));
+
+	
+	lowp float diffuseLight = dot(normalize(lightVec), normalColor);
+
+	float squaredDist = dot(lightVec, lightVec);
+
+	squaredDist = min(squaredDist, squaredRange);
+	mediump float attenBias = 1.0 - (squaredDist / squaredRange);
+
+	gl_FragColor = (diffuseColor * v_color * lightColor) * attenBias * diffuseLight;
+}

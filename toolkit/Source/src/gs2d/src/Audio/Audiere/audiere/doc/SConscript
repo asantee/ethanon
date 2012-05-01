@@ -1,0 +1,15 @@
+import os
+
+Import('base_env PREFIX')
+
+base_env.Install(os.path.join(PREFIX, 'share', 'doc', 'audiere'),
+            ['changelog.txt',
+             'cvs.txt',
+             'dependencies.txt',
+             'faq.txt',
+             'glossary.txt',
+             'license.txt',
+             'overview.txt',
+             'readme.txt',
+             'release-howto.txt',
+             'tutorial.txt'])

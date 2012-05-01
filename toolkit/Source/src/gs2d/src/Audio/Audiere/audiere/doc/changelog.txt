@@ -1,0 +1,664 @@
+2006.02.13
+
+  1.9.4 released.
+
+  Modified full-release.sh to account for the change to two doxygen
+  distributions.  (Matt Campbell)
+
+  Removed erroneous "1.9.4 released." entry.  (Matt Campbell)
+
+  Modified doxygen-dist.sh to put archives where full-release.sh expects
+  to find them.  (Matt Campbell)
+
+2006.02.12
+
+  full-release.sh now exports CVSROOT.  (Matt Campbell)
+
+  Added authors.txt to list of docs in vc6/dist.py.  (Matt Campbell)
+
+  Fixed make-release-win32.sh to run scons instead of make under
+  bindings/java.  (Matt Campbell)
+
+  Changed hard-coded path to XPCOM root in bindings/xpcom/SConstruct.
+  Now I suppose Chad won't be able to do the next release without changing
+  it again.  (Matt Campbell)
+
+  Replaced wxPlayer.rc with a much simpler version based on the MDI
+  example in wxWidgets 2.6.  Dropped resource.h.  (Matt Campbell)
+
+  wxPlayer is now linked with wxWidgets 2.6 in the VC6 build system.
+  Fixed MDI parent frames to specify a size, since they otherwise end
+  up with zero size on Win32.  (Matt Campbell)
+
+  wxPlayer accessibility improvements:  Controls are always created
+  in an order that's logical to the user, since (at least on Win32)
+  the order of control creation determines the tabbing order.  Also,
+  for controls with labels, the label is now created before the control.
+  TODO:  Make tab traversal work in MDI child windows.  (Matt Campbell)
+
+  Updated the file version number in src/audiere.rc.  (Matt Campbell)
+
+  Modified bindings/python/setup.py so it only links with libstdc++
+  on POSIX.  *Matt Campbell)
+
+2005.04.21
+
+  Modified DSAudioDevice::update so it doesn't hold the device's lock
+  while sleeping.  As a result, streams and buffers open much faster when
+  using DirectSound.  (Matt Campbell)
+
+2004.11.30
+
+  Added bindings to wxWidgets.  (Emanuel Dejanu)
+
+2004.11.27
+
+  Added VC7 build system.
+
+  wxPlayer now compiles against unicode wxWidgets.  (Emanuel Dejanu)
+
+  Split Doxygen documentation into one for users and one for developers.
+
+2004.11.07
+
+  Replaced mpegsound with a stand-alone version of the MPEG audio decoder
+  from ffmpeg's libavcodec library. (Matt Campbell)
+
+  Fixed a minor problem with seeking in DirectSound streams. (Matt
+  Campbell)
+
+2004.08.16
+
+  Fixed a null pointer crash when loading an invalid MP3 file.
+
+2004.07.29
+
+  Added getRepeat() and setRepeat() on MIDIStream.
+
+  MIDI seeking improvements.
+
+2004.07.27
+
+  MP3 seeking and framecounting fixes.  (Andrew Gatt)
+
+2004.07.21
+
+  Added MIDI support through the MCI subsystem on Win32 and Cygwin.
+  (Chad Austin)
+
+2004.07.06
+
+  Added frame seeking support for MP3 files.  (Andrew Gatt)
+
+2004.04.29
+
+  Fix a bug in CondVar::wait that causes 100% CPU usage on posix
+  systems.  (Richard Schaaf)
+
+2004.04.09
+
+  Moved callback system to be processed within another thread.  This
+  allows you to delete the originating stream from the callback.
+
+  Added support for CD audio support on Linux via libcdaudio.  (Chad Austin
+  and Richard Schaaf)
+
+2004.04.08
+
+  Added callback system for stream stopped events.  (Richard Schaaf
+  and Chad Austin)
+
+  Made CDDevice methods use __stdcall on Windows.
+
+  Added operator== and operator!= to RefPtr.  This could fix some
+  potential bugs.
+
+2004.04.05
+
+  Added CD audio support through the CDDevice interface.  (Chad Austin
+  and Richard Schaaf)
+
+2004.02.02
+
+  Fixed: Speex decoder never actually released its file handle.
+
+2004.01.19
+
+  Fix an mpegsound crash when loading corrupt MP3s (or text files).
+
+  Use _beginthreadex instead of CreateThread.
+
+  Added a button to see the format of streams and sounds in wxPlayer.
+
+  Rewrote the Resampler class to use DUMB's cubic interpolation
+  resampler.  (Matt Campbell)
+
+2004.01.17
+
+  Dramatically reduced the latency of the OSS device.  (Matt Campbell)
+
+2004.01.12
+
+  Added MP2 to the list of supported file types, since mpegsound can
+  play them.
+
+2004.01.10
+
+  Added Speex support.
+
+2003.11.08
+
+  Fixed: Some MP3 files were returning incorrect sample format
+  information, so they sounded wrong.
+
+2003.09.24
+
+  Added pitchshift to the Python bindings.  (Jason Chu)
+
+2003.09.22
+
+  Added support for reading metadata tags from Ogg Vorbis files.
+  Interface designed with help from Brian Robb and Andy Friesen.
+
+  Added ID3v1 and ID3v1.1 support.  (Original code written by Brian
+  Robb.)
+
+2003.09.04
+
+  Opens MP3 files with ID3v2 tags with the MP3 decoder, not the MOD
+  decoder.  The MOD decoder seems to be the most lenient, so it has
+  been placed at the end of the autodetect list, behind MP3.
+
+2003.07.17
+
+  Made thread priority work when using pthreads.
+
+2003.07.15
+
+  1.9.3 released.
+
+2003.07.01
+
+  The configure script tries to link a small wxWindows application
+  rather than trusting the existence of wx-config in order to find out
+  if wxWindows exists.
+
+  Made the FLAC decoder use libFLAC instead of libFLAC++.  This makes
+  it easier to compile on platforms with differing C++ ABIs, such as
+  IRIX (MIPSPro CC vs. GNU g++).
+
+2003.06.29
+
+  Removed the VC7 build system.  It's out of date, nobody uses it, and
+  they could just open the VC6 one in VC7 anyway.
+
+  Added support for custom loop points via the LoopPointSource interface.
+
+2003.06.21
+
+  SoundEffect objects in SINGLE mode no longer stream from the sample
+  source.
+
+2003.06.16
+
+  Added AIFF support.
+
+2003.06.15
+
+  If a stream is set to repeat, then MOD loop points are honored.
+  Otherwise, a MOD loop point causes the stream to stop.
+
+  Added setRepeat() and getRepeat() to the SampleSource interface.
+  This architecture change is required in order to support sample
+  sources with non-standard looping functionality, such as loop points
+  within MOD or AIFF files.
+
+  Gave wxPlayer a crappy icon.  A better one would be welcome.  :)
+
+2003.06.13
+
+  Fixed some unaligned reads in the MP3 decoder code, which caused
+  Audiere on SGI/IRIX to crash.
+
+2003.06.12
+
+  Replaced MikMod with an actively-maintained MOD decoding engine:
+    DUMB (http://dumb.sf.net) Overall, the change is for the better,
+    but there are a few important changes to be noted:
+      - fixed a crash in certain Impulse Tracker files
+      - mod looping now works correctly
+      - some previously-unsupported effects now work
+      - opening a mod stream now takes significantly longer, since
+        DUMB builds up an internal seek table, which is currently
+        unused
+      - playing mod files now takes roughly five times more CPU time
+        than it used to
+      - DUMB works on big-endian architectures (such as MIPS (sgi) and
+        PowerPC (mac)), where MikMod did not
+      - DUMB tries to match the exact behavior of the "official"
+        trackers (that is, Impulse Tracker, Scream Tracker 3, and Fast
+        Tracker), so some mods that sounded fine in ModPlug Tracker or
+        Winamp (MikMod) may sound strange.  For example, some of the
+        Amstrocity remixes of Squaresoft songs have distortion caused
+        by volume range clipping when played in DUMB.
+
+2003.06.02
+
+  Fixed some edge cases involving small sounds, DirectSound streams,
+  and the repeating flag.
+
+  Added min_buffer_length device parameter to DirectSound device to
+  prevent static in very small sounds.
+
+2003.06.01
+
+  Fixed short bursts of periodic static while decoding MP3s.  it
+  appears to be a result of the Visual C++ optimizer interacting with
+  the MP3 decoder code.  (I can't claim that is an optimization bug
+  yet...  there could be some invalid aliasing going on in the code.)
+
+2003.05.30
+
+  Fixed bug where resetting an MP3 input stream would emit a short
+  burst of static.
+
+  Fixed static between repeats in repeatable streams (thanks
+  valgrind!)
+
+  Fixed an exit crash on some systems by adding a CoUninitialize call
+  to the DirectSound device destructor.
+
+2003.05.27
+
+  You can now specify what format you are loading for efficiency reasons.
+
+2003.05.25
+
+  Fixed a bug in the DirectSound streaming code where you would hear
+  the beginning of some sounds before they actually stopped.
+
+2003.04.22
+
+  Added getName() method to AudioDevice.
+
+2003.03.11
+
+  You can now pass smart pointers straight into API calls, for example:
+    AudioDevicePtr device = OpenDevice();
+    OutputStreamPtr sound = OpenSound(device, "blah.wav");
+    sound->play();
+
+2003.02.17
+
+  Added support for MemoryFile objects.
+
+2003.01.27
+
+  Removed support for OpenAL because it was causing compile issues on
+  systems with different and incompatible versions of OpenAL.
+
+2003.01.09
+
+  No longer use the MTM or STM mikmod loaders because they crash on
+  certain wav files.
+
+2003.01.06
+
+  1.9.2 Release
+
+2003.01.05
+
+  Many general improvements to wxPlayer.
+
+2003.01.04
+
+  Use __declspec instead of def files for mingw compatiblity.
+
+2002.12.30
+  build the winmm audio device in Cygwin if it's available
+  build the DirectSound audio device in Cygwin if it's available
+  greatly improved linearity of the volume property in the DirectSound
+    device (Mik Popov)
+
+2002.12.21
+
+  add support for audio device enumeration
+  enable setting the GLOBAL_FOCUS bit on DS surfaces via the global=
+    device parameter
+  enable choosing nonstandard DirectSound devices via the device_guid=
+    device parameter
+  drastic performance increase when using MULTIPLE sound effects
+
+2002.12.20
+
+  implement volume, panning, and pitch shift on SoundEffect objects
+  improved latency of SGI audio device
+
+2002.10.21
+
+  disable Ogg or FLAC if 'configure' can't find them.
+
+2002.10.12
+
+  1.9.1 release
+
+2002.10.11
+
+  added GetSupportedFileFormats for file format enumeration
+  added audiere-config script which provides version information and
+    external library dependencies
+  finer synchronization granularity on DirectSound output streams for
+    lower-latency OutputStream calls
+  increase priority of Audiere update thread on all platforms but
+    Win9x, which deadlocks
+  switched from mp3blaster's mpegsound code to splay's mpegsound
+  read 10 MP3 frames for smoother playback on corrupt (?) files
+  added ClassPtr convenience typedefs so people can use them instead
+    of RefPtr<Class>
+
+2002.10.05
+
+  the configure script outputs the URLs for required libraries if it can't
+    find them
+
+2002.10.04
+
+  use the mpegsound library instead of mpglib because it sounds and
+    works a lot better
+  FLAC support, thanks to Jacky Chong and Chad  :)
+
+2002.10.02
+
+  added MP3 support again via mpglib (mpg123), thanks to Jacky Chong.
+    He had to hack the mpglib code a lot to get it to work.  :)
+
+2002.09.20
+
+  added the SoundEffect convenience class for simple sound playback
+  updated wxPlayer with SoundEffect stuff
+  added menu item to close wxPlayer so you can close child windows in wxGTK
+  added pitch shifting to the OutputStream interface
+
+2002.09.19
+
+  added square wave generation
+  added white noise generation
+  added pink noise generation
+
+2002.09.07
+
+  1.9.0 release
+
+2002.09.06
+
+  updated Java bindings
+  upgraded to Ogg Vorbis 1.0
+  don't force usage of DirectSound 8...  use whatever DirectSound is available
+
+2002.09.05
+
+  updated XPCOM bindings
+  updated Python bindings
+  better version string from audiere::GetVersion()
+
+2002.09.04
+
+  support for seeking within Ogg Vorbis input streams
+
+2002.09.03
+
+  major performance improvement in DSOutputStream::isPlaying
+  made the Ogg Vorbis decoder work properly on big-endian architectures
+  added a glossary
+
+2002.09.02
+
+  converted the Mixer into a MixerDevice framework, which lets many
+    similar output devices share most of their code, and reduces the
+    size of the DLL
+  SampleBuffer object implementation...  you can load a sound once and
+    play it multiple times
+
+2002.09.01
+
+  added native support for buffered audio in the DirectSound
+    driver...  it works really well
+  better seeking support in the DirectSound audio device
+
+2002.08.23
+
+  add support for seeking within WAV files
+
+2002.08.22
+
+  added SCons build system for MIPSPro on IRIX: does not support any
+    other compilers, nor does it build mikmod support
+
+2002.08.21
+
+  make interfaces use __stdcall on Windows so they are compliant with
+    COM (and thus, Delphi)
+
+
+2002.08.20
+
+  started renaming internal variables and arguments to use a better
+    nomenclature: sample, channel, and frame (just like SGI AL)
+  added support for building with MIPSPro on IRIX
+
+2002.08.19
+
+  SGI AL output support
+  support for big-endian architectures
+
+2002.08.18
+
+  completely new wxPlayer: it uses an MDI window for each device, and
+    each sound has its own child window.  it also works on UNIX if
+    wxWindows is installed
+
+2002.08.17
+
+  created a WinMM audio device
+  refcounted the Audiere interfaces/objects
+  fixed bug on Linux where the more streams were playing, the lower
+    the overall volume would be
+
+2002.08.09
+
+  implemented the REAL fix for the DirectSound stream-repeating
+    bug...  the DirectSound device is a lot more robust with this fix
+
+2002.08.07
+
+  added support for buffered audio
+
+2002.08.06
+
+  Support low-pass filters on .it files again (enabled DMODE_RESONANCE
+    in mikmod)
+
+2002.08.05
+
+  added stereo panning support again
+
+2002.08.01
+
+  completely new API, with AudioDevice, OutputStream, SampleSource, File,
+    Sound...
+  switched volume to normalized floats instead of [0, 255]
+
+2002.07.29
+
+  added a tone generator sample source
+
+2002.07.28
+
+  converted 'bits per sample' into an enum of possible sample formats
+
+2002.06.10
+
+  1.0.4 release
+
+2002.06.04
+
+  mikmod fix so it compiles on Debian
+
+2002.05.19
+
+  wav loader was returning an incorrect number of samples...  I think
+    this fixes the awful sound repeating bug!
+
+2002.05.17
+
+  correct timing in null output driver
+  added test program for verifying basic audiere functionality
+
+2002.05.13
+
+  new autoconf/automake build
+
+2002.05.10
+
+  major source tree restructuring
+  added libogg and libvorbis to source tree for windows build
+  completely new VC6 build system
+
+2002.05.08
+
+  compiles in IRIX (no mikmod and no audio output)
+  gcc 3 on Linux fixes
+  --enable-debug configuration option
+  fix hang if output is inaccessible
+
+2002.04.22
+
+  builds in gcc 3
+
+2002.03.14
+
+  added Doxygen support
+
+2002.03.11
+
+  fixed noisy output in Linux
+
+2002.01.24
+
+  removed Acoustique, moved decoder architecture into Audiere itself
+  switched library completely to LGPL
+  fixed isPlaying() in OSS output driver
+
+2002.01.17
+
+  removed MP3 support
+
+2002.01.16
+
+  got NT4 support working again
+  removed DLL output driver
+
+2002.01.15
+
+  removed null output driver from default list (it has to be selected explicitly)
+
+2002.01.14
+
+  major internal restructuring
+  fixed complete hang on context creation in Win9x
+
+2001.01.13
+
+  support building without DX8
+
+2001.12.19
+
+  corrected feof semantics in MOD loader
+
+2001.12.06
+
+  Linux/OSS works (I think)!  Yay!
+  more internal architecture refactoring
+
+
+2001.12.04
+
+  Created C++ interface to Audiere (See bottom of audiere.h)
+
+
+2001.11.28
+
+  AdrCreateContext takes an attributes object now (BROKE SOURCE AND BINARY COMPATIBILITY)
+
+
+2001.11.15
+
+  various architecture changes
+
+
+2001.11.01
+
+  made MP3 support optional in UNIX build
+
+
+2001.10.26
+
+  uses Air's new mikmod
+  added GNU autoconf/automake support
+  updated to MAD 0.14.1b
+
+
+2001.10.25
+
+  removed nbase
+
+
+2001.09.25
+
+  removed panning
+
+
+2001.08.05
+
+  1.02 - minor release
+
+  fixed crasher on failed mod loads
+  rewrote DS8 and DS3 output drivers to be more efficient, have
+  - fewer audible artifacts, and reduce latency (to effectively zero)
+
+
+2001.07.26
+  Java bindings
+  fixed DirectSound 3 driver (works on NT4, yay!)
+  made contexts refcounted (no longer need to destroy streams before contexts)
+  reset output driver with input driver to eliminate reset latency
+  increased default buffer size to half of a second
+
+
+2001.07.23
+  no longer recreate the resampling engine every MPEG audio frame
+
+
+2001.07.21
+  no longer simply halt reading when we encounter corrupt MP3 frames
+
+
+2001.07.16
+
+  1.01 - Bugfix Release
+
+
+2001.07.15
+  updated version string (oops!)
+  fixed volume ramping to be linear instead of logarithmic
+  fixed crash on loading certain MODs
+  added Python bindings
+  increased priority of decoder thread to decrease skipping
+  added anonymous CVS document
+  fixed crash in Mozilla binding
+  mozilla: Audiere contexts are no longer XPCOM services
+
+
+2001.07.13
+
+  1.0 - Initial Release

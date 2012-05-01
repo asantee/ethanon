@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>SciTE Script Lexer</title>
+<meta name="Generator" content="SciTE - www.Scintilla.org" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+.S0 {
+	color: #FF0000;
+}
+.S2 {
+	font-family: 'Comic Sans MS';
+	color: #007F00;
+	font-size: 9pt;
+}
+.S4 {
+	color: #007F7F;
+}
+.S5 {
+	color: #00007F;
+	font-weight: bold;
+}
+.S6 {
+	color: #7F007F;
+}
+.S10 {
+	color: #000000;
+}
+.S14 {
+	color: #00007F;
+	background: #F5F5FF;
+	text-decoration: inherit;
+}
+.Z0 {
+	color: #7f007f;
+	font-weight: bold;
+}
+.Z1 {
+	color: #000000;
+}
+.Z2 {
+	color: #000080;
+	font-weight: bold;
+}
+.Z3 {
+	color: #008000;
+	font-family: 'Georgia';
+	font-size: 9pt;
+	font-style:italic;
+}
+span {
+	font-family: 'Verdana';
+	color: #000000;
+	font-size: 10pt;
+}
+.example {
+    color: #008000;
+    font-weight: bold;
+}
+DIV.example {
+	background: #F7FCF7;
+	border: 1px solid #C0D7C0;
+	margin: 0.3em 3em;
+	padding: 0.3em 0.6em;
+	font-size: 80%;
+}
+DIV.highlighted {
+	background: #F7FCF7;
+	border: 1px solid #C0D7C0;
+	margin: 0.3em 3em;
+	padding: 0.3em 0.6em;
+	font-size: 80%;
+}
+table {
+	border: 1px solid #1F1F1F;
+	border-collapse: collapse;
+}
+td {
+	border: 1px solid #1F1F1F;
+	padding: 1px 5px 1px 5px;
+}
+th {
+	border: 1px solid #1F1F1F;
+	padding: 1px 5px 1px 5px;
+}
+</style>
+</head>
+<body bgcolor="#FFFFFF">
+    <table bgcolor="#000000" width="100%" cellspacing="0" cellpadding="0" border="0">
+      <tr>
+        <td>
+          <img src="SciTEIco.png" border="3" height="64" width="64" alt="Scintilla icon" />
+        </td>
+        <td>
+          <a href="index.html" style="color:white;text-decoration:none"><font size="5">
+	  SciTE Script Lexer</font></a>
+        </td>
+      </tr>
+    </table>
+    <h3>
+       Warning
+    </h3>
+	<p>This feature is being developed and is not stable. The API may change in the future.</p>
+    <h3>
+       Writing lexers in Lua
+    </h3>
+	<p>A lexer may be written as a script in the Lua language instead of in C++.
+	This is a little simpler and allows lexers to be developed without using a C++ compiler.</p>
+	<p>A script lexer is attached by setting the file lexer to be a name that starts with "script_".
+	Styles and other properties can then be assigned using this name. For example,</p>
+	<div class="example">
+	lexer.*.zog=script_zog<br/>
+style.script_zog.0=fore:#7f007f,bold<br/>
+style.script_zog.1=fore:#000000<br/>
+style.script_zog.2=fore:#000080,bold<br/>
+style.script_zog.3=fore:#008000,font:Georgia,italics,size:9
+	</div>
+	<p>Then the lexer is implemented in Lua similar to this:</p>
+<div class="highlighted">
+<span><span class="S2">-- -*- coding: utf-8 -*-</span><br />
+<br />
+<span class="S5">function</span><span class="S0"> </span>OnStyle<span class="S10">(</span>styler<span class="S10">)</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span>S_DEFAULT<span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S4">0</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span>S_IDENTIFIER<span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S4">1</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span>S_KEYWORD<span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S4">2</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span>S_UNICODECOMMENT<span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S4">3</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span>identifierCharacters<span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S6">"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"</span><br />
+<br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span>styler<span class="S10">:</span>StartStyling<span class="S10">(</span>styler.startPos<span class="S10">,</span><span class="S0"> </span>styler.lengthDoc<span class="S10">,</span><span class="S0"> </span>styler.initStyle<span class="S10">)</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">while</span><span class="S0"> </span>styler<span class="S10">:</span>More<span class="S10">()</span><span class="S0"> </span><span class="S5">do</span><br />
+<br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S2">-- Exit state if needed</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">if</span><span class="S0"> </span>styler<span class="S10">:</span>State<span class="S10">()</span><span class="S0"> </span><span class="S10">==</span><span class="S0"> </span>S_IDENTIFIER<span class="S0"> </span><span class="S5">then</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">if</span><span class="S0"> </span><span class="S5">not</span><span class="S0"> </span>identifierCharacters<span class="S10">:</span>find<span class="S10">(</span>styler<span class="S10">:</span>Current<span class="S10">(),</span><span class="S0"> </span><span class="S4">1</span><span class="S10">,</span><span class="S0"> </span><span class="S5">true</span><span class="S10">)</span><span class="S0"> </span><span class="S5">then</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>identifier<span class="S0"> </span><span class="S10">=</span><span class="S0"> </span>styler<span class="S10">:</span>Token<span class="S10">()</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">if</span><span class="S0"> </span>identifier<span class="S0"> </span><span class="S10">==</span><span class="S0"> </span><span class="S6">"if"</span><span class="S0"> </span><span class="S5">or</span><span class="S0"> </span>identifier<span class="S0"> </span><span class="S10">==</span><span class="S0"> </span><span class="S6">"end"</span><span class="S0"> </span><span class="S5">then</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>styler<span class="S10">:</span>ChangeState<span class="S10">(</span>S_KEYWORD<span class="S10">)</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">end</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>styler<span class="S10">:</span>SetState<span class="S10">(</span>S_DEFAULT<span class="S10">)</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">end</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">elseif</span><span class="S0"> </span>styler<span class="S10">:</span>State<span class="S10">()</span><span class="S0"> </span><span class="S10">==</span><span class="S0"> </span>S_UNICODECOMMENT<span class="S0"> </span><span class="S5">then</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">if</span><span class="S0"> </span>styler<span class="S10">:</span>Match<span class="S10">(</span><span class="S6">"»"</span><span class="S10">)</span><span class="S0"> </span><span class="S5">then</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>styler<span class="S10">:</span>ForwardSetState<span class="S10">(</span>S_DEFAULT<span class="S10">)</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">end</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">end</span><br />
+<br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S2">-- Enter state if needed</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">if</span><span class="S0"> </span>styler<span class="S10">:</span>State<span class="S10">()</span><span class="S0"> </span><span class="S10">==</span><span class="S0"> </span>S_DEFAULT<span class="S0"> </span><span class="S5">then</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">if</span><span class="S0"> </span>styler<span class="S10">:</span>Match<span class="S10">(</span><span class="S6">"«"</span><span class="S10">)</span><span class="S0"> </span><span class="S5">then</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>styler<span class="S10">:</span>SetState<span class="S10">(</span>S_UNICODECOMMENT<span class="S10">)</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">elseif</span><span class="S0"> </span>identifierCharacters<span class="S10">:</span>find<span class="S10">(</span>styler<span class="S10">:</span>Current<span class="S10">(),</span><span class="S0"> </span><span class="S4">1</span><span class="S10">,</span><span class="S0"> </span><span class="S5">true</span><span class="S10">)</span><span class="S0"> </span><span class="S5">then</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>styler<span class="S10">:</span>SetState<span class="S10">(</span>S_IDENTIFIER<span class="S10">)</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">end</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">end</span><br />
+<br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>styler<span class="S10">:</span>Forward<span class="S10">()</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">end</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span>styler<span class="S10">:</span>EndStyling<span class="S10">()</span><br />
+<span class="S5">end</span><br />
+<span class="S0"></span></span>
+</div>
+
+<p>
+The result looks like
+</p>
+
+<div class="highlighted">
+<span><span class="Z1">proc</span><span class="Z0"> </span><span class="Z1">clip</span><span class="Z0">(</span><span class="Z1">int</span><span class="Z0"> </span><span class="Z1">a</span><span class="Z0">)</span><br />
+<span class="Z3">« Clip into the positive zone »</span><br />
+<span class="Z2">if</span><span class="Z0"> (</span><span class="Z1">a</span><span class="Z0"> &gt; 0) </span><span class="Z1">a</span><br />
+<span class="Z0">0</span><br />
+<span class="Z2">end</span></span>
+</div>
+<br />
+<h3>Code Structure</h3>
+<h4>Document Loop</h4>
+<p>The lexer loops through the part of the document indicated assigning a style to each character.</p>
+<div class="highlighted">
+<span>styler:StartStyling<span class="S10">(</span>styler.startPos<span class="S10">,</span><span class="S0"> </span>styler.lengthDoc<span class="S10">,</span><span class="S0"> </span>styler.initStyle<span class="S10"><span class="S10">)</span><br />
+<span class="S5">while</span><span class="S0"> </span>styler:More<span class="S10">()</span><span class="S0"> </span><span class="S5">do</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S2">-- Code that examines the text and sets lexical states</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span>styler:Forward<span class="S10">()</span><br />
+<span class="S5">end</span><br />
+styler:EndStyling<span class="S10">()</span><br />
+</span></div>
+<p>There are many different ways to structure the code that examines the text and sets lexical states.
+A structure that has proven useful in C++ lexers is to write two blocks of code as shown in the example.
+The first block checks if the current state should end and if so sets the state to the default 0.
+The second block is responsible for detecting whether a new state should be entered from the default state.
+This structure means everything is dealt with as switching from or to the default state and avoids having to consider many
+combinations of states.</p>
+<h4>Encodings</h4>
+<p>The styler iterates over whole characters rather than bytes. Thus if the document is encoded in UTF-8, styler:Current() may be a multibyte string. If the script is also encoded in UTF-8,
+then it is easy to check against Unicode characters with code like</p>
+<div class="highlighted">
+<span><span class="S5">if</span><span class="S0"> </span>styler:Current<span class="S10">()</span><span class="S0"> </span><span class="S10">==</span><span class="S0"> </span><span class="S6">"«"</span><span class="S5"> then</span><br />
+</span></div>
+<p>If using an encoding like Latin-1 and the script is also encoded in the same encoding then literals can be used as above.</p>
+<p>If the language can be encoded in different ways then more complex code may be needed along with encoding-specific code.</p>
+<h4>Checking Before</h4>
+<p>Sometimes a lexer needs to see some information earlier in the file, perhaps a declaration changes the syntax or the particular form of quote
+at the start of a string must be matched at its end. Since the standard loop only goes forward from the starting position, different calls must be used like CharAt and StyleAt.
+These use byte positions and do not treat multi-byte characters as single entities.</p>
+<h4>Performance</h4>
+<p>The lexer above can lex approximately 90K per second on a 2.4 GHz Athlon 64. For most situations, this will
+feel completely fluid.</p>
+<p>More complex lexers will be slower. If a lexer is so slow that the application becomes unresponsive then
+the lexer can choose to split up each request. It can do so by deciding upon a range of whole lines and using this range as the
+arguments to StartStyling. This allows the user's keystrokes and mouse moves to be processed.
+The lexer will automatically be called again to lex more of the document.</p>
+<br />
+<h3>API</h3>
+<p>The API of the styler object passed to OnStyle:</p>
+<table cellpadding="0" cellspacing="0" border="1"  summary="Command line escape sequences">
+<thead>
+	<tr><th>Name</th><th>Explanation</th></tr>
+</thead>
+	<tr><td>StartStyling(startPos, length, initStyle)</td>
+	<td>Start setting styles from startPos for length with initial style initStyle</td></tr>
+	<tr><td>EndStyling()</td>
+	<td>Styling has been completed so tidy up</td></tr>
+	<tr><td>More() → boolean</td>
+	<td>Are there any more characters to process</td></tr>
+	<tr><td>Forward()</td>
+	<td>Move forward one character</td></tr>
+	<tr><td>Position() → integer</td>
+	<td>What is the position in the document of the current character</td></tr>
+	<tr><td>AtLineStart() → boolean</td>
+	<td>Is the current character the first on a line</td></tr>
+	<tr><td>AtLineEnd() → boolean</td>
+	<td>Is the current character the last on a line</td></tr>
+	<tr><td>State() → integer</td>
+	<td>The current lexical state value</td></tr>
+	<tr><td>SetState(state)</td>
+	<td>Set the style of the current token to the current state and then change the state to the argument</td></tr>
+	<tr><td>ForwardSetState(state)</td>
+	<td>Combination of moving forward and setting the state. Useful when the current character is a token terminator like " for a string.</td></tr>
+	<tr><td>ChangeState(state)</td>
+	<td>Change the current state so that the state of the current token will be set to the argument</td></tr>
+	<tr><td>Current() → string</td>
+	<td>The current character</td></tr>
+	<tr><td>Next() → string</td>
+	<td>The next character</td></tr>
+	<tr><td>Previous() → string</td>
+	<td>The previous character</td></tr>
+	<tr><td>Token() → string</td>
+	<td>The current token</td></tr>
+	<tr><td>Match(string) → boolean</td>
+	<td>Is the text from the current position the same as the argument?</td></tr>
+
+	<tr><td>Line(position) → integer</td>
+	<td>Convert a byte position into a line number</td></tr>
+	<tr><td>CharAt(position) → integer</td>
+	<td>Unsigned byte value at argument</td></tr>
+	<tr><td>StyleAt(position) → integer</td>
+	<td>Style value at argument</td></tr>
+	<tr><td>LevelAt(line) → integer</td>
+	<td>Fold level for a line</td></tr>
+	<tr><td>SetLevelAt(line, level)</td>
+	<td>Set the fold level for a line</td></tr>
+	<tr><td>LineState(line) → integer</td>
+	<td>State value for a line</td></tr>
+	<tr><td>SetLineState(line, state)</td>
+	<td>Set state value for a line. This can be used to store extra information from lexing,
+	such as a current language mode, so that there is no need to look back in the document.</td></tr>
+
+	<tr><td>startPos : integer</td>
+	<td>Start of the range to be lexed</td></tr>
+	<tr><td>lengthDoc : integer</td>
+	<td>Length of the range to be lexed</td></tr>
+	<tr><td>initStyle : integer</td>
+	<td>Starting style</td></tr>
+	<tr><td>language : string</td>
+	<td>Name of the language. Allows implementation of multiple languages with one OnStyle function.</td></tr>
+</table>
+<br />
+    <h3>
+       A line-oriented example.
+    </h3>
+    <p>This example is for a line-oriented language as is sometimes used for configuration files.
+    It uses low level direct calls instead of the StartStyling/More/Forward/EndStyling calls.</p>
+<div class="highlighted">
+<span><span class="S2">-- A line oriented lexer - style the line according to the first character</span><br />
+<span class="S5">function</span><span class="S0"> </span>OnStyle<span class="S10">(</span>styler<span class="S10">)</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span>lineStart<span class="S0"> </span><span class="S10">=</span><span class="S0"> </span>editor<span class="S10">:</span>LineFromPosition<span class="S10">(</span>styler.startPos<span class="S10">)</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span>lineEnd<span class="S0"> </span><span class="S10">=</span><span class="S0"> </span>editor<span class="S10">:</span>LineFromPosition<span class="S10">(</span>styler.startPos<span class="S0"> </span><span class="S10">+</span><span class="S0"> </span>styler.lengthDoc<span class="S10">)</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span>editor<span class="S10">:</span>StartStyling<span class="S10">(</span>styler.startPos<span class="S10">,</span><span class="S0"> </span><span class="S4">31</span><span class="S10">)</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">for</span><span class="S0"> </span>line<span class="S10">=</span>lineStart<span class="S10">,</span>lineEnd<span class="S10">,</span><span class="S4">1</span><span class="S0"> </span><span class="S5">do</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>lengthLine<span class="S0"> </span><span class="S10">=</span><span class="S0"> </span>editor<span class="S10">:</span>PositionFromLine<span class="S10">(</span>line<span class="S10">+</span><span class="S4">1</span><span class="S10">)</span><span class="S0"> </span><span class="S10">-</span><span class="S0"> </span>editor<span class="S10">:</span>PositionFromLine<span class="S10">(</span>line<span class="S10">)</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>lineText<span class="S0"> </span><span class="S10">=</span><span class="S0"> </span>editor<span class="S10">:</span>GetLine<span class="S10">(</span>line<span class="S10">)</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>first<span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S14">string.sub</span><span class="S10">(</span>lineText<span class="S10">,</span><span class="S4">1</span><span class="S10">,</span><span class="S4">1</span><span class="S10">)</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>style<span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S4">0</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">if</span><span class="S0"> </span>first<span class="S0"> </span><span class="S10">==</span><span class="S0"> </span><span class="S6">"+"</span><span class="S0"> </span><span class="S5">then</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>style<span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S4">1</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">elseif</span><span class="S0"> </span>first<span class="S0"> </span><span class="S10">==</span><span class="S0"> </span><span class="S6">" "</span><span class="S0"> </span><span class="S5">or</span><span class="S0"> </span>first<span class="S0"> </span><span class="S10">==</span><span class="S0"> </span><span class="S6">"\t"</span><span class="S0"> </span><span class="S5">then</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>style<span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S4">2</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">end</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>editor<span class="S10">:</span>SetStyling<span class="S10">(</span>lengthLine<span class="S10">,</span><span class="S0"> </span>style<span class="S10">)</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">end</span><br />
+<span class="S5">end</span><br />
+<span class="S0"></span></span>
+</div>
+
+</body>
+</html>

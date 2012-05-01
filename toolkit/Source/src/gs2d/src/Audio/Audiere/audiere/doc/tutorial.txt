@@ -1,0 +1,68 @@
+This is a very simple introduction to a very simple API.
+
+Some basic concepts: Audiere has a C++ API.  You, as a user, interact
+with Audiere through a set of abstract classes (i.e. interfaces)
+defined in audiere.h.  All Audiere objects are reference counted.
+This means that when you want to hold on to an object, you call ref()
+on it, and when you are done, you call unref().  To make this easier,
+Audiere provides a RefPtr class that calls ref() on construction and
+unref() on destruction.  Otherwise, it acts just like a normal
+pointer, greatly simplifying your code.  For even greater convenience,
+each interface type has an associated InterfacePtr type which is just
+like RefPtr<Interface>.
+
+Now, on to the good stuff...
+
+Make sure the Audiere header is in your compiler include path.  Every
+Audiere symbol is contained within the namespace 'audiere', so if you
+want your code to be a little clearer, you can bring the entire
+audiere namespace into global scope.
+
+  #include <audiere.h>
+  using namespace audiere;
+
+You need to open an AudioDevice before you can play sounds...
+
+  AudioDevicePtr device(OpenDevice());
+  if (!device) {
+    // failure
+  }
+
+Now that we have a device, we can actually open and play sounds.
+
+  /*
+   * If OpenSound is called with the last parameter = false, then
+   * Audiere tries to load the sound into memory.  If it can't do
+   * that, it will just stream it.
+   */
+  OutputStreamPtr sound(OpenSound(device, "effect.wav", false));
+  if (!sound) {
+    // failure
+  }
+
+  /*
+   * Since this file is background music, we don't need to load the
+   * whole thing into memory.
+   */
+  OutputStreamPtr stream(OpenSound(device, "music.ogg", true));
+  if (!stream) {
+    // failure
+  }
+
+Great, we have some opened streams!  What do we do with them?
+
+  // let's start the background music first
+  stream->setRepeat(true);
+  stream->setVolume(0.5f); // 50% volume
+  stream->play();
+
+  // now play a sound effect
+  sound->play();
+
+When you are done using Audiere, just let the RefPtr objects go out of
+scope, and they will automatically clean themselves up.  If you really
+_must_ delete an object before its pointer goes out of scope, just set
+the pointer to 0.
+
+That's it!  Look in audiere.h or the doxygen documentation for
+descriptions of the remaining interfaces and methods.

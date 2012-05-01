@@ -1,0 +1,11 @@
+Sample -
+  A discrete point within a specific range (for example, -1 to 1)
+  taken from a continuous signal.
+
+Channel -
+  Think of a stereo.  The left speaker is one channel, and the right
+  speaker is another.
+
+Frame -
+  A set of simultaneous samples, where each sample is played on a
+  different channel.

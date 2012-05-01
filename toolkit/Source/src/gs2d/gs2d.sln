@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual C++ Express 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gs2d", "projects\msvc9\GS2D\gs2d.vcproj", "{0CDFCAE6-2058-47C8-960E-95C444DF0059}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E5195361-63CD-4C1B-8DD7-3E579779B1F6} = {E5195361-63CD-4C1B-8DD7-3E579779B1F6}
+		{160FC7FC-3E05-4678-AE17-949DBDBB9BAA} = {160FC7FC-3E05-4678-AE17-949DBDBB9BAA}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Platform", "projects\msvc9\Platform\Platform.vcproj", "{160FC7FC-3E05-4678-AE17-949DBDBB9BAA}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Testbed", "projects\msvc9\Testbed\Testbed.vcproj", "{71D1A953-D6B0-47E8-885F-5BF6BCBC8683}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0CDFCAE6-2058-47C8-960E-95C444DF0059} = {0CDFCAE6-2058-47C8-960E-95C444DF0059}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "audiere", "src\Audio\Audiere\audiere\msvc9\audiere\audiere.vcproj", "{E5195361-63CD-4C1B-8DD7-3E579779B1F6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0CDFCAE6-2058-47C8-960E-95C444DF0059}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0CDFCAE6-2058-47C8-960E-95C444DF0059}.Debug|Win32.Build.0 = Debug|Win32
+		{0CDFCAE6-2058-47C8-960E-95C444DF0059}.Release|Win32.ActiveCfg = Release|Win32
+		{0CDFCAE6-2058-47C8-960E-95C444DF0059}.Release|Win32.Build.0 = Release|Win32
+		{160FC7FC-3E05-4678-AE17-949DBDBB9BAA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{160FC7FC-3E05-4678-AE17-949DBDBB9BAA}.Debug|Win32.Build.0 = Debug|Win32
+		{160FC7FC-3E05-4678-AE17-949DBDBB9BAA}.Release|Win32.ActiveCfg = Release|Win32
+		{160FC7FC-3E05-4678-AE17-949DBDBB9BAA}.Release|Win32.Build.0 = Release|Win32
+		{71D1A953-D6B0-47E8-885F-5BF6BCBC8683}.Debug|Win32.ActiveCfg = Debug|Win32
+		{71D1A953-D6B0-47E8-885F-5BF6BCBC8683}.Debug|Win32.Build.0 = Debug|Win32
+		{71D1A953-D6B0-47E8-885F-5BF6BCBC8683}.Release|Win32.ActiveCfg = Release|Win32
+		{71D1A953-D6B0-47E8-885F-5BF6BCBC8683}.Release|Win32.Build.0 = Release|Win32
+		{E5195361-63CD-4C1B-8DD7-3E579779B1F6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E5195361-63CD-4C1B-8DD7-3E579779B1F6}.Debug|Win32.Build.0 = Debug|Win32
+		{E5195361-63CD-4C1B-8DD7-3E579779B1F6}.Release|Win32.ActiveCfg = Release|Win32
+		{E5195361-63CD-4C1B-8DD7-3E579779B1F6}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,9 @@
+Import('base_env')
+
+env = base_env.Copy()
+env.Prepend(CPPPATH = '#/src',
+            LIBPATH = '#/src',
+            LIBS = 'audiere')
+
+Export('env')
+SConscript(dirs = ['buffer', 'device', 'formats'])

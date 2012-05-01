@@ -1,0 +1,73 @@
+What does Audiere mean?
+--
+
+  Nothing, really.  Theo Reed suggested it.  Pronounced "ah dee air".
+
+
+I got Audiere to compile and install properly, but when I try to link
+with it, I get an error telling me that "libaudiere cannot be found"
+What do I do?
+--
+
+  Locate the libaudiere libraries on your system.  By default, they're
+  in /usr/local/lib.  Make sure that directory is listed in
+  /etc/ld.so.conf or add the path to the environmental variable
+  LD_LIBRARY_PATH.  If you changed /etc/ld.so.conf, run ldconfig as
+  root.  It should work now.
+
+
+Why did you make this?  We already have FMOD.
+--
+
+  I'm not a fan of FMOD's API, and it's not open source.  It's a lot
+  of fun, too.  :)
+
+
+Why not support MIDI?
+--
+
+  I'd like to keep every supported decoder inside of Acoustique
+  (i.e. not using an external program).  The only good software MIDI
+  decoder I've found is timidity++, and that requires megs upon megs
+  of patch files.  I think having a 20 meg sound library isn't really
+  feasible.
+
+
+Why doesn't Audiere 1.0.4 or 1.9.0 support MP3 when Audiere 1.0.3 did?
+--
+
+  Up to version 1.0.3, Audiere used the MAD MP3 decoder to play MP3
+  files.  The problem with MAD is that it is licensed under the GPL,
+  thus requiring Audiere to be licensed under the GPL, thus requiring
+  any program that uses Audiere to be released under the GPL.  This is
+  unacceptable for a lot of people that want to use Audiere,
+  especially for games.  At first, I dual-licensed the source.  If you
+  built it with MP3 support, it was under the GPL.  Otherwise, it was
+  under the LGPL.  However, this was a pain to document and maintain.
+  MAD is also a very low-level API, and adding support for seeking
+  within MP3 streams would be a lot of work.  I decided the best path
+  right now would be to remove MP3 support until either MAD is
+  released under the LGPL or somebody adds support for another MP3
+  decoder under a less restrictive license.
+
+  Besides, Audiere supports Ogg Vorbis, which is equivalent to MP3 for
+  most purposes anyway.
+
+  As of August, 2002, Jacky Chong is trying to add support for MP3
+  again using mpglib.
+
+  As of the 1.9.2 release, Audiere supports MP3 thanks to the splay
+  library.  However, there is very little LGPL-compatible MP3 code out
+  there that works across a wide range of MP3s and hardware.  I highly
+  recommend using Ogg Vorbis for all of your music needs.  It uses
+  less CPU time by about a factor of five *and* sounds better.
+
+
+How do I load a sound into memory so that it isn't streamed?
+--
+
+  The OpenSound function has two modes of operation.  If the third
+  argument 'streaming' is true, it just streams audio from the source.
+  If 'streaming' is passed as false, it tries to load the sound into
+  memory.  You probably want streaming to be true for background
+  music, but false for sound effects.

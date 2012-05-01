@@ -1,0 +1,30 @@
+#include <windows.h>
+
+// This section contains the executable version information. Go to
+// Project > Project Options to edit these values.
+1 VERSIONINFO
+FILEVERSION 0,9,1,0
+PRODUCTVERSION 0,9,1,0
+FILETYPE VFT_APP
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904E4"
+        BEGIN
+            VALUE "CompanyName", "ASANTEE"
+            VALUE "FileVersion", "0.9.1"
+            VALUE "FileDescription", "Ethanon engine executable"
+            VALUE "InternalName", ""
+            VALUE "LegalCopyright", "Copyright © 2009-2010 Andre Santee"
+            VALUE "LegalTrademarks", ""
+            VALUE "OriginalFilename", ""
+            VALUE "ProductName", "Ethanon Engine"
+            VALUE "ProductVersion", "0.9.1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0409, 1252
+    END
+END
+

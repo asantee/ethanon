@@ -1,0 +1,26 @@
+/** @mainpage Audiere 1.9.4
+
+Audiere is a high-level, straightforward, and portable audio API.
+
+It supports several audio file formats:
+
+<ul>
+<li>Ogg Vorbis (requires the <a href="http://vorbis.com/">vorbisfile</a> libraries)</li>
+<li>MP3</li>
+<li>FLAC (requires <a href="http://flac.sourceforge.net/">libFLAC</a>)</li>
+<li>Speex (requires <a href="http://speex.org/">libspeex</a>)</li>
+<li>uncompressed WAV</li>
+<li>AIFF</li>
+<li>MOD, S3M, XM, IT</li>
+</ul>
+
+It also supports the following output devices or APIs:
+
+<ul>
+<li>DirectSound (Windows)</li>
+<li>WinMM (Windows)</li>
+<li>OSS (Linux and Cygwin)</li>
+<li>SGI AL (IRIX)</li>
+</ul>
+
+*/

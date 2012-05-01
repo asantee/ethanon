@@ -1,0 +1,10 @@
+Audiere depends on libogg, libvorbis, and libvorbisfile on UNIX.
+These libraries are available at http://www.vorbis.com/.  In Windows,
+those sources are included within the source tree.
+
+Audiere also depends on libFLAC on UNIX.  It is available as a part of
+the FLAC suite at http://flac.sourceforge.net/.  In Windows, libFLAC
+is part of the source tree.
+
+wxPlayer depends on wxWindows 2.2.9.  Get wxWindows at
+http://www.wxwindows.org/

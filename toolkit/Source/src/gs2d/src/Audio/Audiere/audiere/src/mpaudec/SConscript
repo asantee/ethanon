@@ -1,0 +1,5 @@
+rv = Split("""
+    bits.c
+    mpaudec.c
+""")
+Return('rv')

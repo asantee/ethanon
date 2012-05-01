@@ -1,0 +1,20 @@
+Overview of the Audiere API
+
+Everything is in the audiere namespace.  After #including <audiere.h>,
+you can enter the line "using namespace audiere;" or explicitly
+qualify the API symbols, i.e. "audiere::GetVersion();".
+
+Every Audiere class has an associated refcounted smart pointer type.
+For example, class File has a FilePtr type which manages the number of
+references on the File objects.  (For the curious, FilePtr is a
+typedef to RefPtr<File>.)  Remember!!  FilePtr is NOT the same as
+File*.  File* does not automatically manage references, and is
+therefore unsafe.  If you don't understand the difference, just use
+FilePtr.
+
+All factory functions return an object with an initial reference count
+of 0.  This facilitates reasonable RefPtr behavior (That is, ref() on
+construction or assignment, unref() on destruction).  Unfortunately,
+when using Audiere from a language without smart pointers, such as
+Delphi, one must be careful to ref() the object before calling
+unref().

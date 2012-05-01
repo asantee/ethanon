@@ -1,0 +1,48 @@
+Bump the Version Number
+
+     The following files contain version information:
+         configure.in
+         full-release.sh
+         make-release-sgi.sh
+         make-release-win32.sh
+         bindings/python/setup.py
+         doc/doxygen/audiere-devel.doxy
+         doc/doxygen/audiere-users.doxy
+         doc/doxygen/doxygen-dist.sh
+         doc/doxygen/mainpage.doxy
+         src/audiere.h
+         src/audiere.rc
+         src/version.cpp
+
+
+Add "$VERSION release" to changelog.
+
+
+Run tests with wxPlayer!!!
+
+
+Build the VC6 Binary Release
+Build UNIX Release
+Build Doxygen Releases
+Build CVS snapshot tarball
+
+    *) Run full-release.sh
+
+Build the SGI Binary Release
+
+    1) Check out a fresh copy from CVS into a temporary directory
+    2) Run make-release-sgi.sh
+
+
+Upload the files to the SourceForge download section.
+
+
+Update the web site.
+
+
+Make Announcements
+
+     Announce on http://audiere.sourceforge.net
+     Announce on http://aegisknight.org
+     Announce on http://sf.net/projects/audiere (news)
+     Send e-mail to audiere-annc@lists.sf.net

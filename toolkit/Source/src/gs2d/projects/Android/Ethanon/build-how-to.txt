@@ -1,0 +1,24 @@
+The Ethanon project for Android is in trunk/toolkit/Source/src/gs2d/projects/Android/Ethanon/
+
+	Make sure you have Android SDK, Eclipse and the Android ADT plug-in installed, as well as the Android NDK in order to build the engine core.
+
+	-Import this project to Eclipse (make sure you have ADT Eclipse plug-in)
+
+	-Compile it with ndk-build (don't know what it is? http://developer.android.com/sdk/ndk/)
+
+	-Move your Ethanon project to the assets/ folder (all ethanon project files except machine.exe and the *.dll)
+	 Your main.angelscript file must be in &(PROJECT_PATH)/assets/main.angelscript
+
+	-Compile the native code of the project with ndk-build
+ 
+	-All logged info is sent to /sdcard/gs2dlog/
+
+Android/iOS useful methods:
+
+	vector2 ETHInput::GetTouchPos(const uint n) const
+	KEY_STATE ETHInput::GetTouchState(const uint n) const
+	uint ETHInput::GetMaxTouchCount() const
+	vector2 ETHInput::GetTouchMove(const uint n) const
+	vector3 ETHInput::GetAccelerometerData() const
+	string GetExternalStoragePath()
+	string GetStringFromFileInPackage(const string &in)

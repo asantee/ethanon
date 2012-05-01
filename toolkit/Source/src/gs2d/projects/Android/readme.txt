@@ -1,0 +1,2 @@
+The .java files (in net.asantee.gs2d packages) on GS2D and Ethanon projects are duplicate. We plan using symlinks to avoid it but it won't be possible for now (on Windows).
+The source files in the Ethanon project will be more up to date most of the time. When building a GS2D pure C++ project consider copying the net.asantee.gs2d package in Ethanon engine.

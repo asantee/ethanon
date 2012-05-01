@@ -1,0 +1,243 @@
+{\rtf1\ansi\ansicpg1252\deff0\deflang1031\deflangfe1031\deftab708{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+{\colortbl ;\red0\green0\blue255;}
+{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\nowidctlpar\lang1033\b\f0\fs20 Are you updating your Ethanon Engine version?\b0\par
+The \i 'Ethanon Machine.exe'\i0  file has been renamed to \i 'machine.exe'\i0 . If your old project still uses the 'Ethanon Machine.exe' file, delete it and replace it with the new 'machine.exe' file.\par
+Your old project files (\i Ethanon Machine.exe/machine.exe\i0 , GameSpace.dll, etc.) won't be automatically updated when you install a new version of Ethanon Engine. To update your project, just open the project manager in the Ethanon Editor, choose the "New project..." option and overwrite your old *.ethproj file. Don't worry, you source code will remain intact, only .EXE and .DLL files will be replaced.\par
+\par
+\b About Ethanon Engine\b0\par
+Ethanon Engine is a free 2D game development tool focused on the recent video cards for hardware acceleration and shader effects. It may be used to develop any style of game, such as top-down view RPG's, side scrollers and shoot'em up games. The main goal of this engine is to provide high-quality lighting, shadow and particle effects with an easy to use visual interface and a simple and direct scripting system.\par
+\par
+EE is entirely based on 2D sprites. It uses pixel shaders to perform the normal map based lighting and supports any kind of map construction (e.g.: isometric, orthogonal or hexagonal) because it's based on arbitrarily positioned entities instead of fixed tiles.\par
+\par
+To control the game flow and handle its events, Ethanon Engine uses AngelScript for scripts, which brings a familiar C++ syntax to the code. The integration with the scripting language is pretty simple and easy to understand. Many features are included in the scripting system, such as full entity manipulation, save and load games with one instruction, video playback support, and more.\par
+\par
+\b Source-code\b0\par
+The full source-code may be downloaded from our repository: {\field{\*\fldinst{HYPERLINK "https://sourceforge.net/projects/ethanon/develop"}}{\fldrslt{\ul\cf1 https://sourceforge.net/projects/ethanon/develop}}}\f0\fs20\par
+\par
+\b End-user system requirements\b0\par
+-Windows XP/Vista/Seven\par
+-The latest DirectX version\par
+-Pixel shader 2.0 support\par
+\par
+\b Developer system requirements\par
+\b0 -Windows XP/Vista/Seven\par
+-The latest DirectX version\par
+-The latest CPU and GPU cards are recommended\fs24\par
+\fs20\par
+\b Change log (always read the change log)\par
+\b0 Check our repositories for more detailed information about the changes:\par
+\par
+Xth December 2011 - Version 0.9.0\par
+    * Physics simulation implemented (Box2D).\par
+    * Android compatibility.\par
+    * iOS compatibility.\par
+\par
+13th February 2011 - Version 0.8.1 r2\par
+    * SciTE up-to-date.\par
+    * eth_util.angelscript file copying bug fixed.\par
+\par
+12th February 2011 - Version 0.8.1\par
+    * All AngelScript source-code files must use the UTF8 with BOM format.\par
+    * The new source-code file format has been changed to .angelscript. main.as file is no longer used.\par
+    * System's native TTF fonts are no longer supported. All fonts must be based on bitmaps and follow the *.fnt text file format (check the documentation for more information).\par
+    * All ETHEntity::Set____Data (UInt, Int, String, etc.) methods have become deprecated. Those names have been changed to Set_____ (UInt, Int, String, etc.).\par
+    * New Vector2/3 custom data formats.\par
+    * New methods ETHEntity::AddToFloat, ::AddToInt, ::AddToUInt, ::AddToVector2, ::AddToVector3, ::MultiplyFloat, ::MultiplyInt, ::MultiplyUInt, ::MultiplyVector2, ::MultiplyVector3 to perform easier and faster arithmetic operations with custom data.\par
+    * New parallax effect supported.\par
+    * Full I18N supported.\par
+    * New native sign, length and distance math functions.\par
+    * New constants PI and PIb for the scripting language.\par
+    * All resource files (par, ent and esc) must use the UCS-2 Little Endian format.\par
+    * The array identifier has become a scripting keyword.\par
+    * New ComputeCarretPosition and ComputeTextBoxSize functions.\par
+    * The scripting file object may now read binary files.\par
+    * Function renamed: GetAngle -> getAngle.\par
+    * Matrix functions renamed: RotateX -> rotateX.\par
+    * Method renamed: enml::Uint to enml::UInt.\par
+    * New method: ETHEntityArray::unique.\par
+    * New method: clearDeadEntities::ETHEntityArray.\par
+    * New constructor overload vector3::vector3(vector2, float).\par
+\par
+4th October 2010 - Version 0.7.10\par
+Version features and changes:\par
+    * New copy/paste functionalities in the scene editor.\par
+    * "Turbo particles" bug fixed.\par
+    * Now the particles may use animated sprites for richer effects.\par
+    * New the particles may have modulate alpha blending.\par
+    * It is now possible to choose other blending modes to the entities: additive and modulate alpha.\par
+    * New ETHEntity::MirrorParticleSystem methods.\par
+    * Editable angles in scene editor.\par
+    * New matrix4x4 object and matrix transformation functions to the scripting system.\par
+    * The character in the sample project now casts fire balls :)\par
+    * New GetWorldSpaceCursorPos3 function.\par
+    * New GetArgc and GetArgv functions.\par
+    * Now the entity frame change in the scene editor is the 'F' key instead of the middle mouse button.\par
+    * It is now possible to edit shadow length scale in the entity editor.\par
+    * Now all entity types may cast and receive shadows.\par
+    * Progressive particle releasing bug fixed.\par
+\par
+24th August 2010 - Version 0.7.9\par
+Version features and changes:\par
+ -Editor:\par
+    * It is now possible to preview a frame based animation in the entity editor.\par
+    * The entity editor now shows as a list all resources that are being used by the entity.\par
+    * Scene editor: new way of moving the camera around the scene. Use the middle mouse click and slide across the scene using the mouse cursor.\par
+    * A new button in the scene editor allows the user to toggle the mode of an entity from static to dynamic or dynamic to static.\par
+-Core engine:\par
+    * The engine\rquote s depthing system has been remodeled to allow more precise depth sorting for vertical entities.\par
+    * It is now possible to customize the z-axis direction.\par
+\par
+6th July 2010 - Version 0.7.8\par
+Version features and changes:\par
+ -Editor:\par
+    * Let the user add gloss textures to enable specular lighting.\par
+    * Edit specular light brightness in entity editor.\par
+    * Edit specular power in entity editor.\par
+    * Camera lockdown fixed.\par
+    * Annoying "back selection" problem fixed.\par
+    * Allow entity custom variables/data to be added from scene and entity editors.\par
+    * Show Light symbol wherever light-only entities are.\par
+    * Allow particle system scaling in the entity editor.\par
+    * New "Update entities" button that applies all changes to the entities in scene.\par
+ -Core engine:\par
+    * New specular lighting effect based on the Blinn\endash Phong reflection model.\par
+    * All .ent, .par and .esc files now use the XML format to ease their extensibility.\par
+    * New file serialization objects: enmlEntity and enmlFile.\par
+    * Now entity shadows have minimum length\par
+    * Now using the last version of AngelScript (2.19.0).\par
+    * Scene "turbo start" bug fixed.\par
+    * Particle system problem fixed.\par
+    * New object dateTime for date and time querying.\par
+    * New functions: SetBorderBucketsDrawing and IsDrawingBorderBuckets.\par
+    * New function GetAbsolutePath.\par
+    * New function: GetIntersectingEntities.\par
+    * New function: GetVisibleEntities.\par
+    * New function: GetLastCameraPos\par
+    * New functions: GetStringFromFile and SetStringToFile.\par
+\par
+8th June 2010 - Version 0.7.7\par
+Version features and changes:\par
+    * New dictionary object (a kind of std::map wrapper) has been bound to the scripting machine.\par
+    * It is now possible to compile the script code without running the program through the script editor (SciTE).\par
+    * Entity renaming now possible in scene editor.\par
+    * The scene editor now shows the number of entities in scene.\par
+    * New method ETHEntity::SetCollision(const bool).\par
+    * New global function: EnableQuitKeys.\par
+    * The Alt+F4 command will now work by default (use EnableQuitKeys to disable it).\par
+    * ETHEntity::GetOriginalFileName method has been deprecated. Use ::GetEntityName() instead.\par
+    * New function EnableRealTimeShadows bound to the scripting machine.\par
+    * New function EnableLightmaps bound to the scripting machine.\par
+    * Bug fix: wrong light map for frame based static entities.\par
+    * Bug fix: inexistent entity crash after project change.\par
+\par
+23th May 2010 - Version 0.7.6\par
+Version features and changes:\par
+ -Scene editor:\par
+ * Entity picking bugs fixed\par
+ * "Lock static entities" button added to allow static entity drag and drop.\par
+ * It is now possible to manually type entity positions.\par
+ * Now shows an "invisible entity symbol" to make invisible and non-collidable entities visible and editable.\par
+ * The editor now shows the selected entity position.\par
+ * The selection bar now shows the correct first frame for cutted entities.\par
+ * Fixed the unaligned light-only entity position for selection.\par
+ * Now showing sound fx symbol in the selection bar.\par
+ * "Update lightmaps" button added.\par
+ -Entity editor:\par
+ * Unaligned axis bug fixed in the entity editor.\par
+ * Implemented a new warning system.\par
+ -Particle FX editor:\par
+ * The particle editor will now correctly show the current number of active particles in the system.\par
+ -Misc:\par
+ * Input fields are now set to 0 when left empty.\par
+ -Core engine\par
+ * Bug fixed: lightmaps won't be generated during load time if the global lightmap is disabled.\par
+ * Is is now possible to load empty scenes instead of loading prebuilt scenes from ESC files.\par
+ * New ETHEntity::AddToAngle method.\par
+ * New ETHEntity::SetSpriteCut method.\par
+ * New global function: IsPixelShaderSupported().\par
+ * New global function: GetProgramPath().\par
+ * New global functions DrawShapedSpriteZ(...) and DrawShapedSpriteZ(...).\par
+ * New global function: SetHaloRotation().\par
+ * New global functions: SetPositionRoundUp(bool) and GetPositionRoundUp().\par
+-Allow empty scenes\par
+\par
+\par
+28th April 2010 - Version 0.7.5\par
+Version features and changes:\par
+    * Particle-only entitiy selection bug fixed.\par
+    * Improved entity selection mode (dock-like menu).\par
+    * Bugs related to the particle the system sound effects in the scene editor fixed.\par
+    * Now using the latest GameSpaceLib version (code.google.com/p/gamespacelib) that fixes the "input freezing" bug.\par
+    * Minor bug fixes.\par
+\par
+22nd April 2010 - Version 0.7.4\par
+Version features and changes:\par
+    * d3dx9_42.dll file added to the SDK.\par
+    * The latest version of GameSpaceLib is being used.\par
+    * A faster build of AngelScript is being used.\par
+\par
+4th April 2010 - Version 0.7.3\par
+Version features and changes:\par
+    * New entity type added: Layerable (ET_LAYERABLE).\par
+    * New ETHEntity::Set/GetLayerDepth methods that manipulate layerable entity depth.\par
+    * Several safety adjustments and bug fixes.\par
+    * Added a DLL-based plug-in system to bind custom functions and objects to AngelScript.\par
+    * The executable files were renamed to machine.exe and editor.exe to be more UNIX friendly (cross-platform version is under development).\par
+    * Shadow rendering technique was improved.\par
+    * New method ETHEntity::HasHalo.\par
+\par
+15th March 2010 - Version 0.7.2\par
+Version features and changes:\par
+    * Fixed a bug that would make the entities and scenes in the Editor not to be saved when the user clicked the "Save" button.\par
+    * Several small bug fixes and adjustments.\par
+    * New global functions: GetBucket(vector2) and GetEntitiesFromBucket(vector2, ETHEntityArray@).\par
+    * Ethanon Editor: media files will be automatically copied to their right directory if the user tries to open them from other locations.\par
+    * Global function SortVerticalEntities removed.\par
+    * Entity color bug fixed.\par
+    * The debug version of the machine (Ethanon Machine_d.exe) was added to the SDK.\par
+    * A new LoadScene overload function has been added: void LoadScene(string fileName, string preLoop, string loop, vector2 bucketSize) to customize bucket size.\par
+    * New method: ETHEntity::GetCurrentBucket.\par
+    * The Ethanon Editor window size will be automatically readjusted if the system screen dimension is too small.\par
+\par
+3rd March 2010 - Version 0.7.1\par
+Version features and changes:\par
+    * Spatial hashing implemented for fast culling and also optimizations for the collision detection system.\par
+    * New method ETHEntity::AreParticlesOver\par
+    * New method ETHEntity::HasShadow\par
+    * Now the Scene Editor will only recalculate lightmaps if necessary.\par
+\par
+25th February 2010 - Version 0.6.3\par
+Version features and changes:\par
+    * Added support to pre-compiled byte code (compiled scripts).\par
+    * The ETHEntity object is now reference counted (safer and faster).\par
+    * New ETHEntity methods: Hide/IsHidden to make entities completely invisible without removing or interfering in its behavior.\par
+    * New ETHEntity methods: SetShadowZ/GetShadowZ to manipulate shadow's height.\par
+    * main.as file path searching fixed.\par
+    * SeekEntity won't return temporary entities anymore.\par
+    * AddEntity function will return a reference for the recently added entity instead of its ID number.\par
+    * The DeleteEntity function will now receive an ETHEntity handle as parameter instead of its ID.\par
+\par
+18th February 2010 - Version 0.6.2\par
+Version changes:\par
+    * New methods: ETHEntity::SetColor and ::SetAlpha methods as well as their espective Get_ methods.Now the Scene Editor shows the selected entity's name.\par
+    * Maximize button enabled in the editor.\par
+    * New global function: GetSystemScreenSize.\par
+    * All ETHEntity methods that were causing crash were fixed (they were: SetLightRange, GetLightRange, SetLightColor, GetLightColor, SetEmissiveColor nd GetEmissiveColor).\par
+    * New global function: RunQuickCallback(entity_name, callback_name).\par
+    * All sections related to custom data in the manual were renamed to "custom variable" to make it more intuitive.\par
+    * New custom data method: ETHEntity::EraseData.\par
+\par
+16th February 2010 - Version 0.6.1\par
+Version changes:\par
+    * New functions SetBackgroundImage and PositionBackgroundImage for static background images.\par
+    * New SetBackgroundColor and GetBackgroundColor function to control the background color.\par
+    * The scene editor now shows a grid while the user presses shift to align the tiles.\par
+    * The editor now checks if the script file already exists before copying it as a new project.\par
+    * It is now possible to use the "Open with..." feature with ETHPROJ files.\par
+      ETHPROJ files had been associated to the editor project manager.\par
+    * Now it uses boost::unordered_map on custom data searching.\par
+    * Faster camera scroll in scene editor.\par
+    * Bug fix: now all opened files are really closed if the project changes.\par
+\b\par
+}
+ 

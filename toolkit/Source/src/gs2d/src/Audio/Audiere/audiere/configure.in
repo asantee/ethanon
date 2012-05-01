@@ -1,0 +1,228 @@
+dnl Process this file with autoconf to produce a configure script.
+
+dnl Boilerplate code.
+
+AC_INIT(src/audiere.h)
+AC_CONFIG_AUX_DIR(config)
+
+AC_CANONICAL_SYSTEM
+
+VERSION=1.9.4
+PACKAGE="audiere"
+
+AC_SUBST(VERSION)
+AC_SUBST(PACKAGE)
+
+AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
+
+dnl Checks for options.
+
+AC_ARG_ENABLE(debug,
+    AC_HELP_STRING(--enable-debug, build debug),
+    CFLAGS="$CFLAGS -g"
+    CXXFLAGS="$CXXFLAGS -g"
+    AC_DEFINE(DEBUG))
+
+AC_ARG_ENABLE(opt,
+    AC_HELP_STRING(--enable-opt, build with optimizations),
+    CFLAGS="$CFLAGS -O2"
+    CXXFLAGS="$CXXFLAGS -O2")
+
+dnl Checks for programs.
+
+AC_PROG_CC
+AC_PROG_CPP
+AC_PROG_CXX
+AC_PROG_CXXCPP
+AC_PROG_MAKE_SET
+AM_PROG_LIBTOOL
+
+dnl We test with C++ libraries, so use the C++ compiler...
+AC_LANG(C++)
+
+dnl Checks for libraries.
+
+dnl If building on Cygwin, don't let windows.h define min() or max()
+case $host in
+  *cygwin*)
+    CXXFLAGS="-DWIN32_LEAN_AND_MEAN -DNOMINMAX -DADR_DECL= -DADR_CALL= $CXXFLAGS"
+    ;;
+esac
+
+dnl If building with gcc, build with all warnings except "class has virtual
+dnl functions but non-virtual destructor".
+if test "x$GXX" = "xyes" ; then
+   CXXFLAGS="$CXXFLAGS -Wall -Wno-non-virtual-dtor"
+fi
+if test "x$GCC" = "xyes" ; then
+   CFLAGS="$CFLAGS -Wall -Wno-non-virtual-dtor"
+fi
+
+dnl Look for pthreads
+AC_CHECK_LIB(pthread, pthread_create,
+    LIBS="-lpthread $LIBS"
+    EXTRA_LIBS="-lpthread $EXTRA_LIBS"
+  ,
+    AC_MSG_ERROR(could not find pthread library))
+
+dnl Look for FLAC
+AC_CHECK_LIB(FLAC, FLAC__seekable_stream_decoder_process_single,
+    LIBS="-lFLAC -lm $LIBS"
+    EXTRA_LIBS="-lFLAC -lm $EXTRA_LIBS"
+    HAVE_FLAC=true
+  ,
+    AC_MSG_WARN([libFLAC not found.  Install FLAC from http://flac.sourceforge.net/])
+    AC_MSG_WARN([Disabling FLAC support.])
+    AC_DEFINE(NO_FLAC)
+  ,
+    -lm)
+AM_CONDITIONAL(HAVE_FLAC, test "x$HAVE_FLAC" = "xtrue")
+
+dnl Look for DUMB
+AC_CHECK_LIB(dumb, duh_start_renderer,
+    LIBS="-ldumb $LIBS"
+    EXTRA_LIBS="-ldumb $EXTRA_LIBS"
+    HAVE_DUMB=true
+  ,
+    AC_MSG_WARN([libdumb not found.  Install DUMB from http://dumb.sourceforge.net/])
+    AC_MSG_WARN([Disabling DUMB support.])
+    AC_DEFINE(NO_DUMB))
+AM_CONDITIONAL(HAVE_DUMB, test "x$HAVE_DUMB" = "xtrue")
+
+dnl Look for libcdaudio
+AC_CHECK_LIB(cdaudio, cd_init_device,
+    LIBS="-lcdaudio $LIBS"
+    EXTRA_LIBS="-lcdaudio $EXTRA_LIBS"
+    HAVE_LIBCDAUDIO=true
+  ,
+    AC_MSG_WARN([libcdaudio not found.  Install it from http://libcdaudio.sf.net/])
+    AC_MSG_WARN([CD audio support might still be possible through another means such as winmm.]))
+AM_CONDITIONAL(HAVE_LIBCDAUDIO, test "x$HAVE_LIBCDAUDIO" = "xtrue")
+
+dnl Look for the POSIX realtime clock
+AC_SEARCH_LIBS(clock_gettime, rt,
+    AC_DEFINE(HAVE_CLOCK_GETTIME))
+
+dnl Look for SGI audio
+AC_CHECK_LIB(audio, alNewConfig,
+    HAVE_AL=true
+    AC_DEFINE(HAVE_AL)
+    LIBS="-laudio $LIBS"
+    EXTRA_LIBS="-laudio $EXTRA_LIBS")
+AM_CONDITIONAL(HAVE_AL, test "x$HAVE_AL" = "xtrue")
+
+dnl Look for wxWindows
+AC_PATH_PROG(WX_CONFIG, wx-config, no, $PATH:/usr/local/bin)
+if [[ "$WX_CONFIG" = "no" ]] ; then
+    AC_MSG_WARN([wxWindows not found, not building wxPlayer.
+        See http://www.wxwindows.org/])
+else
+    old_CXXFLAGS="$CXXFLAGS"
+    old_LIBS="$LIBS"
+    WXFLAGS=`$WX_CONFIG --cxxflags`
+    WXLIBS=`$WX_CONFIG --libs`
+    CXXFLAGS="$WXFLAGS $CXXFLAGS"
+    LIBS="$WXLIBS $LIBS"
+
+    AC_MSG_CHECKING(if small wxWindows application links)
+    AC_LINK_IFELSE(AC_LANG_SOURCE([
+        #include <wx/wx.h>
+        class App : public wxApp {
+        public:
+          bool OnInit() {
+            return false;
+          }
+        };
+        IMPLEMENT_APP(App)
+        ])
+    ,
+        AC_MSG_RESULT(yes)
+        HAVE_WXWINDOWS=true
+        AC_DEFINE(HAVE_WXWINDOWS)
+        WX_LIBS=`$WX_CONFIG --libs`
+        WX_CPPFLAGS=`$WX_CONFIG --cxxflags`
+        AC_SUBST(WX_LIBS)
+        AC_SUBST(WX_CPPFLAGS)
+    ,
+        AC_MSG_RESULT(no)
+        AC_MSG_WARN([wx-config found but linking with wxWindows failed.
+Maybe wxWindows was compiled with another compiler?]))
+
+    CXXFLAGS="$old_CXXFLAGS"
+    LIBS="$old_LIBS"
+fi
+
+AM_CONDITIONAL(HAVE_WXWINDOWS, test "x$HAVE_WXWINDOWS" = "xtrue")
+
+dnl Checks for header files.
+
+AC_HEADER_STDC
+AC_CHECK_HEADER(unistd.h)
+AC_CHECK_HEADER(sys/soundcard.h,
+    HAVE_OSS=true
+    AC_DEFINE(HAVE_OSS))
+AM_CONDITIONAL(HAVE_OSS, test "x$HAVE_OSS" = "xtrue")
+
+AC_CHECK_HEADER(vorbis/vorbisfile.h,
+    HAVE_OGG=true
+    LIBS="-lvorbisfile -lvorbis -logg $LIBS"
+    EXTRA_LIBS="-lvorbisfile -lvorbis -logg $EXTRA_LIBS"
+  ,
+    AC_MSG_WARN([Could not find vorbisfile header.  You do not appear to have libvorbis installed.
+Get libvorbis from http://www.vorbis.com/])
+    AC_MSG_WARN([Disabling Ogg Vorbis support.])
+    AC_DEFINE(NO_OGG))
+AM_CONDITIONAL(HAVE_OGG, test "x$HAVE_OGG" = "xtrue")
+
+AC_CHECK_HEADER(speex.h,
+    HAVE_SPEEX=true
+    LIBS="-lspeex $LIBS"
+    EXTRA_LIBS="-lspeex $EXTRA_LIBS"
+  ,
+    AC_MSG_WARN([Could not find speex header.  You do not appear to have libspeex installed.
+Get libspeex from http://www.speex.org/])
+    AC_MSG_WARN([Disabling speex support.])
+    AC_DEFINE(NO_SPEEX))
+AM_CONDITIONAL(HAVE_SPEEX, test "x$HAVE_SPEEX" = "xtrue")
+
+AC_CHECK_HEADER(dsound.h,
+    HAVE_DSOUND=true
+    AC_DEFINE(HAVE_DSOUND)
+    LIBS="-ldsound -lole32 -lrpcrt4 $LIBS"
+    EXTRA_LIBS="-ldsound -lole32 -lrpcrt4 $EXTRA_LIBS")
+AM_CONDITIONAL(HAVE_DSOUND, test "x$HAVE_DSOUND" = "xtrue")
+
+AC_CHECK_HEADER(mmsystem.h,
+    HAVE_WINMM=true
+    AC_DEFINE(HAVE_WINMM)
+    LIBS="-lwinmm $LIBS"
+    EXTRA_LIBS="-lwinmm $EXTRA_LIBS"
+  ,,
+    [#include <windows.h>])
+AM_CONDITIONAL(HAVE_WINMM, test "x$HAVE_WINMM" = "xtrue")
+
+dnl Checks for typedefs, structures, and compiler characteristics.
+
+AC_C_BIGENDIAN
+
+dnl Output makefiles.
+
+AC_SUBST(WORDS_BIGENDIAN)
+AC_SUBST(EXTRA_LIBS)
+AC_OUTPUT(
+        audiere-config
+	Makefile
+	doc/Makefile
+        examples/Makefile
+        examples/simple/Makefile
+        examples/wxPlayer/Makefile
+        src/Makefile
+        src/mpaudec/Makefile
+        test/Makefile
+        test/buffer/Makefile
+	test/callback/Makefile
+        test/device/Makefile
+	test/formats/Makefile
+        test/interactive/Makefile
+        test/performance/Makefile,
+    [chmod a+x audiere-config])

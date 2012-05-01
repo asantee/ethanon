@@ -1,0 +1,105 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Ethanon Engine</title>
+<base target="main">
+<style fprolloverstyle>A:hover {color: #FFFFFF; font-weight: bold}
+A { text-decoration: none; }
+</style>
+</head>
+
+<body bgcolor="#2D3A5F" link="#DFEEE3" alink="#FFFFFF" text="#FFFFFF" vlink="#DFEEE3">
+
+<p align="center">
+<a target="_blank" href="http://www.asantee.net/ethanon/">
+<img border="0" src="ethanon_logo_doc_small.png" width="218" height="12"></a></p>
+<p><b><font face="Verdana" size="4">Index</font></b></p>
+<p><font face="Verdana" size="2"><b>1.
+<a target="main" href="doc_main.htm#About_Ethanon_Engine">About Ethanon Engine</a><br>
+</b>1.1. <a target="main" href="doc_main.htm#File_formats">File formats</a><br>
+<br>
+<b>2. <a target="main" href="doc_main.htm#2D_Entities">2D entities</a><br>
+</b>2.1. <a target="main" href="doc_main.htm#Entity_Types">Entity types</a><br>
+2.1.1. <a target="main" href="doc_main.htm#Temporary_entities">Temporary 
+entities</a><br>
+2.2. <a target="main" href="doc_main.htm#Lights_and_entities">Lights and 
+entities</a><br>
+2.3. <a target="main" href="doc_main.htm#Static_and_dynamic_entities_">Static 
+and dynamic entities</a><br>
+2.4. <a target="main" href="doc_main.htm#Entity_space">Entity space</a></font></p>
+<p><font face="Verdana" size="2"><b>3.
+<a target="main" href="doc_main.htm#Ethanon_Editor">Ethanon Editor</a><br>
+</b>3.1. <a target="main" href="doc_main.htm#Input_fields">Input fields</a><br>
+3.2. <a target="main" href="doc_main.htm#ParticleFX_Editor">ParticleFX Editor</a><b><br>
+</b>3.3. <a target="main" href="doc_main.htm#Entity_Editor">Entity Editor</a><br>
+3.4. <a target="main" href="doc_main.htm#Scene_Editor">Scene Editor</a><br>
+3.5. <a target="main" href="doc_main.htm#Resource_directories">Resource 
+directories</a></font></p>
+<p><font face="Verdana" size="2"><b>4.
+<a target="main" href="doc_main.htm#Ethanon_scripting">Ethanon scripting</a><br>
+</b>4.1. <a target="main" href="doc_main.htm#Differences_from_C">Differences 
+between C++ and AS</a><br>
+4.2. <a target="main" href="doc_main.htm#How_it_works">How it works</a><br>
+4.2.1. <a target="main" href="doc_main.htm#Using_pre_compiled_byte_code">Using 
+pre-compiled byte code</a><br>
+4.2.2. <a target="main" href="doc_main.htm#Pre-loop_and_loop_fuctions">onSceneLoaded, onSceneUpdate and onResume functions</a><br>
+4.2.3. <a target="main" href="doc_main.htm#Entity_exclusive_callbacks">Entity 
+exclusive callbacks</a><br>
+4.2.4. <a target="main" href="doc_main.htm#Loop_diagram">Loop diagram</a><br>
+4.2.5. <a target="main" href="doc_main.htm#Runtime_generated_scenes">Runtime 
+generated scenes</a><br>
+4.3. <b> <a target="main" href="objects_and_global_functions.htm">Objects and 
+functions</a></b><br>
+4.3.1. <b><a target="main" href="objects_and_global_functions.htm#Name_syntax_">
+Name syntax</a></b><br>
+4.3.2. <b><a target="main" href="objects_and_global_functions.htm#Objects">
+Objects</a></b><br>
+4.3.3. <b>
+<a target="main" href="objects_and_global_functions.htm#Global_functions">Global 
+functions</a></b><br>
+4.3.4. <b><a href="objects_and_global_functions.htm#Constants">Constants</a></b><br>
+4.4. <a href="doc_main.htm#Custom_data">Custom variables</a><br>
+4.4.1. <a target="main" href="doc_main.htm#Adding_custom_data">Adding custom 
+variables</a></font><br>
+<font size="2" face="Verdana">4.4.2.
+<a target="main" href="doc_main.htm#Retrieving_custom_data">Retrieving custom 
+variables</a></font><br>
+<font face="Verdana" size="2">4.5. 
+<a target="main" href="doc_main.htm#Entity_arrays">Entity arrays</a></font><br>
+<font face="Verdana" size="2">4.5.1.
+<a href="doc_main.htm#Retrieving_the_array">Filling the array</a></font><br>
+<font face="Verdana" size="2">4.5.2.
+<a target="main" href="doc_main.htm#Reading_the_array">Reading the array</a></font><br>
+<font face="Verdana" size="2">4.6.
+<a target="main" href="doc_main.htm#Cpp_plugins">Plug-ins - importing C++ code</a></font><br>
+<font face="Verdana" size="2">4.7.
+<a target="main" href="doc_main.htm#Default_window_properties">Changing default window properties</a></font></p>
+
+<p><font face="Verdana" size="2"><b>5. 
+<a target="main" href="doc_main.htm#Scene_buckets">Scene buckets</a><br>
+</b>5.1. <a target="main" href="doc_main.htm#Creating_entity_arrays_from_a_bucket">
+Creating entity arrays from buckets</a><br>
+5.2. <a target="main" href="doc_main.htm#Changing_bucket_size">Changing bucket 
+size</a><br>
+5.3. <a target="main" href="doc_main.htm#Optimization_tips">Optimizations and 
+visual artifacts</a><br>
+5.4. <a target="main" href="doc_main.htm#Remarks_on_bucket_usage">Remarks on 
+bucket usage</a></font></p>
+<p><b><font face="Verdana" size="2">6.
+<a target="main" href="doc_main.htm#Important_remarks">Important remarks</a></font></b><br>
+<font face="Verdana" size="2">6.1.
+<a target="main" href="doc_main.htm#Engine_versions">Engine versions</a><br>
+6.2. <a target="main" href="doc_main.htm#Optimization_tips">Optimization tips</a><br>
+6.3. <a target="main" href="doc_main.htm#Safety_tips">Safety tips</a><br>
+6.4. <a target="main" href="doc_main.htm#Miscellaneous_tips_and_remarks">
+Miscellaneous tips and remarks</a></font></p>
+<hr>
+<p><b><font size="2" face="Verdana">
+<a target="_blank" href="http://www.asantee.net/ethanon/">
+www.asantee.net/ethanon</a></font></b></p>
+
+</body>
+
+</html>
