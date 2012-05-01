@@ -1,5 +1,5 @@
- Ethanon Engine (C) Copyright 2009-2011 André Santee
- http://www.asantee.net/ethanon/
+ Ethanon Engine (C) Copyright 2009-2012 Andre Santee
+ http://www.asantee.net/
 
 ABOUT:
 -----
