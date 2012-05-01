@@ -11,9 +11,42 @@
 *.la
 *.a
 
+# Unpacked vendor paths
 toolkit/Source/src/gs2d/vendors/BoostSDK/
 toolkit/Source/src/gs2d/vendors/CgSDK/
 toolkit/Source/src/gs2d/vendors/DX9SDK/
 toolkit/Source/src/gs2d/vendors/libpng/
 toolkit/Source/src/gs2d/vendors/libzip/
 toolkit/Source/src/gs2d/vendors/soil/
+
+# Visual Studio files
+*.ncb
+
+# Visual Studio binary output paths and files
+*#bin#/
+toolkit/Source/Ethanon Engine.suo
+toolkit/Source/projects/msvc9/Ethanon Editor/Debug/
+toolkit/Source/projects/msvc9/Ethanon Engine/Debug/
+toolkit/Source/projects/msvc9/Ethanon Machine/Debug/
+toolkit/Source/src/angelscript/lib/angelscriptd.lib
+toolkit/Source/src/angelscript/projects/msvc9/Debug/
+toolkit/Source/src/box2d/Build/msvc/Debug/
+toolkit/Source/src/gs2d/lib/Platform_d.lib
+toolkit/Source/src/gs2d/lib/gs2d_d.lib
+toolkit/Source/src/gs2d/projects/msvc9/GS2D/Debug/
+toolkit/Source/src/gs2d/projects/msvc9/Platform/Debug/
+toolkit/Source/src/gs2d/src/Audio/Audiere/audiere/msvc9/audiere/Release/
+toolkit/Source/projects/msvc9/Ethanon Editor/Release/
+toolkit/Source/projects/msvc9/Ethanon Engine/Release/
+toolkit/Source/projects/msvc9/Ethanon Machine/Release/
+toolkit/Source/src/angelscript/lib/angelscript.lib
+toolkit/Source/src/angelscript/lib/angelscript64.lib
+toolkit/Source/src/angelscript/lib/angelscript64d.lib
+toolkit/Source/src/angelscript/projects/msvc9/Release/
+toolkit/Source/src/angelscript/projects/msvc9/x64/
+toolkit/Source/src/box2d/Build/msvc/Release/
+toolkit/Source/src/gs2d/lib/Platform.lib
+toolkit/Source/src/gs2d/lib/gs2d.lib
+toolkit/Source/src/gs2d/projects/msvc9/GS2D/Release/
+toolkit/Source/src/gs2d/projects/msvc9/Platform/Release/
+toolkit/Source/src/gs2d/src/Audio/Audiere/audiere/msvc9/audiere/Debug/
