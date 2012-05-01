@@ -10,3 +10,10 @@
 *.lai
 *.la
 *.a
+
+toolkit/Source/src/gs2d/vendors/BoostSDK/
+toolkit/Source/src/gs2d/vendors/CgSDK/
+toolkit/Source/src/gs2d/vendors/DX9SDK/
+toolkit/Source/src/gs2d/vendors/libpng/
+toolkit/Source/src/gs2d/vendors/libzip/
+toolkit/Source/src/gs2d/vendors/soil/
