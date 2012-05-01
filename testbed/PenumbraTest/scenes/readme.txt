@@ -1,0 +1,1 @@
+Is is recommended to save all scene *.ESC files in this folder.

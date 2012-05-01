@@ -1,0 +1,1 @@
+All normal map bitmaps must be in this folder.

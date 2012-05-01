@@ -1,0 +1,13 @@
+window
+{
+	title = Ethanon Engine testbed;
+	width = 800;
+	height = 800;
+	windowed = true;
+	vsync = true;
+}
+
+rendering
+{
+	richLighting = true;
+}

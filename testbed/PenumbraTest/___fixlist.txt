@@ -1,0 +1,18 @@
+-Rename main.as to main.angelscript
+
+eth_utils.as:
+	void DrawText(const vector2 pos, const string outputString, const string sFont, const float fSize, const uint dwColor)
+	{
+		//DrawText(pos, outputString, sFont + fSize + ".fnt", dwColor);
+		// TODO: make all needed .fnt files and uncomment the line above
+	}
+
+font list:
+
+	name: "Arial Narrow", size: 15, 16 20, 25, 30, 40, 50, 60, 256 (only these characters: '0', ... '9', ':').
+	name: "Arial Black", size: 17.
+	name: "Arial", size: 30.
+	name: "Verdana", size: 15.
+
+	font file naming rule: [font filename] = [font name] + [font size] + ".fnt"
+

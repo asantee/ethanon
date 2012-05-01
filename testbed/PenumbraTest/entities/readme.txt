@@ -1,0 +1,1 @@
+All *.ENT entity files and their sprites must be in this folder. 

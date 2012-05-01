@@ -1,0 +1,227 @@
+global
+{
+	lives = 13;
+	lv1 = 200;
+	lv2 = 400;
+	lv3 = 800;
+	lv4 = 1600;
+	lv5 = 3200;
+	lv6 = 4000;
+	lv7 = 5000;
+	lv8 = 6000;
+	lv9 = 7000;
+	lv10 = 8000;
+	lv11 = 9000;
+	lv12 = 10000;
+	lv13 = 10000;
+	lv14 = 11000;
+	lv15 = 11000;
+	lv16 = 11000;
+	lv17 = 11000;
+	lv18 = 11000;
+	lv19 = 11000;
+	lv21 = 11000;
+	lv22 = 11000;
+	lv23 = 11000;
+	lv24 = 11000;
+	lv25 = 11000;
+	lv26 = 11000;
+	lv27 = 11000;
+	lv28 = 11000;
+	lv29 = 11000;
+	lv30 = 11000;
+
+	story01 =
+Pelos corredores subterrâneos
+de penumbra é possível chegar
+perto do Castelo das Sombras
+sem chamar muito a atenção;
+
+	story02 =
+Este portal mágico é usado para
+transportar as tropas do rei entre
+o subterrâneo e sua fortaleza;
+
+	story03 =
+Se conseguir passar pela fortaleza, o
+Castelo das Sombras estará bem próximo...;
+
+	story04 =
+Abaixo da fortaleza encontra-se o
+jardim do Castelo das Sombras de Penumbra;
+
+	soldados =
+Se esses soldados fossem bons, não
+teriam sido mandados aqui para baixo;
+
+	fun =
+Tentar jogar inimigos na piscina de lava
+pode ficar bem divertido;
+
+	comboTip =
+Experimente algumas combinações de teclas,
+como [frente + frente + espada] entre outras;
+
+	bridge = 
+Essas pontes precisam de
+uma boa reforma;
+
+	annoying =
+Não é chato ter que fazer o caminho
+todo outra vez?;
+
+	flyingWall =
+Como será que essas paredes flutuam?;
+
+	portalToCastle =
+Este portal deve nos levar ao
+jardim do castelo...;
+
+	warning =
+Olhe muito bem por onde pisa;
+
+	nights =
+No escuro? sim.
+Sozinho? Jamais!;
+
+	wisdom =
+Poupe mana antes de entrar na sala do rei;
+
+	arena1 =
+Este grande monumento localiza-se
+na entrada principal do Castelo
+das Sombras.;
+
+	arena2 =
+As instalações subterrâneas de penumbra
+escondem diversas belezas sombrias.
+As piscinas de lava são um exemplo.;
+
+	arena3 =
+A fortaleza do Castelo das Sombras
+possui muitas armadilhas. Olhe bem
+por onde pisa.;
+
+	arena4 =
+Se Penumbra fosse uma terra mais
+amigável, o jardim do Castelo das
+Sombras poderia ter muito verde e
+flores. Não é este o caso.;
+
+	arena5 =
+Pouco se sabe sobre este misterioso
+local. Alguns dizem que foi erguido
+para prestar um tributo aos deuses
+que habitam outros mundos.;
+
+	arena6 =
+O clima em Penumbra é muito
+agradável. Quando acaba a neblina,
+vem a tempestade. Depois, anoitece.;
+}
+
+warrior
+{
+	hp = 75;
+	speed = 50;
+	stride = 150;
+	coolDown = 800;
+	viewRadius = 180;
+	attackRadius = 40;
+	damage = 5;
+	waitBeforeAttack = 0;
+	jumpBackAfterAttack = 0;
+	fireResistant = 0;
+	pushBackBias = 1;
+}
+
+minion
+{
+	hp = 45;
+	speed = 150;
+	stride = 150;
+	coolDown = 800;
+	viewRadius = 500;
+	attackRadius = 40;
+	damage = 20;
+	waitBeforeAttack = 0;
+	jumpBackAfterAttack = 0;
+	fireResistant = 1;
+	pushBackBias = 1;
+	chaseSfx = minion.ogg;
+}
+
+knight
+{
+	hp = 150;
+	speed = 80;
+	stride = 110;
+	coolDown = 300;
+	viewRadius = 180;
+	attackRadius = 43;
+	damage = 10;
+	waitBeforeAttack = 0;
+	jumpBackAfterAttack = 1;
+	fireResistant = 0;
+	pushBackBias = 0.1;
+}
+
+master_knight
+{
+	hp = 1700;
+	speed = 100;
+	stride = 150;
+	coolDown = 420;
+	viewRadius = 230;
+	attackRadius = 80;
+	damage = 25;
+	waitBeforeAttack = 1;
+	jumpBackAfterAttack = 0;
+	fireResistant = 0;
+	pushBackBias = 0.05;
+}
+
+impy
+{
+	hp = 75;
+	speed = 120;
+	stride = 100;
+	coolDown = 1500;
+	viewRadius = 600;
+	attackRadius = 100;
+	damage = 18;
+	waitBeforeAttack = 0;
+	jumpBackAfterAttack = 0;
+	fireResistant = 1;
+	pushBackBias = 0;
+}
+
+paladin
+{
+	hp = 400;
+	speed = 80;
+	stride = 120;
+	coolDown = 550;
+	viewRadius = 280;
+	attackRadius = 47;
+	damage = 20;
+	waitBeforeAttack = 0;
+	jumpBackAfterAttack = 1;
+	fireResistant = 1;
+	pushBackBias = 0.05;
+}
+
+king
+{
+	hp = 3500;
+	speed = 100;
+	stride = 120;
+	coolDown = 1000;
+	viewRadius = 280;
+	attackRadius = 35;
+	damage = 10;
+	waitBeforeAttack = 0;
+	jumpBackAfterAttack = 1;
+	fireResistant = 0;
+	pushBackBias = 0.15;
+}

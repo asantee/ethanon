@@ -1,0 +1,99 @@
+/*--------------------------------------------------------------------------------------
+ Ethanon Engine (C) Copyright 2008-2011 Andre Santee
+ http://www.asantee.net/ethanon/
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy of this
+	software and associated documentation files (the "Software"), to deal in the
+	Software without restriction, including without limitation the rights to use, copy,
+	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+	and to permit persons to whom the Software is furnished to do so, subject to the
+	following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+--------------------------------------------------------------------------------------*/
+
+// the following global uniform parameters are set automaticaly
+// by the GameSpaceLib runtime
+
+// sprite and screen properties:
+uniform float4x4 viewMatrix;     // orthogonal matrix for the screen space
+uniform float4x4 rotationMatrix; // sprite rotation matrix
+uniform float2 screenSize;       // current screen size
+uniform float2 size;             // sprite width and height
+uniform float2 entityPos;        // sprite position
+uniform float2 center;           // sprite origin (in pixels)
+uniform float2 bitmapSize;       // sprite size
+uniform float2 rectPos;          // texture rect cut position (in pixels)
+uniform float2 rectSize;         // texture rect cut size (in pixels)
+uniform float2 scroll;           // texture scroll parameter
+uniform float2 multiply;         // texture multiply
+uniform float4 color0;           // left-top vertex color
+uniform float4 color1;           // right-top vertex color
+uniform float4 color2;           // left-bottom vertex color
+uniform float4 color3;           // right-bottom vertex color
+uniform float2 flipAdd;          // this is added to the vertex position to flip it
+uniform float2 flipMul;          // this is multiplied by the vertex position do flip it
+uniform float2 cameraPos;
+uniform float depth;
+uniform float shadowLength;
+uniform float lightRange;
+uniform float3 lightPos;
+uniform float entityZ;
+uniform float shadowZ;
+
+struct SPRITE_TRANSFORM
+{
+	float4 position;
+	float2 vertPos;
+};
+
+SPRITE_TRANSFORM transformSprite(float3 position, float v)
+{
+	// 'extrude' equals 1 if this is one of the upper vertices
+	const float extrude = 1-v;
+
+	SPRITE_TRANSFORM r;
+	float4 newPos = float4(position, 1);
+	newPos = newPos * float4(size,1,1) - float4(center, 0, 0);
+	newPos = mul(rotationMatrix, newPos)+float4(entityPos,0,0);
+
+	// extrude the shadow
+	float2 lightVec = normalize(entityPos-lightPos.xy);
+	float2 shadowDir = normalize(newPos.xy-lightPos.xy)*shadowLength*extrude;
+	
+	// push back the shadow a little bit so it won't look odd
+	newPos += float4(-lightVec*((shadowLength/6)-entityZ),0,0);
+	newPos.x += (shadowDir.x);
+	newPos.y += (shadowDir.y);
+
+	r.vertPos = newPos.xy;
+
+	// project the vertex to the screen
+	newPos -= float4(screenSize/2,0,0)+float4(cameraPos,0,0);
+	newPos.y =-newPos.y+shadowZ;
+	r.position = mul(viewMatrix, newPos);
+	return r;
+}
+
+// GS_SPRITE::DrawSprite:
+// main sprite program
+void main(	float3 position : POSITION,
+			float2 texCoord : TEXCOORD0,
+			out float4 oPosition : POSITION,
+			out float4 oColor    : COLOR0,
+			out float2 oTexCoord0 : TEXCOORD0)
+{
+	SPRITE_TRANSFORM outPos = transformSprite(position, texCoord.y);
+	outPos.position.z = 1-depth;
+	oPosition = outPos.position;
+	oTexCoord0 = texCoord;
+	oColor = color0;
+}

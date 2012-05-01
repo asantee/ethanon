@@ -1,0 +1,116 @@
+/*--------------------------------------------------------------------------------------
+ Ethanon Engine (C) Copyright 2008-2011 Andre Santee
+ http://www.asantee.net/ethanon/
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy of this
+	software and associated documentation files (the "Software"), to deal in the
+	Software without restriction, including without limitation the rights to use, copy,
+	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+	and to permit persons to whom the Software is furnished to do so, subject to the
+	following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+--------------------------------------------------------------------------------------*/
+
+// sprite and screen properties
+uniform float4x4 viewMatrix;
+uniform float4x4 rotationMatrix;
+uniform float2 screenSize;
+uniform float2 size;
+uniform float2 entityPos;
+uniform float2 center;
+uniform float2 bitmapSize;
+uniform float2 rectPos;
+uniform float2 rectSize;
+uniform float2 scroll;
+uniform float2 multiply;
+uniform float4 color0;
+uniform float4 color1;
+uniform float4 color2;
+uniform float4 color3;
+uniform float2 flipAdd;
+uniform float2 flipMul;
+uniform float2 cameraPos;
+uniform float depth;
+uniform float lightIntensity;
+
+uniform float3 pivotAdjust;
+uniform float3 lightPos;
+uniform float lightRange;
+uniform float4 lightColor;
+
+uniform float2 parallaxOrigin;
+uniform float parallaxIntensity;
+uniform float3 entityPos3D;
+float2 computeParallaxOffset()
+{
+	const float2 screenSpacePos = float2(entityPos3D.x, entityPos3D.y)-cameraPos;
+	return ((screenSpacePos-parallaxOrigin)/screenSize.x)*entityPos3D.z*parallaxIntensity;
+}
+struct SPRITE_TRANSFORM
+{
+	float4 position;
+	float2 vertPos;
+};
+SPRITE_TRANSFORM transformSprite(float3 position)
+{
+	SPRITE_TRANSFORM r;
+	float4 newPos = float4(position, 1);
+	newPos = newPos * float4(size,1,1) - float4(center, 0, 0);
+	newPos = mul(rotationMatrix, newPos)+float4(entityPos,0,0);
+	r.vertPos = newPos.xy;
+	
+	// project the vertex on the screen
+	newPos -= float4(screenSize/2,0,0)+float4(cameraPos,0,0);
+	newPos += float4(computeParallaxOffset(),0,0);
+	newPos *= float4(1,-1,1,1);
+	r.position = mul(viewMatrix, newPos);
+	return r;
+}
+
+// returns the texture coordinate according to the rect
+float2 transformCoord(float2 texCoord)
+{
+	float2 newCoord = texCoord * (rectSize/bitmapSize);
+	newCoord += (rectPos/bitmapSize);
+	return (newCoord+(scroll/bitmapSize))*multiply;
+}
+
+// main sprite program (with per-pixel lighting)
+void sprite_pvl(float3 position : POSITION,
+				float2 texCoord : TEXCOORD0,
+				out float4 oPosition : POSITION,
+				out float4 oColor    : COLOR0,
+				out float2 oTexCoord : TEXCOORD0,
+				out float2 oVertPos : TEXCOORD1,
+				uniform float3 topLeft3DPos,
+				uniform float spaceLength)
+{
+	SPRITE_TRANSFORM transform = transformSprite(position);
+	transform.position.z = (1-depth) - (((1-position.y)*rectSize.y)/spaceLength);;
+	oPosition = transform.position;
+	oVertPos = transform.vertPos;
+	oTexCoord = transformCoord(texCoord);
+	
+	lightColor.a = 1.0;
+	
+	float3 vertPos3D = topLeft3DPos + (float3(position.x,0,position.y)*float3(size.x,0,-size.y));
+	
+	float3 lightVec = vertPos3D-lightPos;
+	float squaredDist = dot(lightVec,lightVec);
+
+	float3 normalColor = float3(0.0,-1.0,0.0);
+	float diffuseLight = dot(normalize(lightVec), normalColor);
+	float squaredRange = lightRange*lightRange;
+	squaredRange = max(squaredDist, squaredRange);
+	float attenBias = 1-(squaredDist/squaredRange);
+	oColor = color0*diffuseLight*attenBias*lightColor*lightIntensity;
+}
