@@ -21,6 +21,8 @@ toolkit/Source/src/gs2d/vendors/soil/
 
 # Visual Studio files
 *.ncb
+*.suo
+*.user
 
 # Visual Studio binary output paths and files
 *#bin#/
