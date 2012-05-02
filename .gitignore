@@ -24,6 +24,10 @@ toolkit/Source/src/gs2d/vendors/soil/
 *.suo
 *.user
 
+# Xcode output files
+toolkit/Source/projects/xcode/Ethanon.xcodeproj/project.xcworkspace/xcuserdata/
+toolkit/Source/projects/xcode/Ethanon.xcodeproj/xcuserdata/
+
 # Visual Studio binary output paths and files
 *#bin#/
 toolkit/Source/Ethanon Engine.suo
