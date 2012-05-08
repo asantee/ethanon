@@ -20,10 +20,18 @@ toolkit/Source/src/gs2d/vendors/libpng/
 toolkit/Source/src/gs2d/vendors/libzip/
 toolkit/Source/src/gs2d/vendors/soil/
 
+# Virtual machine dump files
+*AS_DEBUG/
+*.log.txt
+*.bin.readme.txt
+test.enml
+info.enml
+
 # Visual Studio files
 *.ncb
 *.suo
 *.user
+*.bin
 
 # Xcode output files
 toolkit/Source/projects/xcode/Ethanon.xcodeproj/project.xcworkspace/xcuserdata/

@@ -671,11 +671,13 @@ bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline
 							video->RoundUpPosition(false);
 							if (AreRealTimeShadowsEnabled())
 							{
+								video->SetScissor(false);
 								if (shaderManager->BeginShadowPass(pRenderEntity, &(*iter), m_maxSceneHeight, m_minSceneHeight))
 								{
 									pRenderEntity->DrawShadow(m_maxSceneHeight, m_minSceneHeight, m_sceneProps, *iter, 0);
 									shaderManager->EndShadowPass();
 								}
+								video->SetScissor(true);
 							}
 							video->RoundUpPosition(roundUp);
 						}
