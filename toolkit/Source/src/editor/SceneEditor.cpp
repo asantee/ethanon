@@ -1270,7 +1270,7 @@ void SceneEditor::DrawEntitySelectionGrid(SpritePtr pNextAppButton)
 		float bias = 1.0f;
 		if (pSprite)
 		{
-			const Vector2 v2Size = pSprite->GetBitmapSizeF();
+			const Vector2 v2Size = pSprite->GetFrameSize();
 			const float largestSize = Max(v2Size.x, v2Size.y);
 			Vector2 v2NewSize = v2Size;
 			if (v2Size.x > _ENTITY_SELECTION_BAR_HEIGHT || v2Size.y > _ENTITY_SELECTION_BAR_HEIGHT)
