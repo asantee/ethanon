@@ -344,6 +344,10 @@ bool ETHScene::GenerateLightmaps(const int id)
 				ETHLightmapGen((*iter), m_provider->GetShaderManager(), m_lights.begin(), m_lights.end(),
 					m_buckets, oldPos, newPos, m_minSceneHeight, m_maxSceneHeight, m_sceneProps);
 			}
+			else
+			{
+				(*iter)->ReleaseLightmap();
+			}
 
 			(*iter)->SetOrphanPosition(oldPos);
 			m_lights.clear();
