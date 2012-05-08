@@ -978,9 +978,11 @@ inline float PlaneDotVector(const Plane& plane, const Vector2& vec)
 
 namespace constant {
 const Vector2 HALF_VECTOR2(0.5f, 0.5f);
-const Vector2 ZERO_VECTOR2(0.5f, 0.5f);
+const Vector2 ZERO_VECTOR2(0.0f, 0.0f);
+const Vector2 ONE_VECTOR2(1.0f, 1.0f);
 const Vector3 HALF_VECTOR3(0.5f, 0.5f, 0.5f);
-const Vector3 ZERO_VECTOR3(0.5f, 0.5f, 0.5f);
+const Vector3 ZERO_VECTOR3(0.0f, 0.0f, 0.0f);
+const Vector3 ONE_VECTOR3(1.0f, 1.0f, 1.0f);
 } // namespace constant
 
 } // namespace math

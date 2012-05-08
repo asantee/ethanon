@@ -1283,6 +1283,9 @@ void EntityEditor::DrawEntity()
 		}
 	}
 
+	m_sceneProps.ambient =
+		(m_pEditEntity->applyLight) ? Vector3(_ETH_DEFAULT_AMBIENT_LIGHT,_ETH_DEFAULT_AMBIENT_LIGHT,_ETH_DEFAULT_AMBIENT_LIGHT) : constant::ONE_VECTOR3;
+
 	video->SetZWrite(true);
 	video->SetZBuffer(true);
 
@@ -1292,8 +1295,6 @@ void EntityEditor::DrawEntity()
 
 	video->SetZWrite(false);
 	video->SetZBuffer(false);
-
-	m_sceneProps.ambient = Vector3(_ETH_DEFAULT_AMBIENT_LIGHT,_ETH_DEFAULT_AMBIENT_LIGHT,_ETH_DEFAULT_AMBIENT_LIGHT);
 
 	video->SetZWrite(false);
 	video->SetZBuffer(true);

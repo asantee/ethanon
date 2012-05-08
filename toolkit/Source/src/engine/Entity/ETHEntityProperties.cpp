@@ -27,7 +27,7 @@ void ETHEntityMaterial::Reset()
 {
 	emissiveColor = Vector4(0,0,0,0);
 	castShadow = ETH_FALSE;
-	applyLight = ETH_TRUE;
+	applyLight = ETH_FALSE;
 	sensor = ETH_FALSE;
 	fixedRotation = ETH_FALSE;
 	bullet = ETH_FALSE;
