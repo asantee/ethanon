@@ -730,7 +730,8 @@ bool ETHParticleManager::DrawParticleSystem(Vector3 v3Ambient, const float maxHe
 	if (!m_pBMP)
 	{
 		ETH_STREAM_DECL(ss) << GS_L("ETHParticleManager::DrawParticleSystem: Invalid particle system bitmap");
-		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
+		m_provider->Log(ss.str(), Platform::FileLogger::WARNING);
+		return false;
 	}
 
 	GS_ALPHA_MODE alpha = m_provider->GetVideo()->GetAlphaMode();
