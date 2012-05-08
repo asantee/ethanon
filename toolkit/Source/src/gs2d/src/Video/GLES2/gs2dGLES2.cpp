@@ -641,9 +641,22 @@ bool GLES2Video::IsRoundingUpPosition() const
 	return m_roundUpPosition;
 }
 
-bool GLES2Video::SetScissor(const Rect2D &rect)
+bool GLES2Video::SetScissor(const bool& enable)
 {
-	glEnable(GL_SCISSOR_TEST);
+	if (enable)
+	{
+		glEnable(GL_SCISSOR_TEST);
+	}
+	else
+	{
+		glDisable(GL_SCISSOR_TEST);
+	}
+	return true;
+}
+
+bool GLES2Video::SetScissor(const Rect2D& rect)
+{
+	SetScissor(true);
 	GLint posY;
 	TexturePtr target = m_currentTarget.lock();
 	if (target)
@@ -671,7 +684,7 @@ Rect2D GLES2Video::GetScissor() const
 
 void GLES2Video::UnsetScissor()
 {
-	glDisable(GL_SCISSOR_TEST);
+	SetScissor(false);
 }
 
 void GLES2Video::SetBitmapFontDefaultPath(const str_type::string& path)

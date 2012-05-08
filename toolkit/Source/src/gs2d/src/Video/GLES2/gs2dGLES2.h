@@ -152,7 +152,8 @@ public:
 	void RoundUpPosition(const bool roundUp);
 	bool IsRoundingUpPosition() const;
 
-	bool SetScissor(const math::Rect2D &rect);
+	bool SetScissor(const bool& enable);
+	bool SetScissor(const math::Rect2D& rect);
 	math::Rect2D GetScissor() const;
 	void UnsetScissor();
 

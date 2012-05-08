@@ -688,7 +688,12 @@ bool D3D9Video::GetZWrite() const
 	return (dwEnable != FALSE);
 }
 
-bool D3D9Video::SetScissor(const Rect2D &rect)
+bool D3D9Video::SetScissor(const bool& enable)
+{
+	return (m_pDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, (enable) ? TRUE : FALSE) == D3D_OK);
+}
+
+bool D3D9Video::SetScissor(const Rect2D& rect)
 {
 	m_scissor = rect;
 	if (!m_videoInfo->m_scissorSupported)
@@ -718,11 +723,11 @@ bool D3D9Video::SetScissor(const Rect2D &rect)
 	if (wrect.right >= wrect.left && wrect.bottom >= wrect.top)
 	{
 		m_pDevice->SetScissorRect(&wrect);
-		m_pDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, TRUE);
+		SetScissor(true);
 	}
 	else
 	{
-		m_pDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
+		SetScissor(false);
 	}
 	return true;
 }

@@ -332,6 +332,7 @@ public:
 	virtual bool IsRoundingUpPosition() const = 0;
 
 	virtual bool SetScissor(const math::Rect2D &rect) = 0;
+	virtual bool SetScissor(const bool &enable) = 0;
 	virtual math::Rect2D GetScissor() const = 0;
 	virtual void UnsetScissor() = 0;
 

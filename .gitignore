@@ -2,6 +2,7 @@
 *.slo
 *.lo
 *.o
+*.o.d
 
 # Compiled Dynamic libraries
 *.so
@@ -56,3 +57,16 @@ toolkit/Source/src/gs2d/lib/gs2d.lib
 toolkit/Source/src/gs2d/projects/msvc9/GS2D/Release/
 toolkit/Source/src/gs2d/projects/msvc9/Platform/Release/
 toolkit/Source/src/gs2d/src/Audio/Audiere/audiere/msvc9/audiere/Debug/
+
+# Cygwin binary output paths
+toolkit/Source/src/gs2d/projects/Android/Ethanon/libs/
+toolkit/Source/src/gs2d/projects/Android/Ethanon/obj/
+toolkit/Source/src/gs2d/projects/Android/Ethanon/src/Audio/
+toolkit/Source/src/gs2d/projects/Android/Ethanon/src/Input/
+toolkit/Source/src/gs2d/projects/Android/Ethanon/src/Platform/
+toolkit/Source/src/gs2d/projects/Android/Ethanon/src/Video/
+toolkit/Source/src/gs2d/projects/Android/Ethanon/src/gs2d.o.d
+toolkit/Source/src/gs2d/projects/Android/addons/
+toolkit/Source/src/gs2d/projects/Android/engine/
+toolkit/Source/src/gs2d/projects/Android/soil/
+toolkit/Source/src/gs2d/projects/Android/vendors/

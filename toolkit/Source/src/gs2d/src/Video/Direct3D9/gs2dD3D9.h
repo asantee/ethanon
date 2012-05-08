@@ -448,6 +448,7 @@ public:
 	bool IsRoundingUpPosition() const;
 
 	bool SetScissor(const math::Rect2D &rect);
+	bool SetScissor(const bool &enable);
 	math::Rect2D GetScissor() const;
 	void UnsetScissor();
 
