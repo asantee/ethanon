@@ -87,7 +87,7 @@ bool ETHSceneProperties::WriteToXMLFile(TiXmlElement *pRoot) const
 
 void ETHSceneProperties::Reset()
 {
-	ambient = Vector3(_ETH_DEFAULT_AMBIENT_LIGHT,_ETH_DEFAULT_AMBIENT_LIGHT,_ETH_DEFAULT_AMBIENT_LIGHT);
+	ambient = constant::ONE_VECTOR3; // Vector3(_ETH_DEFAULT_AMBIENT_LIGHT,_ETH_DEFAULT_AMBIENT_LIGHT,_ETH_DEFAULT_AMBIENT_LIGHT);
 	lightIntensity = _ETH_DEFAULT_LIGHT_INTENSITY;
 	zAxisDirection = Vector2(0,-1);
 	parallaxIntensity = 0;
