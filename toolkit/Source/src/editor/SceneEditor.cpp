@@ -40,7 +40,6 @@ SceneEditor::SceneEditor(ETHResourceProviderPtr provider) :
 	m_slidingCamera(false),
 	m_currentEntity(0)
 {
-	m_nEntities = 0;
 	m_currentEntityIdx = 0;
 	m_updateLights = false;
 	m_genLightmapForThisOneOnly =-1;
@@ -341,7 +340,7 @@ string SceneEditor::DoEditor(SpritePtr pNextAppButton)
 
 	EditParallax();
 
-	if (m_nEntities <= 0)
+	if (m_entityFiles.empty())
 	{
 		ShadowPrint(Vector2(256,400), L"There are no entities\nCreate your .ENT files first", L"Verdana24_shadow.fnt", GS_WHITE);
 	}
@@ -919,7 +918,7 @@ void SceneEditor::PlaceEntitySelection()
 		return;
 	}
 
-	if (m_nEntities <= 0)
+	if (m_entityFiles.empty())
 	{
 		return;
 	}
@@ -939,10 +938,10 @@ void SceneEditor::PlaceEntitySelection()
 	{
 		m_currentEntityIdx += wheelValue;
 
-		if (m_currentEntityIdx >= m_nEntities)
+		if (m_currentEntityIdx >= static_cast<int>(m_entityFiles.size()))
 			m_currentEntityIdx = 0;
 		if (m_currentEntityIdx < 0)
-			m_currentEntityIdx = m_nEntities-1;
+			m_currentEntityIdx = m_entityFiles.size() - 1;
 
 		// move the entity up and down (along the Z axis)
 		if (m_provider->GetInput()->GetKeyState(GSK_PAGEUP) == GSKS_HIT)
@@ -1156,7 +1155,7 @@ void SceneEditor::UpdateInternalData()
 
 void SceneEditor::EntityPlacer()
 {
-	if (m_nEntities <= 0)
+	if (m_entityFiles.empty())
 		return;
 
 	if (m_provider->GetInput()->GetLeftClickState() == GSKS_HIT)
@@ -1210,7 +1209,7 @@ void SceneEditor::DrawEntitySelectionGrid(SpritePtr pNextAppButton)
 	m_provider->GetVideo()->DrawRectangle(Vector2(0, barPosY), Vector2(barWidth, barHeight),
 		0x00000000, 0x00000000, pStyle->inactive_bottom, pStyle->inactive_bottom, 0.0f);
 
-	if (m_nEntities <= 0)
+	if (m_entityFiles.empty())
 		return;
 
 	const bool zBuffer = m_provider->GetVideo()->GetZBuffer();
@@ -1218,7 +1217,7 @@ void SceneEditor::DrawEntitySelectionGrid(SpritePtr pNextAppButton)
 	m_provider->GetVideo()->SetZBuffer(false);
 	m_provider->GetVideo()->RoundUpPosition(true);
 
-	const float fullLengthSize = _ENTITY_SELECTION_BAR_HEIGHT*static_cast<float>(m_nEntities);
+	const float fullLengthSize = _ENTITY_SELECTION_BAR_HEIGHT*static_cast<float>(m_entityFiles.size());
 	float globalOffset = 0.0f;
 
 	// adjust the horizontal offset
@@ -1243,13 +1242,21 @@ void SceneEditor::DrawEntitySelectionGrid(SpritePtr pNextAppButton)
 	wstring textToDraw;
 	const Vector2 v2Cam = m_provider->GetVideo()->GetCameraPos();
 	m_provider->GetVideo()->SetCameraPos(Vector2(0,0));
-	for (int t=0; t<m_nEntities; t++)
+	for (std::size_t t = 0; t < m_entityFiles.size(); t++)
 	{
 		SpritePtr pSprite = m_provider->GetGraphicResourceManager()->GetPointer(
 			m_provider->GetVideo(), 
 			utf8::c(m_entityFiles[t]->spriteFile).wc_str(), utf8::c(GetCurrentProjectPath(true)).wc_str(), 
 			ETHDirectories::GetEntityPath(), false
 		);
+
+		if (!m_entityFiles[t]->spriteFile.empty() && !pSprite)
+		{
+			m_provider->GetVideo()->Message(str_type::string(GS_L("Removing entity from list: ")) + m_entityFiles[t]->entityName, GSMT_WARNING);
+			m_entityFiles.erase(m_entityFiles.begin() + t);
+			t--;
+			continue;
+		}
 
 		const Vector2 v2Pos = Vector2(offset+globalOffset, barPosY+heightOffset)+v2HalfTile;
 
@@ -1445,7 +1452,7 @@ void SceneEditor::UpdateEntities()
 
 int SceneEditor::GetEntityByName(const string &name)
 {
-	for (int t=0; t<m_nEntities; t++)
+	for (std::size_t t = 0; t < m_entityFiles.size(); t++)
 	{
 		if (utf8::c(m_entityFiles[t]->entityName).str() == name)
 		{
@@ -1564,7 +1571,6 @@ void SceneEditor::ReloadFiles()
 
 	entityFiles.ListDirectoryFiles(utf8::c(currentProjectPath).wc_str(), L"ent");
 	const int nFiles = entityFiles.GetNumFiles();
-	m_nEntities = nFiles;
 	if (nFiles >= 1)
 	{
 		m_entityFiles.resize(nFiles);

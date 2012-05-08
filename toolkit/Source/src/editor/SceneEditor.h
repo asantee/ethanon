@@ -86,7 +86,6 @@ private:
 	void EditParallax();
 	void CentralizeShortcut();
 	vector<boost::shared_ptr<ETHEntityProperties> > m_entityFiles;
-	int m_nEntities;
 	Vector3 m_v3Pos;
 	Vector2 m_v2CamPos;
 
