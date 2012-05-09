@@ -264,7 +264,11 @@ void ETHCallback_motor(ETHEntity@ thisEntity)
 {
 	ETHPhysicsController@ controller = thisEntity.GetPhysicsController();
 	ETHRevoluteJoint@ joint = controller.GetRevoluteJoint(0);
-	joint.SetMotorSpeed(-5.0f);
+	ETHInput@ input = GetInputHandle();
+	if (input.GetLeftClickState() == KS_DOWN)
+	{
+		joint.SetMotorSpeed((thisEntity.GetPositionXY().x - input.GetCursorPos().x) / 100.0f);
+	}
 }
 
 void ETHCallback_character(ETHEntity@ thisEntity)
