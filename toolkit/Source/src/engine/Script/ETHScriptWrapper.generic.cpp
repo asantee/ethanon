@@ -280,7 +280,7 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void print(const uint)",       asFUNCTION(__PrintUInt),  asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in)", asFUNCTION(__LoadScene1Arg), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in, const string &in, const string &in)",                                      asFUNCTION(__LoadSceneSSSArgs), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in, const string &in, const string &in onSceneUpdate = \"\")",                                      asFUNCTION(__LoadSceneSSSArgs), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in, const string &in, const string &in, const string &in)",                    asFUNCTION(__LoadSceneSSSSArgs), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in, const string &in, const string &in, const vector2 &in)",                   asFUNCTION(__LoadSceneSSSVArgs), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in, const string &in, const string &in, const string &in, const vector2 &in)", asFUNCTION(__LoadSceneSSSSVArgs), asCALL_GENERIC); assert(r >= 0);
@@ -292,10 +292,10 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void Exit()",                       asFUNCTION(__Exit),           asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("uint GetLastFrameElapsedTime()",    asFUNCTION(__GetLastFrameElapsedTime), asCALL_GENERIC); assert(r >= 0);
 
-	r = pASEngine->RegisterGlobalFunction("int AddEntity(const string &in, const vector3 &in, const float)",       asFUNCTION(__AddEntityA), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("int AddEntity(const string &in, const vector3 &in, ETHEntity@ &out)",   asFUNCTION(__AddEntityR), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("int AddEntity(const string &in, const vector3 &in, const string &in)",  asFUNCTION(__AddEntityN), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("int AddScaledEntity(const string &in, const vector3 &in, const float)", asFUNCTION(__AddEntityS), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("int AddEntity(const string &in, const vector3 &in, const float angle = 0.0f)", asFUNCTION(__AddEntityA), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("int AddEntity(const string &in, const vector3 &in, ETHEntity@ &out)",    asFUNCTION(__AddEntityR), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("int AddEntity(const string &in, const vector3 &in, const string &in)",   asFUNCTION(__AddEntityN), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("int AddScaledEntity(const string &in, const vector3 &in, const float)",  asFUNCTION(__AddEntityS), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("int AddScaledEntity(const string &in, const vector3 &in, const float, ETHEntity@ &out)", asFUNCTION(__AddEntitySR), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("int AddEntity(const string &in, const vector3 &in, const float, ETHEntity@ &out, const string &in, const float)", asFUNCTION(__AddEntityF), asCALL_GENERIC); assert(r >= 0);
 

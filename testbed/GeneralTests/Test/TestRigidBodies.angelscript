@@ -184,11 +184,11 @@ class TestRigidBodies : Test
 			}
 			if (input.GetKeyState(K_U) == KS_HIT)
 			{
-				AddEntity("ushape.ent", vector3(input.GetCursorPos(), 0.0f), 0.0f);
+				AddEntity("ushape.ent", vector3(input.GetCursorPos(), 0.0f));
 			}
 			if (input.GetKeyState(K_L) == KS_HIT)
 			{
-				AddEntity("lolipop.ent", vector3(input.GetCursorPos(), 0.0f), 0.0f);
+				AddEntity("lolipop.ent", vector3(input.GetCursorPos(), 0.0f));
 			}
 		}
 		else
