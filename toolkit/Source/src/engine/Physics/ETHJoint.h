@@ -53,13 +53,6 @@ public:
 	virtual void Destroy() = 0;
 };
 
-	/*jointDef.lowerAngle = -0.5f * b2_pi; // -90 degrees
-	jointDef.upperAngle = 0.25f * b2_pi; // 45 degrees
-	jointDef.enableLimit = true;
-	jointDef.maxMotorTorque = 10.0f;
-	jointDef.motorSpeed = 0.0f;
-	jointDef.enableMotor = true*/
-
 typedef boost::shared_ptr<ETHJoint> ETHJointPtr;
 
 #endif
