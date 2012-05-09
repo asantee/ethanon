@@ -37,6 +37,14 @@ info.enml
 toolkit/Source/projects/xcode/Ethanon.xcodeproj/project.xcworkspace/xcuserdata/
 toolkit/Source/projects/xcode/Ethanon.xcodeproj/xcuserdata/
 
+# Frequently used binaries
+audiere.dll
+cg.dll
+cgD3D9.dll
+d3dx9_42.dll
+machine.exe
+editor.exe
+
 # Visual Studio binary output paths and files
 *#bin#/
 toolkit/Source/Ethanon Engine.suo
