@@ -153,23 +153,8 @@ ETHPhysicsEntityControllerPtr ETHPhysicsSimulator::CreatePhysicsController(
 
 void ETHPhysicsSimulator::Update(const unsigned long lastFrameElapsedTime)
 {
-	float step;
-	if (!m_fixedTimeStep)
-	{
-		const float currentStep = static_cast<float32>(lastFrameElapsedTime) / 1000.0f;
-		m_timeStepUpdateTime += currentStep;
-		if (m_timeStepUpdateTime > 0.25f)
-		{
-			const float add = Sign(currentStep - m_dynamicTimeStep) * Min(1.0f / 120.0f, Abs(m_dynamicTimeStep - currentStep));
-			m_dynamicTimeStep += add;
-			m_timeStepUpdateTime = 0.0f;
-		}
-		step = m_dynamicTimeStep;
-	}
-	else
-	{
-		step = m_fixedTimeStepValue;
-	}
+	m_dynamicTimeStep = (static_cast<float32>(lastFrameElapsedTime) / 1000.0f);
+	const float step = (!m_fixedTimeStep) ? m_dynamicTimeStep : m_fixedTimeStepValue;
 	m_world->Step(step * m_timeStepScale, m_velocityIterations, m_positionIterations);
 }
 
