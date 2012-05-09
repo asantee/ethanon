@@ -287,6 +287,8 @@ public:
 	static void PrintUInt(const unsigned int n);
 	static unsigned long GetLastFrameElapsedTime();
 	static str_type::string GetStringFromFileInPackage(const str_type::string& fileName);
+	static bool FileInPackageExists(const str_type::string& fileName);
+	static bool FileExists(const str_type::string& fileName);
 
 	static void SetGravity(const Vector2& gravity);
 	static Vector2 GetGravity();

@@ -196,6 +196,8 @@ asDECLARE_FUNCTION_WRAPPER(__ReleaseResources,           ETHScriptWrapper::Relea
 asDECLARE_FUNCTION_WRAPPER(__ResolveJoints,              ETHScriptWrapper::ResolveJoints);
 asDECLARE_FUNCTION_WRAPPER(__SetFastGarbageCollector,    ETHScriptWrapper::SetFastGarbageCollector);
 asDECLARE_FUNCTION_WRAPPER(__GetStringFromFileInPackage, ETHScriptWrapper::GetStringFromFileInPackage);
+asDECLARE_FUNCTION_WRAPPER(__FileInPackageExists,        ETHScriptWrapper::FileInPackageExists);
+asDECLARE_FUNCTION_WRAPPER(__FileExists,                 ETHScriptWrapper::FileExists);
 asDECLARE_FUNCTION_WRAPPER(__IsHighEndDevice,            ETHScriptWrapper::IsHighEndDevice);
 
 asDECLARE_FUNCTION_WRAPPER(__SetGravity, ETHScriptWrapper::SetGravity);
@@ -299,7 +301,7 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("int AddScaledEntity(const string &in, const vector3 &in, const float, ETHEntity@ &out)", asFUNCTION(__AddEntitySR), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("int AddEntity(const string &in, const vector3 &in, const float, ETHEntity@ &out, const string &in, const float)", asFUNCTION(__AddEntityF), asCALL_GENERIC); assert(r >= 0);
 
-	r = pASEngine->RegisterGlobalFunction("ETHEntity @DeleteEntity(ETHEntity @)",										  asFUNCTION(__DeleteEntity),      asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("ETHEntity@ DeleteEntity(ETHEntity@)",										  asFUNCTION(__DeleteEntity),      asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool GenerateLightmaps()",													  asFUNCTION(__GenerateLightmaps), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void AddLight(const vector3 &in, const vector3 &in, const float, const bool)", asFUNCTION(__AddLight),          asCALL_GENERIC); assert(r >= 0);
 
@@ -428,6 +430,8 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("bool IsHighEndDevice()",                   asFUNCTION(__IsHighEndDevice),         asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("string GetStringFromFileInPackage(const string &in)", asFUNCTION(__GetStringFromFileInPackage), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("bool FileInPackageExists(const string &in)",          asFUNCTION(__FileInPackageExists),        asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("bool FileExists(const string &in)",                   asFUNCTION(__FileExists),                 asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("void SetGravity(const vector2 &in)", asFUNCTION(__SetGravity), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 GetGravity()",               asFUNCTION(__GetGravity), asCALL_GENERIC); assert(r >= 0);

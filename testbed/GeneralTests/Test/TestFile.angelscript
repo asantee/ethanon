@@ -90,6 +90,16 @@ class TestFile : Test
 		{
 			output += "All enml tests passed\n";
 		}
+		
+		if (!FileExists("this_file_must_not_exist.txt"))
+			output += "FileExists test passed\n";
+		else
+			output += "FileExists test FAILED\n";
+
+		if (!FileInPackageExists("this_file_must_not_exist.txt"))
+			output += "FileInPackageExists test passed\n";
+		else
+			output += "FileInPackageExists FAILED\n";
 	}
 
 	string testEnml()

@@ -980,6 +980,25 @@ str_type::string ETHScriptWrapper::GetStringFromFileInPackage(const str_type::st
 	return out;
 }
 
+bool ETHScriptWrapper::FileInPackageExists(const str_type::string& fileName)
+{
+	return m_provider->GetVideo()->GetFileManager()->FileExists(fileName);
+}
+
+bool ETHScriptWrapper::FileExists(const str_type::string& fileName)
+{
+	str_type::ifstream ifs(fileName.c_str());
+	if (ifs.is_open())
+	{
+		ifs.close();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 str_type::string ETHScriptWrapper::GetArgv(const int n)
 {
 	if (n >= m_argc || n < 0)
