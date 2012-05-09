@@ -50,6 +50,21 @@ using namespace std;
 #define _S_OPAQUE_DECAL L"Opaque decal"
 #define _S_LAYERABLE L"Layerable"
 
+#define _S_BODY_SHAPE          L"Physics properties:"
+#define _S_BODY_SHAPE_NONE     L"Not physics managed"
+#define _S_BODY_SHAPE_BOX      L"Box"
+#define _S_BODY_SHAPE_CIRCLE   L"Circle"
+#define _S_BODY_SHAPE_POLYGON  L"Polygon"
+#define _S_BODY_SHAPE_COMPOUND L"Compound shape"
+
+#define _S_BODY_PROPS                L"Body properties:"
+#define _S_BODY_PROPS_SENSOR         L"Is sensor"
+#define _S_BODY_PROPS_BULLET         L"Is bullet"
+#define _S_BODY_PROPS_FIXED_ROTATION L"Fixed rotation"
+#define _S_BODY_PROPS_DENSITY        L"Density"
+#define _S_BODY_PROPS_RESTITUTION    L"Restitution"
+#define _S_BODY_PROPS_FRICTION       L"Friction"
+
 #define _S_CAST_SHADOW L"Cast shadow"
 #define _S_STATIC_ENTITY L"Static entity"
 #define _S_APPLY_LIGHT L"Apply light"
@@ -406,6 +421,27 @@ void EntityEditor::LoadEditor()
 	m_specularBrightness.SetScrollAdd(0.1f);
 	m_specularBrightness.SetDescription(L"Specular component brightness");
 
+	m_density.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
+	m_density.SetConstant(m_pEditEntity->density);
+	m_density.SetClamp(true, 0, 999999.0f);
+	m_density.SetText(_S_BODY_PROPS_DENSITY);
+	m_density.SetScrollAdd(0.1f);
+	m_density.SetDescription(L"Body density");
+
+	m_friction.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
+	m_friction.SetConstant(m_pEditEntity->friction);
+	m_friction.SetClamp(true, 0, 2.0f);
+	m_friction.SetText(_S_BODY_PROPS_FRICTION);
+	m_friction.SetScrollAdd(0.05f);
+	m_friction.SetDescription(L"Body surface friction");
+
+	m_restitution.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
+	m_restitution.SetConstant(m_pEditEntity->restitution);
+	m_restitution.SetClamp(true, 0, 2.0f);
+	m_restitution.SetText(_S_BODY_PROPS_RESTITUTION);
+	m_restitution.SetScrollAdd(0.05f);
+	m_restitution.SetDescription(L"Body restitution");
+
 	m_animPreviewStride.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 7, false);
 	m_animPreviewStride.SetConstant(200.0f);
 	m_animPreviewStride.SetClamp(true, 0, 9999999.0f);
@@ -489,10 +525,25 @@ void EntityEditor::ResetEntityMenu()
 	m_type.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth*2, true, false, false);
 	m_type.AddButton(_S_HORIZONTAL, (m_pEditEntity->type == ETH_HORIZONTAL));
 	m_type.AddButton(_S_VERTICAL, (m_pEditEntity->type == ETH_VERTICAL));
-	//m_type.AddButton(_S_DECAL, (m_pEditEntity->type == ETH_GROUND_DECAL));
-	//m_type.AddButton(_S_OVERALL, (m_pEditEntity->type == ETH_OVERALL));
-	//m_type.AddButton(_S_OPAQUE_DECAL, (m_pEditEntity->type == ETH_OPAQUE_DECAL));
 	m_type.AddButton(_S_LAYERABLE, (m_pEditEntity->type == ETH_LAYERABLE));
+
+	m_bodyShape.Destroy();
+	m_bodyShape.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth*2, true, false, false);
+	m_bodyShape.AddButton(_S_BODY_SHAPE_NONE, (m_pEditEntity->shape == ETHBS_NONE));
+	m_bodyShape.AddButton(_S_BODY_SHAPE_BOX, (m_pEditEntity->shape == ETHBS_BOX));
+	m_bodyShape.AddButton(_S_BODY_SHAPE_CIRCLE, (m_pEditEntity->shape == ETHBS_CIRCLE));
+	m_bodyShape.AddButton(_S_BODY_SHAPE_POLYGON, (m_pEditEntity->shape == ETHBS_POLYGON));
+	m_bodyShape.AddButton(_S_BODY_SHAPE_COMPOUND, (m_pEditEntity->shape == ETHBS_COMPOUND));
+
+	m_bodyProperties.Destroy();
+	m_bodyProperties.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth * 2, false, true, false);
+	m_bodyProperties.AddButton(_S_BODY_PROPS_SENSOR, ETHGlobal::ToBool(m_pEditEntity->sensor));
+	m_bodyProperties.AddButton(_S_BODY_PROPS_FIXED_ROTATION, ETHGlobal::ToBool(m_pEditEntity->fixedRotation));
+	m_bodyProperties.AddButton(_S_BODY_PROPS_BULLET, ETHGlobal::ToBool(m_pEditEntity->bullet));
+
+	m_density.SetConstant(m_pEditEntity->density);
+	m_friction.SetConstant(m_pEditEntity->friction);
+	m_restitution.SetConstant(m_pEditEntity->restitution);
 
 	m_bool.Destroy();
 	m_bool.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth*2, false, true, false);
@@ -555,6 +606,9 @@ void EntityEditor::ResetEntityMenu()
 	m_specularPower.SetConstant(m_pEditEntity->specularPower);
 	m_specularBrightness.SetConstant(m_pEditEntity->specularBrightness);
 	m_animPreviewStride.SetConstant(200.0f);
+	m_density.SetConstant(m_pEditEntity->density);
+	m_restitution.SetConstant(m_pEditEntity->restitution);
+	m_friction.SetConstant(m_pEditEntity->friction);
 
 	ResetParticleMenu();
 	ResetLightMenu();
@@ -1113,6 +1167,27 @@ string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 
 		if (m_pEditEntity->collision)
 		{
+			ShadowPrint(Vector2(x,y), _S_BODY_SHAPE); y+=m_menuSize;
+			m_bodyShape.PlaceMenu(Vector2(x, y)); y += m_menuSize * m_bodyShape.GetNumButtons();
+			if (m_bodyShape.GetButtonStatus(_S_BODY_SHAPE_BOX))
+				m_pEditEntity->shape = ETHBS_BOX;
+			if (m_bodyShape.GetButtonStatus(_S_BODY_SHAPE_CIRCLE))
+				m_pEditEntity->shape = ETHBS_CIRCLE;
+			if (m_bodyShape.GetButtonStatus(_S_BODY_SHAPE_POLYGON))
+				m_pEditEntity->shape = ETHBS_POLYGON;
+			if (m_bodyShape.GetButtonStatus(_S_BODY_SHAPE_COMPOUND))
+				m_pEditEntity->shape = ETHBS_COMPOUND;
+
+			y+=m_menuSize/2;
+			if (!m_bodyShape.GetButtonStatus(_S_BODY_SHAPE_NONE))
+			{
+				m_pEditEntity->density     = m_density.PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y - m_menuSize), m_menuWidth);	y+=m_menuSize;
+				m_pEditEntity->friction    = m_friction.PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y - m_menuSize), m_menuWidth);	y+=m_menuSize;
+				m_pEditEntity->restitution = m_restitution.PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y - m_menuSize), m_menuWidth);	y+=m_menuSize;
+			}
+			y+=m_menuSize/2;
+			y+=m_menuSize/2;
+
 			ShadowPrint(Vector2(x,y), L"Collision box position:"); y+=m_menuSize;
 			m_pEditEntity->collision->pos.x = m_collisionPos[0].PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y - m_menuSize), m_menuWidth);	y+=m_menuSize;
 			m_pEditEntity->collision->pos.y = m_collisionPos[1].PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y - m_menuSize), m_menuWidth);	y+=m_menuSize;

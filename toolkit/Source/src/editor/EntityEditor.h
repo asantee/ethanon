@@ -76,12 +76,15 @@ private:
 	GSGUI_DROPDOWN m_addMenu;
 	GSGUI_DROPDOWN m_delMenu;
 	GSGUI_BUTTONLIST m_type;
+	GSGUI_BUTTONLIST m_bodyShape;
+	GSGUI_BUTTONLIST m_bodyProperties;
 	GSGUI_BUTTONLIST m_bool;
 	GSGUI_BUTTONLIST m_blendMode;
 	GSGUI_BUTTONLIST m_renderMode;
 	GSGUI_BUTTONLIST m_boolLight;
 	GSGUI_BUTTONLIST m_tool;
 	GSGUI_BUTTONLIST m_attachLight;
+	GSGUI_FLOAT_INPUT m_density, m_friction, m_restitution;
 	GSGUI_FLOAT_INPUT m_pivotX, m_pivotY;
 	GSGUI_FLOAT_INPUT m_lightPos[3];
 	GSGUI_FLOAT_INPUT m_lightColor[3];
