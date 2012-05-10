@@ -61,9 +61,10 @@ using namespace std;
 #define _S_BODY_PROPS_SENSOR         L"Is sensor"
 #define _S_BODY_PROPS_BULLET         L"Is bullet"
 #define _S_BODY_PROPS_FIXED_ROTATION L"Fixed rotation"
-#define _S_BODY_PROPS_DENSITY        L"Density"
-#define _S_BODY_PROPS_RESTITUTION    L"Restitution"
-#define _S_BODY_PROPS_FRICTION       L"Friction"
+#define _S_BODY_PROPS_DENSITY        L"Density:"
+#define _S_BODY_PROPS_RESTITUTION    L"Restitution:"
+#define _S_BODY_PROPS_FRICTION       L"Friction:"
+#define _S_BODY_PROPS_GRAVITY_SCALE  L"Gravity scale:"
 
 #define _S_CAST_SHADOW L"Cast shadow"
 #define _S_STATIC_ENTITY L"Static entity"
@@ -442,6 +443,13 @@ void EntityEditor::LoadEditor()
 	m_restitution.SetScrollAdd(0.05f);
 	m_restitution.SetDescription(L"Body restitution");
 
+	m_gravityScale.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
+	m_gravityScale.SetConstant(m_pEditEntity->gravityScale);
+	m_gravityScale.SetClamp(false, 0, 2.0f);
+	m_gravityScale.SetText(_S_BODY_PROPS_GRAVITY_SCALE);
+	m_gravityScale.SetScrollAdd(0.1f);
+	m_gravityScale.SetDescription(L"Gravity scale");
+
 	m_animPreviewStride.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 7, false);
 	m_animPreviewStride.SetConstant(200.0f);
 	m_animPreviewStride.SetClamp(true, 0, 9999999.0f);
@@ -544,6 +552,7 @@ void EntityEditor::ResetEntityMenu()
 	m_density.SetConstant(m_pEditEntity->density);
 	m_friction.SetConstant(m_pEditEntity->friction);
 	m_restitution.SetConstant(m_pEditEntity->restitution);
+	m_gravityScale.SetConstant(m_pEditEntity->gravityScale);
 
 	m_bool.Destroy();
 	m_bool.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth*2, false, true, false);
@@ -609,6 +618,7 @@ void EntityEditor::ResetEntityMenu()
 	m_density.SetConstant(m_pEditEntity->density);
 	m_restitution.SetConstant(m_pEditEntity->restitution);
 	m_friction.SetConstant(m_pEditEntity->friction);
+	m_gravityScale.SetConstant(m_pEditEntity->gravityScale);
 
 	ResetParticleMenu();
 	ResetLightMenu();
@@ -1183,6 +1193,8 @@ string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 		{
 			ShadowPrint(Vector2(x,y), _S_BODY_SHAPE); y+=m_menuSize;
 			m_bodyShape.PlaceMenu(Vector2(x, y)); y += m_menuSize * m_bodyShape.GetNumButtons();
+			if (m_bodyShape.GetButtonStatus(_S_BODY_SHAPE_NONE))
+				m_pEditEntity->shape = ETHBS_NONE;
 			if (m_bodyShape.GetButtonStatus(_S_BODY_SHAPE_BOX))
 				m_pEditEntity->shape = ETHBS_BOX;
 			if (m_bodyShape.GetButtonStatus(_S_BODY_SHAPE_CIRCLE))
@@ -1195,9 +1207,10 @@ string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 			y+=m_menuSize/2;
 			if (!m_bodyShape.GetButtonStatus(_S_BODY_SHAPE_NONE))
 			{
-				m_pEditEntity->density     = m_density.PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y - m_menuSize), m_menuWidth);	y+=m_menuSize;
-				m_pEditEntity->friction    = m_friction.PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y - m_menuSize), m_menuWidth);	y+=m_menuSize;
-				m_pEditEntity->restitution = m_restitution.PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y - m_menuSize), m_menuWidth);	y+=m_menuSize;
+				m_pEditEntity->density      = m_density.PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y - m_menuSize), m_menuWidth);	y+=m_menuSize;
+				m_pEditEntity->friction     = m_friction.PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y - m_menuSize), m_menuWidth);	y+=m_menuSize;
+				m_pEditEntity->restitution  = m_restitution.PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y - m_menuSize), m_menuWidth);	y+=m_menuSize;
+				m_pEditEntity->gravityScale = m_gravityScale.PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y - m_menuSize), m_menuWidth);	y+=m_menuSize;
 
 				y+=m_menuSize/2;
 				m_bodyProperties.PlaceMenu(Vector2(x, y)); y += m_menuSize * m_bodyProperties.GetNumButtons();

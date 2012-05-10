@@ -84,7 +84,7 @@ private:
 	GSGUI_BUTTONLIST m_boolLight;
 	GSGUI_BUTTONLIST m_tool;
 	GSGUI_BUTTONLIST m_attachLight;
-	GSGUI_FLOAT_INPUT m_density, m_friction, m_restitution;
+	GSGUI_FLOAT_INPUT m_density, m_friction, m_restitution, m_gravityScale;
 	GSGUI_FLOAT_INPUT m_pivotX, m_pivotY;
 	GSGUI_FLOAT_INPUT m_lightPos[3];
 	GSGUI_FLOAT_INPUT m_lightColor[3];
