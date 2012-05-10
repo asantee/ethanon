@@ -839,6 +839,13 @@ void EntityEditor::ShowWarnings()
 		else
 			warnings.push_back(str_type::string(L"Please setup compound shape data inside XML <Compound> tags in file ") + m_pEditEntity->entityName);
 	}
+	if (m_pEditEntity->collision && m_pEditEntity->shape == ETHBS_POLYGON)
+	{
+		if (m_pEditEntity->entityName.empty())
+			warnings.push_back(L"Please save this entity, then setup polygon shape data inside XML <Polygon> tags in its file");
+		else
+			warnings.push_back(str_type::string(L"Please setup polygon shape data inside XML <Polygon> tags in file ") + m_pEditEntity->entityName);
+	}
 
 	// draw warnings
 	if (!warnings.empty())

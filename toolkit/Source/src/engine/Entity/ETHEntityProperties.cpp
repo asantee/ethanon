@@ -46,6 +46,25 @@ static const str_type::string COMPOUND_SHAPE_ENML_SAMPLE(
 	GS_L("	angle = 0;\n")
 	GS_L("}\n\n"));
 
+static const str_type::string POLYGON_ENML_SAMPLE(
+	GS_L("\n\n// this is a basic triangle sample\n")
+	GS_L("// polygons must be convex and ordered clockwise")
+	GS_L("\nv0\n")
+	GS_L("{\n")
+	GS_L("	x=1;\n")
+	GS_L("	y=-1;\n")
+	GS_L("}\n")
+	GS_L("v1\n")
+	GS_L("{\n")
+	GS_L("	x=1;\n")
+	GS_L("	y=1;\n")
+	GS_L("}\n")
+	GS_L("v2\n")
+	GS_L("{\n")
+	GS_L("	x=-1;\n")
+	GS_L("	y=1;\n")
+	GS_L("}\n"));
+
 void ETHEntityMaterial::Reset()
 {
 	emissiveColor = Vector4(0,0,0,0);
@@ -457,7 +476,17 @@ bool ETHEntityProperties::WriteToXMLFile(TiXmlElement *pHeadRoot) const
 			if (polygon)
 			{
 				pElement = new TiXmlElement(GS_L("Polygon"));
-				pElement->LinkEndChild(new TiXmlText(polygon->GetENMLDeclaration()));
+				TiXmlText* text = new TiXmlText(polygon->GetENMLDeclaration());
+				text->SetCDATA(true);
+				pElement->LinkEndChild(text);
+				pCollisionRoot->LinkEndChild(pElement);
+			}
+			else if (shape == ETHBS_POLYGON) // it the polygon data is empty, write sample data into it
+			{
+				pElement = new TiXmlElement(GS_L("Polygon"));
+				TiXmlText* text = new TiXmlText(POLYGON_ENML_SAMPLE);
+				text->SetCDATA(true);
+				pElement->LinkEndChild(text);
 				pCollisionRoot->LinkEndChild(pElement);
 			}
 
