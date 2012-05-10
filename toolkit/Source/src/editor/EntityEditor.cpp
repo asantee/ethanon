@@ -264,7 +264,7 @@ void EntityEditor::LoadEditor()
 	m_renderMode.AddButton(_S_USE_PS, true);
 	m_renderMode.AddButton(_S_USE_VS, false);
 
-	m_haloSize.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 5, false);
+	m_haloSize.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	//m_haloSize.SetConstant(m_pEditEntity->light.haloSize);
 	m_haloSize.SetConstant(128.0f);
 	m_haloSize.SetClamp(true, 1.0f, 9999999.0f);
@@ -272,7 +272,7 @@ void EntityEditor::LoadEditor()
 	m_haloSize.SetScrollAdd(2.0f);
 	m_haloSize.SetDescription(L"Halo size");
 
-	m_haloAlpha.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 5, false);
+	m_haloAlpha.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	//m_haloAlpha.SetConstant(m_pEditEntity->light.haloBrightness);
 	m_haloAlpha.SetConstant(1.0f);
 	m_haloAlpha.SetClamp(true, 0, 1);
@@ -280,21 +280,28 @@ void EntityEditor::LoadEditor()
 	m_haloAlpha.SetScrollAdd(0.05f);
 	m_haloAlpha.SetDescription(L"Halo brightness");
 
-	m_shadowScale.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 6, false);
+	m_shadowScale.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_shadowScale.SetConstant(m_pEditEntity->shadowScale);
 	m_shadowScale.SetClamp(true, 0, 9999999.0f);
 	m_shadowScale.SetText(L"Scale:");
 	m_shadowScale.SetScrollAdd(0.1f);
 	m_shadowScale.SetDescription(L"Shadow scale");
 
-	m_shadowOpacity.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 6, false);
+	m_parallaxIntensity.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
+	m_parallaxIntensity.SetConstant(m_pEditEntity->parallaxIntensity);
+	m_parallaxIntensity.SetClamp(false, 0, 9999999.0f);
+	m_parallaxIntensity.SetText(L"Parallax:");
+	m_parallaxIntensity.SetScrollAdd(0.1f);
+	m_parallaxIntensity.SetDescription(L"Parallax intensity scale");
+
+	m_shadowOpacity.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_shadowOpacity.SetConstant(m_pEditEntity->shadowOpacity);
 	m_shadowOpacity.SetClamp(true, 0, 1.0f);
 	m_shadowOpacity.SetText(L"Opacity:");
 	m_shadowOpacity.SetScrollAdd(0.1f);
 	m_shadowOpacity.SetDescription(L"Shadow opacity level");
 
-	m_shadowLength.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 6, false);
+	m_shadowLength.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_shadowLength.SetConstant(m_pEditEntity->shadowLengthScale);
 	m_shadowLength.SetClamp(false, 0, 0);
 	m_shadowLength.SetText(L"Length scale:");
@@ -610,6 +617,7 @@ void EntityEditor::ResetEntityMenu()
 	m_shadowOpacity.SetConstant(m_pEditEntity->shadowOpacity);
 	m_shadowLength.SetConstant(m_pEditEntity->shadowLengthScale);
 	m_shadowScale.SetConstant(m_pEditEntity->shadowScale);
+	m_parallaxIntensity.SetConstant(m_pEditEntity->parallaxIntensity);
 	m_soundVolume.SetConstant(m_pEditEntity->soundVolume);
 	m_layerDepth.SetConstant(m_pEditEntity->layerDepth);
 	m_specularPower.SetConstant(m_pEditEntity->specularPower);
@@ -1042,14 +1050,17 @@ string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 			m_tool.ResetButtons();
 			m_tool.ActivateButton(_S_EDIT_COLLISION);
 		}
-		y+=m_menuSize/2;
 
+		y+=m_menuSize/2;
+		m_pEditEntity->parallaxIntensity = m_parallaxIntensity.PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth); y+=m_menuSize;
+
+		y+=m_menuSize/2;
 		if (m_pEditEntity->castShadow)
 		{
 			ShadowPrint(Vector2(0,y), L"Shadow properties:"); y+=m_menuSize;
 			m_pEditEntity->shadowScale   = m_shadowScale.PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth);	y+=m_menuSize;
 			m_pEditEntity->shadowOpacity = m_shadowOpacity.PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth);	y+=m_menuSize;
-			m_pEditEntity->shadowLengthScale = m_shadowLength.PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth);	y+=m_menuSize;
+			m_pEditEntity->shadowLengthScale = m_shadowLength.PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth);     y+=m_menuSize;
 			y+=m_menuSize/2;
 		}
 

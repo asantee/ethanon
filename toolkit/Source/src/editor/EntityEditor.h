@@ -98,6 +98,7 @@ private:
 	GSGUI_FLOAT_INPUT m_collisionPos[3];
 	GSGUI_FLOAT_INPUT m_collisionSize[3];
 	GSGUI_FLOAT_INPUT m_shadowScale;
+	GSGUI_FLOAT_INPUT m_parallaxIntensity;
 	GSGUI_FLOAT_INPUT m_shadowOpacity;
 	GSGUI_FLOAT_INPUT m_shadowLength;
 	GSGUI_FLOAT_INPUT m_soundVolume;
