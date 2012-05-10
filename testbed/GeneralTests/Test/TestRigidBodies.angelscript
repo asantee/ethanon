@@ -188,7 +188,7 @@ class TestRigidBodies : Test
 			}
 			if (input.GetKeyState(K_L) == KS_HIT)
 			{
-				AddEntity("lolipop.ent", vector3(input.GetCursorPos(), 0.0f));
+				AddEntity("lollipop.ent", vector3(input.GetCursorPos(), 0.0f));
 			}
 		}
 		else

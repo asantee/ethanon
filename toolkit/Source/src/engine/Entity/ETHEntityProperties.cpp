@@ -23,6 +23,29 @@
 #include "ETHEntityProperties.h"
 #include <iostream>
 
+static const str_type::string COMPOUND_SHAPE_ENML_SAMPLE(
+	GS_L("\n\n// this is a compound shape sample\n")
+	GS_L("// shape sizes and pos must be normalized (-1 to 1)\n")
+	GS_L("// the final shape actual size is defined by our collision box\n")
+	GS_L("\n// Lollipop sample\n")
+	GS_L("\ncandy\n")
+	GS_L("{\n")
+	GS_L("	shape = circle;\n")
+	GS_L("	posX = 0.0;\n")
+	GS_L("	posY =-0.5;\n")
+	GS_L("	radius = 1.0;\n")
+	GS_L("	angle = 0;\n")
+	GS_L("}\n\n")
+	GS_L("stick\n")
+	GS_L("{\n")
+	GS_L("	shape = box;\n")
+	GS_L("	sizeX = 0.1;\n")
+	GS_L("	sizeY = 2.0;\n")
+	GS_L("	posX = 0.0;\n")
+	GS_L("	posY = 0.0;\n")
+	GS_L("	angle = 0;\n")
+	GS_L("}\n\n"));
+
 void ETHEntityMaterial::Reset()
 {
 	emissiveColor = Vector4(0,0,0,0);
@@ -430,18 +453,33 @@ bool ETHEntityProperties::WriteToXMLFile(TiXmlElement *pHeadRoot) const
 		TiXmlElement *pCollisionRoot = collision->WriteToXMLFile(pRoot);
 		if (pCollisionRoot)
 		{
+			// Write polygon data
 			if (polygon)
 			{
 				pElement = new TiXmlElement(GS_L("Polygon"));
 				pElement->LinkEndChild(new TiXmlText(polygon->GetENMLDeclaration()));
 				pCollisionRoot->LinkEndChild(pElement);
 			}
+
+			// Write compound shape data
 			if (compoundShape)
 			{
 				pElement = new TiXmlElement(GS_L("Compound"));
-				pElement->LinkEndChild(new TiXmlText(compoundShape->GetENMLDeclaration()));
+				TiXmlText* text = new TiXmlText(compoundShape->GetENMLDeclaration());
+				text->SetCDATA(true);
+				pElement->LinkEndChild(text);
 				pCollisionRoot->LinkEndChild(pElement);
 			}
+			else if (shape == ETHBS_COMPOUND) // it the compound data is empty, write sample data into it
+			{
+				pElement = new TiXmlElement(GS_L("Compound"));
+				TiXmlText* text = new TiXmlText(COMPOUND_SHAPE_ENML_SAMPLE);
+				text->SetCDATA(true);
+				pElement->LinkEndChild(text);
+				pCollisionRoot->LinkEndChild(pElement);
+			}
+
+			// Write joint data
 			if (enmlJointDefinitions != GS_L(""))
 			{
 				pElement = new TiXmlElement(GS_L("Joints"));

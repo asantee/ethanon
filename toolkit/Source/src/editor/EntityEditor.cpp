@@ -832,6 +832,13 @@ void EntityEditor::ShowWarnings()
 	{
 		warnings.push_back(L"Your entity doesn't have a normal map. Consider switching 'apply light' off and use maximum emissive brightness");
 	}
+	if (m_pEditEntity->collision && m_pEditEntity->shape == ETHBS_COMPOUND)
+	{
+		if (m_pEditEntity->entityName.empty())
+			warnings.push_back(L"Please save this entity, then setup compound shape data inside XML <Compound> tags in its file");
+		else
+			warnings.push_back(str_type::string(L"Please setup compound shape data inside XML <Compound> tags in file ") + m_pEditEntity->entityName);
+	}
 
 	// draw warnings
 	if (!warnings.empty())
