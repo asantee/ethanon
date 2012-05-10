@@ -1191,10 +1191,15 @@ string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 				m_pEditEntity->density     = m_density.PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y - m_menuSize), m_menuWidth);	y+=m_menuSize;
 				m_pEditEntity->friction    = m_friction.PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y - m_menuSize), m_menuWidth);	y+=m_menuSize;
 				m_pEditEntity->restitution = m_restitution.PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y - m_menuSize), m_menuWidth);	y+=m_menuSize;
-			}
-			y+=m_menuSize/2;
-			y+=m_menuSize/2;
 
+				y+=m_menuSize/2;
+				m_bodyProperties.PlaceMenu(Vector2(x, y)); y += m_menuSize * m_bodyProperties.GetNumButtons();
+				m_pEditEntity->sensor        = m_bodyProperties.GetButtonStatus(_S_BODY_PROPS_SENSOR);
+				m_pEditEntity->fixedRotation = m_bodyProperties.GetButtonStatus(_S_BODY_PROPS_FIXED_ROTATION);
+				m_pEditEntity->bullet        = m_bodyProperties.GetButtonStatus(_S_BODY_PROPS_BULLET);
+			}
+
+			y+=m_menuSize/2;
 			ShadowPrint(Vector2(x,y), L"Collision box position:"); y+=m_menuSize;
 			m_pEditEntity->collision->pos.x = m_collisionPos[0].PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y - m_menuSize), m_menuWidth);	y+=m_menuSize;
 			m_pEditEntity->collision->pos.y = m_collisionPos[1].PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y - m_menuSize), m_menuWidth);	y+=m_menuSize;
