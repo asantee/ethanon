@@ -107,6 +107,9 @@ public:
 	void SetScale(const Vector2& scale);
 	Vector2 GetScale() const;
 
+	/// Scale the particle systems property files
+	void ScaleParticleSystemOrigin(const unsigned int n, const float scale);
+
 	bool IsRotatable() const;
 	bool IsStatic() const;
 	bool IsApplyLight() const;

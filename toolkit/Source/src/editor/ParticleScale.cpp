@@ -52,6 +52,7 @@ float cParticleScale::DoEditor(const Vector2 &v2Pos, ETHEntity* pEntity, EditorB
 				{
 					fValue = Max(0.1f, fValue);
 					pEntity->ScaleParticleSystem(t, fValue);
+					pEntity->ScaleParticleSystemOrigin(t, fValue);
 					m_scaleInput[t].SetConstant(1.0f);
 				}
 				fR += pEditor->GetMenuSize();

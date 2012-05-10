@@ -470,6 +470,12 @@ Vector2 ETHEntity::GetScale() const
 	return m_properties.scale;
 }
 
+void ETHEntity::ScaleParticleSystemOrigin(const unsigned int n, const float scale)
+{
+	if (m_properties.particleSystems[n])
+		m_properties.particleSystems[n]->Scale(scale);
+}
+
 bool ETHEntity::IsRotatable() const
 {
 	return GetType() != ETH_VERTICAL;
