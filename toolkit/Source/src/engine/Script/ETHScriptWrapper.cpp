@@ -288,7 +288,7 @@ ETHEntity *ETHScriptWrapper::DeleteEntity(ETHEntity *pEntity)
 	if (WarnIfRunsInMainFunction(GS_L("DeleteEntity")) || !pEntity)
 		return 0;
 
-	if (m_pScene->GetBucketManager().DeleteEntity(pEntity->GetID(), ETHGlobal::GetBucket(pEntity->GetPositionXY(), m_pScene->GetBucketSize())))
+	if (m_pScene->DeleteEntity(pEntity))
 	{
 		pEntity->Release();
 	}

@@ -126,23 +126,7 @@ void ETHTempEntityHandler::CheckTemporaryEntities(const Vector2& zAxisDir, ETHBu
 			}
 
 			// Remove from main bucket map
-			ETHEntityList::const_iterator iEnd = bucketIter->second.end();
-			for (ETHEntityList::iterator entityIter = bucketIter->second.begin(); entityIter != iEnd; entityIter++)
-			{
-				if ((*entityIter)->GetID() != pRenderEntity->GetID())
-					continue;
-
-				#ifdef _DEBUG
-				ETH_STREAM_DECL(ss) << GS_L("Entity ") << pRenderEntity->GetEntityName() << GS_L(" (ID#") << pRenderEntity->GetID() << GS_L(") removed (particle effects over)");
-				m_provider->Log(ss.str(), Platform::Logger::INFO);
-				#endif
-
-				pRenderEntity->SetStopSFXWhenDestroyed(false);
-				pRenderEntity->Kill();
-				pRenderEntity->Release();
-				entityIter = bucketIter->second.erase(entityIter);
-				break;
-			}
+			buckets.DeleteEntity(pRenderEntity->GetID(), v2Bucket, false);
 
 			#ifdef _DEBUG
 			ETH_STREAM_DECL(ss) << GS_L("Entity ") << (*iter)->GetEntityName() << GS_L(" (ID#") << pRenderEntity->GetID() << GS_L(") removed from dynamic entity list (particle effects over)");

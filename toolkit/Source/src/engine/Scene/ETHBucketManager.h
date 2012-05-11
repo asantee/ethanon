@@ -29,6 +29,7 @@ class ETHEntity;
 class ETHEntityArray;
 
 #include "ETHSceneProperties.h"
+#include "ETHEntityKillListener.h"
 #include "../ETHResourceProvider.h"
 #include <list>
 
@@ -87,7 +88,7 @@ public:
 	ETHSpriteEntity *SeekEntity(const str_type::string& fileName);
 
 	/// Delete the entity by ID #
-	bool DeleteEntity(const int id, const Vector2 &v2SearchBucket);
+	bool DeleteEntity(const int id, const Vector2 &v2SearchBucket, const bool stopSfx = true);
 
 	/// Delete the entity by ID #
 	bool DeleteEntity(const int id);
@@ -135,6 +136,7 @@ private:
 	ETHBucketMap m_entities;
 	const Vector2 m_bucketSize;
 	bool m_drawingBorderBuckets;
+	ETHEntityKillListenerPtr m_entityKillListener;
 };
 
 #endif

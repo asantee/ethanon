@@ -59,6 +59,7 @@ const Vector2 &v2BucketSize = Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCK
 	void ForceAllSFXStop();
 	void Update(const unsigned long lastFrameElapsedTime);
 	void UpdateTemporary(const unsigned long lastFrameElapsedTime);
+	bool DeleteEntity(ETHEntity *pEntity);
 
 	const ETHSceneProperties* GetSceneProperties() const;
 	ETHSceneProperties* GetEditableSceneProperties();
@@ -129,7 +130,6 @@ private:
 	bool RenderParticleList(std::list<ETHRenderEntity*> &particles);
 	bool AssignCallbackScript(ETHSpriteEntity* entity);
 	void AssignControllerToEntity(ETHEntity* entity, const int callbackId, const int constructorCallbackId);
-	int FindCallbackFunction(const ETHEntity* entity, const str_type::string& prefix);
 	bool DrawBucketOutlines();
 	bool ReadFromXMLFile(TiXmlElement *pElement);
 

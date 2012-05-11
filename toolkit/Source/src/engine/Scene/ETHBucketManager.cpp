@@ -356,6 +356,9 @@ bool ETHBucketManager::DeleteEntity(const int id)
 					m_provider->Log(ss.str(), Platform::Logger::INFO);
 #				endif
 
+				if (m_entityKillListener)
+					m_entityKillListener->EntityKilled((*iter));
+
 				(*iter)->Kill();
 				(*iter)->Release();
 				bucketIter->second.erase(iter);
@@ -366,7 +369,7 @@ bool ETHBucketManager::DeleteEntity(const int id)
 	return false;
 }
 
-bool ETHBucketManager::DeleteEntity(const int id, const Vector2 &v2SearchBucket)
+bool ETHBucketManager::DeleteEntity(const int id, const Vector2 &v2SearchBucket, const bool stopSfx)
 {
 	ETHBucketMap::iterator bucketIter = Find(v2SearchBucket);
 
@@ -383,6 +386,11 @@ bool ETHBucketManager::DeleteEntity(const int id, const Vector2 &v2SearchBucket)
 				m_provider->Log(ss.str(), Platform::Logger::INFO);
 				#endif
 
+				if (m_entityKillListener)
+					m_entityKillListener->EntityKilled((*iter));
+
+				if(!stopSfx)
+					(*iter)->SetStopSFXWhenDestroyed(false);
 				(*iter)->Kill();
 				(*iter)->Release();
 				ETHEntityList::iterator i = iter.base();
@@ -406,6 +414,9 @@ bool ETHBucketManager::DeleteEntity(const int id, const Vector2 &v2SearchBucket)
 					ETH_STREAM_DECL(ss) << GS_L("Entity ") << (*iter)->GetEntityName() << GS_L(" (ID#") << (*iter)->GetID() << GS_L(") removed (DeleteEntity method)");
 					m_provider->Log(ss.str(), Platform::Logger::INFO);
 #				endif
+
+				if (m_entityKillListener)
+					m_entityKillListener->EntityKilled((*iter));
 
 				(*iter)->Kill();
 				return true;

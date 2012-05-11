@@ -25,12 +25,15 @@
 
 #include "../../angelscript/include/angelscript.h"
 #include "../ETHCommon.h"
+#include "../Entity/ETHScriptEntity.h"
 
 namespace ETHGlobal {
 	void CheckFunctionSeekError(const int id, const str_type::string& function);
 	void PrintException(asIScriptContext *pContext);
 	void ShowMessage(str_type::string message, const ETH_MESSAGE type);
 	void ExecuteContext(asIScriptContext *pContext, const int id, const bool prepare = true);
+	int FindCallbackFunction(asIScriptModule* pModule, const ETHScriptEntity* entity, const str_type::string& prefix, const Platform::Logger& logger);
+	bool RunEntityCallback(asIScriptContext* pContext, ETHScriptEntity* entity, const int id);
 } // namespace ETHGlobal
 
 #endif

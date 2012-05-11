@@ -78,7 +78,6 @@ public:
 	bool HasCallback() const { return (m_callbackID >= 0); }
 	bool HasAnyCallbackFunction() const { return (HasCallback() || HasConstructorCallback()); }
 	bool RunCallback(ETHScriptEntity* entity);
-	bool RunCallback(ETHScriptEntity* entity, const int id);
 	void AddToPos(const Vector3& pos);
 	void AddToAngle(const float angle);
 	asIScriptContext* GetScriptContext();

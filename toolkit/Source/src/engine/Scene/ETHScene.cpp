@@ -776,26 +776,10 @@ void ETHScene::ForceAllSFXStop()
 	}
 }
 
-int ETHScene::FindCallbackFunction(const ETHEntity* entity, const str_type::string& prefix)
-{
-	const str_type::string entityName = ETHGlobal::RemoveExtension(entity->GetEntityName().c_str());
-	str_type::stringstream funcName;
-	funcName << prefix << entityName;
-	const int id = CScriptBuilder::GetFunctionIdByName(m_pModule, funcName.str());
-
-	if (id == asMULTIPLE_FUNCTIONS)
-	{
-		str_type::stringstream ss;
-		ss << GS_L("ETHScene::FindCallbackFunction: found multiple functions named (") << funcName.str() << GS_L(").");
-		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
-	}
-	return id;
-}
-
 bool ETHScene::AssignCallbackScript(ETHSpriteEntity* entity)
 {
-	const int callbackId = FindCallbackFunction(entity, ETH_CALLBACK_PREFIX);
-	const int constructorCallbackId = FindCallbackFunction(entity, ETH_CONSTRUCTOR_CALLBACK_PREFIX);
+	const int callbackId = ETHGlobal::FindCallbackFunction(m_pModule, entity, ETH_CALLBACK_PREFIX, *m_provider->GetLogger());
+	const int constructorCallbackId = ETHGlobal::FindCallbackFunction(m_pModule, entity, ETH_CONSTRUCTOR_CALLBACK_PREFIX, *m_provider->GetLogger());
 
 	AssignControllerToEntity(entity, callbackId, constructorCallbackId);
 	return true;
@@ -1004,4 +988,9 @@ void ETHScene::ResolveJoints()
 	ETHEntityArray entities;
 	m_buckets.GetEntityArray(entities);
 	m_physicsSimulator.ResolveJoints(entities);
+}
+
+bool ETHScene::DeleteEntity(ETHEntity *pEntity)
+{
+	return m_buckets.DeleteEntity(pEntity->GetID(), ETHGlobal::GetBucket(pEntity->GetPositionXY(), GetBucketSize()));
 }

@@ -25,6 +25,12 @@
 
 #include "../ETHResourceProvider.h"
 
+#ifdef GS2D_STR_TYPE_WCHAR
+#	include "../addons/utf16/scriptbuilder.h"
+#else
+#	include "../addons/ansi/scriptbuilder.h"
+#endif
+
 namespace ETHGlobal {
 void ExecuteContext(asIScriptContext *pContext, const int id, const bool prepare)
 {
@@ -102,6 +108,37 @@ void PrintException(asIScriptContext *pContext)
 						<< GS_L("Line: ") << pContext->GetExceptionLineNumber() << std::endl
 						<< GS_L("Description: ") << pContext->GetExceptionString() << std::endl;
 	ETHResourceProvider::Log(ss.str(), Platform::Logger::ERROR);
+}
+
+int FindCallbackFunction(asIScriptModule* pModule, const ETHScriptEntity* entity, const str_type::string& prefix, const Platform::Logger& logger)
+{
+	const str_type::string entityName = ETHGlobal::RemoveExtension(entity->GetEntityName().c_str());
+	str_type::stringstream funcName;
+	funcName << prefix << entityName;
+	const int id = CScriptBuilder::GetFunctionIdByName(pModule, funcName.str());
+
+	if (id == asMULTIPLE_FUNCTIONS)
+	{
+		str_type::stringstream ss;
+		ss << GS_L("ETHScene::FindCallbackFunction: found multiple functions named (") << funcName.str() << GS_L(").");
+		logger.Log(ss.str(), Platform::FileLogger::ERROR);
+	}
+	return id;
+}
+
+bool RunEntityCallback(asIScriptContext* pContext, ETHScriptEntity* entity, const int id)
+{
+	if (id < 0)
+		return false;
+
+	if (pContext->Prepare(id) < 0)
+		return false;
+
+	if (pContext->SetArgObject(0, entity) >= 0)
+		ETHGlobal::ExecuteContext(pContext, id, false);
+	else
+		return false;
+	return true;
 }
 
 } // namespace ETHGlobal

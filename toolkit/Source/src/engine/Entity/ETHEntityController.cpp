@@ -90,32 +90,12 @@ bool ETHRawEntityController::RunCallback(ETHScriptEntity* entity)
 {
 	if (HasConstructorCallback())
 	{
-		RunCallback(entity, m_constructorCallbackID);
+		ETHGlobal::RunEntityCallback(m_pContext, entity, m_constructorCallbackID);
 		m_constructorCallbackID =-1; // never run it again. that's the trick
 	}
 	if (HasCallback())
 	{
-		RunCallback(entity, m_callbackID);
-	}
-	return true;
-}
-
-bool ETHRawEntityController::RunCallback(ETHScriptEntity* entity, const int id)
-{
-	if (m_pContext->Prepare(id) < 0)
-	{
-		ETH_STREAM_DECL(ss) << GS_L("(RunCallbackScript) Couldn't prepare context for function ID ") << id
-							<< GS_L(" - ") << ETHGlobal::RemoveExtension(entity->GetEntityName().c_str());
-		return false;
-	}
-
-	if (m_pContext->SetArgObject(0, entity) >= 0)
-	{
-		ETHGlobal::ExecuteContext(m_pContext, id, false);
-	}
-	else
-	{
-		return false;
+		ETHGlobal::RunEntityCallback(m_pContext, entity, m_callbackID);
 	}
 	return true;
 }
