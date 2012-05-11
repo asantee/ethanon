@@ -40,24 +40,31 @@
 #include <assert.h>
 
 ETHScene::ETHScene(const str_type::string& fileName, ETHResourceProviderPtr provider, const bool richLighting,
-				   const ETHSceneProperties& props, asIScriptModule *pModule, asIScriptContext *pContext, const bool isInEditor, const Vector2& v2BucketSize) :
+				   const ETHSceneProperties& props, asIScriptModule *pModule, asIScriptContext *pContext,
+				   asIScriptContext *pConstructorCallback, asIScriptEngine *pScriptEngine,
+				   const bool isInEditor, const Vector2& v2BucketSize) :
 	m_buckets(provider, v2BucketSize, true),
 	m_tempEntities(provider),
 	m_richLighting(richLighting),
 	m_isInEditor(isInEditor),
-	m_physicsSimulator(provider->GetVideo()->GetFPSRate())
+	m_physicsSimulator(provider->GetVideo()->GetFPSRate()),
+	m_pScriptEngine(pScriptEngine),
+	m_pConstructorCallback(pConstructorCallback)
 {
 	Init(provider, props, pModule, pContext);
 	LoadFromFile(fileName);
 }
 
-ETHScene::ETHScene(ETHResourceProviderPtr provider, const bool richLighting, const ETHSceneProperties& props, asIScriptModule *pModule,
-				   asIScriptContext *pContext, const bool isInEditor, const Vector2 &v2BucketSize) :
+ETHScene::ETHScene(ETHResourceProviderPtr provider, const bool richLighting, const ETHSceneProperties& props,
+				   asIScriptModule *pModule, asIScriptContext *pContext, asIScriptContext *pConstructorCallback,
+				   asIScriptEngine *pScriptEngine, const bool isInEditor, const Vector2 &v2BucketSize) :
 	m_buckets(provider, v2BucketSize, true),
 	m_tempEntities(provider),
 	m_richLighting(richLighting),
 	m_isInEditor(isInEditor),
-	m_physicsSimulator(provider->GetVideo()->GetFPSRate())
+	m_physicsSimulator(provider->GetVideo()->GetFPSRate()),
+	m_pScriptEngine(pScriptEngine),
+	m_pConstructorCallback(pConstructorCallback)
 {
 	Init(provider, props, pModule, pContext);
 }
@@ -230,6 +237,7 @@ int ETHScene::AddEntity(ETHRenderEntity* pEntity, const str_type::string& altern
 	if (m_pContext && m_pModule)
 	{
 		AssignCallbackScript(pEntity);
+		RunConstructorCallback(pEntity);
 	}
 
 	// if it has a callback and is dynamic, or if it's temporary, add it to the "callback constant run list"
@@ -846,6 +854,36 @@ bool ETHScene::AssignCallbackScript(ETHSpriteEntity* entity)
 			m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
 			return false;
 		};
+	}
+	return true;
+}
+
+bool ETHScene::RunConstructorCallback(ETHSpriteEntity* entity)
+{
+	const str_type::string entityName = ETHGlobal::RemoveExtension(entity->GetEntityName().c_str());
+	str_type::stringstream funcName;
+	funcName << ETH_CONSTRUCTOR_CALLBACK_PREFIX << entityName;
+	const int functionId = CScriptBuilder::GetFunctionIdByName(m_pModule, funcName.str());
+
+	if (functionId >= 0)
+	{
+		//m_pContext->Suspend();
+		if (m_pConstructorCallback->Prepare(functionId) < 0)
+		{
+			ETH_STREAM_DECL(ss) << GS_L("(RunConstructorCallback) Couldn't prepare context for function ETHConstructorCallback_") << ETHGlobal::RemoveExtension(entity->GetEntityName().c_str());
+			return false;
+		}
+
+		if (m_pConstructorCallback->SetArgObject(0, entity) >= 0)
+		{
+			ETHGlobal::ExecuteContext(m_pConstructorCallback, functionId, false);
+		}
+		else
+		{
+			ETH_STREAM_DECL(ss) << GS_L("(RunConstructorCallback) Couldn't set entity argument to function ETHConstructorCallback_") << ETHGlobal::RemoveExtension(entity->GetEntityName().c_str());
+			return false;
+		}
+		//m_pContext->Execute();
 	}
 	return true;
 }

@@ -72,9 +72,9 @@ bool SceneEditor::ProjectManagerRequested()
 void SceneEditor::RebuildScene(const std::wstring& fileName)
 {
 	if (fileName != _ETH_EMPTY_SCENE_STRING)
-		m_pScene = ETHScenePtr(new ETHScene(fileName, m_provider, true, ETHSceneProperties(), 0, 0, true, _ETH_SCENE_EDITOR_BUCKET_SIZE));
+		m_pScene = ETHScenePtr(new ETHScene(fileName, m_provider, true, ETHSceneProperties(), 0, 0, 0, 0, true, _ETH_SCENE_EDITOR_BUCKET_SIZE));
 	else
-		m_pScene = ETHScenePtr(new ETHScene(m_provider, true, ETHSceneProperties(), 0, 0, true, _ETH_SCENE_EDITOR_BUCKET_SIZE));
+		m_pScene = ETHScenePtr(new ETHScene(m_provider, true, ETHSceneProperties(), 0, 0, 0, 0, true, _ETH_SCENE_EDITOR_BUCKET_SIZE));
 	m_sceneProps = *m_pScene->GetSceneProperties();
 	m_pSelected = 0;
 	m_genLightmapForThisOneOnly =-1;

@@ -34,11 +34,14 @@
 class ETHScene
 {
 public:
-	ETHScene(const str_type::string& fileName, ETHResourceProviderPtr provider, const bool richLighting, const ETHSceneProperties& props,
-			 asIScriptModule *pModule, asIScriptContext *pContext, const bool isInEditor, const Vector2 &v2BucketSize = Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
+	ETHScene(const str_type::string& fileName, ETHResourceProviderPtr provider, const bool richLighting,
+			 const ETHSceneProperties& props, asIScriptModule *pModule, asIScriptContext *pContext,
+			 asIScriptContext *pConstructorCallback, asIScriptEngine *pScriptEngine, const bool isInEditor,
+const Vector2 &v2BucketSize = Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
 
-	ETHScene(ETHResourceProviderPtr provider, const bool richLighting, const ETHSceneProperties& props, asIScriptModule *pModule, asIScriptContext *pContext,
-			 const bool isInEditor, const Vector2 &v2BucketSize = Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
+	ETHScene(ETHResourceProviderPtr provider, const bool richLighting, const ETHSceneProperties& props, asIScriptModule *pModule,
+			 asIScriptContext *pContext, asIScriptContext *pConstructorCallback, asIScriptEngine *pScriptEngine, const bool isInEditor,
+			 const Vector2 &v2BucketSize = Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
 
 	void ClearResources();
 
@@ -126,6 +129,7 @@ private:
 
 	bool RenderParticleList(std::list<ETHRenderEntity*> &particles);
 	bool AssignCallbackScript(ETHSpriteEntity* entity);
+	bool RunConstructorCallback(ETHSpriteEntity* entity);
 	void AssignControllerToEntity(ETHEntity* entity, const int functionId);
 	bool DrawBucketOutlines();
 	bool ReadFromXMLFile(TiXmlElement *pElement);
@@ -151,6 +155,8 @@ private:
 	bool m_enableZBuffer;
 	asIScriptModule *m_pModule;
 	asIScriptContext *m_pContext;
+	asIScriptContext *m_pConstructorCallback;
+	asIScriptEngine *m_pScriptEngine;
 };
 
 typedef boost::shared_ptr<ETHScene> ETHScenePtr;

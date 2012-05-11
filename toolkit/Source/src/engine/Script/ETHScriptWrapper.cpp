@@ -30,6 +30,7 @@
 #include "../../addons/ansi/scriptbuilder.h"
 #endif
 
+asIScriptEngine *ETHScriptWrapper::m_pASEngine = 0;
 ETHResourceProviderPtr ETHScriptWrapper::m_provider;
 std::list<boost::shared_ptr<ETHPrimitiveDrawer> > ETHScriptWrapper::m_primitiveList;
 ETHScenePtr ETHScriptWrapper::m_pScene;
@@ -49,6 +50,7 @@ Vector2 ETHScriptWrapper::m_v2LastCamPos(0,0);
 int ETHScriptWrapper::m_onSceneUpdateFunctionId =-1;
 int ETHScriptWrapper::m_onResumeFunctionId =-1;
 asIScriptContext *ETHScriptWrapper::m_pScriptContext = 0;
+asIScriptContext *ETHScriptWrapper::m_pConstructorContext = 0;
 bool ETHScriptWrapper::m_runningMainFunction = false;
 bool ETHScriptWrapper::m_persistentResources = false;
 ETHScriptWrapper::Math ETHScriptWrapper::m_math;
@@ -1169,7 +1171,8 @@ bool ETHScriptWrapper::LoadScene(const str_type::string &escFile, const Vector2 
 	fileName += escFile;
 	if (escFile != _ETH_EMPTY_SCENE_STRING && escFile.size() > 0)
 	{
-		m_pScene = ETHScenePtr(new ETHScene(fileName, m_provider, m_richLighting, ETHSceneProperties(), m_pASModule, m_pScriptContext, false, v2BucketSize));
+		m_pScene = ETHScenePtr(new ETHScene(fileName, m_provider, m_richLighting, ETHSceneProperties(), m_pASModule,
+							   m_pScriptContext, m_pConstructorContext, m_pASEngine, false, v2BucketSize));
 		if (!m_pScene->GetNumEntities())
 		{
 			ShowMessage(GS_L("Couldn't load the scene"), ETH_ERROR);
@@ -1178,7 +1181,8 @@ bool ETHScriptWrapper::LoadScene(const str_type::string &escFile, const Vector2 
 	}
 	else
 	{
-		m_pScene = ETHScenePtr(new ETHScene(m_provider, m_richLighting, ETHSceneProperties(), m_pASModule, m_pScriptContext, false, v2BucketSize));
+		m_pScene = ETHScenePtr(new ETHScene(m_provider, m_richLighting, ETHSceneProperties(), m_pASModule,
+							   m_pScriptContext, m_pConstructorContext, m_pASEngine, false, v2BucketSize));
 	}
 
 	m_pScene->ResolveJoints();
@@ -1240,7 +1244,6 @@ void ETHScriptWrapper::SetWindowProperties(const str_type::string &winTitle, con
 									const bool windowed, const bool sync, const GS_PIXEL_FORMAT gsPF)
 {
 	GS2D_UNUSED_ARGUMENT(sync);
-#ifndef ANDROID
 	if (m_provider->GetVideo())
 	{
 		const bool toggle = (m_provider->GetVideo()->IsWindowed() != windowed);
@@ -1253,7 +1256,6 @@ void ETHScriptWrapper::SetWindowProperties(const str_type::string &winTitle, con
 			m_provider->GetVideo()->SetWindowPosition(v2Screen/2-v2Backbuffer/2);
 		}
 	}
-#endif
 }
 
 void ETHScriptWrapper::UsePixelShaders(const bool enable)

@@ -69,12 +69,14 @@ public:
 	static str_type::char_t **m_argv;
 	static ETHInput m_ethInput;
 	static asIScriptModule *m_pASModule;
+	static asIScriptEngine *m_pASEngine;
 	static Vector2 m_v2LastCamPos;
 	static void LoadSceneScripts();
 	static Vector2 GetLastCameraPos();
 	static ETHBackBufferTargetManagerPtr m_backBuffer;
 
 	static asIScriptContext *m_pScriptContext;
+	static asIScriptContext *m_pConstructorContext;
 	static int m_onSceneUpdateFunctionId;
 	static int m_onResumeFunctionId;
 

@@ -180,3 +180,8 @@ class TestEntity : Test
 	ETHEntity @bird;
 	ETHEntityArray barrels;
 }
+
+void ETHConstructorCallback_bird(ETHEntity@ thisEntity)
+{
+	thisEntity.Scale(2.0f);
+}

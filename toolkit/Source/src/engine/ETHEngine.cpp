@@ -34,7 +34,6 @@
 using namespace gs2d;
 using namespace gs2d::math;
 
-asIScriptEngine *ETHEngine::m_pASEngine = 0;
 const str_type::string ETHEngine::ETH_SCRIPT_MODULE(GS_L("EthanonModule"));
 
 gs2d::BaseApplicationPtr gs2d::CreateBaseApplication()
@@ -69,6 +68,11 @@ ETHEngine::~ETHEngine()
 	{
 		m_pScriptContext->Release();
 		m_pScriptContext = 0;
+	}
+	if (m_pConstructorContext)
+	{
+		m_pConstructorContext->Release();
+		m_pConstructorContext = 0;
 	}
 	m_pASEngine->Release();
 	m_pASEngine = 0;
@@ -260,10 +264,9 @@ bool ETHEngine::PrepareScriptingEngine()
 	ETHGlobal::RegisterGlobalProperties(m_pASEngine);
 	ETHGlobal::RegisterAllObjects(m_pASEngine);
 	RegisterGlobalFunctions(m_pASEngine);
-#	ifdef WIN32
-	ETHPlatform::LoadAllDynamicLibraries(m_provider->GetResourcePath(), m_pASEngine);
-#	endif
+
 	m_pScriptContext = m_pASEngine->CreateContext();
+	m_pConstructorContext = m_pASEngine->CreateContext();
 
 	if (!BuildModule())
 		return false;

@@ -51,7 +51,6 @@ class ETHEngine : public gs2d::BaseApplication, public ETHScriptWrapper
 
 	const str_type::string m_startResourcePath;
 
-	static asIScriptEngine *m_pASEngine;
 	static void MessageCallback(const asSMessageInfo *msg);
 	static bool CheckAngelScriptError(const int r, const str_type::string &description);
 
