@@ -41,10 +41,10 @@ class ETHPhysicsEntityController : public ETHRawEntityController
 protected:
 	b2Body* m_body;
 	boost::shared_ptr<b2World> m_world;
-	int m_beginContactCallbackID;
-	int m_endContactCallbackID;
+	int m_beginContactCallbackId;
+	int m_endContactCallbackId;
 	std::vector<ETHJointPtr> m_joints;
-	int GetContactCallbackID(const str_type::string& prefix, asIScriptModule* module);
+	int GetContactCallbackId(const str_type::string& prefix, asIScriptModule* module);
 	bool IsValidFunction(const int functionId) const;
 
 public:

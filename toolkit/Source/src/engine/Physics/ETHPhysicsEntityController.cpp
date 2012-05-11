@@ -36,21 +36,21 @@ ETHPhysicsEntityController::ETHPhysicsEntityController(const ETHEntityController
 	ETHRawEntityController(old, 0,-1,-1),
 	m_body(body),
 	m_world(world),
-	m_beginContactCallbackID(-1),
-	m_endContactCallbackID(-1)
+	m_beginContactCallbackId(-1),
+	m_endContactCallbackId(-1)
 {
 	ETHRawEntityControllerPtr raw = boost::dynamic_pointer_cast<ETHRawEntityController>(old);
 	if (raw)
 	{
-		m_callbackID = raw->GetCallbackID();
-		m_constructorCallbackID = raw->GetConstructorCallbackID();
+		m_callbackId = raw->GetCallbackId();
+		m_constructorCallbackId = raw->GetConstructorCallbackId();
 		m_pContext = context;
-		m_beginContactCallbackID = GetContactCallbackID(ETH_BEGIN_CONTACT_CALLBACK_PREFIX, module);
-		m_endContactCallbackID   = GetContactCallbackID(ETH_END_CONTACT_CALLBACK_PREFIX,   module);
+		m_beginContactCallbackId = GetContactCallbackId(ETH_BEGIN_CONTACT_CALLBACK_PREFIX, module);
+		m_endContactCallbackId   = GetContactCallbackId(ETH_END_CONTACT_CALLBACK_PREFIX,   module);
 	}
 }
 
-int ETHPhysicsEntityController::GetContactCallbackID(const str_type::string& prefix, asIScriptModule* module)
+int ETHPhysicsEntityController::GetContactCallbackId(const str_type::string& prefix, asIScriptModule* module)
 {
 	ETHEntity* entity = static_cast<ETHEntity*>(m_body->GetUserData());
 	str_type::stringstream ss;
@@ -144,12 +144,12 @@ void ETHPhysicsEntityController::Scale(const Vector2& scale, ETHEntity* entity)
 
 bool ETHPhysicsEntityController::HasBeginContactCallback() const
 {
-	return IsValidFunction(m_beginContactCallbackID);
+	return IsValidFunction(m_beginContactCallbackId);
 }
 
 bool ETHPhysicsEntityController::HasEndContactCallback() const
 {
-	return IsValidFunction(m_endContactCallbackID);
+	return IsValidFunction(m_endContactCallbackId);
 }
 
 bool ETHPhysicsEntityController::RunContactCallback(const int functionId, ETHEntity* other, Vector2& point0, Vector2& point1, Vector2& normal)
@@ -171,12 +171,12 @@ bool ETHPhysicsEntityController::RunContactCallback(const int functionId, ETHEnt
 
 bool ETHPhysicsEntityController::RunBeginContactCallback(ETHEntity* other, Vector2& point0, Vector2& point1, Vector2& normal)
 {
-	return RunContactCallback(m_beginContactCallbackID, other, point0, point1, normal);
+	return RunContactCallback(m_beginContactCallbackId, other, point0, point1, normal);
 }
 
 bool ETHPhysicsEntityController::RunEndContactCallback(ETHEntity* other, Vector2& point0, Vector2& point1, Vector2& normal)
 {
-	return RunContactCallback(m_endContactCallbackID, other, point0, point1, normal);
+	return RunContactCallback(m_endContactCallbackId, other, point0, point1, normal);
 }
 
 bool ETHPhysicsEntityController::IsValidFunction(const int functionId) const

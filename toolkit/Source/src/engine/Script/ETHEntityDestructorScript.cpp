@@ -22,11 +22,10 @@
 
 #include "ETHEntityDestructorScript.h"
 
-ETHEntityDestructorScript::ETHEntityDestructorScript(asIScriptModule* pModule, ETHScriptEntity* entity, const Platform::Logger& logger) :
+ETHEntityDestructorScript::ETHEntityDestructorScript(ETHScriptEntity* entity) :
 	m_entity(entity)
 {
 	m_entity->AddRef();
-	m_functionId = ETHGlobal::FindCallbackFunction(pModule, entity, ETH_DESTRUCTOR_CALLBACK_PREFIX, logger);
 }
 
 ETHEntityDestructorScript::~ETHEntityDestructorScript()
@@ -36,5 +35,5 @@ ETHEntityDestructorScript::~ETHEntityDestructorScript()
 
 void ETHEntityDestructorScript::Run(asIScriptContext* pContext)
 {
-	ETHGlobal::RunEntityCallback(pContext, m_entity, m_functionId);
+	ETHGlobal::RunEntityCallback(pContext, m_entity, m_entity->GetDestructorCallbackId());
 }

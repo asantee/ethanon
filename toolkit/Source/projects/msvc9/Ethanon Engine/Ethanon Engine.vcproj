@@ -627,6 +627,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\src\engine\Script\ETHEntityDestructorManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\engine\Script\ETHEntityDestructorManager.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\src\engine\Script\ETHEntityDestructorScript.cpp"
 				>
 			</File>

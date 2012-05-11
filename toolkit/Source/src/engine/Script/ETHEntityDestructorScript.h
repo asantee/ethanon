@@ -28,10 +28,9 @@
 class ETHEntityDestructorScript
 {
 	ETHScriptEntity* m_entity;
-	int m_functionId;
 
 public:
-	ETHEntityDestructorScript(asIScriptModule* pModule, ETHScriptEntity* entity, const Platform::Logger& logger);
+	ETHEntityDestructorScript(ETHScriptEntity* entity);
 	~ETHEntityDestructorScript();
 	void Run(asIScriptContext* pContext);
 };

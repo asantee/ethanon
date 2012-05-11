@@ -129,7 +129,7 @@ private:
 
 	bool RenderParticleList(std::list<ETHRenderEntity*> &particles);
 	bool AssignCallbackScript(ETHSpriteEntity* entity);
-	void AssignControllerToEntity(ETHEntity* entity, const int callbackId, const int constructorCallbackId);
+	void AssignControllerToEntity(ETHEntity* entity, const int callbackId, const int constructorCallbackId, const int destructorCallbackId);
 	bool DrawBucketOutlines();
 	bool ReadFromXMLFile(TiXmlElement *pElement);
 

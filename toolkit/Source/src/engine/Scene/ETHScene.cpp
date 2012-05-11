@@ -780,13 +780,14 @@ bool ETHScene::AssignCallbackScript(ETHSpriteEntity* entity)
 {
 	const int callbackId = ETHGlobal::FindCallbackFunction(m_pModule, entity, ETH_CALLBACK_PREFIX, *m_provider->GetLogger());
 	const int constructorCallbackId = ETHGlobal::FindCallbackFunction(m_pModule, entity, ETH_CONSTRUCTOR_CALLBACK_PREFIX, *m_provider->GetLogger());
-
-	AssignControllerToEntity(entity, callbackId, constructorCallbackId);
+	const int destructorCallbackId = ETHGlobal::FindCallbackFunction(m_pModule, entity, ETH_DESTRUCTOR_CALLBACK_PREFIX, *m_provider->GetLogger());
+	AssignControllerToEntity(entity, callbackId, constructorCallbackId, destructorCallbackId);
 	return true;
 }
 
-void ETHScene::AssignControllerToEntity(ETHEntity* entity, const int callbackId, const int constructorCallbackId)
+void ETHScene::AssignControllerToEntity(ETHEntity* entity, const int callbackId, const int constructorCallbackId, const int destructorCallbackId)
 {
+	entity->SetDestructorCallbackId(destructorCallbackId);
 	if (callbackId >= 0 || constructorCallbackId >= 0)
 	{
 		ETHEntityControllerPtr currentController(entity->GetController());

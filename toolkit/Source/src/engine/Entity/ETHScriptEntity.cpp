@@ -24,7 +24,8 @@
 
 ETHScriptEntity::ETHScriptEntity() : 
 	m_ref(1),
-	m_isAlive(true)
+	m_isAlive(true),
+	m_destructorCallbackId(-1)
 {
 }
 
@@ -40,4 +41,14 @@ void ETHScriptEntity::Kill()
 bool ETHScriptEntity::IsAlive() const
 {
 	return m_isAlive;
+}
+
+void ETHScriptEntity::SetDestructorCallbackId(const int id)
+{
+	m_destructorCallbackId = id;
+}
+
+int ETHScriptEntity::GetDestructorCallbackId() const
+{
+	return m_destructorCallbackId;
 }

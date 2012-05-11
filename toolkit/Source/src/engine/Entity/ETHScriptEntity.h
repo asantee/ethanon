@@ -33,6 +33,7 @@ class ETHPhysicsController;
 class ETHScriptEntity
 {
 	bool m_isAlive;
+	int m_destructorCallbackId;
 
 protected:
 	ETHScriptEntity();
@@ -165,6 +166,8 @@ public:
 	virtual void Release() = 0;
 	void Kill();
 	bool IsAlive() const;
+	void SetDestructorCallbackId(const int id);
+	int GetDestructorCallbackId() const;
 };
 
 #endif

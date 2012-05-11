@@ -57,8 +57,8 @@ typedef boost::shared_ptr<ETHEntityController> ETHEntityControllerPtr;
 class ETHRawEntityController : public ETHEntityController
 {
 protected:
-	int m_callbackID;
-	int m_constructorCallbackID;
+	int m_callbackId;
+	int m_constructorCallbackId;
 	asIScriptContext *m_pContext;
 	Vector3 m_pos;
 	float m_angle;
@@ -66,7 +66,7 @@ protected:
 public:
 	ETHRawEntityController(const Vector3& pos, const float angle);
 	ETHRawEntityController(const ETHEntityControllerPtr& old, asIScriptContext *pContext,
-						   const int callbackID, const int constructorCallbackID);
+						   const int callbackId, const int constructorCallbackId);
 	virtual ~ETHRawEntityController();
 	void Update(const unsigned long lastFrameElapsedTime, ETHBucketManager& buckets);
 	Vector3 GetPos() const;
@@ -74,15 +74,17 @@ public:
 	float GetAngle() const;
 	void SetPos(const Vector3& pos);
 	void SetAngle(const float angle);
-	bool HasConstructorCallback() const { return (m_constructorCallbackID >= 0); }
-	bool HasCallback() const { return (m_callbackID >= 0); }
+
+	bool HasConstructorCallback() const { return (m_constructorCallbackId >= 0); }
+	bool HasCallback() const { return (m_callbackId >= 0); }
 	bool HasAnyCallbackFunction() const { return (HasCallback() || HasConstructorCallback()); }
 	bool RunCallback(ETHScriptEntity* entity);
+
 	void AddToPos(const Vector3& pos);
 	void AddToAngle(const float angle);
 	asIScriptContext* GetScriptContext();
-	int GetCallbackID();
-	int GetConstructorCallbackID();
+	int GetCallbackId();
+	int GetConstructorCallbackId();
 	void Destroy();
 	void Scale(const Vector2& scale, ETHEntity* entity);
 };
