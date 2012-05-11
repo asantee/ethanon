@@ -33,7 +33,7 @@
 
 ETHPhysicsEntityController::ETHPhysicsEntityController(const ETHEntityControllerPtr& old, b2Body* body,
 													   boost::shared_ptr<b2World> world, asIScriptModule* module, asIScriptContext* context) :
-	ETHRawEntityController(old, 0,-1),
+	ETHRawEntityController(old, 0,-1,-1),
 	m_body(body),
 	m_world(world),
 	m_beginContactCallbackID(-1),
@@ -43,6 +43,7 @@ ETHPhysicsEntityController::ETHPhysicsEntityController(const ETHEntityController
 	if (raw)
 	{
 		m_callbackID = raw->GetCallbackID();
+		m_constructorCallbackID = raw->GetConstructorCallbackID();
 		m_pContext = context;
 		m_beginContactCallbackID = GetContactCallbackID(ETH_BEGIN_CONTACT_CALLBACK_PREFIX, module);
 		m_endContactCallbackID   = GetContactCallbackID(ETH_END_CONTACT_CALLBACK_PREFIX,   module);

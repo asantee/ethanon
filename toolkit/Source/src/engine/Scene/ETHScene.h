@@ -35,12 +35,11 @@ class ETHScene
 {
 public:
 	ETHScene(const str_type::string& fileName, ETHResourceProviderPtr provider, const bool richLighting,
-			 const ETHSceneProperties& props, asIScriptModule *pModule, asIScriptContext *pContext,
-			 asIScriptContext *pConstructorCallback, asIScriptEngine *pScriptEngine, const bool isInEditor,
+			 const ETHSceneProperties& props, asIScriptModule *pModule, asIScriptContext *pContext, const bool isInEditor,
 const Vector2 &v2BucketSize = Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
 
-	ETHScene(ETHResourceProviderPtr provider, const bool richLighting, const ETHSceneProperties& props, asIScriptModule *pModule,
-			 asIScriptContext *pContext, asIScriptContext *pConstructorCallback, asIScriptEngine *pScriptEngine, const bool isInEditor,
+	ETHScene(ETHResourceProviderPtr provider, const bool richLighting, const ETHSceneProperties& props,
+			 asIScriptModule *pModule, asIScriptContext *pContext, const bool isInEditor,
 			 const Vector2 &v2BucketSize = Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
 
 	void ClearResources();
@@ -129,8 +128,8 @@ private:
 
 	bool RenderParticleList(std::list<ETHRenderEntity*> &particles);
 	bool AssignCallbackScript(ETHSpriteEntity* entity);
-	bool RunConstructorCallback(ETHSpriteEntity* entity);
-	void AssignControllerToEntity(ETHEntity* entity, const int functionId);
+	void AssignControllerToEntity(ETHEntity* entity, const int callbackId, const int constructorCallbackId);
+	int FindCallbackFunction(const ETHEntity* entity, const str_type::string& prefix);
 	bool DrawBucketOutlines();
 	bool ReadFromXMLFile(TiXmlElement *pElement);
 
@@ -143,6 +142,8 @@ private:
 	ETHResourceProviderPtr m_provider;
 	ETHSceneProperties m_sceneProps;
 	ETHPhysicsSimulator m_physicsSimulator;
+	asIScriptModule *m_pModule;
+	asIScriptContext *m_pContext;
 	float m_maxSceneHeight, m_minSceneHeight;
 	int m_idCounter;
 	int m_nCurrentLights;
@@ -153,10 +154,6 @@ private:
 	bool m_usingRTShadows;
 	bool m_richLighting;
 	bool m_enableZBuffer;
-	asIScriptModule *m_pModule;
-	asIScriptContext *m_pContext;
-	asIScriptContext *m_pConstructorCallback;
-	asIScriptEngine *m_pScriptEngine;
 };
 
 typedef boost::shared_ptr<ETHScene> ETHScenePtr;

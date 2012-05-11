@@ -1172,7 +1172,7 @@ bool ETHScriptWrapper::LoadScene(const str_type::string &escFile, const Vector2 
 	if (escFile != _ETH_EMPTY_SCENE_STRING && escFile.size() > 0)
 	{
 		m_pScene = ETHScenePtr(new ETHScene(fileName, m_provider, m_richLighting, ETHSceneProperties(), m_pASModule,
-							   m_pScriptContext, m_pConstructorContext, m_pASEngine, false, v2BucketSize));
+							   m_pScriptContext, false, v2BucketSize));
 		if (!m_pScene->GetNumEntities())
 		{
 			ShowMessage(GS_L("Couldn't load the scene"), ETH_ERROR);
@@ -1182,7 +1182,7 @@ bool ETHScriptWrapper::LoadScene(const str_type::string &escFile, const Vector2 
 	else
 	{
 		m_pScene = ETHScenePtr(new ETHScene(m_provider, m_richLighting, ETHSceneProperties(), m_pASModule,
-							   m_pScriptContext, m_pConstructorContext, m_pASEngine, false, v2BucketSize));
+							   m_pScriptContext, false, v2BucketSize));
 	}
 
 	m_pScene->ResolveJoints();

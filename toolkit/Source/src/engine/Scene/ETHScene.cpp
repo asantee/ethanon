@@ -41,30 +41,24 @@
 
 ETHScene::ETHScene(const str_type::string& fileName, ETHResourceProviderPtr provider, const bool richLighting,
 				   const ETHSceneProperties& props, asIScriptModule *pModule, asIScriptContext *pContext,
-				   asIScriptContext *pConstructorCallback, asIScriptEngine *pScriptEngine,
 				   const bool isInEditor, const Vector2& v2BucketSize) :
 	m_buckets(provider, v2BucketSize, true),
 	m_tempEntities(provider),
 	m_richLighting(richLighting),
 	m_isInEditor(isInEditor),
-	m_physicsSimulator(provider->GetVideo()->GetFPSRate()),
-	m_pScriptEngine(pScriptEngine),
-	m_pConstructorCallback(pConstructorCallback)
+	m_physicsSimulator(provider->GetVideo()->GetFPSRate())
 {
 	Init(provider, props, pModule, pContext);
 	LoadFromFile(fileName);
 }
 
 ETHScene::ETHScene(ETHResourceProviderPtr provider, const bool richLighting, const ETHSceneProperties& props,
-				   asIScriptModule *pModule, asIScriptContext *pContext, asIScriptContext *pConstructorCallback,
-				   asIScriptEngine *pScriptEngine, const bool isInEditor, const Vector2 &v2BucketSize) :
+				   asIScriptModule *pModule, asIScriptContext *pContext, const bool isInEditor, const Vector2 &v2BucketSize) :
 	m_buckets(provider, v2BucketSize, true),
 	m_tempEntities(provider),
 	m_richLighting(richLighting),
 	m_isInEditor(isInEditor),
-	m_physicsSimulator(provider->GetVideo()->GetFPSRate()),
-	m_pScriptEngine(pScriptEngine),
-	m_pConstructorCallback(pConstructorCallback)
+	m_physicsSimulator(provider->GetVideo()->GetFPSRate())
 {
 	Init(provider, props, pModule, pContext);
 }
@@ -237,7 +231,6 @@ int ETHScene::AddEntity(ETHRenderEntity* pEntity, const str_type::string& altern
 	if (m_pContext && m_pModule)
 	{
 		AssignCallbackScript(pEntity);
-		RunConstructorCallback(pEntity);
 	}
 
 	// if it has a callback and is dynamic, or if it's temporary, add it to the "callback constant run list"
@@ -783,11 +776,38 @@ void ETHScene::ForceAllSFXStop()
 	}
 }
 
-void ETHScene::AssignControllerToEntity(ETHEntity* entity, const int functionId)
+int ETHScene::FindCallbackFunction(const ETHEntity* entity, const str_type::string& prefix)
 {
-	if (functionId >= 0)
+	const str_type::string entityName = ETHGlobal::RemoveExtension(entity->GetEntityName().c_str());
+	str_type::stringstream funcName;
+	funcName << prefix << entityName;
+	const int id = CScriptBuilder::GetFunctionIdByName(m_pModule, funcName.str());
+
+	if (id == asMULTIPLE_FUNCTIONS)
 	{
-		entity->SetController(ETHEntityControllerPtr(new ETHRawEntityController(entity->GetController(), m_pContext, functionId)));
+		str_type::stringstream ss;
+		ss << GS_L("ETHScene::FindCallbackFunction: found multiple functions named (") << funcName.str() << GS_L(").");
+		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
+	}
+	return id;
+}
+
+bool ETHScene::AssignCallbackScript(ETHSpriteEntity* entity)
+{
+	const int callbackId = FindCallbackFunction(entity, ETH_CALLBACK_PREFIX);
+	const int constructorCallbackId = FindCallbackFunction(entity, ETH_CONSTRUCTOR_CALLBACK_PREFIX);
+
+	AssignControllerToEntity(entity, callbackId, constructorCallbackId);
+	return true;
+}
+
+void ETHScene::AssignControllerToEntity(ETHEntity* entity, const int callbackId, const int constructorCallbackId)
+{
+	if (callbackId >= 0 || constructorCallbackId >= 0)
+	{
+		ETHEntityControllerPtr currentController(entity->GetController());
+		ETHEntityControllerPtr newController(new ETHRawEntityController(currentController, m_pContext, callbackId, constructorCallbackId));
+		entity->SetController(newController);
 	}
 	if (entity->IsBody())
 	{
@@ -809,83 +829,6 @@ void ETHScene::AssignControllerToEntity(ETHEntity* entity, const int functionId)
 		#endif
 		entity->SetController(controller);
 	}
-}
-
-bool ETHScene::AssignCallbackScript(ETHSpriteEntity* entity)
-{
-	// removes extension from file name (to make a function name with it)
-	const str_type::string entityName = ETHGlobal::RemoveExtension(entity->GetEntityName().c_str());
-
-	// assembles a function name based on it's ID. If we don't find any,
-	// we'll try to find a function based on entity original file name
-	str_type::stringstream funcName;
-	funcName << ETH_CALLBACK_PREFIX << entity->GetID();
-
-	int functionId=-1;
-	if ((functionId = CScriptBuilder::GetFunctionIdByName(m_pModule, funcName.str())) < 0)
-	{
-		// let's try to find a function with name based on the entity original file name
-		funcName.str(GS_L(""));
-		funcName << ETH_CALLBACK_PREFIX << entityName;
-		functionId = CScriptBuilder::GetFunctionIdByName(m_pModule, funcName.str());
-	}
-
-	AssignControllerToEntity(entity, functionId);
-
-	// if we found anything...
-	if (functionId >= 0)
-	{
-		#ifdef _DEBUG
-			ETH_STREAM_DECL(ss) << GS_L("ETHScene::AssignCallbackScripts: Callback assigned (") << funcName.str() << GS_L(").");
-			m_provider->Log(ss.str(), Platform::FileLogger::INFO);
-		#endif
-	}
-	else
-	{
-		str_type::stringstream ss;
-		switch (functionId)
-		{
-		case asERROR:
-			ss << GS_L("ETHScene::AssignCallbackScripts: invalid module (") << funcName.str() << GS_L(").");
-			m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
-			return false;
-		case asMULTIPLE_FUNCTIONS:
-			ss << GS_L("\n*Script error:\nETHScene::AssignCallbackScripts: there are multiple functions with this name (") << funcName.str() << GS_L(").");
-			m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
-			return false;
-		};
-	}
-	return true;
-}
-
-bool ETHScene::RunConstructorCallback(ETHSpriteEntity* entity)
-{
-	const str_type::string entityName = ETHGlobal::RemoveExtension(entity->GetEntityName().c_str());
-	str_type::stringstream funcName;
-	funcName << ETH_CONSTRUCTOR_CALLBACK_PREFIX << entityName;
-	const int functionId = CScriptBuilder::GetFunctionIdByName(m_pModule, funcName.str());
-
-	if (functionId >= 0)
-	{
-		//m_pContext->Suspend();
-		if (m_pConstructorCallback->Prepare(functionId) < 0)
-		{
-			ETH_STREAM_DECL(ss) << GS_L("(RunConstructorCallback) Couldn't prepare context for function ETHConstructorCallback_") << ETHGlobal::RemoveExtension(entity->GetEntityName().c_str());
-			return false;
-		}
-
-		if (m_pConstructorCallback->SetArgObject(0, entity) >= 0)
-		{
-			ETHGlobal::ExecuteContext(m_pConstructorCallback, functionId, false);
-		}
-		else
-		{
-			ETH_STREAM_DECL(ss) << GS_L("(RunConstructorCallback) Couldn't set entity argument to function ETHConstructorCallback_") << ETHGlobal::RemoveExtension(entity->GetEntityName().c_str());
-			return false;
-		}
-		//m_pContext->Execute();
-	}
-	return true;
 }
 
 bool ETHScene::AddFloatData(const str_type::string &entity, const str_type::string &name, const float value)

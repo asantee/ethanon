@@ -78,7 +78,7 @@ public:
 	bool IsCollidable() const;
 	GS_ALPHA_MODE GetBlendMode() const;
 	unsigned int GetNumFrames() const;
-	bool HasCallback() const;
+	bool HasAnyCallbackFunction() const;
 	const ETHLight* GetLight() const;
 	void TurnDynamic();
 	void TurnStatic();

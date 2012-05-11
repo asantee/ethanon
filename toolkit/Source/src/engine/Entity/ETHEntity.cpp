@@ -542,9 +542,9 @@ unsigned int ETHEntity::GetNumFrames() const
 	return static_cast<unsigned int>(m_properties.spriteCut.x * m_properties.spriteCut.y);
 }
 
-bool ETHEntity::HasCallback() const
+bool ETHEntity::HasAnyCallbackFunction() const
 {
-	return m_controller->HasCallback();
+	return m_controller->HasAnyCallbackFunction();
 }
 
 bool ETHEntity::IsStatic() const

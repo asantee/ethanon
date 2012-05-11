@@ -45,7 +45,7 @@ public:
 	virtual void AddToAngle(const float angle) = 0;
 
 	virtual void SetAngle(const float angle) = 0;
-	virtual bool HasCallback() const = 0;
+	virtual bool HasAnyCallbackFunction() const = 0;
 	virtual bool RunCallback(ETHScriptEntity* entity) = 0;
 
 	virtual void Destroy() = 0;
@@ -58,13 +58,15 @@ class ETHRawEntityController : public ETHEntityController
 {
 protected:
 	int m_callbackID;
+	int m_constructorCallbackID;
 	asIScriptContext *m_pContext;
 	Vector3 m_pos;
 	float m_angle;
 
 public:
 	ETHRawEntityController(const Vector3& pos, const float angle);
-	ETHRawEntityController(const ETHEntityControllerPtr& old, asIScriptContext *pContext, const int callbackID);
+	ETHRawEntityController(const ETHEntityControllerPtr& old, asIScriptContext *pContext,
+						   const int callbackID, const int constructorCallbackID);
 	virtual ~ETHRawEntityController();
 	void Update(const unsigned long lastFrameElapsedTime, ETHBucketManager& buckets);
 	Vector3 GetPos() const;
@@ -72,12 +74,16 @@ public:
 	float GetAngle() const;
 	void SetPos(const Vector3& pos);
 	void SetAngle(const float angle);
-	bool HasCallback() const { return (m_callbackID != -1); }
+	bool HasConstructorCallback() const { return (m_constructorCallbackID >= 0); }
+	bool HasCallback() const { return (m_callbackID >= 0); }
+	bool HasAnyCallbackFunction() const { return (HasCallback() || HasConstructorCallback()); }
 	bool RunCallback(ETHScriptEntity* entity);
+	bool RunCallback(ETHScriptEntity* entity, const int id);
 	void AddToPos(const Vector3& pos);
 	void AddToAngle(const float angle);
 	asIScriptContext* GetScriptContext();
 	int GetCallbackID();
+	int GetConstructorCallbackID();
 	void Destroy();
 	void Scale(const Vector2& scale, ETHEntity* entity);
 };

@@ -27,13 +27,16 @@ ETHRawEntityController::ETHRawEntityController(const Vector3& pos, const float a
 	m_pos(pos),
 	m_angle(angle),
 	m_pContext(0),
-	m_callbackID(-1)
+	m_callbackID(-1),
+	m_constructorCallbackID(-1)
 {
 }
 
-ETHRawEntityController::ETHRawEntityController(const ETHEntityControllerPtr& old, asIScriptContext *pContext, const int callbackID) :
+ETHRawEntityController::ETHRawEntityController(const ETHEntityControllerPtr& old, asIScriptContext *pContext,
+											   const int callbackID, const int constructorCallbackID) :
 	m_pContext(pContext),
-	m_callbackID(callbackID)
+	m_callbackID(callbackID),
+	m_constructorCallbackID(constructorCallbackID)
 {
 	m_pos = old->GetPos();
 	m_angle = old->GetAngle();
@@ -85,30 +88,30 @@ void ETHRawEntityController::AddToAngle(const float angle)
 
 bool ETHRawEntityController::RunCallback(ETHScriptEntity* entity)
 {
-	if (!HasCallback())
+	if (HasConstructorCallback())
 	{
-		ETH_STREAM_DECL(ss) << GS_L("ETHRawEntityController::RunCallbackScript: no context to run the script");
-		return false;
+		RunCallback(entity, m_constructorCallbackID);
+		m_constructorCallbackID =-1; // never run it again. that's the trick
 	}
-	if (m_callbackID < 0)
+	if (HasCallback())
 	{
-		ETH_STREAM_DECL(ss) << GS_L("ETHRawEntityController::RunCallbackScript: no callbacks to run");
+		RunCallback(entity, m_callbackID);
+	}
+	return true;
+}
+
+bool ETHRawEntityController::RunCallback(ETHScriptEntity* entity, const int id)
+{
+	if (m_pContext->Prepare(id) < 0)
+	{
+		ETH_STREAM_DECL(ss) << GS_L("(RunCallbackScript) Couldn't prepare context for function ID ") << id
+							<< GS_L(" - ") << ETHGlobal::RemoveExtension(entity->GetEntityName().c_str());
 		return false;
 	}
 
-	// prepare the context to start receiving the arguments
-	if (m_pContext->Prepare(m_callbackID) < 0)
-	{
-		ETH_STREAM_DECL(ss) << GS_L("(RunCallbackScript) Couldn't prepare context for function ETHCallback_") << ETHGlobal::RemoveExtension(entity->GetEntityName().c_str());
-		return false;
-	}
-
-	// set the argument
 	if (m_pContext->SetArgObject(0, entity) >= 0)
 	{
-		// execute the script but do not prepare it (false)
-		// because it has already been prepared to receive the arguments
-		ETHGlobal::ExecuteContext(m_pContext, m_callbackID, false);
+		ETHGlobal::ExecuteContext(m_pContext, id, false);
 	}
 	else
 	{
@@ -125,6 +128,11 @@ asIScriptContext* ETHRawEntityController::GetScriptContext()
 int ETHRawEntityController::GetCallbackID()
 {
 	return m_callbackID;
+}
+
+int ETHRawEntityController::GetConstructorCallbackID()
+{
+	return m_constructorCallbackID;
 }
 
 void ETHRawEntityController::Destroy()
