@@ -308,9 +308,10 @@ public:
 	static ETHEntity* GetClosestContact(const Vector2& a, const Vector2& b, Vector2& point, Vector2& normal, const str_type::string& semicolonSeparatedIgnoreList);
 	static bool GetContactEntities(const Vector2& a, const Vector2& b, ETHEntityArray& entities);
 
-//public:
+	// Not to the script
 	static bool Aborted();
 	static ETHResourceProviderPtr GetProvider();
+	static void CreateDynamicBackBuffer(const str_type::string& startResourcePath);
 };
 
 #endif

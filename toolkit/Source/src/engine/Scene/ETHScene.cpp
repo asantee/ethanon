@@ -81,6 +81,8 @@ void ETHScene::Init(ETHResourceProviderPtr provider, const ETHSceneProperties& p
 	m_maxSceneHeight = m_provider->GetVideo()->GetScreenSizeF().y;
 	const ETHShaderManagerPtr& shaderManager = m_provider->GetShaderManager();
 	shaderManager->SetParallaxIntensity(m_sceneProps.parallaxIntensity);
+	m_destructorManager = ETHEntityDestructorManagerPtr(new ETHEntityDestructorManager(pContext));
+	m_buckets.SetDestructionListener(m_destructorManager);
 }
 
 void ETHScene::ClearResources()
@@ -363,7 +365,7 @@ bool ETHScene::GenerateLightmaps(const int id)
 
 void ETHScene::Update(const unsigned long lastFrameElapsedTime)
 {
-	// m_physicsSimulator.Update(static_cast<unsigned long>(static_cast<float>(lastFrameElapsedTime) * 1.0f));
+	m_destructorManager->RunDestructors();
 	m_physicsSimulator.Update(lastFrameElapsedTime);
 	RunCallbacksFromList();
 }

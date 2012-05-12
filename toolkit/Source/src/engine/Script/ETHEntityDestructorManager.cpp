@@ -22,7 +22,21 @@
 
 #include "ETHEntityDestructorManager.h"
 
-void ETHEntityDestructorManager::EntityKilled(ETHEntity* entity)
+ETHEntityDestructorManager::ETHEntityDestructorManager(asIScriptContext* pContext) :
+	m_pContext(pContext)
 {
-	GS2D_UNUSED_ARGUMENT(entity);
+}
+
+void ETHEntityDestructorManager::EntityKilled(ETHScriptEntity* entity)
+{
+	m_destructors.push_back(ETHEntityDestructorScriptPtr(new ETHEntityDestructorScript(entity)));
+}
+
+void ETHEntityDestructorManager::RunDestructors()
+{
+	for (std::list<ETHEntityDestructorScriptPtr>::iterator iter = m_destructors.begin(); iter != m_destructors.end(); iter++)
+	{
+		(*iter)->Run(m_pContext);
+	}
+	m_destructors.clear();
 }

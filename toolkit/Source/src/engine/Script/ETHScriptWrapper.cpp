@@ -1255,6 +1255,7 @@ void ETHScriptWrapper::SetWindowProperties(const str_type::string &winTitle, con
 			Vector2i v2Screen = m_provider->GetVideo()->GetClientScreenSize();
 			m_provider->GetVideo()->SetWindowPosition(v2Screen/2-v2Backbuffer/2);
 		}
+		CreateDynamicBackBuffer(m_provider->GetResourcePath());
 	}
 }
 
@@ -1417,4 +1418,12 @@ float ETHScriptWrapper::GetCurrentPhysicsTimeStepMS()
 	if (WarnIfRunsInMainFunction(GS_L("GetCurrentPhysicsTimeStepMS")))
 		return 0.0f;
 	return m_pScene->GetSimulator().GetCurrentDynamicTimeStepMS();
+}
+
+void ETHScriptWrapper::CreateDynamicBackBuffer(const str_type::string& startResourcePath)
+{
+	str_type::string appEnmlContent;
+	m_provider->GetVideo()->GetFileManager()->GetAnsiFileString(startResourcePath + ETH_APP_PROPERTIES_FILE, appEnmlContent);
+	m_backBuffer = ETHBackBufferTargetManagerPtr(new ETHBackBufferTargetManager(m_provider->GetVideo(), enml::File(appEnmlContent), *m_provider->GetLogger()));
+	m_ethInput.SetTargetManager(m_backBuffer);
 }

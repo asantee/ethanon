@@ -36,6 +36,9 @@ class TestEntity : Test
 		print("Message A: an error message regarding duplicate name is already expected");
 		LoadSprite("sprite/barril.png");
 		print("Message B: If there were no error messages between Messages A and B, something is wrong");
+		
+		// ad a static entity pretty far away to see if its constructor gets called
+		AddEntity("barrel.ent", vector3(17000, 17000, 0), "static_barrel");
 	}
 	
 	void updateBird()
@@ -184,4 +187,24 @@ class TestEntity : Test
 void ETHConstructorCallback_bird(ETHEntity@ thisEntity)
 {
 	thisEntity.Scale(2.0f);
+}
+
+void ETHConstructorCallback_static_barrel(ETHEntity@ thisEntity)
+{
+	print("Static barrel constructor...this shouldn't have happened\x07");
+	thisEntity.SetString("test", "test value");
+}
+
+void ETHConstructorCallback_barrel(ETHEntity@ thisEntity)
+{
+	print("Barrel constructor!");
+	thisEntity.SetString("test", "test value");
+}
+
+void ETHDestructorCallback_barrel(ETHEntity@ thisEntity)
+{
+	if (thisEntity.GetString("test") == "test value")
+	{
+		print("Barrel destructor test passed...");
+	}
 }

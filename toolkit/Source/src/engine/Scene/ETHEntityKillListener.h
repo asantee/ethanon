@@ -23,12 +23,12 @@
 #ifndef ETH_ENTITY_KILL_LISTENER_H_
 #define ETH_ENTITY_KILL_LISTENER_H_
 
-class ETHEntity;
+class ETHScriptEntity;
 
 class ETHEntityKillListener
 {
 public:
-	virtual void EntityKilled(ETHEntity* entity) = 0;
+	virtual void EntityKilled(ETHScriptEntity* entity) = 0;
 };
 
 typedef boost::shared_ptr<ETHEntityKillListener> ETHEntityKillListenerPtr;

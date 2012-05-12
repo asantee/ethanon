@@ -68,8 +68,6 @@ class ETHEngine : public gs2d::BaseApplication, public ETHScriptWrapper
 	void SaveByteCodeReadme(str_type::string path);
 	void DrawTopLayer();
 
-	void CreateDynamicBackBuffer();
-
 public:
 	static const str_type::string ETH_SCRIPT_MODULE;
 

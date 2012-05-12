@@ -85,6 +85,8 @@ LOCAL_SRC_FILES := \
 	$(ENGINE_PATH)/Script/ETHScriptObjRegister.cpp \
 	$(ENGINE_PATH)/Script/ETHScriptObjRegister.generic.cpp \
 	$(ENGINE_PATH)/Script/ETHBinaryStream.cpp \
+	$(ENGINE_PATH)/Script/ETHEntityDestructorManager.cpp \
+	$(ENGINE_PATH)/Script/ETHEntityDestructorScript.cpp \
 	$(ENGINE_PATH)/Physics/ETHPhysicsSimulator.cpp \
 	$(ENGINE_PATH)/Physics/ETHPhysicsController.cpp \
 	$(ENGINE_PATH)/Physics/ETHRayCastCallback.cpp \

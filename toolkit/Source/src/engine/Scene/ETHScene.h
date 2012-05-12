@@ -30,6 +30,7 @@
 #include "../Util/ETHASUtil.h"
 #include "../Scene/ETHTempEntityHandler.h"
 #include "../Physics/ETHPhysicsSimulator.h"
+#include "../Script/ETHEntityDestructorManager.h"
 
 class ETHScene
 {
@@ -142,6 +143,7 @@ private:
 	ETHResourceProviderPtr m_provider;
 	ETHSceneProperties m_sceneProps;
 	ETHPhysicsSimulator m_physicsSimulator;
+	ETHEntityDestructorManagerPtr m_destructorManager;
 	asIScriptModule *m_pModule;
 	asIScriptContext *m_pContext;
 	float m_maxSceneHeight, m_minSceneHeight;

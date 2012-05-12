@@ -112,6 +112,8 @@ public:
 
 	void ResolveMoveRequests();
 
+	void SetDestructionListener(const ETHEntityKillListenerPtr& listener);
+
 private:
 
 	class ETHBucketMoveRequest

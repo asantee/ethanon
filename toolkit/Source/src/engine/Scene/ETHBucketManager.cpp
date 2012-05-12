@@ -574,6 +574,11 @@ void ETHBucketManager::ResolveMoveRequests()
 	m_moveRequests.clear();
 }
 
+void ETHBucketManager::SetDestructionListener(const ETHEntityKillListenerPtr& listener)
+{
+	m_entityKillListener = listener;
+}
+
 ETHBucketManager::ETHBucketMoveRequest::ETHBucketMoveRequest(ETHEntity* target, const Vector2& oldPos, const Vector2& newPos, const Vector2& bucketSize) :
 	entity(target)
 {

@@ -83,14 +83,6 @@ ETHResourceProviderPtr ETHEngine::GetProvider()
 	return m_provider;
 }
 
-void ETHEngine::CreateDynamicBackBuffer()
-{
-	str_type::string appEnmlContent;
-	m_provider->GetVideo()->GetFileManager()->GetAnsiFileString(m_startResourcePath + ETH_APP_PROPERTIES_FILE, appEnmlContent);
-	m_backBuffer = ETHBackBufferTargetManagerPtr(new ETHBackBufferTargetManager(m_provider->GetVideo(), enml::File(appEnmlContent), *m_provider->GetLogger()));
-	m_ethInput.SetTargetManager(m_backBuffer);
-}
-
 void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 {
 	ETH_WINDOW_ENML_FILE file(m_startResourcePath + ETH_APP_PROPERTIES_FILE, video->GetFileManager());
@@ -102,7 +94,7 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 		ETHShaderManagerPtr(new ETHShaderManager(video, m_startResourcePath + ETHDirectories::GetShaderPath(), m_richLighting)),
 		m_startResourcePath, video, audio, input));
 
-	CreateDynamicBackBuffer();
+	CreateDynamicBackBuffer(m_startResourcePath);
 
 	if (!m_pASEngine)
 	{

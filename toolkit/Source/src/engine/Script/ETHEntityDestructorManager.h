@@ -26,11 +26,17 @@
 #include "ETHEntityDestructorScript.h"
 #include "../Scene/ETHEntityKillListener.h"
 
-class ETHEntityDestructorManager : ETHEntityKillListener
+class ETHEntityDestructorManager : public ETHEntityKillListener
 {
+	std::list<ETHEntityDestructorScriptPtr> m_destructors;
+	asIScriptContext* m_pContext;
+
 public:
-	void EntityKilled(ETHEntity* entity);
-	//void RunDestructors
+	ETHEntityDestructorManager(asIScriptContext* pContext);
+	void EntityKilled(ETHScriptEntity* entity);
+	void RunDestructors();
 };
+
+typedef boost::shared_ptr<ETHEntityDestructorManager> ETHEntityDestructorManagerPtr;
 
 #endif
