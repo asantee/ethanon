@@ -20,6 +20,13 @@
 		7461247D14D0E76700098850 /* ETHBackBufferTargetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7461247614D0E76700098850 /* ETHBackBufferTargetManager.cpp */; };
 		7461247E14D0E76700098850 /* ETHDefaultDynamicBackBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7461247814D0E76700098850 /* ETHDefaultDynamicBackBuffer.cpp */; };
 		7461247F14D0E76700098850 /* ETHNoDynamicBackBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7461247B14D0E76700098850 /* ETHNoDynamicBackBuffer.cpp */; };
+		748502DB1560317B00E2104A /* ETHScriptWrapper.Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 748502D41560301B00E2104A /* ETHScriptWrapper.Scene.cpp */; };
+		748502DC1560318800E2104A /* ETHEntityDestructorScript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 748502D01560301B00E2104A /* ETHEntityDestructorScript.cpp */; };
+		748502DD156031A700E2104A /* ETHScriptWrapper.Audio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 748502D21560301B00E2104A /* ETHScriptWrapper.Audio.cpp */; };
+		748502DE156031B000E2104A /* ETHEntityDestructorManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 748502CE1560301B00E2104A /* ETHEntityDestructorManager.cpp */; };
+		748502DF156031B700E2104A /* ETHScriptWrapper.Drawing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 748502D31560301B00E2104A /* ETHScriptWrapper.Drawing.cpp */; };
+		748502E0156031BD00E2104A /* ETHScriptWrapper.System.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 748502D51560301B00E2104A /* ETHScriptWrapper.System.cpp */; };
+		748502E1156031FD00E2104A /* ETHGlobalScaleManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 748502D61560304900E2104A /* ETHGlobalScaleManager.cpp */; };
 		74868C6214374C3B00E7B3DD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74868C6114374C3B00E7B3DD /* UIKit.framework */; };
 		74868C6414374C3B00E7B3DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74868C6314374C3B00E7B3DD /* Foundation.framework */; };
 		74868C6614374C3B00E7B3DD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74868C6514374C3B00E7B3DD /* CoreGraphics.framework */; };
@@ -223,6 +230,17 @@
 		7461247A14D0E76700098850 /* ETHDynamicBackBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHDynamicBackBuffer.h; path = ../../src/engine/Shader/ETHDynamicBackBuffer.h; sourceTree = "<group>"; };
 		7461247B14D0E76700098850 /* ETHNoDynamicBackBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHNoDynamicBackBuffer.cpp; path = ../../src/engine/Shader/ETHNoDynamicBackBuffer.cpp; sourceTree = "<group>"; };
 		7461247C14D0E76700098850 /* ETHNoDynamicBackBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHNoDynamicBackBuffer.h; path = ../../src/engine/Shader/ETHNoDynamicBackBuffer.h; sourceTree = "<group>"; };
+		748502CE1560301B00E2104A /* ETHEntityDestructorManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityDestructorManager.cpp; path = ../../src/engine/Script/ETHEntityDestructorManager.cpp; sourceTree = "<group>"; };
+		748502CF1560301B00E2104A /* ETHEntityDestructorManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ETHEntityDestructorManager.h; path = ../../src/engine/Script/ETHEntityDestructorManager.h; sourceTree = "<group>"; };
+		748502D01560301B00E2104A /* ETHEntityDestructorScript.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityDestructorScript.cpp; path = ../../src/engine/Script/ETHEntityDestructorScript.cpp; sourceTree = "<group>"; };
+		748502D11560301B00E2104A /* ETHEntityDestructorScript.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ETHEntityDestructorScript.h; path = ../../src/engine/Script/ETHEntityDestructorScript.h; sourceTree = "<group>"; };
+		748502D21560301B00E2104A /* ETHScriptWrapper.Audio.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptWrapper.Audio.cpp; path = ../../src/engine/Script/ETHScriptWrapper.Audio.cpp; sourceTree = "<group>"; };
+		748502D31560301B00E2104A /* ETHScriptWrapper.Drawing.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptWrapper.Drawing.cpp; path = ../../src/engine/Script/ETHScriptWrapper.Drawing.cpp; sourceTree = "<group>"; };
+		748502D41560301B00E2104A /* ETHScriptWrapper.Scene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptWrapper.Scene.cpp; path = ../../src/engine/Script/ETHScriptWrapper.Scene.cpp; sourceTree = "<group>"; };
+		748502D51560301B00E2104A /* ETHScriptWrapper.System.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptWrapper.System.cpp; path = ../../src/engine/Script/ETHScriptWrapper.System.cpp; sourceTree = "<group>"; };
+		748502D61560304900E2104A /* ETHGlobalScaleManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ETHGlobalScaleManager.cpp; path = ../../src/engine/Shader/ETHGlobalScaleManager.cpp; sourceTree = "<group>"; };
+		748502D71560304900E2104A /* ETHGlobalScaleManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ETHGlobalScaleManager.h; path = ../../src/engine/Shader/ETHGlobalScaleManager.h; sourceTree = "<group>"; };
+		748502D81560305C00E2104A /* ETHEntityKillListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ETHEntityKillListener.h; path = ../../src/engine/Scene/ETHEntityKillListener.h; sourceTree = "<group>"; };
 		74868C5D14374C3B00E7B3DD /* Ethanon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ethanon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		74868C6114374C3B00E7B3DD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		74868C6314374C3B00E7B3DD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -729,6 +747,7 @@
 		74DD38A7144248D50041C2EA /* Scene */ = {
 			isa = PBXGroup;
 			children = (
+				748502D81560305C00E2104A /* ETHEntityKillListener.h */,
 				74DD38A8144248E40041C2EA /* ETHBucketManager.cpp */,
 				74DD38A9144248E40041C2EA /* ETHBucketManager.h */,
 				74DD38AA144248E40041C2EA /* ETHScene.cpp */,
@@ -761,6 +780,14 @@
 		74DD38B5144248F80041C2EA /* Script */ = {
 			isa = PBXGroup;
 			children = (
+				748502CE1560301B00E2104A /* ETHEntityDestructorManager.cpp */,
+				748502CF1560301B00E2104A /* ETHEntityDestructorManager.h */,
+				748502D01560301B00E2104A /* ETHEntityDestructorScript.cpp */,
+				748502D11560301B00E2104A /* ETHEntityDestructorScript.h */,
+				748502D21560301B00E2104A /* ETHScriptWrapper.Audio.cpp */,
+				748502D31560301B00E2104A /* ETHScriptWrapper.Drawing.cpp */,
+				748502D41560301B00E2104A /* ETHScriptWrapper.Scene.cpp */,
+				748502D51560301B00E2104A /* ETHScriptWrapper.System.cpp */,
 				74DD38B7144249230041C2EA /* ETHBinaryStream.cpp */,
 				74DD38B8144249230041C2EA /* ETHBinaryStream.h */,
 				74DD38B9144249230041C2EA /* ETHScriptObjRegister.cpp */,
@@ -778,6 +805,8 @@
 		74DD38B6144248FD0041C2EA /* Shader */ = {
 			isa = PBXGroup;
 			children = (
+				748502D61560304900E2104A /* ETHGlobalScaleManager.cpp */,
+				748502D71560304900E2104A /* ETHGlobalScaleManager.h */,
 				74DD38CE144249530041C2EA /* ETHFakeEyePositionManager.cpp */,
 				7461247614D0E76700098850 /* ETHBackBufferTargetManager.cpp */,
 				7461247714D0E76700098850 /* ETHBackBufferTargetManager.h */,
@@ -1319,6 +1348,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				748502E1156031FD00E2104A /* ETHGlobalScaleManager.cpp in Sources */,
+				748502E0156031BD00E2104A /* ETHScriptWrapper.System.cpp in Sources */,
+				748502DF156031B700E2104A /* ETHScriptWrapper.Drawing.cpp in Sources */,
+				748502DE156031B000E2104A /* ETHEntityDestructorManager.cpp in Sources */,
+				748502DD156031A700E2104A /* ETHScriptWrapper.Audio.cpp in Sources */,
+				748502DC1560318800E2104A /* ETHEntityDestructorScript.cpp in Sources */,
+				748502DB1560317B00E2104A /* ETHScriptWrapper.Scene.cpp in Sources */,
 				744FC737145ADF1E0094F2DA /* ETHCollisionBox.cpp in Sources */,
 				74868C6E14374C3B00E7B3DD /* main.m in Sources */,
 				74868C7214374C3B00E7B3DD /* EthanonAppDelegate.mm in Sources */,
@@ -1619,7 +1655,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SDKROOT = iphoneos5.0;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
 				VALIDATE_PRODUCT = NO;
@@ -1661,7 +1697,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SDKROOT = iphoneos5.0;
+				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";

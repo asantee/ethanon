@@ -53,12 +53,12 @@
 #	ifdef GS2D_FORCE_HANDHELD_LANDSCAPE
 	{
 		return interfaceOrientation == UIInterfaceOrientationLandscapeRight
-				|| interfaceOrientation == UIInterfaceOrientationLandscapeLeft;
+			|| interfaceOrientation == UIInterfaceOrientationLandscapeLeft;
 	}
 #	else
 	{
 		return interfaceOrientation == UIInterfaceOrientationPortrait
-				|| interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown;
+			|| interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown;
 	}
 #	endif
 }
