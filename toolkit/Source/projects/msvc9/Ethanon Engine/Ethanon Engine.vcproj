@@ -378,6 +378,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\src\engine\Shader\ETHGlobalScaleManager.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\engine\Shader\ETHGlobalScaleManager.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\engine\Shader\ETHLightingProfile.h"
 					>
 				</File>
@@ -651,7 +659,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\src\engine\Script\ETHScriptWrapper.Audio.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\src\engine\Script\ETHScriptWrapper.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\engine\Script\ETHScriptWrapper.Drawing.cpp"
 				>
 			</File>
 			<File
@@ -660,6 +676,14 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\engine\Script\ETHScriptWrapper.Math.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\engine\Script\ETHScriptWrapper.Scene.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\engine\Script\ETHScriptWrapper.System.cpp"
 				>
 			</File>
 			<Filter
@@ -757,10 +781,6 @@
 					RelativePath="..\..\..\src\engine\Script\ETHScriptWrapper.Math.generic.cpp"
 					>
 				</File>
-			</Filter>
-			<Filter
-				Name="Native"
-				>
 			</Filter>
 		</Filter>
 		<Filter

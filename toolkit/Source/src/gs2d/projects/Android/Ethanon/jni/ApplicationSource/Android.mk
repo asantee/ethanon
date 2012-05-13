@@ -74,6 +74,7 @@ LOCAL_SRC_FILES := \
 	$(ENGINE_PATH)/Shader/ETHBackBufferTargetManager.cpp \
 	$(ENGINE_PATH)/Shader/ETHDefaultDynamicBackBuffer.cpp \
 	$(ENGINE_PATH)/Shader/ETHNoDynamicBackBuffer.cpp \
+	$(ENGINE_PATH)/Shader/ETHGlobalScaleManager.cpp \
 	$(ENGINE_PATH)/Scene/ETHBucketManager.cpp \
 	$(ENGINE_PATH)/Scene/ETHScene.cpp \
 	$(ENGINE_PATH)/Scene/ETHTempEntityHandler.cpp \
@@ -87,6 +88,10 @@ LOCAL_SRC_FILES := \
 	$(ENGINE_PATH)/Script/ETHBinaryStream.cpp \
 	$(ENGINE_PATH)/Script/ETHEntityDestructorManager.cpp \
 	$(ENGINE_PATH)/Script/ETHEntityDestructorScript.cpp \
+	$(ENGINE_PATH)/Script/ETHScriptWrapper.Audio.cpp \
+	$(ENGINE_PATH)/Script/ETHScriptWrapper.Drawing.cpp \
+	$(ENGINE_PATH)/Script/ETHScriptWrapper.Scene.cpp \
+	$(ENGINE_PATH)/Script/ETHScriptWrapper.System.cpp \
 	$(ENGINE_PATH)/Physics/ETHPhysicsSimulator.cpp \
 	$(ENGINE_PATH)/Physics/ETHPhysicsController.cpp \
 	$(ENGINE_PATH)/Physics/ETHRayCastCallback.cpp \
