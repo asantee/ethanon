@@ -8,6 +8,7 @@ class TestEntity : Test
 
 	void start()
 	{
+		SetScaleFactor(1.0f);
 		LoadScene("scenes/TestEntity.esc", PRELOOP, LOOP);
 		HideCursor(false);
 		SetWindowProperties("Ethanon Engine", 1024, 768, true, true, PF32BIT);

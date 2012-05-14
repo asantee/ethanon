@@ -48,12 +48,17 @@ gs2d::math::Vector3 ETHGlobalScaleManager::Scale(const gs2d::math::Vector3& v)
 	return v * m_scaleFactor;
 }
 
-void ETHGlobalScaleManager::SetSceneFixedHeightInScreen(const ETHBackBufferTargetManagerPtr& backBuffer, const float height)
+void ETHGlobalScaleManager::SetFixedHeight(const ETHBackBufferTargetManagerPtr& backBuffer, const float height)
 {
 	m_scaleFactor = backBuffer->GetBufferSize().y / height;
 }
 
-void ETHGlobalScaleManager::SetSceneFixedWidthInScreen(const ETHBackBufferTargetManagerPtr& backBuffer, const float width)
+void ETHGlobalScaleManager::SetFixedWidth(const ETHBackBufferTargetManagerPtr& backBuffer, const float width)
 {
 	m_scaleFactor = backBuffer->GetBufferSize().x / width;
+}
+
+void ETHGlobalScaleManager::SetScaleFactor(const float scale)
+{
+	m_scaleFactor = scale;
 }

@@ -14,6 +14,7 @@ class TestTempEntities : Test
 	
 	void start()
 	{
+		SetScaleFactor(1.0f);
 		LoadScene("scenes/temporary_entity_test.esc", PRELOOP, LOOP);
 		HideCursor(false);
 		SetBackgroundColor(0xFF000000);

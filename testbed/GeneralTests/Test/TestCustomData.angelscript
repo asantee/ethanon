@@ -31,6 +31,7 @@ class TestCustomData : Test
 
 	void start()
 	{
+		SetScaleFactor(1.0f);
 		LoadScene("empty", PRELOOP, LOOP);
 		HideCursor(false);
 		SetWindowProperties("Ethanon Engine", 800, 800, true, true, PF32BIT);

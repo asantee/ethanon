@@ -219,6 +219,14 @@ asDECLARE_FUNCTION_WRAPPER(__SetFixedTimeStep,				ETHScriptWrapper::SetFixedTime
 asDECLARE_FUNCTION_WRAPPER(__SetFixedTimeStepValue,			ETHScriptWrapper::SetFixedTimeStepValue);
 asDECLARE_FUNCTION_WRAPPER(__GetCurrentPhysicsTimeStepMS,	ETHScriptWrapper::GetCurrentPhysicsTimeStepMS);
 
+asDECLARE_FUNCTION_WRAPPER(__SetFixedHeight, ETHScriptWrapper::SetFixedHeight);
+asDECLARE_FUNCTION_WRAPPER(__SetFixedWidth,  ETHScriptWrapper::SetFixedWidth);
+asDECLARE_FUNCTION_WRAPPER(__GetScale,       ETHScriptWrapper::GetScale);
+asDECLARE_FUNCTION_WRAPPER(__SetScaleFactor, ETHScriptWrapper::SetScaleFactor);
+asDECLARE_FUNCTION_WRAPPERPR(__ScaleF, ETHScriptWrapper::Scale, (const float),    float);
+asDECLARE_FUNCTION_WRAPPERPR(__Scale2, ETHScriptWrapper::Scale, (const Vector2&), Vector2);
+asDECLARE_FUNCTION_WRAPPERPR(__Scale3, ETHScriptWrapper::Scale, (const Vector3&), Vector3);
+
 static void __GetCurrentBucket(asIScriptGeneric *gen)
 {
 	ETHRenderEntity *s = (ETHRenderEntity*)gen->GetObject();
@@ -451,6 +459,14 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void SetFixedTimeStep(const bool)",		 asFUNCTION(__SetFixedTimeStep),			asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void SetFixedTimeStepValue(const float)", asFUNCTION(__SetFixedTimeStepValue),       asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("float GetCurrentPhysicsTimeStepMS()",	 asFUNCTION(__GetCurrentPhysicsTimeStepMS), asCALL_GENERIC); assert(r >= 0);
+
+	r = pASEngine->RegisterGlobalFunction("void SetFixedHeight(const float)", asFUNCTION(__SetFixedHeight), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void SetFixedWidth(const float)",  asFUNCTION(__SetFixedWidth),  asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("float GetScale()",                 asFUNCTION(__GetScale),       asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("float Scale(const float)",         asFUNCTION(__ScaleF),         asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void SetScaleFactor(const float)", asFUNCTION(__SetScaleFactor), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("vector2 Scale(const vector2 &in)", asFUNCTION(__Scale2),         asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("vector3 Scale(const vector3 &in)", asFUNCTION(__Scale3),         asCALL_GENERIC); assert(r >= 0);
 
 	//r = pASEngine->RegisterGlobalFunction("bool SetBackgroundImage(const string &in)", asFUNCTION(SetBackgroundImage), asCALL_GENERIC); assert(r >= 0);
 	//r = pASEngine->RegisterGlobalFunction("void PositionBackgroundImage(const vector2 &in, const vector2 &in)", asFUNCTION(PositionBackgroundImage), asCALL_GENERIC); assert(r >= 0);

@@ -22,7 +22,6 @@
 
 #include "ETHEntity.h"
 #include "../Physics/ETHPhysicsSimulator.h"
-#include "../Physics/ETHPhysicsController.h"
 
 ETHEntity::ETHEntity(const str_type::string& filePath, const int nId, const Platform::FileManagerPtr& fileManager) :
 	ETHScriptEntity(),
@@ -853,19 +852,6 @@ void ETHEntity::Kill()
 {
 	ETHScriptEntity::Kill();
 	m_controller->Destroy();
-}
-
-ETHPhysicsController* ETHEntity::GetPhysicsController()
-{
-	ETHPhysicsEntityControllerPtr controller = boost::dynamic_pointer_cast<ETHPhysicsEntityController>(m_controller);
-	if (controller)
-	{
-		return new ETHPhysicsController(controller);
-	}
-	else
-	{
-		return 0;
-	}
 }
 
 bool ETHEntity::IsFixedRotation() const

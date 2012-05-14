@@ -24,6 +24,7 @@
 #define ETH_RESOURCE_PROVIDER_H_
 
 #include "ETHResourceManager.h"
+#include "Shader/ETHGlobalScaleManager.h"
 #include "Platform/ETHPlatform.h"
 #include <Platform/Platform.h>
 #include <Platform/FileLogger.h>
@@ -40,6 +41,7 @@ class ETHResourceProvider
 	static AudioPtr m_audio;
 	static InputPtr m_input;
 	static Platform::FileLoggerPtr m_logger;
+	static ETHGlobalScaleManagerPtr m_globalScaleManager;
 
 public:
 	ETHResourceProvider(ETHGraphicResourceManagerPtr graphicResources, ETHAudioResourceManagerPtr audioResources,
@@ -48,6 +50,7 @@ public:
 
 	static void Log(const str_type::string& str, const Platform::Logger::TYPE& type);
 
+	ETH_INLINE ETHGlobalScaleManagerPtr& GetGlobalScaleManager() { return m_globalScaleManager; }
 	ETH_INLINE const Platform::FileLogger* GetLogger() const { return m_logger.get(); }
 	ETH_INLINE ETHGraphicResourceManagerPtr GetGraphicResourceManager() { return m_graphicResources; }
 	ETH_INLINE ETHAudioResourceManagerPtr GetAudioResourceManager() { return m_audioResources; }

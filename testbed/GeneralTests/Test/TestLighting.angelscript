@@ -8,6 +8,7 @@ class TestLighting : Test
 	
 	void start()
 	{
+		SetScaleFactor(1.0f);
 		LoadScene("empty", PRELOOP, LOOP);
 		HideCursor(false);
 		SetBackgroundColor(0xFF000000);

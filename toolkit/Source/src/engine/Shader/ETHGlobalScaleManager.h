@@ -35,8 +35,11 @@ public:
 	float Scale(const float& v);
 	gs2d::math::Vector2 Scale(const gs2d::math::Vector2& v);
 	gs2d::math::Vector3 Scale(const gs2d::math::Vector3& v);
-	void SetSceneFixedHeightInScreen(const ETHBackBufferTargetManagerPtr& backBuffer, const float height);
-	void SetSceneFixedWidthInScreen(const ETHBackBufferTargetManagerPtr& backBuffer, const float width);
+	void SetFixedHeight(const ETHBackBufferTargetManagerPtr& backBuffer, const float height);
+	void SetFixedWidth(const ETHBackBufferTargetManagerPtr& backBuffer, const float width);
+	void SetScaleFactor(const float scale);
 };
+
+typedef boost::shared_ptr<ETHGlobalScaleManager> ETHGlobalScaleManagerPtr;
 
 #endif

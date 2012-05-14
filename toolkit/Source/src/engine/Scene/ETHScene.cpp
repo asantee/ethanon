@@ -46,7 +46,7 @@ ETHScene::ETHScene(const str_type::string& fileName, ETHResourceProviderPtr prov
 	m_tempEntities(provider),
 	m_richLighting(richLighting),
 	m_isInEditor(isInEditor),
-	m_physicsSimulator(provider->GetVideo()->GetFPSRate())
+	m_physicsSimulator(provider->GetGlobalScaleManager(), provider->GetVideo()->GetFPSRate())
 {
 	Init(provider, props, pModule, pContext);
 	LoadFromFile(fileName);
@@ -58,7 +58,7 @@ ETHScene::ETHScene(ETHResourceProviderPtr provider, const bool richLighting, con
 	m_tempEntities(provider),
 	m_richLighting(richLighting),
 	m_isInEditor(isInEditor),
-	m_physicsSimulator(provider->GetVideo()->GetFPSRate())
+	m_physicsSimulator(provider->GetGlobalScaleManager(), provider->GetVideo()->GetFPSRate())
 {
 	Init(provider, props, pModule, pContext);
 }
@@ -295,6 +295,9 @@ bool ETHScene::GenerateLightmaps(const int id)
 		return false;
 	}
 
+	const float globalScale = m_provider->GetGlobalScaleManager()->GetScale();
+	m_provider->GetGlobalScaleManager()->SetScaleFactor(1.0f);
+
 	const ETHSpriteEntity *pRender = (id >= 0) ? m_buckets.SeekEntity(id) : 0;
 	const Vector2 v2Bucket = (pRender) ? ETHGlobal::GetBucket(pRender->GetPositionXY(), GetBucketSize()) : Vector2(0,0);
 
@@ -360,6 +363,7 @@ bool ETHScene::GenerateLightmaps(const int id)
 	ETH_STREAM_DECL(ss) << GS_L("Lightmaps created... ");
 	m_provider->Log(ss.str(), Platform::FileLogger::INFO);
 	#endif
+	m_provider->GetGlobalScaleManager()->SetScaleFactor(globalScale);
 	return true;
 }
 
@@ -544,8 +548,8 @@ bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline
 
 	// Gets the list of visible buckets
 	std::list<Vector2> bucketList;
-	const Vector2& v2CamPos = video->GetCameraPos(); //for debugging purposes
-	m_buckets.GetIntersectingBuckets(bucketList, v2CamPos, video->GetScreenSizeF(), IsDrawingBorderBuckets(), IsDrawingBorderBuckets());
+	const Vector2& camPos = video->GetCameraPos(); //for debugging purposes
+	m_buckets.GetIntersectingBuckets(bucketList, camPos, video->GetScreenSizeF(), IsDrawingBorderBuckets(), IsDrawingBorderBuckets());
 
 	// Loop through all visible Buckets
 	for (std::list<Vector2>::iterator bucketPositionIter = bucketList.begin(); bucketPositionIter != bucketList.end(); bucketPositionIter++)
@@ -591,7 +595,7 @@ bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline
 			const Vector3& v3Pos = pRenderEntity->GetPosition();
 			const ETH_ENTITY_TYPE type = pRenderEntity->GetType();
 			const float depth = pRenderEntity->ComputeDepth(maxHeight, minHeight);
-			const float drawHash = ComputeDrawHash(depth, v2CamPos, v3Pos, type);
+			const float drawHash = ComputeDrawHash(depth, camPos, v3Pos, type);
 
 			// add the entity to the render map
 			mmEntities.insert(std::pair<float, ETHRenderEntity*>(drawHash, *iter));
@@ -996,4 +1000,18 @@ void ETHScene::ResolveJoints()
 bool ETHScene::DeleteEntity(ETHEntity *pEntity)
 {
 	return m_buckets.DeleteEntity(pEntity->GetID(), ETHGlobal::GetBucket(pEntity->GetPositionXY(), GetBucketSize()));
+}
+
+void ETHScene::ScaleEntities(const float scale, const bool scalePosition)
+{
+	ETHEntityArray entities;
+	m_buckets.GetEntityArray(entities);
+	for (unsigned int t = 0; t < entities.size(); t++)
+	{
+		entities[t]->Scale(scale);
+		if (scalePosition)
+		{
+			entities[t]->SetPosition(entities[t]->GetPosition() * scale, m_buckets);
+		}
+	}
 }

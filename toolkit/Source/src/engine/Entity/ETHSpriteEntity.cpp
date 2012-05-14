@@ -22,6 +22,7 @@
 
 #include "ETHSpriteEntity.h"
 #include "../Shader/ETHShaderManager.h"
+#include "../Physics/ETHPhysicsController.h"
 #include <iostream>
 
 const float ETHSpriteEntity::m_layrableMinimumDepth(0.001f);
@@ -43,11 +44,12 @@ ETHSpriteEntity::ETHSpriteEntity(TiXmlElement *pElement, ETHResourceProviderPtr 
 	Create();
 }
 
-ETHSpriteEntity::ETHSpriteEntity(ETHResourceProviderPtr provider, const ETHEntityProperties& properties, const float angle) :
+ETHSpriteEntity::ETHSpriteEntity(ETHResourceProviderPtr provider, const ETHEntityProperties& properties, const float angle, const float scale) :
 	ETHEntity(),
 	m_provider(provider)
 {
 	m_properties = properties;
+	m_properties.scale *= scale;
 	Zero();
 	SetAngle(angle); // sets angle before Create() to start particles correctly
 	Create();
@@ -558,6 +560,24 @@ float ETHSpriteEntity::ComputeDepth(const float maxHeight, const float minHeight
 		break;
 	};
 	return r;
+}
+
+void ETHSpriteEntity::SetScale(const Vector2& scale)
+{
+	ETHEntity::SetScale(scale * m_provider->GetGlobalScaleManager()->GetScale());
+}
+
+ETHPhysicsController* ETHSpriteEntity::GetPhysicsController()
+{
+	ETHPhysicsEntityControllerPtr controller = boost::dynamic_pointer_cast<ETHPhysicsEntityController>(m_controller);
+	if (controller)
+	{
+		return new ETHPhysicsController(controller, m_provider->GetGlobalScaleManager());
+	}
+	else
+	{
+		return 0;
+	}
 }
 
 ETH_VIEW_RECT ETHSpriteEntity::GetScreenRect(const ETHSceneProperties& sceneProps) const

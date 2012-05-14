@@ -175,7 +175,6 @@ public:
 
 	void SetPivotAdjust(const Vector2& p);
 	Vector2 GetPivotAdjust() const;
-	ETHPhysicsController* GetPhysicsController();
 	bool IsFixedRotation() const;
 	bool IsSensor() const;
 	bool HasSimulatedBody() const;

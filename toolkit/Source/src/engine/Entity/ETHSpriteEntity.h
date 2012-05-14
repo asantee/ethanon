@@ -32,7 +32,7 @@ class ETHSpriteEntity : public ETHEntity
 public:
 	ETHSpriteEntity(const str_type::string& filePath, ETHResourceProviderPtr provider, const int nId =-1);
 	ETHSpriteEntity(TiXmlElement *pElement, ETHResourceProviderPtr provider);
-	ETHSpriteEntity(ETHResourceProviderPtr provider, const ETHEntityProperties& properties, const float angle);
+	ETHSpriteEntity(ETHResourceProviderPtr provider, const ETHEntityProperties& properties, const float angle, const float scale);
 	ETHSpriteEntity(ETHResourceProviderPtr provider);
 
 	void Refresh(const ETHEntityProperties& properties);
@@ -78,6 +78,7 @@ public:
 	Vector2 ComputeParallaxOffset() const;
 	float ComputeHaloAngle() const;
 	float ComputeDepth(const float maxHeight, const float minHeight);
+	void SetScale(const Vector2& scale);
 
 	ETH_VIEW_RECT GetScreenRect(const ETHSceneProperties& sceneProps) const;
 	Vector2 GetScreenRectMin(const ETHSceneProperties& sceneProps) const;
@@ -91,6 +92,8 @@ public:
 
 	void Update(const unsigned long lastFrameElapsedTime, const Vector2& zAxisDir, ETHBucketManager& buckets);
 	void UpdateParticleSystems(const Vector2& zAxisDirection, const unsigned long lastFrameElapsedTime);
+
+	ETHPhysicsController* GetPhysicsController();
 
 	void ForceSFXStop();
 	void StartSFX();

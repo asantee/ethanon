@@ -799,7 +799,7 @@ bool ETHParticleManager::DrawParticleSystem(Vector3 v3Ambient, const float maxHe
 		{
 			m_pBMP->UnsetRect();
 		}
-		m_pBMP->DrawOptimal(v2Pos+parallaxOffset, dwColor, m_particles[t].angle, Vector2(m_particles[t].size, m_particles[t].size));
+		m_pBMP->DrawOptimal((v2Pos + parallaxOffset), dwColor, m_particles[t].angle, Vector2(m_particles[t].size, m_particles[t].size));
 	}
 	m_provider->GetVideo()->SetAlphaMode(alpha);
 	return true;

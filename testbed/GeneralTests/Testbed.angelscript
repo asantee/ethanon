@@ -5,13 +5,14 @@
 #include "Test/TestFile.angelscript"
 #include "Test/TestTempEntities.angelscript"
 #include "Test/TestRigidBodies.angelscript"
+#include "Test/TestSceneScale.angelscript"
 
 class Testbed
 {
 	Testbed()
 	{
 		currentTest = 0;
-		tests.resize(6);
+		tests.resize(7);
 
 		TestEntity entity;
 		@tests[0] = (@entity);
@@ -30,6 +31,9 @@ class Testbed
 
 		TestRigidBodies rigidBodies;
 		@tests[5] = (@rigidBodies);
+
+		TestSceneScale sceneScale;
+		@tests[6] = (@sceneScale);
 	}
 	
 	void start()

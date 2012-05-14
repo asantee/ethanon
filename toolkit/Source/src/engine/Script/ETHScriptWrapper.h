@@ -134,7 +134,7 @@ public:
 								  const str_type::string &onSceneUpdateFunc, const str_type::string &onResumeFunc,
 								  const Vector2 &v2BucketSize);
 	static bool SaveScene(const str_type::string &escFile);
-	static bool LoadScene(const str_type::string &escFile, const Vector2 &v2BucketSize);
+	static bool LoadScene(const str_type::string &escFile, const Vector2& bucketSize);
 
 	/// temporarily store the names of the next functions to load them after
 	/// the script is finished
@@ -307,6 +307,14 @@ public:
 	static ETHEntity* GetClosestContact(const Vector2& a, const Vector2& b, Vector2& point, Vector2& normal);
 	static ETHEntity* GetClosestContact(const Vector2& a, const Vector2& b, Vector2& point, Vector2& normal, const str_type::string& semicolonSeparatedIgnoreList);
 	static bool GetContactEntities(const Vector2& a, const Vector2& b, ETHEntityArray& entities);
+
+	static void SetFixedHeight(const float height);
+	static void SetFixedWidth(const float width);
+	static float GetScale();
+	static float Scale(const float v);
+	static Vector2 Scale(const Vector2& v);
+	static Vector3 Scale(const Vector3& v);
+	static void SetScaleFactor(const float v);
 
 	// Not to the script
 	static bool Aborted();

@@ -33,7 +33,7 @@ class ETHRenderEntity : public ETHSpriteEntity
 public:
 	ETHRenderEntity(const str_type::string& filePath, ETHResourceProviderPtr provider, const int nId =-1);
 	ETHRenderEntity(TiXmlElement *pElement, ETHResourceProviderPtr provider);
-	ETHRenderEntity(ETHResourceProviderPtr provider, const ETHEntityProperties& properties, const float angle);
+	ETHRenderEntity(ETHResourceProviderPtr provider, const ETHEntityProperties& properties, const float angle, const float scale);
 	ETHRenderEntity(ETHResourceProviderPtr provider);
 
 	// rendering methods

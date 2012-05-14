@@ -137,12 +137,12 @@ void ETHScriptWrapper::SetPositionXY(ETHEntity *pEntity, const Vector2 &v2Pos)
 
 void ETHScriptWrapper::AddToPosition(ETHEntity *pEntity, const Vector3 &v3Pos)
 {
-	pEntity->AddToPosition(v3Pos, m_pScene->GetBucketManager());
+	pEntity->AddToPosition(v3Pos * m_provider->GetGlobalScaleManager()->GetScale(), m_pScene->GetBucketManager());
 }
 
 void ETHScriptWrapper::AddToPositionXY(ETHEntity *pEntity, const Vector2 &v2Pos)
 {
-	pEntity->AddToPositionXY(v2Pos, m_pScene->GetBucketManager());
+	pEntity->AddToPositionXY(v2Pos * m_provider->GetGlobalScaleManager()->GetScale(), m_pScene->GetBucketManager());
 }
 
 Vector2 ETHScriptWrapper::GetScreenRectMin(ETHEntity *pEntity)

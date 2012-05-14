@@ -17,6 +17,7 @@ class TestRigidBodies : Test
 
 	void start()
 	{
+		SetScaleFactor(1.0f);
 		LoadScene("scenes/physicsTest.esc", PRELOOP, LOOP);
 		SetBackgroundColor(ARGB(255, 0, 100, 150));
 	}

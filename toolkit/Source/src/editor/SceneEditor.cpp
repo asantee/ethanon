@@ -968,7 +968,7 @@ void SceneEditor::PlaceEntitySelection()
 	if (m_currentEntity)
 		m_currentEntity->Release();
 
-	m_currentEntity = new ETHRenderEntity(m_provider, *m_entityFiles[m_currentEntityIdx].get(), angle);
+	m_currentEntity = new ETHRenderEntity(m_provider, *m_entityFiles[m_currentEntityIdx].get(), angle, 1.0f);
 	m_currentEntity->SetOrphanPosition(m_v3Pos);
 	m_currentEntity->SetFrame(m_entityFiles[m_currentEntityIdx]->startFrame);
 	m_currentEntity->SetAngle(angle);
@@ -1161,7 +1161,7 @@ void SceneEditor::EntityPlacer()
 	if (m_provider->GetInput()->GetLeftClickState() == GSKS_HIT)
 	{
 		string currentProjectPath = GetCurrentProjectPath(true);
-		ETHRenderEntity* entity = new ETHRenderEntity(m_provider, *m_currentEntity->GetProperties(), m_currentEntity->GetAngle());
+		ETHRenderEntity* entity = new ETHRenderEntity(m_provider, *m_currentEntity->GetProperties(), m_currentEntity->GetAngle(), 1.0f);
 		entity->SetOrphanPosition(m_v3Pos);
 		entity->SetAngle(m_currentEntity->GetAngle());
 		entity->SetColor(ETH_WHITE_V4);
@@ -1468,7 +1468,7 @@ void SceneEditor::CopySelectedToClipboard()
 		return;
 
 	const Vector2 v2Size = m_pSelected->GetCurrentSize();
-	m_clipBoard = boost::shared_ptr<ETHRenderEntity>(new ETHRenderEntity(m_provider, *m_pSelected->GetProperties(), m_pSelected->GetAngle()));
+	m_clipBoard = boost::shared_ptr<ETHRenderEntity>(new ETHRenderEntity(m_provider, *m_pSelected->GetProperties(), m_pSelected->GetAngle(), 1.0f));
 	m_clipBoard->SetOrphanPosition(m_pSelected->GetPosition() + Vector3(v2Size.x, v2Size.y, 0));
 	m_clipBoard->SetAngle(m_pSelected->GetAngle());
 	m_clipBoard->SetFrame(m_pSelected->GetFrame());

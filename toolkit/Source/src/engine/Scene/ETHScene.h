@@ -98,6 +98,7 @@ const Vector2 &v2BucketSize = Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCK
 	void SetHaloRotation(const bool enable);
 	bool GetHaloRotation() const;
 	int GetNumRenderedEntities();
+	void ScaleEntities(const float scale, const bool scalePosition);
 
 	ETHBucketManager& GetBucketManager();
 

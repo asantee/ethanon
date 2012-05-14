@@ -123,31 +123,31 @@ ETHEntity *ETHScriptWrapper::SeekEntity(const str_type::string &name)
 	return 0;
 }
 
-int ETHScriptWrapper::AddEntity(const str_type::string &file, const Vector3 &v3Pos, const float angle, ETHEntity **ppOutEntity, const str_type::string &alternativeName, const float scale)
+int ETHScriptWrapper::AddEntity(const str_type::string &file, const Vector3 &v3Pos, const float angle, ETHEntity **ppOutEntity,
+								const str_type::string &alternativeName, const float scale)
 {
 	if (WarnIfRunsInMainFunction(GS_L("AddEntity")))
 		return -1;
 
-	const ETHEntityProperties* props = m_entityCache.Get(file, m_provider->GetResourcePath() + ETHDirectories::GetEntityPath(), m_provider->GetVideo()->GetFileManager());
+	const ETHEntityProperties* props = m_entityCache.Get(file, m_provider->GetResourcePath() + ETHDirectories::GetEntityPath(),
+														 m_provider->GetVideo()->GetFileManager());
+
 	if (!props)
 	{
 		return -1;
 	}
 
-	ETHRenderEntity* entity = new ETHRenderEntity(m_provider, *props, angle);
+	const float globalScale = m_provider->GetGlobalScaleManager()->GetScale();
+
+	ETHRenderEntity* entity = new ETHRenderEntity(m_provider, *props, angle, scale * globalScale);
 	entity->SetOrphanPosition(v3Pos);
 	entity->SetAngle(angle);
-
-	if (scale != 1.0f)
-	{
-		entity->Scale(scale);
-	}
 
 	if (entity->IsStatic() && entity->IsApplyLight())
 	{
 		str_type::stringstream ss;
 		ss << GS_L("AddEntity - This is a static entity and its lightmap has not been rendered yet. ") << 
-			GS_L("It might be incorrectly lit: ") << m_provider->GetResourcePath() << ETHDirectories::GetEntityPath() << file;
+			  GS_L("It might be incorrectly lit: ") << m_provider->GetResourcePath() << ETHDirectories::GetEntityPath() << file;
 		ShowMessage(ss.str(), ETH_WARNING);
 	}
 
@@ -242,9 +242,10 @@ void ETHScriptWrapper::SetCameraPos(const Vector2 &v2Pos)
 		return;
 
 	// rounds up camera final position
-	m_provider->GetVideo()->RoundUpPosition(m_roundUpPosition);
-	m_provider->GetVideo()->SetCameraPos(v2Pos);
-	m_provider->GetVideo()->RoundUpPosition(false);
+	VideoPtr video = m_provider->GetVideo();
+	video->RoundUpPosition(m_roundUpPosition);
+	video->SetCameraPos(v2Pos);
+	video->RoundUpPosition(false);
 }
 
 void ETHScriptWrapper::AddToCameraPos(const Vector2 &v2Add)
@@ -253,9 +254,10 @@ void ETHScriptWrapper::AddToCameraPos(const Vector2 &v2Add)
 		return;
 
 	// rounds up camera final position
-	m_provider->GetVideo()->RoundUpPosition(m_roundUpPosition);
-	m_provider->GetVideo()->MoveCamera(v2Add);
-	m_provider->GetVideo()->RoundUpPosition(false);
+	VideoPtr video = m_provider->GetVideo();
+	video->RoundUpPosition(m_roundUpPosition);
+	video->MoveCamera(m_provider->GetGlobalScaleManager()->Scale(v2Add));
+	video->RoundUpPosition(false);
 }
 
 void ETHScriptWrapper::EnableLightmaps(const bool enable)
@@ -482,7 +484,7 @@ void ETHScriptWrapper::ResolveJoints()
 		m_pScene->ResolveJoints();
 }
 
-bool ETHScriptWrapper::LoadScene(const str_type::string &escFile, const Vector2 &v2BucketSize)
+bool ETHScriptWrapper::LoadScene(const str_type::string &escFile, const Vector2& bucketSize)
 {
 	if (!IsPersistentResources())
 	{
@@ -492,25 +494,22 @@ bool ETHScriptWrapper::LoadScene(const str_type::string &escFile, const Vector2 
 		}
 	}
 
-	// if the name is set to _ETH_EMPTY_SCENE_STRING, don't load anything
 	str_type::string fileName = m_provider->GetResourcePath();
 	fileName += escFile;
+
+	// if the name is set to _ETH_EMPTY_SCENE_STRING, don't load anything
 	if (escFile != _ETH_EMPTY_SCENE_STRING && escFile.size() > 0)
 	{
 		m_pScene = ETHScenePtr(new ETHScene(fileName, m_provider, m_richLighting, ETHSceneProperties(), m_pASModule,
-			m_pScriptContext, false, v2BucketSize));
-		if (!m_pScene->GetNumEntities())
-		{
-			ShowMessage(GS_L("Couldn't load the scene"), ETH_ERROR);
-			return false;
-		}
+			m_pScriptContext, false, bucketSize));
 	}
 	else
 	{
 		m_pScene = ETHScenePtr(new ETHScene(m_provider, m_richLighting, ETHSceneProperties(), m_pASModule,
-			m_pScriptContext, false, v2BucketSize));
+			m_pScriptContext, false, bucketSize));
 	}
 
+	m_pScene->ScaleEntities(m_provider->GetGlobalScaleManager()->GetScale(), true);
 	m_pScene->ResolveJoints();
 	m_primitiveList.clear();
 	m_sceneFileName = escFile;
@@ -524,33 +523,32 @@ bool ETHScriptWrapper::LoadScene(const str_type::string &escFile, const Vector2 
 
 void ETHScriptWrapper::LoadSceneInScript(const str_type::string &escFile)
 {
-	m_nextScene.SetNextScene((escFile == GS_L("")) ? _ETH_EMPTY_SCENE_STRING : escFile, GS_L(""), GS_L(""), GS_L(""),
-		Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
+	LoadSceneInScript(escFile, GS_L(""), GS_L(""), GS_L(""), Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
 }
 
 void ETHScriptWrapper::LoadSceneInScript(const str_type::string &escFile, const str_type::string &onSceneLoadedFunc,
 										 const str_type::string &onSceneUpdateFunc, const str_type::string &onResumeFunc)
 {
-	m_nextScene.SetNextScene((escFile == GS_L("")) ? _ETH_EMPTY_SCENE_STRING : escFile, onSceneLoadedFunc, onSceneUpdateFunc, onResumeFunc,
-		Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
+	LoadSceneInScript(escFile, onSceneLoadedFunc, onSceneUpdateFunc, onResumeFunc, Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
 }
 
 void ETHScriptWrapper::LoadSceneInScript(const str_type::string &escFile, const str_type::string &onSceneLoadedFunc, const str_type::string &onSceneUpdateFunc)
 {
-	m_nextScene.SetNextScene((escFile == GS_L("")) ? _ETH_EMPTY_SCENE_STRING : escFile, onSceneLoadedFunc, onSceneUpdateFunc, GS_L(""),
-		Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
+	LoadSceneInScript(escFile, onSceneLoadedFunc, onSceneUpdateFunc, GS_L(""), Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
 }
 
 void ETHScriptWrapper::LoadSceneInScript(const str_type::string &escFile, const str_type::string &onSceneLoadedFunc,
 										 const str_type::string &onSceneUpdateFunc, const Vector2 &v2BucketSize)
 {
-	m_nextScene.SetNextScene((escFile == GS_L("")) ? _ETH_EMPTY_SCENE_STRING : escFile, onSceneLoadedFunc, onSceneUpdateFunc, GS_L(""), v2BucketSize);
+	LoadSceneInScript(escFile, onSceneLoadedFunc, onSceneUpdateFunc, GS_L(""), v2BucketSize);
 }
 
 void ETHScriptWrapper::LoadSceneInScript(const str_type::string &escFile, const str_type::string &onSceneLoadedFunc,
 										 const str_type::string &onSceneUpdateFunc, const str_type::string &onResumeFunc, const Vector2 &v2BucketSize)
 {
-	m_nextScene.SetNextScene((escFile == GS_L("")) ? _ETH_EMPTY_SCENE_STRING : escFile, onSceneLoadedFunc, onSceneUpdateFunc, onResumeFunc, v2BucketSize);
+	const float globalScale = m_provider->GetGlobalScaleManager()->GetScale();
+	m_nextScene.SetNextScene((escFile == GS_L("")) ? _ETH_EMPTY_SCENE_STRING : escFile,
+							 onSceneLoadedFunc, onSceneUpdateFunc, onResumeFunc, v2BucketSize * globalScale);
 }
 
 str_type::string ETHScriptWrapper::GetSceneFileName()
@@ -686,3 +684,37 @@ bool ETHScriptWrapper::IsPixelShaderSupported()
 	return m_provider->GetShaderManager()->IsPixelLightingSupported();
 }
 
+void ETHScriptWrapper::SetFixedHeight(const float height)
+{
+	m_provider->GetGlobalScaleManager()->SetFixedHeight(m_backBuffer, height);
+}
+
+void ETHScriptWrapper::SetFixedWidth(const float width)
+{
+	m_provider->GetGlobalScaleManager()->SetFixedWidth(m_backBuffer, width);
+}
+
+float ETHScriptWrapper::GetScale()
+{
+	return m_provider->GetGlobalScaleManager()->GetScale();
+}
+
+float ETHScriptWrapper::Scale(const float v)
+{
+	return m_provider->GetGlobalScaleManager()->Scale(v);
+}
+
+Vector2 ETHScriptWrapper::Scale(const Vector2& v)
+{
+	return m_provider->GetGlobalScaleManager()->Scale(v);
+}
+
+Vector3 ETHScriptWrapper::Scale(const Vector3& v)
+{
+	return m_provider->GetGlobalScaleManager()->Scale(v);
+}
+
+void ETHScriptWrapper::SetScaleFactor(const float v)
+{
+	m_provider->GetGlobalScaleManager()->SetScaleFactor(v);
+}

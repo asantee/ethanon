@@ -63,3 +63,4 @@ str_type::string ETHResourceProvider::m_resourcePath;
 VideoPtr ETHResourceProvider::m_video;
 AudioPtr ETHResourceProvider::m_audio;
 InputPtr ETHResourceProvider::m_input;
+ETHGlobalScaleManagerPtr ETHResourceProvider::m_globalScaleManager(new ETHGlobalScaleManager);

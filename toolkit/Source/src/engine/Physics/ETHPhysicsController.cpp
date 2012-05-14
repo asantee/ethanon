@@ -22,8 +22,9 @@
 
 #include "ETHPhysicsController.h"
 
-ETHPhysicsController::ETHPhysicsController(const ETHPhysicsEntityControllerPtr& controller) :
+ETHPhysicsController::ETHPhysicsController(const ETHPhysicsEntityControllerPtr& controller, ETHGlobalScaleManagerPtr globalScaleManager) :
 	m_controller(controller),
+	m_globalScaleManager(globalScaleManager),
 	m_ref(1)
 {
 }
@@ -132,21 +133,21 @@ void ETHPhysicsController::ApplyForce(const Vector2& force, const Vector2& point
 {
 	b2Body* body = m_controller->m_body;
 	if (!body) return;
-	body->ApplyForce(b2Vec2(force.x, force.y), b2Vec2(point.x, point.y));
+	body->ApplyForce(m_globalScaleManager->GetScale() * b2Vec2(force.x, force.y), b2Vec2(point.x, point.y));
 }
 
 void ETHPhysicsController::ApplyForceToCenter(const Vector2& force)
 {
 	b2Body* body = m_controller->m_body;
 	if (!body) return;
-	body->ApplyForceToCenter(b2Vec2(force.x, force.y));
+	body->ApplyForceToCenter(m_globalScaleManager->GetScale() * b2Vec2(force.x, force.y));
 }
 
 void ETHPhysicsController::SetLinearVelocity(const Vector2& velocity)
 {
 	b2Body* body = m_controller->m_body;
 	if (!body) return;
-	body->SetLinearVelocity(b2Vec2(velocity.x, velocity.y));
+	body->SetLinearVelocity(m_globalScaleManager->GetScale() * b2Vec2(velocity.x, velocity.y));
 }
 
 void ETHPhysicsController::ApplyAngularImpulse(const float impulse)

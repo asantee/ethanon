@@ -33,8 +33,8 @@ ETHRenderEntity::ETHRenderEntity(TiXmlElement *pElement, ETHResourceProviderPtr 
 {
 }
 
-ETHRenderEntity::ETHRenderEntity(ETHResourceProviderPtr provider, const ETHEntityProperties& properties, const float angle) :
-	ETHSpriteEntity(provider, properties, angle)
+ETHRenderEntity::ETHRenderEntity(ETHResourceProviderPtr provider, const ETHEntityProperties& properties, const float angle, const float scale) :
+	ETHSpriteEntity(provider, properties, angle, scale)
 {
 }
 
@@ -75,8 +75,9 @@ bool ETHRenderEntity::DrawAmbientPass(const float maxHeight, const float minHeig
 	m_pSprite->SetRect(m_spriteFrame);
 	SetOrigin();
 
+	const float angle = (m_properties.type == ETH_VERTICAL) ? 0.0f : GetAngle();
 	const Vector2 pos = ETHGlobal::ToScreenPos(GetPosition(), sceneProps.zAxisDirection);
-	m_pSprite->DrawOptimal(pos,	ConvertToDW(v4FinalAmbient), (m_properties.type == ETH_VERTICAL) ? 0.0f : GetAngle(), GetCurrentSize());
+	m_pSprite->DrawOptimal(pos,	ConvertToDW(v4FinalAmbient), angle, GetCurrentSize());
 
 	if (applyLightmap)
 	{
@@ -93,8 +94,10 @@ bool ETHRenderEntity::DrawLightPass(const Vector2 &zAxisDirection, const bool dr
 	ValidateSpriteCut(m_pSprite);
 	m_pSprite->SetRect(m_spriteFrame);
 	SetOrigin();
+
+	const float angle = (!IsRotatable() || drawToTarget) ? 0.0f : GetAngle();
 	m_pSprite->DrawOptimal(ETHGlobal::ToScreenPos(GetPosition(), zAxisDirection),
-		ConvertToDW(GetColorF()), (!IsRotatable() || drawToTarget) ? 0.0f : GetAngle(), m_properties.scale * m_pSprite->GetFrameSize());
+		ConvertToDW(GetColorF()), angle, m_properties.scale * m_pSprite->GetFrameSize());
 	return true;
 }
 
@@ -170,7 +173,7 @@ bool ETHRenderEntity::DrawProjShadow(const float maxHeight, const float minHeigh
 
 	v2ShadowSize.x *= _ETH_SHADOW_SCALEX * scale;
 
-	// calculate the correct shadow lenght according to the light height
+	// calculate the correct shadow length according to the light height
 	if ((GetPosition().z+v2Size.y) < light.pos.z) // if the light is over the entity
 	{
 		const float planarDist = Distance(GetPositionXY(), ETHGlobal::ToVector2(v3LightPos));
@@ -178,7 +181,7 @@ bool ETHRenderEntity::DrawProjShadow(const float maxHeight, const float minHeigh
 		const float totalDist = (planarDist/verticalDist)*Abs(v3LightPos.z);
 		v2ShadowSize.y = totalDist-planarDist;
 
-		// clamp shadow lenght to the object's height. This is not realistic
+		// clamp shadow length to the object's height. This is not realistic
 		// but it looks better for the real-time shadows.
 		v2ShadowSize.y = Min(v2Size.y*_ETH_SHADOW_FAKE_STRETCH, v2ShadowSize.y);
 	}
@@ -270,7 +273,7 @@ bool ETHRenderEntity::DrawHalo(const float maxHeight, const float minHeight, con
 	Vector2 v2Size(light->haloSize, light->haloSize);
 
 	m_pHalo->DrawShaped(
-		ETHGlobal::ToScreenPos(v3HaloPos, zAxisDirection) + ComputeParallaxOffset(),
+		(ETHGlobal::ToScreenPos(v3HaloPos, zAxisDirection) + ComputeParallaxOffset()),
 		v2Size * m_properties.scale, dwColor, dwColor, dwColor, dwColor,
 		(rotateHalo) ? ComputeHaloAngle() : 0.0f);
 	return true;
@@ -328,7 +331,7 @@ void ETHRenderEntity::DrawCollisionBox(const bool drawBase, SpritePtr pOutline, 
 		pOutline->DrawShaped(v2Pos, Vector2(v3Size.x, v3Size.z), dwV, dwV, dwV, dwV);
 
 		// upper face
-		pOutline->DrawShaped(v2Pos-Vector2(0,v3Size.z), Vector2(v3Size.x, v3Size.y), dwH, dwH, dwH, dwH);
+		pOutline->DrawShaped((v2Pos-Vector2(0,v3Size.z)), Vector2(v3Size.x, v3Size.y), dwH, dwH, dwH, dwH);
 	}
 
 	video->SetZBuffer(zBuffer);
