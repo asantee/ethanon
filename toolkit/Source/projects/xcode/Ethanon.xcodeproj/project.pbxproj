@@ -27,6 +27,10 @@
 		748502DF156031B700E2104A /* ETHScriptWrapper.Drawing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 748502D31560301B00E2104A /* ETHScriptWrapper.Drawing.cpp */; };
 		748502E0156031BD00E2104A /* ETHScriptWrapper.System.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 748502D51560301B00E2104A /* ETHScriptWrapper.System.cpp */; };
 		748502E1156031FD00E2104A /* ETHGlobalScaleManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 748502D61560304900E2104A /* ETHGlobalScaleManager.cpp */; };
+		748503091562BCBD00E2104A /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 748503081562BCBC00E2104A /* Default-Landscape@2x~ipad.png */; };
+		7485030B1562BCE600E2104A /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7485030A1562BCE600E2104A /* Default-Portrait@2x~ipad.png */; };
+		7485030D1562BCF300E2104A /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7485030C1562BCF300E2104A /* Default-Landscape~ipad.png */; };
+		7485030F1562BD0300E2104A /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7485030E1562BD0300E2104A /* Default-Portrait~ipad.png */; };
 		74868C6214374C3B00E7B3DD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74868C6114374C3B00E7B3DD /* UIKit.framework */; };
 		74868C6414374C3B00E7B3DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74868C6314374C3B00E7B3DD /* Foundation.framework */; };
 		74868C6614374C3B00E7B3DD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74868C6514374C3B00E7B3DD /* CoreGraphics.framework */; };
@@ -241,6 +245,10 @@
 		748502D61560304900E2104A /* ETHGlobalScaleManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ETHGlobalScaleManager.cpp; path = ../../src/engine/Shader/ETHGlobalScaleManager.cpp; sourceTree = "<group>"; };
 		748502D71560304900E2104A /* ETHGlobalScaleManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ETHGlobalScaleManager.h; path = ../../src/engine/Shader/ETHGlobalScaleManager.h; sourceTree = "<group>"; };
 		748502D81560305C00E2104A /* ETHEntityKillListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ETHEntityKillListener.h; path = ../../src/engine/Scene/ETHEntityKillListener.h; sourceTree = "<group>"; };
+		748503081562BCBC00E2104A /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
+		7485030A1562BCE600E2104A /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
+		7485030C1562BCF300E2104A /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
+		7485030E1562BD0300E2104A /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		74868C5D14374C3B00E7B3DD /* Ethanon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ethanon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		74868C6114374C3B00E7B3DD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		74868C6314374C3B00E7B3DD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -621,6 +629,10 @@
 		74868C5214374C3B00E7B3DD = {
 			isa = PBXGroup;
 			children = (
+				7485030E1562BD0300E2104A /* Default-Portrait~ipad.png */,
+				7485030C1562BCF300E2104A /* Default-Landscape~ipad.png */,
+				7485030A1562BCE600E2104A /* Default-Portrait@2x~ipad.png */,
+				748503081562BCBC00E2104A /* Default-Landscape@2x~ipad.png */,
 				743F4BB81477C69E0077373B /* Default@2x.png */,
 				743F4BB614770A540077373B /* Default.png */,
 				74FBEFC01437AC1000C67129 /* Engine */,
@@ -1338,6 +1350,10 @@
 				743F4BB714770A540077373B /* Default.png in Resources */,
 				743F4BB91477C69E0077373B /* Default@2x.png in Resources */,
 				743F4BC1147962C80077373B /* DefaultWebViewer.xib in Resources */,
+				748503091562BCBD00E2104A /* Default-Landscape@2x~ipad.png in Resources */,
+				7485030B1562BCE600E2104A /* Default-Portrait@2x~ipad.png in Resources */,
+				7485030D1562BCF300E2104A /* Default-Landscape~ipad.png in Resources */,
+				7485030F1562BD0300E2104A /* Default-Portrait~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1656,7 +1672,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
 				VALIDATE_PRODUCT = NO;
 				WRAPPER_EXTENSION = app;
@@ -1699,7 +1715,7 @@
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
 				VALIDATE_PRODUCT = NO;
 				WRAPPER_EXTENSION = app;
