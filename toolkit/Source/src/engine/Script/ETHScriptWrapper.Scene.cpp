@@ -718,3 +718,10 @@ void ETHScriptWrapper::SetScaleFactor(const float v)
 {
 	m_provider->GetGlobalScaleManager()->SetScaleFactor(v);
 }
+
+void ETHScriptWrapper::ScaleEntities()
+{
+	if (WarnIfRunsInMainFunction(GS_L("ScaleEntities")))
+		return;
+	m_pScene->ScaleEntities(m_provider->GetGlobalScaleManager()->GetScale(), true);
+}

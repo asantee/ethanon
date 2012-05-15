@@ -223,6 +223,7 @@ asDECLARE_FUNCTION_WRAPPER(__SetFixedHeight, ETHScriptWrapper::SetFixedHeight);
 asDECLARE_FUNCTION_WRAPPER(__SetFixedWidth,  ETHScriptWrapper::SetFixedWidth);
 asDECLARE_FUNCTION_WRAPPER(__GetScale,       ETHScriptWrapper::GetScale);
 asDECLARE_FUNCTION_WRAPPER(__SetScaleFactor, ETHScriptWrapper::SetScaleFactor);
+asDECLARE_FUNCTION_WRAPPER(__ScaleEntities,  ETHScriptWrapper::ScaleEntities);
 asDECLARE_FUNCTION_WRAPPERPR(__ScaleF, ETHScriptWrapper::Scale, (const float),    float);
 asDECLARE_FUNCTION_WRAPPERPR(__Scale2, ETHScriptWrapper::Scale, (const Vector2&), Vector2);
 asDECLARE_FUNCTION_WRAPPERPR(__Scale3, ETHScriptWrapper::Scale, (const Vector3&), Vector3);
@@ -467,6 +468,7 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void SetScaleFactor(const float)", asFUNCTION(__SetScaleFactor), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 Scale(const vector2 &in)", asFUNCTION(__Scale2),         asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector3 Scale(const vector3 &in)", asFUNCTION(__Scale3),         asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void ScaleEntities()",             asFUNCTION(__ScaleEntities),  asCALL_GENERIC); assert(r >= 0);
 
 	//r = pASEngine->RegisterGlobalFunction("bool SetBackgroundImage(const string &in)", asFUNCTION(SetBackgroundImage), asCALL_GENERIC); assert(r >= 0);
 	//r = pASEngine->RegisterGlobalFunction("void PositionBackgroundImage(const vector2 &in, const vector2 &in)", asFUNCTION(PositionBackgroundImage), asCALL_GENERIC); assert(r >= 0);
