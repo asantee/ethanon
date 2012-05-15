@@ -7,7 +7,7 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{1D28BFE6-D8BA-423B-B37E-149E732DDB49}
 AppName=Ethanon Engine
-AppVerName=Ethanon Engine 0.9.1
+AppVerName=Ethanon Engine 0.9.2
 AppPublisher=ASANTEE
 AppPublisherURL=http://www.asantee.net/ethanon/
 AppSupportURL=http://www.asantee.net/ethanon/
@@ -17,7 +17,7 @@ DefaultGroupName=Ethanon Engine
 LicenseFile=MIT_LICENSE.rtf
 InfoBeforeFile=About.rtf
 ;OutputDir=
-OutputBaseFilename=setup_ethanonengine-0.9.1
+OutputBaseFilename=setup_ethanonengine-0.9.2
 SetupIconFile=icon.ico
 Compression=lzma
 SolidCompression=yes
