@@ -10,7 +10,6 @@
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFiles</key>
 	<array>
-		<string></string>
 		<string>Default.png</string>
 		<string>Default@2x.png</string>
 		<string>Default-Landscape@2x~ipad.png</string>
@@ -28,7 +27,6 @@
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
-				<string></string>
 				<string>Default.png</string>
 				<string>Default@2x.png</string>
 				<string>Default-Landscape@2x~ipad.png</string>
