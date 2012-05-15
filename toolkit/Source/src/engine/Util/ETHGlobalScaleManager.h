@@ -23,7 +23,7 @@
 #ifndef ETH_GLOBAL_SCALE_MANAGER_H_
 #define ETH_GLOBAL_SCALE_MANAGER_H_
 
-#include "ETHBackBufferTargetManager.h"
+#include "../Shader/ETHBackBufferTargetManager.h"
 
 class ETHGlobalScaleManager
 {

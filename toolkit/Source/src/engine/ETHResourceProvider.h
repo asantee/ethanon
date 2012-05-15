@@ -24,7 +24,7 @@
 #define ETH_RESOURCE_PROVIDER_H_
 
 #include "ETHResourceManager.h"
-#include "Shader/ETHGlobalScaleManager.h"
+#include "Util/ETHGlobalScaleManager.h"
 #include "Platform/ETHPlatform.h"
 #include <Platform/Platform.h>
 #include <Platform/FileLogger.h>

@@ -25,7 +25,7 @@
 
 #include "ETHPhysicsEntityController.h"
 #include "ETHDestructionListener.h"
-#include "../Shader/ETHGlobalScaleManager.h"
+#include "../Util/ETHGlobalScaleManager.h"
 
 using namespace gs2d::math;
 using namespace gs2d;

@@ -53,6 +53,7 @@ LOCAL_SRC_FILES := \
 	$(ENGINE_PATH)/Util/ETHASUtil.cpp \
 	$(ENGINE_PATH)/Util/ETHDateTime.cpp \
 	$(ENGINE_PATH)/Util/ETHInput.cpp \
+	$(ENGINE_PATH)/Util/ETHGlobalScaleManager.cpp \
 	$(ENGINE_PATH)/Entity/ETHScriptEntity.cpp \
 	$(ENGINE_PATH)/Entity/ETHRenderEntity.cpp \
 	$(ENGINE_PATH)/Entity/ETHSpriteEntity.cpp \
@@ -74,7 +75,6 @@ LOCAL_SRC_FILES := \
 	$(ENGINE_PATH)/Shader/ETHBackBufferTargetManager.cpp \
 	$(ENGINE_PATH)/Shader/ETHDefaultDynamicBackBuffer.cpp \
 	$(ENGINE_PATH)/Shader/ETHNoDynamicBackBuffer.cpp \
-	$(ENGINE_PATH)/Shader/ETHGlobalScaleManager.cpp \
 	$(ENGINE_PATH)/Scene/ETHBucketManager.cpp \
 	$(ENGINE_PATH)/Scene/ETHScene.cpp \
 	$(ENGINE_PATH)/Scene/ETHTempEntityHandler.cpp \

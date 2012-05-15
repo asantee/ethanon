@@ -378,14 +378,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\engine\Shader\ETHGlobalScaleManager.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\engine\Shader\ETHGlobalScaleManager.h"
-					>
-				</File>
-				<File
 					RelativePath="..\..\..\src\engine\Shader\ETHLightingProfile.h"
 					>
 				</File>
@@ -563,6 +555,14 @@
 				</File>
 				<File
 					RelativePath="..\..\..\src\engine\Util\ETHFrameTimer.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\engine\Util\ETHGlobalScaleManager.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\engine\Util\ETHGlobalScaleManager.h"
 					>
 				</File>
 				<File

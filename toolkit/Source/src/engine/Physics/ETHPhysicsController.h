@@ -24,7 +24,7 @@
 #define ETH_PHYSICS_CONTROLLER
 
 #include "ETHPhysicsSimulator.h"
-#include "../Shader/ETHGlobalScaleManager.h"
+#include "../Util/ETHGlobalScaleManager.h"
 
 class ETHPhysicsController
 {
