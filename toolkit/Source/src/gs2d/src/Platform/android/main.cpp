@@ -54,7 +54,7 @@ static bool g_splashShown = false;
 
 float ComputeSplashScale(const Vector2& screenSize)
 {
-	const float defaultScale = 2.0f;
+	const float defaultScale = 1.0f;
 	const Vector2 size(splashSprite->GetBitmapSizeF() * defaultScale);
 	if (size.x > screenSize.x)
 	{
