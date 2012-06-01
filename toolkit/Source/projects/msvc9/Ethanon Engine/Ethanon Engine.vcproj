@@ -207,14 +207,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\engine\ETHDirectories.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\engine\ETHDirectories.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\src\engine\ETHEngine.cpp"
 				>
 			</File>
@@ -236,22 +228,6 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\engine\ETHPrimitiveDrawer.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\engine\ETHResourceManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\engine\ETHResourceManager.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\engine\ETHResourceProvider.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\engine\ETHResourceProvider.h"
 				>
 			</File>
 			<Filter
@@ -619,6 +595,42 @@
 				</File>
 				<File
 					RelativePath="..\..\..\src\engine\Scene\ETHTempEntityHandler.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Resource"
+				>
+				<File
+					RelativePath="..\..\..\src\engine\Resource\ETHDirectories.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\engine\Resource\ETHDirectories.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\engine\Resource\ETHResourceManager.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\engine\Resource\ETHResourceManager.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\engine\Resource\ETHResourceProvider.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\engine\Resource\ETHResourceProvider.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\engine\Resource\ETHSpriteDensityManager.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\engine\Resource\ETHSpriteDensityManager.h"
 					>
 				</File>
 			</Filter>

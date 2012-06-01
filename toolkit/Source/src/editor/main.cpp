@@ -151,7 +151,7 @@ int main(const int argc, const char* argv[])
 		const unsigned int nEditors = 4;
 
 		ETHResourceProviderPtr provider = ETHResourceProviderPtr(new ETHResourceProvider(
-			ETHGraphicResourceManagerPtr(new ETHGraphicResourceManager(2.0f, false)),
+			ETHGraphicResourceManagerPtr(new ETHGraphicResourceManager(ETHSpriteDensityManager())),
 			ETHAudioResourceManagerPtr(new ETHAudioResourceManager()),
 			ETHShaderManagerPtr(new ETHShaderManager(video, resourcePath + ETHDirectories::GetShaderPath(), true)),
 			GS_L(""),
@@ -184,7 +184,7 @@ int main(const int argc, const char* argv[])
 		}
 		else if ( !startup.emtprojFilename.empty() )
 		{
-			// default project openning
+			// default project opening
 			editor[PROJECT]->SetCurrentProject(utf8::c(startup.emtprojFilename).c_str());
 			editor[PROJECT]->SetCurrentFile(utf8::c(startup.emtprojFilename).c_str());
 

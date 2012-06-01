@@ -24,7 +24,7 @@
 #define ETH_ENGINE_H_
 
 #include <gs2dframework.h>
-#include "ETHResourceProvider.h"
+#include "Resource/ETHResourceProvider.h"
 #include "Script/ETHScriptWrapper.h"
 #include "Shader/ETHShaderManager.h"
 
