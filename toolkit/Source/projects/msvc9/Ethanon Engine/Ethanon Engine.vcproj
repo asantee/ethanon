@@ -534,6 +534,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\src\engine\Util\ETHFileChangeDetector.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\engine\Util\ETHFileChangeDetector.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\engine\Util\ETHFrameTimer.cpp"
 					>
 				</File>

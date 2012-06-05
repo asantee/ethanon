@@ -27,6 +27,7 @@
 #include "../engine/Scene/ETHScene.h"
 #include "../engine/Util/ETHFrameTimer.h"
 #include "../engine/Util/ETHSpeedTimer.h"
+#include "../engine/Util/ETHFileChangeDetector.h"
 #include "../engine/Shader/ETHShaderManager.h"
 #include "CustomDataEditor.h"
 #include "ParticleScale.h"
@@ -65,6 +66,7 @@ private:
 	ButtonSprite m_spot, m_particleSpot[ETH_MAX_PARTICLE_SYS_PER_ENTITY];
 	ETHSceneProperties m_sceneProps;
 	ETHLight m_cursorLight;
+	ETHFileChangeDetectorPtr m_fileChangeDetector;
 
 	ETHEntityProperties *m_pEditEntity;
 	boost::shared_ptr<ETHRenderEntity> m_renderEntity;
@@ -139,6 +141,9 @@ private:
 	void ShowWarnings();
 	void ShowEntityResources(Vector2 v2Pos);
 	void DrawEntityElementName(const Vector2 &v2Pos, SpritePtr pSprite, const string &name);
+	bool CheckForFileUpdate();
+	void CreateFileUpdateDetector(const str_type::string& fullFilePath);
+	void OpenEntity(const char* fullFilePath);
 };
 
 #endif
