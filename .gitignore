@@ -37,6 +37,10 @@ info.enml
 toolkit/Source/projects/xcode/Ethanon.xcodeproj/project.xcworkspace/xcuserdata/
 toolkit/Source/projects/xcode/Ethanon.xcodeproj/xcuserdata/
 
+# Android generated files
+toolkit/Source/src/gs2d/projects/Android/Ethanon/bin/
+toolkit/Source/src/gs2d/projects/Android/Ethanon/gen/
+
 # Frequently used binaries
 audiere.dll
 cg.dll
