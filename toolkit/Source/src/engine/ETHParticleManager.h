@@ -109,7 +109,7 @@ struct ETH_PARTICLE_SYSTEM
 
 	int repeat;
 	int animationMode;
-	Vector3 v3Luminance;
+	Vector3 emissive;
 	float angleStart;
 	float randAngleStart;
 };

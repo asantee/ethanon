@@ -288,17 +288,17 @@ void ParticleEditor::SetMenuConstants()
 	m_color1[3].SetDescription(L"Ending color blue component (from 0.0 to 1.0)");
 
 	m_luminance[0].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
-	m_luminance[0].SetConstant(m_system.v3Luminance.x);
+	m_luminance[0].SetConstant(m_system.emissive.x);
 	m_luminance[0].SetClamp(true, 0, 1);
 	m_luminance[0].SetText(L"Emissive.R:");
 	m_luminance[0].SetDescription(L"Self-illumination color red component (color = diffuse*min(ambient+luminance,1))");
 	m_luminance[1].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
-	m_luminance[1].SetConstant(m_system.v3Luminance.y);
+	m_luminance[1].SetConstant(m_system.emissive.y);
 	m_luminance[1].SetClamp(true, 0, 1);
 	m_luminance[1].SetText(L"Emissive.G:");
 	m_luminance[1].SetDescription(L"Self-illumination color green component (color = diffuse*min(ambient+luminance,1))");
 	m_luminance[2].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
-	m_luminance[2].SetConstant(m_system.v3Luminance.z);
+	m_luminance[2].SetConstant(m_system.emissive.z);
 	m_luminance[2].SetClamp(true, 0, 1);
 	m_luminance[2].SetText(L"Emissive.B:");
 	m_luminance[2].SetDescription(L"Self-illumination color blue component (color = diffuse*min(ambient+luminance,1))");
@@ -679,9 +679,9 @@ void ParticleEditor::ParticlePanel()
 		m_system.maxSize = m_maxSize.PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
 		menu += m_menuSize/2;
 
-		m_system.v3Luminance.x = m_luminance[0].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
-		m_system.v3Luminance.y = m_luminance[1].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
-		m_system.v3Luminance.z = m_luminance[2].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
+		m_system.emissive.x = m_luminance[0].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
+		m_system.emissive.y = m_luminance[1].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
+		m_system.emissive.z = m_luminance[2].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
 		menu += m_menuSize/2;
 
 		m_manager->SetSystem(m_system);
@@ -735,7 +735,7 @@ void ParticleEditor::ResetSystem()
 	m_system.maxSize = 1000.0f;
 	m_system.randAngleStart = 0.0f;
 	m_system.angleStart = 0.0f;
-	m_system.v3Luminance = Vector3(0,0,0);
+	m_system.emissive = Vector3(1,1,1);
 	m_system.boundingSphere = 512.0f;
 	m_system.allAtOnce = false;
 

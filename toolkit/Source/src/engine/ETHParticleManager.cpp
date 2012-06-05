@@ -87,7 +87,7 @@ void ETH_PARTICLE_SYSTEM::Reset()
 	randomizeSize = 0.0f;
 	randAngleStart = 0.0f;
 	angleStart = 0.0f;
-	v3Luminance = Vector3(0,0,0);
+	emissive = Vector3(1,1,1);
 	allAtOnce = false;
 	boundingSphere = 512.0f;
 	soundFXFile = GS_L("");
@@ -242,9 +242,9 @@ bool ETH_PARTICLE_SYSTEM::ReadFromXMLFile(TiXmlElement *pElement)
 		pIter = pNode->ToElement();
 		if (pIter)
 		{
-			pIter->QueryFloatAttribute(GS_L("r"), &v3Luminance.x);
-			pIter->QueryFloatAttribute(GS_L("g"), &v3Luminance.y);
-			pIter->QueryFloatAttribute(GS_L("b"), &v3Luminance.z);
+			pIter->QueryFloatAttribute(GS_L("r"), &emissive.x);
+			pIter->QueryFloatAttribute(GS_L("g"), &emissive.y);
+			pIter->QueryFloatAttribute(GS_L("b"), &emissive.z);
 		}
 	}
 	return true;
@@ -340,9 +340,9 @@ bool ETH_PARTICLE_SYSTEM::WriteToXMLFile(TiXmlElement *pRoot) const
 
 	pElement = new TiXmlElement(GS_L("Luminance"));
 	pParticleRoot->LinkEndChild(pElement);
-	pElement->SetDoubleAttribute(GS_L("r"), v3Luminance.x);
-	pElement->SetDoubleAttribute(GS_L("g"), v3Luminance.y);
-	pElement->SetDoubleAttribute(GS_L("b"), v3Luminance.z);
+	pElement->SetDoubleAttribute(GS_L("r"), emissive.x);
+	pElement->SetDoubleAttribute(GS_L("g"), emissive.y);
+	pElement->SetDoubleAttribute(GS_L("b"), emissive.z);
 
 	pParticleRoot->SetAttribute(GS_L("particles"), nParticles);
 	pParticleRoot->SetAttribute(GS_L("allAtOnce"), allAtOnce);
@@ -759,9 +759,9 @@ bool ETHParticleManager::DrawParticleSystem(Vector3 v3Ambient, const float maxHe
 		Vector3 v3FinalAmbient(1,1,1);
 		if (m_system.alphaMode == GSAM_PIXEL || m_system.alphaMode == GSAM_ALPHA_TEST)
 		{
-			v3FinalAmbient.x = Min(m_system.v3Luminance.x+v3Ambient.x, 1.0f);
-			v3FinalAmbient.y = Min(m_system.v3Luminance.y+v3Ambient.y, 1.0f);
-			v3FinalAmbient.z = Min(m_system.v3Luminance.z+v3Ambient.z, 1.0f);
+			v3FinalAmbient.x = Min(m_system.emissive.x+v3Ambient.x, 1.0f);
+			v3FinalAmbient.y = Min(m_system.emissive.y+v3Ambient.y, 1.0f);
+			v3FinalAmbient.z = Min(m_system.emissive.z+v3Ambient.z, 1.0f);
 		}
 
 		GS_COLOR dwColor;
