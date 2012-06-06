@@ -89,7 +89,8 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 	m_richLighting = file.richLighting;
 
 	m_provider = ETHResourceProviderPtr(new ETHResourceProvider(
-		ETHGraphicResourceManagerPtr(new ETHGraphicResourceManager(file.hdDensityValue, file.ShouldUseHdResources(video))),
+		ETHGraphicResourceManagerPtr(
+			new ETHGraphicResourceManager(file.densityManager)),
 		ETHAudioResourceManagerPtr(new ETHAudioResourceManager()),
 		ETHShaderManagerPtr(new ETHShaderManager(video, m_startResourcePath + ETHDirectories::GetShaderPath(), m_richLighting)),
 		m_startResourcePath, video, audio, input));

@@ -24,7 +24,7 @@
 #define ETH_SPRITE_ENTITY_H_
 
 #include "ETHEntity.h"
-#include "../ETHResourceProvider.h"
+#include "../Resource/ETHResourceProvider.h"
 #include "../Scene/ETHSceneProperties.h"
 
 class ETHSpriteEntity : public ETHEntity

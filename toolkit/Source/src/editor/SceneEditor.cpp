@@ -331,6 +331,10 @@ string SceneEditor::DoEditor(SpritePtr pNextAppButton)
 	{
 		m_projManagerRequested = true;
 	}
+	if (CheckForFileUpdate())
+	{
+		OpenByFilename(GetCurrentFile(true).c_str());
+	}
 
 	if (guiButtonsFree && m_tool.GetButtonStatus(_S_PLACE))
 		EntityPlacer();
@@ -391,6 +395,27 @@ string SceneEditor::DoEditor(SpritePtr pNextAppButton)
 
 	CentralizeShortcut();
 	return "scene";
+}
+
+bool SceneEditor::CheckForFileUpdate()
+{
+	if (m_fileChangeDetector)
+	{
+		m_fileChangeDetector->Update();
+		return m_fileChangeDetector->CheckForChange();
+	}
+	else
+	{
+		return false;
+	}
+}
+
+void SceneEditor::CreateFileUpdateDetector(const str_type::string& fullFilePath)
+{
+	m_fileChangeDetector = ETHFileChangeDetectorPtr(
+		new ETHFileChangeDetector(m_provider->GetVideo(), fullFilePath, ETHFileChangeDetector::UTF16_WITH_BOM));
+	if (!m_fileChangeDetector->IsValidFile())
+		m_fileChangeDetector.reset();
 }
 
 void SceneEditor::EditParallax()
@@ -1505,6 +1530,7 @@ bool SceneEditor::SaveAs()
 		if (m_pScene->SaveToFile(utf8::c(sOut).wstr()))
 		{
 			SetCurrentFile(sOut.c_str());
+			CreateFileUpdateDetector(utf8::c(GetCurrentFile(true)).wstr());
 		}
 	}
 	return true;
@@ -1513,6 +1539,7 @@ bool SceneEditor::SaveAs()
 bool SceneEditor::Save()
 {
 	m_pScene->SaveToFile(utf8::c(GetCurrentFile(true)).wstr());
+	CreateFileUpdateDetector(utf8::c(GetCurrentFile(true)).wstr());
 	return true;
 }
 
@@ -1533,14 +1560,15 @@ void SceneEditor::OpenByFilename(const string& filename)
 	if (m_pScene->GetNumEntities())
 	{
 		m_sceneProps = *m_pScene->GetSceneProperties();
-		ResetForms();
 		SetCurrentFile(filename.c_str());
+		ResetForms();
 		if (m_panel.GetButtonStatus(_S_USE_STATIC_LIGHTMAPS))
 		{
 			m_updateLights = true;
 		}
 		//m_currentEntityIdx = 0;
 		m_provider->GetVideo()->SetCameraPos(Vector2(0,0));
+		CreateFileUpdateDetector(utf8::c(filename).wstr());
 	}
 }
 

@@ -23,7 +23,7 @@
 #ifndef ETH_PARTICLE_MANAGER_H_
 #define ETH_PARTICLE_MANAGER_H_
 
-#include "ETHResourceProvider.h"
+#include "Resource/ETHResourceProvider.h"
 #include "ETHCommon.h"
 
 #define _ETH_MINIMUM_PARTICLE_REPEATS_TO_LOOP_SOUND (4)
@@ -109,7 +109,7 @@ struct ETH_PARTICLE_SYSTEM
 
 	int repeat;
 	int animationMode;
-	Vector3 v3Luminance;
+	Vector3 emissive;
 	float angleStart;
 	float randAngleStart;
 };

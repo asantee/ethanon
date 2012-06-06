@@ -27,6 +27,7 @@
 #include "CustomDataEditor.h"
 #include "../engine/Scene/ETHScene.h"
 #include "../engine/Shader/ETHShaderManager.h"
+#include "../engine/Util/ETHFileChangeDetector.h"
 
 #include <stdio.h>
 #include <iostream>
@@ -74,6 +75,8 @@ private:
 	int GetEntityByName(const string &name);
 	void CopySelectedToClipboard();
 	void PasteFromClipboard();
+	bool CheckForFileUpdate();
+	void CreateFileUpdateDetector(const str_type::string& fullFilePath);
 
 	void CreateEditablePosition();
 	float PlaceEditablePosition(const Vector2 &v2Pos);
@@ -121,6 +124,7 @@ private:
 	bool m_projManagerRequested;
 	int m_genLightmapForThisOneOnly;
 	CustomDataEditor m_customDataEditor;
+	ETHFileChangeDetectorPtr m_fileChangeDetector;
 };
 
 #endif

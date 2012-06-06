@@ -24,7 +24,7 @@
 #include "../Entity/ETHEntityArray.h"
 #include "../Shader/ETHLightmapGen.h"
 #include "../Shader/ETHShaderManager.h"
-#include "../ETHResourceProvider.h"
+#include "../Resource/ETHResourceProvider.h"
 #include "../Physics/ETHPhysicsSimulator.h"
 
 #ifdef GS2D_STR_TYPE_WCHAR

@@ -23,8 +23,8 @@
 #ifndef ETH_PRIMITIVE_DRAWER_H_
 #define ETH_PRIMITIVE_DRAWER_H_
 
-#include "ETHResourceManager.h"
-#include "ETHResourceProvider.h"
+#include "Resource/ETHResourceManager.h"
+#include "Resource/ETHResourceProvider.h"
 
 class ETHPrimitiveDrawer
 {

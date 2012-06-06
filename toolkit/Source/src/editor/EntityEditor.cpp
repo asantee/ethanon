@@ -633,6 +633,8 @@ void EntityEditor::ResetEntityMenu()
 	m_customDataEditor.Rebuild(m_renderEntity.get(), this);
 	m_playStopButton.SetButton(L"play.png");
 	m_animationTimer.Reset();
+
+	CreateFileUpdateDetector(utf8::c(GetCurrentFile(true)).wstr());
 }
 
 void EntityEditor::ResetParticleMenu()
@@ -705,6 +707,11 @@ void EntityEditor::DoMainMenu()
 	if (file_r.text == _S_GOTO_PROJ)
 	{
 		m_projManagerRequested = true;
+	}
+
+	if (CheckForFileUpdate())
+	{
+		OpenEntity(GetCurrentFile(true).c_str());
 	}
 
 	file_r = m_addMenu.PlaceMenu(Vector2(x,y)); x+=m_menuWidth*2;
@@ -1284,6 +1291,27 @@ string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 	return "entity";
 }
 
+bool EntityEditor::CheckForFileUpdate()
+{
+	if (m_fileChangeDetector)
+	{
+		m_fileChangeDetector->Update();
+		return m_fileChangeDetector->CheckForChange();
+	}
+	else
+	{
+		return false;
+	}
+}
+
+void EntityEditor::CreateFileUpdateDetector(const str_type::string& fullFilePath)
+{
+	m_fileChangeDetector = ETHFileChangeDetectorPtr(
+		new ETHFileChangeDetector(m_provider->GetVideo(), fullFilePath, ETHFileChangeDetector::UTF16_WITH_BOM));
+	if (!m_fileChangeDetector->IsValidFile())
+		m_fileChangeDetector.reset();
+}
+
 bool EntityEditor::SaveAs()
 {
 	char filter[] = "Ethanon Entity files (*.ent)\0*.ent\0\0";
@@ -1301,7 +1329,29 @@ bool EntityEditor::Save(const char *path)
 	AddExtension(path, ".ent", sOut);
 	m_pEditEntity->SaveToFile(utf8::c(sOut).wstr());
 	SetCurrentFile(sOut.c_str());
+	CreateFileUpdateDetector(utf8::c(path).wstr());
 	return true;
+}
+
+void EntityEditor::OpenEntity(const char* fullFilePath)
+{
+	m_renderEntity->ForceSFXStop();
+	m_renderEntity->ClearCustomData();
+
+	InstantiateEntity(utf8::c(fullFilePath).wstr());
+
+	m_attachLight.Clear();
+	SetCurrentFile(fullFilePath);
+	ResetEntityMenu();
+	ResetSpriteCut();
+	for (int t = 0; t < ETH_MAX_PARTICLE_SYS_PER_ENTITY; t++)
+	{
+		if (m_pEditEntity->particleSystems[t]->nParticles > 0 && m_pEditEntity->particleSystems[t]->bitmapFile != L"")
+		{
+			m_attachLight.AddButton(utf8::c(m_pEditEntity->particleSystems[t]->bitmapFile).wc_str());
+		}
+	}
+	m_customDataEditor.Rebuild(m_renderEntity.get(), this);
 }
 
 bool EntityEditor::Open()
@@ -1312,23 +1362,7 @@ bool EntityEditor::Open()
 	char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
 	if (OpenForm(filter, utf8::c(ETHDirectories::GetEntityPath()).c_str(), path, file, currentProjectPath.c_str()))
 	{
-		m_renderEntity->ForceSFXStop();
-		m_renderEntity->ClearCustomData();
-
-		InstantiateEntity(utf8::c(path).wstr());
-
-		m_attachLight.Clear();
-		ResetEntityMenu();
-		ResetSpriteCut();
-		SetCurrentFile(path);
-		for (int t = 0; t < ETH_MAX_PARTICLE_SYS_PER_ENTITY; t++)
-		{
-			if (m_pEditEntity->particleSystems[t]->nParticles > 0 && m_pEditEntity->particleSystems[t]->bitmapFile != L"")
-			{
-				m_attachLight.AddButton(utf8::c(m_pEditEntity->particleSystems[t]->bitmapFile).wc_str());
-			}
-		}
-		m_customDataEditor.Rebuild(m_renderEntity.get(), this);
+		OpenEntity(path);
 	}
 	return true;
 }
@@ -1624,8 +1658,9 @@ void EntityEditor::Clear()
 {
 	UnloadAll();
 	m_pEditEntity->Reset();
-	ResetEntityMenu();
 	SetCurrentFile(_BASEEDITOR_DEFAULT_UNTITLED_FILE);
+	ResetEntityMenu();
+	m_fileChangeDetector.reset();
 }
 
 void EntityEditor::UnloadParticle(const int n)

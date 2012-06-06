@@ -44,11 +44,12 @@ LOCAL_SRC_FILES := \
 	$(ADDONS_PATH)/scriptdictionary.cpp \
 	$(ENGINE_PATH)/ETHCommon.cpp \
 	$(ENGINE_PATH)/ETHParticleManager.cpp \
-	$(ENGINE_PATH)/ETHResourceManager.cpp \
-	$(ENGINE_PATH)/ETHResourceProvider.cpp \
-	$(ENGINE_PATH)/ETHDirectories.cpp \
 	$(ENGINE_PATH)/ETHPrimitiveDrawer.cpp \
 	$(ENGINE_PATH)/ETHEngine.cpp \
+	$(ENGINE_PATH)/Resource/ETHDirectories.cpp \
+	$(ENGINE_PATH)/Resource/ETHResourceManager.cpp \
+	$(ENGINE_PATH)/Resource/ETHResourceProvider.cpp \
+	$(ENGINE_PATH)/Resource/ETHSpriteDensityManager.cpp \
 	$(ENGINE_PATH)/Util/ETHSpeedTimer.cpp \
 	$(ENGINE_PATH)/Util/ETHASUtil.cpp \
 	$(ENGINE_PATH)/Util/ETHDateTime.cpp \

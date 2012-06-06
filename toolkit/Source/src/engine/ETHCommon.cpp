@@ -36,9 +36,7 @@ ETH_WINDOW_ENML_FILE::ETH_WINDOW_ENML_FILE(const str_type::string& fileName, con
 	windowed(true),
 	vsync(true),
 	title(GS_L("Ethanon Engine")),
-	richLighting(true),
-	hdDensityValue(2.0f),
-	minScreenHeightForHdResources(512)
+	richLighting(true)
 {
 	str_type::string out;
 	fileManager->GetAnsiFileString(fileName, out);
@@ -52,8 +50,8 @@ ETH_WINDOW_ENML_FILE::ETH_WINDOW_ENML_FILE(const str_type::string& fileName, con
 		const str_type::string newTitle = file.get(GS_L("window"), GS_L("title"));
 		richLighting = ETHGlobal::IsTrue(file.get(GS_L("rendering"), GS_L("richLighting")));
 		title = newTitle.empty() ? title : newTitle;
-		file.getFloat(GS_L("window"), GS_L("hdDensityValue"), &hdDensityValue);
-		file.getUInt(GS_L("window"), GS_L("minScreenHeightForHdVersion"), &minScreenHeightForHdResources);
+
+		densityManager.FillParametersFromFile(file);
 	}
 	else
 	{
@@ -64,11 +62,6 @@ ETH_WINDOW_ENML_FILE::ETH_WINDOW_ENML_FILE(const str_type::string& fileName, con
 		#endif
 		 << file.getErrorString() << std::endl;
 	}
-}
-
-bool ETH_WINDOW_ENML_FILE::ShouldUseHdResources(const VideoPtr& video)
-{
-	return (video->GetScreenSize().y >= static_cast<int>(minScreenHeightForHdResources));
 }
 
 ETH_STARTUP_RESOURCES_ENML_FILE::ETH_STARTUP_RESOURCES_ENML_FILE(const str_type::string& fileName, const Platform::FileManagerPtr& fileManager)

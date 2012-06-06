@@ -50,7 +50,8 @@ using namespace gs2d;
 #include <stdlib.h>
 
 #include "Util/ETHSpeedTimer.h"
-#include "ETHDirectories.h"
+#include "Resource/ETHSpriteDensityManager.h"
+#include "Resource/ETHDirectories.h"
 
 #define _ETH_EXTRA_BYTES 512
 #define _ETH_LESSER_EXTRA_BYTES 64
@@ -165,11 +166,10 @@ struct ETH_VIEW_RECT
 struct ETH_WINDOW_ENML_FILE
 {
 	ETH_WINDOW_ENML_FILE(const str_type::string& fileName, const Platform::FileManagerPtr& fileManager);
-	bool ShouldUseHdResources(const VideoPtr& video);
-	unsigned int width, height, minScreenHeightForHdResources;
+	ETHSpriteDensityManager densityManager;
+	unsigned int width, height;
 	bool windowed, vsync;
 	bool richLighting;
-	float hdDensityValue;
 	str_type::string title;
 };
 

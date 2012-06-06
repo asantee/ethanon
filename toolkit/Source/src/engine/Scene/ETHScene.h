@@ -26,7 +26,7 @@
 #include "../Entity/ETHEntityArray.h"
 #include "ETHBucketManager.h"
 #include "ETHSceneProperties.h"
-#include "../ETHResourceProvider.h"
+#include "../Resource/ETHResourceProvider.h"
 #include "../Util/ETHASUtil.h"
 #include "../Scene/ETHTempEntityHandler.h"
 #include "../Physics/ETHPhysicsSimulator.h"

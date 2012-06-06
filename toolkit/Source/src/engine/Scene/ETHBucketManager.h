@@ -30,7 +30,7 @@ class ETHEntityArray;
 
 #include "ETHSceneProperties.h"
 #include "ETHEntityKillListener.h"
-#include "../ETHResourceProvider.h"
+#include "../Resource/ETHResourceProvider.h"
 #include <list>
 
 // Vector2 hash function

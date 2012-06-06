@@ -23,7 +23,7 @@
 #include "ETHASUtil.h"
 #include <iostream>
 
-#include "../ETHResourceProvider.h"
+#include "../Resource/ETHResourceProvider.h"
 
 #ifdef GS2D_STR_TYPE_WCHAR
 #	include "../addons/utf16/scriptbuilder.h"

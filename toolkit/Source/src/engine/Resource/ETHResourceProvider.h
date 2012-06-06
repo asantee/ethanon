@@ -25,7 +25,7 @@
 
 #include "ETHResourceManager.h"
 #include "Util/ETHGlobalScaleManager.h"
-#include "Platform/ETHPlatform.h"
+#include "../Platform/ETHPlatform.h"
 #include <Platform/Platform.h>
 #include <Platform/FileLogger.h>
 

@@ -24,7 +24,7 @@
 #define __EDITOR_INTERFACE_OBJECT_49383025432
 
 #include "gsgui.h"
-#include "../engine/ETHResourceProvider.h"
+#include "../engine/Resource/ETHResourceProvider.h"
 #include <string>
 
 using namespace std; // TODO: remove it from header

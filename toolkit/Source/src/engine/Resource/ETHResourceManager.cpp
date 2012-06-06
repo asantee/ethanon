@@ -25,8 +25,6 @@
 
 #include "ETHResourceProvider.h"
 
-const str_type::string ETHGraphicResourceManager::HD_VERSION_PATH_NAME = GS_L("/hd/");
-
 ETHGraphicResourceManager::SpriteResource::SpriteResource(const str_type::string& fullOriginPath, const SpritePtr& sprite) :
 	m_sprite(sprite),
 	m_fullOriginPath(fullOriginPath)
@@ -38,37 +36,9 @@ void ETHGraphicResourceManager::ReleaseResources()
 	m_resource.clear();
 }
 
-ETHGraphicResourceManager::ETHGraphicResourceManager(const float hdImageDensityValue, const bool shouldUseHdResources) :
-	m_hdImageDensityValue(hdImageDensityValue),
-	m_shouldUseHdResources(shouldUseHdResources)
+ETHGraphicResourceManager::ETHGraphicResourceManager(const ETHSpriteDensityManager& densityManager) :
+	m_densityManager(densityManager)
 {
-}
-
-static str_type::string ChooseSpriteVersion(const str_type::string& fullFilePath,
-											const Platform::FileManager& fileManager,
-											const float& hdImageDensityValue,
-											const bool shouldUseHdResources,
-											bool& hasHdVersion)
-{
-	if (hdImageDensityValue == 1.0f || !shouldUseHdResources)
-	{
-		hasHdVersion = false;
-		return fullFilePath;
-	}
-
-	const str_type::string folder(ETHGlobal::GetDirectoryFromPath(fullFilePath.c_str()));
-	const str_type::string file(ETHGlobal::GetFileName(fullFilePath));
-	const str_type::string hdVersionFileName(folder + ETHGraphicResourceManager::HD_VERSION_PATH_NAME + file);
-	if (fileManager.FileExists(hdVersionFileName))
-	{
-		hasHdVersion = true;
-		return hdVersionFileName;
-	}
-	else
-	{
-		hasHdVersion = false;
-		return fullFilePath;
-	}
 }
 
 SpritePtr ETHGraphicResourceManager::GetPointer(
@@ -114,8 +84,8 @@ SpritePtr ETHGraphicResourceManager::AddFile(VideoPtr video, const str_type::str
 	str_type::string fixedName(path);
 	Platform::FixSlashes(fixedName);
 
-	bool hasHdVersion;
-	const str_type::string finalFileName(ChooseSpriteVersion(fixedName, *(video->GetFileManager().get()), m_hdImageDensityValue, m_shouldUseHdResources, hasHdVersion));
+	ETHSpriteDensityManager::DENSITY_LEVEL densityLevel;
+	const str_type::string finalFileName(m_densityManager.ChooseSpriteVersion(fixedName, video, densityLevel));
 
 	if (!(pBitmap = video->CreateSprite(finalFileName, (cutOutBlackPixels)? 0xFF000000 : 0xFFFF00FF)))
 	{
@@ -124,10 +94,9 @@ SpritePtr ETHGraphicResourceManager::AddFile(VideoPtr video, const str_type::str
 		ETHResourceProvider::Log(ss.str(), Platform::Logger::ERROR);
 		return SpritePtr();
 	}
-	if (hasHdVersion)
-	{
-		pBitmap->SetSpriteDensityValue(m_hdImageDensityValue);
-	}
+
+	m_densityManager.SetSpriteDensity(pBitmap, densityLevel);
+
 	//#ifdef _DEBUG
 	ETH_STREAM_DECL(ss) << GS_L("(Loaded) ") << fileName;
 	ETHResourceProvider::Log(ss.str(), Platform::Logger::INFO);

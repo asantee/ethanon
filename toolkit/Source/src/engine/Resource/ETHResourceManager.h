@@ -23,7 +23,7 @@
 #ifndef ETH_RESOURCE_MANAGER_H_
 #define ETH_RESOURCE_MANAGER_H_
 
-#include "ETHCommon.h"
+#include "../ETHCommon.h"
 #include <list>
 #include <iostream>
 #include <string>
@@ -32,7 +32,7 @@
 class ETHGraphicResourceManager
 {
 public:
-	ETHGraphicResourceManager(const float hdImageDensityValue, const bool shouldUseHdResources);
+	ETHGraphicResourceManager(const ETHSpriteDensityManager& densityManager);
 
 	class SpriteResource
 	{
@@ -49,15 +49,12 @@ public:
 	void ReleaseResources();
 	SpritePtr AddFile(VideoPtr video, const str_type::string &path, const bool cutOutBlackPixels);
 
-	static const str_type::string HD_VERSION_PATH_NAME;
-
 private:
 	SpritePtr FindSprite(const str_type::string& fullFilePath, const str_type::string& fileName);
 	str_type::string AssembleResourceFullPath(const str_type::string& programPath, const str_type::string& searchPath, const str_type::string& fileName);
 
 	std::map<str_type::string, SpriteResource> m_resource;
-	float m_hdImageDensityValue;
-	bool m_shouldUseHdResources;
+	ETHSpriteDensityManager m_densityManager;
 };
 
 typedef boost::shared_ptr<ETHGraphicResourceManager> ETHGraphicResourceManagerPtr;
