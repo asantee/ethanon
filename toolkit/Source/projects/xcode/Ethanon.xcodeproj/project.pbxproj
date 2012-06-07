@@ -26,7 +26,6 @@
 		748502DE156031B000E2104A /* ETHEntityDestructorManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 748502CE1560301B00E2104A /* ETHEntityDestructorManager.cpp */; };
 		748502DF156031B700E2104A /* ETHScriptWrapper.Drawing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 748502D31560301B00E2104A /* ETHScriptWrapper.Drawing.cpp */; };
 		748502E0156031BD00E2104A /* ETHScriptWrapper.System.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 748502D51560301B00E2104A /* ETHScriptWrapper.System.cpp */; };
-		748502E1156031FD00E2104A /* ETHGlobalScaleManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 748502D61560304900E2104A /* ETHGlobalScaleManager.cpp */; };
 		748503091562BCBD00E2104A /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 748503081562BCBC00E2104A /* Default-Landscape@2x~ipad.png */; };
 		7485030B1562BCE600E2104A /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7485030A1562BCE600E2104A /* Default-Portrait@2x~ipad.png */; };
 		7485030D1562BCF300E2104A /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7485030C1562BCF300E2104A /* Default-Landscape~ipad.png */; };
@@ -38,6 +37,7 @@
 		74868C6E14374C3B00E7B3DD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 74868C6D14374C3B00E7B3DD /* main.m */; };
 		74868C7214374C3B00E7B3DD /* EthanonAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 74868C7114374C3B00E7B3DD /* EthanonAppDelegate.mm */; };
 		74868C7514374C3B00E7B3DD /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 74868C7314374C3B00E7B3DD /* MainWindow.xib */; };
+		748E081C158133F6006174C4 /* ETHGlobalScaleManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 748E081A15813387006174C4 /* ETHGlobalScaleManager.cpp */; };
 		74B097A0148EE4DB00EE273C /* ETHCompoundShape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74B0979E148EE4DB00EE273C /* ETHCompoundShape.cpp */; };
 		74D9E980157E45DC0000EB42 /* ETHDirectories.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74D9E97A157E45DC0000EB42 /* ETHDirectories.cpp */; };
 		74D9E981157E45DC0000EB42 /* ETHResourceManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74D9E97C157E45DC0000EB42 /* ETHResourceManager.cpp */; };
@@ -243,8 +243,6 @@
 		748502D31560301B00E2104A /* ETHScriptWrapper.Drawing.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptWrapper.Drawing.cpp; path = ../../src/engine/Script/ETHScriptWrapper.Drawing.cpp; sourceTree = "<group>"; };
 		748502D41560301B00E2104A /* ETHScriptWrapper.Scene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptWrapper.Scene.cpp; path = ../../src/engine/Script/ETHScriptWrapper.Scene.cpp; sourceTree = "<group>"; };
 		748502D51560301B00E2104A /* ETHScriptWrapper.System.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptWrapper.System.cpp; path = ../../src/engine/Script/ETHScriptWrapper.System.cpp; sourceTree = "<group>"; };
-		748502D61560304900E2104A /* ETHGlobalScaleManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ETHGlobalScaleManager.cpp; path = ../../src/engine/Shader/ETHGlobalScaleManager.cpp; sourceTree = "<group>"; };
-		748502D71560304900E2104A /* ETHGlobalScaleManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ETHGlobalScaleManager.h; path = ../../src/engine/Shader/ETHGlobalScaleManager.h; sourceTree = "<group>"; };
 		748502D81560305C00E2104A /* ETHEntityKillListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ETHEntityKillListener.h; path = ../../src/engine/Scene/ETHEntityKillListener.h; sourceTree = "<group>"; };
 		748503081562BCBC00E2104A /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
 		7485030A1562BCE600E2104A /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
@@ -261,6 +259,8 @@
 		74868C7014374C3B00E7B3DD /* EthanonAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EthanonAppDelegate.h; sourceTree = "<group>"; };
 		74868C7114374C3B00E7B3DD /* EthanonAppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = EthanonAppDelegate.mm; sourceTree = "<group>"; };
 		74868C7414374C3B00E7B3DD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
+		748E081A15813387006174C4 /* ETHGlobalScaleManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ETHGlobalScaleManager.cpp; path = ../../src/engine/Util/ETHGlobalScaleManager.cpp; sourceTree = "<group>"; };
+		748E081B15813387006174C4 /* ETHGlobalScaleManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ETHGlobalScaleManager.h; path = ../../src/engine/Util/ETHGlobalScaleManager.h; sourceTree = "<group>"; };
 		74B0979E148EE4DB00EE273C /* ETHCompoundShape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHCompoundShape.cpp; path = ../../src/engine/Physics/ETHCompoundShape.cpp; sourceTree = "<group>"; };
 		74B0979F148EE4DB00EE273C /* ETHCompoundShape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHCompoundShape.h; path = ../../src/engine/Physics/ETHCompoundShape.h; sourceTree = "<group>"; };
 		74D9E97A157E45DC0000EB42 /* ETHDirectories.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHDirectories.cpp; path = ../../src/engine/Resource/ETHDirectories.cpp; sourceTree = "<group>"; };
@@ -797,6 +797,8 @@
 		74DD38B4144248F30041C2EA /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				748E081A15813387006174C4 /* ETHGlobalScaleManager.cpp */,
+				748E081B15813387006174C4 /* ETHGlobalScaleManager.h */,
 				74DD38E41442496B0041C2EA /* ETHASUtil.cpp */,
 				74DD38E51442496B0041C2EA /* ETHASUtil.h */,
 				74DD38E61442496B0041C2EA /* ETHDateTime.cpp */,
@@ -843,8 +845,6 @@
 		74DD38B6144248FD0041C2EA /* Shader */ = {
 			isa = PBXGroup;
 			children = (
-				748502D61560304900E2104A /* ETHGlobalScaleManager.cpp */,
-				748502D71560304900E2104A /* ETHGlobalScaleManager.h */,
 				74DD38CE144249530041C2EA /* ETHFakeEyePositionManager.cpp */,
 				7461247614D0E76700098850 /* ETHBackBufferTargetManager.cpp */,
 				7461247714D0E76700098850 /* ETHBackBufferTargetManager.h */,
@@ -1385,7 +1385,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				748502E1156031FD00E2104A /* ETHGlobalScaleManager.cpp in Sources */,
+				748E081C158133F6006174C4 /* ETHGlobalScaleManager.cpp in Sources */,
 				748502E0156031BD00E2104A /* ETHScriptWrapper.System.cpp in Sources */,
 				748502DF156031B700E2104A /* ETHScriptWrapper.Drawing.cpp in Sources */,
 				748502DE156031B000E2104A /* ETHEntityDestructorManager.cpp in Sources */,
