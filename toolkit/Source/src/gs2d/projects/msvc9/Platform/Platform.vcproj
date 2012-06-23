@@ -18,7 +18,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="../../../lib/"
+			OutputDirectory="..\..\..\lib\"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
 			CharacterSet="1"
@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../../vendors/BoostSDK"
+				AdditionalIncludeDirectories="..\..\..\vendors\BoostSDK"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;_PLATFORM_EXPORT"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -81,7 +81,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="../../../lib/"
+			OutputDirectory="..\..\..\lib\"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
 			CharacterSet="1"
@@ -106,7 +106,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="../../../vendors/BoostSDK"
+				AdditionalIncludeDirectories="..\..\..\vendors\BoostSDK"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;_PLATFORM_EXPORT"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"

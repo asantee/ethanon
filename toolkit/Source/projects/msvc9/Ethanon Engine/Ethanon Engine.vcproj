@@ -18,7 +18,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="&quot;$(SolutionDir)#bin#/$(ConfigurationName)/&quot;"
+			OutputDirectory="&quot;$(SolutionDir)#bin#\$(ConfigurationName)\&quot;"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
 			CharacterSet="1"
@@ -44,7 +44,7 @@
 				Optimization="0"
 				EnableIntrinsicFunctions="false"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="../../../src/gs2d/vendors/BoostSDK;../../../src/box2d/;../../../src/gs2d/src/"
+				AdditionalIncludeDirectories="..\..\..\src\gs2d\vendors\BoostSDK;..\..\..\src\box2d\;..\..\..\src\gs2d\src\"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;D3D_DEBUG_INFO;AS_MAX_PORTABILITY"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -87,7 +87,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="&quot;$(SolutionDir)#bin#/$(ConfigurationName)/&quot;"
+			OutputDirectory="&quot;$(SolutionDir)#bin#\$(ConfigurationName)\&quot;"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
 			CharacterSet="1"
@@ -114,7 +114,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="../../../src/gs2d/vendors/BoostSDK;../../../src/box2d/;../../../src/gs2d/src/"
+				AdditionalIncludeDirectories="..\..\..\src\gs2d\vendors\BoostSDK;..\..\..\src\box2d\;..\..\..\src\gs2d\src\"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;ETH_REGISTER_DEPRECATED_CUSTOM_DATA_METHODS"
 				RuntimeLibrary="0"
 				StructMemberAlignment="0"

@@ -18,7 +18,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="../../../lib/"
+			OutputDirectory="..\..\..\lib\"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
 			CharacterSet="1"
@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="../../../vendors/BoostSDK;../../../vendors/DX9SDK/Include;../../../vendors/CgSDK/Include"
+				AdditionalIncludeDirectories="..\..\..\vendors\BoostSDK;..\..\..\vendors\DX9SDK\Include;..\..\..\vendors\CgSDK\Include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;D3D_DEBUG_INFO;WIN32_LEAN_AND_MEAN;GS2D_EXPORT"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -85,7 +85,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="../../../lib/"
+			OutputDirectory="..\..\..\lib\"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
 			CharacterSet="1"
@@ -111,7 +111,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="../../../vendors/BoostSDK;../../../vendors/DX9SDK/Include;../../../vendors/CgSDK/Include"
+				AdditionalIncludeDirectories="..\..\..\vendors\BoostSDK;..\..\..\vendors\DX9SDK\Include;..\..\..\vendors\CgSDK\Include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;WIN32_LEAN_AND_MEAN;GS2D_EXPORT"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
