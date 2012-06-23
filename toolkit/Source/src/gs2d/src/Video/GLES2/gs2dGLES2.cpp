@@ -854,6 +854,7 @@ GS_COLOR GLES2Video::GetBGColor() const
 
 bool GLES2Video::BeginSpriteScene(const GS_COLOR dwBGColor)
 {
+	UnbindFrameBuffer();
 	if (dwBGColor != GS_ZERO)
 	{
 		m_backgroundColor = dwBGColor;
