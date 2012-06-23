@@ -82,7 +82,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="copy vendors&apos; cg.dll; cgD3D9.dll; d3dx9_42.dll -&gt; &quot;$(TargetDir)&quot;"
-				CommandLine="xcopy /D /F /R /Y &quot;$(SolutionDir)src\gs2d\vendors\CgSDK\bin\cg.dll&quot; &quot;$(SolutionDir)#bin#/$(ConfigurationName)/&quot;&#x0D;&#x0A;xcopy /D /F /R /Y &quot;$(SolutionDir)src\gs2d\vendors\CgSDK\bin\cgD3D9.dll&quot; &quot;$(SolutionDir)#bin#/$(ConfigurationName)/&quot;&#x0D;&#x0A;xcopy /D /F /R /Y &quot;$(SolutionDir)src\gs2d\vendors\DX9SDK\Bin\d3dx9_42.dll&quot; &quot;$(SolutionDir)#bin#/$(ConfigurationName)/&quot;&#x0D;&#x0A;"
+				CommandLine="xcopy /D /F /R /Y &quot;$(SolutionDir)src\gs2d\vendors\CgSDK\bin\cg.dll&quot; &quot;$(SolutionDir)#bin#\$(ConfigurationName)\&quot;&#x0D;&#x0A;xcopy /D /F /R /Y &quot;$(SolutionDir)src\gs2d\vendors\CgSDK\bin\cgD3D9.dll&quot; &quot;$(SolutionDir)#bin#\$(ConfigurationName)\&quot;&#x0D;&#x0A;xcopy /D /F /R /Y &quot;$(SolutionDir)src\gs2d\vendors\DX9SDK\Bin\d3dx9_42.dll&quot; &quot;$(SolutionDir)#bin#\$(ConfigurationName)\&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -152,7 +152,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="copy vendors&apos; cg.dll; cgD3D9.dll; d3dx9_42.dll -&gt; &quot;$(TargetDir)&quot;"
-				CommandLine="xcopy /D /F /R /Y &quot;$(SolutionDir)src\gs2d\vendors\CgSDK\bin\cg.dll&quot; &quot;$(SolutionDir)#bin#/$(ConfigurationName)/&quot;&#x0D;&#x0A;xcopy /D /F /R /Y &quot;$(SolutionDir)src\gs2d\vendors\CgSDK\bin\cgD3D9.dll&quot; &quot;$(SolutionDir)#bin#/$(ConfigurationName)/&quot;&#x0D;&#x0A;xcopy /D /F /R /Y &quot;$(SolutionDir)src\gs2d\vendors\DX9SDK\Bin\d3dx9_42.dll&quot; &quot;$(SolutionDir)#bin#/$(ConfigurationName)/&quot;&#x0D;&#x0A;"
+				CommandLine="xcopy /D /F /R /Y &quot;$(SolutionDir)src\gs2d\vendors\CgSDK\bin\cg.dll&quot; &quot;$(SolutionDir)#bin#\$(ConfigurationName)\&quot;&#x0D;&#x0A;xcopy /D /F /R /Y &quot;$(SolutionDir)src\gs2d\vendors\CgSDK\bin\cgD3D9.dll&quot; &quot;$(SolutionDir)#bin#\$(ConfigurationName)\&quot;&#x0D;&#x0A;xcopy /D /F /R /Y &quot;$(SolutionDir)src\gs2d\vendors\DX9SDK\Bin\d3dx9_42.dll&quot; &quot;$(SolutionDir)#bin#\$(ConfigurationName)\&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>
