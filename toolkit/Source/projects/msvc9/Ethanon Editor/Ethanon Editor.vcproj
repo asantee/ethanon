@@ -95,7 +95,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="&quot;$(SolutionDir)#bin#/$(ConfigurationName)/&quot;"
+			OutputDirectory="&quot;$(SolutionDir)#bin#\$(ConfigurationName)\&quot;"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="1"
