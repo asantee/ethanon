@@ -57,7 +57,7 @@ Source: "..\Ethanon Toolkit\app.enml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\Ethanon Toolkit\editor.enml"; DestDir: "{app}"; Flags: ignoreversion
 
 ;Documentation
-Source: "..\..\documentation\User's Manual\*"; DestDir: "{app}\doc\"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\..\documentation\Manual\*"; DestDir: "{app}\doc\"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\readme.txt"; DestDir: "{app}"; Flags: ignoreversion
 
 ;Tools
@@ -121,18 +121,18 @@ Source: "..\Source\src\gs2d\vendors\CgSDK\bin\cgD3D9.dll"; DestDir: "{commondocs
 Source: "..\Source\src\gs2d\vendors\DX9SDK\bin\d3dx9_42.dll"; DestDir: "{commondocs}\Ethanon\Sample Project\"; Flags: ignoreversion
 
 ;source
-Source: "..\..\documentation\Sample Projects\Sample project\eth_util.angelscript"; DestDir: "{commondocs}\Ethanon\Sample Project\"; Flags: ignoreversion
-Source: "..\..\documentation\Sample Projects\Sample project\Collide.angelscript"; DestDir: "{commondocs}\Ethanon\Sample Project\"; Flags: ignoreversion
-Source: "..\..\documentation\Sample Projects\Sample project\main.angelscript"; DestDir: "{commondocs}\Ethanon\Sample Project\"; Flags: ignoreversion
-Source: "..\..\documentation\Sample Projects\Sample project\sample.ethproj"; DestDir: "{commondocs}\Ethanon\Sample Project\"; Flags: ignoreversion
+Source: "..\..\documentation\Sample-Projects\Sample-project\eth_util.angelscript"; DestDir: "{commondocs}\Ethanon\Sample Project\"; Flags: ignoreversion
+Source: "..\..\documentation\Sample-Projects\Sample-project\Collide.angelscript"; DestDir: "{commondocs}\Ethanon\Sample Project\"; Flags: ignoreversion
+Source: "..\..\documentation\Sample-Projects\Sample-project\main.angelscript"; DestDir: "{commondocs}\Ethanon\Sample Project\"; Flags: ignoreversion
+Source: "..\..\documentation\Sample-Projects\Sample-project\sample.ethproj"; DestDir: "{commondocs}\Ethanon\Sample Project\"; Flags: ignoreversion
 
 ;folders
-Source: "..\..\documentation\Sample Projects\Sample project\effects\*"; DestDir: "{commondocs}\Ethanon\Sample Project\effects\"; Flags: ignoreversion
-Source: "..\..\documentation\Sample Projects\Sample project\entities\*"; DestDir: "{commondocs}\Ethanon\Sample Project\entities\"; Flags: ignoreversion
-Source: "..\..\documentation\Sample Projects\Sample project\entities\normalmaps\*"; DestDir: "{commondocs}\Ethanon\Sample Project\entities\normalmaps\"; Flags: ignoreversion
-Source: "..\..\documentation\Sample Projects\Sample project\particles\*"; DestDir: "{commondocs}\Ethanon\Sample Project\particles\"; Flags: ignoreversion
-Source: "..\..\documentation\Sample Projects\Sample project\scenes\*"; DestDir: "{commondocs}\Ethanon\Sample Project\scenes\"; Flags: ignoreversion
-Source: "..\..\documentation\Sample Projects\Sample project\soundfx\*"; DestDir: "{commondocs}\Ethanon\Sample Project\soundfx\"; Flags: ignoreversion
+Source: "..\..\documentation\Sample-Projects\Sample-project\effects\*"; DestDir: "{commondocs}\Ethanon\Sample Project\effects\"; Flags: ignoreversion
+Source: "..\..\documentation\Sample-Projects\Sample-project\entities\*"; DestDir: "{commondocs}\Ethanon\Sample Project\entities\"; Flags: ignoreversion
+Source: "..\..\documentation\Sample-Projects\Sample-project\entities\normalmaps\*"; DestDir: "{commondocs}\Ethanon\Sample Project\entities\normalmaps\"; Flags: ignoreversion
+Source: "..\..\documentation\Sample-Projects\Sample-project\particles\*"; DestDir: "{commondocs}\Ethanon\Sample Project\particles\"; Flags: ignoreversion
+Source: "..\..\documentation\Sample-Projects\Sample-project\scenes\*"; DestDir: "{commondocs}\Ethanon\Sample Project\scenes\"; Flags: ignoreversion
+Source: "..\..\documentation\Sample-Projects\Sample-project\soundfx\*"; DestDir: "{commondocs}\Ethanon\Sample Project\soundfx\"; Flags: ignoreversion
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
@@ -159,7 +159,7 @@ Name: "{group}\{cm:UninstallProgram,Ethanon Engine}"; Filename: "{uninstallexe}"
 Name: "{commondesktop}\Ethanon Editor"; Filename: "{app}\editor.exe"; Tasks: desktopicon
 Name: "{commondesktop}\Ethanon Script Editor"; Filename: "{app}\SciTE\SciTE.exe"; Tasks: desktopicon
 Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Ethanon Editor"; Filename: "{app}\editor.exe"; Tasks: quicklaunchicon
-Name: "{group}\User's Manual"; Filename: "{app}\doc\index.htm"
+Name: "{group}\Manual"; Filename: "{app}\doc\index.htm"
 Name: "{group}\Source-code"; Filename: "https://sourceforge.net/projects/ethanon/develop"
 Name: "{group}\Browse Ethanon Engine"; Filename: "{app}"
 Name: "{group}\Sample project"; Filename: "{commondocs}\Ethanon\Sample Project\"
