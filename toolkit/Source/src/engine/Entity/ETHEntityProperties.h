@@ -64,6 +64,7 @@ public:
 	int startFrame;
 	Vector2 pivotAdjust;
 	Vector2i spriteCut;
+	unsigned int GetNumFrames() const;
 };
 
 class ETHEntityProperties : public ETHEntitySpriteProperties, public ETHCustomDataManager

@@ -46,6 +46,12 @@ static const str_type::string COMPOUND_SHAPE_ENML_SAMPLE(
 	GS_L("	angle = 0;\n")
 	GS_L("}\n\n"));
 
+
+unsigned int ETHEntitySpriteProperties::GetNumFrames() const
+{
+	return static_cast<unsigned int>(pivotAdjust.x * pivotAdjust.y);
+}
+
 static const str_type::string POLYGON_ENML_SAMPLE(
 	GS_L("\n\n// this is a basic triangle sample\n")
 	GS_L("// polygons must be convex and ordered clockwise")

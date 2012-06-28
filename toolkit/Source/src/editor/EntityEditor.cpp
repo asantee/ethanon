@@ -983,9 +983,10 @@ string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 		m_pEditEntity->pivotAdjust.y = m_pivotY.PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth);	y+=m_menuSize;
 		y+=m_menuSize/2;
 
-		m_pEditEntity->spriteCut.x = (int)m_spriteCut[0].PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth);	y+=m_menuSize;
-		m_pEditEntity->spriteCut.y = (int)m_spriteCut[1].PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth);	y+=m_menuSize;
-		m_pEditEntity->startFrame = (int)m_startFrame.PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth);
+		m_pEditEntity->spriteCut.x = Max(1, (int)m_spriteCut[0].PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth));	y+=m_menuSize;
+		m_pEditEntity->spriteCut.y = Max(1, (int)m_spriteCut[1].PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth));	y+=m_menuSize;
+		m_pEditEntity->startFrame = 
+			Min(static_cast<int>(m_pEditEntity->GetNumFrames() - 1), Max(0, (int)m_startFrame.PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth)));
 		if (m_pEditEntity->spriteCut.x > 1 || m_pEditEntity->spriteCut.y > 1)
 		{
 			if (m_playStopButton.GetCurrentButton()->fileName == L"stop.png")
