@@ -94,6 +94,7 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 		ETHAudioResourceManagerPtr(new ETHAudioResourceManager()),
 		ETHShaderManagerPtr(new ETHShaderManager(video, m_startResourcePath + ETHDirectories::GetShaderPath(), m_richLighting)),
 		m_startResourcePath, video, audio, input));
+	m_ethInput.SetProvider(m_provider);
 
 	CreateDynamicBackBuffer(m_startResourcePath);
 
@@ -114,7 +115,6 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 				Abort();
 				return;
 			}
-			m_ethInput.SetProvider(m_provider);
 			video->EnableQuitShortcuts(true);
 			m_v2LastCamPos = video->GetCameraPos();
 		}
