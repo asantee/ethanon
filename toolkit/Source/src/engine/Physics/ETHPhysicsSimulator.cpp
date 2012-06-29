@@ -233,7 +233,15 @@ ETHEntity* ETHPhysicsSimulator::GetClosestContact(const Vector2& a, const Vector
 		return 0;
 	ETHEntityDefaultChooser chooser;
 	ETHRayCastCallback rayCastCallback(a, b, &chooser);
-	m_world->RayCast(&rayCastCallback, rayCastCallback.GetScaledA(), rayCastCallback.GetScaledB());
+	const b2Vec2& p1 = rayCastCallback.GetScaledA();
+	const b2Vec2& p2 = rayCastCallback.GetScaledB();
+
+	// verify it again since values have been scaled and this
+	// is an assert test in the box2D code
+	if (b2Vec2(p2 - p1).LengthSquared() <= 0.0f)
+		return 0;
+
+	m_world->RayCast(&rayCastCallback, p1, p2);
 	return rayCastCallback.GetClosestContact(point, normal);
 }
 
