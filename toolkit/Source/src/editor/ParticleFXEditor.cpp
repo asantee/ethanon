@@ -489,6 +489,7 @@ void ParticleEditor::ParticlePanel()
 		{
 			ETHGlobal::CopyFileToProject(utf8::c(programPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetParticlesPath(), m_provider->GetVideo()->GetFileManager());
 			m_system.bitmapFile = utf8::c(file).wstr();
+			m_provider->GetGraphicResourceManager()->RemoveResource(m_system.bitmapFile);
 			m_manager = ETHParticleManagerPtr(
 				new ETHParticleManager(m_provider, m_system, m_v2Pos, Vector3(m_v2Pos, 0), m_systemAngle, 1.0f));
 		}

@@ -724,10 +724,8 @@ void EntityEditor::DoMainMenu()
 			ETHGlobal::CopyFileToProject(utf8::c(currentProjectPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetEntityPath(), m_provider->GetVideo()->GetFileManager());
 			if (LoadSprite(file, path))
 			{
-				Vector2 screenMid = video->GetScreenSizeF()/2.0f;
-				/*m_renderEntity.Create(video, m_audio, utf8::c(currentProjectPath).wstr(), *m_pEditEntity,
-								m_provider->GetGraphicResourceManager(), m_audioResources, m_provider->GetShaderManager(), Vector3(screenMid.x, screenMid.y, 0),
-								0.0f, m_pEditEntity->startFrame, m_renderEntity.GetColorARGB());*/
+				Vector2 screenMid = video->GetScreenSizeF() / 2.0f;
+				m_provider->GetGraphicResourceManager()->RemoveResource(m_pEditEntity->spriteFile);
 				m_renderEntity->SetSprite(m_pEditEntity->spriteFile);			
 			}
 		}
@@ -741,10 +739,8 @@ void EntityEditor::DoMainMenu()
 			ETHGlobal::CopyFileToProject(utf8::c(currentProjectPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetNormalMapPath(), m_provider->GetVideo()->GetFileManager());
 			if (LoadNormal(file, path))
 			{
-				Vector2 screenMid = video->GetScreenSizeF()/2.0f;
-				/*m_renderEntity.Create(video, m_audio, utf8::c(currentProjectPath).wstr(), *m_pEditEntity, m_provider->GetGraphicResourceManager(),
-								m_audioResources, m_provider->GetShaderManager(), Vector3(screenMid.x, screenMid.y, 0),
-								0.0f, m_pEditEntity->startFrame, m_renderEntity.GetColorARGB());*/
+				Vector2 screenMid = video->GetScreenSizeF() / 2.0f;
+				m_provider->GetGraphicResourceManager()->RemoveResource(m_pEditEntity->normalFile);
 				m_renderEntity->SetNormal(m_pEditEntity->normalFile);			
 			}
 		}
@@ -758,10 +754,8 @@ void EntityEditor::DoMainMenu()
 			ETHGlobal::CopyFileToProject(utf8::c(currentProjectPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetEntityPath(), m_provider->GetVideo()->GetFileManager());
 			if (LoadHalo(file, path))
 			{
-				Vector2 screenMid = video->GetScreenSizeF()/2.0f;
-				/*m_renderEntity.Create(video, m_audio, utf8::c(currentProjectPath).wstr(), *m_pEditEntity, m_provider->GetGraphicResourceManager(),
-								m_audioResources, m_provider->GetShaderManager(), Vector3(screenMid.x, screenMid.y, 0), 0.0f,
-								m_pEditEntity->startFrame, m_renderEntity.GetColorARGB());*/
+				Vector2 screenMid = video->GetScreenSizeF() / 2.0f;
+				m_provider->GetGraphicResourceManager()->RemoveResource(m_pEditEntity->light->haloBitmap);
 				m_renderEntity->SetHalo(m_pEditEntity->light->haloBitmap);
 			}
 		}
@@ -775,10 +769,8 @@ void EntityEditor::DoMainMenu()
 			ETHGlobal::CopyFileToProject(utf8::c(currentProjectPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetEntityPath(), m_provider->GetVideo()->GetFileManager());
 			if (LoadGloss(file, path))
 			{
-				Vector2 screenMid = video->GetScreenSizeF()/2.0f;
-				/*m_renderEntity.Create(video, m_audio, utf8::c(currentProjectPath).wstr(), *m_pEditEntity, m_provider->GetGraphicResourceManager(),
-								m_audioResources, m_provider->GetShaderManager(), Vector3(screenMid.x, screenMid.y, 0),
-								0.0f, m_pEditEntity->startFrame, m_renderEntity.GetColorARGB());*/
+				Vector2 screenMid = video->GetScreenSizeF() / 2.0f;
+				m_provider->GetGraphicResourceManager()->RemoveResource(m_pEditEntity->glossFile);
 				m_renderEntity->SetGloss(m_pEditEntity->glossFile);
 			}
 		}
@@ -792,9 +784,6 @@ void EntityEditor::DoMainMenu()
 			if (LoadParticle(0, file, path))
 			{
 				Vector2 screenMid = video->GetScreenSizeF()/2.0f;
-				/*m_renderEntity.Create(video, m_audio, utf8::c(currentProjectPath).wstr(), *m_pEditEntity, m_provider->GetGraphicResourceManager(),
-								m_audioResources, m_provider->GetShaderManager(), Vector3(screenMid.x, screenMid.y, 0), 0.0f,
-								m_pEditEntity->startFrame, m_renderEntity.GetColorARGB());*/
 				m_renderEntity->LoadParticleSystem();
 				ResetParticleMenu();
 			}
@@ -809,9 +798,6 @@ void EntityEditor::DoMainMenu()
 			if (LoadParticle(1, file, path))
 			{
 				Vector2 screenMid = video->GetScreenSizeF()/2.0f;
-				/*m_renderEntity.Create(video, m_audio, utf8::c(currentProjectPath).wstr(), *m_pEditEntity, m_provider->GetGraphicResourceManager(),
-								m_audioResources, m_provider->GetShaderManager(), Vector3(screenMid.x, screenMid.y, 0), 0.0f,
-								m_pEditEntity->startFrame, m_renderEntity.GetColorARGB());*/
 				m_renderEntity->LoadParticleSystem();
 				ResetParticleMenu();
 			}

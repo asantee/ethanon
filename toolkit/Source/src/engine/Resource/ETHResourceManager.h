@@ -48,6 +48,7 @@ public:
 	int GetNumResources();
 	void ReleaseResources();
 	SpritePtr AddFile(VideoPtr video, const str_type::string &path, const bool cutOutBlackPixels);
+	void RemoveResource(const str_type::string &file);
 
 private:
 	SpritePtr FindSprite(const str_type::string& fullFilePath, const str_type::string& fileName);

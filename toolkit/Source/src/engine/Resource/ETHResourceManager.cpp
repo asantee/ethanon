@@ -136,6 +136,15 @@ str_type::string ETHGraphicResourceManager::AssembleResourceFullPath( const str_
 	return programPath + searchPath + fileName;
 }
 
+void ETHGraphicResourceManager::RemoveResource(const str_type::string &file)
+{
+	std::map<str_type::string, SpriteResource>::iterator iter = m_resource.find(ETHGlobal::GetFileName(file));
+	if (iter != m_resource.end())
+	{
+		m_resource.erase(iter);
+	}
+}
+
 void ETHAudioResourceManager::ReleaseResources()
 {
 	ReleaseAllButMusic();
