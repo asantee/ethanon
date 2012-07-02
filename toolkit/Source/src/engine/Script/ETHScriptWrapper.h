@@ -268,6 +268,9 @@ public:
 	static void ReleaseResources();
 	static void ResolveJoints();
 
+	static void SetZAxisDirection(const Vector2& dir);
+	static Vector2 GetZAxisDirection();
+
 	static void GarbageCollect(const GARBAGE_COLLECT_MODE mode, asIScriptEngine* engine);
 	static void SetFastGarbageCollector(const bool enable);
 
@@ -278,6 +281,7 @@ public:
 
 	static str_type::string GetProgramPath();
 	static str_type::string GetExternalStoragePath();
+	static str_type::string GetGlobalExternalStoragePath();
 	static str_type::string GetAbsolutePath(const str_type::string &fileName);
 
 	static ETHInput *GetInputHandle();

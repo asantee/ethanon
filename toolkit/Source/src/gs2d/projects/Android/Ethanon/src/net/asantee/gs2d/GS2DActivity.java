@@ -101,20 +101,53 @@ public class GS2DActivity extends KeyEventListener {
 		return (apkFilePath);
 	}
 
-	private void setupExternalStorageDirectories() {
-		externalStoragePath = Environment.getExternalStorageDirectory() + "/Android/data/" + this.getPackageName() + "/files/";
-		{
-			File dir = new File(externalStoragePath + LOG_DIRECTORY_NAME);
-			dir.mkdirs();
+	private boolean verifyExternalStorageState() {
+		boolean externalStorageAvailable = false;
+		boolean externalStorageWriteable = false;
+		String state = Environment.getExternalStorageState();
+
+		if (Environment.MEDIA_MOUNTED.equals(state)) {
+		    externalStorageAvailable = externalStorageWriteable = true;
+		} else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+		    externalStorageAvailable = true;
+		    externalStorageWriteable = false;
+		} else {
+		    externalStorageAvailable = externalStorageWriteable = false;
 		}
-		{
-			File dir = new File(Environment.getExternalStorageDirectory() + "/" + NON_CONTEXT_LOG_DIRECTORY_NAME);
-			dir.mkdirs();
+		if (!externalStorageAvailable) {
+			toast("Warning: external storage is not available. Game saves won't work", this);
 		}
+		if (!externalStorageWriteable) {
+			toast("Warning: external storage is not writeable. Game saves won't work", this);
+		}
+		return true;
 	}
 	
+	private void setupExternalStorageDirectories() {
+		if (verifyExternalStorageState()) {
+			externalStoragePath = Environment.getExternalStorageDirectory() + "/Android/data/" + this.getPackageName() + "/files/";
+			{
+				File dir = new File(externalStoragePath + LOG_DIRECTORY_NAME);
+				dir.mkdirs();
+			}
+			{
+				File dir = new File(Environment.getExternalStorageDirectory() + "/" + NON_CONTEXT_LOG_DIRECTORY_NAME);
+				dir.mkdirs();
+			}
+			globalExternalStoragePath = Environment.getExternalStorageDirectory() + "/.ethanon/" + this.getPackageName() + "/files/";
+			{
+				File dir = new File(globalExternalStoragePath);
+				dir.mkdirs();
+			}
+		}
+	}
+
 	public String getExternalStoragePath() {
 		return externalStoragePath;
+	}
+
+	public String getGlobalExternalStoragePath() {
+		return globalExternalStoragePath;
 	}
 
 	public static void toast(final String str, final Activity context) {
@@ -128,11 +161,12 @@ public class GS2DActivity extends KeyEventListener {
 	}
 
 	private String externalStoragePath;
+	private String globalExternalStoragePath;
 	private MediaStreamListener mediaStreamListener;
 	private AccelerometerListener accelerometerListener;
 	private SoundCommandListener soundCmdListener;
 	private static final String LOG_DIRECTORY_NAME = "log";
-	private static final String NON_CONTEXT_LOG_DIRECTORY_NAME = "gs2dlog";
+	private static final String NON_CONTEXT_LOG_DIRECTORY_NAME = ".ethanon/gs2dlog";
 	private GL2JNIView surfaceView;
 	private NativeCommandListener customCommandListener = null;
 }

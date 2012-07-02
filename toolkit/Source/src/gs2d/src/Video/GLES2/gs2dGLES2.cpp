@@ -87,18 +87,21 @@ GLES2ShaderPtr LoadInternalShader(GLES2Video* video, const str_type::string& str
 }
 
 GS2D_API VideoPtr CreateVideo(const unsigned int width, const unsigned int height,
-				const str_type::string& bitmapFontDefaultPath, const str_type::string& externalStoragePath, Platform::FileManagerPtr fileManager)
+				const str_type::string& bitmapFontDefaultPath, const str_type::string& externalStoragePath,
+				const str_type::string& globalExternalStoragePath, Platform::FileManagerPtr fileManager)
 {
-	return GLES2Video::Create(width, height, GS_L("GS2D"), bitmapFontDefaultPath, externalStoragePath, fileManager);
+	return GLES2Video::Create(width, height, GS_L("GS2D"), bitmapFontDefaultPath, externalStoragePath, globalExternalStoragePath, fileManager);
 }
 
 GLES2Video::GLES2Video(const unsigned int width, const unsigned int height,
-		const str_type::string& winTitle, const str_type::string& bitmapFontDefaultPath, const str_type::string& externalStoragePath,
+		const str_type::string& winTitle, const str_type::string& bitmapFontDefaultPath,
+		const str_type::string& externalStoragePath, const str_type::string& globalExternalStoragePath,
 		Platform::FileManagerPtr fileManager) :
 	m_backgroundColor(GS_BLACK),
 	m_screenSize(width, height),
 	m_windowTitle(winTitle),
 	m_externalStoragePath(externalStoragePath),
+	m_globalExternalStoragePath(globalExternalStoragePath),
 	m_quit(false),
 	m_rendering(false),
 	m_logger(Platform::FileLogger::GetLogPath() + VIDEO_LOG_FILE),
@@ -125,9 +128,11 @@ GLES2Video::GLES2Video(const unsigned int width, const unsigned int height,
 }
 
 boost::shared_ptr<GLES2Video> GLES2Video::Create(const unsigned int width, const unsigned int height,
-		const str_type::string& winTitle, const str_type::string& bitmapFontDefaultPath, const str_type::string& externalStoragePath, Platform::FileManagerPtr fileManager)
+		const str_type::string& winTitle, const str_type::string& bitmapFontDefaultPath,
+		const str_type::string& externalStoragePath, const str_type::string& globalExternalStoragePath, Platform::FileManagerPtr fileManager)
 {
-	boost::shared_ptr<GLES2Video> p(new GLES2Video(width, height, winTitle, bitmapFontDefaultPath, externalStoragePath, fileManager));
+	boost::shared_ptr<GLES2Video> p(new GLES2Video(width, height, winTitle, bitmapFontDefaultPath,
+									externalStoragePath, globalExternalStoragePath, fileManager));
 	p->weak_this = p;
 	return p;
 }
@@ -1245,6 +1250,11 @@ void GLES2Video::ForwardCommand(const str_type::string& cmd)
 str_type::string GLES2Video::GetExternalStoragePath() const
 {
 	return m_externalStoragePath;
+}
+
+str_type::string GLES2Video::GetGlobalExternalStoragePath() const
+{
+	return m_globalExternalStoragePath;
 }
 
 } // namespace gs2d

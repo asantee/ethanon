@@ -404,4 +404,9 @@ GS2D_API float ComputeElapsedTimeF(ApplicationPtr app)
 	return elapsedTime;
 }
 
+str_type::string Application::GetGlobalExternalStoragePath() const
+{
+	return GetGlobalExternalStoragePath();
+}
+
 } // namespace gs2d

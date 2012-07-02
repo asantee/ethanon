@@ -170,6 +170,7 @@ public:
 	virtual Platform::FileManagerPtr GetFileManager() const = 0;
 
 	virtual str_type::string GetExternalStoragePath() const = 0;
+	virtual str_type::string GetGlobalExternalStoragePath() const;
 };
 
 typedef boost::shared_ptr<Application> ApplicationPtr;
@@ -598,7 +599,8 @@ GS2D_API VideoPtr CreateVideo(const unsigned int width, const unsigned int heigh
 #if defined(ANDROID) || defined(APPLE_IOS)
 /// Instantiate a Video object (must be defined in the API specific code)
 GS2D_API VideoPtr CreateVideo(const unsigned int width, const unsigned int height,
-							  const str_type::string& bitmapFontDefaultPath, const str_type::string& externalStoragePath,
+							  const str_type::string& bitmapFontDefaultPath,
+							  const str_type::string& externalStoragePath, const str_type::string& globalExternalStoragePath,
 							  Platform::FileManagerPtr fileManager = Platform::FileManagerPtr());
 #endif
 

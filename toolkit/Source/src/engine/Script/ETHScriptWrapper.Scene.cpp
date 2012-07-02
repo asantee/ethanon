@@ -725,3 +725,17 @@ void ETHScriptWrapper::ScaleEntities()
 		return;
 	m_pScene->ScaleEntities(m_provider->GetGlobalScaleManager()->GetScale(), true);
 }
+
+void ETHScriptWrapper::SetZAxisDirection(const Vector2& dir)
+{
+	if (WarnIfRunsInMainFunction(GS_L("SetZAxisDirection")) || !m_pScene)
+		return;
+	m_pScene->SetZAxisDirection(dir);
+}
+
+Vector2 ETHScriptWrapper::GetZAxisDirection()
+{
+	if (WarnIfRunsInMainFunction(GS_L("GetZAxisDirection")) || !m_pScene)
+		return gs2d::math::constant::ZERO_VECTOR2;
+	return m_pScene->GetZAxisDirection();
+}

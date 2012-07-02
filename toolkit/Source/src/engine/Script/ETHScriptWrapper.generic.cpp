@@ -126,6 +126,9 @@ asDECLARE_FUNCTION_WRAPPER(__AddVector3Data, ETHScriptWrapper::AddVector3Data);
 asDECLARE_FUNCTION_WRAPPER(__GetMaxHeight, ETHScriptWrapper::GetMaxHeight);
 asDECLARE_FUNCTION_WRAPPER(__GetMinHeight, ETHScriptWrapper::GetMinHeight);
 
+asDECLARE_FUNCTION_WRAPPER(__SetZAxisDirection, ETHScriptWrapper::SetZAxisDirection);
+asDECLARE_FUNCTION_WRAPPER(__GetZAxisDirection, ETHScriptWrapper::GetZAxisDirection);
+
 asDECLARE_FUNCTION_WRAPPERPR(__normalize3, Normalize, (const Vector3&), Vector3);
 asDECLARE_FUNCTION_WRAPPERPR(__normalize2, Normalize, (const Vector2&), Vector2);
 
@@ -173,19 +176,20 @@ asDECLARE_FUNCTION_WRAPPER(__EnableRealTimeShadows,   ETHScriptWrapper::EnableRe
 asDECLARE_FUNCTION_WRAPPER(__SetBorderBucketsDrawing, ETHScriptWrapper::SetBorderBucketsDrawing);
 asDECLARE_FUNCTION_WRAPPER(__IsDrawingBorderBuckets,  ETHScriptWrapper::IsDrawingBorderBuckets);
 
-asDECLARE_FUNCTION_WRAPPER(__GetProgramPath,          ETHScriptWrapper::GetProgramPath);
-asDECLARE_FUNCTION_WRAPPER(__GetExternalStoragePath,  ETHScriptWrapper::GetExternalStoragePath);
-asDECLARE_FUNCTION_WRAPPER(__GetAbsolutePath,         ETHScriptWrapper::GetAbsolutePath);
-asDECLARE_FUNCTION_WRAPPER(__GetLastCameraPos,        ETHScriptWrapper::GetLastCameraPos);
-asDECLARE_FUNCTION_WRAPPER(__GetNumRenderedEntities,  ETHScriptWrapper::GetNumRenderedEntities);
-asDECLARE_FUNCTION_WRAPPER(__ParseInt,                ETHGlobal::ParseIntStd);
-asDECLARE_FUNCTION_WRAPPER(__ParseUInt,               ETHGlobal::ParseUIntStd);
-asDECLARE_FUNCTION_WRAPPER(__ParseFloat,              ETHGlobal::ParseFloatStd);
-asDECLARE_FUNCTION_WRAPPER(__GetArgc,                 ETHScriptWrapper::GetArgc);
-asDECLARE_FUNCTION_WRAPPER(__GetArgv,                 ETHScriptWrapper::GetArgv);
-asDECLARE_FUNCTION_WRAPPER(__GetWorldSpaceCursorPos2, ETHScriptWrapper::GetWorldSpaceCursorPos2);
-asDECLARE_FUNCTION_WRAPPER(__GetWorldSpaceCursorPos3, ETHScriptWrapper::GetWorldSpaceCursorPos3);
-asDECLARE_FUNCTION_WRAPPER(__ForwardCommand,          ETHScriptWrapper::ForwardCommand);
+asDECLARE_FUNCTION_WRAPPER(__GetProgramPath,               ETHScriptWrapper::GetProgramPath);
+asDECLARE_FUNCTION_WRAPPER(__GetExternalStoragePath,       ETHScriptWrapper::GetExternalStoragePath);
+asDECLARE_FUNCTION_WRAPPER(__GetGlobalExternalStoragePath, ETHScriptWrapper::GetGlobalExternalStoragePath);
+asDECLARE_FUNCTION_WRAPPER(__GetAbsolutePath,              ETHScriptWrapper::GetAbsolutePath);
+asDECLARE_FUNCTION_WRAPPER(__GetLastCameraPos,             ETHScriptWrapper::GetLastCameraPos);
+asDECLARE_FUNCTION_WRAPPER(__GetNumRenderedEntities,       ETHScriptWrapper::GetNumRenderedEntities);
+asDECLARE_FUNCTION_WRAPPER(__ParseInt,                     ETHGlobal::ParseIntStd);
+asDECLARE_FUNCTION_WRAPPER(__ParseUInt,                    ETHGlobal::ParseUIntStd);
+asDECLARE_FUNCTION_WRAPPER(__ParseFloat,                   ETHGlobal::ParseFloatStd);
+asDECLARE_FUNCTION_WRAPPER(__GetArgc,                      ETHScriptWrapper::GetArgc);
+asDECLARE_FUNCTION_WRAPPER(__GetArgv,                      ETHScriptWrapper::GetArgv);
+asDECLARE_FUNCTION_WRAPPER(__GetWorldSpaceCursorPos2,      ETHScriptWrapper::GetWorldSpaceCursorPos2);
+asDECLARE_FUNCTION_WRAPPER(__GetWorldSpaceCursorPos3,      ETHScriptWrapper::GetWorldSpaceCursorPos3);
+asDECLARE_FUNCTION_WRAPPER(__ForwardCommand,               ETHScriptWrapper::ForwardCommand);
 
 asDECLARE_FUNCTION_WRAPPER(__SetZBuffer, ETHScriptWrapper::SetZBuffer);
 asDECLARE_FUNCTION_WRAPPER(__GetZBuffer, ETHScriptWrapper::GetZBuffer);
@@ -324,6 +328,9 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void SetParallaxOrigin(const vector2 &in)", asFUNCTION(__SetParallaxOrigin), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void SetParallaxIntensity(const float)",    asFUNCTION(__SetParallaxIntensity), asCALL_GENERIC); assert(r >= 0);
 
+	r = pASEngine->RegisterGlobalFunction("void SetZAxisDirection(const vector2 &in)", asFUNCTION(__SetZAxisDirection), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("vector2 GetZAxisDirection()",               asFUNCTION(__GetZAxisDirection), asCALL_GENERIC); assert(r >= 0);
+
 	r = pASEngine->RegisterGlobalFunction("void SetWindowProperties(const string &in, const uint, const uint, const bool, const bool, const PIXEL_FORMAT)", asFUNCTION(__SetWindowProperties), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("uint GetScreenWidth()",                  asFUNCTION(__GetScreenWidth),  asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("uint GetScreenHeight()",                 asFUNCTION(__GetScreenHeight), asCALL_GENERIC); assert(r >= 0);
@@ -414,19 +421,20 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void SetBorderBucketsDrawing(const bool)", asFUNCTION(__SetBorderBucketsDrawing), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool IsDrawingBorderBuckets()",            asFUNCTION(__IsDrawingBorderBuckets),  asCALL_GENERIC); assert(r >= 0);
 
-	r = pASEngine->RegisterGlobalFunction("string GetProgramPath()",                  asFUNCTION(__GetProgramPath),          asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("string GetExternalStoragePath()",          asFUNCTION(__GetExternalStoragePath),  asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("string GetAbsolutePath(const string &in)", asFUNCTION(__GetAbsolutePath),         asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("vector2 GetLastCameraPos()",               asFUNCTION(__GetLastCameraPos),        asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("int GetNumRenderedEntities()",             asFUNCTION(__GetNumRenderedEntities),  asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("int ParseInt(const string &in)",           asFUNCTION(__ParseInt),                asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("uint ParseUInt(const string &in)",         asFUNCTION(__ParseUInt),               asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("float ParseFloat(const string &in)",       asFUNCTION(__ParseFloat),              asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("int GetArgc()",                            asFUNCTION(__GetArgc),                 asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("string GetArgv(const int)",                asFUNCTION(__GetArgv),                 asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("vector2 GetWorldSpaceCursorPos2()",        asFUNCTION(__GetWorldSpaceCursorPos2), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("vector3 GetWorldSpaceCursorPos3()",        asFUNCTION(__GetWorldSpaceCursorPos3), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("void ForwardCommand(const string &in)",    asFUNCTION(__ForwardCommand),          asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("string GetProgramPath()",                  asFUNCTION(__GetProgramPath),                asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("string GetExternalStoragePath()",          asFUNCTION(__GetExternalStoragePath),        asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("string GetGlobalExternalStoragePath()",    asFUNCTION(__GetGlobalExternalStoragePath),  asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("string GetAbsolutePath(const string &in)", asFUNCTION(__GetAbsolutePath),               asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("vector2 GetLastCameraPos()",               asFUNCTION(__GetLastCameraPos),              asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("int GetNumRenderedEntities()",             asFUNCTION(__GetNumRenderedEntities),        asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("int ParseInt(const string &in)",           asFUNCTION(__ParseInt),                      asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("uint ParseUInt(const string &in)",         asFUNCTION(__ParseUInt),                     asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("float ParseFloat(const string &in)",       asFUNCTION(__ParseFloat),                    asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("int GetArgc()",                            asFUNCTION(__GetArgc),                       asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("string GetArgv(const int)",                asFUNCTION(__GetArgv),                       asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("vector2 GetWorldSpaceCursorPos2()",        asFUNCTION(__GetWorldSpaceCursorPos2),       asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("vector3 GetWorldSpaceCursorPos3()",        asFUNCTION(__GetWorldSpaceCursorPos3),       asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void ForwardCommand(const string &in)",    asFUNCTION(__ForwardCommand),                asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("void SetZBuffer(const bool)", asFUNCTION(__SetZBuffer), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool GetZBuffer()",           asFUNCTION(__GetZBuffer), asCALL_GENERIC); assert(r >= 0);

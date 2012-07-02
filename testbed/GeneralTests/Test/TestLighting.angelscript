@@ -60,6 +60,30 @@ class TestLighting : Test
 			UsePixelShaders(false);
 		}
 
+		if (input.GetKeyState(K_NUMPAD0) == KS_HIT)
+		{
+			const vector2 dir(0, -1);
+			SetZAxisDirection(dir);
+			if (GetZAxisDirection() != dir)
+				print("ZAxisDirection test FAILED\x07");
+		}
+
+		if (input.GetKeyState(K_NUMPAD1) == KS_HIT)
+		{
+			const vector2 dir(-1, -1);
+			SetZAxisDirection(dir);
+			if (GetZAxisDirection() != dir)
+				print("ZAxisDirection test FAILED\x07");
+		}
+		
+		if (input.GetKeyState(K_NUMPAD2) == KS_HIT)
+		{
+			const vector2 dir(1, -1);
+			SetZAxisDirection(dir);
+			if (GetZAxisDirection() != dir)
+				print("ZAxisDirection test FAILED\x07");
+		}
+
 		DrawText(cursor.GetPositionXY()-GetCameraPos(),
 				"Press UP and DOWN to move the cursor light\n"
 				"Press P and V to toggle pixel shaders",

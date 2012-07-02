@@ -28,7 +28,7 @@ namespace Platform {
 
 gs2d::str_type::string FileLogger::GetLogPath()
 {
-	return GS_L("/sdcard/gs2dlog/");
+	return GS_L("/sdcard/.ethanon/gs2dlog/");
 }
 
 gs2d::str_type::string AddLastSlash(const gs2d::str_type::string& path)

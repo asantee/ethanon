@@ -44,7 +44,8 @@ typedef boost::shared_ptr<GLES2ShaderContext> GLES2ShaderContextPtr;
 class GLES2Video : public Video, public Platform::NativeCommandForwarder
 {
 	GLES2Video(const unsigned int width, const unsigned int height,
-			const str_type::string& winTitle, const str_type::string& bitmapFontDefaultPath, const str_type::string& externalStoragePath,
+			const str_type::string& winTitle, const str_type::string& bitmapFontDefaultPath,
+			const str_type::string& externalStoragePath, const str_type::string& globalExternalStoragePath,
 			Platform::FileManagerPtr fileManager);
 
 	boost::weak_ptr<GLES2Video> weak_this;
@@ -58,7 +59,8 @@ public:
 
 	static boost::shared_ptr<GLES2Video> Create(const unsigned int width, const unsigned int height,
 			const str_type::string& winTitle, const str_type::string& bitmapFontDefaultPath,
-			const str_type::string& externalStoragePath, Platform::FileManagerPtr fileManager);
+			const str_type::string& externalStoragePath, const str_type::string& globalExternalStoragePath, 
+			Platform::FileManagerPtr fileManager);
 
 	static void CheckGLError(const str_type::string& op, const Platform::FileLogger& logger);
 
@@ -220,6 +222,7 @@ public:
 	str_type::string PullCommands();
 
 	str_type::string GetExternalStoragePath() const;
+	str_type::string GetGlobalExternalStoragePath() const;
 
 	bool SetBlendTexture(const unsigned int passIdx, GLES2TexturePtr texture);
 	void SetupMultitextureShader();
@@ -239,6 +242,7 @@ private:
 
 	math::Vector2i m_screenSize;
 	str_type::string m_externalStoragePath;
+	str_type::string m_globalExternalStoragePath;
 	str_type::string m_windowTitle;
 	str_type::string m_commands;
 	math::Rect2D m_scissor;

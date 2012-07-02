@@ -30,6 +30,6 @@ class GS2DJNI {
 	public static native String destroy();
 	public static native void resize(int width, int height);
 	public static native void restore();
-	public static native void start(String apkPath, String externalPath, int width, int height);
+	public static native void start(String apkPath, String externalPath, String globalExternalPath, int width, int height);
 	public static native String runOnUIThread(String inputStr);
 }

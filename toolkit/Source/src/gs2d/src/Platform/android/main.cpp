@@ -35,7 +35,7 @@ extern "C" {
 	JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_mainLoop(JNIEnv* env, jobject thiz, jstring inputStr);
 	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_resize(JNIEnv* env, jobject thiz, jint width, jint height);
 	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_restore(JNIEnv* env, jobject thiz);
-	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_start(JNIEnv* env, jobject thiz, jstring apkPath, jstring externalPath, jint width, jint height);
+	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_start(JNIEnv* env, jobject thiz, jstring apkPath, jstring externalPath, jstring globalPath, jint width, jint height);
 	JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_destroy(JNIEnv* env, jobject thiz);
 	JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_runOnUIThread(JNIEnv* env, jobject thiz, jstring inputStr);
 };
@@ -66,16 +66,18 @@ float ComputeSplashScale(const Vector2& screenSize)
 	}
 }
 
-JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_start(JNIEnv* env, jobject thiz, jstring apkPath, jstring externalPath, jint width, jint height)
+JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_start(
+	JNIEnv* env, jobject thiz, jstring apkPath, jstring externalPath, jstring globalPath, jint width, jint height)
 {
 	g_splashShown = false;
 
 	jboolean isCopy;
 	const char* strApk = env->GetStringUTFChars(apkPath, &isCopy);
 	const char* strExt = env->GetStringUTFChars(externalPath, &isCopy);
+	const char* strGlo = env->GetStringUTFChars(globalPath, &isCopy);
 	zip = boost::shared_ptr<Platform::ZipFileManager>(new Platform::ZipFileManager(strApk));
 
-	video = CreateVideo(width, height, GS_L("assets/data/"), strExt, zip);
+	video = CreateVideo(width, height, GS_L("assets/data/"), strExt, strGlo, zip);
 	input = CreateInput(&g_inputStr, true);
 	audio = CreateAudio(0);
 

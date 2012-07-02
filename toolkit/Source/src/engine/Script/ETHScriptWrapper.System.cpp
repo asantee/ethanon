@@ -216,6 +216,11 @@ str_type::string ETHScriptWrapper::GetExternalStoragePath()
 	return m_provider->GetVideo()->GetExternalStoragePath();
 }
 
+str_type::string ETHScriptWrapper::GetGlobalExternalStoragePath()
+{
+	return m_provider->GetVideo()->GetGlobalExternalStoragePath();
+}
+
 void ETHScriptWrapper::EnableQuitKeys(const bool enable)
 {
 	m_provider->GetVideo()->EnableQuitShortcuts(enable);

@@ -280,7 +280,8 @@ public class GL2JNIView extends GLSurfaceView {
 		}
 
 		public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-			GS2DJNI.start(apkPath, activity.getExternalStoragePath(), GL2JNIView.displayWidth, GL2JNIView.displayHeight);
+			GS2DJNI.start(apkPath, activity.getExternalStoragePath(), activity.getGlobalExternalStoragePath(),
+						  GL2JNIView.displayWidth, GL2JNIView.displayHeight);
 		}
 	}
 
