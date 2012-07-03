@@ -971,8 +971,9 @@ string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 
 		m_pEditEntity->spriteCut.x = Max(1, (int)m_spriteCut[0].PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth));	y+=m_menuSize;
 		m_pEditEntity->spriteCut.y = Max(1, (int)m_spriteCut[1].PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth));	y+=m_menuSize;
-		m_pEditEntity->startFrame = 
-			Min(static_cast<int>(m_pEditEntity->GetNumFrames() - 1), Max(0, (int)m_startFrame.PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth)));
+		m_pEditEntity->startFrame = static_cast<int>(m_startFrame.PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth));
+		const int lastFrame = m_pEditEntity->GetNumFrames() - 1;
+		m_pEditEntity->startFrame = Min(lastFrame, Max(0, m_pEditEntity->startFrame));
 		if (m_pEditEntity->spriteCut.x > 1 || m_pEditEntity->spriteCut.y > 1)
 		{
 			if (m_playStopButton.GetCurrentButton()->fileName == L"stop.png")
@@ -989,11 +990,12 @@ string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 			}
 			else
 			{
-				m_animationTimer.Update(m_pEditEntity->startFrame, m_pEditEntity->startFrame, 5000);
+				m_renderEntity->SetFrame(m_pEditEntity->startFrame);
 			}
 		}
 		else
 		{
+			m_renderEntity->SetFrame(m_pEditEntity->startFrame);
 			m_playStopButton.SetButton(L"play.png");
 			m_animationTimer.Reset();
 		}
@@ -1270,7 +1272,6 @@ string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 	{
 		ResetSpriteCut();
 	}
-	m_renderEntity->SetFrame(m_animationTimer.Get());
 
 	DoMainMenu();
 	SetFileNameToTitle(video, _ETH_WINDOW_TITLE);

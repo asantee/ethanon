@@ -49,7 +49,7 @@ static const str_type::string COMPOUND_SHAPE_ENML_SAMPLE(
 
 unsigned int ETHEntitySpriteProperties::GetNumFrames() const
 {
-	return static_cast<unsigned int>(pivotAdjust.x * pivotAdjust.y);
+	return static_cast<unsigned int>(spriteCut.x * spriteCut.y);
 }
 
 static const str_type::string POLYGON_ENML_SAMPLE(
