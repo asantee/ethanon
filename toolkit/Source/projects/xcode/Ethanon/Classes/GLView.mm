@@ -114,7 +114,8 @@
 		[self createLogDirectory:externalStoragePath];
 		const char *cExternalStoragePath = [externalStoragePath cStringUsingEncoding:1];
 		NSLog(@"%@", externalStoragePath);
-		m_video = gs2d::CreateVideo(CGRectGetWidth(frame) * m_density, CGRectGetHeight(frame) * m_density, GS_L("assets/data/"), cExternalStoragePath, fileManager);
+		m_video = gs2d::CreateVideo(CGRectGetWidth(frame) * m_density, CGRectGetHeight(frame) * m_density, GS_L("assets/data/"),
+									cExternalStoragePath, cExternalStoragePath, fileManager);
 
 		m_engine = gs2d::CreateBaseApplication();
 		m_engine->Start(m_video, m_input, m_audio);
