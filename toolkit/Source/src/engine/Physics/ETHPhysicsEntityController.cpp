@@ -104,6 +104,7 @@ void ETHPhysicsEntityController::AddToAngle(const float angle)
 		m_body->SetTransform(m_body->GetPosition(),-DegreeToRadian(angle) + m_body->GetAngle());
 		m_body->SetAwake(true);
 	}
+	m_angle += angle;
 }
 
 void ETHPhysicsEntityController::SetAngle(const float angle)
@@ -113,6 +114,7 @@ void ETHPhysicsEntityController::SetAngle(const float angle)
 		m_body->SetTransform(m_body->GetPosition(),-DegreeToRadian(angle));
 		m_body->SetAwake(true);
 	}
+	m_angle = angle;
 }
 
 void ETHPhysicsEntityController::Destroy()
