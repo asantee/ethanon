@@ -3,6 +3,7 @@
 *.lo
 *.o
 *.o.d
+toolkit/Installer/Output/
 
 # Compiled Dynamic libraries
 *.so
@@ -32,6 +33,7 @@ info.enml
 *.suo
 *.user
 *.bin
+file_version.aps
 
 # Xcode output files
 toolkit/Source/projects/xcode/Ethanon.xcodeproj/project.xcworkspace/xcuserdata/

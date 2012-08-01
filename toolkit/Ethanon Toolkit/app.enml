@@ -6,3 +6,8 @@ window
 	windowed = true;
 	vsync = true;
 }
+
+rendering
+{
+	richLighting = true;
+}

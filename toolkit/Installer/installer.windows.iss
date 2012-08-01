@@ -7,7 +7,7 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{1D28BFE6-D8BA-423B-B37E-149E732DDB49}
 AppName=Ethanon Engine
-AppVerName=Ethanon Engine 0.9.2
+AppVerName=Ethanon Engine 0.9.4
 AppPublisher=ASANTEE
 AppPublisherURL=http://www.asantee.net/ethanon/
 AppSupportURL=http://www.asantee.net/ethanon/
@@ -17,7 +17,7 @@ DefaultGroupName=Ethanon Engine
 LicenseFile=MIT_LICENSE.rtf
 InfoBeforeFile=About.rtf
 ;OutputDir=
-OutputBaseFilename=setup_ethanonengine-0.9.2
+OutputBaseFilename=setup_ethanonengine-0.9.4
 SetupIconFile=icon.ico
 Compression=lzma
 SolidCompression=yes
@@ -158,9 +158,8 @@ Name: "{group}\{cm:ProgramOnTheWeb,Ethanon Engine}"; Filename: "http://www.asant
 Name: "{group}\{cm:UninstallProgram,Ethanon Engine}"; Filename: "{uninstallexe}"
 Name: "{commondesktop}\Ethanon Editor"; Filename: "{app}\editor.exe"; Tasks: desktopicon
 Name: "{commondesktop}\Ethanon Script Editor"; Filename: "{app}\SciTE\SciTE.exe"; Tasks: desktopicon
-Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Ethanon Editor"; Filename: "{app}\editor.exe"; Tasks: quicklaunchicon
 Name: "{group}\Manual"; Filename: "{app}\doc\index.htm"
-Name: "{group}\Source-code"; Filename: "https://sourceforge.net/projects/ethanon/develop"
+Name: "{group}\Source-code"; Filename: "https://github.com/asantee/ethanon"
 Name: "{group}\Browse Ethanon Engine"; Filename: "{app}"
 Name: "{group}\Sample project"; Filename: "{commondocs}\Ethanon\Sample Project\"
 
