@@ -212,7 +212,7 @@ BitmapFont::BitmapFont(VideoWeakPtr video, const str_type::string& fileName, con
 			}
 
 			path += m_charSet.textureNames[t];
-			m_bitmaps[t] = video.lock()->CreateSprite(path, GS_BLACK, 0, 0);
+			m_bitmaps[t] = video.lock()->CreateSprite(path, GS_ZERO, 0, 0);
 			if (!m_bitmaps[t])
 			{
 				m_bitmaps.clear();
