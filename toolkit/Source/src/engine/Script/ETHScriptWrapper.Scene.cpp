@@ -547,8 +547,8 @@ void ETHScriptWrapper::LoadSceneInScript(const str_type::string &escFile, const 
 										 const str_type::string &onSceneUpdateFunc, const str_type::string &onResumeFunc, const Vector2 &v2BucketSize)
 {
 	const float globalScale = m_provider->GetGlobalScaleManager()->GetScale();
-	m_nextScene.SetNextScene((escFile == GS_L("")) ? _ETH_EMPTY_SCENE_STRING : escFile,
-							 onSceneLoadedFunc, onSceneUpdateFunc, onResumeFunc, v2BucketSize * globalScale);
+	const str_type::string& sceneName((escFile == GS_L("")) ? _ETH_EMPTY_SCENE_STRING : escFile);
+	m_nextScene.SetNextScene(sceneName, onSceneLoadedFunc, onSceneUpdateFunc, onResumeFunc, v2BucketSize * globalScale);
 }
 
 str_type::string ETHScriptWrapper::GetSceneFileName()
