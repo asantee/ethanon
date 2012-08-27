@@ -11,7 +11,7 @@ The Ethanon project for Android is in trunk/toolkit/Source/src/gs2d/projects/And
 
 	-Compile the native code of the project with ndk-build
  
-	-All logged info is sent to /sdcard/gs2dlog/
+	-All logged info is sent to [external-storage-path]/.ethanon/gs2dlog/
 
 Android/iOS useful methods:
 
