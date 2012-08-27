@@ -295,6 +295,7 @@ bool ETHScene::GenerateLightmaps(const int id)
 		return false;
 	}
 
+	// save current global scale and temporarily set it to 1
 	const float globalScale = m_provider->GetGlobalScaleManager()->GetScale();
 	m_provider->GetGlobalScaleManager()->SetScaleFactor(1.0f);
 
@@ -306,7 +307,7 @@ bool ETHScene::GenerateLightmaps(const int id)
 		// if we're lighting only one entity and it is not in this bucket, skip it.
 		// I know we could have used the find method to go directly to that bucket
 		// but this function os not that critical to make the effort worth it.
-		if (id >= 0)
+		if (id >= 0) 
 			if (v2Bucket != bucketIter->first)
 				continue;
 
@@ -363,6 +364,8 @@ bool ETHScene::GenerateLightmaps(const int id)
 	ETH_STREAM_DECL(ss) << GS_L("Lightmaps created... ");
 	m_provider->Log(ss.str(), Platform::FileLogger::INFO);
 	#endif
+
+	// go back to the previous global scale
 	m_provider->GetGlobalScaleManager()->SetScaleFactor(globalScale);
 	return true;
 }
