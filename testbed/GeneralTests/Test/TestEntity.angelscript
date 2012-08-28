@@ -34,6 +34,8 @@ class TestEntity : Test
 		const int birdId = AddEntity("bird.ent", vector3(GetScreenSize()/2, 10.0f), 0);
 		@bird = SeekEntity(birdId);
 
+		@character = SeekEntity("character");
+
 		print("Message A: an error message regarding duplicate name is already expected");
 		LoadSprite("sprite/barril.png");
 		print("Message B: If there were no error messages between Messages A and B, something is wrong");
@@ -119,6 +121,46 @@ class TestEntity : Test
 		
 		scrollCamera();
 		moveDynamicBarrels();
+		updateCharacter();
+	}
+	
+	void updateCharacter()
+	{
+		ETHInput@ input = GetInputHandle();
+		const float posX = character.GetPositionX();
+		const float posY = character.GetPositionY();
+		const float posZ = character.GetPositionZ();
+		const vector2 screenMiddle(GetScreenSize() * 0.5f);
+		if (input.KeyDown(K_LEFT))
+		{
+			character.SetPositionX(posX - 1.0f);
+		}
+		if (input.KeyDown(K_RIGHT))
+		{
+			character.AddToPositionX(1.0f);
+		}
+		if (input.KeyDown(K_DOWN))
+		{
+			character.AddToPositionY(1.0f);
+		}
+		if (input.KeyDown(K_UP))
+		{
+			character.SetPositionY(posY - 1.0f);
+		}
+		if (input.KeyDown(K_PAGEDOWN))
+		{
+			character.SetPositionZ(posZ - 1.0f);
+		}
+		if (input.KeyDown(K_PAGEUP))
+		{
+			character.AddToPositionZ(1.0f);
+		}
+		if (input.KeyDown(K_HOME))
+		{
+			character.SetPositionX(screenMiddle.x);
+			character.SetPositionY(screenMiddle.y);
+			character.SetPositionZ(0.0f);
+		}
 	}
 	
 	void moveDynamicBarrels()
@@ -182,6 +224,7 @@ class TestEntity : Test
 	
 	ETHEntity @cursor;
 	ETHEntity @bird;
+	ETHEntity @character;
 	ETHEntityArray barrels;
 }
 
