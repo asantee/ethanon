@@ -1,0 +1,1 @@
+Place the Ethanon Android binary file (libApplication.so) here

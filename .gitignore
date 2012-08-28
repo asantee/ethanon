@@ -81,7 +81,6 @@ toolkit/Source/src/gs2d/projects/msvc9/Platform/Release/
 toolkit/Source/src/gs2d/src/Audio/Audiere/audiere/msvc9/audiere/Debug/
 
 # Cygwin binary output paths
-toolkit/Source/src/gs2d/projects/Android/Ethanon/libs/
 toolkit/Source/src/gs2d/projects/Android/Ethanon/obj/
 toolkit/Source/src/gs2d/projects/Android/Ethanon/src/Audio/
 toolkit/Source/src/gs2d/projects/Android/Ethanon/src/Input/
