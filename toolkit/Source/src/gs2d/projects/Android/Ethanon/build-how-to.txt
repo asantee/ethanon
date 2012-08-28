@@ -1,4 +1,4 @@
-Download the latest version of the Ethanon Android binary file (libApplication.so) from: https://github.com/asantee/ethanon/downloads
+Download the latest version of the Ethanon Android machine (libApplication.so) from: https://github.com/asantee/ethanon/downloads
 
 The Ethanon project for Android is in trunk/toolkit/Source/src/gs2d/projects/Android/Ethanon/
 
