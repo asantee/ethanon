@@ -665,7 +665,7 @@ bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline
 
 		shaderManager->EndAmbientPass();
 
-		// TODO/TO-DO: create a method that does it separetely
+		// TODO/TO-DO: create a method that does it separately
 		//draw light pass
 		if (m_richLighting)
 		{
@@ -677,14 +677,20 @@ bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline
 					if (!(pRenderEntity->IsStatic() && iter->staticLight && m_enableLightmaps))
 					{
 						video->RoundUpPosition(roundUp);
+
+						// light pass
 						if (shaderManager->BeginLightPass(pRenderEntity, &(*iter), m_maxSceneHeight, m_minSceneHeight, GetLightIntensity()))
 						{
 							pRenderEntity->DrawLightPass(zAxisDirection);
 							shaderManager->EndLightPass();
+						}
 
-							video->RoundUpPosition(false);
-							if (AreRealTimeShadowsEnabled())
+						// shadow pass
+						if (AreRealTimeShadowsEnabled())
+						{
+							if (pRenderEntity->GetProperties()->castShadow)
 							{
+								video->RoundUpPosition(false);
 								video->SetScissor(false);
 								if (shaderManager->BeginShadowPass(pRenderEntity, &(*iter), m_maxSceneHeight, m_minSceneHeight))
 								{
