@@ -11,7 +11,7 @@ Make sure you have Android SDK, Eclipse and the Android ADT plug-in installed, a
 	-Move your Ethanon project to the assets/ folder (all ethanon project files except machine.exe and the *.dll)
 	 Your main.angelscript file must be in &(PROJECT_PATH)/assets/main.angelscript
 
-	-Copy the libApplication.so file to Ethanon/libs/armeabi/, or compile the native code of the project with ndk-build
+	-Copy the libApplication.so file to &(PROJECT_PATH)/libs/armeabi/, or compile the native code of the project with ndk-build
  
 	-All logged info is sent to [external-storage-path]/.ethanon/gs2dlog/
 
