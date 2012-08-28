@@ -208,6 +208,9 @@ asDECLARE_METHOD_WRAPPERPR(__ReleaseEntity, ETHScriptEntity, Release, (void), vo
 
 asDECLARE_METHOD_WRAPPERPR(__GetPosition,   ETHScriptEntity, GetPosition,    (void) const,         Vector3);
 asDECLARE_METHOD_WRAPPERPR(__GetPositionXY, ETHScriptEntity, GetPositionXY,  (void) const,         Vector2);
+asDECLARE_METHOD_WRAPPERPR(__GetPositionX,  ETHScriptEntity, GetPositionX,   (void) const,         float);
+asDECLARE_METHOD_WRAPPERPR(__GetPositionY,  ETHScriptEntity, GetPositionY,   (void) const,         float);
+asDECLARE_METHOD_WRAPPERPR(__GetPositionZ,  ETHScriptEntity, GetPositionZ,   (void) const,         float);
 asDECLARE_METHOD_WRAPPERPR(__GetSize,       ETHScriptEntity, GetCurrentSize, (void) const,         Vector2);
 asDECLARE_METHOD_WRAPPERPR(__GetFrame,      ETHScriptEntity, GetFrame,       (void) const,         unsigned int);
 asDECLARE_METHOD_WRAPPERPR(__SetFrameN,     ETHScriptEntity, SetFrame,       (const unsigned int), bool);
@@ -331,6 +334,9 @@ void RegisterEntityMethods(asIScriptEngine *pASEngine)
 	// register ETHEntity methods
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector3 GetPosition() const",           asFUNCTION(__GetPosition),   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector2 GetPositionXY() const",         asFUNCTION(__GetPositionXY), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "float GetPositionX() const",            asFUNCTION(__GetPositionX),  asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "float GetPositionY() const",            asFUNCTION(__GetPositionY),  asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "float GetPositionZ() const",            asFUNCTION(__GetPositionZ),  asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector2 GetSize() const",               asFUNCTION(__GetSize),       asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "uint GetFrame() const",                 asFUNCTION(__GetFrame),      asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool SetFrame(const uint)",             asFUNCTION(__SetFrameN),     asCALL_GENERIC); assert(r >= 0);

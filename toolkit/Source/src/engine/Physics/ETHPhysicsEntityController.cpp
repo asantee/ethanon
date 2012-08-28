@@ -79,22 +79,57 @@ void ETHPhysicsEntityController::Update(const unsigned long lastFrameElapsedTime
 
 void ETHPhysicsEntityController::SetPos(const Vector3& pos)
 {
+	SetPosXY(Vector2(pos.x, pos.y));
+	m_pos.z = pos.z;
+}
+
+void ETHPhysicsEntityController::SetPosXY(const Vector2& pos)
+{
 	if (m_body)
 	{
-		m_body->SetTransform(ETHPhysicsSimulator::ScaleToBox2D(Vector2(pos.x, pos.y)), m_body->GetAngle());
+		m_body->SetTransform(ETHPhysicsSimulator::ScaleToBox2D(pos), m_body->GetAngle());
 		m_body->SetAwake(true);
 	}
-	m_pos = pos;
+	m_pos.x = pos.x;
+	m_pos.y = pos.y;
+}
+
+void ETHPhysicsEntityController::SetPosX(const float v)
+{
+	SetPosXY(Vector2(v, m_pos.y));
+}
+
+void ETHPhysicsEntityController::SetPosY(const float v)
+{
+	SetPosXY(Vector2(m_pos.x, v));
 }
 
 void ETHPhysicsEntityController::AddToPos(const Vector3& pos)
 {
+	AddToPosXY(Vector2(pos.x, pos.y));
+	m_pos.z += pos.z;
+}
+
+void ETHPhysicsEntityController::AddToPosX(const float v)
+{
+	AddToPosXY(Vector2(v, 0.0f));
+}
+
+void ETHPhysicsEntityController::AddToPosY(const float v)
+{
+	AddToPosXY(Vector2(0.0f, v));
+}
+
+void ETHPhysicsEntityController::AddToPosXY(const Vector2& pos)
+{
 	if (m_body)
 	{
-		m_body->SetTransform(ETHPhysicsSimulator::ScaleToBox2D(Vector2(pos.x, pos.y)) + m_body->GetPosition(), m_body->GetAngle());
+		m_body->SetTransform(ETHPhysicsSimulator::ScaleToBox2D(pos) + m_body->GetPosition(), m_body->GetAngle());
 		m_body->SetAwake(true);
 	}
-	m_pos += pos;
+	const Vector2 currentPos(ETHPhysicsSimulator::ScaleFromBox2D(m_body->GetPosition()));
+	m_pos.x = currentPos.x;
+	m_pos.y = currentPos.y;
 }
 
 void ETHPhysicsEntityController::AddToAngle(const float angle)

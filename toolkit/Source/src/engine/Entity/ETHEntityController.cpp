@@ -61,6 +61,21 @@ Vector2 ETHRawEntityController::GetPosXY() const
 	return Vector2(m_pos.x, m_pos.y);
 }
 
+float ETHRawEntityController::GetPosX() const
+{
+	return m_pos.x;
+}
+
+float ETHRawEntityController::GetPosY() const
+{
+	return m_pos.y;
+}
+
+float ETHRawEntityController::GetPosZ() const
+{
+	return m_pos.z;
+}
+
 float ETHRawEntityController::GetAngle() const
 {
 	return m_angle;
@@ -69,6 +84,48 @@ float ETHRawEntityController::GetAngle() const
 void ETHRawEntityController::SetPos(const Vector3& pos)
 {
 	m_pos = pos;
+}
+
+void ETHRawEntityController::SetPosXY(const Vector2& pos)
+{
+	m_pos.x = pos.x;
+	m_pos.y = pos.y;
+}
+
+void ETHRawEntityController::SetPosX(const float v)
+{
+	m_pos.x = v;
+}
+
+void ETHRawEntityController::SetPosY(const float v)
+{
+	m_pos.y = v;
+}
+
+void ETHRawEntityController::SetPosZ(const float v)
+{
+	m_pos.z = v;
+}
+
+void ETHRawEntityController::AddToPosXY(const Vector2& pos)
+{
+	AddToPosX(pos.x);
+	AddToPosY(pos.y);
+}
+
+void ETHRawEntityController::AddToPosX(const float v)
+{
+	m_pos.x += v;
+}
+
+void ETHRawEntityController::AddToPosY(const float v)
+{
+	m_pos.y += v;
+}
+
+void ETHRawEntityController::AddToPosZ(const float v)
+{
+	m_pos.z += v;
 }
 
 void ETHRawEntityController::SetAngle(const float angle)

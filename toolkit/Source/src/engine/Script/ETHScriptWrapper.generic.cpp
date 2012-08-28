@@ -36,8 +36,14 @@ asDECLARE_FUNCTION_WRAPPER(__HideCursor,           ETHScriptWrapper::HideCursor)
 
 asDECLARE_FUNCTION_OBJ_WRAPPER(__SetPosition,        ETHScriptWrapper::SetPosition, true);
 asDECLARE_FUNCTION_OBJ_WRAPPER(__SetPositionXY,      ETHScriptWrapper::SetPositionXY, true);
+asDECLARE_FUNCTION_OBJ_WRAPPER(__SetPositionX,      ETHScriptWrapper::SetPositionX, true);
+asDECLARE_FUNCTION_OBJ_WRAPPER(__SetPositionY,      ETHScriptWrapper::SetPositionY, true);
+asDECLARE_FUNCTION_OBJ_WRAPPER(__SetPositionZ,      ETHScriptWrapper::SetPositionZ, true);
 asDECLARE_FUNCTION_OBJ_WRAPPER(__AddToPosition,      ETHScriptWrapper::AddToPosition, true);
 asDECLARE_FUNCTION_OBJ_WRAPPER(__AddToPositionXY,    ETHScriptWrapper::AddToPositionXY, true);
+asDECLARE_FUNCTION_OBJ_WRAPPER(__AddToPositionX,    ETHScriptWrapper::AddToPositionX, true);
+asDECLARE_FUNCTION_OBJ_WRAPPER(__AddToPositionY,    ETHScriptWrapper::AddToPositionY, true);
+asDECLARE_FUNCTION_OBJ_WRAPPER(__AddToPositionZ,    ETHScriptWrapper::AddToPositionZ, true);
 asDECLARE_FUNCTION_OBJ_WRAPPER(__PlayParticleSystem, ETHScriptWrapper::PlayParticleSystem, true);
 
 asDECLARE_FUNCTION_WRAPPERPR(__SeekEntityStr,   ETHScriptWrapper::SeekEntity, (const str_type::string&), ETHEntity *);
@@ -279,8 +285,14 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetPosition(const vector3 &in)",     asFUNCTION(__SetPosition),        asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetPositionXY(const vector2 &in)",   asFUNCTION(__SetPositionXY),      asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetPositionX(const float)",          asFUNCTION(__SetPositionX),       asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetPositionY(const float)",          asFUNCTION(__SetPositionY),       asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetPositionZ(const float)",          asFUNCTION(__SetPositionZ),       asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void AddToPosition(const vector3 &in)",   asFUNCTION(__AddToPosition),      asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void AddToPositionXY(const vector2 &in)", asFUNCTION(__AddToPositionXY),    asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "void AddToPositionX(const float)",        asFUNCTION(__AddToPositionX),     asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "void AddToPositionY(const float)",        asFUNCTION(__AddToPositionY),     asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "void AddToPositionZ(const float)",        asFUNCTION(__AddToPositionZ),     asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector2 GetCurrentBucket() const",        asFUNCTION(__GetCurrentBucket),   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector2 GetScreenRectMin() const",        asFUNCTION(__GetScreenRectMin),   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector2 GetScreenRectMax() const",        asFUNCTION(__GetScreenRectMax),   asCALL_GENERIC); assert(r >= 0);

@@ -38,10 +38,21 @@ public:
 	virtual void Update(const unsigned long lastFrameElapsedTime, ETHBucketManager& buckets) = 0;
 	virtual Vector3 GetPos() const = 0;
 	virtual Vector2 GetPosXY() const = 0;
+	virtual float GetPosX() const = 0;
+	virtual float GetPosY() const = 0;
+	virtual float GetPosZ() const = 0;
 	virtual float GetAngle() const = 0;
 	virtual void SetPos(const Vector3& pos) = 0;
+	virtual void SetPosXY(const Vector2& pos) = 0;
+	virtual void SetPosX(const float v) = 0;
+	virtual void SetPosY(const float v) = 0;
+	virtual void SetPosZ(const float v) = 0;
 
 	virtual void AddToPos(const Vector3& pos) = 0;
+	virtual void AddToPosXY(const Vector2& pos) = 0;
+	virtual void AddToPosX(const float v) = 0;
+	virtual void AddToPosY(const float v) = 0;
+	virtual void AddToPosZ(const float v) = 0;
 	virtual void AddToAngle(const float angle) = 0;
 
 	virtual void SetAngle(const float angle) = 0;
@@ -87,6 +98,18 @@ public:
 	int GetConstructorCallbackId();
 	void Destroy();
 	void Scale(const Vector2& scale, ETHEntity* entity);
+
+	float GetPosX() const;
+	float GetPosY() const;
+	float GetPosZ() const;
+	void SetPosXY(const Vector2& pos);
+	void SetPosX(const float v);
+	void SetPosY(const float v);
+	void SetPosZ(const float v);
+	void AddToPosXY(const Vector2& pos);
+	void AddToPosX(const float v);
+	void AddToPosY(const float v);
+	void AddToPosZ(const float v);
 };
 
 typedef boost::shared_ptr<ETHRawEntityController> ETHRawEntityControllerPtr;

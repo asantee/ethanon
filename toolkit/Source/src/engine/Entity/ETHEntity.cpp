@@ -274,32 +274,88 @@ Vector3 ETHEntity::GetPosition() const
 
 Vector2 ETHEntity::GetPositionXY() const
 {
-	const Vector3& pos = m_controller->GetPos();
-	return Vector2(pos.x, pos.y);
+	return m_controller->GetPosXY();
+}
+
+float ETHEntity::GetPositionX() const
+{
+	return m_controller->GetPosX();
+}
+
+float ETHEntity::GetPositionY() const
+{
+	return m_controller->GetPosY();
+}
+
+float ETHEntity::GetPositionZ() const
+{
+	return m_controller->GetPosZ();
 }
 
 void ETHEntity::SetPosition(const Vector3& pos, ETHBucketManager& buckets)
 {
-	const Vector2 oldPos = GetPositionXY();
+	const Vector2& oldPos(GetPositionXY());
 	m_controller->SetPos(pos);
 	buckets.RequestBucketMove(this, oldPos, GetPositionXY());
 }
 
 void ETHEntity::SetPositionXY(const Vector2& pos, ETHBucketManager& buckets)
 {
-	SetPosition(Vector3(pos, m_controller->GetPos().z), buckets);
+	const Vector2& oldPos(GetPositionXY());
+	m_controller->SetPosXY(pos);
+	buckets.RequestBucketMove(this, oldPos, GetPositionXY());
+}
+
+void ETHEntity::SetPositionX(const float v, ETHBucketManager& buckets)
+{
+	const Vector2& oldPos(GetPositionXY());
+	m_controller->SetPosX(v);
+	buckets.RequestBucketMove(this, oldPos, GetPositionXY());
+}
+
+void ETHEntity::SetPositionY(const float v, ETHBucketManager& buckets)
+{
+	const Vector2& oldPos(GetPositionXY());
+	m_controller->SetPosY(v);
+	buckets.RequestBucketMove(this, oldPos, GetPositionXY());
+}
+
+void ETHEntity::SetPositionZ(const float v)
+{
+	m_controller->SetPosZ(v);
 }
 
 void ETHEntity::AddToPosition(const Vector3& pos, ETHBucketManager& buckets)
 {
-	const Vector2 oldPos = GetPositionXY();
+	const Vector2& oldPos(GetPositionXY());
 	m_controller->AddToPos(pos);
 	buckets.RequestBucketMove(this, oldPos, GetPositionXY());
 }
 
 void ETHEntity::AddToPositionXY(const Vector2& pos, ETHBucketManager& buckets)
 {
-	AddToPosition(Vector3(pos, 0.0f), buckets);
+	const Vector2& oldPos(GetPositionXY());
+	m_controller->AddToPosXY(pos);
+	buckets.RequestBucketMove(this, oldPos, GetPositionXY());
+}
+
+void ETHEntity::AddToPositionX(const float v, ETHBucketManager& buckets)
+{
+	const Vector2& oldPos(GetPositionXY());
+	m_controller->AddToPosX(v);
+	buckets.RequestBucketMove(this, oldPos, GetPositionXY());
+}
+
+void ETHEntity::AddToPositionY(const float v, ETHBucketManager& buckets)
+{
+	const Vector2& oldPos(GetPositionXY());
+	m_controller->AddToPosY(v);
+	buckets.RequestBucketMove(this, oldPos, GetPositionXY());
+}
+
+void ETHEntity::AddToPositionZ(const float v)
+{
+	m_controller->AddToPosZ(v);
 }
 
 void ETHEntity::SetOrphanPosition(const Vector3& pos)

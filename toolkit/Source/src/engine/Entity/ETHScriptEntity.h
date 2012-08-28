@@ -168,6 +168,16 @@ public:
 	bool IsAlive() const;
 	void SetDestructorCallbackId(const int id);
 	int GetDestructorCallbackId() const;
+
+	virtual void SetPositionX(const float v, ETHBucketManager& buckets) = 0;
+	virtual void SetPositionY(const float v, ETHBucketManager& buckets) = 0;
+	virtual void SetPositionZ(const float v) = 0;
+	virtual float GetPositionX() const = 0;
+	virtual float GetPositionY() const = 0;
+	virtual float GetPositionZ() const = 0;
+	virtual void AddToPositionX(const float v, ETHBucketManager& buckets) = 0;
+	virtual void AddToPositionY(const float v, ETHBucketManager& buckets) = 0;
+	virtual void AddToPositionZ(const float v) = 0;
 };
 
 #endif

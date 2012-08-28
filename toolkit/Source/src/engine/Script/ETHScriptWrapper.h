@@ -153,8 +153,15 @@ public:
 	static Vector2 GetScreenRectMin(ETHEntity *pEntity);
 	static Vector2 GetScreenRectMax(ETHEntity *pEntity);
 	static void PlayParticleSystem(ETHEntity *pEntity, const unsigned int n);
-	// global wraps 
 
+	static void SetPositionX(ETHEntity *pEntity, const float v);
+	static void SetPositionY(ETHEntity *pEntity, const float v);
+	static void SetPositionZ(ETHEntity *pEntity, const float v);
+	static void AddToPositionX(ETHEntity *pEntity, const float v);
+	static void AddToPositionY(ETHEntity *pEntity, const float v);
+	static void AddToPositionZ(ETHEntity *pEntity, const float v);
+
+	// global wraps 
 	static void HideCursor(const bool hide);
 	static Vector2 GetCursorPos();
 	static Vector2 GetCursorAbsolutePos();

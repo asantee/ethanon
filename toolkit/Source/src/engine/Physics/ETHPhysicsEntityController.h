@@ -67,6 +67,13 @@ public:
 	std::size_t GetNumJoints() const;
 	ETHJointPtr GetJoint(const std::size_t joindIdx);
 	b2Body* GetBody();
+
+	void SetPosXY(const Vector2& pos);
+	void SetPosX(const float v);
+	void SetPosY(const float v);
+	void AddToPosXY(const Vector2& pos);
+	void AddToPosX(const float v);
+	void AddToPosY(const float v);
 };
 
 typedef boost::shared_ptr<ETHPhysicsEntityController> ETHPhysicsEntityControllerPtr;

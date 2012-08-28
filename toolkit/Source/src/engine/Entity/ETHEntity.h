@@ -194,6 +194,16 @@ public:
 	void SetParallaxIndividualIntensity(const float& individualIntensity);
 	ETHPolygonPtr GetPolygon() const;
 
+	void SetPositionX(const float v, ETHBucketManager& buckets);
+	void SetPositionY(const float v, ETHBucketManager& buckets);
+	void SetPositionZ(const float v);
+	float GetPositionX() const;
+	float GetPositionY() const;
+	float GetPositionZ() const;
+	void AddToPositionX(const float v, ETHBucketManager& buckets);
+	void AddToPositionY(const float v, ETHBucketManager& buckets);
+	void AddToPositionZ(const float v);
+
 private:
 	void Zero();
 	void SetID(const int id) { m_id = id; }
