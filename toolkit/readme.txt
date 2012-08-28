@@ -22,10 +22,7 @@ entities instead of fixed tiles.
 To control the game flow and handle its events, Ethanon
 Engine uses AngelScript for scripts, which brings a familiar
 C++ syntax to the code. The integration with the scripting
-language is pretty simple and easy to understand. Many
-features are included in the scripting system, such as full 
-entity manipulation, save and load games with one 
-instruction, video playback support, and more.
+language is pretty simple and easy to understand.
 
 HOW TO BUILD:
 ------------
