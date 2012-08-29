@@ -1295,6 +1295,16 @@ void SceneEditor::DrawEntitySelectionGrid(SpritePtr pNextAppButton)
 		float bias = 1.0f;
 		if (pSprite)
 		{
+			//const unsigned int nFrame = pSprite->GetCurrentRect();
+			if (m_entityFiles[t]->spriteCut.x > 1 || m_entityFiles[t]->spriteCut.y > 1)
+			{
+				pSprite->SetupSpriteRects(m_entityFiles[t]->spriteCut.x, m_entityFiles[t]->spriteCut.y);
+				pSprite->SetRect(m_entityFiles[t]->startFrame);
+			}
+			else
+			{
+				pSprite->UnsetRect();
+			}
 			const Vector2 v2Size = pSprite->GetFrameSize();
 			const float largestSize = Max(v2Size.x, v2Size.y);
 			Vector2 v2NewSize = v2Size;
@@ -1306,12 +1316,6 @@ void SceneEditor::DrawEntitySelectionGrid(SpritePtr pNextAppButton)
 			const Vector2 v2Origin = pSprite->GetOrigin();
 
 			pSprite->SetOrigin(GSEO_CENTER);
-			//const unsigned int nFrame = pSprite->GetCurrentRect();
-			if (m_entityFiles[t]->spriteCut.x > 1 || m_entityFiles[t]->spriteCut.y > 1)
-			{
-				pSprite->SetupSpriteRects(m_entityFiles[t]->spriteCut.x, m_entityFiles[t]->spriteCut.y);
-				pSprite->SetRect(m_entityFiles[t]->startFrame);
-			}
 			pSprite->DrawShaped(v2Pos, v2NewSize,
 								GS_WHITE, GS_WHITE, GS_WHITE, GS_WHITE, 0.0f);
 			//pSprite->SetRect(nFrame);
