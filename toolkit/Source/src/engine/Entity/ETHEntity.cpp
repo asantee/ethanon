@@ -64,9 +64,11 @@ void ETHEntity::InstantiateDictionary()
 	m_gcDict = new CScriptDictionary(engine);
 }
 
+#define ETH_DEFAULT_COLOR Vector4(1, 1, 1, 1)
+
 void ETHEntity::Zero()
 {
-	m_v4Color = Vector4(1,1,1,1);
+	m_v4Color = ETH_DEFAULT_COLOR;
 	m_spriteFrame = (0);
 	m_shadowZ = (0.0f);
 	m_hide = (ETH_FALSE);
@@ -102,12 +104,15 @@ bool ETHEntity::WriteToXMLFile(TiXmlElement *pHeadRoot) const
 		pEntity->LinkEndChild(pElement);
 	}
 
-	pElement = new TiXmlElement(GS_L("Color"));
-	pEntity->LinkEndChild(pElement); 
-	pElement->SetDoubleAttribute(GS_L("r"), m_v4Color.x);
-	pElement->SetDoubleAttribute(GS_L("g"), m_v4Color.y);
-	pElement->SetDoubleAttribute(GS_L("b"), m_v4Color.z);
-	pElement->SetDoubleAttribute(GS_L("a"), m_v4Color.w);
+	if (m_v4Color != ETH_DEFAULT_COLOR)
+	{
+		pElement = new TiXmlElement(GS_L("Color"));
+		pEntity->LinkEndChild(pElement); 
+		pElement->SetDoubleAttribute(GS_L("r"), m_v4Color.x);
+		pElement->SetDoubleAttribute(GS_L("g"), m_v4Color.y);
+		pElement->SetDoubleAttribute(GS_L("b"), m_v4Color.z);
+		pElement->SetDoubleAttribute(GS_L("a"), m_v4Color.w);
+	}
 
 	pElement = new TiXmlElement(GS_L("Position"));
 	pEntity->LinkEndChild(pElement); 
@@ -118,8 +123,12 @@ bool ETHEntity::WriteToXMLFile(TiXmlElement *pHeadRoot) const
 
 	pEntity->SetAttribute(GS_L("id"), m_id);
 	pEntity->SetAttribute(GS_L("spriteFrame"), m_spriteFrame);
-	pEntity->SetDoubleAttribute(GS_L("shadowZ"), m_shadowZ);
-	pEntity->SetAttribute(GS_L("hide"), m_hide);
+
+	if (m_properties.castShadow)
+		pEntity->SetDoubleAttribute(GS_L("shadowZ"), m_shadowZ);
+
+	if (m_hide != ETH_FALSE)
+		pEntity->SetAttribute(GS_L("hide"), m_hide);
 
 	m_properties.WriteToXMLFile(pEntity);
 	return true;

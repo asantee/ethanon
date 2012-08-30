@@ -71,9 +71,16 @@ static const str_type::string POLYGON_ENML_SAMPLE(
 	GS_L("	y=1;\n")
 	GS_L("}\n"));
 
+#define ETH_DEFAULT_EMISSIVE_COLOR	Vector4(0, 0, 0, 0)
+#define ETH_DEFAULT_SPRITE_CUT		Vector2i(1, 1)
+#define ETH_DEFAULT_PIVOT_ADJUST	Vector2(0, 0)
+#define ETH_DEFAULT_SCALE			Vector2(1, 1)
+#define ETH_DEFAULT_SOUND_VOLUME	1.0f
+#define ETH_DEFAULT_PARALLAX_INTENS	1.0f
+
 void ETHEntityMaterial::Reset()
 {
-	emissiveColor = Vector4(0,0,0,0);
+	emissiveColor = ETH_DEFAULT_EMISSIVE_COLOR;
 	castShadow = ETH_FALSE;
 	applyLight = ETH_FALSE;
 	sensor = ETH_FALSE;
@@ -146,16 +153,16 @@ void ETHEntityProperties::Reset()
 {
 	ETHEntityMaterial::Reset();
 	entityName = GS_L("");
-	spriteCut = Vector2i(1,1);
-	pivotAdjust = Vector2(0,0);
+	spriteCut = ETH_DEFAULT_SPRITE_CUT;
+	pivotAdjust = ETH_DEFAULT_PIVOT_ADJUST;
+	scale = ETH_DEFAULT_SCALE;
 	startFrame = 0;
 	staticEntity = false;
 	type = ETH_HORIZONTAL;
-	soundVolume = 1.0f;
 	layerDepth = 0.0f;
 	successfullyLoaded = false;
-	scale = Vector2(1, 1);
-	parallaxIntensity = 1.0f;
+	soundVolume = ETH_DEFAULT_SOUND_VOLUME;
+	parallaxIntensity = ETH_DEFAULT_PARALLAX_INTENS;
 }
 
 bool ETHEntityProperties::IsSuccessfullyLoaded() const
@@ -193,33 +200,45 @@ bool ETHEntityProperties::ReadFromXMLFile(TiXmlElement *pElement)
 	pElement->QueryIntAttribute(GS_L("castShadow"), &nCastShadow);
 	castShadow = static_cast<ETH_BOOL>(nCastShadow);
 
-	int nSensor = static_cast<int>(sensor);
-	pElement->QueryIntAttribute(GS_L("sensor"), &nSensor);
-	sensor = static_cast<ETH_BOOL>(nSensor);
-
-	int nFixedRotation = static_cast<int>(fixedRotation);
-	pElement->QueryIntAttribute(GS_L("fixedRotation"), &nFixedRotation);
-	fixedRotation = static_cast<ETH_BOOL>(nFixedRotation);
-
-	int nBullet = static_cast<int>(bullet);
-	pElement->QueryIntAttribute(GS_L("bullet"), &nBullet);
-	bullet = static_cast<ETH_BOOL>(nBullet);
-
 	pElement->QueryIntAttribute(GS_L("shape"), (int*)&shape);
 	pElement->QueryIntAttribute(GS_L("startFrame"), &startFrame);
 	pElement->QueryIntAttribute(GS_L("blendMode"), (int*)&blendMode);
-	pElement->QueryFloatAttribute(GS_L("friction"), &friction);
-	pElement->QueryFloatAttribute(GS_L("density"), &density);
 	pElement->QueryFloatAttribute(GS_L("layerDepth"), &layerDepth);
 	pElement->QueryFloatAttribute(GS_L("soundVolume"), &soundVolume);
-	pElement->QueryFloatAttribute(GS_L("shadowScale"), &shadowScale);
-	pElement->QueryFloatAttribute(GS_L("shadowLengthScale"), &shadowLengthScale);
-	pElement->QueryFloatAttribute(GS_L("shadowOpacity"), &shadowOpacity);
-	pElement->QueryFloatAttribute(GS_L("specularPower"), &specularPower);
-	pElement->QueryFloatAttribute(GS_L("specularBrightness"), &specularBrightness);
-	pElement->QueryFloatAttribute(GS_L("restitution"), &restitution);
 	pElement->QueryFloatAttribute(GS_L("parallaxIntensity"), &parallaxIntensity);
-	pElement->QueryFloatAttribute(GS_L("gravityScale"), &gravityScale);
+
+	if (applyLight)
+	{
+		pElement->QueryFloatAttribute(GS_L("specularPower"), &specularPower);
+		pElement->QueryFloatAttribute(GS_L("specularBrightness"), &specularBrightness);
+	}
+
+	if (castShadow)
+	{
+		pElement->QueryFloatAttribute(GS_L("shadowScale"), &shadowScale);
+		pElement->QueryFloatAttribute(GS_L("shadowLengthScale"), &shadowLengthScale);
+		pElement->QueryFloatAttribute(GS_L("shadowOpacity"), &shadowOpacity);
+	}
+
+	if (shape != ETHBS_NONE)
+	{
+		int nSensor = static_cast<int>(sensor);
+		pElement->QueryIntAttribute(GS_L("sensor"), &nSensor);
+		sensor = static_cast<ETH_BOOL>(nSensor);
+
+		int nFixedRotation = static_cast<int>(fixedRotation);
+		pElement->QueryIntAttribute(GS_L("fixedRotation"), &nFixedRotation);
+		fixedRotation = static_cast<ETH_BOOL>(nFixedRotation);
+
+		int nBullet = static_cast<int>(bullet);
+		pElement->QueryIntAttribute(GS_L("bullet"), &nBullet);
+		bullet = static_cast<ETH_BOOL>(nBullet);
+
+		pElement->QueryFloatAttribute(GS_L("friction"), &friction);
+		pElement->QueryFloatAttribute(GS_L("density"), &density);
+		pElement->QueryFloatAttribute(GS_L("gravityScale"), &gravityScale);
+		pElement->QueryFloatAttribute(GS_L("restitution"), &restitution);
+	}
 
 	TiXmlElement *pIter;
 	TiXmlNode *pNode;
@@ -417,27 +436,40 @@ bool ETHEntityProperties::WriteToXMLFile(TiXmlElement *pHeadRoot) const
 	pHeadRoot->LinkEndChild(pRoot); 
 
 	TiXmlElement *pElement;
-	pElement = new TiXmlElement(GS_L("EmissiveColor"));
-	pRoot->LinkEndChild(pElement); 
-	pElement->SetDoubleAttribute(GS_L("r"), emissiveColor.x);
-	pElement->SetDoubleAttribute(GS_L("g"), emissiveColor.y);
-	pElement->SetDoubleAttribute(GS_L("b"), emissiveColor.z);
-	pElement->SetDoubleAttribute(GS_L("a"), emissiveColor.w);
 
-	pElement = new TiXmlElement(GS_L("SpriteCut"));
-	pRoot->LinkEndChild(pElement);
-	pElement->SetDoubleAttribute(GS_L("x"), spriteCut.x);
-	pElement->SetDoubleAttribute(GS_L("y"), spriteCut.y);
+	if (emissiveColor != ETH_DEFAULT_EMISSIVE_COLOR)
+	{
+		pElement = new TiXmlElement(GS_L("EmissiveColor"));
+		pRoot->LinkEndChild(pElement); 
+		pElement->SetDoubleAttribute(GS_L("r"), emissiveColor.x);
+		pElement->SetDoubleAttribute(GS_L("g"), emissiveColor.y);
+		pElement->SetDoubleAttribute(GS_L("b"), emissiveColor.z);
+		pElement->SetDoubleAttribute(GS_L("a"), emissiveColor.w);
+	}
 
-	pElement = new TiXmlElement(GS_L("Scale"));
-	pRoot->LinkEndChild(pElement);
-	pElement->SetDoubleAttribute(GS_L("x"), scale.x);
-	pElement->SetDoubleAttribute(GS_L("y"), scale.y);
+	if (spriteCut != ETH_DEFAULT_SPRITE_CUT)
+	{
+		pElement = new TiXmlElement(GS_L("SpriteCut"));
+		pRoot->LinkEndChild(pElement);
+		pElement->SetDoubleAttribute(GS_L("x"), spriteCut.x);
+		pElement->SetDoubleAttribute(GS_L("y"), spriteCut.y);
+	}
 
-	pElement = new TiXmlElement(GS_L("PivotAdjust"));
-	pRoot->LinkEndChild(pElement);
-	pElement->SetDoubleAttribute(GS_L("x"), pivotAdjust.x);
-	pElement->SetDoubleAttribute(GS_L("y"), pivotAdjust.y);
+	if (scale != ETH_DEFAULT_SCALE)
+	{
+		pElement = new TiXmlElement(GS_L("Scale"));
+		pRoot->LinkEndChild(pElement);
+		pElement->SetDoubleAttribute(GS_L("x"), scale.x);
+		pElement->SetDoubleAttribute(GS_L("y"), scale.y);
+	}
+
+	if (pivotAdjust != ETH_DEFAULT_PIVOT_ADJUST)
+	{
+		pElement = new TiXmlElement(GS_L("PivotAdjust"));
+		pRoot->LinkEndChild(pElement);
+		pElement->SetDoubleAttribute(GS_L("x"), pivotAdjust.x);
+		pElement->SetDoubleAttribute(GS_L("y"), pivotAdjust.y);
+	}
 
 	if (spriteFile != GS_L(""))
 	{
@@ -460,12 +492,15 @@ bool ETHEntityProperties::WriteToXMLFile(TiXmlElement *pHeadRoot) const
 		pRoot->LinkEndChild(pElement);
 	}
 
-	TiXmlElement *pParticles = new TiXmlElement(GS_L("Particles"));
-	pRoot->LinkEndChild(pParticles);
-	for (unsigned int t=0; t<particleSystems.size(); t++)
+	if (!particleSystems.empty())
 	{
-		if (particleSystems[t]->nParticles > 0)
-			particleSystems[t]->WriteToXMLFile(pParticles);
+		TiXmlElement *pParticles = new TiXmlElement(GS_L("Particles"));
+		pRoot->LinkEndChild(pParticles);
+		for (unsigned int t=0; t<particleSystems.size(); t++)
+		{
+			if (particleSystems[t]->nParticles > 0)
+				particleSystems[t]->WriteToXMLFile(pParticles);
+		}
 	}
 
 	if (light)
@@ -524,28 +559,52 @@ bool ETHEntityProperties::WriteToXMLFile(TiXmlElement *pHeadRoot) const
 		}
 	}
 
-	pRoot->SetAttribute(GS_L("type"), type);
-	pRoot->SetAttribute(GS_L("static"), staticEntity);
 	pRoot->SetAttribute(GS_L("shape"), shape);
-	pRoot->SetAttribute(GS_L("startFrame"), startFrame);
+	if (shape != ETHBS_NONE)
+	{
+		pRoot->SetAttribute(GS_L("sensor"), sensor);
+		pRoot->SetAttribute(GS_L("bullet"), bullet);
+		pRoot->SetAttribute(GS_L("fixedRotation"), fixedRotation);
+		pRoot->SetDoubleAttribute(GS_L("friction"), friction);
+		pRoot->SetDoubleAttribute(GS_L("density"), density);
+		pRoot->SetDoubleAttribute(GS_L("restitution"), restitution);
+		pRoot->SetDoubleAttribute(GS_L("gravityScale"), gravityScale);
+	}
+
 	pRoot->SetAttribute(GS_L("applyLight"), applyLight);
+	if (applyLight)
+	{
+		pRoot->SetDoubleAttribute(GS_L("specularPower"), specularPower);
+		pRoot->SetDoubleAttribute(GS_L("specularBrightness"), specularBrightness);
+	}
+
 	pRoot->SetAttribute(GS_L("castShadow"), castShadow);
-	pRoot->SetAttribute(GS_L("sensor"), sensor);
-	pRoot->SetAttribute(GS_L("bullet"), bullet);
-	pRoot->SetAttribute(GS_L("fixedRotation"), fixedRotation);
+	if (castShadow)
+	{
+		pRoot->SetDoubleAttribute(GS_L("shadowScale"), shadowScale);
+		pRoot->SetDoubleAttribute(GS_L("shadowLengthScale"), shadowLengthScale);
+		pRoot->SetDoubleAttribute(GS_L("shadowOpacity"), shadowOpacity);
+	}
+
+	pRoot->SetAttribute(GS_L("type"), type);
+	if (type == ETH_LAYERABLE)
+	{
+		pRoot->SetDoubleAttribute(GS_L("layerDepth"), layerDepth);
+	}
+
+	if (soundVolume != ETH_DEFAULT_SOUND_VOLUME)
+	{
+		pRoot->SetDoubleAttribute(GS_L("soundVolume"), soundVolume);
+	}
+
+	if (parallaxIntensity != ETH_DEFAULT_PARALLAX_INTENS)
+	{
+		pRoot->SetDoubleAttribute(GS_L("parallaxIntensity"), parallaxIntensity);
+	}
+
+	pRoot->SetAttribute(GS_L("static"), staticEntity);
+	pRoot->SetAttribute(GS_L("startFrame"), startFrame);
 	pRoot->SetAttribute(GS_L("blendMode"), blendMode);
-	pRoot->SetDoubleAttribute(GS_L("friction"), friction);
-	pRoot->SetDoubleAttribute(GS_L("density"), density);
-	pRoot->SetDoubleAttribute(GS_L("layerDepth"), layerDepth);
-	pRoot->SetDoubleAttribute(GS_L("soundVolume"), soundVolume);
-	pRoot->SetDoubleAttribute(GS_L("shadowScale"), shadowScale);
-	pRoot->SetDoubleAttribute(GS_L("shadowLengthScale"), shadowLengthScale);
-	pRoot->SetDoubleAttribute(GS_L("shadowOpacity"), shadowOpacity);
-	pRoot->SetDoubleAttribute(GS_L("specularPower"), specularPower);
-	pRoot->SetDoubleAttribute(GS_L("specularBrightness"), specularBrightness);
-	pRoot->SetDoubleAttribute(GS_L("restitution"), restitution);
-	pRoot->SetDoubleAttribute(GS_L("parallaxIntensity"), parallaxIntensity);
-	pRoot->SetDoubleAttribute(GS_L("gravityScale"), gravityScale);
 
 	WriteDataToFile(pRoot);
 	return true;
