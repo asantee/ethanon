@@ -23,6 +23,7 @@
 #include "ETHBucketManager.h"
 #include "../Entity/ETHEntityArray.h"
 #include "../Entity/ETHRenderEntity.h"
+#include "../Entity/ETHEntityChooser.h"
 #include <iostream>
 
 // Vector2 hash function
@@ -445,7 +446,7 @@ void ETHBucketManager::GetEntityArrayByName(const str_type::string& name, ETHEnt
 	}
 }
 
-void ETHBucketManager::GetEntityArrayFromBucket(const Vector2 &bucket, ETHEntityArray &outVector)
+void ETHBucketManager::GetEntityArrayFromBucket(const Vector2 &bucket, ETHEntityArray &outVector, const ETHEntityChooser& chooser)
 {
 	ETHBucketMap::iterator bucketIter = Find(bucket);
 	if (bucketIter == GetLastBucket())
@@ -454,8 +455,48 @@ void ETHBucketManager::GetEntityArrayFromBucket(const Vector2 &bucket, ETHEntity
 	ETHEntityList::const_iterator iEnd = bucketIter->second.end();
 	for (ETHEntityList::iterator iter = bucketIter->second.begin(); iter != iEnd; iter++)
 	{
-		outVector.push_back(*iter);
+		if (chooser.Choose(*iter))
+			outVector.push_back(*iter);
 	}
+}
+
+void ETHBucketManager::GetEntityArrayFromBucket(const Vector2 &bucket, ETHEntityArray &outVector)
+{
+	GetEntityArrayFromBucket(bucket, outVector, ETHEntityDefaultChooser());
+}
+
+void ETHBucketManager::GetWhiteListedEntityArrayFromBucket(const Vector2 &bucket, ETHEntityArray &outVector,
+														   const str_type::string& semicolonSeparatedNames)
+{
+	GetEntityArrayFromBucket(bucket, outVector, ETHEntityNameArrayChooser(semicolonSeparatedNames, false));
+}
+
+void ETHBucketManager::GetEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray &outVector, const ETHEntityChooser& chooser)
+{
+	GetEntityArrayFromBucket(bucket, outVector, chooser);
+	GetEntityArrayFromBucket(bucket + Vector2( 1, 0), outVector, chooser);
+	GetEntityArrayFromBucket(bucket + Vector2( 1, 1), outVector, chooser);
+	GetEntityArrayFromBucket(bucket + Vector2( 0, 1), outVector, chooser);
+	GetEntityArrayFromBucket(bucket + Vector2(-1, 1), outVector, chooser);
+	GetEntityArrayFromBucket(bucket + Vector2(-1, 0), outVector, chooser);
+	GetEntityArrayFromBucket(bucket + Vector2(-1,-1), outVector, chooser);
+	GetEntityArrayFromBucket(bucket + Vector2( 0,-1), outVector, chooser);
+	GetEntityArrayFromBucket(bucket + Vector2( 1,-1), outVector, chooser);
+}
+
+void ETHBucketManager::GetEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray &outVector)
+{
+	GetEntitiesAroundBucket(bucket, outVector, ETHEntityDefaultChooser());
+}
+
+void ETHBucketManager::GetWhiteListedEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray &outVector, const str_type::string& semicolonSeparatedNames)
+{
+	GetEntitiesAroundBucket(bucket, outVector, ETHEntityNameArrayChooser(semicolonSeparatedNames, false));
+}
+
+void ETHBucketManager::GetEntitiesAroundBucketWithBlackList(const Vector2& bucket, ETHEntityArray &outVector, const str_type::string& semicolonSeparatedNames)
+{
+	GetEntitiesAroundBucket(bucket, outVector, ETHEntityNameArrayChooser(semicolonSeparatedNames, true));
 }
 
 void ETHBucketManager::GetIntersectingBuckets(std::list<Vector2>& bucketList,
@@ -528,19 +569,6 @@ void ETHBucketManager::GetEntityArray(ETHEntityArray &outVector)
 			outVector.push_back(*iter);
 		}
 	}
-}
-
-void ETHBucketManager::GetEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray &outVector)
-{
-	GetEntityArrayFromBucket(bucket, outVector);
-	GetEntityArrayFromBucket(bucket + Vector2( 1, 0), outVector);
-	GetEntityArrayFromBucket(bucket + Vector2( 1, 1), outVector);
-	GetEntityArrayFromBucket(bucket + Vector2( 0, 1), outVector);
-	GetEntityArrayFromBucket(bucket + Vector2(-1, 1), outVector);
-	GetEntityArrayFromBucket(bucket + Vector2(-1, 0), outVector);
-	GetEntityArrayFromBucket(bucket + Vector2(-1,-1), outVector);
-	GetEntityArrayFromBucket(bucket + Vector2( 0,-1), outVector);
-	GetEntityArrayFromBucket(bucket + Vector2( 1,-1), outVector);
 }
 
 void ETHBucketManager::RequestBucketMove(ETHEntity* target, const Vector2& oldPos, const Vector2& newPos)

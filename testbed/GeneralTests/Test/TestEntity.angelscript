@@ -187,12 +187,35 @@ class TestEntity : Test
 
 	void highlightEntitiesAroundCursor()
 	{
-		ETHEntityArray ents;
-		GetEntitiesAroundBucket(cursor.GetCurrentBucket(), ents);
-		for (uint t = 0; t < ents.size(); t++)
 		{
-			DrawText(ents[t].GetPositionXY() - GetCameraPos(), ents[t].GetEntityName(),
-					 "Verdana14_shadow.fnt", ARGB(120, 255, 255, 255));
+			ETHEntityArray ents;
+			GetEntitiesAroundBucket(cursor.GetCurrentBucket(), ents);
+			for (uint t = 0; t < ents.size(); t++)
+			{
+				DrawText(ents[t].GetPositionXY() - GetCameraPos(), ents[t].GetEntityName(),
+						 "Verdana14_shadow.fnt", ARGB(120, 255, 255, 255));
+			}
+			ents.clear();
+		}
+		{
+			ETHEntityArray ents;
+			GetEntitiesAroundBucket(cursor.GetCurrentBucket(), ents, "bump_test_floor.ent;blood.ent");
+			for (uint t = 0; t < ents.size(); t++)
+			{
+				DrawText(ents[t].GetPositionXY() - GetCameraPos() + vector2(0, 14.0f), "{.}",
+						 "Verdana14_shadow.fnt", ARGB(120, 255, 255, 255));
+			}
+			ents.clear();
+		}
+		{
+			ETHEntityArray ents;
+			GetEntitiesAroundBucketWithBlackList(cursor.GetCurrentBucket(), ents, "bump_test_floor.ent;blood.ent");
+			for (uint t = 0; t < ents.size(); t++)
+			{
+				DrawText(ents[t].GetPositionXY() - GetCameraPos() + vector2(0, 14.0f), "...",
+						 "Verdana14_shadow.fnt", ARGB(120, 255, 255, 255));
+			}
+			ents.clear();
 		}
 	}
 

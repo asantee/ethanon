@@ -43,6 +43,8 @@ std::size_t hash_value(Vector2 const& p);
 typedef std::list<ETHRenderEntity*> ETHEntityList;
 typedef boost::unordered_map<Vector2, ETHEntityList, boost::hash<Vector2> > ETHBucketMap;
 
+class ETHEntityChooser;
+
 class ETHBucketManager
 {
 public:
@@ -98,6 +100,14 @@ public:
 
 	/// get an array of pointers with all entities in the bucket
 	void GetEntityArrayFromBucket(const Vector2 &bucket, ETHEntityArray &outVector);
+	void GetEntityArrayFromBucket(const Vector2 &bucket, ETHEntityArray &outVector, const ETHEntityChooser& chooser);
+	void GetWhiteListedEntityArrayFromBucket(const Vector2 &bucket, ETHEntityArray &outVector, const str_type::string& semicolonSeparatedNames);
+
+	/// entities around the bucket
+	void GetEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray &outVector);
+	void GetEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray &outVector, const ETHEntityChooser& chooser);
+	void GetWhiteListedEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray &outVector, const str_type::string& semicolonSeparatedNames);
+	void GetEntitiesAroundBucketWithBlackList(const Vector2& bucket, ETHEntityArray &outVector, const str_type::string& semicolonSeparatedNames);
 
 	/// get an array of visible entities
 	void GetVisibleEntities(ETHEntityArray &outVector);
@@ -107,9 +117,6 @@ public:
 
 	/// get an array containing all entities in scene
 	void GetEntityArray(ETHEntityArray &outVector);
-
-	/// entities around the bucket
-	void GetEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray &outVector);
 
 	void RequestBucketMove(ETHEntity* target, const Vector2& oldPos, const Vector2& newPos);
 

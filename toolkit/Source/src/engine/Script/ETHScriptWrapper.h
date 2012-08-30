@@ -249,6 +249,8 @@ public:
 	static void GetEntityArrayFromBucket(const Vector2 &v2Bucket, ETHEntityArray &outVector);
 	static void GetAllEntitiesInScene(ETHEntityArray &outVector);
 	static void GetEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray &outVector);
+	static void GetWhiteListedEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray &outVector, const str_type::string& semicolonSeparatedNames);
+	static void GetEntitiesAroundBucketWithBlackList(const Vector2& bucket, ETHEntityArray &outVector, const str_type::string& semicolonSeparatedNames);
 	static Vector2 GetBucket(const Vector2 &v2);
 	static void SetPositionRoundUp(const bool roundUp);
 	static bool GetPositionRoundUp();

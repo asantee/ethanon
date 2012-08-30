@@ -389,6 +389,20 @@ void ETHScriptWrapper::GetEntitiesAroundBucket(const Vector2& bucket, ETHEntityA
 	m_pScene->GetBucketManager().GetEntitiesAroundBucket(bucket, outVector);
 }
 
+void ETHScriptWrapper::GetWhiteListedEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray &outVector, const str_type::string& semicolonSeparatedNames)
+{
+	if (WarnIfRunsInMainFunction(GS_L("GetEntitiesAroundBucket")))
+		return;
+	m_pScene->GetBucketManager().GetWhiteListedEntitiesAroundBucket(bucket, outVector, semicolonSeparatedNames);
+}
+
+void ETHScriptWrapper::GetEntitiesAroundBucketWithBlackList(const Vector2& bucket, ETHEntityArray &outVector, const str_type::string& semicolonSeparatedNames)
+{
+	if (WarnIfRunsInMainFunction(GS_L("GetEntitiesAroundBucketWithBlackList")))
+		return;
+	m_pScene->GetBucketManager().GetEntitiesAroundBucketWithBlackList(bucket, outVector, semicolonSeparatedNames);
+}
+
 Vector2 ETHScriptWrapper::GetCurrentBucket(ETHEntity *pEntity)
 {
 	return pEntity->GetCurrentBucket(m_pScene->GetBucketManager());
