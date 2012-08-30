@@ -24,6 +24,11 @@
 #import "../Platform.h"
 #import "../../Video/GLES2/gs2dGLES2.h"
 
+gs2d::str_type::string gs2d::GLES2Video::GetPlatformName() const
+{
+	return "ios";
+}
+
 // it will be implemented here for the boost timer is presenting strange behaviour
 float gs2d::GLES2Video::GetElapsedTimeF(const TIME_UNITY unity) const
 {
