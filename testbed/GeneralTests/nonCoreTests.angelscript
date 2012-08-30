@@ -109,7 +109,8 @@ void runMathTests()
 	
 	vector3 v3Temp(10,10,10);
 	const vector3 v3Test = (3*v3Temp*5)+v3Temp-vector3(20,20,20);
-	v3Temp += vector3(1,1,1);
+	vector2 one(1,1);
+	v3Temp += vector3(one,1);
 	v3Temp *= 3;
 	v3Temp /= 6;
 	v3Temp -= vector3(vector2(1,1),1);
@@ -148,6 +149,7 @@ void runMathTests()
 	if (box2.size != box1.size)
 		print("box2.size test FAILED\x07\n");
 
+	// matrix tests
 	{
 		matrix4x4 m, t;
 		m = scale(2.0f,3.0f,4.0f);
@@ -167,5 +169,16 @@ void runMathTests()
 		m.set(2, 3, 666.0f);
 		if (m.get(2, 3) != 666.0f)
 			print("m.get test failed\x07\n");
+	}
+	
+	// vector single param constructors
+	{
+		vector2 a(0.4f);
+		vector3 b(PI);
+		if (a != vector2(0.4f, 0.4f))
+			print("vector2 single param test failed\x07\n");
+		if (b != vector3(PI, PI, PI))
+			print("vector3 single param test failed\x07\n");
+	
 	}
 }

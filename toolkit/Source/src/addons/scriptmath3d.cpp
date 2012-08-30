@@ -34,6 +34,11 @@ static void Vector3InitConstructorV2(gs2d::math::Vector2 &xy, float z, Vector3 *
 	new(self) Vector3(xy.x,xy.y,z);
 }
 
+static void Vector3InitConstructor1F(float v, Vector3 *self)
+{
+	new(self) Vector3(v, v, v);
+}
+
 //-----------------------
 // Generic calling convention
 //-----------------------
@@ -67,6 +72,13 @@ static void Vector3InitConstructorV2_Generic(asIScriptGeneric *gen)
 	float z = gen->GetArgFloat(1);
 	Vector3 *self = (Vector3*)gen->GetObject();
 	Vector3InitConstructor(x,y,z,self);
+}
+
+static void Vector3InitConstructor1F_Generic(asIScriptGeneric *gen)
+{
+	float v = gen->GetArgFloat(0);
+	Vector3 *self = (Vector3*)gen->GetObject();
+	Vector3InitConstructor1F(v,self);
 }
 
 static void Vector3Equal_Generic(asIScriptGeneric *gen)
@@ -180,10 +192,11 @@ void RegisterScriptMath3D_Native(asIScriptEngine *engine)
 	r = engine->RegisterObjectProperty("vector3", "float z", offsetof(PODVector3, z)); assert( r >= 0 );
 
 	// Register the constructors
-	r = engine->RegisterObjectBehaviour("vector3", asBEHAVE_CONSTRUCT,  "void f()",                     asFUNCTION(Vector3DefaultConstructor), asCALL_CDECL_OBJLAST); assert( r >= 0 );
-	r = engine->RegisterObjectBehaviour("vector3", asBEHAVE_CONSTRUCT,  "void f(const vector3 &in)",       asFUNCTION(Vector3CopyConstructor), asCALL_CDECL_OBJLAST); assert( r >= 0 );
-	r = engine->RegisterObjectBehaviour("vector3", asBEHAVE_CONSTRUCT,  "void f(float, float, float)",  asFUNCTION(Vector3InitConstructor), asCALL_CDECL_OBJLAST); assert( r >= 0 );
-	r = engine->RegisterObjectBehaviour("vector3", asBEHAVE_CONSTRUCT,  "void f(const vector2 &in, float)",  asFUNCTION(Vector3InitConstructorV2), asCALL_CDECL_OBJLAST); assert( r >= 0 );
+	r = engine->RegisterObjectBehaviour("vector3", asBEHAVE_CONSTRUCT,  "void f()",                         asFUNCTION(Vector3DefaultConstructor), asCALL_CDECL_OBJLAST); assert( r >= 0 );
+	r = engine->RegisterObjectBehaviour("vector3", asBEHAVE_CONSTRUCT,  "void f(const vector3 &in)",        asFUNCTION(Vector3CopyConstructor), asCALL_CDECL_OBJLAST); assert( r >= 0 );
+	r = engine->RegisterObjectBehaviour("vector3", asBEHAVE_CONSTRUCT,  "void f(float, float, float)",      asFUNCTION(Vector3InitConstructor), asCALL_CDECL_OBJLAST); assert( r >= 0 );
+	r = engine->RegisterObjectBehaviour("vector3", asBEHAVE_CONSTRUCT,  "void f(const vector2 &in, float)", asFUNCTION(Vector3InitConstructorV2), asCALL_CDECL_OBJLAST); assert( r >= 0 );
+	r = engine->RegisterObjectBehaviour("vector3", asBEHAVE_CONSTRUCT,  "void f(float)",                    asFUNCTION(Vector3InitConstructor1F), asCALL_CDECL_OBJLAST); assert( r >= 0 );
 
 	// Register the operator overloads
 	r = engine->RegisterObjectMethod("vector3", "vector3 &opAddAssign(const vector3 &in)", asMETHODPR(Vector3, operator+=, (const Vector3 &), Vector3&), asCALL_THISCALL); assert( r >= 0 );
@@ -215,10 +228,11 @@ void RegisterScriptMath3D_Generic(asIScriptEngine *engine)
 	r = engine->RegisterObjectProperty("vector3", "float z", offsetof(PODVector3, z)); assert( r >= 0 );
 
 	// Register the constructors
-	r = engine->RegisterObjectBehaviour("vector3", asBEHAVE_CONSTRUCT,    "void f()",                     asFUNCTION(Vector3DefaultConstructor_Generic), asCALL_GENERIC); assert( r >= 0 );
-	r = engine->RegisterObjectBehaviour("vector3", asBEHAVE_CONSTRUCT,    "void f(const vector3 &in)",       asFUNCTION(Vector3CopyConstructor_Generic), asCALL_GENERIC); assert( r >= 0 );
-	r = engine->RegisterObjectBehaviour("vector3", asBEHAVE_CONSTRUCT,    "void f(float, float, float)", asFUNCTION(Vector3InitConstructor_Generic), asCALL_GENERIC); assert( r >= 0 );
+	r = engine->RegisterObjectBehaviour("vector3", asBEHAVE_CONSTRUCT,    "void f()",                         asFUNCTION(Vector3DefaultConstructor_Generic), asCALL_GENERIC); assert( r >= 0 );
+	r = engine->RegisterObjectBehaviour("vector3", asBEHAVE_CONSTRUCT,    "void f(const vector3 &in)",        asFUNCTION(Vector3CopyConstructor_Generic), asCALL_GENERIC); assert( r >= 0 );
+	r = engine->RegisterObjectBehaviour("vector3", asBEHAVE_CONSTRUCT,    "void f(float, float, float)",      asFUNCTION(Vector3InitConstructor_Generic), asCALL_GENERIC); assert( r >= 0 );
 	r = engine->RegisterObjectBehaviour("vector3", asBEHAVE_CONSTRUCT,    "void f(const vector2 &in, float)", asFUNCTION(Vector3InitConstructorV2_Generic), asCALL_GENERIC); assert( r >= 0 );
+	r = engine->RegisterObjectBehaviour("vector3", asBEHAVE_CONSTRUCT,    "void f(float)",                    asFUNCTION(Vector3InitConstructor1F_Generic), asCALL_GENERIC); assert( r >= 0 );
 
 	// Register the operator overloads
 	r = engine->RegisterObjectMethod("vector3", "vector3 &opAddAssign(const vector3 &in)", asFUNCTION(Vector3AddAssign_Generic), asCALL_GENERIC); assert( r >= 0 );

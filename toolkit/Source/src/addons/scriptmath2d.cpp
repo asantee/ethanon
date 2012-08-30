@@ -35,6 +35,11 @@ static void Vector2InitConstructor(float x, float y, Vector2 *self)
 	new(self) Vector2(x,y);
 }
 
+static void Vector2InitConstructor1F(float v, Vector2 *self)
+{
+	new(self) Vector2(v,v);
+}
+
 //-----------------------
 // Generic calling convention
 //-----------------------
@@ -58,6 +63,13 @@ static void Vector2InitConstructor_Generic(asIScriptGeneric *gen)
 	float y = gen->GetArgFloat(1);
 	Vector2 *self = (Vector2*)gen->GetObject();
 	Vector2InitConstructor(x,y,self);
+}
+
+static void Vector2InitConstructor1F_Generic(asIScriptGeneric *gen)
+{
+	float v = gen->GetArgFloat(0);
+	Vector2 *self = (Vector2*)gen->GetObject();
+	Vector2InitConstructor1F(v,self);
 }
 
 static void Vector2Equal_Generic(asIScriptGeneric *gen)
@@ -170,9 +182,10 @@ void RegisterScriptMath2D_Native(asIScriptEngine *engine)
 	r = engine->RegisterObjectProperty("vector2", "float y", offsetof(PODVector2, y)); assert( r >= 0 );
 
 	// Register the constructors
-	r = engine->RegisterObjectBehaviour("vector2", asBEHAVE_CONSTRUCT,  "void f()",                     asFUNCTION(Vector2DefaultConstructor), asCALL_CDECL_OBJLAST); assert( r >= 0 );
-	r = engine->RegisterObjectBehaviour("vector2", asBEHAVE_CONSTRUCT,  "void f(const vector2 &in)",       asFUNCTION(Vector2CopyConstructor), asCALL_CDECL_OBJLAST); assert( r >= 0 );
-	r = engine->RegisterObjectBehaviour("vector2", asBEHAVE_CONSTRUCT,  "void f(float, float)",  asFUNCTION(Vector2InitConstructor), asCALL_CDECL_OBJLAST); assert( r >= 0 );
+	r = engine->RegisterObjectBehaviour("vector2", asBEHAVE_CONSTRUCT,  "void f()",                  asFUNCTION(Vector2DefaultConstructor), asCALL_CDECL_OBJLAST); assert( r >= 0 );
+	r = engine->RegisterObjectBehaviour("vector2", asBEHAVE_CONSTRUCT,  "void f(const vector2 &in)", asFUNCTION(Vector2CopyConstructor),    asCALL_CDECL_OBJLAST); assert( r >= 0 );
+	r = engine->RegisterObjectBehaviour("vector2", asBEHAVE_CONSTRUCT,  "void f(float, float)",      asFUNCTION(Vector2InitConstructor),    asCALL_CDECL_OBJLAST); assert( r >= 0 );
+	r = engine->RegisterObjectBehaviour("vector2", asBEHAVE_CONSTRUCT,  "void f(float)",             asFUNCTION(Vector2InitConstructor1F),  asCALL_CDECL_OBJLAST); assert( r >= 0 );
 
 	// Register the operator overloads
 	r = engine->RegisterObjectMethod("vector2", "vector2 &opAddAssign(const vector2 &in)", asMETHODPR(Vector2, operator+=, (const Vector2 &), Vector2&), asCALL_THISCALL); assert( r >= 0 );
@@ -203,9 +216,10 @@ void RegisterScriptMath2D_Generic(asIScriptEngine *engine)
 	r = engine->RegisterObjectProperty("vector2", "float y", offsetof(PODVector2, y)); assert( r >= 0 );
 
 	// Register the constructors
-	r = engine->RegisterObjectBehaviour("vector2", asBEHAVE_CONSTRUCT,    "void f()",                     asFUNCTION(Vector2DefaultConstructor_Generic), asCALL_GENERIC); assert( r >= 0 );
-	r = engine->RegisterObjectBehaviour("vector2", asBEHAVE_CONSTRUCT,    "void f(const vector2 &in)",       asFUNCTION(Vector2CopyConstructor_Generic), asCALL_GENERIC); assert( r >= 0 );
-	r = engine->RegisterObjectBehaviour("vector2", asBEHAVE_CONSTRUCT,    "void f(float, float)", asFUNCTION(Vector2InitConstructor_Generic), asCALL_GENERIC); assert( r >= 0 );
+	r = engine->RegisterObjectBehaviour("vector2", asBEHAVE_CONSTRUCT,    "void f()",                  asFUNCTION(Vector2DefaultConstructor_Generic), asCALL_GENERIC); assert( r >= 0 );
+	r = engine->RegisterObjectBehaviour("vector2", asBEHAVE_CONSTRUCT,    "void f(const vector2 &in)", asFUNCTION(Vector2CopyConstructor_Generic), asCALL_GENERIC); assert( r >= 0 );
+	r = engine->RegisterObjectBehaviour("vector2", asBEHAVE_CONSTRUCT,    "void f(float, float)",      asFUNCTION(Vector2InitConstructor_Generic), asCALL_GENERIC); assert( r >= 0 );
+	r = engine->RegisterObjectBehaviour("vector2", asBEHAVE_CONSTRUCT,    "void f(float)",             asFUNCTION(Vector2InitConstructor1F_Generic), asCALL_GENERIC); assert( r >= 0 );
 
 	// Register the operator overloads
 	r = engine->RegisterObjectMethod("vector2", "vector2 &opAddAssign(const vector2 &in)", asFUNCTION(Vector2AddAssign_Generic), asCALL_GENERIC); assert( r >= 0 );
