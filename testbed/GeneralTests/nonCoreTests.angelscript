@@ -58,6 +58,8 @@ void runDictionaryTests()
 
 void runStringTests()
 {
+	print("Platform: " + GetPlatformName());
+
 	const string a = "andre";
 	const string b = a.substr(2, NPOS);
 	if (b != "dre")

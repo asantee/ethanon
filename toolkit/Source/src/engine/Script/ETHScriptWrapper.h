@@ -284,6 +284,7 @@ public:
 
 	static void SetHighEndDevice(const bool highEnd);
 	static bool IsHighEndDevice();
+	static str_type::string GetPlatformName();
 
 	static void Abort();
 

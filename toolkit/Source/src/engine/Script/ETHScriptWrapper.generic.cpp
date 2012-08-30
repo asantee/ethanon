@@ -210,6 +210,7 @@ asDECLARE_FUNCTION_WRAPPER(__GetStringFromFileInPackage, ETHScriptWrapper::GetSt
 asDECLARE_FUNCTION_WRAPPER(__FileInPackageExists,        ETHScriptWrapper::FileInPackageExists);
 asDECLARE_FUNCTION_WRAPPER(__FileExists,                 ETHScriptWrapper::FileExists);
 asDECLARE_FUNCTION_WRAPPER(__IsHighEndDevice,            ETHScriptWrapper::IsHighEndDevice);
+asDECLARE_FUNCTION_WRAPPER(__GetPlatformName,            ETHScriptWrapper::GetPlatformName);
 
 asDECLARE_FUNCTION_WRAPPER(__SetGravity, ETHScriptWrapper::SetGravity);
 asDECLARE_FUNCTION_WRAPPER(__GetGravity, ETHScriptWrapper::GetGravity);
@@ -466,6 +467,7 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void ResolveJoints()",                     asFUNCTION(__ResolveJoints),           asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void SetFastGarbageCollector(const bool)", asFUNCTION(__SetFastGarbageCollector), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool IsHighEndDevice()",                   asFUNCTION(__IsHighEndDevice),         asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("string GetPlatformName()",                 asFUNCTION(__GetPlatformName),         asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("string GetStringFromFileInPackage(const string &in)", asFUNCTION(__GetStringFromFileInPackage), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool FileInPackageExists(const string &in)",          asFUNCTION(__FileInPackageExists),        asCALL_GENERIC); assert(r >= 0);

@@ -244,3 +244,8 @@ void ETHScriptWrapper::SetWindowProperties(const str_type::string &winTitle, con
 		CreateDynamicBackBuffer(m_provider->GetResourcePath());
 	}
 }
+
+str_type::string ETHScriptWrapper::GetPlatformName()
+{
+	return m_provider->GetVideo()->GetPlatformName();
+}
