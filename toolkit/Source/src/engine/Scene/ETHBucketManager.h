@@ -88,25 +88,28 @@ public:
 	ETHSpriteEntity *SeekEntity(const str_type::string& fileName);
 
 	/// Delete the entity by ID #
-	bool DeleteEntity(const int id, const Vector2 &v2SearchBucket, const bool stopSfx = true);
+	bool DeleteEntity(const int id, const Vector2 &searchBucket, const bool stopSfx = true);
 
 	/// Delete the entity by ID #
 	bool DeleteEntity(const int id);
 
 	/// get an array of pointers with all entities named 'name' in scene
-	bool GetEntityArrayByName(const str_type::string& name, ETHEntityArray &outVector);
+	void GetEntityArrayByName(const str_type::string& name, ETHEntityArray &outVector);
 
 	/// get an array of pointers with all entities in the bucket
-	bool GetEntityArrayFromBucket(const Vector2 &v2Bucket, ETHEntityArray &outVector);
+	void GetEntityArrayFromBucket(const Vector2 &bucket, ETHEntityArray &outVector);
 
 	/// get an array of visible entities
 	void GetVisibleEntities(ETHEntityArray &outVector);
 
 	/// get an array containing all entities that intersect with the point
-	void GetIntersectingEntities(const Vector2 &v2Here, ETHEntityArray &outVector, const bool screenSpace, const ETHSceneProperties& props);
+	void GetIntersectingEntities(const Vector2 &point, ETHEntityArray &outVector, const bool screenSpace, const ETHSceneProperties& props);
 
 	/// get an array containing all entities in scene
-	bool GetEntityArray(ETHEntityArray &outVector);
+	void GetEntityArray(ETHEntityArray &outVector);
+
+	/// entities around the bucket
+	void GetEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray &outVector);
 
 	void RequestBucketMove(ETHEntity* target, const Vector2& oldPos, const Vector2& newPos);
 

@@ -369,9 +369,9 @@ bool ETHBucketManager::DeleteEntity(const int id)
 	return false;
 }
 
-bool ETHBucketManager::DeleteEntity(const int id, const Vector2 &v2SearchBucket, const bool stopSfx)
+bool ETHBucketManager::DeleteEntity(const int id, const Vector2 &searchBucket, const bool stopSfx)
 {
-	ETHBucketMap::iterator bucketIter = Find(v2SearchBucket);
+	ETHBucketMap::iterator bucketIter = Find(searchBucket);
 
 	// try getting it from bucket (faster)
 	if (bucketIter != GetLastBucket())
@@ -429,9 +429,8 @@ bool ETHBucketManager::DeleteEntity(const int id, const Vector2 &v2SearchBucket,
 	return false;
 }
 
-bool ETHBucketManager::GetEntityArrayByName(const str_type::string& name, ETHEntityArray &outVector)
+void ETHBucketManager::GetEntityArrayByName(const str_type::string& name, ETHEntityArray &outVector)
 {
-	const unsigned int oldSize = outVector.size();
 	for (ETHBucketMap::iterator bucketIter = GetFirstBucket(); bucketIter != GetLastBucket(); bucketIter++)
 	{
 		ETHEntityList::const_iterator iEnd = bucketIter->second.end();
@@ -444,26 +443,19 @@ bool ETHBucketManager::GetEntityArrayByName(const str_type::string& name, ETHEnt
 			}
 		}
 	}
-	if (outVector.size() == oldSize)
-		return false;
-	return true;
 }
 
-bool ETHBucketManager::GetEntityArrayFromBucket(const Vector2 &v2Bucket, ETHEntityArray &outVector)
+void ETHBucketManager::GetEntityArrayFromBucket(const Vector2 &bucket, ETHEntityArray &outVector)
 {
-	ETHBucketMap::iterator bucketIter = Find(v2Bucket);
+	ETHBucketMap::iterator bucketIter = Find(bucket);
 	if (bucketIter == GetLastBucket())
-		return false;
+		return;
 
 	ETHEntityList::const_iterator iEnd = bucketIter->second.end();
 	for (ETHEntityList::iterator iter = bucketIter->second.begin(); iter != iEnd; iter++)
 	{
 		outVector.push_back(*iter);
 	}
-
-	if (outVector.size() == 0)
-		return false;
-	return true;
 }
 
 void ETHBucketManager::GetIntersectingBuckets(std::list<Vector2>& bucketList,
@@ -498,21 +490,11 @@ void ETHBucketManager::GetVisibleEntities(ETHEntityArray &outVector)
 	}
 }
 
-void ETHBucketManager::GetIntersectingEntities(const Vector2 &v2Here, ETHEntityArray &outVector, const bool screenSpace, const ETHSceneProperties& props)
+void ETHBucketManager::GetIntersectingEntities(const Vector2 &point, ETHEntityArray &outVector, const bool screenSpace, const ETHSceneProperties& props)
 {
 	ETHEntityArray temp;
-	const Vector2 v2Bucket(ETHGlobal::GetBucket(v2Here, GetBucketSize()));
-
-	// get the main bucket and all buckets around it
-	GetEntityArrayFromBucket(v2Bucket, temp);
-	GetEntityArrayFromBucket(v2Bucket+Vector2(1,0), temp);
-	GetEntityArrayFromBucket(v2Bucket+Vector2(1,1), temp);
-	GetEntityArrayFromBucket(v2Bucket+Vector2(0,1), temp);
-	GetEntityArrayFromBucket(v2Bucket+Vector2(-1,1), temp);
-	GetEntityArrayFromBucket(v2Bucket+Vector2(-1,0), temp);
-	GetEntityArrayFromBucket(v2Bucket+Vector2(-1,-1), temp);
-	GetEntityArrayFromBucket(v2Bucket+Vector2(0,-1), temp);
-	GetEntityArrayFromBucket(v2Bucket+Vector2(1,-1), temp);
+	const Vector2 v2Bucket(ETHGlobal::GetBucket(point, GetBucketSize()));
+	GetEntitiesAroundBucket(v2Bucket, temp);
 
 	for (unsigned int t=0; t<temp.size(); t++)
 	{
@@ -524,19 +506,19 @@ void ETHBucketManager::GetIntersectingEntities(const Vector2 &v2Here, ETHEntityA
 			rect.v2Min += m_provider->GetVideo()->GetCameraPos();
 		}
 
-		if (v2Here.x < rect.v2Min.x)
+		if (point.x < rect.v2Min.x)
 			continue;
-		if (v2Here.y < rect.v2Min.y)
+		if (point.y < rect.v2Min.y)
 			continue;
-		if (v2Here.x > rect.v2Max.x)
+		if (point.x > rect.v2Max.x)
 			continue;
-		if (v2Here.y > rect.v2Max.y)
+		if (point.y > rect.v2Max.y)
 			continue;
 		outVector.push_back(temp[t]);
 	}
 }
 
-bool ETHBucketManager::GetEntityArray(ETHEntityArray &outVector)
+void ETHBucketManager::GetEntityArray(ETHEntityArray &outVector)
 {
 	for (ETHBucketMap::iterator bucketIter = GetFirstBucket(); bucketIter != GetLastBucket(); bucketIter++)
 	{
@@ -546,7 +528,19 @@ bool ETHBucketManager::GetEntityArray(ETHEntityArray &outVector)
 			outVector.push_back(*iter);
 		}
 	}
-	return true;
+}
+
+void ETHBucketManager::GetEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray &outVector)
+{
+	GetEntityArrayFromBucket(bucket, outVector);
+	GetEntityArrayFromBucket(bucket + Vector2( 1, 0), outVector);
+	GetEntityArrayFromBucket(bucket + Vector2( 1, 1), outVector);
+	GetEntityArrayFromBucket(bucket + Vector2( 0, 1), outVector);
+	GetEntityArrayFromBucket(bucket + Vector2(-1, 1), outVector);
+	GetEntityArrayFromBucket(bucket + Vector2(-1, 0), outVector);
+	GetEntityArrayFromBucket(bucket + Vector2(-1,-1), outVector);
+	GetEntityArrayFromBucket(bucket + Vector2( 0,-1), outVector);
+	GetEntityArrayFromBucket(bucket + Vector2( 1,-1), outVector);
 }
 
 void ETHBucketManager::RequestBucketMove(ETHEntity* target, const Vector2& oldPos, const Vector2& newPos)

@@ -359,25 +359,27 @@ void ETHScriptWrapper::SetBackgroundColor(const GS_DWORD color)
 	m_provider->GetVideo()->SetBGColor(color);
 }
 
-bool ETHScriptWrapper::GetEntityArrayByName(const str_type::string &name, ETHEntityArray &outVector)
+void ETHScriptWrapper::GetEntityArrayByName(const str_type::string &name, ETHEntityArray &outVector)
 {
 	if (WarnIfRunsInMainFunction(GS_L("GetEntityArrayByName")))
-		return false;
+		return;
 
-	return m_pScene->GetBucketManager().GetEntityArrayByName(name, outVector);
+	m_pScene->GetBucketManager().GetEntityArrayByName(name, outVector);
 }
 
-bool ETHScriptWrapper::GetEntityArrayFromBucket(const Vector2 &v2Bucket, ETHEntityArray &outVector)
+void ETHScriptWrapper::GetEntityArrayFromBucket(const Vector2 &v2Bucket, ETHEntityArray &outVector)
 {
 	if (WarnIfRunsInMainFunction(GS_L("GetEntityArrayFromBucket")))
-		return false;
+		return;
 
-	return m_pScene->GetBucketManager().GetEntityArrayFromBucket(v2Bucket, outVector);
+	m_pScene->GetBucketManager().GetEntityArrayFromBucket(v2Bucket, outVector);
 }
 
-bool ETHScriptWrapper::GetAllEntitiesInScene(ETHEntityArray &outVector)
+void ETHScriptWrapper::GetAllEntitiesInScene(ETHEntityArray &outVector)
 {
-	return m_pScene->GetBucketManager().GetEntityArray(outVector);
+	if (WarnIfRunsInMainFunction(GS_L("GetAllEntitiesInScene")))
+		return;
+	m_pScene->GetBucketManager().GetEntityArray(outVector);
 }
 
 Vector2 ETHScriptWrapper::GetCurrentBucket(ETHEntity *pEntity)

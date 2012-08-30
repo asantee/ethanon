@@ -419,12 +419,12 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void SetBackgroundColor(const uint)", asFUNCTION(__SetBackgroundColor),  asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 GetSystemScreenSize()",       asFUNCTION(__GetSystemScreenSize), asCALL_GENERIC); assert(r >= 0);
 
-	r = pASEngine->RegisterGlobalFunction("bool GetEntityArray(const string &in, ETHEntityArray &)",                       asFUNCTION(__GetEntityArray),          asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("bool GetEntitiesFromBucket(const vector2 &in, ETHEntityArray &)",               asFUNCTION(__GetEntitiesFromBucket),   asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void GetEntityArray(const string &in, ETHEntityArray &)",                       asFUNCTION(__GetEntityArray),          asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void GetEntitiesFromBucket(const vector2 &in, ETHEntityArray &)",               asFUNCTION(__GetEntitiesFromBucket),   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void GetVisibleEntities(ETHEntityArray &)",                                     asFUNCTION(__GetVisibleEntities),      asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void GetIntersectingEntities(const vector2 &in, ETHEntityArray &, const bool)", asFUNCTION(__GetIntersectingEntities), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 GetBucket(const vector2 &in)",                                          asFUNCTION(__GetBucket),               asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("bool GetAllEntitiesInScene(ETHEntityArray &)",                                  asFUNCTION(__GetAllEntitiesInScene),   asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void GetAllEntitiesInScene(ETHEntityArray &)",                                  asFUNCTION(__GetAllEntitiesInScene),   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void ForceEntityRendering(ETHEntity@)",                                         asFUNCTION(__ForceEntityRendering),    asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("bool IsPixelShaderSupported()",            asFUNCTION(__IsPixelShaderSupported),  asCALL_GENERIC); assert(r >= 0);

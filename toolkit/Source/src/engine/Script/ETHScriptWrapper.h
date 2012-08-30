@@ -245,9 +245,9 @@ public:
 	//static bool SetBackgroundImage(const str_type::string &name);
 	//static void PositionBackgroundImage(const Vector2 &v2Min, const Vector2 &v2Max);
 	static Vector2 GetSystemScreenSize();
-	static bool GetEntityArrayByName(const str_type::string &name, ETHEntityArray &outVector);
-	static bool GetEntityArrayFromBucket(const Vector2 &v2Bucket, ETHEntityArray &outVector);
-	static bool GetAllEntitiesInScene(ETHEntityArray &outVector);
+	static void GetEntityArrayByName(const str_type::string &name, ETHEntityArray &outVector);
+	static void GetEntityArrayFromBucket(const Vector2 &v2Bucket, ETHEntityArray &outVector);
+	static void GetAllEntitiesInScene(ETHEntityArray &outVector);
 	static Vector2 GetBucket(const Vector2 &v2);
 	static void SetPositionRoundUp(const bool roundUp);
 	static bool GetPositionRoundUp();
