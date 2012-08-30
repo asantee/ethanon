@@ -221,6 +221,7 @@ asDECLARE_METHOD_WRAPPERPR(__GetAngleEnt,      ETHScriptEntity, GetAngle,       
 asDECLARE_METHOD_WRAPPERPR(__SetAngle,         ETHScriptEntity, SetAngle,         (const float), void);
 asDECLARE_METHOD_WRAPPERPR(__IsStatic,         ETHScriptEntity, IsStatic,         (void) const,  bool);
 asDECLARE_METHOD_WRAPPERPR(__TurnDynamic,      ETHScriptEntity, TurnDynamic,      (void),        void);
+asDECLARE_METHOD_WRAPPERPR(__TurnStatic,       ETHScriptEntity, TurnStatic,       (void),        void);
 
 asDECLARE_METHOD_WRAPPERPR(__SilenceParticleSystems, ETHScriptEntity, SilenceParticleSystems, (const bool),                    void);
 asDECLARE_METHOD_WRAPPERPR(__SetSoundVolume,         ETHScriptEntity, SetSoundVolume,         (const float),                   void);
@@ -348,6 +349,7 @@ void RegisterEntityMethods(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetAngle(const float)",       asFUNCTION(__SetAngle),         asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool IsStatic() const",            asFUNCTION(__IsStatic),         asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void TurnDynamic()",               asFUNCTION(__TurnDynamic),      asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "void TurnStatic()",                asFUNCTION(__TurnStatic),       asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SilenceParticleSystems(const bool)",           asFUNCTION(__SilenceParticleSystems), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetSoundVolume(const float)",                  asFUNCTION(__SetSoundVolume),         asCALL_GENERIC); assert(r >= 0);
