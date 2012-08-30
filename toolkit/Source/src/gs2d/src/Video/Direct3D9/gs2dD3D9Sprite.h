@@ -51,7 +51,7 @@ class D3D9Sprite : public Sprite
 	unsigned int  m_currentRect;
 	boost::shared_array<math::Rect2Df> m_rects;
 	math::Rect2Df m_rect;
-	unsigned int m_nRects, m_nColumns, m_nRows;
+	unsigned int m_nColumns, m_nRows;
 	bool m_flipX, m_flipY;
 	GS_RECT_MODE m_rectMode;
 	Sprite::TYPE m_type;
@@ -100,7 +100,7 @@ public:
 	bool SetRect(const unsigned int rect);
 	void SetRect(const math::Rect2Df &rect);
 	void UnsetRect();
-	int GetNumRects() const;
+	unsigned int GetNumRects() const;
 	math::Rect2Df GetRect() const;
 	math::Rect2Df GetRect(const unsigned int rect) const;
 	unsigned int GetRectIndex() const;

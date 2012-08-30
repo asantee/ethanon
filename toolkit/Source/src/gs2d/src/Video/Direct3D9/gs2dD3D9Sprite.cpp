@@ -30,7 +30,7 @@ void D3D9Sprite::Init()
 {
 	m_pTexture = NULL;
 	m_pDevice = NULL;
-	m_nRects = m_nColumns = m_nRows = 0;
+	m_nColumns = m_nRows = 0;
 	m_flipX = m_flipY = false;
 	m_multiply = Vector2(1.0f, 1.0f);
 	m_scroll = Vector2(0.0f, 0.0f);
@@ -202,8 +202,8 @@ bool D3D9Sprite::SetupSpriteRects(const unsigned int columns, const unsigned int
 
 	m_nColumns = columns;
 	m_nRows = rows;
-	m_nRects = columns*rows;
-	m_rects = boost::shared_array<Rect2Df>(new Rect2Df [m_nRects]);
+	const unsigned int nRects = columns*rows;
+	m_rects = boost::shared_array<Rect2Df>(new Rect2Df [nRects]);
 
 	const Vector2i size(GetBitmapSize());
 	const unsigned int strideX = static_cast<unsigned int>(size.x) / columns, strideY = static_cast<unsigned int>(size.y) / rows;
@@ -236,14 +236,7 @@ bool D3D9Sprite::DrawOptimal(const math::Vector2 &v2Pos, const GS_COLOR color, c
 
 bool D3D9Sprite::SetRect(const unsigned int column, const unsigned int row)
 {
-	if (column >= m_nColumns || row >= m_nRows)
-	{
-		m_video.lock()->Message(L"Invalid argument - D3D9Sprite::SetRect");
-		return false;
-	}
-	m_currentRect = (row*m_nColumns)+column;
-	m_rect = m_rects[m_currentRect];
-	return true;
+	return SetRect((row * m_nColumns) + column);
 }
 
 unsigned int D3D9Sprite::GetRectIndex() const
@@ -253,14 +246,9 @@ unsigned int D3D9Sprite::GetRectIndex() const
 
 bool D3D9Sprite::SetRect(const unsigned int rect)
 {
-	if (rect >= m_nColumns*m_nRows)
-	{
-		m_video.lock()->Message(L"Invalid argument - D3D9Sprite::SetRect");
-		return false;
-	}
-	m_currentRect = rect;
+	m_currentRect = gs2d::math::Min(rect, GetNumRects() - 1);
 	m_rect = m_rects[m_currentRect];
-	return true;
+	return (m_currentRect == rect);
 }
 
 void D3D9Sprite::SetRect(const Rect2Df &rect)
@@ -270,7 +258,7 @@ void D3D9Sprite::SetRect(const Rect2Df &rect)
 
 void D3D9Sprite::UnsetRect()
 {
-	m_rect = Rect2Df(0,0,0,0);
+	m_rect = Rect2Df(0, 0, 0, 0);
 }
 
 Rect2Df D3D9Sprite::GetRect() const
@@ -278,9 +266,9 @@ Rect2Df D3D9Sprite::GetRect() const
 	return m_rect;
 }
 
-int D3D9Sprite::GetNumRects() const
+unsigned int D3D9Sprite::GetNumRects() const
 {
-	return m_nRects;
+	return m_nColumns * m_nRows;
 }
 
 unsigned int D3D9Sprite::GetNumRows() const

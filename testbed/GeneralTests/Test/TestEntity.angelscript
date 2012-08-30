@@ -35,13 +35,19 @@ class TestEntity : Test
 		@bird = SeekEntity(birdId);
 
 		@character = SeekEntity("character");
-
+		
 		print("Message A: an error message regarding duplicate name is already expected");
 		LoadSprite("sprite/barril.png");
 		print("Message B: If there were no error messages between Messages A and B, something is wrong");
 		
 		// ad a static entity pretty far away to see if its constructor gets called
 		AddEntity("barrel.ent", vector3(17000, 17000, 0), "static_barrel");
+
+		SeekEntity("character2").SetSpriteCut(2, 2);
+		if (SeekEntity("character2").GetSpriteCut() != vector2(2, 2))
+		{
+			print("SetSpriteCut test FAILED\x07");
+		}
 	}
 	
 	void updateBird()

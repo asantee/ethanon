@@ -103,6 +103,8 @@ public:
 	void RecoverResources();
 	void ReleaseLightmap();
 
+	Vector2 GetSpriteCut() const;
+
 protected:
 	void Create();
 	void Zero();

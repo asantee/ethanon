@@ -489,7 +489,7 @@ public:
 	virtual bool SetRect(const unsigned int rect) = 0;
 	virtual void SetRect(const math::Rect2Df &rect) = 0;
 	virtual void UnsetRect() = 0;
-	virtual int GetNumRects() const = 0;
+	virtual unsigned int GetNumRects() const = 0;
 	virtual math::Rect2Df GetRect() const = 0;
 	virtual math::Rect2Df GetRect(const unsigned int rect) const = 0;
 	virtual unsigned int GetRectIndex() const = 0;

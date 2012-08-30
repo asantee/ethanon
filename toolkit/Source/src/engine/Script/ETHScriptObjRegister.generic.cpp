@@ -271,6 +271,7 @@ asDECLARE_METHOD_WRAPPERPR(__SetLayerDepth,         ETHScriptEntity, SetLayerDep
 asDECLARE_METHOD_WRAPPERPR(__GetLayerDepth,         ETHScriptEntity, GetLayerDepth,         (void) const,                                     float);
 asDECLARE_METHOD_WRAPPERPR(__AddToAngle,            ETHScriptEntity, AddToAngle,            (const float),                                    void);
 asDECLARE_METHOD_WRAPPERPR(__SetSpriteCut,          ETHScriptEntity, SetSpriteCut,          (const unsigned int col, const unsigned int row), bool);
+asDECLARE_METHOD_WRAPPERPR(__GetSpriteCut,          ETHScriptEntity, GetSpriteCut,          (void) const,                                     Vector2);
 asDECLARE_METHOD_WRAPPERPR(__SetParticlePosition,   ETHScriptEntity, SetParticlePosition,   (const unsigned int n, const Vector3&),           void);
 asDECLARE_METHOD_WRAPPERPR(__ScaleParticleSystem,   ETHScriptEntity, ScaleParticleSystem,   (const unsigned int n, const float),              void);
 asDECLARE_METHOD_WRAPPERPR(__MirrorParticleSystemX, ETHScriptEntity, MirrorParticleSystemX, (const unsigned int n, const bool),               bool);
@@ -402,6 +403,7 @@ void RegisterEntityMethods(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "float GetLayerDepth() const",                               asFUNCTION(__GetLayerDepth),         asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void AddToAngle(const float)",                              asFUNCTION(__AddToAngle),            asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool SetSpriteCut(const uint col, const uint row)",         asFUNCTION(__SetSpriteCut),          asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector2 GetSpriteCut() const",                              asFUNCTION(__GetSpriteCut),          asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetParticlePosition(const uint n, const vector3 &in)", asFUNCTION(__SetParticlePosition),   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void ScaleParticleSystem(const uint n, const float)",       asFUNCTION(__ScaleParticleSystem),   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool MirrorParticleSystemX(const uint n, const bool)",      asFUNCTION(__MirrorParticleSystemX), asCALL_GENERIC); assert(r >= 0);

@@ -84,7 +84,7 @@ public:
 	virtual void AddToPosition(const Vector3& pos, ETHBucketManager& buckets) = 0;
 	virtual void AddToPositionXY(const Vector2& pos, ETHBucketManager& buckets) = 0;
 	virtual void AddToAngle(const float angle) = 0;
-	virtual bool SetSpriteCut(const unsigned int col, const unsigned int row) = 0;
+	virtual bool SetSpriteCut(const unsigned int columns, const unsigned int rows) = 0;
 	virtual void SetParticlePosition(const unsigned int n, const Vector3 &v3Pos) = 0;
 	virtual void ScaleParticleSystem(const unsigned int n, const float scale) = 0;
 	virtual bool MirrorParticleSystemX(const unsigned int n, const bool mirrorGravity) = 0;
@@ -178,6 +178,8 @@ public:
 	virtual void AddToPositionX(const float v, ETHBucketManager& buckets) = 0;
 	virtual void AddToPositionY(const float v, ETHBucketManager& buckets) = 0;
 	virtual void AddToPositionZ(const float v) = 0;
+
+	virtual Vector2 GetSpriteCut() const = 0;
 };
 
 #endif

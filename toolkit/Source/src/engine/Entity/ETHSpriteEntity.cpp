@@ -234,24 +234,32 @@ void ETHSpriteEntity::LoadParticleSystem()
 
 bool ETHSpriteEntity::SetSpriteCut(const unsigned int col, const unsigned int row)
 {
-	if (m_pSprite)
+	if (col >= 1 && row >= 1)
 	{
-		if (col == 0 || row == 0)
-		{
-			ETH_STREAM_DECL(ss) << GS_L("Invalid cut value");
-			m_provider->Log(ss.str(), Platform::Logger::ERROR);
-			return false;
-		}
-		m_pSprite->SetRect(0);
-		m_pSprite->SetupSpriteRects(col, row);
-		return true;
+		m_properties.spriteCut.x = col;
+		m_properties.spriteCut.y = row;
 	}
 	else
 	{
-		ETH_STREAM_DECL(ss) << GS_L("There is no sprite to cut");
+		ETH_STREAM_DECL(ss) << GS_L("Invalid cut value");
 		m_provider->Log(ss.str(), Platform::Logger::ERROR);
 		return false;
 	}
+
+	if (m_pSprite)
+	{
+		m_pSprite->SetupSpriteRects(col, row);
+	}
+
+	m_spriteFrame = 0;
+	return true;
+}
+
+Vector2 ETHSpriteEntity::GetSpriteCut() const
+{
+	return Vector2(
+		static_cast<float>(m_properties.spriteCut.x),
+		static_cast<float>(m_properties.spriteCut.y));
 }
 
 float ETHSpriteEntity::ComputeHaloAngle() const

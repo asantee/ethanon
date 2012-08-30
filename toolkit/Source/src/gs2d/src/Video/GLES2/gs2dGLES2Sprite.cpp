@@ -34,7 +34,6 @@ GLES2Sprite::GLES2Sprite(GLES2ShaderContextPtr shaderContext) :
 		m_type(T_NOT_LOADED),
 		m_currentRect(0),
 		m_rect(Vector2(0, 0), Vector2(0, 0)),
-		m_nRects(1),
 		m_nColumns(1),
 		m_nRows(1),
 		m_densityValue(1.0f)
@@ -409,8 +408,8 @@ bool GLES2Sprite::SetupSpriteRects(const unsigned int columns, const unsigned in
 
 	m_nColumns = columns;
 	m_nRows = rows;
-	m_nRects = columns * rows;
-	m_rects = boost::shared_array<Rect2Df>(new Rect2Df [m_nRects]);
+	const unsigned int nRects = columns * rows;
+	m_rects = boost::shared_array<Rect2Df>(new Rect2Df [nRects]);
 
 	const Vector2i size(GetBitmapSize());
 
@@ -434,26 +433,14 @@ bool GLES2Sprite::SetupSpriteRects(const unsigned int columns, const unsigned in
 
 bool GLES2Sprite::SetRect(const unsigned int column, const unsigned int row)
 {
-	if (column >= m_nColumns || row >= m_nRows)
-	{
-		m_logger.Log(m_texture->GetFileName() + " invalid argument - ::SetRect", Platform::FileLogger::ERROR);
-		return false;
-	}
-	m_currentRect = (row*m_nColumns)+column;
-	m_rect = m_rects[m_currentRect];
-	return true;
+	return SetRect((row * m_nColumns) + column);
 }
 
 bool GLES2Sprite::SetRect(const unsigned int rect)
 {
-	if (rect >= m_nColumns*m_nRows)
-	{
-		m_logger.Log(m_texture->GetFileName() + " invalid argument - ::SetRect", Platform::FileLogger::ERROR);
-		return false;
-	}
-	m_currentRect = rect;
+	m_currentRect = gs2d::math::Min(rect, GetNumRects() - 1);
 	m_rect = m_rects[m_currentRect];
-	return true;
+	return (m_currentRect == rect);
 }
 
 void GLES2Sprite::SetRect(const Rect2Df &rect)
@@ -463,12 +450,12 @@ void GLES2Sprite::SetRect(const Rect2Df &rect)
 
 void GLES2Sprite::UnsetRect()
 {
-	m_rect = Rect2Df(0,0,0,0);
+	m_rect = Rect2Df(0, 0, 0, 0);
 }
 
-int GLES2Sprite::GetNumRects() const
+unsigned int GLES2Sprite::GetNumRects() const
 {
-	return m_nRects;
+	return m_nColumns * m_nRows;
 }
 
 Rect2Df GLES2Sprite::GetRect() const
