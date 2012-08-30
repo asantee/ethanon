@@ -128,6 +128,7 @@ class TestEntity : Test
 		scrollCamera();
 		moveDynamicBarrels();
 		updateCharacter();
+		highlightEntitiesAroundCursor();
 	}
 	
 	void updateCharacter()
@@ -183,7 +184,18 @@ class TestEntity : Test
 			}
 		}
 	}
-	
+
+	void highlightEntitiesAroundCursor()
+	{
+		ETHEntityArray ents;
+		GetEntitiesAroundBucket(cursor.GetCurrentBucket(), ents);
+		for (uint t = 0; t < ents.size(); t++)
+		{
+			DrawText(ents[t].GetPositionXY() - GetCameraPos(), ents[t].GetEntityName(),
+					 "Verdana14_shadow.fnt", ARGB(120, 255, 255, 255));
+		}
+	}
+
 	void moveDynamicBarrels()
 	{
 		vector2 currentBucket = cursor.GetCurrentBucket();

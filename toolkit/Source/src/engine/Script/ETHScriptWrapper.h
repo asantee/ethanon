@@ -248,6 +248,7 @@ public:
 	static void GetEntityArrayByName(const str_type::string &name, ETHEntityArray &outVector);
 	static void GetEntityArrayFromBucket(const Vector2 &v2Bucket, ETHEntityArray &outVector);
 	static void GetAllEntitiesInScene(ETHEntityArray &outVector);
+	static void GetEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray &outVector);
 	static Vector2 GetBucket(const Vector2 &v2);
 	static void SetPositionRoundUp(const bool roundUp);
 	static bool GetPositionRoundUp();

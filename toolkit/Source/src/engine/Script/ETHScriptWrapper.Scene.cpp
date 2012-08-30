@@ -382,6 +382,13 @@ void ETHScriptWrapper::GetAllEntitiesInScene(ETHEntityArray &outVector)
 	m_pScene->GetBucketManager().GetEntityArray(outVector);
 }
 
+void ETHScriptWrapper::GetEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray &outVector)
+{
+	if (WarnIfRunsInMainFunction(GS_L("GetEntitiesAroundBucket")))
+		return;
+	m_pScene->GetBucketManager().GetEntitiesAroundBucket(bucket, outVector);
+}
+
 Vector2 ETHScriptWrapper::GetCurrentBucket(ETHEntity *pEntity)
 {
 	return pEntity->GetCurrentBucket(m_pScene->GetBucketManager());
