@@ -439,14 +439,21 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("string GetAbsolutePath(const string &in)", asFUNCTION(__GetAbsolutePath),               asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 GetLastCameraPos()",               asFUNCTION(__GetLastCameraPos),              asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("int GetNumRenderedEntities()",             asFUNCTION(__GetNumRenderedEntities),        asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("int ParseInt(const string &in)",           asFUNCTION(__ParseInt),                      asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("uint ParseUInt(const string &in)",         asFUNCTION(__ParseUInt),                     asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("float ParseFloat(const string &in)",       asFUNCTION(__ParseFloat),                    asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("int parseInt(const string &in)",           asFUNCTION(__ParseInt),                      asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("uint parseUInt(const string &in)",         asFUNCTION(__ParseUInt),                     asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("float parseFloat(const string &in)",       asFUNCTION(__ParseFloat),                    asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("int GetArgc()",                            asFUNCTION(__GetArgc),                       asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("string GetArgv(const int)",                asFUNCTION(__GetArgv),                       asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 GetWorldSpaceCursorPos2()",        asFUNCTION(__GetWorldSpaceCursorPos2),       asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector3 GetWorldSpaceCursorPos3()",        asFUNCTION(__GetWorldSpaceCursorPos3),       asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void ForwardCommand(const string &in)",    asFUNCTION(__ForwardCommand),                asCALL_GENERIC); assert(r >= 0);
+
+	// parse deprecated upper-case occurrences for backwards compatibility
+	{
+		r = pASEngine->RegisterGlobalFunction("int ParseInt(const string &in)",           asFUNCTION(__ParseInt),                      asCALL_GENERIC); assert(r >= 0);
+		r = pASEngine->RegisterGlobalFunction("uint ParseUInt(const string &in)",         asFUNCTION(__ParseUInt),                     asCALL_GENERIC); assert(r >= 0);
+		r = pASEngine->RegisterGlobalFunction("float ParseFloat(const string &in)",       asFUNCTION(__ParseFloat),                    asCALL_GENERIC); assert(r >= 0);
+	}
 
 	r = pASEngine->RegisterGlobalFunction("void SetZBuffer(const bool)", asFUNCTION(__SetZBuffer), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool GetZBuffer()",           asFUNCTION(__GetZBuffer), asCALL_GENERIC); assert(r >= 0);
