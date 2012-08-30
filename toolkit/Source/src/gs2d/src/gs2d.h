@@ -171,6 +171,8 @@ public:
 
 	virtual str_type::string GetExternalStoragePath() const = 0;
 	virtual str_type::string GetGlobalExternalStoragePath() const;
+
+	virtual str_type::string GetPlatformName() const = 0;
 };
 
 typedef boost::shared_ptr<Application> ApplicationPtr;

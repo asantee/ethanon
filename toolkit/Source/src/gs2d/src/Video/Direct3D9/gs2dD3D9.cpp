@@ -2109,4 +2109,9 @@ boost::any D3D9Video::GetGraphicContext()
 	return m_pDevice;
 }
 
+str_type::string D3D9Video::GetPlatformName() const
+{
+	return GS_L("windows");
+}
+
 } // namespace gs2d

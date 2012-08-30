@@ -518,6 +518,7 @@ public:
 	void Quit();
 
 	str_type::string GetExternalStoragePath() const;
+	str_type::string GetPlatformName() const;
 
 private:
 

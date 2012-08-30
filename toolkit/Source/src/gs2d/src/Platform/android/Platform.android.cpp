@@ -23,6 +23,16 @@
 #include "Platform.android.h"
 #include "../Platform.h"
 #include "../FileLogger.h"
+#include "../../Video/GLES2/gs2dGLES2.h"
+
+namespace gs2d {
+
+str_type::string GLES2Video::GetPlatformName() const
+{
+	return GS_L("android");
+}
+
+}
 
 namespace Platform {
 
