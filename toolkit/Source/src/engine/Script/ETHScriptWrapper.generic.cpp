@@ -172,6 +172,7 @@ asDECLARE_FUNCTION_WRAPPER(__GetVisibleEntities,      ETHScriptWrapper::GetVisib
 asDECLARE_FUNCTION_WRAPPER(__GetIntersectingEntities, ETHScriptWrapper::GetIntersectingEntities);
 asDECLARE_FUNCTION_WRAPPER(__GetBucket,               ETHScriptWrapper::GetBucket);
 asDECLARE_FUNCTION_WRAPPER(__GetAllEntitiesInScene,   ETHScriptWrapper::GetAllEntitiesInScene);
+asDECLARE_FUNCTION_WRAPPER(__ForceEntityRendering,    ETHScriptWrapper::ForceEntityRendering);
 
 asDECLARE_FUNCTION_WRAPPER(__IsPixelShaderSupported,  ETHScriptWrapper::IsPixelShaderSupported);
 asDECLARE_FUNCTION_WRAPPER(__SetPositionRoundUp,      ETHScriptWrapper::SetPositionRoundUp);
@@ -423,6 +424,7 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void GetIntersectingEntities(const vector2 &in, ETHEntityArray &, const bool)", asFUNCTION(__GetIntersectingEntities), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 GetBucket(const vector2 &in)",                                          asFUNCTION(__GetBucket),               asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool GetAllEntitiesInScene(ETHEntityArray &)",                                  asFUNCTION(__GetAllEntitiesInScene),   asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void ForceEntityRendering(ETHEntity@)",                                         asFUNCTION(__ForceEntityRendering),    asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("bool IsPixelShaderSupported()",            asFUNCTION(__IsPixelShaderSupported),  asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void SetPositionRoundUp(const bool)",      asFUNCTION(__SetPositionRoundUp),      asCALL_GENERIC); assert(r >= 0);

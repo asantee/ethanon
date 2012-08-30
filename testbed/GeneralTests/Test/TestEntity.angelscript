@@ -137,35 +137,50 @@ class TestEntity : Test
 		const float posY = character.GetPositionY();
 		const float posZ = character.GetPositionZ();
 		const vector2 screenMiddle(GetScreenSize() * 0.5f);
+		const float speed = 10.0f;
 		if (input.KeyDown(K_LEFT))
 		{
-			character.SetPositionX(posX - 1.0f);
+			character.SetPositionX(posX - speed);
 		}
 		if (input.KeyDown(K_RIGHT))
 		{
-			character.AddToPositionX(1.0f);
+			character.AddToPositionX(speed);
 		}
 		if (input.KeyDown(K_DOWN))
 		{
-			character.AddToPositionY(1.0f);
+			character.AddToPositionY(speed);
 		}
 		if (input.KeyDown(K_UP))
 		{
-			character.SetPositionY(posY - 1.0f);
+			character.SetPositionY(posY - speed);
 		}
 		if (input.KeyDown(K_PAGEDOWN))
 		{
-			character.SetPositionZ(posZ - 1.0f);
+			character.SetPositionZ(posZ - speed);
 		}
 		if (input.KeyDown(K_PAGEUP))
 		{
-			character.AddToPositionZ(1.0f);
+			character.AddToPositionZ(speed);
 		}
 		if (input.KeyDown(K_HOME))
 		{
 			character.SetPositionX(screenMiddle.x);
 			character.SetPositionY(screenMiddle.y);
 			character.SetPositionZ(0.0f);
+		}
+		ForceEntityRendering(character);
+		if (input.GetKeyState(K_SPACE) == KS_HIT)
+		{
+			if (character.IsStatic())
+			{
+				print("character turned into dynamic");
+				character.TurnDynamic();
+			}
+			else
+			{
+				print("character turned into static");
+				character.TurnStatic();
+			}
 		}
 	}
 	

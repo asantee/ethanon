@@ -568,43 +568,46 @@ bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline
 		ETHEntityList::const_iterator iEnd = bucketIter->second.end();
 		for (ETHEntityList::iterator iter = bucketIter->second.begin(); iter != iEnd; iter++)
 		{
-			ETHSpriteEntity *pRenderEntity = (*iter);
+			ETHRenderEntity *entity = (*iter);
 
 			// update scene bounding for depth buffer
-			maxHeight = Max(maxHeight, pRenderEntity->GetMaxHeight());
-			minHeight = Min(minHeight, pRenderEntity->GetMinHeight());
+			maxHeight = Max(maxHeight, entity->GetMaxHeight());
+			minHeight = Min(minHeight, entity->GetMinHeight());
 
-			if (pRenderEntity->IsHidden())
+			if (entity->IsHidden())
 				continue;
 
 			// fill the light list for this frame
 			// const ETHEntityFile &entity = pRenderEntity->GetData()->entity;
-			if (pRenderEntity->HasLightSource() && m_richLighting)
+			if (entity->HasLightSource() && m_richLighting)
 			{
-				ETHLight light = *(pRenderEntity->GetLight());
+				ETHLight light = *(entity->GetLight());
 				// if it has a particle system in the first slot, adjust the light
 				// brightness according to the number os active particles
-				if (pRenderEntity->GetParticleManager(0) && !pRenderEntity->IsStatic())
+				if (entity->GetParticleManager(0) && !entity->IsStatic())
 				{
-					boost::shared_ptr<ETHParticleManager> paticleManager = pRenderEntity->GetParticleManager(0);
+					boost::shared_ptr<ETHParticleManager> paticleManager = entity->GetParticleManager(0);
 					light.color *= 
 						static_cast<float>(paticleManager->GetNumActiveParticles()) /
 						static_cast<float>(paticleManager->GetNumParticles());
 				}
-				AddLight(light, pRenderEntity->GetPosition(), pRenderEntity->GetScale());
+				AddLight(light, entity->GetPosition(), entity->GetScale());
 			}
 
 			// add this entity to the multimap to sort it for an alpha-friendly rendering list
-			const Vector3& v3Pos = pRenderEntity->GetPosition();
-			const ETH_ENTITY_TYPE type = pRenderEntity->GetType();
-			const float depth = pRenderEntity->ComputeDepth(maxHeight, minHeight);
+			const Vector3& v3Pos = entity->GetPosition();
+			const ETH_ENTITY_TYPE type = entity->GetType();
+			const float depth = entity->ComputeDepth(maxHeight, minHeight);
 			const float drawHash = ComputeDrawHash(depth, camPos, v3Pos, type);
 
 			// add the entity to the render map
-			mmEntities.insert(std::pair<float, ETHRenderEntity*>(drawHash, *iter));
+			mmEntities.insert(std::pair<float, ETHRenderEntity*>(drawHash, entity));
 			m_nRenderedEntities++;
 		}
 	}
+
+	// Add persistent entities (the ones the user wants to force to render)
+	FillMultimapAndClearPersistenList(mmEntities, bucketList);
 
 	// Draw visible entities ordered in an alpha-friendly map
 	for (std::multimap<float, ETHRenderEntity*>::iterator iter = mmEntities.begin(); iter != mmEntities.end(); iter++)
@@ -729,23 +732,23 @@ bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline
 	return true;
 }
 
-float ETHScene::ComputeDrawHash(const float depth, const Vector2& camPos, const Vector3& entityPos, const ETH_ENTITY_TYPE& type) const
+float ETHScene::ComputeDrawHash(const float entityDepth, const Vector2& camPos, const Vector3& entityPos, const ETH_ENTITY_TYPE& type) const
 {
 	float drawHash;
 	switch (type)
 	{
 	case ETH_HORIZONTAL:
-		drawHash = depth / 2.0f;
+		drawHash = entityDepth / 2.0f;
 		break;
 	case ETH_VERTICAL:
-		drawHash = (0.5f + depth) + (entityPos.y - camPos.y);
+		drawHash = (0.5f + entityDepth) + (entityPos.y - camPos.y);
 		break;
 	case ETH_GROUND_DECAL:
 	case ETH_OPAQUE_DECAL:
-		drawHash = depth / 2.0f + 0.01f;
+		drawHash = entityDepth / 2.0f + 0.01f;
 		break;
 	default:
-		drawHash = depth;
+		drawHash = entityDepth;
 	}
 	return drawHash;
 }
@@ -1023,4 +1026,36 @@ void ETHScene::ScaleEntities(const float scale, const bool scalePosition)
 			entities[t]->SetPosition(entities[t]->GetPosition() * scale, m_buckets);
 		}
 	}
+}
+
+void ETHScene::AddEntityToPersistentList(ETHRenderEntity* entity)
+{
+	entity->AddRef();
+	m_persistentEntities.push_back(entity);
+}
+
+void ETHScene::FillMultimapAndClearPersistenList(std::multimap<float, ETHRenderEntity*>& mm, const std::list<Vector2>& currentBucketList)
+{
+	if (m_persistentEntities.empty())
+		return;
+
+	m_persistentEntities.unique();
+	for (std::list<ETHRenderEntity*>::iterator iter = m_persistentEntities.begin();
+		iter != m_persistentEntities.end(); iter++)
+	{
+		ETHRenderEntity* entity = *iter;
+		const Vector2& currentBucket = entity->GetCurrentBucket(m_buckets);
+		const bool bucketNotProcessed = std::find(currentBucketList.begin(), currentBucketList.end(), currentBucket) == currentBucketList.end();
+		if (bucketNotProcessed)
+		{
+			const Vector3& v3Pos = entity->GetPosition();
+			const ETH_ENTITY_TYPE type = entity->GetType();
+			const float depth = entity->ComputeDepth(m_maxSceneHeight, m_minSceneHeight);
+			const float drawHash = ComputeDrawHash(depth, m_provider->GetVideo()->GetCameraPos(), v3Pos, type);
+			mm.insert(std::pair<float, ETHRenderEntity*>(drawHash, entity));
+			m_nRenderedEntities++;
+		}
+		entity->Release();
+	}
+	m_persistentEntities.clear();
 }

@@ -116,6 +116,8 @@ const Vector2 &v2BucketSize = Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCK
 
 	void ResolveJoints();
 
+	void AddEntityToPersistentList(ETHRenderEntity* entity);
+
 private:
 	const bool m_isInEditor;
 
@@ -135,11 +137,14 @@ private:
 	bool DrawBucketOutlines();
 	bool ReadFromXMLFile(TiXmlElement *pElement);
 
-	float ComputeDrawHash(const float depth, const Vector2& camPos, const Vector3& entityPos, const ETH_ENTITY_TYPE& type) const;
+	void FillMultimapAndClearPersistenList(std::multimap<float, ETHRenderEntity*>& mm, const std::list<Vector2>& currentBucketList);
+
+	float ComputeDrawHash(const float entityDepth, const Vector2& camPos, const Vector3& entityPos, const ETH_ENTITY_TYPE& type) const;
 	ETHBucketManager m_buckets;
 	ETHTempEntityHandler m_tempEntities;
 
 	std::list<ETHLight> m_lights;
+	std::list<ETHRenderEntity*> m_persistentEntities;
 
 	ETHResourceProviderPtr m_provider;
 	ETHSceneProperties m_sceneProps;

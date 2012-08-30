@@ -739,3 +739,10 @@ Vector2 ETHScriptWrapper::GetZAxisDirection()
 		return gs2d::math::constant::ZERO_VECTOR2;
 	return m_pScene->GetZAxisDirection();
 }
+
+void ETHScriptWrapper::ForceEntityRendering(ETHEntity* entity)
+{
+	if (WarnIfRunsInMainFunction(GS_L("ForceEntityRendering")) || !m_pScene)
+		return;
+	m_pScene->AddEntityToPersistentList(static_cast<ETHRenderEntity*>(entity));
+}

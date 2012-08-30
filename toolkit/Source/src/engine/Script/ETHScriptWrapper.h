@@ -274,6 +274,7 @@ public:
 	static bool IsPersistentResources();
 	static void ReleaseResources();
 	static void ResolveJoints();
+	static void ForceEntityRendering(ETHEntity *entity);
 
 	static void SetZAxisDirection(const Vector2& dir);
 	static Vector2 GetZAxisDirection();
