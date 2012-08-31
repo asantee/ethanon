@@ -34,17 +34,18 @@ asDECLARE_FUNCTION_WRAPPER(__HideCursor,           ETHScriptWrapper::HideCursor)
 //asDECLARE_FUNCTION_OBJ_WRAPPERPR(wrapper_name,func,objfirst,params,rettype)
 //asDECLARE_FUNCTION_OBJ_WRAPPER(wrapper_name,func,objfirst)
 
-asDECLARE_FUNCTION_OBJ_WRAPPER(__SetPosition,        ETHScriptWrapper::SetPosition, true);
-asDECLARE_FUNCTION_OBJ_WRAPPER(__SetPositionXY,      ETHScriptWrapper::SetPositionXY, true);
-asDECLARE_FUNCTION_OBJ_WRAPPER(__SetPositionX,      ETHScriptWrapper::SetPositionX, true);
-asDECLARE_FUNCTION_OBJ_WRAPPER(__SetPositionY,      ETHScriptWrapper::SetPositionY, true);
-asDECLARE_FUNCTION_OBJ_WRAPPER(__SetPositionZ,      ETHScriptWrapper::SetPositionZ, true);
-asDECLARE_FUNCTION_OBJ_WRAPPER(__AddToPosition,      ETHScriptWrapper::AddToPosition, true);
-asDECLARE_FUNCTION_OBJ_WRAPPER(__AddToPositionXY,    ETHScriptWrapper::AddToPositionXY, true);
-asDECLARE_FUNCTION_OBJ_WRAPPER(__AddToPositionX,    ETHScriptWrapper::AddToPositionX, true);
-asDECLARE_FUNCTION_OBJ_WRAPPER(__AddToPositionY,    ETHScriptWrapper::AddToPositionY, true);
-asDECLARE_FUNCTION_OBJ_WRAPPER(__AddToPositionZ,    ETHScriptWrapper::AddToPositionZ, true);
-asDECLARE_FUNCTION_OBJ_WRAPPER(__PlayParticleSystem, ETHScriptWrapper::PlayParticleSystem, true);
+asDECLARE_FUNCTION_OBJ_WRAPPER(__SetPosition,         ETHScriptWrapper::SetPosition, true);
+asDECLARE_FUNCTION_OBJ_WRAPPER(__SetPositionXY,       ETHScriptWrapper::SetPositionXY, true);
+asDECLARE_FUNCTION_OBJ_WRAPPER(__SetPositionX,        ETHScriptWrapper::SetPositionX, true);
+asDECLARE_FUNCTION_OBJ_WRAPPER(__SetPositionY,        ETHScriptWrapper::SetPositionY, true);
+asDECLARE_FUNCTION_OBJ_WRAPPER(__SetPositionZ,        ETHScriptWrapper::SetPositionZ, true);
+asDECLARE_FUNCTION_OBJ_WRAPPER(__AddToPosition,       ETHScriptWrapper::AddToPosition, true);
+asDECLARE_FUNCTION_OBJ_WRAPPER(__AddToPositionXY,     ETHScriptWrapper::AddToPositionXY, true);
+asDECLARE_FUNCTION_OBJ_WRAPPER(__AddToPositionX,      ETHScriptWrapper::AddToPositionX, true);
+asDECLARE_FUNCTION_OBJ_WRAPPER(__AddToPositionY,      ETHScriptWrapper::AddToPositionY, true);
+asDECLARE_FUNCTION_OBJ_WRAPPER(__AddToPositionZ,      ETHScriptWrapper::AddToPositionZ, true);
+asDECLARE_FUNCTION_OBJ_WRAPPER(__PlayParticleSystem,  ETHScriptWrapper::PlayParticleSystem, true);
+asDECLARE_FUNCTION_OBJ_WRAPPER(__ResolveEntityJoints, ETHScriptWrapper::ResolveEntityJoints, true);
 
 asDECLARE_FUNCTION_WRAPPERPR(__SeekEntityStr,   ETHScriptWrapper::SeekEntity, (const str_type::string&), ETHEntity *);
 asDECLARE_FUNCTION_WRAPPERPR(__SeekEntityInt,   ETHScriptWrapper::SeekEntity, (const int), ETHEntity *);
@@ -302,6 +303,7 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector2 GetScreenRectMin() const",        asFUNCTION(__GetScreenRectMin),   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector2 GetScreenRectMax() const",        asFUNCTION(__GetScreenRectMax),   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void PlayParticleSystem(const uint)",     asFUNCTION(__PlayParticleSystem), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "void ResolveJoints()",                    asFUNCTION(__ResolveEntityJoints), asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("ETHEntity @SeekEntity(const string &in)", asFUNCTION(__SeekEntityStr), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("ETHEntity @SeekEntity(const int)",        asFUNCTION(__SeekEntityInt), asCALL_GENERIC); assert(r >= 0);

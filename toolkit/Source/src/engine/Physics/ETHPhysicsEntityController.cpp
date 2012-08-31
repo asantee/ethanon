@@ -239,7 +239,10 @@ bool ETHPhysicsEntityController::ResolveJoints(ETHEntityArray& entities, const E
 	{
 		const str_type::string& jointName = *iter;
 
+		// get the other entity name from the joint definition
 		str_type::string otherEntityName = ETHJoint::GetOtherEntityName(jointName, file);
+
+		// if the other entity name is not declared in the joint definition, look for it into the custom data
 		if (otherEntityName == GS_L(""))
 		{
 			str_type::string str;

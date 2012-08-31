@@ -161,6 +161,8 @@ public:
 	static void AddToPositionY(ETHEntity *pEntity, const float v);
 	static void AddToPositionZ(ETHEntity *pEntity, const float v);
 
+	static void ResolveEntityJoints(ETHEntity* pEntity);
+
 	// global wraps 
 	static void HideCursor(const bool hide);
 	static Vector2 GetCursorPos();

@@ -175,6 +175,19 @@ void ETHScriptWrapper::AddToPositionZ(ETHEntity *pEntity, const float v)
 	pEntity->AddToPositionZ(v * m_provider->GetGlobalScaleManager()->GetScale());
 }
 
+void ETHScriptWrapper::ResolveEntityJoints(ETHEntity* pEntity)
+{
+	ETHPhysicsEntityControllerPtr controller = boost::dynamic_pointer_cast<ETHPhysicsEntityController>(pEntity->GetController());
+	if (controller)
+	{
+		ETHBucketManager& bucketManager = m_pScene->GetBucketManager();
+		const Vector2& currentBucket = pEntity->GetCurrentBucket(bucketManager);
+		ETHEntityArray entitiesAround;
+		bucketManager.GetEntitiesAroundBucket(currentBucket, entitiesAround);
+		controller->ResolveJoints(entitiesAround, *pEntity->GetProperties(), m_pScene->GetSimulator());
+	}
+}
+
 Vector2 ETHScriptWrapper::GetScreenRectMin(ETHEntity *pEntity)
 {
 	return pEntity->GetScreenRectMin(*m_pScene->GetSceneProperties());
