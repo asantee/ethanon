@@ -40,7 +40,7 @@ IOSInput::IOSInput(const unsigned int maxTouchCount) :
 
 void IOSInput::SetAccelerometerData(const gs2d::math::Vector3& data)
 {
-	m_accelerometer = data * 6.66f;
+	m_accelerometer = data * 9.1f;
 }
 
 void IOSInput::SetCurrentTouchPos(const unsigned int n, const gs2d::math::Vector2& pos)
