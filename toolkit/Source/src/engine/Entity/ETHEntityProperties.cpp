@@ -157,7 +157,8 @@ void ETHEntityProperties::Reset()
 	pivotAdjust = ETH_DEFAULT_PIVOT_ADJUST;
 	scale = ETH_DEFAULT_SCALE;
 	startFrame = 0;
-	staticEntity = false;
+	staticEntity = ETH_FALSE;
+	hideFromSceneEditor = ETH_FALSE;
 	type = ETH_HORIZONTAL;
 	layerDepth = 0.0f;
 	successfullyLoaded = false;
@@ -199,6 +200,10 @@ bool ETHEntityProperties::ReadFromXMLFile(TiXmlElement *pElement)
 	int nCastShadow = static_cast<int>(castShadow);
 	pElement->QueryIntAttribute(GS_L("castShadow"), &nCastShadow);
 	castShadow = static_cast<ETH_BOOL>(nCastShadow);
+
+	int nHideFromSceneEditor = static_cast<int>(hideFromSceneEditor);
+	pElement->QueryIntAttribute(GS_L("hideFromSceneEditor"), &nHideFromSceneEditor);
+	hideFromSceneEditor = static_cast<ETH_BOOL>(nHideFromSceneEditor);
 
 	pElement->QueryIntAttribute(GS_L("shape"), (int*)&shape);
 	pElement->QueryIntAttribute(GS_L("startFrame"), &startFrame);
@@ -600,6 +605,11 @@ bool ETHEntityProperties::WriteToXMLFile(TiXmlElement *pHeadRoot) const
 	if (parallaxIntensity != ETH_DEFAULT_PARALLAX_INTENS)
 	{
 		pRoot->SetDoubleAttribute(GS_L("parallaxIntensity"), parallaxIntensity);
+	}
+
+	if (hideFromSceneEditor != ETH_FALSE)
+	{
+		pRoot->SetAttribute(GS_L("hideFromSceneEditor"), hideFromSceneEditor);
 	}
 
 	pRoot->SetAttribute(GS_L("static"), staticEntity);

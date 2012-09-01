@@ -73,6 +73,7 @@ using namespace std;
 #define _S_SHADOW_CASTER L"Shadow caster"
 #define _S_STATIC_LIGHT L"Static light"
 #define _S_COLLIDABLE L"Collidable"
+#define _S_HIDE_FROM_SCENE_EDITOR L"Hide in scene editor"
 
 #define _S_EDIT_LIGHT L"Edit lights"
 #define _S_EDIT_PARTICLES L"Edit particles"
@@ -568,6 +569,7 @@ void EntityEditor::ResetEntityMenu()
 	m_bool.AddButton(_S_COLLIDABLE, m_pEditEntity->collision);
 	m_bool.AddButton(_S_APPLY_LIGHT, ETHGlobal::ToBool(m_pEditEntity->applyLight));
 	m_bool.AddButton(_S_ACTIVE_LIGHT, m_pEditEntity->light);
+	m_bool.AddButton(_S_HIDE_FROM_SCENE_EDITOR, m_pEditEntity->hideFromSceneEditor == ETH_TRUE);
 
 	m_blendMode.Destroy();
 	m_blendMode.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth*2, true, false, false);
@@ -1009,8 +1011,9 @@ string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 
 		ShadowPrint(Vector2(0,y), L"Boolean properties:"); y+=m_menuSize;
 		GSGUI_BUTTON file_r = m_bool.PlaceMenu(Vector2(0,y)); y += m_menuSize*m_bool.GetNumButtons();
-		m_pEditEntity->castShadow = m_bool.GetButtonStatus(_S_CAST_SHADOW);
-		m_pEditEntity->staticEntity = m_bool.GetButtonStatus(_S_STATIC_ENTITY);
+		m_pEditEntity->castShadow = (m_bool.GetButtonStatus(_S_CAST_SHADOW)) ? ETH_TRUE : ETH_FALSE;
+		m_pEditEntity->staticEntity = (m_bool.GetButtonStatus(_S_STATIC_ENTITY)) ? ETH_TRUE : ETH_FALSE;
+		m_pEditEntity->hideFromSceneEditor = (m_bool.GetButtonStatus(_S_HIDE_FROM_SCENE_EDITOR)) ? ETH_TRUE : ETH_FALSE;
 
 		if (!m_pEditEntity->collision && m_bool.GetButtonStatus(_S_COLLIDABLE))
 		{

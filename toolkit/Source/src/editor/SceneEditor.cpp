@@ -1605,7 +1605,6 @@ void SceneEditor::ReloadFiles()
 	const int nFiles = entityFiles.GetNumFiles();
 	if (nFiles >= 1)
 	{
-		m_entityFiles.resize(nFiles);
 		for (int t=0; t<nFiles; t++)
 		{
 			Platform::FileListing::FILE_NAME file;
@@ -1616,14 +1615,11 @@ void SceneEditor::ReloadFiles()
 
 			cout << "(Scene editor)Entity found: " <<  utf8::c(file.file).str() << " - Loading...";
 
-			if (m_entityFiles[t] = boost::shared_ptr<ETHEntityProperties>(
-				new ETHEntityProperties(utf8::c(sFull).wstr(), m_provider->GetVideo()->GetFileManager())))
+			boost::shared_ptr<ETHEntityProperties> props(new ETHEntityProperties(utf8::c(sFull).wstr(), m_provider->GetVideo()->GetFileManager()));
+			if (!props->hideFromSceneEditor)
 			{
+				m_entityFiles.push_back(props);
 				cout << " loaded";
-			}
-			else
-			{
-				cerr << " invalid file.";
 			}
 
 			cout << endl;

@@ -90,6 +90,7 @@ protected:
 #endif
 	str_type::string entityName;
 	ETH_BOOL staticEntity;
+	ETH_BOOL hideFromSceneEditor;
 	ETH_ENTITY_TYPE type;
 	float parallaxIntensity;
 	float layerDepth;
