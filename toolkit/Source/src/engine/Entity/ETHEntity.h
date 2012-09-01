@@ -99,8 +99,9 @@ public:
 	bool HasShadow() const;
 	void SetLayerDepth(const float depth);
 	float GetLayerDepth() const;
-	float GetDensity() const;
-	float GetFriction() const;
+	float GetDensity(const unsigned int fixtureIdx) const;
+	float GetFriction(const unsigned int fixtureIdx) const;
+	float GetRestitution(const unsigned int fixtureIdx) const;
 
 	void Scale(const Vector2& scale);
 	void Scale(const float scale);
@@ -178,7 +179,6 @@ public:
 	bool IsFixedRotation() const;
 	bool IsSensor() const;
 	bool HasSimulatedBody() const;
-	float GetDefaultRestitutionValue();
 	bool IsBullet();
 
 	void SetAngelScriptObject(const str_type::string &name, void *value, int typeId);

@@ -801,7 +801,7 @@ bool ETHScene::AssignCallbackScript(ETHSpriteEntity* entity)
 	const int destructorCallbackId = ETHGlobal::FindCallbackFunction(m_pModule, entity, ETH_DESTRUCTOR_CALLBACK_PREFIX, *m_provider->GetLogger());
 	AssignControllerToEntity(entity, callbackId, constructorCallbackId, destructorCallbackId);
 	return true;
-}
+} 
 
 void ETHScene::AssignControllerToEntity(ETHEntity* entity, const int callbackId, const int constructorCallbackId, const int destructorCallbackId)
 {

@@ -85,3 +85,32 @@ std::vector<b2Shape*> ETHCompoundShape::GetShapes(const gs2d::math::Vector2& sca
 	}
 	return r;
 }
+
+float ETHCompoundShape::GetIndividualProperty(const unsigned int idx, const float defaultValue, const str_type::string& attribName) const
+{
+	if (idx < m_entities.size())
+	{
+		const gs2d::enml::Entity& entity = m_entities[idx];
+		const str_type::string& value = entity.get(attribName);
+		if (value != GS_L(""))
+		{
+			return ETHGlobal::ParseFloat(entity.get(attribName).c_str());
+		}
+	}
+	return defaultValue;
+}
+
+float ETHCompoundShape::GetIndividualFriction(const unsigned int idx, const float defaultFriction) const
+{
+	return GetIndividualProperty(idx, defaultFriction, GS_L("friction"));
+}
+
+float ETHCompoundShape::GetIndividualDensity(const unsigned int idx, const float defaultDensity) const
+{
+	return GetIndividualProperty(idx, defaultDensity, GS_L("density"));
+}
+
+float ETHCompoundShape::GetIndividualRestitution(const unsigned int idx, const float defaultRestitution) const
+{
+	return GetIndividualProperty(idx, defaultRestitution, GS_L("restitution"));
+}

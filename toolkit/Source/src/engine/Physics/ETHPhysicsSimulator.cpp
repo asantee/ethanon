@@ -103,10 +103,10 @@ b2Body* ETHPhysicsSimulator::CreateBody(ETHEntity *entity, const boost::shared_p
 		{
 			b2FixtureDef fixtureDef;
 			fixtureDef.shape = shapes[t];
-			fixtureDef.density = entity->IsStatic() ? 0.0f : entity->GetDensity();
-			fixtureDef.friction = entity->GetFriction();
+			fixtureDef.density = entity->IsStatic() ? 0.0f : entity->GetDensity(t);
+			fixtureDef.friction = entity->GetFriction(t);
 			fixtureDef.isSensor = entity->IsSensor();
-			fixtureDef.restitution = entity->GetDefaultRestitutionValue();
+			fixtureDef.restitution = entity->GetRestitution(t);
 			body->CreateFixture(&fixtureDef);
 			delete shapes[t];
 		}

@@ -490,14 +490,34 @@ float ETHEntity::GetLayerDepth() const
 	return (m_properties.type == ETH_LAYERABLE) ? m_properties.layerDepth : -1.0f;
 }
 
-float ETHEntity::GetDensity() const
+float ETHEntity::GetDensity(const unsigned int fixtureIdx) const
 {
+	if (m_properties.shape == ETHBS_COMPOUND)
+	{
+		if (m_properties.compoundShape)
+			return m_properties.compoundShape->GetIndividualDensity(fixtureIdx, m_properties.density);
+	}
 	return m_properties.density;
 }
 
-float ETHEntity::GetFriction() const
+float ETHEntity::GetFriction(const unsigned int fixtureIdx) const
 {
+	if (m_properties.shape == ETHBS_COMPOUND)
+	{
+		if (m_properties.compoundShape)
+			return m_properties.compoundShape->GetIndividualFriction(fixtureIdx, m_properties.friction);
+	}
 	return m_properties.friction;
+}
+
+float ETHEntity::GetRestitution(const unsigned int fixtureIdx) const
+{
+	if (m_properties.shape == ETHBS_COMPOUND)
+	{
+		if (m_properties.compoundShape)
+			return m_properties.compoundShape->GetIndividualRestitution(fixtureIdx, m_properties.restitution);
+	}
+	return m_properties.restitution;
 }
 
 void ETHEntity::Scale(const Vector2& scale)
@@ -932,11 +952,6 @@ bool ETHEntity::IsSensor() const
 bool ETHEntity::HasSimulatedBody() const
 {
 	return (boost::dynamic_pointer_cast<ETHPhysicsEntityController>(m_controller));
-}
-
-float ETHEntity::GetDefaultRestitutionValue()
-{
-	return m_properties.restitution;
 }
 
 bool ETHEntity::IsBullet()

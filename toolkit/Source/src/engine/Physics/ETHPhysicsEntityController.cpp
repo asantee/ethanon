@@ -154,6 +154,7 @@ void ETHPhysicsEntityController::SetAngle(const float angle)
 
 void ETHPhysicsEntityController::Destroy()
 {
+	// only kill joints. Box2D will destroy them automatically
 	for (std::size_t t = 0; t < m_joints.size(); t++)
 	{
 		if (m_joints[t])

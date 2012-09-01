@@ -193,11 +193,11 @@ class TestRigidBodies : Test
 			}
 			if (input.GetKeyState(K_F) == KS_HIT)
 			{
-				ETHEntity@ cross;
+				ETHEntity@ cross, platform;
 				AddEntity("spinning_cross.ent", vector3(input.GetCursorPos(), 10.0f), randF(360.0f), @cross, "", 1.0f);
 				const string anchorName = "anchor_" + cross.GetID();
 				cross.SetString("revoluteJoint", anchorName);
-				AddEntity("concrete_platform.ent", vector3(input.GetCursorPos(), 10.0f), randF(360.0f), null, anchorName, 0.4f);
+				AddEntity("concrete_platform.ent", vector3(input.GetCursorPos(), 10.0f), randF(360.0f), @platform, anchorName, 0.4f);
 				cross.ResolveJoints();
 			}
 		}
