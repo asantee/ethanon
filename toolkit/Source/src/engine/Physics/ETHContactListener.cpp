@@ -24,7 +24,7 @@
 #include "ETHPhysicsSimulator.h"
 #include "../Entity/ETHEntity.h"
 
-static void GetContactData(const b2Contact* contact, ETHPhysicsEntityController** controllerA, ETHPhysicsEntityController** controllerB,
+static bool GetContactData(const b2Contact* contact, ETHPhysicsEntityController** controllerA, ETHPhysicsEntityController** controllerB,
 						   ETHEntity **entityA, ETHEntity **entityB, Vector2& v2Point0, Vector2& v2Point1, Vector2& v2Normal, const bool beginFunc)
 {
 	b2WorldManifold worldManifold; 
@@ -39,15 +39,16 @@ static void GetContactData(const b2Contact* contact, ETHPhysicsEntityController*
 	*entityB = static_cast<ETHEntity*>(bodyB->GetUserData());
 	*controllerB = static_cast<ETHPhysicsEntityController*>((*entityB)->GetController().get());
 
+	// if neither entities have the current callback type assigned to it, don't even bother...
 	if (beginFunc)
 	{
 		if (!(*controllerA)->HasBeginContactCallback() && !(*controllerB)->HasBeginContactCallback())
-			return;
+			return false;
 	}
 	else
 	{
 		if (!(*controllerA)->HasEndContactCallback() && !(*controllerB)->HasEndContactCallback())
-			return;
+			return false;
 	}
 
 	const b2Vec2& point0 = worldManifold.points[0];
@@ -56,6 +57,7 @@ static void GetContactData(const b2Contact* contact, ETHPhysicsEntityController*
 	v2Point0 = Vector2(point0.x, point0.y);
 	v2Point1 = Vector2(point1.x, point1.y);
 	v2Normal = Vector2(normal.x, normal.y);
+	return true;
 }
 
 void ETHContactListener::BeginContact(b2Contact* contact)
@@ -63,9 +65,11 @@ void ETHContactListener::BeginContact(b2Contact* contact)
 	Vector2 point0, point1, normal;
 	ETHEntity *entityA = 0, *entityB = 0;
 	ETHPhysicsEntityController* controllerA = 0, *controllerB = 0;
-	GetContactData(contact, &controllerA, &controllerB, &entityA, &entityB, point0, point1, normal, true);
-	controllerA->RunBeginContactCallback(entityB, point0, point1, normal);
-	controllerB->RunBeginContactCallback(entityA, point0, point1, normal);
+	if (GetContactData(contact, &controllerA, &controllerB, &entityA, &entityB, point0, point1, normal, true))
+	{
+		controllerA->RunBeginContactCallback(entityB, point0, point1, normal);
+		controllerB->RunBeginContactCallback(entityA, point0, point1, normal);
+	}
 }
 
 void ETHContactListener::EndContact(b2Contact* contact)
@@ -73,7 +77,9 @@ void ETHContactListener::EndContact(b2Contact* contact)
 	Vector2 point0, point1, normal;
 	ETHEntity *entityA = 0, *entityB = 0;
 	ETHPhysicsEntityController* controllerA = 0, *controllerB = 0;
-	GetContactData(contact, &controllerA, &controllerB, &entityA, &entityB, point0, point1, normal, false);
-	controllerA->RunEndContactCallback(entityB, point0, point1, normal);
-	controllerB->RunEndContactCallback(entityA, point0, point1, normal);
+	if (GetContactData(contact, &controllerA, &controllerB, &entityA, &entityB, point0, point1, normal, false))
+	{
+		controllerA->RunEndContactCallback(entityB, point0, point1, normal);
+		controllerB->RunEndContactCallback(entityA, point0, point1, normal);
+	}
 }
