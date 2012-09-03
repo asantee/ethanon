@@ -75,6 +75,7 @@ public:
 
 	// Add a pre-processor define for conditional compilation
 	void DefineWord(const char *word);
+	void DefineWord(const wchar_t *word);
 
 #if AS_PROCESS_METADATA == 1
 	// Get metadata declared for class types and interfaces

@@ -95,6 +95,18 @@ void ETHAppEnmlFile::LoadProperties(const str_type::string& platformName, const 
 	const str_type::string newTitle = file.get(platformName, GS_L("title"));
 	if (!newTitle.empty())
 		title = newTitle;
+
+	std::vector<gs2d::str_type::string> words = ETHGlobal::SplitString(file.get(platformName, GS_L("definedWords")), GS_L(","));
+	definedWords.insert(definedWords.end(), words.begin(), words.end());
+	std::sort(definedWords.begin(), definedWords.end());
+
+	std::vector<gs2d::str_type::string>::iterator it = std::unique(definedWords.begin(), definedWords.end());
+	definedWords.resize(it - definedWords.begin());
+}
+
+const std::vector<gs2d::str_type::string>& ETHAppEnmlFile::GetDefinedWords() const
+{
+	return definedWords;
 }
 
 const ETHSpriteDensityManager& ETHAppEnmlFile::GetDensityManager() const

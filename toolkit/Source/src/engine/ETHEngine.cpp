@@ -103,7 +103,7 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 	{
 		video->SetBGColor(GS_BLACK);
 
-		if (!PrepareScriptingEngine())
+		if (!PrepareScriptingEngine(file.GetDefinedWords()))
 		{
 			Abort();
 			return;
@@ -226,7 +226,7 @@ void ETHEngine::Destroy()
 	m_backBuffer.reset();
 }
 
-bool ETHEngine::PrepareScriptingEngine()
+bool ETHEngine::PrepareScriptingEngine(const std::vector<gs2d::str_type::string>& definedWords)
 {
 	m_pASEngine = asCreateScriptEngine(ANGELSCRIPT_VERSION);
 	if (!m_pASEngine)
@@ -262,13 +262,47 @@ bool ETHEngine::PrepareScriptingEngine()
 	m_pScriptContext = m_pASEngine->CreateContext();
 	m_pConstructorContext = m_pASEngine->CreateContext();
 
-	if (!BuildModule())
+	if (!BuildModule(definedWords))
 		return false;
 
 	return true;
 }
 
-bool ETHEngine::BuildModule()
+static void RegisterDefinedWords(const std::vector<gs2d::str_type::string>& definedWords, CScriptBuilder& builder, const bool isTesting)
+{
+	#ifdef _DEBUG
+		builder.DefineWord("DEBUG");
+	#endif
+	#ifdef ANDROID
+		builder.DefineWord("ANDROID");
+	#endif
+	#ifdef APPLE_IOS
+		builder.DefineWord("APPLE_IOS");
+	#endif
+	#if defined(APPLE_IOS) || defined(ANDROID)
+		builder.DefineWord("MOBILE");
+		builder.DefineWord("MOBILE_DEVICE");
+		builder.DefineWord("HANDHELD");
+		builder.DefineWord("HANDHELD_DEVICE");
+	#endif
+	#ifdef WIN32
+		builder.DefineWord("WINDOWS");
+		builder.DefineWord("DESKTOP");
+	#endif
+
+	if (isTesting)
+	{
+		builder.DefineWord("TESTING");
+	}
+
+	// register custom words (defined in the app.enml)
+	for (std::size_t t = 0; t < definedWords.size(); t++)
+	{
+		builder.DefineWord(definedWords[t].c_str());
+	}
+}
+
+bool ETHEngine::BuildModule(const std::vector<gs2d::str_type::string>& definedWords)
 {
 	const str_type::string resourcePath = m_provider->GetResourcePath();
 	const str_type::string mainScript = resourcePath + ETH_DEFAULT_MAIN_SCRIPT_FILE;
@@ -284,30 +318,7 @@ bool ETHEngine::BuildModule()
 		// Load the main script
 		CScriptBuilder builder(m_provider);
 
-		#ifdef _DEBUG
-			builder.DefineWord("DEBUG");
-		#endif
-		#ifdef ANDROID
-			builder.DefineWord("ANDROID");
-		#endif
-		#ifdef APPLE_IOS
-			builder.DefineWord("APPLE_IOS");
-		#endif
-		#if defined(APPLE_IOS) || defined(ANDROID)
-			builder.DefineWord("MOBILE");
-			builder.DefineWord("MOBILE_DEVICE");
-			builder.DefineWord("HANDHELD");
-			builder.DefineWord("HANDHELD_DEVICE");
-		#endif
-		#ifdef WIN32
-			builder.DefineWord("WINDOWS");
-			builder.DefineWord("DESKTOP");
-		#endif
-
-		if (m_testing)
-		{
-			builder.DefineWord("TESTING");
-		}
+		RegisterDefinedWords(definedWords, builder, m_testing);
 
 		int r;
 		r = builder.StartNewModule(m_pASEngine, ETH_SCRIPT_MODULE.c_str());

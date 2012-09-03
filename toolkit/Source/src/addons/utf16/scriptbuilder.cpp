@@ -89,6 +89,11 @@ void CScriptBuilder::DefineWord(const char *word)
 	}
 }
 
+void CScriptBuilder::DefineWord(const wchar_t *word)
+{
+	DefineWord(utf8::converter(word).c_str());
+}
+
 void CScriptBuilder::ClearAll()
 {
 	includedScripts.clear();

@@ -4,10 +4,12 @@ default
 	richLighting = true;
 	width = 800;
 	height = 800;
+	definedWords = IN_TESTBED,DUPLICATE_DIRECTIVE,ETHANON_SAMPLE;
 }
 
 windows
 {
 	windowed = true;
 	vsync = true;
+	definedWords = DUPLICATE_DIRECTIVE,RUNNING_ON_WINDOWS,DUPLICATE_DIRECTIVE,DUPLICATE_DIRECTIVE;
 }

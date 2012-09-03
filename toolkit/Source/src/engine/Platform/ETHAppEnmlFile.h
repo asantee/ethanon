@@ -49,6 +49,7 @@ public:
 	gs2d::str_type::string GetFixedHeight() const;
 
 	const ETHSpriteDensityManager& GetDensityManager() const;
+	const std::vector<gs2d::str_type::string>& GetDefinedWords() const;
 
 private:
 	void LoadProperties(const gs2d::str_type::string& platformName, const gs2d::enml::File& file);
@@ -65,6 +66,8 @@ private:
 	bool richLighting;
 	gs2d::str_type::string title;
 	gs2d::str_type::string fixedWidth, fixedHeight;
+
+	std::vector<gs2d::str_type::string> definedWords;
 };
 
 #endif
