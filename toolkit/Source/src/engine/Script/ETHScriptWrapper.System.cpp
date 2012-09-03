@@ -230,18 +230,20 @@ void ETHScriptWrapper::SetWindowProperties(const str_type::string &winTitle, con
 										   const bool windowed, const bool sync, const GS_PIXEL_FORMAT gsPF)
 {
 	GS2D_UNUSED_ARGUMENT(sync);
-	if (m_provider->GetVideo())
+	const VideoPtr& video = m_provider->GetVideo();
+	if (video)
 	{
-		const bool toggle = (m_provider->GetVideo()->IsWindowed() != windowed);
-		m_provider->GetVideo()->ResetVideoMode(width, height, gsPF, toggle);
-		m_provider->GetVideo()->SetWindowTitle(winTitle);
+		const bool toggle = (video->IsWindowed() != windowed);
+		video->ResetVideoMode(width, height, gsPF, toggle);
+		video->SetWindowTitle(winTitle);
 		if (windowed)
 		{
 			Vector2i v2Backbuffer(static_cast<int>(width), static_cast<int>(height));
-			Vector2i v2Screen = m_provider->GetVideo()->GetClientScreenSize();
-			m_provider->GetVideo()->SetWindowPosition(v2Screen/2-v2Backbuffer/2);
+			Vector2i v2Screen = video->GetClientScreenSize();
+			video->SetWindowPosition(v2Screen/2-v2Backbuffer/2);
 		}
-		CreateDynamicBackBuffer(m_provider->GetResourcePath());
+		ETHAppEnmlFile file(m_provider->GetResourcePath() + ETH_APP_PROPERTIES_FILE, video->GetFileManager(), video->GetPlatformName());
+		CreateDynamicBackBuffer(file);
 	}
 }
 

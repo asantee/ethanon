@@ -807,6 +807,14 @@
 			Name="Platform"
 			>
 			<File
+				RelativePath="..\..\..\src\engine\Platform\ETHAppEnmlFile.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\engine\Platform\ETHAppEnmlFile.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\src\engine\Platform\ETHPlatform.abstract.cpp"
 				>
 			</File>

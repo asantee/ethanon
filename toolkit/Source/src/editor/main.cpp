@@ -27,6 +27,7 @@
 #include <Platform/Platform.h>
 #include <unicode/utf8converter.h>
 #include <Platform/StdFileManager.h>
+#include "../engine/Platform/ETHAppEnmlFile.h"
 
 #ifndef _DEBUG
 #ifdef __WIN32__
@@ -131,10 +132,10 @@ int main(const int argc, const char* argv[])
 	InputPtr input;
 	AudioPtr audio;
 
-	const ETH_WINDOW_ENML_FILE app(resourcePath + L"editor.enml", Platform::FileManagerPtr(new Platform::StdFileManager));
-	Vector2i v2Backbuffer(app.width, app.height);
+	const ETHAppEnmlFile app(resourcePath + L"editor.enml", Platform::FileManagerPtr(new Platform::StdFileManager), GS_L(""));
+	Vector2i v2Backbuffer(app.GetWidth(), app.GetHeight());
 
-	if ((video = CreateVideo(v2Backbuffer.x, v2Backbuffer.y, app.title, app.windowed, app.vsync,
+	if ((video = CreateVideo(v2Backbuffer.x, v2Backbuffer.y, app.GetTitle(), app.IsWindowed(), app.IsVsyncEnabled(),
 		defaultBitmapFontPath, GSPF_UNKNOWN, true)))
 	{
 		#ifndef _DEBUG

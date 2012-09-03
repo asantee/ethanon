@@ -20,35 +20,51 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#ifndef ETH_BACK_BUFFER_TARGET_MANAGER_H_
-#define ETH_BACK_BUFFER_TARGET_MANAGER_H_
+#ifndef ETH_APP_ENML_FILE_H_
+#define ETH_APP_ENML_FILE_H_
 
 #include <enml/enml.h>
-#include <gs2d.h>
-#include <Platform/Logger.h>
-#include "ETHDynamicBackBuffer.h"
-#include "../Platform/ETHAppEnmlFile.h"
+#include <Platform/FileManager.h>
+#include "../Resource/ETHSpriteDensityManager.h"
 
-class ETHBackBufferTargetManager
+class ETHAppEnmlFile
 {
-	gs2d::math::Vector2 m_bufferSize;
-	float m_targetScale;
-
-	static bool IsAuto(const gs2d::str_type::string& str);
-	bool ComputeLength(gs2d::VideoPtr video, const gs2d::str_type::string& thisSide, const gs2d::str_type::string& otherSide, const bool isWidth);
-
-	ETHDynamicBackBufferPtr m_backBuffer;
-
 public:
-	ETHBackBufferTargetManager(gs2d::VideoPtr video, const ETHAppEnmlFile& file, const Platform::Logger& logger);
-	gs2d::math::Vector2 GetBufferSize() const;
-	void BeginRendering();
-	void EndRendering();
-	void Present();
-	float GetTargetScale() const;
-};
+	ETHAppEnmlFile(const gs2d::str_type::string& fileName, const Platform::FileManagerPtr& fileManager,
+				   const gs2d::str_type::string& platformName);
 
-typedef boost::shared_ptr<ETHBackBufferTargetManager> ETHBackBufferTargetManagerPtr;
-typedef boost::weak_ptr<ETHBackBufferTargetManager> ETHBackBufferTargetManagerWeakPtr;
+	unsigned int GetWidth() const;
+	unsigned int GetHeight() const;
+
+	float GetHdDensityValue() const;
+	float GetFullHdDensityValue() const;
+	unsigned int GetMinScreenHeightForHdVersion() const;
+	unsigned int GetMinScreenHeightForFullHdVersion() const;
+
+	bool IsWindowed() const;
+	bool IsVsyncEnabled() const;
+	bool IsRichLightingEnabled() const;
+	gs2d::str_type::string GetTitle() const;
+	gs2d::str_type::string GetFixedWidth() const;
+	gs2d::str_type::string GetFixedHeight() const;
+
+	const ETHSpriteDensityManager& GetDensityManager() const;
+
+private:
+	void LoadProperties(const gs2d::str_type::string& platformName, const gs2d::enml::File& file);
+
+	ETHSpriteDensityManager densityManager;
+
+	unsigned int width, height;
+
+	float hdDensityValue;
+	float fullHdDensityValue;
+	unsigned int minScreenHeightForHdVersion, minScreenHeightForFullHdVersion;
+
+	bool windowed, vsync;
+	bool richLighting;
+	gs2d::str_type::string title;
+	gs2d::str_type::string fixedWidth, fixedHeight;
+};
 
 #endif

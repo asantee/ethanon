@@ -24,10 +24,10 @@
 #include "ETHDefaultDynamicBackBuffer.h"
 #include "ETHNoDynamicBackBuffer.h"
 
-ETHBackBufferTargetManager::ETHBackBufferTargetManager(gs2d::VideoPtr video, const gs2d::enml::File& file, const Platform::Logger& logger)
+ETHBackBufferTargetManager::ETHBackBufferTargetManager(gs2d::VideoPtr video, const ETHAppEnmlFile& file, const Platform::Logger& logger)
 {
-	const gs2d::str_type::string fixedWidth  = file.get(GS_L("window"), GS_L("fixedWidth"));
-	const gs2d::str_type::string fixedHeight = file.get(GS_L("window"), GS_L("fixedHeight"));
+	const gs2d::str_type::string fixedWidth  = file.GetFixedWidth();
+	const gs2d::str_type::string fixedHeight = file.GetFixedHeight();
 	if (!ComputeLength(video, fixedWidth, fixedHeight, true))
 	{
 		ComputeLength(video, fixedHeight, fixedWidth, false);

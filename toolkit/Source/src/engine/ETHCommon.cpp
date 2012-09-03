@@ -21,47 +21,11 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHCommon.h"
-#include <string.h>
-#include <enml/enml.h>
 
 ETH_VIDEO_MODE::ETH_VIDEO_MODE()
 {
 	width = height = 0;
 	pf = GSPF_UNKNOWN;
-}
-
-ETH_WINDOW_ENML_FILE::ETH_WINDOW_ENML_FILE(const str_type::string& fileName, const Platform::FileManagerPtr& fileManager) :
-	width(640),
-	height(480),
-	windowed(true),
-	vsync(true),
-	title(GS_L("Ethanon Engine")),
-	richLighting(true)
-{
-	str_type::string out;
-	fileManager->GetAnsiFileString(fileName, out);
-	enml::File file(out);
-	if (file.getError() == enml::enmlevSUCCESS)
-	{
-		file.getUInt(GS_L("window"), GS_L("width"), &width);
-		file.getUInt(GS_L("window"), GS_L("height"), &height);
-		windowed = ETHGlobal::IsTrue(file.get(GS_L("window"), GS_L("windowed")));
-		vsync = ETHGlobal::IsTrue(file.get(GS_L("window"), GS_L("vsync")));
-		const str_type::string newTitle = file.get(GS_L("window"), GS_L("title"));
-		richLighting = ETHGlobal::IsTrue(file.get(GS_L("rendering"), GS_L("richLighting")));
-		title = newTitle.empty() ? title : newTitle;
-
-		densityManager.FillParametersFromFile(file);
-	}
-	else
-	{
-		#ifdef GS2D_STR_TYPE_WCHAR
-		std::wcerr
-		#else
-		std::cerr
-		#endif
-		 << file.getErrorString() << std::endl;
-	}
 }
 
 ETH_STARTUP_RESOURCES_ENML_FILE::ETH_STARTUP_RESOURCES_ENML_FILE(const str_type::string& fileName, const Platform::FileManagerPtr& fileManager)
@@ -79,11 +43,11 @@ ETH_STARTUP_RESOURCES_ENML_FILE::ETH_STARTUP_RESOURCES_ENML_FILE(const str_type:
 	}
 	else
 	{
-		#ifdef GS2D_STR_TYPE_WCHAR
+#		ifdef GS2D_STR_TYPE_WCHAR
 		std::wcerr
-		#else
+#		else
 		std::cerr
-		#endif
-		 << file.getErrorString() << std::endl;
+#		endif
+			<< file.getErrorString() << std::endl;
 	}
 }

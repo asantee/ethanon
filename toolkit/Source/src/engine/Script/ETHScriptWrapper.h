@@ -338,7 +338,7 @@ public:
 	// Not to the script
 	static bool Aborted();
 	static ETHResourceProviderPtr GetProvider();
-	static void CreateDynamicBackBuffer(const str_type::string& startResourcePath);
+	static void CreateDynamicBackBuffer(const ETHAppEnmlFile& file);
 };
 
 #endif

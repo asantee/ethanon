@@ -22,6 +22,7 @@
 
 #include "ETHSpriteDensityManager.h"
 #include "../ETHCommon.h"
+#include "../Platform/ETHAppEnmlFile.h"
 
 using gs2d::str_type::string;
 
@@ -36,12 +37,12 @@ ETHSpriteDensityManager::ETHSpriteDensityManager() :
 {
 }
 
-void ETHSpriteDensityManager::FillParametersFromFile(const gs2d::enml::File& file)
+void ETHSpriteDensityManager::FillParametersFromFile(const ETHAppEnmlFile& file)
 {
-	file.getFloat(GS_L("window"), GS_L("hdDensityValue"), &hdDensityValue);
-	file.getFloat(GS_L("window"), GS_L("fullHdDensityValue"), &fullHdDensityValue);
-	file.getUInt(GS_L("window"), GS_L("minScreenHeightForHdVersion"), &minScreenHeightForHdResources);
-	file.getUInt(GS_L("window"), GS_L("minScreenHeightForFullHdVersion"), &minScreenHeightForFullHdResources);
+	hdDensityValue = file.GetHdDensityValue();
+	fullHdDensityValue = file.GetFullHdDensityValue();
+	minScreenHeightForHdResources = file.GetMinScreenHeightForHdVersion();
+	minScreenHeightForFullHdResources = file.GetMinScreenHeightForFullHdVersion();
 }
 
 bool ETHSpriteDensityManager::ShouldUseHdResources(const gs2d::VideoPtr& video) const

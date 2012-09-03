@@ -65,6 +65,8 @@ using namespace gs2d;
 #define ETH_DEFAULT_PARTICLE_BITMAP	GS_L("particle.png")
 #define ETH_APP_PROPERTIES_FILE GS_L("app.enml")
 #define ETH_DEFAULT_BITMAP_FONT GS_L("Verdana14_shadow.fnt")
+#define ETH_DEFAULT_PROPERTY_APP_ENML_ENTITY GS_L("default")
+#define ETH_OLDER_DEFAULT_PROPERTY_APP_ENML_ENTITY GS_L("window")
 
 #define _ETH_EMPTY_SCENE_STRING GS_L("empty")
 
@@ -161,16 +163,6 @@ struct ETH_VIDEO_MODE : public ETH_VIDEO_MODE_POD
 struct ETH_VIEW_RECT
 {
 	Vector2 v2Min, v2Max;
-};
-
-struct ETH_WINDOW_ENML_FILE
-{
-	ETH_WINDOW_ENML_FILE(const str_type::string& fileName, const Platform::FileManagerPtr& fileManager);
-	ETHSpriteDensityManager densityManager;
-	unsigned int width, height;
-	bool windowed, vsync;
-	bool richLighting;
-	str_type::string title;
 };
 
 struct ETH_STARTUP_RESOURCES_ENML_FILE

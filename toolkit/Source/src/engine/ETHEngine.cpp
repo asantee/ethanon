@@ -24,6 +24,7 @@
 #include "Script/ETHScriptObjRegister.h"
 #include "Script/ETHBinaryStream.h"
 #include "ETHCommon.h"
+#include "Platform/ETHAppEnmlFile.h"
 
 #ifdef GS2D_STR_TYPE_WCHAR
  #include "../addons/utf16/scriptbuilder.h"
@@ -85,18 +86,18 @@ ETHResourceProviderPtr ETHEngine::GetProvider()
 
 void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 {
-	ETH_WINDOW_ENML_FILE file(m_startResourcePath + ETH_APP_PROPERTIES_FILE, video->GetFileManager());
-	m_richLighting = file.richLighting;
+	ETHAppEnmlFile file(m_startResourcePath + ETH_APP_PROPERTIES_FILE, video->GetFileManager(), video->GetPlatformName());
+	m_richLighting = file.IsRichLightingEnabled();
 
 	m_provider = ETHResourceProviderPtr(new ETHResourceProvider(
 		ETHGraphicResourceManagerPtr(
-			new ETHGraphicResourceManager(file.densityManager)),
+			new ETHGraphicResourceManager(file.GetDensityManager())),
 		ETHAudioResourceManagerPtr(new ETHAudioResourceManager()),
 		ETHShaderManagerPtr(new ETHShaderManager(video, m_startResourcePath + ETHDirectories::GetShaderPath(), m_richLighting)),
 		m_startResourcePath, video, audio, input));
 	m_ethInput.SetProvider(m_provider);
 
-	CreateDynamicBackBuffer(m_startResourcePath);
+	CreateDynamicBackBuffer(file);
 
 	if (!m_pASEngine)
 	{

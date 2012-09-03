@@ -34,6 +34,7 @@
 #include <Platform/Platform.h>
 #include <Platform/StdFileManager.h>
 #include "../engine/ETHEngine.h"
+#include "../engine/Platform/ETHAppEnmlFile.h"
 
 #include <conio.h>
 
@@ -75,7 +76,7 @@ int wmain(int argc, wchar_t* argv[])
 	ProcParams(argc, argv, compileAndRun, testing, wait);
 	// compileAndRun = false;
 
-	const ETH_WINDOW_ENML_FILE app(resourcePath + ETH_APP_PROPERTIES_FILE, Platform::FileManagerPtr(new Platform::StdFileManager));
+	const ETHAppEnmlFile app(resourcePath + ETH_APP_PROPERTIES_FILE, Platform::FileManagerPtr(new Platform::StdFileManager), GS_L(""));
 	const str_type::string bitmapFontPath = resourcePath + ETHDirectories::GetBitmapFontPath();
 
 	bool aborted;
@@ -83,7 +84,8 @@ int wmain(int argc, wchar_t* argv[])
 		ETHEnginePtr application = ETHEnginePtr(new ETHEngine(testing, compileAndRun, resourcePath));
 		application->SetHighEndDevice(true); // the PC will always be considered as a high-end device
 		VideoPtr video;
-		if ((video = CreateVideo(app.width, app.height, app.title.c_str(), app.windowed, app.vsync, bitmapFontPath.c_str(), GSPF_UNKNOWN, false)))
+		if ((video = CreateVideo(app.GetWidth(), app.GetHeight(), app.GetTitle().c_str(), app.IsWindowed(), app.IsVsyncEnabled(),
+								 bitmapFontPath.c_str(), GSPF_UNKNOWN, false)))
 		{
 			InputPtr input = CreateInput(0, false);
 			AudioPtr audio = CreateAudio(0);

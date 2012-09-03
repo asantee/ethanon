@@ -26,6 +26,8 @@
 #include <enml/enml.h>
 #include <gs2d.h>
 
+class ETHAppEnmlFile;
+
 class ETHSpriteDensityManager
 {
 public:
@@ -40,7 +42,7 @@ public:
 	};
 
 	ETHSpriteDensityManager();
-	void FillParametersFromFile(const gs2d::enml::File& file);
+	void FillParametersFromFile(const ETHAppEnmlFile& file);
 	bool ShouldUseHdResources(const gs2d::VideoPtr& video) const;
 	bool ShouldUseFullHdResources(const gs2d::VideoPtr& video) const;
 	gs2d::str_type::string ChooseSpriteVersion(const gs2d::str_type::string& fullFilePath,

@@ -285,10 +285,9 @@ float ETHScriptWrapper::GetCurrentPhysicsTimeStepMS()
 	return m_pScene->GetSimulator().GetCurrentDynamicTimeStepMS();
 }
 
-void ETHScriptWrapper::CreateDynamicBackBuffer(const str_type::string& startResourcePath)
+void ETHScriptWrapper::CreateDynamicBackBuffer(const ETHAppEnmlFile& file)
 {
-	str_type::string appEnmlContent;
-	m_provider->GetVideo()->GetFileManager()->GetAnsiFileString(startResourcePath + ETH_APP_PROPERTIES_FILE, appEnmlContent);
-	m_backBuffer = ETHBackBufferTargetManagerPtr(new ETHBackBufferTargetManager(m_provider->GetVideo(), enml::File(appEnmlContent), *m_provider->GetLogger()));
+	m_backBuffer = ETHBackBufferTargetManagerPtr(
+		new ETHBackBufferTargetManager(m_provider->GetVideo(), file, *m_provider->GetLogger()));
 	m_ethInput.SetTargetManager(m_backBuffer);
 }
