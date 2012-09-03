@@ -228,6 +228,7 @@ asDECLARE_FUNCTION_WRAPPER(__GetTimeStepScale, ETHScriptWrapper::GetTimeStepScal
 asDECLARE_FUNCTION_WRAPPERPR(__GetClosestContact,   ETHScriptWrapper::GetClosestContact, (const Vector2&, const Vector2&, Vector2&, Vector2&),                          ETHEntity*);
 asDECLARE_FUNCTION_WRAPPERPR(__GetClosestContactEx, ETHScriptWrapper::GetClosestContact, (const Vector2&, const Vector2&, Vector2&, Vector2&, const str_type::string&), ETHEntity*);
 asDECLARE_FUNCTION_WRAPPER(__GetContactEntities, ETHScriptWrapper::GetContactEntities);
+asDECLARE_FUNCTION_WRAPPER(__DisableContact,     ETHScriptWrapper::DisableContact);
 
 asDECLARE_FUNCTION_WRAPPER(__IsFixedTimeStep,				ETHScriptWrapper::IsFixedTimeStep);
 asDECLARE_FUNCTION_WRAPPER(__GetFixedTimeStepValue,			ETHScriptWrapper::GetFixedTimeStepValue);
@@ -489,6 +490,7 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 
 	r = pASEngine->RegisterGlobalFunction("void SetTimeStepScale(const float)", asFUNCTION(__SetTimeStepScale), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("float GetTimeStepScale()",           asFUNCTION(__GetTimeStepScale), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void DisableContact()",              asFUNCTION(__DisableContact),   asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("ETHEntity@ GetClosestContact(const vector2 &in, const vector2 &in, vector2 &out, vector2 &out)", asFUNCTION(__GetClosestContact),  asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("ETHEntity@ GetClosestContact(const vector2 &in, const vector2 &in, vector2 &out, vector2 &out, const string &in)", asFUNCTION(__GetClosestContactEx),  asCALL_GENERIC); assert(r >= 0);

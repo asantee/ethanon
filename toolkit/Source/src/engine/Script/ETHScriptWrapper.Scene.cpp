@@ -691,6 +691,23 @@ void ETHScriptWrapper::SetFixedTimeStepValue(const float value)
 	m_pScene->GetSimulator().SetFixedTimeStepValue(value);
 }
 
+float ETHScriptWrapper::GetCurrentPhysicsTimeStepMS()
+{
+	if (WarnIfRunsInMainFunction(GS_L("GetCurrentPhysicsTimeStepMS")))
+		return 0.0f;
+	return m_pScene->GetSimulator().GetCurrentDynamicTimeStepMS();
+}
+
+void ETHScriptWrapper::DisableContact()
+{
+	if (WarnIfRunsInMainFunction(GS_L("DisableContact")))
+		return;
+	ETHPhysicsSimulator& simulator = m_pScene->GetSimulator();
+	if (!simulator.IsRunningBeginContactCallback())
+		m_provider->Log(GS_L("DisableContact function must be called inside an ETHBeginContactCallback_"), Platform::Logger::ERROR);
+	simulator.DisableNextContact();	
+}
+
 void ETHScriptWrapper::UsePixelShaders(const bool enable)
 {
 	if (!m_provider->GetShaderManager()->IsPixelLightingSupported() && enable)

@@ -25,6 +25,7 @@
 
 #include "ETHPhysicsEntityController.h"
 #include "ETHDestructionListener.h"
+#include "ETHContactListener.h"
 #include "../Util/ETHGlobalScaleManager.h"
 
 using namespace gs2d::math;
@@ -84,6 +85,8 @@ public:
 	bool GetContactEntities(const Vector2& a, const Vector2& b, ETHEntityArray& entities);
 	void ResolveJoints(ETHEntityArray& entities);
 	b2Joint* CreateJoint(b2JointDef& jointDef);
+	void DisableNextContact();
+	bool IsRunningBeginContactCallback() const;
 };
 
 #endif

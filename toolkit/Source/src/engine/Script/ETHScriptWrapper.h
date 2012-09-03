@@ -321,6 +321,7 @@ public:
 	static void SetFixedTimeStep(const bool enable);
 	static void SetFixedTimeStepValue(const float value);
 	static float GetCurrentPhysicsTimeStepMS();
+	static void DisableContact();
 
 	static ETHEntity* GetClosestContact(const Vector2& a, const Vector2& b, Vector2& point, Vector2& normal);
 	static ETHEntity* GetClosestContact(const Vector2& a, const Vector2& b, Vector2& point, Vector2& normal, const str_type::string& semicolonSeparatedIgnoreList);

@@ -29,6 +29,13 @@ class ETHContactListener : public b2ContactListener
 {
 	void BeginContact(b2Contact* contact); 
 	void EndContact(b2Contact* contact);
+	void PreSolve(b2Contact* contact, const b2Manifold* oldManifold);
+	bool m_disableNextContact, m_runningBeginContactCallback;
+
+public:
+	ETHContactListener();
+	void DisableNextContact();
+	bool IsRunningBeginContactCallback() const;
 };
 
 #endif

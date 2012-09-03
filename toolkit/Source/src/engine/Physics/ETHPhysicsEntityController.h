@@ -23,7 +23,6 @@
 #ifndef ETH_PHYSICS_CONTROLLER_H_
 #define ETH_PHYSICS_CONTROLLER_H_
 
-#include "ETHContactListener.h"
 #include "../Entity/ETHEntity.h"
 #include "../Entity/ETHEntityArray.h"
 #include "ETHJoint.h"

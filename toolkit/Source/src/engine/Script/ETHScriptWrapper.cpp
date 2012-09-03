@@ -278,13 +278,6 @@ ETHResourceProviderPtr ETHScriptWrapper::GetProvider()
 	return m_provider;
 }
 
-float ETHScriptWrapper::GetCurrentPhysicsTimeStepMS()
-{
-	if (WarnIfRunsInMainFunction(GS_L("GetCurrentPhysicsTimeStepMS")))
-		return 0.0f;
-	return m_pScene->GetSimulator().GetCurrentDynamicTimeStepMS();
-}
-
 void ETHScriptWrapper::CreateDynamicBackBuffer(const ETHAppEnmlFile& file)
 {
 	m_backBuffer = ETHBackBufferTargetManagerPtr(

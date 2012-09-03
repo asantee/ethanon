@@ -334,3 +334,13 @@ void ETHPhysicsSimulator::ResolveJoints(ETHEntityArray& entities)
 		}
 	}
 }
+
+void ETHPhysicsSimulator::DisableNextContact()
+{
+	m_contactListener.DisableNextContact();
+}
+
+bool ETHPhysicsSimulator::IsRunningBeginContactCallback() const
+{
+	return m_contactListener.IsRunningBeginContactCallback();
+}

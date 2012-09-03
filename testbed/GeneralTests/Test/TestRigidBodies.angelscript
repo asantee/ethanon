@@ -270,6 +270,13 @@ void ETHEndContactCallback_character(ETHEntity@ thisEntity, ETHEntity@ other, ve
 	//DrawFadingText(vector2(10,300), vector2ToString(normal), "Verdana14_shadow.fnt", 0xFFFFFFFF, 3000);
 }
 
+/*void ETHBeginContactCallback_one_sided_platform(ETHEntity@ thisEntity, ETHEntity@ other, vector2 p0, vector2 p1, vector2 normal)
+{
+	ETHPhysicsController@ controller = other.GetPhysicsController();
+	if (controller.GetLinearVelocity().y < 0.0f)
+		DisableContact();
+}*/
+
 void ETHCallback_motor(ETHEntity@ thisEntity)
 {
 	ETHPhysicsController@ controller = thisEntity.GetPhysicsController();
