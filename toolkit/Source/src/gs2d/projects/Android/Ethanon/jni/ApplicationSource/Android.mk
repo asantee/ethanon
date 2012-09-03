@@ -104,7 +104,7 @@ LOCAL_SRC_FILES := \
 	$(ENGINE_PATH)/Physics/ETHJoint.cpp \
 	$(ENGINE_PATH)/Physics/ETHPhysicsEntityController.cpp \
 	$(ENGINE_PATH)/Physics/ETHRevoluteJoint.cpp \
-	$(ENGINE_PATH)/Physics/ETHAppEnmlFile.cpp
+	$(ENGINE_PATH)/Platform/ETHAppEnmlFile.cpp
 
 # REMOVE ApplicationTemplate.cpp AND ENTER YOUR SOURCE FILES HERE:
 # LOCAL_SRC_FILES += ApplicationTemplate.cpp
