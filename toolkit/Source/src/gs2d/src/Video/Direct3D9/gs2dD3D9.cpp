@@ -573,7 +573,7 @@ bool D3D9Video::BeginSpriteScene(const GS_COLOR bgColor)
 	m_pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
 	for (unsigned int t=0; t<TEXTURE_CHANNELS; t++)
 		m_pDevice->SetSamplerState(t, D3DSAMP_MIPFILTER, D3DTEXF_POINT);
-	m_pDevice->SetRenderState(D3DRS_LIGHTING,false);
+	m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 	m_pDevice->SetRenderState(D3DRS_CULLMODE,D3DCULL_NONE);
 	SetAlphaMode(GSAM_PIXEL);
 	return true;
@@ -601,8 +601,8 @@ bool D3D9Video::BeginTargetScene(const GS_COLOR bgColor, const bool clear)
 	m_pDevice->SetRenderState(D3DRS_AMBIENT, GS_WHITE);
 	for (unsigned int t=0; t<TEXTURE_CHANNELS; t++)
 		m_pDevice->SetSamplerState(t, D3DSAMP_MIPFILTER, D3DTEXF_POINT);
-	m_pDevice->SetRenderState(D3DRS_LIGHTING,false);
-	m_pDevice->SetRenderState(D3DRS_CULLMODE,D3DCULL_NONE);
+	m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+	m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	SetAlphaMode(GSAM_PIXEL);
 	return true;
 }
@@ -1220,12 +1220,12 @@ std::wstring GetFileName(const std::wstring& source)
 {
 	std::wstring::size_type length = source.length();
 	std::wstring::size_type t = length-1;
-	for (; t >= 0; --t)
+	for (; t > 0; --t)
 	{
 		if (source[t] == L'\\' || source[t] == L'/')
 			break;
 	}
-	return source.substr( ++t );
+	return source.substr(++t);
 }
 
 void D3D9Video::SetBitmapFontDefaultPath(const std::wstring& path)
@@ -1516,7 +1516,7 @@ bool D3D9Video::DrawRectangle(const Vector2 &v2Pos, const Vector2 &v2Size,
 
 Video::VIDEO_MODE D3D9Video::GetVideoMode(const unsigned int modeIdx) const
 {
-	if (modeIdx >= m_nVideoModes || modeIdx < 0)
+	if (modeIdx >= m_nVideoModes)
 	{
 		VIDEO_MODE mode;
 		mode.width = mode.height = 0;
@@ -1526,7 +1526,6 @@ Video::VIDEO_MODE D3D9Video::GetVideoMode(const unsigned int modeIdx) const
 		Message(L"The selected video mode doesn't exist - D3D9Video::GetVideoMode");
 		return mode;
 	}
-
 	return m_modes[modeIdx];
 }
 
@@ -1537,7 +1536,7 @@ unsigned int D3D9Video::GetVideoModeCount()
 		if ((m_pD3D = CreateAPI()) == NULL)
 		{
 			Message(L"Couldn't create the IDirect3D9 object - D3D9Video::GetVideoModeCount");
-			return false;
+			return 0;
 		}
 		SetDisplayModes(m_pD3D);
 	}
@@ -1914,7 +1913,7 @@ void D3D9Video::SetDisplayModes(IDirect3D9 *pD3D)
 	m_modes.resize(m_nVideoModes);
 
 	unsigned int t;
-	for (t=0; t<n16bit; t++)
+	for (t = 0; t < n16bit; t++)
 	{
 		pD3D->EnumAdapterModes(D3DADAPTER_DEFAULT, D3DFMT_R5G6B5, t, &mode);
 		m_modes[t].width  = mode.Width;
@@ -1932,7 +1931,8 @@ void D3D9Video::SetDisplayModes(IDirect3D9 *pD3D)
 	}
 
 	std::sort(m_modes.begin(), m_modes.end());
-	std::unique(m_modes.begin(), m_modes.end());
+	std::vector<VIDEO_MODE>::iterator iter = std::unique(m_modes.begin(), m_modes.end());
+	m_modes.resize(iter - m_modes.begin());
 }
 
 bool D3D9Video::SetWindowTitle(const std::wstring& title)

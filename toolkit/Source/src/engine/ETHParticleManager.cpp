@@ -415,7 +415,6 @@ bool ETHParticleManager::CreateParticleSystem(const ETH_PARTICLE_SYSTEM &partSys
 	m_soundVolume = 1.0f;
 	m_isSoundLooping = false;
 	m_isSoundStopped = false;
-	m_entityVolume = 1.0f;
 	m_generalVolume = 1.0f;
 	m_system = partSystem;
 	m_entityVolume = entityVolume;

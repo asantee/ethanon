@@ -210,7 +210,7 @@ void CustomDataEditor::Rebuild(const ETHEntity* pEntity, EditorBase *pEditor)
 	pEntity->GetCustomDataManager()->CopyMap(dataMap);
 
 	for (map<wstring, ETHCustomDataPtr>::const_iterator iter = dataMap.begin();
-		 iter != dataMap.end(); iter++)
+		 iter != dataMap.end(); ++iter)
 	{
 		wstringstream ss;
 		ss << L" = ";
@@ -308,11 +308,10 @@ void CustomDataEditor::DrawInputFieldRect(const Vector2 &v2Pos,
 										   const wchar_t *text) const
 {
 	VideoPtr video = pEditor->GetVideoHandler();
-	const Vector2 v2BorderSize(5,5);
-	const Vector2 v2FinalPos(v2Pos-v2BorderSize-Vector2(0,pGui->GetSize()));
-	const Vector2 v2Size(Vector2(pGui->GetWidth(), pGui->GetSize()*2+pEditor->GetMenuSize())+v2BorderSize*2);
-	video->DrawRectangle(v2FinalPos, v2Size,
-		pGui->GetGUIStyle()->active_top, pGui->GetGUIStyle()->active_top,
-		pGui->GetGUIStyle()->active_bottom, pGui->GetGUIStyle()->active_bottom);
-	pEditor->ShadowPrint(Vector2(v2FinalPos.x, v2FinalPos.y+v2Size.y-pEditor->GetMenuSize()), text, GS_BLACK);
+	const Vector2 v2BorderSize(5, 5);
+	const Vector2 v2FinalPos(v2Pos - v2BorderSize-Vector2(0, pGui->GetSize()));
+	const Vector2 v2Size(Vector2(pGui->GetWidth(), pGui->GetSize() * 2 + pEditor->GetMenuSize()) + v2BorderSize * 2);
+	const GSGUI_STYLE* style = pGui->GetGUIStyle();
+	video->DrawRectangle(v2FinalPos, v2Size, style->active_top, style->active_top, style->active_bottom, style->active_bottom);
+	pEditor->ShadowPrint(Vector2(v2FinalPos.x, v2FinalPos.y + v2Size.y - pEditor->GetMenuSize()), text, GS_BLACK);
 }

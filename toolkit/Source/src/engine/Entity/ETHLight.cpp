@@ -57,9 +57,9 @@ bool ETHLight::ReadFromXMLFile(TiXmlElement *pElement)
 	TiXmlElement *pIter;
 
 	pNode = pElement->FirstChild(GS_L("Position"));
-	pIter = pNode->ToElement();
 	if (pNode)
 	{
+		pIter = pNode->ToElement();
 		if (pIter)
 		{
 			pIter->QueryFloatAttribute(GS_L("x"), &pos.x);

@@ -80,8 +80,8 @@ public:
 	void SaveAttributeToInfoFile(const string &programPath, const string &entity, const string &attrib, const string &value);
 	string GetAttributeFromInfoFile(const string &programPath, const string &entity, const string &attrib);
 
-	void ShadowPrint(Vector2 v2Pos, const wchar_t *text, const GS_COLOR color = GS_WHITE) const;
-	void ShadowPrint(Vector2 v2Pos, const wchar_t *text, const wchar_t *font, const GS_COLOR color) const;
+	void ShadowPrint(Vector2 v2Pos, const wchar_t *text, const GS_COLOR& color = GS_WHITE) const;
+	void ShadowPrint(Vector2 v2Pos, const wchar_t *text, const wchar_t *font, const GS_COLOR& color) const;
 
 	VideoPtr GetVideoHandler();
 	InputPtr GetInputHandler();

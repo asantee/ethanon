@@ -1115,7 +1115,7 @@ struct asSMethodPtr<SINGLE_PTR_SIZE+4*sizeof(int)>
 // JIT compiler
 
 struct asSVMRegisters
-{
+{ //-V802
 	asDWORD          *programPointer;     // points to current bytecode instruction
 	asDWORD          *stackFramePointer;  // function stack frame
 	asDWORD          *stackPointer;       // top of stack (grows downward)

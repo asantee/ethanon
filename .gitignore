@@ -51,6 +51,12 @@ d3dx9_42.dll
 machine.exe
 editor.exe
 
+# PVS-Studio garbage
+*.i
+*.PVS-Studio.cfg
+*.cl.cmd
+*.cl.cfg
+
 # Visual Studio binary output paths and files
 *#bin#/
 toolkit/Source/Ethanon Engine.suo

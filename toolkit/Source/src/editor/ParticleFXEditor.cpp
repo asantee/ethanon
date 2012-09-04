@@ -92,26 +92,28 @@ void ParticleEditor::DeleteSoundFX()
 void ParticleEditor::DrawParticleSystem()
 {	
 	m_manager->SetTileZ(0.0f);
-	const Vector2 v2Screen = m_provider->GetVideo()->GetScreenSizeF();
-	const bool overMenu = (m_provider->GetInput()->GetCursorPosition(m_provider->GetVideo()).x<(int)m_menuWidth*2);
-	if (m_provider->GetInput()->GetLeftClickState() == GSKS_DOWN && !overMenu)
-		m_v2Pos = m_provider->GetInput()->GetCursorPositionF(m_provider->GetVideo());
+	const VideoPtr& video = m_provider->GetVideo();
+	const InputPtr& input = m_provider->GetInput();
+	const Vector2 v2Screen = video->GetScreenSizeF();
+	const bool overMenu = (input->GetCursorPosition(video).x<(int)m_menuWidth*2);
+	if (input->GetLeftClickState() == GSKS_DOWN && !overMenu)
+		m_v2Pos = input->GetCursorPositionF(video);
 	else
-		m_v2Pos = m_provider->GetVideo()->GetScreenSizeF()/2;
+		m_v2Pos = video->GetScreenSizeF()/2;
 
-	if (m_provider->GetInput()->GetKeyState(GSK_LEFT) == GSKS_DOWN)
+	if (input->GetKeyState(GSK_LEFT) == GSKS_DOWN)
 		m_systemAngle+=2;
-	if (m_provider->GetInput()->GetKeyState(GSK_RIGHT) == GSKS_DOWN)
+	if (input->GetKeyState(GSK_RIGHT) == GSKS_DOWN)
 		m_systemAngle-=2;
-	if (m_provider->GetInput()->GetKeyState(GSK_UP) == GSKS_DOWN)
+	if (input->GetKeyState(GSK_UP) == GSKS_DOWN)
 		m_systemAngle = 0.0f;
-	if (m_provider->GetInput()->GetKeyState(GSK_DOWN) == GSKS_DOWN)
+	if (input->GetKeyState(GSK_DOWN) == GSKS_DOWN)
 		m_systemAngle = 180.0f;
 
 	m_timer.CalcLastFrame();
 	m_manager->UpdateParticleSystem(m_v2Pos, Vector3(m_v2Pos, 0), m_systemAngle, static_cast<unsigned long>(m_timer.GetElapsedTime() * 1000.0));
 
-	m_provider->GetVideo()->SetScissor(Rect2D((int)m_menuWidth*2, 0, m_provider->GetVideo()->GetScreenSize().x-(int)m_menuWidth*2, m_provider->GetVideo()->GetScreenSize().y));
+	video->SetScissor(Rect2D((int)m_menuWidth*2, 0, video->GetScreenSize().x-(int)m_menuWidth*2, video->GetScreenSize().y));
 	if ((m_boundingSphere.IsActive() || m_boundingSphere.IsMouseOver()) && m_system.boundingSphere >= 1)
 	{
 		m_sphereSprite->SetOrigin(GSEO_CENTER);
@@ -119,16 +121,16 @@ void ParticleEditor::DrawParticleSystem()
 								  Vector2(m_system.boundingSphere, m_system.boundingSphere),
 								  BSPHERE_COLOR, BSPHERE_COLOR, BSPHERE_COLOR, BSPHERE_COLOR);
 	}
-	const bool zBuffer = m_provider->GetVideo()->GetZBuffer();
-	m_provider->GetVideo()->SetZBuffer(false);
+	const bool zBuffer = video->GetZBuffer();
+	video->SetZBuffer(false);
 	m_manager->DrawParticleSystem(Vector3(1,1,1),v2Screen.y,-v2Screen.y, ETH_HORIZONTAL, ETH_DEFAULT_ZDIRECTION, Vector2(0,0), 1.0f);
-	m_provider->GetVideo()->SetZBuffer(zBuffer);
-	m_provider->GetVideo()->UnsetScissor();
+	video->SetZBuffer(zBuffer);
+	video->UnsetScissor();
 
 	if (m_manager->Finished() || m_manager->Killed())
 	{
-		ShadowPrint(Vector2(200.0f, m_provider->GetVideo()->GetScreenSizeF().y/2), REPLAY_MESSAGE, L"Verdana14_shadow.fnt", GS_WHITE);
-		if (m_provider->GetInput()->GetKeyState(GSK_SPACE) == GSKS_HIT || m_provider->GetInput()->GetLeftClickState() == GSKS_HIT)
+		ShadowPrint(Vector2(200.0f, video->GetScreenSizeF().y/2), REPLAY_MESSAGE, L"Verdana14_shadow.fnt", GS_WHITE);
+		if (input->GetKeyState(GSK_SPACE) == GSKS_HIT || input->GetLeftClickState() == GSKS_HIT)
 		{
 			m_manager->Play(m_v2Pos, Vector3(m_v2Pos, 0), m_systemAngle);
 			m_manager->Kill(false);
@@ -424,9 +426,7 @@ void ParticleEditor::SaveAs()
 	char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
 	if (SaveSystem(path, file))
 	{
-		const int len = strlen(path);
-		if (strcmp(&path[len-4], ".par") != 0)
-			_ETH_SAFE_strcat(path, ".par");
+		strcpy(path, ETHGlobal::AppendExtensionIfNeeded(path, ".par").c_str());
 
 		TiXmlDocument doc;
 		TiXmlDeclaration *pDecl = new TiXmlDeclaration(L"1.0", L"", L"");
@@ -480,6 +480,8 @@ void ParticleEditor::Clear()
 void ParticleEditor::ParticlePanel()
 {
 	string programPath = GetCurrentProjectPath(false);
+	const VideoPtr& video = m_provider->GetVideo();
+	const InputPtr& input = m_provider->GetInput();
 
 	GSGUI_BUTTON file_r = m_fileMenu.PlaceMenu(Vector2(0,m_menuSize*2));
 	if (file_r.text == LOAD_BMP)
@@ -487,7 +489,7 @@ void ParticleEditor::ParticlePanel()
 		char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
 		if (OpenParticleBMP(path, file))
 		{
-			ETHGlobal::CopyFileToProject(utf8::c(programPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetParticlesPath(), m_provider->GetVideo()->GetFileManager());
+			ETHGlobal::CopyFileToProject(utf8::c(programPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetParticlesPath(), video->GetFileManager());
 			m_system.bitmapFile = utf8::c(file).wstr();
 			m_provider->GetGraphicResourceManager()->RemoveResource(m_system.bitmapFile);
 			m_manager = ETHParticleManagerPtr(
@@ -513,7 +515,7 @@ void ParticleEditor::ParticlePanel()
 		char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
 		if (OpenParticleBMP(path, file))
 		{
-			m_backgroundSprite = m_provider->GetVideo()->CreateSprite(utf8::c(path).wc_str());
+			m_backgroundSprite = video->CreateSprite(utf8::c(path).wc_str());
 		}	
 	}
 
@@ -569,12 +571,12 @@ void ParticleEditor::ParticlePanel()
 		m_projManagerRequested = true;
 	}
 
-	if (m_provider->GetInput()->GetKeyState(GSK_K) == GSKS_HIT)
+	if (input->GetKeyState(GSK_K) == GSKS_HIT)
 		m_manager->Kill(!m_manager->Killed());
 	
 	if (!m_fileMenu.IsActive())
 	{
-		Vector2 v2ScreenDim = m_provider->GetVideo()->GetScreenSizeF();
+		Vector2 v2ScreenDim = video->GetScreenSizeF();
 		float menu = m_menuSize*m_menuScale+(m_menuSize*2);
 
 		// places the alpha mode menu
@@ -693,13 +695,14 @@ string ParticleEditor::DoEditor(SpritePtr pNextAppButton)
 {
 	if (!m_manager)
 		CreateParticles();
-	m_provider->GetVideo()->SetCameraPos(Vector2(0,0));
-	m_provider->GetVideo()->SetBGColor(m_background);
+	const VideoPtr& video = m_provider->GetVideo();
+	video->SetCameraPos(Vector2(0,0));
+	video->SetBGColor(m_background);
 	if (m_backgroundSprite)
-		m_backgroundSprite->DrawShaped(Vector2(0,0), m_provider->GetVideo()->GetScreenSizeF(), GS_WHITE, GS_WHITE, GS_WHITE, GS_WHITE);
+		m_backgroundSprite->DrawShaped(Vector2(0,0), video->GetScreenSizeF(), GS_WHITE, GS_WHITE, GS_WHITE, GS_WHITE);
 	ParticlePanel();
 	DrawParticleSystem();
-	SetFileNameToTitle(m_provider->GetVideo(), WINDOW_TITLE);
+	SetFileNameToTitle(video, WINDOW_TITLE);
 	return "particle";
 }
 

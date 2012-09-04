@@ -36,8 +36,8 @@ GSGUI_STRING_INPUT::GSGUI_STRING_INPUT()
 	numbersOnly = false;
 }
 
-void GSGUI_STRING_INPUT::PlaceInput(const Vector2 pos, const std::wstring font, const unsigned int nMaxChars, 
-				const float size, const GS_COLOR dwColor, VideoPtr video,
+void GSGUI_STRING_INPUT::PlaceInput(const Vector2& pos, const std::wstring& font, const unsigned int nMaxChars, 
+				const float size, const GS_COLOR& dwColor, VideoPtr video,
 				InputPtr input)
 {
 	const unsigned int time = video->GetElapsedTime();
@@ -111,8 +111,8 @@ void GSGUI_STRING_INPUT::PlaceInput(const Vector2 pos, const std::wstring font, 
 		video->DrawRectangle(cursorPosition+pos-Vector2(2,0), Vector2(2,size), GS_BLACK, GS_BLACK, GS_BLACK, GS_BLACK, 0.0f);
 }
 
-void GSGUI_STRING_INPUT::Place(const Vector2 pos, const std::wstring font,
-				const float size, const GS_COLOR dwColor, VideoPtr video)
+void GSGUI_STRING_INPUT::Place(const Vector2& pos, const std::wstring& font,
+				const float size, const GS_COLOR& dwColor, VideoPtr video)
 {
 	std::wstring outputString = ss;
 	video->DrawBitmapText(pos, outputString, font, dwColor);
@@ -301,7 +301,7 @@ GSGUI_BUTTON GSGUI_SWAPBUTTON::PlaceMenu(Vector2 v2Pos)
 GSGUI_SWAPBUTTON::GSGUI_SWAPSPRITE_PTR_LIST::iterator GSGUI_SWAPBUTTON::Find(const std::wstring &fileName)
 {
 	for (GSGUI_SWAPSPRITE_PTR_LIST::iterator iter = m_sprites.begin();
-		iter != m_sprites.end(); iter++)
+		iter != m_sprites.end(); ++iter)
 	{
 		if ((*iter)->fileName == fileName)
 			return iter;
@@ -430,7 +430,7 @@ GSGUI_BUTTON GSGUI_DROPDOWN::PlaceMenu(Vector2 v2Pos)
 		int focus=-1;
 		int t=1;
 		GSGUI_BUTTON_ITERATOR iter;
-		for (iter = m_buttons.begin(); iter != m_buttons.end(); iter++)
+		for (iter = m_buttons.begin(); iter != m_buttons.end(); ++iter)
 		{
 			Vector2 v2ButtonPos = Vector2(v2Pos.x, v2Pos.y+((float)t*m_size));
 			GS_DWORD top, bottom, text;
@@ -493,7 +493,7 @@ void GSGUI_DROPDOWN::DelButton(const std::wstring &text)
 	if (!m_buttons.empty())
 	{
 		GSGUI_BUTTON_ITERATOR iter;
-		for (iter = m_buttons.begin(); iter != m_buttons.end(); iter++)
+		for (iter = m_buttons.begin(); iter != m_buttons.end(); ++iter)
 		{
 			if (text == iter->text)
 			{
@@ -573,7 +573,7 @@ void GSGUI_BUTTONLIST::ResetButtons()
 	if (!m_buttons.empty())
 	{
 		GSGUI_BUTTON_ITERATOR iter;
-		for (iter = m_buttons.begin(); iter != m_buttons.end(); iter++)
+		for (iter = m_buttons.begin(); iter != m_buttons.end(); ++iter)
 		{
 			iter->active = false;
 		}
@@ -596,7 +596,7 @@ GSGUI_BUTTON GSGUI_BUTTONLIST::PlaceMenu(Vector2 v2Pos)
 		int focus=-1;
 		int t=0;
 		GSGUI_BUTTON_ITERATOR iter;
-		for (iter = m_buttons.begin(); iter != m_buttons.end(); iter++)
+		for (iter = m_buttons.begin(); iter != m_buttons.end(); ++iter)
 		{
 			if (!iter->visible)
 				continue;
@@ -656,7 +656,7 @@ GSGUI_BUTTON GSGUI_BUTTONLIST::PlaceMenu(Vector2 v2Pos)
 
 		if (newSingleSet)
 		{
-			for (iter = m_buttons.begin(); iter != m_buttons.end(); iter++)
+			for (iter = m_buttons.begin(); iter != m_buttons.end(); ++iter)
 			{
 				if (m_single.text == iter->text)
 					continue;
@@ -666,7 +666,7 @@ GSGUI_BUTTON GSGUI_BUTTONLIST::PlaceMenu(Vector2 v2Pos)
 		}
 		if (m_autoUnclick)
 		{
-			for (iter = m_buttons.begin(); iter != m_buttons.end(); iter++)
+			for (iter = m_buttons.begin(); iter != m_buttons.end(); ++iter)
 			{
 				iter->active = false;
 			}
@@ -700,7 +700,7 @@ bool GSGUI_BUTTONLIST::GetButtonStatus(const std::wstring &text) const
 	if (!m_buttons.empty())
 	{
 		GSGUI_BUTTON_CONST_ITERATOR iter;
-		for (iter = m_buttons.begin(); iter != m_buttons.end(); iter++)
+		for (iter = m_buttons.begin(); iter != m_buttons.end(); ++iter)
 		{
 			if (text == iter->text)
 			{
@@ -716,7 +716,7 @@ bool GSGUI_BUTTONLIST::ActivateButton(const std::wstring &text)
 	if (!m_buttons.empty())
 	{
 		GSGUI_BUTTON_ITERATOR iter;
-		for (iter = m_buttons.begin(); iter != m_buttons.end(); iter++)
+		for (iter = m_buttons.begin(); iter != m_buttons.end(); ++iter)
 		{
 			if (text == iter->text)
 			{
@@ -733,7 +733,7 @@ bool GSGUI_BUTTONLIST::DeactivateButton(const std::wstring &text)
 	if (!m_buttons.empty())
 	{
 		GSGUI_BUTTON_ITERATOR iter;
-		for (iter = m_buttons.begin(); iter != m_buttons.end(); iter++)
+		for (iter = m_buttons.begin(); iter != m_buttons.end(); ++iter)
 		{
 			if (text == iter->text)
 			{
@@ -749,7 +749,7 @@ void GSGUI_BUTTONLIST::DelButton(const std::wstring &text)
 	if (!m_buttons.empty())
 	{
 		GSGUI_BUTTON_ITERATOR iter;
-		for (iter = m_buttons.begin(); iter != m_buttons.end(); iter++)
+		for (iter = m_buttons.begin(); iter != m_buttons.end(); ++iter)
 		{
 			if (text == iter->text)
 			{
@@ -765,7 +765,7 @@ void GSGUI_BUTTONLIST::HideButton(const std::wstring &text, const bool hide)
 	if (!m_buttons.empty())
 	{
 		GSGUI_BUTTON_ITERATOR iter;
-		for (iter = m_buttons.begin(); iter != m_buttons.end(); iter++)
+		for (iter = m_buttons.begin(); iter != m_buttons.end(); ++iter)
 		{
 			if (text == iter->text)
 			{
@@ -790,7 +790,7 @@ int GSGUI_BUTTONLIST::GetNumButtons() const
 {
 	int nButtons=0;
 	GSGUI_BUTTON_CONST_ITERATOR iter;
-	for (iter = m_buttons.begin(); iter != m_buttons.end(); iter++)
+	for (iter = m_buttons.begin(); iter != m_buttons.end(); ++iter)
 	{
 		if (iter->visible)
 			nButtons++;
@@ -801,7 +801,7 @@ int GSGUI_BUTTONLIST::GetNumButtons() const
 GSGUI_BUTTON GSGUI_BUTTONLIST::GetFirstActiveButton() const
 {
 	GSGUI_BUTTON_CONST_ITERATOR iter;
-	for (iter = m_buttons.begin(); iter != m_buttons.end(); iter++)
+	for (iter = m_buttons.begin(); iter != m_buttons.end(); ++iter)
 	{
 		if (iter->active)
 			return *iter;
@@ -915,7 +915,7 @@ int GSGUI_INT_INPUT::PlaceInput(Vector2 v2Pos)
 
 	std::wstringstream ss;
 	ss << m_strInput.GetString();
-	if (ss.str().length() > 0)
+	if (ss.str().length() > 0) //-V807
 	{
 		swscanf(ss.str().c_str(), L"%i", &r);
 		if (m_active && m_input->GetWheelState() != 0.0f)
@@ -1106,7 +1106,7 @@ float GSGUI_FLOAT_INPUT::PlaceInput(Vector2 v2Pos)
 	ss.str(m_strInput.GetString());
 
 	// if there are no chars, go back to the min value
-	const unsigned int nLen = ss.str().length();
+	const unsigned int nLen = ss.str().length(); //-V807
 
 	if (m_strInput.GetString().length() > 0)
 	{
@@ -1201,7 +1201,6 @@ GSGUI_STRING_LINE_INPUT::GSGUI_STRING_LINE_INPUT()
 	m_mouseOver = false;
 	m_text = L"";
 	m_nMaxChars = 8;
-	m_active = false;
 }
 
 void GSGUI_STRING_LINE_INPUT::SetValue(const std::wstring &str)
@@ -1216,7 +1215,7 @@ std::wstring GSGUI_STRING_LINE_INPUT::GetValue() const
 
 void GSGUI_STRING_LINE_INPUT::SetupMenu(VideoPtr video, InputPtr input,
 										const float size, const float width, const int maxC, const bool active,
-										const std::wstring sValue)
+										const std::wstring& sValue)
 {
 	m_video = video;
 	m_input = input;

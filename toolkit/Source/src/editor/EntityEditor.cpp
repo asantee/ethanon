@@ -512,15 +512,14 @@ void EntityEditor::CreateCollisionBoxFromEntity()
 	const Vector2 v2CurrentSize = m_renderEntity->GetCurrentSize();
 
 	Vector3 v3Size, v3Pos(m_pEditEntity->pivotAdjust.x, m_pEditEntity->pivotAdjust.y,0);
+	v3Size.x = v2CurrentSize.x;
 	if (m_pEditEntity->type == ETH_VERTICAL)
 	{
-		v3Size.x = v2CurrentSize.x;
 		v3Size.y = v2CurrentSize.x;
 		v3Size.z = v2CurrentSize.y;
 	}
 	else
 	{
-		v3Size.x = v2CurrentSize.x;
 		v3Size.y = v2CurrentSize.y;
 		v3Size.z = 1.0f;
 	}
@@ -585,14 +584,14 @@ void EntityEditor::ResetEntityMenu()
 		m_boolLight.AddButton(_S_SHADOW_CASTER, ETHGlobal::ToBool(m_pEditEntity->light->castShadows));
 		m_boolLight.AddButton(_S_STATIC_LIGHT, ETHGlobal::ToBool(m_pEditEntity->staticEntity));
 
-		m_lightColor[0].SetConstant(m_pEditEntity->light->color.x);
+		m_lightColor[0].SetConstant(m_pEditEntity->light->color.x); //-V807
 		m_lightColor[1].SetConstant(m_pEditEntity->light->color.y);
 		m_lightColor[2].SetConstant(m_pEditEntity->light->color.z);
 
 		m_lightRange.SetConstant(m_pEditEntity->light->range);
 		m_haloSize.SetConstant(m_pEditEntity->light->haloSize);
 		m_haloAlpha.SetConstant(m_pEditEntity->light->haloBrightness);
-		m_lightPos[0].SetConstant(m_pEditEntity->light->pos.x);
+		m_lightPos[0].SetConstant(m_pEditEntity->light->pos.x); //-V807
 		m_lightPos[1].SetConstant(m_pEditEntity->light->pos.y);
 		m_lightPos[2].SetConstant(m_pEditEntity->light->pos.z);
 	}
@@ -608,10 +607,10 @@ void EntityEditor::ResetEntityMenu()
 
 	if (m_pEditEntity->collision)
 	{
-		m_collisionPos[0].SetConstant(m_pEditEntity->collision->pos.x);
+		m_collisionPos[0].SetConstant(m_pEditEntity->collision->pos.x); //-V807
 		m_collisionPos[1].SetConstant(m_pEditEntity->collision->pos.y);
 		m_collisionPos[2].SetConstant(m_pEditEntity->collision->pos.z);
-		m_collisionSize[0].SetConstant(m_pEditEntity->collision->size.x);
+		m_collisionSize[0].SetConstant(m_pEditEntity->collision->size.x); //-V807
 		m_collisionSize[1].SetConstant(m_pEditEntity->collision->size.y);
 		m_collisionSize[2].SetConstant(m_pEditEntity->collision->size.z);
 	}
@@ -645,7 +644,7 @@ void EntityEditor::ResetParticleMenu()
 	{
 		if (m_pEditEntity->particleSystems[t])
 		{
-			m_particlePos[t][0].SetConstant(m_pEditEntity->particleSystems[t]->v3StartPoint.x);
+			m_particlePos[t][0].SetConstant(m_pEditEntity->particleSystems[t]->v3StartPoint.x); //-V807
 			m_particlePos[t][1].SetConstant(m_pEditEntity->particleSystems[t]->v3StartPoint.y);
 			m_particlePos[t][2].SetConstant(m_pEditEntity->particleSystems[t]->v3StartPoint.z);
 		}
@@ -662,7 +661,7 @@ void EntityEditor::ResetLightMenu()
 {
 	if (m_pEditEntity->light)
 	{
-		m_lightPos[0].SetConstant(m_pEditEntity->light->pos.x);
+		m_lightPos[0].SetConstant(m_pEditEntity->light->pos.x); //-V807
 		m_lightPos[1].SetConstant(m_pEditEntity->light->pos.y);
 		m_lightPos[2].SetConstant(m_pEditEntity->light->pos.z);
 	}
@@ -716,6 +715,7 @@ void EntityEditor::DoMainMenu()
 		OpenEntity(GetCurrentFile(true).c_str());
 	}
 
+	const ETHGraphicResourceManagerPtr& resourceManager = m_provider->GetGraphicResourceManager();
 	file_r = m_addMenu.PlaceMenu(Vector2(x,y)); x+=m_menuWidth*2;
 	if (file_r.text == _S_OPEN_ENTITY)
 	{
@@ -723,11 +723,11 @@ void EntityEditor::DoMainMenu()
 		char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
 		if (OpenForm(filter, utf8::c(ETHDirectories::GetEntityPath()).c_str(), path, file, currentProjectPath.c_str()))
 		{
-			ETHGlobal::CopyFileToProject(utf8::c(currentProjectPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetEntityPath(), m_provider->GetVideo()->GetFileManager());
+			ETHGlobal::CopyFileToProject(utf8::c(currentProjectPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetEntityPath(), video->GetFileManager());
 			if (LoadSprite(file, path))
 			{
 				Vector2 screenMid = video->GetScreenSizeF() / 2.0f;
-				m_provider->GetGraphicResourceManager()->RemoveResource(m_pEditEntity->spriteFile);
+				resourceManager->RemoveResource(m_pEditEntity->spriteFile);
 				m_renderEntity->SetSprite(m_pEditEntity->spriteFile);			
 			}
 		}
@@ -738,11 +738,11 @@ void EntityEditor::DoMainMenu()
 		char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
 		if (OpenForm(filter, utf8::c(ETHDirectories::GetNormalMapPath()).c_str(), path, file, currentProjectPath.c_str()))
 		{
-			ETHGlobal::CopyFileToProject(utf8::c(currentProjectPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetNormalMapPath(), m_provider->GetVideo()->GetFileManager());
+			ETHGlobal::CopyFileToProject(utf8::c(currentProjectPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetNormalMapPath(), video->GetFileManager());
 			if (LoadNormal(file, path))
 			{
 				Vector2 screenMid = video->GetScreenSizeF() / 2.0f;
-				m_provider->GetGraphicResourceManager()->RemoveResource(m_pEditEntity->normalFile);
+				resourceManager->RemoveResource(m_pEditEntity->normalFile);
 				m_renderEntity->SetNormal(m_pEditEntity->normalFile);			
 			}
 		}
@@ -753,11 +753,11 @@ void EntityEditor::DoMainMenu()
 		char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
 		if (OpenForm(filter, utf8::c(ETHDirectories::GetEntityPath()).c_str(), path, file, currentProjectPath.c_str()))
 		{
-			ETHGlobal::CopyFileToProject(utf8::c(currentProjectPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetEntityPath(), m_provider->GetVideo()->GetFileManager());
+			ETHGlobal::CopyFileToProject(utf8::c(currentProjectPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetEntityPath(), video->GetFileManager());
 			if (LoadHalo(file, path))
 			{
 				Vector2 screenMid = video->GetScreenSizeF() / 2.0f;
-				m_provider->GetGraphicResourceManager()->RemoveResource(m_pEditEntity->light->haloBitmap);
+				resourceManager->RemoveResource(m_pEditEntity->light->haloBitmap);
 				m_renderEntity->SetHalo(m_pEditEntity->light->haloBitmap);
 			}
 		}
@@ -768,11 +768,11 @@ void EntityEditor::DoMainMenu()
 		char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
 		if (OpenForm(filter, utf8::c(ETHDirectories::GetEntityPath()).c_str(), path, file, currentProjectPath.c_str()))
 		{
-			ETHGlobal::CopyFileToProject(utf8::c(currentProjectPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetEntityPath(), m_provider->GetVideo()->GetFileManager());
+			ETHGlobal::CopyFileToProject(utf8::c(currentProjectPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetEntityPath(), video->GetFileManager());
 			if (LoadGloss(file, path))
 			{
 				Vector2 screenMid = video->GetScreenSizeF() / 2.0f;
-				m_provider->GetGraphicResourceManager()->RemoveResource(m_pEditEntity->glossFile);
+				resourceManager->RemoveResource(m_pEditEntity->glossFile);
 				m_renderEntity->SetGloss(m_pEditEntity->glossFile);
 			}
 		}
@@ -866,7 +866,7 @@ void EntityEditor::ShowWarnings()
 		list<wstring>::iterator iter;
 		wstringstream ss;
 		ss << L"Warnings" << endl;
-		for (iter = warnings.begin(); iter != warnings.end(); iter++)
+		for (iter = warnings.begin(); iter != warnings.end(); ++iter)
 		{
 			ss << L"-" << *iter << endl;
 		}
@@ -1082,12 +1082,12 @@ string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 			m_pEditEntity->light->castShadows = m_boolLight.GetButtonStatus(_S_SHADOW_CASTER);
 			y+=m_menuSize/2;
 
-			m_pEditEntity->light->pos.x = m_lightPos[0].PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth);	y+=m_menuSize;
+			m_pEditEntity->light->pos.x = m_lightPos[0].PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth);	y+=m_menuSize; //-V807
 			m_pEditEntity->light->pos.y = m_lightPos[1].PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth);	y+=m_menuSize;
 			m_pEditEntity->light->pos.z = m_lightPos[2].PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth);	y+=m_menuSize;
 			m_pEditEntity->light->range = m_lightRange.PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth);	y+=m_menuSize;
 			y+=m_menuSize/2;
-			m_pEditEntity->light->color.x = m_lightColor[0].PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth);	y+=m_menuSize;
+			m_pEditEntity->light->color.x = m_lightColor[0].PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth);	y+=m_menuSize; //-V807
 			m_pEditEntity->light->color.y = m_lightColor[1].PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth);	y+=m_menuSize;
 			m_pEditEntity->light->color.z = m_lightColor[2].PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth);	y+=m_menuSize;
 			y+=m_menuSize/2;
@@ -1120,7 +1120,7 @@ string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 				)
 				if (m_pEditEntity->light)
 				{
-					m_pEditEntity->light->pos.x = m_pEditEntity->particleSystems[t]->v3StartPoint.x;
+					m_pEditEntity->light->pos.x = m_pEditEntity->particleSystems[t]->v3StartPoint.x; //-V807
 					m_pEditEntity->light->pos.y = m_pEditEntity->particleSystems[t]->v3StartPoint.y;
 					m_pEditEntity->light->pos.z = m_pEditEntity->particleSystems[t]->v3StartPoint.z;
 					ResetLightMenu();
@@ -1156,8 +1156,9 @@ string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 			if (m_spot.MouseOverLClick(m_provider->GetInput(), video, v2LightPos + m_renderEntity->GetPositionXY()) == GSKS_DOWN)
 			{
 				const Vector2 v2Cursor = m_provider->GetInput()->GetCursorPositionF(video);
-				m_pEditEntity->light->pos.x = v2Cursor.x - m_renderEntity->GetPosition().x;
-				m_pEditEntity->light->pos.y = v2Cursor.y - m_renderEntity->GetPosition().y;
+				const Vector2 v2Pos = m_renderEntity->GetPositionXY();
+				m_pEditEntity->light->pos.x = v2Cursor.x - v2Pos.x;
+				m_pEditEntity->light->pos.y = v2Cursor.y - v2Pos.y;
 				m_lightPos[0].SetConstant(m_pEditEntity->light->pos.x);
 				m_lightPos[1].SetConstant(m_pEditEntity->light->pos.y);
 				ResetLightMenu();
@@ -1231,13 +1232,13 @@ string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 
 			y+=m_menuSize/2;
 			ShadowPrint(Vector2(x,y), L"Collision box position:"); y+=m_menuSize;
-			m_pEditEntity->collision->pos.x = m_collisionPos[0].PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y - m_menuSize), m_menuWidth);	y+=m_menuSize;
+			m_pEditEntity->collision->pos.x = m_collisionPos[0].PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y - m_menuSize), m_menuWidth);	y+=m_menuSize; //-V807
 			m_pEditEntity->collision->pos.y = m_collisionPos[1].PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y - m_menuSize), m_menuWidth);	y+=m_menuSize;
 			m_pEditEntity->collision->pos.z = m_collisionPos[2].PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y - m_menuSize), m_menuWidth);	y+=m_menuSize;
 			y+=m_menuSize/2;
 
 			ShadowPrint(Vector2(x,y), L"Collision box size:"); y+=m_menuSize;
-			m_pEditEntity->collision->size.x = m_collisionSize[0].PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y - m_menuSize), m_menuWidth);	y+=m_menuSize;
+			m_pEditEntity->collision->size.x = m_collisionSize[0].PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y - m_menuSize), m_menuWidth);	y+=m_menuSize; //-V807
 			m_pEditEntity->collision->size.y = m_collisionSize[1].PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y - m_menuSize), m_menuWidth);	y+=m_menuSize;
 			m_pEditEntity->collision->size.z = m_collisionSize[2].PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y - m_menuSize), m_menuWidth);	y+=m_menuSize;
 			y+=m_menuSize/2;
@@ -1337,7 +1338,7 @@ void EntityEditor::OpenEntity(const char* fullFilePath)
 	ResetSpriteCut();
 	for (int t = 0; t < ETH_MAX_PARTICLE_SYS_PER_ENTITY; t++)
 	{
-		if (m_pEditEntity->particleSystems[t]->nParticles > 0 && m_pEditEntity->particleSystems[t]->bitmapFile != L"")
+		if (m_pEditEntity->particleSystems[t]->nParticles > 0 && m_pEditEntity->particleSystems[t]->bitmapFile != L"") //-V807
 		{
 			m_attachLight.AddButton(utf8::c(m_pEditEntity->particleSystems[t]->bitmapFile).wc_str());
 		}
@@ -1365,23 +1366,24 @@ void EntityEditor::DrawEntity()
 	m_axis->Draw(screenMid);
 	m_renderEntity->SetOrphanPositionXY(screenMid);
 
-	const Vector2 v2Cursor = m_provider->GetInput()->GetCursorPositionF(video);
+	const InputPtr& input = m_provider->GetInput();
+	const Vector2 v2Cursor = input->GetCursorPositionF(video);
 	m_cursorLight.pos.x = v2Cursor.x;
 	m_cursorLight.pos.y = v2Cursor.y;
 
 	// move the cursor light up and down (along the Z axis)
-	if (m_provider->GetInput()->GetKeyState(GSK_PAGEUP) == GSKS_HIT)
+	if (input->GetKeyState(GSK_PAGEUP) == GSKS_HIT)
 	{
 		m_cursorLight.pos.z+=5;
 	}
-	if (m_provider->GetInput()->GetKeyState(GSK_PAGEDOWN) == GSKS_HIT)
+	if (input->GetKeyState(GSK_PAGEDOWN) == GSKS_HIT)
 	{
 		m_cursorLight.pos.z-=5;
 	}
 
 	if (m_pEditEntity->light)
 	{
-		const Vector2 v2LightPos(m_pEditEntity->light->pos.x, m_pEditEntity->light->pos.y);
+		const Vector2 v2LightPos(m_pEditEntity->light->pos.x, m_pEditEntity->light->pos.y); //-V807
 		const float diameter = m_pEditEntity->light->range * 2;
 		const GS_COLOR color = ConvertToDW(m_pEditEntity->light->color);
 		m_range->DrawShaped(m_renderEntity->GetPositionXY() + v2LightPos, Vector2(diameter,diameter),
@@ -1391,26 +1393,28 @@ void EntityEditor::DrawEntity()
 	video->SetZWrite(true);
 	video->SetZBuffer(true);
 
+	const Vector2 screenSize(video->GetScreenSizeF());
+	const ETHShaderManagerPtr& shaderManager = m_provider->GetShaderManager();
+
 	// Render the shadow from the entity light
 	if (m_pEditEntity->light)
 	{
 		ETHLight editLight = *m_pEditEntity->light.get();
 		editLight.pos += m_renderEntity->GetPosition();
-		if (m_provider->GetShaderManager()->BeginShadowPass(m_renderEntity.get(), &editLight, video->GetScreenSizeF().y,-video->GetScreenSizeF().y))
+		if (shaderManager->BeginShadowPass(m_renderEntity.get(), &editLight, screenSize.y,-screenSize.y))
 		{
-			m_renderEntity->DrawShadow(video->GetScreenSizeF().y,-video->GetScreenSizeF().y,
-									  m_sceneProps, *m_pEditEntity->light.get(), m_renderEntity.get());
-			m_provider->GetShaderManager()->EndShadowPass();
+			m_renderEntity->DrawShadow(screenSize.y,-screenSize.y, m_sceneProps, *m_pEditEntity->light.get(), m_renderEntity.get());
+			shaderManager->EndShadowPass();
 		}
 	}
 
 	// Render the shadow from the cursor light
 	if (!m_pEditEntity->light)
 	{
-		if (m_provider->GetShaderManager()->BeginShadowPass(m_renderEntity.get(), &m_cursorLight, video->GetScreenSizeF().y,-video->GetScreenSizeF().y))
+		if (shaderManager->BeginShadowPass(m_renderEntity.get(), &m_cursorLight, screenSize.y,-screenSize.y))
 		{
-			m_renderEntity->DrawShadow(video->GetScreenSizeF().y,-video->GetScreenSizeF().y, m_sceneProps, m_cursorLight, 0);
-			m_provider->GetShaderManager()->EndShadowPass();
+			m_renderEntity->DrawShadow(screenSize.y,-screenSize.y, m_sceneProps, m_cursorLight, 0);
+			shaderManager->EndShadowPass();
 		}
 	}
 	video->SetZWrite(false);
@@ -1418,7 +1422,7 @@ void EntityEditor::DrawEntity()
 
 	if (m_pEditEntity->collision && m_tool.GetButtonStatus(_S_EDIT_COLLISION))
 	{
-		if (m_pEditEntity->collision->size.x != 0.0f &&
+		if (m_pEditEntity->collision->size.x != 0.0f && //-V807
 			m_pEditEntity->collision->size.y != 0.0f &&
 			m_pEditEntity->collision->size.z != 0.0f)
 		{
@@ -1432,9 +1436,9 @@ void EntityEditor::DrawEntity()
 	video->SetZWrite(true);
 	video->SetZBuffer(true);
 
-	m_provider->GetShaderManager()->BeginAmbientPass(m_renderEntity.get(), video->GetScreenSizeF().y,-video->GetScreenSizeF().y);
-	m_renderEntity->DrawAmbientPass(video->GetScreenSizeF().y,-video->GetScreenSizeF().y, false, m_sceneProps);
-	m_provider->GetShaderManager()->EndAmbientPass();
+	shaderManager->BeginAmbientPass(m_renderEntity.get(), screenSize.y,-screenSize.y);
+	m_renderEntity->DrawAmbientPass(screenSize.y,-screenSize.y, false, m_sceneProps);
+	shaderManager->EndAmbientPass();
 
 	video->SetZWrite(false);
 	video->SetZBuffer(false);
@@ -1444,19 +1448,19 @@ void EntityEditor::DrawEntity()
 
 	if (!m_renderEntity->HasLightSource())
 	{
-		if (m_provider->GetShaderManager()->BeginLightPass(m_renderEntity.get(), &m_cursorLight, video->GetScreenSizeF().y,-video->GetScreenSizeF().y, 2.0f))
+		if (shaderManager->BeginLightPass(m_renderEntity.get(), &m_cursorLight, screenSize.y,-screenSize.y, 2.0f))
 		{
 			m_renderEntity->DrawLightPass(ETH_DEFAULT_ZDIRECTION);
-			m_provider->GetShaderManager()->EndLightPass();
+			shaderManager->EndLightPass();
 		}
 	}
 
 	if (m_pEditEntity->light)
 	{
-		if (m_provider->GetShaderManager()->BeginLightPass(m_renderEntity.get(), m_pEditEntity->light.get(), video->GetScreenSizeF().y,-video->GetScreenSizeF().y, 2.0f, m_renderEntity.get()))
+		if (shaderManager->BeginLightPass(m_renderEntity.get(), m_pEditEntity->light.get(), screenSize.y,-screenSize.y, 2.0f, m_renderEntity.get()))
 		{
 			m_renderEntity->DrawLightPass(ETH_DEFAULT_ZDIRECTION);
-			m_provider->GetShaderManager()->EndLightPass();
+			shaderManager->EndLightPass();
 		}
 	}
 
@@ -1497,14 +1501,15 @@ void EntityEditor::DrawEntity()
 	{
 		lights.push_back(m_cursorLight);
 	}
-	if (m_provider->GetShaderManager()->BeginParticlePass())
+	if (shaderManager->BeginParticlePass())
 	{
 		for (int t=0; t<ETH_MAX_PARTICLE_SYS_PER_ENTITY; t++)
 		{
+			const Vector2 screenSize(video->GetScreenSizeF());
 			if (m_renderEntity->HasParticleSystem(t))
-				m_renderEntity->DrawParticles(t, video->GetScreenSizeF().y,-video->GetScreenSizeF().y, m_sceneProps);
+				m_renderEntity->DrawParticles(t, screenSize.y,-screenSize.y, m_sceneProps);
 		}
-		m_provider->GetShaderManager()->EndParticlePass();
+		shaderManager->EndParticlePass();
 
 		if (m_renderEntity->AreParticlesOver())
 		{
@@ -1522,10 +1527,11 @@ void EntityEditor::DrawEntity()
 	{
 		video->SetZWrite(true);
 		video->SetZBuffer(true);
-		if (m_provider->GetShaderManager()->BeginHaloPass(m_pEditEntity->light.get(), video->GetScreenSizeF().y, m_renderEntity.get()))
+		const Vector2 screenSize(video->GetScreenSizeF());
+		if (shaderManager->BeginHaloPass(m_pEditEntity->light.get(), screenSize.y, m_renderEntity.get()))
 		{
-			m_renderEntity->DrawHalo(video->GetScreenSizeF().y,-video->GetScreenSizeF().y, false, ETH_DEFAULT_ZDIRECTION);
-			m_provider->GetShaderManager()->EndHaloPass();
+			m_renderEntity->DrawHalo(screenSize.y,-screenSize.y, false, ETH_DEFAULT_ZDIRECTION);
+			shaderManager->EndHaloPass();
 		}
 		video->SetZWrite(false);
 		video->SetZBuffer(false);
@@ -1554,7 +1560,7 @@ void EntityEditor::DrawEntity()
 	{
 		for (int t=0; t<ETH_MAX_PARTICLE_SYS_PER_ENTITY; t++)
 		{
-			if (m_pEditEntity->particleSystems[t]->nParticles > 0)
+			if (m_pEditEntity->particleSystems[t]->nParticles > 0) //-V807
 			{
 				m_particleSpot[t].m_sprite->Draw(m_renderEntity->GetPositionXY() + ETHGlobal::ToVector2(m_pEditEntity->particleSystems[t]->v3StartPoint),
 												 ConvertToDW(m_pEditEntity->particleSystems[t]->v4Color0));
@@ -1663,7 +1669,7 @@ void EntityEditor::UnloadParticle(const int n)
 			m_renderEntity->GetParticleSFX(n)->Stop();
 		}
 	}
-	m_attachLight.DelButton(utf8::c(m_pEditEntity->particleSystems[n]->bitmapFile).wc_str());
+	m_attachLight.DelButton(utf8::c(m_pEditEntity->particleSystems[n]->bitmapFile).wc_str()); //-V807
 	m_pEditEntity->particleSystems[n]->bitmapFile = L"";
 	m_pEditEntity->particleSystems[n]->nParticles = 0;
 	m_renderEntity->DestroyParticleSystem(n);

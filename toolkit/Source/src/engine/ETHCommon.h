@@ -204,7 +204,7 @@ namespace ETHGlobal {
 		};
 	}
 
-	ETH_INLINE Vector4 ConvertToV4(const GS_COLOR color)
+	ETH_INLINE Vector4 ConvertToV4(const GS_COLOR& color)
 	{
 		return Vector4(
 			(float)color.r/255.0f,
@@ -285,6 +285,26 @@ namespace ETHGlobal {
 		}
 		return dest;
 	}
+
+	ETH_INLINE str_type::string AppendExtensionIfNeeded(str_type::string source, const str_type::string& ext)
+	{
+		if (source.rfind(ext) != (source.size() - ext.size()))
+		{
+			source.append(ext);
+		}
+		return source;
+	}
+
+#	ifdef GS2D_STR_TYPE_WCHAR
+	ETH_INLINE std::string AppendExtensionIfNeeded(std::string source, const std::string& ext)
+	{
+		if (source.rfind(ext) != (source.size() - ext.size()))
+		{
+			source.append(ext);
+		}
+		return source;
+	}
+#	endif
 
 	ETH_INLINE std::vector<str_type::string> SplitString(str_type::string str, const str_type::string& c)
 	{

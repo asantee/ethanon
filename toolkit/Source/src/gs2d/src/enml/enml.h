@@ -246,7 +246,7 @@ public:
 			attribs.clear();
 		}
 		std::map<str_type::string, str_type::string>::const_iterator iter = begin();
-		for (; iter != end(); iter++)
+		for (; iter != end(); ++iter)
 		{
 			attribs.push_back(iter->first);
 		}
@@ -342,7 +342,7 @@ public:
 			m_entities[key].clear();
 		}
 		std::map<str_type::string, str_type::string>::const_iterator iter;
-		for (iter = entity.begin(); iter != entity.end(); iter++)
+		for (iter = entity.begin(); iter != entity.end(); ++iter)
 		{
 			m_entities[key].add(iter->first, iter->second);
 		}
@@ -353,11 +353,11 @@ public:
 	{
 		str_type::stringstream ss;
 		std::map<str_type::string, Entity>::const_iterator entityIter = m_entities.begin();
-		for (; entityIter != m_entities.end(); entityIter++)
+		for (; entityIter != m_entities.end(); ++entityIter)
 		{
 			ss << entityIter->first << std::endl << GS_L("{") << std::endl;
 			std::map<str_type::string, str_type::string>::const_iterator iter;
-			for (iter = entityIter->second.begin(); iter != entityIter->second.end(); iter++)
+			for (iter = entityIter->second.begin(); iter != entityIter->second.end(); ++iter)
 			{
 				ss << GS_L("\t") << iter->first << GS_L(" = ") << fixBackslashes(iter->second) << GS_L(";") << std::endl;
 			}
@@ -372,12 +372,12 @@ public:
 		str_type::stringstream ss;
 		std::map<str_type::string, Entity>::const_iterator entityIter = m_entities.begin();
 		unsigned int n = 0;
-		for (; entityIter != m_entities.end(); entityIter++)
+		for (; entityIter != m_entities.end(); ++entityIter)
 		{
 			n++;
 			ss << GS_L("-entity #") << n << GS_L(":") << std::endl << GS_L(" ") << entityIter->first << std::endl;
 			std::map<str_type::string, str_type::string>::const_iterator iter;
-			for (iter = entityIter->second.begin(); iter != entityIter->second.end(); iter++)
+			for (iter = entityIter->second.begin(); iter != entityIter->second.end(); ++iter)
 			{
 				ss << GS_L("\t") << iter->first << GS_L(": ") << iter->second << std::endl;
 			}
@@ -665,7 +665,7 @@ public:
 			entities.clear();
 		}
 		std::map<str_type::string, Entity>::const_iterator iter = m_entities.begin();
-		for (; iter != m_entities.end(); iter++)
+		for (; iter != m_entities.end(); ++iter)
 		{
 			entities.push_back(iter->first);
 		}

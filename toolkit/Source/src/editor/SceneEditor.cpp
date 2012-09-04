@@ -89,32 +89,35 @@ void SceneEditor::LoadEditor()
 	m_customDataEditor.LoadEditor(this);
 
 	RebuildScene(_ETH_EMPTY_SCENE_STRING);
-	m_provider->GetVideo()->SetBGColor(m_background);
 
-	m_lSprite = m_provider->GetVideo()->CreateSprite(m_provider->GetProgramPath() + L"data/l.png", 0xFFFF00FF);
+	const VideoPtr& video = m_provider->GetVideo();
+	video->SetBGColor(m_background);
+
+	m_lSprite = video->CreateSprite(m_provider->GetProgramPath() + L"data/l.png", 0xFFFF00FF);
 	m_lSprite->SetOrigin(GSEO_CENTER);
 
-	m_pSprite = m_provider->GetVideo()->CreateSprite(m_provider->GetProgramPath() + L"data/p.png", 0xFFFF00FF);
+	m_pSprite = video->CreateSprite(m_provider->GetProgramPath() + L"data/p.png", 0xFFFF00FF);
 	m_pSprite->SetOrigin(GSEO_CENTER);
 
-	m_parallaxCursor = m_provider->GetVideo()->CreateSprite(m_provider->GetProgramPath() + L"data/parallax.png", 0xFFFF00FF);
+	m_parallaxCursor = video->CreateSprite(m_provider->GetProgramPath() + L"data/parallax.png", 0xFFFF00FF);
 	m_parallaxCursor->SetOrigin(GSEO_CENTER);
 
-	m_axis = m_provider->GetVideo()->CreateSprite(m_provider->GetProgramPath() + L"data/axis.png");
+	m_axis = video->CreateSprite(m_provider->GetProgramPath() + L"data/axis.png");
 	m_axis->SetOrigin(GSEO_CENTER);
 	
-	m_outline = m_provider->GetVideo()->CreateSprite(m_provider->GetProgramPath() + L"data/outline.png");
+	m_outline = video->CreateSprite(m_provider->GetProgramPath() + L"data/outline.png");
 
-	m_soundWave = m_provider->GetVideo()->CreateSprite(m_provider->GetProgramPath() + L"data/soundwave.dds");
+	m_soundWave = video->CreateSprite(m_provider->GetProgramPath() + L"data/soundwave.dds");
 	m_soundWave->SetOrigin(GSEO_CENTER);
 
-	m_invisible = m_provider->GetVideo()->CreateSprite(m_provider->GetProgramPath() + L"data/invisible.png", 0xFFFF00FF);
+	m_invisible = video->CreateSprite(m_provider->GetProgramPath() + L"data/invisible.png", 0xFFFF00FF);
 	m_invisible->SetOrigin(GSEO_CENTER);
 
-	m_arrows = m_provider->GetVideo()->CreateSprite(m_provider->GetProgramPath() + L"data/arrows.png");
+	m_arrows = video->CreateSprite(m_provider->GetProgramPath() + L"data/arrows.png");
 	m_arrows->SetOrigin(GSEO_CENTER);
 
-	m_renderMode.SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth*2, true, false, false);
+	const InputPtr& input = m_provider->GetInput();
+	m_renderMode.SetupMenu(video, input, m_menuSize, m_menuWidth*2, true, false, false);
 
 	const std::string programPath = utf8::c(m_provider->GetProgramPath()).c_str();
 	std::wstring rmStatus = utf8::c(GetAttributeFromInfoFile(programPath, "status", "renderMode")).wc_str();
@@ -125,7 +128,7 @@ void SceneEditor::LoadEditor()
 	m_renderMode.AddButton(_S_USE_PS, rmStatus == _S_USE_PS);
 	m_renderMode.AddButton(_S_USE_VS, rmStatus == _S_USE_VS);
 
-	m_panel.SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth*2, false, true, false);
+	m_panel.SetupMenu(video, input, m_menuSize, m_menuWidth*2, false, true, false);
 	m_panel.AddButton(_S_GENERATE_LIGHTMAPS, false);
 	m_panel.AddButton(_S_UPDATE_ENTITIES, false);
 	m_panel.AddButton(_S_TOGGLE_STATIC_DYNAMIC, false);
@@ -141,13 +144,13 @@ void SceneEditor::LoadEditor()
 
 	m_panel.AddButton(_S_SHOW_ADVANCED_OPTIONS, false);
 
-	m_tool.SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth*2, true, false, false);
+	m_tool.SetupMenu(video, input, m_menuSize, m_menuWidth*2, true, false, false);
 	m_tool.AddButton(_S_PLACE, false);
 	m_tool.AddButton(_S_SELECT, true);
 
 	for (unsigned int t=0; t<3; t++)
 	{
-		m_ambientLight[t].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 5, false);
+		m_ambientLight[t].SetupMenu(video, input, m_menuSize, m_menuWidth, 5, false);
 		m_ambientLight[t].SetClamp(true, 0, 1);
 		m_ambientLight[t].SetScrollAdd(0.1f);
 		m_ambientLight[t].SetDescription(L"Scene ambient light");
@@ -158,7 +161,7 @@ void SceneEditor::LoadEditor()
 
 	for (unsigned int t=0; t<2; t++)
 	{
-		m_zAxisDirection[t].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 5, false);
+		m_zAxisDirection[t].SetupMenu(video, input, m_menuSize, m_menuWidth, 5, false);
 		m_zAxisDirection[t].SetClamp(false, 0, 0);
 		m_zAxisDirection[t].SetScrollAdd(1.0f);
 		m_zAxisDirection[t].SetDescription(L"Scene z-axis direction in screen space");
@@ -166,17 +169,17 @@ void SceneEditor::LoadEditor()
 	m_zAxisDirection[0].SetText(L"Z-axis dir x:");
 	m_zAxisDirection[1].SetText(L"Z-axis dir y:");
 
-	m_entityName.SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth*2, 24, false);
+	m_entityName.SetupMenu(video, input, m_menuSize, m_menuWidth*2, 24, false);
 
 	CreateEditablePosition();
 
-	m_lightIntensity.SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 5, false);
+	m_lightIntensity.SetupMenu(video, input, m_menuSize, m_menuWidth, 5, false);
 	m_lightIntensity.SetClamp(true, 0, 100.0f);
 	m_lightIntensity.SetText(L"Light intensity:");
 	m_lightIntensity.SetScrollAdd(0.25f);
 	m_lightIntensity.SetDescription(L"Global light intensity");
 
-	m_parallaxIntensity.SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 5, false);
+	m_parallaxIntensity.SetupMenu(video, input, m_menuSize, m_menuWidth, 5, false);
 	m_parallaxIntensity.SetClamp(false, 0, 100.0f);
 	m_parallaxIntensity.SetText(L"Parallax:");
 	m_parallaxIntensity.SetScrollAdd(0.25f);
@@ -202,7 +205,9 @@ void SceneEditor::ResetForms()
 
 string SceneEditor::DoEditor(SpritePtr pNextAppButton)
 {
-	m_provider->GetVideo()->SetCameraPos(m_v2CamPos);
+	const VideoPtr& video = m_provider->GetVideo();
+	const InputPtr& input = m_provider->GetInput();
+	video->SetCameraPos(m_v2CamPos);
 
 	// update lightmap status
 	const bool lmEnabled = m_pScene->AreLightmapsEnabled();
@@ -222,7 +227,7 @@ string SceneEditor::DoEditor(SpritePtr pNextAppButton)
 	{
 		if (m_pSelected->GetID() >= 0)
 		{
-			if (m_provider->GetInput()->GetKeyState(GSK_F) == GSKS_HIT)
+			if (input->GetKeyState(GSK_F) == GSKS_HIT)
 			{
 				if (m_pSelected)
 				{
@@ -238,51 +243,51 @@ string SceneEditor::DoEditor(SpritePtr pNextAppButton)
 		}
 	}
 
-	if (m_provider->GetInput()->GetKeyState(GSK_ESC) == GSKS_HIT)
+	if (input->GetKeyState(GSK_ESC) == GSKS_HIT)
 	{
 		m_pSelected = 0;
 	}
 
-	const int wheel = (int)m_provider->GetInput()->GetWheelState();
-	const Vector2 v2Cursor = m_provider->GetInput()->GetCursorPositionF(m_provider->GetVideo());
-	const Vector2 v2Screen = m_provider->GetVideo()->GetScreenSizeF();
+	const int wheel = (int)input->GetWheelState();
+	const Vector2 v2Cursor = input->GetCursorPositionF(video);
+	const Vector2 v2Screen = video->GetScreenSizeF();
 	const bool guiButtonsFree = AreGUIButtonsFree(pNextAppButton);
 	if (wheel != 0 && guiButtonsFree)
 		SetPlacingMode();
 
 	{
-		const float fpsRate = m_provider->GetVideo()->GetFPSRate();
+		const float fpsRate = video->GetFPSRate();
 		const float camMoveSpeed = floor(m_camSpeed/fpsRate);
 		if (!IsThereAnyFieldActive())
 		{
 			if (fpsRate > 0.0f)
 			{
-				if (m_provider->GetInput()->IsKeyDown(GSK_LEFT))
-					m_provider->GetVideo()->MoveCamera(Vector2(-camMoveSpeed,0));
-				if (m_provider->GetInput()->IsKeyDown(GSK_RIGHT))
-					m_provider->GetVideo()->MoveCamera(Vector2(camMoveSpeed,0));
-				if (m_provider->GetInput()->IsKeyDown(GSK_UP))
-					m_provider->GetVideo()->MoveCamera(Vector2(0,-camMoveSpeed));
-				if (m_provider->GetInput()->IsKeyDown(GSK_DOWN))
-					m_provider->GetVideo()->MoveCamera(Vector2(0,camMoveSpeed));
+				if (input->IsKeyDown(GSK_LEFT))
+					video->MoveCamera(Vector2(-camMoveSpeed,0));
+				if (input->IsKeyDown(GSK_RIGHT))
+					video->MoveCamera(Vector2(camMoveSpeed,0));
+				if (input->IsKeyDown(GSK_UP))
+					video->MoveCamera(Vector2(0,-camMoveSpeed));
+				if (input->IsKeyDown(GSK_DOWN))
+					video->MoveCamera(Vector2(0,camMoveSpeed));
 			}
 		}
 		// border camera slide
 		if (m_slidingCamera)
 		{
-			if (m_provider->GetInput()->GetMiddleClickState() == GSKS_HIT
-				|| m_provider->GetInput()->GetLeftClickState() == GSKS_HIT
-				|| m_provider->GetInput()->GetRightClickState() == GSKS_HIT)
+			if (input->GetMiddleClickState() == GSKS_HIT
+				|| input->GetLeftClickState() == GSKS_HIT
+				|| input->GetRightClickState() == GSKS_HIT)
 			{
 				m_slidingCamera = false;
 			}
 			if (fpsRate > 0.0f)
 			{
 				const Vector2 v2Dir = (m_slidingAxis-v2Cursor)*-(camMoveSpeed/200);
-				m_provider->GetVideo()->MoveCamera(Vector2(floor(v2Dir.x), floor(v2Dir.y)));
+				video->MoveCamera(Vector2(floor(v2Dir.x), floor(v2Dir.y)));
 			}
 		}
-		else if (m_provider->GetInput()->GetMiddleClickState() == GSKS_HIT && guiButtonsFree)
+		else if (input->GetMiddleClickState() == GSKS_HIT && guiButtonsFree)
 		{
 			m_slidingCamera = true;
 			if (m_slidingCamera)
@@ -309,14 +314,14 @@ string SceneEditor::DoEditor(SpritePtr pNextAppButton)
 	if (file_r.text == _S_NEW)
 	{
 		RebuildScene(_ETH_EMPTY_SCENE_STRING);		
-		m_provider->GetVideo()->SetCameraPos(Vector2(0,0));
+		video->SetCameraPos(Vector2(0,0));
 		SetCurrentFile(_BASEEDITOR_DEFAULT_UNTITLED_FILE);
 	}
 	if (file_r.text == _S_SAVE_AS)
 	{
 		SaveAs();
 	}
-	if (file_r.text == _S_SAVE || (m_provider->GetInput()->GetKeyState(GSK_CTRL) == GSKS_DOWN && m_provider->GetInput()->GetKeyState(GSK_S) == GSKS_HIT))
+	if (file_r.text == _S_SAVE || (input->GetKeyState(GSK_CTRL) == GSKS_DOWN && input->GetKeyState(GSK_S) == GSKS_HIT))
 	{
 		if (GetCurrentFile(true) == _BASEEDITOR_DEFAULT_UNTITLED_FILE)
 			SaveAs();
@@ -349,7 +354,7 @@ string SceneEditor::DoEditor(SpritePtr pNextAppButton)
 		ShadowPrint(Vector2(256,400), L"There are no entities\nCreate your .ENT files first", L"Verdana24_shadow.fnt", GS_WHITE);
 	}
 
-	if (m_provider->GetInput()->GetKeyState(GSK_DELETE) == GSKS_HIT && guiButtonsFree)
+	if (input->GetKeyState(GSK_DELETE) == GSKS_HIT && guiButtonsFree)
 	{
 		if (m_pSelected)
 		{
@@ -366,8 +371,8 @@ string SceneEditor::DoEditor(SpritePtr pNextAppButton)
 		}
 	}
 
-	SetFileNameToTitle(m_provider->GetVideo(), _ETH_MAP_WINDOW_TITLE);
-	m_v2CamPos = m_provider->GetVideo()->GetCameraPos();
+	SetFileNameToTitle(video, _ETH_MAP_WINDOW_TITLE);
+	m_v2CamPos = video->GetCameraPos();
 	DrawEntitySelectionGrid(pNextAppButton);
 
 	#ifdef _DEBUG
@@ -376,9 +381,7 @@ string SceneEditor::DoEditor(SpritePtr pNextAppButton)
 			stringstream ss;
 			ss << m_pSelected->GetID();
 
-			m_provider->GetVideo()->DrawBitmapText(
-				Vector2(100,100), 
-				utf8::c(ss.str()).wstr(), L"Verdana20_shadow.fnt", GS_WHITE
+			video->DrawBitmapText(Vector2(100,100), utf8::c(ss.str()).wstr(), L"Verdana20_shadow.fnt", GS_WHITE
 			);
 		}
 	#endif
@@ -388,9 +391,9 @@ string SceneEditor::DoEditor(SpritePtr pNextAppButton)
 		m_arrows->Draw(m_slidingAxis+m_v2CamPos);
 	}
 
-	if (m_provider->GetInput()->IsKeyDown(GSK_CTRL) && m_provider->GetInput()->GetKeyState(GSK_C) == GSKS_HIT)
+	if (input->IsKeyDown(GSK_CTRL) && input->GetKeyState(GSK_C) == GSKS_HIT)
 		CopySelectedToClipboard();
-	if (m_provider->GetInput()->IsKeyDown(GSK_CTRL) && m_provider->GetInput()->GetKeyState(GSK_V) == GSKS_HIT)
+	if (input->IsKeyDown(GSK_CTRL) && input->GetKeyState(GSK_V) == GSKS_HIT)
 		PasteFromClipboard();
 
 	CentralizeShortcut();
@@ -420,11 +423,12 @@ void SceneEditor::CreateFileUpdateDetector(const str_type::string& fullFilePath)
 
 void SceneEditor::EditParallax()
 {
+	const VideoPtr& video = m_provider->GetVideo();
 	if (m_parallaxIntensity.IsActive())
 	{
-		const Vector2 &cursorPos = m_provider->GetInput()->GetCursorPositionF(m_provider->GetVideo());
-		m_provider->GetShaderManager()->SetParallaxNormalizedOrigin(cursorPos/m_provider->GetVideo()->GetScreenSizeF());
-		m_parallaxCursor->Draw(cursorPos+m_provider->GetVideo()->GetCameraPos(), GS_COLOR(100,255,255,255));
+		const Vector2 &cursorPos = m_provider->GetInput()->GetCursorPositionF(video);
+		m_provider->GetShaderManager()->SetParallaxNormalizedOrigin(cursorPos / video->GetScreenSizeF());
+		m_parallaxCursor->Draw(cursorPos + video->GetCameraPos(), GS_COLOR(100,255,255,255));
 	}
 	else
 	{
@@ -461,18 +465,21 @@ void SceneEditor::EntitySelector(const bool guiButtonsFree)
 	if (!m_tool.GetButtonStatus(_S_SELECT))
 		return;
 
-	const bool zBuffer = m_provider->GetVideo()->GetZBuffer();
-	m_provider->GetVideo()->SetZBuffer(false);
-	m_provider->GetVideo()->SetSpriteDepth(0.0f);
-	const bool rightClick = (m_provider->GetInput()->GetRightClickState() == GSKS_HIT);
+	const VideoPtr& video = m_provider->GetVideo();
+	const InputPtr& input = m_provider->GetInput();
+
+	const bool zBuffer = video->GetZBuffer();
+	video->SetZBuffer(false);
+	video->SetSpriteDepth(0.0f);
+	const bool rightClick = (input->GetRightClickState() == GSKS_HIT);
 
 	// is the user moving the entity around?
 	static bool moving = false;
 
 	// Looks for the target entity ID and selects it if it exists
-	if ((m_provider->GetInput()->GetLeftClickState() == GSKS_RELEASE || rightClick) && guiButtonsFree)
+	if ((input->GetLeftClickState() == GSKS_RELEASE || rightClick) && guiButtonsFree)
 	{
-		const Vector2 v2Cursor = m_provider->GetInput()->GetCursorPositionF(m_provider->GetVideo());
+		const Vector2 v2Cursor = input->GetCursorPositionF(video);
 
 		const int id = m_pScene->GetBucketManager().SeekEntity(v2Cursor, (reinterpret_cast<ETHEntity**>(&m_pSelected)), m_sceneProps, m_pSelected);
 
@@ -505,9 +512,9 @@ void SceneEditor::EntitySelector(const bool guiButtonsFree)
 	{
 		// If the user is holding the left-button and the cursor is over the selected tile...
 		// move it...
-		if (m_provider->GetInput()->GetLeftClickState() == GSKS_DOWN)
+		if (input->GetLeftClickState() == GSKS_DOWN)
 		{
-			const Vector2 v2CursorPos = m_provider->GetInput()->GetCursorPositionF(m_provider->GetVideo());
+			const Vector2 v2CursorPos = input->GetCursorPositionF(video);
 			ETH_VIEW_RECT box = m_pSelected->GetScreenRect(*m_pScene->GetSceneProperties());
 			if ((v2CursorPos.x > box.v2Min.x && v2CursorPos.x < box.v2Max.x &&
 				v2CursorPos.y > box.v2Min.y && v2CursorPos.y < box.v2Max.y) || moving)
@@ -516,7 +523,7 @@ void SceneEditor::EntitySelector(const bool guiButtonsFree)
 				if ((m_pSelected->IsStatic() && !lockStatic) || !m_pSelected->IsStatic())
 				{
 					moving = true;
-					m_pSelected->AddToPositionXY(m_provider->GetInput()->GetMouseMoveF(), m_pScene->GetBucketManager());
+					m_pSelected->AddToPositionXY(input->GetMouseMoveF(), m_pScene->GetBucketManager());
 					SetEditablePositionPos(m_pSelected->GetPosition(), m_pSelected->GetAngle());
 				}
 			}
@@ -528,8 +535,8 @@ void SceneEditor::EntitySelector(const bool guiButtonsFree)
 			ETH_VIEW_RECT box = m_pSelected->GetScreenRect(*m_pScene->GetSceneProperties());
 			const GS_COLOR dwColor(96,255,255,255);
 			m_outline->SetOrigin(GSEO_DEFAULT);
-			const Vector2 v2Pos = box.v2Min+m_provider->GetVideo()->GetCameraPos();
-			m_outline->DrawShaped(v2Pos, box.v2Max-box.v2Min, dwColor, dwColor, dwColor, dwColor);
+			const Vector2 v2Pos = box.v2Min + video->GetCameraPos();
+			m_outline->DrawShaped(v2Pos, box.v2Max - box.v2Min, dwColor, dwColor, dwColor, dwColor);
 			DrawEntityString(m_pSelected, GS_WHITE);
 
 			ShadowPrint(Vector2(m_guiX,m_guiY), L"Entity name:"); m_guiY += m_menuSize;
@@ -548,7 +555,7 @@ void SceneEditor::EntitySelector(const bool guiButtonsFree)
 	// draw the outline to the cursor entity
 	if (!moving)
 	{
-		const Vector2 v2Cursor = m_provider->GetInput()->GetCursorPositionF(m_provider->GetVideo());
+		const Vector2 v2Cursor = input->GetCursorPositionF(video);
 		ETHEntity *pOver;
 		const int id = m_pScene->GetBucketManager().SeekEntity(v2Cursor, &pOver, m_sceneProps);
 		if (id >= 0 && (!m_pSelected || m_pSelected->GetID() != id))
@@ -559,19 +566,19 @@ void SceneEditor::EntitySelector(const bool guiButtonsFree)
 				ETH_VIEW_RECT box = pSelected->GetScreenRect(*m_pScene->GetSceneProperties());
 				const GS_COLOR dwColor(16, 255, 255, 255);
 				m_outline->SetOrigin(GSEO_DEFAULT);
-				m_outline->DrawShaped(box.v2Min + m_provider->GetVideo()->GetCameraPos(), box.v2Max - box.v2Min, dwColor, dwColor, dwColor, dwColor);
+				m_outline->DrawShaped(box.v2Min + video->GetCameraPos(), box.v2Max - box.v2Min, dwColor, dwColor, dwColor, dwColor);
 				DrawEntityString(pSelected, GS_COLOR(100, 255, 255, 255));
 			}
 		}
 	}
 
 	// if the user is moving and has released the mouse button
-	if (moving && m_provider->GetInput()->GetLeftClickState() == GSKS_RELEASE)
+	if (moving && input->GetLeftClickState() == GSKS_RELEASE)
 	{
 		moving = false;
 	}
 
-	m_provider->GetVideo()->SetZBuffer(zBuffer);
+	video->SetZBuffer(zBuffer);
 }
 
 void SceneEditor::CreateEditablePosition()
@@ -652,7 +659,7 @@ void SceneEditor::SetEditablePositionPos(const Vector3 &pos, const float angle)
 	m_entityAngle.SetConstant(angle);
 }
 
-wstring SceneEditor::DrawEntityString(ETHEntity *pEntity, const GS_COLOR dwColor, const bool drawName)
+wstring SceneEditor::DrawEntityString(ETHEntity *pEntity, const GS_COLOR& dwColor, const bool drawName)
 {
 	ETH_VIEW_RECT box = pEntity->GetScreenRect(*m_pScene->GetSceneProperties());
 	box.v2Min -= Vector2(0,m_menuSize);
@@ -679,7 +686,7 @@ bool SceneEditor::IsThereAnyFieldActive() const
 		return true;
 	for (unsigned int t=0; t<2; t++)
 	{
-		if (m_zAxisDirection[t].IsActive() || m_zAxisDirection[t].IsActive())
+		if (m_zAxisDirection[t].IsActive())
 			return true;
 	}
 
@@ -774,16 +781,17 @@ void SceneEditor::DoStateManager()
 	ShadowPrint(Vector2(m_guiX,m_guiY), L"Lighting mode:"); m_guiY+=m_menuSize;
 	m_renderMode.PlaceMenu(Vector2(m_guiX,m_guiY)); m_guiY += m_menuSize*m_renderMode.GetNumButtons();
 
-	const bool usePS = m_provider->GetShaderManager()->IsUsingPixelShader();
-	m_provider->GetShaderManager()->UsePS(m_renderMode.GetButtonStatus(_S_USE_PS));
+	const ETHShaderManagerPtr& shaderManager = m_provider->GetShaderManager();
+	const bool usePS = shaderManager->IsUsingPixelShader();
+	shaderManager->UsePS(m_renderMode.GetButtonStatus(_S_USE_PS));
 	m_guiY+=m_menuSize/2;
 
 	const std::string programPath = utf8::c(m_provider->GetProgramPath()).c_str();
 
 	// if this button's status has changed, save the change to the ENML file
-	if (usePS != m_provider->GetShaderManager()->IsUsingPixelShader())
+	if (usePS != shaderManager->IsUsingPixelShader())
 	{
-		const wstring str = m_provider->GetShaderManager()->IsUsingPixelShader() ? _S_USE_PS : _S_USE_VS;
+		const wstring str = shaderManager->IsUsingPixelShader() ? _S_USE_PS : _S_USE_VS;
 		SaveAttributeToInfoFile(
 			programPath, "status", "renderMode", utf8::c(str).c_str()
 		);
@@ -890,23 +898,26 @@ void SceneEditor::DoStateManager()
 
 void SceneEditor::DrawGrid()
 {
-	int sizeX = (int)m_currentEntity->GetCurrentSize().x;
-	int sizeY = (int)m_currentEntity->GetCurrentSize().y;
-	const float oldWidth = m_provider->GetVideo()->GetLineWidth();
-	const Vector2 v2Screen = m_provider->GetVideo()->GetScreenSizeF();
-	const Vector2 v2CamPos = m_provider->GetVideo()->GetCameraPos();
-	m_provider->GetVideo()->SetCameraPos(Vector2(0,0));
+	const Vector2 currentSize(m_currentEntity->GetCurrentSize());
+	const VideoPtr& video = m_provider->GetVideo();
+
+	int sizeX = (int)currentSize.x;
+	int sizeY = (int)currentSize.y;
+	const float oldWidth = video->GetLineWidth();
+	const Vector2 v2Screen = video->GetScreenSizeF();
+	const Vector2 v2CamPos = video->GetCameraPos();
+	video->SetCameraPos(Vector2(0,0));
 	const GS_COLOR dwLineColor = ARGB(70,255,255,255);
-	m_provider->GetVideo()->SetLineWidth(2);
+	video->SetLineWidth(2);
 
 	Vector2 v2PosFix;
 	if (m_currentEntity->GetType() == ETH_VERTICAL)
 	{
-		sizeY = (int)m_currentEntity->GetCurrentSize().x;
+		sizeY = (int)currentSize.x;
 	}
 	else
 	{
-		sizeY = (int)m_currentEntity->GetCurrentSize().y;
+		sizeY = (int)currentSize.y;
 	}
 	v2PosFix.x = float((int)v2CamPos.x%(sizeX));
 	v2PosFix.y = float((int)v2CamPos.y%(sizeY));
@@ -916,7 +927,7 @@ void SceneEditor::DrawGrid()
 	{
 		const Vector2 a((float)t*(float)sizeX-v2PosFix.x, 0);
 		const Vector2 b((float)t*(float)sizeX-v2PosFix.x, v2Screen.y);
-		m_provider->GetVideo()->DrawLine(a, b, dwLineColor, dwLineColor);
+		video->DrawLine(a, b, dwLineColor, dwLineColor);
 		if (a.x > v2Screen.x)
 			break;
 	}
@@ -926,13 +937,13 @@ void SceneEditor::DrawGrid()
 	{
 		const Vector2 a(0, (float)t*(float)sizeY-v2PosFix.y);
 		const Vector2 b(v2Screen.x, (float)t*(float)sizeY-v2PosFix.y);
-		m_provider->GetVideo()->DrawLine(a, b, dwLineColor, dwLineColor);
+		video->DrawLine(a, b, dwLineColor, dwLineColor);
 		if (a.y > v2Screen.y)
 			break;
 	}
 
-	m_provider->GetVideo()->SetLineWidth(oldWidth);
-	m_provider->GetVideo()->SetCameraPos(v2CamPos);
+	video->SetLineWidth(oldWidth);
+	video->SetCameraPos(v2CamPos);
 }
 
 void SceneEditor::PlaceEntitySelection()
@@ -948,13 +959,17 @@ void SceneEditor::PlaceEntitySelection()
 		return;
 	}
 
+	const InputPtr& input = m_provider->GetInput();
+	const VideoPtr& video = m_provider->GetVideo();
+	const ETHShaderManagerPtr& shaderManager = m_provider->GetShaderManager();
+
 	// select between entity list with home/end buttons
-	if (m_provider->GetInput()->GetKeyState(GSK_HOME) == GSKS_HIT)
+	if (input->GetKeyState(GSK_HOME) == GSKS_HIT)
 		m_currentEntityIdx--;
-	if (m_provider->GetInput()->GetKeyState(GSK_END) == GSKS_HIT)
+	if (input->GetKeyState(GSK_END) == GSKS_HIT)
 		m_currentEntityIdx++;
 
-	const int wheelValue = static_cast<int>(m_provider->GetInput()->GetWheelState());
+	const int wheelValue = static_cast<int>(input->GetWheelState());
 
 	// is the mouse wheel available for entity switching?
 	const bool allowSwapWheel = AreGUIButtonsFree(SpritePtr());
@@ -969,11 +984,11 @@ void SceneEditor::PlaceEntitySelection()
 			m_currentEntityIdx = m_entityFiles.size() - 1;
 
 		// move the entity up and down (along the Z axis)
-		if (m_provider->GetInput()->GetKeyState(GSK_PAGEUP) == GSKS_HIT)
+		if (input->GetKeyState(GSK_PAGEUP) == GSKS_HIT)
 		{
 			m_v3Pos.z+=4;
 		}
-		if (m_provider->GetInput()->GetKeyState(GSK_PAGEDOWN) == GSKS_HIT)
+		if (input->GetKeyState(GSK_PAGEDOWN) == GSKS_HIT)
 		{
 			m_v3Pos.z-=4;
 		}
@@ -998,14 +1013,16 @@ void SceneEditor::PlaceEntitySelection()
 	m_currentEntity->SetFrame(m_entityFiles[m_currentEntityIdx]->startFrame);
 	m_currentEntity->SetAngle(angle);
 
-	Vector2 v2CamPos = m_provider->GetVideo()->GetCameraPos();
-	Vector2 v2Cursor = m_provider->GetInput()->GetCursorPositionF(m_provider->GetVideo());
+	const Vector2 v2CamPos(video->GetCameraPos());
+	Vector2 v2Cursor(input->GetCursorPositionF(video));
+	const Vector2 screenSize(video->GetScreenSizeF());
 	m_v3Pos = Vector3(v2Cursor.x+v2CamPos.x, v2Cursor.y+v2CamPos.y, m_v3Pos.z);
 
-	if (m_provider->GetInput()->GetKeyState(GSK_SHIFT) == GSKS_DOWN && m_currentEntity->GetCurrentSize() != Vector2(0,0))
+	const Vector2 currentSize(m_currentEntity->GetCurrentSize());
+	if (input->GetKeyState(GSK_SHIFT) == GSKS_DOWN && currentSize != Vector2(0,0))
 	{
-		int sizeX = (int)m_currentEntity->GetCurrentSize().x;
-		int sizeY = (int)m_currentEntity->GetCurrentSize().y;
+		int sizeX = (int)currentSize.x;
+		int sizeY = (int)currentSize.y;
 
 		const float angle = m_currentEntity->GetAngle();
 		if (angle != 0.0f && m_currentEntity->GetType() == ETH_HORIZONTAL)
@@ -1032,13 +1049,13 @@ void SceneEditor::PlaceEntitySelection()
 		Vector2 v2PosFix;
 		if (m_currentEntity->GetType() == ETH_VERTICAL)
 		{
-			sizeY = (int)m_currentEntity->GetCurrentSize().x;
+			sizeY = (int)currentSize.x;
 			v2PosFix.x = float((int)Abs(m_v3Pos.x)%Max(1, (sizeX/4)));
 			v2PosFix.y = float((int)Abs(m_v3Pos.y)%Max(1, (sizeY/4)));
 		}
 		else
 		{
-			//sizeY = (int)m_currentEntity->GetCurrentSize().y;
+			//sizeY = (int)currentSize.y;
 			v2PosFix.x = float((int)Abs(m_v3Pos.x)%Max(1, (sizeX/2)));
 			v2PosFix.y = float((int)Abs(m_v3Pos.y)%Max(1, (sizeY/2)));
 		}
@@ -1072,7 +1089,7 @@ void SceneEditor::PlaceEntitySelection()
 	{
 		if (m_currentEntity->GetType() != ETH_VERTICAL)
 		{
-			const Vector2 v2TipPos(0.0f, m_provider->GetVideo()->GetScreenSizeF().y-m_menuSize-m_menuSize-_ENTITY_SELECTION_BAR_HEIGHT);
+			const Vector2 v2TipPos(0.0f, screenSize.y-m_menuSize-m_menuSize-_ENTITY_SELECTION_BAR_HEIGHT);
 			ShadowPrint(v2TipPos, L"You can hold SHIFT to align the entity like in a tile map", GS_COLOR(255,255,255,255));
 		}
 	}
@@ -1080,9 +1097,9 @@ void SceneEditor::PlaceEntitySelection()
 	// Controls the angle
 	if (m_currentEntity->GetType() != ETH_VERTICAL && allowSwapWheel)
 	{
-		if (m_provider->GetInput()->GetKeyState(GSK_Q) == GSKS_HIT)
+		if (input->GetKeyState(GSK_Q) == GSKS_HIT)
 			m_currentEntity->AddToAngle(5);
-		if (m_provider->GetInput()->GetKeyState(GSK_W) == GSKS_HIT)
+		if (input->GetKeyState(GSK_W) == GSKS_HIT)
 			m_currentEntity->AddToAngle(-5);
 	}
 	else
@@ -1091,8 +1108,8 @@ void SceneEditor::PlaceEntitySelection()
 	}
 
 	// Min and max screen depth for the temporary current entity
-	const float maxDepth = m_provider->GetVideo()->GetScreenSizeF().y;
-	const float minDepth =-m_provider->GetVideo()->GetScreenSizeF().y;
+	const float maxDepth = screenSize.y;
+	const float minDepth =-screenSize.y;
 
 	// draw a shadow preview for the current entity
 	ETHLight shadowLight(true);
@@ -1100,17 +1117,17 @@ void SceneEditor::PlaceEntitySelection()
 	shadowLight.pos = m_currentEntity->GetPosition()+Vector3(100, 100, 0); shadowLight.color = Vector3(0.5f, 0.5f, 0.5f);
 	if (m_currentEntity->GetEntityName() != L"")
 	{
-		if (m_provider->GetShaderManager()->BeginShadowPass(m_currentEntity, &shadowLight, maxDepth, minDepth))
+		if (shaderManager->BeginShadowPass(m_currentEntity, &shadowLight, maxDepth, minDepth))
 		{
 			m_currentEntity->DrawShadow(maxDepth, minDepth, *m_pScene->GetSceneProperties(), shadowLight, 0, false, false);
-			m_provider->GetShaderManager()->EndShadowPass();
+			shaderManager->EndShadowPass();
 		}
 	}
 
-	const bool zBuffer = m_provider->GetVideo()->GetZBuffer();
-	m_provider->GetVideo()->SetZBuffer(false);
+	const bool zBuffer = video->GetZBuffer();
+	video->SetZBuffer(false);
 	// draws the current entity ambient pass
-	if (m_provider->GetShaderManager()->BeginAmbientPass(m_currentEntity, m_provider->GetVideo()->GetScreenSizeF().y, -m_provider->GetVideo()->GetScreenSizeF().y))
+	if (shaderManager->BeginAmbientPass(m_currentEntity, video->GetScreenSizeF().y, -video->GetScreenSizeF().y))
 	{
 		if (!m_currentEntity->IsInvisible())
 		{
@@ -1128,9 +1145,9 @@ void SceneEditor::PlaceEntitySelection()
 				m_invisible->Draw(m_currentEntity->GetPositionXY());
 			}
 		}
-		m_provider->GetShaderManager()->EndAmbientPass();
+		shaderManager->EndAmbientPass();
 	}
-	m_provider->GetVideo()->SetZBuffer(zBuffer);
+	video->SetZBuffer(zBuffer);
 
 	// draws the light symbol to show that this entity has light
 	if (m_entityFiles[m_currentEntityIdx]->light)
@@ -1143,7 +1160,7 @@ void SceneEditor::PlaceEntitySelection()
 	// draws the particle symbols to show that the entity has particles
 	for (std::size_t t=0; t<m_entityFiles[m_currentEntityIdx]->particleSystems.size(); t++)
 	{
-		if (m_entityFiles[m_currentEntityIdx]->particleSystems[t]->nParticles > 0)
+		if (m_entityFiles[m_currentEntityIdx]->particleSystems[t]->nParticles > 0) //-V807
 		{
 			const Vector3 v3Part = m_v3Pos+m_entityFiles[m_currentEntityIdx]->particleSystems[t]->v3StartPoint;
 			m_pSprite->Draw(Vector2(v3Part.x, v3Part.y-v3Part.z),
@@ -1223,24 +1240,27 @@ void SceneEditor::EntityPlacer()
 
 void SceneEditor::DrawEntitySelectionGrid(SpritePtr pNextAppButton)
 {
-	const Vector2 v2Cursor = m_provider->GetInput()->GetCursorPositionF(m_provider->GetVideo());
-	const Vector2 v2Screen = m_provider->GetVideo()->GetScreenSizeF();
+	const InputPtr& input = m_provider->GetInput();
+	const VideoPtr& video = m_provider->GetVideo();
+
+	const Vector2 v2Cursor = input->GetCursorPositionF(video);
+	const Vector2 v2Screen = video->GetScreenSizeF();
 	const Vector2 v2HalfTile(_ENTITY_SELECTION_BAR_HEIGHT/2, _ENTITY_SELECTION_BAR_HEIGHT/2);
 	//const Vector2 v2Tile(_ENTITY_SELECTION_BAR_HEIGHT, _ENTITY_SELECTION_BAR_HEIGHT);
 	static const float barHeight = _ENTITY_SELECTION_BAR_HEIGHT;
 	const float barWidth = v2Screen.x-pNextAppButton->GetBitmapSizeF().x;
 	const float barPosY = v2Screen.y-barHeight;
 	const GSGUI_STYLE *pStyle = m_fileMenu.GetGUIStyle();
-	m_provider->GetVideo()->DrawRectangle(Vector2(0, barPosY), Vector2(barWidth, barHeight),
+	video->DrawRectangle(Vector2(0, barPosY), Vector2(barWidth, barHeight),
 		0x00000000, 0x00000000, pStyle->inactive_bottom, pStyle->inactive_bottom, 0.0f);
 
 	if (m_entityFiles.empty())
 		return;
 
-	const bool zBuffer = m_provider->GetVideo()->GetZBuffer();
-	const bool roundUp = m_provider->GetVideo()->IsRoundingUpPosition();
-	m_provider->GetVideo()->SetZBuffer(false);
-	m_provider->GetVideo()->RoundUpPosition(true);
+	const bool zBuffer = video->GetZBuffer();
+	const bool roundUp = video->IsRoundingUpPosition();
+	video->SetZBuffer(false);
+	video->RoundUpPosition(true);
 
 	const float fullLengthSize = _ENTITY_SELECTION_BAR_HEIGHT*static_cast<float>(m_entityFiles.size());
 	float globalOffset = 0.0f;
@@ -1265,19 +1285,19 @@ void SceneEditor::DrawEntitySelectionGrid(SpritePtr pNextAppButton)
 	}
 
 	wstring textToDraw;
-	const Vector2 v2Cam = m_provider->GetVideo()->GetCameraPos();
-	m_provider->GetVideo()->SetCameraPos(Vector2(0,0));
+	const Vector2 v2Cam = video->GetCameraPos();
+	video->SetCameraPos(Vector2(0,0));
 	for (std::size_t t = 0; t < m_entityFiles.size(); t++)
 	{
 		SpritePtr pSprite = m_provider->GetGraphicResourceManager()->GetPointer(
-			m_provider->GetVideo(), 
+			video, 
 			utf8::c(m_entityFiles[t]->spriteFile).wc_str(), utf8::c(GetCurrentProjectPath(true)).wc_str(), 
 			ETHDirectories::GetEntityPath(), false
 		);
 
 		if (!m_entityFiles[t]->spriteFile.empty() && !pSprite)
 		{
-			m_provider->GetVideo()->Message(str_type::string(GS_L("Removing entity from list: ")) + m_entityFiles[t]->entityName, GSMT_WARNING);
+			video->Message(str_type::string(GS_L("Removing entity from list: ")) + m_entityFiles[t]->entityName, GSMT_WARNING);
 			m_entityFiles.erase(m_entityFiles.begin() + t);
 			t--;
 			continue;
@@ -1296,7 +1316,7 @@ void SceneEditor::DrawEntitySelectionGrid(SpritePtr pNextAppButton)
 		if (pSprite)
 		{
 			//const unsigned int nFrame = pSprite->GetCurrentRect();
-			if (m_entityFiles[t]->spriteCut.x > 1 || m_entityFiles[t]->spriteCut.y > 1)
+			if (m_entityFiles[t]->spriteCut.x > 1 || m_entityFiles[t]->spriteCut.y > 1) //-V807
 			{
 				pSprite->SetupSpriteRects(m_entityFiles[t]->spriteCut.x, m_entityFiles[t]->spriteCut.y);
 				pSprite->SetRect(m_entityFiles[t]->startFrame);
@@ -1354,7 +1374,7 @@ void SceneEditor::DrawEntitySelectionGrid(SpritePtr pNextAppButton)
 			if (m_entityFiles[t]->particleSystems[p]->nParticles > 0)
 			{
 				Vector2 v2SymbolPos = Vector2(
-					m_entityFiles[t]->particleSystems[p]->v3StartPoint.x,
+					m_entityFiles[t]->particleSystems[p]->v3StartPoint.x, //-V807
 					m_entityFiles[t]->particleSystems[p]->v3StartPoint.y - m_entityFiles[t]->particleSystems[p]->v3StartPoint.z) / bias;
 				v2SymbolPos.x = Clamp(v2SymbolPos.x,-_ENTITY_SELECTION_BAR_HEIGHT/2, _ENTITY_SELECTION_BAR_HEIGHT/2);
 				v2SymbolPos.y = Clamp(v2SymbolPos.y,-_ENTITY_SELECTION_BAR_HEIGHT/2, _ENTITY_SELECTION_BAR_HEIGHT/2);
@@ -1366,7 +1386,7 @@ void SceneEditor::DrawEntitySelectionGrid(SpritePtr pNextAppButton)
 		// if it has light, show the light symbol
 		if (m_entityFiles[t]->light)
 		{
-			Vector2 v2SymbolPos = Vector2(m_entityFiles[t]->light->pos.x, m_entityFiles[t]->light->pos.y - m_entityFiles[t]->light->pos.z) / bias;
+			Vector2 v2SymbolPos = Vector2(m_entityFiles[t]->light->pos.x, m_entityFiles[t]->light->pos.y - m_entityFiles[t]->light->pos.z) / bias; //-V807
 			v2SymbolPos.x = Clamp(v2SymbolPos.x,-_ENTITY_SELECTION_BAR_HEIGHT/2, _ENTITY_SELECTION_BAR_HEIGHT/2);
 			v2SymbolPos.y = Clamp(v2SymbolPos.y,-_ENTITY_SELECTION_BAR_HEIGHT/2, _ENTITY_SELECTION_BAR_HEIGHT/2);
 			const Vector2 v2LightPos = v2Pos + v2SymbolPos;
@@ -1419,14 +1439,14 @@ void SceneEditor::DrawEntitySelectionGrid(SpritePtr pNextAppButton)
 		const Vector2 v2TextPos(v2Cursor-Vector2(0, m_menuSize));
 		const GS_COLOR dwLeft = ARGB(155,0,0,0);
 		const GS_COLOR dwRight = ARGB(155,0,0,0);
-		Vector2 boxSize = m_provider->GetVideo()->ComputeTextBoxSize(L"Verdana14_shadow.fnt", textToDraw.c_str());
-		m_provider->GetVideo()->DrawRectangle(v2TextPos, boxSize, dwLeft, dwRight, dwLeft, dwRight);
+		Vector2 boxSize = video->ComputeTextBoxSize(L"Verdana14_shadow.fnt", textToDraw.c_str());
+		video->DrawRectangle(v2TextPos, boxSize, dwLeft, dwRight, dwLeft, dwRight);
 		ShadowPrint(v2TextPos, textToDraw.c_str(), GS_COLOR(255,255,255,255));
 	}
-	m_provider->GetVideo()->SetCameraPos(v2Cam);
+	video->SetCameraPos(v2Cam);
 
-	m_provider->GetVideo()->RoundUpPosition(roundUp);
-	m_provider->GetVideo()->SetZBuffer(zBuffer);
+	video->RoundUpPosition(roundUp);
+	video->SetZBuffer(zBuffer);
 }
 
 void SceneEditor::LoopThroughEntityList()

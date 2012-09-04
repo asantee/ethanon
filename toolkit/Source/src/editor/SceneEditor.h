@@ -61,7 +61,7 @@ private:
 	void DoStateManager();
 	bool IsThereAnyFieldActive() const;
 	bool AreGUIButtonsFree(SpritePtr pNextAppButton) const;
-	wstring DrawEntityString(ETHEntity *pEntity, const GS_COLOR dwColor, const bool drawName = true);
+	wstring DrawEntityString(ETHEntity *pEntity, const GS_COLOR& dwColor, const bool drawName = true);
 	void SetSelectionMode();
 	void SetPlacingMode();
 	bool SaveAs();

@@ -164,15 +164,8 @@ void EditorBase::SetCurrentFile(const char *file)
 
 bool EditorBase::AddExtension(const char *path, const char *extension, string &sOut)
 {
-	sOut = path;
-	const int extLen = strlen(extension);
-	const int len = strlen(path);
-	if (strcmp(&path[len-extLen], extension) != 0)
-	{
-		sOut += extension;
-		return true;
-	}
-	return false;
+	sOut = ETHGlobal::AppendExtensionIfNeeded(path, extension);
+	return (std::string(extension) != sOut);
 }
 
 string EditorBase::GetCurrentProjectPath(const bool keepLastSlash)
@@ -203,7 +196,7 @@ string EditorBase::GetProgramPath()
 	return utf8::c(m_provider->GetProgramPath()).str();
 }
 
-void EditorBase::ShadowPrint(Vector2 v2Pos, const wchar_t *text, const GS_COLOR color) const
+void EditorBase::ShadowPrint(Vector2 v2Pos, const wchar_t *text, const GS_COLOR& color) const
 {
 	m_provider->GetVideo()->DrawBitmapText(
 		v2Pos, 
@@ -211,7 +204,7 @@ void EditorBase::ShadowPrint(Vector2 v2Pos, const wchar_t *text, const GS_COLOR 
 	);
 }
 
-void EditorBase::ShadowPrint(Vector2 v2Pos, const wchar_t *text, const wchar_t *font, const GS_COLOR color) const
+void EditorBase::ShadowPrint(Vector2 v2Pos, const wchar_t *text, const wchar_t *font, const GS_COLOR& color) const
 {
 	m_provider->GetVideo()->DrawBitmapText(v2Pos, text, font, color);
 }

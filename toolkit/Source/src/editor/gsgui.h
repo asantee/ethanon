@@ -42,11 +42,11 @@ class GSGUI_STRING_INPUT
 {
 public:
 	GSGUI_STRING_INPUT();
-	void PlaceInput(const Vector2 pos, const std::wstring font, const unsigned int nMaxChars,
-					const float size, const GS_COLOR dwColor, VideoPtr video,
+	void PlaceInput(const Vector2& pos, const std::wstring& font, const unsigned int nMaxChars,
+					const float size, const GS_COLOR& dwColor, VideoPtr video,
 					InputPtr input);
-	void Place(const Vector2 pos, const std::wstring font,
-				const float size, const GS_COLOR dwColor, VideoPtr video);
+	void Place(const Vector2& pos, const std::wstring& font,
+				const float size, const GS_COLOR& dwColor, VideoPtr video);
 	std::wstring GetString() const;
 	void SetString(const std::wstring &inS);
 	void NumbersOnly(const bool b);
@@ -311,7 +311,7 @@ public:
 	GSGUI_STRING_LINE_INPUT();
 	void SetupMenu(VideoPtr video, InputPtr input,
 				   const float size, const float width, const int maxC, const bool active,
-				   const std::wstring sValue = L"");
+				   const std::wstring& sValue = L"");
 	GSGUI_BUTTON PlaceMenu(Vector2 v2Pos);
 	std::wstring PlaceInput(Vector2 v2Pos);
 	void SetText(const std::wstring &text);

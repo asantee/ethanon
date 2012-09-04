@@ -703,12 +703,6 @@ inline float Distance(const Vector3 &P0, const Vector3 &P1)
 	return sqrtf(DP3(diff, diff));
 }
 
-inline float SquaredDist(const Vector2 &P0, const Vector2 &P1)
-{
-	const Vector2 diff = P1 - P0;
-	return DP2(diff, diff);
-}
-
 inline float Distance(const Vector2 &P0, const Vector2 &P1)
 {
 	const Vector2 diff = P1 - P0;
