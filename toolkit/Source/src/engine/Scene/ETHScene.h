@@ -37,11 +37,13 @@ class ETHScene
 public:
 	ETHScene(const str_type::string& fileName, ETHResourceProviderPtr provider, const bool richLighting,
 			 const ETHSceneProperties& props, asIScriptModule *pModule, asIScriptContext *pContext, const bool isInEditor,
-const Vector2 &v2BucketSize = Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
+			 const Vector2 &v2BucketSize = Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
 
 	ETHScene(ETHResourceProviderPtr provider, const bool richLighting, const ETHSceneProperties& props,
 			 asIScriptModule *pModule, asIScriptContext *pContext, const bool isInEditor,
 			 const Vector2 &v2BucketSize = Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
+
+	~ETHScene();
 
 	void ClearResources();
 

@@ -63,6 +63,16 @@ ETHScene::ETHScene(ETHResourceProviderPtr provider, const bool richLighting, con
 	Init(provider, props, pModule, pContext);
 }
 
+ETHScene::~ETHScene()
+{
+	for (std::list<ETHRenderEntity*>::iterator iter = m_persistentEntities.begin();
+		iter != m_persistentEntities.end(); iter++)
+	{
+		(*iter)->Release();
+	}
+	m_persistentEntities.clear();
+}
+
 void ETHScene::Init(ETHResourceProviderPtr provider, const ETHSceneProperties& props, asIScriptModule *pModule, asIScriptContext *pContext)
 {
 	m_provider = provider;
@@ -1039,7 +1049,6 @@ void ETHScene::FillMultimapAndClearPersistenList(std::multimap<float, ETHRenderE
 	if (m_persistentEntities.empty())
 		return;
 
-	m_persistentEntities.unique();
 	for (std::list<ETHRenderEntity*>::iterator iter = m_persistentEntities.begin();
 		iter != m_persistentEntities.end(); iter++)
 	{
