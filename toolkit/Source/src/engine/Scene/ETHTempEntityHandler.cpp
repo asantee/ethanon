@@ -30,7 +30,7 @@ ETHTempEntityHandler::ETHTempEntityHandler(ETHResourceProviderPtr provider) :
 
 ETHTempEntityHandler::~ETHTempEntityHandler()
 {
-	for (ETHEntityList::iterator iter = m_dynamicOrTempEntities.begin(); iter != m_dynamicOrTempEntities.end(); iter++)
+	for (ETHEntityList::iterator iter = m_dynamicOrTempEntities.begin(); iter != m_dynamicOrTempEntities.end(); ++iter)
 	{
 		(*iter)->Release();
 	}
@@ -45,7 +45,7 @@ bool ETHTempEntityHandler::IsCallbackListEmpty() const
 void ETHTempEntityHandler::ClearCallbackEntities()
 {
 	for (std::list<ETHRenderEntity*>::iterator iter = m_lastFrameCallbacks.begin();
-		iter != m_lastFrameCallbacks.end(); iter++)
+		iter != m_lastFrameCallbacks.end(); ++iter)
 	{
 		(*iter)->Release();
 	}
@@ -92,9 +92,9 @@ bool ETHTempEntityHandler::IsCallbackEligible(ETHRenderEntity* entity) const
 
 void ETHTempEntityHandler::TestEntityLists() const
 {
-	for (std::list<ETHRenderEntity*>::const_iterator a = m_dynamicOrTempEntities.begin(); a != m_dynamicOrTempEntities.end(); a++)
+	for (std::list<ETHRenderEntity*>::const_iterator a = m_dynamicOrTempEntities.begin(); a != m_dynamicOrTempEntities.end(); ++a)
 	{
-		for (std::list<ETHRenderEntity*>::const_iterator b = m_lastFrameCallbacks.begin(); b != m_lastFrameCallbacks.end(); b++)
+		for (std::list<ETHRenderEntity*>::const_iterator b = m_lastFrameCallbacks.begin(); b != m_lastFrameCallbacks.end(); ++b)
 		{
 			assert((*a)->GetID() != (*b)->GetID());
 		}
@@ -121,7 +121,7 @@ void ETHTempEntityHandler::CheckTemporaryEntities(const Vector2& zAxisDir, ETHBu
 
 			if (bucketIter == buckets.GetLastBucket())
 			{
-				iter++;
+				++iter;
 				continue;
 			}
 
@@ -136,7 +136,7 @@ void ETHTempEntityHandler::CheckTemporaryEntities(const Vector2& zAxisDir, ETHBu
 			iter = m_dynamicOrTempEntities.erase(iter);
 			continue;
 		}
-		iter++;
+		++iter;
 	}
 }
 
@@ -160,7 +160,7 @@ void ETHTempEntityHandler::RunCallbacksFromList()
 			{
 				(*iter)->RunCallbackScript();
 			}
-			iter++;
+			++iter;
 		}
 	}
 
@@ -183,7 +183,7 @@ void ETHTempEntityHandler::RunCallbacksFromList()
 				(*iter)->RunCallbackScript();
 			}
 			(*iter)->Release();
-			iter++;
+			++iter;
 		}
 	}
 	m_lastFrameCallbacks.clear();

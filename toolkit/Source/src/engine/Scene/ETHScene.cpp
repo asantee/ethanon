@@ -66,7 +66,7 @@ ETHScene::ETHScene(ETHResourceProviderPtr provider, const bool richLighting, con
 ETHScene::~ETHScene()
 {
 	for (std::list<ETHRenderEntity*>::iterator iter = m_persistentEntities.begin();
-		iter != m_persistentEntities.end(); iter++)
+		iter != m_persistentEntities.end(); ++iter)
 	{
 		(*iter)->Release();
 	}
@@ -127,10 +127,10 @@ bool ETHScene::SaveToFile(const str_type::string& fileName)
 	pRoot->LinkEndChild(pEntities);
 
 	// Write every entity
-	for (ETHBucketMap::iterator bucketIter = m_buckets.GetFirstBucket(); bucketIter != m_buckets.GetLastBucket(); bucketIter++)
+	for (ETHBucketMap::iterator bucketIter = m_buckets.GetFirstBucket(); bucketIter != m_buckets.GetLastBucket(); ++bucketIter)
 	{
 		ETHEntityList::const_iterator iEnd = bucketIter->second.end();
-		for (ETHEntityList::iterator iter = bucketIter->second.begin(); iter != iEnd; iter++)
+		for (ETHEntityList::iterator iter = bucketIter->second.begin(); iter != iEnd; ++iter)
 		{
 			(*iter)->WriteToXMLFile(pEntities);
 			#ifdef _DEBUG
@@ -306,13 +306,14 @@ bool ETHScene::GenerateLightmaps(const int id)
 	}
 
 	// save current global scale and temporarily set it to 1
-	const float globalScale = m_provider->GetGlobalScaleManager()->GetScale();
-	m_provider->GetGlobalScaleManager()->SetScaleFactor(1.0f);
+	const ETHGlobalScaleManagerPtr& scaleManager = m_provider->GetGlobalScaleManager();
+	const float globalScale = scaleManager->GetScale();
+	scaleManager->SetScaleFactor(1.0f);
 
 	const ETHSpriteEntity *pRender = (id >= 0) ? m_buckets.SeekEntity(id) : 0;
 	const Vector2 v2Bucket = (pRender) ? ETHGlobal::GetBucket(pRender->GetPositionXY(), GetBucketSize()) : Vector2(0,0);
 
-	for (ETHBucketMap::iterator bucketIter = m_buckets.GetFirstBucket(); bucketIter != m_buckets.GetLastBucket(); bucketIter++)
+	for (ETHBucketMap::iterator bucketIter = m_buckets.GetFirstBucket(); bucketIter != m_buckets.GetLastBucket(); ++bucketIter)
 	{
 		// if we're lighting only one entity and it is not in this bucket, skip it.
 		// I know we could have used the find method to go directly to that bucket
@@ -322,8 +323,9 @@ bool ETHScene::GenerateLightmaps(const int id)
 				continue;
 
 		// iterate over all entities in this bucket
-		ETHEntityList::const_iterator iEnd = bucketIter->second.end();
-		for (ETHEntityList::iterator iter = bucketIter->second.begin(); iter != iEnd; iter++)
+		ETHEntityList& entityList = bucketIter->second;
+		ETHEntityList::const_iterator iEnd = entityList.end();
+		for (ETHEntityList::iterator iter = entityList.begin(); iter != iEnd; ++iter)
 		{
 			// if nID is valid, let's try to generate the lightmap for this one and only entity
 			if (id >= 0)
@@ -344,10 +346,11 @@ bool ETHScene::GenerateLightmaps(const int id)
 			const Vector3 newPos = Vector3(v2Origin.x, v2Origin.y, 0);
 
 			// fill the light list
-			for (ETHBucketMap::iterator lbucketIter = m_buckets.GetFirstBucket(); lbucketIter != m_buckets.GetLastBucket(); lbucketIter++)
+			for (ETHBucketMap::iterator lbucketIter = m_buckets.GetFirstBucket(); lbucketIter != m_buckets.GetLastBucket(); ++lbucketIter)
 			{
-				ETHEntityList::const_iterator liEnd = lbucketIter->second.end();
-				for (ETHEntityList::iterator liter = lbucketIter->second.begin(); liter != liEnd; liter++)
+				ETHEntityList& lEntityList = lbucketIter->second;
+				ETHEntityList::const_iterator liEnd = lEntityList.end();
+				for (ETHEntityList::iterator liter = lEntityList.begin(); liter != liEnd; ++liter)
 				{
 					if ((*liter)->IsStatic() && (*liter)->HasLightSource())
 					{
@@ -376,7 +379,7 @@ bool ETHScene::GenerateLightmaps(const int id)
 	#endif
 
 	// go back to the previous global scale
-	m_provider->GetGlobalScaleManager()->SetScaleFactor(globalScale);
+	scaleManager->SetScaleFactor(globalScale);
 	return true;
 }
 
@@ -453,10 +456,11 @@ int ETHScene::GetNumLights()
 int ETHScene::CountLights()
 {
 	m_nCurrentLights = 0;
-	for (ETHBucketMap::iterator bucketIter = m_buckets.GetFirstBucket(); bucketIter != m_buckets.GetLastBucket(); bucketIter++)
+	for (ETHBucketMap::iterator bucketIter = m_buckets.GetFirstBucket(); bucketIter != m_buckets.GetLastBucket(); ++bucketIter)
 	{
-		ETHEntityList::const_iterator iEnd = bucketIter->second.end();
-		for (ETHEntityList::iterator iter = bucketIter->second.begin(); iter != iEnd; iter++)
+		ETHEntityList& entityList = bucketIter->second;
+		ETHEntityList::const_iterator iEnd = entityList.end();
+		for (ETHEntityList::iterator iter = entityList.begin(); iter != iEnd; ++iter)
 		{
 			if ((*iter)->HasLightSource())
 				m_nCurrentLights++;
@@ -478,7 +482,7 @@ bool ETHScene::AreLightmapsShown()
 bool ETHScene::RenderTransparentLayer(std::list<ETHRenderEntity*> &halos)
 {
 	// Draw halos
-	for (std::list<ETHRenderEntity*>::iterator iter = halos.begin(); iter != halos.end(); iter++)
+	for (std::list<ETHRenderEntity*>::iterator iter = halos.begin(); iter != halos.end(); ++iter)
 	{
 		if (m_provider->GetShaderManager()->BeginHaloPass(((*iter)->GetLight()), m_maxSceneHeight))
 		{
@@ -491,27 +495,28 @@ bool ETHScene::RenderTransparentLayer(std::list<ETHRenderEntity*> &halos)
 
 bool ETHScene::DrawBucketOutlines()
 {
+	const VideoPtr& video = m_provider->GetVideo();
+
 	// Gets the list of visible buckets
 	std::list<Vector2> bucketList;
-	ETHGlobal::GetIntersectingBuckets(bucketList, m_provider->GetVideo()->GetCameraPos(),
-									m_provider->GetVideo()->GetScreenSizeF(), GetBucketSize(),
-									IsDrawingBorderBuckets(), IsDrawingBorderBuckets());
+	ETHGlobal::GetIntersectingBuckets(bucketList, m_provider->GetVideo()->GetCameraPos(), video->GetScreenSizeF(),
+									  GetBucketSize(), IsDrawingBorderBuckets(), IsDrawingBorderBuckets());
 
 	int nVisibleBuckets = 0;
 
 	// Loop through all visible Buckets
-	for (std::list<Vector2>::iterator bucketPositionIter = bucketList.begin(); bucketPositionIter != bucketList.end(); bucketPositionIter++)
+	for (std::list<Vector2>::iterator bucketPositionIter = bucketList.begin(); bucketPositionIter != bucketList.end(); ++bucketPositionIter)
 	{
 		nVisibleBuckets++;
 
-		const float width = m_provider->GetVideo()->GetLineWidth();
-		m_provider->GetVideo()->SetLineWidth(2.0f);
-		const Vector2 v2BucketPos = *bucketPositionIter*GetBucketSize()-m_provider->GetVideo()->GetCameraPos();
-		m_provider->GetVideo()->DrawLine(v2BucketPos, v2BucketPos+Vector2(GetBucketSize().x, 0.0f), GS_WHITE, GS_WHITE);
-		m_provider->GetVideo()->DrawLine(v2BucketPos, v2BucketPos+Vector2(0.0f, GetBucketSize().y), GS_WHITE, GS_WHITE);
-		m_provider->GetVideo()->DrawLine(v2BucketPos+GetBucketSize(), v2BucketPos+Vector2(0.0f, GetBucketSize().y), GS_WHITE, GS_WHITE);
-		m_provider->GetVideo()->DrawLine(v2BucketPos+GetBucketSize(), v2BucketPos+Vector2(GetBucketSize().x, 0.0f), GS_WHITE, GS_WHITE);
-		m_provider->GetVideo()->SetLineWidth(width);
+		const float width = video->GetLineWidth();
+		video->SetLineWidth(2.0f);
+		const Vector2 v2BucketPos = *bucketPositionIter * GetBucketSize() - video->GetCameraPos();
+		video->DrawLine(v2BucketPos, v2BucketPos + Vector2(GetBucketSize().x, 0.0f), GS_WHITE, GS_WHITE);
+		video->DrawLine(v2BucketPos, v2BucketPos + Vector2(0.0f, GetBucketSize().y), GS_WHITE, GS_WHITE);
+		video->DrawLine(v2BucketPos + GetBucketSize(), v2BucketPos + Vector2(0.0f, GetBucketSize().y), GS_WHITE, GS_WHITE);
+		video->DrawLine(v2BucketPos + GetBucketSize(), v2BucketPos + Vector2(GetBucketSize().x, 0.0f), GS_WHITE, GS_WHITE);
+		video->SetLineWidth(width);
 		
 		// draw bucket key
 		str_type::stringstream ss;
@@ -526,14 +531,14 @@ bool ETHScene::DrawBucketOutlines()
 			ss << GS_L("(") << bucketPositionIter->x << GS_L(",") << bucketPositionIter->y << GS_L(")");
 		}
 
-		const Vector2 v2TextPos(*bucketPositionIter*GetBucketSize()-m_provider->GetVideo()->GetCameraPos());
-		m_provider->GetVideo()->DrawBitmapText(v2TextPos, ss.str(), ETH_DEFAULT_BITMAP_FONT, GS_WHITE);
+		const Vector2 v2TextPos(*bucketPositionIter * GetBucketSize() - video->GetCameraPos());
+		video->DrawBitmapText(v2TextPos, ss.str(), ETH_DEFAULT_BITMAP_FONT, GS_WHITE);
 	}
 
 	str_type::stringstream ss;
 	ss << GS_L("Visible buckets: ") << nVisibleBuckets;
 
-	m_provider->GetVideo()->DrawBitmapText(m_provider->GetVideo()->GetScreenSizeF()/2, ss.str(), ETH_DEFAULT_BITMAP_FONT, GS_WHITE);
+	video->DrawBitmapText(video->GetScreenSizeF()/2, ss.str(), ETH_DEFAULT_BITMAP_FONT, GS_WHITE);
 	return true;
 }
 
@@ -565,18 +570,19 @@ bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline
 	m_buckets.GetIntersectingBuckets(bucketList, camPos, video->GetScreenSizeF(), IsDrawingBorderBuckets(), IsDrawingBorderBuckets());
 
 	// Loop through all visible Buckets
-	for (std::list<Vector2>::iterator bucketPositionIter = bucketList.begin(); bucketPositionIter != bucketList.end(); bucketPositionIter++)
+	for (std::list<Vector2>::iterator bucketPositionIter = bucketList.begin(); bucketPositionIter != bucketList.end(); ++bucketPositionIter)
 	{
 		ETHBucketMap::iterator bucketIter = m_buckets.Find(*bucketPositionIter);
 
 		if (bucketIter == m_buckets.GetLastBucket())
 			continue;
 
-		if (bucketIter->second.empty())
+		ETHEntityList& entityList = bucketIter->second;
+		if (entityList.empty())
 			continue;
 
-		ETHEntityList::const_iterator iEnd = bucketIter->second.end();
-		for (ETHEntityList::iterator iter = bucketIter->second.begin(); iter != iEnd; iter++)
+		ETHEntityList::const_iterator iEnd = entityList.end();
+		for (ETHEntityList::iterator iter = entityList.begin(); iter != iEnd; ++iter)
 		{
 			ETHRenderEntity *entity = (*iter);
 
@@ -620,7 +626,7 @@ bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline
 	FillMultimapAndClearPersistenList(mmEntities, bucketList);
 
 	// Draw visible entities ordered in an alpha-friendly map
-	for (std::multimap<float, ETHRenderEntity*>::iterator iter = mmEntities.begin(); iter != mmEntities.end(); iter++)
+	for (std::multimap<float, ETHRenderEntity*>::iterator iter = mmEntities.begin(); iter != mmEntities.end(); ++iter)
 	{
 		ETHRenderEntity *pRenderEntity = (iter->second);
 
@@ -682,7 +688,7 @@ bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline
 		//draw light pass
 		if (m_richLighting)
 		{
-			for (std::list<ETHLight>::iterator iter = m_lights.begin(); iter != m_lights.end(); iter++)
+			for (std::list<ETHLight>::iterator iter = m_lights.begin(); iter != m_lights.end(); ++iter)
 			{
 				iter->SetLightScissor(video, zAxisDirection);
 				if (!pRenderEntity->IsHidden())
@@ -784,7 +790,7 @@ bool ETHScene::RenderParticleList(std::list<ETHRenderEntity*> &particles)
 			{
 				pRenderEntity->DrawParticles(t, m_maxSceneHeight, m_minSceneHeight, m_sceneProps);
 			}
-			iter++;
+			++iter;
 		}
 		m_provider->GetShaderManager()->EndParticlePass();
 	}
@@ -794,10 +800,10 @@ bool ETHScene::RenderParticleList(std::list<ETHRenderEntity*> &particles)
 
 void ETHScene::ForceAllSFXStop()
 {
-	for (ETHBucketMap::iterator bucketIter = m_buckets.GetFirstBucket(); bucketIter != m_buckets.GetLastBucket(); bucketIter++)
+	for (ETHBucketMap::iterator bucketIter = m_buckets.GetFirstBucket(); bucketIter != m_buckets.GetLastBucket(); ++bucketIter)
 	{
 		ETHEntityList::const_iterator iEnd = bucketIter->second.end();
-		for (ETHEntityList::iterator iter = bucketIter->second.begin(); iter != iEnd; iter++)
+		for (ETHEntityList::iterator iter = bucketIter->second.begin(); iter != iEnd; ++iter)
 		{
 			(*iter)->ForceSFXStop();
 		}
@@ -877,10 +883,10 @@ bool ETHScene::AddVector3Data(const str_type::string &entity, const str_type::st
 bool ETHScene::AddCustomData(const str_type::string &entity, const str_type::string &name, const ETHCustomDataConstPtr &inData)
 {
 	unsigned int count = 0;
-	for (ETHBucketMap::iterator bucketIter = m_buckets.GetFirstBucket(); bucketIter != m_buckets.GetLastBucket(); bucketIter++)
+	for (ETHBucketMap::iterator bucketIter = m_buckets.GetFirstBucket(); bucketIter != m_buckets.GetLastBucket(); ++bucketIter)
 	{
 		ETHEntityList::const_iterator iEnd = bucketIter->second.end();
-		for (ETHEntityList::iterator iter = bucketIter->second.begin(); iter != iEnd; iter++)
+		for (ETHEntityList::iterator iter = bucketIter->second.begin(); iter != iEnd; ++iter)
 		{
 			ETHSpriteEntity *pEntity = (*iter);
 			if (entity == pEntity->GetEntityName())
@@ -1050,7 +1056,7 @@ void ETHScene::FillMultimapAndClearPersistenList(std::multimap<float, ETHRenderE
 		return;
 
 	for (std::list<ETHRenderEntity*>::iterator iter = m_persistentEntities.begin();
-		iter != m_persistentEntities.end(); iter++)
+		iter != m_persistentEntities.end(); ++iter)
 	{
 		ETHRenderEntity* entity = *iter;
 		const Vector2& currentBucket = entity->GetCurrentBucket(m_buckets);
