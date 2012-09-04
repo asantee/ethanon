@@ -224,7 +224,7 @@ bool D3D9Sprite::SetupSpriteRects(const unsigned int columns, const unsigned int
 	return true;
 }
 
-bool D3D9Sprite::DrawOptimal(const math::Vector2 &v2Pos, const GS_COLOR color, const float angle, const math::Vector2 &v2Size)
+bool D3D9Sprite::DrawOptimal(const math::Vector2 &v2Pos, const GS_COLOR& color, const float angle, const math::Vector2 &v2Size)
 {
 	Vector2 size;
 	if (v2Size == Vector2(-1, -1))
@@ -500,8 +500,8 @@ Vector2 D3D9Sprite::GetBitmapSizeF() const
 	return m_size;
 }
 
-bool D3D9Sprite::Draw(const Vector2 &v2Pos, GS_COLOR color,
-						   const float angle, const Vector2 &v2Scale)
+bool D3D9Sprite::Draw(const Vector2 &v2Pos, const GS_COLOR& color,
+					  const float angle, const Vector2 &v2Scale)
 
 {
 	Vector2 v2Size;
@@ -518,9 +518,9 @@ bool D3D9Sprite::Draw(const Vector2 &v2Pos, GS_COLOR color,
 }
 
 bool D3D9Sprite::DrawShaped(const Vector2 &v2Pos, const Vector2 &v2Size,
-							 GS_COLOR color0, GS_COLOR color1,
-							 GS_COLOR color2, GS_COLOR color3,
-							 const float angle)
+							const GS_COLOR& color0, const GS_COLOR& color1,
+							const GS_COLOR& color2, const GS_COLOR& color3,
+							const float angle)
 {
 	if (v2Size == Vector2(0,0))
 	{
@@ -651,7 +651,7 @@ void D3D9Sprite::EndFastRendering()
 	m_pDevice->SetVertexShader(NULL);
 }
 
-bool D3D9Sprite::DrawShapedFast(const Vector2 &v2Pos, const Vector2 &v2Size, const GS_COLOR color)
+bool D3D9Sprite::DrawShapedFast(const Vector2 &v2Pos, const Vector2 &v2Size, const GS_COLOR& color)
 {
 	if (v2Size == Vector2(0,0))
 	{
@@ -711,7 +711,7 @@ bool D3D9Sprite::SetAsTexture(const unsigned int passIdx)
 }
 
 bool D3D9Sprite::Stretch(const Vector2 &a, const Vector2 &b, const float width,
-							  GS_COLOR color0, GS_COLOR color1)
+						 const GS_COLOR& color0, const GS_COLOR& color1)
 {
 	if (a == b || width <= 0.0f)
 	{

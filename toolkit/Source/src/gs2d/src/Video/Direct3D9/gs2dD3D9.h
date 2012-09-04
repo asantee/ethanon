@@ -415,7 +415,7 @@ public:
 
 	VIDEO_MODE GetVideoMode(const unsigned int modeIdx) const;
 	unsigned int GetVideoModeCount();
-	bool ResetVideoMode(const VIDEO_MODE mode, const bool toggleFullscreen = false);
+	bool ResetVideoMode(const VIDEO_MODE& mode, const bool toggleFullscreen = false);
 	bool ResetVideoMode(const unsigned int width, const unsigned int height, const GS_PIXEL_FORMAT pfBB, const bool toggleFullscreen = false);
 
 	bool SetRenderTarget(SpritePtr pTarget, const unsigned int target = 0);
@@ -458,21 +458,21 @@ public:
 	math::Vector2 ComputeCarretPosition(const std::wstring& font, const std::wstring& text, const unsigned int pos);
 	math::Vector2 ComputeTextBoxSize(const std::wstring& font, const std::wstring& text);
 	unsigned int FindClosestCarretPosition(const std::wstring& font, const std::wstring &text, const math::Vector2 &textPos, const math::Vector2 &reference);
-	bool DrawBitmapText(const math::Vector2 &v2Pos, const std::wstring& text, const std::wstring& font, const GS_COLOR color, const float scale = 1.0f);
+	bool DrawBitmapText(const math::Vector2 &v2Pos, const std::wstring& text, const std::wstring& font, const GS_COLOR& color, const float scale = 1.0f);
 
-	bool DrawLine(const math::Vector2 &p1, const math::Vector2 &p2, const GS_COLOR color1, const GS_COLOR color2);
+	bool DrawLine(const math::Vector2 &p1, const math::Vector2 &p2, const GS_COLOR& color1, const GS_COLOR& color2);
 	bool DrawRectangle(const math::Vector2 &v2Pos, const math::Vector2 &v2Size,
-						const GS_COLOR color, const float angle = 0.0f, const GS_ENTITY_ORIGIN origin = GSEO_DEFAULT);
+						const GS_COLOR& color, const float angle = 0.0f, const GS_ENTITY_ORIGIN origin = GSEO_DEFAULT);
 	bool DrawRectangle(const math::Vector2 &v2Pos, const math::Vector2 &v2Size,
-						const GS_COLOR color0, const GS_COLOR color1, const GS_COLOR color2, const GS_COLOR color3,
+						const GS_COLOR& color0, const GS_COLOR& color1, const GS_COLOR& color2, const GS_COLOR& color3,
 						const float angle = 0.0f, const GS_ENTITY_ORIGIN origin = GSEO_DEFAULT);
 
-	void SetBGColor(const GS_COLOR backgroundColor);
+	void SetBGColor(const GS_COLOR& backgroundColor);
 	GS_COLOR GetBGColor() const;
 
-	bool BeginSpriteScene(const GS_COLOR bgColor = GS_ZERO);
+	bool BeginSpriteScene(const GS_COLOR& bgColor = GS_ZERO);
 	bool EndSpriteScene();
-	bool BeginTargetScene(const GS_COLOR bgColor = GS_ZERO, const bool clear = true);
+	bool BeginTargetScene(const GS_COLOR& bgColor = GS_ZERO, const bool clear = true);
 	bool EndTargetScene();
 
 	bool SetAlphaMode(const GS_ALPHA_MODE mode);
@@ -530,7 +530,7 @@ private:
 			const GS_PIXEL_FORMAT pfBB,
 			const bool maximizable);
 
-	bool BeginScene(const GS_COLOR bgColor = GS_ZERO, const bool clear = true);
+	bool BeginScene(const GS_COLOR& bgColor = GS_ZERO, const bool clear = true);
 	bool EndScene(const bool swap = true);
 
 	BitmapFontPtr LoadBitmapFont(const std::wstring& fullFilePath);

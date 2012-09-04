@@ -77,7 +77,7 @@ public:
 		const GS_SHADER_PROFILE profile = GSSP_HIGHEST,	const char *entry = 0) = 0;
 
 	virtual bool ConstantExist(const str_type::string& name) = 0;
-	virtual bool SetConstant(const str_type::string& name, const GS_COLOR dw) = 0;
+	virtual bool SetConstant(const str_type::string& name, const GS_COLOR& dw) = 0;
 	virtual bool SetConstant(const str_type::string& name, const math::Vector4 &v) = 0;
 	virtual bool SetConstant(const str_type::string& name, const math::Vector3 &v) = 0;
 	virtual bool SetConstant(const str_type::string& name, const math::Vector2 &v) = 0;

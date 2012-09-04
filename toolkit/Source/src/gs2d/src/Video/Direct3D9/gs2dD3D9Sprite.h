@@ -72,19 +72,19 @@ public:
 	~D3D9Sprite();
 
 	bool Draw(const math::Vector2 &v2Pos,
-				const GS_COLOR color = GS_WHITE,
-				const float angle = 0.0f,
-				const math::Vector2 &v2Scale = math::Vector2(1.0f,1.0f));
+			  const GS_COLOR& color = GS_WHITE,
+			  const float angle = 0.0f,
+			  const math::Vector2 &v2Scale = math::Vector2(1.0f,1.0f));
 	bool DrawShaped(const math::Vector2 &v2Pos, const math::Vector2 &v2Size,
-					  const GS_COLOR color0, const GS_COLOR color1,
-					  const GS_COLOR color2, const GS_COLOR color3,
-					  const float angle = 0.0f);
+					const GS_COLOR& color0, const GS_COLOR& color1,
+					const GS_COLOR& color2, const GS_COLOR& color3,
+					const float angle = 0.0f);
 	bool Stretch(const math::Vector2 &a, const math::Vector2 &b, const float width,
-				   const GS_COLOR color0 = GS_WHITE, const GS_COLOR color1 = GS_WHITE);
+				   const GS_COLOR& color0 = GS_WHITE, const GS_COLOR& color1 = GS_WHITE);
 	bool SaveBitmap(const wchar_t *wcsName, const GS_BITMAP_FORMAT fmt, math::Rect2D *pRect = 0);
 
-	bool DrawShapedFast(const math::Vector2 &v2Pos, const math::Vector2 &v2Size, const GS_COLOR color);
-	bool DrawOptimal(const math::Vector2 &v2Pos, const GS_COLOR color = GS_WHITE, const float angle = 0.0f,
+	bool DrawShapedFast(const math::Vector2 &v2Pos, const math::Vector2 &v2Size, const GS_COLOR& color);
+	bool DrawOptimal(const math::Vector2 &v2Pos, const GS_COLOR& color = GS_WHITE, const float angle = 0.0f,
 					 const math::Vector2 &v2Size = math::Vector2(-1,-1));
 
 	void BeginFastRendering();

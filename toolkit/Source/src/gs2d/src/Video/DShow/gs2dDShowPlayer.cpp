@@ -163,7 +163,7 @@ bool DShowPlayer::LoadVideo(VideoPtr pVideo, const std::wstring& fileName)
 	long lWidth, lHeight;
 	m_data.pVW->GetMinIdealImageSize(&lWidth, &lHeight);
 	m_size.x = lWidth * (long)m_pVideo->GetScreenSize().x/16;
-	m_size.y = lHeight * (long)m_pVideo->GetScreenSize().x/16;
+	m_size.y = lHeight * (long)m_pVideo->GetScreenSize().y/16;
 
 	Vector2i pos(0, 0);
 	m_pos = pos;

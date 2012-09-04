@@ -302,7 +302,7 @@ public:
 
 	virtual VIDEO_MODE GetVideoMode(const unsigned int modeIdx) const = 0;
 	virtual unsigned int GetVideoModeCount() = 0;
-	virtual bool ResetVideoMode(const VIDEO_MODE mode, const bool toggleFullscreen = false) = 0;
+	virtual bool ResetVideoMode(const VIDEO_MODE& mode, const bool toggleFullscreen = false) = 0;
 	virtual bool ResetVideoMode(const unsigned int width, const unsigned int height, const GS_PIXEL_FORMAT pfBB, const bool toggleFullscreen = false) = 0;
 
 	virtual bool SetRenderTarget(SpritePtr pTarget, const unsigned int target = 0) = 0;
@@ -345,20 +345,20 @@ public:
 	virtual math::Vector2 ComputeCarretPosition(const str_type::string& font, const str_type::string& text, const unsigned int pos) = 0;
 	virtual math::Vector2 ComputeTextBoxSize(const str_type::string& font, const str_type::string& text) = 0;
 	virtual unsigned int FindClosestCarretPosition(const str_type::string& font, const str_type::string &text, const math::Vector2 &textPos, const math::Vector2 &reference) = 0;
-	virtual bool DrawBitmapText(const math::Vector2 &v2Pos, const str_type::string& text, const str_type::string& font, const GS_COLOR color, const float scale = 1.0f) = 0;
-	virtual bool DrawLine(const math::Vector2 &p1, const math::Vector2 &p2, const GS_COLOR color1, const GS_COLOR color2) = 0;
+	virtual bool DrawBitmapText(const math::Vector2 &v2Pos, const str_type::string& text, const str_type::string& font, const GS_COLOR& color, const float scale = 1.0f) = 0;
+	virtual bool DrawLine(const math::Vector2 &p1, const math::Vector2 &p2, const GS_COLOR& color1, const GS_COLOR& color2) = 0;
 	virtual bool DrawRectangle(const math::Vector2 &v2Pos, const math::Vector2 &v2Size,
-						const GS_COLOR color, const float angle = 0.0f, const GS_ENTITY_ORIGIN origin = GSEO_DEFAULT) = 0;
+						const GS_COLOR& color, const float angle = 0.0f, const GS_ENTITY_ORIGIN origin = GSEO_DEFAULT) = 0;
 	virtual bool DrawRectangle(const math::Vector2 &v2Pos, const math::Vector2 &v2Size,
-						const GS_COLOR color0, const GS_COLOR color1, const GS_COLOR color2, const GS_COLOR color3,
+						const GS_COLOR& color0, const GS_COLOR& color1, const GS_COLOR& color2, const GS_COLOR& color3,
 						const float angle = 0.0f, const GS_ENTITY_ORIGIN origin = GSEO_DEFAULT) = 0;
 
-	virtual void SetBGColor(const GS_COLOR backgroundColor) = 0;
+	virtual void SetBGColor(const GS_COLOR& backgroundColor) = 0;
 	virtual GS_COLOR GetBGColor() const = 0;
 
-	virtual bool BeginSpriteScene(const GS_COLOR dwBGColor = GS_ZERO) = 0;
+	virtual bool BeginSpriteScene(const GS_COLOR& dwBGColor = GS_ZERO) = 0;
 	virtual bool EndSpriteScene() = 0;
-	virtual bool BeginTargetScene(const GS_COLOR dwBGColor = GS_ZERO, const bool clear = true) = 0;
+	virtual bool BeginTargetScene(const GS_COLOR& dwBGColor = GS_ZERO, const bool clear = true) = 0;
 	virtual bool EndTargetScene() = 0;
 
 	virtual bool SetAlphaMode(const GS_ALPHA_MODE mode) = 0;
@@ -464,19 +464,19 @@ public:
 							const GS_TARGET_FORMAT format = GSTF_DEFAULT) = 0;
 
 	virtual bool Draw(const math::Vector2 &v2Pos,
-					const GS_COLOR color = GS_WHITE,
+					const GS_COLOR& color = GS_WHITE,
 					const float angle = 0.0f,
 					const math::Vector2 &v2Scale = math::Vector2(1.0f,1.0f)) = 0;
 	virtual bool DrawShaped(const math::Vector2 &v2Pos, const math::Vector2 &v2Size,
-						  const GS_COLOR color0, const GS_COLOR color1,
-						  const GS_COLOR color2, const GS_COLOR color3,
+						  const GS_COLOR& color0, const GS_COLOR& color1,
+						  const GS_COLOR& color2, const GS_COLOR& color3,
 						  const float angle = 0.0f) = 0;
 	virtual bool Stretch(const math::Vector2 &a, const math::Vector2 &b, const float width,
-					   const GS_COLOR color0 = GS_WHITE, const GS_COLOR color1 = GS_WHITE) = 0;
+					   const GS_COLOR& color0 = GS_WHITE, const GS_COLOR& color1 = GS_WHITE) = 0;
 	virtual bool SaveBitmap(const wchar_t *wcsName, const GS_BITMAP_FORMAT fmt, math::Rect2D *pRect = 0) = 0;
 
-	virtual bool DrawShapedFast(const math::Vector2 &v2Pos, const math::Vector2 &v2Size, const GS_COLOR color) = 0;
-	virtual bool DrawOptimal(const math::Vector2 &v2Pos, const GS_COLOR color = GS_WHITE, const float angle = 0.0f,
+	virtual bool DrawShapedFast(const math::Vector2 &v2Pos, const math::Vector2 &v2Size, const GS_COLOR& color) = 0;
+	virtual bool DrawOptimal(const math::Vector2 &v2Pos, const GS_COLOR& color = GS_WHITE, const float angle = 0.0f,
 					 const math::Vector2 &v2Size = math::Vector2(-1,-1)) = 0;
 	virtual void BeginFastRendering() = 0;
 	virtual void EndFastRendering() = 0;
@@ -579,7 +579,7 @@ class BitmapFont
 public:
 	bool IsLoaded() const;
 	BitmapFont(VideoWeakPtr video, const str_type::string& fileName, const str_type::string& str);
-	math::Vector2 DrawBitmapText(const math::Vector2 &pos, const str_type::string& text, const GS_COLOR color, const float scale = 1.0f);
+	math::Vector2 DrawBitmapText(const math::Vector2 &pos, const str_type::string& text, const GS_COLOR& color, const float scale = 1.0f);
 	math::Vector2 ComputeTextBoxSize(const str_type::string &text);
 	math::Vector2 ComputeCarretPosition(const str_type::string &text, const unsigned int pos);
 	unsigned int FindClosestCarretPosition(const str_type::string &text, const math::Vector2 &textPos, const math::Vector2 &reference);

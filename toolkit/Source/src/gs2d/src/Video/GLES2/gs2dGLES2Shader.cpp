@@ -486,7 +486,7 @@ bool GLES2Shader::ConstantExist(const str_type::string& name)
 	return false;
 }
 
-bool GLES2Shader::SetConstant(const str_type::string& name, const GS_COLOR dw)
+bool GLES2Shader::SetConstant(const str_type::string& name, const GS_COLOR& dw)
 {
 	math::Vector4 v;
 	v.SetColor(dw);
@@ -551,7 +551,7 @@ bool GLES2Shader::SetConstantArray(const std::size_t nameHash, const str_type::s
 	return true;
 }
 
-bool GLES2Shader::SetConstant(const std::size_t nameHash, const str_type::string& name, const GS_COLOR dw)
+bool GLES2Shader::SetConstant(const std::size_t nameHash, const str_type::string& name, const GS_COLOR& dw)
 {
 	math::Vector4 v;
 	v.SetColor(dw);

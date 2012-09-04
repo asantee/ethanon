@@ -122,7 +122,7 @@ public:
 
 	VIDEO_MODE GetVideoMode(const unsigned int modeIdx) const;
 	unsigned int GetVideoModeCount();
-	bool ResetVideoMode(const VIDEO_MODE mode, const bool toggleFullscreen = false);
+	bool ResetVideoMode(const VIDEO_MODE& mode, const bool toggleFullscreen = false);
 	bool ResetVideoMode(const unsigned int width, const unsigned int height, const GS_PIXEL_FORMAT pfBB, const bool toggleFullscreen = false);
 
 	bool SetRenderTarget(SpritePtr pTarget, const unsigned int target = 0);
@@ -166,19 +166,19 @@ public:
 	math::Vector2 ComputeTextBoxSize(const str_type::string& font, const str_type::string& text);
 	unsigned int FindClosestCarretPosition(const str_type::string& font, const str_type::string &text, const math::Vector2 &textPos,
 			const math::Vector2 &reference);
-	bool DrawBitmapText(const math::Vector2 &v2Pos, const str_type::string& text, const str_type::string& font, const GS_COLOR color, const float scale);
-	bool DrawLine(const math::Vector2 &p1, const math::Vector2 &p2, const GS_COLOR color1, const GS_COLOR color2);
-	bool DrawRectangle(const math::Vector2 &v2Pos, const math::Vector2 &v2Size,	const GS_COLOR color, const float angle = 0.0f,
+	bool DrawBitmapText(const math::Vector2 &v2Pos, const str_type::string& text, const str_type::string& font, const GS_COLOR& color, const float scale);
+	bool DrawLine(const math::Vector2 &p1, const math::Vector2 &p2, const GS_COLOR& color1, const GS_COLOR& color2);
+	bool DrawRectangle(const math::Vector2 &v2Pos, const math::Vector2 &v2Size,	const GS_COLOR& color, const float angle = 0.0f,
 			const GS_ENTITY_ORIGIN origin = GSEO_DEFAULT);
-	bool DrawRectangle(const math::Vector2 &v2Pos, const math::Vector2 &v2Size,	const GS_COLOR color0, const GS_COLOR color1,
-			const GS_COLOR color2, const GS_COLOR color3, const float angle = 0.0f,	const GS_ENTITY_ORIGIN origin = GSEO_DEFAULT);
+	bool DrawRectangle(const math::Vector2 &v2Pos, const math::Vector2 &v2Size,	const GS_COLOR& color0, const GS_COLOR& color1,
+			const GS_COLOR& color2, const GS_COLOR& color3, const float angle = 0.0f,	const GS_ENTITY_ORIGIN origin = GSEO_DEFAULT);
 
-	void SetBGColor(const GS_COLOR backgroundColor);
+	void SetBGColor(const GS_COLOR& backgroundColor);
 	GS_COLOR GetBGColor() const;
 
-	bool BeginSpriteScene(const GS_COLOR dwBGColor = GS_ZERO);
+	bool BeginSpriteScene(const GS_COLOR& dwBGColor = GS_ZERO);
 	bool EndSpriteScene();
-	bool BeginTargetScene(const GS_COLOR dwBGColor = GS_ZERO, const bool clear = true);
+	bool BeginTargetScene(const GS_COLOR& dwBGColor = GS_ZERO, const bool clear = true);
 	bool EndTargetScene();
 
 	bool SetAlphaMode(const GS_ALPHA_MODE mode);

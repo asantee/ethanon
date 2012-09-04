@@ -375,7 +375,7 @@ void D3D9Video::RemoveFromTargetList(Sprite *pSprite)
 			if (pSprite == iter->pSprite)
 				iter = m_targets.erase(iter);
 			else
-				iter++;
+				++iter;
 		}
 	}
 }
@@ -492,7 +492,7 @@ bool D3D9Video::QuitShortcutsEnabled()
 	return m_videoInfo->m_quitKeysEnabled;
 }
 
-void D3D9Video::SetBGColor(const GS_COLOR backgroundColor)
+void D3D9Video::SetBGColor(const GS_COLOR& backgroundColor)
 {
 	m_backgroundColor = backgroundColor;
 }
@@ -518,7 +518,7 @@ void D3D9Video::Message(const std::wstring& text, const GS_MESSAGE_TYPE type) co
 	ShowMessage(ss, type);
 }
 
-bool D3D9Video::BeginScene(const GS_COLOR bgColor, const bool clear)
+bool D3D9Video::BeginScene(const GS_COLOR& bgColor, const bool clear)
 {
 	const GS_COLOR color = (bgColor.color != 0x0) ? bgColor : m_backgroundColor;
 
@@ -563,7 +563,7 @@ bool D3D9Video::EndScene(const bool swap)
 	return true;
 }
 
-bool D3D9Video::BeginSpriteScene(const GS_COLOR bgColor)
+bool D3D9Video::BeginSpriteScene(const GS_COLOR& bgColor)
 {
 	if (!(BeginScene(bgColor)))
 	{
@@ -592,7 +592,7 @@ bool D3D9Video::EndSpriteScene()
 	return true;
 }
 
-bool D3D9Video::BeginTargetScene(const GS_COLOR bgColor, const bool clear)
+bool D3D9Video::BeginTargetScene(const GS_COLOR& bgColor, const bool clear)
 {
 	if (FAILED(BeginScene(bgColor, clear)))
 	{
@@ -888,7 +888,7 @@ bool D3D9Video::ResetVideoMode(const unsigned int width, const unsigned int heig
 	return ResetVideoMode(mode, toggleFullscreen);
 }
 
-bool D3D9Video::ResetVideoMode(const VIDEO_MODE mode, const bool toggleFullscreen)
+bool D3D9Video::ResetVideoMode(const VIDEO_MODE& mode, const bool toggleFullscreen)
 {
 	UnsetScissor();
 	const bool rendering = Rendering();
@@ -915,10 +915,11 @@ bool D3D9Video::ResetVideoMode(const VIDEO_MODE mode, const bool toggleFullscree
 	{
 		Message(L"deleting render targets...", GSMT_INFO);
 		RENDER_TARGET_LIST::iterator iter;
-		for (iter = m_targets.begin(); iter != m_targets.end(); iter++)
+		for (iter = m_targets.begin(); iter != m_targets.end(); ++iter)
 		{
-			if (iter->pSprite->GetType() != Sprite::T_NOT_LOADED)
-				iter->pSprite->OnLostDevice();
+			Sprite* sprite = iter->pSprite;
+			if (sprite->GetType() != Sprite::T_NOT_LOADED)
+				sprite->OnLostDevice();
 		}
 		Message(L"render targets deleted", GSMT_INFO);
 	}
@@ -932,11 +933,12 @@ bool D3D9Video::ResetVideoMode(const VIDEO_MODE mode, const bool toggleFullscree
 	}
 
 	// if the mode is toggled, do the window properties changing
+	D3DPRESENT_PARAMETERS& d3dpp = m_videoInfo->m_d3dPP;
 	if (toggleFullscreen)
 	{
 		Message(L"trying to toggle fullscreen", GSMT_INFO);
-		m_videoInfo->m_d3dPP.Windowed = !m_videoInfo->m_d3dPP.Windowed;
-		m_videoInfo->m_windowStyle = (m_videoInfo->m_d3dPP.Windowed) ? W32_WINDOWED_STYLE : W32_FULLSCREEN_STYLE;
+		d3dpp.Windowed = !d3dpp.Windowed;
+		m_videoInfo->m_windowStyle = (d3dpp.Windowed) ? W32_WINDOWED_STYLE : W32_FULLSCREEN_STYLE;
 
 		// if the window is maximizable, activate the maximize button
 		if (m_maximizable)
@@ -953,8 +955,8 @@ bool D3D9Video::ResetVideoMode(const VIDEO_MODE mode, const bool toggleFullscree
 	if (mode.width != 0 && mode.height != 0 || toggleFullscreen)
 	{
 		Message(L"recreating the D3DPP...", GSMT_INFO);
-		m_videoInfo->m_d3dPP.BackBufferWidth  = m_screenDim.x = mode.width;
-		m_videoInfo->m_d3dPP.BackBufferHeight = m_screenDim.y = mode.height;
+		d3dpp.BackBufferWidth  = m_screenDim.x = mode.width;
+		d3dpp.BackBufferHeight = m_screenDim.y = mode.height;
 
 		if (m_windowed)
 		{
@@ -971,19 +973,19 @@ bool D3D9Video::ResetVideoMode(const VIDEO_MODE mode, const bool toggleFullscree
 	}
 	else // If it's being reset because the device has been lost, keep the same size
 	{
-		m_videoInfo->m_d3dPP.BackBufferWidth  = m_screenDim.x;
-		m_videoInfo->m_d3dPP.BackBufferHeight = m_screenDim.y;
+		d3dpp.BackBufferWidth  = m_screenDim.x;
+		d3dpp.BackBufferHeight = m_screenDim.y;
 	}
 
 	// Reset it
-	const HRESULT hr = m_pDevice->Reset(&m_videoInfo->m_d3dPP);
+	const HRESULT hr = m_pDevice->Reset(&d3dpp);
 	if (FAILED(hr))
 	{
 		Message(L"Couldn't reset the video mode");
 	}
 	else
 	{
-		Message(L"device successfuly reset", GSMT_INFO);
+		Message(L"device successfully reset", GSMT_INFO);
 		SetVertexShader(GetVertexShader());
 		SetPixelShader(GetPixelShader());
 		SetupShaderViewData(m_pDevice, GetVertexShader(), m_rectVS, m_fastVS);
@@ -1008,12 +1010,13 @@ bool D3D9Video::ResetVideoMode(const VIDEO_MODE mode, const bool toggleFullscree
 		if (!m_targets.empty())
 		{
 			RENDER_TARGET_LIST::iterator iter;
-			for (iter = m_targets.begin(); iter != m_targets.end(); iter++)
+			for (iter = m_targets.begin(); iter != m_targets.end(); ++iter)
 			{
-				if (iter->pSprite->GetType() == Sprite::T_RELOAD)
+				Sprite* sprite = iter->pSprite;
+				if (sprite->GetType() == Sprite::T_RELOAD)
 				{
-					iter->pSprite->CreateRenderTarget(weak_this, iter->width, iter->height, iter->format);
-					iter->pSprite->RecoverFromBackup();
+					sprite->CreateRenderTarget(weak_this, iter->width, iter->height, iter->format);
+					sprite->RecoverFromBackup();
 				}
 			}
 			Message(L"targets recovered from backup (if possible)", GSMT_INFO);
@@ -1065,10 +1068,11 @@ Video::APP_STATUS D3D9Video::HandleEvents()
 	// handles window resizing
 	if (m_maximizable)
 	{
-		if (m_videoInfo->v2Resize.x > 0 && m_videoInfo->v2Resize.y > 0)
+		Vector2i& resize = m_videoInfo->v2Resize;
+		if (resize.x > 0 && resize.y > 0)
 		{
-			ResetVideoMode(m_videoInfo->v2Resize.x, m_videoInfo->v2Resize.y, GSPF_UNKNOWN, false);
-			m_videoInfo->v2Resize = Vector2i(0,0);
+			ResetVideoMode(resize.x, resize.y, GSPF_UNKNOWN, false);
+			resize = Vector2i(0,0);
 		}
 	}
 
@@ -1326,7 +1330,7 @@ unsigned int D3D9Video::FindClosestCarretPosition(const std::wstring& font, cons
 	return bitmapFont->FindClosestCarretPosition(text, textPos, reference);
 }
 
-bool D3D9Video::DrawBitmapText(const Vector2 &v2Pos, const std::wstring& text, const std::wstring& font, const GS_COLOR color, const float scale)
+bool D3D9Video::DrawBitmapText(const Vector2 &v2Pos, const std::wstring& text, const std::wstring& font, const GS_COLOR& color, const float scale)
 {
 	// checks if this font has already been created
 	std::map<std::wstring, BitmapFontPtr>::iterator iter = m_fonts.find(font);
@@ -1377,7 +1381,7 @@ GS_BLEND_MODE D3D9Video::GetBlendMode(const unsigned int passIdx) const
 	return m_blendModes[passIdx];
 }
 
-bool D3D9Video::DrawLine(const Vector2 &p1, const Vector2 &p2, const GS_COLOR color1, const GS_COLOR color2)
+bool D3D9Video::DrawLine(const Vector2 &p1, const Vector2 &p2, const GS_COLOR& color1, const GS_COLOR& color2)
 {
 	if (m_lineWidth <= 1.0f)
 	{
@@ -1442,13 +1446,13 @@ float D3D9Video::GetLineWidth() const
 }
 
 bool D3D9Video::DrawRectangle(const Vector2 &v2Pos, const Vector2 &v2Size,
-						const GS_COLOR color, const float angle, const GS_ENTITY_ORIGIN origin)
+						const GS_COLOR& color, const float angle, const GS_ENTITY_ORIGIN origin)
 {
 	return DrawRectangle(v2Pos, v2Size,	color, color, color, color, angle, origin);
 }
 
 bool D3D9Video::DrawRectangle(const Vector2 &v2Pos, const Vector2 &v2Size,
-						const GS_COLOR color0, const GS_COLOR color1, const GS_COLOR color2, const GS_COLOR color3,
+						const GS_COLOR& color0, const GS_COLOR& color1, const GS_COLOR& color2, const GS_COLOR& color3,
 						const float angle, const GS_ENTITY_ORIGIN origin)
 {
 	if (v2Size == Vector2(0,0))
@@ -1646,48 +1650,50 @@ bool D3D9Video::StartApplication(const unsigned int width, const unsigned int he
 	}
 
 	// Create the present parameters struct
-	ZeroMemory(&m_videoInfo->m_d3dPP, sizeof(D3DPRESENT_PARAMETERS));
-	m_videoInfo->m_d3dPP.AutoDepthStencilFormat = D3DFMT_D16;
-	m_videoInfo->m_d3dPP.EnableAutoDepthStencil = TRUE;
-	m_videoInfo->m_d3dPP.SwapEffect = D3DSWAPEFFECT_DISCARD;
-	m_videoInfo->m_d3dPP.Windowed = TRUE;
-	m_videoInfo->m_d3dPP.BackBufferFormat = d3dFmt;
-	m_videoInfo->m_d3dPP.PresentationInterval = (sync) ? D3DPRESENT_INTERVAL_DEFAULT : D3DPRESENT_INTERVAL_IMMEDIATE;
-	m_videoInfo->m_d3dPP.BackBufferWidth  = m_screenDim.x;
-	m_videoInfo->m_d3dPP.BackBufferHeight = m_screenDim.y;
+	D3DPRESENT_PARAMETERS& d3dpp = m_videoInfo->m_d3dPP;
+	ZeroMemory(&d3dpp, sizeof(D3DPRESENT_PARAMETERS));
+	d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
+	d3dpp.EnableAutoDepthStencil = TRUE;
+	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
+	d3dpp.Windowed = TRUE;
+	d3dpp.BackBufferFormat = d3dFmt;
+	d3dpp.PresentationInterval = (sync) ? D3DPRESENT_INTERVAL_DEFAULT : D3DPRESENT_INTERVAL_IMMEDIATE;
+	d3dpp.BackBufferWidth  = m_screenDim.x;
+	d3dpp.BackBufferHeight = m_screenDim.y;
 
 	// Get caps
-	m_pD3D->GetDeviceCaps(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, &m_videoInfo->m_caps);
-	m_videoInfo->m_pow2Tex = (m_videoInfo->m_caps.TextureCaps & D3DPTEXTURECAPS_POW2);
-	m_videoInfo->m_nMaxRTs = static_cast<int>(m_videoInfo->m_caps.NumSimultaneousRTs);
+	D3DCAPS9& caps = m_videoInfo->m_caps;
+	m_pD3D->GetDeviceCaps(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, &caps);
+	m_videoInfo->m_pow2Tex = (caps.TextureCaps & D3DPTEXTURECAPS_POW2);
+	m_videoInfo->m_nMaxRTs = static_cast<int>(caps.NumSimultaneousRTs);
 
 	if (!m_videoInfo->m_pow2Tex)
 		Message(L"non pow-2 textures aren't supported. You may experience lower graphic quality", GSMT_INFO);
 
-	m_videoInfo->m_scissorSupported = (m_videoInfo->m_caps.RasterCaps  & D3DPRASTERCAPS_SCISSORTEST);
+	m_videoInfo->m_scissorSupported = (caps.RasterCaps & D3DPRASTERCAPS_SCISSORTEST);
 	if (!m_videoInfo->m_scissorSupported)
 		Message(L"Scissors aren't supported", GSMT_INFO);
 
-	m_videoInfo->m_magAniso = (m_videoInfo->m_caps.TextureFilterCaps  & D3DPTFILTERCAPS_MAGFANISOTROPIC);
-	m_videoInfo->m_minAniso = (m_videoInfo->m_caps.TextureFilterCaps  & D3DPTFILTERCAPS_MINFANISOTROPIC);
-	m_videoInfo->m_maxAniso = m_videoInfo->m_caps.MaxAnisotropy;
-	m_videoInfo->m_nMaxMultiTex = static_cast<unsigned int>(m_videoInfo->m_caps.MaxSimultaneousTextures);
+	m_videoInfo->m_magAniso = (caps.TextureFilterCaps  & D3DPTFILTERCAPS_MAGFANISOTROPIC);
+	m_videoInfo->m_minAniso = (caps.TextureFilterCaps  & D3DPTFILTERCAPS_MINFANISOTROPIC);
+	m_videoInfo->m_maxAniso = caps.MaxAnisotropy;
+	m_videoInfo->m_nMaxMultiTex = static_cast<unsigned int>(caps.MaxSimultaneousTextures);
 	std::wstringstream ss;
 	ss << L"Maximum number of simultaneous textures: " << m_videoInfo->m_nMaxMultiTex << std::endl;
 	ShowMessage(ss, GSMT_INFO);
 
-	m_videoInfo->m_isVSSupported = (m_videoInfo->m_caps.VertexShaderVersion >= D3DVS_VERSION(1,1));
+	m_videoInfo->m_isVSSupported = (caps.VertexShaderVersion >= D3DVS_VERSION(1,1));
 
 	m_videoInfo->SetupShaderProfile();
 
 	if (!windowed)
 	{
-		m_videoInfo->m_d3dPP.Windowed = FALSE;
-		m_videoInfo->m_d3dPP.Flags = D3DPRESENTFLAG_LOCKABLE_BACKBUFFER;
+		d3dpp.Windowed = FALSE;
+		d3dpp.Flags = D3DPRESENTFLAG_LOCKABLE_BACKBUFFER;
 	}
 
 	// does it support hardware vertex processing?
-	DWORD flags = (m_videoInfo->m_caps.DevCaps & D3DDEVCAPS_HWTRANSFORMANDLIGHT) ? D3DCREATE_HARDWARE_VERTEXPROCESSING : D3DCREATE_SOFTWARE_VERTEXPROCESSING;
+	DWORD flags = (caps.DevCaps & D3DDEVCAPS_HWTRANSFORMANDLIGHT) ? D3DCREATE_HARDWARE_VERTEXPROCESSING : D3DCREATE_SOFTWARE_VERTEXPROCESSING;
 
 	// if the video card doesn't support any vertex shader version,
 	// it must have software vertex processing
@@ -1700,14 +1706,14 @@ bool D3D9Video::StartApplication(const unsigned int width, const unsigned int he
 		Message(L"setting up the window with SOFTware vertex processing...", GSMT_INFO);
 
 	if (FAILED(m_pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, m_videoInfo->m_hWnd,
-								flags, &m_videoInfo->m_d3dPP, &m_pDevice)))
+								flags, &d3dpp, &m_pDevice)))
 	{
 		if (!windowed)
 		{
 			const int nMode = m_nVideoModes/3;
-			m_videoInfo->m_d3dPP.BackBufferFormat = (D3DFORMAT)m_modes[nMode].idx;
-			m_videoInfo->m_d3dPP.BackBufferWidth  = m_screenDim.x = m_modes[nMode].width;
-			m_videoInfo->m_d3dPP.BackBufferHeight = m_screenDim.y = m_modes[nMode].height;
+			d3dpp.BackBufferFormat = (D3DFORMAT)m_modes[nMode].idx;
+			d3dpp.BackBufferWidth  = m_screenDim.x = m_modes[nMode].width;
+			d3dpp.BackBufferHeight = m_screenDim.y = m_modes[nMode].height;
 		}
 		else
 		{

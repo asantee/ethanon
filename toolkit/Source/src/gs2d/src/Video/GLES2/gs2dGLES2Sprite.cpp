@@ -92,7 +92,7 @@ bool GLES2Sprite::CreateRenderTarget(VideoWeakPtr video, const unsigned int widt
 }
 
 bool GLES2Sprite::Draw(const Vector2 &v2Pos,
-				const GS_COLOR color, const float angle,
+				const GS_COLOR& color, const float angle,
 				const Vector2 &v2Scale)
 {
 	Vector2 v2Size;
@@ -124,8 +124,8 @@ bool GLES2Sprite::Draw(const Vector2 &v2Pos,
 }
 
 bool GLES2Sprite::DrawShaped(const Vector2 &v2Pos, const Vector2 &v2Size,
-							const GS_COLOR color0, const GS_COLOR color1,
-							const GS_COLOR color2, const GS_COLOR color3,
+							const GS_COLOR& color0, const GS_COLOR& color1,
+							const GS_COLOR& color2, const GS_COLOR& color3,
 							const float angle)
 {
 	ShaderPtr
@@ -215,7 +215,7 @@ bool GLES2Sprite::DrawShaped(const Vector2 &v2Pos, const Vector2 &v2Size,
 	return true;
 }
 
-bool GLES2Sprite::DrawOptimal(const math::Vector2 &v2Pos, const GS_COLOR color, const float angle, const Vector2 &v2Size)
+bool GLES2Sprite::DrawOptimal(const math::Vector2 &v2Pos, const GS_COLOR& color, const float angle, const Vector2 &v2Size)
 {
 	static_cast<GLES2Video*>(m_video)->SetupMultitextureShader();
 	GLES2Shader* vs = m_shaderContext->GetCurrentVS().get();
@@ -281,7 +281,7 @@ bool GLES2Sprite::DrawOptimal(const math::Vector2 &v2Pos, const GS_COLOR color, 
 }
 
 bool GLES2Sprite::Stretch(const Vector2 &a, const Vector2 &b, const float width,
-				   const GS_COLOR color0, const GS_COLOR color1)
+				   const GS_COLOR& color0, const GS_COLOR& color1)
 {
 	if (a == b || width <= 0.0f)
 	{
@@ -307,7 +307,7 @@ bool GLES2Sprite::SaveBitmap(const wchar_t *wcsName, const GS_BITMAP_FORMAT fmt,
 	return false;
 }
 
-bool GLES2Sprite::DrawShapedFast(const Vector2 &v2Pos, const Vector2 &v2Size, const GS_COLOR color)
+bool GLES2Sprite::DrawShapedFast(const Vector2 &v2Pos, const Vector2 &v2Size, const GS_COLOR& color)
 {
 	GLES2Shader* vs = m_shaderContext->GetCurrentVS().get();
 

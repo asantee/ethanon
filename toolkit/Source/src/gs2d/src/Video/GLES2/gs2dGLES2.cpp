@@ -421,8 +421,7 @@ unsigned int GLES2Video::GetVideoModeCount()
 	return 1;
 }
 
-bool GLES2Video::ResetVideoMode(const VIDEO_MODE mode,
-		const bool toggleFullscreen)
+bool GLES2Video::ResetVideoMode(const VIDEO_MODE& mode, const bool toggleFullscreen)
 {
 	ResetVideoMode(mode.width, mode.height, mode.pf, false);
 	return true;
@@ -793,7 +792,7 @@ unsigned int GLES2Video::FindClosestCarretPosition(const str_type::string& font,
 	return bitmapFont->FindClosestCarretPosition(text, textPos, reference);
 }
 
-bool GLES2Video::DrawBitmapText(const Vector2 &v2Pos, const str_type::string& text, const str_type::string& font, const GS_COLOR color, const float scale)
+bool GLES2Video::DrawBitmapText(const Vector2 &v2Pos, const str_type::string& text, const str_type::string& font, const GS_COLOR& color, const float scale)
 {
 	// checks if this font has already been created
 	std::map<str_type::string, BitmapFontPtr>::iterator iter = m_fonts.find(font);
@@ -823,30 +822,28 @@ bool GLES2Video::DrawBitmapText(const Vector2 &v2Pos, const str_type::string& te
 	return true;
 }
 
-bool GLES2Video::DrawLine(const Vector2 &p1, const Vector2 &p2,
-		const GS_COLOR color1, const GS_COLOR color2)
+bool GLES2Video::DrawLine(const Vector2 &p1, const Vector2 &p2, const GS_COLOR& color1, const GS_COLOR& color2)
+{
+	// TODO
+	return false;
+}
+
+bool GLES2Video::DrawRectangle(const Vector2 &v2Pos, const Vector2 &v2Size, const GS_COLOR& color, const float angle, const GS_ENTITY_ORIGIN origin)
 {
 	// TODO
 	return false;
 }
 
 bool GLES2Video::DrawRectangle(const Vector2 &v2Pos, const Vector2 &v2Size,
-		const GS_COLOR color, const float angle, const GS_ENTITY_ORIGIN origin)
-{
-	// TODO
-	return false;
-}
-
-bool GLES2Video::DrawRectangle(const Vector2 &v2Pos, const Vector2 &v2Size,
-		const GS_COLOR color0, const GS_COLOR color1,
-		const GS_COLOR color2, const GS_COLOR color3,
+		const GS_COLOR& color0, const GS_COLOR& color1,
+		const GS_COLOR& color2, const GS_COLOR& color3,
 		const float angle, const GS_ENTITY_ORIGIN origin)
 {
 	// TODO
 	return false;
 }
 
-void GLES2Video::SetBGColor(const GS_COLOR backgroundColor)
+void GLES2Video::SetBGColor(const GS_COLOR& backgroundColor)
 {
 	m_backgroundColor = backgroundColor;
 }
@@ -857,7 +854,7 @@ GS_COLOR GLES2Video::GetBGColor() const
 }
 
 
-bool GLES2Video::BeginSpriteScene(const GS_COLOR dwBGColor)
+bool GLES2Video::BeginSpriteScene(const GS_COLOR& dwBGColor)
 {
 	UnbindFrameBuffer();
 	if (dwBGColor != GS_ZERO)
@@ -880,7 +877,7 @@ bool GLES2Video::EndSpriteScene()
 	return true;
 }
 
-bool GLES2Video::BeginTargetScene(const GS_COLOR dwBGColor, const bool clear)
+bool GLES2Video::BeginTargetScene(const GS_COLOR& dwBGColor, const bool clear)
 {
 	// explicit static cast for better performance
 	TexturePtr texturePtr = m_currentTarget.lock();
