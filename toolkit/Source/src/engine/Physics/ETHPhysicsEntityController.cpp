@@ -236,7 +236,7 @@ bool ETHPhysicsEntityController::ResolveJoints(ETHEntityArray& entities, const E
 	const enml::File file(properties.enmlJointDefinitions);
 	std::list<str_type::string> jointNames;
 	file.getEntityNameList(jointNames);
-	for (std::list<str_type::string>::const_iterator iter = jointNames.begin(); iter != jointNames.end(); iter++)
+	for (std::list<str_type::string>::const_iterator iter = jointNames.begin(); iter != jointNames.end(); ++iter)
 	{
 		const str_type::string& jointName = *iter;
 

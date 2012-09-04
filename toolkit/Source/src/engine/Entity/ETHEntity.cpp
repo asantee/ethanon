@@ -115,12 +115,15 @@ bool ETHEntity::WriteToXMLFile(TiXmlElement *pHeadRoot) const
 	}
 
 	pElement = new TiXmlElement(GS_L("Position"));
-	pEntity->LinkEndChild(pElement); 
-	pElement->SetDoubleAttribute(GS_L("x"), m_controller->GetPos().x);
-	pElement->SetDoubleAttribute(GS_L("y"), m_controller->GetPos().y);
-	pElement->SetDoubleAttribute(GS_L("z"), m_controller->GetPos().z);
-	pElement->SetDoubleAttribute(GS_L("angle"), m_controller->GetAngle());
-
+	pEntity->LinkEndChild(pElement);
+	{
+		const Vector3 pos(m_controller->GetPos());
+		pElement->SetDoubleAttribute(GS_L("x"), pos.x);
+		pElement->SetDoubleAttribute(GS_L("y"), pos.y);
+		pElement->SetDoubleAttribute(GS_L("z"), pos.z);
+		pElement->SetDoubleAttribute(GS_L("angle"), m_controller->GetAngle());
+		
+	}
 	pEntity->SetAttribute(GS_L("id"), m_id);
 	pEntity->SetAttribute(GS_L("spriteFrame"), m_spriteFrame);
 

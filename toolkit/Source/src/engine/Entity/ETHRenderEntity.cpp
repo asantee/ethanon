@@ -294,7 +294,7 @@ bool ETHRenderEntity::DrawParticles(const unsigned int n, const float maxHeight,
 	}
 }
 
-void ETHRenderEntity::DrawCollisionBox(const bool drawBase, SpritePtr pOutline, const GS_COLOR dwColor, const Vector2 &zAxisDirection) const
+void ETHRenderEntity::DrawCollisionBox(const bool drawBase, SpritePtr pOutline, const GS_COLOR& dwColor, const Vector2 &zAxisDirection) const
 {
 	VideoPtr video = m_provider->GetVideo();
 	const bool collidable = (m_properties.collision);

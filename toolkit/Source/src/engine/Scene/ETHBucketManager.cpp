@@ -46,10 +46,10 @@ ETHBucketManager::ETHBucketManager(const ETHResourceProviderPtr& provider, const
 
 ETHBucketManager::~ETHBucketManager()
 {
-	for (ETHBucketMap::iterator bucketIter = GetFirstBucket(); bucketIter != GetLastBucket(); bucketIter++)
+	for (ETHBucketMap::iterator bucketIter = GetFirstBucket(); bucketIter != GetLastBucket(); ++bucketIter)
 	{
 		ETHEntityList::const_iterator iEnd = bucketIter->second.end();
-		for (ETHEntityList::iterator iter = bucketIter->second.begin(); iter != iEnd; iter++)
+		for (ETHEntityList::iterator iter = bucketIter->second.begin(); iter != iEnd; ++iter)
 		{
 			(*iter)->Kill();
 			(*iter)->Release();
@@ -157,12 +157,13 @@ bool ETHBucketManager::MoveEntity(const int id, const Vector2 &currentBucket, co
 	}
 
 	ETHRenderEntity* entity = 0;
-	for (ETHEntityList::iterator iter = bucketIter->second.begin(); iter != bucketIter->second.end(); iter++)
+	ETHEntityList& entityList = bucketIter->second;
+	for (ETHEntityList::iterator iter = entityList.begin(); iter != entityList.end(); ++iter)
 	{
 		if ((*iter)->GetID() == id)
 		{
 			entity = *iter;
-			bucketIter->second.erase(iter);
+			entityList.erase(iter);
 			break;
 		}
 	}
@@ -196,7 +197,7 @@ bool ETHBucketManager::MoveEntity(const int id, const Vector2 &currentBucket, co
 unsigned int ETHBucketManager::GetNumEntities() const
 {
 	unsigned int nEntities = 0;
-	for (ETHBucketMap::const_iterator bucketIter = GetFirstBucket(); bucketIter != GetLastBucket(); bucketIter++)
+	for (ETHBucketMap::const_iterator bucketIter = GetFirstBucket(); bucketIter != GetLastBucket(); ++bucketIter)
 	{
 		nEntities += bucketIter->second.size();
 	}
@@ -235,16 +236,17 @@ int ETHBucketManager::SeekEntity(const Vector2 &at, ETHEntity **pOutData, const 
 
 	// seeks the closest intersecting entity from behind
 	for (std::list<Vector2>::const_reverse_iterator sceneBucketIter = buckets.rbegin();
-		sceneBucketIter != buckets.rend(); sceneBucketIter++)
+		sceneBucketIter != buckets.rend(); ++sceneBucketIter)
 	{
 		ETHBucketMap::iterator bucketIter = Find(*sceneBucketIter);
 
 		if (bucketIter == GetLastBucket())
 			continue;
 
-		ETHEntityList::const_reverse_iterator iEnd = bucketIter->second.rend();
+		ETHEntityList& entityList = bucketIter->second;
+		ETHEntityList::const_reverse_iterator iEnd = entityList.rend();
 		bool escape = false;
-		for (ETHEntityList::reverse_iterator iter = bucketIter->second.rbegin(); iter != iEnd; iter++)
+		for (ETHEntityList::reverse_iterator iter = entityList.rbegin(); iter != iEnd; ++iter)
 		{
 			ETHSpriteEntity *pRenderEntity = (*iter);
 			const ETH_VIEW_RECT box = pRenderEntity->GetScreenRect(props);
@@ -277,7 +279,7 @@ int ETHBucketManager::SeekEntity(const Vector2 &at, ETHEntity **pOutData, const 
 	}
 
 	// seeks the first intersecting entity from the front
-	for (std::list<Vector2>::const_iterator sceneBucketIter = buckets.begin(); sceneBucketIter != buckets.end(); sceneBucketIter++)
+	for (std::list<Vector2>::const_iterator sceneBucketIter = buckets.begin(); sceneBucketIter != buckets.end(); ++sceneBucketIter)
 	{
 		ETHBucketMap::iterator bucketIter = Find(*sceneBucketIter);
 
@@ -285,9 +287,10 @@ int ETHBucketManager::SeekEntity(const Vector2 &at, ETHEntity **pOutData, const 
 			continue;
 
 		ETHEntityList::iterator iter;
-		ETHEntityList::const_iterator iEnd = bucketIter->second.end();
+		ETHEntityList& entityList = bucketIter->second;
+		ETHEntityList::const_iterator iEnd = entityList.end();
 		bool escape = false;
-		for (iter = bucketIter->second.begin(); iter != iEnd; iter++)
+		for (iter = entityList.begin(); iter != iEnd; ++iter)
 		{
 			ETHSpriteEntity *pRenderEntity = (*iter);
 			const ETH_VIEW_RECT box = pRenderEntity->GetScreenRect(props);
@@ -317,10 +320,11 @@ int ETHBucketManager::SeekEntity(const Vector2 &at, ETHEntity **pOutData, const 
 
 ETHSpriteEntity* ETHBucketManager::SeekEntity(const int id)
 {
-	for (ETHBucketMap::iterator bucketIter = GetFirstBucket(); bucketIter != GetLastBucket(); bucketIter++)
+	for (ETHBucketMap::iterator bucketIter = GetFirstBucket(); bucketIter != GetLastBucket(); ++bucketIter)
 	{
-		ETHEntityList::const_iterator iEnd = bucketIter->second.end();
-		for (ETHEntityList::iterator iter = bucketIter->second.begin(); iter != iEnd; iter++)
+		ETHEntityList& entityList = bucketIter->second;
+		ETHEntityList::const_iterator iEnd = entityList.end();
+		for (ETHEntityList::iterator iter = entityList.begin(); iter != iEnd; ++iter)
 		{
 			if ((*iter)->GetID() == id)
 				return (*iter);
@@ -331,10 +335,11 @@ ETHSpriteEntity* ETHBucketManager::SeekEntity(const int id)
 
 ETHSpriteEntity* ETHBucketManager::SeekEntity(const str_type::string& fileName)
 {
-	for (ETHBucketMap::iterator bucketIter = GetFirstBucket(); bucketIter != GetLastBucket(); bucketIter++)
+	for (ETHBucketMap::iterator bucketIter = GetFirstBucket(); bucketIter != GetLastBucket(); ++bucketIter)
 	{
-		ETHEntityList::const_iterator iEnd = bucketIter->second.end();
-		for (ETHEntityList::iterator iter = bucketIter->second.begin(); iter != iEnd; iter++)
+		ETHEntityList& entityList = bucketIter->second;
+		ETHEntityList::const_iterator iEnd = entityList.end();
+		for (ETHEntityList::iterator iter = entityList.begin(); iter != iEnd; ++iter)
 		{
 			if ((*iter)->GetEntityName() == fileName)
 				return (*iter);
@@ -345,10 +350,11 @@ ETHSpriteEntity* ETHBucketManager::SeekEntity(const str_type::string& fileName)
 
 bool ETHBucketManager::DeleteEntity(const int id)
 {
-	for (ETHBucketMap::iterator bucketIter = GetFirstBucket(); bucketIter != GetLastBucket(); bucketIter++)
+	for (ETHBucketMap::iterator bucketIter = GetFirstBucket(); bucketIter != GetLastBucket(); ++bucketIter)
 	{
-		ETHEntityList::const_iterator iEnd = bucketIter->second.end();
-		for (ETHEntityList::iterator iter = bucketIter->second.begin(); iter != iEnd; iter++)
+		ETHEntityList& entityList = bucketIter->second;
+		ETHEntityList::const_iterator iEnd = entityList.end();
+		for (ETHEntityList::iterator iter = entityList.begin(); iter != iEnd; ++iter)
 		{
 			if ((*iter)->GetID() == id)
 			{
@@ -362,7 +368,7 @@ bool ETHBucketManager::DeleteEntity(const int id)
 
 				(*iter)->Kill();
 				(*iter)->Release();
-				bucketIter->second.erase(iter);
+				entityList.erase(iter);
 				return true;
 			}
 		}
@@ -377,8 +383,9 @@ bool ETHBucketManager::DeleteEntity(const int id, const Vector2 &searchBucket, c
 	// try getting it from bucket (faster)
 	if (bucketIter != GetLastBucket())
 	{
-		ETHEntityList::const_reverse_iterator iEnd = bucketIter->second.rend();
-		for (ETHEntityList::reverse_iterator iter = bucketIter->second.rbegin(); iter != iEnd; iter++)
+		ETHEntityList& entityList = bucketIter->second;
+		ETHEntityList::const_reverse_iterator iEnd = entityList.rend();
+		for (ETHEntityList::reverse_iterator iter = entityList.rbegin(); iter != iEnd; ++iter)
 		{
 			if ((*iter)->GetID() == id)
 			{
@@ -395,8 +402,8 @@ bool ETHBucketManager::DeleteEntity(const int id, const Vector2 &searchBucket, c
 				(*iter)->Kill();
 				(*iter)->Release();
 				ETHEntityList::iterator i = iter.base();
-				i--;
-				bucketIter->second.erase(i);
+				--i;
+				entityList.erase(i);
 				return true;
 			}
 		}
@@ -404,10 +411,11 @@ bool ETHBucketManager::DeleteEntity(const int id, const Vector2 &searchBucket, c
 
 	// If it can't find it, it probably means the entity is lost and its move
 	// request has been sent. Let's just kill it then
-	for (bucketIter = GetFirstBucket(); bucketIter != GetLastBucket(); bucketIter++)
+	for (bucketIter = GetFirstBucket(); bucketIter != GetLastBucket(); ++bucketIter)
 	{
-		ETHEntityList::const_iterator iEnd = bucketIter->second.end();
-		for (ETHEntityList::iterator iter = bucketIter->second.begin(); iter != iEnd; iter++)
+		ETHEntityList& entityList = bucketIter->second;
+		ETHEntityList::const_iterator iEnd = entityList.end();
+		for (ETHEntityList::iterator iter = entityList.begin(); iter != iEnd; ++iter)
 		{
 			if ((*iter)->GetID() == id)
 			{
@@ -432,10 +440,11 @@ bool ETHBucketManager::DeleteEntity(const int id, const Vector2 &searchBucket, c
 
 void ETHBucketManager::GetEntityArrayByName(const str_type::string& name, ETHEntityArray &outVector)
 {
-	for (ETHBucketMap::iterator bucketIter = GetFirstBucket(); bucketIter != GetLastBucket(); bucketIter++)
+	for (ETHBucketMap::iterator bucketIter = GetFirstBucket(); bucketIter != GetLastBucket(); ++bucketIter)
 	{
-		ETHEntityList::const_iterator iEnd = bucketIter->second.end();
-		for (ETHEntityList::iterator iter = bucketIter->second.begin(); iter != iEnd; iter++)
+		ETHEntityList& entityList = bucketIter->second;
+		ETHEntityList::const_iterator iEnd = entityList.end();
+		for (ETHEntityList::iterator iter = entityList.begin(); iter != iEnd; ++iter)
 		{
 			ETHSpriteEntity *pEntity = *iter;
 			if (pEntity->GetEntityName() == name)
@@ -452,8 +461,9 @@ void ETHBucketManager::GetEntityArrayFromBucket(const Vector2 &bucket, ETHEntity
 	if (bucketIter == GetLastBucket())
 		return;
 
-	ETHEntityList::const_iterator iEnd = bucketIter->second.end();
-	for (ETHEntityList::iterator iter = bucketIter->second.begin(); iter != iEnd; iter++)
+	ETHEntityList& entityList = bucketIter->second;
+	ETHEntityList::const_iterator iEnd = entityList.end();
+	for (ETHEntityList::iterator iter = entityList.begin(); iter != iEnd; ++iter)
 	{
 		if (chooser.Choose(*iter))
 			outVector.push_back(*iter);
@@ -513,18 +523,19 @@ void ETHBucketManager::GetVisibleEntities(ETHEntityArray &outVector)
 
 	// Loop through all visible Buckets
 	for (std::list<Vector2>::iterator bucketPositionIter = bucketList.begin();
-		bucketPositionIter != bucketList.end(); bucketPositionIter++)
+		bucketPositionIter != bucketList.end(); ++bucketPositionIter)
 	{
 		ETHBucketMap::const_iterator bucketIter = Find(*bucketPositionIter);
 
 		if (bucketIter == GetLastBucket())
 			continue;
 
-		if (bucketIter->second.empty())
+		const ETHEntityList& entityList = bucketIter->second;
+		if (entityList.empty())
 			continue;
 
-		ETHEntityList::const_iterator iEnd = bucketIter->second.end();
-		for (ETHEntityList::const_iterator iter = bucketIter->second.begin(); iter != iEnd; iter++)
+		ETHEntityList::const_iterator iEnd = entityList.end();
+		for (ETHEntityList::const_iterator iter = entityList.begin(); iter != iEnd; ++iter)
 		{
 			outVector.push_back(*iter);
 		}
@@ -561,10 +572,11 @@ void ETHBucketManager::GetIntersectingEntities(const Vector2 &point, ETHEntityAr
 
 void ETHBucketManager::GetEntityArray(ETHEntityArray &outVector)
 {
-	for (ETHBucketMap::iterator bucketIter = GetFirstBucket(); bucketIter != GetLastBucket(); bucketIter++)
+	for (ETHBucketMap::iterator bucketIter = GetFirstBucket(); bucketIter != GetLastBucket(); ++bucketIter)
 	{
-		ETHEntityList::const_iterator iEnd = bucketIter->second.end();
-		for (ETHEntityList::iterator iter = bucketIter->second.begin(); iter != iEnd; iter++)
+		ETHEntityList& entityList = bucketIter->second;
+		ETHEntityList::const_iterator iEnd = entityList.end();
+		for (ETHEntityList::iterator iter = entityList.begin(); iter != iEnd; ++iter)
 		{
 			outVector.push_back(*iter);
 		}
@@ -583,7 +595,7 @@ void ETHBucketManager::RequestBucketMove(ETHEntity* target, const Vector2& oldPo
 void ETHBucketManager::ResolveMoveRequests()
 {
 	for (std::list<ETHBucketMoveRequest>::iterator iter = m_moveRequests.begin();
-		iter != m_moveRequests.end(); iter++)
+		iter != m_moveRequests.end(); ++iter)
 	{
 		// if it's dead, no use in moving it. Let's just discard
 		if (!iter->IsAlive())

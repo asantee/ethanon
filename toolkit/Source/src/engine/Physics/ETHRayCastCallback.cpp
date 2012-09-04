@@ -69,7 +69,7 @@ ETHEntity* ETHRayCastCallback::GetClosestContact(Vector2& point, Vector2& normal
 
 bool ETHRayCastCallback::GetContactEntities(ETHEntityArray& entities)
 {
-	for (std::multimap<float, Contact>::iterator iter = m_contacts.begin(); iter != m_contacts.end(); iter++)
+	for (std::multimap<float, Contact>::iterator iter = m_contacts.begin(); iter != m_contacts.end(); ++iter)
 	{
 		entities.push_back((*iter).second.entity);
 	}

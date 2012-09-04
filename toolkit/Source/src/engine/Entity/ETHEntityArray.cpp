@@ -108,14 +108,12 @@ void ETHEntityArray::unique()
 {
 	removeDeadEntities();
 	std::set<ETHEntityRawPtr> entitySet;
-	for (std::vector<ETHEntityRawPtr>::iterator iter = m_vector.begin();
-		 iter != m_vector.end(); iter++)
+	for (std::vector<ETHEntityRawPtr>::iterator iter = m_vector.begin(); iter != m_vector.end(); ++iter)
 	{
 		entitySet.insert(*iter);
 	}
 	clear();
-	for (std::set<ETHEntityRawPtr>::iterator iter = entitySet.begin();
-		 iter != entitySet.end(); iter++)
+	for (std::set<ETHEntityRawPtr>::iterator iter = entitySet.begin(); iter != entitySet.end(); ++iter)
 	{
 		push_back(*iter);
 	}
@@ -133,7 +131,7 @@ void ETHEntityArray::removeDeadEntities()
 		}
 		else
 		{
-			iter++;
+			++iter;
 		}
 	}
 }

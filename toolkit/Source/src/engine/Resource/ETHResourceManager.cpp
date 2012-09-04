@@ -117,13 +117,14 @@ gs2d::SpritePtr ETHGraphicResourceManager::FindSprite(const str_type::string& fu
 	{
 		str_type::string fixedPath(fullFilePath);
 		Platform::FixSlashes(fixedPath);
-		if (fixedPath != iter->second.m_fullOriginPath)
+		const SpriteResource& resource = iter->second;
+		if (fixedPath != resource.m_fullOriginPath)
 		{
 			str_type::stringstream ss; ss << GS_L("Duplicate resource name found: ") << fixedPath
-				<< GS_L(" <-> ") << iter->second.m_fullOriginPath;
+				<< GS_L(" <-> ") << resource.m_fullOriginPath;
 			ETHResourceProvider::Log(ss.str(), Platform::Logger::ERROR);
 		}
-		return iter->second.m_sprite;
+		return resource.m_sprite;
 	}
 	else
 	{
@@ -153,7 +154,7 @@ void ETHAudioResourceManager::ReleaseResources()
 void ETHAudioResourceManager::ReleaseAllButMusic()
 {
 	std::map<str_type::string, AudioSamplePtr> musicTracks;
-	for (std::map<str_type::string, AudioSamplePtr>::iterator iter = m_resource.begin(); iter != m_resource.end(); iter++)
+	for (std::map<str_type::string, AudioSamplePtr>::iterator iter = m_resource.begin(); iter != m_resource.end(); ++iter)
 	{
 		if ((iter->second)->GetType() == GSST_MUSIC)
 			musicTracks[iter->first] = iter->second;
