@@ -143,14 +143,6 @@ int ETHScriptWrapper::AddEntity(const str_type::string &file, const Vector3 &v3P
 	entity->SetOrphanPosition(v3Pos);
 	entity->SetAngle(angle);
 
-	if (entity->IsStatic() && entity->IsApplyLight())
-	{
-		str_type::stringstream ss;
-		ss << GS_L("AddEntity - This is a static entity and its lightmap has not been rendered yet. ") << 
-			  GS_L("It might be incorrectly lit: ") << m_provider->GetResourcePath() << ETHDirectories::GetEntityPath() << file;
-		ShowMessage(ss.str(), ETH_WARNING);
-	}
-
 	if (ppOutEntity)
 	{
 		entity->AddRef();

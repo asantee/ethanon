@@ -1,4 +1,5 @@
-﻿
+﻿bool g_testEntityFirstTime = true;
+
 class TestEntity : Test
 {
 	string getName()
@@ -35,10 +36,13 @@ class TestEntity : Test
 		@bird = SeekEntity(birdId);
 
 		@character = SeekEntity("character");
-		
-		print("Message A: an error message regarding duplicate name is already expected");
-		LoadSprite("sprite/barril.png");
-		print("Message B: If there were no error messages between Messages A and B, something is wrong");
+
+		if (!g_testEntityFirstTime)
+		{
+			print("\n\n\nMessage A: an error message regarding duplicate name is already expected");
+			LoadSprite("sprite/barril.png");
+			print("Message B: If there were no error messages between Messages A and B, something is wrong\n\n");
+		}
 		
 		// ad a static entity pretty far away to see if its constructor gets called
 		AddEntity("barrel.ent", vector3(17000, 17000, 0), "static_barrel");
@@ -48,6 +52,7 @@ class TestEntity : Test
 		{
 			print("SetSpriteCut test FAILED\x07");
 		}
+		g_testEntityFirstTime = false;
 	}
 	
 	void updateBird()
