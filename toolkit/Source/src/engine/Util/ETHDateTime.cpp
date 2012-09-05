@@ -58,9 +58,10 @@ void ETHDateTime::Update()
 	m_month = d.month();
 	m_year = d.year();
 
-	m_hours = local_time.time_of_day().hours();
-	m_minutes = local_time.time_of_day().minutes();
-	m_seconds = local_time.time_of_day().seconds();
+	const boost::posix_time::time_duration& duration = local_time.time_of_day();
+	m_hours   = duration.hours();
+	m_minutes = duration.minutes();
+	m_seconds = duration.seconds();
 }
 
 unsigned int ETHDateTime::GetDay() const

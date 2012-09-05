@@ -36,10 +36,10 @@ public:
 class ETHTextDrawer : public ETHPrimitiveDrawer
 {
 public:
-	ETHTextDrawer(const ETHResourceProviderPtr& provider, const Vector2 &pos, const str_type::string &text, const str_type::string &font,
+	ETHTextDrawer(const ETHResourceProviderPtr& provider, const Vector2& pos, const str_type::string& text, const str_type::string& font,
 				 const GS_DWORD color, const unsigned long time, const unsigned long startTime, const float scale);
 
-	ETHTextDrawer(const ETHResourceProviderPtr& provider, const Vector2 &pos, const str_type::string &text, const str_type::string &font,
+	ETHTextDrawer(const ETHResourceProviderPtr& provider, const Vector2& pos, const str_type::string& text, const str_type::string& font,
 				 const GS_DWORD color, const float scale);
 
 	bool Draw(const unsigned long time);
@@ -64,9 +64,10 @@ private:
 class ETHRectangleDrawer : public ETHPrimitiveDrawer
 {
 public:
-	ETHRectangleDrawer(const ETHResourceProviderPtr& provider, const Vector2 &pos, const Vector2 &size, const GS_COLOR color, const float depth = 0.0f);
-	ETHRectangleDrawer(const ETHResourceProviderPtr& provider, const Vector2 &pos, const Vector2 &size,
-					  const GS_COLOR color0, const GS_COLOR color1, const GS_COLOR color2, const GS_COLOR color3,
+	ETHRectangleDrawer(const ETHResourceProviderPtr& provider, const Vector2& pos, const Vector2& size, const GS_COLOR& color,
+					   const float depth = 0.0f);
+	ETHRectangleDrawer(const ETHResourceProviderPtr& provider, const Vector2& pos, const Vector2& size,
+					  const GS_COLOR& color0, const GS_COLOR& color1, const GS_COLOR& color2, const GS_COLOR& color3,
 					  const float depth = 0.0f);
 
 	bool Draw(const unsigned long time);
@@ -88,8 +89,8 @@ private:
 class ETHLineDrawer : public ETHPrimitiveDrawer
 {
 public:
-	ETHLineDrawer(const ETHResourceProviderPtr& provider, const Vector2 &a, const Vector2 &b, const GS_COLOR color0,
-				  const GS_COLOR color1, const float width, const float depth = 0.0f);
+	ETHLineDrawer(const ETHResourceProviderPtr& provider, const Vector2& a, const Vector2& b, const GS_COLOR& color0,
+				  const GS_COLOR& color1, const float width, const float depth = 0.0f);
 
 	bool Draw(const unsigned long time);
 	bool IsAlive(const unsigned long time) const
@@ -109,8 +110,8 @@ class ETHSpriteDrawer : public ETHPrimitiveDrawer
 {
 public:
 	ETHSpriteDrawer(const ETHResourceProviderPtr& provider, ETHGraphicResourceManagerPtr graphicResources,
-					const str_type::string &currentPath, const str_type::string &name, const Vector2 &pos,
-					const Vector2 &size, const GS_COLOR color, const float depth, const float angle, const unsigned int frame);
+					const str_type::string& currentPath, const str_type::string& name, const Vector2& pos,
+					const Vector2& size, const GS_COLOR& color, const float depth, const float angle, const unsigned int frame);
 
 	bool Draw(const unsigned long time);
 	bool IsAlive(const unsigned long time) const

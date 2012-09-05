@@ -65,7 +65,8 @@ bool ETHTextDrawer::Draw(const unsigned long time)
 	return provider->GetVideo()->DrawBitmapText(v2Pos, text, font, color, scale);
 }
 
-ETHRectangleDrawer::ETHRectangleDrawer(const ETHResourceProviderPtr& provider, const Vector2 &pos, const Vector2 &size, const GS_COLOR color, const float depth)
+ETHRectangleDrawer::ETHRectangleDrawer(const ETHResourceProviderPtr& provider, const Vector2& pos, const Vector2& size,
+									   const GS_COLOR& color, const float depth)
 {
 	this->v2Pos = pos;
 	this->v2Size = size;
@@ -78,8 +79,8 @@ ETHRectangleDrawer::ETHRectangleDrawer(const ETHResourceProviderPtr& provider, c
 }
 
 ETHRectangleDrawer::ETHRectangleDrawer(const ETHResourceProviderPtr& provider,
-									   const Vector2 &pos, const Vector2 &size, const GS_COLOR color0, const GS_COLOR color1,
-									   const GS_COLOR color2, const GS_COLOR color3, const float depth)
+									   const Vector2& pos, const Vector2& size, const GS_COLOR& color0, const GS_COLOR& color1,
+									   const GS_COLOR& color2, const GS_COLOR& color3, const float depth)
 {
 	this->v2Pos = pos;
 	this->v2Size = size;
@@ -98,8 +99,8 @@ bool ETHRectangleDrawer::Draw(const unsigned long time)
 	return provider->GetVideo()->DrawRectangle(v2Pos, v2Size, color0, color1, color2, color3, 0.0f);
 }
 
-ETHLineDrawer::ETHLineDrawer(const ETHResourceProviderPtr& provider, const Vector2 &a, const Vector2 &b,
-								   const GS_COLOR color0, const GS_COLOR color1, const float width, const float depth)
+ETHLineDrawer::ETHLineDrawer(const ETHResourceProviderPtr& provider, const Vector2& a, const Vector2& b,
+								   const GS_COLOR& color0, const GS_COLOR& color1, const float width, const float depth)
 {
 	this->a = a;
 	this->b = b;
@@ -113,14 +114,15 @@ ETHLineDrawer::ETHLineDrawer(const ETHResourceProviderPtr& provider, const Vecto
 bool ETHLineDrawer::Draw(const unsigned long time)
 {
 	GS2D_UNUSED_ARGUMENT(time);
-	provider->GetVideo()->SetSpriteDepth(depth);
-	provider->GetVideo()->SetLineWidth(width);
-	return provider->GetVideo()->DrawLine(a, b, colorA, colorB);
+	VideoPtr video = provider->GetVideo();
+	video->SetSpriteDepth(depth);
+	video->SetLineWidth(width);
+	return video->DrawLine(a, b, colorA, colorB);
 }
 
 ETHSpriteDrawer::ETHSpriteDrawer(const ETHResourceProviderPtr& provider, ETHGraphicResourceManagerPtr graphicResources,
-								 const str_type::string &currentPath, const str_type::string &name, const Vector2 &pos,
-								 const Vector2 &size, const GS_COLOR color, const float depth, const float angle,
+								 const str_type::string& currentPath, const str_type::string& name, const Vector2& pos,
+								 const Vector2& size, const GS_COLOR& color, const float depth, const float angle,
 								 const unsigned int frame)
 {
 	this->name = name;

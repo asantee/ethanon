@@ -169,7 +169,7 @@ public:
 	}
 
 	/// Set the particles starting position
-	void SetStartPos(const Vector3 v3Pos);
+	void SetStartPos(const Vector3& v3Pos);
 
 	/// Return the particles starting position
 	Vector3 GetStartPos() const;

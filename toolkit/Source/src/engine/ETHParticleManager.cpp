@@ -487,7 +487,7 @@ Vector3 ETHParticleManager::GetStartPos() const
 	return m_system.v3StartPoint;
 }
 
-void ETHParticleManager::SetStartPos(const Vector3 v3Pos)
+void ETHParticleManager::SetStartPos(const Vector3& v3Pos)
 {
 	m_system.v3StartPoint = v3Pos;
 }
@@ -644,21 +644,22 @@ void ETHParticleManager::HandleSoundPlayback(const Vector2 &v2Pos, const float f
 	}
 	else
 	{
+		const VideoPtr& video = m_provider->GetVideo();
 		const float move = Distance(v2FinalPos, m_v2Move);
-		const float screenSize = Distance(Vector2(0,0), m_provider->GetVideo()->GetScreenSizeF());
+		const float screenSize = Distance(Vector2(0,0), video->GetScreenSizeF());
 		const float moveVolume = move/screenSize;
 		m_soundVolume -= moveVolume;
 		m_soundVolume = Max(m_soundVolume, 0.2f);
 		m_soundVolume = Min(m_soundVolume, 1.0f);
 
-		const float screenWidth = m_provider->GetVideo()->GetScreenSizeF().x;
-		const float pan = ((Max(Min(v2FinalPos.x-m_provider->GetVideo()->GetCameraPos().x, screenWidth), 0.0f)/screenWidth)-0.5f)*2;
+		const float screenWidth = video->GetScreenSizeF().x;
+		const float pan = ((Max(Min(v2FinalPos.x - video->GetCameraPos().x, screenWidth), 0.0f) / screenWidth) - 0.5f) * 2;
 		m_pSound->SetPan(pan);
 
 		float volume = 1.0f;
 		if (m_isSoundLooping)
 		{
-			volume = (float)m_nActiveParticles/(float)m_system.nParticles;
+			volume = (float)m_nActiveParticles / (float)m_system.nParticles;
 		}
 		m_pSound->SetVolume(m_soundVolume * volume * m_entityVolume * m_generalVolume);
 
@@ -679,7 +680,7 @@ void ETHParticleManager::HandleSoundPlayback(const Vector2 &v2Pos, const float f
 		if (m_system.repeat < _ETH_MINIMUM_PARTICLE_REPEATS_TO_LOOP_SOUND && m_system.repeat > 0)
 			m_isSoundLooping = false;
 
-		m_soundVolume += 0.01f*frameSpeed;
+		m_soundVolume += 0.01f * frameSpeed;
 	}
 	m_v2Move = v2FinalPos;
 }
@@ -733,8 +734,9 @@ bool ETHParticleManager::DrawParticleSystem(Vector3 v3Ambient, const float maxHe
 		return false;
 	}
 
-	GS_ALPHA_MODE alpha = m_provider->GetVideo()->GetAlphaMode();
-	m_provider->GetVideo()->SetAlphaMode(m_system.alphaMode);
+	const VideoPtr& video = m_provider->GetVideo();
+	GS_ALPHA_MODE alpha = video->GetAlphaMode();
+	video->SetAlphaMode(m_system.alphaMode);
 
 	// if the alpha blending is not additive, we'll have to sort it
 	if (alpha == GSAM_PIXEL)
@@ -743,42 +745,45 @@ bool ETHParticleManager::DrawParticleSystem(Vector3 v3Ambient, const float maxHe
 	}
 
 	m_pBMP->SetOrigin(GSEO_CENTER);
-	for (int t=0; t<m_system.nParticles; t++)
+	for (int t = 0; t < m_system.nParticles; t++)
 	{
-		if (m_system.repeat>0)
-			if (m_particles[t].repeat >= m_system.repeat)
+		const ETH_PARTICLE& particle = m_particles[t];
+
+		if (m_system.repeat > 0)
+			if (particle.repeat >= m_system.repeat)
 				continue;
 
-		if (m_particles[t].size <= 0.0f || !m_particles[t].released)
+		if (particle.size <= 0.0f || !particle.released)
 			continue;
 
-		if (Killed() && m_particles[t].elapsed > m_particles[t].lifeTime)
+		if (Killed() && particle.elapsed > particle.lifeTime)
 			continue;
 
-		Vector3 v3FinalAmbient(1,1,1);
+		Vector3 v3FinalAmbient(1, 1, 1);
 		if (m_system.alphaMode == GSAM_PIXEL || m_system.alphaMode == GSAM_ALPHA_TEST)
 		{
-			v3FinalAmbient.x = Min(m_system.emissive.x+v3Ambient.x, 1.0f);
-			v3FinalAmbient.y = Min(m_system.emissive.y+v3Ambient.y, 1.0f);
-			v3FinalAmbient.z = Min(m_system.emissive.z+v3Ambient.z, 1.0f);
+			v3FinalAmbient.x = Min(m_system.emissive.x + v3Ambient.x, 1.0f);
+			v3FinalAmbient.y = Min(m_system.emissive.y + v3Ambient.y, 1.0f);
+			v3FinalAmbient.z = Min(m_system.emissive.z + v3Ambient.z, 1.0f);
 		}
 
 		GS_COLOR dwColor;
-		dwColor.a = (GS_BYTE)(m_particles[t].v4Color.w*255.0f);
-		dwColor.r = (GS_BYTE)(m_particles[t].v4Color.x*v3FinalAmbient.x*255.0f);
-		dwColor.g = (GS_BYTE)(m_particles[t].v4Color.y*v3FinalAmbient.y*255.0f);
-		dwColor.b = (GS_BYTE)(m_particles[t].v4Color.z*v3FinalAmbient.z*255.0f);
+		const Vector4& color(particle.v4Color);
+		dwColor.a = (GS_BYTE)(color.w * 255.0f);
+		dwColor.r = (GS_BYTE)(color.x * v3FinalAmbient.x * 255.0f);
+		dwColor.g = (GS_BYTE)(color.y * v3FinalAmbient.y * 255.0f);
+		dwColor.b = (GS_BYTE)(color.z * v3FinalAmbient.z * 255.0f);
 
 		// compute the right in-screen position
-		const Vector2 v2Pos = ETHGlobal::ToScreenPos(Vector3(m_particles[t].v2Pos, m_system.v3StartPoint.z), zAxisDirection);
+		const Vector2 v2Pos = ETHGlobal::ToScreenPos(Vector3(particle.v2Pos, m_system.v3StartPoint.z), zAxisDirection);
 
 		// compute depth
 		if (ownerType != ETH_LAYERABLE)
 		{
-			float offsetYZ = m_particles[t].v3StartPoint.z;
+			float offsetYZ = particle.v3StartPoint.z;
 			if (ownerType == ETH_VERTICAL)
 			{
-				offsetYZ += m_particles[t].GetOffset() + _ETH_PARTICLE_DEPTH_SHIFT;
+				offsetYZ += particle.GetOffset() + _ETH_PARTICLE_DEPTH_SHIFT;
 			}
 			SetParticleDepth(ETHGlobal::ComputeDepth(offsetYZ, maxHeight, minHeight));
 		}
@@ -792,15 +797,15 @@ bool ETHParticleManager::DrawParticleSystem(Vector3 v3Ambient, const float maxHe
 		{
 			if ((int)m_pBMP->GetNumColumns() != m_system.v2SpriteCut.x || (int)m_pBMP->GetNumRows() != m_system.v2SpriteCut.y)
 				m_pBMP->SetupSpriteRects(m_system.v2SpriteCut.x, m_system.v2SpriteCut.y);
-			m_pBMP->SetRect(m_particles[t].currentFrame);
+			m_pBMP->SetRect(particle.currentFrame);
 		}
 		else
 		{
 			m_pBMP->UnsetRect();
 		}
-		m_pBMP->DrawOptimal((v2Pos + parallaxOffset), dwColor, m_particles[t].angle, Vector2(m_particles[t].size, m_particles[t].size));
+		m_pBMP->DrawOptimal((v2Pos + parallaxOffset), dwColor, particle.angle, Vector2(particle.size, particle.size));
 	}
-	m_provider->GetVideo()->SetAlphaMode(alpha);
+	video->SetAlphaMode(alpha);
 	return true;
 }
 

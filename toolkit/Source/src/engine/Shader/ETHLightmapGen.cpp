@@ -71,7 +71,7 @@ ETHLightmapGen::ETHLightmapGen(ETHRenderEntity* entity,
 	Vector2 v2CamPos = video->GetCameraPos();
 	video->SetCameraPos(Vector2(0,0));
 
-	for (std::list<ETHLight>::iterator iter = iBegin; iter != iEnd; iter++)
+	for (std::list<ETHLight>::iterator iter = iBegin; iter != iEnd; ++iter)
 	{
 		if (!iter->staticLight)
 			continue;
@@ -115,26 +115,27 @@ ETHLightmapGen::ETHLightmapGen(ETHRenderEntity* entity,
 		// draw shadows
 		if (entity->GetType() != ETH_VERTICAL)
 		{
-			for (ETHBucketMap::iterator bucketIter = buckets.GetFirstBucket(); bucketIter != buckets.GetLastBucket(); bucketIter++)
+			for (ETHBucketMap::iterator bucketIter = buckets.GetFirstBucket(); bucketIter != buckets.GetLastBucket(); ++bucketIter)
 			{
 				for (ETHEntityList::iterator entityIter = bucketIter->second.begin();
-					entityIter != bucketIter->second.end(); entityIter++)
+					entityIter != bucketIter->second.end(); ++entityIter)
 				{
-					if (!(*entityIter)->IsStatic())
+					ETHRenderEntity* ent = (*entityIter);
+					if (!ent->IsStatic())
 						continue;
-					Vector3 oldPos2 = (*entityIter)->GetPosition();
+					Vector3 oldPos2 = ent->GetPosition();
 					Vector3 newPos2 = oldPos2-(oldPos-newPos);
-					(*entityIter)->SetOrphanPosition(newPos2 / Vector3((*entityIter)->GetScale(), 1));
+					ent->SetOrphanPosition(newPos2 / Vector3(ent->GetScale(), 1));
 
-					const Vector2 tmpScale((*entityIter)->GetScale());
-					(*entityIter)->SetScale(Vector2(1, 1));
-					if (shaderManager->BeginShadowPass((*entityIter), &(*iter), maxHeight, minHeight))
+					const Vector2 tmpScale(ent->GetScale());
+					ent->SetScale(Vector2(1, 1));
+					if (shaderManager->BeginShadowPass(ent, &(*iter), maxHeight, minHeight))
 					{
-						(*entityIter)->DrawShadow(maxHeight, minHeight, sceneProps, *iter, 0, true, true, entity->GetAngle(), entity->GetPosition());
+						ent->DrawShadow(maxHeight, minHeight, sceneProps, *iter, 0, true, true, entity->GetAngle(), entity->GetPosition());
 						shaderManager->EndShadowPass();
 					}
-					(*entityIter)->SetScale(tmpScale);
-					(*entityIter)->SetOrphanPosition(oldPos2);
+					ent->SetScale(tmpScale);
+					ent->SetOrphanPosition(oldPos2);
 				}
 			}
 		}

@@ -159,7 +159,7 @@ void AssignBool2StringGeneric(asIScriptGeneric *gen)
 	bool *a = static_cast<bool*>(gen->GetAddressOfArg(0));
 	std::wstring *self = static_cast<std::wstring*>(gen->GetObject());
 	std::wstringstream sstr;
-	sstr << *a ? L"true" : L"false";
+	sstr << (*a ? L"true" : L"false");
 	*self = sstr.str();
 	gen->SetReturnAddress(self);
 }
@@ -195,7 +195,7 @@ void AddAssignBool2StringGeneric(asIScriptGeneric * gen) {
   bool * a = static_cast<bool *>(gen->GetAddressOfArg(0));
   std::wstring * self = static_cast<std::wstring *>(gen->GetObject());
   std::wstringstream sstr;
-  sstr << *a ? L"true" : L"false";
+  sstr << (*a ? L"true" : L"false");
   *self += sstr.str();
   gen->SetReturnAddress(self);
 }
@@ -446,7 +446,7 @@ static std::wstring &AddAssignDoubleToString(double f, std::wstring &dest)
 static std::wstring &AssignBoolToString(bool b, std::wstring &dest)
 {
 	std::wostringstream stream;
-	stream << b ? L"true" : L"false";
+	stream << (b ? L"true" : L"false");
 	dest = stream.str();
 	return dest;
 }
@@ -454,7 +454,7 @@ static std::wstring &AssignBoolToString(bool b, std::wstring &dest)
 static std::wstring &AddAssignBoolToString(bool b, std::wstring &dest)
 {
 	std::wostringstream stream;
-	stream << b ? L"true" : L"false";
+	stream << (b ? L"true" : L"false");
 	dest += stream.str();
 	return dest;
 }
@@ -477,7 +477,7 @@ static std::wstring AddDoubleString(double f, std::wstring &str)
 static std::wstring AddStringBool(std::wstring &str, bool b)
 {
 	std::wostringstream stream;
-	stream << b ? L"true" : L"false";
+	stream << (b ? L"true" : L"false");
 	str += stream.str();
 	return str;
 }
@@ -485,7 +485,7 @@ static std::wstring AddStringBool(std::wstring &str, bool b)
 static std::wstring AddBoolString(bool b, std::wstring &str)
 {
 	std::wostringstream stream;
-	stream << b ? L"true" : L"false";
+	stream << (b ? L"true" : L"false");
 	return stream.str() + str;
 }
 

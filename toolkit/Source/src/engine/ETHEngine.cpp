@@ -426,7 +426,7 @@ void ETHEngine::DrawTopLayer()
 		(*iter)->Draw(video->GetElapsedTime());
 		if ((*iter)->IsAlive(video->GetElapsedTime()))
 		{
-			iter++;
+			++iter;
 		}
 		else
 		{

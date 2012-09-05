@@ -34,7 +34,7 @@ void ETHEntityDestructorManager::EntityKilled(ETHScriptEntity* entity)
 
 void ETHEntityDestructorManager::RunDestructors()
 {
-	for (std::list<ETHEntityDestructorScriptPtr>::iterator iter = m_destructors.begin(); iter != m_destructors.end(); iter++)
+	for (std::list<ETHEntityDestructorScriptPtr>::iterator iter = m_destructors.begin(); iter != m_destructors.end(); ++iter)
 	{
 		(*iter)->Run(m_pContext);
 	}

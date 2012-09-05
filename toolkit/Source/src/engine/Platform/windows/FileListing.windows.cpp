@@ -34,9 +34,7 @@ bool FileListing::ListDirectoryFiles(const wchar_t *directory, const wchar_t *ex
 	dirExt += extension;
 
 	WIN32_FIND_DATAW findFileData;
-	HANDLE hFind = INVALID_HANDLE_VALUE;
-
-	hFind = FindFirstFileW(dirExt.c_str(), &findFileData);
+	HANDLE hFind = FindFirstFileW(dirExt.c_str(), &findFileData);
 	
 	if (hFind == INVALID_HANDLE_VALUE)
 	{

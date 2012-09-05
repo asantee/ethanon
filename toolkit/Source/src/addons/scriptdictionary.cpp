@@ -63,7 +63,7 @@ void CScriptDictionary::EnumReferences(asIScriptEngine *engine)
 {
 	// Call the gc enum callback for each of the objects
 	std::map<string, valueStruct>::iterator it;
-    for( it = dict.begin(); it != dict.end(); it++ )
+    for( it = dict.begin(); it != dict.end(); ++it )
     {
 		if( it->second.typeId & asTYPEID_MASK_OBJECT )
 			engine->GCEnumCallback(it->second.valueObj);
@@ -84,14 +84,15 @@ CScriptDictionary &CScriptDictionary::operator =(const CScriptDictionary &other)
 
 	// Do a shallow copy of the dictionary
     std::map<string, valueStruct>::const_iterator it;
-    for( it = other.dict.begin(); it != other.dict.end(); it++ )
+    for( it = other.dict.begin(); it != other.dict.end(); ++it )
     {
-		if( it->second.typeId & asTYPEID_OBJHANDLE )
-			Set(it->first, (void*)&it->second.valueObj, it->second.typeId);
-		else if( it->second.typeId & asTYPEID_MASK_OBJECT )
-			Set(it->first, (void*)it->second.valueObj, it->second.typeId);
+		const valueStruct& value = it->second;
+		if( value.typeId & asTYPEID_OBJHANDLE )
+			Set(it->first, (void*)&value.valueObj, value.typeId);
+		else if( value.typeId & asTYPEID_MASK_OBJECT )
+			Set(it->first, (void*)value.valueObj, value.typeId);
 		else
-			Set(it->first, (void*)&it->second.valueInt, it->second.typeId);
+			Set(it->first, (void*)&value.valueInt, value.typeId);
     }
 
     return *this;
@@ -161,16 +162,19 @@ bool CScriptDictionary::Get(const string &key, void *value, int typeId) const
     it = dict.find(key);
     if( it != dict.end() )
     {
+		const valueStruct& v = it->second;
+
         // Return the value
 		if( typeId & asTYPEID_OBJHANDLE )
 		{
+
 			// A handle can be retrieved if the stored type is a handle of same or compatible type
 			// or if the stored type is an object that implements the interface that the handle refer to.
-			if( (it->second.typeId & asTYPEID_MASK_OBJECT) && 
-				engine->IsHandleCompatibleWithObject(it->second.valueObj, it->second.typeId, typeId) )
+			if( (v.typeId & asTYPEID_MASK_OBJECT) && 
+				engine->IsHandleCompatibleWithObject(v.valueObj, v.typeId, typeId) )
 			{
-				engine->AddRefScriptObject(it->second.valueObj, it->second.typeId);
-				*(void**)value = it->second.valueObj;
+				engine->AddRefScriptObject(v.valueObj, v.typeId);
+				*(void**)value = v.valueObj;
 
 				return true;
 			}
@@ -179,35 +183,35 @@ bool CScriptDictionary::Get(const string &key, void *value, int typeId) const
 		{
 			// Verify that the copy can be made
 			bool isCompatible = false;
-			if( it->second.typeId == typeId )
+			if( v.typeId == typeId )
 				isCompatible = true;
 
 			// Copy the object into the given reference
 			if( isCompatible )
 			{
-				engine->CopyScriptObject(value, it->second.valueObj, typeId);
+				engine->CopyScriptObject(value, v.valueObj, typeId);
 
 				return true;
 			}
 		}
 		else
 		{
-			if( it->second.typeId == typeId )
+			if( v.typeId == typeId )
 			{
 				int size = engine->GetSizeOfPrimitiveType(typeId);
-				memcpy(value, &it->second.valueInt, size);
+				memcpy(value, &v.valueInt, size);
 				return true;
 			}
 
 			// We know all numbers are stored as either int64 or double, since we register overloaded functions for those
-			if( it->second.typeId == asTYPEID_INT64 && typeId == asTYPEID_DOUBLE )
+			if( v.typeId == asTYPEID_INT64 && typeId == asTYPEID_DOUBLE )
 			{
-				*(double*)value = double(it->second.valueInt);
+				*(double*)value = double(v.valueInt);
 				return true;
 			}
-			else if( it->second.typeId == asTYPEID_DOUBLE && typeId == asTYPEID_INT64 )
+			else if( v.typeId == asTYPEID_DOUBLE && typeId == asTYPEID_INT64 )
 			{
-				*(asINT64*)value = asINT64(it->second.valueFlt);
+				*(asINT64*)value = asINT64(v.valueFlt);
 				return true;
 			}
 		}
@@ -257,7 +261,7 @@ void CScriptDictionary::Delete(const string &key)
 void CScriptDictionary::DeleteAll()
 {
     std::map<string, valueStruct>::iterator it;
-    for( it = dict.begin(); it != dict.end(); it++ )
+    for( it = dict.begin(); it != dict.end(); ++it )
     {
         FreeValue(it->second);
     }
