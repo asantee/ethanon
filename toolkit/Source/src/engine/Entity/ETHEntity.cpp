@@ -216,7 +216,7 @@ void ETHEntity::SetController(const ETHEntityControllerPtr& controller)
 	m_controller = controller;
 }
 
-Vector2 ETHEntity::ComputeOrigin(const Vector2 &v2Size) const
+Vector2 ETHEntity::ComputeAbsoluteOrigin(const Vector2 &v2Size) const
 {
 	Vector2 v2Center;
 	switch (ETHGlobal::ConvertToGSSO(GetType()))
@@ -242,7 +242,12 @@ Vector2 ETHEntity::ComputeOrigin(const Vector2 &v2Size) const
 		v2Center.y = 0.0f;
 		break;
 	};	
-	return v2Center + (m_properties.pivotAdjust * m_properties.scale);
+	return (v2Center + (m_properties.pivotAdjust * m_properties.scale));
+}
+
+Vector2 ETHEntity::ComputeOrigin(const Vector2 &v2Size) const
+{
+	return (ComputeAbsoluteOrigin(v2Size) / v2Size);
 }
 
 void ETHEntity::ChangeEntityName(const str_type::string& name)

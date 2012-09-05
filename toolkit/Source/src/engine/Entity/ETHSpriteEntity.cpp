@@ -289,13 +289,11 @@ bool ETHSpriteEntity::SetDepth(const float maxHeight, const float minHeight)
 
 void ETHSpriteEntity::SetOrigin()
 {
-	const Vector2 v2Size = GetCurrentSize();
-	const Vector2 v2Origin = ComputeOrigin(v2Size)/v2Size;
+	const Vector2 v2Origin = ComputeOrigin(GetCurrentSize());
 	m_pSprite->SetOrigin(v2Origin);
 	if (m_pLightmap)
 		m_pLightmap->SetOrigin(v2Origin);
 }
-
 
 void ETHSpriteEntity::ValidateSpriteCut(const SpritePtr& sprite) const
 {
@@ -305,51 +303,6 @@ void ETHSpriteEntity::ValidateSpriteCut(const SpritePtr& sprite) const
 	{
 		sprite->SetupSpriteRects(entityCut.x, entityCut.y);
 	}
-}
-
-Vector2 ETHSpriteEntity::GetCurrentSize() const
-{
-	Vector2 v2R(-1,-1);
-
-	if (!m_pSprite)
-	{
-		// if it has a light source
-		if (HasLightSource())
-		{
-			// if it has a halo, use it's halo size
-			if (HasHalo())
-			{
-				const float haloSize = m_properties.light->haloSize;
-				if (m_pHalo && haloSize > 0.0f)
-				{
-					v2R = Vector2(haloSize, haloSize);
-				}
-				else
-				{
-					v2R = Vector2(32,32);
-				}
-			}
-			else // otherwise use a default size
-			{
-				v2R = Vector2(32,32);
-			}
-		}
-		else if (IsCollidable()) // if it has no light source BUT is collidable
-		{
-			v2R = ETHGlobal::ToVector2(m_properties.collision->size);
-		}
-		else
-		{
-			v2R = Vector2(32,32);
-		}
-	}
-	else
-	{
-		ValidateSpriteCut(m_pSprite);
-		v2R = m_pSprite->GetFrameSize();
-	}
-
-	return v2R * m_properties.scale;
 }
 
 ETHParticleManagerPtr ETHSpriteEntity::GetParticleManager(const std::size_t n)
@@ -588,76 +541,37 @@ ETHPhysicsController* ETHSpriteEntity::GetPhysicsController()
 	}
 }
 
-ETH_VIEW_RECT ETHSpriteEntity::GetScreenRect(const ETHSceneProperties& sceneProps) const
+Vector2 ETHSpriteEntity::GetCurrentSize() const
 {
-	ETH_VIEW_RECT box;
-	const Vector2& v2Pos = GetScreenPosition(sceneProps);
-	const Vector2& v2Size = GetCurrentSize();
-	const Vector2& parallaxOffset = ComputeParallaxOffset();
-	if (GetType() == ETH_VERTICAL && m_pSprite)
-	{
-		box.v2Min.x = v2Pos.x - (v2Size.x / 2.0f);
-		box.v2Max.x = v2Pos.x + (v2Size.x / 2.0f);
+	Vector2 v2R(32.0f, 32.0f);
 
-		box.v2Min.y = v2Pos.y - (v2Size.y);
-		box.v2Max.y = v2Pos.y;
-	}
-	else
-	{
-		box.v2Min.x = v2Pos.x - (v2Size.x / 2.0f);
-		box.v2Max.x = v2Pos.x + (v2Size.x / 2.0f);
-
-		box.v2Min.y = v2Pos.y - (v2Size.y / 2.0f);
-		box.v2Max.y = v2Pos.y + (v2Size.y / 2.0f);
-	}
-	const Vector2& pivot = m_properties.pivotAdjust;
-	box.v2Max -= pivot + m_provider->GetVideo()->GetCameraPos()-parallaxOffset;
-	box.v2Min -= pivot + m_provider->GetVideo()->GetCameraPos()-parallaxOffset;
-	return box;
-}
-
-Vector2 ETHSpriteEntity::GetScreenRectMin(const ETHSceneProperties& sceneProps) const
-{
-	const Vector2& v2Pos = GetScreenPosition(sceneProps);
-	const Vector2& v2Size = GetCurrentSize();
-	const Vector2& parallaxOffset = ComputeParallaxOffset();
-	Vector2 v2Min;
-	if (GetType() == ETH_VERTICAL && m_pSprite)
-	{
-		v2Min.x = v2Pos.x - (v2Size.x / 2.0f);
-		v2Min.y = v2Pos.y - (v2Size.y);
-	}
-	else
-	{
-		v2Min.x = v2Pos.x - (v2Size.x / 2.0f);
-		v2Min.y = v2Pos.y - (v2Size.y / 2.0f);
-	}
-	v2Min -= m_properties.pivotAdjust + m_provider->GetVideo()->GetCameraPos();
 	if (!m_pSprite)
-		v2Min = ETHGlobal::ToScreenPos(GetLightRelativePosition(), sceneProps.zAxisDirection);
-	return v2Min+parallaxOffset;
-}
-
-Vector2 ETHSpriteEntity::GetScreenRectMax(const ETHSceneProperties& sceneProps) const
-{
-	const Vector2& v2Pos = GetScreenPosition(sceneProps);
-	const Vector2& v2Size = GetCurrentSize();
-	const Vector2& parallaxOffset = ComputeParallaxOffset();
-	Vector2 v2Max;
-	if (GetType() == ETH_VERTICAL && m_pSprite)
 	{
-		v2Max.x = v2Pos.x + (v2Size.x / 2.0f);
-		v2Max.y = v2Pos.y;
+		// if it has a light source
+		if (HasLightSource())
+		{
+			// if it has a halo, use it's halo size
+			if (HasHalo())
+			{
+				const float haloSize = m_properties.light->haloSize;
+				if (m_pHalo && haloSize > 16.0f)
+				{
+					v2R = Vector2(haloSize, haloSize);
+				}
+			}
+		}
+		else if (IsCollidable()) // if it has no light source BUT is collidable
+		{
+			v2R = ETHGlobal::ToVector2(m_properties.collision->size);
+		}
 	}
 	else
 	{
-		v2Max.x = v2Pos.x + (v2Size.x / 2.0f);
-		v2Max.y = v2Pos.y + (v2Size.y / 2.0f);
+		ValidateSpriteCut(m_pSprite);
+		v2R = m_pSprite->GetFrameSize();
 	}
-	v2Max -= m_properties.pivotAdjust + m_provider->GetVideo()->GetCameraPos();
-	if (!m_pSprite)
-		v2Max = ETHGlobal::ToScreenPos(GetLightRelativePosition(), sceneProps.zAxisDirection);
-	return v2Max+parallaxOffset;
+
+	return v2R * m_properties.scale;
 }
 
 Vector2 ETHSpriteEntity::GetScreenPosition(const ETHSceneProperties& sceneProps) const 
@@ -671,7 +585,7 @@ Vector2 ETHSpriteEntity::GetScreenPosition(const ETHSceneProperties& sceneProps)
 		}
 		else if (HasParticleSystems())
 		{
-			r = GetPosition()+m_particles[0]->GetSystem()->v3StartPoint;
+			r = GetPosition() + m_particles[0]->GetSystem()->v3StartPoint;
 		}
 		else
 		{
@@ -683,6 +597,30 @@ Vector2 ETHSpriteEntity::GetScreenPosition(const ETHSceneProperties& sceneProps)
 		r = GetPosition();
 	}
 	return ETHGlobal::ToScreenPos(r, sceneProps.zAxisDirection);
+}
+
+ETH_VIEW_RECT ETHSpriteEntity::GetScreenRect(const ETHSceneProperties& sceneProps) const
+{
+	ETH_VIEW_RECT box;
+	const Vector2& parallaxOffset = ComputeParallaxOffset();
+	const Vector2 offset(parallaxOffset - m_provider->GetVideo()->GetCameraPos());
+	const Vector2& pos = GetScreenPosition(sceneProps) + offset;
+	const Vector2& size = GetCurrentSize();
+	const Vector2& absoluteOrigin = ComputeAbsoluteOrigin(size);
+
+	box.v2Min = pos - absoluteOrigin;
+	box.v2Max = pos + (size - absoluteOrigin);
+	return box;
+}
+
+Vector2 ETHSpriteEntity::GetScreenRectMin(const ETHSceneProperties& sceneProps) const
+{
+	return GetScreenRect(sceneProps).v2Min;
+}
+
+Vector2 ETHSpriteEntity::GetScreenRectMax(const ETHSceneProperties& sceneProps) const
+{
+	return GetScreenRect(sceneProps).v2Max;
 }
 
 void ETHSpriteEntity::StartSFX()

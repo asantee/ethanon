@@ -554,8 +554,9 @@ void ETHBucketManager::GetIntersectingEntities(const Vector2 &point, ETHEntityAr
 
 		if (!screenSpace)
 		{
-			rect.v2Max += m_provider->GetVideo()->GetCameraPos();
-			rect.v2Min += m_provider->GetVideo()->GetCameraPos();
+			const Vector2 cameraPos = m_provider->GetVideo()->GetCameraPos();
+			rect.v2Max += cameraPos;
+			rect.v2Min += cameraPos;
 		}
 
 		if (point.x < rect.v2Min.x)

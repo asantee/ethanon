@@ -101,6 +101,14 @@ bool ETHRenderEntity::DrawLightPass(const Vector2 &zAxisDirection, const bool dr
 	return true;
 }
 
+bool ETHRenderEntity::IsVisible() const
+{
+	if (!m_pSprite || IsHidden())
+		return false;
+
+	return true;
+}
+
 bool ETHRenderEntity::DrawShadow(const float maxHeight, const float minHeight, const ETHSceneProperties& sceneProps, const ETHLight& light, ETHSpriteEntity *pParent,
 								 const bool maxOpacity, const bool drawToTarget, const float targetAngle, const Vector3& v3TargetPos)
 {

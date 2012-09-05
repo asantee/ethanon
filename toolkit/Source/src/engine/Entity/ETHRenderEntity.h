@@ -37,6 +37,7 @@ public:
 	ETHRenderEntity(ETHResourceProviderPtr provider);
 
 	// rendering methods
+	bool IsVisible() const;
 	bool DrawLightPass(const Vector2 &zAxisDirection, const bool drawToTarget = false);
 	bool DrawHalo(const float maxHeight, const float minHeight, const bool rotateHalo, const Vector2& zAxisDirection);
 	bool DrawAmbientPass(const float maxHeight, const float minHeight, const bool enableLightmaps, const ETHSceneProperties& sceneProps);

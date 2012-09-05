@@ -327,23 +327,24 @@ bool ETHScene::GenerateLightmaps(const int id)
 		ETHEntityList::const_iterator iEnd = entityList.end();
 		for (ETHEntityList::iterator iter = entityList.begin(); iter != iEnd; ++iter)
 		{
+			ETHRenderEntity* entity = (*iter);
 			// if nID is valid, let's try to generate the lightmap for this one and only entity
 			if (id >= 0)
-				if (id != (*iter)->GetID())
+				if (id != entity->GetID())
 					continue;
 
 			Vector2 v2Size(1,1);
-			Vector2 v2Origin(0,0);
-			if ((*iter)->GetSprite())
+			Vector2 v2AbsoluteOrigin(0,0);
+			if (entity->GetSprite())
 			{
-				v2Size = (*iter)->GetCurrentSize();
-				v2Origin = (*iter)->ComputeOrigin(v2Size);
+				v2Size = entity->GetCurrentSize();
+				v2AbsoluteOrigin = entity->ComputeAbsoluteOrigin(v2Size);
 			}
 
 			// Place the current entity at the top-left corner to align
 			// it to the render target
-			const Vector3 oldPos = (*iter)->GetPosition();
-			const Vector3 newPos = Vector3(v2Origin.x, v2Origin.y, 0);
+			const Vector3 oldPos = entity->GetPosition();
+			const Vector3 newPos = Vector3(v2AbsoluteOrigin.x, v2AbsoluteOrigin.y, 0);
 
 			// fill the light list
 			for (ETHBucketMap::iterator lbucketIter = m_buckets.GetFirstBucket(); lbucketIter != m_buckets.GetLastBucket(); ++lbucketIter)
@@ -352,9 +353,10 @@ bool ETHScene::GenerateLightmaps(const int id)
 				ETHEntityList::const_iterator liEnd = lEntityList.end();
 				for (ETHEntityList::iterator liter = lEntityList.begin(); liter != liEnd; ++liter)
 				{
-					if ((*liter)->IsStatic() && (*liter)->HasLightSource())
+					ETHRenderEntity* lightEntity = (*liter);
+					if (lightEntity->IsStatic() && lightEntity->HasLightSource())
 					{
-						AddLight(*((*liter)->GetLight()), newPos-oldPos+(*liter)->GetPosition(), (*liter)->GetScale());
+						AddLight(*(lightEntity->GetLight()), newPos - oldPos + lightEntity->GetPosition(), lightEntity->GetScale());
 					}
 				}
 			}
@@ -366,10 +368,10 @@ bool ETHScene::GenerateLightmaps(const int id)
 			}
 			else
 			{
-				(*iter)->ReleaseLightmap();
+				entity->ReleaseLightmap();
 			}
 
-			(*iter)->SetOrphanPosition(oldPos);
+			entity->SetOrphanPosition(oldPos);
 			m_lights.clear();
 		}
 	}
