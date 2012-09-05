@@ -659,7 +659,7 @@ bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline
 			{
 				pRenderEntity->DrawCollisionBox(false, pOutline, GS_WHITE, m_sceneProps.zAxisDirection);
 			}
-			if (pRenderEntity->IsInvisible() && !pRenderEntity->IsCollidable())
+			if (pRenderEntity->IsInvisible() && !pRenderEntity->IsCollidable() && !pRenderEntity->HasHalo())
 			{
 				const float depth = video->GetSpriteDepth();
 				video->SetSpriteDepth(1.0f);

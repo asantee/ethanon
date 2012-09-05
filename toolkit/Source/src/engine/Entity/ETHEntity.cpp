@@ -685,7 +685,7 @@ bool ETHEntity::IsCastShadow() const
 
 bool ETHEntity::IsInvisible() const
 {
-	return (m_properties.spriteFile == GS_L("") /*&& !HasLightSource()*/ && !HasParticleSystems());
+	return (m_properties.spriteFile == GS_L("") && !HasParticleSystems());
 }
 
 bool ETHEntity::IsBody() const

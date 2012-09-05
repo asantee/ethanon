@@ -101,11 +101,15 @@ bool ETHRenderEntity::DrawLightPass(const Vector2 &zAxisDirection, const bool dr
 	return true;
 }
 
-bool ETHRenderEntity::IsVisible() const
+bool ETHRenderEntity::IsSpriteVisible() const
 {
 	if (!m_pSprite || IsHidden())
 		return false;
 
+	if (GetType() == ETH_VERTICAL || GetAngle() == 0.0f)
+	{
+
+	}
 	return true;
 }
 
