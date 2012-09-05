@@ -500,7 +500,7 @@ bool ETHSpriteEntity::HasParticleSystem(const unsigned int n) const
 	}
 }
 
-float ETHSpriteEntity::ComputeDepth(const float maxHeight, const float minHeight)
+float ETHSpriteEntity::ComputeDepth(const float maxHeight, const float minHeight) const
 {
 	float r = 0.f;
 	switch (GetType())

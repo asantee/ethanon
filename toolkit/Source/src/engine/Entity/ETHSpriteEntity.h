@@ -77,7 +77,7 @@ public:
 	Vector2 GetCurrentSize() const;
 	Vector2 ComputeParallaxOffset() const;
 	float ComputeHaloAngle() const;
-	float ComputeDepth(const float maxHeight, const float minHeight);
+	float ComputeDepth(const float maxHeight, const float minHeight) const;
 	void SetScale(const Vector2& scale);
 
 	ETH_VIEW_RECT GetScreenRect(const ETHSceneProperties& sceneProps) const;

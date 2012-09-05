@@ -638,7 +638,9 @@ bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline
 			pRenderEntity->Update(lastFrameElapsedTime, zAxisDirection, m_buckets);
 		}
 
-		shaderManager->BeginAmbientPass(pRenderEntity, maxHeight, minHeight);
+		const bool spriteVisible = pRenderEntity->IsSpriteVisible(m_sceneProps, backBuffer);
+		if (spriteVisible)
+			shaderManager->BeginAmbientPass(pRenderEntity, maxHeight, minHeight);
 
 		// draws the ambient pass and if we're at the editor, draw the collision box if it's an invisible entity
 		if (m_isInEditor)
@@ -649,7 +651,6 @@ bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline
 			}
 		}
 
-		const bool spriteVisible = pRenderEntity->IsSpriteVisible(m_sceneProps, backBuffer);
 		video->RoundUpPosition(roundUp);
 		if (spriteVisible)
 			pRenderEntity->DrawAmbientPass(m_maxSceneHeight, m_minSceneHeight, (m_enableLightmaps && m_showingLightmaps), m_sceneProps);
@@ -686,11 +687,12 @@ bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline
 		// fill the callback list
 		m_tempEntities.AddCallbackWhenEligible(pRenderEntity);
 
-		shaderManager->EndAmbientPass();
+		if (spriteVisible)
+			shaderManager->EndAmbientPass();
 
 		// TODO/TO-DO: create a method that does it separately
 		//draw light pass
-		if (spriteVisible && m_richLighting)
+		if (m_richLighting)
 		{
 			for (std::list<ETHLight>::iterator iter = m_lights.begin(); iter != m_lights.end(); ++iter)
 			{
@@ -702,10 +704,13 @@ bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline
 						video->RoundUpPosition(roundUp);
 
 						// light pass
-						if (shaderManager->BeginLightPass(pRenderEntity, &(*iter), m_maxSceneHeight, m_minSceneHeight, GetLightIntensity()))
+						if (spriteVisible)
 						{
-							pRenderEntity->DrawLightPass(zAxisDirection);
-							shaderManager->EndLightPass();
+							if (shaderManager->BeginLightPass(pRenderEntity, &(*iter), m_maxSceneHeight, m_minSceneHeight, GetLightIntensity()))
+							{
+								pRenderEntity->DrawLightPass(zAxisDirection);
+								shaderManager->EndLightPass();
+							}
 						}
 
 						// shadow pass
