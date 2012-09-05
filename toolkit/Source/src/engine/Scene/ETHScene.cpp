@@ -397,10 +397,10 @@ void ETHScene::UpdateTemporary(const unsigned long lastFrameElapsedTime)
 	m_tempEntities.CheckTemporaryEntities(GetZAxisDirection(), m_buckets, lastFrameElapsedTime);
 }
 
-bool ETHScene::RenderScene(const bool roundUp, const unsigned long lastFrameElapsedTime, SpritePtr pOutline, SpritePtr pInvisibleEntSymbol)
+bool ETHScene::RenderScene(const bool roundUp, const unsigned long lastFrameElapsedTime, const Vector2& backBuffer,
+						   SpritePtr pOutline, SpritePtr pInvisibleEntSymbol)
 {
 	const VideoPtr& video = m_provider->GetVideo();
-	//const ETHShaderManagerPtr& shaderManager = m_provider->GetShaderManager();
 
 	float minHeight, maxHeight;
 
@@ -415,7 +415,7 @@ bool ETHScene::RenderScene(const bool roundUp, const unsigned long lastFrameElap
 
 	// draw ambient pass
 	video->RoundUpPosition(roundUp);
-	RenderList(minHeight, maxHeight, pOutline, pInvisibleEntSymbol, particles, halos, roundUp, lastFrameElapsedTime);
+	RenderList(minHeight, maxHeight, pOutline, pInvisibleEntSymbol, particles, halos, roundUp, lastFrameElapsedTime, backBuffer);
 	m_buckets.ResolveMoveRequests();
 	video->RoundUpPosition(false);
 
@@ -547,7 +547,7 @@ bool ETHScene::DrawBucketOutlines()
 // TODO-TO-DO: this method is too large...
 bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline, SpritePtr pInvisibleEntSymbol,
 						  std::list<ETHRenderEntity*> &outParticles, std::list<ETHRenderEntity*> &outHalos, const bool roundUp,
-						  const unsigned long lastFrameElapsedTime)
+						  const unsigned long lastFrameElapsedTime, const Vector2& backBuffer)
 {
 	// This multimap will store all entities contained in the visible buckets
 	// It will automatically sort entities to draw them in an "alpha friendly" order
@@ -569,7 +569,7 @@ bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline
 	// Gets the list of visible buckets
 	std::list<Vector2> bucketList;
 	const Vector2& camPos = video->GetCameraPos(); //for debugging purposes
-	m_buckets.GetIntersectingBuckets(bucketList, camPos, video->GetScreenSizeF(), IsDrawingBorderBuckets(), IsDrawingBorderBuckets());
+	m_buckets.GetIntersectingBuckets(bucketList, camPos, backBuffer, IsDrawingBorderBuckets(), IsDrawingBorderBuckets());
 
 	// Loop through all visible Buckets
 	for (std::list<Vector2>::iterator bucketPositionIter = bucketList.begin(); bucketPositionIter != bucketList.end(); ++bucketPositionIter)
@@ -649,8 +649,10 @@ bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline
 			}
 		}
 
+		const bool spriteVisible = pRenderEntity->IsSpriteVisible(m_sceneProps, backBuffer);
 		video->RoundUpPosition(roundUp);
-		pRenderEntity->DrawAmbientPass(m_maxSceneHeight, m_minSceneHeight, (m_enableLightmaps && m_showingLightmaps), m_sceneProps);
+		if (spriteVisible)
+			pRenderEntity->DrawAmbientPass(m_maxSceneHeight, m_minSceneHeight, (m_enableLightmaps && m_showingLightmaps), m_sceneProps);
 
 		// draw "invisible entity symbol" if we're in the editor
 		if (m_isInEditor)
@@ -688,7 +690,7 @@ bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline
 
 		// TODO/TO-DO: create a method that does it separately
 		//draw light pass
-		if (m_richLighting)
+		if (spriteVisible && m_richLighting)
 		{
 			for (std::list<ETHLight>::iterator iter = m_lights.begin(); iter != m_lights.end(); ++iter)
 			{

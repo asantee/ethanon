@@ -1540,7 +1540,7 @@ void SceneEditor::RenderScene()
 	const unsigned long lastFrameElapsedTimeMS = ComputeElapsedTime(m_provider->GetVideo());
 	m_pScene->Update(lastFrameElapsedTimeMS);
 	m_pScene->UpdateTemporary(lastFrameElapsedTimeMS);
-	m_pScene->RenderScene(false, lastFrameElapsedTimeMS, m_outline, m_invisible);
+	m_pScene->RenderScene(false, lastFrameElapsedTimeMS, m_provider->GetVideo()->GetScreenSizeF(), m_outline, m_invisible);
 }
 
 bool SceneEditor::SaveAs()

@@ -101,16 +101,36 @@ bool ETHRenderEntity::DrawLightPass(const Vector2 &zAxisDirection, const bool dr
 	return true;
 }
 
-bool ETHRenderEntity::IsSpriteVisible() const
+bool ETHRenderEntity::IsSpriteVisible(const ETHSceneProperties& sceneProps, const Vector2& backBuffer) const
 {
 	if (!m_pSprite || IsHidden())
 		return false;
 
+	const Vector2& bufferSize = backBuffer;
+	const ETH_VIEW_RECT& rect = GetScreenRect(sceneProps);
+	const Vector2& min = rect.v2Min;
+	const Vector2& max = rect.v2Max;
 	if (GetType() == ETH_VERTICAL || GetAngle() == 0.0f)
 	{
-
+		if (min.x > bufferSize.x || min.y > bufferSize.x)
+		{
+			return false;
+		}
+		else if (max.x < 0.0f || max.y < 0.0f)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
 	}
-	return true;
+	else
+	{
+		const OrientedBoundingBox screenObb(bufferSize / 2.0f, bufferSize, 0.0f); // TO-DO/TODO: pre-calc this
+		const OrientedBoundingBox entityObb((min + max) / 2.0f, max - min, GetAngle());
+		return entityObb.Overlaps(screenObb);
+	}
 }
 
 bool ETHRenderEntity::DrawShadow(const float maxHeight, const float minHeight, const ETHSceneProperties& sceneProps, const ETHLight& light, ETHSpriteEntity *pParent,
