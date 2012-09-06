@@ -81,7 +81,7 @@ public:
 	/// It returns the entity ID # and it's further data. If nAfterThisID is greater than
 	/// -1 the entity returned will be another one (if the point collides with more than
 	/// one entities)
-	int SeekEntity(const Vector2 &at, ETHEntity **pOutData, const ETHSceneProperties& props, ETHEntity *pAfterThisOne = 0);
+	int SeekEntity(const Vector2& pointAbsPos, ETHEntity** pOutData, const ETHSceneProperties& props, ETHSpriteEntity* pAfterThisOne = 0);
 
 	/// Seek the entity by ID #
 	ETHSpriteEntity *SeekEntity(const int id);

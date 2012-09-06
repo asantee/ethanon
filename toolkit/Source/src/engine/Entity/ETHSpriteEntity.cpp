@@ -580,13 +580,23 @@ Vector2 ETHSpriteEntity::ComputeInScreenPosition(const ETHSceneProperties& scene
 	return (ComputePositionWithZAxisApplied(sceneProps) + offset);
 }
 
-Vector2 ETHSpriteEntity::ComputeInScreenSpriteCenter(const ETHSceneProperties& sceneProps, const Vector2& size) const
+Vector2 ETHSpriteEntity::ComputeInScreenSpriteCenter(const ETHSceneProperties& sceneProps) const
 {
-	const Vector2& pos = ComputeInScreenPosition(sceneProps);
-	const float originLength =-ComputeAbsoluteOrigin(size).Length();
-	const float radianAngle = -DegreeToRadian(GetAngle());
-	const Vector2 center(Vector2(sinf(radianAngle),-cosf(radianAngle)) * originLength);
-	return (pos + center);
+	const float angle = GetAngle();
+	if (GetType() == ETH_VERTICAL || angle == 0.0f)
+	{
+		const ETH_VIEW_RECT& rect = GetScreenRect(sceneProps);
+		return ((rect.v2Max + rect.v2Min) * 0.5f);
+	}
+	else
+	{
+		const Vector2& pos = ComputeInScreenPosition(sceneProps);
+		const Vector2& pivotAdjust(m_properties.pivotAdjust * m_properties.scale);
+		const float originLength =-pivotAdjust.Length();
+		const float radianAngle = -DegreeToRadian(GetAngle());
+		const Vector2 center(Vector2(sinf(radianAngle),-cosf(radianAngle)) * originLength);
+		return (pos + center);
+	}
 }
 
 Vector2 ETHSpriteEntity::ComputePositionWithZAxisApplied(const ETHSceneProperties& sceneProps) const 
@@ -634,6 +644,37 @@ Vector2 ETHSpriteEntity::GetScreenRectMin(const ETHSceneProperties& sceneProps) 
 Vector2 ETHSpriteEntity::GetScreenRectMax(const ETHSceneProperties& sceneProps) const
 {
 	return GetScreenRect(sceneProps).v2Max;
+}
+
+bool ETHSpriteEntity::IsPointOnSprite(const ETHSceneProperties& sceneProps, const Vector2& absolutePointPos, const Vector2& size) const
+{
+	const float angle = GetAngle();
+	if (GetType() == ETH_VERTICAL || angle == 0.0f)
+	{
+		const ETH_VIEW_RECT& rect = GetScreenRect(sceneProps);
+		const Vector2& min = rect.v2Min;
+		const Vector2& max = rect.v2Max;
+		if (min.x > absolutePointPos.x || min.y > absolutePointPos.y)
+		{
+			return false;
+		}
+		else if (max.x < absolutePointPos.x || max.y < absolutePointPos.y)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	else
+	{
+		// TODO/TO-DO perform this in the OrientedBoundingBox class
+		const float radianAngle = -DegreeToRadian(angle);
+		const OrientedBoundingBox pointObb(absolutePointPos, math::constant::ONE_VECTOR2, 0.0f);
+		const OrientedBoundingBox entityObb(ComputeInScreenSpriteCenter(sceneProps), size, radianAngle);
+		return entityObb.Overlaps(pointObb);
+	}
 }
 
 void ETHSpriteEntity::StartSFX()

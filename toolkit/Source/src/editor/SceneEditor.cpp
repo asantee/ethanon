@@ -532,11 +532,10 @@ void SceneEditor::EntitySelector(const bool guiButtonsFree)
 		// draws the current selected entity outline if we are on the selection mode
 		if (!moving)
 		{
-			ETH_VIEW_RECT box = m_pSelected->GetScreenRect(*m_pScene->GetSceneProperties());
 			const GS_COLOR dwColor(96,255,255,255);
-			m_outline->SetOrigin(GSEO_DEFAULT);
-			const Vector2 v2Pos = box.v2Min + video->GetCameraPos();
-			m_outline->DrawShaped(v2Pos, box.v2Max - box.v2Min, dwColor, dwColor, dwColor, dwColor);
+			m_outline->SetOrigin(GSEO_CENTER);
+			const Vector2 v2Pos = m_pSelected->ComputeInScreenSpriteCenter(*m_pScene->GetSceneProperties()) + video->GetCameraPos();
+			m_outline->DrawShaped(v2Pos, m_pSelected->GetCurrentSize(), dwColor, dwColor, dwColor, dwColor, m_pSelected->GetAngle());
 			DrawEntityString(m_pSelected, GS_WHITE);
 
 			ShadowPrint(Vector2(m_guiX,m_guiY), L"Entity name:"); m_guiY += m_menuSize;
@@ -563,10 +562,11 @@ void SceneEditor::EntitySelector(const bool guiButtonsFree)
 			ETHRenderEntity *pSelected = reinterpret_cast<ETHRenderEntity*>(m_pScene->GetBucketManager().SeekEntity(id));
 			if (pSelected)
 			{
-				ETH_VIEW_RECT box = pSelected->GetScreenRect(*m_pScene->GetSceneProperties());
 				const GS_COLOR dwColor(16, 255, 255, 255);
-				m_outline->SetOrigin(GSEO_DEFAULT);
-				m_outline->DrawShaped(box.v2Min + video->GetCameraPos(), box.v2Max - box.v2Min, dwColor, dwColor, dwColor, dwColor);
+				const Vector2& size(pSelected->GetCurrentSize());
+				m_outline->SetOrigin(GSEO_CENTER);
+				m_outline->DrawShaped(pSelected->ComputeInScreenSpriteCenter(*m_pScene->GetSceneProperties()) + video->GetCameraPos(),
+									  size, dwColor, dwColor, dwColor, dwColor, pSelected->GetAngle());
 				DrawEntityString(pSelected, GS_COLOR(100, 255, 255, 255));
 			}
 		}

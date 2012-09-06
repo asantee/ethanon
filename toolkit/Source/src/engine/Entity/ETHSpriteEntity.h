@@ -85,7 +85,8 @@ public:
 	Vector2 GetScreenRectMax(const ETHSceneProperties& sceneProps) const;
 	Vector2 ComputeInScreenPosition(const ETHSceneProperties& sceneProps) const;
 	Vector2 ComputePositionWithZAxisApplied(const ETHSceneProperties& sceneProps) const;
-	Vector2 ComputeInScreenSpriteCenter(const ETHSceneProperties& sceneProps, const Vector2& size) const;
+	Vector2 ComputeInScreenSpriteCenter(const ETHSceneProperties& sceneProps) const;
+	bool IsPointOnSprite(const ETHSceneProperties& sceneProps, const Vector2& absolutePointPos, const Vector2& size) const;
 
 	bool SetSprite(const str_type::string &fileName);
 	bool SetNormal(const str_type::string &fileName);
