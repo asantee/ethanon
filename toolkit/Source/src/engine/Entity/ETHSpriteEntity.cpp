@@ -574,7 +574,22 @@ Vector2 ETHSpriteEntity::GetCurrentSize() const
 	return v2R * m_properties.scale;
 }
 
-Vector2 ETHSpriteEntity::GetScreenPosition(const ETHSceneProperties& sceneProps) const 
+Vector2 ETHSpriteEntity::ComputeInScreenPosition(const ETHSceneProperties& sceneProps) const
+{
+	const Vector2 offset(ComputeParallaxOffset() - m_provider->GetVideo()->GetCameraPos());
+	return (ComputePositionWithZAxisApplied(sceneProps) + offset);
+}
+
+Vector2 ETHSpriteEntity::ComputeInScreenSpriteCenter(const ETHSceneProperties& sceneProps, const Vector2& size) const
+{
+	const Vector2& pos = ComputeInScreenPosition(sceneProps);
+	const float originLength =-ComputeAbsoluteOrigin(size).Length();
+	const float radianAngle = -DegreeToRadian(GetAngle());
+	const Vector2 center(Vector2(sinf(radianAngle),-cosf(radianAngle)) * originLength);
+	return (pos + center);
+}
+
+Vector2 ETHSpriteEntity::ComputePositionWithZAxisApplied(const ETHSceneProperties& sceneProps) const 
 {
 	Vector3 r;
 	if (!m_pSprite)
@@ -602,9 +617,7 @@ Vector2 ETHSpriteEntity::GetScreenPosition(const ETHSceneProperties& sceneProps)
 ETH_VIEW_RECT ETHSpriteEntity::GetScreenRect(const ETHSceneProperties& sceneProps) const
 {
 	ETH_VIEW_RECT box;
-	const Vector2& parallaxOffset = ComputeParallaxOffset();
-	const Vector2 offset(parallaxOffset - m_provider->GetVideo()->GetCameraPos());
-	const Vector2& pos = GetScreenPosition(sceneProps) + offset;
+	const Vector2& pos = ComputeInScreenPosition(sceneProps);
 	const Vector2& size = GetCurrentSize();
 	const Vector2& absoluteOrigin = ComputeAbsoluteOrigin(size);
 

@@ -107,11 +107,12 @@ bool ETHRenderEntity::IsSpriteVisible(const ETHSceneProperties& sceneProps, cons
 		return false;
 
 	const Vector2& bufferSize = backBuffer;
-	const ETH_VIEW_RECT& rect = GetScreenRect(sceneProps);
-	const Vector2& min = rect.v2Min;
-	const Vector2& max = rect.v2Max;
-	if (GetType() == ETH_VERTICAL || GetAngle() == 0.0f)
+	const float angle = GetAngle();
+	if (GetType() == ETH_VERTICAL || angle == 0.0f)
 	{
+		const ETH_VIEW_RECT& rect = GetScreenRect(sceneProps);
+		const Vector2& min = rect.v2Min;
+		const Vector2& max = rect.v2Max;
 		if (min.x > bufferSize.x || min.y > bufferSize.x)
 		{
 			return false;
@@ -127,8 +128,11 @@ bool ETHRenderEntity::IsSpriteVisible(const ETHSceneProperties& sceneProps, cons
 	}
 	else
 	{
+		// TODO/TO-DO perform this in the OrientedBoundingBox class
+		const Vector2& size = GetCurrentSize();
+		const float radianAngle = -DegreeToRadian(angle);
 		const OrientedBoundingBox screenObb(bufferSize / 2.0f, bufferSize, 0.0f); // TO-DO/TODO: pre-calc this
-		const OrientedBoundingBox entityObb((min + max) / 2.0f, max - min, GetAngle());
+		const OrientedBoundingBox entityObb(ComputeInScreenSpriteCenter(sceneProps, size), size, radianAngle);
 		return entityObb.Overlaps(screenObb);
 	}
 }
