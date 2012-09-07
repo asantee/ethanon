@@ -114,7 +114,7 @@ private:
 	GSGUI_BUTTONLIST m_renderMode;
 	GSGUI_BUTTONLIST m_tool;
 	GSGUI_BUTTONLIST m_panel;
-	SpritePtr m_lSprite, m_pSprite, m_outline, m_parallaxCursor;
+	SpritePtr m_lSprite, m_pSprite, m_outline, m_richOutline, m_parallaxCursor;
 	SpritePtr m_axis, m_soundWave, m_invisible, m_arrows;
 	ETHRenderEntity* m_pSelected;
 	ETHSceneProperties m_sceneProps;

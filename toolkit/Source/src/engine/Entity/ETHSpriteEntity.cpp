@@ -612,6 +612,11 @@ Vector2 ETHSpriteEntity::ComputePositionWithZAxisApplied(const ETHScenePropertie
 		{
 			r = GetPosition() + m_particles[0]->GetSystem()->v3StartPoint;
 		}
+		else if (IsCollidable())
+		{
+			const Vector3& collisionPos = m_properties.collision->pos;
+			r = GetPosition() + (Vector3(ETHGlobal::ToVector2(collisionPos) * GetScale(), collisionPos.z));
+		}
 		else
 		{
 			r = GetPosition();

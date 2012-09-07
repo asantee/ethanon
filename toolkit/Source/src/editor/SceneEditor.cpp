@@ -106,6 +106,7 @@ void SceneEditor::LoadEditor()
 	m_axis->SetOrigin(GSEO_CENTER);
 	
 	m_outline = video->CreateSprite(m_provider->GetProgramPath() + L"data/outline.png");
+	m_richOutline = video->CreateSprite(m_provider->GetProgramPath() + L"data/rich_outline.png");
 
 	m_soundWave = video->CreateSprite(m_provider->GetProgramPath() + L"data/soundwave.dds");
 	m_soundWave->SetOrigin(GSEO_CENTER);
@@ -532,10 +533,10 @@ void SceneEditor::EntitySelector(const bool guiButtonsFree)
 		// draws the current selected entity outline if we are on the selection mode
 		if (!moving)
 		{
-			const GS_COLOR dwColor(96,255,255,255);
-			m_outline->SetOrigin(GSEO_CENTER);
+			const GS_COLOR dwColor(128,255,255,255);
+			m_richOutline->SetOrigin(GSEO_CENTER);
 			const Vector2 v2Pos = m_pSelected->ComputeInScreenSpriteCenter(*m_pScene->GetSceneProperties()) + video->GetCameraPos();
-			m_outline->DrawShaped(v2Pos, m_pSelected->GetCurrentSize(), dwColor, dwColor, dwColor, dwColor, m_pSelected->GetAngle());
+			m_richOutline->DrawShaped(v2Pos, m_pSelected->GetCurrentSize(), dwColor, dwColor, dwColor, dwColor, m_pSelected->GetAngle());
 			DrawEntityString(m_pSelected, GS_WHITE);
 
 			ShadowPrint(Vector2(m_guiX,m_guiY), L"Entity name:"); m_guiY += m_menuSize;
@@ -562,10 +563,10 @@ void SceneEditor::EntitySelector(const bool guiButtonsFree)
 			ETHRenderEntity *pSelected = reinterpret_cast<ETHRenderEntity*>(m_pScene->GetBucketManager().SeekEntity(id));
 			if (pSelected)
 			{
-				const GS_COLOR dwColor(16, 255, 255, 255);
+				const GS_COLOR dwColor(48, 255, 255, 255);
 				const Vector2& size(pSelected->GetCurrentSize());
-				m_outline->SetOrigin(GSEO_CENTER);
-				m_outline->DrawShaped(pSelected->ComputeInScreenSpriteCenter(*m_pScene->GetSceneProperties()) + video->GetCameraPos(),
+				m_richOutline->SetOrigin(GSEO_CENTER);
+				m_richOutline->DrawShaped(pSelected->ComputeInScreenSpriteCenter(*m_pScene->GetSceneProperties()) + video->GetCameraPos(),
 									  size, dwColor, dwColor, dwColor, dwColor, pSelected->GetAngle());
 				DrawEntityString(pSelected, GS_COLOR(100, 255, 255, 255));
 			}
