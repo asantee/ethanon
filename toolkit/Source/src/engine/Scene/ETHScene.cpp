@@ -397,7 +397,7 @@ void ETHScene::UpdateTemporary(const unsigned long lastFrameElapsedTime)
 	m_tempEntities.CheckTemporaryEntities(GetZAxisDirection(), m_buckets, lastFrameElapsedTime);
 }
 
-bool ETHScene::RenderScene(const bool roundUp, const unsigned long lastFrameElapsedTime, const Vector2& backBuffer,
+bool ETHScene::RenderScene(const bool roundUp, const unsigned long lastFrameElapsedTime, const ETHBackBufferTargetManagerPtr backBuffer,
 						   SpritePtr pOutline, SpritePtr pInvisibleEntSymbol)
 {
 	const VideoPtr& video = m_provider->GetVideo();
@@ -547,7 +547,7 @@ bool ETHScene::DrawBucketOutlines()
 // TODO-TO-DO: this method is too large...
 bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline, SpritePtr pInvisibleEntSymbol,
 						  std::list<ETHRenderEntity*> &outParticles, std::list<ETHRenderEntity*> &outHalos, const bool roundUp,
-						  const unsigned long lastFrameElapsedTime, const Vector2& backBuffer)
+						  const unsigned long lastFrameElapsedTime, const ETHBackBufferTargetManagerPtr backBuffer)
 {
 	// This multimap will store all entities contained in the visible buckets
 	// It will automatically sort entities to draw them in an "alpha friendly" order
@@ -569,7 +569,7 @@ bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline
 	// Gets the list of visible buckets
 	std::list<Vector2> bucketList;
 	const Vector2& camPos = video->GetCameraPos(); //for debugging purposes
-	m_buckets.GetIntersectingBuckets(bucketList, camPos, backBuffer, IsDrawingBorderBuckets(), IsDrawingBorderBuckets());
+	m_buckets.GetIntersectingBuckets(bucketList, camPos, backBuffer->GetBufferSize(), IsDrawingBorderBuckets(), IsDrawingBorderBuckets());
 
 	// Loop through all visible Buckets
 	for (std::list<Vector2>::iterator bucketPositionIter = bucketList.begin(); bucketPositionIter != bucketList.end(); ++bucketPositionIter)
@@ -647,7 +647,7 @@ bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline
 		{
 			if (pOutline && pRenderEntity->IsInvisible() && pRenderEntity->IsCollidable())
 			{
-				pRenderEntity->DrawCollisionBox(true, pOutline, GS_WHITE, m_sceneProps.zAxisDirection);
+				pRenderEntity->DrawCollisionBox(pOutline, GS_WHITE, m_sceneProps.zAxisDirection);
 			}
 		}
 
@@ -660,7 +660,7 @@ bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline
 		{
 			if (pRenderEntity->IsInvisible() && pRenderEntity->IsCollidable())
 			{
-				pRenderEntity->DrawCollisionBox(false, pOutline, GS_WHITE, m_sceneProps.zAxisDirection);
+				pRenderEntity->DrawCollisionBox(pOutline, GS_WHITE, m_sceneProps.zAxisDirection);
 			}
 			if (pRenderEntity->IsInvisible() && !pRenderEntity->IsCollidable() && !pRenderEntity->HasHalo())
 			{

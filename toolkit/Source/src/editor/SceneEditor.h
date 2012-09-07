@@ -125,6 +125,7 @@ private:
 	int m_genLightmapForThisOneOnly;
 	CustomDataEditor m_customDataEditor;
 	ETHFileChangeDetectorPtr m_fileChangeDetector;
+	ETHBackBufferTargetManagerPtr m_backBuffer;
 };
 
 #endif

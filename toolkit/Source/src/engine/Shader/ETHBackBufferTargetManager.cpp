@@ -24,6 +24,14 @@
 #include "ETHDefaultDynamicBackBuffer.h"
 #include "ETHNoDynamicBackBuffer.h"
 
+ETHBackBufferTargetManager::ETHBackBufferTargetManager(gs2d::VideoPtr video)
+{
+	m_bufferSize = video->GetScreenSizeF();
+	m_backBuffer = ETHDynamicBackBufferPtr(new ETHNoDynamicBackBuffer(video, m_bufferSize));
+	m_targetScale = 1.0f;
+	m_obb = gs2d::math::OrientedBoundingBoxPtr(new gs2d::math::OrientedBoundingBox(m_bufferSize * 0.5f, m_bufferSize, 0.0f));
+}
+
 ETHBackBufferTargetManager::ETHBackBufferTargetManager(gs2d::VideoPtr video, const ETHAppEnmlFile& file, const Platform::Logger& logger)
 {
 	const gs2d::str_type::string fixedWidth  = file.GetFixedWidth();
@@ -40,6 +48,8 @@ ETHBackBufferTargetManager::ETHBackBufferTargetManager(gs2d::VideoPtr video, con
 					ETHDynamicBackBufferPtr(new ETHNoDynamicBackBuffer(video, m_bufferSize)) :
 					ETHDynamicBackBufferPtr(new ETHDefaultDynamicBackBuffer(video, m_bufferSize));
 	m_targetScale = m_bufferSize.x / screenSize.x;
+
+	m_obb = gs2d::math::OrientedBoundingBoxPtr(new gs2d::math::OrientedBoundingBox(m_bufferSize * 0.5f, m_bufferSize, 0.0f));
 
 	gs2d::str_type::stringstream ss; ss << GS_L("Backbuffer created as ") << m_bufferSize.x << GS_L(", ") << m_bufferSize.y;
 	logger.Log(ss.str(), Platform::Logger::INFO);
@@ -106,4 +116,9 @@ void ETHBackBufferTargetManager::Present()
 float ETHBackBufferTargetManager::GetTargetScale() const
 {
 	return m_targetScale;
+}
+
+gs2d::math::OrientedBoundingBoxPtr ETHBackBufferTargetManager::GetOBB() const
+{
+	return m_obb;
 }

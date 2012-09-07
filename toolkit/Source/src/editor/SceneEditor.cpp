@@ -47,6 +47,7 @@ SceneEditor::SceneEditor(ETHResourceProviderPtr provider) :
 	m_projManagerRequested = false;
 	m_guiX = m_guiY = 0.0f;
 	m_pSelected = 0;
+	m_backBuffer = ETHBackBufferTargetManagerPtr(new ETHBackBufferTargetManager(provider->GetVideo()));
 }
 
 SceneEditor::~SceneEditor()
@@ -1138,8 +1139,7 @@ void SceneEditor::PlaceEntitySelection()
 		{
 			if (m_currentEntity->IsCollidable())
 			{
-				m_currentEntity->DrawCollisionBox(true, m_outline, GS_WHITE, m_sceneProps.zAxisDirection);
-				m_currentEntity->DrawCollisionBox(false, m_outline, GS_WHITE, m_sceneProps.zAxisDirection);
+				m_currentEntity->DrawCollisionBox(m_outline, GS_WHITE, m_sceneProps.zAxisDirection);
 			}
 			else
 			{
@@ -1471,8 +1471,7 @@ void SceneEditor::LoopThroughEntityList()
 			}
 			else if (pEntity->IsCollidable())
 			{
-				pEntity->DrawCollisionBox(true, m_outline, GS_WHITE, m_pScene->GetZAxisDirection());
-				pEntity->DrawCollisionBox(false, m_outline, GS_WHITE, m_pScene->GetZAxisDirection());
+				pEntity->DrawCollisionBox(m_outline, GS_WHITE, m_pScene->GetZAxisDirection());
 			}
 		}
 
@@ -1541,7 +1540,7 @@ void SceneEditor::RenderScene()
 	const unsigned long lastFrameElapsedTimeMS = ComputeElapsedTime(m_provider->GetVideo());
 	m_pScene->Update(lastFrameElapsedTimeMS);
 	m_pScene->UpdateTemporary(lastFrameElapsedTimeMS);
-	m_pScene->RenderScene(false, lastFrameElapsedTimeMS, m_provider->GetVideo()->GetScreenSizeF(), m_outline, m_invisible);
+	m_pScene->RenderScene(false, lastFrameElapsedTimeMS, m_backBuffer, m_outline, m_invisible);
 }
 
 bool SceneEditor::SaveAs()

@@ -38,14 +38,17 @@ class ETHBackBufferTargetManager
 	bool ComputeLength(gs2d::VideoPtr video, const gs2d::str_type::string& thisSide, const gs2d::str_type::string& otherSide, const bool isWidth);
 
 	ETHDynamicBackBufferPtr m_backBuffer;
+	gs2d::math::OrientedBoundingBoxPtr m_obb;
 
 public:
+	ETHBackBufferTargetManager(gs2d::VideoPtr video);
 	ETHBackBufferTargetManager(gs2d::VideoPtr video, const ETHAppEnmlFile& file, const Platform::Logger& logger);
 	gs2d::math::Vector2 GetBufferSize() const;
 	void BeginRendering();
 	void EndRendering();
 	void Present();
 	float GetTargetScale() const;
+	gs2d::math::OrientedBoundingBoxPtr GetOBB() const;
 };
 
 typedef boost::shared_ptr<ETHBackBufferTargetManager> ETHBackBufferTargetManagerPtr;

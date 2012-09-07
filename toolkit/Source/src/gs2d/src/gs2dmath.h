@@ -1060,6 +1060,8 @@ private:
 	}
 };
 
+typedef boost::shared_ptr<gs2d::math::OrientedBoundingBox> OrientedBoundingBoxPtr;
+
 } // namespace math
 } // namespace gs2d
 

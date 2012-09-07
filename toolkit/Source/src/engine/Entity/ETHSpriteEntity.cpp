@@ -592,10 +592,12 @@ Vector2 ETHSpriteEntity::ComputeInScreenSpriteCenter(const ETHSceneProperties& s
 	{
 		const Vector2& pos = ComputeInScreenPosition(sceneProps);
 		const Vector2& pivotAdjust(m_properties.pivotAdjust * m_properties.scale);
-		const float originLength =-pivotAdjust.Length();
-		const float radianAngle = -DegreeToRadian(GetAngle());
-		const Vector2 center(Vector2(sinf(radianAngle),-cosf(radianAngle)) * originLength);
-		return (pos + center);
+		const float radianAngle =-DegreeToRadian(GetAngle());
+		const float angleSin = sinf(radianAngle);
+		const float angleCos = cosf(radianAngle);
+		const Vector2 center(angleCos * pivotAdjust.x - angleSin * pivotAdjust.y,
+							 angleSin * pivotAdjust.x + angleCos * pivotAdjust.y);
+		return (pos - center);
 	}
 }
 
