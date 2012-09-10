@@ -132,6 +132,13 @@ public:
 		TU_HOURS = 3
 	};
 
+	class ScreenSizeChangeListener
+	{
+	public:
+		virtual void ScreenSizeChanged(const math::Vector2& newScreenSize) = 0;
+	};
+	typedef boost::shared_ptr<ScreenSizeChangeListener> ScreenSizeChangeListenerPtr;
+
 	/// Presents the back buffer, handle events and clears the screen
 	virtual bool ManageLoop() = 0;
 
@@ -173,6 +180,11 @@ public:
 	virtual str_type::string GetGlobalExternalStoragePath() const;
 
 	virtual str_type::string GetPlatformName() const = 0;
+
+	virtual void SetScreenSizeChangeListener(const ScreenSizeChangeListenerPtr& listener);
+
+protected:
+	ScreenSizeChangeListenerPtr m_screenSizeChangeListener;
 };
 
 typedef boost::shared_ptr<Application> ApplicationPtr;

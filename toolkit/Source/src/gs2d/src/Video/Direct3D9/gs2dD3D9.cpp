@@ -1043,6 +1043,9 @@ bool D3D9Video::ResetVideoMode(const VIDEO_MODE& mode, const bool toggleFullscre
 		BeginSpriteScene();
 	}
 	Message(L"device successfully reset", GSMT_INFO);
+
+	if (m_screenSizeChangeListener)
+		m_screenSizeChangeListener->ScreenSizeChanged(GetScreenSizeF());
 	return true;
 }
 

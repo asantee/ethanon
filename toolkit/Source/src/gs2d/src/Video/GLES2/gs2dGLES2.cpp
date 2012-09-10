@@ -423,8 +423,7 @@ unsigned int GLES2Video::GetVideoModeCount()
 
 bool GLES2Video::ResetVideoMode(const VIDEO_MODE& mode, const bool toggleFullscreen)
 {
-	ResetVideoMode(mode.width, mode.height, mode.pf, false);
-	return true;
+	return ResetVideoMode(mode.width, mode.height, mode.pf, false);
 }
 
 bool GLES2Video::ResetVideoMode(const unsigned int width, const unsigned int height, const GS_PIXEL_FORMAT pfBB, const bool toggleFullscreen)
@@ -434,6 +433,9 @@ bool GLES2Video::ResetVideoMode(const unsigned int width, const unsigned int hei
 
 	Enable2D(width, height);
 	m_shaderContext->ResetViewConstants(m_orthoMatrix, GetScreenSizeF());
+
+	if (m_screenSizeChangeListener)
+		m_screenSizeChangeListener->ScreenSizeChanged(GetScreenSizeF());
 
 	return true;
 }
