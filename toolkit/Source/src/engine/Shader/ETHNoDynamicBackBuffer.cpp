@@ -41,3 +41,8 @@ void ETHNoDynamicBackBuffer::EndRendering()
 void ETHNoDynamicBackBuffer::Present()
 {
 }
+
+bool ETHNoDynamicBackBuffer::MatchesScreenSize() const
+{
+	return true;
+}

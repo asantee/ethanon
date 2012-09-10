@@ -47,7 +47,7 @@ SceneEditor::SceneEditor(ETHResourceProviderPtr provider) :
 	m_projManagerRequested = false;
 	m_guiX = m_guiY = 0.0f;
 	m_pSelected = 0;
-	m_backBuffer = ETHBackBufferTargetManagerPtr(new ETHBackBufferTargetManager(provider->GetVideo()));
+	m_backBuffer = ETHBackBufferTargetManager::Create(provider->GetVideo());
 }
 
 SceneEditor::~SceneEditor()

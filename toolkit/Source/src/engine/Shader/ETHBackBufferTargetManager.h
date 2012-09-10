@@ -29,7 +29,9 @@
 #include "ETHDynamicBackBuffer.h"
 #include "../Platform/ETHAppEnmlFile.h"
 
-class ETHBackBufferTargetManager
+class ETHInput;
+
+class ETHBackBufferTargetManager : public gs2d::Application::ScreenSizeChangeListener
 {
 	gs2d::math::Vector2 m_bufferSize;
 	float m_targetScale;
@@ -40,9 +42,16 @@ class ETHBackBufferTargetManager
 	ETHDynamicBackBufferPtr m_backBuffer;
 	gs2d::math::OrientedBoundingBoxPtr m_obb;
 
-public:
 	ETHBackBufferTargetManager(gs2d::VideoPtr video);
 	ETHBackBufferTargetManager(gs2d::VideoPtr video, const ETHAppEnmlFile& file, const Platform::Logger& logger);
+
+	void ScreenSizeChanged(const gs2d::math::Vector2& newScreenSize);
+	void CreateOBB();
+
+public:
+	static boost::shared_ptr<ETHBackBufferTargetManager> Create(gs2d::VideoPtr video, const ETHAppEnmlFile& file, const Platform::Logger& logger, ETHInput& ethInput);
+	static boost::shared_ptr<ETHBackBufferTargetManager> Create(gs2d::VideoPtr video);
+
 	gs2d::math::Vector2 GetBufferSize() const;
 	void BeginRendering();
 	void EndRendering();

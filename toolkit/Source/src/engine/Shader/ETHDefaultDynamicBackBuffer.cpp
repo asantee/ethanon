@@ -46,3 +46,8 @@ void ETHDefaultDynamicBackBuffer::Present()
 	m_target->DrawShaped(m_video->GetCameraPos(), m_video->GetScreenSizeF(), 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0.0f);
 	m_video->EndSpriteScene();
 }
+
+bool ETHDefaultDynamicBackBuffer::MatchesScreenSize() const
+{
+	return false;
+}

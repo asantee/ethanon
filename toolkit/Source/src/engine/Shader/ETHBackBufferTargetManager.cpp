@@ -23,13 +23,31 @@
 #include "ETHBackBufferTargetManager.h"
 #include "ETHDefaultDynamicBackBuffer.h"
 #include "ETHNoDynamicBackBuffer.h"
+#include "../Util/ETHInput.h"
+
+ETHBackBufferTargetManagerPtr ETHBackBufferTargetManager::Create(gs2d::VideoPtr video,
+																 const ETHAppEnmlFile& file, const Platform::Logger& logger,
+																 ETHInput& ethInput)
+{
+	ETHBackBufferTargetManagerPtr r(new ETHBackBufferTargetManager(video, file, logger));
+	video->SetScreenSizeChangeListener(r);
+	ethInput.SetTargetManager(r);
+	return r;
+}
+
+ETHBackBufferTargetManagerPtr ETHBackBufferTargetManager::Create(gs2d::VideoPtr video)
+{
+	ETHBackBufferTargetManagerPtr r(new ETHBackBufferTargetManager(video));
+	video->SetScreenSizeChangeListener(r);
+	return r;
+}
 
 ETHBackBufferTargetManager::ETHBackBufferTargetManager(gs2d::VideoPtr video)
 {
 	m_bufferSize = video->GetScreenSizeF();
 	m_backBuffer = ETHDynamicBackBufferPtr(new ETHNoDynamicBackBuffer(video, m_bufferSize));
 	m_targetScale = 1.0f;
-	m_obb = gs2d::math::OrientedBoundingBoxPtr(new gs2d::math::OrientedBoundingBox(m_bufferSize * 0.5f, m_bufferSize, 0.0f));
+	CreateOBB();
 }
 
 ETHBackBufferTargetManager::ETHBackBufferTargetManager(gs2d::VideoPtr video, const ETHAppEnmlFile& file, const Platform::Logger& logger)
@@ -49,10 +67,24 @@ ETHBackBufferTargetManager::ETHBackBufferTargetManager(gs2d::VideoPtr video, con
 					ETHDynamicBackBufferPtr(new ETHDefaultDynamicBackBuffer(video, m_bufferSize));
 	m_targetScale = m_bufferSize.x / screenSize.x;
 
-	m_obb = gs2d::math::OrientedBoundingBoxPtr(new gs2d::math::OrientedBoundingBox(m_bufferSize * 0.5f, m_bufferSize, 0.0f));
+	CreateOBB();
 
 	gs2d::str_type::stringstream ss; ss << GS_L("Backbuffer created as ") << m_bufferSize.x << GS_L(", ") << m_bufferSize.y;
 	logger.Log(ss.str(), Platform::Logger::INFO);
+}
+
+void ETHBackBufferTargetManager::CreateOBB()
+{
+	m_obb = gs2d::math::OrientedBoundingBoxPtr(new gs2d::math::OrientedBoundingBox(m_bufferSize * 0.5f, m_bufferSize, 0.0f));
+}
+
+void ETHBackBufferTargetManager::ScreenSizeChanged(const gs2d::math::Vector2& newScreenSize)
+{
+	if (m_backBuffer->MatchesScreenSize())
+	{
+		m_bufferSize = newScreenSize;
+		CreateOBB();
+	}
 }
 
 bool ETHBackBufferTargetManager::ComputeLength(gs2d::VideoPtr video, const gs2d::str_type::string& thisSide, const gs2d::str_type::string& otherSide, const bool isWidth)

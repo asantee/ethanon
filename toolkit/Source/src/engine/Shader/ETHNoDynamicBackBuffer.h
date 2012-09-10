@@ -35,6 +35,7 @@ public:
 	void BeginRendering();
 	void EndRendering();
 	void Present();
+	bool MatchesScreenSize() const;
 };
 
 #endif

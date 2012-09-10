@@ -280,7 +280,5 @@ ETHResourceProviderPtr ETHScriptWrapper::GetProvider()
 
 void ETHScriptWrapper::CreateDynamicBackBuffer(const ETHAppEnmlFile& file)
 {
-	m_backBuffer = ETHBackBufferTargetManagerPtr(
-		new ETHBackBufferTargetManager(m_provider->GetVideo(), file, *m_provider->GetLogger()));
-	m_ethInput.SetTargetManager(m_backBuffer);
+	m_backBuffer = ETHBackBufferTargetManager::Create(m_provider->GetVideo(), file, *m_provider->GetLogger(), m_ethInput);
 }
