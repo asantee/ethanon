@@ -483,7 +483,7 @@ void SceneEditor::EntitySelector(const bool guiButtonsFree)
 	{
 		const Vector2 v2Cursor = input->GetCursorPositionF(video);
 
-		const int id = m_pScene->GetBucketManager().SeekEntity(v2Cursor, (reinterpret_cast<ETHEntity**>(&m_pSelected)), m_sceneProps, m_pSelected);
+		const int id = m_pScene->GetBucketManager().SeekEntity(v2Cursor + video->GetCameraPos(), (reinterpret_cast<ETHEntity**>(&m_pSelected)), m_sceneProps, m_pSelected);
 
 		if (m_pSelected)
 		{
@@ -558,7 +558,7 @@ void SceneEditor::EntitySelector(const bool guiButtonsFree)
 	{
 		const Vector2 v2Cursor = input->GetCursorPositionF(video);
 		ETHEntity *pOver;
-		const int id = m_pScene->GetBucketManager().SeekEntity(v2Cursor, &pOver, m_sceneProps);
+		const int id = m_pScene->GetBucketManager().SeekEntity(v2Cursor + video->GetCameraPos(), &pOver, m_sceneProps);
 		if (id >= 0 && (!m_pSelected || m_pSelected->GetID() != id))
 		{
 			ETHRenderEntity *pSelected = reinterpret_cast<ETHRenderEntity*>(m_pScene->GetBucketManager().SeekEntity(id));

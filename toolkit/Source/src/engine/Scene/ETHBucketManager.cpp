@@ -213,12 +213,13 @@ int ETHBucketManager::SeekEntity(const Vector2& pointAbsPos, ETHEntity** pOutDat
 	//int currentID =-1;
 	//ETHSpriteEntity *pCurrent = 0;
 
+	const Vector2 relativePos(pointAbsPos - m_provider->GetVideo()->GetCameraPos());
 	int closestFromTheFrontID =-1;
 	ETHSpriteEntity *pClosestFromTheFront = 0;
 
 	if (pAfterThisOne)
 	{
-		if (!pAfterThisOne->IsPointOnSprite(props, pointAbsPos, pAfterThisOne->GetCurrentSize()))
+		if (!pAfterThisOne->IsPointOnSprite(props, relativePos, pAfterThisOne->GetCurrentSize()))
 		{
 			pAfterThisOne = 0;
 		}
@@ -247,7 +248,7 @@ int ETHBucketManager::SeekEntity(const Vector2& pointAbsPos, ETHEntity** pOutDat
 		for (ETHEntityList::reverse_iterator iter = entityList.rbegin(); iter != iEnd; ++iter)
 		{
 			ETHSpriteEntity *pRenderEntity = (*iter);
-			if (pRenderEntity->IsPointOnSprite(props, pointAbsPos, pRenderEntity->GetCurrentSize()))
+			if (pRenderEntity->IsPointOnSprite(props, relativePos, pRenderEntity->GetCurrentSize()))
 			{
 				if (!pAfterThisOne)
 				{
@@ -286,7 +287,7 @@ int ETHBucketManager::SeekEntity(const Vector2& pointAbsPos, ETHEntity** pOutDat
 		for (iter = entityList.begin(); iter != iEnd; ++iter)
 		{
 			ETHSpriteEntity *pRenderEntity = (*iter);
-			if (pRenderEntity->IsPointOnSprite(props, pointAbsPos, pRenderEntity->GetCurrentSize()))
+			if (pRenderEntity->IsPointOnSprite(props, relativePos, pRenderEntity->GetCurrentSize()))
 			{
 				pClosestFromTheFront = const_cast<ETHRenderEntity*>(*iter);
 				closestFromTheFrontID = pClosestFromTheFront->GetID();

@@ -397,7 +397,7 @@ void ETHScene::UpdateTemporary(const unsigned long lastFrameElapsedTime)
 	m_tempEntities.CheckTemporaryEntities(GetZAxisDirection(), m_buckets, lastFrameElapsedTime);
 }
 
-bool ETHScene::RenderScene(const bool roundUp, const unsigned long lastFrameElapsedTime, const ETHBackBufferTargetManagerPtr backBuffer,
+bool ETHScene::RenderScene(const bool roundUp, const unsigned long lastFrameElapsedTime, const ETHBackBufferTargetManagerPtr& backBuffer,
 						   SpritePtr pOutline, SpritePtr pInvisibleEntSymbol)
 {
 	const VideoPtr& video = m_provider->GetVideo();
@@ -547,7 +547,7 @@ bool ETHScene::DrawBucketOutlines()
 // TODO-TO-DO: this method is too large...
 bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline, SpritePtr pInvisibleEntSymbol,
 						  std::list<ETHRenderEntity*> &outParticles, std::list<ETHRenderEntity*> &outHalos, const bool roundUp,
-						  const unsigned long lastFrameElapsedTime, const ETHBackBufferTargetManagerPtr backBuffer)
+						  const unsigned long lastFrameElapsedTime, const ETHBackBufferTargetManagerPtr& backBuffer)
 {
 	// This multimap will store all entities contained in the visible buckets
 	// It will automatically sort entities to draw them in an "alpha friendly" order
