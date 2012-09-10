@@ -1,20 +1,12 @@
-window
+default
 {
-	title = Ethanon Project;
-
-	//fixedHeight = 512;
-	minScreenHeightForHdVersion = 720;
-	minScreenHeightForFullHdVersion = 1080;
-	hdDensityValue = 2;
-	fullHdDensityValue = 4;
-
-	// settings below are used only while running on desktop
-	width = 960; height = 640;
-	windowed = true;
-	vsync = true;
+	title = Ethanon Sample Project;
+	richLighting = true;
+	width = 1024; height = 768;
 }
 
-rendering
+windows
 {
-	richLighting = true;
+	windowed = true;
+	vsync = true;
 }
