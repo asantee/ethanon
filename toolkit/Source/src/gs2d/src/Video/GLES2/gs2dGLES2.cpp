@@ -434,8 +434,9 @@ bool GLES2Video::ResetVideoMode(const unsigned int width, const unsigned int hei
 	Enable2D(width, height);
 	m_shaderContext->ResetViewConstants(m_orthoMatrix, GetScreenSizeF());
 
-	if (m_screenSizeChangeListener)
-		m_screenSizeChangeListener->ScreenSizeChanged(GetScreenSizeF());
+	ScreenSizeChangeListenerPtr listener = m_screenSizeChangeListener.lock();
+	if (listener)
+		listener->ScreenSizeChanged(GetScreenSizeF());
 
 	return true;
 }

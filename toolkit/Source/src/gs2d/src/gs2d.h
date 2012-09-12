@@ -138,6 +138,7 @@ public:
 		virtual void ScreenSizeChanged(const math::Vector2& newScreenSize) = 0;
 	};
 	typedef boost::shared_ptr<ScreenSizeChangeListener> ScreenSizeChangeListenerPtr;
+	typedef boost::weak_ptr<ScreenSizeChangeListener> ScreenSizeChangeListenerWeakPtr;
 
 	/// Presents the back buffer, handle events and clears the screen
 	virtual bool ManageLoop() = 0;
@@ -184,7 +185,7 @@ public:
 	virtual void SetScreenSizeChangeListener(const ScreenSizeChangeListenerPtr& listener);
 
 protected:
-	ScreenSizeChangeListenerPtr m_screenSizeChangeListener;
+	ScreenSizeChangeListenerWeakPtr m_screenSizeChangeListener;
 };
 
 typedef boost::shared_ptr<Application> ApplicationPtr;

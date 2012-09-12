@@ -30,21 +30,33 @@ ETHDefaultDynamicBackBuffer::ETHDefaultDynamicBackBuffer(const gs2d::VideoPtr& v
 
 void ETHDefaultDynamicBackBuffer::BeginRendering()
 {
-	m_video->SetRenderTarget(m_target);
-	m_video->BeginTargetScene(gs2d::GS_ZERO, true);
+	gs2d::VideoPtr video = m_video.lock();
+	if (video)
+	{
+		video->SetRenderTarget(m_target);
+		video->BeginTargetScene(gs2d::GS_ZERO, true);
+	}
 }
 
 void ETHDefaultDynamicBackBuffer::EndRendering()
 {
-	m_video->EndTargetScene();
-	m_video->SetRenderTarget(gs2d::SpritePtr());
+	gs2d::VideoPtr video = m_video.lock();
+	if (video)
+	{
+		video->EndTargetScene();
+		video->SetRenderTarget(gs2d::SpritePtr());
+	}
 }
 
 void ETHDefaultDynamicBackBuffer::Present()
 {
-	m_video->BeginSpriteScene();
-	m_target->DrawShaped(m_video->GetCameraPos(), m_video->GetScreenSizeF(), 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0.0f);
-	m_video->EndSpriteScene();
+	gs2d::VideoPtr video = m_video.lock();
+	if (video)
+	{
+		video->BeginSpriteScene();
+		m_target->DrawShaped(video->GetCameraPos(), video->GetScreenSizeF(), 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0.0f);
+		video->EndSpriteScene();
+	}
 }
 
 bool ETHDefaultDynamicBackBuffer::MatchesScreenSize() const
