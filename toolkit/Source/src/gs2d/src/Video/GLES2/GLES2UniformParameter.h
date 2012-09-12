@@ -56,6 +56,7 @@ enum PARAMETER_TYPE
 class GLES2UniformParameter
 {
 	friend class GLES2ShaderContext;
+	friend class GLES2Texture;
 	LocationMapPtr m_locations;
 	str_type::string m_name;
 	static GLenum m_activatedTexture;

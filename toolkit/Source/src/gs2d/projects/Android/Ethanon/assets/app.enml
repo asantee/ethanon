@@ -1,12 +1,19 @@
-default
+window
 {
-	title = Ethanon Sample Project;
-	richLighting = true;
-	width = 1024; height = 768;
-}
-
-windows
-{
+	title = Ethanon Engine;
 	windowed = true;
 	vsync = true;
+	//workstation
+	width = 640;height = 480;
+	// HD Android Device
+	//width = 1280; height = 720;
+
+	// Standard smartphone
+	//width = 854; height = 480;
+
+	// iPad
+	//width = 1024; height = 768;
+
+	// iPhone/iPod retina
+	//width = 960; height = 640;
 }
