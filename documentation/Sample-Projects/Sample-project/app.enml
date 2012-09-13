@@ -10,3 +10,13 @@ windows
 	windowed = true;
 	vsync = true;
 }
+
+android
+{
+	fixedHeight = 480;
+}
+
+ios
+{
+	fixedHeight = 320;
+}

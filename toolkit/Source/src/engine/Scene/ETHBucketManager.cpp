@@ -205,7 +205,7 @@ unsigned int ETHBucketManager::GetNumEntities() const
 }
 
 // TODO-TO-DO: this method is too large...
-int ETHBucketManager::SeekEntity(const Vector2 &at, ETHEntity **pOutData, const ETHSceneProperties& props, ETHEntity *pAfterThisOne)
+int ETHBucketManager::SeekEntity(const Vector2& pointAbsPos, ETHEntity** pOutData, const ETHSceneProperties& props, ETHSpriteEntity* pAfterThisOne)
 {
 	int closestFromBehindID =-1;
 	ETHSpriteEntity *pClosestFromBehind = 0;
@@ -213,14 +213,13 @@ int ETHBucketManager::SeekEntity(const Vector2 &at, ETHEntity **pOutData, const 
 	//int currentID =-1;
 	//ETHSpriteEntity *pCurrent = 0;
 
+	const Vector2 relativePos(pointAbsPos - m_provider->GetVideo()->GetCameraPos());
 	int closestFromTheFrontID =-1;
 	ETHSpriteEntity *pClosestFromTheFront = 0;
 
 	if (pAfterThisOne)
 	{
-		ETH_VIEW_RECT rect = pAfterThisOne->GetScreenRect(props);
-		if (at.x < rect.v2Min.x || at.x > rect.v2Max.x ||
-			at.y < rect.v2Min.y || at.y > rect.v2Max.y)
+		if (!pAfterThisOne->IsPointOnSprite(props, relativePos, pAfterThisOne->GetCurrentSize()))
 		{
 			pAfterThisOne = 0;
 		}
@@ -232,7 +231,7 @@ int ETHBucketManager::SeekEntity(const Vector2 &at, ETHEntity **pOutData, const 
 	}
 
 	std::list<Vector2> buckets;
-	ETHGlobal::GetIntersectingBuckets(buckets, at + m_provider->GetVideo()->GetCameraPos(), Vector2(1,1), GetBucketSize(), true, true);
+	ETHGlobal::GetIntersectingBuckets(buckets, pointAbsPos, Vector2(1,1), GetBucketSize(), true, true);
 
 	// seeks the closest intersecting entity from behind
 	for (std::list<Vector2>::const_reverse_iterator sceneBucketIter = buckets.rbegin();
@@ -249,10 +248,7 @@ int ETHBucketManager::SeekEntity(const Vector2 &at, ETHEntity **pOutData, const 
 		for (ETHEntityList::reverse_iterator iter = entityList.rbegin(); iter != iEnd; ++iter)
 		{
 			ETHSpriteEntity *pRenderEntity = (*iter);
-			const ETH_VIEW_RECT box = pRenderEntity->GetScreenRect(props);
-
-			if (at.x > box.v2Min.x && at.x < box.v2Max.x &&
-				at.y > box.v2Min.y && at.y < box.v2Max.y)
+			if (pRenderEntity->IsPointOnSprite(props, relativePos, pRenderEntity->GetCurrentSize()))
 			{
 				if (!pAfterThisOne)
 				{
@@ -264,8 +260,6 @@ int ETHBucketManager::SeekEntity(const Vector2 &at, ETHEntity **pOutData, const 
 				{
 					if (pRenderEntity->GetID() == pAfterThisOne->GetID())
 					{
-						//pCurrent = const_cast<ETHRenderEntity*>(*iter);
-						//currentID = (*iter)->GetID();
 						escape = true;
 						break;
 					}
@@ -293,10 +287,7 @@ int ETHBucketManager::SeekEntity(const Vector2 &at, ETHEntity **pOutData, const 
 		for (iter = entityList.begin(); iter != iEnd; ++iter)
 		{
 			ETHSpriteEntity *pRenderEntity = (*iter);
-			const ETH_VIEW_RECT box = pRenderEntity->GetScreenRect(props);
-
-			if (at.x > box.v2Min.x && at.x < box.v2Max.x &&
-				at.y > box.v2Min.y && at.y < box.v2Max.y)
+			if (pRenderEntity->IsPointOnSprite(props, relativePos, pRenderEntity->GetCurrentSize()))
 			{
 				pClosestFromTheFront = const_cast<ETHRenderEntity*>(*iter);
 				closestFromTheFrontID = pClosestFromTheFront->GetID();
@@ -554,8 +545,9 @@ void ETHBucketManager::GetIntersectingEntities(const Vector2 &point, ETHEntityAr
 
 		if (!screenSpace)
 		{
-			rect.v2Max += m_provider->GetVideo()->GetCameraPos();
-			rect.v2Min += m_provider->GetVideo()->GetCameraPos();
+			const Vector2 cameraPos = m_provider->GetVideo()->GetCameraPos();
+			rect.v2Max += cameraPos;
+			rect.v2Min += cameraPos;
 		}
 
 		if (point.x < rect.v2Min.x)

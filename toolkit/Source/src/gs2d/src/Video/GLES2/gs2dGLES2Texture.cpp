@@ -22,6 +22,7 @@
 
 #include "gs2dGLES2Texture.h"
 #include "gs2dGLES2.h"
+#include "GLES2UniformParameter.h"
 #include <SOIL.h>
 #include <sstream>
 
@@ -124,6 +125,7 @@ GLES2Texture::~GLES2Texture()
 
 bool GLES2Texture::SetTexture(const unsigned int passIdx)
 {
+	GLES2UniformParameter::m_boundTexture2D = m_textureInfo.m_texture;
 	glBindTexture(GL_TEXTURE_2D, m_textureInfo.m_texture);
 	return true;
 }
@@ -147,7 +149,7 @@ bool GLES2Texture::CreateRenderTarget(VideoWeakPtr video, const unsigned int wid
 {
 	m_textureInfo.m_texture = m_textureID++;
 
-	glBindTexture(GL_TEXTURE_2D, m_textureInfo.m_texture);
+	SetTexture(0);
 
 	const GLint glfmt = (fmt == GSTF_ARGB) ? GL_RGBA : GL_RGB;
 
@@ -181,6 +183,7 @@ bool GLES2Texture::CreateRenderTarget(VideoWeakPtr video, const unsigned int wid
 	m_profile.originalWidth = m_profile.width;
 	m_profile.originalHeight = m_profile.height;
 
+	GLES2UniformParameter::m_boundTexture2D = 0;
 	glBindTexture(GL_TEXTURE_2D, 0);
 	return true;
 }
@@ -234,8 +237,10 @@ bool GLES2Texture::LoadTexture(VideoWeakPtr video, const void * pBuffer, GS_COLO
 		m_profile.originalHeight = m_profile.height;
 		m_logger.Log(m_fileName + " texture loaded", Platform::FileLogger::INFO);
 		SOIL_free_image_data(ht_map);
-		return true;
 	}
+	GLES2UniformParameter::m_boundTexture2D = 0;
+	glBindTexture(GL_TEXTURE_2D, 0);
+	return true;
 }
 
 math::Vector2 GLES2Texture::GetBitmapSize() const

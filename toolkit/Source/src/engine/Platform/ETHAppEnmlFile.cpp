@@ -67,7 +67,15 @@ ETHAppEnmlFile::ETHAppEnmlFile(const str_type::string& fileName, const Platform:
 	}
 }
 
-// get a boolean file from enml and fill the variable only if it exists
+// get a string value from enml and fill the variable only if it exists
+static void GetString(const gs2d::enml::File& file, const str_type::string& platformName, const str_type::string& attrib, str_type::string& param)
+{
+	const str_type::string value = file.get(platformName, attrib);
+	if (value != GS_L(""))
+		param = file.get(platformName, attrib);
+}
+
+// get a boolean value from enml and fill the variable only if it exists
 static void GetBoolean(const gs2d::enml::File& file, const str_type::string& platformName, const str_type::string& attrib, bool& param)
 {
 	const str_type::string value = file.get(platformName, attrib);
@@ -86,6 +94,9 @@ void ETHAppEnmlFile::LoadProperties(const str_type::string& platformName, const 
 	GetBoolean(file, platformName, GS_L("windowed"), windowed);
 	GetBoolean(file, platformName, GS_L("vsync"), vsync);
 	GetBoolean(file, platformName, GS_L("richLighting"), richLighting);
+
+	GetString(file, platformName, GS_L("fixedWidth"), fixedWidth);
+	GetString(file, platformName, GS_L("fixedHeight"), fixedHeight);
 
 	file.getFloat(platformName, GS_L("hdDensityValue"), &hdDensityValue);
 	file.getFloat(platformName, GS_L("fullHdDensityValue"), &fullHdDensityValue);

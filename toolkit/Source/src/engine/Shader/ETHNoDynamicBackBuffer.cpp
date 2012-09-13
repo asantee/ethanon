@@ -30,14 +30,23 @@ ETHNoDynamicBackBuffer::ETHNoDynamicBackBuffer(const gs2d::VideoPtr& video, cons
 
 void ETHNoDynamicBackBuffer::BeginRendering()
 {
-	m_video->BeginSpriteScene();
+	gs2d::VideoPtr video = m_video.lock();
+	if (video)
+		video->BeginSpriteScene();
 }
 
 void ETHNoDynamicBackBuffer::EndRendering()
 {
-	m_video->EndSpriteScene();
+	gs2d::VideoPtr video = m_video.lock();
+	if (video)
+		video->EndSpriteScene();
 }
 
 void ETHNoDynamicBackBuffer::Present()
 {
+}
+
+bool ETHNoDynamicBackBuffer::MatchesScreenSize() const
+{
+	return true;
 }

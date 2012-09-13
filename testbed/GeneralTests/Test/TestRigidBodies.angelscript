@@ -273,7 +273,7 @@ void ETHEndContactCallback_character(ETHEntity@ thisEntity, ETHEntity@ other, ve
 void ETHBeginContactCallback_one_sided_platform(ETHEntity@ thisEntity, ETHEntity@ other, vector2 p0, vector2 p1, vector2 normal)
 {
 	ETHPhysicsController@ controller = other.GetPhysicsController();
-	if (controller.GetLinearVelocity().y < 0.0f)
+	if (controller.GetLinearVelocity().y <= 0.0f)
 		DisableContact();
 }
 

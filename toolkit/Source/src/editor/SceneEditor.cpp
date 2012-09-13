@@ -47,6 +47,7 @@ SceneEditor::SceneEditor(ETHResourceProviderPtr provider) :
 	m_projManagerRequested = false;
 	m_guiX = m_guiY = 0.0f;
 	m_pSelected = 0;
+	m_backBuffer = ETHBackBufferTargetManager::Create(provider->GetVideo());
 }
 
 SceneEditor::~SceneEditor()
@@ -106,6 +107,7 @@ void SceneEditor::LoadEditor()
 	m_axis->SetOrigin(GSEO_CENTER);
 	
 	m_outline = video->CreateSprite(m_provider->GetProgramPath() + L"data/outline.png");
+	m_richOutline = video->CreateSprite(m_provider->GetProgramPath() + L"data/rich_outline.png");
 
 	m_soundWave = video->CreateSprite(m_provider->GetProgramPath() + L"data/soundwave.dds");
 	m_soundWave->SetOrigin(GSEO_CENTER);
@@ -481,7 +483,7 @@ void SceneEditor::EntitySelector(const bool guiButtonsFree)
 	{
 		const Vector2 v2Cursor = input->GetCursorPositionF(video);
 
-		const int id = m_pScene->GetBucketManager().SeekEntity(v2Cursor, (reinterpret_cast<ETHEntity**>(&m_pSelected)), m_sceneProps, m_pSelected);
+		const int id = m_pScene->GetBucketManager().SeekEntity(v2Cursor + video->GetCameraPos(), (reinterpret_cast<ETHEntity**>(&m_pSelected)), m_sceneProps, m_pSelected);
 
 		if (m_pSelected)
 		{
@@ -532,11 +534,10 @@ void SceneEditor::EntitySelector(const bool guiButtonsFree)
 		// draws the current selected entity outline if we are on the selection mode
 		if (!moving)
 		{
-			ETH_VIEW_RECT box = m_pSelected->GetScreenRect(*m_pScene->GetSceneProperties());
-			const GS_COLOR dwColor(96,255,255,255);
-			m_outline->SetOrigin(GSEO_DEFAULT);
-			const Vector2 v2Pos = box.v2Min + video->GetCameraPos();
-			m_outline->DrawShaped(v2Pos, box.v2Max - box.v2Min, dwColor, dwColor, dwColor, dwColor);
+			const GS_COLOR dwColor(128,255,255,255);
+			m_richOutline->SetOrigin(GSEO_CENTER);
+			const Vector2 v2Pos = m_pSelected->ComputeInScreenSpriteCenter(*m_pScene->GetSceneProperties()) + video->GetCameraPos();
+			m_richOutline->DrawShaped(v2Pos, m_pSelected->GetCurrentSize(), dwColor, dwColor, dwColor, dwColor, m_pSelected->GetAngle());
 			DrawEntityString(m_pSelected, GS_WHITE);
 
 			ShadowPrint(Vector2(m_guiX,m_guiY), L"Entity name:"); m_guiY += m_menuSize;
@@ -557,16 +558,17 @@ void SceneEditor::EntitySelector(const bool guiButtonsFree)
 	{
 		const Vector2 v2Cursor = input->GetCursorPositionF(video);
 		ETHEntity *pOver;
-		const int id = m_pScene->GetBucketManager().SeekEntity(v2Cursor, &pOver, m_sceneProps);
+		const int id = m_pScene->GetBucketManager().SeekEntity(v2Cursor + video->GetCameraPos(), &pOver, m_sceneProps);
 		if (id >= 0 && (!m_pSelected || m_pSelected->GetID() != id))
 		{
 			ETHRenderEntity *pSelected = reinterpret_cast<ETHRenderEntity*>(m_pScene->GetBucketManager().SeekEntity(id));
 			if (pSelected)
 			{
-				ETH_VIEW_RECT box = pSelected->GetScreenRect(*m_pScene->GetSceneProperties());
-				const GS_COLOR dwColor(16, 255, 255, 255);
-				m_outline->SetOrigin(GSEO_DEFAULT);
-				m_outline->DrawShaped(box.v2Min + video->GetCameraPos(), box.v2Max - box.v2Min, dwColor, dwColor, dwColor, dwColor);
+				const GS_COLOR dwColor(48, 255, 255, 255);
+				const Vector2& size(pSelected->GetCurrentSize());
+				m_richOutline->SetOrigin(GSEO_CENTER);
+				m_richOutline->DrawShaped(pSelected->ComputeInScreenSpriteCenter(*m_pScene->GetSceneProperties()) + video->GetCameraPos(),
+									  size, dwColor, dwColor, dwColor, dwColor, pSelected->GetAngle());
 				DrawEntityString(pSelected, GS_COLOR(100, 255, 255, 255));
 			}
 		}
@@ -1137,8 +1139,7 @@ void SceneEditor::PlaceEntitySelection()
 		{
 			if (m_currentEntity->IsCollidable())
 			{
-				m_currentEntity->DrawCollisionBox(true, m_outline, GS_WHITE, m_sceneProps.zAxisDirection);
-				m_currentEntity->DrawCollisionBox(false, m_outline, GS_WHITE, m_sceneProps.zAxisDirection);
+				m_currentEntity->DrawCollisionBox(m_outline, GS_WHITE, m_sceneProps.zAxisDirection);
 			}
 			else
 			{
@@ -1470,8 +1471,7 @@ void SceneEditor::LoopThroughEntityList()
 			}
 			else if (pEntity->IsCollidable())
 			{
-				pEntity->DrawCollisionBox(true, m_outline, GS_WHITE, m_pScene->GetZAxisDirection());
-				pEntity->DrawCollisionBox(false, m_outline, GS_WHITE, m_pScene->GetZAxisDirection());
+				pEntity->DrawCollisionBox(m_outline, GS_WHITE, m_pScene->GetZAxisDirection());
 			}
 		}
 
@@ -1536,11 +1536,11 @@ void SceneEditor::PasteFromClipboard()
 
 void SceneEditor::RenderScene()
 {
-	m_pScene->SetBorderBucketsDrawing(false);
+	m_pScene->SetBorderBucketsDrawing(true);
 	const unsigned long lastFrameElapsedTimeMS = ComputeElapsedTime(m_provider->GetVideo());
 	m_pScene->Update(lastFrameElapsedTimeMS);
 	m_pScene->UpdateTemporary(lastFrameElapsedTimeMS);
-	m_pScene->RenderScene(false, lastFrameElapsedTimeMS, m_outline, m_invisible);
+	m_pScene->RenderScene(false, lastFrameElapsedTimeMS, m_backBuffer, m_outline, m_invisible);
 }
 
 bool SceneEditor::SaveAs()

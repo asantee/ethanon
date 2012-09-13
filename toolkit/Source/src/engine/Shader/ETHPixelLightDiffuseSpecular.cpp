@@ -44,7 +44,7 @@ ETHPixelLightDiffuseSpecular::ETHPixelLightDiffuseSpecular(VideoPtr video, const
 bool ETHPixelLightDiffuseSpecular::BeginLightPass(ETHSpriteEntity *pRender, Vector3 &v3LightPos, const Vector2 &v2Size,
 	const ETHLight* light, const float maxHeight, const float minHeight, const float lightIntensity, const bool drawToTarget)
 {
-	const Vector2 &v2Origin = pRender->ComputeOrigin(v2Size);
+	const Vector2 &v2Origin = pRender->ComputeAbsoluteOrigin(v2Size);
 	const Vector3 &v3EntityPos = pRender->GetPosition();
 
 	// set the correct light shader

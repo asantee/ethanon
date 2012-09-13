@@ -28,13 +28,14 @@
 
 class ETHNoDynamicBackBuffer : public ETHDynamicBackBuffer
 {
-	gs2d::VideoPtr m_video;
+	gs2d::VideoWeakPtr m_video;
 
 public:
 	ETHNoDynamicBackBuffer(const gs2d::VideoPtr& video, const gs2d::math::Vector2& size);
 	void BeginRendering();
 	void EndRendering();
 	void Present();
+	bool MatchesScreenSize() const;
 };
 
 #endif

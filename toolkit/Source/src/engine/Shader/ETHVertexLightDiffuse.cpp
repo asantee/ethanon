@@ -37,7 +37,7 @@ bool ETHVertexLightDiffuse::BeginLightPass(ETHSpriteEntity *pRender, Vector3 &v3
 	const bool drawToTarget)
 {
 	GS2D_UNUSED_ARGUMENT(drawToTarget);
-	const Vector2 &v2Origin = pRender->ComputeOrigin(v2Size);
+	const Vector2 &v2Origin = pRender->ComputeAbsoluteOrigin(v2Size);
 	const Vector3 &v3EntityPos = pRender->GetPosition();
 
 	m_video->SetPixelShader(ShaderPtr());

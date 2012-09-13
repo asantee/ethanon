@@ -47,7 +47,8 @@ public:
 
 	void ClearResources();
 
-	bool RenderScene(const bool roundUp, const unsigned long lastFrameElapsedTime, SpritePtr pOutline = SpritePtr(), SpritePtr pInvisibleEntSymbol = SpritePtr());
+	bool RenderScene(const bool roundUp, const unsigned long lastFrameElapsedTime,
+					 const ETHBackBufferTargetManagerPtr& backBuffer, SpritePtr pOutline = SpritePtr(), SpritePtr pInvisibleEntSymbol = SpritePtr());
 	bool SaveToFile(const str_type::string& fileName);
 	int AddEntity(ETHRenderEntity* pEntity);
 	int AddEntity(ETHRenderEntity* pEntity, const str_type::string& alternativeName);
@@ -131,7 +132,7 @@ private:
 	bool RenderTransparentLayer(std::list<ETHRenderEntity*> &halos);
 	bool RenderList(float &maxHeight, float &minHeight, SpritePtr pOutline, SpritePtr pInvisibleEntSymbol,
 					std::list<ETHRenderEntity*> &outParticles, std::list<ETHRenderEntity*> &outHalos, const bool roundUp,
-					const unsigned long lastFrameElapsedTime);
+					const unsigned long lastFrameElapsedTime, const ETHBackBufferTargetManagerPtr& backBuffer);
 
 	bool RenderParticleList(std::list<ETHRenderEntity*> &particles);
 	bool AssignCallbackScript(ETHSpriteEntity* entity);

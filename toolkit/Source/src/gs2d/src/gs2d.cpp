@@ -409,4 +409,9 @@ str_type::string Application::GetGlobalExternalStoragePath() const
 	return GetExternalStoragePath();
 }
 
+void Application::SetScreenSizeChangeListener(const ScreenSizeChangeListenerPtr& listener)
+{
+	m_screenSizeChangeListener = listener;
+}
+
 } // namespace gs2d

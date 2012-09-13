@@ -101,6 +101,41 @@ bool ETHRenderEntity::DrawLightPass(const Vector2 &zAxisDirection, const bool dr
 	return true;
 }
 
+bool ETHRenderEntity::IsSpriteVisible(const ETHSceneProperties& sceneProps, const ETHBackBufferTargetManagerPtr& backBuffer) const
+{
+	if (!m_pSprite || IsHidden())
+		return false;
+
+	const float angle = GetAngle();
+	if (GetType() == ETH_VERTICAL || angle == 0.0f)
+	{
+		const Vector2& bufferSize = backBuffer->GetBufferSize();
+		const ETH_VIEW_RECT& rect = GetScreenRect(sceneProps);
+		const Vector2& min = rect.v2Min;
+		const Vector2& max = rect.v2Max;
+		if (min.x > bufferSize.x || min.y > bufferSize.y)
+		{
+			return false;
+		}
+		else if (max.x < 0.0f || max.y < 0.0f)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	else
+	{
+		// TODO/TO-DO perform this in the OrientedBoundingBox class
+		const Vector2& size = GetCurrentSize();
+		const float radianAngle = -DegreeToRadian(angle);
+		const OrientedBoundingBox entityObb(ComputeInScreenSpriteCenter(sceneProps), size, radianAngle);
+		return entityObb.Overlaps(*(backBuffer->GetOBB().get()));
+	}
+}
+
 bool ETHRenderEntity::DrawShadow(const float maxHeight, const float minHeight, const ETHSceneProperties& sceneProps, const ETHLight& light, ETHSpriteEntity *pParent,
 								 const bool maxOpacity, const bool drawToTarget, const float targetAngle, const Vector3& v3TargetPos)
 {
@@ -294,15 +329,15 @@ bool ETHRenderEntity::DrawParticles(const unsigned int n, const float maxHeight,
 	}
 }
 
-void ETHRenderEntity::DrawCollisionBox(const bool drawBase, SpritePtr pOutline, const GS_COLOR& dwColor, const Vector2 &zAxisDirection) const
+void ETHRenderEntity::DrawCollisionBox(SpritePtr pOutline, const GS_COLOR& dwColor, const Vector2 &zAxisDirection) const
 {
 	VideoPtr video = m_provider->GetVideo();
 	const bool collidable = (m_properties.collision);
 	const Vector3 v3Size = (collidable) ? m_properties.collision->size : Vector3(32,32,32);
 	const Vector3 v3Pos = (collidable) ? (m_properties.collision->pos + GetPosition()) : GetPosition();
 
-	const Vector2 v2Pos = ETHGlobal::ToScreenPos(v3Pos, zAxisDirection) + Vector2(0, v3Size.y/2);
-	pOutline->SetOrigin(GSEO_CENTER_BOTTOM);
+	const Vector2 v2Pos = ETHGlobal::ToScreenPos(v3Pos, zAxisDirection)/* + Vector2(0, v3Size.y/2)*/;
+	pOutline->SetOrigin(GSEO_CENTER);
 
 	const GS_ALPHA_MODE alphaMode = video->GetAlphaMode();
 	video->SetAlphaMode(GSAM_PIXEL);
@@ -317,22 +352,10 @@ void ETHRenderEntity::DrawCollisionBox(const bool drawBase, SpritePtr pOutline, 
 
 	const GS_COLOR dwH = ARGB(150,dwColor.r,dwColor.g,dwColor.b);
 	const float depth = video->GetSpriteDepth();
-	if (drawBase)
-	{
-		// base
-		video->SetSpriteDepth(1.0f);
-		pOutline->DrawShaped(v2Pos, Vector2(v3Size.x, v3Size.y), dwH, dwH, dwH, dwH);
-	}
-	else
-	{
-		video->SetSpriteDepth(0.0f);
-		const GS_COLOR dwV = ARGB(50,dwColor.r,dwColor.g,dwColor.b);
-		// front face
-		pOutline->DrawShaped(v2Pos, Vector2(v3Size.x, v3Size.z), dwV, dwV, dwV, dwV);
 
-		// upper face
-		pOutline->DrawShaped((v2Pos-Vector2(0,v3Size.z)), Vector2(v3Size.x, v3Size.y), dwH, dwH, dwH, dwH);
-	}
+	// base
+	video->SetSpriteDepth(1.0f);
+	pOutline->DrawShaped(v2Pos, Vector2(v3Size.x, v3Size.y), dwH, dwH, dwH, dwH, GetAngle());
 
 	video->SetZBuffer(zBuffer);
 	video->SetZBuffer(zWrite);

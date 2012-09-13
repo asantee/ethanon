@@ -1426,7 +1426,7 @@ void EntityEditor::DrawEntity()
 			m_pEditEntity->collision->size.y != 0.0f &&
 			m_pEditEntity->collision->size.z != 0.0f)
 		{
-			m_renderEntity->DrawCollisionBox(true, m_outline, GS_WHITE,	ETH_DEFAULT_ZDIRECTION);
+			m_renderEntity->DrawCollisionBox(m_outline, GS_WHITE,	ETH_DEFAULT_ZDIRECTION);
 		}
 	}
 
@@ -1466,16 +1466,6 @@ void EntityEditor::DrawEntity()
 
 	video->SetZWrite(false);
 	video->SetZBuffer(false);
-
-	if (m_pEditEntity->collision && m_tool.GetButtonStatus(_S_EDIT_COLLISION))
-	{
-		if (m_pEditEntity->collision->size.x != 0.0f &&
-			m_pEditEntity->collision->size.y != 0.0f &&
-			m_pEditEntity->collision->size.z != 0.0f)
-		{
-			m_renderEntity->DrawCollisionBox(false, m_outline, GS_WHITE, ETH_DEFAULT_ZDIRECTION);
-		}
-	}
 
 	if ((m_lightRange.IsActive() || m_lightRange.IsMouseOver())
 		&& m_renderEntity->GetType() != ETH_VERTICAL && m_pEditEntity->light)

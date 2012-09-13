@@ -29,13 +29,14 @@
 class ETHDefaultDynamicBackBuffer : public ETHDynamicBackBuffer
 {
 	gs2d::SpritePtr m_target;
-	gs2d::VideoPtr m_video;
+	gs2d::VideoWeakPtr m_video;
 
 public:
 	ETHDefaultDynamicBackBuffer(const gs2d::VideoPtr& video, const gs2d::math::Vector2& size);
 	void BeginRendering();
 	void EndRendering();
 	void Present();
+	bool MatchesScreenSize() const;
 };
 
 #endif

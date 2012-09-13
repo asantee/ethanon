@@ -77,13 +77,16 @@ public:
 	Vector2 GetCurrentSize() const;
 	Vector2 ComputeParallaxOffset() const;
 	float ComputeHaloAngle() const;
-	float ComputeDepth(const float maxHeight, const float minHeight);
+	float ComputeDepth(const float maxHeight, const float minHeight) const;
 	void SetScale(const Vector2& scale);
 
 	ETH_VIEW_RECT GetScreenRect(const ETHSceneProperties& sceneProps) const;
 	Vector2 GetScreenRectMin(const ETHSceneProperties& sceneProps) const;
 	Vector2 GetScreenRectMax(const ETHSceneProperties& sceneProps) const;
-	Vector2 GetScreenPosition(const ETHSceneProperties& sceneProps) const;
+	Vector2 ComputeInScreenPosition(const ETHSceneProperties& sceneProps) const;
+	Vector2 ComputePositionWithZAxisApplied(const ETHSceneProperties& sceneProps) const;
+	Vector2 ComputeInScreenSpriteCenter(const ETHSceneProperties& sceneProps) const;
+	bool IsPointOnSprite(const ETHSceneProperties& sceneProps, const Vector2& absolutePointPos, const Vector2& size) const;
 
 	bool SetSprite(const str_type::string &fileName);
 	bool SetNormal(const str_type::string &fileName);

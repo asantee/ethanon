@@ -327,23 +327,24 @@ bool ETHScene::GenerateLightmaps(const int id)
 		ETHEntityList::const_iterator iEnd = entityList.end();
 		for (ETHEntityList::iterator iter = entityList.begin(); iter != iEnd; ++iter)
 		{
+			ETHRenderEntity* entity = (*iter);
 			// if nID is valid, let's try to generate the lightmap for this one and only entity
 			if (id >= 0)
-				if (id != (*iter)->GetID())
+				if (id != entity->GetID())
 					continue;
 
 			Vector2 v2Size(1,1);
-			Vector2 v2Origin(0,0);
-			if ((*iter)->GetSprite())
+			Vector2 v2AbsoluteOrigin(0,0);
+			if (entity->GetSprite())
 			{
-				v2Size = (*iter)->GetCurrentSize();
-				v2Origin = (*iter)->ComputeOrigin(v2Size);
+				v2Size = entity->GetCurrentSize();
+				v2AbsoluteOrigin = entity->ComputeAbsoluteOrigin(v2Size);
 			}
 
 			// Place the current entity at the top-left corner to align
 			// it to the render target
-			const Vector3 oldPos = (*iter)->GetPosition();
-			const Vector3 newPos = Vector3(v2Origin.x, v2Origin.y, 0);
+			const Vector3 oldPos = entity->GetPosition();
+			const Vector3 newPos = Vector3(v2AbsoluteOrigin.x, v2AbsoluteOrigin.y, 0);
 
 			// fill the light list
 			for (ETHBucketMap::iterator lbucketIter = m_buckets.GetFirstBucket(); lbucketIter != m_buckets.GetLastBucket(); ++lbucketIter)
@@ -352,9 +353,10 @@ bool ETHScene::GenerateLightmaps(const int id)
 				ETHEntityList::const_iterator liEnd = lEntityList.end();
 				for (ETHEntityList::iterator liter = lEntityList.begin(); liter != liEnd; ++liter)
 				{
-					if ((*liter)->IsStatic() && (*liter)->HasLightSource())
+					ETHRenderEntity* lightEntity = (*liter);
+					if (lightEntity->IsStatic() && lightEntity->HasLightSource())
 					{
-						AddLight(*((*liter)->GetLight()), newPos-oldPos+(*liter)->GetPosition(), (*liter)->GetScale());
+						AddLight(*(lightEntity->GetLight()), newPos - oldPos + lightEntity->GetPosition(), lightEntity->GetScale());
 					}
 				}
 			}
@@ -366,10 +368,10 @@ bool ETHScene::GenerateLightmaps(const int id)
 			}
 			else
 			{
-				(*iter)->ReleaseLightmap();
+				entity->ReleaseLightmap();
 			}
 
-			(*iter)->SetOrphanPosition(oldPos);
+			entity->SetOrphanPosition(oldPos);
 			m_lights.clear();
 		}
 	}
@@ -395,10 +397,10 @@ void ETHScene::UpdateTemporary(const unsigned long lastFrameElapsedTime)
 	m_tempEntities.CheckTemporaryEntities(GetZAxisDirection(), m_buckets, lastFrameElapsedTime);
 }
 
-bool ETHScene::RenderScene(const bool roundUp, const unsigned long lastFrameElapsedTime, SpritePtr pOutline, SpritePtr pInvisibleEntSymbol)
+bool ETHScene::RenderScene(const bool roundUp, const unsigned long lastFrameElapsedTime, const ETHBackBufferTargetManagerPtr& backBuffer,
+						   SpritePtr pOutline, SpritePtr pInvisibleEntSymbol)
 {
 	const VideoPtr& video = m_provider->GetVideo();
-	//const ETHShaderManagerPtr& shaderManager = m_provider->GetShaderManager();
 
 	float minHeight, maxHeight;
 
@@ -413,7 +415,7 @@ bool ETHScene::RenderScene(const bool roundUp, const unsigned long lastFrameElap
 
 	// draw ambient pass
 	video->RoundUpPosition(roundUp);
-	RenderList(minHeight, maxHeight, pOutline, pInvisibleEntSymbol, particles, halos, roundUp, lastFrameElapsedTime);
+	RenderList(minHeight, maxHeight, pOutline, pInvisibleEntSymbol, particles, halos, roundUp, lastFrameElapsedTime, backBuffer);
 	m_buckets.ResolveMoveRequests();
 	video->RoundUpPosition(false);
 
@@ -545,7 +547,7 @@ bool ETHScene::DrawBucketOutlines()
 // TODO-TO-DO: this method is too large...
 bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline, SpritePtr pInvisibleEntSymbol,
 						  std::list<ETHRenderEntity*> &outParticles, std::list<ETHRenderEntity*> &outHalos, const bool roundUp,
-						  const unsigned long lastFrameElapsedTime)
+						  const unsigned long lastFrameElapsedTime, const ETHBackBufferTargetManagerPtr& backBuffer)
 {
 	// This multimap will store all entities contained in the visible buckets
 	// It will automatically sort entities to draw them in an "alpha friendly" order
@@ -567,7 +569,7 @@ bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline
 	// Gets the list of visible buckets
 	std::list<Vector2> bucketList;
 	const Vector2& camPos = video->GetCameraPos(); //for debugging purposes
-	m_buckets.GetIntersectingBuckets(bucketList, camPos, video->GetScreenSizeF(), IsDrawingBorderBuckets(), IsDrawingBorderBuckets());
+	m_buckets.GetIntersectingBuckets(bucketList, camPos, backBuffer->GetBufferSize(), IsDrawingBorderBuckets(), IsDrawingBorderBuckets());
 
 	// Loop through all visible Buckets
 	for (std::list<Vector2>::iterator bucketPositionIter = bucketList.begin(); bucketPositionIter != bucketList.end(); ++bucketPositionIter)
@@ -636,28 +638,31 @@ bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline
 			pRenderEntity->Update(lastFrameElapsedTime, zAxisDirection, m_buckets);
 		}
 
-		shaderManager->BeginAmbientPass(pRenderEntity, maxHeight, minHeight);
+		const bool spriteVisible = pRenderEntity->IsSpriteVisible(m_sceneProps, backBuffer);
+		if (spriteVisible)
+			shaderManager->BeginAmbientPass(pRenderEntity, maxHeight, minHeight);
 
 		// draws the ambient pass and if we're at the editor, draw the collision box if it's an invisible entity
 		if (m_isInEditor)
 		{
 			if (pOutline && pRenderEntity->IsInvisible() && pRenderEntity->IsCollidable())
 			{
-				pRenderEntity->DrawCollisionBox(true, pOutline, GS_WHITE, m_sceneProps.zAxisDirection);
+				pRenderEntity->DrawCollisionBox(pOutline, GS_WHITE, m_sceneProps.zAxisDirection);
 			}
 		}
 
 		video->RoundUpPosition(roundUp);
-		pRenderEntity->DrawAmbientPass(m_maxSceneHeight, m_minSceneHeight, (m_enableLightmaps && m_showingLightmaps), m_sceneProps);
+		if (spriteVisible)
+			pRenderEntity->DrawAmbientPass(m_maxSceneHeight, m_minSceneHeight, (m_enableLightmaps && m_showingLightmaps), m_sceneProps);
 
 		// draw "invisible entity symbol" if we're in the editor
 		if (m_isInEditor)
 		{
 			if (pRenderEntity->IsInvisible() && pRenderEntity->IsCollidable())
 			{
-				pRenderEntity->DrawCollisionBox(false, pOutline, GS_WHITE, m_sceneProps.zAxisDirection);
+				pRenderEntity->DrawCollisionBox(pOutline, GS_WHITE, m_sceneProps.zAxisDirection);
 			}
-			if (pRenderEntity->IsInvisible() && !pRenderEntity->IsCollidable())
+			if (pRenderEntity->IsInvisible() && !pRenderEntity->IsCollidable() && !pRenderEntity->HasHalo())
 			{
 				const float depth = video->GetSpriteDepth();
 				video->SetSpriteDepth(1.0f);
@@ -682,7 +687,8 @@ bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline
 		// fill the callback list
 		m_tempEntities.AddCallbackWhenEligible(pRenderEntity);
 
-		shaderManager->EndAmbientPass();
+		if (spriteVisible)
+			shaderManager->EndAmbientPass();
 
 		// TODO/TO-DO: create a method that does it separately
 		//draw light pass
@@ -698,10 +704,13 @@ bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline
 						video->RoundUpPosition(roundUp);
 
 						// light pass
-						if (shaderManager->BeginLightPass(pRenderEntity, &(*iter), m_maxSceneHeight, m_minSceneHeight, GetLightIntensity()))
+						if (spriteVisible)
 						{
-							pRenderEntity->DrawLightPass(zAxisDirection);
-							shaderManager->EndLightPass();
+							if (shaderManager->BeginLightPass(pRenderEntity, &(*iter), m_maxSceneHeight, m_minSceneHeight, GetLightIntensity()))
+							{
+								pRenderEntity->DrawLightPass(zAxisDirection);
+								shaderManager->EndLightPass();
+							}
 						}
 
 						// shadow pass
