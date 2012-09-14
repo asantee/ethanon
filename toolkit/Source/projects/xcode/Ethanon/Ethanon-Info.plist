@@ -41,7 +41,7 @@
 		</dict>
 	</dict>
 	<key>CFBundleIdentifier</key>
-	<string>net.asantee.${PRODUCT_NAME:rfc1034identifier}</string>
+	<string>net.asantee.tests.${PRODUCT_NAME:rfc1034identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -58,16 +58,16 @@
 	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<false/>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>opengles-2</string>
+	</array>
 	<key>UIStatusBarHidden</key>
 	<true/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
-	</array>
-	<key>UIRequiredDeviceCapabilities</key>
-	<array>
-		<string>opengles-2</string>
 	</array>
 </dict>
 </plist>

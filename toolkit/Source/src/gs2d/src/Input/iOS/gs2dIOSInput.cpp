@@ -44,7 +44,7 @@ void IOSInput::SetAccelerometerData(const gs2d::math::Vector3& data)
 }
 
 void IOSInput::SetCurrentTouchPos(const unsigned int n, const gs2d::math::Vector2& pos)
-{
+{	
 	if (n < m_maxTouchCount)
 	{
 		m_currentTouch[n] = pos;
