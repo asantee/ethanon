@@ -106,8 +106,6 @@ bool ETHPixelLightDiffuseSpecular::BeginLightPass(ETHSpriteEntity *pRender, Vect
 		m_video->SetVertexShader(m_hPixelLightVS);
 	}
 
-	const Vector2 v2ScreenDim = (drawToTarget) ? pRender->GetLightmap()->GetBitmapSizeF() : m_video->GetScreenSizeF();
-
 	if (pRender->GetType() != ETH_VERTICAL)
 	{
 		if (pRender->GetAngle() != 0.0f)
