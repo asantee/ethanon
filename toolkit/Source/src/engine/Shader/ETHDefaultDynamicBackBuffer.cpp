@@ -34,6 +34,7 @@ void ETHDefaultDynamicBackBuffer::BeginRendering()
 	if (video)
 	{
 		video->SetRenderTarget(m_target);
+		video->SetAlphaMode(gs2d::GSAM_PIXEL);
 		video->BeginTargetScene(gs2d::GS_ZERO, true);
 	}
 }
@@ -54,7 +55,12 @@ void ETHDefaultDynamicBackBuffer::Present()
 	if (video)
 	{
 		video->BeginSpriteScene();
+
+		const gs2d::GS_ALPHA_MODE alpha = video->GetAlphaMode();
+		video->SetAlphaMode(gs2d::GSAM_NONE);
 		m_target->DrawShaped(video->GetCameraPos(), video->GetScreenSizeF(), 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0.0f);
+		video->SetAlphaMode(alpha);
+
 		video->EndSpriteScene();
 	}
 }
