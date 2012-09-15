@@ -156,7 +156,6 @@ void ETHEntityProperties::Reset()
 	spriteCut = ETH_DEFAULT_SPRITE_CUT;
 	pivotAdjust = ETH_DEFAULT_PIVOT_ADJUST;
 	scale = ETH_DEFAULT_SCALE;
-	startFrame = 0;
 	staticEntity = ETH_FALSE;
 	hideFromSceneEditor = ETH_FALSE;
 	type = ETH_HORIZONTAL;
@@ -206,7 +205,6 @@ bool ETHEntityProperties::ReadFromXMLFile(TiXmlElement *pElement)
 	hideFromSceneEditor = static_cast<ETH_BOOL>(nHideFromSceneEditor);
 
 	pElement->QueryIntAttribute(GS_L("shape"), (int*)&shape);
-	pElement->QueryIntAttribute(GS_L("startFrame"), &startFrame);
 	pElement->QueryIntAttribute(GS_L("blendMode"), (int*)&blendMode);
 	pElement->QueryFloatAttribute(GS_L("layerDepth"), &layerDepth);
 	pElement->QueryFloatAttribute(GS_L("soundVolume"), &soundVolume);
@@ -613,7 +611,6 @@ bool ETHEntityProperties::WriteToXMLFile(TiXmlElement *pHeadRoot) const
 	}
 
 	pRoot->SetAttribute(GS_L("static"), staticEntity);
-	pRoot->SetAttribute(GS_L("startFrame"), startFrame);
 	pRoot->SetAttribute(GS_L("blendMode"), blendMode);
 
 	WriteDataToFile(pRoot);

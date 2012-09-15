@@ -340,12 +340,12 @@ void EntityEditor::LoadEditor()
 	m_lightPos[2].SetScrollAdd(2.0f);
 	m_lightPos[2].SetDescription(L"Light position");
 
-	m_startFrame.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 8, false);
-	m_startFrame.SetConstant((float)m_pEditEntity->startFrame);
+	/*m_startFrame.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 8, false);
+	m_startFrame.SetConstant((float)m_pEditEntity->);
 	m_startFrame.SetClamp(false, 0, 0);
 	m_startFrame.SetText(L"Start frame");
 	m_startFrame.SetScrollAdd(1.0f);
-	m_startFrame.SetDescription(L"Starting frame in the sprite sheet");
+	m_startFrame.SetDescription(L"Starting frame in the sprite sheet");*/
 
 	m_spriteCut[0].SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 8, false);
 	m_spriteCut[0].SetConstant((float)m_pEditEntity->spriteCut.x);
@@ -598,7 +598,7 @@ void EntityEditor::ResetEntityMenu()
 
 	m_pivotX.SetConstant(m_pEditEntity->pivotAdjust.x);
 	m_pivotY.SetConstant(m_pEditEntity->pivotAdjust.y);
-	m_startFrame.SetConstant((float)m_pEditEntity->startFrame);
+	//m_startFrame.SetConstant((float)m_pEditEntity->startFrame);
 	m_spriteCut[0].SetConstant((float)m_pEditEntity->spriteCut.x);
 	m_spriteCut[1].SetConstant((float)m_pEditEntity->spriteCut.y);
 	m_emissiveColor[0].SetConstant(m_pEditEntity->emissiveColor.x);
@@ -972,10 +972,10 @@ string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 		y+=m_menuSize/2;
 
 		m_pEditEntity->spriteCut.x = Max(1, (int)m_spriteCut[0].PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth));	y+=m_menuSize;
-		m_pEditEntity->spriteCut.y = Max(1, (int)m_spriteCut[1].PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth));	y+=m_menuSize;
-		m_pEditEntity->startFrame = static_cast<int>(m_startFrame.PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth));
+		m_pEditEntity->spriteCut.y = Max(1, (int)m_spriteCut[1].PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth));//	y+=m_menuSize;
+		//m_pEditEntity->startFrame = static_cast<int>(m_startFrame.PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth));
 		const int lastFrame = m_pEditEntity->GetNumFrames() - 1;
-		m_pEditEntity->startFrame = Min(lastFrame, Max(0, m_pEditEntity->startFrame));
+		//m_pEditEntity->startFrame = Min(lastFrame, Max(0, m_pEditEntity->startFrame));
 		if (m_pEditEntity->spriteCut.x > 1 || m_pEditEntity->spriteCut.y > 1)
 		{
 			if (m_playStopButton.GetCurrentButton()->fileName == L"stop.png")
@@ -992,12 +992,14 @@ string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 			}
 			else
 			{
-				m_renderEntity->SetFrame(m_pEditEntity->startFrame);
+				m_renderEntity->SetFrame(0);
+				// m_renderEntity->SetFrame(m_pEditEntity->startFrame);
 			}
 		}
 		else
 		{
-			m_renderEntity->SetFrame(m_pEditEntity->startFrame);
+			m_renderEntity->SetFrame(0);
+			//m_renderEntity->SetFrame(m_pEditEntity->startFrame);
 			m_playStopButton.SetButton(L"play.png");
 			m_animationTimer.Reset();
 		}
@@ -1706,8 +1708,8 @@ bool EntityEditor::SpriteFrameChanged()
 {
 	bool r = true;
 	if (m_pEditEntity->spriteCut.x != m_v2LastSpriteCut.x ||
-		m_pEditEntity->spriteCut.y != m_v2LastSpriteCut.y ||
-		m_pEditEntity->startFrame != m_lastStartFrame)
+		m_pEditEntity->spriteCut.y != m_v2LastSpriteCut.y/* ||
+		m_pEditEntity->startFrame != m_lastStartFrame*/)
 	{
 		r = true;
 	}
@@ -1715,7 +1717,7 @@ bool EntityEditor::SpriteFrameChanged()
 		r = false;
 
 	m_v2LastSpriteCut = m_pEditEntity->spriteCut;
-	m_lastStartFrame = m_pEditEntity->startFrame;
+	//m_lastStartFrame = m_pEditEntity->startFrame;
 
 	return r;
 }
@@ -1725,10 +1727,10 @@ void EntityEditor::ResetSpriteCut()
 	if (m_renderEntity->GetSprite() && m_pEditEntity->spriteCut.x > 0 && m_pEditEntity->spriteCut.y > 0)
 	{
 		m_renderEntity->GetSprite()->SetupSpriteRects(m_pEditEntity->spriteCut.x, m_pEditEntity->spriteCut.y);
-		if (m_pEditEntity->startFrame >= 0 && m_pEditEntity->startFrame < (m_pEditEntity->spriteCut.x*m_pEditEntity->spriteCut.y))
+		/*if (m_pEditEntity->startFrame >= 0 && m_pEditEntity->startFrame < (m_pEditEntity->spriteCut.x*m_pEditEntity->spriteCut.y))
 		{
 			m_renderEntity->GetSprite()->SetRect(m_pEditEntity->startFrame);
-		}
+		}*/
 		/*if (m_renderEntity.GetNormal())
 		{
 			m_renderEntity.GetNormal()->SetupSpriteRects(m_pEditEntity->spriteCut.x, m_pEditEntity->spriteCut.y);

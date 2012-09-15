@@ -225,9 +225,6 @@ int ETHScene::AddEntity(ETHRenderEntity* pEntity, const str_type::string& altern
 
 	m_idCounter = Max(pEntity->GetID() + 1, m_idCounter + 1);
 
-	// Set start frame
-	pEntity->SetFrame(pEntity->GetProperties()->startFrame);
-
 	// generate an unique id
 	if (pEntity->GetID() < 0)
 	{

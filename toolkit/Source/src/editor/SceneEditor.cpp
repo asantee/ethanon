@@ -1012,7 +1012,7 @@ void SceneEditor::PlaceEntitySelection()
 
 	m_currentEntity = new ETHRenderEntity(m_provider, *m_entityFiles[m_currentEntityIdx].get(), angle, 1.0f);
 	m_currentEntity->SetOrphanPosition(m_v3Pos);
-	m_currentEntity->SetFrame(m_entityFiles[m_currentEntityIdx]->startFrame);
+	//m_currentEntity->SetFrame(m_entityFiles[m_currentEntityIdx]->startFrame);
 	m_currentEntity->SetAngle(angle);
 
 	const Vector2 v2CamPos(video->GetCameraPos());
@@ -1320,7 +1320,8 @@ void SceneEditor::DrawEntitySelectionGrid(SpritePtr pNextAppButton)
 			if (m_entityFiles[t]->spriteCut.x > 1 || m_entityFiles[t]->spriteCut.y > 1) //-V807
 			{
 				pSprite->SetupSpriteRects(m_entityFiles[t]->spriteCut.x, m_entityFiles[t]->spriteCut.y);
-				pSprite->SetRect(m_entityFiles[t]->startFrame);
+				//pSprite->SetRect(m_entityFiles[t]->startFrame);
+				pSprite->SetRect(0);
 			}
 			else
 			{

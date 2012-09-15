@@ -127,6 +127,9 @@ bool ETHEntity::WriteToXMLFile(TiXmlElement *pHeadRoot) const
 	pEntity->SetAttribute(GS_L("id"), m_id);
 	pEntity->SetAttribute(GS_L("spriteFrame"), m_spriteFrame);
 
+	if (m_spriteFrame > 0)
+		pEntity->SetDoubleAttribute(GS_L("spriteFrame"), m_spriteFrame);
+
 	if (m_properties.castShadow)
 		pEntity->SetDoubleAttribute(GS_L("shadowZ"), m_shadowZ);
 
