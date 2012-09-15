@@ -1056,13 +1056,13 @@ float GLES2Video::GetFPSRate() const
 void GLES2Video::ComputeFPSRate()
 {
 	static float counter = 0.0f;
-	const clock_t current = clock()/1000;
+	const clock_t current = GetElapsedTime(TU_MILLISECONDS);
 	static clock_t last = current;
 
-	const clock_t elapsed = current-last;
+	const clock_t elapsed = current - last;
 	if (elapsed > 500)
 	{
-		m_fpsRate = (counter*2);
+		m_fpsRate = (counter * 2);
 		counter = 0.0f;
 		last = current;
 	}
@@ -1094,11 +1094,6 @@ void GLES2Video::Message(const str_type::string& text, const GS_MESSAGE_TYPE typ
 	m_logger.Log(str + text, logType);
 }
 
-unsigned long GLES2Video::GetElapsedTime(const TIME_UNITY unity) const
-{
-	return static_cast<unsigned long>(GetElapsedTimeF(unity));
-}
-
 // the boost timer is behaving very strange on iOS, so this method will be implemented outside
 #ifndef APPLE_IOS
 float GLES2Video::GetElapsedTimeF(const TIME_UNITY unity) const
@@ -1123,6 +1118,11 @@ float GLES2Video::GetElapsedTimeF(const TIME_UNITY unity) const
 		break;
 	};
 	return static_cast<float>(elapsedTimeMS);
+}
+
+unsigned long GLES2Video::GetElapsedTime(const TIME_UNITY unity) const
+{
+	return static_cast<unsigned long>(GetElapsedTimeF(unity));
 }
 #endif
 

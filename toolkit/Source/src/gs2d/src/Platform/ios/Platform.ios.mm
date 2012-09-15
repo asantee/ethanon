@@ -32,6 +32,11 @@ gs2d::str_type::string gs2d::GLES2Video::GetPlatformName() const
 // it will be implemented here for the boost timer is presenting strange behaviour
 float gs2d::GLES2Video::GetElapsedTimeF(const TIME_UNITY unity) const
 {
+	return static_cast<float>(GetElapsedTime(unity));
+}
+
+unsigned long gs2d::GLES2Video::GetElapsedTime(const TIME_UNITY unity) const
+{
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	const double time = [[NSDate date] timeIntervalSince1970] - Platform::ios::StartTime::m_startTime;
 
@@ -55,7 +60,7 @@ float gs2d::GLES2Video::GetElapsedTimeF(const TIME_UNITY unity) const
 			break;
 	};
 	[pool release];
-	return static_cast<float>(elapsedTimeMS);
+	return static_cast<unsigned long>(elapsedTimeMS);
 }
 
 namespace Platform {
