@@ -56,52 +56,52 @@ struct Vector2i
 
 	inline Vector2i operator * (int num) const
 	{
-		return Vector2i(x*num, y*num);
+		return Vector2i(x * num, y * num);
 	}
 
 	inline Vector2i operator * (const Vector2i& v2) const
 	{
-		return Vector2i(x*v2.x, y*v2.y);
+		return Vector2i(x * v2.x, y * v2.y);
 	}
 
 	inline Vector2i operator / (int num) const
 	{
-		return Vector2i(x/num, y/num);
+		return Vector2i(x / num, y / num);
 	}
 
 	inline Vector2i operator / (const Vector2i& v2) const
 	{
-		return Vector2i(x/v2.x, y/v2.y);
+		return Vector2i(x / v2.x, y / v2.y);
 	}
 
 	inline Vector2i operator - (int num) const
 	{
-		return Vector2i(x-num, y-num);
+		return Vector2i(x - num, y - num);
 	}
 
 	inline Vector2i operator - (const Vector2i& v2) const
 	{
-		return Vector2i(x-v2.x, y-v2.y);
+		return Vector2i(x - v2.x, y - v2.y);
 	}
 
 	inline Vector2i operator + (int num) const
 	{
-		return Vector2i(x+num, y+num);
+		return Vector2i(x + num, y + num);
 	}
 
 	inline Vector2i operator + (const Vector2i& v2) const
 	{
-		return Vector2i(x+v2.x, y+v2.y);
+		return Vector2i(x + v2.x, y + v2.y);
 	}
 
 	inline bool operator == (const Vector2i& v2) const
 	{
-		return (x==v2.x && y==v2.y);
+		return (x == v2.x && y == v2.y);
 	}
 
 	inline bool operator != (const Vector2i& v2) const
 	{
-		return (x!=v2.x || y!=v2.y);
+		return (x != v2.x || y != v2.y);
 	}
 
 	int x,y;
@@ -130,89 +130,89 @@ struct Vector2 : public PODVector2
 
 	inline float Length() const
 	{
-		return sqrtf(x*x + y*y);
+		return sqrtf(x * x + y * y);
 	}
 
 	inline float SquaredLength() const
 	{
-		return (x*x + y*y);
+		return (x * x + y * y);
 	}
 
 	inline Vector2 operator * (float num) const
 	{
-		return Vector2(x*num, y*num);
+		return Vector2(x * num, y * num);
 	}
 
 	inline Vector2 operator * (const Vector2& v2) const
 	{
-		return Vector2(x*v2.x, y*v2.y);
+		return Vector2(x * v2.x, y * v2.y);
 	}
 
 	inline Vector2 operator / (float num) const
 	{
-		return Vector2(x/num, y/num);
+		return Vector2(x / num, y / num);
 	}
 
 	inline Vector2 operator / (const Vector2& v2) const
 	{
-		return Vector2(x/v2.x, y/v2.y);
+		return Vector2(x / v2.x, y / v2.y);
 	}
 
 	inline Vector2 operator - (float num) const
 	{
-		return Vector2(x-num, y-num);
+		return Vector2(x - num, y - num);
 	}
 
 	inline Vector2 operator - (const Vector2& v2) const
 	{
-		return Vector2(x-v2.x, y-v2.y);
+		return Vector2(x - v2.x, y - v2.y);
 	}
 
 	inline Vector2 operator + (float num) const
 	{
-		return Vector2(x+num, y+num);
+		return Vector2(x + num, y + num);
 	}
 
 	inline Vector2 operator + (const Vector2& v2) const
 	{
-		return Vector2(x+v2.x, y+v2.y);
+		return Vector2(x + v2.x, y + v2.y);
 	}
 
 	inline bool operator == (const Vector2& v2) const
 	{
-		return (x==v2.x && y==v2.y);
+		return (x == v2.x && y == v2.y);
 	}
 
 	inline bool operator != (const Vector2& v2) const
 	{
-		return (x!=v2.x || y!=v2.y);
+		return (x != v2.x || y != v2.y);
 	}
 
 	inline Vector2& operator += (const Vector2& v2)
 	{
-		x+=v2.x;
-		y+=v2.y;
+		x += v2.x;
+		y += v2.y;
 		return *this;
 	}
 
 	inline Vector2& operator -= (const Vector2& v2)
 	{
-		x-=v2.x;
-		y-=v2.y;
+		x -= v2.x;
+		y -= v2.y;
 		return *this;
 	}
 
 	inline Vector2& operator *= (float f)
 	{
-		x*=f;
-		y*=f;
+		x *= f;
+		y *= f;
 		return *this;
 	}
 
 	inline Vector2& operator /= (float f)
 	{
-		x/=f;
-		y/=f;
+		x /= f;
+		y /= f;
 		return *this;
 	}
 
@@ -238,103 +238,103 @@ struct Vector3 : public PODVector3
 
 	Vector3(float fx, float fy, float fz)
 	{
-		x=fx; y=fy; z=fz;
+		x = fx; y = fy; z = fz;
 	}
 
 	Vector3(const Vector2 &v2, float fz)
 	{
-		x=v2.x; y=v2.y; z=fz;
+		x = v2.x; y = v2.y; z = fz;
 	}
 
 	inline float Length() const
 	{
-		return sqrtf(x*x + y*y + z*z);
+		return sqrtf(x * x + y * y + z * z);
 	}
 
 	inline float SquaredLength() const
 	{
-		return (x*x + y*y + z*z);
+		return (x * x + y * y + z * z);
 	}
 
 	inline Vector3 operator * (float num) const
 	{
-		return Vector3(x*num, y*num, z*num);
+		return Vector3(x * num, y * num, z * num);
 	}
 
 	inline Vector3 operator * (const Vector3& v3) const
 	{
-		return Vector3(x*v3.x, y*v3.y, z*v3.z);
+		return Vector3(x * v3.x, y * v3.y, z * v3.z);
 	}
 
 	inline Vector3 operator / (float num) const
 	{
-		return Vector3(x/num, y/num, z/num);
+		return Vector3(x / num, y / num, z / num);
 	}
 
 	inline Vector3 operator / (const Vector3& v3) const
 	{
-		return Vector3(x/v3.x, y/v3.y, z/v3.z);
+		return Vector3(x / v3.x, y / v3.y, z / v3.z);
 	}
 
 	inline Vector3 operator - (float num) const
 	{
-		return Vector3(x-num, y-num, z-num);
+		return Vector3(x - num, y - num, z - num);
 	}
 
 	inline Vector3 operator - (const Vector3& v3) const
 	{
-		return Vector3(x-v3.x, y-v3.y, z-v3.z);
+		return Vector3(x - v3.x, y - v3.y, z - v3.z);
 	}
 
 	inline Vector3 operator + (float num) const
 	{
-		return Vector3(x+num, y+num, z+num);
+		return Vector3(x + num, y + num, z + num);
 	}
 
 	inline Vector3 operator + (const Vector3& v3) const
 	{
-		return Vector3(x+v3.x, y+v3.y, z+v3.z);
+		return Vector3(x + v3.x, y + v3.y, z + v3.z);
 	}
 
 	inline bool operator == (const Vector3& v3) const
 	{
-		return (x==v3.x && y==v3.y && z==v3.z);
+		return (x == v3.x && y == v3.y && z == v3.z);
 	}
 
 	inline bool operator != (const Vector3& v3) const
 	{
-		return (x!=v3.x || y!=v3.y || z!=v3.z);
+		return (x != v3.x || y != v3.y || z != v3.z);
 	}
 
 	inline Vector3& operator += (const Vector3& v3)
 	{
-		x+=v3.x;
-		y+=v3.y;
-		z+=v3.z;
+		x += v3.x;
+		y += v3.y;
+		z += v3.z;
 		return *this;
 	}
 
 	inline Vector3& operator -= (const Vector3& v3)
 	{
-		x-=v3.x;
-		y-=v3.y;
-		z-=v3.z;
+		x -= v3.x;
+		y -= v3.y;
+		z -= v3.z;
 		return *this;
 	}
 
 	inline Vector3& operator *= (float f)
 	{
-		x*=f;
-		y*=f;
-		z*=f;
+		x *= f;
+		y *= f;
+		z *= f;
 		return *this;
 	}
 
 	inline Vector3& operator /= (float f)
 	{
-		x/=f;
-		y/=f;
-		z/=f;
+		x /= f;
+		y /= f;
+		z /= f;
 		return *this;
 	}
 };
@@ -356,116 +356,116 @@ struct Vector4
 
 	Vector4(float fx, float fy, float fz, float fw)
 	{
-		x=fx; y=fy; z=fz; w=fw;
+		x = fx; y = fy; z = fz; w = fw;
 	}
 
 	Vector4(const Vector2& v2, float fz, float fw)
 	{
-		x=v2.x; y=v2.y; z=fz; w=fw;
+		x = v2.x; y = v2.y; z = fz; w = fw;
 	}
 
 	Vector4(const Vector2& v0, const Vector2& v1)
 	{
-		x=v0.x; y=v0.y; z=v1.x; w=v1.y;
+		x = v0.x; y = v0.y; z = v1.x; w = v1.y;
 	}
 
 	Vector4(Vector3 v3, float fw)
 	{
-		x=v3.x; y=v3.y; z=v3.z; w=fw;
+		x = v3.x; y = v3.y; z = v3.z; w = fw;
 	}
 
 	inline Vector4 operator * (float num) const
 	{
-		return Vector4(x*num, y*num, z*num, w*num);
+		return Vector4(x * num, y * num, z * num, w * num);
 	}
 
 	inline Vector4 operator * (const Vector4& v4) const
 	{
-		return Vector4(x*v4.x, y*v4.y, z*v4.z, w*v4.w);
+		return Vector4(x * v4.x, y * v4.y, z * v4.z, w * v4.w);
 	}
 
 	inline Vector4 operator / (float num) const
 	{
-		return Vector4(x/num, y/num, z/num, w/num);
+		return Vector4(x / num, y / num, z / num, w / num);
 	}
 
 	inline Vector4 operator / (const Vector4& v4) const
 	{
-		return Vector4(x/v4.x, y/v4.y, z/v4.z, w/v4.w);
+		return Vector4(x / v4.x, y / v4.y, z / v4.z, w / v4.w);
 	}
 
 	inline Vector4 operator - (float num) const
 	{
-		return Vector4(x-num, y-num, z-num, w-num);
+		return Vector4(x - num, y - num, z - num, w - num);
 	}
 
 	inline Vector4 operator - (const Vector4& v4) const
 	{
-		return Vector4(x-v4.x, y-v4.y, z-v4.z, w-v4.w);
+		return Vector4(x - v4.x, y - v4.y, z - v4.z, w - v4.w);
 	}
 
 	inline Vector4 operator + (float num) const
 	{
-		return Vector4(x+num, y+num, z+num, w+num);
+		return Vector4(x + num, y + num, z + num, w + num);
 	}
 
 	inline Vector4 operator + (const Vector4& v4) const
 	{
-		return Vector4(x+v4.x, y+v4.y, z+v4.z, w+v4.w);
+		return Vector4(x + v4.x, y + v4.y, z + v4.z, w + v4.w);
 	}
 
 	inline bool operator == (const Vector4& v4) const
 	{
-		return (x==v4.x && y==v4.y && z==v4.z && w==v4.w);
+		return (x == v4.x && y == v4.y && z == v4.z && w == v4.w);
 	}
 
 	inline bool operator != (const Vector4& v4) const
 	{
-		return (x!=v4.x || y!=v4.y || z!=v4.z || w!=v4.w);
+		return (x != v4.x || y != v4.y || z != v4.z || w != v4.w);
 	}
 
 	inline Vector4& operator += (const Vector4& v4)
 	{
-		x+=v4.x;
-		y+=v4.y;
-		z+=v4.z;
-		w+=v4.w;
+		x += v4.x;
+		y += v4.y;
+		z += v4.z;
+		w += v4.w;
 		return *this;
 	}
 
 	inline Vector4& operator -= (const Vector4& v4)
 	{
-		x-=v4.x;
-		y-=v4.y;
-		z-=v4.z;
-		w-=v4.w;
+		x -= v4.x;
+		y -= v4.y;
+		z -= v4.z;
+		w -= v4.w;
 		return *this;
 	}
 
 	inline Vector4& operator *= (float f)
 	{
-		x*=f;
-		y*=f;
-		z*=f;
-		w*=f;
+		x *= f;
+		y *= f;
+		z *= f;
+		w *= f;
 		return *this;
 	}
 
 	inline Vector4& operator /= (float f)
 	{
-		x/=f;
-		y/=f;
-		z/=f;
-		w/=f;
+		x /= f;
+		y /= f;
+		z /= f;
+		w /= f;
 		return *this;
 	}
 
 	inline void SetColor(const GS_COLOR& color)
 	{
-		x = (static_cast<float>(color.r)/255.0f);
-		y = (static_cast<float>(color.g)/255.0f);
-		z = (static_cast<float>(color.b)/255.0f);
-		w = (static_cast<float>(color.a)/255.0f);
+		x = (static_cast<float>(color.r) / 255.0f);
+		y = (static_cast<float>(color.g) / 255.0f);
+		z = (static_cast<float>(color.b) / 255.0f);
+		w = (static_cast<float>(color.a) / 255.0f);
 	}
 
 	float x,y,z,w;
@@ -636,37 +636,37 @@ struct Matrix4x4 : public PODMatrix4x4
 inline float GetAngle(const Vector2 &v2)
 {
 	const float r = atan2f(v2.x, v2.y);
-	return (r<0) ? r+(2*constant::PI) : r;
+	return (r < 0) ? r + (2 * constant::PI) : r;
 }
 
 inline float RadianToDegree(const float angle)
 {
-	return (angle/(constant::PI*2))*360.0f;
+	return (angle / (constant::PI * 2)) * 360.0f;
 }
 
 inline float DegreeToRadian(const float angle)
 {
-	return angle*(constant::PI/180.0f);
+	return angle * (constant::PI / 180.0f);
 }
 
 inline float DP2(const Vector2 &a, const Vector2 &b)
 {
-	return ( a.x*b.x + a.y*b.y );
+	return ((a.x * b.x) + (a.y * b.y));
 }
 
 inline float DP3(const Vector3 &a, const Vector3 &b)
 {
-	return ( a.x*b.x + a.y*b.y + a.z*b.z );
+	return ((a.x * b.x) + (a.y * b.y) + (a.z * b.z));
 }
 
 inline float DP4(const Vector4 &a, const Vector4 &b)
 {
-	return ( a.x*b.x + a.y*b.y + a.z*b.z + a.w*b.w);
+	return ((a.x * b.x) + (a.y * b.y) + (a.z * b.z) + (a.w * b.w));
 }
 
 inline Vector3 cross(const Vector3 &v0, const Vector3 &v1)
 {
-	return Vector3((v0.y*v1.z) - (v0.z*v1.y), (v0.z*v1.x) - (v0.x*v1.z), (v0.x*v1.y) - (v0.y*v1.x));
+	return Vector3((v0.y * v1.z) - (v0.z * v1.y), (v0.z * v1.x) - (v0.x * v1.z), (v0.x * v1.y) - (v0.y * v1.x));
 }
 
 inline Vector3 Normalize(const Vector3 &v0)
@@ -674,7 +674,7 @@ inline Vector3 Normalize(const Vector3 &v0)
 	const float a = sqrtf(DP3(v0, v0));
 	if (a <= 0.0f)
 		return Vector3(0,0,0);
-	return Vector3(v0.x/a, v0.y/a, v0.z/a); 
+	return Vector3(v0.x / a, v0.y / a, v0.z / a);
 }
 
 inline Vector2 Normalize(const Vector2 &v0)
@@ -682,7 +682,7 @@ inline Vector2 Normalize(const Vector2 &v0)
 	const float a = sqrtf(DP2(v0, v0));
 	if (a <= 0.0f)
 		return Vector2(0,0);
-	return Vector2(v0.x/a, v0.y/a); 
+	return Vector2(v0.x / a, v0.y / a);
 }
 
 inline float SquaredDistance(const Vector3 &P0, const Vector3 &P1)
