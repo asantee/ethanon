@@ -23,14 +23,14 @@
 #include "ETHScriptWrapper.h"
 #include <math.h>
 
-float ETHScriptWrapper::Math::Length(const Vector3 &v)
+float ETHScriptWrapper::Math::Length(const Vector3& v)
 {
-	return sqrtf((v.x*v.x) + (v.y*v.y) + (v.z*v.z));
+	return v.Length();
 }
 
-float ETHScriptWrapper::Math::Length(const Vector2 &v)
+float ETHScriptWrapper::Math::Length(const Vector2& v)
 {
-	return sqrtf((v.x*v.x) + (v.y*v.y));
+	return v.Length();
 }
 
 float ETHScriptWrapper::Math::Sign(const float v)
@@ -43,12 +43,12 @@ int ETHScriptWrapper::Math::Sign(const int v)
 	return gs2d::math::Sign(v);
 }
 
-float ETHScriptWrapper::Math::Distance(const Vector2 &a, const Vector2 &b)
+float ETHScriptWrapper::Math::Distance(const Vector2& a, const Vector2& b)
 {
-	return Length(a-b);
+	return Length(a - b);
 }
 
-float ETHScriptWrapper::Math::Distance(const Vector3 &a, const Vector3 &b)
+float ETHScriptWrapper::Math::Distance(const Vector3& a, const Vector3& b)
 {
-	return Length(a-b);
+	return Length(a - b);
 }
