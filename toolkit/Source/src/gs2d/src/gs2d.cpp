@@ -398,10 +398,10 @@ GS2D_API unsigned long ComputeElapsedTime(ApplicationPtr app)
 GS2D_API float ComputeElapsedTimeF(ApplicationPtr app)
 {
 	static float lastTime = 0;
-	const float currentTime = app->GetElapsedTimeF(Application::TU_MILLISECONDS);
-	const float elapsedTime = currentTime-lastTime;
+	const float currentTime = app->GetElapsedTimeF(Application::TU_SECONDS);
+	const float elapsedTime = currentTime - lastTime;
 	lastTime = currentTime;
-	return elapsedTime;
+	return elapsedTime * 1000.0f;
 }
 
 str_type::string Application::GetGlobalExternalStoragePath() const
