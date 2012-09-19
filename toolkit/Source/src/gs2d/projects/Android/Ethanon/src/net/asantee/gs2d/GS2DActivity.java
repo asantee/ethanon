@@ -36,6 +36,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -85,6 +86,12 @@ public class GS2DActivity extends KeyEventListener {
 	protected void onDestroy() {
 		super.onDestroy();
 		mediaStreamListener.release();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu (Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		return false;
 	}
 
 	String retrieveApkPath() {
