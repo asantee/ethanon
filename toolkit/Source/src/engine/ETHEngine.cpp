@@ -188,7 +188,7 @@ void ETHEngine::RenderFrame()
 	m_v2LastCamPos = GetCameraPos();
 
 	// draw sprites, rects, lines and texts
-	DrawTopLayer();
+	DrawTopLayer(GetLastFrameElapsedTime());
 
 	m_backBuffer->EndRendering();
 
@@ -411,7 +411,7 @@ bool ETHEngine::CheckAngelScriptError(const int r, const str_type::string &descr
 	}
 }
 
-void ETHEngine::DrawTopLayer()
+void ETHEngine::DrawTopLayer(const unsigned int lastFrameElapsedTimeMS)
 {
 	const VideoPtr& video = m_provider->GetVideo();
 	// draw sprites, rectangles lines and texts
@@ -423,8 +423,8 @@ void ETHEngine::DrawTopLayer()
 	for (std::list<boost::shared_ptr<ETHPrimitiveDrawer> >::iterator iter = m_primitiveList.begin();
 		iter != m_primitiveList.end();)
 	{
-		(*iter)->Draw(video->GetElapsedTime());
-		if ((*iter)->IsAlive(video->GetElapsedTime()))
+		(*iter)->Draw(lastFrameElapsedTimeMS);
+		if ((*iter)->IsAlive())
 		{
 			++iter;
 		}

@@ -29,8 +29,8 @@
 #include "gs2dGLES2Texture.h"
 
 #include <map>
-#include <ctime>
-#include <boost/timer.hpp>
+#include <sys/time.h>
+
 
 #define _GS2D_GLES2_MAX_MULTI_TEXTURES 2
 
@@ -261,7 +261,7 @@ private:
 		m_fastRenderVS, m_optimalVS, m_modulate1, m_add1;
 	math::Matrix4x4 m_orthoMatrix;
 	float m_fpsRate;
-	boost::timer m_timer;
+	timeval m_lastTime;
 
 	GS_TEXTUREFILTER_MODE m_textureFilterMode;
 
@@ -282,6 +282,11 @@ private:
 			const bool sync, const str_type::string& bitmapFontDefaultPath,
 			const GS_PIXEL_FORMAT pfBB = GSPF_UNKNOWN,
 			const bool maximizable = false);
+
+	#ifndef APPLE_IOS
+		double GetElapsedTimeD(const TIME_UNITY unity = TU_MILLISECONDS) const;
+	#endif
+
 };
 	
 void UnbindFrameBuffer();

@@ -1098,37 +1098,43 @@ void GLES2Video::Message(const str_type::string& text, const GS_MESSAGE_TYPE typ
 #ifndef APPLE_IOS
 float GLES2Video::GetElapsedTimeF(const TIME_UNITY unity) const
 {
-	double elapsedTimeMS = m_timer.elapsed() * 1000.0;
-	switch (unity)
-	{
-	case TU_HOURS:
-		elapsedTimeMS /= 1000.0;
-		elapsedTimeMS /= 60.0;
-		elapsedTimeMS /= 60.0;
-		break;
-	case TU_MINUTES:
-		elapsedTimeMS /= 1000.0;
-		elapsedTimeMS /= 60.0;
-		break;
-	case TU_SECONDS:
-		elapsedTimeMS /= 1000.0;
-		break;
-	case TU_MILLISECONDS:
-	default:
-		break;
-	};
-	return static_cast<float>(elapsedTimeMS);
+	return static_cast<float>(GetElapsedTimeD(unity));
 }
 
 unsigned long GLES2Video::GetElapsedTime(const TIME_UNITY unity) const
 {
-	return static_cast<unsigned long>(GetElapsedTimeF(unity));
+	return static_cast<unsigned long>(GetElapsedTimeD(unity));
+}
+
+double GLES2Video::GetElapsedTimeD(const TIME_UNITY unity) const
+{
+	timeval current;
+	gettimeofday(&current, NULL);
+	const double curr = current.tv_sec    + (current.tv_usec    / 1000000.0);
+	const double last = m_lastTime.tv_sec + (m_lastTime.tv_usec / 1000000.0);
+	double elapsedTimeS = curr - last;
+	switch (unity)
+	{
+	case TU_HOURS:
+		elapsedTimeS /= 60.0;
+		elapsedTimeS /= 60.0;
+		break;
+	case TU_MINUTES:
+		elapsedTimeS /= 60.0;
+		break;
+	case TU_MILLISECONDS:
+		elapsedTimeS *= 1000.0;
+	case TU_SECONDS:
+	default:
+		break;
+	};
+	return elapsedTimeS;
 }
 #endif
 
 void GLES2Video::ResetTimer()
 {
-	m_timer.restart();
+	gettimeofday(&m_lastTime, NULL);
 }
 
 void GLES2Video::Quit()

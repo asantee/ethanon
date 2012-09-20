@@ -25,15 +25,14 @@
 
 ETHTextDrawer::ETHTextDrawer(const ETHResourceProviderPtr& provider, const Vector2 &pos, 
 							 const str_type::string &text, const str_type::string &font,
-							 const GS_DWORD color, const unsigned long time,
-							 const unsigned long startTime, const float scale)
+							 const GS_DWORD color, const unsigned long time, const float scale)
 {
 	this->v2Pos = pos;
 	this->text = text;
 	this->font = font;
 	this->color = color;
-	this->time = time;
-	this->startTime = startTime;
+	this->timeMS = time;
+	this->elapsedTimeMS = 0;
 	this->provider = provider;
 	this->scale = scale;
 }
@@ -46,23 +45,31 @@ ETHTextDrawer::ETHTextDrawer(const ETHResourceProviderPtr& provider, const Vecto
 	this->text = text;
 	this->font = font;
 	this->color = color;
-	this->time = 0;
-	this->startTime = 0;
+	this->timeMS = 0;
+	this->elapsedTimeMS = 0;
 	this->provider = provider;
 	this->scale = scale;
 }
 
-bool ETHTextDrawer::Draw(const unsigned long time)
+bool ETHTextDrawer::Draw(const unsigned long lastFrameElapsedTimeMS)
 {
+	elapsedTimeMS += lastFrameElapsedTimeMS;
 	GS_COLOR color = this->color;
 
-	if (this->time > 0)
+	if (timeMS > 0)
 	{
-		const unsigned int  elapsed = time-this->startTime;
-		const float fade = 1.0f-Clamp((float)elapsed/(float)this->time, 0.0f, 1.0f);
-		color.a = (GS_BYTE)(fade*255.0f);
+		const float fade = 1.0f - Clamp((float)elapsedTimeMS / (float)this->timeMS, 0.0f, 1.0f);
+		color.a = (GS_BYTE)(fade * 255.0f);
 	}
 	return provider->GetVideo()->DrawBitmapText(v2Pos, text, font, color, scale);
+}
+
+bool ETHTextDrawer::IsAlive() const
+{
+	if (elapsedTimeMS > timeMS)
+		return false;
+	else
+		return true;
 }
 
 ETHRectangleDrawer::ETHRectangleDrawer(const ETHResourceProviderPtr& provider, const Vector2& pos, const Vector2& size,
@@ -92,11 +99,16 @@ ETHRectangleDrawer::ETHRectangleDrawer(const ETHResourceProviderPtr& provider,
 	this->provider = provider;
 }
 
-bool ETHRectangleDrawer::Draw(const unsigned long time)
+bool ETHRectangleDrawer::Draw(const unsigned long lastFrameElapsedTimeMS)
 {
-	GS2D_UNUSED_ARGUMENT(time);
+	GS2D_UNUSED_ARGUMENT(lastFrameElapsedTimeMS);
 	provider->GetVideo()->SetSpriteDepth(depth);
 	return provider->GetVideo()->DrawRectangle(v2Pos, v2Size, color0, color1, color2, color3, 0.0f);
+}
+
+bool ETHRectangleDrawer::IsAlive() const
+{
+	return false;
 }
 
 ETHLineDrawer::ETHLineDrawer(const ETHResourceProviderPtr& provider, const Vector2& a, const Vector2& b,
@@ -111,13 +123,18 @@ ETHLineDrawer::ETHLineDrawer(const ETHResourceProviderPtr& provider, const Vecto
 	this->provider = provider;
 }
 
-bool ETHLineDrawer::Draw(const unsigned long time)
+bool ETHLineDrawer::Draw(const unsigned long lastFrameElapsedTimeMS)
 {
-	GS2D_UNUSED_ARGUMENT(time);
+	GS2D_UNUSED_ARGUMENT(lastFrameElapsedTimeMS);
 	VideoPtr video = provider->GetVideo();
 	video->SetSpriteDepth(depth);
 	video->SetLineWidth(width);
 	return video->DrawLine(a, b, colorA, colorB);
+}
+
+bool ETHLineDrawer::IsAlive() const
+{
+	return false;
 }
 
 ETHSpriteDrawer::ETHSpriteDrawer(const ETHResourceProviderPtr& provider, ETHGraphicResourceManagerPtr graphicResources,
@@ -144,9 +161,9 @@ ETHSpriteDrawer::ETHSpriteDrawer(const ETHResourceProviderPtr& provider, ETHGrap
 		this->v2Origin = sprite->GetOrigin();
 }
 
-bool ETHSpriteDrawer::Draw(const unsigned long time)
+bool ETHSpriteDrawer::Draw(const unsigned long lastFrameElapsedTimeMS)
 {
-	GS2D_UNUSED_ARGUMENT(time);
+	GS2D_UNUSED_ARGUMENT(lastFrameElapsedTimeMS);
 	if (sprite)
 	{
 		const Vector2 size(v2Size == Vector2(0,0) ? sprite->GetBitmapSizeF() : v2Size);
@@ -159,4 +176,9 @@ bool ETHSpriteDrawer::Draw(const unsigned long time)
 	{
 		return false;
 	}
+}
+
+bool ETHSpriteDrawer::IsAlive() const
+{
+	return false;
 }

@@ -35,7 +35,7 @@ Vector2 ETHScriptWrapper::ComputeTextBoxSize(const str_type::string &font, const
 void ETHScriptWrapper::DrawText(const Vector2 &v2Pos, const str_type::string &text, const str_type::string &font, const GS_DWORD color, const float scale)
 {
 	m_primitiveList.push_back(boost::shared_ptr<ETHPrimitiveDrawer>(
-		new ETHTextDrawer(m_provider, v2Pos, text, font, color, 0x0, 0x0, scale)));
+		new ETHTextDrawer(m_provider, v2Pos, text, font, color, 0x0, scale)));
 }
 
 void ETHScriptWrapper::LoadSprite(const str_type::string &name)
@@ -140,7 +140,7 @@ void ETHScriptWrapper::DrawShapedZ(const str_type::string &name, const float dep
 void ETHScriptWrapper::DrawFadingText(const Vector2 &v2Pos, const str_type::string &text, const str_type::string &font, const GS_DWORD color, unsigned long time, const float scale)
 {
 	m_primitiveList.push_back(boost::shared_ptr<ETHPrimitiveDrawer>(
-		new ETHTextDrawer(m_provider, v2Pos, text, font, color, time, m_provider->GetVideo()->GetElapsedTime(), scale)));
+		new ETHTextDrawer(m_provider, v2Pos, text, font, color, time, scale)));
 }
 
 void ETHScriptWrapper::AddLight(const Vector3 &v3Pos, const Vector3 &v3Color, const float range, const bool castShadows)

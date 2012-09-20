@@ -29,34 +29,29 @@
 class ETHPrimitiveDrawer
 {
 public:
-	virtual bool Draw(const unsigned long time) = 0;
-	virtual bool IsAlive(const unsigned long time) const = 0;
+	virtual bool Draw(const unsigned long lastFrameElapsedTimeMS) = 0;
+	virtual bool IsAlive() const = 0;
 };
 
 class ETHTextDrawer : public ETHPrimitiveDrawer
 {
 public:
 	ETHTextDrawer(const ETHResourceProviderPtr& provider, const Vector2& pos, const str_type::string& text, const str_type::string& font,
-				 const GS_DWORD color, const unsigned long time, const unsigned long startTime, const float scale);
+				 const GS_DWORD color, const unsigned long time, const float scale);
 
 	ETHTextDrawer(const ETHResourceProviderPtr& provider, const Vector2& pos, const str_type::string& text, const str_type::string& font,
 				 const GS_DWORD color, const float scale);
 
-	bool Draw(const unsigned long time);
-	bool IsAlive(const unsigned long time) const
-	{
-		if (time-startTime > this->time)
-			return false;
-		return true;
-	}
+	bool Draw(const unsigned long lastFrameElapsedTimeMS);
+	bool IsAlive() const;
 
 private:
 	Vector2 v2Pos;
 	str_type::string text;
 	str_type::string font;
 	GS_DWORD color;
-	unsigned long time;
-	unsigned long startTime;
+	unsigned long timeMS;
+	unsigned long elapsedTimeMS;
 	float scale;
 	ETHResourceProviderPtr provider;
 };
@@ -70,12 +65,8 @@ public:
 					  const GS_COLOR& color0, const GS_COLOR& color1, const GS_COLOR& color2, const GS_COLOR& color3,
 					  const float depth = 0.0f);
 
-	bool Draw(const unsigned long time);
-	bool IsAlive(const unsigned long time) const
-	{
-		GS2D_UNUSED_ARGUMENT(time);
-		return false;
-	}
+	bool Draw(const unsigned long lastFrameElapsedTimeMS);
+	bool IsAlive() const;
 
 private:
 	Vector2 v2Pos;
@@ -92,12 +83,8 @@ public:
 	ETHLineDrawer(const ETHResourceProviderPtr& provider, const Vector2& a, const Vector2& b, const GS_COLOR& color0,
 				  const GS_COLOR& color1, const float width, const float depth = 0.0f);
 
-	bool Draw(const unsigned long time);
-	bool IsAlive(const unsigned long time) const
-	{
-		GS2D_UNUSED_ARGUMENT(time);
-		return false;
-	}
+	bool Draw(const unsigned long lastFrameElapsedTimeMS);
+	bool IsAlive() const;
 
 private:
 	Vector2 a, b;
@@ -113,12 +100,8 @@ public:
 					const str_type::string& currentPath, const str_type::string& name, const Vector2& pos,
 					const Vector2& size, const GS_COLOR& color, const float depth, const float angle, const unsigned int frame);
 
-	bool Draw(const unsigned long time);
-	bool IsAlive(const unsigned long time) const
-	{
-		GS2D_UNUSED_ARGUMENT(time);
-		return false;
-	}
+	bool Draw(const unsigned long lastFrameElapsedTimeMS);
+	bool IsAlive() const;
 
 private:
 	Vector2 v2Pos;
