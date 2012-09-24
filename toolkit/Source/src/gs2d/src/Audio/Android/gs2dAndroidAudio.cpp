@@ -65,10 +65,11 @@ bool AndroidAudioContext::CreateAudioDevice(boost::any data)
 	return true;
 }
 
-AudioSamplePtr AndroidAudioContext::LoadSampleFromFile(const str_type::string& fileName, const GS_SAMPLE_TYPE type)
+AudioSamplePtr AndroidAudioContext::LoadSampleFromFile(const str_type::string& fileName, const Platform::FileManagerPtr& fileManager,
+													   const GS_SAMPLE_TYPE type)
 {
 	AudioSamplePtr sample = AudioSamplePtr(new AndroidAudioSample);
-	sample->LoadSampleFromFile(weak_this, fileName, type);
+	sample->LoadSampleFromFile(weak_this, fileName, fileManager, type);
 	return sample;
 }
 
@@ -134,7 +135,7 @@ AndroidAudioSample::~AndroidAudioSample()
 	}
 }
 
-bool AndroidAudioSample::LoadSampleFromFile(AudioWeakPtr audio, const str_type::string& fileName, const GS_SAMPLE_TYPE type)
+bool AndroidAudioSample::LoadSampleFromFile(AudioWeakPtr audio, const str_type::string& fileName, const Platform::FileManagerPtr& fileManager, const GS_SAMPLE_TYPE type)
 {
 	m_audio = static_cast<AndroidAudioContext*>(audio.lock().get());
 	m_fileName = fileName;

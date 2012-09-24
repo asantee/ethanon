@@ -105,7 +105,6 @@ GLES2Video::GLES2Video(const unsigned int width, const unsigned int height,
 	m_quit(false),
 	m_rendering(false),
 	m_logger(Platform::FileLogger::GetLogPath() + VIDEO_LOG_FILE),
-	m_fileManager(fileManager),
 	m_defaultBitmapFontPath(bitmapFontDefaultPath),
 	m_fpsRate(30.0f),
 	m_roundUpPosition(false),
@@ -115,6 +114,8 @@ GLES2Video::GLES2Video(const unsigned int width, const unsigned int height,
 	m_zBuffer(true),
 	m_zWrite(true)
 {
+	m_fileManager = fileManager;
+
 	for (std::size_t t = 0; t < _GS2D_GLES2_MAX_MULTI_TEXTURES; t++)
 	{
 		m_blendModes[t] = GSBM_MODULATE;
@@ -1229,11 +1230,6 @@ bool GLES2Video::IsCursorHidden() const
 const Platform::FileLogger& GLES2Video::GetLogger() const
 {
 	return m_logger;
-}
-
-Platform::FileManagerPtr GLES2Video::GetFileManager() const
-{
-	return m_fileManager;
 }
 
 str_type::string GLES2Video::PullCommands()

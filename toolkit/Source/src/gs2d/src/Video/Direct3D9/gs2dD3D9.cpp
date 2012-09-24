@@ -312,33 +312,35 @@ D3D9Video::D3D9Video(const unsigned int width, const unsigned int height,
 			const GS_PIXEL_FORMAT pfBB,
 			const bool maximizable) :
 	m_videoInfo(new D3D9VideoInfo),
-	m_blendModes(TEXTURE_CHANNELS)
+	m_blendModes(TEXTURE_CHANNELS),
+	m_pDevice(NULL),
+	m_pD3D(NULL),
+	m_rendering(false),
+	m_sync(false),
+	m_windowed(true),
+	m_scissor(Rect2D(0,0,0,0)),
+	m_v2Camera(Vector2(0,0)),
+	m_alphaMode(GSAM_PIXEL),
+	m_textureFilter(GSTM_ALWAYS),
+	m_lineWidth(1.0f),
+	m_nVideoModes(0),
+	m_cursorHidden(false),
+	m_quit(false),
+	m_windowPos(Vector2i(0,0)),
+	m_clamp(true),
+	m_depth(0.0f),
+	m_fpsRate(60.0f),
+	m_roundUpPosition(false),
+	m_maximizable(false)
 {
-	m_pDevice = NULL;
-	m_pD3D = NULL;
-	m_rendering = m_sync = false;
-	m_windowed = true;
-	m_scissor = Rect2D(0,0,0,0);
-	m_v2Camera = Vector2(0,0);
-	m_alphaMode = GSAM_PIXEL;
-	m_textureFilter = GSTM_ALWAYS;
-	m_lineWidth = 1.0f;
-	m_nVideoModes = 0;
-	m_cursorHidden = false;
-	m_quit = false;
-	m_windowPos = Vector2i(0,0);
-	m_clamp = true;
-	m_depth = 0.0f;
-	m_fpsRate = 60.0f;
-	m_roundUpPosition = false;
-	m_maximizable = false;
-	for (unsigned int t=1; t<TEXTURE_CHANNELS; t++)
+	m_fileManager = Platform::FileManagerPtr(new Platform::StdFileManager());
+
+	for (unsigned int t = 1; t < TEXTURE_CHANNELS; t++)
 		m_blendModes[t] = GSBM_MODULATE;
 
+	m_currentChar = '\0';
 	m_wheelDelta = 0;
 	m_inputFocus = false;
-	m_currentChar = '\0';
-
 	StartApplication(width, height, winTitle, windowed, sync, bitmapFontDefaultPath, pfBB, maximizable);
 }
 
@@ -1843,11 +1845,6 @@ void D3D9Video::EnableMediaPlaying(const bool enable)
 void D3D9Video::ResetTimer()
 {
 	m_videoInfo->m_startTime = GetTickCount();
-}
-
-Platform::FileManagerPtr D3D9Video::GetFileManager() const
-{
-	return Platform::FileManagerPtr(new Platform::StdFileManager);
 }
 
 void D3D9Video::Quit()

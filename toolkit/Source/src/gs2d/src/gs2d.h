@@ -175,7 +175,8 @@ public:
 	/// Posts a quit message
 	virtual void Quit() = 0;
 
-	virtual Platform::FileManagerPtr GetFileManager() const = 0;
+	virtual Platform::FileManagerPtr GetFileManager() const;
+	virtual void SetFileManager(const Platform::FileManagerPtr& fileManager);
 
 	virtual str_type::string GetExternalStoragePath() const = 0;
 	virtual str_type::string GetGlobalExternalStoragePath() const;
@@ -186,6 +187,7 @@ public:
 
 protected:
 	ScreenSizeChangeListenerWeakPtr m_screenSizeChangeListener;
+	Platform::FileManagerPtr m_fileManager;
 };
 
 typedef boost::shared_ptr<Application> ApplicationPtr;
@@ -195,7 +197,7 @@ typedef boost::weak_ptr<Application> ApplicationWeakPtr;
  * \brief Abstracts all window related methods
  *
  * This class contains methods that will handle window
- * taks, such as positioning and title.
+ * tasks, such as positioning and title.
  */
 class Window
 {

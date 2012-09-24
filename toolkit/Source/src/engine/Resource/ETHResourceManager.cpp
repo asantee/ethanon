@@ -146,6 +146,11 @@ void ETHGraphicResourceManager::RemoveResource(const str_type::string &file)
 	}
 }
 
+ETHAudioResourceManager::ETHAudioResourceManager(const Platform::FileManagerPtr& fileManager) :
+	m_fileManager(fileManager)
+{
+}
+
 void ETHAudioResourceManager::ReleaseResources()
 {
 	ReleaseAllButMusic();
@@ -206,7 +211,7 @@ AudioSamplePtr ETHAudioResourceManager::AddFile(AudioPtr audio, const str_type::
 	AudioSamplePtr pSample;
 	str_type::string fixedName(path);
 	Platform::FixSlashes(fixedName);
-	if (!(pSample = audio->LoadSampleFromFile(fixedName, type)))
+	if (!(pSample = audio->LoadSampleFromFile(fixedName, m_fileManager, type)))
 	{
 		pSample.reset();
 		ETH_STREAM_DECL(ss) << GS_L("(Not loaded) \"") << fixedName << GS_L("\"");

@@ -132,7 +132,8 @@ int main(const int argc, const char* argv[])
 	InputPtr input;
 	AudioPtr audio;
 
-	const ETHAppEnmlFile app(resourcePath + L"editor.enml", Platform::FileManagerPtr(new Platform::StdFileManager), GS_L(""));
+	Platform::FileManagerPtr fileManager = Platform::FileManagerPtr(new Platform::StdFileManager);
+	const ETHAppEnmlFile app(resourcePath + L"editor.enml", fileManager, GS_L(""));
 	Vector2i v2Backbuffer(app.GetWidth(), app.GetHeight());
 
 	if ((video = CreateVideo(v2Backbuffer.x, v2Backbuffer.y, app.GetTitle(), app.IsWindowed(), app.IsVsyncEnabled(),
@@ -153,7 +154,7 @@ int main(const int argc, const char* argv[])
 
 		ETHResourceProviderPtr provider = ETHResourceProviderPtr(new ETHResourceProvider(
 			ETHGraphicResourceManagerPtr(new ETHGraphicResourceManager(ETHSpriteDensityManager())),
-			ETHAudioResourceManagerPtr(new ETHAudioResourceManager()),
+			ETHAudioResourceManagerPtr(new ETHAudioResourceManager(fileManager)),
 			ETHShaderManagerPtr(new ETHShaderManager(video, resourcePath + ETHDirectories::GetShaderPath(), true)),
 			GS_L(""),
 			video, audio, input));

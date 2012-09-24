@@ -56,10 +56,10 @@ boost::shared_ptr<AudiereContext> AudiereContext::Create(boost::any data)
 	}
 }
 
-AudioSamplePtr AudiereContext::LoadSampleFromFile(const std::wstring& fileName, const GS_SAMPLE_TYPE type)
+AudioSamplePtr AudiereContext::LoadSampleFromFile(const std::wstring& fileName, const Platform::FileManagerPtr& fileManager, const GS_SAMPLE_TYPE type)
 {
 	AudioSamplePtr audio = AudioSamplePtr(new AudiereSample);
-	if (!audio->LoadSampleFromFile(weak_this, fileName, type))
+	if (!audio->LoadSampleFromFile(weak_this, fileName, fileManager, type))
 	{
 		return AudioSamplePtr();
 	}
@@ -119,51 +119,26 @@ AudiereSample::~AudiereSample()
 	}
 }
 
-bool AudiereSample::LoadSampleFromFile(AudioWeakPtr audio, const std::wstring& fileName, const GS_SAMPLE_TYPE type)
+bool AudiereSample::LoadSampleFromFile(AudioWeakPtr audio, const std::wstring& fileName,
+									   const Platform::FileManagerPtr& fileManager, const GS_SAMPLE_TYPE type)
 {
-	m_audio = audio;
-	m_type = type;
+	Platform::FileBuffer out;
+	fileManager->GetFileBuffer(fileName, out);
+	bool r = false;
 
-	bool stream;
-	switch (m_type)
+	if (out)
 	{
-	case GSST_MUSIC:
-	case GSST_AMBIENT_SFX:
-	case GSST_SOUNDTRACK:
-		stream = true;
-		break;
-	case GSST_SOUND_EFFECT:
-	case GSST_UNKNOWN:
-	default:
-		stream = false;
-		break;
-	};
-
-	audiere::AudioDevicePtr device;
-	try
-	{
-		device = boost::any_cast<audiere::AudioDevicePtr>(m_audio.lock()->GetAudioContext());
-	}
-	catch (const boost::bad_any_cast &)
-	{
-		std::wstringstream ss;
-		ss << L"Invalid device in context: " << fileName;
-		ShowMessage(ss);
-		return false;
+		r = LoadSampleFromFileInMemory(audio, out->GetAddress(), out->GetBufferSize(), type);
 	}
 
-	m_output = audiere::OpenSound(device, fileName.c_str(), stream);
-
-	if (!m_output)
+	if (!r)
 	{
 		std::wstringstream ss;
 		ss << L"Failed while loading the file: " << fileName;
 		ShowMessage(ss);
 		return false;
 	}
-
-	SetVolume(1.0f);
-	return true;
+	return r;
 }
 
 bool AudiereSample::LoadSampleFromFileInMemory(AudioWeakPtr audio, void *pBuffer, const unsigned int bufferLength, const GS_SAMPLE_TYPE type)
@@ -193,9 +168,6 @@ bool AudiereSample::LoadSampleFromFileInMemory(AudioWeakPtr audio, void *pBuffer
 	}
 	catch (const boost::bad_any_cast &)
 	{
-		std::wstringstream ss;
-		ss << L"Invalid device in context: " << L"buffer";
-		ShowMessage(ss);
 		return false;
 	}
 
@@ -204,14 +176,13 @@ bool AudiereSample::LoadSampleFromFileInMemory(AudioWeakPtr audio, void *pBuffer
 
 	if (!m_output)
 	{
-		std::wstringstream ss;
-		ss << L"Failed while loading the buffer";
-		ShowMessage(ss);
 		return false;
 	}
-
-	SetVolume(1.0f);
-	return true;
+	else
+	{
+		SetVolume(1.0f);
+		return true;
+	}
 }
 
 GS_SAMPLE_TYPE AudiereSample::GetType() const

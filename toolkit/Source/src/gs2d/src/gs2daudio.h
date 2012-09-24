@@ -23,7 +23,7 @@
 #ifndef GS2D_AUDIO_H_
 #define GS2D_AUDIO_H_
 
-#include "gs2dtypes.h"
+#include "Platform/FileManager.h"
 
 namespace gs2d {
 
@@ -64,7 +64,7 @@ class Audio
 
 	virtual bool CreateAudioDevice(boost::any data) = 0;
 public:
-	virtual AudioSamplePtr LoadSampleFromFile(const str_type::string& fileName, const GS_SAMPLE_TYPE type = GSST_UNKNOWN) = 0;
+	virtual AudioSamplePtr LoadSampleFromFile(const str_type::string& fileName, const Platform::FileManagerPtr& fileManager, const GS_SAMPLE_TYPE type = GSST_UNKNOWN) = 0;
 	virtual AudioSamplePtr LoadSampleFromFileInMemory(void *pBuffer, const unsigned int bufferLength, const GS_SAMPLE_TYPE type = GSST_UNKNOWN) = 0;
 	virtual boost::any GetAudioContext() = 0;
 	virtual void SetGlobalVolume(const float volume) = 0;
@@ -79,7 +79,7 @@ public:
 class AudioSample
 {
 public:
-	virtual bool LoadSampleFromFile(AudioWeakPtr audio, const str_type::string& fileName, const GS_SAMPLE_TYPE type = GSST_UNKNOWN) = 0;
+	virtual bool LoadSampleFromFile(AudioWeakPtr audio, const str_type::string& fileName, const Platform::FileManagerPtr& fileManager, const GS_SAMPLE_TYPE type = GSST_UNKNOWN) = 0;
 	virtual bool LoadSampleFromFileInMemory(AudioWeakPtr audio, void *pBuffer, const unsigned int bufferLength, const GS_SAMPLE_TYPE type = GSST_UNKNOWN) = 0;
 
 	virtual bool SetLoop(const bool enable) = 0;

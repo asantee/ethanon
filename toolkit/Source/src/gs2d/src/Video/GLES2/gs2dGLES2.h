@@ -216,7 +216,6 @@ public:
 	bool HideCursor(const bool hide);
 	bool IsCursorHidden() const;
 	const Platform::FileLogger& GetLogger() const;
-	Platform::FileManagerPtr GetFileManager() const;
 
 	void ForwardCommand(const str_type::string& cmd);
 	str_type::string PullCommands();
@@ -255,7 +254,6 @@ private:
 	bool m_zBuffer;
 	bool m_blend;
 	Platform::FileLogger m_logger;
-	Platform::FileManagerPtr m_fileManager;
 	GLES2ShaderContextPtr m_shaderContext;
 	GLES2ShaderPtr m_defaultVS, m_defaultPS,
 		m_fastRenderVS, m_optimalVS, m_modulate1, m_add1;

@@ -80,78 +80,33 @@ bool D3D9Texture::CreateRenderTarget(VideoWeakPtr video, const unsigned int widt
 	return true;
 }
 
-bool D3D9Texture::LoadTexture(
-	VideoWeakPtr video,
-	const std::wstring& fileName, GS_COLOR mask,
-		const unsigned int width, const unsigned int height,
-		const unsigned int nMipMaps
-)
+bool D3D9Texture::LoadTexture(VideoWeakPtr video, const std::wstring& fileName, GS_COLOR mask,
+							  const unsigned int width, const unsigned int height, const unsigned int nMipMaps)
 {
-	m_video = video;
-	GetInternalData();
-	IDirect3DTexture9 *pTexture = NULL;
+	Platform::FileManagerPtr fileManager = video.lock()->GetFileManager();
 
-	m_profile.mask = mask;
-	m_profile.nMipMaps = nMipMaps;
-	m_texType = TT_STATIC;
+	Platform::FileBuffer out;
+	fileManager->GetFileBuffer(fileName, out);
+	bool r = false;
 
-	if (m_texType == TT_STATIC)
+	if (out)
 	{
-		D3DXIMAGE_INFO imageInfo;
-		HRESULT hr;
-		{
-			hr = D3DXCreateTextureFromFileEx(
-				m_pDevice,
-				fileName.c_str(),
-				(width) ? width : D3DX_DEFAULT_NONPOW2,
-				(height) ? height : D3DX_DEFAULT_NONPOW2,
-				(nMipMaps == FULL_MIPMAP_CHAIN) ? D3DX_DEFAULT : Max(nMipMaps, static_cast<unsigned int>(1)),
-				0,
-				D3DFMT_UNKNOWN,
-				D3DPOOL_MANAGED,
-				D3DX_DEFAULT,
-				D3DX_DEFAULT,
-				mask.color,
-				&imageInfo,
-				NULL,
-				&pTexture
-			);
-		}
-		if (FAILED(hr))
-		{
-			std::wstringstream ss;
-			ss << L"D3D9Texture::LoadTextureFromFile:\nCannot find and/or create the texture from a bitmap.\n";
-			{
-				ss << fileName << std::endl;
-			}
-			ShowMessage(ss, GSMT_ERROR);
-			return false;
-		}
-		if (width == 0 && height == 0)
-		{
-			m_profile.width = imageInfo.Width;
-			m_profile.height = imageInfo.Height;
-		}
-		else
-		{
-			m_profile.width = width;
-			m_profile.height = height;
-		}
-		m_profile.originalWidth = imageInfo.Width;
-		m_profile.originalHeight = imageInfo.Height;
+		r = LoadTexture(video, out->GetAddress(), mask, width, height, nMipMaps, out->GetBufferSize());
 	}
-	m_pTexture = pTexture;
-
-	return true;
+	
+	if (!r)
+	{
+		std::wstringstream ss;
+		ss << L"D3D9Texture::LoadTextureFromFile:\nCannot find and/or create the texture from a bitmap: ";
+		ss << fileName << std::endl;
+		ShowMessage(ss, GSMT_ERROR);
+	}
+	return r;
 }
 
-bool D3D9Texture::LoadTexture(
-	VideoWeakPtr video,
-	const void * pBuffer, GS_COLOR mask,
-		const unsigned int width, const unsigned int height,
-		const unsigned int nMipMaps,
-		const unsigned int bufferLength
-)
+bool D3D9Texture::LoadTexture(VideoWeakPtr video, const void *pBuffer, GS_COLOR mask,
+							  const unsigned int width, const unsigned int height,
+							  const unsigned int nMipMaps, const unsigned int bufferLength)
 {
 	m_video = video;
 	GetInternalData();
@@ -165,30 +120,26 @@ bool D3D9Texture::LoadTexture(
 	{
 		D3DXIMAGE_INFO imageInfo;
 		HRESULT hr;
-		{
-			hr = D3DXCreateTextureFromFileInMemoryEx(
-				m_pDevice,
-				pBuffer,
-				bufferLength,
-				(width) ? width : D3DX_DEFAULT_NONPOW2,
-				(height) ? height : D3DX_DEFAULT_NONPOW2,
-				(nMipMaps == FULL_MIPMAP_CHAIN) ? D3DX_DEFAULT : Max(nMipMaps, static_cast<unsigned int>(1)),
-				0,
-				D3DFMT_UNKNOWN,
-				D3DPOOL_MANAGED,
-				D3DX_DEFAULT,
-				D3DX_DEFAULT,
-				mask.color,
-				&imageInfo,
-				NULL,
-				&pTexture
-			);
-		}
+		hr = D3DXCreateTextureFromFileInMemoryEx(
+			m_pDevice,
+			pBuffer,
+			bufferLength,
+			(width) ? width : D3DX_DEFAULT_NONPOW2,
+			(height) ? height : D3DX_DEFAULT_NONPOW2,
+			(nMipMaps == FULL_MIPMAP_CHAIN) ? D3DX_DEFAULT : Max(nMipMaps, static_cast<unsigned int>(1)),
+			0,
+			D3DFMT_UNKNOWN,
+			D3DPOOL_MANAGED,
+			D3DX_DEFAULT,
+			D3DX_DEFAULT,
+			mask.color,
+			&imageInfo,
+			NULL,
+			&pTexture
+		);
+
 		if (FAILED(hr))
 		{
-			std::wstringstream ss;
-			ss << L"D3D9Texture::LoadTextureFromFile:\nCannot find and/or create the texture from a bitmap.\n";
-			ShowMessage(ss, GSMT_ERROR);
 			return false;
 		}
 		if (width == 0 && height == 0)

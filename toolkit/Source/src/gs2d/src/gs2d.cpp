@@ -414,4 +414,14 @@ void Application::SetScreenSizeChangeListener(const ScreenSizeChangeListenerPtr&
 	m_screenSizeChangeListener = listener;
 }
 
+Platform::FileManagerPtr Application::GetFileManager() const
+{
+	return m_fileManager;
+}
+
+void Application::SetFileManager(const Platform::FileManagerPtr& fileManager)
+{
+	m_fileManager = fileManager;
+}
+
 } // namespace gs2d

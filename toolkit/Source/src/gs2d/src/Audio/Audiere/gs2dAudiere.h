@@ -42,7 +42,7 @@ class AudiereContext : public Audio
 public:
 	static boost::shared_ptr<AudiereContext> Create(boost::any data);
 
-	AudioSamplePtr LoadSampleFromFile(const std::wstring& fileName, const GS_SAMPLE_TYPE type = GSST_UNKNOWN);
+	AudioSamplePtr LoadSampleFromFile(const std::wstring& fileName, const Platform::FileManagerPtr& fileManager, const GS_SAMPLE_TYPE type = GSST_UNKNOWN);
 	AudioSamplePtr LoadSampleFromFileInMemory(void *pBuffer, const unsigned int bufferLength, const GS_SAMPLE_TYPE type = GSST_UNKNOWN);
 
 	void SetGlobalVolume(const float volume);
@@ -63,7 +63,7 @@ class AudiereSample : public AudioSample
 	GS_SAMPLE_TYPE m_type;
 	AudioWeakPtr m_audio;
 
-	bool LoadSampleFromFile(AudioWeakPtr audio, const std::wstring& fileName, const GS_SAMPLE_TYPE type = GSST_UNKNOWN);
+	bool LoadSampleFromFile(AudioWeakPtr audio, const std::wstring& fileName, const Platform::FileManagerPtr& fileManager, const GS_SAMPLE_TYPE type = GSST_UNKNOWN);
 	bool LoadSampleFromFileInMemory(AudioWeakPtr audio, void *pBuffer, const unsigned int bufferLength, const GS_SAMPLE_TYPE type = GSST_UNKNOWN);
 
 public:

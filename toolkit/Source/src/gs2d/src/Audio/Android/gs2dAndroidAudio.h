@@ -45,7 +45,7 @@ public:
 
 	static bool IsStreamable(const GS_SAMPLE_TYPE type);
 
-	AudioSamplePtr LoadSampleFromFile(const str_type::string& fileName, const GS_SAMPLE_TYPE type = GSST_UNKNOWN);
+	AudioSamplePtr LoadSampleFromFile(const str_type::string& fileName, const Platform::FileManagerPtr& fileManager, const GS_SAMPLE_TYPE type = GSST_UNKNOWN);
 	AudioSamplePtr LoadSampleFromFileInMemory(void *pBuffer, const unsigned int bufferLength, const GS_SAMPLE_TYPE type = GSST_UNKNOWN);
 	boost::any GetAudioContext();
 
@@ -70,7 +70,7 @@ public:
 	AndroidAudioSample();
 	~AndroidAudioSample();
 
-	bool LoadSampleFromFile(AudioWeakPtr audio, const str_type::string& fileName, const GS_SAMPLE_TYPE type = GSST_UNKNOWN);
+	bool LoadSampleFromFile(AudioWeakPtr audio, const str_type::string& fileName, const Platform::FileManagerPtr& fileManager, const GS_SAMPLE_TYPE type = GSST_UNKNOWN);
 	bool LoadSampleFromFileInMemory(AudioWeakPtr audio, void *pBuffer, const unsigned int bufferLength, const GS_SAMPLE_TYPE type = GSST_UNKNOWN);
 
 	bool SetLoop(const bool enable);

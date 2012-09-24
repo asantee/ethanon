@@ -497,7 +497,6 @@ public:
 	unsigned long GetElapsedTime(const TIME_UNITY unity = TU_MILLISECONDS) const;
 	float GetElapsedTimeF(const TIME_UNITY unity = TU_MILLISECONDS) const;
 	void ResetTimer();
-	Platform::FileManagerPtr GetFileManager() const;
 
 	// Window method implementations:
 	void EnableQuitShortcuts(const bool enable);

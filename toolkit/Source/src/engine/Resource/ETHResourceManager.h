@@ -62,8 +62,8 @@ typedef boost::shared_ptr<ETHGraphicResourceManager> ETHGraphicResourceManagerPt
 
 class ETHAudioResourceManager
 {
-	void ReleaseAllButMusic();
 public:
+	ETHAudioResourceManager(const Platform::FileManagerPtr& fileManager);
 	AudioSamplePtr GetPointer(AudioPtr audio, const str_type::string &fileRelativePath,
 						  const str_type::string &programPath, const str_type::string &alternative, const GS_SAMPLE_TYPE type);
 	AudioSamplePtr AddFile(AudioPtr audio, const str_type::string &path, const GS_SAMPLE_TYPE type);
@@ -72,7 +72,9 @@ public:
 	void ReleaseResources();
 
 private:
+	Platform::FileManagerPtr m_fileManager;
 	std::map<str_type::string, AudioSamplePtr> m_resource;
+	void ReleaseAllButMusic();
 };
 
 typedef boost::shared_ptr<ETHAudioResourceManager> ETHAudioResourceManagerPtr;

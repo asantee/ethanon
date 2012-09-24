@@ -74,7 +74,7 @@ void ParticleEditor::LoadSoundFX(const char *path, const char *file)
 {
 	string programPath = GetCurrentProjectPath(false);
 	ETHGlobal::CopyFileToProject(utf8::c(programPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetSoundFXPath(), m_provider->GetVideo()->GetFileManager());
-	m_manager->SetSoundEffect(m_provider->GetAudio()->LoadSampleFromFile(utf8::c(path).wc_str(), GSST_SOUND_EFFECT));
+	m_manager->SetSoundEffect(m_provider->GetAudio()->LoadSampleFromFile(utf8::c(path).wc_str(), m_provider->GetVideo()->GetFileManager(), GSST_SOUND_EFFECT));
 	m_system.soundFXFile = utf8::c(file).wstr();
 	m_manager->SetSystem(m_system);
 }
