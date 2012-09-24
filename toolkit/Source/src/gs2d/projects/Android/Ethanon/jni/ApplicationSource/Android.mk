@@ -28,7 +28,7 @@ LOCAL_SRC_FILES := \
 	../../../../../src/Platform/android/main.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/Platform.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/android/Platform.android.cpp \
-	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/android/ZipFileManager.cpp \
+	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/ZipFileManager.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/../../soil/SOIL.c \
 	$(ENGINE_VENDORS_PATH)/tinyxml_ansi/tinyxml.cpp \
 	$(ENGINE_VENDORS_PATH)/tinyxml_ansi/tinystr.cpp \

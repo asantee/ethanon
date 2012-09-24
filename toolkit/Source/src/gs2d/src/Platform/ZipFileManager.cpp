@@ -21,7 +21,17 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ZipFileManager.h"
-#include "AndroidLog.h"
+
+#ifdef ANDROID
+	#include "android/AndroidLog.h"
+#else
+	#include <iostream>
+#endif
+
+#ifdef GS2D_STR_TYPE_WCHAR
+	#define UNSAFE_UTF8_ALLOWED
+	#include <unicode/utf8converter.h>
+#endif
 
 using namespace gs2d;
 
@@ -29,10 +39,18 @@ namespace Platform {
 
 ZipFileManager::ZipFileManager(const str_type::char_t *filePath)
 {
-	m_archive = zip_open(filePath, 0, NULL);
+	#ifdef GS2D_STR_TYPE_WCHAR
+		m_archive = zip_open(utf8::converter(filePath).c_str(), 0, NULL);
+	#else
+		m_archive = zip_open(filePath, 0, NULL);
+	#endif
 	if (m_archive == NULL)
 	{
-		LOGE("Error loading APK");
+		#ifdef ANDROID
+			LOGE("Error loading APK");
+		#else
+			std::cerr << "Error loading APK" << std::endl;
+		#endif
 	}
 }
 
@@ -51,15 +69,23 @@ bool ZipFileManager::GetFileBuffer(const str_type::string &fileName, FileBuffer 
 	if (!IsLoaded())
 		return false;
 
-	zip_file *file = zip_fopen(m_archive, fileName.c_str(), 0);
+	#ifdef GS2D_STR_TYPE_WCHAR
+		zip_file *file = zip_fopen(m_archive, utf8::converter(fileName).c_str(), 0);
+	#else
+		zip_file *file = zip_fopen(m_archive, fileName.c_str(), 0);
+	#endif
 
 	if (file == NULL)
 		return false;
 
 	struct zip_stat stat;
-	zip_stat(m_archive, fileName.c_str(), 0, &stat);
+	#ifdef GS2D_STR_TYPE_WCHAR
+		zip_stat(m_archive, utf8::converter(fileName).c_str(), 0, &stat);
+	#else
+		zip_stat(m_archive, fileName.c_str(), 0, &stat);
+	#endif
 
-	out = FileBuffer(new _FileBuffer<unsigned char>(stat.size));
+	out = FileBuffer(new _FileBuffer<unsigned char>(static_cast<unsigned long>(stat.size)));
 	zip_fread(file, out->GetAddress(), stat.size);
 
 	zip_fclose(file);
@@ -74,7 +100,7 @@ bool ZipFileManager::GetAnsiFileString(const str_type::string &fileName, str_typ
 		// TODO optimize it
 		str_type::stringstream ss;
 		const unsigned char *adr = buffer->GetAddress();
-		for (int t=0; t<buffer->GetBufferSize(); t++)
+		for (unsigned long t = 0; t < buffer->GetBufferSize(); t++)
 		{
 			const char c = static_cast<char>(adr[t]);
 			if (c != 0x0D) // remove all carriage return
@@ -97,7 +123,7 @@ bool ZipFileManager::GetUTF8BOMFileString(const str_type::string &fileName, str_
 		// TODO optimize it
 		str_type::stringstream ss;
 		const unsigned char *adr = buffer->GetAddress();
-		for (int t=3; t<buffer->GetBufferSize(); t++)
+		for (unsigned long t = 3; t < buffer->GetBufferSize(); t++)
 		{
 			ss << adr[t];
 		}
@@ -118,7 +144,7 @@ bool ZipFileManager::GetUTF16FileString(const str_type::string &fileName, str_ty
 		// TODO/TO-DO: handle big-endian encoding too
 		str_type::stringstream ss;
 		const unsigned char *adr = utf16Buffer->GetAddress();
-		for (int t = 2; t < utf16Buffer->GetBufferSize(); t += 2)
+		for (unsigned long t = 2; t < utf16Buffer->GetBufferSize(); t += 2)
 		{
 			ss << adr[t];
 		}
@@ -129,7 +155,6 @@ bool ZipFileManager::GetUTF16FileString(const str_type::string &fileName, str_ty
 	{
 		return false;
 	}
-	return true;
 }
 
 bool ZipFileManager::FileExists(const gs2d::str_type::string& fileName) const
@@ -137,7 +162,11 @@ bool ZipFileManager::FileExists(const gs2d::str_type::string& fileName) const
 	if (!IsLoaded())
 		return false;
 
-	zip_file *file = zip_fopen(m_archive, fileName.c_str(), 0);
+	#ifdef GS2D_STR_TYPE_WCHAR
+		zip_file *file = zip_fopen(m_archive, utf8::converter(fileName).c_str(), 0);
+	#else
+		zip_file *file = zip_fopen(m_archive, fileName.c_str(), 0);
+	#endif
 
 	if (file != NULL)
 	{

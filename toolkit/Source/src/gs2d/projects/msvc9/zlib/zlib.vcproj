@@ -2,10 +2,10 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="Platform"
-	ProjectGUID="{160FC7FC-3E05-4678-AE17-949DBDBB9BAA}"
-	RootNamespace="Platform"
-	Keyword="Win32Proj"
+	Name="zlib"
+	ProjectGUID="{004CBCF5-9647-42A4-AE2A-42E44C7D63AA}"
+	RootNamespace="zlib"
+	Keyword="ManagedCProj"
 	TargetFrameworkVersion="196613"
 	>
 	<Platforms>
@@ -18,10 +18,11 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\..\lib\"
+			OutputDirectory="$(SolutionDir)#bin#\$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
 			CharacterSet="1"
+			ManagedExtensions="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -41,14 +42,10 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\vendors\libzip_msvc;..\..\..\vendors\BoostSDK;..\..\..\src\"
-				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;_PLATFORM_EXPORT"
-				MinimalRebuild="true"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
-				UsePrecompiledHeader="0"
-				WarningLevel="4"
-				DebugInformationFormat="4"
+				PreprocessorDefinitions="WIN32;_DEBUG"
+				RuntimeLibrary="3"
+				WarningLevel="3"
+				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -61,7 +58,6 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)\$(ProjectName)_d.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -81,10 +77,11 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\..\lib\"
+			OutputDirectory="$(SolutionDir)#bin#\$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
 			CharacterSet="1"
+			ManagedExtensions="0"
 			WholeProgramOptimization="1"
 			>
 			<Tool
@@ -104,14 +101,9 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
-				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="..\..\..\vendors\libzip_msvc;..\..\..\vendors\BoostSDK;..\..\..\src\"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;_PLATFORM_EXPORT"
-				RuntimeLibrary="0"
-				EnableFunctionLevelLinking="true"
-				UsePrecompiledHeader="0"
-				WarningLevel="4"
+				PreprocessorDefinitions="WIN32;NDEBUG"
+				RuntimeLibrary="2"
+				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -147,71 +139,101 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Implementations"
+			Name="Source Files"
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\..\src\Platform\FileManager.cpp"
+				RelativePath="..\..\..\vendors\zlib_msvc\adler32.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\Platform\FileManager.h"
+				RelativePath="..\..\..\vendors\zlib_msvc\compress.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\Platform\StdFileManager.cpp"
+				RelativePath="..\..\..\vendors\zlib_msvc\crc32.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\Platform\StdFileManager.h"
+				RelativePath="..\..\..\vendors\zlib_msvc\deflate.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\Platform\ZipFileManager.cpp"
+				RelativePath="..\..\..\vendors\zlib_msvc\infback.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\Platform\ZipFileManager.h"
+				RelativePath="..\..\..\vendors\zlib_msvc\inffast.c"
 				>
 			</File>
-			<Filter
-				Name="Win32"
+			<File
+				RelativePath="..\..\..\vendors\zlib_msvc\inflate.c"
 				>
-				<File
-					RelativePath="..\..\..\src\Platform\windows\Platform.windows.cpp"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="Abstract"
+			</File>
+			<File
+				RelativePath="..\..\..\vendors\zlib_msvc\inftrees.c"
 				>
-				<File
-					RelativePath="..\..\..\src\Platform\abstract\Platform.abstract.cpp"
-					>
-				</File>
-			</Filter>
+			</File>
+			<File
+				RelativePath="..\..\..\vendors\zlib_msvc\trees.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\vendors\zlib_msvc\uncompr.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\vendors\zlib_msvc\zutil.c"
+				>
+			</File>
 		</Filter>
-		<File
-			RelativePath="..\..\..\src\Platform\FileLogger.cpp"
+		<Filter
+			Name="Header Files"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-		</File>
-		<File
-			RelativePath="..\..\..\src\Platform\FileLogger.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\..\src\Platform\Logger.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\..\src\Platform\Platform.cpp"
-			>
-		</File>
-		<File
-			RelativePath="..\..\..\src\Platform\Platform.h"
-			>
-		</File>
+			<File
+				RelativePath="..\..\..\vendors\zlib_msvc\crc32.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\vendors\zlib_msvc\deflate.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\vendors\zlib_msvc\inffast.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\vendors\zlib_msvc\inffixed.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\vendors\zlib_msvc\inflate.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\vendors\zlib_msvc\inftrees.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\vendors\zlib_msvc\trees.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\vendors\zlib_msvc\zconf.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\vendors\zlib_msvc\zlib.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\vendors\zlib_msvc\zutil.h"
+				>
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>

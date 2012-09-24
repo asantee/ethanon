@@ -64,7 +64,7 @@ bool StdFileManager::GetUTF8BOMFileString(const str_type::string &fileName, str_
 		// TODO optimize it
 		str_type::stringstream ss;
 		unsigned char *adr = buffer->GetAddress();
-		for (int t=3; t<buffer->GetBufferSize(); t++)
+		for (unsigned long t = 3; t < buffer->GetBufferSize(); t++)
 		{
 			ss << static_cast<char>(adr[t]);
 		}
@@ -85,7 +85,7 @@ bool StdFileManager::GetAnsiFileString(const str_type::string &fileName, str_typ
 		// TODO optimize it
 		str_type::stringstream ss;
 		unsigned char *adr = buffer->GetAddress();
-		for (int t=0; t<buffer->GetBufferSize(); t++)
+		for (unsigned long t = 0; t < buffer->GetBufferSize(); t++)
 		{
 			const char c = static_cast<char>(adr[t]);
 			if (c != 0x0D) // remove all carriage return

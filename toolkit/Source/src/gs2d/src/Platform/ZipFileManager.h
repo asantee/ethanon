@@ -24,7 +24,7 @@
 #define ZIP_FILE_MANAGER_H_
 
 #include <zip.h>
-#include "../FileManager.h"
+#include "FileManager.h"
 
 namespace Platform {
 

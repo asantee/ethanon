@@ -30,18 +30,18 @@ namespace Platform {
 template <class T> class _FileBuffer
 {
 public:
-    _FileBuffer(const int size);
+    _FileBuffer(const unsigned long size);
     ~_FileBuffer();
-    int GetBufferSize();
+    unsigned long GetBufferSize();
     T *GetAddress();
 private:
     T *m_buffer;
-    int m_bufferSize;
+    unsigned long m_bufferSize;
 };
 typedef boost::shared_ptr<_FileBuffer<unsigned char> > FileBuffer;
 
 template <class T>
-_FileBuffer<T>::_FileBuffer(const int size)
+_FileBuffer<T>::_FileBuffer(const unsigned long size)
 {
     assert(sizeof(T) == 1);
     m_buffer = NULL;
@@ -60,7 +60,7 @@ _FileBuffer<T>::~_FileBuffer()
 }
 
 template <class T>
-int _FileBuffer<T>::GetBufferSize()
+unsigned long _FileBuffer<T>::GetBufferSize()
 {
     return m_bufferSize;
 }
