@@ -23,23 +23,25 @@
 #ifndef ZIP_FILE_MANAGER_H_
 #define ZIP_FILE_MANAGER_H_
 
-#include <zip.h>
 #include "FileManager.h"
+
+struct zip;
 
 namespace Platform {
 
 class ZipFileManager : public FileManager
 {
 public:
-	ZipFileManager(const gs2d::str_type::char_t *filePath);
+	ZipFileManager(const gs2d::str_type::char_t *filePath, const gs2d::str_type::char_t* password = 0);
 	~ZipFileManager();
 
 	bool IsLoaded() const;
 	bool GetFileBuffer(const gs2d::str_type::string &fileName, FileBuffer &out);
-    bool GetAnsiFileString(const gs2d::str_type::string &fileName, gs2d::str_type::string &out);
-    bool GetUTF8BOMFileString(const gs2d::str_type::string &fileName, gs2d::str_type::string &out);
+	bool GetAnsiFileString(const gs2d::str_type::string &fileName, gs2d::str_type::string &out);
+	bool GetUTF8BOMFileString(const gs2d::str_type::string &fileName, gs2d::str_type::string &out);
 	bool GetUTF16FileString(const gs2d::str_type::string &fileName, gs2d::str_type::string &out);
 	bool FileExists(const gs2d::str_type::string& fileName) const;
+	bool IsPacked() const;
 	zip *GetZip();
 
 private:

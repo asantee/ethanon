@@ -150,4 +150,9 @@ bool StdFileManager::FileExists(const gs2d::str_type::string& fileName) const
 	}
 }
 
+bool StdFileManager::IsPacked() const
+{
+	return false;
+}
+
 }

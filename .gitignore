@@ -71,7 +71,9 @@ toolkit/Source/src/gs2d/lib/gs2d_d.lib
 toolkit/Source/src/gs2d/projects/msvc9/GS2D/Debug/
 toolkit/Source/src/gs2d/projects/msvc9/Platform/Debug/
 toolkit/Source/src/gs2d/projects/msvc9/zlib/Debug
+toolkit/Source/src/gs2d/projects/msvc9/zlib/Release/
 toolkit/Source/src/gs2d/projects/msvc9/libzip/Debug
+toolkit/Source/src/gs2d/projects/msvc9/libzip/Release/
 toolkit/Source/src/gs2d/src/Audio/Audiere/audiere/msvc9/audiere/Release/
 toolkit/Source/projects/msvc9/Ethanon Editor/Release/
 toolkit/Source/projects/msvc9/Ethanon Engine/Release/

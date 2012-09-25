@@ -38,6 +38,7 @@ public:
 	bool GetUTF8BOMFileString(const gs2d::str_type::string &fileName, gs2d::str_type::string &out);
 	bool GetUTF16FileString(const gs2d::str_type::string &fileName, gs2d::str_type::string &out);
 	bool FileExists(const gs2d::str_type::string& fileName) const;
+    bool IsPacked() const;
 };
 
 typedef boost::shared_ptr<StdAnsiFileManager> StdAnsiFileManagerPtr;

@@ -216,6 +216,11 @@ asDECLARE_FUNCTION_WRAPPER(__FileExists,                 ETHScriptWrapper::FileE
 asDECLARE_FUNCTION_WRAPPER(__IsHighEndDevice,            ETHScriptWrapper::IsHighEndDevice);
 asDECLARE_FUNCTION_WRAPPER(__GetPlatformName,            ETHScriptWrapper::GetPlatformName);
 
+asDECLARE_FUNCTION_WRAPPER(__EnablePackLoading,          ETHScriptWrapper::EnablePackLoading);
+asDECLARE_FUNCTION_WRAPPER(__DisablePackLoading,         ETHScriptWrapper::DisablePackLoading);
+asDECLARE_FUNCTION_WRAPPER(__IsResourcePackingSupported, ETHScriptWrapper::IsResourcePackingSupported);
+asDECLARE_FUNCTION_WRAPPER(__IsPackLoadingEnabled,       ETHScriptWrapper::IsPackLoadingEnabled);
+
 asDECLARE_FUNCTION_WRAPPER(__SetGravity, ETHScriptWrapper::SetGravity);
 asDECLARE_FUNCTION_WRAPPER(__GetGravity, ETHScriptWrapper::GetGravity);
 
@@ -477,6 +482,11 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void SetFastGarbageCollector(const bool)", asFUNCTION(__SetFastGarbageCollector), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool IsHighEndDevice()",                   asFUNCTION(__IsHighEndDevice),         asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("string GetPlatformName()",                 asFUNCTION(__GetPlatformName),         asCALL_GENERIC); assert(r >= 0);
+
+	r = pASEngine->RegisterGlobalFunction("bool EnablePackLoading(const string &in, const string &in password = \"\")", asFUNCTION(__EnablePackLoading),  asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void DisablePackLoading()",         asFUNCTION(__DisablePackLoading),         asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("bool IsResourcePackingSupported()", asFUNCTION(__IsResourcePackingSupported), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("bool IsPackLoadingEnabled()",       asFUNCTION(__IsPackLoadingEnabled),       asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("string GetStringFromFileInPackage(const string &in)", asFUNCTION(__GetStringFromFileInPackage), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool FileInPackageExists(const string &in)",          asFUNCTION(__FileInPackageExists),        asCALL_GENERIC); assert(r >= 0);

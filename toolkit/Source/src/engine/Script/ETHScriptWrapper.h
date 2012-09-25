@@ -37,6 +37,8 @@ class ETHScriptWrapper
 	static bool m_runningMainFunction;
 	static bool m_persistentResources;
 	static unsigned long m_lastFrameElapsedTime;
+	static Platform::FileManagerPtr m_primaryFileManager;
+	static str_type::string m_primaryResourcePath;
 
 protected:
 	static void SetLastFrameElapsedTime(const unsigned long lastFrameElapsedTime);
@@ -244,8 +246,6 @@ public:
 							  const GS_DWORD color2, const GS_DWORD color3);
 	static GS_DWORD GetBackgroundColor();
 	static void SetBackgroundColor(const GS_DWORD color);
-	//static bool SetBackgroundImage(const str_type::string &name);
-	//static void PositionBackgroundImage(const Vector2 &v2Min, const Vector2 &v2Max);
 	static Vector2 GetSystemScreenSize();
 	static void GetEntityArrayByName(const str_type::string &name, ETHEntityArray &outVector);
 	static void GetEntityArrayFromBucket(const Vector2 &v2Bucket, ETHEntityArray &outVector);
@@ -270,9 +270,6 @@ public:
 	static str_type::string GetArgv(const int n);
 	static Vector2 GetWorldSpaceCursorPos2();
 	static Vector3 GetWorldSpaceCursorPos3();
-	//static void SetBackgroundAlphaAdd();
-	//static void SetBackgroundAlphaPixel();
-	//static void SetBackgroundAlphaModulate();
 	static void UsePixelShaders(const bool enable);
 	static bool IsPixelShaderSupported();
 	static void SetPersistentResources(const bool enable);
@@ -286,6 +283,11 @@ public:
 
 	static void GarbageCollect(const GARBAGE_COLLECT_MODE mode, asIScriptEngine* engine);
 	static void SetFastGarbageCollector(const bool enable);
+
+	static bool EnablePackLoading(const str_type::string& packFileName, const str_type::string& password);
+	static bool IsPackLoadingEnabled();
+	static void DisablePackLoading();
+	static bool IsResourcePackingSupported();
 
 	static void SetHighEndDevice(const bool highEnd);
 	static bool IsHighEndDevice();

@@ -148,16 +148,11 @@ bool ETHScene::LoadFromFile(const str_type::string& fileName)
 {
 	Platform::FileManagerPtr fileManager = m_provider->GetVideo()->GetFileManager();
 
-	// load the scene from a file
+	if (!fileManager->FileExists(fileName))
 	{
-		Platform::FileBuffer file;
-		fileManager->GetFileBuffer(fileName, file);
-		if (!file)
-		{
-			ETH_STREAM_DECL(ss) << GS_L("ETHScene::Open: file not found (") << fileName << GS_L(")");
-			m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
-			return false;
-		}
+		ETH_STREAM_DECL(ss) << GS_L("ETHScene::Open: file not found (") << fileName << GS_L(")");
+		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
+		return false;
 	}
 	m_minSceneHeight = 0.0f;
 	m_maxSceneHeight = m_provider->GetVideo()->GetScreenSizeF().y;

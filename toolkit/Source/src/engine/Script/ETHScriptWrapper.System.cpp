@@ -22,6 +22,11 @@
 
 #include "ETHScriptWrapper.h"
 #include "../Entity/ETHRenderEntity.h"
+#include <Platform/ZipFileManager.h>
+#include <Platform/StdFileManager.h>
+
+Platform::FileManagerPtr ETHScriptWrapper::m_primaryFileManager;
+str_type::string         ETHScriptWrapper::m_primaryResourcePath;
 
 void ETHScriptWrapper::ShowMessage(str_type::string sMsg, const ETH_MESSAGE type, const bool abort)
 {
@@ -250,4 +255,61 @@ void ETHScriptWrapper::SetWindowProperties(const str_type::string &winTitle, con
 str_type::string ETHScriptWrapper::GetPlatformName()
 {
 	return m_provider->GetVideo()->GetPlatformName();
+}
+
+bool ETHScriptWrapper::EnablePackLoading(const str_type::string& packFileName, const str_type::string& password)
+{
+	if (IsResourcePackingSupported())
+	{
+		VideoPtr video = m_provider->GetVideo();
+		const str_type::string packagePath = m_provider->GetResourcePath() + packFileName;
+		Platform::FileManagerPtr fileManager(new Platform::ZipFileManager(packagePath.c_str(), password.c_str()));
+		const bool isLoaded = fileManager->IsLoaded();
+		if (isLoaded)
+		{
+			// if m_primaryFileManager isn't set yet, then it means the Application
+			// object still holds the primary one, so we save it in case we need it later
+			if (!m_primaryFileManager)
+			{
+				m_primaryFileManager  = video->GetFileManager();
+				m_primaryResourcePath = m_provider->GetResourcePath();
+			}
+			video->SetFileManager(fileManager);
+			m_provider->SetResourcePath(GS_L(""));
+		}
+		return isLoaded;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+void ETHScriptWrapper::DisablePackLoading()
+{
+	// if m_primaryFileManager is valid, it means the primary file manager has been changed,
+	// so we go back to it
+	if (m_primaryFileManager)
+	{
+		m_provider->GetVideo()->SetFileManager(m_primaryFileManager);
+		m_provider->SetResourcePath(m_primaryResourcePath);
+	}
+}
+
+bool ETHScriptWrapper::IsResourcePackingSupported()
+{
+	const str_type::string& platformName = m_provider->GetVideo()->GetPlatformName();
+	if (platformName == GS_L("windows") || platformName == GS_L("mac"))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+bool ETHScriptWrapper::IsPackLoadingEnabled()
+{
+	return (m_provider->GetVideo()->GetFileManager()->IsPacked() && m_primaryFileManager);
 }

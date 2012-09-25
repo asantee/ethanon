@@ -50,25 +50,18 @@ public:
 
 	static void Log(const str_type::string& str, const Platform::Logger::TYPE& type);
 
-	ETH_INLINE ETHGlobalScaleManagerPtr& GetGlobalScaleManager() { return m_globalScaleManager; }
-	ETH_INLINE const Platform::FileLogger* GetLogger() const { return m_logger.get(); }
-	ETH_INLINE ETHGraphicResourceManagerPtr GetGraphicResourceManager() { return m_graphicResources; }
-	ETH_INLINE ETHAudioResourceManagerPtr GetAudioResourceManager() { return m_audioResources; }
-	ETH_INLINE boost::shared_ptr<ETHShaderManager> GetShaderManager() { return m_shaderManager; }
-	ETH_INLINE str_type::string GetProgramPath() { return m_programPath; }
-	ETH_INLINE str_type::string GetResourcePath() { return m_resourcePath; }
-	ETH_INLINE void SetResourcePath(const str_type::string& path) { m_resourcePath = Platform::AddLastSlash(path); }
-	ETH_INLINE VideoPtr GetVideo() { return m_video; }
-	ETH_INLINE AudioPtr GetAudio() { return m_audio; }
-	ETH_INLINE InputPtr GetInput() { return m_input; }
-	ETH_INLINE str_type::string GetByteCodeSavePath()
-	{
-	#if !defined(ANDROID) && !defined(APPLE_IOS)
-		return GetResourcePath();
-	#else
-		return m_video->GetExternalStoragePath();
-	#endif
-	}
+	ETHGlobalScaleManagerPtr& GetGlobalScaleManager();
+	const Platform::FileLogger* GetLogger() const;
+	ETHGraphicResourceManagerPtr GetGraphicResourceManager();
+	ETHAudioResourceManagerPtr GetAudioResourceManager();
+	boost::shared_ptr<ETHShaderManager> GetShaderManager();
+	str_type::string GetProgramPath();
+	str_type::string GetResourcePath();
+	void SetResourcePath(const str_type::string& path);
+	const VideoPtr& GetVideo();
+	const AudioPtr& GetAudio();
+	const InputPtr& GetInput();
+	str_type::string GetByteCodeSavePath();
 };
 
 typedef boost::shared_ptr<ETHResourceProvider> ETHResourceProviderPtr;

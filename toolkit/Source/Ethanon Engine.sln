@@ -28,10 +28,16 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ethanon Engine", "projects\
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Platform", "src\gs2d\projects\msvc9\Platform\Platform.vcproj", "{160FC7FC-3E05-4678-AE17-949DBDBB9BAA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F6849C46-B382-4A02-946F-64B2B1111D40} = {F6849C46-B382-4A02-946F-64B2B1111D40}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Box2D", "src\box2d\Build\msvc\Box2D.vcproj", "{32128A8E-B145-4AE6-A31A-C18FCBAC5F8C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libzip", "src\gs2d\projects\msvc9\libzip\libzip.vcproj", "{F6849C46-B382-4A02-946F-64B2B1111D40}"
+	ProjectSection(ProjectDependencies) = postProject
+		{004CBCF5-9647-42A4-AE2A-42E44C7D63AA} = {004CBCF5-9647-42A4-AE2A-42E44C7D63AA}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlib", "src\gs2d\projects\msvc9\zlib\zlib.vcproj", "{004CBCF5-9647-42A4-AE2A-42E44C7D63AA}"
 EndProject

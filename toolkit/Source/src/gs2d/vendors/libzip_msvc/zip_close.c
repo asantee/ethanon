@@ -49,6 +49,21 @@
 #include <fcntl.h>
 #endif
 
+#if defined(_MSC_VER) && (_MSC_VER >= 1400 )
+// Microsoft visual studio, version 2005 and higher.
+#define ZIP_SNPRINTF _snwprintf_s
+#define ZIP_STRCASECMP _stricmp
+#elif defined(_MSC_VER) && (_MSC_VER >= 1200 )
+// Microsoft visual studio, version 6 and higher.
+//#pragma message( L"Using _sn* functions." )
+#define ZIP_SNPRINTF _snprintf
+#define ZIP_STRCASECMP _stricmp
+#else
+// GCC version 3 and higher.s
+#define ZIP_SNPRINTF snprintf
+#define ZIP_STRCASECMP strcasecmp
+#endif
+
 static int add_data(struct zip *, struct zip_source *, struct zip_dirent *,
 		    FILE *);
 static int copy_data(FILE *, off_t, FILE *, struct zip_error *);
@@ -527,7 +542,7 @@ write_cdir(struct zip *za, struct zip_cdir *cd, FILE *out)
     if (_zip_filerange_crc(out, cd->offset, cd->size, &crc, &za->error) < 0)
 	return -1;
 
-    snprintf(buf, sizeof(buf), "%08lX", (long)crc);
+    ZIP_SNPRINTF(buf, sizeof(buf), "%08lX", (long)crc);
 
     if (fseeko(out, offset-TORRENT_CRC_LEN, SEEK_SET) < 0) {
 	_zip_error_set(&za->error, ZIP_ER_SEEK, errno);
@@ -641,6 +656,6 @@ _zip_create_temp_output(struct zip *za, FILE **outp)
 static int
 _zip_torrentzip_cmp(const void *a, const void *b)
 {
-    return strcasecmp(((const struct filelist *)a)->name,
+    return ZIP_STRCASECMP(((const struct filelist *)a)->name,
 		      ((const struct filelist *)b)->name);
 }

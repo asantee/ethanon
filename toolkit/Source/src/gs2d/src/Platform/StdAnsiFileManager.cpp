@@ -137,5 +137,10 @@ bool StdAnsiFileManager::FileExists(const gs2d::str_type::string& fileName) cons
 		return true;
 	}
 }
+
+bool StdAnsiFileManager::IsPacked() const
+{
+	return false;
+}
 	
 }

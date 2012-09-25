@@ -50,6 +50,71 @@ void ETHResourceProvider::Log(const str_type::string& str, const Platform::Logge
 	m_logger->Log(str, type);
 }
 
+ETHGlobalScaleManagerPtr& ETHResourceProvider::GetGlobalScaleManager()
+{
+	return m_globalScaleManager;
+}
+
+const Platform::FileLogger* ETHResourceProvider::GetLogger() const
+{
+	return m_logger.get();
+}
+
+ETHGraphicResourceManagerPtr ETHResourceProvider::GetGraphicResourceManager()
+{
+	return m_graphicResources;
+}
+
+ETHAudioResourceManagerPtr ETHResourceProvider::GetAudioResourceManager()
+{
+	return m_audioResources;
+}
+
+boost::shared_ptr<ETHShaderManager> ETHResourceProvider::GetShaderManager()
+{
+	return m_shaderManager;
+}
+
+str_type::string ETHResourceProvider::GetProgramPath()
+{
+	return m_programPath;
+}
+
+str_type::string ETHResourceProvider::GetResourcePath()
+{
+	return m_resourcePath;
+}
+
+void ETHResourceProvider::SetResourcePath(const str_type::string& path)
+{
+	m_resourcePath = Platform::AddLastSlash(path);
+	m_video->SetBitmapFontDefaultPath(m_resourcePath + ETHDirectories::GetBitmapFontPath());
+}
+
+const VideoPtr& ETHResourceProvider::GetVideo()
+{
+	return m_video;
+}
+
+const AudioPtr& ETHResourceProvider::GetAudio()
+{
+	return m_audio;
+}
+
+const InputPtr& ETHResourceProvider::GetInput()
+{
+	return m_input;
+}
+
+str_type::string ETHResourceProvider::GetByteCodeSavePath()
+{
+	#if !defined(ANDROID) && !defined(APPLE_IOS)
+		return GetResourcePath();
+	#else
+		return m_video->GetExternalStoragePath();
+	#endif
+}
+
 #ifdef _DEBUG
 str_type::string ETHResourceProvider::m_programPath = Platform::GetCurrentDirectoryPath();
 #else
