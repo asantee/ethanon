@@ -65,12 +65,7 @@ void ProcParams(int argc, wchar_t* argv[], bool& compileAndRun, bool& testing, b
 
 int wmain(int argc, wchar_t* argv[])
 {
-	#ifdef _DEBUG
-		std::cout << "\nRunning debug mode" << std::endl << std::endl;
-		const str_type::string resourcePath = Platform::GetCurrentDirectoryPath();
-	#else
-		const std::wstring resourcePath = Platform::GetModulePath();
-	#endif
+	const std::wstring resourcePath = Platform::GetProgramDirectory();
 
 	bool compileAndRun, testing, wait;
 	ProcParams(argc, argv, compileAndRun, testing, wait);

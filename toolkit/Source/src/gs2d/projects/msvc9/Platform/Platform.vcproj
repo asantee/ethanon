@@ -152,10 +152,6 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\..\src\Platform\FileManager.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\src\Platform\FileManager.h"
 				>
 			</File>
@@ -192,6 +188,14 @@
 				</File>
 			</Filter>
 		</Filter>
+		<File
+			RelativePath="..\..\..\src\Platform\FileIOHub.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\src\Platform\FileIOHub.h"
+			>
+		</File>
 		<File
 			RelativePath="..\..\..\src\Platform\FileLogger.cpp"
 			>

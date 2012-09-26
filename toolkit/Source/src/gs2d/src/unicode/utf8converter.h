@@ -25,84 +25,66 @@
 
 #include <xstring>
 
-namespace utf8
+namespace utf8 {
+
+class converter
 {
-	class converter
+private:
+	std::string ansidata;
+	std::wstring widedata;
+
+public:
+
+	converter(const char * szData)
 	{
-	private:
-		std::string ansidata;
-		std::wstring widedata;
+		SetData(szData);
+	}
+	converter(const std::string& sData)
+	{
+		SetData(sData.c_str());
+	}
+	converter(const wchar_t * wcsData)
+	{
+		SetWideData(wcsData);
+	}
+	converter(const std::wstring& wsData)
+	{
+		SetWideData(wsData.c_str());
+	}
 
-	public:
+	const char* c_str() const
+	{
+		return ansidata.c_str();
+	}
 
-		// this is a stub to convert any char sequence to wstring and vice versa
-//#define UNSAFE_UTF8_DISABLE_CHECKS	// just comment it and compile to see where are you have non-safe strings conversion
-#if defined(UNSAFE_UTF8_DISABLE_CHECKS) || defined(UNSAFE_UTF8_ALLOWED) // UNSAFE_UTF8_ALLOWED used to don't verify Editor
-		#pragma message("WARNING: possible treating of invalid string data as UTF8 while conversion to Unicode")
-		converter()
-		{
-		}
+	const wchar_t* wc_str() const
+	{
+		return widedata.c_str();
+	}
 
-		converter(const char * szData)
-		{
-			SetData(szData);
-		}
-		converter(const std::string& sData)
-		{
-			SetData(sData.c_str());
-		}
-		converter(const wchar_t * wcsData)
-		{
-			SetWideData(wcsData);
-		}
-		converter(const std::wstring& wsData)
-		{
-			SetWideData(wsData.c_str());
-		}
+	const std::string& str() const
+	{
+		return ansidata;
+	}
 
-		const char* c_str() const
-		{
-			return ansidata.c_str();
-		}
+	const std::wstring& wstr() const
+	{
+		return widedata;
+	}
 
-		const wchar_t* wc_str() const
-		{
-			return widedata.c_str();
-		}
+	std::string::size_type length() const
+	{
+		//if (widedata.length() != ansidata.length()) _asm { int 3 }; // temporary debug test stuff
+		return ansidata.length();
+	}
 
-		const std::string& str() const
-		{
-			return ansidata;
-		}
+private:
+	void SetData(const char * szData);
+	void SetWideData(const wchar_t * wcsData);
+};
 
-		const std::wstring& wstr() const
-		{
-			return widedata;
-		}
+typedef converter c;
 
-		std::string::size_type length() const
-		{
-			//if (widedata.length() != ansidata.length()) _asm { int 3 }; // temporary debug test stuff
-			return ansidata.length();
-		}
-#else
-	private:
-		converter()
-		{
-		}
-#endif
-
-	private:
-		void SetData(const char * szData);
-		void SetWideData(const wchar_t * wcsData);
-	};
-
-#if defined(UNSAFE_UTF8_ALLOWED)
-	// this is a short notation for utf8::converter, it should be removed after full implementation of I18N
-	// use full notation for normal conversions
-	typedef converter c;
-#endif
-} 
-// namespace ETHPlatform
+} // utf8
 
 #endif

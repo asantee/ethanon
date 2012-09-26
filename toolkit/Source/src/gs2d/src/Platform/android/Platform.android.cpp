@@ -41,37 +41,7 @@ gs2d::str_type::string FileLogger::GetLogPath()
 	return GS_L("/sdcard/.ethanon/gs2dlog/");
 }
 
-gs2d::str_type::string AddLastSlash(const gs2d::str_type::string& path)
-{
-	if (path.empty())
-	{
-		return GS_L("");
-	}
-	gs2d::str_type::string r = (path);
-	FixSlashes(r);
-	const std::size_t lastChar = r.size()-1;
-
-	if (r.at(lastChar) == GS_L('\\'))
-	{
-		r[lastChar] = GS_L('/');
-		return r;
-	}
-	else if (r.at(lastChar) != GS_L('/'))
-	{
-		return r + GS_L("/");
-	}
-	else
-	{
-		return r;
-	}
-}
-
-gs2d::str_type::string& FixSlashes(gs2d::str_type::string& path)
-{
-	return path;
-}
-
-gs2d::str_type::string GetModulePath()
+gs2d::str_type::string GetProgramDirectory()
 {
 	return GS_L("");
 }

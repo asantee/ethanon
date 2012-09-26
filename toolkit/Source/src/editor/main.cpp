@@ -114,15 +114,7 @@ bool DoNextAppButton(int nextApp, SpritePtr pSprite, VideoPtr video, InputPtr in
 
 int main(const int argc, const char* argv[])
 {
-	#ifdef _DEBUG
-		std::cout << "\nRunning debug mode" << std::endl << std::endl;
-	#endif
-
-	#ifdef _DEBUG
-		const wstring resourcePath = Platform::GetCurrentDirectoryPath();
-	#else
-		const wstring resourcePath = Platform::GetModulePath();
-	#endif
+	const wstring resourcePath = Platform::GetProgramDirectory();
 
 	// get default bitmap font path
 	wstring defaultBitmapFontPath = resourcePath;

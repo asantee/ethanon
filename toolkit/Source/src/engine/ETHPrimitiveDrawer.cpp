@@ -155,7 +155,7 @@ ETHSpriteDrawer::ETHSpriteDrawer(const ETHResourceProviderPtr& provider, ETHGrap
 	this->currentPath = currentPath;
 	this->frame = frame;
 
-	str_type::string searchPath(Platform::GetFilePath(name.c_str()));
+	str_type::string searchPath(Platform::GetFileDirectory(name.c_str()));
 	sprite = graphicResources->GetPointer(provider->GetVideo(), name, currentPath, searchPath, false);
 	if (sprite)
 		this->v2Origin = sprite->GetOrigin();

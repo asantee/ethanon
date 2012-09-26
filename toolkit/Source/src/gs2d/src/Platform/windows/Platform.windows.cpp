@@ -28,111 +28,113 @@
 #include <assert.h>
 #include <windows.h>
 
-namespace Platform 
+namespace Platform {
+
+const int kilobyteSize = 1024;
+const int maximumAllowedStackAllocation = 4 * kilobyteSize;
+// Usually stack has size limit is 1024 Kb
+// To change stack size limit for your application/dll change these:
+//	 Visual C++ Project -> Properties -> Linker -> System -> Stack Reserve Size; Stack Commit Size
+
+// alloca - fast stack implementation for short strings - not longer then 4096 bytes of symbols
+// new wchar_t - not so fast heap implementation for long strings
+
+std::wstring ConvertUtf8ToUnicode(const char * utf8String)
 {
-	const int kilobyteSize = 1024;
-	const int maximumAllowedStackAllocation = 4 * kilobyteSize;
-	// Usually stack has size limit is 1024 Kb
-	// To change stack size limit for your application/dll change these:
-	//	 Visual C++ Project -> Properties -> Linker -> System -> Stack Reserve Size; Stack Commit Size
+	std::size_t utf8StringLength = strlen(utf8String);
+	int resultLength = MultiByteToWideChar(
+		CP_UTF8, 0, utf8String, utf8StringLength, 0, 0);
 
-	// alloca - fast stack implementation for short strings - not longer then 4096 bytes of symbols
-	// new wchar_t - not so fast heap implementation for long strings
+	int resultAllocationSize = sizeof(wchar_t) * (resultLength + 1);
+	bool useHeap = resultAllocationSize >= maximumAllowedStackAllocation;
 
-	std::wstring ConvertUtf8ToUnicode(const char * utf8String)
+	wchar_t * unicodeBuffer = useHeap ?  
+		new wchar_t[ resultLength + 1 ] : 
+		(wchar_t *)alloca( resultAllocationSize );
+	MultiByteToWideChar(
+		CP_UTF8, 0, 
+		utf8String, utf8StringLength, 
+		unicodeBuffer, resultLength
+	);
+	unicodeBuffer[resultLength] = 0;
+
+	if (useHeap)
 	{
-		std::size_t utf8StringLength = strlen(utf8String);
-		int resultLength = MultiByteToWideChar(
-			CP_UTF8, 0, utf8String, utf8StringLength, 0, 0);
-
-		int resultAllocationSize = sizeof(wchar_t) * (resultLength + 1);
-		bool useHeap = resultAllocationSize >= maximumAllowedStackAllocation;
-
-		wchar_t * unicodeBuffer = useHeap ?  
-			new wchar_t[ resultLength + 1 ] : 
-			(wchar_t *)alloca( resultAllocationSize );
-		MultiByteToWideChar(
-			CP_UTF8, 0, 
-			utf8String, utf8StringLength, 
-			unicodeBuffer, resultLength
-		);
-		unicodeBuffer[resultLength] = 0;
-
-		if (useHeap)
-		{
-			// TODO: optimize - avoid extra temporary object creation.
-			std::wstring result(unicodeBuffer);
-			delete [] unicodeBuffer;
-			return result;
-		}
-		return unicodeBuffer;
-	}
-
-	std::string ConvertUnicodeToUtf8(const wchar_t * unicodeString)
-	{
-		size_t unicodeStringLength = wcslen(unicodeString);
-		int resultLength = WideCharToMultiByte(
-			CP_UTF8, 0, 
-			unicodeString, unicodeStringLength, 
-			0, 0, 0, 0
-		);
-		int resultAllocationSize = sizeof(char) * (resultLength + 1);
-		bool useHeap = resultAllocationSize >= maximumAllowedStackAllocation;
-
-		// fast stack implementation for short strings - not longer then 2048 symbols
-		char * utf8Buffer = useHeap ? 
-			new char[ resultLength + 1 ] :
-			(char *)alloca( resultAllocationSize );
-		WideCharToMultiByte(
-			CP_UTF8, 0, 
-			unicodeString, unicodeStringLength, 
-			utf8Buffer, resultLength, 0, 0
-		);
-		utf8Buffer[resultLength] = 0;
-
-		if (useHeap)
-		{
-			// TODO: optimize - avoid extra temporary object creation.
-			std::string result(utf8Buffer);
-			delete [] utf8Buffer;
-			return result;
-		}
-		return utf8Buffer;
-	}
-
-	inline bool IsAsciiCharacter(char character)
-	{
-		return ( (unsigned char)character <= (unsigned char)0x7f );
-	}
-
-	std::wstring ConvertAsciiToUnicode(const char* asciiString)
-	{
-		if (asciiString == 0)
-			return L"";
-		#ifdef _DEBUG
-		for (size_t i = 0; i < strlen(asciiString); ++i)
-		{
-		  assert( IsAsciiCharacter( asciiString[i] ) );
-		}
-		#endif
-		return ConvertUtf8ToUnicode(asciiString);
-	}
-
-	std::string ConvertUnicodeToAscii(const wchar_t* unicodeString)
-	{
-		if (unicodeString == 0)
-			return "";
-		std::string result = ConvertUnicodeToUtf8(unicodeString);
-		#ifdef _DEBUG
-		for (std::string::size_type i = 0; i < result.size(); ++i)
-		{
-		  assert( IsAsciiCharacter( result[i] ) );
-		}
-		#endif
+		// TODO: optimize - avoid extra temporary object creation.
+		std::wstring result(unicodeBuffer);
+		delete [] unicodeBuffer;
 		return result;
 	}
+	return unicodeBuffer;
+}
 
-	gs2d::str_type::string GetCurrentDirectoryPath()
+std::string ConvertUnicodeToUtf8(const wchar_t * unicodeString)
+{
+	size_t unicodeStringLength = wcslen(unicodeString);
+	int resultLength = WideCharToMultiByte(
+		CP_UTF8, 0, 
+		unicodeString, unicodeStringLength, 
+		0, 0, 0, 0
+	);
+	int resultAllocationSize = sizeof(char) * (resultLength + 1);
+	bool useHeap = resultAllocationSize >= maximumAllowedStackAllocation;
+
+	// fast stack implementation for short strings - not longer then 2048 symbols
+	char * utf8Buffer = useHeap ? 
+		new char[ resultLength + 1 ] :
+		(char *)alloca( resultAllocationSize );
+	WideCharToMultiByte(
+		CP_UTF8, 0, 
+		unicodeString, unicodeStringLength, 
+		utf8Buffer, resultLength, 0, 0
+	);
+	utf8Buffer[resultLength] = 0;
+
+	if (useHeap)
+	{
+		// TODO: optimize - avoid extra temporary object creation.
+		std::string result(utf8Buffer);
+		delete [] utf8Buffer;
+		return result;
+	}
+	return utf8Buffer;
+}
+
+inline bool IsAsciiCharacter(char character)
+{
+	return ( (unsigned char)character <= (unsigned char)0x7f );
+}
+
+std::wstring ConvertAsciiToUnicode(const char* asciiString)
+{
+	if (asciiString == 0)
+		return L"";
+	#ifdef _DEBUG
+	for (size_t i = 0; i < strlen(asciiString); ++i)
+	{
+	  assert( IsAsciiCharacter( asciiString[i] ) );
+	}
+	#endif
+	return ConvertUtf8ToUnicode(asciiString);
+}
+
+std::string ConvertUnicodeToAscii(const wchar_t* unicodeString)
+{
+	if (unicodeString == 0)
+		return "";
+	std::string result = ConvertUnicodeToUtf8(unicodeString);
+	#ifdef _DEBUG
+	for (std::string::size_type i = 0; i < result.size(); ++i)
+	{
+	  assert( IsAsciiCharacter( result[i] ) );
+	}
+	#endif
+	return result;
+}
+
+
+#ifdef _DEBUG
+	gs2d::str_type::string GetProgramDirectory()
 	{
 		gs2d::str_type::char_t currentDirectoryBuffer[65536];
 
@@ -144,23 +146,8 @@ namespace Platform
 
 		return AddLastSlash(currentDirectoryBuffer);
 	}
-
-	std::wstring GetFilePath(const wchar_t *source)
-	{
-		std::wstring dest = source;
-		const int len = wcslen(source);
-		for (int t=len; t>0; t--)
-		{
-			if (source[t] == L'/' || source[t] == L'\\')
-			{
-				dest.resize(t + 1);
-				break;
-			}
-		}
-		return dest;
-	}
-
-	gs2d::str_type::string GetModulePath()
+#else
+	gs2d::str_type::string GetProgramDirectory()
 	{
 		gs2d::str_type::char_t moduleFileName[65536];
 
@@ -170,85 +157,66 @@ namespace Platform
 		GetModuleFileNameA(NULL, moduleFileName, 65535);
 		#endif
 
-		return AddLastSlash(GetFilePath(moduleFileName));
+		return AddLastSlash(GetFileDirectory(moduleFileName));
 	}
+#endif
 
-	std::wstring& FixSlashes(std::wstring& path)
+gs2d::str_type::string FileLogger::GetLogPath()
+{
+	return GS_L("");
+}
+
+std::wstring GetFileDirectory(const wchar_t *source)
+{
+	std::wstring dest = source;
+	const int len = wcslen(source);
+	for (int t=len; t>0; t--)
 	{
-		const std::size_t size = path.size();
-		for (std::size_t t = 0; t < size; t++)
+		if (source[t] == L'/' || source[t] == L'\\')
 		{
-			if (path[t] == L'/')
-				path[t] = L'\\';
+			dest.resize(t + 1);
+			break;
 		}
-		return path;
 	}
+	return dest;
+}
 
-	std::string& FixSlashes(std::string& path)
+std::wstring& FixSlashes(std::wstring& path)
+{
+	const std::size_t size = path.size();
+	for (std::size_t t = 0; t < size; t++)
 	{
-		const std::size_t size = path.size();
-		for (std::size_t t = 0; t < size; t++)
-		{
-			if (path[t] == '/')
-				path[t] = '\\';
-		}
-		return path;
+		if (path[t] == L'/')
+			path[t] = L'\\';
 	}
+	return path;
+}
 
-	std::wstring AddLastSlash(const std::wstring& path)
+std::wstring AddLastSlash(const std::wstring& path)
+{
+	if (path.empty())
 	{
-		if (path.empty())
-		{
-			return L"";
-		}
-		std::wstring r = (path);
-		FixSlashes(r);
-		const std::size_t lastChar = r.size()-1;
-
-		if (r.at(lastChar) == L'/')
-		{
-			r[lastChar] = L'\\';
-			return r;
-		}
-		else if (r.at(lastChar) != L'\\')
-		{
-			return r + L"\\";
-		}
-		else
-		{
-			return r;
-		}
+		return L"";
 	}
+	std::wstring r = (path);
+	FixSlashes(r);
+	const std::size_t lastChar = r.size()-1;
 
-	std::string AddLastSlash(const std::string& path)
+	if (r.at(lastChar) == L'/')
 	{
-		if (path.empty())
-		{
-			return "";
-		}
-		std::string r = (path);
-		FixSlashes(r);
-		const std::size_t lastChar = r.size()-1;
-
-		if (r.at(lastChar) == '/')
-		{
-			r[lastChar] = '\\';
-			return r;
-		}
-		else if (r.at(lastChar) != '\\')
-		{
-			return r + "\\";
-		}
-		else
-		{
-			return r;
-		}
+		r[lastChar] = L'\\';
+		return r;
 	}
-
-	gs2d::str_type::string FileLogger::GetLogPath()
+	else if (r.at(lastChar) != L'\\')
 	{
-		return GS_L("");
+		return r + L"\\";
 	}
+	else
+	{
+		return r;
+	}
+}
+
 }
 // namespace Platform
 

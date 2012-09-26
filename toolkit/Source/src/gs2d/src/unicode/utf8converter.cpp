@@ -23,18 +23,19 @@
 #include "utf8converter.h"
 #include "../Platform/Platform.h"
 
-namespace utf8
-{
-	void converter::SetData(const char * szData)
-	{
-		ansidata = szData == 0 ? "" : szData;
-		widedata = Platform::ConvertUtf8ToUnicode(ansidata.c_str());
-	}
+namespace utf8 {
 
-	void converter::SetWideData(const wchar_t * wcsData)
-	{
-		widedata = wcsData == 0 ? L"" : wcsData;
-		ansidata = Platform::ConvertUnicodeToUtf8(widedata.c_str());
-	}
+void converter::SetData(const char * szData)
+{
+	ansidata = szData == 0 ? "" : szData;
+	widedata = Platform::ConvertUtf8ToUnicode(ansidata.c_str());
 }
-// namespace utf8
+
+void converter::SetWideData(const wchar_t * wcsData)
+{
+	widedata = wcsData == 0 ? L"" : wcsData;
+	ansidata = Platform::ConvertUnicodeToUtf8(widedata.c_str());
+}
+
+} // namespace utf8
+

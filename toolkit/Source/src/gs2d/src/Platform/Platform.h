@@ -25,39 +25,33 @@
 
 #include "../gs2dtypes.h"
 
-// TODO implement wchar_t support on Android... not yet supported by the NDK
-#if !defined(ANDROID) && !defined(APPLE_IOS)
-#include <xstring>
+#ifdef GS2D_STR_TYPE_WCHAR
+	#include <xstring>
 #endif
 
 #include <string>
 
 namespace Platform {
 
-gs2d::str_type::string GetFileName(const gs2d::str_type::string &source);
-
-// TODO implement wchar_t support on Android... not yet supported by the NDK
-#if !defined(ANDROID) && !defined(APPLE_IOS)
-std::wstring AddLastSlash(const std::wstring& path);
+std::string GetFileName(const std::string& source);
+std::string GetFileDirectory(const char* source);
 std::string AddLastSlash(const std::string& path);
-std::wstring& FixSlashes(std::wstring& path);
 std::string& FixSlashes(std::string& path);
 
-gs2d::str_type::string GetModulePath();
-gs2d::str_type::string GetCurrentDirectoryPath();
-std::wstring ConvertUtf8ToUnicode(const char* utf8String); // use it in low-level only. utf8::converter is a high-level wrapper
-std::string ConvertUnicodeToUtf8(const wchar_t* unicodeString); // use it in low-level only. utf8::converter is a high-level wrapper
-std::wstring ConvertAsciiToUnicode(const char* asciiString); // use it in low-level only. utf8::converter is a high-level wrapper
-std::string ConvertUnicodeToAscii(const wchar_t* unicodeString); // use it in low-level only. utf8::converter is a high-level wrapper
-std::wstring GetFilePath(const wchar_t *source);
+gs2d::str_type::string GetProgramDirectory();
 
-#else
-gs2d::str_type::string GetFilePath(const char *source);
-gs2d::str_type::string AddLastSlash(const gs2d::str_type::string& path);
-gs2d::str_type::string& FixSlashes(gs2d::str_type::string& path);
-gs2d::str_type::string GetModulePath();
-gs2d::str_type::string GetCurrentDirectoryPath();
-#endif // #ifndef ANDROID
+#ifdef GS2D_STR_TYPE_WCHAR
+	std::wstring GetFileName(const std::wstring& source);
+	std::wstring GetFileDirectory(const wchar_t* source);
+	std::wstring AddLastSlash(const std::wstring& path);
+	std::wstring& FixSlashes(std::wstring& path);
+
+	std::wstring ConvertUtf8ToUnicode(const char* utf8String); // use it in low-level only. utf8::converter is a high-level wrapper
+	std::string ConvertUnicodeToUtf8(const wchar_t* unicodeString); // use it in low-level only. utf8::converter is a high-level wrapper
+	std::wstring ConvertAsciiToUnicode(const char* asciiString); // use it in low-level only. utf8::converter is a high-level wrapper
+	std::string ConvertUnicodeToAscii(const wchar_t* unicodeString); // use it in low-level only. utf8::converter is a high-level wrapper
+#endif
+
 } 
 // namespace Platform
 

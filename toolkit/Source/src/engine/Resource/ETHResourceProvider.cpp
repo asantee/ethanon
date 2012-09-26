@@ -23,13 +23,8 @@
 #include "ETHResourceProvider.h"
 #include <Platform/Platform.h>
 
-Platform::FileLoggerPtr ETHResourceProvider::m_logger(new Platform::FileLogger(
-#ifdef _DEBUG
-Platform::GetCurrentDirectoryPath()
-#else
-Platform::GetModulePath()
-#endif
-+ Platform::FileLogger::GetLogPath() + GS_L("eth.log.txt")));
+Platform::FileLoggerPtr ETHResourceProvider::m_logger(
+	new Platform::FileLogger(Platform::GetProgramDirectory() + Platform::FileLogger::GetLogPath() + GS_L("eth.log.txt")));
 
 ETHResourceProvider::ETHResourceProvider(
 		ETHGraphicResourceManagerPtr graphicResources, ETHAudioResourceManagerPtr audioResources,
@@ -115,11 +110,7 @@ str_type::string ETHResourceProvider::GetByteCodeSavePath()
 	#endif
 }
 
-#ifdef _DEBUG
-str_type::string ETHResourceProvider::m_programPath = Platform::GetCurrentDirectoryPath();
-#else
-str_type::string ETHResourceProvider::m_programPath = Platform::GetModulePath();
-#endif
+str_type::string ETHResourceProvider::m_programPath = Platform::GetProgramDirectory();
 
 ETHGraphicResourceManagerPtr ETHResourceProvider::m_graphicResources;
 ETHAudioResourceManagerPtr ETHResourceProvider::m_audioResources;

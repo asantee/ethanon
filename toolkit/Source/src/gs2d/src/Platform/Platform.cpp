@@ -41,7 +41,7 @@ gs2d::str_type::string GetFileName(const gs2d::str_type::string &source)
 	return r;
 }
 
-std::string GetFilePath(const char *source)
+std::string GetFileDirectory(const char *source)
 {
 	std::string dest = source;
 	const int len = strlen(source);
@@ -54,6 +54,42 @@ std::string GetFilePath(const char *source)
 		}
 	}
 	return dest;
+}
+
+std::string& FixSlashes(std::string& path)
+{
+	const std::size_t size = path.size();
+	for (std::size_t t = 0; t < size; t++)
+	{
+		if (path[t] == '/')
+			path[t] = '\\';
+	}
+	return path;
+}
+
+std::string AddLastSlash(const std::string& path)
+{
+	if (path.empty())
+	{
+		return "";
+	}
+	std::string r = (path);
+	FixSlashes(r);
+	const std::size_t lastChar = r.size()-1;
+
+	if (r.at(lastChar) == '/')
+	{
+		r[lastChar] = '\\';
+		return r;
+	}
+	else if (r.at(lastChar) != '\\')
+	{
+		return r + "\\";
+	}
+	else
+	{
+		return r;
+	}
 }
 
 } // namespace Platform
