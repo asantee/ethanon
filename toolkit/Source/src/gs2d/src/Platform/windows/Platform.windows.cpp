@@ -166,55 +166,14 @@ gs2d::str_type::string FileLogger::GetLogPath()
 	return GS_L("");
 }
 
-std::wstring GetFileDirectory(const wchar_t *source)
+char GetDirectorySlash()
 {
-	std::wstring dest = source;
-	const int len = wcslen(source);
-	for (int t=len; t>0; t--)
-	{
-		if (source[t] == L'/' || source[t] == L'\\')
-		{
-			dest.resize(t + 1);
-			break;
-		}
-	}
-	return dest;
+	return '\\';
 }
 
-std::wstring& FixSlashes(std::wstring& path)
+wchar_t GetDirectorySlashW()
 {
-	const std::size_t size = path.size();
-	for (std::size_t t = 0; t < size; t++)
-	{
-		if (path[t] == L'/')
-			path[t] = L'\\';
-	}
-	return path;
-}
-
-std::wstring AddLastSlash(const std::wstring& path)
-{
-	if (path.empty())
-	{
-		return L"";
-	}
-	std::wstring r = (path);
-	FixSlashes(r);
-	const std::size_t lastChar = r.size()-1;
-
-	if (r.at(lastChar) == L'/')
-	{
-		r[lastChar] = L'\\';
-		return r;
-	}
-	else if (r.at(lastChar) != L'\\')
-	{
-		return r + L"\\";
-	}
-	else
-	{
-		return r;
-	}
+	return L'\\';
 }
 
 }

@@ -46,4 +46,9 @@ gs2d::str_type::string GetProgramDirectory()
 	return GS_L("");
 }
 
+char GetDirectorySlash()
+{
+	return '/';
+}
+
 } // namespace

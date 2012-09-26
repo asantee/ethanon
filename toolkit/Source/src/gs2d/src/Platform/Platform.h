@@ -38,6 +38,7 @@ std::string GetFileDirectory(const char* source);
 std::string AddLastSlash(const std::string& path);
 std::string& FixSlashes(std::string& path);
 
+char GetDirectorySlash();
 gs2d::str_type::string GetProgramDirectory();
 
 #ifdef GS2D_STR_TYPE_WCHAR
@@ -50,6 +51,8 @@ gs2d::str_type::string GetProgramDirectory();
 	std::string ConvertUnicodeToUtf8(const wchar_t* unicodeString); // use it in low-level only. utf8::converter is a high-level wrapper
 	std::wstring ConvertAsciiToUnicode(const char* asciiString); // use it in low-level only. utf8::converter is a high-level wrapper
 	std::string ConvertUnicodeToAscii(const wchar_t* unicodeString); // use it in low-level only. utf8::converter is a high-level wrapper
+
+	wchar_t GetDirectorySlashW();
 #endif
 
 } 

@@ -25,35 +25,28 @@
 
 namespace Platform {
 
-gs2d::str_type::string GetFileName(const gs2d::str_type::string &source)
+std::string GetFileName(const std::string& source)
 {
-	const unsigned int len = source.length();
-	gs2d::str_type::string r = source;
-	unsigned int t;
-	for (t = len-1; t > 0; t--)
+	std::string r = source;
+	FixSlashes(r);
+	const std::size_t pos = r.rfind(GetDirectorySlash());
+	if (pos != std::string::npos)
 	{
-		if (r[t] == GS_L('\\') || r[t] == GS_L('/'))
-		{
-			r = r.substr(t+1);
-			break;
-		}
+		r = r.substr(pos + 1, std::string::npos);
 	}
 	return r;
 }
 
 std::string GetFileDirectory(const char *source)
 {
-	std::string dest = source;
-	const int len = strlen(source);
-	for (int t=len; t>0; t--)
+	std::string r = source;
+	FixSlashes(r);
+	const std::size_t pos = r.rfind(GetDirectorySlash());
+	if (pos != std::string::npos)
 	{
-		if (source[t] == '/' || source[t] == '\\')
-		{
-			dest.resize(t + 1);
-			break;
-		}
+		r = r.substr(0, pos + 1);
 	}
-	return dest;
+	return r;
 }
 
 std::string& FixSlashes(std::string& path)
@@ -61,8 +54,8 @@ std::string& FixSlashes(std::string& path)
 	const std::size_t size = path.size();
 	for (std::size_t t = 0; t < size; t++)
 	{
-		if (path[t] == '/')
-			path[t] = '\\';
+		if (path[t] == '/' || path[t] == '\\')
+			path[t] = GetDirectorySlash();
 	}
 	return path;
 }
@@ -73,23 +66,69 @@ std::string AddLastSlash(const std::string& path)
 	{
 		return "";
 	}
-	std::string r = (path);
+	std::string r = path;
 	FixSlashes(r);
-	const std::size_t lastChar = r.size()-1;
-
-	if (r.at(lastChar) == '/')
+	const std::size_t lastChar = r.size() - 1;
+	if (r.at(lastChar) != GetDirectorySlash())
 	{
-		r[lastChar] = '\\';
-		return r;
+		r.resize(lastChar + 2);
+		r[lastChar + 1] = GetDirectorySlash();
 	}
-	else if (r.at(lastChar) != '\\')
-	{
-		return r + "\\";
-	}
-	else
-	{
-		return r;
-	}
+	return r;
 }
+
+#ifdef GS2D_STR_TYPE_WCHAR
+	std::wstring GetFileName(const std::wstring& source)
+	{
+		std::wstring r = source;
+		FixSlashes(r);
+		const std::size_t pos = r.rfind(GetDirectorySlash());
+		if (pos != std::wstring::npos)
+		{
+			r = r.substr(pos + 1, std::wstring::npos);
+		}
+		return r;
+	}
+
+	std::wstring GetFileDirectory(const wchar_t *source)
+	{
+		std::wstring r = source;
+		FixSlashes(r);
+		const std::size_t pos = r.rfind(GetDirectorySlash());
+		if (pos != std::wstring::npos)
+		{
+			r = r.substr(0, pos + 1);
+		}
+		return r;
+	}
+
+	std::wstring& FixSlashes(std::wstring& path)
+	{
+		const std::size_t size = path.size();
+		for (std::size_t t = 0; t < size; t++)
+		{
+			if (path[t] == L'/' || path[t] == L'\\')
+				path[t] = GetDirectorySlashW();
+		}
+		return path;
+	}
+
+	std::wstring AddLastSlash(const std::wstring& path)
+	{
+		if (path.empty())
+		{
+			return L"";
+		}
+		std::wstring r = path;
+		FixSlashes(r);
+		const std::size_t lastChar = r.size() - 1;
+		if (r.at(lastChar) != GetDirectorySlashW())
+		{
+			r.resize(lastChar + 2);
+			r[lastChar + 1] = GetDirectorySlashW();
+		}
+		return r;
+	}
+#endif
 
 } // namespace Platform
