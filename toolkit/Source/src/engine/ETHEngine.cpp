@@ -39,7 +39,7 @@ const str_type::string ETHEngine::ETH_SCRIPT_MODULE(GS_L("EthanonModule"));
 
 gs2d::BaseApplicationPtr gs2d::CreateBaseApplication()
 {
-	return BaseApplicationPtr(new ETHEngine(false, true, GS_L("assets/")));
+	return BaseApplicationPtr(new ETHEngine(false, true));
 }
 
 #ifdef ANDROID
@@ -50,13 +50,12 @@ gs2d::BaseApplicationPtr gs2d::CreateBaseApplication()
 #	define ETH_BYTECODE_FILE_NAME GS_L("game.bin")
 #endif
 
-ETHEngine::ETHEngine(const bool testing, const bool compileAndRun, const str_type::string& startResourcePath) :
+ETHEngine::ETHEngine(const bool testing, const bool compileAndRun) :
 	ETH_DEFAULT_MAIN_SCRIPT_FILE(_ETH_DEFAULT_MAIN_SCRIPT_FILE),
 	ETH_DEFAULT_MAIN_BYTECODE_FILE(ETH_BYTECODE_FILE_NAME),
 	ETH_MAIN_FUNCTION(GS_L("main")),
 	m_testing(testing),
 	m_compileAndRun(compileAndRun),
-	m_startResourcePath(startResourcePath),
 	m_lastBGColor(0x0),
 	m_hasBeenResumed(false)
 {
@@ -86,15 +85,16 @@ ETHResourceProviderPtr ETHEngine::GetProvider()
 
 void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 {
-	ETHAppEnmlFile file(m_startResourcePath + ETH_APP_PROPERTIES_FILE, video->GetFileManager(), video->GetPlatformName());
+	Platform::FileIOHubPtr fileIOHub = video->GetFileIOHub();
+
+	ETHAppEnmlFile file(fileIOHub->GetResourceDirectory() + ETH_APP_PROPERTIES_FILE, fileIOHub->GetFileManager(), video->GetPlatformName());
 	m_richLighting = file.IsRichLightingEnabled();
 
 	m_provider = ETHResourceProviderPtr(new ETHResourceProvider(
-		ETHGraphicResourceManagerPtr(
-			new ETHGraphicResourceManager(file.GetDensityManager())),
-		ETHAudioResourceManagerPtr(new ETHAudioResourceManager(video->GetFileManager())),
-		ETHShaderManagerPtr(new ETHShaderManager(video, m_startResourcePath + ETHDirectories::GetShaderPath(), m_richLighting)),
-		m_startResourcePath, video, audio, input));
+		ETHGraphicResourceManagerPtr(new ETHGraphicResourceManager(file.GetDensityManager())),
+		ETHAudioResourceManagerPtr(new ETHAudioResourceManager()),
+		ETHShaderManagerPtr(new ETHShaderManager(video, fileIOHub->GetStartResourceDirectory() + ETHDirectories::GetShaderDirectory(), m_richLighting)),
+		video, audio, input, fileIOHub));
 	m_ethInput.SetProvider(m_provider);
 
 	CreateDynamicBackBuffer(file);
@@ -304,13 +304,13 @@ static void RegisterDefinedWords(const std::vector<gs2d::str_type::string>& defi
 
 bool ETHEngine::BuildModule(const std::vector<gs2d::str_type::string>& definedWords)
 {
-	const str_type::string resourcePath = m_provider->GetResourcePath();
+	const str_type::string resourcePath = m_provider->GetFileIOHub()->GetResourceDirectory();
 	const str_type::string mainScript = resourcePath + ETH_DEFAULT_MAIN_SCRIPT_FILE;
-	const str_type::string byteCodeWriteFile = m_provider->GetByteCodeSavePath() + ETH_DEFAULT_MAIN_BYTECODE_FILE;
+	const str_type::string byteCodeWriteFile = m_provider->GetByteCodeSaveDirectory() + ETH_DEFAULT_MAIN_BYTECODE_FILE;
 	const str_type::string byteCodeReadFile  = resourcePath + ETH_DEFAULT_MAIN_BYTECODE_FILE;
 
 	// if there's a main script file, load the source from text code and compile it
-	if (ETHGlobal::FileExists(mainScript, m_provider->GetVideo()->GetFileManager()))
+	if (ETHGlobal::FileExists(mainScript, m_provider->GetFileManager()))
 	{
 		ETH_STREAM_DECL(ssi) << GS_L("Loading game script from source-code: ") << ETH_DEFAULT_MAIN_SCRIPT_FILE;
 		m_provider->Log(ssi.str(), Platform::Logger::INFO);
@@ -344,7 +344,7 @@ bool ETHEngine::BuildModule(const std::vector<gs2d::str_type::string>& definedWo
 		m_pASModule = CScriptBuilder::GetModule(m_pASEngine, ETH_SCRIPT_MODULE);
 
 		// Writes the compiled byte code to file
-		ETHBinaryStream stream(m_provider->GetVideo()->GetFileManager());
+		ETHBinaryStream stream(m_provider->GetFileManager());
 		if (stream.OpenW(byteCodeWriteFile))
 		{
 			m_pASModule->SaveByteCode(&stream);
@@ -365,7 +365,7 @@ bool ETHEngine::BuildModule(const std::vector<gs2d::str_type::string>& definedWo
 		m_provider->Log(ss.str(), Platform::Logger::INFO);
 	
 		m_pASModule = CScriptBuilder::GetModule(m_pASEngine, ETH_SCRIPT_MODULE, asGM_ALWAYS_CREATE);
-		ETHBinaryStream stream(m_provider->GetVideo()->GetFileManager());
+		ETHBinaryStream stream(m_provider->GetFileManager());
 		if (stream.OpenR(byteCodeReadFile))
 		{
 			if (m_pASModule->LoadByteCode(&stream) < 0)

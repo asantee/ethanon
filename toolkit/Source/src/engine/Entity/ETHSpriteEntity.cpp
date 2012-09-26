@@ -30,7 +30,7 @@ const float ETHSpriteEntity::m_haloRotation(90.0f);
 
 ETHSpriteEntity::ETHSpriteEntity(const str_type::string& filePath, ETHResourceProviderPtr provider, const int nId) :
 	m_provider(provider),
-	ETHEntity(filePath, nId, provider->GetVideo()->GetFileManager())
+	ETHEntity(filePath, nId, provider->GetFileManager())
 {
 	Zero();
 	Create();
@@ -82,14 +82,14 @@ void ETHSpriteEntity::Create()
 	if (!video || !graphicResources)
 		return;
 
-	const str_type::string& programPath = m_provider->GetResourcePath();
+	const str_type::string& resourceDirectory = m_provider->GetFileIOHub()->GetResourceDirectory();
 
-	m_pSprite = graphicResources->GetPointer(video, m_properties.spriteFile, programPath, ETHDirectories::GetEntityPath(), false);
-	m_pNormal = graphicResources->GetPointer(video, m_properties.normalFile, programPath, ETHDirectories::GetNormalMapPath(), false);
-	m_pGloss  = graphicResources->GetPointer(video, m_properties.glossFile,  programPath, ETHDirectories::GetEntityPath(), false);
+	m_pSprite = graphicResources->GetPointer(video, m_properties.spriteFile, resourceDirectory, ETHDirectories::GetEntityDirectory(), false);
+	m_pNormal = graphicResources->GetPointer(video, m_properties.normalFile, resourceDirectory, ETHDirectories::GetNormalMapDirectory(), false);
+	m_pGloss  = graphicResources->GetPointer(video, m_properties.glossFile,  resourceDirectory, ETHDirectories::GetEntityDirectory(), false);
 
 	if (m_properties.light)
-		m_pHalo = graphicResources->GetPointer(video, m_properties.light->haloBitmap, programPath, ETHDirectories::GetHaloPath(), true);
+		m_pHalo = graphicResources->GetPointer(video, m_properties.light->haloBitmap, resourceDirectory, ETHDirectories::GetHaloDirectory(), true);
 
 	LoadParticleSystem();
 
@@ -114,8 +114,8 @@ bool ETHSpriteEntity::SetSprite(const str_type::string &fileName)
 	m_pSprite = m_provider->GetGraphicResourceManager()->GetPointer(
 		m_provider->GetVideo(),
 		fileName,
-		m_provider->GetResourcePath(),
-		ETHDirectories::GetEntityPath(),
+		m_provider->GetFileIOHub()->GetResourceDirectory(),
+		ETHDirectories::GetEntityDirectory(),
 		false);
 
 	if (m_pSprite)
@@ -140,8 +140,8 @@ bool ETHSpriteEntity::SetNormal(const str_type::string &fileName)
 	m_pNormal = m_provider->GetGraphicResourceManager()->GetPointer(
 		m_provider->GetVideo(),
 		fileName,
-		m_provider->GetResourcePath(),
-		ETHDirectories::GetNormalMapPath(),
+		m_provider->GetFileIOHub()->GetResourceDirectory(),
+		ETHDirectories::GetNormalMapDirectory(),
 		false);
 	if (m_pNormal)
 	{
@@ -160,8 +160,8 @@ bool ETHSpriteEntity::SetGloss(const str_type::string &fileName)
 	m_pGloss = m_provider->GetGraphicResourceManager()->GetPointer(
 		m_provider->GetVideo(),
 		fileName,
-		m_provider->GetResourcePath(),
-		ETHDirectories::GetEntityPath(),
+		m_provider->GetFileIOHub()->GetResourceDirectory(),
+		ETHDirectories::GetEntityDirectory(),
 		false);
 	if (m_pGloss)
 	{
@@ -182,8 +182,8 @@ bool ETHSpriteEntity::SetHalo(const str_type::string &fileName)
 		m_pHalo = m_provider->GetGraphicResourceManager()->GetPointer(
 			m_provider->GetVideo(),
 			fileName,
-			m_provider->GetResourcePath(),
-			ETHDirectories::GetHaloPath(),
+			m_provider->GetFileIOHub()->GetResourceDirectory(),
+			ETHDirectories::GetHaloDirectory(),
 			true);
 		if (m_pHalo)
 		{
@@ -208,7 +208,7 @@ void ETHSpriteEntity::LoadParticleSystem()
 	ETHAudioResourceManagerPtr audioResources = m_provider->GetAudioResourceManager();
 	VideoPtr video = m_provider->GetVideo();
 	AudioPtr audio = m_provider->GetAudio();
-	const str_type::string& resourcePath = m_provider->GetResourcePath();
+	const str_type::string& resourcePath = m_provider->GetFileIOHub()->GetResourceDirectory();
 
 	m_particles.clear();
 	m_particles.resize(m_properties.particleSystems.size());
@@ -219,7 +219,7 @@ void ETHSpriteEntity::LoadParticleSystem()
 		{
 			str_type::string path = resourcePath;
 			// path += GS_L("/");
-			path += ETHDirectories::GetParticlesPath();
+			path += ETHDirectories::GetParticlesDirectory();
 			path += ETHGlobal::GetFileName(pSystem->GetActualBitmapFile());
 
 			if (!graphicResources->AddFile(video, path, (pSystem->alphaMode == GSAM_ADD)))

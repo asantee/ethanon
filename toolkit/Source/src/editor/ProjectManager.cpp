@@ -200,7 +200,7 @@ void ProjectManager::PrepareProjectDir()
 		{"Collide.angelscript", true},
 	};
 
-	const string programPath = utf8::c(m_provider->GetProgramPath()).c_str();
+	const string programPath = utf8::c(m_provider->GetFileIOHub()->GetProgramDirectory()).c_str();
 	const string sProjectPath = GetCurrentProjectPath(true);
 	const unsigned int size = sizeof(fileToCopy)/sizeof(ETH_FILE_TO_COPY);
 	for (unsigned int t=0; t<size; t++)

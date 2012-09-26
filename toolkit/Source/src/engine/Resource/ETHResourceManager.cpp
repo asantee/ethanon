@@ -146,11 +146,6 @@ void ETHGraphicResourceManager::RemoveResource(const str_type::string &file)
 	}
 }
 
-ETHAudioResourceManager::ETHAudioResourceManager(const Platform::FileManagerPtr& fileManager) :
-	m_fileManager(fileManager)
-{
-}
-
 void ETHAudioResourceManager::ReleaseResources()
 {
 	ReleaseAllButMusic();
@@ -168,8 +163,8 @@ void ETHAudioResourceManager::ReleaseAllButMusic()
 	m_resource = musicTracks;
 }
 
-AudioSamplePtr ETHAudioResourceManager::GetPointer(AudioPtr audio,
-										  const str_type::string &fileRelativePath, const str_type::string &programPath,
+AudioSamplePtr ETHAudioResourceManager::GetPointer(AudioPtr audio, const Platform::FileIOHubPtr& fileIOHub,
+										  const str_type::string &fileRelativePath,
 										  const str_type::string &searchPath, const GS_SAMPLE_TYPE type)
 {
 	if (fileRelativePath == GS_L(""))
@@ -189,16 +184,16 @@ AudioSamplePtr ETHAudioResourceManager::GetPointer(AudioPtr audio,
 	{
 		str_type::string fileName = ETHGlobal::GetFileName(fileRelativePath);
 
-		str_type::string path = programPath;
+		str_type::string path = fileIOHub->GetResourceDirectory();
 		path += searchPath;
 		path += fileName;
-		AddFile(audio, path, type);
-		return GetPointer(audio, fileName, programPath, GS_L(""), type);
+		AddFile(audio, fileIOHub, path, type);
+		return GetPointer(audio, fileIOHub, fileName, GS_L(""), type);
 	}
 	return AudioSamplePtr();
 }
 
-AudioSamplePtr ETHAudioResourceManager::AddFile(AudioPtr audio, const str_type::string &path, const GS_SAMPLE_TYPE type)
+AudioSamplePtr ETHAudioResourceManager::AddFile(AudioPtr audio, const Platform::FileIOHubPtr& fileIOHub, const str_type::string& path, const GS_SAMPLE_TYPE type)
 {
 	if (!m_resource.empty())
 	{
@@ -211,7 +206,7 @@ AudioSamplePtr ETHAudioResourceManager::AddFile(AudioPtr audio, const str_type::
 	AudioSamplePtr pSample;
 	str_type::string fixedName(path);
 	Platform::FixSlashes(fixedName);
-	if (!(pSample = audio->LoadSampleFromFile(fixedName, m_fileManager, type)))
+	if (!(pSample = audio->LoadSampleFromFile(fixedName, fileIOHub->GetFileManager(), type)))
 	{
 		pSample.reset();
 		ETH_STREAM_DECL(ss) << GS_L("(Not loaded) \"") << fixedName << GS_L("\"");

@@ -39,7 +39,7 @@ std::string AddLastSlash(const std::string& path);
 std::string& FixSlashes(std::string& path);
 
 char GetDirectorySlash();
-gs2d::str_type::string GetProgramDirectory();
+gs2d::str_type::string GetModuleDirectory();
 
 #ifdef GS2D_STR_TYPE_WCHAR
 	std::wstring GetFileName(const std::wstring& source);

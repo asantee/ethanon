@@ -86,33 +86,27 @@ GLES2ShaderPtr LoadInternalShader(GLES2Video* video, const str_type::string& str
 	return shader;
 }
 
-GS2D_API VideoPtr CreateVideo(const unsigned int width, const unsigned int height,
-				const str_type::string& bitmapFontDefaultPath, const str_type::string& externalStoragePath,
-				const str_type::string& globalExternalStoragePath, Platform::FileManagerPtr fileManager)
+GS2D_API VideoPtr CreateVideo(const unsigned int width, const unsigned int height, const Platform::FileIOHubPtr& fileIOHub)
 {
-	return GLES2Video::Create(width, height, GS_L("GS2D"), bitmapFontDefaultPath, externalStoragePath, globalExternalStoragePath, fileManager);
+	return GLES2Video::Create(width, height, GS_L("GS2D"), fileIOHub);
 }
 
 GLES2Video::GLES2Video(const unsigned int width, const unsigned int height,
-		const str_type::string& winTitle, const str_type::string& bitmapFontDefaultPath,
-		const str_type::string& externalStoragePath, const str_type::string& globalExternalStoragePath,
-		Platform::FileManagerPtr fileManager) :
+		const str_type::string& winTitle, Platform::FileIOHubPtr fileIOHub) :
 	m_backgroundColor(GS_BLACK),
 	m_screenSize(width, height),
 	m_windowTitle(winTitle),
-	m_externalStoragePath(externalStoragePath),
-	m_globalExternalStoragePath(globalExternalStoragePath),
 	m_quit(false),
 	m_rendering(false),
 	m_logger(Platform::FileLogger::GetLogPath() + VIDEO_LOG_FILE),
-	m_defaultBitmapFontPath(bitmapFontDefaultPath),
 	m_fpsRate(30.0f),
 	m_roundUpPosition(false),
 	m_scissor(Vector2i(0, 0), Vector2i(0, 0)),
 	m_textureFilterMode(GSTM_IFNEEDED),
 	m_blend(false),
 	m_zBuffer(true),
-	m_zWrite(true)
+	m_zWrite(true),
+	m_fileIOHub(fileIOHub)
 {
 	m_fileManager = fileManager;
 
@@ -125,7 +119,7 @@ GLES2Video::GLES2Video(const unsigned int width, const unsigned int height,
 	m_logger.Log("Creating shader context...", Platform::FileLogger::INFO);
 	m_shaderContext = GLES2ShaderContextPtr(new GLES2ShaderContext(this));
 	m_logger.Log("StartApplication...", Platform::FileLogger::INFO);
-	StartApplication(width, height, winTitle, false, false, bitmapFontDefaultPath, GSPF_DEFAULT, false);
+	StartApplication(width, height, winTitle, false, false, GSPF_DEFAULT, false);
 }
 
 boost::shared_ptr<GLES2Video> GLES2Video::Create(const unsigned int width, const unsigned int height,
@@ -155,8 +149,7 @@ static void LogFragmentShaderMaximumPrecision(const Platform::FileLogger& logger
 }
 
 bool GLES2Video::StartApplication(const unsigned int width, const unsigned int height, const str_type::string& winTitle,
-								  const bool windowed, const bool sync, const str_type::string& bitmapFontDefaultPath,
-								  const GS_PIXEL_FORMAT pfBB,	const bool maximizable)
+								  const bool windowed, const bool sync, const GS_PIXEL_FORMAT pfBB, const bool maximizable)
 {
 	glDisable(GL_DITHER);
 	glHint(GL_GENERATE_MIPMAP_HINT, GL_FASTEST);
@@ -693,16 +686,6 @@ Rect2D GLES2Video::GetScissor() const
 void GLES2Video::UnsetScissor()
 {
 	SetScissor(false);
-}
-
-void GLES2Video::SetBitmapFontDefaultPath(const str_type::string& path)
-{
-	m_defaultBitmapFontPath = path;
-}
-
-str_type::string GLES2Video::GetBitmapFontDefaultPath() const
-{
-	return m_defaultBitmapFontPath;
 }
 
 BitmapFontPtr GLES2Video::LoadBitmapFont(const str_type::string& fullFilePath)

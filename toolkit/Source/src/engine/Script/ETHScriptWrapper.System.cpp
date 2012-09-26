@@ -25,9 +25,6 @@
 #include <Platform/ZipFileManager.h>
 #include <Platform/StdFileManager.h>
 
-Platform::FileManagerPtr ETHScriptWrapper::m_primaryFileManager;
-str_type::string         ETHScriptWrapper::m_primaryResourcePath;
-
 void ETHScriptWrapper::ShowMessage(str_type::string sMsg, const ETH_MESSAGE type, const bool abort)
 {
 	str_type::stringstream ss;
@@ -174,13 +171,13 @@ int ETHScriptWrapper::GetArgc()
 str_type::string ETHScriptWrapper::GetStringFromFileInPackage(const str_type::string& fileName)
 {
 	str_type::string out;
-	m_provider->GetVideo()->GetFileManager()->GetAnsiFileString(fileName, out);
+	m_provider->GetFileManager()->GetAnsiFileString(fileName, out);
 	return out;
 }
 
 bool ETHScriptWrapper::FileInPackageExists(const str_type::string& fileName)
 {
-	return m_provider->GetVideo()->GetFileManager()->FileExists(fileName);
+	return m_provider->GetFileManager()->FileExists(fileName);
 }
 
 bool ETHScriptWrapper::FileExists(const str_type::string& fileName)
@@ -208,7 +205,7 @@ str_type::string ETHScriptWrapper::GetArgv(const int n)
 
 str_type::string ETHScriptWrapper::GetProgramPath()
 {
-	return m_provider->GetResourcePath();
+	return m_provider->GetFileIOHub()->GetResourceDirectory();
 }
 
 str_type::string ETHScriptWrapper::GetAbsolutePath(const str_type::string &fileName)
@@ -218,12 +215,12 @@ str_type::string ETHScriptWrapper::GetAbsolutePath(const str_type::string &fileN
 
 str_type::string ETHScriptWrapper::GetExternalStoragePath()
 {
-	return m_provider->GetVideo()->GetExternalStoragePath();
+	return m_provider->GetFileIOHub()->GetExternalStorageDirectory();
 }
 
 str_type::string ETHScriptWrapper::GetGlobalExternalStoragePath()
 {
-	return m_provider->GetVideo()->GetGlobalExternalStoragePath();
+	return m_provider->GetFileIOHub()->GetGlobalExternalStorageDirectory();
 }
 
 void ETHScriptWrapper::EnableQuitKeys(const bool enable)
@@ -247,7 +244,7 @@ void ETHScriptWrapper::SetWindowProperties(const str_type::string &winTitle, con
 			Vector2i v2Screen = video->GetClientScreenSize();
 			video->SetWindowPosition(v2Screen/2-v2Backbuffer/2);
 		}
-		ETHAppEnmlFile file(m_provider->GetResourcePath() + ETH_APP_PROPERTIES_FILE, video->GetFileManager(), video->GetPlatformName());
+		ETHAppEnmlFile file(m_provider->GetFileIOHub()->GetResourceDirectory() + ETH_APP_PROPERTIES_FILE, m_provider->GetFileManager(), video->GetPlatformName());
 		CreateDynamicBackBuffer(file);
 	}
 }
@@ -261,21 +258,13 @@ bool ETHScriptWrapper::EnablePackLoading(const str_type::string& packFileName, c
 {
 	if (IsResourcePackingSupported())
 	{
-		VideoPtr video = m_provider->GetVideo();
-		const str_type::string packagePath = m_provider->GetResourcePath() + packFileName;
+		Platform::FileIOHubPtr fileIOHub = m_provider->GetFileIOHub();
+		const str_type::string packagePath = fileIOHub->GetStartResourceDirectory() + packFileName;
 		Platform::FileManagerPtr fileManager(new Platform::ZipFileManager(packagePath.c_str(), password.c_str()));
 		const bool isLoaded = fileManager->IsLoaded();
 		if (isLoaded)
 		{
-			// if m_primaryFileManager isn't set yet, then it means the Application
-			// object still holds the primary one, so we save it in case we need it later
-			if (!m_primaryFileManager)
-			{
-				m_primaryFileManager  = video->GetFileManager();
-				m_primaryResourcePath = m_provider->GetResourcePath();
-			}
-			video->SetFileManager(fileManager);
-			m_provider->SetResourcePath(GS_L(""));
+			fileIOHub->SetFileManager(fileManager, GS_L(""));
 		}
 		return isLoaded;
 	}
@@ -287,29 +276,15 @@ bool ETHScriptWrapper::EnablePackLoading(const str_type::string& packFileName, c
 
 void ETHScriptWrapper::DisablePackLoading()
 {
-	// if m_primaryFileManager is valid, it means the primary file manager has been changed,
-	// so we go back to it
-	if (m_primaryFileManager)
-	{
-		m_provider->GetVideo()->SetFileManager(m_primaryFileManager);
-		m_provider->SetResourcePath(m_primaryResourcePath);
-	}
+	m_provider->GetFileIOHub()->RestoreStartFileManager();
 }
 
 bool ETHScriptWrapper::IsResourcePackingSupported()
 {
-	const str_type::string& platformName = m_provider->GetVideo()->GetPlatformName();
-	if (platformName == GS_L("windows") || platformName == GS_L("mac"))
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return m_provider->GetFileIOHub()->IsResourcePackingSupported();
 }
 
 bool ETHScriptWrapper::IsPackLoadingEnabled()
 {
-	return (m_provider->GetVideo()->GetFileManager()->IsPacked() && m_primaryFileManager);
+	return (m_provider->GetFileManager()->IsPacked() && IsResourcePackingSupported());
 }

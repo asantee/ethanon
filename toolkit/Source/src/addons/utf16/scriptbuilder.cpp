@@ -128,7 +128,7 @@ int CScriptBuilder::LoadScriptSection(const wchar_t *filename)
 
 	// Open the script file
 	wstring code;
-	if(!m_provider->GetVideo()->GetFileManager()->GetUTF8BOMFileString(filename, code))
+	if(!m_provider->GetFileManager()->GetUTF8BOMFileString(filename, code))
 	{
 		// Write a message to the engine's message callback
 		wchar_t buf[256];

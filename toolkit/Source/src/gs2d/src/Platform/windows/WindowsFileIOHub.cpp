@@ -20,53 +20,36 @@
     OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#include "ETHDirectories.h"
+#include "WindowsFileIOHub.h"
+#include "../Platform.h"
+#include <windows.h>
 
-#define ETH_SHADER_DIRECTORY		GS_L("data/")
-#define ETH_BITMAP_FONT_DIRECTORY	GS_L("data/")
-#define ETH_SCENES_DIRECTORY		GS_L("scenes/")
-#define ETH_ENTITY_DIRECTORY		GS_L("entities/")
-#define ETH_NORMAL_DIRECTORY		GS_L("entities/normalmaps/")
-#define ETH_HALOS_DIRECTORY			GS_L("entities/")
-#define ETH_PARTICLES_DIRECTORY		GS_L("particles/")
-#define ETH_SOUNDFX_DIRECTORY		GS_L("soundfx/")
+namespace Platform {
 
-gs2d::str_type::string ETHDirectories::GetShaderDirectory()
+WindowsFileIOHub::WindowsFileIOHub(Platform::FileManagerPtr fileManager, const gs2d::str_type::string& bitmapFontSearchDirectory) :
+	FileIOHub(fileManager,
+			  GetModuleDirectory(), GetModuleDirectory(),
+			  GetModuleDirectory(), GetModuleDirectory(), bitmapFontSearchDirectory)
 {
-	return ETH_SHADER_DIRECTORY;
 }
 
-gs2d::str_type::string ETHDirectories::GetBitmapFontDirectory()
+WindowsFileIOHub::WindowsFileIOHub(Platform::FileManagerPtr fileManager, const gs2d::str_type::string& bitmapFontSearchDirectory,
+								   const gs2d::str_type::string& resourceDirectory) :
+	FileIOHub(fileManager,
+			  resourceDirectory, GetModuleDirectory(),
+			  GetModuleDirectory(), GetModuleDirectory(), bitmapFontSearchDirectory)
 {
-	return ETH_BITMAP_FONT_DIRECTORY;
 }
 
-gs2d::str_type::string ETHDirectories::GetSceneDirectory()
+void WindowsFileIOHub::SetFileManager(Platform::FileManagerPtr fileManager, const gs2d::str_type::string& resourceDirectory)
 {
-	return ETH_SCENES_DIRECTORY;
+	m_fileManager = fileManager;
+	SetResourceDirectory(resourceDirectory);
 }
 
-gs2d::str_type::string ETHDirectories::GetEntityDirectory()
+bool WindowsFileIOHub::IsResourcePackingSupported()
 {
-	return ETH_ENTITY_DIRECTORY;
+	return true;
 }
 
-gs2d::str_type::string ETHDirectories::GetNormalMapDirectory()
-{
-	return ETH_NORMAL_DIRECTORY;
-}
-
-gs2d::str_type::string ETHDirectories::GetHaloDirectory()
-{
-	return ETH_HALOS_DIRECTORY;
-}
-
-gs2d::str_type::string ETHDirectories::GetParticlesDirectory()
-{
-	return ETH_PARTICLES_DIRECTORY;
-}
-
-gs2d::str_type::string ETHDirectories::GetSoundFXDirectory()
-{
-	return ETH_SOUNDFX_DIRECTORY;
 }

@@ -273,13 +273,10 @@ class D3D9Video : public Video
 {
 	friend class D3D9Sprite;
 	friend class WinInput;
-	/*friend VideoPtr CreateVideo(const unsigned int, const unsigned int, const std::wstring&,
-		const bool, const bool, const std::wstring&, const GS_PIXEL_FORMAT, const bool,
-		Platform::FileManagerPtr);*/
 
 	D3D9Video(const unsigned int width, const unsigned int height, const std::wstring& winTitle,
-			const bool windowed, const bool sync, const std::wstring& bitmapFontDefaultPath,
-			const GS_PIXEL_FORMAT pfBB, const bool maximizable);
+			const bool windowed, const bool sync, const GS_PIXEL_FORMAT pfBB, const bool maximizable,
+			const Platform::FileIOHubPtr& fileIOHub);
 
 	struct RENDER_TARGET
 	{
@@ -330,7 +327,6 @@ class D3D9Video : public Video
 	float m_depth;
 	bool m_roundUpPosition;
 	std::map<std::wstring, BitmapFontPtr> m_fonts;
-	std::wstring m_defaultBitmapFontPath;
 	void ForwardCommand(const str_type::string& cmd);
 	str_type::string PullCommands();
 
@@ -353,6 +349,8 @@ class D3D9Video : public Video
 
 	boost::weak_ptr<D3D9Video> weak_this;
 
+	Platform::FileIOHubPtr m_fileIOHub;
+
 public:
 	~D3D9Video();
 
@@ -364,8 +362,8 @@ public:
 	static const unsigned int TEXTURE_CHANNELS;
 
 	static boost::shared_ptr<D3D9Video> Create(const unsigned int width, const unsigned int height,
-			const std::wstring& winTitle, const bool windowed, const bool sync,
-			const std::wstring& bitmapFontDefaultPath, const GS_PIXEL_FORMAT pfBB, const bool maximizable);
+			const std::wstring& winTitle, const bool windowed, const bool sync, const GS_PIXEL_FORMAT pfBB, const bool maximizable,
+			const Platform::FileIOHubPtr& fileIOHub);
 
 	/// Instantiate a texture object and load the texture from a file in memory (supported formats: .dds, .bmp, .png, .jpg/jpeg).
 	TexturePtr CreateTextureFromFileInMemory(const void *pBuffer, const unsigned int bufferLength, GS_COLOR mask,
@@ -452,9 +450,6 @@ public:
 	math::Rect2D GetScissor() const;
 	void UnsetScissor();
 
-	void SetBitmapFontDefaultPath(const std::wstring& path);
-	std::wstring GetBitmapFontDefaultPath() const;
-
 	math::Vector2 ComputeCarretPosition(const std::wstring& font, const std::wstring& text, const unsigned int pos);
 	math::Vector2 ComputeTextBoxSize(const std::wstring& font, const std::wstring& text);
 	unsigned int FindClosestCarretPosition(const std::wstring& font, const std::wstring &text, const math::Vector2 &textPos, const math::Vector2 &reference);
@@ -516,18 +511,15 @@ public:
 	bool IsCursorHidden() const;
 	void Quit();
 
-	str_type::string GetExternalStoragePath() const;
 	str_type::string GetPlatformName() const;
+
+	Platform::FileIOHubPtr GetFileIOHub();
 
 private:
 
 	bool StartApplication(const unsigned int width, const unsigned int height,
-			const std::wstring& winTitle,
-			const bool windowed,
-			const bool sync,
-			const std::wstring& bitmapFontDefaultPath,
-			const GS_PIXEL_FORMAT pfBB,
-			const bool maximizable);
+			const std::wstring& winTitle, const bool windowed, const bool sync,
+			const GS_PIXEL_FORMAT pfBB, const bool maximizable);
 
 	bool BeginScene(const GS_COLOR& bgColor = GS_ZERO, const bool clear = true);
 	bool EndScene(const bool swap = true);

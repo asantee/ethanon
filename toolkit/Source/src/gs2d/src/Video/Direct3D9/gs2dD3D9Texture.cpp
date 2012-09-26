@@ -83,7 +83,7 @@ bool D3D9Texture::CreateRenderTarget(VideoWeakPtr video, const unsigned int widt
 bool D3D9Texture::LoadTexture(VideoWeakPtr video, const std::wstring& fileName, GS_COLOR mask,
 							  const unsigned int width, const unsigned int height, const unsigned int nMipMaps)
 {
-	Platform::FileManagerPtr fileManager = video.lock()->GetFileManager();
+	Platform::FileManagerPtr fileManager = video.lock()->GetFileIOHub()->GetFileManager();
 
 	Platform::FileBuffer out;
 	fileManager->GetFileBuffer(fileName, out);

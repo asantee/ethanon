@@ -25,6 +25,7 @@
 #include "SceneEditor.h"
 #include "ParticleFXEditor.h"
 #include <Platform/Platform.h>
+#include <Platform/windows/WindowsFileIOHub.h>
 #include <unicode/utf8converter.h>
 #include <Platform/StdFileManager.h>
 #include "../engine/Platform/ETHAppEnmlFile.h"
@@ -114,22 +115,20 @@ bool DoNextAppButton(int nextApp, SpritePtr pSprite, VideoPtr video, InputPtr in
 
 int main(const int argc, const char* argv[])
 {
-	const wstring resourcePath = Platform::GetProgramDirectory();
-
-	// get default bitmap font path
-	wstring defaultBitmapFontPath = resourcePath;
-	defaultBitmapFontPath += ETHDirectories::GetBitmapFontPath();
-
 	VideoPtr video;
 	InputPtr input;
 	AudioPtr audio;
 
 	Platform::FileManagerPtr fileManager = Platform::FileManagerPtr(new Platform::StdFileManager);
-	const ETHAppEnmlFile app(resourcePath + L"editor.enml", fileManager, GS_L(""));
+	Platform::FileIOHubPtr fileIOHub(new Platform::WindowsFileIOHub(fileManager, ETHDirectories::GetBitmapFontDirectory(), L""));
+
+	const str_type::string resourceDirectory = fileIOHub->GetResourceDirectory();
+	const ETHAppEnmlFile app(resourceDirectory + L"editor.enml", fileManager, GS_L(""));
 	Vector2i v2Backbuffer(app.GetWidth(), app.GetHeight());
 
+
 	if ((video = CreateVideo(v2Backbuffer.x, v2Backbuffer.y, app.GetTitle(), app.IsWindowed(), app.IsVsyncEnabled(),
-		defaultBitmapFontPath, GSPF_UNKNOWN, true)))
+							 fileIOHub, GSPF_UNKNOWN, true)))
 	{
 		#ifndef _DEBUG
 		#ifdef __WIN32__
@@ -146,10 +145,9 @@ int main(const int argc, const char* argv[])
 
 		ETHResourceProviderPtr provider = ETHResourceProviderPtr(new ETHResourceProvider(
 			ETHGraphicResourceManagerPtr(new ETHGraphicResourceManager(ETHSpriteDensityManager())),
-			ETHAudioResourceManagerPtr(new ETHAudioResourceManager(fileManager)),
-			ETHShaderManagerPtr(new ETHShaderManager(video, resourcePath + ETHDirectories::GetShaderPath(), true)),
-			GS_L(""),
-			video, audio, input));
+			ETHAudioResourceManagerPtr(new ETHAudioResourceManager()),
+			ETHShaderManagerPtr(new ETHShaderManager(video, resourceDirectory + ETHDirectories::GetShaderDirectory(), true)),
+			video, audio, input, fileIOHub));
 
 		// instantiate and load every editor
 		vector<boost::shared_ptr<EditorBase>> editor(nEditors);
@@ -165,10 +163,10 @@ int main(const int argc, const char* argv[])
 		}
 
 		// load the arrow sprite used by every editor
-		const wstring nextAppButtonPath = resourcePath + L"data/nextapp.png";
+		const wstring nextAppButtonPath = resourceDirectory + L"data/nextapp.png";
 		SpritePtr nextAppButton = video->CreateSprite(nextAppButtonPath);
 
-		ETH_STARTUP_RESOURCES_ENML_FILE startup(resourcePath + wstring(L"/") + L"editor.enml", Platform::FileManagerPtr(new Platform::StdFileManager));
+		ETH_STARTUP_RESOURCES_ENML_FILE startup(resourceDirectory + wstring(L"/") + L"editor.enml", Platform::FileManagerPtr(new Platform::StdFileManager));
 
 		// if the user tried the "open with..." feature, open that project
 		if (argc >= 2)

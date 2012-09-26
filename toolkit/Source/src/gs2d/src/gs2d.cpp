@@ -404,24 +404,9 @@ GS2D_API float ComputeElapsedTimeF(ApplicationPtr app)
 	return elapsedTime * 1000.0f;
 }
 
-str_type::string Application::GetGlobalExternalStoragePath() const
-{
-	return GetExternalStoragePath();
-}
-
 void Application::SetScreenSizeChangeListener(const ScreenSizeChangeListenerPtr& listener)
 {
 	m_screenSizeChangeListener = listener;
-}
-
-Platform::FileManagerPtr Application::GetFileManager() const
-{
-	return m_fileManager;
-}
-
-void Application::SetFileManager(const Platform::FileManagerPtr& fileManager)
-{
-	m_fileManager = fileManager;
 }
 
 } // namespace gs2d

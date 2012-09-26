@@ -73,8 +73,8 @@ bool ParticleEditor::ProjectManagerRequested()
 void ParticleEditor::LoadSoundFX(const char *path, const char *file)
 {
 	string programPath = GetCurrentProjectPath(false);
-	ETHGlobal::CopyFileToProject(utf8::c(programPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetSoundFXPath(), m_provider->GetVideo()->GetFileManager());
-	m_manager->SetSoundEffect(m_provider->GetAudio()->LoadSampleFromFile(utf8::c(path).wc_str(), m_provider->GetVideo()->GetFileManager(), GSST_SOUND_EFFECT));
+	ETHGlobal::CopyFileToProject(utf8::c(programPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetSoundFXDirectory(), m_provider->GetFileManager());
+	m_manager->SetSoundEffect(m_provider->GetAudio()->LoadSampleFromFile(utf8::c(path).wc_str(), m_provider->GetFileManager(), GSST_SOUND_EFFECT));
 	m_system.soundFXFile = utf8::c(file).wstr();
 	m_manager->SetSystem(m_system);
 }
@@ -489,7 +489,7 @@ void ParticleEditor::ParticlePanel()
 		char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
 		if (OpenParticleBMP(path, file))
 		{
-			ETHGlobal::CopyFileToProject(utf8::c(programPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetParticlesPath(), video->GetFileManager());
+			ETHGlobal::CopyFileToProject(utf8::c(programPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetParticlesDirectory(), m_provider->GetFileManager());
 			m_system.bitmapFile = utf8::c(file).wstr();
 			m_provider->GetGraphicResourceManager()->RemoveResource(m_system.bitmapFile);
 			m_manager = ETHParticleManagerPtr(
@@ -708,7 +708,7 @@ string ParticleEditor::DoEditor(SpritePtr pNextAppButton)
 
 void ParticleEditor::LoadEditor()
 {
-	m_sphereSprite = m_provider->GetVideo()->CreateSprite(utf8::c(utf8::c(m_provider->GetProgramPath()).str() + "/" + BSPHERE_BMP).wc_str());
+	m_sphereSprite = m_provider->GetVideo()->CreateSprite(utf8::c(utf8::c(m_provider->GetFileIOHub()->GetProgramDirectory()).str() + "/" + BSPHERE_BMP).wc_str());
 	ResetSystem();
 	SetupMenu();
 }

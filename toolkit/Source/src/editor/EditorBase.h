@@ -116,7 +116,6 @@ namespace ETHGlobal
 {
 	bool CopyFileToProject(const wstring &currentPath, const wstring &filePath, const wstring &destPath, const Platform::FileManagerPtr& fileManager);
 	void ErrorMessageBox(const char *szMessage, const char *szTitle);
-	// win32 normally defines it, so let's avoid double definition
 	bool _MoveFile(const std::wstring &source, const std::wstring &dest, const bool overwrite);
 }
 

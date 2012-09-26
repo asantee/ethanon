@@ -46,10 +46,10 @@ class ETHEngine : public gs2d::BaseApplication, public ETHScriptWrapper
 	const str_type::string ETH_DEFAULT_MAIN_BYTECODE_FILE;
 	const str_type::string ETH_MAIN_FUNCTION;
 
+	Platform::FileIOHubPtr m_fileIOHub;
+
 	const bool m_testing, m_compileAndRun;
 	bool m_hasBeenResumed;
-
-	const str_type::string m_startResourcePath;
 
 	static void MessageCallback(const asSMessageInfo *msg);
 	static bool CheckAngelScriptError(const int r, const str_type::string &description);
@@ -71,7 +71,7 @@ class ETHEngine : public gs2d::BaseApplication, public ETHScriptWrapper
 public:
 	static const str_type::string ETH_SCRIPT_MODULE;
 
-	ETHEngine(const bool testing, const bool compileAndRun, const str_type::string& startResourcePath);
+	ETHEngine(const bool testing, const bool compileAndRun);
 	~ETHEngine();
 	void Start(gs2d::VideoPtr video, gs2d::InputPtr input, gs2d::AudioPtr audio);
 	gs2d::Application::APP_STATUS Update(unsigned long lastFrameDeltaTimeMS); 

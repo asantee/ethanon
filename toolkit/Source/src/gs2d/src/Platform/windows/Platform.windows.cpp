@@ -30,6 +30,35 @@
 
 namespace Platform {
 
+
+#ifdef _DEBUG
+gs2d::str_type::string GetModuleDirectory()
+{
+	gs2d::str_type::char_t currentDirectoryBuffer[65536];
+
+	#ifdef GS2D_STR_TYPE_WCHAR
+		GetCurrentDirectoryW(65535, currentDirectoryBuffer);
+	#else
+		GetCurrentDirectoryA(65535, currentDirectoryBuffer);
+	#endif
+
+	return AddLastSlash(currentDirectoryBuffer);
+}
+#else
+gs2d::str_type::string GetModuleDirectory()
+{
+	gs2d::str_type::char_t moduleFileName[65536];
+
+	#ifdef GS2D_STR_TYPE_WCHAR
+		GetModuleFileNameW(NULL, moduleFileName, 65535);
+	#else
+		GetModuleFileNameA(NULL, moduleFileName, 65535);
+	#endif
+
+	return AddLastSlash(GetFileDirectory(moduleFileName));
+}
+#endif
+
 const int kilobyteSize = 1024;
 const int maximumAllowedStackAllocation = 4 * kilobyteSize;
 // Usually stack has size limit is 1024 Kb
@@ -132,38 +161,9 @@ std::string ConvertUnicodeToAscii(const wchar_t* unicodeString)
 	return result;
 }
 
-
-#ifdef _DEBUG
-	gs2d::str_type::string GetProgramDirectory()
-	{
-		gs2d::str_type::char_t currentDirectoryBuffer[65536];
-
-		#ifdef GS2D_STR_TYPE_WCHAR
-		GetCurrentDirectoryW(65535, currentDirectoryBuffer);
-		#else
-		GetCurrentDirectoryA(65535, currentDirectoryBuffer);
-		#endif
-
-		return AddLastSlash(currentDirectoryBuffer);
-	}
-#else
-	gs2d::str_type::string GetProgramDirectory()
-	{
-		gs2d::str_type::char_t moduleFileName[65536];
-
-		#ifdef GS2D_STR_TYPE_WCHAR
-		GetModuleFileNameW(NULL, moduleFileName, 65535);
-		#else
-		GetModuleFileNameA(NULL, moduleFileName, 65535);
-		#endif
-
-		return AddLastSlash(GetFileDirectory(moduleFileName));
-	}
-#endif
-
 gs2d::str_type::string FileLogger::GetLogPath()
 {
-	return GS_L("");
+	return GetModuleDirectory();
 }
 
 char GetDirectorySlash()

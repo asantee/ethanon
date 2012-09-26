@@ -164,6 +164,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\src\Platform\windows\WindowsFileIOHub.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\Platform\windows\WindowsFileIOHub.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\src\Platform\ZipFileManager.cpp"
 				>
 			</File>

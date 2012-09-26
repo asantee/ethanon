@@ -65,7 +65,7 @@ static gs2d::str_type::string AssembleResourceName(const string& fullFilePath, c
 gs2d::str_type::string ETHSpriteDensityManager::ChooseSpriteVersion(const gs2d::str_type::string& fullFilePath,
 										   const gs2d::VideoPtr& video, ETHSpriteDensityManager::DENSITY_LEVEL& densityLevel)
 {
-	const Platform::FileManagerPtr fileManager = video->GetFileManager();
+	const Platform::FileManagerPtr fileManager = video->GetFileIOHub()->GetFileManager();
 	const bool shouldUseFullHdResources = ShouldUseFullHdResources(video);
 	if (shouldUseFullHdResources)
 	{

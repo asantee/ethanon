@@ -31,7 +31,7 @@ ETHFileChangeDetector::ETHFileChangeDetector(const gs2d::ApplicationPtr& app, co
 	m_app(app),
 	m_lastTime(m_timeStrideMS)
 {
-	m_fileManager = app->GetFileManager();
+	m_fileManager = app->GetFileIOHub()->GetFileManager();
 	Update();
 	m_fileChanged = false;
 }

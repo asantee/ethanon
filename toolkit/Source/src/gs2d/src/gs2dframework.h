@@ -26,6 +26,7 @@
 #include "gs2d.h"
 #include "gs2dinput.h"
 #include "gs2daudio.h"
+#include "Platform/FileIOHub.h"
 
 namespace gs2d {
 

@@ -380,7 +380,7 @@ ETHParticleManager::ETHParticleManager(ETHResourceProviderPtr provider, const st
 	m_provider(provider)
 {
 	ETH_PARTICLE_SYSTEM partSystem;
-	if (partSystem.ReadFromFile(file, m_provider->GetVideo()->GetFileManager()))
+	if (partSystem.ReadFromFile(file, m_provider->GetFileManager()))
 	{
 		CreateParticleSystem(partSystem, v2Pos, v3Pos, angle, entityVolume);
 	}
@@ -426,21 +426,22 @@ bool ETHParticleManager::CreateParticleSystem(const ETH_PARTICLE_SYSTEM &partSys
 
 	ETHGraphicResourceManagerPtr graphics = m_provider->GetGraphicResourceManager();
 	ETHAudioResourceManagerPtr samples = m_provider->GetAudioResourceManager();
-	Platform::FileManagerPtr fileManager = m_provider->GetVideo()->GetFileManager();
+	Platform::FileIOHubPtr fileIOHub = m_provider->GetFileIOHub();
+	Platform::FileManagerPtr fileManager = m_provider->GetFileManager();
 
 	// if there's no resource path, search the current module's path
-	const str_type::string& resourcePath = m_provider->GetResourcePath();
-	const str_type::string& programPath  = m_provider->GetProgramPath();
+	const str_type::string& resourcePath = fileIOHub->GetResourceDirectory();
+	const str_type::string& programPath  = fileIOHub->GetProgramDirectory();
 	const str_type::string currentPath = (resourcePath.empty() && !fileManager->IsPacked()) ? programPath : resourcePath;
 
 	m_pBMP = graphics->GetPointer(m_provider->GetVideo(), m_system.bitmapFile, currentPath,
-		ETHDirectories::GetParticlesPath(), (m_system.alphaMode == GSAM_ADD));
+		ETHDirectories::GetParticlesDirectory(), (m_system.alphaMode == GSAM_ADD));
 
 	// find the particle sound effect
 	if (m_system.soundFXFile != GS_L(""))
 	{
-		m_pSound = samples->GetPointer(m_provider->GetAudio(), m_system.soundFXFile, m_provider->GetResourcePath(),
-			ETHDirectories::GetSoundFXPath(), GSST_SOUND_EFFECT);
+		m_pSound = samples->GetPointer(m_provider->GetAudio(), m_provider->GetFileIOHub(), m_system.soundFXFile,
+			ETHDirectories::GetSoundFXDirectory(), GSST_SOUND_EFFECT);
 	}
 
 	if (m_system.allAtOnce)

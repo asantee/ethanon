@@ -37,8 +37,6 @@ class ETHScriptWrapper
 	static bool m_runningMainFunction;
 	static bool m_persistentResources;
 	static unsigned long m_lastFrameElapsedTime;
-	static Platform::FileManagerPtr m_primaryFileManager;
-	static str_type::string m_primaryResourcePath;
 
 protected:
 	static void SetLastFrameElapsedTime(const unsigned long lastFrameElapsedTime);

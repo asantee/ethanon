@@ -27,17 +27,15 @@
 #include "../../gs2dcgshadercode.h"
 #include <vector>
 #include "../../unicode/utf8converter.h"
-#include "../../Platform/StdFileManager.h"
 
 namespace gs2d {
 using namespace math;
 
 GS2D_API VideoPtr CreateVideo(const unsigned int width, const unsigned int height,
-				const std::wstring& winTitle, const bool windowed, const bool sync,
-				const std::wstring& bitmapFontDefaultPath,
-				const GS_PIXEL_FORMAT pfBB, const bool maximizable, Platform::FileManagerPtr fileManager)
+				const std::wstring& winTitle, const bool windowed, const bool sync, const Platform::FileIOHubPtr& fileIOHub,
+				const GS_PIXEL_FORMAT pfBB, const bool maximizable)
 {
-	return D3D9Video::Create(width, height, winTitle, windowed, sync, bitmapFontDefaultPath, pfBB, maximizable);
+	return D3D9Video::Create(width, height, winTitle, windowed, sync, pfBB, maximizable, fileIOHub);
 }
 
 /// Platform specific user message function implementation
@@ -207,18 +205,18 @@ D3D9Video::RENDER_TARGET_LIST D3D9Video::m_targets;
 const unsigned int D3D9Video::TEXTURE_CHANNELS = 8;
 
 boost::shared_ptr<D3D9Video> D3D9Video::Create(const unsigned int width, const unsigned int height,
-			const std::wstring& winTitle, const bool windowed, const bool sync,
-			const std::wstring& bitmapFontDefaultPath, const GS_PIXEL_FORMAT pfBB, const bool maximizable)
+											   const std::wstring& winTitle, const bool windowed, const bool sync,
+											   const GS_PIXEL_FORMAT pfBB, const bool maximizable,
+											   const Platform::FileIOHubPtr& fileIOHub)
 {
 	boost::shared_ptr<D3D9Video> p(
-		new D3D9Video(width, height, winTitle, windowed, sync, bitmapFontDefaultPath, pfBB, maximizable));
+		new D3D9Video(width, height, winTitle, windowed, sync, pfBB, maximizable, fileIOHub));
 	p->weak_this = p;
 	return p;
 }
 
 TexturePtr D3D9Video::CreateTextureFromFileInMemory(const void *pBuffer, const unsigned int bufferLength, GS_COLOR mask,
-			 const unsigned int width, const unsigned int height,
-			 const unsigned int nMipMaps)
+			 const unsigned int width, const unsigned int height, const unsigned int nMipMaps)
 {
 	TexturePtr texture(new D3D9Texture);
 	if (texture->LoadTexture(weak_this, pBuffer, mask, width, height, nMipMaps, bufferLength))
@@ -229,8 +227,7 @@ TexturePtr D3D9Video::CreateTextureFromFileInMemory(const void *pBuffer, const u
 }
 
 TexturePtr D3D9Video::LoadTextureFromFile(const std::wstring& fileName, GS_COLOR mask,
-			 const unsigned int width, const unsigned int height,
-			 const unsigned int nMipMaps)
+			 const unsigned int width, const unsigned int height, const unsigned int nMipMaps)
 {
 	TexturePtr texture(new D3D9Texture);
 	if (texture->LoadTexture(weak_this, fileName, mask, width, height, nMipMaps))
@@ -305,12 +302,8 @@ ShaderPtr D3D9Video::LoadShaderFromString(const str_type::string& shaderName, co
 }
 
 D3D9Video::D3D9Video(const unsigned int width, const unsigned int height,
-			const std::wstring& winTitle,
-			const bool windowed,
-			const bool sync,
-			const std::wstring& bitmapFontDefaultPath,
-			const GS_PIXEL_FORMAT pfBB,
-			const bool maximizable) :
+			const std::wstring& winTitle, const bool windowed, const bool sync,
+			const GS_PIXEL_FORMAT pfBB, const bool maximizable, const Platform::FileIOHubPtr& fileIOHub) :
 	m_videoInfo(new D3D9VideoInfo),
 	m_blendModes(TEXTURE_CHANNELS),
 	m_pDevice(NULL),
@@ -331,17 +324,16 @@ D3D9Video::D3D9Video(const unsigned int width, const unsigned int height,
 	m_depth(0.0f),
 	m_fpsRate(60.0f),
 	m_roundUpPosition(false),
-	m_maximizable(false)
+	m_maximizable(false),
+	m_fileIOHub(fileIOHub)
 {
-	m_fileManager = Platform::FileManagerPtr(new Platform::StdFileManager());
-
 	for (unsigned int t = 1; t < TEXTURE_CHANNELS; t++)
 		m_blendModes[t] = GSBM_MODULATE;
 
 	m_currentChar = '\0';
 	m_wheelDelta = 0;
 	m_inputFocus = false;
-	StartApplication(width, height, winTitle, windowed, sync, bitmapFontDefaultPath, pfBB, maximizable);
+	StartApplication(width, height, winTitle, windowed, sync, pfBB, maximizable);
 }
 
 D3D9Video::~D3D9Video()
@@ -1238,16 +1230,6 @@ std::wstring GetFileName(const std::wstring& source)
 	return source.substr(++t);
 }
 
-void D3D9Video::SetBitmapFontDefaultPath(const std::wstring& path)
-{
-	m_defaultBitmapFontPath = path;
-}
-
-std::wstring D3D9Video::GetBitmapFontDefaultPath() const
-{
-	return m_defaultBitmapFontPath;
-}
-
 BitmapFontPtr D3D9Video::LoadBitmapFont(const std::wstring& fullFilePath)
 {
 	str_type::ifstream stream(fullFilePath.c_str(), str_type::ifstream::in);
@@ -1285,7 +1267,7 @@ Vector2 D3D9Video::ComputeCarretPosition(const std::wstring& font, const std::ws
 	BitmapFontPtr bitmapFont;
 	if (iter == m_fonts.end())
 	{
-		bitmapFont = LoadBitmapFont(m_defaultBitmapFontPath + font);
+		bitmapFont = LoadBitmapFont(m_fileIOHub->GenerateBitmapFontFilePath(font));
 		if (!bitmapFont)
 		{
 			return Vector2(0,0);
@@ -1304,7 +1286,7 @@ Vector2 D3D9Video::ComputeTextBoxSize(const std::wstring& font, const std::wstri
 	BitmapFontPtr bitmapFont;
 	if (iter == m_fonts.end())
 	{
-		bitmapFont = LoadBitmapFont(m_defaultBitmapFontPath + font);
+		bitmapFont = LoadBitmapFont(m_fileIOHub->GenerateBitmapFontFilePath(font));
 		if (!bitmapFont)
 		{
 			return Vector2(0,0);
@@ -1323,7 +1305,7 @@ unsigned int D3D9Video::FindClosestCarretPosition(const std::wstring& font, cons
 	BitmapFontPtr bitmapFont;
 	if (iter == m_fonts.end())
 	{
-		bitmapFont = LoadBitmapFont(m_defaultBitmapFontPath + font);
+		bitmapFont = LoadBitmapFont(m_fileIOHub->GenerateBitmapFontFilePath(font));
 		if (!bitmapFont)
 		{
 			return 0;
@@ -1346,7 +1328,7 @@ bool D3D9Video::DrawBitmapText(const Vector2 &v2Pos, const std::wstring& text, c
 	// if not... create a new one
 	if (iter == m_fonts.end())
 	{
-		bmfont = LoadBitmapFont(m_defaultBitmapFontPath + font);
+		bmfont = LoadBitmapFont(m_fileIOHub->GenerateBitmapFontFilePath(font));
 		if (!bmfont)
 		{
 			return false;
@@ -1555,9 +1537,7 @@ unsigned int D3D9Video::GetVideoModeCount()
 
 bool D3D9Video::StartApplication(const unsigned int width, const unsigned int height,
 								const std::wstring& winTitle, const bool windowed,
-								const bool sync, const std::wstring& bitmapFontDefaultPath,
-								const GS_PIXEL_FORMAT pfBB, const bool maximizable)
-
+								const bool sync, const GS_PIXEL_FORMAT pfBB, const bool maximizable)
 {
 	m_sync = sync;
 
@@ -1778,9 +1758,6 @@ bool D3D9Video::StartApplication(const unsigned int width, const unsigned int he
 	SetAlphaMode(GSAM_PIXEL);
 	SetZBuffer(false);
 	SetZWrite(false);
-
-	SetBitmapFontDefaultPath(bitmapFontDefaultPath);
-	Message(L"Default font path is: " + GetBitmapFontDefaultPath(), GSMT_INFO);
 	return true;
 }
 
@@ -1850,12 +1827,6 @@ void D3D9Video::ResetTimer()
 void D3D9Video::Quit()
 {
 	m_quit = true;
-}
-
-
-str_type::string D3D9Video::GetExternalStoragePath() const
-{
-	return GS_L("");
 }
 
 unsigned long D3D9Video::GetElapsedTime(const TIME_UNITY unity) const
@@ -2119,6 +2090,11 @@ boost::any D3D9Video::GetGraphicContext()
 str_type::string D3D9Video::GetPlatformName() const
 {
 	return GS_L("windows");
+}
+
+Platform::FileIOHubPtr D3D9Video::GetFileIOHub()
+{
+	return m_fileIOHub;
 }
 
 } // namespace gs2d

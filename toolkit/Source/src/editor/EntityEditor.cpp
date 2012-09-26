@@ -151,27 +151,27 @@ void EntityEditor::LoadEditor()
 
 	InstantiateEntity();
 
-	m_axis = video->CreateSprite(m_provider->GetProgramPath() + L"data/axis.png");
+	m_axis = video->CreateSprite(m_provider->GetFileIOHub()->GetProgramDirectory() + L"data/axis.png");
 	m_axis->SetOrigin(GSEO_CENTER);
 
-	m_spot.m_sprite = video->CreateSprite(m_provider->GetProgramPath() + L"data/spot.bmp", 0xFFFF00FF);
+	m_spot.m_sprite = video->CreateSprite(m_provider->GetFileIOHub()->GetProgramDirectory() + L"data/spot.bmp", 0xFFFF00FF);
 	m_spot.m_sprite->SetOrigin(GSEO_CENTER);
 
-	m_range = video->CreateSprite(m_provider->GetProgramPath() + L"data/range.png");
+	m_range = video->CreateSprite(m_provider->GetFileIOHub()->GetProgramDirectory() + L"data/range.png");
 	m_range->SetOrigin(GSEO_CENTER);
 
-	m_outline = video->CreateSprite(m_provider->GetProgramPath() + L"data/outline.png");
+	m_outline = video->CreateSprite(m_provider->GetFileIOHub()->GetProgramDirectory() + L"data/outline.png");
 	m_outline->SetOrigin(GSEO_DEFAULT);
 
 	for (int t=0; t<ETH_MAX_PARTICLE_SYS_PER_ENTITY; t++)
 	{
-		m_particleSpot[t].m_sprite = video->CreateSprite(m_provider->GetProgramPath() + L"data/arrow.bmp", 0xFFFF00FF);
+		m_particleSpot[t].m_sprite = video->CreateSprite(m_provider->GetFileIOHub()->GetProgramDirectory() + L"data/arrow.bmp", 0xFFFF00FF);
 		m_particleSpot[t].m_sprite->SetOrigin(GSEO_CENTER);
 	}
 
 	m_playStopButton.SetupButtons(video, m_provider->GetInput());
-	m_playStopButton.AddButton(m_provider->GetProgramPath() + L"data/play.png");
-	m_playStopButton.AddButton(m_provider->GetProgramPath() + L"data/stop.png");
+	m_playStopButton.AddButton(m_provider->GetFileIOHub()->GetProgramDirectory() + L"data/play.png");
+	m_playStopButton.AddButton(m_provider->GetFileIOHub()->GetProgramDirectory() + L"data/stop.png");
 
 	m_addMenu.SetupMenu(video, m_provider->GetInput(), _S_ADD_RESOURCES, m_menuSize*m_menuScale, m_menuWidth*2, true);
 	m_addMenu.AddButton(_S_OPEN_ENTITY);
@@ -721,9 +721,9 @@ void EntityEditor::DoMainMenu()
 	{
 		char filter[] = "Supported image files\0*.png;*.bmp;*.tga;*.jpg;*.jpeg;*.dds\0\0";
 		char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
-		if (OpenForm(filter, utf8::c(ETHDirectories::GetEntityPath()).c_str(), path, file, currentProjectPath.c_str()))
+		if (OpenForm(filter, utf8::c(ETHDirectories::GetEntityDirectory()).c_str(), path, file, currentProjectPath.c_str()))
 		{
-			ETHGlobal::CopyFileToProject(utf8::c(currentProjectPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetEntityPath(), video->GetFileManager());
+			ETHGlobal::CopyFileToProject(utf8::c(currentProjectPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetEntityDirectory(), m_provider->GetFileManager());
 			if (LoadSprite(file, path))
 			{
 				Vector2 screenMid = video->GetScreenSizeF() / 2.0f;
@@ -736,9 +736,9 @@ void EntityEditor::DoMainMenu()
 	{
 		char filter[] = "Supported image files\0*.png;*.bmp;*.tga;*.jpg;*.jpeg;*.dds\0\0";
 		char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
-		if (OpenForm(filter, utf8::c(ETHDirectories::GetNormalMapPath()).c_str(), path, file, currentProjectPath.c_str()))
+		if (OpenForm(filter, utf8::c(ETHDirectories::GetNormalMapDirectory()).c_str(), path, file, currentProjectPath.c_str()))
 		{
-			ETHGlobal::CopyFileToProject(utf8::c(currentProjectPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetNormalMapPath(), video->GetFileManager());
+			ETHGlobal::CopyFileToProject(utf8::c(currentProjectPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetNormalMapDirectory(), m_provider->GetFileManager());
 			if (LoadNormal(file, path))
 			{
 				Vector2 screenMid = video->GetScreenSizeF() / 2.0f;
@@ -751,9 +751,9 @@ void EntityEditor::DoMainMenu()
 	{
 		char filter[] = "Supported image files\0*.png;*.bmp;*.tga;*.jpg;*.jpeg;*.dds\0\0";
 		char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
-		if (OpenForm(filter, utf8::c(ETHDirectories::GetEntityPath()).c_str(), path, file, currentProjectPath.c_str()))
+		if (OpenForm(filter, utf8::c(ETHDirectories::GetEntityDirectory()).c_str(), path, file, currentProjectPath.c_str()))
 		{
-			ETHGlobal::CopyFileToProject(utf8::c(currentProjectPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetEntityPath(), video->GetFileManager());
+			ETHGlobal::CopyFileToProject(utf8::c(currentProjectPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetEntityDirectory(), m_provider->GetFileManager());
 			if (LoadHalo(file, path))
 			{
 				Vector2 screenMid = video->GetScreenSizeF() / 2.0f;
@@ -766,9 +766,9 @@ void EntityEditor::DoMainMenu()
 	{
 		char filter[] = "Supported image files\0*.png;*.bmp;*.tga;*.jpg;*.jpeg;*.dds\0\0";
 		char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
-		if (OpenForm(filter, utf8::c(ETHDirectories::GetEntityPath()).c_str(), path, file, currentProjectPath.c_str()))
+		if (OpenForm(filter, utf8::c(ETHDirectories::GetEntityDirectory()).c_str(), path, file, currentProjectPath.c_str()))
 		{
-			ETHGlobal::CopyFileToProject(utf8::c(currentProjectPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetEntityPath(), video->GetFileManager());
+			ETHGlobal::CopyFileToProject(utf8::c(currentProjectPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetEntityDirectory(), m_provider->GetFileManager());
 			if (LoadGloss(file, path))
 			{
 				Vector2 screenMid = video->GetScreenSizeF() / 2.0f;
@@ -1310,7 +1310,7 @@ bool EntityEditor::SaveAs()
 {
 	char filter[] = "Ethanon Entity files (*.ent)\0*.ent\0\0";
 	char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
-	if (SaveForm(filter, utf8::c(ETHDirectories::GetEntityPath()).c_str(), path, file, GetCurrentProjectPath(true).c_str()))
+	if (SaveForm(filter, utf8::c(ETHDirectories::GetEntityDirectory()).c_str(), path, file, GetCurrentProjectPath(true).c_str()))
 	{
 		Save(path);
 	}
@@ -1354,7 +1354,7 @@ bool EntityEditor::Open()
 
 	char filter[] = "Ethanon Entity files (*.ent)\0*.ent\0\0";
 	char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
-	if (OpenForm(filter, utf8::c(ETHDirectories::GetEntityPath()).c_str(), path, file, currentProjectPath.c_str()))
+	if (OpenForm(filter, utf8::c(ETHDirectories::GetEntityDirectory()).c_str(), path, file, currentProjectPath.c_str()))
 	{
 		OpenEntity(path);
 	}
@@ -1617,7 +1617,7 @@ bool EntityEditor::LoadParticle(const int n, const char *file, const char *path)
 {
 	UnloadParticle(n);
 	ETH_PARTICLE_SYSTEM parSystem;
-	if (parSystem.ReadFromFile(utf8::c(path).wstr(), m_provider->GetVideo()->GetFileManager()))
+	if (parSystem.ReadFromFile(utf8::c(path).wstr(), m_provider->GetFileManager()))
 	{
 		*(m_pEditEntity->particleSystems[n].get()) = parSystem;
 		m_attachLight.AddButton(

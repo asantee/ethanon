@@ -24,20 +24,21 @@
 #include <Platform/Platform.h>
 
 Platform::FileLoggerPtr ETHResourceProvider::m_logger(
-	new Platform::FileLogger(Platform::GetProgramDirectory() + Platform::FileLogger::GetLogPath() + GS_L("eth.log.txt")));
+	new Platform::FileLogger(Platform::FileLogger::GetLogPath() + GS_L("eth.log.txt")));
 
 ETHResourceProvider::ETHResourceProvider(
 		ETHGraphicResourceManagerPtr graphicResources, ETHAudioResourceManagerPtr audioResources,
-		boost::shared_ptr<ETHShaderManager> shaderManager, const str_type::string& resourcePath,
-		VideoPtr video, AudioPtr audio, InputPtr input)
+		boost::shared_ptr<ETHShaderManager> shaderManager,
+		VideoPtr video, AudioPtr audio, InputPtr input, Platform::FileIOHubPtr fileIOHub)
 {
+	// all static
 	m_graphicResources = graphicResources;
 	m_audioResources = audioResources;
 	m_shaderManager = shaderManager;
-	m_resourcePath = resourcePath;
 	m_video = video;
 	m_audio = audio;
 	m_input = input;
+	m_fileIOHub = fileIOHub;
 }
 
 void ETHResourceProvider::Log(const str_type::string& str, const Platform::Logger::TYPE& type)
@@ -70,22 +71,6 @@ boost::shared_ptr<ETHShaderManager> ETHResourceProvider::GetShaderManager()
 	return m_shaderManager;
 }
 
-str_type::string ETHResourceProvider::GetProgramPath()
-{
-	return m_programPath;
-}
-
-str_type::string ETHResourceProvider::GetResourcePath()
-{
-	return m_resourcePath;
-}
-
-void ETHResourceProvider::SetResourcePath(const str_type::string& path)
-{
-	m_resourcePath = Platform::AddLastSlash(path);
-	m_video->SetBitmapFontDefaultPath(m_resourcePath + ETHDirectories::GetBitmapFontPath());
-}
-
 const VideoPtr& ETHResourceProvider::GetVideo()
 {
 	return m_video;
@@ -101,22 +86,26 @@ const InputPtr& ETHResourceProvider::GetInput()
 	return m_input;
 }
 
-str_type::string ETHResourceProvider::GetByteCodeSavePath()
+str_type::string ETHResourceProvider::GetByteCodeSaveDirectory()
 {
-	#if !defined(ANDROID) && !defined(APPLE_IOS)
-		return GetResourcePath();
-	#else
-		return m_video->GetExternalStoragePath();
-	#endif
+	return m_fileIOHub->GetExternalStorageDirectory();
 }
 
-str_type::string ETHResourceProvider::m_programPath = Platform::GetProgramDirectory();
+const Platform::FileManagerPtr& ETHResourceProvider::GetFileManager()
+{
+	return m_fileIOHub->GetFileManager();
+}
+
+Platform::FileIOHubPtr ETHResourceProvider::GetFileIOHub()
+{
+	return m_fileIOHub;
+}
 
 ETHGraphicResourceManagerPtr ETHResourceProvider::m_graphicResources;
 ETHAudioResourceManagerPtr ETHResourceProvider::m_audioResources;
 boost::shared_ptr<ETHShaderManager> ETHResourceProvider::m_shaderManager;
-str_type::string ETHResourceProvider::m_resourcePath;
 VideoPtr ETHResourceProvider::m_video;
 AudioPtr ETHResourceProvider::m_audio;
 InputPtr ETHResourceProvider::m_input;
+Platform::FileIOHubPtr ETHResourceProvider::m_fileIOHub;
 ETHGlobalScaleManagerPtr ETHResourceProvider::m_globalScaleManager(new ETHGlobalScaleManager);

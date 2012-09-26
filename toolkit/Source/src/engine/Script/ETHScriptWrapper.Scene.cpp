@@ -129,8 +129,9 @@ int ETHScriptWrapper::AddEntity(const str_type::string &file, const Vector3 &v3P
 	if (WarnIfRunsInMainFunction(GS_L("AddEntity")))
 		return -1;
 
-	const ETHEntityProperties* props = m_entityCache.Get(file, m_provider->GetResourcePath() + ETHDirectories::GetEntityPath(),
-														 m_provider->GetVideo()->GetFileManager());
+	const str_type::string resourceDirectory = m_provider->GetFileIOHub()->GetResourceDirectory();
+	const ETHEntityProperties* props = m_entityCache.Get(file, resourceDirectory + ETHDirectories::GetEntityDirectory(),
+														 m_provider->GetFileManager());
 
 	if (!props)
 	{
@@ -479,7 +480,7 @@ bool ETHScriptWrapper::SaveScene(const str_type::string &escFile)
 		return false;
 
 	// loads a new scene from file
-	str_type::string fileName = m_provider->GetResourcePath();
+	str_type::string fileName = m_provider->GetFileIOHub()->GetResourceDirectory();
 	fileName += escFile;
 
 	return m_pScene->SaveToFile(fileName);
@@ -509,7 +510,7 @@ bool ETHScriptWrapper::LoadScene(const str_type::string &escFile, const Vector2&
 		}
 	}
 
-	str_type::string fileName = m_provider->GetResourcePath();
+	str_type::string fileName = m_provider->GetFileIOHub()->GetResourceDirectory();
 	fileName += escFile;
 
 	// if the name is set to _ETH_EMPTY_SCENE_STRING, don't load anything

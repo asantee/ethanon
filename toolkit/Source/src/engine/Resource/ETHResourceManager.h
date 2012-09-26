@@ -24,6 +24,7 @@
 #define ETH_RESOURCE_MANAGER_H_
 
 #include "../ETHCommon.h"
+#include <Platform/FileIOHub.h>
 #include <list>
 #include <iostream>
 #include <string>
@@ -63,16 +64,14 @@ typedef boost::shared_ptr<ETHGraphicResourceManager> ETHGraphicResourceManagerPt
 class ETHAudioResourceManager
 {
 public:
-	ETHAudioResourceManager(const Platform::FileManagerPtr& fileManager);
-	AudioSamplePtr GetPointer(AudioPtr audio, const str_type::string &fileRelativePath,
-						  const str_type::string &programPath, const str_type::string &alternative, const GS_SAMPLE_TYPE type);
-	AudioSamplePtr AddFile(AudioPtr audio, const str_type::string &path, const GS_SAMPLE_TYPE type);
+	AudioSamplePtr GetPointer(AudioPtr audio, const Platform::FileIOHubPtr& fileIOHub, const str_type::string &fileRelativePath,
+							  const str_type::string &alternative, const GS_SAMPLE_TYPE type);
+	AudioSamplePtr AddFile(AudioPtr audio, const Platform::FileIOHubPtr& fileIOHub, const str_type::string& path, const GS_SAMPLE_TYPE type);
 	int GetNumResources();
 
 	void ReleaseResources();
 
 private:
-	Platform::FileManagerPtr m_fileManager;
 	std::map<str_type::string, AudioSamplePtr> m_resource;
 	void ReleaseAllButMusic();
 };

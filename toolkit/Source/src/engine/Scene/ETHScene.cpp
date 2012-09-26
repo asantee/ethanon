@@ -146,7 +146,7 @@ bool ETHScene::SaveToFile(const str_type::string& fileName)
 
 bool ETHScene::LoadFromFile(const str_type::string& fileName)
 {
-	Platform::FileManagerPtr fileManager = m_provider->GetVideo()->GetFileManager();
+	Platform::FileManagerPtr fileManager = m_provider->GetFileManager();
 
 	if (!fileManager->FileExists(fileName))
 	{

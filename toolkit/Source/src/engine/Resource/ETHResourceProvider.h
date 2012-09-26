@@ -28,6 +28,7 @@
 #include "../Platform/ETHPlatform.h"
 #include <Platform/Platform.h>
 #include <Platform/FileLogger.h>
+#include <Platform/FileIOHub.h>
 
 class ETHShaderManager;
 
@@ -36,17 +37,17 @@ class ETHResourceProvider
 	static ETHGraphicResourceManagerPtr m_graphicResources;
 	static ETHAudioResourceManagerPtr m_audioResources;
 	static boost::shared_ptr<ETHShaderManager> m_shaderManager;
-	static str_type::string m_programPath, m_resourcePath;
 	static VideoPtr m_video;
 	static AudioPtr m_audio;
 	static InputPtr m_input;
 	static Platform::FileLoggerPtr m_logger;
 	static ETHGlobalScaleManagerPtr m_globalScaleManager;
+	static Platform::FileIOHubPtr m_fileIOHub;
 
 public:
 	ETHResourceProvider(ETHGraphicResourceManagerPtr graphicResources, ETHAudioResourceManagerPtr audioResources,
-				boost::shared_ptr<ETHShaderManager> shaderManager, const str_type::string& resourcePath,
-				VideoPtr video, AudioPtr audio, InputPtr input);
+				boost::shared_ptr<ETHShaderManager> shaderManager, VideoPtr video, AudioPtr audio, InputPtr input,
+				Platform::FileIOHubPtr fileIOHub);
 
 	static void Log(const str_type::string& str, const Platform::Logger::TYPE& type);
 
@@ -55,13 +56,12 @@ public:
 	ETHGraphicResourceManagerPtr GetGraphicResourceManager();
 	ETHAudioResourceManagerPtr GetAudioResourceManager();
 	boost::shared_ptr<ETHShaderManager> GetShaderManager();
-	str_type::string GetProgramPath();
-	str_type::string GetResourcePath();
-	void SetResourcePath(const str_type::string& path);
 	const VideoPtr& GetVideo();
 	const AudioPtr& GetAudio();
 	const InputPtr& GetInput();
-	str_type::string GetByteCodeSavePath();
+	str_type::string GetByteCodeSaveDirectory();
+	const Platform::FileManagerPtr& GetFileManager();
+	Platform::FileIOHubPtr GetFileIOHub();
 };
 
 typedef boost::shared_ptr<ETHResourceProvider> ETHResourceProviderPtr;

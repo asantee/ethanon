@@ -41,7 +41,8 @@ gs2d::str_type::string FileLogger::GetLogPath()
 	return GS_L("/sdcard/.ethanon/gs2dlog/");
 }
 
-gs2d::str_type::string GetProgramDirectory()
+
+gs2d::str_type::string GetModuleDirectory()
 {
 	return GS_L("");
 }

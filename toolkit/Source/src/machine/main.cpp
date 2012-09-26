@@ -33,6 +33,7 @@
 
 #include <Platform/Platform.h>
 #include <Platform/StdFileManager.h>
+#include <Platform/windows/WindowsFileIOHub.h>
 #include "../engine/ETHEngine.h"
 #include "../engine/Platform/ETHAppEnmlFile.h"
 
@@ -65,22 +66,24 @@ void ProcParams(int argc, wchar_t* argv[], bool& compileAndRun, bool& testing, b
 
 int wmain(int argc, wchar_t* argv[])
 {
-	const std::wstring resourcePath = Platform::GetProgramDirectory();
-
 	bool compileAndRun, testing, wait;
 	ProcParams(argc, argv, compileAndRun, testing, wait);
 	// compileAndRun = false;
 
-	const ETHAppEnmlFile app(resourcePath + ETH_APP_PROPERTIES_FILE, Platform::FileManagerPtr(new Platform::StdFileManager), GS_L(""));
-	const str_type::string bitmapFontPath = resourcePath + ETHDirectories::GetBitmapFontPath();
+	Platform::FileManagerPtr fileManager(new Platform::StdFileManager());
+	Platform::FileIOHubPtr fileIOHub(new Platform::WindowsFileIOHub(fileManager, ETHDirectories::GetBitmapFontDirectory()));
+	const str_type::string resourceDirectory = fileIOHub->GetResourceDirectory(); 
+
+	const ETHAppEnmlFile app(resourceDirectory + ETH_APP_PROPERTIES_FILE, Platform::FileManagerPtr(new Platform::StdFileManager), GS_L(""));
+	const str_type::string bitmapFontPath = resourceDirectory + ETHDirectories::GetBitmapFontDirectory();
 
 	bool aborted;
 	{
-		ETHEnginePtr application = ETHEnginePtr(new ETHEngine(testing, compileAndRun, resourcePath));
+		ETHEnginePtr application = ETHEnginePtr(new ETHEngine(testing, compileAndRun));
 		application->SetHighEndDevice(true); // the PC will always be considered as a high-end device
+
 		VideoPtr video;
-		if ((video = CreateVideo(app.GetWidth(), app.GetHeight(), app.GetTitle().c_str(), app.IsWindowed(), app.IsVsyncEnabled(),
-								 bitmapFontPath.c_str(), GSPF_UNKNOWN, false)))
+		if ((video = CreateVideo(app.GetWidth(), app.GetHeight(), app.GetTitle(), app.IsWindowed(), app.IsVsyncEnabled(), fileIOHub, GSPF_UNKNOWN, false)))
 		{
 			InputPtr input = CreateInput(0, false);
 			AudioPtr audio = CreateAudio(0);

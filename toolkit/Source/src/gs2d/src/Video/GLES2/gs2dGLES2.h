@@ -28,6 +28,7 @@
 #include "../../Platform/FileLogger.h"
 #include "gs2dGLES2Texture.h"
 
+#include "../../Platform/FileIOHub.h"
 #include <map>
 #include <sys/time.h>
 
@@ -44,9 +45,7 @@ typedef boost::shared_ptr<GLES2ShaderContext> GLES2ShaderContextPtr;
 class GLES2Video : public Video, public Platform::NativeCommandForwarder
 {
 	GLES2Video(const unsigned int width, const unsigned int height,
-			const str_type::string& winTitle, const str_type::string& bitmapFontDefaultPath,
-			const str_type::string& externalStoragePath, const str_type::string& globalExternalStoragePath,
-			Platform::FileManagerPtr fileManager);
+			const str_type::string& winTitle, const Platform::FileIOHubPtr& fileIOHub);
 
 	boost::weak_ptr<GLES2Video> weak_this;
 
@@ -58,9 +57,7 @@ public:
 	static const unsigned long ALPHAREF;
 
 	static boost::shared_ptr<GLES2Video> Create(const unsigned int width, const unsigned int height,
-			const str_type::string& winTitle, const str_type::string& bitmapFontDefaultPath,
-			const str_type::string& externalStoragePath, const str_type::string& globalExternalStoragePath, 
-			Platform::FileManagerPtr fileManager);
+			const str_type::string& winTitle, const Platform::FileIOHubPtr& fileIOHub);
 
 	static void CheckGLError(const str_type::string& op, const Platform::FileLogger& logger);
 
@@ -158,9 +155,6 @@ public:
 	bool SetScissor(const math::Rect2D& rect);
 	math::Rect2D GetScissor() const;
 	void UnsetScissor();
-
-	void SetBitmapFontDefaultPath(const str_type::string& path);
-	str_type::string GetBitmapFontDefaultPath() const;
 
 	math::Vector2 ComputeCarretPosition(const str_type::string& font, const str_type::string& text, const unsigned int pos);
 	math::Vector2 ComputeTextBoxSize(const str_type::string& font, const str_type::string& text);
@@ -263,6 +257,8 @@ private:
 
 	GS_TEXTUREFILTER_MODE m_textureFilterMode;
 
+	Platform::FileIOHubPtr m_fileIOHub;
+
 	std::map<str_type::string, BitmapFontPtr> m_fonts;
 	str_type::string m_defaultBitmapFontPath;
 	
@@ -277,8 +273,7 @@ private:
 	
 	bool StartApplication(const unsigned int width, const unsigned int height,
 			const str_type::string& winTitle, const bool windowed,
-			const bool sync, const str_type::string& bitmapFontDefaultPath,
-			const GS_PIXEL_FORMAT pfBB = GSPF_UNKNOWN,
+			const bool sync, const GS_PIXEL_FORMAT pfBB = GSPF_UNKNOWN,
 			const bool maximizable = false);
 
 	#ifndef APPLE_IOS

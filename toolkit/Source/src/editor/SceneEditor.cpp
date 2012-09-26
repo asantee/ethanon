@@ -94,34 +94,36 @@ void SceneEditor::LoadEditor()
 	const VideoPtr& video = m_provider->GetVideo();
 	video->SetBGColor(m_background);
 
-	m_lSprite = video->CreateSprite(m_provider->GetProgramPath() + L"data/l.png", 0xFFFF00FF);
+	const str_type::string programDirectory = m_provider->GetFileIOHub()->GetProgramDirectory();
+
+	m_lSprite = video->CreateSprite(programDirectory + L"data/l.png", 0xFFFF00FF);
 	m_lSprite->SetOrigin(GSEO_CENTER);
 
-	m_pSprite = video->CreateSprite(m_provider->GetProgramPath() + L"data/p.png", 0xFFFF00FF);
+	m_pSprite = video->CreateSprite(programDirectory + L"data/p.png", 0xFFFF00FF);
 	m_pSprite->SetOrigin(GSEO_CENTER);
 
-	m_parallaxCursor = video->CreateSprite(m_provider->GetProgramPath() + L"data/parallax.png", 0xFFFF00FF);
+	m_parallaxCursor = video->CreateSprite(programDirectory + L"data/parallax.png", 0xFFFF00FF);
 	m_parallaxCursor->SetOrigin(GSEO_CENTER);
 
-	m_axis = video->CreateSprite(m_provider->GetProgramPath() + L"data/axis.png");
+	m_axis = video->CreateSprite(programDirectory + L"data/axis.png");
 	m_axis->SetOrigin(GSEO_CENTER);
 	
-	m_outline = video->CreateSprite(m_provider->GetProgramPath() + L"data/outline.png");
-	m_richOutline = video->CreateSprite(m_provider->GetProgramPath() + L"data/rich_outline.png");
+	m_outline = video->CreateSprite(programDirectory + L"data/outline.png");
+	m_richOutline = video->CreateSprite(programDirectory + L"data/rich_outline.png");
 
-	m_soundWave = video->CreateSprite(m_provider->GetProgramPath() + L"data/soundwave.dds");
+	m_soundWave = video->CreateSprite(programDirectory + L"data/soundwave.dds");
 	m_soundWave->SetOrigin(GSEO_CENTER);
 
-	m_invisible = video->CreateSprite(m_provider->GetProgramPath() + L"data/invisible.png", 0xFFFF00FF);
+	m_invisible = video->CreateSprite(programDirectory + L"data/invisible.png", 0xFFFF00FF);
 	m_invisible->SetOrigin(GSEO_CENTER);
 
-	m_arrows = video->CreateSprite(m_provider->GetProgramPath() + L"data/arrows.png");
+	m_arrows = video->CreateSprite(programDirectory + L"data/arrows.png");
 	m_arrows->SetOrigin(GSEO_CENTER);
 
 	const InputPtr& input = m_provider->GetInput();
 	m_renderMode.SetupMenu(video, input, m_menuSize, m_menuWidth*2, true, false, false);
 
-	const std::string programPath = utf8::c(m_provider->GetProgramPath()).c_str();
+	const std::string programPath = utf8::c(programDirectory).c_str();
 	std::wstring rmStatus = utf8::c(GetAttributeFromInfoFile(programPath, "status", "renderMode")).wc_str();
 	if (rmStatus != _S_USE_PS && rmStatus != _S_USE_VS)
 	{
@@ -215,7 +217,7 @@ string SceneEditor::DoEditor(SpritePtr pNextAppButton)
 	const bool lmEnabled = m_pScene->AreLightmapsEnabled();
 	m_pScene->EnableLightmaps(m_panel.GetButtonStatus(_S_USE_STATIC_LIGHTMAPS));
 
-	const std::string programPath = utf8::c(m_provider->GetProgramPath()).c_str();
+	const std::string programPath = utf8::c(m_provider->GetFileIOHub()->GetProgramDirectory()).str();
 
 	// if the lightmaps status has changed, save it's status again
 	if (lmEnabled != m_pScene->AreLightmapsEnabled())
@@ -788,7 +790,7 @@ void SceneEditor::DoStateManager()
 	shaderManager->UsePS(m_renderMode.GetButtonStatus(_S_USE_PS));
 	m_guiY+=m_menuSize/2;
 
-	const std::string programPath = utf8::c(m_provider->GetProgramPath()).c_str();
+	const std::string programPath = utf8::c(m_provider->GetFileIOHub()->GetProgramDirectory()).str();
 
 	// if this button's status has changed, save the change to the ENML file
 	if (usePS != shaderManager->IsUsingPixelShader())
@@ -1293,7 +1295,7 @@ void SceneEditor::DrawEntitySelectionGrid(SpritePtr pNextAppButton)
 		SpritePtr pSprite = m_provider->GetGraphicResourceManager()->GetPointer(
 			video, 
 			utf8::c(m_entityFiles[t]->spriteFile).wc_str(), utf8::c(GetCurrentProjectPath(true)).wc_str(), 
-			ETHDirectories::GetEntityPath(), false
+			ETHDirectories::GetEntityDirectory(), false
 		);
 
 		if (!m_entityFiles[t]->spriteFile.empty() && !pSprite)
@@ -1548,7 +1550,7 @@ bool SceneEditor::SaveAs()
 {
 	char filter[] = "Ethanon Scene files (*.esc)\0*.esc\0\0";
 	char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
-	if (SaveForm(filter, utf8::c(ETHDirectories::GetScenePath()).c_str(), path, file, GetCurrentProjectPath(true).c_str()))
+	if (SaveForm(filter, utf8::c(ETHDirectories::GetSceneDirectory()).c_str(), path, file, GetCurrentProjectPath(true).c_str()))
 	{
 		string sOut;
 		AddExtension(path, ".esc", sOut);
@@ -1572,7 +1574,7 @@ bool SceneEditor::Open()
 {
 	char filter[] = "Ethanon Scene files (*.esc)\0*.esc\0\0";
 	char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
-	if (OpenForm(filter, utf8::c(ETHDirectories::GetScenePath()).c_str(), path, file, GetCurrentProjectPath(true).c_str()))
+	if (OpenForm(filter, utf8::c(ETHDirectories::GetSceneDirectory()).c_str(), path, file, GetCurrentProjectPath(true).c_str()))
 	{
 		OpenByFilename(path);
 	}
@@ -1620,7 +1622,7 @@ void SceneEditor::ReloadFiles()
 	}
 
 	Platform::FileListing entityFiles;
-	string currentProjectPath = GetCurrentProjectPath(true) + utf8::c(ETHDirectories::GetEntityPath()).c_str();
+	string currentProjectPath = GetCurrentProjectPath(true) + utf8::c(ETHDirectories::GetEntityDirectory()).str();
 
 	entityFiles.ListDirectoryFiles(utf8::c(currentProjectPath).wc_str(), L"ent");
 	const int nFiles = entityFiles.GetNumFiles();
@@ -1636,7 +1638,7 @@ void SceneEditor::ReloadFiles()
 
 			cout << "(Scene editor)Entity found: " <<  utf8::c(file.file).str() << " - Loading...";
 
-			boost::shared_ptr<ETHEntityProperties> props(new ETHEntityProperties(utf8::c(sFull).wstr(), m_provider->GetVideo()->GetFileManager()));
+			boost::shared_ptr<ETHEntityProperties> props(new ETHEntityProperties(utf8::c(sFull).wstr(), m_provider->GetFileManager()));
 			if (!props->hideFromSceneEditor)
 			{
 				m_entityFiles.push_back(props);
@@ -1649,6 +1651,6 @@ void SceneEditor::ReloadFiles()
 	else
 	{
 		wcerr << L"The editor couldn't find any *.ent files. Make sure there are valid files at the "
-			 << ETHDirectories::GetEntityPath() << L" folder\n";
+			 << ETHDirectories::GetEntityDirectory() << L" folder\n";
 	}
 }

@@ -143,7 +143,7 @@ void EditorBase::CreateFileMenu()
 
 GSGUI_BUTTON EditorBase::PlaceFileMenu()
 {
-	const float shiftDown = (m_provider->GetResourcePath() == L"") ? 0.0f : m_menuSize*2;
+	const float shiftDown = (m_provider->GetFileIOHub()->GetResourceDirectory() == L"") ? 0.0f : m_menuSize*2;
 	return m_fileMenu.PlaceMenu(Vector2(0,shiftDown));
 }
 
@@ -170,17 +170,17 @@ bool EditorBase::AddExtension(const char *path, const char *extension, string &s
 
 string EditorBase::GetCurrentProjectPath(const bool keepLastSlash)
 {
-	return ETHGlobal::GetPathName(utf8::c(m_provider->GetResourcePath()).c_str(), keepLastSlash);
+	return ETHGlobal::GetPathName(utf8::c(m_provider->GetFileIOHub()->GetResourceDirectory()).c_str(), keepLastSlash);
 }
 
 string EditorBase::GetCurrentProject()
 {
-	return utf8::c(m_provider->GetResourcePath()).c_str();
+	return utf8::c(m_provider->GetFileIOHub()->GetResourceDirectory()).c_str();
 }
 
 bool EditorBase::SetCurrentProject(const char *path)
 {
-	m_provider->SetResourcePath(utf8::c(ETHGlobal::GetPathName(path, true)).wstr());
+	m_provider->GetFileIOHub()->SetResourceDirectory(utf8::c(ETHGlobal::GetPathName(path, true)).wstr());
 	return true;
 }
 
@@ -193,7 +193,7 @@ string EditorBase::GetCurrentFile(const bool fullPath)
 
 string EditorBase::GetProgramPath()
 {
-	return utf8::c(m_provider->GetProgramPath()).str();
+	return utf8::c(m_provider->GetFileIOHub()->GetProgramDirectory()).str();
 }
 
 void EditorBase::ShadowPrint(Vector2 v2Pos, const wchar_t *text, const GS_COLOR& color) const

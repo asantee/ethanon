@@ -32,7 +32,7 @@
 #include <sstream>
 #include <fstream>
 
-#include "Platform/FileManager.h"
+#include "Platform/FileIOHub.h"
 
 namespace gs2d {
 
@@ -175,19 +175,14 @@ public:
 	/// Posts a quit message
 	virtual void Quit() = 0;
 
-	virtual Platform::FileManagerPtr GetFileManager() const;
-	virtual void SetFileManager(const Platform::FileManagerPtr& fileManager);
-
-	virtual str_type::string GetExternalStoragePath() const = 0;
-	virtual str_type::string GetGlobalExternalStoragePath() const;
-
 	virtual str_type::string GetPlatformName() const = 0;
+
+	virtual Platform::FileIOHubPtr GetFileIOHub() = 0;
 
 	virtual void SetScreenSizeChangeListener(const ScreenSizeChangeListenerPtr& listener);
 
 protected:
 	ScreenSizeChangeListenerWeakPtr m_screenSizeChangeListener;
-	Platform::FileManagerPtr m_fileManager;
 };
 
 typedef boost::shared_ptr<Application> ApplicationPtr;
@@ -354,9 +349,6 @@ public:
 	virtual math::Rect2D GetScissor() const = 0;
 	virtual void UnsetScissor() = 0;
 
-	virtual void SetBitmapFontDefaultPath(const str_type::string& path) = 0;
-	virtual str_type::string GetBitmapFontDefaultPath() const = 0;
-
 	virtual math::Vector2 ComputeCarretPosition(const str_type::string& font, const str_type::string& text, const unsigned int pos) = 0;
 	virtual math::Vector2 ComputeTextBoxSize(const str_type::string& font, const str_type::string& text) = 0;
 	virtual unsigned int FindClosestCarretPosition(const str_type::string& font, const str_type::string &text, const math::Vector2 &textPos, const math::Vector2 &reference) = 0;
@@ -389,11 +381,8 @@ public:
 
 private:
 	virtual bool StartApplication(const unsigned int width, const unsigned int height,
-			const str_type::string& winTitle,
-			const bool windowed,
-			const bool sync,
-		const str_type::string& bitmapFontDefaultPath,
-			const GS_PIXEL_FORMAT pfBB = GSPF_UNKNOWN,
+			const str_type::string& winTitle, const bool windowed,
+			const bool sync, const GS_PIXEL_FORMAT pfBB = GSPF_UNKNOWN,
 			const bool maximizable = false) = 0;
 };
 
@@ -609,17 +598,13 @@ GS2D_API float ComputeElapsedTimeF(ApplicationPtr app);
 /// Instantiate a Video object (must be defined in the API specific code)
 GS2D_API VideoPtr CreateVideo(const unsigned int width, const unsigned int height,
 				const str_type::string& winTitle, const bool windowed, const bool sync,
-				const str_type::string& bitmapFontDefaultPath,
-				const GS_PIXEL_FORMAT pfBB = GSPF_UNKNOWN, const bool maximizable = false,
-				Platform::FileManagerPtr fileManager = Platform::FileManagerPtr());
+				const Platform::FileIOHubPtr& fileIOHub, const GS_PIXEL_FORMAT pfBB = GSPF_UNKNOWN, const bool maximizable = false);
 
 #if defined(ANDROID) || defined(APPLE_IOS)
 /// Instantiate a Video object (must be defined in the API specific code)
-GS2D_API VideoPtr CreateVideo(const unsigned int width, const unsigned int height,
-							  const str_type::string& bitmapFontDefaultPath,
-							  const str_type::string& externalStoragePath, const str_type::string& globalExternalStoragePath,
-							  Platform::FileManagerPtr fileManager = Platform::FileManagerPtr());
+GS2D_API VideoPtr CreateVideo(const unsigned int width, const unsigned int height, const Platform::FileIOHubPtr& fileIOHub);
 #endif
 
 } // namespace gs2d
+
 #endif

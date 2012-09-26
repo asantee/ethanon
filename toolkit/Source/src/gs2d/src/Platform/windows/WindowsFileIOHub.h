@@ -20,53 +20,24 @@
     OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#include "ETHDirectories.h"
+#ifndef WINDOWS_FILE_IO_HUB_H_
+#define WINDOWS_FILE_IO_HUB_H_
 
-#define ETH_SHADER_DIRECTORY		GS_L("data/")
-#define ETH_BITMAP_FONT_DIRECTORY	GS_L("data/")
-#define ETH_SCENES_DIRECTORY		GS_L("scenes/")
-#define ETH_ENTITY_DIRECTORY		GS_L("entities/")
-#define ETH_NORMAL_DIRECTORY		GS_L("entities/normalmaps/")
-#define ETH_HALOS_DIRECTORY			GS_L("entities/")
-#define ETH_PARTICLES_DIRECTORY		GS_L("particles/")
-#define ETH_SOUNDFX_DIRECTORY		GS_L("soundfx/")
+#include "../FileIOHub.h"
 
-gs2d::str_type::string ETHDirectories::GetShaderDirectory()
+namespace Platform {
+
+class WindowsFileIOHub : public FileIOHub
 {
-	return ETH_SHADER_DIRECTORY;
+public:
+	WindowsFileIOHub(Platform::FileManagerPtr fileManager, const gs2d::str_type::string& bitmapFontSearchDirectory);
+	WindowsFileIOHub(Platform::FileManagerPtr fileManager, const gs2d::str_type::string& bitmapFontSearchDirectory, const gs2d::str_type::string& resourceDirectory);
+	void SetFileManager(Platform::FileManagerPtr fileManager, const gs2d::str_type::string& resourceDirectory);
+	bool IsResourcePackingSupported();
+};
+
+typedef boost::shared_ptr<WindowsFileIOHub> WindowsFileIOHubPtr;
+
 }
 
-gs2d::str_type::string ETHDirectories::GetBitmapFontDirectory()
-{
-	return ETH_BITMAP_FONT_DIRECTORY;
-}
-
-gs2d::str_type::string ETHDirectories::GetSceneDirectory()
-{
-	return ETH_SCENES_DIRECTORY;
-}
-
-gs2d::str_type::string ETHDirectories::GetEntityDirectory()
-{
-	return ETH_ENTITY_DIRECTORY;
-}
-
-gs2d::str_type::string ETHDirectories::GetNormalMapDirectory()
-{
-	return ETH_NORMAL_DIRECTORY;
-}
-
-gs2d::str_type::string ETHDirectories::GetHaloDirectory()
-{
-	return ETH_HALOS_DIRECTORY;
-}
-
-gs2d::str_type::string ETHDirectories::GetParticlesDirectory()
-{
-	return ETH_PARTICLES_DIRECTORY;
-}
-
-gs2d::str_type::string ETHDirectories::GetSoundFXDirectory()
-{
-	return ETH_SOUNDFX_DIRECTORY;
-}
+#endif

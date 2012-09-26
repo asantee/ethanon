@@ -28,14 +28,14 @@
 class ETHDirectories
 {
 public:
-	static gs2d::str_type::string GetShaderPath();
-	static gs2d::str_type::string GetBitmapFontPath();
-	static gs2d::str_type::string GetScenePath();
-	static gs2d::str_type::string GetEntityPath();
-	static gs2d::str_type::string GetNormalMapPath();
-	static gs2d::str_type::string GetHaloPath();
-	static gs2d::str_type::string GetParticlesPath();
-	static gs2d::str_type::string GetSoundFXPath();
+	static gs2d::str_type::string GetShaderDirectory();
+	static gs2d::str_type::string GetBitmapFontDirectory();
+	static gs2d::str_type::string GetSceneDirectory();
+	static gs2d::str_type::string GetEntityDirectory();
+	static gs2d::str_type::string GetNormalMapDirectory();
+	static gs2d::str_type::string GetHaloDirectory();
+	static gs2d::str_type::string GetParticlesDirectory();
+	static gs2d::str_type::string GetSoundFXDirectory();
 };
 
 #endif
