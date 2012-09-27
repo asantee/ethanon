@@ -213,12 +213,12 @@ str_type::string ETHScriptWrapper::GetAbsolutePath(const str_type::string &fileN
 	return GetResourceDirectory() + fileName;
 }
 
-str_type::string ETHScriptWrapper::GetExternalStoragePath()
+str_type::string ETHScriptWrapper::GetExternalStorageDirectory()
 {
 	return m_provider->GetFileIOHub()->GetExternalStorageDirectory();
 }
 
-str_type::string ETHScriptWrapper::GetGlobalExternalStoragePath()
+str_type::string ETHScriptWrapper::GetGlobalExternalStorageDirectory()
 {
 	return m_provider->GetFileIOHub()->GetGlobalExternalStorageDirectory();
 }

@@ -188,8 +188,8 @@ asDECLARE_FUNCTION_WRAPPER(__SetBorderBucketsDrawing, ETHScriptWrapper::SetBorde
 asDECLARE_FUNCTION_WRAPPER(__IsDrawingBorderBuckets,  ETHScriptWrapper::IsDrawingBorderBuckets);
 
 asDECLARE_FUNCTION_WRAPPER(__GetResourceDirectory,         ETHScriptWrapper::GetResourceDirectory);
-asDECLARE_FUNCTION_WRAPPER(__GetExternalStoragePath,       ETHScriptWrapper::GetExternalStoragePath);
-asDECLARE_FUNCTION_WRAPPER(__GetGlobalExternalStoragePath, ETHScriptWrapper::GetGlobalExternalStoragePath);
+asDECLARE_FUNCTION_WRAPPER(__GetExternalStoragePath,       ETHScriptWrapper::GetExternalStorageDirectory);
+asDECLARE_FUNCTION_WRAPPER(__GetGlobalExternalStoragePath, ETHScriptWrapper::GetGlobalExternalStorageDirectory);
 asDECLARE_FUNCTION_WRAPPER(__GetAbsolutePath,              ETHScriptWrapper::GetAbsolutePath);
 asDECLARE_FUNCTION_WRAPPER(__GetLastCameraPos,             ETHScriptWrapper::GetLastCameraPos);
 asDECLARE_FUNCTION_WRAPPER(__GetNumRenderedEntities,       ETHScriptWrapper::GetNumRenderedEntities);
@@ -450,23 +450,25 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void SetBorderBucketsDrawing(const bool)", asFUNCTION(__SetBorderBucketsDrawing), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool IsDrawingBorderBuckets()",            asFUNCTION(__IsDrawingBorderBuckets),  asCALL_GENERIC); assert(r >= 0);
 
-	r = pASEngine->RegisterGlobalFunction("string GetResourceDirectory()",            asFUNCTION(__GetResourceDirectory),          asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("string GetExternalStoragePath()",          asFUNCTION(__GetExternalStoragePath),        asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("string GetGlobalExternalStoragePath()",    asFUNCTION(__GetGlobalExternalStoragePath),  asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("string GetAbsolutePath(const string &in)", asFUNCTION(__GetAbsolutePath),               asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("vector2 GetLastCameraPos()",               asFUNCTION(__GetLastCameraPos),              asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("int GetNumRenderedEntities()",             asFUNCTION(__GetNumRenderedEntities),        asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("int parseInt(const string &in)",           asFUNCTION(__ParseInt),                      asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("uint parseUInt(const string &in)",         asFUNCTION(__ParseUInt),                     asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("float parseFloat(const string &in)",       asFUNCTION(__ParseFloat),                    asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("int GetArgc()",                            asFUNCTION(__GetArgc),                       asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("string GetArgv(const int)",                asFUNCTION(__GetArgv),                       asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("vector2 GetWorldSpaceCursorPos2()",        asFUNCTION(__GetWorldSpaceCursorPos2),       asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("vector3 GetWorldSpaceCursorPos3()",        asFUNCTION(__GetWorldSpaceCursorPos3),       asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("void ForwardCommand(const string &in)",    asFUNCTION(__ForwardCommand),                asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("string GetResourceDirectory()",              asFUNCTION(__GetResourceDirectory),          asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("string GetExternalStorageDirectory()",       asFUNCTION(__GetExternalStoragePath),        asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("string GetGlobalExternalStorageDirectory()", asFUNCTION(__GetGlobalExternalStoragePath),  asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("string GetAbsolutePath(const string &in)",   asFUNCTION(__GetAbsolutePath),               asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("vector2 GetLastCameraPos()",                 asFUNCTION(__GetLastCameraPos),              asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("int GetNumRenderedEntities()",               asFUNCTION(__GetNumRenderedEntities),        asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("int parseInt(const string &in)",             asFUNCTION(__ParseInt),                      asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("uint parseUInt(const string &in)",           asFUNCTION(__ParseUInt),                     asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("float parseFloat(const string &in)",         asFUNCTION(__ParseFloat),                    asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("int GetArgc()",                              asFUNCTION(__GetArgc),                       asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("string GetArgv(const int)",                  asFUNCTION(__GetArgv),                       asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("vector2 GetWorldSpaceCursorPos2()",          asFUNCTION(__GetWorldSpaceCursorPos2),       asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("vector3 GetWorldSpaceCursorPos3()",          asFUNCTION(__GetWorldSpaceCursorPos3),       asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void ForwardCommand(const string &in)",      asFUNCTION(__ForwardCommand),                asCALL_GENERIC); assert(r >= 0);
 
 	#ifdef ETH_DEFINE_DEPRECATED_SIGNATURES_FROM_0_9_5
 	{
+		r = pASEngine->RegisterGlobalFunction("string GetExternalStoragePath()",          asFUNCTION(__GetExternalStoragePath),        asCALL_GENERIC); assert(r >= 0);
+		r = pASEngine->RegisterGlobalFunction("string GetGlobalExternalStoragePath()",    asFUNCTION(__GetGlobalExternalStoragePath),  asCALL_GENERIC); assert(r >= 0);
 		r = pASEngine->RegisterGlobalFunction("string GetProgramPath()",                  asFUNCTION(__GetResourceDirectory),          asCALL_GENERIC); assert(r >= 0);
 		r = pASEngine->RegisterGlobalFunction("int ParseInt(const string &in)",           asFUNCTION(__ParseInt),                      asCALL_GENERIC); assert(r >= 0);
 		r = pASEngine->RegisterGlobalFunction("uint ParseUInt(const string &in)",         asFUNCTION(__ParseUInt),                     asCALL_GENERIC); assert(r >= 0);
