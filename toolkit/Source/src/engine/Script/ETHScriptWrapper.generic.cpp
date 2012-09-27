@@ -465,12 +465,13 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("vector3 GetWorldSpaceCursorPos3()",        asFUNCTION(__GetWorldSpaceCursorPos3),       asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void ForwardCommand(const string &in)",    asFUNCTION(__ForwardCommand),                asCALL_GENERIC); assert(r >= 0);
 
-	// parse deprecated upper-case occurrences for backwards compatibility
+	#ifdef ETH_DEFINE_DEPRECATED_SIGNATURES_FROM_0_9_5
 	{
 		r = pASEngine->RegisterGlobalFunction("int ParseInt(const string &in)",           asFUNCTION(__ParseInt),                      asCALL_GENERIC); assert(r >= 0);
 		r = pASEngine->RegisterGlobalFunction("uint ParseUInt(const string &in)",         asFUNCTION(__ParseUInt),                     asCALL_GENERIC); assert(r >= 0);
 		r = pASEngine->RegisterGlobalFunction("float ParseFloat(const string &in)",       asFUNCTION(__ParseFloat),                    asCALL_GENERIC); assert(r >= 0);
 	}
+	#endif
 
 	r = pASEngine->RegisterGlobalFunction("void SetZBuffer(const bool)", asFUNCTION(__SetZBuffer), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool GetZBuffer()",           asFUNCTION(__GetZBuffer), asCALL_GENERIC); assert(r >= 0);

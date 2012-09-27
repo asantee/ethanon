@@ -196,11 +196,20 @@ void RegisterEntityArrayMethods(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterObjectMethod("ETHEntityArray", "const ETHEntity@ &opIndex(uint) const",                 asFUNCTION(__operatorIdxConst),  asCALL_GENERIC); assert( r >= 0 );
 	r = pASEngine->RegisterObjectMethod("ETHEntityArray", "ETHEntityArray &opAddAssign(const ETHEntityArray &in)", asFUNCTION(__operatorAddAssign), asCALL_GENERIC); assert( r >= 0 );
 
-	r = pASEngine->RegisterObjectMethod("ETHEntityArray", "void push_back(const ETHEntity &in)", asFUNCTION(__push_back),          asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntityArray", "uint size() const",                   asFUNCTION(__size),               asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntityArray", "void clear()",                        asFUNCTION(__clear),              asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntityArray", "void unique()",                       asFUNCTION(__unique),             asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntityArray", "void removeDeadEntities()",           asFUNCTION(__removeDeadEntities), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntityArray", "void Insert(const ETHEntity &in)", asFUNCTION(__push_back),          asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntityArray", "uint Size() const",                asFUNCTION(__size),               asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntityArray", "void Clear()",                     asFUNCTION(__clear),              asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntityArray", "void Unique()",                    asFUNCTION(__unique),             asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntityArray", "void RemoveDeadEntities()",        asFUNCTION(__removeDeadEntities), asCALL_GENERIC); assert(r >= 0);
+
+	#ifdef ETH_DEFINE_DEPRECATED_SIGNATURES_FROM_0_9_5
+	{
+		r = pASEngine->RegisterObjectMethod("ETHEntityArray", "void push_back(const ETHEntity &in)", asFUNCTION(__push_back),          asCALL_GENERIC); assert(r >= 0);
+		r = pASEngine->RegisterObjectMethod("ETHEntityArray", "uint size() const",                   asFUNCTION(__size),               asCALL_GENERIC); assert(r >= 0);
+		r = pASEngine->RegisterObjectMethod("ETHEntityArray", "void clear()",                        asFUNCTION(__clear),              asCALL_GENERIC); assert(r >= 0);
+		r = pASEngine->RegisterObjectMethod("ETHEntityArray", "void unique()",                       asFUNCTION(__unique),             asCALL_GENERIC); assert(r >= 0);
+		r = pASEngine->RegisterObjectMethod("ETHEntityArray", "void removeDeadEntities()",           asFUNCTION(__removeDeadEntities), asCALL_GENERIC); assert(r >= 0);
+	}
 }
 
 asDECLARE_METHOD_WRAPPERPR(__AddRefEntity,  ETHScriptEntity, AddRef,  (void), void);
