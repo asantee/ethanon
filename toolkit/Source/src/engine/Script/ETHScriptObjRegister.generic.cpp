@@ -210,6 +210,7 @@ void RegisterEntityArrayMethods(asIScriptEngine *pASEngine)
 		r = pASEngine->RegisterObjectMethod("ETHEntityArray", "void unique()",                       asFUNCTION(__unique),             asCALL_GENERIC); assert(r >= 0);
 		r = pASEngine->RegisterObjectMethod("ETHEntityArray", "void removeDeadEntities()",           asFUNCTION(__removeDeadEntities), asCALL_GENERIC); assert(r >= 0);
 	}
+	#endif
 }
 
 asDECLARE_METHOD_WRAPPERPR(__AddRefEntity,  ETHScriptEntity, AddRef,  (void), void);
