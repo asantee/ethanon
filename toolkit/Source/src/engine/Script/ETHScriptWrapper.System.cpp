@@ -203,14 +203,14 @@ str_type::string ETHScriptWrapper::GetArgv(const int n)
 	return m_argv[n];
 }
 
-str_type::string ETHScriptWrapper::GetProgramPath()
+str_type::string ETHScriptWrapper::GetResourceDirectory()
 {
 	return m_provider->GetFileIOHub()->GetResourceDirectory();
 }
 
 str_type::string ETHScriptWrapper::GetAbsolutePath(const str_type::string &fileName)
 {
-	return GetProgramPath() + fileName;
+	return GetResourceDirectory() + fileName;
 }
 
 str_type::string ETHScriptWrapper::GetExternalStoragePath()

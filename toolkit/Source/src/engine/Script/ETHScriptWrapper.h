@@ -293,7 +293,7 @@ public:
 
 	static void Abort();
 
-	static str_type::string GetProgramPath();
+	static str_type::string GetResourceDirectory();
 	static str_type::string GetExternalStoragePath();
 	static str_type::string GetGlobalExternalStoragePath();
 	static str_type::string GetAbsolutePath(const str_type::string &fileName);

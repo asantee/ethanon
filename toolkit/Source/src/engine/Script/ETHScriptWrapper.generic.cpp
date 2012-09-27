@@ -187,7 +187,7 @@ asDECLARE_FUNCTION_WRAPPER(__EnableRealTimeShadows,   ETHScriptWrapper::EnableRe
 asDECLARE_FUNCTION_WRAPPER(__SetBorderBucketsDrawing, ETHScriptWrapper::SetBorderBucketsDrawing);
 asDECLARE_FUNCTION_WRAPPER(__IsDrawingBorderBuckets,  ETHScriptWrapper::IsDrawingBorderBuckets);
 
-asDECLARE_FUNCTION_WRAPPER(__GetProgramPath,               ETHScriptWrapper::GetProgramPath);
+asDECLARE_FUNCTION_WRAPPER(__GetResourceDirectory,         ETHScriptWrapper::GetResourceDirectory);
 asDECLARE_FUNCTION_WRAPPER(__GetExternalStoragePath,       ETHScriptWrapper::GetExternalStoragePath);
 asDECLARE_FUNCTION_WRAPPER(__GetGlobalExternalStoragePath, ETHScriptWrapper::GetGlobalExternalStoragePath);
 asDECLARE_FUNCTION_WRAPPER(__GetAbsolutePath,              ETHScriptWrapper::GetAbsolutePath);
@@ -450,7 +450,7 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void SetBorderBucketsDrawing(const bool)", asFUNCTION(__SetBorderBucketsDrawing), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool IsDrawingBorderBuckets()",            asFUNCTION(__IsDrawingBorderBuckets),  asCALL_GENERIC); assert(r >= 0);
 
-	r = pASEngine->RegisterGlobalFunction("string GetProgramPath()",                  asFUNCTION(__GetProgramPath),                asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("string GetResourceDirectory()",            asFUNCTION(__GetResourceDirectory),          asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("string GetExternalStoragePath()",          asFUNCTION(__GetExternalStoragePath),        asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("string GetGlobalExternalStoragePath()",    asFUNCTION(__GetGlobalExternalStoragePath),  asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("string GetAbsolutePath(const string &in)", asFUNCTION(__GetAbsolutePath),               asCALL_GENERIC); assert(r >= 0);
@@ -467,6 +467,7 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 
 	#ifdef ETH_DEFINE_DEPRECATED_SIGNATURES_FROM_0_9_5
 	{
+		r = pASEngine->RegisterGlobalFunction("string GetProgramPath()",                  asFUNCTION(__GetResourceDirectory),          asCALL_GENERIC); assert(r >= 0);
 		r = pASEngine->RegisterGlobalFunction("int ParseInt(const string &in)",           asFUNCTION(__ParseInt),                      asCALL_GENERIC); assert(r >= 0);
 		r = pASEngine->RegisterGlobalFunction("uint ParseUInt(const string &in)",         asFUNCTION(__ParseUInt),                     asCALL_GENERIC); assert(r >= 0);
 		r = pASEngine->RegisterGlobalFunction("float ParseFloat(const string &in)",       asFUNCTION(__ParseFloat),                    asCALL_GENERIC); assert(r >= 0);
