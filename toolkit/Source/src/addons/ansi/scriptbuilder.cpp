@@ -118,7 +118,7 @@ int CScriptBuilder::LoadScriptSection(const char *filename)
 {
 	// Open the script file
 	string code;
-	if(!m_provider->GetVideo()->GetFileManager()->GetUTF8BOMFileString(filename, code))
+	if(!m_provider->GetFileManager()->GetUTF8BOMFileString(filename, code))
 	{
 		// Write a message to the engine's message callback
 		char buf[256];

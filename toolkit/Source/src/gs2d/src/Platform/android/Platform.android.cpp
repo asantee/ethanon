@@ -36,7 +36,7 @@ str_type::string GLES2Video::GetPlatformName() const
 
 namespace Platform {
 
-gs2d::str_type::string FileLogger::GetLogPath()
+gs2d::str_type::string FileLogger::GetLogDirectory()
 {
 	return GS_L("/sdcard/.ethanon/gs2dlog/");
 }

@@ -27,6 +27,9 @@
 
 #include <gs2dframework.h>
 #include <Platform/android/Platform.android.h>
+#include <Platform/android/AndroidFileIOHub.h>
+
+#include "../../../../engine/Resource/ETHDirectories.h"
 
 using namespace gs2d;
 using namespace gs2d::math;
@@ -76,8 +79,9 @@ JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_start(
 	const char* strExt = env->GetStringUTFChars(externalPath, &isCopy);
 	const char* strGlo = env->GetStringUTFChars(globalPath, &isCopy);
 	zip = boost::shared_ptr<Platform::ZipFileManager>(new Platform::ZipFileManager(strApk));
+	Platform::FileIOHubPtr fileIOHub(new Platform::AndroidFileIOHub(zip, strExt, strGlo, ETHDirectories::GetBitmapFontDirectory()));
 
-	video = CreateVideo(width, height, GS_L("assets/data/"), strExt, strGlo, zip);
+	video = CreateVideo(width, height, fileIOHub);
 	input = CreateInput(&g_inputStr, true);
 	audio = CreateAudio(0);
 

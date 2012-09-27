@@ -30,7 +30,7 @@ namespace gs2d {
 
 const str_type::string GLES2Texture::TEXTURE_LOG_FILE("GLES2Texture.log.txt");
 GLuint GLES2Texture::m_textureID(1000);
-Platform::FileLogger GLES2Texture::m_logger(Platform::FileLogger::GetLogPath() + GLES2Texture::TEXTURE_LOG_FILE);
+Platform::FileLogger GLES2Texture::m_logger(Platform::FileLogger::GetLogDirectory() + GLES2Texture::TEXTURE_LOG_FILE);
 	
 void CheckFrameBufferStatus(const Platform::FileLogger& logger, const GLuint fbo, const GLuint tex, const bool showSuccessMessage)
 {

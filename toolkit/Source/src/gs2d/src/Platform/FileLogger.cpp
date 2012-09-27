@@ -62,14 +62,14 @@ void FileLogger::WriteToErrorLog(const gs2d::str_type::string& str)
 	static bool errorLogFileCreated = false;
 	if (!errorLogFileCreated)
 	{
-		gs2d::str_type::ofstream ofs(GetErrorLogFilePath().c_str());
+		gs2d::str_type::ofstream ofs(GetErrorLogFileDirectory().c_str());
 		if (ofs.is_open())
 		{
-			ofs << GS_L("[") << GetErrorLogFilePath() << GS_L("]") << std::endl;
+			ofs << GS_L("[") << GetErrorLogFileDirectory() << GS_L("]") << std::endl;
 			ofs.close();
 		}
 	}
-	AppendToFile(GetErrorLogFilePath(), str);
+	AppendToFile(GetErrorLogFileDirectory(), str);
 	errorLogFileCreated = true;
 }
 
@@ -78,14 +78,14 @@ void FileLogger::WriteToWarningLog(const gs2d::str_type::string& str)
 	static bool warningLogFileCreated = false;
 	if (!warningLogFileCreated)
 	{
-		gs2d::str_type::ofstream ofs(GetWarningLogFilePath().c_str());
+		gs2d::str_type::ofstream ofs(GetWarningLogFileDirectory().c_str());
 		if (ofs.is_open())
 		{
-			ofs << GS_L("[") << GetWarningLogFilePath() << GS_L("]") << std::endl;
+			ofs << GS_L("[") << GetWarningLogFileDirectory() << GS_L("]") << std::endl;
 			ofs.close();
 		}
 	}
-	AppendToFile(GetWarningLogFilePath(), str);
+	AppendToFile(GetWarningLogFileDirectory(), str);
 	warningLogFileCreated = true;
 }
 
@@ -117,14 +117,14 @@ bool FileLogger::Log(const gs2d::str_type::string& str, const TYPE& type) const
 	return AppendToFile(m_fileName, str);
 }
 
-gs2d::str_type::string FileLogger::GetErrorLogFilePath()
+gs2d::str_type::string FileLogger::GetErrorLogFileDirectory()
 {
-	return GetLogPath() + GS_L("_error.log.txt");
+	return GetLogDirectory() + GS_L("_error.log.txt");
 }
 
-gs2d::str_type::string FileLogger::GetWarningLogFilePath()
+gs2d::str_type::string FileLogger::GetWarningLogFileDirectory()
 {
-	return GetLogPath() + GS_L("_warning.log.txt");
+	return GetLogDirectory() + GS_L("_warning.log.txt");
 }
 
 } // namespace Platform

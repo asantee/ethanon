@@ -27,7 +27,7 @@ namespace gs2d {
 using namespace math;
 
 const str_type::string GLES2Sprite::SPRITE_LOG_FILE("GLES2Sprite.log.txt");
-Platform::FileLogger GLES2Sprite::m_logger(Platform::FileLogger::GetLogPath() + GLES2Sprite::SPRITE_LOG_FILE);
+Platform::FileLogger GLES2Sprite::m_logger(Platform::FileLogger::GetLogDirectory() + GLES2Sprite::SPRITE_LOG_FILE);
 
 GLES2Sprite::GLES2Sprite(GLES2ShaderContextPtr shaderContext) :
 		m_normalizedOrigin(0.0f, 0.0f),

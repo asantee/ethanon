@@ -33,7 +33,7 @@ MobileInput::MobileInput(const unsigned int maxTouchCount) :
 	m_touchStepCount(maxTouchCount),
 	m_touchMove(maxTouchCount),
 	m_lastTouch(maxTouchCount),
-	m_logger(Platform::FileLogger::GetLogPath() + "MobileInput.log.txt")
+	m_logger(Platform::FileLogger::GetLogDirectory() + "MobileInput.log.txt")
 {
 	for (unsigned int t=0; t<m_maxTouchCount; t++)
 	{

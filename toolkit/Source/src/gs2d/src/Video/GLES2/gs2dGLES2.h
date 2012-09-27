@@ -214,9 +214,6 @@ public:
 	void ForwardCommand(const str_type::string& cmd);
 	str_type::string PullCommands();
 
-	str_type::string GetExternalStoragePath() const;
-	str_type::string GetGlobalExternalStoragePath() const;
-
 	bool SetBlendTexture(const unsigned int passIdx, GLES2TexturePtr texture);
 	void SetupMultitextureShader();
 	void DisableMultitextureShader();
@@ -275,6 +272,8 @@ private:
 			const str_type::string& winTitle, const bool windowed,
 			const bool sync, const GS_PIXEL_FORMAT pfBB = GSPF_UNKNOWN,
 			const bool maximizable = false);
+
+	Platform::FileIOHubPtr GetFileIOHub();
 
 	#ifndef APPLE_IOS
 		double GetElapsedTimeD(const TIME_UNITY unity = TU_MILLISECONDS) const;

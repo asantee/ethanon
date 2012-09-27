@@ -24,7 +24,7 @@
 #include <Platform/Platform.h>
 
 Platform::FileLoggerPtr ETHResourceProvider::m_logger(
-	new Platform::FileLogger(Platform::FileLogger::GetLogPath() + GS_L("eth.log.txt")));
+	new Platform::FileLogger(Platform::FileLogger::GetLogDirectory() + GS_L("eth.log.txt")));
 
 ETHResourceProvider::ETHResourceProvider(
 		ETHGraphicResourceManagerPtr graphicResources, ETHAudioResourceManagerPtr audioResources,

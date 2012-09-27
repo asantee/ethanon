@@ -92,13 +92,13 @@ GS2D_API VideoPtr CreateVideo(const unsigned int width, const unsigned int heigh
 }
 
 GLES2Video::GLES2Video(const unsigned int width, const unsigned int height,
-		const str_type::string& winTitle, Platform::FileIOHubPtr fileIOHub) :
+					   const str_type::string& winTitle, const Platform::FileIOHubPtr& fileIOHub) :
 	m_backgroundColor(GS_BLACK),
 	m_screenSize(width, height),
 	m_windowTitle(winTitle),
 	m_quit(false),
 	m_rendering(false),
-	m_logger(Platform::FileLogger::GetLogPath() + VIDEO_LOG_FILE),
+	m_logger(Platform::FileLogger::GetLogDirectory() + VIDEO_LOG_FILE),
 	m_fpsRate(30.0f),
 	m_roundUpPosition(false),
 	m_scissor(Vector2i(0, 0), Vector2i(0, 0)),
@@ -108,8 +108,6 @@ GLES2Video::GLES2Video(const unsigned int width, const unsigned int height,
 	m_zWrite(true),
 	m_fileIOHub(fileIOHub)
 {
-	m_fileManager = fileManager;
-
 	for (std::size_t t = 0; t < _GS2D_GLES2_MAX_MULTI_TEXTURES; t++)
 	{
 		m_blendModes[t] = GSBM_MODULATE;
@@ -123,11 +121,9 @@ GLES2Video::GLES2Video(const unsigned int width, const unsigned int height,
 }
 
 boost::shared_ptr<GLES2Video> GLES2Video::Create(const unsigned int width, const unsigned int height,
-		const str_type::string& winTitle, const str_type::string& bitmapFontDefaultPath,
-		const str_type::string& externalStoragePath, const str_type::string& globalExternalStoragePath, Platform::FileManagerPtr fileManager)
+												 const str_type::string& winTitle, const Platform::FileIOHubPtr& fileIOHub)
 {
-	boost::shared_ptr<GLES2Video> p(new GLES2Video(width, height, winTitle, bitmapFontDefaultPath,
-									externalStoragePath, globalExternalStoragePath, fileManager));
+	boost::shared_ptr<GLES2Video> p(new GLES2Video(width, height, winTitle, fileIOHub));
 	p->weak_this = p;
 	return p;
 }
@@ -207,7 +203,7 @@ TexturePtr GLES2Video::CreateTextureFromFileInMemory(const void *pBuffer,
 		const unsigned int width, const unsigned int height,
 		const unsigned int nMipMaps)
 {
-	TexturePtr texture(new GLES2Texture(weak_this, GS_L("from_memory"), m_fileManager));
+	TexturePtr texture(new GLES2Texture(weak_this, GS_L("from_memory"), m_fileIOHub->GetFileManager()));
 	if (texture->LoadTexture(weak_this, pBuffer, bufferLength, mask, width, height, nMipMaps))
 	{
 		return texture;
@@ -219,7 +215,7 @@ TexturePtr GLES2Video::LoadTextureFromFile(const str_type::string& fileName,
 		GS_COLOR mask, const unsigned int width,
 		const unsigned int height, const unsigned int nMipMaps)
 {
-	TexturePtr texture(new GLES2Texture(weak_this, fileName, m_fileManager));
+	TexturePtr texture(new GLES2Texture(weak_this, fileName, m_fileIOHub->GetFileManager()));
 	if (texture->LoadTexture(weak_this, fileName, mask, width, height, nMipMaps))
 	{
 		return texture;
@@ -229,7 +225,7 @@ TexturePtr GLES2Video::LoadTextureFromFile(const str_type::string& fileName,
 
 TexturePtr GLES2Video::CreateRenderTargetTexture(const unsigned int width, const unsigned int height, const GS_TARGET_FORMAT fmt)
 {
-	TexturePtr texture(new GLES2Texture(weak_this, GS_L("render_target"), m_fileManager));
+	TexturePtr texture(new GLES2Texture(weak_this, GS_L("render_target"), m_fileIOHub->GetFileManager()));
 	if (texture->CreateRenderTarget(weak_this, width, height, fmt))
 	{
 		return texture;
@@ -270,7 +266,7 @@ ShaderPtr GLES2Video::LoadShaderFromFile(const str_type::string& fileName,
 		const GS_SHADER_FOCUS focus, const GS_SHADER_PROFILE profile,
 		const char *entry)
 {
-	GLES2ShaderPtr shader(new GLES2Shader(m_fileManager, m_shaderContext));
+	GLES2ShaderPtr shader(new GLES2Shader(m_fileIOHub->GetFileManager(), m_shaderContext));
 	if (shader->LoadShaderFromFile(m_shaderContext, fileName, focus, profile, entry))
 	{
 		return shader;
@@ -282,7 +278,7 @@ ShaderPtr GLES2Video::LoadShaderFromString(const str_type::string& shaderName,
 		const std::string& codeAsciiString, const GS_SHADER_FOCUS focus, const GS_SHADER_PROFILE profile,
 		const char *entry)
 {
-	GLES2ShaderPtr shader(new GLES2Shader(m_fileManager, m_shaderContext));
+	GLES2ShaderPtr shader(new GLES2Shader(m_fileIOHub->GetFileManager(), m_shaderContext));
 	if (shader->LoadShaderFromString(m_shaderContext, shaderName, codeAsciiString, focus, profile, entry))
 	{
 		return shader;
@@ -292,7 +288,7 @@ ShaderPtr GLES2Video::LoadShaderFromString(const str_type::string& shaderName,
 
 GLES2ShaderPtr GLES2Video::LoadGLES2ShaderFromFile(const str_type::string& fileName, const GS_SHADER_FOCUS focus)
 {
-	GLES2ShaderPtr shader(new GLES2Shader(m_fileManager, m_shaderContext));
+	GLES2ShaderPtr shader(new GLES2Shader(m_fileIOHub->GetFileManager(), m_shaderContext));
 	if (shader->LoadShaderFromFile(m_shaderContext, fileName, focus))
 	{
 		return shader;
@@ -303,7 +299,7 @@ GLES2ShaderPtr GLES2Video::LoadGLES2ShaderFromFile(const str_type::string& fileN
 GLES2ShaderPtr GLES2Video::LoadGLES2ShaderFromString(const str_type::string& shaderName,
 		const std::string& codeAsciiString, const GS_SHADER_FOCUS focus)
 {
-	GLES2ShaderPtr shader(new GLES2Shader(m_fileManager, m_shaderContext));
+	GLES2ShaderPtr shader(new GLES2Shader(m_fileIOHub->GetFileManager(), m_shaderContext));
 	if (shader->LoadShaderFromString(m_shaderContext, shaderName, codeAsciiString, focus))
 	{
 		return shader;
@@ -691,7 +687,7 @@ void GLES2Video::UnsetScissor()
 BitmapFontPtr GLES2Video::LoadBitmapFont(const str_type::string& fullFilePath)
 {
 	str_type::string out;
-	m_fileManager->GetAnsiFileString(fullFilePath, out);
+	m_fileIOHub->GetFileManager()->GetAnsiFileString(fullFilePath, out);
 	if (out != "")
 	{
 		BitmapFontPtr newFont = BitmapFontPtr(new BitmapFont(weak_this, fullFilePath, out));
@@ -724,7 +720,7 @@ Vector2 GLES2Video::ComputeCarretPosition(const str_type::string& font,	const st
 	BitmapFontPtr bitmapFont;
 	if (iter == m_fonts.end())
 	{
-		bitmapFont = LoadBitmapFont(m_defaultBitmapFontPath + font);
+		bitmapFont = LoadBitmapFont(m_fileIOHub->GenerateBitmapFontFilePath(font));
 		if (!bitmapFont)
 		{
 			Message(GS_L(font + ": couldn't create bitmap font"), GSMT_ERROR);
@@ -744,7 +740,7 @@ Vector2 GLES2Video::ComputeTextBoxSize(const str_type::string& font, const str_t
 	BitmapFontPtr bitmapFont;
 	if (iter == m_fonts.end())
 	{
-		bitmapFont = LoadBitmapFont(m_defaultBitmapFontPath + font);
+		bitmapFont = LoadBitmapFont(m_fileIOHub->GenerateBitmapFontFilePath(font));
 		if (!bitmapFont)
 		{
 			Message(GS_L(font + ": couldn't create bitmap font"), GSMT_ERROR);
@@ -765,7 +761,7 @@ unsigned int GLES2Video::FindClosestCarretPosition(const str_type::string& font,
 	BitmapFontPtr bitmapFont;
 	if (iter == m_fonts.end())
 	{
-		bitmapFont = LoadBitmapFont(m_defaultBitmapFontPath + font);
+		bitmapFont = LoadBitmapFont(m_fileIOHub->GenerateBitmapFontFilePath(font));
 		if (!bitmapFont)
 		{
 			Message(GS_L(font + ": couldn't create bitmap font"), GSMT_ERROR);
@@ -789,7 +785,7 @@ bool GLES2Video::DrawBitmapText(const Vector2 &v2Pos, const str_type::string& te
 	// if not... create a new one
 	if (iter == m_fonts.end())
 	{
-		bmfont = LoadBitmapFont(m_defaultBitmapFontPath + font);
+		bmfont = LoadBitmapFont(m_fileIOHub->GenerateBitmapFontFilePath(font));
 		if (!bmfont)
 		{
 			Message(GS_L(font + ": couldn't create bitmap font"), GSMT_ERROR);
@@ -1232,14 +1228,9 @@ void GLES2Video::ForwardCommand(const str_type::string& cmd)
 	m_commands += (GS_L("\n") + cmd);
 }
 
-str_type::string GLES2Video::GetExternalStoragePath() const
+Platform::FileIOHubPtr GLES2Video::GetFileIOHub()
 {
-	return m_externalStoragePath;
-}
-
-str_type::string GLES2Video::GetGlobalExternalStoragePath() const
-{
-	return m_globalExternalStoragePath;
+	return m_fileIOHub;
 }
 
 } // namespace gs2d

@@ -33,7 +33,9 @@ LOCAL_SRC_FILES := \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/Platform.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/Logger.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/FileLogger.cpp \
+	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/FileIOHub.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/android/Platform.android.cpp \
+	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/android/AndroidFileIOHub.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Video/GLES2/GLES2RectRenderer.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/ZipFileManager.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/NativeCommandForwarder.cpp \

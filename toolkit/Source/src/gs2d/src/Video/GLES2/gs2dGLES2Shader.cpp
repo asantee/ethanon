@@ -80,7 +80,7 @@ const int GLES2ShaderContext::INVALID_ATTRIB_LOCATION = -1;
 GLuint GLES2ShaderContext::m_currentProgram = 0;
 	
 GLES2ShaderContext::GLES2ShaderContext(GLES2Video *pVideo) :
-		m_logger(Platform::FileLogger::GetLogPath() + "GLES2ShaderContext.log.txt"),
+		m_logger(Platform::FileLogger::GetLogDirectory() + "GLES2ShaderContext.log.txt"),
 		m_rectRenderer(m_logger),
 		m_spriteDepthValue(0.0f),
 		m_lastProgram(0),
@@ -433,7 +433,7 @@ bool GLES2Shader::LoadShaderFromString(ShaderContextPtr context, const str_type:
 
 		m_shaderFocus = focus;
 		m_logger = boost::shared_ptr<Platform::FileLogger>(
-				new Platform::FileLogger(Platform::FileLogger::GetLogPath() + Platform::GetFileName(shaderName) + ".log.txt"));
+				new Platform::FileLogger(Platform::FileLogger::GetLogDirectory() + Platform::GetFileName(shaderName) + ".log.txt"));
 		m_shader = shader;
 		const char *pSource = codeAsciiString.c_str();
 		glShaderSource(shader, 1, &pSource, NULL);

@@ -54,7 +54,7 @@ boost::shared_ptr<AndroidAudioContext> AndroidAudioContext::Create(boost::any da
 }
 
 AndroidAudioContext::AndroidAudioContext() :
-	m_logger(Platform::FileLogger::GetLogPath() + "AndroidAudioContext.log.txt"),
+	m_logger(Platform::FileLogger::GetLogDirectory() + "AndroidAudioContext.log.txt"),
 	m_globalVolume(1.0f)
 {
 }
@@ -116,7 +116,7 @@ float AndroidAudioContext::GetGlobalVolume() const
 
 // Audio sample
 
-Platform::FileLogger AndroidAudioSample::m_logger(Platform::FileLogger::GetLogPath() + "AndroidAudioSample.log.txt");
+Platform::FileLogger AndroidAudioSample::m_logger(Platform::FileLogger::GetLogDirectory() + "AndroidAudioSample.log.txt");
 
 AndroidAudioSample::AndroidAudioSample() :
 	m_volume(1.0f),

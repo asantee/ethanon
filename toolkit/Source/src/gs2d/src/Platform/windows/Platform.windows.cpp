@@ -161,7 +161,7 @@ std::string ConvertUnicodeToAscii(const wchar_t* unicodeString)
 	return result;
 }
 
-gs2d::str_type::string FileLogger::GetLogPath()
+gs2d::str_type::string FileLogger::GetLogDirectory()
 {
 	return GetModuleDirectory();
 }
