@@ -95,6 +95,7 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 		ETHAudioResourceManagerPtr(new ETHAudioResourceManager()),
 		ETHShaderManagerPtr(new ETHShaderManager(video, fileIOHub->GetStartResourceDirectory() + ETHDirectories::GetShaderDirectory(), m_richLighting)),
 		video, audio, input, fileIOHub));
+
 	m_ethInput.SetProvider(m_provider);
 
 	CreateDynamicBackBuffer(file);
@@ -264,6 +265,9 @@ bool ETHEngine::PrepareScriptingEngine(const std::vector<gs2d::str_type::string>
 
 	if (!BuildModule(definedWords))
 		return false;
+
+	// Always collect all garbage by default
+	SetFastGarbageCollector(false);
 
 	return true;
 }
