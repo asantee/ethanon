@@ -122,8 +122,7 @@ int main(const int argc, const char* argv[])
 	Platform::FileManagerPtr fileManager = Platform::FileManagerPtr(new Platform::StdFileManager);
 	Platform::FileIOHubPtr fileIOHub(new Platform::WindowsFileIOHub(fileManager, ETHDirectories::GetBitmapFontDirectory(), L""));
 
-	const str_type::string resourceDirectory = fileIOHub->GetResourceDirectory();
-	const ETHAppEnmlFile app(resourceDirectory + L"editor.enml", fileManager, GS_L(""));
+	const ETHAppEnmlFile app(fileIOHub->GetProgramDirectory() + L"editor.enml", fileManager, GS_L(""));
 	Vector2i v2Backbuffer(app.GetWidth(), app.GetHeight());
 
 
@@ -146,7 +145,7 @@ int main(const int argc, const char* argv[])
 		ETHResourceProviderPtr provider = ETHResourceProviderPtr(new ETHResourceProvider(
 			ETHGraphicResourceManagerPtr(new ETHGraphicResourceManager(ETHSpriteDensityManager())),
 			ETHAudioResourceManagerPtr(new ETHAudioResourceManager()),
-			ETHShaderManagerPtr(new ETHShaderManager(video, resourceDirectory + ETHDirectories::GetShaderDirectory(), true)),
+			ETHShaderManagerPtr(new ETHShaderManager(video, fileIOHub->GetProgramDirectory() + ETHDirectories::GetShaderDirectory(), true)),
 			video, audio, input, fileIOHub));
 
 		// instantiate and load every editor
@@ -163,10 +162,10 @@ int main(const int argc, const char* argv[])
 		}
 
 		// load the arrow sprite used by every editor
-		const wstring nextAppButtonPath = resourceDirectory + L"data/nextapp.png";
+		const wstring nextAppButtonPath = fileIOHub->GetProgramDirectory() + L"data/nextapp.png";
 		SpritePtr nextAppButton = video->CreateSprite(nextAppButtonPath);
 
-		ETH_STARTUP_RESOURCES_ENML_FILE startup(resourceDirectory + wstring(L"/") + L"editor.enml", Platform::FileManagerPtr(new Platform::StdFileManager));
+		ETH_STARTUP_RESOURCES_ENML_FILE startup(fileIOHub->GetProgramDirectory() + wstring(L"/") + L"editor.enml", Platform::FileManagerPtr(new Platform::StdFileManager));
 
 		// if the user tried the "open with..." feature, open that project
 		if (argc >= 2)
