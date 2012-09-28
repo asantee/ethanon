@@ -142,7 +142,7 @@ private:
 
 	void FillMultimapAndClearPersistenList(std::multimap<float, ETHRenderEntity*>& mm, const std::list<Vector2>& currentBucketList);
 
-	float ComputeDrawHash(const float entityDepth, const Vector2& camPos, const Vector3& entityPos, const ETH_ENTITY_TYPE& type) const;
+	float ComputeDrawHash(const float entityDepth, const ETH_ENTITY_TYPE& type) const;
 	ETHBucketManager m_buckets;
 	ETHTempEntityHandler m_tempEntities;
 

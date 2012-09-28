@@ -605,10 +605,9 @@ bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline
 			}
 
 			// add this entity to the multimap to sort it for an alpha-friendly rendering list
-			const Vector3& v3Pos = entity->GetPosition();
 			const ETH_ENTITY_TYPE type = entity->GetType();
 			const float depth = entity->ComputeDepth(maxHeight, minHeight);
-			const float drawHash = ComputeDrawHash(depth, camPos, v3Pos, type);
+			const float drawHash = ComputeDrawHash(depth, type);
 
 			// add the entity to the render map
 			mmEntities.insert(std::pair<float, ETHRenderEntity*>(drawHash, entity));
@@ -749,7 +748,7 @@ bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline
 	return true;
 }
 
-float ETHScene::ComputeDrawHash(const float entityDepth, const Vector2& camPos, const Vector3& entityPos, const ETH_ENTITY_TYPE& type) const
+float ETHScene::ComputeDrawHash(const float entityDepth, const ETH_ENTITY_TYPE& type) const
 {
 	float drawHash;
 	switch (type)
@@ -758,7 +757,7 @@ float ETHScene::ComputeDrawHash(const float entityDepth, const Vector2& camPos, 
 		drawHash = entityDepth / 2.0f;
 		break;
 	case ETH_VERTICAL:
-		drawHash = (0.5f + entityDepth) + (entityPos.y - camPos.y);
+		drawHash = (entityDepth / 2.0f) + 0.01f;
 		break;
 	case ETH_GROUND_DECAL:
 	case ETH_OPAQUE_DECAL:
@@ -1064,10 +1063,9 @@ void ETHScene::FillMultimapAndClearPersistenList(std::multimap<float, ETHRenderE
 		const bool bucketNotProcessed = std::find(currentBucketList.begin(), currentBucketList.end(), currentBucket) == currentBucketList.end();
 		if (bucketNotProcessed)
 		{
-			const Vector3& v3Pos = entity->GetPosition();
 			const ETH_ENTITY_TYPE type = entity->GetType();
 			const float depth = entity->ComputeDepth(m_maxSceneHeight, m_minSceneHeight);
-			const float drawHash = ComputeDrawHash(depth, m_provider->GetVideo()->GetCameraPos(), v3Pos, type);
+			const float drawHash = ComputeDrawHash(depth, type);
 			mm.insert(std::pair<float, ETHRenderEntity*>(drawHash, entity));
 			m_nRenderedEntities++;
 		}
