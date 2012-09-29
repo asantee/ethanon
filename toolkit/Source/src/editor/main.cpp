@@ -185,7 +185,7 @@ int main(const int argc, const char* argv[])
 				editor[t]->SetCurrentProject(editor[PROJECT]->GetCurrentProject().c_str());
 			}
 
-			// default scene openning
+			// default scene opening
 			if ( !startup.escFilename.empty() )
 			{
 				SceneEditor * sceneEditor = (SceneEditor *)(editor[SCENE].get());
