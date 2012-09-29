@@ -20,7 +20,7 @@ LOCAL_MODULE    := Application
 
 LOCAL_STATIC_LIBRARIES := libzip libpng libsoil libgs2d libangelscript libbox2d
 
-LOCAL_CFLAGS    := -Werror -DANDROID=1 -DGLES2=1 -DAS_MAX_PORTABILITY -DAS_NO_THREADS
+LOCAL_CFLAGS    := -Werror -DANDROID=1 -DGLES2=1 -DAS_MAX_PORTABILITY -DAS_NO_THREADS -DETH_DEFINE_DEPRECATED_SIGNATURES_FROM_0_9_5
 
 LOCAL_DEFAULT_CPP_EXTENSION := cpp 
 
@@ -105,9 +105,6 @@ LOCAL_SRC_FILES := \
 	$(ENGINE_PATH)/Physics/ETHPhysicsEntityController.cpp \
 	$(ENGINE_PATH)/Physics/ETHRevoluteJoint.cpp \
 	$(ENGINE_PATH)/Platform/ETHAppEnmlFile.cpp
-
-# REMOVE ApplicationTemplate.cpp AND ENTER YOUR SOURCE FILES HERE:
-# LOCAL_SRC_FILES += ApplicationTemplate.cpp
 
 LOCAL_LDLIBS := -ldl -llog -lGLESv2 -lz
 
