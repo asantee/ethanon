@@ -44,13 +44,21 @@ uniform float2 flipMul;          // this is multiplied by the vertex position do
 uniform float2 cameraPos;
 uniform float depth;
 
-uniform float2 parallaxOrigin;
+uniform float3 parallaxOrigin_verticalIntensity;
 uniform float parallaxIntensity;
 uniform float3 entityPos3D;
-float2 computeParallaxOffset()
+
+
+
+
+
+
+
+float2 computeParallaxOffset(const float2 vertPos)
 {
-	const float2 screenSpacePos = float2(entityPos3D.x, entityPos3D.y)-cameraPos;
-	return ((screenSpacePos-parallaxOrigin)/screenSize.x)*entityPos3D.z*parallaxIntensity;
+
+	const float2 parallaxOrigin = parallaxOrigin_verticalIntensity.xy;
+	return ((vertPos - parallaxOrigin) / screenSize.x) * entityPos3D.z * parallaxIntensity;
 }
 
 // returns the sprite vertex position according to it's
@@ -67,8 +75,8 @@ float4 transformSprite(float3 position)
 	newPos = mul(rotationMatrix, newPos);
 
 	// position the sprite according to the screen space
-	newPos += float4(entityPos,0,0)-float4(screenSize/2,0,0)-float4(cameraPos,0,0)
-		+float4(computeParallaxOffset(),0,0);
+	newPos += float4(entityPos,0,0) - float4(cameraPos,0,0);
+	newPos += float4(computeParallaxOffset(newPos.xy),0,0) - float4(screenSize / 2,0,0);
 
 	// inverts the y coordinate
 	newPos *= float4(1,-1,1,1);
@@ -79,8 +87,8 @@ float4 transformSprite(float3 position)
 float2 transformCoord(float2 texCoord)
 {
 	// adjusts the texture coordinate according to the cut-rect
-	float2 newCoord = texCoord * (rectSize/bitmapSize);
-	newCoord += (rectPos/bitmapSize);
+	float2 newCoord = texCoord * (rectSize / bitmapSize);
+	newCoord += (rectPos / bitmapSize);
 
 	// scrolls and multiplies the texture
 	return (newCoord);
@@ -94,7 +102,8 @@ void main(	float3 position : POSITION,
 			out float2 oTexCoord1 : TEXCOORD1)
 {
 	float4 outPos = transformSprite(position);
-	outPos.z = 1-depth;
+	depth = 1 - depth;
+	outPos.z = depth;
 	oPosition = outPos;
 	float2 coord = transformCoord(texCoord);
 	oTexCoord0 = coord;

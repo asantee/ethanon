@@ -175,7 +175,11 @@ public:
 	static void Exit();
 	static void SetAmbientLight(const Vector3 &v3Color);
 	static void SetParallaxOrigin(const Vector2 &parallaxOrigin);
+	static Vector2 GetParallaxOrigin();
 	static void SetParallaxIntensity(const float intensity);
+	static void SetParallaxVerticalIntensity(const float intensity);
+	static float GetParallaxIntensity();
+	static float GetParallaxVerticalIntensity();
 	static Vector3 GetAmbientLight();
 	static unsigned int GetScreenWidth();
 	static unsigned int GetScreenHeight();

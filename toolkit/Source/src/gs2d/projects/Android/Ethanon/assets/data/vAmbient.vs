@@ -26,14 +26,21 @@ uniform vec2 params[10];
 #define colorBA params[8]
 #define depth params[9]
 
-uniform float2 parallaxOrigin;
+uniform float3 parallaxOrigin_verticalIntensity;
 uniform float4 entityPos3D_parallaxIntensity;
 uniform float spaceLength;
 
-float2 computeParallaxOffset()
+float computeVerticalOffsetInPixels(float posY, float rectSizeY)
 {
-	float2 screenSpacePos = float2(entityPos3D_parallaxIntensity.x, entityPos3D_parallaxIntensity.y) - cameraPos;
-	return ((screenSpacePos - parallaxOrigin) / screenSize.x) * entityPos3D_parallaxIntensity.z * entityPos3D_parallaxIntensity.w;
+	return ((1.0 - posY) * rectSizeY);
+}
+
+float2 computeParallaxOffset(float2 vertPos, float3 inPosition)
+{
+	float vOffset = computeVerticalOffsetInPixels(inPosition.y, rectSize.y);
+	float2 parallaxOrigin = float2(parallaxOrigin_verticalIntensity.x, parallaxOrigin_verticalIntensity.y);
+	float verticalIntensity = parallaxOrigin_verticalIntensity.z;
+	return ((vertPos - parallaxOrigin) / screenSize.x) * (entityPos3D_parallaxIntensity.z + (vOffset * verticalIntensity)) * entityPos3D_parallaxIntensity.w;
 }
 
 float4 transformSprite(float3 position)
@@ -41,8 +48,8 @@ float4 transformSprite(float3 position)
 	float4 newPos = float4(position, 1.0);
 	newPos = newPos * float4(size, 1.0, 1.0) - float4(center, 0.0, 0.0);
 	newPos = (rotationMatrix * newPos);
-	newPos += float4(entityPos, 0.0, 0.0) - float4(screenSize / 2.0, 0.0, 0.0) - float4(cameraPos, 0.0, 0.0)
-		+ float4(computeParallaxOffset(), 0.0, 0.0);
+	newPos += float4(entityPos, 0.0, 0.0) - float4(cameraPos, 0.0, 0.0);
+	newPos += float4(computeParallaxOffset(float2(newPos.x, newPos.y), position), 0.0, 0.0) - float4(screenSize / 2.0, 0.0, 0.0);
 	newPos *= float4(1.0,-1.0, 1.0, 1.0);
 	return (viewMatrix * newPos);
 }
@@ -57,7 +64,7 @@ float2 transformCoord(float2 texCoord)
 void main()
 {
 	float4 outPos = transformSprite(vec3(vPosition.x, vPosition.y, vPosition.z)); 
-	outPos.z = (1.0 - depth.x) - (((1.0 - vPosition.y) * rectSize.y) / spaceLength);
+	outPos.z = (1.0 - depth.x) - ((computeVerticalOffsetInPixels(vPosition.y, rectSize.y)) / spaceLength);
 	gl_Position = outPos;
 	v_color = float4(colorRG, colorBA);
 	v_texCoord = transformCoord(vTexCoord);

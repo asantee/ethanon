@@ -33,7 +33,7 @@ using namespace math;
 class ETHParallaxManager
 {
 	Vector2 m_normalizedOrigin;
-	float m_intensity;
+	float m_intensity, m_verticalIntensity;
 
 public:
 	ETHParallaxManager();
@@ -50,6 +50,8 @@ public:
 
 	void SetIntensity(const float intensity);
 	float GetIntensity() const;
+	void SetVerticalIntensity(const float intensity);
+	float GetVerticalIntensity() const;
 
 	void SetShaderParameters(const VideoConstPtr& video, const ShaderPtr& shader, const Vector3& entityPos,
 							 const float& individualParallaxIntensity, const bool drawToTarget) const;

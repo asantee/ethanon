@@ -68,6 +68,8 @@ public:
 	inline void SetParallaxIntensity(const float intensity) { m_parallaxManager.SetIntensity(intensity); }
 	inline float GetParallaxIntensity() const { return m_parallaxManager.GetIntensity(); }
 	inline Vector2 ComputeParallaxOffset(const VideoPtr& video, const Vector3& pos, const float& individualParallaxIntensity) const { return m_parallaxManager.ComputeOffset(video, pos, individualParallaxIntensity); }
+	inline void SetParallaxVerticalIntensity(const float intensity) { m_parallaxManager.SetVerticalIntensity(intensity); }
+	inline float GetParallaxVerticalIntensity() const { return m_parallaxManager.GetVerticalIntensity(); }
 
 private:
 

@@ -23,7 +23,7 @@
 #include "ETHParallaxManager.h"
 
 ETHParallaxManager::ETHParallaxManager()
- : m_normalizedOrigin(0.5f, 0.5f), m_intensity(0)
+ : m_normalizedOrigin(0.5f, 0.5f), m_intensity(0), m_verticalIntensity(0.1f)
 {
 }
 
@@ -45,7 +45,7 @@ Vector2 ETHParallaxManager::GetNormalizedOrigin() const
 
 Vector2 ETHParallaxManager::GetInScreenOrigin(const VideoConstPtr& video) const
 {
-	return GetNormalizedOrigin()*video->GetScreenSizeF();
+	return GetNormalizedOrigin() * video->GetScreenSizeF();
 }
 
 void ETHParallaxManager::SetIntensity(const float intensity)
@@ -70,10 +70,20 @@ void ETHParallaxManager::SetShaderParameters(const VideoConstPtr& video, const S
 			shader->SetConstant(GS_L("entityPos3D"), entityPos);
 			shader->SetConstant(GS_L("parallaxIntensity"), parallaxIntensity);
 		#endif
-		shader->SetConstant(GS_L("parallaxOrigin"), GetInScreenOrigin(video));
+		shader->SetConstant(GS_L("parallaxOrigin_verticalIntensity"), Vector3(GetInScreenOrigin(video), GetVerticalIntensity()));
 	}
 	else
 	{
 		shader->SetConstant(GS_L("parallaxIntensity"), 0.0f);
 	}
+}
+
+void ETHParallaxManager::SetVerticalIntensity(const float intensity)
+{
+	m_verticalIntensity = intensity;
+}
+
+float ETHParallaxManager::GetVerticalIntensity() const
+{
+	return m_verticalIntensity;
 }

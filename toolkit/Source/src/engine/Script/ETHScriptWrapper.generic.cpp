@@ -88,7 +88,11 @@ asDECLARE_FUNCTION_WRAPPERPR(__RandomizerFloat2Args, Randomizer::Float, (const f
 asDECLARE_FUNCTION_WRAPPER(__SetAmbientLight,   ETHScriptWrapper::SetAmbientLight);
 asDECLARE_FUNCTION_WRAPPER(__GetAmbientLight,   ETHScriptWrapper::GetAmbientLight);
 asDECLARE_FUNCTION_WRAPPER(__SetParallaxOrigin, ETHScriptWrapper::SetParallaxOrigin);
+asDECLARE_FUNCTION_WRAPPER(__GetParallaxOrigin, ETHScriptWrapper::GetParallaxOrigin);
 asDECLARE_FUNCTION_WRAPPER(__SetParallaxIntensity, ETHScriptWrapper::SetParallaxIntensity);
+asDECLARE_FUNCTION_WRAPPER(__GetParallaxIntensity, ETHScriptWrapper::GetParallaxIntensity);
+asDECLARE_FUNCTION_WRAPPER(__SetParallaxVerticalIntensity, ETHScriptWrapper::SetParallaxVerticalIntensity);
+asDECLARE_FUNCTION_WRAPPER(__GetParallaxVerticalIntensity, ETHScriptWrapper::GetParallaxVerticalIntensity);
 
 asDECLARE_FUNCTION_WRAPPER(__SetWindowProperties, ETHScriptWrapper::SetWindowProperties);
 asDECLARE_FUNCTION_WRAPPER(__GetScreenWidth,      ETHScriptWrapper::GetScreenWidth);
@@ -352,6 +356,11 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("vector3 GetAmbientLight()",                 asFUNCTION(__GetAmbientLight),   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void SetParallaxOrigin(const vector2 &in)", asFUNCTION(__SetParallaxOrigin), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void SetParallaxIntensity(const float)",    asFUNCTION(__SetParallaxIntensity), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("vector2 GetParallaxOrigin()",               asFUNCTION(__GetParallaxOrigin),    asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("float GetParallaxIntensity()",              asFUNCTION(__GetParallaxIntensity), asCALL_GENERIC); assert(r >= 0);
+
+	r = pASEngine->RegisterGlobalFunction("void SetParallaxVerticalIntensity(const float)", asFUNCTION(__SetParallaxVerticalIntensity), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("float GetParallaxVerticalIntensity()",           asFUNCTION(__GetParallaxVerticalIntensity), asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("void SetZAxisDirection(const vector2 &in)", asFUNCTION(__SetZAxisDirection), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 GetZAxisDirection()",               asFUNCTION(__GetZAxisDirection), asCALL_GENERIC); assert(r >= 0);
