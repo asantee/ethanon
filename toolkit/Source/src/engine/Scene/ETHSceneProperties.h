@@ -23,7 +23,7 @@
 #ifndef ETH_SCENE_PROPERTIES_H_
 #define ETH_SCENE_PROPERTIES_H_
 
-#include "../ETHCommon.h"
+#include "../ETHTypes.h"
 
 struct ETHSceneProperties
 {

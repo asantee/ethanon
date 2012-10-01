@@ -23,7 +23,7 @@
 #ifndef ETH_SHADER_MANAGER_H_
 #define ETH_SHADER_MANAGER_H_
 
-#include "../ETHCommon.h"
+#include "../ETHTypes.h"
 #include "../Entity/ETHSpriteEntity.h"
 #include "ETHParallaxManager.h"
 #include "ETHLightingProfile.h"

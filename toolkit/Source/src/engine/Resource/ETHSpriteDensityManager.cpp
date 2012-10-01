@@ -21,8 +21,9 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHSpriteDensityManager.h"
-#include "../ETHCommon.h"
+#include "../ETHTypes.h"
 #include "../Platform/ETHAppEnmlFile.h"
+#include <Platform/Platform.h>
 
 using gs2d::str_type::string;
 
@@ -57,8 +58,8 @@ bool ETHSpriteDensityManager::ShouldUseFullHdResources(const gs2d::VideoPtr& vid
 
 static gs2d::str_type::string AssembleResourceName(const string& fullFilePath, const string& versionPathName)
 {
-	const string folder(ETHGlobal::GetDirectoryFromPath(fullFilePath.c_str()));
-	const string file(ETHGlobal::GetFileName(fullFilePath));
+	const string folder(Platform::GetFileDirectory(fullFilePath.c_str()));
+	const string file(Platform::GetFileName(fullFilePath));
 	return (folder + versionPathName + file);
 }
 

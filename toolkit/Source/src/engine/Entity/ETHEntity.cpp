@@ -23,6 +23,30 @@
 #include "ETHEntity.h"
 #include "../Physics/ETHPhysicsSimulator.h"
 
+GS_ENTITY_ORIGIN ETHEntity::ConvertToGSSO(const ETH_ENTITY_TYPE type)
+{
+	switch (type)
+	{
+	case ETH_GROUND_DECAL:
+	case ETH_OPAQUE_DECAL:
+	case ETH_OVERALL:
+	case ETH_LAYERABLE:
+	case ETH_HORIZONTAL:
+		return GSEO_CENTER;
+		break;
+	case ETH_VERTICAL:
+		return GSEO_CENTER_BOTTOM;
+		break;
+	default:
+		return GSEO_DEFAULT;
+	};
+}
+
+float ETHEntity::ComputeDepth(const float height, const float maxHeight, const float minHeight)
+{
+	return ((height - minHeight) / (maxHeight - minHeight));
+}
+
 ETHEntity::ETHEntity(const str_type::string& filePath, const int nId, const Platform::FileManagerPtr& fileManager) :
 	ETHScriptEntity(),
 	m_properties(filePath, fileManager),
@@ -222,7 +246,7 @@ void ETHEntity::SetController(const ETHEntityControllerPtr& controller)
 Vector2 ETHEntity::ComputeAbsoluteOrigin(const Vector2 &v2Size) const
 {
 	Vector2 v2Center;
-	switch (ETHGlobal::ConvertToGSSO(GetType()))
+	switch (ETHEntity::ConvertToGSSO(GetType()))
 	{
 	case GSEO_RECT_CENTER:
 	case GSEO_CENTER:
@@ -698,7 +722,7 @@ bool ETHEntity::IsBody() const
 
 Vector2 ETHEntity::GetCurrentBucket(const ETHBucketManager& buckets) const
 {
-	return ETHGlobal::GetBucket(GetPositionXY(), buckets.GetBucketSize());
+	return ETHBucketManager::GetBucket(GetPositionXY(), buckets.GetBucketSize());
 }
 
 const ETHLight* ETHEntity::GetLight() const

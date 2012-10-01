@@ -23,7 +23,7 @@
 #ifndef ETH_EDITORCOMMON_H_
 #define ETH_EDITORCOMMON_H_
 
-#include "../engine/ETHCommon.h"
+#include "../engine/ETHTypes.h"
 
 #ifdef _MSC_VER
 	#define _ETH_SAFE_strcat strcat_s

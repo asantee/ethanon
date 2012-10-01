@@ -21,6 +21,7 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHCustomDataManager.h"
+#include "../Util/ETHASUtil.h"
 #include <iostream>
 
 const str_type::string ETHCustomDataManager::DATA_NAME[ETH_CUSTOM_DATA_TYPE_COUNT] =

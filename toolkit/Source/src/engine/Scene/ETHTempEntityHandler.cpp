@@ -116,7 +116,7 @@ void ETHTempEntityHandler::CheckTemporaryEntities(const Vector2& zAxisDir, ETHBu
 		// if the particle system is finished, erase it
 		if ((pRenderEntity->IsTemporary() && pRenderEntity->AreParticlesOver()))
 		{
-			const Vector2 v2Bucket = ETHGlobal::GetBucket(pRenderEntity->GetPositionXY(), buckets.GetBucketSize());
+			const Vector2 v2Bucket = ETHBucketManager::GetBucket(pRenderEntity->GetPositionXY(), buckets.GetBucketSize());
 			ETHBucketMap::iterator bucketIter = buckets.Find(v2Bucket);
 
 			if (bucketIter == buckets.GetLastBucket())

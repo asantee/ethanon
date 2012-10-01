@@ -49,7 +49,7 @@ SpritePtr ETHGraphicResourceManager::GetPointer(
 	if (fileRelativePath == GS_L(""))
 		return SpritePtr();
 
-	str_type::string fileName = ETHGlobal::GetFileName(fileRelativePath);
+	str_type::string fileName = Platform::GetFileName(fileRelativePath);
 	str_type::string resourceFullPath = AssembleResourceFullPath(programPath, searchPath, fileName);
 
 	if (!m_resource.empty())
@@ -73,7 +73,7 @@ SpritePtr ETHGraphicResourceManager::GetPointer(
 
 SpritePtr ETHGraphicResourceManager::AddFile(VideoPtr video, const str_type::string &path, const bool cutOutBlackPixels)
 {
-	str_type::string fileName = ETHGlobal::GetFileName(path);
+	str_type::string fileName = Platform::GetFileName(path);
 	{
 		SpritePtr sprite = FindSprite(path, fileName);
 		if (sprite)
@@ -139,7 +139,7 @@ str_type::string ETHGraphicResourceManager::AssembleResourceFullPath( const str_
 
 void ETHGraphicResourceManager::RemoveResource(const str_type::string &file)
 {
-	std::map<str_type::string, SpriteResource>::iterator iter = m_resource.find(ETHGlobal::GetFileName(file));
+	std::map<str_type::string, SpriteResource>::iterator iter = m_resource.find(Platform::GetFileName(file));
 	if (iter != m_resource.end())
 	{
 		m_resource.erase(iter);
@@ -172,7 +172,7 @@ AudioSamplePtr ETHAudioResourceManager::GetPointer(AudioPtr audio, const Platfor
 
 	if (!m_resource.empty())
 	{
-		str_type::string fileName = ETHGlobal::GetFileName(fileRelativePath);
+		str_type::string fileName = Platform::GetFileName(fileRelativePath);
 		std::map<str_type::string, AudioSamplePtr>::iterator iter = m_resource.find(fileName);
 		if (iter != m_resource.end())
 			return iter->second;
@@ -182,7 +182,7 @@ AudioSamplePtr ETHAudioResourceManager::GetPointer(AudioPtr audio, const Platfor
 	// it hasn't been loaded yet
 	if (searchPath != GS_L(""))
 	{
-		str_type::string fileName = ETHGlobal::GetFileName(fileRelativePath);
+		str_type::string fileName = Platform::GetFileName(fileRelativePath);
 
 		str_type::string path = fileIOHub->GetResourceDirectory();
 		path += searchPath;
@@ -197,7 +197,7 @@ AudioSamplePtr ETHAudioResourceManager::AddFile(AudioPtr audio, const Platform::
 {
 	if (!m_resource.empty())
 	{
-		str_type::string fileName = ETHGlobal::GetFileName(path);
+		str_type::string fileName = Platform::GetFileName(path);
 		std::map<str_type::string, AudioSamplePtr>::iterator iter = m_resource.find(fileName);
 		if (iter != m_resource.end())
 			return iter->second;
@@ -214,7 +214,7 @@ AudioSamplePtr ETHAudioResourceManager::AddFile(AudioPtr audio, const Platform::
 		return AudioSamplePtr();
 	}
 	//#ifdef _DEBUG
-	str_type::string fileName = ETHGlobal::GetFileName(path);
+	str_type::string fileName = Platform::GetFileName(path);
 	ETH_STREAM_DECL(ss) << GS_L("(Loaded) ") << fileName;
 	ETHResourceProvider::Log(ss.str(), Platform::Logger::INFO);
 	//#endif

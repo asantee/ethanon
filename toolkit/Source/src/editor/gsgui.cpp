@@ -23,6 +23,7 @@
 #include "gsgui.h"
 #include <sstream>
 #include "EditorCommon.h"
+#include <Platform/Platform.h>
 
 ///////////////////////////////////////////////////////////////
 // string input
@@ -314,7 +315,7 @@ bool GSGUI_SWAPBUTTON::AddButton(const std::wstring &fileName)
 	GSGUI_SWAPBUTTON::GSGUI_SWAPSPRITE_PTR pSprite = GSGUI_SWAPBUTTON::GSGUI_SWAPSPRITE_PTR(new GSGUI_SWAPSPRITE);
 	if ((pSprite->sprite = m_video->CreateSprite(fileName)))
 	{
-		pSprite->fileName = ETHGlobal::GetFileName(fileName);
+		pSprite->fileName = Platform::GetFileName(fileName);
 		m_sprites.push_back(pSprite);
 
 		if (m_sprites.size() == 1)

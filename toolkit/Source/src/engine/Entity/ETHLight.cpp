@@ -21,6 +21,7 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHLight.h"
+#include "../Util/ETHASUtil.h"
 
 ETHLight::ETHLight(const bool active) :
 	active(active),

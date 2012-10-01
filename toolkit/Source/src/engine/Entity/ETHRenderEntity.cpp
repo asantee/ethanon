@@ -235,7 +235,7 @@ bool ETHRenderEntity::DrawProjShadow(const float maxHeight, const float minHeigh
 	pVS->SetConstant(GS_L("lightPos"), v3LightPos);
 	video->SetSpriteDepth(
 		(GetType() == ETH_VERTICAL) ?
-		ETHGlobal::ComputeDepth(m_shadowZ, maxHeight, minHeight)
+		ETHEntity::ComputeDepth(m_shadowZ, maxHeight, minHeight)
 		: Max(0.0f, ComputeDepth(maxHeight, minHeight) - m_layrableMinimumDepth));
 
 	v2ShadowSize.y = 1.0f;

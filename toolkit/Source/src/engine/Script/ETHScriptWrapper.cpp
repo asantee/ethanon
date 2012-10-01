@@ -200,7 +200,7 @@ Vector2 ETHScriptWrapper::GetScreenRectMax(ETHEntity *pEntity)
 
 Vector2 ETHScriptWrapper::GetBucket(const Vector2 &v2)
 {
-	return ETHGlobal::GetBucket(v2, m_pScene->GetBucketSize());
+	return ETHBucketManager::GetBucket(v2, m_pScene->GetBucketSize());
 }
 
 Vector2 ETHScriptWrapper::GetWorldSpaceCursorPos2()

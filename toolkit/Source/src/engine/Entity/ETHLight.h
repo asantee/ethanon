@@ -23,7 +23,7 @@
 #ifndef ETH_LIGHT_H_
 #define ETH_LIGHT_H_
 
-#include "../ETHCommon.h"
+#include "../ETHTypes.h"
 
 struct ETHLight
 {

@@ -142,7 +142,7 @@ ETHEntityProperties::ETHEntityProperties(const str_type::string& filePath, const
 	}
 
 	hRoot = TiXmlHandle(pElem);
-	entityName = ETHGlobal::GetFileName(filePath);
+	entityName = Platform::GetFileName(filePath);
 	if (ReadFromXMLFile(hRoot.FirstChildElement().Element()))
 	{
 		successfullyLoaded = true;
@@ -335,7 +335,7 @@ bool ETHEntityProperties::ReadFromXMLFile(TiXmlElement *pElement)
 				if (pParticleIter)
 				{
 					// TODO: use unlimited amount of systems 
-					for (unsigned int t=0; t<_ETH_MAX_PARTICLE_SYS_PER_ENTITY; t++)
+					for (std::size_t t = 0; t < ETH_MAX_PARTICLE_SYS_PER_ENTITY; t++)
 					{
 						if (pParticleIter)
 						{

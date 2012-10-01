@@ -21,11 +21,13 @@
 --------------------------------------------------------------------------------------*/
 
 #include "../engine/Platform/FileListing.h"
+#include "../engine/Resource/ETHDirectories.h"
 
 #include <enml/enml.h>
 #include "EditorBase.h"
 #include "EditorCommon.h"
 #include <unicode/utf8converter.h>
+#include "../engine/Util/ETHASUtil.h"
 
 #define _ENML_EDITOR_GENERAL_INFO L"data\\info.enml"
 
@@ -322,14 +324,15 @@ namespace ETHGlobal
 {
 	bool CopyFileToProject(const wstring &currentPath, const wstring &filePath, const wstring &destPath, const Platform::FileManagerPtr& fileManager)
 	{
-		const wstring fileName = ETHGlobal::GetFileName(filePath);
-		if (ETHGlobal::FileExists(currentPath+L"\\"+destPath+fileName, fileManager))
+		wstringstream slash; slash << Platform::GetDirectorySlash();
+		const wstring fileName = Platform::GetFileName(filePath);
+		if (ETHGlobal::FileExists(currentPath + slash.str() + destPath + fileName, fileManager))
 		{
 			return true;
 		}
 		else
 		{
-			ETHGlobal::_MoveFile(filePath, currentPath+L"\\"+destPath+fileName, false);
+			ETHGlobal::_MoveFile(filePath, currentPath + slash.str() + destPath + fileName, false);
 		}
 		return true;
 	}
@@ -374,6 +377,33 @@ namespace ETHGlobal
 		ifs.close();
 		return true;
 	}
+
+	bool PointInRect(const Vector2 &p, const Vector2 &pos0, const Vector2 &size0)
+	{
+		const Vector2 halfSize0 = size0/2;
+		const Vector2 v2Min0 = pos0-halfSize0;
+		const Vector2 v2Max0 = pos0+halfSize0;
+
+		if (p.x > v2Max0.x)
+			return false;
+		if (p.y > v2Max0.y)
+			return false;
+
+		if (p.x < v2Min0.x)
+			return false;
+		if (p.y < v2Min0.y)
+			return false;
+
+		return true;
+	}
+
+	str_type::string Vector3ToString(const Vector3 &v3)
+	{
+		str_type::stringstream ss;
+		ss << GS_L("(") << v3.x << GS_L(", ") << v3.y << GS_L(", ") << v3.z << GS_L(")");
+		return ss.str();
+	}
+
 } 
 // namespace ETHGlobal
 

@@ -23,7 +23,7 @@
 #ifndef ETH_DATA_MANAGER_H_
 #define ETH_DATA_MANAGER_H_
 
-#include "../ETHCommon.h"
+#include "../ETHTypes.h"
 #include <map>
 #include <string>
 

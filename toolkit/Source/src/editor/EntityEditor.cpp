@@ -23,6 +23,7 @@
 #include "EntityEditor.h"
 #include <unicode/utf8converter.h>
 #include "../engine/Entity/ETHRenderEntity.h"
+#include "../engine/Resource/ETHDirectories.h"
 #include <sstream>
 
 using namespace std;

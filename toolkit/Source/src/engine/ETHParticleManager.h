@@ -24,7 +24,7 @@
 #define ETH_PARTICLE_MANAGER_H_
 
 #include "Resource/ETHResourceProvider.h"
-#include "ETHCommon.h"
+#include "ETHTypes.h"
 
 #define _ETH_MINIMUM_PARTICLE_REPEATS_TO_LOOP_SOUND (4)
 #define _ETH_PARTICLE_DEPTH_SHIFT (10.0f)

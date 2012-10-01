@@ -23,12 +23,10 @@
 #ifndef ETH_RESOURCE_MANAGER_H_
 #define ETH_RESOURCE_MANAGER_H_
 
-#include "../ETHCommon.h"
 #include <Platform/FileIOHub.h>
-#include <list>
-#include <iostream>
-#include <string>
-#include <map>
+#include "../ETHTypes.h"
+#include "ETHSpriteDensityManager.h"
+#include <gs2daudio.h>
 
 class ETHGraphicResourceManager
 {

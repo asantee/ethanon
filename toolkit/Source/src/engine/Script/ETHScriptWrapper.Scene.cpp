@@ -23,6 +23,7 @@
 #include "ETHScriptWrapper.h"
 #include "../Shader/ETHShaderManager.h"
 #include "../Entity/ETHRenderEntity.h"
+#include "../Resource/ETHDirectories.h"
 
 ETHScriptWrapper::ETH_NEXT_SCENE::ETH_NEXT_SCENE()
 {

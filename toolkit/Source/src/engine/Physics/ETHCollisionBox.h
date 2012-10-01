@@ -23,7 +23,7 @@
 #ifndef ETH_COLLISION_BOX_H_
 #define ETH_COLLISION_BOX_H_
 
-#include "../ETHCommon.h"
+#include "../ETHTypes.h"
 
 struct ETHCollisionBox
 {

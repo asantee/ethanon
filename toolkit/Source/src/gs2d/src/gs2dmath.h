@@ -1034,6 +1034,15 @@ inline float PlaneDotVector(const Plane& plane, const Vector2& vec)
 	return (plane.x * vec.x) + (plane.y * vec.y) + (plane.w);
 }
 
+inline Vector4 ConvertToV4(const GS_COLOR& color)
+{
+	return Vector4(
+		(float)color.r/255.0f,
+		(float)color.g/255.0f,
+		(float)color.b/255.0f,
+		(float)color.a/255.0f);
+}
+
 namespace constant {
 const Vector2 HALF_VECTOR2(0.5f, 0.5f);
 const Vector2 ZERO_VECTOR2(0.0f, 0.0f);

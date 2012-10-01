@@ -23,6 +23,7 @@
 #include "ETHSpriteEntity.h"
 #include "../Shader/ETHShaderManager.h"
 #include "../Physics/ETHPhysicsController.h"
+#include "../Resource/ETHDirectories.h"
 #include <iostream>
 
 const float ETHSpriteEntity::m_layrableMinimumDepth(0.001f);
@@ -220,7 +221,7 @@ void ETHSpriteEntity::LoadParticleSystem()
 			str_type::string path = resourcePath;
 			// path += GS_L("/");
 			path += ETHDirectories::GetParticlesDirectory();
-			path += ETHGlobal::GetFileName(pSystem->GetActualBitmapFile());
+			path += Platform::GetFileName(pSystem->GetActualBitmapFile());
 
 			if (!graphicResources->AddFile(video, path, (pSystem->alphaMode == GSAM_ADD)))
 				continue;
@@ -507,11 +508,11 @@ float ETHSpriteEntity::ComputeDepth(const float maxHeight, const float minHeight
 	{
 	case ETH_VERTICAL:
 	case ETH_HORIZONTAL:
-		r = ETHGlobal::ComputeDepth(GetPosition().z, maxHeight, minHeight);
+		r = ETHEntity::ComputeDepth(GetPosition().z, maxHeight, minHeight);
 		break;
 	case ETH_OPAQUE_DECAL:
 	case ETH_GROUND_DECAL:
-		r = ETHGlobal::ComputeDepth(GetPosition().z+_ETH_SMALL_NUMBER, maxHeight, minHeight);
+		r = ETHEntity::ComputeDepth(GetPosition().z + ETH_SMALL_NUMBER, maxHeight, minHeight);
 		break;
 	case ETH_OVERALL:
 		r = (1.0f);

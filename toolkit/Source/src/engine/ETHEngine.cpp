@@ -23,8 +23,9 @@
 #include "ETHEngine.h"
 #include "Script/ETHScriptObjRegister.h"
 #include "Script/ETHBinaryStream.h"
-#include "ETHCommon.h"
+#include "ETHTypes.h"
 #include "Platform/ETHAppEnmlFile.h"
+#include "Resource/ETHDirectories.h"
 
 #ifdef GS2D_STR_TYPE_WCHAR
  #include "../addons/utf16/scriptbuilder.h"

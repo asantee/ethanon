@@ -29,7 +29,7 @@ std::string GetFileName(const std::string& source)
 {
 	std::string r = source;
 	FixSlashes(r);
-	const std::size_t pos = r.rfind(GetDirectorySlash());
+	const std::size_t pos = r.rfind(GetDirectorySlashA());
 	if (pos != std::string::npos)
 	{
 		r = r.substr(pos + 1, std::string::npos);
@@ -41,7 +41,7 @@ std::string GetFileDirectory(const char *source)
 {
 	std::string r = source;
 	FixSlashes(r);
-	const std::size_t pos = r.rfind(GetDirectorySlash());
+	const std::size_t pos = r.rfind(GetDirectorySlashA());
 	if (pos != std::string::npos)
 	{
 		r = r.substr(0, pos + 1);
@@ -55,7 +55,7 @@ std::string& FixSlashes(std::string& path)
 	for (std::size_t t = 0; t < size; t++)
 	{
 		if (path[t] == '/' || path[t] == '\\')
-			path[t] = GetDirectorySlash();
+			path[t] = GetDirectorySlashA();
 	}
 	return path;
 }
@@ -69,12 +69,27 @@ std::string AddLastSlash(const std::string& path)
 	std::string r = path;
 	FixSlashes(r);
 	const std::size_t lastChar = r.size() - 1;
-	if (r.at(lastChar) != GetDirectorySlash())
+	if (r.at(lastChar) != GetDirectorySlashA())
 	{
 		r.resize(lastChar + 2);
-		r[lastChar + 1] = GetDirectorySlash();
+		r[lastChar + 1] = GetDirectorySlashA();
 	}
 	return r;
+}
+
+gs2d::str_type::string RemoveExtension(const gs2d::str_type::char_t* source)
+{
+	gs2d::str_type::string dest = source;
+	const std::size_t len = dest.length();
+	for (std::size_t t = 0; t < len; t++)
+	{
+		if (source[t] == GS_L('.'))
+		{
+			dest.resize(t);
+			break;
+		}
+	}
+	return dest;
 }
 
 #ifdef GS2D_STR_TYPE_WCHAR
@@ -129,6 +144,7 @@ std::string AddLastSlash(const std::string& path)
 		}
 		return r;
 	}
+
 #endif
 
 } // namespace Platform

@@ -33,6 +33,9 @@ class ETHEntity : public ETHScriptEntity
 {
 	friend class ETHScene;
 public:
+	static GS_ENTITY_ORIGIN ConvertToGSSO(const ETH_ENTITY_TYPE type);
+	static float ComputeDepth(const float height, const float maxHeight, const float minHeight);
+
 	ETHEntity(const str_type::string& filePath, const int nId, const Platform::FileManagerPtr& fileManager);
 	ETHEntity(TiXmlElement *pElement);
 	ETHEntity();

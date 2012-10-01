@@ -29,6 +29,7 @@
 #include <unicode/utf8converter.h>
 #include <Platform/StdFileManager.h>
 #include "../engine/Platform/ETHAppEnmlFile.h"
+#include "../engine/Resource/ETHDirectories.h"
 
 #ifndef _DEBUG
 #ifdef __WIN32__
@@ -63,6 +64,35 @@ static const wchar_t *g_wcsEditors[] =
 	L"Entity editor",
 	L"Scene editor",
 	L"ParticleFX editor"
+};
+
+struct ETH_STARTUP_RESOURCES_ENML_FILE
+{
+	ETH_STARTUP_RESOURCES_ENML_FILE(const str_type::string& fileName, const Platform::FileManagerPtr& fileManager)
+	{
+		emtprojFilename = GS_L("");
+		escFilename = GS_L("");
+
+		str_type::string out;
+		fileManager->GetAnsiFileString(fileName, out);
+		enml::File file(out);
+		if (file.getError() == enml::enmlevSUCCESS)
+		{
+			emtprojFilename = file.get(GS_L("startup"), GS_L("project"));
+			escFilename = file.get(GS_L("startup"), GS_L("scene"));
+		}
+		else
+		{
+#		ifdef GS2D_STR_TYPE_WCHAR
+			std::wcerr
+#		else
+			std::cerr
+#		endif
+				<< file.getErrorString() << std::endl;
+		}
+	}
+	str_type::string emtprojFilename;
+	str_type::string escFilename;
 };
 
 bool DoNextAppButton(int nextApp, SpritePtr pSprite, VideoPtr video, InputPtr input,

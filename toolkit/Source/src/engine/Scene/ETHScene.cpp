@@ -275,7 +275,7 @@ void ETHScene::AddLight(const ETHLight &light)
 
 	// if the light isn't in screen, don't add it
 	if (!light.staticLight)
-		if (!ETHGlobal::IsSphereInScreen(light.pos, light.range, m_provider->GetVideo()))
+		if (!ETHGlobal::IsSphereInScreen(light.pos, light.range, GetZAxisDirection(), m_provider->GetVideo()))
 			return;
 
 	m_lights.push_back(light);
@@ -303,7 +303,7 @@ bool ETHScene::GenerateLightmaps(const int id)
 	scaleManager->SetScaleFactor(1.0f);
 
 	const ETHSpriteEntity *pRender = (id >= 0) ? m_buckets.SeekEntity(id) : 0;
-	const Vector2 v2Bucket = (pRender) ? ETHGlobal::GetBucket(pRender->GetPositionXY(), GetBucketSize()) : Vector2(0,0);
+	const Vector2 v2Bucket = (pRender) ? ETHBucketManager::GetBucket(pRender->GetPositionXY(), GetBucketSize()) : Vector2(0,0);
 
 	for (ETHBucketMap::iterator bucketIter = m_buckets.GetFirstBucket(); bucketIter != m_buckets.GetLastBucket(); ++bucketIter)
 	{
@@ -493,7 +493,7 @@ bool ETHScene::DrawBucketOutlines()
 
 	// Gets the list of visible buckets
 	std::list<Vector2> bucketList;
-	ETHGlobal::GetIntersectingBuckets(bucketList, m_provider->GetVideo()->GetCameraPos(), video->GetScreenSizeF(),
+	ETHBucketManager::GetIntersectingBuckets(bucketList, m_provider->GetVideo()->GetCameraPos(), video->GetScreenSizeF(),
 									  GetBucketSize(), IsDrawingBorderBuckets(), IsDrawingBorderBuckets());
 
 	int nVisibleBuckets = 0;
@@ -1027,7 +1027,7 @@ void ETHScene::ResolveJoints()
 
 bool ETHScene::DeleteEntity(ETHEntity *pEntity)
 {
-	return m_buckets.DeleteEntity(pEntity->GetID(), ETHGlobal::GetBucket(pEntity->GetPositionXY(), GetBucketSize()));
+	return m_buckets.DeleteEntity(pEntity->GetID(), ETHBucketManager::GetBucket(pEntity->GetPositionXY(), GetBucketSize()));
 }
 
 void ETHScene::ScaleEntities(const float scale, const bool scalePosition)

@@ -161,7 +161,7 @@ bool ETHShaderManager::BeginShadowPass(const ETHSpriteEntity *pRender, const ETH
 	m_video->SetVertexShader(m_shadowVS);
 
 	m_shadowVS->SetConstant(GS_L("lightRange"), light->range);
-	m_video->SetSpriteDepth(((pRender->GetPosition().z + _ETH_SMALL_NUMBER - minHeight) / (maxHeight - minHeight)));
+	m_video->SetSpriteDepth(((pRender->GetPosition().z + ETH_SMALL_NUMBER - minHeight) / (maxHeight - minHeight)));
 	m_video->SetPixelShader(ShaderPtr());
 	return true;
 }

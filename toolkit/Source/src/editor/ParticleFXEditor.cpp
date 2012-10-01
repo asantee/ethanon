@@ -24,6 +24,8 @@
 #include "EditorCommon.h"
 #include <unicode/utf8converter.h>
 #include <sstream>
+#include "../engine/Resource/ETHDirectories.h"
+#include "../engine/Util/ETHASUtil.h"
 
 #define LOAD_BMP L"Load bitmap"
 //#define ALPHA_ADD "Alpha add"

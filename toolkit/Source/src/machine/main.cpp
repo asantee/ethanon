@@ -28,7 +28,8 @@
  #endif
 #endif
 
-#include "../engine/ETHCommon.h"
+#include "../engine/ETHTypes.h"
+#include "../engine/Resource/ETHDirectories.h"
 #include <gs2dframework.h>
 
 #include <Platform/Platform.h>

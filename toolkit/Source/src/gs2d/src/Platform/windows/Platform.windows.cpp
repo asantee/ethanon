@@ -166,7 +166,7 @@ gs2d::str_type::string FileLogger::GetLogDirectory()
 	return GetModuleDirectory();
 }
 
-char GetDirectorySlash()
+char GetDirectorySlashA()
 {
 	return '\\';
 }

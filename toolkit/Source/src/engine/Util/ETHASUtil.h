@@ -24,7 +24,7 @@
 #define ETH_AS_UTIL_H_
 
 #include "../../angelscript/include/angelscript.h"
-#include "../ETHCommon.h"
+#include "../ETHTypes.h"
 #include "../Entity/ETHScriptEntity.h"
 
 namespace ETHGlobal {
@@ -34,6 +34,29 @@ namespace ETHGlobal {
 	void ExecuteContext(asIScriptContext *pContext, const int id, const bool prepare = true);
 	int FindCallbackFunction(asIScriptModule* pModule, const ETHScriptEntity* entity, const str_type::string& prefix, const Platform::Logger& logger);
 	bool RunEntityCallback(asIScriptContext* pContext, ETHScriptEntity* entity, const int id);
+	bool IsTrue(const std::string& source);
+	bool FileExists(const str_type::string& file, const Platform::FileManagerPtr& fileManager);
+	std::string AppendExtensionIfNeeded(std::string source, const std::string& ext);
+	std::vector<str_type::string> SplitString(str_type::string str, const str_type::string& c);
+	str_type::string GetDataResourceFullPath(const str_type::string& path, const str_type::string& file);
+	Vector2 ToScreenPos(const Vector3 &v3Pos, const Vector2 &zAxisDirection);
+	Vector2 ToVector2(const Vector3 &v3);
+	Vector2 V2iToV2F(const Vector2i &v2);
+	bool ToBool(const ETH_BOOL b);
+	bool IsSphereInScreen(const Vector3& v3Pos, const float radius, const Vector2& zAxisDir, const VideoPtr& video);
+
+	float ParseFloat(const str_type::char_t *str);
+	int ParseInt(const str_type::char_t *str);
+	unsigned int ParseUInt(const str_type::char_t *str);
+	float ParseFloatStd(const str_type::string &str);
+	int ParseIntStd(const str_type::string &str);
+	unsigned int ParseUIntStd(const str_type::string &str);
+
+#ifdef GS2D_STR_TYPE_WCHAR
+	std::wstring AppendExtensionIfNeeded(std::wstring source, const std::wstring& ext);
+	bool IsTrue(const std::wstring& source);
+#endif
+
 } // namespace ETHGlobal
 
 #endif

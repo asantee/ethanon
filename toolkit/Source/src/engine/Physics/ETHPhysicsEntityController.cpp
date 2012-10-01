@@ -54,7 +54,7 @@ int ETHPhysicsEntityController::GetContactCallbackId(const str_type::string& pre
 {
 	ETHEntity* entity = static_cast<ETHEntity*>(m_body->GetUserData());
 	str_type::stringstream ss;
-	ss << prefix << ETHGlobal::RemoveExtension(entity->GetEntityName().c_str());
+	ss << prefix << Platform::RemoveExtension(entity->GetEntityName().c_str());
 	return CScriptBuilder::GetFunctionIdByName(module, ss.str());
 }
 

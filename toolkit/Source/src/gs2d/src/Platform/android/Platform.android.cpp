@@ -47,7 +47,7 @@ gs2d::str_type::string GetModuleDirectory()
 	return GS_L("");
 }
 
-char GetDirectorySlash()
+char GetDirectorySlashA()
 {
 	return '/';
 }

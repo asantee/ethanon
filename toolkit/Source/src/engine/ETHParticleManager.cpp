@@ -21,6 +21,9 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHParticleManager.h"
+#include "Resource/ETHDirectories.h"
+#include "Util/ETHASUtil.h"
+#include "Entity/ETHEntity.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -281,7 +284,7 @@ bool ETH_PARTICLE_SYSTEM::WriteToXMLFile(TiXmlElement *pRoot) const
 	{
 		pElement = new TiXmlElement(GS_L("SoundEffect"));
 		pElement->LinkEndChild(
-			new TiXmlText( ETHGlobal::GetFileName(soundFXFile) )
+			new TiXmlText( Platform::GetFileName(soundFXFile) )
 		);
 		pParticleRoot->LinkEndChild(pElement);
 	}
@@ -289,7 +292,7 @@ bool ETH_PARTICLE_SYSTEM::WriteToXMLFile(TiXmlElement *pRoot) const
 	if (bitmapFile != GS_L(""))
 	{
 		pElement = new TiXmlElement(GS_L("Bitmap"));
-		pElement->LinkEndChild(new TiXmlText( ETHGlobal::GetFileName(bitmapFile)));
+		pElement->LinkEndChild(new TiXmlText( Platform::GetFileName(bitmapFile)));
 		pParticleRoot->LinkEndChild(pElement);
 	}
 
@@ -787,7 +790,7 @@ bool ETHParticleManager::DrawParticleSystem(Vector3 v3Ambient, const float maxHe
 			{
 				offsetYZ += particle.GetOffset() + _ETH_PARTICLE_DEPTH_SHIFT;
 			}
-			SetParticleDepth(ETHGlobal::ComputeDepth(offsetYZ, maxHeight, minHeight));
+			SetParticleDepth(ETHEntity::ComputeDepth(offsetYZ, maxHeight, minHeight));
 		}
 		else
 		{

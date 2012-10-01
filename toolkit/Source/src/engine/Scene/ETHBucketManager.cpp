@@ -26,6 +26,32 @@
 #include "../Entity/ETHEntityChooser.h"
 #include <iostream>
 
+Vector2 ETHBucketManager::GetBucket(const Vector2 &v2, const Vector2 &v2BucketSize)
+{
+	return Vector2(floor(v2.x / v2BucketSize.x), floor(v2.y / v2BucketSize.y));
+}
+
+void ETHBucketManager::GetIntersectingBuckets(std::list<Vector2> &outList, const Vector2 &v2Pos, const Vector2 &v2Size,
+								  const Vector2 &v2BucketSize, const bool includeUpperSeams, const bool includeLowerSeams)
+{
+	const std::size_t ETH_MAX_BUCKETS = 512;
+	const Vector2 v2Min = GetBucket(v2Pos, v2BucketSize) - ((includeUpperSeams) ? Vector2(1,1) : Vector2(0,0));
+	const Vector2 v2Max = GetBucket(v2Pos+v2Size, v2BucketSize) + ((includeLowerSeams) ? Vector2(1,1) : Vector2(0,0));
+
+	outList.clear();
+	for (float y = v2Min.y; y<=v2Max.y; y+=1.0f)
+	{
+		for (float x = v2Min.x; x<=v2Max.x; x+=1.0f)
+		{
+			outList.push_back(Vector2(x, y));
+			if (outList.size() > ETH_MAX_BUCKETS)
+			{
+				return;
+			}
+		}
+	}
+}
+
 // Vector2 hash function
 namespace boost {
 inline std::size_t hash_value(Vector2 const& p)
@@ -122,7 +148,7 @@ std::size_t ETHBucketManager::GetNumEntities(const Vector2& key) const
 
 void ETHBucketManager::Add(ETHRenderEntity* entity, const SIDE side)
 {
-	const Vector2 bucket = ETHGlobal::GetBucket(entity->GetPositionXY(), GetBucketSize());
+	const Vector2 bucket = ETHBucketManager::GetBucket(entity->GetPositionXY(), GetBucketSize());
 	if (side == FRONT)
 	{
 		m_entities[bucket].push_front(entity);
@@ -231,7 +257,7 @@ int ETHBucketManager::SeekEntity(const Vector2& pointAbsPos, ETHEntity** pOutDat
 	}
 
 	std::list<Vector2> buckets;
-	ETHGlobal::GetIntersectingBuckets(buckets, pointAbsPos, Vector2(1,1), GetBucketSize(), true, true);
+	ETHBucketManager::GetIntersectingBuckets(buckets, pointAbsPos, Vector2(1,1), GetBucketSize(), true, true);
 
 	// seeks the closest intersecting entity from behind
 	for (std::list<Vector2>::const_reverse_iterator sceneBucketIter = buckets.rbegin();
@@ -503,7 +529,7 @@ void ETHBucketManager::GetEntitiesAroundBucketWithBlackList(const Vector2& bucke
 void ETHBucketManager::GetIntersectingBuckets(std::list<Vector2>& bucketList,
 	const Vector2& pos, const Vector2& size, const bool upperSeams, const bool lowerSeams)
 {
-	ETHGlobal::GetIntersectingBuckets(bucketList, pos, size, GetBucketSize(), upperSeams, lowerSeams);
+	ETHBucketManager::GetIntersectingBuckets(bucketList, pos, size, GetBucketSize(), upperSeams, lowerSeams);
 }
 
 void ETHBucketManager::GetVisibleEntities(ETHEntityArray &outVector)
@@ -536,7 +562,7 @@ void ETHBucketManager::GetVisibleEntities(ETHEntityArray &outVector)
 void ETHBucketManager::GetIntersectingEntities(const Vector2 &point, ETHEntityArray &outVector, const bool screenSpace, const ETHSceneProperties& props)
 {
 	ETHEntityArray temp;
-	const Vector2 v2Bucket(ETHGlobal::GetBucket(point, GetBucketSize()));
+	const Vector2 v2Bucket(ETHBucketManager::GetBucket(point, GetBucketSize()));
 	GetEntitiesAroundBucket(v2Bucket, temp);
 
 	for (unsigned int t=0; t<temp.size(); t++)
@@ -608,8 +634,8 @@ void ETHBucketManager::SetDestructionListener(const ETHEntityKillListenerPtr& li
 ETHBucketManager::ETHBucketMoveRequest::ETHBucketMoveRequest(ETHEntity* target, const Vector2& oldPos, const Vector2& newPos, const Vector2& bucketSize) :
 	entity(target)
 {
-	oldBucket = ETHGlobal::GetBucket(oldPos, bucketSize);
-	newBucket = ETHGlobal::GetBucket(newPos, bucketSize);
+	oldBucket = ETHBucketManager::GetBucket(oldPos, bucketSize);
+	newBucket = ETHBucketManager::GetBucket(newPos, bucketSize);
 }
 
 

@@ -23,7 +23,8 @@
 #include "ETHAppEnmlFile.h"
 
 #include <string.h>
-#include "../ETHCommon.h"
+#include "../ETHTypes.h"
+#include "../Util/ETHASUtil.h"
 
 using namespace gs2d;
 

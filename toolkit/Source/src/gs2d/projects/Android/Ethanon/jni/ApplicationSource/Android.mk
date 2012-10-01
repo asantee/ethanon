@@ -42,7 +42,6 @@ LOCAL_SRC_FILES := \
 	$(ADDONS_PATH)/scriptmath2d.cpp \
 	$(ADDONS_PATH)/scriptmath3d.cpp \
 	$(ADDONS_PATH)/scriptdictionary.cpp \
-	$(ENGINE_PATH)/ETHCommon.cpp \
 	$(ENGINE_PATH)/ETHParticleManager.cpp \
 	$(ENGINE_PATH)/ETHPrimitiveDrawer.cpp \
 	$(ENGINE_PATH)/ETHEngine.cpp \

@@ -25,6 +25,7 @@
 #include "EditorCommon.h"
 #include <unicode/utf8converter.h>
 #include "../engine/Entity/ETHRenderEntity.h"
+#include "../engine/Resource/ETHDirectories.h"
 #include <sstream>
 #include <string>
 
@@ -365,7 +366,7 @@ string SceneEditor::DoEditor(SpritePtr pNextAppButton)
 			const bool update = m_pSelected->HasShadow() || m_pSelected->HasLightSource();
 
 			m_pSelected->ForceSFXStop();
-			m_pScene->GetBucketManager().DeleteEntity(m_pSelected->GetID(), ETHGlobal::GetBucket(m_pSelected->GetPositionXY(), m_pScene->GetBucketSize()));
+			m_pScene->GetBucketManager().DeleteEntity(m_pSelected->GetID(), ETHBucketManager::GetBucket(m_pSelected->GetPositionXY(), m_pScene->GetBucketSize()));
 			m_pSelected = 0;
 			if (m_pScene->GetNumLights() && update)
 			{
@@ -1117,7 +1118,7 @@ void SceneEditor::PlaceEntitySelection()
 
 	// draw a shadow preview for the current entity
 	ETHLight shadowLight(true);
-	shadowLight.castShadows = true; shadowLight.range = _ETH_DEFAULT_SHADOW_RANGE * 10;
+	shadowLight.castShadows = true; shadowLight.range = ETH_DEFAULT_SHADOW_RANGE * 10;
 	shadowLight.pos = m_currentEntity->GetPosition()+Vector3(100, 100, 0); shadowLight.color = Vector3(0.5f, 0.5f, 0.5f);
 	if (m_currentEntity->GetEntityName() != L"")
 	{
@@ -1416,7 +1417,7 @@ void SceneEditor::DrawEntitySelectionGrid(SpritePtr pNextAppButton)
 			textToDraw = utf8::c(m_entityFiles[t]->entityName).wc_str();
 			textToDraw += L" {";
 			textToDraw += (m_entityFiles[t]->staticEntity) ? L"static/" : L"dynamic/";
-			textToDraw += ETHGlobal::wcsEntityType[m_entityFiles[t]->type];
+			textToDraw += ETHGlobal::entityTypes[m_entityFiles[t]->type];
 			textToDraw += L"}";
 		}
 

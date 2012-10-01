@@ -199,14 +199,6 @@
 			Name="Core"
 			>
 			<File
-				RelativePath="..\..\..\src\engine\ETHCommon.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\engine\ETHCommon.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\src\engine\ETHEngine.cpp"
 				>
 			</File>
@@ -228,6 +220,10 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\engine\ETHPrimitiveDrawer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\engine\ETHTypes.h"
 				>
 			</File>
 			<Filter

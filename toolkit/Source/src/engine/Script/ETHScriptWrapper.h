@@ -29,6 +29,7 @@
 #include "../Util/ETHInput.h"
 #include "../Entity/ETHEntityCache.h"
 #include "../Shader/ETHBackBufferTargetManager.h"
+#include "../Util/ETHSpeedTimer.h"
 
 class ETHScriptWrapper
 {
