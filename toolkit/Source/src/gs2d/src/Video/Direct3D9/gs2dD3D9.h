@@ -524,6 +524,7 @@ private:
 	bool BeginScene(const GS_COLOR& bgColor = GS_ZERO, const bool clear = true);
 	bool EndScene(const bool swap = true);
 
+	BitmapFontPtr SeekBitmapFont(const str_type::string& font);
 	BitmapFontPtr LoadBitmapFont(const std::wstring& fullFilePath);
 
 	static RENDER_TARGET_LIST m_targets;

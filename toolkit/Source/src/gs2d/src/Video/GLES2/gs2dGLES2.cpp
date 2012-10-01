@@ -723,7 +723,7 @@ BitmapFontPtr GLES2Video::SeekBitmapFont(const str_type::string& font)
 		bitmapFont = LoadBitmapFont(m_fileIOHub->GenerateBitmapFontFilePath(font));
 		if (!bitmapFont)
 		{
-			Message(GS_L(font + ": couldn't create bitmap font"), GSMT_ERROR);
+			Message(font + GS_L(": couldn't create bitmap font"), GSMT_ERROR);
 		}
 	}
 	else
@@ -768,8 +768,12 @@ bool GLES2Video::DrawBitmapText(const Vector2 &v2Pos, const str_type::string& te
 	{
 		// TODO text rect stuff
 		bitmapFont->DrawBitmapText(v2Pos, text, color, scale);
+		return true;
 	}
-	return true;
+	else
+	{
+		return false;
+	}
 }
 
 bool GLES2Video::DrawLine(const Vector2 &p1, const Vector2 &p2, const GS_COLOR& color1, const GS_COLOR& color2)
