@@ -267,6 +267,8 @@ private:
 	void ComputeFPSRate();
 
 	void Enable2D(const int width, const int height, const bool flipY = false);
+
+	BitmapFontPtr SeekBitmapFont(const str_type::string& font);
 	
 	bool StartApplication(const unsigned int width, const unsigned int height,
 			const str_type::string& winTitle, const bool windowed,

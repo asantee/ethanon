@@ -714,7 +714,7 @@ BitmapFontPtr GLES2Video::LoadBitmapFont(const str_type::string& fullFilePath)
 	}
 }
 
-Vector2 GLES2Video::ComputeCarretPosition(const str_type::string& font,	const str_type::string& text, const unsigned int pos)
+BitmapFontPtr GLES2Video::SeekBitmapFont(const str_type::string& font)
 {
 	std::map<str_type::string, BitmapFontPtr>::iterator iter = m_fonts.find(font);
 	BitmapFontPtr bitmapFont;
@@ -724,83 +724,50 @@ Vector2 GLES2Video::ComputeCarretPosition(const str_type::string& font,	const st
 		if (!bitmapFont)
 		{
 			Message(GS_L(font + ": couldn't create bitmap font"), GSMT_ERROR);
-			return Vector2(0,0);
 		}
 	}
 	else
 	{
 		bitmapFont = iter->second;
 	}
-	return bitmapFont->ComputeCarretPosition(text, pos);
+	return bitmapFont;	
+}
+
+Vector2 GLES2Video::ComputeCarretPosition(const str_type::string& font,	const str_type::string& text, const unsigned int pos)
+{
+	BitmapFontPtr bitmapFont = SeekBitmapFont(font);
+	if (bitmapFont)
+		return bitmapFont->ComputeCarretPosition(text, pos);
+	else
+		return Vector2(0,0);
 }
 
 Vector2 GLES2Video::ComputeTextBoxSize(const str_type::string& font, const str_type::string& text)
 {
-	std::map<str_type::string, BitmapFontPtr>::iterator iter = m_fonts.find(font);
-	BitmapFontPtr bitmapFont;
-	if (iter == m_fonts.end())
-	{
-		bitmapFont = LoadBitmapFont(m_fileIOHub->GenerateBitmapFontFilePath(font));
-		if (!bitmapFont)
-		{
-			Message(GS_L(font + ": couldn't create bitmap font"), GSMT_ERROR);
-			return Vector2(0,0);
-		}
-	}
+	BitmapFontPtr bitmapFont = SeekBitmapFont(font);
+	if (bitmapFont)
+		return bitmapFont->ComputeTextBoxSize(text);
 	else
-	{
-		bitmapFont = iter->second;
-	}
-	return bitmapFont->ComputeTextBoxSize(text);
+		return Vector2(0,0);
 }
 
 unsigned int GLES2Video::FindClosestCarretPosition(const str_type::string& font,
 		const str_type::string &text, const Vector2 &textPos, const Vector2 &reference)
 {
-	std::map<str_type::string, BitmapFontPtr>::iterator iter = m_fonts.find(font);
-	BitmapFontPtr bitmapFont;
-	if (iter == m_fonts.end())
-	{
-		bitmapFont = LoadBitmapFont(m_fileIOHub->GenerateBitmapFontFilePath(font));
-		if (!bitmapFont)
-		{
-			Message(GS_L(font + ": couldn't create bitmap font"), GSMT_ERROR);
-			return 0;
-		}
-	}
+	BitmapFontPtr bitmapFont = SeekBitmapFont(font);
+	if (bitmapFont)
+		return bitmapFont->FindClosestCarretPosition(text, textPos, reference);
 	else
-	{
-		bitmapFont = iter->second;
-	}
-	return bitmapFont->FindClosestCarretPosition(text, textPos, reference);
+		return 0;
 }
 
 bool GLES2Video::DrawBitmapText(const Vector2 &v2Pos, const str_type::string& text, const str_type::string& font, const GS_COLOR& color, const float scale)
 {
-	// checks if this font has already been created
-	std::map<str_type::string, BitmapFontPtr>::iterator iter = m_fonts.find(font);
-
-	BitmapFontPtr bmfont;
-
-	// if not... create a new one
-	if (iter == m_fonts.end())
-	{
-		bmfont = LoadBitmapFont(m_fileIOHub->GenerateBitmapFontFilePath(font));
-		if (!bmfont)
-		{
-			Message(GS_L(font + ": couldn't create bitmap font"), GSMT_ERROR);
-			return false;
-		}
-	}
-	else
-	{
-		bmfont = iter->second;
-	}
-
-	if (bmfont)
+	BitmapFontPtr bitmapFont = SeekBitmapFont(font);
+	if (bitmapFont)
 	{
 		// TODO text rect stuff
-		bmfont->DrawBitmapText(v2Pos, text, color, scale);
+		bitmapFont->DrawBitmapText(v2Pos, text, color, scale);
 	}
 	return true;
 }
