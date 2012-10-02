@@ -3,6 +3,31 @@
 	float yeah;
 }
 
+bool PACKING_TEST_PERFORMED = false;
+void testPacking()
+{
+	if (IsPackLoadingEnabled())
+	{
+		print("IsPackLoadingEnabled function test 01 failed!\x07");
+		return;
+	}
+
+	EnablePackLoading("entities.zip", "quickbrownfox");
+
+	if (!IsPackLoadingEnabled())
+	{
+		print("IsPackLoadingEnabled function test 02 failed!\x07");
+		DisablePackLoading();
+		return;
+	}
+
+	LoadSprite("entities/arvore1.png");
+	LoadSprite("entities/pilar_ct_small.png");
+
+	DisablePackLoading();
+	PACKING_TEST_PERFORMED = true;
+}
+
 void runDictionaryTests()
 {
 	dictionary dict;

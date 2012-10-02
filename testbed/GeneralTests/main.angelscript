@@ -50,6 +50,7 @@ void loop()
 
 void preLoop()
 {
+	testPacking();
 	SetBorderBucketsDrawing(false);
 	testbed.runCurrentPreLoopFunction();
 }
