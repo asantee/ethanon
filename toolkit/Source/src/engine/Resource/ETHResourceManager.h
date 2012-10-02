@@ -39,18 +39,19 @@ public:
 		SpritePtr m_sprite;
 		str_type::string m_fullOriginPath;
 	public:
-		SpriteResource(const str_type::string& fullOriginPath, const SpritePtr& sprite);
+		SpriteResource(const str_type::string& resourceDirectory, const str_type::string& fullOriginPath, const SpritePtr& sprite);
 	};
 
-	SpritePtr GetPointer(VideoPtr video, const str_type::string &fileRelativePath,
-						 const str_type::string &programPath, const str_type::string &searchPath, const bool cutOutBlackPixels);
+	SpritePtr GetPointer(VideoPtr video, const str_type::string& fileRelativePath,
+						 const str_type::string& resourceDirectory, const str_type::string &searchPath,
+						 const bool cutOutBlackPixels);
 	int GetNumResources();
 	void ReleaseResources();
-	SpritePtr AddFile(VideoPtr video, const str_type::string &path, const bool cutOutBlackPixels);
+	SpritePtr AddFile(VideoPtr video, const str_type::string &path, const str_type::string& resourceDirectory, const bool cutOutBlackPixels);
 	void RemoveResource(const str_type::string &file);
 
 private:
-	SpritePtr FindSprite(const str_type::string& fullFilePath, const str_type::string& fileName);
+	SpritePtr FindSprite(const str_type::string& fullFilePath, const str_type::string& fileName, const str_type::string& resourceDirectory);
 	str_type::string AssembleResourceFullPath(const str_type::string& programPath, const str_type::string& searchPath, const str_type::string& fileName);
 
 	std::map<str_type::string, SpriteResource> m_resource;

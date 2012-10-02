@@ -534,13 +534,5 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("vector3 Scale(const vector3 &in)", asFUNCTION(__Scale3),         asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void ScaleEntities()",             asFUNCTION(__ScaleEntities),  asCALL_GENERIC); assert(r >= 0);
 
-	//r = pASEngine->RegisterGlobalFunction("bool SetBackgroundImage(const string &in)", asFUNCTION(SetBackgroundImage), asCALL_GENERIC); assert(r >= 0);
-	//r = pASEngine->RegisterGlobalFunction("void PositionBackgroundImage(const vector2 &in, const vector2 &in)", asFUNCTION(PositionBackgroundImage), asCALL_GENERIC); assert(r >= 0);
-	//r = pASEngine->RegisterGlobalFunction("void SetBackgroundAlphaModulate()", asFUNCTION(SetBackgroundAlphaModulate), asCALL_GENERIC); assert(r >= 0);
-	//r = pASEngine->RegisterGlobalFunction("void SetBackgroundAlphaAdd()", asFUNCTION(SetBackgroundAlphaAdd), asCALL_GENERIC); assert(r >= 0);
-	//r = pASEngine->RegisterGlobalFunction("void SetBackgroundAlphaPixel()", asFUNCTION(SetBackgroundAlphaPixel), asCALL_GENERIC); assert(r >= 0);
-
-	//r = pASEngine->RegisterGlobalFunction("void PlayCutscene(const string &in)", asFUNCTION(PlayCutscene), asCALL_GENERIC); assert(r >= 0);
-
 	m_math.RegisterGlobals(pASEngine);
 }

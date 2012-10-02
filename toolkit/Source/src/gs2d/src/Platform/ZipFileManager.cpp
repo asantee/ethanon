@@ -21,6 +21,7 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ZipFileManager.h"
+#include "Platform.h"
 
 #ifdef ANDROID
 	#include "android/AndroidLog.h"
@@ -38,17 +39,6 @@
 using namespace gs2d;
 
 namespace Platform {
-
-static str_type::string FixSlashes(str_type::string path)
-{
-	const std::size_t size = path.size();
-	for (std::size_t t = 0; t < size; t++)
-	{
-		if (path[t] == GS_L('\\'))
-			path[t] = GS_L('/');
-	}
-	return path;
-}
 
 ZipFileManager::ZipFileManager(const str_type::char_t *filePath, const gs2d::str_type::char_t* password)
 {
@@ -100,7 +90,8 @@ bool ZipFileManager::GetFileBuffer(const str_type::string &fileName, FileBuffer 
 	if (!IsLoaded())
 		return false;
 
-	const str_type::string fixedPath = FixSlashes(fileName);
+	str_type::string fixedPath = fileName;
+	FixSlashesForUnix(fixedPath);
 
 	#ifdef GS2D_STR_TYPE_WCHAR
 		zip_file *file = zip_fopen(m_archive, utf8::converter(fixedPath).c_str(), 0);

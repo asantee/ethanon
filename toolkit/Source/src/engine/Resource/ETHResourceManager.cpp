@@ -25,9 +25,21 @@
 
 #include "ETHResourceProvider.h"
 
-ETHGraphicResourceManager::SpriteResource::SpriteResource(const str_type::string& fullOriginPath, const SpritePtr& sprite) :
+static str_type::string RemoveResourceDirectory(const str_type::string& resourceDirectory,
+												const str_type::string& fullOriginPath)
+{
+	str_type::string r = fullOriginPath, fixedResourceDirectory = resourceDirectory;
+	Platform::FixSlashes(fixedResourceDirectory);
+	if (r.find(fixedResourceDirectory) == 0)
+		r = r.substr(fixedResourceDirectory.length(), str_type::string::npos);
+	return r;
+}
+
+ETHGraphicResourceManager::SpriteResource::SpriteResource(const str_type::string& resourceDirectory,
+														  const str_type::string& fullOriginPath,
+														  const SpritePtr& sprite) :
 	m_sprite(sprite),
-	m_fullOriginPath(fullOriginPath)
+	m_fullOriginPath(RemoveResourceDirectory(resourceDirectory, fullOriginPath))
 {
 }
 
@@ -43,18 +55,18 @@ ETHGraphicResourceManager::ETHGraphicResourceManager(const ETHSpriteDensityManag
 
 SpritePtr ETHGraphicResourceManager::GetPointer(
 	VideoPtr video,
-	const str_type::string &fileRelativePath, const str_type::string &programPath,
+	const str_type::string &fileRelativePath, const str_type::string &resourceDirectory,
 	const str_type::string &searchPath, const bool cutOutBlackPixels)
 {
 	if (fileRelativePath == GS_L(""))
 		return SpritePtr();
 
 	str_type::string fileName = Platform::GetFileName(fileRelativePath);
-	str_type::string resourceFullPath = AssembleResourceFullPath(programPath, searchPath, fileName);
+	str_type::string resourceFullPath = AssembleResourceFullPath(resourceDirectory, searchPath, fileName);
 
 	if (!m_resource.empty())
 	{
-		SpritePtr sprite = FindSprite(resourceFullPath, fileName);
+		SpritePtr sprite = FindSprite(resourceFullPath, fileName, resourceDirectory);
 		if (sprite)
 		{
 			return sprite;
@@ -65,17 +77,17 @@ SpritePtr ETHGraphicResourceManager::GetPointer(
 	// it hasn't been loaded yet
 	if (searchPath != GS_L(""))
 	{
-		AddFile(video, resourceFullPath, cutOutBlackPixels);
-		return FindSprite(resourceFullPath, fileName);
+		AddFile(video, resourceFullPath, resourceDirectory, cutOutBlackPixels);
+		return FindSprite(resourceFullPath, fileName, resourceDirectory);
 	}
 	return SpritePtr();
 }
 
-SpritePtr ETHGraphicResourceManager::AddFile(VideoPtr video, const str_type::string &path, const bool cutOutBlackPixels)
+SpritePtr ETHGraphicResourceManager::AddFile(VideoPtr video, const str_type::string &path, const str_type::string& resourceDirectory, const bool cutOutBlackPixels)
 {
 	str_type::string fileName = Platform::GetFileName(path);
 	{
-		SpritePtr sprite = FindSprite(path, fileName);
+		SpritePtr sprite = FindSprite(path, fileName, resourceDirectory);
 		if (sprite)
 			return sprite;
 	}
@@ -101,7 +113,7 @@ SpritePtr ETHGraphicResourceManager::AddFile(VideoPtr video, const str_type::str
 	ETH_STREAM_DECL(ss) << GS_L("(Loaded) ") << fileName;
 	ETHResourceProvider::Log(ss.str(), Platform::Logger::INFO);
 	//#endif
-	m_resource.insert(std::pair<str_type::string, SpriteResource>(fileName, SpriteResource(fixedName, pBitmap)));
+	m_resource.insert(std::pair<str_type::string, SpriteResource>(fileName, SpriteResource(resourceDirectory, fixedName, pBitmap)));
 	return pBitmap;
 }
 
@@ -110,7 +122,7 @@ int ETHGraphicResourceManager::GetNumResources()
 	return m_resource.size();
 }
 
-gs2d::SpritePtr ETHGraphicResourceManager::FindSprite(const str_type::string& fullFilePath, const str_type::string& fileName)
+gs2d::SpritePtr ETHGraphicResourceManager::FindSprite(const str_type::string& fullFilePath, const str_type::string& fileName, const str_type::string& resourceDirectory)
 {
 	std::map<str_type::string, SpriteResource>::iterator iter = m_resource.find(fileName);
 	if (iter != m_resource.end())
@@ -118,7 +130,7 @@ gs2d::SpritePtr ETHGraphicResourceManager::FindSprite(const str_type::string& fu
 		str_type::string fixedPath(fullFilePath);
 		Platform::FixSlashes(fixedPath);
 		const SpriteResource& resource = iter->second;
-		if (fixedPath != resource.m_fullOriginPath)
+		if (RemoveResourceDirectory(resourceDirectory, fixedPath) != resource.m_fullOriginPath)
 		{
 			str_type::stringstream ss; ss << GS_L("Duplicate resource name found: ") << fixedPath
 				<< GS_L(" <-> ") << resource.m_fullOriginPath;

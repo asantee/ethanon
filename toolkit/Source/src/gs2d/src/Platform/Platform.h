@@ -37,6 +37,8 @@ std::string GetFileName(const std::string& source);
 std::string GetFileDirectory(const char* source);
 std::string AddLastSlash(const std::string& path);
 std::string& FixSlashes(std::string& path);
+std::string& FixSlashes(std::string& path, const char slash);
+std::string& FixSlashesForUnix(std::string& path);
 
 char GetDirectorySlashA();
 gs2d::str_type::string GetModuleDirectory();
@@ -47,6 +49,8 @@ gs2d::str_type::string RemoveExtension(const gs2d::str_type::char_t* source);
 	std::wstring GetFileDirectory(const wchar_t* source);
 	std::wstring AddLastSlash(const std::wstring& path);
 	std::wstring& FixSlashes(std::wstring& path);
+	std::wstring& FixSlashes(std::wstring& path, const wchar_t slash);
+	std::wstring& FixSlashesForUnix(std::wstring& path);
 
 	std::wstring ConvertUtf8ToUnicode(const char* utf8String); // use it in low-level only. utf8::converter is a high-level wrapper
 	std::string ConvertUnicodeToUtf8(const wchar_t* unicodeString); // use it in low-level only. utf8::converter is a high-level wrapper

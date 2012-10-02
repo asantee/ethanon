@@ -223,7 +223,7 @@ void ETHSpriteEntity::LoadParticleSystem()
 			path += ETHDirectories::GetParticlesDirectory();
 			path += Platform::GetFileName(pSystem->GetActualBitmapFile());
 
-			if (!graphicResources->AddFile(video, path, (pSystem->alphaMode == GSAM_ADD)))
+			if (!graphicResources->AddFile(video, path, resourcePath, (pSystem->alphaMode == GSAM_ADD)))
 				continue;
 
 			m_particles[t] = ETHParticleManagerPtr(

@@ -49,15 +49,25 @@ std::string GetFileDirectory(const char *source)
 	return r;
 }
 
-std::string& FixSlashes(std::string& path)
+std::string& FixSlashes(std::string& path, const char slash)
 {
 	const std::size_t size = path.size();
 	for (std::size_t t = 0; t < size; t++)
 	{
 		if (path[t] == '/' || path[t] == '\\')
-			path[t] = GetDirectorySlashA();
+			path[t] = slash;
 	}
 	return path;
+}
+
+std::string& FixSlashes(std::string& path)
+{
+	return FixSlashes(path, GetDirectorySlashA());
+}
+
+std::string& FixSlashesForUnix(std::string& path)
+{
+	return FixSlashes(path, '/');
 }
 
 std::string AddLastSlash(const std::string& path)
@@ -117,15 +127,25 @@ gs2d::str_type::string RemoveExtension(const gs2d::str_type::char_t* source)
 		return r;
 	}
 
-	std::wstring& FixSlashes(std::wstring& path)
+	std::wstring& FixSlashes(std::wstring& path, const wchar_t slash)
 	{
 		const std::size_t size = path.size();
 		for (std::size_t t = 0; t < size; t++)
 		{
 			if (path[t] == L'/' || path[t] == L'\\')
-				path[t] = GetDirectorySlashW();
+				path[t] = slash;
 		}
 		return path;
+	}
+
+	std::wstring& FixSlashes(std::wstring& path)
+	{
+		return FixSlashes(path, GetDirectorySlashW());
+	}
+
+	std::wstring& FixSlashesForUnix(std::wstring& path)
+	{
+		return FixSlashes(path, L'/');
 	}
 
 	std::wstring AddLastSlash(const std::wstring& path)

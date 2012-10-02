@@ -1564,7 +1564,11 @@ void EntityEditor::DrawEntity()
 
 bool EntityEditor::LoadHalo(const char *file, const char *path)
 {
-	if (m_provider->GetGraphicResourceManager()->AddFile(m_provider->GetVideo(), utf8::c(path).wc_str(), true) && m_pEditEntity->light)
+	if (m_provider->GetGraphicResourceManager()->AddFile(
+			m_provider->GetVideo(),
+			utf8::c(path).wc_str(),
+			m_provider->GetFileIOHub()->GetResourceDirectory(),
+			true) && m_pEditEntity->light)
 	{
 		m_pEditEntity->light->haloBitmap = utf8::c(file).wstr();
 		return true;
