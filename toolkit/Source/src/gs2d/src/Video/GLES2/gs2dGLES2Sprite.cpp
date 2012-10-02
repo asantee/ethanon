@@ -36,7 +36,8 @@ GLES2Sprite::GLES2Sprite(GLES2ShaderContextPtr shaderContext) :
 		m_rect(Vector2(0, 0), Vector2(0, 0)),
 		m_nColumns(1),
 		m_nRows(1),
-		m_densityValue(1.0f)
+		m_densityValue(1.0f),
+		m_mode(GSRM_TWO_TRIANGLES)
 {
 	m_shaderContext = shaderContext.get();
 }
@@ -211,7 +212,7 @@ bool GLES2Sprite::DrawShaped(const Vector2 &v2Pos, const Vector2 &v2Size,
 	vs->SetConstant(COLOR3_HASH, "color3", color3);
 	vs->SetConstant(CAMERA_POS_HASH, "cameraPos", camPos);
 	vs->SetConstant(DEPTH_HASH, "depth", m_video->GetSpriteDepth());
-	m_shaderContext->DrawRect();
+	m_shaderContext->DrawRect(m_mode);
 	return true;
 }
 
@@ -276,7 +277,7 @@ bool GLES2Sprite::DrawOptimal(const math::Vector2 &v2Pos, const GS_COLOR& color,
 
 	vs->SetMatrixConstant(ROTATION_MATRIX_HASH, "rotationMatrix", mRot);
 	vs->SetConstantArray(PARAMS_HASH, "params", numParams, boost::shared_array<const math::Vector2>(params));
-	m_shaderContext->DrawRect();
+	m_shaderContext->DrawRect(m_mode);
 	return true;
 }
 
@@ -366,17 +367,17 @@ void GLES2Sprite::SetOrigin(const GS_ENTITY_ORIGIN origin)
 	{
 	case GSEO_RECT_CENTER:
 	case GSEO_CENTER:
-		m_normalizedOrigin.x = 1.0f/2.0f;
-		m_normalizedOrigin.y = 1.0f/2.0f;
+		m_normalizedOrigin.x = 1.0f / 2.0f;
+		m_normalizedOrigin.y = 1.0f / 2.0f;
 		break;
 	case GSEO_RECT_CENTER_BOTTOM:
 	case GSEO_CENTER_BOTTOM:
-		m_normalizedOrigin.x = 1.0f/2.0f;
+		m_normalizedOrigin.x = 1.0f / 2.0f;
 		m_normalizedOrigin.y = 1.0f;
 		break;
 	case GSEO_RECT_CENTER_TOP:
 	case GSEO_CENTER_TOP:
-		m_normalizedOrigin.x = 1.0f/2.0f;
+		m_normalizedOrigin.x = 1.0f / 2.0f;
 		m_normalizedOrigin.y = 0.0f;
 		break;
 	default:
@@ -574,13 +575,12 @@ bool GLES2Sprite::SetAsTexture(const unsigned int passIdx)
 
 void GLES2Sprite::SetRectMode(const GS_RECT_MODE mode)
 {
-	// TODO 
+	m_mode = mode;
 }
 
 GS_RECT_MODE GLES2Sprite::GetRectMode() const
 {
-	// TODO 
-	return GSRM_TWO_TRIANGLES;
+	return m_mode;
 }
 
 void GLES2Sprite::OnLostDevice()

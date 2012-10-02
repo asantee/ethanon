@@ -189,9 +189,27 @@ public:
 
 	bool DrawSprite(IDirect3DDevice9 *pDevice, const GS_RECT_MODE mode)
 	{
-		IDirect3DVertexBuffer9 *pSprite = (mode == GSRM_TWO_TRIANGLES) ? m_pRect2 : ((mode == GSRM_FOUR_TRIANGLES) ? m_pRect4 : m_pRect3);
-		const unsigned int polyCount = (mode == GSRM_TWO_TRIANGLES) ? 2 : ((mode == GSRM_FOUR_TRIANGLES) ? 4 : 3);
-		const D3DPRIMITIVETYPE primType = (mode == GSRM_TWO_TRIANGLES) ? D3DPT_TRIANGLEFAN : ((mode == GSRM_FOUR_TRIANGLES) ? D3DPT_TRIANGLEFAN : D3DPT_TRIANGLESTRIP);
+		IDirect3DVertexBuffer9 *pSprite;
+		unsigned int polyCount;
+		D3DPRIMITIVETYPE primType;
+		switch(mode)
+		{
+		case GSRM_FOUR_TRIANGLES:
+			pSprite = m_pRect4;
+			polyCount = 4;
+			primType = D3DPT_TRIANGLEFAN;
+			break;
+		case GSRM_THREE_TRIANGLES:
+			pSprite = m_pRect3;
+			polyCount = 3;
+			primType = D3DPT_TRIANGLESTRIP;
+			break;
+		case GSRM_TWO_TRIANGLES:
+		default:
+			pSprite = m_pRect2;
+			polyCount = 2;
+			primType = D3DPT_TRIANGLEFAN;
+		}
 
 		if (FAILED(pDevice->SetStreamSource(0, pSprite, 0, sizeof(SPRITE_VERTEX))))
 			return false;

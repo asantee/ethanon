@@ -43,8 +43,23 @@ ETHRenderEntity::ETHRenderEntity(ETHResourceProviderPtr provider) :
 {
 }
 
+bool ETHRenderEntity::ShouldUseFourTriangles(const float parallaxIntensity) const
+{
+	if (!m_pSprite)
+		return false;
+
+	if (GetType() != ETH_VERTICAL)
+		return false;
+
+	if ((parallaxIntensity * GetParallaxIndividualIntensity()) == 0.0f)
+		return false;
+
+	return true;
+}
+
 bool ETHRenderEntity::DrawAmbientPass(const float maxHeight, const float minHeight,
-									  const bool enableLightmaps, const ETHSceneProperties& sceneProps)
+									  const bool enableLightmaps, const ETHSceneProperties& sceneProps,
+									  const float parallaxIntensity)
 {
 	if (!m_pSprite || IsHidden())
 		return false;
@@ -75,9 +90,18 @@ bool ETHRenderEntity::DrawAmbientPass(const float maxHeight, const float minHeig
 	m_pSprite->SetRect(m_spriteFrame);
 	SetOrigin();
 
+	const bool shouldUseFourTriangles = ShouldUseFourTriangles(parallaxIntensity);
 	const float angle = (m_properties.type == ETH_VERTICAL) ? 0.0f : GetAngle();
 	const Vector2 pos = ETHGlobal::ToScreenPos(GetPosition(), sceneProps.zAxisDirection);
+	const GS_COLOR color = ConvertToDW(v4FinalAmbient);
+
+	if (shouldUseFourTriangles)
+		m_pSprite->SetRectMode(GSRM_FOUR_TRIANGLES);
+
 	m_pSprite->DrawOptimal(pos,	ConvertToDW(v4FinalAmbient), angle, GetCurrentSize());
+
+	if (shouldUseFourTriangles)
+		m_pSprite->SetRectMode(GSRM_TWO_TRIANGLES);
 
 	if (applyLightmap)
 	{

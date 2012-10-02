@@ -27,8 +27,8 @@
 
 using gs2d::str_type::string;
 
-const gs2d::str_type::string ETHSpriteDensityManager::HD_VERSION_PATH_NAME = GS_L("/hd/");
-const gs2d::str_type::string ETHSpriteDensityManager::FULL_HD_VERSION_PATH_NAME = GS_L("/fullhd/");
+const gs2d::str_type::string ETHSpriteDensityManager::HD_VERSION_PATH_NAME = GS_L("hd/");
+const gs2d::str_type::string ETHSpriteDensityManager::FULL_HD_VERSION_PATH_NAME = GS_L("fullhd/");
 
 ETHSpriteDensityManager::ETHSpriteDensityManager() :
 	hdDensityValue(2.0f),

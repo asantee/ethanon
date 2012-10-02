@@ -166,7 +166,7 @@ void GLES2ShaderContext::GetLocations(int& pos, int& tex) const
 	tex = m_lastTexLocation;
 }
 
-void GLES2ShaderContext::DrawRect()
+void GLES2ShaderContext::DrawRect(const GS_RECT_MODE mode)
 {
 	CreateProgram();
 	int pos, tex;
@@ -175,7 +175,7 @@ void GLES2ShaderContext::DrawRect()
 	{
 		SetUniformParametersFromCurrentProgram(m_currentVS);
 		SetUniformParametersFromCurrentProgram(m_currentPS);
-		m_rectRenderer.Draw(pos, tex, m_logger);
+		m_rectRenderer.Draw(pos, tex, mode, m_logger);
 	}
 	else
 	{

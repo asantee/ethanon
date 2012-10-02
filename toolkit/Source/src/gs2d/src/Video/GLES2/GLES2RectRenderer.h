@@ -35,6 +35,7 @@
 
 #include "../../Platform/Platform.h"
 #include "../../Platform/FileLogger.h"
+#include "../../gs2d.h"
 
 namespace gs2d {
 
@@ -60,7 +61,7 @@ public:
 	void FastDraw(const Platform::FileLogger& logger) const;
 	void EndFastDraw(const Platform::FileLogger& logger) const;
 	void SetPositionLocations(const int positionLocation, const int texCoordLocation, const Platform::FileLogger& logger) const;
-	void Draw(const int positionLocation, const int texCoordLocation, const Platform::FileLogger& logger) const;
+	void Draw(const int positionLocation, const int texCoordLocation, const GS_RECT_MODE mode, const Platform::FileLogger& logger) const;
 
 	void BeginFastDrawFromClientMem(const int positionLocation, const int texCoordLocation, const Platform::FileLogger& logger) const;
 	void FastDrawFromClientMem(const Platform::FileLogger& logger) const;

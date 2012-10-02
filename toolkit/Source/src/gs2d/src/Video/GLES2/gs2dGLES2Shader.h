@@ -69,7 +69,7 @@ public:
 	bool DisableTextureParams();
 
 	void SetShader(GLES2ShaderPtr vs, GLES2ShaderPtr ps, const math::Matrix4x4 &ortho, const math::Vector2& screenSize);
-	void DrawRect();
+	void DrawRect(const GS_RECT_MODE mode);
 
 	void BeginFastDraw();
 	void FastDraw();

@@ -48,6 +48,7 @@ private:
 	math::Rect2Df m_rect;
 	unsigned int m_nColumns, m_nRows;
 	float m_densityValue;
+	GS_RECT_MODE m_mode;
 
 	Video* m_video;
 	

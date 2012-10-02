@@ -1440,7 +1440,7 @@ void EntityEditor::DrawEntity()
 	video->SetZBuffer(true);
 
 	shaderManager->BeginAmbientPass(m_renderEntity.get(), screenSize.y,-screenSize.y);
-	m_renderEntity->DrawAmbientPass(screenSize.y,-screenSize.y, false, m_sceneProps);
+	m_renderEntity->DrawAmbientPass(screenSize.y,-screenSize.y, false, m_sceneProps, 0.0f);
 	shaderManager->EndAmbientPass();
 
 	video->SetZWrite(false);

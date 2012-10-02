@@ -44,13 +44,22 @@ const GLfloat g_quad2TexCoords[] =
 
 const GLfloat g_quad2Sprite[] =
 {
+	// 2 triangles rect
 	0.0f, 1.0f, 0.0f, 1.0f,
 	0.0f, 0.0f, 0.0f, 0.0f,
 	1.0f, 0.0f, 1.0f, 0.0f,
-	1.0f, 1.0f, 1.0f, 1.0f
+	1.0f, 1.0f, 1.0f, 1.0f,
+
+	// 4 triangles rect
+	0.5f, 0.5f, 0.5f, 0.5f, 
+	0.0f, 1.0f, 0.0f, 1.0f, 
+	0.0f, 0.0f, 0.0f, 0.0f, 
+	1.0f, 0.0f, 1.0f, 0.0f, 
+	1.0f, 1.0f, 1.0f, 1.0f, 
+	0.0f, 1.0f, 0.0f, 1.0f
 };
 
-const GLushort g_indices[] = { 0, 1, 2, 3 };
+const GLushort g_indices[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
 GLES2RectRenderer::GLES2RectRenderer(const Platform::FileLogger& logger)
 {
@@ -106,10 +115,13 @@ void GLES2RectRenderer::SetPositionLocations(const int positionLocation, const i
 	}
 }
 
-void GLES2RectRenderer::Draw(const int positionLocation, const int texCoordLocation, const Platform::FileLogger& logger) const
+void GLES2RectRenderer::Draw(const int positionLocation, const int texCoordLocation, const GS_RECT_MODE mode, const Platform::FileLogger& logger) const
 {
 	SetPositionLocations(positionLocation, texCoordLocation, logger);
-	glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_SHORT, (void*)0);
+	if (mode == GSRM_TWO_TRIANGLES)
+		glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_SHORT, (void*)0);
+	else if (mode == GSRM_FOUR_TRIANGLES)
+		glDrawElements(GL_TRIANGLE_FAN, 6, GL_UNSIGNED_SHORT, (void*)(sizeof(GLushort) * 4));
 }
 
 //

@@ -644,7 +644,9 @@ bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline
 
 		video->RoundUpPosition(roundUp);
 		if (spriteVisible)
-			pRenderEntity->DrawAmbientPass(m_maxSceneHeight, m_minSceneHeight, (m_enableLightmaps && m_showingLightmaps), m_sceneProps);
+			pRenderEntity->DrawAmbientPass(m_maxSceneHeight, m_minSceneHeight,
+										  (m_enableLightmaps && m_showingLightmaps),
+										  m_sceneProps, shaderManager->GetParallaxIntensity());
 
 		// draw "invisible entity symbol" if we're in the editor
 		if (m_isInEditor)

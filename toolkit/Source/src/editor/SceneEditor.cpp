@@ -1136,7 +1136,7 @@ void SceneEditor::PlaceEntitySelection()
 	{
 		if (!m_currentEntity->IsInvisible())
 		{
-			m_currentEntity->DrawAmbientPass(maxDepth, minDepth, false, *m_pScene->GetSceneProperties());
+			m_currentEntity->DrawAmbientPass(maxDepth, minDepth, false, *m_pScene->GetSceneProperties(), shaderManager->GetParallaxIntensity());
 		}
 		else
 		{
