@@ -995,16 +995,16 @@ public:
 	{
 		const int min = Min(minValue, maxValue);
 		const int max = Max(minValue, maxValue);
-		const int diff = max-min;
-		return Int(diff)+min;
+		const int diff = Abs(max - min);
+		return Int(diff) + min;
 	}
 
 	static inline float Float(const float minValue, const float maxValue)
 	{
 		const float min = Min(minValue, maxValue);
 		const float max = Max(minValue, maxValue);
-		const float diff = max-min;
-		return Float(diff)+min;
+		const float diff = Abs(max - min);
+		return Float(diff) + min;
 	}
 
 	static void Seed(const unsigned int seed)

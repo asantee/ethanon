@@ -226,9 +226,10 @@ void ETHSpriteEntity::LoadParticleSystem()
 			if (!graphicResources->AddFile(video, path, resourcePath, (pSystem->alphaMode == GSAM_ADD)))
 				continue;
 
+			const float particleScale = (GetScale().x + GetScale().y) / 2.0f;
 			m_particles[t] = ETHParticleManagerPtr(
-				new ETHParticleManager(m_provider, *pSystem, GetPositionXY(), GetPosition(), GetAngle(), m_properties.soundVolume));
-			m_particles[t]->ScaleParticleSystem((GetScale().x + GetScale().y) / 2.0f);
+				new ETHParticleManager(m_provider, *pSystem, GetPositionXY(), GetPosition(),
+									   GetAngle(), m_properties.soundVolume, particleScale));
 		}
 	}
 }

@@ -385,7 +385,7 @@ ETHParticleManager::ETHParticleManager(ETHResourceProviderPtr provider, const st
 	ETH_PARTICLE_SYSTEM partSystem;
 	if (partSystem.ReadFromFile(file, m_provider->GetFileManager()))
 	{
-		CreateParticleSystem(partSystem, v2Pos, v3Pos, angle, entityVolume);
+		CreateParticleSystem(partSystem, v2Pos, v3Pos, angle, entityVolume, 1.0f);
 	}
 	else
 	{
@@ -395,14 +395,15 @@ ETHParticleManager::ETHParticleManager(ETHResourceProviderPtr provider, const st
 }
 
 ETHParticleManager::ETHParticleManager(ETHResourceProviderPtr provider, const ETH_PARTICLE_SYSTEM &partSystem, const Vector2 &v2Pos,
-									   const Vector3 &v3Pos, const float angle, const float entityVolume) :
+									   const Vector3 &v3Pos, const float angle, const float entityVolume, const float scale) :
 	m_provider(provider)
 {
-	CreateParticleSystem(partSystem, v2Pos, v3Pos, angle, entityVolume);
+	CreateParticleSystem(partSystem, v2Pos, v3Pos, angle, entityVolume, scale);
 }
 
 bool ETHParticleManager::CreateParticleSystem(const ETH_PARTICLE_SYSTEM &partSystem, const Vector2 &v2Pos,
-											  const Vector3 &v3Pos, const float angle,  const float entityVolume)
+											  const Vector3 &v3Pos, const float angle, const float entityVolume,
+											  const float scale)
 {
 	GS2D_UNUSED_ARGUMENT(v3Pos);
 	if (partSystem.nParticles <= 0)
@@ -421,6 +422,8 @@ bool ETHParticleManager::CreateParticleSystem(const ETH_PARTICLE_SYSTEM &partSys
 	m_generalVolume = 1.0f;
 	m_system = partSystem;
 	m_entityVolume = entityVolume;
+
+	m_system.Scale(scale);
 
 	if (m_system.bitmapFile.empty())
 	{
@@ -499,7 +502,7 @@ void ETHParticleManager::SetStartPos(const Vector3& v3Pos)
 
 float ETHParticleManager::GetBoundingRadius() const
 {
-	return m_system.boundingSphere/2;
+	return m_system.boundingSphere / 2;
 }
 
 str_type::string ETHParticleManager::GetBitmapName() const
@@ -567,62 +570,64 @@ bool ETHParticleManager::UpdateParticleSystem(const Vector2 &v2Pos, const Vector
 
 	Matrix4x4 rot = RotateZ(DegreeToRadian(angle));
 	m_nActiveParticles = 0;
-	for (int t=0; t<m_system.nParticles; t++)
+	for (int t = 0; t < m_system.nParticles; t++)
 	{
-		if (m_system.repeat>0)
-			if (m_particles[t].repeat >= m_system.repeat)
+		ETH_PARTICLE& particle = m_particles[t];
+
+		if (m_system.repeat > 0)
+			if (particle.repeat >= m_system.repeat)
 				continue;
 
 		// check how many particles are active
-		if (m_particles[t].size > 0.0f && m_particles[t].released)
+		if (particle.size > 0.0f && particle.released)
 		{
-			if (!Killed() || (Killed() && m_particles[t].elapsed < m_particles[t].lifeTime))
+			if (!Killed() || (Killed() && particle.elapsed < particle.lifeTime))
 				m_nActiveParticles++;
 		}
 
 		anythingDrawn = true;
-		m_particles[t].elapsed += lastFrameElapsedTime;
+		particle.elapsed += lastFrameElapsedTime;
 
-		if (!m_particles[t].released)
+		if (!particle.released)
 		{
 			// if we shouldn't release all particles at the same time, check if it's time to release this particle
 			const float releaseTime = 
-				((m_system.lifeTime+m_system.randomizeLifeTime)*(static_cast<float>(m_particles[t].id)/static_cast<float>(m_system.nParticles)));
+				((m_system.lifeTime + m_system.randomizeLifeTime) * (static_cast<float>(particle.id) / static_cast<float>(m_system.nParticles)));
 
-			if (m_particles[t].elapsed > releaseTime || m_system.allAtOnce)
+			if (particle.elapsed > releaseTime || m_system.allAtOnce)
 			{
-				m_particles[t].elapsed = 0.0f;
-				m_particles[t].released = true;
+				particle.elapsed = 0.0f;
+				particle.released = true;
 				PositionParticle(t, v2Pos, angle, rot, v3Pos);
 			}
 		}
 
-		if (m_particles[t].released)
+		if (particle.released)
 		{
-			m_particles[t].v2Dir = m_particles[t].v2Dir + (m_system.v2GravityVector*frameSpeed);
-			m_particles[t].v2Pos = m_particles[t].v2Pos + (m_particles[t].v2Dir*frameSpeed);
-			m_particles[t].angle += (m_particles[t].angleDir*frameSpeed);
-			m_particles[t].size += (m_system.growth*frameSpeed);
-			const float w = m_particles[t].elapsed/m_particles[t].lifeTime;
-			m_particles[t].v4Color = m_system.v4Color0 + (m_system.v4Color1-m_system.v4Color0)*w;
+			particle.v2Dir += (m_system.v2GravityVector * frameSpeed);
+			particle.v2Pos += (particle.v2Dir * frameSpeed);
+			particle.angle += (particle.angleDir * frameSpeed);
+			particle.size  += (m_system.growth * frameSpeed);
+			const float w = particle.elapsed / particle.lifeTime;
+			particle.v4Color = m_system.v4Color0 + (m_system.v4Color1 - m_system.v4Color0) * w;
 
 			// update particle animation if there is any
 			if (m_system.v2SpriteCut.x > 1 || m_system.v2SpriteCut.y > 1)
 			{
 				if (m_system.animationMode == _ETH_PLAY_ANIMATION)
 				{
-					m_particles[t].currentFrame = static_cast<unsigned int>(
-						Min(static_cast<int>(static_cast<float>(m_system.GetNumFrames())*w),
+					particle.currentFrame = static_cast<unsigned int>(
+						Min(static_cast<int>(static_cast<float>(m_system.GetNumFrames()) * w),
 							m_system.GetNumFrames() - 1));
 				}
 			}
 
-			m_particles[t].size = Min(m_particles[t].size, m_system.maxSize);
-			m_particles[t].size = Max(m_particles[t].size, m_system.minSize);
+			particle.size = Min(particle.size, m_system.maxSize);
+			particle.size = Max(particle.size, m_system.minSize);
 
-			if (m_particles[t].elapsed>m_particles[t].lifeTime)
+			if (particle.elapsed > particle.lifeTime)
 			{
-				m_particles[t].repeat++;
+				particle.repeat++;
 				if (!Killed())
 					ResetParticle(t, v2Pos, v3Pos, angle, rot);
 			}
@@ -713,15 +718,15 @@ bool ETHParticleManager::Play(const Vector2 &v2Pos, const Vector3 &v3Pos, const 
 void ETHParticleManager::BubbleSort(std::vector<ETH_PARTICLE> &v)
 {
 	const int len = v.size();
-	for (int j = len-1; j>0; j--)
+	for (int j = len - 1; j > 0; j--)
 	{
 		bool leave = true;
-		for (int i=0; i<j; i++)
+		for (int i = 0; i < j; i++)
 		{
-			if (v[i+1] < v[i])
+			if (v[i + 1] < v[i])
 			{
 				leave = false;
-				std::swap(v[i+1], v[i]);
+				std::swap(v[i + 1], v[i]);
 			}
 		}
 		if (leave)
@@ -851,7 +856,7 @@ void ETHParticleManager::ScaleParticleSystem(const float scale)
 void ETHParticleManager::MirrorX(const bool mirrorGravity)
 {
 	m_system.MirrorX(mirrorGravity);
-	for (int t=0; t<m_system.nParticles; t++)
+	for (int t = 0; t < m_system.nParticles; t++)
 	{
 		m_particles[t].v2Dir.x *=-1;
 		m_particles[t].v2Pos.x *=-1;
@@ -861,7 +866,7 @@ void ETHParticleManager::MirrorX(const bool mirrorGravity)
 void ETHParticleManager::MirrorY(const bool mirrorGravity)
 {
 	m_system.MirrorY(mirrorGravity);
-	for (int t=0; t<m_system.nParticles; t++)
+	for (int t = 0; t < m_system.nParticles; t++)
 	{
 		m_particles[t].v2Dir.y *=-1;
 		m_particles[t].v2Pos.y *=-1;

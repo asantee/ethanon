@@ -62,7 +62,7 @@ ParticleEditor::~ParticleEditor()
 
 void ParticleEditor::CreateParticles()
 {
-	m_manager = ETHParticleManagerPtr(new ETHParticleManager(m_provider, m_system, m_v2Pos, Vector3(m_v2Pos, 0), m_systemAngle, 1.0f));
+	m_manager = ETHParticleManagerPtr(new ETHParticleManager(m_provider, m_system, m_v2Pos, Vector3(m_v2Pos, 0), m_systemAngle, 1.0f, 1.0f));
 }
 
 bool ParticleEditor::ProjectManagerRequested()
@@ -495,7 +495,7 @@ void ParticleEditor::ParticlePanel()
 			m_system.bitmapFile = utf8::c(file).wstr();
 			m_provider->GetGraphicResourceManager()->RemoveResource(m_system.bitmapFile);
 			m_manager = ETHParticleManagerPtr(
-				new ETHParticleManager(m_provider, m_system, m_v2Pos, Vector3(m_v2Pos, 0), m_systemAngle, 1.0f));
+				new ETHParticleManager(m_provider, m_system, m_v2Pos, Vector3(m_v2Pos, 0), m_systemAngle, 1.0f, 1.0f));
 		}
 	}
 
@@ -627,7 +627,7 @@ void ParticleEditor::ParticlePanel()
 		{
 			m_system.nParticles = nParticles;
 			m_manager = ETHParticleManagerPtr(
-				new ETHParticleManager(m_provider, m_system, m_v2Pos, Vector3(m_v2Pos, 0), m_systemAngle, 1.0f));
+				new ETHParticleManager(m_provider, m_system, m_v2Pos, Vector3(m_v2Pos, 0), m_systemAngle, 1.0f, 1.0f));
 			m_manager->Kill(false);
 		}
 

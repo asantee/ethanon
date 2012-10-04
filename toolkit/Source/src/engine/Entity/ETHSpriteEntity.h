@@ -109,9 +109,6 @@ public:
 	Vector2 GetSpriteCut() const;
 
 protected:
-	void Create();
-	void Zero();
-
 	std::vector<ETHParticleManagerPtr> m_particles;
 
 	bool m_stopSFXWhenDestroyed;
@@ -124,6 +121,10 @@ protected:
 
 	static const float m_layrableMinimumDepth;
 	static const float m_haloRotation;
+
+private:
+	void Create();
+	void Zero();
 };
 
 #endif
