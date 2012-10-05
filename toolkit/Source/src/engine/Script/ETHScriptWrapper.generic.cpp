@@ -24,6 +24,8 @@
 #include "../../addons/aswrappedcall.h"
 #include "../Entity/ETHRenderEntity.h"
 
+#include <Math/Randomizer.h>
+
 asDECLARE_FUNCTION_WRAPPER(__GetCursorPos,         ETHScriptWrapper::GetCursorPos);
 asDECLARE_FUNCTION_WRAPPER(__GetCursorAbsolutePos, ETHScriptWrapper::GetCursorAbsolutePos);
 asDECLARE_FUNCTION_WRAPPER(__SetCursorPos,         ETHScriptWrapper::SetCursorPos);

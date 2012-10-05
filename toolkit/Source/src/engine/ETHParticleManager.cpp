@@ -24,6 +24,7 @@
 #include "Resource/ETHDirectories.h"
 #include "Util/ETHASUtil.h"
 #include "Entity/ETHEntity.h"
+#include <Math/Randomizer.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -871,4 +872,61 @@ void ETHParticleManager::MirrorY(const bool mirrorGravity)
 		m_particles[t].v2Dir.y *=-1;
 		m_particles[t].v2Pos.y *=-1;
 	}
+}
+
+void ETHParticleManager::ResetParticle(
+	const int t,
+	const Vector2& v2Pos,
+	const Vector3& v3Pos,
+	const float angle,
+	const Matrix4x4& rotMatrix)
+{
+	const Vector2 halfRandDir(m_system.v2RandomizeDir / 2.0f);
+
+	ETH_PARTICLE& particle = m_particles[t];
+	particle.angleDir = m_system.angleDir + Randomizer::Float(-m_system.randAngle/2, m_system.randAngle/2);
+	particle.elapsed = 0.0f;
+	particle.lifeTime = m_system.lifeTime + Randomizer::Float(-m_system.randomizeLifeTime/2, m_system.randomizeLifeTime/2);
+	particle.size = m_system.size + Randomizer::Float(-m_system.randomizeSize/2, m_system.randomizeSize/2);
+	particle.v2Dir.x = (m_system.v2DirectionVector.x + Randomizer::Float(-halfRandDir.x, halfRandDir.x));
+	particle.v2Dir.y = (m_system.v2DirectionVector.y + Randomizer::Float(-halfRandDir.y, halfRandDir.y));
+	particle.v2Dir = Multiply(m_particles[t].v2Dir, rotMatrix);
+	particle.v4Color = m_system.v4Color0;
+	PositionParticle(t, v2Pos, angle, rotMatrix, v3Pos);
+
+	// setup sprite frame
+	if (m_system.v2SpriteCut.x > 1 || m_system.v2SpriteCut.y > 1)
+	{
+		if (m_system.animationMode == _ETH_PLAY_ANIMATION)
+		{
+			particle.currentFrame = 0;
+		} else
+			if (m_system.animationMode == _ETH_PICK_RANDOM_FRAME)
+			{
+				particle.currentFrame = Randomizer::Int(m_system.v2SpriteCut.x * m_system.v2SpriteCut.y - 1);
+			}
+	}
+}
+
+void ETHParticleManager::PositionParticle(
+	const int t,
+	const Vector2& v2Pos,
+	const float angle,
+	const Matrix4x4& rotMatrix,
+	const Vector3& v3Pos)
+{
+	const Vector2 halfRandStartPoint(m_system.v2RandStartPoint / 2.0f);
+
+	ETH_PARTICLE& particle = m_particles[t];
+	particle.angle = m_system.angleStart + Randomizer::Float(m_system.randAngleStart) + angle;
+	particle.v2Pos.x = m_system.v3StartPoint.x + Randomizer::Float(-halfRandStartPoint.x, halfRandStartPoint.x);
+	particle.v2Pos.y = m_system.v3StartPoint.y + Randomizer::Float(-halfRandStartPoint.y, halfRandStartPoint.y);
+	particle.v2Pos = Multiply(particle.v2Pos, rotMatrix);	
+	particle.v2Pos = m_particles[t].v2Pos + v2Pos;
+	particle.v3StartPoint = Vector3(v2Pos, v3Pos.z) + m_system.v3StartPoint;
+}
+
+void ETHParticleManager::SetParticleDepth(const float depth)
+{
+	m_provider->GetVideo()->SetSpriteDepth(depth);
 }

@@ -20,28 +20,27 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#include "gs2d.h"
+#ifndef GS2D_RANDOMIZER_H_
+#define GS2D_RANDOMIZER_H_
+
+#include "MersenneTwister.h"
 
 namespace gs2d {
-using namespace math;
+namespace math {
 
-GS2D_API unsigned long ComputeElapsedTime(ApplicationPtr app)
+class Randomizer
 {
-	return static_cast<unsigned long>(ComputeElapsedTimeF(app));
-}
+	static MTRand m_mt;
+public:
 
-GS2D_API float ComputeElapsedTimeF(ApplicationPtr app)
-{
-	static float lastTime = 0;
-	const float currentTime = app->GetElapsedTimeF(Application::TU_SECONDS);
-	const float elapsedTime = currentTime - lastTime;
-	lastTime = currentTime;
-	return elapsedTime * 1000.0f;
-}
+	static int Int(const int maxValue);
+	static float Float(const float maxValue);
+	static int Int(const int minValue, const int maxValue);
+	static float Float(const float minValue, const float maxValue);
+	static void Seed(const unsigned int seed);
+};
 
-void Application::SetScreenSizeChangeListener(const ScreenSizeChangeListenerPtr& listener)
-{
-	m_screenSizeChangeListener = listener;
-}
-
+} // namespace math
 } // namespace gs2d
+
+#endif

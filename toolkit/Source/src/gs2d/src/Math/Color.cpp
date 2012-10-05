@@ -20,104 +20,70 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#ifndef GS2D_COLOR_H_
-#define GS2D_COLOR_H_
+#include "Color.h"
 
-#include "gs2dtypes.h"
 
 namespace gs2d {
 
-#pragma warning(push)
-#pragma warning(disable:4201)
-
-struct Color
+Color::Color() : color(0)
 {
-	Color()
-	{
-		color = 0;
-	}
+}
 
-	Color(const GS_DWORD color)
-	{
-		this->color = color;
-	}
+Color::Color(const GS_DWORD color)
+{
+	this->color = color;
+}
 
-	Color(const GS_BYTE na, const GS_BYTE nr, const GS_BYTE ng, const GS_BYTE nb)
-	{
-		a = na;
-		r = nr;
-		g = ng;
-		b = nb;
-	}
+Color::Color(const GS_BYTE na, const GS_BYTE nr, const GS_BYTE ng, const GS_BYTE nb)
+{
+	a = na;
+	r = nr;
+	g = ng;
+	b = nb;
+}
 
-	void SetColor(const GS_BYTE na, const GS_BYTE nr, const GS_BYTE ng, const GS_BYTE nb)
-	{
-		a = na;
-		r = nr;
-		g = ng;
-		b = nb;
-	}
+void Color::SetColor(const GS_BYTE na, const GS_BYTE nr, const GS_BYTE ng, const GS_BYTE nb)
+{
+	a = na;
+	r = nr;
+	g = ng;
+	b = nb;
+}
 
-	void SetColor(const GS_DWORD color)
-	{
-		this->color = color;
-	}
+void Color::SetColor(const GS_DWORD color)
+{
+	this->color = color;
+}
 
-	Color &operator = (GS_DWORD color)
-	{
-		this->color = color;
-		return *this;
-	}
+Color::operator GS_DWORD() const
+{
+	return color;
+}
 
-	operator GS_DWORD () const
-	{
-		return color;
-	}
+Color& Color::operator = (GS_DWORD color)
+{
+	this->color = color;
+	return *this;
+}
 
-	void SetAlpha(const GS_BYTE na)
-	{
-		a = na;
-	}
+void Color::SetAlpha(const GS_BYTE na)
+{
+	a = na;
+}
 
-	void SetRed(const GS_BYTE nr)
-	{
-		r = nr;
-	}
+void Color::SetRed(const GS_BYTE nr)
+{
+	r = nr;
+}
 
-	void SetGreen(const GS_BYTE ng)
-	{
-		g = ng;
-	}
+void Color::SetGreen(const GS_BYTE ng)
+{
+	g = ng;
+}
 
-	void SetBlue(const GS_BYTE nb)
-	{
-		b = nb;
-	}
+void Color::SetBlue(const GS_BYTE nb)
+{
+	b = nb;
+}
 
-	union
-	{
-		struct
-		{
-			GS_BYTE b, g, r, a;
-		};
-		GS_DWORD color;
-	};
-};
-
-#pragma warning( pop )
-
-namespace constant {
-
-	const Color ZERO(0x0);
-	const Color BLACK(0xFF000000);
-	const Color WHITE(0xFFFFFFFF);
-	const Color RED(0xFFFF0000);
-	const Color GREEN(0xFF00FF00);
-	const Color BLUE(0xFF0000FF);
-	const Color YELLOW(0xFFFFFF00);
-
-} // constant
-
-} // gs2d
-
-#endif
+} // namespace gs2d

@@ -221,10 +221,6 @@
 				RelativePath="..\..\..\src\gs2dwindow.h"
 				>
 			</File>
-			<File
-				RelativePath="..\..\..\src\MersenneTwister.h"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
@@ -352,7 +348,27 @@
 			Name="Math"
 			>
 			<File
+				RelativePath="..\..\..\src\Math\Color.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\Math\Color.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\src\Math\Math.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\Math\MersenneTwister.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\Math\Randomizer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\Math\Randomizer.h"
 				>
 			</File>
 		</Filter>

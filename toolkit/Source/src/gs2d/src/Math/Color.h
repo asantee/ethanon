@@ -20,28 +20,51 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#include "gs2d.h"
+#ifndef GS2D_COLOR_H_
+#define GS2D_COLOR_H_
+
+#include "../gs2dtypes.h"
 
 namespace gs2d {
-using namespace math;
 
-GS2D_API unsigned long ComputeElapsedTime(ApplicationPtr app)
+#pragma warning(push)
+#pragma warning(disable:4201)
+
+struct Color
 {
-	return static_cast<unsigned long>(ComputeElapsedTimeF(app));
-}
+	Color();
+	Color(const GS_DWORD color);
+	Color(const GS_BYTE na, const GS_BYTE nr, const GS_BYTE ng, const GS_BYTE nb);
+	void SetColor(const GS_BYTE na, const GS_BYTE nr, const GS_BYTE ng, const GS_BYTE nb);
+	void SetColor(const GS_DWORD color);
+	Color &operator = (GS_DWORD color);
+	operator GS_DWORD () const;
+	void SetAlpha(const GS_BYTE na);
+	void SetRed(const GS_BYTE nr);
+	void SetGreen(const GS_BYTE ng);
+	void SetBlue(const GS_BYTE nb);
+	union
+	{
+		struct
+		{
+			GS_BYTE b, g, r, a;
+		};
+		GS_DWORD color;
+	};
+};
 
-GS2D_API float ComputeElapsedTimeF(ApplicationPtr app)
-{
-	static float lastTime = 0;
-	const float currentTime = app->GetElapsedTimeF(Application::TU_SECONDS);
-	const float elapsedTime = currentTime - lastTime;
-	lastTime = currentTime;
-	return elapsedTime * 1000.0f;
-}
+#pragma warning( pop )
 
-void Application::SetScreenSizeChangeListener(const ScreenSizeChangeListenerPtr& listener)
-{
-	m_screenSizeChangeListener = listener;
-}
+namespace constant {
+	const Color ZERO(0x0);
+	const Color BLACK(0xFF000000);
+	const Color WHITE(0xFFFFFFFF);
+	const Color RED(0xFFFF0000);
+	const Color GREEN(0xFF00FF00);
+	const Color BLUE(0xFF0000FF);
+	const Color YELLOW(0xFFFFFF00);
+} // constant
 
-} // namespace gs2d
+} // gs2d
+
+#endif

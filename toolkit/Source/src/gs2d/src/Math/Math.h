@@ -23,8 +23,8 @@
 #ifndef GS2D_MATH_H_
 #define GS2D_MATH_H_
 
-#include "../gs2dcolor.h"
-#include "../MersenneTwister.h"
+#include "Color.h"
+#include <math.h>
 
 #if defined(__ARM_NEON__)
 #include <arm_neon.h>
@@ -975,43 +975,6 @@ inline unsigned long ARGB(const GS_BYTE a, const GS_BYTE r, const GS_BYTE g, con
 {
 	return ((((a)&0xff)<<24)|(((r)&0xff)<<16)|(((g)&0xff)<<8)|((b)&0xff));
 }
-
-class Randomizer
-{
-	static MTRand m_mt;
-public:
-
-	static inline int Int(const int maxValue)
-	{
-		return static_cast<int>(m_mt.randInt(static_cast<MTRand::uint32>(maxValue)));
-	}
-
-	static inline float Float(const float maxValue)
-	{
-		return static_cast<float>(m_mt.rand(static_cast<double>(maxValue)));
-	}
-
-	static inline int Int(const int minValue, const int maxValue)
-	{
-		const int min = Min(minValue, maxValue);
-		const int max = Max(minValue, maxValue);
-		const int diff = Abs(max - min);
-		return Int(diff) + min;
-	}
-
-	static inline float Float(const float minValue, const float maxValue)
-	{
-		const float min = Min(minValue, maxValue);
-		const float max = Max(minValue, maxValue);
-		const float diff = Abs(max - min);
-		return Float(diff) + min;
-	}
-
-	static void Seed(const unsigned int seed)
-	{
-		m_mt.seed(static_cast<MTRand::uint32>(seed));
-	}
-};
 
 typedef Vector4 Plane;
 inline Plane ComputePlane(const Vector3& pos, const Vector3& normal)

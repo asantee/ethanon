@@ -33,6 +33,8 @@
 #include "../../addons/ansi/scriptbuilder.h"
 #endif
 
+#include <Math/Randomizer.h>
+
 #include <string.h>
 #include <stdlib.h>
 #include <sstream>
