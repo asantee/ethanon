@@ -210,6 +210,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\src\gs2dtexture.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\src\gs2dtypes.h"
 				>
 			</File>

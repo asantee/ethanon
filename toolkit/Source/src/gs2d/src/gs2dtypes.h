@@ -84,12 +84,17 @@ namespace str_type {
 
 
 class Texture;
-class Sprite;
 typedef boost::shared_ptr<Texture> TexturePtr;
 typedef boost::weak_ptr<Texture> TextureWeakPtr;
 
+class Sprite;
 typedef boost::shared_ptr<Sprite> SpritePtr;
 typedef boost::weak_ptr<Texture> TextureWeakPtr;
+
+class Video;
+typedef boost::shared_ptr<Video> VideoPtr;
+typedef boost::shared_ptr<const Video> VideoConstPtr;
+typedef boost::weak_ptr<Video> VideoWeakPtr;
 
 typedef unsigned long GS_DWORD;
 typedef unsigned char GS_BYTE;
