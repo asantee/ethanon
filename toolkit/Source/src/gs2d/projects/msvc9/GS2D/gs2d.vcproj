@@ -222,6 +222,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\src\gs2dwindow.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\src\MersenneTwister.h"
 				>
 			</File>

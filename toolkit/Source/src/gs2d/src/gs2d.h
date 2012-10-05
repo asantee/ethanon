@@ -33,6 +33,7 @@
 #include "gs2dapplication.h"
 #include "gs2dshader.h"
 #include "gs2dsprite.h"
+#include "gs2dwindow.h"
 
 namespace gs2d {
 
@@ -57,49 +58,6 @@ enum GS_BLEND_MODE
 	GSBM_ADD = 0,
 	GSBM_MODULATE = 1,
 };
-
-/// Shows an error, warning or info message to the user
-void ShowMessage(str_type::stringstream &stream, const GS_MESSAGE_TYPE type = GSMT_ERROR);
-
-/// Shows an error, warning or info message to the user
-void ShowMessage(const str_type::string& str, const GS_MESSAGE_TYPE type = GSMT_ERROR);
-
-/**
- * \brief Abstracts all window related methods
- *
- * This class contains methods that will handle window
- * tasks, such as positioning and title.
- */
-class Window
-{
-public:
-	virtual void EnableQuitShortcuts(const bool enable) = 0;
-	virtual bool QuitShortcutsEnabled() = 0;
-
-	virtual bool SetWindowTitle(const str_type::string& title) = 0;
-	virtual str_type::string GetWindowTitle() const = 0;
-
-	virtual void EnableMediaPlaying(const bool enable) = 0;
-
-	virtual bool IsWindowed() const = 0;
-
-	virtual math::Vector2i GetScreenSize() const = 0;
-	virtual math::Vector2 GetScreenSizeF() const = 0;
-
-	virtual math::Vector2i GetWindowPosition() = 0;
-	virtual void SetWindowPosition(const math::Vector2i &v2) = 0;
-
-	virtual math::Vector2i ScreenToWindow(const math::Vector2i &v2Point) const = 0;
-
-	virtual bool WindowVisible() const = 0;
-	virtual bool WindowInFocus() const = 0;
-
-	virtual bool HideCursor(const bool hide) = 0;
-	virtual bool IsCursorHidden() const = 0;
-};
-
-typedef boost::shared_ptr<Window> WindowPtr;
-typedef boost::weak_ptr<Window> WindowWeakPtr;
 
 /**
  * \brief Abstracts all video device operations

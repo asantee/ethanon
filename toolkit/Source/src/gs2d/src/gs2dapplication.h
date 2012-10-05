@@ -29,6 +29,12 @@
 
 namespace gs2d {
 
+/// Shows an error, warning or info message to the user
+void ShowMessage(str_type::stringstream &stream, const GS_MESSAGE_TYPE type = GSMT_ERROR);
+
+/// Shows an error, warning or info message to the user
+void ShowMessage(const str_type::string& str, const GS_MESSAGE_TYPE type = GSMT_ERROR);
+
 /**
  * \brief Abstracts all application related methods
  *
