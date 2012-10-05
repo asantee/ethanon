@@ -121,16 +121,16 @@ bool DoNextAppButton(int nextApp, SpritePtr pSprite, VideoPtr video, InputPtr in
 		switch (nextApp)
 		{
 		case SCENE:
-			pEditor->ShadowPrint(v2TextPos, L"Go to Scene Editor", L"Verdana14_shadow.fnt", GS_WHITE);
+			pEditor->ShadowPrint(v2TextPos, L"Go to Scene Editor", L"Verdana14_shadow.fnt", gs2d::constant::WHITE);
 			break;
 		case ENTITY:
-			pEditor->ShadowPrint(v2TextPos, L"Go to Entity Editor", L"Verdana14_shadow.fnt", GS_WHITE);
+			pEditor->ShadowPrint(v2TextPos, L"Go to Entity Editor", L"Verdana14_shadow.fnt", gs2d::constant::WHITE);
 			break;
 		case PARTICLE:
-			pEditor->ShadowPrint(v2TextPos, L"Go to ParticleFX Editor", L"Verdana14_shadow.fnt", GS_WHITE);
+			pEditor->ShadowPrint(v2TextPos, L"Go to ParticleFX Editor", L"Verdana14_shadow.fnt", gs2d::constant::WHITE);
 			break;
 		case PROJECT:
-			pEditor->ShadowPrint(v2TextPos, _S_GOTO_PROJ, L"Verdana14_shadow.fnt", GS_WHITE);
+			pEditor->ShadowPrint(v2TextPos, _S_GOTO_PROJ, L"Verdana14_shadow.fnt", gs2d::constant::WHITE);
 			break;
 		};
 		if (input->GetLeftClickState() == GSKS_HIT || input->GetRightClickState() == GSKS_HIT)
@@ -138,7 +138,7 @@ bool DoNextAppButton(int nextApp, SpritePtr pSprite, VideoPtr video, InputPtr in
 	}
 
 	// draw tab background
-	video->DrawRectangle(Vector2(0,0), Vector2(v2Screen.x, menuSize), GS_BLACK);
+	video->DrawRectangle(Vector2(0,0), Vector2(v2Screen.x, menuSize), gs2d::constant::BLACK);
 	video->SetAlphaMode(alphaMode);
 	return false;
 }
@@ -345,7 +345,7 @@ int main(const int argc, const char* argv[])
 			v2FPSPos.y = video->GetScreenSizeF().y-24.0f-32.0f;
 			wstringstream ss;
 			ss << video->GetFPSRate();
-			editor[0]->ShadowPrint(v2FPSPos, ss.str().c_str(), L"Verdana24_shadow.fnt", GS_WHITE);
+			editor[0]->ShadowPrint(v2FPSPos, ss.str().c_str(), L"Verdana24_shadow.fnt", gs2d::constant::WHITE);
 
 			video->EndSpriteScene();
 

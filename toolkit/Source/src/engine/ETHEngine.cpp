@@ -103,7 +103,7 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 
 	if (!m_pASEngine)
 	{
-		video->SetBGColor(GS_BLACK);
+		video->SetBGColor(gs2d::constant::BLACK);
 
 		if (!PrepareScriptingEngine(file.GetDefinedWords()))
 		{

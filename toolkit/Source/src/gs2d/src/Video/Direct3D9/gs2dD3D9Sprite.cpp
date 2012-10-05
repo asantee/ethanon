@@ -564,7 +564,7 @@ bool D3D9Sprite::DrawShaped(const Vector2 &v2Pos, const Vector2 &v2Size,
 	}
 
 	// subtract 0.5 to align pixel-texel
-	v2FinalPos -= constant::HALF_VECTOR2;
+	v2FinalPos -= math::constant::HALF_VECTOR2;
 
 	pCurrentVS->SetConstant(L"size", v2Size);
 	pCurrentVS->SetConstant(L"entityPos", v2FinalPos);
@@ -674,7 +674,7 @@ bool D3D9Sprite::DrawShapedFast(const Vector2 &v2Pos, const Vector2 &v2Size, con
 	}
 
 	// subtract 0.5 to align pixel-texel
-	v2FinalPos -= constant::HALF_VECTOR2;
+	v2FinalPos -= math::constant::HALF_VECTOR2;
 
 	pCurrentVS->SetConstant(L"size", v2Size);
 	pCurrentVS->SetConstant(L"entityPos", v2FinalPos);

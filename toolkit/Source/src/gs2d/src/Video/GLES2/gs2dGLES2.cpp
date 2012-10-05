@@ -93,7 +93,7 @@ GS2D_API VideoPtr CreateVideo(const unsigned int width, const unsigned int heigh
 
 GLES2Video::GLES2Video(const unsigned int width, const unsigned int height,
 					   const str_type::string& winTitle, const Platform::FileIOHubPtr& fileIOHub) :
-	m_backgroundColor(GS_BLACK),
+	m_backgroundColor(gs2d::constant::BLACK),
 	m_screenSize(width, height),
 	m_windowTitle(winTitle),
 	m_quit(false),
@@ -811,7 +811,7 @@ GS_COLOR GLES2Video::GetBGColor() const
 bool GLES2Video::BeginSpriteScene(const GS_COLOR& dwBGColor)
 {
 	UnbindFrameBuffer();
-	if (dwBGColor != GS_ZERO)
+	if (dwBGColor != gs2d::constant::ZERO)
 	{
 		m_backgroundColor = dwBGColor;
 	}

@@ -263,37 +263,64 @@ public:
 
 	typedef std::list<VIDEO_MODE> VIDEO_MODE_LIST;
 
-	/// Loads the texture from a file in virtual memory (supported formats: .dds, .bmp, .png, .jpg/jpeg).
-	virtual TexturePtr CreateTextureFromFileInMemory(const void *pBuffer, const unsigned int bufferLength, GS_COLOR mask,
-				 const unsigned int width = 0, const unsigned int height = 0,
-				 const unsigned int nMipMaps = 0) = 0;
+	/// Loads the texture from a file in virtual memory
+	virtual TexturePtr CreateTextureFromFileInMemory(
+		const void *pBuffer,
+		const unsigned int bufferLength,
+		GS_COLOR mask,
+		const unsigned int width = 0,
+		const unsigned int height = 0,
+		const unsigned int nMipMaps = 0) = 0;
 
-	/// Loads the texture from a file in a hard disk (supported formats: .dds, .bmp, .png, .jpg/jpeg).
-	virtual TexturePtr LoadTextureFromFile(const str_type::string& fileName, GS_COLOR mask,
-				 const unsigned int width = 0, const unsigned int height = 0,
-				 const unsigned int nMipMaps = 0) = 0;
+	/// Loads the texture from a file in a hard disk
+	virtual TexturePtr LoadTextureFromFile(
+		const str_type::string& fileName,
+		GS_COLOR mask,
+		const unsigned int width = 0,
+		const unsigned int height = 0,
+		const unsigned int nMipMaps = 0) = 0;
 
 	/// Creates a texture as render target.
-	virtual TexturePtr CreateRenderTargetTexture(const unsigned int width, const unsigned int height, const GS_TARGET_FORMAT fmt) = 0;
+	virtual TexturePtr CreateRenderTargetTexture(
+		const unsigned int width,
+		const unsigned int height,
+		const GS_TARGET_FORMAT fmt) = 0;
 
 	/// Creates a sprite from a texture in virtual memory
-	virtual SpritePtr CreateSprite(GS_BYTE *pBuffer, const unsigned int bufferLength,
-						GS_COLOR mask = GS_ZERO, const unsigned int width = 0, const unsigned int height = 0) = 0;
+	virtual SpritePtr CreateSprite(
+		GS_BYTE *pBuffer,
+		const unsigned int bufferLength,
+		GS_COLOR mask = constant::ZERO,
+		const unsigned int width = 0,
+		const unsigned int height = 0) = 0;
 
 	/// Creates a sprite from a texture in a file
-	virtual SpritePtr CreateSprite(const str_type::string& fileName, GS_COLOR mask = GS_ZERO, const unsigned int width = 0, const unsigned int height = 0) = 0;
+	virtual SpritePtr CreateSprite(
+		const str_type::string& fileName,
+		GS_COLOR mask = constant::ZERO,
+		const unsigned int width = 0,
+		const unsigned int height = 0) = 0;
 
 	/// Creates a sprite as render target
-	virtual SpritePtr CreateRenderTarget(const unsigned int width, const unsigned int height,
-							const GS_TARGET_FORMAT format = GSTF_DEFAULT) = 0;
+	virtual SpritePtr CreateRenderTarget(
+		const unsigned int width,
+		const unsigned int height,
+		const GS_TARGET_FORMAT format = GSTF_DEFAULT) = 0;
 
 	/// Create a shader object and load/compile it.
-	virtual ShaderPtr LoadShaderFromFile(const str_type::string& fileName, const GS_SHADER_FOCUS focus,
-				const GS_SHADER_PROFILE profile = GSSP_HIGHEST, const char *entry = 0) = 0;
+	virtual ShaderPtr LoadShaderFromFile(
+		const str_type::string& fileName,
+		const GS_SHADER_FOCUS focus,
+		const GS_SHADER_PROFILE profile = GSSP_HIGHEST,
+		const char *entry = 0) = 0;
 
 	/// Create a shader object and load/compile it.
-	virtual ShaderPtr LoadShaderFromString(const str_type::string& shaderName, const std::string& codeAsciiString, const GS_SHADER_FOCUS focus,
-				const GS_SHADER_PROFILE profile = GSSP_HIGHEST, const char *entry = 0) = 0;
+	virtual ShaderPtr LoadShaderFromString(
+		const str_type::string& shaderName,
+		const std::string& codeAsciiString,
+		const GS_SHADER_FOCUS focus,
+		const GS_SHADER_PROFILE profile = GSSP_HIGHEST,
+		const char *entry = 0) = 0;
 
 	virtual boost::any GetVideoInfo() = 0;
 
@@ -312,8 +339,16 @@ public:
 
 	virtual VIDEO_MODE GetVideoMode(const unsigned int modeIdx) const = 0;
 	virtual unsigned int GetVideoModeCount() = 0;
-	virtual bool ResetVideoMode(const VIDEO_MODE& mode, const bool toggleFullscreen = false) = 0;
-	virtual bool ResetVideoMode(const unsigned int width, const unsigned int height, const GS_PIXEL_FORMAT pfBB, const bool toggleFullscreen = false) = 0;
+
+	virtual bool ResetVideoMode(
+		const VIDEO_MODE& mode,
+		const bool toggleFullscreen = false) = 0;
+
+	virtual bool ResetVideoMode(
+		const unsigned int width,
+		const unsigned int height,
+		const GS_PIXEL_FORMAT pfBB,
+		const bool toggleFullscreen = false) = 0;
 
 	virtual bool SetRenderTarget(SpritePtr pTarget, const unsigned int target = 0) = 0;
 	virtual unsigned int GetMaxRenderTargets() const = 0;
@@ -351,21 +386,45 @@ public:
 
 	virtual math::Vector2 ComputeCarretPosition(const str_type::string& font, const str_type::string& text, const unsigned int pos) = 0;
 	virtual math::Vector2 ComputeTextBoxSize(const str_type::string& font, const str_type::string& text) = 0;
-	virtual unsigned int FindClosestCarretPosition(const str_type::string& font, const str_type::string &text, const math::Vector2 &textPos, const math::Vector2 &reference) = 0;
-	virtual bool DrawBitmapText(const math::Vector2 &v2Pos, const str_type::string& text, const str_type::string& font, const GS_COLOR& color, const float scale = 1.0f) = 0;
+
+	virtual unsigned int FindClosestCarretPosition(
+		const str_type::string& font,
+		const str_type::string &text,
+		const math::Vector2 &textPos,
+		const math::Vector2 &reference) = 0;
+
+	virtual bool DrawBitmapText(
+		const math::Vector2 &v2Pos,
+		const str_type::string& text,
+		const str_type::string& font,
+		const GS_COLOR& color,
+		const float scale = 1.0f) = 0;
+
 	virtual bool DrawLine(const math::Vector2 &p1, const math::Vector2 &p2, const GS_COLOR& color1, const GS_COLOR& color2) = 0;
-	virtual bool DrawRectangle(const math::Vector2 &v2Pos, const math::Vector2 &v2Size,
-						const GS_COLOR& color, const float angle = 0.0f, const GS_ENTITY_ORIGIN origin = GSEO_DEFAULT) = 0;
-	virtual bool DrawRectangle(const math::Vector2 &v2Pos, const math::Vector2 &v2Size,
-						const GS_COLOR& color0, const GS_COLOR& color1, const GS_COLOR& color2, const GS_COLOR& color3,
-						const float angle = 0.0f, const GS_ENTITY_ORIGIN origin = GSEO_DEFAULT) = 0;
+
+	virtual bool DrawRectangle(
+		const math::Vector2 &v2Pos,
+		const math::Vector2 &v2Size,
+		const GS_COLOR& color,
+		const float angle = 0.0f,
+		const GS_ENTITY_ORIGIN origin = GSEO_DEFAULT) = 0;
+
+	virtual bool DrawRectangle(
+		const math::Vector2 &v2Pos,
+		const math::Vector2 &v2Size,
+		const GS_COLOR& color0,
+		const GS_COLOR& color1,
+		const GS_COLOR& color2,
+		const GS_COLOR& color3,
+		const float angle = 0.0f,
+		const GS_ENTITY_ORIGIN origin = GSEO_DEFAULT) = 0;
 
 	virtual void SetBGColor(const GS_COLOR& backgroundColor) = 0;
 	virtual GS_COLOR GetBGColor() const = 0;
 
-	virtual bool BeginSpriteScene(const GS_COLOR& dwBGColor = GS_ZERO) = 0;
+	virtual bool BeginSpriteScene(const GS_COLOR& dwBGColor = constant::ZERO) = 0;
 	virtual bool EndSpriteScene() = 0;
-	virtual bool BeginTargetScene(const GS_COLOR& dwBGColor = GS_ZERO, const bool clear = true) = 0;
+	virtual bool BeginTargetScene(const GS_COLOR& dwBGColor = constant::ZERO, const bool clear = true) = 0;
 	virtual bool EndTargetScene() = 0;
 
 	virtual bool SetAlphaMode(const GS_ALPHA_MODE mode) = 0;
@@ -376,14 +435,20 @@ public:
 
 	virtual bool Rendering() const = 0;
 
-	virtual bool SaveScreenshot(const wchar_t *wcsName, const GS_BITMAP_FORMAT fmt = GSBF_BMP,
-								math::Rect2D rect = math::Rect2D(0,0,0,0)) = 0;
+	virtual bool SaveScreenshot(
+		const wchar_t *wcsName,
+		const GS_BITMAP_FORMAT fmt = GSBF_BMP,
+		math::Rect2D rect = math::Rect2D(0,0,0,0)) = 0;
 
 private:
-	virtual bool StartApplication(const unsigned int width, const unsigned int height,
-			const str_type::string& winTitle, const bool windowed,
-			const bool sync, const GS_PIXEL_FORMAT pfBB = GSPF_UNKNOWN,
-			const bool maximizable = false) = 0;
+	virtual bool StartApplication(
+		const unsigned int width,
+		const unsigned int height,
+		const str_type::string& winTitle,
+		const bool windowed,
+		const bool sync,
+		const GS_PIXEL_FORMAT pfBB = GSPF_UNKNOWN,
+		const bool maximizable = false) = 0;
 };
 
 typedef boost::shared_ptr<Video> VideoPtr;
@@ -424,21 +489,26 @@ public:
 	virtual math::Vector2 GetBitmapSize() const = 0;
 
 	virtual bool CreateRenderTarget(
-		VideoWeakPtr video, const unsigned int width, const unsigned int height, const GS_TARGET_FORMAT fmt
-	) = 0;
+		VideoWeakPtr video,
+		const unsigned int width,
+		const unsigned int height,const GS_TARGET_FORMAT fmt) = 0;
+
 	virtual bool LoadTexture(
 		VideoWeakPtr video,
-		const str_type::string& fileName, GS_COLOR mask,
-			const unsigned int width = 0, const unsigned int height = 0,
-			const unsigned int nMipMaps = 0
-	) = 0;
+		const str_type::string& fileName,
+		GS_COLOR mask,
+		const unsigned int width = 0,
+		const unsigned int height = 0,
+		const unsigned int nMipMaps = 0) = 0;
+
 	virtual bool LoadTexture(
 		VideoWeakPtr video,
-		const void * pBuffer, GS_COLOR mask,
-			const unsigned int width, const unsigned int height,
-			const unsigned int nMipMaps,
-			const unsigned int bufferLength
-	) = 0;
+		const void* pBuffer,
+		GS_COLOR mask,
+		const unsigned int width,
+		const unsigned int height,
+		const unsigned int nMipMaps,
+		const unsigned int bufferLength) = 0;
 };
 
 /**
@@ -460,28 +530,62 @@ public:
 		T_RELOAD = 3,
 	};
 
-	virtual bool LoadSprite(VideoWeakPtr video, GS_BYTE *pBuffer, const unsigned int bufferLength,
-						GS_COLOR mask = GS_ZERO, const unsigned int width = 0, const unsigned int height = 0) = 0;
-	virtual bool LoadSprite(VideoWeakPtr video, const str_type::string& fileName, GS_COLOR mask = GS_ZERO,
-					const unsigned int width = 0, const unsigned int height = 0) = 0;
-	virtual bool CreateRenderTarget(VideoWeakPtr video, const unsigned int width, const unsigned int height,
-							const GS_TARGET_FORMAT format = GSTF_DEFAULT) = 0;
+	virtual bool LoadSprite(
+		VideoWeakPtr video,
+		GS_BYTE *pBuffer,
+		const unsigned int bufferLength,
+		GS_COLOR mask = constant::ZERO,
+		const unsigned int width = 0,
+		const unsigned int height = 0) = 0;
 
-	virtual bool Draw(const math::Vector2 &v2Pos,
-					const GS_COLOR& color = GS_WHITE,
-					const float angle = 0.0f,
-					const math::Vector2 &v2Scale = math::Vector2(1.0f,1.0f)) = 0;
-	virtual bool DrawShaped(const math::Vector2 &v2Pos, const math::Vector2 &v2Size,
-						  const GS_COLOR& color0, const GS_COLOR& color1,
-						  const GS_COLOR& color2, const GS_COLOR& color3,
-						  const float angle = 0.0f) = 0;
-	virtual bool Stretch(const math::Vector2 &a, const math::Vector2 &b, const float width,
-					   const GS_COLOR& color0 = GS_WHITE, const GS_COLOR& color1 = GS_WHITE) = 0;
-	virtual bool SaveBitmap(const wchar_t *wcsName, const GS_BITMAP_FORMAT fmt, math::Rect2D *pRect = 0) = 0;
+	virtual bool LoadSprite(
+		VideoWeakPtr video,
+		const str_type::string& fileName,
+		GS_COLOR mask = constant::ZERO,
+		const unsigned int width = 0,
+		const unsigned int height = 0) = 0;
+
+	virtual bool CreateRenderTarget(
+		VideoWeakPtr video,
+		const unsigned int width,
+		const unsigned int height,
+		const GS_TARGET_FORMAT format = GSTF_DEFAULT) = 0;
+
+	virtual bool Draw(
+		const math::Vector2 &v2Pos,
+		const GS_COLOR& color = constant::WHITE,
+		const float angle = 0.0f,
+		const math::Vector2& v2Scale = math::Vector2(1.0f,1.0f)) = 0;
+
+	virtual bool DrawShaped(
+		const math::Vector2 &v2Pos,
+		const math::Vector2 &v2Size,
+		const GS_COLOR& color0,
+		const GS_COLOR& color1,
+		const GS_COLOR& color2,
+		const GS_COLOR& color3,
+		 const float angle = 0.0f) = 0;
+
+	virtual bool Stretch(
+		const math::Vector2 &a,
+		const math::Vector2 &b,
+		const float width,
+	   const GS_COLOR& color0 = constant::WHITE,
+	   const GS_COLOR& color1 = constant::WHITE) = 0;
+
+	virtual bool SaveBitmap(
+		const wchar_t *wcsName,
+		const GS_BITMAP_FORMAT fmt,
+		math::Rect2D *pRect = 0) = 0;
 
 	virtual bool DrawShapedFast(const math::Vector2 &v2Pos, const math::Vector2 &v2Size, const GS_COLOR& color) = 0;
-	virtual bool DrawOptimal(const math::Vector2 &v2Pos, const GS_COLOR& color = GS_WHITE, const float angle = 0.0f,
-					 const math::Vector2 &v2Size = math::Vector2(-1,-1)) = 0;
+
+	virtual bool DrawOptimal(
+		const math::Vector2 &v2Pos,
+		const GS_COLOR& color = constant::WHITE,
+		const float angle = 0.0f,
+		const math::Vector2 &v2Size = math::Vector2(-1,-1)) = 0;
+
 	virtual void BeginFastRendering() = 0;
 	virtual void EndFastRendering() = 0;
 
@@ -559,14 +663,14 @@ class BitmapFont
 		float xAdvance;
 		int page;
 
-		CHAR_DESCRIPTOR() : x( 0 ), y( 0 ), width( 0 ), height( 0 ), xOffset( 0 ), yOffset( 0 ),
-			xAdvance( 0 ), page( 0 )
+		CHAR_DESCRIPTOR() : x(0), y(0), width(0), height(0), xOffset(0), yOffset(0),
+			xAdvance(0), page(0)
 		{ }
 	};
 
 	struct CHARSET
 	{
-		CHARSET() : paddingDown( 0 ), paddingUp( 0 ), paddingLeft( 0 ), paddingRight( 0 ) {	}
+		CHARSET() : paddingDown(0), paddingUp(0), paddingLeft(0), paddingRight(0) {}
 		float lineHeight;
 		float base;
 		float width, height;
@@ -582,11 +686,24 @@ class BitmapFont
 
 public:
 	bool IsLoaded() const;
-	BitmapFont(VideoWeakPtr video, const str_type::string& fileName, const str_type::string& str);
-	math::Vector2 DrawBitmapText(const math::Vector2 &pos, const str_type::string& text, const GS_COLOR& color, const float scale = 1.0f);
+	BitmapFont(
+		VideoWeakPtr video,
+		const str_type::string& fileName,
+		const str_type::string& str);
+
+	math::Vector2 DrawBitmapText(
+		const math::Vector2 &pos,
+		const str_type::string& text,
+		const GS_COLOR& color,
+		const float scale = 1.0f);
+
 	math::Vector2 ComputeTextBoxSize(const str_type::string &text);
 	math::Vector2 ComputeCarretPosition(const str_type::string &text, const unsigned int pos);
-	unsigned int FindClosestCarretPosition(const str_type::string &text, const math::Vector2 &textPos, const math::Vector2 &reference);
+
+	unsigned int FindClosestCarretPosition(
+		const str_type::string &text,
+		const math::Vector2 &textPos,
+		const math::Vector2 &reference);
 };
 
 typedef boost::shared_ptr<BitmapFont> BitmapFontPtr;
@@ -596,9 +713,15 @@ GS2D_API unsigned long ComputeElapsedTime(ApplicationPtr app);
 GS2D_API float ComputeElapsedTimeF(ApplicationPtr app);
 
 /// Instantiate a Video object (must be defined in the API specific code)
-GS2D_API VideoPtr CreateVideo(const unsigned int width, const unsigned int height,
-				const str_type::string& winTitle, const bool windowed, const bool sync,
-				const Platform::FileIOHubPtr& fileIOHub, const GS_PIXEL_FORMAT pfBB = GSPF_UNKNOWN, const bool maximizable = false);
+GS2D_API VideoPtr CreateVideo(
+	const unsigned int width,
+	const unsigned int height,
+	const str_type::string& winTitle,
+	const bool windowed,
+	const bool sync,
+	const Platform::FileIOHubPtr& fileIOHub,
+	const GS_PIXEL_FORMAT pfBB = GSPF_UNKNOWN,
+	const bool maximizable = false);
 
 #if defined(ANDROID) || defined(APPLE_IOS)
 /// Instantiate a Video object (must be defined in the API specific code)

@@ -397,24 +397,40 @@ public:
 	TexturePtr CreateRenderTargetTexture(const unsigned int width, const unsigned int height, const GS_TARGET_FORMAT = GSTF_DEFAULT);
 
 	/// Creates a sprite from a texture in a file
-	SpritePtr CreateSprite(GS_BYTE *pBuffer, const unsigned int bufferLength,
-						GS_COLOR mask = GS_ZERO, const unsigned int width = 0, const unsigned int height = 0);
+	SpritePtr CreateSprite(
+		GS_BYTE *pBuffer,
+		const unsigned int bufferLength,
+		GS_COLOR mask = constant::ZERO,
+		const unsigned int width = 0,
+		const unsigned int height = 0);
 
 	/// Creates a sprite from a texture in virtual memory
-	SpritePtr CreateSprite(const std::wstring& fileName,
-					GS_COLOR mask = GS_ZERO, const unsigned int width = 0, const unsigned int height = 0);
+	SpritePtr CreateSprite(
+		const std::wstring& fileName,
+		GS_COLOR mask = constant::ZERO,
+		const unsigned int width = 0,
+		const unsigned int height = 0);
 
 	/// Creates a sprite as render target
-	SpritePtr CreateRenderTarget(const unsigned int width, const unsigned int height,
-							const GS_TARGET_FORMAT format = GSTF_DEFAULT);
+	SpritePtr CreateRenderTarget(
+		const unsigned int width,
+		const unsigned int height,
+		const GS_TARGET_FORMAT format = GSTF_DEFAULT);
 
 	/// Create a shader object and load/compile it.
-	ShaderPtr LoadShaderFromFile(const std::wstring& fileName, const GS_SHADER_FOCUS focus,
-				const GS_SHADER_PROFILE profile = GSSP_HIGHEST, const char *entry = 0);
+	ShaderPtr LoadShaderFromFile(
+		const std::wstring& fileName,
+		const GS_SHADER_FOCUS focus,
+		const GS_SHADER_PROFILE profile = GSSP_HIGHEST,
+		const char *entry = 0);
 
 	/// Create a shader object and load/compile it.
-	ShaderPtr LoadShaderFromString(const std::wstring& shaderName, const std::string& codeAsciiString, const GS_SHADER_FOCUS focus,
-				const GS_SHADER_PROFILE profile = GSSP_HIGHEST, const char *entry = 0);
+	ShaderPtr LoadShaderFromString(
+		const std::wstring& shaderName,
+		const std::string& codeAsciiString,
+		const GS_SHADER_FOCUS focus,
+		const GS_SHADER_PROFILE profile = GSSP_HIGHEST,
+		const char *entry = 0);
 
 	ShaderPtr GetFontShader();
 	ShaderPtr GetOptimalVS();
@@ -432,7 +448,11 @@ public:
 	VIDEO_MODE GetVideoMode(const unsigned int modeIdx) const;
 	unsigned int GetVideoModeCount();
 	bool ResetVideoMode(const VIDEO_MODE& mode, const bool toggleFullscreen = false);
-	bool ResetVideoMode(const unsigned int width, const unsigned int height, const GS_PIXEL_FORMAT pfBB, const bool toggleFullscreen = false);
+	bool ResetVideoMode(
+		const unsigned int width,
+		const unsigned int height,
+		const GS_PIXEL_FORMAT pfBB,
+		const bool toggleFullscreen = false);
 
 	bool SetRenderTarget(SpritePtr pTarget, const unsigned int target = 0);
 	unsigned int GetMaxRenderTargets() const;
@@ -473,19 +493,34 @@ public:
 	unsigned int FindClosestCarretPosition(const std::wstring& font, const std::wstring &text, const math::Vector2 &textPos, const math::Vector2 &reference);
 	bool DrawBitmapText(const math::Vector2 &v2Pos, const std::wstring& text, const std::wstring& font, const GS_COLOR& color, const float scale = 1.0f);
 
-	bool DrawLine(const math::Vector2 &p1, const math::Vector2 &p2, const GS_COLOR& color1, const GS_COLOR& color2);
-	bool DrawRectangle(const math::Vector2 &v2Pos, const math::Vector2 &v2Size,
-						const GS_COLOR& color, const float angle = 0.0f, const GS_ENTITY_ORIGIN origin = GSEO_DEFAULT);
-	bool DrawRectangle(const math::Vector2 &v2Pos, const math::Vector2 &v2Size,
-						const GS_COLOR& color0, const GS_COLOR& color1, const GS_COLOR& color2, const GS_COLOR& color3,
-						const float angle = 0.0f, const GS_ENTITY_ORIGIN origin = GSEO_DEFAULT);
+	bool DrawLine(const math::Vector2 &p1,
+		const math::Vector2 &p2,
+		const GS_COLOR& color1,
+		const GS_COLOR& color2);
+
+	bool DrawRectangle(
+		const math::Vector2& v2Pos,
+		const math::Vector2 &v2Size,
+		const GS_COLOR& color,
+		const float angle = 0.0f,
+		const GS_ENTITY_ORIGIN origin = GSEO_DEFAULT);
+
+	bool DrawRectangle(
+		const math::Vector2 &v2Pos,
+		const math::Vector2 &v2Size,
+		const GS_COLOR& color0,
+		const GS_COLOR& color1,
+		const GS_COLOR& color2,
+		const GS_COLOR& color3,
+		const float angle = 0.0f,
+		const GS_ENTITY_ORIGIN origin = GSEO_DEFAULT);
 
 	void SetBGColor(const GS_COLOR& backgroundColor);
 	GS_COLOR GetBGColor() const;
 
-	bool BeginSpriteScene(const GS_COLOR& bgColor = GS_ZERO);
+	bool BeginSpriteScene(const GS_COLOR& bgColor = constant::ZERO);
 	bool EndSpriteScene();
-	bool BeginTargetScene(const GS_COLOR& bgColor = GS_ZERO, const bool clear = true);
+	bool BeginTargetScene(const GS_COLOR& bgColor = constant::ZERO, const bool clear = true);
 	bool EndTargetScene();
 
 	bool SetAlphaMode(const GS_ALPHA_MODE mode);
@@ -539,7 +574,7 @@ private:
 			const std::wstring& winTitle, const bool windowed, const bool sync,
 			const GS_PIXEL_FORMAT pfBB, const bool maximizable);
 
-	bool BeginScene(const GS_COLOR& bgColor = GS_ZERO, const bool clear = true);
+	bool BeginScene(const GS_COLOR& bgColor = constant::ZERO, const bool clear = true);
 	bool EndScene(const bool swap = true);
 
 	BitmapFontPtr SeekBitmapFont(const str_type::string& font);

@@ -23,7 +23,7 @@
 #ifndef GS2D_MATH_H_
 #define GS2D_MATH_H_
 
-#include "gs2dtypes.h"
+#include "gs2dcolor.h"
 #include "MersenneTwister.h"
 
 #if defined(__ARM_NEON__)

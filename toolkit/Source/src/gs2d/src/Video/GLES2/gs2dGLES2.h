@@ -74,11 +74,11 @@ public:
 			const unsigned int height, const GS_TARGET_FORMAT fmt);
 
 	SpritePtr CreateSprite(GS_BYTE *pBuffer, const unsigned int bufferLength,
-			GS_COLOR mask = GS_ZERO, const unsigned int width = 0,
+			GS_COLOR mask = gs2d::constant::ZERO, const unsigned int width = 0,
 			const unsigned int height = 0);
 
 	SpritePtr CreateSprite(const str_type::string& fileName,
-			GS_COLOR mask = GS_ZERO, const unsigned int width = 0,
+			GS_COLOR mask = gs2d::constant::ZERO, const unsigned int width = 0,
 			const unsigned int height = 0);
 
 	SpritePtr CreateRenderTarget(const unsigned int width,
@@ -170,9 +170,9 @@ public:
 	void SetBGColor(const GS_COLOR& backgroundColor);
 	GS_COLOR GetBGColor() const;
 
-	bool BeginSpriteScene(const GS_COLOR& dwBGColor = GS_ZERO);
+	bool BeginSpriteScene(const GS_COLOR& dwBGColor = gs2d::constant::ZERO);
 	bool EndSpriteScene();
-	bool BeginTargetScene(const GS_COLOR& dwBGColor = GS_ZERO, const bool clear = true);
+	bool BeginTargetScene(const GS_COLOR& dwBGColor = gs2d::constant::ZERO, const bool clear = true);
 	bool EndTargetScene();
 
 	bool SetAlphaMode(const GS_ALPHA_MODE mode);

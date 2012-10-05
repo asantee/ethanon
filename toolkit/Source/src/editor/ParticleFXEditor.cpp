@@ -131,7 +131,7 @@ void ParticleEditor::DrawParticleSystem()
 
 	if (m_manager->Finished() || m_manager->Killed())
 	{
-		ShadowPrint(Vector2(200.0f, video->GetScreenSizeF().y/2), REPLAY_MESSAGE, L"Verdana14_shadow.fnt", GS_WHITE);
+		ShadowPrint(Vector2(200.0f, video->GetScreenSizeF().y/2), REPLAY_MESSAGE, L"Verdana14_shadow.fnt", gs2d::constant::WHITE);
 		if (input->GetKeyState(GSK_SPACE) == GSKS_HIT || input->GetLeftClickState() == GSKS_HIT)
 		{
 			m_manager->Play(m_v2Pos, Vector3(m_v2Pos, 0), m_systemAngle);
@@ -147,7 +147,7 @@ void ParticleEditor::DrawParticleSystem()
 	}
 	ss << L" | " << L"Active particles: " << m_manager->GetNumActiveParticles() << L"/" << m_manager->GetNumParticles();
 	const float infoTextSize = m_menuSize * m_menuScale;
-	ShadowPrint(Vector2(m_menuWidth*2+5,v2Screen.y-infoTextSize-m_menuSize), ss.str().c_str(), L"Verdana14_shadow.fnt", GS_WHITE);
+	ShadowPrint(Vector2(m_menuWidth*2+5,v2Screen.y-infoTextSize-m_menuSize), ss.str().c_str(), L"Verdana14_shadow.fnt", gs2d::constant::WHITE);
 }
 
 void ParticleEditor::SetupMenu()
@@ -582,7 +582,7 @@ void ParticleEditor::ParticlePanel()
 		float menu = m_menuSize*m_menuScale+(m_menuSize*2);
 
 		// places the alpha mode menu
-		ShadowPrint(Vector2(v2ScreenDim.x-m_alphaModes.GetWidth(), menu), L"Alpha mode:", L"Verdana14_shadow.fnt", GS_WHITE);
+		ShadowPrint(Vector2(v2ScreenDim.x-m_alphaModes.GetWidth(), menu), L"Alpha mode:", L"Verdana14_shadow.fnt", gs2d::constant::WHITE);
 		menu += m_menuSize;
 		m_alphaModes.PlaceMenu(Vector2(v2ScreenDim.x-m_alphaModes.GetWidth(), menu)); menu += m_alphaModes.GetNumButtons()*m_menuSize;
 
@@ -596,7 +596,7 @@ void ParticleEditor::ParticlePanel()
 
 		// places the sprite cut fields to the right
 		menu += m_menuSize/2;
-		ShadowPrint(Vector2(v2ScreenDim.x-m_alphaModes.GetWidth(), menu), L"Sprite cut:", L"Verdana14_shadow.fnt", GS_WHITE);
+		ShadowPrint(Vector2(v2ScreenDim.x-m_alphaModes.GetWidth(), menu), L"Sprite cut:", L"Verdana14_shadow.fnt", gs2d::constant::WHITE);
 		menu += m_menuSize;
 		m_system.v2SpriteCut.x = Max(1, static_cast<int>(m_spriteCut[0].PlaceInput(Vector2(v2ScreenDim.x-m_alphaModes.GetWidth(),menu)))); menu += m_menuSize;
 		m_system.v2SpriteCut.y = Max(1, static_cast<int>(m_spriteCut[1].PlaceInput(Vector2(v2ScreenDim.x-m_alphaModes.GetWidth(),menu)))); menu += m_menuSize;
@@ -616,10 +616,10 @@ void ParticleEditor::ParticlePanel()
 		// inputs all data
 		menu = m_menuSize*m_menuScale+(m_menuSize*2);
 		menu += m_menuSize/2;
-		ShadowPrint(Vector2(0.0f,menu), L"Particles:", L"Verdana14_shadow.fnt", GS_WHITE);
+		ShadowPrint(Vector2(0.0f,menu), L"Particles:", L"Verdana14_shadow.fnt", gs2d::constant::WHITE);
 		int nParticles = m_particles.PlaceInput(Vector2(m_menuWidth,menu)); menu += m_menuSize;
 
-		ShadowPrint(Vector2(0.0f,menu), L"Repeats:", L"Verdana14_shadow.fnt", GS_WHITE);
+		ShadowPrint(Vector2(0.0f,menu), L"Repeats:", L"Verdana14_shadow.fnt", gs2d::constant::WHITE);
 		m_system.repeat = m_repeats.PlaceInput(Vector2(m_menuWidth,menu)); menu += m_menuSize;
 		menu += m_menuSize/2;
 
@@ -701,7 +701,7 @@ string ParticleEditor::DoEditor(SpritePtr pNextAppButton)
 	video->SetCameraPos(Vector2(0,0));
 	video->SetBGColor(m_background);
 	if (m_backgroundSprite)
-		m_backgroundSprite->DrawShaped(Vector2(0,0), video->GetScreenSizeF(), GS_WHITE, GS_WHITE, GS_WHITE, GS_WHITE);
+		m_backgroundSprite->DrawShaped(Vector2(0,0), video->GetScreenSizeF(), gs2d::constant::WHITE, gs2d::constant::WHITE, gs2d::constant::WHITE, gs2d::constant::WHITE);
 	ParticlePanel();
 	DrawParticleSystem();
 	SetFileNameToTitle(video, WINDOW_TITLE);

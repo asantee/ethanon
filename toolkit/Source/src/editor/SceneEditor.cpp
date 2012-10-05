@@ -356,7 +356,7 @@ string SceneEditor::DoEditor(SpritePtr pNextAppButton)
 
 	if (m_entityFiles.empty())
 	{
-		ShadowPrint(Vector2(256,400), L"There are no entities\nCreate your .ENT files first", L"Verdana24_shadow.fnt", GS_WHITE);
+		ShadowPrint(Vector2(256,400), L"There are no entities\nCreate your .ENT files first", L"Verdana24_shadow.fnt", gs2d::constant::WHITE);
 	}
 
 	if (input->GetKeyState(GSK_DELETE) == GSKS_HIT && guiButtonsFree)
@@ -386,7 +386,7 @@ string SceneEditor::DoEditor(SpritePtr pNextAppButton)
 			stringstream ss;
 			ss << m_pSelected->GetID();
 
-			video->DrawBitmapText(Vector2(100,100), utf8::c(ss.str()).wstr(), L"Verdana20_shadow.fnt", GS_WHITE
+			video->DrawBitmapText(Vector2(100,100), utf8::c(ss.str()).wstr(), L"Verdana20_shadow.fnt", gs2d::constant::WHITE
 			);
 		}
 	#endif
@@ -541,7 +541,7 @@ void SceneEditor::EntitySelector(const bool guiButtonsFree)
 			m_richOutline->SetOrigin(GSEO_CENTER);
 			const Vector2 v2Pos = m_pSelected->ComputeInScreenSpriteCenter(*m_pScene->GetSceneProperties()) + video->GetCameraPos();
 			m_richOutline->DrawShaped(v2Pos, m_pSelected->GetCurrentSize(), dwColor, dwColor, dwColor, dwColor, m_pSelected->GetAngle());
-			DrawEntityString(m_pSelected, GS_WHITE);
+			DrawEntityString(m_pSelected, gs2d::constant::WHITE);
 
 			ShadowPrint(Vector2(m_guiX,m_guiY), L"Entity name:"); m_guiY += m_menuSize;
 			m_pSelected->ChangeEntityName(utf8::c(m_entityName.PlaceInput(Vector2(m_guiX,m_guiY))).wstr()); m_guiY += m_menuSize;
@@ -1142,7 +1142,7 @@ void SceneEditor::PlaceEntitySelection()
 		{
 			if (m_currentEntity->IsCollidable())
 			{
-				m_currentEntity->DrawCollisionBox(m_outline, GS_WHITE, m_sceneProps.zAxisDirection);
+				m_currentEntity->DrawCollisionBox(m_outline, gs2d::constant::WHITE, m_sceneProps.zAxisDirection);
 			}
 			else
 			{
@@ -1342,7 +1342,7 @@ void SceneEditor::DrawEntitySelectionGrid(SpritePtr pNextAppButton)
 
 			pSprite->SetOrigin(GSEO_CENTER);
 			pSprite->DrawShaped(v2Pos, v2NewSize,
-								GS_WHITE, GS_WHITE, GS_WHITE, GS_WHITE, 0.0f);
+								gs2d::constant::WHITE, gs2d::constant::WHITE, gs2d::constant::WHITE, gs2d::constant::WHITE, 0.0f);
 			//pSprite->SetRect(nFrame);
 
 			pSprite->SetOrigin(v2Origin);
@@ -1368,7 +1368,7 @@ void SceneEditor::DrawEntitySelectionGrid(SpritePtr pNextAppButton)
 				const float largestSize = Max(v2Size.x, v2Size.y);
 				const float bias = (largestSize / _ENTITY_SELECTION_BAR_HEIGHT);
 				const Vector2 v2NewSize = v2Size / bias;
-				m_soundWave->DrawShaped(v2Pos, v2NewSize, GS_WHITE, GS_WHITE, GS_WHITE, GS_WHITE, 0.0f);
+				m_soundWave->DrawShaped(v2Pos, v2NewSize, gs2d::constant::WHITE, gs2d::constant::WHITE, gs2d::constant::WHITE, gs2d::constant::WHITE, 0.0f);
 				break;
 			}
 		}
@@ -1475,7 +1475,7 @@ void SceneEditor::LoopThroughEntityList()
 			}
 			else if (pEntity->IsCollidable())
 			{
-				pEntity->DrawCollisionBox(m_outline, GS_WHITE, m_pScene->GetZAxisDirection());
+				pEntity->DrawCollisionBox(m_outline, gs2d::constant::WHITE, m_pScene->GetZAxisDirection());
 			}
 		}
 
@@ -1602,7 +1602,7 @@ void SceneEditor::OpenByFilename(const string& filename)
 
 void SceneEditor::ShowLightmapMessage()
 {
-	ShadowPrint(m_provider->GetVideo()->GetScreenSizeF()/2-Vector2(400,0), L"Generating lightmap. Please wait...", L"Verdana30_shadow.fnt", GS_WHITE);
+	ShadowPrint(m_provider->GetVideo()->GetScreenSizeF()/2-Vector2(400,0), L"Generating lightmap. Please wait...", L"Verdana30_shadow.fnt", gs2d::constant::WHITE);
 }
 
 void SceneEditor::CentralizeShortcut()

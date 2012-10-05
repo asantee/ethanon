@@ -506,10 +506,10 @@ bool ETHScene::DrawBucketOutlines()
 		const float width = video->GetLineWidth();
 		video->SetLineWidth(2.0f);
 		const Vector2 v2BucketPos = *bucketPositionIter * GetBucketSize() - video->GetCameraPos();
-		video->DrawLine(v2BucketPos, v2BucketPos + Vector2(GetBucketSize().x, 0.0f), GS_WHITE, GS_WHITE);
-		video->DrawLine(v2BucketPos, v2BucketPos + Vector2(0.0f, GetBucketSize().y), GS_WHITE, GS_WHITE);
-		video->DrawLine(v2BucketPos + GetBucketSize(), v2BucketPos + Vector2(0.0f, GetBucketSize().y), GS_WHITE, GS_WHITE);
-		video->DrawLine(v2BucketPos + GetBucketSize(), v2BucketPos + Vector2(GetBucketSize().x, 0.0f), GS_WHITE, GS_WHITE);
+		video->DrawLine(v2BucketPos, v2BucketPos + Vector2(GetBucketSize().x, 0.0f), gs2d::constant::WHITE, gs2d::constant::WHITE);
+		video->DrawLine(v2BucketPos, v2BucketPos + Vector2(0.0f, GetBucketSize().y), gs2d::constant::WHITE, gs2d::constant::WHITE);
+		video->DrawLine(v2BucketPos + GetBucketSize(), v2BucketPos + Vector2(0.0f, GetBucketSize().y), gs2d::constant::WHITE, gs2d::constant::WHITE);
+		video->DrawLine(v2BucketPos + GetBucketSize(), v2BucketPos + Vector2(GetBucketSize().x, 0.0f), gs2d::constant::WHITE, gs2d::constant::WHITE);
 		video->SetLineWidth(width);
 		
 		// draw bucket key
@@ -526,13 +526,13 @@ bool ETHScene::DrawBucketOutlines()
 		}
 
 		const Vector2 v2TextPos(*bucketPositionIter * GetBucketSize() - video->GetCameraPos());
-		video->DrawBitmapText(v2TextPos, ss.str(), ETH_DEFAULT_BITMAP_FONT, GS_WHITE);
+		video->DrawBitmapText(v2TextPos, ss.str(), ETH_DEFAULT_BITMAP_FONT, gs2d::constant::WHITE);
 	}
 
 	str_type::stringstream ss;
 	ss << GS_L("Visible buckets: ") << nVisibleBuckets;
 
-	video->DrawBitmapText(video->GetScreenSizeF()/2, ss.str(), ETH_DEFAULT_BITMAP_FONT, GS_WHITE);
+	video->DrawBitmapText(video->GetScreenSizeF()/2, ss.str(), ETH_DEFAULT_BITMAP_FONT, gs2d::constant::WHITE);
 	return true;
 }
 
@@ -638,7 +638,7 @@ bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline
 		{
 			if (pOutline && pRenderEntity->IsInvisible() && pRenderEntity->IsCollidable())
 			{
-				pRenderEntity->DrawCollisionBox(pOutline, GS_WHITE, m_sceneProps.zAxisDirection);
+				pRenderEntity->DrawCollisionBox(pOutline, gs2d::constant::WHITE, m_sceneProps.zAxisDirection);
 			}
 		}
 
@@ -653,7 +653,7 @@ bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline
 		{
 			if (pRenderEntity->IsInvisible() && pRenderEntity->IsCollidable())
 			{
-				pRenderEntity->DrawCollisionBox(pOutline, GS_WHITE, m_sceneProps.zAxisDirection);
+				pRenderEntity->DrawCollisionBox(pOutline, gs2d::constant::WHITE, m_sceneProps.zAxisDirection);
 			}
 			if (pRenderEntity->IsInvisible() && !pRenderEntity->IsCollidable() && !pRenderEntity->HasHalo())
 			{

@@ -217,7 +217,7 @@ void ETHScriptWrapper::SetParallaxOrigin(const Vector2 &parallaxOrigin)
 Vector2 ETHScriptWrapper::GetParallaxOrigin()
 {
 	if (WarnIfRunsInMainFunction(GS_L("GetParallaxOrigin")))
-		return constant::ZERO_VECTOR2;
+		return gs2d::math::constant::ZERO_VECTOR2;
 
 	return m_provider->GetShaderManager()->GetParallaxNormalizedOrigin();
 }

@@ -103,7 +103,7 @@ ETHDateTime *DateTimeFactory()
 float GetAngle(const Vector2 &v2)
 {
 	const float r = atan2f(v2.x, v2.y);
-	return (r<0) ? r+(2*constant::PI) : r;
+	return (r < 0) ? r + (2 * gs2d::math::constant::PI) : r;
 }
 
 void DummyAddRef()

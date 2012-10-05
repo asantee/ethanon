@@ -882,11 +882,11 @@ void EntityEditor::DrawEntityElementName(const Vector2 &v2Pos, SpritePtr pSprite
 	if (pSprite)
 	{
 		pSprite->SetOrigin(GSEO_DEFAULT);
-		pSprite->DrawShaped(v2Pos, Vector2(m_menuSize, m_menuSize), GS_WHITE, GS_WHITE, GS_WHITE, GS_WHITE);
+		pSprite->DrawShaped(v2Pos, Vector2(m_menuSize, m_menuSize), gs2d::constant::WHITE, gs2d::constant::WHITE, gs2d::constant::WHITE, gs2d::constant::WHITE);
 	}
 	m_provider->GetVideo()->DrawBitmapText(
 		v2Pos+Vector2(m_menuSize, 0), 
-		utf8::c(name).wc_str(), L"Verdana14_shadow.fnt", GS_WHITE
+		utf8::c(name).wc_str(), L"Verdana14_shadow.fnt", gs2d::constant::WHITE
 	);
 }
 
@@ -894,7 +894,7 @@ void EntityEditor::ShowEntityResources(Vector2 v2Pos)
 {
 	m_provider->GetVideo()->DrawBitmapText(
 		v2Pos, 
-		L"Resources:", L"Verdana14_shadow.fnt", GS_WHITE
+		L"Resources:", L"Verdana14_shadow.fnt", gs2d::constant::WHITE
 	);
 	v2Pos.x += m_menuSize/2;
 	v2Pos.y += m_menuSize;
@@ -926,7 +926,7 @@ void EntityEditor::ShowEntityResources(Vector2 v2Pos)
 
 		m_provider->GetVideo()->DrawBitmapText(
 			v2Pos, 
-			L"Particles:", L"Verdana14_shadow.fnt", GS_WHITE
+			L"Particles:", L"Verdana14_shadow.fnt", gs2d::constant::WHITE
 		);
 		v2Pos.y += m_menuSize;
 
@@ -1429,12 +1429,12 @@ void EntityEditor::DrawEntity()
 			m_pEditEntity->collision->size.y != 0.0f &&
 			m_pEditEntity->collision->size.z != 0.0f)
 		{
-			m_renderEntity->DrawCollisionBox(m_outline, GS_WHITE,	ETH_DEFAULT_ZDIRECTION);
+			m_renderEntity->DrawCollisionBox(m_outline, gs2d::constant::WHITE,	ETH_DEFAULT_ZDIRECTION);
 		}
 	}
 
 	m_sceneProps.ambient =
-		(m_pEditEntity->applyLight) ? Vector3(_ETH_DEFAULT_AMBIENT_LIGHT,_ETH_DEFAULT_AMBIENT_LIGHT,_ETH_DEFAULT_AMBIENT_LIGHT) : constant::ONE_VECTOR3;
+		(m_pEditEntity->applyLight) ? Vector3(_ETH_DEFAULT_AMBIENT_LIGHT,_ETH_DEFAULT_AMBIENT_LIGHT,_ETH_DEFAULT_AMBIENT_LIGHT) : math::constant::ONE_VECTOR3;
 
 	video->SetZWrite(true);
 	video->SetZBuffer(true);
@@ -1701,7 +1701,7 @@ void EntityEditor::UnloadGloss()
 
 void EntityEditor::ShadowPrint(const Vector2 &v2Pos, const wchar_t *text)
 {
-	m_provider->GetVideo()->DrawBitmapText(v2Pos, text, L"Verdana14_shadow.fnt", GS_WHITE);
+	m_provider->GetVideo()->DrawBitmapText(v2Pos, text, L"Verdana14_shadow.fnt", gs2d::constant::WHITE);
 }
 
 void EntityEditor::ShadowPrint(const Vector2 &v2Pos, const wchar_t *text, const wchar_t *font, const GS_DWORD color)

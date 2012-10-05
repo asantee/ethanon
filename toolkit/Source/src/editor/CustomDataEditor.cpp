@@ -122,7 +122,7 @@ void CustomDataEditor::InputVariableName(ETHEntity* pEntity, EditorBase *pEditor
 		wstringstream ss;
 		ss << ETHCustomDataManager::GetDataName(m_cdesState);
 		pEditor->ShadowPrint(v2Pos-Vector2(0.0f,m_inVariableName.GetSize()), ss.str().c_str(),
-			L"Verdana14_shadow.fnt", GS_BLACK);
+			L"Verdana14_shadow.fnt", gs2d::constant::BLACK);
 
 		// if it has just been unactivated
 		if (!m_inVariableName.IsActive())
@@ -284,7 +284,7 @@ void CustomDataEditor::EditVariable(ETHEntity* pEntity, EditorBase *pEditor)
 		wstringstream ss;
 		ss << ETHCustomDataManager::GetDataName(type) << L" " << r.text << L":";
 		pEditor->ShadowPrint(v2Pos-Vector2(0.0f,m_inValueInput.GetSize()), ss.str().c_str(),
-			L"Verdana14_shadow.fnt", GS_BLACK);
+			L"Verdana14_shadow.fnt", gs2d::constant::BLACK);
 	}
 	else
 	{
@@ -313,5 +313,5 @@ void CustomDataEditor::DrawInputFieldRect(const Vector2 &v2Pos,
 	const Vector2 v2Size(Vector2(pGui->GetWidth(), pGui->GetSize() * 2 + pEditor->GetMenuSize()) + v2BorderSize * 2);
 	const GSGUI_STYLE* style = pGui->GetGUIStyle();
 	video->DrawRectangle(v2FinalPos, v2Size, style->active_top, style->active_top, style->active_bottom, style->active_bottom);
-	pEditor->ShadowPrint(Vector2(v2FinalPos.x, v2FinalPos.y + v2Size.y - pEditor->GetMenuSize()), text, GS_BLACK);
+	pEditor->ShadowPrint(Vector2(v2FinalPos.x, v2FinalPos.y + v2Size.y - pEditor->GetMenuSize()), text, gs2d::constant::BLACK);
 }

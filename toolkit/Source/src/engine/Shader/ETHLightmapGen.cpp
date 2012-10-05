@@ -58,7 +58,7 @@ ETHLightmapGen::ETHLightmapGen(ETHRenderEntity* entity,
 
 	// Paint it black
 	video->SetRenderTarget(entity->m_pLightmap);
-	if (!video->BeginTargetScene(GS_BLACK))
+	if (!video->BeginTargetScene(gs2d::constant::BLACK))
 	{
 		ETH_STREAM_DECL(ss) << GS_L("ETHRenderEntity::GenerateLightmap: coudn't render to target.");
 		logger->Log(ss.str(), Platform::FileLogger::ERROR);
@@ -93,7 +93,7 @@ ETHLightmapGen::ETHLightmapGen(ETHRenderEntity* entity,
 			return;
 		}
 
-		if (!video->BeginTargetScene(GS_BLACK))
+		if (!video->BeginTargetScene(gs2d::constant::BLACK))
 		{
 			ETH_STREAM_DECL(ss) << GS_L("ETHRenderEntity::GenerateLightmap: coudn't render to temporary target.");
 			logger->Log(ss.str(), Platform::FileLogger::ERROR);
@@ -147,7 +147,7 @@ ETHLightmapGen::ETHLightmapGen(ETHRenderEntity* entity,
 
 		// draw the shadowed light by adding it to the final lightmap
 		video->SetRenderTarget(entity->m_pLightmap);
-		video->BeginTargetScene(GS_BLACK, false);
+		video->BeginTargetScene(gs2d::constant::BLACK, false);
 		const GS_ALPHA_MODE oldAM = video->GetAlphaMode();
 		video->SetAlphaMode(GSAM_ADD);
 		tempTarget->Draw(Vector2(0,0));

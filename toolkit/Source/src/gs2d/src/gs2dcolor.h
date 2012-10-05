@@ -20,52 +20,94 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#include "ETHDefaultDynamicBackBuffer.h"
+#ifndef GS2D_COLOR_H_
+#define GS2D_COLOR_H_
 
-ETHDefaultDynamicBackBuffer::ETHDefaultDynamicBackBuffer(const gs2d::VideoPtr& video, const gs2d::math::Vector2& size) :
-	m_video(video)
-{
-	m_target = video->CreateRenderTarget(static_cast<unsigned int>(size.x), static_cast<unsigned int>(size.y), gs2d::GSTF_DEFAULT);
-}
+#include "gs2dtypes.h"
 
-void ETHDefaultDynamicBackBuffer::BeginRendering()
+namespace gs2d {
+
+#pragma warning(push)
+#pragma warning(disable:4201)
+
+struct GS_COLOR
 {
-	gs2d::VideoPtr video = m_video.lock();
-	if (video)
+	GS_COLOR()
 	{
-		video->SetRenderTarget(m_target);
-		video->SetAlphaMode(gs2d::GSAM_PIXEL);
-		video->BeginTargetScene(gs2d::constant::ZERO, true);
+		color = 0;
 	}
-}
-
-void ETHDefaultDynamicBackBuffer::EndRendering()
-{
-	gs2d::VideoPtr video = m_video.lock();
-	if (video)
+	GS_COLOR(const GS_DWORD color)
 	{
-		video->EndTargetScene();
-		video->SetRenderTarget(gs2d::SpritePtr());
+		this->color = color;
 	}
-}
-
-void ETHDefaultDynamicBackBuffer::Present()
-{
-	gs2d::VideoPtr video = m_video.lock();
-	if (video)
+	GS_COLOR(const GS_BYTE na, const GS_BYTE nr, const GS_BYTE ng, const GS_BYTE nb)
 	{
-		video->BeginSpriteScene();
-
-		const gs2d::GS_ALPHA_MODE alpha = video->GetAlphaMode();
-		video->SetAlphaMode(gs2d::GSAM_NONE);
-		m_target->DrawShaped(video->GetCameraPos(), video->GetScreenSizeF(), 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0.0f);
-		video->SetAlphaMode(alpha);
-
-		video->EndSpriteScene();
+		a=na;
+		r=nr;
+		g=ng;
+		b=nb;
 	}
-}
+	void SetColor(const GS_BYTE na, const GS_BYTE nr, const GS_BYTE ng, const GS_BYTE nb)
+	{
+		a=na;
+		r=nr;
+		g=ng;
+		b=nb;
+	}
+	void SetColor(const GS_DWORD color)
+	{
+		this->color = color;
+	}
+	GS_COLOR &operator = (GS_DWORD color)
+	{
+		this->color = color;
+		return *this;
+	}
+	operator GS_DWORD () const
+	{
+		return color;
+	}
+	void SetAlpha(const GS_BYTE na)
+	{
+		a=na;
+	}
+	void SetRed(const GS_BYTE nr)
+	{
+		r=nr;
+	}
+	void SetGreen(const GS_BYTE ng)
+	{
+		g=ng;
+	}
+	void SetBlue(const GS_BYTE nb)
+	{
+		b=nb;
+	}
 
-bool ETHDefaultDynamicBackBuffer::MatchesScreenSize() const
-{
-	return false;
-}
+	union
+	{
+		struct
+		{
+			GS_BYTE b, g, r, a;
+		};
+		GS_DWORD color;
+	};
+};
+
+#pragma warning( pop )
+
+namespace constant {
+
+	const GS_COLOR ZERO(0x0);
+	const GS_COLOR BLACK(0xFF000000);
+	const GS_COLOR WHITE(0xFFFFFFFF);
+	const GS_COLOR RED(0xFFFF0000);
+	const GS_COLOR GREEN(0xFF00FF00);
+	const GS_COLOR BLUE(0xFF0000FF);
+	const GS_COLOR YELLOW(0xFFFFFF00);
+
+} // constant
+
+} // gs2d
+
+#endif

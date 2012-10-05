@@ -109,7 +109,7 @@ void GSGUI_STRING_INPUT::PlaceInput(const Vector2& pos, const std::wstring& font
 	const Vector2 cursorPosition = video->ComputeCarretPosition(font, ss, cursor);
 	video->DrawBitmapText(pos, ss, font, dwColor);
 	if (showingCarret==1)
-		video->DrawRectangle(cursorPosition+pos-Vector2(2,0), Vector2(2,size), GS_BLACK, GS_BLACK, GS_BLACK, GS_BLACK, 0.0f);
+		video->DrawRectangle(cursorPosition+pos-Vector2(2,0), Vector2(2,size), gs2d::constant::BLACK, gs2d::constant::BLACK, gs2d::constant::BLACK, gs2d::constant::BLACK, 0.0f);
 }
 
 void GSGUI_STRING_INPUT::Place(const Vector2& pos, const std::wstring& font,
@@ -1048,7 +1048,7 @@ float GSGUI_FLOAT_INPUT::PlaceInput(Vector2 v2Pos, Vector2 v2CommentPos, const f
 {
 	m_video->DrawBitmapText(
 		v2CommentPos, 
-		GetDescription().c_str(), L"Verdana14_shadow.fnt", GS_WHITE
+		GetDescription().c_str(), L"Verdana14_shadow.fnt", gs2d::constant::WHITE
 	);
 	return PlaceInput(v2Pos);
 }
@@ -1063,7 +1063,7 @@ float GSGUI_FLOAT_INPUT::PlaceInput(Vector2 v2Pos)
 
 	m_video->DrawBitmapText(
 		v2Pos + v2TextAdd, m_text.c_str(), 
-		L"Verdana14_shadow.fnt", GS_WHITE
+		L"Verdana14_shadow.fnt", gs2d::constant::WHITE
 	);
 
 	if (m_active)

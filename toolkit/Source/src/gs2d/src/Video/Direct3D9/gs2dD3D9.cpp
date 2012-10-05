@@ -563,7 +563,7 @@ bool D3D9Video::BeginSpriteScene(const GS_COLOR& bgColor)
 	{
 		Message(L"IDirect3DDevice9::BeginScene has failed");
 	}
-	m_pDevice->SetRenderState(D3DRS_AMBIENT, GS_WHITE);
+	m_pDevice->SetRenderState(D3DRS_AMBIENT, gs2d::constant::WHITE);
 	m_pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
 	for (unsigned int t=0; t<TEXTURE_CHANNELS; t++)
 		m_pDevice->SetSamplerState(t, D3DSAMP_MIPFILTER, D3DTEXF_POINT);
@@ -592,7 +592,7 @@ bool D3D9Video::BeginTargetScene(const GS_COLOR& bgColor, const bool clear)
 	{
 		Message(L"IDirect3DDevice9::BeginScene has failed");
 	}
-	m_pDevice->SetRenderState(D3DRS_AMBIENT, GS_WHITE);
+	m_pDevice->SetRenderState(D3DRS_AMBIENT, gs2d::constant::WHITE);
 	for (unsigned int t=0; t<TEXTURE_CHANNELS; t++)
 		m_pDevice->SetSamplerState(t, D3DSAMP_MIPFILTER, D3DTEXF_POINT);
 	m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
@@ -1722,7 +1722,7 @@ bool D3D9Video::StartApplication(const unsigned int width, const unsigned int he
 	m_defaultVS->SetConstant(L"cameraPos", GetCameraPos());
 
 	Orthogonal(m_videoInfo->m_orthoMatrix, GetScreenSizeF().x, GetScreenSizeF().y, ZNEAR, ZFAR);
-	SetBGColor(GS_BLACK);
+	SetBGColor(gs2d::constant::BLACK);
 
 	m_pDevice->GetRenderTarget(0, &m_videoInfo->m_pBackBuffer);
 	SetupShaderViewData(m_pDevice, GetVertexShader(), m_rectVS, m_fastVS);

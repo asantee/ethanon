@@ -24,6 +24,7 @@
 #define GS2D_SHADER_H_
 
 #include "gs2dmath.h"
+#include "gs2dcolor.h"
 #include <boost/shared_array.hpp>
 
 namespace gs2d {
