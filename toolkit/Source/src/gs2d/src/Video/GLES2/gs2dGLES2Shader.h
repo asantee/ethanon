@@ -27,14 +27,6 @@
 #include "../../Platform/Platform.h"
 #include "../../Platform/FileLogger.h"
 
-#ifdef APPLE_IOS
-  #include "../../Platform/ios/Platform.ios.h"
-#endif
-
-#ifdef ANDROID
-  #include "../../Platform/android/Platform.android.h"
-#endif
-
 #include "GLES2RectRenderer.h"
 #include "gs2dGLES2Texture.h"
 #include "GLES2UniformParameter.h"

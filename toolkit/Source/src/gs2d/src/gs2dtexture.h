@@ -42,6 +42,16 @@ enum GS_PIXEL_FORMAT
 	GSPF_DEFAULT = 3,
 };
 
+enum GS_BITMAP_FORMAT
+{
+	GSBF_BMP = 0,
+	GSBF_JPG = 1,
+	GSBF_PNG,
+	GSBF_TGA,
+	GSBF_DDS,
+	GSBF_HDR,
+};
+
 /**
  * \brief Stores a texture buffer to be used as source or target
  */

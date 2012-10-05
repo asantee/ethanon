@@ -27,11 +27,6 @@
 #include <list>
 #include "../gs2dtypes.h"
 
-#include <sstream>
-#include <fstream>
-#include <assert.h>
-#include <stdio.h>
-
 namespace gs2d {
 
 /*

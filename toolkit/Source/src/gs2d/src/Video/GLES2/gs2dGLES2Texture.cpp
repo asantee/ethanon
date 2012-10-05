@@ -75,10 +75,10 @@ void ApplyPixelMask(unsigned char *ht_map, const Color mask, const int channels,
 		const int numBytes = width * height * channels;
 		for (int i = 0; i < numBytes; i += channels)
 		{
-			unsigned char& r = ht_map[i+0];
-			unsigned char& g = ht_map[i+1];
-			unsigned char& b = ht_map[i+2];
-			unsigned char& a = ht_map[i+3];
+			unsigned char& r = ht_map[i + 0];
+			unsigned char& g = ht_map[i + 1];
+			unsigned char& b = ht_map[i + 2];
+			unsigned char& a = ht_map[i + 3];
 
 			if ((r == mask.r && g == mask.g && b == mask.b && mask.a == 0xFF)
 				|| (a == 0x0))
