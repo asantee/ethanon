@@ -59,14 +59,14 @@ public:
 		VideoWeakPtr video,
 		GS_BYTE *pBuffer,
 		const unsigned int bufferLength,
-		GS_COLOR mask = gs2d::constant::ZERO,
+		Color mask = gs2d::constant::ZERO,
 		const unsigned int width = 0,
 		const unsigned int height = 0);
 
 	bool LoadSprite(
 		VideoWeakPtr video,
 		const str_type::string& fileName,
-		GS_COLOR mask = gs2d::constant::ZERO,
+		Color mask = gs2d::constant::ZERO,
 		const unsigned int width = 0,
 		const unsigned int height = 0);
 
@@ -78,22 +78,22 @@ public:
 
 	bool Draw(
 		const math::Vector2 &v2Pos,
-		const GS_COLOR& color = gs2d::constant::WHITE,
+		const Color& color = gs2d::constant::WHITE,
 		const float angle = 0.0f,
 		const math::Vector2 &v2Scale = math::Vector2(1.0f,1.0f));
 
 	bool DrawShaped(
 		const math::Vector2 &v2Pos,
 		const math::Vector2 &v2Size,
-		const GS_COLOR& color0,
-		const GS_COLOR& color1,
-		const GS_COLOR& color2,
-		const GS_COLOR& color3,
+		const Color& color0,
+		const Color& color1,
+		const Color& color2,
+		const Color& color3,
 		const float angle = 0.0f);
 
 	bool DrawOptimal(
 		const math::Vector2 &v2Pos,
-		const GS_COLOR& color = gs2d::constant::WHITE,
+		const Color& color = gs2d::constant::WHITE,
 		const float angle = 0.0f,
 		const math::Vector2 &v2Size = math::Vector2(-1,-1));
 
@@ -101,12 +101,12 @@ public:
 		const math::Vector2 &a,
 		const math::Vector2 &b,
 		const float width,
-		const GS_COLOR& color0 = gs2d::constant::WHITE,
-		const GS_COLOR& color1 = gs2d::constant::WHITE);
+		const Color& color0 = gs2d::constant::WHITE,
+		const Color& color1 = gs2d::constant::WHITE);
 
 	bool SaveBitmap(const wchar_t *wcsName, const GS_BITMAP_FORMAT fmt, math::Rect2D *pRect = 0);
 
-	bool DrawShapedFast(const math::Vector2 &v2Pos, const math::Vector2 &v2Size, const GS_COLOR& color);
+	bool DrawShapedFast(const math::Vector2 &v2Pos, const math::Vector2 &v2Size, const Color& color);
 	void BeginFastRendering();
 	void EndFastRendering();
 

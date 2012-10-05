@@ -44,60 +44,87 @@ typedef boost::shared_ptr<GLES2ShaderContext> GLES2ShaderContextPtr;
 
 class GLES2Video : public Video, public Platform::NativeCommandForwarder
 {
-	GLES2Video(const unsigned int width, const unsigned int height,
-			const str_type::string& winTitle, const Platform::FileIOHubPtr& fileIOHub);
+	GLES2Video(
+		const unsigned int width,
+		const unsigned int height,
+		const str_type::string& winTitle,
+		const Platform::FileIOHubPtr& fileIOHub);
 
 	boost::weak_ptr<GLES2Video> weak_this;
 
 public:
-
 	static const float ZNEAR;
 	static const float ZFAR;
 	static const str_type::string VIDEO_LOG_FILE;
 	static const unsigned long ALPHAREF;
 
-	static boost::shared_ptr<GLES2Video> Create(const unsigned int width, const unsigned int height,
-			const str_type::string& winTitle, const Platform::FileIOHubPtr& fileIOHub);
+	static boost::shared_ptr<GLES2Video> Create(
+		const unsigned int width,
+		const unsigned int height,
+		const str_type::string& winTitle,
+		const Platform::FileIOHubPtr& fileIOHub);
 
 	static void CheckGLError(const str_type::string& op, const Platform::FileLogger& logger);
 
-	TexturePtr CreateTextureFromFileInMemory(const void *pBuffer,
-			const unsigned int bufferLength, GS_COLOR mask,
-			const unsigned int width = 0, const unsigned int height = 0,
-			const unsigned int nMipMaps = 0);
+	TexturePtr CreateTextureFromFileInMemory(
+		const void *pBuffer,
+		const unsigned int bufferLength,
+		Color mask,
+		const unsigned int width = 0,
+		const unsigned int height = 0,
+		const unsigned int nMipMaps = 0);
 
-	TexturePtr LoadTextureFromFile(const str_type::string& fileName,
-			GS_COLOR mask, const unsigned int width = 0,
-			const unsigned int height = 0, const unsigned int nMipMaps = 0);
+	TexturePtr LoadTextureFromFile(
+		const str_type::string& fileName,
+		Color mask,
+		const unsigned int width = 0,
+		const unsigned int height = 0,
+		const unsigned int nMipMaps = 0);
 
-	TexturePtr CreateRenderTargetTexture(const unsigned int width,
-			const unsigned int height, const GS_TARGET_FORMAT fmt);
+	TexturePtr CreateRenderTargetTexture(
+		const unsigned int width,
+		const unsigned int height,
+		const GS_TARGET_FORMAT fmt);
 
-	SpritePtr CreateSprite(GS_BYTE *pBuffer, const unsigned int bufferLength,
-			GS_COLOR mask = gs2d::constant::ZERO, const unsigned int width = 0,
-			const unsigned int height = 0);
+	SpritePtr CreateSprite(
+		GS_BYTE *pBuffer,
+		const unsigned int bufferLength,
+		Color mask = gs2d::constant::ZERO,
+		const unsigned int width = 0,
+		const unsigned int height = 0);
 
-	SpritePtr CreateSprite(const str_type::string& fileName,
-			GS_COLOR mask = gs2d::constant::ZERO, const unsigned int width = 0,
-			const unsigned int height = 0);
+	SpritePtr CreateSprite(
+		const str_type::string& fileName,
+		Color mask = gs2d::constant::ZERO,
+		const unsigned int width = 0,
+		const unsigned int height = 0);
 
-	SpritePtr CreateRenderTarget(const unsigned int width,
-			const unsigned int height,
-			const GS_TARGET_FORMAT format = GSTF_DEFAULT);
+	SpritePtr CreateRenderTarget(
+		const unsigned int width,
+		const unsigned int height,
+		const GS_TARGET_FORMAT format = GSTF_DEFAULT);
 
-	ShaderPtr LoadShaderFromFile(const str_type::string& fileName,
+	ShaderPtr LoadShaderFromFile(
+		const str_type::string& fileName,
 			const GS_SHADER_FOCUS focus,
 			const GS_SHADER_PROFILE profile = GSSP_HIGHEST,
 			const char *entry = 0);
 
-	ShaderPtr LoadShaderFromString(const str_type::string& shaderName,
-			const std::string& codeAsciiString, const GS_SHADER_FOCUS focus,
+	ShaderPtr LoadShaderFromString(
+		const str_type::string& shaderName,
+			const std::string& codeAsciiString,
+			const GS_SHADER_FOCUS focus,
 			const GS_SHADER_PROFILE profile = GSSP_HIGHEST,
 			const char *entry = 0);
 
-	GLES2ShaderPtr LoadGLES2ShaderFromFile(const str_type::string& fileName, const GS_SHADER_FOCUS focus);
+	GLES2ShaderPtr LoadGLES2ShaderFromFile(
+		const str_type::string& fileName,
+		const GS_SHADER_FOCUS focus);
 
-	GLES2ShaderPtr LoadGLES2ShaderFromString(const str_type::string& shaderName, const std::string& codeAsciiString, const GS_SHADER_FOCUS focus);
+	GLES2ShaderPtr LoadGLES2ShaderFromString(
+		const str_type::string& shaderName,
+		const std::string& codeAsciiString,
+		const GS_SHADER_FOCUS focus);
 
 	boost::any GetVideoInfo();
 
@@ -119,8 +146,16 @@ public:
 
 	VIDEO_MODE GetVideoMode(const unsigned int modeIdx) const;
 	unsigned int GetVideoModeCount();
-	bool ResetVideoMode(const VIDEO_MODE& mode, const bool toggleFullscreen = false);
-	bool ResetVideoMode(const unsigned int width, const unsigned int height, const GS_PIXEL_FORMAT pfBB, const bool toggleFullscreen = false);
+
+	bool ResetVideoMode(
+		const VIDEO_MODE& mode,
+		const bool toggleFullscreen = false);
+
+	bool ResetVideoMode(
+		const unsigned int width,
+		const unsigned int height,
+		const GS_PIXEL_FORMAT pfBB,
+		const bool toggleFullscreen = false);
 
 	bool SetRenderTarget(SpritePtr pTarget, const unsigned int target = 0);
 	unsigned int GetMaxRenderTargets() const;
@@ -156,23 +191,55 @@ public:
 	math::Rect2D GetScissor() const;
 	void UnsetScissor();
 
-	math::Vector2 ComputeCarretPosition(const str_type::string& font, const str_type::string& text, const unsigned int pos);
+	math::Vector2 ComputeCarretPosition(
+		const str_type::string& font,
+		const str_type::string& text,
+		const unsigned int pos);
+
 	math::Vector2 ComputeTextBoxSize(const str_type::string& font, const str_type::string& text);
-	unsigned int FindClosestCarretPosition(const str_type::string& font, const str_type::string &text, const math::Vector2 &textPos,
-			const math::Vector2 &reference);
-	bool DrawBitmapText(const math::Vector2 &v2Pos, const str_type::string& text, const str_type::string& font, const GS_COLOR& color, const float scale);
-	bool DrawLine(const math::Vector2 &p1, const math::Vector2 &p2, const GS_COLOR& color1, const GS_COLOR& color2);
-	bool DrawRectangle(const math::Vector2 &v2Pos, const math::Vector2 &v2Size,	const GS_COLOR& color, const float angle = 0.0f,
-			const GS_ENTITY_ORIGIN origin = GSEO_DEFAULT);
-	bool DrawRectangle(const math::Vector2 &v2Pos, const math::Vector2 &v2Size,	const GS_COLOR& color0, const GS_COLOR& color1,
-			const GS_COLOR& color2, const GS_COLOR& color3, const float angle = 0.0f,	const GS_ENTITY_ORIGIN origin = GSEO_DEFAULT);
 
-	void SetBGColor(const GS_COLOR& backgroundColor);
-	GS_COLOR GetBGColor() const;
+	unsigned int FindClosestCarretPosition(
+		const str_type::string& font,
+		const str_type::string &text,
+		const math::Vector2 &textPos,
+		const math::Vector2 &reference);
 
-	bool BeginSpriteScene(const GS_COLOR& dwBGColor = gs2d::constant::ZERO);
+	bool DrawBitmapText(
+		const math::Vector2 &v2Pos,
+		const str_type::string& text,
+		const str_type::string& font,
+		const Color& color,
+		const float scale);
+
+	bool DrawLine(
+		const math::Vector2 &p1,
+		const math::Vector2 &p2,
+		const Color& color1,
+		const Color& color2);
+
+	bool DrawRectangle(
+		const math::Vector2 &v2Pos,
+		const math::Vector2 &v2Size,
+		const Color& color,
+		const float angle = 0.0f,
+		const GS_ENTITY_ORIGIN origin = GSEO_DEFAULT);
+
+	bool DrawRectangle(
+		const math::Vector2 &v2Pos,
+		const math::Vector2 &v2Size,
+		const Color& color0,
+		const Color& color1,
+		const Color& color2,
+		const Color& color3,
+		const float angle = 0.0f,
+		const GS_ENTITY_ORIGIN origin = GSEO_DEFAULT);
+
+	void SetBGColor(const Color& backgroundColor);
+	Color GetBGColor() const;
+
+	bool BeginSpriteScene(const Color& dwBGColor = gs2d::constant::ZERO);
 	bool EndSpriteScene();
-	bool BeginTargetScene(const GS_COLOR& dwBGColor = gs2d::constant::ZERO, const bool clear = true);
+	bool BeginTargetScene(const Color& dwBGColor = gs2d::constant::ZERO, const bool clear = true);
 	bool EndTargetScene();
 
 	bool SetAlphaMode(const GS_ALPHA_MODE mode);
@@ -229,7 +296,7 @@ private:
 
 	math::Vector2 GetCurrentTargetSize() const;
 
-	GS_COLOR m_backgroundColor;
+	Color m_backgroundColor;
 	GS_ALPHA_MODE m_alphaMode;
 
 	math::Vector2i m_screenSize;
@@ -270,10 +337,14 @@ private:
 
 	BitmapFontPtr SeekBitmapFont(const str_type::string& font);
 	
-	bool StartApplication(const unsigned int width, const unsigned int height,
-			const str_type::string& winTitle, const bool windowed,
-			const bool sync, const GS_PIXEL_FORMAT pfBB = GSPF_UNKNOWN,
-			const bool maximizable = false);
+	bool StartApplication(
+		const unsigned int width,
+		const unsigned int height,
+		const str_type::string& winTitle,
+		const bool windowed,
+		const bool sync,
+		const GS_PIXEL_FORMAT pfBB = GSPF_UNKNOWN,
+		const bool maximizable = false);
 
 	Platform::FileIOHubPtr GetFileIOHub();
 

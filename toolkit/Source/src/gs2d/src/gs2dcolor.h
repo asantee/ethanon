@@ -30,58 +30,68 @@ namespace gs2d {
 #pragma warning(push)
 #pragma warning(disable:4201)
 
-struct GS_COLOR
+struct Color
 {
-	GS_COLOR()
+	Color()
 	{
 		color = 0;
 	}
-	GS_COLOR(const GS_DWORD color)
+
+	Color(const GS_DWORD color)
 	{
 		this->color = color;
 	}
-	GS_COLOR(const GS_BYTE na, const GS_BYTE nr, const GS_BYTE ng, const GS_BYTE nb)
+
+	Color(const GS_BYTE na, const GS_BYTE nr, const GS_BYTE ng, const GS_BYTE nb)
 	{
-		a=na;
-		r=nr;
-		g=ng;
-		b=nb;
+		a = na;
+		r = nr;
+		g = ng;
+		b = nb;
 	}
+
 	void SetColor(const GS_BYTE na, const GS_BYTE nr, const GS_BYTE ng, const GS_BYTE nb)
 	{
-		a=na;
-		r=nr;
-		g=ng;
-		b=nb;
+		a = na;
+		r = nr;
+		g = ng;
+		b = nb;
 	}
+
 	void SetColor(const GS_DWORD color)
 	{
 		this->color = color;
 	}
-	GS_COLOR &operator = (GS_DWORD color)
+
+	Color &operator = (GS_DWORD color)
 	{
 		this->color = color;
 		return *this;
 	}
+
 	operator GS_DWORD () const
 	{
 		return color;
 	}
+
 	void SetAlpha(const GS_BYTE na)
 	{
-		a=na;
+		a = na;
 	}
+
 	void SetRed(const GS_BYTE nr)
 	{
-		r=nr;
+		r = nr;
 	}
+
 	void SetGreen(const GS_BYTE ng)
 	{
-		g=ng;
+		g = ng;
 	}
+
 	void SetBlue(const GS_BYTE nb)
 	{
-		b=nb;
+		b = nb;
 	}
 
 	union
@@ -98,13 +108,13 @@ struct GS_COLOR
 
 namespace constant {
 
-	const GS_COLOR ZERO(0x0);
-	const GS_COLOR BLACK(0xFF000000);
-	const GS_COLOR WHITE(0xFFFFFFFF);
-	const GS_COLOR RED(0xFFFF0000);
-	const GS_COLOR GREEN(0xFF00FF00);
-	const GS_COLOR BLUE(0xFF0000FF);
-	const GS_COLOR YELLOW(0xFFFFFF00);
+	const Color ZERO(0x0);
+	const Color BLACK(0xFF000000);
+	const Color WHITE(0xFFFFFFFF);
+	const Color RED(0xFFFF0000);
+	const Color GREEN(0xFF00FF00);
+	const Color BLUE(0xFF0000FF);
+	const Color YELLOW(0xFFFFFF00);
 
 } // constant
 

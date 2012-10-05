@@ -267,7 +267,7 @@ public:
 	virtual TexturePtr CreateTextureFromFileInMemory(
 		const void *pBuffer,
 		const unsigned int bufferLength,
-		GS_COLOR mask,
+		Color mask,
 		const unsigned int width = 0,
 		const unsigned int height = 0,
 		const unsigned int nMipMaps = 0) = 0;
@@ -275,7 +275,7 @@ public:
 	/// Loads the texture from a file in a hard disk
 	virtual TexturePtr LoadTextureFromFile(
 		const str_type::string& fileName,
-		GS_COLOR mask,
+		Color mask,
 		const unsigned int width = 0,
 		const unsigned int height = 0,
 		const unsigned int nMipMaps = 0) = 0;
@@ -290,14 +290,14 @@ public:
 	virtual SpritePtr CreateSprite(
 		GS_BYTE *pBuffer,
 		const unsigned int bufferLength,
-		GS_COLOR mask = constant::ZERO,
+		Color mask = constant::ZERO,
 		const unsigned int width = 0,
 		const unsigned int height = 0) = 0;
 
 	/// Creates a sprite from a texture in a file
 	virtual SpritePtr CreateSprite(
 		const str_type::string& fileName,
-		GS_COLOR mask = constant::ZERO,
+		Color mask = constant::ZERO,
 		const unsigned int width = 0,
 		const unsigned int height = 0) = 0;
 
@@ -397,34 +397,34 @@ public:
 		const math::Vector2 &v2Pos,
 		const str_type::string& text,
 		const str_type::string& font,
-		const GS_COLOR& color,
+		const Color& color,
 		const float scale = 1.0f) = 0;
 
-	virtual bool DrawLine(const math::Vector2 &p1, const math::Vector2 &p2, const GS_COLOR& color1, const GS_COLOR& color2) = 0;
+	virtual bool DrawLine(const math::Vector2 &p1, const math::Vector2 &p2, const Color& color1, const Color& color2) = 0;
 
 	virtual bool DrawRectangle(
 		const math::Vector2 &v2Pos,
 		const math::Vector2 &v2Size,
-		const GS_COLOR& color,
+		const Color& color,
 		const float angle = 0.0f,
 		const GS_ENTITY_ORIGIN origin = GSEO_DEFAULT) = 0;
 
 	virtual bool DrawRectangle(
 		const math::Vector2 &v2Pos,
 		const math::Vector2 &v2Size,
-		const GS_COLOR& color0,
-		const GS_COLOR& color1,
-		const GS_COLOR& color2,
-		const GS_COLOR& color3,
+		const Color& color0,
+		const Color& color1,
+		const Color& color2,
+		const Color& color3,
 		const float angle = 0.0f,
 		const GS_ENTITY_ORIGIN origin = GSEO_DEFAULT) = 0;
 
-	virtual void SetBGColor(const GS_COLOR& backgroundColor) = 0;
-	virtual GS_COLOR GetBGColor() const = 0;
+	virtual void SetBGColor(const Color& backgroundColor) = 0;
+	virtual Color GetBGColor() const = 0;
 
-	virtual bool BeginSpriteScene(const GS_COLOR& dwBGColor = constant::ZERO) = 0;
+	virtual bool BeginSpriteScene(const Color& dwBGColor = constant::ZERO) = 0;
 	virtual bool EndSpriteScene() = 0;
-	virtual bool BeginTargetScene(const GS_COLOR& dwBGColor = constant::ZERO, const bool clear = true) = 0;
+	virtual bool BeginTargetScene(const Color& dwBGColor = constant::ZERO, const bool clear = true) = 0;
 	virtual bool EndTargetScene() = 0;
 
 	virtual bool SetAlphaMode(const GS_ALPHA_MODE mode) = 0;
@@ -468,7 +468,7 @@ public:
 			mask = 0xFF000000;
 			width = height = nMipMaps = originalWidth = originalHeight = 0;
 		}
-		GS_COLOR mask;
+		Color mask;
 		unsigned int width, height, nMipMaps,
 			originalWidth, originalHeight;
 	};
@@ -496,7 +496,7 @@ public:
 	virtual bool LoadTexture(
 		VideoWeakPtr video,
 		const str_type::string& fileName,
-		GS_COLOR mask,
+		Color mask,
 		const unsigned int width = 0,
 		const unsigned int height = 0,
 		const unsigned int nMipMaps = 0) = 0;
@@ -504,7 +504,7 @@ public:
 	virtual bool LoadTexture(
 		VideoWeakPtr video,
 		const void* pBuffer,
-		GS_COLOR mask,
+		Color mask,
 		const unsigned int width,
 		const unsigned int height,
 		const unsigned int nMipMaps,
@@ -534,14 +534,14 @@ public:
 		VideoWeakPtr video,
 		GS_BYTE *pBuffer,
 		const unsigned int bufferLength,
-		GS_COLOR mask = constant::ZERO,
+		Color mask = constant::ZERO,
 		const unsigned int width = 0,
 		const unsigned int height = 0) = 0;
 
 	virtual bool LoadSprite(
 		VideoWeakPtr video,
 		const str_type::string& fileName,
-		GS_COLOR mask = constant::ZERO,
+		Color mask = constant::ZERO,
 		const unsigned int width = 0,
 		const unsigned int height = 0) = 0;
 
@@ -553,36 +553,36 @@ public:
 
 	virtual bool Draw(
 		const math::Vector2 &v2Pos,
-		const GS_COLOR& color = constant::WHITE,
+		const Color& color = constant::WHITE,
 		const float angle = 0.0f,
 		const math::Vector2& v2Scale = math::Vector2(1.0f,1.0f)) = 0;
 
 	virtual bool DrawShaped(
 		const math::Vector2 &v2Pos,
 		const math::Vector2 &v2Size,
-		const GS_COLOR& color0,
-		const GS_COLOR& color1,
-		const GS_COLOR& color2,
-		const GS_COLOR& color3,
+		const Color& color0,
+		const Color& color1,
+		const Color& color2,
+		const Color& color3,
 		 const float angle = 0.0f) = 0;
 
 	virtual bool Stretch(
 		const math::Vector2 &a,
 		const math::Vector2 &b,
 		const float width,
-	   const GS_COLOR& color0 = constant::WHITE,
-	   const GS_COLOR& color1 = constant::WHITE) = 0;
+	   const Color& color0 = constant::WHITE,
+	   const Color& color1 = constant::WHITE) = 0;
 
 	virtual bool SaveBitmap(
 		const wchar_t *wcsName,
 		const GS_BITMAP_FORMAT fmt,
 		math::Rect2D *pRect = 0) = 0;
 
-	virtual bool DrawShapedFast(const math::Vector2 &v2Pos, const math::Vector2 &v2Size, const GS_COLOR& color) = 0;
+	virtual bool DrawShapedFast(const math::Vector2 &v2Pos, const math::Vector2 &v2Size, const Color& color) = 0;
 
 	virtual bool DrawOptimal(
 		const math::Vector2 &v2Pos,
-		const GS_COLOR& color = constant::WHITE,
+		const Color& color = constant::WHITE,
 		const float angle = 0.0f,
 		const math::Vector2 &v2Size = math::Vector2(-1,-1)) = 0;
 
@@ -694,7 +694,7 @@ public:
 	math::Vector2 DrawBitmapText(
 		const math::Vector2 &pos,
 		const str_type::string& text,
-		const GS_COLOR& color,
+		const Color& color,
 		const float scale = 1.0f);
 
 	math::Vector2 ComputeTextBoxSize(const str_type::string &text);

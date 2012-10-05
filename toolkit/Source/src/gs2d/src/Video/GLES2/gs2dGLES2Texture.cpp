@@ -68,7 +68,7 @@ void CheckFrameBufferStatus(const Platform::FileLogger& logger, const GLuint fbo
 	}
 }
 
-void ApplyPixelMask(unsigned char *ht_map, const GS_COLOR mask, const int channels, const int width, const int height)
+void ApplyPixelMask(unsigned char *ht_map, const Color mask, const int channels, const int width, const int height)
 {
 	if (channels == 4)
 	{
@@ -188,8 +188,13 @@ bool GLES2Texture::CreateRenderTarget(VideoWeakPtr video, const unsigned int wid
 	return true;
 }
 
-bool GLES2Texture::LoadTexture(VideoWeakPtr video, const str_type::string& fileName, GS_COLOR mask,
-		const unsigned int width, const unsigned int height, const unsigned int nMipMaps)
+bool GLES2Texture::LoadTexture(
+	VideoWeakPtr video,
+	const str_type::string& fileName,
+	Color mask,
+	const unsigned int width,
+	const unsigned int height,
+	const unsigned int nMipMaps)
 {
 	m_logger.Log(str_type::string("\n___________________\n") + fileName + " loading texture...", Platform::FileLogger::INFO);
 
@@ -204,9 +209,14 @@ bool GLES2Texture::LoadTexture(VideoWeakPtr video, const str_type::string& fileN
 	return LoadTexture(video, out->GetAddress(), mask, width, height, nMipMaps, out->GetBufferSize());
 }
 
-bool GLES2Texture::LoadTexture(VideoWeakPtr video, const void * pBuffer, GS_COLOR mask,
-		const unsigned int width, const unsigned int height, const unsigned int nMipMaps,
-		const unsigned int bufferLength)
+bool GLES2Texture::LoadTexture(
+	VideoWeakPtr video,
+	const void* pBuffer,
+	Color mask,
+	const unsigned int width,
+	const unsigned int height,
+	const unsigned int nMipMaps,
+	const unsigned int bufferLength)
 {
 	int iWidth, iHeight, channels;
 	unsigned char *ht_map = SOIL_load_image_from_memory((unsigned char*)pBuffer, bufferLength, &iWidth, &iHeight, &channels, SOIL_LOAD_AUTO);

@@ -320,7 +320,7 @@ class D3D9Video : public Video
 
 	math::Vector2i m_screenDim;
 	math::Vector2i m_windowPos;
-	GS_COLOR m_backgroundColor;
+	Color m_backgroundColor;
 	float m_fpsRate;
 	bool m_quit;
 	std::vector<GS_BLEND_MODE> m_blendModes;
@@ -384,12 +384,12 @@ public:
 			const Platform::FileIOHubPtr& fileIOHub);
 
 	/// Instantiate a texture object and load the texture from a file in memory (supported formats: .dds, .bmp, .png, .jpg/jpeg).
-	TexturePtr CreateTextureFromFileInMemory(const void *pBuffer, const unsigned int bufferLength, GS_COLOR mask,
+	TexturePtr CreateTextureFromFileInMemory(const void *pBuffer, const unsigned int bufferLength, Color mask,
 				 const unsigned int width = 0, const unsigned int height = 0,
 				 const unsigned int nMipMaps = 0);
 
 	/// Instantiate a texture object and load the texture from a file in a hard disk (supported formats: .dds, .bmp, .png, .jpg/jpeg).
-	TexturePtr LoadTextureFromFile(const std::wstring& fileName, GS_COLOR mask,
+	TexturePtr LoadTextureFromFile(const std::wstring& fileName, Color mask,
 				 const unsigned int width = 0, const unsigned int height = 0,
 				 const unsigned int nMipMaps = 0);
 
@@ -400,14 +400,14 @@ public:
 	SpritePtr CreateSprite(
 		GS_BYTE *pBuffer,
 		const unsigned int bufferLength,
-		GS_COLOR mask = constant::ZERO,
+		Color mask = constant::ZERO,
 		const unsigned int width = 0,
 		const unsigned int height = 0);
 
 	/// Creates a sprite from a texture in virtual memory
 	SpritePtr CreateSprite(
 		const std::wstring& fileName,
-		GS_COLOR mask = constant::ZERO,
+		Color mask = constant::ZERO,
 		const unsigned int width = 0,
 		const unsigned int height = 0);
 
@@ -491,36 +491,36 @@ public:
 	math::Vector2 ComputeCarretPosition(const std::wstring& font, const std::wstring& text, const unsigned int pos);
 	math::Vector2 ComputeTextBoxSize(const std::wstring& font, const std::wstring& text);
 	unsigned int FindClosestCarretPosition(const std::wstring& font, const std::wstring &text, const math::Vector2 &textPos, const math::Vector2 &reference);
-	bool DrawBitmapText(const math::Vector2 &v2Pos, const std::wstring& text, const std::wstring& font, const GS_COLOR& color, const float scale = 1.0f);
+	bool DrawBitmapText(const math::Vector2 &v2Pos, const std::wstring& text, const std::wstring& font, const Color& color, const float scale = 1.0f);
 
 	bool DrawLine(const math::Vector2 &p1,
 		const math::Vector2 &p2,
-		const GS_COLOR& color1,
-		const GS_COLOR& color2);
+		const Color& color1,
+		const Color& color2);
 
 	bool DrawRectangle(
 		const math::Vector2& v2Pos,
 		const math::Vector2 &v2Size,
-		const GS_COLOR& color,
+		const Color& color,
 		const float angle = 0.0f,
 		const GS_ENTITY_ORIGIN origin = GSEO_DEFAULT);
 
 	bool DrawRectangle(
 		const math::Vector2 &v2Pos,
 		const math::Vector2 &v2Size,
-		const GS_COLOR& color0,
-		const GS_COLOR& color1,
-		const GS_COLOR& color2,
-		const GS_COLOR& color3,
+		const Color& color0,
+		const Color& color1,
+		const Color& color2,
+		const Color& color3,
 		const float angle = 0.0f,
 		const GS_ENTITY_ORIGIN origin = GSEO_DEFAULT);
 
-	void SetBGColor(const GS_COLOR& backgroundColor);
-	GS_COLOR GetBGColor() const;
+	void SetBGColor(const Color& backgroundColor);
+	Color GetBGColor() const;
 
-	bool BeginSpriteScene(const GS_COLOR& bgColor = constant::ZERO);
+	bool BeginSpriteScene(const Color& bgColor = constant::ZERO);
 	bool EndSpriteScene();
-	bool BeginTargetScene(const GS_COLOR& bgColor = constant::ZERO, const bool clear = true);
+	bool BeginTargetScene(const Color& bgColor = constant::ZERO, const bool clear = true);
 	bool EndTargetScene();
 
 	bool SetAlphaMode(const GS_ALPHA_MODE mode);
@@ -574,7 +574,7 @@ private:
 			const std::wstring& winTitle, const bool windowed, const bool sync,
 			const GS_PIXEL_FORMAT pfBB, const bool maximizable);
 
-	bool BeginScene(const GS_COLOR& bgColor = constant::ZERO, const bool clear = true);
+	bool BeginScene(const Color& bgColor = constant::ZERO, const bool clear = true);
 	bool EndScene(const bool swap = true);
 
 	BitmapFontPtr SeekBitmapFont(const str_type::string& font);

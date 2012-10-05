@@ -73,15 +73,15 @@ public:
 
 	float GetMenuSize() const;
 	float GetMenuWidth() const;
-	GS_COLOR GetBGColor() const;
+	Color GetBGColor() const;
 
-	bool DrawTab(VideoPtr video, InputPtr input, const Vector2 &v2Pos, const float width, const wstring &text, GS_COLOR color);
+	bool DrawTab(VideoPtr video, InputPtr input, const Vector2 &v2Pos, const float width, const wstring &text, Color color);
 
 	void SaveAttributeToInfoFile(const string &programPath, const string &entity, const string &attrib, const string &value);
 	string GetAttributeFromInfoFile(const string &programPath, const string &entity, const string &attrib);
 
-	void ShadowPrint(Vector2 v2Pos, const wchar_t *text, const GS_COLOR& color = gs2d::constant::WHITE) const;
-	void ShadowPrint(Vector2 v2Pos, const wchar_t *text, const wchar_t *font, const GS_COLOR& color) const;
+	void ShadowPrint(Vector2 v2Pos, const wchar_t *text, const Color& color = gs2d::constant::WHITE) const;
+	void ShadowPrint(Vector2 v2Pos, const wchar_t *text, const wchar_t *font, const Color& color) const;
 
 	VideoPtr GetVideoHandler();
 	InputPtr GetInputHandler();
@@ -95,7 +95,7 @@ protected:
 	const float m_menuSize;
 	const float m_menuWidth;
 	const float m_menuScale;
-	GS_COLOR m_background;
+	Color m_background;
 
 	bool IsFileMenuActive() const;
 	bool IsMouseOverFileMenu() const;

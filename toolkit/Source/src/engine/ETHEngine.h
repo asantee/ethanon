@@ -40,7 +40,7 @@ namespace gs2d {
 
 class ETHEngine : public gs2d::BaseApplication, public ETHScriptWrapper
 {
-	GS_COLOR m_lastBGColor;
+	Color m_lastBGColor;
 
 	const str_type::string ETH_DEFAULT_MAIN_SCRIPT_FILE;
 	const str_type::string ETH_DEFAULT_MAIN_BYTECODE_FILE;

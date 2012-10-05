@@ -95,7 +95,7 @@ class ParticleEditor : public EditorBase
 	void DeleteSoundFX();
 	void ResetSystem();
 
-	const GS_COLOR BSPHERE_COLOR;
+	const Color BSPHERE_COLOR;
 	const string BSPHERE_BMP;
 
 	ETHSpeedTimer m_timer;

@@ -215,7 +215,7 @@ boost::shared_ptr<D3D9Video> D3D9Video::Create(const unsigned int width, const u
 	return p;
 }
 
-TexturePtr D3D9Video::CreateTextureFromFileInMemory(const void *pBuffer, const unsigned int bufferLength, GS_COLOR mask,
+TexturePtr D3D9Video::CreateTextureFromFileInMemory(const void *pBuffer, const unsigned int bufferLength, Color mask,
 			 const unsigned int width, const unsigned int height, const unsigned int nMipMaps)
 {
 	TexturePtr texture(new D3D9Texture);
@@ -226,7 +226,7 @@ TexturePtr D3D9Video::CreateTextureFromFileInMemory(const void *pBuffer, const u
 	return TexturePtr();
 }
 
-TexturePtr D3D9Video::LoadTextureFromFile(const std::wstring& fileName, GS_COLOR mask,
+TexturePtr D3D9Video::LoadTextureFromFile(const std::wstring& fileName, Color mask,
 			 const unsigned int width, const unsigned int height, const unsigned int nMipMaps)
 {
 	TexturePtr texture(new D3D9Texture);
@@ -248,7 +248,7 @@ TexturePtr D3D9Video::CreateRenderTargetTexture(const unsigned int width, const 
 }
 
 SpritePtr D3D9Video::CreateSprite(GS_BYTE *pBuffer, const unsigned int bufferLength,
-					GS_COLOR mask, const unsigned int width, const unsigned int height)
+					Color mask, const unsigned int width, const unsigned int height)
 {
 	SpritePtr sprite(new D3D9Sprite);
 	if (sprite->LoadSprite(weak_this, pBuffer, bufferLength, mask, width, height))
@@ -259,7 +259,7 @@ SpritePtr D3D9Video::CreateSprite(GS_BYTE *pBuffer, const unsigned int bufferLen
 }
 
 SpritePtr D3D9Video::CreateSprite(const std::wstring& fileName,
-				GS_COLOR mask, const unsigned int width, const unsigned int height)
+				Color mask, const unsigned int width, const unsigned int height)
 {
 	SpritePtr sprite(new D3D9Sprite);
 	if (sprite->LoadSprite(weak_this, fileName, mask, width, height))
@@ -486,12 +486,12 @@ bool D3D9Video::QuitShortcutsEnabled()
 	return m_videoInfo->m_quitKeysEnabled;
 }
 
-void D3D9Video::SetBGColor(const GS_COLOR& backgroundColor)
+void D3D9Video::SetBGColor(const Color& backgroundColor)
 {
 	m_backgroundColor = backgroundColor;
 }
 
-GS_COLOR D3D9Video::GetBGColor() const
+Color D3D9Video::GetBGColor() const
 {
 	return m_backgroundColor;
 }
@@ -512,9 +512,9 @@ void D3D9Video::Message(const std::wstring& text, const GS_MESSAGE_TYPE type) co
 	ShowMessage(ss, type);
 }
 
-bool D3D9Video::BeginScene(const GS_COLOR& bgColor, const bool clear)
+bool D3D9Video::BeginScene(const Color& bgColor, const bool clear)
 {
-	const GS_COLOR color = (bgColor.color != 0x0) ? bgColor : m_backgroundColor;
+	const Color color = (bgColor.color != 0x0) ? bgColor : m_backgroundColor;
 
 	if (m_windowed)
 		SetCursor(m_videoInfo->m_cursor);
@@ -557,7 +557,7 @@ bool D3D9Video::EndScene(const bool swap)
 	return true;
 }
 
-bool D3D9Video::BeginSpriteScene(const GS_COLOR& bgColor)
+bool D3D9Video::BeginSpriteScene(const Color& bgColor)
 {
 	if (!(BeginScene(bgColor)))
 	{
@@ -586,7 +586,7 @@ bool D3D9Video::EndSpriteScene()
 	return true;
 }
 
-bool D3D9Video::BeginTargetScene(const GS_COLOR& bgColor, const bool clear)
+bool D3D9Video::BeginTargetScene(const Color& bgColor, const bool clear)
 {
 	if (FAILED(BeginScene(bgColor, clear)))
 	{
@@ -1307,7 +1307,7 @@ unsigned int D3D9Video::FindClosestCarretPosition(const std::wstring& font, cons
 		return 0;
 }
 
-bool D3D9Video::DrawBitmapText(const Vector2 &v2Pos, const std::wstring& text, const std::wstring& font, const GS_COLOR& color, const float scale)
+bool D3D9Video::DrawBitmapText(const Vector2 &v2Pos, const std::wstring& text, const std::wstring& font, const Color& color, const float scale)
 {
 	BitmapFontPtr bitmapFont = SeekBitmapFont(font);
 	if (bitmapFont)
@@ -1344,7 +1344,7 @@ GS_BLEND_MODE D3D9Video::GetBlendMode(const unsigned int passIdx) const
 	return m_blendModes[passIdx];
 }
 
-bool D3D9Video::DrawLine(const Vector2 &p1, const Vector2 &p2, const GS_COLOR& color1, const GS_COLOR& color2)
+bool D3D9Video::DrawLine(const Vector2 &p1, const Vector2 &p2, const Color& color1, const Color& color2)
 {
 	if (m_lineWidth <= 1.0f)
 	{
@@ -1409,13 +1409,13 @@ float D3D9Video::GetLineWidth() const
 }
 
 bool D3D9Video::DrawRectangle(const Vector2 &v2Pos, const Vector2 &v2Size,
-						const GS_COLOR& color, const float angle, const GS_ENTITY_ORIGIN origin)
+						const Color& color, const float angle, const GS_ENTITY_ORIGIN origin)
 {
 	return DrawRectangle(v2Pos, v2Size,	color, color, color, color, angle, origin);
 }
 
 bool D3D9Video::DrawRectangle(const Vector2 &v2Pos, const Vector2 &v2Size,
-						const GS_COLOR& color0, const GS_COLOR& color1, const GS_COLOR& color2, const GS_COLOR& color3,
+						const Color& color0, const Color& color1, const Color& color2, const Color& color3,
 						const float angle, const GS_ENTITY_ORIGIN origin)
 {
 	if (v2Size == Vector2(0,0))

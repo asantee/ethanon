@@ -777,7 +777,7 @@ bool ETHParticleManager::DrawParticleSystem(Vector3 v3Ambient, const float maxHe
 			v3FinalAmbient.z = Min(m_system.emissive.z + v3Ambient.z, 1.0f);
 		}
 
-		GS_COLOR dwColor;
+		Color dwColor;
 		const Vector4& color(particle.v4Color);
 		dwColor.a = (GS_BYTE)(color.w * 255.0f);
 		dwColor.r = (GS_BYTE)(color.x * v3FinalAmbient.x * 255.0f);

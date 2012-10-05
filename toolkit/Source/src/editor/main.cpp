@@ -113,7 +113,7 @@ bool DoNextAppButton(int nextApp, SpritePtr pSprite, VideoPtr video, InputPtr in
 	GS_BYTE alpha = static_cast<GS_BYTE>(interp.GetInterpolationBias()*255.0f);
 	if (interp.Get()%2)
 		alpha = 255-alpha;
-	const GS_COLOR dwColor(alpha,255,255,255);
+	const Color dwColor(alpha,255,255,255);
 	pSprite->Draw(v2Pos+video->GetCameraPos(), dwColor);
 	if (v2Mouse.x > v2Pos.x && v2Mouse.y > v2Pos.y)
 	{
@@ -306,9 +306,9 @@ int main(const int argc, const char* argv[])
 				const float tabWidth = 160.0f;
 				for (int t=3; t>=0; t--)
 				{
-					GS_COLOR dwColor = editor[PROJECT]->GetBGColor();
+					Color dwColor = editor[PROJECT]->GetBGColor();
 					if (t != current)
-						dwColor = GS_COLOR(127, dwColor.r, dwColor.g, dwColor.b);
+						dwColor = Color(127, dwColor.r, dwColor.g, dwColor.b);
 					if (editor[PROJECT]->DrawTab(video, input, Vector2(v2ScreenF.x-tabWidth*static_cast<float>(t+1)-32.0f,0), tabWidth, g_wcsEditors[t], dwColor))
 					{
 						if (current != t)

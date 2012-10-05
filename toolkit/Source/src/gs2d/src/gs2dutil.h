@@ -101,7 +101,7 @@ public:
 		return true;
 	}
 
-	inline void DrawPlanes(VideoPtr video, const GS_COLOR color = GS_WHITE)
+	inline void DrawPlanes(VideoPtr video, const Color color = GS_WHITE)
 	{
 		for (std::vector<Plane>::iterator iter = m_planes.begin(); iter != m_planes.end(); iter++)
 		{

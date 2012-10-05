@@ -54,7 +54,7 @@ ETHTextDrawer::ETHTextDrawer(const ETHResourceProviderPtr& provider, const Vecto
 bool ETHTextDrawer::Draw(const unsigned long lastFrameElapsedTimeMS)
 {
 	elapsedTimeMS += lastFrameElapsedTimeMS;
-	GS_COLOR color = this->color;
+	Color color = this->color;
 
 	if (timeMS > 0)
 	{
@@ -73,7 +73,7 @@ bool ETHTextDrawer::IsAlive() const
 }
 
 ETHRectangleDrawer::ETHRectangleDrawer(const ETHResourceProviderPtr& provider, const Vector2& pos, const Vector2& size,
-									   const GS_COLOR& color, const float depth)
+									   const Color& color, const float depth)
 {
 	this->v2Pos = pos;
 	this->v2Size = size;
@@ -86,8 +86,8 @@ ETHRectangleDrawer::ETHRectangleDrawer(const ETHResourceProviderPtr& provider, c
 }
 
 ETHRectangleDrawer::ETHRectangleDrawer(const ETHResourceProviderPtr& provider,
-									   const Vector2& pos, const Vector2& size, const GS_COLOR& color0, const GS_COLOR& color1,
-									   const GS_COLOR& color2, const GS_COLOR& color3, const float depth)
+									   const Vector2& pos, const Vector2& size, const Color& color0, const Color& color1,
+									   const Color& color2, const Color& color3, const float depth)
 {
 	this->v2Pos = pos;
 	this->v2Size = size;
@@ -112,7 +112,7 @@ bool ETHRectangleDrawer::IsAlive() const
 }
 
 ETHLineDrawer::ETHLineDrawer(const ETHResourceProviderPtr& provider, const Vector2& a, const Vector2& b,
-								   const GS_COLOR& color0, const GS_COLOR& color1, const float width, const float depth)
+								   const Color& color0, const Color& color1, const float width, const float depth)
 {
 	this->a = a;
 	this->b = b;
@@ -139,7 +139,7 @@ bool ETHLineDrawer::IsAlive() const
 
 ETHSpriteDrawer::ETHSpriteDrawer(const ETHResourceProviderPtr& provider, ETHGraphicResourceManagerPtr graphicResources,
 								 const str_type::string& currentPath, const str_type::string& name, const Vector2& pos,
-								 const Vector2& size, const GS_COLOR& color, const float depth, const float angle,
+								 const Vector2& size, const Color& color, const float depth, const float angle,
 								 const unsigned int frame)
 {
 	this->name = name;

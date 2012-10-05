@@ -1388,7 +1388,7 @@ void EntityEditor::DrawEntity()
 	{
 		const Vector2 v2LightPos(m_pEditEntity->light->pos.x, m_pEditEntity->light->pos.y); //-V807
 		const float diameter = m_pEditEntity->light->range * 2;
-		const GS_COLOR color = ConvertToDW(m_pEditEntity->light->color);
+		const Color color = ConvertToDW(m_pEditEntity->light->color);
 		m_range->DrawShaped(m_renderEntity->GetPositionXY() + v2LightPos, Vector2(diameter,diameter),
 					  color,color,color,color);
 	}
@@ -1475,7 +1475,7 @@ void EntityEditor::DrawEntity()
 	{
 		const Vector2 v2LightPos(m_pEditEntity->light->pos.x, m_pEditEntity->light->pos.y);
 		const float diameter = m_pEditEntity->light->range * 2;
-		const GS_COLOR color = ConvertToDW(m_pEditEntity->light->color);
+		const Color color = ConvertToDW(m_pEditEntity->light->color);
 		m_range->DrawShaped(m_renderEntity->GetPositionXY() + v2LightPos, Vector2(diameter,diameter),
 							color, color, color, color);
 	}

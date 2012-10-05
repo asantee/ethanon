@@ -486,15 +486,17 @@ bool GLES2Shader::ConstantExist(const str_type::string& name)
 	return false;
 }
 
-bool GLES2Shader::SetConstant(const str_type::string& name, const GS_COLOR& dw)
+bool GLES2Shader::SetConstant(const str_type::string& name, const Color& dw)
 {
 	math::Vector4 v;
 	v.SetColor(dw);
 	return SetConstant(name, v);
 }
 
-inline void SetParameter(const std::size_t nameHash, const GLES2UniformParameterPtr& param,
-						 std::map<std::size_t, GLES2UniformParameterPtr>& parameters)
+inline void SetParameter(
+	const std::size_t nameHash,
+	const GLES2UniformParameterPtr& param,
+	std::map<std::size_t, GLES2UniformParameterPtr>& parameters)
 {
 	std::map<std::size_t, GLES2UniformParameterPtr>::iterator iter = parameters.find(nameHash);
 	if (iter != parameters.end())
@@ -551,7 +553,7 @@ bool GLES2Shader::SetConstantArray(const std::size_t nameHash, const str_type::s
 	return true;
 }
 
-bool GLES2Shader::SetConstant(const std::size_t nameHash, const str_type::string& name, const GS_COLOR& dw)
+bool GLES2Shader::SetConstant(const std::size_t nameHash, const str_type::string& name, const Color& dw)
 {
 	math::Vector4 v;
 	v.SetColor(dw);

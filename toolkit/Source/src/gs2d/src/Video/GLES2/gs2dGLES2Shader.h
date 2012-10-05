@@ -161,11 +161,11 @@ public:
 	bool SetConstant(const std::size_t nameHash, const str_type::string& name, const math::Vector2 &v);
 	bool SetConstant(const std::size_t nameHash, const str_type::string& name, const float x);
 	bool SetMatrixConstant(const std::size_t nameHash, const str_type::string& name, const math::Matrix4x4 &matrix);
-	bool SetConstant(const std::size_t nameHash, const str_type::string& name, const GS_COLOR& dw);
+	bool SetConstant(const std::size_t nameHash, const str_type::string& name, const Color& dw);
 	bool SetConstantArray(const std::size_t nameHash, const str_type::string& name, unsigned int nElements,
 						  const boost::shared_array<const math::Vector2>& v);
 
-	bool SetConstant(const str_type::string& name, const GS_COLOR& dw);
+	bool SetConstant(const str_type::string& name, const Color& dw);
 	bool SetConstant(const str_type::string& name, const math::Vector4 &v);
 	bool SetConstant(const str_type::string& name, const math::Vector3 &v);
 	bool SetConstant(const str_type::string& name, const math::Vector2 &v);

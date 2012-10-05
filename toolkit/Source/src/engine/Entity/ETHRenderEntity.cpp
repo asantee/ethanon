@@ -93,7 +93,7 @@ bool ETHRenderEntity::DrawAmbientPass(const float maxHeight, const float minHeig
 	const bool shouldUseFourTriangles = ShouldUseFourTriangles(parallaxIntensity);
 	const float angle = (m_properties.type == ETH_VERTICAL) ? 0.0f : GetAngle();
 	const Vector2 pos = ETHGlobal::ToScreenPos(GetPosition(), sceneProps.zAxisDirection);
-	const GS_COLOR color = ConvertToDW(v4FinalAmbient);
+	const Color color = ConvertToDW(v4FinalAmbient);
 
 	if (shouldUseFourTriangles)
 		m_pSprite->SetRectMode(GSRM_FOUR_TRIANGLES);
@@ -290,7 +290,7 @@ bool ETHRenderEntity::DrawProjShadow(const float maxHeight, const float minHeigh
 	if (alpha < 8)
 		return true;
 
-	GS_COLOR dwShadowColor(alpha,255,255,255);
+	Color dwShadowColor(alpha,255,255,255);
 
 	pShadow->SetOrigin(Vector2(0.5f, 0.79f));
 	pShadow->SetRectMode(GSRM_THREE_TRIANGLES);
@@ -328,7 +328,7 @@ bool ETHRenderEntity::DrawHalo(const float maxHeight, const float minHeight, con
 
 	Vector3 v3HaloPos = light->pos + v3EntityPos;
 
-	GS_COLOR dwColor = ConvertToDW(light->color * light->haloBrightness * brightness);
+	Color dwColor = ConvertToDW(light->color * light->haloBrightness * brightness);
 	Vector2 v2Size(light->haloSize, light->haloSize);
 
 	m_pHalo->DrawShaped(
@@ -353,7 +353,7 @@ bool ETHRenderEntity::DrawParticles(const unsigned int n, const float maxHeight,
 	}
 }
 
-void ETHRenderEntity::DrawCollisionBox(SpritePtr pOutline, const GS_COLOR& dwColor, const Vector2 &zAxisDirection) const
+void ETHRenderEntity::DrawCollisionBox(SpritePtr pOutline, const Color& dwColor, const Vector2 &zAxisDirection) const
 {
 	VideoPtr video = m_provider->GetVideo();
 	const bool collidable = (m_properties.collision);
@@ -374,7 +374,7 @@ void ETHRenderEntity::DrawCollisionBox(SpritePtr pOutline, const GS_COLOR& dwCol
 	ShaderPtr pVS = video->GetVertexShader();
 	video->SetVertexShader(ShaderPtr());
 
-	const GS_COLOR dwH = ARGB(150,dwColor.r,dwColor.g,dwColor.b);
+	const Color dwH = ARGB(150,dwColor.r,dwColor.g,dwColor.b);
 	const float depth = video->GetSpriteDepth();
 
 	// base

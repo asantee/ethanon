@@ -54,12 +54,22 @@ public:
 
 	bool CreateRenderTarget(VideoWeakPtr video, const unsigned int width, const unsigned int height, const GS_TARGET_FORMAT fmt);
 
-	bool LoadTexture(VideoWeakPtr video, const str_type::string& fileName, GS_COLOR mask,
-			const unsigned int width = 0, const unsigned int height = 0, const unsigned int nMipMaps = 0);
+	bool LoadTexture(
+		VideoWeakPtr video,
+		const str_type::string& fileName,
+		Color mask,
+		const unsigned int width = 0,
+		const unsigned int height = 0,
+		const unsigned int nMipMaps = 0);
 
-	bool LoadTexture(VideoWeakPtr video, const void* pBuffer, GS_COLOR mask,
-			const unsigned int width, const unsigned int height, const unsigned int nMipMaps,
-			const unsigned int bufferLength);
+	bool LoadTexture(
+		VideoWeakPtr video,
+		const void* pBuffer,
+		Color mask,
+		const unsigned int width,
+		const unsigned int height,
+		const unsigned int nMipMaps,
+		const unsigned int bufferLength);
 
 	math::Vector2 GetBitmapSize() const;
 	const str_type::string& GetFileName() const;

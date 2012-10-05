@@ -81,7 +81,7 @@ public:
 	~D3D9CgShader();
 
 	bool ConstantExist(const std::wstring& name);
-	bool SetConstant(const std::wstring& name, const GS_COLOR& dw);
+	bool SetConstant(const std::wstring& name, const Color& dw);
 	bool SetConstant(const std::wstring& name, const math::Vector4 &v);
 	bool SetConstant(const std::wstring& name, const math::Vector3 &v);
 	bool SetConstant(const std::wstring& name, const math::Vector2 &v);

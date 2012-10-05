@@ -91,8 +91,11 @@ GS2D_API VideoPtr CreateVideo(const unsigned int width, const unsigned int heigh
 	return GLES2Video::Create(width, height, GS_L("GS2D"), fileIOHub);
 }
 
-GLES2Video::GLES2Video(const unsigned int width, const unsigned int height,
-					   const str_type::string& winTitle, const Platform::FileIOHubPtr& fileIOHub) :
+GLES2Video::GLES2Video(
+	const unsigned int width,
+	const unsigned int height,
+	const str_type::string& winTitle,
+	const Platform::FileIOHubPtr& fileIOHub) :
 	m_backgroundColor(gs2d::constant::BLACK),
 	m_screenSize(width, height),
 	m_windowTitle(winTitle),
@@ -120,8 +123,11 @@ GLES2Video::GLES2Video(const unsigned int width, const unsigned int height,
 	StartApplication(width, height, winTitle, false, false, GSPF_DEFAULT, false);
 }
 
-boost::shared_ptr<GLES2Video> GLES2Video::Create(const unsigned int width, const unsigned int height,
-												 const str_type::string& winTitle, const Platform::FileIOHubPtr& fileIOHub)
+boost::shared_ptr<GLES2Video> GLES2Video::Create(
+	const unsigned int width,
+	const unsigned int height,
+	const str_type::string& winTitle,
+	const Platform::FileIOHubPtr& fileIOHub)
 {
 	boost::shared_ptr<GLES2Video> p(new GLES2Video(width, height, winTitle, fileIOHub));
 	p->weak_this = p;
@@ -144,8 +150,14 @@ static void LogFragmentShaderMaximumPrecision(const Platform::FileLogger& logger
 	logger.Log(logStr, (precisionResult) ? Platform::FileLogger::INFO : Platform::FileLogger::WARNING);
 }
 
-bool GLES2Video::StartApplication(const unsigned int width, const unsigned int height, const str_type::string& winTitle,
-								  const bool windowed, const bool sync, const GS_PIXEL_FORMAT pfBB, const bool maximizable)
+bool GLES2Video::StartApplication(
+	const unsigned int width,
+	const unsigned int height,
+	const str_type::string& winTitle,
+	const bool windowed,
+	const bool sync,
+	const GS_PIXEL_FORMAT pfBB,
+	const bool maximizable)
 {
 	glDisable(GL_DITHER);
 	glHint(GL_GENERATE_MIPMAP_HINT, GL_FASTEST);
@@ -198,10 +210,13 @@ void GLES2Video::CheckGLError(const str_type::string& op, const Platform::FileLo
 	}
 }
 
-TexturePtr GLES2Video::CreateTextureFromFileInMemory(const void *pBuffer,
-		const unsigned int bufferLength, GS_COLOR mask,
-		const unsigned int width, const unsigned int height,
-		const unsigned int nMipMaps)
+TexturePtr GLES2Video::CreateTextureFromFileInMemory(
+	const void *pBuffer,
+	const unsigned int bufferLength,
+	Color mask,
+	const unsigned int width,
+	const unsigned int height,
+	const unsigned int nMipMaps)
 {
 	TexturePtr texture(new GLES2Texture(weak_this, GS_L("from_memory"), m_fileIOHub->GetFileManager()));
 	if (texture->LoadTexture(weak_this, pBuffer, bufferLength, mask, width, height, nMipMaps))
@@ -211,9 +226,12 @@ TexturePtr GLES2Video::CreateTextureFromFileInMemory(const void *pBuffer,
 	return TexturePtr();
 }
 
-TexturePtr GLES2Video::LoadTextureFromFile(const str_type::string& fileName,
-		GS_COLOR mask, const unsigned int width,
-		const unsigned int height, const unsigned int nMipMaps)
+TexturePtr GLES2Video::LoadTextureFromFile(
+	const str_type::string& fileName,
+	Color mask,
+	const unsigned int width,
+	const unsigned int height,
+	const unsigned int nMipMaps)
 {
 	TexturePtr texture(new GLES2Texture(weak_this, fileName, m_fileIOHub->GetFileManager()));
 	if (texture->LoadTexture(weak_this, fileName, mask, width, height, nMipMaps))
@@ -233,15 +251,22 @@ TexturePtr GLES2Video::CreateRenderTargetTexture(const unsigned int width, const
 	return TexturePtr();
 }
 
-SpritePtr GLES2Video::CreateSprite(GS_BYTE *pBuffer, const unsigned int bufferLength,
-		GS_COLOR mask, const unsigned int width, const unsigned int height)
+SpritePtr GLES2Video::CreateSprite(
+	GS_BYTE *pBuffer,
+	const unsigned int bufferLength,
+	Color mask,
+	const unsigned int width,
+	const unsigned int height)
 {
 	// TODO
 	return SpritePtr();
 }
 
-SpritePtr GLES2Video::CreateSprite(const str_type::string& fileName,
-		GS_COLOR mask, const unsigned int width, const unsigned int height)
+SpritePtr GLES2Video::CreateSprite(
+	const str_type::string& fileName,
+	Color mask,
+	const unsigned int width,
+	const unsigned int height)
 {
 	SpritePtr sprite(new GLES2Sprite(m_shaderContext));
 	if (sprite->LoadSprite(weak_this, fileName, mask, width, height))
@@ -251,8 +276,10 @@ SpritePtr GLES2Video::CreateSprite(const str_type::string& fileName,
 	return SpritePtr();
 }
 
-SpritePtr GLES2Video::CreateRenderTarget(const unsigned int width,
-		const unsigned int height, const GS_TARGET_FORMAT format)
+SpritePtr GLES2Video::CreateRenderTarget(
+	const unsigned int width,
+	const unsigned int height,
+	const GS_TARGET_FORMAT format)
 {
 	SpritePtr sprite(new GLES2Sprite(m_shaderContext));
 	if (sprite->CreateRenderTarget(weak_this, width, height, format))
@@ -262,9 +289,11 @@ SpritePtr GLES2Video::CreateRenderTarget(const unsigned int width,
 	return SpritePtr();
 }
 
-ShaderPtr GLES2Video::LoadShaderFromFile(const str_type::string& fileName,
-		const GS_SHADER_FOCUS focus, const GS_SHADER_PROFILE profile,
-		const char *entry)
+ShaderPtr GLES2Video::LoadShaderFromFile(
+	const str_type::string& fileName,
+	const GS_SHADER_FOCUS focus,
+	const GS_SHADER_PROFILE profile,
+	const char *entry)
 {
 	GLES2ShaderPtr shader(new GLES2Shader(m_fileIOHub->GetFileManager(), m_shaderContext));
 	if (shader->LoadShaderFromFile(m_shaderContext, fileName, focus, profile, entry))
@@ -274,9 +303,12 @@ ShaderPtr GLES2Video::LoadShaderFromFile(const str_type::string& fileName,
 	return ShaderPtr();
 }
 
-ShaderPtr GLES2Video::LoadShaderFromString(const str_type::string& shaderName,
-		const std::string& codeAsciiString, const GS_SHADER_FOCUS focus, const GS_SHADER_PROFILE profile,
-		const char *entry)
+ShaderPtr GLES2Video::LoadShaderFromString(
+	const str_type::string& shaderName,
+	const std::string& codeAsciiString,
+	const GS_SHADER_FOCUS focus,
+	const GS_SHADER_PROFILE profile,
+	const char *entry)
 {
 	GLES2ShaderPtr shader(new GLES2Shader(m_fileIOHub->GetFileManager(), m_shaderContext));
 	if (shader->LoadShaderFromString(m_shaderContext, shaderName, codeAsciiString, focus, profile, entry))
@@ -296,8 +328,10 @@ GLES2ShaderPtr GLES2Video::LoadGLES2ShaderFromFile(const str_type::string& fileN
 	return GLES2ShaderPtr();
 }
 
-GLES2ShaderPtr GLES2Video::LoadGLES2ShaderFromString(const str_type::string& shaderName,
-		const std::string& codeAsciiString, const GS_SHADER_FOCUS focus)
+GLES2ShaderPtr GLES2Video::LoadGLES2ShaderFromString(
+	const str_type::string& shaderName,
+	const std::string& codeAsciiString,
+	const GS_SHADER_FOCUS focus)
 {
 	GLES2ShaderPtr shader(new GLES2Shader(m_fileIOHub->GetFileManager(), m_shaderContext));
 	if (shader->LoadShaderFromString(m_shaderContext, shaderName, codeAsciiString, focus))
@@ -353,8 +387,10 @@ bool GLES2Video::SetVertexShader(ShaderPtr pShader)
 	if (pShader)
 	{
 		m_shaderContext->SetShader(
-				boost::dynamic_pointer_cast<GLES2Shader>(pShader), boost::dynamic_pointer_cast<GLES2Shader>(m_shaderContext->GetCurrentPS()),
-				m_orthoMatrix, GetCurrentTargetSize());
+			boost::dynamic_pointer_cast<GLES2Shader>(pShader),
+			boost::dynamic_pointer_cast<GLES2Shader>(m_shaderContext->GetCurrentPS()),
+			m_orthoMatrix,
+			GetCurrentTargetSize());
 	}
 	else
 	{
@@ -369,8 +405,9 @@ bool GLES2Video::SetPixelShader(ShaderPtr pShader)
 	if (pShader)
 	{
 		m_shaderContext->SetShader(
-				boost::dynamic_pointer_cast<GLES2Shader>(m_shaderContext->GetCurrentVS()), boost::dynamic_pointer_cast<GLES2Shader>(pShader),
-				m_orthoMatrix, GetCurrentTargetSize());
+			boost::dynamic_pointer_cast<GLES2Shader>(m_shaderContext->GetCurrentVS()),
+			boost::dynamic_pointer_cast<GLES2Shader>(pShader),
+			m_orthoMatrix, GetCurrentTargetSize());
 	}
 	else
 	{
@@ -416,7 +453,11 @@ bool GLES2Video::ResetVideoMode(const VIDEO_MODE& mode, const bool toggleFullscr
 	return ResetVideoMode(mode.width, mode.height, mode.pf, false);
 }
 
-bool GLES2Video::ResetVideoMode(const unsigned int width, const unsigned int height, const GS_PIXEL_FORMAT pfBB, const bool toggleFullscreen)
+bool GLES2Video::ResetVideoMode(
+	const unsigned int width,
+	const unsigned int height,
+	const GS_PIXEL_FORMAT pfBB,
+	const bool toggleFullscreen)
 {
 	m_screenSize.x = width;
 	m_screenSize.y = height;
@@ -751,8 +792,11 @@ Vector2 GLES2Video::ComputeTextBoxSize(const str_type::string& font, const str_t
 		return Vector2(0,0);
 }
 
-unsigned int GLES2Video::FindClosestCarretPosition(const str_type::string& font,
-		const str_type::string &text, const Vector2 &textPos, const Vector2 &reference)
+unsigned int GLES2Video::FindClosestCarretPosition(
+	const str_type::string& font,
+	const str_type::string &text,
+	const Vector2 &textPos,
+	const Vector2 &reference)
 {
 	BitmapFontPtr bitmapFont = SeekBitmapFont(font);
 	if (bitmapFont)
@@ -761,7 +805,12 @@ unsigned int GLES2Video::FindClosestCarretPosition(const str_type::string& font,
 		return 0;
 }
 
-bool GLES2Video::DrawBitmapText(const Vector2 &v2Pos, const str_type::string& text, const str_type::string& font, const GS_COLOR& color, const float scale)
+bool GLES2Video::DrawBitmapText(
+	const Vector2 &v2Pos,
+	const str_type::string& text,
+	const str_type::string& font,
+	const Color& color,
+	const float scale)
 {
 	BitmapFontPtr bitmapFont = SeekBitmapFont(font);
 	if (bitmapFont)
@@ -776,39 +825,49 @@ bool GLES2Video::DrawBitmapText(const Vector2 &v2Pos, const str_type::string& te
 	}
 }
 
-bool GLES2Video::DrawLine(const Vector2 &p1, const Vector2 &p2, const GS_COLOR& color1, const GS_COLOR& color2)
+bool GLES2Video::DrawLine(const Vector2& p1, const Vector2& p2, const Color& color1, const Color& color2)
 {
 	// TODO
 	return false;
 }
 
-bool GLES2Video::DrawRectangle(const Vector2 &v2Pos, const Vector2 &v2Size, const GS_COLOR& color, const float angle, const GS_ENTITY_ORIGIN origin)
+bool GLES2Video::DrawRectangle(
+	const Vector2& v2Pos,
+	const Vector2& v2Size,
+	const Color& color,
+	const float angle,
+	const GS_ENTITY_ORIGIN origin)
 {
 	// TODO
 	return false;
 }
 
-bool GLES2Video::DrawRectangle(const Vector2 &v2Pos, const Vector2 &v2Size,
-		const GS_COLOR& color0, const GS_COLOR& color1,
-		const GS_COLOR& color2, const GS_COLOR& color3,
-		const float angle, const GS_ENTITY_ORIGIN origin)
+bool GLES2Video::DrawRectangle(
+	const Vector2& v2Pos,
+	const Vector2& v2Size,
+	const Color& color0,
+	const Color& color1,
+	const Color& color2,
+	const Color& color3,
+	const float angle,
+	const GS_ENTITY_ORIGIN origin)
 {
 	// TODO
 	return false;
 }
 
-void GLES2Video::SetBGColor(const GS_COLOR& backgroundColor)
+void GLES2Video::SetBGColor(const Color& backgroundColor)
 {
 	m_backgroundColor = backgroundColor;
 }
 
-GS_COLOR GLES2Video::GetBGColor() const
+Color GLES2Video::GetBGColor() const
 {
 	return m_backgroundColor;
 }
 
 
-bool GLES2Video::BeginSpriteScene(const GS_COLOR& dwBGColor)
+bool GLES2Video::BeginSpriteScene(const Color& dwBGColor)
 {
 	UnbindFrameBuffer();
 	if (dwBGColor != gs2d::constant::ZERO)
@@ -831,7 +890,7 @@ bool GLES2Video::EndSpriteScene()
 	return true;
 }
 
-bool GLES2Video::BeginTargetScene(const GS_COLOR& dwBGColor, const bool clear)
+bool GLES2Video::BeginTargetScene(const Color& dwBGColor, const bool clear)
 {
 	// explicit static cast for better performance
 	TexturePtr texturePtr = m_currentTarget.lock();

@@ -524,7 +524,7 @@ struct Vector4
 		return *this;
 	}
 
-	inline void SetColor(const GS_COLOR& color)
+	inline void SetColor(const Color& color)
 	{
 		x = (static_cast<float>(color.r) / 255.0f);
 		y = (static_cast<float>(color.g) / 255.0f);
@@ -605,7 +605,7 @@ struct Vertex2D
 {
 	Vector2 pos;
 	float z, rhw;
-	GS_COLOR color;
+	Color color;
 	Vector2 tex;
 };
 
@@ -948,7 +948,7 @@ inline T Sign(const T &n)
 	return (n < static_cast<T>(0)) ? static_cast<T>(-1) : (n > static_cast<T>(0)) ? static_cast<T>(1) : static_cast<T>(0);
 }
 
-inline GS_COLOR ConvertToDW(Vector4 v4)
+inline Color ConvertToDW(Vector4 v4)
 {
 	v4.w = Min(1.0f, v4.w);
 	if (v4.x > 1.0f || v4.y > 1.0f || v4.z > 1.0f)
@@ -959,16 +959,16 @@ inline GS_COLOR ConvertToDW(Vector4 v4)
 		v4.y = v3.y;
 		v4.z = v3.z;
 	}
-	return GS_COLOR((GS_BYTE)(v4.w*255.0f), (GS_BYTE)(v4.x*255.0f), (GS_BYTE)(v4.y*255.0f), (GS_BYTE)(v4.z*255.0f));
+	return Color((GS_BYTE)(v4.w*255.0f), (GS_BYTE)(v4.x*255.0f), (GS_BYTE)(v4.y*255.0f), (GS_BYTE)(v4.z*255.0f));
 }
 
-inline GS_COLOR ConvertToDW(Vector3 v3)
+inline Color ConvertToDW(Vector3 v3)
 {
 	if (v3.x > 1.0f || v3.y > 1.0f || v3.z > 1.0f)
 	{
 		v3 = Normalize(v3);
 	}
-	return GS_COLOR(255, (GS_BYTE)(v3.x*255.0f), (GS_BYTE)(v3.y*255.0f), (GS_BYTE)(v3.z*255.0f));
+	return Color(255, (GS_BYTE)(v3.x*255.0f), (GS_BYTE)(v3.y*255.0f), (GS_BYTE)(v3.z*255.0f));
 }
 
 inline unsigned long ARGB(const GS_BYTE a, const GS_BYTE r, const GS_BYTE g, const GS_BYTE b)
@@ -1034,7 +1034,7 @@ inline float PlaneDotVector(const Plane& plane, const Vector2& vec)
 	return (plane.x * vec.x) + (plane.y * vec.y) + (plane.w);
 }
 
-inline Vector4 ConvertToV4(const GS_COLOR& color)
+inline Vector4 ConvertToV4(const Color& color)
 {
 	return Vector4(
 		(float)color.r/255.0f,

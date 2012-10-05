@@ -57,13 +57,13 @@ protected:
 	);
 	bool LoadTexture(
 		VideoWeakPtr video,
-		const std::wstring& fileName, GS_COLOR mask,
+		const std::wstring& fileName, Color mask,
 			const unsigned int width = 0, const unsigned int height = 0,
 			const unsigned int nMipMaps = 0
 	);
 	virtual bool LoadTexture(
 		VideoWeakPtr video,
-		const void * pBuffer, GS_COLOR mask,
+		const void * pBuffer, Color mask,
 			const unsigned int width, const unsigned int height,
 			const unsigned int nMipMaps,
 			const unsigned int bufferLength

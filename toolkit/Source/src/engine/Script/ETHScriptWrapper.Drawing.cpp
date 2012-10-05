@@ -169,7 +169,7 @@ void ETHScriptWrapper::DrawRectangle(const Vector2 &v2Pos, const Vector2 &v2Size
 	m_primitiveList.push_back(boost::shared_ptr<ETHPrimitiveDrawer>(new ETHRectangleDrawer(m_provider, v2Pos, v2Size, color0, color1, color2, color3)));
 }
 
-void ETHScriptWrapper::DrawLine(const Vector2 &v2A, const Vector2 &v2B, const GS_COLOR a, const GS_COLOR b, const float width) //-V801
+void ETHScriptWrapper::DrawLine(const Vector2 &v2A, const Vector2 &v2B, const Color a, const Color b, const float width) //-V801
 {
 	m_primitiveList.push_back(boost::shared_ptr<ETHPrimitiveDrawer>(new ETHLineDrawer(m_provider, v2A, v2B, a, b, width)));
 }

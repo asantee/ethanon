@@ -38,7 +38,7 @@ GSGUI_STRING_INPUT::GSGUI_STRING_INPUT()
 }
 
 void GSGUI_STRING_INPUT::PlaceInput(const Vector2& pos, const std::wstring& font, const unsigned int nMaxChars, 
-				const float size, const GS_COLOR& dwColor, VideoPtr video,
+				const float size, const Color& dwColor, VideoPtr video,
 				InputPtr input)
 {
 	const unsigned int time = video->GetElapsedTime();
@@ -113,7 +113,7 @@ void GSGUI_STRING_INPUT::PlaceInput(const Vector2& pos, const std::wstring& font
 }
 
 void GSGUI_STRING_INPUT::Place(const Vector2& pos, const std::wstring& font,
-				const float size, const GS_COLOR& dwColor, VideoPtr video)
+				const float size, const Color& dwColor, VideoPtr video)
 {
 	std::wstring outputString = ss;
 	video->DrawBitmapText(pos, outputString, font, dwColor);
@@ -874,7 +874,7 @@ int GSGUI_INT_INPUT::PlaceInput(Vector2 v2Pos)
 
 	Vector2 v2Size(m_width, m_size), v2TextAdd(m_size/4.0f, 0.0f);
 	m_mouseOver = MouseOver(v2Pos, v2Size);
-	GS_COLOR top, bottom, text;
+	Color top, bottom, text;
 
 	if (m_active)
 	{
@@ -1059,7 +1059,7 @@ float GSGUI_FLOAT_INPUT::PlaceInput(Vector2 v2Pos)
 
 	Vector2 v2Size(m_width, m_size), v2TextAdd(m_size/4.0f, 0.0f);
 	m_mouseOver = MouseOver(v2Pos+Vector2(m_width, 0.0f), v2Size);
-	GS_COLOR top, bottom, text;
+	Color top, bottom, text;
 
 	m_video->DrawBitmapText(
 		v2Pos + v2TextAdd, m_text.c_str(), 
@@ -1231,7 +1231,7 @@ std::wstring GSGUI_STRING_LINE_INPUT::PlaceInput(Vector2 v2Pos)
 {
 	Vector2 v2Size(m_width, m_size), v2TextAdd(m_size/4.0f, 0.0f);
 	m_mouseOver = MouseOver(v2Pos, v2Size);
-	GS_COLOR top, bottom, text;
+	Color top, bottom, text;
 
 	// const Vector2i scissor = m_video->GetTextRect();
 	// m_video->SetTextRect(Vector2i(int(GetWidth()-v2TextAdd.x), int(GetSize()-v2TextAdd.y)));

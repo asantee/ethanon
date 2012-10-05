@@ -324,7 +324,7 @@ Vector2 BitmapFont::ComputeTextBoxSize(const str_type::string& text)
 	return cursor;
 }
 
-Vector2 BitmapFont::DrawBitmapText(const Vector2 &pos, const str_type::string& text, const GS_COLOR& color, const float scale)
+Vector2 BitmapFont::DrawBitmapText(const Vector2 &pos, const str_type::string& text, const Color& color, const float scale)
 {
 	if (!IsLoaded())
 	{

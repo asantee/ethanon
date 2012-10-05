@@ -433,7 +433,7 @@ void SceneEditor::EditParallax()
 	{
 		const Vector2 &cursorPos = m_provider->GetInput()->GetCursorPositionF(video);
 		m_provider->GetShaderManager()->SetParallaxNormalizedOrigin(cursorPos / video->GetScreenSizeF());
-		m_parallaxCursor->Draw(cursorPos + video->GetCameraPos(), GS_COLOR(100,255,255,255));
+		m_parallaxCursor->Draw(cursorPos + video->GetCameraPos(), Color(100,255,255,255));
 	}
 	else
 	{
@@ -537,7 +537,7 @@ void SceneEditor::EntitySelector(const bool guiButtonsFree)
 		// draws the current selected entity outline if we are on the selection mode
 		if (!moving)
 		{
-			const GS_COLOR dwColor(128,255,255,255);
+			const Color dwColor(128,255,255,255);
 			m_richOutline->SetOrigin(GSEO_CENTER);
 			const Vector2 v2Pos = m_pSelected->ComputeInScreenSpriteCenter(*m_pScene->GetSceneProperties()) + video->GetCameraPos();
 			m_richOutline->DrawShaped(v2Pos, m_pSelected->GetCurrentSize(), dwColor, dwColor, dwColor, dwColor, m_pSelected->GetAngle());
@@ -567,12 +567,12 @@ void SceneEditor::EntitySelector(const bool guiButtonsFree)
 			ETHRenderEntity *pSelected = reinterpret_cast<ETHRenderEntity*>(m_pScene->GetBucketManager().SeekEntity(id));
 			if (pSelected)
 			{
-				const GS_COLOR dwColor(48, 255, 255, 255);
+				const Color dwColor(48, 255, 255, 255);
 				const Vector2& size(pSelected->GetCurrentSize());
 				m_richOutline->SetOrigin(GSEO_CENTER);
 				m_richOutline->DrawShaped(pSelected->ComputeInScreenSpriteCenter(*m_pScene->GetSceneProperties()) + video->GetCameraPos(),
 									  size, dwColor, dwColor, dwColor, dwColor, pSelected->GetAngle());
-				DrawEntityString(pSelected, GS_COLOR(100, 255, 255, 255));
+				DrawEntityString(pSelected, Color(100, 255, 255, 255));
 			}
 		}
 	}
@@ -664,7 +664,7 @@ void SceneEditor::SetEditablePositionPos(const Vector3 &pos, const float angle)
 	m_entityAngle.SetConstant(angle);
 }
 
-wstring SceneEditor::DrawEntityString(ETHEntity *pEntity, const GS_COLOR& dwColor, const bool drawName)
+wstring SceneEditor::DrawEntityString(ETHEntity *pEntity, const Color& dwColor, const bool drawName)
 {
 	ETH_VIEW_RECT box = pEntity->GetScreenRect(*m_pScene->GetSceneProperties());
 	box.v2Min -= Vector2(0,m_menuSize);
@@ -676,7 +676,7 @@ wstring SceneEditor::DrawEntityString(ETHEntity *pEntity, const GS_COLOR& dwColo
 
 	wstringstream sPos;
 	sPos << L"pos: " << ETHGlobal::Vector3ToString(pEntity->GetPosition()) << endl << ((pEntity->IsStatic()) ? L"[static]" : L"[dynamic]");
-	ShadowPrint(box.v2Min+Vector2(0,m_menuSize), sPos.str().c_str(), GS_COLOR(dwColor.a/2,dwColor.r,dwColor.g,dwColor.b));
+	ShadowPrint(box.v2Min+Vector2(0,m_menuSize), sPos.str().c_str(), Color(dwColor.a/2,dwColor.r,dwColor.g,dwColor.b));
 	return sID.str()+L"\n"+sPos.str();
 }
 
@@ -780,7 +780,7 @@ void SceneEditor::DoStateManager()
 	wstringstream ss;
 	const unsigned int nEntities = m_pScene->GetNumEntities();
 	ss << L"Entities in scene: " << m_pScene->GetNumRenderedEntities() << L"/" << nEntities;
-	ShadowPrint(Vector2(m_guiX, m_guiY), ss.str().c_str(), GS_COLOR(255,255,255,255)); m_guiY += m_menuSize;
+	ShadowPrint(Vector2(m_guiX, m_guiY), ss.str().c_str(), Color(255,255,255,255)); m_guiY += m_menuSize;
 	m_guiY += m_menuSize/2;
 
 	ShadowPrint(Vector2(m_guiX,m_guiY), L"Lighting mode:"); m_guiY+=m_menuSize;
@@ -912,7 +912,7 @@ void SceneEditor::DrawGrid()
 	const Vector2 v2Screen = video->GetScreenSizeF();
 	const Vector2 v2CamPos = video->GetCameraPos();
 	video->SetCameraPos(Vector2(0,0));
-	const GS_COLOR dwLineColor = ARGB(70,255,255,255);
+	const Color dwLineColor = ARGB(70,255,255,255);
 	video->SetLineWidth(2);
 
 	Vector2 v2PosFix;
@@ -1095,7 +1095,7 @@ void SceneEditor::PlaceEntitySelection()
 		if (m_currentEntity->GetType() != ETH_VERTICAL)
 		{
 			const Vector2 v2TipPos(0.0f, screenSize.y-m_menuSize-m_menuSize-_ENTITY_SELECTION_BAR_HEIGHT);
-			ShadowPrint(v2TipPos, L"You can hold SHIFT to align the entity like in a tile map", GS_COLOR(255,255,255,255));
+			ShadowPrint(v2TipPos, L"You can hold SHIFT to align the entity like in a tile map", Color(255,255,255,255));
 		}
 	}
 
@@ -1239,7 +1239,7 @@ void SceneEditor::EntityPlacer()
 		_ETH_SAFE_sprintf(szAngle, "%.0f", angle);
 		ss << szAngle;
 	}
-	ShadowPrint(m_currentEntity->GetScreenRect(*m_pScene->GetSceneProperties()).v2Max, ss.str().c_str(), GS_COLOR(100, 255, 255, 255));
+	ShadowPrint(m_currentEntity->GetScreenRect(*m_pScene->GetSceneProperties()).v2Max, ss.str().c_str(), Color(100, 255, 255, 255));
 }
 
 void SceneEditor::DrawEntitySelectionGrid(SpritePtr pNextAppButton)
@@ -1401,7 +1401,7 @@ void SceneEditor::DrawEntitySelectionGrid(SpritePtr pNextAppButton)
 		// highlight the 'mouseover' entity
 		if (ETHGlobal::PointInRect(v2Cursor, v2Pos, Vector2(_ENTITY_SELECTION_BAR_HEIGHT,_ENTITY_SELECTION_BAR_HEIGHT)))
 		{
-			const GS_COLOR dwColor(55,255,255,255);
+			const Color dwColor(55,255,255,255);
 			m_outline->SetOrigin(GSEO_CENTER);
 			m_outline->DrawShaped(v2Pos, Vector2(_ENTITY_SELECTION_BAR_HEIGHT,_ENTITY_SELECTION_BAR_HEIGHT),
 								  dwColor, dwColor, dwColor, dwColor);
@@ -1424,7 +1424,7 @@ void SceneEditor::DrawEntitySelectionGrid(SpritePtr pNextAppButton)
 		// highlight the current entity
 		if (m_currentEntityIdx == t)
 		{
-			const GS_COLOR dwColor(127,255,255,255);
+			const Color dwColor(127,255,255,255);
 			m_outline->SetOrigin(GSEO_CENTER);
 			m_outline->DrawShaped(v2Pos, Vector2(_ENTITY_SELECTION_BAR_HEIGHT,_ENTITY_SELECTION_BAR_HEIGHT),
 								  dwColor, dwColor, dwColor, dwColor);
@@ -1442,11 +1442,11 @@ void SceneEditor::DrawEntitySelectionGrid(SpritePtr pNextAppButton)
 	if (textToDraw != L"")
 	{
 		const Vector2 v2TextPos(v2Cursor-Vector2(0, m_menuSize));
-		const GS_COLOR dwLeft = ARGB(155,0,0,0);
-		const GS_COLOR dwRight = ARGB(155,0,0,0);
+		const Color dwLeft = ARGB(155,0,0,0);
+		const Color dwRight = ARGB(155,0,0,0);
 		Vector2 boxSize = video->ComputeTextBoxSize(L"Verdana14_shadow.fnt", textToDraw.c_str());
 		video->DrawRectangle(v2TextPos, boxSize, dwLeft, dwRight, dwLeft, dwRight);
-		ShadowPrint(v2TextPos, textToDraw.c_str(), GS_COLOR(255,255,255,255));
+		ShadowPrint(v2TextPos, textToDraw.c_str(), Color(255,255,255,255));
 	}
 	video->SetCameraPos(v2Cam);
 

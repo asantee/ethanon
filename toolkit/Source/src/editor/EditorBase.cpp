@@ -52,7 +52,7 @@ float EditorBase::GetMenuWidth() const
 	return m_menuWidth;
 }
 
-GS_COLOR EditorBase::GetBGColor() const
+Color EditorBase::GetBGColor() const
 {
 	return m_background;
 }
@@ -81,7 +81,7 @@ void ShadowPrint(VideoPtr video, Vector2 v2Pos, const wchar_t *text, const wchar
 {
 	video->DrawBitmapText(v2Pos, text, font, color);
 }
-bool EditorBase::DrawTab(VideoPtr video, InputPtr input, const Vector2 &v2Pos, const float width, const wstring &text, GS_COLOR color)
+bool EditorBase::DrawTab(VideoPtr video, InputPtr input, const Vector2 &v2Pos, const float width, const wstring &text, Color color)
 {
 	video->SetAlphaMode(GSAM_PIXEL);
 	video->SetVertexShader(ShaderPtr());
@@ -109,7 +109,7 @@ bool EditorBase::DrawTab(VideoPtr video, InputPtr input, const Vector2 &v2Pos, c
 	m_curve->FlipX();
 	m_curve->Draw(v2Pos+Vector2(v2CurveSize.x+rectWidth, 0), color);
 
-	ShadowPrint(v2RectPos+Vector2(v2CurveSize.x, m_menuSize/2), text.c_str(), L"Verdana14_shadow.fnt", GS_COLOR(color.a,255,255,255));
+	ShadowPrint(v2RectPos+Vector2(v2CurveSize.x, m_menuSize/2), text.c_str(), L"Verdana14_shadow.fnt", Color(color.a,255,255,255));
 	video->SetCameraPos(v2Cam);
 	return (mouseOver && input->GetKeyState(GSK_LMOUSE) == GSKS_HIT);
 }
@@ -198,7 +198,7 @@ string EditorBase::GetProgramPath()
 	return utf8::c(m_provider->GetFileIOHub()->GetProgramDirectory()).str();
 }
 
-void EditorBase::ShadowPrint(Vector2 v2Pos, const wchar_t *text, const GS_COLOR& color) const
+void EditorBase::ShadowPrint(Vector2 v2Pos, const wchar_t *text, const Color& color) const
 {
 	m_provider->GetVideo()->DrawBitmapText(
 		v2Pos, 
@@ -206,7 +206,7 @@ void EditorBase::ShadowPrint(Vector2 v2Pos, const wchar_t *text, const GS_COLOR&
 	);
 }
 
-void EditorBase::ShadowPrint(Vector2 v2Pos, const wchar_t *text, const wchar_t *font, const GS_COLOR& color) const
+void EditorBase::ShadowPrint(Vector2 v2Pos, const wchar_t *text, const wchar_t *font, const Color& color) const
 {
 	m_provider->GetVideo()->DrawBitmapText(v2Pos, text, font, color);
 }

@@ -43,10 +43,10 @@ class GSGUI_STRING_INPUT
 public:
 	GSGUI_STRING_INPUT();
 	void PlaceInput(const Vector2& pos, const std::wstring& font, const unsigned int nMaxChars,
-					const float size, const GS_COLOR& dwColor, VideoPtr video,
+					const float size, const Color& dwColor, VideoPtr video,
 					InputPtr input);
 	void Place(const Vector2& pos, const std::wstring& font,
-				const float size, const GS_COLOR& dwColor, VideoPtr video);
+				const float size, const Color& dwColor, VideoPtr video);
 	std::wstring GetString() const;
 	void SetString(const std::wstring &inS);
 	void NumbersOnly(const bool b);
@@ -67,18 +67,18 @@ private:
 struct GSGUI_STYLE
 {
 	GSGUI_STYLE();
-	GS_COLOR outline;
+	Color outline;
 
-	GS_COLOR inactive_top;
-	GS_COLOR inactive_bottom;
-	GS_COLOR active_top;
-	GS_COLOR active_bottom;
-	GS_COLOR focused_top;
-	GS_COLOR focused_bottom;
+	Color inactive_top;
+	Color inactive_bottom;
+	Color active_top;
+	Color active_bottom;
+	Color focused_top;
+	Color focused_bottom;
 
-	GS_COLOR active_text;
-	GS_COLOR inactive_text;
-	GS_COLOR text_shadow;
+	Color active_text;
+	Color inactive_text;
+	Color text_shadow;
 };
 
 ///////////////////////////////////////////////////////////////

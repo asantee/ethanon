@@ -180,7 +180,7 @@ bool D3D9CgShader::SetShader()
 	return true;
 }
 
-bool D3D9CgShader::SetConstant(const std::wstring& name, const GS_COLOR& dw)
+bool D3D9CgShader::SetConstant(const std::wstring& name, const Color& dw)
 {
 	Vector4 v;
 	v.SetColor(dw);

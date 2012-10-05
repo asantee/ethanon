@@ -59,10 +59,10 @@ private:
 class ETHRectangleDrawer : public ETHPrimitiveDrawer
 {
 public:
-	ETHRectangleDrawer(const ETHResourceProviderPtr& provider, const Vector2& pos, const Vector2& size, const GS_COLOR& color,
+	ETHRectangleDrawer(const ETHResourceProviderPtr& provider, const Vector2& pos, const Vector2& size, const Color& color,
 					   const float depth = 0.0f);
 	ETHRectangleDrawer(const ETHResourceProviderPtr& provider, const Vector2& pos, const Vector2& size,
-					  const GS_COLOR& color0, const GS_COLOR& color1, const GS_COLOR& color2, const GS_COLOR& color3,
+					  const Color& color0, const Color& color1, const Color& color2, const Color& color3,
 					  const float depth = 0.0f);
 
 	bool Draw(const unsigned long lastFrameElapsedTimeMS);
@@ -71,7 +71,7 @@ public:
 private:
 	Vector2 v2Pos;
 	Vector2 v2Size;
-	GS_COLOR color0, color1, color2, color3;
+	Color color0, color1, color2, color3;
 	float depth;
 	ETHResourceProviderPtr provider;
 };
@@ -80,15 +80,15 @@ private:
 class ETHLineDrawer : public ETHPrimitiveDrawer
 {
 public:
-	ETHLineDrawer(const ETHResourceProviderPtr& provider, const Vector2& a, const Vector2& b, const GS_COLOR& color0,
-				  const GS_COLOR& color1, const float width, const float depth = 0.0f);
+	ETHLineDrawer(const ETHResourceProviderPtr& provider, const Vector2& a, const Vector2& b, const Color& color0,
+				  const Color& color1, const float width, const float depth = 0.0f);
 
 	bool Draw(const unsigned long lastFrameElapsedTimeMS);
 	bool IsAlive() const;
 
 private:
 	Vector2 a, b;
-	GS_COLOR colorA, colorB;
+	Color colorA, colorB;
 	float width, depth;
 	ETHResourceProviderPtr provider;
 };
@@ -98,7 +98,7 @@ class ETHSpriteDrawer : public ETHPrimitiveDrawer
 public:
 	ETHSpriteDrawer(const ETHResourceProviderPtr& provider, ETHGraphicResourceManagerPtr graphicResources,
 					const str_type::string& currentPath, const str_type::string& name, const Vector2& pos,
-					const Vector2& size, const GS_COLOR& color, const float depth, const float angle, const unsigned int frame);
+					const Vector2& size, const Color& color, const float depth, const float angle, const unsigned int frame);
 
 	bool Draw(const unsigned long lastFrameElapsedTimeMS);
 	bool IsAlive() const;
@@ -108,7 +108,7 @@ private:
 	Vector2 v2Size;
 	Vector2 v2Origin;
 	SpritePtr sprite;
-	GS_COLOR color0, color1, color2, color3;
+	Color color0, color1, color2, color3;
 	str_type::string name;
 	float depth;
 	float angle;
