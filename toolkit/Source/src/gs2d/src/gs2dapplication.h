@@ -23,14 +23,14 @@
 #ifndef GS2D_APPLICATION_H_
 #define GS2D_APPLICATION_H_
 
-#include "gs2dmath.h"
+#include "Math/Math.h"
 #include "gs2dtypes.h"
 #include "Platform/FileIOHub.h"
 
 namespace gs2d {
 
 /// Shows an error, warning or info message to the user
-void ShowMessage(str_type::stringstream &stream, const GS_MESSAGE_TYPE type = GSMT_ERROR);
+void ShowMessage(str_type::stringstream& stream, const GS_MESSAGE_TYPE type = GSMT_ERROR);
 
 /// Shows an error, warning or info message to the user
 void ShowMessage(const str_type::string& str, const GS_MESSAGE_TYPE type = GSMT_ERROR);
@@ -39,7 +39,7 @@ void ShowMessage(const str_type::string& str, const GS_MESSAGE_TYPE type = GSMT_
  * \brief Abstracts all application related methods
  *
  * This class contains methods that will handle the application
- * taks, such as events and timer.
+ * tasks, such as events and timer.
  */
 class Application
 {

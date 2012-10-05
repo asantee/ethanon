@@ -26,7 +26,7 @@
 #include <Box2D/Box2D.h>
 #include "../Entity/ETHEntityArray.h"
 #include "../Entity/ETHEntityChooser.h"
-#include <gs2dmath.h>
+#include <Math/Math.h>
 #include <map>
 
 using namespace gs2d::math;

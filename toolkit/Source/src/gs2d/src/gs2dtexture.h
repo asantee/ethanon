@@ -23,7 +23,7 @@
 #ifndef GS2D_TEXTURE_H_
 #define GS2D_TEXTURE_H_
 
-#include "gs2dmath.h"
+#include "Math/Math.h"
 
 namespace gs2d {
 

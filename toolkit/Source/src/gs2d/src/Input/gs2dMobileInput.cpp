@@ -35,7 +35,7 @@ MobileInput::MobileInput(const unsigned int maxTouchCount) :
 	m_lastTouch(maxTouchCount),
 	m_logger(Platform::FileLogger::GetLogDirectory() + "MobileInput.log.txt")
 {
-	for (unsigned int t=0; t<m_maxTouchCount; t++)
+	for (unsigned int t = 0; t < m_maxTouchCount; t++)
 	{
 		m_touchMove[t] = Vector2(0, 0);
 		m_lastTouch[t] = GS_NO_TOUCH;

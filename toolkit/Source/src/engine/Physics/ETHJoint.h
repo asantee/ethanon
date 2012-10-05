@@ -25,7 +25,7 @@
 
 #include <Enml/Enml.h>
 #include <boost/shared_ptr.hpp>
-#include <gs2dmath.h>
+#include <Math/Math.h>
 #include "../Entity/ETHEntity.h"
 
 class ETHPhysicsSimulator;

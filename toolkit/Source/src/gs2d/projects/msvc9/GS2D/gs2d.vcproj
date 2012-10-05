@@ -198,10 +198,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gs2dmath.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\src\gs2dplayer.h"
 				>
 			</File>
@@ -349,6 +345,14 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\enml\Enml.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Math"
+			>
+			<File
+				RelativePath="..\..\..\src\Math\Math.h"
 				>
 			</File>
 		</Filter>

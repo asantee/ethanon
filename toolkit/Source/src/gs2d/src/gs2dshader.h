@@ -23,7 +23,7 @@
 #ifndef GS2D_SHADER_H_
 #define GS2D_SHADER_H_
 
-#include "gs2dmath.h"
+#include "Math/Math.h"
 #include "gs2dcolor.h"
 #include <boost/shared_array.hpp>
 
