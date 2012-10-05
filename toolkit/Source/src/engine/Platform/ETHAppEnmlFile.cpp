@@ -44,7 +44,7 @@ ETHAppEnmlFile::ETHAppEnmlFile(const str_type::string& fileName, const Platform:
 	str_type::string out;
 	fileManager->GetAnsiFileString(fileName, out);
 	enml::File file(out);
-	if (file.getError() == enml::enmlevSUCCESS)
+	if (file.GetError() == enml::RV_SUCCESS)
 	{
 		LoadProperties(ETH_DEFAULT_PROPERTY_APP_ENML_ENTITY, file);
 
@@ -64,33 +64,33 @@ ETHAppEnmlFile::ETHAppEnmlFile(const str_type::string& fileName, const Platform:
 #		else
 			std::cerr
 #		endif
-			<< file.getErrorString() << std::endl;
+			<< file.GetErrorString() << std::endl;
 	}
 }
 
 // get a string value from enml and fill the variable only if it exists
 static void GetString(const gs2d::enml::File& file, const str_type::string& platformName, const str_type::string& attrib, str_type::string& param)
 {
-	const str_type::string value = file.get(platformName, attrib);
+	const str_type::string value = file.Get(platformName, attrib);
 	if (value != GS_L(""))
-		param = file.get(platformName, attrib);
+		param = file.Get(platformName, attrib);
 }
 
 // get a boolean value from enml and fill the variable only if it exists
 static void GetBoolean(const gs2d::enml::File& file, const str_type::string& platformName, const str_type::string& attrib, bool& param)
 {
-	const str_type::string value = file.get(platformName, attrib);
+	const str_type::string value = file.Get(platformName, attrib);
 	if (value != GS_L(""))
-		param = ETHGlobal::IsTrue(file.get(platformName, attrib));
+		param = ETHGlobal::IsTrue(file.Get(platformName, attrib));
 }
 
 void ETHAppEnmlFile::LoadProperties(const str_type::string& platformName, const gs2d::enml::File& file)
 {
-	if (!file.exists(platformName))
+	if (!file.Exists(platformName))
 		return;
 
-	file.getUInt(platformName, GS_L("width"), &width);
-	file.getUInt(platformName, GS_L("height"), &height);
+	file.GetUInt(platformName, GS_L("width"), &width);
+	file.GetUInt(platformName, GS_L("height"), &height);
 
 	GetBoolean(file, platformName, GS_L("windowed"), windowed);
 	GetBoolean(file, platformName, GS_L("vsync"), vsync);
@@ -99,16 +99,16 @@ void ETHAppEnmlFile::LoadProperties(const str_type::string& platformName, const 
 	GetString(file, platformName, GS_L("fixedWidth"), fixedWidth);
 	GetString(file, platformName, GS_L("fixedHeight"), fixedHeight);
 
-	file.getFloat(platformName, GS_L("hdDensityValue"), &hdDensityValue);
-	file.getFloat(platformName, GS_L("fullHdDensityValue"), &fullHdDensityValue);
-	file.getUInt(platformName, GS_L("minScreenHeightForHdVersion"), &minScreenHeightForHdVersion);
-	file.getUInt(platformName, GS_L("minScreenHeightForFullHdVersion"), &minScreenHeightForFullHdVersion);
+	file.GetFloat(platformName, GS_L("hdDensityValue"), &hdDensityValue);
+	file.GetFloat(platformName, GS_L("fullHdDensityValue"), &fullHdDensityValue);
+	file.GetUInt(platformName, GS_L("minScreenHeightForHdVersion"), &minScreenHeightForHdVersion);
+	file.GetUInt(platformName, GS_L("minScreenHeightForFullHdVersion"), &minScreenHeightForFullHdVersion);
 
-	const str_type::string newTitle = file.get(platformName, GS_L("title"));
+	const str_type::string newTitle = file.Get(platformName, GS_L("title"));
 	if (!newTitle.empty())
 		title = newTitle;
 
-	std::vector<gs2d::str_type::string> words = ETHGlobal::SplitString(file.get(platformName, GS_L("definedWords")), GS_L(","));
+	std::vector<gs2d::str_type::string> words = ETHGlobal::SplitString(file.Get(platformName, GS_L("definedWords")), GS_L(","));
 	definedWords.insert(definedWords.end(), words.begin(), words.end());
 	std::sort(definedWords.begin(), definedWords.end());
 

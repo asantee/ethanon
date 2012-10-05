@@ -321,10 +321,14 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="enml"
+			Name="Enml"
 			>
 			<File
-				RelativePath="..\..\..\src\enml\enml.h"
+				RelativePath="..\..\..\src\Enml\Enml.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\enml\Enml.h"
 				>
 			</File>
 		</Filter>

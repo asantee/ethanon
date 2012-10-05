@@ -27,7 +27,7 @@
 #include "../Util/ETHDateTime.h"
 #include <ostream>
 #include <string>
-#include <enml/enml.h>
+#include <Enml/Enml.h>
 
 namespace ETHGlobal
 {

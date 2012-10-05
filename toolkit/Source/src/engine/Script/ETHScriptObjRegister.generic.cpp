@@ -95,37 +95,37 @@ asDECLARE_FUNCTION_WRAPPER(__EnmlFileFactory,   EnmlFileFactory);
 asDECLARE_FUNCTION_WRAPPER(__EnmlEntityFactory, EnmlEntityFactory);
 //asDECLARE_FUNCTION_OBJ_WRAPPER(__EnmlEntityCopyConstructor, EnmlEntityCopyConstructor, false);
 
-asDECLARE_METHOD_WRAPPERPR(__addRefEntity,  enml::Entity, addRef,  (void), void);
-asDECLARE_METHOD_WRAPPERPR(__releaseEntity, enml::Entity, release, (void), void);
+asDECLARE_METHOD_WRAPPERPR(__addRefEntity,  enml::Entity, AddRef,  (void), void);
+asDECLARE_METHOD_WRAPPERPR(__releaseEntity, enml::Entity, Release, (void), void);
 
-asDECLARE_METHOD_WRAPPERPR(__addRefFile,  enml::File, addRef,  (void), void);
-asDECLARE_METHOD_WRAPPERPR(__releaseFile, enml::File, release, (void), void);
+asDECLARE_METHOD_WRAPPERPR(__addRefFile,  enml::File, AddRef,  (void), void);
+asDECLARE_METHOD_WRAPPERPR(__releaseFile, enml::File, Release, (void), void);
 
-asDECLARE_METHOD_WRAPPERPR(__clearEntity,        enml::Entity, clear,             (void),                                      void);
-asDECLARE_METHOD_WRAPPERPR(__add,                enml::Entity, add,               (const str_type::string&, str_type::string), void);
-asDECLARE_METHOD_WRAPPERPR(__getEntity,          enml::Entity, get,               (const str_type::string&),                   str_type::string);
-asDECLARE_METHOD_WRAPPERPR(__getAttributeNamesE, enml::Entity, getAttributeNames, (void) const,                                str_type::string);
+asDECLARE_METHOD_WRAPPERPR(__clearEntity,        enml::Entity, Clear,             (void),                                      void);
+asDECLARE_METHOD_WRAPPERPR(__add,                enml::Entity, Add,               (const str_type::string&, str_type::string), void);
+asDECLARE_METHOD_WRAPPERPR(__getEntity,          enml::Entity, Get,               (const str_type::string&),                   str_type::string);
+asDECLARE_METHOD_WRAPPERPR(__getAttributeNamesE, enml::Entity, GetAttributeNames, (void) const,                                str_type::string);
 
-asDECLARE_METHOD_WRAPPERPR(__clearFile,         enml::File, clear,             (void),																	void);
-asDECLARE_METHOD_WRAPPERPR(__addEntity,         enml::File, addEntity,         (const str_type::string&, const enml::Entity&),							void);
-asDECLARE_METHOD_WRAPPERPR(__generateString,    enml::File, generateString,    (void) const,															str_type::string);
-asDECLARE_METHOD_WRAPPERPR(__parseString,       enml::File, parseString,       (const str_type::string&),												unsigned int);
-asDECLARE_METHOD_WRAPPERPR(__exists,            enml::File, exists,            (const str_type::string&) const,											bool);
-asDECLARE_METHOD_WRAPPERPR(__getFile,           enml::File, get,               (const str_type::string&, const str_type::string&) const,				str_type::string);
-asDECLARE_METHOD_WRAPPERPR(__getDouble,         enml::File, getDouble,         (const str_type::string&, const str_type::string&, double&) const,		bool);
-asDECLARE_METHOD_WRAPPERPR(__getInt,            enml::File, getInt,            (const str_type::string&, const str_type::string&, int&) const,			bool);
-asDECLARE_METHOD_WRAPPERPR(__getUInt,           enml::File, getUInt,           (const str_type::string&, const str_type::string&, unsigned int&) const,	bool);
-asDECLARE_METHOD_WRAPPERPR(__getFloat,          enml::File, getFloat,          (const str_type::string&, const str_type::string&, float&) const,		bool);
-asDECLARE_METHOD_WRAPPERPR(__getErrorString,    enml::File, getErrorString,    (void) const,															str_type::string);
-asDECLARE_METHOD_WRAPPERPR(__getEntityNames,    enml::File, getEntityNames,    (void) const,															str_type::string);
-asDECLARE_METHOD_WRAPPERPR(__getAttributeNamesF,enml::File, getAttributeNames, (const str_type::string&) const,											str_type::string);
-asDECLARE_METHOD_WRAPPERPR(__writeToFile,       enml::File, writeToFile,       (const str_type::string&) const,											bool);
-asDECLARE_METHOD_WRAPPERPR(__parseFromFile,     enml::File, parseFromFile,     (const str_type::string&),												bool);
-asDECLARE_METHOD_WRAPPERPR(__getEntityF,        enml::File, getEntity,         (const str_type::string&) const,											bool);
-asDECLARE_METHOD_WRAPPERPR(__addValue,          enml::File, addValue,          (const str_type::string&, const str_type::string&, const str_type::string&), void);
+asDECLARE_METHOD_WRAPPERPR(__clearFile,         enml::File, Clear,             (void),																	void);
+asDECLARE_METHOD_WRAPPERPR(__addEntity,         enml::File, AddEntity,         (const str_type::string&, const enml::Entity&),							void);
+asDECLARE_METHOD_WRAPPERPR(__generateString,    enml::File, GenerateString,    (void) const,															str_type::string);
+asDECLARE_METHOD_WRAPPERPR(__parseString,       enml::File, ParseString,       (const str_type::string&),												unsigned int);
+asDECLARE_METHOD_WRAPPERPR(__exists,            enml::File, Exists,            (const str_type::string&) const,											bool);
+asDECLARE_METHOD_WRAPPERPR(__getFile,           enml::File, Get,               (const str_type::string&, const str_type::string&) const,				str_type::string);
+asDECLARE_METHOD_WRAPPERPR(__getDouble,         enml::File, GetDouble,         (const str_type::string&, const str_type::string&, double&) const,		bool);
+asDECLARE_METHOD_WRAPPERPR(__getInt,            enml::File, GetInt,            (const str_type::string&, const str_type::string&, int&) const,			bool);
+asDECLARE_METHOD_WRAPPERPR(__getUInt,           enml::File, GetUInt,           (const str_type::string&, const str_type::string&, unsigned int&) const,	bool);
+asDECLARE_METHOD_WRAPPERPR(__getFloat,          enml::File, GetFloat,          (const str_type::string&, const str_type::string&, float&) const,		bool);
+asDECLARE_METHOD_WRAPPERPR(__getErrorString,    enml::File, GetErrorString,    (void) const,															str_type::string);
+asDECLARE_METHOD_WRAPPERPR(__getEntityNames,    enml::File, GetEntityNames,    (void) const,															str_type::string);
+asDECLARE_METHOD_WRAPPERPR(__getAttributeNamesF,enml::File, GetAttributeNames, (const str_type::string&) const,											str_type::string);
+asDECLARE_METHOD_WRAPPERPR(__writeToFile,       enml::File, WriteToFile,       (const str_type::string&) const,											bool);
+asDECLARE_METHOD_WRAPPERPR(__parseFromFile,     enml::File, ParseFromFile,     (const str_type::string&),												bool);
+asDECLARE_METHOD_WRAPPERPR(__getEntityF,        enml::File, GetEntity,         (const str_type::string&) const,											bool);
+asDECLARE_METHOD_WRAPPERPR(__addValue,          enml::File, AddValue,          (const str_type::string&, const str_type::string&, const str_type::string&), void);
 
-asDECLARE_FUNCTION_WRAPPER(__GetStringFromFile, enml::getStringFromAnsiFile);
-asDECLARE_FUNCTION_WRAPPER(__SaveStringToFile,  enml::saveStringToAnsiFile);
+asDECLARE_FUNCTION_WRAPPER(__GetStringFromFile, enml::GetStringFromAnsiFile);
+asDECLARE_FUNCTION_WRAPPER(__SaveStringToFile,  enml::SaveStringToAnsiFile);
 
 void RegisterENMLMethods(asIScriptEngine *pASEngine)
 {

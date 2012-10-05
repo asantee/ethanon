@@ -23,7 +23,7 @@
 #ifndef ETH_SPRITE_DENSITY_MANAGER_H_
 #define ETH_SPRITE_DENSITY_MANAGER_H_
 
-#include <enml/enml.h>
+#include <Enml/Enml.h>
 #include <gs2d.h>
 
 class ETHAppEnmlFile;

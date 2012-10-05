@@ -26,7 +26,7 @@
 #include <Box2D/Box2D.h>
 #include <gs2dmath.h>
 #include <vector>
-#include <enml/enml.h>
+#include <Enml/Enml.h>
 
 class ETHCompoundShape
 {

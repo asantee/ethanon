@@ -23,7 +23,7 @@
 #ifndef ETH_APP_ENML_FILE_H_
 #define ETH_APP_ENML_FILE_H_
 
-#include <enml/enml.h>
+#include <Enml/Enml.h>
 #include <Platform/FileManager.h>
 #include "../Resource/ETHSpriteDensityManager.h"
 

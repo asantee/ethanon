@@ -23,7 +23,7 @@
 #ifndef ETH_BACK_BUFFER_TARGET_MANAGER_H_
 #define ETH_BACK_BUFFER_TARGET_MANAGER_H_
 
-#include <enml/enml.h>
+#include <Enml/Enml.h>
 #include <gs2d.h>
 #include <Platform/Logger.h>
 #include "ETHDynamicBackBuffer.h"

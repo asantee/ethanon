@@ -27,6 +27,8 @@ LOCAL_SRC_FILES := \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Video/GLES2/gs2dGLES2Shader.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Video/GLES2/gs2dGLES2Sprite.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Video/GLES2/gs2dGLES2Texture.cpp \
+	$(GS2D_SOURCE_RELATIVE_PATH)/Video/GLES2/GLES2RectRenderer.cpp \
+	$(GS2D_SOURCE_RELATIVE_PATH)/Video/GLES2/GLES2UniformParameter.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Input/Android/gs2dAndroidInput.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Input/gs2dMobileInput.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Audio/Android/gs2dAndroidAudio.cpp \
@@ -36,11 +38,10 @@ LOCAL_SRC_FILES := \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/FileIOHub.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/android/Platform.android.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/android/AndroidFileIOHub.cpp \
-	$(GS2D_SOURCE_RELATIVE_PATH)/Video/GLES2/GLES2RectRenderer.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/ZipFileManager.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/NativeCommandForwarder.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/NativeCommandAssembler.cpp \
-	$(GS2D_SOURCE_RELATIVE_PATH)/Video/GLES2/GLES2UniformParameter.cpp
+	$(GS2D_SOURCE_RELATIVE_PATH)/Enml/Enml.cpp
 
 LOCAL_LDLIBS := -ldl -lz -llog -lGLESv2
 

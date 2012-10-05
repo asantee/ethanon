@@ -68,6 +68,21 @@ namespace str_type {
 #endif
 } // namespace str
 
+#ifdef _MSC_VER
+ #ifdef GS2D_STR_TYPE_ANSI
+  #define ENML_SSCANF sscanf_s
+ #else
+  #define ENML_SSCANF swscanf_s
+ #endif
+#else
+ #ifdef GS2D_STR_TYPE_ANSI
+  #define ENML_SSCANF sscanf
+ #else
+  #define ENML_SSCANF swscanf
+ #endif
+#endif
+
+
 class Texture;
 class Sprite;
 typedef boost::shared_ptr<Texture> TexturePtr;

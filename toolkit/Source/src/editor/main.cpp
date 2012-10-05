@@ -76,10 +76,10 @@ struct ETH_STARTUP_RESOURCES_ENML_FILE
 		str_type::string out;
 		fileManager->GetAnsiFileString(fileName, out);
 		enml::File file(out);
-		if (file.getError() == enml::enmlevSUCCESS)
+		if (file.GetError() == enml::RV_SUCCESS)
 		{
-			emtprojFilename = file.get(GS_L("startup"), GS_L("project"));
-			escFilename = file.get(GS_L("startup"), GS_L("scene"));
+			emtprojFilename = file.Get(GS_L("startup"), GS_L("project"));
+			escFilename = file.Get(GS_L("startup"), GS_L("scene"));
 		}
 		else
 		{
@@ -88,7 +88,7 @@ struct ETH_STARTUP_RESOURCES_ENML_FILE
 #		else
 			std::cerr
 #		endif
-				<< file.getErrorString() << std::endl;
+				<< file.GetErrorString() << std::endl;
 		}
 	}
 	str_type::string emtprojFilename;

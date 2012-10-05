@@ -23,7 +23,7 @@
 #include "ETHScriptObjRegister.h"
 #include "../Util/ETHInput.h"
 #include <assert.h>
-#include <enml/enml.h>
+#include <Enml/Enml.h>
 
 #include "../../addons/scriptmath3d.h"
 #include "../../addons/scriptmath2d.h"

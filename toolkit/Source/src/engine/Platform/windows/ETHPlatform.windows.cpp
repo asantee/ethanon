@@ -30,7 +30,7 @@
 #include <assert.h>
 #include <windows.h>
 #include <vector>
-#include <enml/enml.h>
+#include <Enml/Enml.h>
 
 namespace ETHPlatform {
 
@@ -87,7 +87,7 @@ std::vector<str_type::string> splitString(str_type::string str, const str_type::
 
 void LoadAllDynamicLibraries(const str_type::string& path, asIScriptEngine *pASEngine)
 {
-	const str_type::string content = enml::getStringFromAnsiFile(path + _ETH_DYNAMIC_LIBRARY_LIST);
+	const str_type::string content = enml::GetStringFromAnsiFile(path + _ETH_DYNAMIC_LIBRARY_LIST);
 	if (content == GS_L(""))
 		return;
 

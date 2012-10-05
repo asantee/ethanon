@@ -23,7 +23,7 @@
 #ifndef ETH_JOINT_H_
 #define ETH_JOINT_H_
 
-#include <enml/enml.h>
+#include <Enml/Enml.h>
 #include <boost/shared_ptr.hpp>
 #include <gs2dmath.h>
 #include "../Entity/ETHEntity.h"

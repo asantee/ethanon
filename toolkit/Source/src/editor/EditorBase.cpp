@@ -23,7 +23,7 @@
 #include "../engine/Platform/FileListing.h"
 #include "../engine/Resource/ETHDirectories.h"
 
-#include <enml/enml.h>
+#include <Enml/Enml.h>
 #include "EditorBase.h"
 #include "EditorCommon.h"
 #include <unicode/utf8converter.h>
@@ -119,9 +119,9 @@ void EditorBase::SaveAttributeToInfoFile(const string &programPath, const string
 	wstring file = utf8::c(programPath).wstr();
 	file += L"\\";
 	file += _ENML_EDITOR_GENERAL_INFO;
-	enml::File parseFile(enml::getStringFromAnsiFile(file));
-	parseFile.add(utf8::c(entity).wstr(), utf8::c(attrib).wstr(), utf8::c(value).wstr());
-	parseFile.writeToFile(file);
+	enml::File parseFile(enml::GetStringFromAnsiFile(file));
+	parseFile.Add(utf8::c(entity).wstr(), utf8::c(attrib).wstr(), utf8::c(value).wstr());
+	parseFile.WriteToFile(file);
 }
 
 string EditorBase::GetAttributeFromInfoFile(const string &programPath, const string &entity, const string &attrib)
@@ -129,8 +129,8 @@ string EditorBase::GetAttributeFromInfoFile(const string &programPath, const str
 	wstring file = utf8::c(programPath).wstr();
 	file += L"\\";
 	file += _ENML_EDITOR_GENERAL_INFO;
-	enml::File parseFile(enml::getStringFromAnsiFile(file));
-	return utf8::c(parseFile.get(utf8::c(entity).wstr(), utf8::c(attrib).wstr())).str();
+	enml::File parseFile(enml::GetStringFromAnsiFile(file));
+	return utf8::c(parseFile.Get(utf8::c(entity).wstr(), utf8::c(attrib).wstr())).str();
 }
 
 void EditorBase::CreateFileMenu()

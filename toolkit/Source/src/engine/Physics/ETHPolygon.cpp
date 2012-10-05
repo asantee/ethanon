@@ -28,10 +28,10 @@ ETHPolygon::ETHPolygon(const gs2d::str_type::string& enmlString)
 	gs2d::enml::File file(enmlString);
 	gs2d::enml::Entity* entity;
 	unsigned int v = 0;
-	while ((entity  = file.getEntity(GetEntityName(v))) != 0)
+	while ((entity  = file.GetEntity(GetEntityName(v))) != 0)
 	{
-		const gs2d::str_type::string& Xvalue = entity->get(GS_L("x"));
-		const gs2d::str_type::string& Yvalue = entity->get(GS_L("y"));
+		const gs2d::str_type::string& Xvalue = entity->Get(GS_L("x"));
+		const gs2d::str_type::string& Yvalue = entity->Get(GS_L("y"));
 		float x = 0.0f, y = 0.0f;
 		ENML_SSCANF(Xvalue.c_str(), GS_L("%f"), &x);
 		ENML_SSCANF(Yvalue.c_str(), GS_L("%f"), &y);

@@ -23,7 +23,7 @@
 #ifndef ETH_POLYGON_H_
 #define ETH_POLYGON_H_
 
-#include <enml/enml.h>
+#include <Enml/Enml.h>
 #include <gs2dmath.h>
 #include <vector>
 
