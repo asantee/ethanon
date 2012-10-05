@@ -20,69 +20,75 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#include "Color.h"
+#include "OrientedBoundingBox.h"
 
 namespace gs2d {
+namespace math {
 
-Color::Color() : color(0)
+OrientedBoundingBox::OrientedBoundingBox(const Vector2& center, const Vector2& size, const float angle)
 {
+	Vector2 x( cosf(angle), sinf(angle));
+	Vector2 y(-sinf(angle), cosf(angle));
+
+	x *= size.x / 2;
+	y *= size.y / 2;
+
+	corner[0] = center - x - y;
+	corner[1] = center + x - y;
+	corner[2] = center + x + y;
+	corner[3] = center - x + y;
+
+	ComputeAxes();
 }
 
-Color::Color(const GS_DWORD color)
+bool OrientedBoundingBox::Overlaps(const OrientedBoundingBox& other) const
 {
-	this->color = color;
+	return Overlaps1Way(other) && other.Overlaps1Way(*this);
 }
 
-Color::Color(const GS_BYTE na, const GS_BYTE nr, const GS_BYTE ng, const GS_BYTE nb)
+bool OrientedBoundingBox::Overlaps1Way(const OrientedBoundingBox& other) const
 {
-	a = na;
-	r = nr;
-	g = ng;
-	b = nb;
+	for (std::size_t a = 0; a < 2; ++a)
+	{
+
+		float t = DP2(other.corner[0], axis[a]);
+
+		float tMin = t;
+		float tMax = t;
+
+		for (std::size_t c = 1; c < 4; ++c)
+		{
+			t = DP2(other.corner[c], axis[a]);
+
+			if (t < tMin)
+			{
+				tMin = t;
+			}
+			else if (t > tMax)
+			{
+				tMax = t;
+			}
+		}
+
+		if ((tMin > 1 + origin[a]) || (tMax < origin[a]))
+		{
+			return false;
+		}
+	}
+	return true;
 }
 
-void Color::SetColor(const GS_BYTE na, const GS_BYTE nr, const GS_BYTE ng, const GS_BYTE nb)
+void OrientedBoundingBox::ComputeAxes()
 {
-	a = na;
-	r = nr;
-	g = ng;
-	b = nb;
+	axis[0] = corner[1] - corner[0]; 
+	axis[1] = corner[3] - corner[0]; 
+
+	for (std::size_t a = 0; a < 2; ++a)
+	{
+		axis[a] /= axis[a].SquaredLength();
+		origin[a] = DP2(corner[0], axis[a]);
+	}
 }
 
-void Color::SetColor(const GS_DWORD color)
-{
-	this->color = color;
-}
-
-Color::operator GS_DWORD() const
-{
-	return color;
-}
-
-Color& Color::operator = (GS_DWORD color)
-{
-	this->color = color;
-	return *this;
-}
-
-void Color::SetAlpha(const GS_BYTE na)
-{
-	a = na;
-}
-
-void Color::SetRed(const GS_BYTE nr)
-{
-	r = nr;
-}
-
-void Color::SetGreen(const GS_BYTE ng)
-{
-	g = ng;
-}
-
-void Color::SetBlue(const GS_BYTE nb)
-{
-	b = nb;
-}
-
-} // namespace gs2d
+} // math
+} // gs2d

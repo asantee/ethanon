@@ -29,6 +29,8 @@
 #include "ETHDynamicBackBuffer.h"
 #include "../Platform/ETHAppEnmlFile.h"
 
+#include <Math/OrientedBoundingBox.h>
+
 class ETHInput;
 
 class ETHBackBufferTargetManager : public gs2d::Application::ScreenSizeChangeListener

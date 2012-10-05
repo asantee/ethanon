@@ -25,6 +25,7 @@ LOCAL_SRC_FILES := \
 	$(GS2D_SOURCE_RELATIVE_PATH)/gs2d.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Math/Randomizer.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Math/Color.cpp \
+	$(GS2D_SOURCE_RELATIVE_PATH)/Math/OrientedBoundingBox.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Video/BitmapFont.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Video/GLES2/gs2dGLES2.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Video/GLES2/gs2dGLES2Shader.cpp \

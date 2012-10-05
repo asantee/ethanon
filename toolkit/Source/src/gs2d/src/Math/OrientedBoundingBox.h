@@ -20,69 +20,39 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#include "Color.h"
+#ifndef GS2D_ORIENTED_BOUNDING_BOX_H_
+#define GS2D_ORIENTED_BOUNDING_BOX_H_
+
+#include "Math.h"
 
 namespace gs2d {
+namespace math {
 
-Color::Color() : color(0)
+/**
+ * \brief Describes an oriented bounding box
+ *
+ * This class stores and compares two boxes for oriented BB overlapping.
+ * The code was originally written by Morgan McGuire and posted in this
+ * thread: http://www.flipcode.com/archives/2D_OBB_Intersection.shtml
+ */
+class OrientedBoundingBox
 {
-}
+public:
+	OrientedBoundingBox(const Vector2& center, const Vector2& size, const float angle);
+	bool Overlaps(const OrientedBoundingBox& other) const;
 
-Color::Color(const GS_DWORD color)
-{
-	this->color = color;
-}
+private:
+	Vector2 corner[4];
+	Vector2 axis[2];
+	float origin[2];
 
-Color::Color(const GS_BYTE na, const GS_BYTE nr, const GS_BYTE ng, const GS_BYTE nb)
-{
-	a = na;
-	r = nr;
-	g = ng;
-	b = nb;
-}
+	bool Overlaps1Way(const OrientedBoundingBox& other) const;
+	void ComputeAxes();
+};
 
-void Color::SetColor(const GS_BYTE na, const GS_BYTE nr, const GS_BYTE ng, const GS_BYTE nb)
-{
-	a = na;
-	r = nr;
-	g = ng;
-	b = nb;
-}
+typedef boost::shared_ptr<gs2d::math::OrientedBoundingBox> OrientedBoundingBoxPtr;
 
-void Color::SetColor(const GS_DWORD color)
-{
-	this->color = color;
-}
+} // math
+} // gs2d
 
-Color::operator GS_DWORD() const
-{
-	return color;
-}
-
-Color& Color::operator = (GS_DWORD color)
-{
-	this->color = color;
-	return *this;
-}
-
-void Color::SetAlpha(const GS_BYTE na)
-{
-	a = na;
-}
-
-void Color::SetRed(const GS_BYTE nr)
-{
-	r = nr;
-}
-
-void Color::SetGreen(const GS_BYTE ng)
-{
-	g = ng;
-}
-
-void Color::SetBlue(const GS_BYTE nb)
-{
-	b = nb;
-}
-
-} // namespace gs2d
+#endif

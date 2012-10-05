@@ -364,6 +364,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\src\Math\OrientedBoundingBox.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\Math\OrientedBoundingBox.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\src\Math\Randomizer.cpp"
 				>
 			</File>
