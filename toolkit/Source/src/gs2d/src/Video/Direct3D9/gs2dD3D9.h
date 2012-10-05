@@ -28,6 +28,8 @@
 #include <vector>
 #include <map>
 
+#include "../BitmapFont.h"
+
 namespace gs2d {
 
 /// Converts a GS_BITMAP_FORMAT constant to an extension string

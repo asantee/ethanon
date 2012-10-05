@@ -32,6 +32,7 @@
 #include <map>
 #include <sys/time.h>
 
+#include "../BitmapFont.h"
 
 #define _GS2D_GLES2_MAX_MULTI_TEXTURES 2
 

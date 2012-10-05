@@ -628,9 +628,9 @@ struct PODMatrix4x4
 
 struct Matrix4x4 : public PODMatrix4x4
 {
-	Matrix4x4(const Matrix4x4 &m)
+	Matrix4x4(const Matrix4x4& m)
 	{
-		for (unsigned int t=0; t<16; t++)
+		for (unsigned int t = 0; t < 16; t++)
 		{
 			e[t] = m.e[t];
 		}
@@ -697,7 +697,7 @@ struct Matrix4x4 : public PODMatrix4x4
 
 };
 
-inline float GetAngle(const Vector2 &v2)
+inline float GetAngle(const Vector2& v2)
 {
 	const float r = atan2f(v2.x, v2.y);
 	return (r < 0) ? r + (2 * constant::PI) : r;
@@ -713,27 +713,27 @@ inline float DegreeToRadian(const float angle)
 	return angle * (constant::PI / 180.0f);
 }
 
-inline float DP2(const Vector2 &a, const Vector2 &b)
+inline float DP2(const Vector2& a, const Vector2& b)
 {
 	return ((a.x * b.x) + (a.y * b.y));
 }
 
-inline float DP3(const Vector3 &a, const Vector3 &b)
+inline float DP3(const Vector3& a, const Vector3& b)
 {
 	return ((a.x * b.x) + (a.y * b.y) + (a.z * b.z));
 }
 
-inline float DP4(const Vector4 &a, const Vector4 &b)
+inline float DP4(const Vector4& a, const Vector4& b)
 {
 	return ((a.x * b.x) + (a.y * b.y) + (a.z * b.z) + (a.w * b.w));
 }
 
-inline Vector3 cross(const Vector3 &v0, const Vector3 &v1)
+inline Vector3 cross(const Vector3& v0, const Vector3& v1)
 {
 	return Vector3((v0.y * v1.z) - (v0.z * v1.y), (v0.z * v1.x) - (v0.x * v1.z), (v0.x * v1.y) - (v0.y * v1.x));
 }
 
-inline Vector3 Normalize(const Vector3 &v0)
+inline Vector3 Normalize(const Vector3& v0)
 {
 	const float a = sqrtf(DP3(v0, v0));
 	if (a <= 0.0f)
@@ -741,7 +741,7 @@ inline Vector3 Normalize(const Vector3 &v0)
 	return Vector3(v0.x / a, v0.y / a, v0.z / a);
 }
 
-inline Vector2 Normalize(const Vector2 &v0)
+inline Vector2 Normalize(const Vector2& v0)
 {
 	const float a = sqrtf(DP2(v0, v0));
 	if (a <= 0.0f)
@@ -749,25 +749,25 @@ inline Vector2 Normalize(const Vector2 &v0)
 	return Vector2(v0.x / a, v0.y / a);
 }
 
-inline float SquaredDistance(const Vector3 &P0, const Vector3 &P1)
+inline float SquaredDistance(const Vector3& P0, const Vector3& P1)
 {
 	const Vector3 diff = P1 - P0;
 	return DP3(diff, diff);
 }
 
-inline float SquaredDistance(const Vector2 &P0, const Vector2 &P1)
+inline float SquaredDistance(const Vector2& P0, const Vector2& P1)
 {
 	const Vector2 diff = P1 - P0;
 	return DP2(diff, diff);
 }
 
-inline float Distance(const Vector3 &P0, const Vector3 &P1)
+inline float Distance(const Vector3& P0, const Vector3& P1)
 {
 	const Vector3 diff = P1 - P0;
 	return sqrtf(DP3(diff, diff));
 }
 
-inline float Distance(const Vector2 &P0, const Vector2 &P1)
+inline float Distance(const Vector2& P0, const Vector2& P1)
 {
 	const Vector2 diff = P1 - P0;
 	return sqrtf(DP2(diff, diff));
@@ -795,7 +795,7 @@ inline Matrix4x4 Translate(const float x, const float y, const float z)
 
 inline Matrix4x4 RotateX(const float theta)
 {
-	const float sin=sinf(theta), cos=cosf(theta);
+	const float sin = sinf(theta), cos = cosf(theta);
 	return Matrix4x4(
 		1, 0,   0,   0,
 		0, cos, sin, 0,
@@ -806,7 +806,7 @@ inline Matrix4x4 RotateX(const float theta)
 
 inline Matrix4x4 RotateY(const float theta)
 {
-	const float sin=sinf(theta), cos=cosf(theta);
+	const float sin = sinf(theta), cos = cosf(theta);
 	return Matrix4x4(
 		cos, 0,-sin, 0,
 		0,   1,   0, 0,
@@ -817,7 +817,7 @@ inline Matrix4x4 RotateY(const float theta)
 
 inline Matrix4x4 RotateZ(const float theta)
 {
-	const float sin=sinf(theta), cos=cosf(theta);
+	const float sin = sinf(theta), cos = cosf(theta);
 	return Matrix4x4(
 		cos, sin, 0, 0,
 		-sin,cos, 0, 0,
@@ -826,12 +826,12 @@ inline Matrix4x4 RotateZ(const float theta)
 	);
 }
 
-inline Matrix4x4 Multiply(const Matrix4x4 &m1, const Matrix4x4 &m2)
+inline Matrix4x4 Multiply(const Matrix4x4& m1, const Matrix4x4& m2)
 {
 	Matrix4x4 r;
-	for (int i = 0; i<4; i++)
+	for (int i = 0; i < 4; i++)
 	{
-		for (int j = 0; j<4; j++)
+		for (int j = 0; j < 4; j++)
 		{
 			r.m[i][j] = 0;
 			for (int k = 0; k < 4; k++)
@@ -896,10 +896,10 @@ inline Vector2 Multiply(const Vector2 &v2, const Matrix4x4 &mat)
 inline void Orthogonal(Matrix4x4 &out, const float w, const float h, const float zn, const float zf)
 {
 	out.Identity();
-	out.mat.a11 = 2.0f/w;
-	out.mat.a22 = 2.0f/h;
-	out.mat.a33 = 1.0f/(zf-zn);
-	out.mat.a43 = zn/(zn-zf);
+	out.mat.a11 = 2.0f / w;
+	out.mat.a22 = 2.0f / h;
+	out.mat.a33 = 1.0f / (zf - zn);
+	out.mat.a43 = zn / (zn - zf);
 }
 
 inline Matrix4x4 Rotate(const float x, const float y, const float z)
@@ -915,19 +915,19 @@ inline Matrix4x4 Rotate(const float x, const float y, const float z)
 template <class T>
 inline T Max(const T &a, const T &b)
 {
-	return (a>b) ? a : b;
+	return (a > b) ? a : b;
 }
 
 template <class T>
 inline T Min(const T &a, const T &b)
 {
-	return (a<b) ? a : b;
+	return (a < b) ? a : b;
 }
 
 template <class T>
 inline T Abs(const T &n)
 {
-	return (n<0) ? -n : n;
+	return (n < 0) ? -n : n;
 }
 
 template <class T>
@@ -1037,10 +1037,10 @@ inline float PlaneDotVector(const Plane& plane, const Vector2& vec)
 inline Vector4 ConvertToV4(const Color& color)
 {
 	return Vector4(
-		(float)color.r/255.0f,
-		(float)color.g/255.0f,
-		(float)color.b/255.0f,
-		(float)color.a/255.0f);
+		(float)color.r / 255.0f,
+		(float)color.g / 255.0f,
+		(float)color.b / 255.0f,
+		(float)color.a / 255.0f);
 }
 
 namespace constant {

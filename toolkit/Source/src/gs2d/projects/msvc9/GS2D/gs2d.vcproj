@@ -239,6 +239,14 @@
 		<Filter
 			Name="Video"
 			>
+			<File
+				RelativePath="..\..\..\src\Video\BitmapFont.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\Video\BitmapFont.h"
+				>
+			</File>
 			<Filter
 				Name="Direct3D9"
 				>

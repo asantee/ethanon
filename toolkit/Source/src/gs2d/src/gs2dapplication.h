@@ -115,6 +115,10 @@ protected:
 typedef boost::shared_ptr<Application> ApplicationPtr;
 typedef boost::weak_ptr<Application> ApplicationWeakPtr;
 
+/// When called once per frame, returns the last frame time delta
+GS2D_API unsigned long ComputeElapsedTime(ApplicationPtr app);
+GS2D_API float ComputeElapsedTimeF(ApplicationPtr app);
+
 } // namespace gs2d
 
 #endif
