@@ -190,10 +190,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gs2dplayer.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\src\gs2dsprite.h"
 				>
 			</File>
@@ -203,6 +199,10 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\Input.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\Player.h"
 				>
 			</File>
 			<File

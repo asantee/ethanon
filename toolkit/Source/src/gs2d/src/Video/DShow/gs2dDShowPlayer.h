@@ -23,7 +23,7 @@
 #ifndef GS2D_DSHOW_PLAYER_H_
 #define GS2D_DSHOW_PLAYER_H_
 
-#include "../../gs2dplayer.h"
+#include "../../Player.h"
 #include <dshow.h>
 #pragma warning( push )
 #pragma warning( disable : 4201 )

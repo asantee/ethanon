@@ -26,7 +26,6 @@
 #include <gs2d.h>
 #include <Audio.h>
 #include <Input.h>
-#include <gs2dplayer.h>
 using namespace gs2d::math;
 using namespace gs2d;
 
