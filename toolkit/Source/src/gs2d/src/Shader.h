@@ -102,4 +102,4 @@ typedef boost::shared_ptr<Shader> ShaderPtr;
 
 } // namespace gs2d
 
-#endif 
+#endif

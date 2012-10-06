@@ -27,6 +27,7 @@
 
 namespace gs2d {
 
+// TO-DO: move following enums into Sprite class
 enum GS_ENTITY_ORIGIN
 {
 	GSEO_DEFAULT = 0,

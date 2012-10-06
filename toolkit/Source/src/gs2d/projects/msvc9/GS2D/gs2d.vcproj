@@ -186,10 +186,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gs2dsprite.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\src\Input.h"
 				>
 			</File>
@@ -199,6 +195,10 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\Shader.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\Sprite.h"
 				>
 			</File>
 			<File

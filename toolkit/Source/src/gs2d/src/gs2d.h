@@ -32,7 +32,7 @@
 
 #include "Application.h"
 #include "Shader.h"
-#include "gs2dsprite.h"
+#include "Sprite.h"
 #include "Window.h"
 
 namespace gs2d {
