@@ -23,7 +23,7 @@
 #ifndef FILE_MANAGER_H_
 #define FILE_MANAGER_H_
 
-#include "../gs2dtypes.h"
+#include "../Types.h"
 
 namespace Platform {
 

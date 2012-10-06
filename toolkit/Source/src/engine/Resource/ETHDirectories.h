@@ -23,7 +23,7 @@
 #ifndef ETH_DIRECTORIES_H_
 #define ETH_DIRECTORIES_H_
 
-#include <gs2dtypes.h>
+#include <Types.h>
 
 class ETHDirectories
 {

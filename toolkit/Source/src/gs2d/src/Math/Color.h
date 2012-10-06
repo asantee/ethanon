@@ -23,7 +23,7 @@
 #ifndef GS2D_COLOR_H_
 #define GS2D_COLOR_H_
 
-#include "../gs2dtypes.h"
+#include "../Types.h"
 
 namespace gs2d {
 

@@ -28,7 +28,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-#include <gs2dtypes.h>
+#include <Types.h>
 
 using namespace gs2d;
 

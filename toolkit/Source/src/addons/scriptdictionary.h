@@ -6,7 +6,7 @@
 // dictionary type
 
 #include "../angelscript/include/angelscript.h"
-#include <gs2dtypes.h>
+#include <Types.h>
 #include <string>
 
 #ifdef _MSC_VER

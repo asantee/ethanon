@@ -24,7 +24,7 @@
 #define GS2D_APPLICATION_H_
 
 #include "Math/Math.h"
-#include "gs2dtypes.h"
+#include "Types.h"
 #include "Platform/FileIOHub.h"
 
 namespace gs2d {

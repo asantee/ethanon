@@ -23,7 +23,7 @@
 #ifndef NATIVE_COMMAND_FORWARDER_H_
 #define NATIVE_COMMAND_FORWARDER_H_
 
-#include "../gs2dtypes.h"
+#include "../Types.h"
 
 namespace Platform {
 

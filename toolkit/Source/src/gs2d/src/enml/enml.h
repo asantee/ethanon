@@ -25,7 +25,7 @@
 
 #include <map>
 #include <list>
-#include "../gs2dtypes.h"
+#include "../Types.h"
 
 namespace gs2d {
 

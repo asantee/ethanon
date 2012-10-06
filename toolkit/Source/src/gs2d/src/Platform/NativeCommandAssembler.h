@@ -23,7 +23,7 @@
 #ifndef NATIVE_COMMAND_ASSEMBLER_H_
 #define NATIVE_COMMAND_ASSEMBLER_H_
 
-#include "../gs2dtypes.h"
+#include "../Types.h"
 
 namespace Platform {
 

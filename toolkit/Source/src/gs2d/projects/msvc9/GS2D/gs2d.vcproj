@@ -190,10 +190,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gs2dtypes.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\src\Input.h"
 				>
 			</File>
@@ -207,6 +203,10 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\Texture.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\Types.h"
 				>
 			</File>
 			<File

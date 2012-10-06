@@ -23,7 +23,7 @@
 #ifndef LOGGER_H_
 #define LOGGER_H_
 
-#include "../gs2dtypes.h"
+#include "../Types.h"
 
 namespace Platform {
 

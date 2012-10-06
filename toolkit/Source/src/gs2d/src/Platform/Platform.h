@@ -23,7 +23,7 @@
 #ifndef PLATFORM_H_
 #define PLATFORM_H_
 
-#include "../gs2dtypes.h"
+#include "../Types.h"
 
 #ifdef GS2D_STR_TYPE_WCHAR
 	#include <xstring>

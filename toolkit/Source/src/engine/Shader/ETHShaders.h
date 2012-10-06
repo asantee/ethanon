@@ -23,7 +23,7 @@
 #ifndef ETH_SHADERS_H_
 #define ETH_SHADERS_H_
 
-#include <gs2dtypes.h>
+#include <Types.h>
 
 class ETHShaders
 {
