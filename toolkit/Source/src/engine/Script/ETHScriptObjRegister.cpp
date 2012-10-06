@@ -24,6 +24,7 @@
 #include "../Util/ETHInput.h"
 #include <assert.h>
 #include <Enml/Enml.h>
+#include "ETHScriptWrapper.h"
 
 #include "../../addons/scriptmath3d.h"
 #include "../../addons/scriptmath2d.h"
@@ -531,12 +532,12 @@ void RegisterGlobalProperties(asIScriptEngine *pASEngine)
 bool RegisterVideoModeObject(asIScriptEngine *pASEngine)
 {
 	int r;
-	r = pASEngine->RegisterObjectType("videoMode", sizeof(ETH_VIDEO_MODE), asOBJ_VALUE | asOBJ_POD | asOBJ_APP_CLASS_CA); assert(r >= 0);
+	r = pASEngine->RegisterObjectType("videoMode", sizeof(ETHScriptWrapper::ETH_VIDEO_MODE), asOBJ_VALUE | asOBJ_POD | asOBJ_APP_CLASS_CA); assert(r >= 0);
 
 	// Register the object properties
-	r = pASEngine->RegisterObjectProperty("videoMode", "uint width", offsetof(ETH_VIDEO_MODE_POD, width)); assert(r >= 0);
-	r = pASEngine->RegisterObjectProperty("videoMode", "uint height", offsetof(ETH_VIDEO_MODE_POD, height)); assert(r >= 0);
-	r = pASEngine->RegisterObjectProperty("videoMode", "PIXEL_FORMAT format", offsetof(ETH_VIDEO_MODE_POD, pf)); assert(r >= 0);
+	r = pASEngine->RegisterObjectProperty("videoMode", "uint width", offsetof(ETHScriptWrapper::ETH_VIDEO_MODE_POD, width)); assert(r >= 0);
+	r = pASEngine->RegisterObjectProperty("videoMode", "uint height", offsetof(ETHScriptWrapper::ETH_VIDEO_MODE_POD, height)); assert(r >= 0);
+	r = pASEngine->RegisterObjectProperty("videoMode", "PIXEL_FORMAT format", offsetof(ETHScriptWrapper::ETH_VIDEO_MODE_POD, pf)); assert(r >= 0);
 
 	return true;
 }

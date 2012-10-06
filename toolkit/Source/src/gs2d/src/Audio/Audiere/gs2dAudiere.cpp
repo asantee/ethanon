@@ -21,11 +21,11 @@
 --------------------------------------------------------------------------------------*/
 
 #include "gs2dAudiere.h"
-#include "../../gs2d.h"
+#include "../../Math/Math.h"
+#include "../../Application.h"
 #include "../../unicode/utf8converter.h"
 
 namespace gs2d {
-using namespace math;
 
 GS2D_API AudioPtr CreateAudio(boost::any data)
 {
@@ -253,7 +253,7 @@ bool AudiereSample::Stop()
 
 bool AudiereSample::SetSpeed(const float speed)
 {
-	m_output->setPitchShift(Min(Max(speed, 0.5f), 2.0f));
+	m_output->setPitchShift(math::Min(math::Max(speed, 0.5f), 2.0f));
 	return true;
 }
 
@@ -264,7 +264,7 @@ float AudiereSample::GetSpeed() const
 
 bool AudiereSample::SetPan(const float pan)
 {
-	m_output->setPan(Min(Max(pan, -1.0f), 1.0f));
+	m_output->setPan(math::Min(math::Max(pan, -1.0f), 1.0f));
 	return true;
 }
 

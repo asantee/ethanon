@@ -23,7 +23,7 @@
 #ifndef GS2D_D3D9_TEXTURE_H_
 #define GS2D_D3D9_TEXTURE_H_
 
-#include "../../gs2d.h"
+#include "../../Texture.h"
 #include <d3dx9.h>
 
 namespace gs2d {

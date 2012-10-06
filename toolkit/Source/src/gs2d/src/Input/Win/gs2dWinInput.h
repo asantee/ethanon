@@ -24,7 +24,6 @@
 #define GS2D_WIN_INPUT_H_
 
 #include "../../Input.h"
-#include "../../gs2d.h"
 #include <windows.h>
 
 #pragma warning( push )

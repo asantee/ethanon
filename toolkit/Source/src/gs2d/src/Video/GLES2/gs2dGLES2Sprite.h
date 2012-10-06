@@ -23,7 +23,7 @@
 #ifndef GS2D_GLES2_SPRITE_H_
 #define GS2D_GLES2_SPRITE_H_
 
-#include "../../gs2d.h"
+#include "../../Video.h"
 #include "gs2dGLES2Shader.h"
 #include "gs2dGLES2Texture.h"
 #include <boost/shared_array.hpp>

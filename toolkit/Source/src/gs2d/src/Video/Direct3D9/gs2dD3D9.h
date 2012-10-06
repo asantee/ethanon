@@ -23,7 +23,7 @@
 #ifndef GS2D_DIRECT3D9_H_
 #define GS2D_DIRECT3D9_H_
 
-#include "../../gs2d.h"
+#include "../../Video.h"
 #include "gs2dD3D9CgShader.h"
 #include <vector>
 #include <map>

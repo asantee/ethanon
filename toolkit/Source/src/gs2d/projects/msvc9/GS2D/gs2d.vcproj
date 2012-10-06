@@ -182,10 +182,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gs2d.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\src\Input.h"
 				>
 			</File>
@@ -207,6 +203,10 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\Types.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\Video.h"
 				>
 			</File>
 			<File

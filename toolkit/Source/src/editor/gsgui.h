@@ -23,7 +23,7 @@
 #ifndef GUISPACE_GAMESPACE_34982095803257023
 #define GUISPACE_GAMESPACE_34982095803257023
 
-#include <gs2d.h>
+#include <Video.h>
 #include <Audio.h>
 #include <Input.h>
 using namespace gs2d::math;

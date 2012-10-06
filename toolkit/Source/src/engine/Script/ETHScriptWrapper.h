@@ -50,6 +50,21 @@ protected:
 	static int GetFunctionId(asIScriptModule* pModule, const str_type::string& name);
 
 public:
+	struct ETH_VIDEO_MODE_POD
+	{
+		unsigned int width, height;
+		GS_PIXEL_FORMAT pf;
+	};
+
+	struct ETH_VIDEO_MODE : public ETH_VIDEO_MODE_POD
+	{
+		ETH_VIDEO_MODE()
+		{
+			width = height = 0;
+			pf = GSPF_UNKNOWN;
+		}
+	};
+
 	static ETHResourceProviderPtr m_provider;
 
 	//static Vector2 GetBGMin() { return m_v2BGMin; }

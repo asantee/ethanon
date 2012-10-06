@@ -24,7 +24,7 @@
 #define ETH_SPRITE_DENSITY_MANAGER_H_
 
 #include <Enml/Enml.h>
-#include <gs2d.h>
+#include <Video.h>
 
 class ETHAppEnmlFile;
 

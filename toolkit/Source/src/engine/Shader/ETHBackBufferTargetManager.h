@@ -24,7 +24,7 @@
 #define ETH_BACK_BUFFER_TARGET_MANAGER_H_
 
 #include <Enml/Enml.h>
-#include <gs2d.h>
+#include <Types.h>
 #include <Platform/Logger.h>
 #include "ETHDynamicBackBuffer.h"
 #include "../Platform/ETHAppEnmlFile.h"

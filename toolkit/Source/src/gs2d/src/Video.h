@@ -73,18 +73,18 @@ class Video :
 public:
 	struct VIDEO_MODE
 	{
-		bool operator == (const VIDEO_MODE &other) const
+		bool operator == (const VIDEO_MODE& other) const
 		{
 			return (width == other.width && height == other.height && pf == other.pf);
 		}
+
 		bool operator < (const VIDEO_MODE &other) const
 		{
 			if (pf < other.pf)
 			{
 				return true;
 			}
-			else if (pf == other.pf
-					&& width*height < other.width*other.height)
+			else if (pf == other.pf	&& width * height < other.width * other.height)
 			{
 				return true;
 			}
@@ -218,7 +218,11 @@ public:
 	virtual math::Rect2D GetScissor() const = 0;
 	virtual void UnsetScissor() = 0;
 
-	virtual math::Vector2 ComputeCarretPosition(const str_type::string& font, const str_type::string& text, const unsigned int pos) = 0;
+	virtual math::Vector2 ComputeCarretPosition(
+		const str_type::string& font,
+		const str_type::string& text,
+		const unsigned int pos) = 0;
+
 	virtual math::Vector2 ComputeTextBoxSize(const str_type::string& font, const str_type::string& text) = 0;
 
 	virtual unsigned int FindClosestCarretPosition(

@@ -63,8 +63,10 @@ static gs2d::str_type::string AssembleResourceName(const string& fullFilePath, c
 	return (folder + versionPathName + file);
 }
 
-gs2d::str_type::string ETHSpriteDensityManager::ChooseSpriteVersion(const gs2d::str_type::string& fullFilePath,
-										   const gs2d::VideoPtr& video, ETHSpriteDensityManager::DENSITY_LEVEL& densityLevel)
+gs2d::str_type::string ETHSpriteDensityManager::ChooseSpriteVersion(
+	const gs2d::str_type::string& fullFilePath,
+	const gs2d::VideoPtr& video,
+	ETHSpriteDensityManager::DENSITY_LEVEL& densityLevel)
 {
 	const Platform::FileManagerPtr fileManager = video->GetFileIOHub()->GetFileManager();
 	const bool shouldUseFullHdResources = ShouldUseFullHdResources(video);

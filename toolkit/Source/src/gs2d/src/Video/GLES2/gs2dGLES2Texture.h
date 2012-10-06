@@ -23,7 +23,7 @@
 #ifndef GS2D_GLES2_TEXTURE_H_
 #define GS2D_GLES2_TEXTURE_H_
 
-#include "../../gs2d.h"
+#include "../../Video.h"
 #include "../../Platform/FileLogger.h"
 
 #ifdef APPLE_IOS

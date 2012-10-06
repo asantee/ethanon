@@ -139,7 +139,7 @@ bool ETHScriptWrapper::Windowed()
 	return m_provider->GetVideo()->IsWindowed();
 }
 
-ETH_VIDEO_MODE ETHScriptWrapper::GetVideoMode(const unsigned int nMode)
+ETHScriptWrapper::ETH_VIDEO_MODE ETHScriptWrapper::GetVideoMode(const unsigned int nMode)
 {
 	const Video::VIDEO_MODE gsMode = m_provider->GetVideo()->GetVideoMode(nMode);
 	ETH_VIDEO_MODE mode;

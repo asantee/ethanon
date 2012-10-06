@@ -25,7 +25,7 @@
 
 #include "EditorBase.h"
 
-#include <gs2d.h>
+#include <Video.h>
 #include <Audio.h>
 using namespace gs2d::math;
 using namespace gs2d;

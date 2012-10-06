@@ -21,6 +21,7 @@
 --------------------------------------------------------------------------------------*/
 
 #include "gs2dD3D9Texture.h"
+#include "../../Video.h"
 #include "../../unicode/utf8converter.h"
 
 namespace gs2d {

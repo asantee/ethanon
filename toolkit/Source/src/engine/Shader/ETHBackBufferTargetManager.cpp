@@ -25,6 +25,8 @@
 #include "ETHNoDynamicBackBuffer.h"
 #include "../Util/ETHInput.h"
 
+#include <Video.h>
+
 ETHBackBufferTargetManagerPtr ETHBackBufferTargetManager::Create(gs2d::VideoPtr video,
 																 const ETHAppEnmlFile& file, const Platform::Logger& logger,
 																 ETHInput& ethInput)

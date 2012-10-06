@@ -21,6 +21,7 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHParallaxManager.h"
+#include <Video.h>
 
 ETHParallaxManager::ETHParallaxManager()
  : m_normalizedOrigin(0.5f, 0.5f), m_intensity(0), m_verticalIntensity(0.1f)
@@ -86,4 +87,13 @@ void ETHParallaxManager::SetVerticalIntensity(const float intensity)
 float ETHParallaxManager::GetVerticalIntensity() const
 {
 	return m_verticalIntensity;
+}
+
+gs2d::math::Vector2 ETHParallaxManager::ComputeOffset(
+	const VideoPtr& video,
+	const Vector3 &pos,
+	const float& individualParallaxIntensity) const
+{
+	const Vector2 screenSpacePos = Vector2(pos.x, pos.y) - video->GetCameraPos();
+	return ((screenSpacePos - GetInScreenOrigin(video)) / video->GetScreenSizeF().x) * pos.z * m_intensity * individualParallaxIntensity;
 }

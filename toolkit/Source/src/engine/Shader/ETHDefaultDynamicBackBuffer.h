@@ -24,7 +24,7 @@
 #define ETH_DEFAULT_DYNAMIC_BACK_BUFFER_H_
 
 #include "ETHDynamicBackBuffer.h"
-#include <gs2d.h>
+#include <Video.h>
 
 class ETHDefaultDynamicBackBuffer : public ETHDynamicBackBuffer
 {

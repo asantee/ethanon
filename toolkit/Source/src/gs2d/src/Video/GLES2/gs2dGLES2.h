@@ -23,7 +23,7 @@
 #ifndef GS2D_GLES2_H_
 #define GS2D_GLES2_H_
 
-#include "../../gs2d.h"
+#include "../../Video.h"
 #include "../../Platform/Platform.h"
 #include "../../Platform/FileLogger.h"
 #include "gs2dGLES2Texture.h"

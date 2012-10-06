@@ -22,15 +22,7 @@
 
 #include "gs2dGLES2Shader.h"
 
-#ifdef APPLE_IOS
-  #include "../../Platform/ios/Platform.ios.h"
-#endif
-
-#ifdef ANDROID
-  #include "../../Platform/android/Platform.android.h"
-#endif
-
-#include "../../gs2d.h"
+#include "../../Video.h"
 #include <sstream>
 #include <boost/functional/hash/hash.hpp>
 

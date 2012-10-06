@@ -23,7 +23,7 @@
 #ifndef GS2D_BASE_APPLICATION_H_
 #define GS2D_BASE_APPLICATION_H_
 
-#include "gs2d.h"
+#include "Video.h"
 #include "Input.h"
 #include "Audio.h"
 #include "Platform/FileIOHub.h"

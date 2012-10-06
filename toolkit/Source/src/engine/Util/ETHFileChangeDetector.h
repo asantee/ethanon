@@ -24,7 +24,7 @@
 #define ETH_FILE_CHANGE_DETECTOR_H_
 
 #include <Platform/FileManager.h>
-#include <gs2d.h>
+#include <Application.h>
 
 class ETHFileChangeDetector
 {

@@ -35,7 +35,7 @@
 
 #include "../../Platform/Platform.h"
 #include "../../Platform/FileLogger.h"
-#include "../../gs2d.h"
+#include "../../Sprite.h"
 
 namespace gs2d {
 

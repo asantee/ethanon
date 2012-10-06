@@ -24,7 +24,6 @@
 #ifndef ETH_PARALLAX_MANAGER_H_
 #define ETH_PARALLAX_MANAGER_H_
 
-#include <gs2d.h>
 #include <Shader.h>
 
 using namespace gs2d;
@@ -42,19 +41,22 @@ public:
 	Vector2 GetNormalizedOrigin() const;
 	Vector2 GetInScreenOrigin(const VideoConstPtr& video) const;
 
-	inline Vector2 ComputeOffset(const VideoPtr& video, const Vector3 &pos, const float& individualParallaxIntensity) const
-	{
-		const Vector2 screenSpacePos = Vector2(pos.x, pos.y) - video->GetCameraPos();
-		return ((screenSpacePos - GetInScreenOrigin(video)) / video->GetScreenSizeF().x) * pos.z * m_intensity * individualParallaxIntensity;
-	}
+	Vector2 ComputeOffset(
+		const VideoPtr& video,
+		const Vector3& pos,
+		const float& individualParallaxIntensity) const;
 
 	void SetIntensity(const float intensity);
 	float GetIntensity() const;
 	void SetVerticalIntensity(const float intensity);
 	float GetVerticalIntensity() const;
 
-	void SetShaderParameters(const VideoConstPtr& video, const ShaderPtr& shader, const Vector3& entityPos,
-							 const float& individualParallaxIntensity, const bool drawToTarget) const;
+	void SetShaderParameters(
+		const VideoConstPtr& video,
+		const ShaderPtr& shader,
+		const Vector3& entityPos,
+		const float& individualParallaxIntensity,
+		const bool drawToTarget) const;
 };
 
 #endif

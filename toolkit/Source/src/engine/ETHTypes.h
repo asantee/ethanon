@@ -23,7 +23,7 @@
 #ifndef ETH_TYPES_H_
 #define ETH_TYPES_H_
 
-#include <gs2d.h>
+#include <Math/Math.h>
 
 #ifdef GS2D_STR_TYPE_WCHAR
 #	include "../vendors/tinyxml_utf16/tinyxml.h"
@@ -123,21 +123,6 @@ enum ETH_BODY_SHAPE
 	ETHBS_CIRCLE = 2,
 	ETHBS_POLYGON = 3,
 	ETHBS_COMPOUND = 4
-};
-
-struct ETH_VIDEO_MODE_POD
-{
-	unsigned int width, height;
-	GS_PIXEL_FORMAT pf;
-};
-
-struct ETH_VIDEO_MODE : public ETH_VIDEO_MODE_POD
-{
-	ETH_VIDEO_MODE()
-	{
-		width = height = 0;
-		pf = GSPF_UNKNOWN;
-	}
 };
 
 struct ETH_VIEW_RECT
