@@ -21,7 +21,7 @@
 --------------------------------------------------------------------------------------*/
 
 #include "CustomDataEditor.h"
-#include <unicode/utf8converter.h>
+#include <Unicode/UTF8Converter.h>
 #include <string>
 #include <sstream>
 #include <map>

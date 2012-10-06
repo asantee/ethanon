@@ -26,7 +26,7 @@
 #include <Enml/Enml.h>
 #include "EditorBase.h"
 #include "EditorCommon.h"
-#include <unicode/utf8converter.h>
+#include <Unicode/UTF8Converter.h>
 #include "../engine/Util/ETHASUtil.h"
 
 #define _ENML_EDITOR_GENERAL_INFO L"data\\info.enml"

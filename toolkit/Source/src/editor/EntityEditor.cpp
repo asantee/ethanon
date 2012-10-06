@@ -21,7 +21,7 @@
 --------------------------------------------------------------------------------------*/
 
 #include "EntityEditor.h"
-#include <unicode/utf8converter.h>
+#include <Unicode/UTF8Converter.h>
 #include "../engine/Entity/ETHRenderEntity.h"
 #include "../engine/Resource/ETHDirectories.h"
 #include <sstream>

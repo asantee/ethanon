@@ -397,7 +397,7 @@ int CScriptFile::ReadString(unsigned int length, std::wstring &str)
 	int ascii_size = (int)fread(&ascii_str[0], 1, length, file); 
 	ascii_str.resize(ascii_size);
 
-	str = utf8::converter(ascii_str).wstr();
+	str = utf8::Converter(ascii_str).wstr();
 	return ascii_size;
 }
 
@@ -429,7 +429,7 @@ int CScriptFile::ReadLine(std::wstring &str)
 	}
 	while( !feof(file) && buf[255] == 0 && buf[254] != '\n' );
 
-	str = utf8::converter(ascii_str).wstr();
+	str = utf8::Converter(ascii_str).wstr();
 	return int(ascii_str.size());
 }
 
@@ -559,7 +559,7 @@ int CScriptFile::WriteString(const std::wstring &str)
 	if( file == 0 )
 		return -1;
 
-	std::string ascii_str = utf8::converter(str).str();
+	std::string ascii_str = utf8::Converter(str).str();
 
 	// Write the entire string // TODO: write to file as UTF8 - without wstring -> string conversion
 	size_t r = fwrite(&ascii_str[0], 1, str.length(), file);

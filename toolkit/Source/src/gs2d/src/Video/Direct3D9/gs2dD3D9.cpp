@@ -24,16 +24,22 @@
 #include "gs2dD3D9Texture.h"
 #include "gs2dD3D9Sprite.h"
 #include "gs2dD3D9CgShader.h"
-#include "../../gs2dcgshadercode.h"
+#include "../cgShaderCode.h"
 #include <vector>
-#include "../../unicode/utf8converter.h"
+#include "../../Unicode/UTF8Converter.h"
 
 namespace gs2d {
 using namespace math;
 
-GS2D_API VideoPtr CreateVideo(const unsigned int width, const unsigned int height,
-				const std::wstring& winTitle, const bool windowed, const bool sync, const Platform::FileIOHubPtr& fileIOHub,
-				const GS_PIXEL_FORMAT pfBB, const bool maximizable)
+GS2D_API VideoPtr CreateVideo(
+	const unsigned int width,
+	const unsigned int height,
+	const std::wstring& winTitle,
+	const bool windowed,
+	const bool sync,
+	const Platform::FileIOHubPtr& fileIOHub,
+	const GS_PIXEL_FORMAT pfBB,
+	const bool maximizable)
 {
 	return D3D9Video::Create(width, height, winTitle, windowed, sync, pfBB, maximizable, fileIOHub);
 }

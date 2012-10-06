@@ -186,10 +186,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gs2dcgshadercode.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\src\gs2dsprite.h"
 				>
 			</File>
@@ -233,6 +229,10 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\Video\BitmapFont.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\Video\cgShaderCode.h"
 				>
 			</File>
 			<Filter
@@ -320,11 +320,11 @@
 			Name="Unicode"
 			>
 			<File
-				RelativePath="..\..\..\src\unicode\utf8converter.cpp"
+				RelativePath="..\..\..\src\unicode\UTF8Converter.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\unicode\utf8converter.h"
+				RelativePath="..\..\..\src\unicode\UTF8Converter.h"
 				>
 			</File>
 		</Filter>

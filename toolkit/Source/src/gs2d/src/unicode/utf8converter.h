@@ -27,63 +27,29 @@
 
 namespace utf8 {
 
-class converter
+class Converter
 {
-private:
-	std::string ansidata;
-	std::wstring widedata;
-
 public:
 
-	converter(const char * szData)
-	{
-		SetData(szData);
-	}
-	converter(const std::string& sData)
-	{
-		SetData(sData.c_str());
-	}
-	converter(const wchar_t * wcsData)
-	{
-		SetWideData(wcsData);
-	}
-	converter(const std::wstring& wsData)
-	{
-		SetWideData(wsData.c_str());
-	}
-
-	const char* c_str() const
-	{
-		return ansidata.c_str();
-	}
-
-	const wchar_t* wc_str() const
-	{
-		return widedata.c_str();
-	}
-
-	const std::string& str() const
-	{
-		return ansidata;
-	}
-
-	const std::wstring& wstr() const
-	{
-		return widedata;
-	}
-
-	std::string::size_type length() const
-	{
-		//if (widedata.length() != ansidata.length()) _asm { int 3 }; // temporary debug test stuff
-		return ansidata.length();
-	}
+	Converter(const char * szData);
+	Converter(const std::string& sData);
+	Converter(const wchar_t * wcsData);
+	Converter(const std::wstring& wsData);
+	const char* c_str() const;
+	const wchar_t* wc_str() const;
+	const std::string& str() const;
+	const std::wstring& wstr() const;
+	std::string::size_type length() const;
 
 private:
 	void SetData(const char * szData);
 	void SetWideData(const wchar_t * wcsData);
+
+	std::string ansidata;
+	std::wstring widedata;
 };
 
-typedef converter c;
+typedef Converter c;
 
 } // utf8
 

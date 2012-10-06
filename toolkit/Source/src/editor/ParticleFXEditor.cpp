@@ -22,7 +22,7 @@
 
 #include "ParticleFXEditor.h"
 #include "EditorCommon.h"
-#include <unicode/utf8converter.h>
+#include <Unicode/UTF8Converter.h>
 #include <sstream>
 #include "../engine/Resource/ETHDirectories.h"
 #include "../engine/Util/ETHASUtil.h"

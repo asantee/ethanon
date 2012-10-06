@@ -25,16 +25,62 @@
 
 namespace utf8 {
 
-void converter::SetData(const char * szData)
+void Converter::SetData(const char * szData)
 {
 	ansidata = szData == 0 ? "" : szData;
 	widedata = Platform::ConvertUtf8ToUnicode(ansidata.c_str());
 }
 
-void converter::SetWideData(const wchar_t * wcsData)
+void Converter::SetWideData(const wchar_t * wcsData)
 {
 	widedata = wcsData == 0 ? L"" : wcsData;
 	ansidata = Platform::ConvertUnicodeToUtf8(widedata.c_str());
+}
+
+Converter::Converter(const char * szData)
+{
+	SetData(szData);
+}
+
+Converter::Converter(const std::string& sData)
+{
+	SetData(sData.c_str());
+}
+
+Converter::Converter(const wchar_t * wcsData)
+{
+	SetWideData(wcsData);
+}
+
+Converter::Converter(const std::wstring& wsData)
+{
+	SetWideData(wsData.c_str());
+}
+
+const char* Converter::c_str() const
+{
+	return ansidata.c_str();
+}
+
+const wchar_t* Converter::wc_str() const
+{
+	return widedata.c_str();
+}
+
+const std::string& Converter::str() const
+{
+	return ansidata;
+}
+
+const std::wstring& Converter::wstr() const
+{
+	return widedata;
+}
+
+std::string::size_type Converter::length() const
+{
+	//if (widedata.length() != ansidata.length()) _asm { int 3 }; // temporary debug test stuff
+	return ansidata.length();
 }
 
 } // namespace utf8

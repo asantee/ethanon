@@ -22,7 +22,7 @@
 
 #include "ProjectManager.h"
 #include "EditorCommon.h"
-#include <unicode/utf8converter.h>
+#include <Unicode/UTF8Converter.h>
 #include "../engine/Scene/ETHScene.h"
 #include "../engine/ETHEngine.h"
 
@@ -195,7 +195,7 @@ void ProjectManager::PrepareProjectDir()
 		{"cg.dll", true},
 		{"cgD3D9.dll", true},
 		{"d3dx9_42.dll", true},
-		{utf8::converter(_ETH_DEFAULT_MAIN_SCRIPT_FILE).str(), false},
+		{utf8::Converter(_ETH_DEFAULT_MAIN_SCRIPT_FILE).str(), false},
 		{"eth_util.angelscript", false},
 		{"Collide.angelscript", true},
 	};

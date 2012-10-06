@@ -43,7 +43,7 @@ namespace Platform {
 ZipFileManager::ZipFileManager(const str_type::char_t *filePath, const gs2d::str_type::char_t* password)
 {
 	#ifdef GS2D_STR_TYPE_WCHAR
-		m_archive = zip_open(utf8::converter(filePath).c_str(), 0, NULL);
+		m_archive = zip_open(utf8::Converter(filePath).c_str(), 0, NULL);
 	#else
 		m_archive = zip_open(filePath, 0, NULL);
 	#endif
@@ -67,7 +67,7 @@ ZipFileManager::ZipFileManager(const str_type::char_t *filePath, const gs2d::str
 				return;
 
 			#ifdef GS2D_STR_TYPE_WCHAR
-				zip_set_default_password(m_archive, utf8::converter(password).c_str());
+				zip_set_default_password(m_archive, utf8::Converter(password).c_str());
 			#else
 				zip_set_default_password(m_archive, password);
 			#endif
@@ -94,7 +94,7 @@ bool ZipFileManager::GetFileBuffer(const str_type::string &fileName, FileBuffer 
 	FixSlashesForUnix(fixedPath);
 
 	#ifdef GS2D_STR_TYPE_WCHAR
-		zip_file *file = zip_fopen(m_archive, utf8::converter(fixedPath).c_str(), 0);
+		zip_file *file = zip_fopen(m_archive, utf8::Converter(fixedPath).c_str(), 0);
 	#else
 		zip_file *file = zip_fopen(m_archive, fixedPath.c_str(), 0);
 	#endif
@@ -104,7 +104,7 @@ bool ZipFileManager::GetFileBuffer(const str_type::string &fileName, FileBuffer 
 
 	struct zip_stat stat;
 	#ifdef GS2D_STR_TYPE_WCHAR
-		zip_stat(m_archive, utf8::converter(fixedPath).c_str(), 0, &stat);
+		zip_stat(m_archive, utf8::Converter(fixedPath).c_str(), 0, &stat);
 	#else
 		zip_stat(m_archive, fixedPath.c_str(), 0, &stat);
 	#endif
@@ -187,7 +187,7 @@ bool ZipFileManager::FileExists(const gs2d::str_type::string& fileName) const
 		return false;
 
 	#ifdef GS2D_STR_TYPE_WCHAR
-		zip_file *file = zip_fopen(m_archive, utf8::converter(fileName).c_str(), 0);
+		zip_file *file = zip_fopen(m_archive, utf8::Converter(fileName).c_str(), 0);
 	#else
 		zip_file *file = zip_fopen(m_archive, fileName.c_str(), 0);
 	#endif

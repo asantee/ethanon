@@ -42,7 +42,7 @@ int CScriptBuilder::StartNewModule(asIScriptEngine *engine, const wchar_t *modul
 	if( engine == 0 ) return -1;
 
 	this->engine = engine;
-	module = engine->GetModule(utf8::converter(moduleName).c_str(), asGM_ALWAYS_CREATE);
+	module = engine->GetModule(utf8::Converter(moduleName).c_str(), asGM_ALWAYS_CREATE);
 	if( module == 0 )
 		return -1;
 
@@ -91,7 +91,7 @@ void CScriptBuilder::DefineWord(const char *word)
 
 void CScriptBuilder::DefineWord(const wchar_t *word)
 {
-	DefineWord(utf8::converter(word).c_str());
+	DefineWord(utf8::Converter(word).c_str());
 }
 
 void CScriptBuilder::ClearAll()
@@ -132,8 +132,8 @@ int CScriptBuilder::LoadScriptSection(const wchar_t *filename)
 	{
 		// Write a message to the engine's message callback
 		wchar_t buf[256];
-		string msg = "Failed to open script file in path: '" + utf8::converter(GetCurrentDir(buf, 256)).str() + utf8::converter(filename).str() + "'";
-		engine->WriteMessage(utf8::converter(filename).c_str(), 0, 0, asMSGTYPE_ERROR, msg.c_str());
+		string msg = "Failed to open script file in path: '" + utf8::Converter(GetCurrentDir(buf, 256)).str() + utf8::Converter(filename).str() + "'";
+		engine->WriteMessage(utf8::Converter(filename).c_str(), 0, 0, asMSGTYPE_ERROR, msg.c_str());
 		return -1;
 	}
 
@@ -141,8 +141,8 @@ int CScriptBuilder::LoadScriptSection(const wchar_t *filename)
 	{
 		// Write a message to the engine's message callback
 		wchar_t buf[256];
-		string msg = "Failed to load script file in path: '" + utf8::converter(GetCurrentDir(buf, 256)).str() + "'";
-		engine->WriteMessage(utf8::converter(filename).c_str(), 0, 0, asMSGTYPE_ERROR, msg.c_str());
+		string msg = "Failed to load script file in path: '" + utf8::Converter(GetCurrentDir(buf, 256)).str() + "'";
+		engine->WriteMessage(utf8::Converter(filename).c_str(), 0, 0, asMSGTYPE_ERROR, msg.c_str());
 		return -1;
 	}
 
@@ -301,7 +301,7 @@ int CScriptBuilder::ProcessScriptSection(const char *script, const wchar_t *sect
 
 	// Build the actual script
 	engine->SetEngineProperty(asEP_COPY_SCRIPT_SECTIONS, true);
-	module->AddScriptSection(utf8::converter(sectionname).c_str(), modifiedScript.c_str(), modifiedScript.size());
+	module->AddScriptSection(utf8::Converter(sectionname).c_str(), modifiedScript.c_str(), modifiedScript.size());
 
 	if( includes.size() > 0 )
 	{
@@ -310,7 +310,7 @@ int CScriptBuilder::ProcessScriptSection(const char *script, const wchar_t *sect
 		{
 			for( int n = 0; n < (int)includes.size(); n++ )
 			{
-				int r = includeCallback(includes[n].c_str(), utf8::converter(sectionname).c_str(), this, callbackParam);
+				int r = includeCallback(includes[n].c_str(), utf8::Converter(sectionname).c_str(), this, callbackParam);
 				if( r < 0 )
 					return r;
 			}
@@ -320,7 +320,7 @@ int CScriptBuilder::ProcessScriptSection(const char *script, const wchar_t *sect
 			// By default we try to load the included file from the relative directory of the current file
 
 			// Determine the path of the current script so that we can resolve relative paths for includes
-			string path = utf8::converter(sectionname).str();
+			string path = utf8::Converter(sectionname).str();
 			size_t posOfSlash = path.find_last_of("/\\");
 			if( posOfSlash != string::npos )
 				path.resize(posOfSlash+1);
@@ -338,7 +338,7 @@ int CScriptBuilder::ProcessScriptSection(const char *script, const wchar_t *sect
 				}
 
 				// Include the script section
-				int r = AddSectionFromFile(utf8::converter(includes[n]).wc_str());
+				int r = AddSectionFromFile(utf8::Converter(includes[n]).wc_str());
 				if( r < 0 )
 					return r;
 			}
@@ -634,12 +634,12 @@ const char *CScriptBuilder::GetMetadataStringForVar(int varIdx)
 
 asIScriptModule * CScriptBuilder::GetModule(asIScriptEngine * targetEngine, const std::wstring& module, asEGMFlags flag)
 {
-	return targetEngine->GetModule(utf8::converter(module).c_str(), flag);
+	return targetEngine->GetModule(utf8::Converter(module).c_str(), flag);
 }
 
 int CScriptBuilder::GetFunctionIdByName(asIScriptModule * targetModule, const std::wstring& name)
 {
-	return targetModule->GetFunctionIdByName(utf8::converter(name).c_str());
+	return targetModule->GetFunctionIdByName(utf8::Converter(name).c_str());
 }
 
 static const wchar_t *GetCurrentDir(wchar_t *buf, size_t size)
