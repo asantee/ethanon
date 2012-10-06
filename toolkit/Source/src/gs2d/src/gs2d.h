@@ -30,10 +30,10 @@
 #include <sstream>
 #include <fstream>
 
-#include "gs2dapplication.h"
+#include "Application.h"
 #include "gs2dshader.h"
 #include "gs2dsprite.h"
-#include "gs2dwindow.h"
+#include "Window.h"
 
 namespace gs2d {
 

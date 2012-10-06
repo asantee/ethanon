@@ -20,8 +20,8 @@
     OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#ifndef GS2D_FRAMEWORK_H_
-#define GS2D_FRAMEWORK_H_
+#ifndef GS2D_BASE_APPLICATION_H_
+#define GS2D_BASE_APPLICATION_H_
 
 #include "gs2d.h"
 #include "gs2dinput.h"

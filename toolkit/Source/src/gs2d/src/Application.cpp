@@ -20,9 +20,10 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#include "gs2d.h"
+#include "Application.h"
 
 namespace gs2d {
+
 using namespace math;
 
 GS2D_API unsigned long ComputeElapsedTime(ApplicationPtr app)
@@ -44,4 +45,6 @@ void Application::SetScreenSizeChangeListener(const ScreenSizeChangeListenerPtr&
 	m_screenSizeChangeListener = listener;
 }
 
+
 } // namespace gs2d
+

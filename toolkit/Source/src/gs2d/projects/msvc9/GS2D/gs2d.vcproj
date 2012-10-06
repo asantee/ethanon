@@ -160,7 +160,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\..\src\gs2d.cpp"
+				RelativePath="..\..\..\src\Application.cpp"
 				>
 			</File>
 		</Filter>
@@ -170,11 +170,15 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\..\src\gs2d.h"
+				RelativePath="..\..\..\src\Application.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gs2dapplication.h"
+				RelativePath="..\..\..\src\BaseApplication.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\gs2d.h"
 				>
 			</File>
 			<File
@@ -183,14 +187,6 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\gs2dcgshadercode.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\gs2dcolor.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\gs2dframework.h"
 				>
 			</File>
 			<File
@@ -210,15 +206,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gs2dtexture.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\src\gs2dtypes.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gs2dwindow.h"
+				RelativePath="..\..\..\src\Texture.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\Window.h"
 				>
 			</File>
 		</Filter>

@@ -55,6 +55,8 @@ struct Color
 
 #pragma warning( pop )
 
+unsigned long ARGB(const GS_BYTE a, const GS_BYTE r, const GS_BYTE g, const GS_BYTE b);
+
 namespace constant {
 	const Color ZERO(0x0);
 	const Color BLACK(0xFF000000);

@@ -971,11 +971,6 @@ inline Color ConvertToDW(Vector3 v3)
 	return Color(255, (GS_BYTE)(v3.x*255.0f), (GS_BYTE)(v3.y*255.0f), (GS_BYTE)(v3.z*255.0f));
 }
 
-inline unsigned long ARGB(const GS_BYTE a, const GS_BYTE r, const GS_BYTE g, const GS_BYTE b)
-{
-	return ((((a)&0xff)<<24)|(((r)&0xff)<<16)|(((g)&0xff)<<8)|((b)&0xff));
-}
-
 typedef Vector4 Plane;
 inline Plane ComputePlane(const Vector3& pos, const Vector3& normal)
 {

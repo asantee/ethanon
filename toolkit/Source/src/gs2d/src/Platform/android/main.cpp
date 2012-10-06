@@ -25,7 +25,7 @@
 #include <jni.h>
 #include <signal.h>
 
-#include <gs2dframework.h>
+#include <BaseApplication.h>
 #include <Platform/android/Platform.android.h>
 #include <Platform/android/AndroidFileIOHub.h>
 

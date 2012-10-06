@@ -23,7 +23,7 @@
 #ifndef GS2D_SPRITE_H_
 #define GS2D_SPRITE_H_
 
-#include "gs2dtexture.h"
+#include "Texture.h"
 
 namespace gs2d {
 

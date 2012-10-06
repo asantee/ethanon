@@ -30,7 +30,7 @@
 
 #include "../engine/ETHTypes.h"
 #include "../engine/Resource/ETHDirectories.h"
-#include <gs2dframework.h>
+#include <BaseApplication.h>
 
 #include <Platform/Platform.h>
 #include <Platform/StdFileManager.h>
