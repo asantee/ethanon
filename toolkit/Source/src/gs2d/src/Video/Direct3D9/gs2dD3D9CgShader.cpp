@@ -22,6 +22,11 @@
 
 #include "gs2dD3D9CgShader.h"
 #include "../../Platform/Platform.h"
+#include "../../Application.h"
+#include "../../Texture.h"
+
+#include <iostream>
+#include <fstream>
 
 namespace gs2d {
 using namespace math;

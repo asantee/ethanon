@@ -31,7 +31,7 @@
 #include <fstream>
 
 #include "Application.h"
-#include "gs2dshader.h"
+#include "Shader.h"
 #include "gs2dsprite.h"
 #include "Window.h"
 

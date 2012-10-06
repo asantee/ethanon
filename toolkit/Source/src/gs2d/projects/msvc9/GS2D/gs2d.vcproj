@@ -198,15 +198,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\gs2dshader.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\src\gs2dsprite.h"
 				>
 			</File>
 			<File
 				RelativePath="..\..\..\src\gs2dtypes.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\Shader.h"
 				>
 			</File>
 			<File

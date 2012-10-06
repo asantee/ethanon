@@ -23,7 +23,7 @@
 #ifndef GS2D_CGD3D9_SHADER_H_
 #define GS2D_CGD3D9_SHADER_H_
 
-#include "../../gs2d.h"
+#include "../../Shader.h"
 
 //#define WIN32_LEAN_AND_MEAN
 //#ifdef _DEBUG

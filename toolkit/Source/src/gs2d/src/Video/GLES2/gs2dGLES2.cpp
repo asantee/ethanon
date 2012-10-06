@@ -34,7 +34,7 @@
   #include "../../Platform/android/Platform.android.h"
 #endif
 
-#include "../../gs2dshader.h"
+#include "../../Shader.h"
 #include "gs2dGLES2Shader.h"
 #include "gs2dGLES2Sprite.h"
 

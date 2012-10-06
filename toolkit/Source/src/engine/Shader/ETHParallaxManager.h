@@ -25,7 +25,7 @@
 #define ETH_PARALLAX_MANAGER_H_
 
 #include <gs2d.h>
-#include <gs2dshader.h>
+#include <Shader.h>
 
 using namespace gs2d;
 using namespace math;

@@ -23,7 +23,7 @@
 #ifndef GS2D_GLES2_SHADER_H_
 #define GS2D_GLES2_SHADER_H_
 
-#include "../../gs2dshader.h"
+#include "../../Shader.h"
 #include "../../Platform/Platform.h"
 #include "../../Platform/FileLogger.h"
 
