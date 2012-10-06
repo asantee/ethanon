@@ -24,8 +24,8 @@
 #define GS2D_BASE_APPLICATION_H_
 
 #include "gs2d.h"
-#include "gs2dinput.h"
-#include "gs2daudio.h"
+#include "Input.h"
+#include "Audio.h"
 #include "Platform/FileIOHub.h"
 
 namespace gs2d {

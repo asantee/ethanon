@@ -23,7 +23,7 @@
 #ifndef GS2D_MOBILE_INPUT_H_
 #define GS2D_MOBILE_INPUT_H_
 
-#include "../gs2dinput.h"
+#include "../Input.h"
 #include <vector>
 #include "../Platform/FileLogger.h"
 

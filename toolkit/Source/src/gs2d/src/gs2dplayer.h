@@ -23,7 +23,7 @@
 #ifndef GS2D_PLAYER_H_
 #define GS2D_PLAYER_H_
 
-#include "gs2dinput.h"
+#include "Input.h"
 
 namespace gs2d {
 

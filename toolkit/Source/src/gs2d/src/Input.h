@@ -23,7 +23,8 @@
 #ifndef GS2D_INPUT_H_
 #define GS2D_INPUT_H_
 
-#include "gs2d.h"
+#include "Math/Math.h"
+#include "Window.h"
 
 namespace gs2d {
 

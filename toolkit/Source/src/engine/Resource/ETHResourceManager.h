@@ -26,7 +26,7 @@
 #include <Platform/FileIOHub.h>
 #include "../ETHTypes.h"
 #include "ETHSpriteDensityManager.h"
-#include <gs2daudio.h>
+#include <Audio.h>
 
 class ETHGraphicResourceManager
 {

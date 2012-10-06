@@ -29,7 +29,7 @@
 #include <Platform/Platform.h>
 #include <Platform/FileLogger.h>
 #include <Platform/FileIOHub.h>
-#include <gs2dinput.h>
+#include <Input.h>
 
 class ETHShaderManager;
 

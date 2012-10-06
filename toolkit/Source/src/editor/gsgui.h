@@ -24,8 +24,8 @@
 #define GUISPACE_GAMESPACE_34982095803257023
 
 #include <gs2d.h>
-#include <gs2daudio.h>
-#include <gs2dinput.h>
+#include <Audio.h>
+#include <Input.h>
 #include <gs2dplayer.h>
 using namespace gs2d::math;
 using namespace gs2d;

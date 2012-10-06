@@ -23,9 +23,10 @@
 #ifndef GS2D_WIN_INPUT_H_
 #define GS2D_WIN_INPUT_H_
 
-#include "../../gs2dinput.h"
+#include "../../Input.h"
 #include "../../gs2d.h"
 #include <windows.h>
+
 #pragma warning( push )
 #pragma warning( disable : 4201 )
 #include <mmsystem.h>

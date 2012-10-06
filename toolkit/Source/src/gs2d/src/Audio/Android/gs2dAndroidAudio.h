@@ -23,7 +23,7 @@
 #ifndef GS2D_ANDROID_AUDIO_H_
 #define GS2D_ANDROID_AUDIO_H_
 
-#include "../../gs2daudio.h"
+#include "../../Audio.h"
 #include "../../Platform/FileLogger.h"
 #include "../../Platform/android/Platform.android.h"
 

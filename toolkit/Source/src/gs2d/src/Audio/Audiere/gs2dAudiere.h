@@ -23,7 +23,7 @@
 #ifndef GS2D_AUDIERE_H_
 #define GS2D_AUDIERE_H_
 
-#include "../../gs2daudio.h"
+#include "../../Audio.h"
 #include "audiere/src/audiere.h"
 
 namespace gs2d {

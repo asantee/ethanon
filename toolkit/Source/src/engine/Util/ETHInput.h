@@ -23,7 +23,7 @@
 #ifndef ETH_INPUT_H_
 #define ETH_INPUT_H_
 
-#include <gs2dinput.h>
+#include <Input.h>
 #include "../Resource/ETHResourceProvider.h"
 #include "../Shader/ETHBackBufferTargetManager.h"
 using namespace gs2d::math;
