@@ -37,9 +37,6 @@ public:
 	Vector4 emissiveColor;
 	ETH_BOOL castShadow;
 	ETH_BOOL applyLight;
-	ETH_BOOL sensor;
-	ETH_BOOL fixedRotation;
-	ETH_BOOL bullet;
 	str_type::string glossFile;
 	str_type::string normalFile;
 	str_type::string spriteFile;
@@ -51,7 +48,9 @@ public:
 	boost::shared_ptr<ETHLight> light;
 	float shadowLengthScale;
 	GS_ALPHA_MODE blendMode;
-	ETH_BODY_SHAPE shape;
+	ETH_BOOL sensor;
+	ETH_BOOL fixedRotation;
+	ETH_BOOL bullet;
 	float density, friction, gravityScale;
 	ETHPolygonPtr polygon;
 	ETHCompoundShapePtr compoundShape;
@@ -73,7 +72,32 @@ class ETHEntityProperties : public ETHEntitySpriteProperties, public ETHCustomDa
 	friend class ETHRenderEntity;
 	friend class ETHScene;
 	friend class ETHLightmapGen;
+
 public:
+	enum ENTITY_TYPE
+	{
+		ET_HORIZONTAL = 0,
+		ET_GROUND_DECAL = 1, // deprecated
+		ET_VERTICAL,
+		ET_OVERALL, // depracated
+		ET_OPAQUE_DECAL, // deprecated
+		ET_LAYERABLE
+	};
+
+	enum BODY_SHAPE
+	{
+		BS_NONE = 0,
+		BS_BOX = 1,
+		BS_CIRCLE = 2,
+		BS_POLYGON = 3,
+		BS_COMPOUND = 4
+	};
+
+	struct VIEW_RECT
+	{
+		Vector2 min, max;
+	};
+
 	ETHEntityProperties(const str_type::string& filePath, const Platform::FileManagerPtr& fileManager);
 	ETHEntityProperties(TiXmlElement *pElement);
 	ETHEntityProperties();
@@ -84,13 +108,13 @@ public:
 	bool WriteToXMLFile(TiXmlElement *pHeadRoot) const;
 	bool IsSuccessfullyLoaded() const;
 
-#if !defined(_ETHANON_EDITOR) && !defined(_ETH_MAKE_PROPS_ALL_PUBLIC)
-protected:
-#endif
+	static ETHParticleManager::DEPTH_SORTING_MODE ResolveDepthSortingMode(const ENTITY_TYPE type);
+
+	BODY_SHAPE shape;
 	str_type::string entityName;
 	ETH_BOOL staticEntity;
 	ETH_BOOL hideFromSceneEditor;
-	ETH_ENTITY_TYPE type;
+	ENTITY_TYPE type;
 	float parallaxIntensity;
 	float layerDepth;
 	float soundVolume;

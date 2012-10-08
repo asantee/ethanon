@@ -82,16 +82,16 @@ b2Body* ETHPhysicsSimulator::CreateBody(ETHEntity *entity, const boost::shared_p
 	std::vector<b2Shape*> shapes;
 	switch (entity->GetShape())
 	{
-	case ETHBS_CIRCLE:
+	case ETHEntityProperties::BS_CIRCLE:
 		shapes = GetCircleShape(box);
 		break;
-	case ETHBS_POLYGON:
+	case ETHEntityProperties::BS_POLYGON:
 		shapes = GetPolygonShape(box, entity->GetPolygon());
 		break;
-	case ETHBS_COMPOUND:
+	case ETHEntityProperties::BS_COMPOUND:
 		shapes = entity->GetCompoundShape()->GetShapes(ETHGlobal::ToVector2(box.size));
 		break;
-	case ETHBS_BOX:
+	case ETHEntityProperties::BS_BOX:
 	default:
 		shapes = GetBoxShape(box);
 		break;
@@ -303,18 +303,18 @@ void ETHPhysicsSimulator::SetFixedTimeStepValue(const float value)
 	m_fixedTimeStepValue = value;
 }
 
-ETH_BODY_SHAPE ETHPhysicsSimulator::StringToShape(const gs2d::str_type::string& str)
+ETHEntityProperties::BODY_SHAPE ETHPhysicsSimulator::StringToShape(const gs2d::str_type::string& str)
 {
 	if (str == GS_L("box"))
-		return ETHBS_BOX;
+		return ETHEntityProperties::BS_BOX;
 	else if (str == GS_L("circle"))
-		return ETHBS_CIRCLE;
+		return ETHEntityProperties::BS_CIRCLE;
 	else if (str == GS_L("polygon"))
-		return ETHBS_POLYGON;
+		return ETHEntityProperties::BS_POLYGON;
 	else if (str == GS_L("compound"))
-		return ETHBS_COMPOUND;
+		return ETHEntityProperties::BS_COMPOUND;
 	else
-		return ETHBS_NONE;
+		return ETHEntityProperties::BS_NONE;
 }
 
 b2Joint* ETHPhysicsSimulator::CreateJoint(b2JointDef& jointDef)

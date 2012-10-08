@@ -514,7 +514,7 @@ void EntityEditor::CreateCollisionBoxFromEntity()
 
 	Vector3 v3Size, v3Pos(m_pEditEntity->pivotAdjust.x, m_pEditEntity->pivotAdjust.y,0);
 	v3Size.x = v2CurrentSize.x;
-	if (m_pEditEntity->type == ETH_VERTICAL)
+	if (m_pEditEntity->type == ETHEntityProperties::ET_VERTICAL)
 	{
 		v3Size.y = v2CurrentSize.x;
 		v3Size.z = v2CurrentSize.y;
@@ -539,17 +539,17 @@ void EntityEditor::ResetEntityMenu()
 
 	m_type.Destroy();
 	m_type.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth*2, true, false, false);
-	m_type.AddButton(_S_HORIZONTAL, (m_pEditEntity->type == ETH_HORIZONTAL));
-	m_type.AddButton(_S_VERTICAL, (m_pEditEntity->type == ETH_VERTICAL));
-	m_type.AddButton(_S_LAYERABLE, (m_pEditEntity->type == ETH_LAYERABLE));
+	m_type.AddButton(_S_HORIZONTAL, (m_pEditEntity->type == ETHEntityProperties::ET_HORIZONTAL));
+	m_type.AddButton(_S_VERTICAL, (m_pEditEntity->type == ETHEntityProperties::ET_VERTICAL));
+	m_type.AddButton(_S_LAYERABLE, (m_pEditEntity->type == ETHEntityProperties::ET_LAYERABLE));
 
 	m_bodyShape.Destroy();
 	m_bodyShape.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth*2, true, false, false);
-	m_bodyShape.AddButton(_S_BODY_SHAPE_NONE, (m_pEditEntity->shape == ETHBS_NONE));
-	m_bodyShape.AddButton(_S_BODY_SHAPE_BOX, (m_pEditEntity->shape == ETHBS_BOX));
-	m_bodyShape.AddButton(_S_BODY_SHAPE_CIRCLE, (m_pEditEntity->shape == ETHBS_CIRCLE));
-	m_bodyShape.AddButton(_S_BODY_SHAPE_POLYGON, (m_pEditEntity->shape == ETHBS_POLYGON));
-	m_bodyShape.AddButton(_S_BODY_SHAPE_COMPOUND, (m_pEditEntity->shape == ETHBS_COMPOUND));
+	m_bodyShape.AddButton(_S_BODY_SHAPE_NONE, (m_pEditEntity->shape == ETHEntityProperties::BS_NONE));
+	m_bodyShape.AddButton(_S_BODY_SHAPE_BOX, (m_pEditEntity->shape == ETHEntityProperties::BS_BOX));
+	m_bodyShape.AddButton(_S_BODY_SHAPE_CIRCLE, (m_pEditEntity->shape == ETHEntityProperties::BS_CIRCLE));
+	m_bodyShape.AddButton(_S_BODY_SHAPE_POLYGON, (m_pEditEntity->shape == ETHEntityProperties::BS_POLYGON));
+	m_bodyShape.AddButton(_S_BODY_SHAPE_COMPOUND, (m_pEditEntity->shape == ETHEntityProperties::BS_COMPOUND));
 
 	m_bodyProperties.Destroy();
 	m_bodyProperties.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth * 2, false, true, false);
@@ -842,18 +842,18 @@ void EntityEditor::ShowWarnings()
 		warnings.push_back("The entity must be 'vertical' to cast shadow");
 	}*/
 	if (m_pEditEntity->spriteFile != L"" && m_pEditEntity->normalFile == L"" && m_pEditEntity->applyLight &&
-		m_pEditEntity->emissiveColor != Vector4(1,1,1,1) && m_pEditEntity->type == ETH_VERTICAL)
+		m_pEditEntity->emissiveColor != Vector4(1,1,1,1) && m_pEditEntity->type == ETHEntityProperties::ET_VERTICAL)
 	{
 		warnings.push_back(L"Your entity doesn't have a normal map. Consider switching 'apply light' off and use maximum emissive brightness");
 	}
-	if (m_pEditEntity->collision && m_pEditEntity->shape == ETHBS_COMPOUND)
+	if (m_pEditEntity->collision && m_pEditEntity->shape == ETHEntityProperties::BS_COMPOUND)
 	{
 		if (m_pEditEntity->entityName.empty())
 			warnings.push_back(L"Please save this entity, then setup compound shape data inside XML <Compound> tags in its file");
 		else
 			warnings.push_back(str_type::string(L"Please setup compound shape data inside XML <Compound> tags in file ") + m_pEditEntity->entityName);
 	}
-	if (m_pEditEntity->collision && m_pEditEntity->shape == ETHBS_POLYGON)
+	if (m_pEditEntity->collision && m_pEditEntity->shape == ETHEntityProperties::BS_POLYGON)
 	{
 		if (m_pEditEntity->entityName.empty())
 			warnings.push_back(L"Please save this entity, then setup polygon shape data inside XML <Polygon> tags in its file");
@@ -955,17 +955,17 @@ string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 		ShadowPrint(Vector2(0,y), L"Entity type:"); y+=m_menuSize;
 		m_type.PlaceMenu(Vector2(0,y)); y += m_menuSize*m_type.GetNumButtons();
 		if (m_type.GetButtonStatus(_S_HORIZONTAL))
-			m_pEditEntity->type = ETH_HORIZONTAL;
+			m_pEditEntity->type = ETHEntityProperties::ET_HORIZONTAL;
 		if (m_type.GetButtonStatus(_S_VERTICAL))
-			m_pEditEntity->type = ETH_VERTICAL;
+			m_pEditEntity->type = ETHEntityProperties::ET_VERTICAL;
 		if (m_type.GetButtonStatus(_S_DECAL))
-			m_pEditEntity->type = ETH_GROUND_DECAL;
+			m_pEditEntity->type = ETHEntityProperties::ET_GROUND_DECAL;
 		if (m_type.GetButtonStatus(_S_OVERALL))
-			m_pEditEntity->type = ETH_OVERALL;
+			m_pEditEntity->type = ETHEntityProperties::ET_OVERALL;
 		if (m_type.GetButtonStatus(_S_OPAQUE_DECAL))
-			m_pEditEntity->type = ETH_OPAQUE_DECAL;
+			m_pEditEntity->type = ETHEntityProperties::ET_OPAQUE_DECAL;
 		if (m_type.GetButtonStatus(_S_LAYERABLE))
-			m_pEditEntity->type = ETH_LAYERABLE;
+			m_pEditEntity->type = ETHEntityProperties::ET_LAYERABLE;
 		y+=m_menuSize/2;
 
 		m_pEditEntity->pivotAdjust.x = m_pivotX.PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth);	y+=m_menuSize;
@@ -1208,15 +1208,15 @@ string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 			ShadowPrint(Vector2(x,y), _S_BODY_SHAPE); y+=m_menuSize;
 			m_bodyShape.PlaceMenu(Vector2(x, y)); y += m_menuSize * m_bodyShape.GetNumButtons();
 			if (m_bodyShape.GetButtonStatus(_S_BODY_SHAPE_NONE))
-				m_pEditEntity->shape = ETHBS_NONE;
+				m_pEditEntity->shape = ETHEntityProperties::BS_NONE;
 			if (m_bodyShape.GetButtonStatus(_S_BODY_SHAPE_BOX))
-				m_pEditEntity->shape = ETHBS_BOX;
+				m_pEditEntity->shape = ETHEntityProperties::BS_BOX;
 			if (m_bodyShape.GetButtonStatus(_S_BODY_SHAPE_CIRCLE))
-				m_pEditEntity->shape = ETHBS_CIRCLE;
+				m_pEditEntity->shape = ETHEntityProperties::BS_CIRCLE;
 			if (m_bodyShape.GetButtonStatus(_S_BODY_SHAPE_POLYGON))
-				m_pEditEntity->shape = ETHBS_POLYGON;
+				m_pEditEntity->shape = ETHEntityProperties::BS_POLYGON;
 			if (m_bodyShape.GetButtonStatus(_S_BODY_SHAPE_COMPOUND))
-				m_pEditEntity->shape = ETHBS_COMPOUND;
+				m_pEditEntity->shape = ETHEntityProperties::BS_COMPOUND;
 
 			y+=m_menuSize/2;
 			if (!m_bodyShape.GetButtonStatus(_S_BODY_SHAPE_NONE))
@@ -1471,7 +1471,7 @@ void EntityEditor::DrawEntity()
 	video->SetZBuffer(false);
 
 	if ((m_lightRange.IsActive() || m_lightRange.IsMouseOver())
-		&& m_renderEntity->GetType() != ETH_VERTICAL && m_pEditEntity->light)
+		&& m_renderEntity->GetType() != ETHEntityProperties::ET_VERTICAL && m_pEditEntity->light)
 	{
 		const Vector2 v2LightPos(m_pEditEntity->light->pos.x, m_pEditEntity->light->pos.y);
 		const float diameter = m_pEditEntity->light->range * 2;

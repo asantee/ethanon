@@ -24,7 +24,6 @@
 #define ETH_PARTICLE_MANAGER_H_
 
 #include "Resource/ETHResourceProvider.h"
-#include "ETHTypes.h"
 
 #define _ETH_MINIMUM_PARTICLE_REPEATS_TO_LOOP_SOUND (4)
 #define _ETH_PARTICLE_DEPTH_SHIFT (10.0f)
@@ -34,7 +33,14 @@
 
 struct ETH_PARTICLE
 {
-	ETH_PARTICLE();
+	ETH_PARTICLE() :
+		released(false),
+		repeat(0),
+		id(-1),
+		currentFrame(0)
+	{
+	}
+
 	inline bool operator < (const ETH_PARTICLE &other) const
 	{
 		return (GetOffset() < other.GetOffset());
@@ -50,6 +56,7 @@ struct ETH_PARTICLE
 		size *= scale;
 		v2Dir *= scale;
 	}
+
 	Vector2 v2Pos;
 	Vector2 v2Dir;
 	Vector4 v4Color;
@@ -120,22 +127,49 @@ struct ETH_PARTICLE_SYSTEM
 class ETHParticleManager
 {
 public:
-	/// Load a particle system from a file in memory
-	ETHParticleManager(ETHResourceProviderPtr provider, const str_type::string& file, const Vector2 &v2Pos,
-					   const Vector3 &v3Pos, const float angle, const float entityVolume);
+	enum DEPTH_SORTING_MODE
+	{
+		INDIVIDUAL_OFFSET = 0,
+		LAYERABLE = 1,
+		SAME_DEPTH_AS_OWNER
+	};
 
-	ETHParticleManager(ETHResourceProviderPtr provider, const ETH_PARTICLE_SYSTEM &partSystem, const Vector2 &v2Pos,
-					   const Vector3 &v3Pos, const float angle, const float entityVolume, const float scale);
+	/// Load a particle system from a file in memory
+	ETHParticleManager(
+		ETHResourceProviderPtr provider,
+		const str_type::string& file,
+		const Vector2& v2Pos,
+		const Vector3& v3Pos,
+		const float angle,
+		const float entityVolume);
+
+	ETHParticleManager(
+		ETHResourceProviderPtr provider,
+		const ETH_PARTICLE_SYSTEM& partSystem,
+		const Vector2& v2Pos,
+		const Vector3& v3Pos,
+		const float angle,
+		const float entityVolume,
+		const float scale);
 
 	/// Update the position, size and angle of all particles in the system (if they are active)
 	/// Must be called once every frame (only once). The new particles are positioned according
 	/// to v2Pos and it's starting position
-	bool UpdateParticleSystem(const Vector2 &v2Pos, const Vector3 &v3Pos, const float angle, const unsigned long lastFrameElapsedTime);
+	bool UpdateParticleSystem(
+		const Vector2& v2Pos,
+		const Vector3& v3Pos,
+		const float angle,
+		const unsigned long lastFrameElapsedTime);
 
 	/// Draw all particles also considering it's ambient light color
-	bool DrawParticleSystem(Vector3 v3Ambient, const float maxHeight, const float minHeight,
-							const ETH_ENTITY_TYPE ownerType, const Vector2 &zAxisDirection,
-							const Vector2 &parallaxOffset, const float ownerDepth);
+	bool DrawParticleSystem(
+		Vector3 v3Ambient,
+		const float maxHeight,
+		const float minHeight,
+		const DEPTH_SORTING_MODE ownerType,
+		const Vector2& zAxisDirection,
+		const Vector2& parallaxOffset,
+		const float ownerDepth);
 
 	/// Return true if the particle system has finished it's execution
 	/// A particle system is finished when its repeat count reaches the end

@@ -125,7 +125,7 @@ void ParticleEditor::DrawParticleSystem()
 	}
 	const bool zBuffer = video->GetZBuffer();
 	video->SetZBuffer(false);
-	m_manager->DrawParticleSystem(Vector3(1,1,1),v2Screen.y,-v2Screen.y, ETH_HORIZONTAL, ETH_DEFAULT_ZDIRECTION, Vector2(0,0), 1.0f);
+	m_manager->DrawParticleSystem(Vector3(1,1,1),v2Screen.y,-v2Screen.y, ETHParticleManager::SAME_DEPTH_AS_OWNER, ETH_DEFAULT_ZDIRECTION, Vector2(0,0), 1.0f);
 	video->SetZBuffer(zBuffer);
 	video->UnsetScissor();
 

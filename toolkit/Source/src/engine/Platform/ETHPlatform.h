@@ -23,15 +23,10 @@
 #ifndef ETH_PLATFORM_H_
 #define ETH_PLATFORM_H_
 
-#include <string>
+namespace ETHPlatform {
 
-class asIScriptEngine;
+	// all declaraction
 
-namespace ETHPlatform
-{
-	bool LoadDynamicLibrary(const str_type::char_t *filePath, asIScriptEngine *pASEngine);
-	void LoadAllDynamicLibraries(const str_type::string& path, asIScriptEngine *pASEngine);
-} 
-// namespace ETHPlatform
+}  // namespace ETHPlatform
 
 #endif

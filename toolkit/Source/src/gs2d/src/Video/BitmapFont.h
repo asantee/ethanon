@@ -32,9 +32,9 @@ namespace gs2d {
 /**
  * \brief Stores and renders bitmap fonts
  *
- * This class parses text fnt files generated with the AngelCode's bitmap
- * font generator and renders it. The parser code was originally written by Promit
- * and posted in this thread: http://www.gamedev.net/community/forums/topic.asp?topic_id=330742
+ * The BitmapFont class parses text fnt files generated with AngelCode's bitmap
+ * font generator and handles its rendering. The parser code was originally written by Promit
+ * posted in this thread: http://www.gamedev.net/community/forums/topic.asp?topic_id=330742
  */
 class BitmapFont
 {
@@ -47,14 +47,12 @@ class BitmapFont
 		float xAdvance;
 		int page;
 
-		CHAR_DESCRIPTOR() : x(0), y(0), width(0), height(0), xOffset(0), yOffset(0),
-			xAdvance(0), page(0)
-		{ }
+		CHAR_DESCRIPTOR();
 	};
 
 	struct CHARSET
 	{
-		CHARSET() : paddingDown(0), paddingUp(0), paddingLeft(0), paddingRight(0) {}
+		CHARSET();
 		float lineHeight;
 		float base;
 		float width, height;

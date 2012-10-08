@@ -42,12 +42,12 @@ void ETHPhysicsController::Release()
 	}
 }
 
-ETH_BODY_SHAPE ETHPhysicsController::GetShape() const
+ETHEntityProperties::BODY_SHAPE ETHPhysicsController::GetShape() const
 {
 	b2Body* body = m_controller->m_body;
-	if (!body) return ETHBS_NONE;
+	if (!body) return ETHEntityProperties::BS_NONE;
 	const ETHEntity* entity = static_cast<ETHEntity*>(body->GetUserData());
-	if (!entity) return ETHBS_NONE;
+	if (!entity) return ETHEntityProperties::BS_NONE;
 	return entity->GetShape();
 }
 

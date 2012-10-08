@@ -242,7 +242,7 @@ asDECLARE_METHOD_WRAPPERPR(__CheckCustomData,        ETHScriptEntity, CheckCusto
 asDECLARE_METHOD_WRAPPERPR(__HasCustomData,          ETHScriptEntity, HasCustomData,          (void) const,                    bool);
 asDECLARE_METHOD_WRAPPERPR(__DebugPrintCustomData,   ETHScriptEntity, DebugPrintCustomData,   (void) const,                    void);
 asDECLARE_METHOD_WRAPPERPR(__GetNumFrames,           ETHScriptEntity, GetNumFrames,           (void) const,                    unsigned int);
-asDECLARE_METHOD_WRAPPERPR(__GetType,                ETHScriptEntity, GetType,                (void) const,                    ETH_ENTITY_TYPE);
+asDECLARE_METHOD_WRAPPERPR(__GetType,                ETHScriptEntity, GetType,                (void) const,                    ETHEntityProperties::ENTITY_TYPE);
 asDECLARE_METHOD_WRAPPERPR(__ComputeParallaxOffset,  ETHScriptEntity, ComputeParallaxOffset,  (void) const,                    Vector2);
 
 asDECLARE_METHOD_WRAPPERPR(__SetSprite,          ETHScriptEntity, SetSprite,           (const str_type::string&), bool);
@@ -540,7 +540,7 @@ void RegisterDateTimeMethods(asIScriptEngine *pASEngine)
 asDECLARE_METHOD_WRAPPERPR(__AddRefPC,  ETHPhysicsController, AddRef,  (void), void);
 asDECLARE_METHOD_WRAPPERPR(__ReleasePC, ETHPhysicsController, Release, (void), void);
 
-asDECLARE_METHOD_WRAPPERPR(__GetShape,            ETHPhysicsController, GetShape,            (void) const, ETH_BODY_SHAPE);
+asDECLARE_METHOD_WRAPPERPR(__GetShape,            ETHPhysicsController, GetShape,            (void) const, ETHEntityProperties::BODY_SHAPE);
 asDECLARE_METHOD_WRAPPERPR(__SetGravityScale,     ETHPhysicsController, SetGravityScale,     (const float), void);
 asDECLARE_METHOD_WRAPPERPR(__GetGravityScale,     ETHPhysicsController, GetGravityScale,     (void) const, float);
 asDECLARE_METHOD_WRAPPERPR(__SetAngularVelocity,  ETHPhysicsController, SetAngularVelocity,  (const float), void);

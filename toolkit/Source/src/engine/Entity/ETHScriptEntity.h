@@ -27,6 +27,7 @@
 #include "../Scene/ETHSceneProperties.h"
 #include "ETHCustomDataManager.h"
 #include "../Scene/ETHBucketManager.h"
+#include "../Entity/ETHEntityProperties.h"
 
 class ETHPhysicsController;
 
@@ -40,7 +41,7 @@ protected:
 	mutable int m_ref;
 
 public:
-	virtual ETH_ENTITY_TYPE GetType() const = 0;
+	virtual ETHEntityProperties::ENTITY_TYPE GetType() const = 0;
 	virtual str_type::string GetEntityName() const = 0;
 	virtual Vector3 GetPosition() const = 0;
 	virtual Vector2 GetPositionXY() const = 0;
@@ -62,7 +63,7 @@ public:
 	virtual Vector3 GetLightPosition() const = 0;
 	virtual void Hide(const bool hide) = 0;
 	virtual bool IsHidden() const = 0;
-	virtual ETH_VIEW_RECT GetScreenRect(const ETHSceneProperties& sceneProps) const = 0;
+	virtual ETHEntityProperties::VIEW_RECT GetScreenRect(const ETHSceneProperties& sceneProps) const = 0;
 	virtual Vector2 GetScreenRectMin(const ETHSceneProperties& sceneProps) const = 0;
 	virtual Vector2 GetScreenRectMax(const ETHSceneProperties& sceneProps) const = 0;
 	virtual int GetID() const = 0;

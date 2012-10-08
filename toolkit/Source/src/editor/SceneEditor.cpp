@@ -520,9 +520,9 @@ void SceneEditor::EntitySelector(const bool guiButtonsFree)
 		if (input->GetLeftClickState() == GSKS_DOWN)
 		{
 			const Vector2 v2CursorPos = input->GetCursorPositionF(video);
-			ETH_VIEW_RECT box = m_pSelected->GetScreenRect(*m_pScene->GetSceneProperties());
-			if ((v2CursorPos.x > box.v2Min.x && v2CursorPos.x < box.v2Max.x &&
-				v2CursorPos.y > box.v2Min.y && v2CursorPos.y < box.v2Max.y) || moving)
+			ETHEntityProperties::VIEW_RECT box = m_pSelected->GetScreenRect(*m_pScene->GetSceneProperties());
+			if ((v2CursorPos.x > box.min.x && v2CursorPos.x < box.max.x &&
+				v2CursorPos.y > box.min.y && v2CursorPos.y < box.max.y) || moving)
 			{
 				const bool lockStatic = m_panel.GetButtonStatus(_S_LOCK_STATIC);
 				if ((m_pSelected->IsStatic() && !lockStatic) || !m_pSelected->IsStatic())
@@ -666,17 +666,17 @@ void SceneEditor::SetEditablePositionPos(const Vector3 &pos, const float angle)
 
 wstring SceneEditor::DrawEntityString(ETHEntity *pEntity, const Color& dwColor, const bool drawName)
 {
-	ETH_VIEW_RECT box = pEntity->GetScreenRect(*m_pScene->GetSceneProperties());
-	box.v2Min -= Vector2(0,m_menuSize);
+	ETHEntityProperties::VIEW_RECT box = pEntity->GetScreenRect(*m_pScene->GetSceneProperties());
+	box.min -= Vector2(0,m_menuSize);
 	wstringstream sID;
 	sID << pEntity->GetID() << " ";
 	if (drawName)
 		sID << utf8::c(pEntity->GetEntityName()).wc_str();
-	ShadowPrint(box.v2Min, sID.str().c_str(), dwColor);
+	ShadowPrint(box.min, sID.str().c_str(), dwColor);
 
 	wstringstream sPos;
 	sPos << L"pos: " << ETHGlobal::Vector3ToString(pEntity->GetPosition()) << endl << ((pEntity->IsStatic()) ? L"[static]" : L"[dynamic]");
-	ShadowPrint(box.v2Min+Vector2(0,m_menuSize), sPos.str().c_str(), Color(dwColor.a/2,dwColor.r,dwColor.g,dwColor.b));
+	ShadowPrint(box.min+Vector2(0,m_menuSize), sPos.str().c_str(), Color(dwColor.a/2,dwColor.r,dwColor.g,dwColor.b));
 	return sID.str()+L"\n"+sPos.str();
 }
 
@@ -916,7 +916,7 @@ void SceneEditor::DrawGrid()
 	video->SetLineWidth(2);
 
 	Vector2 v2PosFix;
-	if (m_currentEntity->GetType() == ETH_VERTICAL)
+	if (m_currentEntity->GetType() == ETHEntityProperties::ET_VERTICAL)
 	{
 		sizeY = (int)currentSize.x;
 	}
@@ -1030,7 +1030,7 @@ void SceneEditor::PlaceEntitySelection()
 		int sizeY = (int)currentSize.y;
 
 		const float angle = m_currentEntity->GetAngle();
-		if (angle != 0.0f && m_currentEntity->GetType() == ETH_HORIZONTAL)
+		if (angle != 0.0f && m_currentEntity->GetType() == ETHEntityProperties::ET_HORIZONTAL)
 		{
 			const float fSizeX = (float)sizeX;
 			const float fSizeY = (float)sizeY;
@@ -1052,7 +1052,7 @@ void SceneEditor::PlaceEntitySelection()
 		}
 
 		Vector2 v2PosFix;
-		if (m_currentEntity->GetType() == ETH_VERTICAL)
+		if (m_currentEntity->GetType() == ETHEntityProperties::ET_VERTICAL)
 		{
 			sizeY = (int)currentSize.x;
 			v2PosFix.x = float((int)Abs(m_v3Pos.x)%Max(1, (sizeX/4)));
@@ -1065,7 +1065,7 @@ void SceneEditor::PlaceEntitySelection()
 			v2PosFix.y = float((int)Abs(m_v3Pos.y)%Max(1, (sizeY/2)));
 		}
 
-		const float division = (m_currentEntity->GetType() == ETH_VERTICAL) ? 4.0f : 2.0f;
+		const float division = (m_currentEntity->GetType() == ETHEntityProperties::ET_VERTICAL) ? 4.0f : 2.0f;
 
 		if (m_v3Pos.x > 0)
 		{
@@ -1092,7 +1092,7 @@ void SceneEditor::PlaceEntitySelection()
 	}
 	else
 	{
-		if (m_currentEntity->GetType() != ETH_VERTICAL)
+		if (m_currentEntity->GetType() != ETHEntityProperties::ET_VERTICAL)
 		{
 			const Vector2 v2TipPos(0.0f, screenSize.y-m_menuSize-m_menuSize-_ENTITY_SELECTION_BAR_HEIGHT);
 			ShadowPrint(v2TipPos, L"You can hold SHIFT to align the entity like in a tile map", Color(255,255,255,255));
@@ -1100,7 +1100,7 @@ void SceneEditor::PlaceEntitySelection()
 	}
 
 	// Controls the angle
-	if (m_currentEntity->GetType() != ETH_VERTICAL && allowSwapWheel)
+	if (m_currentEntity->GetType() != ETHEntityProperties::ET_VERTICAL && allowSwapWheel)
 	{
 		if (input->GetKeyState(GSK_Q) == GSKS_HIT)
 			m_currentEntity->AddToAngle(5);
@@ -1239,7 +1239,7 @@ void SceneEditor::EntityPlacer()
 		_ETH_SAFE_sprintf(szAngle, "%.0f", angle);
 		ss << szAngle;
 	}
-	ShadowPrint(m_currentEntity->GetScreenRect(*m_pScene->GetSceneProperties()).v2Max, ss.str().c_str(), Color(100, 255, 255, 255));
+	ShadowPrint(m_currentEntity->GetScreenRect(*m_pScene->GetSceneProperties()).max, ss.str().c_str(), Color(100, 255, 255, 255));
 }
 
 void SceneEditor::DrawEntitySelectionGrid(SpritePtr pNextAppButton)

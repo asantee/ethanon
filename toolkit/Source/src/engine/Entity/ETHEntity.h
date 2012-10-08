@@ -33,7 +33,7 @@ class ETHEntity : public ETHScriptEntity
 {
 	friend class ETHScene;
 public:
-	static GS_ENTITY_ORIGIN ConvertToGSSO(const ETH_ENTITY_TYPE type);
+	static GS_ENTITY_ORIGIN ConvertToGSSO(const ETHEntityProperties::ENTITY_TYPE type);
 	static float ComputeDepth(const float height, const float maxHeight, const float minHeight);
 
 	ETHEntity(const str_type::string& filePath, const int nId, const Platform::FileManagerPtr& fileManager);
@@ -62,8 +62,8 @@ public:
 	void ChangeEntityName(const str_type::string& name);
 	str_type::string GetEntityName() const;
 	std::size_t GetNumParticleSystems() const;
-	ETH_ENTITY_TYPE GetType() const;
-	ETH_BODY_SHAPE GetShape() const;
+	ETHEntityProperties::ENTITY_TYPE GetType() const;
+	ETHEntityProperties::BODY_SHAPE GetShape() const;
 	Vector3 GetPosition() const;
 	Vector2 GetPositionXY() const;
 	void SetPosition(const Vector3& pos, ETHBucketManager& buckets);

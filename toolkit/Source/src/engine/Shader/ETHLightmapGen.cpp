@@ -113,7 +113,7 @@ ETHLightmapGen::ETHLightmapGen(ETHRenderEntity* entity,
 		}
 
 		// draw shadows
-		if (entity->GetType() != ETH_VERTICAL)
+		if (entity->GetType() != ETHEntityProperties::ET_VERTICAL)
 		{
 			for (ETHBucketMap::iterator bucketIter = buckets.GetFirstBucket(); bucketIter != buckets.GetLastBucket(); ++bucketIter)
 			{

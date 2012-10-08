@@ -228,7 +228,7 @@ int ETHScene::AddEntity(ETHRenderEntity* pEntity, const str_type::string& altern
 		pEntity->SetID(m_idCounter);
 	}
 
-	m_buckets.Add(pEntity, (pEntity->GetType() == ETH_HORIZONTAL) ? ETHBucketManager::FRONT : ETHBucketManager::BACK);
+	m_buckets.Add(pEntity, (pEntity->GetType() == ETHEntityProperties::ET_HORIZONTAL) ? ETHBucketManager::FRONT : ETHBucketManager::BACK);
 
 	m_maxSceneHeight = Max(m_maxSceneHeight, pEntity->GetMaxHeight());
 	m_minSceneHeight = Min(m_minSceneHeight, pEntity->GetMinHeight());
@@ -607,7 +607,7 @@ bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline
 			}
 
 			// add this entity to the multimap to sort it for an alpha-friendly rendering list
-			const ETH_ENTITY_TYPE type = entity->GetType();
+			const ETHEntityProperties::ENTITY_TYPE type = entity->GetType();
 			const float depth = entity->ComputeDepth(maxHeight, minHeight);
 			const float drawHash = ComputeDrawHash(depth, type);
 
@@ -752,19 +752,19 @@ bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline
 	return true;
 }
 
-float ETHScene::ComputeDrawHash(const float entityDepth, const ETH_ENTITY_TYPE& type) const
+float ETHScene::ComputeDrawHash(const float entityDepth, const ETHEntityProperties::ENTITY_TYPE& type) const
 {
 	float drawHash;
 	switch (type)
 	{
-	case ETH_HORIZONTAL:
+	case ETHEntityProperties::ET_HORIZONTAL:
 		drawHash = entityDepth / 2.0f;
 		break;
-	case ETH_VERTICAL:
+	case ETHEntityProperties::ET_VERTICAL:
 		drawHash = (entityDepth / 2.0f) + 0.01f;
 		break;
-	case ETH_GROUND_DECAL:
-	case ETH_OPAQUE_DECAL:
+	case ETHEntityProperties::ET_GROUND_DECAL:
+	case ETHEntityProperties::ET_OPAQUE_DECAL:
 		drawHash = entityDepth / 2.0f + 0.01f;
 		break;
 	default:
@@ -1067,7 +1067,7 @@ void ETHScene::FillMultimapAndClearPersistenList(std::multimap<float, ETHRenderE
 		const bool bucketNotProcessed = std::find(currentBucketList.begin(), currentBucketList.end(), currentBucket) == currentBucketList.end();
 		if (bucketNotProcessed)
 		{
-			const ETH_ENTITY_TYPE type = entity->GetType();
+			const ETHEntityProperties::ENTITY_TYPE type = entity->GetType();
 			const float depth = entity->ComputeDepth(m_maxSceneHeight, m_minSceneHeight);
 			const float drawHash = ComputeDrawHash(depth, type);
 			mm.insert(std::pair<float, ETHRenderEntity*>(drawHash, entity));

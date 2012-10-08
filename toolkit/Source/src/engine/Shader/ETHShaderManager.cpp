@@ -93,7 +93,7 @@ bool ETHShaderManager::BeginAmbientPass(const ETHSpriteEntity *pRender, const fl
 {
 	m_video->SetPixelShader(ShaderPtr());
 
-	if (pRender->GetType() == ETH_VERTICAL)
+	if (pRender->GetType() == ETHEntityProperties::ET_VERTICAL)
 	{
 		m_verticalStaticAmbientVS->SetConstant(GS_L("spaceLength"), (maxHeight-minHeight));
 		m_video->SetVertexShader(m_verticalStaticAmbientVS);

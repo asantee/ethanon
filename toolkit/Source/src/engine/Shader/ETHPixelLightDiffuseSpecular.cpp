@@ -50,7 +50,7 @@ bool ETHPixelLightDiffuseSpecular::BeginLightPass(ETHSpriteEntity *pRender, Vect
 	// set the correct light shader
 	ShaderPtr pLightShader;
 	const bool hasGloss = pRender->GetGloss();
-	if (pRender->GetType() == ETH_VERTICAL)
+	if (pRender->GetType() == ETHEntityProperties::ET_VERTICAL)
 	{
 		if (hasGloss)
 		{
@@ -94,7 +94,7 @@ bool ETHPixelLightDiffuseSpecular::BeginLightPass(ETHSpriteEntity *pRender, Vect
 	}
 
 	// sets spatial information to the shader
-	if (pRender->GetType() == ETH_VERTICAL)
+	if (pRender->GetType() == ETHEntityProperties::ET_VERTICAL)
 	{
 		m_vPixelLightVS->SetConstant(GS_L("spaceLength"), (maxHeight-minHeight));
 		m_vPixelLightVS->SetConstant(GS_L("topLeft3DPos"), v3EntityPos-(Vector3(v2Origin.x,0,-v2Origin.y)));
@@ -106,7 +106,8 @@ bool ETHPixelLightDiffuseSpecular::BeginLightPass(ETHSpriteEntity *pRender, Vect
 		m_video->SetVertexShader(m_hPixelLightVS);
 	}
 
-	if (pRender->GetType() != ETH_VERTICAL)
+	// TO-DO it looks like a mess around here...
+	if (pRender->GetType() != ETHEntityProperties::ET_VERTICAL)
 	{
 		if (pRender->GetAngle() != 0.0f)
 		{

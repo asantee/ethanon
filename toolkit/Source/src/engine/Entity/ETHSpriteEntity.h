@@ -80,7 +80,7 @@ public:
 	float ComputeDepth(const float maxHeight, const float minHeight) const;
 	void SetScale(const Vector2& scale);
 
-	ETH_VIEW_RECT GetScreenRect(const ETHSceneProperties& sceneProps) const;
+	ETHEntityProperties::VIEW_RECT GetScreenRect(const ETHSceneProperties& sceneProps) const;
 	Vector2 GetScreenRectMin(const ETHSceneProperties& sceneProps) const;
 	Vector2 GetScreenRectMax(const ETHSceneProperties& sceneProps) const;
 	Vector2 ComputeInScreenPosition(const ETHSceneProperties& sceneProps) const;

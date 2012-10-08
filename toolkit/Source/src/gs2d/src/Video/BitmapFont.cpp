@@ -27,6 +27,27 @@ namespace gs2d {
 
 using namespace gs2d::math;
 
+
+BitmapFont::CHAR_DESCRIPTOR::CHAR_DESCRIPTOR() :
+	x(0),
+	y(0),
+	width(0),
+	height(0),
+	xOffset(0),
+	yOffset(0),
+	xAdvance(0),
+	page(0)
+{
+}
+
+BitmapFont::CHARSET::CHARSET() :
+	paddingDown(0),
+	paddingUp(0),
+	paddingLeft(0),
+	paddingRight(0)
+{
+}
+
 bool BitmapFont::ParseFNTString(const str_type::string& str)
 {
 	if (str == GS_L(""))
@@ -198,12 +219,12 @@ BitmapFont::BitmapFont(VideoWeakPtr video, const str_type::string& fileName, con
 	if (ParseFNTString(str))
 	{
 		m_bitmaps.resize(m_charSet.textureNames.size());
-		for (unsigned int t=0; t<m_charSet.textureNames.size(); t++)
+		for (unsigned int t = 0; t < m_charSet.textureNames.size(); t++)
 		{
 			str_type::string path = fileName;
 			std::size_t found = path.find_last_of(GS_L("/\\"));
 			if (found != str_type::string::npos)
-				path.resize(found+1);
+				path.resize(found + 1);
 
 			// remove "'s from the texture name
 			while ((found = m_charSet.textureNames[t].find(GS_L("\""))) != str_type::string::npos)
@@ -228,12 +249,12 @@ BitmapFont::BitmapFont(VideoWeakPtr video, const str_type::string& fileName, con
 
 unsigned int BitmapFont::FindClosestCarretPosition(const str_type::string& text, const Vector2& textPos, const Vector2& reference)
 {
-	const unsigned int cursors = text.length()+1;
+	const unsigned int cursors = text.length() + 1;
 	float distance =-1;
 	unsigned int returnCursor = 0;
 	for (unsigned int t = 0; t < cursors; ++t)
 	{
-		const Vector2 pos = ComputeCarretPosition(text, t)+textPos;
+		const Vector2 pos = ComputeCarretPosition(text, t) + textPos;
 		if (distance == -1)
 		{
 			distance = Distance(reference, pos);
@@ -255,7 +276,7 @@ template<class TChar>
 inline int ConvertCharacterToIndex(TChar character)
 {
 	static const int bitsInByte = 8;
-	static const int maxTCharValue = 1 << bitsInByte*sizeof(TChar);
+	static const int maxTCharValue = 1 << bitsInByte * sizeof(TChar);
 	int index = static_cast<int>(character);
 	if (index < 0)
 	{
@@ -276,7 +297,7 @@ Vector2 BitmapFont::ComputeCarretPosition(const str_type::string& text, const un
 	const unsigned int length = Min(text.size(), static_cast<std::size_t>(pos));
 
 	Vector2 cursor = Vector2(0,0);
-	for (unsigned int t=0; t<length; t++)
+	for (unsigned int t = 0; t < length; t++)
 	{
 		if (text[t] == GS_L('\n'))
 		{
@@ -284,7 +305,7 @@ Vector2 BitmapFont::ComputeCarretPosition(const str_type::string& text, const un
 			continue;
 		}
 		int charId = ConvertCharacterToIndex<str_type::char_t>(text[t]);
-		const CHAR_DESCRIPTOR &currentChar = m_charSet.chars[charId];
+		const CHAR_DESCRIPTOR& currentChar = m_charSet.chars[charId];
 		cursor.x += currentChar.xAdvance;
 	}
 	return cursor;
@@ -300,7 +321,7 @@ Vector2 BitmapFont::ComputeTextBoxSize(const str_type::string& text)
 	Vector2 cursor = Vector2(0,m_charSet.lineHeight);
 	float lineWidth = 0.0f;
 	const unsigned int lastChar = length - 1;
-	for (unsigned int t=0; t<length; t++)
+	for (unsigned int t = 0; t < length; t++)
 	{
 		if (text[t] == GS_L('\n'))
 		{
@@ -324,7 +345,7 @@ Vector2 BitmapFont::ComputeTextBoxSize(const str_type::string& text)
 	return cursor;
 }
 
-Vector2 BitmapFont::DrawBitmapText(const Vector2 &pos, const str_type::string& text, const Color& color, const float scale)
+Vector2 BitmapFont::DrawBitmapText(const Vector2& pos, const str_type::string& text, const Color& color, const float scale)
 {
 	if (!IsLoaded())
 	{
@@ -335,11 +356,11 @@ Vector2 BitmapFont::DrawBitmapText(const Vector2 &pos, const str_type::string& t
 	Vector2 cursor = Vector2(floor(pos.x), floor(pos.y));
 
 	std::vector<Sprite*> bitmapsPointers(m_bitmaps.size());
-	for (unsigned int t=0; t<bitmapsPointers.size(); t++)
+	for (unsigned int t = 0; t < bitmapsPointers.size(); t++)
 		bitmapsPointers[t] = m_bitmaps[t].get();
 
 	int lastPageUsed =-1;
-	for (unsigned int t=0; t<length; t++)
+	for (unsigned int t = 0; t < length; t++)
 	{
 		if (text[t] == GS_L('\n'))
 		{

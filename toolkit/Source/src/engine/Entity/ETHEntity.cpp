@@ -23,18 +23,18 @@
 #include "ETHEntity.h"
 #include "../Physics/ETHPhysicsSimulator.h"
 
-GS_ENTITY_ORIGIN ETHEntity::ConvertToGSSO(const ETH_ENTITY_TYPE type)
+GS_ENTITY_ORIGIN ETHEntity::ConvertToGSSO(const ETHEntityProperties::ENTITY_TYPE type)
 {
 	switch (type)
 	{
-	case ETH_GROUND_DECAL:
-	case ETH_OPAQUE_DECAL:
-	case ETH_OVERALL:
-	case ETH_LAYERABLE:
-	case ETH_HORIZONTAL:
+	case ETHEntityProperties::ET_GROUND_DECAL:
+	case ETHEntityProperties::ET_OPAQUE_DECAL:
+	case ETHEntityProperties::ET_OVERALL:
+	case ETHEntityProperties::ET_LAYERABLE:
+	case ETHEntityProperties::ET_HORIZONTAL:
 		return GSEO_CENTER;
 		break;
-	case ETH_VERTICAL:
+	case ETHEntityProperties::ET_VERTICAL:
 		return GSEO_CENTER_BOTTOM;
 		break;
 	default:
@@ -301,12 +301,12 @@ std::size_t ETHEntity::GetNumParticleSystems() const
 	return m_properties.particleSystems.size();
 }
 
-ETH_ENTITY_TYPE ETHEntity::GetType() const
+ETHEntityProperties::ENTITY_TYPE ETHEntity::GetType() const
 {
 	return m_properties.type;
 }
 
-ETH_BODY_SHAPE ETHEntity::GetShape() const
+ETHEntityProperties::BODY_SHAPE ETHEntity::GetShape() const
 {
 	return m_properties.shape;
 }
@@ -516,18 +516,18 @@ bool ETHEntity::HasShadow() const
 
 void ETHEntity::SetLayerDepth(const float depth)
 {
-	m_properties.type = ETH_LAYERABLE;
+	m_properties.type = ETHEntityProperties::ET_LAYERABLE;
 	m_properties.layerDepth = Max(0.0f, Min(depth, 1.0f));
 }
 
 float ETHEntity::GetLayerDepth() const
 {
-	return (m_properties.type == ETH_LAYERABLE) ? m_properties.layerDepth : -1.0f;
+	return (m_properties.type == ETHEntityProperties::ET_LAYERABLE) ? m_properties.layerDepth : -1.0f;
 }
 
 float ETHEntity::GetDensity(const unsigned int fixtureIdx) const
 {
-	if (m_properties.shape == ETHBS_COMPOUND)
+	if (m_properties.shape == ETHEntityProperties::BS_COMPOUND)
 	{
 		if (m_properties.compoundShape)
 			return m_properties.compoundShape->GetIndividualDensity(fixtureIdx, m_properties.density);
@@ -537,7 +537,7 @@ float ETHEntity::GetDensity(const unsigned int fixtureIdx) const
 
 float ETHEntity::GetFriction(const unsigned int fixtureIdx) const
 {
-	if (m_properties.shape == ETHBS_COMPOUND)
+	if (m_properties.shape == ETHEntityProperties::BS_COMPOUND)
 	{
 		if (m_properties.compoundShape)
 			return m_properties.compoundShape->GetIndividualFriction(fixtureIdx, m_properties.friction);
@@ -547,7 +547,7 @@ float ETHEntity::GetFriction(const unsigned int fixtureIdx) const
 
 float ETHEntity::GetRestitution(const unsigned int fixtureIdx) const
 {
-	if (m_properties.shape == ETHBS_COMPOUND)
+	if (m_properties.shape == ETHEntityProperties::BS_COMPOUND)
 	{
 		if (m_properties.compoundShape)
 			return m_properties.compoundShape->GetIndividualRestitution(fixtureIdx, m_properties.restitution);
@@ -597,7 +597,7 @@ void ETHEntity::ScaleParticleSystemOrigin(const unsigned int n, const float scal
 
 bool ETHEntity::IsRotatable() const
 {
-	return GetType() != ETH_VERTICAL;
+	return GetType() != ETHEntityProperties::ET_VERTICAL;
 }
 
 Vector4 ETHEntity::GetColorF() const
@@ -717,7 +717,7 @@ bool ETHEntity::IsInvisible() const
 
 bool ETHEntity::IsBody() const
 {
-	return (m_properties.shape != ETHBS_NONE);
+	return (m_properties.shape != ETHEntityProperties::BS_NONE);
 }
 
 Vector2 ETHEntity::GetCurrentBucket(const ETHBucketManager& buckets) const

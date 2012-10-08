@@ -203,7 +203,7 @@ bool ETHBucketManager::MoveEntity(const int id, const Vector2 &currentBucket, co
 	}
 
 	// adds the entity to the destiny bucket
-	if (entity->GetType() == ETH_HORIZONTAL)
+	if (entity->GetType() == ETHEntityProperties::ET_HORIZONTAL)
 	{
 		m_entities[destBucket].push_front(entity);
 	}
@@ -567,22 +567,22 @@ void ETHBucketManager::GetIntersectingEntities(const Vector2 &point, ETHEntityAr
 
 	for (unsigned int t=0; t<temp.size(); t++)
 	{
-		ETH_VIEW_RECT rect = temp[t]->GetScreenRect(props);
+		ETHEntityProperties::VIEW_RECT rect = temp[t]->GetScreenRect(props);
 
 		if (!screenSpace)
 		{
 			const Vector2 cameraPos = m_provider->GetVideo()->GetCameraPos();
-			rect.v2Max += cameraPos;
-			rect.v2Min += cameraPos;
+			rect.max += cameraPos;
+			rect.min += cameraPos;
 		}
 
-		if (point.x < rect.v2Min.x)
+		if (point.x < rect.min.x)
 			continue;
-		if (point.y < rect.v2Min.y)
+		if (point.y < rect.min.y)
 			continue;
-		if (point.x > rect.v2Max.x)
+		if (point.x > rect.max.x)
 			continue;
-		if (point.y > rect.v2Max.y)
+		if (point.y > rect.max.y)
 			continue;
 		outVector.push_back(temp[t]);
 	}

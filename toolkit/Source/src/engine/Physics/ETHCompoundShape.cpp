@@ -51,8 +51,8 @@ unsigned int ETHCompoundShape::GetNumShapes() const
 b2Shape* ETHCompoundShape::GetShape(const unsigned int idx, const gs2d::math::Vector2& scale) const
 {
 	const gs2d::enml::Entity& entity = m_entities[idx];
-	const ETH_BODY_SHAPE shapeId = ETHPhysicsSimulator::StringToShape(entity.Get(GS_L("shape")));
-	if (shapeId == ETHBS_BOX)
+	const ETHEntityProperties::BODY_SHAPE shapeId = ETHPhysicsSimulator::StringToShape(entity.Get(GS_L("shape")));
+	if (shapeId == ETHEntityProperties::BS_BOX)
 	{
 		const float posX = ETHGlobal::ParseFloat(entity.Get(GS_L("posX")).c_str()) * scale.x * 0.5f;
 		const float posY = ETHGlobal::ParseFloat(entity.Get(GS_L("posY")).c_str()) * scale.y * 0.5f;
@@ -62,7 +62,7 @@ b2Shape* ETHCompoundShape::GetShape(const unsigned int idx, const gs2d::math::Ve
 		ETHCollisionBox collision(Vector3(posX, posY, 0.0f), Vector3(sizeX, sizeY, 1.0f));
 		return ETHPhysicsSimulator::GetBoxShape(collision, angle)[0];
 	}
-	else if (shapeId == ETHBS_CIRCLE)
+	else if (shapeId == ETHEntityProperties::BS_CIRCLE)
 	{
 		const float posX = ETHGlobal::ParseFloat(entity.Get(GS_L("posX")).c_str()) * scale.x * 0.5f;
 		const float posY = ETHGlobal::ParseFloat(entity.Get(GS_L("posY")).c_str()) * scale.y * 0.5f;

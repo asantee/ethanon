@@ -330,20 +330,20 @@ void RegisterEnumTypes(asIScriptEngine *pASEngine)
 	int r;
 	// Shape types
 	r = pASEngine->RegisterEnum("BODY_SHAPE"); assert(r >= 0);
-	r = pASEngine->RegisterEnumValue("BODY_SHAPE", "BS_NONE",    ETHBS_NONE); assert(r >= 0);
-	r = pASEngine->RegisterEnumValue("BODY_SHAPE", "BS_BOX",     ETHBS_BOX); assert(r >= 0);
-	r = pASEngine->RegisterEnumValue("BODY_SHAPE", "BS_CIRCLE",  ETHBS_CIRCLE); assert(r >= 0);
-	r = pASEngine->RegisterEnumValue("BODY_SHAPE", "BS_POLYGON", ETHBS_POLYGON); assert(r >= 0);
-	r = pASEngine->RegisterEnumValue("BODY_SHAPE", "BS_COMPOUND", ETHBS_COMPOUND); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("BODY_SHAPE", "BS_NONE",    ETHEntityProperties::BS_NONE); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("BODY_SHAPE", "BS_BOX",     ETHEntityProperties::BS_BOX); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("BODY_SHAPE", "BS_CIRCLE",  ETHEntityProperties::BS_CIRCLE); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("BODY_SHAPE", "BS_POLYGON", ETHEntityProperties::BS_POLYGON); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("BODY_SHAPE", "BS_COMPOUND", ETHEntityProperties::BS_COMPOUND); assert(r >= 0);
 
 	// Entity type
 	r = pASEngine->RegisterEnum("ENTITY_TYPE"); assert(r >= 0);
-	r = pASEngine->RegisterEnumValue("ENTITY_TYPE", "ET_HORIZONTAL", ETH_HORIZONTAL); assert(r >= 0);
-	r = pASEngine->RegisterEnumValue("ENTITY_TYPE", "ET_VERTICAL", ETH_VERTICAL); assert(r >= 0);
-	r = pASEngine->RegisterEnumValue("ENTITY_TYPE", "ET_OVERALL", ETH_OVERALL); assert(r >= 0);
-	r = pASEngine->RegisterEnumValue("ENTITY_TYPE", "ET_GROUND_DECAL", ETH_GROUND_DECAL); assert(r >= 0);
-	r = pASEngine->RegisterEnumValue("ENTITY_TYPE", "ET_OPAQUE_DECAL", ETH_OPAQUE_DECAL); assert(r >= 0);
-	r = pASEngine->RegisterEnumValue("ENTITY_TYPE", "ET_LAYERABLE", ETH_LAYERABLE); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("ENTITY_TYPE", "ET_HORIZONTAL", ETHEntityProperties::ET_HORIZONTAL); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("ENTITY_TYPE", "ET_VERTICAL", ETHEntityProperties::ET_VERTICAL); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("ENTITY_TYPE", "ET_OVERALL", ETHEntityProperties::ET_OVERALL); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("ENTITY_TYPE", "ET_GROUND_DECAL", ETHEntityProperties::ET_GROUND_DECAL); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("ENTITY_TYPE", "ET_OPAQUE_DECAL", ETHEntityProperties::ET_OPAQUE_DECAL); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("ENTITY_TYPE", "ET_LAYERABLE", ETHEntityProperties::ET_LAYERABLE); assert(r >= 0);
 
 	// Custom data type
 	r = pASEngine->RegisterEnum("DATA_TYPE"); assert(r >= 0);

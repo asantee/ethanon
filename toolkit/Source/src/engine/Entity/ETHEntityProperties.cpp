@@ -95,11 +95,25 @@ void ETHEntityMaterial::Reset()
 	specularBrightness = 1.0f;
 	shadowLengthScale = 1.0f;
 	blendMode = GSAM_PIXEL;
-	shape = ETHBS_NONE;
 	density = 0.0f;
 	friction = 1.0f;
 	restitution = 0.0f;
 	gravityScale = 1.0f;
+}
+
+ETHParticleManager::DEPTH_SORTING_MODE ETHEntityProperties::ResolveDepthSortingMode( const ENTITY_TYPE type )
+{
+	switch (type)
+	{
+	case ET_VERTICAL:
+		return ETHParticleManager::INDIVIDUAL_OFFSET;
+		break;
+	case ET_LAYERABLE:
+		return ETHParticleManager::LAYERABLE;
+		break;
+	default:
+		return ETHParticleManager::SAME_DEPTH_AS_OWNER;
+	}
 }
 
 ETHEntityProperties::ETHEntityProperties()
@@ -158,11 +172,12 @@ void ETHEntityProperties::Reset()
 	scale = ETH_DEFAULT_SCALE;
 	staticEntity = ETH_FALSE;
 	hideFromSceneEditor = ETH_FALSE;
-	type = ETH_HORIZONTAL;
+	type = ET_HORIZONTAL;
 	layerDepth = 0.0f;
 	successfullyLoaded = false;
 	soundVolume = ETH_DEFAULT_SOUND_VOLUME;
 	parallaxIntensity = ETH_DEFAULT_PARALLAX_INTENS;
+	shape = BS_NONE;
 }
 
 bool ETHEntityProperties::IsSuccessfullyLoaded() const
@@ -223,7 +238,7 @@ bool ETHEntityProperties::ReadFromXMLFile(TiXmlElement *pElement)
 		pElement->QueryFloatAttribute(GS_L("shadowOpacity"), &shadowOpacity);
 	}
 
-	if (shape != ETHBS_NONE)
+	if (shape != BS_NONE)
 	{
 		int nSensor = static_cast<int>(sensor);
 		pElement->QueryIntAttribute(GS_L("sensor"), &nSensor);
@@ -525,7 +540,7 @@ bool ETHEntityProperties::WriteToXMLFile(TiXmlElement *pHeadRoot) const
 				pElement->LinkEndChild(text);
 				pCollisionRoot->LinkEndChild(pElement);
 			}
-			else if (shape == ETHBS_POLYGON) // it the polygon data is empty, write sample data into it
+			else if (shape == BS_POLYGON) // it the polygon data is empty, write sample data into it
 			{
 				pElement = new TiXmlElement(GS_L("Polygon"));
 				TiXmlText* text = new TiXmlText(POLYGON_ENML_SAMPLE);
@@ -543,7 +558,7 @@ bool ETHEntityProperties::WriteToXMLFile(TiXmlElement *pHeadRoot) const
 				pElement->LinkEndChild(text);
 				pCollisionRoot->LinkEndChild(pElement);
 			}
-			else if (shape == ETHBS_COMPOUND) // it the compound data is empty, write sample data into it
+			else if (shape == BS_COMPOUND) // it the compound data is empty, write sample data into it
 			{
 				pElement = new TiXmlElement(GS_L("Compound"));
 				TiXmlText* text = new TiXmlText(COMPOUND_SHAPE_ENML_SAMPLE);
@@ -563,7 +578,7 @@ bool ETHEntityProperties::WriteToXMLFile(TiXmlElement *pHeadRoot) const
 	}
 
 	pRoot->SetAttribute(GS_L("shape"), shape);
-	if (shape != ETHBS_NONE)
+	if (shape != BS_NONE)
 	{
 		pRoot->SetAttribute(GS_L("sensor"), sensor);
 		pRoot->SetAttribute(GS_L("bullet"), bullet);
@@ -590,7 +605,7 @@ bool ETHEntityProperties::WriteToXMLFile(TiXmlElement *pHeadRoot) const
 	}
 
 	pRoot->SetAttribute(GS_L("type"), type);
-	if (type == ETH_LAYERABLE)
+	if (type == ET_LAYERABLE)
 	{
 		pRoot->SetDoubleAttribute(GS_L("layerDepth"), layerDepth);
 	}

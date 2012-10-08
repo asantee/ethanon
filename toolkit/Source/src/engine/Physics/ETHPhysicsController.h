@@ -36,7 +36,7 @@ public:
 	ETHPhysicsController(const ETHPhysicsEntityControllerPtr& controller, ETHGlobalScaleManagerPtr globalScaleManager);
 	void AddRef();
 	void Release();
-	ETH_BODY_SHAPE GetShape() const;
+	ETHEntityProperties::BODY_SHAPE GetShape() const;
 	void SetGravityScale(const float scale);
 	float GetGravityScale() const;
 	void SetAngularVelocity(const float velocity);

@@ -48,7 +48,7 @@ bool ETHRenderEntity::ShouldUseFourTriangles(const float parallaxIntensity) cons
 	if (!m_pSprite)
 		return false;
 
-	if (GetType() != ETH_VERTICAL)
+	if (GetType() != ETHEntityProperties::ET_VERTICAL)
 		return false;
 
 	if ((parallaxIntensity * GetParallaxIndividualIntensity()) == 0.0f)
@@ -91,7 +91,7 @@ bool ETHRenderEntity::DrawAmbientPass(const float maxHeight, const float minHeig
 	SetOrigin();
 
 	const bool shouldUseFourTriangles = ShouldUseFourTriangles(parallaxIntensity);
-	const float angle = (m_properties.type == ETH_VERTICAL) ? 0.0f : GetAngle();
+	const float angle = (m_properties.type == ETHEntityProperties::ET_VERTICAL) ? 0.0f : GetAngle();
 	const Vector2 pos = ETHGlobal::ToScreenPos(GetPosition(), sceneProps.zAxisDirection);
 	const Color color = ConvertToDW(v4FinalAmbient);
 
@@ -131,12 +131,12 @@ bool ETHRenderEntity::IsSpriteVisible(const ETHSceneProperties& sceneProps, cons
 		return false;
 
 	const float angle = GetAngle();
-	if (GetType() == ETH_VERTICAL || angle == 0.0f)
+	if (GetType() == ETHEntityProperties::ET_VERTICAL || angle == 0.0f)
 	{
 		const Vector2& bufferSize = backBuffer->GetBufferSize();
-		const ETH_VIEW_RECT& rect = GetScreenRect(sceneProps);
-		const Vector2& min = rect.v2Min;
-		const Vector2& max = rect.v2Max;
+		const ETHEntityProperties::VIEW_RECT& rect = GetScreenRect(sceneProps);
+		const Vector2& min = rect.min;
+		const Vector2& max = rect.max;
 		if (min.x > bufferSize.x || min.y > bufferSize.y)
 		{
 			return false;
@@ -258,7 +258,7 @@ bool ETHRenderEntity::DrawProjShadow(const float maxHeight, const float minHeigh
 	pVS->SetConstant(GS_L("shadowZ"), m_shadowZ);
 	pVS->SetConstant(GS_L("lightPos"), v3LightPos);
 	video->SetSpriteDepth(
-		(GetType() == ETH_VERTICAL) ?
+		(GetType() == ETHEntityProperties::ET_VERTICAL) ?
 		ETHEntity::ComputeDepth(m_shadowZ, maxHeight, minHeight)
 		: Max(0.0f, ComputeDepth(maxHeight, minHeight) - m_layrableMinimumDepth));
 
@@ -346,9 +346,13 @@ bool ETHRenderEntity::DrawParticles(const unsigned int n, const float maxHeight,
 	}
 	else
 	{
-		m_particles[n]->DrawParticleSystem(sceneProps.ambient, maxHeight, minHeight, GetType(),
-										   sceneProps.zAxisDirection, ComputeParallaxOffset(),
-										   ComputeDepth(maxHeight, minHeight));
+		m_particles[n]->DrawParticleSystem(
+			sceneProps.ambient,
+			maxHeight, minHeight,
+			ETHEntityProperties::ResolveDepthSortingMode(GetType()),
+			sceneProps.zAxisDirection,
+			ComputeParallaxOffset(),
+			ComputeDepth(maxHeight, minHeight));
 		return true;
 	}
 }

@@ -507,18 +507,18 @@ float ETHSpriteEntity::ComputeDepth(const float maxHeight, const float minHeight
 	float r = 0.f;
 	switch (GetType())
 	{
-	case ETH_VERTICAL:
-	case ETH_HORIZONTAL:
+	case ETHEntityProperties::ET_VERTICAL:
+	case ETHEntityProperties::ET_HORIZONTAL:
 		r = ETHEntity::ComputeDepth(GetPosition().z, maxHeight, minHeight);
 		break;
-	case ETH_OPAQUE_DECAL:
-	case ETH_GROUND_DECAL:
+	case ETHEntityProperties::ET_OPAQUE_DECAL:
+	case ETHEntityProperties::ET_GROUND_DECAL:
 		r = ETHEntity::ComputeDepth(GetPosition().z + ETH_SMALL_NUMBER, maxHeight, minHeight);
 		break;
-	case ETH_OVERALL:
+	case ETHEntityProperties::ET_OVERALL:
 		r = (1.0f);
 		break;
-	case ETH_LAYERABLE:
+	case ETHEntityProperties::ET_LAYERABLE:
 		r = Max(m_layrableMinimumDepth, m_properties.layerDepth);
 		break;
 	};
@@ -585,10 +585,10 @@ Vector2 ETHSpriteEntity::ComputeInScreenPosition(const ETHSceneProperties& scene
 Vector2 ETHSpriteEntity::ComputeInScreenSpriteCenter(const ETHSceneProperties& sceneProps) const
 {
 	const float angle = GetAngle();
-	if (GetType() == ETH_VERTICAL || angle == 0.0f)
+	if (GetType() == ETHEntityProperties::ET_VERTICAL || angle == 0.0f)
 	{
-		const ETH_VIEW_RECT& rect = GetScreenRect(sceneProps);
-		return ((rect.v2Max + rect.v2Min) * 0.5f);
+		const ETHEntityProperties::VIEW_RECT& rect = GetScreenRect(sceneProps);
+		return ((rect.max + rect.min) * 0.5f);
 	}
 	else
 	{
@@ -633,36 +633,36 @@ Vector2 ETHSpriteEntity::ComputePositionWithZAxisApplied(const ETHScenePropertie
 	return ETHGlobal::ToScreenPos(r, sceneProps.zAxisDirection);
 }
 
-ETH_VIEW_RECT ETHSpriteEntity::GetScreenRect(const ETHSceneProperties& sceneProps) const
+ETHEntityProperties::VIEW_RECT ETHSpriteEntity::GetScreenRect(const ETHSceneProperties& sceneProps) const
 {
-	ETH_VIEW_RECT box;
+	ETHEntityProperties::VIEW_RECT box;
 	const Vector2& pos = ComputeInScreenPosition(sceneProps);
 	const Vector2& size = GetCurrentSize();
 	const Vector2& absoluteOrigin = ComputeAbsoluteOrigin(size);
 
-	box.v2Min = pos - absoluteOrigin;
-	box.v2Max = pos + (size - absoluteOrigin);
+	box.min = pos - absoluteOrigin;
+	box.max = pos + (size - absoluteOrigin);
 	return box;
 }
 
 Vector2 ETHSpriteEntity::GetScreenRectMin(const ETHSceneProperties& sceneProps) const
 {
-	return GetScreenRect(sceneProps).v2Min;
+	return GetScreenRect(sceneProps).min;
 }
 
 Vector2 ETHSpriteEntity::GetScreenRectMax(const ETHSceneProperties& sceneProps) const
 {
-	return GetScreenRect(sceneProps).v2Max;
+	return GetScreenRect(sceneProps).max;
 }
 
 bool ETHSpriteEntity::IsPointOnSprite(const ETHSceneProperties& sceneProps, const Vector2& absolutePointPos, const Vector2& size) const
 {
 	const float angle = GetAngle();
-	if (GetType() == ETH_VERTICAL || angle == 0.0f)
+	if (GetType() == ETHEntityProperties::ET_VERTICAL || angle == 0.0f)
 	{
-		const ETH_VIEW_RECT& rect = GetScreenRect(sceneProps);
-		const Vector2& min = rect.v2Min;
-		const Vector2& max = rect.v2Max;
+		const ETHEntityProperties::VIEW_RECT& rect = GetScreenRect(sceneProps);
+		const Vector2& min = rect.min;
+		const Vector2& max = rect.max;
 		if (min.x > absolutePointPos.x || min.y > absolutePointPos.y)
 		{
 			return false;

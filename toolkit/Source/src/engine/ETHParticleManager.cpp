@@ -29,14 +29,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-ETH_PARTICLE::ETH_PARTICLE()
-{
-	released = false;
-	repeat = 0;
-	id =-1;
-	currentFrame = 0;
-}
-
 void ETH_PARTICLE_SYSTEM::Scale(const float scale)
 {
 	boundingSphere *= scale;
@@ -379,8 +371,13 @@ str_type::string ETH_PARTICLE_SYSTEM::GetActualBitmapFile() const
 	return (bitmapFile == GS_L("")) ? ETH_DEFAULT_PARTICLE_BITMAP : bitmapFile;
 }
 
-ETHParticleManager::ETHParticleManager(ETHResourceProviderPtr provider, const str_type::string& file, const Vector2 &v2Pos,
-	const Vector3 &v3Pos, const float angle, const float entityVolume) :
+ETHParticleManager::ETHParticleManager(
+	ETHResourceProviderPtr provider,
+	const str_type::string& file,
+	const Vector2& v2Pos,
+	const Vector3& v3Pos,
+	const float angle,
+	const float entityVolume) :
 	m_provider(provider)
 {
 	ETH_PARTICLE_SYSTEM partSystem;
@@ -395,16 +392,26 @@ ETHParticleManager::ETHParticleManager(ETHResourceProviderPtr provider, const st
 	}
 }
 
-ETHParticleManager::ETHParticleManager(ETHResourceProviderPtr provider, const ETH_PARTICLE_SYSTEM &partSystem, const Vector2 &v2Pos,
-									   const Vector3 &v3Pos, const float angle, const float entityVolume, const float scale) :
+ETHParticleManager::ETHParticleManager(
+	ETHResourceProviderPtr provider,
+	const ETH_PARTICLE_SYSTEM& partSystem,
+	const Vector2& v2Pos,
+	const Vector3& v3Pos,
+	const float angle,
+	const float entityVolume,
+	const float scale) :
 	m_provider(provider)
 {
 	CreateParticleSystem(partSystem, v2Pos, v3Pos, angle, entityVolume, scale);
 }
 
-bool ETHParticleManager::CreateParticleSystem(const ETH_PARTICLE_SYSTEM &partSystem, const Vector2 &v2Pos,
-											  const Vector3 &v3Pos, const float angle, const float entityVolume,
-											  const float scale)
+bool ETHParticleManager::CreateParticleSystem(
+	const ETH_PARTICLE_SYSTEM& partSystem,
+	const Vector2& v2Pos,
+	const Vector3& v3Pos,
+	const float angle,
+	const float entityVolume,
+	const float scale)
 {
 	GS2D_UNUSED_ARGUMENT(v3Pos);
 	if (partSystem.nParticles <= 0)
@@ -466,13 +473,9 @@ bool ETHParticleManager::CreateParticleSystem(const ETH_PARTICLE_SYSTEM &partSys
 	for (int t=0; t<m_system.nParticles; t++)
 	{
 		m_particles[t].id = t;
-		//if (m_system.allAtOnce)
-		//	m_particles[t].released = true;
-		//else
 		m_particles[t].released = false;
 		ResetParticle(t, v2Pos, Vector3(v2Pos,0), angle, rot);
 	}
-	//m_particles[0].released = true;
 	return true;
 }
 
@@ -563,7 +566,11 @@ bool ETHParticleManager::IsSoundLooping() const
 	return m_isSoundLooping;
 }
 
-bool ETHParticleManager::UpdateParticleSystem(const Vector2 &v2Pos, const Vector3 &v3Pos, const float angle, const unsigned long lastFrameElapsedTime)
+bool ETHParticleManager::UpdateParticleSystem(
+	const Vector2& v2Pos,
+	const Vector3& v3Pos,
+	const float angle,
+	const unsigned long lastFrameElapsedTime)
 {
 	bool anythingDrawn = false;
 	const unsigned long cappedLastFrameElapsedTime = Min(lastFrameElapsedTime, static_cast<unsigned long>(250));
@@ -735,8 +742,14 @@ void ETHParticleManager::BubbleSort(std::vector<ETH_PARTICLE> &v)
 	}
 }
 
-bool ETHParticleManager::DrawParticleSystem(Vector3 v3Ambient, const float maxHeight, const float minHeight, const ETH_ENTITY_TYPE ownerType,
-											const Vector2 &zAxisDirection, const Vector2 &parallaxOffset, const float ownerDepth)
+bool ETHParticleManager::DrawParticleSystem(
+	Vector3 v3Ambient,
+	const float maxHeight,
+	const float minHeight,
+	const DEPTH_SORTING_MODE ownerType,
+	const Vector2& zAxisDirection,
+	const Vector2& parallaxOffset,
+	const float ownerDepth)
 {
 	if (!m_pBMP)
 	{
@@ -789,10 +802,10 @@ bool ETHParticleManager::DrawParticleSystem(Vector3 v3Ambient, const float maxHe
 		const Vector2 v2Pos = ETHGlobal::ToScreenPos(Vector3(particle.v2Pos, m_system.v3StartPoint.z), zAxisDirection);
 
 		// compute depth
-		if (ownerType != ETH_LAYERABLE)
+		if (ownerType != LAYERABLE)
 		{
 			float offsetYZ = particle.v3StartPoint.z;
-			if (ownerType == ETH_VERTICAL)
+			if (ownerType == INDIVIDUAL_OFFSET)
 			{
 				offsetYZ += particle.GetOffset() + _ETH_PARTICLE_DEPTH_SHIFT;
 			}

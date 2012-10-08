@@ -92,17 +92,6 @@ typedef unsigned char ETH_BOOL;
 #define ETH_TRUE (1)
 #define ETH_FALSE (0)
 
-// TO-DO/TODO: remove deprecation constants in near future
-enum ETH_ENTITY_TYPE
-{
-	ETH_HORIZONTAL = 0,
-	ETH_GROUND_DECAL = 1, // deprecated
-	ETH_VERTICAL,
-	ETH_OVERALL, // depracated
-	ETH_OPAQUE_DECAL, // deprecated
-	ETH_LAYERABLE
-};
-
 enum ETH_MESSAGE
 {
 	ETH_ERROR = 0,
@@ -114,20 +103,6 @@ enum ETH_SCENE_SORT_MODE
 {
 	ETH_HEIGHT = 0,
 	ETH_LAYERDEPTH = 1,
-};
-
-enum ETH_BODY_SHAPE
-{
-	ETHBS_NONE = 0,
-	ETHBS_BOX = 1,
-	ETHBS_CIRCLE = 2,
-	ETHBS_POLYGON = 3,
-	ETHBS_COMPOUND = 4
-};
-
-struct ETH_VIEW_RECT
-{
-	Vector2 v2Min, v2Max;
 };
 
 // namespace for global functions and variables

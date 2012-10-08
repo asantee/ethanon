@@ -55,7 +55,7 @@ public:
 	static std::vector<b2Shape*> GetBoxShape(const ETHCollisionBox& box, const float angle = 0.0f);
 	static std::vector<b2Shape*> GetCircleShape(const ETHCollisionBox& box);
 	static std::vector<b2Shape*> GetPolygonShape(const ETHCollisionBox& box, const ETHPolygonPtr& polygon);
-	static ETH_BODY_SHAPE StringToShape(const gs2d::str_type::string& str);
+	static ETHEntityProperties::BODY_SHAPE StringToShape(const gs2d::str_type::string& str);
 
 	ETHPhysicsEntityControllerPtr CreatePhysicsController(ETHEntity *entity, asIScriptModule* module, asIScriptContext* context);
 	static b2Body* CreateBody(ETHEntity *entity, const boost::shared_ptr<b2World>& world);
