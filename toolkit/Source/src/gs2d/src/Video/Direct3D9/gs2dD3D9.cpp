@@ -58,16 +58,8 @@ void ShowMessage(std::wstringstream &stream, const GS_MESSAGE_TYPE type)
 	else if (type == GSMT_ERROR)
 	{
 		std::wcerr << L"GS2D ERROR: " << stream.str() << std::endl;
-		MessageBox(NULL, stream.str().c_str(), L"GS2D ERROR", MB_OK|MB_ICONERROR);
+		MessageBox(NULL, stream.str().c_str(), L"GS2D ERROR", MB_OK | MB_ICONERROR);
 	}
-}
-
-/// Shows an error, warning or info message to the user
-void ShowMessage(const std::wstring& str, const GS_MESSAGE_TYPE type)
-{
-	std::wstringstream ss;
-	ss << str;
-	ShowMessage(ss, type);
 }
 
 /// Returns a D3DXIMAGE constant for a GS_BITMAP_FORMAT one

@@ -30,14 +30,8 @@ const str_type::string GLES2Sprite::SPRITE_LOG_FILE("GLES2Sprite.log.txt");
 Platform::FileLogger GLES2Sprite::m_logger(Platform::FileLogger::GetLogDirectory() + GLES2Sprite::SPRITE_LOG_FILE);
 
 GLES2Sprite::GLES2Sprite(GLES2ShaderContextPtr shaderContext) :
-		m_normalizedOrigin(0.0f, 0.0f),
 		m_type(T_NOT_LOADED),
-		m_currentRect(0),
-		m_rect(Vector2(0, 0), Vector2(0, 0)),
-		m_nColumns(1),
-		m_nRows(1),
-		m_densityValue(1.0f),
-		m_mode(GSRM_TWO_TRIANGLES)
+		m_densityValue(1.0f)
 {
 	m_shaderContext = shaderContext.get();
 }
@@ -222,7 +216,7 @@ bool GLES2Sprite::DrawShaped(
 	vs->SetConstant(COLOR3_HASH, "color3", color3);
 	vs->SetConstant(CAMERA_POS_HASH, "cameraPos", camPos);
 	vs->SetConstant(DEPTH_HASH, "depth", m_video->GetSpriteDepth());
-	m_shaderContext->DrawRect(m_mode);
+	m_shaderContext->DrawRect(m_rectMode);
 	return true;
 }
 
@@ -287,29 +281,8 @@ bool GLES2Sprite::DrawOptimal(const math::Vector2 &v2Pos, const Color& color, co
 
 	vs->SetMatrixConstant(ROTATION_MATRIX_HASH, "rotationMatrix", mRot);
 	vs->SetConstantArray(PARAMS_HASH, "params", numParams, boost::shared_array<const math::Vector2>(params));
-	m_shaderContext->DrawRect(m_mode);
+	m_shaderContext->DrawRect(m_rectMode);
 	return true;
-}
-
-bool GLES2Sprite::Stretch(const Vector2 &a, const Vector2 &b, const float width,
-				   const Color& color0, const Color& color1)
-{
-	if (a == b || width <= 0.0f)
-	{
-		return true;
-	}
-
-	const Vector2 v2Dir = a - b;
-	const float len = Distance(a, b);
-	const float angle = RadianToDegree(GetAngle(v2Dir));
-	const float lineWidth = (m_rect.size.x <= 0) ? (float)GetProfile().width : (float)m_rect.size.x;
-
-	Vector2 origin = GetOrigin();
-	SetOrigin(GSEO_CENTER_BOTTOM);
-	const bool r = DrawShaped(a, Vector2((width >= 0.0f) ? width : lineWidth, len),
-							  color1, color1, color0, color0, angle);
-	SetOrigin(origin);
-	return r;
 }
 
 bool GLES2Sprite::SaveBitmap(const wchar_t *wcsName, const GS_BITMAP_FORMAT fmt, Rect2D *pRect)
@@ -371,119 +344,6 @@ TextureWeakPtr GLES2Sprite::GetTexture()
 	return m_texture;
 }
 
-void GLES2Sprite::SetOrigin(const GS_ENTITY_ORIGIN origin)
-{
-	switch (origin)
-	{
-	case GSEO_RECT_CENTER:
-	case GSEO_CENTER:
-		m_normalizedOrigin.x = 1.0f / 2.0f;
-		m_normalizedOrigin.y = 1.0f / 2.0f;
-		break;
-	case GSEO_RECT_CENTER_BOTTOM:
-	case GSEO_CENTER_BOTTOM:
-		m_normalizedOrigin.x = 1.0f / 2.0f;
-		m_normalizedOrigin.y = 1.0f;
-		break;
-	case GSEO_RECT_CENTER_TOP:
-	case GSEO_CENTER_TOP:
-		m_normalizedOrigin.x = 1.0f / 2.0f;
-		m_normalizedOrigin.y = 0.0f;
-		break;
-	default:
-		m_normalizedOrigin.x = 0.0f;
-		m_normalizedOrigin.y = 0.0f;
-		break;
-	};
-}
-
-void GLES2Sprite::SetOrigin(const Vector2 &v2Custom)
-{
-	m_normalizedOrigin = v2Custom; 
-}
-
-Vector2 GLES2Sprite::GetOrigin() const
-{
-	return m_normalizedOrigin;
-}
-
-bool GLES2Sprite::SetupSpriteRects(const unsigned int columns, const unsigned int rows)
-{
-	m_rects.reset();
-
-	if (columns <= 0 || rows <= 0)
-	{
-		m_logger.Log(m_texture->GetFileName() + ": number of rows or columns set can't be 0 or less - ::SetupSpriteRects", Platform::FileLogger::ERROR);
-		return false;
-	}
-
-	m_nColumns = columns;
-	m_nRows = rows;
-	const unsigned int nRects = columns * rows;
-	m_rects = boost::shared_array<Rect2Df>(new Rect2Df [nRects]);
-
-	const Vector2i size(GetBitmapSize());
-
-	const unsigned int strideX = static_cast<unsigned int>(size.x) / columns, strideY = static_cast<unsigned int>(size.y) / rows;
-	unsigned int index = 0;
-	for (unsigned int y = 0; y < rows; y++)
-	{
-		for (unsigned int x = 0; x < columns; x++)
-		{
-			m_rects[index].pos.x = static_cast<float>(x * strideX);
-			m_rects[index].pos.y = static_cast<float>(y * strideY);
-			m_rects[index].size.x = static_cast<float>(strideX);
-			m_rects[index].size.y = static_cast<float>(strideY);
-			index++;
-		}
-	}
-
-	SetRect(0);
-	return true;
-}
-
-bool GLES2Sprite::SetRect(const unsigned int column, const unsigned int row)
-{
-	return SetRect((row * m_nColumns) + column);
-}
-
-bool GLES2Sprite::SetRect(const unsigned int rect)
-{
-	m_currentRect = gs2d::math::Min(rect, GetNumRects() - 1);
-	m_rect = m_rects[m_currentRect];
-	return (m_currentRect == rect);
-}
-
-void GLES2Sprite::SetRect(const Rect2Df &rect)
-{
-	m_rect = rect;
-}
-
-void GLES2Sprite::UnsetRect()
-{
-	m_rect = Rect2Df(0, 0, 0, 0);
-}
-
-unsigned int GLES2Sprite::GetNumRects() const
-{
-	return m_nColumns * m_nRows;
-}
-
-Rect2Df GLES2Sprite::GetRect() const
-{
-	return m_rect;
-}
-
-Rect2Df GLES2Sprite::GetRect(const unsigned int rect) const
-{
-	return m_rects[rect];
-}
-
-unsigned int GLES2Sprite::GetRectIndex() const
-{
-	return m_currentRect;
-}
-
 Texture::PROFILE GLES2Sprite::GetProfile() const
 {
 	return m_texture->GetProfile();
@@ -497,16 +357,6 @@ Vector2i GLES2Sprite::GetBitmapSize() const
 Vector2 GLES2Sprite::GetBitmapSizeF() const
 {
 	return m_bitmapSize;
-}
-
-unsigned int GLES2Sprite::GetNumRows() const
-{
-	return m_nRows;
-}
-
-unsigned int GLES2Sprite::GetNumColumns() const
-{
-	return m_nColumns;
 }
 
 void GLES2Sprite::FlipX(const bool flip)
@@ -583,16 +433,6 @@ bool GLES2Sprite::SetAsTexture(const unsigned int passIdx)
 	return static_cast<GLES2Video*>(m_video)->SetBlendTexture(passIdx, m_texture);
 }
 
-void GLES2Sprite::SetRectMode(const GS_RECT_MODE mode)
-{
-	m_mode = mode;
-}
-
-GS_RECT_MODE GLES2Sprite::GetRectMode() const
-{
-	return m_mode;
-}
-
 void GLES2Sprite::OnLostDevice()
 {
 	// TODO 
@@ -601,11 +441,6 @@ void GLES2Sprite::OnLostDevice()
 void GLES2Sprite::RecoverFromBackup()
 {
 	// TODO 
-}
-
-math::Vector2 GLES2Sprite::GetFrameSize() const
-{
-	return (m_rect.size == Vector2(0, 0)) ? GetBitmapSizeF() : m_rect.size;
 }
 
 void GLES2Sprite::SetSpriteDensityValue(const float value)

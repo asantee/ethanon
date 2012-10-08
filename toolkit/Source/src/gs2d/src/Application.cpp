@@ -40,11 +40,17 @@ GS2D_API float ComputeElapsedTimeF(ApplicationPtr app)
 	return elapsedTime * 1000.0f;
 }
 
+void ShowMessage(const str_type::string& str, const GS_MESSAGE_TYPE type)
+{
+	str_type::stringstream ss;
+	ss << str;
+	ShowMessage(ss, type);
+}
+
 void Application::SetScreenSizeChangeListener(const ScreenSizeChangeListenerPtr& listener)
 {
 	m_screenSizeChangeListener = listener;
 }
-
 
 } // namespace gs2d
 

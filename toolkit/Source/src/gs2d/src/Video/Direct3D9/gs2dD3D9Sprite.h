@@ -24,7 +24,6 @@
 #define GS2D_D3D9_SPRITE_H_
 
 #include "gs2dD3D9.h"
-#include <boost/shared_array.hpp>
 
 namespace gs2d {
 
@@ -58,18 +57,11 @@ class D3D9Sprite : public Sprite
 	TexturePtr m_texture;
 	math::Vector2 m_scroll;
 	math::Vector2 m_multiply;
-	math::Vector2 m_origin;
 	math::Vector2 m_size;
 	GS_TARGET_FORMAT m_targetFormat;
-	unsigned int  m_currentRect;
-	boost::shared_array<math::Rect2Df> m_rects;
-	math::Rect2Df m_rect;
-	unsigned int m_nColumns, m_nRows;
 	bool m_flipX, m_flipY;
-	GS_RECT_MODE m_rectMode;
 	Sprite::TYPE m_type;
 	IDirect3DTexture9 *m_pBackupTexture;
-	float m_densityValue;
 
 	IDirect3DTexture9 *m_pTexture;
 	IDirect3DDevice9 *m_pDevice;
@@ -84,26 +76,20 @@ public:
 	D3D9Sprite();
 	~D3D9Sprite();
 
-	bool Draw(const math::Vector2 &v2Pos,
-			  const Color& color = constant::WHITE,
-			  const float angle = 0.0f,
-			  const math::Vector2 &v2Scale = math::Vector2(1.0f,1.0f));
+	bool Draw(
+		const math::Vector2& v2Pos,
+		const Color& color = constant::WHITE,
+		const float angle = 0.0f,
+		const math::Vector2& v2Scale = math::Vector2(1.0f,1.0f));
 
 	bool DrawShaped(
-		const math::Vector2 &v2Pos,
-		const math::Vector2 &v2Size,
+		const math::Vector2& v2Pos,
+		const math::Vector2& v2Size,
 		const Color& color0,
 		const Color& color1,
 		const Color& color2,
 		const Color& color3,
 		const float angle = 0.0f);
-
-	bool Stretch(
-		const math::Vector2 &a,
-		const math::Vector2 &b,
-		const float width,
-		const Color& color0 = constant::WHITE,
-		const Color& color1 = constant::WHITE);
 
 	bool SaveBitmap(const wchar_t *wcsName, const GS_BITMAP_FORMAT fmt, math::Rect2D *pRect = 0);
 
@@ -119,26 +105,10 @@ public:
 	void EndFastRendering();
 
 	TextureWeakPtr GetTexture();
-	void SetOrigin(const GS_ENTITY_ORIGIN origin);
-	void SetOrigin(const math::Vector2 &v2Custom);
-	math::Vector2 GetOrigin() const;
-
-	bool SetupSpriteRects(const unsigned int columns, const unsigned int rows);
-	bool SetRect(const unsigned int column, const unsigned int row);
-	bool SetRect(const unsigned int rect);
-	void SetRect(const math::Rect2Df &rect);
-	void UnsetRect();
-	unsigned int GetNumRects() const;
-	math::Rect2Df GetRect() const;
-	math::Rect2Df GetRect(const unsigned int rect) const;
-	unsigned int GetRectIndex() const;
 
 	Texture::PROFILE GetProfile() const;
 	math::Vector2i GetBitmapSize() const;
 	math::Vector2 GetBitmapSizeF() const;
-
-	unsigned int GetNumRows() const;
-	unsigned int GetNumColumns() const;
 
 	void FlipX(const bool flip);
 	void FlipY(const bool flip);
@@ -158,13 +128,9 @@ public:
 
 	void GenerateBackup();
 	bool SetAsTexture(const unsigned int passIdx);
-	void SetRectMode(const GS_RECT_MODE mode);
-	GS_RECT_MODE GetRectMode() const;
 
 	void SetSpriteDensityValue(const float value);
 	float GetSpriteDensityValue() const;
-
-	math::Vector2 GetFrameSize() const;
 
 	math::Vector2 GetTextureSize() const;
 };

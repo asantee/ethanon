@@ -40,17 +40,9 @@ private:
 	
 	TYPE m_type;
 	math::Vector2 m_bitmapSize;
-	math::Vector2 m_normalizedOrigin;
 	GLES2TexturePtr m_texture;
-
-	unsigned int  m_currentRect;
-	boost::shared_array<math::Rect2Df> m_rects;
-	math::Rect2Df m_rect;
-	unsigned int m_nColumns, m_nRows;
-	float m_densityValue;
-	GS_RECT_MODE m_mode;
-
 	Video* m_video;
+	float m_densityValue;
 	
 public:
 	GLES2Sprite(GLES2ShaderContextPtr shaderContext);
@@ -97,13 +89,6 @@ public:
 		const float angle = 0.0f,
 		const math::Vector2 &v2Size = math::Vector2(-1,-1));
 
-	bool Stretch(
-		const math::Vector2 &a,
-		const math::Vector2 &b,
-		const float width,
-		const Color& color0 = gs2d::constant::WHITE,
-		const Color& color1 = gs2d::constant::WHITE);
-
 	bool SaveBitmap(const wchar_t *wcsName, const GS_BITMAP_FORMAT fmt, math::Rect2D *pRect = 0);
 
 	bool DrawShapedFast(const math::Vector2 &v2Pos, const math::Vector2 &v2Size, const Color& color);
@@ -111,26 +96,10 @@ public:
 	void EndFastRendering();
 
 	TextureWeakPtr GetTexture();
-	void SetOrigin(const GS_ENTITY_ORIGIN origin);
-	void SetOrigin(const math::Vector2 &v2Custom);
-	math::Vector2 GetOrigin() const;
-
-	bool SetupSpriteRects(const unsigned int columns, const unsigned int rows);
-	bool SetRect(const unsigned int column, const unsigned int row);
-	bool SetRect(const unsigned int rect);
-	void SetRect(const math::Rect2Df &rect);
-	void UnsetRect();
-	unsigned int GetNumRects() const;
-	math::Rect2Df GetRect() const;
-	math::Rect2Df GetRect(const unsigned int rect) const;
-	unsigned int GetRectIndex() const;
 
 	Texture::PROFILE GetProfile() const;
 	math::Vector2i GetBitmapSize() const;
 	math::Vector2 GetBitmapSizeF() const;
-
-	unsigned int GetNumRows() const;
-	unsigned int GetNumColumns() const;
 
 	void FlipX(const bool flip);
 	void FlipY(const bool flip);
@@ -150,14 +119,10 @@ public:
 
 	void GenerateBackup();
 	bool SetAsTexture(const unsigned int passIdx);
-	void SetRectMode(const GS_RECT_MODE mode);
-	GS_RECT_MODE GetRectMode() const;
 
 	void OnLostDevice();
 
 	void RecoverFromBackup();
-
-	math::Vector2 GetFrameSize() const;
 
 	void SetSpriteDensityValue(const float value);
 	float GetSpriteDensityValue() const;

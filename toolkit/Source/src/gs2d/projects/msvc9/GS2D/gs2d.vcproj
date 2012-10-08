@@ -164,6 +164,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\src\Sprite.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\src\Video.cpp"
 				>
 			</File>

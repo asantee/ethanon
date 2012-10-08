@@ -24,15 +24,32 @@
 #include "../Platform.h"
 #include "../FileLogger.h"
 #include "../../Video/GLES2/gs2dGLES2.h"
+#include "AndroidLog.h"
 
 namespace gs2d {
+
+void ShowMessage(str_type::stringstream& stream, const GS_MESSAGE_TYPE type)
+{
+	if (type == GSMT_INFO)
+	{
+		LOGI(stream.str().c_str());
+	}
+	else if (type == GSMT_WARNING)
+	{
+		LOGI(stream.str().c_str());
+	}
+	else if (type == GSMT_ERROR)
+	{
+		LOGE(stream.str().c_str());
+	}
+}
 
 str_type::string GLES2Video::GetPlatformName() const
 {
 	return GS_L("android");
 }
 
-}
+} // namespace gs2d
 
 namespace Platform {
 
@@ -40,7 +57,6 @@ gs2d::str_type::string FileLogger::GetLogDirectory()
 {
 	return GS_L("/sdcard/.ethanon/gs2dlog/");
 }
-
 
 gs2d::str_type::string GetModuleDirectory()
 {
@@ -52,4 +68,4 @@ char GetDirectorySlashA()
 	return '/';
 }
 
-} // namespace
+} // namespace Platform

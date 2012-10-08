@@ -24,6 +24,7 @@
 #define GS2D_SPRITE_H_
 
 #include "Texture.h"
+#include <boost/shared_array.hpp>
 
 namespace gs2d {
 
@@ -64,10 +65,11 @@ public:
 		T_TARGET = 2,
 		T_RELOAD = 3,
 	};
+	Sprite();
 
 	virtual bool LoadSprite(
 		VideoWeakPtr video,
-		GS_BYTE *pBuffer,
+		GS_BYTE* pBuffer,
 		const unsigned int bufferLength,
 		Color mask = constant::ZERO,
 		const unsigned int width = 0,
@@ -87,7 +89,7 @@ public:
 		const GS_TARGET_FORMAT format = GSTF_DEFAULT) = 0;
 
 	virtual bool Draw(
-		const math::Vector2 &v2Pos,
+		const math::Vector2& v2Pos,
 		const Color& color = constant::WHITE,
 		const float angle = 0.0f,
 		const math::Vector2& v2Scale = math::Vector2(1.0f,1.0f)) = 0;
@@ -99,19 +101,12 @@ public:
 		const Color& color1,
 		const Color& color2,
 		const Color& color3,
-		 const float angle = 0.0f) = 0;
-
-	virtual bool Stretch(
-		const math::Vector2 &a,
-		const math::Vector2 &b,
-		const float width,
-	   const Color& color0 = constant::WHITE,
-	   const Color& color1 = constant::WHITE) = 0;
+		const float angle = 0.0f) = 0;
 
 	virtual bool SaveBitmap(
-		const wchar_t *wcsName,
+		const wchar_t* wcsName,
 		const GS_BITMAP_FORMAT fmt,
-		math::Rect2D *pRect = 0) = 0;
+		math::Rect2D* pRect = 0) = 0;
 
 	virtual bool DrawShapedFast(const math::Vector2 &v2Pos, const math::Vector2 &v2Size, const Color& color) = 0;
 
@@ -125,28 +120,10 @@ public:
 	virtual void EndFastRendering() = 0;
 
 	virtual TextureWeakPtr GetTexture() = 0;
-	virtual void SetOrigin(const GS_ENTITY_ORIGIN origin) = 0;
-	virtual void SetOrigin(const math::Vector2 &v2Custom) = 0;
-	virtual math::Vector2 GetOrigin() const = 0;
-
-	virtual bool SetupSpriteRects(const unsigned int columns, const unsigned int rows) = 0;
-	virtual bool SetRect(const unsigned int column, const unsigned int row) = 0;
-	virtual bool SetRect(const unsigned int rect) = 0;
-	virtual void SetRect(const math::Rect2Df &rect) = 0;
-	virtual void UnsetRect() = 0;
-	virtual unsigned int GetNumRects() const = 0;
-	virtual math::Rect2Df GetRect() const = 0;
-	virtual math::Rect2Df GetRect(const unsigned int rect) const = 0;
-	virtual unsigned int GetRectIndex() const = 0;
 
 	virtual Texture::PROFILE GetProfile() const = 0;
 	virtual math::Vector2i GetBitmapSize() const = 0;
 	virtual math::Vector2 GetBitmapSizeF() const = 0;
-
-	virtual math::Vector2 GetFrameSize() const = 0;
-
-	virtual unsigned int GetNumRows() const = 0;
-	virtual unsigned int GetNumColumns() const = 0;
 
 	virtual void FlipX(const bool flip) = 0;
 	virtual void FlipY(const bool flip) = 0;
@@ -166,17 +143,51 @@ public:
 
 	virtual void GenerateBackup() = 0;
 	virtual bool SetAsTexture(const unsigned int passIdx) = 0;
-	virtual void SetRectMode(const GS_RECT_MODE mode) = 0;
-	virtual GS_RECT_MODE GetRectMode() const = 0;
-
-	virtual void SetSpriteDensityValue(const float value) = 0;
-	virtual float GetSpriteDensityValue() const = 0;
 
 	/// Used on API's that must handle lost devices
 	virtual void OnLostDevice() = 0;
 
 	/// Used on API's that must handle lost devices
 	virtual void RecoverFromBackup() = 0;
+
+	virtual void SetSpriteDensityValue(const float value) = 0;
+	virtual float GetSpriteDensityValue() const = 0;
+
+	// Non pure virtual functions:
+	virtual void SetRectMode(const GS_RECT_MODE mode);
+	virtual GS_RECT_MODE GetRectMode() const;
+	virtual bool SetupSpriteRects(const unsigned int columns, const unsigned int rows);
+	virtual bool SetRect(const unsigned int column, const unsigned int row);
+	virtual bool SetRect(const unsigned int rect);
+	virtual void SetRect(const math::Rect2Df& rect);
+	virtual void UnsetRect();
+	virtual unsigned int GetNumRects() const;
+	virtual math::Rect2Df GetRect() const;
+	virtual math::Rect2Df GetRect(const unsigned int rect) const;
+	virtual unsigned int GetRectIndex() const;
+	virtual unsigned int GetNumRows() const;
+	virtual unsigned int GetNumColumns() const;
+	virtual math::Vector2 GetFrameSize() const;
+
+	virtual bool Stretch(
+		const math::Vector2 &a,
+		const math::Vector2 &b,
+		const float width,
+		const Color& color0 = constant::WHITE,
+		const Color& color1 = constant::WHITE);
+
+	virtual void SetOrigin(const GS_ENTITY_ORIGIN origin);
+	virtual void SetOrigin(const math::Vector2& v2Custom);
+	virtual math::Vector2 GetOrigin() const;
+
+protected:
+	unsigned int  m_currentRect;
+	boost::shared_array<math::Rect2Df> m_rects;
+	math::Rect2Df m_rect;
+	unsigned int m_nColumns, m_nRows;
+	GS_RECT_MODE m_rectMode;
+	float m_densityValue;
+	math::Vector2 m_normalizedOrigin;
 };
 
 } // namespace gs2d

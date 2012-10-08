@@ -28,17 +28,13 @@ using namespace math;
 
 void D3D9Sprite::Init()
 {
+	m_type = Sprite::T_NOT_LOADED;
 	m_pTexture = NULL;
 	m_pDevice = NULL;
-	m_nColumns = m_nRows = 0;
 	m_flipX = m_flipY = false;
 	m_multiply = Vector2(1.0f, 1.0f);
 	m_scroll = Vector2(0.0f, 0.0f);
-	m_origin = Vector2(0.0f, 0.0f);
-	m_rect = Rect2Df(0,0,0,0);
-	m_type = Sprite::T_NOT_LOADED;
 	m_pBackupTexture = NULL;
-	m_rectMode = GSRM_TWO_TRIANGLES;
 	m_targetFormat = GSTF_NONE;
 	m_densityValue = 1.0f;
 }
@@ -180,50 +176,6 @@ void D3D9Sprite::RecoverFromBackup()
 	GetInternalData();
 }
 
-void D3D9Sprite::SetRectMode(const GS_RECT_MODE mode)
-{
-	m_rectMode = mode;
-}
-
-GS_RECT_MODE D3D9Sprite::GetRectMode() const
-{
-	return m_rectMode;
-}
-
-bool D3D9Sprite::SetupSpriteRects(const unsigned int columns, const unsigned int rows)
-{
-	m_rects.reset();
-
-	if (columns <= 0 || rows <=0)
-	{
-		m_video.lock()->Message(L"The number of rows or columns set can't be 0 or less - D3D9Sprite::SetupSpriteRects");
-		return false;
-	}
-
-	m_nColumns = columns;
-	m_nRows = rows;
-	const unsigned int nRects = columns*rows;
-	m_rects = boost::shared_array<Rect2Df>(new Rect2Df [nRects]);
-
-	const Vector2i size(GetBitmapSize());
-	const unsigned int strideX = static_cast<unsigned int>(size.x) / columns, strideY = static_cast<unsigned int>(size.y) / rows;
-	unsigned int index=0;
-	for (unsigned int y=0; y<rows; y++)
-	{
-		for (unsigned int x=0; x<columns; x++)
-		{
-			m_rects[index].pos.x = static_cast<float>(x*strideX);
-			m_rects[index].pos.y = static_cast<float>(y*strideY);
-			m_rects[index].size.x = static_cast<float>(strideX);
-			m_rects[index].size.y = static_cast<float>(strideY);
-			index++;
-		}
-	}
-
-	SetRect(0);
-	return true;
-}
-
 bool D3D9Sprite::DrawOptimal(const math::Vector2 &v2Pos, const Color& color, const float angle, const math::Vector2 &v2Size)
 {
 	Vector2 size;
@@ -232,53 +184,6 @@ bool D3D9Sprite::DrawOptimal(const math::Vector2 &v2Pos, const Color& color, con
 	else
 		size = v2Size;
 	return DrawShaped(v2Pos, size, color, color, color, color, angle);
-}
-
-bool D3D9Sprite::SetRect(const unsigned int column, const unsigned int row)
-{
-	return SetRect((row * m_nColumns) + column);
-}
-
-unsigned int D3D9Sprite::GetRectIndex() const
-{
-	return m_currentRect;
-}
-
-bool D3D9Sprite::SetRect(const unsigned int rect)
-{
-	m_currentRect = gs2d::math::Min(rect, GetNumRects() - 1);
-	m_rect = m_rects[m_currentRect];
-	return (m_currentRect == rect);
-}
-
-void D3D9Sprite::SetRect(const Rect2Df &rect)
-{
-	m_rect = rect;
-}
-
-void D3D9Sprite::UnsetRect()
-{
-	m_rect = Rect2Df(0, 0, 0, 0);
-}
-
-Rect2Df D3D9Sprite::GetRect() const
-{
-	return m_rect;
-}
-
-unsigned int D3D9Sprite::GetNumRects() const
-{
-	return m_nColumns * m_nRows;
-}
-
-unsigned int D3D9Sprite::GetNumRows() const
-{
-	return m_nRows;
-}
-
-unsigned int D3D9Sprite::GetNumColumns() const
-{
-	return m_nColumns;
 }
 
 void D3D9Sprite::FlipX(const bool flip)
@@ -541,7 +446,7 @@ bool D3D9Sprite::DrawShaped(const Vector2 &v2Pos, const Vector2 &v2Size,
 	}
 
 	// centralizes the sprite according to the origin
-	Vector2 v2Center = m_origin*v2Size;
+	Vector2 v2Center = m_normalizedOrigin*v2Size;
 
 	Video* video = m_video.lock().get();
 	ShaderPtr pCurrentVS = video->GetVertexShader();
@@ -710,81 +615,14 @@ bool D3D9Sprite::SetAsTexture(const unsigned int passIdx)
 	return true;
 }
 
-bool D3D9Sprite::Stretch(const Vector2 &a, const Vector2 &b, const float width,
-						 const Color& color0, const Color& color1)
-{
-	if (a == b || width <= 0.0f)
-	{
-		return true;
-	}
-
-	const Vector2 v2Dir = a - b;
-	const float len = Distance(a, b);
-	const float angle = RadianToDegree(GetAngle(v2Dir));
-	const float lineWidth = (m_rect.size.x <= 0) ? (float)GetProfile().width : (float)m_rect.size.x;
-
-	Vector2 origin = GetOrigin();
-	SetOrigin(GSEO_CENTER_BOTTOM);
-	const bool r = DrawShaped(a, Vector2((width >= 0.0f) ? width : lineWidth, len),
-							  color1, color1, color0, color0, angle);
-	SetOrigin(origin);
-	return r;
-}
-
 boost::any D3D9Sprite::GetTextureObject()
 {
 	return m_texture->GetTextureObject();
 }
 
-Rect2Df D3D9Sprite::GetRect(const unsigned int rect) const
-{
-	return m_rects[rect];
-}
-
-Vector2 D3D9Sprite::GetOrigin() const
-{
-	return m_origin;
-}
-
-void D3D9Sprite::SetOrigin(const Vector2 &origin)
-{
-	m_origin = origin;
-}
-
-void D3D9Sprite::SetOrigin(const GS_ENTITY_ORIGIN origin)
-{
-	switch (origin)
-	{
-	case GSEO_RECT_CENTER:
-	case GSEO_CENTER:
-		m_origin.x = 1.0f/2.0f;
-		m_origin.y = 1.0f/2.0f;
-		break;
-	case GSEO_RECT_CENTER_BOTTOM:
-	case GSEO_CENTER_BOTTOM:
-		m_origin.x = 1.0f/2.0f;
-		m_origin.y = 1.0f;
-		break;
-	case GSEO_RECT_CENTER_TOP:
-	case GSEO_CENTER_TOP:
-		m_origin.x = 1.0f/2.0f;
-		m_origin.y = 0.0f;
-		break;
-	default:
-		m_origin.x = 0.0f;
-		m_origin.y = 0.0f;
-		break;
-	};
-}
-
 TextureWeakPtr D3D9Sprite::GetTexture()
 {
 	return m_texture;
-}
-
-math::Vector2 D3D9Sprite::GetFrameSize() const
-{
-	return (m_rect.size == Vector2(0, 0)) ? GetBitmapSizeF() : m_rect.size;
 }
 
 void D3D9Sprite::SetSpriteDensityValue(const float value)
