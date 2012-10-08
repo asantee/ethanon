@@ -66,7 +66,7 @@ public:
 		VideoWeakPtr video,
 		const unsigned int width,
 		const unsigned int height,
-		const GS_TARGET_FORMAT format = GSTF_DEFAULT);
+		const Texture::TARGET_FORMAT format = Texture::TF_DEFAULT);
 
 	bool Draw(
 		const math::Vector2 &v2Pos,
@@ -89,7 +89,7 @@ public:
 		const float angle = 0.0f,
 		const math::Vector2 &v2Size = math::Vector2(-1,-1));
 
-	bool SaveBitmap(const wchar_t *wcsName, const GS_BITMAP_FORMAT fmt, math::Rect2D *pRect = 0);
+	bool SaveBitmap(const wchar_t *wcsName, const Texture::BITMAP_FORMAT fmt, math::Rect2D *pRect = 0);
 
 	bool DrawShapedFast(const math::Vector2 &v2Pos, const math::Vector2 &v2Size, const Color& color);
 	void BeginFastRendering();

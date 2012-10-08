@@ -108,7 +108,7 @@ GLES2Video::GLES2Video(
 	m_logger.Log("Creating shader context...", Platform::FileLogger::INFO);
 	m_shaderContext = GLES2ShaderContextPtr(new GLES2ShaderContext(this));
 	m_logger.Log("StartApplication...", Platform::FileLogger::INFO);
-	StartApplication(width, height, winTitle, false, false, GSPF_DEFAULT, false);
+	StartApplication(width, height, winTitle, false, false, Texture::PF_DEFAULT, false);
 }
 
 boost::shared_ptr<GLES2Video> GLES2Video::Create(
@@ -144,7 +144,7 @@ bool GLES2Video::StartApplication(
 	const str_type::string& winTitle,
 	const bool windowed,
 	const bool sync,
-	const GS_PIXEL_FORMAT pfBB,
+	const Texture::PIXEL_FORMAT pfBB,
 	const bool maximizable)
 {
 	glDisable(GL_DITHER);
@@ -229,7 +229,10 @@ TexturePtr GLES2Video::LoadTextureFromFile(
 	return TexturePtr();
 }
 
-TexturePtr GLES2Video::CreateRenderTargetTexture(const unsigned int width, const unsigned int height, const GS_TARGET_FORMAT fmt)
+TexturePtr GLES2Video::CreateRenderTargetTexture(
+	const unsigned int width,
+	const unsigned int height,
+	const Texture::TARGET_FORMAT fmt)
 {
 	TexturePtr texture(new GLES2Texture(weak_this, GS_L("render_target"), m_fileIOHub->GetFileManager()));
 	if (texture->CreateRenderTarget(weak_this, width, height, fmt))
@@ -267,7 +270,7 @@ SpritePtr GLES2Video::CreateSprite(
 SpritePtr GLES2Video::CreateRenderTarget(
 	const unsigned int width,
 	const unsigned int height,
-	const GS_TARGET_FORMAT format)
+	const Texture::TARGET_FORMAT format)
 {
 	SpritePtr sprite(new GLES2Sprite(m_shaderContext));
 	if (sprite->CreateRenderTarget(weak_this, width, height, format))
@@ -426,7 +429,7 @@ Video::VIDEO_MODE GLES2Video::GetVideoMode(const unsigned int modeIdx) const
 	VIDEO_MODE vm;
 	vm.width = m_screenSize.x;
 	vm.height = m_screenSize.y;
-	vm.pf = GSPF_DEFAULT;
+	vm.pf = Texture::PF_DEFAULT;
 	vm.idx = 0x01;
 	return vm;
 }
@@ -444,7 +447,7 @@ bool GLES2Video::ResetVideoMode(const VIDEO_MODE& mode, const bool toggleFullscr
 bool GLES2Video::ResetVideoMode(
 	const unsigned int width,
 	const unsigned int height,
-	const GS_PIXEL_FORMAT pfBB,
+	const Texture::PIXEL_FORMAT pfBB,
 	const bool toggleFullscreen)
 {
 	m_screenSize.x = width;
@@ -907,7 +910,7 @@ bool GLES2Video::Rendering() const
 }
 
 bool GLES2Video::SaveScreenshot(const wchar_t *wcsName,
-		const GS_BITMAP_FORMAT fmt, Rect2D rect)
+		const Texture::BITMAP_FORMAT fmt, Rect2D rect)
 {
 	// TODO
 	return false;

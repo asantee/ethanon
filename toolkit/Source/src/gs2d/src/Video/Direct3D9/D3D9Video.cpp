@@ -38,7 +38,7 @@ GS2D_API VideoPtr CreateVideo(
 	const bool windowed,
 	const bool sync,
 	const Platform::FileIOHubPtr& fileIOHub,
-	const GS_PIXEL_FORMAT pfBB,
+	const Texture::PIXEL_FORMAT pfBB,
 	const bool maximizable)
 {
 	return D3D9Video::Create(width, height, winTitle, windowed, sync, pfBB, maximizable, fileIOHub);
@@ -63,26 +63,26 @@ void ShowMessage(std::wstringstream &stream, const GS_MESSAGE_TYPE type)
 }
 
 /// Returns a D3DXIMAGE constant for a GS_BITMAP_FORMAT one
-D3DXIMAGE_FILEFORMAT GetD3DPF(const GS_BITMAP_FORMAT fmt)
+D3DXIMAGE_FILEFORMAT GetD3DPF(const Texture::BITMAP_FORMAT fmt)
 {
 	switch (fmt)
 	{
-	case GSBF_BMP:
+	case Texture::BF_BMP:
 		return D3DXIFF_BMP;
 		break;
-	case GSBF_JPG:
+	case Texture::BF_JPG:
 		return D3DXIFF_JPG;
 		break;
-	case GSBF_PNG:
+	case Texture::BF_PNG:
 		return D3DXIFF_PNG;
 		break;
-	case GSBF_TGA:
+	case Texture::BF_TGA:
 		return D3DXIFF_TGA;
 		break;
-	case GSBF_DDS:
+	case Texture::BF_DDS:
 		return D3DXIFF_DDS;
 		break;
-	case GSBF_HDR:
+	case Texture::BF_HDR:
 		return D3DXIFF_HDR;
 		break;
 	default:
@@ -92,26 +92,26 @@ D3DXIMAGE_FILEFORMAT GetD3DPF(const GS_BITMAP_FORMAT fmt)
 }
 
 /// Converts a GS_BITMAP_FORMAT constant to an extension string
-std::wstring GetImageExtension(const GS_BITMAP_FORMAT fmt)
+std::wstring GetImageExtension(const Texture::BITMAP_FORMAT fmt)
 {
 	switch (fmt)
 	{
-	case GSBF_JPG:
+	case Texture::BF_JPG:
 		return L".jpg";
 		break;
-	case GSBF_PNG:
+	case Texture::BF_PNG:
 		return L".png";
 		break;
-	case GSBF_TGA:
+	case Texture::BF_TGA:
 		return L".tga";
 		break;
-	case GSBF_DDS:
+	case Texture::BF_DDS:
 		return L".dds";
 		break;
-	case GSBF_HDR:
+	case Texture::BF_HDR:
 		return L".hdr";
 		break;
-	case GSBF_BMP:
+	case Texture::BF_BMP:
 	default:
 		return L".bmp";
 		break;
@@ -208,7 +208,7 @@ boost::shared_ptr<D3D9Video> D3D9Video::Create(
 	const std::wstring& winTitle,
 	const bool windowed,
 	const bool sync,
-	const GS_PIXEL_FORMAT pfBB,
+	const Texture::PIXEL_FORMAT pfBB,
 	const bool maximizable,
 	const Platform::FileIOHubPtr& fileIOHub)
 {
@@ -218,8 +218,13 @@ boost::shared_ptr<D3D9Video> D3D9Video::Create(
 	return p;
 }
 
-TexturePtr D3D9Video::CreateTextureFromFileInMemory(const void *pBuffer, const unsigned int bufferLength, Color mask,
-			 const unsigned int width, const unsigned int height, const unsigned int nMipMaps)
+TexturePtr D3D9Video::CreateTextureFromFileInMemory(
+	const void* pBuffer,
+	const unsigned int bufferLength,
+	Color mask,
+	const unsigned int width,
+	const unsigned int height,
+	const unsigned int nMipMaps)
 {
 	TexturePtr texture(new D3D9Texture);
 	if (texture->LoadTexture(weak_this, pBuffer, mask, width, height, nMipMaps, bufferLength))
@@ -229,8 +234,12 @@ TexturePtr D3D9Video::CreateTextureFromFileInMemory(const void *pBuffer, const u
 	return TexturePtr();
 }
 
-TexturePtr D3D9Video::LoadTextureFromFile(const std::wstring& fileName, Color mask,
-			 const unsigned int width, const unsigned int height, const unsigned int nMipMaps)
+TexturePtr D3D9Video::LoadTextureFromFile(
+	const std::wstring& fileName,
+	Color mask,
+	const unsigned int width,
+	const unsigned int height,
+	const unsigned int nMipMaps)
 {
 	TexturePtr texture(new D3D9Texture);
 	if (texture->LoadTexture(weak_this, fileName, mask, width, height, nMipMaps))
@@ -240,7 +249,10 @@ TexturePtr D3D9Video::LoadTextureFromFile(const std::wstring& fileName, Color ma
 	return TexturePtr();
 }
 
-TexturePtr D3D9Video::CreateRenderTargetTexture(const unsigned int width, const unsigned int height, const GS_TARGET_FORMAT fmt)
+TexturePtr D3D9Video::CreateRenderTargetTexture(
+	const unsigned int width,
+	const unsigned int height,
+	const Texture::TARGET_FORMAT fmt)
 {
 	TexturePtr texture(new D3D9Texture);
 	if (texture->CreateRenderTarget(weak_this, width, height, fmt))
@@ -250,8 +262,12 @@ TexturePtr D3D9Video::CreateRenderTargetTexture(const unsigned int width, const 
 	return TexturePtr();
 }
 
-SpritePtr D3D9Video::CreateSprite(GS_BYTE *pBuffer, const unsigned int bufferLength,
-					Color mask, const unsigned int width, const unsigned int height)
+SpritePtr D3D9Video::CreateSprite(
+	GS_BYTE* pBuffer,
+	const unsigned int bufferLength,
+	Color mask,
+	const unsigned int width,
+	const unsigned int height)
 {
 	SpritePtr sprite(new D3D9Sprite);
 	if (sprite->LoadSprite(weak_this, pBuffer, bufferLength, mask, width, height))
@@ -261,8 +277,11 @@ SpritePtr D3D9Video::CreateSprite(GS_BYTE *pBuffer, const unsigned int bufferLen
 	return SpritePtr();
 }
 
-SpritePtr D3D9Video::CreateSprite(const std::wstring& fileName,
-				Color mask, const unsigned int width, const unsigned int height)
+SpritePtr D3D9Video::CreateSprite(
+	const std::wstring& fileName,
+	Color mask,
+	const unsigned int width,
+	const unsigned int height)
 {
 	SpritePtr sprite(new D3D9Sprite);
 	if (sprite->LoadSprite(weak_this, fileName, mask, width, height))
@@ -272,8 +291,10 @@ SpritePtr D3D9Video::CreateSprite(const std::wstring& fileName,
 	return SpritePtr();
 }
 
-SpritePtr D3D9Video::CreateRenderTarget(const unsigned int width, const unsigned int height,
-						const GS_TARGET_FORMAT format)
+SpritePtr D3D9Video::CreateRenderTarget(
+	const unsigned int width,
+	const unsigned int height,
+	const Texture::TARGET_FORMAT format)
 {
 	SpritePtr sprite(new D3D9Sprite);
 	if (sprite->CreateRenderTarget(weak_this, width, height, format))
@@ -318,7 +339,7 @@ D3D9Video::D3D9Video(
 	const std::wstring& winTitle,
 	const bool windowed,
 	const bool sync,
-	const GS_PIXEL_FORMAT pfBB,
+	const Texture::PIXEL_FORMAT pfBB,
 	const bool maximizable,
 	const Platform::FileIOHubPtr& fileIOHub) :
 	m_videoInfo(new D3D9VideoInfo),
@@ -890,7 +911,11 @@ bool D3D9Video::Rendering() const
 	return m_rendering;
 }
 
-bool D3D9Video::ResetVideoMode(const unsigned int width, const unsigned int height, const GS_PIXEL_FORMAT pfBB, const bool toggleFullscreen)
+bool D3D9Video::ResetVideoMode(
+	const unsigned int width,
+	const unsigned int height,
+	const Texture::PIXEL_FORMAT pfBB,
+	const bool toggleFullscreen)
 {
 	VIDEO_MODE mode;
 	mode.width = width;
@@ -1086,7 +1111,7 @@ Video::APP_STATUS D3D9Video::HandleEvents()
 		Vector2i& resize = m_videoInfo->v2Resize;
 		if (resize.x > 0 && resize.y > 0)
 		{
-			ResetVideoMode(resize.x, resize.y, GSPF_UNKNOWN, false);
+			ResetVideoMode(resize.x, resize.y, Texture::PF_UNKNOWN, false);
 			resize = Vector2i(0,0);
 		}
 	}
@@ -1119,7 +1144,7 @@ Video::APP_STATUS D3D9Video::HandleEvents()
 
 				if (hr == D3DERR_DEVICENOTRESET)
 				{
-					ResetVideoMode(0, 0, GSPF_UNKNOWN);
+					ResetVideoMode(0, 0, Texture::PF_UNKNOWN);
 					//Message("Device reset", GSMT_INFO);
 				}
 			}
@@ -1407,7 +1432,7 @@ Video::VIDEO_MODE D3D9Video::GetVideoMode(const unsigned int modeIdx) const
 	{
 		VIDEO_MODE mode;
 		mode.width = mode.height = 0;
-		mode.pf = GSPF_UNKNOWN;
+		mode.pf = Texture::PF_UNKNOWN;
 		mode.idx = 0x0;
 
 		Message(L"The selected video mode doesn't exist - D3D9Video::GetVideoMode");
@@ -1432,7 +1457,7 @@ unsigned int D3D9Video::GetVideoModeCount()
 
 bool D3D9Video::StartApplication(const unsigned int width, const unsigned int height,
 								const std::wstring& winTitle, const bool windowed,
-								const bool sync, const GS_PIXEL_FORMAT pfBB, const bool maximizable)
+								const bool sync, const Texture::PIXEL_FORMAT pfBB, const bool maximizable)
 {
 	m_sync = sync;
 
@@ -1497,10 +1522,10 @@ bool D3D9Video::StartApplication(const unsigned int width, const unsigned int he
 	D3DFORMAT d3dFmt;
 	switch (pfBB)
 	{
-	case GSPF_32BIT:
+	case Texture::PF_32BIT:
 		d3dFmt = D3DFMT_X8R8G8B8;
 		break;
-	case GSPF_16BIT:
+	case Texture::PF_16BIT:
 		d3dFmt = D3DFMT_R5G6B5;
 		break;
 	default:
@@ -1792,7 +1817,7 @@ void D3D9Video::SetDisplayModes(IDirect3D9 *pD3D)
 		m_modes[t].width  = mode.Width;
 		m_modes[t].height = mode.Height;
 		m_modes[t].idx = mode.Format;
-		m_modes[t].pf = GSPF_16BIT;
+		m_modes[t].pf = Texture::PF_16BIT;
 	}
 	for (t=n16bit; t<m_nVideoModes; t++)
 	{
@@ -1800,7 +1825,7 @@ void D3D9Video::SetDisplayModes(IDirect3D9 *pD3D)
 		m_modes[t].width  = mode.Width;
 		m_modes[t].height = mode.Height;
 		m_modes[t].idx = mode.Format;
-		m_modes[t].pf = GSPF_32BIT;
+		m_modes[t].pf = Texture::PF_32BIT;
 	}
 
 	std::sort(m_modes.begin(), m_modes.end());
@@ -1916,7 +1941,7 @@ bool D3D9Video::IsCursorHidden() const
 	return m_cursorHidden;
 }
 
-bool D3D9Video::SaveScreenshot(const wchar_t *wcsName, const GS_BITMAP_FORMAT fmt, Rect2D rect)
+bool D3D9Video::SaveScreenshot(const wchar_t *wcsName, const Texture::BITMAP_FORMAT fmt, Rect2D rect)
 {
 	IDirect3DSurface9 *pd3dsFront = NULL;
 	D3DDISPLAYMODE displayMode;

@@ -27,37 +27,37 @@
 
 namespace gs2d {
 
-enum GS_TARGET_FORMAT
-{
-	GSTF_DEFAULT = 0,
-	GSTF_ARGB = 1,
-	GSTF_NONE = 2
-};
-
-enum GS_PIXEL_FORMAT
-{
-	GSPF_16BIT = 0,
-	GSPF_32BIT = 1,
-	GSPF_UNKNOWN = 2,
-	GSPF_DEFAULT = 3,
-};
-
-enum GS_BITMAP_FORMAT
-{
-	GSBF_BMP = 0,
-	GSBF_JPG = 1,
-	GSBF_PNG,
-	GSBF_TGA,
-	GSBF_DDS,
-	GSBF_HDR,
-};
-
 /**
  * \brief Stores a texture buffer to be used as source or target
  */
 class Texture
 {
 public:
+	enum TARGET_FORMAT
+	{
+		TF_DEFAULT = 0,
+		TF_ARGB = 1,
+		TF_NONE = 2
+	};
+
+	enum PIXEL_FORMAT
+	{
+		PF_16BIT = 0,
+		PF_32BIT = 1,
+		PF_UNKNOWN = 2,
+		PF_DEFAULT = 3,
+	};
+
+	enum BITMAP_FORMAT
+	{
+		BF_BMP = 0,
+		BF_JPG = 1,
+		BF_PNG,
+		BF_TGA,
+		BF_DDS,
+		BF_HDR,
+	};
+
 	struct PROFILE
 	{
 		PROFILE()
@@ -88,7 +88,7 @@ public:
 	virtual bool CreateRenderTarget(
 		VideoWeakPtr video,
 		const unsigned int width,
-		const unsigned int height,const GS_TARGET_FORMAT fmt) = 0;
+		const unsigned int height,const TARGET_FORMAT fmt) = 0;
 
 	virtual bool LoadTexture(
 		VideoWeakPtr video,

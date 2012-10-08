@@ -53,7 +53,7 @@ public:
 	struct ETH_VIDEO_MODE_POD
 	{
 		unsigned int width, height;
-		GS_PIXEL_FORMAT pf;
+		Texture::PIXEL_FORMAT pf;
 	};
 
 	struct ETH_VIDEO_MODE : public ETH_VIDEO_MODE_POD
@@ -61,15 +61,12 @@ public:
 		ETH_VIDEO_MODE()
 		{
 			width = height = 0;
-			pf = GSPF_UNKNOWN;
+			pf = Texture::PF_UNKNOWN;
 		}
 	};
 
 	static ETHResourceProviderPtr m_provider;
 
-	//static Vector2 GetBGMin() { return m_v2BGMin; }
-	//static Vector2 GetBGMax() { return m_v2BGMax; }
-	//static str_type::string GetBGBitmapName() { return m_bgBimapName; }
 	static bool IsRoundingUpPosition() { return m_roundUpPosition; }
 	static bool IsRunningMainFunction() { return m_runningMainFunction; }
 
@@ -113,9 +110,14 @@ public:
 		str_type::string GetOnSceneUpdateFunc() const;
 		str_type::string GetOnResumeFunc() const;
 		Vector2 GetBucketSize() const;
-		void SetNextScene(const str_type::string& sceneName, const str_type::string& onSceneLoadedFunc,
-						  const str_type::string& onSceneUpdateFunc,  const str_type::string& onResumeFunc,
-						  const Vector2& bucketSize);
+
+		void SetNextScene(
+			const str_type::string& sceneName,
+			const str_type::string& onSceneLoadedFunc,
+			const str_type::string& onSceneUpdateFunc,
+			const str_type::string& onResumeFunc,
+			const Vector2& bucketSize);
+
 		void Reset();
 		bool HasNextScene() const;
 	};
@@ -143,12 +145,19 @@ public:
 
 	static void LoadSceneInScript(const str_type::string &escFile, const str_type::string &onSceneLoadedFunc, const str_type::string &onSceneUpdateFunc, const Vector2& v2BucketSize);
 
-	static void LoadSceneInScript(const str_type::string &escFile, const str_type::string &onSceneLoadedFunc,
-								  const str_type::string &onSceneUpdateFunc, const str_type::string &onResumeFunc);
+	static void LoadSceneInScript(
+		const str_type::string& escFile,
+		const str_type::string& onSceneLoadedFunc,
+		const str_type::string& onSceneUpdateFunc,
+		const str_type::string& onResumeFunc);
 
-	static void LoadSceneInScript(const str_type::string &escFile, const str_type::string &onSceneLoadedFunc,
-								  const str_type::string &onSceneUpdateFunc, const str_type::string &onResumeFunc,
-								  const Vector2 &v2BucketSize);
+	static void LoadSceneInScript(
+		const str_type::string& escFile,
+		const str_type::string& onSceneLoadedFunc,
+		const str_type::string& onSceneUpdateFunc,
+		const str_type::string& onResumeFunc,
+		const Vector2& v2BucketSize);
+
 	static bool SaveScene(const str_type::string &escFile);
 	static bool LoadScene(const str_type::string &escFile, const Vector2& bucketSize);
 
@@ -259,9 +268,15 @@ public:
 	static bool Windowed();
 	static ETH_VIDEO_MODE GetVideoMode(const unsigned int mode);
 	static unsigned int GetVideoModeCount();
-	static void DrawRectangle(const Vector2 &v2Pos, const Vector2 &v2Size,
-							  const GS_DWORD color0, const GS_DWORD color1,
-							  const GS_DWORD color2, const GS_DWORD color3);
+
+	static void DrawRectangle(
+		const Vector2& v2Pos,
+		const Vector2& v2Size,
+		const GS_DWORD color0,
+		const GS_DWORD color1,
+		const GS_DWORD color2,
+		const GS_DWORD color3);
+
 	static GS_DWORD GetBackgroundColor();
 	static void SetBackgroundColor(const GS_DWORD color);
 	static Vector2 GetSystemScreenSize();
@@ -319,7 +334,14 @@ public:
 	static str_type::string GetAbsolutePath(const str_type::string &fileName);
 
 	static ETHInput *GetInputHandle();
-	static void SetWindowProperties(const str_type::string &winTitle, const unsigned int width, const unsigned int height, const bool windowed, const bool sync, const GS_PIXEL_FORMAT gsPF);
+
+	static void SetWindowProperties(
+		const str_type::string& winTitle,
+		const unsigned int width,
+		const unsigned int height,
+		const bool windowed,
+		const bool sync,
+		const Texture::PIXEL_FORMAT gsPF);
 
 	static void Print(const str_type::string &str);
 	static void PrintFloat(const float f);

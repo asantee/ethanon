@@ -228,8 +228,13 @@ void ETHScriptWrapper::EnableQuitKeys(const bool enable)
 	m_provider->GetVideo()->EnableQuitShortcuts(enable);
 }
 
-void ETHScriptWrapper::SetWindowProperties(const str_type::string &winTitle, const unsigned int width, const unsigned int height,
-										   const bool windowed, const bool sync, const GS_PIXEL_FORMAT gsPF)
+void ETHScriptWrapper::SetWindowProperties(
+	const str_type::string& winTitle,
+	const unsigned int width,
+	const unsigned int height,
+	const bool windowed,
+	const bool sync,
+	const Texture::PIXEL_FORMAT gsPF)
 {
 	GS2D_UNUSED_ARGUMENT(sync);
 	const VideoPtr& video = m_provider->GetVideo();

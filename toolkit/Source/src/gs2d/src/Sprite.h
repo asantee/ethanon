@@ -86,7 +86,7 @@ public:
 		VideoWeakPtr video,
 		const unsigned int width,
 		const unsigned int height,
-		const GS_TARGET_FORMAT format = GSTF_DEFAULT) = 0;
+		const Texture::TARGET_FORMAT format = Texture::TF_DEFAULT) = 0;
 
 	virtual bool Draw(
 		const math::Vector2& v2Pos,
@@ -105,7 +105,7 @@ public:
 
 	virtual bool SaveBitmap(
 		const wchar_t* wcsName,
-		const GS_BITMAP_FORMAT fmt,
+		const Texture::BITMAP_FORMAT fmt,
 		math::Rect2D* pRect = 0) = 0;
 
 	virtual bool DrawShapedFast(const math::Vector2 &v2Pos, const math::Vector2 &v2Size, const Color& color) = 0;

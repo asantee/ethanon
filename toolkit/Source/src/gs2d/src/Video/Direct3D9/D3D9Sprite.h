@@ -51,14 +51,14 @@ class D3D9Sprite : public Sprite
 		VideoWeakPtr video,
 		const unsigned int width,
 		const unsigned int height,
-		const GS_TARGET_FORMAT format = GSTF_DEFAULT);
+		const Texture::TARGET_FORMAT format = Texture::TF_DEFAULT);
 
 	VideoWeakPtr m_video;
 	TexturePtr m_texture;
 	math::Vector2 m_scroll;
 	math::Vector2 m_multiply;
 	math::Vector2 m_size;
-	GS_TARGET_FORMAT m_targetFormat;
+	Texture::TARGET_FORMAT m_targetFormat;
 	bool m_flipX, m_flipY;
 	Sprite::TYPE m_type;
 	IDirect3DTexture9 *m_pBackupTexture;
@@ -91,7 +91,7 @@ public:
 		const Color& color3,
 		const float angle = 0.0f);
 
-	bool SaveBitmap(const wchar_t *wcsName, const GS_BITMAP_FORMAT fmt, math::Rect2D *pRect = 0);
+	bool SaveBitmap(const wchar_t *wcsName, const Texture::BITMAP_FORMAT fmt, math::Rect2D *pRect = 0);
 
 	bool DrawShapedFast(const math::Vector2 &v2Pos, const math::Vector2 &v2Size, const Color& color);
 

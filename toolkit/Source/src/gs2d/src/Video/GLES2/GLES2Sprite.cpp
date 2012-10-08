@@ -36,8 +36,13 @@ GLES2Sprite::GLES2Sprite(GLES2ShaderContextPtr shaderContext) :
 	m_shaderContext = shaderContext.get();
 }
 
-bool GLES2Sprite::LoadSprite(VideoWeakPtr video, GS_BYTE *pBuffer, const unsigned int bufferLength,
-					Color mask, const unsigned int width, const unsigned int height)
+bool GLES2Sprite::LoadSprite(
+	VideoWeakPtr video,
+	GS_BYTE* pBuffer,
+	const unsigned int bufferLength,
+	Color mask,
+	const unsigned int width,
+	const unsigned int height)
 {
 	m_video = video.lock().get();
 	// TODO 
@@ -80,7 +85,11 @@ bool GLES2Sprite::LoadSprite(
 	return true;
 }
 
-bool GLES2Sprite::CreateRenderTarget(VideoWeakPtr video, const unsigned int width, const unsigned int height, const GS_TARGET_FORMAT format)
+bool GLES2Sprite::CreateRenderTarget(
+	VideoWeakPtr video,
+	const unsigned int width,
+	const unsigned int height,
+	const Texture::TARGET_FORMAT format)
 {
 	m_video = video.lock().get();
 	m_texture = boost::dynamic_pointer_cast<GLES2Texture>(m_video->CreateRenderTargetTexture(width, height, format));
@@ -285,7 +294,7 @@ bool GLES2Sprite::DrawOptimal(const math::Vector2 &v2Pos, const Color& color, co
 	return true;
 }
 
-bool GLES2Sprite::SaveBitmap(const wchar_t *wcsName, const GS_BITMAP_FORMAT fmt, Rect2D *pRect)
+bool GLES2Sprite::SaveBitmap(const wchar_t *wcsName, const Texture::BITMAP_FORMAT fmt, Rect2D *pRect)
 {
 	// TODO 
 	return false;

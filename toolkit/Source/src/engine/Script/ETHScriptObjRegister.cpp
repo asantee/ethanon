@@ -357,9 +357,9 @@ void RegisterEnumTypes(asIScriptEngine *pASEngine)
 
 	// Pixel format
 	r = pASEngine->RegisterEnum("PIXEL_FORMAT"); assert(r >= 0);
-	r = pASEngine->RegisterEnumValue("PIXEL_FORMAT", "PF32BIT", GSPF_32BIT); assert(r >= 0);
-	r = pASEngine->RegisterEnumValue("PIXEL_FORMAT", "PF16BIT", GSPF_16BIT); assert(r >= 0);
-	r = pASEngine->RegisterEnumValue("PIXEL_FORMAT", "PFUNKNOWN", GSPF_UNKNOWN); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("PIXEL_FORMAT", "PF32BIT", Texture::PF_32BIT); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("PIXEL_FORMAT", "PF16BIT", Texture::PF_16BIT); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("PIXEL_FORMAT", "PFUNKNOWN", Texture::PF_UNKNOWN); assert(r >= 0);
 
 	// GS_KEY_STATE
 	r = pASEngine->RegisterEnum("KEY_STATE"); assert(r >= 0);

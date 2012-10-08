@@ -31,13 +31,13 @@
 namespace gs2d {
 
 /// Converts a GS_BITMAP_FORMAT constant to an extension string
-std::wstring GetImageExtension(const GS_BITMAP_FORMAT fmt);
+std::wstring GetImageExtension(const Texture::BITMAP_FORMAT fmt);
 
 /// Returns true if the file name has an explicit extension in its string
-bool IsTheExtensionRight(const wchar_t *fileName, const wchar_t *extension);
+bool IsTheExtensionRight(const wchar_t* fileName, const wchar_t* extension);
 
 /// Returns a D3DXIMAGE constant for a GS_BITMAP_FORMAT one
-D3DXIMAGE_FILEFORMAT GetD3DPF(const GS_BITMAP_FORMAT fmt);
+D3DXIMAGE_FILEFORMAT GetD3DPF(const Texture::BITMAP_FORMAT fmt);
 
 class D3D9VideoInfo
 {
@@ -293,7 +293,7 @@ class D3D9Video : public Video
 	friend class WinInput;
 
 	D3D9Video(const unsigned int width, const unsigned int height, const std::wstring& winTitle,
-			const bool windowed, const bool sync, const GS_PIXEL_FORMAT pfBB, const bool maximizable,
+			const bool windowed, const bool sync, const Texture::PIXEL_FORMAT pfBB, const bool maximizable,
 			const Platform::FileIOHubPtr& fileIOHub);
 
 	struct RENDER_TARGET
@@ -301,9 +301,9 @@ class D3D9Video : public Video
 		RENDER_TARGET()
 		{
 			width = height = 0;
-			format = GSTF_DEFAULT;
+			format = Texture::TF_DEFAULT;
 		}
-		RENDER_TARGET(Sprite *sprite, const unsigned int width, const unsigned int height, const GS_TARGET_FORMAT fmt)
+		RENDER_TARGET(Sprite *sprite, const unsigned int width, const unsigned int height, const Texture::TARGET_FORMAT fmt)
 		{
 			pSprite = sprite;
 			this->width = width;
@@ -313,7 +313,7 @@ class D3D9Video : public Video
 		Sprite *pSprite;
 		unsigned int width;
 		unsigned int height;
-		GS_TARGET_FORMAT format;
+		Texture::TARGET_FORMAT format;
 	};
 
 	typedef std::list<RENDER_TARGET> RENDER_TARGET_LIST;
@@ -380,24 +380,36 @@ public:
 	static const DWORD ALPHAREF;
 	static const unsigned int TEXTURE_CHANNELS;
 
-	static boost::shared_ptr<D3D9Video> Create(const unsigned int width, const unsigned int height,
-			const std::wstring& winTitle, const bool windowed, const bool sync, const GS_PIXEL_FORMAT pfBB, const bool maximizable,
-			const Platform::FileIOHubPtr& fileIOHub);
+	static boost::shared_ptr<D3D9Video> Create(
+		const unsigned int width,
+		const unsigned int height,
+		const std::wstring& winTitle,
+		const bool windowed,
+		const bool sync,
+		const Texture::PIXEL_FORMAT pfBB,
+		const bool maximizable,
+		const Platform::FileIOHubPtr& fileIOHub);
 
-	/// Instantiate a texture object and load the texture from a file in memory (supported formats: .dds, .bmp, .png, .jpg/jpeg).
-	TexturePtr CreateTextureFromFileInMemory(const void *pBuffer, const unsigned int bufferLength, Color mask,
-				 const unsigned int width = 0, const unsigned int height = 0,
-				 const unsigned int nMipMaps = 0);
+	TexturePtr CreateTextureFromFileInMemory(
+		const void* pBuffer,
+		const unsigned int bufferLength,
+		Color mask,
+		const unsigned int width = 0,
+		const unsigned int height = 0,
+		const unsigned int nMipMaps = 0);
 
-	/// Instantiate a texture object and load the texture from a file in a hard disk (supported formats: .dds, .bmp, .png, .jpg/jpeg).
-	TexturePtr LoadTextureFromFile(const std::wstring& fileName, Color mask,
-				 const unsigned int width = 0, const unsigned int height = 0,
-				 const unsigned int nMipMaps = 0);
+	TexturePtr LoadTextureFromFile(
+		const std::wstring& fileName,
+		Color mask,
+		const unsigned int width = 0,
+		const unsigned int height = 0,
+		const unsigned int nMipMaps = 0);
 
-	/// Instantiate a texture object and create a surface as render target.
-	TexturePtr CreateRenderTargetTexture(const unsigned int width, const unsigned int height, const GS_TARGET_FORMAT = GSTF_DEFAULT);
+	TexturePtr CreateRenderTargetTexture(
+		const unsigned int width,
+		const unsigned int height,
+		const Texture::TARGET_FORMAT = Texture::TF_DEFAULT);
 
-	/// Creates a sprite from a texture in a file
 	SpritePtr CreateSprite(
 		GS_BYTE *pBuffer,
 		const unsigned int bufferLength,
@@ -405,27 +417,23 @@ public:
 		const unsigned int width = 0,
 		const unsigned int height = 0);
 
-	/// Creates a sprite from a texture in virtual memory
 	SpritePtr CreateSprite(
 		const std::wstring& fileName,
 		Color mask = constant::ZERO,
 		const unsigned int width = 0,
 		const unsigned int height = 0);
 
-	/// Creates a sprite as render target
 	SpritePtr CreateRenderTarget(
 		const unsigned int width,
 		const unsigned int height,
-		const GS_TARGET_FORMAT format = GSTF_DEFAULT);
+		const Texture::TARGET_FORMAT format = Texture::TF_DEFAULT);
 
-	/// Create a shader object and load/compile it.
 	ShaderPtr LoadShaderFromFile(
 		const std::wstring& fileName,
 		const Shader::SHADER_FOCUS focus,
 		const Shader::SHADER_PROFILE profile = Shader::SP_HIGHEST,
 		const char *entry = 0);
 
-	/// Create a shader object and load/compile it.
 	ShaderPtr LoadShaderFromString(
 		const std::wstring& shaderName,
 		const std::string& codeAsciiString,
@@ -449,10 +457,11 @@ public:
 	VIDEO_MODE GetVideoMode(const unsigned int modeIdx) const;
 	unsigned int GetVideoModeCount();
 	bool ResetVideoMode(const VIDEO_MODE& mode, const bool toggleFullscreen = false);
+
 	bool ResetVideoMode(
 		const unsigned int width,
 		const unsigned int height,
-		const GS_PIXEL_FORMAT pfBB,
+		const Texture::PIXEL_FORMAT pfBB,
 		const bool toggleFullscreen = false);
 
 	bool SetRenderTarget(SpritePtr pTarget, const unsigned int target = 0);
@@ -527,7 +536,7 @@ public:
 
 	bool Rendering() const;
 
-	bool SaveScreenshot(const wchar_t *wcsName, const GS_BITMAP_FORMAT fmt = GSBF_BMP,
+	bool SaveScreenshot(const wchar_t *wcsName, const Texture::BITMAP_FORMAT fmt = Texture::BF_BMP,
 						math::Rect2D rect = math::Rect2D(0,0,0,0));
 
 	boost::any GetGraphicContext();
@@ -566,16 +575,21 @@ public:
 
 private:
 
-	bool StartApplication(const unsigned int width, const unsigned int height,
-			const std::wstring& winTitle, const bool windowed, const bool sync,
-			const GS_PIXEL_FORMAT pfBB, const bool maximizable);
+	bool StartApplication(
+		const unsigned int width,
+		const unsigned int height,
+		const std::wstring& winTitle,
+		const bool windowed,
+		const bool sync,
+		const Texture::PIXEL_FORMAT pfBB,
+		const bool maximizable);
 
 	bool BeginScene(const Color& bgColor = constant::ZERO, const bool clear = true);
 	bool EndScene(const bool swap = true);
 
 	static RENDER_TARGET_LIST m_targets;
 
-	// these members must be static because it's data will be exchanged with the Input object
+	// these members must be static because their content must be shared with the Input object
 	static SHORT m_wheelDelta;
 	static bool m_inputFocus;
 	static TCHAR m_currentChar;

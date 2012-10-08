@@ -145,17 +145,21 @@ boost::any GLES2Texture::GetTextureObject()
 	return m_textureInfo.m_texture;
 }
 
-bool GLES2Texture::CreateRenderTarget(VideoWeakPtr video, const unsigned int width, const unsigned int height, const GS_TARGET_FORMAT fmt)
+bool GLES2Texture::CreateRenderTarget(
+	VideoWeakPtr video,
+	const unsigned int width,
+	const unsigned int height,
+	const Texture::TARGET_FORMAT fmt)
 {
 	m_textureInfo.m_texture = m_textureID++;
 
 	SetTexture(0);
 
-	const GLint glfmt = (fmt == GSTF_ARGB) ? GL_RGBA : GL_RGB;
+	const GLint glfmt = (fmt == Texture::TF_ARGB) ? GL_RGBA : GL_RGB;
 
 	glTexImage2D(GL_TEXTURE_2D, 0, glfmt,
 		static_cast<GLsizei>(width), static_cast<GLsizei>(height),
-		0, static_cast<GLenum>(glfmt), (fmt == GSTF_ARGB) ? GL_UNSIGNED_BYTE : GL_UNSIGNED_SHORT_5_6_5, NULL);
+		0, static_cast<GLenum>(glfmt), (fmt == Texture::TF_ARGB) ? GL_UNSIGNED_BYTE : GL_UNSIGNED_SHORT_5_6_5, NULL);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);

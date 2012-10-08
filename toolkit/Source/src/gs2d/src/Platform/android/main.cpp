@@ -85,7 +85,7 @@ JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_start(
 	input = CreateInput(&g_inputStr, true);
 	audio = CreateAudio(0);
 
-	video->ResetVideoMode(width, height, GSPF_DEFAULT, false);
+	video->ResetVideoMode(width, height, Texture::PF_DEFAULT, false);
 	audio->SetGlobalVolume(g_globalVolume);
 
 	splashSprite = video->CreateSprite(GS_L("assets/data/splash.bmp"));
@@ -119,7 +119,7 @@ static void DrawSplashScreen()
 
 JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_resize(JNIEnv* env, jobject thiz, jint width, jint height)
 {
-	video->ResetVideoMode(width, height, GSPF_DEFAULT, false);
+	video->ResetVideoMode(width, height, Texture::PF_DEFAULT, false);
 }
 
 JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_restore(JNIEnv* env, jobject thiz)

@@ -84,7 +84,7 @@ int wmain(int argc, wchar_t* argv[])
 		application->SetHighEndDevice(true); // the PC will always be considered as a high-end device
 
 		VideoPtr video;
-		if ((video = CreateVideo(app.GetWidth(), app.GetHeight(), app.GetTitle(), app.IsWindowed(), app.IsVsyncEnabled(), fileIOHub, GSPF_UNKNOWN, false)))
+		if ((video = CreateVideo(app.GetWidth(), app.GetHeight(), app.GetTitle(), app.IsWindowed(), app.IsVsyncEnabled(), fileIOHub, Texture::PF_UNKNOWN, false)))
 		{
 			InputPtr input = CreateInput(0, false);
 			AudioPtr audio = CreateAudio(0);

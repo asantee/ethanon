@@ -44,7 +44,7 @@ D3D9Texture::~D3D9Texture()
 }
 
 bool D3D9Texture::CreateRenderTarget(VideoWeakPtr video, const unsigned int width, const unsigned int height,
-									 const GS_TARGET_FORMAT fmt)
+									 const TARGET_FORMAT fmt)
 {
 	m_video = video;
 	GetInternalData();
@@ -70,7 +70,7 @@ bool D3D9Texture::CreateRenderTarget(VideoWeakPtr video, const unsigned int widt
 	pBackBuffer->Release();
 
 	m_pDevice->CreateTexture(width, height, 1,
-						   dwUsage, (fmt == GSTF_ARGB) ? D3DFMT_A8R8G8B8 : surfDesc.Format,
+						   dwUsage, (fmt == TF_ARGB) ? D3DFMT_A8R8G8B8 : surfDesc.Format,
 						   D3DPOOL_DEFAULT, &pTexture, NULL);
 
 	m_profile.width = width;

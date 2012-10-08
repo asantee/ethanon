@@ -157,7 +157,7 @@ int main(const int argc, const char* argv[])
 
 
 	if ((video = CreateVideo(v2Backbuffer.x, v2Backbuffer.y, app.GetTitle(), app.IsWindowed(), app.IsVsyncEnabled(),
-							 fileIOHub, GSPF_UNKNOWN, true)))
+							 fileIOHub, Texture::PF_UNKNOWN, true)))
 	{
 		#ifndef _DEBUG
 		#ifdef __WIN32__

@@ -83,7 +83,7 @@ public:
 	TexturePtr CreateRenderTargetTexture(
 		const unsigned int width,
 		const unsigned int height,
-		const GS_TARGET_FORMAT fmt);
+		const Texture::TARGET_FORMAT fmt);
 
 	SpritePtr CreateSprite(
 		GS_BYTE *pBuffer,
@@ -101,7 +101,7 @@ public:
 	SpritePtr CreateRenderTarget(
 		const unsigned int width,
 		const unsigned int height,
-		const GS_TARGET_FORMAT format = GSTF_DEFAULT);
+		const Texture::TARGET_FORMAT format = Texture::TF_DEFAULT);
 
 	ShaderPtr LoadShaderFromFile(
 		const str_type::string& fileName,
@@ -153,7 +153,7 @@ public:
 	bool ResetVideoMode(
 		const unsigned int width,
 		const unsigned int height,
-		const GS_PIXEL_FORMAT pfBB,
+		const Texture::PIXEL_FORMAT pfBB,
 		const bool toggleFullscreen = false);
 
 	bool SetRenderTarget(SpritePtr pTarget, const unsigned int target = 0);
@@ -229,7 +229,7 @@ public:
 
 	bool Rendering() const;
 
-	bool SaveScreenshot(const wchar_t *wcsName,	const GS_BITMAP_FORMAT fmt = GSBF_BMP, math::Rect2D rect = math::Rect2D(0, 0, 0, 0));
+	bool SaveScreenshot(const wchar_t *wcsName,	const Texture::BITMAP_FORMAT fmt = Texture::BF_BMP, math::Rect2D rect = math::Rect2D(0, 0, 0, 0));
 	
 	bool ManageLoop();
 	math::Vector2i GetClientScreenSize() const;
@@ -316,7 +316,7 @@ private:
 		const str_type::string& winTitle,
 		const bool windowed,
 		const bool sync,
-		const GS_PIXEL_FORMAT pfBB = GSPF_UNKNOWN,
+		const Texture::PIXEL_FORMAT pfBB = Texture::PF_UNKNOWN,
 		const bool maximizable = false);
 
 	Platform::FileIOHubPtr GetFileIOHub();

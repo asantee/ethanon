@@ -52,7 +52,7 @@ public:
 	GLuint GetTextureID() const;
 	GLuint GetFrameBufferID() const;
 
-	bool CreateRenderTarget(VideoWeakPtr video, const unsigned int width, const unsigned int height, const GS_TARGET_FORMAT fmt);
+	bool CreateRenderTarget(VideoWeakPtr video, const unsigned int width, const unsigned int height, const Texture::TARGET_FORMAT fmt);
 
 	bool LoadTexture(
 		VideoWeakPtr video,

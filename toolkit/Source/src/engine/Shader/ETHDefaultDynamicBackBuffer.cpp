@@ -25,7 +25,7 @@
 ETHDefaultDynamicBackBuffer::ETHDefaultDynamicBackBuffer(const gs2d::VideoPtr& video, const gs2d::math::Vector2& size) :
 	m_video(video)
 {
-	m_target = video->CreateRenderTarget(static_cast<unsigned int>(size.x), static_cast<unsigned int>(size.y), gs2d::GSTF_DEFAULT);
+	m_target = video->CreateRenderTarget(static_cast<unsigned int>(size.x), static_cast<unsigned int>(size.y), gs2d::Texture::TF_DEFAULT);
 }
 
 void ETHDefaultDynamicBackBuffer::BeginRendering()

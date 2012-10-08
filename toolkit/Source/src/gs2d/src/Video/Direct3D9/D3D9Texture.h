@@ -53,7 +53,7 @@ public:
 
 protected:
 	bool CreateRenderTarget(
-		VideoWeakPtr video, const unsigned int width, const unsigned int height, const GS_TARGET_FORMAT fmt
+		VideoWeakPtr video, const unsigned int width, const unsigned int height, const TARGET_FORMAT fmt
 	);
 	bool LoadTexture(
 		VideoWeakPtr video,

@@ -78,7 +78,7 @@ public:
 		bool operator == (const VIDEO_MODE& other) const;
 		bool operator < (const VIDEO_MODE &other) const;
 		unsigned int width, height;
-		GS_PIXEL_FORMAT pf;
+		Texture::PIXEL_FORMAT pf;
 		GS_DWORD idx;
 	};
 
@@ -105,7 +105,7 @@ public:
 	virtual TexturePtr CreateRenderTargetTexture(
 		const unsigned int width,
 		const unsigned int height,
-		const GS_TARGET_FORMAT fmt) = 0;
+		const Texture::TARGET_FORMAT fmt) = 0;
 
 	/// Creates a sprite from a texture in virtual memory
 	virtual SpritePtr CreateSprite(
@@ -126,7 +126,7 @@ public:
 	virtual SpritePtr CreateRenderTarget(
 		const unsigned int width,
 		const unsigned int height,
-		const GS_TARGET_FORMAT format = GSTF_DEFAULT) = 0;
+		const Texture::TARGET_FORMAT format = Texture::TF_DEFAULT) = 0;
 
 	/// Create a shader object and load/compile it.
 	virtual ShaderPtr LoadShaderFromFile(
@@ -168,7 +168,7 @@ public:
 	virtual bool ResetVideoMode(
 		const unsigned int width,
 		const unsigned int height,
-		const GS_PIXEL_FORMAT pfBB,
+		const Texture::PIXEL_FORMAT pfBB,
 		const bool toggleFullscreen = false) = 0;
 
 	virtual bool SetRenderTarget(SpritePtr pTarget, const unsigned int target = 0) = 0;
@@ -242,7 +242,7 @@ public:
 
 	virtual bool SaveScreenshot(
 		const wchar_t *wcsName,
-		const GS_BITMAP_FORMAT fmt = GSBF_BMP,
+		const Texture::BITMAP_FORMAT fmt = Texture::BF_BMP,
 		math::Rect2D rect = math::Rect2D(0,0,0,0)) = 0;
 
 	virtual math::Vector2 ComputeCarretPosition(
@@ -272,7 +272,7 @@ private:
 		const str_type::string& winTitle,
 		const bool windowed,
 		const bool sync,
-		const GS_PIXEL_FORMAT pfBB = GSPF_UNKNOWN,
+		const Texture::PIXEL_FORMAT pfBB = Texture::PF_UNKNOWN,
 		const bool maximizable = false) = 0;
 };
 
@@ -284,7 +284,7 @@ GS2D_API VideoPtr CreateVideo(
 	const bool windowed,
 	const bool sync,
 	const Platform::FileIOHubPtr& fileIOHub,
-	const GS_PIXEL_FORMAT pfBB = GSPF_UNKNOWN,
+	const Texture::PIXEL_FORMAT pfBB = Texture::PF_UNKNOWN,
 	const bool maximizable = false);
 
 #if defined(ANDROID) || defined(APPLE_IOS)

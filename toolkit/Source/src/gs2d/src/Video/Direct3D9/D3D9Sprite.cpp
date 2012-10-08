@@ -35,7 +35,7 @@ void D3D9Sprite::Init()
 	m_multiply = Vector2(1.0f, 1.0f);
 	m_scroll = Vector2(0.0f, 0.0f);
 	m_pBackupTexture = NULL;
-	m_targetFormat = GSTF_NONE;
+	m_targetFormat = Texture::TF_NONE;
 	m_densityValue = 1.0f;
 }
 
@@ -246,7 +246,7 @@ Vector2 D3D9Sprite::GetScroll() const
 	return m_scroll;
 }
 
-bool D3D9Sprite::SaveBitmap(const wchar_t *wcsName, const GS_BITMAP_FORMAT fmt, Rect2D *pRect)
+bool D3D9Sprite::SaveBitmap(const wchar_t *wcsName, const Texture::BITMAP_FORMAT fmt, Rect2D *pRect)
 {
 	if (m_type == Sprite::T_NOT_LOADED)
 	{
@@ -307,8 +307,13 @@ bool D3D9Sprite::SaveBitmap(const wchar_t *wcsName, const GS_BITMAP_FORMAT fmt, 
 	return true;
 }
 
-bool D3D9Sprite::LoadSprite(VideoWeakPtr video, GS_BYTE *pBuffer, const unsigned int bufferLength,
-				Color mask, const unsigned int width, const unsigned int height)
+bool D3D9Sprite::LoadSprite(
+	VideoWeakPtr video,
+	GS_BYTE* pBuffer,
+	const unsigned int bufferLength,
+	Color mask,
+	const unsigned int width,
+	const unsigned int height)
 {
 	m_video = video;
 	if (m_type != Sprite::T_NOT_LOADED)
@@ -329,8 +334,12 @@ bool D3D9Sprite::LoadSprite(VideoWeakPtr video, GS_BYTE *pBuffer, const unsigned
 	return GetInternalData();
 }
 
-bool D3D9Sprite::LoadSprite(VideoWeakPtr video, const std::wstring& fileName, Color mask,
-				const unsigned int width, const unsigned int height)
+bool D3D9Sprite::LoadSprite(
+	VideoWeakPtr video,
+	const std::wstring& fileName,
+	Color mask,
+	const unsigned int width,
+	const unsigned int height)
 {
 	m_video = video;
 	if (m_type != Sprite::T_NOT_LOADED)
@@ -351,9 +360,11 @@ bool D3D9Sprite::LoadSprite(VideoWeakPtr video, const std::wstring& fileName, Co
 	return GetInternalData();
 }
 
-bool D3D9Sprite::CreateRenderTarget(VideoWeakPtr video,
-							const unsigned int width, const unsigned int height,
-							const GS_TARGET_FORMAT format)
+bool D3D9Sprite::CreateRenderTarget(
+	VideoWeakPtr video,
+	const unsigned int width,
+	const unsigned int height,
+	const Texture::TARGET_FORMAT format)
 {
 	if (m_type != Sprite::T_NOT_LOADED && m_type != Sprite::T_RELOAD)
 	{
@@ -405,9 +416,11 @@ Vector2 D3D9Sprite::GetBitmapSizeF() const
 	return m_size;
 }
 
-bool D3D9Sprite::Draw(const Vector2 &v2Pos, const Color& color,
-					  const float angle, const Vector2 &v2Scale)
-
+bool D3D9Sprite::Draw(
+	const Vector2& v2Pos,
+	const Color& color,
+	const float angle,
+	const Vector2& v2Scale)
 {
 	Vector2 v2Size;
 	if (m_rect.size.x != 0)
@@ -422,10 +435,14 @@ bool D3D9Sprite::Draw(const Vector2 &v2Pos, const Color& color,
 	return DrawShaped(v2Pos, v2Size, color, color, color, color, angle);
 }
 
-bool D3D9Sprite::DrawShaped(const Vector2 &v2Pos, const Vector2 &v2Size,
-							const Color& color0, const Color& color1,
-							const Color& color2, const Color& color3,
-							const float angle)
+bool D3D9Sprite::DrawShaped(
+	const Vector2& v2Pos,
+	const Vector2& v2Size,
+	const Color& color0,
+	const Color& color1,
+	const Color& color2,
+	const Color& color3,
+	const float angle)
 {
 	if (v2Size == Vector2(0,0))
 	{
