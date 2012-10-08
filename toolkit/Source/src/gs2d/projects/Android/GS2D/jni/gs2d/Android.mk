@@ -30,15 +30,15 @@ LOCAL_SRC_FILES := \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Math/OrientedBoundingBox.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Video/BitmapFont.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Video/BitmapFontManager.cpp \
-	$(GS2D_SOURCE_RELATIVE_PATH)/Video/GLES2/gs2dGLES2.cpp \
-	$(GS2D_SOURCE_RELATIVE_PATH)/Video/GLES2/gs2dGLES2Shader.cpp \
-	$(GS2D_SOURCE_RELATIVE_PATH)/Video/GLES2/gs2dGLES2Sprite.cpp \
-	$(GS2D_SOURCE_RELATIVE_PATH)/Video/GLES2/gs2dGLES2Texture.cpp \
+	$(GS2D_SOURCE_RELATIVE_PATH)/Video/GLES2/GLES2Video.cpp \
+	$(GS2D_SOURCE_RELATIVE_PATH)/Video/GLES2/GLES2Shader.cpp \
+	$(GS2D_SOURCE_RELATIVE_PATH)/Video/GLES2/GLES2Sprite.cpp \
+	$(GS2D_SOURCE_RELATIVE_PATH)/Video/GLES2/GLES2Texture.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Video/GLES2/GLES2RectRenderer.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Video/GLES2/GLES2UniformParameter.cpp \
-	$(GS2D_SOURCE_RELATIVE_PATH)/Input/Android/gs2dAndroidInput.cpp \
-	$(GS2D_SOURCE_RELATIVE_PATH)/Input/gs2dMobileInput.cpp \
-	$(GS2D_SOURCE_RELATIVE_PATH)/Audio/Android/gs2dAndroidAudio.cpp \
+	$(GS2D_SOURCE_RELATIVE_PATH)/Input/Android/AndroidInput.cpp \
+	$(GS2D_SOURCE_RELATIVE_PATH)/Input/MobileInput.cpp \
+	$(GS2D_SOURCE_RELATIVE_PATH)/Audio/Android/AndroidAudio.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/Platform.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/Logger.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/FileLogger.cpp \

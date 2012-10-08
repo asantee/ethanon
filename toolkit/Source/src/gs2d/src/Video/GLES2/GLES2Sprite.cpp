@@ -20,7 +20,7 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#include "gs2dGLES2Sprite.h"
+#include "GLES2Sprite.h"
 
 namespace gs2d {
 

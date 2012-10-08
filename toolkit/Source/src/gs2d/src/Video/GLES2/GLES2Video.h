@@ -26,7 +26,7 @@
 #include "../../Video.h"
 #include "../../Platform/Platform.h"
 #include "../../Platform/FileLogger.h"
-#include "gs2dGLES2Texture.h"
+#include "GLES2Texture.h"
 
 #include "../../Platform/FileIOHub.h"
 #include <map>

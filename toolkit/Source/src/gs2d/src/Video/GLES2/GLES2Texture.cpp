@@ -20,8 +20,8 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#include "gs2dGLES2Texture.h"
-#include "gs2dGLES2.h"
+#include "GLES2Texture.h"
+#include "GLES2Video.h"
 #include "GLES2UniformParameter.h"
 #include <SOIL.h>
 #include <sstream>

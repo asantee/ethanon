@@ -22,7 +22,7 @@
 
 #include "GLES2RectRenderer.h"
 
-#include "gs2dGLES2.h"
+#include "GLES2Video.h"
 
 namespace gs2d {
 

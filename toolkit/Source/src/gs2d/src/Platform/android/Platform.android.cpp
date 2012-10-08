@@ -23,7 +23,7 @@
 #include "Platform.android.h"
 #include "../Platform.h"
 #include "../FileLogger.h"
-#include "../../Video/GLES2/gs2dGLES2.h"
+#include "../../Video/GLES2/GLES2Video.h"
 #include "AndroidLog.h"
 
 namespace gs2d {

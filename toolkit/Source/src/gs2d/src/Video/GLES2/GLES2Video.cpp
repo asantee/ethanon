@@ -20,7 +20,7 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#include "gs2dGLES2.h"
+#include "GLES2Video.h"
 
 #ifdef APPLE_IOS
   #include <OpenGLES/ES2/gl.h>
@@ -35,8 +35,8 @@
 #endif
 
 #include "../../Shader.h"
-#include "gs2dGLES2Shader.h"
-#include "gs2dGLES2Sprite.h"
+#include "GLES2Shader.h"
+#include "GLES2Sprite.h"
 
 #include <sstream>
 

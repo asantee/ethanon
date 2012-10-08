@@ -21,7 +21,7 @@
 --------------------------------------------------------------------------------------*/
 
 #include "GLES2UniformParameter.h"
-#include "gs2dGLES2Shader.h"
+#include "GLES2Shader.h"
 
 namespace gs2d {
 

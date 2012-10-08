@@ -24,8 +24,8 @@
 #define GS2D_GLES2_SPRITE_H_
 
 #include "../../Video.h"
-#include "gs2dGLES2Shader.h"
-#include "gs2dGLES2Texture.h"
+#include "GLES2Shader.h"
+#include "GLES2Texture.h"
 #include <boost/shared_array.hpp>
 
 namespace gs2d {

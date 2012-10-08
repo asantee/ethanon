@@ -20,7 +20,7 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#include "gs2dGLES2Shader.h"
+#include "GLES2Shader.h"
 
 #include "../../Video.h"
 #include <sstream>

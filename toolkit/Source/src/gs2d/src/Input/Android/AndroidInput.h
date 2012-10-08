@@ -23,7 +23,7 @@
 #ifndef GS2D_ANDROID_INPUT_H_
 #define GS2D_ANDROID_INPUT_H_
 
-#include "../gs2dMobileInput.h"
+#include "../MobileInput.h"
 #include "../../Platform/Android/Platform.android.h"
 
 namespace gs2d {

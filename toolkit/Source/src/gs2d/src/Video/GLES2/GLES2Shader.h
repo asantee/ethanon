@@ -28,7 +28,7 @@
 #include "../../Platform/FileLogger.h"
 
 #include "GLES2RectRenderer.h"
-#include "gs2dGLES2Texture.h"
+#include "GLES2Texture.h"
 #include "GLES2UniformParameter.h"
 
 #include <map>

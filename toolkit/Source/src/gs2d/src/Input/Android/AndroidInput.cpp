@@ -20,7 +20,7 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#include "gs2dAndroidInput.h"
+#include "AndroidInput.h"
 #include <string.h>
 #include <stdio.h>
 

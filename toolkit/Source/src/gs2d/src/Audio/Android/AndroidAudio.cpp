@@ -20,7 +20,7 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#include "gs2dAndroidAudio.h"
+#include "AndroidAudio.h"
 #include <exception>
 #include "../../Platform/android/Platform.android.h"
 

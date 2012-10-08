@@ -23,7 +23,7 @@
 #ifndef GLES2_UNIFORM_PARAMETER_H_
 #define GLES2_UNIFORM_PARAMETER_H_
 
-#include "gs2dGLES2.h"
+#include "GLES2Video.h"
 
 #ifdef APPLE_IOS
   #include <OpenGLES/ES2/gl.h>
