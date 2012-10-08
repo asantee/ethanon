@@ -238,7 +238,7 @@ asDECLARE_METHOD_WRAPPERPR(__SetSoundVolume,         ETHScriptEntity, SetSoundVo
 asDECLARE_METHOD_WRAPPERPR(__GetCollisionBox,        ETHScriptEntity, GetCollisionBox,        (void) const,                    ETHCollisionBox);
 asDECLARE_METHOD_WRAPPERPR(__GetEntityName,          ETHScriptEntity, GetEntityName,          (void) const,                    str_type::string);
 asDECLARE_METHOD_WRAPPERPR(__Collidable,             ETHScriptEntity, IsCollidable,           (void) const,                    bool);
-asDECLARE_METHOD_WRAPPERPR(__CheckCustomData,        ETHScriptEntity, CheckCustomData,        (const str_type::string&) const, ETH_CUSTOM_DATA_TYPE);
+asDECLARE_METHOD_WRAPPERPR(__CheckCustomData,        ETHScriptEntity, CheckCustomData,        (const str_type::string&) const, ETHCustomData::DATA_TYPE);
 asDECLARE_METHOD_WRAPPERPR(__HasCustomData,          ETHScriptEntity, HasCustomData,          (void) const,                    bool);
 asDECLARE_METHOD_WRAPPERPR(__DebugPrintCustomData,   ETHScriptEntity, DebugPrintCustomData,   (void) const,                    void);
 asDECLARE_METHOD_WRAPPERPR(__GetNumFrames,           ETHScriptEntity, GetNumFrames,           (void) const,                    unsigned int);

@@ -27,24 +27,22 @@
 #include <map>
 #include <string>
 
-enum ETH_CUSTOM_DATA_TYPE
-{
-	ETHDT_NODATA = 0,
-	ETHDT_FLOAT = 1,
-	ETHDT_INT,
-	ETHDT_UINT,
-	ETHDT_STRING,
-	ETHDT_VECTOR2,
-	ETHDT_VECTOR3,
-	ETHDT_MAX,
-	//ETHDT_END = 64
-};
-
-#define ETH_CUSTOM_DATA_TYPE_COUNT (ETHDT_MAX)
 
 class ETHCustomData
 {
 public:
+	enum DATA_TYPE
+	{
+		DT_NODATA = 0,
+		DT_FLOAT = 1,
+		DT_INT = 2,
+		DT_UINT = 3,
+		DT_STRING = 4,
+		DT_VECTOR2 = 5,
+		DT_VECTOR3 = 6,
+		CUSTOM_DATA_TYPE_COUNT = 7
+	};
+
 	inline virtual float GetFloat() const { return 0.0f; }
 	inline virtual int GetInt() const { return 0; }
 	inline virtual unsigned int GetUInt() const { return 0; }
@@ -59,7 +57,7 @@ public:
 	inline virtual bool Set(const Vector2 &v) { GS2D_UNUSED_ARGUMENT(v); return false; }
 	inline virtual bool Set(const Vector3 &v) { GS2D_UNUSED_ARGUMENT(v); return false; }
 
-	virtual ETH_CUSTOM_DATA_TYPE GetType() const = 0;
+	virtual DATA_TYPE GetType() const = 0;
 	virtual str_type::string GetValueAsString() const = 0;
 };
 
@@ -71,7 +69,7 @@ class ETHIntData : public ETHCustomData {
 public: inline ETHIntData(const int v) { this->v = v; }
 		inline bool Set(const int value) { v = value; return true; }
 		inline int GetInt() const { return v; }
-		inline ETH_CUSTOM_DATA_TYPE GetType() const { return ETHDT_INT; }
+		inline DATA_TYPE GetType() const { return DT_INT; }
 		inline str_type::string GetValueAsString() const { str_type::stringstream ss; ss << v; return ss.str(); }
 };
 
@@ -80,7 +78,7 @@ class ETHUIntData : public ETHCustomData {
 public: inline ETHUIntData(const unsigned int v) { this->v = v; }
 		inline bool Set(const unsigned int value) { v = value; return true; }
 		inline unsigned int GetUInt() const { return v; }
-		inline ETH_CUSTOM_DATA_TYPE GetType() const { return ETHDT_UINT; }
+		inline DATA_TYPE GetType() const { return DT_UINT; }
 		inline str_type::string GetValueAsString() const { str_type::stringstream ss; ss << v; return ss.str(); }
 };
 
@@ -89,7 +87,7 @@ class ETHFloatData : public ETHCustomData {
 public: inline ETHFloatData(const float v) { this->v = v; }
 		inline bool Set(const float value) { v = value; return true; }
 		inline float GetFloat() const { return v; }
-		inline ETH_CUSTOM_DATA_TYPE GetType() const { return ETHDT_FLOAT; }
+		inline DATA_TYPE GetType() const { return DT_FLOAT; }
 		inline str_type::string GetValueAsString() const { str_type::stringstream ss; ss << v; return ss.str(); }
 };
 
@@ -98,7 +96,7 @@ class ETHStringData : public ETHCustomData {
 public: inline ETHStringData(const str_type::string &v) { this->v = v; }
 		inline bool Set(const str_type::string &value) { v = value; return true; }
 		inline str_type::string GetString() const { return v; }
-		inline ETH_CUSTOM_DATA_TYPE GetType() const { return ETHDT_STRING; }
+		inline DATA_TYPE GetType() const { return DT_STRING; }
 		inline str_type::string GetValueAsString() const { return v; }
 };
 
@@ -107,7 +105,7 @@ class ETHVector2Data : public ETHCustomData {
 public: inline ETHVector2Data(const Vector2 &v) { this->v = v; }
 		inline bool Set(const Vector2 &value) { v = value; return true; }
 		inline Vector2 GetVector2() const { return v; }
-		inline ETH_CUSTOM_DATA_TYPE GetType() const { return ETHDT_VECTOR2; }
+		inline DATA_TYPE GetType() const { return DT_VECTOR2; }
 		inline str_type::string GetValueAsString() const { str_type::stringstream ss; ss << "(" << v.x << ", " << v.y << ")"; return ss.str(); }
 };
 
@@ -116,13 +114,13 @@ class ETHVector3Data : public ETHCustomData {
 public: inline ETHVector3Data(const Vector3 &v) { this->v = v; }
 		inline bool Set(const Vector3 &value) { v = value; return true; }
 		inline Vector3 GetVector3() const { return v; }
-		inline ETH_CUSTOM_DATA_TYPE GetType() const { return ETHDT_VECTOR3; }
+		inline DATA_TYPE GetType() const { return DT_VECTOR3; }
 		inline str_type::string GetValueAsString() const { str_type::stringstream ss; ss << "(" << v.x << ", " << v.y << ", " << v.z << ")"; return ss.str(); }
 };
 
 class ETHCustomDataManager
 {
-	static const str_type::string DATA_NAME[ETH_CUSTOM_DATA_TYPE_COUNT];
+	static const str_type::string DATA_NAME[ETHCustomData::CUSTOM_DATA_TYPE_COUNT];
 
 public:
 	str_type::string GetDebugStringData() const;
@@ -158,7 +156,7 @@ public:
 	void MultiplyVector2(const str_type::string &name, const float &value);
 	void MultiplyVector3(const str_type::string &name, const float &value);
 
-	ETH_CUSTOM_DATA_TYPE Check(const str_type::string &name) const;
+	ETHCustomData::DATA_TYPE Check(const str_type::string &name) const;
 	bool HasData() const;
 	bool EraseData(const str_type::string &name);
 	unsigned int GetNumVariables() const;

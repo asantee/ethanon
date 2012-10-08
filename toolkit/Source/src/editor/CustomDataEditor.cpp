@@ -212,28 +212,30 @@ void CustomDataEditor::Rebuild(const ETHEntity* pEntity, EditorBase *pEditor)
 	for (map<wstring, ETHCustomDataPtr>::const_iterator iter = dataMap.begin();
 		 iter != dataMap.end(); ++iter)
 	{
+		const ETHCustomDataPtr& data = iter->second;
+		const str_type::string& name = iter->first;
 		wstringstream ss;
 		ss << L" = ";
 		bool editable = true;
-		switch (iter->second->GetType())
+		switch (data->GetType())
 		{
-		case ETHDT_INT:
-			ss << iter->second->GetInt();
+		case ETHCustomData::DT_INT:
+			ss << data->GetInt();
 			break;
-		case ETHDT_UINT:
-			ss << iter->second->GetUInt();
+		case ETHCustomData::DT_UINT:
+			ss << data->GetUInt();
 			break;
-		case ETHDT_FLOAT:
-			ss << iter->second->GetFloat();
+		case ETHCustomData::DT_FLOAT:
+			ss << data->GetFloat();
 			break;
-		case ETHDT_STRING:
-			ss << L"\"" << utf8::c(iter->second->GetString()).wc_str() << L"\"";
+		case ETHCustomData::DT_STRING:
+			ss << L"\"" << utf8::c(data->GetString()).wc_str() << L"\"";
 			break;
 		default:
 			editable = false;
 		};
 		if (editable)
-			m_customDataButtonList.AddButton(utf8::c(iter->first).wc_str(), false, ss.str().c_str());
+			m_customDataButtonList.AddButton(utf8::c(name).wc_str(), false, ss.str().c_str());
 	}
 }
 
@@ -265,19 +267,19 @@ void CustomDataEditor::EditVariable(ETHEntity* pEntity, EditorBase *pEditor)
 
 		DrawInputFieldRect(v2Pos, &m_inValueInput, pEditor, L"Leave blank to erase variable");
 
-		const ETH_CUSTOM_DATA_TYPE type = pEntity->CheckCustomData(r.text);
+		const ETHCustomData::DATA_TYPE type = pEntity->CheckCustomData(r.text);
 		switch (type)
 		{
-		case ETHDT_INT:
+		case ETHCustomData::DT_INT:
 			pEntity->SetInt(r.text, ETHGlobal::ParseInt(utf8::c(m_inValueInput.PlaceInput(v2Pos)).wc_str()));
 			break;
-		case ETHDT_UINT:
+		case ETHCustomData::DT_UINT:
 			pEntity->SetUInt(r.text, ETHGlobal::ParseUInt(utf8::c(m_inValueInput.PlaceInput(v2Pos)).wc_str()));
 			break;
-		case ETHDT_STRING:
+		case ETHCustomData::DT_STRING:
 			pEntity->SetString(r.text, utf8::c(m_inValueInput.PlaceInput(v2Pos)).wstr());
 			break;
-		case ETHDT_FLOAT:
+		case ETHCustomData::DT_FLOAT:
 			pEntity->SetFloat(r.text, ETHGlobal::ParseFloat(utf8::c(m_inValueInput.PlaceInput(v2Pos)).wc_str()));
 			break;
 		};

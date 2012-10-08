@@ -24,7 +24,7 @@
 #include "../Util/ETHASUtil.h"
 #include <iostream>
 
-const str_type::string ETHCustomDataManager::DATA_NAME[ETH_CUSTOM_DATA_TYPE_COUNT] =
+const str_type::string ETHCustomDataManager::DATA_NAME[ETHCustomData::CUSTOM_DATA_TYPE_COUNT] =
 {
 	(GS_L("")),
 	(GS_L("float")),
@@ -43,7 +43,7 @@ const ETHCustomDataManager& ETHCustomDataManager::operator=(const ETHCustomDataM
 
 const str_type::string &ETHCustomDataManager::GetDataName(const unsigned int n)
 {
-	assert(n<ETH_CUSTOM_DATA_TYPE_COUNT);
+	assert(n < ETHCustomData::CUSTOM_DATA_TYPE_COUNT);
 	return DATA_NAME[n];
 }
 
@@ -85,7 +85,7 @@ bool ETHCustomDataManager::GetFloat(const str_type::string &name, float &outValu
 		ETH_STREAM_DECL(ss) << GS_L("There's no matching data for ") << name;
 		return false;
 	}
-	if (iter->second->GetType() != ETHDT_FLOAT)
+	if (iter->second->GetType() != ETHCustomData::DT_FLOAT)
 	{
 		ETH_STREAM_DECL(ss) << name << GS_L(":is not a float");
 		return false;
@@ -102,7 +102,7 @@ bool ETHCustomDataManager::GetInt(const str_type::string &name, int &outValue) c
 		ETH_STREAM_DECL(ss) << GS_L("There's no matching data for ") << name;
 		return false;
 	}
-	if (iter->second->GetType() != ETHDT_INT)
+	if (iter->second->GetType() != ETHCustomData::DT_INT)
 	{
 		ETH_STREAM_DECL(ss) << name << GS_L(":is not an int");
 		return false;
@@ -119,7 +119,7 @@ bool ETHCustomDataManager::GetUInt(const str_type::string &name, unsigned int &o
 		ETH_STREAM_DECL(ss) << GS_L("There's no matching data for ") << name;
 		return false;
 	}
-	if (iter->second->GetType() != ETHDT_UINT)
+	if (iter->second->GetType() != ETHCustomData::DT_UINT)
 	{
 		ETH_STREAM_DECL(ss) << name << GS_L(":is not an uint");
 		return false;
@@ -136,7 +136,7 @@ bool ETHCustomDataManager::GetString(const str_type::string &name, str_type::str
 		ETH_STREAM_DECL(ss) << GS_L("There's no matching data for ") << name;
 		return false;
 	}
-	if (iter->second->GetType() != ETHDT_STRING)
+	if (iter->second->GetType() != ETHCustomData::DT_STRING)
 	{
 		ETH_STREAM_DECL(ss) << name << GS_L(":is not a string");
 		return false;
@@ -153,7 +153,7 @@ bool ETHCustomDataManager::GetVector2(const str_type::string &name, Vector2 &out
 		ETH_STREAM_DECL(ss) << GS_L("There's no matching data for ") << name;
 		return false;
 	}
-	if (iter->second->GetType() != ETHDT_VECTOR2)
+	if (iter->second->GetType() != ETHCustomData::DT_VECTOR2)
 	{
 		ETH_STREAM_DECL(ss) << name << GS_L(":is not a vector2");
 		return false;
@@ -170,7 +170,7 @@ bool ETHCustomDataManager::GetVector3(const str_type::string &name, Vector3 &out
 		ETH_STREAM_DECL(ss) << GS_L("There's no matching data for ") << name;
 		return false;
 	}
-	if (iter->second->GetType() != ETHDT_VECTOR3)
+	if (iter->second->GetType() != ETHCustomData::DT_VECTOR3)
 	{
 		ETH_STREAM_DECL(ss) << name << GS_L(":is not a vector3");
 		return false;
@@ -188,7 +188,7 @@ void ETHCustomDataManager::AddToFloat(const str_type::string &name, const float 
 		return;
 	}
 	const ETHCustomDataPtr& data = iter->second;
-	if (data->GetType() != ETHDT_FLOAT)
+	if (data->GetType() != ETHCustomData::DT_FLOAT)
 	{
 		ETH_STREAM_DECL(ss) << name << GS_L(":is not a float");
 		return;
@@ -205,7 +205,7 @@ void ETHCustomDataManager::AddToInt(const str_type::string &name, const int &val
 		return;
 	}
 	const ETHCustomDataPtr& data = iter->second;
-	if (data->GetType() != ETHDT_INT)
+	if (data->GetType() != ETHCustomData::DT_INT)
 	{
 		ETH_STREAM_DECL(ss) << name << GS_L(":is not an int");
 		return;
@@ -222,7 +222,7 @@ void ETHCustomDataManager::AddToUInt(const str_type::string &name, const unsigne
 		return;
 	}
 	const ETHCustomDataPtr& data = iter->second;
-	if (data->GetType() != ETHDT_UINT)
+	if (data->GetType() != ETHCustomData::DT_UINT)
 	{
 		ETH_STREAM_DECL(ss) << name << GS_L(":is not an uint");
 		return;
@@ -239,7 +239,7 @@ void ETHCustomDataManager::AddToVector2(const str_type::string &name, const Vect
 		return;
 	}
 	const ETHCustomDataPtr& data = iter->second;
-	if (data->GetType() != ETHDT_VECTOR2)
+	if (data->GetType() != ETHCustomData::DT_VECTOR2)
 	{
 		ETH_STREAM_DECL(ss) << name << GS_L(":is not a vector2");
 		return;
@@ -256,7 +256,7 @@ void ETHCustomDataManager::AddToVector3(const str_type::string &name, const Vect
 		return;
 	}
 	const ETHCustomDataPtr& data = iter->second;
-	if (data->GetType() != ETHDT_VECTOR3)
+	if (data->GetType() != ETHCustomData::DT_VECTOR3)
 	{
 		ETH_STREAM_DECL(ss) << name << GS_L(":is not a vector3");
 		return;
@@ -273,7 +273,7 @@ void ETHCustomDataManager::MultiplyFloat(const str_type::string &name, const flo
 		return;
 	}
 	const ETHCustomDataPtr& data = iter->second;
-	if (data->GetType() != ETHDT_FLOAT)
+	if (data->GetType() != ETHCustomData::DT_FLOAT)
 	{
 		ETH_STREAM_DECL(ss) << name << GS_L(":is not a float");
 		return;
@@ -290,7 +290,7 @@ void ETHCustomDataManager::MultiplyInt(const str_type::string &name, const int &
 		return;
 	}
 	const ETHCustomDataPtr& data = iter->second;
-	if (data->GetType() != ETHDT_INT)
+	if (data->GetType() != ETHCustomData::DT_INT)
 	{
 		ETH_STREAM_DECL(ss) << name << GS_L(":is not an int");
 		return;
@@ -307,7 +307,7 @@ void ETHCustomDataManager::MultiplyUInt(const str_type::string &name, const unsi
 		return;
 	}
 	const ETHCustomDataPtr& data = iter->second;
-	if (data->GetType() != ETHDT_UINT)
+	if (data->GetType() != ETHCustomData::DT_UINT)
 	{
 		ETH_STREAM_DECL(ss) << name << GS_L(":is not an uint");
 		return;
@@ -324,7 +324,7 @@ void ETHCustomDataManager::MultiplyVector2(const str_type::string &name, const f
 		return;
 	}
 	const ETHCustomDataPtr& data = iter->second;
-	if (data->GetType() != ETHDT_VECTOR2)
+	if (data->GetType() != ETHCustomData::DT_VECTOR2)
 	{
 		ETH_STREAM_DECL(ss) << name << GS_L(":is not a vector2");
 		return;
@@ -341,7 +341,7 @@ void ETHCustomDataManager::MultiplyVector3(const str_type::string &name, const f
 		return;
 	}
 	const ETHCustomDataPtr& data = iter->second;
-	if (data->GetType() != ETHDT_VECTOR3)
+	if (data->GetType() != ETHCustomData::DT_VECTOR3)
 	{
 		ETH_STREAM_DECL(ss) << name << GS_L(":is not a vector3");
 		return;
@@ -349,7 +349,7 @@ void ETHCustomDataManager::MultiplyVector3(const str_type::string &name, const f
 	data->Set(data->GetVector3() * value);
 }
 
-ETH_CUSTOM_DATA_TYPE ETHCustomDataManager::Check(const str_type::string &name) const
+ETHCustomData::DATA_TYPE ETHCustomDataManager::Check(const str_type::string &name) const
 {
 	std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
 	if (iter != m_data.end())
@@ -358,7 +358,7 @@ ETH_CUSTOM_DATA_TYPE ETHCustomDataManager::Check(const str_type::string &name) c
 	}
 	else
 	{
-		return ETHDT_NODATA;
+		return ETHCustomData::DT_NODATA;
 	}
 }
 
@@ -433,25 +433,27 @@ void ETHCustomDataManager::CopyMap(std::map<str_type::string, ETHCustomDataPtr> 
 	inMap.clear();
 	for (std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.begin(); iter != m_data.end(); ++iter)
 	{
-		switch (iter->second->GetType())
+		const ETHCustomDataPtr& data = iter->second;
+		const str_type::string& name = iter->first;
+		switch (data->GetType())
 		{
-		case ETHDT_FLOAT:
-			inMap[iter->first] = ETHCustomDataPtr(new ETHFloatData(iter->second->GetFloat()));
+		case ETHCustomData::DT_FLOAT:
+			inMap[name] = ETHCustomDataPtr(new ETHFloatData(data->GetFloat()));
 			break;
-		case ETHDT_INT:
-			inMap[iter->first] = ETHCustomDataPtr(new ETHIntData(iter->second->GetInt()));
+		case ETHCustomData::DT_INT:
+			inMap[name] = ETHCustomDataPtr(new ETHIntData(data->GetInt()));
 			break;
-		case ETHDT_UINT:
-			inMap[iter->first] = ETHCustomDataPtr(new ETHUIntData(iter->second->GetUInt()));
+		case ETHCustomData::DT_UINT:
+			inMap[name] = ETHCustomDataPtr(new ETHUIntData(data->GetUInt()));
 			break;
-		case ETHDT_STRING:
-			inMap[iter->first] = ETHCustomDataPtr(new ETHStringData(iter->second->GetString()));
+		case ETHCustomData::DT_STRING:
+			inMap[name] = ETHCustomDataPtr(new ETHStringData(data->GetString()));
 			break;
-		case ETHDT_VECTOR2:
-			inMap[iter->first] = ETHCustomDataPtr(new ETHVector2Data(iter->second->GetVector2()));
+		case ETHCustomData::DT_VECTOR2:
+			inMap[name] = ETHCustomDataPtr(new ETHVector2Data(data->GetVector2()));
 			break;
-		case ETHDT_VECTOR3:
-			inMap[iter->first] = ETHCustomDataPtr(new ETHVector3Data(iter->second->GetVector3()));
+		case ETHCustomData::DT_VECTOR3:
+			inMap[name] = ETHCustomDataPtr(new ETHVector3Data(data->GetVector3()));
 			break;
 		default:
 			break;
@@ -463,22 +465,22 @@ void ETHCustomDataManager::AddData(const str_type::string &name, const ETHCustom
 {
 	switch (dataIn->GetType())
 	{
-		case ETHDT_FLOAT:
+		case ETHCustomData::DT_FLOAT:
 			m_data[name] = ETHCustomDataPtr(new ETHFloatData(dataIn->GetFloat()));
 			break;
-		case ETHDT_INT:
+		case ETHCustomData::DT_INT:
 			m_data[name] = ETHCustomDataPtr(new ETHIntData(dataIn->GetInt()));
 			break;
-		case ETHDT_UINT:
+		case ETHCustomData::DT_UINT:
 			m_data[name] = ETHCustomDataPtr(new ETHUIntData(dataIn->GetUInt()));
 			break;
-		case ETHDT_STRING:
+		case ETHCustomData::DT_STRING:
 			m_data[name] = ETHCustomDataPtr(new ETHStringData(dataIn->GetString()));
 			break;
-		case ETHDT_VECTOR2:
+		case ETHCustomData::DT_VECTOR2:
 			m_data[name] = ETHCustomDataPtr(new ETHVector2Data(dataIn->GetVector2()));
 			break;
-		case ETHDT_VECTOR3:
+		case ETHCustomData::DT_VECTOR3:
 			m_data[name] = ETHCustomDataPtr(new ETHVector3Data(dataIn->GetVector3()));
 			break;
 		default:
@@ -549,14 +551,14 @@ bool ETHCustomDataManager::ReadDataFromXMLFile(TiXmlElement *pRoot)
 								pElement = pNode->ToElement();
 								if (pElement)
 								{
-									if (type == DATA_NAME[ETHDT_VECTOR2])
+									if (type == DATA_NAME[ETHCustomData::DT_VECTOR2])
 									{
 										Vector2 value(0,0);
 										pElement->QueryFloatAttribute(GS_L("x"), &value.x);
 										pElement->QueryFloatAttribute(GS_L("y"), &value.y);
 										SetVector2(name, value);
 									}
-									else if (type == DATA_NAME[ETHDT_VECTOR3])
+									else if (type == DATA_NAME[ETHCustomData::DT_VECTOR3])
 									{
 										Vector3 value(0,0,0);
 										pElement->QueryFloatAttribute(GS_L("x"), &value.x);
@@ -569,19 +571,19 @@ bool ETHCustomDataManager::ReadDataFromXMLFile(TiXmlElement *pRoot)
 										value = pElement->GetText();
 
 										// passing the variable to the map
-										if (type == DATA_NAME[ETHDT_FLOAT])
+										if (type == DATA_NAME[ETHCustomData::DT_FLOAT])
 										{
 											SetFloat(name, ETHGlobal::ParseFloat(value.c_str()));
 										} else
-										if (type == DATA_NAME[ETHDT_INT])
+										if (type == DATA_NAME[ETHCustomData::DT_INT])
 										{
 											SetInt(name, ETHGlobal::ParseInt(value.c_str()));
 										} else
-										if (type == DATA_NAME[ETHDT_UINT])
+										if (type == DATA_NAME[ETHCustomData::DT_UINT])
 										{
 											SetUInt(name, ETHGlobal::ParseUInt(value.c_str()));
 										} else
-										if (type == DATA_NAME[ETHDT_STRING])
+										if (type == DATA_NAME[ETHCustomData::DT_STRING])
 										{
 											SetString(name, value);
 										}
@@ -625,16 +627,16 @@ bool ETHCustomDataManager::WriteDataToFile(TiXmlElement *pHeadRoot) const
 		str_type::stringstream ss;
 		switch (data->GetType())
 		{
-		case ETHDT_FLOAT:
+		case ETHCustomData::DT_FLOAT:
 			ss << data->GetFloat();
 			break;
-		case ETHDT_INT:
+		case ETHCustomData::DT_INT:
 			ss << data->GetInt();
 			break;
-		case ETHDT_UINT:
+		case ETHCustomData::DT_UINT:
 			ss << data->GetUInt();
 			break;
-		case ETHDT_STRING:
+		case ETHCustomData::DT_STRING:
 			ss << data->GetString();
 			break;
 		default:
@@ -643,17 +645,17 @@ bool ETHCustomDataManager::WriteDataToFile(TiXmlElement *pHeadRoot) const
 
 		switch (data->GetType())
 		{
-		case ETHDT_FLOAT:
-		case ETHDT_INT:
-		case ETHDT_UINT:
-		case ETHDT_STRING:
+		case ETHCustomData::DT_FLOAT:
+		case ETHCustomData::DT_INT:
+		case ETHCustomData::DT_UINT:
+		case ETHCustomData::DT_STRING:
 			pElement->LinkEndChild(new TiXmlText(ss.str()));
 			break;
-		case ETHDT_VECTOR2:
+		case ETHCustomData::DT_VECTOR2:
 			pElement->SetDoubleAttribute(GS_L("x"), data->GetVector2().x);
 			pElement->SetDoubleAttribute(GS_L("y"), data->GetVector2().y);
 			break;
-		case ETHDT_VECTOR3:
+		case ETHCustomData::DT_VECTOR3:
 			pElement->SetDoubleAttribute(GS_L("x"), data->GetVector3().x);
 			pElement->SetDoubleAttribute(GS_L("y"), data->GetVector3().y);
 			pElement->SetDoubleAttribute(GS_L("z"), data->GetVector3().z);

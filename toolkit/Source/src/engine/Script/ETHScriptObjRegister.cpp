@@ -347,13 +347,13 @@ void RegisterEnumTypes(asIScriptEngine *pASEngine)
 
 	// Custom data type
 	r = pASEngine->RegisterEnum("DATA_TYPE"); assert(r >= 0);
-	r = pASEngine->RegisterEnumValue("DATA_TYPE", "DT_NODATA", ETHDT_NODATA); assert(r >= 0);
-	r = pASEngine->RegisterEnumValue("DATA_TYPE", "DT_INT", ETHDT_INT); assert(r >= 0);
-	r = pASEngine->RegisterEnumValue("DATA_TYPE", "DT_UINT", ETHDT_UINT); assert(r >= 0);
-	r = pASEngine->RegisterEnumValue("DATA_TYPE", "DT_FLOAT", ETHDT_FLOAT); assert(r >= 0);
-	r = pASEngine->RegisterEnumValue("DATA_TYPE", "DT_STRING", ETHDT_STRING); assert(r >= 0);
-	r = pASEngine->RegisterEnumValue("DATA_TYPE", "DT_VECTOR2", ETHDT_VECTOR2); assert(r >= 0);
-	r = pASEngine->RegisterEnumValue("DATA_TYPE", "DT_VECTOR3", ETHDT_VECTOR3); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("DATA_TYPE", "DT_NODATA", ETHCustomData::DT_NODATA); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("DATA_TYPE", "DT_INT", ETHCustomData::DT_INT); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("DATA_TYPE", "DT_UINT", ETHCustomData::DT_UINT); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("DATA_TYPE", "DT_FLOAT", ETHCustomData::DT_FLOAT); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("DATA_TYPE", "DT_STRING", ETHCustomData::DT_STRING); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("DATA_TYPE", "DT_VECTOR2", ETHCustomData::DT_VECTOR2); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("DATA_TYPE", "DT_VECTOR3", ETHCustomData::DT_VECTOR3); assert(r >= 0);
 
 	// Pixel format
 	r = pASEngine->RegisterEnum("PIXEL_FORMAT"); assert(r >= 0);

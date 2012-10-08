@@ -943,7 +943,7 @@ bool ETHEntity::EraseData(const str_type::string &name)
 	return m_properties.EraseData(name);
 }
 
-ETH_CUSTOM_DATA_TYPE ETHEntity::CheckCustomData(const str_type::string &name) const
+ETHCustomData::DATA_TYPE ETHEntity::CheckCustomData(const str_type::string &name) const
 {
 	return m_properties.Check(name);
 }

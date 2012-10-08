@@ -171,7 +171,7 @@ public:
 	void MultiplyVector3(const str_type::string &name, const float &value);
 
 	bool EraseData(const str_type::string &name);
-	ETH_CUSTOM_DATA_TYPE CheckCustomData(const str_type::string &name) const;
+	ETHCustomData::DATA_TYPE CheckCustomData(const str_type::string &name) const;
 	bool HasCustomData() const;
 	void DebugPrintCustomData() const;
 	void ClearCustomData();

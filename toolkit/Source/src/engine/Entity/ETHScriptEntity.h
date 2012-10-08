@@ -152,7 +152,7 @@ public:
 	virtual void MultiplyVector3(const str_type::string &name, const float &value) = 0;
 
 	virtual bool EraseData(const str_type::string &name) = 0;
-	virtual ETH_CUSTOM_DATA_TYPE CheckCustomData(const str_type::string &name) const = 0;
+	virtual ETHCustomData::DATA_TYPE CheckCustomData(const str_type::string &name) const = 0;
 	virtual void DebugPrintCustomData() const = 0;
 	virtual bool HasCustomData() const = 0;
 	virtual void ClearCustomData() = 0;

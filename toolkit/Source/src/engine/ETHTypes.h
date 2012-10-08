@@ -99,12 +99,6 @@ enum ETH_MESSAGE
 	ETH_INFO = 2
 };
 
-enum ETH_SCENE_SORT_MODE
-{
-	ETH_HEIGHT = 0,
-	ETH_LAYERDEPTH = 1,
-};
-
 // namespace for global functions and variables
 namespace ETHGlobal {
 
