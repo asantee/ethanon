@@ -119,7 +119,7 @@ bool ETHPixelLightDiffuseSpecular::BeginLightPass(ETHSpriteEntity *pRender, Vect
 	}
 
 	m_lastAM = m_video->GetAlphaMode();
-	m_video->SetAlphaMode(GSAM_ADD);
+	m_video->SetAlphaMode(Video::AM_ADD);
 
 	// Set a depth value depending on the entity type
 	pRender->SetDepth(maxHeight, minHeight);

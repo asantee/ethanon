@@ -323,14 +323,14 @@ class D3D9Video : public Video
 	Color m_backgroundColor;
 	float m_fpsRate;
 	bool m_quit;
-	std::vector<GS_BLEND_MODE> m_blendModes;
+	std::vector<BLEND_MODE> m_blendModes;
 	IDirect3DDevice9 *m_pDevice;
 	IDirect3D9 *m_pD3D;
 	math::Vector2i m_windowedDim;
 	math::Vector2i m_topBarSize;
 
 	D3D9VideoInfoPtr m_videoInfo;
-	GS_ALPHA_MODE m_alphaMode;
+	ALPHA_MODE m_alphaMode;
 
 	bool m_rendering;
 	bool m_windowed;
@@ -350,7 +350,7 @@ class D3D9Video : public Video
 
 	std::vector<VIDEO_MODE> m_modes;
 	unsigned int m_nVideoModes;
-	GS_TEXTUREFILTER_MODE m_textureFilter;
+	TEXTUREFILTER_MODE m_textureFilter;
 	D3D9CgShaderContextPtr m_shaderContext;
 	ShaderPtr m_pCurrentPS,
 			  m_pCurrentVS,
@@ -458,8 +458,8 @@ public:
 	bool SetRenderTarget(SpritePtr pTarget, const unsigned int target = 0);
 	unsigned int GetMaxRenderTargets() const;
 	unsigned int GetMaxMultiTextures() const;
-	bool SetBlendMode(const unsigned int passIdx, const GS_BLEND_MODE mode);
-	GS_BLEND_MODE GetBlendMode(const unsigned int passIdx) const;
+	bool SetBlendMode(const unsigned int passIdx, const BLEND_MODE mode);
+	BLEND_MODE GetBlendMode(const unsigned int passIdx) const;
 	bool UnsetTexture(const unsigned int passIdx);
 
 	void SetZBuffer(const bool enable);
@@ -519,11 +519,11 @@ public:
 	bool BeginTargetScene(const Color& bgColor = constant::ZERO, const bool clear = true);
 	bool EndTargetScene();
 
-	bool SetAlphaMode(const GS_ALPHA_MODE mode);
-	GS_ALPHA_MODE GetAlphaMode() const;
+	bool SetAlphaMode(const ALPHA_MODE mode);
+	ALPHA_MODE GetAlphaMode() const;
 
-	bool SetFilterMode(const GS_TEXTUREFILTER_MODE tfm);
-	GS_TEXTUREFILTER_MODE GetFilterMode() const;
+	bool SetFilterMode(const TEXTUREFILTER_MODE tfm);
+	TEXTUREFILTER_MODE GetFilterMode() const;
 
 	bool Rendering() const;
 

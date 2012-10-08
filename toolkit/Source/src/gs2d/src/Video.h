@@ -38,28 +38,6 @@
 
 namespace gs2d {
 
-enum GS_ALPHA_MODE
-{
-	GSAM_PIXEL = 0,
-	GSAM_ADD = 1,
-	GSAM_ALPHA_TEST = 2,
-	GSAM_NONE = 3,
-	GSAM_MODULATE = 4
-};
-
-enum GS_TEXTUREFILTER_MODE
-{
-	GSTM_NEVER = 0,
-	GSTM_IFNEEDED = 1,
-	GSTM_ALWAYS = 2
-};
-
-enum GS_BLEND_MODE
-{
-	GSBM_ADD = 0,
-	GSBM_MODULATE = 1,
-};
-
 /**
  * \brief Abstracts all video device operations
  *
@@ -73,25 +51,32 @@ class Video :
 	public BitmapFontManager
 {
 public:
+	enum ALPHA_MODE
+	{
+		AM_PIXEL = 0,
+		AM_ADD = 1,
+		AM_ALPHA_TEST = 2,
+		AM_NONE = 3,
+		AM_MODULATE = 4
+	};
+
+	enum TEXTUREFILTER_MODE
+	{
+		TM_NEVER = 0,
+		TM_IFNEEDED = 1,
+		TM_ALWAYS = 2
+	};
+
+	enum BLEND_MODE
+	{
+		BM_ADD = 0,
+		BM_MODULATE = 1,
+	};
+
 	struct VIDEO_MODE
 	{
-		bool operator == (const VIDEO_MODE& other) const
-		{
-			return (width == other.width && height == other.height && pf == other.pf);
-		}
-
-		bool operator < (const VIDEO_MODE &other) const
-		{
-			if (pf < other.pf)
-			{
-				return true;
-			}
-			else if (pf == other.pf	&& width * height < other.width * other.height)
-			{
-				return true;
-			}
-			return false;
-		}
+		bool operator == (const VIDEO_MODE& other) const;
+		bool operator < (const VIDEO_MODE &other) const;
 		unsigned int width, height;
 		GS_PIXEL_FORMAT pf;
 		GS_DWORD idx;
@@ -189,8 +174,8 @@ public:
 	virtual bool SetRenderTarget(SpritePtr pTarget, const unsigned int target = 0) = 0;
 	virtual unsigned int GetMaxRenderTargets() const = 0;
 	virtual unsigned int GetMaxMultiTextures() const = 0;
-	virtual bool SetBlendMode(const unsigned int passIdx, const GS_BLEND_MODE mode) = 0;
-	virtual GS_BLEND_MODE GetBlendMode(const unsigned int passIdx) const = 0;
+	virtual bool SetBlendMode(const unsigned int passIdx, const BLEND_MODE mode) = 0;
+	virtual BLEND_MODE GetBlendMode(const unsigned int passIdx) const = 0;
 	virtual bool UnsetTexture(const unsigned int passIdx) = 0;
 
 	virtual void SetZBuffer(const bool enable) = 0;
@@ -247,11 +232,11 @@ public:
 	virtual bool BeginTargetScene(const Color& dwBGColor = constant::ZERO, const bool clear = true) = 0;
 	virtual bool EndTargetScene() = 0;
 
-	virtual bool SetAlphaMode(const GS_ALPHA_MODE mode) = 0;
-	virtual GS_ALPHA_MODE GetAlphaMode() const = 0;
+	virtual bool SetAlphaMode(const ALPHA_MODE mode) = 0;
+	virtual ALPHA_MODE GetAlphaMode() const = 0;
 
-	virtual bool SetFilterMode(const GS_TEXTUREFILTER_MODE tfm) = 0;
-	virtual GS_TEXTUREFILTER_MODE GetFilterMode() const = 0;
+	virtual bool SetFilterMode(const TEXTUREFILTER_MODE tfm) = 0;
+	virtual TEXTUREFILTER_MODE GetFilterMode() const = 0;
 
 	virtual bool Rendering() const = 0;
 

@@ -81,7 +81,7 @@ bool ETHRenderEntity::DrawAmbientPass(const float maxHeight, const float minHeig
 	}
 
 	// sets the alpha mode according to the entity's property
-	const GS_ALPHA_MODE& am = GetBlendMode();
+	const Video::ALPHA_MODE& am = GetBlendMode();
 
 	if (am != video->GetAlphaMode())
 		video->SetAlphaMode(am);
@@ -368,8 +368,8 @@ void ETHRenderEntity::DrawCollisionBox(SpritePtr pOutline, const Color& dwColor,
 	const Vector2 v2Pos = ETHGlobal::ToScreenPos(v3Pos, zAxisDirection)/* + Vector2(0, v3Size.y/2)*/;
 	pOutline->SetOrigin(Sprite::EO_CENTER);
 
-	const GS_ALPHA_MODE alphaMode = video->GetAlphaMode();
-	video->SetAlphaMode(GSAM_PIXEL);
+	const Video::ALPHA_MODE alphaMode = video->GetAlphaMode();
+	video->SetAlphaMode(Video::AM_PIXEL);
 
 	const bool zBuffer = video->GetZBuffer();
 	video->SetZBuffer(false);

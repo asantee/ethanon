@@ -56,4 +56,22 @@ bool Video::DrawBitmapText(
 	return BitmapFontManager::DrawBitmapText(this, v2Pos, text, font, color, scale);
 }
 
+bool Video::VIDEO_MODE::operator==(const VIDEO_MODE& other) const
+{
+	return (width == other.width && height == other.height && pf == other.pf);
+}
+
+bool Video::VIDEO_MODE::operator<(const VIDEO_MODE &other) const
+{
+	if (pf < other.pf)
+	{
+		return true;
+	}
+	else if (pf == other.pf	&& width * height < other.width * other.height)
+	{
+		return true;
+	}
+	return false;
+}
+
 } // namespace gs2d

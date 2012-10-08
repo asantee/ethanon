@@ -93,7 +93,7 @@ GLES2Video::GLES2Video(
 	m_fpsRate(30.0f),
 	m_roundUpPosition(false),
 	m_scissor(Vector2i(0, 0), Vector2i(0, 0)),
-	m_textureFilterMode(GSTM_IFNEEDED),
+	m_textureFilterMode(Video::TM_IFNEEDED),
 	m_blend(false),
 	m_zBuffer(true),
 	m_zWrite(true),
@@ -101,7 +101,7 @@ GLES2Video::GLES2Video(
 {
 	for (std::size_t t = 0; t < _GS2D_GLES2_MAX_MULTI_TEXTURES; t++)
 	{
-		m_blendModes[t] = GSBM_MODULATE;
+		m_blendModes[t] = Video::BM_MODULATE;
 	}
 
 	ResetTimer();
@@ -170,7 +170,7 @@ bool GLES2Video::StartApplication(
 
 	SetZBuffer(false);
 	SetZWrite(false);
-	SetFilterMode(GSTM_IFNEEDED);
+	SetFilterMode(Video::TM_IFNEEDED);
 	UnsetScissor();
 
 	ResetVideoMode(width, height, pfBB, false);
@@ -495,7 +495,7 @@ void GLES2Video::SetupMultitextureShader()
 {
 	if (m_blendTextures[1])
 	{
-		ShaderPtr pixelShader = m_blendModes[1] == GSBM_ADD ? m_add1 : m_modulate1;
+		ShaderPtr pixelShader = m_blendModes[1] == Video::BM_ADD ? m_add1 : m_modulate1;
 		pixelShader->SetTexture("t1", m_blendTextures[1]);
 		SetPixelShader(pixelShader);
 	}
@@ -506,7 +506,7 @@ void GLES2Video::DisableMultitextureShader()
 	SetPixelShader(m_defaultPS);
 }
 
-bool GLES2Video::SetBlendMode(const unsigned int passIdx, const GS_BLEND_MODE mode)
+bool GLES2Video::SetBlendMode(const unsigned int passIdx, const Video::BLEND_MODE mode)
 {
 	if (passIdx == 0 || passIdx >= _GS2D_GLES2_MAX_MULTI_TEXTURES)
 	{
@@ -534,7 +534,7 @@ bool GLES2Video::SetBlendTexture(const unsigned int passIdx, GLES2TexturePtr tex
 	}
 }
 
-GS_BLEND_MODE GLES2Video::GetBlendMode(const unsigned int passIdx) const
+Video::BLEND_MODE GLES2Video::GetBlendMode(const unsigned int passIdx) const
 {
 	return m_blendModes[passIdx];
 }
@@ -766,7 +766,7 @@ bool GLES2Video::BeginSpriteScene(const Color& dwBGColor)
 	color.SetColor(m_backgroundColor);
 	glClearColor(color.x, color.y, color.z, color.w);
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-	SetAlphaMode(GSAM_PIXEL);
+	SetAlphaMode(Video::AM_PIXEL);
 	m_rendering = true;
 	return true;
 }
@@ -841,25 +841,25 @@ void GLES2Video::SetBlend(const bool enable)
 	m_blend = enable;
 }	
 
-bool GLES2Video::SetAlphaMode(const GS_ALPHA_MODE mode)
+bool GLES2Video::SetAlphaMode(const Video::ALPHA_MODE mode)
 {
 	m_alphaMode = mode;
 	switch(mode)
 	{
-	case GSAM_PIXEL:
+	case Video::AM_PIXEL:
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		SetBlend(true);
 		return true;
-	case GSAM_ADD:
+	case Video::AM_ADD:
 		glBlendFunc(GL_ONE, GL_ONE);
 		SetBlend(true);
 		return true;
-	case GSAM_MODULATE:
+	case Video::AM_MODULATE:
 		glBlendFunc(GL_ZERO, GL_SRC_COLOR);
 		SetBlend(true);
 		return true;
-	case GSAM_NONE:
-	case GSAM_ALPHA_TEST: // alpha test not supported
+	case Video::AM_NONE:
+	case Video::AM_ALPHA_TEST: // alpha test not supported
 	default:
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		SetBlend(false);
@@ -867,27 +867,27 @@ bool GLES2Video::SetAlphaMode(const GS_ALPHA_MODE mode)
 	};
 }
 
-GS_ALPHA_MODE GLES2Video::GetAlphaMode() const
+Video::ALPHA_MODE GLES2Video::GetAlphaMode() const
 {
 	return m_alphaMode;
 }
 
-bool GLES2Video::SetFilterMode(const GS_TEXTUREFILTER_MODE tfm)
+bool GLES2Video::SetFilterMode(const Video::TEXTUREFILTER_MODE tfm)
 {
 	// NOTE: it won't work on OpenGL ES exactly like in the D3D9 implementation since
 	// the texture has to be previously bound before we reset filter mode
 	m_textureFilterMode = tfm;
 	switch (tfm)
 	{
-	case GSTM_IFNEEDED:
+	case Video::TM_IFNEEDED:
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		break;
-	case GSTM_ALWAYS:
+	case Video::TM_ALWAYS:
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		break;
-	case GSTM_NEVER:
+	case Video::TM_NEVER:
 	default:
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -896,7 +896,7 @@ bool GLES2Video::SetFilterMode(const GS_TEXTUREFILTER_MODE tfm)
 	return true;
 }
 
-GS_TEXTUREFILTER_MODE GLES2Video::GetFilterMode() const
+Video::TEXTUREFILTER_MODE GLES2Video::GetFilterMode() const
 {
 	return m_textureFilterMode;
 }

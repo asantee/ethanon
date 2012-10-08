@@ -148,8 +148,8 @@ ETHLightmapGen::ETHLightmapGen(ETHRenderEntity* entity,
 		// draw the shadowed light by adding it to the final lightmap
 		video->SetRenderTarget(entity->m_pLightmap);
 		video->BeginTargetScene(gs2d::constant::BLACK, false);
-		const GS_ALPHA_MODE oldAM = video->GetAlphaMode();
-		video->SetAlphaMode(GSAM_ADD);
+		const Video::ALPHA_MODE oldAM = video->GetAlphaMode();
+		video->SetAlphaMode(Video::AM_ADD);
 		tempTarget->Draw(Vector2(0,0));
 		video->SetAlphaMode(oldAM);
 		video->EndTargetScene();

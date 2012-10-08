@@ -98,8 +98,8 @@ struct ETH_STARTUP_RESOURCES_ENML_FILE
 bool DoNextAppButton(int nextApp, SpritePtr pSprite, VideoPtr video, InputPtr input,
 					 const float menuSize, boost::shared_ptr<EditorBase> pEditor)
 {
-	GS_ALPHA_MODE alphaMode = video->GetAlphaMode();
-	video->SetAlphaMode(GSAM_PIXEL);
+	Video::ALPHA_MODE alphaMode = video->GetAlphaMode();
+	video->SetAlphaMode(Video::AM_PIXEL);
 
 	// interpolator to blink the button
 	static ETHFrameTimer interp;

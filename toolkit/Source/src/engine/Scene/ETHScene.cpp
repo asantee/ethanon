@@ -398,7 +398,7 @@ bool ETHScene::RenderScene(const bool roundUp, const unsigned long lastFrameElap
 
 	float minHeight, maxHeight;
 
-	video->SetBlendMode(1, GSBM_ADD);
+	video->SetBlendMode(1, Video::BM_ADD);
 
 	video->SetZWrite(GetZBuffer());
 	video->SetZBuffer(GetZBuffer());

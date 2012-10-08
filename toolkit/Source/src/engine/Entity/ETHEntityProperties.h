@@ -47,7 +47,7 @@ public:
 	float restitution;
 	boost::shared_ptr<ETHLight> light;
 	float shadowLengthScale;
-	GS_ALPHA_MODE blendMode;
+	Video::ALPHA_MODE blendMode;
 	ETH_BOOL sensor;
 	ETH_BOOL fixedRotation;
 	ETH_BOOL bullet;

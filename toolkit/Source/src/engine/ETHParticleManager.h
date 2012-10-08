@@ -93,7 +93,7 @@ struct ETH_PARTICLE_SYSTEM
 	str_type::string soundFXFile;
 	ETH_BOOL allAtOnce;
 	float boundingSphere;
-	GS_ALPHA_MODE alphaMode;
+	Video::ALPHA_MODE alphaMode;
 	int nParticles;
 	Vector2 v2GravityVector;
 	Vector2 v2DirectionVector;

@@ -58,7 +58,7 @@ bool ETHVertexLightDiffuse::BeginLightPass(ETHSpriteEntity *pRender, Vector3 &v3
 	m_video->SetVertexShader(pLightShader);
 
 	m_lastAM = m_video->GetAlphaMode();
-	m_video->SetAlphaMode(GSAM_ADD);
+	m_video->SetAlphaMode(Video::AM_ADD);
 
 	// Set a depth value depending on the entity type
 	pRender->SetDepth(maxHeight, minHeight);

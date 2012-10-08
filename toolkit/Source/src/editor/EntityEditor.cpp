@@ -573,10 +573,10 @@ void EntityEditor::ResetEntityMenu()
 
 	m_blendMode.Destroy();
 	m_blendMode.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth*2, true, false, false);
-	m_blendMode.AddButton(_S_BLEND_MODE_DEFAULT, (m_pEditEntity->blendMode == GSAM_PIXEL));
-	m_blendMode.AddButton(_S_BLEND_MODE_ALPHATEST, (m_pEditEntity->blendMode == GSAM_ALPHA_TEST));
-	m_blendMode.AddButton(_S_BLEND_MODE_ADD, (m_pEditEntity->blendMode == GSAM_ADD));
-	m_blendMode.AddButton(_S_BLEND_MODE_MODULATE, (m_pEditEntity->blendMode == GSAM_MODULATE));
+	m_blendMode.AddButton(_S_BLEND_MODE_DEFAULT, (m_pEditEntity->blendMode == Video::AM_PIXEL));
+	m_blendMode.AddButton(_S_BLEND_MODE_ALPHATEST, (m_pEditEntity->blendMode == Video::AM_ALPHA_TEST));
+	m_blendMode.AddButton(_S_BLEND_MODE_ADD, (m_pEditEntity->blendMode == Video::AM_ADD));
+	m_blendMode.AddButton(_S_BLEND_MODE_MODULATE, (m_pEditEntity->blendMode == Video::AM_MODULATE));
 
 	m_boolLight.Destroy();
 	if (m_pEditEntity->light)
@@ -1145,13 +1145,13 @@ string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 		ShadowPrint(Vector2(x,y), L"Blend mode:"); y+=m_menuSize;
 		m_blendMode.PlaceMenu(Vector2(x,y)); y += m_menuSize*m_blendMode.GetNumButtons();
 		if (m_blendMode.GetButtonStatus(_S_BLEND_MODE_DEFAULT))
-			m_pEditEntity->blendMode = GSAM_PIXEL;
+			m_pEditEntity->blendMode = Video::AM_PIXEL;
 		else if (m_blendMode.GetButtonStatus(_S_BLEND_MODE_ADD))
-			m_pEditEntity->blendMode = GSAM_ADD;
+			m_pEditEntity->blendMode = Video::AM_ADD;
 		else if (m_blendMode.GetButtonStatus(_S_BLEND_MODE_ALPHATEST))
-			m_pEditEntity->blendMode = GSAM_ALPHA_TEST;
+			m_pEditEntity->blendMode = Video::AM_ALPHA_TEST;
 		else if (m_blendMode.GetButtonStatus(_S_BLEND_MODE_MODULATE))
-			m_pEditEntity->blendMode = GSAM_MODULATE;
+			m_pEditEntity->blendMode = Video::AM_MODULATE;
 		y+=m_menuSize/2;
 
 		if (m_tool.GetButtonStatus(_S_EDIT_LIGHT) && m_pEditEntity->light)

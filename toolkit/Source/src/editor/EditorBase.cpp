@@ -83,7 +83,7 @@ void ShadowPrint(VideoPtr video, Vector2 v2Pos, const wchar_t *text, const wchar
 }
 bool EditorBase::DrawTab(VideoPtr video, InputPtr input, const Vector2 &v2Pos, const float width, const wstring &text, Color color)
 {
-	video->SetAlphaMode(GSAM_PIXEL);
+	video->SetAlphaMode(Video::AM_PIXEL);
 	video->SetVertexShader(ShaderPtr());
 	video->SetPixelShader(ShaderPtr());
 	video->SetZBuffer(false);

@@ -45,7 +45,7 @@ private:
 	SpritePtr m_defaultNM;
 	static const GS_SHADER_PROFILE m_profile;
 	ETHFakeEyePositionManagerPtr m_fakeEyeManager;
-	GS_ALPHA_MODE m_lastAM;
+	Video::ALPHA_MODE m_lastAM;
 	ShaderPtr m_vPixelLightPS;
 	ShaderPtr m_hPixelLightPS;
 	ShaderPtr m_hPixelLightSpecularPS;

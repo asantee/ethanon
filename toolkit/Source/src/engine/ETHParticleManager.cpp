@@ -71,7 +71,7 @@ ETH_PARTICLE_SYSTEM::ETH_PARTICLE_SYSTEM()
 
 void ETH_PARTICLE_SYSTEM::Reset()
 {
-	alphaMode = GSAM_PIXEL;
+	alphaMode = Video::AM_PIXEL;
 	nParticles = 0;
 	lifeTime = 0.0f;
 	randomizeLifeTime = 0.0f;
@@ -449,7 +449,7 @@ bool ETHParticleManager::CreateParticleSystem(
 	const str_type::string currentPath = (resourcePath.empty() && !fileManager->IsPacked()) ? programPath : resourcePath;
 
 	m_pBMP = graphics->GetPointer(m_provider->GetVideo(), m_system.bitmapFile, currentPath,
-		ETHDirectories::GetParticlesDirectory(), (m_system.alphaMode == GSAM_ADD));
+		ETHDirectories::GetParticlesDirectory(), (m_system.alphaMode == Video::AM_ADD));
 
 	// find the particle sound effect
 	if (m_system.soundFXFile != GS_L(""))
@@ -759,11 +759,11 @@ bool ETHParticleManager::DrawParticleSystem(
 	}
 
 	const VideoPtr& video = m_provider->GetVideo();
-	GS_ALPHA_MODE alpha = video->GetAlphaMode();
+	Video::ALPHA_MODE alpha = video->GetAlphaMode();
 	video->SetAlphaMode(m_system.alphaMode);
 
 	// if the alpha blending is not additive, we'll have to sort it
-	if (alpha == GSAM_PIXEL)
+	if (alpha == Video::AM_PIXEL)
 	{
 		BubbleSort(m_particles);
 	}
@@ -784,7 +784,7 @@ bool ETHParticleManager::DrawParticleSystem(
 			continue;
 
 		Vector3 v3FinalAmbient(1, 1, 1);
-		if (m_system.alphaMode == GSAM_PIXEL || m_system.alphaMode == GSAM_ALPHA_TEST)
+		if (m_system.alphaMode == Video::AM_PIXEL || m_system.alphaMode == Video::AM_ALPHA_TEST)
 		{
 			v3FinalAmbient.x = Min(m_system.emissive.x + v3Ambient.x, 1.0f);
 			v3FinalAmbient.y = Min(m_system.emissive.y + v3Ambient.y, 1.0f);

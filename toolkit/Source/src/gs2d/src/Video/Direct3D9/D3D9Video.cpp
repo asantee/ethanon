@@ -171,7 +171,7 @@ bool SetDefaultRenderStates(IDirect3DDevice9 *pDevice, D3D9Video *pVideo)
 		pDevice->SetTextureStageState(t, D3DTSS_COLORARG1, D3DTA_TEXTURE);
 		pDevice->SetTextureStageState(t, D3DTSS_COLORARG2, D3DTA_CURRENT);
 		//pDevice->SetTextureStageState(t, D3DTSS_TEXCOORDINDEX, 0);
-		pVideo->SetBlendMode(t, GSBM_MODULATE);
+		pVideo->SetBlendMode(t, Video::BM_MODULATE);
 	}
 	return true;
 }
@@ -316,8 +316,8 @@ D3D9Video::D3D9Video(const unsigned int width, const unsigned int height,
 	m_windowed(true),
 	m_scissor(Rect2D(0,0,0,0)),
 	m_v2Camera(Vector2(0,0)),
-	m_alphaMode(GSAM_PIXEL),
-	m_textureFilter(GSTM_ALWAYS),
+	m_alphaMode(AM_PIXEL),
+	m_textureFilter(TM_ALWAYS),
 	m_lineWidth(1.0f),
 	m_nVideoModes(0),
 	m_cursorHidden(false),
@@ -331,7 +331,7 @@ D3D9Video::D3D9Video(const unsigned int width, const unsigned int height,
 	m_fileIOHub(fileIOHub)
 {
 	for (unsigned int t = 1; t < TEXTURE_CHANNELS; t++)
-		m_blendModes[t] = GSBM_MODULATE;
+		m_blendModes[t] = BM_MODULATE;
 
 	m_currentChar = '\0';
 	m_wheelDelta = 0;
@@ -572,14 +572,14 @@ bool D3D9Video::BeginSpriteScene(const Color& bgColor)
 		m_pDevice->SetSamplerState(t, D3DSAMP_MIPFILTER, D3DTEXF_POINT);
 	m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 	m_pDevice->SetRenderState(D3DRS_CULLMODE,D3DCULL_NONE);
-	SetAlphaMode(GSAM_PIXEL);
+	SetAlphaMode(AM_PIXEL);
 	return true;
 }
 
 bool D3D9Video::EndSpriteScene()
 {
 	m_pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-	SetAlphaMode(GSAM_NONE);
+	SetAlphaMode(AM_NONE);
 	for (unsigned int t=0; t<TEXTURE_CHANNELS; t++)
 	{
 		m_pDevice->SetSamplerState(t, D3DSAMP_MAXANISOTROPY, 1);
@@ -600,14 +600,14 @@ bool D3D9Video::BeginTargetScene(const Color& bgColor, const bool clear)
 		m_pDevice->SetSamplerState(t, D3DSAMP_MIPFILTER, D3DTEXF_POINT);
 	m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 	m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	SetAlphaMode(GSAM_PIXEL);
+	SetAlphaMode(AM_PIXEL);
 	return true;
 }
 
 bool D3D9Video::EndTargetScene()
 {
 	m_pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-	SetAlphaMode(GSAM_NONE);
+	SetAlphaMode(AM_NONE);
 	for (unsigned int t=0; t<TEXTURE_CHANNELS; t++)
 	{
 		m_pDevice->SetSamplerState(t, D3DSAMP_MAXANISOTROPY, 1);
@@ -740,14 +740,14 @@ void D3D9Video::UnsetScissor()
 	//m_scissor = Rect2D(0,0,0,0);
 }
 
-bool D3D9Video::SetAlphaMode(const GS_ALPHA_MODE mode)
+bool D3D9Video::SetAlphaMode(const ALPHA_MODE mode)
 {
 	m_alphaMode = mode;
 	unsigned int t;
 
 	switch(mode)
 	{
-	case GSAM_PIXEL:
+	case AM_PIXEL:
 		m_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 		for (t=0; t<1; t++)
 		{
@@ -766,7 +766,7 @@ bool D3D9Video::SetAlphaMode(const GS_ALPHA_MODE mode)
 		m_pDevice->SetRenderState(D3DRS_ALPHAREF, ALPHAREF);
 		m_pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 		break;
-	case GSAM_ADD:
+	case AM_ADD:
 		m_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 		for (t=0; t<1; t++)
 		{
@@ -785,7 +785,7 @@ bool D3D9Video::SetAlphaMode(const GS_ALPHA_MODE mode)
 		m_pDevice->SetRenderState(D3DRS_ALPHAREF, ALPHAREF);
 		m_pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 		break;
-	case GSAM_MODULATE:
+	case AM_MODULATE:
 		m_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 		for (t=0; t<1; t++)
 		{
@@ -804,15 +804,15 @@ bool D3D9Video::SetAlphaMode(const GS_ALPHA_MODE mode)
 		m_pDevice->SetRenderState(D3DRS_ALPHAREF, ALPHAREF);
 		m_pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 		break;
-	case GSAM_ALPHA_TEST:
+	case AM_ALPHA_TEST:
 		m_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 		m_pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 		m_pDevice->SetRenderState(D3DRS_ALPHAREF, ALPHAREF);
 		m_pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 		break;
-	case GSAM_NONE:
+	case AM_NONE:
 	default:
-		m_alphaMode = GSAM_NONE;
+		m_alphaMode = AM_NONE;
 		m_pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 		m_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 		break;
@@ -821,7 +821,7 @@ bool D3D9Video::SetAlphaMode(const GS_ALPHA_MODE mode)
 	return true;
 }
 
-GS_ALPHA_MODE D3D9Video::GetAlphaMode() const
+Video::ALPHA_MODE D3D9Video::GetAlphaMode() const
 {
 	return m_alphaMode;
 }
@@ -842,10 +842,10 @@ float D3D9Video::GetSpriteDepth() const
 	return m_depth;
 }
 
-bool D3D9Video::SetFilterMode(const GS_TEXTUREFILTER_MODE tfm)
+bool D3D9Video::SetFilterMode(const TEXTUREFILTER_MODE tfm)
 {
 	m_textureFilter = tfm;
-	if (GetFilterMode() != GSTM_NEVER)
+	if (GetFilterMode() != TM_NEVER)
 	{
 		for (unsigned int t=0; t<TEXTURE_CHANNELS; t++)
 		{
@@ -866,7 +866,7 @@ bool D3D9Video::SetFilterMode(const GS_TEXTUREFILTER_MODE tfm)
 	return true;
 }
 
-GS_TEXTUREFILTER_MODE D3D9Video::GetFilterMode() const
+Video::TEXTUREFILTER_MODE D3D9Video::GetFilterMode() const
 {
 	return m_textureFilter;
 }
@@ -892,9 +892,9 @@ bool D3D9Video::ResetVideoMode(const VIDEO_MODE& mode, const bool toggleFullscre
 	const bool zEnable = GetZBuffer();
 	const bool zWrite = GetZWrite();
 	const bool clamp = GetClamp();
-	const GS_ALPHA_MODE alphaMode = GetAlphaMode();
-	const GS_TEXTUREFILTER_MODE filterMode = GetFilterMode();
-	std::vector<GS_BLEND_MODE> blendModes(GetMaxMultiTextures(), GSBM_MODULATE);
+	const ALPHA_MODE alphaMode = GetAlphaMode();
+	const TEXTUREFILTER_MODE filterMode = GetFilterMode();
+	std::vector<BLEND_MODE> blendModes(GetMaxMultiTextures(), BM_MODULATE);
 	for (unsigned int t=1; t<blendModes.size(); t++)
 	{
 		blendModes[t] = GetBlendMode(t);
@@ -1227,19 +1227,19 @@ bool D3D9Video::UnsetTexture(const unsigned int passIdx)
 	return true;
 }
 
-bool D3D9Video::SetBlendMode(const unsigned int passIdx, const GS_BLEND_MODE mode)
+bool D3D9Video::SetBlendMode(const unsigned int passIdx, const BLEND_MODE mode)
 {
 	if (passIdx <= 0)
 	{
 		Message(L"nPass can't be less or equal to 0 - D3D9Video::SetBlendMode");
 		return false;
 	}
-	m_pDevice->SetTextureStageState(passIdx, D3DTSS_COLOROP, (mode==GSBM_ADD) ? D3DTOP_ADD : D3DTOP_MODULATE);
+	m_pDevice->SetTextureStageState(passIdx, D3DTSS_COLOROP, (mode==BM_ADD) ? D3DTOP_ADD : D3DTOP_MODULATE);
 	m_blendModes[passIdx] = mode;
 	return true;
 }
 
-GS_BLEND_MODE D3D9Video::GetBlendMode(const unsigned int passIdx) const
+Video::BLEND_MODE D3D9Video::GetBlendMode(const unsigned int passIdx) const
 {
 	return m_blendModes[passIdx];
 }
@@ -1634,9 +1634,9 @@ bool D3D9Video::StartApplication(const unsigned int width, const unsigned int he
 	SetupShaderViewData(m_pDevice, GetVertexShader(), m_rectVS, m_fastVS);
 
 	SetDefaultRenderStates(m_pDevice, this);
-	SetFilterMode(GSTM_ALWAYS);
+	SetFilterMode(TM_ALWAYS);
 	SetClamp(true);
-	SetAlphaMode(GSAM_PIXEL);
+	SetAlphaMode(AM_PIXEL);
 	SetZBuffer(false);
 	SetZWrite(false);
 	return true;

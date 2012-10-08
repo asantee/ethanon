@@ -80,7 +80,7 @@ public:
 	bool SetFrame(const unsigned int column, const unsigned int row);
 	unsigned int GetFrame() const;
 	bool IsCollidable() const;
-	GS_ALPHA_MODE GetBlendMode() const;
+	Video::ALPHA_MODE GetBlendMode() const;
 	unsigned int GetNumFrames() const;
 	bool HasAnyCallbackFunction() const;
 	const ETHLight* GetLight() const;

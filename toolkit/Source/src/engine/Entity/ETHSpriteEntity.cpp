@@ -223,7 +223,7 @@ void ETHSpriteEntity::LoadParticleSystem()
 			path += ETHDirectories::GetParticlesDirectory();
 			path += Platform::GetFileName(pSystem->GetActualBitmapFile());
 
-			if (!graphicResources->AddFile(video, path, resourcePath, (pSystem->alphaMode == GSAM_ADD)))
+			if (!graphicResources->AddFile(video, path, resourcePath, (pSystem->alphaMode == Video::AM_ADD)))
 				continue;
 
 			const float particleScale = (GetScale().x + GetScale().y) / 2.0f;

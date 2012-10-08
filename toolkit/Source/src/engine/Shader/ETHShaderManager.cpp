@@ -27,7 +27,9 @@
 #include "ETHShaders.h"
 
 ETHShaderManager::ETHShaderManager(VideoPtr video, const str_type::string& shaderPath, const bool richLighting) :
-	m_lastAM(GSAM_PIXEL), m_fakeEyeManager(new ETHFakeEyePositionManager), m_richLighting(richLighting)
+	m_lastAM(Video::AM_PIXEL),
+	m_fakeEyeManager(new ETHFakeEyePositionManager),
+	m_richLighting(richLighting)
 {
 	m_video = video;
 
@@ -157,7 +159,7 @@ bool ETHShaderManager::BeginShadowPass(const ETHSpriteEntity *pRender, const ETH
 		return false;
 
 	m_lastAM = m_video->GetAlphaMode();
-	m_video->SetAlphaMode(GSAM_PIXEL);
+	m_video->SetAlphaMode(Video::AM_PIXEL);
 	m_video->SetVertexShader(m_shadowVS);
 
 	m_shadowVS->SetConstant(GS_L("lightRange"), light->range);
@@ -182,7 +184,7 @@ bool ETHShaderManager::BeginHaloPass(const ETHLight* light, const float maxHeigh
 		return false;
 
 	m_lastAM = m_video->GetAlphaMode();
-	m_video->SetAlphaMode(GSAM_ADD);
+	m_video->SetAlphaMode(Video::AM_ADD);
 	m_video->SetVertexShader(m_defaultVS);
 	m_video->SetPixelShader(ShaderPtr());
 	return true;

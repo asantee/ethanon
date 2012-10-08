@@ -409,11 +409,11 @@ void ParticleEditor::SetMenuConstants()
 	m_spriteCut[1].SetDescription(L"Number of rows of the animated sprite");
 
 	m_alphaModes.ResetButtons();
-	if (m_system.alphaMode == GSAM_PIXEL)
+	if (m_system.alphaMode == Video::AM_PIXEL)
 		m_alphaModes.ActivateButton(ALPHA_MODE_PIXEL);
-	if (m_system.alphaMode == GSAM_ADD)
+	if (m_system.alphaMode == Video::AM_ADD)
 		m_alphaModes.ActivateButton(ALPHA_MODE_ADD);
-	if (m_system.alphaMode == GSAM_MODULATE)
+	if (m_system.alphaMode == Video::AM_MODULATE)
 		m_alphaModes.ActivateButton(ALPHA_MODE_MODULATE);
 
 	m_animationModes.ResetButtons();
@@ -588,11 +588,11 @@ void ParticleEditor::ParticlePanel()
 
 		// sets the alpha mode according to the selected item
 		if (m_alphaModes.GetButtonStatus(ALPHA_MODE_PIXEL))
-			m_system.alphaMode = GSAM_PIXEL;
+			m_system.alphaMode = Video::AM_PIXEL;
 		if (m_alphaModes.GetButtonStatus(ALPHA_MODE_ADD))
-			m_system.alphaMode = GSAM_ADD;
+			m_system.alphaMode = Video::AM_ADD;
 		if (m_alphaModes.GetButtonStatus(ALPHA_MODE_MODULATE))
-			m_system.alphaMode = GSAM_MODULATE;
+			m_system.alphaMode = Video::AM_MODULATE;
 
 		// places the sprite cut fields to the right
 		menu += m_menuSize/2;
@@ -717,7 +717,7 @@ void ParticleEditor::LoadEditor()
 
 void ParticleEditor::ResetSystem()
 {
-	m_system.alphaMode = GSAM_PIXEL;
+	m_system.alphaMode = Video::AM_PIXEL;
 	m_system.nParticles = 50;
 	m_system.v2GravityVector = Vector2(0.0f, 0.01f);
 	m_system.v2DirectionVector = Vector2(0.0f,-2.5f);

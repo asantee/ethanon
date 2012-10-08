@@ -43,7 +43,7 @@ private:
 	static const GS_SHADER_PROFILE m_profile;
 
 	VideoPtr m_video;
-	GS_ALPHA_MODE m_lastAM;
+	Video::ALPHA_MODE m_lastAM;
 	ShaderPtr m_hVertexLightVS;
 	ShaderPtr m_vVertexLightVS;
 };

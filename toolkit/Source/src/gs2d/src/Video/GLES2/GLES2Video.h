@@ -159,8 +159,8 @@ public:
 	bool SetRenderTarget(SpritePtr pTarget, const unsigned int target = 0);
 	unsigned int GetMaxRenderTargets() const;
 	unsigned int GetMaxMultiTextures() const;
-	bool SetBlendMode(const unsigned int passIdx, const GS_BLEND_MODE mode);
-	GS_BLEND_MODE GetBlendMode(const unsigned int passIdx) const;
+	bool SetBlendMode(const unsigned int passIdx, const Video::BLEND_MODE mode);
+	Video::BLEND_MODE GetBlendMode(const unsigned int passIdx) const;
 	bool UnsetTexture(const unsigned int passIdx);
 
 	void SetZBuffer(const bool enable);
@@ -221,11 +221,11 @@ public:
 	bool BeginTargetScene(const Color& dwBGColor = gs2d::constant::ZERO, const bool clear = true);
 	bool EndTargetScene();
 
-	bool SetAlphaMode(const GS_ALPHA_MODE mode);
-	GS_ALPHA_MODE GetAlphaMode() const;
+	bool SetAlphaMode(const Video::ALPHA_MODE mode);
+	ALPHA_MODE GetAlphaMode() const;
 
-	bool SetFilterMode(const GS_TEXTUREFILTER_MODE tfm);
-	GS_TEXTUREFILTER_MODE GetFilterMode() const;
+	bool SetFilterMode(const Video::TEXTUREFILTER_MODE tfm);
+	Video::TEXTUREFILTER_MODE GetFilterMode() const;
 
 	bool Rendering() const;
 
@@ -270,13 +270,13 @@ public:
 	str_type::string GetPlatformName() const;
 
 private:
-	GS_BLEND_MODE m_blendModes[_GS2D_GLES2_MAX_MULTI_TEXTURES];
+	Video::BLEND_MODE m_blendModes[_GS2D_GLES2_MAX_MULTI_TEXTURES];
 	GLES2TexturePtr m_blendTextures[_GS2D_GLES2_MAX_MULTI_TEXTURES];
 
 	math::Vector2 GetCurrentTargetSize() const;
 
 	Color m_backgroundColor;
-	GS_ALPHA_MODE m_alphaMode;
+	Video::ALPHA_MODE m_alphaMode;
 
 	math::Vector2i m_screenSize;
 	str_type::string m_externalStoragePath;
@@ -298,7 +298,7 @@ private:
 	float m_fpsRate;
 	timeval m_lastTime;
 
-	GS_TEXTUREFILTER_MODE m_textureFilterMode;
+	Video::TEXTUREFILTER_MODE m_textureFilterMode;
 
 	Platform::FileIOHubPtr m_fileIOHub;
 

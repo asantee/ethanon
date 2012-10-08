@@ -40,18 +40,24 @@ public:
 
 	ETHShaderManager(VideoPtr video, const str_type::string& shaderPath, const bool richLighting);
 
-	bool BeginAmbientPass(const ETHSpriteEntity *pRender, const float maxHeight, const float minHeight);
+	bool BeginAmbientPass(const ETHSpriteEntity* pRender, const float maxHeight, const float minHeight);
 	bool EndAmbientPass();
 
-	bool BeginLightPass(ETHSpriteEntity *pRender, const ETHLight* light,
-		const float maxHeight, const float minHeight, const float lightIntensity,
-		const ETHSpriteEntity *pParent = 0, const bool drawToTarget = false);
+	bool BeginLightPass(
+		ETHSpriteEntity* pRender,
+		const ETHLight* light,
+		const float maxHeight,
+		const float minHeight,
+		const float lightIntensity,
+		const ETHSpriteEntity* pParent = 0,
+		const bool drawToTarget = false);
+
 	bool EndLightPass();
 
-	bool BeginShadowPass(const ETHSpriteEntity *pRender, const ETHLight* light, const float maxHeight, const float minHeight);
+	bool BeginShadowPass(const ETHSpriteEntity* pRender, const ETHLight* light, const float maxHeight, const float minHeight);
 	bool EndShadowPass();
 
-	bool BeginHaloPass(const ETHLight* light, const float maxHeight, const ETHSpriteEntity *pParent = 0);
+	bool BeginHaloPass(const ETHLight* light, const float maxHeight, const ETHSpriteEntity* pParent = 0);
 	bool EndHaloPass();
 
 	bool BeginParticlePass();
@@ -81,7 +87,7 @@ private:
 	std::map<PROFILE, ETHLightingProfilePtr> m_lightingProfiles;
 	ETHLightingProfilePtr m_currentProfile;
 	VideoPtr m_video;
-	GS_ALPHA_MODE m_lastAM;
+	Video::ALPHA_MODE m_lastAM;
 	SpritePtr m_projShadow;
 	ShaderPtr m_shadowVS;
 	ShaderPtr m_defaultVS;

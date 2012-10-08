@@ -651,7 +651,7 @@ bool ETHEntity::IsCollidable() const
 	return (m_properties.collision);
 }
 
-GS_ALPHA_MODE ETHEntity::GetBlendMode() const
+Video::ALPHA_MODE ETHEntity::GetBlendMode() const
 {
 	return m_properties.blendMode;
 }
