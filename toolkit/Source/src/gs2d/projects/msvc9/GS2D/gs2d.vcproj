@@ -255,35 +255,35 @@
 				Name="Direct3D9"
 				>
 				<File
-					RelativePath="..\..\..\src\Video\Direct3D9\gs2dD3D9.cpp"
+					RelativePath="..\..\..\src\Video\Direct3D9\D3D9CgShader.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\Video\Direct3D9\gs2dD3D9.h"
+					RelativePath="..\..\..\src\Video\Direct3D9\D3D9CgShader.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\Video\Direct3D9\gs2dD3D9CgShader.cpp"
+					RelativePath="..\..\..\src\Video\Direct3D9\D3D9Sprite.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\Video\Direct3D9\gs2dD3D9CgShader.h"
+					RelativePath="..\..\..\src\Video\Direct3D9\D3D9Sprite.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\Video\Direct3D9\gs2dD3D9Sprite.cpp"
+					RelativePath="..\..\..\src\Video\Direct3D9\D3D9Texture.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\Video\Direct3D9\gs2dD3D9Sprite.h"
+					RelativePath="..\..\..\src\Video\Direct3D9\D3D9Texture.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\Video\Direct3D9\gs2dD3D9Texture.cpp"
+					RelativePath="..\..\..\src\Video\Direct3D9\D3D9Video.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\Video\Direct3D9\gs2dD3D9Texture.h"
+					RelativePath="..\..\..\src\Video\Direct3D9\D3D9Video.h"
 					>
 				</File>
 			</Filter>
@@ -291,11 +291,11 @@
 				Name="Player"
 				>
 				<File
-					RelativePath="..\..\..\src\Video\DShow\gs2dDShowPlayer.cpp"
+					RelativePath="..\..\..\src\Video\DShow\DShowPlayer.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\Video\DShow\gs2dDShowPlayer.h"
+					RelativePath="..\..\..\src\Video\DShow\DShowPlayer.h"
 					>
 				</File>
 			</Filter>
@@ -307,11 +307,11 @@
 				Name="Win"
 				>
 				<File
-					RelativePath="..\..\..\src\Input\Win\gs2dWinInput.cpp"
+					RelativePath="..\..\..\src\Input\Win\WinInput.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\Input\Win\gs2dWinInput.h"
+					RelativePath="..\..\..\src\Input\Win\WinInput.h"
 					>
 				</File>
 			</Filter>
@@ -323,11 +323,11 @@
 				Name="Audiere"
 				>
 				<File
-					RelativePath="..\..\..\src\Audio\Audiere\gs2dAudiere.cpp"
+					RelativePath="..\..\..\src\Audio\Audiere\AudiereAudio.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\Audio\Audiere\gs2dAudiere.h"
+					RelativePath="..\..\..\src\Audio\Audiere\AudiereAudio.h"
 					>
 				</File>
 			</Filter>
