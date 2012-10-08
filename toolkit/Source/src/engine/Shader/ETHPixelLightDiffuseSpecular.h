@@ -29,7 +29,10 @@
 class ETHPixelLightDiffuseSpecular : public ETHLightingProfile
 {
 public:
-	ETHPixelLightDiffuseSpecular(VideoPtr video, const str_type::string& shaderPath, ETHFakeEyePositionManagerPtr fakeEyeManager);
+	ETHPixelLightDiffuseSpecular(
+		VideoPtr video,
+		const str_type::string& shaderPath,
+		ETHFakeEyePositionManagerPtr fakeEyeManager);
 
 	bool BeginLightPass(ETHSpriteEntity *pRender, Vector3 &v3LightPos, const Vector2 &v2Size,
 		const ETHLight* light, const float maxHeight, const float minHeight, const float lightIntensity,
@@ -43,7 +46,7 @@ public:
 private:
 	VideoPtr m_video;
 	SpritePtr m_defaultNM;
-	static const GS_SHADER_PROFILE m_profile;
+	static const Shader::SHADER_PROFILE m_profile;
 	ETHFakeEyePositionManagerPtr m_fakeEyeManager;
 	Video::ALPHA_MODE m_lastAM;
 	ShaderPtr m_vPixelLightPS;

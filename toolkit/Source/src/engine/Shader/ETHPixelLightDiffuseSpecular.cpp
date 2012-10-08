@@ -23,20 +23,23 @@
 #include "ETHPixelLightDiffuseSpecular.h"
 #include "ETHShaders.h"
 
-const GS_SHADER_PROFILE ETHPixelLightDiffuseSpecular::m_profile = GSSP_MODEL_2;
+const Shader::SHADER_PROFILE ETHPixelLightDiffuseSpecular::m_profile = Shader::SP_MODEL_2;
 
-ETHPixelLightDiffuseSpecular::ETHPixelLightDiffuseSpecular(VideoPtr video, const str_type::string& shaderPath, ETHFakeEyePositionManagerPtr fakeEyeManager)
+ETHPixelLightDiffuseSpecular::ETHPixelLightDiffuseSpecular(
+	VideoPtr video,
+	const str_type::string& shaderPath,
+	ETHFakeEyePositionManagerPtr fakeEyeManager)
 	: m_fakeEyeManager(fakeEyeManager)
 {
 	m_video = video;
 	if (IsSupportedByHardware())
 	{
-		m_hPixelLightPS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::PL_PS_Hor_Diff()).c_str(), GSSF_PIXEL, m_profile);
-		m_vPixelLightPS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::PL_PS_Ver_Diff()).c_str(), GSSF_PIXEL, m_profile);
-		m_hPixelLightVS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::PL_VS_Hor_Light()).c_str(), GSSF_VERTEX, GSSP_MODEL_2);
-		m_vPixelLightVS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::PL_VS_Ver_Light()).c_str(), GSSF_VERTEX, GSSP_MODEL_2);
-		m_hPixelLightSpecularPS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::PL_PS_Hor_Spec()).c_str(), GSSF_PIXEL, m_profile);
-		m_vPixelLightSpecularPS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::PL_PS_Ver_Spec()).c_str(), GSSF_PIXEL, m_profile);
+		m_hPixelLightPS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::PL_PS_Hor_Diff()).c_str(), Shader::SF_PIXEL, m_profile);
+		m_vPixelLightPS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::PL_PS_Ver_Diff()).c_str(), Shader::SF_PIXEL, m_profile);
+		m_hPixelLightVS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::PL_VS_Hor_Light()).c_str(), Shader::SF_VERTEX, Shader::SP_MODEL_2);
+		m_vPixelLightVS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::PL_VS_Ver_Light()).c_str(), Shader::SF_VERTEX, Shader::SP_MODEL_2);
+		m_hPixelLightSpecularPS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::PL_PS_Hor_Spec()).c_str(), Shader::SF_PIXEL, m_profile);
+		m_vPixelLightSpecularPS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::PL_PS_Ver_Spec()).c_str(), Shader::SF_PIXEL, m_profile);
 		m_defaultNM = m_video->CreateSprite(ETHGlobal::GetDataResourceFullPath(shaderPath, GS_L("default_nm.png")));
 	}
 }
@@ -153,4 +156,3 @@ SpritePtr ETHPixelLightDiffuseSpecular::GetDefaultNormalMap()
 {
 	return m_defaultNM;
 }
-

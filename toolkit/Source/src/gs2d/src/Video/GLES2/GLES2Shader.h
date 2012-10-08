@@ -123,7 +123,7 @@ private:
 
 	GLES2ShaderContextPtr m_context;
 	str_type::string m_shaderName;
-	GS_SHADER_FOCUS m_shaderFocus;
+	Shader::SHADER_FOCUS m_shaderFocus;
 	std::map<std::size_t, GLES2UniformParameterPtr> m_parameters;
 	const str_type::string DIFFUSE_TEXTURE_NAME;
 	
@@ -139,12 +139,20 @@ public:
 	GLES2Shader(Platform::FileManagerPtr fileManager, GLES2ShaderContextPtr context);
 	~GLES2Shader();
 
-	bool LoadShaderFromFile(ShaderContextPtr context, const str_type::string& fileName, const GS_SHADER_FOCUS focus,
-		const GS_SHADER_PROFILE profile = GSSP_HIGHEST,	const char *entry = 0);
+	bool LoadShaderFromFile(
+		ShaderContextPtr context,
+		const str_type::string& fileName,
+		const Shader::SHADER_FOCUS focus,
+		const Shader::SHADER_PROFILE profile = Shader::SP_HIGHEST,
+		const char *entry = 0);
 
-	bool LoadShaderFromString(ShaderContextPtr context, const str_type::string& shaderName,
-			const std::string& codeAsciiString, const GS_SHADER_FOCUS focus,
-			const GS_SHADER_PROFILE profile = GSSP_HIGHEST,	const char *entry = 0);
+	bool LoadShaderFromString(
+		ShaderContextPtr context,
+		const str_type::string& shaderName,
+		const std::string& codeAsciiString,
+		const Shader::SHADER_FOCUS focus,
+		const Shader::SHADER_PROFILE profile = Shader::SP_HIGHEST,
+		const char *entry = 0);
 
 	bool ConstantExist(const str_type::string& name);
 
@@ -171,8 +179,8 @@ public:
 	bool SetTexture(const str_type::string& name, TextureWeakPtr pTexture);
 
 	bool SetShader();
-	GS_SHADER_FOCUS GetShaderFocus() const;
-	GS_SHADER_PROFILE GetShaderProfile() const;
+	Shader::SHADER_FOCUS GetShaderFocus() const;
+	Shader::SHADER_PROFILE GetShaderProfile() const;
 	void UnbindShader();
 };
 

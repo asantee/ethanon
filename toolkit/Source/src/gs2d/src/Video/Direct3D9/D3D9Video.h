@@ -51,7 +51,7 @@ class D3D9VideoInfo
 		m_startTime = 0x0;
 		m_quitKeysEnabled = true;
 		m_pRect2 = m_pRect4 = m_pRect3 = NULL;
-		m_lastVertexProfile = m_lastPixelProfile = GSSP_NONE;
+		m_lastVertexProfile = m_lastPixelProfile = Shader::SP_NONE;
 		m_pBackBuffer = NULL;
 		m_nMaxRTs = 1;
 		m_nMaxMultiTex = 0;
@@ -239,18 +239,18 @@ public:
 	void SetupShaderProfile()
 	{
 		if (m_caps.VertexShaderVersion >= D3DVS_VERSION(1,1))
-			m_lastVertexProfile = GSSP_MODEL_1;
+			m_lastVertexProfile = Shader::SP_MODEL_1;
 		if (m_caps.VertexShaderVersion >= D3DVS_VERSION(2,0))
-			m_lastVertexProfile = GSSP_MODEL_2;
+			m_lastVertexProfile = Shader::SP_MODEL_2;
 		if (m_caps.VertexShaderVersion >= D3DVS_VERSION(3,0))
-			m_lastVertexProfile = GSSP_MODEL_3;
+			m_lastVertexProfile = Shader::SP_MODEL_3;
 
 		if (m_caps.PixelShaderVersion >= D3DPS_VERSION(1,0))
-			m_lastPixelProfile = GSSP_MODEL_1;
+			m_lastPixelProfile = Shader::SP_MODEL_1;
 		if (m_caps.PixelShaderVersion >= D3DPS_VERSION(2,0))
-			m_lastPixelProfile = GSSP_MODEL_2;
+			m_lastPixelProfile = Shader::SP_MODEL_2;
 		if (m_caps.PixelShaderVersion >= D3DPS_VERSION(3,0))
-			m_lastPixelProfile = GSSP_MODEL_3;
+			m_lastPixelProfile = Shader::SP_MODEL_3;
 	}
 
 	D3DCAPS9	m_caps;
@@ -279,8 +279,8 @@ public:
 	IDirect3DVertexBuffer9 *m_pRect4;
 	IDirect3DVertexBuffer9 *m_pRect3;
 	math::Matrix4x4 m_orthoMatrix;
-	GS_SHADER_PROFILE m_lastVertexProfile;
-	GS_SHADER_PROFILE m_lastPixelProfile;
+	Shader::SHADER_PROFILE m_lastVertexProfile;
+	Shader::SHADER_PROFILE m_lastPixelProfile;
 	IDirect3DSurface9 *m_pBackBuffer;
 	math::Vector2i v2Resize, v2RestoredSize;
 };
@@ -421,16 +421,16 @@ public:
 	/// Create a shader object and load/compile it.
 	ShaderPtr LoadShaderFromFile(
 		const std::wstring& fileName,
-		const GS_SHADER_FOCUS focus,
-		const GS_SHADER_PROFILE profile = GSSP_HIGHEST,
+		const Shader::SHADER_FOCUS focus,
+		const Shader::SHADER_PROFILE profile = Shader::SP_HIGHEST,
 		const char *entry = 0);
 
 	/// Create a shader object and load/compile it.
 	ShaderPtr LoadShaderFromString(
 		const std::wstring& shaderName,
 		const std::string& codeAsciiString,
-		const GS_SHADER_FOCUS focus,
-		const GS_SHADER_PROFILE profile = GSSP_HIGHEST,
+		const Shader::SHADER_FOCUS focus,
+		const Shader::SHADER_PROFILE profile = Shader::SP_HIGHEST,
 		const char *entry = 0);
 
 	ShaderPtr GetFontShader();
@@ -441,8 +441,8 @@ public:
 	ShaderContextPtr GetShaderContext();
 	bool SetVertexShader(ShaderPtr pShader);
 	bool SetPixelShader(ShaderPtr pShader);
-	GS_SHADER_PROFILE GetHighestVertexProfile() const;
-	GS_SHADER_PROFILE GetHighestPixelProfile() const;
+	Shader::SHADER_PROFILE GetHighestVertexProfile() const;
+	Shader::SHADER_PROFILE GetHighestPixelProfile() const;
 
 	boost::any GetVideoInfo();
 

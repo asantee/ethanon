@@ -283,8 +283,11 @@ SpritePtr D3D9Video::CreateRenderTarget(const unsigned int width, const unsigned
 	return SpritePtr();
 }
 
-ShaderPtr D3D9Video::LoadShaderFromFile(const std::wstring& fileName, const GS_SHADER_FOCUS focus, const GS_SHADER_PROFILE profile,
-								const char *entry)
+ShaderPtr D3D9Video::LoadShaderFromFile(
+	const std::wstring& fileName,
+	const Shader::SHADER_FOCUS focus,
+	const Shader::SHADER_PROFILE profile,
+	const char *entry)
 {
 	ShaderPtr shader = ShaderPtr(new D3D9CgShader);
 	if (shader->LoadShaderFromFile(m_shaderContext, fileName, focus, profile, entry))
@@ -294,7 +297,12 @@ ShaderPtr D3D9Video::LoadShaderFromFile(const std::wstring& fileName, const GS_S
 	return ShaderPtr();
 }
 
-ShaderPtr D3D9Video::LoadShaderFromString(const str_type::string& shaderName, const std::string& codeAsciiString, const GS_SHADER_FOCUS focus, const GS_SHADER_PROFILE profile, const char *entry)
+ShaderPtr D3D9Video::LoadShaderFromString(
+	const str_type::string& shaderName,
+	const std::string& codeAsciiString,
+	const Shader::SHADER_FOCUS focus,
+	const Shader::SHADER_PROFILE profile,
+	const char *entry)
 {
 	ShaderPtr shader(new D3D9CgShader);
 	if (shader->LoadShaderFromString(m_shaderContext, shaderName, codeAsciiString, focus, profile, entry))
@@ -304,9 +312,15 @@ ShaderPtr D3D9Video::LoadShaderFromString(const str_type::string& shaderName, co
 	return ShaderPtr();
 }
 
-D3D9Video::D3D9Video(const unsigned int width, const unsigned int height,
-			const std::wstring& winTitle, const bool windowed, const bool sync,
-			const GS_PIXEL_FORMAT pfBB, const bool maximizable, const Platform::FileIOHubPtr& fileIOHub) :
+D3D9Video::D3D9Video(
+	const unsigned int width,
+	const unsigned int height,
+	const std::wstring& winTitle,
+	const bool windowed,
+	const bool sync,
+	const GS_PIXEL_FORMAT pfBB,
+	const bool maximizable,
+	const Platform::FileIOHubPtr& fileIOHub) :
 	m_videoInfo(new D3D9VideoInfo),
 	m_blendModes(TEXTURE_CHANNELS),
 	m_pDevice(NULL),
@@ -1135,7 +1149,7 @@ bool D3D9Video::SetVertexShader(ShaderPtr pShader)
 	}
 	else
 	{
-		if (pShader->GetShaderFocus() != GSSF_VERTEX)
+		if (pShader->GetShaderFocus() != Shader::SF_VERTEX)
 		{
 			Message(L"The shader set is not a vertex program - D3D9Video::SetVertexShader");
 			return false;
@@ -1159,7 +1173,7 @@ bool D3D9Video::SetPixelShader(ShaderPtr pShader)
 		return true;
 	}
 	else
-	if (pShader->GetShaderFocus() != GSSF_PIXEL)
+	if (pShader->GetShaderFocus() != Shader::SF_PIXEL)
 	{
 		Message(L"The shader set is not a vertex program - D3D9Video::SetPixelShader");
 		return false;
@@ -1167,12 +1181,12 @@ bool D3D9Video::SetPixelShader(ShaderPtr pShader)
 	return true;
 }
 
-GS_SHADER_PROFILE D3D9Video::GetHighestVertexProfile() const
+Shader::SHADER_PROFILE D3D9Video::GetHighestVertexProfile() const
 {
 	return m_videoInfo->m_lastVertexProfile;
 }
 
-GS_SHADER_PROFILE D3D9Video::GetHighestPixelProfile() const
+Shader::SHADER_PROFILE D3D9Video::GetHighestPixelProfile() const
 {
 	return m_videoInfo->m_lastPixelProfile;
 }
@@ -1621,9 +1635,9 @@ bool D3D9Video::StartApplication(const unsigned int width, const unsigned int he
 		Message(L"The main vertex buffer couldn't be created");
 	}
 	m_shaderContext = D3D9CgShaderContextPtr(new D3D9CgShaderContext(m_pDevice));
-	m_defaultVS = LoadShaderFromString(L"defaultShader", gs2dglobal::defaultVSCode, GSSF_VERTEX, GSSP_MODEL_2, "sprite");
-	m_rectVS = LoadShaderFromString(L"rectShader", gs2dglobal::defaultVSCode, GSSF_VERTEX, GSSP_MODEL_2, "rectangle");
-	m_fastVS = LoadShaderFromString(L"fastShader", gs2dglobal::fastSimpleVSCode, GSSF_VERTEX, GSSP_MODEL_2, "fast");
+	m_defaultVS = LoadShaderFromString(L"defaultShader", gs2dglobal::defaultVSCode, Shader::SF_VERTEX, Shader::SP_MODEL_2, "sprite");
+	m_rectVS = LoadShaderFromString(L"rectShader", gs2dglobal::defaultVSCode, Shader::SF_VERTEX, Shader::SP_MODEL_2, "rectangle");
+	m_fastVS = LoadShaderFromString(L"fastShader", gs2dglobal::fastSimpleVSCode, Shader::SF_VERTEX, Shader::SP_MODEL_2, "fast");
 	m_pCurrentVS = m_defaultVS;
 	m_defaultVS->SetConstant(L"cameraPos", GetCameraPos());
 
@@ -1764,7 +1778,7 @@ float D3D9Video::GetElapsedTimeF(const TIME_UNITY unity) const
 
 void D3D9Video::SetDisplayModes(IDirect3D9 *pD3D)
 {
-	//retrieves all supported vidoe modes
+	//retrieves all supported video modes
 	const unsigned int n16bit = pD3D->GetAdapterModeCount(D3DADAPTER_DEFAULT, D3DFMT_R5G6B5);
 	const unsigned int n32bit = pD3D->GetAdapterModeCount(D3DADAPTER_DEFAULT, D3DFMT_X8R8G8B8);
 	m_nVideoModes = n16bit+n32bit;

@@ -28,13 +28,13 @@
 
 namespace gs2d {
 
-GLenum GetGLShaderType(const GS_SHADER_FOCUS sf)
+GLenum GetGLShaderType(const Shader::SHADER_FOCUS sf)
 {
 	switch(sf)
 	{
-	case GSSF_PIXEL:
+	case Shader::SF_PIXEL:
 		return GL_FRAGMENT_SHADER;
-	case GSSF_VERTEX:
+	case Shader::SF_VERTEX:
 		return GL_VERTEX_SHADER;
 	default:
 		return GL_VERTEX_SHADER; // TODO return an invalid type code
@@ -219,10 +219,10 @@ void GLES2ShaderContext::SetShader(GLES2ShaderPtr shader)
 {
 	switch (shader->GetShaderFocus())
 	{
-	case GSSF_VERTEX:
+	case Shader::SF_VERTEX:
 		m_currentVS = shader;
 		break;
-	case GSSF_PIXEL:
+	case Shader::SF_PIXEL:
 		m_currentPS = shader;
 		break;
 	default:
@@ -365,7 +365,7 @@ GLES2Shader::GLES2Shader(Platform::FileManagerPtr fileManager, GLES2ShaderContex
 	m_zip(fileManager),
 	m_context(context),
 	m_shader(0),
-	m_shaderFocus(GSSF_NONE),
+	m_shaderFocus(Shader::SF_NONE),
 	m_texturePassCounter(0)
 {
 	m_texturePasses[DIFFUSE_TEXTURE_NAME] = m_texturePassCounter++;
@@ -397,8 +397,12 @@ str_type::string GLES2Shader::GetShaderName()
 	return m_shaderName;
 }
 
-bool GLES2Shader::LoadShaderFromFile(ShaderContextPtr context, const str_type::string& fileName,
-		const GS_SHADER_FOCUS focus, const GS_SHADER_PROFILE profile, const char *entry)
+bool GLES2Shader::LoadShaderFromFile(
+	ShaderContextPtr context,
+	const str_type::string& fileName,
+	const Shader::SHADER_FOCUS focus,
+	const Shader::SHADER_PROFILE profile,
+	const char *entry)
 {
 	str_type::string content;
 	if (!m_zip->GetAnsiFileString(fileName, content))
@@ -409,9 +413,13 @@ bool GLES2Shader::LoadShaderFromFile(ShaderContextPtr context, const str_type::s
 	return LoadShaderFromString(context, fileName, content, focus, profile, 0);
 }
 
-bool GLES2Shader::LoadShaderFromString(ShaderContextPtr context, const str_type::string& shaderName,
-		const std::string& codeAsciiString, const GS_SHADER_FOCUS focus,
-		const GS_SHADER_PROFILE profile, const char *entry)
+bool GLES2Shader::LoadShaderFromString(
+	ShaderContextPtr context,
+	const str_type::string& shaderName,
+	const std::string& codeAsciiString,
+	const Shader::SHADER_FOCUS focus,
+	const Shader::SHADER_PROFILE profile,
+	const char *entry)
 {
 	if (m_shader != 0)
 		return false;
@@ -651,14 +659,14 @@ bool GLES2Shader::SetShader()
 	return false;
 }
 
-GS_SHADER_FOCUS GLES2Shader::GetShaderFocus() const
+Shader::SHADER_FOCUS GLES2Shader::GetShaderFocus() const
 {
 	return m_shaderFocus;
 }
 
-GS_SHADER_PROFILE GLES2Shader::GetShaderProfile() const
+Shader::SHADER_PROFILE GLES2Shader::GetShaderProfile() const
 {
-	return GSSP_NONE;
+	return Shader::SP_NONE;
 }
 
 void GLES2Shader::UnbindShader()

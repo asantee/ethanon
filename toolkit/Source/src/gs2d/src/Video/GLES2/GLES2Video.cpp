@@ -60,7 +60,7 @@ void UnbindFrameBuffer()
 	glBindFramebuffer(GL_FRAMEBUFFER, idx);
 }
 
-GLES2ShaderPtr LoadInternalShader(GLES2Video* video, const str_type::string& str, const GS_SHADER_FOCUS focus)
+GLES2ShaderPtr LoadInternalShader(GLES2Video* video, const str_type::string& str, const Shader::SHADER_FOCUS focus)
 {
 	GLES2ShaderPtr shader = video->LoadGLES2ShaderFromFile(str, focus);
 	if (shader)
@@ -150,12 +150,12 @@ bool GLES2Video::StartApplication(
 	glDisable(GL_DITHER);
 	glHint(GL_GENERATE_MIPMAP_HINT, GL_FASTEST);
 
-	m_defaultVS = LoadInternalShader(this, "assets/shaders/default/default.vs", GSSF_VERTEX);
-	m_defaultPS = LoadInternalShader(this, "assets/shaders/default/default.ps", GSSF_PIXEL);
-	m_fastRenderVS = LoadInternalShader(this, "assets/shaders/default/fastRender.vs", GSSF_VERTEX);
-	m_optimalVS = LoadInternalShader(this, "assets/shaders/default/optimal.vs", GSSF_VERTEX);
-	m_modulate1 = LoadInternalShader(this, "assets/shaders/default/modulate1.ps", GSSF_PIXEL);
-	m_add1 = LoadInternalShader(this, "assets/shaders/default/add1.ps", GSSF_PIXEL);
+	m_defaultVS = LoadInternalShader(this, "assets/shaders/default/default.vs", Shader::SF_VERTEX);
+	m_defaultPS = LoadInternalShader(this, "assets/shaders/default/default.ps", Shader::SF_PIXEL);
+	m_fastRenderVS = LoadInternalShader(this, "assets/shaders/default/fastRender.vs", Shader::SF_VERTEX);
+	m_optimalVS = LoadInternalShader(this, "assets/shaders/default/optimal.vs", Shader::SF_VERTEX);
+	m_modulate1 = LoadInternalShader(this, "assets/shaders/default/modulate1.ps", Shader::SF_PIXEL);
+	m_add1 = LoadInternalShader(this, "assets/shaders/default/add1.ps", Shader::SF_PIXEL);
 
 	// forces shader pre-load to avoid runtime lag
 	m_shaderContext->SetShader(m_defaultVS,		m_defaultPS, m_orthoMatrix, GetScreenSizeF());
@@ -279,8 +279,8 @@ SpritePtr GLES2Video::CreateRenderTarget(
 
 ShaderPtr GLES2Video::LoadShaderFromFile(
 	const str_type::string& fileName,
-	const GS_SHADER_FOCUS focus,
-	const GS_SHADER_PROFILE profile,
+	const Shader::SHADER_FOCUS focus,
+	const Shader::SHADER_PROFILE profile,
 	const char *entry)
 {
 	GLES2ShaderPtr shader(new GLES2Shader(m_fileIOHub->GetFileManager(), m_shaderContext));
@@ -294,8 +294,8 @@ ShaderPtr GLES2Video::LoadShaderFromFile(
 ShaderPtr GLES2Video::LoadShaderFromString(
 	const str_type::string& shaderName,
 	const std::string& codeAsciiString,
-	const GS_SHADER_FOCUS focus,
-	const GS_SHADER_PROFILE profile,
+	const Shader::SHADER_FOCUS focus,
+	const Shader::SHADER_PROFILE profile,
 	const char *entry)
 {
 	GLES2ShaderPtr shader(new GLES2Shader(m_fileIOHub->GetFileManager(), m_shaderContext));
@@ -306,7 +306,7 @@ ShaderPtr GLES2Video::LoadShaderFromString(
 	return ShaderPtr();
 }
 
-GLES2ShaderPtr GLES2Video::LoadGLES2ShaderFromFile(const str_type::string& fileName, const GS_SHADER_FOCUS focus)
+GLES2ShaderPtr GLES2Video::LoadGLES2ShaderFromFile(const str_type::string& fileName, const Shader::SHADER_FOCUS focus)
 {
 	GLES2ShaderPtr shader(new GLES2Shader(m_fileIOHub->GetFileManager(), m_shaderContext));
 	if (shader->LoadShaderFromFile(m_shaderContext, fileName, focus))
@@ -319,7 +319,7 @@ GLES2ShaderPtr GLES2Video::LoadGLES2ShaderFromFile(const str_type::string& fileN
 GLES2ShaderPtr GLES2Video::LoadGLES2ShaderFromString(
 	const str_type::string& shaderName,
 	const std::string& codeAsciiString,
-	const GS_SHADER_FOCUS focus)
+	const Shader::SHADER_FOCUS focus)
 {
 	GLES2ShaderPtr shader(new GLES2Shader(m_fileIOHub->GetFileManager(), m_shaderContext));
 	if (shader->LoadShaderFromString(m_shaderContext, shaderName, codeAsciiString, focus))
@@ -405,14 +405,14 @@ bool GLES2Video::SetPixelShader(ShaderPtr pShader)
 	return true;
 }
 
-GS_SHADER_PROFILE GLES2Video::GetHighestVertexProfile() const
+Shader::SHADER_PROFILE GLES2Video::GetHighestVertexProfile() const
 {
-	return GSSP_MODEL_2;
+	return Shader::SP_MODEL_2;
 }
 
-GS_SHADER_PROFILE GLES2Video::GetHighestPixelProfile() const
+Shader::SHADER_PROFILE GLES2Video::GetHighestPixelProfile() const
 {
-	return GSSP_MODEL_2;
+	return Shader::SP_MODEL_2;
 }
 
 boost::any GLES2Video::GetGraphicContext()

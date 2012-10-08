@@ -29,22 +29,6 @@
 
 namespace gs2d {
 
-enum GS_SHADER_PROFILE
-{
-	GSSP_NONE =-1,
-	GSSP_MODEL_1 = 0,
-	GSSP_MODEL_2 = 1,
-	GSSP_MODEL_3 = 2,
-	GSSP_HIGHEST = 3,
-};
-
-enum GS_SHADER_FOCUS
-{
-	GSSF_PIXEL = 0,
-	GSSF_VERTEX = 1,
-	GSSF_NONE = 2
-};
-
 class Video;
 
 /**
@@ -70,12 +54,36 @@ typedef boost::shared_ptr<ShaderContext> ShaderContextPtr;
 class Shader
 {
 public:
+	enum SHADER_PROFILE
+	{
+		SP_NONE =-1,
+		SP_MODEL_1 = 0,
+		SP_MODEL_2 = 1,
+		SP_MODEL_3 = 2,
+		SP_HIGHEST = 3,
+	};
 
-	virtual bool LoadShaderFromFile(ShaderContextPtr context, const str_type::string& fileName, const GS_SHADER_FOCUS focus,
-		const GS_SHADER_PROFILE profile = GSSP_HIGHEST,	const char *entry = 0) = 0;
+	enum SHADER_FOCUS
+	{
+		SF_PIXEL = 0,
+		SF_VERTEX = 1,
+		SF_NONE = 2
+	};
 
-	virtual bool LoadShaderFromString(ShaderContextPtr context, const str_type::string& shaderName, const std::string& codeAsciiString, const GS_SHADER_FOCUS focus,
-		const GS_SHADER_PROFILE profile = GSSP_HIGHEST,	const char *entry = 0) = 0;
+	virtual bool LoadShaderFromFile(
+		ShaderContextPtr context,
+		const str_type::string& fileName,
+		const SHADER_FOCUS focus,
+		const SHADER_PROFILE profile = SP_HIGHEST,
+		const char *entry = 0) = 0;
+
+	virtual bool LoadShaderFromString(
+		ShaderContextPtr context,
+		const str_type::string& shaderName,
+		const std::string& codeAsciiString,
+		const SHADER_FOCUS focus,
+		const SHADER_PROFILE profile = SP_HIGHEST,
+		const char *entry = 0) = 0;
 
 	virtual bool ConstantExist(const str_type::string& name) = 0;
 	virtual bool SetConstant(const str_type::string& name, const Color& dw) = 0;
@@ -92,8 +100,8 @@ public:
 	virtual bool SetTexture(const str_type::string& name, TextureWeakPtr pTexture) = 0;
 
 	virtual bool SetShader() = 0;
-	virtual GS_SHADER_FOCUS GetShaderFocus() const = 0;
-	virtual GS_SHADER_PROFILE GetShaderProfile() const = 0;
+	virtual SHADER_FOCUS GetShaderFocus() const = 0;
+	virtual SHADER_PROFILE GetShaderProfile() const = 0;
 	virtual void UnbindShader() = 0;
 
 };

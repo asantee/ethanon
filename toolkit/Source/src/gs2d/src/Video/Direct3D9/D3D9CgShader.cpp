@@ -141,8 +141,8 @@ boost::any D3D9CgShaderContext::GetContextPointer()
 D3D9CgShader::D3D9CgShader()
 {
 	m_cgProgram = 0;
-	m_focus = GSSF_NONE;
-	m_profile = GSSP_NONE;
+	m_focus = SF_NONE;
+	m_profile = SP_NONE;
 	m_shaderName = L"";
 }
 
@@ -159,12 +159,12 @@ D3D9CgShader::~D3D9CgShader()
 	cgDestroyProgram(m_cgProgram);
 }
 
-GS_SHADER_FOCUS D3D9CgShader::GetShaderFocus() const
+Shader::SHADER_FOCUS D3D9CgShader::GetShaderFocus() const
 {
 	return m_focus;
 }
 
-GS_SHADER_PROFILE D3D9CgShader::GetShaderProfile() const
+Shader::SHADER_PROFILE D3D9CgShader::GetShaderProfile() const
 {
 	return m_profile;
 }
@@ -345,7 +345,7 @@ bool D3D9CgShader::ConstantExist(const std::wstring& name)
 bool D3D9CgShader::SetTexture(const std::wstring& name, TextureWeakPtr pTexture)
 {
 	TexturePtr texture = pTexture.lock();
-	if (m_focus != GSSF_PIXEL)
+	if (m_focus != SF_PIXEL)
 	{
 		ShowMessage(L"D3D9CgShader::SetTexture - textures can't be set as vertex shader parameter");
 		return false;
@@ -439,15 +439,15 @@ inline std::wstring getStringFromFileC(const wchar_t *file)
 	return L"";
 }
 
-bool D3D9CgShader::LoadShaderFromFile(ShaderContextPtr context, const std::wstring& fileName, const GS_SHADER_FOCUS focus,
-							  const GS_SHADER_PROFILE profile, const char *entry)
+bool D3D9CgShader::LoadShaderFromFile(ShaderContextPtr context, const std::wstring& fileName, const SHADER_FOCUS focus,
+							  const SHADER_PROFILE profile, const char *entry)
 {
 	const std::string codeAsciiString = getAsciiStringFromFileC(fileName.c_str());
 	return LoadShaderFromString(context, fileName, codeAsciiString, focus, profile, entry);
 }
 
-bool D3D9CgShader::LoadShaderFromString(ShaderContextPtr context, const std::wstring& shaderName, const std::string& codeAsciiString, const GS_SHADER_FOCUS focus,
-							  const GS_SHADER_PROFILE profile, const char *entry)
+bool D3D9CgShader::LoadShaderFromString(ShaderContextPtr context, const std::wstring& shaderName, const std::string& codeAsciiString, const SHADER_FOCUS focus,
+							  const SHADER_PROFILE profile, const char *entry)
 {
 	m_pShaderContext = context;
 	m_shaderName = shaderName;
@@ -456,20 +456,20 @@ bool D3D9CgShader::LoadShaderFromString(ShaderContextPtr context, const std::wst
 	m_profile = profile;
 
 	CGprofile cgProfile;
-	if (focus == GSSF_PIXEL)
+	if (focus == SF_PIXEL)
 	{
 		m_cgLatestProfile = cgD3D9GetLatestPixelProfile();
 		if (CheckForError(L"D3D9CgShader::LoadShader getting latest pixel profile", m_shaderName))
 			return false;
 		switch (profile)
 		{
-		case GSSP_MODEL_1:
+		case SP_MODEL_1:
 			cgProfile = CG_PROFILE_PS_1_1;
 			break;
-		case GSSP_MODEL_2:
+		case SP_MODEL_2:
 			cgProfile = CG_PROFILE_PS_2_0;
 			break;
-		case GSSP_MODEL_3:
+		case SP_MODEL_3:
 			cgProfile = CG_PROFILE_PS_3_0;
 			break;
 		default:
@@ -483,13 +483,13 @@ bool D3D9CgShader::LoadShaderFromString(ShaderContextPtr context, const std::wst
 			return false;
 		switch (profile)
 		{
-		case GSSP_MODEL_1:
+		case SP_MODEL_1:
 			cgProfile = CG_PROFILE_VS_1_1;
 			break;
-		case GSSP_MODEL_2:
+		case SP_MODEL_2:
 			cgProfile = CG_PROFILE_VS_2_0;
 			break;
-		case GSSP_MODEL_3:
+		case SP_MODEL_3:
 			cgProfile = CG_PROFILE_VS_3_0;
 			break;
 		default:

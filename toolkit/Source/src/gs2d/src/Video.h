@@ -131,16 +131,16 @@ public:
 	/// Create a shader object and load/compile it.
 	virtual ShaderPtr LoadShaderFromFile(
 		const str_type::string& fileName,
-		const GS_SHADER_FOCUS focus,
-		const GS_SHADER_PROFILE profile = GSSP_HIGHEST,
+		const Shader::SHADER_FOCUS focus,
+		const Shader::SHADER_PROFILE profile = Shader::SP_HIGHEST,
 		const char *entry = 0) = 0;
 
 	/// Create a shader object and load/compile it.
 	virtual ShaderPtr LoadShaderFromString(
 		const str_type::string& shaderName,
 		const std::string& codeAsciiString,
-		const GS_SHADER_FOCUS focus,
-		const GS_SHADER_PROFILE profile = GSSP_HIGHEST,
+		const Shader::SHADER_FOCUS focus,
+		const Shader::SHADER_PROFILE profile = Shader::SP_HIGHEST,
 		const char *entry = 0) = 0;
 
 	virtual boost::any GetVideoInfo() = 0;
@@ -153,8 +153,8 @@ public:
 	virtual ShaderContextPtr GetShaderContext() = 0;
 	virtual bool SetVertexShader(ShaderPtr pShader) = 0;
 	virtual bool SetPixelShader(ShaderPtr pShader) = 0;
-	virtual GS_SHADER_PROFILE GetHighestVertexProfile() const = 0;
-	virtual GS_SHADER_PROFILE GetHighestPixelProfile() const = 0;
+	virtual Shader::SHADER_PROFILE GetHighestVertexProfile() const = 0;
+	virtual Shader::SHADER_PROFILE GetHighestPixelProfile() const = 0;
 
 	virtual boost::any GetGraphicContext() = 0;
 

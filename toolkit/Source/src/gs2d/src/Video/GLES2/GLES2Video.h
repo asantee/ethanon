@@ -105,25 +105,25 @@ public:
 
 	ShaderPtr LoadShaderFromFile(
 		const str_type::string& fileName,
-			const GS_SHADER_FOCUS focus,
-			const GS_SHADER_PROFILE profile = GSSP_HIGHEST,
+			const Shader::SHADER_FOCUS focus,
+			const Shader::SHADER_PROFILE profile = Shader::SP_HIGHEST,
 			const char *entry = 0);
 
 	ShaderPtr LoadShaderFromString(
 		const str_type::string& shaderName,
 			const std::string& codeAsciiString,
-			const GS_SHADER_FOCUS focus,
-			const GS_SHADER_PROFILE profile = GSSP_HIGHEST,
+			const Shader::SHADER_FOCUS focus,
+			const Shader::SHADER_PROFILE profile = Shader::SP_HIGHEST,
 			const char *entry = 0);
 
 	GLES2ShaderPtr LoadGLES2ShaderFromFile(
 		const str_type::string& fileName,
-		const GS_SHADER_FOCUS focus);
+		const Shader::SHADER_FOCUS focus);
 
 	GLES2ShaderPtr LoadGLES2ShaderFromString(
 		const str_type::string& shaderName,
 		const std::string& codeAsciiString,
-		const GS_SHADER_FOCUS focus);
+		const Shader::SHADER_FOCUS focus);
 
 	boost::any GetVideoInfo();
 
@@ -138,8 +138,8 @@ public:
 	ShaderContextPtr GetShaderContext();
 	bool SetVertexShader(ShaderPtr pShader);
 	bool SetPixelShader(ShaderPtr pShader);
-	GS_SHADER_PROFILE GetHighestVertexProfile() const;
-	GS_SHADER_PROFILE GetHighestPixelProfile() const;
+	Shader::SHADER_PROFILE GetHighestVertexProfile() const;
+	Shader::SHADER_PROFILE GetHighestPixelProfile() const;
 
 	boost::any GetGraphicContext();
 

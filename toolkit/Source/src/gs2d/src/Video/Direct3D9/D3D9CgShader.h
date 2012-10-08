@@ -69,8 +69,8 @@ class D3D9CgShader : public Shader
 	std::map<std::wstring, CGparameter> m_mParam;
 
 	bool SetupParameters();
-	GS_SHADER_FOCUS m_focus;
-	GS_SHADER_PROFILE m_profile;
+	SHADER_FOCUS m_focus;
+	SHADER_PROFILE m_profile;
 	std::wstring m_shaderName;
 	ShaderContextPtr m_pShaderContext;
 
@@ -96,19 +96,19 @@ public:
 
 	bool CompileShader();
 	bool SetShader();
-	GS_SHADER_FOCUS GetShaderFocus() const;
-	GS_SHADER_PROFILE GetShaderProfile() const;
+	SHADER_FOCUS GetShaderFocus() const;
+	SHADER_PROFILE GetShaderProfile() const;
 
 	/// dummy since it's unecessary with D3D9
 	void UnbindShader() {}
 
 protected:
 
-	bool LoadShaderFromFile(ShaderContextPtr context, const std::wstring& fileName, const GS_SHADER_FOCUS focus,
-		const GS_SHADER_PROFILE profile = GSSP_HIGHEST, const char *entry = 0);
+	bool LoadShaderFromFile(ShaderContextPtr context, const std::wstring& fileName, const SHADER_FOCUS focus,
+		const SHADER_PROFILE profile = SP_HIGHEST, const char *entry = 0);
 
-	bool LoadShaderFromString(ShaderContextPtr context, const std::wstring& shaderName, const std::string& codeAsciiString, const GS_SHADER_FOCUS focus,
-		const GS_SHADER_PROFILE profile = GSSP_HIGHEST, const char *entry = 0);
+	bool LoadShaderFromString(ShaderContextPtr context, const std::wstring& shaderName, const std::string& codeAsciiString, const SHADER_FOCUS focus,
+		const SHADER_PROFILE profile = SP_HIGHEST, const char *entry = 0);
 };
 
 typedef boost::shared_ptr<D3D9CgShader> D3D9CgShaderPtr;

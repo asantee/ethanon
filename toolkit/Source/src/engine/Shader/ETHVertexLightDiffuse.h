@@ -30,9 +30,16 @@ class ETHVertexLightDiffuse : public ETHLightingProfile
 public:
 	ETHVertexLightDiffuse(VideoPtr video, const str_type::string& shaderPath);
 
-	bool BeginLightPass(ETHSpriteEntity *pRender, Vector3 &v3LightPos, const Vector2 &v2Size,
-		const ETHLight* light, const float maxHeight, const float minHeight, const float lightIntensity,
+	bool BeginLightPass(
+		ETHSpriteEntity* pRender,
+		Vector3& v3LightPos,
+		const Vector2& v2Size,
+		const ETHLight* light,
+		const float maxHeight,
+		const float minHeight,
+		const float lightIntensity,
 		const bool drawToTarget);
+
 	bool EndLightPass();
 
 	bool IsSupportedByHardware() const;
@@ -40,7 +47,7 @@ public:
 	SpritePtr GetDefaultNormalMap();
 
 private:
-	static const GS_SHADER_PROFILE m_profile;
+	static const Shader::SHADER_PROFILE m_profile;
 
 	VideoPtr m_video;
 	Video::ALPHA_MODE m_lastAM;

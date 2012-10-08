@@ -33,11 +33,11 @@ ETHShaderManager::ETHShaderManager(VideoPtr video, const str_type::string& shade
 {
 	m_video = video;
 
-	m_defaultVS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::DefaultVS()).c_str(), GSSF_VERTEX, GSSP_MODEL_2);
-	m_particle  = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::Particle_VS()).c_str(), GSSF_VERTEX, GSSP_MODEL_2);
-	m_defaultStaticAmbientVS  = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::Ambient_VS_Hor()).c_str(), GSSF_VERTEX, GSSP_MODEL_2);
-	m_verticalStaticAmbientVS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::Ambient_VS_Ver()).c_str(), GSSF_VERTEX, GSSP_MODEL_2);
-	m_shadowVS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::Shadow_VS_Ver()).c_str(), GSSF_VERTEX, GSSP_MODEL_2);
+	m_defaultVS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::DefaultVS()).c_str(), Shader::SF_VERTEX, Shader::SP_MODEL_2);
+	m_particle  = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::Particle_VS()).c_str(), Shader::SF_VERTEX, Shader::SP_MODEL_2);
+	m_defaultStaticAmbientVS  = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::Ambient_VS_Hor()).c_str(), Shader::SF_VERTEX, Shader::SP_MODEL_2);
+	m_verticalStaticAmbientVS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::Ambient_VS_Ver()).c_str(), Shader::SF_VERTEX, Shader::SP_MODEL_2);
+	m_shadowVS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::Shadow_VS_Ver()).c_str(), Shader::SF_VERTEX, Shader::SP_MODEL_2);
 
 	#ifndef GLES2
 		m_projShadow = m_video->CreateSprite(ETHGlobal::GetDataResourceFullPath(shaderPath, GS_L("shadow.dds")));

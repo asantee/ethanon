@@ -23,17 +23,23 @@
 #include "ETHVertexLightDiffuse.h"
 #include "ETHShaders.h"
 
-const GS_SHADER_PROFILE ETHVertexLightDiffuse::m_profile = GSSP_MODEL_2;
+const Shader::SHADER_PROFILE ETHVertexLightDiffuse::m_profile = Shader::SP_MODEL_2;
 
 ETHVertexLightDiffuse::ETHVertexLightDiffuse(VideoPtr video, const str_type::string& shaderPath)
 {
 	m_video = video;
-	m_hVertexLightVS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::VL_VS_Hor_Diff()).c_str(), GSSF_VERTEX, GSSP_MODEL_2, "sprite_pvl");
-	m_vVertexLightVS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::VL_VS_Ver_Diff()).c_str(), GSSF_VERTEX, GSSP_MODEL_2, "sprite_pvl");
+	m_hVertexLightVS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::VL_VS_Hor_Diff()).c_str(), Shader::SF_VERTEX, Shader::SP_MODEL_2, "sprite_pvl");
+	m_vVertexLightVS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::VL_VS_Ver_Diff()).c_str(), Shader::SF_VERTEX, Shader::SP_MODEL_2, "sprite_pvl");
 }
 
-bool ETHVertexLightDiffuse::BeginLightPass(ETHSpriteEntity *pRender, Vector3 &v3LightPos, const Vector2 &v2Size,
-	const ETHLight* light, const float maxHeight, const float minHeight, const float lightIntensity,
+bool ETHVertexLightDiffuse::BeginLightPass(
+	ETHSpriteEntity* pRender,
+	Vector3& v3LightPos,
+	const Vector2 &v2Size,
+	const ETHLight* light,
+	const float maxHeight,
+	const float minHeight,
+	const float lightIntensity,
 	const bool drawToTarget)
 {
 	GS2D_UNUSED_ARGUMENT(drawToTarget);
