@@ -32,17 +32,17 @@ Sprite::Sprite() :
 	m_nRows(0),
 	m_normalizedOrigin(Vector2(0.0f, 0.0f)),
 	m_rect(Rect2Df(0,0,0,0)),
-	m_rectMode(GSRM_TWO_TRIANGLES),
+	m_rectMode(RM_TWO_TRIANGLES),
 	m_currentRect(0)
 {
 }
 
-void Sprite::SetRectMode(const GS_RECT_MODE mode)
+void Sprite::SetRectMode(const RECT_MODE mode)
 {
 	m_rectMode = mode;
 }
 
-GS_RECT_MODE Sprite::GetRectMode() const
+Sprite::RECT_MODE Sprite::GetRectMode() const
 {
 	return m_rectMode;
 }
@@ -65,7 +65,7 @@ bool Sprite::Stretch(
 	const float lineWidth = (m_rect.size.x <= 0) ? (float)GetProfile().width : (float)m_rect.size.x;
 
 	Vector2 origin = GetOrigin();
-	SetOrigin(GSEO_CENTER_BOTTOM);
+	SetOrigin(EO_CENTER_BOTTOM);
 
 	const bool r =
 		DrawShaped(
@@ -178,22 +178,22 @@ void Sprite::SetOrigin(const Vector2& origin)
 	m_normalizedOrigin = origin;
 }
 
-void Sprite::SetOrigin(const GS_ENTITY_ORIGIN origin)
+void Sprite::SetOrigin(const ENTITY_ORIGIN origin)
 {
 	switch (origin)
 	{
-	case GSEO_RECT_CENTER:
-	case GSEO_CENTER:
+	case EO_RECT_CENTER:
+	case EO_CENTER:
 		m_normalizedOrigin.x = 1.0f / 2.0f;
 		m_normalizedOrigin.y = 1.0f / 2.0f;
 		break;
-	case GSEO_RECT_CENTER_BOTTOM:
-	case GSEO_CENTER_BOTTOM:
+	case EO_RECT_CENTER_BOTTOM:
+	case EO_CENTER_BOTTOM:
 		m_normalizedOrigin.x = 1.0f / 2.0f;
 		m_normalizedOrigin.y = 1.0f;
 		break;
-	case GSEO_RECT_CENTER_TOP:
-	case GSEO_CENTER_TOP:
+	case EO_RECT_CENTER_TOP:
+	case EO_CENTER_TOP:
 		m_normalizedOrigin.x = 1.0f / 2.0f;
 		m_normalizedOrigin.y = 0.0f;
 		break;

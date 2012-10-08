@@ -73,7 +73,7 @@ BitmapFont::BitmapFont(Video* video, const str_type::string& fileName, const str
 			}
 			else
 			{
-				m_bitmaps[t]->SetOrigin(GSEO_DEFAULT);
+				m_bitmaps[t]->SetOrigin(Sprite::EO_DEFAULT);
 			}
 		}
 	}

@@ -96,12 +96,12 @@ bool ETHRenderEntity::DrawAmbientPass(const float maxHeight, const float minHeig
 	const Color color = ConvertToDW(v4FinalAmbient);
 
 	if (shouldUseFourTriangles)
-		m_pSprite->SetRectMode(GSRM_FOUR_TRIANGLES);
+		m_pSprite->SetRectMode(Sprite::RM_FOUR_TRIANGLES);
 
 	m_pSprite->DrawOptimal(pos,	ConvertToDW(v4FinalAmbient), angle, GetCurrentSize());
 
 	if (shouldUseFourTriangles)
-		m_pSprite->SetRectMode(GSRM_TWO_TRIANGLES);
+		m_pSprite->SetRectMode(Sprite::RM_TWO_TRIANGLES);
 
 	if (applyLightmap)
 	{
@@ -293,7 +293,7 @@ bool ETHRenderEntity::DrawProjShadow(const float maxHeight, const float minHeigh
 	Color dwShadowColor(alpha,255,255,255);
 
 	pShadow->SetOrigin(Vector2(0.5f, 0.79f));
-	pShadow->SetRectMode(GSRM_THREE_TRIANGLES);
+	pShadow->SetRectMode(Sprite::RM_THREE_TRIANGLES);
 	pShadow->DrawShaped(v2ShadowPos, v2ShadowSize,
 		dwShadowColor, dwShadowColor, dwShadowColor, dwShadowColor,
 		RadianToDegree(shadowAngle));
@@ -309,7 +309,7 @@ bool ETHRenderEntity::DrawHalo(const float maxHeight, const float minHeight, con
 	if (!GetHalo() || !HasLightSource() || IsHidden())
 		return false;
 
-	m_pHalo->SetOrigin(GSEO_CENTER);
+	m_pHalo->SetOrigin(Sprite::EO_CENTER);
 	const ETHLight* light = m_properties.light.get();
 
 	const Vector3 v3EntityPos = GetPosition();
@@ -332,8 +332,9 @@ bool ETHRenderEntity::DrawHalo(const float maxHeight, const float minHeight, con
 	Vector2 v2Size(light->haloSize, light->haloSize);
 
 	m_pHalo->DrawShaped(
-		(ETHGlobal::ToScreenPos(v3HaloPos, zAxisDirection) + ComputeParallaxOffset()),
-		v2Size * m_properties.scale, dwColor, dwColor, dwColor, dwColor,
+		ETHGlobal::ToScreenPos(v3HaloPos, zAxisDirection) + ComputeParallaxOffset(),
+		v2Size * m_properties.scale,
+		dwColor, dwColor, dwColor, dwColor,
 		(rotateHalo) ? ComputeHaloAngle() : 0.0f);
 	return true;
 }
@@ -365,7 +366,7 @@ void ETHRenderEntity::DrawCollisionBox(SpritePtr pOutline, const Color& dwColor,
 	const Vector3 v3Pos = (collidable) ? (m_properties.collision->pos + GetPosition()) : GetPosition();
 
 	const Vector2 v2Pos = ETHGlobal::ToScreenPos(v3Pos, zAxisDirection)/* + Vector2(0, v3Size.y/2)*/;
-	pOutline->SetOrigin(GSEO_CENTER);
+	pOutline->SetOrigin(Sprite::EO_CENTER);
 
 	const GS_ALPHA_MODE alphaMode = video->GetAlphaMode();
 	video->SetAlphaMode(GSAM_PIXEL);

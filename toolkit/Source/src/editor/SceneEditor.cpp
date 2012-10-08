@@ -98,28 +98,28 @@ void SceneEditor::LoadEditor()
 	const str_type::string programDirectory = m_provider->GetFileIOHub()->GetProgramDirectory();
 
 	m_lSprite = video->CreateSprite(programDirectory + L"data/l.png", 0xFFFF00FF);
-	m_lSprite->SetOrigin(GSEO_CENTER);
+	m_lSprite->SetOrigin(Sprite::EO_CENTER);
 
 	m_pSprite = video->CreateSprite(programDirectory + L"data/p.png", 0xFFFF00FF);
-	m_pSprite->SetOrigin(GSEO_CENTER);
+	m_pSprite->SetOrigin(Sprite::EO_CENTER);
 
 	m_parallaxCursor = video->CreateSprite(programDirectory + L"data/parallax.png", 0xFFFF00FF);
-	m_parallaxCursor->SetOrigin(GSEO_CENTER);
+	m_parallaxCursor->SetOrigin(Sprite::EO_CENTER);
 
 	m_axis = video->CreateSprite(programDirectory + L"data/axis.png");
-	m_axis->SetOrigin(GSEO_CENTER);
+	m_axis->SetOrigin(Sprite::EO_CENTER);
 	
 	m_outline = video->CreateSprite(programDirectory + L"data/outline.png");
 	m_richOutline = video->CreateSprite(programDirectory + L"data/rich_outline.png");
 
 	m_soundWave = video->CreateSprite(programDirectory + L"data/soundwave.dds");
-	m_soundWave->SetOrigin(GSEO_CENTER);
+	m_soundWave->SetOrigin(Sprite::EO_CENTER);
 
 	m_invisible = video->CreateSprite(programDirectory + L"data/invisible.png", 0xFFFF00FF);
-	m_invisible->SetOrigin(GSEO_CENTER);
+	m_invisible->SetOrigin(Sprite::EO_CENTER);
 
 	m_arrows = video->CreateSprite(programDirectory + L"data/arrows.png");
-	m_arrows->SetOrigin(GSEO_CENTER);
+	m_arrows->SetOrigin(Sprite::EO_CENTER);
 
 	const InputPtr& input = m_provider->GetInput();
 	m_renderMode.SetupMenu(video, input, m_menuSize, m_menuWidth*2, true, false, false);
@@ -538,7 +538,7 @@ void SceneEditor::EntitySelector(const bool guiButtonsFree)
 		if (!moving)
 		{
 			const Color dwColor(128,255,255,255);
-			m_richOutline->SetOrigin(GSEO_CENTER);
+			m_richOutline->SetOrigin(Sprite::EO_CENTER);
 			const Vector2 v2Pos = m_pSelected->ComputeInScreenSpriteCenter(*m_pScene->GetSceneProperties()) + video->GetCameraPos();
 			m_richOutline->DrawShaped(v2Pos, m_pSelected->GetCurrentSize(), dwColor, dwColor, dwColor, dwColor, m_pSelected->GetAngle());
 			DrawEntityString(m_pSelected, gs2d::constant::WHITE);
@@ -569,7 +569,7 @@ void SceneEditor::EntitySelector(const bool guiButtonsFree)
 			{
 				const Color dwColor(48, 255, 255, 255);
 				const Vector2& size(pSelected->GetCurrentSize());
-				m_richOutline->SetOrigin(GSEO_CENTER);
+				m_richOutline->SetOrigin(Sprite::EO_CENTER);
 				m_richOutline->DrawShaped(pSelected->ComputeInScreenSpriteCenter(*m_pScene->GetSceneProperties()) + video->GetCameraPos(),
 									  size, dwColor, dwColor, dwColor, dwColor, pSelected->GetAngle());
 				DrawEntityString(pSelected, Color(100, 255, 255, 255));
@@ -1340,7 +1340,7 @@ void SceneEditor::DrawEntitySelectionGrid(SpritePtr pNextAppButton)
 			}
 			const Vector2 v2Origin = pSprite->GetOrigin();
 
-			pSprite->SetOrigin(GSEO_CENTER);
+			pSprite->SetOrigin(Sprite::EO_CENTER);
 			pSprite->DrawShaped(v2Pos, v2NewSize,
 								gs2d::constant::WHITE, gs2d::constant::WHITE, gs2d::constant::WHITE, gs2d::constant::WHITE, 0.0f);
 			//pSprite->SetRect(nFrame);
@@ -1402,7 +1402,7 @@ void SceneEditor::DrawEntitySelectionGrid(SpritePtr pNextAppButton)
 		if (ETHGlobal::PointInRect(v2Cursor, v2Pos, Vector2(_ENTITY_SELECTION_BAR_HEIGHT,_ENTITY_SELECTION_BAR_HEIGHT)))
 		{
 			const Color dwColor(55,255,255,255);
-			m_outline->SetOrigin(GSEO_CENTER);
+			m_outline->SetOrigin(Sprite::EO_CENTER);
 			m_outline->DrawShaped(v2Pos, Vector2(_ENTITY_SELECTION_BAR_HEIGHT,_ENTITY_SELECTION_BAR_HEIGHT),
 								  dwColor, dwColor, dwColor, dwColor);
 
@@ -1425,7 +1425,7 @@ void SceneEditor::DrawEntitySelectionGrid(SpritePtr pNextAppButton)
 		if (m_currentEntityIdx == t)
 		{
 			const Color dwColor(127,255,255,255);
-			m_outline->SetOrigin(GSEO_CENTER);
+			m_outline->SetOrigin(Sprite::EO_CENTER);
 			m_outline->DrawShaped(v2Pos, Vector2(_ENTITY_SELECTION_BAR_HEIGHT,_ENTITY_SELECTION_BAR_HEIGHT),
 								  dwColor, dwColor, dwColor, dwColor);
 		}

@@ -158,7 +158,7 @@ void GLES2ShaderContext::GetLocations(int& pos, int& tex) const
 	tex = m_lastTexLocation;
 }
 
-void GLES2ShaderContext::DrawRect(const GS_RECT_MODE mode)
+void GLES2ShaderContext::DrawRect(const Sprite::RECT_MODE mode)
 {
 	CreateProgram();
 	int pos, tex;

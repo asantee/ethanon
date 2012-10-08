@@ -187,24 +187,24 @@ public:
 		return true;
 	}
 
-	bool DrawSprite(IDirect3DDevice9 *pDevice, const GS_RECT_MODE mode)
+	bool DrawSprite(IDirect3DDevice9 *pDevice, const Sprite::RECT_MODE mode)
 	{
 		IDirect3DVertexBuffer9 *pSprite;
 		unsigned int polyCount;
 		D3DPRIMITIVETYPE primType;
 		switch(mode)
 		{
-		case GSRM_FOUR_TRIANGLES:
+		case Sprite::RM_FOUR_TRIANGLES:
 			pSprite = m_pRect4;
 			polyCount = 4;
 			primType = D3DPT_TRIANGLEFAN;
 			break;
-		case GSRM_THREE_TRIANGLES:
+		case Sprite::RM_THREE_TRIANGLES:
 			pSprite = m_pRect3;
 			polyCount = 3;
 			primType = D3DPT_TRIANGLESTRIP;
 			break;
-		case GSRM_TWO_TRIANGLES:
+		case Sprite::RM_TWO_TRIANGLES:
 		default:
 			pSprite = m_pRect2;
 			polyCount = 2;
@@ -219,18 +219,18 @@ public:
 		return true;
 	}
 
-	void BeginFastDraw(IDirect3DDevice9 *pDevice, const GS_RECT_MODE mode)
+	void BeginFastDraw(IDirect3DDevice9 *pDevice, const Sprite::RECT_MODE mode)
 	{
-		IDirect3DVertexBuffer9 *pSprite = (mode == GSRM_TWO_TRIANGLES) ? m_pRect2 : ((mode == GSRM_FOUR_TRIANGLES) ? m_pRect4 : m_pRect3);
+		IDirect3DVertexBuffer9 *pSprite = (mode == Sprite::RM_TWO_TRIANGLES) ? m_pRect2 : ((mode == Sprite::RM_FOUR_TRIANGLES) ? m_pRect4 : m_pRect3);
 		if (FAILED(pDevice->SetStreamSource(0, pSprite, 0, sizeof(SPRITE_VERTEX))))
 			return;
 		pDevice->SetFVF(SPRITE_FVF);
 	}
 
-	bool DrawSpriteFast(IDirect3DDevice9 *pDevice, const GS_RECT_MODE mode)
+	bool DrawSpriteFast(IDirect3DDevice9 *pDevice, const Sprite::RECT_MODE mode)
 	{
-		const unsigned int polyCount = (mode == GSRM_TWO_TRIANGLES) ? 2 : ((mode == GSRM_FOUR_TRIANGLES) ? 4 : 3);
-		const D3DPRIMITIVETYPE primType = (mode == GSRM_TWO_TRIANGLES) ? D3DPT_TRIANGLEFAN : ((mode == GSRM_FOUR_TRIANGLES) ? D3DPT_TRIANGLEFAN : D3DPT_TRIANGLESTRIP);
+		const unsigned int polyCount = (mode == Sprite::RM_TWO_TRIANGLES) ? 2 : ((mode == Sprite::RM_FOUR_TRIANGLES) ? 4 : 3);
+		const D3DPRIMITIVETYPE primType = (mode == Sprite::RM_TWO_TRIANGLES) ? D3DPT_TRIANGLEFAN : ((mode == Sprite::RM_FOUR_TRIANGLES) ? D3DPT_TRIANGLEFAN : D3DPT_TRIANGLESTRIP);
 		if (FAILED(pDevice->DrawPrimitive(primType, 0, polyCount)))
 			return false;
 		return true;
@@ -499,7 +499,7 @@ public:
 		const math::Vector2 &v2Size,
 		const Color& color,
 		const float angle = 0.0f,
-		const GS_ENTITY_ORIGIN origin = GSEO_DEFAULT);
+		const Sprite::ENTITY_ORIGIN origin = Sprite::EO_DEFAULT);
 
 	bool DrawRectangle(
 		const math::Vector2 &v2Pos,
@@ -509,7 +509,7 @@ public:
 		const Color& color2,
 		const Color& color3,
 		const float angle = 0.0f,
-		const GS_ENTITY_ORIGIN origin = GSEO_DEFAULT);
+		const Sprite::ENTITY_ORIGIN origin = Sprite::EO_DEFAULT);
 
 	void SetBGColor(const Color& backgroundColor);
 	Color GetBGColor() const;

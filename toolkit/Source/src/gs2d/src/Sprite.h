@@ -28,25 +28,6 @@
 
 namespace gs2d {
 
-// TO-DO: move following enums into Sprite class
-enum GS_ENTITY_ORIGIN
-{
-	GSEO_DEFAULT = 0,
-	GSEO_CENTER = 1,
-	GSEO_CENTER_BOTTOM = 2,
-	GSEO_CENTER_TOP = 3,
-	GSEO_RECT_CENTER = 4,
-	GSEO_RECT_CENTER_BOTTOM = 5,
-	GSEO_RECT_CENTER_TOP = 6,
-};
-
-enum GS_RECT_MODE
-{
-	GSRM_TWO_TRIANGLES = 0,
-	GSRM_THREE_TRIANGLES = 1,
-	GSRM_FOUR_TRIANGLES,
-};
-
 /**
  * \brief Draws and manages sprites
  *
@@ -65,6 +46,25 @@ public:
 		T_TARGET = 2,
 		T_RELOAD = 3,
 	};
+
+	enum ENTITY_ORIGIN
+	{
+		EO_DEFAULT = 0,
+		EO_CENTER = 1,
+		EO_CENTER_BOTTOM = 2,
+		EO_CENTER_TOP = 3,
+		EO_RECT_CENTER = 4,
+		EO_RECT_CENTER_BOTTOM = 5,
+		EO_RECT_CENTER_TOP = 6,
+	};
+
+	enum RECT_MODE
+	{
+		RM_TWO_TRIANGLES = 0,
+		RM_THREE_TRIANGLES = 1,
+		RM_FOUR_TRIANGLES,
+	};
+
 	Sprite();
 
 	virtual bool LoadSprite(
@@ -154,8 +154,8 @@ public:
 	virtual float GetSpriteDensityValue() const = 0;
 
 	// Non pure virtual functions:
-	virtual void SetRectMode(const GS_RECT_MODE mode);
-	virtual GS_RECT_MODE GetRectMode() const;
+	virtual void SetRectMode(const RECT_MODE mode);
+	virtual RECT_MODE GetRectMode() const;
 	virtual bool SetupSpriteRects(const unsigned int columns, const unsigned int rows);
 	virtual bool SetRect(const unsigned int column, const unsigned int row);
 	virtual bool SetRect(const unsigned int rect);
@@ -176,7 +176,7 @@ public:
 		const Color& color0 = constant::WHITE,
 		const Color& color1 = constant::WHITE);
 
-	virtual void SetOrigin(const GS_ENTITY_ORIGIN origin);
+	virtual void SetOrigin(const ENTITY_ORIGIN origin);
 	virtual void SetOrigin(const math::Vector2& v2Custom);
 	virtual math::Vector2 GetOrigin() const;
 
@@ -185,7 +185,7 @@ protected:
 	boost::shared_array<math::Rect2Df> m_rects;
 	math::Rect2Df m_rect;
 	unsigned int m_nColumns, m_nRows;
-	GS_RECT_MODE m_rectMode;
+	RECT_MODE m_rectMode;
 	float m_densityValue;
 	math::Vector2 m_normalizedOrigin;
 };

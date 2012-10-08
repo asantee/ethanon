@@ -118,7 +118,7 @@ void ParticleEditor::DrawParticleSystem()
 	video->SetScissor(Rect2D((int)m_menuWidth*2, 0, video->GetScreenSize().x-(int)m_menuWidth*2, video->GetScreenSize().y));
 	if ((m_boundingSphere.IsActive() || m_boundingSphere.IsMouseOver()) && m_system.boundingSphere >= 1)
 	{
-		m_sphereSprite->SetOrigin(GSEO_CENTER);
+		m_sphereSprite->SetOrigin(Sprite::EO_CENTER);
 		m_sphereSprite->DrawShaped(m_v2Pos + ETHGlobal::ToVector2(m_manager->GetStartPos()),
 								  Vector2(m_system.boundingSphere, m_system.boundingSphere),
 								  BSPHERE_COLOR, BSPHERE_COLOR, BSPHERE_COLOR, BSPHERE_COLOR);

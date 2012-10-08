@@ -109,7 +109,7 @@ static void DrawSplashScreen()
 	video->BeginSpriteScene(gs2d::constant::BLACK);
 	if (splashSprite)
 	{
-		splashSprite->SetOrigin(GSEO_CENTER);
+		splashSprite->SetOrigin(gs2d::Sprite::EO_CENTER);
 		const Vector2 screenSize(video->GetScreenSizeF());
 		const float scale = ComputeSplashScale(screenSize);
 		splashSprite->Draw(screenSize * 0.5f, gs2d::constant::WHITE, 0.0f, Vector2(scale, scale));

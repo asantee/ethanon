@@ -115,12 +115,12 @@ void GLES2RectRenderer::SetPositionLocations(const int positionLocation, const i
 	}
 }
 
-void GLES2RectRenderer::Draw(const int positionLocation, const int texCoordLocation, const GS_RECT_MODE mode, const Platform::FileLogger& logger) const
+void GLES2RectRenderer::Draw(const int positionLocation, const int texCoordLocation, const Sprite::RECT_MODE mode, const Platform::FileLogger& logger) const
 {
 	SetPositionLocations(positionLocation, texCoordLocation, logger);
-	if (mode == GSRM_TWO_TRIANGLES)
+	if (mode == Sprite::RM_TWO_TRIANGLES)
 		glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_SHORT, (void*)0);
-	else if (mode == GSRM_FOUR_TRIANGLES)
+	else if (mode == Sprite::RM_FOUR_TRIANGLES)
 		glDrawElements(GL_TRIANGLE_FAN, 6, GL_UNSIGNED_SHORT, (void*)(sizeof(GLushort) * 4));
 }
 

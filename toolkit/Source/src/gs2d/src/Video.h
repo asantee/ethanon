@@ -227,7 +227,7 @@ public:
 		const math::Vector2 &v2Size,
 		const Color& color,
 		const float angle = 0.0f,
-		const GS_ENTITY_ORIGIN origin = GSEO_DEFAULT) = 0;
+		const Sprite::ENTITY_ORIGIN origin = Sprite::EO_DEFAULT) = 0;
 
 	virtual bool DrawRectangle(
 		const math::Vector2 &v2Pos,
@@ -237,7 +237,7 @@ public:
 		const Color& color2,
 		const Color& color3,
 		const float angle = 0.0f,
-		const GS_ENTITY_ORIGIN origin = GSEO_DEFAULT) = 0;
+		const Sprite::ENTITY_ORIGIN origin = Sprite::EO_DEFAULT) = 0;
 
 	virtual void SetBGColor(const Color& backgroundColor) = 0;
 	virtual Color GetBGColor() const = 0;

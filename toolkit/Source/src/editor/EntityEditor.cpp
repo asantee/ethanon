@@ -153,21 +153,21 @@ void EntityEditor::LoadEditor()
 	InstantiateEntity();
 
 	m_axis = video->CreateSprite(m_provider->GetFileIOHub()->GetProgramDirectory() + L"data/axis.png");
-	m_axis->SetOrigin(GSEO_CENTER);
+	m_axis->SetOrigin(Sprite::EO_CENTER);
 
 	m_spot.m_sprite = video->CreateSprite(m_provider->GetFileIOHub()->GetProgramDirectory() + L"data/spot.bmp", 0xFFFF00FF);
-	m_spot.m_sprite->SetOrigin(GSEO_CENTER);
+	m_spot.m_sprite->SetOrigin(Sprite::EO_CENTER);
 
 	m_range = video->CreateSprite(m_provider->GetFileIOHub()->GetProgramDirectory() + L"data/range.png");
-	m_range->SetOrigin(GSEO_CENTER);
+	m_range->SetOrigin(Sprite::EO_CENTER);
 
 	m_outline = video->CreateSprite(m_provider->GetFileIOHub()->GetProgramDirectory() + L"data/outline.png");
-	m_outline->SetOrigin(GSEO_DEFAULT);
+	m_outline->SetOrigin(Sprite::EO_DEFAULT);
 
 	for (int t=0; t<ETH_MAX_PARTICLE_SYS_PER_ENTITY; t++)
 	{
 		m_particleSpot[t].m_sprite = video->CreateSprite(m_provider->GetFileIOHub()->GetProgramDirectory() + L"data/arrow.bmp", 0xFFFF00FF);
-		m_particleSpot[t].m_sprite->SetOrigin(GSEO_CENTER);
+		m_particleSpot[t].m_sprite->SetOrigin(Sprite::EO_CENTER);
 	}
 
 	m_playStopButton.SetupButtons(video, m_provider->GetInput());
@@ -881,13 +881,14 @@ void EntityEditor::DrawEntityElementName(const Vector2 &v2Pos, SpritePtr pSprite
 {
 	if (pSprite)
 	{
-		pSprite->SetOrigin(GSEO_DEFAULT);
+		pSprite->SetOrigin(Sprite::EO_DEFAULT);
 		pSprite->DrawShaped(v2Pos, Vector2(m_menuSize, m_menuSize), gs2d::constant::WHITE, gs2d::constant::WHITE, gs2d::constant::WHITE, gs2d::constant::WHITE);
 	}
 	m_provider->GetVideo()->DrawBitmapText(
-		v2Pos+Vector2(m_menuSize, 0), 
-		utf8::c(name).wc_str(), L"Verdana14_shadow.fnt", gs2d::constant::WHITE
-	);
+		v2Pos + Vector2(m_menuSize, 0), 
+		utf8::c(name).wc_str(),
+		L"Verdana14_shadow.fnt",
+		gs2d::constant::WHITE);
 }
 
 void EntityEditor::ShowEntityResources(Vector2 v2Pos)

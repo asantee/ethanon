@@ -768,7 +768,7 @@ bool ETHParticleManager::DrawParticleSystem(
 		BubbleSort(m_particles);
 	}
 
-	m_pBMP->SetOrigin(GSEO_CENTER);
+	m_pBMP->SetOrigin(Sprite::EO_CENTER);
 	for (int t = 0; t < m_system.nParticles; t++)
 	{
 		const ETH_PARTICLE& particle = m_particles[t];

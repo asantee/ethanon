@@ -23,7 +23,7 @@
 #include "ETHEntity.h"
 #include "../Physics/ETHPhysicsSimulator.h"
 
-GS_ENTITY_ORIGIN ETHEntity::ConvertToGSSO(const ETHEntityProperties::ENTITY_TYPE type)
+Sprite::ENTITY_ORIGIN ETHEntity::ConvertToGSSO(const ETHEntityProperties::ENTITY_TYPE type)
 {
 	switch (type)
 	{
@@ -32,13 +32,13 @@ GS_ENTITY_ORIGIN ETHEntity::ConvertToGSSO(const ETHEntityProperties::ENTITY_TYPE
 	case ETHEntityProperties::ET_OVERALL:
 	case ETHEntityProperties::ET_LAYERABLE:
 	case ETHEntityProperties::ET_HORIZONTAL:
-		return GSEO_CENTER;
+		return Sprite::EO_CENTER;
 		break;
 	case ETHEntityProperties::ET_VERTICAL:
-		return GSEO_CENTER_BOTTOM;
+		return Sprite::EO_CENTER_BOTTOM;
 		break;
 	default:
-		return GSEO_DEFAULT;
+		return Sprite::EO_DEFAULT;
 	};
 }
 
@@ -248,23 +248,23 @@ Vector2 ETHEntity::ComputeAbsoluteOrigin(const Vector2 &v2Size) const
 	Vector2 v2Center;
 	switch (ETHEntity::ConvertToGSSO(GetType()))
 	{
-	case GSEO_RECT_CENTER:
-	case GSEO_CENTER:
-		v2Center.x = v2Size.x/2.0f;
-		v2Center.y = v2Size.y/2.0f;
+	case Sprite::EO_RECT_CENTER:
+	case Sprite::EO_CENTER:
+		v2Center.x = v2Size.x / 2.0f;
+		v2Center.y = v2Size.y / 2.0f;
 		break;
-	case GSEO_RECT_CENTER_BOTTOM:
-	case GSEO_CENTER_BOTTOM:
-		v2Center.x = v2Size.x/2.0f;
+	case Sprite::EO_RECT_CENTER_BOTTOM:
+	case Sprite::EO_CENTER_BOTTOM:
+		v2Center.x = v2Size.x / 2.0f;
 		v2Center.y = v2Size.y;
 		break;
-	case GSEO_RECT_CENTER_TOP:
-	case GSEO_CENTER_TOP:
-		v2Center.x = v2Size.x/2.0f;
+	case Sprite::EO_RECT_CENTER_TOP:
+	case Sprite::EO_CENTER_TOP:
+		v2Center.x = v2Size.x / 2.0f;
 		v2Center.y = 0.0f;
 		break;
 	default:
-	case GSEO_DEFAULT:
+	case Sprite::EO_DEFAULT:
 		v2Center.x = 0.0f;
 		v2Center.y = 0.0f;
 		break;

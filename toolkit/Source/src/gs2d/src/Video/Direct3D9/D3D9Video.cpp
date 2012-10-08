@@ -1289,9 +1289,15 @@ bool D3D9Video::DrawLine(const Vector2 &p1, const Vector2 &p2, const Color& colo
 		const float len = Distance(p1, p2);
 		const float angle = RadianToDegree(GetAngle(v2Dir));
 
-		DrawRectangle(p1, Vector2(m_lineWidth, len),
-					  color2, color2, color1, color1,
-					  angle, GSEO_CENTER_BOTTOM);
+		DrawRectangle(
+			p1,
+			Vector2(m_lineWidth, len),
+			color2,
+			color2,
+			color1,
+			color1,
+			angle,
+			Sprite::EO_CENTER_BOTTOM);
 	}
 
 	return true;
@@ -1309,14 +1315,14 @@ float D3D9Video::GetLineWidth() const
 }
 
 bool D3D9Video::DrawRectangle(const Vector2 &v2Pos, const Vector2 &v2Size,
-						const Color& color, const float angle, const GS_ENTITY_ORIGIN origin)
+						const Color& color, const float angle, const Sprite::ENTITY_ORIGIN origin)
 {
 	return DrawRectangle(v2Pos, v2Size,	color, color, color, color, angle, origin);
 }
 
 bool D3D9Video::DrawRectangle(const Vector2 &v2Pos, const Vector2 &v2Size,
 						const Color& color0, const Color& color1, const Color& color2, const Color& color3,
-						const float angle, const GS_ENTITY_ORIGIN origin)
+						const float angle, const Sprite::ENTITY_ORIGIN origin)
 {
 	if (v2Size == Vector2(0,0))
 	{
@@ -1327,22 +1333,22 @@ bool D3D9Video::DrawRectangle(const Vector2 &v2Pos, const Vector2 &v2Size,
 	Vector2 v2Center;
 	switch (origin)
 	{
-	case GSEO_CENTER:
-	case GSEO_RECT_CENTER:
-		v2Center.x = v2Size.x/2.0f;
-		v2Center.y = v2Size.y/2.0f;
+	case Sprite::EO_CENTER:
+	case Sprite::EO_RECT_CENTER:
+		v2Center.x = v2Size.x / 2.0f;
+		v2Center.y = v2Size.y / 2.0f;
 		break;
-	case GSEO_RECT_CENTER_BOTTOM:
-	case GSEO_CENTER_BOTTOM:
-		v2Center.x = v2Size.x/2.0f;
+	case Sprite::EO_RECT_CENTER_BOTTOM:
+	case Sprite::EO_CENTER_BOTTOM:
+		v2Center.x = v2Size.x / 2.0f;
 		v2Center.y = v2Size.y;
 		break;
-	case GSEO_RECT_CENTER_TOP:
-	case GSEO_CENTER_TOP:
-		v2Center.x = v2Size.x/2.0f;
+	case Sprite::EO_RECT_CENTER_TOP:
+	case Sprite::EO_CENTER_TOP:
+		v2Center.x = v2Size.x / 2.0f;
 		v2Center.y = 0.0f;
 		break;
-	case GSEO_DEFAULT:
+	case Sprite::EO_DEFAULT:
 	default:
 		v2Center.x = 0.0f;
 		v2Center.y = 0.0f;
@@ -1369,7 +1375,7 @@ bool D3D9Video::DrawRectangle(const Vector2 &v2Pos, const Vector2 &v2Size,
 	for (unsigned int t=0; t<TEXTURE_CHANNELS; t++)
 		m_pDevice->SetTexture(t, NULL);
 
-	if (!m_videoInfo->DrawSprite(m_pDevice, GSRM_TWO_TRIANGLES))
+	if (!m_videoInfo->DrawSprite(m_pDevice, Sprite::RM_TWO_TRIANGLES))
 	{
 		Message(L"Rendering failed - D3D9Video::DrawRectangle");
 		return false;

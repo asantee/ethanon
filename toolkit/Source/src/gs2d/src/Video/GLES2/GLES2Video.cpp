@@ -724,7 +724,7 @@ bool GLES2Video::DrawRectangle(
 	const Vector2& v2Size,
 	const Color& color,
 	const float angle,
-	const GS_ENTITY_ORIGIN origin)
+	const Sprite::ENTITY_ORIGIN origin)
 {
 	// TODO
 	return false;
@@ -738,7 +738,7 @@ bool GLES2Video::DrawRectangle(
 	const Color& color2,
 	const Color& color3,
 	const float angle,
-	const GS_ENTITY_ORIGIN origin)
+	const Sprite::ENTITY_ORIGIN origin)
 {
 	// TODO
 	return false;
