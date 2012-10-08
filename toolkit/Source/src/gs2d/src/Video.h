@@ -20,8 +20,8 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#ifndef GS2D_H_
-#define GS2D_H_
+#ifndef GS2D_VIDEO_H_
+#define GS2D_VIDEO_H_
 
 #include <sstream>
 #include <list>
@@ -34,6 +34,7 @@
 #include "Shader.h"
 #include "Sprite.h"
 #include "Window.h"
+#include "Video/BitmapFontManager.h"
 
 namespace gs2d {
 
@@ -68,7 +69,8 @@ enum GS_BLEND_MODE
  */
 class Video :
 	public Application,
-	public Window
+	public Window,
+	public BitmapFontManager
 {
 public:
 	struct VIDEO_MODE
@@ -218,26 +220,6 @@ public:
 	virtual math::Rect2D GetScissor() const = 0;
 	virtual void UnsetScissor() = 0;
 
-	virtual math::Vector2 ComputeCarretPosition(
-		const str_type::string& font,
-		const str_type::string& text,
-		const unsigned int pos) = 0;
-
-	virtual math::Vector2 ComputeTextBoxSize(const str_type::string& font, const str_type::string& text) = 0;
-
-	virtual unsigned int FindClosestCarretPosition(
-		const str_type::string& font,
-		const str_type::string &text,
-		const math::Vector2 &textPos,
-		const math::Vector2 &reference) = 0;
-
-	virtual bool DrawBitmapText(
-		const math::Vector2 &v2Pos,
-		const str_type::string& text,
-		const str_type::string& font,
-		const Color& color,
-		const float scale = 1.0f) = 0;
-
 	virtual bool DrawLine(const math::Vector2 &p1, const math::Vector2 &p2, const Color& color1, const Color& color2) = 0;
 
 	virtual bool DrawRectangle(
@@ -277,6 +259,26 @@ public:
 		const wchar_t *wcsName,
 		const GS_BITMAP_FORMAT fmt = GSBF_BMP,
 		math::Rect2D rect = math::Rect2D(0,0,0,0)) = 0;
+
+	virtual math::Vector2 ComputeCarretPosition(
+		const str_type::string& font,
+		const str_type::string& text,
+		const unsigned int pos);
+
+	virtual math::Vector2 ComputeTextBoxSize(const str_type::string& font, const str_type::string& text);
+
+	virtual unsigned int FindClosestCarretPosition(
+		const str_type::string& font,
+		const str_type::string &text,
+		const math::Vector2 &textPos,
+		const math::Vector2 &reference);
+
+	virtual bool DrawBitmapText(
+		const math::Vector2 &v2Pos,
+		const str_type::string& text,
+		const str_type::string& font,
+		const Color& color,
+		const float scale = 1.0f);
 
 private:
 	virtual bool StartApplication(

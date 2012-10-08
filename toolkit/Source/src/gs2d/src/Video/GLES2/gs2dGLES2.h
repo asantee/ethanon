@@ -32,8 +32,6 @@
 #include <map>
 #include <sys/time.h>
 
-#include "../BitmapFont.h"
-
 #define _GS2D_GLES2_MAX_MULTI_TEXTURES 2
 
 namespace gs2d {
@@ -192,42 +190,22 @@ public:
 	math::Rect2D GetScissor() const;
 	void UnsetScissor();
 
-	math::Vector2 ComputeCarretPosition(
-		const str_type::string& font,
-		const str_type::string& text,
-		const unsigned int pos);
-
-	math::Vector2 ComputeTextBoxSize(const str_type::string& font, const str_type::string& text);
-
-	unsigned int FindClosestCarretPosition(
-		const str_type::string& font,
-		const str_type::string &text,
-		const math::Vector2 &textPos,
-		const math::Vector2 &reference);
-
-	bool DrawBitmapText(
-		const math::Vector2 &v2Pos,
-		const str_type::string& text,
-		const str_type::string& font,
-		const Color& color,
-		const float scale);
-
 	bool DrawLine(
-		const math::Vector2 &p1,
-		const math::Vector2 &p2,
+		const math::Vector2& p1,
+		const math::Vector2& p2,
 		const Color& color1,
 		const Color& color2);
 
 	bool DrawRectangle(
-		const math::Vector2 &v2Pos,
-		const math::Vector2 &v2Size,
+		const math::Vector2& v2Pos,
+		const math::Vector2& v2Size,
 		const Color& color,
 		const float angle = 0.0f,
 		const GS_ENTITY_ORIGIN origin = GSEO_DEFAULT);
 
 	bool DrawRectangle(
-		const math::Vector2 &v2Pos,
-		const math::Vector2 &v2Size,
+		const math::Vector2& v2Pos,
+		const math::Vector2& v2Size,
 		const Color& color0,
 		const Color& color1,
 		const Color& color2,
@@ -324,20 +302,14 @@ private:
 
 	Platform::FileIOHubPtr m_fileIOHub;
 
-	std::map<str_type::string, BitmapFontPtr> m_fonts;
-	str_type::string m_defaultBitmapFontPath;
-	
 	TextureWeakPtr m_currentTarget;
 
-	BitmapFontPtr LoadBitmapFont(const str_type::string& fullFilePath);
 	math::Vector2 m_v2Camera;
 	
 	void ComputeFPSRate();
 
 	void Enable2D(const int width, const int height, const bool flipY = false);
 
-	BitmapFontPtr SeekBitmapFont(const str_type::string& font);
-	
 	bool StartApplication(
 		const unsigned int width,
 		const unsigned int height,

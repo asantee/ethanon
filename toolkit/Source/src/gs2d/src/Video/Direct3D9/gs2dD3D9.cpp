@@ -210,10 +210,15 @@ TCHAR D3D9Video::m_currentChar = '\0';
 D3D9Video::RENDER_TARGET_LIST D3D9Video::m_targets;
 const unsigned int D3D9Video::TEXTURE_CHANNELS = 8;
 
-boost::shared_ptr<D3D9Video> D3D9Video::Create(const unsigned int width, const unsigned int height,
-											   const std::wstring& winTitle, const bool windowed, const bool sync,
-											   const GS_PIXEL_FORMAT pfBB, const bool maximizable,
-											   const Platform::FileIOHubPtr& fileIOHub)
+boost::shared_ptr<D3D9Video> D3D9Video::Create(
+	const unsigned int width,
+	const unsigned int height,
+	const std::wstring& winTitle,
+	const bool windowed,
+	const bool sync,
+	const GS_PIXEL_FORMAT pfBB,
+	const bool maximizable,
+	const Platform::FileIOHubPtr& fileIOHub)
 {
 	boost::shared_ptr<D3D9Video> p(
 		new D3D9Video(width, height, winTitle, windowed, sync, pfBB, maximizable, fileIOHub));
@@ -1222,109 +1227,6 @@ ShaderPtr D3D9Video::GetOptimalVS()
 ShaderPtr D3D9Video::GetDefaultVS()
 {
 	return m_defaultVS;
-}
-
-std::wstring GetFileName(const std::wstring& source)
-{
-	std::wstring::size_type length = source.length();
-	std::wstring::size_type t = length-1;
-	for (; t > 0; --t)
-	{
-		if (source[t] == L'\\' || source[t] == L'/')
-			break;
-	}
-	return source.substr(++t);
-}
-
-BitmapFontPtr D3D9Video::LoadBitmapFont(const std::wstring& fullFilePath)
-{
-	str_type::ifstream stream(fullFilePath.c_str(), str_type::ifstream::in);
-	if (stream.is_open())
-	{
-		str_type::ostringstream out;
-		out << stream.rdbuf();
-
-		BitmapFontPtr newFont = BitmapFontPtr(new BitmapFont(weak_this, fullFilePath, out.str()));
-		if (newFont->IsLoaded())
-		{
-			m_fonts[GetFileName(fullFilePath)] = newFont;
-			return newFont;
-		}
-		else
-		{
-			std::wstring errorMsg = L"Invalid font file ";
-			errorMsg += fullFilePath;
-			Message(errorMsg, GSMT_WARNING);
-			return BitmapFontPtr();
-		}
-	}
-	else
-	{
-		std::wstring errorMsg = L"Font file not found ";
-		errorMsg += fullFilePath;
-		Message(errorMsg, GSMT_WARNING);
-		return BitmapFontPtr();
-	}
-}
-
-BitmapFontPtr D3D9Video::SeekBitmapFont(const str_type::string& font)
-{
-	std::map<str_type::string, BitmapFontPtr>::iterator iter = m_fonts.find(font);
-	BitmapFontPtr bitmapFont;
-	if (iter == m_fonts.end())
-	{
-		bitmapFont = LoadBitmapFont(m_fileIOHub->GenerateBitmapFontFilePath(font));
-		if (!bitmapFont)
-		{
-			Message(font + GS_L(": couldn't create bitmap font"), GSMT_ERROR);
-		}
-	}
-	else
-	{
-		bitmapFont = iter->second;
-	}
-	return bitmapFont;	
-}
-
-Vector2 D3D9Video::ComputeCarretPosition(const std::wstring& font, const std::wstring& text, const unsigned int pos)
-{
-	BitmapFontPtr bitmapFont = SeekBitmapFont(font);
-	if (bitmapFont)
-		return bitmapFont->ComputeCarretPosition(text, pos);
-	else
-		return Vector2(0,0);
-}
-
-Vector2 D3D9Video::ComputeTextBoxSize(const std::wstring& font, const std::wstring& text)
-{
-	BitmapFontPtr bitmapFont = SeekBitmapFont(font);
-	if (bitmapFont)
-		return bitmapFont->ComputeTextBoxSize(text);
-	else
-		return Vector2(0,0);
-}
-
-unsigned int D3D9Video::FindClosestCarretPosition(const std::wstring& font, const std::wstring &text, const Vector2 &textPos, const Vector2 &reference)
-{
-	BitmapFontPtr bitmapFont = SeekBitmapFont(font);
-	if (bitmapFont)
-		return bitmapFont->FindClosestCarretPosition(text, textPos, reference);
-	else
-		return 0;
-}
-
-bool D3D9Video::DrawBitmapText(const Vector2 &v2Pos, const std::wstring& text, const std::wstring& font, const Color& color, const float scale)
-{
-	BitmapFontPtr bitmapFont = SeekBitmapFont(font);
-	if (bitmapFont)
-	{
-		bitmapFont->DrawBitmapText(v2Pos, text, color, scale);
-		return true;
-	}
-	else
-	{
-		return false;
-	}
 }
 
 bool D3D9Video::UnsetTexture(const unsigned int passIdx)

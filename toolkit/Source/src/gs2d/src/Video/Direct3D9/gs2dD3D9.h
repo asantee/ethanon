@@ -20,15 +20,13 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#ifndef GS2D_DIRECT3D9_H_
-#define GS2D_DIRECT3D9_H_
+#ifndef GS2D_D3D9VIDEO_H_
+#define GS2D_D3D9VIDEO_H_
 
 #include "../../Video.h"
 #include "gs2dD3D9CgShader.h"
 #include <vector>
 #include <map>
-
-#include "../BitmapFont.h"
 
 namespace gs2d {
 
@@ -346,7 +344,7 @@ class D3D9Video : public Video
 	float m_lineWidth;
 	float m_depth;
 	bool m_roundUpPosition;
-	std::map<std::wstring, BitmapFontPtr> m_fonts;
+
 	void ForwardCommand(const str_type::string& cmd);
 	str_type::string PullCommands();
 
@@ -372,6 +370,7 @@ class D3D9Video : public Video
 	Platform::FileIOHubPtr m_fileIOHub;
 
 public:
+
 	~D3D9Video();
 
 	static const DWORD W32_WINDOWED_STYLE;
@@ -490,11 +489,6 @@ public:
 	math::Rect2D GetScissor() const;
 	void UnsetScissor();
 
-	math::Vector2 ComputeCarretPosition(const std::wstring& font, const std::wstring& text, const unsigned int pos);
-	math::Vector2 ComputeTextBoxSize(const std::wstring& font, const std::wstring& text);
-	unsigned int FindClosestCarretPosition(const std::wstring& font, const std::wstring &text, const math::Vector2 &textPos, const math::Vector2 &reference);
-	bool DrawBitmapText(const math::Vector2 &v2Pos, const std::wstring& text, const std::wstring& font, const Color& color, const float scale = 1.0f);
-
 	bool DrawLine(const math::Vector2 &p1,
 		const math::Vector2 &p2,
 		const Color& color1,
@@ -578,9 +572,6 @@ private:
 
 	bool BeginScene(const Color& bgColor = constant::ZERO, const bool clear = true);
 	bool EndScene(const bool swap = true);
-
-	BitmapFontPtr SeekBitmapFont(const str_type::string& font);
-	BitmapFontPtr LoadBitmapFont(const std::wstring& fullFilePath);
 
 	static RENDER_TARGET_LIST m_targets;
 

@@ -24,9 +24,7 @@
 #include "../Video.h"
 
 namespace gs2d {
-
 using namespace gs2d::math;
-
 
 BitmapFont::CHAR_DESCRIPTOR::CHAR_DESCRIPTOR() :
 	x(0),
@@ -46,6 +44,39 @@ BitmapFont::CHARSET::CHARSET() :
 	paddingLeft(0),
 	paddingRight(0)
 {
+}
+
+BitmapFont::BitmapFont(Video* video, const str_type::string& fileName, const str_type::string& str)
+{
+	if (ParseFNTString(str))
+	{
+		m_bitmaps.resize(m_charSet.textureNames.size());
+		for (unsigned int t = 0; t < m_charSet.textureNames.size(); t++)
+		{
+			str_type::string path = fileName;
+			std::size_t found = path.find_last_of(GS_L("/\\"));
+			if (found != str_type::string::npos)
+				path.resize(found + 1);
+
+			// remove "'s from the texture name
+			while ((found = m_charSet.textureNames[t].find(GS_L("\""))) != str_type::string::npos)
+			{
+				m_charSet.textureNames[t].erase(found, 1);
+			}
+
+			path += m_charSet.textureNames[t];
+			m_bitmaps[t] = video->CreateSprite(path, gs2d::constant::ZERO, 0, 0);
+			if (!m_bitmaps[t])
+			{
+				m_bitmaps.clear();
+				break;
+			}
+			else
+			{
+				m_bitmaps[t]->SetOrigin(GSEO_DEFAULT);
+			}
+		}
+	}
 }
 
 bool BitmapFont::ParseFNTString(const str_type::string& str)
@@ -212,39 +243,6 @@ bool BitmapFont::ParseFNTString(const str_type::string& str)
 bool BitmapFont::IsLoaded() const
 {
 	return (!m_bitmaps.empty());
-}
-
-BitmapFont::BitmapFont(VideoWeakPtr video, const str_type::string& fileName, const str_type::string& str)
-{
-	if (ParseFNTString(str))
-	{
-		m_bitmaps.resize(m_charSet.textureNames.size());
-		for (unsigned int t = 0; t < m_charSet.textureNames.size(); t++)
-		{
-			str_type::string path = fileName;
-			std::size_t found = path.find_last_of(GS_L("/\\"));
-			if (found != str_type::string::npos)
-				path.resize(found + 1);
-
-			// remove "'s from the texture name
-			while ((found = m_charSet.textureNames[t].find(GS_L("\""))) != str_type::string::npos)
-			{
-				m_charSet.textureNames[t].erase(found, 1);
-			}
-
-			path += m_charSet.textureNames[t];
-			m_bitmaps[t] = video.lock()->CreateSprite(path, gs2d::constant::ZERO, 0, 0);
-			if (!m_bitmaps[t])
-			{
-				m_bitmaps.clear();
-				break;
-			}
-			else
-			{
-				m_bitmaps[t]->SetOrigin(GSEO_DEFAULT);
-			}
-		}
-	}
 }
 
 unsigned int BitmapFont::FindClosestCarretPosition(const str_type::string& text, const Vector2& textPos, const Vector2& reference)

@@ -163,6 +163,10 @@
 				RelativePath="..\..\..\src\Application.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\..\..\src\Video.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -229,6 +233,14 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\Video\BitmapFont.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\Video\BitmapFontManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\Video\BitmapFontManager.h"
 				>
 			</File>
 			<File

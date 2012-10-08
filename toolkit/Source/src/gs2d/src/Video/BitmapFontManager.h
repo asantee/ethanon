@@ -20,76 +20,49 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#ifndef GS2D_BITMAP_FONT_H_
-#define GS2D_BITMAP_FONT_H_
+#ifndef GS2D_BITMAP_FONT_MANAGER_H_
+#define GS2D_BITMAP_FONT_MANAGER_H_
 
-#include "../Math/Math.h"
-
-#include <vector>
+#include "BitmapFont.h"
+#include <map>
 
 namespace gs2d {
 
-/**
- * \brief Stores and renders bitmap fonts
- *
- * The BitmapFont class parses text fnt files generated with AngelCode's bitmap
- * font generator and handles its rendering. The parser code was originally written by Promit
- * posted in this thread: http://www.gamedev.net/community/forums/topic.asp?topic_id=330742
- */
-class BitmapFont
+class BitmapFontManager
 {
-	struct CHAR_DESCRIPTOR
-	{
-		//clean 16 bytes
-		float x, y;
-		float width, height;
-		float xOffset, yOffset;
-		float xAdvance;
-		int page;
+	BitmapFontPtr SeekBitmapFont(Video* video, const str_type::string& font);
+	BitmapFontPtr LoadBitmapFont(Video* video, const str_type::string& fullFilePath);
 
-		CHAR_DESCRIPTOR();
-	};
-
-	struct CHARSET
-	{
-		CHARSET();
-		float lineHeight;
-		float base;
-		float width, height;
-		int pages;
-		CHAR_DESCRIPTOR chars[65536];
-		std::vector<str_type::string> textureNames;
-		float paddingUp, paddingRight, paddingDown, paddingLeft;
-	} m_charSet;
-
-	bool ParseFNTString(const str_type::string& str);
-
-	std::vector<SpritePtr> m_bitmaps;
+	std::map<str_type::string, BitmapFontPtr> m_fonts;
 
 public:
-	bool IsLoaded() const;
-	BitmapFont(
+	math::Vector2 ComputeCarretPosition(
 		Video* video,
-		const str_type::string& fileName,
-		const str_type::string& str);
-
-	math::Vector2 DrawBitmapText(
-		const math::Vector2& pos,
+		const str_type::string& font,
 		const str_type::string& text,
-		const Color& color,
-		const float scale = 1.0f);
+		const unsigned int pos);
 
-	math::Vector2 ComputeTextBoxSize(const str_type::string& text);
-	math::Vector2 ComputeCarretPosition(const str_type::string& text, const unsigned int pos);
+	math::Vector2 ComputeTextBoxSize(
+		Video* video,
+		const str_type::string& font,
+		const str_type::string& text);
 
 	unsigned int FindClosestCarretPosition(
+		Video* video,
+		const str_type::string& font,
+		const str_type::string &text,
+		const math::Vector2 &textPos,
+		const math::Vector2 &reference);
+
+	bool DrawBitmapText(
+		Video* video,
+		const math::Vector2 &v2Pos,
 		const str_type::string& text,
-		const math::Vector2& textPos,
-		const math::Vector2& reference);
+		const str_type::string& font,
+		const Color& color,
+		const float scale = 1.0f);
 };
 
-typedef boost::shared_ptr<BitmapFont> BitmapFontPtr;
-
-}
+} // namespace gs2d
 
 #endif
