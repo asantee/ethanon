@@ -85,12 +85,13 @@ bool ETHCustomDataManager::GetFloat(const str_type::string &name, float &outValu
 		ETH_STREAM_DECL(ss) << GS_L("There's no matching data for ") << name;
 		return false;
 	}
-	if (iter->second->GetType() != ETHCustomData::DT_FLOAT)
+	const ETHCustomDataPtr& data = iter->second;
+	if (data->GetType() != ETHCustomData::DT_FLOAT)
 	{
 		ETH_STREAM_DECL(ss) << name << GS_L(":is not a float");
 		return false;
 	}
-	outValue = iter->second->GetFloat();
+	outValue = data->GetFloat();
 	return true;
 }
 
@@ -102,12 +103,13 @@ bool ETHCustomDataManager::GetInt(const str_type::string &name, int &outValue) c
 		ETH_STREAM_DECL(ss) << GS_L("There's no matching data for ") << name;
 		return false;
 	}
-	if (iter->second->GetType() != ETHCustomData::DT_INT)
+	const ETHCustomDataPtr& data = iter->second;
+	if (data->GetType() != ETHCustomData::DT_INT)
 	{
 		ETH_STREAM_DECL(ss) << name << GS_L(":is not an int");
 		return false;
 	}
-	outValue = iter->second->GetInt();
+	outValue = data->GetInt();
 	return true;
 }
 
@@ -119,12 +121,13 @@ bool ETHCustomDataManager::GetUInt(const str_type::string &name, unsigned int &o
 		ETH_STREAM_DECL(ss) << GS_L("There's no matching data for ") << name;
 		return false;
 	}
-	if (iter->second->GetType() != ETHCustomData::DT_UINT)
+	const ETHCustomDataPtr& data = iter->second;
+	if (data->GetType() != ETHCustomData::DT_UINT)
 	{
 		ETH_STREAM_DECL(ss) << name << GS_L(":is not an uint");
 		return false;
 	}
-	outValue = iter->second->GetUInt();
+	outValue = data->GetUInt();
 	return true;
 }
 
@@ -136,12 +139,13 @@ bool ETHCustomDataManager::GetString(const str_type::string &name, str_type::str
 		ETH_STREAM_DECL(ss) << GS_L("There's no matching data for ") << name;
 		return false;
 	}
-	if (iter->second->GetType() != ETHCustomData::DT_STRING)
+	const ETHCustomDataPtr& data = iter->second;
+	if (data->GetType() != ETHCustomData::DT_STRING)
 	{
 		ETH_STREAM_DECL(ss) << name << GS_L(":is not a string");
 		return false;
 	}
-	outValue = iter->second->GetString();
+	outValue = data->GetString();
 	return true;
 }
 
@@ -153,12 +157,13 @@ bool ETHCustomDataManager::GetVector2(const str_type::string &name, Vector2 &out
 		ETH_STREAM_DECL(ss) << GS_L("There's no matching data for ") << name;
 		return false;
 	}
-	if (iter->second->GetType() != ETHCustomData::DT_VECTOR2)
+	const ETHCustomDataPtr& data = iter->second;
+	if (data->GetType() != ETHCustomData::DT_VECTOR2)
 	{
 		ETH_STREAM_DECL(ss) << name << GS_L(":is not a vector2");
 		return false;
 	}
-	outValue = iter->second->GetVector2();
+	outValue = data->GetVector2();
 	return true;
 }
 
@@ -170,12 +175,13 @@ bool ETHCustomDataManager::GetVector3(const str_type::string &name, Vector3 &out
 		ETH_STREAM_DECL(ss) << GS_L("There's no matching data for ") << name;
 		return false;
 	}
-	if (iter->second->GetType() != ETHCustomData::DT_VECTOR3)
+	const ETHCustomDataPtr& data = iter->second;
+	if (data->GetType() != ETHCustomData::DT_VECTOR3)
 	{
 		ETH_STREAM_DECL(ss) << name << GS_L(":is not a vector3");
 		return false;
 	}
-	outValue = iter->second->GetVector3();
+	outValue = data->GetVector3();
 	return true;
 }
 
