@@ -105,10 +105,7 @@ public:
 	void Kill(const bool kill);
 
 	/// Return true if the system was killed by Kill(bool) function
-	inline bool Killed() const
-	{
-		return m_killed;
-	}
+	bool Killed() const;
 
 	/// Set the particles starting position
 	void SetStartPos(const Vector3& v3Pos);

@@ -425,7 +425,7 @@ void ETHEngine::DrawTopLayer(const unsigned int lastFrameElapsedTimeMS)
 	video->SetZBuffer(m_pScene->GetZBuffer());
 	video->SetZWrite(m_pScene->GetZBuffer());
 	video->SetSpriteDepth(0.0f);
-	for (std::list<boost::shared_ptr<ETHPrimitiveDrawer> >::iterator iter = m_primitiveList.begin();
+	for (std::list<boost::shared_ptr<ETHElementDrawer> >::iterator iter = m_primitiveList.begin();
 		iter != m_primitiveList.end();)
 	{
 		(*iter)->Draw(lastFrameElapsedTimeMS);

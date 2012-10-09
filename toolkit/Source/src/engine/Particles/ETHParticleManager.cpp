@@ -602,3 +602,8 @@ void ETHParticleManager::SetParticleDepth(const float depth)
 {
 	m_provider->GetVideo()->SetSpriteDepth(depth);
 }
+
+bool ETHParticleManager::Killed() const
+{
+	return m_killed;
+}

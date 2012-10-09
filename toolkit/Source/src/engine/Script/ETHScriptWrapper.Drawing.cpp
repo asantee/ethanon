@@ -34,7 +34,7 @@ Vector2 ETHScriptWrapper::ComputeTextBoxSize(const str_type::string &font, const
 
 void ETHScriptWrapper::DrawText(const Vector2 &v2Pos, const str_type::string &text, const str_type::string &font, const GS_DWORD color, const float scale)
 {
-	m_primitiveList.push_back(boost::shared_ptr<ETHPrimitiveDrawer>(
+	m_primitiveList.push_back(boost::shared_ptr<ETHElementDrawer>(
 		new ETHTextDrawer(m_provider, v2Pos, text, font, color, 0x0, scale)));
 }
 
@@ -109,7 +109,7 @@ void ETHScriptWrapper::SetSpriteOrigin(const str_type::string& name, const Vecto
 void ETHScriptWrapper::DrawSprite(const str_type::string &name, const Vector2 &v2Pos, const GS_DWORD color, const float angle)
 {
 	SpritePtr pSprite = LoadAndGetSprite(name);
-	m_primitiveList.push_back(boost::shared_ptr<ETHPrimitiveDrawer>(
+	m_primitiveList.push_back(boost::shared_ptr<ETHElementDrawer>(
 		new ETHSpriteDrawer(m_provider, m_provider->GetGraphicResourceManager(),
 							m_provider->GetFileIOHub()->GetResourceDirectory(), name, v2Pos,
 							Vector2(0,0), color, 0.0f, angle, pSprite->GetRectIndex())));
@@ -118,7 +118,7 @@ void ETHScriptWrapper::DrawSprite(const str_type::string &name, const Vector2 &v
 void ETHScriptWrapper::DrawShaped(const str_type::string &name, const Vector2 &v2Pos, const Vector2 &v2Size, const GS_DWORD color, const float angle)
 {
 	SpritePtr pSprite = LoadAndGetSprite(name);
-	m_primitiveList.push_back(boost::shared_ptr<ETHPrimitiveDrawer>(
+	m_primitiveList.push_back(boost::shared_ptr<ETHElementDrawer>(
 		new ETHSpriteDrawer(m_provider, m_provider->GetGraphicResourceManager(),
 							m_provider->GetFileIOHub()->GetResourceDirectory(), name, v2Pos,
 							v2Size, color, 0.0f, angle, pSprite->GetRectIndex())));
@@ -127,7 +127,7 @@ void ETHScriptWrapper::DrawShaped(const str_type::string &name, const Vector2 &v
 void ETHScriptWrapper::DrawSpriteZ(const str_type::string &name, const float depth, const Vector2 &v2Pos, const GS_DWORD color, const float angle)
 {
 	SpritePtr pSprite = LoadAndGetSprite(name);
-	m_primitiveList.push_back(boost::shared_ptr<ETHPrimitiveDrawer>(
+	m_primitiveList.push_back(boost::shared_ptr<ETHElementDrawer>(
 		new ETHSpriteDrawer(m_provider, m_provider->GetGraphicResourceManager(),
 							m_provider->GetFileIOHub()->GetResourceDirectory(), name, v2Pos,
 							Vector2(0,0), color, depth, angle, pSprite->GetRectIndex())));
@@ -136,7 +136,7 @@ void ETHScriptWrapper::DrawSpriteZ(const str_type::string &name, const float dep
 void ETHScriptWrapper::DrawShapedZ(const str_type::string &name, const float depth, const Vector2 &v2Pos, const Vector2 &v2Size, const GS_DWORD color, const float angle)
 {
 	SpritePtr pSprite = LoadAndGetSprite(name);
-	m_primitiveList.push_back(boost::shared_ptr<ETHPrimitiveDrawer>(
+	m_primitiveList.push_back(boost::shared_ptr<ETHElementDrawer>(
 		new ETHSpriteDrawer(m_provider, m_provider->GetGraphicResourceManager(),
 							m_provider->GetFileIOHub()->GetResourceDirectory(), name, v2Pos,
 							v2Size, color, depth, angle, pSprite->GetRectIndex())));
@@ -144,7 +144,7 @@ void ETHScriptWrapper::DrawShapedZ(const str_type::string &name, const float dep
 
 void ETHScriptWrapper::DrawFadingText(const Vector2 &v2Pos, const str_type::string &text, const str_type::string &font, const GS_DWORD color, unsigned long time, const float scale)
 {
-	m_primitiveList.push_back(boost::shared_ptr<ETHPrimitiveDrawer>(
+	m_primitiveList.push_back(boost::shared_ptr<ETHElementDrawer>(
 		new ETHTextDrawer(m_provider, v2Pos, text, font, color, time, scale)));
 }
 
@@ -166,10 +166,10 @@ void ETHScriptWrapper::DrawRectangle(const Vector2 &v2Pos, const Vector2 &v2Size
 									 const GS_DWORD color0, const GS_DWORD color1,
 									 const GS_DWORD color2, const GS_DWORD color3)
 {
-	m_primitiveList.push_back(boost::shared_ptr<ETHPrimitiveDrawer>(new ETHRectangleDrawer(m_provider, v2Pos, v2Size, color0, color1, color2, color3)));
+	m_primitiveList.push_back(boost::shared_ptr<ETHElementDrawer>(new ETHRectangleDrawer(m_provider, v2Pos, v2Size, color0, color1, color2, color3)));
 }
 
 void ETHScriptWrapper::DrawLine(const Vector2 &v2A, const Vector2 &v2B, const Color a, const Color b, const float width) //-V801
 {
-	m_primitiveList.push_back(boost::shared_ptr<ETHPrimitiveDrawer>(new ETHLineDrawer(m_provider, v2A, v2B, a, b, width)));
+	m_primitiveList.push_back(boost::shared_ptr<ETHElementDrawer>(new ETHLineDrawer(m_provider, v2A, v2B, a, b, width)));
 }

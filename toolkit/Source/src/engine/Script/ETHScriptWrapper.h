@@ -24,7 +24,7 @@
 #define ETH_SCRIPT_WRAPPER_H_
 
 #include "../Scene/ETHScene.h"
-#include "../ETHPrimitiveDrawer.h"
+#include "../Drawing/ETHElementDrawer.h"
 #include "../../angelscript/include/angelscript.h"
 #include "../Util/ETHInput.h"
 #include "../Entity/ETHEntityCache.h"
@@ -72,7 +72,7 @@ public:
 
 	static str_type::string GetSceneFileName();
 	static ETHSpeedTimer m_timer;
-	static std::list<boost::shared_ptr<ETHPrimitiveDrawer> > m_primitiveList;
+	static std::list<boost::shared_ptr<ETHElementDrawer> > m_primitiveList;
 	static ETHScenePtr m_pScene;
 	static bool m_abort;
 	static bool m_useLightmaps;

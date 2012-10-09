@@ -207,14 +207,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\engine\ETHPrimitiveDrawer.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\engine\ETHPrimitiveDrawer.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\src\engine\ETHTypes.h"
 				>
 			</File>
@@ -647,6 +639,18 @@
 				</File>
 				<File
 					RelativePath="..\..\..\src\engine\Particles\ETHParticleSystem.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Drawing"
+				>
+				<File
+					RelativePath="..\..\..\src\engine\Drawing\ETHElementDrawer.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\engine\Drawing\ETHElementDrawer.h"
 					>
 				</File>
 			</Filter>

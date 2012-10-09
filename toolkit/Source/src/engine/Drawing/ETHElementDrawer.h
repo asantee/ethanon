@@ -20,27 +20,38 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#ifndef ETH_PRIMITIVE_DRAWER_H_
-#define ETH_PRIMITIVE_DRAWER_H_
+#ifndef ETH_ELEMENT_DRAWER_H_
+#define ETH_ELEMENT_DRAWER_H_
 
-#include "Resource/ETHResourceManager.h"
-#include "Resource/ETHResourceProvider.h"
+#include "../ETHTypes.h"
+#include "../Resource/ETHResourceManager.h"
 
-class ETHPrimitiveDrawer
+class ETHElementDrawer
 {
 public:
 	virtual bool Draw(const unsigned long lastFrameElapsedTimeMS) = 0;
 	virtual bool IsAlive() const = 0;
 };
 
-class ETHTextDrawer : public ETHPrimitiveDrawer
+class ETHTextDrawer : public ETHElementDrawer
 {
 public:
-	ETHTextDrawer(const ETHResourceProviderPtr& provider, const Vector2& pos, const str_type::string& text, const str_type::string& font,
-				 const GS_DWORD color, const unsigned long time, const float scale);
+	ETHTextDrawer(
+		const ETHResourceProviderPtr& provider,
+		const Vector2& pos,
+		const str_type::string& text,
+		const str_type::string& font,
+		const GS_DWORD color,
+		const unsigned long time,
+		const float scale);
 
-	ETHTextDrawer(const ETHResourceProviderPtr& provider, const Vector2& pos, const str_type::string& text, const str_type::string& font,
-				 const GS_DWORD color, const float scale);
+	ETHTextDrawer(
+		const ETHResourceProviderPtr& provider,
+		const Vector2& pos,
+		const str_type::string& text,
+		const str_type::string& font,
+		const GS_DWORD color,
+		const float scale);
 
 	bool Draw(const unsigned long lastFrameElapsedTimeMS);
 	bool IsAlive() const;
@@ -56,14 +67,25 @@ private:
 	ETHResourceProviderPtr provider;
 };
 
-class ETHRectangleDrawer : public ETHPrimitiveDrawer
+class ETHRectangleDrawer : public ETHElementDrawer
 {
 public:
-	ETHRectangleDrawer(const ETHResourceProviderPtr& provider, const Vector2& pos, const Vector2& size, const Color& color,
-					   const float depth = 0.0f);
-	ETHRectangleDrawer(const ETHResourceProviderPtr& provider, const Vector2& pos, const Vector2& size,
-					  const Color& color0, const Color& color1, const Color& color2, const Color& color3,
-					  const float depth = 0.0f);
+	ETHRectangleDrawer(
+		const ETHResourceProviderPtr& provider,
+		const Vector2& pos,
+		const Vector2& size,
+		const Color& color,
+		const float depth = 0.0f);
+
+	ETHRectangleDrawer(
+		const ETHResourceProviderPtr& provider,
+		const Vector2& pos,
+		const Vector2& size,
+		const Color& color0,
+		const Color& color1,
+		const Color& color2,
+		const Color& color3,
+		const float depth = 0.0f);
 
 	bool Draw(const unsigned long lastFrameElapsedTimeMS);
 	bool IsAlive() const;
@@ -77,11 +99,17 @@ private:
 };
 
 
-class ETHLineDrawer : public ETHPrimitiveDrawer
+class ETHLineDrawer : public ETHElementDrawer
 {
 public:
-	ETHLineDrawer(const ETHResourceProviderPtr& provider, const Vector2& a, const Vector2& b, const Color& color0,
-				  const Color& color1, const float width, const float depth = 0.0f);
+	ETHLineDrawer(
+		const ETHResourceProviderPtr& provider,
+		const Vector2& a,
+		const Vector2& b, 
+		const Color& color0,
+		const Color& color1,
+		const float width,
+		const float depth = 0.0f);
 
 	bool Draw(const unsigned long lastFrameElapsedTimeMS);
 	bool IsAlive() const;
@@ -93,12 +121,20 @@ private:
 	ETHResourceProviderPtr provider;
 };
 
-class ETHSpriteDrawer : public ETHPrimitiveDrawer
+class ETHSpriteDrawer : public ETHElementDrawer
 {
 public:
-	ETHSpriteDrawer(const ETHResourceProviderPtr& provider, ETHGraphicResourceManagerPtr graphicResources,
-					const str_type::string& currentPath, const str_type::string& name, const Vector2& pos,
-					const Vector2& size, const Color& color, const float depth, const float angle, const unsigned int frame);
+	ETHSpriteDrawer(
+		const ETHResourceProviderPtr& provider,
+		ETHGraphicResourceManagerPtr graphicResources,
+		const str_type::string& currentPath,
+		const str_type::string& name,
+		const Vector2& pos,
+		const Vector2& size,
+		const Color& color,
+		const float depth,
+		const float angle,
+		const unsigned int frame);
 
 	bool Draw(const unsigned long lastFrameElapsedTimeMS);
 	bool IsAlive() const;

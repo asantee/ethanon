@@ -20,12 +20,18 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#include "ETHPrimitiveDrawer.h"
+#include "ETHElementDrawer.h"
+#include "../Resource/ETHResourceProvider.h"
 #include <Platform/Platform.h>
 
-ETHTextDrawer::ETHTextDrawer(const ETHResourceProviderPtr& provider, const Vector2 &pos, 
-							 const str_type::string &text, const str_type::string &font,
-							 const GS_DWORD color, const unsigned long time, const float scale)
+ETHTextDrawer::ETHTextDrawer(
+	const ETHResourceProviderPtr& provider,
+	const Vector2& pos, 
+	const str_type::string& text,
+	const str_type::string &font,
+	const GS_DWORD color,
+	const unsigned long time,
+	const float scale)
 {
 	this->v2Pos = pos;
 	this->text = text;
@@ -37,9 +43,13 @@ ETHTextDrawer::ETHTextDrawer(const ETHResourceProviderPtr& provider, const Vecto
 	this->scale = scale;
 }
 
-ETHTextDrawer::ETHTextDrawer(const ETHResourceProviderPtr& provider, const Vector2 &pos, 
-							 const str_type::string &text, const str_type::string &font,
-							 const GS_DWORD color, const float scale)
+ETHTextDrawer::ETHTextDrawer(
+	const ETHResourceProviderPtr& provider,
+	const Vector2& pos, 
+	const str_type::string& text,
+	const str_type::string& font,
+	const GS_DWORD color,
+	const float scale)
 {
 	this->v2Pos = pos;
 	this->text = text;
@@ -72,8 +82,12 @@ bool ETHTextDrawer::IsAlive() const
 		return true;
 }
 
-ETHRectangleDrawer::ETHRectangleDrawer(const ETHResourceProviderPtr& provider, const Vector2& pos, const Vector2& size,
-									   const Color& color, const float depth)
+ETHRectangleDrawer::ETHRectangleDrawer(
+	const ETHResourceProviderPtr& provider,
+	const Vector2& pos,
+	const Vector2& size,
+	const Color& color,
+	const float depth)
 {
 	this->v2Pos = pos;
 	this->v2Size = size;
@@ -85,9 +99,15 @@ ETHRectangleDrawer::ETHRectangleDrawer(const ETHResourceProviderPtr& provider, c
 	this->provider = provider;
 }
 
-ETHRectangleDrawer::ETHRectangleDrawer(const ETHResourceProviderPtr& provider,
-									   const Vector2& pos, const Vector2& size, const Color& color0, const Color& color1,
-									   const Color& color2, const Color& color3, const float depth)
+ETHRectangleDrawer::ETHRectangleDrawer(
+	const ETHResourceProviderPtr& provider,
+	const Vector2& pos,
+	const Vector2& size,
+	const Color& color0,
+	const Color& color1,
+	const Color& color2,
+	const Color& color3,
+	const float depth)
 {
 	this->v2Pos = pos;
 	this->v2Size = size;
@@ -111,8 +131,14 @@ bool ETHRectangleDrawer::IsAlive() const
 	return false;
 }
 
-ETHLineDrawer::ETHLineDrawer(const ETHResourceProviderPtr& provider, const Vector2& a, const Vector2& b,
-								   const Color& color0, const Color& color1, const float width, const float depth)
+ETHLineDrawer::ETHLineDrawer(
+	const ETHResourceProviderPtr& provider,
+	const Vector2& a,
+	const Vector2& b,
+	const Color& color0,
+	const Color& color1,
+	const float width,
+	const float depth)
 {
 	this->a = a;
 	this->b = b;
@@ -137,10 +163,17 @@ bool ETHLineDrawer::IsAlive() const
 	return false;
 }
 
-ETHSpriteDrawer::ETHSpriteDrawer(const ETHResourceProviderPtr& provider, ETHGraphicResourceManagerPtr graphicResources,
-								 const str_type::string& currentPath, const str_type::string& name, const Vector2& pos,
-								 const Vector2& size, const Color& color, const float depth, const float angle,
-								 const unsigned int frame)
+ETHSpriteDrawer::ETHSpriteDrawer(
+	const ETHResourceProviderPtr& provider,
+	ETHGraphicResourceManagerPtr graphicResources,
+	const str_type::string& currentPath,
+	const str_type::string& name,
+	const Vector2& pos,
+	const Vector2& size,
+	const Color& color,
+	const float depth,
+	const float angle,
+	const unsigned int frame)
 {
 	this->name = name;
 	this->color0 = color;
