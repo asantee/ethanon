@@ -46,9 +46,14 @@ class ETHResourceProvider
 	static Platform::FileIOHubPtr m_fileIOHub;
 
 public:
-	ETHResourceProvider(ETHGraphicResourceManagerPtr graphicResources, ETHAudioResourceManagerPtr audioResources,
-				boost::shared_ptr<ETHShaderManager> shaderManager, VideoPtr video, AudioPtr audio, InputPtr input,
-				Platform::FileIOHubPtr fileIOHub);
+	ETHResourceProvider(
+		ETHGraphicResourceManagerPtr graphicResources,
+		ETHAudioResourceManagerPtr audioResources,
+		boost::shared_ptr<ETHShaderManager> shaderManager,
+		VideoPtr video,
+		AudioPtr audio,
+		InputPtr input,
+		Platform::FileIOHubPtr fileIOHub);
 
 	static void Log(const str_type::string& str, const Platform::Logger::TYPE& type);
 
@@ -64,7 +69,5 @@ public:
 	const Platform::FileManagerPtr& GetFileManager();
 	Platform::FileIOHubPtr GetFileIOHub();
 };
-
-typedef boost::shared_ptr<ETHResourceProvider> ETHResourceProviderPtr;
 
 #endif

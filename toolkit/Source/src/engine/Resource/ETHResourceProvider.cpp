@@ -27,9 +27,13 @@ Platform::FileLoggerPtr ETHResourceProvider::m_logger(
 	new Platform::FileLogger(Platform::FileLogger::GetLogDirectory() + GS_L("eth.log.txt")));
 
 ETHResourceProvider::ETHResourceProvider(
-		ETHGraphicResourceManagerPtr graphicResources, ETHAudioResourceManagerPtr audioResources,
-		boost::shared_ptr<ETHShaderManager> shaderManager,
-		VideoPtr video, AudioPtr audio, InputPtr input, Platform::FileIOHubPtr fileIOHub)
+	ETHGraphicResourceManagerPtr graphicResources,
+	ETHAudioResourceManagerPtr audioResources,
+	boost::shared_ptr<ETHShaderManager> shaderManager,
+	VideoPtr video,
+	AudioPtr audio,
+	InputPtr input,
+	Platform::FileIOHubPtr fileIOHub)
 {
 	// all static
 	m_graphicResources = graphicResources;

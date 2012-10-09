@@ -32,14 +32,14 @@ using namespace gs2d;
 
 #include <stdlib.h>
 
-#include "../engine/ETHParticleManager.h"
+#include "../engine/Particles/ETHParticleManager.h"
 #include "../engine/Util/ETHSpeedTimer.h"
 #include "gsgui.h"
 
 class ParticleEditor : public EditorBase
 {
 	ETHParticleManagerPtr m_manager;
-	ETH_PARTICLE_SYSTEM m_system;
+	ETHParticleSystem m_system;
 	SpritePtr m_backgroundSprite, m_sphereSprite;
 	Vector2 m_v2Pos;
 	float m_systemAngle;

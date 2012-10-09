@@ -23,106 +23,11 @@
 #ifndef ETH_PARTICLE_MANAGER_H_
 #define ETH_PARTICLE_MANAGER_H_
 
-#include "Resource/ETHResourceProvider.h"
+#include "ETHParticleSystem.h"
+#include <Audio.h>
 
 #define _ETH_MINIMUM_PARTICLE_REPEATS_TO_LOOP_SOUND (4)
 #define _ETH_PARTICLE_DEPTH_SHIFT (10.0f)
-
-#define _ETH_PLAY_ANIMATION 1
-#define _ETH_PICK_RANDOM_FRAME 2
-
-struct ETH_PARTICLE
-{
-	ETH_PARTICLE() :
-		released(false),
-		repeat(0),
-		id(-1),
-		currentFrame(0)
-	{
-	}
-
-	inline bool operator < (const ETH_PARTICLE &other) const
-	{
-		return (GetOffset() < other.GetOffset());
-	}
-
-	inline float GetOffset() const
-	{
-		return v3StartPoint.y - v2Pos.y;
-	}
-
-	inline void Scale(const float& scale)
-	{
-		size *= scale;
-		v2Dir *= scale;
-	}
-
-	Vector2 v2Pos;
-	Vector2 v2Dir;
-	Vector4 v4Color;
-	Vector3 v3StartPoint;
-	float angle;
-	float angleDir;
-	float size;
-	float lifeTime;
-	float elapsed;
-	int repeat;
-	bool released;
-	int id;
-	unsigned int currentFrame;
-};
-
-struct ETH_PARTICLE_SYSTEM
-{
-	ETH_PARTICLE_SYSTEM();
-	void Reset();
-
-	void Scale(const float scale);
-	void MirrorX(const bool mirrorGravity);
-	void MirrorY(const bool mirrorGravity);
-
-	bool ReadFromXMLFile(TiXmlElement *pElement);
-
-	bool ReadFromFile(const str_type::string& fileName, const Platform::FileManagerPtr& fileManager);
-	bool WriteToXMLFile(TiXmlElement *pRoot) const;
-	int GetNumFrames() const;
-
-	str_type::string GetActualBitmapFile() const;
-
-	str_type::string bitmapFile;
-	str_type::string soundFXFile;
-	ETH_BOOL allAtOnce;
-	float boundingSphere;
-	Video::ALPHA_MODE alphaMode;
-	int nParticles;
-	Vector2 v2GravityVector;
-	Vector2 v2DirectionVector;
-	Vector2 v2RandomizeDir;
-	Vector3 v3StartPoint;
-	Vector2 v2RandStartPoint;
-
-	Vector2i v2SpriteCut;
-
-	Vector4 v4Color0;
-	Vector4 v4Color1;
-
-	float lifeTime;
-	float randomizeLifeTime;
-
-	float angleDir;
-	float randAngle;
-	float size;
-	float randomizeSize;
-	float growth;
-	float minSize;
-	float maxSize;
-
-	int repeat;
-	int animationMode;
-	Vector3 emissive;
-	float angleStart;
-	float randAngleStart;
-};
 
 class ETHParticleManager
 {
@@ -145,7 +50,7 @@ public:
 
 	ETHParticleManager(
 		ETHResourceProviderPtr provider,
-		const ETH_PARTICLE_SYSTEM& partSystem,
+		const ETHParticleSystem& partSystem,
 		const Vector2& v2Pos,
 		const Vector3& v3Pos,
 		const float angle,
@@ -188,7 +93,7 @@ public:
 	bool HasSoundEffect() const;
 
 	/// Set another system configuration (it can be used during the animation)
-	void SetSystem(const ETH_PARTICLE_SYSTEM &partSystem);
+	void SetSystem(const ETHParticleSystem &partSystem);
 
 	/// Set another particle bitmap  (it can be used during the animation)
 	void SetParticleBitmap(SpritePtr pBMP);
@@ -215,7 +120,7 @@ public:
 	float GetBoundingRadius() const;
 
 	/// Return all the data from the system
-	const ETH_PARTICLE_SYSTEM *GetSystem() const;
+	const ETHParticleSystem *GetSystem() const;
 	
 	/// Return particle bitmap name
 	str_type::string GetBitmapName() const;
@@ -258,8 +163,50 @@ public:
 	void MirrorY(const bool mirrorGravity);
 
 private:
-	ETH_PARTICLE_SYSTEM m_system;
-	std::vector<ETH_PARTICLE> m_particles;
+
+	struct PARTICLE
+	{
+		PARTICLE() :
+		released(false),
+			repeat(0),
+			id(-1),
+			currentFrame(0)
+		{
+		}
+
+		inline bool operator < (const PARTICLE& other) const
+		{
+			return (GetOffset() < other.GetOffset());
+		}
+
+		inline float GetOffset() const
+		{
+			return startPoint.y - pos.y;
+		}
+
+		inline void Scale(const float& scale)
+		{
+			size *= scale;
+			dir *= scale;
+		}
+
+		Vector2 pos;
+		Vector2 dir;
+		Vector4 color;
+		Vector3 startPoint;
+		float angle;
+		float angleDir;
+		float size;
+		float lifeTime;
+		float elapsed;
+		int repeat;
+		bool released;
+		int id;
+		unsigned int currentFrame;
+	};
+
+	ETHParticleSystem m_system;
+	std::vector<PARTICLE> m_particles;
 	ETHResourceProviderPtr m_provider;
 	SpritePtr m_pBMP;
 	AudioSamplePtr m_pSound;
@@ -271,12 +218,12 @@ private:
 	bool m_isSoundStopped;
 	float m_entityVolume, m_generalVolume;
 
-	static void BubbleSort(std::vector<ETH_PARTICLE> &v);
+	static void BubbleSort(std::vector<PARTICLE> &v);
 	void HandleSoundPlayback(const Vector2 &v2Pos, const float frameSpeed);
 
 	/// Create a particle system
 	bool CreateParticleSystem(
-		const ETH_PARTICLE_SYSTEM& partSystem,
+		const ETHParticleSystem& partSystem,
 		const Vector2& v2Pos,
 		const Vector3& v3Pos,
 		const float angle,

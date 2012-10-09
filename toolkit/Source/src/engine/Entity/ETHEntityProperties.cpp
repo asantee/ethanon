@@ -21,6 +21,7 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHEntityProperties.h"
+#include "../Resource/ETHResourceProvider.h"
 #include <iostream>
 
 static const str_type::string COMPOUND_SHAPE_ENML_SAMPLE(
@@ -354,7 +355,7 @@ bool ETHEntityProperties::ReadFromXMLFile(TiXmlElement *pElement)
 					{
 						if (pParticleIter)
 						{
-							boost::shared_ptr<ETH_PARTICLE_SYSTEM> newSystem = boost::shared_ptr<ETH_PARTICLE_SYSTEM>(new ETH_PARTICLE_SYSTEM);
+							boost::shared_ptr<ETHParticleSystem> newSystem = boost::shared_ptr<ETHParticleSystem>(new ETHParticleSystem);
 							newSystem->ReadFromXMLFile(pParticleIter);
 							if (newSystem->nParticles > 0)
 							{

@@ -215,7 +215,7 @@ void ETHSpriteEntity::LoadParticleSystem()
 	m_particles.resize(m_properties.particleSystems.size());
 	for (std::size_t t=0; t<m_properties.particleSystems.size(); t++)
 	{
-		const ETH_PARTICLE_SYSTEM *pSystem = m_properties.particleSystems[t].get();
+		const ETHParticleSystem *pSystem = m_properties.particleSystems[t].get();
 		if (pSystem->nParticles > 0)
 		{
 			str_type::string path = resourcePath;
@@ -378,9 +378,9 @@ float ETHSpriteEntity::GetMaxHeight()
 	float maxHeight = GetPosition().z+GetCurrentSize().y;
 	for(std::size_t t=0; t<m_particles.size(); t++)
 	{
-		boost::shared_ptr<ETH_PARTICLE_SYSTEM> system = m_properties.particleSystems[t];
+		boost::shared_ptr<ETHParticleSystem> system = m_properties.particleSystems[t];
 		if (system->nParticles > 0)
-			maxHeight = Max(maxHeight, GetPosition().z+system->v3StartPoint.z+(system->boundingSphere*2));
+			maxHeight = Max(maxHeight, GetPosition().z+system->startPoint.z+(system->boundingSphere*2));
 	}
 	if (HasLightSource() && HasHalo())
 		maxHeight = Max(maxHeight, m_properties.light->pos.z);
@@ -392,9 +392,9 @@ float ETHSpriteEntity::GetMinHeight()
 	float minHeight = GetPosition().z-GetCurrentSize().y;
 	for(std::size_t t=0; t<m_particles.size(); t++)
 	{
-		boost::shared_ptr<ETH_PARTICLE_SYSTEM> system = m_properties.particleSystems[t];
+		boost::shared_ptr<ETHParticleSystem> system = m_properties.particleSystems[t];
 		if (system->nParticles > 0)
-			minHeight = Min(minHeight, GetPosition().z+system->v3StartPoint.z-(system->boundingSphere*2));
+			minHeight = Min(minHeight, GetPosition().z+system->startPoint.z-(system->boundingSphere*2));
 	}
 	if (HasLightSource() && HasHalo())
 		minHeight = Min(minHeight, m_properties.light->pos.z);
@@ -614,7 +614,7 @@ Vector2 ETHSpriteEntity::ComputePositionWithZAxisApplied(const ETHScenePropertie
 		}
 		else if (HasParticleSystems())
 		{
-			r = GetPosition() + m_particles[0]->GetSystem()->v3StartPoint;
+			r = GetPosition() + m_particles[0]->GetSystem()->startPoint;
 		}
 		else if (IsCollidable())
 		{

@@ -207,14 +207,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\engine\ETHParticleManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\engine\ETHParticleManager.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\src\engine\ETHPrimitiveDrawer.cpp"
 				>
 			</File>
@@ -635,6 +627,26 @@
 				</File>
 				<File
 					RelativePath="..\..\..\src\engine\Resource\ETHSpriteDensityManager.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Particles"
+				>
+				<File
+					RelativePath="..\..\..\src\engine\Particles\ETHParticleManager.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\engine\Particles\ETHParticleManager.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\engine\Particles\ETHParticleSystem.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\engine\Particles\ETHParticleSystem.h"
 					>
 				</File>
 			</Filter>

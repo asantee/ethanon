@@ -118,9 +118,9 @@ void EntityEditor::InstantiateEntity(const std::wstring& fileName)
 	m_pEditEntity->particleSystems.resize(2);
 
 	if (!m_pEditEntity->particleSystems[0])
-		m_pEditEntity->particleSystems[0] = boost::shared_ptr<ETH_PARTICLE_SYSTEM>(new ETH_PARTICLE_SYSTEM);
+		m_pEditEntity->particleSystems[0] = boost::shared_ptr<ETHParticleSystem>(new ETHParticleSystem);
 	if (!m_pEditEntity->particleSystems[1])
-		m_pEditEntity->particleSystems[1] = boost::shared_ptr<ETH_PARTICLE_SYSTEM>(new ETH_PARTICLE_SYSTEM);
+		m_pEditEntity->particleSystems[1] = boost::shared_ptr<ETHParticleSystem>(new ETHParticleSystem);
 }
 
 void EntityEditor::StopAllSoundFXs()
@@ -645,9 +645,9 @@ void EntityEditor::ResetParticleMenu()
 	{
 		if (m_pEditEntity->particleSystems[t])
 		{
-			m_particlePos[t][0].SetConstant(m_pEditEntity->particleSystems[t]->v3StartPoint.x); //-V807
-			m_particlePos[t][1].SetConstant(m_pEditEntity->particleSystems[t]->v3StartPoint.y);
-			m_particlePos[t][2].SetConstant(m_pEditEntity->particleSystems[t]->v3StartPoint.z);
+			m_particlePos[t][0].SetConstant(m_pEditEntity->particleSystems[t]->startPoint.x); //-V807
+			m_particlePos[t][1].SetConstant(m_pEditEntity->particleSystems[t]->startPoint.y);
+			m_particlePos[t][2].SetConstant(m_pEditEntity->particleSystems[t]->startPoint.z);
 		}
 		else
 		{
@@ -1124,9 +1124,9 @@ string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 				)
 				if (m_pEditEntity->light)
 				{
-					m_pEditEntity->light->pos.x = m_pEditEntity->particleSystems[t]->v3StartPoint.x; //-V807
-					m_pEditEntity->light->pos.y = m_pEditEntity->particleSystems[t]->v3StartPoint.y;
-					m_pEditEntity->light->pos.z = m_pEditEntity->particleSystems[t]->v3StartPoint.z;
+					m_pEditEntity->light->pos.x = m_pEditEntity->particleSystems[t]->startPoint.x; //-V807
+					m_pEditEntity->light->pos.y = m_pEditEntity->particleSystems[t]->startPoint.y;
+					m_pEditEntity->light->pos.z = m_pEditEntity->particleSystems[t]->startPoint.z;
 					ResetLightMenu();
 				}
 			}
@@ -1183,23 +1183,23 @@ string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 			{
 				if (m_pEditEntity->particleSystems[t]->nParticles > 0)
 				{
-					m_pEditEntity->particleSystems[t]->v3StartPoint.x = m_particlePos[t][0].PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth);	y+=m_menuSize;
-					m_pEditEntity->particleSystems[t]->v3StartPoint.y = m_particlePos[t][1].PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth);	y+=m_menuSize;
-					m_pEditEntity->particleSystems[t]->v3StartPoint.z = m_particlePos[t][2].PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth);	y+=m_menuSize;
+					m_pEditEntity->particleSystems[t]->startPoint.x = m_particlePos[t][0].PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth);	y+=m_menuSize;
+					m_pEditEntity->particleSystems[t]->startPoint.y = m_particlePos[t][1].PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth);	y+=m_menuSize;
+					m_pEditEntity->particleSystems[t]->startPoint.z = m_particlePos[t][2].PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth);	y+=m_menuSize;
 
 					y+=m_menuSize/2;
-					Vector2 v2ParticlePos = ETHGlobal::ToVector2(m_pEditEntity->particleSystems[t]->v3StartPoint);
+					Vector2 v2ParticlePos = ETHGlobal::ToVector2(m_pEditEntity->particleSystems[t]->startPoint);
 					if (m_particleSpot[t].MouseOverLClick(m_provider->GetInput(), video, v2ParticlePos + m_renderEntity->GetPositionXY()) == GSKS_DOWN)
 					{
 						const Vector2 v2Cursor = m_provider->GetInput()->GetCursorPositionF(video);
-						m_pEditEntity->particleSystems[t]->v3StartPoint.x = v2Cursor.x - m_renderEntity->GetPosition().x;
-						m_pEditEntity->particleSystems[t]->v3StartPoint.y = v2Cursor.y - m_renderEntity->GetPosition().y;
+						m_pEditEntity->particleSystems[t]->startPoint.x = v2Cursor.x - m_renderEntity->GetPosition().x;
+						m_pEditEntity->particleSystems[t]->startPoint.y = v2Cursor.y - m_renderEntity->GetPosition().y;
 						//m_lightPos[0].SetConstant(m_pEditEntity->particle[t].v2StartPoint.x);
 						//m_lightPos[1].SetConstant(m_pEditEntity->particle[t].v2StartPoint.y);
 						//break;
 						ResetParticleMenu();
 					}
-					m_renderEntity->SetParticlePosition(t, m_pEditEntity->particleSystems[t]->v3StartPoint);
+					m_renderEntity->SetParticlePosition(t, m_pEditEntity->particleSystems[t]->startPoint);
 				}
 			}
 		}
@@ -1556,8 +1556,8 @@ void EntityEditor::DrawEntity()
 		{
 			if (m_pEditEntity->particleSystems[t]->nParticles > 0) //-V807
 			{
-				m_particleSpot[t].m_sprite->Draw(m_renderEntity->GetPositionXY() + ETHGlobal::ToVector2(m_pEditEntity->particleSystems[t]->v3StartPoint),
-												 ConvertToDW(m_pEditEntity->particleSystems[t]->v4Color0));
+				m_particleSpot[t].m_sprite->Draw(m_renderEntity->GetPositionXY() + ETHGlobal::ToVector2(m_pEditEntity->particleSystems[t]->startPoint),
+												 ConvertToDW(m_pEditEntity->particleSystems[t]->color0));
 			}
 		}
 	}
@@ -1622,7 +1622,7 @@ bool EntityEditor::LoadGloss(const char *file, const char *path)
 bool EntityEditor::LoadParticle(const int n, const char *file, const char *path)
 {
 	UnloadParticle(n);
-	ETH_PARTICLE_SYSTEM parSystem;
+	ETHParticleSystem parSystem;
 	if (parSystem.ReadFromFile(utf8::c(path).wstr(), m_provider->GetFileManager()))
 	{
 		*(m_pEditEntity->particleSystems[n].get()) = parSystem;

@@ -1166,9 +1166,9 @@ void SceneEditor::PlaceEntitySelection()
 	{
 		if (m_entityFiles[m_currentEntityIdx]->particleSystems[t]->nParticles > 0) //-V807
 		{
-			const Vector3 v3Part = m_v3Pos+m_entityFiles[m_currentEntityIdx]->particleSystems[t]->v3StartPoint;
+			const Vector3 v3Part = m_v3Pos+m_entityFiles[m_currentEntityIdx]->particleSystems[t]->startPoint;
 			m_pSprite->Draw(Vector2(v3Part.x, v3Part.y-v3Part.z),
-							ConvertToDW(m_entityFiles[m_currentEntityIdx]->particleSystems[t]->v4Color0));
+							ConvertToDW(m_entityFiles[m_currentEntityIdx]->particleSystems[t]->color0));
 		}
 	}
 
@@ -1379,12 +1379,12 @@ void SceneEditor::DrawEntitySelectionGrid(SpritePtr pNextAppButton)
 			if (m_entityFiles[t]->particleSystems[p]->nParticles > 0)
 			{
 				Vector2 v2SymbolPos = Vector2(
-					m_entityFiles[t]->particleSystems[p]->v3StartPoint.x, //-V807
-					m_entityFiles[t]->particleSystems[p]->v3StartPoint.y - m_entityFiles[t]->particleSystems[p]->v3StartPoint.z) / bias;
+					m_entityFiles[t]->particleSystems[p]->startPoint.x, //-V807
+					m_entityFiles[t]->particleSystems[p]->startPoint.y - m_entityFiles[t]->particleSystems[p]->startPoint.z) / bias;
 				v2SymbolPos.x = Clamp(v2SymbolPos.x,-_ENTITY_SELECTION_BAR_HEIGHT/2, _ENTITY_SELECTION_BAR_HEIGHT/2);
 				v2SymbolPos.y = Clamp(v2SymbolPos.y,-_ENTITY_SELECTION_BAR_HEIGHT/2, _ENTITY_SELECTION_BAR_HEIGHT/2);
 				const Vector2 v2PPos = v2Pos+v2SymbolPos;
-				m_pSprite->Draw(v2PPos, ConvertToDW(m_entityFiles[t]->particleSystems[p]->v4Color0));
+				m_pSprite->Draw(v2PPos, ConvertToDW(m_entityFiles[t]->particleSystems[p]->color0));
 			}
 		}
 

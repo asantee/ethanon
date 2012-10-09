@@ -191,102 +191,102 @@ void ParticleEditor::SetMenuConstants()
 	m_repeats.SetText(L"Repeats:");
 
 	m_gravity[0].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
-	m_gravity[0].SetConstant(m_system.v2GravityVector.x);
+	m_gravity[0].SetConstant(m_system.gravityVector.x);
 	m_gravity[0].SetClamp(false, 0, 0);
 	m_gravity[0].SetText(L"Grav X:");
 	m_gravity[0].SetDescription(L"Gravity vector");
 	m_gravity[1].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
-	m_gravity[1].SetConstant(m_system.v2GravityVector.y);
+	m_gravity[1].SetConstant(m_system.gravityVector.y);
 	m_gravity[1].SetClamp(false, 0, 0);
 	m_gravity[1].SetText(L"Grav Y:");
 	m_gravity[1].SetDescription(L"Gravity vector");
 
 	m_direction[0].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
-	m_direction[0].SetConstant(m_system.v2DirectionVector.x);
+	m_direction[0].SetConstant(m_system.directionVector.x);
 	m_direction[0].SetClamp(false, 0, 0);
 	m_direction[0].SetText(L"Dir X:");
 	m_direction[0].SetDescription(L"Particle direction");
 	m_direction[1].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
-	m_direction[1].SetConstant(m_system.v2DirectionVector.y);
+	m_direction[1].SetConstant(m_system.directionVector.y);
 	m_direction[1].SetClamp(false, 0, 0);
 	m_direction[1].SetText(L"Dir Y:");
 	m_direction[1].SetDescription(L"Particle direction");
 
 	m_randDir[0].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
-	m_randDir[0].SetConstant(m_system.v2RandomizeDir.x);
+	m_randDir[0].SetConstant(m_system.randomizeDir.x);
 	m_randDir[0].SetClamp(false, 0, 0);
 	m_randDir[0].SetText(L"R Dir X:");
 	m_randDir[0].SetDescription(L"Particle direction randomizer");
 	m_randDir[1].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
-	m_randDir[1].SetConstant(m_system.v2RandomizeDir.y);
+	m_randDir[1].SetConstant(m_system.randomizeDir.y);
 	m_randDir[1].SetClamp(false, 0, 0);
 	m_randDir[1].SetText(L"R Dir Y:");
 	m_randDir[1].SetDescription(L"Particle direction randomizer");
 
 	m_startPoint[0].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
-	m_startPoint[0].SetConstant(m_system.v3StartPoint.x);
+	m_startPoint[0].SetConstant(m_system.startPoint.x);
 	m_startPoint[0].SetClamp(false, 0, 0);
 	m_startPoint[0].SetText(L"Start X:");
 	m_startPoint[0].SetScrollAdd(1.0f);
 	m_startPoint[0].SetDescription(L"Particle starting position");
 	m_startPoint[1].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
-	m_startPoint[1].SetConstant(m_system.v3StartPoint.y);
+	m_startPoint[1].SetConstant(m_system.startPoint.y);
 	m_startPoint[1].SetClamp(false, 0, 0);
 	m_startPoint[1].SetText(L"Start Y:");
 	m_startPoint[1].SetScrollAdd(1.0f);
 	m_startPoint[1].SetDescription(L"Particle starting position");
 
 	m_randStart[0].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
-	m_randStart[0].SetConstant(m_system.v2RandStartPoint.x);
+	m_randStart[0].SetConstant(m_system.randStartPoint.x);
 	m_randStart[0].SetClamp(false, 0, 0);
 	m_randStart[0].SetText(L"R StartX:");
 	m_randStart[0].SetScrollAdd(1.0f);
 	m_randStart[0].SetDescription(L"Starting position randomizer");
 	m_randStart[1].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
-	m_randStart[1].SetConstant(m_system.v2RandStartPoint.y);
+	m_randStart[1].SetConstant(m_system.randStartPoint.y);
 	m_randStart[1].SetClamp(false, 0, 0);
 	m_randStart[1].SetText(L"R StartY:");
 	m_randStart[1].SetScrollAdd(1.0f);
 	m_randStart[1].SetDescription(L"Starting position randomizer");
 
 	m_color0[0].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
-	m_color0[0].SetConstant(m_system.v4Color0.w);
+	m_color0[0].SetConstant(m_system.color0.w);
 	m_color0[0].SetClamp(true, 0, 1);
 	m_color0[0].SetText(L"Color0.A:");
 	m_color0[0].SetDescription(L"Starting color alpha (transparency from 0.0 to 1.0)");
 	m_color0[1].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
-	m_color0[1].SetConstant(m_system.v4Color0.x);
+	m_color0[1].SetConstant(m_system.color0.x);
 	m_color0[1].SetClamp(true, 0, 1);
 	m_color0[1].SetText(L"Color0.R:");
 	m_color0[1].SetDescription(L"Starting color red component (from 0.0 to 1.0)");
 	m_color0[2].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
-	m_color0[2].SetConstant(m_system.v4Color0.y);
+	m_color0[2].SetConstant(m_system.color0.y);
 	m_color0[2].SetClamp(true, 0, 1);
 	m_color0[2].SetText(L"Color0.G:");
 	m_color0[2].SetDescription(L"Starting color green component (from 0.0 to 1.0)");
 	m_color0[3].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
-	m_color0[3].SetConstant(m_system.v4Color0.z);
+	m_color0[3].SetConstant(m_system.color0.z);
 	m_color0[3].SetClamp(true, 0, 1);
 	m_color0[3].SetText(L"Color0.B:");
 	m_color0[3].SetDescription(L"Starting color blue component (from 0.0 to 1.0)");
 
 	m_color1[0].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
-	m_color1[0].SetConstant(m_system.v4Color1.w);
+	m_color1[0].SetConstant(m_system.color1.w);
 	m_color1[0].SetClamp(true, 0, 1);
 	m_color1[0].SetText(L"Color1.A:");
 	m_color1[0].SetDescription(L"Ending color alpha (transparency)");
 	m_color1[1].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
-	m_color1[1].SetConstant(m_system.v4Color1.x);
+	m_color1[1].SetConstant(m_system.color1.x);
 	m_color1[1].SetClamp(true, 0, 1);
 	m_color1[1].SetText(L"Color1.R:");
 	m_color1[1].SetDescription(L"Ending color red component (from 0.0 to 1.0)");
 	m_color1[2].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
-	m_color1[2].SetConstant(m_system.v4Color1.y);
+	m_color1[2].SetConstant(m_system.color1.y);
 	m_color1[2].SetClamp(true, 0, 1);
 	m_color1[2].SetText(L"Color1.G:");
 	m_color1[2].SetDescription(L"Ending color green component (from 0.0 to 1.0)");
 	m_color1[3].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
-	m_color1[3].SetConstant(m_system.v4Color1.z);
+	m_color1[3].SetConstant(m_system.color1.z);
 	m_color1[3].SetClamp(true, 0, 1);
 	m_color1[3].SetText(L"Color1.B:");
 	m_color1[3].SetDescription(L"Ending color blue component (from 0.0 to 1.0)");
@@ -396,13 +396,13 @@ void ParticleEditor::SetMenuConstants()
 	m_allAtOnce.SetDescription(L"All-at-once particle relasing (1=true/0=false)");
 
 	m_spriteCut[0].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
-	m_spriteCut[0].SetConstant(static_cast<float>(m_system.v2SpriteCut.x));
+	m_spriteCut[0].SetConstant(static_cast<float>(m_system.spriteCut.x));
 	m_spriteCut[0].SetClamp(true, 1, 9999);
 	m_spriteCut[0].SetText(L"Sprite columns:");
 	m_spriteCut[0].SetScrollAdd(1.0f);
 	m_spriteCut[0].SetDescription(L"Number of columns of the animated sprite");
 	m_spriteCut[1].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
-	m_spriteCut[1].SetConstant(static_cast<float>(m_system.v2SpriteCut.y));
+	m_spriteCut[1].SetConstant(static_cast<float>(m_system.spriteCut.y));
 	m_spriteCut[1].SetClamp(true, 1, 9999);
 	m_spriteCut[1].SetText(L"Sprite rows:");
 	m_spriteCut[1].SetScrollAdd(1.0f);
@@ -417,9 +417,9 @@ void ParticleEditor::SetMenuConstants()
 		m_alphaModes.ActivateButton(ALPHA_MODE_MODULATE);
 
 	m_animationModes.ResetButtons();
-	if (m_system.animationMode == _ETH_PLAY_ANIMATION)
+	if (m_system.animationMode == ETHParticleSystem::PLAY_ANIMATION)
 		m_animationModes.ActivateButton(ANIMATION_MODE_ANIMATE);
-	if (m_system.animationMode == _ETH_PICK_RANDOM_FRAME)
+	if (m_system.animationMode == ETHParticleSystem::PICK_RANDOM_FRAME)
 		m_animationModes.ActivateButton(ANIMATION_MODE_PICK);
 }
 
@@ -598,19 +598,19 @@ void ParticleEditor::ParticlePanel()
 		menu += m_menuSize/2;
 		ShadowPrint(Vector2(v2ScreenDim.x-m_alphaModes.GetWidth(), menu), L"Sprite cut:", L"Verdana14_shadow.fnt", gs2d::constant::WHITE);
 		menu += m_menuSize;
-		m_system.v2SpriteCut.x = Max(1, static_cast<int>(m_spriteCut[0].PlaceInput(Vector2(v2ScreenDim.x-m_alphaModes.GetWidth(),menu)))); menu += m_menuSize;
-		m_system.v2SpriteCut.y = Max(1, static_cast<int>(m_spriteCut[1].PlaceInput(Vector2(v2ScreenDim.x-m_alphaModes.GetWidth(),menu)))); menu += m_menuSize;
+		m_system.spriteCut.x = Max(1, static_cast<int>(m_spriteCut[0].PlaceInput(Vector2(v2ScreenDim.x-m_alphaModes.GetWidth(),menu)))); menu += m_menuSize;
+		m_system.spriteCut.y = Max(1, static_cast<int>(m_spriteCut[1].PlaceInput(Vector2(v2ScreenDim.x-m_alphaModes.GetWidth(),menu)))); menu += m_menuSize;
 
 		// if there is sprite animation in the particle system, places the animation mode selector
-		if (m_system.v2SpriteCut.x > 1 || m_system.v2SpriteCut.y > 1)
+		if (m_system.spriteCut.x > 1 || m_system.spriteCut.y > 1)
 		{
 			menu += m_menuSize/2;
 			m_animationModes.PlaceMenu(Vector2(v2ScreenDim.x-m_animationModes.GetWidth(), menu)); menu += m_animationModes.GetNumButtons()*m_menuSize;
 
 			if (m_animationModes.GetButtonStatus(ANIMATION_MODE_ANIMATE))
-				m_system.animationMode = _ETH_PLAY_ANIMATION;
+				m_system.animationMode = ETHParticleSystem::PLAY_ANIMATION;
 			if (m_animationModes.GetButtonStatus(ANIMATION_MODE_PICK))
-				m_system.animationMode = _ETH_PICK_RANDOM_FRAME;
+				m_system.animationMode = ETHParticleSystem::PICK_RANDOM_FRAME;
 		}
 
 		// inputs all data
@@ -631,38 +631,38 @@ void ParticleEditor::ParticlePanel()
 			m_manager->Kill(false);
 		}
 
-		m_system.v2GravityVector.x = m_gravity[0].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
-		m_system.v2GravityVector.y = m_gravity[1].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
+		m_system.gravityVector.x = m_gravity[0].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
+		m_system.gravityVector.y = m_gravity[1].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
 
-		m_system.v2DirectionVector.x = m_direction[0].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
-		m_system.v2DirectionVector.y = m_direction[1].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
+		m_system.directionVector.x = m_direction[0].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
+		m_system.directionVector.y = m_direction[1].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
 
-		m_system.v2RandomizeDir.x = m_randDir[0].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
-		m_system.v2RandomizeDir.y = m_randDir[1].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
+		m_system.randomizeDir.x = m_randDir[0].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
+		m_system.randomizeDir.y = m_randDir[1].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
 		menu += m_menuSize/2;
 
 		m_system.boundingSphere = m_boundingSphere.PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
 		m_system.allAtOnce = (bool)(m_allAtOnce.PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize) != 0); menu += m_menuSize;
 		menu += m_menuSize/2;
 
-		m_system.v3StartPoint.x = m_startPoint[0].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
-		m_system.v3StartPoint.y = m_startPoint[1].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
+		m_system.startPoint.x = m_startPoint[0].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
+		m_system.startPoint.y = m_startPoint[1].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
 		menu += m_menuSize/2;
 
-		m_system.v2RandStartPoint.x = m_randStart[0].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
-		m_system.v2RandStartPoint.y = m_randStart[1].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
+		m_system.randStartPoint.x = m_randStart[0].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
+		m_system.randStartPoint.y = m_randStart[1].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
 		menu += m_menuSize/2;
 
-		m_system.v4Color0.w = m_color0[0].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
-		m_system.v4Color0.x = m_color0[1].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
-		m_system.v4Color0.y = m_color0[2].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
-		m_system.v4Color0.z = m_color0[3].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
+		m_system.color0.w = m_color0[0].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
+		m_system.color0.x = m_color0[1].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
+		m_system.color0.y = m_color0[2].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
+		m_system.color0.z = m_color0[3].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
 		menu += m_menuSize/2;
 
-		m_system.v4Color1.w = m_color1[0].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
-		m_system.v4Color1.x = m_color1[1].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
-		m_system.v4Color1.y = m_color1[2].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
-		m_system.v4Color1.z = m_color1[3].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
+		m_system.color1.w = m_color1[0].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
+		m_system.color1.x = m_color1[1].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
+		m_system.color1.y = m_color1[2].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
+		m_system.color1.z = m_color1[3].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
 		menu += m_menuSize/2;
 
 		m_system.size = m_size.PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
@@ -719,15 +719,15 @@ void ParticleEditor::ResetSystem()
 {
 	m_system.alphaMode = Video::AM_PIXEL;
 	m_system.nParticles = 50;
-	m_system.v2GravityVector = Vector2(0.0f, 0.01f);
-	m_system.v2DirectionVector = Vector2(0.0f,-2.5f);
-	m_system.v2RandomizeDir = Vector2(1.5f, 0.2f);
+	m_system.gravityVector = Vector2(0.0f, 0.01f);
+	m_system.directionVector = Vector2(0.0f,-2.5f);
+	m_system.randomizeDir = Vector2(1.5f, 0.2f);
 
-	m_system.v3StartPoint = Vector3(0.0f, 0.0f, 0.0f);
-	m_system.v2RandStartPoint = Vector2(0.0f, 0.0f);
+	m_system.startPoint = Vector3(0.0f, 0.0f, 0.0f);
+	m_system.randStartPoint = Vector2(0.0f, 0.0f);
 
-	m_system.v4Color0 = Vector4(1, 1, 0, 1);
-	m_system.v4Color1 = Vector4(1, 0, 0, 0);
+	m_system.color0 = Vector4(1, 1, 0, 1);
+	m_system.color1 = Vector4(1, 0, 0, 0);
 
 	m_system.lifeTime = 1200.0f;
 	m_system.randomizeLifeTime = 1000.0f;

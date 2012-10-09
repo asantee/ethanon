@@ -548,7 +548,7 @@ bool D3D9Video::BeginSpriteScene(const Color& bgColor)
 	}
 	m_pDevice->SetRenderState(D3DRS_AMBIENT, gs2d::constant::WHITE);
 	m_pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
-	for (unsigned int t=0; t<TEXTURE_CHANNELS; t++)
+	for (unsigned int t = 0; t < TEXTURE_CHANNELS; t++)
 		m_pDevice->SetSamplerState(t, D3DSAMP_MIPFILTER, D3DTEXF_POINT);
 	m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 	m_pDevice->SetRenderState(D3DRS_CULLMODE,D3DCULL_NONE);
@@ -1073,7 +1073,7 @@ Video::APP_STATUS D3D9Video::HandleEvents()
 	else
 	{
 		// The following piece of code deals with an eventual device loss.
-		// As all textures are sotre using D3DPOOL_MANAGED, we don't need to
+		// As all textures are stored using D3DPOOL_MANAGED, we don't need to
 		//erase them before we reset the device. We must do that only with
 		//fonts and render targets (if there are any)
 		if (m_videoInfo->m_deviceLost)

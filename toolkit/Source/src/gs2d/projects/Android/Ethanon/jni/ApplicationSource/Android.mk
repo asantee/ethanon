@@ -42,7 +42,6 @@ LOCAL_SRC_FILES := \
 	$(ADDONS_PATH)/scriptmath2d.cpp \
 	$(ADDONS_PATH)/scriptmath3d.cpp \
 	$(ADDONS_PATH)/scriptdictionary.cpp \
-	$(ENGINE_PATH)/ETHParticleManager.cpp \
 	$(ENGINE_PATH)/ETHPrimitiveDrawer.cpp \
 	$(ENGINE_PATH)/ETHEngine.cpp \
 	$(ENGINE_PATH)/Resource/ETHDirectories.cpp \
@@ -103,6 +102,8 @@ LOCAL_SRC_FILES := \
 	$(ENGINE_PATH)/Physics/ETHJoint.cpp \
 	$(ENGINE_PATH)/Physics/ETHPhysicsEntityController.cpp \
 	$(ENGINE_PATH)/Physics/ETHRevoluteJoint.cpp \
+	$(ENGINE_PATH)/Particles/ETHParticleManager.cpp \
+	$(ENGINE_PATH)/Particles/ETHParticleSystem.cpp \
 	$(ENGINE_PATH)/Platform/ETHAppEnmlFile.cpp
 
 LOCAL_LDLIBS := -ldl -llog -lGLESv2 -lz

@@ -89,8 +89,12 @@ using namespace gs2d;
 
 typedef long ETH_INT;
 typedef unsigned char ETH_BOOL;
+
 #define ETH_TRUE (1)
 #define ETH_FALSE (0)
+
+class ETHResourceProvider;
+typedef boost::shared_ptr<ETHResourceProvider> ETHResourceProviderPtr;
 
 enum ETH_MESSAGE
 {

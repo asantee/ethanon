@@ -24,7 +24,7 @@
 #define ETH_ENTITY_PROPERTIES_H_
 
 #include "ETHLight.h"
-#include "../ETHParticleManager.h"
+#include "../Particles/ETHParticleManager.h"
 #include "ETHCustomDataManager.h"
 #include "../Physics/ETHPolygon.h"
 #include "../Physics/ETHCompoundShape.h"
@@ -120,7 +120,7 @@ public:
 	float soundVolume;
 	Vector2 scale;
 	boost::shared_ptr<ETHCollisionBox> collision;
-	std::vector<boost::shared_ptr<ETH_PARTICLE_SYSTEM> > particleSystems;
+	std::vector<boost::shared_ptr<ETHParticleSystem> > particleSystems;
 	bool successfullyLoaded;
 };
 

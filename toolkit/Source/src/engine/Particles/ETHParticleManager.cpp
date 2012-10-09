@@ -21,355 +21,14 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHParticleManager.h"
-#include "Resource/ETHDirectories.h"
-#include "Util/ETHASUtil.h"
-#include "Entity/ETHEntity.h"
+#include "../Resource/ETHResourceProvider.h"
+#include "../Resource/ETHDirectories.h"
+#include "../Util/ETHASUtil.h"
+#include "../Entity/ETHEntity.h"
 #include <Math/Randomizer.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-void ETH_PARTICLE_SYSTEM::Scale(const float scale)
-{
-	boundingSphere *= scale;
-	v2GravityVector *= scale;
-	v2DirectionVector *= scale;
-	v2RandomizeDir *= scale;
-	v3StartPoint *= scale;
-	v2RandStartPoint *= scale;
-	size *= scale;
-	randomizeSize *= scale;
-	growth *= scale;
-	minSize *= scale;
-	maxSize *= scale;
-}
-
-void ETH_PARTICLE_SYSTEM::MirrorX(const bool mirrorGravity)
-{
-	if (mirrorGravity)
-		v2GravityVector.x *=-1;
-	v3StartPoint.x *=-1;
-	v2DirectionVector.x *=-1;
-	v2RandomizeDir.x *=-1;
-	v2RandStartPoint.x *=-1;
-}
-
-void ETH_PARTICLE_SYSTEM::MirrorY(const bool mirrorGravity)
-{
-	if (mirrorGravity)
-		v2GravityVector.y *=-1;
-	v3StartPoint.y *=-1;
-	v2DirectionVector.y *=-1;
-	v2RandomizeDir.y *=-1;
-	v2RandStartPoint.y *=-1;
-}
-
-ETH_PARTICLE_SYSTEM::ETH_PARTICLE_SYSTEM()
-{
-	Reset();
-}
-
-void ETH_PARTICLE_SYSTEM::Reset()
-{
-	alphaMode = Video::AM_PIXEL;
-	nParticles = 0;
-	lifeTime = 0.0f;
-	randomizeLifeTime = 0.0f;
-	size = 1.0f;
-	growth = 0.0f;
-	minSize = 0.0f;
-	maxSize = 99999.0f;
-	repeat = 0;
-	randomizeSize = 0.0f;
-	randAngleStart = 0.0f;
-	angleStart = 0.0f;
-	emissive = Vector3(1,1,1);
-	allAtOnce = false;
-	boundingSphere = 512.0f;
-	soundFXFile = GS_L("");
-	v2SpriteCut = Vector2i(1,1);
-	animationMode = _ETH_PLAY_ANIMATION;
-}
-
-bool ETH_PARTICLE_SYSTEM::ReadFromXMLFile(TiXmlElement *pElement)
-{
-	pElement->QueryIntAttribute(GS_L("particles"), &nParticles);
-
-	int tempAllAtOnce;
-	pElement->QueryIntAttribute(GS_L("allAtOnce"), &tempAllAtOnce);
-	allAtOnce = static_cast<ETH_BOOL>(tempAllAtOnce);
-
-	pElement->QueryIntAttribute(GS_L("alphaMode"), (int*)&alphaMode);
-	pElement->QueryIntAttribute(GS_L("repeat"), &repeat);
-	pElement->QueryFloatAttribute(GS_L("boundingSphere"), &boundingSphere);
-	pElement->QueryFloatAttribute(GS_L("lifeTime"), &lifeTime);
-	pElement->QueryFloatAttribute(GS_L("randomLifeTime"), &randomizeLifeTime);
-	pElement->QueryFloatAttribute(GS_L("angleDir"), &angleDir);
-	pElement->QueryFloatAttribute(GS_L("randAngle"), &randAngle);
-	pElement->QueryFloatAttribute(GS_L("size"), &size);
-	pElement->QueryFloatAttribute(GS_L("randomizeSize"), &randomizeSize);
-	pElement->QueryFloatAttribute(GS_L("growth"), &growth);
-	pElement->QueryFloatAttribute(GS_L("minSize"), &minSize);
-	pElement->QueryFloatAttribute(GS_L("maxSize"), &maxSize);
-	pElement->QueryFloatAttribute(GS_L("angleStart"), &angleStart);
-	pElement->QueryFloatAttribute(GS_L("randAngleStart"), &randAngleStart);
-	pElement->QueryIntAttribute(GS_L("animationMode"), &animationMode);
-
-	TiXmlNode *pNode;
-	TiXmlElement *pStringElement;
-
-	pNode = pElement->FirstChild(GS_L("Bitmap"));
-	if (pNode)
-	{
-		pStringElement = pNode->ToElement();
-		if (pStringElement)
-		{
-			bitmapFile = pStringElement->GetText();
-		}
-	}
-
-	pNode = pElement->FirstChild(GS_L("SoundEffect"));
-	if (pNode)
-	{
-		pStringElement = pNode->ToElement();
-		if (pStringElement)
-		{
-			soundFXFile = pStringElement->GetText();
-		}
-	}
-
-	TiXmlElement *pIter;
-	pNode = pElement->FirstChild(GS_L("Gravity"));
-	if (pNode)
-	{
-		pIter = pNode->ToElement();
-		if (pIter)
-		{
-			pIter->QueryFloatAttribute(GS_L("x"), &v2GravityVector.x);
-			pIter->QueryFloatAttribute(GS_L("y"), &v2GravityVector.y);
-		}
-	}
-
-	pNode = pElement->FirstChild(GS_L("Direction"));
-	if (pNode)
-	{
-		pIter = pNode->ToElement();
-		if (pIter)
-		{
-			pIter->QueryFloatAttribute(GS_L("x"), &v2DirectionVector.x);
-			pIter->QueryFloatAttribute(GS_L("y"), &v2DirectionVector.y);
-		}
-	}
-
-	pNode = pElement->FirstChild(GS_L("RandomizeDir"));
-	if (pNode)
-	{
-		pIter = pNode->ToElement();
-		if (pIter)
-		{
-			pIter->QueryFloatAttribute(GS_L("x"), &v2RandomizeDir.x);
-			pIter->QueryFloatAttribute(GS_L("y"), &v2RandomizeDir.y);
-		}
-	}
-
-	pNode = pElement->FirstChild(GS_L("StartPoint"));
-	if (pNode)
-	{
-		pIter = pNode->ToElement();
-		if (pIter)
-		{
-			pIter->QueryFloatAttribute(GS_L("x"), &v3StartPoint.x);
-			pIter->QueryFloatAttribute(GS_L("y"), &v3StartPoint.y);
-			pIter->QueryFloatAttribute(GS_L("z"), &v3StartPoint.z);
-		}
-	}
-
-	pNode = pElement->FirstChild(GS_L("RandStartPoint"));
-	if (pNode)
-	{
-		pIter = pNode->ToElement();
-		if (pIter)
-		{
-			pIter->QueryFloatAttribute(GS_L("x"), &v2RandStartPoint.x);
-			pIter->QueryFloatAttribute(GS_L("y"), &v2RandStartPoint.y);
-		}
-	}
-
-	pNode = pElement->FirstChild(GS_L("SpriteCut"));
-	if (pNode)
-	{
-		pIter = pNode->ToElement();
-		if (pIter)
-		{
-			pIter->QueryIntAttribute(GS_L("x"), &v2SpriteCut.x);
-			pIter->QueryIntAttribute(GS_L("y"), &v2SpriteCut.y);
-		}
-	}
-
-	pNode = pElement->FirstChild(GS_L("Color0"));
-	if (pNode)
-	{
-		pIter = pNode->ToElement();
-		if (pIter)
-		{
-			pIter->QueryFloatAttribute(GS_L("r"), &v4Color0.x);
-			pIter->QueryFloatAttribute(GS_L("g"), &v4Color0.y);
-			pIter->QueryFloatAttribute(GS_L("b"), &v4Color0.z);
-			pIter->QueryFloatAttribute(GS_L("a"), &v4Color0.w);
-		}
-	}
-
-	pNode = pElement->FirstChild(GS_L("Color1"));
-	if (pNode)
-	{
-		pIter = pNode->ToElement();
-		if (pIter)
-		{
-			pIter->QueryFloatAttribute(GS_L("r"), &v4Color1.x);
-			pIter->QueryFloatAttribute(GS_L("g"), &v4Color1.y);
-			pIter->QueryFloatAttribute(GS_L("b"), &v4Color1.z);
-			pIter->QueryFloatAttribute(GS_L("a"), &v4Color1.w);
-		}
-	}
-
-	pNode = pElement->FirstChild(GS_L("Luminance"));
-	if (pNode)
-	{
-		pIter = pNode->ToElement();
-		if (pIter)
-		{
-			pIter->QueryFloatAttribute(GS_L("r"), &emissive.x);
-			pIter->QueryFloatAttribute(GS_L("g"), &emissive.y);
-			pIter->QueryFloatAttribute(GS_L("b"), &emissive.z);
-		}
-	}
-	return true;
-}
-
-bool ETH_PARTICLE_SYSTEM::ReadFromFile(const str_type::string& fileName, const Platform::FileManagerPtr& fileManager)
-{
-	TiXmlDocument doc(fileName);
-	str_type::string content;
-	fileManager->GetUTF16FileString(fileName, content);
-	if (!doc.LoadFile(content, TIXML_ENCODING_LEGACY))
-		return false;
-
-	TiXmlHandle hDoc(&doc);
-	TiXmlHandle hRoot(0);
-
-	TiXmlElement *pElem = hDoc.FirstChildElement().Element();
-	if (!pElem)
-		return false;
-
-	hRoot = TiXmlHandle(pElem);
-
-	return ReadFromXMLFile(hRoot.FirstChildElement().Element());
-}
-
-bool ETH_PARTICLE_SYSTEM::WriteToXMLFile(TiXmlElement *pRoot) const
-{
-	TiXmlElement *pParticleRoot = new TiXmlElement(GS_L("ParticleSystem"));
-	pRoot->LinkEndChild(pParticleRoot); 
-
-	TiXmlElement *pElement;
-
-	if (soundFXFile != GS_L(""))
-	{
-		pElement = new TiXmlElement(GS_L("SoundEffect"));
-		pElement->LinkEndChild(
-			new TiXmlText( Platform::GetFileName(soundFXFile) )
-		);
-		pParticleRoot->LinkEndChild(pElement);
-	}
-
-	if (bitmapFile != GS_L(""))
-	{
-		pElement = new TiXmlElement(GS_L("Bitmap"));
-		pElement->LinkEndChild(new TiXmlText( Platform::GetFileName(bitmapFile)));
-		pParticleRoot->LinkEndChild(pElement);
-	}
-
-	pElement = new TiXmlElement(GS_L("Gravity"));
-	pParticleRoot->LinkEndChild(pElement);
-	pElement->SetDoubleAttribute(GS_L("x"), v2GravityVector.x);
-	pElement->SetDoubleAttribute(GS_L("y"), v2GravityVector.y);
-
-	pElement = new TiXmlElement(GS_L("Direction"));
-	pParticleRoot->LinkEndChild(pElement);
-	pElement->SetDoubleAttribute(GS_L("x"), v2DirectionVector.x);
-	pElement->SetDoubleAttribute(GS_L("y"), v2DirectionVector.y);
-
-	pElement = new TiXmlElement(GS_L("RandomizeDir"));
-	pParticleRoot->LinkEndChild(pElement);
-	pElement->SetDoubleAttribute(GS_L("x"), v2RandomizeDir.x);
-	pElement->SetDoubleAttribute(GS_L("y"), v2RandomizeDir.y);
-
-	pElement = new TiXmlElement(GS_L("SpriteCut"));
-	pParticleRoot->LinkEndChild(pElement);
-	pElement->SetDoubleAttribute(GS_L("x"), v2SpriteCut.x);
-	pElement->SetDoubleAttribute(GS_L("y"), v2SpriteCut.y);
-
-	pElement = new TiXmlElement(GS_L("StartPoint"));
-	pParticleRoot->LinkEndChild(pElement);
-	pElement->SetDoubleAttribute(GS_L("x"), v3StartPoint.x);
-	pElement->SetDoubleAttribute(GS_L("y"), v3StartPoint.y);
-	pElement->SetDoubleAttribute(GS_L("z"), v3StartPoint.z);
-
-	pElement = new TiXmlElement(GS_L("RandStartPoint"));
-	pParticleRoot->LinkEndChild(pElement);
-	pElement->SetDoubleAttribute(GS_L("x"), v2RandStartPoint.x);
-	pElement->SetDoubleAttribute(GS_L("y"), v2RandStartPoint.y);
-
-	pElement = new TiXmlElement(GS_L("Color0"));
-	pParticleRoot->LinkEndChild(pElement);
-	pElement->SetDoubleAttribute(GS_L("r"), v4Color0.x);
-	pElement->SetDoubleAttribute(GS_L("g"), v4Color0.y);
-	pElement->SetDoubleAttribute(GS_L("b"), v4Color0.z);
-	pElement->SetDoubleAttribute(GS_L("a"), v4Color0.w);
-
-	pElement = new TiXmlElement(GS_L("Color1"));
-	pParticleRoot->LinkEndChild(pElement);
-	pElement->SetDoubleAttribute(GS_L("r"), v4Color1.x);
-	pElement->SetDoubleAttribute(GS_L("g"), v4Color1.y);
-	pElement->SetDoubleAttribute(GS_L("b"), v4Color1.z);
-	pElement->SetDoubleAttribute(GS_L("a"), v4Color1.w);
-
-	pElement = new TiXmlElement(GS_L("Luminance"));
-	pParticleRoot->LinkEndChild(pElement);
-	pElement->SetDoubleAttribute(GS_L("r"), emissive.x);
-	pElement->SetDoubleAttribute(GS_L("g"), emissive.y);
-	pElement->SetDoubleAttribute(GS_L("b"), emissive.z);
-
-	pParticleRoot->SetAttribute(GS_L("particles"), nParticles);
-	pParticleRoot->SetAttribute(GS_L("allAtOnce"), allAtOnce);
-	pParticleRoot->SetAttribute(GS_L("alphaMode"), alphaMode);
-	pParticleRoot->SetAttribute(GS_L("repeat"), repeat);
-	pParticleRoot->SetAttribute(GS_L("animationMode"), animationMode);
-	pParticleRoot->SetDoubleAttribute(GS_L("boundingSphere"), boundingSphere);
-	pParticleRoot->SetDoubleAttribute(GS_L("lifeTime"), lifeTime);
-	pParticleRoot->SetDoubleAttribute(GS_L("randomLifeTime"), randomizeLifeTime);
-	pParticleRoot->SetDoubleAttribute(GS_L("angleDir"), angleDir);
-	pParticleRoot->SetDoubleAttribute(GS_L("randAngle"), randAngle);
-	pParticleRoot->SetDoubleAttribute(GS_L("size"), size);
-	pParticleRoot->SetDoubleAttribute(GS_L("randomizeSize"), randomizeSize);
-	pParticleRoot->SetDoubleAttribute(GS_L("growth"), growth);
-	pParticleRoot->SetDoubleAttribute(GS_L("minSize"), minSize);
-	pParticleRoot->SetDoubleAttribute(GS_L("maxSize"), maxSize);
-	pParticleRoot->SetDoubleAttribute(GS_L("angleStart"), angleStart);
-	pParticleRoot->SetDoubleAttribute(GS_L("randAngleStart"), randAngleStart);	
-
-	return true;
-}
-
-int ETH_PARTICLE_SYSTEM::GetNumFrames() const
-{
-	return v2SpriteCut.x * v2SpriteCut.y;
-}
-
-str_type::string ETH_PARTICLE_SYSTEM::GetActualBitmapFile() const
-{
-	return (bitmapFile == GS_L("")) ? ETH_DEFAULT_PARTICLE_BITMAP : bitmapFile;
-}
 
 ETHParticleManager::ETHParticleManager(
 	ETHResourceProviderPtr provider,
@@ -380,7 +39,7 @@ ETHParticleManager::ETHParticleManager(
 	const float entityVolume) :
 	m_provider(provider)
 {
-	ETH_PARTICLE_SYSTEM partSystem;
+	ETHParticleSystem partSystem;
 	if (partSystem.ReadFromFile(file, m_provider->GetFileManager()))
 	{
 		CreateParticleSystem(partSystem, v2Pos, v3Pos, angle, entityVolume, 1.0f);
@@ -394,7 +53,7 @@ ETHParticleManager::ETHParticleManager(
 
 ETHParticleManager::ETHParticleManager(
 	ETHResourceProviderPtr provider,
-	const ETH_PARTICLE_SYSTEM& partSystem,
+	const ETHParticleSystem& partSystem,
 	const Vector2& v2Pos,
 	const Vector3& v3Pos,
 	const float angle,
@@ -406,7 +65,7 @@ ETHParticleManager::ETHParticleManager(
 }
 
 bool ETHParticleManager::CreateParticleSystem(
-	const ETH_PARTICLE_SYSTEM& partSystem,
+	const ETHParticleSystem& partSystem,
 	const Vector2& v2Pos,
 	const Vector3& v3Pos,
 	const float angle,
@@ -470,7 +129,7 @@ bool ETHParticleManager::CreateParticleSystem(
 	m_particles.resize(m_system.nParticles);
 
 	Matrix4x4 rot = RotateZ(DegreeToRadian(angle));
-	for (int t=0; t<m_system.nParticles; t++)
+	for (int t = 0; t < m_system.nParticles; t++)
 	{
 		m_particles[t].id = t;
 		m_particles[t].released = false;
@@ -496,12 +155,12 @@ void ETHParticleManager::StopSFX(const bool stopped)
 
 Vector3 ETHParticleManager::GetStartPos() const
 {
-	return m_system.v3StartPoint;
+	return m_system.startPoint;
 }
 
 void ETHParticleManager::SetStartPos(const Vector3& v3Pos)
 {
-	m_system.v3StartPoint = v3Pos;
+	m_system.startPoint = v3Pos;
 }
 
 float ETHParticleManager::GetBoundingRadius() const
@@ -524,7 +183,7 @@ void ETHParticleManager::Kill(const bool kill)
 	m_killed = kill;
 }
 
-void ETHParticleManager::SetSystem(const ETH_PARTICLE_SYSTEM &partSystem)
+void ETHParticleManager::SetSystem(const ETHParticleSystem &partSystem)
 {
 	//partSystem.nParticles = m_system.nParticles;
 	m_system = partSystem;
@@ -540,7 +199,7 @@ SpritePtr ETHParticleManager::GetParticleBitmap()
 	return m_pBMP;
 }
 
-const ETH_PARTICLE_SYSTEM *ETHParticleManager::GetSystem() const
+const ETHParticleSystem *ETHParticleManager::GetSystem() const
 {
 	return &m_system;
 }
@@ -580,7 +239,7 @@ bool ETHParticleManager::UpdateParticleSystem(
 	m_nActiveParticles = 0;
 	for (int t = 0; t < m_system.nParticles; t++)
 	{
-		ETH_PARTICLE& particle = m_particles[t];
+		PARTICLE& particle = m_particles[t];
 
 		if (m_system.repeat > 0)
 			if (particle.repeat >= m_system.repeat)
@@ -612,17 +271,17 @@ bool ETHParticleManager::UpdateParticleSystem(
 
 		if (particle.released)
 		{
-			particle.v2Dir += (m_system.v2GravityVector * frameSpeed);
-			particle.v2Pos += (particle.v2Dir * frameSpeed);
+			particle.dir += (m_system.gravityVector * frameSpeed);
+			particle.pos += (particle.dir * frameSpeed);
 			particle.angle += (particle.angleDir * frameSpeed);
 			particle.size  += (m_system.growth * frameSpeed);
 			const float w = particle.elapsed / particle.lifeTime;
-			particle.v4Color = m_system.v4Color0 + (m_system.v4Color1 - m_system.v4Color0) * w;
+			particle.color = m_system.color0 + (m_system.color1 - m_system.color0) * w;
 
 			// update particle animation if there is any
-			if (m_system.v2SpriteCut.x > 1 || m_system.v2SpriteCut.y > 1)
+			if (m_system.spriteCut.x > 1 || m_system.spriteCut.y > 1)
 			{
-				if (m_system.animationMode == _ETH_PLAY_ANIMATION)
+				if (m_system.animationMode == ETHParticleSystem::PLAY_ANIMATION)
 				{
 					particle.currentFrame = static_cast<unsigned int>(
 						Min(static_cast<int>(static_cast<float>(m_system.GetNumFrames()) * w),
@@ -654,7 +313,7 @@ void ETHParticleManager::HandleSoundPlayback(const Vector2 &v2Pos, const float f
 	if (!m_pSound)
 		return;
 
-	const Vector2 v2FinalPos = v2Pos+ETHGlobal::ToVector2(m_system.v3StartPoint);
+	const Vector2 v2FinalPos = v2Pos+ETHGlobal::ToVector2(m_system.startPoint);
 	if (m_nActiveParticles <= 0)
 	{
 		if (IsSoundLooping())
@@ -723,7 +382,7 @@ bool ETHParticleManager::Play(const Vector2 &v2Pos, const Vector3 &v3Pos, const 
 	return true;
 }
 
-void ETHParticleManager::BubbleSort(std::vector<ETH_PARTICLE> &v)
+void ETHParticleManager::BubbleSort(std::vector<PARTICLE> &v)
 {
 	const int len = v.size();
 	for (int j = len - 1; j > 0; j--)
@@ -771,7 +430,7 @@ bool ETHParticleManager::DrawParticleSystem(
 	m_pBMP->SetOrigin(Sprite::EO_CENTER);
 	for (int t = 0; t < m_system.nParticles; t++)
 	{
-		const ETH_PARTICLE& particle = m_particles[t];
+		const PARTICLE& particle = m_particles[t];
 
 		if (m_system.repeat > 0)
 			if (particle.repeat >= m_system.repeat)
@@ -792,19 +451,19 @@ bool ETHParticleManager::DrawParticleSystem(
 		}
 
 		Color dwColor;
-		const Vector4& color(particle.v4Color);
+		const Vector4& color(particle.color);
 		dwColor.a = (GS_BYTE)(color.w * 255.0f);
 		dwColor.r = (GS_BYTE)(color.x * v3FinalAmbient.x * 255.0f);
 		dwColor.g = (GS_BYTE)(color.y * v3FinalAmbient.y * 255.0f);
 		dwColor.b = (GS_BYTE)(color.z * v3FinalAmbient.z * 255.0f);
 
 		// compute the right in-screen position
-		const Vector2 v2Pos = ETHGlobal::ToScreenPos(Vector3(particle.v2Pos, m_system.v3StartPoint.z), zAxisDirection);
+		const Vector2 v2Pos = ETHGlobal::ToScreenPos(Vector3(particle.pos, m_system.startPoint.z), zAxisDirection);
 
 		// compute depth
 		if (ownerType != LAYERABLE)
 		{
-			float offsetYZ = particle.v3StartPoint.z;
+			float offsetYZ = particle.startPoint.z;
 			if (ownerType == INDIVIDUAL_OFFSET)
 			{
 				offsetYZ += particle.GetOffset() + _ETH_PARTICLE_DEPTH_SHIFT;
@@ -817,10 +476,10 @@ bool ETHParticleManager::DrawParticleSystem(
 		}
 
 		// draw
-		if (m_system.v2SpriteCut.x > 1 || m_system.v2SpriteCut.y > 1)
+		if (m_system.spriteCut.x > 1 || m_system.spriteCut.y > 1)
 		{
-			if ((int)m_pBMP->GetNumColumns() != m_system.v2SpriteCut.x || (int)m_pBMP->GetNumRows() != m_system.v2SpriteCut.y)
-				m_pBMP->SetupSpriteRects(m_system.v2SpriteCut.x, m_system.v2SpriteCut.y);
+			if ((int)m_pBMP->GetNumColumns() != m_system.spriteCut.x || (int)m_pBMP->GetNumRows() != m_system.spriteCut.y)
+				m_pBMP->SetupSpriteRects(m_system.spriteCut.x, m_system.spriteCut.y);
 			m_pBMP->SetRect(particle.currentFrame);
 		}
 		else
@@ -835,12 +494,12 @@ bool ETHParticleManager::DrawParticleSystem(
 
 void ETHParticleManager::SetTileZ(const float z)
 {
-	m_system.v3StartPoint.z = z;
+	m_system.startPoint.z = z;
 }
 
 float ETHParticleManager::GetTileZ() const
 {
-	return m_system.v3StartPoint.z;
+	return m_system.startPoint.z;
 }
 
 int ETHParticleManager::GetNumActiveParticles() const
@@ -872,8 +531,8 @@ void ETHParticleManager::MirrorX(const bool mirrorGravity)
 	m_system.MirrorX(mirrorGravity);
 	for (int t = 0; t < m_system.nParticles; t++)
 	{
-		m_particles[t].v2Dir.x *=-1;
-		m_particles[t].v2Pos.x *=-1;
+		m_particles[t].dir.x *=-1;
+		m_particles[t].pos.x *=-1;
 	}
 }
 
@@ -882,8 +541,8 @@ void ETHParticleManager::MirrorY(const bool mirrorGravity)
 	m_system.MirrorY(mirrorGravity);
 	for (int t = 0; t < m_system.nParticles; t++)
 	{
-		m_particles[t].v2Dir.y *=-1;
-		m_particles[t].v2Pos.y *=-1;
+		m_particles[t].dir.y *=-1;
+		m_particles[t].pos.y *=-1;
 	}
 }
 
@@ -894,29 +553,29 @@ void ETHParticleManager::ResetParticle(
 	const float angle,
 	const Matrix4x4& rotMatrix)
 {
-	const Vector2 halfRandDir(m_system.v2RandomizeDir / 2.0f);
+	const Vector2 halfRandDir(m_system.randomizeDir / 2.0f);
 
-	ETH_PARTICLE& particle = m_particles[t];
+	PARTICLE& particle = m_particles[t];
 	particle.angleDir = m_system.angleDir + Randomizer::Float(-m_system.randAngle/2, m_system.randAngle/2);
 	particle.elapsed = 0.0f;
 	particle.lifeTime = m_system.lifeTime + Randomizer::Float(-m_system.randomizeLifeTime/2, m_system.randomizeLifeTime/2);
 	particle.size = m_system.size + Randomizer::Float(-m_system.randomizeSize/2, m_system.randomizeSize/2);
-	particle.v2Dir.x = (m_system.v2DirectionVector.x + Randomizer::Float(-halfRandDir.x, halfRandDir.x));
-	particle.v2Dir.y = (m_system.v2DirectionVector.y + Randomizer::Float(-halfRandDir.y, halfRandDir.y));
-	particle.v2Dir = Multiply(m_particles[t].v2Dir, rotMatrix);
-	particle.v4Color = m_system.v4Color0;
+	particle.dir.x = (m_system.directionVector.x + Randomizer::Float(-halfRandDir.x, halfRandDir.x));
+	particle.dir.y = (m_system.directionVector.y + Randomizer::Float(-halfRandDir.y, halfRandDir.y));
+	particle.dir = Multiply(m_particles[t].dir, rotMatrix);
+	particle.color = m_system.color0;
 	PositionParticle(t, v2Pos, angle, rotMatrix, v3Pos);
 
 	// setup sprite frame
-	if (m_system.v2SpriteCut.x > 1 || m_system.v2SpriteCut.y > 1)
+	if (m_system.spriteCut.x > 1 || m_system.spriteCut.y > 1)
 	{
-		if (m_system.animationMode == _ETH_PLAY_ANIMATION)
+		if (m_system.animationMode == ETHParticleSystem::PLAY_ANIMATION)
 		{
 			particle.currentFrame = 0;
 		} else
-			if (m_system.animationMode == _ETH_PICK_RANDOM_FRAME)
+			if (m_system.animationMode == ETHParticleSystem::PICK_RANDOM_FRAME)
 			{
-				particle.currentFrame = Randomizer::Int(m_system.v2SpriteCut.x * m_system.v2SpriteCut.y - 1);
+				particle.currentFrame = Randomizer::Int(m_system.spriteCut.x * m_system.spriteCut.y - 1);
 			}
 	}
 }
@@ -928,15 +587,15 @@ void ETHParticleManager::PositionParticle(
 	const Matrix4x4& rotMatrix,
 	const Vector3& v3Pos)
 {
-	const Vector2 halfRandStartPoint(m_system.v2RandStartPoint / 2.0f);
+	const Vector2 halfRandStartPoint(m_system.randStartPoint / 2.0f);
 
-	ETH_PARTICLE& particle = m_particles[t];
+	PARTICLE& particle = m_particles[t];
 	particle.angle = m_system.angleStart + Randomizer::Float(m_system.randAngleStart) + angle;
-	particle.v2Pos.x = m_system.v3StartPoint.x + Randomizer::Float(-halfRandStartPoint.x, halfRandStartPoint.x);
-	particle.v2Pos.y = m_system.v3StartPoint.y + Randomizer::Float(-halfRandStartPoint.y, halfRandStartPoint.y);
-	particle.v2Pos = Multiply(particle.v2Pos, rotMatrix);	
-	particle.v2Pos = m_particles[t].v2Pos + v2Pos;
-	particle.v3StartPoint = Vector3(v2Pos, v3Pos.z) + m_system.v3StartPoint;
+	particle.pos.x = m_system.startPoint.x + Randomizer::Float(-halfRandStartPoint.x, halfRandStartPoint.x);
+	particle.pos.y = m_system.startPoint.y + Randomizer::Float(-halfRandStartPoint.y, halfRandStartPoint.y);
+	particle.pos = Multiply(particle.pos, rotMatrix);	
+	particle.pos = m_particles[t].pos + v2Pos;
+	particle.startPoint = Vector3(v2Pos, v3Pos.z) + m_system.startPoint;
 }
 
 void ETHParticleManager::SetParticleDepth(const float depth)
