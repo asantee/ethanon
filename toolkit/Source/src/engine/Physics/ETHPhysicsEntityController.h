@@ -37,16 +37,27 @@ class ETHPhysicsEntityController : public ETHRawEntityController
 	friend class ETHPhysicsController;
 	bool RunContactCallback(const int functionId, ETHEntity* other, Vector2& point0, Vector2& point1, Vector2& normal);
 
-protected:
-	b2Body* m_body;
-	boost::shared_ptr<b2World> m_world;
-	int m_beginContactCallbackId;
-	int m_endContactCallbackId;
-	std::vector<ETHJointPtr> m_joints;
-	int GetContactCallbackId(const str_type::string& prefix, asIScriptModule* module);
-	bool IsValidFunction(const int functionId) const;
-
 public:
+
+	static const str_type::string BEGIN_CONTACT_CALLBACK_PREFIX;
+	static const str_type::string END_CONTACT_CALLBACK_PREFIX;
+	static const str_type::string PRESOLVE_CONTACT_CALLBACK_PREFIX;
+	static const str_type::string CONTACT_CALLBACK_ARGS;
+
+	struct CONTACT_CALLBACK_IDS
+	{
+		CONTACT_CALLBACK_IDS();
+		enum TYPE
+		{
+			BEGIN = 0,
+			END = 1,
+			PRESOLVE = 2
+		};
+		int beginContact;
+		int endContact;
+		int preSolveContact;
+	};
+
 	ETHPhysicsEntityController(const ETHEntityControllerPtr& old, b2Body* body, boost::shared_ptr<b2World> world,
 		asIScriptModule* module, asIScriptContext* context);
 	void Update(const unsigned long lastFrameElapsedTime, ETHBucketManager& buckets);
@@ -56,10 +67,15 @@ public:
 	void SetAngle(const float angle);
 	void Destroy();
 	void Scale(const Vector2& scale, ETHEntity* entity);
+
 	bool HasBeginContactCallback() const;
 	bool HasEndContactCallback() const;
+	bool HasPreSolveContactCallback() const;
+
 	bool RunBeginContactCallback(ETHEntity* other, Vector2& point0, Vector2& point1, Vector2& normal);
 	bool RunEndContactCallback(ETHEntity* other, Vector2& point0, Vector2& point1, Vector2& normal);
+	bool RunPreSolveContactCallback(ETHEntity* other, Vector2& point0, Vector2& point1, Vector2& normal);
+
 	bool ResolveJoints(ETHEntityArray& entities, const ETHEntityProperties& properties, ETHPhysicsSimulator& simulator);
 	void RemoveJoints();
 	void KillJoint(b2Joint* joint);
@@ -73,6 +89,14 @@ public:
 	void AddToPosXY(const Vector2& pos);
 	void AddToPosX(const float v);
 	void AddToPosY(const float v);
+
+protected:
+	b2Body* m_body;
+	boost::shared_ptr<b2World> m_world;
+	CONTACT_CALLBACK_IDS m_contactCallbacks;
+	std::vector<ETHJointPtr> m_joints;
+	int GetContactCallbackId(const str_type::string& prefix, asIScriptModule* module);
+	bool IsValidFunction(const int functionId) const;
 };
 
 typedef boost::shared_ptr<ETHPhysicsEntityController> ETHPhysicsEntityControllerPtr;

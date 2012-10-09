@@ -81,9 +81,6 @@ using namespace gs2d;
 #define ETH_CALLBACK_PREFIX GS_L("ETHCallback_")
 #define ETH_CONSTRUCTOR_CALLBACK_PREFIX GS_L("ETHConstructorCallback_")
 #define ETH_DESTRUCTOR_CALLBACK_PREFIX GS_L("ETHDestructorCallback_")
-#define ETH_BEGIN_CONTACT_CALLBACK_PREFIX GS_L("ETHBeginContactCallback_")
-#define ETH_END_CONTACT_CALLBACK_PREFIX GS_L("ETHEndContactCallback_")
-#define ETH_CONTACT_CALLBACK_ARGS   GS_L("ETHEntity@, ETHEntity@, const vector2 &in")
 
 #define ETH_INLINE inline
 

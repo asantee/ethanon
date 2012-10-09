@@ -729,8 +729,8 @@ void ETHScriptWrapper::DisableContact()
 	if (WarnIfRunsInMainFunction(GS_L("DisableContact")))
 		return;
 	ETHPhysicsSimulator& simulator = m_pScene->GetSimulator();
-	if (!simulator.IsRunningBeginContactCallback())
-		m_provider->Log(GS_L("DisableContact function must be called inside an ETHBeginContactCallback_"), Platform::Logger::ERROR);
+	if (!simulator.IsRunningPreSolveContactCallback())
+		m_provider->Log(GS_L("DisableContact function must be called inside " + ETHPhysicsEntityController::PRESOLVE_CONTACT_CALLBACK_PREFIX), Platform::Logger::ERROR);
 	simulator.DisableNextContact();	
 }
 

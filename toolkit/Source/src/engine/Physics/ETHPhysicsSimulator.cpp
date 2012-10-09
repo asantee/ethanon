@@ -340,7 +340,7 @@ void ETHPhysicsSimulator::DisableNextContact()
 	m_contactListener.DisableNextContact();
 }
 
-bool ETHPhysicsSimulator::IsRunningBeginContactCallback() const
+bool ETHPhysicsSimulator::IsRunningPreSolveContactCallback() const
 {
-	return m_contactListener.IsRunningBeginContactCallback();
+	return m_contactListener.IsRunningPreSolveContactCallback();
 }

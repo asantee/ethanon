@@ -26,12 +26,20 @@
 
 ETHContactListener::ETHContactListener() :
 	m_disableNextContact(false),
-	m_runningBeginContactCallback(false)
+	m_runningPreSolveContactCallback(false)
 {
 }
 
-static bool GetContactData(const b2Contact* contact, ETHPhysicsEntityController** controllerA, ETHPhysicsEntityController** controllerB,
-						   ETHEntity **entityA, ETHEntity **entityB, Vector2& v2Point0, Vector2& v2Point1, Vector2& v2Normal, const bool beginFunc)
+static bool GetContactData(
+	const b2Contact* contact,
+	ETHPhysicsEntityController** controllerA,
+	ETHPhysicsEntityController** controllerB,
+	ETHEntity** entityA,
+	ETHEntity** entityB,
+	Vector2& v2Point0,
+	Vector2& v2Point1,
+	Vector2& v2Normal,
+	const ETHPhysicsEntityController::CONTACT_CALLBACK_IDS::TYPE type)
 {
 	b2WorldManifold worldManifold; 
 	contact->GetWorldManifold(&worldManifold); 
@@ -46,16 +54,21 @@ static bool GetContactData(const b2Contact* contact, ETHPhysicsEntityController*
 	*controllerB = static_cast<ETHPhysicsEntityController*>((*entityB)->GetController().get());
 
 	// if neither entities have the current callback type assigned to it, don't even bother...
-	if (beginFunc)
+	switch (type)
 	{
+	case ETHPhysicsEntityController::CONTACT_CALLBACK_IDS::BEGIN:
 		if (!(*controllerA)->HasBeginContactCallback() && !(*controllerB)->HasBeginContactCallback())
 			return false;
-	}
-	else
-	{
+		break;
+	case ETHPhysicsEntityController::CONTACT_CALLBACK_IDS::PRESOLVE:
+		if (!(*controllerA)->HasPreSolveContactCallback() && !(*controllerB)->HasPreSolveContactCallback())
+			return false;
+		break;
+	case ETHPhysicsEntityController::CONTACT_CALLBACK_IDS::END:
 		if (!(*controllerA)->HasEndContactCallback() && !(*controllerB)->HasEndContactCallback())
 			return false;
-	}
+		break;
+	};
 
 	const b2Vec2& point0 = worldManifold.points[0];
 	const b2Vec2& point1 = worldManifold.points[1];
@@ -68,31 +81,54 @@ static bool GetContactData(const b2Contact* contact, ETHPhysicsEntityController*
 
 void ETHContactListener::BeginContact(b2Contact* contact)
 {
-	m_runningBeginContactCallback = true;
 	Vector2 point0, point1, normal;
 	ETHEntity *entityA = 0, *entityB = 0;
 	ETHPhysicsEntityController* controllerA = 0, *controllerB = 0;
-	if (GetContactData(contact, &controllerA, &controllerB, &entityA, &entityB, point0, point1, normal, true))
+	if (GetContactData(
+		contact,
+		&controllerA,
+		&controllerB,
+		&entityA,
+		&entityB,
+		point0,
+		point1,
+		normal,
+		ETHPhysicsEntityController::CONTACT_CALLBACK_IDS::BEGIN))
 	{
 		controllerA->RunBeginContactCallback(entityB, point0, point1, normal);
 		controllerB->RunBeginContactCallback(entityA, point0, point1, normal);
 	}
-	m_runningBeginContactCallback = false;
 }
 
 void ETHContactListener::PreSolve(b2Contact* contact, const b2Manifold* oldManifold)
 {
+	m_runningPreSolveContactCallback = true;
 	GS2D_UNUSED_ARGUMENT(oldManifold);
+	Vector2 point0, point1, normal;
+	ETHEntity *entityA = 0, *entityB = 0;
+	ETHPhysicsEntityController* controllerA = 0, *controllerB = 0;
+	if (GetContactData(
+		contact,
+		&controllerA,
+		&controllerB,
+		&entityA,
+		&entityB,
+		point0,
+		point1,
+		normal,
+		ETHPhysicsEntityController::CONTACT_CALLBACK_IDS::PRESOLVE))
+	{
+		controllerA->RunPreSolveContactCallback(entityB, point0, point1, normal);
+		controllerB->RunPreSolveContactCallback(entityA, point0, point1, normal);
+	}
 
 	// disable the contact if the Disable[Next]Contact has been called in the contact callback script code
 	if (m_disableNextContact)
 	{
 		contact->SetEnabled(false);
 		m_disableNextContact = false;
-
-		// check if the collision must be ignored once again
-		BeginContact(contact);
 	}
+	m_runningPreSolveContactCallback = false;
 }
 
 void ETHContactListener::EndContact(b2Contact* contact)
@@ -100,7 +136,16 @@ void ETHContactListener::EndContact(b2Contact* contact)
 	Vector2 point0, point1, normal;
 	ETHEntity *entityA = 0, *entityB = 0;
 	ETHPhysicsEntityController* controllerA = 0, *controllerB = 0;
-	if (GetContactData(contact, &controllerA, &controllerB, &entityA, &entityB, point0, point1, normal, false))
+	if (GetContactData(
+		contact,
+		&controllerA,
+		&controllerB,
+		&entityA,
+		&entityB,
+		point0,
+		point1,
+		normal,
+		ETHPhysicsEntityController::CONTACT_CALLBACK_IDS::END))
 	{
 		controllerA->RunEndContactCallback(entityB, point0, point1, normal);
 		controllerB->RunEndContactCallback(entityA, point0, point1, normal);
@@ -112,7 +157,7 @@ void ETHContactListener::DisableNextContact()
 	m_disableNextContact = true;
 }
 
-bool ETHContactListener::IsRunningBeginContactCallback() const
+bool ETHContactListener::IsRunningPreSolveContactCallback() const
 {
-	return m_runningBeginContactCallback;
+	return m_runningPreSolveContactCallback;
 }

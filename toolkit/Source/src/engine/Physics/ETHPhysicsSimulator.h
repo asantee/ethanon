@@ -86,7 +86,7 @@ public:
 	void ResolveJoints(ETHEntityArray& entities);
 	b2Joint* CreateJoint(b2JointDef& jointDef);
 	void DisableNextContact();
-	bool IsRunningBeginContactCallback() const;
+	bool IsRunningPreSolveContactCallback() const;
 };
 
 #endif
