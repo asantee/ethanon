@@ -23,294 +23,32 @@
 #ifndef GS2D_D3D9VIDEO_H_
 #define GS2D_D3D9VIDEO_H_
 
-#include "../../Video.h"
-#include "D3D9CgShader.h"
+#include "D3D9VideoInfo.h"
 #include <vector>
 #include <map>
 
 namespace gs2d {
-
-/// Converts a GS_BITMAP_FORMAT constant to an extension string
-std::wstring GetImageExtension(const Texture::BITMAP_FORMAT fmt);
-
-/// Returns true if the file name has an explicit extension in its string
-bool IsTheExtensionRight(const wchar_t* fileName, const wchar_t* extension);
-
-/// Returns a D3DXIMAGE constant for a GS_BITMAP_FORMAT one
-D3DXIMAGE_FILEFORMAT GetD3DPF(const Texture::BITMAP_FORMAT fmt);
-
-class D3D9VideoInfo
-{
-	void BuildIn()
-	{
-		ZeroMemory(&m_msg, sizeof(MSG));
-		className.clear();
-		m_pow2Tex = m_scissorSupported = 0x00;
-		m_inFocus = m_visible = true;
-		m_deviceLost = false;
-		m_startTime = 0x0;
-		m_quitKeysEnabled = true;
-		m_pRect2 = m_pRect4 = m_pRect3 = NULL;
-		m_lastVertexProfile = m_lastPixelProfile = Shader::SP_NONE;
-		m_pBackBuffer = NULL;
-		m_nMaxRTs = 1;
-		m_nMaxMultiTex = 0;
-		v2Resize = v2RestoredSize = math::Vector2i(0,0);
-		m_maximized = false;
-	}
-
-public:
-	static const DWORD SPRITE_FVF;
-
-	struct LINE_VERTEX
-	{
-		math::Vector3 pos;
-		float rhw;
-		GS_DWORD color;
-	};
-
-	struct VERTEX
-	{
-		math::Vector3 pos;
-		float rhw;
-		GS_DWORD color;
-		math::Vector2 t0;
-	};
-
-	struct SPRITE_VERTEX
-	{
-		math::Vector3 pos;
-		math::Vector2 t0;
-	};
-
-	D3D9VideoInfo()
-	{
-		BuildIn();
-	}
-
-	~D3D9VideoInfo()
-	{
-		ReleaseVB();
-	}
-
-	void ReleaseVB()
-	{
-		if (m_pRect2)
-		{
-			m_pRect2->Release();
-			m_pRect2 = NULL;
-		}
-		if (m_pRect4)
-		{
-			m_pRect4->Release();
-			m_pRect4 = NULL;
-		}
-		if (m_pRect3)
-		{
-			m_pRect3->Release();
-			m_pRect3 = NULL;
-		}
-	}
-
-	bool CreateVB(IDirect3DDevice9 *pDevice)
-	{
-		ReleaseVB();
-		// Create the vertex buffer for the 2-triangled rect
-		const SPRITE_VERTEX vertices2[] =
-		{
-			{  math::Vector3(0.0f, 1.0f, 0.0f), math::Vector2(0, 1) },
-			{  math::Vector3(0.0f, 0.0f, 0.0f), math::Vector2(0, 0) },
-			{  math::Vector3(1.0f, 0.0f, 0.0f), math::Vector2(1, 0) },
-			{  math::Vector3(1.0f, 1.0f, 0.0f), math::Vector2(1, 1) },
-		};
-
-		if (FAILED(pDevice->CreateVertexBuffer(sizeof(vertices2),
-											 D3DUSAGE_WRITEONLY, SPRITE_FVF,
-											 D3DPOOL_MANAGED, &m_pRect2, NULL)))
-		{
-			return false;
-		}
-
-		void* pVertices;
-		if (FAILED(m_pRect2->Lock(0, 0, &pVertices, 0)))
-		{
-			return false;
-		}
-		memcpy(pVertices, vertices2, sizeof(vertices2));
-		m_pRect2->Unlock();
-
-		// Create the vertex buffer for the 4-triangled rect
-		const SPRITE_VERTEX vertices4[] =
-		{
-			{  math::Vector3(0.5f, 0.5f, 0.0f), math::Vector2(0.5f, 0.5f) },
-			{  math::Vector3(0.0f, 1.0f, 0.0f), math::Vector2(0, 1) },
-			{  math::Vector3(0.0f, 0.0f, 0.0f), math::Vector2(0, 0) },
-			{  math::Vector3(1.0f, 0.0f, 0.0f), math::Vector2(1, 0) },
-			{  math::Vector3(1.0f, 1.0f, 0.0f), math::Vector2(1, 1) },
-			{  math::Vector3(0.0f, 1.0f, 0.0f), math::Vector2(0, 1) },
-		};
-		if (FAILED(pDevice->CreateVertexBuffer(sizeof(vertices4),
-											 D3DUSAGE_WRITEONLY, SPRITE_FVF,
-											 D3DPOOL_MANAGED, &m_pRect4, NULL)))
-		{
-			return false;
-		}
-		if (FAILED(m_pRect4->Lock(0, 0, &pVertices, 0)))
-		{
-			return false;
-		}
-		memcpy(pVertices, vertices4, sizeof(vertices4));
-		m_pRect4->Unlock();
-
-		// Create the vertex buffer for the 3-triangled rect
-		const SPRITE_VERTEX vertices3[] =
-		{
-			{  math::Vector3(0.0f, 0.0f, 0.0f), math::Vector2(0, 0) },
-			{  math::Vector3(0.0f, 1.0f, 0.0f), math::Vector2(0, 1) },
-			{  math::Vector3(0.5f, 0.0f, 0.0f), math::Vector2(0.5f, 0) },
-			{  math::Vector3(1.0f, 1.0f, 0.0f), math::Vector2(1, 1) },
-			{  math::Vector3(1.0f, 0.0f, 0.0f), math::Vector2(1, 0) },
-		};
-		if (FAILED(pDevice->CreateVertexBuffer(sizeof(vertices3),
-											 D3DUSAGE_WRITEONLY, SPRITE_FVF,
-											 D3DPOOL_MANAGED, &m_pRect3, NULL)))
-		{
-			return false;
-		}
-		if (FAILED(m_pRect3->Lock(0, 0, &pVertices, 0)))
-		{
-			return false;
-		}
-		memcpy(pVertices, vertices3, sizeof(vertices3));
-		m_pRect3->Unlock();
-
-		return true;
-	}
-
-	bool DrawSprite(IDirect3DDevice9 *pDevice, const Sprite::RECT_MODE mode)
-	{
-		IDirect3DVertexBuffer9 *pSprite;
-		unsigned int polyCount;
-		D3DPRIMITIVETYPE primType;
-		switch(mode)
-		{
-		case Sprite::RM_FOUR_TRIANGLES:
-			pSprite = m_pRect4;
-			polyCount = 4;
-			primType = D3DPT_TRIANGLEFAN;
-			break;
-		case Sprite::RM_THREE_TRIANGLES:
-			pSprite = m_pRect3;
-			polyCount = 3;
-			primType = D3DPT_TRIANGLESTRIP;
-			break;
-		case Sprite::RM_TWO_TRIANGLES:
-		default:
-			pSprite = m_pRect2;
-			polyCount = 2;
-			primType = D3DPT_TRIANGLEFAN;
-		}
-
-		if (FAILED(pDevice->SetStreamSource(0, pSprite, 0, sizeof(SPRITE_VERTEX))))
-			return false;
-		pDevice->SetFVF(SPRITE_FVF);
-		if (FAILED(pDevice->DrawPrimitive(primType, 0, polyCount)))
-			return false;
-		return true;
-	}
-
-	void BeginFastDraw(IDirect3DDevice9 *pDevice, const Sprite::RECT_MODE mode)
-	{
-		IDirect3DVertexBuffer9 *pSprite = (mode == Sprite::RM_TWO_TRIANGLES) ? m_pRect2 : ((mode == Sprite::RM_FOUR_TRIANGLES) ? m_pRect4 : m_pRect3);
-		if (FAILED(pDevice->SetStreamSource(0, pSprite, 0, sizeof(SPRITE_VERTEX))))
-			return;
-		pDevice->SetFVF(SPRITE_FVF);
-	}
-
-	bool DrawSpriteFast(IDirect3DDevice9 *pDevice, const Sprite::RECT_MODE mode)
-	{
-		const unsigned int polyCount = (mode == Sprite::RM_TWO_TRIANGLES) ? 2 : ((mode == Sprite::RM_FOUR_TRIANGLES) ? 4 : 3);
-		const D3DPRIMITIVETYPE primType = (mode == Sprite::RM_TWO_TRIANGLES) ? D3DPT_TRIANGLEFAN : ((mode == Sprite::RM_FOUR_TRIANGLES) ? D3DPT_TRIANGLEFAN : D3DPT_TRIANGLESTRIP);
-		if (FAILED(pDevice->DrawPrimitive(primType, 0, polyCount)))
-			return false;
-		return true;
-	}
-
-	void SetupShaderProfile()
-	{
-		if (m_caps.VertexShaderVersion >= D3DVS_VERSION(1,1))
-			m_lastVertexProfile = Shader::SP_MODEL_1;
-		if (m_caps.VertexShaderVersion >= D3DVS_VERSION(2,0))
-			m_lastVertexProfile = Shader::SP_MODEL_2;
-		if (m_caps.VertexShaderVersion >= D3DVS_VERSION(3,0))
-			m_lastVertexProfile = Shader::SP_MODEL_3;
-
-		if (m_caps.PixelShaderVersion >= D3DPS_VERSION(1,0))
-			m_lastPixelProfile = Shader::SP_MODEL_1;
-		if (m_caps.PixelShaderVersion >= D3DPS_VERSION(2,0))
-			m_lastPixelProfile = Shader::SP_MODEL_2;
-		if (m_caps.PixelShaderVersion >= D3DPS_VERSION(3,0))
-			m_lastPixelProfile = Shader::SP_MODEL_3;
-	}
-
-	D3DCAPS9	m_caps;
-	HWND		m_hWnd;
-	HINSTANCE	m_hInstance;
-	MSG			m_msg;
-	HCURSOR   m_cursor;
-	std::wstring className;
-	DWORD m_pow2Tex;
-	DWORD m_magAniso;
-	DWORD m_minAniso;
-	DWORD m_maxAniso;
-	DWORD m_scissorSupported;
-	unsigned int m_nMaxRTs;
-	unsigned int m_nMaxMultiTex;
-	bool m_isVSSupported;
-	DWORD	m_windowStyle;
-	D3DPRESENT_PARAMETERS m_d3dPP;
-	bool m_visible;
-	bool m_inFocus;
-	bool m_deviceLost;
-	bool m_quitKeysEnabled;
-	bool m_maximized;
-	DWORD m_startTime;
-	IDirect3DVertexBuffer9 *m_pRect2;
-	IDirect3DVertexBuffer9 *m_pRect4;
-	IDirect3DVertexBuffer9 *m_pRect3;
-	math::Matrix4x4 m_orthoMatrix;
-	Shader::SHADER_PROFILE m_lastVertexProfile;
-	Shader::SHADER_PROFILE m_lastPixelProfile;
-	IDirect3DSurface9 *m_pBackBuffer;
-	math::Vector2i v2Resize, v2RestoredSize;
-};
-
-typedef boost::shared_ptr<D3D9VideoInfo> D3D9VideoInfoPtr;
 
 class D3D9Video : public Video
 {
 	friend class D3D9Sprite;
 	friend class WinInput;
 
-	D3D9Video(const unsigned int width, const unsigned int height, const std::wstring& winTitle,
-			const bool windowed, const bool sync, const Texture::PIXEL_FORMAT pfBB, const bool maximizable,
-			const Platform::FileIOHubPtr& fileIOHub);
+	D3D9Video(
+		const unsigned int width,
+		const unsigned int height,
+		const std::wstring& winTitle,
+		const bool windowed,
+		const bool sync,
+		const Texture::PIXEL_FORMAT pfBB,
+		const bool maximizable,
+		const Platform::FileIOHubPtr& fileIOHub);
 
 	struct RENDER_TARGET
 	{
-		RENDER_TARGET()
-		{
-			width = height = 0;
-			format = Texture::TF_DEFAULT;
-		}
-		RENDER_TARGET(Sprite *sprite, const unsigned int width, const unsigned int height, const Texture::TARGET_FORMAT fmt)
-		{
-			pSprite = sprite;
-			this->width = width;
-			this->height = height;
-			format = fmt;
-		}
-		Sprite *pSprite;
+		RENDER_TARGET();
+		RENDER_TARGET(Sprite* sprite, const unsigned int width, const unsigned int height, const Texture::TARGET_FORMAT fmt);
+		Sprite* pSprite;
 		unsigned int width;
 		unsigned int height;
 		Texture::TARGET_FORMAT format;
@@ -324,8 +62,8 @@ class D3D9Video : public Video
 	float m_fpsRate;
 	bool m_quit;
 	std::vector<BLEND_MODE> m_blendModes;
-	IDirect3DDevice9 *m_pDevice;
-	IDirect3D9 *m_pD3D;
+	IDirect3DDevice9* m_pDevice;
+	IDirect3D9* m_pD3D;
 	math::Vector2i m_windowedDim;
 	math::Vector2i m_topBarSize;
 
@@ -359,7 +97,7 @@ class D3D9Video : public Video
 			  m_fastVS;
 
 	void ComputeFPSRate();
-	void SetDisplayModes(IDirect3D9 *pD3D);
+	void SetDisplayModes(IDirect3D9* pD3D);
 	static LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	static void RemoveFromTargetList(Sprite *pSprite);

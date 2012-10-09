@@ -286,6 +286,14 @@
 					RelativePath="..\..\..\src\Video\Direct3D9\D3D9Video.h"
 					>
 				</File>
+				<File
+					RelativePath="..\..\..\src\Video\Direct3D9\D3D9VideoInfo.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\Video\Direct3D9\D3D9VideoInfo.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Player"

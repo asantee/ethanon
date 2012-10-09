@@ -31,6 +31,25 @@
 namespace gs2d {
 using namespace math;
 
+D3D9Video::RENDER_TARGET::RENDER_TARGET() :
+	width(0),
+	height(0),
+	format(Texture::TF_DEFAULT)
+{
+}
+
+D3D9Video::RENDER_TARGET::RENDER_TARGET(
+	Sprite* sprite,
+	const unsigned int width,
+	const unsigned int height,
+	const Texture::TARGET_FORMAT fmt)
+{
+	pSprite = sprite;
+	this->width = width;
+	this->height = height;
+	format = fmt;
+}
+
 GS2D_API VideoPtr CreateVideo(
 	const unsigned int width,
 	const unsigned int height,
@@ -60,79 +79,6 @@ void ShowMessage(std::wstringstream &stream, const GS_MESSAGE_TYPE type)
 		std::wcerr << L"GS2D ERROR: " << stream.str() << std::endl;
 		MessageBox(NULL, stream.str().c_str(), L"GS2D ERROR", MB_OK | MB_ICONERROR);
 	}
-}
-
-/// Returns a D3DXIMAGE constant for a GS_BITMAP_FORMAT one
-D3DXIMAGE_FILEFORMAT GetD3DPF(const Texture::BITMAP_FORMAT fmt)
-{
-	switch (fmt)
-	{
-	case Texture::BF_BMP:
-		return D3DXIFF_BMP;
-		break;
-	case Texture::BF_JPG:
-		return D3DXIFF_JPG;
-		break;
-	case Texture::BF_PNG:
-		return D3DXIFF_PNG;
-		break;
-	case Texture::BF_TGA:
-		return D3DXIFF_TGA;
-		break;
-	case Texture::BF_DDS:
-		return D3DXIFF_DDS;
-		break;
-	case Texture::BF_HDR:
-		return D3DXIFF_HDR;
-		break;
-	default:
-		return D3DXIFF_BMP;
-		break;
-	}
-}
-
-/// Converts a GS_BITMAP_FORMAT constant to an extension string
-std::wstring GetImageExtension(const Texture::BITMAP_FORMAT fmt)
-{
-	switch (fmt)
-	{
-	case Texture::BF_JPG:
-		return L".jpg";
-		break;
-	case Texture::BF_PNG:
-		return L".png";
-		break;
-	case Texture::BF_TGA:
-		return L".tga";
-		break;
-	case Texture::BF_DDS:
-		return L".dds";
-		break;
-	case Texture::BF_HDR:
-		return L".hdr";
-		break;
-	case Texture::BF_BMP:
-	default:
-		return L".bmp";
-		break;
-	}
-}
-
-// Returns true if the file name has an explicit extension in its string
-bool IsTheExtensionRight(const wchar_t *fileName, const wchar_t *extension)
-{
-	const unsigned int fileLen = wcslen(fileName);
-	const unsigned int extLen = wcslen(extension);
-	const unsigned int diff = fileLen-extLen+1;
-	for (unsigned int t=0; t<diff; t++)
-	{
-		if (wcscmp(&fileName[t], extension) == 0)
-		{
-			if (fileName[t+extLen] == L'\0')
-				return true;
-		}
-	}
-	return false;
 }
 
 /// Set all view matrices to the shaders
@@ -192,7 +138,6 @@ IDirect3D9 *CreateAPI()
 
 const float D3D9Video::ZFAR = 5.0f;
 const float D3D9Video::ZNEAR = 0.0f;
-const DWORD D3D9VideoInfo::SPRITE_FVF = (D3DFVF_XYZ|D3DFVF_TEX1);
 const DWORD D3D9Video::W32_WINDOWED_STYLE = (WS_CLIPCHILDREN | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_VISIBLE);
 const DWORD D3D9Video::W32_FULLSCREEN_STYLE = (WS_CLIPCHILDREN | WS_POPUP);
 const DWORD D3D9Video::ALPHAREF = (0x01);
