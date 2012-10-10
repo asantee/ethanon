@@ -69,7 +69,8 @@ int wmain(int argc, wchar_t* argv[])
 {
 	bool compileAndRun, testing, wait;
 	ProcParams(argc, argv, compileAndRun, testing, wait);
-	// compileAndRun = false;
+	ETHScriptWrapper::SetArgc(argc);
+	ETHScriptWrapper::SetArgv(argv);
 
 	Platform::FileManagerPtr fileManager(new Platform::StdFileManager());
 	Platform::FileIOHubPtr fileIOHub(new Platform::WindowsFileIOHub(fileManager, ETHDirectories::GetBitmapFontDirectory()));

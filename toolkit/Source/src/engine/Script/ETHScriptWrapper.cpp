@@ -282,3 +282,13 @@ void ETHScriptWrapper::CreateDynamicBackBuffer(const ETHAppEnmlFile& file)
 {
 	m_backBuffer = ETHBackBufferTargetManager::Create(m_provider->GetVideo(), file, *m_provider->GetLogger(), m_ethInput);
 }
+
+void ETHScriptWrapper::SetArgc(const int argc)
+{
+	m_argc = argc;
+}
+
+void ETHScriptWrapper::SetArgv(str_type::char_t **argv)
+{
+	m_argv = argv;
+}

@@ -383,6 +383,9 @@ public:
 	static bool Aborted();
 	static ETHResourceProviderPtr GetProvider();
 	static void CreateDynamicBackBuffer(const ETHAppEnmlFile& file);
+
+	static void SetArgc(const int argc);
+	static void SetArgv(str_type::char_t **argv);
 };
 
 #endif
