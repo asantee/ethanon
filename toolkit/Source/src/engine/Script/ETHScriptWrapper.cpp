@@ -32,7 +32,7 @@
 
 asIScriptEngine *ETHScriptWrapper::m_pASEngine = 0;
 ETHResourceProviderPtr ETHScriptWrapper::m_provider;
-std::list<boost::shared_ptr<ETHElementDrawer> > ETHScriptWrapper::m_primitiveList;
+ETHDrawableManager ETHScriptWrapper::m_drawableManager;
 ETHScenePtr ETHScriptWrapper::m_pScene;
 ETHBackBufferTargetManagerPtr ETHScriptWrapper::m_backBuffer;
 bool ETHScriptWrapper::m_abort = false;

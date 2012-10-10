@@ -35,6 +35,7 @@ public:
 	static gs2d::str_type::string GetNormalMapDirectory();
 	static gs2d::str_type::string GetHaloDirectory();
 	static gs2d::str_type::string GetParticlesDirectory();
+	static gs2d::str_type::string GetEffectsDirectory();
 	static gs2d::str_type::string GetSoundFXDirectory();
 };
 

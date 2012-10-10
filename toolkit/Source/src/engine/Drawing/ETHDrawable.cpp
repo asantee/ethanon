@@ -20,7 +20,7 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#include "ETHElementDrawer.h"
+#include "ETHDrawable.h"
 #include "../Resource/ETHResourceProvider.h"
 #include <Platform/Platform.h>
 
@@ -166,7 +166,7 @@ bool ETHLineDrawer::IsAlive() const
 ETHSpriteDrawer::ETHSpriteDrawer(
 	const ETHResourceProviderPtr& provider,
 	ETHGraphicResourceManagerPtr graphicResources,
-	const str_type::string& currentPath,
+	const str_type::string& resourceDirectory,
 	const str_type::string& name,
 	const Vector2& pos,
 	const Vector2& size,
@@ -185,11 +185,11 @@ ETHSpriteDrawer::ETHSpriteDrawer(
 	this->depth = depth;
 	this->angle = angle;
 	this->provider = provider;
-	this->currentPath = currentPath;
+	this->resourceDirectory = resourceDirectory;
 	this->frame = frame;
 
 	str_type::string searchPath(Platform::GetFileDirectory(name.c_str()));
-	sprite = graphicResources->GetPointer(provider->GetVideo(), name, currentPath, searchPath, false);
+	sprite = graphicResources->GetPointer(provider->GetVideo(), name, resourceDirectory, searchPath, false);
 	if (sprite)
 		this->v2Origin = sprite->GetOrigin();
 }

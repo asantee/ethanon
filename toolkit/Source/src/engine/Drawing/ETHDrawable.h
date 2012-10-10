@@ -20,20 +20,20 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#ifndef ETH_ELEMENT_DRAWER_H_
-#define ETH_ELEMENT_DRAWER_H_
+#ifndef ETH_DRAWABLE_H_
+#define ETH_DRAWABLE_H_
 
 #include "../ETHTypes.h"
 #include "../Resource/ETHResourceManager.h"
 
-class ETHElementDrawer
+class ETHDrawable
 {
 public:
 	virtual bool Draw(const unsigned long lastFrameElapsedTimeMS) = 0;
 	virtual bool IsAlive() const = 0;
 };
 
-class ETHTextDrawer : public ETHElementDrawer
+class ETHTextDrawer : public ETHDrawable
 {
 public:
 	ETHTextDrawer(
@@ -67,7 +67,7 @@ private:
 	ETHResourceProviderPtr provider;
 };
 
-class ETHRectangleDrawer : public ETHElementDrawer
+class ETHRectangleDrawer : public ETHDrawable
 {
 public:
 	ETHRectangleDrawer(
@@ -99,7 +99,7 @@ private:
 };
 
 
-class ETHLineDrawer : public ETHElementDrawer
+class ETHLineDrawer : public ETHDrawable
 {
 public:
 	ETHLineDrawer(
@@ -121,13 +121,13 @@ private:
 	ETHResourceProviderPtr provider;
 };
 
-class ETHSpriteDrawer : public ETHElementDrawer
+class ETHSpriteDrawer : public ETHDrawable
 {
 public:
 	ETHSpriteDrawer(
 		const ETHResourceProviderPtr& provider,
 		ETHGraphicResourceManagerPtr graphicResources,
-		const str_type::string& currentPath,
+		const str_type::string& resourceDirectory,
 		const str_type::string& name,
 		const Vector2& pos,
 		const Vector2& size,
@@ -148,7 +148,7 @@ private:
 	str_type::string name;
 	float depth;
 	float angle;
-	str_type::string currentPath;
+	str_type::string resourceDirectory;
 	unsigned int frame;
 	ETHResourceProviderPtr provider;
 };

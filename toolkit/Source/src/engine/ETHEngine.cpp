@@ -418,27 +418,7 @@ bool ETHEngine::CheckAngelScriptError(const int r, const str_type::string &descr
 
 void ETHEngine::DrawTopLayer(const unsigned int lastFrameElapsedTimeMS)
 {
-	const VideoPtr& video = m_provider->GetVideo();
-	// draw sprites, rectangles lines and texts
-	const Vector2 v2OldCam = video->GetCameraPos();
-	video->SetCameraPos(Vector2(0,0));
-	video->SetZBuffer(m_pScene->GetZBuffer());
-	video->SetZWrite(m_pScene->GetZBuffer());
-	video->SetSpriteDepth(0.0f);
-	for (std::list<boost::shared_ptr<ETHElementDrawer> >::iterator iter = m_primitiveList.begin();
-		iter != m_primitiveList.end();)
-	{
-		(*iter)->Draw(lastFrameElapsedTimeMS);
-		if ((*iter)->IsAlive())
-		{
-			++iter;
-		}
-		else
-		{
-			iter = m_primitiveList.erase(iter);
-		}
-	}
-	video->SetCameraPos(v2OldCam);
+	m_drawableManager.DrawTopLayer(lastFrameElapsedTimeMS, m_pScene, m_provider->GetVideo());
 }
 
 void ETHEngine::MessageCallback(const asSMessageInfo *msg)

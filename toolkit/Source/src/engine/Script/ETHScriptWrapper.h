@@ -24,7 +24,7 @@
 #define ETH_SCRIPT_WRAPPER_H_
 
 #include "../Scene/ETHScene.h"
-#include "../Drawing/ETHElementDrawer.h"
+#include "../Drawing/ETHDrawableManager.h"
 #include "../../angelscript/include/angelscript.h"
 #include "../Util/ETHInput.h"
 #include "../Entity/ETHEntityCache.h"
@@ -72,7 +72,7 @@ public:
 
 	static str_type::string GetSceneFileName();
 	static ETHSpeedTimer m_timer;
-	static std::list<boost::shared_ptr<ETHElementDrawer> > m_primitiveList;
+	static ETHDrawableManager m_drawableManager;
 	static ETHScenePtr m_pScene;
 	static bool m_abort;
 	static bool m_useLightmaps;
@@ -258,6 +258,7 @@ public:
 	static void DrawShaped(const str_type::string &name, const Vector2 &v2Pos, const Vector2 &v2Size, const GS_DWORD color, const float angle);
 	static void DrawSpriteZ(const str_type::string &name, const float depth, const Vector2 &v2Pos, const GS_DWORD color, const float angle);
 	static void DrawShapedZ(const str_type::string &name, const float depth, const Vector2 &v2Pos, const Vector2 &v2Size, const GS_DWORD color, const float angle);
+	static void PlayParticleEffect(const str_type::string& fileName, const Vector2& pos, const float angle, const float scale);
 	static Vector2 GetSpriteSize(const str_type::string &name);
 	static Vector2 GetSpriteFrameSize(const str_type::string& name);
 	static void SetupSpriteRects(const str_type::string& name, const unsigned int columns, const unsigned int rows);

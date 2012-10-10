@@ -560,7 +560,7 @@ bool ETHScriptWrapper::LoadScene(const str_type::string &escFile, const Vector2&
 
 	m_pScene->ScaleEntities(m_provider->GetGlobalScaleManager()->GetScale(), true);
 	m_pScene->ResolveJoints();
-	m_primitiveList.clear();
+	m_drawableManager.Clear();
 	m_sceneFileName = escFile;
 	m_pScene->EnableLightmaps(m_useLightmaps);
 	GenerateLightmaps();

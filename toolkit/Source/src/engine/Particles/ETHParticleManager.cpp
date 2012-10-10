@@ -253,6 +253,7 @@ bool ETHParticleManager::UpdateParticleSystem(
 		}
 
 		anythingDrawn = true;
+
 		particle.elapsed += lastFrameElapsedTime;
 
 		if (!particle.released)

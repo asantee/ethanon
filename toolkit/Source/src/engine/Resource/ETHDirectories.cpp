@@ -29,6 +29,7 @@
 #define ETH_NORMAL_DIRECTORY		GS_L("entities/normalmaps/")
 #define ETH_HALOS_DIRECTORY			GS_L("entities/")
 #define ETH_PARTICLES_DIRECTORY		GS_L("particles/")
+#define ETH_EFFECTS_DIRECTORY		GS_L("effects/")
 #define ETH_SOUNDFX_DIRECTORY		GS_L("soundfx/")
 
 gs2d::str_type::string ETHDirectories::GetShaderDirectory()
@@ -64,6 +65,11 @@ gs2d::str_type::string ETHDirectories::GetHaloDirectory()
 gs2d::str_type::string ETHDirectories::GetParticlesDirectory()
 {
 	return ETH_PARTICLES_DIRECTORY;
+}
+
+gs2d::str_type::string ETHDirectories::GetEffectsDirectory()
+{
+	return ETH_EFFECTS_DIRECTORY;
 }
 
 gs2d::str_type::string ETHDirectories::GetSoundFXDirectory()

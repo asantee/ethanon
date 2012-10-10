@@ -156,6 +156,8 @@ asDECLARE_FUNCTION_WRAPPER(__GetSpriteSize,    ETHScriptWrapper::GetSpriteSize);
 asDECLARE_FUNCTION_WRAPPER(__DrawRectangle,    ETHScriptWrapper::DrawRectangle);
 asDECLARE_FUNCTION_WRAPPER(__DrawLine,         ETHScriptWrapper::DrawLine);
 
+asDECLARE_FUNCTION_WRAPPER(__PlayParticleEffect, ETHScriptWrapper::PlayParticleEffect);
+
 asDECLARE_FUNCTION_WRAPPER(__DrawSpriteZ,       ETHScriptWrapper::DrawSpriteZ);
 asDECLARE_FUNCTION_WRAPPER(__DrawShapedSpriteZ, ETHScriptWrapper::DrawShapedZ);
 
@@ -423,6 +425,8 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("vector2 GetSpriteSize(const string &in)",                                                                  asFUNCTION(__GetSpriteSize),    asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void DrawRectangle(const vector2 &in, const vector2 &in, const uint, const uint, const uint, const uint)", asFUNCTION(__DrawRectangle),    asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void DrawLine(const vector2 &in, const vector2 &in, const uint, const uint, const float)",                 asFUNCTION(__DrawLine),         asCALL_GENERIC); assert(r >= 0);
+
+	r = pASEngine->RegisterGlobalFunction("void PlayParticleEffect(const string &in, const vector2 &in, const float, const float)", asFUNCTION(__PlayParticleEffect), asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("void DrawSpriteZ(const string &in, const float, const vector2 &in, const uint, const float angle = 0.0f)",                          asFUNCTION(__DrawSpriteZ),       asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void DrawShapedSpriteZ(const string &in, const float, const vector2 &in, const vector2 &in, const uint, const float angle = 0.0f)", asFUNCTION(__DrawShapedSpriteZ), asCALL_GENERIC); assert(r >= 0);

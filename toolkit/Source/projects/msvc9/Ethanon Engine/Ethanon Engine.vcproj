@@ -646,173 +646,189 @@
 				Name="Drawing"
 				>
 				<File
-					RelativePath="..\..\..\src\engine\Drawing\ETHElementDrawer.cpp"
+					RelativePath="..\..\..\src\engine\Drawing\ETHDrawable.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\engine\Drawing\ETHElementDrawer.h"
+					RelativePath="..\..\..\src\engine\Drawing\ETHDrawable.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\engine\Drawing\ETHDrawableManager.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\engine\Drawing\ETHDrawableManager.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\engine\Drawing\ETHParticleDrawer.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\engine\Drawing\ETHParticleDrawer.h"
 					>
 				</File>
 			</Filter>
-		</Filter>
-		<Filter
-			Name="Script"
-			>
-			<File
-				RelativePath="..\..\..\src\engine\Script\ETHBinaryStream.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\engine\Script\ETHBinaryStream.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\engine\Script\ETHEntityDestructorManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\engine\Script\ETHEntityDestructorManager.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\engine\Script\ETHEntityDestructorScript.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\engine\Script\ETHEntityDestructorScript.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\engine\Script\ETHScriptObjRegister.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\engine\Script\ETHScriptObjRegister.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\engine\Script\ETHScriptWrapper.Audio.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\engine\Script\ETHScriptWrapper.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\engine\Script\ETHScriptWrapper.Drawing.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\engine\Script\ETHScriptWrapper.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\engine\Script\ETHScriptWrapper.Math.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\engine\Script\ETHScriptWrapper.Scene.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\engine\Script\ETHScriptWrapper.System.cpp"
-				>
-			</File>
 			<Filter
-				Name="addons"
+				Name="Script"
 				>
 				<File
-					RelativePath="..\..\..\src\addons\aswrappedcall.h"
+					RelativePath="..\..\..\src\engine\Script\ETHBinaryStream.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\addons\scriptarray.cpp"
+					RelativePath="..\..\..\src\engine\Script\ETHBinaryStream.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\addons\scriptarray.h"
+					RelativePath="..\..\..\src\engine\Script\ETHEntityDestructorManager.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\addons\scriptdictionary.cpp"
+					RelativePath="..\..\..\src\engine\Script\ETHEntityDestructorManager.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\addons\scriptdictionary.h"
+					RelativePath="..\..\..\src\engine\Script\ETHEntityDestructorScript.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\addons\scriptmath.cpp"
+					RelativePath="..\..\..\src\engine\Script\ETHEntityDestructorScript.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\addons\scriptmath.h"
+					RelativePath="..\..\..\src\engine\Script\ETHScriptObjRegister.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\addons\scriptmath2d.cpp"
+					RelativePath="..\..\..\src\engine\Script\ETHScriptObjRegister.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\addons\scriptmath2d.h"
+					RelativePath="..\..\..\src\engine\Script\ETHScriptWrapper.Audio.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\addons\scriptmath3d.cpp"
+					RelativePath="..\..\..\src\engine\Script\ETHScriptWrapper.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\addons\scriptmath3d.h"
+					RelativePath="..\..\..\src\engine\Script\ETHScriptWrapper.Drawing.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\engine\Script\ETHScriptWrapper.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\engine\Script\ETHScriptWrapper.Math.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\engine\Script\ETHScriptWrapper.Scene.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\engine\Script\ETHScriptWrapper.System.cpp"
 					>
 				</File>
 				<Filter
-					Name="utf16"
+					Name="addons"
 					>
 					<File
-						RelativePath="..\..\..\src\addons\utf16\scriptbuilder.cpp"
+						RelativePath="..\..\..\src\addons\aswrappedcall.h"
 						>
 					</File>
 					<File
-						RelativePath="..\..\..\src\addons\utf16\scriptbuilder.h"
+						RelativePath="..\..\..\src\addons\scriptarray.cpp"
 						>
 					</File>
 					<File
-						RelativePath="..\..\..\src\addons\utf16\scriptfile.cpp"
+						RelativePath="..\..\..\src\addons\scriptarray.h"
 						>
 					</File>
 					<File
-						RelativePath="..\..\..\src\addons\utf16\scriptfile.h"
+						RelativePath="..\..\..\src\addons\scriptdictionary.cpp"
 						>
 					</File>
 					<File
-						RelativePath="..\..\..\src\addons\utf16\scriptstdstring.cpp"
+						RelativePath="..\..\..\src\addons\scriptdictionary.h"
 						>
 					</File>
 					<File
-						RelativePath="..\..\..\src\addons\utf16\scriptstdstring.h"
+						RelativePath="..\..\..\src\addons\scriptmath.cpp"
 						>
 					</File>
+					<File
+						RelativePath="..\..\..\src\addons\scriptmath.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\addons\scriptmath2d.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\addons\scriptmath2d.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\addons\scriptmath3d.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\addons\scriptmath3d.h"
+						>
+					</File>
+					<Filter
+						Name="utf16"
+						>
+						<File
+							RelativePath="..\..\..\src\addons\utf16\scriptbuilder.cpp"
+							>
+						</File>
+						<File
+							RelativePath="..\..\..\src\addons\utf16\scriptbuilder.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\..\src\addons\utf16\scriptfile.cpp"
+							>
+						</File>
+						<File
+							RelativePath="..\..\..\src\addons\utf16\scriptfile.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\..\src\addons\utf16\scriptstdstring.cpp"
+							>
+						</File>
+						<File
+							RelativePath="..\..\..\src\addons\utf16\scriptstdstring.h"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="ansi"
+						>
+					</Filter>
 				</Filter>
 				<Filter
-					Name="ansi"
+					Name="Generic"
 					>
+					<File
+						RelativePath="..\..\..\src\engine\Script\ETHScriptObjRegister.generic.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\engine\Script\ETHScriptWrapper.generic.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\engine\Script\ETHScriptWrapper.Math.generic.cpp"
+						>
+					</File>
 				</Filter>
-			</Filter>
-			<Filter
-				Name="Generic"
-				>
-				<File
-					RelativePath="..\..\..\src\engine\Script\ETHScriptObjRegister.generic.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\engine\Script\ETHScriptWrapper.generic.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\engine\Script\ETHScriptWrapper.Math.generic.cpp"
-					>
-				</File>
 			</Filter>
 		</Filter>
 		<Filter
