@@ -24,7 +24,7 @@
 #define ETH_COMPOUND_SHAPE_H_
 
 #include <Box2D/Box2D.h>
-#include <Math/Math.h>
+#include <Math/GameMath.h>
 #include <vector>
 #include <Enml/Enml.h>
 

@@ -22,11 +22,23 @@
 
 #import "Platform.ios.h"
 #import "../Platform.h"
-#import "../../Video/GLES2/gs2dGLES2.h"
+#import "../../Video/GLES2/GLES2Video.h"
 
 gs2d::str_type::string gs2d::GLES2Video::GetPlatformName() const
 {
 	return "ios";
+}
+
+void gs2d::ShowMessage(str_type::stringstream& stream, const GS_MESSAGE_TYPE type)
+{
+	if (type == GSMT_ERROR)
+	{
+		std::cerr << stream.str() << std::endl;
+	}
+	else
+	{
+		std::cout << stream.str() << std::endl;
+	}
 }
 
 // it will be implemented here for the boost timer is presenting strange behaviour
@@ -69,7 +81,7 @@ namespace ios {
 	double StartTime::m_startTime = 0;
 }
 
-gs2d::str_type::string Platform::FileLogger::GetLogPath()
+gs2d::str_type::string Platform::FileLogger::GetLogDirectory()
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	NSString* dir = NSHomeDirectory();
@@ -81,49 +93,14 @@ gs2d::str_type::string Platform::FileLogger::GetLogPath()
 	return logPath;
 }
 
-gs2d::str_type::string GetCurrentDirectoryPath()
-{
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	NSString* path = [[NSBundle mainBundle] resourcePath];
-	path = [path stringByAppendingString:@"/"];
-	const char* szPath = [path cStringUsingEncoding:1];
-    [pool release];
-	return szPath;
-}
-
-gs2d::str_type::string AddLastSlash(const gs2d::str_type::string& path)
-{
-	if (path.empty())
-	{
-		return GS_L("");
-	}
-	gs2d::str_type::string r = (path);
-	FixSlashes(r);
-	const std::size_t lastChar = r.size()-1;
-
-	if (r.at(lastChar) == GS_L('\\'))
-	{
-		r[lastChar] = GS_L('/');
-		return r;
-	}
-	else if (r.at(lastChar) != GS_L('/'))
-	{
-		return r + GS_L("/");
-	}
-	else
-	{
-		return r;
-	}
-}
-
-gs2d::str_type::string& FixSlashes(gs2d::str_type::string& path)
-{
-	return path;
-}
-
-gs2d::str_type::string GetModulePath()
+gs2d::str_type::string GetModuleDirectory()
 {
 	return GS_L("");
+}
+
+char GetDirectorySlashA()
+{
+	return '/';
 }
 
 } // namespace

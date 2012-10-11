@@ -23,7 +23,7 @@
 #ifndef ETH_DYNAMIC_BACK_BUFFER_H_
 #define ETH_DYNAMIC_BACK_BUFFER_H_
 
-#include <Math/Math.h>
+#include <Math/GameMath.h>
 #include <boost/shared_ptr.hpp>
 
 class ETHDynamicBackBuffer

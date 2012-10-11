@@ -21,9 +21,9 @@
  --------------------------------------------------------------------------------------*/
 
 #import <QuartzCore/QuartzCore.h>
-#import <gs2d.h>
-#import <gs2dinput.h>
-#import <gs2daudio.h>
+#import <Video.h>
+#import <Input.h>
+#import <Audio.h>
 #import <engine/ETHEngine.h>
 
 @interface GLView : UIView

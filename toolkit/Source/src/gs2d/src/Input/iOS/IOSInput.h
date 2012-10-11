@@ -23,7 +23,7 @@
 #ifndef GS2D_IOS_INPUT_H_
 #define GS2D_IOS_INPUT_H_
 
-#include "../gs2dMobileInput.h"
+#include "../MobileInput.h"
 
 namespace gs2d {
 

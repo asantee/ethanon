@@ -93,7 +93,6 @@ bool ETHRenderEntity::DrawAmbientPass(const float maxHeight, const float minHeig
 	const bool shouldUseFourTriangles = ShouldUseFourTriangles(parallaxIntensity);
 	const float angle = (m_properties.type == ETHEntityProperties::ET_VERTICAL) ? 0.0f : GetAngle();
 	const Vector2 pos = ETHGlobal::ToScreenPos(GetPosition(), sceneProps.zAxisDirection);
-	const Color color = ConvertToDW(v4FinalAmbient);
 
 	if (shouldUseFourTriangles)
 		m_pSprite->SetRectMode(Sprite::RM_FOUR_TRIANGLES);

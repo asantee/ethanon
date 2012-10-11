@@ -22,13 +22,14 @@
 
 #import "GLView.h"
 #import <OpenGLES/ES2/gl.h>
-#import <Platform/ios/Platform.ios.h>
-#import <Platform/FileLogger.h>
-#import <Input/iOS/gs2dIOSInput.h>
-#import <Audio/iOS/gs2dIOSAudio.h>
 #import <AudioToolbox/AudioServices.h>
 
-#define ETH_TIME_SCALE (1.0f)
+#import <Platform/ios/Platform.ios.h>
+#import <Platform/FileLogger.h>
+#import <Platform/ios/IOSFileIOHub.h>
+
+#import <Input/iOS/IOSInput.h>
+#import <Audio/iOS/IOSAudio.h>
 
 @implementation GLView
 
@@ -107,15 +108,16 @@
 
 		m_audio = gs2d::CreateAudio(0);
 		m_input = gs2d::CreateInput(0, false);
-		Platform::FileManagerPtr fileManager(new Platform::StdAnsiFileManager(([m_bundlePath cStringUsingEncoding:1])));
 
 		NSString* documentsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
 		NSString* externalStoragePath = [[self createExternalStorageDirectory:documentsPath] stringByAppendingString:@"/"];
 		[self createLogDirectory:externalStoragePath];
-		const char *cExternalStoragePath = [externalStoragePath cStringUsingEncoding:1];
-		NSLog(@"%@", externalStoragePath);
-		m_video = gs2d::CreateVideo(CGRectGetWidth(frame) * m_density, CGRectGetHeight(frame) * m_density, GS_L("assets/data/"),
-									cExternalStoragePath, cExternalStoragePath, fileManager);
+		const char* cExternalStoragePath = [externalStoragePath cStringUsingEncoding:1];
+		const char* resourceDirectory = [m_bundlePath cStringUsingEncoding:1];
+
+		Platform::FileIOHubPtr fileIOHub(new Platform::IOSFileIOHub(resourceDirectory, cExternalStoragePath, GS_L("data/")));
+
+		m_video = gs2d::CreateVideo(CGRectGetWidth(frame) * m_density, CGRectGetHeight(frame) * m_density, fileIOHub);
 
 		m_engine = gs2d::CreateBaseApplication();
 		m_engine->Start(m_video, m_input, m_audio);
@@ -126,7 +128,6 @@
 		displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(renderFrame:)];
 		displayLink.frameInterval = 1;
 		[displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-		//[NSTimer scheduledTimerWithTimeInterval:0 target:self selector:@selector(renderFrame:) userInfo:nil repeats:YES];
 
 		[[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
 	}
@@ -170,8 +171,8 @@
 		static double lastTime = [[NSDate date] timeIntervalSince1970];
 		const double elapsedTime = [[NSDate date] timeIntervalSince1970] - lastTime;
 		lastTime = [[NSDate date] timeIntervalSince1970];
-		//const float lastFrameElapsedTime = gs2d::ComputeElapsedTimeF(m_video) * ETH_TIME_SCALE;
-		m_engine->Update(Min(static_cast<unsigned long>(1000), static_cast<unsigned long>(elapsedTime * 1000.0)));		
+
+		m_engine->Update(Min(static_cast<unsigned long>(1000), static_cast<unsigned long>(elapsedTime * 1000.0)));
 	}
 	render = !render;
 }

@@ -21,13 +21,37 @@
 		7461247D14D0E76700098850 /* ETHBackBufferTargetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7461247614D0E76700098850 /* ETHBackBufferTargetManager.cpp */; };
 		7461247E14D0E76700098850 /* ETHDefaultDynamicBackBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7461247814D0E76700098850 /* ETHDefaultDynamicBackBuffer.cpp */; };
 		7461247F14D0E76700098850 /* ETHNoDynamicBackBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7461247B14D0E76700098850 /* ETHNoDynamicBackBuffer.cpp */; };
+		74678F881625FE95002A636D /* ETHParticleManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74678F841625FE95002A636D /* ETHParticleManager.cpp */; };
+		74678F891625FE95002A636D /* ETHParticleSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74678F861625FE95002A636D /* ETHParticleSystem.cpp */; };
+		74678F911625FEB8002A636D /* ETHDrawable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74678F8B1625FEB8002A636D /* ETHDrawable.cpp */; };
+		74678F921625FEB8002A636D /* ETHDrawableManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74678F8D1625FEB8002A636D /* ETHDrawableManager.cpp */; };
+		74678F931625FEB8002A636D /* ETHParticleDrawer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74678F8F1625FEB8002A636D /* ETHParticleDrawer.cpp */; };
+		74678FA31625FF18002A636D /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74678F951625FF18002A636D /* Application.cpp */; };
+		74678FA41625FF18002A636D /* Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74678F961625FF18002A636D /* Sprite.cpp */; };
+		74678FA51625FF18002A636D /* Video.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74678F971625FF18002A636D /* Video.cpp */; };
+		74678FA81625FF4A002A636D /* MobileInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74678FA61625FF4A002A636D /* MobileInput.cpp */; };
+		74678FAB1625FF55002A636D /* IOSInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74678FA91625FF55002A636D /* IOSInput.cpp */; };
+		74678FB11625FFB9002A636D /* IOSAudio.mm in Sources */ = {isa = PBXBuildFile; fileRef = 74678FAF1625FFB9002A636D /* IOSAudio.mm */; };
+		74678FB61625FFDD002A636D /* BitmapFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74678FB21625FFDD002A636D /* BitmapFont.cpp */; };
+		74678FB71625FFDD002A636D /* BitmapFontManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74678FB31625FFDD002A636D /* BitmapFontManager.cpp */; };
+		74678FC016260001002A636D /* GLES2Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74678FB816260001002A636D /* GLES2Shader.cpp */; };
+		74678FC116260001002A636D /* GLES2Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74678FB916260001002A636D /* GLES2Sprite.cpp */; };
+		74678FC216260001002A636D /* GLES2Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74678FBA16260001002A636D /* GLES2Texture.cpp */; };
+		74678FC316260001002A636D /* GLES2Video.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74678FBB16260001002A636D /* GLES2Video.cpp */; };
+		7479C899162633B30059402B /* IOSFileIOHub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7479C897162633B30059402B /* IOSFileIOHub.cpp */; };
+		7479C89D16263BD10059402B /* FileIOHub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7479C89B16263BD10059402B /* FileIOHub.cpp */; };
+		7479C8A816263C1E0059402B /* Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7479C89F16263C1E0059402B /* Color.cpp */; };
+		7479C8A916263C1E0059402B /* GameMath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7479C8A016263C1E0059402B /* GameMath.cpp */; };
+		7479C8AA16263C1E0059402B /* OrientedBoundingBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7479C8A116263C1E0059402B /* OrientedBoundingBox.cpp */; };
+		7479C8AB16263C1E0059402B /* Randomizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7479C8A216263C1E0059402B /* Randomizer.cpp */; };
+		7479C8AF162640AF0059402B /* Enml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7479C8AD162640AF0059402B /* Enml.cpp */; };
+		7479C8B51626416A0059402B /* StdAnsiFileManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7479C8B31626416A0059402B /* StdAnsiFileManager.cpp */; };
 		747E7CF915F54FE200F82271 /* ETHAppEnmlFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 747E7CF715F54FE200F82271 /* ETHAppEnmlFile.cpp */; };
 		748502DB1560317B00E2104A /* ETHScriptWrapper.Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 748502D41560301B00E2104A /* ETHScriptWrapper.Scene.cpp */; };
 		748502DC1560318800E2104A /* ETHEntityDestructorScript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 748502D01560301B00E2104A /* ETHEntityDestructorScript.cpp */; };
 		748502DD156031A700E2104A /* ETHScriptWrapper.Audio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 748502D21560301B00E2104A /* ETHScriptWrapper.Audio.cpp */; };
 		748502DE156031B000E2104A /* ETHEntityDestructorManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 748502CE1560301B00E2104A /* ETHEntityDestructorManager.cpp */; };
 		748502DF156031B700E2104A /* ETHScriptWrapper.Drawing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 748502D31560301B00E2104A /* ETHScriptWrapper.Drawing.cpp */; };
-		748502E0156031BD00E2104A /* ETHScriptWrapper.System.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 748502D51560301B00E2104A /* ETHScriptWrapper.System.cpp */; };
 		748503091562BCBD00E2104A /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 748503081562BCBC00E2104A /* Default-Landscape@2x~ipad.png */; };
 		7485030B1562BCE600E2104A /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7485030A1562BCE600E2104A /* Default-Portrait@2x~ipad.png */; };
 		7485030D1562BCF300E2104A /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7485030C1562BCF300E2104A /* Default-Landscape~ipad.png */; };
@@ -90,22 +114,13 @@
 		74FBEF4A14374E9400C67129 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74FBEF4914374E9400C67129 /* QuartzCore.framework */; };
 		74FBEF50143767CE00C67129 /* GLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 74FBEF4D143767CE00C67129 /* GLView.mm */; };
 		74FBEF51143767CE00C67129 /* GS2DViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 74FBEF4F143767CE00C67129 /* GS2DViewController.mm */; };
-		74FBEF5E143769F700C67129 /* gs2d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74FBEF53143769F700C67129 /* gs2d.cpp */; };
 		74FBEF6D14376A1900C67129 /* GLES2RectRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74FBEF6114376A1900C67129 /* GLES2RectRenderer.cpp */; };
 		74FBEF6E14376A1900C67129 /* GLES2UniformParameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74FBEF6314376A1900C67129 /* GLES2UniformParameter.cpp */; };
-		74FBEF6F14376A1900C67129 /* gs2dGLES2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74FBEF6514376A1900C67129 /* gs2dGLES2.cpp */; };
-		74FBEF7014376A1900C67129 /* gs2dGLES2Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74FBEF6714376A1900C67129 /* gs2dGLES2Shader.cpp */; };
-		74FBEF7114376A1900C67129 /* gs2dGLES2Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74FBEF6914376A1900C67129 /* gs2dGLES2Sprite.cpp */; };
-		74FBEF7214376A1900C67129 /* gs2dGLES2Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74FBEF6B14376A1900C67129 /* gs2dGLES2Texture.cpp */; };
-		74FBEF7614376A3700C67129 /* gs2dIOSAudio.mm in Sources */ = {isa = PBXBuildFile; fileRef = 74FBEF7514376A3700C67129 /* gs2dIOSAudio.mm */; };
-		74FBEF7B14376A8600C67129 /* gs2dMobileInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74FBEF7914376A8600C67129 /* gs2dMobileInput.cpp */; };
-		74FBEF7E14376A8F00C67129 /* gs2dIOSInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74FBEF7C14376A8F00C67129 /* gs2dIOSInput.cpp */; };
 		74FBEF9014376AD100C67129 /* FileLogger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74FBEF8014376AD100C67129 /* FileLogger.cpp */; };
 		74FBEF9114376AD100C67129 /* FileManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74FBEF8214376AD100C67129 /* FileManager.cpp */; };
 		74FBEF9514376AD100C67129 /* NativeCommandAssembler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74FBEF8814376AD100C67129 /* NativeCommandAssembler.cpp */; };
 		74FBEF9614376AD100C67129 /* NativeCommandForwarder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74FBEF8A14376AD100C67129 /* NativeCommandForwarder.cpp */; };
 		74FBEF9714376AD100C67129 /* Platform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74FBEF8C14376AD100C67129 /* Platform.cpp */; };
-		74FBEF9814376AD100C67129 /* StdAnsiFileManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74FBEF8E14376AD100C67129 /* StdAnsiFileManager.cpp */; };
 		74FBEFA314376B9200C67129 /* CDAudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 74FBEF9B14376B9200C67129 /* CDAudioManager.m */; };
 		74FBEFA414376B9200C67129 /* CDOpenALSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 74FBEF9E14376B9200C67129 /* CDOpenALSupport.m */; };
 		74FBEFA514376B9200C67129 /* CocosDenshion.m in Sources */ = {isa = PBXBuildFile; fileRef = 74FBEFA014376B9200C67129 /* CocosDenshion.m */; };
@@ -203,10 +218,7 @@
 		74FBF0EC1437C7AA00C67129 /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74FBF0E71437C7AA00C67129 /* tinyxml.cpp */; };
 		74FBF0ED1437C7AA00C67129 /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74FBF0E91437C7AA00C67129 /* tinyxmlerror.cpp */; };
 		74FBF0EE1437C7AA00C67129 /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74FBF0EA1437C7AA00C67129 /* tinyxmlparser.cpp */; };
-		74FBF14B1437C7D800C67129 /* ETHCommon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74FBF0F51437C7D800C67129 /* ETHCommon.cpp */; };
 		74FBF1501437C7D800C67129 /* ETHEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74FBF0FF1437C7D800C67129 /* ETHEngine.cpp */; };
-		74FBF15C1437C7D800C67129 /* ETHParticleManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74FBF1181437C7D800C67129 /* ETHParticleManager.cpp */; };
-		74FBF1601437C7D800C67129 /* ETHPrimitiveDrawer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74FBF1201437C7D800C67129 /* ETHPrimitiveDrawer.cpp */; };
 		74FBF1871437D13A00C67129 /* Platform.ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 74FBF1851437D13A00C67129 /* Platform.ios.mm */; };
 /* End PBXBuildFile section */
 
@@ -238,6 +250,66 @@
 		7461247A14D0E76700098850 /* ETHDynamicBackBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHDynamicBackBuffer.h; path = ../../src/engine/Shader/ETHDynamicBackBuffer.h; sourceTree = "<group>"; };
 		7461247B14D0E76700098850 /* ETHNoDynamicBackBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHNoDynamicBackBuffer.cpp; path = ../../src/engine/Shader/ETHNoDynamicBackBuffer.cpp; sourceTree = "<group>"; };
 		7461247C14D0E76700098850 /* ETHNoDynamicBackBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHNoDynamicBackBuffer.h; path = ../../src/engine/Shader/ETHNoDynamicBackBuffer.h; sourceTree = "<group>"; };
+		74678F841625FE95002A636D /* ETHParticleManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHParticleManager.cpp; path = ../../src/engine/Particles/ETHParticleManager.cpp; sourceTree = "<group>"; };
+		74678F851625FE95002A636D /* ETHParticleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHParticleManager.h; path = ../../src/engine/Particles/ETHParticleManager.h; sourceTree = "<group>"; };
+		74678F861625FE95002A636D /* ETHParticleSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHParticleSystem.cpp; path = ../../src/engine/Particles/ETHParticleSystem.cpp; sourceTree = "<group>"; };
+		74678F871625FE95002A636D /* ETHParticleSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHParticleSystem.h; path = ../../src/engine/Particles/ETHParticleSystem.h; sourceTree = "<group>"; };
+		74678F8B1625FEB8002A636D /* ETHDrawable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHDrawable.cpp; path = ../../src/engine/Drawing/ETHDrawable.cpp; sourceTree = "<group>"; };
+		74678F8C1625FEB8002A636D /* ETHDrawable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHDrawable.h; path = ../../src/engine/Drawing/ETHDrawable.h; sourceTree = "<group>"; };
+		74678F8D1625FEB8002A636D /* ETHDrawableManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHDrawableManager.cpp; path = ../../src/engine/Drawing/ETHDrawableManager.cpp; sourceTree = "<group>"; };
+		74678F8E1625FEB8002A636D /* ETHDrawableManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHDrawableManager.h; path = ../../src/engine/Drawing/ETHDrawableManager.h; sourceTree = "<group>"; };
+		74678F8F1625FEB8002A636D /* ETHParticleDrawer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHParticleDrawer.cpp; path = ../../src/engine/Drawing/ETHParticleDrawer.cpp; sourceTree = "<group>"; };
+		74678F901625FEB8002A636D /* ETHParticleDrawer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHParticleDrawer.h; path = ../../src/engine/Drawing/ETHParticleDrawer.h; sourceTree = "<group>"; };
+		74678F941625FECB002A636D /* ETHTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ETHTypes.h; path = ../../src/engine/ETHTypes.h; sourceTree = "<group>"; };
+		74678F951625FF18002A636D /* Application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Application.cpp; path = ../../src/gs2d/src/Application.cpp; sourceTree = "<group>"; };
+		74678F961625FF18002A636D /* Sprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Sprite.cpp; path = ../../src/gs2d/src/Sprite.cpp; sourceTree = "<group>"; };
+		74678F971625FF18002A636D /* Video.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Video.cpp; path = ../../src/gs2d/src/Video.cpp; sourceTree = "<group>"; };
+		74678F981625FF18002A636D /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Application.h; path = ../../src/gs2d/src/Application.h; sourceTree = "<group>"; };
+		74678F991625FF18002A636D /* Audio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Audio.h; path = ../../src/gs2d/src/Audio.h; sourceTree = "<group>"; };
+		74678F9A1625FF18002A636D /* BaseApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseApplication.h; path = ../../src/gs2d/src/BaseApplication.h; sourceTree = "<group>"; };
+		74678F9B1625FF18002A636D /* Input.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Input.h; path = ../../src/gs2d/src/Input.h; sourceTree = "<group>"; };
+		74678F9C1625FF18002A636D /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Player.h; path = ../../src/gs2d/src/Player.h; sourceTree = "<group>"; };
+		74678F9D1625FF18002A636D /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Shader.h; path = ../../src/gs2d/src/Shader.h; sourceTree = "<group>"; };
+		74678F9E1625FF18002A636D /* Sprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sprite.h; path = ../../src/gs2d/src/Sprite.h; sourceTree = "<group>"; };
+		74678F9F1625FF18002A636D /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Texture.h; path = ../../src/gs2d/src/Texture.h; sourceTree = "<group>"; };
+		74678FA01625FF18002A636D /* Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Types.h; path = ../../src/gs2d/src/Types.h; sourceTree = "<group>"; };
+		74678FA11625FF18002A636D /* Video.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Video.h; path = ../../src/gs2d/src/Video.h; sourceTree = "<group>"; };
+		74678FA21625FF18002A636D /* Window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Window.h; path = ../../src/gs2d/src/Window.h; sourceTree = "<group>"; };
+		74678FA61625FF4A002A636D /* MobileInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MobileInput.cpp; path = ../../src/gs2d/src/Input/MobileInput.cpp; sourceTree = "<group>"; };
+		74678FA71625FF4A002A636D /* MobileInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MobileInput.h; path = ../../src/gs2d/src/Input/MobileInput.h; sourceTree = "<group>"; };
+		74678FA91625FF55002A636D /* IOSInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IOSInput.cpp; path = ../../src/gs2d/src/Input/iOS/IOSInput.cpp; sourceTree = "<group>"; };
+		74678FAA1625FF55002A636D /* IOSInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IOSInput.h; path = ../../src/gs2d/src/Input/iOS/IOSInput.h; sourceTree = "<group>"; };
+		74678FAF1625FFB9002A636D /* IOSAudio.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = IOSAudio.mm; path = ../../src/gs2d/src/Audio/iOS/IOSAudio.mm; sourceTree = "<group>"; };
+		74678FB01625FFB9002A636D /* IOSAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IOSAudio.h; path = ../../src/gs2d/src/Audio/iOS/IOSAudio.h; sourceTree = "<group>"; };
+		74678FB21625FFDD002A636D /* BitmapFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BitmapFont.cpp; path = ../../src/gs2d/src/Video/BitmapFont.cpp; sourceTree = "<group>"; };
+		74678FB31625FFDD002A636D /* BitmapFontManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BitmapFontManager.cpp; path = ../../src/gs2d/src/Video/BitmapFontManager.cpp; sourceTree = "<group>"; };
+		74678FB41625FFDD002A636D /* BitmapFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BitmapFont.h; path = ../../src/gs2d/src/Video/BitmapFont.h; sourceTree = "<group>"; };
+		74678FB51625FFDD002A636D /* BitmapFontManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BitmapFontManager.h; path = ../../src/gs2d/src/Video/BitmapFontManager.h; sourceTree = "<group>"; };
+		74678FB816260001002A636D /* GLES2Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLES2Shader.cpp; path = ../../src/gs2d/src/Video/GLES2/GLES2Shader.cpp; sourceTree = "<group>"; };
+		74678FB916260001002A636D /* GLES2Sprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLES2Sprite.cpp; path = ../../src/gs2d/src/Video/GLES2/GLES2Sprite.cpp; sourceTree = "<group>"; };
+		74678FBA16260001002A636D /* GLES2Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLES2Texture.cpp; path = ../../src/gs2d/src/Video/GLES2/GLES2Texture.cpp; sourceTree = "<group>"; };
+		74678FBB16260001002A636D /* GLES2Video.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLES2Video.cpp; path = ../../src/gs2d/src/Video/GLES2/GLES2Video.cpp; sourceTree = "<group>"; };
+		74678FBC16260001002A636D /* GLES2Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLES2Shader.h; path = ../../src/gs2d/src/Video/GLES2/GLES2Shader.h; sourceTree = "<group>"; };
+		74678FBD16260001002A636D /* GLES2Sprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLES2Sprite.h; path = ../../src/gs2d/src/Video/GLES2/GLES2Sprite.h; sourceTree = "<group>"; };
+		74678FBE16260001002A636D /* GLES2Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLES2Texture.h; path = ../../src/gs2d/src/Video/GLES2/GLES2Texture.h; sourceTree = "<group>"; };
+		74678FBF16260001002A636D /* GLES2Video.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLES2Video.h; path = ../../src/gs2d/src/Video/GLES2/GLES2Video.h; sourceTree = "<group>"; };
+		7479C897162633B30059402B /* IOSFileIOHub.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IOSFileIOHub.cpp; path = ../../src/gs2d/src/Platform/ios/IOSFileIOHub.cpp; sourceTree = "<group>"; };
+		7479C898162633B30059402B /* IOSFileIOHub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IOSFileIOHub.h; path = ../../src/gs2d/src/Platform/ios/IOSFileIOHub.h; sourceTree = "<group>"; };
+		7479C89B16263BD10059402B /* FileIOHub.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FileIOHub.cpp; path = ../../src/gs2d/src/Platform/FileIOHub.cpp; sourceTree = "<group>"; };
+		7479C89C16263BD10059402B /* FileIOHub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileIOHub.h; path = ../../src/gs2d/src/Platform/FileIOHub.h; sourceTree = "<group>"; };
+		7479C89F16263C1E0059402B /* Color.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Color.cpp; path = ../../src/gs2d/src/Math/Color.cpp; sourceTree = "<group>"; };
+		7479C8A016263C1E0059402B /* GameMath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameMath.cpp; path = ../../src/gs2d/src/Math/GameMath.cpp; sourceTree = "<group>"; };
+		7479C8A116263C1E0059402B /* OrientedBoundingBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OrientedBoundingBox.cpp; path = ../../src/gs2d/src/Math/OrientedBoundingBox.cpp; sourceTree = "<group>"; };
+		7479C8A216263C1E0059402B /* Randomizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Randomizer.cpp; path = ../../src/gs2d/src/Math/Randomizer.cpp; sourceTree = "<group>"; };
+		7479C8A316263C1E0059402B /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Color.h; path = ../../src/gs2d/src/Math/Color.h; sourceTree = "<group>"; };
+		7479C8A416263C1E0059402B /* GameMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameMath.h; path = ../../src/gs2d/src/Math/GameMath.h; sourceTree = "<group>"; };
+		7479C8A516263C1E0059402B /* MersenneTwister.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MersenneTwister.h; path = ../../src/gs2d/src/Math/MersenneTwister.h; sourceTree = "<group>"; };
+		7479C8A616263C1E0059402B /* OrientedBoundingBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OrientedBoundingBox.h; path = ../../src/gs2d/src/Math/OrientedBoundingBox.h; sourceTree = "<group>"; };
+		7479C8A716263C1E0059402B /* Randomizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Randomizer.h; path = ../../src/gs2d/src/Math/Randomizer.h; sourceTree = "<group>"; };
+		7479C8AD162640AF0059402B /* Enml.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Enml.cpp; path = ../../src/gs2d/src/Enml/Enml.cpp; sourceTree = "<group>"; };
+		7479C8AE162640AF0059402B /* Enml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Enml.h; path = ../../src/gs2d/src/Enml/Enml.h; sourceTree = "<group>"; };
+		7479C8B31626416A0059402B /* StdAnsiFileManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StdAnsiFileManager.cpp; path = ../../src/gs2d/src/Platform/StdAnsiFileManager.cpp; sourceTree = "<group>"; };
+		7479C8B41626416A0059402B /* StdAnsiFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StdAnsiFileManager.h; path = ../../src/gs2d/src/Platform/StdAnsiFileManager.h; sourceTree = "<group>"; };
 		747E7CF715F54FE200F82271 /* ETHAppEnmlFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHAppEnmlFile.cpp; path = ../../src/engine/Platform/ETHAppEnmlFile.cpp; sourceTree = "<group>"; };
 		747E7CF815F54FE200F82271 /* ETHAppEnmlFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHAppEnmlFile.h; path = ../../src/engine/Platform/ETHAppEnmlFile.h; sourceTree = "<group>"; };
 		748502CE1560301B00E2104A /* ETHEntityDestructorManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityDestructorManager.cpp; path = ../../src/engine/Script/ETHEntityDestructorManager.cpp; sourceTree = "<group>"; };
@@ -247,7 +319,6 @@
 		748502D21560301B00E2104A /* ETHScriptWrapper.Audio.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptWrapper.Audio.cpp; path = ../../src/engine/Script/ETHScriptWrapper.Audio.cpp; sourceTree = "<group>"; };
 		748502D31560301B00E2104A /* ETHScriptWrapper.Drawing.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptWrapper.Drawing.cpp; path = ../../src/engine/Script/ETHScriptWrapper.Drawing.cpp; sourceTree = "<group>"; };
 		748502D41560301B00E2104A /* ETHScriptWrapper.Scene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptWrapper.Scene.cpp; path = ../../src/engine/Script/ETHScriptWrapper.Scene.cpp; sourceTree = "<group>"; };
-		748502D51560301B00E2104A /* ETHScriptWrapper.System.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptWrapper.System.cpp; path = ../../src/engine/Script/ETHScriptWrapper.System.cpp; sourceTree = "<group>"; };
 		748502D81560305C00E2104A /* ETHEntityKillListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ETHEntityKillListener.h; path = ../../src/engine/Scene/ETHEntityKillListener.h; sourceTree = "<group>"; };
 		748503081562BCBC00E2104A /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
 		7485030A1562BCE600E2104A /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
@@ -363,37 +434,10 @@
 		74FBEF4D143767CE00C67129 /* GLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = GLView.mm; path = Ethanon/Classes/GLView.mm; sourceTree = "<group>"; };
 		74FBEF4E143767CE00C67129 /* GS2DViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GS2DViewController.h; path = Ethanon/Classes/GS2DViewController.h; sourceTree = "<group>"; };
 		74FBEF4F143767CE00C67129 /* GS2DViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = GS2DViewController.mm; path = Ethanon/Classes/GS2DViewController.mm; sourceTree = "<group>"; };
-		74FBEF53143769F700C67129 /* gs2d.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gs2d.cpp; path = ../../src/gs2d/src/gs2d.cpp; sourceTree = "<group>"; };
-		74FBEF54143769F700C67129 /* gs2d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gs2d.h; path = ../../src/gs2d/src/gs2d.h; sourceTree = "<group>"; };
-		74FBEF55143769F700C67129 /* gs2daudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gs2daudio.h; path = ../../src/gs2d/src/gs2daudio.h; sourceTree = "<group>"; };
-		74FBEF56143769F700C67129 /* gs2dcgshadercode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gs2dcgshadercode.h; path = ../../src/gs2d/src/gs2dcgshadercode.h; sourceTree = "<group>"; };
-		74FBEF57143769F700C67129 /* gs2dframework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gs2dframework.h; path = ../../src/gs2d/src/gs2dframework.h; sourceTree = "<group>"; };
-		74FBEF58143769F700C67129 /* gs2dinput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gs2dinput.h; path = ../../src/gs2d/src/gs2dinput.h; sourceTree = "<group>"; };
-		74FBEF59143769F700C67129 /* gs2dmath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gs2dmath.h; path = ../../src/gs2d/src/gs2dmath.h; sourceTree = "<group>"; };
-		74FBEF5A143769F700C67129 /* gs2dplayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gs2dplayer.h; path = ../../src/gs2d/src/gs2dplayer.h; sourceTree = "<group>"; };
-		74FBEF5B143769F700C67129 /* gs2dshader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gs2dshader.h; path = ../../src/gs2d/src/gs2dshader.h; sourceTree = "<group>"; };
-		74FBEF5C143769F700C67129 /* gs2dtypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gs2dtypes.h; path = ../../src/gs2d/src/gs2dtypes.h; sourceTree = "<group>"; };
-		74FBEF5D143769F700C67129 /* gs2dutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gs2dutil.h; path = ../../src/gs2d/src/gs2dutil.h; sourceTree = "<group>"; };
-		74FBEF5F143769FF00C67129 /* MersenneTwister.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MersenneTwister.h; path = ../../src/gs2d/src/MersenneTwister.h; sourceTree = "<group>"; };
 		74FBEF6114376A1900C67129 /* GLES2RectRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLES2RectRenderer.cpp; path = ../../src/gs2d/src/Video/GLES2/GLES2RectRenderer.cpp; sourceTree = "<group>"; };
 		74FBEF6214376A1900C67129 /* GLES2RectRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLES2RectRenderer.h; path = ../../src/gs2d/src/Video/GLES2/GLES2RectRenderer.h; sourceTree = "<group>"; };
 		74FBEF6314376A1900C67129 /* GLES2UniformParameter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLES2UniformParameter.cpp; path = ../../src/gs2d/src/Video/GLES2/GLES2UniformParameter.cpp; sourceTree = "<group>"; };
 		74FBEF6414376A1900C67129 /* GLES2UniformParameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLES2UniformParameter.h; path = ../../src/gs2d/src/Video/GLES2/GLES2UniformParameter.h; sourceTree = "<group>"; };
-		74FBEF6514376A1900C67129 /* gs2dGLES2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gs2dGLES2.cpp; path = ../../src/gs2d/src/Video/GLES2/gs2dGLES2.cpp; sourceTree = "<group>"; };
-		74FBEF6614376A1900C67129 /* gs2dGLES2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gs2dGLES2.h; path = ../../src/gs2d/src/Video/GLES2/gs2dGLES2.h; sourceTree = "<group>"; };
-		74FBEF6714376A1900C67129 /* gs2dGLES2Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gs2dGLES2Shader.cpp; path = ../../src/gs2d/src/Video/GLES2/gs2dGLES2Shader.cpp; sourceTree = "<group>"; };
-		74FBEF6814376A1900C67129 /* gs2dGLES2Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gs2dGLES2Shader.h; path = ../../src/gs2d/src/Video/GLES2/gs2dGLES2Shader.h; sourceTree = "<group>"; };
-		74FBEF6914376A1900C67129 /* gs2dGLES2Sprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gs2dGLES2Sprite.cpp; path = ../../src/gs2d/src/Video/GLES2/gs2dGLES2Sprite.cpp; sourceTree = "<group>"; };
-		74FBEF6A14376A1900C67129 /* gs2dGLES2Sprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gs2dGLES2Sprite.h; path = ../../src/gs2d/src/Video/GLES2/gs2dGLES2Sprite.h; sourceTree = "<group>"; };
-		74FBEF6B14376A1900C67129 /* gs2dGLES2Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gs2dGLES2Texture.cpp; path = ../../src/gs2d/src/Video/GLES2/gs2dGLES2Texture.cpp; sourceTree = "<group>"; };
-		74FBEF6C14376A1900C67129 /* gs2dGLES2Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gs2dGLES2Texture.h; path = ../../src/gs2d/src/Video/GLES2/gs2dGLES2Texture.h; sourceTree = "<group>"; };
-		74FBEF7414376A3700C67129 /* gs2dIOSAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gs2dIOSAudio.h; path = ../../src/gs2d/src/Audio/iOS/gs2dIOSAudio.h; sourceTree = "<group>"; };
-		74FBEF7514376A3700C67129 /* gs2dIOSAudio.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = gs2dIOSAudio.mm; path = ../../src/gs2d/src/Audio/iOS/gs2dIOSAudio.mm; sourceTree = "<group>"; };
-		74FBEF7714376A4600C67129 /* enml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = enml.h; path = ../../src/gs2d/src/enml/enml.h; sourceTree = "<group>"; };
-		74FBEF7914376A8600C67129 /* gs2dMobileInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gs2dMobileInput.cpp; path = ../../src/gs2d/src/Input/gs2dMobileInput.cpp; sourceTree = "<group>"; };
-		74FBEF7A14376A8600C67129 /* gs2dMobileInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gs2dMobileInput.h; path = ../../src/gs2d/src/Input/gs2dMobileInput.h; sourceTree = "<group>"; };
-		74FBEF7C14376A8F00C67129 /* gs2dIOSInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gs2dIOSInput.cpp; path = ../../src/gs2d/src/Input/iOS/gs2dIOSInput.cpp; sourceTree = "<group>"; };
-		74FBEF7D14376A8F00C67129 /* gs2dIOSInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gs2dIOSInput.h; path = ../../src/gs2d/src/Input/iOS/gs2dIOSInput.h; sourceTree = "<group>"; };
 		74FBEF8014376AD100C67129 /* FileLogger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FileLogger.cpp; path = ../../src/gs2d/src/Platform/FileLogger.cpp; sourceTree = "<group>"; };
 		74FBEF8114376AD100C67129 /* FileLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileLogger.h; path = ../../src/gs2d/src/Platform/FileLogger.h; sourceTree = "<group>"; };
 		74FBEF8214376AD100C67129 /* FileManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FileManager.cpp; path = ../../src/gs2d/src/Platform/FileManager.cpp; sourceTree = "<group>"; };
@@ -405,8 +449,6 @@
 		74FBEF8B14376AD100C67129 /* NativeCommandForwarder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NativeCommandForwarder.h; path = ../../src/gs2d/src/Platform/NativeCommandForwarder.h; sourceTree = "<group>"; };
 		74FBEF8C14376AD100C67129 /* Platform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Platform.cpp; path = ../../src/gs2d/src/Platform/Platform.cpp; sourceTree = "<group>"; };
 		74FBEF8D14376AD100C67129 /* Platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Platform.h; path = ../../src/gs2d/src/Platform/Platform.h; sourceTree = "<group>"; };
-		74FBEF8E14376AD100C67129 /* StdAnsiFileManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StdAnsiFileManager.cpp; path = ../../src/gs2d/src/Platform/StdAnsiFileManager.cpp; sourceTree = "<group>"; };
-		74FBEF8F14376AD100C67129 /* StdAnsiFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StdAnsiFileManager.h; path = ../../src/gs2d/src/Platform/StdAnsiFileManager.h; sourceTree = "<group>"; };
 		74FBEF9A14376B9200C67129 /* CDAudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDAudioManager.h; path = Ethanon/CocosDenshion/CDAudioManager.h; sourceTree = "<group>"; };
 		74FBEF9B14376B9200C67129 /* CDAudioManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDAudioManager.m; path = Ethanon/CocosDenshion/CDAudioManager.m; sourceTree = "<group>"; };
 		74FBEF9C14376B9200C67129 /* CDConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDConfig.h; path = Ethanon/CocosDenshion/CDConfig.h; sourceTree = "<group>"; };
@@ -607,14 +649,8 @@
 		74FBF0E81437C7AA00C67129 /* tinyxml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tinyxml.h; path = ../../src/vendors/tinyxml_ansi/tinyxml.h; sourceTree = "<group>"; };
 		74FBF0E91437C7AA00C67129 /* tinyxmlerror.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxmlerror.cpp; path = ../../src/vendors/tinyxml_ansi/tinyxmlerror.cpp; sourceTree = "<group>"; };
 		74FBF0EA1437C7AA00C67129 /* tinyxmlparser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxmlparser.cpp; path = ../../src/vendors/tinyxml_ansi/tinyxmlparser.cpp; sourceTree = "<group>"; };
-		74FBF0F51437C7D800C67129 /* ETHCommon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHCommon.cpp; path = ../../src/engine/ETHCommon.cpp; sourceTree = "<group>"; };
-		74FBF0F61437C7D800C67129 /* ETHCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHCommon.h; path = ../../src/engine/ETHCommon.h; sourceTree = "<group>"; };
 		74FBF0FF1437C7D800C67129 /* ETHEngine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEngine.cpp; path = ../../src/engine/ETHEngine.cpp; sourceTree = "<group>"; };
 		74FBF1001437C7D800C67129 /* ETHEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEngine.h; path = ../../src/engine/ETHEngine.h; sourceTree = "<group>"; };
-		74FBF1181437C7D800C67129 /* ETHParticleManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHParticleManager.cpp; path = ../../src/engine/ETHParticleManager.cpp; sourceTree = "<group>"; };
-		74FBF1191437C7D800C67129 /* ETHParticleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHParticleManager.h; path = ../../src/engine/ETHParticleManager.h; sourceTree = "<group>"; };
-		74FBF1201437C7D800C67129 /* ETHPrimitiveDrawer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHPrimitiveDrawer.cpp; path = ../../src/engine/ETHPrimitiveDrawer.cpp; sourceTree = "<group>"; };
-		74FBF1211437C7D800C67129 /* ETHPrimitiveDrawer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHPrimitiveDrawer.h; path = ../../src/engine/ETHPrimitiveDrawer.h; sourceTree = "<group>"; };
 		74FBF1841437D13A00C67129 /* Platform.ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Platform.ios.h; path = ../../src/gs2d/src/Platform/ios/Platform.ios.h; sourceTree = "<group>"; };
 		74FBF1851437D13A00C67129 /* Platform.ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Platform.ios.mm; path = ../../src/gs2d/src/Platform/ios/Platform.ios.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -638,6 +674,55 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		74678F821625FE7D002A636D /* Particles */ = {
+			isa = PBXGroup;
+			children = (
+				74678F841625FE95002A636D /* ETHParticleManager.cpp */,
+				74678F851625FE95002A636D /* ETHParticleManager.h */,
+				74678F861625FE95002A636D /* ETHParticleSystem.cpp */,
+				74678F871625FE95002A636D /* ETHParticleSystem.h */,
+			);
+			name = Particles;
+			sourceTree = "<group>";
+		};
+		74678F8A1625FEAA002A636D /* Drawing */ = {
+			isa = PBXGroup;
+			children = (
+				74678F8B1625FEB8002A636D /* ETHDrawable.cpp */,
+				74678F8C1625FEB8002A636D /* ETHDrawable.h */,
+				74678F8D1625FEB8002A636D /* ETHDrawableManager.cpp */,
+				74678F8E1625FEB8002A636D /* ETHDrawableManager.h */,
+				74678F8F1625FEB8002A636D /* ETHParticleDrawer.cpp */,
+				74678F901625FEB8002A636D /* ETHParticleDrawer.h */,
+			);
+			name = Drawing;
+			sourceTree = "<group>";
+		};
+		7479C89E16263BF80059402B /* Math */ = {
+			isa = PBXGroup;
+			children = (
+				7479C8A416263C1E0059402B /* GameMath.h */,
+				7479C8A016263C1E0059402B /* GameMath.cpp */,
+				7479C8A316263C1E0059402B /* Color.h */,
+				7479C89F16263C1E0059402B /* Color.cpp */,
+				7479C8A716263C1E0059402B /* Randomizer.h */,
+				7479C8A216263C1E0059402B /* Randomizer.cpp */,
+				7479C8A516263C1E0059402B /* MersenneTwister.h */,
+				7479C8A616263C1E0059402B /* OrientedBoundingBox.h */,
+				7479C8A116263C1E0059402B /* OrientedBoundingBox.cpp */,
+			);
+			name = Math;
+			sourceTree = "<group>";
+		};
+		7479C8AC162640950059402B /* Enml */ = {
+			isa = PBXGroup;
+			children = (
+				7479C8AD162640AF0059402B /* Enml.cpp */,
+				7479C8AE162640AF0059402B /* Enml.h */,
+			);
+			name = Enml;
+			sourceTree = "<group>";
+		};
 		74868C5214374C3B00E7B3DD = {
 			isa = PBXGroup;
 			children = (
@@ -822,28 +907,23 @@
 		74DD38B5144248F80041C2EA /* Script */ = {
 			isa = PBXGroup;
 			children = (
+				74F64C081626729400CB2C13 /* Register */,
 				74D9E983157E463E0000EB42 /* ETHScriptWrapper.Audio.cpp */,
 				74D9E984157E463E0000EB42 /* ETHScriptWrapper.Drawing.cpp */,
 				74D9E985157E463E0000EB42 /* ETHScriptWrapper.Scene.cpp */,
 				74D9E986157E463E0000EB42 /* ETHScriptWrapper.System.cpp */,
-				748502CE1560301B00E2104A /* ETHEntityDestructorManager.cpp */,
-				748502CF1560301B00E2104A /* ETHEntityDestructorManager.h */,
-				748502D01560301B00E2104A /* ETHEntityDestructorScript.cpp */,
-				748502D11560301B00E2104A /* ETHEntityDestructorScript.h */,
 				748502D21560301B00E2104A /* ETHScriptWrapper.Audio.cpp */,
 				748502D31560301B00E2104A /* ETHScriptWrapper.Drawing.cpp */,
 				748502D41560301B00E2104A /* ETHScriptWrapper.Scene.cpp */,
-				748502D51560301B00E2104A /* ETHScriptWrapper.System.cpp */,
-				74DD38B7144249230041C2EA /* ETHBinaryStream.cpp */,
-				74DD38B8144249230041C2EA /* ETHBinaryStream.h */,
-				74DD38B9144249230041C2EA /* ETHScriptObjRegister.cpp */,
-				74DD38BA144249230041C2EA /* ETHScriptObjRegister.generic.cpp */,
-				74DD38BB144249230041C2EA /* ETHScriptObjRegister.h */,
-				74DD38BD144249230041C2EA /* ETHScriptWrapper.cpp */,
-				74DD38BE144249230041C2EA /* ETHScriptWrapper.generic.cpp */,
-				74DD38BF144249230041C2EA /* ETHScriptWrapper.h */,
 				74DD38C0144249230041C2EA /* ETHScriptWrapper.Math.cpp */,
-				74DD38C1144249230041C2EA /* ETHScriptWrapper.Math.generic.cpp */,
+				748502CF1560301B00E2104A /* ETHEntityDestructorManager.h */,
+				748502CE1560301B00E2104A /* ETHEntityDestructorManager.cpp */,
+				74DD38B8144249230041C2EA /* ETHBinaryStream.h */,
+				74DD38B7144249230041C2EA /* ETHBinaryStream.cpp */,
+				74DD38BF144249230041C2EA /* ETHScriptWrapper.h */,
+				74DD38BD144249230041C2EA /* ETHScriptWrapper.cpp */,
+				748502D11560301B00E2104A /* ETHEntityDestructorScript.h */,
+				748502D01560301B00E2104A /* ETHEntityDestructorScript.cpp */,
 			);
 			name = Script;
 			sourceTree = "<group>";
@@ -877,6 +957,18 @@
 			name = Shader;
 			sourceTree = "<group>";
 		};
+		74F64C081626729400CB2C13 /* Register */ = {
+			isa = PBXGroup;
+			children = (
+				74DD38BB144249230041C2EA /* ETHScriptObjRegister.h */,
+				74DD38B9144249230041C2EA /* ETHScriptObjRegister.cpp */,
+				74DD38BA144249230041C2EA /* ETHScriptObjRegister.generic.cpp */,
+				74DD38BE144249230041C2EA /* ETHScriptWrapper.generic.cpp */,
+				74DD38C1144249230041C2EA /* ETHScriptWrapper.Math.generic.cpp */,
+			);
+			name = Register;
+			sourceTree = "<group>";
+		};
 		74FBEF4B143767A900C67129 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -894,23 +986,28 @@
 		74FBEF52143769E400C67129 /* GS2D */ = {
 			isa = PBXGroup;
 			children = (
+				7479C8AC162640950059402B /* Enml */,
+				7479C89E16263BF80059402B /* Math */,
 				74FBEF7F14376A9E00C67129 /* Platform */,
 				74FBEF7814376A5A00C67129 /* Input */,
 				74FBEF7314376A2600C67129 /* Audio */,
 				74FBEF6014376A0400C67129 /* Video */,
-				74FBEF5F143769FF00C67129 /* MersenneTwister.h */,
-				74FBEF53143769F700C67129 /* gs2d.cpp */,
-				74FBEF54143769F700C67129 /* gs2d.h */,
-				74FBEF55143769F700C67129 /* gs2daudio.h */,
-				74FBEF56143769F700C67129 /* gs2dcgshadercode.h */,
-				74FBEF57143769F700C67129 /* gs2dframework.h */,
-				74FBEF58143769F700C67129 /* gs2dinput.h */,
-				74FBEF59143769F700C67129 /* gs2dmath.h */,
-				74FBEF5A143769F700C67129 /* gs2dplayer.h */,
-				74FBEF5B143769F700C67129 /* gs2dshader.h */,
-				74FBEF5C143769F700C67129 /* gs2dtypes.h */,
-				74FBEF5D143769F700C67129 /* gs2dutil.h */,
-				74FBEF7714376A4600C67129 /* enml.h */,
+				7479C89C16263BD10059402B /* FileIOHub.h */,
+				7479C89B16263BD10059402B /* FileIOHub.cpp */,
+				74678F9E1625FF18002A636D /* Sprite.h */,
+				74678F961625FF18002A636D /* Sprite.cpp */,
+				74678FA11625FF18002A636D /* Video.h */,
+				74678F971625FF18002A636D /* Video.cpp */,
+				74678F981625FF18002A636D /* Application.h */,
+				74678F951625FF18002A636D /* Application.cpp */,
+				74678F991625FF18002A636D /* Audio.h */,
+				74678F9A1625FF18002A636D /* BaseApplication.h */,
+				74678F9B1625FF18002A636D /* Input.h */,
+				74678F9C1625FF18002A636D /* Player.h */,
+				74678F9D1625FF18002A636D /* Shader.h */,
+				74678F9F1625FF18002A636D /* Texture.h */,
+				74678FA01625FF18002A636D /* Types.h */,
+				74678FA21625FF18002A636D /* Window.h */,
 			);
 			name = GS2D;
 			sourceTree = "<group>";
@@ -918,18 +1015,22 @@
 		74FBEF6014376A0400C67129 /* Video */ = {
 			isa = PBXGroup;
 			children = (
-				74FBEF6114376A1900C67129 /* GLES2RectRenderer.cpp */,
+				74678FBC16260001002A636D /* GLES2Shader.h */,
+				74678FB816260001002A636D /* GLES2Shader.cpp */,
+				74678FBE16260001002A636D /* GLES2Texture.h */,
+				74678FBA16260001002A636D /* GLES2Texture.cpp */,
+				74678FBF16260001002A636D /* GLES2Video.h */,
+				74678FBB16260001002A636D /* GLES2Video.cpp */,
+				74678FBD16260001002A636D /* GLES2Sprite.h */,
+				74678FB916260001002A636D /* GLES2Sprite.cpp */,
+				74678FB41625FFDD002A636D /* BitmapFont.h */,
+				74678FB21625FFDD002A636D /* BitmapFont.cpp */,
+				74678FB51625FFDD002A636D /* BitmapFontManager.h */,
+				74678FB31625FFDD002A636D /* BitmapFontManager.cpp */,
 				74FBEF6214376A1900C67129 /* GLES2RectRenderer.h */,
-				74FBEF6314376A1900C67129 /* GLES2UniformParameter.cpp */,
+				74FBEF6114376A1900C67129 /* GLES2RectRenderer.cpp */,
 				74FBEF6414376A1900C67129 /* GLES2UniformParameter.h */,
-				74FBEF6514376A1900C67129 /* gs2dGLES2.cpp */,
-				74FBEF6614376A1900C67129 /* gs2dGLES2.h */,
-				74FBEF6714376A1900C67129 /* gs2dGLES2Shader.cpp */,
-				74FBEF6814376A1900C67129 /* gs2dGLES2Shader.h */,
-				74FBEF6914376A1900C67129 /* gs2dGLES2Sprite.cpp */,
-				74FBEF6A14376A1900C67129 /* gs2dGLES2Sprite.h */,
-				74FBEF6B14376A1900C67129 /* gs2dGLES2Texture.cpp */,
-				74FBEF6C14376A1900C67129 /* gs2dGLES2Texture.h */,
+				74FBEF6314376A1900C67129 /* GLES2UniformParameter.cpp */,
 			);
 			name = Video;
 			sourceTree = "<group>";
@@ -937,8 +1038,8 @@
 		74FBEF7314376A2600C67129 /* Audio */ = {
 			isa = PBXGroup;
 			children = (
-				74FBEF7414376A3700C67129 /* gs2dIOSAudio.h */,
-				74FBEF7514376A3700C67129 /* gs2dIOSAudio.mm */,
+				74678FB01625FFB9002A636D /* IOSAudio.h */,
+				74678FAF1625FFB9002A636D /* IOSAudio.mm */,
 			);
 			name = Audio;
 			sourceTree = "<group>";
@@ -946,10 +1047,10 @@
 		74FBEF7814376A5A00C67129 /* Input */ = {
 			isa = PBXGroup;
 			children = (
-				74FBEF7C14376A8F00C67129 /* gs2dIOSInput.cpp */,
-				74FBEF7D14376A8F00C67129 /* gs2dIOSInput.h */,
-				74FBEF7914376A8600C67129 /* gs2dMobileInput.cpp */,
-				74FBEF7A14376A8600C67129 /* gs2dMobileInput.h */,
+				74678FA91625FF55002A636D /* IOSInput.cpp */,
+				74678FAA1625FF55002A636D /* IOSInput.h */,
+				74678FA61625FF4A002A636D /* MobileInput.cpp */,
+				74678FA71625FF4A002A636D /* MobileInput.h */,
 			);
 			name = Input;
 			sourceTree = "<group>";
@@ -958,19 +1059,19 @@
 			isa = PBXGroup;
 			children = (
 				74FBF1821437D10800C67129 /* iOS */,
-				74FBEF8014376AD100C67129 /* FileLogger.cpp */,
 				74FBEF8114376AD100C67129 /* FileLogger.h */,
-				74FBEF8214376AD100C67129 /* FileManager.cpp */,
+				74FBEF8014376AD100C67129 /* FileLogger.cpp */,
 				74FBEF8314376AD100C67129 /* FileManager.h */,
+				74FBEF8214376AD100C67129 /* FileManager.cpp */,
 				74FBEF8614376AD100C67129 /* Logger.h */,
-				74FBEF8814376AD100C67129 /* NativeCommandAssembler.cpp */,
 				74FBEF8914376AD100C67129 /* NativeCommandAssembler.h */,
-				74FBEF8A14376AD100C67129 /* NativeCommandForwarder.cpp */,
+				74FBEF8814376AD100C67129 /* NativeCommandAssembler.cpp */,
 				74FBEF8B14376AD100C67129 /* NativeCommandForwarder.h */,
-				74FBEF8C14376AD100C67129 /* Platform.cpp */,
+				74FBEF8A14376AD100C67129 /* NativeCommandForwarder.cpp */,
 				74FBEF8D14376AD100C67129 /* Platform.h */,
-				74FBEF8E14376AD100C67129 /* StdAnsiFileManager.cpp */,
-				74FBEF8F14376AD100C67129 /* StdAnsiFileManager.h */,
+				74FBEF8C14376AD100C67129 /* Platform.cpp */,
+				7479C8B41626416A0059402B /* StdAnsiFileManager.h */,
+				7479C8B31626416A0059402B /* StdAnsiFileManager.cpp */,
 			);
 			name = Platform;
 			sourceTree = "<group>";
@@ -1011,6 +1112,8 @@
 		74FBEFC01437AC1000C67129 /* Engine */ = {
 			isa = PBXGroup;
 			children = (
+				74678F8A1625FEAA002A636D /* Drawing */,
+				74678F821625FE7D002A636D /* Particles */,
 				74D9E979157E45960000EB42 /* Resource */,
 				74DD38B6144248FD0041C2EA /* Shader */,
 				74DD38B5144248F80041C2EA /* Script */,
@@ -1019,14 +1122,9 @@
 				74DD3897144248A40041C2EA /* Physics */,
 				74DD3878144248760041C2EA /* Entity */,
 				74FBF1781437C7DB00C67129 /* Platform */,
-				74FBF0F51437C7D800C67129 /* ETHCommon.cpp */,
-				74FBF0F61437C7D800C67129 /* ETHCommon.h */,
-				74FBF0FF1437C7D800C67129 /* ETHEngine.cpp */,
+				74678F941625FECB002A636D /* ETHTypes.h */,
 				74FBF1001437C7D800C67129 /* ETHEngine.h */,
-				74FBF1181437C7D800C67129 /* ETHParticleManager.cpp */,
-				74FBF1191437C7D800C67129 /* ETHParticleManager.h */,
-				74FBF1201437C7D800C67129 /* ETHPrimitiveDrawer.cpp */,
-				74FBF1211437C7D800C67129 /* ETHPrimitiveDrawer.h */,
+				74FBF0FF1437C7D800C67129 /* ETHEngine.cpp */,
 			);
 			name = Engine;
 			sourceTree = "<group>";
@@ -1316,6 +1414,8 @@
 		74FBF1821437D10800C67129 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				7479C898162633B30059402B /* IOSFileIOHub.h */,
+				7479C897162633B30059402B /* IOSFileIOHub.cpp */,
 				74FBF1841437D13A00C67129 /* Platform.ios.h */,
 				74FBF1851437D13A00C67129 /* Platform.ios.mm */,
 			);
@@ -1395,7 +1495,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				748E081C158133F6006174C4 /* ETHGlobalScaleManager.cpp in Sources */,
-				748502E0156031BD00E2104A /* ETHScriptWrapper.System.cpp in Sources */,
 				748502DF156031B700E2104A /* ETHScriptWrapper.Drawing.cpp in Sources */,
 				748502DE156031B000E2104A /* ETHEntityDestructorManager.cpp in Sources */,
 				748502DD156031A700E2104A /* ETHScriptWrapper.Audio.cpp in Sources */,
@@ -1406,22 +1505,13 @@
 				74868C7214374C3B00E7B3DD /* EthanonAppDelegate.mm in Sources */,
 				74FBEF50143767CE00C67129 /* GLView.mm in Sources */,
 				74FBEF51143767CE00C67129 /* GS2DViewController.mm in Sources */,
-				74FBEF5E143769F700C67129 /* gs2d.cpp in Sources */,
 				74FBEF6D14376A1900C67129 /* GLES2RectRenderer.cpp in Sources */,
 				74FBEF6E14376A1900C67129 /* GLES2UniformParameter.cpp in Sources */,
-				74FBEF6F14376A1900C67129 /* gs2dGLES2.cpp in Sources */,
-				74FBEF7014376A1900C67129 /* gs2dGLES2Shader.cpp in Sources */,
-				74FBEF7114376A1900C67129 /* gs2dGLES2Sprite.cpp in Sources */,
-				74FBEF7214376A1900C67129 /* gs2dGLES2Texture.cpp in Sources */,
-				74FBEF7614376A3700C67129 /* gs2dIOSAudio.mm in Sources */,
-				74FBEF7B14376A8600C67129 /* gs2dMobileInput.cpp in Sources */,
-				74FBEF7E14376A8F00C67129 /* gs2dIOSInput.cpp in Sources */,
 				74FBEF9014376AD100C67129 /* FileLogger.cpp in Sources */,
 				74FBEF9114376AD100C67129 /* FileManager.cpp in Sources */,
 				74FBEF9514376AD100C67129 /* NativeCommandAssembler.cpp in Sources */,
 				74FBEF9614376AD100C67129 /* NativeCommandForwarder.cpp in Sources */,
 				74FBEF9714376AD100C67129 /* Platform.cpp in Sources */,
-				74FBEF9814376AD100C67129 /* StdAnsiFileManager.cpp in Sources */,
 				74FBEFA314376B9200C67129 /* CDAudioManager.m in Sources */,
 				74FBEFA414376B9200C67129 /* CDOpenALSupport.m in Sources */,
 				74FBEFA514376B9200C67129 /* CocosDenshion.m in Sources */,
@@ -1518,10 +1608,7 @@
 				74FBF0EC1437C7AA00C67129 /* tinyxml.cpp in Sources */,
 				74FBF0ED1437C7AA00C67129 /* tinyxmlerror.cpp in Sources */,
 				74FBF0EE1437C7AA00C67129 /* tinyxmlparser.cpp in Sources */,
-				74FBF14B1437C7D800C67129 /* ETHCommon.cpp in Sources */,
 				74FBF1501437C7D800C67129 /* ETHEngine.cpp in Sources */,
-				74FBF15C1437C7D800C67129 /* ETHParticleManager.cpp in Sources */,
-				74FBF1601437C7D800C67129 /* ETHPrimitiveDrawer.cpp in Sources */,
 				74FBF1871437D13A00C67129 /* Platform.ios.mm in Sources */,
 				74DD388D144248940041C2EA /* ETHCustomDataManager.cpp in Sources */,
 				74DD388E144248940041C2EA /* ETHEntity.cpp in Sources */,
@@ -1576,6 +1663,31 @@
 				74D9E982157E45DC0000EB42 /* ETHResourceProvider.cpp in Sources */,
 				74D9E98D157E47610000EB42 /* ETHSpriteDensityManager.cpp in Sources */,
 				747E7CF915F54FE200F82271 /* ETHAppEnmlFile.cpp in Sources */,
+				74678F881625FE95002A636D /* ETHParticleManager.cpp in Sources */,
+				74678F891625FE95002A636D /* ETHParticleSystem.cpp in Sources */,
+				74678F911625FEB8002A636D /* ETHDrawable.cpp in Sources */,
+				74678F921625FEB8002A636D /* ETHDrawableManager.cpp in Sources */,
+				74678F931625FEB8002A636D /* ETHParticleDrawer.cpp in Sources */,
+				74678FA31625FF18002A636D /* Application.cpp in Sources */,
+				74678FA41625FF18002A636D /* Sprite.cpp in Sources */,
+				74678FA51625FF18002A636D /* Video.cpp in Sources */,
+				74678FA81625FF4A002A636D /* MobileInput.cpp in Sources */,
+				74678FAB1625FF55002A636D /* IOSInput.cpp in Sources */,
+				74678FB11625FFB9002A636D /* IOSAudio.mm in Sources */,
+				74678FB61625FFDD002A636D /* BitmapFont.cpp in Sources */,
+				74678FB71625FFDD002A636D /* BitmapFontManager.cpp in Sources */,
+				74678FC016260001002A636D /* GLES2Shader.cpp in Sources */,
+				74678FC116260001002A636D /* GLES2Sprite.cpp in Sources */,
+				74678FC216260001002A636D /* GLES2Texture.cpp in Sources */,
+				74678FC316260001002A636D /* GLES2Video.cpp in Sources */,
+				7479C899162633B30059402B /* IOSFileIOHub.cpp in Sources */,
+				7479C89D16263BD10059402B /* FileIOHub.cpp in Sources */,
+				7479C8A816263C1E0059402B /* Color.cpp in Sources */,
+				7479C8A916263C1E0059402B /* GameMath.cpp in Sources */,
+				7479C8AA16263C1E0059402B /* OrientedBoundingBox.cpp in Sources */,
+				7479C8AB16263C1E0059402B /* Randomizer.cpp in Sources */,
+				7479C8AF162640AF0059402B /* Enml.cpp in Sources */,
+				7479C8B51626416A0059402B /* StdAnsiFileManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1683,6 +1795,7 @@
 					AS_NO_THREADS,
 					"DEBUG=1",
 					"_DEBUG=1",
+					ETH_DEFINE_DEPRECATED_SIGNATURES_FROM_0_9_5,
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -1726,6 +1839,7 @@
 					GS2D_WARN_SLOW_DRAWING,
 					AS_MAX_PORTABILITY,
 					AS_NO_THREADS,
+					ETH_DEFINE_DEPRECATED_SIGNATURES_FROM_0_9_5,
 				);
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;

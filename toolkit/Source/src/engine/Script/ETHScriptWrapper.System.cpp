@@ -22,8 +22,11 @@
 
 #include "ETHScriptWrapper.h"
 #include "../Entity/ETHRenderEntity.h"
-#include <Platform/ZipFileManager.h>
 #include <Platform/StdFileManager.h>
+
+#ifdef _MSC_VER
+ #include <Platform/ZipFileManager.h>
+#endif
 
 void ETHScriptWrapper::ShowMessage(str_type::string sMsg, const ETH_MESSAGE type, const bool abort)
 {
@@ -261,6 +264,8 @@ str_type::string ETHScriptWrapper::GetPlatformName()
 
 bool ETHScriptWrapper::EnablePackLoading(const str_type::string& packFileName, const str_type::string& password)
 {
+// TO-DO/TODO: make it safer
+#ifdef _MSC_VER
 	if (IsResourcePackingSupported())
 	{
 		Platform::FileIOHubPtr fileIOHub = m_provider->GetFileIOHub();
@@ -277,6 +282,9 @@ bool ETHScriptWrapper::EnablePackLoading(const str_type::string& packFileName, c
 	{
 		return false;
 	}
+#else
+	return false;
+#endif
 }
 
 void ETHScriptWrapper::DisablePackLoading()

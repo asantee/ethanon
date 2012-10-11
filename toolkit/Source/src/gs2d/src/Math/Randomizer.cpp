@@ -21,7 +21,7 @@
 --------------------------------------------------------------------------------------*/
 
 #include "Randomizer.h"
-#include "Math.h"
+#include "GameMath.h"
 
 namespace gs2d {
 namespace math {

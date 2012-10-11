@@ -20,7 +20,7 @@
     OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#include "gs2dIOSInput.h"
+#include "IOSInput.h"
 #include <string.h>
 #include <stdio.h>
 

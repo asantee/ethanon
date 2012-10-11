@@ -4,7 +4,7 @@
 #include <math.h>
 #include "scriptmath3d.h"
 
-#include <Math/Math.h>
+#include <Math/GameMath.h>
 using gs2d::math::Vector3;
 using gs2d::math::PODVector3;
 

@@ -20,26 +20,26 @@
     OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#ifndef STD_FILE_MANAGER_H_
-#define STD_FILE_MANAGER_H_
+#ifndef IOS_FILE_IO_HUB_H_
+#define IOS_FILE_IO_HUB_H_
 
-#include "FileManager.h"
+#include "../FileIOHub.h"
 
 namespace Platform {
 
-class StdFileManager : public FileManager
+class IOSFileIOHub : public FileIOHub
 {
 public:
-	bool IsLoaded() const;
-	bool GetFileBuffer(const gs2d::str_type::string &fileName, FileBuffer &out);
-	bool GetAnsiFileString(const gs2d::str_type::string &fileName, gs2d::str_type::string &out);
-	bool GetUTF8BOMFileString(const gs2d::str_type::string &fileName, gs2d::str_type::string &out);
-	bool GetUTF16FileString(const gs2d::str_type::string &fileName, gs2d::str_type::string &out);
-	bool FileExists(const gs2d::str_type::string& fileName) const;
-	bool IsPacked() const;
+	IOSFileIOHub(
+		const gs2d::str_type::string& resourceDirectory,
+		const gs2d::str_type::string& externalStorageDirectory,
+		const gs2d::str_type::string& bitmapFontSearchDirectory);
+
+	void SetFileManager(Platform::FileManagerPtr fileManager, const gs2d::str_type::string& resourceDirectory);
+	bool IsResourcePackingSupported();
 };
 
-typedef boost::shared_ptr<StdFileManager> StdFileManagerPtr;
+typedef boost::shared_ptr<IOSFileIOHub> IOSFileIOHubPtr;
 
 }
 

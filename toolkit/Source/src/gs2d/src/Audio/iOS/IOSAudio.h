@@ -23,7 +23,7 @@
 #ifndef GS2D_IOS_AUDIO_H_
 #define GS2D_IOS_AUDIO_H_
 
-#include "../../gs2daudio.h"
+#include "../../Audio.h"
 #include "../../Platform/FileLogger.h"
 #include "../../Platform/ios/Platform.ios.h"
 
@@ -43,7 +43,7 @@ public:
 
 	static bool IsStreamable(const GS_SAMPLE_TYPE type);
 
-	AudioSamplePtr LoadSampleFromFile(const str_type::string& fileName, const GS_SAMPLE_TYPE type = GSST_UNKNOWN);
+	AudioSamplePtr LoadSampleFromFile(const str_type::string& fileName, const Platform::FileManagerPtr& fileManager, const GS_SAMPLE_TYPE type = GSST_UNKNOWN);
 	AudioSamplePtr LoadSampleFromFileInMemory(void *pBuffer, const unsigned int bufferLength, const GS_SAMPLE_TYPE type = GSST_UNKNOWN);
 	boost::any GetAudioContext();
 
@@ -69,7 +69,7 @@ public:
 	IOSAudioSample();
 	~IOSAudioSample();
 
-	bool LoadSampleFromFile(AudioWeakPtr audio, const str_type::string& fileName, const GS_SAMPLE_TYPE type = GSST_UNKNOWN);
+	bool LoadSampleFromFile(AudioWeakPtr audio, const str_type::string& fileName, const Platform::FileManagerPtr& fileManager, const GS_SAMPLE_TYPE type = GSST_UNKNOWN);
 	bool LoadSampleFromFileInMemory(AudioWeakPtr audio, void *pBuffer, const unsigned int bufferLength, const GS_SAMPLE_TYPE type = GSST_UNKNOWN);
 
 	bool SetLoop(const bool enable);

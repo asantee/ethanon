@@ -46,7 +46,6 @@ ETHParticleDrawer::ETHParticleDrawer(
 
 bool ETHParticleDrawer::Draw(const unsigned long lastFrameElapsedTimeMS)
 {
-	const Vector2 currentPos(m_pos + m_provider->GetVideo()->GetCameraPos());
 	m_particleManager->UpdateParticleSystem(m_pos, Vector3(m_pos, 0.0f), m_angle, lastFrameElapsedTimeMS);
 	m_particleManager->DrawParticleSystem(
 		Vector3(1.0f, 1.0f, 1.0f),

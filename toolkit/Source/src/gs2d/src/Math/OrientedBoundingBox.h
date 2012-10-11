@@ -23,7 +23,7 @@
 #ifndef GS2D_ORIENTED_BOUNDING_BOX_H_
 #define GS2D_ORIENTED_BOUNDING_BOX_H_
 
-#include "Math.h"
+#include "GameMath.h"
 
 namespace gs2d {
 namespace math {

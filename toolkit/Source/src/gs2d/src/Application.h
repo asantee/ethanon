@@ -23,7 +23,7 @@
 #ifndef GS2D_APPLICATION_H_
 #define GS2D_APPLICATION_H_
 
-#include "Math/Math.h"
+#include "Math/GameMath.h"
 #include "Types.h"
 #include "Platform/FileIOHub.h"
 

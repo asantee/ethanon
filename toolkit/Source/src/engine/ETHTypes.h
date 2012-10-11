@@ -23,7 +23,7 @@
 #ifndef ETH_TYPES_H_
 #define ETH_TYPES_H_
 
-#include <Math/Math.h>
+#include <Math/GameMath.h>
 
 #ifdef GS2D_STR_TYPE_WCHAR
 #	include "../vendors/tinyxml_utf16/tinyxml.h"

@@ -23,7 +23,7 @@
 #ifndef GS2D_BITMAP_FONT_H_
 #define GS2D_BITMAP_FONT_H_
 
-#include "../Math/Math.h"
+#include "../Math/GameMath.h"
 
 #include <vector>
 

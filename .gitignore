@@ -57,6 +57,9 @@ editor.exe
 *.cl.cmd
 *.cl.cfg
 
+# xcode
+toolkit/Source/projects/xcode/assets/*
+
 # Visual Studio binary output paths and files
 *#bin#/
 toolkit/Source/Ethanon Engine.suo

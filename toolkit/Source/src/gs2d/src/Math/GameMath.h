@@ -24,11 +24,12 @@
 #define GS2D_MATH_H_
 
 #include "Color.h"
-#include <math.h>
 
 #if defined(__ARM_NEON__)
 #include <arm_neon.h>
 #endif
+
+#include <math.h>
 
 namespace gs2d {
 namespace math {

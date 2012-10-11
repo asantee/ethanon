@@ -20,7 +20,7 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#import "gs2dIOSAudio.h"
+#import "IOSAudio.h"
 #import <SimpleAudioEngine.h>
 
 namespace gs2d {
@@ -53,7 +53,7 @@ boost::shared_ptr<IOSAudioContext> IOSAudioContext::Create(boost::any data)
 }
 
 IOSAudioContext::IOSAudioContext() :
-	m_logger(Platform::FileLogger::GetLogPath() + "IOSAudioContext.log.txt")
+	m_logger(Platform::FileLogger::GetLogDirectory() + "IOSAudioContext.log.txt")
 {
 	SetGlobalVolume(1.0f);
 }
@@ -64,10 +64,10 @@ bool IOSAudioContext::CreateAudioDevice(boost::any data)
 	return true;
 }
 
-AudioSamplePtr IOSAudioContext::LoadSampleFromFile(const str_type::string& fileName, const GS_SAMPLE_TYPE type)
+AudioSamplePtr IOSAudioContext::LoadSampleFromFile(const str_type::string& fileName, const Platform::FileManagerPtr& fileManager, const GS_SAMPLE_TYPE type)
 {
 	AudioSamplePtr sample = AudioSamplePtr(new IOSAudioSample);
-	sample->LoadSampleFromFile(weak_this, fileName, type);
+	sample->LoadSampleFromFile(weak_this, fileName, fileManager, type);
 	return sample;
 }
 
@@ -117,7 +117,7 @@ float IOSAudioContext::GetGlobalVolume() const
 
 // Audio sample
 
-Platform::FileLogger IOSAudioSample::m_logger(Platform::FileLogger::GetLogPath() + "IOSAudioSample.log.txt");
+Platform::FileLogger IOSAudioSample::m_logger(Platform::FileLogger::GetLogDirectory() + "IOSAudioSample.log.txt");
 str_type::string IOSAudioSample::m_currentStreamableTrack;
 
 IOSAudioSample::IOSAudioSample() :
@@ -144,7 +144,7 @@ IOSAudioSample::~IOSAudioSample()
 	[pool release];
 }
 
-bool IOSAudioSample::LoadSampleFromFile(AudioWeakPtr audio, const str_type::string& fileName, const GS_SAMPLE_TYPE type)
+bool IOSAudioSample::LoadSampleFromFile(AudioWeakPtr audio, const str_type::string& fileName, const Platform::FileManagerPtr& fileManager, const GS_SAMPLE_TYPE type)
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	m_audio = static_cast<IOSAudioContext*>(audio.lock().get());
