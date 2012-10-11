@@ -76,7 +76,7 @@ bool ETHTextDrawer::Draw(const unsigned long lastFrameElapsedTimeMS)
 
 bool ETHTextDrawer::IsAlive() const
 {
-	if (elapsedTimeMS > timeMS)
+	if (elapsedTimeMS >= timeMS)
 		return false;
 	else
 		return true;
