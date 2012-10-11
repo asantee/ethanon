@@ -21,7 +21,7 @@
 --------------------------------------------------------------------------------------*/
 
 #include "AudiereAudio.h"
-#include "../../Math/Math.h"
+#include "../../Math/GameMath.h"
 #include "../../Application.h"
 #include "../../Unicode/UTF8Converter.h"
 
