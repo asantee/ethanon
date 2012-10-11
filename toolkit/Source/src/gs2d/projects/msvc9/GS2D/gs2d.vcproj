@@ -376,7 +376,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\Math\Math.h"
+				RelativePath="..\..\..\src\Math\GameMath.h"
 				>
 			</File>
 			<File
