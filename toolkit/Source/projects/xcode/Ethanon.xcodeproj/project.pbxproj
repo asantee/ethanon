@@ -107,6 +107,7 @@
 		74DD38F01442496B0041C2EA /* ETHFrameTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74DD38E81442496B0041C2EA /* ETHFrameTimer.cpp */; };
 		74DD38F11442496B0041C2EA /* ETHInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74DD38EA1442496B0041C2EA /* ETHInput.cpp */; };
 		74DD38F21442496B0041C2EA /* ETHSpeedTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74DD38EC1442496B0041C2EA /* ETHSpeedTimer.cpp */; };
+		74F64C0B16270EE100CB2C13 /* ETHScriptWrapper.System.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74F64C0A16270EE100CB2C13 /* ETHScriptWrapper.System.cpp */; };
 		74FBEF4214374E4100C67129 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74FBEF4114374E4100C67129 /* AudioToolbox.framework */; };
 		74FBEF4414374E5100C67129 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74FBEF4314374E5100C67129 /* AVFoundation.framework */; };
 		74FBEF4614374E5F00C67129 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74FBEF4514374E5F00C67129 /* OpenAL.framework */; };
@@ -348,7 +349,6 @@
 		74D9E983157E463E0000EB42 /* ETHScriptWrapper.Audio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptWrapper.Audio.cpp; path = ../../src/engine/Script/ETHScriptWrapper.Audio.cpp; sourceTree = "<group>"; };
 		74D9E984157E463E0000EB42 /* ETHScriptWrapper.Drawing.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptWrapper.Drawing.cpp; path = ../../src/engine/Script/ETHScriptWrapper.Drawing.cpp; sourceTree = "<group>"; };
 		74D9E985157E463E0000EB42 /* ETHScriptWrapper.Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptWrapper.Scene.cpp; path = ../../src/engine/Script/ETHScriptWrapper.Scene.cpp; sourceTree = "<group>"; };
-		74D9E986157E463E0000EB42 /* ETHScriptWrapper.System.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptWrapper.System.cpp; path = ../../src/engine/Script/ETHScriptWrapper.System.cpp; sourceTree = "<group>"; };
 		74D9E98B157E47610000EB42 /* ETHSpriteDensityManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHSpriteDensityManager.cpp; path = ../../src/engine/Resource/ETHSpriteDensityManager.cpp; sourceTree = "<group>"; };
 		74D9E98C157E47610000EB42 /* ETHSpriteDensityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHSpriteDensityManager.h; path = ../../src/engine/Resource/ETHSpriteDensityManager.h; sourceTree = "<group>"; };
 		74DD3879144248940041C2EA /* ETHCustomDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHCustomDataManager.cpp; path = ../../src/engine/Entity/ETHCustomDataManager.cpp; sourceTree = "<group>"; };
@@ -425,6 +425,7 @@
 		74DD38EC1442496B0041C2EA /* ETHSpeedTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHSpeedTimer.cpp; path = ../../src/engine/Util/ETHSpeedTimer.cpp; sourceTree = "<group>"; };
 		74DD38ED1442496B0041C2EA /* ETHSpeedTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHSpeedTimer.h; path = ../../src/engine/Util/ETHSpeedTimer.h; sourceTree = "<group>"; };
 		74F451AA143F419600AF7B17 /* Ethanon.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Ethanon.entitlements; sourceTree = "<group>"; };
+		74F64C0A16270EE100CB2C13 /* ETHScriptWrapper.System.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptWrapper.System.cpp; path = ../../src/engine/Script/ETHScriptWrapper.System.cpp; sourceTree = "<group>"; };
 		74FBEF4114374E4100C67129 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		74FBEF4314374E5100C67129 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		74FBEF4514374E5F00C67129 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
@@ -911,7 +912,7 @@
 				74D9E983157E463E0000EB42 /* ETHScriptWrapper.Audio.cpp */,
 				74D9E984157E463E0000EB42 /* ETHScriptWrapper.Drawing.cpp */,
 				74D9E985157E463E0000EB42 /* ETHScriptWrapper.Scene.cpp */,
-				74D9E986157E463E0000EB42 /* ETHScriptWrapper.System.cpp */,
+				74F64C0A16270EE100CB2C13 /* ETHScriptWrapper.System.cpp */,
 				748502D21560301B00E2104A /* ETHScriptWrapper.Audio.cpp */,
 				748502D31560301B00E2104A /* ETHScriptWrapper.Drawing.cpp */,
 				748502D41560301B00E2104A /* ETHScriptWrapper.Scene.cpp */,
@@ -1688,6 +1689,7 @@
 				7479C8AB16263C1E0059402B /* Randomizer.cpp in Sources */,
 				7479C8AF162640AF0059402B /* Enml.cpp in Sources */,
 				7479C8B51626416A0059402B /* StdAnsiFileManager.cpp in Sources */,
+				74F64C0B16270EE100CB2C13 /* ETHScriptWrapper.System.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
