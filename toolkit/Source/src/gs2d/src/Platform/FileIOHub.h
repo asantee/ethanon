@@ -53,6 +53,8 @@ public:
 	virtual gs2d::str_type::string GetBitmapFontSearchDirectory() const;
 	virtual gs2d::str_type::string GenerateBitmapFontFilePath(const gs2d::str_type::string& fntFile) const;
 
+	void SeekFontFromProgramPath(const bool enable);
+
 protected:
 	gs2d::str_type::string m_bitmapFontSearchDirectory;
 	gs2d::str_type::string m_startResourceDirectory;
@@ -63,6 +65,8 @@ protected:
 
 	Platform::FileManagerPtr m_startFileManager;
 	Platform::FileManagerPtr m_fileManager;
+
+	bool m_seekFontFromProgramPath;
 };
 
 typedef boost::shared_ptr<FileIOHub> FileIOHubPtr;

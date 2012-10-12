@@ -37,7 +37,8 @@ FileIOHub::FileIOHub(Platform::FileManagerPtr fileManager,
 	m_startResourceDirectory(resourceDirectory),
 	m_fileManager(fileManager),
 	m_startFileManager(fileManager),
-	m_bitmapFontSearchDirectory(bitmapFontSearchDirectory)
+	m_bitmapFontSearchDirectory(bitmapFontSearchDirectory),
+	m_seekFontFromProgramPath(false)
 {
 }
 
@@ -94,7 +95,12 @@ const FileManagerPtr& FileIOHub::GetStartFileManager()
 
 gs2d::str_type::string FileIOHub::GenerateBitmapFontFilePath(const gs2d::str_type::string& fntFile) const
 {
-	return GetResourceDirectory() + GetBitmapFontSearchDirectory() + fntFile;
+	return (m_seekFontFromProgramPath ? GetProgramDirectory() : GetResourceDirectory()) + GetBitmapFontSearchDirectory() + fntFile;
+}
+
+void FileIOHub::SeekFontFromProgramPath(const bool enable)
+{
+	m_seekFontFromProgramPath = enable;
 }
 
 }

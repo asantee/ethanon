@@ -151,10 +151,10 @@ int main(const int argc, const char* argv[])
 
 	Platform::FileManagerPtr fileManager = Platform::FileManagerPtr(new Platform::StdFileManager);
 	Platform::FileIOHubPtr fileIOHub(new Platform::WindowsFileIOHub(fileManager, ETHDirectories::GetBitmapFontDirectory(), L""));
+	fileIOHub->SeekFontFromProgramPath(true);
 
 	const ETHAppEnmlFile app(fileIOHub->GetProgramDirectory() + L"editor.enml", fileManager, GS_L(""));
 	Vector2i v2Backbuffer(app.GetWidth(), app.GetHeight());
-
 
 	if ((video = CreateVideo(v2Backbuffer.x, v2Backbuffer.y, app.GetTitle(), app.IsWindowed(), app.IsVsyncEnabled(),
 							 fileIOHub, Texture::PF_UNKNOWN, true)))
