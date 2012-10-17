@@ -175,8 +175,6 @@ public:
 	static void AddToPosition(ETHEntity *pEntity, const Vector3 &v3Pos);
 	static void AddToPositionXY(ETHEntity *pEntity, const Vector2 &v2Pos);
 	static Vector2 GetCurrentBucket(ETHEntity *pEntity);
-	static Vector2 GetScreenRectMin(ETHEntity *pEntity);
-	static Vector2 GetScreenRectMax(ETHEntity *pEntity);
 	static void PlayParticleSystem(ETHEntity *pEntity, const unsigned int n);
 
 	static void SetPositionX(ETHEntity *pEntity, const float v);
@@ -243,15 +241,14 @@ public:
 	static void SetGlobalVolume(const float volume);
 	static float GetGlobalVolume();
 	static unsigned int GetNumEntities();
-	static int GetLastID();
+
 	static bool AddFloatData(const str_type::string &entity, const str_type::string &name, const float value);
 	static bool AddIntData(const str_type::string &entity, const str_type::string &name, const int value);
 	static bool AddUIntData(const str_type::string &entity, const str_type::string &name, const unsigned int value);
 	static bool AddStringData(const str_type::string &entity, const str_type::string &name, const str_type::string &value);
 	static bool AddVector2Data(const str_type::string &entity, const str_type::string &name, const Vector2 &value);
 	static bool AddVector3Data(const str_type::string &entity, const str_type::string &name, const Vector3 &value);
-	static float GetMaxHeight();
-	static float GetMinHeight();
+
 	static SpritePtr LoadAndGetSprite(const str_type::string &name);
 	static void LoadSprite(const str_type::string &name);
 	static void DrawSprite(const str_type::string &name, const Vector2 &v2Pos, const GS_DWORD color, const float angle);
@@ -303,7 +300,6 @@ public:
 	static int GetArgc();
 	static str_type::string GetArgv(const int n);
 	static Vector2 GetWorldSpaceCursorPos2();
-	static Vector3 GetWorldSpaceCursorPos3();
 	static void UsePixelShaders(const bool enable);
 	static bool IsPixelShaderSupported();
 	static void SetPersistentResources(const bool enable);

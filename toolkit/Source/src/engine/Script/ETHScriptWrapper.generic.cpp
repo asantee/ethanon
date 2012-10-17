@@ -97,8 +97,6 @@ asDECLARE_FUNCTION_WRAPPER(__SetParallaxVerticalIntensity, ETHScriptWrapper::Set
 asDECLARE_FUNCTION_WRAPPER(__GetParallaxVerticalIntensity, ETHScriptWrapper::GetParallaxVerticalIntensity);
 
 asDECLARE_FUNCTION_WRAPPER(__SetWindowProperties, ETHScriptWrapper::SetWindowProperties);
-asDECLARE_FUNCTION_WRAPPER(__GetScreenWidth,      ETHScriptWrapper::GetScreenWidth);
-asDECLARE_FUNCTION_WRAPPER(__GetScreenHeight,     ETHScriptWrapper::GetScreenHeight);
 asDECLARE_FUNCTION_WRAPPER(__SetCameraPos,        ETHScriptWrapper::SetCameraPos);
 asDECLARE_FUNCTION_WRAPPER(__AddToCameraPos,      ETHScriptWrapper::AddToCameraPos);
 asDECLARE_FUNCTION_WRAPPER(__GetCameraPos,        ETHScriptWrapper::GetCameraPos);
@@ -127,7 +125,6 @@ asDECLARE_FUNCTION_WRAPPER(__SetGlobalVolume, ETHScriptWrapper::SetGlobalVolume)
 asDECLARE_FUNCTION_WRAPPER(__GetGlobalVolume, ETHScriptWrapper::GetGlobalVolume);
 
 asDECLARE_FUNCTION_WRAPPER(__GetNumEntities, ETHScriptWrapper::GetNumEntities);
-asDECLARE_FUNCTION_WRAPPER(__GetLastID,      ETHScriptWrapper::GetLastID);
 
 asDECLARE_FUNCTION_WRAPPER(__AddFloatData,   ETHScriptWrapper::AddFloatData);
 asDECLARE_FUNCTION_WRAPPER(__AddIntData,     ETHScriptWrapper::AddIntData);
@@ -135,9 +132,6 @@ asDECLARE_FUNCTION_WRAPPER(__AddUIntData,    ETHScriptWrapper::AddUIntData);
 asDECLARE_FUNCTION_WRAPPER(__AddStringData,  ETHScriptWrapper::AddStringData);
 asDECLARE_FUNCTION_WRAPPER(__AddVector2Data, ETHScriptWrapper::AddVector2Data);
 asDECLARE_FUNCTION_WRAPPER(__AddVector3Data, ETHScriptWrapper::AddVector3Data);
-
-asDECLARE_FUNCTION_WRAPPER(__GetMaxHeight, ETHScriptWrapper::GetMaxHeight);
-asDECLARE_FUNCTION_WRAPPER(__GetMinHeight, ETHScriptWrapper::GetMinHeight);
 
 asDECLARE_FUNCTION_WRAPPER(__SetZAxisDirection, ETHScriptWrapper::SetZAxisDirection);
 asDECLARE_FUNCTION_WRAPPER(__GetZAxisDirection, ETHScriptWrapper::GetZAxisDirection);
@@ -207,7 +201,6 @@ asDECLARE_FUNCTION_WRAPPER(__ParseFloat,                   ETHGlobal::ParseFloat
 asDECLARE_FUNCTION_WRAPPER(__GetArgc,                      ETHScriptWrapper::GetArgc);
 asDECLARE_FUNCTION_WRAPPER(__GetArgv,                      ETHScriptWrapper::GetArgv);
 asDECLARE_FUNCTION_WRAPPER(__GetWorldSpaceCursorPos2,      ETHScriptWrapper::GetWorldSpaceCursorPos2);
-asDECLARE_FUNCTION_WRAPPER(__GetWorldSpaceCursorPos3,      ETHScriptWrapper::GetWorldSpaceCursorPos3);
 asDECLARE_FUNCTION_WRAPPER(__ForwardCommand,               ETHScriptWrapper::ForwardCommand);
 
 asDECLARE_FUNCTION_WRAPPER(__SetZBuffer, ETHScriptWrapper::SetZBuffer);
@@ -265,23 +258,6 @@ static void __GetCurrentBucket(asIScriptGeneric *gen)
 	gen->SetReturnObject(&r);
 }
 
-// asDECLARE_FUNCTION_OBJ_WRAPPERPR(__GetScreenRectMin, ETHScriptWrapper::GetScreenRectMin, true, (ETHEntity*), Vector2);
-// asDECLARE_FUNCTION_OBJ_WRAPPERPR(__GetScreenRectMax, ETHScriptWrapper::GetScreenRectMax, true, (ETHEntity*), Vector2);
-
-static void __GetScreenRectMin(asIScriptGeneric *gen)
-{
-	ETHRenderEntity *s = (ETHRenderEntity*)gen->GetObject();
-	Vector2 r = s->GetScreenRectMin(*(ETHScriptWrapper::m_pScene->GetSceneProperties()));
-	gen->SetReturnObject(&r);
-}
-
-static void __GetScreenRectMax(asIScriptGeneric *gen)
-{
-	ETHRenderEntity *s = (ETHRenderEntity*)gen->GetObject();
-	Vector2 r = s->GetScreenRectMax(*(ETHScriptWrapper::m_pScene->GetSceneProperties()));
-	gen->SetReturnObject(&r);
-}
-
 static void __DeleteEntity(asIScriptGeneric *gen)
 {
 	ETHRenderEntity *s = (ETHRenderEntity*)gen->GetArgObject(0);
@@ -314,8 +290,6 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void AddToPositionY(const float)",        asFUNCTION(__AddToPositionY),     asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void AddToPositionZ(const float)",        asFUNCTION(__AddToPositionZ),     asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector2 GetCurrentBucket() const",        asFUNCTION(__GetCurrentBucket),   asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector2 GetScreenRectMin() const",        asFUNCTION(__GetScreenRectMin),   asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector2 GetScreenRectMax() const",        asFUNCTION(__GetScreenRectMax),   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void PlayParticleSystem(const uint)",     asFUNCTION(__PlayParticleSystem), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void ResolveJoints()",                    asFUNCTION(__ResolveEntityJoints), asCALL_GENERIC); assert(r >= 0);
 
@@ -370,8 +344,6 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("vector2 GetZAxisDirection()",               asFUNCTION(__GetZAxisDirection), asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("void SetWindowProperties(const string &in, const uint, const uint, const bool, const bool, const PIXEL_FORMAT)", asFUNCTION(__SetWindowProperties), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("uint GetScreenWidth()",                  asFUNCTION(__GetScreenWidth),  asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("uint GetScreenHeight()",                 asFUNCTION(__GetScreenHeight), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void SetCameraPos(const vector2 &in)",   asFUNCTION(__SetCameraPos),    asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void AddToCameraPos(const vector2 &in)", asFUNCTION(__AddToCameraPos),  asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 GetCameraPos()",                 asFUNCTION(__GetCameraPos),    asCALL_GENERIC); assert(r >= 0);
@@ -400,7 +372,6 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("float GetGlobalVolume()",							 asFUNCTION(__GetGlobalVolume), asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("uint GetNumEntities()", asFUNCTION(__GetNumEntities), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("int GetLastID()",       asFUNCTION(__GetLastID),      asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("bool AddFloatData(const string &in, const string &in, const float)",         asFUNCTION(__AddFloatData),   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool AddIntData(const string &in, const string &in, const int)",             asFUNCTION(__AddIntData),     asCALL_GENERIC); assert(r >= 0);
@@ -408,9 +379,6 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("bool AddStringData(const string &in, const string &in, const string &in)",   asFUNCTION(__AddStringData),  asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool AddVector2Data(const string &in, const string &in, const vector2 &in)", asFUNCTION(__AddVector2Data), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool AddVector3Data(const string &in, const string &in, const vector3 &in)", asFUNCTION(__AddVector3Data), asCALL_GENERIC); assert(r >= 0);
-
-	r = pASEngine->RegisterGlobalFunction("float GetMaxHeight()", asFUNCTION(__GetMaxHeight), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("float GetMinHeight()", asFUNCTION(__GetMinHeight), asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("vector3 normalize(const vector3 &in)", asFUNCTION(__normalize3), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 normalize(const vector2 &in)", asFUNCTION(__normalize2), asCALL_GENERIC); assert(r >= 0);
@@ -477,7 +445,6 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("int GetArgc()",                              asFUNCTION(__GetArgc),                       asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("string GetArgv(const int)",                  asFUNCTION(__GetArgv),                       asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 GetWorldSpaceCursorPos2()",          asFUNCTION(__GetWorldSpaceCursorPos2),       asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("vector3 GetWorldSpaceCursorPos3()",          asFUNCTION(__GetWorldSpaceCursorPos3),       asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void ForwardCommand(const string &in)",      asFUNCTION(__ForwardCommand),                asCALL_GENERIC); assert(r >= 0);
 
 	#ifdef ETH_DEFINE_DEPRECATED_SIGNATURES_FROM_0_9_5

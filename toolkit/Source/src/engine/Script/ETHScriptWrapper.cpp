@@ -188,16 +188,6 @@ void ETHScriptWrapper::ResolveEntityJoints(ETHEntity* pEntity)
 	}
 }
 
-Vector2 ETHScriptWrapper::GetScreenRectMin(ETHEntity *pEntity)
-{
-	return pEntity->GetScreenRectMin(*m_pScene->GetSceneProperties());
-}
-
-Vector2 ETHScriptWrapper::GetScreenRectMax(ETHEntity *pEntity)
-{
-	return pEntity->GetScreenRectMax(*m_pScene->GetSceneProperties());
-}
-
 Vector2 ETHScriptWrapper::GetBucket(const Vector2 &v2)
 {
 	return ETHBucketManager::GetBucket(v2, m_pScene->GetBucketSize());
@@ -206,11 +196,6 @@ Vector2 ETHScriptWrapper::GetBucket(const Vector2 &v2)
 Vector2 ETHScriptWrapper::GetWorldSpaceCursorPos2()
 {
 	return Vector2(m_provider->GetInput()->GetCursorPositionF(m_provider->GetVideo())+m_provider->GetVideo()->GetCameraPos()) * m_backBuffer->GetTargetScale();
-}
-
-Vector3 ETHScriptWrapper::GetWorldSpaceCursorPos3()
-{
-	return Vector3(m_provider->GetInput()->GetCursorPositionF(m_provider->GetVideo())+m_provider->GetVideo()->GetCameraPos(), 0) * m_backBuffer->GetTargetScale();
 }
 
 void ETHScriptWrapper::GarbageCollect(const GARBAGE_COLLECT_MODE mode, asIScriptEngine* engine)

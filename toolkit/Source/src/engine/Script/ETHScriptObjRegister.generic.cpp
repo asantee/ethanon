@@ -121,7 +121,6 @@ asDECLARE_METHOD_WRAPPERPR(__getEntityNames,    enml::File, GetEntityNames,    (
 asDECLARE_METHOD_WRAPPERPR(__getAttributeNamesF,enml::File, GetAttributeNames, (const str_type::string&) const,											str_type::string);
 asDECLARE_METHOD_WRAPPERPR(__writeToFile,       enml::File, WriteToFile,       (const str_type::string&) const,											bool);
 asDECLARE_METHOD_WRAPPERPR(__parseFromFile,     enml::File, ParseFromFile,     (const str_type::string&),												bool);
-asDECLARE_METHOD_WRAPPERPR(__getEntityF,        enml::File, GetEntity,         (const str_type::string&) const,											bool);
 asDECLARE_METHOD_WRAPPERPR(__addValue,          enml::File, AddValue,          (const str_type::string&, const str_type::string&, const str_type::string&), void);
 
 asDECLARE_FUNCTION_WRAPPER(__GetStringFromFile, enml::GetStringFromAnsiFile);
@@ -162,7 +161,6 @@ void RegisterENMLMethods(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterObjectMethod("enmlFile", "string getAttributeNames(const string &in) const",						asFUNCTION(__getAttributeNamesF),asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("enmlFile", "void writeToFile(const string &in) const",								asFUNCTION(__writeToFile),       asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("enmlFile", "bool parseFromFile(const string &in)",									asFUNCTION(__parseFromFile),     asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("enmlFile", "enmlEntity@ getEntity(const string &in)",								asFUNCTION(__getEntityF),	 	 asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("enmlFile", "void addValue(const string& in, const string& in, const string& in)",  asFUNCTION(__addValue),			 asCALL_GENERIC); assert(r >= 0);
 
 	// util globals

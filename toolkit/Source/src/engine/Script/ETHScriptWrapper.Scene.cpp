@@ -311,14 +311,6 @@ unsigned int ETHScriptWrapper::GetNumEntities()
 	return m_pScene->GetNumEntities();
 }
 
-int ETHScriptWrapper::GetLastID()
-{
-	if (WarnIfRunsInMainFunction(GS_L("GetLastID")))
-		return -1;
-
-	return m_pScene->GetLastID();
-}
-
 bool ETHScriptWrapper::AddFloatData(const str_type::string &entity, const str_type::string &name, const float value)
 {
 	if (WarnIfRunsInMainFunction(GS_L("AddFloatData")))
@@ -359,20 +351,6 @@ bool ETHScriptWrapper::AddVector3Data(const str_type::string &entity, const str_
 	if (WarnIfRunsInMainFunction(GS_L("AddVector3Data")))
 		return false;
 	return m_pScene->AddVector3Data(entity, name, value);
-}
-
-float ETHScriptWrapper::GetMaxHeight()
-{
-	if (WarnIfRunsInMainFunction(GS_L("GetMaxHeight")))
-		return 0.0f;
-	return m_pScene->GetMaxHeight();
-}
-
-float ETHScriptWrapper::GetMinHeight()
-{
-	if (WarnIfRunsInMainFunction(GS_L("GetMinHeight")))
-		return 0.0f;
-	return m_pScene->GetMinHeight();
 }
 
 GS_DWORD ETHScriptWrapper::GetBackgroundColor()
