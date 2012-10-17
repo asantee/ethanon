@@ -60,17 +60,14 @@ void ETHDrawableManager::Insert(const boost::shared_ptr<ETHDrawable>& newItem)
 				const boost::shared_ptr<ETHDrawable>& drawable = (*iter);
 				if (drawable->IsAlive())
 				{
-					if (iter != m_drawableList.begin())
-						m_drawableList.insert(--iter, newItem);
-					else
-						m_drawableList.push_front(newItem);
+					m_drawableList.insert(iter, newItem);
 					return;
 				}
 			}
 		}
 	}
 
-	// if nothing happened up there...
+	// if nothing has been added up there...
 	m_drawableList.push_back(newItem);
 }
 
