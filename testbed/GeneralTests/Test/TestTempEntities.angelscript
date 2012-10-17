@@ -80,7 +80,7 @@ class TestTempEntities : Test
 				"Press UP and DOWN to move the cursor light\n"
 				"Press P and V to toggle pixel shaders\n"
 				"Left/right click to add explosions",
-				"Verdana14_shadow.fnt", ARGB(100,255,255,255));
+				"Verdana14_shadow.fnt");
 	}
 	
 	ETHEntity @cursor;

@@ -376,7 +376,7 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void AddToCameraPos(const vector2 &in)", asFUNCTION(__AddToCameraPos),  asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 GetCameraPos()",                 asFUNCTION(__GetCameraPos),    asCALL_GENERIC); assert(r >= 0);
 
-	r = pASEngine->RegisterGlobalFunction("void DrawText(const vector2 &in, const string &in, const string &in, const uint, const float scale = 1.0f)",							asFUNCTION(__DrawText),			asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void DrawText(const vector2 &in, const string &in, const string &in, const uint color = 0xFFFFFFFF, const float scale = 1.0f)",							asFUNCTION(__DrawText),			asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void DrawFadingText(const vector2 &in, const string &in, const string &in, const uint, const uint, const float scale = 1.0f)",		asFUNCTION(__DrawFadingText),	asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 ComputeCarretPosition(const string &in, const string &in, const uint pos)",	asFUNCTION(__ComputeCarretPosition),asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 ComputeTextBoxSize(const string &in, const string &in)",						asFUNCTION(__ComputeTextBoxSize),	asCALL_GENERIC); assert(r >= 0);
@@ -420,16 +420,16 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("uint ARGB(const uint8, const uint8, const uint8, const uint8)", asFUNCTION(__ARGB),           asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("void LoadSprite(const string &in)",                                                                        asFUNCTION(__LoadSprite),       asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("void DrawSprite(const string &in, const vector2 &in, const uint, const float angle = 0.0f)",                      asFUNCTION(__DrawSprite),       asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("void DrawShapedSprite(const string &in, const vector2 &in, const vector2 &in, const uint, const float angle = 0.0f)", asFUNCTION(__DrawShapedSprite), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void DrawSprite(const string &in, const vector2 &in, const uint color = 0xFFFFFFFF, const float angle = 0.0f)",                      asFUNCTION(__DrawSprite),       asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void DrawShapedSprite(const string &in, const vector2 &in, const vector2 &in, const uint color = 0xFFFFFFFF, const float angle = 0.0f)", asFUNCTION(__DrawShapedSprite), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 GetSpriteSize(const string &in)",                                                                  asFUNCTION(__GetSpriteSize),    asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void DrawRectangle(const vector2 &in, const vector2 &in, const uint, const uint, const uint, const uint)", asFUNCTION(__DrawRectangle),    asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void DrawLine(const vector2 &in, const vector2 &in, const uint, const uint, const float)",                 asFUNCTION(__DrawLine),         asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("void PlayParticleEffect(const string &in, const vector2 &in, const float, const float)", asFUNCTION(__PlayParticleEffect), asCALL_GENERIC); assert(r >= 0);
 
-	r = pASEngine->RegisterGlobalFunction("void DrawSpriteZ(const string &in, const float, const vector2 &in, const uint, const float angle = 0.0f)",                          asFUNCTION(__DrawSpriteZ),       asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("void DrawShapedSpriteZ(const string &in, const float, const vector2 &in, const vector2 &in, const uint, const float angle = 0.0f)", asFUNCTION(__DrawShapedSpriteZ), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void DrawSpriteZ(const string &in, const float, const vector2 &in, const uint color = 0xFFFFFFFF, const float angle = 0.0f)",                          asFUNCTION(__DrawSpriteZ),       asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void DrawShapedSpriteZ(const string &in, const float, const vector2 &in, const vector2 &in, const uint color = 0xFFFFFFFF, const float angle = 0.0f)", asFUNCTION(__DrawShapedSpriteZ), asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("vector2 GetSpriteFrameSize(const string &in)",                    asFUNCTION(__GetSpriteFrameSize), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void SetupSpriteRects(const string &in, const uint, const uint)", asFUNCTION(__SetupSpriteRects),   asCALL_GENERIC); assert(r >= 0);

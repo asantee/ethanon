@@ -29,14 +29,14 @@ class TestSceneScale : Test
 	
 	void drawSprites()
 	{
-		DrawSprite("entities/asteroid_64.png", Scale(vector2(1)), 0xFFFFFFFF);
+		DrawSprite("entities/asteroid_64.png", Scale(vector2(1)));
 		DrawSprite("entities/asteroid_64.png", Scale(vector2(1)) + GetSpriteSize("entities/asteroid_64.png") * 2, 0xFFFF0000, 180.0f);
 		
 		const vector2 size(128,128);
 		SetSpriteOrigin("entities/barril.png", vector2(0));
 		DrawShapedSprite("entities/barril.png", GetScreenSize() - size, size, 0xFFFFFFFF, 0.0f);
-		DrawShapedSprite("entities/barril.png", GetScreenSize() - size * 0.9f, size, 0xFFFFFFFF, 0.0f);
-		DrawShapedSprite("entities/barril.png", GetScreenSize() - size * 0.8f, size, 0xFFFFFFFF, 0.0f);
+		DrawShapedSprite("entities/barril.png", GetScreenSize() - size * 0.9f, size);
+		DrawShapedSprite("entities/barril.png", GetScreenSize() - size * 0.8f, size);
 		DrawShapedSprite("entities/barril.png", GetScreenSize() - size * 0.7f, size, 0xFFFFFFFF, 0.0f);
 		DrawShapedSprite("entities/barril.png", GetScreenSize() - size * 0.6f, size, 0xFFFFFFFF, 0.0f);
 		
