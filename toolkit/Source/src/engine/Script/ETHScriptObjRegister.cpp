@@ -412,6 +412,7 @@ void RegisterEnumTypes(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterEnumValue("J_KEY", "JK_DOWN", GSB_DOWN); assert(r >= 0);
 	r = pASEngine->RegisterEnumValue("J_KEY", "JK_LEFT", GSB_LEFT); assert(r >= 0);
 	r = pASEngine->RegisterEnumValue("J_KEY", "JK_RIGHT", GSB_RIGHT); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("J_KEY", "JK_NONE", GSB_NONE); assert(r >= 0);
 
 	// GS_KEY
 	r = pASEngine->RegisterEnum("KEY"); assert(r >= 0);
