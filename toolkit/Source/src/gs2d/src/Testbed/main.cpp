@@ -1,26 +1,25 @@
-#include "../gs2d.h"
-#include "../gs2dinput.h"
-#include "../gs2daudio.h"
-#include "../gs2dutil.h"
+#include "../Video.h"
+#include "../Input.h"
+#include "../Audio.h"
 
 #include "../Platform/Platform.h"
+#include "../Platform/StdFileManager.h"
+#include "../Platform/windows/WindowsFileIOHub.h"
 
 using namespace gs2d;
 using namespace gs2d::math;
+using namespace Platform;
 
 const float TILE_WIDTH  = 64.0f;
 const float TILE_HEIGHT = 64.0f;
 
-void DrawToTarget(VideoPtr video, SpritePtr target, SpritePtr tileset, const unsigned int width, const unsigned int height, const int* tiles)
+void DrawTileMap(VideoPtr video, SpritePtr tileset, const unsigned int width, const unsigned int height, const int* tiles)
 {
-	video->SetRenderTarget(target);
-	video->BeginTargetScene(0x00FFFFFF, true);
-	video->SetAlphaMode(GSAM_PIXEL);
-
+	video->SetAlphaMode(Video::AM_PIXEL);
 	unsigned int i = 0;
-	for (float y = 0.0f; y < TILE_HEIGHT * height; y += 64.0f)
+	for (float y = 0.0f; y < TILE_HEIGHT * height; y += TILE_HEIGHT)
 	{
-		for (float x = 0.0f; x < TILE_WIDTH * width; x += 64.0f)
+		for (float x = 0.0f; x < TILE_WIDTH * width; x += TILE_WIDTH)
 		{
 			if (tiles[i] !=-1)
 			{
@@ -30,28 +29,32 @@ void DrawToTarget(VideoPtr video, SpritePtr target, SpritePtr tileset, const uns
 			i++;
 		}
 	}
-
-	video->EndTargetScene();
-	video->SetRenderTarget(SpritePtr());
-	target->SaveBitmap(L"map.png", GSBF_PNG);
 }
 
 int main()
 {
 	VideoPtr video;
 
-	if ((video = CreateVideo(800, 600, L"Primeira janela", true, true, L"fonts/")))
+	FileManagerPtr fileManager(new StdFileManager());
+	FileIOHubPtr fileIOHub(new WindowsFileIOHub(fileManager, L"fonts/", Platform::GetModuleDirectory() + L"resources/"));
+
+	if ((video = CreateVideo(768, 512, L"Primeira  janela", true, true, fileIOHub)))
 	{
 		InputPtr input = CreateInput(0, true);
 		AudioPtr audio = CreateAudio(0);
 
-		SpritePtr tileset = video->CreateSprite(GS_L("tileset.png"));
-		tileset->SetupSpriteRects(4, 4);
+		SpritePtr tileset = video->CreateSprite(fileIOHub->GetResourceDirectory() + GS_L("tileset.png"));
+		tileset->SetupSpriteRects(2, 2);
 
-		SpritePtr target = video->CreateRenderTarget(512, 512, GSTF_ARGB);
-
-		const int tiles[] = { -1,2,6,6,6,6,6,3,-1,7,-1,-1,-1,-1,-1,7,-1,0,6,6,6,3,-1,4,-1,-1,-1,-1,-1,7,-1,-1,-1,2,6,6,6,1,-1,-1,-1,7,-1,-1,-1,-1,-1,-1,-1,7,-1,-1,-1,-1,-1,-1,6,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1 };
-		DrawToTarget(video, target, tileset, 8, 10, tiles);
+		const int tiles[] = {
+			-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+			-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+			-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+			-1,-1,-1,-1,-1, 2,-1,-1,-1,-1,-1,-1,
+			-1, 3,-1,-1, 2, 2,-1,-1, 3, 0, 0, 3,
+			-1,-1,-1, 2, 2, 2,-1,-1,-1,-1,-1,-1,
+			-1,-1, 2, 2, 2, 2,-1,-1,-1,-1,-1,-1,
+			 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0 };
 
 		Video::APP_STATUS status;
 		while ((status = video->HandleEvents()) != Video::APP_QUIT)
@@ -61,9 +64,10 @@ int main()
 
 			input->Update();
 
-			video->BeginSpriteScene(GS_BLUE);
+			video->BeginSpriteScene();
 
-			target->Draw(Vector2(0, 0));
+			DrawTileMap(video, tileset, 12, 8, tiles);
+			video->DrawBitmapText(Vector2(0,0), L"Hello (Super Mario) world!", L"Verdana20_shadow.fnt", Color(0xFFFFFFFF));
 
 			video->EndSpriteScene();
 		}
