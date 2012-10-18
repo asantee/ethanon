@@ -73,66 +73,66 @@ Source: "..\Source\src\gs2d\vendors\DX9SDK\bin\d3dx9_42.dll"; DestDir: "{app}"; 
 
 ;Sample Project files
 ;shaders
-Source: "..\Ethanon Toolkit\data\defaultVS.cg"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\particleVS.cg"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\dynaShadowVS.cg"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\hAmbientVS.cg"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\hVertexLightShader.cg"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\hPixelLightDiff.cg"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\hPixelLightSpec.cg"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\hPixelLightVS.cg"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\vAmbientVS.cg"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\vPixelLightSpec.cg"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\vPixelLightVS.cg"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\vPixelLightDiff.cg"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\vVertexLightShader.cg"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\defaultVS.cg"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\particleVS.cg"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\dynaShadowVS.cg"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\hAmbientVS.cg"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\hVertexLightShader.cg"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\hPixelLightDiff.cg"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\hPixelLightSpec.cg"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\hPixelLightVS.cg"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\vAmbientVS.cg"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\vPixelLightSpec.cg"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\vPixelLightVS.cg"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\vPixelLightDiff.cg"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\vVertexLightShader.cg"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
 
 ;bitmaps/fonts
-Source: "..\Ethanon Toolkit\data\shadow.png"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\shadow.dds"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\default_nm.png"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\Verdana14_shadow.fnt"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\Verdana20.fnt"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\Verdana20_shadow.fnt"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\Verdana24.fnt"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\Verdana24_shadow.fnt"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\Verdana30.fnt"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\Verdana30_shadow.fnt"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\Verdana64.fnt"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\Verdana14_shadow_0.png"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\Verdana20_0.png"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\Verdana20_shadow.png"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\Verdana24_0.png"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\Verdana24_shadow.png"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\Verdana30_0.png"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\Verdana30_shadow.png"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\Verdana64_0.png"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\Verdana64_1.png"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\Verdana64_shadow.fnt"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\Verdana64_shadow_0.png"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\Verdana64_shadow_1.png"; DestDir: "{commondocs}\Ethanon\Sample Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\shadow.png"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\shadow.dds"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\default_nm.png"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\Verdana14_shadow.fnt"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\Verdana20.fnt"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\Verdana20_shadow.fnt"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\Verdana24.fnt"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\Verdana24_shadow.fnt"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\Verdana30.fnt"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\Verdana30_shadow.fnt"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\Verdana64.fnt"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\Verdana14_shadow_0.png"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\Verdana20_0.png"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\Verdana20_shadow.png"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\Verdana24_0.png"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\Verdana24_shadow.png"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\Verdana30_0.png"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\Verdana30_shadow.png"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\Verdana64_0.png"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\Verdana64_1.png"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\Verdana64_shadow.fnt"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\Verdana64_shadow_0.png"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\data\Verdana64_shadow_1.png"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
 
 ;misc
-Source: "..\Ethanon Toolkit\app.enml"; DestDir: "{commondocs}\Ethanon\Sample Project\"; Flags: ignoreversion
-Source: "..\Source\#bin#\Release\machine.exe"; DestDir: "{commondocs}\Ethanon\Sample Project\"; Flags: ignoreversion
-Source: "..\Source\#bin#\Release\audiere.dll"; DestDir: "{commondocs}\Ethanon\Sample Project\"; Flags: ignoreversion
-Source: "..\Source\src\gs2d\vendors\CgSDK\bin\cg.dll"; DestDir: "{commondocs}\Ethanon\Sample Project\"; Flags: ignoreversion
-Source: "..\Source\src\gs2d\vendors\CgSDK\bin\cgD3D9.dll"; DestDir: "{commondocs}\Ethanon\Sample Project\"; Flags: ignoreversion
-Source: "..\Source\src\gs2d\vendors\DX9SDK\bin\d3dx9_42.dll"; DestDir: "{commondocs}\Ethanon\Sample Project\"; Flags: ignoreversion
+Source: "..\Ethanon Toolkit\app.enml"; DestDir: "{commondocs}\Ethanon\Sample-Project\"; Flags: ignoreversion
+Source: "..\Source\#bin#\Release\machine.exe"; DestDir: "{commondocs}\Ethanon\Sample-Project\"; Flags: ignoreversion
+Source: "..\Source\#bin#\Release\audiere.dll"; DestDir: "{commondocs}\Ethanon\Sample-Project\"; Flags: ignoreversion
+Source: "..\Source\src\gs2d\vendors\CgSDK\bin\cg.dll"; DestDir: "{commondocs}\Ethanon\Sample-Project\"; Flags: ignoreversion
+Source: "..\Source\src\gs2d\vendors\CgSDK\bin\cgD3D9.dll"; DestDir: "{commondocs}\Ethanon\Sample-Project\"; Flags: ignoreversion
+Source: "..\Source\src\gs2d\vendors\DX9SDK\bin\d3dx9_42.dll"; DestDir: "{commondocs}\Ethanon\Sample-Project\"; Flags: ignoreversion
 
 ;source
-Source: "..\..\documentation\Sample-Projects\Sample-project\eth_util.angelscript"; DestDir: "{commondocs}\Ethanon\Sample Project\"; Flags: ignoreversion
-Source: "..\..\documentation\Sample-Projects\Sample-project\Collide.angelscript"; DestDir: "{commondocs}\Ethanon\Sample Project\"; Flags: ignoreversion
-Source: "..\..\documentation\Sample-Projects\Sample-project\main.angelscript"; DestDir: "{commondocs}\Ethanon\Sample Project\"; Flags: ignoreversion
-Source: "..\..\documentation\Sample-Projects\Sample-project\sample.ethproj"; DestDir: "{commondocs}\Ethanon\Sample Project\"; Flags: ignoreversion
+Source: "..\..\documentation\Sample-Projects\Sample-project\eth_util.angelscript"; DestDir: "{commondocs}\Ethanon\Sample-Project\"; Flags: ignoreversion
+Source: "..\..\documentation\Sample-Projects\Sample-project\Collide.angelscript"; DestDir: "{commondocs}\Ethanon\Sample-Project\"; Flags: ignoreversion
+Source: "..\..\documentation\Sample-Projects\Sample-project\main.angelscript"; DestDir: "{commondocs}\Ethanon\Sample-Project\"; Flags: ignoreversion
+Source: "..\..\documentation\Sample-Projects\Sample-project\sample.ethproj"; DestDir: "{commondocs}\Ethanon\Sample-Project\"; Flags: ignoreversion
 
 ;folders
-Source: "..\..\documentation\Sample-Projects\Sample-project\effects\*"; DestDir: "{commondocs}\Ethanon\Sample Project\effects\"; Flags: ignoreversion
-Source: "..\..\documentation\Sample-Projects\Sample-project\entities\*"; DestDir: "{commondocs}\Ethanon\Sample Project\entities\"; Flags: ignoreversion
-Source: "..\..\documentation\Sample-Projects\Sample-project\entities\normalmaps\*"; DestDir: "{commondocs}\Ethanon\Sample Project\entities\normalmaps\"; Flags: ignoreversion
-Source: "..\..\documentation\Sample-Projects\Sample-project\particles\*"; DestDir: "{commondocs}\Ethanon\Sample Project\particles\"; Flags: ignoreversion
-Source: "..\..\documentation\Sample-Projects\Sample-project\scenes\*"; DestDir: "{commondocs}\Ethanon\Sample Project\scenes\"; Flags: ignoreversion
-Source: "..\..\documentation\Sample-Projects\Sample-project\soundfx\*"; DestDir: "{commondocs}\Ethanon\Sample Project\soundfx\"; Flags: ignoreversion
+Source: "..\..\documentation\Sample-Projects\Sample-project\effects\*"; DestDir: "{commondocs}\Ethanon\Sample-Project\effects\"; Flags: ignoreversion
+Source: "..\..\documentation\Sample-Projects\Sample-project\entities\*"; DestDir: "{commondocs}\Ethanon\Sample-Project\entities\"; Flags: ignoreversion
+Source: "..\..\documentation\Sample-Projects\Sample-project\entities\normalmaps\*"; DestDir: "{commondocs}\Ethanon\Sample-Project\entities\normalmaps\"; Flags: ignoreversion
+Source: "..\..\documentation\Sample-Projects\Sample-project\particles\*"; DestDir: "{commondocs}\Ethanon\Sample-Project\particles\"; Flags: ignoreversion
+Source: "..\..\documentation\Sample-Projects\Sample-project\scenes\*"; DestDir: "{commondocs}\Ethanon\Sample-Project\scenes\"; Flags: ignoreversion
+Source: "..\..\documentation\Sample-Projects\Sample-project\soundfx\*"; DestDir: "{commondocs}\Ethanon\Sample-Project\soundfx\"; Flags: ignoreversion
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
@@ -161,7 +161,7 @@ Name: "{commondesktop}\Ethanon Script Editor"; Filename: "{app}\SciTE\SciTE.exe"
 Name: "{group}\Manual"; Filename: "http://ethanonengine.com/documentation/"
 Name: "{group}\Source-code"; Filename: "https://github.com/asantee/ethanon"
 Name: "{group}\Browse Ethanon Engine"; Filename: "{app}"
-Name: "{group}\Sample project"; Filename: "{commondocs}\Ethanon\Sample Project\"
+Name: "{group}\Sample project"; Filename: "{commondocs}\Ethanon\Sample-project\"
 
 [Run]
 Filename: "{app}\editor.exe"; Description: "{cm:LaunchProgram,Ethanon Engine}"; Flags: nowait postinstall skipifsilent
