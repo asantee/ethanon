@@ -1,5 +1,5 @@
  Ethanon Engine (C) Copyright 2009-2012 Andre Santee
- http://www.asantee.net/
+ http://ethanonengine.com
 
 ABOUT:
 -----
@@ -27,27 +27,21 @@ language is pretty simple and easy to understand.
 HOW TO BUILD:
 ------------
 
-Run make_deploy.bat to deploy all platform libraries and binaries.
+MSVC:
+-Use Visual Studio 2008 (9.0)
+-Run make_deploy.bat to deploy all platform libraries and binaries.
 
 INSTRUCTIONS:
 ------------
 
-Read the manual in the "documentation/User's Manual" folder and open the "documentation/Sample
-Projects/" for samples.
-
-SPECIAL THANKS:
---------------
-
--Stanislav Rodionov - for all his help and time spent on the project
--Arthur Santee - for modeling some of the entities in the "Sample Project" and other parallel projects and demos
--Daniel Santee - for reviewing the User's manual
--Phillipp Oliveira - for his suggestions and support
+-Manual: http://ethanonengine.com/documentation/
+-Sample project: /Sample Projects/
 
 LICENCE:
 -------
 
  Ethanon Engine (C) Copyright 2008-2012 Andre Santee
- http://www.asantee.net/ethanon/
+ http://ethanonengine.com
 
     Permission is hereby granted, free of charge, to any person obtaining a copy of this
     software and associated documentation files (the "Software"), to deal in the

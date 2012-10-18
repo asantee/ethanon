@@ -8,7 +8,7 @@
 AppId={{1D28BFE6-D8BA-423B-B37E-149E732DDB49}
 AppName=Ethanon Engine
 AppVerName=Ethanon Engine 0.9.5
-AppPublisher=ASANTEE
+AppPublisher=Asantee Games
 AppPublisherURL=http://ethanonengine.com
 AppSupportURL=http://ethanonengine.com
 AppUpdatesURL=http://ethanonengine.com
@@ -154,7 +154,7 @@ Name: "{group}\AngelCode's BMFont\Bitmap font generator"; Filename: "{app}\BMFon
 Name: "{group}\AngelCode's BMFont\Help"; Filename: "{app}\BMFont\documentation.html"
 Name: "{group}\AngelCode's BMFont\Browse"; Filename: "{app}\BMFont\"
 Name: "{group}\AngelCode's BMFont\{cm:ProgramOnTheWeb,AngelCode}"; Filename: "http://www.angelcode.com/"
-Name: "{group}\{cm:ProgramOnTheWeb,Ethanon Engine}"; Filename: "http://www.asantee.net/ethanon/"
+Name: "{group}\{cm:ProgramOnTheWeb,Ethanon Engine}"; Filename: "http://ethanonengine.com"
 Name: "{group}\{cm:UninstallProgram,Ethanon Engine}"; Filename: "{uninstallexe}"
 Name: "{commondesktop}\Ethanon Editor"; Filename: "{app}\editor.exe"; Tasks: desktopicon
 Name: "{commondesktop}\Ethanon Script Editor"; Filename: "{app}\SciTE\SciTE.exe"; Tasks: desktopicon
