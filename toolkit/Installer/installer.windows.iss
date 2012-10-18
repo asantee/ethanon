@@ -113,7 +113,6 @@ Source: "..\Ethanon Toolkit\data\Verdana64_shadow_0.png"; DestDir: "{commondocs}
 Source: "..\Ethanon Toolkit\data\Verdana64_shadow_1.png"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
 
 ;misc
-Source: "..\Ethanon Toolkit\app.enml"; DestDir: "{commondocs}\Ethanon\Sample-Project\"; Flags: ignoreversion
 Source: "..\Source\#bin#\Release\machine.exe"; DestDir: "{commondocs}\Ethanon\Sample-Project\"; Flags: ignoreversion
 Source: "..\Source\#bin#\Release\audiere.dll"; DestDir: "{commondocs}\Ethanon\Sample-Project\"; Flags: ignoreversion
 Source: "..\Source\src\gs2d\vendors\CgSDK\bin\cg.dll"; DestDir: "{commondocs}\Ethanon\Sample-Project\"; Flags: ignoreversion
@@ -121,6 +120,7 @@ Source: "..\Source\src\gs2d\vendors\CgSDK\bin\cgD3D9.dll"; DestDir: "{commondocs
 Source: "..\Source\src\gs2d\vendors\DX9SDK\bin\d3dx9_42.dll"; DestDir: "{commondocs}\Ethanon\Sample-Project\"; Flags: ignoreversion
 
 ;source
+Source: "..\..\documentation\Sample-Projects\Sample-project\app.enml"; DestDir: "{commondocs}\Ethanon\Sample-Project\"; Flags: ignoreversion
 Source: "..\..\documentation\Sample-Projects\Sample-project\eth_util.angelscript"; DestDir: "{commondocs}\Ethanon\Sample-Project\"; Flags: ignoreversion
 Source: "..\..\documentation\Sample-Projects\Sample-project\Collide.angelscript"; DestDir: "{commondocs}\Ethanon\Sample-Project\"; Flags: ignoreversion
 Source: "..\..\documentation\Sample-Projects\Sample-project\main.angelscript"; DestDir: "{commondocs}\Ethanon\Sample-Project\"; Flags: ignoreversion
