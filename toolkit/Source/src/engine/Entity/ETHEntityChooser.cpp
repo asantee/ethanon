@@ -66,3 +66,12 @@ bool ETHEntityDefaultChooser::Choose(ETHEntity* entity) const
 	GS2D_UNUSED_ARGUMENT(entity);
 	return true;
 }
+
+ETHEntitySingleExceptionChooser::ETHEntitySingleExceptionChooser(const int id) : m_id(id)
+{
+}
+
+bool ETHEntitySingleExceptionChooser::Choose(ETHEntity* entity) const
+{
+	return (m_id != entity->GetID());
+}

@@ -222,6 +222,16 @@ class TestEntity : Test
 			}
 			ents.clear();
 		}
+		{
+			ETHEntityArray ents;
+			GetEntitiesAroundEntity(bird, ents);
+			for (uint t = 0; t < ents.size(); t++)
+			{
+				DrawText(ents[t].GetPositionXY() - GetCameraPos() + vector2(0, 28.0f), "around bird",
+						 "Verdana14_shadow.fnt", ARGB(120, 255, 255, 255));
+			}
+			ents.clear();
+		}
 	}
 
 	void moveDynamicBarrels()

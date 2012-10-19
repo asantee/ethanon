@@ -23,6 +23,7 @@
 #include "ETHScriptWrapper.h"
 #include "../Shader/ETHShaderManager.h"
 #include "../Entity/ETHRenderEntity.h"
+#include "../Entity/ETHEntityChooser.h"
 #include "../Resource/ETHDirectories.h"
 
 ETHScriptWrapper::ETH_NEXT_SCENE::ETH_NEXT_SCENE()
@@ -363,7 +364,7 @@ void ETHScriptWrapper::SetBackgroundColor(const GS_DWORD color)
 	m_provider->GetVideo()->SetBGColor(color);
 }
 
-void ETHScriptWrapper::GetEntityArrayByName(const str_type::string &name, ETHEntityArray &outVector)
+void ETHScriptWrapper::GetEntityArrayByName(const str_type::string &name, ETHEntityArray& outVector)
 {
 	if (WarnIfRunsInMainFunction(GS_L("GetEntityArrayByName")))
 		return;
@@ -371,7 +372,7 @@ void ETHScriptWrapper::GetEntityArrayByName(const str_type::string &name, ETHEnt
 	m_pScene->GetBucketManager().GetEntityArrayByName(name, outVector);
 }
 
-void ETHScriptWrapper::GetEntityArrayFromBucket(const Vector2 &v2Bucket, ETHEntityArray &outVector)
+void ETHScriptWrapper::GetEntityArrayFromBucket(const Vector2 &v2Bucket, ETHEntityArray& outVector)
 {
 	if (WarnIfRunsInMainFunction(GS_L("GetEntityArrayFromBucket")))
 		return;
@@ -379,28 +380,39 @@ void ETHScriptWrapper::GetEntityArrayFromBucket(const Vector2 &v2Bucket, ETHEnti
 	m_pScene->GetBucketManager().GetEntityArrayFromBucket(v2Bucket, outVector);
 }
 
-void ETHScriptWrapper::GetAllEntitiesInScene(ETHEntityArray &outVector)
+void ETHScriptWrapper::GetAllEntitiesInScene(ETHEntityArray& outVector)
 {
 	if (WarnIfRunsInMainFunction(GS_L("GetAllEntitiesInScene")))
 		return;
 	m_pScene->GetBucketManager().GetEntityArray(outVector);
 }
 
-void ETHScriptWrapper::GetEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray &outVector)
+void ETHScriptWrapper::GetEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray& outVector)
 {
 	if (WarnIfRunsInMainFunction(GS_L("GetEntitiesAroundBucket")))
 		return;
 	m_pScene->GetBucketManager().GetEntitiesAroundBucket(bucket, outVector);
 }
 
-void ETHScriptWrapper::GetWhiteListedEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray &outVector, const str_type::string& semicolonSeparatedNames)
+void ETHScriptWrapper::GetEntitiesAroundEntity(ETHEntity* entity, ETHEntityArray& outVector)
+{
+	if (WarnIfRunsInMainFunction(GS_L("GetEntitiesAroundEntity")))
+		return;
+	ETHBucketManager& bucketManager = m_pScene->GetBucketManager();
+	bucketManager.GetEntitiesAroundBucket(
+		entity->GetCurrentBucket(bucketManager),
+		outVector,
+		ETHEntitySingleExceptionChooser(entity->GetID()));
+}
+
+void ETHScriptWrapper::GetWhiteListedEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray& outVector, const str_type::string& semicolonSeparatedNames)
 {
 	if (WarnIfRunsInMainFunction(GS_L("GetEntitiesAroundBucket")))
 		return;
 	m_pScene->GetBucketManager().GetWhiteListedEntitiesAroundBucket(bucket, outVector, semicolonSeparatedNames);
 }
 
-void ETHScriptWrapper::GetEntitiesAroundBucketWithBlackList(const Vector2& bucket, ETHEntityArray &outVector, const str_type::string& semicolonSeparatedNames)
+void ETHScriptWrapper::GetEntitiesAroundBucketWithBlackList(const Vector2& bucket, ETHEntityArray& outVector, const str_type::string& semicolonSeparatedNames)
 {
 	if (WarnIfRunsInMainFunction(GS_L("GetEntitiesAroundBucketWithBlackList")))
 		return;
@@ -471,7 +483,7 @@ void ETHScriptWrapper::GetVisibleEntities(ETHEntityArray &entityArray)
 	m_pScene->GetBucketManager().GetVisibleEntities(entityArray);
 }
 
-void ETHScriptWrapper::GetIntersectingEntities(const Vector2 &v2Here, ETHEntityArray &outVector, const bool screenSpace)
+void ETHScriptWrapper::GetIntersectingEntities(const Vector2 &v2Here, ETHEntityArray& outVector, const bool screenSpace)
 {
 	if (WarnIfRunsInMainFunction(GS_L("GetIntersectingEntities")))
 		return;

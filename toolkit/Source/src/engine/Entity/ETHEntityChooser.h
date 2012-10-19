@@ -56,4 +56,12 @@ public:
 	bool Choose(ETHEntity* entity) const;
 };
 
+class ETHEntitySingleExceptionChooser : public ETHEntityChooser
+{
+	int m_id;
+public:
+	ETHEntitySingleExceptionChooser(const int id);
+	bool Choose(ETHEntity* entity) const;
+};
+
 #endif
