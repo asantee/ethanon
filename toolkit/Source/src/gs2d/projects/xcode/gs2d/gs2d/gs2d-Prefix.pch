@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'gs2d' target in the 'gs2d' project
+//
+
+#ifdef __OBJC__
+	#import <Cocoa/Cocoa.h>
+#endif

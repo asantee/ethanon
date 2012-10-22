@@ -209,10 +209,10 @@ public:
 private:
 
 	/// Reads and returns an entity or attribute name
-	str_type::string ReadName(str_type::string str, const str_type::char_t nextValidToken, const str_type::char_t commentChar, unsigned int *pCursor);
+	str_type::string ReadName(str_type::string str, const str_type::char_t nextValidToken, const str_type::char_t commentChar, std::size_t *pCursor);
 
 	/// Reads an attribute value and erases their syntactic backslashes.
-	str_type::string ReadValue(str_type::string str, unsigned int *pCursor);
+	str_type::string ReadValue(str_type::string str, std::size_t *pCursor);
 
 	std::map<str_type::string, Entity> m_entities;
 	int m_ref; // reference counter

@@ -247,7 +247,7 @@ bool BitmapFont::IsLoaded() const
 
 unsigned int BitmapFont::FindClosestCarretPosition(const str_type::string& text, const Vector2& textPos, const Vector2& reference)
 {
-	const unsigned int cursors = text.length() + 1;
+	const std::size_t cursors = text.length() + 1;
 	float distance =-1;
 	unsigned int returnCursor = 0;
 	for (unsigned int t = 0; t < cursors; ++t)
@@ -292,10 +292,10 @@ Vector2 BitmapFont::ComputeCarretPosition(const str_type::string& text, const un
 	}
 
 	// seek the cursor position or the last character
-	const unsigned int length = Min(text.size(), static_cast<std::size_t>(pos));
+	const std::size_t length = Min(text.size(), static_cast<std::size_t>(pos));
 
 	Vector2 cursor = Vector2(0,0);
-	for (unsigned int t = 0; t < length; t++)
+	for (std::size_t t = 0; t < length; t++)
 	{
 		if (text[t] == GS_L('\n'))
 		{
@@ -315,11 +315,11 @@ Vector2 BitmapFont::ComputeTextBoxSize(const str_type::string& text)
 	{
 		return Vector2(0,0);
 	}
-	const unsigned int length = text.size();
+	const std::size_t length = text.size();
 	Vector2 cursor = Vector2(0,m_charSet.lineHeight);
 	float lineWidth = 0.0f;
-	const unsigned int lastChar = length - 1;
-	for (unsigned int t = 0; t < length; t++)
+	const std::size_t lastChar = length - 1;
+	for (std::size_t t = 0; t < length; t++)
 	{
 		if (text[t] == GS_L('\n'))
 		{
@@ -350,15 +350,15 @@ Vector2 BitmapFont::DrawBitmapText(const Vector2& pos, const str_type::string& t
 		return Vector2(0,0);
 	}
 
-	const unsigned int length = text.size();
+	const std::size_t length = text.size();
 	Vector2 cursor = Vector2(floor(pos.x), floor(pos.y));
 
 	std::vector<Sprite*> bitmapsPointers(m_bitmaps.size());
-	for (unsigned int t = 0; t < bitmapsPointers.size(); t++)
+	for (std::size_t t = 0; t < bitmapsPointers.size(); t++)
 		bitmapsPointers[t] = m_bitmaps[t].get();
 
 	int lastPageUsed =-1;
-	for (unsigned int t = 0; t < length; t++)
+	for (std::size_t t = 0; t < length; t++)
 	{
 		if (text[t] == GS_L('\n'))
 		{

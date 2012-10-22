@@ -316,12 +316,12 @@ unsigned int File::ParseString(const str_type::string &str)
 	m_error = RV_SUCCESS;
 	SEEK_STATUS status = SS_ENTITY;
 	SEEK_STATUS lastStatus = status;
-	const unsigned int size = str.size();
-	unsigned int line = 1;
+	const std::size_t size = str.size();
+	std::size_t line = 1;
 	str_type::string entityName = GS_L(""), keyName = GS_L("");
 	Entity entity;
 
-	for (unsigned int cursor=0; cursor<size; cursor++)
+	for (std::size_t cursor = 0; cursor < size; cursor++)
 	{
 		if (str[cursor] == GS_L('\n'))
 		{
@@ -364,7 +364,7 @@ unsigned int File::ParseString(const str_type::string &str)
 				{
 					Clear();
 					m_error = RV_INVALID_ENTITY_NAME;
-					return line;
+					return static_cast<unsigned int>(line);
 				}
 			}
 		} else if (status == SS_BEGIN_ENTITY)
@@ -380,7 +380,7 @@ unsigned int File::ParseString(const str_type::string &str)
 				{
 					Clear();
 					m_error = RV_BRACKET_EXPECTED;
-					return line;
+					return static_cast<unsigned int>(line);
 				}
 			}
 		} else if (status == SS_ATTRIBUTE_KEY)
@@ -406,7 +406,7 @@ unsigned int File::ParseString(const str_type::string &str)
 					{
 						Clear();
 						m_error = RV_INVALID_ATTRIBUTE_NAME;
-						return line;
+						return static_cast<unsigned int>(line);
 					}
 				}
 			}
@@ -422,7 +422,7 @@ unsigned int File::ParseString(const str_type::string &str)
 				{
 					Clear();
 					m_error = RV_ASSIGN_OPERATOR_EXPECTED;
-					return line;
+					return static_cast<unsigned int>(line);
 				}
 			}
 		} else if (status == SS_READ_VALUE)
@@ -439,7 +439,7 @@ unsigned int File::ParseString(const str_type::string &str)
 				{
 					Clear();
 					m_error = RV_INVALID_VALUE;
-					return line;
+					return static_cast<unsigned int>(line);
 				}
 			}
 		}
@@ -615,7 +615,7 @@ void File::Add(const str_type::string &entity, const str_type::string &attrib, c
 
 unsigned int File::GetNumEntities() const
 {
-	return m_entities.size();
+	return static_cast<unsigned int>(m_entities.size());
 }
 
 const std::map<str_type::string, Entity>& File::GetEntities() const
@@ -623,9 +623,13 @@ const std::map<str_type::string, Entity>& File::GetEntities() const
 	return m_entities;
 }
 
-str_type::string File::ReadName(str_type::string str, const str_type::char_t nextValidToken, const str_type::char_t commentChar, unsigned int *pCursor)
+str_type::string File::ReadName(
+	str_type::string str,
+	const str_type::char_t nextValidToken,
+	const str_type::char_t commentChar,
+	std::size_t *pCursor)
 {
-	for (unsigned int t=0; t<str.size(); t++)
+	for (std::size_t t = 0; t < str.size(); t++)
 	{
 		if (str[t] == commentChar || str[t] == nextValidToken || IsNeutral(str[t]))
 		{
@@ -638,9 +642,9 @@ str_type::string File::ReadName(str_type::string str, const str_type::char_t nex
 	return GS_L("");
 }
 
-str_type::string File::ReadValue(str_type::string str, unsigned int *pCursor)
+str_type::string File::ReadValue(str_type::string str, std::size_t *pCursor)
 {
-	for (unsigned int t=0; t<str.size(); t++)
+	for (std::size_t t = 0; t < str.size(); t++)
 	{
 		if (str[t] == GS_L('\\'))
 		{

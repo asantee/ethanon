@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:gs2dtestbed/gs2dtestbed.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:gs2d/gs2d.xcodeproj">
+   </FileRef>
+</Workspace>

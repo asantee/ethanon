@@ -20,6 +20,7 @@ toolkit/Source/src/gs2d/vendors/DX9SDK/
 toolkit/Source/src/gs2d/vendors/libpng/
 toolkit/Source/src/gs2d/vendors/libzip/
 toolkit/Source/src/gs2d/vendors/soil/
+toolkit/Source/src/gs2d/vendors/SDL.framework/
 
 # Virtual machine dump files
 *AS_DEBUG/
@@ -38,6 +39,13 @@ file_version.aps
 # Xcode output files
 toolkit/Source/projects/xcode/Ethanon.xcodeproj/project.xcworkspace/xcuserdata/
 toolkit/Source/projects/xcode/Ethanon.xcodeproj/xcuserdata/
+toolkit/Source/src/gs2d/projects/xcode/gs2d.xcworkspace/xcuserdata/
+toolkit/Source/src/gs2d/projects/xcode/gs2d/gs2d.xcodeproj/xcuserdata/
+toolkit/Source/src/gs2d/projects/xcode/gs2d/gs2d.xcodeproj/project.xcworkspace/xcuserdata/
+toolkit/Source/src/gs2d/projects/xcode/gs2d/gs2dtested.xcodeproj/xcuserdata/
+toolkit/Source/src/gs2d/projects/xcode/gs2d/gs2dtested.xcodeproj/project.xcworkspace/xcuserdata/
+toolkit/Source/src/gs2d/projects/xcode/gs2dtestbed/gs2dtestbed.xcodeproj/xcuserdata/
+toolkit/Source/src/gs2d/projects/xcode/gs2dtestbed/gs2dtestbed.xcodeproj/project.xcworkspace/xcuserdata/
 
 # Android generated files
 toolkit/Source/src/gs2d/projects/Android/Ethanon/bin/
