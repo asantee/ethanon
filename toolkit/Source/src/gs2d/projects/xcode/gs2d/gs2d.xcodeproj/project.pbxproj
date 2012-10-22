@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7458F0801635F18300D48019 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7458F07F1635F18300D48019 /* OpenGL.framework */; };
 		7473CA7916330304005DB920 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7473CA6B16330304005DB920 /* Application.cpp */; };
 		7473CA7A16330304005DB920 /* Application.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CA6C16330304005DB920 /* Application.h */; };
 		7473CA7B16330304005DB920 /* Audio.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CA6D16330304005DB920 /* Audio.h */; };
@@ -50,14 +51,19 @@
 		7473CAC416330624005DB920 /* Platform.macosx.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7473CAC216330624005DB920 /* Platform.macosx.mm */; };
 		7473CAC716330E1C005DB920 /* Platform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7473CAC516330E1C005DB920 /* Platform.cpp */; };
 		7473CAC816330E1C005DB920 /* Platform.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CAC616330E1C005DB920 /* Platform.h */; };
-		7473CACC1633140B005DB920 /* SDLApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7473CACA1633140B005DB920 /* SDLApplication.cpp */; };
-		7473CACD1633140B005DB920 /* SDLApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CACB1633140B005DB920 /* SDLApplication.h */; };
+		7473CACC1633140B005DB920 /* SDLWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7473CACA1633140B005DB920 /* SDLWindow.cpp */; };
+		7473CACD1633140B005DB920 /* SDLWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CACB1633140B005DB920 /* SDLWindow.h */; };
+		7473CAE016358AC6005DB920 /* GLVideo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7473CADE16358AC6005DB920 /* GLVideo.cpp */; };
+		7473CAE116358AC6005DB920 /* GLVideo.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CADF16358AC6005DB920 /* GLVideo.h */; };
+		7473CAE51635ABD9005DB920 /* GLSDLVideo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7473CAE31635ABD9005DB920 /* GLSDLVideo.cpp */; };
+		7473CAE61635ABD9005DB920 /* GLSDLVideo.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CAE41635ABD9005DB920 /* GLSDLVideo.h */; };
 		74F3A4FA1632E3870064C9A5 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F3A4F91632E3870064C9A5 /* Cocoa.framework */; };
 		74F3A5041632E3870064C9A5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 74F3A5021632E3870064C9A5 /* InfoPlist.strings */; };
 		74F3A55B1632E4A70064C9A5 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F3A55A1632E4A70064C9A5 /* SDL.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7458F07F1635F18300D48019 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		7473CA6B16330304005DB920 /* Application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Application.cpp; path = ../../../../src/Application.cpp; sourceTree = "<group>"; };
 		7473CA6C16330304005DB920 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Application.h; path = ../../../../src/Application.h; sourceTree = "<group>"; };
 		7473CA6D16330304005DB920 /* Audio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Audio.h; path = ../../../../src/Audio.h; sourceTree = "<group>"; };
@@ -101,8 +107,12 @@
 		7473CAC216330624005DB920 /* Platform.macosx.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Platform.macosx.mm; path = ../../../../src/Platform/macosx/Platform.macosx.mm; sourceTree = "<group>"; };
 		7473CAC516330E1C005DB920 /* Platform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Platform.cpp; path = ../../../../src/Platform/Platform.cpp; sourceTree = "<group>"; };
 		7473CAC616330E1C005DB920 /* Platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Platform.h; path = ../../../../src/Platform/Platform.h; sourceTree = "<group>"; };
-		7473CACA1633140B005DB920 /* SDLApplication.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SDLApplication.cpp; path = ../../../../src/Platform/sdl/SDLApplication.cpp; sourceTree = "<group>"; };
-		7473CACB1633140B005DB920 /* SDLApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLApplication.h; path = ../../../../src/Platform/sdl/SDLApplication.h; sourceTree = "<group>"; };
+		7473CACA1633140B005DB920 /* SDLWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SDLWindow.cpp; path = ../../../../src/Platform/sdl/SDLWindow.cpp; sourceTree = "<group>"; };
+		7473CACB1633140B005DB920 /* SDLWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLWindow.h; path = ../../../../src/Platform/sdl/SDLWindow.h; sourceTree = "<group>"; };
+		7473CADE16358AC6005DB920 /* GLVideo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLVideo.cpp; path = ../../../../src/Video/GL/GLVideo.cpp; sourceTree = "<group>"; };
+		7473CADF16358AC6005DB920 /* GLVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLVideo.h; path = ../../../../src/Video/GL/GLVideo.h; sourceTree = "<group>"; };
+		7473CAE31635ABD9005DB920 /* GLSDLVideo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLSDLVideo.cpp; path = ../../../../src/Video/GLSDL/GLSDLVideo.cpp; sourceTree = "<group>"; };
+		7473CAE41635ABD9005DB920 /* GLSDLVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLSDLVideo.h; path = ../../../../src/Video/GLSDL/GLSDLVideo.h; sourceTree = "<group>"; };
 		74F3A4F61632E3870064C9A5 /* gs2d.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = gs2d.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		74F3A4F91632E3870064C9A5 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		74F3A4FC1632E3870064C9A5 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -119,6 +129,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7458F0801635F18300D48019 /* OpenGL.framework in Frameworks */,
 				74F3A55B1632E4A70064C9A5 /* SDL.framework in Frameworks */,
 				74F3A4FA1632E3870064C9A5 /* Cocoa.framework in Frameworks */,
 			);
@@ -176,6 +187,8 @@
 		7473CAAC16330431005DB920 /* Video */ = {
 			isa = PBXGroup;
 			children = (
+				7473CAE21635AA97005DB920 /* GLSDL */,
+				7473CADD16358A8F005DB920 /* GL */,
 				7473CAAD1633044E005DB920 /* BitmapFont.cpp */,
 				7473CAAE1633044E005DB920 /* BitmapFont.h */,
 				7473CAAF1633044E005DB920 /* BitmapFontManager.cpp */,
@@ -189,8 +202,8 @@
 		7473CAC91633138B005DB920 /* sdl */ = {
 			isa = PBXGroup;
 			children = (
-				7473CACA1633140B005DB920 /* SDLApplication.cpp */,
-				7473CACB1633140B005DB920 /* SDLApplication.h */,
+				7473CACA1633140B005DB920 /* SDLWindow.cpp */,
+				7473CACB1633140B005DB920 /* SDLWindow.h */,
 			);
 			name = sdl;
 			sourceTree = "<group>";
@@ -200,6 +213,24 @@
 			children = (
 			);
 			name = macosx;
+			sourceTree = "<group>";
+		};
+		7473CADD16358A8F005DB920 /* GL */ = {
+			isa = PBXGroup;
+			children = (
+				7473CADE16358AC6005DB920 /* GLVideo.cpp */,
+				7473CADF16358AC6005DB920 /* GLVideo.h */,
+			);
+			name = GL;
+			sourceTree = "<group>";
+		};
+		7473CAE21635AA97005DB920 /* GLSDL */ = {
+			isa = PBXGroup;
+			children = (
+				7473CAE31635ABD9005DB920 /* GLSDLVideo.cpp */,
+				7473CAE41635ABD9005DB920 /* GLSDLVideo.h */,
+			);
+			name = GLSDL;
 			sourceTree = "<group>";
 		};
 		74F3A4EA1632E3870064C9A5 = {
@@ -222,6 +253,7 @@
 		74F3A4F81632E3870064C9A5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7458F07F1635F18300D48019 /* OpenGL.framework */,
 				74F3A55A1632E4A70064C9A5 /* SDL.framework */,
 				74F3A4F91632E3870064C9A5 /* Cocoa.framework */,
 				74F3A4FB1632E3870064C9A5 /* Other Frameworks */,
@@ -309,7 +341,9 @@
 				7473CAC01633045D005DB920 /* Enml.h in Headers */,
 				7473CAC316330624005DB920 /* Platform.macosx.h in Headers */,
 				7473CAC816330E1C005DB920 /* Platform.h in Headers */,
-				7473CACD1633140B005DB920 /* SDLApplication.h in Headers */,
+				7473CACD1633140B005DB920 /* SDLWindow.h in Headers */,
+				7473CAE116358AC6005DB920 /* GLVideo.h in Headers */,
+				7473CAE61635ABD9005DB920 /* GLSDLVideo.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -392,7 +426,9 @@
 				7473CABF1633045D005DB920 /* Enml.cpp in Sources */,
 				7473CAC416330624005DB920 /* Platform.macosx.mm in Sources */,
 				7473CAC716330E1C005DB920 /* Platform.cpp in Sources */,
-				7473CACC1633140B005DB920 /* SDLApplication.cpp in Sources */,
+				7473CACC1633140B005DB920 /* SDLWindow.cpp in Sources */,
+				7473CAE016358AC6005DB920 /* GLVideo.cpp in Sources */,
+				7473CAE51635ABD9005DB920 /* GLSDLVideo.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

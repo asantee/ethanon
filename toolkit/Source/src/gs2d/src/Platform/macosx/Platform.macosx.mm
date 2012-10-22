@@ -24,20 +24,15 @@
 #import "../Platform.h"
 #import "../../Video/GLES2/GLES2Video.h"
 
-/*gs2d::str_type::string gs2d::GLVideo::GetPlatformName() const
-{
-	return "macosx";
-}*/
-
 void gs2d::ShowMessage(str_type::stringstream& stream, const GS_MESSAGE_TYPE type)
 {
 	if (type == GSMT_ERROR)
 	{
-		std::cerr << stream.str() << std::endl;
+		std::cerr << "Error: " << stream.str() << std::endl;
 	}
 	else
 	{
-		std::cout << stream.str() << std::endl;
+		std::cout << ((type == GSMT_WARNING) ? "Warning: " : "") << stream.str() << std::endl;
 	}
 }
 

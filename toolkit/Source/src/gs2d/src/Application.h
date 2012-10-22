@@ -26,6 +26,7 @@
 #include "Math/GameMath.h"
 #include "Types.h"
 #include "Platform/FileIOHub.h"
+#include "Texture.h"
 
 namespace gs2d {
 
@@ -110,6 +111,15 @@ public:
 
 protected:
 	ScreenSizeChangeListenerWeakPtr m_screenSizeChangeListener;
+
+	virtual bool StartApplication(
+		const unsigned int width,
+		const unsigned int height,
+		const str_type::string& winTitle,
+		const bool windowed,
+		const bool sync,
+		const Texture::PIXEL_FORMAT pfBB = Texture::PF_UNKNOWN,
+		const bool maximizable = false) = 0;
 };
 
 typedef boost::shared_ptr<Application> ApplicationPtr;

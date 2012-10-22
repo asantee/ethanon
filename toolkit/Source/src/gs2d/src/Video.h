@@ -57,11 +57,13 @@ public:
 		AM_ADD = 1,
 		AM_ALPHA_TEST = 2,
 		AM_NONE = 3,
-		AM_MODULATE = 4
+		AM_MODULATE = 4,
+		AM_UNKNOWN = 0xFFFFFFFF
 	};
 
 	enum TEXTUREFILTER_MODE
 	{
+		TM_UNKNOWN = 0xFFFFFFFF,
 		TM_NEVER = 0,
 		TM_IFNEEDED = 1,
 		TM_ALWAYS = 2
@@ -249,31 +251,21 @@ public:
 		const str_type::string& font,
 		const str_type::string& text,
 		const unsigned int pos);
-
+	
 	virtual math::Vector2 ComputeTextBoxSize(const str_type::string& font, const str_type::string& text);
-
+	
 	virtual unsigned int FindClosestCarretPosition(
 		const str_type::string& font,
 		const str_type::string &text,
 		const math::Vector2 &textPos,
 		const math::Vector2 &reference);
-
+	
 	virtual bool DrawBitmapText(
 		const math::Vector2 &v2Pos,
 		const str_type::string& text,
 		const str_type::string& font,
 		const Color& color,
 		const float scale = 1.0f);
-
-private:
-	virtual bool StartApplication(
-		const unsigned int width,
-		const unsigned int height,
-		const str_type::string& winTitle,
-		const bool windowed,
-		const bool sync,
-		const Texture::PIXEL_FORMAT pfBB = Texture::PF_UNKNOWN,
-		const bool maximizable = false) = 0;
 };
 
 /// Instantiate a Video object (must be defined in the API specific code)

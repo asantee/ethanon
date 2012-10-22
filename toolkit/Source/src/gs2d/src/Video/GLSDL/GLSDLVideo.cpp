@@ -20,8 +20,28 @@
  OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  --------------------------------------------------------------------------------------*/
 
-#ifndef GS2D_SDL_APPLICATION_H_
-#define GS2D_SDL_APPLICATION_H_
+#include "GLSDLVideo.h"
 
+namespace gs2d {
 
-#endif
+GLSDLVideo::GLSDLVideo(Platform::FileIOHubPtr fileIOHub) :
+	SDLWindow(fileIOHub)
+{
+}
+
+bool GLSDLVideo::StartApplication(
+	const unsigned int width,
+	const unsigned int height,
+	const str_type::string& winTitle,
+	const bool windowed,
+	const bool sync,
+	const Texture::PIXEL_FORMAT pfBB,
+	const bool maximizable)
+{
+	bool rW, rGL;
+	rW = SDLWindow::StartApplication(width, height, winTitle, windowed, sync, pfBB, maximizable);
+	rGL =  GLVideo::StartApplication(width, height, winTitle, windowed, sync, pfBB, maximizable);
+	return (rW && rGL);
+}
+
+} // namespace gs2d

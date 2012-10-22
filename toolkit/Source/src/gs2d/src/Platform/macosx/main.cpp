@@ -12,6 +12,8 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_opengl.h>
 
+#include <Video/GLSDL/GLSDLVideo.h>
+
 #include "main.h"
 
 #define WIDTH 640
@@ -42,6 +44,8 @@ void render() {
 }
 
 int SDL_main (int argc, char **argv) {
+
+	gs2d::GLSDLVideo video( (Platform::FileIOHubPtr()) );
 
     // Initialize
     SDL_Init(SDL_INIT_VIDEO);

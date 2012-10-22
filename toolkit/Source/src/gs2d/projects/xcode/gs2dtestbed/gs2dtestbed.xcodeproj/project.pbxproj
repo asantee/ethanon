@@ -85,7 +85,6 @@
 		74F3A50E1632E3C20064C9A5 = {
 			isa = PBXGroup;
 			children = (
-				7473CA601632EA17005DB920 /* OpenGL.framework */,
 				74F3A5231632E3C20064C9A5 /* gs2dtestbed */,
 				74F3A51C1632E3C20064C9A5 /* Frameworks */,
 				74F3A51A1632E3C20064C9A5 /* Products */,
@@ -104,6 +103,7 @@
 		74F3A51C1632E3C20064C9A5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7473CA601632EA17005DB920 /* OpenGL.framework */,
 				7473CA561632E710005DB920 /* SDL.framework */,
 				74F3A51D1632E3C20064C9A5 /* Cocoa.framework */,
 				74F3A51F1632E3C20064C9A5 /* Other Frameworks */,
