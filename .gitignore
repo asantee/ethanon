@@ -22,12 +22,13 @@ toolkit/Source/src/gs2d/vendors/libzip/
 toolkit/Source/src/gs2d/vendors/soil/
 toolkit/Source/src/gs2d/vendors/SDL.framework/
 
-# Virtual machine dump files
+# Dump files
 *AS_DEBUG/
 *.log.txt
 *.bin.readme.txt
 test.enml
 info.enml
+*.cache
 
 # Visual Studio files
 *.ncb
