@@ -231,7 +231,6 @@ public:
 
 	bool SaveScreenshot(const wchar_t *wcsName,	const Texture::BITMAP_FORMAT fmt = Texture::BF_BMP, math::Rect2D rect = math::Rect2D(0, 0, 0, 0));
 	
-	bool ManageLoop();
 	math::Vector2i GetClientScreenSize() const;
 	APP_STATUS HandleEvents();
 	float GetFPSRate() const;

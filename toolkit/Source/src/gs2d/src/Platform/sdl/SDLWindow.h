@@ -32,10 +32,11 @@ class SDLWindow : public virtual Video
 {
 	Platform::FileIOHubPtr m_fileIOHub;
 	math::Vector2 m_screenSize;
-	bool m_maximizable;
+	bool m_maximizable, m_sync, m_windowed;
 	std::vector<VIDEO_MODE> m_videoModes;
 
 	void ReadDisplayModes();
+	unsigned int AssembleFlags(const bool windowed, const bool maximizable, const bool sync);
 
 protected:
 	bool StartApplication(
@@ -46,11 +47,14 @@ protected:
 		const bool sync,
 		const Texture::PIXEL_FORMAT pfBB = Texture::PF_UNKNOWN,
 		const bool maximizable = false);
+
+	bool EndSpriteScene();
+
 public:
 	SDLWindow(Platform::FileIOHubPtr fileIOHub);
+	~SDLWindow();
 
 	// Application implementations
-	bool ManageLoop();
 	math::Vector2i GetClientScreenSize() const;
 
 	APP_STATUS HandleEvents();

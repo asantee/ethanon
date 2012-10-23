@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		7458F0801635F18300D48019 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7458F07F1635F18300D48019 /* OpenGL.framework */; };
+		7458F0841636CFB200D48019 /* MacOSXFileIOHub.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7458F0821636CFB200D48019 /* MacOSXFileIOHub.mm */; };
+		7458F0851636CFB200D48019 /* MacOSXFileIOHub.h in Headers */ = {isa = PBXBuildFile; fileRef = 7458F0831636CFB200D48019 /* MacOSXFileIOHub.h */; };
+		7458F088163708C600D48019 /* StdAnsiFileManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7458F086163708C600D48019 /* StdAnsiFileManager.cpp */; };
+		7458F089163708C600D48019 /* StdAnsiFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7458F087163708C600D48019 /* StdAnsiFileManager.h */; };
 		7473CA7916330304005DB920 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7473CA6B16330304005DB920 /* Application.cpp */; };
 		7473CA7A16330304005DB920 /* Application.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CA6C16330304005DB920 /* Application.h */; };
 		7473CA7B16330304005DB920 /* Audio.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CA6D16330304005DB920 /* Audio.h */; };
@@ -64,6 +68,10 @@
 
 /* Begin PBXFileReference section */
 		7458F07F1635F18300D48019 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		7458F0821636CFB200D48019 /* MacOSXFileIOHub.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MacOSXFileIOHub.mm; path = ../../../../src/Platform/macosx/MacOSXFileIOHub.mm; sourceTree = "<group>"; };
+		7458F0831636CFB200D48019 /* MacOSXFileIOHub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacOSXFileIOHub.h; path = ../../../../src/Platform/macosx/MacOSXFileIOHub.h; sourceTree = "<group>"; };
+		7458F086163708C600D48019 /* StdAnsiFileManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StdAnsiFileManager.cpp; path = ../../../../src/Platform/StdAnsiFileManager.cpp; sourceTree = "<group>"; };
+		7458F087163708C600D48019 /* StdAnsiFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StdAnsiFileManager.h; path = ../../../../src/Platform/StdAnsiFileManager.h; sourceTree = "<group>"; };
 		7473CA6B16330304005DB920 /* Application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Application.cpp; path = ../../../../src/Application.cpp; sourceTree = "<group>"; };
 		7473CA6C16330304005DB920 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Application.h; path = ../../../../src/Application.h; sourceTree = "<group>"; };
 		7473CA6D16330304005DB920 /* Audio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Audio.h; path = ../../../../src/Audio.h; sourceTree = "<group>"; };
@@ -171,6 +179,8 @@
 				7473CAA116330391005DB920 /* FileManager.h */,
 				7473CAA216330391005DB920 /* Logger.cpp */,
 				7473CAA316330391005DB920 /* Logger.h */,
+				7458F086163708C600D48019 /* StdAnsiFileManager.cpp */,
+				7458F087163708C600D48019 /* StdAnsiFileManager.h */,
 			);
 			name = Platform;
 			sourceTree = "<group>";
@@ -211,6 +221,8 @@
 		7473CACE16331548005DB920 /* macosx */ = {
 			isa = PBXGroup;
 			children = (
+				7458F0821636CFB200D48019 /* MacOSXFileIOHub.mm */,
+				7458F0831636CFB200D48019 /* MacOSXFileIOHub.h */,
 			);
 			name = macosx;
 			sourceTree = "<group>";
@@ -344,6 +356,8 @@
 				7473CACD1633140B005DB920 /* SDLWindow.h in Headers */,
 				7473CAE116358AC6005DB920 /* GLVideo.h in Headers */,
 				7473CAE61635ABD9005DB920 /* GLSDLVideo.h in Headers */,
+				7458F0851636CFB200D48019 /* MacOSXFileIOHub.h in Headers */,
+				7458F089163708C600D48019 /* StdAnsiFileManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -429,6 +443,8 @@
 				7473CACC1633140B005DB920 /* SDLWindow.cpp in Sources */,
 				7473CAE016358AC6005DB920 /* GLVideo.cpp in Sources */,
 				7473CAE51635ABD9005DB920 /* GLSDLVideo.cpp in Sources */,
+				7458F0841636CFB200D48019 /* MacOSXFileIOHub.mm in Sources */,
+				7458F088163708C600D48019 /* StdAnsiFileManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

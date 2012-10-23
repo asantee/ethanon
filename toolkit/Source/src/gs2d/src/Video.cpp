@@ -74,4 +74,23 @@ bool Video::VIDEO_MODE::operator<(const VIDEO_MODE &other) const
 	return false;
 }
 
+bool Video::ManageLoop()
+{
+	if (Rendering())
+		EndSpriteScene();
+
+	APP_STATUS status = APP_SKIP;
+	while (status == APP_SKIP)
+	{
+		status = HandleEvents();
+		if (status == APP_QUIT)
+			return false;
+	}
+
+	if (!Rendering())
+		BeginSpriteScene();
+
+	return true;
+}
+
 } // namespace gs2d

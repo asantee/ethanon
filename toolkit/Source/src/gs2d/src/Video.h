@@ -266,6 +266,8 @@ public:
 		const str_type::string& font,
 		const Color& color,
 		const float scale = 1.0f);
+
+	bool ManageLoop();
 };
 
 /// Instantiate a Video object (must be defined in the API specific code)

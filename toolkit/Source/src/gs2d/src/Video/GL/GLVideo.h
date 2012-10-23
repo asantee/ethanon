@@ -44,6 +44,8 @@ class GLVideo : public virtual Video
 	const float m_zNear, m_zFar;
 	math::Matrix4x4 m_ortho;
 	Color m_backgroundColor;
+	bool m_rendering;
+
 	void Enable2DStates();
 
 protected:

@@ -40,7 +40,16 @@ class GLSDLVideo : public GLVideo, public SDLWindow
 		const bool maximizable = false);
 
 public:
-	GLSDLVideo(Platform::FileIOHubPtr fileIOHub);
+	GLSDLVideo(
+		Platform::FileIOHubPtr fileIOHub,
+		const unsigned int width,
+		const unsigned int height,
+		const str_type::string& winTitle,
+		const bool windowed,
+		const bool sync,
+		const bool maximizable);
+
+	bool EndSpriteScene();
 };
 	
 } // namespace gs2d

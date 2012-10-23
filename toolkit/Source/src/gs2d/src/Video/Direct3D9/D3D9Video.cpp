@@ -623,25 +623,6 @@ bool D3D9Video::GetClamp() const
 	return m_clamp;
 }
 
-bool D3D9Video::ManageLoop()
-{
-	if (Rendering())
-		EndSpriteScene();
-
-	APP_STATUS status = APP_SKIP;
-	while (status == APP_SKIP)
-	{
-		status = HandleEvents();
-		if (status == APP_QUIT)
-			return false;
-	}
-
-	if (!Rendering())
-		BeginSpriteScene();
-
-	return true;
-}
-
 void D3D9Video::SetZBuffer(const bool enable)
 {
 	m_pDevice->SetRenderState(D3DRS_ZENABLE, (enable) ? D3DZB_TRUE : D3DZB_FALSE);

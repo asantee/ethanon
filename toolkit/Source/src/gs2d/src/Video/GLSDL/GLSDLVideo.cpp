@@ -24,9 +24,17 @@
 
 namespace gs2d {
 
-GLSDLVideo::GLSDLVideo(Platform::FileIOHubPtr fileIOHub) :
+GLSDLVideo::GLSDLVideo(
+	Platform::FileIOHubPtr fileIOHub,
+	const unsigned int width,
+	const unsigned int height,
+	const str_type::string& winTitle,
+	const bool windowed,
+	const bool sync,
+	const bool maximizable) :
 	SDLWindow(fileIOHub)
 {
+	StartApplication(width, height, winTitle, windowed, sync, Texture::PF_UNKNOWN, maximizable);
 }
 
 bool GLSDLVideo::StartApplication(
@@ -42,6 +50,12 @@ bool GLSDLVideo::StartApplication(
 	rW = SDLWindow::StartApplication(width, height, winTitle, windowed, sync, pfBB, maximizable);
 	rGL =  GLVideo::StartApplication(width, height, winTitle, windowed, sync, pfBB, maximizable);
 	return (rW && rGL);
+}
+
+bool GLSDLVideo::EndSpriteScene()
+{
+	GLVideo::EndSpriteScene();
+	return SDLWindow::EndSpriteScene();
 }
 
 } // namespace gs2d

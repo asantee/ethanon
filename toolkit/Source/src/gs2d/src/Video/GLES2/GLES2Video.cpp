@@ -917,25 +917,6 @@ bool GLES2Video::SaveScreenshot(const wchar_t *wcsName,
 	return false;
 }
 
-bool GLES2Video::ManageLoop()
-{
-	if (Rendering())
-		EndSpriteScene();
-
-	APP_STATUS status = APP_SKIP;
-	while (status == APP_SKIP)
-	{
-		status = HandleEvents();
-		if (status == APP_QUIT)
-			return false;
-	}
-
-	if (!Rendering())
-		BeginSpriteScene();
-
-	return true;
-}
-
 Vector2i GLES2Video::GetClientScreenSize() const
 {
 	return m_screenSize;

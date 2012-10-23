@@ -280,7 +280,6 @@ public:
 	boost::any GetGraphicContext();
 
 	// Application method implementations:
-	bool ManageLoop();
 	math::Vector2i GetClientScreenSize() const;
 	APP_STATUS HandleEvents();
 	float GetFPSRate() const;

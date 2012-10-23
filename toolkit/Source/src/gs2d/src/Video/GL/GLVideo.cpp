@@ -31,7 +31,8 @@ GLVideo::GLVideo() :
 	m_alphaRef(0.02),
 	m_zFar(5.0f),
 	m_zNear(0.0f),
-	m_backgroundColor(0xFFFFFFFF)
+	m_backgroundColor(0xFFFFFFFF),
+	m_rendering(false)
 {
 }
 
@@ -54,6 +55,17 @@ bool GLVideo::StartApplication(
 	SetZWrite(false);
 
 	Enable2DStates();
+	
+	/*
+	m_ShaderContext.RegisterShaderHandler(m_pDevice);
+	m_DefaultVS.LoadShader(&m_ShaderContext, g_szDefaultVS, GSSF_VERTEX, GSSM_STRING, GSSP_MODEL_2, "sprite");
+	m_RectVS.LoadShader(&m_ShaderContext, g_szDefaultVS, GSSF_VERTEX, GSSM_STRING, GSSP_MODEL_2, "rectangle");
+	m_FontVS.LoadShader(&m_ShaderContext, g_szDefaultVS, GSSF_VERTEX, GSSM_STRING, GSSP_MODEL_2, "font");
+	m_pCurrentVS = &m_DefaultVS;
+	m_DefaultVS.SetConstant2F("cameraPos", GetCameraPos());
+
+	gsSetupShaderViewData(GetCurrentVS(), &m_RectVS, &m_FontVS);
+	*/	
 	return true;
 }
 
@@ -159,6 +171,40 @@ bool GLVideo::GetZWrite() const
 	GLboolean enabled;
 	glGetBooleanv(GL_DEPTH_WRITEMASK, &enabled);
 	return (enabled == GL_TRUE) ? true : false;
+}
+
+bool GLVideo::BeginSpriteScene(const Color& dwBGColor)
+{
+	const Color color(dwBGColor != constant::ZERO ? dwBGColor : m_backgroundColor);
+	math::Vector4 v;
+	v.SetColor(color);
+	glClearColor(v.x, v.y, v.z, v.w);
+	glClear(GL_COLOR_BUFFER_BIT);
+	SetAlphaMode(Video::AM_PIXEL);
+	
+	m_rendering = true;
+	return true;
+}
+
+bool GLVideo::EndSpriteScene()
+{
+	m_rendering = false;
+	return true;
+}
+
+bool GLVideo::Rendering() const
+{
+	return m_rendering;
+}
+
+void GLVideo::SetBGColor(const Color& backgroundColor)
+{
+	m_backgroundColor = backgroundColor;
+}
+
+Color GLVideo::GetBGColor() const
+{
+	return m_backgroundColor;
 }
 
 
@@ -471,37 +517,15 @@ bool GLVideo::DrawRectangle(
 	return false;
 }
 
-void GLVideo::SetBGColor(const Color& backgroundColor)
-{
-}
-
-Color GLVideo::GetBGColor() const
-{
-	return Color(0xFF00000000);
-}
-
-bool GLVideo::BeginSpriteScene(const Color& dwBGColor)
-{
-	return false;
-}
-
-bool GLVideo::EndSpriteScene()
-{
-	return false;
-}
-
 bool GLVideo::BeginTargetScene(const Color& dwBGColor, const bool clear)
 {
+	m_rendering = true;
 	return false;
 }
 
 bool GLVideo::EndTargetScene()
 {
-	return false;
-}
-
-bool GLVideo::Rendering() const
-{
+	m_rendering = false;
 	return false;
 }
 

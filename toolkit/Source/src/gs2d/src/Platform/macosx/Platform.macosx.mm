@@ -80,14 +80,15 @@ gs2d::str_type::string Platform::FileLogger::GetLogDirectory()
 	logPath += "/log/";*/
 
 	//[pool release];
-	#warning TODO
+#warning TODO
 	return GS_L("");
 }
 
 gs2d::str_type::string GetModuleDirectory()
 {
-	#warning TODO
-	return GS_L("");
+	NSString* bundleDir = [[NSBundle mainBundle] bundlePath];
+	bundleDir = [bundleDir stringByAppendingString:@"/"];
+	return [bundleDir cStringUsingEncoding:1];
 }
 
 char GetDirectorySlashA()

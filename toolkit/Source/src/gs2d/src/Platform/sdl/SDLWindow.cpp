@@ -57,8 +57,15 @@ static int SetPixelFormat(const SDL_VideoInfo* info, const Texture::PIXEL_FORMAT
 // Application implementations
 SDLWindow::SDLWindow(Platform::FileIOHubPtr fileIOHub) :
 	m_fileIOHub(fileIOHub),
-	m_maximizable(false)
+	m_maximizable(false),
+	m_windowed(true),
+	m_sync(true)
 {
+}
+
+SDLWindow::~SDLWindow()
+{
+	SDL_Quit();
 }
 
 bool SDLWindow::StartApplication(
@@ -74,6 +81,8 @@ bool SDLWindow::StartApplication(
 	m_screenSize.y = static_cast<float>(height);
 
 	m_maximizable = maximizable;
+	m_windowed = windowed;
+	m_sync = sync;
 
 	if (SDL_Init( SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) < 0)
 	{
@@ -86,14 +95,11 @@ bool SDLWindow::StartApplication(
 	const int bpp = SetPixelFormat(info, pfBB);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-	Uint32 flags = SDL_OPENGL;
-	if (!windowed)
-		flags |= SDL_FULLSCREEN;
+	Uint32 flags = AssembleFlags(windowed, maximizable, sync);
 
 	if (sync)
 	{
 		SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
-		flags |= SDL_ASYNCBLIT;
 	}
 
 	if (SDL_SetVideoMode(static_cast<int>(m_screenSize.x), static_cast<int>(m_screenSize.y), bpp, flags) == 0)
@@ -105,19 +111,23 @@ bool SDLWindow::StartApplication(
 	SetWindowTitle(winTitle);
 	ReadDisplayModes();
 
-	/*g_bRunning = true;
-
-	m_ShaderContext.RegisterShaderHandler(m_pDevice);
-	m_DefaultVS.LoadShader(&m_ShaderContext, g_szDefaultVS, GSSF_VERTEX, GSSM_STRING, GSSP_MODEL_2, "sprite");
-	m_RectVS.LoadShader(&m_ShaderContext, g_szDefaultVS, GSSF_VERTEX, GSSM_STRING, GSSP_MODEL_2, "rectangle");
-	m_FontVS.LoadShader(&m_ShaderContext, g_szDefaultVS, GSSF_VERTEX, GSSM_STRING, GSSP_MODEL_2, "font");
-	m_pCurrentVS = &m_DefaultVS;
-	m_DefaultVS.SetConstant2F("cameraPos", GetCameraPos());
-
-	gsSetupShaderViewData(GetCurrentVS(), &m_RectVS, &m_FontVS);
-
-	pInfo->m_dwTime = SDL_GetTicks();*/
 	return true;
+}
+
+unsigned int SDLWindow::AssembleFlags(const bool windowed, const bool maximizable, const bool sync)
+{
+	unsigned int flags = SDL_OPENGL;
+
+	if (!windowed)
+		flags |= SDL_FULLSCREEN;
+	else if (maximizable)
+		flags |= SDL_RESIZABLE;
+
+	if (sync)
+	{
+		flags |= SDL_ASYNCBLIT;
+	}
+	return flags;
 }
 
 void SDLWindow::ReadDisplayModes()
@@ -164,29 +174,55 @@ void SDLWindow::Message(const str_type::string& text, const GS_MESSAGE_TYPE type
 	ShowMessage(text, type);
 }
 
-
-
-
-
-
-
-
-
-
-
-bool SDLWindow::ManageLoop()
+Application::APP_STATUS SDLWindow::HandleEvents()
 {
-	return false;
+	APP_STATUS r = APP_OK;
+
+	SDL_Event event;
+	while(SDL_PollEvent(&event))
+	{
+		switch(event.type)
+		{
+		case SDL_VIDEORESIZE:
+			SDL_SetVideoMode(event.resize.w, event.resize.h, 0, AssembleFlags(m_windowed, m_maximizable, m_sync));
+			break;
+		case SDL_QUIT:
+			r = APP_QUIT;
+			break;
+		}
+	}
+	return r;
 }
+
+bool SDLWindow::EndSpriteScene()
+{
+	SDL_GL_SwapBuffers();
+	return true;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 math::Vector2i SDLWindow::GetClientScreenSize() const
 {
 	return math::Vector2i(0, 0);
-}
-
-Application::APP_STATUS SDLWindow::HandleEvents()
-{
-	return Application::APP_OK;
 }
 
 float SDLWindow::GetFPSRate() const
