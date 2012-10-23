@@ -1,12 +1,15 @@
 How to install the ethanon plugin for sublime
 
-+ Copy the directory "Sublime-Package/Ethanon/" to "<sublime-dir>/Packages/"
-+ Restart Sublime.
-  Note: How to find this directory? Go to Sublime, Preferences->Browse Packages
++ Direct from source
+	- Copy the directory "Sublime-Package/Ethanon/" to "<sublime-dir>/Packages/"
+	- Restart Sublime
+	  Note: How to find this directory? Go to Sublime, Preferences->Browse Packages
 
 	OR
 
-+ Zip all files in "Sublime-Package/Ethanon/"
-+ Rename the zip file to Ethanon.sublime-package
-  Note: Sublime plugin source files must be in the package root
-+ Move Ethanon.sublime-package to "<sublime-dir>/Installed Packages/"
++ From .sublime-package
+	- Zip all files in "Sublime-Package/Ethanon/"
+	- Rename the zip file to Ethanon.sublime-package
+	  Note: Sublime plugin source files must be in the package root
+	- Move Ethanon.sublime-package to "<sublime-dir>/Installed Packages/"
+	- Restart Sublime
