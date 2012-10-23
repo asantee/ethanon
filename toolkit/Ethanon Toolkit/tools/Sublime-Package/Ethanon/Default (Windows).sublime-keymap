@@ -1,0 +1,5 @@
+[
+
+{ "keys": ["f5"], "command": "build", "args": {"variant": "run"} }
+
+]
