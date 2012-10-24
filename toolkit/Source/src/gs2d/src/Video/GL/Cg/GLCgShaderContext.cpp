@@ -23,6 +23,8 @@
 #include "GLCgShaderContext.h"
 #include "../../../Application.h"
 
+#include <Cg/cgGL.h>
+
 namespace gs2d {
 
 GLCgShaderContext::GLCgShaderContext() :

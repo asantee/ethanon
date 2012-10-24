@@ -73,15 +73,7 @@ namespace Platform {
 
 gs2d::str_type::string Platform::FileLogger::GetLogDirectory()
 {
-	/*NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	NSString* dir = NSHomeDirectory();
-	const char* szDir = [dir cStringUsingEncoding:1];
-	std::string logPath(szDir);
-	logPath += "/log/";*/
-
-	//[pool release];
-#warning TODO
-	return GS_L("");
+	return GetModuleDirectory() + "log/";
 }
 
 gs2d::str_type::string GetModuleDirectory()

@@ -205,16 +205,18 @@ Application::APP_STATUS SDLWindow::HandleEvents()
 	//const SDLKey macSDLK_LCOMMAND = SDLK_LMETA;
 	//const SDLKey macSDLK_LCONTROL = SDLK_LCTRL;
 
-	// This is a workaround due to sucky and outdated SDL implementation
-	// Always enable quit shortcut on fullscreen mode otherwise the user won't
-	// be able to close the window
-	if (QuitShortcutsEnabled() || !IsWindowed())
-	{
-		if ((keys[SDLK_LMETA] || keys[SDLK_RMETA]) && keys[SDLK_q])
+	#ifdef MACOSX
+		// This is a workaround due to sucky and outdated SDL implementation
+		// Always enable quit shortcut on fullscreen mode otherwise the user won't
+		// be able to close the window
+		if (QuitShortcutsEnabled() || !IsWindowed())
 		{
-			r = APP_QUIT;
+			if ((keys[SDLK_LMETA] || keys[SDLK_RMETA]) && keys[SDLK_q])
+			{
+				r = APP_QUIT;
+			}
 		}
-	}
+	#endif
 
 	if (m_quit)
 		r = APP_QUIT;

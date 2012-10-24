@@ -26,16 +26,12 @@
 #include <Shader.h>
 
 #include <Cg/cg.h>
-#include <Cg/cgGL.h>
-
-#include <map>
 
 namespace gs2d {
 
 class GLCgShaderContext : public ShaderContext
 {
 	CGcontext m_cgContext;
-	std::map<std::string, CGparameter> mParam;
 
 	bool CheckForError(const std::string& situation);
 

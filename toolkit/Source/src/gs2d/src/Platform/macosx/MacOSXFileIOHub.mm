@@ -22,6 +22,7 @@
 
 #include "MacOSXFileIOHub.h"
 #include "../Platform.h"
+#include "../FileLogger.h"
 #include "../../Application.h"
 
 namespace Platform {
@@ -73,6 +74,7 @@ MacOSXFileIOHub::MacOSXFileIOHub(
 {
 	CreateDirectory([NSString stringWithCString:ExternalStorageDirectory().c_str() encoding:NSUTF8StringEncoding]);
 	CreateDirectory([NSString stringWithCString:ResourceDirectory().c_str() encoding:NSUTF8StringEncoding]);
+	CreateDirectory([NSString stringWithCString:Platform::FileLogger::GetLogDirectory().c_str() encoding:NSUTF8StringEncoding]);
 
 	#ifdef DEBUG
 	gs2d::ShowMessage(GetResourceDirectory(), gs2d::GSMT_INFO);
