@@ -60,7 +60,8 @@ SDLWindow::SDLWindow(Platform::FileIOHubPtr fileIOHub) :
 	m_maximizable(false),
 	m_windowed(true),
 	m_sync(true),
-	m_quitKeysEnabled(true)
+	m_quitKeysEnabled(true),
+	m_quit(false)
 {
 }
 
@@ -215,6 +216,9 @@ Application::APP_STATUS SDLWindow::HandleEvents()
 		}
 	}
 
+	if (m_quit)
+		r = APP_QUIT;
+
 	return r;
 }
 
@@ -223,6 +227,12 @@ bool SDLWindow::EndSpriteScene()
 	SDL_GL_SwapBuffers();
 	return true;
 }
+
+void SDLWindow::Quit()
+{
+	m_quit = true;
+}
+
 
 
 
@@ -275,10 +285,6 @@ void SDLWindow::ForwardCommand(const str_type::string& cmd)
 str_type::string SDLWindow::PullCommands()
 {
 	return "";
-}
-
-void SDLWindow::Quit()
-{
 }
 	
 /////////////////////////////

@@ -56,6 +56,7 @@ bool GLVideo::StartApplication(
 
 	Enable2DStates();
 	
+	m_shaderContext = GLCgShaderContextPtr(new GLCgShaderContext);
 	/*
 	m_ShaderContext.RegisterShaderHandler(m_pDevice);
 	m_DefaultVS.LoadShader(&m_ShaderContext, g_szDefaultVS, GSSF_VERTEX, GSSM_STRING, GSSP_MODEL_2, "sprite");

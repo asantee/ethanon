@@ -32,7 +32,7 @@ class SDLWindow : public virtual Video
 {
 	Platform::FileIOHubPtr m_fileIOHub;
 	math::Vector2 m_screenSize;
-	bool m_maximizable, m_sync, m_windowed, m_quitKeysEnabled;
+	bool m_maximizable, m_sync, m_windowed, m_quitKeysEnabled, m_quit;
 	std::vector<VIDEO_MODE> m_videoModes;
 
 	void ReadDisplayModes();

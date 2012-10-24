@@ -65,6 +65,10 @@
 		7473CAE116358AC6005DB920 /* GLVideo.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CADF16358AC6005DB920 /* GLVideo.h */; };
 		7473CAE51635ABD9005DB920 /* GLSDLVideo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7473CAE31635ABD9005DB920 /* GLSDLVideo.cpp */; };
 		7473CAE61635ABD9005DB920 /* GLSDLVideo.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CAE41635ABD9005DB920 /* GLSDLVideo.h */; };
+		7486553816382B6A0096D869 /* Cg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7486553716382B6A0096D869 /* Cg.framework */; };
+		7486553B16382B960096D869 /* Cg.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7486553A16382B960096D869 /* Cg.framework */; };
+		7486553E16382C000096D869 /* GLCgShaderContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7486553C16382C000096D869 /* GLCgShaderContext.cpp */; };
+		7486553F16382C000096D869 /* GLCgShaderContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 7486553D16382C000096D869 /* GLCgShaderContext.h */; };
 		74F3A4FA1632E3870064C9A5 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F3A4F91632E3870064C9A5 /* Cocoa.framework */; };
 		74F3A5041632E3870064C9A5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 74F3A5021632E3870064C9A5 /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
@@ -76,6 +80,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				7486553B16382B960096D869 /* Cg.framework in CopyFiles */,
 				742D34161637A64300A447A2 /* SDL.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -142,6 +147,10 @@
 		7473CADF16358AC6005DB920 /* GLVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLVideo.h; path = ../../../../src/Video/GL/GLVideo.h; sourceTree = "<group>"; };
 		7473CAE31635ABD9005DB920 /* GLSDLVideo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLSDLVideo.cpp; path = ../../../../src/Video/GLSDL/GLSDLVideo.cpp; sourceTree = "<group>"; };
 		7473CAE41635ABD9005DB920 /* GLSDLVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLSDLVideo.h; path = ../../../../src/Video/GLSDL/GLSDLVideo.h; sourceTree = "<group>"; };
+		7486553716382B6A0096D869 /* Cg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cg.framework; path = ../../../vendors/Cg.framework; sourceTree = "<group>"; };
+		7486553A16382B960096D869 /* Cg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cg.framework; path = ../../../vendors/Cg.framework; sourceTree = "<group>"; };
+		7486553C16382C000096D869 /* GLCgShaderContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLCgShaderContext.cpp; path = ../../../../src/Video/GL/Cg/GLCgShaderContext.cpp; sourceTree = "<group>"; };
+		7486553D16382C000096D869 /* GLCgShaderContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLCgShaderContext.h; path = ../../../../src/Video/GL/Cg/GLCgShaderContext.h; sourceTree = "<group>"; };
 		74F3A4F61632E3870064C9A5 /* gs2d.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = gs2d.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		74F3A4F91632E3870064C9A5 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		74F3A4FC1632E3870064C9A5 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -157,6 +166,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7486553816382B6A0096D869 /* Cg.framework in Frameworks */,
 				7458F09A1637A44800D48019 /* SDL.framework in Frameworks */,
 				7458F0801635F18300D48019 /* OpenGL.framework in Frameworks */,
 				74F3A4FA1632E3870064C9A5 /* Cocoa.framework in Frameworks */,
@@ -250,6 +260,7 @@
 		7473CADD16358A8F005DB920 /* GL */ = {
 			isa = PBXGroup;
 			children = (
+				748655401638302E0096D869 /* Shaders */,
 				7458F08E16377D9000D48019 /* GLRectRenderer.cpp */,
 				7458F08F16377D9000D48019 /* GLRectRenderer.h */,
 				7473CADE16358AC6005DB920 /* GLVideo.cpp */,
@@ -268,9 +279,19 @@
 			name = GLSDL;
 			sourceTree = "<group>";
 		};
+		748655401638302E0096D869 /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				7486553C16382C000096D869 /* GLCgShaderContext.cpp */,
+				7486553D16382C000096D869 /* GLCgShaderContext.h */,
+			);
+			name = Shaders;
+			sourceTree = "<group>";
+		};
 		74F3A4EA1632E3870064C9A5 = {
 			isa = PBXGroup;
 			children = (
+				7486553A16382B960096D869 /* Cg.framework */,
 				742D34151637A64300A447A2 /* SDL.framework */,
 				74F3A4FF1632E3870064C9A5 /* gs2d */,
 				74F3A4F81632E3870064C9A5 /* Frameworks */,
@@ -289,6 +310,7 @@
 		74F3A4F81632E3870064C9A5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7486553716382B6A0096D869 /* Cg.framework */,
 				7458F0971637A3E000D48019 /* SDL.framework */,
 				7458F07F1635F18300D48019 /* OpenGL.framework */,
 				74F3A4F91632E3870064C9A5 /* Cocoa.framework */,
@@ -383,6 +405,7 @@
 				7458F0851636CFB200D48019 /* MacOSXFileIOHub.h in Headers */,
 				7458F089163708C600D48019 /* StdAnsiFileManager.h in Headers */,
 				7458F09116377D9000D48019 /* GLRectRenderer.h in Headers */,
+				7486553F16382C000096D869 /* GLCgShaderContext.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -472,6 +495,7 @@
 				7458F0841636CFB200D48019 /* MacOSXFileIOHub.mm in Sources */,
 				7458F088163708C600D48019 /* StdAnsiFileManager.cpp in Sources */,
 				7458F09016377D9000D48019 /* GLRectRenderer.cpp in Sources */,
+				7486553E16382C000096D869 /* GLCgShaderContext.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -27,6 +27,7 @@
 
 #include "GLInclude.h"
 #include "GLRectRenderer.h"
+#include "Cg/GLCGShaderContext.h"
 
 namespace gs2d {
 
@@ -41,6 +42,7 @@ class GLVideo : public virtual Video
 	Color m_backgroundColor;
 	bool m_rendering;
 
+	GLCgShaderContextPtr m_shaderContext;
 	GLRectRenderer m_rectRenderer;
 
 	void Enable2DStates();
