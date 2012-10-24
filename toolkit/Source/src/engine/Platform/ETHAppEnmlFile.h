@@ -30,8 +30,10 @@
 class ETHAppEnmlFile
 {
 public:
-	ETHAppEnmlFile(const gs2d::str_type::string& fileName, const Platform::FileManagerPtr& fileManager,
-				   const gs2d::str_type::string& platformName);
+	ETHAppEnmlFile(
+		const gs2d::str_type::string& fileName,
+		const Platform::FileManagerPtr& fileManager,
+		const gs2d::str_type::string& platformName);
 
 	unsigned int GetWidth() const;
 	unsigned int GetHeight() const;
