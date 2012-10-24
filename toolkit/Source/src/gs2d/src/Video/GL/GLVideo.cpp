@@ -207,6 +207,10 @@ Color GLVideo::GetBGColor() const
 	return m_backgroundColor;
 }
 
+const GLRectRenderer& GLVideo::GetRectRenderer() const
+{
+	return m_rectRenderer;
+}
 
 
 

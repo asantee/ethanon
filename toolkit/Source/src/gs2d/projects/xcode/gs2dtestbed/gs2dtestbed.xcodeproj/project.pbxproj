@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7473CA571632E710005DB920 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7473CA561632E710005DB920 /* SDL.framework */; };
+		742D34121637A60A00A447A2 /* SDL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 742D34111637A60A00A447A2 /* SDL.framework */; };
+		7458F09C1637A49800D48019 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7458F09B1637A49800D48019 /* SDL.framework */; };
 		7473CA611632EA17005DB920 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7473CA601632EA17005DB920 /* OpenGL.framework */; };
-		7473CA661632EDBB005DB920 /* SDL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7473CA561632E710005DB920 /* SDL.framework */; };
 		7473CADB16331681005DB920 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7473CAD716331681005DB920 /* main.cpp */; };
 		7473CADC16331681005DB920 /* SDLMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 7473CADA16331681005DB920 /* SDLMain.m */; };
 		74F3A51E1632E3C20064C9A5 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F3A51D1632E3C20064C9A5 /* Cocoa.framework */; };
@@ -42,14 +42,15 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				7473CA661632EDBB005DB920 /* SDL.framework in CopyFiles */,
+				742D34121637A60A00A447A2 /* SDL.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		7473CA561632E710005DB920 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = ../../../vendors/SDL.framework; sourceTree = "<group>"; };
+		742D34111637A60A00A447A2 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = ../../../vendors/SDL.framework; sourceTree = "<group>"; };
+		7458F09B1637A49800D48019 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = ../../../vendors/SDL.framework; sourceTree = "<group>"; };
 		7473CA601632EA17005DB920 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		7473CAD716331681005DB920 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../../../src/Platform/macosx/main.cpp; sourceTree = "<group>"; };
 		7473CAD816331681005DB920 /* main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = main.h; path = ../../../../src/Platform/macosx/main.h; sourceTree = "<group>"; };
@@ -72,8 +73,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7458F09C1637A49800D48019 /* SDL.framework in Frameworks */,
 				7473CA611632EA17005DB920 /* OpenGL.framework in Frameworks */,
-				7473CA571632E710005DB920 /* SDL.framework in Frameworks */,
 				74F3A5591632E45F0064C9A5 /* gs2d.framework in Frameworks */,
 				74F3A51E1632E3C20064C9A5 /* Cocoa.framework in Frameworks */,
 			);
@@ -85,6 +86,7 @@
 		74F3A50E1632E3C20064C9A5 = {
 			isa = PBXGroup;
 			children = (
+				742D34111637A60A00A447A2 /* SDL.framework */,
 				74F3A5231632E3C20064C9A5 /* gs2dtestbed */,
 				74F3A51C1632E3C20064C9A5 /* Frameworks */,
 				74F3A51A1632E3C20064C9A5 /* Products */,
@@ -103,8 +105,8 @@
 		74F3A51C1632E3C20064C9A5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7458F09B1637A49800D48019 /* SDL.framework */,
 				7473CA601632EA17005DB920 /* OpenGL.framework */,
-				7473CA561632E710005DB920 /* SDL.framework */,
 				74F3A51D1632E3C20064C9A5 /* Cocoa.framework */,
 				74F3A51F1632E3C20064C9A5 /* Other Frameworks */,
 			);
@@ -322,6 +324,7 @@
 		74F3A5381632E3C30064C9A5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -339,6 +342,7 @@
 					"\"$(SRCROOT)/../../../src\"",
 				);
 				INFOPLIST_FILE = "gs2dtestbed/gs2dtestbed-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -347,6 +351,7 @@
 		74F3A5391632E3C30064C9A5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -361,6 +366,7 @@
 					"\"$(SRCROOT)/../../../src\"",
 				);
 				INFOPLIST_FILE = "gs2dtestbed/gs2dtestbed-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

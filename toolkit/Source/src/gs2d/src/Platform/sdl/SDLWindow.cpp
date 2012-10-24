@@ -59,7 +59,8 @@ SDLWindow::SDLWindow(Platform::FileIOHubPtr fileIOHub) :
 	m_fileIOHub(fileIOHub),
 	m_maximizable(false),
 	m_windowed(true),
-	m_sync(true)
+	m_sync(true),
+	m_quitKeysEnabled(true)
 {
 }
 
@@ -84,7 +85,7 @@ bool SDLWindow::StartApplication(
 	m_windowed = windowed;
 	m_sync = sync;
 
-	if (SDL_Init( SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) < 0)
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) < 0)
 	{
 		Message("SDL initialization failed", GSMT_ERROR);
 		return false;
@@ -95,7 +96,7 @@ bool SDLWindow::StartApplication(
 	const int bpp = SetPixelFormat(info, pfBB);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-	Uint32 flags = AssembleFlags(windowed, maximizable, sync);
+	const Uint32 flags = AssembleFlags(windowed, maximizable, sync);
 
 	if (sync)
 	{
@@ -104,10 +105,15 @@ bool SDLWindow::StartApplication(
 
 	if (SDL_SetVideoMode(static_cast<int>(m_screenSize.x), static_cast<int>(m_screenSize.y), bpp, flags) == 0)
 	{
-		Message("Invalid video mode - GAMESPACE_VIDEO_HANDLER::StartApplication", GSMT_ERROR);
+		Message("Invalid video mode - SDLWindow::StartApplication", GSMT_ERROR);
 		return false;
 	}
-		
+
+	// enables quit shortcuts on mac
+	/*#ifdef MACOSX
+		setenv("SDL_ENABLEAPPEVENTS", "1", 1);
+	#endif*/
+
 	SetWindowTitle(winTitle);
 	ReadDisplayModes();
 
@@ -191,6 +197,24 @@ Application::APP_STATUS SDLWindow::HandleEvents()
 			break;
 		}
 	}
+
+	Uint8 *keys = SDL_GetKeyState(NULL);
+
+	//const SDLKey macSDLK_LOPTION = SDLK_LALT;
+	//const SDLKey macSDLK_LCOMMAND = SDLK_LMETA;
+	//const SDLKey macSDLK_LCONTROL = SDLK_LCTRL;
+
+	// This is a workaround due to sucky and outdated SDL implementation
+	// Always enable quit shortcut on fullscreen mode otherwise the user won't
+	// be able to close the window
+	if (QuitShortcutsEnabled() || !IsWindowed())
+	{
+		if ((keys[SDLK_LMETA] || keys[SDLK_RMETA]) && keys[SDLK_q])
+		{
+			r = APP_QUIT;
+		}
+	}
+
 	return r;
 }
 
@@ -287,33 +311,34 @@ math::Vector2 SDLWindow::GetScreenSizeF() const
 	return m_screenSize;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 void SDLWindow::EnableQuitShortcuts(const bool enable)
 {
+	m_quitKeysEnabled = enable;
 }
 
 bool SDLWindow::QuitShortcutsEnabled()
 {
-	return false;
-}
-
-void SDLWindow::EnableMediaPlaying(const bool enable)
-{
+	return m_quitKeysEnabled;
 }
 
 bool SDLWindow::IsWindowed() const
 {
-	return false;
+	SDL_Surface* surface = SDL_GetVideoSurface();
+	return !(surface->flags & SDL_FULLSCREEN);
+}
+
+
+
+
+
+
+
+
+
+
+
+void SDLWindow::EnableMediaPlaying(const bool enable)
+{
 }
 
 math::Vector2i SDLWindow::GetWindowPosition()

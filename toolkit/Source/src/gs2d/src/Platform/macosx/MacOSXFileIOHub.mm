@@ -22,6 +22,7 @@
 
 #include "MacOSXFileIOHub.h"
 #include "../Platform.h"
+#include "../../Application.h"
 
 namespace Platform {
 
@@ -33,15 +34,14 @@ static NSString* CreateDirectory(NSString* dir)
 	return dir;
 }
 
-static gs2d::str_type::string GetResourceDirectory()
+static gs2d::str_type::string ResourceDirectory()
 {
 	NSString* resourceDir = [[NSBundle mainBundle] bundlePath];
 	resourceDir = [resourceDir stringByAppendingString:@"/assets/"];
-	CreateDirectory(resourceDir);
 	return [resourceDir cStringUsingEncoding:1];
 }
 
-static gs2d::str_type::string GetGlobalExternalStorageDirectory()
+static gs2d::str_type::string GlobalExternalStorageDirectory()
 {
 	NSString* globalExternalStorageDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 
@@ -51,7 +51,7 @@ static gs2d::str_type::string GetGlobalExternalStorageDirectory()
 	return [globalExternalStorageDir cStringUsingEncoding:1];
 }
 
-static gs2d::str_type::string GetExternalStorageDirectory()
+static gs2d::str_type::string ExternalStorageDirectory()
 {
 	NSString* externalStorageDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 
@@ -65,18 +65,28 @@ MacOSXFileIOHub::MacOSXFileIOHub(
 	Platform::FileManagerPtr fileManager,
 	const gs2d::str_type::string& bitmapFontSearchDirectory) :
 	FileIOHub(
-		fileManager, Platform::GetResourceDirectory(),
+		fileManager, ResourceDirectory(),
 		GetModuleDirectory(),
-		Platform::GetExternalStorageDirectory(),
-		Platform::GetGlobalExternalStorageDirectory(),
+		ExternalStorageDirectory(),
+		GlobalExternalStorageDirectory(),
 		bitmapFontSearchDirectory)
 {
-	CreateDirectory([NSString stringWithCString:GetExternalStorageDirectory().c_str() encoding:NSUTF8StringEncoding]);
+	CreateDirectory([NSString stringWithCString:ExternalStorageDirectory().c_str() encoding:NSUTF8StringEncoding]);
+	CreateDirectory([NSString stringWithCString:ResourceDirectory().c_str() encoding:NSUTF8StringEncoding]);
+
+	#ifdef DEBUG
+	gs2d::ShowMessage(GetResourceDirectory(), gs2d::GSMT_INFO);
+	gs2d::ShowMessage(GetProgramDirectory(), gs2d::GSMT_INFO);
+	gs2d::ShowMessage(GetExternalStorageDirectory(), gs2d::GSMT_INFO);
+	gs2d::ShowMessage(GetGlobalExternalStorageDirectory(), gs2d::GSMT_INFO);
+	#endif
 }
 
 gs2d::str_type::string MacOSXFileIOHub::GetGlobalExternalStorageDirectory() const
 {
-	CreateDirectory([NSString stringWithCString:GetGlobalExternalStorageDirectory().c_str() encoding:NSUTF8StringEncoding]);	
+	// create directory before informing it to the user
+	// it forces your application to create the directory only if the user will need it
+	CreateDirectory([NSString stringWithCString:GlobalExternalStorageDirectory().c_str() encoding:NSUTF8StringEncoding]);	
 	return FileIOHub::GetGlobalExternalStorageDirectory();
 }
 

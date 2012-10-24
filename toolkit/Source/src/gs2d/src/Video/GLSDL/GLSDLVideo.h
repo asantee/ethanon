@@ -39,7 +39,19 @@ class GLSDLVideo : public GLVideo, public SDLWindow
 		const Texture::PIXEL_FORMAT pfBB = Texture::PF_UNKNOWN,
 		const bool maximizable = false);
 
+	boost::weak_ptr<GLSDLVideo> weak_this;
 public:
+
+	static boost::shared_ptr<GLSDLVideo> Create(
+		const unsigned int width,
+		const unsigned int height,
+		const str_type::string& winTitle,
+		const bool windowed,
+		const bool sync,
+		const Platform::FileIOHubPtr& fileIOHub,
+		const Texture::PIXEL_FORMAT pfBB,
+		const bool maximizable);
+
 	GLSDLVideo(
 		Platform::FileIOHubPtr fileIOHub,
 		const unsigned int width,

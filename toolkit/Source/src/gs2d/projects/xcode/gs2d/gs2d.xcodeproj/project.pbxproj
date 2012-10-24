@@ -7,11 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		742D34161637A64300A447A2 /* SDL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 742D34151637A64300A447A2 /* SDL.framework */; };
 		7458F0801635F18300D48019 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7458F07F1635F18300D48019 /* OpenGL.framework */; };
 		7458F0841636CFB200D48019 /* MacOSXFileIOHub.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7458F0821636CFB200D48019 /* MacOSXFileIOHub.mm */; };
 		7458F0851636CFB200D48019 /* MacOSXFileIOHub.h in Headers */ = {isa = PBXBuildFile; fileRef = 7458F0831636CFB200D48019 /* MacOSXFileIOHub.h */; };
 		7458F088163708C600D48019 /* StdAnsiFileManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7458F086163708C600D48019 /* StdAnsiFileManager.cpp */; };
 		7458F089163708C600D48019 /* StdAnsiFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7458F087163708C600D48019 /* StdAnsiFileManager.h */; };
+		7458F09016377D9000D48019 /* GLRectRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7458F08E16377D9000D48019 /* GLRectRenderer.cpp */; };
+		7458F09116377D9000D48019 /* GLRectRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7458F08F16377D9000D48019 /* GLRectRenderer.h */; };
+		7458F09A1637A44800D48019 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7458F0971637A3E000D48019 /* SDL.framework */; };
 		7473CA7916330304005DB920 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7473CA6B16330304005DB920 /* Application.cpp */; };
 		7473CA7A16330304005DB920 /* Application.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CA6C16330304005DB920 /* Application.h */; };
 		7473CA7B16330304005DB920 /* Audio.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CA6D16330304005DB920 /* Audio.h */; };
@@ -63,15 +67,32 @@
 		7473CAE61635ABD9005DB920 /* GLSDLVideo.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CAE41635ABD9005DB920 /* GLSDLVideo.h */; };
 		74F3A4FA1632E3870064C9A5 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F3A4F91632E3870064C9A5 /* Cocoa.framework */; };
 		74F3A5041632E3870064C9A5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 74F3A5021632E3870064C9A5 /* InfoPlist.strings */; };
-		74F3A55B1632E4A70064C9A5 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F3A55A1632E4A70064C9A5 /* SDL.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		742D34131637A62C00A447A2 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				742D34161637A64300A447A2 /* SDL.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		742D34151637A64300A447A2 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = ../../../vendors/SDL.framework; sourceTree = "<group>"; };
 		7458F07F1635F18300D48019 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		7458F0821636CFB200D48019 /* MacOSXFileIOHub.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MacOSXFileIOHub.mm; path = ../../../../src/Platform/macosx/MacOSXFileIOHub.mm; sourceTree = "<group>"; };
 		7458F0831636CFB200D48019 /* MacOSXFileIOHub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacOSXFileIOHub.h; path = ../../../../src/Platform/macosx/MacOSXFileIOHub.h; sourceTree = "<group>"; };
 		7458F086163708C600D48019 /* StdAnsiFileManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StdAnsiFileManager.cpp; path = ../../../../src/Platform/StdAnsiFileManager.cpp; sourceTree = "<group>"; };
 		7458F087163708C600D48019 /* StdAnsiFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StdAnsiFileManager.h; path = ../../../../src/Platform/StdAnsiFileManager.h; sourceTree = "<group>"; };
+		7458F08E16377D9000D48019 /* GLRectRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLRectRenderer.cpp; path = ../../../../src/Video/GL/GLRectRenderer.cpp; sourceTree = "<group>"; };
+		7458F08F16377D9000D48019 /* GLRectRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLRectRenderer.h; path = ../../../../src/Video/GL/GLRectRenderer.h; sourceTree = "<group>"; };
+		7458F09216377E3A00D48019 /* GLInclude.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLInclude.h; path = ../../../../src/Video/GL/GLInclude.h; sourceTree = "<group>"; };
+		7458F0971637A3E000D48019 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = ../../../vendors/SDL.framework; sourceTree = "<group>"; };
 		7473CA6B16330304005DB920 /* Application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Application.cpp; path = ../../../../src/Application.cpp; sourceTree = "<group>"; };
 		7473CA6C16330304005DB920 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Application.h; path = ../../../../src/Application.h; sourceTree = "<group>"; };
 		7473CA6D16330304005DB920 /* Audio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Audio.h; path = ../../../../src/Audio.h; sourceTree = "<group>"; };
@@ -129,7 +150,6 @@
 		74F3A5011632E3870064C9A5 /* gs2d-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "gs2d-Info.plist"; sourceTree = "<group>"; };
 		74F3A5031632E3870064C9A5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		74F3A5051632E3870064C9A5 /* gs2d-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "gs2d-Prefix.pch"; sourceTree = "<group>"; };
-		74F3A55A1632E4A70064C9A5 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = ../../../vendors/SDL.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,8 +157,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7458F09A1637A44800D48019 /* SDL.framework in Frameworks */,
 				7458F0801635F18300D48019 /* OpenGL.framework in Frameworks */,
-				74F3A55B1632E4A70064C9A5 /* SDL.framework in Frameworks */,
 				74F3A4FA1632E3870064C9A5 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -230,8 +250,11 @@
 		7473CADD16358A8F005DB920 /* GL */ = {
 			isa = PBXGroup;
 			children = (
+				7458F08E16377D9000D48019 /* GLRectRenderer.cpp */,
+				7458F08F16377D9000D48019 /* GLRectRenderer.h */,
 				7473CADE16358AC6005DB920 /* GLVideo.cpp */,
 				7473CADF16358AC6005DB920 /* GLVideo.h */,
+				7458F09216377E3A00D48019 /* GLInclude.h */,
 			);
 			name = GL;
 			sourceTree = "<group>";
@@ -248,6 +271,7 @@
 		74F3A4EA1632E3870064C9A5 = {
 			isa = PBXGroup;
 			children = (
+				742D34151637A64300A447A2 /* SDL.framework */,
 				74F3A4FF1632E3870064C9A5 /* gs2d */,
 				74F3A4F81632E3870064C9A5 /* Frameworks */,
 				74F3A4F71632E3870064C9A5 /* Products */,
@@ -265,8 +289,8 @@
 		74F3A4F81632E3870064C9A5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7458F0971637A3E000D48019 /* SDL.framework */,
 				7458F07F1635F18300D48019 /* OpenGL.framework */,
-				74F3A55A1632E4A70064C9A5 /* SDL.framework */,
 				74F3A4F91632E3870064C9A5 /* Cocoa.framework */,
 				74F3A4FB1632E3870064C9A5 /* Other Frameworks */,
 			);
@@ -358,6 +382,7 @@
 				7473CAE61635ABD9005DB920 /* GLSDLVideo.h in Headers */,
 				7458F0851636CFB200D48019 /* MacOSXFileIOHub.h in Headers */,
 				7458F089163708C600D48019 /* StdAnsiFileManager.h in Headers */,
+				7458F09116377D9000D48019 /* GLRectRenderer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -372,6 +397,7 @@
 				74F3A4F21632E3870064C9A5 /* Frameworks */,
 				74F3A4F31632E3870064C9A5 /* Headers */,
 				74F3A4F41632E3870064C9A5 /* Resources */,
+				742D34131637A62C00A447A2 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -445,6 +471,7 @@
 				7473CAE51635ABD9005DB920 /* GLSDLVideo.cpp in Sources */,
 				7458F0841636CFB200D48019 /* MacOSXFileIOHub.mm in Sources */,
 				7458F088163708C600D48019 /* StdAnsiFileManager.cpp in Sources */,
+				7458F09016377D9000D48019 /* GLRectRenderer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -516,6 +543,7 @@
 		74F3A50C1632E3870064C9A5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -535,6 +563,7 @@
 					"\"$(SRCROOT)/../../../vendors/SDL.framework/Headers\"",
 				);
 				INFOPLIST_FILE = "gs2d/gs2d-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = framework;
 			};
@@ -543,6 +572,7 @@
 		74F3A50D1632E3870064C9A5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -559,6 +589,7 @@
 					"\"$(SRCROOT)/../../../vendors/SDL.framework/Headers\"",
 				);
 				INFOPLIST_FILE = "gs2d/gs2d-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = framework;
 			};

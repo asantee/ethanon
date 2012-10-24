@@ -24,6 +24,35 @@
 
 namespace gs2d {
 
+VideoPtr CreateVideo(
+	const unsigned int width,
+	const unsigned int height,
+	const str_type::string& winTitle,
+	const bool windowed,
+	const bool sync,
+	const Platform::FileIOHubPtr& fileIOHub,
+	const Texture::PIXEL_FORMAT pfBB,
+	const bool maximizable)
+{
+	return GLSDLVideo::Create(width, height, winTitle, windowed, sync, fileIOHub, pfBB, maximizable);
+}
+
+boost::shared_ptr<GLSDLVideo> GLSDLVideo::Create(
+	const unsigned int width,
+	const unsigned int height,
+	const str_type::string& winTitle,
+	const bool windowed,
+	const bool sync,
+	const Platform::FileIOHubPtr& fileIOHub,
+	const Texture::PIXEL_FORMAT pfBB,
+	const bool maximizable)
+{
+	boost::shared_ptr<GLSDLVideo> p(
+		new GLSDLVideo(fileIOHub, width, height, winTitle, windowed, sync, maximizable));
+	p->weak_this = p;
+	return p;
+}
+
 GLSDLVideo::GLSDLVideo(
 	Platform::FileIOHubPtr fileIOHub,
 	const unsigned int width,

@@ -25,13 +25,8 @@
 
 #include "../../Video.h"
 
-#if defined(MACOSX)
- #include <OpenGL/gl.h>
- #include <OpenGL/glu.h>
-#else
- #include <GL/gl.h>
- #include <GL/glu.h>
-#endif
+#include "GLInclude.h"
+#include "GLRectRenderer.h"
 
 namespace gs2d {
 
@@ -45,6 +40,8 @@ class GLVideo : public virtual Video
 	math::Matrix4x4 m_ortho;
 	Color m_backgroundColor;
 	bool m_rendering;
+
+	GLRectRenderer m_rectRenderer;
 
 	void Enable2DStates();
 
@@ -213,6 +210,8 @@ public:
 		const wchar_t *wcsName,
 		const Texture::BITMAP_FORMAT fmt = Texture::BF_BMP,
 		math::Rect2D rect = math::Rect2D(0,0,0,0));
+
+	const GLRectRenderer& GetRectRenderer() const;
 };
 
 }
