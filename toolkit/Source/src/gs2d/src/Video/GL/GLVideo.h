@@ -214,6 +214,8 @@ public:
 		math::Rect2D rect = math::Rect2D(0,0,0,0));
 
 	const GLRectRenderer& GetRectRenderer() const;
+
+	static void UnbindFrameBuffer();
 };
 
 }

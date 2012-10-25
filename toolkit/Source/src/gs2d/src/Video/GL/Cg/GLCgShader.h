@@ -29,6 +29,7 @@
 #include <Cg/cg.h>
 
 #include <map>
+#include <list>
 
 namespace gs2d {
 
@@ -50,6 +51,8 @@ class GLCgShader : public Shader
 
 	CGcontext ExtractCgContext(ShaderContextPtr context);
 	void FillParameters(const CGenum domain);
+
+	std::list<CGparameter> m_enabledTextures;
 
 public:
 	GLCgShader();
@@ -88,6 +91,7 @@ public:
 	SHADER_FOCUS GetShaderFocus() const;
 	SHADER_PROFILE GetShaderProfile() const;
 	void UnbindShader();
+	void DisableTextures();
 };
 
 }

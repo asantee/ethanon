@@ -71,6 +71,18 @@
 		7486553F16382C000096D869 /* GLCgShaderContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 7486553D16382C000096D869 /* GLCgShaderContext.h */; };
 		7486554316383A540096D869 /* GLCgShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7486554116383A540096D869 /* GLCgShader.cpp */; };
 		7486554416383A540096D869 /* GLCgShader.h in Headers */ = {isa = PBXBuildFile; fileRef = 7486554216383A540096D869 /* GLCgShader.h */; };
+		7486554716397C1D0096D869 /* GLTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7486554516397C1C0096D869 /* GLTexture.cpp */; };
+		7486554816397C1D0096D869 /* GLTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = 7486554616397C1D0096D869 /* GLTexture.h */; };
+		74865554163981310096D869 /* image_DXT.c in Sources */ = {isa = PBXBuildFile; fileRef = 7486554A163981310096D869 /* image_DXT.c */; };
+		74865555163981310096D869 /* image_DXT.h in Headers */ = {isa = PBXBuildFile; fileRef = 7486554B163981310096D869 /* image_DXT.h */; };
+		74865556163981310096D869 /* image_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = 7486554C163981310096D869 /* image_helper.c */; };
+		74865557163981310096D869 /* image_helper.h in Headers */ = {isa = PBXBuildFile; fileRef = 7486554D163981310096D869 /* image_helper.h */; };
+		74865558163981310096D869 /* SOIL.c in Sources */ = {isa = PBXBuildFile; fileRef = 7486554E163981310096D869 /* SOIL.c */; };
+		74865559163981310096D869 /* SOIL.h in Headers */ = {isa = PBXBuildFile; fileRef = 7486554F163981310096D869 /* SOIL.h */; };
+		7486555A163981310096D869 /* stb_image_aug.c in Sources */ = {isa = PBXBuildFile; fileRef = 74865550163981310096D869 /* stb_image_aug.c */; };
+		7486555B163981310096D869 /* stb_image_aug.h in Headers */ = {isa = PBXBuildFile; fileRef = 74865551163981310096D869 /* stb_image_aug.h */; };
+		7486555C163981310096D869 /* stbi_DDS_aug_c.h in Headers */ = {isa = PBXBuildFile; fileRef = 74865552163981310096D869 /* stbi_DDS_aug_c.h */; };
+		7486555D163981310096D869 /* stbi_DDS_aug.h in Headers */ = {isa = PBXBuildFile; fileRef = 74865553163981310096D869 /* stbi_DDS_aug.h */; };
 		74F3A4FA1632E3870064C9A5 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F3A4F91632E3870064C9A5 /* Cocoa.framework */; };
 		74F3A5041632E3870064C9A5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 74F3A5021632E3870064C9A5 /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
@@ -155,6 +167,18 @@
 		7486553D16382C000096D869 /* GLCgShaderContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLCgShaderContext.h; path = ../../../../src/Video/GL/Cg/GLCgShaderContext.h; sourceTree = "<group>"; };
 		7486554116383A540096D869 /* GLCgShader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLCgShader.cpp; path = ../../../../src/Video/GL/Cg/GLCgShader.cpp; sourceTree = "<group>"; };
 		7486554216383A540096D869 /* GLCgShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLCgShader.h; path = ../../../../src/Video/GL/Cg/GLCgShader.h; sourceTree = "<group>"; };
+		7486554516397C1C0096D869 /* GLTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLTexture.cpp; path = ../../../../src/Video/GL/GLTexture.cpp; sourceTree = "<group>"; };
+		7486554616397C1D0096D869 /* GLTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLTexture.h; path = ../../../../src/Video/GL/GLTexture.h; sourceTree = "<group>"; };
+		7486554A163981310096D869 /* image_DXT.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = image_DXT.c; path = ../../../vendors/soil/image_DXT.c; sourceTree = "<group>"; };
+		7486554B163981310096D869 /* image_DXT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = image_DXT.h; path = ../../../vendors/soil/image_DXT.h; sourceTree = "<group>"; };
+		7486554C163981310096D869 /* image_helper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = image_helper.c; path = ../../../vendors/soil/image_helper.c; sourceTree = "<group>"; };
+		7486554D163981310096D869 /* image_helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = image_helper.h; path = ../../../vendors/soil/image_helper.h; sourceTree = "<group>"; };
+		7486554E163981310096D869 /* SOIL.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = SOIL.c; path = ../../../vendors/soil/SOIL.c; sourceTree = "<group>"; };
+		7486554F163981310096D869 /* SOIL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SOIL.h; path = ../../../vendors/soil/SOIL.h; sourceTree = "<group>"; };
+		74865550163981310096D869 /* stb_image_aug.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = stb_image_aug.c; path = ../../../vendors/soil/stb_image_aug.c; sourceTree = "<group>"; };
+		74865551163981310096D869 /* stb_image_aug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_image_aug.h; path = ../../../vendors/soil/stb_image_aug.h; sourceTree = "<group>"; };
+		74865552163981310096D869 /* stbi_DDS_aug_c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stbi_DDS_aug_c.h; path = ../../../vendors/soil/stbi_DDS_aug_c.h; sourceTree = "<group>"; };
+		74865553163981310096D869 /* stbi_DDS_aug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stbi_DDS_aug.h; path = ../../../vendors/soil/stbi_DDS_aug.h; sourceTree = "<group>"; };
 		74F3A4F61632E3870064C9A5 /* gs2d.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = gs2d.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		74F3A4F91632E3870064C9A5 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		74F3A4FC1632E3870064C9A5 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -270,6 +294,8 @@
 				7473CADE16358AC6005DB920 /* GLVideo.cpp */,
 				7473CADF16358AC6005DB920 /* GLVideo.h */,
 				7458F09216377E3A00D48019 /* GLInclude.h */,
+				7486554516397C1C0096D869 /* GLTexture.cpp */,
+				7486554616397C1D0096D869 /* GLTexture.h */,
 			);
 			name = GL;
 			sourceTree = "<group>";
@@ -294,12 +320,30 @@
 			name = Shaders;
 			sourceTree = "<group>";
 		};
+		74865549163980EF0096D869 /* SOIL */ = {
+			isa = PBXGroup;
+			children = (
+				7486554A163981310096D869 /* image_DXT.c */,
+				7486554B163981310096D869 /* image_DXT.h */,
+				7486554C163981310096D869 /* image_helper.c */,
+				7486554D163981310096D869 /* image_helper.h */,
+				7486554E163981310096D869 /* SOIL.c */,
+				7486554F163981310096D869 /* SOIL.h */,
+				74865550163981310096D869 /* stb_image_aug.c */,
+				74865551163981310096D869 /* stb_image_aug.h */,
+				74865552163981310096D869 /* stbi_DDS_aug_c.h */,
+				74865553163981310096D869 /* stbi_DDS_aug.h */,
+			);
+			name = SOIL;
+			sourceTree = "<group>";
+		};
 		74F3A4EA1632E3870064C9A5 = {
 			isa = PBXGroup;
 			children = (
 				7486553A16382B960096D869 /* Cg.framework */,
 				742D34151637A64300A447A2 /* SDL.framework */,
 				74F3A4FF1632E3870064C9A5 /* gs2d */,
+				74865549163980EF0096D869 /* SOIL */,
 				74F3A4F81632E3870064C9A5 /* Frameworks */,
 				74F3A4F71632E3870064C9A5 /* Products */,
 			);
@@ -413,6 +457,13 @@
 				7458F09116377D9000D48019 /* GLRectRenderer.h in Headers */,
 				7486553F16382C000096D869 /* GLCgShaderContext.h in Headers */,
 				7486554416383A540096D869 /* GLCgShader.h in Headers */,
+				7486554816397C1D0096D869 /* GLTexture.h in Headers */,
+				74865555163981310096D869 /* image_DXT.h in Headers */,
+				74865557163981310096D869 /* image_helper.h in Headers */,
+				74865559163981310096D869 /* SOIL.h in Headers */,
+				7486555B163981310096D869 /* stb_image_aug.h in Headers */,
+				7486555C163981310096D869 /* stbi_DDS_aug_c.h in Headers */,
+				7486555D163981310096D869 /* stbi_DDS_aug.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -504,6 +555,11 @@
 				7458F09016377D9000D48019 /* GLRectRenderer.cpp in Sources */,
 				7486553E16382C000096D869 /* GLCgShaderContext.cpp in Sources */,
 				7486554316383A540096D869 /* GLCgShader.cpp in Sources */,
+				7486554716397C1D0096D869 /* GLTexture.cpp in Sources */,
+				74865554163981310096D869 /* image_DXT.c in Sources */,
+				74865556163981310096D869 /* image_helper.c in Sources */,
+				74865558163981310096D869 /* SOIL.c in Sources */,
+				7486555A163981310096D869 /* stb_image_aug.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -592,7 +648,7 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../vendors/BoostSDK\"",
-					"\"$(SRCROOT)/../../../vendors/SDL.framework/Headers\"",
+					"\"$(SRCROOT)/../../../vendors/soil\"",
 				);
 				INFOPLIST_FILE = "gs2d/gs2d-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -618,7 +674,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = MACOSX;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../vendors/BoostSDK\"",
-					"\"$(SRCROOT)/../../../vendors/SDL.framework/Headers\"",
+					"\"$(SRCROOT)/../../../vendors/soil\"",
 				);
 				INFOPLIST_FILE = "gs2d/gs2d-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";

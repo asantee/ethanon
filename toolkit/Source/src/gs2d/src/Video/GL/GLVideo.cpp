@@ -24,6 +24,11 @@
 
 namespace gs2d {
 
+void GLVideo::UnbindFrameBuffer()
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
 GLVideo::GLVideo() :
 	m_filter(Video::TM_UNKNOWN),
 	m_textureExtension(GL_TEXTURE_2D),
