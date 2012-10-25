@@ -1291,8 +1291,7 @@ bool D3D9Video::DrawRectangle(const Vector2 &v2Pos, const Vector2 &v2Size,
 {
 	if (v2Size == Vector2(0,0))
 	{
-		Message(L"Invalid size argument - D3D9Video::DrawRectangle");
-		return false;
+		return true;
 	}
 
 	Vector2 v2Center;
