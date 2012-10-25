@@ -6,8 +6,6 @@
 
 #include "main.h"
 
-#include <Video/GL/GLRectRenderer.h>
-
 int SDL_main (int argc, char **argv)
 {
 	Platform::FileManagerPtr fileManager(new Platform::StdAnsiFileManager(""));
@@ -24,7 +22,13 @@ int SDL_main (int argc, char **argv)
 			continue;
 
 		video->BeginSpriteScene();
-		gs2d::GLRectRenderer().Draw(gs2d::Sprite::RM_TWO_TRIANGLES);
+
+		video->DrawRectangle(
+			gs2d::math::Vector2(10,10),
+			gs2d::math::Vector2(32,32),
+			gs2d::constant::BLUE, gs2d::constant::GREEN,
+			gs2d::constant::RED, gs2d::constant::YELLOW);
+
 		video->EndSpriteScene();
 	}
 	return 0;

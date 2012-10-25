@@ -94,6 +94,8 @@ public:
 	void DisableTextures();
 };
 
+typedef boost::shared_ptr<GLCgShader> GLCgShaderPtr;
+
 }
 
 #endif

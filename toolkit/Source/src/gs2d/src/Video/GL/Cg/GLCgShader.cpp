@@ -30,25 +30,6 @@
 
 namespace gs2d {
 
-Shader::SHADER_PROFILE CGProfileToGSProfile(const CGprofile prof)
-{
-	switch (prof)
-	{
-	case CG_PROFILE_ARBFP1:
-	case CG_PROFILE_ARBVP1:
-		return Shader::SP_MODEL_1;
-	case CG_PROFILE_FP20:
-	case CG_PROFILE_VP20:
-		return Shader::SP_MODEL_2;
-	case CG_PROFILE_FP30:
-	case CG_PROFILE_VP30:
-		return Shader::SP_MODEL_3;
-	default:
-		return Shader::SP_MODEL_3;
-	}
-	return Shader::SP_NONE;
-}
-
 CGparameter SeekParameter(const std::string& name, std::map<std::string, CGparameter>& params)
 {
 	std::map<std::string, CGparameter>::iterator iter = params.find(name);
@@ -94,7 +75,6 @@ bool GLCgShader::CheckForError(const std::string& situation, const std::string& 
 
 	if (error != CG_NO_ERROR)
 	{
-		bool r = false;
 		std::string text = "Situation: ";
 		text.append(situation);
 		text.append("\nCg error string: ");
@@ -103,51 +83,30 @@ bool GLCgShader::CheckForError(const std::string& situation, const std::string& 
 		text.append(additionalInfo);
 		if (error == CG_COMPILER_ERROR)
 		{
-			r = true;
 			text += "\nCg compiler error: ";
 			text += cgGetLastListing(m_cgContext);
 		}
 		if (error == CG_UNKNOWN_PROFILE_ERROR)
 		{
-			r = true;
 			text += "\nThe current profile is not supported!";
 		}
 		ShowMessage(text, error == CG_COMPILER_ERROR ? GSMT_ERROR : GSMT_WARNING);
 		return true;
 	}
-	return false;
+	else
+	{
+		return false;
+	}
 }
 
 void GLCgShader::UnbindShader()
 {
 	cgGLUnbindProgram(m_cgProfile);
-	if (CheckForError("Shader::UnbindShader", m_shaderName))
-		return;
+	cgGLDisableProfile(m_cgProfile);
 }
 
 bool GLCgShader::SetShader()
 {
-	CGprofile latestProfile;
-	if (m_focus == SF_PIXEL)
-	{
-		latestProfile = cgGLGetLatestProfile(CG_GL_FRAGMENT);
-	}
-	else
-	{
-		latestProfile = cgGLGetLatestProfile(CG_GL_VERTEX);
-	}
-
-	if (latestProfile != CG_PROFILE_UNKNOWN)
-	{
-		cgGLDisableProfile(latestProfile);
-		if (CheckForError("cgGLDisableProfile", m_shaderName))
-			return false;
-	}
-
-	cgGLSetContextOptimalOptions(m_cgContext, m_cgProfile);
-	if (CheckForError("cgGLSetContextOptimalOptions", m_shaderName))
-		return false;
-
 	cgGLBindProgram(m_cgProgam);
 	if (CheckForError("cgGLBindProgram", m_shaderName))
 		return false;
@@ -187,52 +146,21 @@ bool GLCgShader::LoadShaderFromString(
 	m_focus = focus;
 	m_profile = profile;
 
-	CGprofile latestProfile;
 	if (focus == Shader::SF_PIXEL)
 	{
-		latestProfile = cgGLGetLatestProfile(CG_GL_FRAGMENT);
-		switch (profile)
-		{
-		case Shader::SP_MODEL_1:
-			m_cgProfile = CG_PROFILE_ARBFP1;
-			break;
-		case Shader::SP_MODEL_2:
-			m_cgProfile = CG_PROFILE_FP20;
-			break;
-		case Shader::SP_MODEL_3:
-			m_cgProfile = CG_PROFILE_FP30;
-			break;
-		default:
-			m_cgProfile = latestProfile;
-		};
+		//CGprofile latestProfile = cgGLGetLatestProfile(CG_GL_FRAGMENT);
+		m_cgProfile = CG_PROFILE_ARBFP1;
 	}
 	else
 	{
-		latestProfile = cgGLGetLatestProfile(CG_GL_VERTEX);
-		switch (profile)
-		{
-		case Shader::SP_MODEL_1:
+		#ifdef MACOSX
 			m_cgProfile = CG_PROFILE_ARBVP1;
-			break;
-		case Shader::SP_MODEL_2:
-			m_cgProfile = CG_PROFILE_VP20;
-			break;
-		case Shader::SP_MODEL_3:
-			m_cgProfile = CG_PROFILE_VP30;
-			break;
-		default:
-			m_cgProfile = latestProfile;
-		};
+		#else
+			m_cgProfile = cgGLGetLatestProfile(CG_GL_VERTEX);
+		#endif
 	}
 
-	if (profile > CGProfileToGSProfile(latestProfile))
-	{
-		m_cgProfile = latestProfile;
-		ShowMessage("Shader::LoadShader the current profile is not supported", GSMT_ERROR);
-	}
-
-	const char **profileOpts;
-	profileOpts = cgGLGetOptimalOptions(m_cgProfile);
+	cgGLSetOptimalOptions(m_cgProfile);
 	if (CheckForError("Shader::LoadShader getting optimal options", m_shaderName))
 		return false;
 
@@ -242,7 +170,7 @@ bool GLCgShader::LoadShaderFromString(
 		codeAsciiString.c_str(),
 		m_cgProfile,
 		entry,
-		profileOpts);
+		NULL);
 
 	if (CheckForError("Shader::LoadShader creating program from file", m_shaderName))
 		return false;
@@ -262,7 +190,8 @@ void GLCgShader::FillParameters(const CGenum domain)
 	CGparameter param = cgGetFirstParameter(m_cgProgam, domain);
 	while (param)
 	{
-		m_params[cgGetParameterName(param)] = param;
+		const char* name = cgGetParameterName(param);
+		m_params[name] = param;
 		param = cgGetNextParameter(param);
 	}
 }

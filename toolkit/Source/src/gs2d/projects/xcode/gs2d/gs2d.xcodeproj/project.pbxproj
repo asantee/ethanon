@@ -83,6 +83,7 @@
 		7486555B163981310096D869 /* stb_image_aug.h in Headers */ = {isa = PBXBuildFile; fileRef = 74865551163981310096D869 /* stb_image_aug.h */; };
 		7486555C163981310096D869 /* stbi_DDS_aug_c.h in Headers */ = {isa = PBXBuildFile; fileRef = 74865552163981310096D869 /* stbi_DDS_aug_c.h */; };
 		7486555D163981310096D869 /* stbi_DDS_aug.h in Headers */ = {isa = PBXBuildFile; fileRef = 74865553163981310096D869 /* stbi_DDS_aug.h */; };
+		7486555F1639AEFF0096D869 /* cgShaderCode.h in Headers */ = {isa = PBXBuildFile; fileRef = 7486555E1639AEFE0096D869 /* cgShaderCode.h */; };
 		74F3A4FA1632E3870064C9A5 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F3A4F91632E3870064C9A5 /* Cocoa.framework */; };
 		74F3A5041632E3870064C9A5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 74F3A5021632E3870064C9A5 /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
@@ -179,6 +180,7 @@
 		74865551163981310096D869 /* stb_image_aug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_image_aug.h; path = ../../../vendors/soil/stb_image_aug.h; sourceTree = "<group>"; };
 		74865552163981310096D869 /* stbi_DDS_aug_c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stbi_DDS_aug_c.h; path = ../../../vendors/soil/stbi_DDS_aug_c.h; sourceTree = "<group>"; };
 		74865553163981310096D869 /* stbi_DDS_aug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stbi_DDS_aug.h; path = ../../../vendors/soil/stbi_DDS_aug.h; sourceTree = "<group>"; };
+		7486555E1639AEFE0096D869 /* cgShaderCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cgShaderCode.h; path = ../../../../src/Video/cgShaderCode.h; sourceTree = "<group>"; };
 		74F3A4F61632E3870064C9A5 /* gs2d.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = gs2d.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		74F3A4F91632E3870064C9A5 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		74F3A4FC1632E3870064C9A5 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -263,6 +265,7 @@
 				7473CAB01633044E005DB920 /* BitmapFontManager.h */,
 				7473CAB11633044E005DB920 /* cgShaderCode.h */,
 				7473CAB41633044E005DB920 /* Window.h */,
+				7486555E1639AEFE0096D869 /* cgShaderCode.h */,
 			);
 			name = Video;
 			sourceTree = "<group>";
@@ -464,6 +467,7 @@
 				7486555B163981310096D869 /* stb_image_aug.h in Headers */,
 				7486555C163981310096D869 /* stbi_DDS_aug_c.h in Headers */,
 				7486555D163981310096D869 /* stbi_DDS_aug.h in Headers */,
+				7486555F1639AEFF0096D869 /* cgShaderCode.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

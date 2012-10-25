@@ -47,6 +47,13 @@ class GLVideo : public virtual Video
 
 	void Enable2DStates();
 
+	ShaderPtr m_defaultVS, m_rectVS, m_fastVS;
+	ShaderPtr m_currentVS;
+
+	void UpdateInternalShadersViewData();
+	void UpdateShaderViewData(const ShaderPtr& shader);
+	void UpdateViewMatrix();
+
 protected:
 	bool StartApplication(
 		const unsigned int width,

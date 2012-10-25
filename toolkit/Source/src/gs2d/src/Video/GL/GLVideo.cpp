@@ -22,6 +22,10 @@
 
 #include "GLVideo.h"
 
+#include "../cgShaderCode.h"
+
+#include "Cg/GLCgShader.h"
+
 namespace gs2d {
 
 void GLVideo::UnbindFrameBuffer()
@@ -41,6 +45,35 @@ GLVideo::GLVideo() :
 {
 }
 
+ShaderPtr GLVideo::LoadShaderFromFile(
+	const str_type::string& fileName,
+	const Shader::SHADER_FOCUS focus,
+	const Shader::SHADER_PROFILE profile,
+	const char *entry)
+{
+	ShaderPtr shader = ShaderPtr(new GLCgShader);
+	if (shader->LoadShaderFromFile(m_shaderContext, fileName, focus, profile, entry))
+	{
+		return shader;
+	}
+	return ShaderPtr();
+}
+
+ShaderPtr GLVideo::LoadShaderFromString(
+	const str_type::string& shaderName,
+	const std::string& codeAsciiString,
+	const Shader::SHADER_FOCUS focus,
+	const Shader::SHADER_PROFILE profile,
+	const char *entry)
+{
+	ShaderPtr shader(new GLCgShader);
+	if (shader->LoadShaderFromString(m_shaderContext, shaderName, codeAsciiString, focus, profile, entry))
+	{
+		return shader;
+	}
+	return ShaderPtr();
+}
+
 bool GLVideo::StartApplication(
 	const unsigned int width,
 	const unsigned int height,
@@ -54,25 +87,42 @@ bool GLVideo::StartApplication(
 	SetAlphaMode(Video::AM_PIXEL);
 	SetBGColor(gs2d::constant::BLACK);
 
-	math::Orthogonal(m_ortho, GetScreenSizeF().x, GetScreenSizeF().y, m_zNear, m_zFar);
-
 	SetZBuffer(false);
 	SetZWrite(false);
+	SetClamp(true);
 
 	Enable2DStates();
 	
 	m_shaderContext = GLCgShaderContextPtr(new GLCgShaderContext);
-	/*
-	m_ShaderContext.RegisterShaderHandler(m_pDevice);
-	m_DefaultVS.LoadShader(&m_ShaderContext, g_szDefaultVS, GSSF_VERTEX, GSSM_STRING, GSSP_MODEL_2, "sprite");
-	m_RectVS.LoadShader(&m_ShaderContext, g_szDefaultVS, GSSF_VERTEX, GSSM_STRING, GSSP_MODEL_2, "rectangle");
-	m_FontVS.LoadShader(&m_ShaderContext, g_szDefaultVS, GSSF_VERTEX, GSSM_STRING, GSSP_MODEL_2, "font");
-	m_pCurrentVS = &m_DefaultVS;
-	m_DefaultVS.SetConstant2F("cameraPos", GetCameraPos());
 
-	gsSetupShaderViewData(GetCurrentVS(), &m_RectVS, &m_FontVS);
-	*/	
+	m_defaultVS = LoadShaderFromString("defaultShader", gs2dglobal::defaultVSCode, Shader::SF_VERTEX, Shader::SP_MODEL_2, "sprite");
+	m_rectVS = LoadShaderFromString("rectShader", gs2dglobal::defaultVSCode, Shader::SF_VERTEX, Shader::SP_MODEL_2, "rectangle");
+	m_fastVS = LoadShaderFromString("fastShader", gs2dglobal::fastSimpleVSCode, Shader::SF_VERTEX, Shader::SP_MODEL_2, "fast");
+	m_currentVS = m_defaultVS;
+
+	UpdateViewMatrix();
+
+	UpdateInternalShadersViewData();
+
 	return true;
+}
+
+void GLVideo::UpdateInternalShadersViewData()
+{
+	UpdateShaderViewData(m_defaultVS);
+	UpdateShaderViewData(m_rectVS);
+	UpdateShaderViewData(m_fastVS);
+}
+
+void GLVideo::UpdateViewMatrix()
+{
+	math::Orthogonal(m_ortho, GetScreenSizeF().x, GetScreenSizeF().y, m_zNear, m_zFar);
+}
+
+void GLVideo::UpdateShaderViewData(const ShaderPtr& shader)
+{
+	shader->SetConstant("screenSize", GetScreenSizeF());
+	shader->SetMatrixConstant("viewMatrix", m_ortho);
 }
 
 void GLVideo::Enable2DStates()
@@ -218,6 +268,132 @@ const GLRectRenderer& GLVideo::GetRectRenderer() const
 	return m_rectRenderer;
 }
 
+ShaderPtr GLVideo::GetFontShader()
+{
+	return m_fastVS;
+}
+
+ShaderPtr GLVideo::GetOptimalVS()
+{
+	return m_defaultVS;
+}
+
+ShaderPtr GLVideo::GetDefaultVS()
+{
+	return m_defaultVS;
+}
+
+ShaderPtr GLVideo::GetVertexShader()
+{
+	return m_currentVS;
+}
+
+ShaderContextPtr GLVideo::GetShaderContext()
+{
+	return m_shaderContext;
+}
+
+bool GLVideo::SetVertexShader(ShaderPtr pShader)
+{
+	if (!pShader)
+	{
+		if (m_currentVS != m_defaultVS)
+			m_currentVS->UnbindShader();
+		m_currentVS = m_defaultVS;
+	}
+	else
+	{
+		if (pShader->GetShaderFocus() != Shader::SF_VERTEX)
+		{
+			ShowMessage("The shader set is not a vertex program", GSMT_ERROR);
+			return false;
+		}
+		else
+		{
+			m_currentVS->UnbindShader();
+			m_currentVS = pShader;
+		}
+	}
+	UpdateShaderViewData(m_currentVS);
+	return true;
+}
+
+bool GLVideo::DrawRectangle(
+	const math::Vector2 &v2Pos,
+	const math::Vector2 &v2Size,
+	const Color& color,
+	const float angle,
+	const Sprite::ENTITY_ORIGIN origin)
+{
+	return DrawRectangle(v2Pos, v2Size, color, color, color, color, angle, origin);
+}
+
+bool GLVideo::DrawRectangle(
+	const math::Vector2 &v2Pos,
+	const math::Vector2 &v2Size,
+	const Color& color0,
+	const Color& color1,
+	const Color& color2,
+	const Color& color3,
+	const float angle,
+	const Sprite::ENTITY_ORIGIN origin)
+{
+	if (v2Size == math::Vector2(0,0))
+	{
+		return true;
+	}
+
+	// TODO/TO-DO this is diplicated code: fix it
+	math::Vector2 v2Center;
+	switch (origin)
+	{
+	case Sprite::EO_CENTER:
+	case Sprite::EO_RECT_CENTER:
+		v2Center.x = v2Size.x / 2.0f;
+		v2Center.y = v2Size.y / 2.0f;
+		break;
+	case Sprite::EO_RECT_CENTER_BOTTOM:
+	case Sprite::EO_CENTER_BOTTOM:
+		v2Center.x = v2Size.x / 2.0f;
+		v2Center.y = v2Size.y;
+		break;
+	case Sprite::EO_RECT_CENTER_TOP:
+	case Sprite::EO_CENTER_TOP:
+		v2Center.x = v2Size.x / 2.0f;
+		v2Center.y = 0.0f;
+		break;
+	case Sprite::EO_DEFAULT:
+	default:
+		v2Center.x = 0.0f;
+		v2Center.y = 0.0f;
+		break;
+	};
+
+	math::Matrix4x4 mRot;
+	if (angle != 0.0f)
+		mRot = math::RotateZ(math::DegreeToRadian(angle));
+	m_rectVS->SetMatrixConstant("rotationMatrix", mRot);
+	m_rectVS->SetConstant("size", v2Size);
+	m_rectVS->SetConstant("entityPos", v2Pos);
+	m_rectVS->SetConstant("center", v2Center);
+	m_rectVS->SetConstant("color0", color0);
+	m_rectVS->SetConstant("color1", color1);
+	m_rectVS->SetConstant("color2", color2);
+	m_rectVS->SetConstant("color3", color3);
+
+	ShaderPtr prevVertexShader = GetVertexShader(), prevPixelShader = GetPixelShader();
+
+	SetVertexShader(m_rectVS);
+	SetPixelShader(ShaderPtr());
+
+	glBindTexture(m_textureExtension, 0);
+	GetVertexShader()->SetShader();
+	m_rectRenderer.Draw(Sprite::RM_TWO_TRIANGLES);
+
+	SetPixelShader(prevPixelShader);
+	SetVertexShader(prevVertexShader);
+	return true;
+}
 
 
 
@@ -292,63 +468,14 @@ SpritePtr GLVideo::CreateRenderTarget(
 	return SpritePtr();
 }
 
-ShaderPtr GLVideo::LoadShaderFromFile(
-	const str_type::string& fileName,
-	const Shader::SHADER_FOCUS focus,
-	const Shader::SHADER_PROFILE profile,
-	const char *entry)
-{
-	return ShaderPtr();
-}
-
-ShaderPtr GLVideo::LoadShaderFromString(
-	const str_type::string& shaderName,
-	const std::string& codeAsciiString,
-	const Shader::SHADER_FOCUS focus,
-	const Shader::SHADER_PROFILE profile,
-	const char *entry)
-{
-	return ShaderPtr();
-}
-
 boost::any GLVideo::GetVideoInfo()
 {
 	return 0;
 }
 
-ShaderPtr GLVideo::GetFontShader()
-{
-	return ShaderPtr();
-}
-
-ShaderPtr GLVideo::GetOptimalVS()
-{
-	return ShaderPtr();
-}
-
-ShaderPtr GLVideo::GetDefaultVS()
-{
-	return ShaderPtr();
-}
-
-ShaderPtr GLVideo::GetVertexShader()
-{
-	return ShaderPtr();
-}
-
 ShaderPtr GLVideo::GetPixelShader()
 {
 	return ShaderPtr();
-}
-
-ShaderContextPtr GLVideo::GetShaderContext()
-{
-	return ShaderContextPtr();
-}
-
-bool GLVideo::SetVertexShader(ShaderPtr pShader)
-{
-	return false;
 }
 
 bool GLVideo::SetPixelShader(ShaderPtr pShader)
@@ -385,6 +512,8 @@ bool GLVideo::ResetVideoMode(
 	const VIDEO_MODE& mode,
 	const bool toggleFullscreen)
 {
+	UpdateViewMatrix();
+	UpdateInternalShadersViewData();
 	return false;
 }
 
@@ -394,6 +523,8 @@ bool GLVideo::ResetVideoMode(
 	const Texture::PIXEL_FORMAT pfBB,
 	const bool toggleFullscreen)
 {
+	UpdateViewMatrix();
+	UpdateInternalShadersViewData();
 	return false;
 }
 
@@ -500,29 +631,6 @@ void GLVideo::UnsetScissor()
 }
 
 bool GLVideo::DrawLine(const math::Vector2 &p1, const math::Vector2 &p2, const Color& color1, const Color& color2)
-{
-	return false;
-}
-
-bool GLVideo::DrawRectangle(
-	const math::Vector2 &v2Pos,
-	const math::Vector2 &v2Size,
-	const Color& color,
-	const float angle,
-	const Sprite::ENTITY_ORIGIN origin)
-{
-	return false;
-}
-
-bool GLVideo::DrawRectangle(
-	const math::Vector2 &v2Pos,
-	const math::Vector2 &v2Size,
-	const Color& color0,
-	const Color& color1,
-	const Color& color2,
-	const Color& color3,
-	const float angle,
-	const Sprite::ENTITY_ORIGIN origin)
 {
 	return false;
 }
