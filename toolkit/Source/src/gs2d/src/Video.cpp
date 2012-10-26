@@ -24,6 +24,13 @@
 
 namespace gs2d {
 
+Video::Video() :
+	m_depth(0.0f),
+	m_lineWidth(1.0f),
+	m_roundUpPosition(false)
+{
+}
+
 math::Vector2 Video::ComputeCarretPosition(
 	const str_type::string& font,
 	const str_type::string& text,
@@ -91,6 +98,65 @@ bool Video::ManageLoop()
 		BeginSpriteScene();
 
 	return true;
+}
+
+bool Video::SetCameraPos(const math::Vector2& pos)
+{
+	m_cameraPos = pos;
+	return true;
+}
+
+bool Video::MoveCamera(const math::Vector2& dir)
+{
+	SetCameraPos(m_cameraPos + dir);
+	return true;
+}
+
+math::Vector2 Video::GetCameraPos() const
+{
+	if (IsRoundingUpPosition())
+	{
+		return math::Vector2(floor(m_cameraPos.x), floor(m_cameraPos.y));
+	}
+	else
+	{
+		return m_cameraPos;
+	}
+}
+
+void Video::SetLineWidth(const float width)
+{
+	m_lineWidth = (width < 1.0f) ? 1.0f : width;
+}
+
+float Video::GetLineWidth() const
+{
+	return m_lineWidth;
+}
+
+void Video::RoundUpPosition(const bool roundUp)
+{
+	m_roundUpPosition = roundUp;
+}
+bool Video::IsRoundingUpPosition() const
+{
+	return m_roundUpPosition;
+}
+
+bool Video::SetSpriteDepth(const float depth)
+{
+	m_depth = depth;
+	if (m_depth > 1.0f || m_depth < 0.0f)
+	{
+		ShowMessage(GS_L("Warning: the depth must range 0.0f - 1.0f - D3D9Video::SetSpriteDepth"), GSMT_WARNING);
+		m_depth = math::Max(m_depth, 0.0f);
+		m_depth = math::Min(m_depth, 1.0f);
+	}
+	return true;
+}
+float Video::GetSpriteDepth() const
+{
+	return m_depth;
 }
 
 } // namespace gs2d

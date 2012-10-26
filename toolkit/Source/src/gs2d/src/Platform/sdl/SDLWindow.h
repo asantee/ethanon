@@ -25,18 +25,20 @@
 
 #include "../../Video.h"
 #include <vector>
+#include <sys/time.h>
 
 namespace gs2d {
 
 class SDLWindow : public virtual Video
 {
 	Platform::FileIOHubPtr m_fileIOHub;
-	math::Vector2 m_screenSize;
 	bool m_maximizable, m_sync, m_windowed, m_quitKeysEnabled, m_quit;
 	std::vector<VIDEO_MODE> m_videoModes;
+	
+	float m_fpsRate;
 
 	void ReadDisplayModes();
-	unsigned int AssembleFlags(const bool windowed, const bool maximizable, const bool sync);
+	timeval m_lastTime;
 
 protected:
 	bool StartApplication(
@@ -49,6 +51,9 @@ protected:
 		const bool maximizable = false);
 
 	bool EndSpriteScene();
+	unsigned int AssembleFlags(const bool windowed, const bool maximizable, const bool sync);
+
+	math::Vector2 m_screenSize;
 
 public:
 	SDLWindow(Platform::FileIOHubPtr fileIOHub);
@@ -101,6 +106,11 @@ public:
 	
 	bool HideCursor(const bool hide);
 	bool IsCursorHidden() const;
+
+	bool SyncEnabled() const;
+	bool IsMaximizable() const;
+	double GetElapsedTimeD(const TIME_UNITY unity) const;
+	void ComputeFPSRate();
 };
 	
 } // namespace gs2d

@@ -50,6 +50,12 @@ class Video :
 	public Window,
 	public BitmapFontManager
 {
+	math::Vector2 m_cameraPos;
+
+	float m_lineWidth;
+	float m_depth;
+	bool m_roundUpPosition;
+
 public:
 	enum ALPHA_MODE
 	{
@@ -83,6 +89,8 @@ public:
 		Texture::PIXEL_FORMAT pf;
 		GS_DWORD idx;
 	};
+
+	Video();
 
 	typedef std::list<VIDEO_MODE> VIDEO_MODE_LIST;
 
@@ -189,19 +197,6 @@ public:
 	virtual bool SetClamp(const bool set) = 0;
 	virtual bool GetClamp() const = 0;
 
-	virtual bool SetSpriteDepth(const float depth) = 0;
-	virtual float GetSpriteDepth() const = 0;
-
-	virtual void SetLineWidth(const float width) = 0;
-	virtual float GetLineWidth() const = 0;
-
-	virtual bool SetCameraPos(const math::Vector2 &pos) = 0;
-	virtual bool MoveCamera(const math::Vector2 &dir) = 0;
-	virtual math::Vector2 GetCameraPos() const = 0;
-
-	virtual void RoundUpPosition(const bool roundUp) = 0;
-	virtual bool IsRoundingUpPosition() const = 0;
-
 	virtual bool SetScissor(const math::Rect2D &rect) = 0;
 	virtual bool SetScissor(const bool &enable) = 0;
 	virtual math::Rect2D GetScissor() const = 0;
@@ -268,6 +263,16 @@ public:
 		const float scale = 1.0f);
 
 	bool ManageLoop();
+
+	virtual bool SetCameraPos(const math::Vector2& pos);
+	virtual bool MoveCamera(const math::Vector2& dir);
+	virtual math::Vector2 GetCameraPos() const;
+	virtual bool SetSpriteDepth(const float depth);
+	virtual float GetSpriteDepth() const;
+	virtual void SetLineWidth(const float width);
+	virtual float GetLineWidth() const;
+	virtual void RoundUpPosition(const bool roundUp);
+	virtual bool IsRoundingUpPosition() const;
 };
 
 /// Instantiate a Video object (must be defined in the API specific code)

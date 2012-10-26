@@ -22,8 +22,9 @@
 
 #include "GLSDLVideo.h"
 
-#include "../GL/GLTexture.h"
+#include "../GL/GLSprite.h"
 #include "../GL/Cg/GLCgShader.h"
+#include <SDL/SDL.h>
 
 namespace gs2d {
 
@@ -86,6 +87,7 @@ bool GLSDLVideo::StartApplication(
 
 bool GLSDLVideo::EndSpriteScene()
 {
+	ComputeFPSRate();
 	GLVideo::EndSpriteScene();
 	return SDLWindow::EndSpriteScene();
 }
@@ -163,6 +165,35 @@ TexturePtr GLSDLVideo::CreateRenderTargetTexture(
 	return TexturePtr();
 }
 
+bool GLSDLVideo::ResetVideoMode(
+	const VIDEO_MODE& mode,
+	const bool toggleFullscreen)
+{
+	UpdateViewMatrix();
+	UpdateInternalShadersViewData();
+	return false;
+}
+
+bool GLSDLVideo::ResetVideoMode(
+	const unsigned int width,
+	const unsigned int height,
+	const Texture::PIXEL_FORMAT pfBB,
+	const bool toggleFullscreen)
+{
+	if (SDL_SetVideoMode(width, height, 0, AssembleFlags(IsWindowed(), IsMaximizable(), SyncEnabled())) != 0)
+	{
+		m_screenSize.x = static_cast<float>(width);
+		m_screenSize.y = static_cast<float>(height);
+
+		GLVideo::StartApplication(width, height, GetWindowTitle(), IsWindowed(), SyncEnabled());
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 SpritePtr GLSDLVideo::CreateSprite(
 	GS_BYTE *pBuffer,
 	const unsigned int bufferLength,
@@ -170,6 +201,11 @@ SpritePtr GLSDLVideo::CreateSprite(
 	const unsigned int width,
 	const unsigned int height)
 {
+	SpritePtr sprite(new GLSprite);
+	if (sprite->LoadSprite(weak_this, pBuffer, bufferLength, mask, width, height))
+	{
+		return sprite;
+	}
 	return SpritePtr();
 }
 
@@ -179,6 +215,11 @@ SpritePtr GLSDLVideo::CreateSprite(
 	const unsigned int width,
 	const unsigned int height)
 {
+	SpritePtr sprite(new GLSprite);
+	if (sprite->LoadSprite(weak_this, fileName, mask, width, height))
+	{
+		return sprite;
+	}
 	return SpritePtr();
 }
 
@@ -187,6 +228,11 @@ SpritePtr GLSDLVideo::CreateRenderTarget(
 	const unsigned int height,
 	const Texture::TARGET_FORMAT format)
 {
+	SpritePtr sprite(new GLSprite);
+	if (sprite->CreateRenderTarget(weak_this, width, height, format))
+	{
+		return sprite;
+	}
 	return SpritePtr();
 }
 

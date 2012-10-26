@@ -23,6 +23,7 @@
 #include "SDLWindow.h"
 
 #include <SDL/SDL.h>
+#include <SDL/SDL_opengl.h>
 
 namespace gs2d {
 
@@ -61,8 +62,10 @@ SDLWindow::SDLWindow(Platform::FileIOHubPtr fileIOHub) :
 	m_windowed(true),
 	m_sync(true),
 	m_quitKeysEnabled(true),
-	m_quit(false)
+	m_quit(false),
+	m_fpsRate(30.0f)
 {
+	ResetTimer();
 }
 
 SDLWindow::~SDLWindow()
@@ -109,11 +112,6 @@ bool SDLWindow::StartApplication(
 		Message("Invalid video mode - SDLWindow::StartApplication", GSMT_ERROR);
 		return false;
 	}
-
-	// enables quit shortcuts on mac
-	/*#ifdef MACOSX
-		setenv("SDL_ENABLEAPPEVENTS", "1", 1);
-	#endif*/
 
 	SetWindowTitle(winTitle);
 	ReadDisplayModes();
@@ -191,7 +189,7 @@ Application::APP_STATUS SDLWindow::HandleEvents()
 		switch(event.type)
 		{
 		case SDL_VIDEORESIZE:
-			SDL_SetVideoMode(event.resize.w, event.resize.h, 0, AssembleFlags(m_windowed, m_maximizable, m_sync));
+			ResetVideoMode(event.resize.w, event.resize.h, Texture::PF_UNKNOWN);
 			break;
 		case SDL_QUIT:
 			r = APP_QUIT;
@@ -235,11 +233,79 @@ void SDLWindow::Quit()
 	m_quit = true;
 }
 
+bool SDLWindow::SyncEnabled() const
+{
+	return m_sync;
+}
 
+bool SDLWindow::IsMaximizable() const
+{
+	return m_maximizable;
+}
 
+float SDLWindow::GetElapsedTimeF(const TIME_UNITY unity) const
+{
+	return static_cast<float>(GetElapsedTimeD(unity));
+}
 
+unsigned long SDLWindow::GetElapsedTime(const TIME_UNITY unity) const
+{
+	return static_cast<unsigned long>(GetElapsedTimeD(unity));
+}
 
+double SDLWindow::GetElapsedTimeD(const TIME_UNITY unity) const
+{
+	timeval current;
+	gettimeofday(&current, NULL);
+	const double curr = current.tv_sec    + (current.tv_usec    / 1000000.0);
+	const double last = m_lastTime.tv_sec + (m_lastTime.tv_usec / 1000000.0);
+	double elapsedTimeS = curr - last;
+	switch (unity)
+	{
+	case TU_HOURS:
+		elapsedTimeS /= 60.0;
+		elapsedTimeS /= 60.0;
+		break;
+	case TU_MINUTES:
+		elapsedTimeS /= 60.0;
+		break;
+	case TU_MILLISECONDS:
+		elapsedTimeS *= 1000.0;
+	case TU_SECONDS:
+	default:
+		break;
+	};
+	return elapsedTimeS;
+}
 
+void SDLWindow::ResetTimer()
+{
+	gettimeofday(&m_lastTime, NULL);
+}
+
+void SDLWindow::ComputeFPSRate()
+{
+	static float counter = 0.0f;
+	const clock_t current = GetElapsedTime(TU_MILLISECONDS);
+	static clock_t last = current;
+
+	const clock_t elapsed = current - last;
+	if (elapsed > 500)
+	{
+		m_fpsRate = (counter * 2);
+		counter = 0.0f;
+		last = current;
+	}
+	else
+	{
+		counter++;
+	}
+}
+
+float SDLWindow::GetFPSRate() const
+{
+	return math::Max(1.0f, m_fpsRate);
+}
 
 
 
@@ -259,25 +325,6 @@ void SDLWindow::Quit()
 math::Vector2i SDLWindow::GetClientScreenSize() const
 {
 	return math::Vector2i(0, 0);
-}
-
-float SDLWindow::GetFPSRate() const
-{
-	return 0.0f;
-}
-
-unsigned long SDLWindow::GetElapsedTime(const TIME_UNITY unity) const
-{
-	return 0;
-}
-
-float SDLWindow::GetElapsedTimeF(const TIME_UNITY unity) const
-{
-	return 0.0f;
-}
-
-void SDLWindow::ResetTimer()
-{
 }
 
 void SDLWindow::ForwardCommand(const str_type::string& cmd)

@@ -91,7 +91,6 @@ GLES2Video::GLES2Video(
 	m_rendering(false),
 	m_logger(Platform::FileLogger::GetLogDirectory() + VIDEO_LOG_FILE),
 	m_fpsRate(30.0f),
-	m_roundUpPosition(false),
 	m_scissor(Vector2i(0, 0), Vector2i(0, 0)),
 	m_textureFilterMode(Video::TM_IFNEEDED),
 	m_blend(false),
@@ -624,51 +623,6 @@ bool GLES2Video::SetSpriteDepth(const float depth)
 float GLES2Video::GetSpriteDepth() const
 {
 	return m_shaderContext->GetSpriteDepth();
-}
-
-void GLES2Video::SetLineWidth(const float width)
-{
-	// TODO
-}
-
-float GLES2Video::GetLineWidth() const
-{
-	// TODO
-	return 0.0f;
-}
-
-bool GLES2Video::SetCameraPos(const Vector2 &pos)
-{
-	m_v2Camera = pos;
-	return true;
-}
-
-bool GLES2Video::MoveCamera(const Vector2 &dir)
-{
-	SetCameraPos(m_v2Camera + dir);
-	return true;
-}
-
-Vector2 GLES2Video::GetCameraPos() const
-{
-	if (IsRoundingUpPosition())
-	{
-		return Vector2(floor(m_v2Camera.x), floor(m_v2Camera.y));
-	}
-	else
-	{
-		return m_v2Camera;
-	}
-}
-
-void GLES2Video::RoundUpPosition(const bool roundUp)
-{
-	m_roundUpPosition = roundUp;
-}
-
-bool GLES2Video::IsRoundingUpPosition() const
-{
-	return m_roundUpPosition;
 }
 
 bool GLES2Video::SetScissor(const bool& enable)

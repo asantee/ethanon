@@ -11,7 +11,12 @@ int SDL_main (int argc, char **argv)
 	Platform::FileManagerPtr fileManager(new Platform::StdAnsiFileManager(""));
 	Platform::MacOSXFileIOHubPtr fileIOHub(new Platform::MacOSXFileIOHub(fileManager, "data/"));
 
-	gs2d::VideoPtr video = gs2d::CreateVideo(1280, 800, "Hello GS2D!", true, true, fileIOHub, gs2d::Texture::PF_UNKNOWN, true);
+	gs2d::VideoPtr video = gs2d::CreateVideo(1280, 720, "Hello GS2D!", true, true, fileIOHub, gs2d::Texture::PF_UNKNOWN, true);
+	//gs2d:: texture = video->LoadTextureFromFile(fileIOHub->GetResourceDirectory() + "resources/tileset.png", 0x0);
+	
+	gs2d::SpritePtr tileset(video->CreateSprite(fileIOHub->GetResourceDirectory() + "resources/tileset.png"));
+	tileset->SetupSpriteRects(2, 2);
+	tileset->SetRect(2);
 
 	video->SetBGColor(0xFF000000);
 
@@ -69,6 +74,9 @@ int SDL_main (int argc, char **argv)
 			gs2d::constant::RED, gs2d::constant::YELLOW,
 			gs2d::constant::BLUE, gs2d::constant::GREEN,
 			200.0f);
+		
+		video->SetVertexShader(video->GetDefaultVS());
+		tileset->Draw(screenSize * 0.5f);
 
 		video->EndSpriteScene();
 	}

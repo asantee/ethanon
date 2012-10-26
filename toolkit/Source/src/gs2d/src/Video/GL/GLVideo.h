@@ -38,7 +38,6 @@ class GLVideo : public virtual Video
 	GLenum m_textureExtension;
 	const double m_alphaRef;
 	const float m_zNear, m_zFar;
-	float m_lineWidth;
 	math::Matrix4x4 m_ortho;
 	Color m_backgroundColor;
 	bool m_rendering;
@@ -49,10 +48,6 @@ class GLVideo : public virtual Video
 
 	ShaderPtr m_defaultVS, m_rectVS, m_fastVS;
 	ShaderPtr m_currentVS;
-
-	void UpdateInternalShadersViewData();
-	void UpdateShaderViewData(const ShaderPtr& shader);
-	void UpdateViewMatrix();
 
 protected:
 	bool StartApplication(
@@ -65,6 +60,10 @@ protected:
 		const bool maximizable = false);
 
 	GLCgShaderContextPtr m_shaderContext;
+
+	void UpdateInternalShadersViewData();
+	void UpdateShaderViewData(const ShaderPtr& shader);
+	void UpdateViewMatrix();
 
 public:
 	GLVideo();
@@ -87,16 +86,6 @@ public:
 	VIDEO_MODE GetVideoMode(const unsigned int modeIdx) const;
 	unsigned int GetVideoModeCount();
 	
-	bool ResetVideoMode(
-		const VIDEO_MODE& mode,
-		const bool toggleFullscreen = false);
-	
-	bool ResetVideoMode(
-		const unsigned int width,
-		const unsigned int height,
-		const Texture::PIXEL_FORMAT pfBB,
-		const bool toggleFullscreen = false);
-	
 	bool SetRenderTarget(SpritePtr pTarget, const unsigned int target);
 	unsigned int GetMaxRenderTargets() const;
 	unsigned int GetMaxMultiTextures() const;
@@ -112,19 +101,6 @@ public:
 	
 	bool SetClamp(const bool set);
 	bool GetClamp() const;
-	
-	bool SetSpriteDepth(const float depth);
-	float GetSpriteDepth() const;
-	
-	void SetLineWidth(const float width);
-	float GetLineWidth() const;
-	
-	bool SetCameraPos(const math::Vector2 &pos);
-	bool MoveCamera(const math::Vector2 &dir);
-	math::Vector2 GetCameraPos() const;
-	
-	void RoundUpPosition(const bool roundUp);
-	bool IsRoundingUpPosition() const;
 	
 	bool SetScissor(const math::Rect2D &rect);
 	bool SetScissor(const bool &enable);

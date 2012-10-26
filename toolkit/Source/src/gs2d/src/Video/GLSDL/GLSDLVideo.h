@@ -113,6 +113,16 @@ public:
 		const char *entry = 0);
 
 	bool EndSpriteScene();
+	
+	bool ResetVideoMode(
+		const VIDEO_MODE& mode,
+		const bool toggleFullscreen = false);
+	
+	bool ResetVideoMode(
+		const unsigned int width,
+		const unsigned int height,
+		const Texture::PIXEL_FORMAT pfBB,
+		const bool toggleFullscreen = false);
 };
 	
 } // namespace gs2d

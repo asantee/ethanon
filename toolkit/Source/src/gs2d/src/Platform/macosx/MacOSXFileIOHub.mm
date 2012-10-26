@@ -37,8 +37,8 @@ static NSString* CreateDirectory(NSString* dir)
 
 static gs2d::str_type::string ResourceDirectory()
 {
-	NSString* resourceDir = [[NSBundle mainBundle] bundlePath];
-	resourceDir = [resourceDir stringByAppendingString:@"/assets/"];
+	NSString* resourceDir = [[NSBundle mainBundle] resourcePath];
+	resourceDir = [resourceDir stringByAppendingString:@"/"];
 	return [resourceDir cStringUsingEncoding:1];
 }
 

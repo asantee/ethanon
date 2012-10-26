@@ -41,8 +41,7 @@ GLVideo::GLVideo() :
 	m_zFar(5.0f),
 	m_zNear(0.0f),
 	m_backgroundColor(0xFFFFFFFF),
-	m_rendering(false),
-	m_lineWidth(1.0f)
+	m_rendering(false)
 {
 }
 
@@ -64,8 +63,12 @@ bool GLVideo::StartApplication(
 	SetClamp(true);
 
 	Enable2DStates();
-	
-	m_shaderContext = GLCgShaderContextPtr(new GLCgShaderContext);
+
+	// don't reset cg context if it is an opengl context reset
+	if (!m_shaderContext)
+		m_shaderContext = GLCgShaderContextPtr(new GLCgShaderContext);
+
+	m_rectVS.reset(); m_defaultVS.reset(); m_fastVS.reset(); m_currentVS.reset();
 
 	m_defaultVS = LoadShaderFromString("defaultShader", gs2dglobal::defaultVSCode, Shader::SF_VERTEX, Shader::SP_MODEL_2, "sprite");
 	m_rectVS = LoadShaderFromString("rectShader", gs2dglobal::defaultVSCode, Shader::SF_VERTEX, Shader::SP_MODEL_2, "rectangle");
@@ -104,6 +107,16 @@ void GLVideo::Enable2DStates()
 	glDisable(GL_LIGHTING);
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DITHER);
+
+	glEnable(GL_TEXTURE_2D);
+
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 }
 
 bool GLVideo::SetFilterMode(const TEXTUREFILTER_MODE tfm)
@@ -369,7 +382,7 @@ bool GLVideo::DrawRectangle(
 
 bool GLVideo::DrawLine(const math::Vector2 &p1, const math::Vector2 &p2, const Color& color1, const Color& color2)
 {
-	if (m_lineWidth <= 0.0f)
+	if (GetLineWidth() <= 0.0f)
 		return true;
 	if (p1 == p2)
 		return true;
@@ -385,14 +398,9 @@ bool GLVideo::DrawLine(const math::Vector2 &p1, const math::Vector2 &p2, const C
 	return true;
 }
 
-void GLVideo::SetLineWidth(const float width)
+boost::any GLVideo::GetGraphicContext()
 {
-	m_lineWidth = width;
-}
-
-float GLVideo::GetLineWidth() const
-{
-	return m_lineWidth;
+	return m_shaderContext;
 }
 
 
@@ -438,11 +446,6 @@ Shader::SHADER_PROFILE GLVideo::GetHighestPixelProfile() const
 	return Shader::SP_NONE;
 }
 
-boost::any GLVideo::GetGraphicContext()
-{
-	return 0;
-}
-
 Video::VIDEO_MODE GLVideo::GetVideoMode(const unsigned int modeIdx) const
 {
 	return Video::VIDEO_MODE();
@@ -451,26 +454,6 @@ Video::VIDEO_MODE GLVideo::GetVideoMode(const unsigned int modeIdx) const
 unsigned int GLVideo::GetVideoModeCount()
 {
 	return 0;
-}
-
-bool GLVideo::ResetVideoMode(
-	const VIDEO_MODE& mode,
-	const bool toggleFullscreen)
-{
-	UpdateViewMatrix();
-	UpdateInternalShadersViewData();
-	return false;
-}
-
-bool GLVideo::ResetVideoMode(
-	const unsigned int width,
-	const unsigned int height,
-	const Texture::PIXEL_FORMAT pfBB,
-	const bool toggleFullscreen)
-{
-	UpdateViewMatrix();
-	UpdateInternalShadersViewData();
-	return false;
 }
 
 bool GLVideo::SetRenderTarget(SpritePtr pTarget, const unsigned int target)
@@ -509,40 +492,6 @@ bool GLVideo::SetClamp(const bool set)
 }
 
 bool GLVideo::GetClamp() const
-{
-	return false;
-}
-
-bool GLVideo::SetSpriteDepth(const float depth)
-{
-	return false;
-}
-
-float GLVideo::GetSpriteDepth() const
-{
-	return 0.0f;
-}
-
-bool GLVideo::SetCameraPos(const math::Vector2 &pos)
-{
-	return false;
-}
-
-bool GLVideo::MoveCamera(const math::Vector2 &dir)
-{
-	return false;
-}
-
-math::Vector2 GLVideo::GetCameraPos() const
-{
-	return math::Vector2(0.0f, 0.0f);
-}
-
-void GLVideo::RoundUpPosition(const bool roundUp)
-{
-}
-
-bool GLVideo::IsRoundingUpPosition() const
 {
 	return false;
 }

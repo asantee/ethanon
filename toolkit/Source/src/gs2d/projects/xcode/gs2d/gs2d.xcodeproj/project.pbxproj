@@ -663,7 +663,7 @@
 					"\"$(SRCROOT)/../../../vendors/soil\"",
 				);
 				INFOPLIST_FILE = "gs2d/gs2d-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				INSTALL_PATH = "@executable_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = framework;
 			};
@@ -689,7 +689,7 @@
 					"\"$(SRCROOT)/../../../vendors/soil\"",
 				);
 				INFOPLIST_FILE = "gs2d/gs2d-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				INSTALL_PATH = "@executable_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = framework;
 			};

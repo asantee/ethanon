@@ -32,17 +32,16 @@ bool GLSprite::LoadSprite(
 	const unsigned int width,
 	const unsigned int height)
 {
-	GLVideoPtr glVideo = boost::dynamic_pointer_cast<GLVideo>(video.lock());
-	m_video = glVideo;
+	m_video = boost::dynamic_pointer_cast<GLVideo>(video.lock());
 
-	TexturePtr tex = m_video.lock()->CreateTextureFromFileInMemory(pBuffer, bufferLength, mask, width, height, 0);
+	TexturePtr tex = m_video->CreateTextureFromFileInMemory(pBuffer, bufferLength, mask, width, height, 0);
 	m_texture = boost::dynamic_pointer_cast<GLTexture>(tex);
 	if (!m_texture)
 		 return false;
 
 	m_type = Sprite::T_BITMAP;
 	Texture::PROFILE profile = m_texture->GetProfile();
-	m_size = math::Vector2(static_cast<float>(profile.width), static_cast<float>(profile.height));
+	m_bitmapSize = math::Vector2(static_cast<float>(profile.width), static_cast<float>(profile.height));
 
 	SetupSpriteRects(1, 1);
 	return true;
@@ -73,18 +72,38 @@ bool GLSprite::CreateRenderTarget(
 	const unsigned int height,
 	const Texture::TARGET_FORMAT format)
 {
-	// TODO
-	return false;
+	m_video = boost::dynamic_pointer_cast<GLVideo>(video.lock());
+
+	m_texture = boost::dynamic_pointer_cast<GLTexture>(m_video->CreateRenderTargetTexture(width, height, format));
+	m_bitmapSize = math::Vector2(static_cast<float>(width), static_cast<float>(height));
+	m_type = T_TARGET;
+	SetupSpriteRects(1, 1);
+	return true;
 }
 
-bool GLSprite::Draw(
-	const math::Vector2& v2Pos,
-	const Color& color,
-	const float angle,
-	const math::Vector2& v2Scale)
+Texture::PROFILE GLSprite::GetProfile() const
 {
-	// TODO
-	return false;
+	return m_texture->GetProfile();
+}
+
+TextureWeakPtr GLSprite::GetTexture()
+{
+	return m_texture;
+}
+
+Sprite::TYPE GLSprite::GetType() const
+{
+	return m_type;
+}
+
+math::Vector2i GLSprite::GetBitmapSize() const
+{
+	return GetBitmapSizeF().ToVector2i();
+}
+
+math::Vector2 GLSprite::GetBitmapSizeF() const
+{
+	return m_bitmapSize;
 }
 
 bool GLSprite::DrawShaped(
@@ -96,9 +115,136 @@ bool GLSprite::DrawShaped(
 	const Color& color3,
 	const float angle)
 {
-	// TODO
-	return false;
+	if (v2Size == math::Vector2(0,0))
+	{
+		return true;
+	}
+
+	// do the flip (parameters that will be send to the VS)
+	math::Vector2 flipMul(1,1), flipAdd(0,0);
+	if (m_flipX)
+	{
+		flipMul.x =-1;
+		flipAdd.x = 1;
+	}
+	if (m_flipY)
+	{
+		flipMul.y =-1;
+		flipAdd.y = 1;
+	}
+
+	// centralizes the sprite according to the origin
+	math::Vector2 v2Center = m_normalizedOrigin * v2Size;
+
+	Video* video = m_video.get();
+	ShaderPtr pCurrentVS = video->GetVertexShader();
+
+	math::Matrix4x4 mRot;
+	if (angle != 0.0f)
+		mRot = math::RotateZ(math::DegreeToRadian(angle));
+	pCurrentVS->SetMatrixConstant("rotationMatrix", mRot);
+
+	// rounds up the final position to avoid alpha distortion
+	math::Vector2 v2FinalPos;
+	if (video->IsRoundingUpPosition())
+	{
+		v2FinalPos.x = floor(v2Pos.x);
+		v2FinalPos.y = floor(v2Pos.y);
+	}
+	else
+	{
+		v2FinalPos = v2Pos;
+	}
+
+	pCurrentVS->SetConstant("size", v2Size);
+	pCurrentVS->SetConstant("entityPos", v2FinalPos);
+	pCurrentVS->SetConstant("center", v2Center);
+	pCurrentVS->SetConstant("flipMul", flipMul);
+	pCurrentVS->SetConstant("flipAdd", flipAdd);
+	pCurrentVS->SetConstant("bitmapSize", GetBitmapSizeF());
+	pCurrentVS->SetConstant("scroll", GetScroll());
+	pCurrentVS->SetConstant("multiply", GetMultiply());
+
+	const bool setCameraPos = pCurrentVS->ConstantExist("cameraPos");
+	if (setCameraPos)
+		pCurrentVS->SetConstant("cameraPos", video->GetCameraPos());
+
+	if (m_rect.size.x == 0 || m_rect.size.y == 0)
+	{
+		pCurrentVS->SetConstant("rectSize", GetBitmapSizeF());
+		pCurrentVS->SetConstant("rectPos", 0, 0);
+	}
+	else
+	{
+		pCurrentVS->SetConstant("rectSize", m_rect.size);
+		pCurrentVS->SetConstant("rectPos", m_rect.pos);
+	}
+
+	pCurrentVS->SetConstant("color0", color0);
+	pCurrentVS->SetConstant("color1", color1);
+	pCurrentVS->SetConstant("color2", color2);
+	pCurrentVS->SetConstant("color3", color3);
+
+	if (pCurrentVS->ConstantExist("depth"))
+		pCurrentVS->SetConstant("depth", video->GetSpriteDepth());
+
+	// apply textures according to the rendering mode (pixel shaded or not)
+	ShaderPtr pCurrentPS = video->GetPixelShader();
+	if (!pCurrentPS)
+	{
+		m_texture->SetTexture(0);
+	}
+	else
+	{
+		pCurrentPS->SetShader();
+		pCurrentPS->SetTexture("diffuse", GetTexture());
+	}
+
+	pCurrentVS->SetShader();
+
+	// draw the one-pixel-quad applying the vertex shader
+	m_video->GetRectRenderer().Draw(m_rectMode);
+
+	if (pCurrentPS)
+	{
+		pCurrentPS->UnbindShader();
+	}
+	
+	pCurrentVS->UnbindShader();
+
+	return true;
 }
+
+bool GLSprite::Draw(
+	const math::Vector2& v2Pos,
+	const Color& color,
+	const float angle,
+	const math::Vector2& v2Scale)
+{
+	const math::Vector2 v2Size(GetFrameSize() * v2Scale);
+	return DrawShaped(v2Pos, v2Size, color, color, color, color, angle);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 bool GLSprite::SaveBitmap(
 	const wchar_t* wcsName,
@@ -133,36 +279,6 @@ void GLSprite::BeginFastRendering()
 void GLSprite::EndFastRendering()
 {
 	// TODO
-}
-
-TextureWeakPtr GLSprite::GetTexture()
-{
-	// TODO
-	return TextureWeakPtr();
-}
-
-Texture::PROFILE GLSprite::GetProfile() const
-{
-	// TODO
-	return Texture::PROFILE();
-}
-
-math::Vector2i GLSprite::GetBitmapSize() const
-{
-	// TODO
-	return math::Vector2i();
-}
-
-math::Vector2 GLSprite::GetBitmapSizeF() const
-{
-	// TODO
-	return math::Vector2();
-}
-
-Sprite::TYPE GLSprite::GetType() const
-{
-	// TODO
-	return Sprite::T_NOT_LOADED;
 }
 
 boost::any GLSprite::GetTextureObject()
