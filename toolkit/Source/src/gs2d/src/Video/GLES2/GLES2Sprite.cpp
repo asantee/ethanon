@@ -368,60 +368,6 @@ Vector2 GLES2Sprite::GetBitmapSizeF() const
 	return m_bitmapSize;
 }
 
-void GLES2Sprite::FlipX(const bool flip)
-{
-	// TODO 
-}
-
-void GLES2Sprite::FlipY(const bool flip)
-{
-	// TODO 
-}
-
-void GLES2Sprite::FlipX()
-{
-	// TODO 
-}
-
-void GLES2Sprite::FlipY()
-{
-	// TODO 
-}
-
-bool GLES2Sprite::GetFlipX() const
-{
-	// TODO 
-	return false;
-}
-
-bool GLES2Sprite::GetFlipY() const
-{
-	// TODO 
-	return false;
-}
-
-void GLES2Sprite::SetScroll(const Vector2 &v2Scroll)
-{
-	// TODO 
-}
-
-Vector2 GLES2Sprite::GetScroll() const
-{
-	// TODO 
-	return Vector2();
-}
-
-void GLES2Sprite::SetMultiply(const Vector2 &v2Multiply)
-{
-	// TODO 
-}
-
-Vector2 GLES2Sprite::GetMultiply() const
-{
-	// TODO 
-	return Vector2();
-}
-
 Sprite::TYPE GLES2Sprite::GetType() const
 {
 	return m_type;;

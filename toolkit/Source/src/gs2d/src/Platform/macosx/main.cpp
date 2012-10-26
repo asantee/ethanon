@@ -29,6 +29,47 @@ int SDL_main (int argc, char **argv)
 			gs2d::constant::BLUE, gs2d::constant::GREEN,
 			gs2d::constant::RED, gs2d::constant::YELLOW);
 
+		video->DrawRectangle(
+			gs2d::math::Vector2(800,10),
+			gs2d::math::Vector2(64,256),
+			gs2d::constant::YELLOW);
+
+		video->DrawRectangle(
+			gs2d::math::Vector2(20,42),
+			gs2d::math::Vector2(64,64),
+			0xFFFF00FF, gs2d::constant::WHITE,
+			gs2d::constant::GREEN, gs2d::constant::BLACK);
+
+		const gs2d::math::Vector2 screenSize(video->GetScreenSizeF());
+		video->SetLineWidth(1.0f);
+		video->DrawLine(gs2d::math::Vector2(0,0), video->GetScreenSizeF(), 0xFFFFFFFF, 0xFFFF00FF);
+		video->DrawLine(gs2d::math::Vector2(100,0), gs2d::math::Vector2(200,100), 0xFFFFFFFF, 0xFFFF00FF);
+		video->SetLineWidth(3);
+		video->DrawLine(gs2d::math::Vector2(screenSize.x/2,0), gs2d::math::Vector2(screenSize.x/2,screenSize.y), 0xFFFFFFFF, 0xFFFF00FF);
+		video->SetLineWidth(10);
+		video->DrawLine(gs2d::math::Vector2(screenSize.x,0), gs2d::math::Vector2(0,screenSize.y), 0xFF0000FF, 0xFF00FF00);
+
+		static float angle = 0.0f; angle += 1.0f;
+		video->DrawRectangle(
+			gs2d::math::Vector2(200,400),
+			gs2d::math::Vector2(96,32),
+			gs2d::constant::BLUE,
+			angle);
+
+		video->DrawRectangle(
+			gs2d::math::Vector2(600,300),
+			gs2d::math::Vector2(100,10),
+			gs2d::constant::RED, gs2d::constant::YELLOW,
+			gs2d::constant::BLUE, gs2d::constant::GREEN,
+			45.0f);
+
+		video->DrawRectangle(
+			gs2d::math::Vector2(300,600),
+			gs2d::math::Vector2(100,10),
+			gs2d::constant::RED, gs2d::constant::YELLOW,
+			gs2d::constant::BLUE, gs2d::constant::GREEN,
+			200.0f);
+
 		video->EndSpriteScene();
 	}
 	return 0;

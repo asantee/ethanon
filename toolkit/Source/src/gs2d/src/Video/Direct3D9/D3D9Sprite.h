@@ -55,11 +55,8 @@ class D3D9Sprite : public Sprite
 
 	VideoWeakPtr m_video;
 	TexturePtr m_texture;
-	math::Vector2 m_scroll;
-	math::Vector2 m_multiply;
 	math::Vector2 m_size;
 	Texture::TARGET_FORMAT m_targetFormat;
-	bool m_flipX, m_flipY;
 	Sprite::TYPE m_type;
 	IDirect3DTexture9 *m_pBackupTexture;
 
@@ -109,19 +106,6 @@ public:
 	Texture::PROFILE GetProfile() const;
 	math::Vector2i GetBitmapSize() const;
 	math::Vector2 GetBitmapSizeF() const;
-
-	void FlipX(const bool flip);
-	void FlipY(const bool flip);
-	void FlipX();
-	void FlipY();
-	bool GetFlipX() const;
-	bool GetFlipY() const;
-
-	void SetScroll(const math::Vector2 &v2Scroll);
-	math::Vector2 GetScroll() const;
-
-	void SetMultiply(const math::Vector2 &v2Multiply);
-	math::Vector2 GetMultiply() const;
 
 	TYPE GetType() const;
 	boost::any GetTextureObject();

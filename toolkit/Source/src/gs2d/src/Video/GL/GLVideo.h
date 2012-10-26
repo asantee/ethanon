@@ -38,11 +38,11 @@ class GLVideo : public virtual Video
 	GLenum m_textureExtension;
 	const double m_alphaRef;
 	const float m_zNear, m_zFar;
+	float m_lineWidth;
 	math::Matrix4x4 m_ortho;
 	Color m_backgroundColor;
 	bool m_rendering;
 
-	GLCgShaderContextPtr m_shaderContext;
 	GLRectRenderer m_rectRenderer;
 
 	void Enable2DStates();
@@ -64,59 +64,10 @@ protected:
 		const Texture::PIXEL_FORMAT pfBB = Texture::PF_UNKNOWN,
 		const bool maximizable = false);
 
+	GLCgShaderContextPtr m_shaderContext;
+
 public:
 	GLVideo();
-
-	TexturePtr CreateTextureFromFileInMemory(
-		const void *pBuffer,
-		const unsigned int bufferLength,
-		Color mask,
-		const unsigned int width,
-		const unsigned int height,
-		const unsigned int nMipMaps);
-	
-	TexturePtr LoadTextureFromFile(
-		const str_type::string& fileName,
-		Color mask,
-		const unsigned int width,
-		const unsigned int height,
-		const unsigned int nMipMaps);
-	
-	TexturePtr CreateRenderTargetTexture(
-		const unsigned int width,
-		const unsigned int height,
-		const Texture::TARGET_FORMAT fmt);
-	
-	SpritePtr CreateSprite(
-		GS_BYTE *pBuffer,
-		const unsigned int bufferLength,
-		Color mask = constant::ZERO,
-		const unsigned int width = 0,
-		const unsigned int height = 0);
-	
-	SpritePtr CreateSprite(
-		const str_type::string& fileName,
-		Color mask = constant::ZERO,
-		const unsigned int width = 0,
-		const unsigned int height = 0);
-	
-	SpritePtr CreateRenderTarget(
-		const unsigned int width,
-		const unsigned int height,
-		const Texture::TARGET_FORMAT format = Texture::TF_DEFAULT);
-
-	ShaderPtr LoadShaderFromFile(
-		const str_type::string& fileName,
-		const Shader::SHADER_FOCUS focus,
-		const Shader::SHADER_PROFILE profile = Shader::SP_HIGHEST,
-		const char *entry = 0);
-	
-	ShaderPtr LoadShaderFromString(
-		const str_type::string& shaderName,
-		const std::string& codeAsciiString,
-		const Shader::SHADER_FOCUS focus,
-		const Shader::SHADER_PROFILE profile = Shader::SP_HIGHEST,
-		const char *entry = 0);
 	
 	boost::any GetVideoInfo();
 	
@@ -224,6 +175,9 @@ public:
 
 	static void UnbindFrameBuffer();
 };
+
+typedef boost::shared_ptr<GLVideo> GLVideoPtr;
+typedef boost::weak_ptr<GLVideo> GLVideoWeakPtr;
 
 }
 

@@ -24,7 +24,7 @@
 
 #include "../cgShaderCode.h"
 
-#include "Cg/GLCgShader.h"
+#include "GLTexture.h"
 
 namespace gs2d {
 
@@ -41,37 +41,9 @@ GLVideo::GLVideo() :
 	m_zFar(5.0f),
 	m_zNear(0.0f),
 	m_backgroundColor(0xFFFFFFFF),
-	m_rendering(false)
+	m_rendering(false),
+	m_lineWidth(1.0f)
 {
-}
-
-ShaderPtr GLVideo::LoadShaderFromFile(
-	const str_type::string& fileName,
-	const Shader::SHADER_FOCUS focus,
-	const Shader::SHADER_PROFILE profile,
-	const char *entry)
-{
-	ShaderPtr shader = ShaderPtr(new GLCgShader);
-	if (shader->LoadShaderFromFile(m_shaderContext, fileName, focus, profile, entry))
-	{
-		return shader;
-	}
-	return ShaderPtr();
-}
-
-ShaderPtr GLVideo::LoadShaderFromString(
-	const str_type::string& shaderName,
-	const std::string& codeAsciiString,
-	const Shader::SHADER_FOCUS focus,
-	const Shader::SHADER_PROFILE profile,
-	const char *entry)
-{
-	ShaderPtr shader(new GLCgShader);
-	if (shader->LoadShaderFromString(m_shaderContext, shaderName, codeAsciiString, focus, profile, entry))
-	{
-		return shader;
-	}
-	return ShaderPtr();
 }
 
 bool GLVideo::StartApplication(
@@ -395,78 +367,51 @@ bool GLVideo::DrawRectangle(
 	return true;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-TexturePtr GLVideo::CreateTextureFromFileInMemory(
-	const void *pBuffer,
-	const unsigned int bufferLength,
-	Color mask,
-	const unsigned int width,
-	const unsigned int height,
-	const unsigned int nMipMaps)
+bool GLVideo::DrawLine(const math::Vector2 &p1, const math::Vector2 &p2, const Color& color1, const Color& color2)
 {
-	return TexturePtr();
+	if (m_lineWidth <= 0.0f)
+		return true;
+	if (p1 == p2)
+		return true;
+
+	const math::Vector2 v2Dir = p1 - p2;
+
+	const float length = math::Distance(p1, p2);
+	const float angle  = math::RadianToDegree(math::GetAngle(v2Dir));
+
+	DrawRectangle(p1, math::Vector2(GetLineWidth(), length),
+				  color2, color2, color1, color1,
+				  angle, Sprite::EO_CENTER_BOTTOM);
+	return true;
 }
 
-TexturePtr GLVideo::LoadTextureFromFile(
-	const str_type::string& fileName,
-	Color mask,
-	const unsigned int width,
-	const unsigned int height,
-	const unsigned int nMipMaps)
+void GLVideo::SetLineWidth(const float width)
 {
-	return TexturePtr();
+	m_lineWidth = width;
 }
 
-TexturePtr GLVideo::CreateRenderTargetTexture(
-	const unsigned int width,
-	const unsigned int height,
-	const Texture::TARGET_FORMAT fmt)
+float GLVideo::GetLineWidth() const
 {
-	return TexturePtr();
+	return m_lineWidth;
 }
 
-SpritePtr GLVideo::CreateSprite(
-	GS_BYTE *pBuffer,
-	const unsigned int bufferLength,
-	Color mask,
-	const unsigned int width,
-	const unsigned int height)
-{
-	return SpritePtr();
-}
 
-SpritePtr GLVideo::CreateSprite(
-	const str_type::string& fileName,
-	Color mask,
-	const unsigned int width,
-	const unsigned int height)
-{
-	return SpritePtr();
-}
 
-SpritePtr GLVideo::CreateRenderTarget(
-	const unsigned int width,
-	const unsigned int height,
-	const Texture::TARGET_FORMAT format)
-{
-	return SpritePtr();
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 boost::any GLVideo::GetVideoInfo()
 {
@@ -578,15 +523,6 @@ float GLVideo::GetSpriteDepth() const
 	return 0.0f;
 }
 
-void GLVideo::SetLineWidth(const float width)
-{
-}
-
-float GLVideo::GetLineWidth() const
-{
-	return 0.0f;
-}
-
 bool GLVideo::SetCameraPos(const math::Vector2 &pos)
 {
 	return false;
@@ -628,11 +564,6 @@ math::Rect2D GLVideo::GetScissor() const
 
 void GLVideo::UnsetScissor()
 {
-}
-
-bool GLVideo::DrawLine(const math::Vector2 &p1, const math::Vector2 &p2, const Color& color1, const Color& color2)
-{
-	return false;
 }
 
 bool GLVideo::BeginTargetScene(const Color& dwBGColor, const bool clear)

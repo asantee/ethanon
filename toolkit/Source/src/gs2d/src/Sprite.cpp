@@ -33,7 +33,11 @@ Sprite::Sprite() :
 	m_normalizedOrigin(Vector2(0.0f, 0.0f)),
 	m_rect(Rect2Df(0,0,0,0)),
 	m_rectMode(RM_TWO_TRIANGLES),
-	m_currentRect(0)
+	m_currentRect(0),
+	m_flipX(false),
+	m_flipY(false),
+	m_multiply(1.0f, 1.0f),
+	m_scroll(0.0f, 0.0f)
 {
 }
 
@@ -207,6 +211,66 @@ void Sprite::SetOrigin(const ENTITY_ORIGIN origin)
 math::Vector2 Sprite::GetFrameSize() const
 {
 	return (m_rect.size == Vector2(0, 0)) ? GetBitmapSizeF() : m_rect.size;
+}
+
+void Sprite::FlipX(const bool flip)
+{
+	m_flipX = flip;
+}
+
+void Sprite::FlipY(const bool flip)
+{
+	m_flipY = flip;
+}
+
+void Sprite::FlipX()
+{
+	m_flipX = !(m_flipX);
+}
+
+void Sprite::FlipY()
+{
+	m_flipY = !(m_flipY);
+}
+
+bool Sprite::GetFlipX() const
+{
+	return m_flipX;
+}
+
+bool Sprite::GetFlipY() const
+{
+	return m_flipY;
+}
+
+void Sprite::SetMultiply(const Vector2 &v2Multiply)
+{
+	m_multiply = Vector2(Abs(v2Multiply.x), Abs(v2Multiply.y));
+}
+
+Vector2 Sprite::GetMultiply() const
+{
+	return m_multiply;
+}
+
+#define GS_MAX_SCROLL (1024.0f*4.0f)
+void Sprite::SetScroll(const Vector2 &v2Scroll)
+{
+	m_scroll = v2Scroll;
+	if (m_scroll.x > GS_MAX_SCROLL)
+		m_scroll.x -= GS_MAX_SCROLL;
+	else if (m_scroll.x < -GS_MAX_SCROLL)
+		m_scroll.x += GS_MAX_SCROLL;
+
+	if (m_scroll.y > GS_MAX_SCROLL)
+		m_scroll.y -= GS_MAX_SCROLL;
+	else if (m_scroll.y < -GS_MAX_SCROLL)
+		m_scroll.y += GS_MAX_SCROLL;
+}
+
+Vector2 Sprite::GetScroll() const
+{
+	return m_scroll;
 }
 
 } // namespace gs2d

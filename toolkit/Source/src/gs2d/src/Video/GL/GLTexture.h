@@ -30,7 +30,7 @@
 
 namespace gs2d {
 
-class GLTexture : Texture
+class GLTexture : public Texture
 {
 	Platform::FileManagerPtr m_fileManager;
 	VideoWeakPtr m_video;
@@ -80,6 +80,9 @@ public:
 
 	const TEXTURE_INFO& GetTextureInfo() const;
 };
+
+typedef boost::shared_ptr<GLTexture> GLTexturePtr;
+typedef boost::weak_ptr<GLTexture> GLTextureWeakPtr;
 
 } // namespace gs2d
 

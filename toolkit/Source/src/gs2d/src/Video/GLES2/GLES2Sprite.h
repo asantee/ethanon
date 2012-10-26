@@ -101,19 +101,6 @@ public:
 	math::Vector2i GetBitmapSize() const;
 	math::Vector2 GetBitmapSizeF() const;
 
-	void FlipX(const bool flip);
-	void FlipY(const bool flip);
-	void FlipX();
-	void FlipY();
-	bool GetFlipX() const;
-	bool GetFlipY() const;
-
-	void SetScroll(const math::Vector2 &v2Scroll);
-	math::Vector2 GetScroll() const;
-
-	void SetMultiply(const math::Vector2 &v2Multiply);
-	math::Vector2 GetMultiply() const;
-
 	TYPE GetType() const;
 	boost::any GetTextureObject();
 

@@ -71,7 +71,6 @@ boost::any GLCgShaderContext::GetContextPointer()
 
 bool GLCgShaderContext::DisableTextureParams()
 {
-	// TODO
 	return false;
 }
 

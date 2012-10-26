@@ -125,19 +125,6 @@ public:
 	virtual math::Vector2i GetBitmapSize() const = 0;
 	virtual math::Vector2 GetBitmapSizeF() const = 0;
 
-	virtual void FlipX(const bool flip) = 0;
-	virtual void FlipY(const bool flip) = 0;
-	virtual void FlipX() = 0;
-	virtual void FlipY() = 0;
-	virtual bool GetFlipX() const = 0;
-	virtual bool GetFlipY() const = 0;
-
-	virtual void SetScroll(const math::Vector2 &v2Scroll) = 0;
-	virtual math::Vector2 GetScroll() const = 0;
-
-	virtual void SetMultiply(const math::Vector2 &v2Multiply) = 0;
-	virtual math::Vector2 GetMultiply() const = 0;
-
 	virtual TYPE GetType() const = 0;
 	virtual boost::any GetTextureObject() = 0;
 
@@ -154,6 +141,16 @@ public:
 	virtual float GetSpriteDensityValue() const = 0;
 
 	// Non pure virtual functions:
+	virtual void FlipX(const bool flip);
+	virtual void FlipY(const bool flip);
+	virtual void FlipX();
+	virtual void FlipY();
+	virtual bool GetFlipX() const;
+	virtual bool GetFlipY() const;
+	virtual void SetScroll(const math::Vector2 &v2Scroll);
+	virtual math::Vector2 GetScroll() const;
+	virtual void SetMultiply(const math::Vector2 &v2Multiply);
+	virtual math::Vector2 GetMultiply() const;
 	virtual void SetRectMode(const RECT_MODE mode);
 	virtual RECT_MODE GetRectMode() const;
 	virtual bool SetupSpriteRects(const unsigned int columns, const unsigned int rows);
@@ -188,6 +185,10 @@ protected:
 	RECT_MODE m_rectMode;
 	float m_densityValue;
 	math::Vector2 m_normalizedOrigin;
+	
+	math::Vector2 m_scroll;
+	math::Vector2 m_multiply;
+	bool m_flipX, m_flipY;
 };
 
 } // namespace gs2d

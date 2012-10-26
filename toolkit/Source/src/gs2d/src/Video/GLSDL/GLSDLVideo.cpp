@@ -22,6 +22,9 @@
 
 #include "GLSDLVideo.h"
 
+#include "../GL/GLTexture.h"
+#include "../GL/Cg/GLCgShader.h"
+
 namespace gs2d {
 
 VideoPtr CreateVideo(
@@ -85,6 +88,106 @@ bool GLSDLVideo::EndSpriteScene()
 {
 	GLVideo::EndSpriteScene();
 	return SDLWindow::EndSpriteScene();
+}
+
+ShaderPtr GLSDLVideo::LoadShaderFromFile(
+	const str_type::string& fileName,
+	const Shader::SHADER_FOCUS focus,
+	const Shader::SHADER_PROFILE profile,
+	const char *entry)
+{
+	ShaderPtr shader = ShaderPtr(new GLCgShader);
+	if (shader->LoadShaderFromFile(m_shaderContext, fileName, focus, profile, entry))
+	{
+		return shader;
+	}
+	return ShaderPtr();
+}
+
+ShaderPtr GLSDLVideo::LoadShaderFromString(
+	const str_type::string& shaderName,
+	const std::string& codeAsciiString,
+	const Shader::SHADER_FOCUS focus,
+	const Shader::SHADER_PROFILE profile,
+	const char *entry)
+{
+	ShaderPtr shader(new GLCgShader);
+	if (shader->LoadShaderFromString(m_shaderContext, shaderName, codeAsciiString, focus, profile, entry))
+	{
+		return shader;
+	}
+	return ShaderPtr();
+}
+
+TexturePtr GLSDLVideo::CreateTextureFromFileInMemory(
+	const void *pBuffer,
+	const unsigned int bufferLength,
+	Color mask,
+	const unsigned int width,
+	const unsigned int height,
+	const unsigned int nMipMaps)
+{
+	TexturePtr texture(new GLTexture(weak_this, GetFileIOHub()->GetFileManager()));
+	if (texture->LoadTexture(weak_this, pBuffer, mask, width, height, nMipMaps, bufferLength))
+	{
+		return texture;
+	}
+	return TexturePtr();
+}
+
+TexturePtr GLSDLVideo::LoadTextureFromFile(
+	const str_type::string& fileName,
+	Color mask,
+	const unsigned int width,
+	const unsigned int height,
+	const unsigned int nMipMaps)
+{
+	TexturePtr texture(new GLTexture(weak_this, GetFileIOHub()->GetFileManager()));
+	if (texture->LoadTexture(weak_this, fileName, mask, width, height, nMipMaps))
+	{
+		return texture;
+	}
+	return TexturePtr();
+}
+
+TexturePtr GLSDLVideo::CreateRenderTargetTexture(
+	const unsigned int width,
+	const unsigned int height,
+	const Texture::TARGET_FORMAT fmt)
+{
+	TexturePtr texture(new GLTexture(weak_this, GetFileIOHub()->GetFileManager()));
+	if (texture->CreateRenderTarget(weak_this, width, height, fmt))
+	{
+		return texture;
+	}
+	return TexturePtr();
+}
+
+SpritePtr GLSDLVideo::CreateSprite(
+	GS_BYTE *pBuffer,
+	const unsigned int bufferLength,
+	Color mask,
+	const unsigned int width,
+	const unsigned int height)
+{
+	return SpritePtr();
+}
+
+SpritePtr GLSDLVideo::CreateSprite(
+	const str_type::string& fileName,
+	Color mask,
+	const unsigned int width,
+	const unsigned int height)
+{
+	return SpritePtr();
+}
+
+SpritePtr GLSDLVideo::CreateRenderTarget(
+	const unsigned int width,
+	const unsigned int height,
+	const Texture::TARGET_FORMAT format)
+{
+	return SpritePtr();
 }
 
 } // namespace gs2d

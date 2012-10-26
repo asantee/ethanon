@@ -40,8 +40,8 @@ class GLSDLVideo : public GLVideo, public SDLWindow
 		const bool maximizable = false);
 
 	boost::weak_ptr<GLSDLVideo> weak_this;
-public:
 
+public:
 	static boost::shared_ptr<GLSDLVideo> Create(
 		const unsigned int width,
 		const unsigned int height,
@@ -60,6 +60,57 @@ public:
 		const bool windowed,
 		const bool sync,
 		const bool maximizable);
+
+	TexturePtr CreateTextureFromFileInMemory(
+		const void *pBuffer,
+		const unsigned int bufferLength,
+		Color mask,
+		const unsigned int width,
+		const unsigned int height,
+		const unsigned int nMipMaps);
+	
+	TexturePtr LoadTextureFromFile(
+		const str_type::string& fileName,
+		Color mask,
+		const unsigned int width,
+		const unsigned int height,
+		const unsigned int nMipMaps);
+	
+	TexturePtr CreateRenderTargetTexture(
+		const unsigned int width,
+		const unsigned int height,
+		const Texture::TARGET_FORMAT fmt);
+	
+	SpritePtr CreateSprite(
+		GS_BYTE *pBuffer,
+		const unsigned int bufferLength,
+		Color mask = constant::ZERO,
+		const unsigned int width = 0,
+		const unsigned int height = 0);
+	
+	SpritePtr CreateSprite(
+		const str_type::string& fileName,
+		Color mask = constant::ZERO,
+		const unsigned int width = 0,
+		const unsigned int height = 0);
+	
+	SpritePtr CreateRenderTarget(
+		const unsigned int width,
+		const unsigned int height,
+		const Texture::TARGET_FORMAT format = Texture::TF_DEFAULT);
+
+	ShaderPtr LoadShaderFromFile(
+		const str_type::string& fileName,
+		const Shader::SHADER_FOCUS focus,
+		const Shader::SHADER_PROFILE profile = Shader::SP_HIGHEST,
+		const char *entry = 0);
+	
+	ShaderPtr LoadShaderFromString(
+		const str_type::string& shaderName,
+		const std::string& codeAsciiString,
+		const Shader::SHADER_FOCUS focus,
+		const Shader::SHADER_PROFILE profile = Shader::SP_HIGHEST,
+		const char *entry = 0);
 
 	bool EndSpriteScene();
 };
