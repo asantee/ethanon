@@ -16,7 +16,7 @@ int SDL_main (int argc, char **argv)
 		gs2d::SpritePtr tileset(video->CreateSprite(fileIOHub->GetResourceDirectory() + "resources/tileset.png"));
 		tileset->SetupSpriteRects(2, 2);
 		tileset->SetRect(2);
-
+		
 		video->SetBGColor(0xFF003366);
 
 		gs2d::Video::APP_STATUS status;

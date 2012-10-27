@@ -88,7 +88,7 @@ public:
 		const Color& color3,
 		const float angle = 0.0f);
 
-	bool SaveBitmap(const wchar_t *wcsName, const Texture::BITMAP_FORMAT fmt, math::Rect2D *pRect = 0);
+	bool SaveBitmap(const str_type::char_t* name, const Texture::BITMAP_FORMAT fmt, math::Rect2D *pRect = 0);
 
 	bool DrawShapedFast(const math::Vector2 &v2Pos, const math::Vector2 &v2Size, const Color& color);
 

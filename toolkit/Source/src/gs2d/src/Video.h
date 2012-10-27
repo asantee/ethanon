@@ -238,7 +238,7 @@ public:
 	virtual bool Rendering() const = 0;
 
 	virtual bool SaveScreenshot(
-		const wchar_t *wcsName,
+		const str_type::char_t* wcsName,
 		const Texture::BITMAP_FORMAT fmt = Texture::BF_BMP,
 		math::Rect2D rect = math::Rect2D(0,0,0,0)) = 0;
 

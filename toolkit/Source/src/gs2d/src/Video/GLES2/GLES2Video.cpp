@@ -864,8 +864,10 @@ bool GLES2Video::Rendering() const
 	return m_rendering;
 }
 
-bool GLES2Video::SaveScreenshot(const wchar_t *wcsName,
-		const Texture::BITMAP_FORMAT fmt, Rect2D rect)
+bool GLES2Video::SaveScreenshot(
+	const str_type::char_t* name,
+	const Texture::BITMAP_FORMAT fmt,
+	Rect2D rect)
 {
 	// TODO
 	return false;

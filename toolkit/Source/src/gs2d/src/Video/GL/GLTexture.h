@@ -91,6 +91,8 @@ public:
 		const unsigned int bufferLength);
 
 	const TEXTURE_INFO& GetTextureInfo() const;
+
+	bool SaveBitmap(const str_type::char_t* name, const Texture::BITMAP_FORMAT fmt);
 };
 
 typedef boost::shared_ptr<GLTexture> GLTexturePtr;

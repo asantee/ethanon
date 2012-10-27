@@ -104,7 +104,7 @@ public:
 		const float angle = 0.0f) = 0;
 
 	virtual bool SaveBitmap(
-		const wchar_t* wcsName,
+		const str_type::char_t* name,
 		const Texture::BITMAP_FORMAT fmt,
 		math::Rect2D* pRect = 0) = 0;
 

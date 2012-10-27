@@ -33,6 +33,7 @@ namespace gs2d {
 
 static void CheckFrameBufferStatus(const GLuint fbo, const GLuint tex, const bool showSuccessMessage);
 static void ApplyPixelMask(unsigned char *ht_map, const Color mask, const int channels, const int width, const int height);
+static int GetSOILTexType(const Texture::BITMAP_FORMAT fmt, str_type::string& ext);
 
 GLuint GLTexture::m_textureID(1000);
 
@@ -246,6 +247,22 @@ void GLTexture::Recover()
 	ShowMessage("Texture recovered: " + Platform::GetFileName(m_fileName), GSMT_INFO);
 }
 
+bool GLTexture::SaveBitmap(const str_type::char_t* name, const Texture::BITMAP_FORMAT fmt)
+{
+	str_type::string fileName = name, ext;
+	const int type = GetSOILTexType(fmt, ext);
+	
+	if (!Platform::IsExtensionRight(fileName, ext))
+		fileName.append(ext);
+
+	const bool r = (SOIL_save_image(fileName.c_str(), type, m_profile.originalWidth, m_profile.originalHeight, m_channels, m_bitmap) != 0);
+
+	if (!r)
+		ShowMessage("Couldn't save texture " + fileName, GSMT_ERROR);
+
+	return r;
+}
+
 void CheckFrameBufferStatus(const GLuint fbo, const GLuint tex, const bool showSuccessMessage)
 {
 	const GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
@@ -297,6 +314,42 @@ static void ApplyPixelMask(unsigned char *ht_map, const Color mask, const int ch
 			}
 		}
 	}
+}
+
+int GetSOILTexType(const Texture::BITMAP_FORMAT fmt, str_type::string& ext)
+{
+	switch (fmt)
+	{
+	case Texture::BF_BMP:
+		ext = ".bmp";
+		return SOIL_SAVE_TYPE_BMP;
+		break;
+	case Texture::BF_JPG:
+		ext = ".bmp";
+		return SOIL_SAVE_TYPE_BMP;
+		break;
+	case Texture::BF_PNG:
+		ext = ".bmp";
+		return SOIL_SAVE_TYPE_BMP;
+		break;
+	case Texture::BF_TGA:
+		ext = ".tga";
+		return SOIL_SAVE_TYPE_TGA;
+		break;
+	case Texture::BF_DDS:
+		ext = ".dds";
+		return SOIL_SAVE_TYPE_DDS;
+		break;
+	case Texture::BF_HDR:
+		ext = ".bmp";
+		return SOIL_SAVE_TYPE_BMP;
+		break;
+	default:
+		ext = ".bmp";
+		return SOIL_SAVE_TYPE_BMP;
+		break;
+	}
+	return SOIL_SAVE_TYPE_BMP;
 }
 
 } // namespace gs2d

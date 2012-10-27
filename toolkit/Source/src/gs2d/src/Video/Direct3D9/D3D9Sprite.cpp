@@ -183,7 +183,7 @@ bool D3D9Sprite::DrawOptimal(const math::Vector2 &v2Pos, const Color& color, con
 	return DrawShaped(v2Pos, size, color, color, color, color, angle);
 }
 
-bool D3D9Sprite::SaveBitmap(const wchar_t *wcsName, const Texture::BITMAP_FORMAT fmt, Rect2D *pRect)
+bool D3D9Sprite::SaveBitmap(const str_type::char_t* name, const Texture::BITMAP_FORMAT fmt, Rect2D *pRect)
 {
 	if (m_type == Sprite::T_NOT_LOADED)
 	{
@@ -213,7 +213,7 @@ bool D3D9Sprite::SaveBitmap(const wchar_t *wcsName, const Texture::BITMAP_FORMAT
 
 		std::wstring finalName;
 		std::wstring ext = GetImageExtension(fmt);
-		finalName = wcsName;
+		finalName = name;
 		if (!IsTheExtensionRight(finalName.c_str(), ext.c_str()))
 		{
 			finalName += ext;

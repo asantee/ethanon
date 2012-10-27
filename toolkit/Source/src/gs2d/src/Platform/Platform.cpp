@@ -102,6 +102,19 @@ gs2d::str_type::string RemoveExtension(const gs2d::str_type::char_t* source)
 	return dest;
 }
 
+bool IsExtensionRight(const gs2d::str_type::string& fileName, const gs2d::str_type::string& ext)
+{
+	const std::size_t pos = fileName.rfind(ext);
+	if (fileName.size() - pos == ext.size())
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 #ifdef GS2D_STR_TYPE_WCHAR
 	std::wstring GetFileName(const std::wstring& source)
 	{

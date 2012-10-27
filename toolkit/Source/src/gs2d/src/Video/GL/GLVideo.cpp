@@ -521,7 +521,7 @@ bool GLVideo::EndTargetScene()
 }
 
 bool GLVideo::SaveScreenshot(
-	const wchar_t *wcsName,
+	const str_type::char_t* wcsName,
 	const Texture::BITMAP_FORMAT fmt,
 	math::Rect2D rect)
 {

@@ -294,7 +294,7 @@ bool GLES2Sprite::DrawOptimal(const math::Vector2 &v2Pos, const Color& color, co
 	return true;
 }
 
-bool GLES2Sprite::SaveBitmap(const wchar_t *wcsName, const Texture::BITMAP_FORMAT fmt, Rect2D *pRect)
+bool GLES2Sprite::SaveBitmap(const str_type::char_t* wcsName, const Texture::BITMAP_FORMAT fmt, Rect2D *pRect)
 {
 	// TODO 
 	return false;

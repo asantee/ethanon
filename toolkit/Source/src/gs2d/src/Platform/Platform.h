@@ -43,6 +43,7 @@ std::string& FixSlashesForUnix(std::string& path);
 char GetDirectorySlashA();
 gs2d::str_type::string GetModuleDirectory();
 gs2d::str_type::string RemoveExtension(const gs2d::str_type::char_t* source);
+bool IsExtensionRight(const gs2d::str_type::string& fileName, const gs2d::str_type::string& ext);
 
 #ifdef GS2D_STR_TYPE_WCHAR
 	std::wstring GetFileName(const std::wstring& source);

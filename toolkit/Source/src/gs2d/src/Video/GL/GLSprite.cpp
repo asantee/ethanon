@@ -22,6 +22,8 @@
 
 #include "GLSprite.h"
 
+#include "../../Platform/Platform.h"
+
 namespace gs2d {
 
 bool GLSprite::LoadSprite(
@@ -324,34 +326,33 @@ void GLSprite::SetDiffuseTexture(ShaderPtr currentPixelShader)
 	}
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 bool GLSprite::SaveBitmap(
-	const wchar_t* wcsName,
+	const str_type::char_t* name,
 	const Texture::BITMAP_FORMAT fmt,
 	math::Rect2D* pRect)
 {
-	// TODO
-	return false;
+	return m_texture->SaveBitmap(name, fmt);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void GLSprite::GenerateBackup()
 {
