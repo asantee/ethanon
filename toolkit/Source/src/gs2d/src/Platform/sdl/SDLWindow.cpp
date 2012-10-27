@@ -162,6 +162,19 @@ void SDLWindow::ReadDisplayModes()
 	}
 }
 
+Video::VIDEO_MODE SDLWindow::GetVideoMode(const unsigned int modeIdx) const
+{
+	if (modeIdx >= GetVideoModeCount())
+		return VIDEO_MODE();
+	else
+		return m_videoModes[modeIdx];
+}
+
+unsigned int SDLWindow::GetVideoModeCount() const
+{
+	return static_cast<unsigned int>(m_videoModes.size());
+}
+
 str_type::string SDLWindow::GetPlatformName() const
 {
 #	ifdef MACOSX
@@ -307,41 +320,6 @@ float SDLWindow::GetFPSRate() const
 	return math::Max(1.0f, m_fpsRate);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-math::Vector2i SDLWindow::GetClientScreenSize() const
-{
-	return math::Vector2i(0, 0);
-}
-
-void SDLWindow::ForwardCommand(const str_type::string& cmd)
-{
-}
-
-str_type::string SDLWindow::PullCommands()
-{
-	return "";
-}
-	
-/////////////////////////////
-//
-//  Window implementations
-//
-/////////////////////////////
-
 str_type::string SDLWindow::GetWindowTitle() const
 {
 	char *title;
@@ -391,6 +369,24 @@ bool SDLWindow::IsWindowed() const
 
 
 
+
+
+
+
+
+math::Vector2i SDLWindow::GetClientScreenSize() const
+{
+	return math::Vector2i(0, 0);
+}
+
+void SDLWindow::ForwardCommand(const str_type::string& cmd)
+{
+}
+
+str_type::string SDLWindow::PullCommands()
+{
+	return "";
+}
 
 void SDLWindow::EnableMediaPlaying(const bool enable)
 {

@@ -107,6 +107,9 @@ public:
 	bool HideCursor(const bool hide);
 	bool IsCursorHidden() const;
 
+	VIDEO_MODE GetVideoMode(const unsigned int modeIdx) const;
+	unsigned int GetVideoModeCount() const;
+
 	bool SyncEnabled() const;
 	bool IsMaximizable() const;
 	double GetElapsedTimeD(const TIME_UNITY unity) const;

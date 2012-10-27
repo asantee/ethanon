@@ -1326,7 +1326,7 @@ Video::VIDEO_MODE D3D9Video::GetVideoMode(const unsigned int modeIdx) const
 	return m_modes[modeIdx];
 }
 
-unsigned int D3D9Video::GetVideoModeCount()
+unsigned int D3D9Video::GetVideoModeCount() const
 {
 	if (!m_pD3D)
 	{

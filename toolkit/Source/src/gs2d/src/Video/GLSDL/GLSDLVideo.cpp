@@ -186,6 +186,7 @@ bool GLSDLVideo::ResetVideoMode(
 		m_screenSize.y = static_cast<float>(height);
 
 		GLVideo::StartApplication(width, height, GetWindowTitle(), IsWindowed(), SyncEnabled());
+		RecoverAll();
 		return true;
 	}
 	else

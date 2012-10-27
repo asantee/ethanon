@@ -65,6 +65,8 @@
 		7473CAE116358AC6005DB920 /* GLVideo.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CADF16358AC6005DB920 /* GLVideo.h */; };
 		7473CAE51635ABD9005DB920 /* GLSDLVideo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7473CAE31635ABD9005DB920 /* GLSDLVideo.cpp */; };
 		7473CAE61635ABD9005DB920 /* GLSDLVideo.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CAE41635ABD9005DB920 /* GLSDLVideo.h */; };
+		74838D2E163C13E30027CFFC /* RecoverableResourceManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74838D2C163C13E30027CFFC /* RecoverableResourceManager.cpp */; };
+		74838D2F163C13E30027CFFC /* RecoverableResourceManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 74838D2D163C13E30027CFFC /* RecoverableResourceManager.h */; };
 		7486553816382B6A0096D869 /* Cg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7486553716382B6A0096D869 /* Cg.framework */; };
 		7486553B16382B960096D869 /* Cg.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7486553A16382B960096D869 /* Cg.framework */; };
 		7486553E16382C000096D869 /* GLCgShaderContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7486553C16382C000096D869 /* GLCgShaderContext.cpp */; };
@@ -164,6 +166,9 @@
 		7473CADF16358AC6005DB920 /* GLVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLVideo.h; path = ../../../../src/Video/GL/GLVideo.h; sourceTree = "<group>"; };
 		7473CAE31635ABD9005DB920 /* GLSDLVideo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLSDLVideo.cpp; path = ../../../../src/Video/GLSDL/GLSDLVideo.cpp; sourceTree = "<group>"; };
 		7473CAE41635ABD9005DB920 /* GLSDLVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLSDLVideo.h; path = ../../../../src/Video/GLSDL/GLSDLVideo.h; sourceTree = "<group>"; };
+		74838D28163C0C2C0027CFFC /* RecoverableResource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RecoverableResource.h; path = ../../../../src/Utilities/RecoverableResource.h; sourceTree = "<group>"; };
+		74838D2C163C13E30027CFFC /* RecoverableResourceManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RecoverableResourceManager.cpp; path = ../../../../src/Utilities/RecoverableResourceManager.cpp; sourceTree = "<group>"; };
+		74838D2D163C13E30027CFFC /* RecoverableResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecoverableResourceManager.h; path = ../../../../src/Utilities/RecoverableResourceManager.h; sourceTree = "<group>"; };
 		7486553716382B6A0096D869 /* Cg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cg.framework; path = ../../../vendors/Cg.framework; sourceTree = "<group>"; };
 		7486553A16382B960096D869 /* Cg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cg.framework; path = ../../../vendors/Cg.framework; sourceTree = "<group>"; };
 		7486553C16382C000096D869 /* GLCgShaderContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLCgShaderContext.cpp; path = ../../../../src/Video/GL/Cg/GLCgShaderContext.cpp; sourceTree = "<group>"; };
@@ -318,6 +323,17 @@
 			name = GLSDL;
 			sourceTree = "<group>";
 		};
+		74838D29163C0C390027CFFC /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				74838D2C163C13E30027CFFC /* RecoverableResourceManager.cpp */,
+				74838D2D163C13E30027CFFC /* RecoverableResourceManager.h */,
+				74838D28163C0C2C0027CFFC /* RecoverableResource.h */,
+				7473CA891633032E005DB920 /* Enml */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
 		748655401638302E0096D869 /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
@@ -392,7 +408,7 @@
 			isa = PBXGroup;
 			children = (
 				7473CAAC16330431005DB920 /* Video */,
-				7473CA891633032E005DB920 /* Enml */,
+				74838D29163C0C390027CFFC /* Utilities */,
 				7473CA8816330323005DB920 /* Platform */,
 				7473CA8716330318005DB920 /* Math */,
 				7473CA6B16330304005DB920 /* Application.cpp */,
@@ -475,6 +491,7 @@
 				7486555D163981310096D869 /* stbi_DDS_aug.h in Headers */,
 				7486555F1639AEFF0096D869 /* cgShaderCode.h in Headers */,
 				748655631639E1600096D869 /* GLSprite.h in Headers */,
+				74838D2F163C13E30027CFFC /* RecoverableResourceManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -572,6 +589,7 @@
 				74865558163981310096D869 /* SOIL.c in Sources */,
 				7486555A163981310096D869 /* stb_image_aug.c in Sources */,
 				748655621639E1600096D869 /* GLSprite.cpp in Sources */,
+				74838D2E163C13E30027CFFC /* RecoverableResourceManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

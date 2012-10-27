@@ -446,16 +446,6 @@ Shader::SHADER_PROFILE GLVideo::GetHighestPixelProfile() const
 	return Shader::SP_NONE;
 }
 
-Video::VIDEO_MODE GLVideo::GetVideoMode(const unsigned int modeIdx) const
-{
-	return Video::VIDEO_MODE();
-}
-
-unsigned int GLVideo::GetVideoModeCount()
-{
-	return 0;
-}
-
 bool GLVideo::SetRenderTarget(SpritePtr pTarget, const unsigned int target)
 {
 	return false;

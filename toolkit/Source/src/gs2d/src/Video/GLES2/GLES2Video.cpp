@@ -434,7 +434,7 @@ Video::VIDEO_MODE GLES2Video::GetVideoMode(const unsigned int modeIdx) const
 	return vm;
 }
 
-unsigned int GLES2Video::GetVideoModeCount()
+unsigned int GLES2Video::GetVideoModeCount() const
 {
 	return 1;
 }

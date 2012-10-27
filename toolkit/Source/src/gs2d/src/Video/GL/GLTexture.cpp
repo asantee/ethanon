@@ -43,17 +43,19 @@ GLTexture::TEXTURE_INFO::TEXTURE_INFO() :
 
 GLTexture::GLTexture(VideoWeakPtr video, Platform::FileManagerPtr fileManager) :
 	m_fileManager(fileManager),
-	m_video(video)
+	m_bitmap(0),
+	m_channels(0)
 {
+	m_video = boost::dynamic_pointer_cast<GLVideo>(video.lock());
 }
 
 GLTexture::~GLTexture()
 {
-	if (m_textureInfo.m_texture != 0)
-	{
-		GLuint textures[1] = { m_textureInfo.m_texture };
-		glDeleteTextures(1, textures);
-	}
+	FreeBitmap();
+	
+	m_video->RemoveRecoverableResource(this);
+	DeleteGLTexture();
+
 	if (m_textureInfo.m_frameBuffer != 0)
 	{
 		GLuint buffers[1] = { m_textureInfo.m_frameBuffer };
@@ -63,6 +65,16 @@ GLTexture::~GLTexture()
 	{
 		GLuint buffers[1] = { m_textureInfo.m_renderBuffer };
 		glDeleteRenderbuffers(1, buffers);
+	}
+}
+
+void GLTexture::DeleteGLTexture()
+{
+	if (m_textureInfo.m_texture != 0)
+	{
+		GLuint textures[1] = { m_textureInfo.m_texture };
+		glDeleteTextures(1, textures);
+		m_textureInfo.m_texture = 0;
 	}
 }
 
@@ -100,7 +112,8 @@ math::Vector2 GLTexture::GetBitmapSize() const
 bool GLTexture::CreateRenderTarget(
 	VideoWeakPtr video,
 	const unsigned int width,
-	const unsigned int height,const TARGET_FORMAT fmt)
+	const unsigned int height,
+	const TARGET_FORMAT fmt)
 {
 	m_textureInfo.m_texture = m_textureID++;
 
@@ -177,19 +190,16 @@ bool GLTexture::LoadTexture(
 	const unsigned int nMipMaps,
 	const unsigned int bufferLength)
 {
-	int iWidth, iHeight, channels;
-	unsigned char *ht_map = SOIL_load_image_from_memory((unsigned char*)pBuffer, bufferLength, &iWidth, &iHeight, &channels, SOIL_LOAD_AUTO);
+	int iWidth, iHeight;
+	m_bitmap = SOIL_load_image_from_memory((unsigned char*)pBuffer, bufferLength, &iWidth, &iHeight, &m_channels, SOIL_LOAD_AUTO);
+	ApplyPixelMask(m_bitmap, m_profile.mask, m_channels, width, height);
 
-	if (ht_map)
-	{
-		ApplyPixelMask(ht_map, mask, channels, iWidth, iHeight);
-		m_textureInfo.m_texture = SOIL_create_OGL_texture(ht_map, iWidth, iHeight, channels, m_textureID++, SOIL_FLAG_POWER_OF_TWO);
-	}
+	CreateTextureFromBitmap(iWidth, iHeight, m_channels);
 
 	if (!m_textureInfo.m_texture)
 	{
 		ShowMessage(m_fileName + " couldn't load texture", GSMT_ERROR);
-		SOIL_free_image_data(ht_map);
+		FreeBitmap();
 		return false;
 	}
 	else
@@ -199,11 +209,36 @@ bool GLTexture::LoadTexture(
 		m_profile.height = static_cast<unsigned int>(iHeight);
 		m_profile.originalWidth = m_profile.width;
 		m_profile.originalHeight = m_profile.height;
+		m_profile.mask = mask;
 		ShowMessage(m_fileName + " texture loaded", GSMT_INFO);
-		SOIL_free_image_data(ht_map);
+		m_video->InsertRecoverableResource(this);
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
 	return true;
+}
+
+void GLTexture::CreateTextureFromBitmap(const int width, const int height, const int channels)
+{
+	DeleteGLTexture();
+	if (m_bitmap)
+	{
+		m_textureInfo.m_texture = SOIL_create_OGL_texture(m_bitmap, width, height, channels, m_textureID++, SOIL_FLAG_POWER_OF_TWO);
+	}
+}
+
+void GLTexture::FreeBitmap()
+{
+	if (m_bitmap)
+	{
+		SOIL_free_image_data(m_bitmap);
+		m_bitmap = 0;
+	}
+}
+
+void GLTexture::Recover()
+{
+	CreateTextureFromBitmap(m_profile.width, m_profile.height, m_channels);
+	ShowMessage("Texture recovered: " + m_fileName, GSMT_INFO);
 }
 
 void CheckFrameBufferStatus(const GLuint fbo, const GLuint tex, const bool showSuccessMessage)

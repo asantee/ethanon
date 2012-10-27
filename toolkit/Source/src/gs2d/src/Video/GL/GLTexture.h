@@ -25,26 +25,38 @@
 
 #include "../../Texture.h"
 #include "../../Platform/FileManager.h"
+#include "../../Utilities/RecoverableResource.h"
 
 #include "../GL/GLInclude.h"
 
 namespace gs2d {
 
-class GLTexture : public Texture
+class GLVideo;
+
+class GLTexture : public Texture, public RecoverableResource
+
 {
 	Platform::FileManagerPtr m_fileManager;
-	VideoWeakPtr m_video;
+	boost::shared_ptr<GLVideo> m_video;
 
 	TYPE m_type;
 	PROFILE m_profile;
 	str_type::string m_fileName;
+	int m_channels;
 	static GLuint m_textureID;
+
+	unsigned char* m_bitmap;
 
 	struct TEXTURE_INFO
 	{
 		TEXTURE_INFO();
 		GLuint m_texture, m_frameBuffer, m_renderBuffer;
 	} m_textureInfo;
+
+	void Recover();
+	void FreeBitmap();
+	void CreateTextureFromBitmap(const int width, const int height, const int channels);
+	void DeleteGLTexture();
 
 public:
 	GLTexture(VideoWeakPtr video, Platform::FileManagerPtr fileManager);

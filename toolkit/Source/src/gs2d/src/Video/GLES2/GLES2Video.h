@@ -144,7 +144,7 @@ public:
 	boost::any GetGraphicContext();
 
 	VIDEO_MODE GetVideoMode(const unsigned int modeIdx) const;
-	unsigned int GetVideoModeCount();
+	unsigned int GetVideoModeCount() const;
 
 	bool ResetVideoMode(
 		const VIDEO_MODE& mode,

@@ -28,10 +28,13 @@
 #include "GLInclude.h"
 #include "GLRectRenderer.h"
 #include "Cg/GLCGShaderContext.h"
+#include "../../Utilities/RecoverableResourceManager.h"
+
+#include <list>
 
 namespace gs2d {
 
-class GLVideo : public virtual Video
+class GLVideo : public virtual Video, public RecoverableResourceManager
 {
 	TEXTUREFILTER_MODE m_filter;
 	ALPHA_MODE m_alphaMode;
@@ -48,7 +51,7 @@ class GLVideo : public virtual Video
 
 	ShaderPtr m_defaultVS, m_rectVS, m_fastVS;
 	ShaderPtr m_currentVS;
-
+	
 protected:
 	bool StartApplication(
 		const unsigned int width,
@@ -82,10 +85,7 @@ public:
 	Shader::SHADER_PROFILE GetHighestPixelProfile() const;
 	
 	boost::any GetGraphicContext();
-	
-	VIDEO_MODE GetVideoMode(const unsigned int modeIdx) const;
-	unsigned int GetVideoModeCount();
-	
+		
 	bool SetRenderTarget(SpritePtr pTarget, const unsigned int target);
 	unsigned int GetMaxRenderTargets() const;
 	unsigned int GetMaxMultiTextures() const;

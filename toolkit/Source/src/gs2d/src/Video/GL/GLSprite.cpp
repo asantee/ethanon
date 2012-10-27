@@ -54,16 +54,19 @@ bool GLSprite::LoadSprite(
 	const unsigned int width,
 	const unsigned int height)
 {
-	VideoPtr v = video.lock();
+	m_video = boost::dynamic_pointer_cast<GLVideo>(video.lock());
 
-	Platform::FileBuffer out;
-	v->GetFileIOHub()->GetFileManager()->GetFileBuffer(fileName, out);
-	if (!out)
-	{
-		ShowMessage(fileName + " could not load buffer", GSMT_ERROR);
-		return false;
-	}
-	return LoadSprite(video, out->GetAddress(), static_cast<unsigned int>(out->GetBufferSize()), mask, width, height);
+	TexturePtr tex = m_video->LoadTextureFromFile(fileName, mask, width, height, 0);
+	m_texture = boost::dynamic_pointer_cast<GLTexture>(tex);
+	if (!m_texture)
+		 return false;
+
+	m_type = Sprite::T_BITMAP;
+	Texture::PROFILE profile = m_texture->GetProfile();
+	m_bitmapSize = math::Vector2(static_cast<float>(profile.width), static_cast<float>(profile.height));
+
+	SetupSpriteRects(1, 1);
+	return true;
 }
 
 bool GLSprite::CreateRenderTarget(

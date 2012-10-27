@@ -28,6 +28,9 @@ int SDL_main (int argc, char **argv)
 
 		video->BeginSpriteScene();
 
+		tileset->SetRect(3);
+		tileset->Draw(gs2d::math::Vector2(600, 600));
+
 		video->DrawRectangle(
 			gs2d::math::Vector2(10,10),
 			gs2d::math::Vector2(32,32),
@@ -38,6 +41,9 @@ int SDL_main (int argc, char **argv)
 			gs2d::math::Vector2(800,10),
 			gs2d::math::Vector2(64,256),
 			gs2d::constant::YELLOW);
+
+		tileset->SetRect(0);
+		tileset->Draw(gs2d::math::Vector2(600, 200));
 
 		video->DrawRectangle(
 			gs2d::math::Vector2(20,42),
@@ -61,6 +67,9 @@ int SDL_main (int argc, char **argv)
 			gs2d::constant::BLUE,
 			angle);
 
+		tileset->SetRect(1);
+		tileset->Draw(gs2d::math::Vector2(200, 600));
+
 		video->DrawRectangle(
 			gs2d::math::Vector2(600,300),
 			gs2d::math::Vector2(100,10),
@@ -74,8 +83,8 @@ int SDL_main (int argc, char **argv)
 			gs2d::constant::RED, gs2d::constant::YELLOW,
 			gs2d::constant::BLUE, gs2d::constant::GREEN,
 			200.0f);
-		
-		video->SetVertexShader(video->GetDefaultVS());
+
+		tileset->SetRect(2);
 		tileset->Draw(screenSize * 0.5f);
 
 		video->EndSpriteScene();

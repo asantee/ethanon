@@ -169,7 +169,7 @@ public:
 	virtual boost::any GetGraphicContext() = 0;
 
 	virtual VIDEO_MODE GetVideoMode(const unsigned int modeIdx) const = 0;
-	virtual unsigned int GetVideoModeCount() = 0;
+	virtual unsigned int GetVideoModeCount() const = 0;
 
 	virtual bool ResetVideoMode(
 		const VIDEO_MODE& mode,
