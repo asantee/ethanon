@@ -37,6 +37,8 @@ class GLSprite : public Sprite
 	math::Vector2 m_bitmapSize;
 	Sprite::TYPE m_type;
 
+	void SetDiffuseTexture(ShaderPtr currentPixelShader);
+
 public:
 	bool LoadSprite(
 		VideoWeakPtr video,

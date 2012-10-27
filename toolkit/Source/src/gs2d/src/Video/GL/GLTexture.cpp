@@ -53,9 +53,12 @@ GLTexture::GLTexture(VideoWeakPtr video, Platform::FileManagerPtr fileManager) :
 
 GLTexture::~GLTexture()
 {
+	GLVideoPtr video = m_video.lock();
+
+	if (video)
+		video->RemoveRecoverableResource(this);
+
 	FreeBitmap();
-	
-	m_video.lock()->RemoveRecoverableResource(this);
 	DeleteGLTexture();
 
 	if (m_textureInfo.m_frameBuffer != 0)
@@ -68,7 +71,6 @@ GLTexture::~GLTexture()
 		GLuint buffers[1] = { m_textureInfo.m_renderBuffer };
 		glDeleteRenderbuffers(1, buffers);
 	}
-	m_video.reset();
 }
 
 void GLTexture::DeleteGLTexture()

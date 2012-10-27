@@ -193,15 +193,7 @@ bool GLSprite::DrawShaped(
 
 	// apply textures according to the rendering mode (pixel shaded or not)
 	ShaderPtr pCurrentPS = video->GetPixelShader();
-	if (!pCurrentPS)
-	{
-		m_texture->SetTexture(0);
-	}
-	else
-	{
-		pCurrentPS->SetShader();
-		pCurrentPS->SetTexture("diffuse", GetTexture());
-	}
+	SetDiffuseTexture(pCurrentPS);
 
 	pCurrentVS->SetShader();
 
@@ -228,6 +220,109 @@ bool GLSprite::Draw(
 	return DrawShaped(v2Pos, v2Size, color, color, color, color, angle);
 }
 
+bool GLSprite::DrawOptimal(
+	const math::Vector2 &v2Pos,
+	const Color& color,
+	const float angle,
+	const math::Vector2 &v2Size)
+{
+	return DrawShaped(v2Pos, v2Size, color, color, color, color, angle);
+}
+
+void GLSprite::SetSpriteDensityValue(const float value)
+{
+	if (m_type == T_TARGET)
+		return;
+
+	Texture::PROFILE profile = m_texture->GetProfile();
+	m_bitmapSize = math::Vector2(static_cast<float>(profile.width) / value, static_cast<float>(profile.height) / value);
+	m_densityValue = value;
+	SetupSpriteRects(1, 1);
+}
+
+float GLSprite::GetSpriteDensityValue() const
+{
+	return m_densityValue;
+}
+
+boost::any GLSprite::GetTextureObject()
+{
+	return m_texture;
+}
+
+void GLSprite::BeginFastRendering()
+{
+	GLVideo* video = m_video.lock().get();
+	video->SetVertexShader(video->GetFontShader());
+	ShaderPtr pCurrentVS = video->GetVertexShader();
+	pCurrentVS->SetConstant("bitmapSize", GetBitmapSizeF());
+
+	// apply textures according to the rendering mode (pixel shaded or not)
+	ShaderPtr pCurrentPS = video->GetPixelShader();
+	SetDiffuseTexture(pCurrentPS);
+}
+
+bool GLSprite::DrawShapedFast(const math::Vector2 &v2Pos, const math::Vector2 &v2Size, const Color& color)
+{
+	if (v2Size == math::Vector2(0,0))
+	{
+		return true;
+	}
+
+	GLVideo* video = m_video.lock().get();
+	ShaderPtr pCurrentVS = video->GetVertexShader();
+
+	// rounds up the final position to avoid alpha distortion
+	math::Vector2 v2FinalPos;
+	if (video->IsRoundingUpPosition())
+	{
+		v2FinalPos.x = floor(v2Pos.x);
+		v2FinalPos.y = floor(v2Pos.y);
+	}
+	else
+	{
+		v2FinalPos = v2Pos;
+	}
+
+	pCurrentVS->SetConstant("size", v2Size);
+	pCurrentVS->SetConstant("entityPos", v2FinalPos);
+	pCurrentVS->SetConstant("color0", color);
+
+	if (m_rect.size.x == 0 || m_rect.size.y == 0)
+	{
+		pCurrentVS->SetConstant("rectSize", GetBitmapSizeF());
+		pCurrentVS->SetConstant("rectPos", 0, 0);
+	}
+	else
+	{
+		pCurrentVS->SetConstant("rectSize", m_rect.size);
+		pCurrentVS->SetConstant("rectPos", m_rect.pos);
+	}
+
+	pCurrentVS->SetShader();
+
+	video->GetRectRenderer().Draw(m_rectMode);
+	return true;
+}
+
+void GLSprite::EndFastRendering()
+{
+	m_video.lock()->SetVertexShader(ShaderPtr());
+	m_video.lock()->SetPixelShader(ShaderPtr());
+}
+
+void GLSprite::SetDiffuseTexture(ShaderPtr currentPixelShader)
+{
+	if (!currentPixelShader)
+	{
+		m_texture->SetTexture(0);
+	}
+	else
+	{
+		currentPixelShader->SetTexture("diffuse", GetTexture());
+		currentPixelShader->SetShader();
+	}
+}
 
 
 
@@ -258,38 +353,6 @@ bool GLSprite::SaveBitmap(
 	return false;
 }
 
-bool GLSprite::DrawShapedFast(const math::Vector2 &v2Pos, const math::Vector2 &v2Size, const Color& color)
-{
-	// TODO
-	return false;
-}
-
-bool GLSprite::DrawOptimal(
-	const math::Vector2 &v2Pos,
-	const Color& color,
-	const float angle,
-	const math::Vector2 &v2Size)
-{
-	// TODO
-	return false;
-}
-
-void GLSprite::BeginFastRendering()
-{
-	// TODO
-}
-
-void GLSprite::EndFastRendering()
-{
-	// TODO
-}
-
-boost::any GLSprite::GetTextureObject()
-{
-	// TODO
-	return false;
-}
-
 void GLSprite::GenerateBackup()
 {
 	// TODO
@@ -309,17 +372,6 @@ void GLSprite::OnLostDevice()
 void GLSprite::RecoverFromBackup()
 {
 	// TODO
-}
-
-void GLSprite::SetSpriteDensityValue(const float value)
-{
-	// TODO
-}
-
-float GLSprite::GetSpriteDensityValue() const
-{
-	// TODO
-	return false;
 }
 
 } // namespace gs2d

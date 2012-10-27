@@ -29,6 +29,11 @@
 namespace gs2d {
 using namespace gs2d::math;
 
+void BitmapFontManager::ClearFonts()
+{
+	m_fonts.clear();
+}
+
 BitmapFontPtr BitmapFontManager::LoadBitmapFont(Video* video, const str_type::string& fullFilePath)
 {
 	str_type::string out;

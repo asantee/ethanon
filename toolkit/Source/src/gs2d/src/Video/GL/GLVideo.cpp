@@ -40,7 +40,7 @@ GLVideo::GLVideo() :
 	m_alphaRef(0.02),
 	m_zFar(5.0f),
 	m_zNear(0.0f),
-	m_backgroundColor(0xFFFFFFFF),
+	m_backgroundColor(gs2d::constant::BLACK),
 	m_rendering(false)
 {
 }
@@ -56,7 +56,6 @@ bool GLVideo::StartApplication(
 {
 	SetFilterMode(Video::TM_ALWAYS);
 	SetAlphaMode(Video::AM_PIXEL);
-	SetBGColor(gs2d::constant::BLACK);
 
 	SetZBuffer(false);
 	SetZWrite(false);
