@@ -32,7 +32,7 @@ namespace gs2d {
 
 class GLSprite : public Sprite
 {
-	GLVideoPtr m_video;
+	GLVideoWeakPtr m_video;
 	GLTexturePtr m_texture;
 	math::Vector2 m_bitmapSize;
 	Sprite::TYPE m_type;

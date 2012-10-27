@@ -34,7 +34,7 @@ bool GLSprite::LoadSprite(
 {
 	m_video = boost::dynamic_pointer_cast<GLVideo>(video.lock());
 
-	TexturePtr tex = m_video->CreateTextureFromFileInMemory(pBuffer, bufferLength, mask, width, height, 0);
+	TexturePtr tex = m_video.lock()->CreateTextureFromFileInMemory(pBuffer, bufferLength, mask, width, height, 0);
 	m_texture = boost::dynamic_pointer_cast<GLTexture>(tex);
 	if (!m_texture)
 		 return false;
@@ -56,7 +56,7 @@ bool GLSprite::LoadSprite(
 {
 	m_video = boost::dynamic_pointer_cast<GLVideo>(video.lock());
 
-	TexturePtr tex = m_video->LoadTextureFromFile(fileName, mask, width, height, 0);
+	TexturePtr tex = m_video.lock()->LoadTextureFromFile(fileName, mask, width, height, 0);
 	m_texture = boost::dynamic_pointer_cast<GLTexture>(tex);
 	if (!m_texture)
 		 return false;
@@ -77,7 +77,7 @@ bool GLSprite::CreateRenderTarget(
 {
 	m_video = boost::dynamic_pointer_cast<GLVideo>(video.lock());
 
-	m_texture = boost::dynamic_pointer_cast<GLTexture>(m_video->CreateRenderTargetTexture(width, height, format));
+	m_texture = boost::dynamic_pointer_cast<GLTexture>(m_video.lock()->CreateRenderTargetTexture(width, height, format));
 	m_bitmapSize = math::Vector2(static_cast<float>(width), static_cast<float>(height));
 	m_type = T_TARGET;
 	SetupSpriteRects(1, 1);
@@ -139,7 +139,7 @@ bool GLSprite::DrawShaped(
 	// centralizes the sprite according to the origin
 	math::Vector2 v2Center = m_normalizedOrigin * v2Size;
 
-	Video* video = m_video.get();
+	GLVideo* video = m_video.lock().get();
 	ShaderPtr pCurrentVS = video->GetVertexShader();
 
 	math::Matrix4x4 mRot;
@@ -206,7 +206,7 @@ bool GLSprite::DrawShaped(
 	pCurrentVS->SetShader();
 
 	// draw the one-pixel-quad applying the vertex shader
-	m_video->GetRectRenderer().Draw(m_rectMode);
+	video->GetRectRenderer().Draw(m_rectMode);
 
 	if (pCurrentPS)
 	{

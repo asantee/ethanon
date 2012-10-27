@@ -31,9 +31,13 @@
 #include <map>
 #include <list>
 
+#include "../../../Utilities/RecoverableResource.h"
+
 namespace gs2d {
 
-class GLCgShader : public Shader
+class GLVideo;
+
+class GLCgShader : public Shader, RecoverableResource
 {
 	std::map<std::string, CGparameter> m_params;
 	CGprogram m_cgProgam;
@@ -43,9 +47,13 @@ class GLCgShader : public Shader
 	SHADER_PROFILE m_profile;
 	
 	std::string m_shaderName;
+	std::string m_shaderCode;
+	std::string m_entry;
 
 	bool CheckForError(const std::string& situation, const std::string& additionalInfo);
+	void Recover();
 
+	GLVideo* m_video;
 	GLCgShaderContextPtr m_shaderContext;
 	CGcontext m_cgContext;
 
@@ -54,8 +62,11 @@ class GLCgShader : public Shader
 
 	std::list<CGparameter> m_enabledTextures;
 
+	bool CreateCgProgram();
+	void DestroyCgProgram();
+
 public:
-	GLCgShader();
+	GLCgShader(GLVideo* video);
 	~GLCgShader();
 
 	bool LoadShaderFromFile(

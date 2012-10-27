@@ -25,6 +25,8 @@
 
 #include "../../Application.h"
 
+#include "../../Platform/Platform.h"
+
 #include <SOIL.h>
 
 namespace gs2d {
@@ -53,7 +55,7 @@ GLTexture::~GLTexture()
 {
 	FreeBitmap();
 	
-	m_video->RemoveRecoverableResource(this);
+	m_video.lock()->RemoveRecoverableResource(this);
 	DeleteGLTexture();
 
 	if (m_textureInfo.m_frameBuffer != 0)
@@ -66,6 +68,7 @@ GLTexture::~GLTexture()
 		GLuint buffers[1] = { m_textureInfo.m_renderBuffer };
 		glDeleteRenderbuffers(1, buffers);
 	}
+	m_video.reset();
 }
 
 void GLTexture::DeleteGLTexture()
@@ -211,7 +214,7 @@ bool GLTexture::LoadTexture(
 		m_profile.originalHeight = m_profile.height;
 		m_profile.mask = mask;
 		ShowMessage(m_fileName + " texture loaded", GSMT_INFO);
-		m_video->InsertRecoverableResource(this);
+		m_video.lock()->InsertRecoverableResource(this);
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
 	return true;
@@ -238,7 +241,7 @@ void GLTexture::FreeBitmap()
 void GLTexture::Recover()
 {
 	CreateTextureFromBitmap(m_profile.width, m_profile.height, m_channels);
-	ShowMessage("Texture recovered: " + m_fileName, GSMT_INFO);
+	ShowMessage("Texture recovered: " + Platform::GetFileName(m_fileName), GSMT_INFO);
 }
 
 void CheckFrameBufferStatus(const GLuint fbo, const GLuint tex, const bool showSuccessMessage)

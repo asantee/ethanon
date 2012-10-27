@@ -26,7 +26,10 @@
 #include "../../../Application.h"
 #include "../../../Enml/Enml.h"
 
+#include "../../../Platform/Platform.h"
+
 #include "../GLTexture.h"
+#include "../GLVideo.h"
 
 namespace gs2d {
 
@@ -38,19 +41,29 @@ CGparameter SeekParameter(const std::string& name, std::map<std::string, CGparam
 	return NULL;
 }
 
-GLCgShader::GLCgShader() :
+GLCgShader::GLCgShader(GLVideo* video) :
 	m_cgProfile(CG_PROFILE_UNKNOWN),
 	m_cgProgam(NULL),
 	m_focus(Shader::SF_NONE),
 	m_profile(Shader::SP_NONE),
 	m_shaderName("none")
 {
+	m_video = (GLVideo*)(video);
 }
 
 GLCgShader::~GLCgShader()
 {
-	cgDestroyProgram(m_cgProgam);
-	m_cgProgam = NULL;
+	m_video->RemoveRecoverableResource(this);
+	DestroyCgProgram();
+}
+
+void GLCgShader::DestroyCgProgram()
+{
+	if (m_cgProgam)
+	{
+		cgDestroyProgram(m_cgProgam);
+		m_cgProgam = NULL;
+	}
 }
 
 Shader::SHADER_FOCUS GLCgShader::GetShaderFocus() const
@@ -141,6 +154,8 @@ bool GLCgShader::LoadShaderFromString(
 	const SHADER_PROFILE profile,
 	const char *entry)
 {
+	m_entry = entry;
+	m_shaderCode = codeAsciiString;
 	m_cgContext = ExtractCgContext(context);
 	m_shaderName = shaderName;
 	m_focus = focus;
@@ -161,15 +176,29 @@ bool GLCgShader::LoadShaderFromString(
 	}
 
 	cgGLSetOptimalOptions(m_cgProfile);
-	if (CheckForError("Shader::LoadShader getting optimal options", m_shaderName))
+	if (CheckForError("Shader::LoadShader setting optimal options", m_shaderName))
 		return false;
 
+	if (CreateCgProgram())
+	{
+		m_video->InsertRecoverableResource(this);
+	}
+	else
+	{
+		return false;
+	}
+	return true;
+}
+
+bool GLCgShader::CreateCgProgram()
+{
+	DestroyCgProgram();
 	m_cgProgam = cgCreateProgram(
 		m_cgContext,
 		CG_SOURCE,
-		codeAsciiString.c_str(),
+		m_shaderCode.c_str(),
 		m_cgProfile,
-		entry,
+		m_entry.c_str(),
 		NULL);
 
 	if (CheckForError("Shader::LoadShader creating program from file", m_shaderName))
@@ -183,6 +212,12 @@ bool GLCgShader::LoadShaderFromString(
 	FillParameters(CG_GLOBAL);
 	FillParameters(CG_PROGRAM);
 	return true;
+}
+
+void GLCgShader::Recover()
+{
+	CreateCgProgram();
+	ShowMessage("Shader recovered: " + Platform::GetFileName(m_shaderName), GSMT_INFO);
 }
 
 void GLCgShader::FillParameters(const CGenum domain)

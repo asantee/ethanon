@@ -68,11 +68,15 @@ bool GLVideo::StartApplication(
 	if (!m_shaderContext)
 		m_shaderContext = GLCgShaderContextPtr(new GLCgShaderContext);
 
-	m_rectVS.reset(); m_defaultVS.reset(); m_fastVS.reset(); m_currentVS.reset();
+	if (!m_defaultVS)
+		m_defaultVS = LoadShaderFromString("defaultShader", gs2dglobal::defaultVSCode, Shader::SF_VERTEX, Shader::SP_MODEL_2, "sprite");
 
-	m_defaultVS = LoadShaderFromString("defaultShader", gs2dglobal::defaultVSCode, Shader::SF_VERTEX, Shader::SP_MODEL_2, "sprite");
-	m_rectVS = LoadShaderFromString("rectShader", gs2dglobal::defaultVSCode, Shader::SF_VERTEX, Shader::SP_MODEL_2, "rectangle");
-	m_fastVS = LoadShaderFromString("fastShader", gs2dglobal::fastSimpleVSCode, Shader::SF_VERTEX, Shader::SP_MODEL_2, "fast");
+	if (!m_rectVS)
+		m_rectVS = LoadShaderFromString("rectShader", gs2dglobal::defaultVSCode, Shader::SF_VERTEX, Shader::SP_MODEL_2, "rectangle");
+
+	if (!m_fastVS)
+		m_fastVS = LoadShaderFromString("fastShader", gs2dglobal::fastSimpleVSCode, Shader::SF_VERTEX, Shader::SP_MODEL_2, "fast");
+
 	m_currentVS = m_defaultVS;
 
 	UpdateViewMatrix();

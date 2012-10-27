@@ -98,7 +98,7 @@ ShaderPtr GLSDLVideo::LoadShaderFromFile(
 	const Shader::SHADER_PROFILE profile,
 	const char *entry)
 {
-	ShaderPtr shader = ShaderPtr(new GLCgShader);
+	ShaderPtr shader = ShaderPtr(new GLCgShader(this));
 	if (shader->LoadShaderFromFile(m_shaderContext, fileName, focus, profile, entry))
 	{
 		return shader;
@@ -113,7 +113,7 @@ ShaderPtr GLSDLVideo::LoadShaderFromString(
 	const Shader::SHADER_PROFILE profile,
 	const char *entry)
 {
-	ShaderPtr shader(new GLCgShader);
+	ShaderPtr shader(new GLCgShader(this));
 	if (shader->LoadShaderFromString(m_shaderContext, shaderName, codeAsciiString, focus, profile, entry))
 	{
 		return shader;

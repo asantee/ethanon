@@ -33,11 +33,11 @@ namespace gs2d {
 
 class GLVideo;
 
-class GLTexture : public Texture, public RecoverableResource
+class GLTexture : public Texture, RecoverableResource
 
 {
 	Platform::FileManagerPtr m_fileManager;
-	boost::shared_ptr<GLVideo> m_video;
+	boost::weak_ptr<GLVideo> m_video;
 
 	TYPE m_type;
 	PROFILE m_profile;
