@@ -45,6 +45,8 @@ class GLVideo : public virtual Video, public RecoverableResourceManager
 	Color m_backgroundColor;
 	bool m_rendering, m_clamp;
 	BLEND_MODE m_blendMode;
+	math::Rect2D m_scissor;
+	TextureWeakPtr m_currentTarget;
 
 	GLRectRenderer m_rectRenderer;
 

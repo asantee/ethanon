@@ -169,9 +169,7 @@ bool GLSDLVideo::ResetVideoMode(
 	const VIDEO_MODE& mode,
 	const bool toggleFullscreen)
 {
-	UpdateViewMatrix();
-	UpdateInternalShadersViewData();
-	return false;
+	return ResetVideoMode(mode.width, mode.height, mode.pf, toggleFullscreen);
 }
 
 bool GLSDLVideo::ResetVideoMode(
@@ -187,6 +185,11 @@ bool GLSDLVideo::ResetVideoMode(
 
 		GLVideo::StartApplication(width, height, GetWindowTitle(), IsWindowed(), SyncEnabled());
 		RecoverAll();
+
+		ScreenSizeChangeListenerPtr listener = m_screenSizeChangeListener.lock();
+		if (listener)
+			listener->ScreenSizeChanged(GetScreenSizeF());
+
 		return true;
 	}
 	else

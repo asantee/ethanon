@@ -46,10 +46,17 @@ int SDL_main (int argc, char **argv)
 			black->Draw(gs2d::math::Vector2(256,256));
 			video->SetBlendMode(1, gs2d::Video::BM_MODULATE);
 			
-			
 			planets->Draw(gs2d::math::Vector2(600,256));
-			video->SetAlphaMode(gs2d::Video::AM_PIXEL);
+			
+			black->SetAsTexture(1);
+			planets->Draw(gs2d::math::Vector2(256, 600));
+
 			video->UnsetTexture(1);
+
+			video->SetAlphaMode(gs2d::Video::AM_MODULATE);
+			planets->Draw(gs2d::math::Vector2(600,600));
+			
+			video->SetAlphaMode(gs2d::Video::AM_PIXEL);
 
 			video->DrawRectangle(
 				gs2d::math::Vector2(10,10),
@@ -71,7 +78,7 @@ int SDL_main (int argc, char **argv)
 				gs2d::constant::YELLOW);
 
 			tileset->SetRect(0);
-			tileset->Draw(gs2d::math::Vector2(600, 200));
+			tileset->Draw(gs2d::math::Vector2(600, 200), 0xAAFF0000);
 
 			video->DrawRectangle(
 				gs2d::math::Vector2(20,42),
@@ -99,20 +106,20 @@ int SDL_main (int argc, char **argv)
 			tileset->SetRect(1);
 			tileset->Draw(gs2d::math::Vector2(200, 600));
 			
-			video->DrawBitmapText(screenSize * 0.2f, "Oh my god WTF barbecue", "Verdana20_shadow.fnt", 0xFFFFFF00, 1.0f);
+			video->DrawBitmapText(screenSize * 0.2f, "Oh my god WTF barbecue", "Verdana20_shadow.fnt", 0xAAFFFF00, 1.0f);
 
 			video->DrawRectangle(
 				gs2d::math::Vector2(600,300),
 				gs2d::math::Vector2(100,10),
 				gs2d::constant::RED, gs2d::constant::YELLOW,
-				gs2d::constant::BLUE, gs2d::constant::GREEN,
+				0x000000FF, gs2d::constant::GREEN,
 				45.0f);
 
 			video->DrawRectangle(
 				gs2d::math::Vector2(300,600),
 				gs2d::math::Vector2(100,10),
 				gs2d::constant::RED, gs2d::constant::YELLOW,
-				gs2d::constant::BLUE, gs2d::constant::GREEN,
+				gs2d::constant::BLUE, 0x0,
 				200.0f);
 
 			tileset->SetRect(2);
@@ -120,7 +127,7 @@ int SDL_main (int argc, char **argv)
 
 			gs2d::str_type::stringstream ss; ss << video->GetFPSRate();
 			gs2d::math::Vector2 textSize(video->ComputeTextBoxSize("Verdana20_shadow.fnt", ss.str()));
-			video->DrawBitmapText(gs2d::math::Vector2(screenSize.x - textSize.x, 0.0f), ss.str(), "Verdana20_shadow.fnt", 0xFFFFFFFF);
+			video->DrawBitmapText(gs2d::math::Vector2(screenSize.x - textSize.x, 0.0f), ss.str(), "Verdana20_shadow.fnt", 0xFF336699);
 
 			video->EndSpriteScene();
 		}

@@ -43,7 +43,8 @@ GLVideo::GLVideo() :
 	m_backgroundColor(gs2d::constant::BLACK),
 	m_rendering(false),
 	m_clamp(true),
-	m_blendMode(BLEND_MODE::BM_MODULATE)
+	m_blendMode(BLEND_MODE::BM_MODULATE),
+	m_scissor(math::Vector2i(0, 0), math::Vector2i(0, 0))
 {
 }
 
@@ -501,6 +502,52 @@ Video::BLEND_MODE GLVideo::GetBlendMode(const unsigned int passIdx) const
 	return m_blendMode;
 }
 
+bool GLVideo::SetScissor(const bool& enable)
+{
+	if (enable)
+	{
+		glEnable(GL_SCISSOR_TEST);
+	}
+	else
+	{
+		glDisable(GL_SCISSOR_TEST);
+	}
+	return true;
+}
+
+bool GLVideo::SetScissor(const math::Rect2D& rect)
+{
+	SetScissor(true);
+	GLint posY;
+	TexturePtr target = m_currentTarget.lock();
+	if (target)
+	{
+		posY = static_cast<GLint>(rect.pos.y);
+	}
+	else
+	{
+		posY = static_cast<GLint>(GetScreenSize().y) - static_cast<GLint>(rect.pos.y + rect.size.y);
+	}
+
+	if (m_scissor != rect)
+	{
+		m_scissor = rect;
+		glScissor(static_cast<GLint>(rect.pos.x), posY,
+				  static_cast<GLsizei>(rect.size.x), static_cast<GLsizei>(rect.size.y));
+	}
+	return true;
+}
+
+math::Rect2D GLVideo::GetScissor() const
+{
+	return m_scissor;
+}
+
+void GLVideo::UnsetScissor()
+{
+	SetScissor(false);
+}
+
 
 
 
@@ -529,38 +576,9 @@ bool GLVideo::SetPixelShader(ShaderPtr pShader)
 	return false;
 }
 
-Shader::SHADER_PROFILE GLVideo::GetHighestVertexProfile() const
-{
-	return Shader::SP_NONE;
-}
-
-Shader::SHADER_PROFILE GLVideo::GetHighestPixelProfile() const
-{
-	return Shader::SP_NONE;
-}
-
 bool GLVideo::SetRenderTarget(SpritePtr pTarget, const unsigned int target)
 {
 	return false;
-}
-
-bool GLVideo::SetScissor(const math::Rect2D &rect)
-{
-	return false;
-}
-
-bool GLVideo::SetScissor(const bool &enable)
-{
-	return false;
-}
-
-math::Rect2D GLVideo::GetScissor() const
-{
-	return math::Rect2D();
-}
-
-void GLVideo::UnsetScissor()
-{
 }
 
 bool GLVideo::BeginTargetScene(const Color& dwBGColor, const bool clear)
@@ -581,6 +599,16 @@ bool GLVideo::SaveScreenshot(
 	math::Rect2D rect)
 {
 	return false;
+}
+
+Shader::SHADER_PROFILE GLVideo::GetHighestVertexProfile() const
+{
+	return Shader::SP_NONE;
+}
+
+Shader::SHADER_PROFILE GLVideo::GetHighestPixelProfile() const
+{
+	return Shader::SP_NONE;
 }
 
 } // namespace gs2d
