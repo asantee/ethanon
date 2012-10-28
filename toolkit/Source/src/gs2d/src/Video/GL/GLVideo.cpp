@@ -42,7 +42,8 @@ GLVideo::GLVideo() :
 	m_zNear(0.0f),
 	m_backgroundColor(gs2d::constant::BLACK),
 	m_rendering(false),
-	m_clamp(true)
+	m_clamp(true),
+	m_blendMode(BLEND_MODE::BM_MODULATE)
 {
 }
 
@@ -61,6 +62,7 @@ bool GLVideo::StartApplication(
 	SetZBuffer(false);
 	SetZWrite(false);
 	SetClamp(true);
+	SetBlendMode(1, Video::BM_MODULATE);
 
 	Enable2DStates();
 
@@ -114,11 +116,11 @@ void GLVideo::Enable2DStates()
 
 	glActiveTexture(GL_TEXTURE1);
 	glEnable(GL_TEXTURE_2D);
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
 	glActiveTexture(GL_TEXTURE0);
 	glEnable(GL_TEXTURE_2D);
 	//glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+	
 }
 
 static void SetChannelClamp(const bool set)
@@ -477,6 +479,28 @@ unsigned int GLVideo::GetMaxRenderTargets() const
 	return 1;
 }
 
+bool GLVideo::SetBlendMode(const unsigned int passIdx, const BLEND_MODE mode)
+{
+	m_blendMode = mode;
+	switch (passIdx)
+	{
+	case 0:
+		glActiveTexture(GL_TEXTURE0);
+		break;
+	default:
+		glActiveTexture(GL_TEXTURE1);
+		break;
+	}
+	const GLfloat v = (mode == BM_MODULATE) ? GL_MODULATE : GL_ADD;
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, v);
+	return true;
+}
+
+Video::BLEND_MODE GLVideo::GetBlendMode(const unsigned int passIdx) const
+{
+	return m_blendMode;
+}
+
 
 
 
@@ -518,16 +542,6 @@ Shader::SHADER_PROFILE GLVideo::GetHighestPixelProfile() const
 bool GLVideo::SetRenderTarget(SpritePtr pTarget, const unsigned int target)
 {
 	return false;
-}
-
-bool GLVideo::SetBlendMode(const unsigned int passIdx, const BLEND_MODE mode)
-{
-	return false;
-}
-
-Video::BLEND_MODE GLVideo::GetBlendMode(const unsigned int passIdx) const
-{
-	return Video::BM_MODULATE;
 }
 
 bool GLVideo::SetScissor(const math::Rect2D &rect)

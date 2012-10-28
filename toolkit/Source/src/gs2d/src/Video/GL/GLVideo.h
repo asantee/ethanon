@@ -44,6 +44,7 @@ class GLVideo : public virtual Video, public RecoverableResourceManager
 	math::Matrix4x4 m_ortho;
 	Color m_backgroundColor;
 	bool m_rendering, m_clamp;
+	BLEND_MODE m_blendMode;
 
 	GLRectRenderer m_rectRenderer;
 

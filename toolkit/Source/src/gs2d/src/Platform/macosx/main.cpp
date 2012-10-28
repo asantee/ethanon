@@ -19,6 +19,7 @@ int SDL_main (int argc, char **argv)
 
 		gs2d::SpritePtr skull(video->CreateSprite(fileIOHub->GetResourceDirectory() + "resources/cool_skull.png"));
 		gs2d::SpritePtr planets(video->CreateSprite(fileIOHub->GetResourceDirectory() + "resources/planets.png"));
+		gs2d::SpritePtr black(video->CreateSprite(fileIOHub->GetResourceDirectory() + "resources/planets_black.png"));
 		
 		video->SetBGColor(0xFF003366);
 
@@ -38,6 +39,17 @@ int SDL_main (int argc, char **argv)
 			video->UnsetTexture(1);
 
 			tileset->Draw(gs2d::math::Vector2(600, 600));
+
+			video->SetAlphaMode(gs2d::Video::AM_NONE);
+			skull->SetAsTexture(1);
+			video->SetBlendMode(1, gs2d::Video::BM_ADD);
+			black->Draw(gs2d::math::Vector2(256,256));
+			video->SetBlendMode(1, gs2d::Video::BM_MODULATE);
+			
+			
+			planets->Draw(gs2d::math::Vector2(600,256));
+			video->SetAlphaMode(gs2d::Video::AM_PIXEL);
+			video->UnsetTexture(1);
 
 			video->DrawRectangle(
 				gs2d::math::Vector2(10,10),
