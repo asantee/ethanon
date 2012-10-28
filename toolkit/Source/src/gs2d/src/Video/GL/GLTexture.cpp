@@ -86,6 +86,16 @@ void GLTexture::DeleteGLTexture()
 
 bool GLTexture::SetTexture(const unsigned int passIdx)
 {
+	switch (passIdx)
+	{
+	case 0:
+		glActiveTexture(GL_TEXTURE0);
+		break;
+	case 1:
+	default:
+		glActiveTexture(GL_TEXTURE1);
+		break;
+	}
 	glBindTexture(GL_TEXTURE_2D, m_textureInfo.m_texture);
 	return true;
 }

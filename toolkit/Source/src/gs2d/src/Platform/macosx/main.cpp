@@ -16,6 +16,9 @@ int SDL_main (int argc, char **argv)
 		gs2d::SpritePtr tileset(video->CreateSprite(fileIOHub->GetResourceDirectory() + "resources/tileset.png"));
 		tileset->SetupSpriteRects(2, 2);
 		tileset->SetRect(2);
+
+		gs2d::SpritePtr skull(video->CreateSprite(fileIOHub->GetResourceDirectory() + "resources/cool_skull.png"));
+		gs2d::SpritePtr planets(video->CreateSprite(fileIOHub->GetResourceDirectory() + "resources/planets.png"));
 		
 		video->SetBGColor(0xFF003366);
 
@@ -30,6 +33,10 @@ int SDL_main (int argc, char **argv)
 			video->BeginSpriteScene();
 
 			tileset->SetRect(3);
+			skull->SetAsTexture(1);
+			tileset->Draw(gs2d::math::Vector2(664, 600));
+			video->UnsetTexture(1);
+
 			tileset->Draw(gs2d::math::Vector2(600, 600));
 
 			video->DrawRectangle(
@@ -39,6 +46,12 @@ int SDL_main (int argc, char **argv)
 				gs2d::constant::RED, gs2d::constant::YELLOW);
 
 			video->DrawBitmapText(screenSize * 0.8f, "Scaled", "Verdana20_shadow.fnt", 0xFFFFFFFF, 4.0f);
+
+			planets->SetAsTexture(1);
+			skull->Draw(gs2d::math::Vector2(200,400));
+
+			video->UnsetTexture(1);
+			skull->Draw(gs2d::math::Vector2(400,100));
 
 			video->DrawRectangle(
 				gs2d::math::Vector2(800,10),
@@ -92,6 +105,10 @@ int SDL_main (int argc, char **argv)
 
 			tileset->SetRect(2);
 			tileset->Draw(screenSize * 0.5f);
+
+			gs2d::str_type::stringstream ss; ss << video->GetFPSRate();
+			gs2d::math::Vector2 textSize(video->ComputeTextBoxSize("Verdana20_shadow.fnt", ss.str()));
+			video->DrawBitmapText(gs2d::math::Vector2(screenSize.x - textSize.x, 0.0f), ss.str(), "Verdana20_shadow.fnt", 0xFFFFFFFF);
 
 			video->EndSpriteScene();
 		}

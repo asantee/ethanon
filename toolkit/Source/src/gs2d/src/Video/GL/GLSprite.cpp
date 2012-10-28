@@ -321,7 +321,7 @@ void GLSprite::SetDiffuseTexture(ShaderPtr currentPixelShader)
 	}
 	else
 	{
-		currentPixelShader->SetTexture("diffuse", GetTexture());
+		currentPixelShader->SetTexture("diffuse", m_texture);
 		currentPixelShader->SetShader();
 	}
 }
@@ -334,35 +334,14 @@ bool GLSprite::SaveBitmap(
 	return m_texture->SaveBitmap(name, fmt);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+bool GLSprite::SetAsTexture(const unsigned int passIdx)
+{
+	return m_texture->SetTexture(passIdx);
+}
 
 void GLSprite::GenerateBackup()
 {
 	// TODO
-}
-
-bool GLSprite::SetAsTexture(const unsigned int passIdx)
-{
-	// TODO
-	return false;
 }
 
 void GLSprite::OnLostDevice()

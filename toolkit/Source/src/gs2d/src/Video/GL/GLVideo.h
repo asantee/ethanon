@@ -43,7 +43,7 @@ class GLVideo : public virtual Video, public RecoverableResourceManager
 	const float m_zNear, m_zFar;
 	math::Matrix4x4 m_ortho;
 	Color m_backgroundColor;
-	bool m_rendering;
+	bool m_rendering, m_clamp;
 
 	GLRectRenderer m_rectRenderer;
 

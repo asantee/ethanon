@@ -43,8 +43,9 @@ BitmapFontPtr BitmapFontManager::LoadBitmapFont(Video* video, const str_type::st
 		BitmapFontPtr newFont = BitmapFontPtr(new BitmapFont(video, fullFilePath, out));
 		if (newFont->IsLoaded())
 		{
-			m_fonts[Platform::GetFileName(fullFilePath)] = newFont;
-			video->Message(fullFilePath + GS_L(" bitmap font created."), GSMT_INFO);
+			const str_type::string fileName(Platform::GetFileName(fullFilePath));
+			m_fonts[fileName] = newFont;
+			video->Message(fileName + GS_L(" bitmap font created."), GSMT_INFO);
 			return newFont;
 		}
 		else

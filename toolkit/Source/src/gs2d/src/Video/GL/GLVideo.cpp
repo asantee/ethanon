@@ -41,7 +41,8 @@ GLVideo::GLVideo() :
 	m_zFar(5.0f),
 	m_zNear(0.0f),
 	m_backgroundColor(gs2d::constant::BLACK),
-	m_rendering(false)
+	m_rendering(false),
+	m_clamp(true)
 {
 }
 
@@ -111,36 +112,94 @@ void GLVideo::Enable2DStates()
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DITHER);
 
+	glActiveTexture(GL_TEXTURE1);
 	glEnable(GL_TEXTURE_2D);
-
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glActiveTexture(GL_TEXTURE0);
+	glEnable(GL_TEXTURE_2D);
+	//glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+}
 
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+static void SetChannelClamp(const bool set)
+{
+	if (set)
+	{
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	}
+	else
+	{
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	}
+}
+
+bool GLVideo::SetClamp(const bool set)
+{
+	m_clamp = set;
+	glActiveTexture(GL_TEXTURE0);
+	SetChannelClamp(set);
+	glActiveTexture(GL_TEXTURE1);
+	SetChannelClamp(set);
+	return true;
+}
+
+bool GLVideo::GetClamp() const
+{
+	return m_clamp;
+}
+
+static void SetChannelFilterMode(const Video::TEXTUREFILTER_MODE tfm, const GLenum extension)
+{
+	if (tfm != Video::TM_NEVER)
+	{
+		glTexParameteri(extension, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(extension, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	}
+	else
+	{
+		glTexParameteri(extension, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+		glTexParameteri(extension, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	}
 }
 
 bool GLVideo::SetFilterMode(const TEXTUREFILTER_MODE tfm)
 {
 	m_filter = tfm;
-	if (GetFilterMode() != TM_NEVER)
-	{
-		glTexParameteri(m_textureExtension, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexParameteri(m_textureExtension, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	}
-	else
-	{
-		glTexParameteri(m_textureExtension, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
-		glTexParameteri(m_textureExtension, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	}
+	glActiveTexture(GL_TEXTURE0);
+	SetChannelFilterMode(tfm, m_textureExtension);
+	glActiveTexture(GL_TEXTURE1);
+	SetChannelFilterMode(tfm, m_textureExtension);
 	return true;
 }
 
 Video::TEXTUREFILTER_MODE GLVideo::GetFilterMode() const
 {
 	return m_filter;
+}
+
+unsigned int GLVideo::GetMaxMultiTextures() const
+{
+	GLint units;
+	glGetIntegerv(GL_MAX_TEXTURE_UNITS, &units);
+	return static_cast<GLint>(units);
+}
+
+bool GLVideo::UnsetTexture(const unsigned int passIdx)
+{
+	switch (passIdx)
+	{
+	case 0:
+		glActiveTexture(GL_TEXTURE0);
+		break;
+	case 1:
+	default:
+		glActiveTexture(GL_TEXTURE1);
+		break;
+	}
+	glBindTexture(m_textureExtension, 0);
+	return true;
 }
 
 bool GLVideo::SetAlphaMode(const ALPHA_MODE mode)
@@ -374,7 +433,8 @@ bool GLVideo::DrawRectangle(
 	SetVertexShader(m_rectVS);
 	SetPixelShader(ShaderPtr());
 
-	glBindTexture(m_textureExtension, 0);
+	UnsetTexture(0);
+	UnsetTexture(1);
 	GetVertexShader()->SetShader();
 	m_rectRenderer.Draw(Sprite::RM_TWO_TRIANGLES);
 
@@ -406,28 +466,34 @@ boost::any GLVideo::GetGraphicContext()
 	return m_shaderContext;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 boost::any GLVideo::GetVideoInfo()
 {
+	// no GL context to return
 	return 0;
 }
+
+unsigned int GLVideo::GetMaxRenderTargets() const
+{
+	return 1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ShaderPtr GLVideo::GetPixelShader()
 {
@@ -454,16 +520,6 @@ bool GLVideo::SetRenderTarget(SpritePtr pTarget, const unsigned int target)
 	return false;
 }
 
-unsigned int GLVideo::GetMaxRenderTargets() const
-{
-	return 0;
-}
-
-unsigned int GLVideo::GetMaxMultiTextures() const
-{
-	return 0;
-}
-
 bool GLVideo::SetBlendMode(const unsigned int passIdx, const BLEND_MODE mode)
 {
 	return false;
@@ -472,21 +528,6 @@ bool GLVideo::SetBlendMode(const unsigned int passIdx, const BLEND_MODE mode)
 Video::BLEND_MODE GLVideo::GetBlendMode(const unsigned int passIdx) const
 {
 	return Video::BM_MODULATE;
-}
-
-bool GLVideo::UnsetTexture(const unsigned int passIdx)
-{
-	return false;
-}
-
-bool GLVideo::SetClamp(const bool set)
-{
-	return false;
-}
-
-bool GLVideo::GetClamp() const
-{
-	return false;
 }
 
 bool GLVideo::SetScissor(const math::Rect2D &rect)
@@ -528,4 +569,4 @@ bool GLVideo::SaveScreenshot(
 	return false;
 }
 
-}
+} // namespace gs2d
