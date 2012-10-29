@@ -42,39 +42,6 @@ void gs2d::ShowMessage(str_type::stringstream& stream, const GS_MESSAGE_TYPE typ
 	}
 }
 
-/*float gs2d::GLVideo::GetElapsedTimeF(const TIME_UNITY unity) const
-{
-	return static_cast<float>(GetElapsedTime(unity));
-}
-
-unsigned long gs2d::GLVideo::GetElapsedTime(const TIME_UNITY unity) const
-{
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	const double time = [[NSDate date] timeIntervalSince1970] - Platform::macosx::StartTime::m_startTime;
-
-	double elapsedTimeMS = time * 1000.0;
-	switch (unity)
-	{
-		case TU_HOURS:
-			elapsedTimeMS /= 1000.0;
-			elapsedTimeMS /= 60.0;
-			elapsedTimeMS /= 60.0;
-			break;
-		case TU_MINUTES:
-			elapsedTimeMS /= 1000.0;
-			elapsedTimeMS /= 60.0;
-			break;
-		case TU_SECONDS:
-			elapsedTimeMS /= 1000.0;
-			break;
-		case TU_MILLISECONDS:
-		default:
-			break;
-	};
-	[pool release];
-	return static_cast<unsigned long>(elapsedTimeMS);
-}*/
-
 namespace Platform {
 
 gs2d::str_type::string Platform::FileLogger::GetLogDirectory()
