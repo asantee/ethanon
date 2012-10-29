@@ -401,6 +401,17 @@ str_type::string SDLWindow::PullCommands()
 	return "";
 }
 
+bool SDLWindow::HideCursor(const bool hide)
+{
+	SDL_ShowCursor(hide ? SDL_DISABLE : SDL_ENABLE);
+	return true;
+}
+
+bool SDLWindow::IsCursorHidden() const
+{
+	return (SDL_ShowCursor(-1));
+}
+
 
 
 
@@ -431,16 +442,6 @@ void SDLWindow::SetWindowPosition(const math::Vector2i &v2)
 math::Vector2i SDLWindow::ScreenToWindow(const math::Vector2i &v2Point) const
 {
 	return v2Point;
-}
-
-bool SDLWindow::HideCursor(const bool hide)
-{
-	return false;
-}
-
-bool SDLWindow::IsCursorHidden() const
-{
-	return false;
 }
 
 } // namespace gs2d
