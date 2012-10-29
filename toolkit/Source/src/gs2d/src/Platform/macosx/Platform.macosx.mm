@@ -28,6 +28,12 @@ void gs2d::ShowMessage(str_type::stringstream& stream, const GS_MESSAGE_TYPE typ
 {
 	if (type == GSMT_ERROR)
 	{
+		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+		[alert addButtonWithTitle:@"OK"];
+		[alert setMessageText:[NSString stringWithCString:stream.str().c_str() encoding:NSUTF8StringEncoding]];
+		[alert setAlertStyle:NSCriticalAlertStyle];
+		[alert runModal];
+
 		std::cerr << "Error: " << stream.str() << std::endl;
 	}
 	else
