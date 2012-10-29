@@ -103,6 +103,7 @@ public:
 };
 
 void CheckFrameBufferStatus(const GLuint fbo, const GLuint tex, const bool showSuccessMessage);
+int GetSOILTexType(const Texture::BITMAP_FORMAT fmt, str_type::string& ext);
 
 typedef boost::shared_ptr<GLTexture> GLTexturePtr;
 typedef boost::weak_ptr<GLTexture> GLTextureWeakPtr;

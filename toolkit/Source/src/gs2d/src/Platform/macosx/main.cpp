@@ -33,7 +33,7 @@ int SDL_main (int argc, char **argv)
 		SpritePtr target = video->CreateRenderTarget(300, 256);
 		target->SetOrigin(Vector2(0.0f, 1.0f));
 		video->SetRenderTarget(target);
-		video->BeginTargetScene(0x0);
+		video->BeginTargetScene(0xFF000000);
 			skull->SetOrigin(Sprite::EO_CENTER);
 			for (int t = 0; t < 100; t++)
 			{
@@ -82,7 +82,7 @@ int SDL_main (int argc, char **argv)
 			video->SetAlphaMode(gs2d::Video::AM_PIXEL);
 
 			video->SetPixelShader(ps);
-			ps->SetTexture("secondTexture", black->GetTexture());
+			ps->SetTexture("secondTexture", target->GetTexture());
 			road->Draw(screenSize);
 			video->SetPixelShader(ShaderPtr());
 
@@ -130,6 +130,9 @@ int SDL_main (int argc, char **argv)
 				Vector2(96,32),
 				gs2d::constant::BLUE,
 				angle);
+				
+			if (angle == 30.0f)
+				video->SaveScreenshot("/Users/blackdog/Desktop/whatever", Texture::BITMAP_FORMAT::BF_BMP);
 
 			tileset->SetRect(1);
 			tileset->Draw(Vector2(200, 600));

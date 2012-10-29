@@ -26,6 +26,10 @@
 
 #include "GLTexture.h"
 
+#include <SOIL.h>
+
+#include "../../Platform/Platform.h"
+
 namespace gs2d {
 
 void GLVideo::UnbindFrameBuffer()
@@ -657,11 +661,35 @@ bool GLVideo::EndTargetScene()
 }
 
 bool GLVideo::SaveScreenshot(
-	const str_type::char_t* wcsName,
+	const str_type::char_t* name,
 	const Texture::BITMAP_FORMAT fmt,
 	math::Rect2D rect)
 {
-	return false;
+	str_type::string fileName = name, ext;
+	const int type = GetSOILTexType(fmt, ext);
+	
+	if (!Platform::IsExtensionRight(fileName, ext))
+		fileName.append(ext);
+
+	if (rect.size.x <= 0 || rect.size.y <= 0)
+	{
+		rect.pos = math::Vector2i(0,0);
+		rect.size = GetScreenSize();
+	}
+
+	const bool r = (SOIL_save_screenshot(
+		fileName.c_str(),
+		type,
+		rect.pos.x,
+		rect.pos.y,
+		rect.size.x,
+		rect.size.y));
+
+	if (!r)
+	{
+		ShowMessage(str_type::string("Couldn't save screen shot ") + fileName, GSMT_ERROR);
+	}
+	return r;
 }
 
 } // namespace gs2d

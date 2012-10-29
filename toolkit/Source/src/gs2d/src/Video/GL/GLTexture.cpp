@@ -32,7 +32,6 @@
 namespace gs2d {
 
 static void ApplyPixelMask(unsigned char *ht_map, const Color mask, const int channels, const int width, const int height);
-static int GetSOILTexType(const Texture::BITMAP_FORMAT fmt, str_type::string& ext);
 
 GLuint GLTexture::m_textureID(1000);
 
@@ -297,7 +296,7 @@ bool GLTexture::SaveBitmap(const str_type::char_t* name, const Texture::BITMAP_F
 	const bool r = (SOIL_save_image(fileName.c_str(), type, m_profile.originalWidth, m_profile.originalHeight, m_channels, m_bitmap) != 0);
 
 	if (!r)
-		ShowMessage("Couldn't save texture " + fileName, GSMT_ERROR);
+		ShowMessage(str_type::string("Couldn't save texture ") + fileName, GSMT_ERROR);
 
 	return r;
 }
