@@ -124,59 +124,6 @@ math::Vector2 GLTexture::GetBitmapSize() const
 	return math::Vector2(static_cast<float>(m_profile.width), static_cast<float>(m_profile.height));
 }
 
-bool GLTexture::CreateRenderTarget(
-	VideoWeakPtr video,
-	const unsigned int width,
-	const unsigned int height,
-	const TARGET_FORMAT fmt)
-{
-	m_textureInfo.m_texture = m_textureID++;
-
-	glGenTextures(1, &m_textureInfo.m_texture);
-	glBindTexture(GL_TEXTURE_2D, m_textureInfo.m_texture);
-
-	const GLint glfmt = (fmt == Texture::TF_ARGB) ? GL_RGBA : GL_RGB;
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
-	glTexImage2D(
-		GL_TEXTURE_2D,
-		0,
-		glfmt,
-		static_cast<GLsizei>(width),
-		static_cast<GLsizei>(height),
-		0,
-		static_cast<GLenum>(glfmt),
-		(fmt == Texture::TF_ARGB) ? GL_UNSIGNED_BYTE : GL_UNSIGNED_SHORT_5_6_5,
-		NULL);
-
-	// attach 2D texture
-	glGenFramebuffers(1, &m_textureInfo.m_frameBuffer);
-	glBindFramebuffer(GL_FRAMEBUFFER, m_textureInfo.m_frameBuffer);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_textureInfo.m_texture, 0);
-
-	// create depth buffer
-	glGenRenderbuffers(1, &m_textureInfo.m_renderBuffer);
-	glBindRenderbuffer(GL_RENDERBUFFER, m_textureInfo.m_renderBuffer);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, static_cast<GLsizei>(width), static_cast<GLsizei>(height));
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_textureInfo.m_renderBuffer);
-
-	CheckFrameBufferStatus(m_textureInfo.m_frameBuffer, m_textureInfo.m_texture, true);
-	GLVideo::UnbindFrameBuffer();
-
-	m_type = TT_RENDER_TARGET;
-	m_profile.width = width;
-	m_profile.height = height;
-	m_profile.originalWidth = m_profile.width;
-	m_profile.originalHeight = m_profile.height;
-
-	glBindTexture(GL_TEXTURE_2D, 0);
-	return true;
-}
-
 bool GLTexture::LoadTexture(
 	VideoWeakPtr video,
 	const str_type::string& fileName,
@@ -209,7 +156,7 @@ bool GLTexture::LoadTexture(
 	m_bitmap = SOIL_load_image_from_memory((unsigned char*)pBuffer, bufferLength, &iWidth, &iHeight, &m_channels, SOIL_LOAD_AUTO);
 	ApplyPixelMask(m_bitmap, m_profile.mask, m_channels, width, height);
 
-	CreateTextureFromBitmap(iWidth, iHeight, m_channels);
+	CreateTextureFromBitmap(m_bitmap, iWidth, iHeight, m_channels, true);
 
 	if (!m_textureInfo.m_texture)
 	{
@@ -232,12 +179,73 @@ bool GLTexture::LoadTexture(
 	return true;
 }
 
-void GLTexture::CreateTextureFromBitmap(const int width, const int height, const int channels)
+bool GLTexture::CreateRenderTarget(
+	VideoWeakPtr video,
+	const unsigned int width,
+	const unsigned int height,
+	const TARGET_FORMAT fmt)
+{
+	m_textureInfo.m_texture = m_textureID++;
+
+	glGenTextures(1, &m_textureInfo.m_texture);
+	glBindTexture(GL_TEXTURE_2D, m_textureInfo.m_texture);
+
+	// we'll ignore the user format and force using ARGB format
+	GS2D_UNUSED_ARGUMENT(fmt);
+
+	m_channels = 4;
+	m_textureInfo.glTargetFmt = GL_RGBA;
+	m_textureInfo.glPixelType = GL_UNSIGNED_BYTE;
+	m_textureInfo.gsTargetFmt = TF_ARGB;
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	glTexImage2D(
+		GL_TEXTURE_2D,
+		0,
+		m_textureInfo.glTargetFmt,
+		static_cast<GLsizei>(width),
+		static_cast<GLsizei>(height),
+		0,
+		static_cast<GLenum>(m_textureInfo.glTargetFmt),
+		m_textureInfo.glPixelType,
+		NULL);
+
+	// attach 2D texture
+	glGenFramebuffers(1, &m_textureInfo.m_frameBuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, m_textureInfo.m_frameBuffer);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_textureInfo.m_texture, 0);
+
+	// create depth buffer
+	glGenRenderbuffers(1, &m_textureInfo.m_renderBuffer);
+	glBindRenderbuffer(GL_RENDERBUFFER, m_textureInfo.m_renderBuffer);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, static_cast<GLsizei>(width), static_cast<GLsizei>(height));
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_textureInfo.m_renderBuffer);
+
+	CheckFrameBufferStatus(m_textureInfo.m_frameBuffer, m_textureInfo.m_texture, true);
+	GLVideo::UnbindFrameBuffer();
+
+	m_type = TT_RENDER_TARGET;
+	m_profile.width = width;
+	m_profile.height = height;
+	m_profile.originalWidth = m_profile.width;
+	m_profile.originalHeight = m_profile.height;
+
+	m_video.lock()->InsertRecoverableResource(this);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+	return true;
+}
+
+void GLTexture::CreateTextureFromBitmap(GS_BYTE* data, const int width, const int height, const int channels, const bool pow2)
 {
 	DeleteGLTexture();
-	if (m_bitmap)
+	if (data)
 	{
-		m_textureInfo.m_texture = SOIL_create_OGL_texture(m_bitmap, width, height, channels, m_textureID++, SOIL_FLAG_POWER_OF_TWO);
+		m_textureInfo.m_texture = SOIL_create_OGL_texture(data, width, height, channels, m_textureID++, pow2 ? SOIL_FLAG_POWER_OF_TWO : 0);
 	}
 }
 
@@ -252,8 +260,30 @@ void GLTexture::FreeBitmap()
 
 void GLTexture::Recover()
 {
-	CreateTextureFromBitmap(m_profile.width, m_profile.height, m_channels);
-	ShowMessage("Texture recovered: " + Platform::GetFileName(m_fileName), GSMT_INFO);
+	if (m_type == TT_STATIC)
+	{
+		CreateTextureFromBitmap(m_bitmap, m_profile.originalWidth, m_profile.originalHeight, m_channels, true);
+		ShowMessage("Texture recovered: " + Platform::GetFileName(m_fileName), GSMT_INFO);
+	}
+	else if (m_type == TT_RENDER_TARGET)
+	{
+		//CreateRenderTarget(m_video, m_profile.originalWidth, m_profile.originalHeight, m_textureInfo.gsTargetFmt);
+		CreateTextureFromBitmap(m_textureInfo.renderTargetBackup.get(), m_profile.originalWidth, m_profile.originalHeight, m_channels, false);
+	}
+}
+
+bool GLTexture::SaveTargetSurfaceBackup()
+{
+	if (m_type != Texture::TT_RENDER_TARGET)
+	{
+		ShowMessage("Failed while trying to save backup of a non target surface", GSMT_ERROR);
+		return false;
+	}
+	glBindTexture(GL_TEXTURE_2D, m_textureInfo.m_texture);
+	const unsigned int bytes = 4;
+	m_textureInfo.renderTargetBackup = boost::shared_array<GS_BYTE>(new GS_BYTE [m_profile.originalWidth * m_profile.originalHeight * bytes]);
+	glGetTexImage(GL_TEXTURE_2D, 0, m_textureInfo.glTargetFmt, m_textureInfo.glPixelType, m_textureInfo.renderTargetBackup.get());
+	return true;
 }
 
 bool GLTexture::SaveBitmap(const str_type::char_t* name, const Texture::BITMAP_FORMAT fmt)

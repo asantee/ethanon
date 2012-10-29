@@ -30,10 +30,10 @@ int SDL_main (int argc, char **argv)
 
 		gs2d::ShaderPtr ps = video->LoadShaderFromFile(fileIOHub->GetResourceDirectory() + "resources/shaders/pixelShaderTest.cg", Shader::SF_PIXEL);
 
-		SpritePtr target = video->CreateRenderTarget(256, 300);
+		SpritePtr target = video->CreateRenderTarget(300, 256);
 		target->SetOrigin(Vector2(0.0f, 1.0f));
 		video->SetRenderTarget(target);
-		video->BeginTargetScene(0xFFFF0000);
+		video->BeginTargetScene(0x0);
 			skull->SetOrigin(Sprite::EO_CENTER);
 			for (int t = 0; t < 100; t++)
 			{
@@ -42,6 +42,7 @@ int SDL_main (int argc, char **argv)
 			}
 			skull->SetOrigin(Sprite::EO_DEFAULT);
 		video->EndTargetScene();
+		target->GenerateBackup();
 
 		video->SetBGColor(0xFF003366);
 
@@ -156,7 +157,7 @@ int SDL_main (int argc, char **argv)
 			Vector2 textSize(video->ComputeTextBoxSize("Verdana20_shadow.fnt", ss.str()));
 			video->DrawBitmapText(Vector2(screenSize.x - textSize.x, 0.0f), ss.str(), "Verdana20_shadow.fnt", 0xFF336699);
 
-			target->Draw(Vector2(900, 300));
+			target->Draw(Vector2(900, 300), gs2d::constant::WHITE, 45.0f);
 			video->EndSpriteScene();
 		}
 	}

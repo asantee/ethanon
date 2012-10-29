@@ -341,15 +341,15 @@ bool GLSprite::SetAsTexture(const unsigned int passIdx)
 
 void GLSprite::GenerateBackup()
 {
-	// TODO
-}
-
-void GLSprite::OnLostDevice()
-{
-	// TODO
+	m_texture->SaveTargetSurfaceBackup();
 }
 
 void GLSprite::RecoverFromBackup()
+{
+	m_texture->Recover();
+}
+
+void GLSprite::OnLostDevice()
 {
 	// TODO
 }

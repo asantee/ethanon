@@ -29,11 +29,13 @@
 
 #include "../GL/GLInclude.h"
 
+#include <boost/shared_array.hpp>
+
 namespace gs2d {
 
 class GLVideo;
 
-class GLTexture : public Texture, RecoverableResource
+class GLTexture : public Texture, public RecoverableResource
 {
 	Platform::FileManagerPtr m_fileManager;
 	boost::weak_ptr<GLVideo> m_video;
@@ -44,17 +46,20 @@ class GLTexture : public Texture, RecoverableResource
 	int m_channels;
 	static GLuint m_textureID;
 
-	unsigned char* m_bitmap;
+	GS_BYTE* m_bitmap;
 
 	struct TEXTURE_INFO
 	{
 		TEXTURE_INFO();
 		GLuint m_texture, m_frameBuffer, m_renderBuffer;
+		GLenum glTargetFmt;
+		GLenum glPixelType;
+		TARGET_FORMAT gsTargetFmt;
+		boost::shared_array<GS_BYTE> renderTargetBackup;
 	} m_textureInfo;
 
-	void Recover();
 	void FreeBitmap();
-	void CreateTextureFromBitmap(const int width, const int height, const int channels);
+	void CreateTextureFromBitmap(GS_BYTE* data, const int width, const int height, const int channels, const bool pow2);
 	void DeleteGLTexture();
 
 public:
@@ -92,6 +97,9 @@ public:
 	const TEXTURE_INFO& GetTextureInfo() const;
 
 	bool SaveBitmap(const str_type::char_t* name, const Texture::BITMAP_FORMAT fmt);
+	bool SaveTargetSurfaceBackup();
+
+	void Recover();
 };
 
 void CheckFrameBufferStatus(const GLuint fbo, const GLuint tex, const bool showSuccessMessage);
