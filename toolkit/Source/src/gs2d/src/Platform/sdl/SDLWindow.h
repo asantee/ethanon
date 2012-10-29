@@ -33,6 +33,7 @@ class SDLWindow : public virtual Video
 {
 	Platform::FileIOHubPtr m_fileIOHub;
 	bool m_maximizable, m_sync, m_windowed, m_quitKeysEnabled, m_quit;
+	bool m_windowHasFocus, m_windowIsVisible;
 	std::vector<VIDEO_MODE> m_videoModes;
 	
 	float m_fpsRate;

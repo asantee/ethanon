@@ -63,7 +63,9 @@ SDLWindow::SDLWindow(Platform::FileIOHubPtr fileIOHub) :
 	m_sync(true),
 	m_quitKeysEnabled(true),
 	m_quit(false),
-	m_fpsRate(30.0f)
+	m_fpsRate(30.0f),
+	m_windowHasFocus(false),
+	m_windowIsVisible(false)
 {
 	ResetTimer();
 }
@@ -217,7 +219,7 @@ Application::APP_STATUS SDLWindow::HandleEvents()
 	//const SDLKey macSDLK_LCONTROL = SDLK_LCTRL;
 
 	#ifdef MACOSX
-		// This is a workaround due to sucky and outdated SDL implementation
+		// This is a workaround due to outdated (perhaps) SDL implementation
 		// Always enable quit shortcut on fullscreen mode otherwise the user won't
 		// be able to close the window
 		if (QuitShortcutsEnabled() || !IsWindowed())
@@ -228,6 +230,20 @@ Application::APP_STATUS SDLWindow::HandleEvents()
 			}
 		}
 	#endif
+
+	Uint8 state = SDL_GetAppState();
+	if ((state & SDL_APPINPUTFOCUS))
+		m_windowHasFocus = true;
+	else
+		m_windowHasFocus = false;
+
+	if ((state & SDL_APPACTIVE))
+		m_windowIsVisible = true;
+	else
+		m_windowIsVisible = false;
+
+	if (!m_windowIsVisible)
+		r = APP_SKIP;
 
 	if (m_quit)
 		r = APP_QUIT;
@@ -360,6 +376,30 @@ bool SDLWindow::IsWindowed() const
 	return !(surface->flags & SDL_FULLSCREEN);
 }
 
+bool SDLWindow::WindowVisible() const
+{
+	return m_windowIsVisible;
+}
+
+bool SDLWindow::WindowInFocus() const
+{
+	return m_windowHasFocus;
+}
+
+void SDLWindow::EnableMediaPlaying(const bool enable)
+{
+}
+
+void SDLWindow::ForwardCommand(const str_type::string& cmd)
+{
+	// yet to be implemented
+}
+
+str_type::string SDLWindow::PullCommands()
+{
+	// yet to be implemented
+	return "";
+}
 
 
 
@@ -379,19 +419,6 @@ math::Vector2i SDLWindow::GetClientScreenSize() const
 	return math::Vector2i(0, 0);
 }
 
-void SDLWindow::ForwardCommand(const str_type::string& cmd)
-{
-}
-
-str_type::string SDLWindow::PullCommands()
-{
-	return "";
-}
-
-void SDLWindow::EnableMediaPlaying(const bool enable)
-{
-}
-
 math::Vector2i SDLWindow::GetWindowPosition()
 {
 	return math::Vector2i(0, 0);
@@ -404,16 +431,6 @@ void SDLWindow::SetWindowPosition(const math::Vector2i &v2)
 math::Vector2i SDLWindow::ScreenToWindow(const math::Vector2i &v2Point) const
 {
 	return v2Point;
-}
-
-bool SDLWindow::WindowVisible() const
-{
-	return false;
-}
-
-bool SDLWindow::WindowInFocus() const
-{
-	return false;
 }
 
 bool SDLWindow::HideCursor(const bool hide)
