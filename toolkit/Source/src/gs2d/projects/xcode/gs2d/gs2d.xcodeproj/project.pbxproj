@@ -67,6 +67,8 @@
 		7473CAE61635ABD9005DB920 /* GLSDLVideo.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CAE41635ABD9005DB920 /* GLSDLVideo.h */; };
 		74838D2E163C13E30027CFFC /* RecoverableResourceManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74838D2C163C13E30027CFFC /* RecoverableResourceManager.cpp */; };
 		74838D2F163C13E30027CFFC /* RecoverableResourceManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 74838D2D163C13E30027CFFC /* RecoverableResourceManager.h */; };
+		74838D36163F25AB0027CFFC /* SDLInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74838D34163F25AA0027CFFC /* SDLInput.cpp */; };
+		74838D37163F25AB0027CFFC /* SDLInput.h in Headers */ = {isa = PBXBuildFile; fileRef = 74838D35163F25AA0027CFFC /* SDLInput.h */; };
 		7486553816382B6A0096D869 /* Cg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7486553716382B6A0096D869 /* Cg.framework */; };
 		7486553B16382B960096D869 /* Cg.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7486553A16382B960096D869 /* Cg.framework */; };
 		7486553E16382C000096D869 /* GLCgShaderContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7486553C16382C000096D869 /* GLCgShaderContext.cpp */; };
@@ -169,6 +171,8 @@
 		74838D28163C0C2C0027CFFC /* RecoverableResource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RecoverableResource.h; path = ../../../../src/Utilities/RecoverableResource.h; sourceTree = "<group>"; };
 		74838D2C163C13E30027CFFC /* RecoverableResourceManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RecoverableResourceManager.cpp; path = ../../../../src/Utilities/RecoverableResourceManager.cpp; sourceTree = "<group>"; };
 		74838D2D163C13E30027CFFC /* RecoverableResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecoverableResourceManager.h; path = ../../../../src/Utilities/RecoverableResourceManager.h; sourceTree = "<group>"; };
+		74838D34163F25AA0027CFFC /* SDLInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SDLInput.cpp; path = ../../../../src/Input/SDL/SDLInput.cpp; sourceTree = "<group>"; };
+		74838D35163F25AA0027CFFC /* SDLInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLInput.h; path = ../../../../src/Input/SDL/SDLInput.h; sourceTree = "<group>"; };
 		7486553716382B6A0096D869 /* Cg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cg.framework; path = ../../../vendors/Cg.framework; sourceTree = "<group>"; };
 		7486553A16382B960096D869 /* Cg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cg.framework; path = ../../../vendors/Cg.framework; sourceTree = "<group>"; };
 		7486553C16382C000096D869 /* GLCgShaderContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLCgShaderContext.cpp; path = ../../../../src/Video/GL/Cg/GLCgShaderContext.cpp; sourceTree = "<group>"; };
@@ -334,6 +338,15 @@
 			name = Utilities;
 			sourceTree = "<group>";
 		};
+		74838D38163F25C80027CFFC /* Input */ = {
+			isa = PBXGroup;
+			children = (
+				74838D34163F25AA0027CFFC /* SDLInput.cpp */,
+				74838D35163F25AA0027CFFC /* SDLInput.h */,
+			);
+			name = Input;
+			sourceTree = "<group>";
+		};
 		748655401638302E0096D869 /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
@@ -407,6 +420,7 @@
 		74F3A4FF1632E3870064C9A5 /* gs2d */ = {
 			isa = PBXGroup;
 			children = (
+				74838D38163F25C80027CFFC /* Input */,
 				7473CAAC16330431005DB920 /* Video */,
 				74838D29163C0C390027CFFC /* Utilities */,
 				7473CA8816330323005DB920 /* Platform */,
@@ -492,6 +506,7 @@
 				7486555F1639AEFF0096D869 /* cgShaderCode.h in Headers */,
 				748655631639E1600096D869 /* GLSprite.h in Headers */,
 				74838D2F163C13E30027CFFC /* RecoverableResourceManager.h in Headers */,
+				74838D37163F25AB0027CFFC /* SDLInput.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -590,6 +605,7 @@
 				7486555A163981310096D869 /* stb_image_aug.c in Sources */,
 				748655621639E1600096D869 /* GLSprite.cpp in Sources */,
 				74838D2E163C13E30027CFFC /* RecoverableResourceManager.cpp in Sources */,
+				74838D36163F25AB0027CFFC /* SDLInput.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
