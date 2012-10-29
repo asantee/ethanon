@@ -412,35 +412,25 @@ bool SDLWindow::IsCursorHidden() const
 	return (SDL_ShowCursor(-1));
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 math::Vector2i SDLWindow::GetClientScreenSize() const
 {
-	return math::Vector2i(0, 0);
+	return math::Vector2i(SDL_GetVideoInfo()->current_w, SDL_GetVideoInfo()->current_h);
 }
 
 math::Vector2i SDLWindow::GetWindowPosition()
 {
+	// yet to be implemented
 	return math::Vector2i(0, 0);
 }
 
 void SDLWindow::SetWindowPosition(const math::Vector2i &v2)
 {
+	// yet to be implemented
 }
 
 math::Vector2i SDLWindow::ScreenToWindow(const math::Vector2i &v2Point) const
 {
+	// yet to be implemented
 	return v2Point;
 }
 

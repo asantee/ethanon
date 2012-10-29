@@ -21,6 +21,11 @@ int SDL_main (int argc, char **argv)
 		tileset->SetupSpriteRects(2, 2);
 		tileset->SetRect(2);
 
+		gs2d::str_type::stringstream ss;
+		ss << "video.x " << video->GetClientScreenSize().x << std::endl;
+		ss << "video.y " << video->GetClientScreenSize().y << std::endl;
+		ShowMessage(ss, GSMT_INFO);
+
 		gs2d::SpritePtr skull(video->CreateSprite(fileIOHub->GetResourceDirectory() + "resources/cool_skull.png"));
 		gs2d::SpritePtr planets(video->CreateSprite(fileIOHub->GetResourceDirectory() + "resources/planets.png"));
 		gs2d::SpritePtr black(video->CreateSprite(fileIOHub->GetResourceDirectory() + "resources/planets_black.png"));
