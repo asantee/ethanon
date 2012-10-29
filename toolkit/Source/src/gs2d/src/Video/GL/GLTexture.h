@@ -34,7 +34,6 @@ namespace gs2d {
 class GLVideo;
 
 class GLTexture : public Texture, RecoverableResource
-
 {
 	Platform::FileManagerPtr m_fileManager;
 	boost::weak_ptr<GLVideo> m_video;
@@ -94,6 +93,8 @@ public:
 
 	bool SaveBitmap(const str_type::char_t* name, const Texture::BITMAP_FORMAT fmt);
 };
+
+void CheckFrameBufferStatus(const GLuint fbo, const GLuint tex, const bool showSuccessMessage);
 
 typedef boost::shared_ptr<GLTexture> GLTexturePtr;
 typedef boost::weak_ptr<GLTexture> GLTextureWeakPtr;

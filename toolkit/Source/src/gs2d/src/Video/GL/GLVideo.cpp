@@ -82,35 +82,35 @@ bool GLVideo::StartApplication(
 
 	m_currentVS = m_defaultVS;
 
-	UpdateViewMatrix();
-
-	UpdateInternalShadersViewData();
+	UpdateInternalShadersViewData(GetScreenSizeF(), false);
 
 	return true;
 }
 
-void GLVideo::UpdateInternalShadersViewData()
+void GLVideo::UpdateInternalShadersViewData(const math::Vector2& screenSize, const bool invertY)
 {
-	UpdateShaderViewData(m_defaultVS);
-	UpdateShaderViewData(m_rectVS);
-	UpdateShaderViewData(m_fastVS);
+	UpdateViewMatrix(screenSize, m_ortho, m_zNear, m_zFar, invertY);
+
+	UpdateShaderViewData(m_defaultVS, screenSize, m_ortho);
+	UpdateShaderViewData(m_rectVS, screenSize, m_ortho);
+	UpdateShaderViewData(m_fastVS, screenSize, m_ortho);
 }
 
-void GLVideo::UpdateViewMatrix()
+void GLVideo::UpdateViewMatrix(const math::Vector2& screenSize, math::Matrix4x4& ortho, const float znear, const float zfar, const bool invertY)
 {
-	math::Orthogonal(m_ortho, GetScreenSizeF().x, GetScreenSizeF().y, m_zNear, m_zFar);
+	math::Orthogonal(ortho, screenSize.x, screenSize.y * ((invertY) ? -1.0f : 1.0f), znear, zfar);
 }
 
-void GLVideo::UpdateShaderViewData(const ShaderPtr& shader)
+void GLVideo::UpdateShaderViewData(const ShaderPtr& shader, const math::Vector2& screenSize, const math::Matrix4x4& ortho)
 {
-	shader->SetConstant("screenSize", GetScreenSizeF());
-	shader->SetMatrixConstant("viewMatrix", m_ortho);
+	shader->SetConstant("screenSize", screenSize);
+	shader->SetMatrixConstant("viewMatrix", ortho);
 }
 
 void GLVideo::Enable2DStates()
 {
 	const math::Vector2i screenSize(GetScreenSize());
-	glViewport(0, 0, static_cast<GLint>(screenSize.x), static_cast<GLint>(screenSize.y));
+	glViewport(0, 0, static_cast<GLsizei>(screenSize.x), static_cast<GLsizei>(screenSize.y));
 	glDisable(GL_LIGHTING);
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DITHER);
@@ -333,14 +333,14 @@ ShaderPtr GLVideo::GetDefaultVS()
 	return m_defaultVS;
 }
 
-ShaderPtr GLVideo::GetVertexShader()
-{
-	return m_currentVS;
-}
-
 ShaderContextPtr GLVideo::GetShaderContext()
 {
 	return m_shaderContext;
+}
+
+ShaderPtr GLVideo::GetVertexShader()
+{
+	return m_currentVS;
 }
 
 bool GLVideo::SetVertexShader(ShaderPtr pShader)
@@ -364,7 +364,32 @@ bool GLVideo::SetVertexShader(ShaderPtr pShader)
 			m_currentVS = pShader;
 		}
 	}
-	UpdateShaderViewData(m_currentVS);
+
+	const math::Vector2 screenSize = GetScreenSizeF();
+	UpdateViewMatrix(screenSize, m_ortho, m_zNear, m_zFar, (m_currentTarget.lock()) ? true : false);
+	UpdateShaderViewData(m_currentVS, screenSize, m_ortho);
+	return true;
+}
+
+ShaderPtr GLVideo::GetPixelShader()
+{
+	return m_currentPS;
+}
+
+bool GLVideo::SetPixelShader(ShaderPtr pShader)
+{
+	if (pShader)
+	{
+		if (pShader->GetShaderFocus() != Shader::SF_PIXEL)
+		{
+			ShowMessage("The shader set is not a fragment program", GSMT_ERROR);
+			return false;
+		}
+		if (m_currentPS != pShader && m_currentPS)
+			m_currentPS->UnbindShader();
+	}
+
+	m_currentPS = pShader;
 	return true;
 }
 
@@ -548,49 +573,87 @@ void GLVideo::UnsetScissor()
 	SetScissor(false);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-ShaderPtr GLVideo::GetPixelShader()
+Shader::SHADER_PROFILE GLVideo::GetHighestVertexProfile() const
 {
-	return ShaderPtr();
+	return GLCgShaderContext::CGProfileToGSProfile(m_shaderContext->GetLatestVertexProfile());
 }
 
-bool GLVideo::SetPixelShader(ShaderPtr pShader)
+Shader::SHADER_PROFILE GLVideo::GetHighestPixelProfile() const
 {
-	return false;
+	return GLCgShaderContext::CGProfileToGSProfile(m_shaderContext->GetLatestFragmentProfile());
 }
 
 bool GLVideo::SetRenderTarget(SpritePtr pTarget, const unsigned int target)
 {
-	return false;
+	if (!pTarget)
+	{
+		m_currentTarget.reset();
+		UnbindFrameBuffer();
+	}
+	else
+	{
+		if (pTarget->GetType() == Sprite::T_TARGET)
+		{
+			m_currentTarget = pTarget->GetTexture();
+		}
+		else
+		{
+			Message(GS_L("The current sprite has no render target texture"), GSMT_ERROR);
+		}
+	}
+	return true;
+}
+
+math::Vector2 GLVideo::GetCurrentTargetSize() const
+{
+	TexturePtr target = m_currentTarget.lock();
+	if (target)
+	{
+		return math::Vector2(static_cast<float>(target->GetProfile().width), static_cast<float>(target->GetProfile().height));
+	}
+	else
+	{
+		return GetScreenSizeF();
+	}
 }
 
 bool GLVideo::BeginTargetScene(const Color& dwBGColor, const bool clear)
 {
+	// explicit static cast for better performance
+	TexturePtr texturePtr = m_currentTarget.lock();
+	if (!texturePtr)
+	{
+		Message(GS_L("There's no render target"), GSMT_ERROR);
+	}
+	Texture *pTexture = texturePtr.get(); // safety compile-time error checking
+	GLTexture *pGLTexture = static_cast<GLTexture*>(pTexture); // safer direct cast
+	const GLuint target = pGLTexture->GetTextureInfo().m_frameBuffer;
+	glBindFramebuffer(GL_FRAMEBUFFER, target);
+
+	CheckFrameBufferStatus(target, pGLTexture->GetTextureInfo().m_texture, false);
+
+	if (clear)
+	{
+		math::Vector4 color;
+		color.SetColor(dwBGColor);
+		glClearColor(color.x, color.y, color.z, color.w);
+		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+	}
+
+	UpdateInternalShadersViewData(GetScreenSizeF(), true);
 	m_rendering = true;
-	return false;
+	return true;
 }
 
 bool GLVideo::EndTargetScene()
 {
+	SetRenderTarget(SpritePtr(), 0);
 	m_rendering = false;
-	return false;
+	UnbindFrameBuffer();
+
+	UpdateInternalShadersViewData(GetScreenSizeF(), false);
+
+	return true;
 }
 
 bool GLVideo::SaveScreenshot(
@@ -599,16 +662,6 @@ bool GLVideo::SaveScreenshot(
 	math::Rect2D rect)
 {
 	return false;
-}
-
-Shader::SHADER_PROFILE GLVideo::GetHighestVertexProfile() const
-{
-	return Shader::SP_NONE;
-}
-
-Shader::SHADER_PROFILE GLVideo::GetHighestPixelProfile() const
-{
-	return Shader::SP_NONE;
 }
 
 } // namespace gs2d

@@ -53,7 +53,7 @@ class GLVideo : public virtual Video, public RecoverableResourceManager
 	void Enable2DStates();
 
 	ShaderPtr m_defaultVS, m_rectVS, m_fastVS;
-	ShaderPtr m_currentVS;
+	ShaderPtr m_currentVS, m_currentPS;
 	
 protected:
 	bool StartApplication(
@@ -67,9 +67,11 @@ protected:
 
 	GLCgShaderContextPtr m_shaderContext;
 
-	void UpdateInternalShadersViewData();
-	void UpdateShaderViewData(const ShaderPtr& shader);
-	void UpdateViewMatrix();
+	void UpdateInternalShadersViewData(const math::Vector2& screenSize, const bool invertY);
+	static void UpdateViewMatrix(const math::Vector2& screenSize, math::Matrix4x4& ortho, const float znear, const float zfar, const bool invertY);
+	static void UpdateShaderViewData(const ShaderPtr& shader, const math::Vector2& screenSize, const math::Matrix4x4& ortho);
+
+	math::Vector2 GetCurrentTargetSize() const;
 
 public:
 	GLVideo();

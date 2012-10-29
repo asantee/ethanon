@@ -32,6 +32,7 @@ namespace gs2d {
 class GLCgShaderContext : public ShaderContext
 {
 	CGcontext m_cgContext;
+	CGprofile m_latestFragmentProfile, m_latestVertexProfile;
 
 	bool CheckForError(const std::string& situation);
 
@@ -41,6 +42,11 @@ public:
 
 	boost::any GetContextPointer();
 	bool DisableTextureParams();
+
+	CGprofile GetLatestVertexProfile() const;
+	CGprofile GetLatestFragmentProfile() const;
+
+	static Shader::SHADER_PROFILE CGProfileToGSProfile(const CGprofile prof);
 };
 
 typedef boost::shared_ptr<GLCgShaderContext> GLCgShaderContextPtr;

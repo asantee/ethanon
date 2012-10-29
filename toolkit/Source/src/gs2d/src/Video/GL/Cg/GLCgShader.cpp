@@ -116,6 +116,8 @@ void GLCgShader::UnbindShader()
 {
 	cgGLUnbindProgram(m_cgProfile);
 	cgGLDisableProfile(m_cgProfile);
+	if (m_focus == Shader::SF_PIXEL)
+		DisableTextures();
 }
 
 bool GLCgShader::SetShader()
@@ -154,7 +156,8 @@ bool GLCgShader::LoadShaderFromString(
 	const SHADER_PROFILE profile,
 	const char *entry)
 {
-	m_entry = entry;
+	if (entry)
+		m_entry = entry;
 	m_shaderCode = codeAsciiString;
 	m_cgContext = ExtractCgContext(context);
 	m_shaderName = shaderName;
@@ -198,7 +201,7 @@ bool GLCgShader::CreateCgProgram()
 		CG_SOURCE,
 		m_shaderCode.c_str(),
 		m_cgProfile,
-		m_entry.c_str(),
+		m_entry.empty() ? NULL : m_entry.c_str(),
 		NULL);
 
 	if (CheckForError("Shader::LoadShader creating program from file", m_shaderName))

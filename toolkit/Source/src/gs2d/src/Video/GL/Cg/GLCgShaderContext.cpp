@@ -41,6 +41,9 @@ GLCgShaderContext::GLCgShaderContext() :
 	#else
 		cgGLSetDebugMode(CG_FALSE);
 	#endif
+
+	m_latestFragmentProfile = cgGLGetLatestProfile(CG_GL_FRAGMENT);
+	m_latestVertexProfile   = cgGLGetLatestProfile(CG_GL_VERTEX);
 }
 
 GLCgShaderContext::~GLCgShaderContext()
@@ -72,6 +75,35 @@ boost::any GLCgShaderContext::GetContextPointer()
 bool GLCgShaderContext::DisableTextureParams()
 {
 	return false;
+}
+
+CGprofile GLCgShaderContext::GetLatestVertexProfile() const
+{
+	return m_latestVertexProfile;
+}
+
+CGprofile GLCgShaderContext::GetLatestFragmentProfile() const
+{
+	return m_latestFragmentProfile;
+}
+
+Shader::SHADER_PROFILE GLCgShaderContext::CGProfileToGSProfile(const CGprofile prof)
+{
+	switch (prof)
+	{
+	case CG_PROFILE_ARBFP1:
+	case CG_PROFILE_ARBVP1:
+		return Shader::SP_MODEL_1;
+	case CG_PROFILE_FP20:
+	case CG_PROFILE_VP20:
+		return Shader::SP_MODEL_2;
+	case CG_PROFILE_FP30:
+	case CG_PROFILE_VP30:
+		return Shader::SP_MODEL_3;
+	default:
+		return Shader::SP_MODEL_3;
+	}
+	return Shader::SP_NONE;
 }
 
 } // namespace gs2d

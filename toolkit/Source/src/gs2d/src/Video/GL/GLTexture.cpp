@@ -31,7 +31,6 @@
 
 namespace gs2d {
 
-static void CheckFrameBufferStatus(const GLuint fbo, const GLuint tex, const bool showSuccessMessage);
 static void ApplyPixelMask(unsigned char *ht_map, const Color mask, const int channels, const int width, const int height);
 static int GetSOILTexType(const Texture::BITMAP_FORMAT fmt, str_type::string& ext);
 
@@ -226,7 +225,7 @@ bool GLTexture::LoadTexture(
 		m_profile.originalWidth = m_profile.width;
 		m_profile.originalHeight = m_profile.height;
 		m_profile.mask = mask;
-		ShowMessage(m_fileName + " texture loaded", GSMT_INFO);
+		ShowMessage(Platform::GetFileName(m_fileName) + " texture loaded", GSMT_INFO);
 		m_video.lock()->InsertRecoverableResource(this);
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
