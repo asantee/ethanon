@@ -55,6 +55,8 @@ static int SetPixelFormat(const SDL_VideoInfo* info, const Texture::PIXEL_FORMAT
 	return bpp;
 }
 
+float SDLWindow::m_mouseWheel(0.0f);
+
 // Application implementations
 SDLWindow::SDLWindow(Platform::FileIOHubPtr fileIOHub) :
 	m_fileIOHub(fileIOHub),
@@ -196,6 +198,7 @@ void SDLWindow::Message(const str_type::string& text, const GS_MESSAGE_TYPE type
 
 Application::APP_STATUS SDLWindow::HandleEvents()
 {
+	m_mouseWheel = 0.0f;
 	APP_STATUS r = APP_OK;
 
 	SDL_Event event;
@@ -208,6 +211,12 @@ Application::APP_STATUS SDLWindow::HandleEvents()
 			break;
 		case SDL_QUIT:
 			r = APP_QUIT;
+			break;
+		case SDL_MOUSEBUTTONDOWN:
+			if (event.button.button == SDL_BUTTON_WHEELUP)
+				m_mouseWheel = 1.0f;
+			else if (event.button.button == SDL_BUTTON_WHEELDOWN)
+				m_mouseWheel =-1.0f;
 			break;
 		}
 	}

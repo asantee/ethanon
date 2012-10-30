@@ -36,11 +36,14 @@ class SDLInput : public Input
 
 	KeyStateManager m_keyStates[GS_NUM_KEYS];
 	SDLKey m_sdlKeyID[GS_NUM_KEYS];
+	Uint8 m_mouseBits;
+	bool m_showJoystickWarnings;
 
 	void UpdateCursorPos();
+	bool IsKeyPressed(const GS_KEY key, const Uint8* keystate);
 
 public:
-	SDLInput();
+	SDLInput(const bool showJoystickWarnings);
 
 	bool IsKeyDown(const GS_KEY key) const;
 	GS_KEY_STATE GetKeyState(const GS_KEY key) const;

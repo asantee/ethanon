@@ -21,6 +21,7 @@
  --------------------------------------------------------------------------------------*/
 
 #include "SDLInput.h"
+#include "../../Platform/sdl/SDLWindow.h"
 
 #include <SDL/SDL.h>
 
@@ -29,13 +30,14 @@ namespace gs2d {
 GS2D_API InputPtr CreateInput(boost::any data, const bool showJoystickWarnings)
 {
 	GS2D_UNUSED_ARGUMENT(data);
-	GS2D_UNUSED_ARGUMENT(showJoystickWarnings);
-	return InputPtr(new SDLInput);
+	return InputPtr(new SDLInput(showJoystickWarnings));
 }
 
-SDLInput::SDLInput() :
+SDLInput::SDLInput(const bool showJoystickWarnings) :
 	m_cursorPos(math::Vector2i(-1,-1)),
-	m_lastCursorPos(math::Vector2i(0, 0))
+	m_lastCursorPos(math::Vector2i(0, 0)),
+	m_mouseBits(0),
+	m_showJoystickWarnings(showJoystickWarnings)
 {
 	m_sdlKeyID[GSK_UP] = SDLK_UP;
 	m_sdlKeyID[GSK_DOWN] = SDLK_DOWN;
@@ -142,21 +144,53 @@ SDLInput::SDLInput() :
 	m_lastCursorPos = m_cursorPos;
 }
 
+void SDLInput::ShowJoystickWarnings(const bool enable)
+{
+	m_showJoystickWarnings = enable;
+}
+
+bool SDLInput::IsShowingJoystickWarnings() const
+{
+	return m_showJoystickWarnings;
+}
+
 bool SDLInput::Update()
 {
+	const Uint8 *keystate = SDL_GetKeyState(NULL);
+	for (std::size_t t = 0; t < GS_NUM_KEYS; t++)
+	{
+		m_keyStates[t].Update(IsKeyPressed((GS_KEY)t, keystate));
+	}
+
 	UpdateCursorPos();
 	return true;
+}
+
+bool SDLInput::IsKeyPressed(const GS_KEY key, const Uint8* keystate)
+{
+	switch (key)
+	{
+	case GSK_LMOUSE:
+		return (m_mouseBits & SDL_BUTTON(1));
+	case GSK_MMOUSE:
+		return (m_mouseBits & SDL_BUTTON(2));
+	case GSK_RMOUSE:
+		return (m_mouseBits & SDL_BUTTON(3));
+	default:
+		// just preventing the warning
+		break;
+	};
+	return (keystate[m_sdlKeyID[key]] != 0);
 }
 
 void SDLInput::UpdateCursorPos()
 {
 	m_lastCursorPos = m_cursorPos;
-	SDL_GetMouseState(&m_cursorPos.x, &m_cursorPos.y);
+	m_mouseBits = SDL_GetMouseState(&m_cursorPos.x, &m_cursorPos.y);
 }
 
 bool SDLInput::SetCursorPosition(math::Vector2i v2Pos)
 {
-	#warning needs testing
 	m_cursorPos = v2Pos;
 	SDL_WarpMouse(static_cast<Uint16>(v2Pos.x), static_cast<Uint16>(v2Pos.y));
 	return true;
@@ -208,74 +242,89 @@ math::Vector2 SDLInput::GetTouchPos(const unsigned int n, WindowPtr pWindow) con
 	return GetCursorPositionF(pWindow);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+math::Vector3 SDLInput::GetAccelerometerData() const
+{
+	return math::Vector3();
+}
 
 bool SDLInput::IsKeyDown(const GS_KEY key) const
 {
-	return false;
+	const GS_KEY_STATE state = m_keyStates[key].GetCurrentState();
+	return (state == GSKS_DOWN || state == GSKS_HIT);
 }
 
 GS_KEY_STATE SDLInput::GetKeyState(const GS_KEY key) const
 {
-	return GSKS_UP;
+	return m_keyStates[key].GetCurrentState();
 }
 
 GS_KEY_STATE SDLInput::GetLeftClickState() const
 {
-	return GSKS_UP;
+	return m_keyStates[GSK_LMOUSE].GetCurrentState();
 }
 
 GS_KEY_STATE SDLInput::GetRightClickState() const
 {
-	return GSKS_UP;
+	return m_keyStates[GSK_RMOUSE].GetCurrentState();
 }
 
 GS_KEY_STATE SDLInput::GetMiddleClickState() const
 {
-	return GSKS_UP;
+	return m_keyStates[GSK_MMOUSE].GetCurrentState();
 }
 
-GS_KEY_STATE  SDLInput::GetTouchState(const unsigned int n, WindowPtr pWindow) const
+GS_KEY_STATE SDLInput::GetTouchState(const unsigned int n, WindowPtr pWindow) const
 {
-	return GSKS_UP;
-}
-
-unsigned int SDLInput::GetMaxJoysticks() const
-{
-	return 0;
+	GS2D_UNUSED_ARGUMENT(n);
+	GS2D_UNUSED_ARGUMENT(pWindow);
+	return GetLeftClickState();
 }
 
 float SDLInput::GetWheelState() const
 {
-	return 0.0f;
-}
-
-void SDLInput::ShowJoystickWarnings(const bool enable)
-{
-}
-
-bool SDLInput::IsShowingJoystickWarnings() const
-{
-	return false;
+	return SDLWindow::m_mouseWheel;
 }
 
 str_type::char_t SDLInput::GetLastCharInput() const
 {
+	#warning todo
 	return '\0';
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+unsigned int SDLInput::GetMaxJoysticks() const
+{
+	return 0;
 }
 
 GS_KEY_STATE SDLInput::GetJoystickButtonState(const unsigned int id, const GS_JOYSTICK_BUTTON key) const
@@ -331,11 +380,6 @@ GS_JOYSTICK_BUTTON SDLInput::GetFirstButtonDown(const unsigned int id) const
 unsigned int SDLInput::GetNumJoysticks() const
 {
 	return 0;
-}
-
-math::Vector3 SDLInput::GetAccelerometerData() const
-{
-	return math::Vector3();
 }
 
 } // namespace gs2d

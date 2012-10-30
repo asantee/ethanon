@@ -41,7 +41,7 @@ class KeyStateManager
 public:
 	KeyStateManager();
 	void Update(const bool isPressed);
-	bool GetCurrentState() const;
+	GS_KEY_STATE GetCurrentState() const;
 };
 
 } // namespace gs2d

@@ -32,6 +32,8 @@ int SDL_main (int argc, char **argv)
 		gs2d::SpritePtr planets(video->CreateSprite(fileIOHub->GetResourceDirectory() + "resources/planets.png"));
 		gs2d::SpritePtr black(video->CreateSprite(fileIOHub->GetResourceDirectory() + "resources/planets_black.png"));
 		gs2d::SpritePtr road(video->CreateSprite(fileIOHub->GetResourceDirectory() + "resources/road.jpg"));
+	
+		road->SetSpriteDensityValue(2.0f);
 
 		road->SetOrigin(Vector2(1.0f, 1.0f));
 
@@ -50,6 +52,7 @@ int SDL_main (int argc, char **argv)
 			skull->SetOrigin(Sprite::EO_DEFAULT);
 		video->EndTargetScene();
 		target->GenerateBackup();
+		target->SetSpriteDensityValue(2.0f);
 
 		video->SetBGColor(0xFF003366);
 
@@ -62,6 +65,27 @@ int SDL_main (int argc, char **argv)
 			input->Update();
 
 			const Vector2 screenSize(video->GetScreenSizeF());
+			{
+				GS_KEY_STATE state = input->GetKeyState(GSK_SPACE);
+				switch (state)
+				{
+				case GSKS_DOWN:
+					std::cout << "-";
+					break;
+				case GSKS_HIT:
+					std::cout << "<";
+					break;
+				case GSKS_RELEASE:
+					std::cout << ">\n\n";
+					break;
+				case GSKS_UP:
+					break;
+				};
+				if (input->GetKeyState(GSK_LMOUSE) == GSKS_HIT)
+				{
+					input->SetCursorPosition((screenSize * 0.5f).ToVector2i());
+				}
+			}
 
 			video->BeginSpriteScene();
 
@@ -135,16 +159,14 @@ int SDL_main (int argc, char **argv)
 			video->SetLineWidth(10);
 			video->DrawLine(Vector2(screenSize.x,0), Vector2(0,screenSize.y), 0xFF0000FF, 0xFF00FF00);
 
-			static float angle = 0.0f; angle += 1.0f;
+			static float angle = 0.0f; angle += 0.1f;
+			angle += input->GetWheelState();
 			video->DrawRectangle(
 				Vector2(200,400),
 				Vector2(96,32),
 				gs2d::constant::BLUE,
 				angle);
 				
-			if (angle == 30.0f)
-				video->SaveScreenshot("/Users/blackdog/Desktop/whatever", Texture::BITMAP_FORMAT::BF_BMP);
-
 			tileset->SetRect(1);
 			tileset->Draw(Vector2(200, 600));
 			

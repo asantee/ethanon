@@ -56,7 +56,7 @@ void KeyStateManager::Update(const bool isPressed)
 	m_currentState = GSKS_DOWN;
 }
 
-bool KeyStateManager::GetCurrentState() const
+GS_KEY_STATE KeyStateManager::GetCurrentState() const
 {
 	return m_currentState;
 }
