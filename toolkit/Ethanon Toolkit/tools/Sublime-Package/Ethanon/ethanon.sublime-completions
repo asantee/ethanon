@@ -1,6 +1,0 @@
-{
-    "scope": "source.angelscript", 
-    "settings": {
-        "cancelCompletion": "^\\s*(\\}?\\s*(else|try|do)|(class|struct|enum|namespace)\\s*[a-zA-Z_0-9]+*)$"
-    }
-}
