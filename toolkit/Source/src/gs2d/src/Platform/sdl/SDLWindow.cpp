@@ -23,6 +23,7 @@
 #include "SDLWindow.h"
 
 #include <SDL/SDL.h>
+#include <SDL/SDL_opengl.h>
 
 namespace gs2d {
 
@@ -57,8 +58,21 @@ static int SetPixelFormat(const SDL_VideoInfo* info, const Texture::PIXEL_FORMAT
 // Application implementations
 SDLWindow::SDLWindow(Platform::FileIOHubPtr fileIOHub) :
 	m_fileIOHub(fileIOHub),
-	m_maximizable(false)
+	m_maximizable(false),
+	m_windowed(true),
+	m_sync(true),
+	m_quitKeysEnabled(true),
+	m_quit(false),
+	m_fpsRate(30.0f),
+	m_windowHasFocus(false),
+	m_windowIsVisible(false)
 {
+	ResetTimer();
+}
+
+SDLWindow::~SDLWindow()
+{
+	SDL_Quit();
 }
 
 bool SDLWindow::StartApplication(
@@ -74,8 +88,10 @@ bool SDLWindow::StartApplication(
 	m_screenSize.y = static_cast<float>(height);
 
 	m_maximizable = maximizable;
+	m_windowed = windowed;
+	m_sync = sync;
 
-	if (SDL_Init( SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) < 0)
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) < 0)
 	{
 		Message("SDL initialization failed", GSMT_ERROR);
 		return false;
@@ -86,38 +102,39 @@ bool SDLWindow::StartApplication(
 	const int bpp = SetPixelFormat(info, pfBB);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-	Uint32 flags = SDL_OPENGL;
-	if (!windowed)
-		flags |= SDL_FULLSCREEN;
+	const Uint32 flags = AssembleFlags(windowed, maximizable, sync);
 
 	if (sync)
 	{
 		SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
-		flags |= SDL_ASYNCBLIT;
 	}
 
 	if (SDL_SetVideoMode(static_cast<int>(m_screenSize.x), static_cast<int>(m_screenSize.y), bpp, flags) == 0)
 	{
-		Message("Invalid video mode - GAMESPACE_VIDEO_HANDLER::StartApplication", GSMT_ERROR);
+		Message("Invalid video mode - SDLWindow::StartApplication", GSMT_ERROR);
 		return false;
 	}
-		
+
 	SetWindowTitle(winTitle);
 	ReadDisplayModes();
 
-	/*g_bRunning = true;
-
-	m_ShaderContext.RegisterShaderHandler(m_pDevice);
-	m_DefaultVS.LoadShader(&m_ShaderContext, g_szDefaultVS, GSSF_VERTEX, GSSM_STRING, GSSP_MODEL_2, "sprite");
-	m_RectVS.LoadShader(&m_ShaderContext, g_szDefaultVS, GSSF_VERTEX, GSSM_STRING, GSSP_MODEL_2, "rectangle");
-	m_FontVS.LoadShader(&m_ShaderContext, g_szDefaultVS, GSSF_VERTEX, GSSM_STRING, GSSP_MODEL_2, "font");
-	m_pCurrentVS = &m_DefaultVS;
-	m_DefaultVS.SetConstant2F("cameraPos", GetCameraPos());
-
-	gsSetupShaderViewData(GetCurrentVS(), &m_RectVS, &m_FontVS);
-
-	pInfo->m_dwTime = SDL_GetTicks();*/
 	return true;
+}
+
+unsigned int SDLWindow::AssembleFlags(const bool windowed, const bool maximizable, const bool sync)
+{
+	unsigned int flags = SDL_OPENGL;
+
+	if (!windowed)
+		flags |= SDL_FULLSCREEN;
+	else if (maximizable)
+		flags |= SDL_RESIZABLE;
+
+	if (sync)
+	{
+		flags |= SDL_ASYNCBLIT;
+	}
+	return flags;
 }
 
 void SDLWindow::ReadDisplayModes()
@@ -147,6 +164,19 @@ void SDLWindow::ReadDisplayModes()
 	}
 }
 
+Video::VIDEO_MODE SDLWindow::GetVideoMode(const unsigned int modeIdx) const
+{
+	if (modeIdx >= GetVideoModeCount())
+		return VIDEO_MODE();
+	else
+		return m_videoModes[modeIdx];
+}
+
+unsigned int SDLWindow::GetVideoModeCount() const
+{
+	return static_cast<unsigned int>(m_videoModes.size());
+}
+
 str_type::string SDLWindow::GetPlatformName() const
 {
 #	ifdef MACOSX
@@ -164,68 +194,147 @@ void SDLWindow::Message(const str_type::string& text, const GS_MESSAGE_TYPE type
 	ShowMessage(text, type);
 }
 
-
-
-
-
-
-
-
-
-
-
-bool SDLWindow::ManageLoop()
-{
-	return false;
-}
-
-math::Vector2i SDLWindow::GetClientScreenSize() const
-{
-	return math::Vector2i(0, 0);
-}
-
 Application::APP_STATUS SDLWindow::HandleEvents()
 {
-	return Application::APP_OK;
+	APP_STATUS r = APP_OK;
+
+	SDL_Event event;
+	while(SDL_PollEvent(&event))
+	{
+		switch(event.type)
+		{
+		case SDL_VIDEORESIZE:
+			ResetVideoMode(event.resize.w, event.resize.h, Texture::PF_UNKNOWN);
+			break;
+		case SDL_QUIT:
+			r = APP_QUIT;
+			break;
+		}
+	}
+
+	Uint8 *keys = SDL_GetKeyState(NULL);
+
+	//const SDLKey macSDLK_LOPTION = SDLK_LALT;
+	//const SDLKey macSDLK_LCOMMAND = SDLK_LMETA;
+	//const SDLKey macSDLK_LCONTROL = SDLK_LCTRL;
+
+	#ifdef MACOSX
+		// This is a workaround due to outdated (perhaps) SDL implementation
+		// Always enable quit shortcut on fullscreen mode otherwise the user won't
+		// be able to close the window
+		if (QuitShortcutsEnabled() || !IsWindowed())
+		{
+			if ((keys[SDLK_LMETA] || keys[SDLK_RMETA]) && keys[SDLK_q])
+			{
+				r = APP_QUIT;
+			}
+		}
+	#endif
+
+	Uint8 state = SDL_GetAppState();
+	if ((state & SDL_APPINPUTFOCUS))
+		m_windowHasFocus = true;
+	else
+		m_windowHasFocus = false;
+
+	if ((state & SDL_APPACTIVE))
+		m_windowIsVisible = true;
+	else
+		m_windowIsVisible = false;
+
+	if (!m_windowIsVisible)
+		r = APP_SKIP;
+
+	if (m_quit)
+		r = APP_QUIT;
+
+	return r;
 }
 
-float SDLWindow::GetFPSRate() const
+bool SDLWindow::EndSpriteScene()
 {
-	return 0.0f;
-}
-
-unsigned long SDLWindow::GetElapsedTime(const TIME_UNITY unity) const
-{
-	return 0;
-}
-
-float SDLWindow::GetElapsedTimeF(const TIME_UNITY unity) const
-{
-	return 0.0f;
-}
-
-void SDLWindow::ResetTimer()
-{
-}
-
-void SDLWindow::ForwardCommand(const str_type::string& cmd)
-{
-}
-
-str_type::string SDLWindow::PullCommands()
-{
-	return "";
+	SDL_GL_SwapBuffers();
+	return true;
 }
 
 void SDLWindow::Quit()
 {
+	m_quit = true;
 }
-	
-/////////////////////////////
-//
-//  Window implementations
-//
-/////////////////////////////
+
+bool SDLWindow::SyncEnabled() const
+{
+	return m_sync;
+}
+
+bool SDLWindow::IsMaximizable() const
+{
+	return m_maximizable;
+}
+
+float SDLWindow::GetElapsedTimeF(const TIME_UNITY unity) const
+{
+	return static_cast<float>(GetElapsedTimeD(unity));
+}
+
+unsigned long SDLWindow::GetElapsedTime(const TIME_UNITY unity) const
+{
+	return static_cast<unsigned long>(GetElapsedTimeD(unity));
+}
+
+double SDLWindow::GetElapsedTimeD(const TIME_UNITY unity) const
+{
+	timeval current;
+	gettimeofday(&current, NULL);
+	const double curr = current.tv_sec    + (current.tv_usec    / 1000000.0);
+	const double last = m_lastTime.tv_sec + (m_lastTime.tv_usec / 1000000.0);
+	double elapsedTimeS = curr - last;
+	switch (unity)
+	{
+	case TU_HOURS:
+		elapsedTimeS /= 60.0;
+		elapsedTimeS /= 60.0;
+		break;
+	case TU_MINUTES:
+		elapsedTimeS /= 60.0;
+		break;
+	case TU_MILLISECONDS:
+		elapsedTimeS *= 1000.0;
+	case TU_SECONDS:
+	default:
+		break;
+	};
+	return elapsedTimeS;
+}
+
+void SDLWindow::ResetTimer()
+{
+	gettimeofday(&m_lastTime, NULL);
+}
+
+void SDLWindow::ComputeFPSRate()
+{
+	static float counter = 0.0f;
+	const clock_t current = GetElapsedTime(TU_MILLISECONDS);
+	static clock_t last = current;
+
+	const clock_t elapsed = current - last;
+	if (elapsed > 500)
+	{
+		m_fpsRate = (counter * 2);
+		counter = 0.0f;
+		last = current;
+	}
+	else
+	{
+		counter++;
+	}
+}
+
+float SDLWindow::GetFPSRate() const
+{
+	return math::Max(1.0f, m_fpsRate);
+}
 
 str_type::string SDLWindow::GetWindowTitle() const
 {
@@ -251,67 +360,78 @@ math::Vector2 SDLWindow::GetScreenSizeF() const
 	return m_screenSize;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 void SDLWindow::EnableQuitShortcuts(const bool enable)
 {
+	m_quitKeysEnabled = enable;
 }
 
 bool SDLWindow::QuitShortcutsEnabled()
 {
-	return false;
+	return m_quitKeysEnabled;
+}
+
+bool SDLWindow::IsWindowed() const
+{
+	SDL_Surface* surface = SDL_GetVideoSurface();
+	return !(surface->flags & SDL_FULLSCREEN);
+}
+
+bool SDLWindow::WindowVisible() const
+{
+	return m_windowIsVisible;
+}
+
+bool SDLWindow::WindowInFocus() const
+{
+	return m_windowHasFocus;
 }
 
 void SDLWindow::EnableMediaPlaying(const bool enable)
 {
 }
 
-bool SDLWindow::IsWindowed() const
+void SDLWindow::ForwardCommand(const str_type::string& cmd)
 {
-	return false;
+	// yet to be implemented
+}
+
+str_type::string SDLWindow::PullCommands()
+{
+	// yet to be implemented
+	return "";
+}
+
+bool SDLWindow::HideCursor(const bool hide)
+{
+	SDL_ShowCursor(hide ? SDL_DISABLE : SDL_ENABLE);
+	return true;
+}
+
+bool SDLWindow::IsCursorHidden() const
+{
+	return (SDL_ShowCursor(-1));
+}
+
+math::Vector2i SDLWindow::GetClientScreenSize() const
+{
+	return math::Vector2i(SDL_GetVideoInfo()->current_w, SDL_GetVideoInfo()->current_h);
 }
 
 math::Vector2i SDLWindow::GetWindowPosition()
 {
+	// yet to be implemented
 	return math::Vector2i(0, 0);
 }
 
 void SDLWindow::SetWindowPosition(const math::Vector2i &v2)
 {
+	// yet to be implemented
 }
 
 math::Vector2i SDLWindow::ScreenToWindow(const math::Vector2i &v2Point) const
 {
+	// yet to be implemented
 	return v2Point;
-}
-
-bool SDLWindow::WindowVisible() const
-{
-	return false;
-}
-
-bool SDLWindow::WindowInFocus() const
-{
-	return false;
-}
-
-bool SDLWindow::HideCursor(const bool hide)
-{
-	return false;
-}
-
-bool SDLWindow::IsCursorHidden() const
-{
-	return false;
 }
 
 } // namespace gs2d

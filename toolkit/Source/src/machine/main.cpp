@@ -76,7 +76,7 @@ int wmain(int argc, wchar_t* argv[])
 	Platform::FileIOHubPtr fileIOHub(new Platform::WindowsFileIOHub(fileManager, ETHDirectories::GetBitmapFontDirectory()));
 	const str_type::string resourceDirectory = fileIOHub->GetResourceDirectory(); 
 
-	const ETHAppEnmlFile app(resourceDirectory + ETH_APP_PROPERTIES_FILE, Platform::FileManagerPtr(new Platform::StdFileManager), GS_L(""));
+	const ETHAppEnmlFile app(resourceDirectory + ETH_APP_PROPERTIES_FILE, Platform::FileManagerPtr(new Platform::StdFileManager), GS_L("windows"));
 	const str_type::string bitmapFontPath = resourceDirectory + ETHDirectories::GetBitmapFontDirectory();
 
 	bool aborted;

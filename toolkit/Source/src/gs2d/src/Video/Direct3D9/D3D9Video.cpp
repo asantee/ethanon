@@ -295,18 +295,14 @@ D3D9Video::D3D9Video(
 	m_sync(false),
 	m_windowed(true),
 	m_scissor(Rect2D(0,0,0,0)),
-	m_v2Camera(Vector2(0,0)),
 	m_alphaMode(AM_PIXEL),
 	m_textureFilter(TM_ALWAYS),
-	m_lineWidth(1.0f),
 	m_nVideoModes(0),
 	m_cursorHidden(false),
 	m_quit(false),
 	m_windowPos(Vector2i(0,0)),
 	m_clamp(true),
-	m_depth(0.0f),
 	m_fpsRate(60.0f),
-	m_roundUpPosition(false),
 	m_maximizable(false),
 	m_fileIOHub(fileIOHub)
 {
@@ -479,15 +475,6 @@ Color D3D9Video::GetBGColor() const
 	return m_backgroundColor;
 }
 
-void D3D9Video::RoundUpPosition(const bool roundUp)
-{
-	m_roundUpPosition = roundUp;
-}
-bool D3D9Video::IsRoundingUpPosition() const
-{
-	return m_roundUpPosition;
-}
-
 void D3D9Video::Message(const std::wstring& text, const GS_MESSAGE_TYPE type) const
 {
 	std::wstringstream ss;
@@ -621,25 +608,6 @@ bool D3D9Video::SetClamp(const bool set)
 bool D3D9Video::GetClamp() const
 {
 	return m_clamp;
-}
-
-bool D3D9Video::ManageLoop()
-{
-	if (Rendering())
-		EndSpriteScene();
-
-	APP_STATUS status = APP_SKIP;
-	while (status == APP_SKIP)
-	{
-		status = HandleEvents();
-		if (status == APP_QUIT)
-			return false;
-	}
-
-	if (!Rendering())
-		BeginSpriteScene();
-
-	return true;
 }
 
 void D3D9Video::SetZBuffer(const bool enable)
@@ -804,22 +772,6 @@ bool D3D9Video::SetAlphaMode(const ALPHA_MODE mode)
 Video::ALPHA_MODE D3D9Video::GetAlphaMode() const
 {
 	return m_alphaMode;
-}
-
-bool D3D9Video::SetSpriteDepth(const float depth)
-{
-	m_depth = depth;
-	if (m_depth > 1.0f || m_depth < 0.0f)
-	{
-		Message(L"Warning: the depth must range 0.0f - 1.0f - D3D9Video::SetSpriteDepth", GSMT_WARNING);
-		m_depth = Max(m_depth, 0.0f);
-		m_depth = Min(m_depth, 1.0f);
-	}
-	return true;
-}
-float D3D9Video::GetSpriteDepth() const
-{
-	return m_depth;
 }
 
 bool D3D9Video::SetFilterMode(const TEXTUREFILTER_MODE tfm)
@@ -1230,7 +1182,7 @@ Video::BLEND_MODE D3D9Video::GetBlendMode(const unsigned int passIdx) const
 
 bool D3D9Video::DrawLine(const Vector2 &p1, const Vector2 &p2, const Color& color1, const Color& color2)
 {
-	if (m_lineWidth <= 1.0f)
+	if (GetLineWidth() <= 1.0f)
 	{
 		D3D9VideoInfo::LINE_VERTEX line[2];
 		line[0].pos.x = p1.x;
@@ -1275,7 +1227,7 @@ bool D3D9Video::DrawLine(const Vector2 &p1, const Vector2 &p2, const Color& colo
 
 		DrawRectangle(
 			p1,
-			Vector2(m_lineWidth, len),
+			Vector2(GetLineWidth(), len),
 			color2,
 			color2,
 			color1,
@@ -1285,17 +1237,6 @@ bool D3D9Video::DrawLine(const Vector2 &p1, const Vector2 &p2, const Color& colo
 	}
 
 	return true;
-}
-
-void D3D9Video::SetLineWidth(const float width)
-{
-	m_lineWidth = (width < 1.0f) ? 1.0f : width;
-}
-
-
-float D3D9Video::GetLineWidth() const
-{
-	return m_lineWidth;
 }
 
 bool D3D9Video::DrawRectangle(const Vector2 &v2Pos, const Vector2 &v2Size,
@@ -1310,8 +1251,7 @@ bool D3D9Video::DrawRectangle(const Vector2 &v2Pos, const Vector2 &v2Size,
 {
 	if (v2Size == Vector2(0,0))
 	{
-		Message(L"Invalid size argument - D3D9Video::DrawRectangle");
-		return false;
+		return true;
 	}
 
 	Vector2 v2Center;
@@ -1386,7 +1326,7 @@ Video::VIDEO_MODE D3D9Video::GetVideoMode(const unsigned int modeIdx) const
 	return m_modes[modeIdx];
 }
 
-unsigned int D3D9Video::GetVideoModeCount()
+unsigned int D3D9Video::GetVideoModeCount() const
 {
 	if (!m_pD3D)
 	{
@@ -1848,30 +1788,6 @@ Vector2i D3D9Video::ScreenToWindow(const Vector2i &v2Point) const
 	ClientToScreen(m_videoInfo->m_hWnd, &point);
 
 	return Vector2i(v2Point.x-point.x, v2Point.y-point.y);
-}
-
-bool D3D9Video::SetCameraPos(const Vector2 &pos)
-{
-	m_v2Camera = pos;
-	return true;
-}
-
-bool D3D9Video::MoveCamera(const Vector2 &dir)
-{
-	SetCameraPos(m_v2Camera + dir);
-	return true;
-}
-
-Vector2 D3D9Video::GetCameraPos() const
-{
-	if (IsRoundingUpPosition())
-	{
-		return Vector2(floor(m_v2Camera.x), floor(m_v2Camera.y));
-	}
-	else
-	{
-		return m_v2Camera;
-	}
 }
 
 bool D3D9Video::HideCursor(const bool hide)

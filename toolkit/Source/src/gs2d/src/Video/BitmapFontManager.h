@@ -36,6 +36,9 @@ class BitmapFontManager
 	std::map<str_type::string, BitmapFontPtr> m_fonts;
 
 public:
+
+	void ClearFonts();
+
 	math::Vector2 ComputeCarretPosition(
 		Video* video,
 		const str_type::string& font,

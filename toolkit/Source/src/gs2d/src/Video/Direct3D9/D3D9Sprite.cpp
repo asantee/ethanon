@@ -31,9 +31,6 @@ void D3D9Sprite::Init()
 	m_type = Sprite::T_NOT_LOADED;
 	m_pTexture = NULL;
 	m_pDevice = NULL;
-	m_flipX = m_flipY = false;
-	m_multiply = Vector2(1.0f, 1.0f);
-	m_scroll = Vector2(0.0f, 0.0f);
 	m_pBackupTexture = NULL;
 	m_targetFormat = Texture::TF_NONE;
 	m_densityValue = 1.0f;
@@ -186,67 +183,7 @@ bool D3D9Sprite::DrawOptimal(const math::Vector2 &v2Pos, const Color& color, con
 	return DrawShaped(v2Pos, size, color, color, color, color, angle);
 }
 
-void D3D9Sprite::FlipX(const bool flip)
-{
-	m_flipX = flip;
-}
-
-void D3D9Sprite::FlipY(const bool flip)
-{
-	m_flipY = flip;
-}
-
-void D3D9Sprite::FlipX()
-{
-	m_flipX = !(m_flipX);
-}
-
-void D3D9Sprite::FlipY()
-{
-	m_flipY = !(m_flipY);
-}
-
-bool D3D9Sprite::GetFlipX() const
-{
-	return m_flipX;
-}
-
-bool D3D9Sprite::GetFlipY() const
-{
-	return m_flipY;
-}
-
-void D3D9Sprite::SetMultiply(const Vector2 &v2Multiply)
-{
-	m_multiply = Vector2(Abs(v2Multiply.x), Abs(v2Multiply.y));
-}
-
-Vector2 D3D9Sprite::GetMultiply() const
-{
-	return m_multiply;
-}
-
-#define GS_MAX_SCROLL (1024.0f*4.0f)
-void D3D9Sprite::SetScroll(const Vector2 &v2Scroll)
-{
-	m_scroll = v2Scroll;
-	if (m_scroll.x > GS_MAX_SCROLL)
-		m_scroll.x -= GS_MAX_SCROLL;
-	else if (m_scroll.x < -GS_MAX_SCROLL)
-		m_scroll.x += GS_MAX_SCROLL;
-
-	if (m_scroll.y > GS_MAX_SCROLL)
-		m_scroll.y -= GS_MAX_SCROLL;
-	else if (m_scroll.y < -GS_MAX_SCROLL)
-		m_scroll.y += GS_MAX_SCROLL;
-}
-
-Vector2 D3D9Sprite::GetScroll() const
-{
-	return m_scroll;
-}
-
-bool D3D9Sprite::SaveBitmap(const wchar_t *wcsName, const Texture::BITMAP_FORMAT fmt, Rect2D *pRect)
+bool D3D9Sprite::SaveBitmap(const str_type::char_t* name, const Texture::BITMAP_FORMAT fmt, Rect2D *pRect)
 {
 	if (m_type == Sprite::T_NOT_LOADED)
 	{
@@ -276,7 +213,7 @@ bool D3D9Sprite::SaveBitmap(const wchar_t *wcsName, const Texture::BITMAP_FORMAT
 
 		std::wstring finalName;
 		std::wstring ext = GetImageExtension(fmt);
-		finalName = wcsName;
+		finalName = name;
 		if (!IsTheExtensionRight(finalName.c_str(), ext.c_str()))
 		{
 			finalName += ext;

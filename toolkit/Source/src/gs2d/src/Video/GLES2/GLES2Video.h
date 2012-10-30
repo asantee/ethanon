@@ -144,7 +144,7 @@ public:
 	boost::any GetGraphicContext();
 
 	VIDEO_MODE GetVideoMode(const unsigned int modeIdx) const;
-	unsigned int GetVideoModeCount();
+	unsigned int GetVideoModeCount() const;
 
 	bool ResetVideoMode(
 		const VIDEO_MODE& mode,
@@ -174,16 +174,6 @@ public:
 
 	bool SetSpriteDepth(const float depth);
 	float GetSpriteDepth() const;
-
-	void SetLineWidth(const float width);
-	float GetLineWidth() const;
-
-	bool SetCameraPos(const math::Vector2 &pos);
-	bool MoveCamera(const math::Vector2 &dir);
-	math::Vector2 GetCameraPos() const;
-
-	void RoundUpPosition(const bool roundUp);
-	bool IsRoundingUpPosition() const;
 
 	bool SetScissor(const bool& enable);
 	bool SetScissor(const math::Rect2D& rect);
@@ -229,9 +219,11 @@ public:
 
 	bool Rendering() const;
 
-	bool SaveScreenshot(const wchar_t *wcsName,	const Texture::BITMAP_FORMAT fmt = Texture::BF_BMP, math::Rect2D rect = math::Rect2D(0, 0, 0, 0));
+	bool SaveScreenshot(
+		const str_type::char_t* name,
+		const Texture::BITMAP_FORMAT fmt = Texture::BF_BMP,
+		math::Rect2D rect = math::Rect2D(0, 0, 0, 0));
 	
-	bool ManageLoop();
 	math::Vector2i GetClientScreenSize() const;
 	APP_STATUS HandleEvents();
 	float GetFPSRate() const;
@@ -286,7 +278,6 @@ private:
 	math::Rect2D m_scissor;
 	bool m_quit;
 	bool m_rendering;
-	bool m_roundUpPosition;
 	bool m_zWrite;
 	bool m_zBuffer;
 	bool m_blend;
@@ -304,8 +295,6 @@ private:
 
 	TextureWeakPtr m_currentTarget;
 
-	math::Vector2 m_v2Camera;
-	
 	void ComputeFPSRate();
 
 	void Enable2D(const int width, const int height, const bool flipY = false);

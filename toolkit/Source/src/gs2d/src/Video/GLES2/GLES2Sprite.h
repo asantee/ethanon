@@ -89,7 +89,7 @@ public:
 		const float angle = 0.0f,
 		const math::Vector2 &v2Size = math::Vector2(-1,-1));
 
-	bool SaveBitmap(const wchar_t *wcsName, const Texture::BITMAP_FORMAT fmt, math::Rect2D *pRect = 0);
+	bool SaveBitmap(const str_type::char_t* wcsName, const Texture::BITMAP_FORMAT fmt, math::Rect2D *pRect = 0);
 
 	bool DrawShapedFast(const math::Vector2 &v2Pos, const math::Vector2 &v2Size, const Color& color);
 	void BeginFastRendering();
@@ -100,19 +100,6 @@ public:
 	Texture::PROFILE GetProfile() const;
 	math::Vector2i GetBitmapSize() const;
 	math::Vector2 GetBitmapSizeF() const;
-
-	void FlipX(const bool flip);
-	void FlipY(const bool flip);
-	void FlipX();
-	void FlipY();
-	bool GetFlipX() const;
-	bool GetFlipY() const;
-
-	void SetScroll(const math::Vector2 &v2Scroll);
-	math::Vector2 GetScroll() const;
-
-	void SetMultiply(const math::Vector2 &v2Multiply);
-	math::Vector2 GetMultiply() const;
 
 	TYPE GetType() const;
 	boost::any GetTextureObject();

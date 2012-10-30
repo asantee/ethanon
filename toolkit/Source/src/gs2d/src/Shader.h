@@ -39,9 +39,6 @@ class ShaderContext
 public:
 	virtual boost::any GetContextPointer() = 0;
 	virtual bool DisableTextureParams() = 0;
-
-protected:
-	virtual bool CheckForError(const str_type::string& situation) = 0;
 };
 
 typedef boost::shared_ptr<ShaderContext> ShaderContextPtr;

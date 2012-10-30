@@ -294,7 +294,7 @@ bool GLES2Sprite::DrawOptimal(const math::Vector2 &v2Pos, const Color& color, co
 	return true;
 }
 
-bool GLES2Sprite::SaveBitmap(const wchar_t *wcsName, const Texture::BITMAP_FORMAT fmt, Rect2D *pRect)
+bool GLES2Sprite::SaveBitmap(const str_type::char_t* wcsName, const Texture::BITMAP_FORMAT fmt, Rect2D *pRect)
 {
 	// TODO 
 	return false;
@@ -366,60 +366,6 @@ Vector2i GLES2Sprite::GetBitmapSize() const
 Vector2 GLES2Sprite::GetBitmapSizeF() const
 {
 	return m_bitmapSize;
-}
-
-void GLES2Sprite::FlipX(const bool flip)
-{
-	// TODO 
-}
-
-void GLES2Sprite::FlipY(const bool flip)
-{
-	// TODO 
-}
-
-void GLES2Sprite::FlipX()
-{
-	// TODO 
-}
-
-void GLES2Sprite::FlipY()
-{
-	// TODO 
-}
-
-bool GLES2Sprite::GetFlipX() const
-{
-	// TODO 
-	return false;
-}
-
-bool GLES2Sprite::GetFlipY() const
-{
-	// TODO 
-	return false;
-}
-
-void GLES2Sprite::SetScroll(const Vector2 &v2Scroll)
-{
-	// TODO 
-}
-
-Vector2 GLES2Sprite::GetScroll() const
-{
-	// TODO 
-	return Vector2();
-}
-
-void GLES2Sprite::SetMultiply(const Vector2 &v2Multiply)
-{
-	// TODO 
-}
-
-Vector2 GLES2Sprite::GetMultiply() const
-{
-	// TODO 
-	return Vector2();
 }
 
 Sprite::TYPE GLES2Sprite::GetType() const

@@ -19,8 +19,8 @@ toolkit/Source/src/gs2d/vendors/CgSDK/
 toolkit/Source/src/gs2d/vendors/DX9SDK/
 toolkit/Source/src/gs2d/vendors/libpng/
 toolkit/Source/src/gs2d/vendors/libzip/
-toolkit/Source/src/gs2d/vendors/soil/
 toolkit/Source/src/gs2d/vendors/SDL.framework/
+toolkit/Source/src/gs2d/vendors/Cg.framework/
 
 # Dump files
 *AS_DEBUG/

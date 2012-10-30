@@ -91,7 +91,6 @@ GLES2Video::GLES2Video(
 	m_rendering(false),
 	m_logger(Platform::FileLogger::GetLogDirectory() + VIDEO_LOG_FILE),
 	m_fpsRate(30.0f),
-	m_roundUpPosition(false),
 	m_scissor(Vector2i(0, 0), Vector2i(0, 0)),
 	m_textureFilterMode(Video::TM_IFNEEDED),
 	m_blend(false),
@@ -435,7 +434,7 @@ Video::VIDEO_MODE GLES2Video::GetVideoMode(const unsigned int modeIdx) const
 	return vm;
 }
 
-unsigned int GLES2Video::GetVideoModeCount()
+unsigned int GLES2Video::GetVideoModeCount() const
 {
 	return 1;
 }
@@ -624,51 +623,6 @@ bool GLES2Video::SetSpriteDepth(const float depth)
 float GLES2Video::GetSpriteDepth() const
 {
 	return m_shaderContext->GetSpriteDepth();
-}
-
-void GLES2Video::SetLineWidth(const float width)
-{
-	// TODO
-}
-
-float GLES2Video::GetLineWidth() const
-{
-	// TODO
-	return 0.0f;
-}
-
-bool GLES2Video::SetCameraPos(const Vector2 &pos)
-{
-	m_v2Camera = pos;
-	return true;
-}
-
-bool GLES2Video::MoveCamera(const Vector2 &dir)
-{
-	SetCameraPos(m_v2Camera + dir);
-	return true;
-}
-
-Vector2 GLES2Video::GetCameraPos() const
-{
-	if (IsRoundingUpPosition())
-	{
-		return Vector2(floor(m_v2Camera.x), floor(m_v2Camera.y));
-	}
-	else
-	{
-		return m_v2Camera;
-	}
-}
-
-void GLES2Video::RoundUpPosition(const bool roundUp)
-{
-	m_roundUpPosition = roundUp;
-}
-
-bool GLES2Video::IsRoundingUpPosition() const
-{
-	return m_roundUpPosition;
 }
 
 bool GLES2Video::SetScissor(const bool& enable)
@@ -910,30 +864,13 @@ bool GLES2Video::Rendering() const
 	return m_rendering;
 }
 
-bool GLES2Video::SaveScreenshot(const wchar_t *wcsName,
-		const Texture::BITMAP_FORMAT fmt, Rect2D rect)
+bool GLES2Video::SaveScreenshot(
+	const str_type::char_t* name,
+	const Texture::BITMAP_FORMAT fmt,
+	Rect2D rect)
 {
 	// TODO
 	return false;
-}
-
-bool GLES2Video::ManageLoop()
-{
-	if (Rendering())
-		EndSpriteScene();
-
-	APP_STATUS status = APP_SKIP;
-	while (status == APP_SKIP)
-	{
-		status = HandleEvents();
-		if (status == APP_QUIT)
-			return false;
-	}
-
-	if (!Rendering())
-		BeginSpriteScene();
-
-	return true;
 }
 
 Vector2i GLES2Video::GetClientScreenSize() const

@@ -25,17 +25,16 @@
 
 #include "../../Video.h"
 
-#if defined(MACOSX)
- #include <OpenGL/gl.h>
- #include <OpenGL/glu.h>
-#else
- #include <GL/gl.h>
- #include <GL/glu.h>
-#endif
+#include "GLInclude.h"
+#include "GLRectRenderer.h"
+#include "Cg/GLCGShaderContext.h"
+#include "../../Utilities/RecoverableResourceManager.h"
+
+#include <list>
 
 namespace gs2d {
 
-class GLVideo : public virtual Video
+class GLVideo : public virtual Video, public RecoverableResourceManager
 {
 	TEXTUREFILTER_MODE m_filter;
 	ALPHA_MODE m_alphaMode;
@@ -44,8 +43,18 @@ class GLVideo : public virtual Video
 	const float m_zNear, m_zFar;
 	math::Matrix4x4 m_ortho;
 	Color m_backgroundColor;
+	bool m_rendering, m_clamp;
+	BLEND_MODE m_blendMode;
+	math::Rect2D m_scissor;
+	TextureWeakPtr m_currentTarget;
+
+	GLRectRenderer m_rectRenderer;
+
 	void Enable2DStates();
 
+	ShaderPtr m_defaultVS, m_rectVS, m_fastVS;
+	ShaderPtr m_currentVS, m_currentPS;
+	
 protected:
 	bool StartApplication(
 		const unsigned int width,
@@ -56,59 +65,16 @@ protected:
 		const Texture::PIXEL_FORMAT pfBB = Texture::PF_UNKNOWN,
 		const bool maximizable = false);
 
+	GLCgShaderContextPtr m_shaderContext;
+
+	void UpdateInternalShadersViewData(const math::Vector2& screenSize, const bool invertY);
+	static void UpdateViewMatrix(const math::Vector2& screenSize, math::Matrix4x4& ortho, const float znear, const float zfar, const bool invertY);
+	static void UpdateShaderViewData(const ShaderPtr& shader, const math::Vector2& screenSize, const math::Matrix4x4& ortho);
+
+	math::Vector2 GetCurrentTargetSize() const;
+
 public:
 	GLVideo();
-
-	TexturePtr CreateTextureFromFileInMemory(
-		const void *pBuffer,
-		const unsigned int bufferLength,
-		Color mask,
-		const unsigned int width,
-		const unsigned int height,
-		const unsigned int nMipMaps);
-	
-	TexturePtr LoadTextureFromFile(
-		const str_type::string& fileName,
-		Color mask,
-		const unsigned int width,
-		const unsigned int height,
-		const unsigned int nMipMaps);
-	
-	TexturePtr CreateRenderTargetTexture(
-		const unsigned int width,
-		const unsigned int height,
-		const Texture::TARGET_FORMAT fmt);
-	
-	SpritePtr CreateSprite(
-		GS_BYTE *pBuffer,
-		const unsigned int bufferLength,
-		Color mask = constant::ZERO,
-		const unsigned int width = 0,
-		const unsigned int height = 0);
-	
-	SpritePtr CreateSprite(
-		const str_type::string& fileName,
-		Color mask = constant::ZERO,
-		const unsigned int width = 0,
-		const unsigned int height = 0);
-	
-	SpritePtr CreateRenderTarget(
-		const unsigned int width,
-		const unsigned int height,
-		const Texture::TARGET_FORMAT format = Texture::TF_DEFAULT);
-
-	ShaderPtr LoadShaderFromFile(
-		const str_type::string& fileName,
-		const Shader::SHADER_FOCUS focus,
-		const Shader::SHADER_PROFILE profile = Shader::SP_HIGHEST,
-		const char *entry = 0);
-	
-	ShaderPtr LoadShaderFromString(
-		const str_type::string& shaderName,
-		const std::string& codeAsciiString,
-		const Shader::SHADER_FOCUS focus,
-		const Shader::SHADER_PROFILE profile = Shader::SP_HIGHEST,
-		const char *entry = 0);
 	
 	boost::any GetVideoInfo();
 	
@@ -124,20 +90,7 @@ public:
 	Shader::SHADER_PROFILE GetHighestPixelProfile() const;
 	
 	boost::any GetGraphicContext();
-	
-	VIDEO_MODE GetVideoMode(const unsigned int modeIdx) const;
-	unsigned int GetVideoModeCount();
-	
-	bool ResetVideoMode(
-		const VIDEO_MODE& mode,
-		const bool toggleFullscreen = false);
-	
-	bool ResetVideoMode(
-		const unsigned int width,
-		const unsigned int height,
-		const Texture::PIXEL_FORMAT pfBB,
-		const bool toggleFullscreen = false);
-	
+		
 	bool SetRenderTarget(SpritePtr pTarget, const unsigned int target);
 	unsigned int GetMaxRenderTargets() const;
 	unsigned int GetMaxMultiTextures() const;
@@ -153,19 +106,6 @@ public:
 	
 	bool SetClamp(const bool set);
 	bool GetClamp() const;
-	
-	bool SetSpriteDepth(const float depth);
-	float GetSpriteDepth() const;
-	
-	void SetLineWidth(const float width);
-	float GetLineWidth() const;
-	
-	bool SetCameraPos(const math::Vector2 &pos);
-	bool MoveCamera(const math::Vector2 &dir);
-	math::Vector2 GetCameraPos() const;
-	
-	void RoundUpPosition(const bool roundUp);
-	bool IsRoundingUpPosition() const;
 	
 	bool SetScissor(const math::Rect2D &rect);
 	bool SetScissor(const bool &enable);
@@ -208,10 +148,17 @@ public:
 	bool Rendering() const;
 	
 	bool SaveScreenshot(
-		const wchar_t *wcsName,
+		const str_type::char_t* wcsName,
 		const Texture::BITMAP_FORMAT fmt = Texture::BF_BMP,
 		math::Rect2D rect = math::Rect2D(0,0,0,0));
+
+	const GLRectRenderer& GetRectRenderer() const;
+
+	static void UnbindFrameBuffer();
 };
+
+typedef boost::shared_ptr<GLVideo> GLVideoPtr;
+typedef boost::weak_ptr<GLVideo> GLVideoWeakPtr;
 
 }
 

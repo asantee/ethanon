@@ -22,7 +22,20 @@
 
 #include "GLVideo.h"
 
+#include "../cgShaderCode.h"
+
+#include "GLTexture.h"
+
+#include <SOIL.h>
+
+#include "../../Platform/Platform.h"
+
 namespace gs2d {
+
+void GLVideo::UnbindFrameBuffer()
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
 
 GLVideo::GLVideo() :
 	m_filter(Video::TM_UNKNOWN),
@@ -31,7 +44,11 @@ GLVideo::GLVideo() :
 	m_alphaRef(0.02),
 	m_zFar(5.0f),
 	m_zNear(0.0f),
-	m_backgroundColor(0xFFFFFFFF)
+	m_backgroundColor(gs2d::constant::BLACK),
+	m_rendering(false),
+	m_clamp(true),
+	m_blendMode(BLEND_MODE::BM_MODULATE),
+	m_scissor(math::Vector2i(0, 0), math::Vector2i(0, 0))
 {
 }
 
@@ -46,45 +63,150 @@ bool GLVideo::StartApplication(
 {
 	SetFilterMode(Video::TM_ALWAYS);
 	SetAlphaMode(Video::AM_PIXEL);
-	SetBGColor(gs2d::constant::BLACK);
-
-	math::Orthogonal(m_ortho, GetScreenSizeF().x, GetScreenSizeF().y, m_zNear, m_zFar);
 
 	SetZBuffer(false);
 	SetZWrite(false);
+	SetClamp(true);
+	SetBlendMode(1, Video::BM_MODULATE);
 
 	Enable2DStates();
+
+	// don't reset cg context if it is an opengl context reset
+	if (!m_shaderContext)
+		m_shaderContext = GLCgShaderContextPtr(new GLCgShaderContext);
+
+	if (!m_defaultVS)
+		m_defaultVS = LoadShaderFromString("defaultShader", gs2dglobal::defaultVSCode, Shader::SF_VERTEX, Shader::SP_MODEL_2, "sprite");
+
+	if (!m_rectVS)
+		m_rectVS = LoadShaderFromString("rectShader", gs2dglobal::defaultVSCode, Shader::SF_VERTEX, Shader::SP_MODEL_2, "rectangle");
+
+	if (!m_fastVS)
+		m_fastVS = LoadShaderFromString("fastShader", gs2dglobal::fastSimpleVSCode, Shader::SF_VERTEX, Shader::SP_MODEL_2, "fast");
+
+	m_currentVS = m_defaultVS;
+
+	UpdateInternalShadersViewData(GetScreenSizeF(), false);
+
 	return true;
+}
+
+void GLVideo::UpdateInternalShadersViewData(const math::Vector2& screenSize, const bool invertY)
+{
+	UpdateViewMatrix(screenSize, m_ortho, m_zNear, m_zFar, invertY);
+
+	UpdateShaderViewData(m_defaultVS, screenSize, m_ortho);
+	UpdateShaderViewData(m_rectVS, screenSize, m_ortho);
+	UpdateShaderViewData(m_fastVS, screenSize, m_ortho);
+}
+
+void GLVideo::UpdateViewMatrix(const math::Vector2& screenSize, math::Matrix4x4& ortho, const float znear, const float zfar, const bool invertY)
+{
+	math::Orthogonal(ortho, screenSize.x, screenSize.y * ((invertY) ? -1.0f : 1.0f), znear, zfar);
+}
+
+void GLVideo::UpdateShaderViewData(const ShaderPtr& shader, const math::Vector2& screenSize, const math::Matrix4x4& ortho)
+{
+	shader->SetConstant("screenSize", screenSize);
+	shader->SetMatrixConstant("viewMatrix", ortho);
 }
 
 void GLVideo::Enable2DStates()
 {
 	const math::Vector2i screenSize(GetScreenSize());
-	glViewport(0, 0, static_cast<GLint>(screenSize.x), static_cast<GLint>(screenSize.y));
+	glViewport(0, 0, static_cast<GLsizei>(screenSize.x), static_cast<GLsizei>(screenSize.y));
 	glDisable(GL_LIGHTING);
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DITHER);
+
+	glActiveTexture(GL_TEXTURE1);
+	glEnable(GL_TEXTURE_2D);
+
+	glActiveTexture(GL_TEXTURE0);
+	glEnable(GL_TEXTURE_2D);
+	//glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+	
+}
+
+static void SetChannelClamp(const bool set)
+{
+	if (set)
+	{
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	}
+	else
+	{
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	}
+}
+
+bool GLVideo::SetClamp(const bool set)
+{
+	m_clamp = set;
+	glActiveTexture(GL_TEXTURE0);
+	SetChannelClamp(set);
+	glActiveTexture(GL_TEXTURE1);
+	SetChannelClamp(set);
+	return true;
+}
+
+bool GLVideo::GetClamp() const
+{
+	return m_clamp;
+}
+
+static void SetChannelFilterMode(const Video::TEXTUREFILTER_MODE tfm, const GLenum extension)
+{
+	if (tfm != Video::TM_NEVER)
+	{
+		glTexParameteri(extension, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(extension, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	}
+	else
+	{
+		glTexParameteri(extension, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+		glTexParameteri(extension, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	}
 }
 
 bool GLVideo::SetFilterMode(const TEXTUREFILTER_MODE tfm)
 {
 	m_filter = tfm;
-	if (GetFilterMode() != TM_NEVER)
-	{
-		glTexParameteri(m_textureExtension, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexParameteri(m_textureExtension, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	}
-	else
-	{
-		glTexParameteri(m_textureExtension, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
-		glTexParameteri(m_textureExtension, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	}
+	glActiveTexture(GL_TEXTURE0);
+	SetChannelFilterMode(tfm, m_textureExtension);
+	glActiveTexture(GL_TEXTURE1);
+	SetChannelFilterMode(tfm, m_textureExtension);
 	return true;
 }
 
 Video::TEXTUREFILTER_MODE GLVideo::GetFilterMode() const
 {
 	return m_filter;
+}
+
+unsigned int GLVideo::GetMaxMultiTextures() const
+{
+	GLint units;
+	glGetIntegerv(GL_MAX_TEXTURE_UNITS, &units);
+	return static_cast<GLint>(units);
+}
+
+bool GLVideo::UnsetTexture(const unsigned int passIdx)
+{
+	switch (passIdx)
+	{
+	case 0:
+		glActiveTexture(GL_TEXTURE0);
+		break;
+	case 1:
+	default:
+		glActiveTexture(GL_TEXTURE1);
+		break;
+	}
+	glBindTexture(m_textureExtension, 0);
+	return true;
 }
 
 bool GLVideo::SetAlphaMode(const ALPHA_MODE mode)
@@ -161,291 +283,118 @@ bool GLVideo::GetZWrite() const
 	return (enabled == GL_TRUE) ? true : false;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-TexturePtr GLVideo::CreateTextureFromFileInMemory(
-	const void *pBuffer,
-	const unsigned int bufferLength,
-	Color mask,
-	const unsigned int width,
-	const unsigned int height,
-	const unsigned int nMipMaps)
+bool GLVideo::BeginSpriteScene(const Color& dwBGColor)
 {
-	return TexturePtr();
+	const Color color(dwBGColor != constant::ZERO ? dwBGColor : m_backgroundColor);
+	math::Vector4 v;
+	v.SetColor(color);
+	glClearColor(v.x, v.y, v.z, v.w);
+	glClear(GL_COLOR_BUFFER_BIT);
+	SetAlphaMode(Video::AM_PIXEL);
+	
+	m_rendering = true;
+	return true;
 }
 
-TexturePtr GLVideo::LoadTextureFromFile(
-	const str_type::string& fileName,
-	Color mask,
-	const unsigned int width,
-	const unsigned int height,
-	const unsigned int nMipMaps)
+bool GLVideo::EndSpriteScene()
 {
-	return TexturePtr();
+	m_rendering = false;
+	return true;
 }
 
-TexturePtr GLVideo::CreateRenderTargetTexture(
-	const unsigned int width,
-	const unsigned int height,
-	const Texture::TARGET_FORMAT fmt)
+bool GLVideo::Rendering() const
 {
-	return TexturePtr();
+	return m_rendering;
 }
 
-SpritePtr GLVideo::CreateSprite(
-	GS_BYTE *pBuffer,
-	const unsigned int bufferLength,
-	Color mask,
-	const unsigned int width,
-	const unsigned int height)
+void GLVideo::SetBGColor(const Color& backgroundColor)
 {
-	return SpritePtr();
+	m_backgroundColor = backgroundColor;
 }
 
-SpritePtr GLVideo::CreateSprite(
-	const str_type::string& fileName,
-	Color mask,
-	const unsigned int width,
-	const unsigned int height)
+Color GLVideo::GetBGColor() const
 {
-	return SpritePtr();
+	return m_backgroundColor;
 }
 
-SpritePtr GLVideo::CreateRenderTarget(
-	const unsigned int width,
-	const unsigned int height,
-	const Texture::TARGET_FORMAT format)
+const GLRectRenderer& GLVideo::GetRectRenderer() const
 {
-	return SpritePtr();
-}
-
-ShaderPtr GLVideo::LoadShaderFromFile(
-	const str_type::string& fileName,
-	const Shader::SHADER_FOCUS focus,
-	const Shader::SHADER_PROFILE profile,
-	const char *entry)
-{
-	return ShaderPtr();
-}
-
-ShaderPtr GLVideo::LoadShaderFromString(
-	const str_type::string& shaderName,
-	const std::string& codeAsciiString,
-	const Shader::SHADER_FOCUS focus,
-	const Shader::SHADER_PROFILE profile,
-	const char *entry)
-{
-	return ShaderPtr();
-}
-
-boost::any GLVideo::GetVideoInfo()
-{
-	return 0;
+	return m_rectRenderer;
 }
 
 ShaderPtr GLVideo::GetFontShader()
 {
-	return ShaderPtr();
+	return m_fastVS;
 }
 
 ShaderPtr GLVideo::GetOptimalVS()
 {
-	return ShaderPtr();
+	return m_defaultVS;
 }
 
 ShaderPtr GLVideo::GetDefaultVS()
 {
-	return ShaderPtr();
-}
-
-ShaderPtr GLVideo::GetVertexShader()
-{
-	return ShaderPtr();
-}
-
-ShaderPtr GLVideo::GetPixelShader()
-{
-	return ShaderPtr();
+	return m_defaultVS;
 }
 
 ShaderContextPtr GLVideo::GetShaderContext()
 {
-	return ShaderContextPtr();
+	return m_shaderContext;
+}
+
+ShaderPtr GLVideo::GetVertexShader()
+{
+	return m_currentVS;
 }
 
 bool GLVideo::SetVertexShader(ShaderPtr pShader)
 {
-	return false;
+	if (!pShader)
+	{
+		if (m_currentVS != m_defaultVS)
+			m_currentVS->UnbindShader();
+		m_currentVS = m_defaultVS;
+	}
+	else
+	{
+		if (pShader->GetShaderFocus() != Shader::SF_VERTEX)
+		{
+			ShowMessage("The shader set is not a vertex program", GSMT_ERROR);
+			return false;
+		}
+		else
+		{
+			m_currentVS->UnbindShader();
+			m_currentVS = pShader;
+		}
+	}
+
+	const math::Vector2 screenSize = GetScreenSizeF();
+	UpdateViewMatrix(screenSize, m_ortho, m_zNear, m_zFar, (m_currentTarget.lock()) ? true : false);
+	UpdateShaderViewData(m_currentVS, screenSize, m_ortho);
+	return true;
+}
+
+ShaderPtr GLVideo::GetPixelShader()
+{
+	return m_currentPS;
 }
 
 bool GLVideo::SetPixelShader(ShaderPtr pShader)
 {
-	return false;
-}
+	if (pShader)
+	{
+		if (pShader->GetShaderFocus() != Shader::SF_PIXEL)
+		{
+			ShowMessage("The shader set is not a fragment program", GSMT_ERROR);
+			return false;
+		}
+		if (m_currentPS != pShader && m_currentPS)
+			m_currentPS->UnbindShader();
+	}
 
-Shader::SHADER_PROFILE GLVideo::GetHighestVertexProfile() const
-{
-	return Shader::SP_NONE;
-}
-
-Shader::SHADER_PROFILE GLVideo::GetHighestPixelProfile() const
-{
-	return Shader::SP_NONE;
-}
-
-boost::any GLVideo::GetGraphicContext()
-{
-	return 0;
-}
-
-Video::VIDEO_MODE GLVideo::GetVideoMode(const unsigned int modeIdx) const
-{
-	return Video::VIDEO_MODE();
-}
-
-unsigned int GLVideo::GetVideoModeCount()
-{
-	return 0;
-}
-
-bool GLVideo::ResetVideoMode(
-	const VIDEO_MODE& mode,
-	const bool toggleFullscreen)
-{
-	return false;
-}
-
-bool GLVideo::ResetVideoMode(
-	const unsigned int width,
-	const unsigned int height,
-	const Texture::PIXEL_FORMAT pfBB,
-	const bool toggleFullscreen)
-{
-	return false;
-}
-
-bool GLVideo::SetRenderTarget(SpritePtr pTarget, const unsigned int target)
-{
-	return false;
-}
-
-unsigned int GLVideo::GetMaxRenderTargets() const
-{
-	return 0;
-}
-
-unsigned int GLVideo::GetMaxMultiTextures() const
-{
-	return 0;
-}
-
-bool GLVideo::SetBlendMode(const unsigned int passIdx, const BLEND_MODE mode)
-{
-	return false;
-}
-
-Video::BLEND_MODE GLVideo::GetBlendMode(const unsigned int passIdx) const
-{
-	return Video::BM_MODULATE;
-}
-
-bool GLVideo::UnsetTexture(const unsigned int passIdx)
-{
-	return false;
-}
-
-bool GLVideo::SetClamp(const bool set)
-{
-	return false;
-}
-
-bool GLVideo::GetClamp() const
-{
-	return false;
-}
-
-bool GLVideo::SetSpriteDepth(const float depth)
-{
-	return false;
-}
-
-float GLVideo::GetSpriteDepth() const
-{
-	return 0.0f;
-}
-
-void GLVideo::SetLineWidth(const float width)
-{
-}
-
-float GLVideo::GetLineWidth() const
-{
-	return 0.0f;
-}
-
-bool GLVideo::SetCameraPos(const math::Vector2 &pos)
-{
-	return false;
-}
-
-bool GLVideo::MoveCamera(const math::Vector2 &dir)
-{
-	return false;
-}
-
-math::Vector2 GLVideo::GetCameraPos() const
-{
-	return math::Vector2(0.0f, 0.0f);
-}
-
-void GLVideo::RoundUpPosition(const bool roundUp)
-{
-}
-
-bool GLVideo::IsRoundingUpPosition() const
-{
-	return false;
-}
-
-bool GLVideo::SetScissor(const math::Rect2D &rect)
-{
-	return false;
-}
-
-bool GLVideo::SetScissor(const bool &enable)
-{
-	return false;
-}
-
-math::Rect2D GLVideo::GetScissor() const
-{
-	return math::Rect2D();
-}
-
-void GLVideo::UnsetScissor()
-{
-}
-
-bool GLVideo::DrawLine(const math::Vector2 &p1, const math::Vector2 &p2, const Color& color1, const Color& color2)
-{
-	return false;
+	m_currentPS = pShader;
+	return true;
 }
 
 bool GLVideo::DrawRectangle(
@@ -455,7 +404,7 @@ bool GLVideo::DrawRectangle(
 	const float angle,
 	const Sprite::ENTITY_ORIGIN origin)
 {
-	return false;
+	return DrawRectangle(v2Pos, v2Size, color, color, color, color, angle, origin);
 }
 
 bool GLVideo::DrawRectangle(
@@ -468,49 +417,279 @@ bool GLVideo::DrawRectangle(
 	const float angle,
 	const Sprite::ENTITY_ORIGIN origin)
 {
-	return false;
+	if (v2Size == math::Vector2(0,0))
+	{
+		return true;
+	}
+
+	// TODO/TO-DO this is diplicated code: fix it
+	math::Vector2 v2Center;
+	switch (origin)
+	{
+	case Sprite::EO_CENTER:
+	case Sprite::EO_RECT_CENTER:
+		v2Center.x = v2Size.x / 2.0f;
+		v2Center.y = v2Size.y / 2.0f;
+		break;
+	case Sprite::EO_RECT_CENTER_BOTTOM:
+	case Sprite::EO_CENTER_BOTTOM:
+		v2Center.x = v2Size.x / 2.0f;
+		v2Center.y = v2Size.y;
+		break;
+	case Sprite::EO_RECT_CENTER_TOP:
+	case Sprite::EO_CENTER_TOP:
+		v2Center.x = v2Size.x / 2.0f;
+		v2Center.y = 0.0f;
+		break;
+	case Sprite::EO_DEFAULT:
+	default:
+		v2Center.x = 0.0f;
+		v2Center.y = 0.0f;
+		break;
+	};
+
+	math::Matrix4x4 mRot;
+	if (angle != 0.0f)
+		mRot = math::RotateZ(math::DegreeToRadian(angle));
+	m_rectVS->SetMatrixConstant("rotationMatrix", mRot);
+	m_rectVS->SetConstant("size", v2Size);
+	m_rectVS->SetConstant("entityPos", v2Pos);
+	m_rectVS->SetConstant("center", v2Center);
+	m_rectVS->SetConstant("color0", color0);
+	m_rectVS->SetConstant("color1", color1);
+	m_rectVS->SetConstant("color2", color2);
+	m_rectVS->SetConstant("color3", color3);
+
+	ShaderPtr prevVertexShader = GetVertexShader(), prevPixelShader = GetPixelShader();
+
+	SetVertexShader(m_rectVS);
+	SetPixelShader(ShaderPtr());
+
+	UnsetTexture(0);
+	UnsetTexture(1);
+	GetVertexShader()->SetShader();
+	m_rectRenderer.Draw(Sprite::RM_TWO_TRIANGLES);
+
+	SetPixelShader(prevPixelShader);
+	SetVertexShader(prevVertexShader);
+	return true;
 }
 
-void GLVideo::SetBGColor(const Color& backgroundColor)
+bool GLVideo::DrawLine(const math::Vector2 &p1, const math::Vector2 &p2, const Color& color1, const Color& color2)
 {
+	if (GetLineWidth() <= 0.0f)
+		return true;
+	if (p1 == p2)
+		return true;
+
+	const math::Vector2 v2Dir = p1 - p2;
+
+	const float length = math::Distance(p1, p2);
+	const float angle  = math::RadianToDegree(math::GetAngle(v2Dir));
+
+	DrawRectangle(p1, math::Vector2(GetLineWidth(), length),
+				  color2, color2, color1, color1,
+				  angle, Sprite::EO_CENTER_BOTTOM);
+	return true;
 }
 
-Color GLVideo::GetBGColor() const
+boost::any GLVideo::GetGraphicContext()
 {
-	return Color(0xFF00000000);
+	return m_shaderContext;
 }
 
-bool GLVideo::BeginSpriteScene(const Color& dwBGColor)
+boost::any GLVideo::GetVideoInfo()
 {
-	return false;
+	// no GL context to return
+	return 0;
 }
 
-bool GLVideo::EndSpriteScene()
+unsigned int GLVideo::GetMaxRenderTargets() const
 {
-	return false;
+	return 1;
+}
+
+bool GLVideo::SetBlendMode(const unsigned int passIdx, const BLEND_MODE mode)
+{
+	m_blendMode = mode;
+	switch (passIdx)
+	{
+	case 0:
+		glActiveTexture(GL_TEXTURE0);
+		break;
+	default:
+		glActiveTexture(GL_TEXTURE1);
+		break;
+	}
+	const GLfloat v = (mode == BM_MODULATE) ? GL_MODULATE : GL_ADD;
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, v);
+	return true;
+}
+
+Video::BLEND_MODE GLVideo::GetBlendMode(const unsigned int passIdx) const
+{
+	return m_blendMode;
+}
+
+bool GLVideo::SetScissor(const bool& enable)
+{
+	if (enable)
+	{
+		glEnable(GL_SCISSOR_TEST);
+	}
+	else
+	{
+		glDisable(GL_SCISSOR_TEST);
+	}
+	return true;
+}
+
+bool GLVideo::SetScissor(const math::Rect2D& rect)
+{
+	SetScissor(true);
+	GLint posY;
+	TexturePtr target = m_currentTarget.lock();
+	if (target)
+	{
+		posY = static_cast<GLint>(rect.pos.y);
+	}
+	else
+	{
+		posY = static_cast<GLint>(GetScreenSize().y) - static_cast<GLint>(rect.pos.y + rect.size.y);
+	}
+
+	if (m_scissor != rect)
+	{
+		m_scissor = rect;
+		glScissor(static_cast<GLint>(rect.pos.x), posY,
+				  static_cast<GLsizei>(rect.size.x), static_cast<GLsizei>(rect.size.y));
+	}
+	return true;
+}
+
+math::Rect2D GLVideo::GetScissor() const
+{
+	return m_scissor;
+}
+
+void GLVideo::UnsetScissor()
+{
+	SetScissor(false);
+}
+
+Shader::SHADER_PROFILE GLVideo::GetHighestVertexProfile() const
+{
+	return GLCgShaderContext::CGProfileToGSProfile(m_shaderContext->GetLatestVertexProfile());
+}
+
+Shader::SHADER_PROFILE GLVideo::GetHighestPixelProfile() const
+{
+	return GLCgShaderContext::CGProfileToGSProfile(m_shaderContext->GetLatestFragmentProfile());
+}
+
+bool GLVideo::SetRenderTarget(SpritePtr pTarget, const unsigned int target)
+{
+	if (!pTarget)
+	{
+		m_currentTarget.reset();
+		UnbindFrameBuffer();
+	}
+	else
+	{
+		if (pTarget->GetType() == Sprite::T_TARGET)
+		{
+			m_currentTarget = pTarget->GetTexture();
+		}
+		else
+		{
+			Message(GS_L("The current sprite has no render target texture"), GSMT_ERROR);
+		}
+	}
+	return true;
+}
+
+math::Vector2 GLVideo::GetCurrentTargetSize() const
+{
+	TexturePtr target = m_currentTarget.lock();
+	if (target)
+	{
+		return math::Vector2(static_cast<float>(target->GetProfile().width), static_cast<float>(target->GetProfile().height));
+	}
+	else
+	{
+		return GetScreenSizeF();
+	}
 }
 
 bool GLVideo::BeginTargetScene(const Color& dwBGColor, const bool clear)
 {
-	return false;
+	// explicit static cast for better performance
+	TexturePtr texturePtr = m_currentTarget.lock();
+	if (!texturePtr)
+	{
+		Message(GS_L("There's no render target"), GSMT_ERROR);
+	}
+	Texture *pTexture = texturePtr.get(); // safety compile-time error checking
+	GLTexture *pGLTexture = static_cast<GLTexture*>(pTexture); // safer direct cast
+	const GLuint target = pGLTexture->GetTextureInfo().m_frameBuffer;
+	glBindFramebuffer(GL_FRAMEBUFFER, target);
+
+	CheckFrameBufferStatus(target, pGLTexture->GetTextureInfo().m_texture, false);
+
+	if (clear)
+	{
+		math::Vector4 color;
+		color.SetColor(dwBGColor);
+		glClearColor(color.x, color.y, color.z, color.w);
+		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+	}
+
+	UpdateInternalShadersViewData(GetScreenSizeF(), true);
+	m_rendering = true;
+	return true;
 }
 
 bool GLVideo::EndTargetScene()
 {
-	return false;
-}
+	SetRenderTarget(SpritePtr(), 0);
+	m_rendering = false;
+	UnbindFrameBuffer();
 
-bool GLVideo::Rendering() const
-{
-	return false;
+	UpdateInternalShadersViewData(GetScreenSizeF(), false);
+
+	return true;
 }
 
 bool GLVideo::SaveScreenshot(
-	const wchar_t *wcsName,
+	const str_type::char_t* name,
 	const Texture::BITMAP_FORMAT fmt,
 	math::Rect2D rect)
 {
-	return false;
+	str_type::string fileName = name, ext;
+	const int type = GetSOILTexType(fmt, ext);
+	
+	if (!Platform::IsExtensionRight(fileName, ext))
+		fileName.append(ext);
+
+	if (rect.size.x <= 0 || rect.size.y <= 0)
+	{
+		rect.pos = math::Vector2i(0,0);
+		rect.size = GetScreenSize();
+	}
+
+	const bool r = (SOIL_save_screenshot(
+		fileName.c_str(),
+		type,
+		rect.pos.x,
+		rect.pos.y,
+		rect.size.x,
+		rect.size.y));
+
+	if (!r)
+	{
+		ShowMessage(str_type::string("Couldn't save screen shot ") + fileName, GSMT_ERROR);
+	}
+	return r;
 }
 
-}
+} // namespace gs2d

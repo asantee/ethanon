@@ -77,11 +77,7 @@ class D3D9Video : public Video
 	bool m_clamp;
 	bool m_maximizable;
 	math::Rect2D m_scissor;
-	math::Vector2 m_v2Camera;
 	std::wstring m_windowTitle;
-	float m_lineWidth;
-	float m_depth;
-	bool m_roundUpPosition;
 
 	void ForwardCommand(const str_type::string& cmd);
 	str_type::string PullCommands();
@@ -193,7 +189,7 @@ public:
 	boost::any GetVideoInfo();
 
 	VIDEO_MODE GetVideoMode(const unsigned int modeIdx) const;
-	unsigned int GetVideoModeCount();
+	unsigned int GetVideoModeCount() const;
 	bool ResetVideoMode(const VIDEO_MODE& mode, const bool toggleFullscreen = false);
 
 	bool ResetVideoMode(
@@ -217,19 +213,6 @@ public:
 
 	bool SetClamp(const bool set);
 	bool GetClamp() const;
-
-	bool SetSpriteDepth(const float depth);
-	float GetSpriteDepth() const;
-
-	void SetLineWidth(const float width);
-	float GetLineWidth() const;
-
-	bool SetCameraPos(const math::Vector2 &pos);
-	bool MoveCamera(const math::Vector2 &dir);
-	math::Vector2 GetCameraPos() const;
-
-	void RoundUpPosition(const bool roundUp);
-	bool IsRoundingUpPosition() const;
 
 	bool SetScissor(const math::Rect2D &rect);
 	bool SetScissor(const bool &enable);
@@ -280,7 +263,6 @@ public:
 	boost::any GetGraphicContext();
 
 	// Application method implementations:
-	bool ManageLoop();
 	math::Vector2i GetClientScreenSize() const;
 	APP_STATUS HandleEvents();
 	float GetFPSRate() const;
