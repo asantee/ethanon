@@ -1,0 +1,260 @@
+{
+    "fileTypes": [
+        "angelscript"
+    ], 
+    "name": "Ethanon", 
+    "patterns": [
+        {
+            "comment": "This comment is optional.", 
+            "match": "\\b(and|break|case|cast|class|continue|default|do|else|enum|for|from|if|import|interface|is|not|or|return|switch|typedef|void|while|xor|funcdef)\\b", 
+            "name": "keyword.control.ethanon"
+        }, 
+        {
+            "match": "\\b(int|bool|uint|uint8|uint16|uint32|uint64|int8|int16|int32|int64|float|double|file|string|vector2|vector3|collisionBox|videoMode|dictionary|enmlFile|enmlEntity|dateTime|matrix4x4|ETHInput|ETHEntity|ETHPhysicsController|ETHRevoluteJoint)\\b", 
+            "name": "storage.type.ethanon"
+        }, 
+        {
+            "match": "\\b(private|const|in|inout|out|array)\\b", 
+            "name": "storage.modifier.ethanon"
+        }, 
+        {
+            "match": "\\b(GetInputHandle|SeekEntity|LoadScene|GetTimeF|GetTime|UnitsPerSecond|Exit|AddEntity|DeleteEntity|GenerateLightmaps|SetAmbientLight|GetAmbientLight|SetWindowProperties|SetCameraPos|AddToCameraPos|GetCameraPos|EnableLightmaps|UsePixelShaders|DrawText|DrawFadingText|GetFPSRate|AddLight|HideCursor|LoadMusic|LoadSoundEffect|PlaySample|LoopSample|StopSample|PauseSample|SetSampleVolume|SetSamplePan|SampleExists|IsSamplePlaying|GetNumEntities|SaveScene|normalize|LoadSprite|DrawSprite|DrawShapedSprite|GetSpriteSize|DrawRectangle|DrawLine|GetSceneFileName|PlayCutscene|GetBucket|GetScreenSize|Windowed|GetVideoModeCount|GetVideoMode|GetSystemScreenSize|SetBackgroundColor|GetBackgroundColor|GetEntityArray|ETHEntityArray|GetEntitiesFromBucket|IsPixelShaderSupported|GetResourceDirectory|DrawSpriteZ|DrawShapedSpriteZ|EnableQuitKeys|EnableRealTimeShadows|SetPositionRoundUp|GetStringFromFile|SaveStringToFile|SetBorderBucketsDrawing|IsDrawingBorderBuckets|GetAbsolutePath|GetVisibleEntities|GetIntersectingEntities|GetNumRenderedEntities|GetArgc|GetArgv|GetWorldSpaceCursorPos2|ComputeCarretPosition|ComputeTextBoxSize|ForwardCommand|SetGlobalVolume|GetAllEntitiesInScene|SetZBuffer|GetZBuffer|GetExternalStorageDirectory|AddScaledEntity|SetParallaxOrigin|SetFastGarbageCollector|ReleaseResources|GetLastFrameElapsedTime|GetSpriteFrameSize|SetupSpriteRects|SetSpriteRect|SetSpriteOrigin|GetStringFromFileInPackage|SetGravity|GetGravity|SetNumIterations|GetNumIterations|SetTimeStepScale|GetTimeStepScale|GetClosestContact|GetContactEntities|SetHaloRotation|IsFixedTimeStep|GetFixedTimeStepValue|SetFixedTimeStep|SetFixedTimeStepValue|GetGlobalVolume|SetSampleSpeed|SetParallaxIntensity|ResolveJoints|GetCurrentPhysicsTimeStepMS|FileExists|FileInPackageExists|SetFixedHeight|SetFixedWidth|GetScale|Scale|SetScaleFactor|ScaleEntities|GetGlobalExternalStorageDirectory|GetZAxisDirection|SetZAxisDirection|ForceEntityRendering|GetPlatformName|GetEntitiesAroundBucket|GetEntitiesAroundBucketWithBlackList|DisableContact|EnablePackLoading|DisablePackLoading|IsResourcePackingSupported|IsPackLoadingEnabled|GetParallaxOrigin|GetParallaxIntensity|SetParallaxVerticalIntensity|GetParallaxVerticalIntensity|PlayParticleEffect|SetPersistentResources|print|rand|randF|radianToDegree|degreeToRadian|ARGB|cos|sin|tan|asin|acos|atan|atan2|cosh|sinh|tanh|max|min|log|log10|pow|sqrt|ceil|floor|abs|fraction|parseFloat|parseInt|parseUInt|scale|translate|rotateX|rotateY|rotateZ|multiply|getAngle|length|sign|distance|multiply)\\b", 
+            "name": "entity.name.function.ethanon"
+        }, 
+        {
+            "match": "\\b(true|false|null|PI|PIb|ENTITY_TYPE|DATA_TYPE|PIXEL_FORMAT|KEY_STATE|J_STATUS|J_KEY|KEY|KS_HIT|KS_UP|KS_DOWN|KS_RELEASE|PF32BIT|PF16BIT|PFUNKNOWN|DT_NODATA|DT_INT|DT_UINT|DT_FLOAT|DT_STRING|DT_VECTOR2|DT_VECTOR3|ET_HORIZONTAL|ET_VERTICAL|ET_LAYERABLE|ET_OVERALL|ET_GROUND_DECAL|ET_OPAQUE_DECAL|JS_DETECTED|JS_NOTDETECTED|JS_INVALID|K_UP|K_DOWN|K_LEFT|K_RIGHT|K_PAGEDOWN|K_PAGEUP|K_SPACE|K_ENTER|K_DELETE|K_HOME|K_END|K_INSERT|K_PAUSE|K_ESC|K_BACK|K_BACKSPACE|K_TAB|K_PRINTSCREEN|K_SUBTRACT|K_ADD|K_F1|K_F2|K_F3|K_F4|K_F5|K_F6|K_F7|K_F8|K_F9|K_F10|K_F11|K_F12|K_F13|K_F14|K_F15|K_F16|K_F17|K_F18|K_F19|K_F20|K_F21|K_F22|K_F23|K_F24|K_A|K_B|K_C|K_D|K_E|K_F|K_G|K_H|K_I|K_J|K_K|K_L|K_M|K_N|K_O|K_P|K_Q|K_R|K_S|K_T|K_U|K_V|K_W|K_X|K_Y|K_Z|K_0|K_1|K_2|K_3|K_4|K_5|K_6|K_7|K_8|K_9|K_MINUS|K_PLUS|K_COMMA|K_DOT|K_CTRL|K_ALT|K_SHIFT|K_RMOUSE|K_LMOUSE|K_MMOUSE|JK_01|JK_02|JK_03|JK_04|JK_05|JK_06|JK_07|JK_08|JK_09|JK_10|JK_11|JK_12|JK_13|JK_14|JK_15|JK_16|JK_17|JK_18|JK_19|JK_20|JK_21|JK_22|JK_23|JK_24|JK_25|JK_26|JK_27|JK_28|JK_29|JK_30|JK_31|JK_32|JK_UP|JK_DOWN|JK_LEFT|JK_RIGHT|K_RETURN|K_NUMPAD0|K_NUMPAD1|K_NUMPAD2|K_NUMPAD3|K_NUMPAD4|K_NUMPAD5|K_NUMPAD6|K_NUMPAD7|K_NUMPAD8|K_NUMPAD9|NPOS|DT_OBJECT|BODY_SHAPE|BS_NONE|BS_BOX|BS_CIRCLE|BS_POLYGON|BS_COMPOUND|JK_NONE|APPLE_IOS|ANDROID|MOBILE_DEVICE| TESTING|DEBUG|DESKTOP|WINDOWS|UNIX)\\b", 
+            "name": "constant.language.ethanon"
+        }, 
+        {
+            "match": "\\b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\\.?[0-9]*)|(\\.[0-9]+))((e|E)(\\+|-)?[0-9]+)?)(L|l|UL|ul|u|U|F|f|ll|LL|ull|ULL)?\\b", 
+            "name": "constant.numeric.ethanon"
+        }, 
+        {
+            "captures": {
+                "0": {
+                    "name": "punctuation.definition.comment.ethanon"
+                }
+            }, 
+            "match": "/\\*\\*/", 
+            "name": "comment.block.empty.ethanon"
+        }, 
+        {
+            "include": "text.html.javadoc"
+        }, 
+        {
+            "include": "#comments-inline"
+        }, 
+        {
+            "begin": "/\\*", 
+            "captures": {
+                "0": {
+                    "name": "punctuation.definition.comment.ethanon"
+                }
+            }, 
+            "end": "\\*/", 
+            "name": "comment.block.ethanon"
+        }, 
+        {
+            "captures": {
+                "1": {
+                    "name": "comment.line.double-slash.ethanon"
+                }, 
+                "2": {
+                    "name": "punctuation.definition.comment.ethanon"
+                }
+            }, 
+            "match": "\\s*((//).*$\\n?)"
+        }, 
+        {
+            "begin": "\"", 
+            "beginCaptures": {
+                "0": {
+                    "name": "punctuation.definition.string.begin.ethanon"
+                }
+            }, 
+            "end": "\"", 
+            "endCaptures": {
+                "0": {
+                    "name": "punctuation.definition.string.end.ethanon"
+                }
+            }, 
+            "name": "string.quoted.double.ethanon", 
+            "patterns": [
+                {
+                    "match": "\\\\.", 
+                    "name": "constant.character.escape.ethanon"
+                }
+            ]
+        }, 
+        {
+            "begin": "'", 
+            "beginCaptures": {
+                "0": {
+                    "name": "punctuation.definition.string.begin.ethanon"
+                }
+            }, 
+            "end": "'", 
+            "endCaptures": {
+                "0": {
+                    "name": "punctuation.definition.string.end.ethanon"
+                }
+            }, 
+            "name": "string.quoted.single.ethanon", 
+            "patterns": [
+                {
+                    "match": "\\\\.", 
+                    "name": "constant.character.escape.ethanon"
+                }
+            ]
+        }, 
+        {
+            "match": "\\b(this|super)\\b", 
+            "name": "variable.language.ethanon"
+        }, 
+        {
+            "match": "(==|!=|<=|>=|<>|<|>)", 
+            "name": "keyword.operator.comparison.ethanon"
+        }, 
+        {
+            "match": "(=)", 
+            "name": "keyword.operator.assignment.ethanon"
+        }, 
+        {
+            "match": "(\\-\\-|\\+\\+)", 
+            "name": "keyword.operator.increment-decrement.ethanon"
+        }, 
+        {
+            "match": "(\\-|\\+|\\*|\\/|%)", 
+            "name": "keyword.operator.arithmetic.ethanon"
+        }, 
+        {
+            "match": "(!|&&|\\|\\|)", 
+            "name": "keyword.operator.logical.ethanon"
+        }, 
+        {
+            "match": "(?<=\\S)\\.(?=\\S)", 
+            "name": "keyword.operator.dereference.ethanon"
+        }, 
+        {
+            "match": ";", 
+            "name": "punctuation.terminator.ethanon"
+        }, 
+        {
+            "begin": "(?x)\n        \t\t^\\s*\\#\\s*(define)\\s+             # define\n        \t\t((?<id>[a-zA-Z_][a-zA-Z0-9_]*))  # macro name\n        \t\t(?:                              # and optionally:\n        \t\t    (\\()                         # an open parenthesis\n        \t\t        (\n        \t\t            \\s* \\g<id> \\s*       # first argument\n        \t\t            ((,) \\s* \\g<id> \\s*)*  # additional arguments\n        \t\t            (?:\\.\\.\\.)?          # varargs ellipsis?\n        \t\t        )\n        \t\t    (\\))                         # a close parenthesis\n        \t\t)?\n        \t", 
+            "beginCaptures": {
+                "1": {
+                    "name": "keyword.control.import.define.ethanon"
+                }, 
+                "2": {
+                    "name": "entity.name.function.preprocessor.ethanon"
+                }, 
+                "4": {
+                    "name": "punctuation.definition.parameters.ethanon"
+                }, 
+                "5": {
+                    "name": "variable.parameter.preprocessor.ethanon"
+                }, 
+                "7": {
+                    "name": "punctuation.separator.parameters.ethanon"
+                }, 
+                "8": {
+                    "name": "punctuation.definition.parameters.ethanon"
+                }
+            }, 
+            "end": "(?=(?://|/\\*))|$", 
+            "name": "meta.preprocessor.macro.ethanon", 
+            "patterns": [
+                {
+                    "match": "(?>\\\\\\s*\\n)", 
+                    "name": "punctuation.separator.continuation.ethanon"
+                }, 
+                {
+                    "include": "$base"
+                }
+            ]
+        }, 
+        {
+            "begin": "^\\s*#\\s*(error|warning)\\b", 
+            "captures": {
+                "1": {
+                    "name": "keyword.control.import.error.ethanon"
+                }
+            }, 
+            "end": "$", 
+            "name": "meta.preprocessor.diagnostic.ethanon", 
+            "patterns": [
+                {
+                    "match": "(?>\\\\\\s*\\n)", 
+                    "name": "punctuation.separator.continuation.ethanon"
+                }
+            ]
+        }, 
+        {
+            "begin": "^\\s*#\\s*(include|import)\\b\\s+", 
+            "captures": {
+                "1": {
+                    "name": "keyword.control.import.include.ethanon"
+                }
+            }, 
+            "end": "(?=(?://|/\\*))|$", 
+            "name": "meta.preprocessor.ethanon.include", 
+            "patterns": [
+                {
+                    "match": "(?>\\\\\\s*\\n)", 
+                    "name": "punctuation.separator.continuation.ethanon"
+                }, 
+                {
+                    "begin": "\"", 
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.string.begin.ethanon"
+                        }
+                    }, 
+                    "end": "\"", 
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.string.end.ethanon"
+                        }
+                    }, 
+                    "name": "string.quoted.double.include.ethanon"
+                }, 
+                {
+                    "begin": "<", 
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.string.begin.ethanon"
+                        }
+                    }, 
+                    "end": ">", 
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.string.end.ethanon"
+                        }
+                    }, 
+                    "name": "string.quoted.other.lt-gt.include.ethanon"
+                }
+            ]
+        }, 
+        {
+            "include": "#pragma-mark"
+        }, 
+        {
+            "begin": "^\\s*#\\s*(define|defined|elif|else|if|ifdef|ifndef|line|pragma|undef)\\b", 
+            "captures": {
+                "1": {
+                    "name": "keyword.control.import.ethanon"
+                }
+            }, 
+            "end": "(?=(?://|/\\*))|$", 
+            "name": "meta.preprocessor.ethanon", 
+            "patterns": [
+                {
+                    "match": "(?>\\\\\\s*\\n)", 
+                    "name": "punctuation.separator.continuation.ethanon"
+                }
+            ]
+        }
+    ], 
+    "scopeName": "source.ethanon", 
+    "uuid": "9dd86f6d-f07c-4cb5-9cf4-3235e7bad751"
+}
