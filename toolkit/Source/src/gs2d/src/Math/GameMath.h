@@ -287,6 +287,11 @@ struct Vector2 : public PODVector2
 	}
 };
 
+inline Vector2 ToVector2(const Vector2i& v)
+{
+	return Vector2(static_cast<float>(v.x), static_cast<float>(v.y));
+}
+
 struct Vector3 : public PODVector3
 {
 	Vector3()

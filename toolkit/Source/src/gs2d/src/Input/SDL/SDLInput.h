@@ -25,11 +25,23 @@
 
 #include "../../Input.h"
 
+#include <SDL/SDL.h>
+
 namespace gs2d {
 
-class SDLInput
+class SDLInput : public Input
 {
+	math::Vector2i m_cursorPos;
+	math::Vector2i m_lastCursorPos;
+
+	KeyStateManager m_keyStates[GS_NUM_KEYS];
+	SDLKey m_sdlKeyID[GS_NUM_KEYS];
+
+	void UpdateCursorPos();
+
 public:
+	SDLInput();
+
 	bool IsKeyDown(const GS_KEY key) const;
 	GS_KEY_STATE GetKeyState(const GS_KEY key) const;
 

@@ -26,17 +26,11 @@
 #include "Math/GameMath.h"
 #include "Window.h"
 
+#include "Input/KeyStateManager.h"
+
 namespace gs2d {
 
 class Application;
-
-enum GS_KEY_STATE
-{
-	GSKS_UP = 0,
-	GSKS_HIT = 1,
-	GSKS_DOWN = 2,
-	GSKS_RELEASE = 3
-};
 
 enum GS_KEY
 {

@@ -1,6 +1,7 @@
 #include <SDL/SDL.h>
 
 #include <Video.h>
+#include <Input.h>
 #include <Platform/macosx/MacOSXFileIOHub.h>
 #include <Platform/StdAnsiFileManager.h>
 #include <Math/Randomizer.h>
@@ -16,6 +17,7 @@ int SDL_main (int argc, char **argv)
 	using namespace gs2d::math;
 
 	gs2d::VideoPtr video = gs2d::CreateVideo(1280, 720, "Hello GS2D!", true, true, fileIOHub, gs2d::Texture::PF_UNKNOWN, true);
+	gs2d::InputPtr input = gs2d::CreateInput(0, true);
 	{
 		gs2d::SpritePtr tileset(video->CreateSprite(fileIOHub->GetResourceDirectory() + "resources/tileset.png"));
 		tileset->SetupSpriteRects(2, 2);
@@ -56,6 +58,8 @@ int SDL_main (int argc, char **argv)
 		{
 			if (status == gs2d::Video::APP_SKIP)
 				continue;
+
+			input->Update();
 
 			const Vector2 screenSize(video->GetScreenSizeF());
 
@@ -106,15 +110,17 @@ int SDL_main (int argc, char **argv)
 			skull->Draw(Vector2(400,100));
 
 			video->DrawRectangle(
-				Vector2(800,10),
+				input->GetCursorPositionF(video),
 				Vector2(64,256),
 				gs2d::constant::YELLOW);
 
 			tileset->SetRect(0);
 			tileset->Draw(Vector2(600, 200), 0xAAFF0000);
 
+			static Vector2 pos(screenSize * 0.5f);
+			pos += input->GetTouchMove(0);
 			video->DrawRectangle(
-				Vector2(20,42),
+				pos,
 				Vector2(64,64),
 				0xFFFF00FF, gs2d::constant::WHITE,
 				gs2d::constant::GREEN, gs2d::constant::BLACK);
