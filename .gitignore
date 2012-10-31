@@ -21,6 +21,7 @@ toolkit/Source/src/gs2d/vendors/libpng/
 toolkit/Source/src/gs2d/vendors/libzip/
 toolkit/Source/src/gs2d/vendors/SDL.framework/
 toolkit/Source/src/gs2d/vendors/Cg.framework/
+toolkit/Source/src/gs2d/vendors/irrKlang/
 
 # Dump files
 *AS_DEBUG/
