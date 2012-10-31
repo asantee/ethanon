@@ -57,12 +57,16 @@ int SDL_main (int argc, char **argv)
 		video->SetBGColor(0xFF003366);
 
 		gs2d::Video::APP_STATUS status;
+		str_type::stringstream inputStr;
 		while ((status = video->HandleEvents()) != gs2d::Video::APP_QUIT)
 		{
 			if (status == gs2d::Video::APP_SKIP)
 				continue;
 
 			input->Update();
+
+			if (input->GetLastCharInput() != '\0')
+				inputStr << (input->GetLastCharInput());
 
 			const Vector2 screenSize(video->GetScreenSizeF());
 			{
@@ -170,7 +174,7 @@ int SDL_main (int argc, char **argv)
 			tileset->SetRect(1);
 			tileset->Draw(Vector2(200, 600));
 			
-			video->DrawBitmapText(screenSize * 0.2f, "Oh my god WTF barbecue", "Verdana20_shadow.fnt", 0xAAFFFF00, 1.0f);
+			video->DrawBitmapText(screenSize * 0.2f, str_type::string("Oh my god WTF barbecue\n") + inputStr.str(), "Verdana20_shadow.fnt", 0xAAFFFF00, 1.0f);
 
 			video->DrawRectangle(
 				Vector2(600,300),

@@ -287,8 +287,7 @@ float SDLInput::GetWheelState() const
 
 str_type::char_t SDLInput::GetLastCharInput() const
 {
-	#warning todo
-	return '\0';
+	return SDLWindow::m_lastCharInput;
 }
 
 

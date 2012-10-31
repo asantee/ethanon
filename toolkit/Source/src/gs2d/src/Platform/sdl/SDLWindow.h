@@ -33,6 +33,7 @@ class SDLWindow : public virtual Video
 {
 	friend class SDLInput;
 	static float m_mouseWheel;
+	static str_type::char_t m_lastCharInput;
 
 	Platform::FileIOHubPtr m_fileIOHub;
 	bool m_maximizable, m_sync, m_windowed, m_quitKeysEnabled, m_quit;

@@ -56,6 +56,7 @@ static int SetPixelFormat(const SDL_VideoInfo* info, const Texture::PIXEL_FORMAT
 }
 
 float SDLWindow::m_mouseWheel(0.0f);
+str_type::char_t SDLWindow::m_lastCharInput('\0');
 
 // Application implementations
 SDLWindow::SDLWindow(Platform::FileIOHubPtr fileIOHub) :
@@ -119,6 +120,8 @@ bool SDLWindow::StartApplication(
 
 	SetWindowTitle(winTitle);
 	ReadDisplayModes();
+
+	SDL_EnableUNICODE(1);
 
 	return true;
 }
@@ -199,12 +202,13 @@ void SDLWindow::Message(const str_type::string& text, const GS_MESSAGE_TYPE type
 Application::APP_STATUS SDLWindow::HandleEvents()
 {
 	m_mouseWheel = 0.0f;
+	m_lastCharInput = '\0';
 	APP_STATUS r = APP_OK;
 
 	SDL_Event event;
-	while(SDL_PollEvent(&event))
+	while (SDL_PollEvent(&event))
 	{
-		switch(event.type)
+		switch (event.type)
 		{
 		case SDL_VIDEORESIZE:
 			ResetVideoMode(event.resize.w, event.resize.h, Texture::PF_UNKNOWN);
@@ -217,6 +221,16 @@ Application::APP_STATUS SDLWindow::HandleEvents()
 				m_mouseWheel = 1.0f;
 			else if (event.button.button == SDL_BUTTON_WHEELDOWN)
 				m_mouseWheel =-1.0f;
+			break;
+		case SDL_KEYDOWN:
+		case SDL_KEYUP:
+			if (event.key.type == SDL_KEYDOWN)
+			{
+				if (event.key.keysym.unicode < 0x80 && event.key.keysym.unicode > 0)
+				{
+					m_lastCharInput = (char)event.key.keysym.unicode;
+				}
+			}
 			break;
 		}
 	}
