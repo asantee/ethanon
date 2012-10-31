@@ -26,8 +26,7 @@ namespace gs2d {
 
 GS2D_API AudioPtr CreateAudio(boost::any data)
 {
-	#warning todo
-	IrrKlangAudioPtr audio; // = AudiereContext::Create(data);
+	IrrKlangAudioPtr audio = IrrKlangAudio::Create(data);
 	if (audio)
 	{
 		return audio;
@@ -35,9 +34,38 @@ GS2D_API AudioPtr CreateAudio(boost::any data)
 	return AudioPtr();
 }
 
+boost::shared_ptr<IrrKlangAudio> IrrKlangAudio::Create(boost::any data)
+{
+	boost::shared_ptr<IrrKlangAudio> p(new IrrKlangAudio());
+	p->weak_this = p;
+	if (p->CreateAudioDevice(data))
+	{
+		return p;
+	}
+	else
+	{
+		return IrrKlangAudioPtr();
+	}
+}
+
+IrrKlangAudio::IrrKlangAudio() :
+	m_engine(0)
+{
+}
+
+IrrKlangAudio::~IrrKlangAudio()
+{
+	if (m_engine)
+	{
+		m_engine->drop();
+		m_engine = 0;
+	}
+}
+
 bool IrrKlangAudio::CreateAudioDevice(boost::any data)
 {
-	return true;
+	m_engine = irrklang::createIrrKlangDevice();
+	return (m_engine);
 }
 
 AudioSamplePtr IrrKlangAudio::LoadSampleFromFile(const str_type::string& fileName, const Platform::FileManagerPtr& fileManager, const GS_SAMPLE_TYPE type)

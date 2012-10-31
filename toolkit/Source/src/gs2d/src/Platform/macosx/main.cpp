@@ -2,6 +2,7 @@
 
 #include <Video.h>
 #include <Input.h>
+#include <Audio.h>
 #include <Platform/macosx/MacOSXFileIOHub.h>
 #include <Platform/StdAnsiFileManager.h>
 #include <Math/Randomizer.h>
@@ -18,6 +19,7 @@ int SDL_main (int argc, char **argv)
 
 	gs2d::VideoPtr video = gs2d::CreateVideo(1280, 720, "Hello GS2D!", true, true, fileIOHub, gs2d::Texture::PF_UNKNOWN, true);
 	gs2d::InputPtr input = gs2d::CreateInput(0, true);
+	gs2d::AudioPtr audio = gs2d::CreateAudio(0);
 	{
 		gs2d::SpritePtr tileset(video->CreateSprite(fileIOHub->GetResourceDirectory() + "resources/tileset.png"));
 		tileset->SetupSpriteRects(2, 2);

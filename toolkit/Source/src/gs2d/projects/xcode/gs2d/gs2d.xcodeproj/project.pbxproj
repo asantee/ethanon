@@ -77,6 +77,8 @@
 		74838D451641A8650027CFFC /* IrrKlangAudio.h in Headers */ = {isa = PBXBuildFile; fileRef = 74838D431641A8640027CFFC /* IrrKlangAudio.h */; };
 		74838D491641AC700027CFFC /* IrrKlangAudioSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74838D471641AC700027CFFC /* IrrKlangAudioSample.cpp */; };
 		74838D4A1641AC700027CFFC /* IrrKlangAudioSample.h in Headers */ = {isa = PBXBuildFile; fileRef = 74838D481641AC700027CFFC /* IrrKlangAudioSample.h */; };
+		74838D6C1641C32C0027CFFC /* libirrklang.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 74838D6B1641C32C0027CFFC /* libirrklang.dylib */; settings = {ATTRIBUTES = (Required, ); }; };
+		74838D731641C97B0027CFFC /* libirrklang.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74838D6B1641C32C0027CFFC /* libirrklang.dylib */; };
 		7486553816382B6A0096D869 /* Cg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7486553716382B6A0096D869 /* Cg.framework */; };
 		7486553B16382B960096D869 /* Cg.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7486553A16382B960096D869 /* Cg.framework */; };
 		7486553E16382C000096D869 /* GLCgShaderContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7486553C16382C000096D869 /* GLCgShaderContext.cpp */; };
@@ -109,6 +111,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				74838D731641C97B0027CFFC /* libirrklang.dylib in CopyFiles */,
 				7486553B16382B960096D869 /* Cg.framework in CopyFiles */,
 				742D34161637A64300A447A2 /* SDL.framework in CopyFiles */,
 			);
@@ -189,6 +192,7 @@
 		74838D431641A8640027CFFC /* IrrKlangAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IrrKlangAudio.h; path = ../../../src/Audio/irrKlang/IrrKlangAudio.h; sourceTree = "<group>"; };
 		74838D471641AC700027CFFC /* IrrKlangAudioSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IrrKlangAudioSample.cpp; path = ../../../src/Audio/irrKlang/IrrKlangAudioSample.cpp; sourceTree = "<group>"; };
 		74838D481641AC700027CFFC /* IrrKlangAudioSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IrrKlangAudioSample.h; path = ../../../src/Audio/irrKlang/IrrKlangAudioSample.h; sourceTree = "<group>"; };
+		74838D6B1641C32C0027CFFC /* libirrklang.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libirrklang.dylib; path = "../../../vendors/irrKlang/bin/macosx-gcc/libirrklang.dylib"; sourceTree = "<group>"; };
 		7486553716382B6A0096D869 /* Cg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cg.framework; path = ../../../vendors/Cg.framework; sourceTree = "<group>"; };
 		7486553A16382B960096D869 /* Cg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cg.framework; path = ../../../vendors/Cg.framework; sourceTree = "<group>"; };
 		7486553C16382C000096D869 /* GLCgShaderContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLCgShaderContext.cpp; path = ../../../../src/Video/GL/Cg/GLCgShaderContext.cpp; sourceTree = "<group>"; };
@@ -225,6 +229,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74838D6C1641C32C0027CFFC /* libirrklang.dylib in Frameworks */,
 				7486553816382B6A0096D869 /* Cg.framework in Frameworks */,
 				7458F09A1637A44800D48019 /* SDL.framework in Frameworks */,
 				7458F0801635F18300D48019 /* OpenGL.framework in Frameworks */,
@@ -418,8 +423,7 @@
 		74F3A4EA1632E3870064C9A5 = {
 			isa = PBXGroup;
 			children = (
-				7486553A16382B960096D869 /* Cg.framework */,
-				742D34151637A64300A447A2 /* SDL.framework */,
+				74838D6B1641C32C0027CFFC /* libirrklang.dylib */,
 				74F3A4FF1632E3870064C9A5 /* gs2d */,
 				74865549163980EF0096D869 /* SOIL */,
 				74F3A4F81632E3870064C9A5 /* Frameworks */,
@@ -438,6 +442,8 @@
 		74F3A4F81632E3870064C9A5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7486553A16382B960096D869 /* Cg.framework */,
+				742D34151637A64300A447A2 /* SDL.framework */,
 				7486553716382B6A0096D869 /* Cg.framework */,
 				7458F0971637A3E000D48019 /* SDL.framework */,
 				7458F07F1635F18300D48019 /* OpenGL.framework */,
@@ -567,6 +573,7 @@
 				74F3A4F31632E3870064C9A5 /* Headers */,
 				74F3A4F41632E3870064C9A5 /* Resources */,
 				742D34131637A62C00A447A2 /* CopyFiles */,
+				74838D6A1641C2390027CFFC /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -613,6 +620,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		74838D6A1641C2390027CFFC /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(PRODUCT_NAME) ",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "install_name_tool -id @loader_path/Frameworks/libirrklang.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.framework/Versions/A/Frameworks/libirrklang.dylib\"\ninstall_name_tool -change /usr/local/lib/libirrklang.dylib @loader_path/Frameworks/libirrklang.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.framework/Versions/A/$PRODUCT_NAME\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		74F3A4F11632E3870064C9A5 /* Sources */ = {
@@ -726,7 +750,7 @@
 		74F3A50C1632E3870064C9A5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -744,10 +768,17 @@
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../vendors/BoostSDK\"",
 					"\"$(SRCROOT)/../../../vendors/soil\"",
+					"\"$(SRCROOT)/../../../vendors/irrKlang/include\"",
 				);
 				INFOPLIST_FILE = "gs2d/gs2d-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../vendors/irrKlang/bin/macosx-gcc\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.7;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -755,7 +786,7 @@
 		74F3A50D1632E3870064C9A5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -770,10 +801,17 @@
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../vendors/BoostSDK\"",
 					"\"$(SRCROOT)/../../../vendors/soil\"",
+					"\"$(SRCROOT)/../../../vendors/irrKlang/include\"",
 				);
 				INFOPLIST_FILE = "gs2d/gs2d-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../vendors/irrKlang/bin/macosx-gcc\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.7;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;

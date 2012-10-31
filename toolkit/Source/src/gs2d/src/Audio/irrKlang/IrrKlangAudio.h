@@ -25,12 +25,22 @@
 
 #include "../../Audio.h"
 
+#include <irrKlang.h>
+
 namespace gs2d {
 
 class IrrKlangAudio : public Audio
 {
+	irrklang::ISoundEngine* m_engine;
 	bool CreateAudioDevice(boost::any data);
+	
+	boost::weak_ptr<IrrKlangAudio> weak_this;
+
 public:
+	static boost::shared_ptr<IrrKlangAudio> Create(boost::any data);
+
+	IrrKlangAudio();
+	~IrrKlangAudio();
 	AudioSamplePtr LoadSampleFromFile(const str_type::string& fileName, const Platform::FileManagerPtr& fileManager, const GS_SAMPLE_TYPE type = GSST_UNKNOWN);
 	AudioSamplePtr LoadSampleFromFileInMemory(void *pBuffer, const unsigned int bufferLength, const GS_SAMPLE_TYPE type = GSST_UNKNOWN);
 	boost::any GetAudioContext();
