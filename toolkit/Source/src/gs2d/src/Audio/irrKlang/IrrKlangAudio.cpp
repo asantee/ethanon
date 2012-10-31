@@ -49,7 +49,8 @@ boost::shared_ptr<IrrKlangAudio> IrrKlangAudio::Create(boost::any data)
 }
 
 IrrKlangAudio::IrrKlangAudio() :
-	m_engine(0)
+	m_engine(0),
+	m_globalVolume(1.0f)
 {
 }
 
@@ -68,28 +69,31 @@ bool IrrKlangAudio::CreateAudioDevice(boost::any data)
 	return (m_engine);
 }
 
+boost::any IrrKlangAudio::GetAudioContext()
+{
+	return m_engine;
+}
+
+void IrrKlangAudio::SetGlobalVolume(const float volume)
+{
+	m_globalVolume = volume;
+}
+
+float IrrKlangAudio::GetGlobalVolume() const
+{
+	return m_globalVolume;
+}
+
 AudioSamplePtr IrrKlangAudio::LoadSampleFromFile(const str_type::string& fileName, const Platform::FileManagerPtr& fileManager, const GS_SAMPLE_TYPE type)
 {
+	#warning todo
 	return AudioSamplePtr();
 }
 
 AudioSamplePtr IrrKlangAudio::LoadSampleFromFileInMemory(void *pBuffer, const unsigned int bufferLength, const GS_SAMPLE_TYPE type)
 {
+	#warning todo
 	return AudioSamplePtr();
-}
-
-boost::any IrrKlangAudio::GetAudioContext()
-{
-	return 0;
-}
-
-void IrrKlangAudio::SetGlobalVolume(const float volume)
-{
-}
-
-float IrrKlangAudio::GetGlobalVolume() const
-{
-	return 0.0f;
 }
 
 } // namespace gs2d
