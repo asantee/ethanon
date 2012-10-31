@@ -32,8 +32,6 @@ namespace gs2d {
 class SDLWindow : public virtual Video
 {
 	friend class SDLInput;
-	static float m_mouseWheel;
-	static str_type::char_t m_lastCharInput;
 
 	Platform::FileIOHubPtr m_fileIOHub;
 	bool m_maximizable, m_sync, m_windowed, m_quitKeysEnabled, m_quit;
@@ -59,6 +57,9 @@ protected:
 	unsigned int AssembleFlags(const bool windowed, const bool maximizable, const bool sync);
 
 	math::Vector2 m_screenSize;
+
+	static float m_mouseWheel;
+	static str_type::char_t m_lastCharInput;
 
 public:
 	SDLWindow(Platform::FileIOHubPtr fileIOHub);

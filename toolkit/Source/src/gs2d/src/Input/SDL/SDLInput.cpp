@@ -34,10 +34,10 @@ GS2D_API InputPtr CreateInput(boost::any data, const bool showJoystickWarnings)
 }
 
 SDLInput::SDLInput(const bool showJoystickWarnings) :
+	SDLJoystick(showJoystickWarnings),
 	m_cursorPos(math::Vector2i(-1,-1)),
 	m_lastCursorPos(math::Vector2i(0, 0)),
-	m_mouseBits(0),
-	m_showJoystickWarnings(showJoystickWarnings)
+	m_mouseBits(0)
 {
 	m_sdlKeyID[GSK_UP] = SDLK_UP;
 	m_sdlKeyID[GSK_DOWN] = SDLK_DOWN;
@@ -144,16 +144,6 @@ SDLInput::SDLInput(const bool showJoystickWarnings) :
 	m_lastCursorPos = m_cursorPos;
 }
 
-void SDLInput::ShowJoystickWarnings(const bool enable)
-{
-	m_showJoystickWarnings = enable;
-}
-
-bool SDLInput::IsShowingJoystickWarnings() const
-{
-	return m_showJoystickWarnings;
-}
-
 bool SDLInput::Update()
 {
 	const Uint8 *keystate = SDL_GetKeyState(NULL);
@@ -163,7 +153,7 @@ bool SDLInput::Update()
 	}
 
 	UpdateCursorPos();
-	return true;
+	return SDLJoystick::Update();
 }
 
 bool SDLInput::IsKeyPressed(const GS_KEY key, const Uint8* keystate)
@@ -288,97 +278,6 @@ float SDLInput::GetWheelState() const
 str_type::char_t SDLInput::GetLastCharInput() const
 {
 	return SDLWindow::m_lastCharInput;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-unsigned int SDLInput::GetMaxJoysticks() const
-{
-	return 0;
-}
-
-GS_KEY_STATE SDLInput::GetJoystickButtonState(const unsigned int id, const GS_JOYSTICK_BUTTON key) const
-{
-	return GSKS_UP;
-}
-
-bool SDLInput::IsJoystickButtonDown(const unsigned int id, const GS_JOYSTICK_BUTTON key) const
-{
-	return false;
-}
-
-bool SDLInput::DetectJoysticks()
-{
-	return false;
-}
-
-GS_JOYSTICK_STATUS SDLInput::GetJoystickStatus(const unsigned int id) const
-{
-	return GSJS_NOTDETECTED;
-}
-
-unsigned int SDLInput::GetNumJoyButtons(const unsigned int id) const
-{
-	return 0;
-}
-
-math::Vector2 SDLInput::GetJoystickXY(const unsigned int id) const
-{
-	return math::Vector2();
-}
-
-float SDLInput::GetJoystickZ(const unsigned int id) const
-{
-	return 0.0f;
-}
-
-float SDLInput::GetJoystickRudder(const unsigned int id) const
-{
-	return 0.0f;
-}
-
-math::Vector2 SDLInput::GetJoystickUV(const unsigned int id) const
-{
-	return math::Vector2();
-}
-
-GS_JOYSTICK_BUTTON SDLInput::GetFirstButtonDown(const unsigned int id) const
-{
-	return GSB_NONE;
-}
-
-unsigned int SDLInput::GetNumJoysticks() const
-{
-	return 0;
 }
 
 } // namespace gs2d

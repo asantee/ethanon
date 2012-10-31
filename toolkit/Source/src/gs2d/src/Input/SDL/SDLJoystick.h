@@ -20,55 +20,59 @@
  OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  --------------------------------------------------------------------------------------*/
 
-#ifndef GS2D_SDL_INPUT_H_
-#define GS2D_SDL_INPUT_H_
+#ifndef GS2D_SDL_JOYSTICK_H_
+#define GS2D_SDL_JOYSTICK_H_
 
-#include "SDLJoystick.h"
+#include "../../Input.h"
+
+#include <SDL/SDL.h>
+
+#include <vector>
 
 namespace gs2d {
 
-class SDLInput : public SDLJoystick
+class SDLJoystick : virtual public Input
 {
-	math::Vector2i m_cursorPos;
-	math::Vector2i m_lastCursorPos;
-
-	KeyStateManager m_keyStates[GS_NUM_KEYS];
-	SDLKey m_sdlKeyID[GS_NUM_KEYS];
-	Uint8 m_mouseBits;
-
-	void UpdateCursorPos();
-	bool IsKeyPressed(const GS_KEY key, const Uint8* keystate);
+	bool m_showJoystickWarnings;
+	unsigned int m_nDetectedJoysticks;
 
 public:
-	SDLInput(const bool showJoystickWarnings);
+	class Joystick
+	{
+	public:
+		Joystick();
+		SDL_Joystick* sdlJoystick;
+		GS_JOYSTICK_STATUS status;
+		math::Vector2 xy;
+		float z;
+		float rudder;
+		math::Vector2 uv;
+		KeyStateManager state[GSB_NUM_BUTTONS];
+		int nButtons;
+	};
 
-	bool IsKeyDown(const GS_KEY key) const;
-	GS_KEY_STATE GetKeyState(const GS_KEY key) const;
-
-	GS_KEY_STATE GetLeftClickState() const;
-	GS_KEY_STATE GetRightClickState() const;
-	GS_KEY_STATE GetMiddleClickState() const;
-
-	math::Vector2i GetMouseMove() const;
-	math::Vector2  GetMouseMoveF() const;
-
-	math::Vector2 GetTouchPos(const unsigned int n, WindowPtr pWindow = WindowPtr()) const;
-	GS_KEY_STATE  GetTouchState(const unsigned int n, WindowPtr pWindow = WindowPtr()) const;
-	unsigned int GetMaxTouchCount() const;
-	math::Vector2 GetTouchMove(const unsigned int n) const;
-
-	bool SetCursorPosition(math::Vector2i v2Pos);
-	bool SetCursorPositionF(math::Vector2 v2Pos);
-	math::Vector2i GetCursorPosition(WindowPtr pWindow) const;
-	math::Vector2  GetCursorPositionF(WindowPtr pWindow) const;
-
-	float GetWheelState() const;
+	SDLJoystick(const bool showJoystickWarnings);
 
 	bool Update();
 
-	str_type::char_t GetLastCharInput() const;
+	void ShowJoystickWarnings(const bool enable);
+	bool IsShowingJoystickWarnings() const;
+	unsigned int GetMaxJoysticks() const;
 
-	math::Vector3 GetAccelerometerData() const;
+	GS_KEY_STATE GetJoystickButtonState(const unsigned int id, const GS_JOYSTICK_BUTTON key) const;
+	bool IsJoystickButtonDown(const unsigned int id, const GS_JOYSTICK_BUTTON key) const;
+	bool DetectJoysticks();
+	GS_JOYSTICK_STATUS GetJoystickStatus(const unsigned int id) const;
+	unsigned int GetNumJoyButtons(const unsigned int id) const;
+	math::Vector2 GetJoystickXY(const unsigned int id) const;
+	float GetJoystickZ(const unsigned int id) const;
+	float GetJoystickRudder(const unsigned int id) const;
+	math::Vector2 GetJoystickUV(const unsigned int id) const;
+	GS_JOYSTICK_BUTTON GetFirstButtonDown(const unsigned int id) const;
+	unsigned int GetNumJoysticks() const;
+
+private:
+	std::vector<Joystick> m_joysticks;
 };
 
 } // namespace gs2d
