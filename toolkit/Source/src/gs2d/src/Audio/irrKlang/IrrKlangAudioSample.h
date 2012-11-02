@@ -25,11 +25,25 @@
 
 #include "../../Audio.h"
 
+#include <irrKlang.h>
+
 namespace gs2d {
 
 class IrrKlangAudioSample : public AudioSample
 {
+	irrklang::ISoundEngine* m_engine;
+	irrklang::ISoundSource* m_source;
+	irrklang::ISound* m_sound;
+
+	str_type::string m_fullFilePath;
+	GS_SAMPLE_TYPE m_type;
+
+	bool m_loop;
+
 public:
+	IrrKlangAudioSample();
+	~IrrKlangAudioSample();
+
 	bool LoadSampleFromFile(
 		AudioWeakPtr audio,
 		const str_type::string& fileName,

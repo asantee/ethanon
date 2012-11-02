@@ -22,6 +22,10 @@
 
 #include "IrrKlangAudio.h"
 
+#include "IrrKlangAudioSample.h"
+
+#include "../../Application.h"
+
 namespace gs2d {
 
 GS2D_API AudioPtr CreateAudio(boost::any data)
@@ -49,8 +53,7 @@ boost::shared_ptr<IrrKlangAudio> IrrKlangAudio::Create(boost::any data)
 }
 
 IrrKlangAudio::IrrKlangAudio() :
-	m_engine(0),
-	m_globalVolume(1.0f)
+	m_engine(0)
 {
 }
 
@@ -76,24 +79,37 @@ boost::any IrrKlangAudio::GetAudioContext()
 
 void IrrKlangAudio::SetGlobalVolume(const float volume)
 {
-	m_globalVolume = volume;
+	m_engine->setSoundVolume(volume);
 }
 
 float IrrKlangAudio::GetGlobalVolume() const
 {
-	return m_globalVolume;
+	return m_engine->getSoundVolume();
+}
+
+irrklang::ISoundEngine* IrrKlangAudio::GetEngine()
+{
+	return m_engine;
 }
 
 AudioSamplePtr IrrKlangAudio::LoadSampleFromFile(const str_type::string& fileName, const Platform::FileManagerPtr& fileManager, const GS_SAMPLE_TYPE type)
 {
-	#warning todo
-	return AudioSamplePtr();
+	AudioSamplePtr audio = AudioSamplePtr(new IrrKlangAudioSample);
+	if (!audio->LoadSampleFromFile(weak_this, fileName, fileManager, type))
+	{
+		return AudioSamplePtr();
+	}
+	return audio;
 }
 
 AudioSamplePtr IrrKlangAudio::LoadSampleFromFileInMemory(void *pBuffer, const unsigned int bufferLength, const GS_SAMPLE_TYPE type)
 {
-	#warning todo
-	return AudioSamplePtr();
+	AudioSamplePtr audio = AudioSamplePtr(new IrrKlangAudioSample);
+	if (!audio->LoadSampleFromFileInMemory(weak_this, pBuffer, bufferLength, type))
+	{
+		return AudioSamplePtr();
+	}
+	return audio;
 }
 
 } // namespace gs2d

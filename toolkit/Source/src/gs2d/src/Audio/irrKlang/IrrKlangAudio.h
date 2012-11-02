@@ -36,8 +36,6 @@ class IrrKlangAudio : public Audio
 	
 	boost::weak_ptr<IrrKlangAudio> weak_this;
 
-	float m_globalVolume;
-
 public:
 	static boost::shared_ptr<IrrKlangAudio> Create(boost::any data);
 
@@ -48,6 +46,8 @@ public:
 	boost::any GetAudioContext();
 	void SetGlobalVolume(const float volume);
 	float GetGlobalVolume() const;
+
+	irrklang::ISoundEngine* GetEngine();
 };
 
 typedef boost::shared_ptr<IrrKlangAudio> IrrKlangAudioPtr;

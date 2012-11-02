@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		742D34121637A60A00A447A2 /* SDL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 742D34111637A60A00A447A2 /* SDL.framework */; };
 		7458F09C1637A49800D48019 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7458F09B1637A49800D48019 /* SDL.framework */; };
+		746BCE8916431E8F006643B8 /* ikpMP3.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 74832732164312CA00FA2F36 /* ikpMP3.dylib */; };
 		7473CADB16331681005DB920 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7473CAD716331681005DB920 /* main.cpp */; };
 		7473CADC16331681005DB920 /* SDLMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 7473CADA16331681005DB920 /* SDLMain.m */; };
 		74838D25163B460F0027CFFC /* gs2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F3A5551632E4490064C9A5 /* gs2d.framework */; };
@@ -58,6 +59,7 @@
 		7473CAD816331681005DB920 /* main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = main.h; path = ../../../../src/Platform/macosx/main.h; sourceTree = "<group>"; };
 		7473CAD916331681005DB920 /* SDLMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLMain.h; path = ../../../../src/Platform/macosx/SDLMain.h; sourceTree = "<group>"; };
 		7473CADA16331681005DB920 /* SDLMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLMain.m; path = ../../../../src/Platform/macosx/SDLMain.m; sourceTree = "<group>"; };
+		74832732164312CA00FA2F36 /* ikpMP3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = ikpMP3.dylib; path = "../../../vendors/irrKlang/bin/macosx-gcc/ikpMP3.dylib"; sourceTree = "<group>"; };
 		74865584163B1A270096D869 /* resources */ = {isa = PBXFileReference; lastKnownFileType = folder; name = resources; path = ../../../src/Testbed/resources; sourceTree = "<group>"; };
 		74F3A5191632E3C20064C9A5 /* gs2dtestbed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gs2dtestbed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		74F3A51D1632E3C20064C9A5 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -88,6 +90,7 @@
 		74F3A50E1632E3C20064C9A5 = {
 			isa = PBXGroup;
 			children = (
+				74832732164312CA00FA2F36 /* ikpMP3.dylib */,
 				74865584163B1A270096D869 /* resources */,
 				742D34111637A60A00A447A2 /* SDL.framework */,
 				74F3A5231632E3C20064C9A5 /* gs2dtestbed */,
@@ -227,6 +230,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				74865585163B1A270096D869 /* resources in Resources */,
+				746BCE8916431E8F006643B8 /* ikpMP3.dylib in Resources */,
 				74F3A5281632E3C20064C9A5 /* InfoPlist.strings in Resources */,
 				74F3A5341632E3C30064C9A5 /* MainMenu.xib in Resources */,
 			);

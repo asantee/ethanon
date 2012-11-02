@@ -22,7 +22,30 @@
 
 #include "IrrKlangAudioSample.h"
 
+#include "IrrKlangAudio.h"
+
+#include "../../Platform/StdAnsiFileManager.h"
+
+#include "../../Application.h"
+
 namespace gs2d {
+
+IrrKlangAudioSample::IrrKlangAudioSample() :
+	m_type(GSST_UNKNOWN),
+	m_engine(0),
+	m_source(0),
+	m_sound(0),
+	m_loop(false)
+{
+}
+
+IrrKlangAudioSample::~IrrKlangAudioSample()
+{
+	if (m_engine && m_source)
+		m_engine->removeSoundSource(m_source);
+	if (m_sound)
+		m_sound->drop();
+}
 
 bool IrrKlangAudioSample::LoadSampleFromFile(
 	AudioWeakPtr audio,
@@ -30,82 +53,136 @@ bool IrrKlangAudioSample::LoadSampleFromFile(
 	const Platform::FileManagerPtr& fileManager,
 	const GS_SAMPLE_TYPE type)
 {
-	return false;
+	m_fullFilePath = fileName;
+	Platform::FileBuffer out;
+	fileManager->GetFileBuffer(fileName, out);
+
+	if (!out)
+	{
+		ShowMessage(str_type::string("Couldn't load sound file: ") + fileName, GSMT_ERROR);
+		return false;
+	}
+	return LoadSampleFromFileInMemory(audio, out->GetAddress(), out->GetBufferSize(), type);
 }
 
 bool IrrKlangAudioSample::LoadSampleFromFileInMemory(AudioWeakPtr audio, void *pBuffer, const unsigned int bufferLength, const GS_SAMPLE_TYPE type)
 {
-	return false;
-}
+	IrrKlangAudioPtr irrAudio = boost::dynamic_pointer_cast<IrrKlangAudio>(audio.lock());
+	m_engine = irrAudio->GetEngine();
+	m_type = type;
 
-bool IrrKlangAudioSample::SetLoop(const bool enable)
-{
-	return false;
-}
-
-bool IrrKlangAudioSample::GetLoop() const
-{
-	return false;
+	m_source = m_engine->addSoundSourceFromMemory(pBuffer, bufferLength, m_fullFilePath.c_str(), true);
+	m_source->setStreamMode(irrklang::ESM_AUTO_DETECT);
+	if (m_source)
+	{
+		m_sound = m_engine->play2D(m_source, false, true, true);
+		if (m_sound)
+		{
+			return true;
+		}
+		else
+		{
+			ShowMessage(str_type::string("Couldn't play sound sample: ") + m_fullFilePath, GSMT_ERROR);
+			return false;
+		}
+	}
+	else
+	{
+		ShowMessage(str_type::string("Couldn't load sound sample: ") + m_fullFilePath, GSMT_ERROR);
+		return false;
+	}
 }
 
 bool IrrKlangAudioSample::Play()
 {
-	return false;
-}
-
-GS_SAMPLE_STATUS IrrKlangAudioSample::GetStatus()
-{
-	return GSSS_UNKNOWN;
-}
-
-bool IrrKlangAudioSample::IsPlaying()
-{
-	return false;
-}
-
-bool IrrKlangAudioSample::Pause()
-{
-	return false;
+	if (m_sound->isFinished())
+	{
+		const float speed = m_sound->getPlaybackSpeed();
+		const float pan = m_sound->getPan();
+		const bool looping = m_sound->isLooped();
+		m_sound->drop();
+		m_sound = m_engine->play2D(m_source, looping, true, true);
+		m_sound->setPlaybackSpeed(speed);
+		m_sound->setPan(pan);
+	}
+	m_sound->setIsPaused(false);
+	return true;
 }
 
 bool IrrKlangAudioSample::Stop()
 {
-	return false;
-}
-
-GS_SAMPLE_TYPE IrrKlangAudioSample::GetType() const
-{
-	return GSST_UNKNOWN;
-}
-
-bool IrrKlangAudioSample::SetSpeed(const float speed)
-{
-	return false;
-}
-
-float IrrKlangAudioSample::GetSpeed() const
-{
-	return false;
+	Pause();
+	return m_sound->setPlayPosition(0);
 }
 
 bool IrrKlangAudioSample::SetVolume(const float volume)
 {
-	return false;
+	m_source->setDefaultVolume(volume);
+	return true;
 }
 
 float IrrKlangAudioSample::GetVolume() const
 {
-	return 0.0f;
+	return m_source->getDefaultVolume();
+}
+
+bool IrrKlangAudioSample::IsPlaying()
+{
+	return (!m_sound->getIsPaused() && !m_sound->isFinished());
+}
+
+GS_SAMPLE_STATUS IrrKlangAudioSample::GetStatus()
+{
+	if (IsPlaying())
+		return GSSS_PLAYING;
+	else if (m_sound->getIsPaused() && m_sound->getPlayPosition() > 0)
+		return GSSS_PAUSED;
+	else
+		return GSSS_STOPPED;
+}
+
+bool IrrKlangAudioSample::SetLoop(const bool enable)
+{
+	m_sound->setIsLooped(true);
+	m_loop = enable;
+	return true;
+}
+
+bool IrrKlangAudioSample::GetLoop() const
+{
+	return m_sound->isLooped();
+}
+
+bool IrrKlangAudioSample::Pause()
+{
+	m_sound->setIsPaused(true);
+	return true;
+}
+
+GS_SAMPLE_TYPE IrrKlangAudioSample::GetType() const
+{
+	return m_type;
+}
+
+bool IrrKlangAudioSample::SetSpeed(const float speed)
+{
+	return m_sound->setPlaybackSpeed(speed);
+}
+
+float IrrKlangAudioSample::GetSpeed() const
+{
+	return m_sound->getPlaybackSpeed();
 }
 
 bool IrrKlangAudioSample::SetPan(const float pan)
 {
-	return false;
+	m_sound->setPan(pan);
+	return true;
 }
 
 float IrrKlangAudioSample::GetPan() const
 {
-	return 0.0f;
+	return m_sound->getPan();
 }
 
 } // namespace gs2d

@@ -21,6 +21,10 @@ int SDL_main (int argc, char **argv)
 	gs2d::InputPtr input = gs2d::CreateInput(0, true);
 	gs2d::AudioPtr audio = gs2d::CreateAudio(0);
 	{
+		AudioSamplePtr music = audio->LoadSampleFromFile(fileIOHub->GetResourceDirectory() + "resources/banjo.mp3", fileManager, GSST_MUSIC);
+		if (music)
+			music->Play();
+
 		gs2d::SpritePtr tileset(video->CreateSprite(fileIOHub->GetResourceDirectory() + "resources/tileset.png"));
 		tileset->SetupSpriteRects(2, 2);
 		tileset->SetRect(2);
@@ -92,6 +96,25 @@ int SDL_main (int argc, char **argv)
 					input->SetCursorPosition((screenSize * 0.5f).ToVector2i());
 				}
 			}
+
+			if (input->GetKeyState(GSK_P) == GSKS_HIT)
+			{
+				music->Pause();
+			}
+			if (input->GetKeyState(GSK_S) == GSKS_HIT)
+			{
+				music->Stop();
+			}
+			if (input->GetKeyState(GSK_G) == GSKS_HIT)
+			{
+				music->Play();
+			}
+			if (music->GetStatus() == GSSS_PAUSED)
+				ShowMessage("paused\n", GSMT_INFO);
+			if (music->GetStatus() == GSSS_STOPPED)
+				ShowMessage("stopped\n", GSMT_INFO);
+			if (music->GetStatus() == GSSS_PLAYING)
+				ShowMessage("playing\n", GSMT_INFO);
 
 			video->BeginSpriteScene();
 

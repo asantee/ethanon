@@ -123,6 +123,9 @@ bool SDLWindow::StartApplication(
 
 	SDL_EnableUNICODE(1);
 
+	chdir(m_fileIOHub->GetResourceDirectory().c_str());
+
+
 	return true;
 }
 
