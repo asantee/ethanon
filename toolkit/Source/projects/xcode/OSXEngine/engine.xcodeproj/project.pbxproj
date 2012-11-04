@@ -7,29 +7,48 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7469472C1646C4F400CCD9D3 /* gs2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 746947291646C4C700CCD9D3 /* gs2d.framework */; };
+		7469472D1646C50200CCD9D3 /* gs2d.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 746947291646C4C700CCD9D3 /* gs2d.framework */; };
+		7487A5231646DD3E002DD331 /* ETHSpeedTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7487A5211646DD3E002DD331 /* ETHSpeedTimer.cpp */; };
+		7487A5241646DD3E002DD331 /* ETHSpeedTimer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7487A5221646DD3E002DD331 /* ETHSpeedTimer.h */; };
 		74F00AD71646B9EB00B8B51B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F00AD61646B9EB00B8B51B /* Cocoa.framework */; };
 		74F00AE11646B9EB00B8B51B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 74F00ADF1646B9EB00B8B51B /* InfoPlist.strings */; };
-		74F00AFB1646BBCA00B8B51B /* gs2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F00AF31646BAB200B8B51B /* gs2d.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		74F00AF21646BAB200B8B51B /* PBXContainerItemProxy */ = {
+		746947281646C4C700CCD9D3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 74F00AEE1646BAB200B8B51B /* gs2d.xcodeproj */;
+			containerPortal = 746947241646C4C700CCD9D3 /* gs2d.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 74F3A4F61632E3870064C9A5;
 			remoteInfo = gs2d;
 		};
-		74F00AF41646BADF00B8B51B /* PBXContainerItemProxy */ = {
+		7469472A1646C4ED00CCD9D3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 74F00AEE1646BAB200B8B51B /* gs2d.xcodeproj */;
+			containerPortal = 746947241646C4C700CCD9D3 /* gs2d.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 74F3A4F51632E3870064C9A5;
 			remoteInfo = gs2d;
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		74F00B0B1646C09100B8B51B /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				7469472D1646C50200CCD9D3 /* gs2d.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		746947241646C4C700CCD9D3 /* gs2d.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = gs2d.xcodeproj; path = /Users/blackdog/Documents/workspace/ethanon/toolkit/Source/projects/xcode/../../src/gs2d/projects/xcode/gs2d/gs2d.xcodeproj; sourceTree = "<absolute>"; };
+		7487A5211646DD3E002DD331 /* ETHSpeedTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHSpeedTimer.cpp; path = ../../../../src/engine/Util/ETHSpeedTimer.cpp; sourceTree = "<group>"; };
+		7487A5221646DD3E002DD331 /* ETHSpeedTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHSpeedTimer.h; path = ../../../../src/engine/Util/ETHSpeedTimer.h; sourceTree = "<group>"; };
 		74F00AD31646B9EB00B8B51B /* engine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = engine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		74F00AD61646B9EB00B8B51B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		74F00AD91646B9EB00B8B51B /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -38,7 +57,6 @@
 		74F00ADE1646B9EB00B8B51B /* engine-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "engine-Info.plist"; sourceTree = "<group>"; };
 		74F00AE01646B9EB00B8B51B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		74F00AE21646B9EB00B8B51B /* engine-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "engine-Prefix.pch"; sourceTree = "<group>"; };
-		74F00AEE1646BAB200B8B51B /* gs2d.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = gs2d.xcodeproj; path = /Users/blackdog/Documents/workspace/ethanon/toolkit/Source/projects/xcode/../../src/gs2d/projects/xcode/gs2d/gs2d.xcodeproj; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,7 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				74F00AFB1646BBCA00B8B51B /* gs2d.framework in Frameworks */,
+				7469472C1646C4F400CCD9D3 /* gs2d.framework in Frameworks */,
 				74F00AD71646B9EB00B8B51B /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -54,13 +72,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		746947251646C4C700CCD9D3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				746947291646C4C700CCD9D3 /* gs2d.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7487A51F1646DD24002DD331 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				7487A5211646DD3E002DD331 /* ETHSpeedTimer.cpp */,
+				7487A5221646DD3E002DD331 /* ETHSpeedTimer.h */,
+			);
+			name = Util;
+			sourceTree = "<group>";
+		};
 		74F00AC71646B9EB00B8B51B = {
 			isa = PBXGroup;
 			children = (
 				74F00ADC1646B9EB00B8B51B /* engine */,
 				74F00AD51646B9EB00B8B51B /* Frameworks */,
 				74F00AD41646B9EB00B8B51B /* Products */,
-				74F00AEE1646BAB200B8B51B /* gs2d.xcodeproj */,
+				746947241646C4C700CCD9D3 /* gs2d.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
@@ -94,6 +129,7 @@
 		74F00ADC1646B9EB00B8B51B /* engine */ = {
 			isa = PBXGroup;
 			children = (
+				7487A51F1646DD24002DD331 /* Util */,
 				74F00ADD1646B9EB00B8B51B /* Supporting Files */,
 			);
 			path = engine;
@@ -109,14 +145,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		74F00AEF1646BAB200B8B51B /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				74F00AF31646BAB200B8B51B /* gs2d.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -124,6 +152,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7487A5241646DD3E002DD331 /* ETHSpeedTimer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,11 +167,12 @@
 				74F00ACF1646B9EB00B8B51B /* Frameworks */,
 				74F00AD01646B9EB00B8B51B /* Headers */,
 				74F00AD11646B9EB00B8B51B /* Resources */,
+				74F00B0B1646C09100B8B51B /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				74F00AF51646BADF00B8B51B /* PBXTargetDependency */,
+				7469472B1646C4ED00CCD9D3 /* PBXTargetDependency */,
 			);
 			name = engine;
 			productName = engine;
@@ -170,8 +200,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 74F00AEF1646BAB200B8B51B /* Products */;
-					ProjectRef = 74F00AEE1646BAB200B8B51B /* gs2d.xcodeproj */;
+					ProductGroup = 746947251646C4C700CCD9D3 /* Products */;
+					ProjectRef = 746947241646C4C700CCD9D3 /* gs2d.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -182,11 +212,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		74F00AF31646BAB200B8B51B /* gs2d.framework */ = {
+		746947291646C4C700CCD9D3 /* gs2d.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = gs2d.framework;
-			remoteRef = 74F00AF21646BAB200B8B51B /* PBXContainerItemProxy */;
+			remoteRef = 746947281646C4C700CCD9D3 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -207,16 +237,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7487A5231646DD3E002DD331 /* ETHSpeedTimer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		74F00AF51646BADF00B8B51B /* PBXTargetDependency */ = {
+		7469472B1646C4ED00CCD9D3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = gs2d;
-			targetProxy = 74F00AF41646BADF00B8B51B /* PBXContainerItemProxy */;
+			targetProxy = 7469472A1646C4ED00CCD9D3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -293,7 +324,14 @@
 				FRAMEWORK_VERSION = A;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "engine/engine-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					MACOSX,
+				);
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../../src/gs2d/vendors/BoostSDK\"";
 				INFOPLIST_FILE = "engine/engine-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.7;
 				WRAPPER_EXTENSION = framework;
@@ -310,7 +348,10 @@
 				FRAMEWORK_VERSION = A;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "engine/engine-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = MACOSX;
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../../src/gs2d/vendors/BoostSDK\"";
 				INFOPLIST_FILE = "engine/engine-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.7;
 				WRAPPER_EXTENSION = framework;
@@ -336,6 +377,7 @@
 				74F00AEA1646B9EB00B8B51B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

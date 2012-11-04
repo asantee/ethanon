@@ -2,9 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:../../src/gs2d/projects/xcode/gs2d/gs2d.xcodeproj">
+      location = "group:OSXMachine/machine.xcodeproj">
    </FileRef>
    <FileRef
-      location = "container:OSXEngine/engine/engine.xcodeproj">
+      location = "group:OSXEngine/engine.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:../../src/gs2d/projects/xcode/gs2d/gs2d.xcodeproj">
    </FileRef>
 </Workspace>
