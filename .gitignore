@@ -49,6 +49,13 @@ toolkit/Source/src/gs2d/projects/xcode/gs2d/gs2dtested.xcodeproj/project.xcworks
 toolkit/Source/src/gs2d/projects/xcode/gs2dtestbed/gs2dtestbed.xcodeproj/xcuserdata/
 toolkit/Source/src/gs2d/projects/xcode/gs2dtestbed/gs2dtestbed.xcodeproj/project.xcworkspace/xcuserdata/
 
+/*xcuserdata/
+*/xcuserdata/
+xcuserdata/
+/*xcuserdata/*
+*/xcuserdata/*
+xcuserdata/*
+
 # Android generated files
 toolkit/Source/src/gs2d/projects/Android/Ethanon/bin/
 toolkit/Source/src/gs2d/projects/Android/Ethanon/gen/
@@ -68,7 +75,7 @@ editor.exe
 *.cl.cfg
 
 # xcode
-toolkit/Source/projects/xcode/assets/*
+toolkit/Source/projects/xcode/iOS/assets/*
 
 # Visual Studio binary output paths and files
 *#bin#/
