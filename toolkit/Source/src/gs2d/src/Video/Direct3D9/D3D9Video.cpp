@@ -297,7 +297,6 @@ D3D9Video::D3D9Video(
 	m_scissor(Rect2D(0,0,0,0)),
 	m_alphaMode(AM_PIXEL),
 	m_textureFilter(TM_ALWAYS),
-	m_nVideoModes(0),
 	m_cursorHidden(false),
 	m_quit(false),
 	m_windowPos(Vector2i(0,0)),
@@ -1313,7 +1312,7 @@ bool D3D9Video::DrawRectangle(const Vector2 &v2Pos, const Vector2 &v2Size,
 
 Video::VIDEO_MODE D3D9Video::GetVideoMode(const unsigned int modeIdx) const
 {
-	if (modeIdx >= m_nVideoModes)
+	if (modeIdx >= m_modes.size())
 	{
 		VIDEO_MODE mode;
 		mode.width = mode.height = 0;
@@ -1337,7 +1336,7 @@ unsigned int D3D9Video::GetVideoModeCount() const
 		}
 		SetDisplayModes(m_pD3D);
 	}
-	return m_nVideoModes;
+	return m_modes.size();
 }
 
 bool D3D9Video::StartApplication(const unsigned int width, const unsigned int height,
@@ -1501,7 +1500,7 @@ bool D3D9Video::StartApplication(const unsigned int width, const unsigned int he
 	{
 		if (!windowed)
 		{
-			const int nMode = m_nVideoModes/3;
+			const int nMode = m_modes.size() / 3;
 			d3dpp.BackBufferFormat = (D3DFORMAT)m_modes[nMode].idx;
 			d3dpp.BackBufferWidth  = m_screenDim.x = m_modes[nMode].width;
 			d3dpp.BackBufferHeight = m_screenDim.y = m_modes[nMode].height;
@@ -1686,14 +1685,14 @@ float D3D9Video::GetElapsedTimeF(const TIME_UNITY unity) const
 	return elapsedTime;
 }
 
-void D3D9Video::SetDisplayModes(IDirect3D9 *pD3D)
+void D3D9Video::SetDisplayModes(IDirect3D9 *pD3D) const
 {
 	//retrieves all supported video modes
 	const unsigned int n16bit = pD3D->GetAdapterModeCount(D3DADAPTER_DEFAULT, D3DFMT_R5G6B5);
 	const unsigned int n32bit = pD3D->GetAdapterModeCount(D3DADAPTER_DEFAULT, D3DFMT_X8R8G8B8);
-	m_nVideoModes = n16bit+n32bit;
+	const unsigned int nVideoModes = n16bit + n32bit;
 	D3DDISPLAYMODE mode;
-	m_modes.resize(m_nVideoModes);
+	m_modes.resize(nVideoModes);
 
 	unsigned int t;
 	for (t = 0; t < n16bit; t++)
@@ -1704,7 +1703,7 @@ void D3D9Video::SetDisplayModes(IDirect3D9 *pD3D)
 		m_modes[t].idx = mode.Format;
 		m_modes[t].pf = Texture::PF_16BIT;
 	}
-	for (t=n16bit; t<m_nVideoModes; t++)
+	for (t = n16bit; t < nVideoModes; t++)
 	{
 		pD3D->EnumAdapterModes(D3DADAPTER_DEFAULT, D3DFMT_X8R8G8B8, t-n16bit, &mode);
 		m_modes[t].width  = mode.Width;

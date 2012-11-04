@@ -63,7 +63,7 @@ class D3D9Video : public Video
 	bool m_quit;
 	std::vector<BLEND_MODE> m_blendModes;
 	IDirect3DDevice9* m_pDevice;
-	IDirect3D9* m_pD3D;
+	mutable IDirect3D9* m_pD3D;
 	math::Vector2i m_windowedDim;
 	math::Vector2i m_topBarSize;
 
@@ -82,8 +82,7 @@ class D3D9Video : public Video
 	void ForwardCommand(const str_type::string& cmd);
 	str_type::string PullCommands();
 
-	std::vector<VIDEO_MODE> m_modes;
-	unsigned int m_nVideoModes;
+	mutable std::vector<VIDEO_MODE> m_modes;
 	TEXTUREFILTER_MODE m_textureFilter;
 	D3D9CgShaderContextPtr m_shaderContext;
 	ShaderPtr m_pCurrentPS,
@@ -93,7 +92,7 @@ class D3D9Video : public Video
 			  m_fastVS;
 
 	void ComputeFPSRate();
-	void SetDisplayModes(IDirect3D9* pD3D);
+	void SetDisplayModes(IDirect3D9* pD3D) const;
 	static LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	static void RemoveFromTargetList(Sprite *pSprite);
