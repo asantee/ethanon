@@ -7,30 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7469472C1646C4F400CCD9D3 /* gs2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 746947291646C4C700CCD9D3 /* gs2d.framework */; };
-		7469472D1646C50200CCD9D3 /* gs2d.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 746947291646C4C700CCD9D3 /* gs2d.framework */; };
+		7421F02F1646F0B600C55BAE /* ETHPolygon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F02D1646F0B600C55BAE /* ETHPolygon.cpp */; };
+		7421F0301646F0B600C55BAE /* ETHPolygon.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F02E1646F0B600C55BAE /* ETHPolygon.h */; };
+		7421F0321646F11400C55BAE /* gs2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F0311646F11400C55BAE /* gs2d.framework */; };
 		7487A5231646DD3E002DD331 /* ETHSpeedTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7487A5211646DD3E002DD331 /* ETHSpeedTimer.cpp */; };
 		7487A5241646DD3E002DD331 /* ETHSpeedTimer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7487A5221646DD3E002DD331 /* ETHSpeedTimer.h */; };
 		74F00AD71646B9EB00B8B51B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F00AD61646B9EB00B8B51B /* Cocoa.framework */; };
 		74F00AE11646B9EB00B8B51B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 74F00ADF1646B9EB00B8B51B /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		746947281646C4C700CCD9D3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 746947241646C4C700CCD9D3 /* gs2d.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 74F3A4F61632E3870064C9A5;
-			remoteInfo = gs2d;
-		};
-		7469472A1646C4ED00CCD9D3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 746947241646C4C700CCD9D3 /* gs2d.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 74F3A4F51632E3870064C9A5;
-			remoteInfo = gs2d;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		74F00B0B1646C09100B8B51B /* CopyFiles */ = {
@@ -39,14 +23,15 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				7469472D1646C50200CCD9D3 /* gs2d.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		746947241646C4C700CCD9D3 /* gs2d.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = gs2d.xcodeproj; path = /Users/blackdog/Documents/workspace/ethanon/toolkit/Source/projects/xcode/../../src/gs2d/projects/xcode/gs2d/gs2d.xcodeproj; sourceTree = "<absolute>"; };
+		7421F02D1646F0B600C55BAE /* ETHPolygon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHPolygon.cpp; path = ../../../../src/engine/Physics/ETHPolygon.cpp; sourceTree = "<group>"; };
+		7421F02E1646F0B600C55BAE /* ETHPolygon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHPolygon.h; path = ../../../../src/engine/Physics/ETHPolygon.h; sourceTree = "<group>"; };
+		7421F0311646F11400C55BAE /* gs2d.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = gs2d.framework; path = "../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gxkgpuwgwqxighfefncafkvqrxui/Build/Products/Debug/gs2d.framework"; sourceTree = "<group>"; };
 		7487A5211646DD3E002DD331 /* ETHSpeedTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHSpeedTimer.cpp; path = ../../../../src/engine/Util/ETHSpeedTimer.cpp; sourceTree = "<group>"; };
 		7487A5221646DD3E002DD331 /* ETHSpeedTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHSpeedTimer.h; path = ../../../../src/engine/Util/ETHSpeedTimer.h; sourceTree = "<group>"; };
 		74F00AD31646B9EB00B8B51B /* engine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = engine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -64,7 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7469472C1646C4F400CCD9D3 /* gs2d.framework in Frameworks */,
+				7421F0321646F11400C55BAE /* gs2d.framework in Frameworks */,
 				74F00AD71646B9EB00B8B51B /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -72,12 +57,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		746947251646C4C700CCD9D3 /* Products */ = {
+		7421F02B1646F0A900C55BAE /* Physics */ = {
 			isa = PBXGroup;
 			children = (
-				746947291646C4C700CCD9D3 /* gs2d.framework */,
+				7421F02D1646F0B600C55BAE /* ETHPolygon.cpp */,
+				7421F02E1646F0B600C55BAE /* ETHPolygon.h */,
 			);
-			name = Products;
+			name = Physics;
 			sourceTree = "<group>";
 		};
 		7487A51F1646DD24002DD331 /* Util */ = {
@@ -92,10 +78,10 @@
 		74F00AC71646B9EB00B8B51B = {
 			isa = PBXGroup;
 			children = (
+				7421F0311646F11400C55BAE /* gs2d.framework */,
 				74F00ADC1646B9EB00B8B51B /* engine */,
 				74F00AD51646B9EB00B8B51B /* Frameworks */,
 				74F00AD41646B9EB00B8B51B /* Products */,
-				746947241646C4C700CCD9D3 /* gs2d.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
@@ -129,6 +115,7 @@
 		74F00ADC1646B9EB00B8B51B /* engine */ = {
 			isa = PBXGroup;
 			children = (
+				7421F02B1646F0A900C55BAE /* Physics */,
 				7487A51F1646DD24002DD331 /* Util */,
 				74F00ADD1646B9EB00B8B51B /* Supporting Files */,
 			);
@@ -153,6 +140,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7487A5241646DD3E002DD331 /* ETHSpeedTimer.h in Headers */,
+				7421F0301646F0B600C55BAE /* ETHPolygon.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -172,7 +160,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				7469472B1646C4ED00CCD9D3 /* PBXTargetDependency */,
 			);
 			name = engine;
 			productName = engine;
@@ -198,28 +185,12 @@
 			mainGroup = 74F00AC71646B9EB00B8B51B;
 			productRefGroup = 74F00AD41646B9EB00B8B51B /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 746947251646C4C700CCD9D3 /* Products */;
-					ProjectRef = 746947241646C4C700CCD9D3 /* gs2d.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				74F00AD21646B9EB00B8B51B /* engine */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		746947291646C4C700CCD9D3 /* gs2d.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = gs2d.framework;
-			remoteRef = 746947281646C4C700CCD9D3 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		74F00AD11646B9EB00B8B51B /* Resources */ = {
@@ -238,18 +209,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				7487A5231646DD3E002DD331 /* ETHSpeedTimer.cpp in Sources */,
+				7421F02F1646F0B600C55BAE /* ETHPolygon.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		7469472B1646C4ED00CCD9D3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = gs2d;
-			targetProxy = 7469472A1646C4ED00CCD9D3 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		74F00ADF1646B9EB00B8B51B /* InfoPlist.strings */ = {
@@ -321,6 +285,10 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gxkgpuwgwqxighfefncafkvqrxui/Build/Products/Debug\"",
+				);
 				FRAMEWORK_VERSION = A;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "engine/engine-Prefix.pch";
@@ -329,7 +297,10 @@
 					"$(inherited)",
 					MACOSX,
 				);
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../../src/gs2d/vendors/BoostSDK\"";
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../../../src/gs2d/vendors/BoostSDK\"",
+					"\"$(SRCROOT)/../../../src/gs2d/src\"",
+				);
 				INFOPLIST_FILE = "engine/engine-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
@@ -346,11 +317,18 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gxkgpuwgwqxighfefncafkvqrxui/Build/Products/Debug\"",
+				);
 				FRAMEWORK_VERSION = A;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "engine/engine-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = MACOSX;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../../src/gs2d/vendors/BoostSDK\"";
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../../../src/gs2d/vendors/BoostSDK\"",
+					"\"$(SRCROOT)/../../../src/gs2d/src\"",
+				);
 				INFOPLIST_FILE = "engine/engine-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
