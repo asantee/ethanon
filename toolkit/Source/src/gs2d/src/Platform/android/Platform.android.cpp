@@ -28,6 +28,11 @@
 
 namespace gs2d {
 
+str_type::string Application::GetPlatformName()
+{
+	return "android";
+}
+
 void ShowMessage(str_type::stringstream& stream, const GS_MESSAGE_TYPE type)
 {
 	if (type == GSMT_INFO)
