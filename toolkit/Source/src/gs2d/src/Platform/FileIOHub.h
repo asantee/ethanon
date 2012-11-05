@@ -71,7 +71,10 @@ protected:
 
 typedef boost::shared_ptr<FileIOHub> FileIOHubPtr;
 
-FileIOHubPtr CreateFileIOHub(const Platform::FileManagerPtr& fileManager, const gs2d::str_type::string& fontDirectory);
+FileIOHubPtr CreateFileIOHub(
+	const Platform::FileManagerPtr& fileManager,
+	const gs2d::str_type::string& fontDirectory,
+	const gs2d::str_type::string& resourceDirectory = GS_L(""));
 
 }
 

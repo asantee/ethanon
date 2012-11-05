@@ -26,6 +26,17 @@
 
 namespace Platform {
 
+FileIOHubPtr CreateFileIOHub(
+	const Platform::FileManagerPtr& fileManager,
+	const gs2d::str_type::string& fontDirectory,
+	const gs2d::str_type::string& resourceDirectory)
+{
+	if (resourceDirectory == GS_L(""))
+		return FileIOHubPtr(new WindowsFileIOHub(fileManager, fontDirectory));
+	else
+		return FileIOHubPtr(new WindowsFileIOHub(fileManager, fontDirectory, resourceDirectory));
+}
+
 WindowsFileIOHub::WindowsFileIOHub(Platform::FileManagerPtr fileManager, const gs2d::str_type::string& bitmapFontSearchDirectory) :
 	FileIOHub(fileManager,
 			  GetModuleDirectory(), GetModuleDirectory(),
