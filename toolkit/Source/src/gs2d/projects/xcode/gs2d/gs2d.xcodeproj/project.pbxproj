@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7421F2DF1648173000C55BAE /* StdFileManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F2DD1648173000C55BAE /* StdFileManager.cpp */; };
+		7421F2E01648173000C55BAE /* StdFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F2DE1648173000C55BAE /* StdFileManager.h */; };
 		742D34161637A64300A447A2 /* SDL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 742D34151637A64300A447A2 /* SDL.framework */; };
 		7458F0801635F18300D48019 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7458F07F1635F18300D48019 /* OpenGL.framework */; };
 		7458F0841636CFB200D48019 /* MacOSXFileIOHub.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7458F0821636CFB200D48019 /* MacOSXFileIOHub.mm */; };
 		7458F0851636CFB200D48019 /* MacOSXFileIOHub.h in Headers */ = {isa = PBXBuildFile; fileRef = 7458F0831636CFB200D48019 /* MacOSXFileIOHub.h */; };
-		7458F088163708C600D48019 /* StdAnsiFileManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7458F086163708C600D48019 /* StdAnsiFileManager.cpp */; };
-		7458F089163708C600D48019 /* StdAnsiFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7458F087163708C600D48019 /* StdAnsiFileManager.h */; };
 		7458F09016377D9000D48019 /* GLRectRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7458F08E16377D9000D48019 /* GLRectRenderer.cpp */; };
 		7458F09116377D9000D48019 /* GLRectRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7458F08F16377D9000D48019 /* GLRectRenderer.h */; };
 		7458F09A1637A44800D48019 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7458F0971637A3E000D48019 /* SDL.framework */; };
@@ -120,12 +120,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7421F2DD1648173000C55BAE /* StdFileManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StdFileManager.cpp; path = ../../../../src/Platform/StdFileManager.cpp; sourceTree = "<group>"; };
+		7421F2DE1648173000C55BAE /* StdFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StdFileManager.h; path = ../../../../src/Platform/StdFileManager.h; sourceTree = "<group>"; };
 		742D34151637A64300A447A2 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = ../../../vendors/SDL.framework; sourceTree = "<group>"; };
 		7458F07F1635F18300D48019 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		7458F0821636CFB200D48019 /* MacOSXFileIOHub.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MacOSXFileIOHub.mm; path = ../../../../src/Platform/macosx/MacOSXFileIOHub.mm; sourceTree = "<group>"; };
 		7458F0831636CFB200D48019 /* MacOSXFileIOHub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacOSXFileIOHub.h; path = ../../../../src/Platform/macosx/MacOSXFileIOHub.h; sourceTree = "<group>"; };
-		7458F086163708C600D48019 /* StdAnsiFileManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StdAnsiFileManager.cpp; path = ../../../../src/Platform/StdAnsiFileManager.cpp; sourceTree = "<group>"; };
-		7458F087163708C600D48019 /* StdAnsiFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StdAnsiFileManager.h; path = ../../../../src/Platform/StdAnsiFileManager.h; sourceTree = "<group>"; };
 		7458F08E16377D9000D48019 /* GLRectRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLRectRenderer.cpp; path = ../../../../src/Video/GL/GLRectRenderer.cpp; sourceTree = "<group>"; };
 		7458F08F16377D9000D48019 /* GLRectRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLRectRenderer.h; path = ../../../../src/Video/GL/GLRectRenderer.h; sourceTree = "<group>"; };
 		7458F09216377E3A00D48019 /* GLInclude.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLInclude.h; path = ../../../../src/Video/GL/GLInclude.h; sourceTree = "<group>"; };
@@ -273,8 +273,8 @@
 				7473CAA116330391005DB920 /* FileManager.h */,
 				7473CAA216330391005DB920 /* Logger.cpp */,
 				7473CAA316330391005DB920 /* Logger.h */,
-				7458F086163708C600D48019 /* StdAnsiFileManager.cpp */,
-				7458F087163708C600D48019 /* StdAnsiFileManager.h */,
+				7421F2DD1648173000C55BAE /* StdFileManager.cpp */,
+				7421F2DE1648173000C55BAE /* StdFileManager.h */,
 			);
 			name = Platform;
 			sourceTree = "<group>";
@@ -539,7 +539,6 @@
 				7473CAE116358AC6005DB920 /* GLVideo.h in Headers */,
 				7473CAE61635ABD9005DB920 /* GLSDLVideo.h in Headers */,
 				7458F0851636CFB200D48019 /* MacOSXFileIOHub.h in Headers */,
-				7458F089163708C600D48019 /* StdAnsiFileManager.h in Headers */,
 				7458F09116377D9000D48019 /* GLRectRenderer.h in Headers */,
 				7486553F16382C000096D869 /* GLCgShaderContext.h in Headers */,
 				7486554416383A540096D869 /* GLCgShader.h in Headers */,
@@ -558,6 +557,7 @@
 				74838D4116414F6A0027CFFC /* SDLJoystick.h in Headers */,
 				74838D451641A8650027CFFC /* IrrKlangAudio.h in Headers */,
 				74838D4A1641AC700027CFFC /* IrrKlangAudioSample.h in Headers */,
+				7421F2E01648173000C55BAE /* StdFileManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -663,7 +663,6 @@
 				7473CAE016358AC6005DB920 /* GLVideo.cpp in Sources */,
 				7473CAE51635ABD9005DB920 /* GLSDLVideo.cpp in Sources */,
 				7458F0841636CFB200D48019 /* MacOSXFileIOHub.mm in Sources */,
-				7458F088163708C600D48019 /* StdAnsiFileManager.cpp in Sources */,
 				7458F09016377D9000D48019 /* GLRectRenderer.cpp in Sources */,
 				7486553E16382C000096D869 /* GLCgShaderContext.cpp in Sources */,
 				7486554316383A540096D869 /* GLCgShader.cpp in Sources */,
@@ -679,6 +678,7 @@
 				74838D4016414F6A0027CFFC /* SDLJoystick.cpp in Sources */,
 				74838D441641A8650027CFFC /* IrrKlangAudio.cpp in Sources */,
 				74838D491641AC700027CFFC /* IrrKlangAudioSample.cpp in Sources */,
+				7421F2DF1648173000C55BAE /* StdFileManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

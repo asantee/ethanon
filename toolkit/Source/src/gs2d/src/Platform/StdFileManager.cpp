@@ -27,6 +27,21 @@ using namespace gs2d;
 
 namespace Platform {
 
+static FILE* LoadFile(const str_type::string& fileName)
+{
+	FILE* file = 0;
+	#ifdef GS2D_STR_TYPE_WCHAR
+	 #if _MSC_VER >= 1500
+	  _wfopen_s(&file, fileName.c_str(), L"rb");
+	 #else
+	  file = wfopen(fileName.c_str(), L"rb");
+	 #endif
+	#else
+	 file = fopen(fileName.c_str(), "rb");
+	#endif
+	return file;
+}
+
 bool StdFileManager::IsLoaded() const
 {
 	return true;
@@ -34,25 +49,19 @@ bool StdFileManager::IsLoaded() const
 
 bool StdFileManager::GetFileBuffer(const str_type::string &fileName, FileBuffer &out)
 {
-	#if _MSC_VER >= 1500
-		FILE *f = 0;
-		_wfopen_s(&f, fileName.c_str(), GS_L("rb"));
-	#else
-		FILE *f = _wfopen(fileName.c_str(), GS_L("rb"));
-	#endif
-
-	if (!f)
+	FILE* file = LoadFile(fileName);
+	if (!file)
 	{
 		return false;
 	}
 	
-	fseek(f, 0, SEEK_END);
-	const std::size_t len = ftell(f);
-	fseek(f, 0, SEEK_SET);
+	fseek(file, 0, SEEK_END);
+	const std::size_t len = ftell(file);
+	fseek(file, 0, SEEK_SET);
 
 	out = FileBuffer(new _FileBuffer<unsigned char>(len));
-	fread(out->GetAddress(), len, 1, f);
-	fclose(f);
+	fread(out->GetAddress(), len, 1, file);
+	fclose(file);
 	return true;
 }
 
@@ -61,7 +70,6 @@ bool StdFileManager::GetUTF8BOMFileString(const str_type::string &fileName, str_
 	FileBuffer buffer;
 	if (GetFileBuffer(fileName, buffer))
 	{
-		// TODO optimize it
 		str_type::stringstream ss;
 		unsigned char *adr = buffer->GetAddress();
 		for (unsigned long t = 3; t < buffer->GetBufferSize(); t++)
@@ -82,7 +90,6 @@ bool StdFileManager::GetAnsiFileString(const str_type::string &fileName, str_typ
 	FileBuffer buffer;
 	if (GetFileBuffer(fileName, buffer))
 	{
-		// TODO optimize it
 		str_type::stringstream ss;
 		unsigned char *adr = buffer->GetAddress();
 		for (unsigned long t = 0; t < buffer->GetBufferSize(); t++)
@@ -102,16 +109,14 @@ bool StdFileManager::GetAnsiFileString(const str_type::string &fileName, str_typ
 
 bool StdFileManager::GetUTF16FileString(const str_type::string &fileName, str_type::string &out)
 {
-	FILE* file = 0;
-	errno_t err = _wfopen_s(&file, fileName.c_str(), L"rb");
-	if (err || !file)
+	FILE* file = LoadFile(fileName);
+	if (!file)
 	{
 		return false;
 	}
 
 	long length = 0;
 
-	// const std::size_t wcharSize = sizeof(wchar_t);
 	const std::size_t BOMsize = 2;
 
 	fseek(file, 0, SEEK_END);
@@ -137,9 +142,8 @@ bool StdFileManager::GetUTF16FileString(const str_type::string &fileName, str_ty
 
 bool StdFileManager::FileExists(const gs2d::str_type::string& fileName) const
 {
-	FILE* file = 0;
-	errno_t err = _wfopen_s(&file, fileName.c_str(), L"rb");
-	if (err || !file)
+	FILE* file = LoadFile(fileName);
+	if (!file)
 	{
 		return false;
 	}

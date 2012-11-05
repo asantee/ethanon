@@ -10,8 +10,8 @@
 		7421F0241646EF8400C55BAE /* gs2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F01D1646EE4A00C55BAE /* gs2d.framework */; };
 		7421F02A1646EFCB00C55BAE /* gs2d.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F01D1646EE4A00C55BAE /* gs2d.framework */; };
 		7421F2D316474D3800C55BAE /* box2d.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F2D116474D2800C55BAE /* box2d.framework */; };
+		7421F2DB164805C000C55BAE /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F2DA164805C000C55BAE /* main.cpp */; };
 		746947371646C59C00CCD9D3 /* SDLMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 746947351646C59C00CCD9D3 /* SDLMain.m */; };
-		746947381646C59C00CCD9D3 /* main.sdl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 746947361646C59C00CCD9D3 /* main.sdl.cpp */; };
 		7487A4F21646C7D7002DD331 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7487A4F11646C7D7002DD331 /* SDL.framework */; };
 		7487A51D1646DC43002DD331 /* engine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7487A4EB1646C75B002DD331 /* engine.framework */; };
 		7487A51E1646DC57002DD331 /* engine.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7487A4EB1646C75B002DD331 /* engine.framework */; };
@@ -77,9 +77,9 @@
 /* Begin PBXFileReference section */
 		7421F0181646EE4A00C55BAE /* gs2d.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = gs2d.xcodeproj; path = /Users/blackdog/Documents/workspace/ethanon/toolkit/Source/projects/xcode/../../src/gs2d/projects/xcode/gs2d/gs2d.xcodeproj; sourceTree = "<absolute>"; };
 		7421F2CC16474D2800C55BAE /* box2d.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = box2d.xcodeproj; path = /Users/blackdog/Documents/workspace/ethanon/toolkit/Source/projects/xcode/../../src/box2d/Build/xcode/box2d.xcodeproj; sourceTree = "<absolute>"; };
+		7421F2DA164805C000C55BAE /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../../../src/machine/main.cpp; sourceTree = "<group>"; };
 		746947341646C59C00CCD9D3 /* SDLMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLMain.h; path = ../../../../src/gs2d/src/Platform/macosx/SDLMain.h; sourceTree = "<group>"; };
 		746947351646C59C00CCD9D3 /* SDLMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLMain.m; path = ../../../../src/gs2d/src/Platform/macosx/SDLMain.m; sourceTree = "<group>"; };
-		746947361646C59C00CCD9D3 /* main.sdl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.sdl.cpp; path = ../../../../src/machine/main.sdl.cpp; sourceTree = "<group>"; };
 		7487A4D91646C749002DD331 /* engine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = engine.xcodeproj; path = ../OSXEngine/engine.xcodeproj; sourceTree = "<group>"; };
 		7487A4F11646C7D7002DD331 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = ../../../src/gs2d/vendors/SDL.framework; sourceTree = "<group>"; };
 		7487A53E1646DFC2002DD331 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = ../../../src/gs2d/vendors/SDL.framework; sourceTree = "<group>"; };
@@ -176,7 +176,7 @@
 		74F00B231646C12200B8B51B /* machine */ = {
 			isa = PBXGroup;
 			children = (
-				746947361646C59C00CCD9D3 /* main.sdl.cpp */,
+				7421F2DA164805C000C55BAE /* main.cpp */,
 				74F00B241646C12200B8B51B /* Supporting Files */,
 			);
 			path = machine;
@@ -299,7 +299,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				746947371646C59C00CCD9D3 /* SDLMain.m in Sources */,
-				746947381646C59C00CCD9D3 /* main.sdl.cpp in Sources */,
+				7421F2DB164805C000C55BAE /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -403,6 +403,7 @@
 					"\"$(SRCROOT)/../../../src/gs2d/src\"",
 					"\"$(SRCROOT)/../../../src/gs2d/vendors/SDL.framework/Headers\"",
 					"\"$(SRCROOT)/../../../src/gs2d/vendors/BoostSDK\"",
+					"\"$(SRCROOT)/../../../src/box2d\"",
 				);
 				INFOPLIST_FILE = "machine/machine-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
@@ -430,6 +431,7 @@
 					"\"$(SRCROOT)/../../../src/gs2d/src\"",
 					"\"$(SRCROOT)/../../../src/gs2d/vendors/SDL.framework/Headers\"",
 					"\"$(SRCROOT)/../../../src/gs2d/vendors/BoostSDK\"",
+					"\"$(SRCROOT)/../../../src/box2d\"",
 				);
 				INFOPLIST_FILE = "machine/machine-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";

@@ -27,7 +27,12 @@
 
 namespace Platform {
 
-#warning TO-DO move to platform
+FileIOHubPtr CreateFileIOHub(const Platform::FileManagerPtr& fileManager, const gs2d::str_type::string& fontDirectory)
+{
+	return FileIOHubPtr(new MacOSXFileIOHub(fileManager, fontDirectory));
+}
+
+#warning TO-DO move to Platform
 static NSString* CreateDirectory(NSString* dir)
 {
 	NSFileManager* fileManager = [NSFileManager defaultManager];

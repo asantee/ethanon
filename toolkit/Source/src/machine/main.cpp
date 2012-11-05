@@ -20,8 +20,13 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#ifdef _DEBUG
- #ifdef WIN32
+#ifdef MACOSX
+ #define GS2D_USE_SDL
+ #include <SDL/SDL.h>
+#endif
+
+#ifdef WIN32
+ #ifdef _DEBUG
   #define _CRTDBG_MAP_ALLOC
   #include <stdlib.h>
   #include <crtdbg.h>
@@ -34,38 +39,47 @@
 
 #include <Platform/Platform.h>
 #include <Platform/StdFileManager.h>
-#include <Platform/windows/WindowsFileIOHub.h>
+#include <Platform/FileIOHub.h>
 #include "../engine/ETHEngine.h"
 #include "../engine/Platform/ETHAppEnmlFile.h"
-
-#include <conio.h>
 
 using namespace gs2d;
 using namespace gs2d::math;
 
-void ProcParams(int argc, wchar_t* argv[], bool& compileAndRun, bool& testing, bool& wait)
+void ProcParams(const int argc, gs2d::str_type::char_t* argv[], bool& compileAndRun, bool& testing, bool& wait)
 {
 	compileAndRun = true;
 	testing = false;
-	wait = true;
-	for (int t=0; t<argc; t++)
+
+	#ifdef MACOSX
+	 wait = false;
+	#else
+	 wait = true;
+	#endif
+
+	for (int t = 0; t < argc; t++)
 	{
-		if (wcscmp(argv[t], L"-nowait") == 0)
+		const gs2d::str_type::string arg = argv[t];
+		if (arg == GS_L("-nowait"))
 		{
 			wait = false;
 		}
-		if (wcscmp(argv[t], L"-testing") == 0)
+		if (arg == GS_L("-testing"))
 		{
 			testing = true;
 		}
-		if (wcscmp(argv[t], L"-norun") == 0)
+		if (arg == GS_L("-norun"))
 		{
 			compileAndRun = false;
 		}
 	}
 }
 
-int wmain(int argc, wchar_t* argv[])
+#ifdef GS2D_USE_SDL
+ int SDL_main(int argc, char **argv)
+#else
+ int wmain(int argc, gs2d::str_type::char_t* argv[])
+#endif
 {
 	bool compileAndRun, testing, wait;
 	ProcParams(argc, argv, compileAndRun, testing, wait);
@@ -73,7 +87,8 @@ int wmain(int argc, wchar_t* argv[])
 	ETHScriptWrapper::SetArgv(argv);
 
 	Platform::FileManagerPtr fileManager(new Platform::StdFileManager());
-	Platform::FileIOHubPtr fileIOHub(new Platform::WindowsFileIOHub(fileManager, ETHDirectories::GetBitmapFontDirectory()));
+
+	Platform::FileIOHubPtr fileIOHub = Platform::CreateFileIOHub(fileManager, ETHDirectories::GetBitmapFontDirectory());
 	const str_type::string resourceDirectory = fileIOHub->GetResourceDirectory(); 
 
 	const ETHAppEnmlFile app(resourceDirectory + ETH_APP_PROPERTIES_FILE, Platform::FileManagerPtr(new Platform::StdFileManager), GS_L("windows"));
@@ -116,21 +131,19 @@ int wmain(int argc, wchar_t* argv[])
 	if (aborted)
 	{
 		ETH_STREAM_DECL(ss) << std::endl << GS_L("The program executed an ilegal operation and was aborted");
-		//logger->Log(ss.str(), Platform::Logger::ERROR);
-		std::wcerr << ss.str() << std::endl;
+		GS2D_CERR << ss.str() << std::endl;
 	}
 
 	if (!compileAndRun && !aborted)
 	{
 		ETH_STREAM_DECL(ss) << std::endl << GS_L("Compilation successful: 0 errors");
-		//logger->Log(ss.str(), Platform::Logger::INFO);
-		std::wcerr << ss.str() << std::endl;
+		GS2D_CERR << ss.str() << std::endl;
 	}
 
 	if (aborted && wait)
 	{
-		std::wcout << GS_L("Press any key to continue...") << std::endl;
-		while(!_getch());
+		GS2D_COUT << GS_L("Press any key to continue...") << GS_L("\n");
+		std::cin.get();
 	}
 
 	#ifdef _DEBUG
