@@ -1867,11 +1867,6 @@ boost::any D3D9Video::GetGraphicContext()
 	return m_pDevice;
 }
 
-str_type::string D3D9Video::GetPlatformName() const
-{
-	return GS_L("windows");
-}
-
 Platform::FileIOHubPtr D3D9Video::GetFileIOHub()
 {
 	return m_fileIOHub;

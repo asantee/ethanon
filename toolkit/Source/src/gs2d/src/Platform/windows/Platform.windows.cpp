@@ -23,13 +23,18 @@
 #ifdef WIN32
 
 #include "../Platform.h"
+#include "../../Application.h"
 #include "../FileLogger.h"
 #include "../../unicode/utf8converter.h"
 #include <assert.h>
 #include <windows.h>
 
-namespace Platform {
+gs2d::str_type::string gs2d::Application::GetPlatformName()
+{
+	return GS_L("windows");
+}
 
+namespace Platform {
 
 #ifdef _DEBUG
 gs2d::str_type::string GetModuleDirectory()

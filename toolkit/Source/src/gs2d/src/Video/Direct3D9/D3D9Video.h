@@ -288,8 +288,6 @@ public:
 	bool IsCursorHidden() const;
 	void Quit();
 
-	str_type::string GetPlatformName() const;
-
 	Platform::FileIOHubPtr GetFileIOHub();
 
 private:
