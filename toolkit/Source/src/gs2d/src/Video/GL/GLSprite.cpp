@@ -202,13 +202,6 @@ bool GLSprite::DrawShaped(
 	// draw the one-pixel-quad applying the vertex shader
 	video->GetRectRenderer().Draw(m_rectMode);
 
-	if (pCurrentPS)
-	{
-		pCurrentPS->UnbindShader();
-	}
-	
-	pCurrentVS->UnbindShader();
-
 	return true;
 }
 
