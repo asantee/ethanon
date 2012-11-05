@@ -91,7 +91,7 @@ void FileLogger::WriteToWarningLog(const gs2d::str_type::string& str)
 
 bool FileLogger::Log(const gs2d::str_type::string& str, const TYPE& type) const
 {
-	#if defined(WIN32) || defined(APPLE_IOS)
+	#if defined(WIN32) || defined(APPLE_IOS) || defined(MACOSX)
 	GS2D_COUT << str << std::endl;
 	if (type == ERROR)
 	{
