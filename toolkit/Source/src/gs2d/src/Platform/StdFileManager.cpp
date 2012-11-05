@@ -118,6 +118,7 @@ bool StdFileManager::GetUTF16FileString(const str_type::string &fileName, str_ty
 	long length = 0;
 
 	const std::size_t BOMsize = 2;
+	const std::size_t charSize = 2;
 
 	fseek(file, 0, SEEK_END);
 	length = ftell(file);
@@ -128,13 +129,17 @@ bool StdFileManager::GetUTF16FileString(const str_type::string &fileName, str_ty
 		return false;
 	}
 
-	out.resize(length);
-	unsigned short usOrder;
+	unsigned short usOrder = 0;
 	fread(&usOrder, BOMsize, 1, file);
-	if (fread(&out[0], length - BOMsize, 1, file) != 1)
+
+	out.clear();
+	unsigned short currChar = 0;
+	while (fread(&currChar, charSize, 1, file) == 1)
 	{
-		fclose(file);
-		return false;
+		str_type::stringstream ss;
+		const str_type::char_t ch = static_cast<str_type::char_t>(currChar);
+		ss << ch;
+		out = out.append(ss.str());
 	}
 	fclose(file);
 	return true;
