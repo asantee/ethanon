@@ -5,11 +5,18 @@ default
 	width = 800;
 	height = 800;
 	definedWords = IN_TESTBED,DUPLICATE_DIRECTIVE,ETHANON_SAMPLE;
+	windowed = true;
+	vsync = true;
 }
 
 windows
 {
-	windowed = true;
-	vsync = true;
 	definedWords = DUPLICATE_DIRECTIVE,RUNNING_ON_WINDOWS,DUPLICATE_DIRECTIVE,DUPLICATE_DIRECTIVE;
+}
+
+macosx
+{
+	height = 600;
+	definedWords = DUPLICATE_DIRECTIVE,RUNNING_ON_MACOSX,DUPLICATE_DIRECTIVE,DUPLICATE_DIRECTIVE;
+	//richLighting = false;
 }

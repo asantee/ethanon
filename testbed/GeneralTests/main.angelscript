@@ -26,6 +26,10 @@ void main()
 	++counter;
 	#endif
 
+	#if RUNNING_ON_MACOSX
+	++counter;
+	#endif
+
 	#if DUPLICATE_DIRECTIVE
 	counter++;
 	#endif

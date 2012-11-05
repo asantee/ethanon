@@ -6,6 +6,7 @@
 bool PACKING_TEST_PERFORMED = false;
 void testPacking()
 {
+	#if WINDOWS
 	if (IsPackLoadingEnabled())
 	{
 		print("IsPackLoadingEnabled function test 01 failed!\x07");
@@ -25,6 +26,7 @@ void testPacking()
 	LoadSprite("entities/pilar_ct_small.png");
 
 	DisablePackLoading();
+	#endif
 	PACKING_TEST_PERFORMED = true;
 }
 
