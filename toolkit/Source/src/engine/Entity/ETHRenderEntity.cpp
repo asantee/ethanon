@@ -79,6 +79,10 @@ bool ETHRenderEntity::DrawAmbientPass(const float maxHeight, const float minHeig
 	{
 		m_pLightmap->SetAsTexture(1);
 	}
+	else
+	{
+		video->UnsetTexture(1);
+	}
 
 	// sets the alpha mode according to the entity's property
 	const Video::ALPHA_MODE& am = GetBlendMode();
