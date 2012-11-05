@@ -120,6 +120,35 @@ void GLCgShader::UnbindShader()
 		DisableTextures();
 }
 
+void GLCgShader::DisableIfEnabled(CGparameter param)
+{
+	for (std::list<CGparameter>::iterator iter = m_enabledTextures.begin(); iter != m_enabledTextures.end();)
+	{
+		if ((*iter) == param)
+		{
+			cgGLDisableTextureParameter((*iter));
+			iter = m_enabledTextures.erase(iter);
+		}
+		else
+		{
+			++iter;
+		}
+	}
+}
+
+void GLCgShader::DisableTextures()
+{
+	for (std::list<CGparameter>::iterator iter = m_enabledTextures.begin(); iter != m_enabledTextures.end(); ++iter)
+	{
+		cgGLDisableTextureParameter((*iter));
+	}
+	m_enabledTextures.clear();
+	m_video->UnsetTexture(0);
+	m_video->UnsetTexture(1);
+	m_video->UnsetTexture(2);
+	m_video->UnsetTexture(4);
+}
+
 bool GLCgShader::SetShader()
 {
 	cgGLBindProgram(m_cgProgam);
@@ -368,6 +397,8 @@ bool GLCgShader::SetTexture(const str_type::string& name, TextureWeakPtr pTextur
 	if (!param)
 		return ShowInvalidParameterWarning(m_shaderName, name);
 
+	DisableIfEnabled(param);
+
 	const GLTexture* textureObj = (GLTexture*)(pTexture.lock().get());
 	
 	cgGLSetTextureParameter(param, textureObj->GetTextureInfo().m_texture);
@@ -381,15 +412,6 @@ bool GLCgShader::SetTexture(const str_type::string& name, TextureWeakPtr pTextur
 	// add this param to the enabled texture parameter list so we can disable it with DisableTetureParams
 	m_enabledTextures.push_back(param);
 	return true;
-}
-
-void GLCgShader::DisableTextures()
-{
-	for (std::list<CGparameter>::iterator iter = m_enabledTextures.begin(); iter != m_enabledTextures.end(); ++iter)
-	{
-		cgGLDisableTextureParameter((*iter));
-	}
-	m_enabledTextures.clear();
 }
 
 } // namespace gs2d

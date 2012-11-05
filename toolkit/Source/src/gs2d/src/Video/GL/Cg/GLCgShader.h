@@ -65,6 +65,8 @@ class GLCgShader : public Shader, RecoverableResource
 	bool CreateCgProgram();
 	void DestroyCgProgram();
 
+	void DisableIfEnabled(CGparameter param);
+
 public:
 	GLCgShader(GLVideo* video);
 	~GLCgShader();
