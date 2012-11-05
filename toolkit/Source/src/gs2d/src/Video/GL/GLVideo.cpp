@@ -42,7 +42,7 @@ GLVideo::GLVideo() :
 	m_textureExtension(GL_TEXTURE_2D),
 	m_alphaMode(AM_UNKNOWN),
 	m_alphaRef(0.02),
-	m_zFar(5.0f),
+	m_zFar(1.0f),
 	m_zNear(0.0f),
 	m_backgroundColor(gs2d::constant::BLACK),
 	m_rendering(false),
@@ -118,6 +118,7 @@ void GLVideo::Enable2DStates()
 	glDisable(GL_LIGHTING);
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DITHER);
+	glDepthFunc(GL_LEQUAL);
 
 	glActiveTexture(GL_TEXTURE1);
 	glEnable(GL_TEXTURE_2D);
@@ -199,6 +200,12 @@ bool GLVideo::UnsetTexture(const unsigned int passIdx)
 	{
 	case 0:
 		glActiveTexture(GL_TEXTURE0);
+		break;
+	case 2:
+		glActiveTexture(GL_TEXTURE2);
+		break;
+	case 3:
+		glActiveTexture(GL_TEXTURE3);
 		break;
 	case 1:
 	default:
@@ -289,7 +296,7 @@ bool GLVideo::BeginSpriteScene(const Color& dwBGColor)
 	math::Vector4 v;
 	v.SetColor(color);
 	glClearColor(v.x, v.y, v.z, v.w);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	SetAlphaMode(Video::AM_PIXEL);
 	
 	m_rendering = true;
@@ -389,9 +396,9 @@ bool GLVideo::SetPixelShader(ShaderPtr pShader)
 			ShowMessage("The shader set is not a fragment program", GSMT_ERROR);
 			return false;
 		}
-		if (m_currentPS != pShader && m_currentPS)
-			m_currentPS->UnbindShader();
 	}
+	if (m_currentPS != pShader && m_currentPS)
+		m_currentPS->UnbindShader();
 
 	m_currentPS = pShader;
 	return true;
