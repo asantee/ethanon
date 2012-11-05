@@ -7,14 +7,186 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7421F02F1646F0B600C55BAE /* ETHPolygon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F02D1646F0B600C55BAE /* ETHPolygon.cpp */; };
-		7421F0301646F0B600C55BAE /* ETHPolygon.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F02E1646F0B600C55BAE /* ETHPolygon.h */; };
-		7421F0321646F11400C55BAE /* gs2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F0311646F11400C55BAE /* gs2d.framework */; };
-		7487A5231646DD3E002DD331 /* ETHSpeedTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7487A5211646DD3E002DD331 /* ETHSpeedTimer.cpp */; };
-		7487A5241646DD3E002DD331 /* ETHSpeedTimer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7487A5221646DD3E002DD331 /* ETHSpeedTimer.h */; };
+		7421F0441647257B00C55BAE /* ETHDrawable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F03E1647257B00C55BAE /* ETHDrawable.cpp */; };
+		7421F0451647257B00C55BAE /* ETHDrawable.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F03F1647257B00C55BAE /* ETHDrawable.h */; };
+		7421F0461647257B00C55BAE /* ETHDrawableManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0401647257B00C55BAE /* ETHDrawableManager.cpp */; };
+		7421F0471647257B00C55BAE /* ETHDrawableManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0411647257B00C55BAE /* ETHDrawableManager.h */; };
+		7421F0481647257B00C55BAE /* ETHParticleDrawer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0421647257B00C55BAE /* ETHParticleDrawer.cpp */; };
+		7421F0491647257B00C55BAE /* ETHParticleDrawer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0431647257B00C55BAE /* ETHParticleDrawer.h */; };
+		7421F0601647258E00C55BAE /* ETHCustomDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F04A1647258E00C55BAE /* ETHCustomDataManager.cpp */; };
+		7421F0611647258E00C55BAE /* ETHCustomDataManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F04B1647258E00C55BAE /* ETHCustomDataManager.h */; };
+		7421F0621647258E00C55BAE /* ETHEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F04C1647258E00C55BAE /* ETHEntity.cpp */; };
+		7421F0631647258E00C55BAE /* ETHEntity.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F04D1647258E00C55BAE /* ETHEntity.h */; };
+		7421F0641647258E00C55BAE /* ETHEntityArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F04E1647258E00C55BAE /* ETHEntityArray.cpp */; };
+		7421F0651647258E00C55BAE /* ETHEntityArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F04F1647258E00C55BAE /* ETHEntityArray.h */; };
+		7421F0661647258E00C55BAE /* ETHEntityCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0501647258E00C55BAE /* ETHEntityCache.cpp */; };
+		7421F0671647258E00C55BAE /* ETHEntityCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0511647258E00C55BAE /* ETHEntityCache.h */; };
+		7421F0681647258E00C55BAE /* ETHEntityChooser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0521647258E00C55BAE /* ETHEntityChooser.cpp */; };
+		7421F0691647258E00C55BAE /* ETHEntityChooser.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0531647258E00C55BAE /* ETHEntityChooser.h */; };
+		7421F06A1647258E00C55BAE /* ETHEntityController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0541647258E00C55BAE /* ETHEntityController.cpp */; };
+		7421F06B1647258E00C55BAE /* ETHEntityController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0551647258E00C55BAE /* ETHEntityController.h */; };
+		7421F06C1647258E00C55BAE /* ETHEntityProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0561647258E00C55BAE /* ETHEntityProperties.cpp */; };
+		7421F06D1647258E00C55BAE /* ETHEntityProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0571647258E00C55BAE /* ETHEntityProperties.h */; };
+		7421F06E1647258E00C55BAE /* ETHLight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0581647258E00C55BAE /* ETHLight.cpp */; };
+		7421F06F1647258E00C55BAE /* ETHLight.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0591647258E00C55BAE /* ETHLight.h */; };
+		7421F0701647258E00C55BAE /* ETHRenderEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F05A1647258E00C55BAE /* ETHRenderEntity.cpp */; };
+		7421F0711647258E00C55BAE /* ETHRenderEntity.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F05B1647258E00C55BAE /* ETHRenderEntity.h */; };
+		7421F0721647258E00C55BAE /* ETHScriptEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F05C1647258E00C55BAE /* ETHScriptEntity.cpp */; };
+		7421F0731647258E00C55BAE /* ETHScriptEntity.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F05D1647258E00C55BAE /* ETHScriptEntity.h */; };
+		7421F0741647258E00C55BAE /* ETHSpriteEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F05E1647258E00C55BAE /* ETHSpriteEntity.cpp */; };
+		7421F0751647258E00C55BAE /* ETHSpriteEntity.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F05F1647258E00C55BAE /* ETHSpriteEntity.h */; };
+		7421F0791647259E00C55BAE /* ETHEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0761647259E00C55BAE /* ETHEngine.cpp */; };
+		7421F07A1647259E00C55BAE /* ETHEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0771647259E00C55BAE /* ETHEngine.h */; };
+		7421F07B1647259E00C55BAE /* ETHTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0781647259E00C55BAE /* ETHTypes.h */; };
+		7421F080164725AD00C55BAE /* ETHParticleManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F07C164725AD00C55BAE /* ETHParticleManager.cpp */; };
+		7421F081164725AD00C55BAE /* ETHParticleManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F07D164725AD00C55BAE /* ETHParticleManager.h */; };
+		7421F082164725AD00C55BAE /* ETHParticleSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F07E164725AD00C55BAE /* ETHParticleSystem.cpp */; };
+		7421F083164725AD00C55BAE /* ETHParticleSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F07F164725AD00C55BAE /* ETHParticleSystem.h */; };
+		7421F09A164725C100C55BAE /* ETHCollisionBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F084164725C100C55BAE /* ETHCollisionBox.cpp */; };
+		7421F09B164725C100C55BAE /* ETHCollisionBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F085164725C100C55BAE /* ETHCollisionBox.h */; };
+		7421F09C164725C100C55BAE /* ETHCompoundShape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F086164725C100C55BAE /* ETHCompoundShape.cpp */; };
+		7421F09D164725C100C55BAE /* ETHCompoundShape.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F087164725C100C55BAE /* ETHCompoundShape.h */; };
+		7421F09E164725C100C55BAE /* ETHContactListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F088164725C100C55BAE /* ETHContactListener.cpp */; };
+		7421F09F164725C100C55BAE /* ETHContactListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F089164725C100C55BAE /* ETHContactListener.h */; };
+		7421F0A0164725C100C55BAE /* ETHDestructionListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F08A164725C100C55BAE /* ETHDestructionListener.cpp */; };
+		7421F0A1164725C100C55BAE /* ETHDestructionListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F08B164725C100C55BAE /* ETHDestructionListener.h */; };
+		7421F0A2164725C100C55BAE /* ETHJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F08C164725C100C55BAE /* ETHJoint.cpp */; };
+		7421F0A3164725C100C55BAE /* ETHJoint.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F08D164725C100C55BAE /* ETHJoint.h */; };
+		7421F0A4164725C100C55BAE /* ETHPhysicsController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F08E164725C100C55BAE /* ETHPhysicsController.cpp */; };
+		7421F0A5164725C100C55BAE /* ETHPhysicsController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F08F164725C100C55BAE /* ETHPhysicsController.h */; };
+		7421F0A6164725C100C55BAE /* ETHPhysicsEntityController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F090164725C100C55BAE /* ETHPhysicsEntityController.cpp */; };
+		7421F0A7164725C100C55BAE /* ETHPhysicsEntityController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F091164725C100C55BAE /* ETHPhysicsEntityController.h */; };
+		7421F0A8164725C100C55BAE /* ETHPhysicsSimulator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F092164725C100C55BAE /* ETHPhysicsSimulator.cpp */; };
+		7421F0A9164725C100C55BAE /* ETHPhysicsSimulator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F093164725C100C55BAE /* ETHPhysicsSimulator.h */; };
+		7421F0AC164725C100C55BAE /* ETHRayCastCallback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F096164725C100C55BAE /* ETHRayCastCallback.cpp */; };
+		7421F0AD164725C100C55BAE /* ETHRayCastCallback.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F097164725C100C55BAE /* ETHRayCastCallback.h */; };
+		7421F0AE164725C100C55BAE /* ETHRevoluteJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F098164725C100C55BAE /* ETHRevoluteJoint.cpp */; };
+		7421F0AF164725C100C55BAE /* ETHRevoluteJoint.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F099164725C100C55BAE /* ETHRevoluteJoint.h */; };
+		7421F0B2164725E100C55BAE /* ETHPolygon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0B0164725E100C55BAE /* ETHPolygon.cpp */; };
+		7421F0B3164725E100C55BAE /* ETHPolygon.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0B1164725E100C55BAE /* ETHPolygon.h */; };
+		7421F0BA164725F800C55BAE /* ETHAppEnmlFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0B4164725F800C55BAE /* ETHAppEnmlFile.cpp */; };
+		7421F0BB164725F800C55BAE /* ETHAppEnmlFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0B5164725F800C55BAE /* ETHAppEnmlFile.h */; };
+		7421F0BC164725F800C55BAE /* ETHPlatform.abstract.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0B6164725F800C55BAE /* ETHPlatform.abstract.cpp */; };
+		7421F0BD164725F800C55BAE /* ETHPlatform.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0B7164725F800C55BAE /* ETHPlatform.h */; };
+		7421F0BE164725F800C55BAE /* FileListing.abstract.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0B8164725F800C55BAE /* FileListing.abstract.cpp */; };
+		7421F0BF164725F800C55BAE /* FileListing.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0B9164725F800C55BAE /* FileListing.h */; };
+		7421F0C81647260900C55BAE /* ETHDirectories.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0C01647260900C55BAE /* ETHDirectories.cpp */; };
+		7421F0C91647260900C55BAE /* ETHDirectories.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0C11647260900C55BAE /* ETHDirectories.h */; };
+		7421F0CA1647260900C55BAE /* ETHResourceManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0C21647260900C55BAE /* ETHResourceManager.cpp */; };
+		7421F0CB1647260900C55BAE /* ETHResourceManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0C31647260900C55BAE /* ETHResourceManager.h */; };
+		7421F0CC1647260900C55BAE /* ETHResourceProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0C41647260900C55BAE /* ETHResourceProvider.cpp */; };
+		7421F0CD1647260900C55BAE /* ETHResourceProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0C51647260900C55BAE /* ETHResourceProvider.h */; };
+		7421F0CE1647260900C55BAE /* ETHSpriteDensityManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0C61647260900C55BAE /* ETHSpriteDensityManager.cpp */; };
+		7421F0CF1647260900C55BAE /* ETHSpriteDensityManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0C71647260900C55BAE /* ETHSpriteDensityManager.h */; };
+		7421F0D91647261800C55BAE /* ETHBucketManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0D01647261800C55BAE /* ETHBucketManager.cpp */; };
+		7421F0DA1647261800C55BAE /* ETHBucketManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0D11647261800C55BAE /* ETHBucketManager.h */; };
+		7421F0DB1647261800C55BAE /* ETHEntityKillListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0D21647261800C55BAE /* ETHEntityKillListener.h */; };
+		7421F0DC1647261800C55BAE /* ETHScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0D31647261800C55BAE /* ETHScene.cpp */; };
+		7421F0DD1647261800C55BAE /* ETHScene.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0D41647261800C55BAE /* ETHScene.h */; };
+		7421F0DE1647261800C55BAE /* ETHSceneProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0D51647261800C55BAE /* ETHSceneProperties.cpp */; };
+		7421F0DF1647261800C55BAE /* ETHSceneProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0D61647261800C55BAE /* ETHSceneProperties.h */; };
+		7421F0E01647261800C55BAE /* ETHTempEntityHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0D71647261800C55BAE /* ETHTempEntityHandler.cpp */; };
+		7421F0E11647261800C55BAE /* ETHTempEntityHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0D81647261800C55BAE /* ETHTempEntityHandler.h */; };
+		7421F0F71647263700C55BAE /* ETHBinaryStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0E21647263700C55BAE /* ETHBinaryStream.cpp */; };
+		7421F0F81647263700C55BAE /* ETHBinaryStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0E31647263700C55BAE /* ETHBinaryStream.h */; };
+		7421F0F91647263700C55BAE /* ETHEntityDestructorManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0E41647263700C55BAE /* ETHEntityDestructorManager.cpp */; };
+		7421F0FA1647263700C55BAE /* ETHEntityDestructorManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0E51647263700C55BAE /* ETHEntityDestructorManager.h */; };
+		7421F0FB1647263700C55BAE /* ETHEntityDestructorScript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0E61647263700C55BAE /* ETHEntityDestructorScript.cpp */; };
+		7421F0FC1647263700C55BAE /* ETHEntityDestructorScript.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0E71647263700C55BAE /* ETHEntityDestructorScript.h */; };
+		7421F0FD1647263700C55BAE /* ETHScriptObjRegister.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0E81647263700C55BAE /* ETHScriptObjRegister.cpp */; };
+		7421F0FE1647263700C55BAE /* ETHScriptObjRegister.generic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0E91647263700C55BAE /* ETHScriptObjRegister.generic.cpp */; };
+		7421F0FF1647263700C55BAE /* ETHScriptObjRegister.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0EA1647263700C55BAE /* ETHScriptObjRegister.h */; };
+		7421F1011647263700C55BAE /* ETHScriptWrapper.Audio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0EC1647263700C55BAE /* ETHScriptWrapper.Audio.cpp */; };
+		7421F1021647263700C55BAE /* ETHScriptWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0ED1647263700C55BAE /* ETHScriptWrapper.cpp */; };
+		7421F1031647263700C55BAE /* ETHScriptWrapper.Drawing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0EE1647263700C55BAE /* ETHScriptWrapper.Drawing.cpp */; };
+		7421F1041647263700C55BAE /* ETHScriptWrapper.generic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0EF1647263700C55BAE /* ETHScriptWrapper.generic.cpp */; };
+		7421F1051647263700C55BAE /* ETHScriptWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0F01647263700C55BAE /* ETHScriptWrapper.h */; };
+		7421F1061647263700C55BAE /* ETHScriptWrapper.Math.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0F11647263700C55BAE /* ETHScriptWrapper.Math.cpp */; };
+		7421F1071647263700C55BAE /* ETHScriptWrapper.Math.generic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0F21647263700C55BAE /* ETHScriptWrapper.Math.generic.cpp */; };
+		7421F10A1647263700C55BAE /* ETHScriptWrapper.Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0F51647263700C55BAE /* ETHScriptWrapper.Scene.cpp */; };
+		7421F10B1647263700C55BAE /* ETHScriptWrapper.System.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0F61647263700C55BAE /* ETHScriptWrapper.System.cpp */; };
+		7421F1231647266600C55BAE /* ETHBackBufferTargetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F10C1647266600C55BAE /* ETHBackBufferTargetManager.cpp */; };
+		7421F1241647266600C55BAE /* ETHBackBufferTargetManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F10D1647266600C55BAE /* ETHBackBufferTargetManager.h */; };
+		7421F1251647266600C55BAE /* ETHDefaultDynamicBackBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F10E1647266600C55BAE /* ETHDefaultDynamicBackBuffer.cpp */; };
+		7421F1261647266600C55BAE /* ETHDefaultDynamicBackBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F10F1647266600C55BAE /* ETHDefaultDynamicBackBuffer.h */; };
+		7421F1271647266600C55BAE /* ETHDynamicBackBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F1101647266600C55BAE /* ETHDynamicBackBuffer.h */; };
+		7421F1281647266600C55BAE /* ETHFakeEyePositionManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F1111647266600C55BAE /* ETHFakeEyePositionManager.cpp */; };
+		7421F1291647266600C55BAE /* ETHFakeEyePositionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F1121647266600C55BAE /* ETHFakeEyePositionManager.h */; };
+		7421F12A1647266600C55BAE /* ETHLightingProfile.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F1131647266600C55BAE /* ETHLightingProfile.h */; };
+		7421F12B1647266600C55BAE /* ETHLightmapGen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F1141647266600C55BAE /* ETHLightmapGen.cpp */; };
+		7421F12C1647266600C55BAE /* ETHLightmapGen.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F1151647266600C55BAE /* ETHLightmapGen.h */; };
+		7421F12D1647266600C55BAE /* ETHNoDynamicBackBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F1161647266600C55BAE /* ETHNoDynamicBackBuffer.cpp */; };
+		7421F12E1647266600C55BAE /* ETHNoDynamicBackBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F1171647266600C55BAE /* ETHNoDynamicBackBuffer.h */; };
+		7421F12F1647266600C55BAE /* ETHParallaxManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F1181647266600C55BAE /* ETHParallaxManager.cpp */; };
+		7421F1301647266600C55BAE /* ETHParallaxManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F1191647266600C55BAE /* ETHParallaxManager.h */; };
+		7421F1311647266600C55BAE /* ETHPixelLightDiffuseSpecular.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F11A1647266600C55BAE /* ETHPixelLightDiffuseSpecular.cpp */; };
+		7421F1321647266600C55BAE /* ETHPixelLightDiffuseSpecular.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F11B1647266600C55BAE /* ETHPixelLightDiffuseSpecular.h */; };
+		7421F1331647266600C55BAE /* ETHShaderManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F11C1647266600C55BAE /* ETHShaderManager.cpp */; };
+		7421F1341647266600C55BAE /* ETHShaderManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F11D1647266600C55BAE /* ETHShaderManager.h */; };
+		7421F1351647266600C55BAE /* ETHShaders.cg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F11E1647266600C55BAE /* ETHShaders.cg.cpp */; };
+		7421F1371647266600C55BAE /* ETHShaders.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F1201647266600C55BAE /* ETHShaders.h */; };
+		7421F1381647266600C55BAE /* ETHVertexLightDiffuse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F1211647266600C55BAE /* ETHVertexLightDiffuse.cpp */; };
+		7421F1391647266600C55BAE /* ETHVertexLightDiffuse.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F1221647266600C55BAE /* ETHVertexLightDiffuse.h */; };
+		7421F1481647267300C55BAE /* ETHASUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F13A1647267300C55BAE /* ETHASUtil.cpp */; };
+		7421F1491647267300C55BAE /* ETHASUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F13B1647267300C55BAE /* ETHASUtil.h */; };
+		7421F14A1647267300C55BAE /* ETHDateTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F13C1647267300C55BAE /* ETHDateTime.cpp */; };
+		7421F14B1647267300C55BAE /* ETHDateTime.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F13D1647267300C55BAE /* ETHDateTime.h */; };
+		7421F14C1647267300C55BAE /* ETHFileChangeDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F13E1647267300C55BAE /* ETHFileChangeDetector.cpp */; };
+		7421F14D1647267300C55BAE /* ETHFileChangeDetector.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F13F1647267300C55BAE /* ETHFileChangeDetector.h */; };
+		7421F14E1647267300C55BAE /* ETHFrameTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F1401647267300C55BAE /* ETHFrameTimer.cpp */; };
+		7421F14F1647267300C55BAE /* ETHFrameTimer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F1411647267300C55BAE /* ETHFrameTimer.h */; };
+		7421F1501647267300C55BAE /* ETHGlobalScaleManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F1421647267300C55BAE /* ETHGlobalScaleManager.cpp */; };
+		7421F1511647267300C55BAE /* ETHGlobalScaleManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F1431647267300C55BAE /* ETHGlobalScaleManager.h */; };
+		7421F1521647267300C55BAE /* ETHInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F1441647267300C55BAE /* ETHInput.cpp */; };
+		7421F1531647267300C55BAE /* ETHInput.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F1451647267300C55BAE /* ETHInput.h */; };
+		7421F1541647267300C55BAE /* ETHSpeedTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F1461647267300C55BAE /* ETHSpeedTimer.cpp */; };
+		7421F1551647267300C55BAE /* ETHSpeedTimer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F1471647267300C55BAE /* ETHSpeedTimer.h */; };
+		7421F2981647415E00C55BAE /* aswrappedcall.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F28D1647415E00C55BAE /* aswrappedcall.h */; };
+		7421F2991647415E00C55BAE /* scriptarray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F28E1647415E00C55BAE /* scriptarray.cpp */; };
+		7421F29A1647415E00C55BAE /* scriptarray.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F28F1647415E00C55BAE /* scriptarray.h */; };
+		7421F29B1647415E00C55BAE /* scriptdictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F2901647415E00C55BAE /* scriptdictionary.cpp */; };
+		7421F29C1647415E00C55BAE /* scriptdictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F2911647415E00C55BAE /* scriptdictionary.h */; };
+		7421F29D1647415E00C55BAE /* scriptmath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F2921647415E00C55BAE /* scriptmath.cpp */; };
+		7421F29E1647415E00C55BAE /* scriptmath.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F2931647415E00C55BAE /* scriptmath.h */; };
+		7421F29F1647415E00C55BAE /* scriptmath2d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F2941647415E00C55BAE /* scriptmath2d.cpp */; };
+		7421F2A01647415E00C55BAE /* scriptmath2d.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F2951647415E00C55BAE /* scriptmath2d.h */; };
+		7421F2A11647415E00C55BAE /* scriptmath3d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F2961647415E00C55BAE /* scriptmath3d.cpp */; };
+		7421F2A21647415E00C55BAE /* scriptmath3d.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F2971647415E00C55BAE /* scriptmath3d.h */; };
+		7421F2AA1647416F00C55BAE /* scriptbuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F2A41647416F00C55BAE /* scriptbuilder.cpp */; };
+		7421F2AB1647416F00C55BAE /* scriptbuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F2A51647416F00C55BAE /* scriptbuilder.h */; };
+		7421F2AC1647416F00C55BAE /* scriptfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F2A61647416F00C55BAE /* scriptfile.cpp */; };
+		7421F2AD1647416F00C55BAE /* scriptfile.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F2A71647416F00C55BAE /* scriptfile.h */; };
+		7421F2AE1647416F00C55BAE /* scriptstdstring.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F2A81647416F00C55BAE /* scriptstdstring.cpp */; };
+		7421F2AF1647416F00C55BAE /* scriptstdstring.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F2A91647416F00C55BAE /* scriptstdstring.h */; };
+		7421F2B7164741F300C55BAE /* tinystr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F2B1164741F300C55BAE /* tinystr.cpp */; };
+		7421F2B8164741F300C55BAE /* tinystr.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F2B2164741F300C55BAE /* tinystr.h */; };
+		7421F2B9164741F300C55BAE /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F2B3164741F300C55BAE /* tinyxml.cpp */; };
+		7421F2BA164741F300C55BAE /* tinyxml.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F2B4164741F300C55BAE /* tinyxml.h */; };
+		7421F2BB164741F300C55BAE /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F2B5164741F300C55BAE /* tinyxmlerror.cpp */; };
+		7421F2BC164741F300C55BAE /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F2B6164741F300C55BAE /* tinyxmlparser.cpp */; };
+		7421F2CA164743F900C55BAE /* libas.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F2C6164743D200C55BAE /* libas.a */; };
+		7421F2D716474F2500C55BAE /* box2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F2D616474F2500C55BAE /* box2d.framework */; };
+		7421F2D916474F2900C55BAE /* gs2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F2D816474F2900C55BAE /* gs2d.framework */; };
 		74F00AD71646B9EB00B8B51B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F00AD61646B9EB00B8B51B /* Cocoa.framework */; };
 		74F00AE11646B9EB00B8B51B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 74F00ADF1646B9EB00B8B51B /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		7421F2C5164743D200C55BAE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7421F2C1164743D200C55BAE /* angelscript.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9B2358C50A2DC63E008FE303;
+			remoteInfo = as;
+		};
+		7421F2C8164743F400C55BAE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7421F2C1164743D200C55BAE /* angelscript.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 9B2358C40A2DC63E008FE303;
+			remoteInfo = as;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		74F00B0B1646C09100B8B51B /* CopyFiles */ = {
@@ -29,11 +201,166 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		7421F02D1646F0B600C55BAE /* ETHPolygon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHPolygon.cpp; path = ../../../../src/engine/Physics/ETHPolygon.cpp; sourceTree = "<group>"; };
-		7421F02E1646F0B600C55BAE /* ETHPolygon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHPolygon.h; path = ../../../../src/engine/Physics/ETHPolygon.h; sourceTree = "<group>"; };
-		7421F0311646F11400C55BAE /* gs2d.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = gs2d.framework; path = "../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gxkgpuwgwqxighfefncafkvqrxui/Build/Products/Debug/gs2d.framework"; sourceTree = "<group>"; };
-		7487A5211646DD3E002DD331 /* ETHSpeedTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHSpeedTimer.cpp; path = ../../../../src/engine/Util/ETHSpeedTimer.cpp; sourceTree = "<group>"; };
-		7487A5221646DD3E002DD331 /* ETHSpeedTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHSpeedTimer.h; path = ../../../../src/engine/Util/ETHSpeedTimer.h; sourceTree = "<group>"; };
+		7421F03E1647257B00C55BAE /* ETHDrawable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHDrawable.cpp; path = ../../../../src/engine/Drawing/ETHDrawable.cpp; sourceTree = "<group>"; };
+		7421F03F1647257B00C55BAE /* ETHDrawable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHDrawable.h; path = ../../../../src/engine/Drawing/ETHDrawable.h; sourceTree = "<group>"; };
+		7421F0401647257B00C55BAE /* ETHDrawableManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHDrawableManager.cpp; path = ../../../../src/engine/Drawing/ETHDrawableManager.cpp; sourceTree = "<group>"; };
+		7421F0411647257B00C55BAE /* ETHDrawableManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHDrawableManager.h; path = ../../../../src/engine/Drawing/ETHDrawableManager.h; sourceTree = "<group>"; };
+		7421F0421647257B00C55BAE /* ETHParticleDrawer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHParticleDrawer.cpp; path = ../../../../src/engine/Drawing/ETHParticleDrawer.cpp; sourceTree = "<group>"; };
+		7421F0431647257B00C55BAE /* ETHParticleDrawer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHParticleDrawer.h; path = ../../../../src/engine/Drawing/ETHParticleDrawer.h; sourceTree = "<group>"; };
+		7421F04A1647258E00C55BAE /* ETHCustomDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHCustomDataManager.cpp; path = ../../../../src/engine/Entity/ETHCustomDataManager.cpp; sourceTree = "<group>"; };
+		7421F04B1647258E00C55BAE /* ETHCustomDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHCustomDataManager.h; path = ../../../../src/engine/Entity/ETHCustomDataManager.h; sourceTree = "<group>"; };
+		7421F04C1647258E00C55BAE /* ETHEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntity.cpp; path = ../../../../src/engine/Entity/ETHEntity.cpp; sourceTree = "<group>"; };
+		7421F04D1647258E00C55BAE /* ETHEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntity.h; path = ../../../../src/engine/Entity/ETHEntity.h; sourceTree = "<group>"; };
+		7421F04E1647258E00C55BAE /* ETHEntityArray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityArray.cpp; path = ../../../../src/engine/Entity/ETHEntityArray.cpp; sourceTree = "<group>"; };
+		7421F04F1647258E00C55BAE /* ETHEntityArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityArray.h; path = ../../../../src/engine/Entity/ETHEntityArray.h; sourceTree = "<group>"; };
+		7421F0501647258E00C55BAE /* ETHEntityCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityCache.cpp; path = ../../../../src/engine/Entity/ETHEntityCache.cpp; sourceTree = "<group>"; };
+		7421F0511647258E00C55BAE /* ETHEntityCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityCache.h; path = ../../../../src/engine/Entity/ETHEntityCache.h; sourceTree = "<group>"; };
+		7421F0521647258E00C55BAE /* ETHEntityChooser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityChooser.cpp; path = ../../../../src/engine/Entity/ETHEntityChooser.cpp; sourceTree = "<group>"; };
+		7421F0531647258E00C55BAE /* ETHEntityChooser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityChooser.h; path = ../../../../src/engine/Entity/ETHEntityChooser.h; sourceTree = "<group>"; };
+		7421F0541647258E00C55BAE /* ETHEntityController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityController.cpp; path = ../../../../src/engine/Entity/ETHEntityController.cpp; sourceTree = "<group>"; };
+		7421F0551647258E00C55BAE /* ETHEntityController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityController.h; path = ../../../../src/engine/Entity/ETHEntityController.h; sourceTree = "<group>"; };
+		7421F0561647258E00C55BAE /* ETHEntityProperties.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityProperties.cpp; path = ../../../../src/engine/Entity/ETHEntityProperties.cpp; sourceTree = "<group>"; };
+		7421F0571647258E00C55BAE /* ETHEntityProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityProperties.h; path = ../../../../src/engine/Entity/ETHEntityProperties.h; sourceTree = "<group>"; };
+		7421F0581647258E00C55BAE /* ETHLight.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHLight.cpp; path = ../../../../src/engine/Entity/ETHLight.cpp; sourceTree = "<group>"; };
+		7421F0591647258E00C55BAE /* ETHLight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHLight.h; path = ../../../../src/engine/Entity/ETHLight.h; sourceTree = "<group>"; };
+		7421F05A1647258E00C55BAE /* ETHRenderEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHRenderEntity.cpp; path = ../../../../src/engine/Entity/ETHRenderEntity.cpp; sourceTree = "<group>"; };
+		7421F05B1647258E00C55BAE /* ETHRenderEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHRenderEntity.h; path = ../../../../src/engine/Entity/ETHRenderEntity.h; sourceTree = "<group>"; };
+		7421F05C1647258E00C55BAE /* ETHScriptEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptEntity.cpp; path = ../../../../src/engine/Entity/ETHScriptEntity.cpp; sourceTree = "<group>"; };
+		7421F05D1647258E00C55BAE /* ETHScriptEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHScriptEntity.h; path = ../../../../src/engine/Entity/ETHScriptEntity.h; sourceTree = "<group>"; };
+		7421F05E1647258E00C55BAE /* ETHSpriteEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHSpriteEntity.cpp; path = ../../../../src/engine/Entity/ETHSpriteEntity.cpp; sourceTree = "<group>"; };
+		7421F05F1647258E00C55BAE /* ETHSpriteEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHSpriteEntity.h; path = ../../../../src/engine/Entity/ETHSpriteEntity.h; sourceTree = "<group>"; };
+		7421F0761647259E00C55BAE /* ETHEngine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEngine.cpp; path = ../../../../src/engine/ETHEngine.cpp; sourceTree = "<group>"; };
+		7421F0771647259E00C55BAE /* ETHEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEngine.h; path = ../../../../src/engine/ETHEngine.h; sourceTree = "<group>"; };
+		7421F0781647259E00C55BAE /* ETHTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHTypes.h; path = ../../../../src/engine/ETHTypes.h; sourceTree = "<group>"; };
+		7421F07C164725AD00C55BAE /* ETHParticleManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHParticleManager.cpp; path = ../../../../src/engine/Particles/ETHParticleManager.cpp; sourceTree = "<group>"; };
+		7421F07D164725AD00C55BAE /* ETHParticleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHParticleManager.h; path = ../../../../src/engine/Particles/ETHParticleManager.h; sourceTree = "<group>"; };
+		7421F07E164725AD00C55BAE /* ETHParticleSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHParticleSystem.cpp; path = ../../../../src/engine/Particles/ETHParticleSystem.cpp; sourceTree = "<group>"; };
+		7421F07F164725AD00C55BAE /* ETHParticleSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHParticleSystem.h; path = ../../../../src/engine/Particles/ETHParticleSystem.h; sourceTree = "<group>"; };
+		7421F084164725C100C55BAE /* ETHCollisionBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHCollisionBox.cpp; path = ../../../../src/engine/Physics/ETHCollisionBox.cpp; sourceTree = "<group>"; };
+		7421F085164725C100C55BAE /* ETHCollisionBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHCollisionBox.h; path = ../../../../src/engine/Physics/ETHCollisionBox.h; sourceTree = "<group>"; };
+		7421F086164725C100C55BAE /* ETHCompoundShape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHCompoundShape.cpp; path = ../../../../src/engine/Physics/ETHCompoundShape.cpp; sourceTree = "<group>"; };
+		7421F087164725C100C55BAE /* ETHCompoundShape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHCompoundShape.h; path = ../../../../src/engine/Physics/ETHCompoundShape.h; sourceTree = "<group>"; };
+		7421F088164725C100C55BAE /* ETHContactListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHContactListener.cpp; path = ../../../../src/engine/Physics/ETHContactListener.cpp; sourceTree = "<group>"; };
+		7421F089164725C100C55BAE /* ETHContactListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHContactListener.h; path = ../../../../src/engine/Physics/ETHContactListener.h; sourceTree = "<group>"; };
+		7421F08A164725C100C55BAE /* ETHDestructionListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHDestructionListener.cpp; path = ../../../../src/engine/Physics/ETHDestructionListener.cpp; sourceTree = "<group>"; };
+		7421F08B164725C100C55BAE /* ETHDestructionListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHDestructionListener.h; path = ../../../../src/engine/Physics/ETHDestructionListener.h; sourceTree = "<group>"; };
+		7421F08C164725C100C55BAE /* ETHJoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHJoint.cpp; path = ../../../../src/engine/Physics/ETHJoint.cpp; sourceTree = "<group>"; };
+		7421F08D164725C100C55BAE /* ETHJoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHJoint.h; path = ../../../../src/engine/Physics/ETHJoint.h; sourceTree = "<group>"; };
+		7421F08E164725C100C55BAE /* ETHPhysicsController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHPhysicsController.cpp; path = ../../../../src/engine/Physics/ETHPhysicsController.cpp; sourceTree = "<group>"; };
+		7421F08F164725C100C55BAE /* ETHPhysicsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHPhysicsController.h; path = ../../../../src/engine/Physics/ETHPhysicsController.h; sourceTree = "<group>"; };
+		7421F090164725C100C55BAE /* ETHPhysicsEntityController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHPhysicsEntityController.cpp; path = ../../../../src/engine/Physics/ETHPhysicsEntityController.cpp; sourceTree = "<group>"; };
+		7421F091164725C100C55BAE /* ETHPhysicsEntityController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHPhysicsEntityController.h; path = ../../../../src/engine/Physics/ETHPhysicsEntityController.h; sourceTree = "<group>"; };
+		7421F092164725C100C55BAE /* ETHPhysicsSimulator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHPhysicsSimulator.cpp; path = ../../../../src/engine/Physics/ETHPhysicsSimulator.cpp; sourceTree = "<group>"; };
+		7421F093164725C100C55BAE /* ETHPhysicsSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHPhysicsSimulator.h; path = ../../../../src/engine/Physics/ETHPhysicsSimulator.h; sourceTree = "<group>"; };
+		7421F096164725C100C55BAE /* ETHRayCastCallback.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHRayCastCallback.cpp; path = ../../../../src/engine/Physics/ETHRayCastCallback.cpp; sourceTree = "<group>"; };
+		7421F097164725C100C55BAE /* ETHRayCastCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHRayCastCallback.h; path = ../../../../src/engine/Physics/ETHRayCastCallback.h; sourceTree = "<group>"; };
+		7421F098164725C100C55BAE /* ETHRevoluteJoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHRevoluteJoint.cpp; path = ../../../../src/engine/Physics/ETHRevoluteJoint.cpp; sourceTree = "<group>"; };
+		7421F099164725C100C55BAE /* ETHRevoluteJoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHRevoluteJoint.h; path = ../../../../src/engine/Physics/ETHRevoluteJoint.h; sourceTree = "<group>"; };
+		7421F0B0164725E100C55BAE /* ETHPolygon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHPolygon.cpp; path = ../../../../src/engine/Physics/ETHPolygon.cpp; sourceTree = "<group>"; };
+		7421F0B1164725E100C55BAE /* ETHPolygon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHPolygon.h; path = ../../../../src/engine/Physics/ETHPolygon.h; sourceTree = "<group>"; };
+		7421F0B4164725F800C55BAE /* ETHAppEnmlFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHAppEnmlFile.cpp; path = ../../../../src/engine/Platform/ETHAppEnmlFile.cpp; sourceTree = "<group>"; };
+		7421F0B5164725F800C55BAE /* ETHAppEnmlFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHAppEnmlFile.h; path = ../../../../src/engine/Platform/ETHAppEnmlFile.h; sourceTree = "<group>"; };
+		7421F0B6164725F800C55BAE /* ETHPlatform.abstract.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHPlatform.abstract.cpp; path = ../../../../src/engine/Platform/ETHPlatform.abstract.cpp; sourceTree = "<group>"; };
+		7421F0B7164725F800C55BAE /* ETHPlatform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHPlatform.h; path = ../../../../src/engine/Platform/ETHPlatform.h; sourceTree = "<group>"; };
+		7421F0B8164725F800C55BAE /* FileListing.abstract.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FileListing.abstract.cpp; path = ../../../../src/engine/Platform/FileListing.abstract.cpp; sourceTree = "<group>"; };
+		7421F0B9164725F800C55BAE /* FileListing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileListing.h; path = ../../../../src/engine/Platform/FileListing.h; sourceTree = "<group>"; };
+		7421F0C01647260900C55BAE /* ETHDirectories.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHDirectories.cpp; path = ../../../../src/engine/Resource/ETHDirectories.cpp; sourceTree = "<group>"; };
+		7421F0C11647260900C55BAE /* ETHDirectories.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHDirectories.h; path = ../../../../src/engine/Resource/ETHDirectories.h; sourceTree = "<group>"; };
+		7421F0C21647260900C55BAE /* ETHResourceManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHResourceManager.cpp; path = ../../../../src/engine/Resource/ETHResourceManager.cpp; sourceTree = "<group>"; };
+		7421F0C31647260900C55BAE /* ETHResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHResourceManager.h; path = ../../../../src/engine/Resource/ETHResourceManager.h; sourceTree = "<group>"; };
+		7421F0C41647260900C55BAE /* ETHResourceProvider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHResourceProvider.cpp; path = ../../../../src/engine/Resource/ETHResourceProvider.cpp; sourceTree = "<group>"; };
+		7421F0C51647260900C55BAE /* ETHResourceProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHResourceProvider.h; path = ../../../../src/engine/Resource/ETHResourceProvider.h; sourceTree = "<group>"; };
+		7421F0C61647260900C55BAE /* ETHSpriteDensityManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHSpriteDensityManager.cpp; path = ../../../../src/engine/Resource/ETHSpriteDensityManager.cpp; sourceTree = "<group>"; };
+		7421F0C71647260900C55BAE /* ETHSpriteDensityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHSpriteDensityManager.h; path = ../../../../src/engine/Resource/ETHSpriteDensityManager.h; sourceTree = "<group>"; };
+		7421F0D01647261800C55BAE /* ETHBucketManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHBucketManager.cpp; path = ../../../../src/engine/Scene/ETHBucketManager.cpp; sourceTree = "<group>"; };
+		7421F0D11647261800C55BAE /* ETHBucketManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHBucketManager.h; path = ../../../../src/engine/Scene/ETHBucketManager.h; sourceTree = "<group>"; };
+		7421F0D21647261800C55BAE /* ETHEntityKillListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityKillListener.h; path = ../../../../src/engine/Scene/ETHEntityKillListener.h; sourceTree = "<group>"; };
+		7421F0D31647261800C55BAE /* ETHScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScene.cpp; path = ../../../../src/engine/Scene/ETHScene.cpp; sourceTree = "<group>"; };
+		7421F0D41647261800C55BAE /* ETHScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHScene.h; path = ../../../../src/engine/Scene/ETHScene.h; sourceTree = "<group>"; };
+		7421F0D51647261800C55BAE /* ETHSceneProperties.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHSceneProperties.cpp; path = ../../../../src/engine/Scene/ETHSceneProperties.cpp; sourceTree = "<group>"; };
+		7421F0D61647261800C55BAE /* ETHSceneProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHSceneProperties.h; path = ../../../../src/engine/Scene/ETHSceneProperties.h; sourceTree = "<group>"; };
+		7421F0D71647261800C55BAE /* ETHTempEntityHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHTempEntityHandler.cpp; path = ../../../../src/engine/Scene/ETHTempEntityHandler.cpp; sourceTree = "<group>"; };
+		7421F0D81647261800C55BAE /* ETHTempEntityHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHTempEntityHandler.h; path = ../../../../src/engine/Scene/ETHTempEntityHandler.h; sourceTree = "<group>"; };
+		7421F0E21647263700C55BAE /* ETHBinaryStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHBinaryStream.cpp; path = ../../../../src/engine/Script/ETHBinaryStream.cpp; sourceTree = "<group>"; };
+		7421F0E31647263700C55BAE /* ETHBinaryStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHBinaryStream.h; path = ../../../../src/engine/Script/ETHBinaryStream.h; sourceTree = "<group>"; };
+		7421F0E41647263700C55BAE /* ETHEntityDestructorManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityDestructorManager.cpp; path = ../../../../src/engine/Script/ETHEntityDestructorManager.cpp; sourceTree = "<group>"; };
+		7421F0E51647263700C55BAE /* ETHEntityDestructorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityDestructorManager.h; path = ../../../../src/engine/Script/ETHEntityDestructorManager.h; sourceTree = "<group>"; };
+		7421F0E61647263700C55BAE /* ETHEntityDestructorScript.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityDestructorScript.cpp; path = ../../../../src/engine/Script/ETHEntityDestructorScript.cpp; sourceTree = "<group>"; };
+		7421F0E71647263700C55BAE /* ETHEntityDestructorScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityDestructorScript.h; path = ../../../../src/engine/Script/ETHEntityDestructorScript.h; sourceTree = "<group>"; };
+		7421F0E81647263700C55BAE /* ETHScriptObjRegister.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptObjRegister.cpp; path = ../../../../src/engine/Script/ETHScriptObjRegister.cpp; sourceTree = "<group>"; };
+		7421F0E91647263700C55BAE /* ETHScriptObjRegister.generic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptObjRegister.generic.cpp; path = ../../../../src/engine/Script/ETHScriptObjRegister.generic.cpp; sourceTree = "<group>"; };
+		7421F0EA1647263700C55BAE /* ETHScriptObjRegister.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHScriptObjRegister.h; path = ../../../../src/engine/Script/ETHScriptObjRegister.h; sourceTree = "<group>"; };
+		7421F0EC1647263700C55BAE /* ETHScriptWrapper.Audio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptWrapper.Audio.cpp; path = ../../../../src/engine/Script/ETHScriptWrapper.Audio.cpp; sourceTree = "<group>"; };
+		7421F0ED1647263700C55BAE /* ETHScriptWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptWrapper.cpp; path = ../../../../src/engine/Script/ETHScriptWrapper.cpp; sourceTree = "<group>"; };
+		7421F0EE1647263700C55BAE /* ETHScriptWrapper.Drawing.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptWrapper.Drawing.cpp; path = ../../../../src/engine/Script/ETHScriptWrapper.Drawing.cpp; sourceTree = "<group>"; };
+		7421F0EF1647263700C55BAE /* ETHScriptWrapper.generic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptWrapper.generic.cpp; path = ../../../../src/engine/Script/ETHScriptWrapper.generic.cpp; sourceTree = "<group>"; };
+		7421F0F01647263700C55BAE /* ETHScriptWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHScriptWrapper.h; path = ../../../../src/engine/Script/ETHScriptWrapper.h; sourceTree = "<group>"; };
+		7421F0F11647263700C55BAE /* ETHScriptWrapper.Math.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptWrapper.Math.cpp; path = ../../../../src/engine/Script/ETHScriptWrapper.Math.cpp; sourceTree = "<group>"; };
+		7421F0F21647263700C55BAE /* ETHScriptWrapper.Math.generic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptWrapper.Math.generic.cpp; path = ../../../../src/engine/Script/ETHScriptWrapper.Math.generic.cpp; sourceTree = "<group>"; };
+		7421F0F51647263700C55BAE /* ETHScriptWrapper.Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptWrapper.Scene.cpp; path = ../../../../src/engine/Script/ETHScriptWrapper.Scene.cpp; sourceTree = "<group>"; };
+		7421F0F61647263700C55BAE /* ETHScriptWrapper.System.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptWrapper.System.cpp; path = ../../../../src/engine/Script/ETHScriptWrapper.System.cpp; sourceTree = "<group>"; };
+		7421F10C1647266600C55BAE /* ETHBackBufferTargetManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHBackBufferTargetManager.cpp; path = ../../../../src/engine/Shader/ETHBackBufferTargetManager.cpp; sourceTree = "<group>"; };
+		7421F10D1647266600C55BAE /* ETHBackBufferTargetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHBackBufferTargetManager.h; path = ../../../../src/engine/Shader/ETHBackBufferTargetManager.h; sourceTree = "<group>"; };
+		7421F10E1647266600C55BAE /* ETHDefaultDynamicBackBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHDefaultDynamicBackBuffer.cpp; path = ../../../../src/engine/Shader/ETHDefaultDynamicBackBuffer.cpp; sourceTree = "<group>"; };
+		7421F10F1647266600C55BAE /* ETHDefaultDynamicBackBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHDefaultDynamicBackBuffer.h; path = ../../../../src/engine/Shader/ETHDefaultDynamicBackBuffer.h; sourceTree = "<group>"; };
+		7421F1101647266600C55BAE /* ETHDynamicBackBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHDynamicBackBuffer.h; path = ../../../../src/engine/Shader/ETHDynamicBackBuffer.h; sourceTree = "<group>"; };
+		7421F1111647266600C55BAE /* ETHFakeEyePositionManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHFakeEyePositionManager.cpp; path = ../../../../src/engine/Shader/ETHFakeEyePositionManager.cpp; sourceTree = "<group>"; };
+		7421F1121647266600C55BAE /* ETHFakeEyePositionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHFakeEyePositionManager.h; path = ../../../../src/engine/Shader/ETHFakeEyePositionManager.h; sourceTree = "<group>"; };
+		7421F1131647266600C55BAE /* ETHLightingProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHLightingProfile.h; path = ../../../../src/engine/Shader/ETHLightingProfile.h; sourceTree = "<group>"; };
+		7421F1141647266600C55BAE /* ETHLightmapGen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHLightmapGen.cpp; path = ../../../../src/engine/Shader/ETHLightmapGen.cpp; sourceTree = "<group>"; };
+		7421F1151647266600C55BAE /* ETHLightmapGen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHLightmapGen.h; path = ../../../../src/engine/Shader/ETHLightmapGen.h; sourceTree = "<group>"; };
+		7421F1161647266600C55BAE /* ETHNoDynamicBackBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHNoDynamicBackBuffer.cpp; path = ../../../../src/engine/Shader/ETHNoDynamicBackBuffer.cpp; sourceTree = "<group>"; };
+		7421F1171647266600C55BAE /* ETHNoDynamicBackBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHNoDynamicBackBuffer.h; path = ../../../../src/engine/Shader/ETHNoDynamicBackBuffer.h; sourceTree = "<group>"; };
+		7421F1181647266600C55BAE /* ETHParallaxManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHParallaxManager.cpp; path = ../../../../src/engine/Shader/ETHParallaxManager.cpp; sourceTree = "<group>"; };
+		7421F1191647266600C55BAE /* ETHParallaxManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHParallaxManager.h; path = ../../../../src/engine/Shader/ETHParallaxManager.h; sourceTree = "<group>"; };
+		7421F11A1647266600C55BAE /* ETHPixelLightDiffuseSpecular.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHPixelLightDiffuseSpecular.cpp; path = ../../../../src/engine/Shader/ETHPixelLightDiffuseSpecular.cpp; sourceTree = "<group>"; };
+		7421F11B1647266600C55BAE /* ETHPixelLightDiffuseSpecular.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHPixelLightDiffuseSpecular.h; path = ../../../../src/engine/Shader/ETHPixelLightDiffuseSpecular.h; sourceTree = "<group>"; };
+		7421F11C1647266600C55BAE /* ETHShaderManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHShaderManager.cpp; path = ../../../../src/engine/Shader/ETHShaderManager.cpp; sourceTree = "<group>"; };
+		7421F11D1647266600C55BAE /* ETHShaderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHShaderManager.h; path = ../../../../src/engine/Shader/ETHShaderManager.h; sourceTree = "<group>"; };
+		7421F11E1647266600C55BAE /* ETHShaders.cg.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHShaders.cg.cpp; path = ../../../../src/engine/Shader/ETHShaders.cg.cpp; sourceTree = "<group>"; };
+		7421F1201647266600C55BAE /* ETHShaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHShaders.h; path = ../../../../src/engine/Shader/ETHShaders.h; sourceTree = "<group>"; };
+		7421F1211647266600C55BAE /* ETHVertexLightDiffuse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHVertexLightDiffuse.cpp; path = ../../../../src/engine/Shader/ETHVertexLightDiffuse.cpp; sourceTree = "<group>"; };
+		7421F1221647266600C55BAE /* ETHVertexLightDiffuse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHVertexLightDiffuse.h; path = ../../../../src/engine/Shader/ETHVertexLightDiffuse.h; sourceTree = "<group>"; };
+		7421F13A1647267300C55BAE /* ETHASUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHASUtil.cpp; path = ../../../../src/engine/Util/ETHASUtil.cpp; sourceTree = "<group>"; };
+		7421F13B1647267300C55BAE /* ETHASUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHASUtil.h; path = ../../../../src/engine/Util/ETHASUtil.h; sourceTree = "<group>"; };
+		7421F13C1647267300C55BAE /* ETHDateTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHDateTime.cpp; path = ../../../../src/engine/Util/ETHDateTime.cpp; sourceTree = "<group>"; };
+		7421F13D1647267300C55BAE /* ETHDateTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHDateTime.h; path = ../../../../src/engine/Util/ETHDateTime.h; sourceTree = "<group>"; };
+		7421F13E1647267300C55BAE /* ETHFileChangeDetector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHFileChangeDetector.cpp; path = ../../../../src/engine/Util/ETHFileChangeDetector.cpp; sourceTree = "<group>"; };
+		7421F13F1647267300C55BAE /* ETHFileChangeDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHFileChangeDetector.h; path = ../../../../src/engine/Util/ETHFileChangeDetector.h; sourceTree = "<group>"; };
+		7421F1401647267300C55BAE /* ETHFrameTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHFrameTimer.cpp; path = ../../../../src/engine/Util/ETHFrameTimer.cpp; sourceTree = "<group>"; };
+		7421F1411647267300C55BAE /* ETHFrameTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHFrameTimer.h; path = ../../../../src/engine/Util/ETHFrameTimer.h; sourceTree = "<group>"; };
+		7421F1421647267300C55BAE /* ETHGlobalScaleManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHGlobalScaleManager.cpp; path = ../../../../src/engine/Util/ETHGlobalScaleManager.cpp; sourceTree = "<group>"; };
+		7421F1431647267300C55BAE /* ETHGlobalScaleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHGlobalScaleManager.h; path = ../../../../src/engine/Util/ETHGlobalScaleManager.h; sourceTree = "<group>"; };
+		7421F1441647267300C55BAE /* ETHInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHInput.cpp; path = ../../../../src/engine/Util/ETHInput.cpp; sourceTree = "<group>"; };
+		7421F1451647267300C55BAE /* ETHInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHInput.h; path = ../../../../src/engine/Util/ETHInput.h; sourceTree = "<group>"; };
+		7421F1461647267300C55BAE /* ETHSpeedTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHSpeedTimer.cpp; path = ../../../../src/engine/Util/ETHSpeedTimer.cpp; sourceTree = "<group>"; };
+		7421F1471647267300C55BAE /* ETHSpeedTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHSpeedTimer.h; path = ../../../../src/engine/Util/ETHSpeedTimer.h; sourceTree = "<group>"; };
+		7421F28D1647415E00C55BAE /* aswrappedcall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = aswrappedcall.h; path = ../../../src/addons/aswrappedcall.h; sourceTree = "<group>"; };
+		7421F28E1647415E00C55BAE /* scriptarray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scriptarray.cpp; path = ../../../src/addons/scriptarray.cpp; sourceTree = "<group>"; };
+		7421F28F1647415E00C55BAE /* scriptarray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scriptarray.h; path = ../../../src/addons/scriptarray.h; sourceTree = "<group>"; };
+		7421F2901647415E00C55BAE /* scriptdictionary.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scriptdictionary.cpp; path = ../../../src/addons/scriptdictionary.cpp; sourceTree = "<group>"; };
+		7421F2911647415E00C55BAE /* scriptdictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scriptdictionary.h; path = ../../../src/addons/scriptdictionary.h; sourceTree = "<group>"; };
+		7421F2921647415E00C55BAE /* scriptmath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scriptmath.cpp; path = ../../../src/addons/scriptmath.cpp; sourceTree = "<group>"; };
+		7421F2931647415E00C55BAE /* scriptmath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scriptmath.h; path = ../../../src/addons/scriptmath.h; sourceTree = "<group>"; };
+		7421F2941647415E00C55BAE /* scriptmath2d.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scriptmath2d.cpp; path = ../../../src/addons/scriptmath2d.cpp; sourceTree = "<group>"; };
+		7421F2951647415E00C55BAE /* scriptmath2d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scriptmath2d.h; path = ../../../src/addons/scriptmath2d.h; sourceTree = "<group>"; };
+		7421F2961647415E00C55BAE /* scriptmath3d.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scriptmath3d.cpp; path = ../../../src/addons/scriptmath3d.cpp; sourceTree = "<group>"; };
+		7421F2971647415E00C55BAE /* scriptmath3d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scriptmath3d.h; path = ../../../src/addons/scriptmath3d.h; sourceTree = "<group>"; };
+		7421F2A41647416F00C55BAE /* scriptbuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scriptbuilder.cpp; path = ../../../src/addons/ansi/scriptbuilder.cpp; sourceTree = "<group>"; };
+		7421F2A51647416F00C55BAE /* scriptbuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scriptbuilder.h; path = ../../../src/addons/ansi/scriptbuilder.h; sourceTree = "<group>"; };
+		7421F2A61647416F00C55BAE /* scriptfile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scriptfile.cpp; path = ../../../src/addons/ansi/scriptfile.cpp; sourceTree = "<group>"; };
+		7421F2A71647416F00C55BAE /* scriptfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scriptfile.h; path = ../../../src/addons/ansi/scriptfile.h; sourceTree = "<group>"; };
+		7421F2A81647416F00C55BAE /* scriptstdstring.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scriptstdstring.cpp; path = ../../../src/addons/ansi/scriptstdstring.cpp; sourceTree = "<group>"; };
+		7421F2A91647416F00C55BAE /* scriptstdstring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scriptstdstring.h; path = ../../../src/addons/ansi/scriptstdstring.h; sourceTree = "<group>"; };
+		7421F2B1164741F300C55BAE /* tinystr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinystr.cpp; path = ../../../src/vendors/tinyxml_ansi/tinystr.cpp; sourceTree = "<group>"; };
+		7421F2B2164741F300C55BAE /* tinystr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tinystr.h; path = ../../../src/vendors/tinyxml_ansi/tinystr.h; sourceTree = "<group>"; };
+		7421F2B3164741F300C55BAE /* tinyxml.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxml.cpp; path = ../../../src/vendors/tinyxml_ansi/tinyxml.cpp; sourceTree = "<group>"; };
+		7421F2B4164741F300C55BAE /* tinyxml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tinyxml.h; path = ../../../src/vendors/tinyxml_ansi/tinyxml.h; sourceTree = "<group>"; };
+		7421F2B5164741F300C55BAE /* tinyxmlerror.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxmlerror.cpp; path = ../../../src/vendors/tinyxml_ansi/tinyxmlerror.cpp; sourceTree = "<group>"; };
+		7421F2B6164741F300C55BAE /* tinyxmlparser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxmlparser.cpp; path = ../../../src/vendors/tinyxml_ansi/tinyxmlparser.cpp; sourceTree = "<group>"; };
+		7421F2C1164743D200C55BAE /* angelscript.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = angelscript.xcodeproj; path = /Users/blackdog/Documents/workspace/ethanon/toolkit/Source/projects/xcode/../../src/angelscript/projects/xcode/angelscript.xcodeproj; sourceTree = "<absolute>"; };
+		7421F2D616474F2500C55BAE /* box2d.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = box2d.framework; path = "../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gxkgpuwgwqxighfefncafkvqrxui/Build/Products/Release/box2d.framework"; sourceTree = "<group>"; };
+		7421F2D816474F2900C55BAE /* gs2d.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = gs2d.framework; path = "../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gxkgpuwgwqxighfefncafkvqrxui/Build/Products/Release/gs2d.framework"; sourceTree = "<group>"; };
 		74F00AD31646B9EB00B8B51B /* engine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = engine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		74F00AD61646B9EB00B8B51B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		74F00AD91646B9EB00B8B51B /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -49,7 +376,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7421F0321646F11400C55BAE /* gs2d.framework in Frameworks */,
+				7421F2D916474F2900C55BAE /* gs2d.framework in Frameworks */,
+				7421F2D716474F2500C55BAE /* box2d.framework in Frameworks */,
+				7421F2CA164743F900C55BAE /* libas.a in Frameworks */,
 				74F00AD71646B9EB00B8B51B /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -57,20 +386,256 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		7421F02B1646F0A900C55BAE /* Physics */ = {
+		7421F0331647249F00C55BAE /* Drawing */ = {
 			isa = PBXGroup;
 			children = (
-				7421F02D1646F0B600C55BAE /* ETHPolygon.cpp */,
-				7421F02E1646F0B600C55BAE /* ETHPolygon.h */,
+				7421F03E1647257B00C55BAE /* ETHDrawable.cpp */,
+				7421F03F1647257B00C55BAE /* ETHDrawable.h */,
+				7421F0401647257B00C55BAE /* ETHDrawableManager.cpp */,
+				7421F0411647257B00C55BAE /* ETHDrawableManager.h */,
+				7421F0421647257B00C55BAE /* ETHParticleDrawer.cpp */,
+				7421F0431647257B00C55BAE /* ETHParticleDrawer.h */,
+			);
+			name = Drawing;
+			sourceTree = "<group>";
+		};
+		7421F034164724A700C55BAE /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				7421F04A1647258E00C55BAE /* ETHCustomDataManager.cpp */,
+				7421F04B1647258E00C55BAE /* ETHCustomDataManager.h */,
+				7421F04C1647258E00C55BAE /* ETHEntity.cpp */,
+				7421F04D1647258E00C55BAE /* ETHEntity.h */,
+				7421F04E1647258E00C55BAE /* ETHEntityArray.cpp */,
+				7421F04F1647258E00C55BAE /* ETHEntityArray.h */,
+				7421F0501647258E00C55BAE /* ETHEntityCache.cpp */,
+				7421F0511647258E00C55BAE /* ETHEntityCache.h */,
+				7421F0521647258E00C55BAE /* ETHEntityChooser.cpp */,
+				7421F0531647258E00C55BAE /* ETHEntityChooser.h */,
+				7421F0541647258E00C55BAE /* ETHEntityController.cpp */,
+				7421F0551647258E00C55BAE /* ETHEntityController.h */,
+				7421F0561647258E00C55BAE /* ETHEntityProperties.cpp */,
+				7421F0571647258E00C55BAE /* ETHEntityProperties.h */,
+				7421F0581647258E00C55BAE /* ETHLight.cpp */,
+				7421F0591647258E00C55BAE /* ETHLight.h */,
+				7421F05A1647258E00C55BAE /* ETHRenderEntity.cpp */,
+				7421F05B1647258E00C55BAE /* ETHRenderEntity.h */,
+				7421F05C1647258E00C55BAE /* ETHScriptEntity.cpp */,
+				7421F05D1647258E00C55BAE /* ETHScriptEntity.h */,
+				7421F05E1647258E00C55BAE /* ETHSpriteEntity.cpp */,
+				7421F05F1647258E00C55BAE /* ETHSpriteEntity.h */,
+			);
+			name = Entity;
+			sourceTree = "<group>";
+		};
+		7421F037164724B200C55BAE /* Shader */ = {
+			isa = PBXGroup;
+			children = (
+				7421F10C1647266600C55BAE /* ETHBackBufferTargetManager.cpp */,
+				7421F10D1647266600C55BAE /* ETHBackBufferTargetManager.h */,
+				7421F10E1647266600C55BAE /* ETHDefaultDynamicBackBuffer.cpp */,
+				7421F10F1647266600C55BAE /* ETHDefaultDynamicBackBuffer.h */,
+				7421F1101647266600C55BAE /* ETHDynamicBackBuffer.h */,
+				7421F1111647266600C55BAE /* ETHFakeEyePositionManager.cpp */,
+				7421F1121647266600C55BAE /* ETHFakeEyePositionManager.h */,
+				7421F1131647266600C55BAE /* ETHLightingProfile.h */,
+				7421F1141647266600C55BAE /* ETHLightmapGen.cpp */,
+				7421F1151647266600C55BAE /* ETHLightmapGen.h */,
+				7421F1161647266600C55BAE /* ETHNoDynamicBackBuffer.cpp */,
+				7421F1171647266600C55BAE /* ETHNoDynamicBackBuffer.h */,
+				7421F1181647266600C55BAE /* ETHParallaxManager.cpp */,
+				7421F1191647266600C55BAE /* ETHParallaxManager.h */,
+				7421F11A1647266600C55BAE /* ETHPixelLightDiffuseSpecular.cpp */,
+				7421F11B1647266600C55BAE /* ETHPixelLightDiffuseSpecular.h */,
+				7421F11C1647266600C55BAE /* ETHShaderManager.cpp */,
+				7421F11D1647266600C55BAE /* ETHShaderManager.h */,
+				7421F11E1647266600C55BAE /* ETHShaders.cg.cpp */,
+				7421F1201647266600C55BAE /* ETHShaders.h */,
+				7421F1211647266600C55BAE /* ETHVertexLightDiffuse.cpp */,
+				7421F1221647266600C55BAE /* ETHVertexLightDiffuse.h */,
+			);
+			name = Shader;
+			sourceTree = "<group>";
+		};
+		7421F038164724B400C55BAE /* Script */ = {
+			isa = PBXGroup;
+			children = (
+				7421F0E21647263700C55BAE /* ETHBinaryStream.cpp */,
+				7421F0E31647263700C55BAE /* ETHBinaryStream.h */,
+				7421F0E41647263700C55BAE /* ETHEntityDestructorManager.cpp */,
+				7421F0E51647263700C55BAE /* ETHEntityDestructorManager.h */,
+				7421F0E61647263700C55BAE /* ETHEntityDestructorScript.cpp */,
+				7421F0E71647263700C55BAE /* ETHEntityDestructorScript.h */,
+				7421F0E81647263700C55BAE /* ETHScriptObjRegister.cpp */,
+				7421F0E91647263700C55BAE /* ETHScriptObjRegister.generic.cpp */,
+				7421F0EA1647263700C55BAE /* ETHScriptObjRegister.h */,
+				7421F0EC1647263700C55BAE /* ETHScriptWrapper.Audio.cpp */,
+				7421F0ED1647263700C55BAE /* ETHScriptWrapper.cpp */,
+				7421F0EE1647263700C55BAE /* ETHScriptWrapper.Drawing.cpp */,
+				7421F0EF1647263700C55BAE /* ETHScriptWrapper.generic.cpp */,
+				7421F0F01647263700C55BAE /* ETHScriptWrapper.h */,
+				7421F0F11647263700C55BAE /* ETHScriptWrapper.Math.cpp */,
+				7421F0F21647263700C55BAE /* ETHScriptWrapper.Math.generic.cpp */,
+				7421F0F51647263700C55BAE /* ETHScriptWrapper.Scene.cpp */,
+				7421F0F61647263700C55BAE /* ETHScriptWrapper.System.cpp */,
+			);
+			name = Script;
+			sourceTree = "<group>";
+		};
+		7421F039164724B600C55BAE /* Scene */ = {
+			isa = PBXGroup;
+			children = (
+				7421F0D01647261800C55BAE /* ETHBucketManager.cpp */,
+				7421F0D11647261800C55BAE /* ETHBucketManager.h */,
+				7421F0D21647261800C55BAE /* ETHEntityKillListener.h */,
+				7421F0D31647261800C55BAE /* ETHScene.cpp */,
+				7421F0D41647261800C55BAE /* ETHScene.h */,
+				7421F0D51647261800C55BAE /* ETHSceneProperties.cpp */,
+				7421F0D61647261800C55BAE /* ETHSceneProperties.h */,
+				7421F0D71647261800C55BAE /* ETHTempEntityHandler.cpp */,
+				7421F0D81647261800C55BAE /* ETHTempEntityHandler.h */,
+			);
+			name = Scene;
+			sourceTree = "<group>";
+		};
+		7421F03A164724BA00C55BAE /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				7421F0C01647260900C55BAE /* ETHDirectories.cpp */,
+				7421F0C11647260900C55BAE /* ETHDirectories.h */,
+				7421F0C21647260900C55BAE /* ETHResourceManager.cpp */,
+				7421F0C31647260900C55BAE /* ETHResourceManager.h */,
+				7421F0C41647260900C55BAE /* ETHResourceProvider.cpp */,
+				7421F0C51647260900C55BAE /* ETHResourceProvider.h */,
+				7421F0C61647260900C55BAE /* ETHSpriteDensityManager.cpp */,
+				7421F0C71647260900C55BAE /* ETHSpriteDensityManager.h */,
+			);
+			name = Resource;
+			sourceTree = "<group>";
+		};
+		7421F03B164724BD00C55BAE /* Platform */ = {
+			isa = PBXGroup;
+			children = (
+				7421F0B4164725F800C55BAE /* ETHAppEnmlFile.cpp */,
+				7421F0B5164725F800C55BAE /* ETHAppEnmlFile.h */,
+				7421F0B6164725F800C55BAE /* ETHPlatform.abstract.cpp */,
+				7421F0B7164725F800C55BAE /* ETHPlatform.h */,
+				7421F0B8164725F800C55BAE /* FileListing.abstract.cpp */,
+				7421F0B9164725F800C55BAE /* FileListing.h */,
+			);
+			name = Platform;
+			sourceTree = "<group>";
+		};
+		7421F03C164724BF00C55BAE /* Physics */ = {
+			isa = PBXGroup;
+			children = (
+				7421F084164725C100C55BAE /* ETHCollisionBox.cpp */,
+				7421F085164725C100C55BAE /* ETHCollisionBox.h */,
+				7421F086164725C100C55BAE /* ETHCompoundShape.cpp */,
+				7421F087164725C100C55BAE /* ETHCompoundShape.h */,
+				7421F088164725C100C55BAE /* ETHContactListener.cpp */,
+				7421F089164725C100C55BAE /* ETHContactListener.h */,
+				7421F08A164725C100C55BAE /* ETHDestructionListener.cpp */,
+				7421F08B164725C100C55BAE /* ETHDestructionListener.h */,
+				7421F08C164725C100C55BAE /* ETHJoint.cpp */,
+				7421F08D164725C100C55BAE /* ETHJoint.h */,
+				7421F08E164725C100C55BAE /* ETHPhysicsController.cpp */,
+				7421F08F164725C100C55BAE /* ETHPhysicsController.h */,
+				7421F090164725C100C55BAE /* ETHPhysicsEntityController.cpp */,
+				7421F091164725C100C55BAE /* ETHPhysicsEntityController.h */,
+				7421F092164725C100C55BAE /* ETHPhysicsSimulator.cpp */,
+				7421F093164725C100C55BAE /* ETHPhysicsSimulator.h */,
+				7421F0B0164725E100C55BAE /* ETHPolygon.cpp */,
+				7421F0B1164725E100C55BAE /* ETHPolygon.h */,
+				7421F096164725C100C55BAE /* ETHRayCastCallback.cpp */,
+				7421F097164725C100C55BAE /* ETHRayCastCallback.h */,
+				7421F098164725C100C55BAE /* ETHRevoluteJoint.cpp */,
+				7421F099164725C100C55BAE /* ETHRevoluteJoint.h */,
 			);
 			name = Physics;
+			sourceTree = "<group>";
+		};
+		7421F03D164724C100C55BAE /* Particles */ = {
+			isa = PBXGroup;
+			children = (
+				7421F07C164725AD00C55BAE /* ETHParticleManager.cpp */,
+				7421F07D164725AD00C55BAE /* ETHParticleManager.h */,
+				7421F07E164725AD00C55BAE /* ETHParticleSystem.cpp */,
+				7421F07F164725AD00C55BAE /* ETHParticleSystem.h */,
+			);
+			name = Particles;
+			sourceTree = "<group>";
+		};
+		7421F28C1647413C00C55BAE /* addons */ = {
+			isa = PBXGroup;
+			children = (
+				7421F2A31647416200C55BAE /* ansi */,
+				7421F28D1647415E00C55BAE /* aswrappedcall.h */,
+				7421F28E1647415E00C55BAE /* scriptarray.cpp */,
+				7421F28F1647415E00C55BAE /* scriptarray.h */,
+				7421F2901647415E00C55BAE /* scriptdictionary.cpp */,
+				7421F2911647415E00C55BAE /* scriptdictionary.h */,
+				7421F2921647415E00C55BAE /* scriptmath.cpp */,
+				7421F2931647415E00C55BAE /* scriptmath.h */,
+				7421F2941647415E00C55BAE /* scriptmath2d.cpp */,
+				7421F2951647415E00C55BAE /* scriptmath2d.h */,
+				7421F2961647415E00C55BAE /* scriptmath3d.cpp */,
+				7421F2971647415E00C55BAE /* scriptmath3d.h */,
+			);
+			name = addons;
+			sourceTree = "<group>";
+		};
+		7421F2A31647416200C55BAE /* ansi */ = {
+			isa = PBXGroup;
+			children = (
+				7421F2A41647416F00C55BAE /* scriptbuilder.cpp */,
+				7421F2A51647416F00C55BAE /* scriptbuilder.h */,
+				7421F2A61647416F00C55BAE /* scriptfile.cpp */,
+				7421F2A71647416F00C55BAE /* scriptfile.h */,
+				7421F2A81647416F00C55BAE /* scriptstdstring.cpp */,
+				7421F2A91647416F00C55BAE /* scriptstdstring.h */,
+			);
+			name = ansi;
+			sourceTree = "<group>";
+		};
+		7421F2B0164741B700C55BAE /* tinyxml */ = {
+			isa = PBXGroup;
+			children = (
+				7421F2B1164741F300C55BAE /* tinystr.cpp */,
+				7421F2B2164741F300C55BAE /* tinystr.h */,
+				7421F2B3164741F300C55BAE /* tinyxml.cpp */,
+				7421F2B4164741F300C55BAE /* tinyxml.h */,
+				7421F2B5164741F300C55BAE /* tinyxmlerror.cpp */,
+				7421F2B6164741F300C55BAE /* tinyxmlparser.cpp */,
+			);
+			name = tinyxml;
+			sourceTree = "<group>";
+		};
+		7421F2C2164743D200C55BAE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7421F2C6164743D200C55BAE /* libas.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		7487A51F1646DD24002DD331 /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				7487A5211646DD3E002DD331 /* ETHSpeedTimer.cpp */,
-				7487A5221646DD3E002DD331 /* ETHSpeedTimer.h */,
+				7421F13A1647267300C55BAE /* ETHASUtil.cpp */,
+				7421F13B1647267300C55BAE /* ETHASUtil.h */,
+				7421F13C1647267300C55BAE /* ETHDateTime.cpp */,
+				7421F13D1647267300C55BAE /* ETHDateTime.h */,
+				7421F13E1647267300C55BAE /* ETHFileChangeDetector.cpp */,
+				7421F13F1647267300C55BAE /* ETHFileChangeDetector.h */,
+				7421F1401647267300C55BAE /* ETHFrameTimer.cpp */,
+				7421F1411647267300C55BAE /* ETHFrameTimer.h */,
+				7421F1421647267300C55BAE /* ETHGlobalScaleManager.cpp */,
+				7421F1431647267300C55BAE /* ETHGlobalScaleManager.h */,
+				7421F1441647267300C55BAE /* ETHInput.cpp */,
+				7421F1451647267300C55BAE /* ETHInput.h */,
+				7421F1461647267300C55BAE /* ETHSpeedTimer.cpp */,
+				7421F1471647267300C55BAE /* ETHSpeedTimer.h */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -78,10 +643,14 @@
 		74F00AC71646B9EB00B8B51B = {
 			isa = PBXGroup;
 			children = (
-				7421F0311646F11400C55BAE /* gs2d.framework */,
+				7421F2D816474F2900C55BAE /* gs2d.framework */,
+				7421F2D616474F2500C55BAE /* box2d.framework */,
+				7421F28C1647413C00C55BAE /* addons */,
+				7421F2B0164741B700C55BAE /* tinyxml */,
 				74F00ADC1646B9EB00B8B51B /* engine */,
 				74F00AD51646B9EB00B8B51B /* Frameworks */,
 				74F00AD41646B9EB00B8B51B /* Products */,
+				7421F2C1164743D200C55BAE /* angelscript.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
@@ -115,7 +684,18 @@
 		74F00ADC1646B9EB00B8B51B /* engine */ = {
 			isa = PBXGroup;
 			children = (
-				7421F02B1646F0A900C55BAE /* Physics */,
+				7421F0761647259E00C55BAE /* ETHEngine.cpp */,
+				7421F0771647259E00C55BAE /* ETHEngine.h */,
+				7421F0781647259E00C55BAE /* ETHTypes.h */,
+				7421F0331647249F00C55BAE /* Drawing */,
+				7421F034164724A700C55BAE /* Entity */,
+				7421F03D164724C100C55BAE /* Particles */,
+				7421F03C164724BF00C55BAE /* Physics */,
+				7421F03B164724BD00C55BAE /* Platform */,
+				7421F03A164724BA00C55BAE /* Resource */,
+				7421F039164724B600C55BAE /* Scene */,
+				7421F038164724B400C55BAE /* Script */,
+				7421F037164724B200C55BAE /* Shader */,
 				7487A51F1646DD24002DD331 /* Util */,
 				74F00ADD1646B9EB00B8B51B /* Supporting Files */,
 			);
@@ -139,8 +719,82 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7487A5241646DD3E002DD331 /* ETHSpeedTimer.h in Headers */,
-				7421F0301646F0B600C55BAE /* ETHPolygon.h in Headers */,
+				7421F0451647257B00C55BAE /* ETHDrawable.h in Headers */,
+				7421F0471647257B00C55BAE /* ETHDrawableManager.h in Headers */,
+				7421F0491647257B00C55BAE /* ETHParticleDrawer.h in Headers */,
+				7421F0611647258E00C55BAE /* ETHCustomDataManager.h in Headers */,
+				7421F0631647258E00C55BAE /* ETHEntity.h in Headers */,
+				7421F0651647258E00C55BAE /* ETHEntityArray.h in Headers */,
+				7421F0671647258E00C55BAE /* ETHEntityCache.h in Headers */,
+				7421F0691647258E00C55BAE /* ETHEntityChooser.h in Headers */,
+				7421F06B1647258E00C55BAE /* ETHEntityController.h in Headers */,
+				7421F06D1647258E00C55BAE /* ETHEntityProperties.h in Headers */,
+				7421F06F1647258E00C55BAE /* ETHLight.h in Headers */,
+				7421F0711647258E00C55BAE /* ETHRenderEntity.h in Headers */,
+				7421F0731647258E00C55BAE /* ETHScriptEntity.h in Headers */,
+				7421F0751647258E00C55BAE /* ETHSpriteEntity.h in Headers */,
+				7421F07A1647259E00C55BAE /* ETHEngine.h in Headers */,
+				7421F07B1647259E00C55BAE /* ETHTypes.h in Headers */,
+				7421F081164725AD00C55BAE /* ETHParticleManager.h in Headers */,
+				7421F083164725AD00C55BAE /* ETHParticleSystem.h in Headers */,
+				7421F09B164725C100C55BAE /* ETHCollisionBox.h in Headers */,
+				7421F09D164725C100C55BAE /* ETHCompoundShape.h in Headers */,
+				7421F09F164725C100C55BAE /* ETHContactListener.h in Headers */,
+				7421F0A1164725C100C55BAE /* ETHDestructionListener.h in Headers */,
+				7421F0A3164725C100C55BAE /* ETHJoint.h in Headers */,
+				7421F0A5164725C100C55BAE /* ETHPhysicsController.h in Headers */,
+				7421F0A7164725C100C55BAE /* ETHPhysicsEntityController.h in Headers */,
+				7421F0A9164725C100C55BAE /* ETHPhysicsSimulator.h in Headers */,
+				7421F0AD164725C100C55BAE /* ETHRayCastCallback.h in Headers */,
+				7421F0AF164725C100C55BAE /* ETHRevoluteJoint.h in Headers */,
+				7421F0B3164725E100C55BAE /* ETHPolygon.h in Headers */,
+				7421F0BB164725F800C55BAE /* ETHAppEnmlFile.h in Headers */,
+				7421F0BD164725F800C55BAE /* ETHPlatform.h in Headers */,
+				7421F0BF164725F800C55BAE /* FileListing.h in Headers */,
+				7421F0C91647260900C55BAE /* ETHDirectories.h in Headers */,
+				7421F0CB1647260900C55BAE /* ETHResourceManager.h in Headers */,
+				7421F0CD1647260900C55BAE /* ETHResourceProvider.h in Headers */,
+				7421F0CF1647260900C55BAE /* ETHSpriteDensityManager.h in Headers */,
+				7421F0DA1647261800C55BAE /* ETHBucketManager.h in Headers */,
+				7421F0DB1647261800C55BAE /* ETHEntityKillListener.h in Headers */,
+				7421F0DD1647261800C55BAE /* ETHScene.h in Headers */,
+				7421F0DF1647261800C55BAE /* ETHSceneProperties.h in Headers */,
+				7421F0E11647261800C55BAE /* ETHTempEntityHandler.h in Headers */,
+				7421F0F81647263700C55BAE /* ETHBinaryStream.h in Headers */,
+				7421F0FA1647263700C55BAE /* ETHEntityDestructorManager.h in Headers */,
+				7421F0FC1647263700C55BAE /* ETHEntityDestructorScript.h in Headers */,
+				7421F0FF1647263700C55BAE /* ETHScriptObjRegister.h in Headers */,
+				7421F1051647263700C55BAE /* ETHScriptWrapper.h in Headers */,
+				7421F1241647266600C55BAE /* ETHBackBufferTargetManager.h in Headers */,
+				7421F1261647266600C55BAE /* ETHDefaultDynamicBackBuffer.h in Headers */,
+				7421F1271647266600C55BAE /* ETHDynamicBackBuffer.h in Headers */,
+				7421F1291647266600C55BAE /* ETHFakeEyePositionManager.h in Headers */,
+				7421F12A1647266600C55BAE /* ETHLightingProfile.h in Headers */,
+				7421F12C1647266600C55BAE /* ETHLightmapGen.h in Headers */,
+				7421F12E1647266600C55BAE /* ETHNoDynamicBackBuffer.h in Headers */,
+				7421F1301647266600C55BAE /* ETHParallaxManager.h in Headers */,
+				7421F1321647266600C55BAE /* ETHPixelLightDiffuseSpecular.h in Headers */,
+				7421F1341647266600C55BAE /* ETHShaderManager.h in Headers */,
+				7421F1371647266600C55BAE /* ETHShaders.h in Headers */,
+				7421F1391647266600C55BAE /* ETHVertexLightDiffuse.h in Headers */,
+				7421F1491647267300C55BAE /* ETHASUtil.h in Headers */,
+				7421F14B1647267300C55BAE /* ETHDateTime.h in Headers */,
+				7421F14D1647267300C55BAE /* ETHFileChangeDetector.h in Headers */,
+				7421F14F1647267300C55BAE /* ETHFrameTimer.h in Headers */,
+				7421F1511647267300C55BAE /* ETHGlobalScaleManager.h in Headers */,
+				7421F1531647267300C55BAE /* ETHInput.h in Headers */,
+				7421F1551647267300C55BAE /* ETHSpeedTimer.h in Headers */,
+				7421F2981647415E00C55BAE /* aswrappedcall.h in Headers */,
+				7421F29A1647415E00C55BAE /* scriptarray.h in Headers */,
+				7421F29C1647415E00C55BAE /* scriptdictionary.h in Headers */,
+				7421F29E1647415E00C55BAE /* scriptmath.h in Headers */,
+				7421F2A01647415E00C55BAE /* scriptmath2d.h in Headers */,
+				7421F2A21647415E00C55BAE /* scriptmath3d.h in Headers */,
+				7421F2AB1647416F00C55BAE /* scriptbuilder.h in Headers */,
+				7421F2AD1647416F00C55BAE /* scriptfile.h in Headers */,
+				7421F2AF1647416F00C55BAE /* scriptstdstring.h in Headers */,
+				7421F2B8164741F300C55BAE /* tinystr.h in Headers */,
+				7421F2BA164741F300C55BAE /* tinyxml.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -160,6 +814,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				7421F2C9164743F400C55BAE /* PBXTargetDependency */,
 			);
 			name = engine;
 			productName = engine;
@@ -185,12 +840,28 @@
 			mainGroup = 74F00AC71646B9EB00B8B51B;
 			productRefGroup = 74F00AD41646B9EB00B8B51B /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 7421F2C2164743D200C55BAE /* Products */;
+					ProjectRef = 7421F2C1164743D200C55BAE /* angelscript.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				74F00AD21646B9EB00B8B51B /* engine */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		7421F2C6164743D200C55BAE /* libas.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libas.a;
+			remoteRef = 7421F2C5164743D200C55BAE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		74F00AD11646B9EB00B8B51B /* Resources */ = {
@@ -208,12 +879,99 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7487A5231646DD3E002DD331 /* ETHSpeedTimer.cpp in Sources */,
-				7421F02F1646F0B600C55BAE /* ETHPolygon.cpp in Sources */,
+				7421F0441647257B00C55BAE /* ETHDrawable.cpp in Sources */,
+				7421F0461647257B00C55BAE /* ETHDrawableManager.cpp in Sources */,
+				7421F0481647257B00C55BAE /* ETHParticleDrawer.cpp in Sources */,
+				7421F0601647258E00C55BAE /* ETHCustomDataManager.cpp in Sources */,
+				7421F0621647258E00C55BAE /* ETHEntity.cpp in Sources */,
+				7421F0641647258E00C55BAE /* ETHEntityArray.cpp in Sources */,
+				7421F0661647258E00C55BAE /* ETHEntityCache.cpp in Sources */,
+				7421F0681647258E00C55BAE /* ETHEntityChooser.cpp in Sources */,
+				7421F06A1647258E00C55BAE /* ETHEntityController.cpp in Sources */,
+				7421F06C1647258E00C55BAE /* ETHEntityProperties.cpp in Sources */,
+				7421F06E1647258E00C55BAE /* ETHLight.cpp in Sources */,
+				7421F0701647258E00C55BAE /* ETHRenderEntity.cpp in Sources */,
+				7421F0721647258E00C55BAE /* ETHScriptEntity.cpp in Sources */,
+				7421F0741647258E00C55BAE /* ETHSpriteEntity.cpp in Sources */,
+				7421F0791647259E00C55BAE /* ETHEngine.cpp in Sources */,
+				7421F080164725AD00C55BAE /* ETHParticleManager.cpp in Sources */,
+				7421F082164725AD00C55BAE /* ETHParticleSystem.cpp in Sources */,
+				7421F09A164725C100C55BAE /* ETHCollisionBox.cpp in Sources */,
+				7421F09C164725C100C55BAE /* ETHCompoundShape.cpp in Sources */,
+				7421F09E164725C100C55BAE /* ETHContactListener.cpp in Sources */,
+				7421F0A0164725C100C55BAE /* ETHDestructionListener.cpp in Sources */,
+				7421F0A2164725C100C55BAE /* ETHJoint.cpp in Sources */,
+				7421F0A4164725C100C55BAE /* ETHPhysicsController.cpp in Sources */,
+				7421F0A6164725C100C55BAE /* ETHPhysicsEntityController.cpp in Sources */,
+				7421F0A8164725C100C55BAE /* ETHPhysicsSimulator.cpp in Sources */,
+				7421F0AC164725C100C55BAE /* ETHRayCastCallback.cpp in Sources */,
+				7421F0AE164725C100C55BAE /* ETHRevoluteJoint.cpp in Sources */,
+				7421F0B2164725E100C55BAE /* ETHPolygon.cpp in Sources */,
+				7421F0BA164725F800C55BAE /* ETHAppEnmlFile.cpp in Sources */,
+				7421F0BC164725F800C55BAE /* ETHPlatform.abstract.cpp in Sources */,
+				7421F0BE164725F800C55BAE /* FileListing.abstract.cpp in Sources */,
+				7421F0C81647260900C55BAE /* ETHDirectories.cpp in Sources */,
+				7421F0CA1647260900C55BAE /* ETHResourceManager.cpp in Sources */,
+				7421F0CC1647260900C55BAE /* ETHResourceProvider.cpp in Sources */,
+				7421F0CE1647260900C55BAE /* ETHSpriteDensityManager.cpp in Sources */,
+				7421F0D91647261800C55BAE /* ETHBucketManager.cpp in Sources */,
+				7421F0DC1647261800C55BAE /* ETHScene.cpp in Sources */,
+				7421F0DE1647261800C55BAE /* ETHSceneProperties.cpp in Sources */,
+				7421F0E01647261800C55BAE /* ETHTempEntityHandler.cpp in Sources */,
+				7421F0F71647263700C55BAE /* ETHBinaryStream.cpp in Sources */,
+				7421F0F91647263700C55BAE /* ETHEntityDestructorManager.cpp in Sources */,
+				7421F0FB1647263700C55BAE /* ETHEntityDestructorScript.cpp in Sources */,
+				7421F0FD1647263700C55BAE /* ETHScriptObjRegister.cpp in Sources */,
+				7421F0FE1647263700C55BAE /* ETHScriptObjRegister.generic.cpp in Sources */,
+				7421F1011647263700C55BAE /* ETHScriptWrapper.Audio.cpp in Sources */,
+				7421F1021647263700C55BAE /* ETHScriptWrapper.cpp in Sources */,
+				7421F1031647263700C55BAE /* ETHScriptWrapper.Drawing.cpp in Sources */,
+				7421F1041647263700C55BAE /* ETHScriptWrapper.generic.cpp in Sources */,
+				7421F1061647263700C55BAE /* ETHScriptWrapper.Math.cpp in Sources */,
+				7421F1071647263700C55BAE /* ETHScriptWrapper.Math.generic.cpp in Sources */,
+				7421F10A1647263700C55BAE /* ETHScriptWrapper.Scene.cpp in Sources */,
+				7421F10B1647263700C55BAE /* ETHScriptWrapper.System.cpp in Sources */,
+				7421F1231647266600C55BAE /* ETHBackBufferTargetManager.cpp in Sources */,
+				7421F1251647266600C55BAE /* ETHDefaultDynamicBackBuffer.cpp in Sources */,
+				7421F1281647266600C55BAE /* ETHFakeEyePositionManager.cpp in Sources */,
+				7421F12B1647266600C55BAE /* ETHLightmapGen.cpp in Sources */,
+				7421F12D1647266600C55BAE /* ETHNoDynamicBackBuffer.cpp in Sources */,
+				7421F12F1647266600C55BAE /* ETHParallaxManager.cpp in Sources */,
+				7421F1311647266600C55BAE /* ETHPixelLightDiffuseSpecular.cpp in Sources */,
+				7421F1331647266600C55BAE /* ETHShaderManager.cpp in Sources */,
+				7421F1351647266600C55BAE /* ETHShaders.cg.cpp in Sources */,
+				7421F1381647266600C55BAE /* ETHVertexLightDiffuse.cpp in Sources */,
+				7421F1481647267300C55BAE /* ETHASUtil.cpp in Sources */,
+				7421F14A1647267300C55BAE /* ETHDateTime.cpp in Sources */,
+				7421F14C1647267300C55BAE /* ETHFileChangeDetector.cpp in Sources */,
+				7421F14E1647267300C55BAE /* ETHFrameTimer.cpp in Sources */,
+				7421F1501647267300C55BAE /* ETHGlobalScaleManager.cpp in Sources */,
+				7421F1521647267300C55BAE /* ETHInput.cpp in Sources */,
+				7421F1541647267300C55BAE /* ETHSpeedTimer.cpp in Sources */,
+				7421F2991647415E00C55BAE /* scriptarray.cpp in Sources */,
+				7421F29B1647415E00C55BAE /* scriptdictionary.cpp in Sources */,
+				7421F29D1647415E00C55BAE /* scriptmath.cpp in Sources */,
+				7421F29F1647415E00C55BAE /* scriptmath2d.cpp in Sources */,
+				7421F2A11647415E00C55BAE /* scriptmath3d.cpp in Sources */,
+				7421F2AA1647416F00C55BAE /* scriptbuilder.cpp in Sources */,
+				7421F2AC1647416F00C55BAE /* scriptfile.cpp in Sources */,
+				7421F2AE1647416F00C55BAE /* scriptstdstring.cpp in Sources */,
+				7421F2B7164741F300C55BAE /* tinystr.cpp in Sources */,
+				7421F2B9164741F300C55BAE /* tinyxml.cpp in Sources */,
+				7421F2BB164741F300C55BAE /* tinyxmlerror.cpp in Sources */,
+				7421F2BC164741F300C55BAE /* tinyxmlparser.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		7421F2C9164743F400C55BAE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = as;
+			targetProxy = 7421F2C8164743F400C55BAE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		74F00ADF1646B9EB00B8B51B /* InfoPlist.strings */ = {
@@ -282,12 +1040,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LIBRARY = "libstdc++";
 				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gxkgpuwgwqxighfefncafkvqrxui/Build/Products/Debug\"",
+					"\"$(SRCROOT)/../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gxkgpuwgwqxighfefncafkvqrxui/Build/Products/Release\"",
 				);
 				FRAMEWORK_VERSION = A;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -300,6 +1060,7 @@
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../src/gs2d/vendors/BoostSDK\"",
 					"\"$(SRCROOT)/../../../src/gs2d/src\"",
+					"\"$(SRCROOT)/../../../src/box2d\"",
 				);
 				INFOPLIST_FILE = "engine/engine-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -314,12 +1075,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LIBRARY = "libstdc++";
 				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gxkgpuwgwqxighfefncafkvqrxui/Build/Products/Debug\"",
+					"\"$(SRCROOT)/../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gxkgpuwgwqxighfefncafkvqrxui/Build/Products/Release\"",
 				);
 				FRAMEWORK_VERSION = A;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -328,6 +1091,7 @@
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../src/gs2d/vendors/BoostSDK\"",
 					"\"$(SRCROOT)/../../../src/gs2d/src\"",
+					"\"$(SRCROOT)/../../../src/box2d\"",
 				);
 				INFOPLIST_FILE = "engine/engine-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";

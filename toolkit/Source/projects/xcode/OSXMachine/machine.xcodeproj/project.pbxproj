@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7421F0241646EF8400C55BAE /* gs2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F01D1646EE4A00C55BAE /* gs2d.framework */; };
 		7421F02A1646EFCB00C55BAE /* gs2d.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F01D1646EE4A00C55BAE /* gs2d.framework */; };
+		7421F2D316474D3800C55BAE /* box2d.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F2D116474D2800C55BAE /* box2d.framework */; };
 		746947371646C59C00CCD9D3 /* SDLMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 746947351646C59C00CCD9D3 /* SDLMain.m */; };
 		746947381646C59C00CCD9D3 /* main.sdl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 746947361646C59C00CCD9D3 /* main.sdl.cpp */; };
 		7487A4F21646C7D7002DD331 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7487A4F11646C7D7002DD331 /* SDL.framework */; };
@@ -34,6 +35,13 @@
 			remoteGlobalIDString = 74F3A4F51632E3870064C9A5;
 			remoteInfo = gs2d;
 		};
+		7421F2D016474D2800C55BAE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7421F2CC16474D2800C55BAE /* box2d.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7421F162164734E900C55BAE;
+			remoteInfo = box2d;
+		};
 		7487A4EA1646C75B002DD331 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7487A4D91646C749002DD331 /* engine.xcodeproj */;
@@ -57,6 +65,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				7421F2D316474D3800C55BAE /* box2d.framework in CopyFiles */,
 				7421F02A1646EFCB00C55BAE /* gs2d.framework in CopyFiles */,
 				7487A53F1646DFC2002DD331 /* SDL.framework in CopyFiles */,
 				7487A51E1646DC57002DD331 /* engine.framework in CopyFiles */,
@@ -67,6 +76,7 @@
 
 /* Begin PBXFileReference section */
 		7421F0181646EE4A00C55BAE /* gs2d.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = gs2d.xcodeproj; path = /Users/blackdog/Documents/workspace/ethanon/toolkit/Source/projects/xcode/../../src/gs2d/projects/xcode/gs2d/gs2d.xcodeproj; sourceTree = "<absolute>"; };
+		7421F2CC16474D2800C55BAE /* box2d.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = box2d.xcodeproj; path = /Users/blackdog/Documents/workspace/ethanon/toolkit/Source/projects/xcode/../../src/box2d/Build/xcode/box2d.xcodeproj; sourceTree = "<absolute>"; };
 		746947341646C59C00CCD9D3 /* SDLMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLMain.h; path = ../../../../src/gs2d/src/Platform/macosx/SDLMain.h; sourceTree = "<group>"; };
 		746947351646C59C00CCD9D3 /* SDLMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLMain.m; path = ../../../../src/gs2d/src/Platform/macosx/SDLMain.m; sourceTree = "<group>"; };
 		746947361646C59C00CCD9D3 /* main.sdl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.sdl.cpp; path = ../../../../src/machine/main.sdl.cpp; sourceTree = "<group>"; };
@@ -106,6 +116,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		7421F2CD16474D2800C55BAE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7421F2D116474D2800C55BAE /* box2d.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		7487A4E71646C75B002DD331 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -122,6 +140,7 @@
 				74F00B231646C12200B8B51B /* machine */,
 				74F00B1C1646C12200B8B51B /* Frameworks */,
 				74F00B1A1646C12200B8B51B /* Products */,
+				7421F2CC16474D2800C55BAE /* box2d.xcodeproj */,
 				7421F0181646EE4A00C55BAE /* gs2d.xcodeproj */,
 				7487A4D91646C749002DD331 /* engine.xcodeproj */,
 			);
@@ -220,6 +239,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 7421F2CD16474D2800C55BAE /* Products */;
+					ProjectRef = 7421F2CC16474D2800C55BAE /* box2d.xcodeproj */;
+				},
+				{
 					ProductGroup = 7487A4E71646C75B002DD331 /* Products */;
 					ProjectRef = 7487A4D91646C749002DD331 /* engine.xcodeproj */;
 				},
@@ -241,6 +264,13 @@
 			fileType = wrapper.framework;
 			path = gs2d.framework;
 			remoteRef = 7421F01C1646EE4A00C55BAE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7421F2D116474D2800C55BAE /* box2d.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = box2d.framework;
+			remoteRef = 7421F2D016474D2800C55BAE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		7487A4EB1646C75B002DD331 /* engine.framework */ = {
@@ -355,6 +385,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LIBRARY = "libstdc++";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -385,6 +416,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LIBRARY = "libstdc++";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
