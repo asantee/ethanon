@@ -33,37 +33,39 @@ ETHShaderManager::ETHShaderManager(VideoPtr video, const str_type::string& shade
 {
 	m_video = video;
 
-	m_defaultVS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::DefaultVS()).c_str(), Shader::SF_VERTEX, Shader::SP_MODEL_2);
-	m_particle  = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::Particle_VS()).c_str(), Shader::SF_VERTEX, Shader::SP_MODEL_2);
-	m_defaultStaticAmbientVS  = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::Ambient_VS_Hor()).c_str(), Shader::SF_VERTEX, Shader::SP_MODEL_2);
-	m_verticalStaticAmbientVS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::Ambient_VS_Ver()).c_str(), Shader::SF_VERTEX, Shader::SP_MODEL_2);
-	m_shadowVS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::Shadow_VS_Ver()).c_str(), Shader::SF_VERTEX, Shader::SP_MODEL_2);
+	Shader::SHADER_PROFILE sp = Shader::SP_MODEL_2;
+	#ifdef OPENGL
+	 sp = Shader::SP_MODEL_1;
+	#endif
 
-	#ifndef GLES2
-		m_projShadow = m_video->CreateSprite(ETHGlobal::GetDataResourceFullPath(shaderPath, GS_L("shadow.dds")));
-	#else
+	m_defaultVS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::DefaultVS()).c_str(), Shader::SF_VERTEX, sp);
+	m_particle  = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::Particle_VS()).c_str(), Shader::SF_VERTEX, sp);
+	m_defaultStaticAmbientVS  = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::Ambient_VS_Hor()).c_str(), Shader::SF_VERTEX, sp);
+	m_verticalStaticAmbientVS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::Ambient_VS_Ver()).c_str(), Shader::SF_VERTEX, sp);
+	m_shadowVS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::Shadow_VS_Ver()).c_str(), Shader::SF_VERTEX, sp);
+
+	#if defined(GLES2) || defined(OPENGL)
 		m_projShadow = m_video->CreateSprite(ETHGlobal::GetDataResourceFullPath(shaderPath, GS_L("shadow.png")));
+	#else
+		m_projShadow = m_video->CreateSprite(ETHGlobal::GetDataResourceFullPath(shaderPath, GS_L("shadow.dds")));
 	#endif
 
 	if (m_richLighting)
 	{
 		// Not yet implemented on GLES2
-		#ifndef GLES2
-		{
-			ETHLightingProfilePtr profile(new ETHVertexLightDiffuse(m_video, shaderPath));
-			if (profile->IsSupportedByHardware())
-			{
-				m_lightingProfiles[VERTEX_LIGHTING_DIFFUSE] = profile;
-			}
-		}
+		#if !defined(GLES2)
+		  {ETHLightingProfilePtr profile(new ETHVertexLightDiffuse(m_video, shaderPath));
+		  if (profile->IsSupportedByHardware())
+		  {
+			 m_lightingProfiles[VERTEX_LIGHTING_DIFFUSE] = profile;
+		  }}
 		#endif
+
+		{ETHLightingProfilePtr profile(new ETHPixelLightDiffuseSpecular(m_video, shaderPath, m_fakeEyeManager));
+		if (profile->IsSupportedByHardware())
 		{
-			ETHLightingProfilePtr profile(new ETHPixelLightDiffuseSpecular(m_video, shaderPath, m_fakeEyeManager));
-			if (profile->IsSupportedByHardware())
-			{
-				m_lightingProfiles[PIXEL_LIGHTING_DIFFUSE_SPECULAR] = profile;
-			}
-		}
+			m_lightingProfiles[PIXEL_LIGHTING_DIFFUSE_SPECULAR] = profile;
+		}}
 	}
 
 	if (m_lightingProfiles.empty())
@@ -112,9 +114,6 @@ bool ETHShaderManager::BeginAmbientPass(const ETHSpriteEntity *pRender, const fl
 
 bool ETHShaderManager::EndAmbientPass()
 {
-	//m_video->SetPixelShader(ShaderPtr());
-	//m_video->SetVertexShader(ShaderPtr());
-
 	if (m_lastAM != m_video->GetAlphaMode())
 		m_video->SetAlphaMode(m_lastAM);
 	return true;
