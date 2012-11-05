@@ -23,7 +23,11 @@
 #include "ETHPixelLightDiffuseSpecular.h"
 #include "ETHShaders.h"
 
-const Shader::SHADER_PROFILE ETHPixelLightDiffuseSpecular::m_profile = Shader::SP_MODEL_2;
+#ifdef OPENGL
+ const Shader::SHADER_PROFILE ETHPixelLightDiffuseSpecular::m_profile = Shader::SP_MODEL_1;
+#else
+ const Shader::SHADER_PROFILE ETHPixelLightDiffuseSpecular::m_profile = Shader::SP_MODEL_2;
+#endif
 
 ETHPixelLightDiffuseSpecular::ETHPixelLightDiffuseSpecular(
 	VideoPtr video,
