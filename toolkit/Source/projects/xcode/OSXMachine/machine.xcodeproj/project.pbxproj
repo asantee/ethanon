@@ -205,6 +205,7 @@
 				74F00B161646C12200B8B51B /* Frameworks */,
 				74F00B171646C12200B8B51B /* Resources */,
 				74F00B551646C2DD00B8B51B /* CopyFiles */,
+				7421F2ED1648322300C55BAE /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -292,6 +293,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		7421F2ED1648322300C55BAE /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "rsync -pvtrlL --cvs-exclude \\\n    $PROJECT_DIR/machine/assets* \\\n    $BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Resources";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		74F00B151646C12200B8B51B /* Sources */ = {
