@@ -42,6 +42,11 @@ void gs2d::ShowMessage(str_type::stringstream& stream, const GS_MESSAGE_TYPE typ
 	}
 }
 
+gs2d::str_type::string gs2d::Application::GetPlatformName()
+{
+	return "macosx";
+}
+
 namespace Platform {
 
 gs2d::str_type::string Platform::FileLogger::GetLogDirectory()

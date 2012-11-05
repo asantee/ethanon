@@ -103,7 +103,7 @@ public:
 	/// Posts a quit message
 	virtual void Quit() = 0;
 
-	virtual str_type::string GetPlatformName() const = 0;
+	static str_type::string GetPlatformName();
 
 	virtual Platform::FileIOHubPtr GetFileIOHub() = 0;
 
