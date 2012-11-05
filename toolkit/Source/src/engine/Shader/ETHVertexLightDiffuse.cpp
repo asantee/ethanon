@@ -28,8 +28,12 @@ const Shader::SHADER_PROFILE ETHVertexLightDiffuse::m_profile = Shader::SP_MODEL
 ETHVertexLightDiffuse::ETHVertexLightDiffuse(VideoPtr video, const str_type::string& shaderPath)
 {
 	m_video = video;
-	m_hVertexLightVS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::VL_VS_Hor_Diff()).c_str(), Shader::SF_VERTEX, Shader::SP_MODEL_2, "sprite_pvl");
-	m_vVertexLightVS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::VL_VS_Ver_Diff()).c_str(), Shader::SF_VERTEX, Shader::SP_MODEL_2, "sprite_pvl");
+	Shader::SHADER_PROFILE sp = Shader::SP_MODEL_2;
+	#ifdef OPENGL
+	 sp = Shader::SP_MODEL_1;
+	#endif
+	m_hVertexLightVS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::VL_VS_Hor_Diff()).c_str(), Shader::SF_VERTEX, sp, "sprite_pvl");
+	m_vVertexLightVS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::VL_VS_Ver_Diff()).c_str(), Shader::SF_VERTEX, sp, "sprite_pvl");
 }
 
 bool ETHVertexLightDiffuse::BeginLightPass(
@@ -87,7 +91,7 @@ bool ETHVertexLightDiffuse::EndLightPass()
 
 bool ETHVertexLightDiffuse::IsSupportedByHardware() const
 {
-	return (m_video->GetHighestVertexProfile() >= m_profile);
+	return true;
 }
 
 bool ETHVertexLightDiffuse::IsUsingPixelShader() const
