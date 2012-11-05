@@ -284,14 +284,19 @@ static void RegisterDefinedWords(const std::vector<gs2d::str_type::string>& defi
 	#ifdef APPLE_IOS
 		builder.DefineWord("APPLE_IOS");
 	#endif
+	#ifdef MACOSX
+		builder.DefineWord("MACOSX");
+	#endif
+	#ifdef WIN32
+		builder.DefineWord("WINDOWS");
+	#endif
 	#if defined(APPLE_IOS) || defined(ANDROID)
 		builder.DefineWord("MOBILE");
 		builder.DefineWord("MOBILE_DEVICE");
 		builder.DefineWord("HANDHELD");
 		builder.DefineWord("HANDHELD_DEVICE");
 	#endif
-	#ifdef WIN32
-		builder.DefineWord("WINDOWS");
+	#if defined(WIN32) || defined(MACOSX)
 		builder.DefineWord("DESKTOP");
 	#endif
 
