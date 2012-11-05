@@ -45,7 +45,6 @@
 		7473CAA716330391005DB920 /* FileLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CA9F16330391005DB920 /* FileLogger.h */; };
 		7473CAA816330391005DB920 /* FileManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7473CAA016330391005DB920 /* FileManager.cpp */; };
 		7473CAA916330391005DB920 /* FileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CAA116330391005DB920 /* FileManager.h */; };
-		7473CAAA16330391005DB920 /* Logger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7473CAA216330391005DB920 /* Logger.cpp */; };
 		7473CAAB16330391005DB920 /* Logger.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CAA316330391005DB920 /* Logger.h */; };
 		7473CAB51633044E005DB920 /* BitmapFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7473CAAD1633044E005DB920 /* BitmapFont.cpp */; };
 		7473CAB61633044E005DB920 /* BitmapFont.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CAAE1633044E005DB920 /* BitmapFont.h */; };
@@ -159,7 +158,6 @@
 		7473CA9F16330391005DB920 /* FileLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileLogger.h; path = ../../../../src/Platform/FileLogger.h; sourceTree = "<group>"; };
 		7473CAA016330391005DB920 /* FileManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FileManager.cpp; path = ../../../../src/Platform/FileManager.cpp; sourceTree = "<group>"; };
 		7473CAA116330391005DB920 /* FileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileManager.h; path = ../../../../src/Platform/FileManager.h; sourceTree = "<group>"; };
-		7473CAA216330391005DB920 /* Logger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Logger.cpp; path = ../../../../src/Platform/Logger.cpp; sourceTree = "<group>"; };
 		7473CAA316330391005DB920 /* Logger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Logger.h; path = ../../../../src/Platform/Logger.h; sourceTree = "<group>"; };
 		7473CAAD1633044E005DB920 /* BitmapFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BitmapFont.cpp; path = ../../../../src/Video/BitmapFont.cpp; sourceTree = "<group>"; };
 		7473CAAE1633044E005DB920 /* BitmapFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BitmapFont.h; path = ../../../../src/Video/BitmapFont.h; sourceTree = "<group>"; };
@@ -263,15 +261,12 @@
 				7473CAC91633138B005DB920 /* sdl */,
 				7473CAC516330E1C005DB920 /* Platform.cpp */,
 				7473CAC616330E1C005DB920 /* Platform.h */,
-				7473CAC116330624005DB920 /* Platform.macosx.h */,
-				7473CAC216330624005DB920 /* Platform.macosx.mm */,
 				7473CA9C16330391005DB920 /* FileIOHub.cpp */,
 				7473CA9D16330391005DB920 /* FileIOHub.h */,
 				7473CA9E16330391005DB920 /* FileLogger.cpp */,
 				7473CA9F16330391005DB920 /* FileLogger.h */,
 				7473CAA016330391005DB920 /* FileManager.cpp */,
 				7473CAA116330391005DB920 /* FileManager.h */,
-				7473CAA216330391005DB920 /* Logger.cpp */,
 				7473CAA316330391005DB920 /* Logger.h */,
 				7421F2DD1648173000C55BAE /* StdFileManager.cpp */,
 				7421F2DE1648173000C55BAE /* StdFileManager.h */,
@@ -316,6 +311,8 @@
 		7473CACE16331548005DB920 /* macosx */ = {
 			isa = PBXGroup;
 			children = (
+				7473CAC116330624005DB920 /* Platform.macosx.h */,
+				7473CAC216330624005DB920 /* Platform.macosx.mm */,
 				7458F0821636CFB200D48019 /* MacOSXFileIOHub.mm */,
 				7458F0831636CFB200D48019 /* MacOSXFileIOHub.h */,
 			);
@@ -653,7 +650,6 @@
 				7473CAA416330391005DB920 /* FileIOHub.cpp in Sources */,
 				7473CAA616330391005DB920 /* FileLogger.cpp in Sources */,
 				7473CAA816330391005DB920 /* FileManager.cpp in Sources */,
-				7473CAAA16330391005DB920 /* Logger.cpp in Sources */,
 				7473CAB51633044E005DB920 /* BitmapFont.cpp in Sources */,
 				7473CAB71633044E005DB920 /* BitmapFontManager.cpp in Sources */,
 				7473CABF1633045D005DB920 /* Enml.cpp in Sources */,
