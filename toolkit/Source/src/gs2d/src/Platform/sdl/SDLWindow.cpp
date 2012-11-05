@@ -35,7 +35,6 @@ static int SetPixelFormat(const SDL_VideoInfo* info, const Texture::PIXEL_FORMAT
 		SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
 		SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
 		SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
-		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
 		bpp = 16;
 	}
 	else if (format == Texture::PF_32BIT)
@@ -44,14 +43,13 @@ static int SetPixelFormat(const SDL_VideoInfo* info, const Texture::PIXEL_FORMAT
 		SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
 		SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
 		SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
-		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
 		bpp = 32;
 	}
 	else
 	{
-		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
 		bpp = 0;
 	}
+	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
 	return bpp;
 }
 
@@ -183,13 +181,6 @@ Video::VIDEO_MODE SDLWindow::GetVideoMode(const unsigned int modeIdx) const
 unsigned int SDLWindow::GetVideoModeCount() const
 {
 	return static_cast<unsigned int>(m_videoModes.size());
-}
-
-str_type::string SDLWindow::GetPlatformName() const
-{
-#	ifdef MACOSX
-	return "macosx";
-#	endif
 }
 
 Platform::FileIOHubPtr SDLWindow::GetFileIOHub()
