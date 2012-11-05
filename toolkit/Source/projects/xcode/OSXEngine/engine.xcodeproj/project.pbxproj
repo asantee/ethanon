@@ -165,8 +165,8 @@
 		7421F2BB164741F300C55BAE /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F2B5164741F300C55BAE /* tinyxmlerror.cpp */; };
 		7421F2BC164741F300C55BAE /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F2B6164741F300C55BAE /* tinyxmlparser.cpp */; };
 		7421F2CA164743F900C55BAE /* libas.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F2C6164743D200C55BAE /* libas.a */; };
-		7421F2D716474F2500C55BAE /* box2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F2D616474F2500C55BAE /* box2d.framework */; };
-		7421F2D916474F2900C55BAE /* gs2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F2D816474F2900C55BAE /* gs2d.framework */; };
+		7421F2EF1648415D00C55BAE /* box2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F2EE1648415D00C55BAE /* box2d.framework */; };
+		7421F2F11648417C00C55BAE /* gs2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F2F01648417C00C55BAE /* gs2d.framework */; };
 		74F00AD71646B9EB00B8B51B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F00AD61646B9EB00B8B51B /* Cocoa.framework */; };
 		74F00AE11646B9EB00B8B51B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 74F00ADF1646B9EB00B8B51B /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
@@ -359,8 +359,8 @@
 		7421F2B5164741F300C55BAE /* tinyxmlerror.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxmlerror.cpp; path = ../../../src/vendors/tinyxml_ansi/tinyxmlerror.cpp; sourceTree = "<group>"; };
 		7421F2B6164741F300C55BAE /* tinyxmlparser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxmlparser.cpp; path = ../../../src/vendors/tinyxml_ansi/tinyxmlparser.cpp; sourceTree = "<group>"; };
 		7421F2C1164743D200C55BAE /* angelscript.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = angelscript.xcodeproj; path = /Users/blackdog/Documents/workspace/ethanon/toolkit/Source/projects/xcode/../../src/angelscript/projects/xcode/angelscript.xcodeproj; sourceTree = "<absolute>"; };
-		7421F2D616474F2500C55BAE /* box2d.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = box2d.framework; path = "../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gxkgpuwgwqxighfefncafkvqrxui/Build/Products/Release/box2d.framework"; sourceTree = "<group>"; };
-		7421F2D816474F2900C55BAE /* gs2d.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = gs2d.framework; path = "../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gxkgpuwgwqxighfefncafkvqrxui/Build/Products/Release/gs2d.framework"; sourceTree = "<group>"; };
+		7421F2EE1648415D00C55BAE /* box2d.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = box2d.framework; path = "../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gxkgpuwgwqxighfefncafkvqrxui/Build/Products/Debug/box2d.framework"; sourceTree = "<group>"; };
+		7421F2F01648417C00C55BAE /* gs2d.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = gs2d.framework; path = "../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gxkgpuwgwqxighfefncafkvqrxui/Build/Products/Debug/gs2d.framework"; sourceTree = "<group>"; };
 		74F00AD31646B9EB00B8B51B /* engine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = engine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		74F00AD61646B9EB00B8B51B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		74F00AD91646B9EB00B8B51B /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -376,8 +376,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7421F2D916474F2900C55BAE /* gs2d.framework in Frameworks */,
-				7421F2D716474F2500C55BAE /* box2d.framework in Frameworks */,
+				7421F2F11648417C00C55BAE /* gs2d.framework in Frameworks */,
+				7421F2EF1648415D00C55BAE /* box2d.framework in Frameworks */,
 				7421F2CA164743F900C55BAE /* libas.a in Frameworks */,
 				74F00AD71646B9EB00B8B51B /* Cocoa.framework in Frameworks */,
 			);
@@ -643,8 +643,8 @@
 		74F00AC71646B9EB00B8B51B = {
 			isa = PBXGroup;
 			children = (
-				7421F2D816474F2900C55BAE /* gs2d.framework */,
-				7421F2D616474F2500C55BAE /* box2d.framework */,
+				7421F2F01648417C00C55BAE /* gs2d.framework */,
+				7421F2EE1648415D00C55BAE /* box2d.framework */,
 				7421F28C1647413C00C55BAE /* addons */,
 				7421F2B0164741B700C55BAE /* tinyxml */,
 				74F00ADC1646B9EB00B8B51B /* engine */,
@@ -1044,11 +1044,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gxkgpuwgwqxighfefncafkvqrxui/Build/Products/Debug\"",
-					"\"$(SRCROOT)/../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gxkgpuwgwqxighfefncafkvqrxui/Build/Products/Release\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				FRAMEWORK_VERSION = A;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "engine/engine-Prefix.pch";
@@ -1056,6 +1052,10 @@
 					"DEBUG=1",
 					"$(inherited)",
 					MACOSX,
+					OPENGL,
+					AS_MAX_PORTABILITY,
+					ETH_DEFINE_DEPRECATED_SIGNATURES_FROM_0_9_5,
+					AS_NO_THREADS,
 				);
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../src/gs2d/vendors/BoostSDK\"",
@@ -1079,15 +1079,17 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gxkgpuwgwqxighfefncafkvqrxui/Build/Products/Debug\"",
-					"\"$(SRCROOT)/../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gxkgpuwgwqxighfefncafkvqrxui/Build/Products/Release\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				FRAMEWORK_VERSION = A;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "engine/engine-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = MACOSX;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					MACOSX,
+					OPENGL,
+					AS_NO_THREADS,
+					AS_MAX_PORTABILITY,
+					ETH_DEFINE_DEPRECATED_SIGNATURES_FROM_0_9_5,
+				);
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../src/gs2d/vendors/BoostSDK\"",
 					"\"$(SRCROOT)/../../../src/gs2d/src\"",
