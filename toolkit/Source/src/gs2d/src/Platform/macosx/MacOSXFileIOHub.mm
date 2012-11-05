@@ -27,8 +27,12 @@
 
 namespace Platform {
 
-FileIOHubPtr CreateFileIOHub(const Platform::FileManagerPtr& fileManager, const gs2d::str_type::string& fontDirectory)
+FileIOHubPtr CreateFileIOHub(
+	const Platform::FileManagerPtr& fileManager,
+	const gs2d::str_type::string& fontDirectory,
+	const gs2d::str_type::string& resourceDirectory)
 {
+	GS2D_UNUSED_ARGUMENT(resourceDirectory);
 	return FileIOHubPtr(new MacOSXFileIOHub(fileManager, fontDirectory));
 }
 
@@ -43,7 +47,7 @@ static NSString* CreateDirectory(NSString* dir)
 static gs2d::str_type::string ResourceDirectory()
 {
 	NSString* resourceDir = [[NSBundle mainBundle] resourcePath];
-	resourceDir = [resourceDir stringByAppendingString:@"/"];
+	resourceDir = [resourceDir stringByAppendingString:@"/assets/"];
 	return [resourceDir cStringUsingEncoding:1];
 }
 
