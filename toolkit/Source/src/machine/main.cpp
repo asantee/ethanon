@@ -51,11 +51,7 @@ void ProcParams(const int argc, gs2d::str_type::char_t* argv[], bool& compileAnd
 	compileAndRun = true;
 	testing = false;
 
-	#ifdef MACOSX
-	 wait = false;
-	#else
-	 wait = true;
-	#endif
+	wait = Application::GetPlatformName() == "macosx" ? false : true;
 
 	for (int t = 0; t < argc; t++)
 	{
@@ -91,16 +87,24 @@ void ProcParams(const int argc, gs2d::str_type::char_t* argv[], bool& compileAnd
 	Platform::FileIOHubPtr fileIOHub = Platform::CreateFileIOHub(fileManager, ETHDirectories::GetBitmapFontDirectory());
 	const str_type::string resourceDirectory = fileIOHub->GetResourceDirectory(); 
 
-	const ETHAppEnmlFile app(resourceDirectory + ETH_APP_PROPERTIES_FILE, Platform::FileManagerPtr(new Platform::StdFileManager), GS_L("windows"));
+	const ETHAppEnmlFile app(resourceDirectory + ETH_APP_PROPERTIES_FILE, Platform::FileManagerPtr(new Platform::StdFileManager), Application::GetPlatformName());
 	const str_type::string bitmapFontPath = resourceDirectory + ETHDirectories::GetBitmapFontDirectory();
 
 	bool aborted;
 	{
 		ETHEnginePtr application = ETHEnginePtr(new ETHEngine(testing, compileAndRun));
-		application->SetHighEndDevice(true); // the PC will always be considered as a high-end device
+		application->SetHighEndDevice(true);
 
 		VideoPtr video;
-		if ((video = CreateVideo(app.GetWidth(), app.GetHeight(), app.GetTitle(), app.IsWindowed(), app.IsVsyncEnabled(), fileIOHub, Texture::PF_UNKNOWN, false)))
+		if ((video = CreateVideo(
+			app.GetWidth(),
+			app.GetHeight(),
+			app.GetTitle(),
+			app.IsWindowed(),
+			app.IsVsyncEnabled(),
+			fileIOHub,
+			Texture::PF_UNKNOWN,
+			false)))
 		{
 			InputPtr input = CreateInput(0, false);
 			AudioPtr audio = CreateAudio(0);
