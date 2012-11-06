@@ -11,6 +11,7 @@
 		7421F02A1646EFCB00C55BAE /* gs2d.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F01D1646EE4A00C55BAE /* gs2d.framework */; };
 		7421F2D316474D3800C55BAE /* box2d.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F2D116474D2800C55BAE /* box2d.framework */; };
 		7421F2DB164805C000C55BAE /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F2DA164805C000C55BAE /* main.cpp */; };
+		7421F2FF1649A1F000C55BAE /* ikpMP3.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F2F71649A18B00C55BAE /* ikpMP3.dylib */; };
 		746947371646C59C00CCD9D3 /* SDLMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 746947351646C59C00CCD9D3 /* SDLMain.m */; };
 		7487A4F21646C7D7002DD331 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7487A4F11646C7D7002DD331 /* SDL.framework */; };
 		7487A51D1646DC43002DD331 /* engine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7487A4EB1646C75B002DD331 /* engine.framework */; };
@@ -59,6 +60,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		7421F2FE1649A1E500C55BAE /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = assets;
+			dstSubfolderSpec = 7;
+			files = (
+				7421F2FF1649A1F000C55BAE /* ikpMP3.dylib in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		74F00B551646C2DD00B8B51B /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -78,6 +89,7 @@
 		7421F0181646EE4A00C55BAE /* gs2d.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = gs2d.xcodeproj; path = /Users/blackdog/Documents/workspace/ethanon/toolkit/Source/projects/xcode/../../src/gs2d/projects/xcode/gs2d/gs2d.xcodeproj; sourceTree = "<absolute>"; };
 		7421F2CC16474D2800C55BAE /* box2d.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = box2d.xcodeproj; path = /Users/blackdog/Documents/workspace/ethanon/toolkit/Source/projects/xcode/../../src/box2d/Build/xcode/box2d.xcodeproj; sourceTree = "<absolute>"; };
 		7421F2DA164805C000C55BAE /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../../../src/machine/main.cpp; sourceTree = "<group>"; };
+		7421F2F71649A18B00C55BAE /* ikpMP3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = ikpMP3.dylib; path = "../../../src/gs2d/vendors/irrKlang/bin/macosx-gcc/ikpMP3.dylib"; sourceTree = "<group>"; };
 		746947341646C59C00CCD9D3 /* SDLMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLMain.h; path = ../../../../src/gs2d/src/Platform/macosx/SDLMain.h; sourceTree = "<group>"; };
 		746947351646C59C00CCD9D3 /* SDLMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLMain.m; path = ../../../../src/gs2d/src/Platform/macosx/SDLMain.m; sourceTree = "<group>"; };
 		7487A4D91646C749002DD331 /* engine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = engine.xcodeproj; path = ../OSXEngine/engine.xcodeproj; sourceTree = "<group>"; };
@@ -135,6 +147,7 @@
 		74F00B0E1646C12200B8B51B = {
 			isa = PBXGroup;
 			children = (
+				7421F2F71649A18B00C55BAE /* ikpMP3.dylib */,
 				7487A53E1646DFC2002DD331 /* SDL.framework */,
 				7487A4F11646C7D7002DD331 /* SDL.framework */,
 				74F00B231646C12200B8B51B /* machine */,
@@ -206,6 +219,7 @@
 				74F00B171646C12200B8B51B /* Resources */,
 				74F00B551646C2DD00B8B51B /* CopyFiles */,
 				7421F2ED1648322300C55BAE /* ShellScript */,
+				7421F2FE1649A1E500C55BAE /* CopyFiles */,
 			);
 			buildRules = (
 			);
