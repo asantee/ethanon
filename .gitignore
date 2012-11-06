@@ -30,6 +30,9 @@ toolkit/Source/src/gs2d/vendors/irrKlang/
 test.enml
 info.enml
 *.cache
+testbed/_GeneralTests
+testbed/__GeneralTests
+testbed/___GeneralTests
 
 # Visual Studio files
 *.ncb
