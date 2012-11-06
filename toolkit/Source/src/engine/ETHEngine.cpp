@@ -359,8 +359,6 @@ bool ETHEngine::BuildModule(const std::vector<gs2d::str_type::string>& definedWo
 		{
 			m_pASModule->SaveByteCode(&stream);
 			stream.CloseW();
-
-			SaveByteCodeReadme(resourcePath);
 		}
 		else
 		{
@@ -448,23 +446,6 @@ void ETHEngine::MessageCallback(const asSMessageInfo *msg)
 
 	ETH_STREAM_DECL(ss) << std::endl << GS_L("AngelScript ") << typeStr << GS_L(" (line ") << msg->row << GS_L("): ") << std::endl << msg->message;
 	m_provider->Log(ss.str(), type);
-}
-
-void ETHEngine::SaveByteCodeReadme(str_type::string path)
-{
-	path += ETH_DEFAULT_MAIN_BYTECODE_FILE;
-	path += GS_L(".readme.txt");
-	str_type::ofstream ofs;
-	ofs.open(path.c_str());
-	if (ofs.is_open())
-	{
-		str_type::stringstream ss;
-		ss << ETH_DEFAULT_MAIN_BYTECODE_FILE << GS_L(" is the current pre-compiled byte code of your project. \n")
-			<< GS_L("Remove ") << ETH_DEFAULT_MAIN_SCRIPT_FILE << GS_L(" from your project's path in order to load the pre-compiled byte code instead ")
-			<< GS_L("of compiling ") << ETH_DEFAULT_MAIN_SCRIPT_FILE << GS_L(".");
-		ofs.write(ss.str().c_str(), ss.str().length());
-		ofs.close();
-	}
 }
 
 void ETHEngine::Restore()
