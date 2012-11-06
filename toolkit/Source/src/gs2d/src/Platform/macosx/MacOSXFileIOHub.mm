@@ -86,10 +86,10 @@ MacOSXFileIOHub::MacOSXFileIOHub(
 	CreateDirectory([NSString stringWithCString:Platform::FileLogger::GetLogDirectory().c_str() encoding:NSUTF8StringEncoding]);
 
 	#ifdef DEBUG
-	gs2d::ShowMessage(GetResourceDirectory(), gs2d::GSMT_INFO);
-	gs2d::ShowMessage(GetProgramDirectory(), gs2d::GSMT_INFO);
-	gs2d::ShowMessage(GetExternalStorageDirectory(), gs2d::GSMT_INFO);
-	gs2d::ShowMessage(GetGlobalExternalStorageDirectory(), gs2d::GSMT_INFO);
+	gs2d::ShowMessage(gs2d::str_type::string("Resources: ") + GetResourceDirectory(), gs2d::GSMT_INFO);
+	gs2d::ShowMessage(gs2d::str_type::string("Program:   ") + GetProgramDirectory(), gs2d::GSMT_INFO);
+	gs2d::ShowMessage(gs2d::str_type::string("External:  ") + GetExternalStorageDirectory(), gs2d::GSMT_INFO);
+	gs2d::ShowMessage(gs2d::str_type::string("GExternal: ") + GetGlobalExternalStorageDirectory(), gs2d::GSMT_INFO);
 	#endif
 }
 
