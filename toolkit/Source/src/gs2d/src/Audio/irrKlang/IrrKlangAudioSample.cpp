@@ -105,6 +105,10 @@ bool IrrKlangAudioSample::Play()
 		m_sound->setPlaybackSpeed(speed);
 		m_sound->setPan(pan);
 	}
+	else
+	{
+		m_sound->setPlayPosition(0);
+	}
 	m_sound->setIsPaused(false);
 	return true;
 }
