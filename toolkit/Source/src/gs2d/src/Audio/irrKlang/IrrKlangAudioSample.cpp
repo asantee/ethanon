@@ -45,6 +45,9 @@ IrrKlangAudioSample::~IrrKlangAudioSample()
 		m_engine->removeSoundSource(m_source);
 	if (m_sound)
 		m_sound->drop();
+
+	if (m_engine)
+		m_engine->drop();
 }
 
 bool IrrKlangAudioSample::LoadSampleFromFile(
@@ -69,6 +72,7 @@ bool IrrKlangAudioSample::LoadSampleFromFileInMemory(AudioWeakPtr audio, void *p
 {
 	IrrKlangAudioPtr irrAudio = boost::dynamic_pointer_cast<IrrKlangAudio>(audio.lock());
 	m_engine = irrAudio->GetEngine();
+	m_engine->grab();
 	m_type = type;
 
 	m_source = m_engine->addSoundSourceFromMemory(pBuffer, bufferLength, m_fullFilePath.c_str(), true);
