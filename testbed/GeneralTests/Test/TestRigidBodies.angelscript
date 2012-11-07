@@ -228,7 +228,7 @@ class TestRigidBodies : Test
 				}
 			}
 		}
-		if (input.GetKeyState(K_DELETE) == KS_HIT)
+		if (input.GetKeyState(K_DELETE) == KS_HIT || input.GetKeyState(K_BACKSPACE) == KS_HIT)
 		{
 			if (picked !is null)
 			{
