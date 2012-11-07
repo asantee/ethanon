@@ -20,7 +20,7 @@
     OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#include "utf8converter.h"
+#include "UTF8Converter.h"
 #include "../Platform/Platform.h"
 
 namespace utf8 {

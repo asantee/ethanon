@@ -23,7 +23,11 @@
 #ifndef ETH_UTF8STRING_H_
 #define ETH_UTF8STRING_H_
 
-#include <xstring>
+#include "../Types.h"
+
+#ifdef GS2D_STR_TYPE_WCHAR
+ #include <xstring>
+#endif
 
 namespace utf8 {
 
@@ -31,22 +35,22 @@ class Converter
 {
 public:
 
-	Converter(const char * szData);
+	Converter(const char* szData);
 	Converter(const std::string& sData);
-	Converter(const wchar_t * wcsData);
-	Converter(const std::wstring& wsData);
+	Converter(const gs2d::str_type::char_t* wcsData);
+	Converter(const gs2d::str_type::string& wsData);
 	const char* c_str() const;
-	const wchar_t* wc_str() const;
+	const gs2d::str_type::char_t* wc_str() const;
 	const std::string& str() const;
-	const std::wstring& wstr() const;
+	const gs2d::str_type::string& wstr() const;
 	std::string::size_type length() const;
 
 private:
-	void SetData(const char * szData);
-	void SetWideData(const wchar_t * wcsData);
+	void SetData(const char* szData);
+	void SetWideData(const gs2d::str_type::char_t* wcsData);
 
 	std::string ansidata;
-	std::wstring widedata;
+	gs2d::str_type::string widedata;
 };
 
 typedef Converter c;
