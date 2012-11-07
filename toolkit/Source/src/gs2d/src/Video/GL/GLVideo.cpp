@@ -671,7 +671,7 @@ bool GLVideo::SaveScreenshot(
 {
 	str_type::string fileName = name, ext;
 	const int type = GetSOILTexType(fmt, ext);
-	
+
 	if (!Platform::IsExtensionRight(fileName, ext))
 		fileName.append(ext);
 
