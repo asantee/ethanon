@@ -207,16 +207,16 @@ asDECLARE_FUNCTION_WRAPPER(__ForwardCommand,               ETHScriptWrapper::For
 asDECLARE_FUNCTION_WRAPPER(__SetZBuffer, ETHScriptWrapper::SetZBuffer);
 asDECLARE_FUNCTION_WRAPPER(__GetZBuffer, ETHScriptWrapper::GetZBuffer);
 
-asDECLARE_FUNCTION_WRAPPER(__SetPersistentResources,     ETHScriptWrapper::SetPersistentResources);
-asDECLARE_FUNCTION_WRAPPER(__IsPersistentResources,      ETHScriptWrapper::IsPersistentResources);
-asDECLARE_FUNCTION_WRAPPER(__ReleaseResources,           ETHScriptWrapper::ReleaseResources);
-asDECLARE_FUNCTION_WRAPPER(__ResolveJoints,              ETHScriptWrapper::ResolveJoints);
-asDECLARE_FUNCTION_WRAPPER(__SetFastGarbageCollector,    ETHScriptWrapper::SetFastGarbageCollector);
-asDECLARE_FUNCTION_WRAPPER(__GetStringFromFileInPackage, ETHScriptWrapper::GetStringFromFileInPackage);
-asDECLARE_FUNCTION_WRAPPER(__FileInPackageExists,        ETHScriptWrapper::FileInPackageExists);
-asDECLARE_FUNCTION_WRAPPER(__FileExists,                 ETHScriptWrapper::FileExists);
-asDECLARE_FUNCTION_WRAPPER(__IsHighEndDevice,            ETHScriptWrapper::IsHighEndDevice);
-asDECLARE_FUNCTION_WRAPPER(__GetPlatformName,            ETHScriptWrapper::GetPlatformName);
+asDECLARE_FUNCTION_WRAPPER(__SetPersistentResources,        ETHScriptWrapper::SetPersistentResources);
+asDECLARE_FUNCTION_WRAPPER(__ArePersistentResourcesEnabled, ETHScriptWrapper::ArePersistentResourcesEnabled);
+asDECLARE_FUNCTION_WRAPPER(__ReleaseResources,              ETHScriptWrapper::ReleaseResources);
+asDECLARE_FUNCTION_WRAPPER(__ResolveJoints,                 ETHScriptWrapper::ResolveJoints);
+asDECLARE_FUNCTION_WRAPPER(__SetFastGarbageCollector,       ETHScriptWrapper::SetFastGarbageCollector);
+asDECLARE_FUNCTION_WRAPPER(__GetStringFromFileInPackage,    ETHScriptWrapper::GetStringFromFileInPackage);
+asDECLARE_FUNCTION_WRAPPER(__FileInPackageExists,           ETHScriptWrapper::FileInPackageExists);
+asDECLARE_FUNCTION_WRAPPER(__FileExists,                    ETHScriptWrapper::FileExists);
+asDECLARE_FUNCTION_WRAPPER(__IsHighEndDevice,               ETHScriptWrapper::IsHighEndDevice);
+asDECLARE_FUNCTION_WRAPPER(__GetPlatformName,               ETHScriptWrapper::GetPlatformName);
 
 asDECLARE_FUNCTION_WRAPPER(__EnablePackLoading,          ETHScriptWrapper::EnablePackLoading);
 asDECLARE_FUNCTION_WRAPPER(__DisablePackLoading,         ETHScriptWrapper::DisablePackLoading);
@@ -463,13 +463,13 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void SetZBuffer(const bool)", asFUNCTION(__SetZBuffer), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool GetZBuffer()",           asFUNCTION(__GetZBuffer), asCALL_GENERIC); assert(r >= 0);
 
-	r = pASEngine->RegisterGlobalFunction("void SetPersistentResources(const bool)",  asFUNCTION(__SetPersistentResources),  asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("bool IsPersistentResources()",             asFUNCTION(__IsPersistentResources),   asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("void ReleaseResources()",                  asFUNCTION(__ReleaseResources),        asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("void ResolveJoints()",                     asFUNCTION(__ResolveJoints),           asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("void SetFastGarbageCollector(const bool)", asFUNCTION(__SetFastGarbageCollector), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("bool IsHighEndDevice()",                   asFUNCTION(__IsHighEndDevice),         asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("string GetPlatformName()",                 asFUNCTION(__GetPlatformName),         asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void SetPersistentResources(const bool)",  asFUNCTION(__SetPersistentResources),        asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("bool ArePersistentResourcesEnabled()",     asFUNCTION(__ArePersistentResourcesEnabled), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void ReleaseResources()",                  asFUNCTION(__ReleaseResources),              asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void ResolveJoints()",                     asFUNCTION(__ResolveJoints),                 asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void SetFastGarbageCollector(const bool)", asFUNCTION(__SetFastGarbageCollector),       asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("bool IsHighEndDevice()",                   asFUNCTION(__IsHighEndDevice),               asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("string GetPlatformName()",                 asFUNCTION(__GetPlatformName),               asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("bool EnablePackLoading(const string &in, const string &in password = \"\")", asFUNCTION(__EnablePackLoading),  asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void DisablePackLoading()",         asFUNCTION(__DisablePackLoading),         asCALL_GENERIC); assert(r >= 0);
