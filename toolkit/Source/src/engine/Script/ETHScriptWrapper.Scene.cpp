@@ -525,7 +525,7 @@ void ETHScriptWrapper::ResolveJoints()
 
 bool ETHScriptWrapper::LoadScene(const str_type::string &escFile, const Vector2& bucketSize)
 {
-	if (!IsPersistentResources())
+	if (!ArePersistentResourcesEnabled())
 	{
 		if (escFile != m_sceneFileName)
 		{

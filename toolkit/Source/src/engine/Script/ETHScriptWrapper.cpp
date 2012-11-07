@@ -239,7 +239,7 @@ void ETHScriptWrapper::SetPersistentResources(const bool enable)
 	m_persistentResources = enable;
 }
 
-bool ETHScriptWrapper::IsPersistentResources()
+bool ETHScriptWrapper::ArePersistentResourcesEnabled()
 {
 	return m_persistentResources;
 }
