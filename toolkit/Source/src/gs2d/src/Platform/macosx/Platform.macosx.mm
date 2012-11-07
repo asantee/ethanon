@@ -49,11 +49,6 @@ gs2d::str_type::string gs2d::Application::GetPlatformName()
 
 namespace Platform {
 
-gs2d::str_type::string Platform::FileLogger::GetLogDirectory()
-{
-	return GetModuleDirectory() + "log/";
-}
-
 gs2d::str_type::string GetModuleDirectory()
 {
 	NSString* bundleDir = [[NSBundle mainBundle] bundlePath];

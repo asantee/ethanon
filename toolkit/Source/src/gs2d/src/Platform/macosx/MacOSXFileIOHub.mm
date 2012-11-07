@@ -44,6 +44,13 @@ static NSString* CreateDirectory(NSString* dir)
 	return dir;
 }
 
+static NSString* AppNameFromBundle()
+{
+	NSString* bundleDir = [[NSBundle mainBundle] bundlePath];
+	NSString *appName = [[bundleDir lastPathComponent] stringByDeletingPathExtension];
+	return appName;
+}
+
 static gs2d::str_type::string ResourceDirectory()
 {
 	NSString* resourceDir = [[NSBundle mainBundle] resourcePath];
@@ -56,17 +63,17 @@ static gs2d::str_type::string GlobalExternalStorageDirectory()
 	NSString* globalExternalStorageDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 
 	// apprend proc name plus slash
-	globalExternalStorageDir = [globalExternalStorageDir stringByAppendingPathComponent:[[NSProcessInfo processInfo] processName]];
+	globalExternalStorageDir = [globalExternalStorageDir stringByAppendingPathComponent:AppNameFromBundle()];
 	globalExternalStorageDir = [globalExternalStorageDir stringByAppendingString:@"/"];
 	return [globalExternalStorageDir cStringUsingEncoding:1];
 }
 
 static gs2d::str_type::string ExternalStorageDirectory()
 {
-	NSString* externalStorageDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+	NSString* externalStorageDir = [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 
 	// apprend proc name plus slash
-	externalStorageDir = [externalStorageDir stringByAppendingPathComponent:[[NSProcessInfo processInfo] processName]];
+	externalStorageDir = [externalStorageDir stringByAppendingPathComponent:AppNameFromBundle()];
 	externalStorageDir = [externalStorageDir stringByAppendingString:@"/"];
 	return [externalStorageDir cStringUsingEncoding:1];
 }
@@ -86,10 +93,10 @@ MacOSXFileIOHub::MacOSXFileIOHub(
 	CreateDirectory([NSString stringWithCString:Platform::FileLogger::GetLogDirectory().c_str() encoding:NSUTF8StringEncoding]);
 
 	#ifdef DEBUG
-	gs2d::ShowMessage(GetResourceDirectory(), gs2d::GSMT_INFO);
-	gs2d::ShowMessage(GetProgramDirectory(), gs2d::GSMT_INFO);
-	gs2d::ShowMessage(GetExternalStorageDirectory(), gs2d::GSMT_INFO);
-	gs2d::ShowMessage(GetGlobalExternalStorageDirectory(), gs2d::GSMT_INFO);
+	gs2d::ShowMessage(gs2d::str_type::string("Resources: ") + GetResourceDirectory(), gs2d::GSMT_INFO);
+	gs2d::ShowMessage(gs2d::str_type::string("Program:   ") + GetProgramDirectory(), gs2d::GSMT_INFO);
+	gs2d::ShowMessage(gs2d::str_type::string("External:  ") + GetExternalStorageDirectory(), gs2d::GSMT_INFO);
+	gs2d::ShowMessage(gs2d::str_type::string("GExternal: ") + GetGlobalExternalStorageDirectory(), gs2d::GSMT_INFO);
 	#endif
 }
 
@@ -112,3 +119,8 @@ bool MacOSXFileIOHub::IsResourcePackingSupported()
 }
 
 } // namespace Platform
+
+gs2d::str_type::string Platform::FileLogger::GetLogDirectory()
+{
+	return Platform::ExternalStorageDirectory() + "log/";
+}

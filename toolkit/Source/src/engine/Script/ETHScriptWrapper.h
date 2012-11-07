@@ -304,7 +304,7 @@ public:
 	static void UsePixelShaders(const bool enable);
 	static bool IsPixelShaderSupported();
 	static void SetPersistentResources(const bool enable);
-	static bool IsPersistentResources();
+	static bool ArePersistentResourcesEnabled();
 	static void ReleaseResources();
 	static void ResolveJoints();
 	static void ForceEntityRendering(ETHEntity *entity);

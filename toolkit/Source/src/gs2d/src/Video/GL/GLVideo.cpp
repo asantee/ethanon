@@ -41,7 +41,7 @@ GLVideo::GLVideo() :
 	m_filter(Video::TM_UNKNOWN),
 	m_textureExtension(GL_TEXTURE_2D),
 	m_alphaMode(AM_UNKNOWN),
-	m_alphaRef(0.02),
+	m_alphaRef(0.004),
 	m_zFar(1.0f),
 	m_zNear(0.0f),
 	m_backgroundColor(gs2d::constant::BLACK),
@@ -119,6 +119,7 @@ void GLVideo::Enable2DStates()
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DITHER);
 	glDepthFunc(GL_LEQUAL);
+	glDepthRange(0.0f, 1.0f);
 
 	glActiveTexture(GL_TEXTURE1);
 	glEnable(GL_TEXTURE_2D);
@@ -133,8 +134,8 @@ static void SetChannelClamp(const bool set)
 {
 	if (set)
 	{
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	}
 	else
 	{
@@ -148,8 +149,6 @@ bool GLVideo::SetClamp(const bool set)
 	m_clamp = set;
 	glActiveTexture(GL_TEXTURE0);
 	SetChannelClamp(set);
-	glActiveTexture(GL_TEXTURE1);
-	SetChannelClamp(set);
 	return true;
 }
 
@@ -162,12 +161,12 @@ static void SetChannelFilterMode(const Video::TEXTUREFILTER_MODE tfm, const GLen
 {
 	if (tfm != Video::TM_NEVER)
 	{
-		glTexParameteri(extension, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(extension, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(extension, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	}
 	else
 	{
-		glTexParameteri(extension, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+		glTexParameteri(extension, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(extension, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	}
 }
@@ -176,8 +175,6 @@ bool GLVideo::SetFilterMode(const TEXTUREFILTER_MODE tfm)
 {
 	m_filter = tfm;
 	glActiveTexture(GL_TEXTURE0);
-	SetChannelFilterMode(tfm, m_textureExtension);
-	glActiveTexture(GL_TEXTURE1);
 	SetChannelFilterMode(tfm, m_textureExtension);
 	return true;
 }

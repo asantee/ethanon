@@ -43,8 +43,12 @@ IrrKlangAudioSample::~IrrKlangAudioSample()
 {
 	if (m_engine && m_source)
 		m_engine->removeSoundSource(m_source);
+
 	if (m_sound)
 		m_sound->drop();
+
+	if (m_engine)
+		m_engine->drop();
 }
 
 bool IrrKlangAudioSample::LoadSampleFromFile(
@@ -69,12 +73,18 @@ bool IrrKlangAudioSample::LoadSampleFromFileInMemory(AudioWeakPtr audio, void *p
 {
 	IrrKlangAudioPtr irrAudio = boost::dynamic_pointer_cast<IrrKlangAudio>(audio.lock());
 	m_engine = irrAudio->GetEngine();
+	m_engine->grab();
 	m_type = type;
 
+	// if it already exists, remove the existing data in order to load it again
+	if (m_engine->getSoundSource(m_fullFilePath.c_str(), false))
+		m_engine->removeSoundSource(m_fullFilePath.c_str());
+
 	m_source = m_engine->addSoundSourceFromMemory(pBuffer, bufferLength, m_fullFilePath.c_str(), true);
-	m_source->setStreamMode(irrklang::ESM_AUTO_DETECT);
+
 	if (m_source)
 	{
+		m_source->setStreamMode(irrklang::ESM_AUTO_DETECT);
 		m_sound = m_engine->play2D(m_source, false, true, true);
 		if (m_sound)
 		{
@@ -104,6 +114,10 @@ bool IrrKlangAudioSample::Play()
 		m_sound = m_engine->play2D(m_source, looping, true, true);
 		m_sound->setPlaybackSpeed(speed);
 		m_sound->setPan(pan);
+	}
+	else
+	{
+		m_sound->setPlayPosition(0);
 	}
 	m_sound->setIsPaused(false);
 	return true;

@@ -221,9 +221,13 @@ math::Vector2 SDLInput::GetMouseMoveF() const
 math::Vector2 SDLInput::GetTouchMove(const unsigned int n) const
 {
 	if (n == 0)
-		return GetMouseMoveF();
+	{
+		return (IsKeyDown(GSK_LMOUSE)) ? GetMouseMoveF() : math::constant::ZERO_VECTOR2;
+	}
 	else
+	{
 		return math::constant::ZERO_VECTOR2;
+	}
 }
 
 math::Vector2 SDLInput::GetTouchPos(const unsigned int n, WindowPtr pWindow) const
