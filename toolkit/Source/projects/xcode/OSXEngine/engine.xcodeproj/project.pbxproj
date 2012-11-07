@@ -467,17 +467,17 @@
 				7421F0E61647263700C55BAE /* ETHEntityDestructorScript.cpp */,
 				7421F0E71647263700C55BAE /* ETHEntityDestructorScript.h */,
 				7421F0E81647263700C55BAE /* ETHScriptObjRegister.cpp */,
-				7421F0E91647263700C55BAE /* ETHScriptObjRegister.generic.cpp */,
 				7421F0EA1647263700C55BAE /* ETHScriptObjRegister.h */,
 				7421F0EC1647263700C55BAE /* ETHScriptWrapper.Audio.cpp */,
 				7421F0ED1647263700C55BAE /* ETHScriptWrapper.cpp */,
 				7421F0EE1647263700C55BAE /* ETHScriptWrapper.Drawing.cpp */,
-				7421F0EF1647263700C55BAE /* ETHScriptWrapper.generic.cpp */,
 				7421F0F01647263700C55BAE /* ETHScriptWrapper.h */,
 				7421F0F11647263700C55BAE /* ETHScriptWrapper.Math.cpp */,
-				7421F0F21647263700C55BAE /* ETHScriptWrapper.Math.generic.cpp */,
 				7421F0F51647263700C55BAE /* ETHScriptWrapper.Scene.cpp */,
 				7421F0F61647263700C55BAE /* ETHScriptWrapper.System.cpp */,
+				7421F0EF1647263700C55BAE /* ETHScriptWrapper.generic.cpp */,
+				7421F0F21647263700C55BAE /* ETHScriptWrapper.Math.generic.cpp */,
+				7421F0E91647263700C55BAE /* ETHScriptObjRegister.generic.cpp */,
 			);
 			name = Script;
 			sourceTree = "<group>";
