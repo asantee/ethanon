@@ -214,10 +214,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\editor\IEditorPlugin.cpp"
-					>
-				</File>
-				<File
 					RelativePath="..\..\..\src\editor\ParticleFXEditor.cpp"
 					>
 				</File>

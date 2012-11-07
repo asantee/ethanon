@@ -52,7 +52,7 @@ void ProjectManager::SaveLastDir(const char *szLastDir)
 	SaveAttributeToInfoFile(GetProgramPath(), "directories", "lastProject", szLastDir);
 }
 
-string ProjectManager::ReadLastDir()
+std::string ProjectManager::ReadLastDir()
 {
 	return GetAttributeFromInfoFile(GetProgramPath(), "directories", "lastProject");
 }
@@ -64,7 +64,7 @@ void ProjectManager::CreateFileMenu()
 	m_fileMenu.AddButton(_S_LOAD_PROJ);
 }
 
-string ProjectManager::DoEditor(SpritePtr pNextAppButton)
+std::string ProjectManager::DoEditor(SpritePtr pNextAppButton)
 {
 	GSGUI_BUTTON file_r = PlaceFileMenu();
 
@@ -89,9 +89,9 @@ string ProjectManager::DoEditor(SpritePtr pNextAppButton)
 	}
 	else
 	{
-		wstring currentProjectFilename = 
+		str_type::string currentProjectFilename = 
 			utf8::c(Platform::GetFileName(GetCurrentProject())).wc_str();
-			wstring sText = L"Project loaded: " + currentProjectFilename + L"\n" +
+			str_type::string sText = L"Project loaded: " + currentProjectFilename + L"\n" +
 			L"We're ready to go. Press TAB or click the arrow to go to the Editors";
 		ShadowPrint(Vector2(64,128), sText.c_str());
 	}
@@ -103,10 +103,10 @@ bool ProjectManager::SaveAs()
 {
 	FILE_FORM_FILTER filter(GS_L("Ethanon Project files (*.ethproj)"), GS_L("ethproj"));
 	char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
-	string sLastDir = ReadLastDir();
+	std::string sLastDir = ReadLastDir();
 	if (SaveForm(filter, sLastDir.c_str(), path, file))
 	{
-		string sOut;
+		std::string sOut;
 		AddExtension(path, ".ethproj", sOut);
 		std::ofstream ofs(sOut.c_str());
 		if (ofs.is_open())
@@ -132,7 +132,7 @@ bool ProjectManager::Open()
 {
 	FILE_FORM_FILTER filter(GS_L("Ethanon Project files (*.ethproj)"), GS_L("ethproj"));
 	char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
-	string sLastDir = ReadLastDir();
+	std::string sLastDir = ReadLastDir();
 	if (OpenForm(filter, sLastDir.c_str(), path, file))
 	{
 		SetCurrentProject(path);
@@ -200,12 +200,12 @@ void ProjectManager::PrepareProjectDir()
 		{"Collide.angelscript", true},
 	};
 
-	const string programPath = utf8::c(m_provider->GetFileIOHub()->GetProgramDirectory()).c_str();
-	const string sProjectPath = GetCurrentProjectPath(true);
+	const std::string programPath = utf8::c(m_provider->GetFileIOHub()->GetProgramDirectory()).c_str();
+	const std::string sProjectPath = GetCurrentProjectPath(true);
 	const unsigned int size = sizeof(fileToCopy)/sizeof(ETH_FILE_TO_COPY);
 	for (unsigned int t=0; t<size; t++)
 	{
-		const string sNewFolder = sProjectPath + fileToCopy[t].file;
+		const std::string sNewFolder = sProjectPath + fileToCopy[t].file;
 		_mkdir(Platform::GetFileDirectory(utf8::c(sNewFolder).c_str()).c_str());
 		ETHGlobal::_MoveFile( utf8::c(programPath + fileToCopy[t].file).wstr(), utf8::c(sNewFolder).wstr(), fileToCopy[t].overwrite);
 	}

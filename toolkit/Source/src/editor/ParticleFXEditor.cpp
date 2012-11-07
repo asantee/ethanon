@@ -74,7 +74,7 @@ bool ParticleEditor::ProjectManagerRequested()
 
 void ParticleEditor::LoadSoundFX(const char *path, const char *file)
 {
-	string programPath = GetCurrentProjectPath(false);
+	std::string programPath = GetCurrentProjectPath(false);
 	ETHGlobal::CopyFileToProject(utf8::c(programPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetSoundFXDirectory(), m_provider->GetFileManager());
 	m_manager->SetSoundEffect(m_provider->GetAudio()->LoadSampleFromFile(utf8::c(path).wc_str(), m_provider->GetFileManager(), GSST_SOUND_EFFECT));
 	m_system.soundFXFile = utf8::c(file).wstr();
@@ -139,7 +139,7 @@ void ParticleEditor::DrawParticleSystem()
 		}
 	}
 
-	wstringstream ss;
+	str_type::stringstream ss;
 	ss << utf8::c(m_system.bitmapFile).wc_str();
 	if (m_manager->GetSystem()->soundFXFile != L"")
 	{
@@ -481,7 +481,7 @@ void ParticleEditor::Clear()
 
 void ParticleEditor::ParticlePanel()
 {
-	string programPath = GetCurrentProjectPath(false);
+	std::string programPath = GetCurrentProjectPath(false);
 	const VideoPtr& video = m_provider->GetVideo();
 	const InputPtr& input = m_provider->GetInput();
 
@@ -548,7 +548,7 @@ void ParticleEditor::ParticlePanel()
 			m_system = *m_manager->GetSystem();
 			SetMenuConstants();
 
-			string sSoundFXName = GetCurrentProjectPath(false);
+			std::string sSoundFXName = GetCurrentProjectPath(false);
 			sSoundFXName += "/soundfx/";
 			sSoundFXName += utf8::c(m_system.soundFXFile).str();
 
@@ -693,7 +693,7 @@ void ParticleEditor::ParticlePanel()
 	}
 }
 
-string ParticleEditor::DoEditor(SpritePtr pNextAppButton)
+std::string ParticleEditor::DoEditor(SpritePtr pNextAppButton)
 {
 	if (!m_manager)
 		CreateParticles();
@@ -751,27 +751,27 @@ void ParticleEditor::ResetSystem()
 bool ParticleEditor::OpenParticleBMP(char *oFilePathName, char *oFileName)
 {
 	FILE_FORM_FILTER filter(GS_L("Supported image files"), GS_L("png,bmp,tga,jpg,jpeg,dds"));
-	string initDir = Platform::FixSlashes(GetCurrentProjectPath(true) + "particles\\");
+	std::string initDir = Platform::FixSlashes(GetCurrentProjectPath(true) + "particles\\");
 	return OpenForm(filter, initDir.c_str(), oFilePathName, oFileName);
 }
 
 bool ParticleEditor::OpenSystem(char *oFilePathName, char *oFileName)
 {
 	FILE_FORM_FILTER filter(GS_L("Particle effect file (*.par)"), GS_L("par"));
-	string initDir = Platform::FixSlashes(GetCurrentProjectPath(true) + "effects\\");
+	std::string initDir = Platform::FixSlashes(GetCurrentProjectPath(true) + "effects\\");
 	return OpenForm(filter, initDir.c_str(), oFilePathName, oFileName);
 }
 
 bool ParticleEditor::OpenSoundFX(char *oFilePathName, char *oFileName)
 {
 	FILE_FORM_FILTER filter(GS_L("Supported sound files"), GS_L("ogg,wav,mp3"));
-	string initDir = Platform::FixSlashes(GetCurrentProjectPath(true) + "soundfx\\");
+	std::string initDir = Platform::FixSlashes(GetCurrentProjectPath(true) + "soundfx\\");
 	return OpenForm(filter, initDir.c_str(), oFilePathName, oFileName);
 }
 
 bool ParticleEditor::SaveSystem(char *oFilePathName, char *oFileName)
 {
 	FILE_FORM_FILTER filter(GS_L("Particle effect file (*.par)"), GS_L("par"));
-	string initDir = Platform::FixSlashes(GetCurrentProjectPath(true) + "effects\\");
+	std::string initDir = Platform::FixSlashes(GetCurrentProjectPath(true) + "effects\\");
 	return SaveForm(filter, initDir.c_str(), oFilePathName, oFileName);
 }

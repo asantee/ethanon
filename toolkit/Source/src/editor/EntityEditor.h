@@ -54,7 +54,7 @@ public:
 	EntityEditor(ETHResourceProviderPtr provider);
 	~EntityEditor();
 	void LoadEditor();
-	string DoEditor(SpritePtr pNextAppButton);
+	std::string DoEditor(SpritePtr pNextAppButton);
 	void StopAllSoundFXs();
 	void Clear();
 	bool ProjectManagerRequested();
@@ -140,7 +140,7 @@ private:
 	bool Open();
 	void ShowWarnings();
 	void ShowEntityResources(Vector2 v2Pos);
-	void DrawEntityElementName(const Vector2 &v2Pos, SpritePtr pSprite, const string &name);
+	void DrawEntityElementName(const Vector2 &v2Pos, SpritePtr pSprite, const std::string &name);
 	bool CheckForFileUpdate();
 	void CreateFileUpdateDetector(const str_type::string& fullFilePath);
 	void OpenEntity(const char* fullFilePath);

@@ -25,7 +25,6 @@
 #include <string>
 #include <sstream>
 #include <map>
-using namespace std;
 
 CustomDataEditor::CustomDataEditor()
 {
@@ -119,7 +118,7 @@ void CustomDataEditor::InputVariableName(ETHEntity* pEntity, EditorBase *pEditor
 		DrawInputFieldRect(v2Pos, &m_inVariableName, pEditor, L"Enter variable name");
 		m_inVariableName.PlaceInput(v2Pos);
 
-		wstringstream ss;
+		str_type::stringstream ss;
 		ss << ETHCustomDataManager::GetDataName(m_cdesState);
 		pEditor->ShadowPrint(v2Pos-Vector2(0.0f,m_inVariableName.GetSize()), ss.str().c_str(),
 			L"Verdana14_shadow.fnt", gs2d::constant::BLACK);
@@ -153,7 +152,7 @@ void CustomDataEditor::InputVariableName(ETHEntity* pEntity, EditorBase *pEditor
 
 void CustomDataEditor::ShowInScreenCustomData(const ETHEntity* pEntity, EditorBase *pEditor) const
 {
-	map<wstring, ETHCustomDataPtr> dataMap;
+	std::map<str_type::string, ETHCustomDataPtr> dataMap;
 	pEntity->GetCustomDataManager()->CopyMap(dataMap);
 
 	const Vector2 v2Pos(pEntity->GetPositionXY()-Vector2(0,pEntity->GetPosition().z)
@@ -206,15 +205,15 @@ void CustomDataEditor::Rebuild(const ETHEntity* pEntity, EditorBase *pEditor)
 	m_customDataButtonList.SetupMenu(pEditor->GetVideoHandler(), pEditor->GetInputHandler(),
 		pEditor->GetMenuSize(), pEditor->GetMenuWidth()*2, true, true, false);
 
-	map<wstring, ETHCustomDataPtr> dataMap;
+	std::map<str_type::string, ETHCustomDataPtr> dataMap;
 	pEntity->GetCustomDataManager()->CopyMap(dataMap);
 
-	for (map<wstring, ETHCustomDataPtr>::const_iterator iter = dataMap.begin();
+	for (std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = dataMap.begin();
 		 iter != dataMap.end(); ++iter)
 	{
 		const ETHCustomDataPtr& data = iter->second;
 		const str_type::string& name = iter->first;
-		wstringstream ss;
+		str_type::stringstream ss;
 		ss << L" = ";
 		bool editable = true;
 		switch (data->GetType())
@@ -283,7 +282,7 @@ void CustomDataEditor::EditVariable(ETHEntity* pEntity, EditorBase *pEditor)
 			pEntity->SetFloat(r.text, ETHGlobal::ParseFloat(utf8::c(m_inValueInput.PlaceInput(v2Pos)).wc_str()));
 			break;
 		};
-		wstringstream ss;
+		str_type::stringstream ss;
 		ss << ETHCustomDataManager::GetDataName(type) << L" " << r.text << L":";
 		pEditor->ShadowPrint(v2Pos-Vector2(0.0f,m_inValueInput.GetSize()), ss.str().c_str(),
 			L"Verdana14_shadow.fnt", gs2d::constant::BLACK);
@@ -307,7 +306,7 @@ void CustomDataEditor::EditVariable(ETHEntity* pEntity, EditorBase *pEditor)
 void CustomDataEditor::DrawInputFieldRect(const Vector2 &v2Pos,
 										   const GS_GUI *pGui,
 										   EditorBase *pEditor,
-										   const wchar_t *text) const
+										   const str_type::char_t *text) const
 {
 	VideoPtr video = pEditor->GetVideoHandler();
 	const Vector2 v2BorderSize(5, 5);

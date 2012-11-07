@@ -29,8 +29,6 @@
 
 #include "EditorCommon.h"
 
-using namespace std; // TODO: remove it from header
-
 #define _BASEEDITOR_DEFAULT_UNTITLED_FILE "Untitled"
 
 #define _S_MENU_TITLE L"File"
@@ -60,30 +58,30 @@ public:
 	EditorBase(ETHResourceProviderPtr provider);
 
 	bool SetCurrentProject(const char *path);
-	string GetCurrentProject();
-	string GetCurrentProjectPath(const bool keepLastSlash);
+	std::string GetCurrentProject();
+	std::string GetCurrentProjectPath(const bool keepLastSlash);
 	virtual void Clear() = 0;
 	virtual bool ProjectManagerRequested() = 0;
 	virtual void LoadEditor() = 0;
-	virtual string DoEditor(SpritePtr pNextAppButton) = 0;
+	virtual std::string DoEditor(SpritePtr pNextAppButton) = 0;
 	virtual void StopAllSoundFXs() = 0;
 	virtual void ReloadFiles();
 	virtual void UpdateInternalData();
 	void SetCurrentFile(const char *file);
-	string GetCurrentFile(const bool fullPath);
-	string GetProgramPath();
+	std::string GetCurrentFile(const bool fullPath);
+	std::string GetProgramPath();
 
 	float GetMenuSize() const;
 	float GetMenuWidth() const;
 	Color GetBGColor() const;
 
-	bool DrawTab(VideoPtr video, InputPtr input, const Vector2 &v2Pos, const float width, const wstring &text, Color color);
+	bool DrawTab(VideoPtr video, InputPtr input, const Vector2 &v2Pos, const float width, const str_type::string &text, Color color);
 
-	void SaveAttributeToInfoFile(const string &programPath, const string &entity, const string &attrib, const string &value);
-	string GetAttributeFromInfoFile(const string &programPath, const string &entity, const string &attrib);
+	void SaveAttributeToInfoFile(const std::string &programPath, const std::string &entity, const std::string &attrib, const std::string &value);
+	std::string GetAttributeFromInfoFile(const std::string &programPath, const std::string &entity, const std::string &attrib);
 
 	void ShadowPrint(Vector2 v2Pos, const wchar_t *text, const Color& color = gs2d::constant::WHITE) const;
-	void ShadowPrint(Vector2 v2Pos, const wchar_t *text, const wchar_t *font, const Color& color) const;
+	void ShadowPrint(Vector2 v2Pos, const wchar_t *text, const str_type::char_t *font, const Color& color) const;
 
 	VideoPtr GetVideoHandler();
 	InputPtr GetInputHandler();
@@ -103,20 +101,20 @@ protected:
 	bool IsMouseOverFileMenu() const;
 	GSGUI_BUTTON PlaceFileMenu();
 	virtual void CreateFileMenu();
-	bool AddExtension(const char *path, const char *extension, string &sOut);
-	void SetFileNameToTitle(VideoPtr video, const wchar_t *wszTitle);
+	bool AddExtension(const char *path, const char *extension, std::string &sOut);
+	void SetFileNameToTitle(VideoPtr video, const str_type::char_t *wszTitle);
 	bool OpenForm(const FILE_FORM_FILTER& filter, const char *directory, char *szoFilePathName, char *szoFileName);
 	bool SaveForm(const FILE_FORM_FILTER& filter, const char *directory, char *szoFilePathName, char *szoFileName);
 
 private:
-	string m_currentFile;
+	std::string m_currentFile;
 };
 
 namespace ETHGlobal 
 {
-	bool CopyFileToProject(const wstring &currentPath, const wstring &filePath, const wstring &destPath, const Platform::FileManagerPtr& fileManager);
+	bool CopyFileToProject(const str_type::string &currentPath, const str_type::string &filePath, const str_type::string &destPath, const Platform::FileManagerPtr& fileManager);
 	void ErrorMessageBox(const char *szMessage, const char *szTitle);
-	bool _MoveFile(const std::wstring &source, const std::wstring &dest, const bool overwrite);
+	bool _MoveFile(const str_type::string &source, const str_type::string &dest, const bool overwrite);
 	bool PointInRect(const Vector2 &p, const Vector2 &pos0, const Vector2 &size0);
 	str_type::string Vector3ToString(const Vector3 &v3);
 }

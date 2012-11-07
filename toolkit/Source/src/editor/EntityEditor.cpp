@@ -26,8 +26,6 @@
 #include "../engine/Resource/ETHDirectories.h"
 #include <sstream>
 
-using namespace std;
-
 #define _S_ADD_RESOURCES L"Add resources"
 #define _S_OPEN_ENTITY L"Add entity bitmap"
 #define _S_OPEN_NORMALMAP L"Add normal map"
@@ -104,7 +102,7 @@ EntityEditor::~EntityEditor()
 		UnloadParticle(t);
 }
 
-void EntityEditor::InstantiateEntity(const std::wstring& fileName)
+void EntityEditor::InstantiateEntity(const str_type::string& fileName)
 {
 	if (fileName == L"")
 	{
@@ -670,7 +668,7 @@ void EntityEditor::ResetLightMenu()
 
 void EntityEditor::DoMainMenu()
 {
-	const string currentProjectPath = GetCurrentProjectPath(true);
+	const std::string currentProjectPath = GetCurrentProjectPath(true);
 
 	VideoPtr video = m_provider->GetVideo();
 	Vector2 v2ScreenDim = video->GetScreenSizeF();
@@ -832,7 +830,7 @@ void EntityEditor::DoMainMenu()
 void EntityEditor::ShowWarnings()
 {
 	// collect warnings
-	list<wstring> warnings;
+	std::list<str_type::string> warnings;
 	/*if (m_pEditEntity->castShadow && m_pEditEntity->type != ETH_VERTICAL)
 	{
 		warnings.push_back("The entity must be 'vertical' to cast shadow");
@@ -860,12 +858,12 @@ void EntityEditor::ShowWarnings()
 	// draw warnings
 	if (!warnings.empty())
 	{
-		list<wstring>::iterator iter;
-		wstringstream ss;
-		ss << L"Warnings" << endl;
+		std::list<str_type::string>::iterator iter;
+		str_type::stringstream ss;
+		ss << L"Warnings" << std::endl;
 		for (iter = warnings.begin(); iter != warnings.end(); ++iter)
 		{
-			ss << L"-" << *iter << endl;
+			ss << L"-" << *iter << std::endl;
 		}
 		VideoPtr video = m_provider->GetVideo();
 		Vector2 v2ScreenDim = video->GetScreenSizeF();
@@ -873,7 +871,7 @@ void EntityEditor::ShowWarnings()
 	}
 }
 
-void EntityEditor::DrawEntityElementName(const Vector2 &v2Pos, SpritePtr pSprite, const string &name)
+void EntityEditor::DrawEntityElementName(const Vector2 &v2Pos, SpritePtr pSprite, const std::string &name)
 {
 	if (pSprite)
 	{
@@ -934,13 +932,13 @@ void EntityEditor::ShowEntityResources(Vector2 v2Pos)
 	}
 }
 
-string EntityEditor::DoEditor(SpritePtr pNextAppButton)
+std::string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 {
 	VideoPtr video = m_provider->GetVideo();
 	video->SetCameraPos(Vector2(0,0));
 	DrawEntity();
 
-	const string programPath = GetCurrentProjectPath(false);
+	const std::string programPath = GetCurrentProjectPath(false);
 
 	Vector2 v2ScreenDim = video->GetScreenSizeF();
 	const float x = video->GetScreenSizeF().x-m_menuWidth*2;
@@ -1317,7 +1315,7 @@ bool EntityEditor::SaveAs()
 
 bool EntityEditor::Save(const char *path)
 {
-	string sOut;
+	std::string sOut;
 	AddExtension(path, ".ent", sOut);
 	m_pEditEntity->SaveToFile(utf8::c(sOut).wstr());
 	SetCurrentFile(sOut.c_str());
@@ -1348,7 +1346,7 @@ void EntityEditor::OpenEntity(const char* fullFilePath)
 
 bool EntityEditor::Open()
 {
-	string currentProjectPath = GetCurrentProjectPath(true);
+	std::string currentProjectPath = GetCurrentProjectPath(true);
 
 	FILE_FORM_FILTER filter(GS_L("Ethanon Entity files (*.ent)"), GS_L("ent"));
 	char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
@@ -1482,7 +1480,7 @@ void EntityEditor::DrawEntity()
 
 	video->SetZWrite(true);
 	video->SetZBuffer(true);
-	list<ETHLight> lights;
+	std::list<ETHLight> lights;
 	if (m_pEditEntity->light)
 	{
 		lights.push_back(*m_pEditEntity->light.get());
@@ -1696,12 +1694,12 @@ void EntityEditor::UnloadGloss()
 	m_renderEntity->SetGloss(L"");
 }
 
-void EntityEditor::ShadowPrint(const Vector2 &v2Pos, const wchar_t *text)
+void EntityEditor::ShadowPrint(const Vector2 &v2Pos, const str_type::char_t *text)
 {
 	m_provider->GetVideo()->DrawBitmapText(v2Pos, text, L"Verdana14_shadow.fnt", gs2d::constant::WHITE);
 }
 
-void EntityEditor::ShadowPrint(const Vector2 &v2Pos, const wchar_t *text, const wchar_t *font, const GS_DWORD color)
+void EntityEditor::ShadowPrint(const Vector2 &v2Pos, const str_type::char_t *text, const str_type::char_t *font, const GS_DWORD color)
 {
 	m_provider->GetVideo()->DrawBitmapText(v2Pos, text, font, color);
 }

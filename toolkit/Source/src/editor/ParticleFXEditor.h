@@ -96,14 +96,14 @@ class ParticleEditor : public EditorBase
 	void ResetSystem();
 
 	const Color BSPHERE_COLOR;
-	const string BSPHERE_BMP;
+	const std::string BSPHERE_BMP;
 
 	ETHSpeedTimer m_timer;
 
 public:
 	ParticleEditor(ETHResourceProviderPtr provider);
 	~ParticleEditor();
-	string DoEditor(SpritePtr pNextAppButton);
+	std::string DoEditor(SpritePtr pNextAppButton);
 	void StopAllSoundFXs();
 	void LoadEditor();
 	void Clear();

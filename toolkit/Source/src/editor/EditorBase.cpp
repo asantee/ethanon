@@ -78,11 +78,11 @@ bool EditorBase::IsMouseOverFileMenu() const
 	return m_fileMenu.IsMouseOver();
 }
 
-void ShadowPrint(VideoPtr video, Vector2 v2Pos, const wchar_t *text, const wchar_t *font, GS_DWORD color)
+void ShadowPrint(VideoPtr video, Vector2 v2Pos, const str_type::char_t *text, const str_type::char_t *font, GS_DWORD color)
 {
 	video->DrawBitmapText(v2Pos, text, font, color);
 }
-bool EditorBase::DrawTab(VideoPtr video, InputPtr input, const Vector2 &v2Pos, const float width, const wstring &text, Color color)
+bool EditorBase::DrawTab(VideoPtr video, InputPtr input, const Vector2 &v2Pos, const float width, const str_type::string &text, Color color)
 {
 	video->SetAlphaMode(Video::AM_PIXEL);
 	video->SetVertexShader(ShaderPtr());
@@ -110,25 +110,29 @@ bool EditorBase::DrawTab(VideoPtr video, InputPtr input, const Vector2 &v2Pos, c
 	m_curve->FlipX();
 	m_curve->Draw(v2Pos+Vector2(v2CurveSize.x+rectWidth, 0), color);
 
-	ShadowPrint(v2RectPos+Vector2(v2CurveSize.x, m_menuSize/2), text.c_str(), L"Verdana14_shadow.fnt", Color(color.a,255,255,255));
+	ShadowPrint(v2RectPos+Vector2(v2CurveSize.x, m_menuSize/2), text.c_str(), GS_L("Verdana14_shadow.fnt"), Color(color.a,255,255,255));
 	video->SetCameraPos(v2Cam);
 	return (mouseOver && input->GetKeyState(GSK_LMOUSE) == GSKS_HIT);
 }
 
-void EditorBase::SaveAttributeToInfoFile(const string &programPath, const string &entity, const string &attrib, const string &value)
+void EditorBase::SaveAttributeToInfoFile(
+	const std::string &programPath,
+	const std::string &entity,
+	const std::string &attrib,
+	const std::string &value)
 {
-	wstring file = utf8::c(programPath).wstr();
-	file += L"/";
+	str_type::string file = utf8::c(programPath).wstr();
+	file += GS_L("/");
 	file += _ENML_EDITOR_GENERAL_INFO;
 	enml::File parseFile(enml::GetStringFromAnsiFile(file));
 	parseFile.Add(utf8::c(entity).wstr(), utf8::c(attrib).wstr(), utf8::c(value).wstr());
 	parseFile.WriteToFile(file);
 }
 
-string EditorBase::GetAttributeFromInfoFile(const string &programPath, const string &entity, const string &attrib)
+std::string EditorBase::GetAttributeFromInfoFile(const std::string &programPath, const std::string &entity, const std::string &attrib)
 {
-	wstring file = utf8::c(programPath).wstr();
-	file += L"/";
+	str_type::string file = utf8::c(programPath).wstr();
+	file += GS_L("/");
 	file += _ENML_EDITOR_GENERAL_INFO;
 	enml::File parseFile(enml::GetStringFromAnsiFile(file));
 	return utf8::c(parseFile.Get(utf8::c(entity).wstr(), utf8::c(attrib).wstr())).str();
@@ -146,13 +150,13 @@ void EditorBase::CreateFileMenu()
 
 GSGUI_BUTTON EditorBase::PlaceFileMenu()
 {
-	const float shiftDown = (m_provider->GetFileIOHub()->GetResourceDirectory() == L"") ? 0.0f : m_menuSize*2;
+	const float shiftDown = (m_provider->GetFileIOHub()->GetResourceDirectory() == GS_L("")) ? 0.0f : m_menuSize*2;
 	return m_fileMenu.PlaceMenu(Vector2(0,shiftDown));
 }
 
-void EditorBase::SetFileNameToTitle(VideoPtr video, const wchar_t *wszTitle)
+void EditorBase::SetFileNameToTitle(VideoPtr video, const str_type::char_t *wszTitle)
 {
-	wstring newTitle, file;
+	str_type::string newTitle, file;
 	file = utf8::c(GetCurrentFile(false)).wc_str();
 	newTitle = wszTitle;
 	newTitle += L" - ";
@@ -165,13 +169,13 @@ void EditorBase::SetCurrentFile(const char *file)
 	m_currentFile = file;
 }
 
-bool EditorBase::AddExtension(const char *path, const char *extension, string &sOut)
+bool EditorBase::AddExtension(const char *path, const char *extension, std::string &sOut)
 {
 	sOut = ETHGlobal::AppendExtensionIfNeeded(path, extension);
 	return (std::string(extension) != sOut);
 }
 
-string EditorBase::GetCurrentProjectPath(const bool keepLastSlash)
+std::string EditorBase::GetCurrentProjectPath(const bool keepLastSlash)
 {
 	std::string r = Platform::GetFileDirectory(utf8::c(m_provider->GetFileIOHub()->GetResourceDirectory()).c_str());
 	if (!keepLastSlash)
@@ -179,7 +183,7 @@ string EditorBase::GetCurrentProjectPath(const bool keepLastSlash)
 	return r;
 }
 
-string EditorBase::GetCurrentProject()
+std::string EditorBase::GetCurrentProject()
 {
 	return utf8::c(m_provider->GetFileIOHub()->GetResourceDirectory()).c_str();
 }
@@ -190,19 +194,19 @@ bool EditorBase::SetCurrentProject(const char *path)
 	return true;
 }
 
-string EditorBase::GetCurrentFile(const bool fullPath)
+std::string EditorBase::GetCurrentFile(const bool fullPath)
 {
 	if (fullPath)
 		return m_currentFile;
 	return Platform::GetFileName(m_currentFile);
 }
 
-string EditorBase::GetProgramPath()
+std::string EditorBase::GetProgramPath()
 {
 	return utf8::c(m_provider->GetFileIOHub()->GetProgramDirectory()).str();
 }
 
-void EditorBase::ShadowPrint(Vector2 v2Pos, const wchar_t *text, const Color& color) const
+void EditorBase::ShadowPrint(Vector2 v2Pos, const str_type::char_t *text, const Color& color) const
 {
 	m_provider->GetVideo()->DrawBitmapText(
 		v2Pos, 
@@ -210,7 +214,7 @@ void EditorBase::ShadowPrint(Vector2 v2Pos, const wchar_t *text, const Color& co
 	);
 }
 
-void EditorBase::ShadowPrint(Vector2 v2Pos, const wchar_t *text, const wchar_t *font, const Color& color) const
+void EditorBase::ShadowPrint(Vector2 v2Pos, const str_type::char_t *text, const str_type::char_t *font, const Color& color) const
 {
 	m_provider->GetVideo()->DrawBitmapText(v2Pos, text, font, color);
 }
@@ -232,10 +236,10 @@ AudioPtr EditorBase::GetAudioHandler()
 
 namespace ETHGlobal 
 {
-bool CopyFileToProject(const wstring &currentPath, const wstring &filePath, const wstring &destPath, const Platform::FileManagerPtr& fileManager)
+bool CopyFileToProject(const str_type::string &currentPath, const str_type::string &filePath, const str_type::string &destPath, const Platform::FileManagerPtr& fileManager)
 {
-	wstringstream slash; slash << Platform::GetDirectorySlash();
-	const wstring fileName = Platform::GetFileName(filePath);
+	str_type::stringstream slash; slash << Platform::GetDirectorySlash();
+	const str_type::string fileName = Platform::GetFileName(filePath);
 	if (ETHGlobal::FileExists(currentPath + slash.str() + destPath + fileName, fileManager))
 	{
 		return true;
@@ -247,18 +251,18 @@ bool CopyFileToProject(const wstring &currentPath, const wstring &filePath, cons
 	return true;
 }
 
-bool _MoveFile(const wstring &source, const wstring &dest, const bool overwrite)
+bool _MoveFile(const str_type::string &source, const str_type::string &dest, const bool overwrite)
 {
-	ifstream ifs(utf8::c(source).c_str(), ios::binary);
+	std::ifstream ifs(utf8::c(source).c_str(), std::ios::binary);
 	if (!ifs.is_open())
 	{
-		wcerr << "Couldn't copy the file " << source << endl;
+		std::wcerr << "Couldn't copy the file " << source << std::endl;
 		return false;
 	}
 
 	if (!overwrite)
 	{
-		ifstream exist(utf8::c(dest).c_str(), ios::binary);
+		std::ifstream exist(utf8::c(dest).c_str(), std::ios::binary);
 		if (exist.is_open())
 		{
 			exist.close();
@@ -267,11 +271,11 @@ bool _MoveFile(const wstring &source, const wstring &dest, const bool overwrite)
 		}
 	}
 
-	ofstream ofs(utf8::c(dest).c_str(), ios::binary);
+	std::ofstream ofs(utf8::c(dest).c_str(), std::ios::binary);
 	if (!ofs.is_open())
 	{
 		ifs.close();
-		wcerr << L"Couldn't copy the file " << dest << endl;
+		std::wcerr << L"Couldn't copy the file " << dest << std::endl;
 		return false;
 	}
 

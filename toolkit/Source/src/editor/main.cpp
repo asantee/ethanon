@@ -58,7 +58,7 @@ enum EDITOR
 	EEND,
 };
 
-static const wchar_t *g_wcsEditors[] = 
+static const str_type::char_t *g_wcsEditors[] = 
 {
 	L"Project manager",
 	L"Entity editor",
@@ -179,7 +179,7 @@ int main(const int argc, const char* argv[])
 			video, audio, input, fileIOHub));
 
 		// instantiate and load every editor
-		vector<boost::shared_ptr<EditorBase>> editor(nEditors);
+		std::vector<boost::shared_ptr<EditorBase>> editor(nEditors);
 		editor[PROJECT] = boost::shared_ptr<EditorBase>(new ProjectManager(provider));
 		editor[ENTITY] = boost::shared_ptr<EditorBase>(new EntityEditor(provider));
 		editor[SCENE] = boost::shared_ptr<EditorBase>(new SceneEditor(provider));
@@ -192,10 +192,10 @@ int main(const int argc, const char* argv[])
 		}
 
 		// load the arrow sprite used by every editor
-		const wstring nextAppButtonPath = fileIOHub->GetProgramDirectory() + L"data/nextapp.png";
+		const str_type::string nextAppButtonPath = fileIOHub->GetProgramDirectory() + GS_L("data/nextapp.png");
 		SpritePtr nextAppButton = video->CreateSprite(nextAppButtonPath);
 
-		ETH_STARTUP_RESOURCES_ENML_FILE startup(fileIOHub->GetProgramDirectory() + wstring(L"/") + L"editor.enml", Platform::FileManagerPtr(new Platform::StdFileManager));
+		ETH_STARTUP_RESOURCES_ENML_FILE startup(fileIOHub->GetProgramDirectory() + str_type::string(GS_L("/")) + GS_L("editor.enml"), Platform::FileManagerPtr(new Platform::StdFileManager));
 
 		// if the user tried the "open with..." feature, open that project
 		if (argc >= 2)
@@ -223,7 +223,7 @@ int main(const int argc, const char* argv[])
 			}
 		}
 
-		string lastProjectName = editor[PROJECT]->GetCurrentProject();
+		std::string lastProjectName = editor[PROJECT]->GetCurrentProject();
 
 		while (1)
 		{
@@ -343,7 +343,7 @@ int main(const int argc, const char* argv[])
 			Vector2 v2FPSPos;
 			v2FPSPos.x = video->GetScreenSizeF().x-40.0f;
 			v2FPSPos.y = video->GetScreenSizeF().y-24.0f-32.0f;
-			wstringstream ss;
+			str_type::stringstream ss;
 			ss << video->GetFPSRate();
 			editor[0]->ShadowPrint(v2FPSPos, ss.str().c_str(), L"Verdana24_shadow.fnt", gs2d::constant::WHITE);
 

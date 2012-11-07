@@ -52,10 +52,10 @@ private:
 	void EditVariable(ETHEntity* pEntity, EditorBase *pEditor);
 	void DrawInputFieldRect(const Vector2 &v2Pos,
 		const GS_GUI* pGui, EditorBase *pEditor,
-		const wchar_t *text) const;
+		const str_type::char_t *text) const;
 
 	int m_lastEntityID;
-	wstring m_lastData;
+	str_type::string m_lastData;
 	GSGUI_BUTTONLIST m_customDataButtonList;
 	GSGUI_DROPDOWN m_options;
 	CUSTOM_DATA_EDITOR_STATE m_cdesState;

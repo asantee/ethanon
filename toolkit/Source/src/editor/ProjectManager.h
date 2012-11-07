@@ -29,22 +29,20 @@
 #include <string>
 #include <iostream>
 
-using namespace std; // TODO: remove it from header
-
 #define _ETH_PROJECT_MANAGER_WINDOW_TITLE L"Ethanon Editor"
 
 class ProjectManager : public EditorBase
 {
 	struct ETH_FILE_TO_COPY
 	{
-		string file;
+		std::string file;
 		bool overwrite;
 	};
 
 public:
 	ProjectManager(ETHResourceProviderPtr provider);
 	void LoadEditor();
-	string DoEditor(SpritePtr pNextAppButton);
+	std::string DoEditor(SpritePtr pNextAppButton);
 	void Clear()
 	{
 		// dummy...
@@ -64,7 +62,7 @@ private:
 	bool Open();
 	bool SaveAs();
 	void SaveLastDir(const char *szLastDir);
-	string ReadLastDir();
+	std::string ReadLastDir();
 	void PrepareProjectDir();
 	void CreateFileMenu();
 };

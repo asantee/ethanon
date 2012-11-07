@@ -91,7 +91,7 @@ bool EditorBase::OpenForm(
 	char fileInfo[___OUTPUT_LENGTH] = "\0";
 	char fileName[___OUTPUT_LENGTH];
 
-	string sInitDir = Platform::AddLastSlash(directory), out;
+	std::string sInitDir = Platform::AddLastSlash(directory), out;
 
 	OPENFILENAMEA openFileName;
 	openFileName.lStructSize       = sizeof(openFileName);
@@ -129,7 +129,7 @@ bool EditorBase::SaveForm(
 	char fileInfo[___OUTPUT_LENGTH] = "\0";
 	char fileName[___OUTPUT_LENGTH];
 
-	string sInitDir = Platform::AddLastSlash(szDir), out;
+	std::string sInitDir = Platform::AddLastSlash(szDir), out;
 
 	OPENFILENAMEA saveFileName;
 	saveFileName.lStructSize       = sizeof(saveFileName);

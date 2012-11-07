@@ -40,18 +40,18 @@ public:
 	SceneEditor(ETHResourceProviderPtr provider);
 	~SceneEditor();
 	void LoadEditor();
-	string DoEditor(SpritePtr pNextAppButton);
+	std::string DoEditor(SpritePtr pNextAppButton);
 	void ReloadFiles();
 	void UpdateInternalData();
 	void StopAllSoundFXs();
 	void Clear();
 	bool ProjectManagerRequested();
 
-	void OpenByFilename(const string& filename);
+	void OpenByFilename(const std::string& filename);
 
 private:
 
-	void RebuildScene(const std::wstring& fileName);
+	void RebuildScene(const str_type::string& fileName);
 	void EntityPlacer();
 	void PlaceEntitySelection();
 	void EntitySelector(const bool guiButtonsFree);
@@ -61,7 +61,7 @@ private:
 	void DoStateManager();
 	bool IsThereAnyFieldActive() const;
 	bool AreGUIButtonsFree(SpritePtr pNextAppButton) const;
-	wstring DrawEntityString(ETHEntity *pEntity, const Color& dwColor, const bool drawName = true);
+	str_type::string DrawEntityString(ETHEntity *pEntity, const Color& dwColor, const bool drawName = true);
 	void SetSelectionMode();
 	void SetPlacingMode();
 	bool SaveAs();
@@ -72,7 +72,7 @@ private:
 	void DrawEntitySelectionGrid(SpritePtr pNextAppButton);
 	void LoopThroughEntityList();
 	void UpdateEntities();
-	int GetEntityByName(const string &name);
+	int GetEntityByName(const std::string &name);
 	void CopySelectedToClipboard();
 	void PasteFromClipboard();
 	bool CheckForFileUpdate();
@@ -88,7 +88,7 @@ private:
 
 	void EditParallax();
 	void CentralizeShortcut();
-	vector<boost::shared_ptr<ETHEntityProperties> > m_entityFiles;
+	std::vector<boost::shared_ptr<ETHEntityProperties> > m_entityFiles;
 	Vector3 m_v3Pos;
 	Vector2 m_v2CamPos;
 
