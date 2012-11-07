@@ -35,7 +35,7 @@
 #include <stdio.h>
 #include <iostream>
 
-#define _ETH_WINDOW_TITLE L"Ethanon Entity Editor"
+#define _ETH_WINDOW_TITLE GS_L("Ethanon Entity Editor")
 
 class ButtonSprite
 {
@@ -60,7 +60,7 @@ public:
 	bool ProjectManagerRequested();
 
 private:
-	void InstantiateEntity(const std::wstring& fileName = L"");
+	void InstantiateEntity(const str_type::string& fileName = GS_L(""));
 
 	SpritePtr m_axis, m_range, m_outline;
 	ButtonSprite m_spot, m_particleSpot[ETH_MAX_PARTICLE_SYS_PER_ENTITY];
@@ -133,8 +133,8 @@ private:
 	void ResetEntityMenu();
 	void ResetParticleMenu();
 	void ResetLightMenu();
-	void ShadowPrint(const Vector2 &v2Pos, const wchar_t *text);
-	void ShadowPrint(const Vector2 &v2Pos, const wchar_t *text, const wchar_t *font, const GS_DWORD color);
+	void ShadowPrint(const Vector2 &v2Pos, const str_type::char_t *text);
+	void ShadowPrint(const Vector2 &v2Pos, const str_type::char_t *text, const str_type::char_t *font, const GS_DWORD color);
 	bool SaveAs();
 	bool Save(const char *path);
 	bool Open();

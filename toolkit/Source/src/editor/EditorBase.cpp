@@ -159,7 +159,7 @@ void EditorBase::SetFileNameToTitle(VideoPtr video, const str_type::char_t *wszT
 	str_type::string newTitle, file;
 	file = utf8::c(GetCurrentFile(false)).wc_str();
 	newTitle = wszTitle;
-	newTitle += L" - ";
+	newTitle += GS_L(" - ");
 	newTitle += file;
 	video->SetWindowTitle(newTitle);
 }
@@ -275,7 +275,7 @@ bool _MoveFile(const str_type::string &source, const str_type::string &dest, con
 	if (!ofs.is_open())
 	{
 		ifs.close();
-		std::wcerr << L"Couldn't copy the file " << dest << std::endl;
+		std::wcerr << GS_L("Couldn't copy the file ") << dest << std::endl;
 		return false;
 	}
 

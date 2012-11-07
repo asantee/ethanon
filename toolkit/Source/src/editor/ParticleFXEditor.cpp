@@ -27,24 +27,24 @@
 #include "../engine/Resource/ETHDirectories.h"
 #include "../engine/Util/ETHASUtil.h"
 
-#define LOAD_BMP L"Load bitmap"
+#define LOAD_BMP GS_L("Load bitmap")
 //#define ALPHA_ADD "Alpha add"
-//#define ALPHA_PIXEL "Alpha pixel"
-#define SAVE_SYSTEM L"Save"
-#define SAVE_SYSTEM_AS L"Save as..."
-#define OPEN_SYSTEM L"Open"
-#define LOAD_SOUND L"Load sound fx"
-#define LOAD_XSOUND L"Unload sound fx..."
-#define LOAD_BG L"Load background"
-#define WINDOW_TITLE L"Ethanon ParticleFX Editor"
-#define REPLAY_MESSAGE L"Press space or click anywhere to play again"
+//#define ALPHA_PIXEL "Alpha pixeGS_L("
+#define SAVE_SYSTEM GS_L("Save")
+#define SAVE_SYSTEM_AS GS_L("Save as...")
+#define OPEN_SYSTEM GS_L("Open")
+#define LOAD_SOUND GS_L("Load sound fx")
+#define LOAD_XSOUND GS_L("Unload sound fx...")
+#define LOAD_BG GS_L("Load background")
+#define WINDOW_TITLE GS_L("Ethanon ParticleFX Editor")
+#define REPLAY_MESSAGE GS_L("Press space or click anywhere to play again")
 
-#define ALPHA_MODE_PIXEL L"Pixel"
-#define ALPHA_MODE_ADD L"Additive"
-#define ALPHA_MODE_MODULATE L"Modulate"
+#define ALPHA_MODE_PIXEL GS_L("Pixel")
+#define ALPHA_MODE_ADD GS_L("Additive")
+#define ALPHA_MODE_MODULATE GS_L("Modulate")
 
-#define ANIMATION_MODE_ANIMATE L"Animate"
-#define ANIMATION_MODE_PICK L"Pick random frame"
+#define ANIMATION_MODE_ANIMATE GS_L("Animate")
+#define ANIMATION_MODE_PICK GS_L("Pick random frame")
 
 ParticleEditor::ParticleEditor(ETHResourceProviderPtr provider) :
 	EditorBase(provider),
@@ -86,7 +86,7 @@ void ParticleEditor::DeleteSoundFX()
 	if (m_manager)
 	{
 		m_manager->SetSoundEffect(AudioSamplePtr());
-		m_system.soundFXFile = L"";
+		m_system.soundFXFile = GS_L("");
 		m_manager->SetSystem(m_system);
 	}
 }
@@ -131,7 +131,7 @@ void ParticleEditor::DrawParticleSystem()
 
 	if (m_manager->Finished() || m_manager->Killed())
 	{
-		ShadowPrint(Vector2(200.0f, video->GetScreenSizeF().y/2), REPLAY_MESSAGE, L"Verdana14_shadow.fnt", gs2d::constant::WHITE);
+		ShadowPrint(Vector2(200.0f, video->GetScreenSizeF().y/2), REPLAY_MESSAGE, GS_L("Verdana14_shadow.fnt"), gs2d::constant::WHITE);
 		if (input->GetKeyState(GSK_SPACE) == GSKS_HIT || input->GetLeftClickState() == GSKS_HIT)
 		{
 			m_manager->Play(m_v2Pos, Vector3(m_v2Pos, 0), m_systemAngle);
@@ -141,18 +141,18 @@ void ParticleEditor::DrawParticleSystem()
 
 	str_type::stringstream ss;
 	ss << utf8::c(m_system.bitmapFile).wc_str();
-	if (m_manager->GetSystem()->soundFXFile != L"")
+	if (m_manager->GetSystem()->soundFXFile != GS_L(""))
 	{
-		ss << L" | " << utf8::c(m_manager->GetSystem()->soundFXFile).wc_str();
+		ss << GS_L(" | ") << utf8::c(m_manager->GetSystem()->soundFXFile).wc_str();
 	}
-	ss << L" | " << L"Active particles: " << m_manager->GetNumActiveParticles() << L"/" << m_manager->GetNumParticles();
+	ss << GS_L(" | ") << GS_L("Active particles: ") << m_manager->GetNumActiveParticles() << GS_L("/") << m_manager->GetNumParticles();
 	const float infoTextSize = m_menuSize * m_menuScale;
-	ShadowPrint(Vector2(m_menuWidth*2+5,v2Screen.y-infoTextSize-m_menuSize), ss.str().c_str(), L"Verdana14_shadow.fnt", gs2d::constant::WHITE);
+	ShadowPrint(Vector2(m_menuWidth*2+5,v2Screen.y-infoTextSize-m_menuSize), ss.str().c_str(), GS_L("Verdana14_shadow.fnt"), gs2d::constant::WHITE);
 }
 
 void ParticleEditor::SetupMenu()
 {
-	m_fileMenu.SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), L"Menu", m_menuSize*m_menuScale, m_menuWidth*2, true);
+	m_fileMenu.SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), GS_L("Menu"), m_menuSize*m_menuScale, m_menuWidth*2, true);
 	m_fileMenu.AddButton(SAVE_SYSTEM);
 	m_fileMenu.AddButton(SAVE_SYSTEM_AS);
 	m_fileMenu.AddButton(OPEN_SYSTEM);
@@ -182,231 +182,231 @@ void ParticleEditor::SetMenuConstants()
 	m_particles.SetConstant(m_system.nParticles);
 	m_particles.SetScrollAdd(1);
 	m_particles.SetClamp(true, 0, 10000);
-	m_particles.SetText(L"Ptcles:");
+	m_particles.SetText(GS_L("Ptcles:"));
 
 	m_repeats.SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_repeats.SetScrollAdd(1);
 	m_repeats.SetConstant(m_system.repeat);
 	m_repeats.SetClamp(true, 0, 9999999);
-	m_repeats.SetText(L"Repeats:");
+	m_repeats.SetText(GS_L("Repeats:"));
 
 	m_gravity[0].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_gravity[0].SetConstant(m_system.gravityVector.x);
 	m_gravity[0].SetClamp(false, 0, 0);
-	m_gravity[0].SetText(L"Grav X:");
-	m_gravity[0].SetDescription(L"Gravity vector");
+	m_gravity[0].SetText(GS_L("Grav X:"));
+	m_gravity[0].SetDescription(GS_L("Gravity vector"));
 	m_gravity[1].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_gravity[1].SetConstant(m_system.gravityVector.y);
 	m_gravity[1].SetClamp(false, 0, 0);
-	m_gravity[1].SetText(L"Grav Y:");
-	m_gravity[1].SetDescription(L"Gravity vector");
+	m_gravity[1].SetText(GS_L("Grav Y:"));
+	m_gravity[1].SetDescription(GS_L("Gravity vector"));
 
 	m_direction[0].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_direction[0].SetConstant(m_system.directionVector.x);
 	m_direction[0].SetClamp(false, 0, 0);
-	m_direction[0].SetText(L"Dir X:");
-	m_direction[0].SetDescription(L"Particle direction");
+	m_direction[0].SetText(GS_L("Dir X:"));
+	m_direction[0].SetDescription(GS_L("Particle direction"));
 	m_direction[1].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_direction[1].SetConstant(m_system.directionVector.y);
 	m_direction[1].SetClamp(false, 0, 0);
-	m_direction[1].SetText(L"Dir Y:");
-	m_direction[1].SetDescription(L"Particle direction");
+	m_direction[1].SetText(GS_L("Dir Y:"));
+	m_direction[1].SetDescription(GS_L("Particle direction"));
 
 	m_randDir[0].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_randDir[0].SetConstant(m_system.randomizeDir.x);
 	m_randDir[0].SetClamp(false, 0, 0);
-	m_randDir[0].SetText(L"R Dir X:");
-	m_randDir[0].SetDescription(L"Particle direction randomizer");
+	m_randDir[0].SetText(GS_L("R Dir X:"));
+	m_randDir[0].SetDescription(GS_L("Particle direction randomizer"));
 	m_randDir[1].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_randDir[1].SetConstant(m_system.randomizeDir.y);
 	m_randDir[1].SetClamp(false, 0, 0);
-	m_randDir[1].SetText(L"R Dir Y:");
-	m_randDir[1].SetDescription(L"Particle direction randomizer");
+	m_randDir[1].SetText(GS_L("R Dir Y:"));
+	m_randDir[1].SetDescription(GS_L("Particle direction randomizer"));
 
 	m_startPoint[0].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_startPoint[0].SetConstant(m_system.startPoint.x);
 	m_startPoint[0].SetClamp(false, 0, 0);
-	m_startPoint[0].SetText(L"Start X:");
+	m_startPoint[0].SetText(GS_L("Start X:"));
 	m_startPoint[0].SetScrollAdd(1.0f);
-	m_startPoint[0].SetDescription(L"Particle starting position");
+	m_startPoint[0].SetDescription(GS_L("Particle starting position"));
 	m_startPoint[1].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_startPoint[1].SetConstant(m_system.startPoint.y);
 	m_startPoint[1].SetClamp(false, 0, 0);
-	m_startPoint[1].SetText(L"Start Y:");
+	m_startPoint[1].SetText(GS_L("Start Y:"));
 	m_startPoint[1].SetScrollAdd(1.0f);
-	m_startPoint[1].SetDescription(L"Particle starting position");
+	m_startPoint[1].SetDescription(GS_L("Particle starting position"));
 
 	m_randStart[0].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_randStart[0].SetConstant(m_system.randStartPoint.x);
 	m_randStart[0].SetClamp(false, 0, 0);
-	m_randStart[0].SetText(L"R StartX:");
+	m_randStart[0].SetText(GS_L("R StartX:"));
 	m_randStart[0].SetScrollAdd(1.0f);
-	m_randStart[0].SetDescription(L"Starting position randomizer");
+	m_randStart[0].SetDescription(GS_L("Starting position randomizer"));
 	m_randStart[1].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_randStart[1].SetConstant(m_system.randStartPoint.y);
 	m_randStart[1].SetClamp(false, 0, 0);
-	m_randStart[1].SetText(L"R StartY:");
+	m_randStart[1].SetText(GS_L("R StartY:"));
 	m_randStart[1].SetScrollAdd(1.0f);
-	m_randStart[1].SetDescription(L"Starting position randomizer");
+	m_randStart[1].SetDescription(GS_L("Starting position randomizer"));
 
 	m_color0[0].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_color0[0].SetConstant(m_system.color0.w);
 	m_color0[0].SetClamp(true, 0, 1);
-	m_color0[0].SetText(L"Color0.A:");
-	m_color0[0].SetDescription(L"Starting color alpha (transparency from 0.0 to 1.0)");
+	m_color0[0].SetText(GS_L("Color0.A:"));
+	m_color0[0].SetDescription(GS_L("Starting color alpha (transparency from 0.0 to 1.0)"));
 	m_color0[1].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_color0[1].SetConstant(m_system.color0.x);
 	m_color0[1].SetClamp(true, 0, 1);
-	m_color0[1].SetText(L"Color0.R:");
-	m_color0[1].SetDescription(L"Starting color red component (from 0.0 to 1.0)");
+	m_color0[1].SetText(GS_L("Color0.R:"));
+	m_color0[1].SetDescription(GS_L("Starting color red component (from 0.0 to 1.0)"));
 	m_color0[2].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_color0[2].SetConstant(m_system.color0.y);
 	m_color0[2].SetClamp(true, 0, 1);
-	m_color0[2].SetText(L"Color0.G:");
-	m_color0[2].SetDescription(L"Starting color green component (from 0.0 to 1.0)");
+	m_color0[2].SetText(GS_L("Color0.G:"));
+	m_color0[2].SetDescription(GS_L("Starting color green component (from 0.0 to 1.0)"));
 	m_color0[3].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_color0[3].SetConstant(m_system.color0.z);
 	m_color0[3].SetClamp(true, 0, 1);
-	m_color0[3].SetText(L"Color0.B:");
-	m_color0[3].SetDescription(L"Starting color blue component (from 0.0 to 1.0)");
+	m_color0[3].SetText(GS_L("Color0.B:"));
+	m_color0[3].SetDescription(GS_L("Starting color blue component (from 0.0 to 1.0)"));
 
 	m_color1[0].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_color1[0].SetConstant(m_system.color1.w);
 	m_color1[0].SetClamp(true, 0, 1);
-	m_color1[0].SetText(L"Color1.A:");
-	m_color1[0].SetDescription(L"Ending color alpha (transparency)");
+	m_color1[0].SetText(GS_L("Color1.A:"));
+	m_color1[0].SetDescription(GS_L("Ending color alpha (transparency)"));
 	m_color1[1].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_color1[1].SetConstant(m_system.color1.x);
 	m_color1[1].SetClamp(true, 0, 1);
-	m_color1[1].SetText(L"Color1.R:");
-	m_color1[1].SetDescription(L"Ending color red component (from 0.0 to 1.0)");
+	m_color1[1].SetText(GS_L("Color1.R:"));
+	m_color1[1].SetDescription(GS_L("Ending color red component (from 0.0 to 1.0)"));
 	m_color1[2].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_color1[2].SetConstant(m_system.color1.y);
 	m_color1[2].SetClamp(true, 0, 1);
-	m_color1[2].SetText(L"Color1.G:");
-	m_color1[2].SetDescription(L"Ending color green component (from 0.0 to 1.0)");
+	m_color1[2].SetText(GS_L("Color1.G:"));
+	m_color1[2].SetDescription(GS_L("Ending color green component (from 0.0 to 1.0)"));
 	m_color1[3].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_color1[3].SetConstant(m_system.color1.z);
 	m_color1[3].SetClamp(true, 0, 1);
-	m_color1[3].SetText(L"Color1.B:");
-	m_color1[3].SetDescription(L"Ending color blue component (from 0.0 to 1.0)");
+	m_color1[3].SetText(GS_L("Color1.B:"));
+	m_color1[3].SetDescription(GS_L("Ending color blue component (from 0.0 to 1.0)"));
 
 	m_luminance[0].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_luminance[0].SetConstant(m_system.emissive.x);
 	m_luminance[0].SetClamp(true, 0, 1);
-	m_luminance[0].SetText(L"Emissive.R:");
-	m_luminance[0].SetDescription(L"Self-illumination color red component (color = diffuse*min(ambient+luminance,1))");
+	m_luminance[0].SetText(GS_L("Emissive.R:"));
+	m_luminance[0].SetDescription(GS_L("Self-illumination color red component (color = diffuse*min(ambient+luminance,1))"));
 	m_luminance[1].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_luminance[1].SetConstant(m_system.emissive.y);
 	m_luminance[1].SetClamp(true, 0, 1);
-	m_luminance[1].SetText(L"Emissive.G:");
-	m_luminance[1].SetDescription(L"Self-illumination color green component (color = diffuse*min(ambient+luminance,1))");
+	m_luminance[1].SetText(GS_L("Emissive.G:"));
+	m_luminance[1].SetDescription(GS_L("Self-illumination color green component (color = diffuse*min(ambient+luminance,1))"));
 	m_luminance[2].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_luminance[2].SetConstant(m_system.emissive.z);
 	m_luminance[2].SetClamp(true, 0, 1);
-	m_luminance[2].SetText(L"Emissive.B:");
-	m_luminance[2].SetDescription(L"Self-illumination color blue component (color = diffuse*min(ambient+luminance,1))");
+	m_luminance[2].SetText(GS_L("Emissive.B:"));
+	m_luminance[2].SetDescription(GS_L("Self-illumination color blue component (color = diffuse*min(ambient+luminance,1))"));
 
 	m_size.SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_size.SetConstant(m_system.size);
 	m_size.SetClamp(true, 0, 9999999.0f);
-	m_size.SetText(L"Size:");
+	m_size.SetText(GS_L("Size:"));
 	m_size.SetScrollAdd(1.0f);
-	m_size.SetDescription(L"Starting size");
+	m_size.SetDescription(GS_L("Starting size"));
 
 	m_growth.SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_growth.SetConstant(m_system.growth);
 	m_growth.SetClamp(false, 0, 0);
-	m_growth.SetText(L"Size+:");
-	m_growth.SetDescription(L"Particle growth");
+	m_growth.SetText(GS_L("Size+:"));
+	m_growth.SetDescription(GS_L("Particle growth"));
 
 	m_lifeTime.SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_lifeTime.SetConstant(m_system.lifeTime);
 	m_lifeTime.SetClamp(true, 0, 9999999.0f);
-	m_lifeTime.SetText(L"Time:");
+	m_lifeTime.SetText(GS_L("Time:"));
 	m_lifeTime.SetScrollAdd(50.0f);
-	m_lifeTime.SetDescription(L"Particle life time (in milliseconds)");
+	m_lifeTime.SetDescription(GS_L("Particle life time (in milliseconds)"));
 
 	m_randLifeTime.SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_randLifeTime.SetConstant(m_system.randomizeLifeTime);
 	m_randLifeTime.SetClamp(true, 0, 9999999.0f);
-	m_randLifeTime.SetText(L"R Time:");
+	m_randLifeTime.SetText(GS_L("R Time:"));
 	m_randLifeTime.SetScrollAdd(50.0f);
-	m_randLifeTime.SetDescription(L"Particle life time randomizer (in milliseconds)");
+	m_randLifeTime.SetDescription(GS_L("Particle life time randomizer (in milliseconds)"));
 
 	m_angle.SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_angle.SetConstant(m_system.angleDir);
 	m_angle.SetClamp(false, 0, 0);
-	m_angle.SetText(L"Angle Dir:");
-	m_angle.SetDescription(L"Rotating direction");
+	m_angle.SetText(GS_L("Angle Dir:"));
+	m_angle.SetDescription(GS_L("Rotating direction"));
 
 	m_randAngle.SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_randAngle.SetConstant(m_system.randAngle);
 	m_randAngle.SetClamp(false, 0, 0);
-	m_randAngle.SetText(L"R Angle Dir:");
-	m_randAngle.SetDescription(L"Rotating direction randomizer");
+	m_randAngle.SetText(GS_L("R Angle Dir:"));
+	m_randAngle.SetDescription(GS_L("Rotating direction randomizer"));
 
 	m_randSize.SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_randSize.SetConstant(m_system.randomizeSize);
 	m_randSize.SetClamp(true, 0, 1000000);
-	m_randSize.SetText(L"R Size:");
+	m_randSize.SetText(GS_L("R Size:"));
 	m_randSize.SetScrollAdd(1.0f);
-	m_randSize.SetDescription(L"Particle size randomizer");
+	m_randSize.SetDescription(GS_L("Particle size randomizer"));
 
 	m_randAngleStart.SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_randAngleStart.SetConstant(m_system.randAngleStart);
 	m_randAngleStart.SetClamp(true, 0, 360);
-	m_randAngleStart.SetText(L"R Angle St:");
+	m_randAngleStart.SetText(GS_L("R Angle St:"));
 	m_randAngleStart.SetScrollAdd(1.0f);
-	m_randAngleStart.SetDescription(L"Starting angle randomizer (from 0 to 360)");
+	m_randAngleStart.SetDescription(GS_L("Starting angle randomizer (from 0 to 360)"));
 
 	m_minSize.SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_minSize.SetConstant(m_system.minSize);
 	m_minSize.SetClamp(false, 0, 0);
-	m_minSize.SetText(L"Min Size:");
+	m_minSize.SetText(GS_L("Min Size:"));
 	m_minSize.SetScrollAdd(1.0f);
-	m_minSize.SetDescription(L"Particle minimum size");
+	m_minSize.SetDescription(GS_L("Particle minimum size"));
 
 	m_maxSize.SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_maxSize.SetConstant(m_system.maxSize);
 	m_maxSize.SetClamp(false, 0, 0);
-	m_maxSize.SetText(L"Max Size:");
+	m_maxSize.SetText(GS_L("Max Size:"));
 	m_maxSize.SetScrollAdd(1.0f);
-	m_maxSize.SetDescription(L"Particle maximum size");
+	m_maxSize.SetDescription(GS_L("Particle maximum size"));
 
 	m_angleStart.SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_angleStart.SetConstant(m_system.angleStart);
 	m_angleStart.SetClamp(true, 0, 360);
-	m_angleStart.SetText(L"S Angle:");
+	m_angleStart.SetText(GS_L("S Angle:"));
 	m_angleStart.SetScrollAdd(1.0f);
-	m_angleStart.SetDescription(L"Particle starting angle");
+	m_angleStart.SetDescription(GS_L("Particle starting angle"));
 
 	m_boundingSphere.SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_boundingSphere.SetConstant(m_system.boundingSphere);
 	m_boundingSphere.SetClamp(true, 0, 2048);
-	m_boundingSphere.SetText(L"Bounding:");
+	m_boundingSphere.SetText(GS_L("Bounding:"));
 	m_boundingSphere.SetScrollAdd(2.0f);
-	m_boundingSphere.SetDescription(L"Bounding Sphere diameter");
+	m_boundingSphere.SetDescription(GS_L("Bounding Sphere diameter"));
 
 	m_allAtOnce.SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_allAtOnce.SetConstant((m_system.allAtOnce) ? 1.0f : 0.0f);
 	m_allAtOnce.SetClamp(true, 0, 1);
-	m_allAtOnce.SetText(L"All at once:");
+	m_allAtOnce.SetText(GS_L("All at once:"));
 	m_allAtOnce.SetScrollAdd(1.0f);
-	m_allAtOnce.SetDescription(L"All-at-once particle relasing (1=true/0=false)");
+	m_allAtOnce.SetDescription(GS_L("All-at-once particle relasing (1=true/0=false)"));
 
 	m_spriteCut[0].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_spriteCut[0].SetConstant(static_cast<float>(m_system.spriteCut.x));
 	m_spriteCut[0].SetClamp(true, 1, 9999);
-	m_spriteCut[0].SetText(L"Sprite columns:");
+	m_spriteCut[0].SetText(GS_L("Sprite columns:"));
 	m_spriteCut[0].SetScrollAdd(1.0f);
-	m_spriteCut[0].SetDescription(L"Number of columns of the animated sprite");
+	m_spriteCut[0].SetDescription(GS_L("Number of columns of the animated sprite"));
 	m_spriteCut[1].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_spriteCut[1].SetConstant(static_cast<float>(m_system.spriteCut.y));
 	m_spriteCut[1].SetClamp(true, 1, 9999);
-	m_spriteCut[1].SetText(L"Sprite rows:");
+	m_spriteCut[1].SetText(GS_L("Sprite rows:"));
 	m_spriteCut[1].SetScrollAdd(1.0f);
-	m_spriteCut[1].SetDescription(L"Number of rows of the animated sprite");
+	m_spriteCut[1].SetDescription(GS_L("Number of rows of the animated sprite"));
 
 	m_alphaModes.ResetButtons();
 	if (m_system.alphaMode == Video::AM_PIXEL)
@@ -431,10 +431,10 @@ void ParticleEditor::SaveAs()
 		strcpy(path, ETHGlobal::AppendExtensionIfNeeded(path, ".par").c_str());
 
 		TiXmlDocument doc;
-		TiXmlDeclaration *pDecl = new TiXmlDeclaration(L"1.0", L"", L"");
+		TiXmlDeclaration *pDecl = new TiXmlDeclaration(GS_L("1.0"), GS_L(""), GS_L(""));
 		doc.LinkEndChild(pDecl);
 
-		TiXmlElement *pElement = new TiXmlElement(L"Ethanon");
+		TiXmlElement *pElement = new TiXmlElement(GS_L("Ethanon"));
 		doc.LinkEndChild(pElement);
 
 		m_system.WriteToXMLFile(doc.RootElement());
@@ -448,10 +448,10 @@ void ParticleEditor::SaveAs()
 void ParticleEditor::Save()
 {
 	TiXmlDocument doc;
-	TiXmlDeclaration *pDecl = new TiXmlDeclaration(L"1.0", L"", L"");
+	TiXmlDeclaration *pDecl = new TiXmlDeclaration(GS_L("1.0"), GS_L(""), GS_L(""));
 	doc.LinkEndChild(pDecl);
 
-	TiXmlElement *pElement = new TiXmlElement(L"Ethanon");
+	TiXmlElement *pElement = new TiXmlElement(GS_L("Ethanon"));
 	doc.LinkEndChild(pElement);
 
 	m_system.WriteToXMLFile(doc.RootElement());
@@ -582,7 +582,7 @@ void ParticleEditor::ParticlePanel()
 		float menu = m_menuSize*m_menuScale+(m_menuSize*2);
 
 		// places the alpha mode menu
-		ShadowPrint(Vector2(v2ScreenDim.x-m_alphaModes.GetWidth(), menu), L"Alpha mode:", L"Verdana14_shadow.fnt", gs2d::constant::WHITE);
+		ShadowPrint(Vector2(v2ScreenDim.x-m_alphaModes.GetWidth(), menu), GS_L("Alpha mode:"), GS_L("Verdana14_shadow.fnt"), gs2d::constant::WHITE);
 		menu += m_menuSize;
 		m_alphaModes.PlaceMenu(Vector2(v2ScreenDim.x-m_alphaModes.GetWidth(), menu)); menu += m_alphaModes.GetNumButtons()*m_menuSize;
 
@@ -596,7 +596,7 @@ void ParticleEditor::ParticlePanel()
 
 		// places the sprite cut fields to the right
 		menu += m_menuSize/2;
-		ShadowPrint(Vector2(v2ScreenDim.x-m_alphaModes.GetWidth(), menu), L"Sprite cut:", L"Verdana14_shadow.fnt", gs2d::constant::WHITE);
+		ShadowPrint(Vector2(v2ScreenDim.x-m_alphaModes.GetWidth(), menu), GS_L("Sprite cut:"), GS_L("Verdana14_shadow.fnt"), gs2d::constant::WHITE);
 		menu += m_menuSize;
 		m_system.spriteCut.x = Max(1, static_cast<int>(m_spriteCut[0].PlaceInput(Vector2(v2ScreenDim.x-m_alphaModes.GetWidth(),menu)))); menu += m_menuSize;
 		m_system.spriteCut.y = Max(1, static_cast<int>(m_spriteCut[1].PlaceInput(Vector2(v2ScreenDim.x-m_alphaModes.GetWidth(),menu)))); menu += m_menuSize;
@@ -616,10 +616,10 @@ void ParticleEditor::ParticlePanel()
 		// inputs all data
 		menu = m_menuSize*m_menuScale+(m_menuSize*2);
 		menu += m_menuSize/2;
-		ShadowPrint(Vector2(0.0f,menu), L"Particles:", L"Verdana14_shadow.fnt", gs2d::constant::WHITE);
+		ShadowPrint(Vector2(0.0f,menu), GS_L("Particles:"), GS_L("Verdana14_shadow.fnt"), gs2d::constant::WHITE);
 		int nParticles = m_particles.PlaceInput(Vector2(m_menuWidth,menu)); menu += m_menuSize;
 
-		ShadowPrint(Vector2(0.0f,menu), L"Repeats:", L"Verdana14_shadow.fnt", gs2d::constant::WHITE);
+		ShadowPrint(Vector2(0.0f,menu), GS_L("Repeats:"), GS_L("Verdana14_shadow.fnt"), gs2d::constant::WHITE);
 		m_system.repeat = m_repeats.PlaceInput(Vector2(m_menuWidth,menu)); menu += m_menuSize;
 		menu += m_menuSize/2;
 

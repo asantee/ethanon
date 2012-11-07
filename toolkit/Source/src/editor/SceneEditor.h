@@ -32,7 +32,7 @@
 #include <stdio.h>
 #include <iostream>
 
-#define _ETH_MAP_WINDOW_TITLE L"Ethanon Scene Editor"
+#define _ETH_MAP_WINDOW_TITLE GS_L("Ethanon Scene Editor")
 
 class SceneEditor : public EditorBase
 {

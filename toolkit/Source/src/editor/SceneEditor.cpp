@@ -29,9 +29,9 @@
 #include <sstream>
 #include <string>
 
-#define _S_TOOL_MENU L"Tools"
-#define _S_PLACE L"Place entity"
-#define _S_SELECT L"Select entity"
+#define _S_TOOL_MENU GS_L("Tools")
+#define _S_PLACE GS_L("Place entity")
+#define _S_SELECT GS_L("Select entity")
 #define _ENTITY_SELECTION_BAR_HEIGHT (48.0f)
 #define _ENTITY_SELECTION_BAR_PROXIMITY (192.0f)
 
@@ -97,28 +97,28 @@ void SceneEditor::LoadEditor()
 
 	const str_type::string programDirectory = m_provider->GetFileIOHub()->GetProgramDirectory();
 
-	m_lSprite = video->CreateSprite(programDirectory + L"data/l.png", 0xFFFF00FF);
+	m_lSprite = video->CreateSprite(programDirectory + GS_L("data/l.png"), 0xFFFF00FF);
 	m_lSprite->SetOrigin(Sprite::EO_CENTER);
 
-	m_pSprite = video->CreateSprite(programDirectory + L"data/p.png", 0xFFFF00FF);
+	m_pSprite = video->CreateSprite(programDirectory + GS_L("data/p.png"), 0xFFFF00FF);
 	m_pSprite->SetOrigin(Sprite::EO_CENTER);
 
-	m_parallaxCursor = video->CreateSprite(programDirectory + L"data/parallax.png", 0xFFFF00FF);
+	m_parallaxCursor = video->CreateSprite(programDirectory + GS_L("data/parallax.png"), 0xFFFF00FF);
 	m_parallaxCursor->SetOrigin(Sprite::EO_CENTER);
 
-	m_axis = video->CreateSprite(programDirectory + L"data/axis.png");
+	m_axis = video->CreateSprite(programDirectory + GS_L("data/axis.png"));
 	m_axis->SetOrigin(Sprite::EO_CENTER);
 	
-	m_outline = video->CreateSprite(programDirectory + L"data/outline.png");
-	m_richOutline = video->CreateSprite(programDirectory + L"data/rich_outline.png");
+	m_outline = video->CreateSprite(programDirectory + GS_L("data/outline.png"));
+	m_richOutline = video->CreateSprite(programDirectory + GS_L("data/rich_outline.png"));
 
-	m_soundWave = video->CreateSprite(programDirectory + L"data/soundwave.dds");
+	m_soundWave = video->CreateSprite(programDirectory + GS_L("data/soundwave.dds"));
 	m_soundWave->SetOrigin(Sprite::EO_CENTER);
 
-	m_invisible = video->CreateSprite(programDirectory + L"data/invisible.png", 0xFFFF00FF);
+	m_invisible = video->CreateSprite(programDirectory + GS_L("data/invisible.png"), 0xFFFF00FF);
 	m_invisible->SetOrigin(Sprite::EO_CENTER);
 
-	m_arrows = video->CreateSprite(programDirectory + L"data/arrows.png");
+	m_arrows = video->CreateSprite(programDirectory + GS_L("data/arrows.png"));
 	m_arrows->SetOrigin(Sprite::EO_CENTER);
 
 	const InputPtr& input = m_provider->GetInput();
@@ -158,21 +158,21 @@ void SceneEditor::LoadEditor()
 		m_ambientLight[t].SetupMenu(video, input, m_menuSize, m_menuWidth, 5, false);
 		m_ambientLight[t].SetClamp(true, 0, 1);
 		m_ambientLight[t].SetScrollAdd(0.1f);
-		m_ambientLight[t].SetDescription(L"Scene ambient light");
+		m_ambientLight[t].SetDescription(GS_L("Scene ambient light"));
 	}
-	m_ambientLight[0].SetText(L"Ambient R:");
-	m_ambientLight[1].SetText(L"Ambient G:");
-	m_ambientLight[2].SetText(L"Ambient B:");
+	m_ambientLight[0].SetText(GS_L("Ambient R:"));
+	m_ambientLight[1].SetText(GS_L("Ambient G:"));
+	m_ambientLight[2].SetText(GS_L("Ambient B:"));
 
 	for (unsigned int t=0; t<2; t++)
 	{
 		m_zAxisDirection[t].SetupMenu(video, input, m_menuSize, m_menuWidth, 5, false);
 		m_zAxisDirection[t].SetClamp(false, 0, 0);
 		m_zAxisDirection[t].SetScrollAdd(1.0f);
-		m_zAxisDirection[t].SetDescription(L"Scene z-axis direction in screen space");
+		m_zAxisDirection[t].SetDescription(GS_L("Scene z-axis direction in screen space"));
 	}
-	m_zAxisDirection[0].SetText(L"Z-axis dir x:");
-	m_zAxisDirection[1].SetText(L"Z-axis dir y:");
+	m_zAxisDirection[0].SetText(GS_L("Z-axis dir x:"));
+	m_zAxisDirection[1].SetText(GS_L("Z-axis dir y:"));
 
 	m_entityName.SetupMenu(video, input, m_menuSize, m_menuWidth*2, 24, false);
 
@@ -180,15 +180,15 @@ void SceneEditor::LoadEditor()
 
 	m_lightIntensity.SetupMenu(video, input, m_menuSize, m_menuWidth, 5, false);
 	m_lightIntensity.SetClamp(true, 0, 100.0f);
-	m_lightIntensity.SetText(L"Light intensity:");
+	m_lightIntensity.SetText(GS_L("Light intensity:"));
 	m_lightIntensity.SetScrollAdd(0.25f);
-	m_lightIntensity.SetDescription(L"Global light intensity");
+	m_lightIntensity.SetDescription(GS_L("Global light intensity"));
 
 	m_parallaxIntensity.SetupMenu(video, input, m_menuSize, m_menuWidth, 5, false);
 	m_parallaxIntensity.SetClamp(false, 0, 100.0f);
-	m_parallaxIntensity.SetText(L"Parallax:");
+	m_parallaxIntensity.SetText(GS_L("Parallax:"));
 	m_parallaxIntensity.SetScrollAdd(0.25f);
-	m_parallaxIntensity.SetDescription(L"Parallax depth effect intensity");
+	m_parallaxIntensity.SetDescription(GS_L("Parallax depth effect intensity"));
 
 	ResetForms();
 
@@ -356,7 +356,10 @@ std::string SceneEditor::DoEditor(SpritePtr pNextAppButton)
 
 	if (m_entityFiles.empty())
 	{
-		ShadowPrint(Vector2(256,400), L"There are no entities\nCreate your .ENT files first", L"Verdana24_shadow.fnt", gs2d::constant::WHITE);
+		ShadowPrint(
+			Vector2(256,400),
+			GS_L("There are no entities\nCreate your .ENT files first"),
+			GS_L("Verdana24_shadow.fnt"), gs2d::constant::WHITE);
 	}
 
 	if (input->GetKeyState(GSK_DELETE) == GSKS_HIT && guiButtonsFree)
@@ -386,7 +389,7 @@ std::string SceneEditor::DoEditor(SpritePtr pNextAppButton)
 			std::stringstream ss;
 			ss << m_pSelected->GetID();
 
-			video->DrawBitmapText(Vector2(100,100), utf8::c(ss.str()).wstr(), L"Verdana20_shadow.fnt", gs2d::constant::WHITE
+			video->DrawBitmapText(Vector2(100,100), utf8::c(ss.str()).wstr(), GS_L("Verdana20_shadow.fnt"), gs2d::constant::WHITE
 			);
 		}
 	#endif
@@ -543,7 +546,7 @@ void SceneEditor::EntitySelector(const bool guiButtonsFree)
 			m_richOutline->DrawShaped(v2Pos, m_pSelected->GetCurrentSize(), dwColor, dwColor, dwColor, dwColor, m_pSelected->GetAngle());
 			DrawEntityString(m_pSelected, gs2d::constant::WHITE);
 
-			ShadowPrint(Vector2(m_guiX,m_guiY), L"Entity name:"); m_guiY += m_menuSize;
+			ShadowPrint(Vector2(m_guiX,m_guiY), GS_L("Entity name:")); m_guiY += m_menuSize;
 			m_pSelected->ChangeEntityName(utf8::c(m_entityName.PlaceInput(Vector2(m_guiX,m_guiY))).wstr()); m_guiY += m_menuSize;
 			m_guiY += m_menuSize/2;
 
@@ -593,17 +596,17 @@ void SceneEditor::CreateEditablePosition()
 		m_entityPosition[t].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 10, false);
 		m_entityPosition[t].SetClamp(false, 0, 0);
 		m_entityPosition[t].SetScrollAdd(2.0f);
-		m_entityPosition[t].SetDescription(L"Entity position");
+		m_entityPosition[t].SetDescription(GS_L("Entity position"));
 	}
-	m_entityPosition[0].SetText(L"Position.x:");
-	m_entityPosition[1].SetText(L"Position.y:");
-	m_entityPosition[2].SetText(L"Position.z:");
+	m_entityPosition[0].SetText(GS_L("Position.x:"));
+	m_entityPosition[1].SetText(GS_L("Position.y:"));
+	m_entityPosition[2].SetText(GS_L("Position.z:"));
 
 	m_entityAngle.SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 10, false);
 	m_entityAngle.SetClamp(false, 0, 0);
 	m_entityAngle.SetScrollAdd(5.0f);
-	m_entityAngle.SetDescription(L"Entity angle");
-	m_entityAngle.SetText(L"Angle:");
+	m_entityAngle.SetDescription(GS_L("Entity angle"));
+	m_entityAngle.SetText(GS_L("Angle:"));
 }
 
 bool SceneEditor::AreEditPosFieldsActive() const
@@ -632,7 +635,7 @@ bool SceneEditor::AreEditPosFieldsFocusedByCursor() const
 
 float SceneEditor::PlaceEditablePosition(const Vector2 &v2Pos)
 {
-	ShadowPrint(v2Pos, L"Entity position:");
+	ShadowPrint(v2Pos, GS_L("Entity position:"));
 	for (unsigned int t=0; t<3; t++)
 	{
 		m_entityPosition[t].PlaceInput(v2Pos+Vector2(0,static_cast<float>(t+1)*m_menuSize), Vector2(0,0), m_menuSize);
@@ -675,9 +678,9 @@ str_type::string SceneEditor::DrawEntityString(ETHEntity *pEntity, const Color& 
 	ShadowPrint(box.min, sID.str().c_str(), dwColor);
 
 	str_type::stringstream sPos;
-	sPos << L"pos: " << ETHGlobal::Vector3ToString(pEntity->GetPosition()) << std::endl << ((pEntity->IsStatic()) ? L"[static]" : L"[dynamic]");
+	sPos << GS_L("pos: ") << ETHGlobal::Vector3ToString(pEntity->GetPosition()) << std::endl << ((pEntity->IsStatic()) ? GS_L("[static]") : GS_L("[dynamic]"));
 	ShadowPrint(box.min+Vector2(0,m_menuSize), sPos.str().c_str(), Color(dwColor.a/2,dwColor.r,dwColor.g,dwColor.b));
-	return sID.str()+L"\n"+sPos.str();
+	return sID.str()+GS_L("\n")+sPos.str();
 }
 
 bool SceneEditor::IsThereAnyFieldActive() const
@@ -779,11 +782,11 @@ void SceneEditor::DoStateManager()
 
 	str_type::stringstream ss;
 	const unsigned int nEntities = m_pScene->GetNumEntities();
-	ss << L"Entities in scene: " << m_pScene->GetNumRenderedEntities() << L"/" << nEntities;
+	ss << GS_L("Entities in scene: ") << m_pScene->GetNumRenderedEntities() << GS_L("/") << nEntities;
 	ShadowPrint(Vector2(m_guiX, m_guiY), ss.str().c_str(), Color(255,255,255,255)); m_guiY += m_menuSize;
 	m_guiY += m_menuSize/2;
 
-	ShadowPrint(Vector2(m_guiX,m_guiY), L"Lighting mode:"); m_guiY+=m_menuSize;
+	ShadowPrint(Vector2(m_guiX,m_guiY), GS_L("Lighting mode:")); m_guiY+=m_menuSize;
 	m_renderMode.PlaceMenu(Vector2(m_guiX,m_guiY)); m_guiY += m_menuSize*m_renderMode.GetNumButtons();
 
 	const ETHShaderManagerPtr& shaderManager = m_provider->GetShaderManager();
@@ -1095,7 +1098,7 @@ void SceneEditor::PlaceEntitySelection()
 		if (m_currentEntity->GetType() != ETHEntityProperties::ET_VERTICAL)
 		{
 			const Vector2 v2TipPos(0.0f, screenSize.y-m_menuSize-m_menuSize-_ENTITY_SELECTION_BAR_HEIGHT);
-			ShadowPrint(v2TipPos, L"You can hold SHIFT to align the entity like in a tile map", Color(255,255,255,255));
+			ShadowPrint(v2TipPos, GS_L("You can hold SHIFT to align the entity like in a tile map"), Color(255,255,255,255));
 		}
 	}
 
@@ -1120,7 +1123,7 @@ void SceneEditor::PlaceEntitySelection()
 	ETHLight shadowLight(true);
 	shadowLight.castShadows = true; shadowLight.range = ETH_DEFAULT_SHADOW_RANGE * 10;
 	shadowLight.pos = m_currentEntity->GetPosition()+Vector3(100, 100, 0); shadowLight.color = Vector3(0.5f, 0.5f, 0.5f);
-	if (m_currentEntity->GetEntityName() != L"")
+	if (m_currentEntity->GetEntityName() != GS_L(""))
 	{
 		if (shaderManager->BeginShadowPass(m_currentEntity, &shadowLight, maxDepth, minDepth))
 		{
@@ -1414,10 +1417,10 @@ void SceneEditor::DrawEntitySelectionGrid(SpritePtr pNextAppButton)
 			}
 
 			textToDraw = utf8::c(m_entityFiles[t]->entityName).wc_str();
-			textToDraw += L" {";
-			textToDraw += (m_entityFiles[t]->staticEntity) ? L"static/" : L"dynamic/";
+			textToDraw += GS_L(" {");
+			textToDraw += (m_entityFiles[t]->staticEntity) ? GS_L("static/") : GS_L("dynamic/");
 			textToDraw += ETHGlobal::entityTypes[m_entityFiles[t]->type];
-			textToDraw += L"}";
+			textToDraw += GS_L("}");
 		}
 
 		// highlight the current entity
@@ -1438,12 +1441,12 @@ void SceneEditor::DrawEntitySelectionGrid(SpritePtr pNextAppButton)
 		offset += _ENTITY_SELECTION_BAR_HEIGHT;
 	}
 
-	if (textToDraw != L"")
+	if (textToDraw != GS_L(""))
 	{
 		const Vector2 v2TextPos(v2Cursor-Vector2(0, m_menuSize));
 		const Color dwLeft = ARGB(155,0,0,0);
 		const Color dwRight = ARGB(155,0,0,0);
-		Vector2 boxSize = video->ComputeTextBoxSize(L"Verdana14_shadow.fnt", textToDraw.c_str());
+		Vector2 boxSize = video->ComputeTextBoxSize(GS_L("Verdana14_shadow.fnt"), textToDraw.c_str());
 		video->DrawRectangle(v2TextPos, boxSize, dwLeft, dwRight, dwLeft, dwRight);
 		ShadowPrint(v2TextPos, textToDraw.c_str(), Color(255,255,255,255));
 	}
@@ -1628,7 +1631,7 @@ void SceneEditor::ReloadFiles()
 	Platform::FileListing entityFiles;
 	std::string currentProjectPath = GetCurrentProjectPath(true) + utf8::c(ETHDirectories::GetEntityDirectory()).str();
 
-	entityFiles.ListDirectoryFiles(utf8::c(currentProjectPath).wc_str(), L"ent");
+	entityFiles.ListDirectoryFiles(utf8::c(currentProjectPath).wc_str(), GS_L("ent"));
 	const int nFiles = entityFiles.GetNumFiles();
 	if (nFiles >= 1)
 	{
@@ -1654,7 +1657,7 @@ void SceneEditor::ReloadFiles()
 	}
 	else
 	{
-		std::wcerr << L"The editor couldn't find any *.ent files. Make sure there are valid files at the "
-			 << ETHDirectories::GetEntityDirectory() << L" folder\n";
+		std::wcerr << GS_L("The editor couldn't find any *.ent files. Make sure there are valid files at the ")
+			 << ETHDirectories::GetEntityDirectory() << GS_L(" folder\n");
 	}
 }

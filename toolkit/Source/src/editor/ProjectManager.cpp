@@ -26,8 +26,8 @@
 #include "../engine/Scene/ETHScene.h"
 #include "../engine/ETHEngine.h"
 
-#define _S_NEW_PROJ L"New project..."
-#define _S_LOAD_PROJ L"Load project..."
+#define _S_NEW_PROJ GS_L("New project...")
+#define _S_LOAD_PROJ GS_L("Load project...")
 
 #include <direct.h>
 
@@ -82,17 +82,17 @@ std::string ProjectManager::DoEditor(SpritePtr pNextAppButton)
 	if (GetCurrentProject() == "")
 	{
 		ShadowPrint(Vector2(64,128),
-			L"-Start a new project or load an existing one.\n" \
-			L"-If you start a new project, all necessary files and paths will be copied to the target folder.\n" \
-			L"-Media files (sprites, sounds, normals) should be manually placed into their correct directories.\n" \
-			L"-Create .ENT entity files before building your scenes.\n");
+			GS_L("-Start a new project or load an existing one.\n") \
+			GS_L("-If you start a new project, all necessary files and paths will be copied to the target folder.\n") \
+			GS_L("-Media files (sprites, sounds, normals) should be manually placed into their correct directories.\n") \
+			GS_L("-Create .ENT entity files before building your scenes.\n"));
 	}
 	else
 	{
 		str_type::string currentProjectFilename = 
 			utf8::c(Platform::GetFileName(GetCurrentProject())).wc_str();
-			str_type::string sText = L"Project loaded: " + currentProjectFilename + L"\n" +
-			L"We're ready to go. Press TAB or click the arrow to go to the Editors";
+			str_type::string sText = GS_L("Project loaded: ") + currentProjectFilename + GS_L("\n") +
+			GS_L("We're ready to go. Press TAB or click the arrow to go to the Editors");
 		ShadowPrint(Vector2(64,128), sText.c_str());
 	}
 

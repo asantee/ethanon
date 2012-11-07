@@ -29,7 +29,7 @@
 #include <string>
 #include <iostream>
 
-#define _ETH_PROJECT_MANAGER_WINDOW_TITLE L"Ethanon Editor"
+#define _ETH_PROJECT_MANAGER_WINDOW_TITLE GS_L("Ethanon Editor")
 
 class ProjectManager : public EditorBase
 {

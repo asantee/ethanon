@@ -31,7 +31,7 @@ void cParticleScale::LoadEditor(EditorBase *pEditor)
 	{
 		m_scaleInput[t].SetupMenu(video, input, pEditor->GetMenuSize(), pEditor->GetMenuWidth(), 7, false);
 		m_scaleInput[t].SetConstant(1.0f);
-		m_scaleInput[t].SetText(L"Particle scale");
+		m_scaleInput[t].SetText(GS_L("Particle scale"));
 		m_scaleInput[t].SetScrollAdd(0.2f);
 	}
 }
@@ -42,7 +42,7 @@ float cParticleScale::DoEditor(const Vector2 &v2Pos, ETHEntity* pEntity, EditorB
 	if (pEntity->HasParticleSystems())
 	{
 		fR += pEditor->GetMenuSize();
-		pEditor->ShadowPrint(v2Pos+Vector2(0,fR), L"Particle scale:"); fR += pEditor->GetMenuSize();
+		pEditor->ShadowPrint(v2Pos+Vector2(0,fR), GS_L("Particle scale:")); fR += pEditor->GetMenuSize();
 		for (unsigned int t=0; t<ETH_MAX_PARTICLE_SYS_PER_ENTITY; t++)
 		{
 			if (pEntity->HasParticleSystem(t))

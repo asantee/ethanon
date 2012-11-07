@@ -37,7 +37,7 @@ GSGUI_STRING_INPUT::GSGUI_STRING_INPUT()
 	numbersOnly = false;
 }
 
-void GSGUI_STRING_INPUT::PlaceInput(const Vector2& pos, const std::wstring& font, const unsigned int nMaxChars, 
+void GSGUI_STRING_INPUT::PlaceInput(const Vector2& pos, const str_type::string& font, const unsigned int nMaxChars, 
 				const float size, const Color& dwColor, VideoPtr video,
 				InputPtr input)
 {
@@ -57,7 +57,7 @@ void GSGUI_STRING_INPUT::PlaceInput(const Vector2& pos, const std::wstring& font
 	// don't let the cursor exceed the text range
 	cursor = Min(cursor, ss.length());
 
-	wchar_t lastInput = input->GetLastCharInput();
+	str_type::char_t lastInput = input->GetLastCharInput();
 	if (lastInput != '\0' && ss.length() < nMaxChars)
 	{
 		if (numbersOnly)
@@ -112,20 +112,20 @@ void GSGUI_STRING_INPUT::PlaceInput(const Vector2& pos, const std::wstring& font
 		video->DrawRectangle(cursorPosition+pos-Vector2(2,0), Vector2(2,size), gs2d::constant::BLACK, gs2d::constant::BLACK, gs2d::constant::BLACK, gs2d::constant::BLACK, 0.0f);
 }
 
-void GSGUI_STRING_INPUT::Place(const Vector2& pos, const std::wstring& font,
+void GSGUI_STRING_INPUT::Place(const Vector2& pos, const str_type::string& font,
 				const float size, const Color& dwColor, VideoPtr video)
 {
-	std::wstring outputString = ss;
+	str_type::string outputString = ss;
 	video->DrawBitmapText(pos, outputString, font, dwColor);
 	SendCursorToEnd();
 }
 
-std::wstring GSGUI_STRING_INPUT::GetString() const
+str_type::string GSGUI_STRING_INPUT::GetString() const
 {
 	return ss;
 }
 
-void GSGUI_STRING_INPUT::SetString(const std::wstring &inS)
+void GSGUI_STRING_INPUT::SetString(const str_type::string &inS)
 {
 	ss = inS;
 }
@@ -189,12 +189,12 @@ void GS_GUI::Reset()
 	m_desc.clear();
 }
 
-std::wstring GS_GUI::GetDescription()
+str_type::string GS_GUI::GetDescription()
 {
 	return m_desc;
 }
 
-void GS_GUI::SetDescription(const std::wstring &desc)
+void GS_GUI::SetDescription(const str_type::string &desc)
 {
 	m_desc = desc;
 }
@@ -299,7 +299,7 @@ GSGUI_BUTTON GSGUI_SWAPBUTTON::PlaceMenu(Vector2 v2Pos)
 	return r;
 }
 
-GSGUI_SWAPBUTTON::GSGUI_SWAPSPRITE_PTR_LIST::iterator GSGUI_SWAPBUTTON::Find(const std::wstring &fileName)
+GSGUI_SWAPBUTTON::GSGUI_SWAPSPRITE_PTR_LIST::iterator GSGUI_SWAPBUTTON::Find(const str_type::string &fileName)
 {
 	for (GSGUI_SWAPSPRITE_PTR_LIST::iterator iter = m_sprites.begin();
 		iter != m_sprites.end(); ++iter)
@@ -310,7 +310,7 @@ GSGUI_SWAPBUTTON::GSGUI_SWAPSPRITE_PTR_LIST::iterator GSGUI_SWAPBUTTON::Find(con
 	return m_sprites.end();
 }
 
-bool GSGUI_SWAPBUTTON::AddButton(const std::wstring &fileName)
+bool GSGUI_SWAPBUTTON::AddButton(const str_type::string &fileName)
 {
 	GSGUI_SWAPBUTTON::GSGUI_SWAPSPRITE_PTR pSprite = GSGUI_SWAPBUTTON::GSGUI_SWAPSPRITE_PTR(new GSGUI_SWAPSPRITE);
 	if ((pSprite->sprite = m_video->CreateSprite(fileName)))
@@ -328,7 +328,7 @@ bool GSGUI_SWAPBUTTON::AddButton(const std::wstring &fileName)
 	return false;
 }
 
-bool GSGUI_SWAPBUTTON::SetButton(const std::wstring &fileName)
+bool GSGUI_SWAPBUTTON::SetButton(const str_type::string &fileName)
 {
 	GSGUI_SWAPSPRITE_PTR_LIST::iterator iter = Find(fileName);
 	if (iter == m_sprites.end())
@@ -379,7 +379,7 @@ void GSGUI_DROPDOWN::SetActive(const bool b)
 	m_active = b;
 }
 
-void GSGUI_DROPDOWN::SetupMenu(VideoPtr video, InputPtr input, const std::wstring &mainText,
+void GSGUI_DROPDOWN::SetupMenu(VideoPtr video, InputPtr input, const str_type::string &mainText,
 			   const float size, const float width, const bool onclick)
 {
 	m_video = video;
@@ -407,7 +407,7 @@ GSGUI_BUTTON GSGUI_DROPDOWN::PlaceMenu(Vector2 v2Pos)
 		m_style.active_bottom, m_style.active_bottom);
 	m_video->DrawBitmapText(
 		v2Pos + v2TextAdd, 
-		m_mainText.c_str(), L"Verdana14_shadow.fnt", m_style.active_text
+		m_mainText.c_str(), GS_L("Verdana14_shadow.fnt"), m_style.active_text
 	);
 
 	if (MouseOver(v2Pos, v2ButtonSize))
@@ -466,7 +466,7 @@ GSGUI_BUTTON GSGUI_DROPDOWN::PlaceMenu(Vector2 v2Pos)
 				top, top, bottom, bottom);
 			m_video->DrawBitmapText(
 				v2ButtonPos + v2TextAdd, 
-				iter->text.c_str(), L"Verdana14_shadow.fnt", text
+				iter->text.c_str(), GS_L("Verdana14_shadow.fnt"), text
 			);
 			t++;
 		}
@@ -482,14 +482,14 @@ GSGUI_BUTTON GSGUI_DROPDOWN::PlaceMenu(Vector2 v2Pos)
 	return r;
 }
 
-void GSGUI_DROPDOWN::AddButton(const std::wstring &text)
+void GSGUI_DROPDOWN::AddButton(const str_type::string &text)
 {
 	GSGUI_BUTTON button;
 	button.text = text;
 	m_buttons.push_back(button);
 }
 
-void GSGUI_DROPDOWN::DelButton(const std::wstring &text)
+void GSGUI_DROPDOWN::DelButton(const str_type::string &text)
 {
 	if (!m_buttons.empty())
 	{
@@ -646,11 +646,11 @@ GSGUI_BUTTON GSGUI_BUTTONLIST::PlaceMenu(Vector2 v2Pos)
 
 			m_video->DrawRectangle(v2ButtonPos, v2ButtonSize,
 				top, top, bottom, bottom);
-			std::wstringstream ss;
+			str_type::stringstream ss;
 			ss << iter->text << iter->extText;
 			m_video->DrawBitmapText(
 				v2ButtonPos + v2TextAdd, 
-				ss.str().c_str(), L"Verdana14_shadow.fnt", text
+				ss.str().c_str(), GS_L("Verdana14_shadow.fnt"), text
 			);
 			t++;
 		}
@@ -687,7 +687,7 @@ GSGUI_BUTTON GSGUI_BUTTONLIST::PlaceMenu(Vector2 v2Pos)
 	return r;
 }
 
-void GSGUI_BUTTONLIST::AddButton(const std::wstring &text, const bool active, const std::wstring &extText)
+void GSGUI_BUTTONLIST::AddButton(const str_type::string &text, const bool active, const str_type::string &extText)
 {
 	GSGUI_BUTTON button;
 	button.active = active;
@@ -696,7 +696,7 @@ void GSGUI_BUTTONLIST::AddButton(const std::wstring &text, const bool active, co
 	m_buttons.push_back(button);
 }
 
-bool GSGUI_BUTTONLIST::GetButtonStatus(const std::wstring &text) const
+bool GSGUI_BUTTONLIST::GetButtonStatus(const str_type::string &text) const
 {
 	if (!m_buttons.empty())
 	{
@@ -712,7 +712,7 @@ bool GSGUI_BUTTONLIST::GetButtonStatus(const std::wstring &text) const
 	return false;
 }
 
-bool GSGUI_BUTTONLIST::ActivateButton(const std::wstring &text)
+bool GSGUI_BUTTONLIST::ActivateButton(const str_type::string &text)
 {
 	if (!m_buttons.empty())
 	{
@@ -729,7 +729,7 @@ bool GSGUI_BUTTONLIST::ActivateButton(const std::wstring &text)
 }
 
 
-bool GSGUI_BUTTONLIST::DeactivateButton(const std::wstring &text)
+bool GSGUI_BUTTONLIST::DeactivateButton(const str_type::string &text)
 {
 	if (!m_buttons.empty())
 	{
@@ -745,7 +745,7 @@ bool GSGUI_BUTTONLIST::DeactivateButton(const std::wstring &text)
 	return true;
 }
 
-void GSGUI_BUTTONLIST::DelButton(const std::wstring &text)
+void GSGUI_BUTTONLIST::DelButton(const str_type::string &text)
 {
 	if (!m_buttons.empty())
 	{
@@ -761,7 +761,7 @@ void GSGUI_BUTTONLIST::DelButton(const std::wstring &text)
 	}
 }
 
-void GSGUI_BUTTONLIST::HideButton(const std::wstring &text, const bool hide)
+void GSGUI_BUTTONLIST::HideButton(const str_type::string &text, const bool hide)
 {
 	if (!m_buttons.empty())
 	{
@@ -826,7 +826,7 @@ GSGUI_INT_INPUT::GSGUI_INT_INPUT()
 	m_width = 256.0f;
 	m_active = false;
 	m_strInput.NumbersOnly(true);
-	m_text = L"";
+	m_text = GS_L("");
 	m_nMaxChars = 8;
 	m_min = 0;
 	m_max = 0;
@@ -906,40 +906,40 @@ int GSGUI_INT_INPUT::PlaceInput(Vector2 v2Pos)
 			bottom = m_style.inactive_bottom;
 			text = m_style.inactive_text;
 		}
-		if (m_strInput.GetString() == L"")
-			m_strInput.SetString(L"0");
+		if (m_strInput.GetString() == GS_L(""))
+			m_strInput.SetString(GS_L("0"));
 	}
 
 	m_video->DrawRectangle(v2Pos, Vector2(m_width, m_size),
 							top, top,
 							bottom, bottom);
 
-	std::wstringstream ss;
+	str_type::stringstream ss;
 	ss << m_strInput.GetString();
 	if (ss.str().length() > 0) //-V807
 	{
-		swscanf(ss.str().c_str(), L"%i", &r);
+		GS2D_SSCANF(ss.str().c_str(), GS_L("%i"), &r);
 		if (m_active && m_input->GetWheelState() != 0.0f)
 		{
 			r += (int)m_input->GetWheelState()*m_scrollAdd;
-			ss.str(L"");
+			ss.str(GS_L(""));
 			ss << r;
 			m_strInput.SetString(ss.str());
 		}
 
-		swscanf(ss.str().c_str(), L"%i", &r);
+		GS2D_SSCANF(ss.str().c_str(), GS_L("%i"), &r);
 		if (m_clamp)
 		{
 			if (r > m_max)
 			{
 				r = m_max;
-				ss.str(L"");
+				ss.str(GS_L(""));
 				ss << r;
 			} else
 			if (r < m_min)
 			{
 				r = m_min;
-				ss.str(L"");
+				ss.str(GS_L(""));
 				ss << r;
 			}
 			m_strInput.SetString(ss.str());
@@ -947,11 +947,11 @@ int GSGUI_INT_INPUT::PlaceInput(Vector2 v2Pos)
 	}
 	if (m_active)
 	{
-		m_strInput.PlaceInput(v2Pos+v2TextAdd, L"Verdana14_shadow.fnt", m_nMaxChars, m_size, text, m_video, m_input);
+		m_strInput.PlaceInput(v2Pos+v2TextAdd, GS_L("Verdana14_shadow.fnt"), m_nMaxChars, m_size, text, m_video, m_input);
 	}
 	else
 	{
-		m_strInput.Place(v2Pos+v2TextAdd, L"Verdana14_shadow.fnt", m_size, text, m_video);
+		m_strInput.Place(v2Pos+v2TextAdd, GS_L("Verdana14_shadow.fnt"), m_size, text, m_video);
 	}
 
 	if (m_active || m_mouseOver)
@@ -972,14 +972,14 @@ void GSGUI_INT_INPUT::SetClamp(const bool clamp, const int min, const int max)
 	m_max = (max>min) ? max : min;
 }
 
-void GSGUI_INT_INPUT::SetText(const std::wstring &text)
+void GSGUI_INT_INPUT::SetText(const str_type::string &text)
 {
 	m_text = text;
 }
 
 void GSGUI_INT_INPUT::SetConstant(const int n)
 {
-	std::wstringstream ss;
+	str_type::stringstream ss;
 	ss << n;
 	m_strInput.SetString(ss.str());
 }
@@ -995,7 +995,7 @@ GSGUI_FLOAT_INPUT::GSGUI_FLOAT_INPUT()
 	m_width = 256.0f;
 	m_active = false;
 	m_strInput.NumbersOnly(true);
-	m_strInput.SetString(L"0.0");
+	m_strInput.SetString(GS_L("0.0"));
 	m_text.clear();
 	m_nMaxChars = 8;
 	m_min = 0.0f;
@@ -1048,7 +1048,7 @@ float GSGUI_FLOAT_INPUT::PlaceInput(Vector2 v2Pos, Vector2 v2CommentPos, const f
 {
 	m_video->DrawBitmapText(
 		v2CommentPos, 
-		GetDescription().c_str(), L"Verdana14_shadow.fnt", gs2d::constant::WHITE
+		GetDescription().c_str(), GS_L("Verdana14_shadow.fnt"), gs2d::constant::WHITE
 	);
 	return PlaceInput(v2Pos);
 }
@@ -1063,7 +1063,7 @@ float GSGUI_FLOAT_INPUT::PlaceInput(Vector2 v2Pos)
 
 	m_video->DrawBitmapText(
 		v2Pos + v2TextAdd, m_text.c_str(), 
-		L"Verdana14_shadow.fnt", gs2d::constant::WHITE
+		GS_L("Verdana14_shadow.fnt"), gs2d::constant::WHITE
 	);
 
 	if (m_active)
@@ -1096,14 +1096,14 @@ float GSGUI_FLOAT_INPUT::PlaceInput(Vector2 v2Pos)
 			bottom = m_style.inactive_bottom;
 			text = m_style.inactive_text;
 		}
-		if (m_strInput.GetString() == L"")
-			m_strInput.SetString(L"0.0");
+		if (m_strInput.GetString() == GS_L(""))
+			m_strInput.SetString(GS_L("0.0"));
 	}
 
 	m_video->DrawRectangle(v2Pos+Vector2(m_width, 0.0f), Vector2(m_width, m_size),
 							top, top, bottom, bottom);
 
-	std::wstringstream ss;
+	str_type::stringstream ss;
 	ss.str(m_strInput.GetString());
 
 	// if there are no chars, go back to the min value
@@ -1111,29 +1111,29 @@ float GSGUI_FLOAT_INPUT::PlaceInput(Vector2 v2Pos)
 
 	if (m_strInput.GetString().length() > 0)
 	{
-		swscanf(ss.str().c_str(), L"%f", &m_lastValue);
+		GS2D_SSCANF(ss.str().c_str(), GS_L("%f"), &m_lastValue);
 
 		if (m_active && m_input->GetWheelState() != 0.0f)
 		{
 			m_lastValue += m_input->GetWheelState()*m_scrollAdd;
-			ss.str(L"");
+			ss.str(GS_L(""));
 			ss << m_lastValue;
 			m_strInput.SetString(ss.str());
 		}
 
-		swscanf(ss.str().c_str(), L"%f", &m_lastValue);
+		GS2D_SSCANF(ss.str().c_str(), GS_L("%f"), &m_lastValue);
 		if (m_clamp)
 		{
 			if (m_lastValue > m_max)
 			{
 				m_lastValue = m_max;
-				ss.str(L"");
+				ss.str(GS_L(""));
 				ss << m_lastValue;
 			} else
 			if (m_lastValue < m_min)
 			{
 				m_lastValue = m_min;
-				ss.str(L"");
+				ss.str(GS_L(""));
 				ss << m_lastValue;
 			}
 			m_strInput.SetString(ss.str());
@@ -1142,11 +1142,11 @@ float GSGUI_FLOAT_INPUT::PlaceInput(Vector2 v2Pos)
 
 	if (m_active)
 	{
-		m_strInput.PlaceInput(v2Pos+v2TextAdd+Vector2(m_width, 0.0f), L"Verdana14_shadow.fnt", m_nMaxChars, m_size, text, m_video, m_input);
+		m_strInput.PlaceInput(v2Pos+v2TextAdd+Vector2(m_width, 0.0f), GS_L("Verdana14_shadow.fnt"), m_nMaxChars, m_size, text, m_video, m_input);
 	}
 	else
 	{
-		m_strInput.Place(v2Pos+v2TextAdd+Vector2(m_width, 0.0f), L"Verdana14_shadow.fnt", m_size, text, m_video);
+		m_strInput.Place(v2Pos+v2TextAdd+Vector2(m_width, 0.0f), GS_L("Verdana14_shadow.fnt"), m_size, text, m_video);
 	}
 
 	if (m_active || m_mouseOver)
@@ -1155,10 +1155,10 @@ float GSGUI_FLOAT_INPUT::PlaceInput(Vector2 v2Pos)
 	return m_lastValue;
 }
 
-std::wstring GSGUI_FLOAT_INPUT::GetDescription()
+str_type::string GSGUI_FLOAT_INPUT::GetDescription()
 {
 	if (!IsMouseOver())
-		return L"";
+		return GS_L("");
 	return m_desc;
 }
 
@@ -1167,7 +1167,7 @@ float GSGUI_FLOAT_INPUT::GetLastValue() const
 	return m_lastValue;
 }
 
-void GSGUI_FLOAT_INPUT::SetText(const std::wstring &text)
+void GSGUI_FLOAT_INPUT::SetText(const str_type::string &text)
 {
 	m_text = text;
 }
@@ -1181,7 +1181,7 @@ void GSGUI_FLOAT_INPUT::SetClamp(const bool clamp, const float min, const float 
 
 void GSGUI_FLOAT_INPUT::SetConstant(const float f)
 {
-	std::wstringstream ss;
+	str_type::stringstream ss;
 	ss << f;
 	m_strInput.SetString(ss.str());
 	m_lastValue = f;
@@ -1193,30 +1193,30 @@ void GSGUI_FLOAT_INPUT::SetConstant(const float f)
 ///////////////////////////////////////////////////////////////
 GSGUI_STRING_LINE_INPUT::GSGUI_STRING_LINE_INPUT()
 {
-	m_strInput.SetString(L"");
+	m_strInput.SetString(GS_L(""));
 	//m_video = 0;
 	//m_input = 0;
 	m_size = 14.0f;
 	m_width = 256.0f;
 	m_active = false;
 	m_mouseOver = false;
-	m_text = L"";
+	m_text = GS_L("");
 	m_nMaxChars = 8;
 }
 
-void GSGUI_STRING_LINE_INPUT::SetValue(const std::wstring &str)
+void GSGUI_STRING_LINE_INPUT::SetValue(const str_type::string &str)
 {
 	m_strInput.SetString(str);
 }
 
-std::wstring GSGUI_STRING_LINE_INPUT::GetValue() const
+str_type::string GSGUI_STRING_LINE_INPUT::GetValue() const
 {
 	return m_strInput.GetString();
 }
 
 void GSGUI_STRING_LINE_INPUT::SetupMenu(VideoPtr video, InputPtr input,
 										const float size, const float width, const int maxC, const bool active,
-										const std::wstring& sValue)
+										const str_type::string& sValue)
 {
 	m_video = video;
 	m_input = input;
@@ -1227,7 +1227,7 @@ void GSGUI_STRING_LINE_INPUT::SetupMenu(VideoPtr video, InputPtr input,
 	m_strInput.SetString(sValue);
 }
 
-std::wstring GSGUI_STRING_LINE_INPUT::PlaceInput(Vector2 v2Pos)
+str_type::string GSGUI_STRING_LINE_INPUT::PlaceInput(Vector2 v2Pos)
 {
 	Vector2 v2Size(m_width, m_size), v2TextAdd(m_size/4.0f, 0.0f);
 	m_mouseOver = MouseOver(v2Pos, v2Size);
@@ -1266,24 +1266,24 @@ std::wstring GSGUI_STRING_LINE_INPUT::PlaceInput(Vector2 v2Pos)
 			bottom = m_style.inactive_bottom;
 			text = m_style.inactive_text;
 		}
-		if (m_strInput.GetString() == L"")
-			m_strInput.SetString(L"0");
+		if (m_strInput.GetString() == GS_L(""))
+			m_strInput.SetString(GS_L("0"));
 	}
 
 	m_video->DrawRectangle(v2Pos, Vector2(m_width, m_size),
 							top, top,
 							bottom, bottom);
 
-	std::wstringstream ss;
+	str_type::stringstream ss;
 	ss << m_strInput.GetString();
 
 	if (m_active)
 	{
-		m_strInput.PlaceInput(v2Pos+v2TextAdd, L"Verdana14_shadow.fnt", m_nMaxChars, m_size, text, m_video, m_input);
+		m_strInput.PlaceInput(v2Pos+v2TextAdd, GS_L("Verdana14_shadow.fnt"), m_nMaxChars, m_size, text, m_video, m_input);
 	}
 	else
 	{
-		m_strInput.Place(v2Pos+v2TextAdd, L"Verdana14_shadow.fnt", m_size, text, m_video);
+		m_strInput.Place(v2Pos+v2TextAdd, GS_L("Verdana14_shadow.fnt"), m_size, text, m_video);
 	}
 	if (m_active || m_mouseOver)
 		DrawOutline(v2Pos, v2Size);
@@ -1308,7 +1308,7 @@ void GSGUI_STRING_LINE_INPUT::SetActive(const bool b)
 	m_active = b;
 }
 
-void GSGUI_STRING_LINE_INPUT::SetText(const std::wstring &text)
+void GSGUI_STRING_LINE_INPUT::SetText(const str_type::string &text)
 {
     m_text = text;
 }

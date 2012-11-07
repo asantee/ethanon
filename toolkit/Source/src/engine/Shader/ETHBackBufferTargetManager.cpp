@@ -102,7 +102,7 @@ bool ETHBackBufferTargetManager::ComputeLength(gs2d::VideoPtr video, const gs2d:
 		else
 		{
 			float otherValue = -1.0f;
-			ENML_SSCANF(otherSide.c_str(), GS_L("%f"), &otherValue);
+			GS2D_SSCANF(otherSide.c_str(), GS_L("%f"), &otherValue);
 			if (isWidth)
 				m_bufferSize.x = ceilf(otherValue * (screenSize.x / screenSize.y));
 			else
@@ -113,7 +113,7 @@ bool ETHBackBufferTargetManager::ComputeLength(gs2d::VideoPtr video, const gs2d:
 	else
 	{
 		int value = -1;
-		ENML_SSCANF(thisSide.c_str(), GS_L("%i"), &value);
+		GS2D_SSCANF(thisSide.c_str(), GS_L("%i"), &value);
 		if (isWidth)
 			m_bufferSize.x = static_cast<float>(value);
 		else

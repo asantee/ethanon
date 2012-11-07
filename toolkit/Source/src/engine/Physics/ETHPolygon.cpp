@@ -33,8 +33,8 @@ ETHPolygon::ETHPolygon(const gs2d::str_type::string& enmlString)
 		const gs2d::str_type::string& Xvalue = entity->Get(GS_L("x"));
 		const gs2d::str_type::string& Yvalue = entity->Get(GS_L("y"));
 		float x = 0.0f, y = 0.0f;
-		ENML_SSCANF(Xvalue.c_str(), GS_L("%f"), &x);
-		ENML_SSCANF(Yvalue.c_str(), GS_L("%f"), &y);
+		GS2D_SSCANF(Xvalue.c_str(), GS_L("%f"), &x);
+		GS2D_SSCANF(Yvalue.c_str(), GS_L("%f"), &y);
 		m_vertices.push_back(gs2d::math::Vector2(x, y));
 		++v;
 	}

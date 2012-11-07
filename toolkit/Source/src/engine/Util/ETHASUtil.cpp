@@ -204,21 +204,21 @@ bool ToBool(const ETH_BOOL b)
 float ParseFloat(const str_type::char_t* str)
 {
 	float f = 0.0f;
-	_ETH_SAFE_swscanf(str, GS_L("%f"), &f);
+	GS2D_SSCANF(str, GS_L("%f"), &f);
 	return f;
 }
 
 int ParseInt(const str_type::char_t* str)
 {
 	int n = 0;
-	_ETH_SAFE_swscanf(str, GS_L("%d"), &n);
+	GS2D_SSCANF(str, GS_L("%d"), &n);
 	return n;
 }
 
 unsigned int ParseUInt(const str_type::char_t* str)
 {
 	unsigned int n = 0;
-	_ETH_SAFE_swscanf(str, GS_L("%u"), &n);
+	GS2D_SSCANF(str, GS_L("%u"), &n);
 	return n;
 }
 

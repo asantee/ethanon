@@ -41,13 +41,13 @@ class GSGUI_STRING_INPUT
 {
 public:
 	GSGUI_STRING_INPUT();
-	void PlaceInput(const Vector2& pos, const std::wstring& font, const unsigned int nMaxChars,
+	void PlaceInput(const Vector2& pos, const str_type::string& font, const unsigned int nMaxChars,
 					const float size, const Color& dwColor, VideoPtr video,
 					InputPtr input);
-	void Place(const Vector2& pos, const std::wstring& font,
+	void Place(const Vector2& pos, const str_type::string& font,
 				const float size, const Color& dwColor, VideoPtr video);
-	std::wstring GetString() const;
-	void SetString(const std::wstring &inS);
+	str_type::string GetString() const;
+	void SetString(const str_type::string &inS);
 	void NumbersOnly(const bool b);
 	void SendCursorToEnd();
 
@@ -57,7 +57,7 @@ private:
 	unsigned int showingCarret;
 	unsigned int cursor;
 	bool numbersOnly;
-	std::wstring ss;
+	str_type::string ss;
 };
 
 ///////////////////////////////////////////////////////////////
@@ -89,8 +89,8 @@ struct GSGUI_BUTTON
 	bool onFocus;
 	bool active;
 	bool visible;
-	std::wstring text;
-	std::wstring extText;
+	str_type::string text;
+	str_type::string extText;
 	union GSGUI_BUTTONVALUE
 	{
 		int nValue;
@@ -117,8 +117,8 @@ class GS_GUI
 public:
 	GS_GUI();
 	virtual GSGUI_BUTTON PlaceMenu(Vector2 v2Pos) = 0;
-	virtual std::wstring GetDescription();
-	virtual void SetDescription(const std::wstring &desc);
+	virtual str_type::string GetDescription();
+	virtual void SetDescription(const str_type::string &desc);
 	const GSGUI_STYLE *GetGUIStyle() const;
 	float GetWidth() const;
 	float GetSize() const;
@@ -133,7 +133,7 @@ protected:
 	GSGUI_STYLE m_style;
 	float m_size;
 	float m_width;
-	std::wstring m_desc;
+	str_type::string m_desc;
 
 	virtual bool MouseOver(Vector2 v2Pos, Vector2 v2Size);
 	virtual void DrawOutline(Vector2 v2Pos, Vector2 v2Size);
@@ -150,7 +150,7 @@ public:
 	struct GSGUI_SWAPSPRITE
 	{
 		SpritePtr sprite;
-		std::wstring fileName;
+		str_type::string fileName;
 	};
 	typedef boost::shared_ptr<GSGUI_SWAPSPRITE> GSGUI_SWAPSPRITE_PTR;
 	typedef boost::shared_ptr<const GSGUI_SWAPSPRITE> GSGUI_SWAPSPRITE_CONST_PTR;
@@ -158,15 +158,15 @@ public:
 
 	void SetupButtons(VideoPtr video, InputPtr input);
 	GSGUI_SWAPSPRITE_CONST_PTR GetCurrentButton() const;
-	bool AddButton(const std::wstring &fileName);
+	bool AddButton(const str_type::string &fileName);
 
 	GSGUI_BUTTON PlaceMenu(Vector2 v2Pos);
 	bool IsMouseOver() const;
 
-	bool SetButton(const std::wstring &fileName);
+	bool SetButton(const str_type::string &fileName);
 
 private:
-	GSGUI_SWAPSPRITE_PTR_LIST::iterator Find(const std::wstring &fileName);
+	GSGUI_SWAPSPRITE_PTR_LIST::iterator Find(const str_type::string &fileName);
 
 	GSGUI_SWAPSPRITE_PTR m_current;
 	GSGUI_SWAPSPRITE_PTR_LIST m_sprites;
@@ -182,11 +182,11 @@ public:
 	GSGUI_DROPDOWN();
 	~GSGUI_DROPDOWN();
 	void Destroy();
-	void SetupMenu(VideoPtr video, InputPtr input, const std::wstring &mainText,
+	void SetupMenu(VideoPtr video, InputPtr input, const str_type::string &mainText,
 				   const float size, const float width, const bool onclick);
 	GSGUI_BUTTON PlaceMenu(Vector2 v2Pos);
-	void AddButton(const std::wstring &text);
-	void DelButton(const std::wstring &text);
+	void AddButton(const str_type::string &text);
+	void DelButton(const str_type::string &text);
 	int GetNumButtons() const;
 	bool IsActive() const;
 	void SetActive(const bool b);
@@ -198,7 +198,7 @@ private:
 	bool m_onClick;
 	bool m_mouseOver;
 	bool m_active;
-	std::wstring m_mainText;
+	str_type::string m_mainText;
 };
 
 ///////////////////////////////////////////////////////////////
@@ -216,14 +216,14 @@ public:
 				   const bool autounclick);
 	void ResetButtons();
 	GSGUI_BUTTON PlaceMenu(Vector2 v2Pos);
-	void AddButton(const std::wstring &text, const bool active = false, const std::wstring &extText = L"");
-	bool GetButtonStatus(const std::wstring &text) const;
-	bool ActivateButton(const std::wstring &text);
-	bool DeactivateButton(const std::wstring &text);
-	void DelButton(const std::wstring &text);
+	void AddButton(const str_type::string &text, const bool active = false, const str_type::string &extText = GS_L(""));
+	bool GetButtonStatus(const str_type::string &text) const;
+	bool ActivateButton(const str_type::string &text);
+	bool DeactivateButton(const str_type::string &text);
+	void DelButton(const str_type::string &text);
 	int GetNumButtons() const;
 	bool IsMouseOver() const;
-	void HideButton(const std::wstring &text, const bool hide);
+	void HideButton(const str_type::string &text, const bool hide);
 	GSGUI_BUTTON_LIST::const_iterator Begin() const;
 	GSGUI_BUTTON_LIST::const_iterator End() const;
 	GSGUI_BUTTON GetFirstActiveButton() const;
@@ -250,7 +250,7 @@ public:
 	int PlaceInput(Vector2 v2Pos);
 	GSGUI_BUTTON PlaceMenu(Vector2 v2Pos);
 	void SetClamp(const bool clamp, const int min, const int max);
-	void SetText(const std::wstring &text);
+	void SetText(const str_type::string &text);
 	void SetConstant(const int n);
 	void SetScrollAdd(const int add);
 	bool IsMouseOver() const;
@@ -263,7 +263,7 @@ private:
 	int m_min, m_max;
 	bool m_clamp;
 	bool m_active;
-	std::wstring m_text;
+	str_type::string m_text;
 	GSGUI_STRING_INPUT m_strInput;
 	int m_scrollAdd;
 };
@@ -282,8 +282,8 @@ public:
 	bool IsMouseOver() const;
 	float PlaceInput(Vector2 v2Pos, Vector2 v2CommentPos, const float size);
 	float PlaceInput(Vector2 v2Pos);
-	std::wstring GetDescription();
-	void SetText(const std::wstring &text);
+	str_type::string GetDescription();
+	void SetText(const str_type::string &text);
 	void SetClamp(const bool clamp, const float min, const float max);
 	void SetConstant(const float f);
 	float GetLastValue() const;
@@ -298,7 +298,7 @@ private:
 	bool m_clamp;
 	bool m_active;
 	GSGUI_STRING_INPUT m_strInput;
-	std::wstring m_text;
+	str_type::string m_text;
 };
 
 ///////////////////////////////////////////////////////////////
@@ -310,21 +310,21 @@ public:
 	GSGUI_STRING_LINE_INPUT();
 	void SetupMenu(VideoPtr video, InputPtr input,
 				   const float size, const float width, const int maxC, const bool active,
-				   const std::wstring& sValue = L"");
+				   const str_type::string& sValue = GS_L(""));
 	GSGUI_BUTTON PlaceMenu(Vector2 v2Pos);
-	std::wstring PlaceInput(Vector2 v2Pos);
-	void SetText(const std::wstring &text);
+	str_type::string PlaceInput(Vector2 v2Pos);
+	void SetText(const str_type::string &text);
 	bool IsMouseOver() const;
 	bool IsActive() const;
 	void SetActive(const bool b);
-	void SetValue(const std::wstring &str);
-	std::wstring GetValue() const;
+	void SetValue(const str_type::string &str);
+	str_type::string GetValue() const;
 
 private:
 	bool m_mouseOver;
 	bool m_active;
 	int m_nMaxChars;
-	std::wstring m_text;
+	str_type::string m_text;
 	GSGUI_STRING_INPUT m_strInput;
 };
 #endif

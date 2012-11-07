@@ -31,22 +31,22 @@
 
 #define _BASEEDITOR_DEFAULT_UNTITLED_FILE "Untitled"
 
-#define _S_MENU_TITLE L"File"
-#define _S_NEW L"New"
-#define _S_OPEN L"Open"
-#define _S_SAVE L"Save"
-#define _S_SAVE_AS L"Save as..."
-#define _S_GOTO_PROJ L"Go to project manager"
+#define _S_MENU_TITLE GS_L("File")
+#define _S_NEW GS_L("New")
+#define _S_OPEN GS_L("Open")
+#define _S_SAVE GS_L("Save")
+#define _S_SAVE_AS GS_L("Save as...")
+#define _S_GOTO_PROJ GS_L("Go to project manager")
 
-#define _S_USE_PS L"Pixel shaded"
-#define _S_USE_VS L"Vertex shaded"
-#define _S_GENERATE_LIGHTMAPS L"Update lightmaps"
-#define _S_UPDATE_ENTITIES L"Update entities"
-#define _S_LOCK_STATIC L"Lock static entities"
-#define _S_USE_STATIC_LIGHTMAPS L"Use static lightmaps"
-#define _S_SHOW_CUSTOM_DATA L"Show custom data"
-#define _S_SHOW_ADVANCED_OPTIONS L"Show advanced options"
-#define _S_TOGGLE_STATIC_DYNAMIC L"Toggle static/dynamic"
+#define _S_USE_PS GS_L("Pixel shaded")
+#define _S_USE_VS GS_L("Vertex shaded")
+#define _S_GENERATE_LIGHTMAPS GS_L("Update lightmaps")
+#define _S_UPDATE_ENTITIES GS_L("Update entities")
+#define _S_LOCK_STATIC GS_L("Lock static entities")
+#define _S_USE_STATIC_LIGHTMAPS GS_L("Use static lightmaps")
+#define _S_SHOW_CUSTOM_DATA GS_L("Show custom data")
+#define _S_SHOW_ADVANCED_OPTIONS GS_L("Show advanced options")
+#define _S_TOGGLE_STATIC_DYNAMIC GS_L("Toggle static/dynamic")
 
 const Vector2 ETH_DEFAULT_ZDIRECTION(0,-1);
 
@@ -80,8 +80,8 @@ public:
 	void SaveAttributeToInfoFile(const std::string &programPath, const std::string &entity, const std::string &attrib, const std::string &value);
 	std::string GetAttributeFromInfoFile(const std::string &programPath, const std::string &entity, const std::string &attrib);
 
-	void ShadowPrint(Vector2 v2Pos, const wchar_t *text, const Color& color = gs2d::constant::WHITE) const;
-	void ShadowPrint(Vector2 v2Pos, const wchar_t *text, const str_type::char_t *font, const Color& color) const;
+	void ShadowPrint(Vector2 v2Pos, const str_type::char_t *text, const Color& color = gs2d::constant::WHITE) const;
+	void ShadowPrint(Vector2 v2Pos, const str_type::char_t *text, const str_type::char_t *font, const Color& color) const;
 
 	VideoPtr GetVideoHandler();
 	InputPtr GetInputHandler();

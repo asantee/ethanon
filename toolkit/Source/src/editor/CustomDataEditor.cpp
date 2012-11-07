@@ -36,11 +36,11 @@ CustomDataEditor::CustomDataEditor()
 void CustomDataEditor::LoadEditor(EditorBase *pEditor)
 {
 	m_options.SetupMenu(pEditor->GetVideoHandler(), pEditor->GetInputHandler(),
-		L"+ New variable", pEditor->GetMenuSize(), pEditor->GetMenuWidth()*2, true);
-	m_options.AddButton(L"int");
-	m_options.AddButton(L"uint");
-	m_options.AddButton(L"float");
-	m_options.AddButton(L"string");
+		GS_L("+ New variable"), pEditor->GetMenuSize(), pEditor->GetMenuWidth()*2, true);
+	m_options.AddButton(GS_L("int"));
+	m_options.AddButton(GS_L("uint"));
+	m_options.AddButton(GS_L("float"));
+	m_options.AddButton(GS_L("string"));
 }
 
 float CustomDataEditor::DoEditor(const Vector2 &v2Pos, ETHEntity* pEntity, EditorBase *pEditor)
@@ -57,7 +57,7 @@ float CustomDataEditor::DoEditor(const Vector2 &v2Pos, ETHEntity* pEntity, Edito
 	VideoPtr video = pEditor->GetVideoHandler();
 	InputPtr input = pEditor->GetInputHandler();
 
-	pEditor->ShadowPrint(v2Pos+Vector2(0,fR), L"Custom data:");
+	pEditor->ShadowPrint(v2Pos+Vector2(0,fR), GS_L("Custom data:"));
 	fR += pEditor->GetMenuSize();
 
 	const GSGUI_BUTTON r = m_options.PlaceMenu(v2Pos+Vector2(0,fR));
@@ -74,22 +74,22 @@ float CustomDataEditor::DoEditor(const Vector2 &v2Pos, ETHEntity* pEntity, Edito
 	EditVariable(pEntity, pEditor);
 
 	// checks if the user pressed the "Add variable" button and handles it
-	if (r.text != L"")
+	if (r.text != GS_L(""))
 	{
 		m_inVariableName.SetupMenu(video, input, pEditor->GetMenuSize(), pEditor->GetMenuWidth()*4.0f, 32, true);
-		if (r.text == L"int")
+		if (r.text == GS_L("int"))
 		{
 			m_cdesState = CDES_ADDING_INT;
 		}
-		else if (r.text == L"uint")
+		else if (r.text == GS_L("uint"))
 		{
 			m_cdesState = CDES_ADDING_UINT;
 		}
-		else if (r.text == L"float")
+		else if (r.text == GS_L("float"))
 		{
 			m_cdesState = CDES_ADDING_FLOAT;
 		}
-		else if (r.text == L"string")
+		else if (r.text == GS_L("string"))
 		{
 			m_cdesState = CDES_ADDING_STRING;
 		}
@@ -115,18 +115,18 @@ void CustomDataEditor::InputVariableName(ETHEntity* pEntity, EditorBase *pEditor
 
 	if (m_inVariableName.IsActive())
 	{
-		DrawInputFieldRect(v2Pos, &m_inVariableName, pEditor, L"Enter variable name");
+		DrawInputFieldRect(v2Pos, &m_inVariableName, pEditor, GS_L("Enter variable name"));
 		m_inVariableName.PlaceInput(v2Pos);
 
 		str_type::stringstream ss;
 		ss << ETHCustomDataManager::GetDataName(m_cdesState);
 		pEditor->ShadowPrint(v2Pos-Vector2(0.0f,m_inVariableName.GetSize()), ss.str().c_str(),
-			L"Verdana14_shadow.fnt", gs2d::constant::BLACK);
+			GS_L("Verdana14_shadow.fnt"), gs2d::constant::BLACK);
 
 		// if it has just been unactivated
 		if (!m_inVariableName.IsActive())
 		{
-			if (m_inVariableName.GetValue() != L"")
+			if (m_inVariableName.GetValue() != GS_L(""))
 			{
 				switch (m_cdesState)
 				{
@@ -140,7 +140,7 @@ void CustomDataEditor::InputVariableName(ETHEntity* pEntity, EditorBase *pEditor
 					pEntity->SetFloat(m_inVariableName.GetValue(), 0.0f);
 					break;
 				case CDES_ADDING_STRING:
-					pEntity->SetString(m_inVariableName.GetValue(), L"none");
+					pEntity->SetString(m_inVariableName.GetValue(), GS_L("none"));
 					break;
 				}
 				Rebuild(pEntity, pEditor);
@@ -171,7 +171,7 @@ float CustomDataEditor::PlaceButtons(const Vector2 &v2Pos, const ETHEntity* pEnt
 		// if the cursor is over, show message
 		if (m_customDataButtonList.IsMouseOver())
 		{
-			pEditor->ShadowPrint(input->GetCursorPositionF(video)-Vector2(0,pEditor->GetMenuSize()), L"Click to edit");
+			pEditor->ShadowPrint(input->GetCursorPositionF(video)-Vector2(0,pEditor->GetMenuSize()), GS_L("Click to edit"));
 		}
 	}
 	else
@@ -214,7 +214,7 @@ void CustomDataEditor::Rebuild(const ETHEntity* pEntity, EditorBase *pEditor)
 		const ETHCustomDataPtr& data = iter->second;
 		const str_type::string& name = iter->first;
 		str_type::stringstream ss;
-		ss << L" = ";
+		ss << GS_L(" = ");
 		bool editable = true;
 		switch (data->GetType())
 		{
@@ -228,7 +228,7 @@ void CustomDataEditor::Rebuild(const ETHEntity* pEntity, EditorBase *pEditor)
 			ss << data->GetFloat();
 			break;
 		case ETHCustomData::DT_STRING:
-			ss << L"\"" << utf8::c(data->GetString()).wc_str() << L"\"";
+			ss << GS_L("\"") << utf8::c(data->GetString()).wc_str() << GS_L("\"");
 			break;
 		default:
 			editable = false;
@@ -259,12 +259,12 @@ void CustomDataEditor::EditVariable(ETHEntity* pEntity, EditorBase *pEditor)
 		m_lastEntityID = pEntity->GetID();
 	}
 
-	if (r.text != L"")
+	if (r.text != GS_L(""))
 	{
 		m_inValueInput.SetActive(true);
 		const Vector2 v2Pos = video->GetScreenSizeF()/2.0f - Vector2(m_inValueInput.GetWidth()/2.0f, 0.0f);
 
-		DrawInputFieldRect(v2Pos, &m_inValueInput, pEditor, L"Leave blank to erase variable");
+		DrawInputFieldRect(v2Pos, &m_inValueInput, pEditor, GS_L("Leave blank to erase variable"));
 
 		const ETHCustomData::DATA_TYPE type = pEntity->CheckCustomData(r.text);
 		switch (type)
@@ -283,9 +283,9 @@ void CustomDataEditor::EditVariable(ETHEntity* pEntity, EditorBase *pEditor)
 			break;
 		};
 		str_type::stringstream ss;
-		ss << ETHCustomDataManager::GetDataName(type) << L" " << r.text << L":";
+		ss << ETHCustomDataManager::GetDataName(type) << GS_L(" ") << r.text << GS_L(":");
 		pEditor->ShadowPrint(v2Pos-Vector2(0.0f,m_inValueInput.GetSize()), ss.str().c_str(),
-			L"Verdana14_shadow.fnt", gs2d::constant::BLACK);
+			GS_L("Verdana14_shadow.fnt"), gs2d::constant::BLACK);
 	}
 	else
 	{
@@ -294,7 +294,7 @@ void CustomDataEditor::EditVariable(ETHEntity* pEntity, EditorBase *pEditor)
 
 	if (!m_inValueInput.IsActive())
 	{
-		if (m_inValueInput.GetValue() == L"")
+		if (m_inValueInput.GetValue() == GS_L(""))
 		{
 			pEntity->EraseData(r.text);
 			Rebuild(pEntity, pEditor);

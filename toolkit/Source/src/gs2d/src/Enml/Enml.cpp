@@ -499,7 +499,7 @@ bool File::GetDouble(const str_type::string &entity, const str_type::string &att
 	{
 		return false;
 	}
-	if (ENML_SSCANF(str.c_str(), GS_L("%lf"), p) < 1)
+	if (GS2D_SSCANF(str.c_str(), GS_L("%lf"), p) < 1)
 	{
 		return false;
 	}
@@ -513,7 +513,7 @@ bool File::GetInt(const str_type::string &entity, const str_type::string &attrib
 	{
 		return false;
 	}
-	if (ENML_SSCANF(str.c_str(), GS_L("%d"), p) < 1)
+	if (GS2D_SSCANF(str.c_str(), GS_L("%d"), p) < 1)
 	{
 		return false;
 	}
@@ -527,7 +527,7 @@ bool File::GetUInt(const str_type::string &entity, const str_type::string &attri
 	{
 		return false;
 	}
-	if (ENML_SSCANF(str.c_str(), GS_L("%u"), p) < 1)
+	if (GS2D_SSCANF(str.c_str(), GS_L("%u"), p) < 1)
 	{
 		return false;
 	}
@@ -541,7 +541,7 @@ bool File::GetFloat(const str_type::string &entity, const str_type::string &attr
 	{
 		return false;
 	}
-	if (ENML_SSCANF(str.c_str(), GS_L("%f"), p) < 1)
+	if (GS2D_SSCANF(str.c_str(), GS_L("%f"), p) < 1)
 	{
 		return false;
 	}

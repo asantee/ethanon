@@ -70,18 +70,17 @@ namespace str_type {
 
 #ifdef _MSC_VER
  #ifdef GS2D_STR_TYPE_ANSI
-  #define ENML_SSCANF sscanf_s
+  #define GS2D_SSCANF sscanf_s
  #else
-  #define ENML_SSCANF swscanf_s
+  #define GS2D_SSCANF swscanf_s
  #endif
 #else
  #ifdef GS2D_STR_TYPE_ANSI
-  #define ENML_SSCANF sscanf
+  #define GS2D_SSCANF sscanf
  #else
-  #define ENML_SSCANF swscanf
+  #define GS2D_SSCANF swscanf
  #endif
 #endif
-
 
 class Texture;
 typedef boost::shared_ptr<Texture> TexturePtr;

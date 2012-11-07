@@ -26,62 +26,62 @@
 #include "../engine/Resource/ETHDirectories.h"
 #include <sstream>
 
-#define _S_ADD_RESOURCES L"Add resources"
-#define _S_OPEN_ENTITY L"Add entity bitmap"
-#define _S_OPEN_NORMALMAP L"Add normal map"
-#define _S_OPEN_HALO L"Add halo bitmap"
-#define _S_OPEN_GLOSSMAP L"Add gloss bitmap"
-#define _S_LOAD_PAR0 L"Add particle slot A"
-#define _S_LOAD_PAR1 L"Add particle slot B"
+#define _S_ADD_RESOURCES GS_L("Add resources")
+#define _S_OPEN_ENTITY GS_L("Add entity bitmap")
+#define _S_OPEN_NORMALMAP GS_L("Add normal map")
+#define _S_OPEN_HALO GS_L("Add halo bitmap")
+#define _S_OPEN_GLOSSMAP GS_L("Add gloss bitmap")
+#define _S_LOAD_PAR0 GS_L("Add particle slot A")
+#define _S_LOAD_PAR1 GS_L("Add particle slot B")
 
-#define _S_DEL_RESOURCES L"Remove..."
-#define _S_DEL_ENTITY L"Entity bitmap"
-#define _S_DEL_NORMALMAP L"Normal map"
-#define _S_DEL_GLOSSMAP L"Gloss map"
-#define _S_DEL_HALO L"Halo"
-#define _S_DEL_PAR0 L"Particle slot A"
-#define _S_DEL_PAR1 L"Particle slot B"
+#define _S_DEL_RESOURCES GS_L("Remove...")
+#define _S_DEL_ENTITY GS_L("Entity bitmap")
+#define _S_DEL_NORMALMAP GS_L("Normal map")
+#define _S_DEL_GLOSSMAP GS_L("Gloss map")
+#define _S_DEL_HALO GS_L("Halo")
+#define _S_DEL_PAR0 GS_L("Particle slot A")
+#define _S_DEL_PAR1 GS_L("Particle slot B")
 
-#define _S_VERTICAL L"Vertical"
-#define _S_HORIZONTAL L"Horizontal"
-#define _S_DECAL L"Ground decal"
-#define _S_OVERALL L"Over all"
-#define _S_OPAQUE_DECAL L"Opaque decal"
-#define _S_LAYERABLE L"Layerable"
+#define _S_VERTICAL GS_L("Vertical")
+#define _S_HORIZONTAL GS_L("Horizontal")
+#define _S_DECAL GS_L("Ground decal")
+#define _S_OVERALL GS_L("Over all")
+#define _S_OPAQUE_DECAL GS_L("Opaque decal")
+#define _S_LAYERABLE GS_L("Layerable")
 
-#define _S_BODY_SHAPE          L"Physics properties:"
-#define _S_BODY_SHAPE_NONE     L"Not physics managed"
-#define _S_BODY_SHAPE_BOX      L"Box"
-#define _S_BODY_SHAPE_CIRCLE   L"Circle"
-#define _S_BODY_SHAPE_POLYGON  L"Polygon"
-#define _S_BODY_SHAPE_COMPOUND L"Compound shape"
+#define _S_BODY_SHAPE          GS_L("Physics properties:")
+#define _S_BODY_SHAPE_NONE     GS_L("Not physics managed")
+#define _S_BODY_SHAPE_BOX      GS_L("Box")
+#define _S_BODY_SHAPE_CIRCLE   GS_L("Circle")
+#define _S_BODY_SHAPE_POLYGON  GS_L("Polygon")
+#define _S_BODY_SHAPE_COMPOUND GS_L("Compound shape")
 
-#define _S_BODY_PROPS                L"Body properties:"
-#define _S_BODY_PROPS_SENSOR         L"Is sensor"
-#define _S_BODY_PROPS_BULLET         L"Is bullet"
-#define _S_BODY_PROPS_FIXED_ROTATION L"Fixed rotation"
-#define _S_BODY_PROPS_DENSITY        L"Density:"
-#define _S_BODY_PROPS_RESTITUTION    L"Restitution:"
-#define _S_BODY_PROPS_FRICTION       L"Friction:"
-#define _S_BODY_PROPS_GRAVITY_SCALE  L"Gravity scale:"
+#define _S_BODY_PROPS                GS_L("Body properties:")
+#define _S_BODY_PROPS_SENSOR         GS_L("Is sensor")
+#define _S_BODY_PROPS_BULLET         GS_L("Is bullet")
+#define _S_BODY_PROPS_FIXED_ROTATION GS_L("Fixed rotation")
+#define _S_BODY_PROPS_DENSITY        GS_L("Density:")
+#define _S_BODY_PROPS_RESTITUTION    GS_L("Restitution:")
+#define _S_BODY_PROPS_FRICTION       GS_L("Friction:")
+#define _S_BODY_PROPS_GRAVITY_SCALE  GS_L("Gravity scale:")
 
-#define _S_CAST_SHADOW L"Cast shadow"
-#define _S_STATIC_ENTITY L"Static entity"
-#define _S_APPLY_LIGHT L"Apply light"
-#define _S_ACTIVE_LIGHT L"Cast light"
-#define _S_SHADOW_CASTER L"Shadow caster"
-#define _S_STATIC_LIGHT L"Static light"
-#define _S_COLLIDABLE L"Collidable"
-#define _S_HIDE_FROM_SCENE_EDITOR L"Hide in scene editor"
+#define _S_CAST_SHADOW GS_L("Cast shadow")
+#define _S_STATIC_ENTITY GS_L("Static entity")
+#define _S_APPLY_LIGHT GS_L("Apply light")
+#define _S_ACTIVE_LIGHT GS_L("Cast light")
+#define _S_SHADOW_CASTER GS_L("Shadow caster")
+#define _S_STATIC_LIGHT GS_L("Static light")
+#define _S_COLLIDABLE GS_L("Collidable")
+#define _S_HIDE_FROM_SCENE_EDITOR GS_L("Hide in scene editor")
 
-#define _S_EDIT_LIGHT L"Edit lights"
-#define _S_EDIT_PARTICLES L"Edit particles"
-#define _S_EDIT_COLLISION L"Edit collision"
+#define _S_EDIT_LIGHT GS_L("Edit lights")
+#define _S_EDIT_PARTICLES GS_L("Edit particles")
+#define _S_EDIT_COLLISION GS_L("Edit collision")
 
-#define _S_BLEND_MODE_DEFAULT L"Default"
-#define _S_BLEND_MODE_ALPHATEST L"Alpha test only"
-#define _S_BLEND_MODE_ADD L"Additive"
-#define _S_BLEND_MODE_MODULATE L"Modulate"
+#define _S_BLEND_MODE_DEFAULT GS_L("Default")
+#define _S_BLEND_MODE_ALPHATEST GS_L("Alpha test only")
+#define _S_BLEND_MODE_ADD GS_L("Additive")
+#define _S_BLEND_MODE_MODULATE GS_L("Modulate")
 
 EntityEditor::EntityEditor(ETHResourceProviderPtr provider) :
 	EditorBase(provider),
@@ -104,7 +104,7 @@ EntityEditor::~EntityEditor()
 
 void EntityEditor::InstantiateEntity(const str_type::string& fileName)
 {
-	if (fileName == L"")
+	if (fileName == GS_L(""))
 	{
 		m_renderEntity = boost::shared_ptr<ETHRenderEntity>(new ETHRenderEntity(m_provider));
 	}
@@ -150,27 +150,27 @@ void EntityEditor::LoadEditor()
 
 	InstantiateEntity();
 
-	m_axis = video->CreateSprite(m_provider->GetFileIOHub()->GetProgramDirectory() + L"data/axis.png");
+	m_axis = video->CreateSprite(m_provider->GetFileIOHub()->GetProgramDirectory() + GS_L("data/axis.png"));
 	m_axis->SetOrigin(Sprite::EO_CENTER);
 
-	m_spot.m_sprite = video->CreateSprite(m_provider->GetFileIOHub()->GetProgramDirectory() + L"data/spot.bmp", 0xFFFF00FF);
+	m_spot.m_sprite = video->CreateSprite(m_provider->GetFileIOHub()->GetProgramDirectory() + GS_L("data/spot.bmp"), 0xFFFF00FF);
 	m_spot.m_sprite->SetOrigin(Sprite::EO_CENTER);
 
-	m_range = video->CreateSprite(m_provider->GetFileIOHub()->GetProgramDirectory() + L"data/range.png");
+	m_range = video->CreateSprite(m_provider->GetFileIOHub()->GetProgramDirectory() + GS_L("data/range.png"));
 	m_range->SetOrigin(Sprite::EO_CENTER);
 
-	m_outline = video->CreateSprite(m_provider->GetFileIOHub()->GetProgramDirectory() + L"data/outline.png");
+	m_outline = video->CreateSprite(m_provider->GetFileIOHub()->GetProgramDirectory() + GS_L("data/outline.png"));
 	m_outline->SetOrigin(Sprite::EO_DEFAULT);
 
 	for (int t=0; t<ETH_MAX_PARTICLE_SYS_PER_ENTITY; t++)
 	{
-		m_particleSpot[t].m_sprite = video->CreateSprite(m_provider->GetFileIOHub()->GetProgramDirectory() + L"data/arrow.bmp", 0xFFFF00FF);
+		m_particleSpot[t].m_sprite = video->CreateSprite(m_provider->GetFileIOHub()->GetProgramDirectory() + GS_L("data/arrow.bmp"), 0xFFFF00FF);
 		m_particleSpot[t].m_sprite->SetOrigin(Sprite::EO_CENTER);
 	}
 
 	m_playStopButton.SetupButtons(video, m_provider->GetInput());
-	m_playStopButton.AddButton(m_provider->GetFileIOHub()->GetProgramDirectory() + L"data/play.png");
-	m_playStopButton.AddButton(m_provider->GetFileIOHub()->GetProgramDirectory() + L"data/stop.png");
+	m_playStopButton.AddButton(m_provider->GetFileIOHub()->GetProgramDirectory() + GS_L("data/play.png"));
+	m_playStopButton.AddButton(m_provider->GetFileIOHub()->GetProgramDirectory() + GS_L("data/stop.png"));
 
 	m_addMenu.SetupMenu(video, m_provider->GetInput(), _S_ADD_RESOURCES, m_menuSize*m_menuScale, m_menuWidth*2, true);
 	m_addMenu.AddButton(_S_OPEN_ENTITY);
@@ -196,69 +196,69 @@ void EntityEditor::LoadEditor()
 	m_pivotX.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 6, false);
 	m_pivotX.SetConstant(m_pEditEntity->pivotAdjust.x);
 	m_pivotX.SetClamp(false, 0, 0);
-	m_pivotX.SetText(L"Pivot x:");
+	m_pivotX.SetText(GS_L("Pivot x:"));
 	m_pivotX.SetScrollAdd(1.0f);
-	m_pivotX.SetDescription(L"Pivot adjustment");
+	m_pivotX.SetDescription(GS_L("Pivot adjustment"));
 
 	m_pivotY.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 6, false);
 	m_pivotY.SetConstant(m_pEditEntity->pivotAdjust.y);
 	m_pivotY.SetClamp(false, 0, 0);
-	m_pivotY.SetText(L"Pivot y:");
+	m_pivotY.SetText(GS_L("Pivot y:"));
 	m_pivotY.SetScrollAdd(1.0f);
-	m_pivotY.SetDescription(L"Pivot adjustment");
+	m_pivotY.SetDescription(GS_L("Pivot adjustment"));
 
 	m_lightColor[0].SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 8, false);
 	//m_lightColor[0].SetConstant(m_pEditEntity->light.color.x);
 	m_lightColor[0].SetConstant(1.0f);
 	m_lightColor[0].SetClamp(true, 0, 2);
-	m_lightColor[0].SetText(L"Light.Red:");
+	m_lightColor[0].SetText(GS_L("Light.Red:"));
 	m_lightColor[0].SetScrollAdd(0.1f);
-	m_lightColor[0].SetDescription(L"Light color");
+	m_lightColor[0].SetDescription(GS_L("Light color"));
 
 	m_lightColor[1].SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 8, false);
 	//m_lightColor[1].SetConstant(m_pEditEntity->light.color.y);
 	m_lightColor[1].SetConstant(1.0f);
 	m_lightColor[1].SetClamp(true, 0, 2);
-	m_lightColor[1].SetText(L"Light.Green:");
+	m_lightColor[1].SetText(GS_L("Light.Green:"));
 	m_lightColor[1].SetScrollAdd(0.1f);
-	m_lightColor[1].SetDescription(L"Light color");
+	m_lightColor[1].SetDescription(GS_L("Light color"));
 
 	m_lightColor[2].SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 8, false);
 	//m_lightColor[2].SetConstant(m_pEditEntity->light.color.z);
 	m_lightColor[2].SetConstant(1.0f);
 	m_lightColor[2].SetClamp(true, 0, 2);
-	m_lightColor[2].SetText(L"Light.Blue:");
+	m_lightColor[2].SetText(GS_L("Light.Blue:"));
 	m_lightColor[2].SetScrollAdd(0.1f);
-	m_lightColor[2].SetDescription(L"Light color");
+	m_lightColor[2].SetDescription(GS_L("Light color"));
 
 	m_emissiveColor[0].SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 8, false);
 	m_emissiveColor[0].SetConstant(m_pEditEntity->emissiveColor.x);
 	m_emissiveColor[0].SetClamp(true, 0, 1);
-	m_emissiveColor[0].SetText(L"Emissive.r:");
+	m_emissiveColor[0].SetText(GS_L("Emissive.r:"));
 	m_emissiveColor[0].SetScrollAdd(0.1f);
-	m_emissiveColor[0].SetDescription(L"Emissive color");
+	m_emissiveColor[0].SetDescription(GS_L("Emissive color"));
 
 	m_emissiveColor[1].SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 8, false);
 	m_emissiveColor[1].SetConstant(m_pEditEntity->emissiveColor.y);
 	m_emissiveColor[1].SetClamp(true, 0, 1);
-	m_emissiveColor[1].SetText(L"Emissive.g:");
+	m_emissiveColor[1].SetText(GS_L("Emissive.g:"));
 	m_emissiveColor[1].SetScrollAdd(0.1f);
-	m_emissiveColor[1].SetDescription(L"Emissive color");
+	m_emissiveColor[1].SetDescription(GS_L("Emissive color"));
 
 	m_emissiveColor[2].SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 8, false);
 	m_emissiveColor[2].SetConstant(m_pEditEntity->emissiveColor.z);
 	m_emissiveColor[2].SetClamp(true, 0, 1);
-	m_emissiveColor[2].SetText(L"Emissive.b:");
+	m_emissiveColor[2].SetText(GS_L("Emissive.b:"));
 	m_emissiveColor[2].SetScrollAdd(0.1f);
-	m_emissiveColor[2].SetDescription(L"Emissive color");
+	m_emissiveColor[2].SetDescription(GS_L("Emissive color"));
 
 	m_lightRange.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 5, false);
 	//m_lightRange.SetConstant(m_pEditEntity->light.range);
 	m_lightRange.SetConstant(256.0f);
 	m_lightRange.SetClamp(true, 1, 9999999.0f);
-	m_lightRange.SetText(L"Range:");
+	m_lightRange.SetText(GS_L("Range:"));
 	m_lightRange.SetScrollAdd(1.5f);
-	m_lightRange.SetDescription(L"Light range");
+	m_lightRange.SetDescription(GS_L("Light range"));
 
 	m_renderMode.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth*2, true, false, false);
 	m_renderMode.AddButton(_S_USE_PS, true);
@@ -268,201 +268,201 @@ void EntityEditor::LoadEditor()
 	//m_haloSize.SetConstant(m_pEditEntity->light.haloSize);
 	m_haloSize.SetConstant(128.0f);
 	m_haloSize.SetClamp(true, 1.0f, 9999999.0f);
-	m_haloSize.SetText(L"Halo size:");
+	m_haloSize.SetText(GS_L("Halo size:"));
 	m_haloSize.SetScrollAdd(2.0f);
-	m_haloSize.SetDescription(L"Halo size");
+	m_haloSize.SetDescription(GS_L("Halo size"));
 
 	m_haloAlpha.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	//m_haloAlpha.SetConstant(m_pEditEntity->light.haloBrightness);
 	m_haloAlpha.SetConstant(1.0f);
 	m_haloAlpha.SetClamp(true, 0, 1);
-	m_haloAlpha.SetText(L"Halo alpha:");
+	m_haloAlpha.SetText(GS_L("Halo alpha:"));
 	m_haloAlpha.SetScrollAdd(0.05f);
-	m_haloAlpha.SetDescription(L"Halo brightness");
+	m_haloAlpha.SetDescription(GS_L("Halo brightness"));
 
 	m_shadowScale.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_shadowScale.SetConstant(m_pEditEntity->shadowScale);
 	m_shadowScale.SetClamp(true, 0, 9999999.0f);
-	m_shadowScale.SetText(L"Scale:");
+	m_shadowScale.SetText(GS_L("Scale:"));
 	m_shadowScale.SetScrollAdd(0.1f);
-	m_shadowScale.SetDescription(L"Shadow scale");
+	m_shadowScale.SetDescription(GS_L("Shadow scale"));
 
 	m_parallaxIntensity.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_parallaxIntensity.SetConstant(m_pEditEntity->parallaxIntensity);
 	m_parallaxIntensity.SetClamp(false, 0, 9999999.0f);
-	m_parallaxIntensity.SetText(L"Parallax:");
+	m_parallaxIntensity.SetText(GS_L("Parallax:"));
 	m_parallaxIntensity.SetScrollAdd(0.1f);
-	m_parallaxIntensity.SetDescription(L"Parallax intensity scale");
+	m_parallaxIntensity.SetDescription(GS_L("Parallax intensity scale"));
 
 	m_shadowOpacity.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_shadowOpacity.SetConstant(m_pEditEntity->shadowOpacity);
 	m_shadowOpacity.SetClamp(true, 0, 1.0f);
-	m_shadowOpacity.SetText(L"Opacity:");
+	m_shadowOpacity.SetText(GS_L("Opacity:"));
 	m_shadowOpacity.SetScrollAdd(0.1f);
-	m_shadowOpacity.SetDescription(L"Shadow opacity level");
+	m_shadowOpacity.SetDescription(GS_L("Shadow opacity level"));
 
 	m_shadowLength.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_shadowLength.SetConstant(m_pEditEntity->shadowLengthScale);
 	m_shadowLength.SetClamp(false, 0, 0);
-	m_shadowLength.SetText(L"Length scale:");
+	m_shadowLength.SetText(GS_L("Length scale:"));
 	m_shadowLength.SetScrollAdd(0.1f);
-	m_shadowLength.SetDescription(L"Shadow length scale");
+	m_shadowLength.SetDescription(GS_L("Shadow length scale"));
 
 	m_soundVolume.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 6, false);
 	m_soundVolume.SetConstant(m_pEditEntity->soundVolume);
 	m_soundVolume.SetClamp(true, 0, 1.0f);
-	m_soundVolume.SetText(L"Sound volume:");
+	m_soundVolume.SetText(GS_L("Sound volume:"));
 	m_soundVolume.SetScrollAdd(0.1f);
-	m_soundVolume.SetDescription(L"Entity general sound volume");
+	m_soundVolume.SetDescription(GS_L("Entity general sound volume"));
 
 	m_lightPos[0].SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 8, false);
 	//m_lightPos[0].SetConstant(m_pEditEntity->light.pos.x);
 	m_lightPos[0].SetConstant(0.0f);
 	m_lightPos[0].SetClamp(false, 0, 0);
-	m_lightPos[0].SetText(L"Light.pos.x:");
+	m_lightPos[0].SetText(GS_L("Light.pos.x:"));
 	m_lightPos[0].SetScrollAdd(2.0f);
-	m_lightPos[0].SetDescription(L"Light position");
+	m_lightPos[0].SetDescription(GS_L("Light position"));
 
 	m_lightPos[1].SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 8, false);
 	//m_lightPos[1].SetConstant(m_pEditEntity->light.pos.y);
 	m_lightPos[1].SetConstant(0.0f);
 	m_lightPos[1].SetClamp(false, 0, 0);
-	m_lightPos[1].SetText(L"Light.pos.y:");
+	m_lightPos[1].SetText(GS_L("Light.pos.y:"));
 	m_lightPos[1].SetScrollAdd(2.0f);
-	m_lightPos[1].SetDescription(L"Light position");
+	m_lightPos[1].SetDescription(GS_L("Light position"));
 
 	m_lightPos[2].SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 8, false);
 	//m_lightPos[2].SetConstant(m_pEditEntity->light.pos.z);
 	m_lightPos[2].SetConstant(0.0f);
 	m_lightPos[2].SetClamp(false, 0, 0);
-	m_lightPos[2].SetText(L"Light.pos.z:");
+	m_lightPos[2].SetText(GS_L("Light.pos.z:"));
 	m_lightPos[2].SetScrollAdd(2.0f);
-	m_lightPos[2].SetDescription(L"Light position");
+	m_lightPos[2].SetDescription(GS_L("Light position"));
 
 	/*m_startFrame.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 8, false);
 	m_startFrame.SetConstant((float)m_pEditEntity->);
 	m_startFrame.SetClamp(false, 0, 0);
-	m_startFrame.SetText(L"Start frame");
+	m_startFrame.SetText(GS_L("Start frame");
 	m_startFrame.SetScrollAdd(1.0f);
-	m_startFrame.SetDescription(L"Starting frame in the sprite sheet");*/
+	m_startFrame.SetDescription(GS_L("Starting frame in the sprite sheet");*/
 
 	m_spriteCut[0].SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 8, false);
 	m_spriteCut[0].SetConstant((float)m_pEditEntity->spriteCut.x);
 	m_spriteCut[0].SetClamp(true, 1, 2048);
-	m_spriteCut[0].SetText(L"Sprite columns");
+	m_spriteCut[0].SetText(GS_L("Sprite columns"));
 	m_spriteCut[0].SetScrollAdd(1.0f);
-	m_spriteCut[0].SetDescription(L"Number of columns in the sprite sheet");
+	m_spriteCut[0].SetDescription(GS_L("Number of columns in the sprite sheet"));
 
 	m_spriteCut[1].SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 8, false);
 	m_spriteCut[1].SetConstant((float)m_pEditEntity->spriteCut.y);
 	m_spriteCut[1].SetClamp(true, 1, 2048);
-	m_spriteCut[1].SetText(L"Sprite rows");
+	m_spriteCut[1].SetText(GS_L("Sprite rows"));
 	m_spriteCut[1].SetScrollAdd(1.0f);
-	m_spriteCut[1].SetDescription(L"Number of rows in the sprite sheet");
+	m_spriteCut[1].SetDescription(GS_L("Number of rows in the sprite sheet"));
 
 	m_collisionPos[0].SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 8, false);
 	//m_collisionPos[0].SetConstant(m_pEditEntity->collision.pos.x);
 	m_collisionPos[0].SetConstant(0.0f);
 	m_collisionPos[0].SetClamp(false, 0, 0);
-	m_collisionPos[0].SetText(L"Box.pos.x:");
+	m_collisionPos[0].SetText(GS_L("Box.pos.x:"));
 	m_collisionPos[0].SetScrollAdd(1.0f);
-	m_collisionPos[0].SetDescription(L"Collision box position");
+	m_collisionPos[0].SetDescription(GS_L("Collision box position"));
 
 	m_collisionPos[1].SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 8, false);
 	//m_collisionPos[1].SetConstant(m_pEditEntity->collision.pos.y);
 	m_collisionPos[1].SetConstant(0.0f);
 	m_collisionPos[1].SetClamp(false, 0, 0);
-	m_collisionPos[1].SetText(L"Box.pos.y:");
+	m_collisionPos[1].SetText(GS_L("Box.pos.y:"));
 	m_collisionPos[1].SetScrollAdd(1.0f);
-	m_collisionPos[1].SetDescription(L"Collision box position");
+	m_collisionPos[1].SetDescription(GS_L("Collision box position"));
 
 	m_collisionPos[2].SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 8, false);
 	//m_collisionPos[2].SetConstant(m_pEditEntity->collision.pos.z);
 	m_collisionPos[2].SetConstant(0.0f);
 	m_collisionPos[2].SetClamp(false, 0, 0);
-	m_collisionPos[2].SetText(L"Box.pos.z:");
+	m_collisionPos[2].SetText(GS_L("Box.pos.z:"));
 	m_collisionPos[2].SetScrollAdd(1.0f);
-	m_collisionPos[2].SetDescription(L"Collision box position");
+	m_collisionPos[2].SetDescription(GS_L("Collision box position"));
 
 	m_collisionSize[0].SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 8, false);
 	//m_collisionSize[0].SetConstant(m_pEditEntity->collision.size.x);
 	m_collisionSize[0].SetConstant(10.0f);
 	m_collisionSize[0].SetClamp(true, 0, 2048);
-	m_collisionSize[0].SetText(L"Box.size.x:");
+	m_collisionSize[0].SetText(GS_L("Box.size.x:"));
 	m_collisionSize[0].SetScrollAdd(1.0f);
-	m_collisionSize[0].SetDescription(L"Collision box size");
+	m_collisionSize[0].SetDescription(GS_L("Collision box size"));
 
 	m_collisionSize[1].SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 8, false);
 	//m_collisionSize[1].SetConstant(m_pEditEntity->collision.size.y);
 	m_collisionSize[1].SetConstant(10.0f);
 	m_collisionSize[1].SetClamp(true, 0, 2048);
-	m_collisionSize[1].SetText(L"Box.size.y:");
+	m_collisionSize[1].SetText(GS_L("Box.size.y:"));
 	m_collisionSize[1].SetScrollAdd(1.0f);
-	m_collisionSize[1].SetDescription(L"Collision box size");
+	m_collisionSize[1].SetDescription(GS_L("Collision box size"));
 
 	m_collisionSize[2].SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 8, false);
 	//m_collisionSize[2].SetConstant(m_pEditEntity->collision.size.z);
 	m_collisionSize[2].SetConstant(10.0f);
 	m_collisionSize[2].SetClamp(true, 0, 2048);
-	m_collisionSize[2].SetText(L"Box.size.z:");
+	m_collisionSize[2].SetText(GS_L("Box.size.z:"));
 	m_collisionSize[2].SetScrollAdd(1.0f);
-	m_collisionSize[2].SetDescription(L"Collision box size");
+	m_collisionSize[2].SetDescription(GS_L("Collision box size"));
 
 	m_layerDepth.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 6, false);
 	m_layerDepth.SetConstant(m_pEditEntity->layerDepth);
 	m_layerDepth.SetClamp(true, 0, 1.0f);
-	m_layerDepth.SetText(L"Layer depth:");
+	m_layerDepth.SetText(GS_L("Layer depth:"));
 	m_layerDepth.SetScrollAdd(0.1f);
-	m_layerDepth.SetDescription(L"Default layer depth for the entity (0=furthest and 1=closest)");
+	m_layerDepth.SetDescription(GS_L("Default layer depth for the entity (0=furthest and 1=closest)"));
 
 	m_specularPower.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 6, false);
 	m_specularPower.SetConstant(m_pEditEntity->specularPower);
 	m_specularPower.SetClamp(true, 1, 999999.0f);
-	m_specularPower.SetText(L"Spec. power:");
+	m_specularPower.SetText(GS_L("Spec. power:"));
 	m_specularPower.SetScrollAdd(10.0f);
-	m_specularPower.SetDescription(L"Specular power (higher numbers for shinier surface)");
+	m_specularPower.SetDescription(GS_L("Specular power (higher numbers for shinier surface)"));
 
 	m_specularBrightness.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 6, false);
 	m_specularBrightness.SetConstant(m_pEditEntity->specularBrightness);
 	m_specularBrightness.SetClamp(true, 0, 2);
-	m_specularBrightness.SetText(L"Specular:");
+	m_specularBrightness.SetText(GS_L("Specular:"));
 	m_specularBrightness.SetScrollAdd(0.1f);
-	m_specularBrightness.SetDescription(L"Specular component brightness");
+	m_specularBrightness.SetDescription(GS_L("Specular component brightness"));
 
 	m_density.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_density.SetConstant(m_pEditEntity->density);
 	m_density.SetClamp(true, 0, 999999.0f);
 	m_density.SetText(_S_BODY_PROPS_DENSITY);
 	m_density.SetScrollAdd(0.1f);
-	m_density.SetDescription(L"Body density");
+	m_density.SetDescription(GS_L("Body density"));
 
 	m_friction.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_friction.SetConstant(m_pEditEntity->friction);
 	m_friction.SetClamp(true, 0, 2.0f);
 	m_friction.SetText(_S_BODY_PROPS_FRICTION);
 	m_friction.SetScrollAdd(0.05f);
-	m_friction.SetDescription(L"Body surface friction");
+	m_friction.SetDescription(GS_L("Body surface friction"));
 
 	m_restitution.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_restitution.SetConstant(m_pEditEntity->restitution);
 	m_restitution.SetClamp(true, 0, 2.0f);
 	m_restitution.SetText(_S_BODY_PROPS_RESTITUTION);
 	m_restitution.SetScrollAdd(0.05f);
-	m_restitution.SetDescription(L"Body restitution");
+	m_restitution.SetDescription(GS_L("Body restitution"));
 
 	m_gravityScale.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_gravityScale.SetConstant(m_pEditEntity->gravityScale);
 	m_gravityScale.SetClamp(false, 0, 2.0f);
 	m_gravityScale.SetText(_S_BODY_PROPS_GRAVITY_SCALE);
 	m_gravityScale.SetScrollAdd(0.1f);
-	m_gravityScale.SetDescription(L"Gravity scale");
+	m_gravityScale.SetDescription(GS_L("Gravity scale"));
 
 	m_animPreviewStride.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 7, false);
 	m_animPreviewStride.SetConstant(200.0f);
 	m_animPreviewStride.SetClamp(true, 0, 9999999.0f);
-	m_animPreviewStride.SetText(L"Stride (ms):");
+	m_animPreviewStride.SetText(GS_L("Stride (ms):"));
 	m_animPreviewStride.SetScrollAdd(50.0f);
-	m_animPreviewStride.SetDescription(L"Animation preview stride in ms");
+	m_animPreviewStride.SetDescription(GS_L("Animation preview stride in ms"));
 
 	for (int t=0; t<ETH_MAX_PARTICLE_SYS_PER_ENTITY; t++)
 	{
@@ -470,25 +470,25 @@ void EntityEditor::LoadEditor()
 		//m_particlePos[t][0].SetConstant(m_pEditEntity->particle[t].v3StartPoint.x);
 		m_particlePos[t][0].SetConstant(0.0f);
 		m_particlePos[t][0].SetClamp(false, 0, 1);
-		m_particlePos[t][0].SetText(L"Particle.x:");
+		m_particlePos[t][0].SetText(GS_L("Particle.x:"));
 		m_particlePos[t][0].SetScrollAdd(2.0f);
-		m_particlePos[t][0].SetDescription(L"Particle system x position");
+		m_particlePos[t][0].SetDescription(GS_L("Particle system x position"));
 
 		m_particlePos[t][1].SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 5, false);
 		//m_particlePos[t][1].SetConstant(m_pEditEntity->particle[t].v3StartPoint.y);
 		m_particlePos[t][1].SetConstant(0.0f);
 		m_particlePos[t][1].SetClamp(false, 0, 1);
-		m_particlePos[t][1].SetText(L"Particle.y:");
+		m_particlePos[t][1].SetText(GS_L("Particle.y:"));
 		m_particlePos[t][1].SetScrollAdd(2.0f);
-		m_particlePos[t][1].SetDescription(L"Particle system y position");
+		m_particlePos[t][1].SetDescription(GS_L("Particle system y position"));
 
 		m_particlePos[t][2].SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 5, false);
 		//m_particlePos[t][2].SetConstant(m_pEditEntity->particle[t].v3StartPoint.z);
 		m_particlePos[t][2].SetConstant(0.0f);
 		m_particlePos[t][2].SetClamp(false, 0, 1);
-		m_particlePos[t][2].SetText(L"Particle.z:");
+		m_particlePos[t][2].SetText(GS_L("Particle.z:"));
 		m_particlePos[t][2].SetScrollAdd(2.0f);
-		m_particlePos[t][2].SetDescription(L"Particle system z position");
+		m_particlePos[t][2].SetDescription(GS_L("Particle system z position"));
 	}
 
 	m_attachLight.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth*2, true, true, false);
@@ -631,7 +631,7 @@ void EntityEditor::ResetEntityMenu()
 	ResetParticleMenu();
 	ResetLightMenu();
 	m_customDataEditor.Rebuild(m_renderEntity.get(), this);
-	m_playStopButton.SetButton(L"play.png");
+	m_playStopButton.SetButton(GS_L("play.png"));
 	m_animationTimer.Reset();
 
 	CreateFileUpdateDetector(utf8::c(GetCurrentFile(true)).wstr());
@@ -835,24 +835,24 @@ void EntityEditor::ShowWarnings()
 	{
 		warnings.push_back("The entity must be 'vertical' to cast shadow");
 	}*/
-	if (m_pEditEntity->spriteFile != L"" && m_pEditEntity->normalFile == L"" && m_pEditEntity->applyLight &&
+	if (m_pEditEntity->spriteFile != GS_L("") && m_pEditEntity->normalFile == GS_L("") && m_pEditEntity->applyLight &&
 		m_pEditEntity->emissiveColor != Vector4(1,1,1,1) && m_pEditEntity->type == ETHEntityProperties::ET_VERTICAL)
 	{
-		warnings.push_back(L"Your entity doesn't have a normal map. Consider switching 'apply light' off and use maximum emissive brightness");
+		warnings.push_back(GS_L("Your entity doesn't have a normal map. Consider switching 'apply light' off and use maximum emissive brightness"));
 	}
 	if (m_pEditEntity->collision && m_pEditEntity->shape == ETHEntityProperties::BS_COMPOUND)
 	{
 		if (m_pEditEntity->entityName.empty())
-			warnings.push_back(L"Please save this entity, then setup compound shape data inside XML <Compound> tags in its file");
+			warnings.push_back(GS_L("Please save this entity, then setup compound shape data inside XML <Compound> tags in its file"));
 		else
-			warnings.push_back(str_type::string(L"Please setup compound shape data inside XML <Compound> tags in file ") + m_pEditEntity->entityName);
+			warnings.push_back(str_type::string(GS_L("Please setup compound shape data inside XML <Compound> tags in file ")) + m_pEditEntity->entityName);
 	}
 	if (m_pEditEntity->collision && m_pEditEntity->shape == ETHEntityProperties::BS_POLYGON)
 	{
 		if (m_pEditEntity->entityName.empty())
-			warnings.push_back(L"Please save this entity, then setup polygon shape data inside XML <Polygon> tags in its file");
+			warnings.push_back(GS_L("Please save this entity, then setup polygon shape data inside XML <Polygon> tags in its file"));
 		else
-			warnings.push_back(str_type::string(L"Please setup polygon shape data inside XML <Polygon> tags in file ") + m_pEditEntity->entityName);
+			warnings.push_back(str_type::string(GS_L("Please setup polygon shape data inside XML <Polygon> tags in file ")) + m_pEditEntity->entityName);
 	}
 
 	// draw warnings
@@ -860,10 +860,10 @@ void EntityEditor::ShowWarnings()
 	{
 		std::list<str_type::string>::iterator iter;
 		str_type::stringstream ss;
-		ss << L"Warnings" << std::endl;
+		ss << GS_L("Warnings") << std::endl;
 		for (iter = warnings.begin(); iter != warnings.end(); ++iter)
 		{
-			ss << L"-" << *iter << std::endl;
+			ss << GS_L("-") << *iter << std::endl;
 		}
 		VideoPtr video = m_provider->GetVideo();
 		Vector2 v2ScreenDim = video->GetScreenSizeF();
@@ -881,7 +881,7 @@ void EntityEditor::DrawEntityElementName(const Vector2 &v2Pos, SpritePtr pSprite
 	m_provider->GetVideo()->DrawBitmapText(
 		v2Pos + Vector2(m_menuSize, 0), 
 		utf8::c(name).wc_str(),
-		L"Verdana14_shadow.fnt",
+		GS_L("Verdana14_shadow.fnt"),
 		gs2d::constant::WHITE);
 }
 
@@ -889,29 +889,29 @@ void EntityEditor::ShowEntityResources(Vector2 v2Pos)
 {
 	m_provider->GetVideo()->DrawBitmapText(
 		v2Pos, 
-		L"Resources:", L"Verdana14_shadow.fnt", gs2d::constant::WHITE
+		GS_L("Resources:"), GS_L("Verdana14_shadow.fnt"), gs2d::constant::WHITE
 	);
 	v2Pos.x += m_menuSize/2;
 	v2Pos.y += m_menuSize;
 
 	if (m_renderEntity->GetSprite())
 	{
-		DrawEntityElementName(v2Pos, m_renderEntity->GetSprite(), utf8::c(m_pEditEntity->spriteFile + L" (sprite)").str());
+		DrawEntityElementName(v2Pos, m_renderEntity->GetSprite(), utf8::c(m_pEditEntity->spriteFile + GS_L(" (sprite)")).str());
 		v2Pos.y += m_menuSize;
 	}
 	if (m_renderEntity->GetNormal())
 	{
-		DrawEntityElementName(v2Pos, m_renderEntity->GetNormal(), utf8::c(m_pEditEntity->normalFile + L" (normal)").str());
+		DrawEntityElementName(v2Pos, m_renderEntity->GetNormal(), utf8::c(m_pEditEntity->normalFile + GS_L(" (normal)")).str());
 		v2Pos.y += m_menuSize;
 	}
 	if (m_renderEntity->GetGloss())
 	{
-		DrawEntityElementName(v2Pos, m_renderEntity->GetGloss(), utf8::c(m_pEditEntity->glossFile + L" (gloss)").str());
+		DrawEntityElementName(v2Pos, m_renderEntity->GetGloss(), utf8::c(m_pEditEntity->glossFile + GS_L(" (gloss)")).str());
 		v2Pos.y += m_menuSize;
 	}
 	if (m_renderEntity->GetHalo() && m_pEditEntity->light)
 	{
-		DrawEntityElementName(v2Pos, m_renderEntity->GetHalo(), utf8::c(m_pEditEntity->light->haloBitmap + L" (halo)").str());
+		DrawEntityElementName(v2Pos, m_renderEntity->GetHalo(), utf8::c(m_pEditEntity->light->haloBitmap + GS_L(" (halo)")).str());
 		v2Pos.y += m_menuSize;
 	}
 	for (unsigned int t=0; t<ETH_MAX_PARTICLE_SYS_PER_ENTITY; t++)
@@ -921,7 +921,7 @@ void EntityEditor::ShowEntityResources(Vector2 v2Pos)
 
 		m_provider->GetVideo()->DrawBitmapText(
 			v2Pos, 
-			L"Particles:", L"Verdana14_shadow.fnt", gs2d::constant::WHITE
+			GS_L("Particles:"), GS_L("Verdana14_shadow.fnt"), gs2d::constant::WHITE
 		);
 		v2Pos.y += m_menuSize;
 
@@ -947,7 +947,7 @@ std::string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 
 	if (!IsFileMenuActive() && !m_addMenu.IsActive() && !m_delMenu.IsActive())
 	{
-		ShadowPrint(Vector2(0,y), L"Entity type:"); y+=m_menuSize;
+		ShadowPrint(Vector2(0,y), GS_L("Entity type:")); y+=m_menuSize;
 		m_type.PlaceMenu(Vector2(0,y)); y += m_menuSize*m_type.GetNumButtons();
 		if (m_type.GetButtonStatus(_S_HORIZONTAL))
 			m_pEditEntity->type = ETHEntityProperties::ET_HORIZONTAL;
@@ -974,13 +974,13 @@ std::string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 		//m_pEditEntity->startFrame = Min(lastFrame, Max(0, m_pEditEntity->startFrame));
 		if (m_pEditEntity->spriteCut.x > 1 || m_pEditEntity->spriteCut.y > 1)
 		{
-			if (m_playStopButton.GetCurrentButton()->fileName == L"stop.png")
+			if (m_playStopButton.GetCurrentButton()->fileName == GS_L("stop.png"))
 			{
 				y+=m_menuSize;
 			}
 
 			GSGUI_BUTTON playStop = m_playStopButton.PlaceMenu(Vector2(m_menuWidth*2, y));
-			if (playStop.text == L"stop.png")
+			if (playStop.text == GS_L("stop.png"))
 			{
 				const float stride = m_animPreviewStride.PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth);
 				m_animationTimer.Update(0, static_cast<unsigned int>(m_pEditEntity->spriteCut.x*m_pEditEntity->spriteCut.y)-1, static_cast<unsigned int>(stride));
@@ -996,7 +996,7 @@ std::string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 		{
 			m_renderEntity->SetFrame(0);
 			//m_renderEntity->SetFrame(m_pEditEntity->startFrame);
-			m_playStopButton.SetButton(L"play.png");
+			m_playStopButton.SetButton(GS_L("play.png"));
 			m_animationTimer.Reset();
 		}
 		y+=m_menuSize/2;
@@ -1007,7 +1007,7 @@ std::string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 		m_pEditEntity->emissiveColor.z = m_emissiveColor[2].PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth);	y+=m_menuSize;
 		y+=m_menuSize/2;
 
-		ShadowPrint(Vector2(0,y), L"Boolean properties:"); y+=m_menuSize;
+		ShadowPrint(Vector2(0,y), GS_L("Boolean properties:")); y+=m_menuSize;
 		GSGUI_BUTTON file_r = m_bool.PlaceMenu(Vector2(0,y)); y += m_menuSize*m_bool.GetNumButtons();
 		m_pEditEntity->castShadow = (m_bool.GetButtonStatus(_S_CAST_SHADOW)) ? ETH_TRUE : ETH_FALSE;
 		m_pEditEntity->staticEntity = (m_bool.GetButtonStatus(_S_STATIC_ENTITY)) ? ETH_TRUE : ETH_FALSE;
@@ -1054,7 +1054,7 @@ std::string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 		y+=m_menuSize/2;
 		if (m_pEditEntity->castShadow)
 		{
-			ShadowPrint(Vector2(0,y), L"Shadow properties:"); y+=m_menuSize;
+			ShadowPrint(Vector2(0,y), GS_L("Shadow properties:")); y+=m_menuSize;
 			m_pEditEntity->shadowScale   = m_shadowScale.PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth);	y+=m_menuSize;
 			m_pEditEntity->shadowOpacity = m_shadowOpacity.PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth);	y+=m_menuSize;
 			m_pEditEntity->shadowLengthScale = m_shadowLength.PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth);     y+=m_menuSize;
@@ -1074,7 +1074,7 @@ std::string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 				m_boolLight.DeactivateButton(_S_STATIC_LIGHT);
 			}
 
-			ShadowPrint(Vector2(0,y), L"Light properties:"); y+=m_menuSize;
+			ShadowPrint(Vector2(0,y), GS_L("Light properties:")); y+=m_menuSize;
 			m_boolLight.PlaceMenu(Vector2(0,y)); y += m_menuSize*m_boolLight.GetNumButtons();
 			m_pEditEntity->light->staticLight = m_boolLight.GetButtonStatus(_S_STATIC_LIGHT);
 			m_pEditEntity->light->castShadows = m_boolLight.GetButtonStatus(_S_SHADOW_CASTER);
@@ -1093,7 +1093,7 @@ std::string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 			m_pEditEntity->specularBrightness = m_specularBrightness.PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth);	y+=m_menuSize;
 			y+=m_menuSize/2;
 
-			if (m_pEditEntity->light->haloBitmap != L"")
+			if (m_pEditEntity->light->haloBitmap != GS_L(""))
 			{
 				m_pEditEntity->light->haloBrightness = m_haloAlpha.PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth);	y+=m_menuSize;
 				m_pEditEntity->light->haloSize       = m_haloSize.PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth);	y+=m_menuSize;
@@ -1104,7 +1104,7 @@ std::string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 			{
 				if (m_pEditEntity->particleSystems[t]->nParticles>0)
 				{
-					ShadowPrint(Vector2(0,y), L"Attach light to particles:"); y+=m_menuSize;
+					ShadowPrint(Vector2(0,y), GS_L("Attach light to particles:")); y+=m_menuSize;
 					break;
 				}
 			}
@@ -1131,12 +1131,12 @@ std::string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 		m_tool.PlaceMenu(Vector2(x,y)); y += m_menuSize*m_tool.GetNumButtons();
 		y+=m_menuSize/2;
 
-		ShadowPrint(Vector2(x,y), L"Lighting mode:"); y+=m_menuSize;
+		ShadowPrint(Vector2(x,y), GS_L("Lighting mode:")); y+=m_menuSize;
 		m_renderMode.PlaceMenu(Vector2(x,y)); y += m_menuSize*m_renderMode.GetNumButtons();
 		m_provider->GetShaderManager()->UsePS(m_renderMode.GetButtonStatus(_S_USE_PS));
 		y+=m_menuSize/2;
 
-		ShadowPrint(Vector2(x,y), L"Blend mode:"); y+=m_menuSize;
+		ShadowPrint(Vector2(x,y), GS_L("Blend mode:")); y+=m_menuSize;
 		m_blendMode.PlaceMenu(Vector2(x,y)); y += m_menuSize*m_blendMode.GetNumButtons();
 		if (m_blendMode.GetButtonStatus(_S_BLEND_MODE_DEFAULT))
 			m_pEditEntity->blendMode = Video::AM_PIXEL;
@@ -1168,7 +1168,7 @@ std::string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 			{
 				if (m_pEditEntity->particleSystems[t]->nParticles > 0)
 				{
-					ShadowPrint(Vector2(x,y), L"Particle start position:"); y+=m_menuSize;
+					ShadowPrint(Vector2(x,y), GS_L("Particle start position:")); y+=m_menuSize;
 					break;
 				}
 			}
@@ -1229,13 +1229,13 @@ std::string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 			}
 
 			y+=m_menuSize/2;
-			ShadowPrint(Vector2(x,y), L"Collision box position:"); y+=m_menuSize;
+			ShadowPrint(Vector2(x,y), GS_L("Collision box position:")); y+=m_menuSize;
 			m_pEditEntity->collision->pos.x = m_collisionPos[0].PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y - m_menuSize), m_menuWidth);	y+=m_menuSize; //-V807
 			m_pEditEntity->collision->pos.y = m_collisionPos[1].PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y - m_menuSize), m_menuWidth);	y+=m_menuSize;
 			m_pEditEntity->collision->pos.z = m_collisionPos[2].PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y - m_menuSize), m_menuWidth);	y+=m_menuSize;
 			y+=m_menuSize/2;
 
-			ShadowPrint(Vector2(x,y), L"Collision box size:"); y+=m_menuSize;
+			ShadowPrint(Vector2(x,y), GS_L("Collision box size:")); y+=m_menuSize;
 			m_pEditEntity->collision->size.x = m_collisionSize[0].PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y - m_menuSize), m_menuWidth);	y+=m_menuSize; //-V807
 			m_pEditEntity->collision->size.y = m_collisionSize[1].PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y - m_menuSize), m_menuWidth);	y+=m_menuSize;
 			m_pEditEntity->collision->size.z = m_collisionSize[2].PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y - m_menuSize), m_menuWidth);	y+=m_menuSize;
@@ -1336,7 +1336,7 @@ void EntityEditor::OpenEntity(const char* fullFilePath)
 	ResetSpriteCut();
 	for (int t = 0; t < ETH_MAX_PARTICLE_SYS_PER_ENTITY; t++)
 	{
-		if (m_pEditEntity->particleSystems[t]->nParticles > 0 && m_pEditEntity->particleSystems[t]->bitmapFile != L"") //-V807
+		if (m_pEditEntity->particleSystems[t]->nParticles > 0 && m_pEditEntity->particleSystems[t]->bitmapFile != GS_L("")) //-V807
 		{
 			m_attachLight.AddButton(utf8::c(m_pEditEntity->particleSystems[t]->bitmapFile).wc_str());
 		}
@@ -1662,7 +1662,7 @@ void EntityEditor::UnloadParticle(const int n)
 		}
 	}
 	m_attachLight.DelButton(utf8::c(m_pEditEntity->particleSystems[n]->bitmapFile).wc_str()); //-V807
-	m_pEditEntity->particleSystems[n]->bitmapFile = L"";
+	m_pEditEntity->particleSystems[n]->bitmapFile = GS_L("");
 	m_pEditEntity->particleSystems[n]->nParticles = 0;
 	m_renderEntity->DestroyParticleSystem(n);
 }
@@ -1671,32 +1671,32 @@ void EntityEditor::UnloadHalo()
 {
 	if (m_pEditEntity->light)
 	{
-		m_pEditEntity->light->haloBitmap = L"";
-		m_renderEntity->SetHalo(L"");
+		m_pEditEntity->light->haloBitmap = GS_L("");
+		m_renderEntity->SetHalo(GS_L(""));
 	}
 }
 
 void EntityEditor::UnloadSprite()
 {
-	m_pEditEntity->spriteFile = L"";
-	m_renderEntity->SetSprite(L"");
+	m_pEditEntity->spriteFile = GS_L("");
+	m_renderEntity->SetSprite(GS_L(""));
 }
 
 void EntityEditor::UnloadNormal()
 {
-	m_pEditEntity->normalFile = L"";
-	m_renderEntity->SetNormal(L"");
+	m_pEditEntity->normalFile = GS_L("");
+	m_renderEntity->SetNormal(GS_L(""));
 }
 
 void EntityEditor::UnloadGloss()
 {
-	m_pEditEntity->glossFile = L"";
-	m_renderEntity->SetGloss(L"");
+	m_pEditEntity->glossFile = GS_L("");
+	m_renderEntity->SetGloss(GS_L(""));
 }
 
 void EntityEditor::ShadowPrint(const Vector2 &v2Pos, const str_type::char_t *text)
 {
-	m_provider->GetVideo()->DrawBitmapText(v2Pos, text, L"Verdana14_shadow.fnt", gs2d::constant::WHITE);
+	m_provider->GetVideo()->DrawBitmapText(v2Pos, text, GS_L("Verdana14_shadow.fnt"), gs2d::constant::WHITE);
 }
 
 void EntityEditor::ShadowPrint(const Vector2 &v2Pos, const str_type::char_t *text, const str_type::char_t *font, const GS_DWORD color)

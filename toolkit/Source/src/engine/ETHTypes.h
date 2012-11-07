@@ -64,20 +64,6 @@ using namespace gs2d;
 
 #define ETH_STREAM_DECL(name) gs2d::str_type::stringstream name; name
 
-#ifdef _MSC_VER
-	#ifdef GS2D_STR_TYPE_ANSI
-		#define _ETH_SAFE_swscanf sscanf_s
-	#else
-		#define _ETH_SAFE_swscanf swscanf_s
-	#endif
-#else
-	#ifdef GS2D_STR_TYPE_ANSI
-		#define _ETH_SAFE_swscanf sscanf
-	#else
-		#define _ETH_SAFE_swscanf swscanf
-	#endif
-#endif
-
 #define ETH_CALLBACK_PREFIX GS_L("ETHCallback_")
 #define ETH_CONSTRUCTOR_CALLBACK_PREFIX GS_L("ETHConstructorCallback_")
 #define ETH_DESTRUCTOR_CALLBACK_PREFIX GS_L("ETHDestructorCallback_")
