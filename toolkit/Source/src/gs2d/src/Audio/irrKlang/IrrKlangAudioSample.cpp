@@ -43,6 +43,7 @@ IrrKlangAudioSample::~IrrKlangAudioSample()
 {
 	if (m_engine && m_source)
 		m_engine->removeSoundSource(m_source);
+
 	if (m_sound)
 		m_sound->drop();
 
@@ -75,10 +76,15 @@ bool IrrKlangAudioSample::LoadSampleFromFileInMemory(AudioWeakPtr audio, void *p
 	m_engine->grab();
 	m_type = type;
 
+	// if it already exists, remove the existing data in order to load it again
+	if (m_engine->getSoundSource(m_fullFilePath.c_str(), false))
+		m_engine->removeSoundSource(m_fullFilePath.c_str());
+
 	m_source = m_engine->addSoundSourceFromMemory(pBuffer, bufferLength, m_fullFilePath.c_str(), true);
-	m_source->setStreamMode(irrklang::ESM_AUTO_DETECT);
+
 	if (m_source)
 	{
+		m_source->setStreamMode(irrklang::ESM_AUTO_DETECT);
 		m_sound = m_engine->play2D(m_source, false, true, true);
 		if (m_sound)
 		{
