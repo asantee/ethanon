@@ -90,7 +90,7 @@ string ProjectManager::DoEditor(SpritePtr pNextAppButton)
 	else
 	{
 		wstring currentProjectFilename = 
-			utf8::c(ETHGlobal::GetFileName(GetCurrentProject())).wc_str();
+			utf8::c(Platform::GetFileName(GetCurrentProject())).wc_str();
 			wstring sText = L"Project loaded: " + currentProjectFilename + L"\n" +
 			L"We're ready to go. Press TAB or click the arrow to go to the Editors";
 		ShadowPrint(Vector2(64,128), sText.c_str());
@@ -101,10 +101,10 @@ string ProjectManager::DoEditor(SpritePtr pNextAppButton)
 
 bool ProjectManager::SaveAs()
 {
-	char filter[] = "Ethanon Project files (*.ethproj)\0*.ethproj\0\0";
+	FILE_FORM_FILTER filter(GS_L("Ethanon Project files (*.ethproj)"), GS_L("ethproj"));
 	char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
 	string sLastDir = ReadLastDir();
-	if (SaveForm(filter, "", path, file, sLastDir.c_str()))
+	if (SaveForm(filter, sLastDir.c_str(), path, file))
 	{
 		string sOut;
 		AddExtension(path, ".ethproj", sOut);
@@ -116,7 +116,7 @@ bool ProjectManager::SaveAs()
 		}
 		SetCurrentFile(sOut.c_str());
 		SetCurrentProject(sOut.c_str());
-		SaveLastDir(ETHGlobal::GetPathName(sOut.c_str(), true).c_str());
+		SaveLastDir(Platform::GetFileDirectory(sOut.c_str()).c_str());
 		PrepareProjectDir();
 	}
 	return true;
@@ -130,14 +130,14 @@ bool ProjectManager::Save()
 
 bool ProjectManager::Open()
 {
-	char filter[] = "Ethanon Project files (*.ethproj)\0*.ethproj\0\0";
-	char path[512], file[512];
+	FILE_FORM_FILTER filter(GS_L("Ethanon Project files (*.ethproj)"), GS_L("ethproj"));
+	char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
 	string sLastDir = ReadLastDir();
-	if (OpenForm(filter, "", path, file, sLastDir.c_str()))
+	if (OpenForm(filter, sLastDir.c_str(), path, file))
 	{
 		SetCurrentProject(path);
 		SetCurrentFile(path);
-		SaveLastDir(ETHGlobal::GetPathName(path, true).c_str());
+		SaveLastDir(Platform::GetFileDirectory(path).c_str());
 	}
 	return true;
 }
@@ -206,7 +206,7 @@ void ProjectManager::PrepareProjectDir()
 	for (unsigned int t=0; t<size; t++)
 	{
 		const string sNewFolder = sProjectPath + fileToCopy[t].file;
-		_mkdir(ETHGlobal::GetPathName(sNewFolder.c_str(), true).c_str());
+		_mkdir(Platform::GetFileDirectory(utf8::c(sNewFolder).c_str()).c_str());
 		ETHGlobal::_MoveFile( utf8::c(programPath + fileToCopy[t].file).wstr(), utf8::c(sNewFolder).wstr(), fileToCopy[t].overwrite);
 	}
 }

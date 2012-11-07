@@ -206,6 +206,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\src\editor\EditorBase.windows.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\editor\EntityEditor.cpp"
 					>
 				</File>

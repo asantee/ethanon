@@ -26,10 +26,11 @@
 #include <Enml/Enml.h>
 #include "EditorBase.h"
 #include "EditorCommon.h"
+
 #include <Unicode/UTF8Converter.h>
 #include "../engine/Util/ETHASUtil.h"
 
-#define _ENML_EDITOR_GENERAL_INFO L"data\\info.enml"
+#define _ENML_EDITOR_GENERAL_INFO GS_L("data/info.enml")
 
 EditorBase::EditorBase(ETHResourceProviderPtr provider) :
 	m_menuSize(14.0f),
@@ -117,7 +118,7 @@ bool EditorBase::DrawTab(VideoPtr video, InputPtr input, const Vector2 &v2Pos, c
 void EditorBase::SaveAttributeToInfoFile(const string &programPath, const string &entity, const string &attrib, const string &value)
 {
 	wstring file = utf8::c(programPath).wstr();
-	file += L"\\";
+	file += L"/";
 	file += _ENML_EDITOR_GENERAL_INFO;
 	enml::File parseFile(enml::GetStringFromAnsiFile(file));
 	parseFile.Add(utf8::c(entity).wstr(), utf8::c(attrib).wstr(), utf8::c(value).wstr());
@@ -127,7 +128,7 @@ void EditorBase::SaveAttributeToInfoFile(const string &programPath, const string
 string EditorBase::GetAttributeFromInfoFile(const string &programPath, const string &entity, const string &attrib)
 {
 	wstring file = utf8::c(programPath).wstr();
-	file += L"\\";
+	file += L"/";
 	file += _ENML_EDITOR_GENERAL_INFO;
 	enml::File parseFile(enml::GetStringFromAnsiFile(file));
 	return utf8::c(parseFile.Get(utf8::c(entity).wstr(), utf8::c(attrib).wstr())).str();
@@ -172,7 +173,10 @@ bool EditorBase::AddExtension(const char *path, const char *extension, string &s
 
 string EditorBase::GetCurrentProjectPath(const bool keepLastSlash)
 {
-	return ETHGlobal::GetPathName(utf8::c(m_provider->GetFileIOHub()->GetResourceDirectory()).c_str(), keepLastSlash);
+	std::string r = Platform::GetFileDirectory(utf8::c(m_provider->GetFileIOHub()->GetResourceDirectory()).c_str());
+	if (!keepLastSlash)
+		r = r.substr(0, r.size() - 1);
+	return r;
 }
 
 string EditorBase::GetCurrentProject()
@@ -182,7 +186,7 @@ string EditorBase::GetCurrentProject()
 
 bool EditorBase::SetCurrentProject(const char *path)
 {
-	m_provider->GetFileIOHub()->SetResourceDirectory(utf8::c(ETHGlobal::GetPathName(path, true)).wstr());
+	m_provider->GetFileIOHub()->SetResourceDirectory(utf8::c(Platform::GetFileDirectory(path)).wstr());
 	return true;
 }
 
@@ -190,7 +194,7 @@ string EditorBase::GetCurrentFile(const bool fullPath)
 {
 	if (fullPath)
 		return m_currentFile;
-	return ETHGlobal::GetFileName(m_currentFile);
+	return Platform::GetFileName(m_currentFile);
 }
 
 string EditorBase::GetProgramPath()
@@ -202,7 +206,7 @@ void EditorBase::ShadowPrint(Vector2 v2Pos, const wchar_t *text, const Color& co
 {
 	m_provider->GetVideo()->DrawBitmapText(
 		v2Pos, 
-		text, L"Verdana14_shadow.fnt", color
+		text, GS_L("Verdana14_shadow.fnt"), color
 	);
 }
 
@@ -226,184 +230,81 @@ AudioPtr EditorBase::GetAudioHandler()
 	return m_provider->GetAudio();
 }
 
-#include <windows.h>
-#include <io.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-
-bool DirectoryExists(const std::string& dir)
+namespace ETHGlobal 
 {
-	if (_access(dir.c_str(), 0) == 0)
+bool CopyFileToProject(const wstring &currentPath, const wstring &filePath, const wstring &destPath, const Platform::FileManagerPtr& fileManager)
+{
+	wstringstream slash; slash << Platform::GetDirectorySlash();
+	const wstring fileName = Platform::GetFileName(filePath);
+	if (ETHGlobal::FileExists(currentPath + slash.str() + destPath + fileName, fileManager))
 	{
-		struct stat status;
-		stat(dir.c_str(), &status);
 		return true;
 	}
 	else
 	{
-		return false;
+		ETHGlobal::_MoveFile(filePath, currentPath + slash.str() + destPath + fileName, false);
 	}
-}
-
-bool EditorBase::OpenForm(const char *filter, const char *directory, char *szoFilePathName, char *szoFileName, const char *szSolutionPath)
-{
-	char fileInfo[___OUTPUT_LENGTH] = "\0";
-	char fileName[___OUTPUT_LENGTH];
-	string sInitDir = szSolutionPath;
-
-	// sInitDir += "\\";
-	sInitDir += Platform::AddLastSlash(directory);
-	//assert(DirectoryExists(sInitDir));
-
-	OPENFILENAMEA openFileName;
-	openFileName.lStructSize       = sizeof(openFileName);
-	openFileName.hwndOwner         = NULL;
-	openFileName.hInstance         = 0;
-	openFileName.lpstrFilter       = filter;
-	openFileName.lpstrCustomFilter = NULL;
-	openFileName.nMaxCustFilter    = 0;
-	openFileName.nFilterIndex      = 1;
-	openFileName.lpstrFile         = fileInfo;
-	openFileName.nMaxFile          = ___OUTPUT_LENGTH;
-	openFileName.lpstrFileTitle    = fileName;
-	openFileName.nMaxFileTitle     = ___OUTPUT_LENGTH;
-	openFileName.lpstrInitialDir   = sInitDir.c_str();
-	openFileName.lpstrTitle        = NULL;
-	openFileName.Flags             = (OFN_FILEMUSTEXIST);
-	openFileName.lpstrDefExt       = NULL;
-
-	if (!GetOpenFileNameA(&openFileName))
-	{
-		return false;
-	}
-
-	_ETH_SAFE_strcpy(szoFileName, fileName);
-	_ETH_SAFE_strcpy(szoFilePathName, fileInfo);
 	return true;
 }
 
-bool EditorBase::SaveForm(const char *filter, const char *szDir, char *szoFilePathName,
-					   char *szoFileName, const char *szSolutionPath)
+bool _MoveFile(const wstring &source, const wstring &dest, const bool overwrite)
 {
-	char fileInfo[___OUTPUT_LENGTH] = "\0";
-	char fileName[___OUTPUT_LENGTH];
-	string sInitDir = szSolutionPath;
-
-	// sInitDir += "\\";
-	sInitDir += Platform::AddLastSlash(szDir);
-	assert(DirectoryExists(sInitDir));
-
-	OPENFILENAMEA saveFileName;
-	saveFileName.lStructSize       = sizeof(saveFileName);
-	saveFileName.hwndOwner         = NULL;
-	saveFileName.hInstance         = 0;
-	saveFileName.lpstrFilter       = filter;
-	saveFileName.lpstrCustomFilter = NULL;
-	saveFileName.nMaxCustFilter    = 0;
-	saveFileName.nFilterIndex      = 1;
-	saveFileName.lpstrFile         = fileInfo;
-	saveFileName.nMaxFile          = ___OUTPUT_LENGTH;
-	saveFileName.lpstrFileTitle    = fileName;
-	saveFileName.nMaxFileTitle     = ___OUTPUT_LENGTH;
-	saveFileName.lpstrInitialDir   = sInitDir.c_str();
-	saveFileName.lpstrTitle        = NULL;
-	saveFileName.Flags             = (OFN_OVERWRITEPROMPT);
-	saveFileName.lpstrDefExt       = NULL;
-
-	if (!GetSaveFileNameA(&saveFileName))
+	ifstream ifs(utf8::c(source).c_str(), ios::binary);
+	if (!ifs.is_open())
 	{
+		wcerr << "Couldn't copy the file " << source << endl;
 		return false;
 	}
 
-	_ETH_SAFE_strcpy(szoFileName, fileName);
-	_ETH_SAFE_strcpy(szoFilePathName, fileInfo);
-	return true;
-}
-
-namespace ETHGlobal 
-{
-	bool CopyFileToProject(const wstring &currentPath, const wstring &filePath, const wstring &destPath, const Platform::FileManagerPtr& fileManager)
+	if (!overwrite)
 	{
-		wstringstream slash; slash << Platform::GetDirectorySlash();
-		const wstring fileName = Platform::GetFileName(filePath);
-		if (ETHGlobal::FileExists(currentPath + slash.str() + destPath + fileName, fileManager))
+		ifstream exist(utf8::c(dest).c_str(), ios::binary);
+		if (exist.is_open())
 		{
+			exist.close();
+			ifs.close();
 			return true;
 		}
-		else
-		{
-			ETHGlobal::_MoveFile(filePath, currentPath + slash.str() + destPath + fileName, false);
-		}
-		return true;
 	}
 
-	void ErrorMessageBox(const char *szMessage, const char *szTitle)
+	ofstream ofs(utf8::c(dest).c_str(), ios::binary);
+	if (!ofs.is_open())
 	{
-		MessageBox(
-			NULL, utf8::c(szMessage).wc_str(), utf8::c(szTitle).wc_str(), MB_OK|MB_ICONERROR
-		);
-	}
-
-	bool _MoveFile(const wstring &source, const wstring &dest, const bool overwrite)
-	{
-		ifstream ifs(utf8::c(source).c_str(), ios::binary);
-		if (!ifs.is_open())
-		{
-			wcerr << "Couldn't copy the file " << source << endl;
-			return false;
-		}
-
-		if (!overwrite)
-		{
-			ifstream exist(utf8::c(dest).c_str(), ios::binary);
-			if (exist.is_open())
-			{
-				exist.close();
-				ifs.close();
-				return true;
-			}
-		}
-
-		ofstream ofs(utf8::c(dest).c_str(), ios::binary);
-		if (!ofs.is_open())
-		{
-			ifs.close();
-			wcerr << L"Couldn't copy the file " << dest << endl;
-			return false;
-		}
-
-		ofs << ifs.rdbuf();
-		ofs.close();
 		ifs.close();
-		return true;
+		wcerr << L"Couldn't copy the file " << dest << endl;
+		return false;
 	}
 
-	bool PointInRect(const Vector2 &p, const Vector2 &pos0, const Vector2 &size0)
-	{
-		const Vector2 halfSize0 = size0/2;
-		const Vector2 v2Min0 = pos0-halfSize0;
-		const Vector2 v2Max0 = pos0+halfSize0;
+	ofs << ifs.rdbuf();
+	ofs.close();
+	ifs.close();
+	return true;
+}
 
-		if (p.x > v2Max0.x)
-			return false;
-		if (p.y > v2Max0.y)
-			return false;
+bool PointInRect(const Vector2 &p, const Vector2 &pos0, const Vector2 &size0)
+{
+	const Vector2 halfSize0 = size0/2;
+	const Vector2 v2Min0 = pos0-halfSize0;
+	const Vector2 v2Max0 = pos0+halfSize0;
 
-		if (p.x < v2Min0.x)
-			return false;
-		if (p.y < v2Min0.y)
-			return false;
+	if (p.x > v2Max0.x)
+		return false;
+	if (p.y > v2Max0.y)
+		return false;
 
-		return true;
-	}
+	if (p.x < v2Min0.x)
+		return false;
+	if (p.y < v2Min0.y)
+		return false;
 
-	str_type::string Vector3ToString(const Vector3 &v3)
-	{
-		str_type::stringstream ss;
-		ss << GS_L("(") << v3.x << GS_L(", ") << v3.y << GS_L(", ") << v3.z << GS_L(")");
-		return ss.str();
-	}
+	return true;
+}
 
-} 
-// namespace ETHGlobal
+str_type::string Vector3ToString(const Vector3 &v3)
+{
+	str_type::stringstream ss;
+	ss << GS_L("(") << v3.x << GS_L(", ") << v3.y << GS_L(", ") << v3.z << GS_L(")");
+	return ss.str();
+}
 
+} // namespace ETHGlobal

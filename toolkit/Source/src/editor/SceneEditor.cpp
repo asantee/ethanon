@@ -1235,9 +1235,8 @@ void SceneEditor::EntityPlacer()
 	const float angle = m_currentEntity->GetAngle();
 	if (angle != 0.0f)
 	{
-		char szAngle[32];
-		_ETH_SAFE_sprintf(szAngle, "%.0f", angle);
-		ss << szAngle;
+		ss.precision(1);
+		ss << angle;
 	}
 	ShadowPrint(m_currentEntity->GetScreenRect(*m_pScene->GetSceneProperties()).max, ss.str().c_str(), Color(100, 255, 255, 255));
 }
@@ -1549,9 +1548,9 @@ void SceneEditor::RenderScene()
 
 bool SceneEditor::SaveAs()
 {
-	char filter[] = "Ethanon Scene files (*.esc)\0*.esc\0\0";
+	FILE_FORM_FILTER filter(GS_L("Ethanon scene files (*.esc)"), GS_L("esc"));
 	char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
-	if (SaveForm(filter, utf8::c(ETHDirectories::GetSceneDirectory()).c_str(), path, file, GetCurrentProjectPath(true).c_str()))
+	if (SaveForm(filter, std::string(GetCurrentProjectPath(true) + utf8::c(ETHDirectories::GetSceneDirectory()).c_str()).c_str(), path, file))
 	{
 		string sOut;
 		AddExtension(path, ".esc", sOut);
@@ -1573,9 +1572,9 @@ bool SceneEditor::Save()
 
 bool SceneEditor::Open()
 {
-	char filter[] = "Ethanon Scene files (*.esc)\0*.esc\0\0";
+	FILE_FORM_FILTER filter(GS_L("Ethanon scene files (*.esc)"), GS_L("esc"));
 	char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
-	if (OpenForm(filter, utf8::c(ETHDirectories::GetSceneDirectory()).c_str(), path, file, GetCurrentProjectPath(true).c_str()))
+	if (OpenForm(filter, std::string(GetCurrentProjectPath(true) + utf8::c(ETHDirectories::GetSceneDirectory()).c_str()).c_str(), path, file))
 	{
 		OpenByFilename(path);
 	}
@@ -1602,7 +1601,11 @@ void SceneEditor::OpenByFilename(const string& filename)
 
 void SceneEditor::ShowLightmapMessage()
 {
-	ShadowPrint(m_provider->GetVideo()->GetScreenSizeF()/2-Vector2(400,0), L"Generating lightmap. Please wait...", L"Verdana30_shadow.fnt", gs2d::constant::WHITE);
+	ShadowPrint(
+		m_provider->GetVideo()->GetScreenSizeF()/2-Vector2(400,0),
+		GS_L("Generating lightmap. Please wait..."),
+		GS_L("Verdana30_shadow.fnt"),
+		gs2d::constant::WHITE);
 }
 
 void SceneEditor::CentralizeShortcut()

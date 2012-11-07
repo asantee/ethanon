@@ -718,11 +718,11 @@ void EntityEditor::DoMainMenu()
 
 	const ETHGraphicResourceManagerPtr& resourceManager = m_provider->GetGraphicResourceManager();
 	file_r = m_addMenu.PlaceMenu(Vector2(x,y)); x+=m_menuWidth*2;
+	FILE_FORM_FILTER filter(GS_L("Supported image files"), GS_L("png,bmp,tga,jpg,jpeg,dds"));
 	if (file_r.text == _S_OPEN_ENTITY)
 	{
-		char filter[] = "Supported image files\0*.png;*.bmp;*.tga;*.jpg;*.jpeg;*.dds\0\0";
 		char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
-		if (OpenForm(filter, utf8::c(ETHDirectories::GetEntityDirectory()).c_str(), path, file, currentProjectPath.c_str()))
+		if (OpenForm(filter, std::string(currentProjectPath + utf8::c(ETHDirectories::GetEntityDirectory()).str()).c_str(), path, file))
 		{
 			ETHGlobal::CopyFileToProject(utf8::c(currentProjectPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetEntityDirectory(), m_provider->GetFileManager());
 			if (LoadSprite(file, path))
@@ -735,9 +735,8 @@ void EntityEditor::DoMainMenu()
 	}
 	if (file_r.text == _S_OPEN_NORMALMAP)
 	{
-		char filter[] = "Supported image files\0*.png;*.bmp;*.tga;*.jpg;*.jpeg;*.dds\0\0";
 		char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
-		if (OpenForm(filter, utf8::c(ETHDirectories::GetNormalMapDirectory()).c_str(), path, file, currentProjectPath.c_str()))
+		if (OpenForm(filter, std::string(currentProjectPath + utf8::c(ETHDirectories::GetNormalMapDirectory()).str()).c_str(), path, file))
 		{
 			ETHGlobal::CopyFileToProject(utf8::c(currentProjectPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetNormalMapDirectory(), m_provider->GetFileManager());
 			if (LoadNormal(file, path))
@@ -750,9 +749,8 @@ void EntityEditor::DoMainMenu()
 	}
 	if (file_r.text == _S_OPEN_HALO && m_pEditEntity->light)
 	{
-		char filter[] = "Supported image files\0*.png;*.bmp;*.tga;*.jpg;*.jpeg;*.dds\0\0";
 		char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
-		if (OpenForm(filter, utf8::c(ETHDirectories::GetEntityDirectory()).c_str(), path, file, currentProjectPath.c_str()))
+		if (OpenForm(filter, std::string(currentProjectPath + utf8::c(ETHDirectories::GetEntityDirectory()).str()).c_str(), path, file))
 		{
 			ETHGlobal::CopyFileToProject(utf8::c(currentProjectPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetEntityDirectory(), m_provider->GetFileManager());
 			if (LoadHalo(file, path))
@@ -765,9 +763,8 @@ void EntityEditor::DoMainMenu()
 	}
 	if (file_r.text == _S_OPEN_GLOSSMAP)
 	{
-		char filter[] = "Supported image files\0*.png;*.bmp;*.tga;*.jpg;*.jpeg;*.dds\0\0";
 		char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
-		if (OpenForm(filter, utf8::c(ETHDirectories::GetEntityDirectory()).c_str(), path, file, currentProjectPath.c_str()))
+		if (OpenForm(filter, std::string(currentProjectPath + utf8::c(ETHDirectories::GetEntityDirectory()).str()).c_str(), path, file))
 		{
 			ETHGlobal::CopyFileToProject(utf8::c(currentProjectPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetEntityDirectory(), m_provider->GetFileManager());
 			if (LoadGloss(file, path))
@@ -778,11 +775,11 @@ void EntityEditor::DoMainMenu()
 			}
 		}
 	}
+	FILE_FORM_FILTER parFilter(GS_L("Ethanon PAR files"), GS_L("par"));
 	if (file_r.text == _S_LOAD_PAR0)
 	{
-		char filter[] = "Ethanon engine PAR files\0*.par\0\0";
 		char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
-		if (OpenForm(filter, "effects\\", path, file, currentProjectPath.c_str()))
+		if (OpenForm(parFilter, std::string(currentProjectPath + utf8::c(ETHDirectories::GetEffectsDirectory()).str()).c_str(), path, file))
 		{
 			if (LoadParticle(0, file, path))
 			{
@@ -794,9 +791,8 @@ void EntityEditor::DoMainMenu()
 	}
 	if (file_r.text == _S_LOAD_PAR1)
 	{
-		char filter[] = "Ethanon engine PAR files\0*.par\0\0";
 		char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
-		if (OpenForm(filter, "effects\\", path, file, currentProjectPath.c_str()))
+		if (OpenForm(filter, std::string(currentProjectPath + utf8::c(ETHDirectories::GetEffectsDirectory()).str()).c_str(), path, file))
 		{
 			if (LoadParticle(1, file, path))
 			{
@@ -1310,9 +1306,9 @@ void EntityEditor::CreateFileUpdateDetector(const str_type::string& fullFilePath
 
 bool EntityEditor::SaveAs()
 {
-	char filter[] = "Ethanon Entity files (*.ent)\0*.ent\0\0";
+	FILE_FORM_FILTER filter(GS_L("Ethanon Entity files (*.ent)"), GS_L("ent"));
 	char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
-	if (SaveForm(filter, utf8::c(ETHDirectories::GetEntityDirectory()).c_str(), path, file, GetCurrentProjectPath(true).c_str()))
+	if (SaveForm(filter, std::string(GetCurrentProjectPath(true) + utf8::c(ETHDirectories::GetEntityDirectory()).str()).c_str(), path, file))
 	{
 		Save(path);
 	}
@@ -1354,9 +1350,9 @@ bool EntityEditor::Open()
 {
 	string currentProjectPath = GetCurrentProjectPath(true);
 
-	char filter[] = "Ethanon Entity files (*.ent)\0*.ent\0\0";
+	FILE_FORM_FILTER filter(GS_L("Ethanon Entity files (*.ent)"), GS_L("ent"));
 	char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
-	if (OpenForm(filter, utf8::c(ETHDirectories::GetEntityDirectory()).c_str(), path, file, currentProjectPath.c_str()))
+	if (OpenForm(filter, std::string(currentProjectPath + utf8::c(ETHDirectories::GetEntityDirectory()).str()).c_str(), path, file))
 	{
 		OpenEntity(path);
 	}

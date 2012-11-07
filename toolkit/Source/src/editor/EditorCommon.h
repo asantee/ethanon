@@ -24,81 +24,17 @@
 #define ETH_EDITORCOMMON_H_
 
 #include "../engine/ETHTypes.h"
+#include "../engine/Util/ETHASUtil.h"
 
-#ifdef _MSC_VER
-	#define _ETH_SAFE_strcat strcat_s
-	#define _ETH_SAFE_sscanf sscanf_s
-	#define _ETH_SAFE_sprintf sprintf_s
-	inline void _ETH_SAFE_strcpy(char *szOut, const char *szIn)
+struct FILE_FORM_FILTER
+{
+	inline FILE_FORM_FILTER(const str_type::string& _title, const str_type::string& commaSeparatedExtensions) :
+		title(_title),
+		extensionsAllowed(ETHGlobal::SplitString(commaSeparatedExtensions, GS_L(",")))
 	{
-		strcpy_s(szOut, strlen(szIn)+1, szIn);
-	}	
-#else
-	#define _ETH_SAFE_strcat strcat
-	#define _ETH_SAFE_sscanf sscanf
-	#define _ETH_SAFE_sprintf sprintf
-	#define _ETH_SAFE_strcpy strcpy
-#endif
-
-namespace ETHGlobal {
-
-	ETH_INLINE std::string GetPathName(const char *szSource, const bool keepLastSlash)
-	{
-		std::string r = szSource;
-		const unsigned int nLen = strlen(szSource);
-		if (nLen <= 1)
-			return "";
-		unsigned int t;
-		for (t=nLen-1; t>0; t--)
-		{
-			if (szSource[t] == '\\' || szSource[t] == '/')
-			{
-				t++;
-				break;
-			}
-		}
-		if (keepLastSlash)
-		{
-			r.resize(t);
-		}
-		else
-		{
-			r.resize(t-1);
-		}
-		return r;
 	}
-
-	ETH_INLINE std::string GetFileName(const std::string &source)
-	{
-		const unsigned int nLen = source.length();
-		std::string r = source;
-		unsigned int t;
-		for (t=nLen-1; t>0; t--)
-		{
-			if (r[t] == '\\' || r[t] == '/')
-			{
-				r = r.substr(t+1);
-				break;
-			}
-		}
-		return r;
-	}
-
-	ETH_INLINE std::string GetDirectoryFromPath(const char *szCurrentPath)
-	{
-		std::string path = szCurrentPath;
-		const int nLen=path.size();
-		for (int t=nLen; t>=0; t--)
-		{
-			if (path[t] == '\\')
-			{			
-				path.resize(t);
-				break;
-			}
-		}
-		return path;
-	}
-
-} // namespace ETHGlobal
+	str_type::string title;
+	std::vector<str_type::string> extensionsAllowed;
+};
 
 #endif

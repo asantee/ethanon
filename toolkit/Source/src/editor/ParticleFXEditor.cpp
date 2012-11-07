@@ -748,146 +748,30 @@ void ParticleEditor::ResetSystem()
 	//CreateParticles();
 }
 
-#include <windows.h>
-
 bool ParticleEditor::OpenParticleBMP(char *oFilePathName, char *oFileName)
 {
-	char filter[] = "Supported image files\0*.png;*.bmp;*.jpg;*.jpeg;*.tga;*.dds\0" \
-						 "All files (*.*)\0*.*\0\0";
-
-	char fileInfo[___OUTPUT_LENGTH] = "\0";
-	char fileName[___OUTPUT_LENGTH];
-	string sInitDir = GetCurrentProjectPath(false) + "\\particles\\";
-
-	OPENFILENAMEA openFileName;
-	openFileName.lStructSize       = sizeof(openFileName);
-	openFileName.hwndOwner         = NULL;
-	openFileName.hInstance         = 0;
-	openFileName.lpstrFilter       = filter;
-	openFileName.lpstrCustomFilter = NULL;
-	openFileName.nMaxCustFilter    = 0;
-	openFileName.nFilterIndex      = 1;
-	openFileName.lpstrFile         = fileInfo;
-	openFileName.nMaxFile          = ___OUTPUT_LENGTH;
-	openFileName.lpstrFileTitle    = fileName;
-	openFileName.nMaxFileTitle     = ___OUTPUT_LENGTH;
-	openFileName.lpstrInitialDir   = sInitDir.c_str();
-	openFileName.lpstrTitle        = NULL;
-	openFileName.Flags             = (OFN_FILEMUSTEXIST);
-	openFileName.lpstrDefExt       = NULL;
-
-	if (!GetOpenFileNameA(&openFileName))
-	{
-		return false;
-	}
-
-	_ETH_SAFE_strcpy(oFileName, fileName);
-	_ETH_SAFE_strcpy(oFilePathName, fileInfo);
-	return true;
+	FILE_FORM_FILTER filter(GS_L("Supported image files"), GS_L("png,bmp,tga,jpg,jpeg,dds"));
+	string initDir = Platform::FixSlashes(GetCurrentProjectPath(true) + "particles\\");
+	return OpenForm(filter, initDir.c_str(), oFilePathName, oFileName);
 }
 
 bool ParticleEditor::OpenSystem(char *oFilePathName, char *oFileName)
 {
-	char filter[] = "ParticleFX files (*.par)\0*.par\0" \
-					"All files (*.*)\0*.*\0\0";
-
-	char fileInfo[___OUTPUT_LENGTH] = "\0";
-	char fileName[___OUTPUT_LENGTH];
-	string sInitDir = GetCurrentProjectPath(false) + "\\effects\\";
-
-	OPENFILENAMEA openFileName;
-	openFileName.lStructSize       = sizeof(openFileName);
-	openFileName.hwndOwner         = NULL;
-	openFileName.hInstance         = 0;
-	openFileName.lpstrFilter       = filter;
-	openFileName.lpstrCustomFilter = NULL;
-	openFileName.nMaxCustFilter    = 0;
-	openFileName.nFilterIndex      = 1;
-	openFileName.lpstrFile         = fileInfo;
-	openFileName.nMaxFile          = ___OUTPUT_LENGTH;
-	openFileName.lpstrFileTitle    = fileName;
-	openFileName.nMaxFileTitle     = ___OUTPUT_LENGTH;
-	openFileName.lpstrInitialDir   = sInitDir.c_str();
-	openFileName.lpstrTitle        = NULL;
-	openFileName.Flags             = (OFN_FILEMUSTEXIST);
-	openFileName.lpstrDefExt       = NULL;
-
-	if (!GetOpenFileNameA(&openFileName))
-	{
-		return false;
-	}
-
-	_ETH_SAFE_strcpy(oFileName, fileName);
-	_ETH_SAFE_strcpy(oFilePathName, fileInfo);
-	return true;
+	FILE_FORM_FILTER filter(GS_L("Particle effect file (*.par)"), GS_L("par"));
+	string initDir = Platform::FixSlashes(GetCurrentProjectPath(true) + "effects\\");
+	return OpenForm(filter, initDir.c_str(), oFilePathName, oFileName);
 }
 
 bool ParticleEditor::OpenSoundFX(char *oFilePathName, char *oFileName)
 {
-	char filter[] = "Supported sound files\0*.ogg;*.wav;*.mp3\0" \
-					"All files (*.*)\0*.*\0\0";
-	char fileInfo[___OUTPUT_LENGTH] = "\0";
-	char fileName[___OUTPUT_LENGTH];
-	string sInitDir = GetCurrentProjectPath(false) + "\\soundfx\\";
-
-	OPENFILENAMEA openFileName;
-	openFileName.lStructSize       = sizeof(openFileName);
-	openFileName.hwndOwner         = NULL;
-	openFileName.hInstance         = 0;
-	openFileName.lpstrFilter       = filter;
-	openFileName.lpstrCustomFilter = NULL;
-	openFileName.nMaxCustFilter    = 0;
-	openFileName.nFilterIndex      = 1;
-	openFileName.lpstrFile         = fileInfo;
-	openFileName.nMaxFile          = ___OUTPUT_LENGTH;
-	openFileName.lpstrFileTitle    = fileName;
-	openFileName.nMaxFileTitle     = ___OUTPUT_LENGTH;
-	openFileName.lpstrInitialDir   = sInitDir.c_str();
-	openFileName.lpstrTitle        = NULL;
-	openFileName.Flags             = (OFN_FILEMUSTEXIST);
-	openFileName.lpstrDefExt       = NULL;
-
-	if (!GetOpenFileNameA(&openFileName))
-	{
-		return false;
-	}
-
-	_ETH_SAFE_strcpy(oFileName, fileName);
-	_ETH_SAFE_strcpy(oFilePathName, fileInfo);
-	return true;
+	FILE_FORM_FILTER filter(GS_L("Supported sound files"), GS_L("ogg,wav,mp3"));
+	string initDir = Platform::FixSlashes(GetCurrentProjectPath(true) + "soundfx\\");
+	return OpenForm(filter, initDir.c_str(), oFilePathName, oFileName);
 }
 
 bool ParticleEditor::SaveSystem(char *oFilePathName, char *oFileName)
 {
-	char filter[] = "ParticleFX file (*.par)\0*.par\0\0";
-	char fileInfo[___OUTPUT_LENGTH] = "\0";
-	char fileName[___OUTPUT_LENGTH];
-
-	string sInitDir = GetCurrentProjectPath(false) + "\\effects\\";
-
-	OPENFILENAMEA saveFileName;
-	saveFileName.lStructSize       = sizeof(saveFileName);
-	saveFileName.hwndOwner         = NULL;
-	saveFileName.hInstance         = 0;
-	saveFileName.lpstrFilter       = filter;
-	saveFileName.lpstrCustomFilter = NULL;
-	saveFileName.nMaxCustFilter    = 0;
-	saveFileName.nFilterIndex      = 1;
-	saveFileName.lpstrFile         = fileInfo;
-	saveFileName.nMaxFile          = ___OUTPUT_LENGTH;
-	saveFileName.lpstrFileTitle    = fileName;
-	saveFileName.nMaxFileTitle     = ___OUTPUT_LENGTH;
-	saveFileName.lpstrInitialDir   = sInitDir.c_str();
-	saveFileName.lpstrTitle        = NULL;
-	saveFileName.Flags             = (OFN_OVERWRITEPROMPT);
-	saveFileName.lpstrDefExt       = NULL;
-
-	if (!GetSaveFileNameA(&saveFileName))
-	{
-		return false;
-	}
-
-	_ETH_SAFE_strcpy(oFileName, fileName);
-	_ETH_SAFE_strcpy(oFilePathName, fileInfo);
-	return true;
+	FILE_FORM_FILTER filter(GS_L("Particle effect file (*.par)"), GS_L("par"));
+	string initDir = Platform::FixSlashes(GetCurrentProjectPath(true) + "effects\\");
+	return SaveForm(filter, initDir.c_str(), oFilePathName, oFileName);
 }

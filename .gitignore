@@ -33,6 +33,9 @@ info.enml
 testbed/_GeneralTests
 testbed/__GeneralTests
 testbed/___GeneralTests
+toolkit/Source/src/gs2d/projects/Android/Ethanon/___assets/
+toolkit/Source/src/gs2d/projects/Android/Ethanon/__assets/
+toolkit/Source/src/gs2d/projects/Android/Ethanon/_assets/
 
 # Visual Studio files
 *.ncb

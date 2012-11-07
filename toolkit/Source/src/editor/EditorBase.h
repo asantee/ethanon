@@ -27,6 +27,8 @@
 #include "../engine/Resource/ETHResourceProvider.h"
 #include <string>
 
+#include "EditorCommon.h"
+
 using namespace std; // TODO: remove it from header
 
 #define _BASEEDITOR_DEFAULT_UNTITLED_FILE "Untitled"
@@ -103,10 +105,8 @@ protected:
 	virtual void CreateFileMenu();
 	bool AddExtension(const char *path, const char *extension, string &sOut);
 	void SetFileNameToTitle(VideoPtr video, const wchar_t *wszTitle);
-	bool OpenForm(const char *filter, const char *directory, char *szoFilePathName,
-				  char *szoFileName, const char *szSolutionPath);
-	bool SaveForm(const char *filter, const char *directory, char *szoFilePathName,
-				  char *szoFileName, const char *szSolutionPath);
+	bool OpenForm(const FILE_FORM_FILTER& filter, const char *directory, char *szoFilePathName, char *szoFileName);
+	bool SaveForm(const FILE_FORM_FILTER& filter, const char *directory, char *szoFilePathName, char *szoFileName);
 
 private:
 	string m_currentFile;
