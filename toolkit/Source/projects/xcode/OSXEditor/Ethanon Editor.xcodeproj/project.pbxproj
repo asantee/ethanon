@@ -24,6 +24,9 @@
 		7421F3FE164BFC5500C55BAE /* UTF8Converter.dummy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F3FC164BFC5500C55BAE /* UTF8Converter.dummy.cpp */; };
 		7421F401164BFD5400C55BAE /* main.temp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F3FF164BFD5400C55BAE /* main.temp.cpp */; };
 		7421F404164C096900C55BAE /* ikpMP3.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F403164C096900C55BAE /* ikpMP3.dylib */; };
+		7421F406164C12C100C55BAE /* EditorBase.macosx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F405164C12C100C55BAE /* EditorBase.macosx.cpp */; };
+		7421F409164C13A500C55BAE /* EntityEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F407164C13A500C55BAE /* EntityEditor.cpp */; };
+		7421F40C164C141D00C55BAE /* ParticleScale.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F40A164C141D00C55BAE /* ParticleScale.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -118,6 +121,11 @@
 		7421F3FD164BFC5500C55BAE /* UTF8Converter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UTF8Converter.h; path = ../../../../src/gs2d/src/Unicode/UTF8Converter.h; sourceTree = "<group>"; };
 		7421F3FF164BFD5400C55BAE /* main.temp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.temp.cpp; sourceTree = "<group>"; };
 		7421F403164C096900C55BAE /* ikpMP3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = ikpMP3.dylib; path = "../../../src/gs2d/vendors/irrKlang/bin/macosx-gcc/ikpMP3.dylib"; sourceTree = "<group>"; };
+		7421F405164C12C100C55BAE /* EditorBase.macosx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EditorBase.macosx.cpp; path = ../../../../src/editor/EditorBase.macosx.cpp; sourceTree = "<group>"; };
+		7421F407164C13A500C55BAE /* EntityEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EntityEditor.cpp; path = ../../../../src/editor/EntityEditor.cpp; sourceTree = "<group>"; };
+		7421F408164C13A500C55BAE /* EntityEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EntityEditor.h; path = ../../../../src/editor/EntityEditor.h; sourceTree = "<group>"; };
+		7421F40A164C141D00C55BAE /* ParticleScale.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ParticleScale.cpp; path = ../../../../src/editor/ParticleScale.cpp; sourceTree = "<group>"; };
+		7421F40B164C141D00C55BAE /* ParticleScale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParticleScale.h; path = ../../../../src/editor/ParticleScale.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -231,6 +239,7 @@
 		7421F3EC164BF25300C55BAE /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				7421F405164C12C100C55BAE /* EditorBase.macosx.cpp */,
 				7421F3F8164BF98B00C55BAE /* CustomDataEditor.cpp */,
 				7421F3F9164BF98B00C55BAE /* CustomDataEditor.h */,
 				7421F3F5164BF4BE00C55BAE /* EditorBase.cpp */,
@@ -260,6 +269,10 @@
 		7421F3EF164BF25C00C55BAE /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				7421F40A164C141D00C55BAE /* ParticleScale.cpp */,
+				7421F40B164C141D00C55BAE /* ParticleScale.h */,
+				7421F407164C13A500C55BAE /* EntityEditor.cpp */,
+				7421F408164C13A500C55BAE /* EntityEditor.h */,
 			);
 			name = Entity;
 			sourceTree = "<group>";
@@ -376,6 +389,9 @@
 				7421F3FA164BF98C00C55BAE /* CustomDataEditor.cpp in Sources */,
 				7421F3FE164BFC5500C55BAE /* UTF8Converter.dummy.cpp in Sources */,
 				7421F401164BFD5400C55BAE /* main.temp.cpp in Sources */,
+				7421F406164C12C100C55BAE /* EditorBase.macosx.cpp in Sources */,
+				7421F409164C13A500C55BAE /* EntityEditor.cpp in Sources */,
+				7421F40C164C141D00C55BAE /* ParticleScale.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -474,6 +490,7 @@
 					"$(inherited)",
 					MACOSX,
 					OPENGL,
+					_ETHANON_EDITOR,
 				);
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../src/gs2d/src\"",
@@ -504,6 +521,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					MACOSX,
 					OPENGL,
+					_ETHANON_EDITOR,
 				);
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../src/gs2d/src\"",
