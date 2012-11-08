@@ -29,6 +29,7 @@
 		7421F40C164C141D00C55BAE /* ParticleScale.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F40A164C141D00C55BAE /* ParticleScale.cpp */; };
 		7421F412164C168F00C55BAE /* ParticleFXEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F410164C168F00C55BAE /* ParticleFXEditor.cpp */; };
 		7421F416164C180100C55BAE /* ProjectManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F414164C180100C55BAE /* ProjectManager.cpp */; };
+		7421F419164C297800C55BAE /* SceneEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F417164C297800C55BAE /* SceneEditor.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -133,6 +134,8 @@
 		7421F411164C168F00C55BAE /* ParticleFXEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParticleFXEditor.h; path = ../../../../src/editor/ParticleFXEditor.h; sourceTree = "<group>"; };
 		7421F414164C180100C55BAE /* ProjectManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ProjectManager.cpp; path = ../../../../src/editor/ProjectManager.cpp; sourceTree = "<group>"; };
 		7421F415164C180100C55BAE /* ProjectManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProjectManager.h; path = ../../../../src/editor/ProjectManager.h; sourceTree = "<group>"; };
+		7421F417164C297800C55BAE /* SceneEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SceneEditor.cpp; path = ../../../../src/editor/SceneEditor.cpp; sourceTree = "<group>"; };
+		7421F418164C297800C55BAE /* SceneEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SceneEditor.h; path = ../../../../src/editor/SceneEditor.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -273,6 +276,8 @@
 		7421F3EE164BF25A00C55BAE /* Scene */ = {
 			isa = PBXGroup;
 			children = (
+				7421F417164C297800C55BAE /* SceneEditor.cpp */,
+				7421F418164C297800C55BAE /* SceneEditor.h */,
 			);
 			name = Scene;
 			sourceTree = "<group>";
@@ -414,6 +419,7 @@
 				7421F40C164C141D00C55BAE /* ParticleScale.cpp in Sources */,
 				7421F412164C168F00C55BAE /* ParticleFXEditor.cpp in Sources */,
 				7421F416164C180100C55BAE /* ProjectManager.cpp in Sources */,
+				7421F419164C297800C55BAE /* SceneEditor.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

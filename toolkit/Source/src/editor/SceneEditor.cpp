@@ -255,7 +255,6 @@ std::string SceneEditor::DoEditor(SpritePtr pNextAppButton)
 
 	const int wheel = (int)input->GetWheelState();
 	const Vector2 v2Cursor = input->GetCursorPositionF(video);
-	const Vector2 v2Screen = video->GetScreenSizeF();
 	const bool guiButtonsFree = AreGUIButtonsFree(pNextAppButton);
 	if (wheel != 0 && guiButtonsFree)
 		SetPlacingMode();
@@ -956,7 +955,6 @@ void SceneEditor::DrawGrid()
 
 void SceneEditor::PlaceEntitySelection()
 {
-	const ETHEntityProperties *pData = m_currentEntity->GetProperties();
 	if (m_currentEntityIdx < 0)
 	{
 		return;
@@ -1657,7 +1655,7 @@ void SceneEditor::ReloadFiles()
 	}
 	else
 	{
-		std::wcerr << GS_L("The editor couldn't find any *.ent files. Make sure there are valid files at the ")
+		GS2D_CERR << GS_L("The editor couldn't find any *.ent files. Make sure there are valid files at the ")
 			 << ETHDirectories::GetEntityDirectory() << GS_L(" folder\n");
 	}
 }

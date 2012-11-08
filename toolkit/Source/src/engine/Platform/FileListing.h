@@ -23,9 +23,9 @@
 #ifndef FILE_LISTING_H_
 #define FILE_LISTING_H_
 
-#include <iostream>
+#include <Platform/Platform.h>
 #include <vector>
-#include <string>
+#include <iostream>
 
 namespace Platform {
 
@@ -34,26 +34,26 @@ class FileListing
 public:
 	struct FILE_NAME
 	{
-		inline void GetFullFileName(std::wstring &sOut)
+		inline void GetFullFileName(gs2d::str_type::string &sOut)
 		{
-			sOut = dir+file;
+			sOut = dir + file;
 		}
-		std::wstring dir;
-		std::wstring file;
+		gs2d::str_type::string dir;
+		gs2d::str_type::string file;
 	};
 
-	bool ListDirectoryFiles(const wchar_t *directory, const wchar_t *extension);
+	bool ListDirectoryFiles(const gs2d::str_type::char_t* directory, const gs2d::str_type::char_t* extension);
 
 	inline unsigned int GetNumFiles()
 	{
 		return m_fileName.size();
 	}
 
-	inline bool GetFileName(const unsigned int index, FILE_NAME &fileName)
+	inline bool GetFileName(const unsigned int index, FILE_NAME& fileName)
 	{
 		if (index >= GetNumFiles())
 		{
-			std::wcerr << L"FileListing::GetFileName - index >= m_fileName.size().\n";
+			GS2D_CERR << GS_L("FileListing::GetFileName - index >= m_fileName.size().\n");
 			return false;
 		}
 		fileName = m_fileName[index];
