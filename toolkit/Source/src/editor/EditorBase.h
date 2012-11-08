@@ -113,7 +113,6 @@ private:
 namespace ETHGlobal 
 {
 	bool CopyFileToProject(const str_type::string &currentPath, const str_type::string &filePath, const str_type::string &destPath, const Platform::FileManagerPtr& fileManager);
-	void ErrorMessageBox(const char *szMessage, const char *szTitle);
 	bool _MoveFile(const str_type::string &source, const str_type::string &dest, const bool overwrite);
 	bool PointInRect(const Vector2 &p, const Vector2 &pos0, const Vector2 &size0);
 	str_type::string Vector3ToString(const Vector3 &v3);
