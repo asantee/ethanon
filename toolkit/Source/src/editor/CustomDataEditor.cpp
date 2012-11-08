@@ -142,6 +142,8 @@ void CustomDataEditor::InputVariableName(ETHEntity* pEntity, EditorBase *pEditor
 				case CDES_ADDING_STRING:
 					pEntity->SetString(m_inVariableName.GetValue(), GS_L("none"));
 					break;
+				default:
+					break;
 				}
 				Rebuild(pEntity, pEditor);
 			}
@@ -280,6 +282,8 @@ void CustomDataEditor::EditVariable(ETHEntity* pEntity, EditorBase *pEditor)
 			break;
 		case ETHCustomData::DT_FLOAT:
 			pEntity->SetFloat(r.text, ETHGlobal::ParseFloat(utf8::c(m_inValueInput.PlaceInput(v2Pos)).wc_str()));
+			break;
+		default:
 			break;
 		};
 		str_type::stringstream ss;
