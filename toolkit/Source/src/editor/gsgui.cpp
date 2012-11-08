@@ -55,7 +55,7 @@ void GSGUI_STRING_INPUT::PlaceInput(const Vector2& pos, const str_type::string& 
 	}
 	
 	// don't let the cursor exceed the text range
-	cursor = Min(cursor, ss.length());
+	cursor = Min(cursor, static_cast<unsigned int>(ss.length()));
 
 	str_type::char_t lastInput = input->GetLastCharInput();
 	if (lastInput != '\0' && ss.length() < nMaxChars)
@@ -99,7 +99,7 @@ void GSGUI_STRING_INPUT::PlaceInput(const Vector2& pos, const str_type::string& 
 	}
 	if (input->GetKeyState(GSK_RIGHT) == GSKS_HIT)
 	{
-		cursor = Min(++cursor, ss.length());
+		cursor = Min(++cursor, static_cast<unsigned int>(ss.length()));
 	}
 	if (input->GetKeyState(GSK_END) == GSKS_HIT)
 	{
@@ -1107,7 +1107,7 @@ float GSGUI_FLOAT_INPUT::PlaceInput(Vector2 v2Pos)
 	ss.str(m_strInput.GetString());
 
 	// if there are no chars, go back to the min value
-	const unsigned int nLen = ss.str().length(); //-V807
+	//const unsigned int nLen = ss.str().length(); //-V807
 
 	if (m_strInput.GetString().length() > 0)
 	{
