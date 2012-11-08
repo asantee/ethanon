@@ -157,14 +157,3 @@ bool EditorBase::SaveForm(
 	_ETH_SAFE_strcpy(szoFilePathName, fileInfo);
 	return true;
 }
-
-namespace ETHGlobal 
-{
-void ErrorMessageBox(const char *szMessage, const char *szTitle)
-{
-	MessageBox(
-		NULL, utf8::c(szMessage).wc_str(), utf8::c(szTitle).wc_str(), MB_OK|MB_ICONERROR
-		);
-}
-
-} // namespace ETHGlobal
