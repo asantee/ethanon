@@ -93,7 +93,7 @@ bool EditorBase::DrawTab(VideoPtr video, InputPtr input, const Vector2 &v2Pos, c
 	const Vector2 v2Cam = video->GetCameraPos();
 	video->SetCameraPos(Vector2(0,0));
 	bool mouseOver = false;
-	if (mouseOver = ETHGlobal::PointInRect(input->GetCursorPositionF(video), v2Pos+Vector2(width/2, m_menuSize), Vector2(width, m_menuSize)))
+	if ((mouseOver = ETHGlobal::PointInRect(input->GetCursorPositionF(video), v2Pos+Vector2(width/2, m_menuSize), Vector2(width, m_menuSize))))
 	{
 		if (color.a < 200)
 			color.a = 200;
@@ -256,7 +256,7 @@ bool _MoveFile(const str_type::string &source, const str_type::string &dest, con
 	std::ifstream ifs(utf8::c(source).c_str(), std::ios::binary);
 	if (!ifs.is_open())
 	{
-		std::wcerr << "Couldn't copy the file " << source << std::endl;
+		GS2D_CERR << "Couldn't copy file " << source << std::endl;
 		return false;
 	}
 
@@ -275,7 +275,7 @@ bool _MoveFile(const str_type::string &source, const str_type::string &dest, con
 	if (!ofs.is_open())
 	{
 		ifs.close();
-		std::wcerr << GS_L("Couldn't copy the file ") << dest << std::endl;
+		GS2D_CERR << GS_L("Couldn't copy file ") << dest << std::endl;
 		return false;
 	}
 
