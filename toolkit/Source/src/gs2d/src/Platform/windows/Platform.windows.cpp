@@ -28,6 +28,7 @@
 #include "../../unicode/utf8converter.h"
 #include <assert.h>
 #include <windows.h>
+#include <direct.h>
 
 gs2d::str_type::string gs2d::Application::GetPlatformName()
 {
@@ -35,6 +36,13 @@ gs2d::str_type::string gs2d::Application::GetPlatformName()
 }
 
 namespace Platform {
+
+bool CreateDirectory(const std::string& path)
+{
+	_mkdir(path.c_str());
+	#warning todo verify success
+	return true;
+}
 
 #ifdef _DEBUG
 gs2d::str_type::string GetModuleDirectory()
@@ -181,7 +189,6 @@ wchar_t GetDirectorySlashW()
 	return L'\\';
 }
 
-}
-// namespace Platform
+} // namespace Platform
 
 #endif // WIN32

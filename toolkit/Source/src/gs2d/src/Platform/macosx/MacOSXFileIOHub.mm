@@ -25,6 +25,8 @@
 #include "../FileLogger.h"
 #include "../../Application.h"
 
+#include "Platform.macosx.h"
+
 namespace Platform {
 
 FileIOHubPtr CreateFileIOHub(
@@ -34,14 +36,6 @@ FileIOHubPtr CreateFileIOHub(
 {
 	GS2D_UNUSED_ARGUMENT(resourceDirectory);
 	return FileIOHubPtr(new MacOSXFileIOHub(fileManager, fontDirectory));
-}
-
-#warning TO-DO move to Platform
-static NSString* CreateDirectory(NSString* dir)
-{
-	NSFileManager* fileManager = [NSFileManager defaultManager];
-	[fileManager createDirectoryAtPath:dir withIntermediateDirectories:YES attributes:nil error:nil];
-	return dir;
 }
 
 static NSString* AppNameFromBundle()
@@ -88,9 +82,9 @@ MacOSXFileIOHub::MacOSXFileIOHub(
 		GlobalExternalStorageDirectory(),
 		bitmapFontSearchDirectory)
 {
-	CreateDirectory([NSString stringWithCString:ExternalStorageDirectory().c_str() encoding:NSUTF8StringEncoding]);
-	CreateDirectory([NSString stringWithCString:ResourceDirectory().c_str() encoding:NSUTF8StringEncoding]);
-	CreateDirectory([NSString stringWithCString:Platform::FileLogger::GetLogDirectory().c_str() encoding:NSUTF8StringEncoding]);
+	CreateDirectoryNS([NSString stringWithCString:ExternalStorageDirectory().c_str() encoding:NSUTF8StringEncoding]);
+	CreateDirectoryNS([NSString stringWithCString:ResourceDirectory().c_str() encoding:NSUTF8StringEncoding]);
+	CreateDirectoryNS([NSString stringWithCString:Platform::FileLogger::GetLogDirectory().c_str() encoding:NSUTF8StringEncoding]);
 
 	#ifdef DEBUG
 	gs2d::ShowMessage(gs2d::str_type::string("Resources: ") + GetResourceDirectory(), gs2d::GSMT_INFO);
@@ -104,7 +98,7 @@ gs2d::str_type::string MacOSXFileIOHub::GetGlobalExternalStorageDirectory() cons
 {
 	// create directory before informing it to the user
 	// it forces your application to create the directory only if the user will need it
-	CreateDirectory([NSString stringWithCString:GlobalExternalStorageDirectory().c_str() encoding:NSUTF8StringEncoding]);	
+	CreateDirectoryNS([NSString stringWithCString:GlobalExternalStorageDirectory().c_str() encoding:NSUTF8StringEncoding]);	
 	return FileIOHub::GetGlobalExternalStorageDirectory();
 }
 

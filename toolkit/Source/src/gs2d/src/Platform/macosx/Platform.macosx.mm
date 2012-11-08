@@ -20,9 +20,9 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#import "Platform.macosx.h"
-#import "../Platform.h"
-#import "../../Video/GLES2/GLES2Video.h"
+#include "Platform.macosx.h"
+#include "../Platform.h"
+#include "../../Video/GLES2/GLES2Video.h"
 
 void gs2d::ShowMessage(str_type::stringstream& stream, const GS_MESSAGE_TYPE type)
 {
@@ -54,6 +54,17 @@ gs2d::str_type::string GetModuleDirectory()
 	NSString* bundleDir = [[NSBundle mainBundle] bundlePath];
 	bundleDir = [bundleDir stringByAppendingString:@"/"];
 	return [bundleDir cStringUsingEncoding:1];
+}
+
+bool CreateDirectoryNS(NSString* dir)
+{
+	NSFileManager* fileManager = [NSFileManager defaultManager];
+	return ([fileManager createDirectoryAtPath:dir withIntermediateDirectories:YES attributes:nil error:nil] == YES);
+}
+
+bool CreateDirectory(const std::string& path)
+{
+	return CreateDirectoryNS([NSString stringWithUTF8String:path.c_str()]);
 }
 
 char GetDirectorySlashA()

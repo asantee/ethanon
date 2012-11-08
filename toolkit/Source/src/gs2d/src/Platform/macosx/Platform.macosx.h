@@ -28,4 +28,10 @@
 #include "../NativeCommandForwarder.h"
 #include "../FileLogger.h"
 
+namespace Platform {
+
+bool CreateDirectoryNS(NSString* dir);
+
+} // namespace platform
+
 #endif
