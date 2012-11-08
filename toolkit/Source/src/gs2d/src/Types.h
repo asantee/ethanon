@@ -54,6 +54,7 @@ namespace str_type {
  #define GS2D_COUT std::cout
  #define GS2D_CERR std::cerr
 #else
+ #include <xstring>
  typedef std::wstring string;
  typedef std::wstringstream stringstream;
  typedef wchar_t char_t;
