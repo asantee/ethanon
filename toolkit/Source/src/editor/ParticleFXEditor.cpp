@@ -27,6 +27,8 @@
 #include "../engine/Resource/ETHDirectories.h"
 #include "../engine/Util/ETHASUtil.h"
 
+#include <Platform/Platform.h>
+
 #define LOAD_BMP GS_L("Load bitmap")
 //#define ALPHA_ADD "Alpha add"
 //#define ALPHA_PIXEL "Alpha pixeGS_L("
@@ -751,27 +753,31 @@ void ParticleEditor::ResetSystem()
 bool ParticleEditor::OpenParticleBMP(char *oFilePathName, char *oFileName)
 {
 	FILE_FORM_FILTER filter(GS_L("Supported image files"), GS_L("png,bmp,tga,jpg,jpeg,dds"));
-	std::string initDir = Platform::FixSlashes(GetCurrentProjectPath(true) + "particles\\");
+	std::string initDir = GetCurrentProjectPath(true) + "particles/";
+	Platform::FixSlashes(initDir);
 	return OpenForm(filter, initDir.c_str(), oFilePathName, oFileName);
 }
 
 bool ParticleEditor::OpenSystem(char *oFilePathName, char *oFileName)
 {
 	FILE_FORM_FILTER filter(GS_L("Particle effect file (*.par)"), GS_L("par"));
-	std::string initDir = Platform::FixSlashes(GetCurrentProjectPath(true) + "effects\\");
+	std::string initDir = GetCurrentProjectPath(true) + "effects/";
+	Platform::FixSlashes(initDir);
 	return OpenForm(filter, initDir.c_str(), oFilePathName, oFileName);
 }
 
 bool ParticleEditor::OpenSoundFX(char *oFilePathName, char *oFileName)
 {
 	FILE_FORM_FILTER filter(GS_L("Supported sound files"), GS_L("ogg,wav,mp3"));
-	std::string initDir = Platform::FixSlashes(GetCurrentProjectPath(true) + "soundfx\\");
+	std::string initDir = GetCurrentProjectPath(true) + "soundfx/";
+	Platform::FixSlashes(initDir);
 	return OpenForm(filter, initDir.c_str(), oFilePathName, oFileName);
 }
 
 bool ParticleEditor::SaveSystem(char *oFilePathName, char *oFileName)
 {
 	FILE_FORM_FILTER filter(GS_L("Particle effect file (*.par)"), GS_L("par"));
-	std::string initDir = Platform::FixSlashes(GetCurrentProjectPath(true) + "effects\\");
+	std::string initDir = GetCurrentProjectPath(true) + "effects/";
+	Platform::FixSlashes(initDir);
 	return SaveForm(filter, initDir.c_str(), oFilePathName, oFileName);
 }
