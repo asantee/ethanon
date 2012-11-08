@@ -27,6 +27,8 @@
 		7421F406164C12C100C55BAE /* EditorBase.macosx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F405164C12C100C55BAE /* EditorBase.macosx.cpp */; };
 		7421F409164C13A500C55BAE /* EntityEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F407164C13A500C55BAE /* EntityEditor.cpp */; };
 		7421F40C164C141D00C55BAE /* ParticleScale.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F40A164C141D00C55BAE /* ParticleScale.cpp */; };
+		7421F412164C168F00C55BAE /* ParticleFXEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F410164C168F00C55BAE /* ParticleFXEditor.cpp */; };
+		7421F416164C180100C55BAE /* ProjectManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F414164C180100C55BAE /* ProjectManager.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -126,6 +128,11 @@
 		7421F408164C13A500C55BAE /* EntityEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EntityEditor.h; path = ../../../../src/editor/EntityEditor.h; sourceTree = "<group>"; };
 		7421F40A164C141D00C55BAE /* ParticleScale.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ParticleScale.cpp; path = ../../../../src/editor/ParticleScale.cpp; sourceTree = "<group>"; };
 		7421F40B164C141D00C55BAE /* ParticleScale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParticleScale.h; path = ../../../../src/editor/ParticleScale.h; sourceTree = "<group>"; };
+		7421F40E164C167700C55BAE /* IEditorPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IEditorPlugin.h; path = ../../../../src/editor/IEditorPlugin.h; sourceTree = "<group>"; };
+		7421F410164C168F00C55BAE /* ParticleFXEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ParticleFXEditor.cpp; path = ../../../../src/editor/ParticleFXEditor.cpp; sourceTree = "<group>"; };
+		7421F411164C168F00C55BAE /* ParticleFXEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParticleFXEditor.h; path = ../../../../src/editor/ParticleFXEditor.h; sourceTree = "<group>"; };
+		7421F414164C180100C55BAE /* ProjectManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ProjectManager.cpp; path = ../../../../src/editor/ProjectManager.cpp; sourceTree = "<group>"; };
+		7421F415164C180100C55BAE /* ProjectManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProjectManager.h; path = ../../../../src/editor/ProjectManager.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +196,7 @@
 			isa = PBXGroup;
 			children = (
 				7421F3FF164BFD5400C55BAE /* main.temp.cpp */,
+				7421F413164C17EF00C55BAE /* Project */,
 				7421F3EF164BF25C00C55BAE /* Entity */,
 				7421F3EE164BF25A00C55BAE /* Scene */,
 				7421F3ED164BF25800C55BAE /* ParticleFX */,
@@ -239,6 +247,7 @@
 		7421F3EC164BF25300C55BAE /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				7421F40E164C167700C55BAE /* IEditorPlugin.h */,
 				7421F405164C12C100C55BAE /* EditorBase.macosx.cpp */,
 				7421F3F8164BF98B00C55BAE /* CustomDataEditor.cpp */,
 				7421F3F9164BF98B00C55BAE /* CustomDataEditor.h */,
@@ -255,6 +264,8 @@
 		7421F3ED164BF25800C55BAE /* ParticleFX */ = {
 			isa = PBXGroup;
 			children = (
+				7421F410164C168F00C55BAE /* ParticleFXEditor.cpp */,
+				7421F411164C168F00C55BAE /* ParticleFXEditor.h */,
 			);
 			name = ParticleFX;
 			sourceTree = "<group>";
@@ -275,6 +286,15 @@
 				7421F408164C13A500C55BAE /* EntityEditor.h */,
 			);
 			name = Entity;
+			sourceTree = "<group>";
+		};
+		7421F413164C17EF00C55BAE /* Project */ = {
+			isa = PBXGroup;
+			children = (
+				7421F414164C180100C55BAE /* ProjectManager.cpp */,
+				7421F415164C180100C55BAE /* ProjectManager.h */,
+			);
+			name = Project;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -392,6 +412,8 @@
 				7421F406164C12C100C55BAE /* EditorBase.macosx.cpp in Sources */,
 				7421F409164C13A500C55BAE /* EntityEditor.cpp in Sources */,
 				7421F40C164C141D00C55BAE /* ParticleScale.cpp in Sources */,
+				7421F412164C168F00C55BAE /* ParticleFXEditor.cpp in Sources */,
+				7421F416164C180100C55BAE /* ProjectManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
