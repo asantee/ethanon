@@ -421,7 +421,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../src/gs2d/vendors\"",
-					"\"$(SRCROOT)/../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gxkgpuwgwqxighfefncafkvqrxui/Build/Products/Debug\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "machine/machine-Prefix.pch";
@@ -429,6 +428,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 					MACOSX,
+					OPENGL,
 				);
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../src/gs2d/src\"",
@@ -453,11 +453,13 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../src/gs2d/vendors\"",
-					"\"$(SRCROOT)/../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gxkgpuwgwqxighfefncafkvqrxui/Build/Products/Debug\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "machine/machine-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = MACOSX;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					MACOSX,
+					OPENGL,
+				);
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../src/gs2d/src\"",
 					"\"$(SRCROOT)/../../../src/gs2d/vendors/SDL.framework/Headers\"",
