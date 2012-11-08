@@ -20,7 +20,7 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#ifdef MACOSX
+#if defined(MACOSX) || defined(LINUX)
  #define GS2D_USE_SDL
  #include <SDL/SDL.h>
 #endif
