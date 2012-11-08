@@ -29,8 +29,6 @@
 #define _S_NEW_PROJ GS_L("New project...")
 #define _S_LOAD_PROJ GS_L("Load project...")
 
-#include <direct.h>
-
 ProjectManager::ProjectManager(ETHResourceProviderPtr provider) :
 	EditorBase(provider)
 {
@@ -189,12 +187,14 @@ void ProjectManager::PrepareProjectDir()
 		{"particles/particle.png", true},
 		{"scenes/readme.txt", true},
 		{"soundfx/readme.txt", true},
-		{"app.enml", true},
-		{"machine.exe", true},
-		{"audiere.dll", true},
-		{"cg.dll", true},
-		{"cgD3D9.dll", true},
-		{"d3dx9_42.dll", true},
+		{"app.enml", false},
+		#if defined(WIN32) || defined(_WIN32) || defined(WINDOWS)
+		 {"machine.exe", true},
+		 {"audiere.dll", true},
+		 {"cg.dll", true},
+		 {"cgD3D9.dll", true},
+		 {"d3dx9_42.dll", true},
+		#endif
 		{utf8::Converter(_ETH_DEFAULT_MAIN_SCRIPT_FILE).str(), false},
 		{"eth_util.angelscript", false},
 		{"Collide.angelscript", true},
@@ -206,7 +206,7 @@ void ProjectManager::PrepareProjectDir()
 	for (unsigned int t=0; t<size; t++)
 	{
 		const std::string sNewFolder = sProjectPath + fileToCopy[t].file;
-		_mkdir(Platform::GetFileDirectory(utf8::c(sNewFolder).c_str()).c_str());
+		Platform::CreateDirectory(Platform::GetFileDirectory(utf8::c(sNewFolder).c_str()));
 		ETHGlobal::_MoveFile( utf8::c(programPath + fileToCopy[t].file).wstr(), utf8::c(sNewFolder).wstr(), fileToCopy[t].overwrite);
 	}
 }
