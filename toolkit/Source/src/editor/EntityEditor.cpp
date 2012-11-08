@@ -493,7 +493,6 @@ void EntityEditor::LoadEditor()
 
 	m_attachLight.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth*2, true, true, false);
 
-	Vector2 screenMid = video->GetScreenSizeF()/2.0f;
 	ResetEntityMenu();
 
 	// load editor plug-ins
@@ -671,7 +670,6 @@ void EntityEditor::DoMainMenu()
 	const std::string currentProjectPath = GetCurrentProjectPath(true);
 
 	VideoPtr video = m_provider->GetVideo();
-	Vector2 v2ScreenDim = video->GetScreenSizeF();
 
 	GSGUI_BUTTON file_r = PlaceFileMenu();
 
@@ -725,7 +723,6 @@ void EntityEditor::DoMainMenu()
 			ETHGlobal::CopyFileToProject(utf8::c(currentProjectPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetEntityDirectory(), m_provider->GetFileManager());
 			if (LoadSprite(file, path))
 			{
-				Vector2 screenMid = video->GetScreenSizeF() / 2.0f;
 				resourceManager->RemoveResource(m_pEditEntity->spriteFile);
 				m_renderEntity->SetSprite(m_pEditEntity->spriteFile);			
 			}
@@ -739,7 +736,6 @@ void EntityEditor::DoMainMenu()
 			ETHGlobal::CopyFileToProject(utf8::c(currentProjectPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetNormalMapDirectory(), m_provider->GetFileManager());
 			if (LoadNormal(file, path))
 			{
-				Vector2 screenMid = video->GetScreenSizeF() / 2.0f;
 				resourceManager->RemoveResource(m_pEditEntity->normalFile);
 				m_renderEntity->SetNormal(m_pEditEntity->normalFile);			
 			}
@@ -753,7 +749,6 @@ void EntityEditor::DoMainMenu()
 			ETHGlobal::CopyFileToProject(utf8::c(currentProjectPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetEntityDirectory(), m_provider->GetFileManager());
 			if (LoadHalo(file, path))
 			{
-				Vector2 screenMid = video->GetScreenSizeF() / 2.0f;
 				resourceManager->RemoveResource(m_pEditEntity->light->haloBitmap);
 				m_renderEntity->SetHalo(m_pEditEntity->light->haloBitmap);
 			}
@@ -767,7 +762,6 @@ void EntityEditor::DoMainMenu()
 			ETHGlobal::CopyFileToProject(utf8::c(currentProjectPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetEntityDirectory(), m_provider->GetFileManager());
 			if (LoadGloss(file, path))
 			{
-				Vector2 screenMid = video->GetScreenSizeF() / 2.0f;
 				resourceManager->RemoveResource(m_pEditEntity->glossFile);
 				m_renderEntity->SetGloss(m_pEditEntity->glossFile);
 			}
@@ -781,7 +775,6 @@ void EntityEditor::DoMainMenu()
 		{
 			if (LoadParticle(0, file, path))
 			{
-				Vector2 screenMid = video->GetScreenSizeF()/2.0f;
 				m_renderEntity->LoadParticleSystem();
 				ResetParticleMenu();
 			}
@@ -794,7 +787,6 @@ void EntityEditor::DoMainMenu()
 		{
 			if (LoadParticle(1, file, path))
 			{
-				Vector2 screenMid = video->GetScreenSizeF()/2.0f;
 				m_renderEntity->LoadParticleSystem();
 				ResetParticleMenu();
 			}
@@ -969,9 +961,7 @@ std::string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 
 		m_pEditEntity->spriteCut.x = Max(1, (int)m_spriteCut[0].PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth));	y+=m_menuSize;
 		m_pEditEntity->spriteCut.y = Max(1, (int)m_spriteCut[1].PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth));//	y+=m_menuSize;
-		//m_pEditEntity->startFrame = static_cast<int>(m_startFrame.PlaceInput(Vector2(0.0f, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth));
-		const int lastFrame = m_pEditEntity->GetNumFrames() - 1;
-		//m_pEditEntity->startFrame = Min(lastFrame, Max(0, m_pEditEntity->startFrame));
+
 		if (m_pEditEntity->spriteCut.x > 1 || m_pEditEntity->spriteCut.y > 1)
 		{
 			if (m_playStopButton.GetCurrentButton()->fileName == GS_L("stop.png"))
@@ -989,13 +979,11 @@ std::string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 			else
 			{
 				m_renderEntity->SetFrame(0);
-				// m_renderEntity->SetFrame(m_pEditEntity->startFrame);
 			}
 		}
 		else
 		{
 			m_renderEntity->SetFrame(0);
-			//m_renderEntity->SetFrame(m_pEditEntity->startFrame);
 			m_playStopButton.SetButton(GS_L("play.png"));
 			m_animationTimer.Reset();
 		}
