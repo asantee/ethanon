@@ -27,6 +27,8 @@
 
 #ifdef GS2D_STR_TYPE_WCHAR
  #include <xstring>
+#else
+ #include <string>
 #endif
 
 namespace utf8 {
@@ -37,20 +39,25 @@ public:
 
 	Converter(const char* szData);
 	Converter(const std::string& sData);
-	Converter(const gs2d::str_type::char_t* wcsData);
-	Converter(const gs2d::str_type::string& wsData);
 	const char* c_str() const;
 	const gs2d::str_type::char_t* wc_str() const;
 	const std::string& str() const;
 	const gs2d::str_type::string& wstr() const;
 	std::string::size_type length() const;
 
+	#ifdef GS2D_STR_TYPE_WCHAR
+	 Converter(const gs2d::str_type::char_t* wcsData);
+	 Converter(const gs2d::str_type::string& wsData);
+	#endif
+
 private:
 	void SetData(const char* szData);
-	void SetWideData(const gs2d::str_type::char_t* wcsData);
-
 	std::string ansidata;
-	gs2d::str_type::string widedata;
+	
+	#ifdef GS2D_STR_TYPE_WCHAR
+	 void SetWideData(const gs2d::str_type::char_t* wcsData);
+	 gs2d::str_type::string widedata;
+	#endif
 };
 
 typedef Converter c;
