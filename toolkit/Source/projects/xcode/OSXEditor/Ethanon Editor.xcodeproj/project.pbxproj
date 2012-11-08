@@ -22,7 +22,6 @@
 		7421F3F7164BF4BE00C55BAE /* EditorBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F3F5164BF4BE00C55BAE /* EditorBase.cpp */; };
 		7421F3FA164BF98C00C55BAE /* CustomDataEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F3F8164BF98B00C55BAE /* CustomDataEditor.cpp */; };
 		7421F3FE164BFC5500C55BAE /* UTF8Converter.dummy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F3FC164BFC5500C55BAE /* UTF8Converter.dummy.cpp */; };
-		7421F401164BFD5400C55BAE /* main.temp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F3FF164BFD5400C55BAE /* main.temp.cpp */; };
 		7421F404164C096900C55BAE /* ikpMP3.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F403164C096900C55BAE /* ikpMP3.dylib */; };
 		7421F406164C12C100C55BAE /* EditorBase.macosx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F405164C12C100C55BAE /* EditorBase.macosx.cpp */; };
 		7421F409164C13A500C55BAE /* EntityEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F407164C13A500C55BAE /* EntityEditor.cpp */; };
@@ -30,6 +29,7 @@
 		7421F412164C168F00C55BAE /* ParticleFXEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F410164C168F00C55BAE /* ParticleFXEditor.cpp */; };
 		7421F416164C180100C55BAE /* ProjectManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F414164C180100C55BAE /* ProjectManager.cpp */; };
 		7421F419164C297800C55BAE /* SceneEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F417164C297800C55BAE /* SceneEditor.cpp */; };
+		7421F41D164C31AE00C55BAE /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F41C164C31AD00C55BAE /* main.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -122,7 +122,6 @@
 		7421F3F9164BF98B00C55BAE /* CustomDataEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomDataEditor.h; path = ../../../../src/editor/CustomDataEditor.h; sourceTree = "<group>"; };
 		7421F3FC164BFC5500C55BAE /* UTF8Converter.dummy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UTF8Converter.dummy.cpp; path = ../../../../src/gs2d/src/Unicode/UTF8Converter.dummy.cpp; sourceTree = "<group>"; };
 		7421F3FD164BFC5500C55BAE /* UTF8Converter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UTF8Converter.h; path = ../../../../src/gs2d/src/Unicode/UTF8Converter.h; sourceTree = "<group>"; };
-		7421F3FF164BFD5400C55BAE /* main.temp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.temp.cpp; sourceTree = "<group>"; };
 		7421F403164C096900C55BAE /* ikpMP3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = ikpMP3.dylib; path = "../../../src/gs2d/vendors/irrKlang/bin/macosx-gcc/ikpMP3.dylib"; sourceTree = "<group>"; };
 		7421F405164C12C100C55BAE /* EditorBase.macosx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EditorBase.macosx.cpp; path = ../../../../src/editor/EditorBase.macosx.cpp; sourceTree = "<group>"; };
 		7421F407164C13A500C55BAE /* EntityEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EntityEditor.cpp; path = ../../../../src/editor/EntityEditor.cpp; sourceTree = "<group>"; };
@@ -136,6 +135,7 @@
 		7421F415164C180100C55BAE /* ProjectManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProjectManager.h; path = ../../../../src/editor/ProjectManager.h; sourceTree = "<group>"; };
 		7421F417164C297800C55BAE /* SceneEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SceneEditor.cpp; path = ../../../../src/editor/SceneEditor.cpp; sourceTree = "<group>"; };
 		7421F418164C297800C55BAE /* SceneEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SceneEditor.h; path = ../../../../src/editor/SceneEditor.h; sourceTree = "<group>"; };
+		7421F41C164C31AD00C55BAE /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../../../src/editor/main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,7 +198,7 @@
 		7421F38D164BED3200C55BAE /* Ethanon Editor */ = {
 			isa = PBXGroup;
 			children = (
-				7421F3FF164BFD5400C55BAE /* main.temp.cpp */,
+				7421F41C164C31AD00C55BAE /* main.cpp */,
 				7421F413164C17EF00C55BAE /* Project */,
 				7421F3EF164BF25C00C55BAE /* Entity */,
 				7421F3EE164BF25A00C55BAE /* Scene */,
@@ -413,13 +413,13 @@
 				7421F3F7164BF4BE00C55BAE /* EditorBase.cpp in Sources */,
 				7421F3FA164BF98C00C55BAE /* CustomDataEditor.cpp in Sources */,
 				7421F3FE164BFC5500C55BAE /* UTF8Converter.dummy.cpp in Sources */,
-				7421F401164BFD5400C55BAE /* main.temp.cpp in Sources */,
 				7421F406164C12C100C55BAE /* EditorBase.macosx.cpp in Sources */,
 				7421F409164C13A500C55BAE /* EntityEditor.cpp in Sources */,
 				7421F40C164C141D00C55BAE /* ParticleScale.cpp in Sources */,
 				7421F412164C168F00C55BAE /* ParticleFXEditor.cpp in Sources */,
 				7421F416164C180100C55BAE /* ProjectManager.cpp in Sources */,
 				7421F419164C297800C55BAE /* SceneEditor.cpp in Sources */,
+				7421F41D164C31AE00C55BAE /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

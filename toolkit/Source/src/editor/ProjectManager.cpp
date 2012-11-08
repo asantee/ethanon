@@ -188,7 +188,7 @@ void ProjectManager::PrepareProjectDir()
 		{"scenes/readme.txt", true},
 		{"soundfx/readme.txt", true},
 		{"app.enml", false},
-		#if defined(WIN32) || defined(_WIN32) || defined(WINDOWS)
+		#if defined(WIN32) || defined(_WIN32) || defined(WINDOWS) || defined(__WIN32__)
 		 {"machine.exe", true},
 		 {"audiere.dll", true},
 		 {"cg.dll", true},

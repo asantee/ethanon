@@ -25,28 +25,30 @@
 #include "SceneEditor.h"
 #include "ParticleFXEditor.h"
 #include <Platform/Platform.h>
-#include <Platform/windows/WindowsFileIOHub.h>
-#include <unicode/utf8converter.h>
+#include <Platform/FileIOHub.h>
+#include <unicode/UTF8Converter.h>
 #include <Platform/StdFileManager.h>
 #include "../engine/Platform/ETHAppEnmlFile.h"
 #include "../engine/Resource/ETHDirectories.h"
 
+#if defined(MACOSX) || defined(LINUX)
+ #define GS2D_USE_SDL
+ #include <SDL/SDL.h>
+#endif
+
 #ifndef _DEBUG
-#ifdef __WIN32__
-#include <windows.h>
-#endif
+ #ifdef __WIN32__
+  #include <windows.h>
+  #define _CRTDBG_MAP_ALLOC
+  #include <stdlib.h>
+  #include <crtdbg.h>
+ #endif
 #endif
 
 #ifdef _DEBUG
-#define _SYNC_MODE false
+ #define _SYNC_MODE false
 #else
-#define _SYNC_MODE true
-#endif
-
-#ifdef _DEBUG
-#define _CRTDBG_MAP_ALLOC
-#include <stdlib.h>
-#include <crtdbg.h>
+ #define _SYNC_MODE true
 #endif
 
 enum EDITOR
@@ -58,12 +60,12 @@ enum EDITOR
 	EEND,
 };
 
-static const str_type::char_t *g_wcsEditors[] = 
+static const str_type::char_t *g_editors[] =
 {
-	L"Project manager",
-	L"Entity editor",
-	L"Scene editor",
-	L"ParticleFX editor"
+	GS_L("Project manager"),
+	GS_L("Entity editor"),
+	GS_L("Scene editor"),
+	GS_L("ParticleFX editor")
 };
 
 struct ETH_STARTUP_RESOURCES_ENML_FILE
@@ -83,12 +85,7 @@ struct ETH_STARTUP_RESOURCES_ENML_FILE
 		}
 		else
 		{
-#		ifdef GS2D_STR_TYPE_WCHAR
-			std::wcerr
-#		else
-			std::cerr
-#		endif
-				<< file.GetErrorString() << std::endl;
+			GS2D_CERR << file.GetErrorString() << std::endl;
 		}
 	}
 	str_type::string emtprojFilename;
@@ -121,16 +118,16 @@ bool DoNextAppButton(int nextApp, SpritePtr pSprite, VideoPtr video, InputPtr in
 		switch (nextApp)
 		{
 		case SCENE:
-			pEditor->ShadowPrint(v2TextPos, L"Go to Scene Editor", L"Verdana14_shadow.fnt", gs2d::constant::WHITE);
+			pEditor->ShadowPrint(v2TextPos, GS_L("Go to Scene Editor"), GS_L("Verdana14_shadow.fnt"), gs2d::constant::WHITE);
 			break;
 		case ENTITY:
-			pEditor->ShadowPrint(v2TextPos, L"Go to Entity Editor", L"Verdana14_shadow.fnt", gs2d::constant::WHITE);
+			pEditor->ShadowPrint(v2TextPos, GS_L("Go to Entity Editor"), GS_L("Verdana14_shadow.fnt"), gs2d::constant::WHITE);
 			break;
 		case PARTICLE:
-			pEditor->ShadowPrint(v2TextPos, L"Go to ParticleFX Editor", L"Verdana14_shadow.fnt", gs2d::constant::WHITE);
+			pEditor->ShadowPrint(v2TextPos, GS_L("Go to ParticleFX Editor"), GS_L("Verdana14_shadow.fnt"), gs2d::constant::WHITE);
 			break;
 		case PROJECT:
-			pEditor->ShadowPrint(v2TextPos, _S_GOTO_PROJ, L"Verdana14_shadow.fnt", gs2d::constant::WHITE);
+			pEditor->ShadowPrint(v2TextPos, _S_GOTO_PROJ, GS_L("Verdana14_shadow.fnt"), gs2d::constant::WHITE);
 			break;
 		};
 		if (input->GetLeftClickState() == GSKS_HIT || input->GetRightClickState() == GSKS_HIT)
@@ -143,17 +140,22 @@ bool DoNextAppButton(int nextApp, SpritePtr pSprite, VideoPtr video, InputPtr in
 	return false;
 }
 
-int main(const int argc, const char* argv[])
+#ifdef GS2D_USE_SDL
+ int SDL_main(int argc, char **argv)
+#else
+ int main(const int argc, const char* argv[])
+#endif
 {
 	VideoPtr video;
 	InputPtr input;
 	AudioPtr audio;
 
 	Platform::FileManagerPtr fileManager = Platform::FileManagerPtr(new Platform::StdFileManager);
-	Platform::FileIOHubPtr fileIOHub(new Platform::WindowsFileIOHub(fileManager, ETHDirectories::GetBitmapFontDirectory(), L""));
+	Platform::FileIOHubPtr fileIOHub = Platform::CreateFileIOHub(fileManager, ETHDirectories::GetBitmapFontDirectory(), GS_L(""));
+
 	fileIOHub->SeekFontFromProgramPath(true);
 
-	const ETHAppEnmlFile app(fileIOHub->GetProgramDirectory() + L"editor.enml", fileManager, GS_L("windows"));
+	const ETHAppEnmlFile app(fileIOHub->GetProgramDirectory() + GS_L("editor.enml"), fileManager, gs2d::Application::GetPlatformName());
 	Vector2i v2Backbuffer(app.GetWidth(), app.GetHeight());
 
 	if ((video = CreateVideo(v2Backbuffer.x, v2Backbuffer.y, app.GetTitle(), app.IsWindowed(), app.IsVsyncEnabled(),
@@ -309,7 +311,7 @@ int main(const int argc, const char* argv[])
 					Color dwColor = editor[PROJECT]->GetBGColor();
 					if (t != current)
 						dwColor = Color(127, dwColor.r, dwColor.g, dwColor.b);
-					if (editor[PROJECT]->DrawTab(video, input, Vector2(v2ScreenF.x-tabWidth*static_cast<float>(t+1)-32.0f,0), tabWidth, g_wcsEditors[t], dwColor))
+					if (editor[PROJECT]->DrawTab(video, input, Vector2(v2ScreenF.x-tabWidth*static_cast<float>(t+1)-32.0f,0), tabWidth, g_editors[t], dwColor))
 					{
 						if (current != t)
 						{
@@ -345,7 +347,7 @@ int main(const int argc, const char* argv[])
 			v2FPSPos.y = video->GetScreenSizeF().y-24.0f-32.0f;
 			str_type::stringstream ss;
 			ss << video->GetFPSRate();
-			editor[0]->ShadowPrint(v2FPSPos, ss.str().c_str(), L"Verdana24_shadow.fnt", gs2d::constant::WHITE);
+			editor[0]->ShadowPrint(v2FPSPos, ss.str().c_str(), GS_L("Verdana24_shadow.fnt"), gs2d::constant::WHITE);
 
 			video->EndSpriteScene();
 
