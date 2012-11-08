@@ -761,6 +761,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					MACOSX,
 					"$(inherited)",
+					OPENGL,
 				);
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../vendors/BoostSDK\"",
@@ -795,7 +796,10 @@
 				FRAMEWORK_VERSION = A;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "gs2d/gs2d-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = MACOSX;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					MACOSX,
+					OPENGL,
+				);
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../vendors/BoostSDK\"",
 					"\"$(SRCROOT)/../../../vendors/soil\"",
