@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:OSXEditor/Ethanon Editor.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:OSXMachine/machine.xcodeproj">
    </FileRef>
    <FileRef

@@ -1,0 +1,546 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7421F388164BED3200C55BAE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F387164BED3200C55BAE /* Cocoa.framework */; };
+		7421F392164BED3200C55BAE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7421F390164BED3200C55BAE /* InfoPlist.strings */; };
+		7421F3AA164BEEF300C55BAE /* engine.xcodeproj in Resources */ = {isa = PBXBuildFile; fileRef = 7421F3A9164BEEF300C55BAE /* engine.xcodeproj */; };
+		7421F3DD164BEF7300C55BAE /* gs2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F3B0164BEEFF00C55BAE /* gs2d.framework */; };
+		7421F3DF164BEF9900C55BAE /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F3DE164BEF9900C55BAE /* SDL.framework */; };
+		7421F3E0164BEFA300C55BAE /* engine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F3DA164BEF4E00C55BAE /* engine.framework */; };
+		7421F3E2164BF0E500C55BAE /* box2d.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F3B6164BEF0D00C55BAE /* box2d.framework */; };
+		7421F3E3164BF0EC00C55BAE /* gs2d.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F3B0164BEEFF00C55BAE /* gs2d.framework */; };
+		7421F3E5164BF10C00C55BAE /* SDL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F3E4164BF10C00C55BAE /* SDL.framework */; };
+		7421F3E6164BF11A00C55BAE /* engine.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F3DA164BEF4E00C55BAE /* engine.framework */; };
+		7421F3EB164BF24C00C55BAE /* SDLMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 7421F3EA164BF24C00C55BAE /* SDLMain.m */; };
+		7421F3F2164BF40B00C55BAE /* gsgui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F3F0164BF40B00C55BAE /* gsgui.cpp */; };
+		7421F3F7164BF4BE00C55BAE /* EditorBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F3F5164BF4BE00C55BAE /* EditorBase.cpp */; };
+		7421F3FA164BF98C00C55BAE /* CustomDataEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F3F8164BF98B00C55BAE /* CustomDataEditor.cpp */; };
+		7421F3FE164BFC5500C55BAE /* UTF8Converter.dummy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F3FC164BFC5500C55BAE /* UTF8Converter.dummy.cpp */; };
+		7421F401164BFD5400C55BAE /* main.temp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F3FF164BFD5400C55BAE /* main.temp.cpp */; };
+		7421F404164C096900C55BAE /* ikpMP3.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F403164C096900C55BAE /* ikpMP3.dylib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		7421F3AF164BEEFF00C55BAE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7421F3AB164BEEFF00C55BAE /* gs2d.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 74F3A4F61632E3870064C9A5;
+			remoteInfo = gs2d;
+		};
+		7421F3B5164BEF0D00C55BAE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7421F3B1164BEF0D00C55BAE /* box2d.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7421F162164734E900C55BAE;
+			remoteInfo = box2d;
+		};
+		7421F3B7164BEF3A00C55BAE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7421F3AB164BEEFF00C55BAE /* gs2d.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 74F3A4F51632E3870064C9A5;
+			remoteInfo = gs2d;
+		};
+		7421F3D9164BEF4E00C55BAE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7421F3A9164BEEF300C55BAE /* engine.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 74F00AD31646B9EB00B8B51B;
+			remoteInfo = engine;
+		};
+		7421F3DB164BEF5700C55BAE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7421F3A9164BEEF300C55BAE /* engine.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 74F00AD21646B9EB00B8B51B;
+			remoteInfo = engine;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		7421F3E1164BF03A00C55BAE /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				7421F3E6164BF11A00C55BAE /* engine.framework in CopyFiles */,
+				7421F3E5164BF10C00C55BAE /* SDL.framework in CopyFiles */,
+				7421F3E3164BF0EC00C55BAE /* gs2d.framework in CopyFiles */,
+				7421F3E2164BF0E500C55BAE /* box2d.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7421F402164C094700C55BAE /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = assets;
+			dstSubfolderSpec = 7;
+			files = (
+				7421F404164C096900C55BAE /* ikpMP3.dylib in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		7421F383164BED3200C55BAE /* Ethanon Editor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ethanon Editor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7421F387164BED3200C55BAE /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		7421F38A164BED3200C55BAE /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		7421F38B164BED3200C55BAE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		7421F38C164BED3200C55BAE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		7421F38F164BED3200C55BAE /* Ethanon Editor-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Ethanon Editor-Info.plist"; sourceTree = "<group>"; };
+		7421F391164BED3200C55BAE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7421F395164BED3200C55BAE /* Ethanon Editor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ethanon Editor-Prefix.pch"; sourceTree = "<group>"; };
+		7421F3A9164BEEF300C55BAE /* engine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = engine.xcodeproj; path = ../OSXEngine/engine.xcodeproj; sourceTree = "<group>"; };
+		7421F3AB164BEEFF00C55BAE /* gs2d.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = gs2d.xcodeproj; path = /Users/blackdog/Documents/workspace/ethanon/toolkit/Source/projects/xcode/../../src/gs2d/projects/xcode/gs2d/gs2d.xcodeproj; sourceTree = "<absolute>"; };
+		7421F3B1164BEF0D00C55BAE /* box2d.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = box2d.xcodeproj; path = /Users/blackdog/Documents/workspace/ethanon/toolkit/Source/projects/xcode/../../src/box2d/Build/xcode/box2d.xcodeproj; sourceTree = "<absolute>"; };
+		7421F3DE164BEF9900C55BAE /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = ../../../src/gs2d/vendors/SDL.framework; sourceTree = "<group>"; };
+		7421F3E4164BF10C00C55BAE /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = ../../../src/gs2d/vendors/SDL.framework; sourceTree = "<group>"; };
+		7421F3E9164BF24C00C55BAE /* SDLMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLMain.h; path = ../../../../src/gs2d/src/Platform/macosx/SDLMain.h; sourceTree = "<group>"; };
+		7421F3EA164BF24C00C55BAE /* SDLMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLMain.m; path = ../../../../src/gs2d/src/Platform/macosx/SDLMain.m; sourceTree = "<group>"; };
+		7421F3F0164BF40B00C55BAE /* gsgui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gsgui.cpp; path = ../../../../src/editor/gsgui.cpp; sourceTree = "<group>"; };
+		7421F3F1164BF40B00C55BAE /* gsgui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gsgui.h; path = ../../../../src/editor/gsgui.h; sourceTree = "<group>"; };
+		7421F3F3164BF45A00C55BAE /* EditorCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EditorCommon.h; path = ../../../../src/editor/EditorCommon.h; sourceTree = "<group>"; };
+		7421F3F4164BF45A00C55BAE /* IEditorPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IEditorPlugin.h; path = ../../../../src/editor/IEditorPlugin.h; sourceTree = "<group>"; };
+		7421F3F5164BF4BE00C55BAE /* EditorBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EditorBase.cpp; path = ../../../../src/editor/EditorBase.cpp; sourceTree = "<group>"; };
+		7421F3F6164BF4BE00C55BAE /* EditorBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EditorBase.h; path = ../../../../src/editor/EditorBase.h; sourceTree = "<group>"; };
+		7421F3F8164BF98B00C55BAE /* CustomDataEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CustomDataEditor.cpp; path = ../../../../src/editor/CustomDataEditor.cpp; sourceTree = "<group>"; };
+		7421F3F9164BF98B00C55BAE /* CustomDataEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomDataEditor.h; path = ../../../../src/editor/CustomDataEditor.h; sourceTree = "<group>"; };
+		7421F3FC164BFC5500C55BAE /* UTF8Converter.dummy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UTF8Converter.dummy.cpp; path = ../../../../src/gs2d/src/Unicode/UTF8Converter.dummy.cpp; sourceTree = "<group>"; };
+		7421F3FD164BFC5500C55BAE /* UTF8Converter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UTF8Converter.h; path = ../../../../src/gs2d/src/Unicode/UTF8Converter.h; sourceTree = "<group>"; };
+		7421F3FF164BFD5400C55BAE /* main.temp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.temp.cpp; sourceTree = "<group>"; };
+		7421F403164C096900C55BAE /* ikpMP3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = ikpMP3.dylib; path = "../../../src/gs2d/vendors/irrKlang/bin/macosx-gcc/ikpMP3.dylib"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7421F380164BED3200C55BAE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7421F3E0164BEFA300C55BAE /* engine.framework in Frameworks */,
+				7421F3DF164BEF9900C55BAE /* SDL.framework in Frameworks */,
+				7421F3DD164BEF7300C55BAE /* gs2d.framework in Frameworks */,
+				7421F388164BED3200C55BAE /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7421F378164BED3200C55BAE = {
+			isa = PBXGroup;
+			children = (
+				7421F403164C096900C55BAE /* ikpMP3.dylib */,
+				7421F3E4164BF10C00C55BAE /* SDL.framework */,
+				7421F3DE164BEF9900C55BAE /* SDL.framework */,
+				7421F38D164BED3200C55BAE /* Ethanon Editor */,
+				7421F386164BED3200C55BAE /* Frameworks */,
+				7421F384164BED3200C55BAE /* Products */,
+				7421F3B1164BEF0D00C55BAE /* box2d.xcodeproj */,
+				7421F3AB164BEEFF00C55BAE /* gs2d.xcodeproj */,
+				7421F3A9164BEEF300C55BAE /* engine.xcodeproj */,
+			);
+			sourceTree = "<group>";
+		};
+		7421F384164BED3200C55BAE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7421F383164BED3200C55BAE /* Ethanon Editor.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7421F386164BED3200C55BAE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7421F387164BED3200C55BAE /* Cocoa.framework */,
+				7421F389164BED3200C55BAE /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7421F389164BED3200C55BAE /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7421F38A164BED3200C55BAE /* AppKit.framework */,
+				7421F38B164BED3200C55BAE /* CoreData.framework */,
+				7421F38C164BED3200C55BAE /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		7421F38D164BED3200C55BAE /* Ethanon Editor */ = {
+			isa = PBXGroup;
+			children = (
+				7421F3FF164BFD5400C55BAE /* main.temp.cpp */,
+				7421F3EF164BF25C00C55BAE /* Entity */,
+				7421F3EE164BF25A00C55BAE /* Scene */,
+				7421F3ED164BF25800C55BAE /* ParticleFX */,
+				7421F3EC164BF25300C55BAE /* Common */,
+				7421F38E164BED3200C55BAE /* Supporting Files */,
+			);
+			path = "Ethanon Editor";
+			sourceTree = "<group>";
+		};
+		7421F38E164BED3200C55BAE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7421F3FC164BFC5500C55BAE /* UTF8Converter.dummy.cpp */,
+				7421F3FD164BFC5500C55BAE /* UTF8Converter.h */,
+				7421F3E9164BF24C00C55BAE /* SDLMain.h */,
+				7421F3EA164BF24C00C55BAE /* SDLMain.m */,
+				7421F38F164BED3200C55BAE /* Ethanon Editor-Info.plist */,
+				7421F390164BED3200C55BAE /* InfoPlist.strings */,
+				7421F395164BED3200C55BAE /* Ethanon Editor-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		7421F3AC164BEEFF00C55BAE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7421F3B0164BEEFF00C55BAE /* gs2d.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7421F3B2164BEF0D00C55BAE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7421F3B6164BEF0D00C55BAE /* box2d.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7421F3D6164BEF4E00C55BAE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7421F3DA164BEF4E00C55BAE /* engine.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7421F3EC164BF25300C55BAE /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				7421F3F8164BF98B00C55BAE /* CustomDataEditor.cpp */,
+				7421F3F9164BF98B00C55BAE /* CustomDataEditor.h */,
+				7421F3F5164BF4BE00C55BAE /* EditorBase.cpp */,
+				7421F3F6164BF4BE00C55BAE /* EditorBase.h */,
+				7421F3F3164BF45A00C55BAE /* EditorCommon.h */,
+				7421F3F4164BF45A00C55BAE /* IEditorPlugin.h */,
+				7421F3F0164BF40B00C55BAE /* gsgui.cpp */,
+				7421F3F1164BF40B00C55BAE /* gsgui.h */,
+			);
+			name = Common;
+			sourceTree = "<group>";
+		};
+		7421F3ED164BF25800C55BAE /* ParticleFX */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = ParticleFX;
+			sourceTree = "<group>";
+		};
+		7421F3EE164BF25A00C55BAE /* Scene */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Scene;
+			sourceTree = "<group>";
+		};
+		7421F3EF164BF25C00C55BAE /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Entity;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7421F382164BED3200C55BAE /* Ethanon Editor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7421F3A1164BED3300C55BAE /* Build configuration list for PBXNativeTarget "Ethanon Editor" */;
+			buildPhases = (
+				7421F37F164BED3200C55BAE /* Sources */,
+				7421F380164BED3200C55BAE /* Frameworks */,
+				7421F381164BED3200C55BAE /* Resources */,
+				7421F3E1164BF03A00C55BAE /* CopyFiles */,
+				7421F402164C094700C55BAE /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7421F3DC164BEF5700C55BAE /* PBXTargetDependency */,
+				7421F3B8164BEF3A00C55BAE /* PBXTargetDependency */,
+			);
+			name = "Ethanon Editor";
+			productName = "Ethanon Editor";
+			productReference = 7421F383164BED3200C55BAE /* Ethanon Editor.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7421F37A164BED3200C55BAE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = ETH;
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = "Asantee Games";
+			};
+			buildConfigurationList = 7421F37D164BED3200C55BAE /* Build configuration list for PBXProject "Ethanon Editor" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7421F378164BED3200C55BAE;
+			productRefGroup = 7421F384164BED3200C55BAE /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 7421F3B2164BEF0D00C55BAE /* Products */;
+					ProjectRef = 7421F3B1164BEF0D00C55BAE /* box2d.xcodeproj */;
+				},
+				{
+					ProductGroup = 7421F3D6164BEF4E00C55BAE /* Products */;
+					ProjectRef = 7421F3A9164BEEF300C55BAE /* engine.xcodeproj */;
+				},
+				{
+					ProductGroup = 7421F3AC164BEEFF00C55BAE /* Products */;
+					ProjectRef = 7421F3AB164BEEFF00C55BAE /* gs2d.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				7421F382164BED3200C55BAE /* Ethanon Editor */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		7421F3B0164BEEFF00C55BAE /* gs2d.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = gs2d.framework;
+			remoteRef = 7421F3AF164BEEFF00C55BAE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7421F3B6164BEF0D00C55BAE /* box2d.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = box2d.framework;
+			remoteRef = 7421F3B5164BEF0D00C55BAE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7421F3DA164BEF4E00C55BAE /* engine.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = engine.framework;
+			remoteRef = 7421F3D9164BEF4E00C55BAE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7421F381164BED3200C55BAE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7421F392164BED3200C55BAE /* InfoPlist.strings in Resources */,
+				7421F3AA164BEEF300C55BAE /* engine.xcodeproj in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7421F37F164BED3200C55BAE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7421F3EB164BF24C00C55BAE /* SDLMain.m in Sources */,
+				7421F3F2164BF40B00C55BAE /* gsgui.cpp in Sources */,
+				7421F3F7164BF4BE00C55BAE /* EditorBase.cpp in Sources */,
+				7421F3FA164BF98C00C55BAE /* CustomDataEditor.cpp in Sources */,
+				7421F3FE164BFC5500C55BAE /* UTF8Converter.dummy.cpp in Sources */,
+				7421F401164BFD5400C55BAE /* main.temp.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		7421F3B8164BEF3A00C55BAE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = gs2d;
+			targetProxy = 7421F3B7164BEF3A00C55BAE /* PBXContainerItemProxy */;
+		};
+		7421F3DC164BEF5700C55BAE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = engine;
+			targetProxy = 7421F3DB164BEF5700C55BAE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		7421F390164BED3200C55BAE /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7421F391164BED3200C55BAE /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		7421F39F164BED3300C55BAE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		7421F3A0164BED3300C55BAE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		7421F3A2164BED3300C55BAE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LIBRARY = "libstdc++";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../src/gs2d/vendors\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Ethanon Editor/Ethanon Editor-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					MACOSX,
+					OPENGL,
+				);
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../../../src/gs2d/src\"",
+					"\"$(SRCROOT)/../../../src/gs2d/vendors/SDL.framework/Headers\"",
+					"\"$(SRCROOT)/../../../src/gs2d/vendors/BoostSDK\"",
+					"\"$(SRCROOT)/../../../src/box2d\"",
+				);
+				INFOPLIST_FILE = "Ethanon Editor/Ethanon Editor-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.7;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		7421F3A3164BED3300C55BAE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LIBRARY = "libstdc++";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../src/gs2d/vendors\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Ethanon Editor/Ethanon Editor-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					MACOSX,
+					OPENGL,
+				);
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../../../src/gs2d/src\"",
+					"\"$(SRCROOT)/../../../src/gs2d/vendors/SDL.framework/Headers\"",
+					"\"$(SRCROOT)/../../../src/gs2d/vendors/BoostSDK\"",
+					"\"$(SRCROOT)/../../../src/box2d\"",
+				);
+				INFOPLIST_FILE = "Ethanon Editor/Ethanon Editor-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.7;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7421F37D164BED3200C55BAE /* Build configuration list for PBXProject "Ethanon Editor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7421F39F164BED3300C55BAE /* Debug */,
+				7421F3A0164BED3300C55BAE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7421F3A1164BED3300C55BAE /* Build configuration list for PBXNativeTarget "Ethanon Editor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7421F3A2164BED3300C55BAE /* Debug */,
+				7421F3A3164BED3300C55BAE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7421F37A164BED3200C55BAE /* Project object */;
+}
