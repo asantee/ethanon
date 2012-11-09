@@ -31,14 +31,53 @@ bool DirectoryExists(const std::string& dir)
 	return false;
 }
 
+static NSArray* GenerateFileTypesArray(const FILE_FORM_FILTER& filter)
+{
+	NSMutableArray* r = [NSMutableArray new];
+	for (std::size_t t = 0; t < filter.extensionsAllowed.size(); t++)
+	{
+		[r addObject:[NSString stringWithUTF8String:filter.extensionsAllowed[t].c_str()]];
+	}
+	return r;
+}
+
 bool EditorBase::OpenForm(
 	const FILE_FORM_FILTER& filter,
 	const char *directory,
 	char *szoFilePathName,
 	char *szoFileName)
 {
-	#warning todo
-	return false;
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+	NSArray* fileTypes = GenerateFileTypesArray(filter);
+
+	NSOpenPanel *panel;
+	panel = [NSOpenPanel openPanel];
+	[panel setFloatingPanel:YES];
+	[panel setCanChooseDirectories:NO];
+	[panel setCanChooseFiles:YES];
+	[panel setAllowsMultipleSelection:NO];
+	[panel setAllowedFileTypes:fileTypes];
+	[panel setMessage:[NSString stringWithUTF8String:filter.title.c_str()]];
+
+	std::string initDirectory = "file://localhost/";
+	initDirectory.append(directory);
+	NSURL* initPath = [NSURL URLWithString:[NSString stringWithUTF8String:initDirectory.c_str()]];
+	[panel setDirectoryURL:initPath];
+
+	const int i = [panel runModal];
+	const bool r = (i == NSFileHandlingPanelOKButton);
+
+	if (r)
+	{
+		NSURL* fileNameURL = [panel URL];
+		NSString* fileNameString = [fileNameURL path];
+		const std::string fileName = [fileNameString cStringUsingEncoding:1];
+		strcpy(szoFilePathName, fileName.c_str());
+		strcpy(szoFileName,     Platform::GetFileName(fileName).c_str());
+	}
+	[pool release];
+	return r;
 }
 
 bool EditorBase::SaveForm(
