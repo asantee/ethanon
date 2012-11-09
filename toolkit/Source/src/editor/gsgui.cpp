@@ -258,6 +258,8 @@ GSGUI_SWAPBUTTON::GSGUI_SWAPSPRITE_CONST_PTR GSGUI_SWAPBUTTON::GetCurrentButton(
 
 GSGUI_BUTTON GSGUI_SWAPBUTTON::PlaceMenu(Vector2 v2Pos)
 {
+	m_video->SetZBuffer(false);
+	m_video->SetZWrite(false);
 	const Vector2 size(m_current->sprite->GetBitmapSizeF());
 
 	GS_DWORD top, bottom;
@@ -396,6 +398,9 @@ GSGUI_BUTTON GSGUI_DROPDOWN::PlaceMenu(Vector2 v2Pos)
 
 	if (!m_video)
 		return r;
+
+	m_video->SetZBuffer(false);
+	m_video->SetZWrite(false);
 
 	Vector2 v2TextAdd(m_size/4.0f, 0.0f),
 			   v2ButtonSize = Vector2(m_width, m_size);
@@ -587,6 +592,9 @@ GSGUI_BUTTON GSGUI_BUTTONLIST::PlaceMenu(Vector2 v2Pos)
 
 	if (!m_video)
 		return r;
+
+	m_video->SetZBuffer(false);
+	m_video->SetZWrite(false);
 
 	Vector2 v2TextAdd(m_size/4.0f, 0.0f),
 			   v2ButtonSize = Vector2(m_width, m_size);
@@ -872,6 +880,9 @@ int GSGUI_INT_INPUT::PlaceInput(Vector2 v2Pos)
 {
 	int r = 0;
 
+	m_video->SetZBuffer(false);
+	m_video->SetZWrite(false);
+
 	Vector2 v2Size(m_width, m_size), v2TextAdd(m_size/4.0f, 0.0f);
 	m_mouseOver = MouseOver(v2Pos, v2Size);
 	Color top, bottom, text;
@@ -1057,6 +1068,9 @@ float GSGUI_FLOAT_INPUT::PlaceInput(Vector2 v2Pos)
 {
 	m_lastValue = 0;
 
+	m_video->SetZBuffer(false);
+	m_video->SetZWrite(false);
+
 	Vector2 v2Size(m_width, m_size), v2TextAdd(m_size/4.0f, 0.0f);
 	m_mouseOver = MouseOver(v2Pos+Vector2(m_width, 0.0f), v2Size);
 	Color top, bottom, text;
@@ -1229,6 +1243,9 @@ void GSGUI_STRING_LINE_INPUT::SetupMenu(VideoPtr video, InputPtr input,
 
 str_type::string GSGUI_STRING_LINE_INPUT::PlaceInput(Vector2 v2Pos)
 {
+	m_video->SetZBuffer(false);
+	m_video->SetZWrite(false);
+
 	Vector2 v2Size(m_width, m_size), v2TextAdd(m_size/4.0f, 0.0f);
 	m_mouseOver = MouseOver(v2Pos, v2Size);
 	Color top, bottom, text;

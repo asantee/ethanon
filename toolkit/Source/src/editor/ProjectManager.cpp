@@ -90,7 +90,7 @@ std::string ProjectManager::DoEditor(SpritePtr pNextAppButton)
 	else
 	{
 		str_type::string currentProjectFilename = 
-			utf8::c(Platform::GetFileName(GetCurrentProject())).wc_str();
+			utf8::c(Platform::GetFileName(GetCurrentFile(false))).wc_str();
 			str_type::string sText = GS_L("Project loaded: ") + currentProjectFilename + GS_L("\n") +
 			GS_L("We're ready to go. Press TAB or click the arrow to go to the Editors");
 		ShadowPrint(Vector2(64,128), sText.c_str());
