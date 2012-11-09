@@ -30,7 +30,7 @@
 #include <Unicode/UTF8Converter.h>
 #include "../engine/Util/ETHASUtil.h"
 
-#define _ENML_EDITOR_GENERAL_INFO GS_L("data/info.enml")
+#define _ENML_EDITOR_GENERAL_INFO GS_L("userdata.enml")
 
 EditorBase::EditorBase(ETHResourceProviderPtr provider) :
 	m_menuSize(14.0f),
@@ -116,24 +116,21 @@ bool EditorBase::DrawTab(VideoPtr video, InputPtr input, const Vector2 &v2Pos, c
 }
 
 void EditorBase::SaveAttributeToInfoFile(
-	const std::string &programPath,
 	const std::string &entity,
 	const std::string &attrib,
 	const std::string &value)
 {
-	str_type::string file = utf8::c(programPath).wstr();
-	file += GS_L("/");
-	file += _ENML_EDITOR_GENERAL_INFO;
+	str_type::string file = m_provider->GetFileIOHub()->GetExternalStorageDirectory() + _ENML_EDITOR_GENERAL_INFO;
 	enml::File parseFile(enml::GetStringFromAnsiFile(file));
 	parseFile.Add(utf8::c(entity).wstr(), utf8::c(attrib).wstr(), utf8::c(value).wstr());
 	parseFile.WriteToFile(file);
 }
 
-std::string EditorBase::GetAttributeFromInfoFile(const std::string &programPath, const std::string &entity, const std::string &attrib)
+std::string EditorBase::GetAttributeFromInfoFile(
+	const std::string &entity,
+	const std::string &attrib)
 {
-	str_type::string file = utf8::c(programPath).wstr();
-	file += GS_L("/");
-	file += _ENML_EDITOR_GENERAL_INFO;
+	str_type::string file = m_provider->GetFileIOHub()->GetExternalStorageDirectory() + _ENML_EDITOR_GENERAL_INFO;
 	enml::File parseFile(enml::GetStringFromAnsiFile(file));
 	return utf8::c(parseFile.Get(utf8::c(entity).wstr(), utf8::c(attrib).wstr())).str();
 }

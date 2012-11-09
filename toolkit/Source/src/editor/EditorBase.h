@@ -77,8 +77,8 @@ public:
 
 	bool DrawTab(VideoPtr video, InputPtr input, const Vector2 &v2Pos, const float width, const str_type::string &text, Color color);
 
-	void SaveAttributeToInfoFile(const std::string &programPath, const std::string &entity, const std::string &attrib, const std::string &value);
-	std::string GetAttributeFromInfoFile(const std::string &programPath, const std::string &entity, const std::string &attrib);
+	void SaveAttributeToInfoFile(const std::string &entity, const std::string &attrib, const std::string &value);
+	std::string GetAttributeFromInfoFile(const std::string &entity, const std::string &attrib);
 
 	void ShadowPrint(Vector2 v2Pos, const str_type::char_t *text, const Color& color = gs2d::constant::WHITE) const;
 	void ShadowPrint(Vector2 v2Pos, const str_type::char_t *text, const str_type::char_t *font, const Color& color) const;

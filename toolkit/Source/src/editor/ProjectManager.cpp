@@ -47,12 +47,12 @@ void ProjectManager::SaveLastDir(const char *szLastDir)
 	{
 		return;
 	}
-	SaveAttributeToInfoFile(GetProgramPath(), "directories", "lastProject", szLastDir);
+	SaveAttributeToInfoFile("directories", "lastProject", szLastDir);
 }
 
 std::string ProjectManager::ReadLastDir()
 {
-	return GetAttributeFromInfoFile(GetProgramPath(), "directories", "lastProject");
+	return GetAttributeFromInfoFile("directories", "lastProject");
 }
 
 void ProjectManager::CreateFileMenu()

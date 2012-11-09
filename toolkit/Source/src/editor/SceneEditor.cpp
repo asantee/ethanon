@@ -125,7 +125,7 @@ void SceneEditor::LoadEditor()
 	m_renderMode.SetupMenu(video, input, m_menuSize, m_menuWidth*2, true, false, false);
 
 	const std::string programPath = utf8::c(programDirectory).c_str();
-	str_type::string rmStatus = utf8::c(GetAttributeFromInfoFile(programPath, "status", "renderMode")).wc_str();
+	str_type::string rmStatus = utf8::c(GetAttributeFromInfoFile("status", "renderMode")).wc_str();
 	if (rmStatus != _S_USE_PS && rmStatus != _S_USE_VS)
 	{
 		rmStatus = _S_USE_PS;
@@ -140,11 +140,11 @@ void SceneEditor::LoadEditor()
 	m_panel.AddButton(_S_LOCK_STATIC, true);
 
 	// gets the last status saved into the info file
-	std::string lmStatus = GetAttributeFromInfoFile(programPath, "status", "lightmapsEnabled");
+	std::string lmStatus = GetAttributeFromInfoFile("status", "lightmapsEnabled");
 	m_panel.AddButton(_S_USE_STATIC_LIGHTMAPS, ETHGlobal::IsTrue(lmStatus));
 
 	// gets the last status saved into the info file
-	lmStatus = GetAttributeFromInfoFile(programPath, "status", "showCustomData");
+	lmStatus = GetAttributeFromInfoFile("status", "showCustomData");
 	m_panel.AddButton(_S_SHOW_CUSTOM_DATA, ETHGlobal::IsTrue(lmStatus));
 
 	m_panel.AddButton(_S_SHOW_ADVANCED_OPTIONS, false);
@@ -223,7 +223,7 @@ std::string SceneEditor::DoEditor(SpritePtr pNextAppButton)
 	// if the lightmaps status has changed, save it's status again
 	if (lmEnabled != m_pScene->AreLightmapsEnabled())
 	{
-		SaveAttributeToInfoFile(programPath, "status", "lightmapsEnabled",
+		SaveAttributeToInfoFile("status", "lightmapsEnabled",
 			(m_pScene->AreLightmapsEnabled()) ? "true" : "false");
 	}
 
@@ -799,9 +799,7 @@ void SceneEditor::DoStateManager()
 	if (usePS != shaderManager->IsUsingPixelShader())
 	{
 		const str_type::string str = shaderManager->IsUsingPixelShader() ? _S_USE_PS : _S_USE_VS;
-		SaveAttributeToInfoFile(
-			programPath, "status", "renderMode", utf8::c(str).c_str()
-		);
+		SaveAttributeToInfoFile("status", "renderMode", utf8::c(str).c_str());
 	}
 
 	ShadowPrint(Vector2(m_guiX, m_guiY), _S_TOOL_MENU); m_guiY+=m_menuSize;
@@ -832,8 +830,7 @@ void SceneEditor::DoStateManager()
 	// if the button status has changed, save it
 	if (showCustomData != m_panel.GetButtonStatus(_S_SHOW_CUSTOM_DATA))
 	{
-		SaveAttributeToInfoFile(programPath, "status", "showCustomData",
-			(!showCustomData) ? "true" : "false");
+		SaveAttributeToInfoFile("status", "showCustomData", (!showCustomData) ? "true" : "false");
 	}
 
 	// if the user clicked to update lightmaps...
