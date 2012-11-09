@@ -107,14 +107,16 @@ bool DoNextAppButton(int nextApp, SpritePtr pSprite, VideoPtr video, InputPtr in
 	const Vector2 v2Pos = v2Screen-pSprite->GetBitmapSizeF();
 	const Vector2 v2Mouse = input->GetCursorPositionF(video);
 	const float textSize = 16.0f;
-	GS_BYTE alpha = static_cast<GS_BYTE>(interp.GetInterpolationBias()*255.0f);
+	GS_BYTE alpha = static_cast<GS_BYTE>(interp.GetInterpolationBias() * 255.0f);
+
 	if (interp.Get()%2)
 		alpha = 255-alpha;
+
 	const Color dwColor(alpha,255,255,255);
 	pSprite->Draw(v2Pos+video->GetCameraPos(), dwColor);
 	if (v2Mouse.x > v2Pos.x && v2Mouse.y > v2Pos.y)
 	{
-		const Vector2 v2TextPos = v2Screen-Vector2(200.0f, textSize+3);
+		const Vector2 v2TextPos = v2Screen-Vector2(200.0f, textSize + 3);
 		switch (nextApp)
 		{
 		case SCENE:
@@ -151,7 +153,9 @@ bool DoNextAppButton(int nextApp, SpritePtr pSprite, VideoPtr video, InputPtr in
 	AudioPtr audio;
 
 	Platform::FileManagerPtr fileManager = Platform::FileManagerPtr(new Platform::StdFileManager);
-	Platform::FileIOHubPtr fileIOHub = Platform::CreateFileIOHub(fileManager, ETHDirectories::GetBitmapFontDirectory(), GS_L(""));
+
+	const str_type::string emptyString = GS_L("");
+	Platform::FileIOHubPtr fileIOHub = Platform::CreateFileIOHub(fileManager, ETHDirectories::GetBitmapFontDirectory(), &emptyString);
 
 	fileIOHub->SeekFontFromProgramPath(true);
 
@@ -188,7 +192,7 @@ bool DoNextAppButton(int nextApp, SpritePtr pSprite, VideoPtr video, InputPtr in
 		editor[PARTICLE] = boost::shared_ptr<EditorBase>(new ParticleEditor(provider));
 
 		// create all editors
-		for (unsigned int t=0; t<nEditors; t++)
+		for (unsigned int t = 0; t < nEditors; t++)
 		{
 			editor[t]->LoadEditor();
 		}
@@ -197,28 +201,28 @@ bool DoNextAppButton(int nextApp, SpritePtr pSprite, VideoPtr video, InputPtr in
 		const str_type::string nextAppButtonPath = fileIOHub->GetProgramDirectory() + GS_L("data/nextapp.png");
 		SpritePtr nextAppButton = video->CreateSprite(nextAppButtonPath);
 
-		ETH_STARTUP_RESOURCES_ENML_FILE startup(fileIOHub->GetProgramDirectory() + str_type::string(GS_L("/")) + GS_L("editor.enml"), Platform::FileManagerPtr(new Platform::StdFileManager));
+		ETH_STARTUP_RESOURCES_ENML_FILE startup(fileIOHub->GetProgramDirectory() + GS_L("editor.enml"), Platform::FileManagerPtr(new Platform::StdFileManager));
 
-		// if the user tried the "open with..." feature, open that project
-		if (argc >= 2)
+		// if the user tried the "open with..." feature on windows, open that project
+		if (Application::GetPlatformName() == GS_L("windows") && argc >= 2)
 		{
 			editor[PROJECT]->SetCurrentProject(argv[1]);
 			editor[PROJECT]->SetCurrentFile(argv[1]);
 		}
-		else if ( !startup.emtprojFilename.empty() )
+		else if (!startup.emtprojFilename.empty())
 		{
 			// default project opening
 			editor[PROJECT]->SetCurrentProject(utf8::c(startup.emtprojFilename).c_str());
 			editor[PROJECT]->SetCurrentFile(utf8::c(startup.emtprojFilename).c_str());
 
 			// set resource root for all modules
-			for (unsigned int t=1; t<nEditors; t++)
+			for (unsigned int t = 1; t < nEditors; t++)
 			{
 				editor[t]->SetCurrentProject(editor[PROJECT]->GetCurrentProject().c_str());
 			}
 
 			// default scene opening
-			if ( !startup.escFilename.empty() )
+			if (!startup.escFilename.empty())
 			{
 				SceneEditor * sceneEditor = (SceneEditor *)(editor[SCENE].get());
 				sceneEditor->OpenByFilename(utf8::c(startup.escFilename).c_str());
@@ -247,7 +251,7 @@ bool DoNextAppButton(int nextApp, SpritePtr pSprite, VideoPtr video, InputPtr in
 			// if the project has changed, clear all
 			if (lastProjectName != editor[PROJECT]->GetCurrentProject())
 			{
-				for (unsigned int t=1; t<nEditors; t++)
+				for (unsigned int t = 1; t < nEditors; t++)
 				{
 					editor[t]->Clear();
 				}
@@ -256,7 +260,7 @@ bool DoNextAppButton(int nextApp, SpritePtr pSprite, VideoPtr video, InputPtr in
 			lastProjectName = editor[PROJECT]->GetCurrentProject();
 
 			// updates the current project path so the editors can gather files from that sources
-			for (unsigned int t=1; t<nEditors; t++)
+			for (unsigned int t = 1; t < nEditors; t++)
 			{
 				editor[t]->SetCurrentProject(editor[PROJECT]->GetCurrentProject().c_str());
 			}
@@ -277,8 +281,7 @@ bool DoNextAppButton(int nextApp, SpritePtr pSprite, VideoPtr video, InputPtr in
 			// if there's a project, allow editor swap
 			if (editor[PROJECT]->GetCurrentProject() != "")
 			{
-				arrowClicked = DoNextAppButton(nextApp, nextAppButton, video, input,
-					editor[PARTICLE]->GetMenuSize()*2, editor[0]);
+				arrowClicked = DoNextAppButton(nextApp, nextAppButton, video, input, editor[PARTICLE]->GetMenuSize() * 2, editor[0]);
 			}
 			else
 			{
@@ -288,7 +291,7 @@ bool DoNextAppButton(int nextApp, SpritePtr pSprite, VideoPtr video, InputPtr in
 			// if any editor has requested to open the project manager...
 			{
 				bool requested = false;
-				for (unsigned int t=1; t<nEditors; t++)
+				for (unsigned int t = 1; t < nEditors; t++)
 				{
 					if (editor[t]->ProjectManagerRequested())
 					{
@@ -306,12 +309,20 @@ bool DoNextAppButton(int nextApp, SpritePtr pSprite, VideoPtr video, InputPtr in
 			if (editor[PROJECT]->GetCurrentProject() != "")
 			{
 				const float tabWidth = 160.0f;
-				for (int t=3; t>=0; t--)
+				for (int t = 3; t >= 0; t--)
 				{
 					Color dwColor = editor[PROJECT]->GetBGColor();
+
 					if (t != current)
 						dwColor = Color(127, dwColor.r, dwColor.g, dwColor.b);
-					if (editor[PROJECT]->DrawTab(video, input, Vector2(v2ScreenF.x-tabWidth*static_cast<float>(t+1)-32.0f,0), tabWidth, g_editors[t], dwColor))
+
+					if (editor[PROJECT]->DrawTab(
+						video,
+						input,
+						Vector2(v2ScreenF.x - tabWidth * static_cast<float>(t + 1) - 32.0f, 0),
+						tabWidth,
+						g_editors[t],
+						dwColor))
 					{
 						if (current != t)
 						{
@@ -328,7 +339,7 @@ bool DoNextAppButton(int nextApp, SpritePtr pSprite, VideoPtr video, InputPtr in
 				if (!tabClicked)
 					current = nextApp;
 
-				for (unsigned int t=1; t<nEditors; t++)
+				for (unsigned int t = 1; t < nEditors; t++)
 				{
 					if (current != t)
 					{
@@ -343,8 +354,8 @@ bool DoNextAppButton(int nextApp, SpritePtr pSprite, VideoPtr video, InputPtr in
 
 			// show fps rate
 			Vector2 v2FPSPos;
-			v2FPSPos.x = video->GetScreenSizeF().x-40.0f;
-			v2FPSPos.y = video->GetScreenSizeF().y-24.0f-32.0f;
+			v2FPSPos.x = video->GetScreenSizeF().x - 40.0f;
+			v2FPSPos.y = video->GetScreenSizeF().y - 24.0f - 32.0f;
 			str_type::stringstream ss;
 			ss << video->GetFPSRate();
 			editor[0]->ShadowPrint(v2FPSPos, ss.str().c_str(), GS_L("Verdana24_shadow.fnt"), gs2d::constant::WHITE);
@@ -355,8 +366,8 @@ bool DoNextAppButton(int nextApp, SpritePtr pSprite, VideoPtr video, InputPtr in
 			editor[SCENE]->UpdateInternalData();
 		}
 	}
-#ifdef _DEBUG
-	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
-#endif
+	#ifdef _DEBUG
+	 _CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
+	#endif
 	return 0;
 }

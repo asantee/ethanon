@@ -32,10 +32,12 @@ namespace Platform {
 FileIOHubPtr CreateFileIOHub(
 	const Platform::FileManagerPtr& fileManager,
 	const gs2d::str_type::string& fontDirectory,
-	const gs2d::str_type::string& resourceDirectory)
+	const gs2d::str_type::string* resourceDirectory)
 {
-	GS2D_UNUSED_ARGUMENT(resourceDirectory);
-	return FileIOHubPtr(new MacOSXFileIOHub(fileManager, fontDirectory));
+	Platform::FileIOHubPtr r = FileIOHubPtr(new MacOSXFileIOHub(fileManager, fontDirectory));
+	if (resourceDirectory != 0)
+		r->SetResourceDirectory(*resourceDirectory);
+	return r;
 }
 
 MacOSXFileIOHub::MacOSXFileIOHub(
