@@ -26,6 +26,8 @@
 #include "../engine/Scene/ETHScene.h"
 #include "../engine/ETHEngine.h"
 
+#include <Platform/Platform.h>
+
 #define _S_NEW_PROJ GS_L("New project...")
 #define _S_LOAD_PROJ GS_L("Load project...")
 

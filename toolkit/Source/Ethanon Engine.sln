@@ -3,6 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ethanon Editor", "projects\msvc9\Ethanon Editor\Ethanon Editor.vcproj", "{9A675128-C93F-4933-9E8C-F7EF43C2A1CA}"
 	ProjectSection(ProjectDependencies) = postProject
 		{3A88ABE2-E925-467F-9361-D6567538DE26} = {3A88ABE2-E925-467F-9361-D6567538DE26}
+		{160FC7FC-3E05-4678-AE17-949DBDBB9BAA} = {160FC7FC-3E05-4678-AE17-949DBDBB9BAA}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ethanon Machine", "projects\msvc9\Ethanon Machine\Ethanon Machine.vcproj", "{3A88ABE2-E925-467F-9361-D6567538DE25}"

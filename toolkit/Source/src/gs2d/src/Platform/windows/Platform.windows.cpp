@@ -20,12 +20,10 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#ifdef WIN32
-
 #include "../Platform.h"
 #include "../../Application.h"
 #include "../FileLogger.h"
-#include "../../unicode/utf8converter.h"
+#include "../../unicode/UTF8Converter.h"
 #include <assert.h>
 #include <windows.h>
 #include <direct.h>
@@ -36,13 +34,6 @@ gs2d::str_type::string gs2d::Application::GetPlatformName()
 }
 
 namespace Platform {
-
-bool CreateDirectory(const std::string& path)
-{
-	_mkdir(path.c_str());
-	#warning todo verify success
-	return true;
-}
 
 #ifdef _DEBUG
 gs2d::str_type::string GetModuleDirectory()
@@ -189,6 +180,12 @@ wchar_t GetDirectorySlashW()
 	return L'\\';
 }
 
-} // namespace Platform
+// undefines window's Create directory original
+#undef CreateDirectory
 
-#endif // WIN32
+bool CreateDirectory(const std::string& path)
+{
+	return (_mkdir(path.c_str()) == 0);
+}
+
+} // namespace Platform
