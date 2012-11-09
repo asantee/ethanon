@@ -151,9 +151,16 @@ bool GLTexture::LoadTexture(
 	const unsigned int nMipMaps,
 	const unsigned int bufferLength)
 {
+	const bool maskingEnabled = (mask != 0x0);
 	int iWidth, iHeight;
-	m_bitmap = SOIL_load_image_from_memory((unsigned char*)pBuffer, bufferLength, &iWidth, &iHeight, &m_channels, SOIL_LOAD_AUTO);
-	ApplyPixelMask(m_bitmap, m_profile.mask, m_channels, width, height);
+	const int forceChannels = maskingEnabled ? SOIL_LOAD_RGBA : SOIL_LOAD_AUTO;
+	m_bitmap = SOIL_load_image_from_memory((unsigned char*)pBuffer, bufferLength, &iWidth, &iHeight, &m_channels, forceChannels);
+
+	if (maskingEnabled)
+	{
+		m_channels = 4;
+		ApplyPixelMask(m_bitmap, mask, m_channels, iWidth, iHeight);
+	}
 
 	CreateTextureFromBitmap(m_bitmap, iWidth, iHeight, m_channels, true);
 
@@ -337,8 +344,8 @@ static void ApplyPixelMask(unsigned char *ht_map, const Color mask, const int ch
 {
 	if (channels == 4)
 	{
-		const int numBytes = width * height * channels;
-		for (int i = 0; i < numBytes; i += channels)
+		const std::size_t numBytes = width * height * channels;
+		for (std::size_t i = 0; i < numBytes; i += channels)
 		{
 			unsigned char& r = ht_map[i + 0];
 			unsigned char& g = ht_map[i + 1];

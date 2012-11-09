@@ -72,8 +72,8 @@ void ApplyPixelMask(unsigned char *ht_map, const Color mask, const int channels,
 {
 	if (channels == 4)
 	{
-		const int numBytes = width * height * channels;
-		for (int i = 0; i < numBytes; i += channels)
+		const std::size_t numBytes = width * height * channels;
+		for (std::size_t i = 0; i < numBytes; i += channels)
 		{
 			unsigned char& r = ht_map[i + 0];
 			unsigned char& g = ht_map[i + 1];
@@ -223,11 +223,19 @@ bool GLES2Texture::LoadTexture(
 	const unsigned int bufferLength)
 {
 	int iWidth, iHeight, channels;
-	unsigned char *ht_map = SOIL_load_image_from_memory((unsigned char*)pBuffer, bufferLength, &iWidth, &iHeight, &channels, SOIL_LOAD_AUTO);
+
+	const bool maskingEnabled = (mask != 0x0);
+	const int forceChannels = maskingEnabled ? SOIL_LOAD_RGBA : SOIL_LOAD_AUTO;
+
+	unsigned char *ht_map = SOIL_load_image_from_memory((unsigned char*)pBuffer, bufferLength, &iWidth, &iHeight, &channels, forceChannels);
 
 	if (ht_map)
 	{
-		ApplyPixelMask(ht_map, mask, channels, iWidth, iHeight);
+		if (maskingEnabled)
+		{
+			channels = 4;
+			ApplyPixelMask(ht_map, mask, channels, iWidth, iHeight);
+		}
 		m_textureInfo.m_texture = SOIL_create_OGL_texture(ht_map, iWidth, iHeight, channels, m_textureID++, SOIL_FLAG_POWER_OF_TWO);
 	}
 
