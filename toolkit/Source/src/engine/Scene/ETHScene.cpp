@@ -703,7 +703,7 @@ bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline
 						{
 							if (shaderManager->BeginLightPass(pRenderEntity, &(*iter), m_maxSceneHeight, m_minSceneHeight, GetLightIntensity()))
 							{
-								pRenderEntity->DrawLightPass(zAxisDirection);
+								pRenderEntity->DrawLightPass(zAxisDirection, shaderManager->GetParallaxIntensity());
 								shaderManager->EndLightPass();
 							}
 						}

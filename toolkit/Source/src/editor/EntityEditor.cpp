@@ -1430,7 +1430,7 @@ void EntityEditor::DrawEntity()
 	{
 		if (shaderManager->BeginLightPass(m_renderEntity.get(), &m_cursorLight, screenSize.y,-screenSize.y, 2.0f))
 		{
-			m_renderEntity->DrawLightPass(ETH_DEFAULT_ZDIRECTION);
+			m_renderEntity->DrawLightPass(ETH_DEFAULT_ZDIRECTION, 0.0f);
 			shaderManager->EndLightPass();
 		}
 	}
@@ -1439,7 +1439,7 @@ void EntityEditor::DrawEntity()
 	{
 		if (shaderManager->BeginLightPass(m_renderEntity.get(), m_pEditEntity->light.get(), screenSize.y,-screenSize.y, 2.0f, m_renderEntity.get()))
 		{
-			m_renderEntity->DrawLightPass(ETH_DEFAULT_ZDIRECTION);
+			m_renderEntity->DrawLightPass(ETH_DEFAULT_ZDIRECTION, 0.0f);
 			shaderManager->EndLightPass();
 		}
 	}

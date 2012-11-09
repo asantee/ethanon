@@ -113,7 +113,7 @@ bool ETHRenderEntity::DrawAmbientPass(const float maxHeight, const float minHeig
 	return true;
 }
 
-bool ETHRenderEntity::DrawLightPass(const Vector2 &zAxisDirection, const bool drawToTarget)
+bool ETHRenderEntity::DrawLightPass(const Vector2 &zAxisDirection, const float parallaxIntensity, const bool drawToTarget)
 {
 	if (!m_pSprite || IsHidden())
 		return false;
@@ -122,9 +122,18 @@ bool ETHRenderEntity::DrawLightPass(const Vector2 &zAxisDirection, const bool dr
 	m_pSprite->SetRect(m_spriteFrame);
 	SetOrigin();
 
+	const bool shouldUseFourTriangles = ShouldUseFourTriangles(parallaxIntensity);
+
+	if (shouldUseFourTriangles)
+		m_pSprite->SetRectMode(Sprite::RM_FOUR_TRIANGLES);
+
 	const float angle = (!IsRotatable() || drawToTarget) ? 0.0f : GetAngle();
 	m_pSprite->DrawOptimal(ETHGlobal::ToScreenPos(GetPosition(), zAxisDirection),
 		ConvertToDW(GetColorF()), angle, m_properties.scale * m_pSprite->GetFrameSize());
+
+	if (shouldUseFourTriangles)
+		m_pSprite->SetRectMode(Sprite::RM_TWO_TRIANGLES);
+
 	return true;
 }
 

@@ -40,7 +40,7 @@ public:
 
 	// rendering methods
 	bool IsSpriteVisible(const ETHSceneProperties& sceneProps, const ETHBackBufferTargetManagerPtr& backBuffer) const;
-	bool DrawLightPass(const Vector2 &zAxisDirection, const bool drawToTarget = false);
+	bool DrawLightPass(const Vector2 &zAxisDirection, const float parallaxIntensity, const bool drawToTarget = false);
 	bool DrawHalo(const float maxHeight, const float minHeight, const bool rotateHalo, const Vector2& zAxisDirection);
 	bool DrawAmbientPass(const float maxHeight, const float minHeight, const bool enableLightmaps, const ETHSceneProperties& sceneProps, const float parallaxIntensity);
 	bool DrawParticles(const unsigned int n, const float maxHeight, const float minHeight, const ETHSceneProperties& sceneProps);
