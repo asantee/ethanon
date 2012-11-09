@@ -51,31 +51,29 @@ float computeVerticalOffsetInPixels(const float posY, const float rectSizeY)
 
 float2 computeParallaxOffset(const float2 vertPos, float3 inPosition)
 {
+	const float vOffset = computeVerticalOffsetInPixels(inPosition.y, rectSize.y);
 	const float2 parallaxOrigin = parallaxOrigin_verticalIntensity.xy;
 	const float verticalIntensity = parallaxOrigin_verticalIntensity.z;
-	const float vOffset = computeVerticalOffsetInPixels(inPosition.y, rectSize.y);
 	return ((vertPos - parallaxOrigin) / screenSize.x) * (entityPos3D.z + (vOffset * verticalIntensity)) * parallaxIntensity;
 }
 
-struct SPRITE_TRANSFORM
+float4 transformSprite(float3 position)
 {
-	float4 position;
-	float2 vertPos;
-};
-SPRITE_TRANSFORM transformSprite_ppl(float3 position)
-{
-	SPRITE_TRANSFORM r;
 	float4 newPos = float4(position, 1);
-	newPos = newPos * float4(size,1,1) - float4(center, 0, 0);
-	newPos = mul(rotationMatrix, newPos) + float4(entityPos,0,0);
-	r.vertPos = newPos.xy/screenSize;
 
-	// project the vertex on the screen
-	newPos -= float4(cameraPos,0,0);
+	// scales and position the sprite center
+	newPos = newPos * float4(size,1,1) - float4(center, 0, 0);
+
+	// rotates the sprite
+	newPos = mul(rotationMatrix, newPos);
+
+	// position the sprite according to screen space
+	newPos += float4(entityPos,0,0) - float4(cameraPos,0,0);
 	newPos += float4(computeParallaxOffset(newPos.xy, position),0,0) - float4(screenSize / 2,0,0);
+
+	// inverts the y coordinate
 	newPos *= float4(1,-1,1,1);
-	r.position = mul(viewMatrix, newPos);
-	return r;
+	return mul(viewMatrix, newPos);
 }
 
 // returns the texture coordinate according to the rect
@@ -95,9 +93,10 @@ void main(float3 position : POSITION,
 			uniform float3 topLeft3DPos,
 			uniform float spaceLength)
 {
-	SPRITE_TRANSFORM transform = transformSprite_ppl(position);
-	transform.position.z = (1 - depth) - ((computeVerticalOffsetInPixels(position.y, rectSize.y)) / spaceLength);
-	oPosition = transform.position;
+	float4 outPos = transformSprite(position);
+	outPos.z = (1 - depth) - ((computeVerticalOffsetInPixels(position.y, rectSize.y)) / spaceLength);
+
+	oPosition = outPos;
 	oVertPos3D = topLeft3DPos + (float3(position.x,0,position.y) * float3(size.x,0,-size.y));
 	oTexCoord = transformCoord(texCoord);
 	oColor = color0;
