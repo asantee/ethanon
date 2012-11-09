@@ -486,12 +486,14 @@ bool GLVideo::DrawLine(const math::Vector2 &p1, const math::Vector2 &p2, const C
 	if (p1 == p2)
 		return true;
 
-	const math::Vector2 v2Dir = p1 - p2;
+	static const math::Vector2 offsetFix(0.5f, 0.5f);
+	const math::Vector2 a(p1 + offsetFix), b(p2 + offsetFix);
+	const math::Vector2 v2Dir = a - b;
 
-	const float length = math::Distance(p1, p2);
+	const float length = v2Dir.Length() + 0.5f;
 	const float angle  = math::RadianToDegree(math::GetAngle(v2Dir));
 
-	DrawRectangle(p1, math::Vector2(GetLineWidth(), length),
+	DrawRectangle(a, math::Vector2(GetLineWidth(), length),
 				  color2, color2, color1, color1,
 				  angle, Sprite::EO_CENTER_BOTTOM);
 	return true;
