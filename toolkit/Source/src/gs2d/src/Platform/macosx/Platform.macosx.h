@@ -31,6 +31,10 @@
 namespace Platform {
 
 bool CreateDirectoryNS(NSString* dir);
+NSString* AppNameFromBundle();
+gs2d::str_type::string ResourceDirectory();
+gs2d::str_type::string GlobalExternalStorageDirectory();
+gs2d::str_type::string ExternalStorageDirectory();
 
 } // namespace platform
 

@@ -38,40 +38,6 @@ FileIOHubPtr CreateFileIOHub(
 	return FileIOHubPtr(new MacOSXFileIOHub(fileManager, fontDirectory));
 }
 
-static NSString* AppNameFromBundle()
-{
-	NSString* bundleDir = [[NSBundle mainBundle] bundlePath];
-	NSString *appName = [[bundleDir lastPathComponent] stringByDeletingPathExtension];
-	return appName;
-}
-
-static gs2d::str_type::string ResourceDirectory()
-{
-	NSString* resourceDir = [[NSBundle mainBundle] resourcePath];
-	resourceDir = [resourceDir stringByAppendingString:@"/assets/"];
-	return [resourceDir cStringUsingEncoding:1];
-}
-
-static gs2d::str_type::string GlobalExternalStorageDirectory()
-{
-	NSString* globalExternalStorageDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-
-	// apprend proc name plus slash
-	globalExternalStorageDir = [globalExternalStorageDir stringByAppendingPathComponent:AppNameFromBundle()];
-	globalExternalStorageDir = [globalExternalStorageDir stringByAppendingString:@"/"];
-	return [globalExternalStorageDir cStringUsingEncoding:1];
-}
-
-static gs2d::str_type::string ExternalStorageDirectory()
-{
-	NSString* externalStorageDir = [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-
-	// apprend proc name plus slash
-	externalStorageDir = [externalStorageDir stringByAppendingPathComponent:AppNameFromBundle()];
-	externalStorageDir = [externalStorageDir stringByAppendingString:@"/"];
-	return [externalStorageDir cStringUsingEncoding:1];
-}
-
 MacOSXFileIOHub::MacOSXFileIOHub(
 	Platform::FileManagerPtr fileManager,
 	const gs2d::str_type::string& bitmapFontSearchDirectory) :
@@ -87,10 +53,10 @@ MacOSXFileIOHub::MacOSXFileIOHub(
 	CreateDirectoryNS([NSString stringWithCString:Platform::FileLogger::GetLogDirectory().c_str() encoding:NSUTF8StringEncoding]);
 
 	#ifdef DEBUG
-	gs2d::ShowMessage(gs2d::str_type::string("Resources: ") + GetResourceDirectory(), gs2d::GSMT_INFO);
-	gs2d::ShowMessage(gs2d::str_type::string("Program:   ") + GetProgramDirectory(), gs2d::GSMT_INFO);
-	gs2d::ShowMessage(gs2d::str_type::string("External:  ") + GetExternalStorageDirectory(), gs2d::GSMT_INFO);
-	gs2d::ShowMessage(gs2d::str_type::string("GExternal: ") + GetGlobalExternalStorageDirectory(), gs2d::GSMT_INFO);
+	 gs2d::ShowMessage(gs2d::str_type::string("Resources: ") + GetResourceDirectory(), gs2d::GSMT_INFO);
+	 gs2d::ShowMessage(gs2d::str_type::string("Program:   ") + GetProgramDirectory(), gs2d::GSMT_INFO);
+	 gs2d::ShowMessage(gs2d::str_type::string("External:  ") + GetExternalStorageDirectory(), gs2d::GSMT_INFO);
+	 gs2d::ShowMessage(gs2d::str_type::string("GExternal: ") + GetGlobalExternalStorageDirectory(), gs2d::GSMT_INFO);
 	#endif
 }
 

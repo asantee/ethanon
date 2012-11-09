@@ -49,17 +49,70 @@ gs2d::str_type::string gs2d::Application::GetPlatformName()
 
 namespace Platform {
 
-gs2d::str_type::string GetModuleDirectory()
+NSString* AppNameFromBundle()
 {
 	NSString* bundleDir = [[NSBundle mainBundle] bundlePath];
+	NSString *appName = [[bundleDir lastPathComponent] stringByDeletingPathExtension];
+
+	return appName;
+}
+
+gs2d::str_type::string ResourceDirectory()
+{
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+	NSString* resourceDir = [[NSBundle mainBundle] resourcePath];
+	resourceDir = [resourceDir stringByAppendingString:@"/assets/"];
+
+	const gs2d::str_type::string r = [resourceDir cStringUsingEncoding:1];
+    [pool release];
+	return r;
+}
+
+gs2d::str_type::string GlobalExternalStorageDirectory()
+{
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+	NSString* globalExternalStorageDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+
+	// apprend proc name plus slash
+	globalExternalStorageDir = [globalExternalStorageDir stringByAppendingPathComponent:AppNameFromBundle()];
+	globalExternalStorageDir = [globalExternalStorageDir stringByAppendingString:@"/"];
+
+	const gs2d::str_type::string r = [globalExternalStorageDir cStringUsingEncoding:1];
+    [pool release];
+	return r;
+}
+
+gs2d::str_type::string ExternalStorageDirectory()
+{
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	NSString* externalStorageDir = [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+
+	// apprend proc name plus slash
+	externalStorageDir = [externalStorageDir stringByAppendingPathComponent:AppNameFromBundle()];
+	externalStorageDir = [externalStorageDir stringByAppendingString:@"/"];
+
+	const gs2d::str_type::string r = [externalStorageDir cStringUsingEncoding:1];
+    [pool release];
+	return r;
+}
+
+gs2d::str_type::string GetModuleDirectory()
+{
+	/*NSString* bundleDir = [[NSBundle mainBundle] bundlePath];
 	bundleDir = [bundleDir stringByAppendingString:@"/"];
-	return [bundleDir cStringUsingEncoding:1];
+	return [bundleDir cStringUsingEncoding:1];*/
+	return ResourceDirectory();
 }
 
 bool CreateDirectoryNS(NSString* dir)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	NSFileManager* fileManager = [NSFileManager defaultManager];
-	return ([fileManager createDirectoryAtPath:dir withIntermediateDirectories:YES attributes:nil error:nil] == YES);
+	const bool r = ([fileManager createDirectoryAtPath:dir withIntermediateDirectories:YES attributes:nil error:nil] == YES);
+    [pool release];
+	return r;
 }
 
 bool CreateDirectory(const std::string& path)
