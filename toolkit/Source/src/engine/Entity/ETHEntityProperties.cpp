@@ -96,7 +96,7 @@ void ETHEntityMaterial::Reset()
 	specularBrightness = 1.0f;
 	shadowLengthScale = 1.0f;
 	blendMode = Video::AM_PIXEL;
-	density = 0.0f;
+	density = 1.0f;
 	friction = 1.0f;
 	restitution = 0.0f;
 	gravityScale = 1.0f;
