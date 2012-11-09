@@ -112,7 +112,7 @@ void SceneEditor::LoadEditor()
 	m_outline = video->CreateSprite(programDirectory + GS_L("data/outline.png"));
 	m_richOutline = video->CreateSprite(programDirectory + GS_L("data/rich_outline.png"));
 
-	m_soundWave = video->CreateSprite(programDirectory + GS_L("data/soundwave.dds"));
+	m_soundWave = video->CreateSprite(programDirectory + GS_L("data/soundwave.png"));
 	m_soundWave->SetOrigin(Sprite::EO_CENTER);
 
 	m_invisible = video->CreateSprite(programDirectory + GS_L("data/invisible.png"), 0xFFFF00FF);
