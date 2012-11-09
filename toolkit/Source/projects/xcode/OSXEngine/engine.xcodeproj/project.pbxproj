@@ -68,7 +68,6 @@
 		7421F0BB164725F800C55BAE /* ETHAppEnmlFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0B5164725F800C55BAE /* ETHAppEnmlFile.h */; };
 		7421F0BC164725F800C55BAE /* ETHPlatform.abstract.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0B6164725F800C55BAE /* ETHPlatform.abstract.cpp */; };
 		7421F0BD164725F800C55BAE /* ETHPlatform.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0B7164725F800C55BAE /* ETHPlatform.h */; };
-		7421F0BE164725F800C55BAE /* FileListing.abstract.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0B8164725F800C55BAE /* FileListing.abstract.cpp */; };
 		7421F0BF164725F800C55BAE /* FileListing.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0B9164725F800C55BAE /* FileListing.h */; };
 		7421F0C81647260900C55BAE /* ETHDirectories.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0C01647260900C55BAE /* ETHDirectories.cpp */; };
 		7421F0C91647260900C55BAE /* ETHDirectories.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0C11647260900C55BAE /* ETHDirectories.h */; };
@@ -167,7 +166,7 @@
 		7421F2CA164743F900C55BAE /* libas.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F2C6164743D200C55BAE /* libas.a */; };
 		7421F2EF1648415D00C55BAE /* box2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F2EE1648415D00C55BAE /* box2d.framework */; };
 		7421F2F11648417C00C55BAE /* gs2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F2F01648417C00C55BAE /* gs2d.framework */; };
-		7421F41B164C2F1F00C55BAE /* FileListing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F41A164C2F1F00C55BAE /* FileListing.cpp */; };
+		7421F436164D8E4000C55BAE /* FileListing.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7421F435164D8E4000C55BAE /* FileListing.mm */; };
 		74F00AD71646B9EB00B8B51B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F00AD61646B9EB00B8B51B /* Cocoa.framework */; };
 		74F00AE11646B9EB00B8B51B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 74F00ADF1646B9EB00B8B51B /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
@@ -263,7 +262,6 @@
 		7421F0B5164725F800C55BAE /* ETHAppEnmlFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHAppEnmlFile.h; path = ../../../../src/engine/Platform/ETHAppEnmlFile.h; sourceTree = "<group>"; };
 		7421F0B6164725F800C55BAE /* ETHPlatform.abstract.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHPlatform.abstract.cpp; path = ../../../../src/engine/Platform/ETHPlatform.abstract.cpp; sourceTree = "<group>"; };
 		7421F0B7164725F800C55BAE /* ETHPlatform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHPlatform.h; path = ../../../../src/engine/Platform/ETHPlatform.h; sourceTree = "<group>"; };
-		7421F0B8164725F800C55BAE /* FileListing.abstract.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FileListing.abstract.cpp; path = ../../../../src/engine/Platform/FileListing.abstract.cpp; sourceTree = "<group>"; };
 		7421F0B9164725F800C55BAE /* FileListing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileListing.h; path = ../../../../src/engine/Platform/FileListing.h; sourceTree = "<group>"; };
 		7421F0C01647260900C55BAE /* ETHDirectories.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHDirectories.cpp; path = ../../../../src/engine/Resource/ETHDirectories.cpp; sourceTree = "<group>"; };
 		7421F0C11647260900C55BAE /* ETHDirectories.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHDirectories.h; path = ../../../../src/engine/Resource/ETHDirectories.h; sourceTree = "<group>"; };
@@ -362,7 +360,7 @@
 		7421F2C1164743D200C55BAE /* angelscript.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = angelscript.xcodeproj; path = /Users/blackdog/Documents/workspace/ethanon/toolkit/Source/projects/xcode/../../src/angelscript/projects/xcode/angelscript.xcodeproj; sourceTree = "<absolute>"; };
 		7421F2EE1648415D00C55BAE /* box2d.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = box2d.framework; path = "../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gxkgpuwgwqxighfefncafkvqrxui/Build/Products/Debug/box2d.framework"; sourceTree = "<group>"; };
 		7421F2F01648417C00C55BAE /* gs2d.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = gs2d.framework; path = "../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gxkgpuwgwqxighfefncafkvqrxui/Build/Products/Debug/gs2d.framework"; sourceTree = "<group>"; };
-		7421F41A164C2F1F00C55BAE /* FileListing.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FileListing.cpp; path = ../../../../src/engine/Platform/macosx/FileListing.cpp; sourceTree = "<group>"; };
+		7421F435164D8E4000C55BAE /* FileListing.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = FileListing.mm; path = ../../../../src/engine/Platform/macosx/FileListing.mm; sourceTree = "<group>"; };
 		74F00AD31646B9EB00B8B51B /* engine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = engine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		74F00AD61646B9EB00B8B51B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		74F00AD91646B9EB00B8B51B /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -522,9 +520,8 @@
 				7421F0B5164725F800C55BAE /* ETHAppEnmlFile.h */,
 				7421F0B6164725F800C55BAE /* ETHPlatform.abstract.cpp */,
 				7421F0B7164725F800C55BAE /* ETHPlatform.h */,
-				7421F0B8164725F800C55BAE /* FileListing.abstract.cpp */,
+				7421F435164D8E4000C55BAE /* FileListing.mm */,
 				7421F0B9164725F800C55BAE /* FileListing.h */,
-				7421F41A164C2F1F00C55BAE /* FileListing.cpp */,
 			);
 			name = Platform;
 			sourceTree = "<group>";
@@ -912,7 +909,6 @@
 				7421F0B2164725E100C55BAE /* ETHPolygon.cpp in Sources */,
 				7421F0BA164725F800C55BAE /* ETHAppEnmlFile.cpp in Sources */,
 				7421F0BC164725F800C55BAE /* ETHPlatform.abstract.cpp in Sources */,
-				7421F0BE164725F800C55BAE /* FileListing.abstract.cpp in Sources */,
 				7421F0C81647260900C55BAE /* ETHDirectories.cpp in Sources */,
 				7421F0CA1647260900C55BAE /* ETHResourceManager.cpp in Sources */,
 				7421F0CC1647260900C55BAE /* ETHResourceProvider.cpp in Sources */,
@@ -963,7 +959,7 @@
 				7421F2B9164741F300C55BAE /* tinyxml.cpp in Sources */,
 				7421F2BB164741F300C55BAE /* tinyxmlerror.cpp in Sources */,
 				7421F2BC164741F300C55BAE /* tinyxmlparser.cpp in Sources */,
-				7421F41B164C2F1F00C55BAE /* FileListing.cpp in Sources */,
+				7421F436164D8E4000C55BAE /* FileListing.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
