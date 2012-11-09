@@ -119,6 +119,7 @@ void GLVideo::Enable2DStates()
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DITHER);
 	glDepthFunc(GL_LEQUAL);
+	glClearDepth(1.0f);
 	glDepthRange(0.0f, 1.0f);
 
 	glActiveTexture(GL_TEXTURE1);
@@ -126,8 +127,6 @@ void GLVideo::Enable2DStates()
 
 	glActiveTexture(GL_TEXTURE0);
 	glEnable(GL_TEXTURE_2D);
-	//glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-	
 }
 
 static void SetChannelClamp(const bool set)
@@ -274,17 +273,12 @@ bool GLVideo::GetZBuffer() const
 
 void GLVideo::SetZWrite(const bool enable)
 {
-	if (enable)
-		glDepthMask(GL_TRUE);
-	else
-		glDepthMask(GL_FALSE);
+	// dummy for OpenGL
 }
 
 bool GLVideo::GetZWrite() const
 {
-	GLboolean enabled;
-	glGetBooleanv(GL_DEPTH_WRITEMASK, &enabled);
-	return (enabled == GL_TRUE) ? true : false;
+	return true;
 }
 
 bool GLVideo::BeginSpriteScene(const Color& dwBGColor)
@@ -647,7 +641,7 @@ bool GLVideo::BeginTargetScene(const Color& dwBGColor, const bool clear)
 		math::Vector4 color;
 		color.SetColor(dwBGColor);
 		glClearColor(color.x, color.y, color.z, color.w);
-		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 	UpdateInternalShadersViewData(GetScreenSizeF(), true);
