@@ -29,6 +29,7 @@ toolkit/Source/src/gs2d/vendors/irrKlang/
 *.bin.readme.txt
 test.enml
 info.enml
+userdata.enml
 *.cache
 testbed/_GeneralTests
 testbed/__GeneralTests
