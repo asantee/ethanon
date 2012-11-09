@@ -131,6 +131,10 @@ std::string EditorBase::GetAttributeFromInfoFile(
 	const std::string &attrib)
 {
 	str_type::string file = m_provider->GetFileIOHub()->GetExternalStorageDirectory() + _ENML_EDITOR_GENERAL_INFO;
+	if (!m_provider->GetFileIOHub()->GetFileManager()->FileExists(file))
+	{
+		file = m_provider->GetFileIOHub()->GetProgramDirectory() + "editor.enml";
+	}
 	enml::File parseFile(enml::GetStringFromAnsiFile(file));
 	return utf8::c(parseFile.Get(utf8::c(entity).wstr(), utf8::c(attrib).wstr())).str();
 }

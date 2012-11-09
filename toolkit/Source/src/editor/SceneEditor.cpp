@@ -141,10 +141,12 @@ void SceneEditor::LoadEditor()
 
 	// gets the last status saved into the info file
 	std::string lmStatus = GetAttributeFromInfoFile("status", "lightmapsEnabled");
+	lmStatus = lmStatus.empty() ? "true" : lmStatus;
 	m_panel.AddButton(_S_USE_STATIC_LIGHTMAPS, ETHGlobal::IsTrue(lmStatus));
 
 	// gets the last status saved into the info file
 	lmStatus = GetAttributeFromInfoFile("status", "showCustomData");
+	lmStatus = lmStatus.empty() ? "true" : lmStatus;
 	m_panel.AddButton(_S_SHOW_CUSTOM_DATA, ETHGlobal::IsTrue(lmStatus));
 
 	m_panel.AddButton(_S_SHOW_ADVANCED_OPTIONS, false);

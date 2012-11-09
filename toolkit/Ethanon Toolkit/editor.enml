@@ -2,16 +2,19 @@ window
 {
 	title = Ethanon Editor;
 	width = 1024;
-	height = 768;
+	height = 720;
 	windowed = true;
 	vsync = true;
 }
-startup
-{
-	//project = ethproj fullpath filename;
-	//scene = esc fullpath filename;
-}
+
 rendering
 {
 	richLighting = true;
+}
+
+status
+{
+	lightmapsEnabled = true;
+	renderMode = Pixel shaded;
+	showCustomData = true;
 }
