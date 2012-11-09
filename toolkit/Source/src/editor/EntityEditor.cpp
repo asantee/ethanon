@@ -927,6 +927,8 @@ void EntityEditor::ShowEntityResources(Vector2 v2Pos)
 std::string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 {
 	VideoPtr video = m_provider->GetVideo();
+	video->SetZBuffer(false);
+	video->SetZWrite(false);
 	video->SetCameraPos(Vector2(0,0));
 	DrawEntity();
 
