@@ -30,6 +30,17 @@
 		7421F416164C180100C55BAE /* ProjectManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F414164C180100C55BAE /* ProjectManager.cpp */; };
 		7421F419164C297800C55BAE /* SceneEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F417164C297800C55BAE /* SceneEditor.cpp */; };
 		7421F41D164C31AE00C55BAE /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F41C164C31AD00C55BAE /* main.cpp */; };
+		7421F429164C374200C55BAE /* app.enml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F41E164C373C00C55BAE /* app.enml */; };
+		7421F42A164C374200C55BAE /* Collide.angelscript in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F41F164C373C00C55BAE /* Collide.angelscript */; };
+		7421F42B164C374200C55BAE /* data in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F420164C373D00C55BAE /* data */; };
+		7421F42C164C374200C55BAE /* editor.enml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F421164C373D00C55BAE /* editor.enml */; };
+		7421F42D164C374200C55BAE /* effects in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F422164C373D00C55BAE /* effects */; };
+		7421F42E164C374200C55BAE /* entities in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F423164C373F00C55BAE /* entities */; };
+		7421F42F164C374200C55BAE /* eth_util.angelscript in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F424164C373F00C55BAE /* eth_util.angelscript */; };
+		7421F430164C374200C55BAE /* main.angelscript in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F425164C374100C55BAE /* main.angelscript */; };
+		7421F431164C374200C55BAE /* particles in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F426164C374100C55BAE /* particles */; };
+		7421F432164C374200C55BAE /* scenes in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F427164C374200C55BAE /* scenes */; };
+		7421F433164C374200C55BAE /* soundfx in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F428164C374200C55BAE /* soundfx */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +101,17 @@
 			dstPath = assets;
 			dstSubfolderSpec = 7;
 			files = (
+				7421F429164C374200C55BAE /* app.enml in CopyFiles */,
+				7421F42A164C374200C55BAE /* Collide.angelscript in CopyFiles */,
+				7421F42B164C374200C55BAE /* data in CopyFiles */,
+				7421F42C164C374200C55BAE /* editor.enml in CopyFiles */,
+				7421F42D164C374200C55BAE /* effects in CopyFiles */,
+				7421F42E164C374200C55BAE /* entities in CopyFiles */,
+				7421F42F164C374200C55BAE /* eth_util.angelscript in CopyFiles */,
+				7421F430164C374200C55BAE /* main.angelscript in CopyFiles */,
+				7421F431164C374200C55BAE /* particles in CopyFiles */,
+				7421F432164C374200C55BAE /* scenes in CopyFiles */,
+				7421F433164C374200C55BAE /* soundfx in CopyFiles */,
 				7421F404164C096900C55BAE /* ikpMP3.dylib in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -136,6 +158,17 @@
 		7421F417164C297800C55BAE /* SceneEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SceneEditor.cpp; path = ../../../../src/editor/SceneEditor.cpp; sourceTree = "<group>"; };
 		7421F418164C297800C55BAE /* SceneEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SceneEditor.h; path = ../../../../src/editor/SceneEditor.h; sourceTree = "<group>"; };
 		7421F41C164C31AD00C55BAE /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../../../src/editor/main.cpp; sourceTree = "<group>"; };
+		7421F41E164C373C00C55BAE /* app.enml */ = {isa = PBXFileReference; lastKnownFileType = text; name = app.enml; path = "../../../../Ethanon Toolkit/app.enml"; sourceTree = "<group>"; };
+		7421F41F164C373C00C55BAE /* Collide.angelscript */ = {isa = PBXFileReference; lastKnownFileType = text; name = Collide.angelscript; path = "../../../../Ethanon Toolkit/Collide.angelscript"; sourceTree = "<group>"; };
+		7421F420164C373D00C55BAE /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = "../../../../Ethanon Toolkit/data"; sourceTree = "<group>"; };
+		7421F421164C373D00C55BAE /* editor.enml */ = {isa = PBXFileReference; lastKnownFileType = text; name = editor.enml; path = "../../../../Ethanon Toolkit/editor.enml"; sourceTree = "<group>"; };
+		7421F422164C373D00C55BAE /* effects */ = {isa = PBXFileReference; lastKnownFileType = folder; name = effects; path = "../../../../Ethanon Toolkit/effects"; sourceTree = "<group>"; };
+		7421F423164C373F00C55BAE /* entities */ = {isa = PBXFileReference; lastKnownFileType = folder; name = entities; path = "../../../../Ethanon Toolkit/entities"; sourceTree = "<group>"; };
+		7421F424164C373F00C55BAE /* eth_util.angelscript */ = {isa = PBXFileReference; lastKnownFileType = text; name = eth_util.angelscript; path = "../../../../Ethanon Toolkit/eth_util.angelscript"; sourceTree = "<group>"; };
+		7421F425164C374100C55BAE /* main.angelscript */ = {isa = PBXFileReference; lastKnownFileType = text; name = main.angelscript; path = "../../../../Ethanon Toolkit/main.angelscript"; sourceTree = "<group>"; };
+		7421F426164C374100C55BAE /* particles */ = {isa = PBXFileReference; lastKnownFileType = folder; name = particles; path = "../../../../Ethanon Toolkit/particles"; sourceTree = "<group>"; };
+		7421F427164C374200C55BAE /* scenes */ = {isa = PBXFileReference; lastKnownFileType = folder; name = scenes; path = "../../../../Ethanon Toolkit/scenes"; sourceTree = "<group>"; };
+		7421F428164C374200C55BAE /* soundfx */ = {isa = PBXFileReference; lastKnownFileType = folder; name = soundfx; path = "../../../../Ethanon Toolkit/soundfx"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,7 +189,7 @@
 		7421F378164BED3200C55BAE = {
 			isa = PBXGroup;
 			children = (
-				7421F403164C096900C55BAE /* ikpMP3.dylib */,
+				7421F434164C839700C55BAE /* Resources */,
 				7421F3E4164BF10C00C55BAE /* SDL.framework */,
 				7421F3DE164BEF9900C55BAE /* SDL.framework */,
 				7421F38D164BED3200C55BAE /* Ethanon Editor */,
@@ -300,6 +333,25 @@
 				7421F415164C180100C55BAE /* ProjectManager.h */,
 			);
 			name = Project;
+			sourceTree = "<group>";
+		};
+		7421F434164C839700C55BAE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				7421F403164C096900C55BAE /* ikpMP3.dylib */,
+				7421F41E164C373C00C55BAE /* app.enml */,
+				7421F41F164C373C00C55BAE /* Collide.angelscript */,
+				7421F420164C373D00C55BAE /* data */,
+				7421F421164C373D00C55BAE /* editor.enml */,
+				7421F422164C373D00C55BAE /* effects */,
+				7421F423164C373F00C55BAE /* entities */,
+				7421F424164C373F00C55BAE /* eth_util.angelscript */,
+				7421F425164C374100C55BAE /* main.angelscript */,
+				7421F426164C374100C55BAE /* particles */,
+				7421F427164C374200C55BAE /* scenes */,
+				7421F428164C374200C55BAE /* soundfx */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
