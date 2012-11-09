@@ -47,14 +47,24 @@ uniform float3 lightPos;
 uniform float lightRange;
 uniform float4 lightColor;
 
-uniform float2 parallaxOrigin;
+
+
+uniform float3 parallaxOrigin_verticalIntensity;
 uniform float parallaxIntensity;
 uniform float3 entityPos3D;
-float2 computeParallaxOffset()
+float computeVerticalOffsetInPixels(const float posY, const float rectSizeY)
 {
-	const float2 screenSpacePos = float2(entityPos3D.x, entityPos3D.y)-cameraPos;
-	return ((screenSpacePos-parallaxOrigin)/screenSize.x)*entityPos3D.z*parallaxIntensity;
+	return ((1 - posY) * rectSizeY);
 }
+
+float2 computeParallaxOffset(const float2 vertPos, float3 inPosition)
+{
+	const float2 parallaxOrigin = parallaxOrigin_verticalIntensity.xy;
+	const float verticalIntensity = parallaxOrigin_verticalIntensity.z;
+	const float vOffset = computeVerticalOffsetInPixels(inPosition.y, rectSize.y);
+	return ((vertPos - parallaxOrigin) / screenSize.x) * (entityPos3D.z + (vOffset * verticalIntensity)) * parallaxIntensity;
+}
+
 struct SPRITE_TRANSFORM
 {
 	float4 position;
@@ -65,16 +75,16 @@ SPRITE_TRANSFORM transformSprite(float3 position)
 	SPRITE_TRANSFORM r;
 	float4 newPos = float4(position, 1);
 	newPos = newPos * float4(size,1,1) - float4(center, 0, 0);
-	newPos = mul(rotationMatrix, newPos)+float4(entityPos,0,0);
-	r.vertPos = newPos.xy;
-	
+	newPos = mul(rotationMatrix, newPos) + float4(entityPos,0,0);
+	r.vertPos = newPos.xy/screenSize;
+
 	// project the vertex on the screen
-	newPos -= float4(screenSize/2,0,0)+float4(cameraPos,0,0);
-	newPos += float4(computeParallaxOffset(),0,0);
+	newPos -= float4(cameraPos,0,0);
+	newPos += float4(computeParallaxOffset(newPos.xy, position),0,0) - float4(screenSize / 2,0,0);
 	newPos *= float4(1,-1,1,1);
 	r.position = mul(viewMatrix, newPos);
 	return r;
-}
+}	
 
 // returns the texture coordinate according to the rect
 float2 transformCoord(float2 texCoord)
@@ -95,7 +105,7 @@ void sprite_pvl(float3 position : POSITION,
 				uniform float spaceLength)
 {
 	SPRITE_TRANSFORM transform = transformSprite(position);
-	transform.position.z = (1-depth) - (((1-position.y)*rectSize.y)/spaceLength);;
+	transform.position.z = (1 - depth) - ((computeVerticalOffsetInPixels(position.y, rectSize.y)) / spaceLength);
 	oPosition = transform.position;
 	oVertPos = transform.vertPos;
 	oTexCoord = transformCoord(texCoord);
