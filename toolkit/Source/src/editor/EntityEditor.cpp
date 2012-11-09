@@ -1376,6 +1376,19 @@ void EntityEditor::DrawEntity()
 					  color,color,color,color);
 	}
 
+	video->SetZWrite(false);
+	video->SetZBuffer(false);
+
+	if ((m_lightRange.IsActive() || m_lightRange.IsMouseOver())
+		&& m_renderEntity->GetType() != ETHEntityProperties::ET_VERTICAL && m_pEditEntity->light)
+	{
+		const Vector2 v2LightPos(m_pEditEntity->light->pos.x, m_pEditEntity->light->pos.y);
+		const float diameter = m_pEditEntity->light->range * 2;
+		const Color color = ConvertToDW(m_pEditEntity->light->color);
+		m_range->DrawShaped(m_renderEntity->GetPositionXY() + v2LightPos, Vector2(diameter,diameter),
+							color, color, color, color);
+	}
+
 	video->SetZWrite(true);
 	video->SetZBuffer(true);
 
@@ -1403,34 +1416,13 @@ void EntityEditor::DrawEntity()
 			shaderManager->EndShadowPass();
 		}
 	}
-	video->SetZWrite(false);
-	video->SetZBuffer(false);
-
-	if (m_pEditEntity->collision && m_tool.GetButtonStatus(_S_EDIT_COLLISION))
-	{
-		if (m_pEditEntity->collision->size.x != 0.0f && //-V807
-			m_pEditEntity->collision->size.y != 0.0f &&
-			m_pEditEntity->collision->size.z != 0.0f)
-		{
-			m_renderEntity->DrawCollisionBox(m_outline, gs2d::constant::WHITE,	ETH_DEFAULT_ZDIRECTION);
-		}
-	}
 
 	m_sceneProps.ambient =
 		(m_pEditEntity->applyLight) ? Vector3(_ETH_DEFAULT_AMBIENT_LIGHT,_ETH_DEFAULT_AMBIENT_LIGHT,_ETH_DEFAULT_AMBIENT_LIGHT) : math::constant::ONE_VECTOR3;
 
-	video->SetZWrite(true);
-	video->SetZBuffer(true);
-
 	shaderManager->BeginAmbientPass(m_renderEntity.get(), screenSize.y,-screenSize.y);
 	m_renderEntity->DrawAmbientPass(screenSize.y,-screenSize.y, false, m_sceneProps, 0.0f);
 	shaderManager->EndAmbientPass();
-
-	video->SetZWrite(false);
-	video->SetZBuffer(false);
-
-	video->SetZWrite(false);
-	video->SetZBuffer(true);
 
 	if (!m_renderEntity->HasLightSource())
 	{
@@ -1450,24 +1442,9 @@ void EntityEditor::DrawEntity()
 		}
 	}
 
-	video->SetZWrite(false);
-	video->SetZBuffer(false);
-
-	if ((m_lightRange.IsActive() || m_lightRange.IsMouseOver())
-		&& m_renderEntity->GetType() != ETHEntityProperties::ET_VERTICAL && m_pEditEntity->light)
-	{
-		const Vector2 v2LightPos(m_pEditEntity->light->pos.x, m_pEditEntity->light->pos.y);
-		const float diameter = m_pEditEntity->light->range * 2;
-		const Color color = ConvertToDW(m_pEditEntity->light->color);
-		m_range->DrawShaped(m_renderEntity->GetPositionXY() + v2LightPos, Vector2(diameter,diameter),
-							color, color, color, color);
-	}
-
 	m_speedTimer.CalcLastFrame();
 	m_renderEntity->UpdateParticleSystems(ETH_DEFAULT_ZDIRECTION, static_cast<unsigned long>(m_speedTimer.GetElapsedTime() * 1000.0));
 
-	video->SetZWrite(true);
-	video->SetZBuffer(true);
 	std::list<ETHLight> lights;
 	if (m_pEditEntity->light)
 	{
@@ -1496,21 +1473,15 @@ void EntityEditor::DrawEntity()
 			}
 		}
 	}
-	video->SetZWrite(false);
-	video->SetZBuffer(false);
 
 	if (m_pEditEntity->light)
 	{
-		video->SetZWrite(true);
-		video->SetZBuffer(true);
 		const Vector2 screenSize(video->GetScreenSizeF());
 		if (shaderManager->BeginHaloPass(m_pEditEntity->light.get(), screenSize.y, m_renderEntity.get()))
 		{
 			m_renderEntity->DrawHalo(screenSize.y,-screenSize.y, false, ETH_DEFAULT_ZDIRECTION);
 			shaderManager->EndHaloPass();
 		}
-		video->SetZWrite(false);
-		video->SetZBuffer(false);
 
 		bool show = false;
 		if (m_lightRange.IsActive() || m_lightRange.IsMouseOver() || m_tool.GetButtonStatus(_S_EDIT_LIGHT))
@@ -1528,12 +1499,16 @@ void EntityEditor::DrawEntity()
 		}
 		if (show)
 		{
+			video->SetZWrite(false);
+			video->SetZBuffer(false);
 			const Vector2 v2LightPos(m_pEditEntity->light->pos.x, m_pEditEntity->light->pos.y);
 			m_spot.m_sprite->Draw(m_renderEntity->GetPositionXY() + v2LightPos, ConvertToDW(m_pEditEntity->light->color));
 		}
 	}
 	if (m_tool.GetButtonStatus(_S_EDIT_PARTICLES))
 	{
+		video->SetZWrite(false);
+		video->SetZBuffer(false);
 		for (int t=0; t<ETH_MAX_PARTICLE_SYS_PER_ENTITY; t++)
 		{
 			if (m_pEditEntity->particleSystems[t]->nParticles > 0) //-V807
@@ -1541,6 +1516,16 @@ void EntityEditor::DrawEntity()
 				m_particleSpot[t].m_sprite->Draw(m_renderEntity->GetPositionXY() + ETHGlobal::ToVector2(m_pEditEntity->particleSystems[t]->startPoint),
 												 ConvertToDW(m_pEditEntity->particleSystems[t]->color0));
 			}
+		}
+	}
+
+	if (m_pEditEntity->collision && m_tool.GetButtonStatus(_S_EDIT_COLLISION))
+	{
+		if (m_pEditEntity->collision->size.x != 0.0f && //-V807
+			m_pEditEntity->collision->size.y != 0.0f &&
+			m_pEditEntity->collision->size.z != 0.0f)
+		{
+			m_renderEntity->DrawCollisionBox(m_outline, gs2d::constant::WHITE,	ETH_DEFAULT_ZDIRECTION);
 		}
 	}
 }
