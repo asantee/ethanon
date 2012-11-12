@@ -81,6 +81,8 @@ public:
 	virtual bool GetUTF16FileString(const gs2d::str_type::string& fileName, gs2d::str_type::string &out) = 0;
 	virtual bool FileExists(const gs2d::str_type::string& fileName) const = 0;
 	virtual bool IsPacked() const = 0;
+
+	virtual bool ConvertAnsiFileToUTF16LE(const gs2d::str_type::string& fileName);
 };
 typedef boost::shared_ptr<FileManager> FileManagerPtr;
 

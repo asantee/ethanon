@@ -1307,7 +1307,7 @@ bool EntityEditor::Save(const char *path)
 {
 	std::string sOut;
 	AddExtension(path, ".ent", sOut);
-	m_pEditEntity->SaveToFile(utf8::c(sOut).wstr());
+	m_pEditEntity->SaveToFile(utf8::c(sOut).wstr(), m_provider->GetFileManager());
 	SetCurrentFile(sOut.c_str());
 	CreateFileUpdateDetector(utf8::c(path).wstr());
 	return true;

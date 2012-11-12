@@ -186,7 +186,7 @@ bool ETHEntityProperties::IsSuccessfullyLoaded() const
 	return successfullyLoaded;
 }
 
-bool ETHEntityProperties::SaveToFile(const str_type::string& filePath)
+bool ETHEntityProperties::SaveToFile(const str_type::string& filePath, const Platform::FileManagerPtr& fileManager)
 {
 	TiXmlDocument doc;
 	TiXmlDeclaration *pDecl = new TiXmlDeclaration(GS_L("1.0"), GS_L(""), GS_L(""));
@@ -197,6 +197,9 @@ bool ETHEntityProperties::SaveToFile(const str_type::string& filePath)
 
 	WriteToXMLFile(doc.RootElement());
 	doc.SaveFile(filePath);
+	#ifdef GS2D_STR_TYPE_ANSI
+	  fileManager->ConvertAnsiFileToUTF16LE(filePath);
+	#endif
 	return true;
 }
 

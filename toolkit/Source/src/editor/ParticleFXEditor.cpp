@@ -440,7 +440,11 @@ void ParticleEditor::SaveAs()
 		doc.LinkEndChild(pElement);
 
 		m_system.WriteToXMLFile(doc.RootElement());
-		doc.SaveFile(utf8::c(path).wstr());
+		const str_type::string filePath = utf8::c(path).wstr();
+		doc.SaveFile(filePath);
+		#ifdef GS2D_STR_TYPE_ANSI
+		  m_provider->GetFileManager()->ConvertAnsiFileToUTF16LE(filePath);
+		#endif
 
 		SetCurrentFile(path);
 		m_untitled = false;
@@ -457,7 +461,12 @@ void ParticleEditor::Save()
 	doc.LinkEndChild(pElement);
 
 	m_system.WriteToXMLFile(doc.RootElement());
-	doc.SaveFile(utf8::c(GetCurrentFile(true)).wstr());
+	const str_type::string filePath = utf8::c(GetCurrentFile(true)).wstr();
+	doc.SaveFile(filePath);
+	#ifdef GS2D_STR_TYPE_ANSI
+	  m_provider->GetFileManager()->ConvertAnsiFileToUTF16LE(filePath);
+	#endif
+
 
 	m_untitled = false;
 }

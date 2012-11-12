@@ -103,7 +103,7 @@ public:
 	ETHEntityProperties();
 	bool IsCollidable() const;
 	void Reset();
-	bool SaveToFile(const str_type::string& filePath);
+	bool SaveToFile(const str_type::string& filePath, const Platform::FileManagerPtr& fileManager);
 	bool ReadFromXMLFile(TiXmlElement *pElement);
 	bool WriteToXMLFile(TiXmlElement *pHeadRoot) const;
 	bool IsSuccessfullyLoaded() const;

@@ -143,6 +143,9 @@ bool ETHScene::SaveToFile(const str_type::string& fileName)
 	}
 
 	doc.SaveFile(fileName);
+	#ifdef GS2D_STR_TYPE_ANSI
+	  m_provider->GetFileManager()->ConvertAnsiFileToUTF16LE(fileName);
+	#endif
 	return true;
 }
 

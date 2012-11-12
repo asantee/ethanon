@@ -41,7 +41,7 @@
 namespace gs2d {
 
 namespace str_type {
-#if (ANDROID) || (APPLE_IOS) || (MACOSX)
+#if defined(ANDROID) || defined(APPLE_IOS) || defined(MACOSX)
  typedef std::string string;
  typedef std::stringstream stringstream;
  typedef char char_t;
@@ -54,7 +54,9 @@ namespace str_type {
  #define GS2D_COUT std::cout
  #define GS2D_CERR std::cerr
 #else
- #include <xstring>
+ #if defined(__WIN32__) || defined(_MSC_VER)
+  #include <xstring>
+ #endif
  typedef std::wstring string;
  typedef std::wstringstream stringstream;
  typedef wchar_t char_t;

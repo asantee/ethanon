@@ -22,6 +22,40 @@
 
 #include "FileManager.h"
 
+#include <fstream>
+
+using namespace gs2d;
+
 namespace Platform {
 
+bool FileManager::ConvertAnsiFileToUTF16LE(const gs2d::str_type::string& fileName)
+{
+	str_type::string content;
+	if (!GetAnsiFileString(fileName, content))
+	{
+		return false;
+	}
+
+	const unsigned short utf16bom = 0xFFFE;
+	str_type::ofstream ofs(fileName.c_str(), std::ios::out | std::ios::binary);
+	if (ofs.is_open())
+	{
+		ofs.write((char*)&utf16bom, 2);
+
+		const std::size_t length = content.length();
+		for (std::size_t t = 0; t < length; t++)
+		{
+			ofs.write((char*)&content[t], 1);
+			const char c = '\0';
+			ofs.write(&c, 1);
+		}
+		ofs.close();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
+
+} // namespace Platform
