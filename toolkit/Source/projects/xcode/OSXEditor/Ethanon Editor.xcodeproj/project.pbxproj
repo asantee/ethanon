@@ -42,6 +42,7 @@
 		7421F432164C374200C55BAE /* scenes in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F427164C374200C55BAE /* scenes */; };
 		7421F433164C374200C55BAE /* soundfx in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F428164C374200C55BAE /* soundfx */; };
 		7421F43A1651587D00C55BAE /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7421F4391651587C00C55BAE /* icon.icns */; };
+		7421F43E16518D9F00C55BAE /* editor_icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7421F43D16518D9F00C55BAE /* editor_icon.icns */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -171,6 +172,7 @@
 		7421F427164C374200C55BAE /* scenes */ = {isa = PBXFileReference; lastKnownFileType = folder; name = scenes; path = "../../../../Ethanon Toolkit/scenes"; sourceTree = "<group>"; };
 		7421F428164C374200C55BAE /* soundfx */ = {isa = PBXFileReference; lastKnownFileType = folder; name = soundfx; path = "../../../../Ethanon Toolkit/soundfx"; sourceTree = "<group>"; };
 		7421F4391651587C00C55BAE /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
+		7421F43D16518D9F00C55BAE /* editor_icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = editor_icon.icns; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +193,7 @@
 		7421F378164BED3200C55BAE = {
 			isa = PBXGroup;
 			children = (
+				7421F43D16518D9F00C55BAE /* editor_icon.icns */,
 				7421F4391651587C00C55BAE /* icon.icns */,
 				7421F434164C839700C55BAE /* Resources */,
 				7421F3E4164BF10C00C55BAE /* SDL.framework */,
@@ -454,6 +457,7 @@
 				7421F392164BED3200C55BAE /* InfoPlist.strings in Resources */,
 				7421F3AA164BEEF300C55BAE /* engine.xcodeproj in Resources */,
 				7421F43A1651587D00C55BAE /* icon.icns in Resources */,
+				7421F43E16518D9F00C55BAE /* editor_icon.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

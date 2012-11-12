@@ -142,6 +142,18 @@ bool DoNextAppButton(int nextApp, SpritePtr pSprite, VideoPtr video, InputPtr in
 	return false;
 }
 
+std::string FindStartupProject(const int argc, char **argv, const Platform::FileManagerPtr& fileManager)
+{
+	for (int t = 0; t < argc; t++)
+	{
+		if (Platform::IsExtensionRight(argv[t], ".ethproj") && ETHGlobal::FileExists(argv[t], fileManager))
+		{
+			return argv[t];
+		}
+	}
+	return ("");
+}
+
 #ifdef GS2D_USE_SDL
  int SDL_main(int argc, char **argv)
 #else
@@ -201,15 +213,16 @@ bool DoNextAppButton(int nextApp, SpritePtr pSprite, VideoPtr video, InputPtr in
 		const str_type::string nextAppButtonPath = fileIOHub->GetProgramDirectory() + GS_L("data/nextapp.png");
 		SpritePtr nextAppButton = video->CreateSprite(nextAppButtonPath);
 
-		ETH_STARTUP_RESOURCES_ENML_FILE startup(fileIOHub->GetProgramDirectory() + GS_L("editor.enml"), Platform::FileManagerPtr(new Platform::StdFileManager));
+		//ETH_STARTUP_RESOURCES_ENML_FILE startup(fileIOHub->GetProgramDirectory() + GS_L("editor.enml"), Platform::FileManagerPtr(new Platform::StdFileManager));
 
 		// if the user tried the "open with..." feature on windows, open that project
-		if (Application::GetPlatformName() == GS_L("windows") && argc >= 2)
+		const std::string projectFile = FindStartupProject(argc, argv, fileManager);
+		if (!projectFile.empty())
 		{
-			editor[PROJECT]->SetCurrentProject(argv[1]);
-			editor[PROJECT]->SetCurrentFile(argv[1]);
+			editor[PROJECT]->SetCurrentProject(projectFile.c_str());
+			editor[PROJECT]->SetCurrentFile(projectFile.c_str());
 		}
-		else if (!startup.emtprojFilename.empty())
+		/*else if (!startup.emtprojFilename.empty())
 		{
 			// default project opening
 			editor[PROJECT]->SetCurrentProject(utf8::c(startup.emtprojFilename).c_str());
@@ -227,7 +240,7 @@ bool DoNextAppButton(int nextApp, SpritePtr pSprite, VideoPtr video, InputPtr in
 				SceneEditor * sceneEditor = (SceneEditor *)(editor[SCENE].get());
 				sceneEditor->OpenByFilename(utf8::c(startup.escFilename).c_str());
 			}
-		}
+		}*/
 
 		std::string lastProjectName = editor[PROJECT]->GetCurrentProject();
 
