@@ -363,7 +363,7 @@ std::string SceneEditor::DoEditor(SpritePtr pNextAppButton)
 			GS_L("Verdana24_shadow.fnt"), gs2d::constant::WHITE);
 	}
 
-	if (input->GetKeyState(GSK_DELETE) == GSKS_HIT && guiButtonsFree)
+	if ((input->GetKeyState(GSK_DELETE) == GSKS_HIT || input->GetKeyState(GSK_MAC_DELETE) == GSKS_HIT) && guiButtonsFree)
 	{
 		if (m_pSelected)
 		{
