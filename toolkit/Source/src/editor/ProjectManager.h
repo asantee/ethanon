@@ -57,6 +57,8 @@ public:
 		return true;
 	}
 
+	void RequestProjectOpen(const std::string& path);
+
 private:
 	bool Save();
 	bool Open();
@@ -65,6 +67,10 @@ private:
 	std::string ReadLastDir();
 	void PrepareProjectDir();
 	void CreateFileMenu();
+
+	void ProccessFileOpenRequests();
+
+	std::string m_requestedProjectFileNameToOpen;
 };
 
 #endif

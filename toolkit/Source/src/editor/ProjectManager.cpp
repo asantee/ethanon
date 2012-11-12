@@ -96,7 +96,24 @@ std::string ProjectManager::DoEditor(SpritePtr pNextAppButton)
 		ShadowPrint(Vector2(64,128), sText.c_str());
 	}
 
+	ProccessFileOpenRequests();
 	return GetCurrentProject();
+}
+
+void ProjectManager::ProccessFileOpenRequests()
+{
+	if (!m_requestedProjectFileNameToOpen.empty())
+	{
+		SetCurrentProject(m_requestedProjectFileNameToOpen.c_str());
+		SetCurrentFile(m_requestedProjectFileNameToOpen.c_str());
+		SaveLastDir(Platform::GetFileDirectory(m_requestedProjectFileNameToOpen.c_str()).c_str());
+	}
+	m_requestedProjectFileNameToOpen.clear();
+}
+
+void ProjectManager::RequestProjectOpen(const std::string &path)
+{
+	m_requestedProjectFileNameToOpen = path;
 }
 
 bool ProjectManager::SaveAs()
@@ -135,9 +152,7 @@ bool ProjectManager::Open()
 	std::string sLastDir = ReadLastDir();
 	if (OpenForm(filter, sLastDir.c_str(), path, file))
 	{
-		SetCurrentProject(path);
-		SetCurrentFile(path);
-		SaveLastDir(Platform::GetFileDirectory(path).c_str());
+		RequestProjectOpen(path);
 	}
 	return true;
 }
