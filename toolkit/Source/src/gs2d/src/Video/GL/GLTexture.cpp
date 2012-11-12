@@ -316,11 +316,13 @@ void CheckFrameBufferStatus(const GLuint fbo, const GLuint tex, const bool showS
 	switch (status)
 	{
 	case GL_FRAMEBUFFER_COMPLETE:
-		if (showSuccessMessage)
-		{
-			ss << GS_L(" render target texture created successfully");
-			ShowMessage(ss.str(), GSMT_INFO);
-		}
+		#ifdef DEBUG
+		 if (showSuccessMessage)
+		 {
+			 ss << GS_L(" render target texture created successfully");
+			 ShowMessage(ss.str(), GSMT_INFO);
+		 }
+		#endif
 		break;
 	case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
 		ss << GS_L(" incomplete attachment");
