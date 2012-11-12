@@ -6570,7 +6570,7 @@ asUINT asCCompiler::ProcessStringConstant(asCString &cstr, asCScriptNode *node, 
 			{
 				unsigned int len;
 				val = asStringDecodeUTF8(&cstr[n], &len);
-				if( val == 0xFFFFFFFF || len < 0 )
+				if( val == 0xFFFFFFFF/* || len < 0 */)
 				{
 					// Incorrect UTF8 encoding. Use only the first byte
 					// TODO: Need code position for warning
