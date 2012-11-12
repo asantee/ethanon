@@ -28,6 +28,7 @@
 #include <Platform/FileIOHub.h>
 #include <unicode/UTF8Converter.h>
 #include <Platform/StdFileManager.h>
+#include <Platform/MainSharedHeader.h>
 #include "../engine/Platform/ETHAppEnmlFile.h"
 #include "../engine/Resource/ETHDirectories.h"
 
@@ -68,7 +69,16 @@ static const str_type::char_t *g_editors[] =
 	GS_L("ParticleFX editor")
 };
 
-struct ETH_STARTUP_RESOURCES_ENML_FILE
+static std::string g_externalProjectOpenRequest;
+
+extern "C" {
+	void RequestFileOpen(const char* str)
+	{
+		g_externalProjectOpenRequest = str;
+	}
+}
+
+/*struct ETH_STARTUP_RESOURCES_ENML_FILE
 {
 	ETH_STARTUP_RESOURCES_ENML_FILE(const str_type::string& fileName, const Platform::FileManagerPtr& fileManager)
 	{
@@ -90,7 +100,7 @@ struct ETH_STARTUP_RESOURCES_ENML_FILE
 	}
 	str_type::string emtprojFilename;
 	str_type::string escFilename;
-};
+};*/
 
 bool DoNextAppButton(int nextApp, SpritePtr pSprite, VideoPtr video, InputPtr input,
 					 const float menuSize, boost::shared_ptr<EditorBase> pEditor)
@@ -363,6 +373,15 @@ std::string FindStartupProject(const int argc, char **argv, const Platform::File
 				{
 					editor[SCENE]->ReloadFiles();
 				}
+			}
+
+			// check and execute external project load requests
+			if (!g_externalProjectOpenRequest.empty())
+			{
+				boost::shared_ptr<ProjectManager> projectManager = boost::dynamic_pointer_cast<ProjectManager>(editor[PROJECT]);
+				projectManager->RequestProjectOpen(g_externalProjectOpenRequest);
+				current = PROJECT;
+				g_externalProjectOpenRequest.clear();
 			}
 
 			// show fps rate

@@ -10,6 +10,10 @@
 #include <sys/param.h> /* for MAXPATHLEN */
 #include <unistd.h>
 
+#ifdef _ETHANON_EDITOR
+ #include "../MainSharedHeader.h"
+#endif
+
 /* For some reaon, Apple removed setAppleMenu from the headers in 10.4,
  but the method still is there and works. To avoid warnings, we declare
  it ourselves here. */
@@ -255,11 +259,20 @@ static void CustomApplicationMain (int argc, char **argv)
     char *arg;
     char **newargv;
 
+    #ifndef _ETHANON_EDITOR
     if (!gFinderLaunch)  /* MacOS is passing command line args. */
         return FALSE;
+	#endif
 
     if (gCalledAppMainline)  /* app has started, ignore this document. */
-        return FALSE;
+	{
+		BOOL r = FALSE;
+		#ifdef _ETHANON_EDITOR
+		 RequestFileOpen([filename cStringUsingEncoding:1]);
+		 r = TRUE;
+		#endif
+        return r;
+	}
 
     temparg = [filename UTF8String];
     arglen = SDL_strlen(temparg) + 1;
