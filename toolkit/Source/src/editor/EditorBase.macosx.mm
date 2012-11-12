@@ -41,22 +41,16 @@ static NSArray* GenerateFileTypesArray(const FILE_FORM_FILTER& filter)
 	return r;
 }
 
-bool EditorBase::OpenForm(
+static bool OpenPanel(
+	NSSavePanel* panel,
 	const FILE_FORM_FILTER& filter,
 	const char *directory,
 	char *szoFilePathName,
 	char *szoFileName)
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
 	NSArray* fileTypes = GenerateFileTypesArray(filter);
 
-	NSOpenPanel *panel;
-	panel = [NSOpenPanel openPanel];
 	[panel setFloatingPanel:YES];
-	[panel setCanChooseDirectories:NO];
-	[panel setCanChooseFiles:YES];
-	[panel setAllowsMultipleSelection:NO];
 	[panel setAllowedFileTypes:fileTypes];
 	[panel setMessage:[NSString stringWithUTF8String:filter.title.c_str()]];
 
@@ -76,16 +70,41 @@ bool EditorBase::OpenForm(
 		strcpy(szoFilePathName, fileName.c_str());
 		strcpy(szoFileName,     Platform::GetFileName(fileName).c_str());
 	}
+	return r;
+
+}
+
+bool EditorBase::OpenForm(
+	const FILE_FORM_FILTER& filter,
+	const char* directory,
+	char* szoFilePathName,
+	char* szoFileName)
+{
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+	NSOpenPanel *panel;
+	panel = [NSOpenPanel openPanel];
+	[panel setCanChooseDirectories:NO];
+	[panel setCanChooseFiles:YES];
+	[panel setAllowsMultipleSelection:NO];
+
+	const bool r = OpenPanel(panel, filter, directory, szoFilePathName, szoFileName);
 	[pool release];
 	return r;
 }
 
 bool EditorBase::SaveForm(
 	const FILE_FORM_FILTER& filter,
-	const char *szDir,
-	char *szoFilePathName,
-	char *szoFileName)
+	const char* directory,
+	char* szoFilePathName,
+	char* szoFileName)
 {
-	#warning todo
-	return false;
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+	NSSavePanel *panel;
+	panel = [NSSavePanel savePanel];
+
+	const bool r = OpenPanel(panel, filter, directory, szoFilePathName, szoFileName);
+	[pool release];
+	return r;
 }
