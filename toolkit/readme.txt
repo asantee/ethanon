@@ -24,18 +24,16 @@ Engine uses AngelScript for scripts, which brings a familiar
 C++ syntax to the code. The integration with the scripting
 language is pretty simple and easy to understand.
 
-HOW TO BUILD:
-------------
-
-MSVC:
--Use Visual Studio 2008 (9.0)
--Run make_deploy.bat to deploy all platform libraries and binaries.
-
 INSTRUCTIONS:
 ------------
 
--Manual: http://ethanonengine.com/documentation/
--Sample project: /Sample Projects/
+-Manual: http://doc.ethanonengine.com/
+
+-Source-code: https://github.com/asantee/ethanon/
+
+-Sample project:
+    Windows:      ~/My Documents/Ethanon/Sample-Projects/
+    MacOSX/Linux: <ethanon-sdk>/Sample-Project/
 
 LICENCE:
 -------
