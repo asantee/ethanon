@@ -71,10 +71,33 @@ void ProcParams(const int argc, gs2d::str_type::char_t* argv[], bool& compileAnd
 	}
 }
 
+str_type::string FindResourceDir(const int argc, gs2d::str_type::char_t* argv[])
+{
+	for (int t = 0; t < argc; t++)
+	{
+		const str_type::string argStr = (argv[t]);
+		if (argStr.substr(0, 4) == GS_L("dir="))
+		{
+			const std::vector<str_type::string> pieces = ETHGlobal::SplitString(argStr, GS_L("="));
+			if (pieces.size() >= 2)
+			{
+				str_type::string dir = Platform::AddLastSlash(pieces[1]);
+				return Platform::FixSlashes(dir);
+			}
+		}
+	}
+	return GS_L("");
+}
+
 #ifdef GS2D_USE_SDL
- int SDL_main(int argc, char **argv)
+ int SDL_main(int argc, char** argv)
 #else
- int wmain(int argc, gs2d::str_type::char_t* argv[])
+ #ifdef GS2D_STR_TYPE_WCHAR
+  #define ETH_MACHINE_MAIN_FUNC wmain
+ #else
+  #define ETH_MACHINE_MAIN_FUNC main
+ #endif
+ int ETH_MACHINE_MAIN_FUNC(int argc, gs2d::str_type::char_t** argv)
 #endif
 {
 	bool compileAndRun, testing, wait;
@@ -85,6 +108,11 @@ void ProcParams(const int argc, gs2d::str_type::char_t* argv[], bool& compileAnd
 	Platform::FileManagerPtr fileManager(new Platform::StdFileManager());
 
 	Platform::FileIOHubPtr fileIOHub = Platform::CreateFileIOHub(fileManager, ETHDirectories::GetBitmapFontDirectory());
+	{
+		const str_type::string resourceDirectory = FindResourceDir(argc, argv);
+		if (!resourceDirectory.empty())
+			fileIOHub->SetResourceDirectory(resourceDirectory);
+	}
 	const str_type::string resourceDirectory = fileIOHub->GetResourceDirectory(); 
 
 	const ETHAppEnmlFile app(resourceDirectory + ETH_APP_PROPERTIES_FILE, Platform::FileManagerPtr(new Platform::StdFileManager), Application::GetPlatformName());
