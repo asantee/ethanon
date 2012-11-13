@@ -13,6 +13,17 @@
 		7421F2DB164805C000C55BAE /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F2DA164805C000C55BAE /* main.cpp */; };
 		7421F2FF1649A1F000C55BAE /* ikpMP3.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F2F71649A18B00C55BAE /* ikpMP3.dylib */; };
 		7421F43C165158BA00C55BAE /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7421F43B165158BA00C55BAE /* icon.icns */; };
+		7421F49D1652BCF700C55BAE /* app.enml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F4921652BCF700C55BAE /* app.enml */; };
+		7421F49E1652BCF700C55BAE /* Collide.angelscript in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F4931652BCF700C55BAE /* Collide.angelscript */; };
+		7421F49F1652BCF700C55BAE /* data in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F4941652BCF700C55BAE /* data */; };
+		7421F4A01652BCF700C55BAE /* editor.enml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F4951652BCF700C55BAE /* editor.enml */; };
+		7421F4A11652BCF700C55BAE /* effects in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F4961652BCF700C55BAE /* effects */; };
+		7421F4A21652BCF700C55BAE /* entities in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F4971652BCF700C55BAE /* entities */; };
+		7421F4A31652BCF700C55BAE /* eth_util.angelscript in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F4981652BCF700C55BAE /* eth_util.angelscript */; };
+		7421F4A41652BCF700C55BAE /* main.angelscript in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F4991652BCF700C55BAE /* main.angelscript */; };
+		7421F4A51652BCF700C55BAE /* particles in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F49A1652BCF700C55BAE /* particles */; };
+		7421F4A61652BCF700C55BAE /* scenes in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F49B1652BCF700C55BAE /* scenes */; };
+		7421F4A71652BCF700C55BAE /* soundfx in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F49C1652BCF700C55BAE /* soundfx */; };
 		746947371646C59C00CCD9D3 /* SDLMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 746947351646C59C00CCD9D3 /* SDLMain.m */; };
 		7487A4F21646C7D7002DD331 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7487A4F11646C7D7002DD331 /* SDL.framework */; };
 		7487A51D1646DC43002DD331 /* engine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7487A4EB1646C75B002DD331 /* engine.framework */; };
@@ -67,6 +78,17 @@
 			dstPath = assets;
 			dstSubfolderSpec = 7;
 			files = (
+				7421F49D1652BCF700C55BAE /* app.enml in CopyFiles */,
+				7421F49E1652BCF700C55BAE /* Collide.angelscript in CopyFiles */,
+				7421F49F1652BCF700C55BAE /* data in CopyFiles */,
+				7421F4A01652BCF700C55BAE /* editor.enml in CopyFiles */,
+				7421F4A11652BCF700C55BAE /* effects in CopyFiles */,
+				7421F4A21652BCF700C55BAE /* entities in CopyFiles */,
+				7421F4A31652BCF700C55BAE /* eth_util.angelscript in CopyFiles */,
+				7421F4A41652BCF700C55BAE /* main.angelscript in CopyFiles */,
+				7421F4A51652BCF700C55BAE /* particles in CopyFiles */,
+				7421F4A61652BCF700C55BAE /* scenes in CopyFiles */,
+				7421F4A71652BCF700C55BAE /* soundfx in CopyFiles */,
 				7421F2FF1649A1F000C55BAE /* ikpMP3.dylib in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -92,6 +114,17 @@
 		7421F2DA164805C000C55BAE /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../../../src/machine/main.cpp; sourceTree = "<group>"; };
 		7421F2F71649A18B00C55BAE /* ikpMP3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = ikpMP3.dylib; path = "../../../src/gs2d/vendors/irrKlang/bin/macosx-gcc/ikpMP3.dylib"; sourceTree = "<group>"; };
 		7421F43B165158BA00C55BAE /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
+		7421F4921652BCF700C55BAE /* app.enml */ = {isa = PBXFileReference; lastKnownFileType = text; name = app.enml; path = "../../../../Ethanon Toolkit/app.enml"; sourceTree = "<group>"; };
+		7421F4931652BCF700C55BAE /* Collide.angelscript */ = {isa = PBXFileReference; lastKnownFileType = text; name = Collide.angelscript; path = "../../../../Ethanon Toolkit/Collide.angelscript"; sourceTree = "<group>"; };
+		7421F4941652BCF700C55BAE /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = "../../../../Ethanon Toolkit/data"; sourceTree = "<group>"; };
+		7421F4951652BCF700C55BAE /* editor.enml */ = {isa = PBXFileReference; lastKnownFileType = text; name = editor.enml; path = "../../../../Ethanon Toolkit/editor.enml"; sourceTree = "<group>"; };
+		7421F4961652BCF700C55BAE /* effects */ = {isa = PBXFileReference; lastKnownFileType = folder; name = effects; path = "../../../../Ethanon Toolkit/effects"; sourceTree = "<group>"; };
+		7421F4971652BCF700C55BAE /* entities */ = {isa = PBXFileReference; lastKnownFileType = folder; name = entities; path = "../../../../Ethanon Toolkit/entities"; sourceTree = "<group>"; };
+		7421F4981652BCF700C55BAE /* eth_util.angelscript */ = {isa = PBXFileReference; lastKnownFileType = text; name = eth_util.angelscript; path = "../../../../Ethanon Toolkit/eth_util.angelscript"; sourceTree = "<group>"; };
+		7421F4991652BCF700C55BAE /* main.angelscript */ = {isa = PBXFileReference; lastKnownFileType = text; name = main.angelscript; path = "../../../../Ethanon Toolkit/main.angelscript"; sourceTree = "<group>"; };
+		7421F49A1652BCF700C55BAE /* particles */ = {isa = PBXFileReference; lastKnownFileType = folder; name = particles; path = "../../../../Ethanon Toolkit/particles"; sourceTree = "<group>"; };
+		7421F49B1652BCF700C55BAE /* scenes */ = {isa = PBXFileReference; lastKnownFileType = folder; name = scenes; path = "../../../../Ethanon Toolkit/scenes"; sourceTree = "<group>"; };
+		7421F49C1652BCF700C55BAE /* soundfx */ = {isa = PBXFileReference; lastKnownFileType = folder; name = soundfx; path = "../../../../Ethanon Toolkit/soundfx"; sourceTree = "<group>"; };
 		746947341646C59C00CCD9D3 /* SDLMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLMain.h; path = ../../../../src/gs2d/src/Platform/macosx/SDLMain.h; sourceTree = "<group>"; };
 		746947351646C59C00CCD9D3 /* SDLMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLMain.m; path = ../../../../src/gs2d/src/Platform/macosx/SDLMain.m; sourceTree = "<group>"; };
 		7487A4D91646C749002DD331 /* engine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = engine.xcodeproj; path = ../OSXEngine/engine.xcodeproj; sourceTree = "<group>"; };
@@ -138,6 +171,26 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		7421F4A81652BCFF00C55BAE /* assets */ = {
+			isa = PBXGroup;
+			children = (
+				7421F4921652BCF700C55BAE /* app.enml */,
+				7421F4931652BCF700C55BAE /* Collide.angelscript */,
+				7421F4941652BCF700C55BAE /* data */,
+				7421F4951652BCF700C55BAE /* editor.enml */,
+				7421F4961652BCF700C55BAE /* effects */,
+				7421F4971652BCF700C55BAE /* entities */,
+				7421F4981652BCF700C55BAE /* eth_util.angelscript */,
+				7421F4991652BCF700C55BAE /* main.angelscript */,
+				7421F49A1652BCF700C55BAE /* particles */,
+				7421F49B1652BCF700C55BAE /* scenes */,
+				7421F49C1652BCF700C55BAE /* soundfx */,
+				7421F43B165158BA00C55BAE /* icon.icns */,
+				7421F2F71649A18B00C55BAE /* ikpMP3.dylib */,
+			);
+			name = assets;
+			sourceTree = "<group>";
+		};
 		7487A4E71646C75B002DD331 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -149,8 +202,7 @@
 		74F00B0E1646C12200B8B51B = {
 			isa = PBXGroup;
 			children = (
-				7421F43B165158BA00C55BAE /* icon.icns */,
-				7421F2F71649A18B00C55BAE /* ikpMP3.dylib */,
+				7421F4A81652BCFF00C55BAE /* assets */,
 				7487A53E1646DFC2002DD331 /* SDL.framework */,
 				7487A4F11646C7D7002DD331 /* SDL.framework */,
 				74F00B231646C12200B8B51B /* machine */,
@@ -221,7 +273,6 @@
 				74F00B161646C12200B8B51B /* Frameworks */,
 				74F00B171646C12200B8B51B /* Resources */,
 				74F00B551646C2DD00B8B51B /* CopyFiles */,
-				7421F2ED1648322300C55BAE /* ShellScript */,
 				7421F2FE1649A1E500C55BAE /* CopyFiles */,
 			);
 			buildRules = (
@@ -311,22 +362,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		7421F2ED1648322300C55BAE /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "rsync -pvtrlL --cvs-exclude \\\n    $PROJECT_DIR/machine/assets* \\\n    $BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Resources";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		74F00B151646C12200B8B51B /* Sources */ = {
