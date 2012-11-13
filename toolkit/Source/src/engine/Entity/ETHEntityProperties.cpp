@@ -188,6 +188,7 @@ bool ETHEntityProperties::IsSuccessfullyLoaded() const
 
 bool ETHEntityProperties::SaveToFile(const str_type::string& filePath, const Platform::FileManagerPtr& fileManager)
 {
+	GS2D_UNUSED_ARGUMENT(fileManager);
 	TiXmlDocument doc;
 	TiXmlDeclaration *pDecl = new TiXmlDeclaration(GS_L("1.0"), GS_L(""), GS_L(""));
 	doc.LinkEndChild(pDecl);

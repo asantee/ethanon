@@ -40,14 +40,14 @@ bool FileManager::ConvertAnsiFileToUTF16LE(const gs2d::str_type::string& fileNam
 	str_type::ofstream ofs(fileName.c_str(), std::ios::out | std::ios::binary);
 	if (ofs.is_open())
 	{
-		ofs.write((char*)&utf16bom, 2);
+		ofs.write((str_type::char_t*)&utf16bom, 2);
 
 		const std::size_t length = content.length();
 		for (std::size_t t = 0; t < length; t++)
 		{
-			ofs.write((char*)&content[t], 1);
+			ofs.write((str_type::char_t*)&content[t], 1);
 			const char c = '\0';
-			ofs.write(&c, 1);
+			ofs.write((str_type::char_t*)&c, 1);
 		}
 		ofs.close();
 		return true;

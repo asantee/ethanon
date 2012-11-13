@@ -134,7 +134,7 @@ std::string FindStartupProject(const int argc, char **argv, const Platform::File
 {
 	for (int t = 0; t < argc; t++)
 	{
-		if (Platform::IsExtensionRight(argv[t], ".ethproj") && ETHGlobal::FileExists(argv[t], fileManager))
+		if (Platform::IsExtensionRight(utf8::c(argv[t]).wstr(), GS_L(".ethproj")) && ETHGlobal::FileExists(utf8::c(argv[t]).wstr(), fileManager))
 		{
 			return argv[t];
 		}
@@ -145,7 +145,7 @@ std::string FindStartupProject(const int argc, char **argv, const Platform::File
 #ifdef GS2D_USE_SDL
  int SDL_main(int argc, char **argv)
 #else
- int main(const int argc, const char* argv[])
+ int main(const int argc, char** argv)
 #endif
 {
 	VideoPtr video;
