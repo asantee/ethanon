@@ -45,6 +45,7 @@ LOCAL_SRC_FILES := \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/FileIOHub.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/android/Platform.android.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/android/AndroidFileIOHub.cpp \
+	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/FileManager.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/ZipFileManager.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/NativeCommandForwarder.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/NativeCommandAssembler.cpp \
