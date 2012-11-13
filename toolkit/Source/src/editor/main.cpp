@@ -78,30 +78,6 @@ extern "C" {
 	}
 }
 
-/*struct ETH_STARTUP_RESOURCES_ENML_FILE
-{
-	ETH_STARTUP_RESOURCES_ENML_FILE(const str_type::string& fileName, const Platform::FileManagerPtr& fileManager)
-	{
-		emtprojFilename = GS_L("");
-		escFilename = GS_L("");
-
-		str_type::string out;
-		fileManager->GetAnsiFileString(fileName, out);
-		enml::File file(out);
-		if (file.GetError() == enml::RV_SUCCESS)
-		{
-			emtprojFilename = file.Get(GS_L("startup"), GS_L("project"));
-			escFilename = file.Get(GS_L("startup"), GS_L("scene"));
-		}
-		else
-		{
-			GS2D_CERR << file.GetErrorString() << std::endl;
-		}
-	}
-	str_type::string emtprojFilename;
-	str_type::string escFilename;
-};*/
-
 bool DoNextAppButton(int nextApp, SpritePtr pSprite, VideoPtr video, InputPtr input,
 					 const float menuSize, boost::shared_ptr<EditorBase> pEditor)
 {
@@ -126,22 +102,24 @@ bool DoNextAppButton(int nextApp, SpritePtr pSprite, VideoPtr video, InputPtr in
 	pSprite->Draw(v2Pos+video->GetCameraPos(), dwColor);
 	if (v2Mouse.x > v2Pos.x && v2Mouse.y > v2Pos.y)
 	{
-		const Vector2 v2TextPos = v2Screen-Vector2(200.0f, textSize + 3);
+		str_type::string message;
 		switch (nextApp)
 		{
 		case SCENE:
-			pEditor->ShadowPrint(v2TextPos, GS_L("Go to Scene Editor"), GS_L("Verdana14_shadow.fnt"), gs2d::constant::WHITE);
+			message = GS_L("Go to Scene Editor");
 			break;
 		case ENTITY:
-			pEditor->ShadowPrint(v2TextPos, GS_L("Go to Entity Editor"), GS_L("Verdana14_shadow.fnt"), gs2d::constant::WHITE);
+			message = GS_L("Go to Entity Editor");
 			break;
 		case PARTICLE:
-			pEditor->ShadowPrint(v2TextPos, GS_L("Go to ParticleFX Editor"), GS_L("Verdana14_shadow.fnt"), gs2d::constant::WHITE);
+			message = GS_L("Go to ParticleFX Editor");
 			break;
 		case PROJECT:
-			pEditor->ShadowPrint(v2TextPos, _S_GOTO_PROJ, GS_L("Verdana14_shadow.fnt"), gs2d::constant::WHITE);
+			message = _S_GOTO_PROJ;
 			break;
 		};
+		const Vector2 v2TextPos = v2Screen-Vector2(200.0f, textSize + 3);
+		pEditor->ShadowPrint(v2TextPos, message.c_str(), GS_L("Verdana14_shadow.fnt"), gs2d::constant::WHITE);
 		if (input->GetLeftClickState() == GSKS_HIT || input->GetRightClickState() == GSKS_HIT)
 			return true;
 	}
@@ -232,25 +210,6 @@ std::string FindStartupProject(const int argc, char **argv, const Platform::File
 			editor[PROJECT]->SetCurrentProject(projectFile.c_str());
 			editor[PROJECT]->SetCurrentFile(projectFile.c_str());
 		}
-		/*else if (!startup.emtprojFilename.empty())
-		{
-			// default project opening
-			editor[PROJECT]->SetCurrentProject(utf8::c(startup.emtprojFilename).c_str());
-			editor[PROJECT]->SetCurrentFile(utf8::c(startup.emtprojFilename).c_str());
-
-			// set resource root for all modules
-			for (unsigned int t = 1; t < nEditors; t++)
-			{
-				editor[t]->SetCurrentProject(editor[PROJECT]->GetCurrentProject().c_str());
-			}
-
-			// default scene opening
-			if (!startup.escFilename.empty())
-			{
-				SceneEditor * sceneEditor = (SceneEditor *)(editor[SCENE].get());
-				sceneEditor->OpenByFilename(utf8::c(startup.escFilename).c_str());
-			}
-		}*/
 
 		std::string lastProjectName = editor[PROJECT]->GetCurrentProject();
 
