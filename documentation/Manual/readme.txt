@@ -1,0 +1,1 @@
+New documentation only available on-line: http://doc.ethanonengine.com/
