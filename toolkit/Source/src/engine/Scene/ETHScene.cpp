@@ -73,6 +73,8 @@ ETHScene::~ETHScene()
 		(*iter)->Release();
 	}
 	m_persistentEntities.clear();
+
+	ReleaseMappedEntities(m_entitiesToRender);
 }
 
 void ETHScene::Init(ETHResourceProviderPtr provider, const ETHSceneProperties& props, asIScriptModule *pModule, asIScriptContext *pContext)
@@ -382,11 +384,27 @@ bool ETHScene::GenerateLightmaps(const int id)
 	return true;
 }
 
-void ETHScene::Update(const unsigned long lastFrameElapsedTime)
+void ETHScene::Update(const unsigned long lastFrameElapsedTime, const ETHBackBufferTargetManagerPtr& backBuffer)
 {
 	m_destructorManager->RunDestructors();
 	m_physicsSimulator.Update(lastFrameElapsedTime);
 	RunCallbacksFromList();
+
+	float minHeight, maxHeight;
+
+	assert(m_entitiesToRender.empty());
+
+	// fill a map containing all entities we should render
+	MapEntitiesToBeRendered(
+		m_entitiesToRender,
+		minHeight,
+		maxHeight,
+		backBuffer);
+
+	UpdateActiveEntitiesFromMultimap(m_entitiesToRender, lastFrameElapsedTime);
+
+	m_minSceneHeight = minHeight;
+	m_maxSceneHeight = maxHeight;
 }
 
 void ETHScene::UpdateActiveEntities(const unsigned long lastFrameElapsedTime)
@@ -396,14 +414,11 @@ void ETHScene::UpdateActiveEntities(const unsigned long lastFrameElapsedTime)
 
 void ETHScene::RenderScene(
 	const bool roundUp,
-	const unsigned long lastFrameElapsedTime,
 	const ETHBackBufferTargetManagerPtr& backBuffer,
 	SpritePtr pOutline,
 	SpritePtr pInvisibleEntSymbol)
 {
 	const VideoPtr& video = m_provider->GetVideo();
-
-	float minHeight, maxHeight;
 
 	video->SetBlendMode(1, Video::BM_ADD);
 
@@ -417,20 +432,8 @@ void ETHScene::RenderScene(
 	// draw ambient pass
 	video->RoundUpPosition(roundUp);
 
-	// fill a map containing all entities we should render
-	std::multimap<float, ETHRenderEntity*> mmEntities;
-	MapEntitiesToBeRendered(
-		mmEntities,
-		minHeight,
-		maxHeight,
-		backBuffer);
-
-	UpdateActiveEntitiesFromMultimap(mmEntities, lastFrameElapsedTime);
-
 	DrawEntityMultimap(
-		mmEntities,
-		minHeight,
-		maxHeight,
+		m_entitiesToRender,
 		backBuffer,
 		pOutline,
 		roundUp,
@@ -438,7 +441,8 @@ void ETHScene::RenderScene(
 		halos,
 		particles);
 
-	ReleaseMappedEntities(mmEntities);
+	#warning call this guy after both update and rendering are finished
+	ReleaseMappedEntities(m_entitiesToRender);
 
 	m_buckets.ResolveMoveRequests();
 	video->RoundUpPosition(false);
@@ -446,9 +450,6 @@ void ETHScene::RenderScene(
 	RenderParticleList(particles);
 	m_lights.clear();
 	RenderTransparentLayer(halos);
-
-	m_minSceneHeight = minHeight;
-	m_maxSceneHeight = maxHeight;
 }
 
 void ETHScene::MapEntitiesToBeRendered(
@@ -534,8 +535,6 @@ void ETHScene::MapEntitiesToBeRendered(
 
 void ETHScene::DrawEntityMultimap(
 	std::multimap<float, ETHRenderEntity*>& mmEntities,
-	float &minHeight,
-	float &maxHeight,
 	const ETHBackBufferTargetManagerPtr& backBuffer,
 	SpritePtr pOutline,
 	const bool roundUp,
@@ -555,7 +554,7 @@ void ETHScene::DrawEntityMultimap(
 
 		const bool spriteVisible = pRenderEntity->IsSpriteVisible(m_sceneProps, backBuffer);
 		if (spriteVisible)
-			shaderManager->BeginAmbientPass(pRenderEntity, maxHeight, minHeight);
+			shaderManager->BeginAmbientPass(pRenderEntity, m_maxSceneHeight, m_minSceneHeight);
 
 		// draws the ambient pass and if we're at the editor, draw the collision box if it's an invisible entity
 		if (m_isInEditor)
@@ -674,6 +673,7 @@ void ETHScene::ReleaseMappedEntities(std::multimap<float, ETHRenderEntity*>& mmE
 	{
 		iter->second->Release();
 	}
+	mmEntities.clear();
 }
 
 void ETHScene::UpdateActiveEntitiesFromMultimap(std::multimap<float, ETHRenderEntity*>& mmEntities,	const unsigned long lastFrameElapsedTime)

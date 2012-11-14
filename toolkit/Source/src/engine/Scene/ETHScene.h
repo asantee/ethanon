@@ -60,7 +60,6 @@ public:
 
 	void RenderScene(
 		const bool roundUp,
-		const unsigned long lastFrameElapsedTime,
 		const ETHBackBufferTargetManagerPtr& backBuffer,
 		SpritePtr pOutline = SpritePtr(),
 		SpritePtr pInvisibleEntSymbol = SpritePtr());
@@ -77,7 +76,7 @@ public:
 	void EnableRealTimeShadows(const bool enable);
 	bool AreRealTimeShadowsEnabled() const;
 	void ForceAllSFXStop();
-	void Update(const unsigned long lastFrameElapsedTime);
+	void Update(const unsigned long lastFrameElapsedTime, const ETHBackBufferTargetManagerPtr& backBuffer);
 	void UpdateActiveEntities(const unsigned long lastFrameElapsedTime);
 	bool DeleteEntity(ETHEntity *pEntity);
 
@@ -138,6 +137,7 @@ public:
 	void AddEntityToPersistentList(ETHRenderEntity* entity);
 
 private:
+	std::multimap<float, ETHRenderEntity*> m_entitiesToRender;
 	const bool m_isInEditor;
 
 	bool LoadFromFile(const str_type::string& fileName);
@@ -155,8 +155,6 @@ private:
 
 	void DrawEntityMultimap(
 		std::multimap<float, ETHRenderEntity*>& mmEntities,
-		float &minHeight,
-		float &maxHeight,
 		const ETHBackBufferTargetManagerPtr& backBuffer,
 		SpritePtr pOutline,
 		const bool roundUp,
@@ -164,7 +162,7 @@ private:
 		std::list<ETHRenderEntity*> &outHalos,
 		std::list<ETHRenderEntity*> &outParticles);
 
-	void ReleaseMappedEntities(std::multimap<float, ETHRenderEntity*>& mmEntities);
+	static void ReleaseMappedEntities(std::multimap<float, ETHRenderEntity*>& mmEntities);
 
 	void UpdateActiveEntitiesFromMultimap(std::multimap<float, ETHRenderEntity*>& mmEntities, const unsigned long lastFrameElapsedTime);
 

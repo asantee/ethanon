@@ -143,7 +143,7 @@ Application::APP_STATUS ETHEngine::Update(unsigned long lastFrameDeltaTimeMS)
 	m_timer.CalcLastFrame();
 
 	if (m_pScene)
-		m_pScene->Update(lastFrameDeltaTimeMS);
+		m_pScene->Update(lastFrameDeltaTimeMS, m_backBuffer);
 
 	if (m_hasBeenResumed) // I know I know...
 	{
@@ -189,7 +189,7 @@ void ETHEngine::RenderFrame()
 	m_backBuffer->BeginRendering();
 
 	// draw scene (if there's any)
-	m_pScene->RenderScene(IsRoundingUpPosition(), GetLastFrameElapsedTime(), m_backBuffer);
+	m_pScene->RenderScene(IsRoundingUpPosition(), m_backBuffer);
 	m_v2LastCamPos = GetCameraPos();
 
 	// draw sprites, rects, lines and texts
