@@ -84,8 +84,8 @@
 		7421F0DD1647261800C55BAE /* ETHScene.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0D41647261800C55BAE /* ETHScene.h */; };
 		7421F0DE1647261800C55BAE /* ETHSceneProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0D51647261800C55BAE /* ETHSceneProperties.cpp */; };
 		7421F0DF1647261800C55BAE /* ETHSceneProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0D61647261800C55BAE /* ETHSceneProperties.h */; };
-		7421F0E01647261800C55BAE /* ETHTempEntityHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0D71647261800C55BAE /* ETHTempEntityHandler.cpp */; };
-		7421F0E11647261800C55BAE /* ETHTempEntityHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0D81647261800C55BAE /* ETHTempEntityHandler.h */; };
+		7421F0E01647261800C55BAE /* ETHActiveEntityHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0D71647261800C55BAE /* ETHActiveEntityHandler.cpp */; };
+		7421F0E11647261800C55BAE /* ETHActiveEntityHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0D81647261800C55BAE /* ETHActiveEntityHandler.h */; };
 		7421F0F71647263700C55BAE /* ETHBinaryStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0E21647263700C55BAE /* ETHBinaryStream.cpp */; };
 		7421F0F81647263700C55BAE /* ETHBinaryStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0E31647263700C55BAE /* ETHBinaryStream.h */; };
 		7421F0F91647263700C55BAE /* ETHEntityDestructorManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0E41647263700C55BAE /* ETHEntityDestructorManager.cpp */; };
@@ -278,8 +278,8 @@
 		7421F0D41647261800C55BAE /* ETHScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHScene.h; path = ../../../../src/engine/Scene/ETHScene.h; sourceTree = "<group>"; };
 		7421F0D51647261800C55BAE /* ETHSceneProperties.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHSceneProperties.cpp; path = ../../../../src/engine/Scene/ETHSceneProperties.cpp; sourceTree = "<group>"; };
 		7421F0D61647261800C55BAE /* ETHSceneProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHSceneProperties.h; path = ../../../../src/engine/Scene/ETHSceneProperties.h; sourceTree = "<group>"; };
-		7421F0D71647261800C55BAE /* ETHTempEntityHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHTempEntityHandler.cpp; path = ../../../../src/engine/Scene/ETHTempEntityHandler.cpp; sourceTree = "<group>"; };
-		7421F0D81647261800C55BAE /* ETHTempEntityHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHTempEntityHandler.h; path = ../../../../src/engine/Scene/ETHTempEntityHandler.h; sourceTree = "<group>"; };
+		7421F0D71647261800C55BAE /* ETHActiveEntityHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHActiveEntityHandler.cpp; path = ../../../../src/engine/Scene/ETHActiveEntityHandler.cpp; sourceTree = "<group>"; };
+		7421F0D81647261800C55BAE /* ETHActiveEntityHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHActiveEntityHandler.h; path = ../../../../src/engine/Scene/ETHActiveEntityHandler.h; sourceTree = "<group>"; };
 		7421F0E21647263700C55BAE /* ETHBinaryStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHBinaryStream.cpp; path = ../../../../src/engine/Script/ETHBinaryStream.cpp; sourceTree = "<group>"; };
 		7421F0E31647263700C55BAE /* ETHBinaryStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHBinaryStream.h; path = ../../../../src/engine/Script/ETHBinaryStream.h; sourceTree = "<group>"; };
 		7421F0E41647263700C55BAE /* ETHEntityDestructorManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityDestructorManager.cpp; path = ../../../../src/engine/Script/ETHEntityDestructorManager.cpp; sourceTree = "<group>"; };
@@ -492,8 +492,8 @@
 				7421F0D41647261800C55BAE /* ETHScene.h */,
 				7421F0D51647261800C55BAE /* ETHSceneProperties.cpp */,
 				7421F0D61647261800C55BAE /* ETHSceneProperties.h */,
-				7421F0D71647261800C55BAE /* ETHTempEntityHandler.cpp */,
-				7421F0D81647261800C55BAE /* ETHTempEntityHandler.h */,
+				7421F0D71647261800C55BAE /* ETHActiveEntityHandler.cpp */,
+				7421F0D81647261800C55BAE /* ETHActiveEntityHandler.h */,
 			);
 			name = Scene;
 			sourceTree = "<group>";
@@ -759,7 +759,7 @@
 				7421F0DB1647261800C55BAE /* ETHEntityKillListener.h in Headers */,
 				7421F0DD1647261800C55BAE /* ETHScene.h in Headers */,
 				7421F0DF1647261800C55BAE /* ETHSceneProperties.h in Headers */,
-				7421F0E11647261800C55BAE /* ETHTempEntityHandler.h in Headers */,
+				7421F0E11647261800C55BAE /* ETHActiveEntityHandler.h in Headers */,
 				7421F0F81647263700C55BAE /* ETHBinaryStream.h in Headers */,
 				7421F0FA1647263700C55BAE /* ETHEntityDestructorManager.h in Headers */,
 				7421F0FC1647263700C55BAE /* ETHEntityDestructorScript.h in Headers */,
@@ -916,7 +916,7 @@
 				7421F0D91647261800C55BAE /* ETHBucketManager.cpp in Sources */,
 				7421F0DC1647261800C55BAE /* ETHScene.cpp in Sources */,
 				7421F0DE1647261800C55BAE /* ETHSceneProperties.cpp in Sources */,
-				7421F0E01647261800C55BAE /* ETHTempEntityHandler.cpp in Sources */,
+				7421F0E01647261800C55BAE /* ETHActiveEntityHandler.cpp in Sources */,
 				7421F0F71647263700C55BAE /* ETHBinaryStream.cpp in Sources */,
 				7421F0F91647263700C55BAE /* ETHEntityDestructorManager.cpp in Sources */,
 				7421F0FB1647263700C55BAE /* ETHEntityDestructorScript.cpp in Sources */,

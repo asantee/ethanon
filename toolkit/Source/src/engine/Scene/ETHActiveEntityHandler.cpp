@@ -20,15 +20,15 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#include "ETHTempEntityHandler.h"
+#include "ETHActiveEntityHandler.h"
 #include "../Entity/ETHRenderEntity.h"
 
-ETHTempEntityHandler::ETHTempEntityHandler(ETHResourceProviderPtr provider) :
+ETHActiveEntityHandler::ETHActiveEntityHandler(ETHResourceProviderPtr provider) :
 	m_provider(provider)
 {
 }
 
-ETHTempEntityHandler::~ETHTempEntityHandler()
+ETHActiveEntityHandler::~ETHActiveEntityHandler()
 {
 	for (ETHEntityList::iterator iter = m_dynamicOrTempEntities.begin(); iter != m_dynamicOrTempEntities.end(); ++iter)
 	{
@@ -37,12 +37,12 @@ ETHTempEntityHandler::~ETHTempEntityHandler()
 	ClearCallbackEntities();
 }
 
-bool ETHTempEntityHandler::IsCallbackListEmpty() const
+bool ETHActiveEntityHandler::IsCallbackListEmpty() const
 {
 	return m_lastFrameCallbacks.empty();
 }
 
-void ETHTempEntityHandler::ClearCallbackEntities()
+void ETHActiveEntityHandler::ClearCallbackEntities()
 {
 	for (std::list<ETHRenderEntity*>::iterator iter = m_lastFrameCallbacks.begin();
 		iter != m_lastFrameCallbacks.end(); ++iter)
@@ -52,7 +52,7 @@ void ETHTempEntityHandler::ClearCallbackEntities()
 	m_lastFrameCallbacks.clear();
 }
 
-bool ETHTempEntityHandler::AddEntityWhenEligible(ETHRenderEntity* entity)
+bool ETHActiveEntityHandler::AddEntityWhenEligible(ETHRenderEntity* entity)
 {
 	if (IsTempEntityEligible(entity))
 	{
@@ -66,13 +66,13 @@ bool ETHTempEntityHandler::AddEntityWhenEligible(ETHRenderEntity* entity)
 	}
 }
 
-bool ETHTempEntityHandler::IsTempEntityEligible(ETHRenderEntity* entity) const
+bool ETHActiveEntityHandler::IsTempEntityEligible(ETHRenderEntity* entity) const
 {
 	return (((entity->HasAnyCallbackFunction() || entity->HasSimulatedBody()) && !entity->IsStatic())
 			|| entity->IsTemporary());
 }
 
-bool ETHTempEntityHandler::AddCallbackWhenEligible(ETHRenderEntity* entity)
+bool ETHActiveEntityHandler::AddCallbackWhenEligible(ETHRenderEntity* entity)
 {
 	if (IsCallbackEligible(entity))
 	{
@@ -86,12 +86,12 @@ bool ETHTempEntityHandler::AddCallbackWhenEligible(ETHRenderEntity* entity)
 	}
 }
 
-bool ETHTempEntityHandler::IsCallbackEligible(ETHRenderEntity* entity) const
+bool ETHActiveEntityHandler::IsCallbackEligible(ETHRenderEntity* entity) const
 {
 	return (!IsTempEntityEligible(entity));
 }
 
-void ETHTempEntityHandler::TestEntityLists() const
+void ETHActiveEntityHandler::TestEntityLists() const
 {
 	for (std::list<ETHRenderEntity*>::const_iterator a = m_dynamicOrTempEntities.begin(); a != m_dynamicOrTempEntities.end(); ++a)
 	{
@@ -102,7 +102,7 @@ void ETHTempEntityHandler::TestEntityLists() const
 	}
 }
 
-void ETHTempEntityHandler::CheckTemporaryEntities(const Vector2& zAxisDir, ETHBucketManager& buckets, const unsigned long lastFrameElapsedTime)
+void ETHActiveEntityHandler::CheckTemporaryEntities(const Vector2& zAxisDir, ETHBucketManager& buckets, const unsigned long lastFrameElapsedTime)
 {
 	#ifdef _DEBUG
 	TestEntityLists();
@@ -141,7 +141,7 @@ void ETHTempEntityHandler::CheckTemporaryEntities(const Vector2& zAxisDir, ETHBu
 	}
 }
 
-void ETHTempEntityHandler::RunCallbacksFromList()
+void ETHActiveEntityHandler::RunCallbacksFromList()
 {
 	for (std::list<ETHRenderEntity*>::iterator iter = m_dynamicOrTempEntities.begin(); iter != m_dynamicOrTempEntities.end();)
 	{

@@ -25,11 +25,11 @@
 
 #include "ETHBucketManager.h"
 
-class ETHTempEntityHandler
+class ETHActiveEntityHandler
 {
 public:
-	ETHTempEntityHandler(ETHResourceProviderPtr provider);
-	~ETHTempEntityHandler();
+	ETHActiveEntityHandler(ETHResourceProviderPtr provider);
+	~ETHActiveEntityHandler();
 
 	bool AddEntityWhenEligible(ETHRenderEntity* entity);
 	bool IsTempEntityEligible(ETHRenderEntity* entity) const;

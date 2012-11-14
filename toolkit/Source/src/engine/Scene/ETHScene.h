@@ -28,7 +28,7 @@
 #include "ETHSceneProperties.h"
 #include "../Resource/ETHResourceProvider.h"
 #include "../Util/ETHASUtil.h"
-#include "../Scene/ETHTempEntityHandler.h"
+#include "../Scene/ETHActiveEntityHandler.h"
 #include "../Physics/ETHPhysicsSimulator.h"
 #include "../Script/ETHEntityDestructorManager.h"
 
@@ -167,8 +167,6 @@ private:
 
 	void ReleaseMappedEntities(std::multimap<float, ETHRenderEntity*>& mmEntities);
 
-
-
 	bool RenderParticleList(std::list<ETHRenderEntity*> &particles);
 	bool AssignCallbackScript(ETHSpriteEntity* entity);
 	void AssignControllerToEntity(ETHEntity* entity, const int callbackId, const int constructorCallbackId, const int destructorCallbackId);
@@ -179,7 +177,7 @@ private:
 
 	float ComputeDrawHash(const float entityDepth, const ETHEntityProperties::ENTITY_TYPE& type) const;
 	ETHBucketManager m_buckets;
-	ETHTempEntityHandler m_tempEntities;
+	ETHActiveEntityHandler m_tempEntities;
 
 	std::list<ETHLight> m_lights;
 	std::list<ETHRenderEntity*> m_persistentEntities;
