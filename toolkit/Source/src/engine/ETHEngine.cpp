@@ -154,7 +154,7 @@ Application::APP_STATUS ETHEngine::Update(unsigned long lastFrameDeltaTimeMS)
 	RunOnSceneUpdateFunction();
 
 	if (m_pScene)
-		m_pScene->UpdateTemporary(lastFrameDeltaTimeMS);
+		m_pScene->UpdateActiveEntities(lastFrameDeltaTimeMS);
 
 	if (!LoadNextSceneIfRequested())
 		Abort();

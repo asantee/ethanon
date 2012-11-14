@@ -32,9 +32,9 @@ public:
 	~ETHActiveEntityHandler();
 
 	bool AddEntityWhenEligible(ETHRenderEntity* entity);
-	bool IsTempEntityEligible(ETHRenderEntity* entity) const;
+	bool IsEntityActive(ETHRenderEntity* entity) const;
 
-	void CheckTemporaryEntities(const Vector2& zAxisDir, ETHBucketManager& buckets, const unsigned long lastFrameElapsedTime);
+	void UpdateActiveEntities(const Vector2& zAxisDir, ETHBucketManager& buckets, const unsigned long lastFrameElapsedTime);
 
 	bool AddCallbackWhenEligible(ETHRenderEntity* entity);
 	bool IsCallbackEligible(ETHRenderEntity* entity) const;

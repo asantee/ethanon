@@ -78,7 +78,7 @@ public:
 	bool AreRealTimeShadowsEnabled() const;
 	void ForceAllSFXStop();
 	void Update(const unsigned long lastFrameElapsedTime);
-	void UpdateTemporary(const unsigned long lastFrameElapsedTime);
+	void UpdateActiveEntities(const unsigned long lastFrameElapsedTime);
 	bool DeleteEntity(ETHEntity *pEntity);
 
 	const ETHSceneProperties* GetSceneProperties() const;

@@ -54,7 +54,7 @@ void ETHActiveEntityHandler::ClearCallbackEntities()
 
 bool ETHActiveEntityHandler::AddEntityWhenEligible(ETHRenderEntity* entity)
 {
-	if (IsTempEntityEligible(entity))
+	if (IsEntityActive(entity))
 	{
 		entity->AddRef();
 		m_dynamicOrTempEntities.push_back(entity);
@@ -66,7 +66,7 @@ bool ETHActiveEntityHandler::AddEntityWhenEligible(ETHRenderEntity* entity)
 	}
 }
 
-bool ETHActiveEntityHandler::IsTempEntityEligible(ETHRenderEntity* entity) const
+bool ETHActiveEntityHandler::IsEntityActive(ETHRenderEntity* entity) const
 {
 	return (((entity->HasAnyCallbackFunction() || entity->HasSimulatedBody()) && !entity->IsStatic())
 			|| entity->IsTemporary());
@@ -88,7 +88,7 @@ bool ETHActiveEntityHandler::AddCallbackWhenEligible(ETHRenderEntity* entity)
 
 bool ETHActiveEntityHandler::IsCallbackEligible(ETHRenderEntity* entity) const
 {
-	return (!IsTempEntityEligible(entity));
+	return (!IsEntityActive(entity));
 }
 
 void ETHActiveEntityHandler::TestEntityLists() const
@@ -102,7 +102,7 @@ void ETHActiveEntityHandler::TestEntityLists() const
 	}
 }
 
-void ETHActiveEntityHandler::CheckTemporaryEntities(const Vector2& zAxisDir, ETHBucketManager& buckets, const unsigned long lastFrameElapsedTime)
+void ETHActiveEntityHandler::UpdateActiveEntities(const Vector2& zAxisDir, ETHBucketManager& buckets, const unsigned long lastFrameElapsedTime)
 {
 	#ifdef _DEBUG
 	TestEntityLists();

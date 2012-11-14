@@ -389,9 +389,9 @@ void ETHScene::Update(const unsigned long lastFrameElapsedTime)
 	RunCallbacksFromList();
 }
 
-void ETHScene::UpdateTemporary(const unsigned long lastFrameElapsedTime)
+void ETHScene::UpdateActiveEntities(const unsigned long lastFrameElapsedTime)
 {
-	m_tempEntities.CheckTemporaryEntities(GetZAxisDirection(), m_buckets, lastFrameElapsedTime);
+	m_tempEntities.UpdateActiveEntities(GetZAxisDirection(), m_buckets, lastFrameElapsedTime);
 }
 
 void ETHScene::RenderScene(
@@ -554,7 +554,7 @@ void ETHScene::DrawEntityMultimap(
 		ETHRenderEntity *pRenderEntity = (iter->second);
 
 		// If it is not going to be executed during the temp/dynamic entity management
-		if (!m_tempEntities.IsTempEntityEligible(pRenderEntity))
+		if (!m_tempEntities.IsEntityActive(pRenderEntity))
 		{
 			pRenderEntity->Update(lastFrameElapsedTime, zAxisDirection, m_buckets);
 		}
