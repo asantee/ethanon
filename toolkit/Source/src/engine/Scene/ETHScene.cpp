@@ -394,8 +394,12 @@ void ETHScene::UpdateTemporary(const unsigned long lastFrameElapsedTime)
 	m_tempEntities.CheckTemporaryEntities(GetZAxisDirection(), m_buckets, lastFrameElapsedTime);
 }
 
-bool ETHScene::RenderScene(const bool roundUp, const unsigned long lastFrameElapsedTime, const ETHBackBufferTargetManagerPtr& backBuffer,
-						   SpritePtr pOutline, SpritePtr pInvisibleEntSymbol)
+void ETHScene::RenderScene(
+	const bool roundUp,
+	const unsigned long lastFrameElapsedTime,
+	const ETHBackBufferTargetManagerPtr& backBuffer,
+	SpritePtr pOutline,
+	SpritePtr pInvisibleEntSymbol)
 {
 	const VideoPtr& video = m_provider->GetVideo();
 
@@ -412,7 +416,27 @@ bool ETHScene::RenderScene(const bool roundUp, const unsigned long lastFrameElap
 
 	// draw ambient pass
 	video->RoundUpPosition(roundUp);
-	RenderList(minHeight, maxHeight, pOutline, pInvisibleEntSymbol, particles, halos, roundUp, lastFrameElapsedTime, backBuffer);
+
+	// fill a map containing all entities we should render
+	std::multimap<float, ETHRenderEntity*> mmEntities;
+	MapEntitiesToBeRendered(
+		mmEntities,
+		minHeight,
+		maxHeight,
+		backBuffer);
+	
+	DrawEntityMultimap(
+		mmEntities,
+		minHeight,
+		maxHeight,
+		lastFrameElapsedTime,
+		backBuffer,
+		pOutline,
+		roundUp,
+		pInvisibleEntSymbol,
+		halos,
+		particles);
+
 	m_buckets.ResolveMoveRequests();
 	video->RoundUpPosition(false);
 
@@ -422,7 +446,229 @@ bool ETHScene::RenderScene(const bool roundUp, const unsigned long lastFrameElap
 
 	m_minSceneHeight = minHeight;
 	m_maxSceneHeight = maxHeight;
-	return true;
+}
+
+void ETHScene::MapEntitiesToBeRendered(
+	std::multimap<float, ETHRenderEntity*>& mmEntities,
+	float &minHeight,
+	float &maxHeight,
+	const ETHBackBufferTargetManagerPtr& backBuffer)
+{
+	// store the max and min height to assign when everything is drawn
+	maxHeight = m_maxSceneHeight;
+	minHeight = m_minSceneHeight;
+
+	m_nRenderedEntities = 0;
+
+	const VideoPtr& video = m_provider->GetVideo();
+
+	// don't let bucket size equal to 0
+	assert(GetBucketSize().x != 0 || GetBucketSize().y != 0);
+
+	// Gets the list of visible buckets
+	std::list<Vector2> bucketList;
+	const Vector2& camPos = video->GetCameraPos(); //for debugging purposes
+	m_buckets.GetIntersectingBuckets(bucketList, camPos, backBuffer->GetBufferSize(), IsDrawingBorderBuckets(), IsDrawingBorderBuckets());
+
+	// Loop through all visible Buckets
+	for (std::list<Vector2>::iterator bucketPositionIter = bucketList.begin(); bucketPositionIter != bucketList.end(); ++bucketPositionIter)
+	{
+		ETHBucketMap::iterator bucketIter = m_buckets.Find(*bucketPositionIter);
+
+		if (bucketIter == m_buckets.GetLastBucket())
+			continue;
+
+		ETHEntityList& entityList = bucketIter->second;
+		if (entityList.empty())
+			continue;
+
+		ETHEntityList::const_iterator iEnd = entityList.end();
+		for (ETHEntityList::iterator iter = entityList.begin(); iter != iEnd; ++iter)
+		{
+			ETHRenderEntity *entity = (*iter);
+
+			// update scene bounding for depth buffer
+			maxHeight = Max(maxHeight, entity->GetMaxHeight());
+			minHeight = Min(minHeight, entity->GetMinHeight());
+
+			if (entity->IsHidden())
+				continue;
+
+			// fill the light list for this frame
+			// const ETHEntityFile &entity = pRenderEntity->GetData()->entity;
+			if (entity->HasLightSource() && m_richLighting)
+			{
+				ETHLight light = *(entity->GetLight());
+				// if it has a particle system in the first slot, adjust the light
+				// brightness according to the number os active particles
+				if (entity->GetParticleManager(0) && !entity->IsStatic())
+				{
+					boost::shared_ptr<ETHParticleManager> paticleManager = entity->GetParticleManager(0);
+					light.color *= 
+						static_cast<float>(paticleManager->GetNumActiveParticles()) /
+						static_cast<float>(paticleManager->GetNumParticles());
+				}
+				AddLight(light, entity->GetPosition(), entity->GetScale());
+			}
+
+			// add this entity to the multimap to sort it for an alpha-friendly rendering list
+			const ETHEntityProperties::ENTITY_TYPE type = entity->GetType();
+			const float depth = entity->ComputeDepth(maxHeight, minHeight);
+			const float drawHash = ComputeDrawHash(depth, type);
+
+			// add the entity to the render map
+			mmEntities.insert(std::pair<float, ETHRenderEntity*>(drawHash, entity));
+			m_nRenderedEntities++;
+		}
+	}
+
+	// Add persistent entities (the ones the user wants to force to render)
+	FillMultimapAndClearPersistenList(mmEntities, bucketList);
+
+	m_nCurrentLights = m_lights.size();
+}
+
+void ETHScene::DrawEntityMultimap(
+	std::multimap<float, ETHRenderEntity*>& mmEntities,
+	float &minHeight,
+	float &maxHeight,
+	const unsigned long lastFrameElapsedTime,
+	const ETHBackBufferTargetManagerPtr& backBuffer,
+	SpritePtr pOutline,
+	const bool roundUp,
+	SpritePtr pInvisibleEntSymbol,
+	std::list<ETHRenderEntity*> &outHalos,
+	std::list<ETHRenderEntity*> &outParticles)
+{
+	const VideoPtr& video = m_provider->GetVideo();
+
+	const ETHShaderManagerPtr& shaderManager = m_provider->GetShaderManager();
+	const Vector2 zAxisDirection(GetZAxisDirection());
+
+	// Draw visible entities ordered in an alpha-friendly map
+	for (std::multimap<float, ETHRenderEntity*>::iterator iter = mmEntities.begin(); iter != mmEntities.end(); ++iter)
+	{
+		ETHRenderEntity *pRenderEntity = (iter->second);
+
+		// If it is not going to be executed during the temp/dynamic entity management
+		if (!m_tempEntities.IsTempEntityEligible(pRenderEntity))
+		{
+			pRenderEntity->Update(lastFrameElapsedTime, zAxisDirection, m_buckets);
+		}
+
+		const bool spriteVisible = pRenderEntity->IsSpriteVisible(m_sceneProps, backBuffer);
+		if (spriteVisible)
+			shaderManager->BeginAmbientPass(pRenderEntity, maxHeight, minHeight);
+
+		// draws the ambient pass and if we're at the editor, draw the collision box if it's an invisible entity
+		if (m_isInEditor)
+		{
+			if (pOutline && pRenderEntity->IsInvisible() && pRenderEntity->IsCollidable())
+			{
+				pRenderEntity->DrawCollisionBox(pOutline, gs2d::constant::WHITE, m_sceneProps.zAxisDirection);
+			}
+		}
+
+		video->RoundUpPosition(roundUp);
+		if (spriteVisible)
+			pRenderEntity->DrawAmbientPass(m_maxSceneHeight, m_minSceneHeight,
+										  (m_enableLightmaps && m_showingLightmaps),
+										  m_sceneProps, shaderManager->GetParallaxIntensity());
+
+		// draw "invisible entity symbol" if we're in the editor
+		if (m_isInEditor)
+		{
+			if (pRenderEntity->IsInvisible() && pRenderEntity->IsCollidable())
+			{
+				pRenderEntity->DrawCollisionBox(pOutline, gs2d::constant::WHITE, m_sceneProps.zAxisDirection);
+			}
+			if (pRenderEntity->IsInvisible() && !pRenderEntity->IsCollidable() && !pRenderEntity->HasHalo())
+			{
+				const float depth = video->GetSpriteDepth();
+				video->SetSpriteDepth(1.0f);
+				pInvisibleEntSymbol->Draw(pRenderEntity->GetPositionXY());
+				video->SetSpriteDepth(depth);
+			}
+		}
+
+		// fill the halo list
+		// const ETHEntityFile &entity = pRenderEntity->GetData()->entity;
+		if (pRenderEntity->HasLightSource() && pRenderEntity->GetHalo())
+		{
+			outHalos.push_back(pRenderEntity);
+		}
+
+		// fill the particle list for this frame
+		if (pRenderEntity->HasParticleSystems())
+		{
+			outParticles.push_back(pRenderEntity);
+		}
+
+		// fill the callback list
+		m_tempEntities.AddCallbackWhenEligible(pRenderEntity);
+
+		if (spriteVisible)
+			shaderManager->EndAmbientPass();
+
+		// TODO/TO-DO: create a method that does it separately
+		//draw light pass
+		if (m_richLighting)
+		{
+			for (std::list<ETHLight>::iterator iter = m_lights.begin(); iter != m_lights.end(); ++iter)
+			{
+				iter->SetLightScissor(video, zAxisDirection);
+				if (!pRenderEntity->IsHidden())
+				{
+					if (!(pRenderEntity->IsStatic() && iter->staticLight && m_enableLightmaps))
+					{
+						video->RoundUpPosition(roundUp);
+
+						// light pass
+						if (spriteVisible)
+						{
+							if (shaderManager->BeginLightPass(pRenderEntity, &(*iter), m_maxSceneHeight, m_minSceneHeight, GetLightIntensity()))
+							{
+								pRenderEntity->DrawLightPass(zAxisDirection, shaderManager->GetParallaxIntensity());
+								shaderManager->EndLightPass();
+							}
+						}
+
+						// shadow pass
+						if (AreRealTimeShadowsEnabled())
+						{
+							if (pRenderEntity->GetProperties()->castShadow)
+							{
+								video->RoundUpPosition(false);
+								video->SetScissor(false);
+								if (shaderManager->BeginShadowPass(pRenderEntity, &(*iter), m_maxSceneHeight, m_minSceneHeight))
+								{
+									pRenderEntity->DrawShadow(m_maxSceneHeight, m_minSceneHeight, m_sceneProps, *iter, 0);
+									shaderManager->EndShadowPass();
+								}
+								video->SetScissor(true);
+							}
+							video->RoundUpPosition(roundUp);
+						}
+					}
+				}
+				video->UnsetScissor();
+			}
+		}
+	}
+
+	// Show buckets outline in debug mode
+	bool debug = false;
+	#ifdef _DEBUG
+	debug = true;
+	#endif
+
+	if (m_isInEditor || debug)
+	{
+		if (m_provider->GetInput()->IsKeyDown(GSK_PAUSE) || m_provider->GetInput()->IsKeyDown(GSK_F12))
+		{
+			DrawBucketOutlines();
+		}
+	}
 }
 
 void ETHScene::EnableLightmaps(const bool enable)
@@ -538,220 +784,6 @@ bool ETHScene::DrawBucketOutlines()
 	ss << GS_L("Visible buckets: ") << nVisibleBuckets;
 
 	video->DrawBitmapText(video->GetScreenSizeF()/2, ss.str(), ETH_DEFAULT_BITMAP_FONT, gs2d::constant::WHITE);
-	return true;
-}
-
-// TODO-TO-DO: this method is too large...
-bool ETHScene::RenderList(float &minHeight, float &maxHeight, SpritePtr pOutline, SpritePtr pInvisibleEntSymbol,
-						  std::list<ETHRenderEntity*> &outParticles, std::list<ETHRenderEntity*> &outHalos, const bool roundUp,
-						  const unsigned long lastFrameElapsedTime, const ETHBackBufferTargetManagerPtr& backBuffer)
-{
-	// This multimap will store all entities contained in the visible buckets
-	// It will automatically sort entities to draw them in an "alpha friendly" order
-	std::multimap<float, ETHRenderEntity*> mmEntities;
-
-	// store the max and min height to assign when everything is drawn
-	maxHeight = m_maxSceneHeight;
-	minHeight = m_minSceneHeight;
-
-	m_nRenderedEntities = 0;
-
-	const VideoPtr& video = m_provider->GetVideo();
-	const ETHShaderManagerPtr& shaderManager = m_provider->GetShaderManager();
-	const Vector2 zAxisDirection(GetZAxisDirection());
-
-	// don't let bucket size equal to 0
-	assert(GetBucketSize().x != 0 || GetBucketSize().y != 0);
-
-	// Gets the list of visible buckets
-	std::list<Vector2> bucketList;
-	const Vector2& camPos = video->GetCameraPos(); //for debugging purposes
-	m_buckets.GetIntersectingBuckets(bucketList, camPos, backBuffer->GetBufferSize(), IsDrawingBorderBuckets(), IsDrawingBorderBuckets());
-
-	// Loop through all visible Buckets
-	for (std::list<Vector2>::iterator bucketPositionIter = bucketList.begin(); bucketPositionIter != bucketList.end(); ++bucketPositionIter)
-	{
-		ETHBucketMap::iterator bucketIter = m_buckets.Find(*bucketPositionIter);
-
-		if (bucketIter == m_buckets.GetLastBucket())
-			continue;
-
-		ETHEntityList& entityList = bucketIter->second;
-		if (entityList.empty())
-			continue;
-
-		ETHEntityList::const_iterator iEnd = entityList.end();
-		for (ETHEntityList::iterator iter = entityList.begin(); iter != iEnd; ++iter)
-		{
-			ETHRenderEntity *entity = (*iter);
-
-			// update scene bounding for depth buffer
-			maxHeight = Max(maxHeight, entity->GetMaxHeight());
-			minHeight = Min(minHeight, entity->GetMinHeight());
-
-			if (entity->IsHidden())
-				continue;
-
-			// fill the light list for this frame
-			// const ETHEntityFile &entity = pRenderEntity->GetData()->entity;
-			if (entity->HasLightSource() && m_richLighting)
-			{
-				ETHLight light = *(entity->GetLight());
-				// if it has a particle system in the first slot, adjust the light
-				// brightness according to the number os active particles
-				if (entity->GetParticleManager(0) && !entity->IsStatic())
-				{
-					boost::shared_ptr<ETHParticleManager> paticleManager = entity->GetParticleManager(0);
-					light.color *= 
-						static_cast<float>(paticleManager->GetNumActiveParticles()) /
-						static_cast<float>(paticleManager->GetNumParticles());
-				}
-				AddLight(light, entity->GetPosition(), entity->GetScale());
-			}
-
-			// add this entity to the multimap to sort it for an alpha-friendly rendering list
-			const ETHEntityProperties::ENTITY_TYPE type = entity->GetType();
-			const float depth = entity->ComputeDepth(maxHeight, minHeight);
-			const float drawHash = ComputeDrawHash(depth, type);
-
-			// add the entity to the render map
-			mmEntities.insert(std::pair<float, ETHRenderEntity*>(drawHash, entity));
-			m_nRenderedEntities++;
-		}
-	}
-
-	// Add persistent entities (the ones the user wants to force to render)
-	FillMultimapAndClearPersistenList(mmEntities, bucketList);
-
-	// Draw visible entities ordered in an alpha-friendly map
-	for (std::multimap<float, ETHRenderEntity*>::iterator iter = mmEntities.begin(); iter != mmEntities.end(); ++iter)
-	{
-		ETHRenderEntity *pRenderEntity = (iter->second);
-
-		// If it is not going to be executed during the temp/dynamic entity management
-		if (!m_tempEntities.IsTempEntityEligible(pRenderEntity))
-		{
-			pRenderEntity->Update(lastFrameElapsedTime, zAxisDirection, m_buckets);
-		}
-
-		const bool spriteVisible = pRenderEntity->IsSpriteVisible(m_sceneProps, backBuffer);
-		if (spriteVisible)
-			shaderManager->BeginAmbientPass(pRenderEntity, maxHeight, minHeight);
-
-		// draws the ambient pass and if we're at the editor, draw the collision box if it's an invisible entity
-		if (m_isInEditor)
-		{
-			if (pOutline && pRenderEntity->IsInvisible() && pRenderEntity->IsCollidable())
-			{
-				pRenderEntity->DrawCollisionBox(pOutline, gs2d::constant::WHITE, m_sceneProps.zAxisDirection);
-			}
-		}
-
-		video->RoundUpPosition(roundUp);
-		if (spriteVisible)
-			pRenderEntity->DrawAmbientPass(m_maxSceneHeight, m_minSceneHeight,
-										  (m_enableLightmaps && m_showingLightmaps),
-										  m_sceneProps, shaderManager->GetParallaxIntensity());
-
-		// draw "invisible entity symbol" if we're in the editor
-		if (m_isInEditor)
-		{
-			if (pRenderEntity->IsInvisible() && pRenderEntity->IsCollidable())
-			{
-				pRenderEntity->DrawCollisionBox(pOutline, gs2d::constant::WHITE, m_sceneProps.zAxisDirection);
-			}
-			if (pRenderEntity->IsInvisible() && !pRenderEntity->IsCollidable() && !pRenderEntity->HasHalo())
-			{
-				const float depth = video->GetSpriteDepth();
-				video->SetSpriteDepth(1.0f);
-				pInvisibleEntSymbol->Draw(pRenderEntity->GetPositionXY());
-				video->SetSpriteDepth(depth);
-			}
-		}
-
-		// fill the halo list
-		// const ETHEntityFile &entity = pRenderEntity->GetData()->entity;
-		if (pRenderEntity->HasLightSource() && pRenderEntity->GetHalo())
-		{
-			outHalos.push_back(pRenderEntity);
-		}
-
-		// fill the particle list for this frame
-		if (pRenderEntity->HasParticleSystems())
-		{
-			outParticles.push_back(pRenderEntity);
-		}
-
-		// fill the callback list
-		m_tempEntities.AddCallbackWhenEligible(pRenderEntity);
-
-		if (spriteVisible)
-			shaderManager->EndAmbientPass();
-
-		// TODO/TO-DO: create a method that does it separately
-		//draw light pass
-		if (m_richLighting)
-		{
-			for (std::list<ETHLight>::iterator iter = m_lights.begin(); iter != m_lights.end(); ++iter)
-			{
-				iter->SetLightScissor(video, zAxisDirection);
-				if (!pRenderEntity->IsHidden())
-				{
-					if (!(pRenderEntity->IsStatic() && iter->staticLight && m_enableLightmaps))
-					{
-						video->RoundUpPosition(roundUp);
-
-						// light pass
-						if (spriteVisible)
-						{
-							if (shaderManager->BeginLightPass(pRenderEntity, &(*iter), m_maxSceneHeight, m_minSceneHeight, GetLightIntensity()))
-							{
-								pRenderEntity->DrawLightPass(zAxisDirection, shaderManager->GetParallaxIntensity());
-								shaderManager->EndLightPass();
-							}
-						}
-
-						// shadow pass
-						if (AreRealTimeShadowsEnabled())
-						{
-							if (pRenderEntity->GetProperties()->castShadow)
-							{
-								video->RoundUpPosition(false);
-								video->SetScissor(false);
-								if (shaderManager->BeginShadowPass(pRenderEntity, &(*iter), m_maxSceneHeight, m_minSceneHeight))
-								{
-									pRenderEntity->DrawShadow(m_maxSceneHeight, m_minSceneHeight, m_sceneProps, *iter, 0);
-									shaderManager->EndShadowPass();
-								}
-								video->SetScissor(true);
-							}
-							video->RoundUpPosition(roundUp);
-						}
-					}
-				}
-				video->UnsetScissor();
-			}
-		}
-	}
-
-	mmEntities.clear();
-	m_nCurrentLights = m_lights.size();
-
-	// Show buckets outline in debug mode
-	bool debug = false;
-	#ifdef _DEBUG
-	debug = true;
-	#endif
-
-
-	if (m_isInEditor || debug)
-	{
-		if (m_provider->GetInput()->IsKeyDown(GSK_PAUSE) || m_provider->GetInput()->IsKeyDown(GSK_F12))
-		{
-			DrawBucketOutlines();
-		}
-	}
-
 	return true;
 }
 

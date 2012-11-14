@@ -35,20 +35,36 @@
 class ETHScene
 {
 public:
-	ETHScene(const str_type::string& fileName, ETHResourceProviderPtr provider, const bool richLighting,
-			 const ETHSceneProperties& props, asIScriptModule *pModule, asIScriptContext *pContext, const bool isInEditor,
-			 const Vector2 &v2BucketSize = Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
+	ETHScene(
+		const str_type::string& fileName,
+		ETHResourceProviderPtr provider,
+		const bool richLighting,
+		const ETHSceneProperties& props,
+		asIScriptModule *pModule,
+		asIScriptContext *pContext,
+		const bool isInEditor,
+		const Vector2 &v2BucketSize = Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
 
-	ETHScene(ETHResourceProviderPtr provider, const bool richLighting, const ETHSceneProperties& props,
-			 asIScriptModule *pModule, asIScriptContext *pContext, const bool isInEditor,
-			 const Vector2 &v2BucketSize = Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
+	ETHScene(
+		ETHResourceProviderPtr provider,
+		const bool richLighting,
+		const ETHSceneProperties& props,
+		asIScriptModule *pModule,
+		asIScriptContext *pContext,
+		const bool isInEditor,
+		const Vector2 &v2BucketSize = Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
 
 	~ETHScene();
 
 	void ClearResources();
 
-	bool RenderScene(const bool roundUp, const unsigned long lastFrameElapsedTime,
-					 const ETHBackBufferTargetManagerPtr& backBuffer, SpritePtr pOutline = SpritePtr(), SpritePtr pInvisibleEntSymbol = SpritePtr());
+	void RenderScene(
+		const bool roundUp,
+		const unsigned long lastFrameElapsedTime,
+		const ETHBackBufferTargetManagerPtr& backBuffer,
+		SpritePtr pOutline = SpritePtr(),
+		SpritePtr pInvisibleEntSymbol = SpritePtr());
+
 	bool SaveToFile(const str_type::string& fileName);
 	int AddEntity(ETHRenderEntity* pEntity);
 	int AddEntity(ETHRenderEntity* pEntity, const str_type::string& alternativeName);
@@ -130,9 +146,24 @@ private:
 
 	void RunCallbacksFromList();
 	bool RenderTransparentLayer(std::list<ETHRenderEntity*> &halos);
-	bool RenderList(float &maxHeight, float &minHeight, SpritePtr pOutline, SpritePtr pInvisibleEntSymbol,
-					std::list<ETHRenderEntity*> &outParticles, std::list<ETHRenderEntity*> &outHalos, const bool roundUp,
-					const unsigned long lastFrameElapsedTime, const ETHBackBufferTargetManagerPtr& backBuffer);
+
+	void MapEntitiesToBeRendered(
+		std::multimap<float, ETHRenderEntity*>& mmEntities,
+		float &maxHeight,
+		float &minHeight,
+		const ETHBackBufferTargetManagerPtr& backBuffer);
+
+	void DrawEntityMultimap(
+		std::multimap<float, ETHRenderEntity*>& mmEntities,
+		float &minHeight,
+		float &maxHeight,
+		const unsigned long lastFrameElapsedTime,
+		const ETHBackBufferTargetManagerPtr& backBuffer,
+		SpritePtr pOutline,
+		const bool roundUp,
+		SpritePtr pInvisibleEntSymbol,
+		std::list<ETHRenderEntity*> &outHalos,
+		std::list<ETHRenderEntity*> &outParticles);
 
 	bool RenderParticleList(std::list<ETHRenderEntity*> &particles);
 	bool AssignCallbackScript(ETHSpriteEntity* entity);
