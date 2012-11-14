@@ -51,7 +51,7 @@ void ExecuteContext(asIScriptContext *pContext, const int id, const bool prepare
 		{
 			PrintException(pContext);
 			ETH_STREAM_DECL(ss) << GS_L("Exception: ") << pContext->GetExceptionString();
-			#ifdef _DEBUG
+			#if defined(_DEBUG) || defined(DEBUG)
 			ss << static_cast<str_type::char_t>(0x07);
 			#endif
 			ShowMessage(ss.str(), ETH_ERROR);

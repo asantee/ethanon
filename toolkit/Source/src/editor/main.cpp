@@ -46,7 +46,7 @@
  #endif
 #endif
 
-#ifdef _DEBUG
+#if defined(_DEBUG) || defined(DEBUG)
  #define _SYNC_MODE false
 #else
  #define _SYNC_MODE true
@@ -357,7 +357,7 @@ std::string FindStartupProject(const int argc, char **argv, const Platform::File
 			editor[SCENE]->UpdateInternalData();
 		}
 	}
-	#ifdef _DEBUG
+	#if defined(_DEBUG) || defined(DEBUG)
 	 _CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 	#endif
 	return 0;

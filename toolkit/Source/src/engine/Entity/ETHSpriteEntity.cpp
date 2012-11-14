@@ -788,7 +788,7 @@ void ETHSpriteEntity::Release()
 		{
 			ForceSFXStop();
 		}
-		/*#ifdef _DEBUG
+		/*#if defined(_DEBUG) || defined(DEBUG)
 		if (GetID() >= 0)
 		{
 			ETH_STREAM_DECL(ss) << GS_L("Entity destroyed: #") << GetID();

@@ -109,7 +109,7 @@ SpritePtr ETHGraphicResourceManager::AddFile(VideoPtr video, const str_type::str
 
 	m_densityManager.SetSpriteDensity(pBitmap, densityLevel);
 
-	//#ifdef _DEBUG
+	//#if defined(_DEBUG) || defined(DEBUG)
 	ETH_STREAM_DECL(ss) << GS_L("(Loaded) ") << fileName;
 	ETHResourceProvider::Log(ss.str(), Platform::Logger::INFO);
 	//#endif
@@ -225,7 +225,7 @@ AudioSamplePtr ETHAudioResourceManager::AddFile(AudioPtr audio, const Platform::
 		ETHResourceProvider::Log(ss.str(), Platform::Logger::ERROR);
 		return AudioSamplePtr();
 	}
-	//#ifdef _DEBUG
+	//#if defined(_DEBUG) || defined(DEBUG)
 	str_type::string fileName = Platform::GetFileName(path);
 	ETH_STREAM_DECL(ss) << GS_L("(Loaded) ") << fileName;
 	ETHResourceProvider::Log(ss.str(), Platform::Logger::INFO);

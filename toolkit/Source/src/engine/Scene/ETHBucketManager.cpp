@@ -158,7 +158,7 @@ void ETHBucketManager::Add(ETHRenderEntity* entity, const SIDE side)
 		m_entities[bucket].push_back(entity);
 	}
 
-	#ifdef _DEBUG
+	#if defined(_DEBUG) || defined(DEBUG)
 	ETH_STREAM_DECL(ss) << GS_L("Entity ") << entity->GetEntityName() << GS_L(" (ID#") << entity->GetID()
 						<< GS_L(") added to bucket ") << GS_L("(") << bucket.x << GS_L(", ") << bucket.y << GS_L(")");
 	m_provider->Log(ss.str(), Platform::Logger::INFO);
@@ -212,7 +212,7 @@ bool ETHBucketManager::MoveEntity(const int id, const Vector2 &currentBucket, co
 		m_entities[destBucket].push_back(entity);
 	}
 
-	#ifdef _DEBUG
+	#if defined(_DEBUG) || defined(DEBUG)
 	ETH_STREAM_DECL(ss) << GS_L("Entity moved from bucket (") << currentBucket.x << GS_L(",") << currentBucket.y << GS_L(") to bucket (")
 		 << destBucket.x << GS_L(",") << destBucket.y << GS_L(")");
 	m_provider->Log(ss.str(), Platform::Logger::INFO);
@@ -375,10 +375,10 @@ bool ETHBucketManager::DeleteEntity(const int id)
 		{
 			if ((*iter)->GetID() == id)
 			{
-#				ifdef _DEBUG
+				#if defined(_DEBUG) || defined(DEBUG)
 					ETH_STREAM_DECL(ss) << GS_L("Entity ") << (*iter)->GetEntityName() << GS_L(" (ID#") << (*iter)->GetID() << GS_L(") removed (DeleteEntity method)");
 					m_provider->Log(ss.str(), Platform::Logger::INFO);
-#				endif
+				#endif
 
 				if (m_entityKillListener)
 					m_entityKillListener->EntityKilled((*iter));
@@ -406,7 +406,7 @@ bool ETHBucketManager::DeleteEntity(const int id, const Vector2 &searchBucket, c
 		{
 			if ((*iter)->GetID() == id)
 			{
-				#ifdef _DEBUG
+				#if defined(_DEBUG) || defined(DEBUG)
 				ETH_STREAM_DECL(ss) << GS_L("Entity ") << (*iter)->GetEntityName() << GS_L(" (ID#") << (*iter)->GetID() << GS_L(") removed (DeleteEntity method)");
 				m_provider->Log(ss.str(), Platform::Logger::INFO);
 				#endif
@@ -436,10 +436,10 @@ bool ETHBucketManager::DeleteEntity(const int id, const Vector2 &searchBucket, c
 		{
 			if ((*iter)->GetID() == id)
 			{
-#				ifdef _DEBUG
+				#if defined(_DEBUG) || defined(DEBUG)
 					ETH_STREAM_DECL(ss) << GS_L("Entity ") << (*iter)->GetEntityName() << GS_L(" (ID#") << (*iter)->GetID() << GS_L(") removed (DeleteEntity method)");
 					m_provider->Log(ss.str(), Platform::Logger::INFO);
-#				endif
+				#endif
 
 				if (m_entityKillListener)
 					m_entityKillListener->EntityKilled((*iter));

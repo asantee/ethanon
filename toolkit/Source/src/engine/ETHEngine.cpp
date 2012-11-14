@@ -278,7 +278,7 @@ bool ETHEngine::PrepareScriptingEngine(const std::vector<gs2d::str_type::string>
 
 static void RegisterDefinedWords(const std::vector<gs2d::str_type::string>& definedWords, CScriptBuilder& builder, const bool isTesting)
 {
-	#ifdef _DEBUG
+	#if defined(_DEBUG) || defined(DEBUG)
 		builder.DefineWord("DEBUG");
 	#endif
 	#ifdef ANDROID

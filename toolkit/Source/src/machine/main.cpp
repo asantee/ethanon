@@ -26,7 +26,7 @@
 #endif
 
 #ifdef WIN32
- #ifdef _DEBUG
+ #if defined(_DEBUG) || defined(DEBUG)
   #define _CRTDBG_MAP_ALLOC
   #include <stdlib.h>
   #include <crtdbg.h>
@@ -178,7 +178,7 @@ str_type::string FindResourceDir(const int argc, gs2d::str_type::char_t* argv[])
 		std::cin.get();
 	}
 
-	#ifdef _DEBUG
+	#if defined(_DEBUG) || defined(DEBUG)
 	 #ifdef WIN32
 	  _CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 	  #endif

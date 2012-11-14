@@ -384,7 +384,7 @@ std::string SceneEditor::DoEditor(SpritePtr pNextAppButton)
 	m_v2CamPos = video->GetCameraPos();
 	DrawEntitySelectionGrid(pNextAppButton);
 
-	#ifdef _DEBUG
+	#if defined(_DEBUG) || defined(DEBUG)
 		if (m_pSelected)
 		{
 			std::stringstream ss;
@@ -510,7 +510,7 @@ void SceneEditor::EntitySelector(const bool guiButtonsFree)
 			m_entityName.SetValue(m_pSelected->GetEntityName());
 
 			SetEditablePositionPos(m_pSelected->GetPosition(), m_pSelected->GetAngle());
-			#ifdef _DEBUG
+			#if defined(_DEBUG) || defined(DEBUG)
 			std::cout << "(Scene editor)Selected entity: " << m_pSelected->GetID() << std::endl;
 			#endif
 		}
