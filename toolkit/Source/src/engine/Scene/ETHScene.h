@@ -165,6 +165,10 @@ private:
 		std::list<ETHRenderEntity*> &outHalos,
 		std::list<ETHRenderEntity*> &outParticles);
 
+	void ReleaseMappedEntities(std::multimap<float, ETHRenderEntity*>& mmEntities);
+
+
+
 	bool RenderParticleList(std::list<ETHRenderEntity*> &particles);
 	bool AssignCallbackScript(ETHSpriteEntity* entity);
 	void AssignControllerToEntity(ETHEntity* entity, const int callbackId, const int constructorCallbackId, const int destructorCallbackId);

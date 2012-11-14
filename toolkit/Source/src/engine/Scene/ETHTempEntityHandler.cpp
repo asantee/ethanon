@@ -68,7 +68,8 @@ bool ETHTempEntityHandler::AddEntityWhenEligible(ETHRenderEntity* entity)
 
 bool ETHTempEntityHandler::IsTempEntityEligible(ETHRenderEntity* entity) const
 {
-	return (((entity->HasAnyCallbackFunction() || entity->HasSimulatedBody()) && !entity->IsStatic()) || entity->IsTemporary());
+	return (((entity->HasAnyCallbackFunction() || entity->HasSimulatedBody()) && !entity->IsStatic())
+			|| entity->IsTemporary());
 }
 
 bool ETHTempEntityHandler::AddCallbackWhenEligible(ETHRenderEntity* entity)

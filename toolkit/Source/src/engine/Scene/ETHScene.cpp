@@ -437,6 +437,8 @@ void ETHScene::RenderScene(
 		halos,
 		particles);
 
+	ReleaseMappedEntities(mmEntities);
+
 	m_buckets.ResolveMoveRequests();
 	video->RoundUpPosition(false);
 
@@ -517,6 +519,7 @@ void ETHScene::MapEntitiesToBeRendered(
 			const float drawHash = ComputeDrawHash(depth, type);
 
 			// add the entity to the render map
+			entity->AddRef();
 			mmEntities.insert(std::pair<float, ETHRenderEntity*>(drawHash, entity));
 			m_nRenderedEntities++;
 		}
@@ -668,6 +671,14 @@ void ETHScene::DrawEntityMultimap(
 		{
 			DrawBucketOutlines();
 		}
+	}
+}
+
+void ETHScene::ReleaseMappedEntities(std::multimap<float, ETHRenderEntity*>& mmEntities)
+{
+	for (std::multimap<float, ETHRenderEntity*>::iterator iter = mmEntities.begin(); iter != mmEntities.end(); ++iter)
+	{
+		iter->second->Release();
 	}
 }
 
@@ -947,6 +958,7 @@ void ETHScene::SetLightIntensity(const float intensity)
 {
 	m_sceneProps.lightIntensity = intensity;
 }
+
 float ETHScene::GetLightIntensity() const
 {
 	return m_sceneProps.lightIntensity;
@@ -1105,6 +1117,7 @@ void ETHScene::FillMultimapAndClearPersistenList(std::multimap<float, ETHRenderE
 			const ETHEntityProperties::ENTITY_TYPE type = entity->GetType();
 			const float depth = entity->ComputeDepth(m_maxSceneHeight, m_minSceneHeight);
 			const float drawHash = ComputeDrawHash(depth, type);
+			entity->AddRef();
 			mm.insert(std::pair<float, ETHRenderEntity*>(drawHash, entity));
 			m_nRenderedEntities++;
 		}

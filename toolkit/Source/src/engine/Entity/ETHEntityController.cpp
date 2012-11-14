@@ -48,7 +48,6 @@ void ETHRawEntityController::Update(const unsigned long lastFrameElapsedTime, ET
 {
 	GS2D_UNUSED_ARGUMENT(lastFrameElapsedTime);
 	GS2D_UNUSED_ARGUMENT(buckets);
-	// TODO/TO-DO
 }
 
 Vector3 ETHRawEntityController::GetPos() const
