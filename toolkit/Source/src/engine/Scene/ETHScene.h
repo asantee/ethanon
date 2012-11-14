@@ -157,7 +157,6 @@ private:
 		std::multimap<float, ETHRenderEntity*>& mmEntities,
 		float &minHeight,
 		float &maxHeight,
-		const unsigned long lastFrameElapsedTime,
 		const ETHBackBufferTargetManagerPtr& backBuffer,
 		SpritePtr pOutline,
 		const bool roundUp,
@@ -166,6 +165,8 @@ private:
 		std::list<ETHRenderEntity*> &outParticles);
 
 	void ReleaseMappedEntities(std::multimap<float, ETHRenderEntity*>& mmEntities);
+
+	void UpdateActiveEntitiesFromMultimap(std::multimap<float, ETHRenderEntity*>& mmEntities, const unsigned long lastFrameElapsedTime);
 
 	bool RenderParticleList(std::list<ETHRenderEntity*> &particles);
 	bool AssignCallbackScript(ETHSpriteEntity* entity);

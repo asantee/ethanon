@@ -39,7 +39,7 @@ public:
 	bool AddCallbackWhenEligible(ETHRenderEntity* entity);
 	bool IsCallbackEligible(ETHRenderEntity* entity) const;
 
-	void RunCallbacksFromList();
+	void RunCallbacksFromLists();
 
 	bool IsCallbackListEmpty() const;
 

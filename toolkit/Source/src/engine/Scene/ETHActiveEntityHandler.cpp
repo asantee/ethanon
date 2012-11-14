@@ -104,7 +104,7 @@ void ETHActiveEntityHandler::TestEntityLists() const
 
 void ETHActiveEntityHandler::UpdateActiveEntities(const Vector2& zAxisDir, ETHBucketManager& buckets, const unsigned long lastFrameElapsedTime)
 {
-	#ifdef _DEBUG
+	#if defined(_DEBUG) || defined(DEBUG)
 	TestEntityLists();
 	#endif
 
@@ -129,7 +129,7 @@ void ETHActiveEntityHandler::UpdateActiveEntities(const Vector2& zAxisDir, ETHBu
 			// Remove from main bucket map
 			buckets.DeleteEntity(pRenderEntity->GetID(), v2Bucket, false);
 
-			#ifdef _DEBUG
+			#if defined(_DEBUG) || defined(DEBUG)
 			ETH_STREAM_DECL(ss) << GS_L("Entity ") << (*iter)->GetEntityName() << GS_L(" (ID#") << pRenderEntity->GetID() << GS_L(") removed from dynamic entity list (particle effects over)");
 			m_provider->Log(ss.str(), Platform::Logger::INFO);
 			#endif
@@ -141,13 +141,13 @@ void ETHActiveEntityHandler::UpdateActiveEntities(const Vector2& zAxisDir, ETHBu
 	}
 }
 
-void ETHActiveEntityHandler::RunCallbacksFromList()
+void ETHActiveEntityHandler::RunCallbacksFromLists()
 {
 	for (std::list<ETHRenderEntity*>::iterator iter = m_dynamicOrTempEntities.begin(); iter != m_dynamicOrTempEntities.end();)
 	{
 		if (!((*iter)->IsAlive()))
 		{
-			#ifdef _DEBUG
+			#if defined(_DEBUG) || defined(DEBUG)
 			ETH_STREAM_DECL(ss) << GS_L("Entity removed from dynamic entity list: ") << (*iter)->GetEntityName();
 			m_provider->Log(ss.str(), Platform::Logger::INFO);
 			#endif
@@ -169,7 +169,7 @@ void ETHActiveEntityHandler::RunCallbacksFromList()
 	{
 		if (!((*iter)->IsAlive()))
 		{
-			#ifdef _DEBUG
+			#if defined(_DEBUG) || defined(DEBUG)
 			ETH_STREAM_DECL(ss) << GS_L("Entity callback removed: ") << (*iter)->GetEntityName();
 			m_provider->Log(ss.str(), Platform::Logger::INFO);
 			#endif

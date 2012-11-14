@@ -135,7 +135,7 @@ bool ETHScene::SaveToFile(const str_type::string& fileName)
 		for (ETHEntityList::iterator iter = bucketIter->second.begin(); iter != iEnd; ++iter)
 		{
 			(*iter)->WriteToXMLFile(pEntities);
-			#ifdef _DEBUG
+			#if defined(_DEBUG) || defined(DEBUG)
 			ETH_STREAM_DECL(ss) << GS_L("Entity written to file: ") << (*iter)->GetEntityName();
 			m_provider->Log(ss.str(), Platform::FileLogger::INFO);
 			#endif
@@ -372,7 +372,7 @@ bool ETHScene::GenerateLightmaps(const int id)
 			m_lights.clear();
 		}
 	}
-	#ifdef _DEBUG
+	#if defined(_DEBUG) || defined(DEBUG)
 	ETH_STREAM_DECL(ss) << GS_L("Lightmaps created... ");
 	m_provider->Log(ss.str(), Platform::FileLogger::INFO);
 	#endif
@@ -424,12 +424,13 @@ void ETHScene::RenderScene(
 		minHeight,
 		maxHeight,
 		backBuffer);
-	
+
+	UpdateActiveEntitiesFromMultimap(mmEntities, lastFrameElapsedTime);
+
 	DrawEntityMultimap(
 		mmEntities,
 		minHeight,
 		maxHeight,
-		lastFrameElapsedTime,
 		backBuffer,
 		pOutline,
 		roundUp,
@@ -535,7 +536,6 @@ void ETHScene::DrawEntityMultimap(
 	std::multimap<float, ETHRenderEntity*>& mmEntities,
 	float &minHeight,
 	float &maxHeight,
-	const unsigned long lastFrameElapsedTime,
 	const ETHBackBufferTargetManagerPtr& backBuffer,
 	SpritePtr pOutline,
 	const bool roundUp,
@@ -552,12 +552,6 @@ void ETHScene::DrawEntityMultimap(
 	for (std::multimap<float, ETHRenderEntity*>::iterator iter = mmEntities.begin(); iter != mmEntities.end(); ++iter)
 	{
 		ETHRenderEntity *pRenderEntity = (iter->second);
-
-		// If it is not going to be executed during the temp/dynamic entity management
-		if (!m_activeEntityHandler.IsEntityActive(pRenderEntity))
-		{
-			pRenderEntity->Update(lastFrameElapsedTime, zAxisDirection, m_buckets);
-		}
 
 		const bool spriteVisible = pRenderEntity->IsSpriteVisible(m_sceneProps, backBuffer);
 		if (spriteVisible)
@@ -661,7 +655,7 @@ void ETHScene::DrawEntityMultimap(
 
 	// Show buckets outline in debug mode
 	bool debug = false;
-	#ifdef _DEBUG
+	#if defined(_DEBUG) || defined(DEBUG)
 	debug = true;
 	#endif
 
@@ -679,6 +673,21 @@ void ETHScene::ReleaseMappedEntities(std::multimap<float, ETHRenderEntity*>& mmE
 	for (std::multimap<float, ETHRenderEntity*>::iterator iter = mmEntities.begin(); iter != mmEntities.end(); ++iter)
 	{
 		iter->second->Release();
+	}
+}
+
+void ETHScene::UpdateActiveEntitiesFromMultimap(std::multimap<float, ETHRenderEntity*>& mmEntities,	const unsigned long lastFrameElapsedTime)
+{
+	const Vector2 zAxisDirection(GetZAxisDirection());
+	for (std::multimap<float, ETHRenderEntity*>::iterator iter = mmEntities.begin(); iter != mmEntities.end(); ++iter)
+	{
+		ETHRenderEntity *pRenderEntity = (iter->second);
+
+		// If it is not going to be executed during the temp/dynamic entity management
+		if (!m_activeEntityHandler.IsEntityActive(pRenderEntity))
+		{
+			pRenderEntity->Update(lastFrameElapsedTime, zAxisDirection, m_buckets);
+		}
 	}
 }
 
@@ -826,7 +835,7 @@ int ETHScene::GetNumRenderedEntities()
 
 void ETHScene::RunCallbacksFromList()
 {
-	m_activeEntityHandler.RunCallbacksFromList();
+	m_activeEntityHandler.RunCallbacksFromLists();
 }
 
 bool ETHScene::RenderParticleList(std::list<ETHRenderEntity*> &particles)
@@ -881,7 +890,7 @@ void ETHScene::AssignControllerToEntity(ETHEntity* entity, const int callbackId,
 	if (entity->IsBody())
 	{
 		ETHEntityControllerPtr controller = m_physicsSimulator.CreatePhysicsController(entity, m_pModule, m_pContext);
-		#ifdef _DEBUG
+		#if defined(_DEBUG) || defined(DEBUG)
 			str_type::stringstream ss; Platform::Logger::TYPE logType;
 			if (controller)
 			{
