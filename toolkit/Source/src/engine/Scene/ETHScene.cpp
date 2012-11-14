@@ -45,7 +45,7 @@ ETHScene::ETHScene(const str_type::string& fileName, ETHResourceProviderPtr prov
 				   const ETHSceneProperties& props, asIScriptModule *pModule, asIScriptContext *pContext,
 				   const bool isInEditor, const Vector2& v2BucketSize) :
 	m_buckets(provider, v2BucketSize, true),
-	m_tempEntities(provider),
+	m_activeEntityHandler(provider),
 	m_richLighting(richLighting),
 	m_isInEditor(isInEditor),
 	m_physicsSimulator(provider->GetGlobalScaleManager(), provider->GetVideo()->GetFPSRate())
@@ -57,7 +57,7 @@ ETHScene::ETHScene(const str_type::string& fileName, ETHResourceProviderPtr prov
 ETHScene::ETHScene(ETHResourceProviderPtr provider, const bool richLighting, const ETHSceneProperties& props,
 				   asIScriptModule *pModule, asIScriptContext *pContext, const bool isInEditor, const Vector2 &v2BucketSize) :
 	m_buckets(provider, v2BucketSize, true),
-	m_tempEntities(provider),
+	m_activeEntityHandler(provider),
 	m_richLighting(richLighting),
 	m_isInEditor(isInEditor),
 	m_physicsSimulator(provider->GetGlobalScaleManager(), provider->GetVideo()->GetFPSRate())
@@ -243,7 +243,7 @@ int ETHScene::AddEntity(ETHRenderEntity* pEntity, const str_type::string& altern
 	}
 
 	// if it has a callback and is dynamic, or if it's temporary, add it to the "callback constant run list"
-	m_tempEntities.AddEntityWhenEligible(pEntity);
+	m_activeEntityHandler.AddEntityWhenEligible(pEntity);
 
 	// restart all sound effects for this one
 	// It's useful in case of explosion sfx's for example. It'll start all over again
@@ -391,7 +391,7 @@ void ETHScene::Update(const unsigned long lastFrameElapsedTime)
 
 void ETHScene::UpdateActiveEntities(const unsigned long lastFrameElapsedTime)
 {
-	m_tempEntities.UpdateActiveEntities(GetZAxisDirection(), m_buckets, lastFrameElapsedTime);
+	m_activeEntityHandler.UpdateActiveEntities(GetZAxisDirection(), m_buckets, lastFrameElapsedTime);
 }
 
 void ETHScene::RenderScene(
@@ -554,7 +554,7 @@ void ETHScene::DrawEntityMultimap(
 		ETHRenderEntity *pRenderEntity = (iter->second);
 
 		// If it is not going to be executed during the temp/dynamic entity management
-		if (!m_tempEntities.IsEntityActive(pRenderEntity))
+		if (!m_activeEntityHandler.IsEntityActive(pRenderEntity))
 		{
 			pRenderEntity->Update(lastFrameElapsedTime, zAxisDirection, m_buckets);
 		}
@@ -608,7 +608,7 @@ void ETHScene::DrawEntityMultimap(
 		}
 
 		// fill the callback list
-		m_tempEntities.AddCallbackWhenEligible(pRenderEntity);
+		m_activeEntityHandler.AddCallbackWhenEligible(pRenderEntity);
 
 		if (spriteVisible)
 			shaderManager->EndAmbientPass();
@@ -826,7 +826,7 @@ int ETHScene::GetNumRenderedEntities()
 
 void ETHScene::RunCallbacksFromList()
 {
-	m_tempEntities.RunCallbacksFromList();
+	m_activeEntityHandler.RunCallbacksFromList();
 }
 
 bool ETHScene::RenderParticleList(std::list<ETHRenderEntity*> &particles)

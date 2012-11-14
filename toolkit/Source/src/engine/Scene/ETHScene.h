@@ -177,7 +177,7 @@ private:
 
 	float ComputeDrawHash(const float entityDepth, const ETHEntityProperties::ENTITY_TYPE& type) const;
 	ETHBucketManager m_buckets;
-	ETHActiveEntityHandler m_tempEntities;
+	ETHActiveEntityHandler m_activeEntityHandler;
 
 	std::list<ETHLight> m_lights;
 	std::list<ETHRenderEntity*> m_persistentEntities;
