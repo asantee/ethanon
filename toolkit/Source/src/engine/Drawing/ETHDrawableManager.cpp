@@ -30,10 +30,20 @@ void ETHDrawableManager::DrawTopLayer(const unsigned int lastFrameElapsedTimeMS,
 	video->SetZWrite(scene->GetZBuffer());
 	video->SetSpriteDepth(0.0f);
 	for (std::list<boost::shared_ptr<ETHDrawable> >::iterator iter = m_drawableList.begin();
-		iter != m_drawableList.end();)
+		iter != m_drawableList.end(); ++iter)
 	{
 		const boost::shared_ptr<ETHDrawable>& drawable = (*iter);
 		drawable->Draw(lastFrameElapsedTimeMS);
+	}
+	video->SetCameraPos(oldCamPos);
+}
+
+void ETHDrawableManager::RemoveTheDead()
+{
+	for (std::list<boost::shared_ptr<ETHDrawable> >::iterator iter = m_drawableList.begin();
+		iter != m_drawableList.end();)
+	{
+		const boost::shared_ptr<ETHDrawable>& drawable = (*iter);
 		if (drawable->IsAlive())
 		{
 			++iter;
@@ -43,7 +53,6 @@ void ETHDrawableManager::DrawTopLayer(const unsigned int lastFrameElapsedTimeMS,
 			iter = m_drawableList.erase(iter);
 		}
 	}
-	video->SetCameraPos(oldCamPos);
 }
 
 void ETHDrawableManager::Insert(const boost::shared_ptr<ETHDrawable>& newItem)

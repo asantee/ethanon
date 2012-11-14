@@ -34,6 +34,7 @@ public:
 	void DrawTopLayer(const unsigned int lastFrameElapsedTimeMS, const ETHScenePtr& scene, const VideoPtr& video);
 	void Insert(const boost::shared_ptr<ETHDrawable>& newItem);
 	void Clear();
+	void RemoveTheDead();
 };
 
 #endif
