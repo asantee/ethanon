@@ -1,12 +1,32 @@
 {
-	"cmd": ["machine.exe","-nowait","-norun"],
+	"cmd": ["machine", "dir=$file_path", "-nowait"],
 	"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
-	"encoding": "cp850",
 
-	"variants": [
+	"windows":
+	{
+		"cmd": ["machine.exe", "-nowait", "-norun"],
+		"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+		"encoding": "cp850"
+	},
 
-		{ "cmd": ["machine.exe","-nowait","-testing"],
-          "name": "Run"
-      	}		
+	"osx":
+	{
+		"cmd":["/Applications/machine.app/Contents/MacOS/machine", "dir=$file_path", "-nowait", "-norun"],
+		"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)"
+	},
+
+	"variants":
+	[
+		{
+			"name": "Run",
+			"windows":
+			{
+				"cmd": ["machine.exe","-nowait","-testing"]
+			},
+			"osx":
+			{
+				"cmd": ["/Applications/machine.app/Contents/MacOS/machine", "dir=$file_path", "-nowait", "-testing"]
+			}
+		}
 	]
 }

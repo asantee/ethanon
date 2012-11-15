@@ -1,0 +1,3 @@
+[
+	{ "keys": ["super+shift+b"], "command": "build", "args": {"variant": "Run"} }
+]
