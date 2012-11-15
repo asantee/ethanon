@@ -36,7 +36,7 @@ bool FileManager::ConvertAnsiFileToUTF16LE(const gs2d::str_type::string& fileNam
 		return false;
 	}
 
-	const unsigned short utf16bom = 0xFFFE;
+	const unsigned short utf16bom = 0xFEFF;
 	str_type::ofstream ofs(fileName.c_str(), std::ios::out | std::ios::binary);
 	if (ofs.is_open())
 	{
