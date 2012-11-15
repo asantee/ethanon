@@ -550,6 +550,14 @@
 				Name="Scene"
 				>
 				<File
+					RelativePath="..\..\..\src\engine\Scene\ETHActiveEntityHandler.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\engine\Scene\ETHActiveEntityHandler.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\engine\Scene\ETHBucketManager.cpp"
 					>
 				</File>
@@ -575,14 +583,6 @@
 				</File>
 				<File
 					RelativePath="..\..\..\src\engine\Scene\ETHSceneProperties.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\engine\Scene\ETHTempEntityHandler.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\engine\Scene\ETHTempEntityHandler.h"
 					>
 				</File>
 			</Filter>
