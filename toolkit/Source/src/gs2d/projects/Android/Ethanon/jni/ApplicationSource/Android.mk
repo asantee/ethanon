@@ -75,7 +75,7 @@ LOCAL_SRC_FILES := \
 	$(ENGINE_PATH)/Shader/ETHNoDynamicBackBuffer.cpp \
 	$(ENGINE_PATH)/Scene/ETHBucketManager.cpp \
 	$(ENGINE_PATH)/Scene/ETHScene.cpp \
-	$(ENGINE_PATH)/Scene/ETHTempEntityHandler.cpp \
+	$(ENGINE_PATH)/Scene/ETHActiveEntityHandler.cpp \
 	$(ENGINE_PATH)/Scene/ETHSceneProperties.cpp \
 	$(ENGINE_PATH)/Script/ETHScriptWrapper.cpp \
 	$(ENGINE_PATH)/Script/ETHScriptWrapper.Math.cpp \

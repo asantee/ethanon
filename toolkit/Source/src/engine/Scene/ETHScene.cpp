@@ -441,7 +441,7 @@ void ETHScene::RenderScene(
 		halos,
 		particles);
 
-	#warning call this guy after both update and rendering are finished
+	// call this guy after both update and rendering are finished
 	ReleaseMappedEntities(m_entitiesToRender);
 
 	m_buckets.ResolveMoveRequests();
