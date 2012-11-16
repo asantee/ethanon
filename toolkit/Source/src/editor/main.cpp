@@ -357,7 +357,7 @@ std::string FindStartupProject(const int argc, char **argv, const Platform::File
 			editor[SCENE]->UpdateInternalData();
 		}
 	}
-	#if defined(_DEBUG) || defined(DEBUG)
+	#if defined(_DEBUG) && defined(__WIN32__)
 	 _CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 	#endif
 	return 0;
