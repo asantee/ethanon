@@ -603,6 +603,7 @@ asDECLARE_METHOD_WRAPPERPR(__GetJointAngle,     b2RevoluteJoint, GetJointAngle, 
 asDECLARE_METHOD_WRAPPERPR(__GetJointSpeed,     b2RevoluteJoint, GetJointSpeed,     (void) const, float32);
 asDECLARE_METHOD_WRAPPERPR(__GetMotorTorque,    b2RevoluteJoint, GetMotorTorque,    (void) const, float32);
 asDECLARE_METHOD_WRAPPERPR(__SetMotorSpeed,     b2RevoluteJoint, SetMotorSpeed,     (float32),    void);
+asDECLARE_METHOD_WRAPPERPR(__GetMotorSpeed,     b2RevoluteJoint, GetMotorSpeed,     (void) const, float32);
 asDECLARE_METHOD_WRAPPERPR(__SetMaxMotorTorque, b2RevoluteJoint, SetMaxMotorTorque, (float32),    void);
 
 void RegisterRevoluteJointMethods(asIScriptEngine *pASEngine)
@@ -619,6 +620,7 @@ void RegisterRevoluteJointMethods(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterObjectMethod("ETHRevoluteJoint", "float GetMotorTorque() const",  asFUNCTION(__GetMotorTorque),    asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterObjectMethod("ETHRevoluteJoint", "void SetMotorSpeed(float)",     asFUNCTION(__SetMotorSpeed),     asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHRevoluteJoint", "float GetMotorSpeed() const",   asFUNCTION(__GetMotorSpeed),     asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHRevoluteJoint", "void SetMaxMotorTorque(float)", asFUNCTION(__SetMaxMotorTorque), asCALL_GENERIC); assert(r >= 0);
 }
 
