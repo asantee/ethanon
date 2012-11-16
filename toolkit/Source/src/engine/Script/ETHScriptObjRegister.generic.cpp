@@ -612,16 +612,13 @@ void RegisterRevoluteJointMethods(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterObjectBehaviour("ETHRevoluteJoint", asBEHAVE_ADDREF,  "void f()", asFUNCTION(__DummyAddRef),    asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectBehaviour("ETHRevoluteJoint", asBEHAVE_RELEASE, "void f()", asFUNCTION(__DummyRelease),   asCALL_GENERIC); assert(r >= 0);
 
-	r = pASEngine->RegisterObjectMethod("ETHRevoluteJoint", "vector2 GetReactionForce()",    asFUNCTION(__GetReactionForce),  asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHRevoluteJoint", "float GetReactionTorque()",     asFUNCTION(__GetReactionTorque), asCALL_GENERIC); assert(r >= 0);
-
 	r = pASEngine->RegisterObjectMethod("ETHRevoluteJoint", "float GetJointAngle() const",   asFUNCTION(__GetJointAngle),     asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHRevoluteJoint", "float GetJointSpeed() const",   asFUNCTION(__GetJointSpeed),     asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHRevoluteJoint", "float GetMotorTorque() const",  asFUNCTION(__GetMotorTorque),    asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterObjectMethod("ETHRevoluteJoint", "void SetMotorSpeed(float)",     asFUNCTION(__SetMotorSpeed),     asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHRevoluteJoint", "float GetMotorSpeed() const",   asFUNCTION(__GetMotorSpeed),     asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHRevoluteJoint", "void SetMaxMotorTorque(float)", asFUNCTION(__SetMaxMotorTorque), asCALL_GENERIC); assert(r >= 0);
+
+	r = pASEngine->RegisterObjectMethod("ETHRevoluteJoint", "void SetMaxMotorTorque(float)",   asFUNCTION(__SetMaxMotorTorque), asCALL_GENERIC); assert(r >= 0);
 }
 
 } // namespace ETHGlobal
