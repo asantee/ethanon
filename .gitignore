@@ -59,6 +59,7 @@ editor.exe
 
 # xcode
 toolkit/Source/projects/xcode/assets/*
+!toolkit/Source/projects/xcode/assets/read-me.txt
 
 # Visual Studio binary output paths and files
 *#bin#/
