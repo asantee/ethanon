@@ -25,11 +25,10 @@
 
 @implementation GS2DViewController
 
-- (id) initWithBundlePath:(NSString*)bundlePath
+- (id) init
 {
-	m_bundlePath = bundlePath;
 	m_glView = nil;
-	return [self init];
+	return [super init];
 }
 
 - (void)loadView
@@ -42,7 +41,7 @@
 		screen.size.height = temp;
 	}
 #	endif
-	m_glView = [[GLView alloc] initWithBundlePath:m_bundlePath andWithFrame:screen];
+	m_glView = [[GLView alloc] initWithFrame:screen];
 	m_glView.multipleTouchEnabled = YES;
 	self.view = m_glView;
 	[m_glView release];

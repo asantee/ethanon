@@ -24,12 +24,11 @@
 
 @interface GS2DViewController : UIViewController <UIAccelerometerDelegate>
 {
-	NSString* m_bundlePath;
 	GLView* m_glView;
 	UIAccelerometer* m_accelerometer;
 }
 
-- (id) initWithBundlePath:(NSString*)bundlePath;
+- (id) init;
 - (void) accelerometer: (UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration;
 - (void) applicationDidEnterBackground:(UIApplication*)application;
 - (void) applicationWillEnterForeground:(UIApplication*)application;

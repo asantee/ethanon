@@ -38,6 +38,11 @@ namespace Platform {
 			static double m_startTime;
 		};
 	}
+
+	gs2d::str_type::string ResourceDirectory();
+	gs2d::str_type::string ExternalStorageDirectory();
+	gs2d::str_type::string GlobalExternalStorageDirectory();
+	bool CreateDirectory(const std::string& path);
 } // namespace
 
 #endif

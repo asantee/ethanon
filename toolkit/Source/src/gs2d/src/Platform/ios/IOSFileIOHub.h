@@ -30,10 +30,7 @@ namespace Platform {
 class IOSFileIOHub : public FileIOHub
 {
 public:
-	IOSFileIOHub(
-		const gs2d::str_type::string& resourceDirectory,
-		const gs2d::str_type::string& externalStorageDirectory,
-		const gs2d::str_type::string& bitmapFontSearchDirectory);
+	IOSFileIOHub(const gs2d::str_type::string& bitmapFontSearchDirectory);
 
 	void SetFileManager(Platform::FileManagerPtr fileManager, const gs2d::str_type::string& resourceDirectory);
 	bool IsResourcePackingSupported();

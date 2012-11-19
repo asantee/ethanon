@@ -33,14 +33,13 @@
 	gs2d::VideoPtr m_video;
 	gs2d::InputPtr m_input;
 	gs2d::AudioPtr m_audio;
-	NSString *m_bundlePath;
 	UIAccelerometer* m_accelerometer;
 	gs2d::BaseApplicationPtr m_engine;
 	float m_density;
 	bool m_mayRender;
 }
 
-- (id) initWithBundlePath:(NSString*) bundlePath andWithFrame:(CGRect) screenBounds;
+- (id) initWithFrame:(CGRect) screenBounds;
 - (void) renderFrame: (CADisplayLink*) displayLink;
 - (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation;
 - (void) upenUrl: (NSString*)url;

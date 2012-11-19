@@ -26,11 +26,9 @@
 @interface EthanonAppDelegate : NSObject <UIApplicationDelegate> {
 @private
 	UIWindow* m_window;
-	NSString* m_filePath;
 	GS2DViewController *m_viewController;
 }
 
-- (void) retrieveFilePath;
 - (void) applicationDidEnterBackground:(UIApplication *)application;
 - (void) applicationWillEnterForeground:(UIApplication *)application;
 - (void) applicationWillResignActive:(UIApplication *)application;

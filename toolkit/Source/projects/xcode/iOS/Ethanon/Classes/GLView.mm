@@ -33,38 +33,9 @@
 
 @implementation GLView
 
-- (id) initWithBundlePath:(NSString*) bundlePath andWithFrame:(CGRect) screenBounds
-{
-	m_bundlePath = bundlePath;
-	m_mayRender = true;
-	return [self initWithFrame:screenBounds];
-}
-
 + (Class) layerClass
 {
     return [CAEAGLLayer class];
-}
-
-- (void) createDirectory:(NSString*)path
-{
-	NSFileManager *fileManager = [NSFileManager defaultManager];
-	[fileManager createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
-}
-
-- (void) createLogDirectory:(NSString*)path
-{
-	path = [path stringByAppendingPathComponent:@"log"];
-	NSLog(@"%@", path);
-	[self createDirectory:path];
-}
-
-- (NSString*) createExternalStorageDirectory:(NSString*)path
-{
-	path = [path stringByAppendingPathComponent:@"ethdata/"];
-	path = [path stringByAppendingPathComponent:[[NSProcessInfo processInfo] processName]];
-	NSLog(@"External storage path: %@", path);
-	[self createDirectory:path];
-	return path;
 }
 
 - (void) tryRetinaDisplay: (CAEAGLLayer*)layer
@@ -109,13 +80,7 @@
 		m_audio = gs2d::CreateAudio(0);
 		m_input = gs2d::CreateInput(0, false);
 
-		NSString* documentsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-		NSString* externalStoragePath = [[self createExternalStorageDirectory:documentsPath] stringByAppendingString:@"/"];
-		[self createLogDirectory:externalStoragePath];
-		const char* cExternalStoragePath = [externalStoragePath cStringUsingEncoding:1];
-		const char* resourceDirectory = [m_bundlePath cStringUsingEncoding:1];
-
-		Platform::FileIOHubPtr fileIOHub(new Platform::IOSFileIOHub(resourceDirectory, cExternalStoragePath, GS_L("data/")));
+		Platform::FileIOHubPtr fileIOHub(new Platform::IOSFileIOHub(GS_L("data/")));
 
 		m_video = gs2d::CreateVideo(CGRectGetWidth(frame) * m_density, CGRectGetHeight(frame) * m_density, fileIOHub);
 
