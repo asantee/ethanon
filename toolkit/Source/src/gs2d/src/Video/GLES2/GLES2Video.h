@@ -259,8 +259,6 @@ public:
 	bool IsTrue(const GLboolean& enabled);
 	void SetBlend(const bool enable);
 
-	str_type::string GetPlatformName() const;
-
 private:
 	Video::BLEND_MODE m_blendModes[_GS2D_GLES2_MAX_MULTI_TEXTURES];
 	GLES2TexturePtr m_blendTextures[_GS2D_GLES2_MAX_MULTI_TEXTURES];

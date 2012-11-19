@@ -22,16 +22,18 @@
 	#include <GL/gl.h>
 #elif defined(__APPLE__) || defined(__APPLE_CC__)
 	/*	I can't test this Apple stuff!	*/
-	#include <OpenGL/gl.h>
-	#include <Carbon/Carbon.h>
-	#define APIENTRY
+	#if defined(APPLE_IOS)
+		#include <OpenGLES/ES2/gl.h>
+		#include <OpenGLES/ES2/glext.h>
+		#define APIENTRY
+	#else
+		#include <OpenGL/gl.h>
+		#include <Carbon/Carbon.h>
+		#define APIENTRY
+	#endif
 #elif defined(ANDROID)
 	#include <GLES2/gl2.h>
 	#include <GLES2/gl2ext.h>
-	#define APIENTRY
-#elif defined(APPLE_IOS)
-	#include <OpenGLES/ES2/gl.h>
-	#include <OpenGLES/ES2/glext.h>
 	#define APIENTRY
 #else
 	#include <GL/gl.h>
@@ -1978,7 +1980,7 @@ int query_DXT_capability( void )
 						(
 							"glCompressedTexImage2DARB"
 						);
-			#elif defined(__APPLE__) || defined(__APPLE_CC__)
+			#elif (defined(__APPLE__) || defined(__APPLE_CC__)) && !defined(APPLE_IOS)
 				/*	I can't test this Apple stuff!	*/
 				CFBundleRef bundle;
 				CFURLRef bundleURL =

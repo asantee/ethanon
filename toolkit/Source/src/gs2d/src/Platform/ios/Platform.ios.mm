@@ -24,7 +24,7 @@
 #import "../Platform.h"
 #import "../../Video/GLES2/GLES2Video.h"
 
-gs2d::str_type::string gs2d::GLES2Video::GetPlatformName() const
+gs2d::str_type::string gs2d::Application::GetPlatformName()
 {
 	return "ios";
 }
