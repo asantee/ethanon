@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7404C04A165AE8E3004DFBB1 /* KeyStateManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7404C048165AE8E3004DFBB1 /* KeyStateManager.cpp */; };
 		743F4BB714770A540077373B /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 743F4BB614770A540077373B /* Default.png */; };
 		743F4BB91477C69E0077373B /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 743F4BB81477C69E0077373B /* Default@2x.png */; };
 		743F4BC0147962C80077373B /* DefaultWebViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 743F4BBE147962C80077373B /* DefaultWebViewer.m */; };
@@ -223,6 +224,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7404C048165AE8E3004DFBB1 /* KeyStateManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = KeyStateManager.cpp; path = ../../../src/gs2d/src/Input/KeyStateManager.cpp; sourceTree = "<group>"; };
+		7404C049165AE8E3004DFBB1 /* KeyStateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KeyStateManager.h; path = ../../../src/gs2d/src/Input/KeyStateManager.h; sourceTree = "<group>"; };
 		743F4BB614770A540077373B /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		743F4BB81477C69E0077373B /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		743F4BBD147962C80077373B /* DefaultWebViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DefaultWebViewer.h; path = Ethanon/Classes/DefaultWebViewer.h; sourceTree = "<group>"; };
@@ -1039,6 +1042,8 @@
 		74FBEF7814376A5A00C67129 /* Input */ = {
 			isa = PBXGroup;
 			children = (
+				7404C048165AE8E3004DFBB1 /* KeyStateManager.cpp */,
+				7404C049165AE8E3004DFBB1 /* KeyStateManager.h */,
 				74666E50165A7C6F00C70736 /* MobileInput.cpp */,
 				74666E51165A7C6F00C70736 /* MobileInput.h */,
 				74666E53165A7C7800C70736 /* IOSInput.cpp */,
@@ -1682,6 +1687,7 @@
 				74666E86165A7D1E00C70736 /* tinyxml.cpp in Sources */,
 				74666E87165A7D1E00C70736 /* tinyxmlerror.cpp in Sources */,
 				74666E88165A7D1E00C70736 /* tinyxmlparser.cpp in Sources */,
+				7404C04A165AE8E3004DFBB1 /* KeyStateManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
