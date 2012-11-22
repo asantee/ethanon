@@ -29,8 +29,10 @@
 
 using namespace gs2d;
 
-ETHAppEnmlFile::ETHAppEnmlFile(const str_type::string& fileName, const Platform::FileManagerPtr& fileManager,
-							   const gs2d::str_type::string& platformName) :
+ETHAppEnmlFile::ETHAppEnmlFile(
+	const str_type::string& fileName,
+	const Platform::FileManagerPtr& fileManager,
+	const gs2d::str_type::string& platformName) :
 	hdDensityValue(2.0f),
 	fullHdDensityValue(4.0f),
 	width(640),
@@ -60,12 +62,7 @@ ETHAppEnmlFile::ETHAppEnmlFile(const str_type::string& fileName, const Platform:
 	}
 	else
 	{
-#		ifdef GS2D_STR_TYPE_WCHAR
-			std::wcerr
-#		else
-			std::cerr
-#		endif
-			<< file.GetErrorString() << std::endl;
+		GS2D_CERR << file.GetErrorString() << std::endl;
 	}
 }
 
