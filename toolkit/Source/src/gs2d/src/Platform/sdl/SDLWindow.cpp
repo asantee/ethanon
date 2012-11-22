@@ -116,15 +116,17 @@ bool SDLWindow::StartApplication(
 	// if screen size was set to 0, find the best one instead
 	if (m_screenSize.x == 0 || m_screenSize.y == 0)
 	{
-		const VIDEO_MODE& highest = m_videoModes[0];
-		m_screenSize.x = static_cast<float>(highest.width);
-		m_screenSize.y = static_cast<float>(highest.height);
+		m_screenSize = CatchBestScreenResolution();
 	}
 
 	if (SDL_SetVideoMode(static_cast<int>(m_screenSize.x), static_cast<int>(m_screenSize.y), bpp, flags) == 0)
 	{
-		Message("Invalid video mode - SDLWindow::StartApplication", GSMT_ERROR);
-		return false;
+		m_screenSize = CatchBestScreenResolution();
+		if (SDL_SetVideoMode(static_cast<int>(m_screenSize.x), static_cast<int>(m_screenSize.y), bpp, flags) == 0)
+		{
+			Message("Invalid video mode - SDLWindow::StartApplication", GSMT_ERROR);
+			return false;
+		}
 	}
 
 	SetWindowTitle(winTitle);
@@ -134,6 +136,12 @@ bool SDLWindow::StartApplication(
 	chdir(m_fileIOHub->GetProgramDirectory().c_str());
 
 	return true;
+}
+
+math::Vector2 SDLWindow::CatchBestScreenResolution() const
+{
+	const VIDEO_MODE& highest = m_videoModes[m_videoModes.size() - 1];
+	return math::Vector2(static_cast<float>(highest.width), static_cast<float>(highest.height));
 }
 
 unsigned int SDLWindow::AssembleFlags(const bool windowed, const bool maximizable, const bool sync)
@@ -177,6 +185,7 @@ void SDLWindow::ReadDisplayModes()
 		videoMode.pf = (bitsPerPixel == 32) ? Texture::PF_16BIT : Texture::PF_32BIT;
 		m_videoModes.push_back(videoMode);
 	}
+	std::sort(m_videoModes.begin(), m_videoModes.end());
 }
 
 Video::VIDEO_MODE SDLWindow::GetVideoMode(const unsigned int modeIdx) const

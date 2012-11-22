@@ -61,6 +61,8 @@ protected:
 	static float m_mouseWheel;
 	static str_type::char_t m_lastCharInput;
 
+	math::Vector2 CatchBestScreenResolution() const;
+
 public:
 	SDLWindow(Platform::FileIOHubPtr fileIOHub);
 	~SDLWindow();
