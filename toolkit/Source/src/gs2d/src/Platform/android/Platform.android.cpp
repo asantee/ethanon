@@ -49,11 +49,6 @@ void ShowMessage(str_type::stringstream& stream, const GS_MESSAGE_TYPE type)
 	}
 }
 
-str_type::string GLES2Video::GetPlatformName() const
-{
-	return GS_L("android");
-}
-
 } // namespace gs2d
 
 namespace Platform {
