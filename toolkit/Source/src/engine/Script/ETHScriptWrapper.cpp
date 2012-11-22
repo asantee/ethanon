@@ -280,6 +280,9 @@ void ETHScriptWrapper::SetArgv(str_type::char_t **argv)
 
 void ETHScriptWrapper::RescaleEntities(const float oldScale, const float newScale)
 {
-	const float rescaleFactor = newScale / oldScale;
-	m_pScene->ScaleEntities(rescaleFactor, true);
+	if (oldScale != newScale)
+	{
+		const float rescaleFactor = newScale / oldScale;
+		m_pScene->ScaleEntities(rescaleFactor, true);
+	}
 }

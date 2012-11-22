@@ -7,6 +7,8 @@ Testbed testbed;
 
 void main()
 {
+	SetScaleFactor(1.0f);
+
 	testbed.start();
 	runMathTests();
 	runDictionaryTests();
