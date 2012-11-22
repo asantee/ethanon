@@ -374,7 +374,7 @@ public:
 	static Vector2 Scale(const Vector2& v);
 	static Vector3 Scale(const Vector3& v);
 	static void SetScaleFactor(const float v);
-	static void ScaleEntities();
+	static void RescaleEntities(const float oldScale, const float newScale);
 
 	// Not to the script
 	static bool Aborted();

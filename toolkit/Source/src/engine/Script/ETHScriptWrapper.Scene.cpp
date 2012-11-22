@@ -742,12 +742,29 @@ bool ETHScriptWrapper::IsPixelShaderSupported()
 
 void ETHScriptWrapper::SetFixedHeight(const float height)
 {
-	m_provider->GetGlobalScaleManager()->SetFixedHeight(m_backBuffer, height);
+	ETHGlobalScaleManagerPtr globalScaleManager = m_provider->GetGlobalScaleManager();
+	const float oldScale = globalScaleManager->GetScale();
+	globalScaleManager->SetFixedHeight(m_backBuffer, height);
+	if (m_pScene)
+		RescaleEntities(oldScale, globalScaleManager->GetScale());
 }
 
 void ETHScriptWrapper::SetFixedWidth(const float width)
 {
-	m_provider->GetGlobalScaleManager()->SetFixedWidth(m_backBuffer, width);
+	ETHGlobalScaleManagerPtr globalScaleManager = m_provider->GetGlobalScaleManager();
+	const float oldScale = globalScaleManager->GetScale();
+	globalScaleManager->SetFixedWidth(m_backBuffer, width);
+	if (m_pScene)
+		RescaleEntities(oldScale, globalScaleManager->GetScale());
+}
+
+void ETHScriptWrapper::SetScaleFactor(const float v)
+{
+	ETHGlobalScaleManagerPtr globalScaleManager = m_provider->GetGlobalScaleManager();
+	const float oldScale = globalScaleManager->GetScale();
+	globalScaleManager->SetScaleFactor(v);
+	if (m_pScene)
+		RescaleEntities(oldScale, v);
 }
 
 float ETHScriptWrapper::GetScale()
@@ -768,18 +785,6 @@ Vector2 ETHScriptWrapper::Scale(const Vector2& v)
 Vector3 ETHScriptWrapper::Scale(const Vector3& v)
 {
 	return m_provider->GetGlobalScaleManager()->Scale(v);
-}
-
-void ETHScriptWrapper::SetScaleFactor(const float v)
-{
-	m_provider->GetGlobalScaleManager()->SetScaleFactor(v);
-}
-
-void ETHScriptWrapper::ScaleEntities()
-{
-	if (WarnIfRunsInMainFunction(GS_L("ScaleEntities")))
-		return;
-	m_pScene->ScaleEntities(m_provider->GetGlobalScaleManager()->GetScale(), true);
 }
 
 void ETHScriptWrapper::SetZAxisDirection(const Vector2& dir)

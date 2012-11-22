@@ -1,6 +1,8 @@
 ﻿
 class TestSceneScale : Test
 {
+	videoMode[] vm;
+
 	string getName()
 	{
 		return "Scene scale test";
@@ -12,8 +14,19 @@ class TestSceneScale : Test
 		LoadScene("scenes/sceneScaleTest.esc", PRELOOP, LOOP);
 		//SetWindowProperties("Ethanon Engine", 854, 480, true, true, PF32BIT);
 		SetBackgroundColor(0xFF000000);
+
+		vm.resize(0);
+		videoMode v;
+		v.width = 360; v.height = 256;
+		vm.insertLast(v);
+		v.width = 854; v.height = 480;
+		vm.insertLast(v);
+		v.width = 720; v.height = 512;
+		vm.insertLast(v);
+		v.width = 1280; v.height = 720;
+		vm.insertLast(v);
 	}
-	
+
 	void preLoop()
 	{
 		SetBorderBucketsDrawing(true);
@@ -25,6 +38,36 @@ class TestSceneScale : Test
 	{
 		scrollCamera();
 		drawSprites();
+		manageVideoModes();
+	}
+
+	void manageVideoModes()
+	{
+		string str;
+		for (uint t = 0; t < vm.length(); t++)
+		{
+			str += ("" + (t+1) + ". " + vm[t].width + "x" + vm[t].height) + "\n";
+		}
+		const vector2 textSize = ComputeTextBoxSize("Verdana20_shadow.fnt", str);
+		DrawText(vector2(0, GetScreenSize().y - textSize.y), str, "Verdana20_shadow.fnt", 0xFFFFFFFF);
+
+		ETHInput @input = GetInputHandle();
+		int choosenIdx =-1;
+		if (input.GetKeyState(K_1) == KS_HIT)
+			choosenIdx = 0;
+		if (input.GetKeyState(K_2) == KS_HIT)
+			choosenIdx = 1;
+		if (input.GetKeyState(K_3) == KS_HIT)
+			choosenIdx = 2;
+		if (input.GetKeyState(K_4) == KS_HIT)
+			choosenIdx = 3;
+
+		if (choosenIdx != -1)
+		{
+			const uint uChoosenIdx = uint(choosenIdx);
+			SetWindowProperties("Ethanon Engine", vm[uChoosenIdx].width, vm[uChoosenIdx].height, true, true, PF32BIT);
+			SetFixedHeight(256.0f);
+		}
 	}
 	
 	void drawSprites()
