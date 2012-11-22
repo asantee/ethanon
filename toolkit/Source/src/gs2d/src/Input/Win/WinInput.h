@@ -24,6 +24,8 @@
 #define GS2D_WIN_INPUT_H_
 
 #include "../../Input.h"
+#include "../KeyStateManager.h"
+
 #include <windows.h>
 
 #pragma warning( push )
@@ -42,8 +44,6 @@ struct JOYSTICK_DATA
 		for (unsigned int t=0; t<GSB_NUM_BUTTONS; t++)
 		{
 			buttonID[t] = 0x0;
-			state[t] = GSKS_UP;
-			count[t] = 0;
 		}
 		nButtons = 0;
 	}
@@ -54,8 +54,7 @@ struct JOYSTICK_DATA
 	float rudder;
 	math::Vector2 uv;
 	DWORD buttonID[GSB_NUM_BUTTONS];
-	GS_KEY_STATE state[GSB_NUM_BUTTONS];
-	int count[GSB_NUM_BUTTONS];
+	KeyStateManager state[GSB_NUM_BUTTONS];
 	int nButtons;
 };
 
@@ -66,13 +65,9 @@ class WinInput : public Input
 	const static unsigned int MAX_JOYSTICKS = 4;
 	bool UpdateJoystick();
 	JOYSTICK_DATA m_joystick[MAX_JOYSTICKS];
-	GS_KEY_STATE UpdateJoyButton(const unsigned int id, const GS_JOYSTICK_BUTTON key);
-	GS_KEY_STATE UpdateJoyArrowHit(const unsigned int id, const GS_JOYSTICK_BUTTON key, const float direction);
+	bool IsArrowPressed(const GS_JOYSTICK_BUTTON key, const float direction);
 
-	GS_KEY_STATE UpdateKeyState(const GS_KEY key);
-
-	GS_KEY_STATE m_keyState[GS_NUM_KEYS];
-	int m_count[GS_NUM_KEYS];
+	KeyStateManager m_keyState[GS_NUM_KEYS];
 	math::Vector2i m_mouseMove;
 	math::Vector2i m_lastPos;
 	math::Vector2i m_v2NewPos;

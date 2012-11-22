@@ -311,6 +311,14 @@
 		<Filter
 			Name="Input"
 			>
+			<File
+				RelativePath="..\..\..\src\Input\KeyStateManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\Input\KeyStateManager.h"
+				>
+			</File>
 			<Filter
 				Name="Win"
 				>

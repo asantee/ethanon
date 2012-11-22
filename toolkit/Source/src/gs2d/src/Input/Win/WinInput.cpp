@@ -149,10 +149,6 @@ WinInput::WinInput(boost::any data, const bool showJoystickWarnings)
 	m_keyID[GSK_NUMPAD8] = VK_NUMPAD8;
 	m_keyID[GSK_NUMPAD9] = VK_NUMPAD9;
 
-	for (int t=0; t<GS_NUM_KEYS; t++)
-	{
-		m_count[t] = 0;
-	}
 	m_newPos = false;
 
 	DetectJoysticks();
@@ -371,7 +367,7 @@ GS_KEY_STATE WinInput::GetJoystickButtonState(const unsigned int id, const GS_JO
 			ShowMessage(L"Invalid button. Make sure that the joypad has enough buttons - WinInput::JoyButtonState");
 		return GSKS_UP;
 	}
-	return m_joystick[id].state[key];
+	return m_joystick[id].state[key].GetCurrentState();
 }
 
 bool WinInput::IsJoystickButtonDown(const unsigned int id, const GS_JOYSTICK_BUTTON key) const
@@ -382,22 +378,22 @@ bool WinInput::IsJoystickButtonDown(const unsigned int id, const GS_JOYSTICK_BUT
 
 GS_KEY_STATE WinInput::GetKeyState(const GS_KEY key) const
 {
-	return m_keyState[key];
+	return m_keyState[key].GetCurrentState();
 }
 
 GS_KEY_STATE WinInput::GetLeftClickState() const
 {
-	return m_keyState[GSK_LMOUSE];
+	return m_keyState[GSK_LMOUSE].GetCurrentState();
 }
 
 GS_KEY_STATE WinInput::GetRightClickState() const
 {
-	return m_keyState[GSK_RMOUSE];
+	return m_keyState[GSK_RMOUSE].GetCurrentState();
 }
 
 GS_KEY_STATE WinInput::GetMiddleClickState() const
 {
-	return m_keyState[GSK_MMOUSE];
+	return m_keyState[GSK_MMOUSE].GetCurrentState();
 }
 
 // emulates the screen touch with the left mouse click
@@ -417,7 +413,7 @@ math::Vector2 WinInput::GetTouchPos(const unsigned int n, WindowPtr pWindow) con
 GS_KEY_STATE WinInput::GetTouchState(const unsigned int n, WindowPtr pWindow) const
 {
 	if (n == 0)
-		return m_keyState[GSK_LMOUSE];
+		return m_keyState[GSK_LMOUSE].GetCurrentState();
 	else
 		return GSKS_UP;
 }
@@ -434,7 +430,9 @@ Vector2i WinInput::GetMouseMove() const
 
 Vector2 WinInput::GetTouchMove(const unsigned int n) const
 {
-	GS2D_UNUSED_ARGUMENT(n);
+	if (n != 0)
+		return Vector2(0, 0);
+
 	if (IsKeyDown(GSK_LMOUSE))
 		return GetMouseMoveF();
 	else
@@ -457,11 +455,16 @@ bool WinInput::SetCursorPositionF(Vector2 v2Pos)
 
 bool WinInput::Update()
 {
-	for (unsigned int t=0; t<GS_NUM_KEYS; t++)
+	const bool windowHasFocus = D3D9Video::m_inputFocus;
+
+	// update each key state
+	for (unsigned int t = 0; t < GS_NUM_KEYS; t++)
 	{
-		m_keyState[t] = UpdateKeyState((GS_KEY)t);
+		const bool currentButtonIsPressed = ((::GetKeyState(m_keyID[t]) & 0x80) != 0x0);
+		m_keyState[t].Update(currentButtonIsPressed && windowHasFocus);
 	}
 
+	// update cursor and mouse data
 	POINT point;
 	GetCursorPos(&point);
 
@@ -478,6 +481,7 @@ bool WinInput::Update()
 		m_newPos = false;
 	}
 
+	// mouse wheel and character input
 	m_mouseWheel = static_cast<float>(D3D9Video::m_wheelDelta)/120.0f;
 	m_charInput = static_cast<wchar_t>(D3D9Video::m_currentChar);
 	D3D9Video::m_wheelDelta = 0;
@@ -600,7 +604,8 @@ GS_JOYSTICK_BUTTON WinInput::GetFirstButtonDown(const unsigned int id) const
 	const unsigned int nButtons = static_cast<unsigned int>(m_joystick[id].nButtons);
 	for (unsigned int t=0; t<nButtons; t++)
 	{
-		if (m_joystick[id].state[t] == GSKS_HIT || m_joystick[id].state[t] == GSKS_DOWN)
+		if (m_joystick[id].state[t].GetCurrentState() == GSKS_HIT
+			|| m_joystick[id].state[t].GetCurrentState() == GSKS_DOWN)
 			return (GS_JOYSTICK_BUTTON)t;
 	}
 	return GSB_NONE;
@@ -608,7 +613,8 @@ GS_JOYSTICK_BUTTON WinInput::GetFirstButtonDown(const unsigned int id) const
 
 bool WinInput::UpdateJoystick()
 {
-	for (unsigned int j=0; j<m_nJoysticks; j++)
+	const bool windowHasFocus = D3D9Video::m_inputFocus;
+	for (unsigned int j = 0; j < m_nJoysticks; j++)
 	{
 		const UINT id = GetWinJoystick(j);
 		if (m_joystick[j].status == GSJS_DETECTED)
@@ -626,17 +632,17 @@ bool WinInput::UpdateJoystick()
 				continue;
 			}
 
-			for (unsigned int t=0; t<GSB_MAX_BUTTONS; t++)
+			for (unsigned int t = 0; t < GSB_MAX_BUTTONS; t++)
 			{
 				const unsigned int nButtons = static_cast<unsigned int>(m_joystick[j].nButtons);
-				if (t<nButtons)
+				if (t < nButtons)
 				{
-					m_joystick[j].state[t] = UpdateJoyButton(j, (GS_JOYSTICK_BUTTON)t);
+					const bool buttonPressed = ((m_joyInfoEx[j].dwButtons & m_joystick[id].buttonID[t]) != 0x0);
+					m_joystick[j].state[t].Update(windowHasFocus && buttonPressed);
 				}
 				else
 				{
-					m_joystick[j].state[t] = GSKS_UP;
-					m_joystick[j].count[t] = 0;
+					m_joystick[j].state[t].Update(false);
 				}
 			}
 
@@ -672,81 +678,27 @@ bool WinInput::UpdateJoystick()
 			CheckJoyMinimumValue(m_joystick[j].uv.x);
 			CheckJoyMinimumValue(m_joystick[j].uv.y);
 
-			m_joystick[j].state[GSB_LEFT ] = UpdateJoyArrowHit(j, GSB_LEFT, m_joystick[j].xy.x);
-			m_joystick[j].state[GSB_RIGHT] = UpdateJoyArrowHit(j, GSB_RIGHT, m_joystick[j].xy.x);
-			m_joystick[j].state[GSB_UP   ] = UpdateJoyArrowHit(j, GSB_UP, m_joystick[j].xy.y);
-			m_joystick[j].state[GSB_DOWN ] = UpdateJoyArrowHit(j, GSB_DOWN, m_joystick[j].xy.y);
+			m_joystick[j].state[GSB_LEFT ].Update(IsArrowPressed(GSB_LEFT, m_joystick[j].xy.x));
+			m_joystick[j].state[GSB_RIGHT].Update(IsArrowPressed(GSB_RIGHT, m_joystick[j].xy.x));
+			m_joystick[j].state[GSB_UP   ].Update(IsArrowPressed(GSB_UP, m_joystick[j].xy.y));
+			m_joystick[j].state[GSB_DOWN ].Update(IsArrowPressed(GSB_DOWN, m_joystick[j].xy.y));
 		}
 	}
 	return true;
 }
 
-GS_KEY_STATE WinInput::UpdateJoyButton(const unsigned int id, const GS_JOYSTICK_BUTTON key)
-{
-	if (m_joyInfoEx[id].dwButtons & m_joystick[id].buttonID[key])
-	{
-		m_joystick[id].count[key]++;
-	}
-	else if (m_joystick[id].count[key] > 0)
-	{
-		m_joystick[id].count[key] = 0;
-		return GSKS_RELEASE;
-	}
-	else if (m_joystick[id].count[key] == 0)
-		return GSKS_UP;
-
-	if (m_joystick[id].count[key] == 1)
-		return GSKS_HIT;
-
-	return GSKS_DOWN;
-}
-
-GS_KEY_STATE WinInput::UpdateJoyArrowHit(const unsigned int id, const GS_JOYSTICK_BUTTON key, const float direction)
+bool WinInput::IsArrowPressed(const GS_JOYSTICK_BUTTON key, const float direction)
 {
 	static const float minArrowValue = 0.8f;
 	if (((key==GSB_DOWN||key==GSB_RIGHT) && direction >= minArrowValue) ||
 		((key==GSB_UP  ||key==GSB_LEFT ) && direction <=-minArrowValue))
 	{
-		m_joystick[id].count[key]++;
+		return true;
 	}
-	else if (m_joystick[id].count[key] > 0)
+	else
 	{
-		m_joystick[id].count[key] = 0;
-		return GSKS_RELEASE;
+		return false;
 	}
-	else if (m_joystick[id].count[key] == 0)
-		return GSKS_UP;
-
-	if (m_joystick[id].count[key] == 1)
-		return GSKS_HIT;
-
-	return GSKS_DOWN;
-}
-
-GS_KEY_STATE WinInput::UpdateKeyState(const GS_KEY key)
-{
-	if (!D3D9Video::m_inputFocus)
-	{
-		m_count[key] = 0;
-		return GSKS_UP;
-	}
-
-	if (::GetKeyState(m_keyID[key]) & 0x80)
-	{
-		m_count[key]++;
-	}
-	else if (m_count[key] > 0)
-	{
-		m_count[key] = 0;
-		return GSKS_RELEASE;
-	}
-	else if (m_count[key] == 0)
-		return GSKS_UP;
-
-	if (m_count[key] == 1)
-		return GSKS_HIT;
-
-	return GSKS_DOWN;
 }
 
 Vector3 WinInput::GetAccelerometerData() const
