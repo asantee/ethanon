@@ -11,6 +11,9 @@ default
 
 windows
 {
+	width = 1024;
+	height = 768;
+	windowed = true;
 	definedWords = DUPLICATE_DIRECTIVE,RUNNING_ON_WINDOWS,DUPLICATE_DIRECTIVE,DUPLICATE_DIRECTIVE;
 }
 

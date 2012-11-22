@@ -1343,6 +1343,17 @@ bool D3D9Video::StartApplication(const unsigned int width, const unsigned int he
 								const std::wstring& winTitle, const bool windowed,
 								const bool sync, const Texture::PIXEL_FORMAT pfBB, const bool maximizable)
 {
+	if (!m_pD3D)
+	{
+		if ((m_pD3D = CreateAPI()) == NULL)
+		{
+			Message(L"Couldn't create the IDirect3D9 object - D3D9Video::StartApplication");
+			return false;
+		}
+		SetDisplayModes(m_pD3D);
+		Message(L"creating the API object IDirect3D9", GSMT_INFO);
+	}
+
 	m_sync = sync;
 
 	// open window
@@ -1358,6 +1369,15 @@ bool D3D9Video::StartApplication(const unsigned int width, const unsigned int he
 	m_screenDim.x = width;
 	m_screenDim.y = height;
 	m_maximizable = maximizable;
+
+	// if sizes are zero, use the best resolution possible
+	if (m_screenDim.x == 0 || m_screenDim.y == 0)
+	{
+		const int nMode = m_modes.size() - 1;
+		m_screenDim.x = m_modes[nMode].width;
+		m_screenDim.y = m_modes[nMode].height;
+
+	}
 
 	RECT rect;
 	rect.left = 0; rect.top = 0; rect.right = m_screenDim.x; rect.bottom = m_screenDim.y;
@@ -1390,17 +1410,6 @@ bool D3D9Video::StartApplication(const unsigned int width, const unsigned int he
 	m_videoInfo->m_hWnd= CreateWindowW(m_videoInfo->className.c_str(), winTitle.c_str(),
 							m_videoInfo->m_windowStyle, m_windowPos.x, m_windowPos.y, m_windowedDim.x, m_windowedDim.y,
 							GetDesktopWindow(), NULL, wc.hInstance, m_videoInfo.get());
-
-	if (!m_pD3D)
-	{
-		if ((m_pD3D = CreateAPI()) == NULL)
-		{
-			Message(L"Couldn't create the IDirect3D9 object - D3D9Video::StartApplication");
-			return false;
-		}
-		SetDisplayModes(m_pD3D);
-		Message(L"creating the API object IDirect3D9", GSMT_INFO);
-	}
 
 	// convert from GSlib format to D3D_FORMAT
 	D3DFORMAT d3dFmt;
@@ -1500,7 +1509,7 @@ bool D3D9Video::StartApplication(const unsigned int width, const unsigned int he
 	{
 		if (!windowed)
 		{
-			const int nMode = m_modes.size() / 3;
+			const int nMode = m_modes.size()- 1;
 			d3dpp.BackBufferFormat = (D3DFORMAT)m_modes[nMode].idx;
 			d3dpp.BackBufferWidth  = m_screenDim.x = m_modes[nMode].width;
 			d3dpp.BackBufferHeight = m_screenDim.y = m_modes[nMode].height;

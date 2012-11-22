@@ -12,7 +12,7 @@ class TestEntity : Test
 		SetScaleFactor(1.0f);
 		LoadScene("scenes/TestEntity.esc", PRELOOP, LOOP);
 		HideCursor(false);
-		SetWindowProperties("Ethanon Engine", 1024, 768, true, true, PF32BIT);
+		//SetWindowProperties("Ethanon Engine", 1024, 768, true, true, PF32BIT);
 		SetBackgroundColor(0xFF000000);
 	}
 	
