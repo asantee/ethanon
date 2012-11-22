@@ -64,14 +64,20 @@ bool IOSAudioContext::CreateAudioDevice(boost::any data)
 	return true;
 }
 
-AudioSamplePtr IOSAudioContext::LoadSampleFromFile(const str_type::string& fileName, const Platform::FileManagerPtr& fileManager, const GS_SAMPLE_TYPE type)
+AudioSamplePtr IOSAudioContext::LoadSampleFromFile(
+	const str_type::string& fileName,
+	const Platform::FileManagerPtr& fileManager,
+	const Audio::SAMPLE_TYPE type)
 {
 	AudioSamplePtr sample = AudioSamplePtr(new IOSAudioSample);
 	sample->LoadSampleFromFile(weak_this, fileName, fileManager, type);
 	return sample;
 }
 
-AudioSamplePtr IOSAudioContext::LoadSampleFromFileInMemory(void *pBuffer, const unsigned int bufferLength, const GS_SAMPLE_TYPE type)
+AudioSamplePtr IOSAudioContext::LoadSampleFromFileInMemory(
+	void *pBuffer,
+	const unsigned int bufferLength,
+	const Audio::SAMPLE_TYPE type)
 {
 	return AudioSamplePtr();
 }
@@ -81,19 +87,19 @@ boost::any IOSAudioContext::GetAudioContext()
 	return 0;
 }
 
-bool IOSAudioContext::IsStreamable(const GS_SAMPLE_TYPE type)
+bool IOSAudioContext::IsStreamable(const Audio::SAMPLE_TYPE type)
 {
 	switch (type)
 	{
-	case GSST_SOUND_EFFECT:
+	case Audio::SOUND_EFFECT:
 		return false;
-	case GSST_MUSIC:
+	case Audio::MUSIC:
 		return true;
-	case GSST_SOUNDTRACK:
+	case Audio::SOUNDTRACK:
 		return true;
-	case GSST_AMBIENT_SFX:
+	case Audio::AMBIENT_SFX:
 		return true;
-	case GSST_UNKNOWN:
+	case Audio::UNKNOWN_TYPE:
 	default:
 		return false;
 	}
@@ -144,7 +150,11 @@ IOSAudioSample::~IOSAudioSample()
 	[pool release];
 }
 
-bool IOSAudioSample::LoadSampleFromFile(AudioWeakPtr audio, const str_type::string& fileName, const Platform::FileManagerPtr& fileManager, const GS_SAMPLE_TYPE type)
+bool IOSAudioSample::LoadSampleFromFile(
+	AudioWeakPtr audio,
+	const str_type::string& fileName,
+	const Platform::FileManagerPtr& fileManager,
+	const Audio::SAMPLE_TYPE type)
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	m_audio = static_cast<IOSAudioContext*>(audio.lock().get());
@@ -165,7 +175,11 @@ bool IOSAudioSample::LoadSampleFromFile(AudioWeakPtr audio, const str_type::stri
 	return true;
 }
 
-bool IOSAudioSample::LoadSampleFromFileInMemory(AudioWeakPtr audio, void *pBuffer, const unsigned int bufferLength, const GS_SAMPLE_TYPE type)
+bool IOSAudioSample::LoadSampleFromFileInMemory(
+	AudioWeakPtr audio,
+	void *pBuffer,
+	const unsigned int bufferLength,
+	const Audio::SAMPLE_TYPE type)
 {
 	// TODO
 	return false;
@@ -200,10 +214,10 @@ bool IOSAudioSample::Play()
 	return true;
 }
 
-GS_SAMPLE_STATUS IOSAudioSample::GetStatus()
+Audio::SAMPLE_STATUS IOSAudioSample::GetStatus()
 {
 	// TODO
-	return GSSS_UNKNOWN;
+	return Audio::UNKNOWN_STATUS;
 }
 
 bool IOSAudioSample::IsPlaying()
@@ -254,7 +268,7 @@ bool IOSAudioSample::Stop()
 	return true;
 }
 
-GS_SAMPLE_TYPE IOSAudioSample::GetType() const
+Audio::SAMPLE_TYPE IOSAudioSample::GetType() const
 {
 	return m_type;
 }

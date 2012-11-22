@@ -31,7 +31,7 @@
 namespace gs2d {
 
 IrrKlangAudioSample::IrrKlangAudioSample() :
-	m_type(GSST_UNKNOWN),
+	m_type(Audio::UNKNOWN_TYPE),
 	m_engine(0),
 	m_source(0),
 	m_sound(0),
@@ -55,7 +55,7 @@ bool IrrKlangAudioSample::LoadSampleFromFile(
 	AudioWeakPtr audio,
 	const str_type::string& fileName,
 	const Platform::FileManagerPtr& fileManager,
-	const GS_SAMPLE_TYPE type)
+	const Audio::SAMPLE_TYPE type)
 {
 	m_fullFilePath = fileName;
 	Platform::FileBuffer out;
@@ -69,7 +69,11 @@ bool IrrKlangAudioSample::LoadSampleFromFile(
 	return LoadSampleFromFileInMemory(audio, out->GetAddress(), out->GetBufferSize(), type);
 }
 
-bool IrrKlangAudioSample::LoadSampleFromFileInMemory(AudioWeakPtr audio, void *pBuffer, const unsigned int bufferLength, const GS_SAMPLE_TYPE type)
+bool IrrKlangAudioSample::LoadSampleFromFileInMemory(
+	AudioWeakPtr audio,
+	void *pBuffer,
+	const unsigned int bufferLength,
+	const Audio::SAMPLE_TYPE type)
 {
 	IrrKlangAudioPtr irrAudio = boost::dynamic_pointer_cast<IrrKlangAudio>(audio.lock());
 	m_engine = irrAudio->GetEngine();
@@ -145,14 +149,14 @@ bool IrrKlangAudioSample::IsPlaying()
 	return (!m_sound->getIsPaused() && !m_sound->isFinished());
 }
 
-GS_SAMPLE_STATUS IrrKlangAudioSample::GetStatus()
+Audio::SAMPLE_STATUS IrrKlangAudioSample::GetStatus()
 {
 	if (IsPlaying())
-		return GSSS_PLAYING;
+		return Audio::PLAYING;
 	else if (m_sound->getIsPaused() && m_sound->getPlayPosition() > 0)
-		return GSSS_PAUSED;
+		return Audio::PAUSED;
 	else
-		return GSSS_STOPPED;
+		return Audio::STOPPED;
 }
 
 bool IrrKlangAudioSample::SetLoop(const bool enable)
@@ -173,7 +177,7 @@ bool IrrKlangAudioSample::Pause()
 	return true;
 }
 
-GS_SAMPLE_TYPE IrrKlangAudioSample::GetType() const
+Audio::SAMPLE_TYPE IrrKlangAudioSample::GetType() const
 {
 	return m_type;
 }

@@ -39,20 +39,40 @@ public:
 		SpritePtr m_sprite;
 		str_type::string m_fullOriginPath;
 	public:
-		SpriteResource(const str_type::string& resourceDirectory, const str_type::string& fullOriginPath, const SpritePtr& sprite);
+		SpriteResource(
+			const str_type::string& resourceDirectory,
+			const str_type::string& fullOriginPath,
+			const SpritePtr& sprite);
 	};
 
-	SpritePtr GetPointer(VideoPtr video, const str_type::string& fileRelativePath,
-						 const str_type::string& resourceDirectory, const str_type::string &searchPath,
-						 const bool cutOutBlackPixels);
+	SpritePtr GetPointer(
+		VideoPtr video,
+		const str_type::string& fileRelativePath,
+		const str_type::string& resourceDirectory,
+		const str_type::string &searchPath,
+		const bool cutOutBlackPixels);
+
 	int GetNumResources();
 	void ReleaseResources();
-	SpritePtr AddFile(VideoPtr video, const str_type::string &path, const str_type::string& resourceDirectory, const bool cutOutBlackPixels);
+
+	SpritePtr AddFile(
+		VideoPtr video,
+		const str_type::string& path,
+		const str_type::string& resourceDirectory,
+		const bool cutOutBlackPixels);
+
 	void RemoveResource(const str_type::string &file);
 
 private:
-	SpritePtr FindSprite(const str_type::string& fullFilePath, const str_type::string& fileName, const str_type::string& resourceDirectory);
-	str_type::string AssembleResourceFullPath(const str_type::string& programPath, const str_type::string& searchPath, const str_type::string& fileName);
+	SpritePtr FindSprite(
+		const str_type::string& fullFilePath,
+		const str_type::string& fileName,
+		const str_type::string& resourceDirectory);
+
+	str_type::string AssembleResourceFullPath(
+		const str_type::string& programPath,
+		const str_type::string& searchPath,
+		const str_type::string& fileName);
 
 	std::map<str_type::string, SpriteResource> m_resource;
 	ETHSpriteDensityManager m_densityManager;
@@ -63,9 +83,19 @@ typedef boost::shared_ptr<ETHGraphicResourceManager> ETHGraphicResourceManagerPt
 class ETHAudioResourceManager
 {
 public:
-	AudioSamplePtr GetPointer(AudioPtr audio, const Platform::FileIOHubPtr& fileIOHub, const str_type::string &fileRelativePath,
-							  const str_type::string &alternative, const GS_SAMPLE_TYPE type);
-	AudioSamplePtr AddFile(AudioPtr audio, const Platform::FileIOHubPtr& fileIOHub, const str_type::string& path, const GS_SAMPLE_TYPE type);
+	AudioSamplePtr GetPointer(
+		AudioPtr audio,
+		const Platform::FileIOHubPtr& fileIOHub,
+		const str_type::string &fileRelativePath,
+		const str_type::string &alternative,
+		const Audio::SAMPLE_TYPE type);
+
+	AudioSamplePtr AddFile(
+		AudioPtr audio,
+		const Platform::FileIOHubPtr& fileIOHub,
+		const str_type::string& path,
+		const Audio::SAMPLE_TYPE type);
+
 	int GetNumResources();
 
 	void ReleaseResources();

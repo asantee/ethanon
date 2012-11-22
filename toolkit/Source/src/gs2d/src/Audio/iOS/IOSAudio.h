@@ -41,10 +41,18 @@ class IOSAudioContext : public Audio
 public:
 	static boost::shared_ptr<IOSAudioContext> Create(boost::any data);
 
-	static bool IsStreamable(const GS_SAMPLE_TYPE type);
+	static bool IsStreamable(const Audio::SAMPLE_TYPE type);
 
-	AudioSamplePtr LoadSampleFromFile(const str_type::string& fileName, const Platform::FileManagerPtr& fileManager, const GS_SAMPLE_TYPE type = GSST_UNKNOWN);
-	AudioSamplePtr LoadSampleFromFileInMemory(void *pBuffer, const unsigned int bufferLength, const GS_SAMPLE_TYPE type = GSST_UNKNOWN);
+	AudioSamplePtr LoadSampleFromFile(
+		const str_type::string& fileName,
+		const Platform::FileManagerPtr& fileManager,
+		const Audio::SAMPLE_TYPE type = Audio::UNKNOWN_TYPE);
+
+	AudioSamplePtr LoadSampleFromFileInMemory(
+		void *pBuffer,
+		const unsigned int bufferLength,
+		const Audio::SAMPLE_TYPE type = Audio::UNKNOWN_TYPE);
+
 	boost::any GetAudioContext();
 
 	void SetGlobalVolume(const float volume);
@@ -62,28 +70,37 @@ class IOSAudioSample : public AudioSample
 	static str_type::string m_currentStreamableTrack;
 	float m_volume, m_speed, m_pan;
 	bool m_loop;
-	GS_SAMPLE_TYPE m_type;
+	Audio::SAMPLE_TYPE m_type;
 	static Platform::FileLogger m_logger;
 
 public:
 	IOSAudioSample();
 	~IOSAudioSample();
 
-	bool LoadSampleFromFile(AudioWeakPtr audio, const str_type::string& fileName, const Platform::FileManagerPtr& fileManager, const GS_SAMPLE_TYPE type = GSST_UNKNOWN);
-	bool LoadSampleFromFileInMemory(AudioWeakPtr audio, void *pBuffer, const unsigned int bufferLength, const GS_SAMPLE_TYPE type = GSST_UNKNOWN);
+	bool LoadSampleFromFile(
+		AudioWeakPtr audio,
+		const str_type::string& fileName,
+		const Platform::FileManagerPtr& fileManager,
+		const Audio::SAMPLE_TYPE type = Audio::UNKNOWN_TYPE);
+
+	bool LoadSampleFromFileInMemory(
+		AudioWeakPtr audio,
+		void *pBuffer,
+		const unsigned int bufferLength,
+		const Audio::SAMPLE_TYPE type = Audio::UNKNOWN_TYPE);
 
 	bool SetLoop(const bool enable);
 	bool GetLoop() const;
 
 	bool Play();
-	GS_SAMPLE_STATUS GetStatus();
+	Audio::SAMPLE_STATUS GetStatus();
 
 	bool IsPlaying();
 
 	bool Pause();
 	bool Stop();
 
-	GS_SAMPLE_TYPE GetType() const;
+	Audio::SAMPLE_TYPE GetType() const;
 
 	bool SetSpeed(const float speed);
 	float GetSpeed() const;

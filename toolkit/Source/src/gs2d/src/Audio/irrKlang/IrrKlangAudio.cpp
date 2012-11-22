@@ -92,7 +92,10 @@ irrklang::ISoundEngine* IrrKlangAudio::GetEngine()
 	return m_engine;
 }
 
-AudioSamplePtr IrrKlangAudio::LoadSampleFromFile(const str_type::string& fileName, const Platform::FileManagerPtr& fileManager, const GS_SAMPLE_TYPE type)
+AudioSamplePtr IrrKlangAudio::LoadSampleFromFile(
+	const str_type::string& fileName,
+	const Platform::FileManagerPtr& fileManager,
+	const Audio::SAMPLE_TYPE type)
 {
 	AudioSamplePtr audio = AudioSamplePtr(new IrrKlangAudioSample);
 	if (!audio->LoadSampleFromFile(weak_this, fileName, fileManager, type))
@@ -102,7 +105,10 @@ AudioSamplePtr IrrKlangAudio::LoadSampleFromFile(const str_type::string& fileNam
 	return audio;
 }
 
-AudioSamplePtr IrrKlangAudio::LoadSampleFromFileInMemory(void *pBuffer, const unsigned int bufferLength, const GS_SAMPLE_TYPE type)
+AudioSamplePtr IrrKlangAudio::LoadSampleFromFileInMemory(
+	void *pBuffer,
+	const unsigned int bufferLength,
+	const Audio::SAMPLE_TYPE type)
 {
 	AudioSamplePtr audio = AudioSamplePtr(new IrrKlangAudioSample);
 	if (!audio->LoadSampleFromFileInMemory(weak_this, pBuffer, bufferLength, type))

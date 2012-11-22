@@ -41,8 +41,16 @@ public:
 
 	IrrKlangAudio();
 	~IrrKlangAudio();
-	AudioSamplePtr LoadSampleFromFile(const str_type::string& fileName, const Platform::FileManagerPtr& fileManager, const GS_SAMPLE_TYPE type = GSST_UNKNOWN);
-	AudioSamplePtr LoadSampleFromFileInMemory(void *pBuffer, const unsigned int bufferLength, const GS_SAMPLE_TYPE type = GSST_UNKNOWN);
+	AudioSamplePtr LoadSampleFromFile(
+		const str_type::string& fileName,
+		const Platform::FileManagerPtr& fileManager,
+		const Audio::SAMPLE_TYPE type = Audio::UNKNOWN_TYPE);
+
+	AudioSamplePtr LoadSampleFromFileInMemory(
+		void *pBuffer,
+		const unsigned int bufferLength,
+		const Audio::SAMPLE_TYPE type = Audio::UNKNOWN_TYPE);
+
 	boost::any GetAudioContext();
 	void SetGlobalVolume(const float volume);
 	float GetGlobalVolume() const;

@@ -65,15 +65,20 @@ bool AndroidAudioContext::CreateAudioDevice(boost::any data)
 	return true;
 }
 
-AudioSamplePtr AndroidAudioContext::LoadSampleFromFile(const str_type::string& fileName, const Platform::FileManagerPtr& fileManager,
-													   const GS_SAMPLE_TYPE type)
+AudioSamplePtr AndroidAudioContext::LoadSampleFromFile(
+	const str_type::string& fileName,
+	const Platform::FileManagerPtr& fileManager,
+	const Audio::SAMPLE_TYPE type)
 {
 	AudioSamplePtr sample = AudioSamplePtr(new AndroidAudioSample);
 	sample->LoadSampleFromFile(weak_this, fileName, fileManager, type);
 	return sample;
 }
 
-AudioSamplePtr AndroidAudioContext::LoadSampleFromFileInMemory(void *pBuffer, const unsigned int bufferLength, const GS_SAMPLE_TYPE type)
+AudioSamplePtr AndroidAudioContext::LoadSampleFromFileInMemory(
+	void *pBuffer,
+	const unsigned int bufferLength,
+	const Audio::SAMPLE_TYPE type)
 {
 	return AudioSamplePtr();
 }
@@ -85,19 +90,19 @@ boost::any AndroidAudioContext::GetAudioContext()
 	return out;
 }
 
-bool AndroidAudioContext::IsStreamable(const GS_SAMPLE_TYPE type)
+bool AndroidAudioContext::IsStreamable(const Audio::SAMPLE_TYPE type)
 {
 	switch (type)
 	{
-	case GSST_SOUND_EFFECT:
+	case Audio::SOUND_EFFECT:
 		return false;
-	case GSST_MUSIC:
+	case Audio::MUSIC:
 		return true;
-	case GSST_SOUNDTRACK:
+	case Audio::SOUNDTRACK:
 		return true;
-	case GSST_AMBIENT_SFX:
+	case Audio::AMBIENT_SFX:
 		return true;
-	case GSST_UNKNOWN:
+	case Audio::UNKNOWN_TYPE:
 	default:
 		return false;
 	}
@@ -135,7 +140,11 @@ AndroidAudioSample::~AndroidAudioSample()
 	}
 }
 
-bool AndroidAudioSample::LoadSampleFromFile(AudioWeakPtr audio, const str_type::string& fileName, const Platform::FileManagerPtr& fileManager, const GS_SAMPLE_TYPE type)
+bool AndroidAudioSample::LoadSampleFromFile(
+	AudioWeakPtr audio,
+	const str_type::string& fileName,
+	const Platform::FileManagerPtr& fileManager,
+	const Audio::SAMPLE_TYPE type)
 {
 	m_audio = static_cast<AndroidAudioContext*>(audio.lock().get());
 	m_fileName = fileName;
@@ -155,7 +164,11 @@ bool AndroidAudioSample::LoadSampleFromFile(AudioWeakPtr audio, const str_type::
 	return true;
 }
 
-bool AndroidAudioSample::LoadSampleFromFileInMemory(AudioWeakPtr audio, void *pBuffer, const unsigned int bufferLength, const GS_SAMPLE_TYPE type)
+bool AndroidAudioSample::LoadSampleFromFileInMemory(
+	AudioWeakPtr audio,
+	void *pBuffer,
+	const unsigned int bufferLength,
+	const Audio::SAMPLE_TYPE type)
 {
 	// TODO
 	return false;
@@ -185,9 +198,9 @@ bool AndroidAudioSample::Play()
 	return true;
 }
 
-GS_SAMPLE_STATUS AndroidAudioSample::GetStatus()
+Audio::SAMPLE_STATUS AndroidAudioSample::GetStatus()
 {
-	return GSSS_UNKNOWN;
+	return Audio::UNKNOWN_STATUS;
 }
 
 bool AndroidAudioSample::IsPlaying()
@@ -216,7 +229,7 @@ bool AndroidAudioSample::Stop()
 	}
 }
 
-GS_SAMPLE_TYPE AndroidAudioSample::GetType() const
+Audio::SAMPLE_TYPE AndroidAudioSample::GetType() const
 {
 	return m_type;
 }

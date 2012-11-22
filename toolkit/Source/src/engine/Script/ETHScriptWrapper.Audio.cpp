@@ -30,7 +30,7 @@ bool ETHScriptWrapper::LoadMusic(const str_type::string &file)
 	str_type::stringstream ss;
 	Platform::FileIOHubPtr fileIOHub = m_provider->GetFileIOHub();
 	ss << fileIOHub->GetResourceDirectory() << file;
-	if (!m_provider->GetAudioResourceManager()->AddFile(m_provider->GetAudio(), fileIOHub, ss.str(), GSST_MUSIC))
+	if (!m_provider->GetAudioResourceManager()->AddFile(m_provider->GetAudio(), fileIOHub, ss.str(), Audio::MUSIC))
 	{
 		ShowMessage(GS_L("Could not load the file: ") + file, ETH_ERROR, false);
 		return false;
@@ -46,7 +46,7 @@ bool ETHScriptWrapper::LoadSoundEffect(const str_type::string &file)
 	str_type::stringstream ss;
 	Platform::FileIOHubPtr fileIOHub = m_provider->GetFileIOHub();
 	ss << fileIOHub->GetResourceDirectory() << file;
-	if (!m_provider->GetAudioResourceManager()->AddFile(m_provider->GetAudio(), fileIOHub, ss.str(), GSST_SOUND_EFFECT))
+	if (!m_provider->GetAudioResourceManager()->AddFile(m_provider->GetAudio(), fileIOHub, ss.str(), Audio::SOUND_EFFECT))
 	{
 		ShowMessage(GS_L("Could not load the file: ") + file, ETH_ERROR, false);
 		return false;
@@ -57,7 +57,10 @@ bool ETHScriptWrapper::LoadSoundEffect(const str_type::string &file)
 bool ETHScriptWrapper::PlaySample(const str_type::string &file)
 {
 	Platform::FileIOHubPtr fileIOHub = m_provider->GetFileIOHub();
-	AudioSamplePtr pSample = m_provider->GetAudioResourceManager()->GetPointer(m_provider->GetAudio(), fileIOHub, file, GS_L(""), GSST_UNKNOWN);
+
+	AudioSamplePtr pSample =
+		m_provider->GetAudioResourceManager()->GetPointer(m_provider->GetAudio(), fileIOHub, file, GS_L(""), Audio::UNKNOWN_TYPE);
+
 	if (!pSample)
 	{
 		ShowMessage(GS_L("File not found: ") + file, ETH_ERROR, false);
@@ -70,7 +73,10 @@ bool ETHScriptWrapper::PlaySample(const str_type::string &file)
 bool ETHScriptWrapper::LoopSample(const str_type::string &file, const bool loop)
 {
 	Platform::FileIOHubPtr fileIOHub = m_provider->GetFileIOHub();
-	AudioSamplePtr pSample = m_provider->GetAudioResourceManager()->GetPointer(m_provider->GetAudio(), fileIOHub, file, GS_L(""), GSST_UNKNOWN);
+
+	AudioSamplePtr pSample =
+		m_provider->GetAudioResourceManager()->GetPointer(m_provider->GetAudio(), fileIOHub, file, GS_L(""), Audio::UNKNOWN_TYPE);
+
 	if (!pSample)
 	{
 		ShowMessage(GS_L("File not found: ") + file, ETH_ERROR, false);
@@ -83,7 +89,10 @@ bool ETHScriptWrapper::LoopSample(const str_type::string &file, const bool loop)
 bool ETHScriptWrapper::StopSample(const str_type::string &file)
 {
 	Platform::FileIOHubPtr fileIOHub = m_provider->GetFileIOHub();
-	AudioSamplePtr pSample = m_provider->GetAudioResourceManager()->GetPointer(m_provider->GetAudio(), fileIOHub, file, GS_L(""), GSST_UNKNOWN);
+
+	AudioSamplePtr pSample =
+		m_provider->GetAudioResourceManager()->GetPointer(m_provider->GetAudio(), fileIOHub, file, GS_L(""), Audio::UNKNOWN_TYPE);
+
 	if (!pSample)
 	{
 		ShowMessage(GS_L("File not found: ") + file, ETH_ERROR, false);
@@ -96,7 +105,10 @@ bool ETHScriptWrapper::StopSample(const str_type::string &file)
 bool ETHScriptWrapper::PauseSample(const str_type::string &file)
 {
 	Platform::FileIOHubPtr fileIOHub = m_provider->GetFileIOHub();
-	AudioSamplePtr pSample = m_provider->GetAudioResourceManager()->GetPointer(m_provider->GetAudio(), fileIOHub, file, GS_L(""), GSST_UNKNOWN);
+
+	AudioSamplePtr pSample =
+		m_provider->GetAudioResourceManager()->GetPointer(m_provider->GetAudio(), fileIOHub, file, GS_L(""), Audio::UNKNOWN_TYPE);
+
 	if (!pSample)
 	{
 		ShowMessage(GS_L("File not found: ") + file, ETH_ERROR, false);
@@ -109,7 +121,10 @@ bool ETHScriptWrapper::PauseSample(const str_type::string &file)
 bool ETHScriptWrapper::SetSampleVolume(const str_type::string &file, const float volume)
 {
 	Platform::FileIOHubPtr fileIOHub = m_provider->GetFileIOHub();
-	AudioSamplePtr pSample = m_provider->GetAudioResourceManager()->GetPointer(m_provider->GetAudio(), fileIOHub, file, GS_L(""), GSST_UNKNOWN);
+
+	AudioSamplePtr pSample =
+		m_provider->GetAudioResourceManager()->GetPointer(m_provider->GetAudio(), fileIOHub, file, GS_L(""), Audio::UNKNOWN_TYPE);
+
 	if (!pSample)
 	{
 		ShowMessage(GS_L("File not found: ") + file, ETH_ERROR, false);
@@ -123,7 +138,10 @@ bool ETHScriptWrapper::SetSampleVolume(const str_type::string &file, const float
 bool ETHScriptWrapper::SetSamplePan(const str_type::string &file, const float pan)
 {
 	Platform::FileIOHubPtr fileIOHub = m_provider->GetFileIOHub();
-	AudioSamplePtr pSample = m_provider->GetAudioResourceManager()->GetPointer(m_provider->GetAudio(), fileIOHub, file, GS_L(""), GSST_UNKNOWN);
+
+	AudioSamplePtr pSample =
+		m_provider->GetAudioResourceManager()->GetPointer(m_provider->GetAudio(), fileIOHub, file, GS_L(""), Audio::UNKNOWN_TYPE);
+
 	if (!pSample)
 	{
 		ShowMessage(GS_L("File not found: ") + file, ETH_ERROR, false);
@@ -136,7 +154,10 @@ bool ETHScriptWrapper::SetSamplePan(const str_type::string &file, const float pa
 bool ETHScriptWrapper::SetSampleSpeed(const str_type::string &file, const float speed)
 {
 	Platform::FileIOHubPtr fileIOHub = m_provider->GetFileIOHub();
-	AudioSamplePtr pSample = m_provider->GetAudioResourceManager()->GetPointer(m_provider->GetAudio(), fileIOHub, file, GS_L(""), GSST_UNKNOWN);
+
+	AudioSamplePtr pSample =
+		m_provider->GetAudioResourceManager()->GetPointer(m_provider->GetAudio(), fileIOHub, file, GS_L(""), Audio::UNKNOWN_TYPE);
+
 	if (!pSample)
 	{
 		ShowMessage(GS_L("File not found: ") + file, ETH_ERROR, false);
@@ -149,7 +170,10 @@ bool ETHScriptWrapper::SetSampleSpeed(const str_type::string &file, const float 
 bool ETHScriptWrapper::SampleExists(const str_type::string &file)
 {
 	Platform::FileIOHubPtr fileIOHub = m_provider->GetFileIOHub();
-	AudioSamplePtr pSample = m_provider->GetAudioResourceManager()->GetPointer(m_provider->GetAudio(), fileIOHub, file, GS_L(""), GSST_UNKNOWN);
+
+	AudioSamplePtr pSample =
+		m_provider->GetAudioResourceManager()->GetPointer(m_provider->GetAudio(), fileIOHub, file, GS_L(""), Audio::UNKNOWN_TYPE);
+
 	if (!pSample)
 		return false;
 	return true;
@@ -158,7 +182,10 @@ bool ETHScriptWrapper::SampleExists(const str_type::string &file)
 bool ETHScriptWrapper::IsSamplePlaying(const str_type::string &file)
 {
 	Platform::FileIOHubPtr fileIOHub = m_provider->GetFileIOHub();
-	AudioSamplePtr pSample = m_provider->GetAudioResourceManager()->GetPointer(m_provider->GetAudio(), fileIOHub, file, GS_L(""), GSST_UNKNOWN);
+
+	AudioSamplePtr pSample =
+		m_provider->GetAudioResourceManager()->GetPointer(m_provider->GetAudio(), fileIOHub, file, GS_L(""), Audio::UNKNOWN_TYPE);
+
 	if (!pSample)
 	{
 		ShowMessage(GS_L("File not found: ") + file, ETH_ERROR, false);

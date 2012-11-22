@@ -36,7 +36,7 @@ class IrrKlangAudioSample : public AudioSample
 	irrklang::ISound* m_sound;
 
 	str_type::string m_fullFilePath;
-	GS_SAMPLE_TYPE m_type;
+	Audio::SAMPLE_TYPE m_type;
 
 	bool m_loop;
 
@@ -48,22 +48,26 @@ public:
 		AudioWeakPtr audio,
 		const str_type::string& fileName,
 		const Platform::FileManagerPtr& fileManager,
-		const GS_SAMPLE_TYPE type);
+		const Audio::SAMPLE_TYPE type);
 
-	bool LoadSampleFromFileInMemory(AudioWeakPtr audio, void *pBuffer, const unsigned int bufferLength, const GS_SAMPLE_TYPE type);
+	bool LoadSampleFromFileInMemory(
+		AudioWeakPtr audio,
+		void *pBuffer,
+		const unsigned int bufferLength,
+		const Audio::SAMPLE_TYPE type);
 
 	bool SetLoop(const bool enable);
 	bool GetLoop() const;
 
 	bool Play();
-	GS_SAMPLE_STATUS GetStatus();
+	Audio::SAMPLE_STATUS GetStatus();
 
 	bool IsPlaying();
 
 	bool Pause();
 	bool Stop();
 
-	GS_SAMPLE_TYPE GetType() const;
+	Audio::SAMPLE_TYPE GetType() const;
 
 	bool SetSpeed(const float speed);
 	float GetSpeed() const;

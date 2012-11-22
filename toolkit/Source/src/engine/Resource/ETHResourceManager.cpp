@@ -25,8 +25,9 @@
 
 #include "ETHResourceProvider.h"
 
-static str_type::string RemoveResourceDirectory(const str_type::string& resourceDirectory,
-												const str_type::string& fullOriginPath)
+static str_type::string RemoveResourceDirectory(
+	const str_type::string& resourceDirectory,
+	const str_type::string& fullOriginPath)
 {
 	str_type::string r = fullOriginPath, fixedResourceDirectory = resourceDirectory;
 	Platform::FixSlashes(fixedResourceDirectory);
@@ -35,9 +36,10 @@ static str_type::string RemoveResourceDirectory(const str_type::string& resource
 	return r;
 }
 
-ETHGraphicResourceManager::SpriteResource::SpriteResource(const str_type::string& resourceDirectory,
-														  const str_type::string& fullOriginPath,
-														  const SpritePtr& sprite) :
+ETHGraphicResourceManager::SpriteResource::SpriteResource(
+	const str_type::string& resourceDirectory,
+	const str_type::string& fullOriginPath,
+	const SpritePtr& sprite) :
 	m_sprite(sprite),
 	m_fullOriginPath(RemoveResourceDirectory(resourceDirectory, fullOriginPath))
 {
@@ -83,7 +85,11 @@ SpritePtr ETHGraphicResourceManager::GetPointer(
 	return SpritePtr();
 }
 
-SpritePtr ETHGraphicResourceManager::AddFile(VideoPtr video, const str_type::string &path, const str_type::string& resourceDirectory, const bool cutOutBlackPixels)
+SpritePtr ETHGraphicResourceManager::AddFile(
+	VideoPtr video,
+	const str_type::string &path,
+	const str_type::string& resourceDirectory,
+	const bool cutOutBlackPixels)
 {
 	str_type::string fileName = Platform::GetFileName(path);
 	{
@@ -122,7 +128,10 @@ int ETHGraphicResourceManager::GetNumResources()
 	return m_resource.size();
 }
 
-gs2d::SpritePtr ETHGraphicResourceManager::FindSprite(const str_type::string& fullFilePath, const str_type::string& fileName, const str_type::string& resourceDirectory)
+gs2d::SpritePtr ETHGraphicResourceManager::FindSprite(
+	const str_type::string& fullFilePath,
+	const str_type::string& fileName,
+	const str_type::string& resourceDirectory)
 {
 	std::map<str_type::string, SpriteResource>::iterator iter = m_resource.find(fileName);
 	if (iter != m_resource.end())
@@ -144,7 +153,10 @@ gs2d::SpritePtr ETHGraphicResourceManager::FindSprite(const str_type::string& fu
 	}
 }
 
-str_type::string ETHGraphicResourceManager::AssembleResourceFullPath( const str_type::string& programPath, const str_type::string& searchPath, const str_type::string& fileName )
+str_type::string ETHGraphicResourceManager::AssembleResourceFullPath(
+	const str_type::string& programPath,
+	const str_type::string& searchPath,
+	const str_type::string& fileName )
 {
 	return programPath + searchPath + fileName;
 }
@@ -168,16 +180,19 @@ void ETHAudioResourceManager::ReleaseAllButMusic()
 	std::map<str_type::string, AudioSamplePtr> musicTracks;
 	for (std::map<str_type::string, AudioSamplePtr>::iterator iter = m_resource.begin(); iter != m_resource.end(); ++iter)
 	{
-		if ((iter->second)->GetType() == GSST_MUSIC)
+		if ((iter->second)->GetType() == Audio::MUSIC)
 			musicTracks[iter->first] = iter->second;
 	}
 	m_resource.clear(); // probably just paranoia
 	m_resource = musicTracks;
 }
 
-AudioSamplePtr ETHAudioResourceManager::GetPointer(AudioPtr audio, const Platform::FileIOHubPtr& fileIOHub,
-										  const str_type::string &fileRelativePath,
-										  const str_type::string &searchPath, const GS_SAMPLE_TYPE type)
+AudioSamplePtr ETHAudioResourceManager::GetPointer(
+	AudioPtr audio,
+	const Platform::FileIOHubPtr& fileIOHub,
+	const str_type::string &fileRelativePath,
+	const str_type::string &searchPath,
+	const Audio::SAMPLE_TYPE type)
 {
 	if (fileRelativePath == GS_L(""))
 		return AudioSamplePtr();
@@ -205,7 +220,11 @@ AudioSamplePtr ETHAudioResourceManager::GetPointer(AudioPtr audio, const Platfor
 	return AudioSamplePtr();
 }
 
-AudioSamplePtr ETHAudioResourceManager::AddFile(AudioPtr audio, const Platform::FileIOHubPtr& fileIOHub, const str_type::string& path, const GS_SAMPLE_TYPE type)
+AudioSamplePtr ETHAudioResourceManager::AddFile(
+	AudioPtr audio,
+	const Platform::FileIOHubPtr& fileIOHub,
+	const str_type::string& path,
+	const Audio::SAMPLE_TYPE type)
 {
 	if (!m_resource.empty())
 	{

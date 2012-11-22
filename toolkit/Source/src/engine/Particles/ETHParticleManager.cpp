@@ -114,7 +114,7 @@ bool ETHParticleManager::CreateParticleSystem(
 	if (m_system.soundFXFile != GS_L(""))
 	{
 		m_pSound = samples->GetPointer(m_provider->GetAudio(), m_provider->GetFileIOHub(), m_system.soundFXFile,
-			ETHDirectories::GetSoundFXDirectory(), GSST_SOUND_EFFECT);
+			ETHDirectories::GetSoundFXDirectory(), Audio::SOUND_EFFECT);
 	}
 
 	if (m_system.allAtOnce)
