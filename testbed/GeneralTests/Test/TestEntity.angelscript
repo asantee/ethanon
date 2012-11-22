@@ -175,19 +175,6 @@ class TestEntity : Test
 			character.SetPositionZ(0.0f);
 		}
 		ForceEntityRendering(character);
-		if (input.GetKeyState(K_SPACE) == KS_HIT)
-		{
-			if (character.IsStatic())
-			{
-				print("character turned into dynamic");
-				character.TurnDynamic();
-			}
-			else
-			{
-				print("character turned into static");
-				character.TurnStatic();
-			}
-		}
 	}
 
 	void highlightEntitiesAroundCursor()
