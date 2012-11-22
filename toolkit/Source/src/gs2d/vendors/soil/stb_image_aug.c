@@ -94,7 +94,7 @@ typedef   signed short  int16;
 typedef unsigned int   uint32;
 typedef   signed int    int32;
 
-#ifdef MACOSX
+#if defined(MACOSX) || defined(APPLE_IOS)
 	typedef unsigned int   uint;
 #endif
 

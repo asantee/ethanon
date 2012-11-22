@@ -24,7 +24,7 @@
 #import "../Platform.h"
 #import "../../Video/GLES2/GLES2Video.h"
 
-gs2d::str_type::string gs2d::GLES2Video::GetPlatformName() const
+gs2d::str_type::string gs2d::Application::GetPlatformName()
 {
 	return "ios";
 }
@@ -81,21 +81,64 @@ namespace ios {
 	double StartTime::m_startTime = 0;
 }
 
-gs2d::str_type::string Platform::FileLogger::GetLogDirectory()
+gs2d::str_type::string ResourceDirectory()
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	NSString* dir = NSHomeDirectory();
-	const char* szDir = [dir cStringUsingEncoding:1];
-	std::string logPath(szDir);
-	logPath += "/log/";
+	NSString* resourceDir = [[NSBundle mainBundle] resourcePath];
+	resourceDir = [resourceDir stringByAppendingString:@"/assets/"];
 
-    [pool release];
-	return logPath;
+	const gs2d::str_type::string r = [resourceDir cStringUsingEncoding:1];
+	[pool release];
+	return r;
+}
+
+gs2d::str_type::string ExternalStorageDirectory()
+{
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	NSString* externalStorageDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+
+	// apprend proc name plus slash
+	externalStorageDir = [externalStorageDir stringByAppendingString:@"/ethdata/"];
+	externalStorageDir = [externalStorageDir stringByAppendingPathComponent:[[NSProcessInfo processInfo] processName]];
+	externalStorageDir = [externalStorageDir stringByAppendingString:@"/"];
+
+	const gs2d::str_type::string r = [externalStorageDir cStringUsingEncoding:1];
+	[pool release];
+	return r;
+}
+
+gs2d::str_type::string GlobalExternalStorageDirectory()
+{
+	return ExternalStorageDirectory();
 }
 
 gs2d::str_type::string GetModuleDirectory()
 {
-	return GS_L("");
+	/*NSString* bundleDir = [[NSBundle mainBundle] bundlePath];
+	bundleDir = [bundleDir stringByAppendingString:@"/"];
+	return [bundleDir cStringUsingEncoding:1];*/
+	return ResourceDirectory();
+}
+
+bool CreateDirectoryNS(NSString* dir)
+{
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	NSFileManager* fileManager = [NSFileManager defaultManager];
+	const bool r = ([fileManager createDirectoryAtPath:dir withIntermediateDirectories:YES attributes:nil error:nil] == YES);
+	[pool release];
+	return r;
+}
+
+bool CreateDirectory(const std::string& path)
+{
+	return CreateDirectoryNS([NSString stringWithUTF8String:path.c_str()]);
+}
+
+gs2d::str_type::string Platform::FileLogger::GetLogDirectory()
+{
+	std::string logPath(ExternalStorageDirectory());
+	logPath += "log/";
+	return logPath;
 }
 
 char GetDirectorySlashA()

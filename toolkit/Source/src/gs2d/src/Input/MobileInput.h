@@ -24,7 +24,10 @@
 #define GS2D_MOBILE_INPUT_H_
 
 #include "../Input.h"
+#include "KeyStateManager.h"
+
 #include <vector>
+
 #include "../Platform/FileLogger.h"
 
 namespace gs2d {
@@ -38,8 +41,7 @@ protected:
 	std::vector<math::Vector2> m_touchMove;
 	std::vector<math::Vector2> m_lastTouch;
 
-	std::vector<GS_KEY_STATE> m_touchState;
-	std::vector<int> m_touchStepCount;
+	std::vector<KeyStateManager> m_touchStates;
 	Platform::FileLogger m_logger;
 
 public:

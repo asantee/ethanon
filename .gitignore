@@ -43,6 +43,9 @@ toolkit/Source/src/gs2d/projects/Android/Ethanon/assets/*
 !toolkit/Source/src/gs2d/projects/Android/Ethanon/assets/main.angelscript
 !toolkit/Source/src/gs2d/projects/Android/Ethanon/assets/shaders/*
 
+# Misc garbage
+*.DS_Store
+
 # Visual Studio files
 *.ncb
 *.suo
@@ -88,6 +91,7 @@ editor.exe
 
 # xcode
 toolkit/Source/projects/xcode/iOS/assets/*
+!toolkit/Source/projects/xcode/iOS/assets/read-me.txt
 
 # Visual Studio binary output paths and files
 *#bin#/

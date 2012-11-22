@@ -26,12 +26,11 @@
 
 - (void) applicationDidFinishLaunching: (UIApplication*) application
 {
-	[self retrieveFilePath];
 	m_viewController = nil;
 	CGRect screenBounds = [[UIScreen mainScreen] bounds];
 	m_window = [[UIWindow alloc] initWithFrame: screenBounds];
 	
-	m_viewController = [[GS2DViewController alloc] initWithBundlePath:m_filePath];
+	m_viewController = [[GS2DViewController alloc] init];
 	[m_window setRootViewController:m_viewController];
 	
 	[m_window makeKeyAndVisible];
@@ -59,12 +58,6 @@
 {
 	if (m_viewController != nil)
 		[m_viewController applicationDidBecomeActive:application];
-}
-
-- (void) retrieveFilePath
-{
-	m_filePath = [[NSBundle mainBundle] resourcePath];
-	m_filePath = [m_filePath stringByAppendingString:@"/"];
 }
 
 - (void) dealloc

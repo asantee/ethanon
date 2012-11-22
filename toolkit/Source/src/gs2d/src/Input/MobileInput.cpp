@@ -29,8 +29,7 @@ using namespace math;
 MobileInput::MobileInput(const unsigned int maxTouchCount) :
 	m_maxTouchCount(maxTouchCount),
 	m_currentTouch(maxTouchCount),
-	m_touchState(maxTouchCount),
-	m_touchStepCount(maxTouchCount),
+	m_touchStates(maxTouchCount),
 	m_touchMove(maxTouchCount),
 	m_lastTouch(maxTouchCount),
 	m_logger(Platform::FileLogger::GetLogDirectory() + "MobileInput.log.txt")
@@ -40,14 +39,12 @@ MobileInput::MobileInput(const unsigned int maxTouchCount) :
 		m_touchMove[t] = Vector2(0, 0);
 		m_lastTouch[t] = GS_NO_TOUCH;
 		m_currentTouch[t] = GS_NO_TOUCH;
-		m_touchState[t] = GSKS_UP;
-		m_touchStepCount[t] = 0;
 	}
 }
 
 GS_KEY_STATE MobileInput::GetLeftClickState() const
 {
-	return m_touchState[0];
+	return m_touchStates[0].GetCurrentState();
 }
 
 GS_KEY_STATE MobileInput::GetRightClickState() const
@@ -112,37 +109,16 @@ bool MobileInput::Update()
 {
 	for (unsigned int t = 0; t < m_maxTouchCount; t++)
 	{
+		m_touchStates[t].Update(m_currentTouch[t] != GS_NO_TOUCH);
+
 		m_touchMove[t] = Vector2(0, 0);
 		if (m_currentTouch[t] != GS_NO_TOUCH)
 		{
-			m_touchStepCount[t]++;
-			if (m_touchStepCount[t] == 1)
-			{
-				m_lastTouch[t] = m_currentTouch[t];
-				m_touchState[t] = GSKS_HIT;
-			}
-			else
-			{
-				m_touchState[t] = GSKS_DOWN;
-			}
-
-			if (m_touchState[t] == GSKS_DOWN)
+			if (m_touchStates[t].GetCurrentState() == GSKS_DOWN)
 			{
 				m_touchMove[t] = m_currentTouch[t] - m_lastTouch[t];
 				m_lastTouch[t] = m_currentTouch[t];
 			}
-		}
-		else
-		{
-			if (m_touchStepCount[t] != 0)
-			{
-				m_touchState[t] = GSKS_RELEASE;
-			}
-			else
-			{
-				m_touchState[t] = GSKS_UP;
-			}
-			m_touchStepCount[t] = 0;
 		}
 	}
 	return true;
@@ -175,7 +151,7 @@ GS_KEY_STATE MobileInput::GetTouchState(const unsigned int n, WindowPtr pWindow)
 {
 	if (n < m_maxTouchCount)
 	{
-		return m_touchState[n];
+		return m_touchStates[n].GetCurrentState();
 	}
 	else
 	{
