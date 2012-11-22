@@ -56,7 +56,10 @@ boost::shared_ptr<AudiereContext> AudiereContext::Create(boost::any data)
 	}
 }
 
-AudioSamplePtr AudiereContext::LoadSampleFromFile(const std::wstring& fileName, const Platform::FileManagerPtr& fileManager, const GS_SAMPLE_TYPE type)
+AudioSamplePtr AudiereContext::LoadSampleFromFile(
+	const std::wstring& fileName,
+	const Platform::FileManagerPtr& fileManager,
+	const Audio::SAMPLE_TYPE type)
 {
 	AudioSamplePtr audio = AudioSamplePtr(new AudiereSample);
 	if (!audio->LoadSampleFromFile(weak_this, fileName, fileManager, type))
@@ -66,7 +69,10 @@ AudioSamplePtr AudiereContext::LoadSampleFromFile(const std::wstring& fileName, 
 	return audio;
 }
 
-AudioSamplePtr AudiereContext::LoadSampleFromFileInMemory(void *pBuffer, const unsigned int bufferLength, const GS_SAMPLE_TYPE type)
+AudioSamplePtr AudiereContext::LoadSampleFromFileInMemory(
+	void *pBuffer,
+	const unsigned int bufferLength,
+	const Audio::SAMPLE_TYPE type)
 {
 	AudioSamplePtr audio = AudioSamplePtr(new AudiereSample);
 	if (!audio->LoadSampleFromFileInMemory(weak_this, pBuffer, bufferLength, type))
@@ -105,9 +111,9 @@ float AudiereContext::GetGlobalVolume() const
 AudiereSample::AudiereSample()
 {
 	m_output = NULL;
-	m_status = GSSS_STOPPED;
+	m_status = Audio::STOPPED;
 	m_position = 0;
-	m_type = GSST_UNKNOWN;
+	m_type = Audio::UNKNOWN_TYPE;
 	m_volume = 0.0f;
 }
 
@@ -119,8 +125,11 @@ AudiereSample::~AudiereSample()
 	}
 }
 
-bool AudiereSample::LoadSampleFromFile(AudioWeakPtr audio, const std::wstring& fileName,
-									   const Platform::FileManagerPtr& fileManager, const GS_SAMPLE_TYPE type)
+bool AudiereSample::LoadSampleFromFile(
+	AudioWeakPtr audio,
+	const std::wstring& fileName,
+	const Platform::FileManagerPtr& fileManager,
+	const Audio::SAMPLE_TYPE type)
 {
 	Platform::FileBuffer out;
 	fileManager->GetFileBuffer(fileName, out);
@@ -141,7 +150,11 @@ bool AudiereSample::LoadSampleFromFile(AudioWeakPtr audio, const std::wstring& f
 	return r;
 }
 
-bool AudiereSample::LoadSampleFromFileInMemory(AudioWeakPtr audio, void *pBuffer, const unsigned int bufferLength, const GS_SAMPLE_TYPE type)
+bool AudiereSample::LoadSampleFromFileInMemory(
+	AudioWeakPtr audio,
+	void *pBuffer,
+	const unsigned int bufferLength,
+	const Audio::SAMPLE_TYPE type)
 {
 	m_audio = audio;
 	m_type = type;
@@ -149,13 +162,13 @@ bool AudiereSample::LoadSampleFromFileInMemory(AudioWeakPtr audio, void *pBuffer
 	bool stream;
 	switch (m_type)
 	{
-	case GSST_MUSIC:
-	case GSST_AMBIENT_SFX:
-	case GSST_SOUNDTRACK:
+	case Audio::MUSIC:
+	case Audio::AMBIENT_SFX:
+	case Audio::SOUNDTRACK:
 		stream = true;
 		break;
-	case GSST_SOUND_EFFECT:
-	case GSST_UNKNOWN:
+	case Audio::SOUND_EFFECT:
+	case Audio::UNKNOWN_TYPE:
 	default:
 		stream = false;
 		break;
@@ -185,22 +198,22 @@ bool AudiereSample::LoadSampleFromFileInMemory(AudioWeakPtr audio, void *pBuffer
 	}
 }
 
-GS_SAMPLE_TYPE AudiereSample::GetType() const
+Audio::SAMPLE_TYPE AudiereSample::GetType() const
 {
 	return m_type;
 }
 
-GS_SAMPLE_STATUS AudiereSample::GetStatus()
+Audio::SAMPLE_STATUS AudiereSample::GetStatus()
 {
-	if (!m_output->isPlaying() && m_status == GSSS_PLAYING)
-		m_status = GSSS_STOPPED;
+	if (!m_output->isPlaying() && m_status == Audio::PLAYING)
+		m_status = Audio::STOPPED;
 
 	return m_status;
 }
 
 bool AudiereSample::IsPlaying()
 {
-	return (GetStatus() == GSSS_PLAYING);
+	return (GetStatus() == Audio::PLAYING);
 }
 
 bool AudiereSample::SetLoop(const bool enable)
@@ -216,7 +229,7 @@ bool AudiereSample::GetLoop() const
 
 bool AudiereSample::Play()
 {
-	if (m_status == GSSS_PAUSED)
+	if (m_status == Audio::PAUSED)
 	{
 		m_output->setPosition(m_position);
 	}
@@ -227,7 +240,7 @@ bool AudiereSample::Play()
 	}
 	m_output->setVolume(m_audio.lock().get()->GetGlobalVolume() * m_volume);
 	m_output->play();
-	m_status = GSSS_PLAYING;
+	m_status = Audio::PLAYING;
 	return true;
 }
 
@@ -238,7 +251,7 @@ bool AudiereSample::Pause()
 		m_position = m_output->getPosition();
 		m_output->stop();
 	}
-	m_status = GSSS_PAUSED;
+	m_status = Audio::PAUSED;
 	return true;
 }
 
@@ -247,7 +260,7 @@ bool AudiereSample::Stop()
 	m_output->stop();
 	m_output->reset();
 	m_position = 0;
-	m_status = GSSS_STOPPED;
+	m_status = Audio::STOPPED;
 	return true;
 }
 

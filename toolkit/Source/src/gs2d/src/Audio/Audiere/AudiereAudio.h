@@ -42,8 +42,15 @@ class AudiereContext : public Audio
 public:
 	static boost::shared_ptr<AudiereContext> Create(boost::any data);
 
-	AudioSamplePtr LoadSampleFromFile(const std::wstring& fileName, const Platform::FileManagerPtr& fileManager, const GS_SAMPLE_TYPE type = GSST_UNKNOWN);
-	AudioSamplePtr LoadSampleFromFileInMemory(void *pBuffer, const unsigned int bufferLength, const GS_SAMPLE_TYPE type = GSST_UNKNOWN);
+	AudioSamplePtr LoadSampleFromFile(
+		const std::wstring& fileName,
+		const Platform::FileManagerPtr& fileManager,
+		const Audio::SAMPLE_TYPE type = Audio::UNKNOWN_TYPE);
+
+	AudioSamplePtr LoadSampleFromFileInMemory(
+		void *pBuffer,
+		const unsigned int bufferLength,
+		const Audio::SAMPLE_TYPE type = Audio::UNKNOWN_TYPE);
 
 	void SetGlobalVolume(const float volume);
 	float GetGlobalVolume() const;
@@ -57,14 +64,23 @@ class AudiereSample : public AudioSample
 {
 	audiere::OutputStreamPtr m_output;
 	int m_position;
-	GS_SAMPLE_STATUS m_status;
+	Audio::SAMPLE_STATUS m_status;
 	float m_volume;
 
-	GS_SAMPLE_TYPE m_type;
+	Audio::SAMPLE_TYPE m_type;
 	AudioWeakPtr m_audio;
 
-	bool LoadSampleFromFile(AudioWeakPtr audio, const std::wstring& fileName, const Platform::FileManagerPtr& fileManager, const GS_SAMPLE_TYPE type = GSST_UNKNOWN);
-	bool LoadSampleFromFileInMemory(AudioWeakPtr audio, void *pBuffer, const unsigned int bufferLength, const GS_SAMPLE_TYPE type = GSST_UNKNOWN);
+	bool LoadSampleFromFile(
+		AudioWeakPtr audio,
+		const std::wstring& fileName,
+		const Platform::FileManagerPtr& fileManager,
+		const Audio::SAMPLE_TYPE type = Audio::UNKNOWN_TYPE);
+
+	bool LoadSampleFromFileInMemory(
+		AudioWeakPtr audio,
+		void *pBuffer,
+		const unsigned int bufferLength,
+		const Audio::SAMPLE_TYPE type = Audio::UNKNOWN_TYPE);
 
 public:
 	AudiereSample();
@@ -74,14 +90,14 @@ public:
 	bool GetLoop() const;
 
 	bool Play();
-	GS_SAMPLE_STATUS GetStatus();
+	Audio::SAMPLE_STATUS GetStatus();
 
 	bool IsPlaying();
 
 	bool Pause();
 	bool Stop();
 
-	GS_SAMPLE_TYPE GetType() const;
+	Audio::SAMPLE_TYPE GetType() const;
 
 	bool SetSpeed(const float speed);
 	float GetSpeed() const;
