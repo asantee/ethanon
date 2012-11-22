@@ -590,6 +590,7 @@
 				);
 				INFOPLIST_FILE = "Ethanon Editor/Ethanon Editor-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.7;
 				WRAPPER_EXTENSION = app;
@@ -621,6 +622,7 @@
 				);
 				INFOPLIST_FILE = "Ethanon Editor/Ethanon Editor-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.7;
 				WRAPPER_EXTENSION = app;
