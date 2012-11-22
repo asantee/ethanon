@@ -27,9 +27,9 @@
 
 namespace gs2d {
 
-static int SetPixelFormat(const SDL_VideoInfo* info, const Texture::PIXEL_FORMAT format)
+static int SetPixelFormat(const Texture::PIXEL_FORMAT format)
 {
-	int bpp; // = info->vfmt->BitsPerPixel;
+	int bpp = 0;
 	if (format == Texture::PF_16BIT)
 	{
 		SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
@@ -98,9 +98,9 @@ bool SDLWindow::StartApplication(
 		return false;
 	}
 
-	const SDL_VideoInfo* info = SDL_GetVideoInfo();
+	//const SDL_VideoInfo* info = SDL_GetVideoInfo();
 
-	const int bpp = SetPixelFormat(info, pfBB);
+	const int bpp = SetPixelFormat(pfBB);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
 	const Uint32 flags = AssembleFlags(windowed, maximizable, sync);
@@ -110,6 +110,17 @@ bool SDLWindow::StartApplication(
 		SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
 	}
 
+	// enumerates m_videoModes
+	ReadDisplayModes();
+
+	// if screen size was set to 0, find the best one instead
+	if (m_screenSize.x == 0 || m_screenSize.y == 0)
+	{
+		const VIDEO_MODE& highest = m_videoModes[0];
+		m_screenSize.x = static_cast<float>(highest.width);
+		m_screenSize.y = static_cast<float>(highest.height);
+	}
+
 	if (SDL_SetVideoMode(static_cast<int>(m_screenSize.x), static_cast<int>(m_screenSize.y), bpp, flags) == 0)
 	{
 		Message("Invalid video mode - SDLWindow::StartApplication", GSMT_ERROR);
@@ -117,12 +128,10 @@ bool SDLWindow::StartApplication(
 	}
 
 	SetWindowTitle(winTitle);
-	ReadDisplayModes();
 
 	SDL_EnableUNICODE(1);
 
 	chdir(m_fileIOHub->GetProgramDirectory().c_str());
-
 
 	return true;
 }

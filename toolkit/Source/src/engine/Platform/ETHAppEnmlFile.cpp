@@ -22,9 +22,10 @@
 
 #include "ETHAppEnmlFile.h"
 
-#include <string.h>
 #include "../ETHTypes.h"
 #include "../Util/ETHASUtil.h"
+
+#include <boost/lexical_cast.hpp>
 
 using namespace gs2d;
 
@@ -84,13 +85,32 @@ static void GetBoolean(const gs2d::enml::File& file, const str_type::string& pla
 		param = ETHGlobal::IsTrue(file.Get(platformName, attrib));
 }
 
+static void GetScreenDimension(const gs2d::enml::File& file, const str_type::string& platformName, const str_type::string& attrib, unsigned int& param)
+{
+	const str_type::string value = file.Get(platformName, attrib);
+
+	// if there's no value, we'll keep the default value
+	if (value.empty())
+		return;
+
+	try
+	{
+		param = boost::lexical_cast<unsigned int>(value);
+	}
+	catch (boost::bad_lexical_cast& exception)
+	{
+		GS2D_UNUSED_ARGUMENT(exception);
+		param = 0;
+	}
+}
+
 void ETHAppEnmlFile::LoadProperties(const str_type::string& platformName, const gs2d::enml::File& file)
 {
 	if (!file.Exists(platformName))
 		return;
 
-	file.GetUInt(platformName, GS_L("width"), &width);
-	file.GetUInt(platformName, GS_L("height"), &height);
+	GetScreenDimension(file, platformName, GS_L("width"),  width);
+	GetScreenDimension(file, platformName, GS_L("height"), height);
 
 	GetBoolean(file, platformName, GS_L("windowed"), windowed);
 	GetBoolean(file, platformName, GS_L("vsync"), vsync);
