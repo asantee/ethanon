@@ -24,12 +24,15 @@
 #define ETH_SCRIPT_WRAPPER_H_
 
 #include "../Scene/ETHScene.h"
-#include "../Drawing/ETHDrawableManager.h"
-#include "../../angelscript/include/angelscript.h"
 #include "../Util/ETHInput.h"
 #include "../Entity/ETHEntityCache.h"
+#include "../Drawing/ETHDrawableManager.h"
 #include "../Shader/ETHBackBufferTargetManager.h"
 #include "../Util/ETHSpeedTimer.h"
+
+#include "../../angelscript/include/angelscript.h"
+
+#include <Platform/SharedData/SharedDataManager.h>
 
 class ETHScriptWrapper
 {
@@ -66,6 +69,8 @@ public:
 	};
 
 	static ETHResourceProviderPtr m_provider;
+
+	static Platform::SharedDataManager m_sharedDataManager;
 
 	static bool IsRoundingUpPosition() { return m_roundUpPosition; }
 	static bool IsRunningMainFunction() { return m_runningMainFunction; }
@@ -375,6 +380,13 @@ public:
 	static Vector3 Scale(const Vector3& v);
 	static void SetScaleFactor(const float v);
 	static void RescaleEntities(const float oldScale, const float newScale);
+
+	// SharedData
+	static bool SetSharedData(const gs2d::str_type::string& key, const gs2d::str_type::string& data);
+	static bool IsSharedDataConstant(const gs2d::str_type::string& key);
+	static gs2d::str_type::string GetSharedData(const gs2d::str_type::string& key);
+	static bool SharedDataExists(const gs2d::str_type::string& key);
+	static bool RemoveSharedData(const gs2d::str_type::string& key);
 
 	// Not to the script
 	static bool Aborted();

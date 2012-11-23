@@ -167,6 +167,7 @@
 		7421F2EF1648415D00C55BAE /* box2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F2EE1648415D00C55BAE /* box2d.framework */; };
 		7421F2F11648417C00C55BAE /* gs2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F2F01648417C00C55BAE /* gs2d.framework */; };
 		7421F436164D8E4000C55BAE /* FileListing.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7421F435164D8E4000C55BAE /* FileListing.mm */; };
+		7423B6A5166005CF008848EA /* ETHScriptWrapper.SharedData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7423B6A4166005CF008848EA /* ETHScriptWrapper.SharedData.cpp */; };
 		74F00AD71646B9EB00B8B51B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F00AD61646B9EB00B8B51B /* Cocoa.framework */; };
 		74F00AE11646B9EB00B8B51B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 74F00ADF1646B9EB00B8B51B /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
@@ -361,6 +362,7 @@
 		7421F2EE1648415D00C55BAE /* box2d.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = box2d.framework; path = "../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gxkgpuwgwqxighfefncafkvqrxui/Build/Products/Debug/box2d.framework"; sourceTree = "<group>"; };
 		7421F2F01648417C00C55BAE /* gs2d.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = gs2d.framework; path = "../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gxkgpuwgwqxighfefncafkvqrxui/Build/Products/Debug/gs2d.framework"; sourceTree = "<group>"; };
 		7421F435164D8E4000C55BAE /* FileListing.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = FileListing.mm; path = ../../../../src/engine/Platform/macosx/FileListing.mm; sourceTree = "<group>"; };
+		7423B6A4166005CF008848EA /* ETHScriptWrapper.SharedData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptWrapper.SharedData.cpp; path = ../../../../src/engine/Script/ETHScriptWrapper.SharedData.cpp; sourceTree = "<group>"; };
 		74F00AD31646B9EB00B8B51B /* engine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = engine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		74F00AD61646B9EB00B8B51B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		74F00AD91646B9EB00B8B51B /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -468,10 +470,11 @@
 				7421F0E71647263700C55BAE /* ETHEntityDestructorScript.h */,
 				7421F0E81647263700C55BAE /* ETHScriptObjRegister.cpp */,
 				7421F0EA1647263700C55BAE /* ETHScriptObjRegister.h */,
-				7421F0EC1647263700C55BAE /* ETHScriptWrapper.Audio.cpp */,
 				7421F0ED1647263700C55BAE /* ETHScriptWrapper.cpp */,
-				7421F0EE1647263700C55BAE /* ETHScriptWrapper.Drawing.cpp */,
 				7421F0F01647263700C55BAE /* ETHScriptWrapper.h */,
+				7423B6A4166005CF008848EA /* ETHScriptWrapper.SharedData.cpp */,
+				7421F0EC1647263700C55BAE /* ETHScriptWrapper.Audio.cpp */,
+				7421F0EE1647263700C55BAE /* ETHScriptWrapper.Drawing.cpp */,
 				7421F0F11647263700C55BAE /* ETHScriptWrapper.Math.cpp */,
 				7421F0F51647263700C55BAE /* ETHScriptWrapper.Scene.cpp */,
 				7421F0F61647263700C55BAE /* ETHScriptWrapper.System.cpp */,
@@ -960,6 +963,7 @@
 				7421F2BB164741F300C55BAE /* tinyxmlerror.cpp in Sources */,
 				7421F2BC164741F300C55BAE /* tinyxmlparser.cpp in Sources */,
 				7421F436164D8E4000C55BAE /* FileListing.mm in Sources */,
+				7423B6A5166005CF008848EA /* ETHScriptWrapper.SharedData.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

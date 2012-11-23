@@ -25,9 +25,9 @@
 #include "../Entity/ETHRenderEntity.h"
 
 #ifdef GS2D_STR_TYPE_WCHAR
-#include "../../addons/utf16/scriptbuilder.h"
+ #include "../../addons/utf16/scriptbuilder.h"
 #else
-#include "../../addons/ansi/scriptbuilder.h"
+ #include "../../addons/ansi/scriptbuilder.h"
 #endif
 
 asIScriptEngine *ETHScriptWrapper::m_pASEngine = 0;
@@ -58,6 +58,7 @@ unsigned long ETHScriptWrapper::m_lastFrameElapsedTime = 1;
 ETHEntityCache ETHScriptWrapper::m_entityCache;
 ETHScriptWrapper::GARBAGE_COLLECT_MODE ETHScriptWrapper::m_gcMode = ETHScriptWrapper::ONE_STEP;
 bool ETHScriptWrapper::m_richLighting = false;
+Platform::SharedDataManager ETHScriptWrapper::m_sharedDataManager;
 
 bool ETHScriptWrapper::RunMainFunction(const int mainFuncId)
 {
