@@ -40,7 +40,9 @@ vec2 transformCoord(vec2 texCoord)
 
 void main()
 {
-	gl_Position = transformSprite(vec3(vPosition.x, vPosition.y, 1.0 - depth.x)); 
+	vec4 pos = transformSprite(vec3(vPosition.x, vPosition.y, vPosition.z));
+	pos.z = 1.0 - depth.x;
+	gl_Position = pos; 
 	v_color = vec4(colorRG, colorBA);
 	v_texCoord = transformCoord(vTexCoord);
 }
