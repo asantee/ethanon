@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		7404C04A165AE8E3004DFBB1 /* KeyStateManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7404C048165AE8E3004DFBB1 /* KeyStateManager.cpp */; };
+		7423B6B0166151FA008848EA /* SharedData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7423B6AC166151FA008848EA /* SharedData.cpp */; };
+		7423B6B1166151FA008848EA /* SharedDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7423B6AE166151FA008848EA /* SharedDataManager.cpp */; };
+		7423B6B316615238008848EA /* ETHScriptWrapper.SharedData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7423B6B216615238008848EA /* ETHScriptWrapper.SharedData.cpp */; };
 		743F4BB714770A540077373B /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 743F4BB614770A540077373B /* Default.png */; };
 		743F4BB91477C69E0077373B /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 743F4BB81477C69E0077373B /* Default@2x.png */; };
 		743F4BC0147962C80077373B /* DefaultWebViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 743F4BBE147962C80077373B /* DefaultWebViewer.m */; };
@@ -226,6 +229,11 @@
 /* Begin PBXFileReference section */
 		7404C048165AE8E3004DFBB1 /* KeyStateManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = KeyStateManager.cpp; path = ../../../src/gs2d/src/Input/KeyStateManager.cpp; sourceTree = "<group>"; };
 		7404C049165AE8E3004DFBB1 /* KeyStateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KeyStateManager.h; path = ../../../src/gs2d/src/Input/KeyStateManager.h; sourceTree = "<group>"; };
+		7423B6AC166151FA008848EA /* SharedData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SharedData.cpp; path = ../../../src/gs2d/src/Platform/SharedData/SharedData.cpp; sourceTree = "<group>"; };
+		7423B6AD166151FA008848EA /* SharedData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SharedData.h; path = ../../../src/gs2d/src/Platform/SharedData/SharedData.h; sourceTree = "<group>"; };
+		7423B6AE166151FA008848EA /* SharedDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SharedDataManager.cpp; path = ../../../src/gs2d/src/Platform/SharedData/SharedDataManager.cpp; sourceTree = "<group>"; };
+		7423B6AF166151FA008848EA /* SharedDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SharedDataManager.h; path = ../../../src/gs2d/src/Platform/SharedData/SharedDataManager.h; sourceTree = "<group>"; };
+		7423B6B216615238008848EA /* ETHScriptWrapper.SharedData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptWrapper.SharedData.cpp; path = ../../../src/engine/Script/ETHScriptWrapper.SharedData.cpp; sourceTree = "<group>"; };
 		743F4BB614770A540077373B /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		743F4BB81477C69E0077373B /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		743F4BBD147962C80077373B /* DefaultWebViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DefaultWebViewer.h; path = Ethanon/Classes/DefaultWebViewer.h; sourceTree = "<group>"; };
@@ -674,6 +682,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7423B6AA166151EB008848EA /* Platform */ = {
+			isa = PBXGroup;
+			children = (
+				7423B6AC166151FA008848EA /* SharedData.cpp */,
+				7423B6AD166151FA008848EA /* SharedData.h */,
+				7423B6AE166151FA008848EA /* SharedDataManager.cpp */,
+				7423B6AF166151FA008848EA /* SharedDataManager.h */,
+			);
+			name = Platform;
+			sourceTree = "<group>";
+		};
 		74678F821625FE7D002A636D /* Particles */ = {
 			isa = PBXGroup;
 			children = (
@@ -914,13 +933,14 @@
 				74666D05165A79C700C70736 /* ETHEntityDestructorManager.h */,
 				74666D06165A79C700C70736 /* ETHEntityDestructorScript.cpp */,
 				74666D07165A79C700C70736 /* ETHEntityDestructorScript.h */,
-				74666D0B165A79C700C70736 /* ETHScriptWrapper.Audio.cpp */,
 				74666D0C165A79C700C70736 /* ETHScriptWrapper.cpp */,
-				74666D0D165A79C700C70736 /* ETHScriptWrapper.Drawing.cpp */,
 				74666D0F165A79C700C70736 /* ETHScriptWrapper.h */,
+				74666D0B165A79C700C70736 /* ETHScriptWrapper.Audio.cpp */,
+				74666D0D165A79C700C70736 /* ETHScriptWrapper.Drawing.cpp */,
 				74666D10165A79C700C70736 /* ETHScriptWrapper.Math.cpp */,
 				74666D12165A79C700C70736 /* ETHScriptWrapper.Scene.cpp */,
 				74666D13165A79C700C70736 /* ETHScriptWrapper.System.cpp */,
+				7423B6B216615238008848EA /* ETHScriptWrapper.SharedData.cpp */,
 			);
 			name = Script;
 			sourceTree = "<group>";
@@ -1055,6 +1075,7 @@
 		74FBEF7F14376A9E00C67129 /* Platform */ = {
 			isa = PBXGroup;
 			children = (
+				7423B6AA166151EB008848EA /* Platform */,
 				74FBF1821437D10800C67129 /* iOS */,
 				74666E31165A7C3A00C70736 /* FileIOHub.cpp */,
 				74666E32165A7C3A00C70736 /* FileIOHub.h */,
@@ -1688,6 +1709,9 @@
 				74666E87165A7D1E00C70736 /* tinyxmlerror.cpp in Sources */,
 				74666E88165A7D1E00C70736 /* tinyxmlparser.cpp in Sources */,
 				7404C04A165AE8E3004DFBB1 /* KeyStateManager.cpp in Sources */,
+				7423B6B0166151FA008848EA /* SharedData.cpp in Sources */,
+				7423B6B1166151FA008848EA /* SharedDataManager.cpp in Sources */,
+				7423B6B316615238008848EA /* ETHScriptWrapper.SharedData.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

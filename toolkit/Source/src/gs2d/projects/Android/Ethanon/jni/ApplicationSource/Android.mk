@@ -90,6 +90,7 @@ LOCAL_SRC_FILES := \
 	$(ENGINE_PATH)/Script/ETHScriptWrapper.Drawing.cpp \
 	$(ENGINE_PATH)/Script/ETHScriptWrapper.Scene.cpp \
 	$(ENGINE_PATH)/Script/ETHScriptWrapper.System.cpp \
+	$(ENGINE_PATH)/Script/ETHScriptWrapper.SharedData.cpp \
 	$(ENGINE_PATH)/Physics/ETHPhysicsSimulator.cpp \
 	$(ENGINE_PATH)/Physics/ETHPhysicsController.cpp \
 	$(ENGINE_PATH)/Physics/ETHRayCastCallback.cpp \
