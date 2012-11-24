@@ -54,7 +54,7 @@ static bool OpenPanel(
 	[panel setAllowedFileTypes:fileTypes];
 	[panel setMessage:[NSString stringWithUTF8String:filter.title.c_str()]];
 
-	std::string initDirectory = "file://localhost/";
+	std::string initDirectory = "file://localhost";
 	initDirectory.append(directory);
 	NSURL* initPath = [NSURL URLWithString:[NSString stringWithUTF8String:initDirectory.c_str()]];
 	[panel setDirectoryURL:initPath];
