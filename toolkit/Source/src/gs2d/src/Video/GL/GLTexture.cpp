@@ -156,6 +156,12 @@ bool GLTexture::LoadTexture(
 	const int forceChannels = maskingEnabled ? SOIL_LOAD_RGBA : SOIL_LOAD_AUTO;
 	m_bitmap = SOIL_load_image_from_memory((unsigned char*)pBuffer, bufferLength, &iWidth, &iHeight, &m_channels, forceChannels);
 
+	if (!m_bitmap)
+	{
+		ShowMessage(m_fileName + " couldn't create texture from file", GSMT_ERROR);
+		return false;
+	}
+
 	if (maskingEnabled)
 	{
 		m_channels = 4;
