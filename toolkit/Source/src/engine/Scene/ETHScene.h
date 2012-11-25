@@ -23,14 +23,22 @@
 #ifndef ETH_SCENE_H_
 #define ETH_SCENE_H_
 
-#include "../Entity/ETHEntityArray.h"
 #include "ETHBucketManager.h"
 #include "ETHSceneProperties.h"
+
+#include "../Entity/ETHEntityArray.h"
+
 #include "../Resource/ETHResourceProvider.h"
+
 #include "../Util/ETHASUtil.h"
+
 #include "../Scene/ETHActiveEntityHandler.h"
+
 #include "../Physics/ETHPhysicsSimulator.h"
+
 #include "../Script/ETHEntityDestructorManager.h"
+
+#include "../Renderer/ETHEntityPieceRenderer.h"
 
 class ETHScene
 {
@@ -165,7 +173,6 @@ private:
 
 	void UpdateActiveEntitiesFromMultimap(std::multimap<float, ETHRenderEntity*>& mmEntities, const unsigned long lastFrameElapsedTime);
 
-	void RenderParticles(ETHRenderEntity* entity);
 	bool AssignCallbackScript(ETHSpriteEntity* entity);
 	void AssignControllerToEntity(ETHEntity* entity, const int callbackId, const int constructorCallbackId, const int destructorCallbackId);
 	bool DrawBucketOutlines();

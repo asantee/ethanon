@@ -168,6 +168,12 @@
 		7421F2F11648417C00C55BAE /* gs2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F2F01648417C00C55BAE /* gs2d.framework */; };
 		7421F436164D8E4000C55BAE /* FileListing.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7421F435164D8E4000C55BAE /* FileListing.mm */; };
 		7423B6A5166005CF008848EA /* ETHScriptWrapper.SharedData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7423B6A4166005CF008848EA /* ETHScriptWrapper.SharedData.cpp */; };
+		7429A2A11662600E00134A7E /* ETHEntityPieceRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7429A29F1662600E00134A7E /* ETHEntityPieceRenderer.cpp */; };
+		7429A2A21662600E00134A7E /* ETHEntityPieceRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7429A2A01662600E00134A7E /* ETHEntityPieceRenderer.h */; };
+		7429A2A91662620E00134A7E /* ETHEntitySpriteRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7429A2A71662620E00134A7E /* ETHEntitySpriteRenderer.cpp */; };
+		7429A2AA1662620E00134A7E /* ETHEntitySpriteRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7429A2A81662620E00134A7E /* ETHEntitySpriteRenderer.h */; };
+		7429A2AD16627E8000134A7E /* ETHEntityParticleRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7429A2AB16627E8000134A7E /* ETHEntityParticleRenderer.cpp */; };
+		7429A2AE16627E8000134A7E /* ETHEntityParticleRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7429A2AC16627E8000134A7E /* ETHEntityParticleRenderer.h */; };
 		74F00AD71646B9EB00B8B51B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F00AD61646B9EB00B8B51B /* Cocoa.framework */; };
 		74F00AE11646B9EB00B8B51B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 74F00ADF1646B9EB00B8B51B /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
@@ -363,6 +369,12 @@
 		7421F2F01648417C00C55BAE /* gs2d.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = gs2d.framework; path = "../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gxkgpuwgwqxighfefncafkvqrxui/Build/Products/Debug/gs2d.framework"; sourceTree = "<group>"; };
 		7421F435164D8E4000C55BAE /* FileListing.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = FileListing.mm; path = ../../../../src/engine/Platform/macosx/FileListing.mm; sourceTree = "<group>"; };
 		7423B6A4166005CF008848EA /* ETHScriptWrapper.SharedData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptWrapper.SharedData.cpp; path = ../../../../src/engine/Script/ETHScriptWrapper.SharedData.cpp; sourceTree = "<group>"; };
+		7429A29F1662600E00134A7E /* ETHEntityPieceRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityPieceRenderer.cpp; path = ../../../../src/engine/Renderer/ETHEntityPieceRenderer.cpp; sourceTree = "<group>"; };
+		7429A2A01662600E00134A7E /* ETHEntityPieceRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityPieceRenderer.h; path = ../../../../src/engine/Renderer/ETHEntityPieceRenderer.h; sourceTree = "<group>"; };
+		7429A2A71662620E00134A7E /* ETHEntitySpriteRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntitySpriteRenderer.cpp; path = ../../../../src/engine/Renderer/ETHEntitySpriteRenderer.cpp; sourceTree = "<group>"; };
+		7429A2A81662620E00134A7E /* ETHEntitySpriteRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntitySpriteRenderer.h; path = ../../../../src/engine/Renderer/ETHEntitySpriteRenderer.h; sourceTree = "<group>"; };
+		7429A2AB16627E8000134A7E /* ETHEntityParticleRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityParticleRenderer.cpp; path = ../../../../src/engine/Renderer/ETHEntityParticleRenderer.cpp; sourceTree = "<group>"; };
+		7429A2AC16627E8000134A7E /* ETHEntityParticleRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityParticleRenderer.h; path = ../../../../src/engine/Renderer/ETHEntityParticleRenderer.h; sourceTree = "<group>"; };
 		74F00AD31646B9EB00B8B51B /* engine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = engine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		74F00AD61646B9EB00B8B51B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		74F00AD91646B9EB00B8B51B /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -622,6 +634,19 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		7429A29D16625FF100134A7E /* Renderer */ = {
+			isa = PBXGroup;
+			children = (
+				7429A29F1662600E00134A7E /* ETHEntityPieceRenderer.cpp */,
+				7429A2A01662600E00134A7E /* ETHEntityPieceRenderer.h */,
+				7429A2A71662620E00134A7E /* ETHEntitySpriteRenderer.cpp */,
+				7429A2A81662620E00134A7E /* ETHEntitySpriteRenderer.h */,
+				7429A2AB16627E8000134A7E /* ETHEntityParticleRenderer.cpp */,
+				7429A2AC16627E8000134A7E /* ETHEntityParticleRenderer.h */,
+			);
+			name = Renderer;
+			sourceTree = "<group>";
+		};
 		7487A51F1646DD24002DD331 /* Util */ = {
 			isa = PBXGroup;
 			children = (
@@ -692,6 +717,7 @@
 				7421F0781647259E00C55BAE /* ETHTypes.h */,
 				7421F0331647249F00C55BAE /* Drawing */,
 				7421F034164724A700C55BAE /* Entity */,
+				7429A29D16625FF100134A7E /* Renderer */,
 				7421F03D164724C100C55BAE /* Particles */,
 				7421F03C164724BF00C55BAE /* Physics */,
 				7421F03B164724BD00C55BAE /* Platform */,
@@ -798,6 +824,9 @@
 				7421F2AF1647416F00C55BAE /* scriptstdstring.h in Headers */,
 				7421F2B8164741F300C55BAE /* tinystr.h in Headers */,
 				7421F2BA164741F300C55BAE /* tinyxml.h in Headers */,
+				7429A2A21662600E00134A7E /* ETHEntityPieceRenderer.h in Headers */,
+				7429A2AA1662620E00134A7E /* ETHEntitySpriteRenderer.h in Headers */,
+				7429A2AE16627E8000134A7E /* ETHEntityParticleRenderer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -964,6 +993,9 @@
 				7421F2BC164741F300C55BAE /* tinyxmlparser.cpp in Sources */,
 				7421F436164D8E4000C55BAE /* FileListing.mm in Sources */,
 				7423B6A5166005CF008848EA /* ETHScriptWrapper.SharedData.cpp in Sources */,
+				7429A2A11662600E00134A7E /* ETHEntityPieceRenderer.cpp in Sources */,
+				7429A2A91662620E00134A7E /* ETHEntitySpriteRenderer.cpp in Sources */,
+				7429A2AD16627E8000134A7E /* ETHEntityParticleRenderer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

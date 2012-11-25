@@ -21,11 +21,18 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHScene.h"
+
 #include "../Entity/ETHEntityArray.h"
+
 #include "../Shader/ETHLightmapGen.h"
 #include "../Shader/ETHShaderManager.h"
+
 #include "../Resource/ETHResourceProvider.h"
+
 #include "../Physics/ETHPhysicsSimulator.h"
+
+#include "../Renderer/ETHEntitySpriteRenderer.h"
+#include "../Renderer/ETHEntityParticleRenderer.h"
 
 #ifdef GS2D_STR_TYPE_WCHAR
 #include "../../addons/utf16/scriptbuilder.h"
@@ -41,9 +48,15 @@
 #include <map>
 #include <assert.h>
 
-ETHScene::ETHScene(const str_type::string& fileName, ETHResourceProviderPtr provider, const bool richLighting,
-				   const ETHSceneProperties& props, asIScriptModule *pModule, asIScriptContext *pContext,
-				   const bool isInEditor, const Vector2& v2BucketSize) :
+ETHScene::ETHScene(
+	const str_type::string& fileName,
+	ETHResourceProviderPtr provider,
+	const bool richLighting,
+	const ETHSceneProperties& props,
+	asIScriptModule *pModule,
+	asIScriptContext *pContext,
+	const bool isInEditor,
+	const Vector2& v2BucketSize) :
 	m_buckets(provider, v2BucketSize, true),
 	m_activeEntityHandler(provider),
 	m_richLighting(richLighting),
@@ -54,8 +67,14 @@ ETHScene::ETHScene(const str_type::string& fileName, ETHResourceProviderPtr prov
 	LoadFromFile(fileName);
 }
 
-ETHScene::ETHScene(ETHResourceProviderPtr provider, const bool richLighting, const ETHSceneProperties& props,
-				   asIScriptModule *pModule, asIScriptContext *pContext, const bool isInEditor, const Vector2 &v2BucketSize) :
+ETHScene::ETHScene(
+	ETHResourceProviderPtr provider,
+	const bool richLighting,
+	const ETHSceneProperties& props,
+	asIScriptModule *pModule,
+	asIScriptContext *pContext,
+	const bool isInEditor,
+	const Vector2 &v2BucketSize) :
 	m_buckets(provider, v2BucketSize, true),
 	m_activeEntityHandler(provider),
 	m_richLighting(richLighting),
@@ -543,7 +562,6 @@ void ETHScene::DrawEntityMultimap(
 	const VideoPtr& video = m_provider->GetVideo();
 
 	const ETHShaderManagerPtr& shaderManager = m_provider->GetShaderManager();
-	const Vector2 zAxisDirection(GetZAxisDirection());
 
 	// Draw visible entities ordered in an alpha-friendly map
 	for (std::multimap<float, ETHRenderEntity*>::iterator iter = mmEntities.begin(); iter != mmEntities.end(); ++iter)
@@ -551,38 +569,22 @@ void ETHScene::DrawEntityMultimap(
 		ETHRenderEntity *pRenderEntity = (iter->second);
 
 		const bool spriteVisible = pRenderEntity->IsSpriteVisible(m_sceneProps, backBuffer);
+
+		#warning remove
 		if (spriteVisible)
-			shaderManager->BeginAmbientPass(pRenderEntity, m_maxSceneHeight, m_minSceneHeight);
-
-		// draws the ambient pass and if we're at the editor, draw the collision box if it's an invisible entity
-		if (m_isInEditor)
 		{
-			if (pOutline && pRenderEntity->IsInvisible() && pRenderEntity->IsCollidable())
-			{
-				pRenderEntity->DrawCollisionBox(pOutline, gs2d::constant::WHITE, m_sceneProps.zAxisDirection);
-			}
-		}
-
-		video->RoundUpPosition(roundUp);
-		if (spriteVisible)
-			pRenderEntity->DrawAmbientPass(m_maxSceneHeight, m_minSceneHeight,
-										  (m_enableLightmaps && m_showingLightmaps),
-										  m_sceneProps, shaderManager->GetParallaxIntensity());
-
-		// draw "invisible entity symbol" if we're in the editor
-		if (m_isInEditor)
-		{
-			if (pRenderEntity->IsInvisible() && pRenderEntity->IsCollidable())
-			{
-				pRenderEntity->DrawCollisionBox(pOutline, gs2d::constant::WHITE, m_sceneProps.zAxisDirection);
-			}
-			if (pRenderEntity->IsInvisible() && !pRenderEntity->IsCollidable() && !pRenderEntity->HasHalo())
-			{
-				const float depth = video->GetSpriteDepth();
-				video->SetSpriteDepth(1.0f);
-				pInvisibleEntSymbol->Draw(pRenderEntity->GetPositionXY());
-				video->SetSpriteDepth(depth);
-			}
+			ETHEntitySpriteRenderer spriteRenderer(
+				pRenderEntity,
+				shaderManager,
+				video,
+				pOutline,
+				pInvisibleEntSymbol,
+				(m_enableLightmaps && m_showingLightmaps),
+				AreRealTimeShadowsEnabled(),
+				m_isInEditor,
+				&m_lights);
+			video->RoundUpPosition(roundUp);
+			spriteRenderer.Render(m_sceneProps, m_maxSceneHeight, m_minSceneHeight);
 		}
 
 		// fill the halo list
@@ -595,58 +597,14 @@ void ETHScene::DrawEntityMultimap(
 		// fill the callback list
 		m_activeEntityHandler.AddCallbackWhenEligible(pRenderEntity);
 
-		if (spriteVisible)
-			shaderManager->EndAmbientPass();
-
-		// TODO/TO-DO: create a method that does it separately
-		//draw light pass
-		if (m_richLighting)
-		{
-			for (std::list<ETHLight>::iterator iter = m_lights.begin(); iter != m_lights.end(); ++iter)
-			{
-				iter->SetLightScissor(video, zAxisDirection);
-				if (!pRenderEntity->IsHidden())
-				{
-					if (!(pRenderEntity->IsStatic() && iter->staticLight && m_enableLightmaps))
-					{
-						video->RoundUpPosition(roundUp);
-
-						// light pass
-						if (spriteVisible)
-						{
-							if (shaderManager->BeginLightPass(pRenderEntity, &(*iter), m_maxSceneHeight, m_minSceneHeight, GetLightIntensity()))
-							{
-								pRenderEntity->DrawLightPass(zAxisDirection, shaderManager->GetParallaxIntensity());
-								shaderManager->EndLightPass();
-							}
-						}
-
-						// shadow pass
-						if (AreRealTimeShadowsEnabled())
-						{
-							if (pRenderEntity->GetProperties()->castShadow)
-							{
-								video->RoundUpPosition(false);
-								video->SetScissor(false);
-								if (shaderManager->BeginShadowPass(pRenderEntity, &(*iter), m_maxSceneHeight, m_minSceneHeight))
-								{
-									pRenderEntity->DrawShadow(m_maxSceneHeight, m_minSceneHeight, m_sceneProps, *iter, 0);
-									shaderManager->EndShadowPass();
-								}
-								video->SetScissor(true);
-							}
-							video->RoundUpPosition(roundUp);
-						}
-					}
-				}
-				video->UnsetScissor();
-			}
-		}
-
 		// fill the particle list for this frame
 		if (pRenderEntity->HasParticleSystems())
 		{
-			RenderParticles(pRenderEntity);
+			for (std::size_t t = 0; t < pRenderEntity->GetNumParticleSystems(); t++)
+			{
+				ETHEntityParticleRenderer particleRenderer(pRenderEntity, shaderManager, t);
+				particleRenderer.Render(m_sceneProps, m_maxSceneHeight, m_minSceneHeight);
+			}
 		}
 	}
 
@@ -834,18 +792,6 @@ int ETHScene::GetNumRenderedEntities()
 void ETHScene::RunCallbacksFromList()
 {
 	m_activeEntityHandler.RunCallbacksFromLists();
-}
-
-void ETHScene::RenderParticles(ETHRenderEntity* entity)
-{
-	if (m_provider->GetShaderManager()->BeginParticlePass())
-	{
-		for (std::size_t t = 0; t < entity->GetNumParticleSystems(); t++)
-		{
-			entity->DrawParticles(t, m_maxSceneHeight, m_minSceneHeight, m_sceneProps);
-		}
-		m_provider->GetShaderManager()->EndParticlePass();
-	}
 }
 
 void ETHScene::ForceAllSFXStop()
