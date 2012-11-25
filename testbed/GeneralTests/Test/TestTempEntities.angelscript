@@ -50,7 +50,7 @@ class TestTempEntities : Test
 		if (input.GetLeftClickState() == KS_HIT)
 		{
 			ETHEntity@ entity = null;
-			AddEntity("explosion_single_particle.ent", vector3(input.GetCursorPos(), 0), @entity);
+			AddEntity("explosion_single_particle.ent", vector3(input.GetCursorPos(), 2), @entity);
 			if (entity !is null)
 				print(successMessage);
 		}
@@ -58,14 +58,14 @@ class TestTempEntities : Test
 		if (input.GetRightClickState() == KS_HIT)
 		{
 			ETHEntity@ entity = null;
-			AddEntity("explosion1.ent", vector3(input.GetCursorPos(), 0), @entity);
+			AddEntity("explosion1.ent", vector3(input.GetCursorPos(), 2), @entity);
 			if (entity !is null)
 				print(successMessage);
 		}
 		
 		if (input.GetKeyState(K_SPACE) == KS_HIT)
 		{
-			AddEntity("fireball.ent", vector3(input.GetCursorPos(), 0), "testFireBall");
+			AddEntity("fireball.ent", vector3(input.GetCursorPos(), 2), "testFireBall");
 		}
 
 		ETHEntity@ entity;

@@ -159,14 +159,13 @@ private:
 		SpritePtr pOutline,
 		const bool roundUp,
 		SpritePtr pInvisibleEntSymbol,
-		std::list<ETHRenderEntity*> &outHalos,
-		std::list<ETHRenderEntity*> &outParticles);
+		std::list<ETHRenderEntity*> &outHalos);
 
 	static void ReleaseMappedEntities(std::multimap<float, ETHRenderEntity*>& mmEntities);
 
 	void UpdateActiveEntitiesFromMultimap(std::multimap<float, ETHRenderEntity*>& mmEntities, const unsigned long lastFrameElapsedTime);
 
-	bool RenderParticleList(std::list<ETHRenderEntity*> &particles);
+	void RenderParticles(ETHRenderEntity* entity);
 	bool AssignCallbackScript(ETHSpriteEntity* entity);
 	void AssignControllerToEntity(ETHEntity* entity, const int callbackId, const int constructorCallbackId, const int destructorCallbackId);
 	bool DrawBucketOutlines();

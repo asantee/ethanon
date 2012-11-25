@@ -405,6 +405,8 @@ void ETHScene::Update(const unsigned long lastFrameElapsedTime, const ETHBackBuf
 
 	m_minSceneHeight = minHeight;
 	m_maxSceneHeight = maxHeight;
+
+	Randomizer::Seed(m_provider->GetVideo()->GetElapsedTime());
 }
 
 void ETHScene::UpdateActiveEntities(const unsigned long lastFrameElapsedTime)
@@ -425,8 +427,7 @@ void ETHScene::RenderScene(
 	video->SetZWrite(GetZBuffer());
 	video->SetZBuffer(GetZBuffer());
 
-	// temporary lists that will tell what to render and what to do
-	std::list<ETHRenderEntity*> particles;
+	// temporary list that will tell what to render
 	std::list<ETHRenderEntity*> halos;
 
 	// draw ambient pass
@@ -438,8 +439,7 @@ void ETHScene::RenderScene(
 		pOutline,
 		roundUp,
 		pInvisibleEntSymbol,
-		halos,
-		particles);
+		halos);
 
 	// call this guy after both update and rendering are finished
 	ReleaseMappedEntities(m_entitiesToRender);
@@ -447,7 +447,6 @@ void ETHScene::RenderScene(
 	m_buckets.ResolveMoveRequests();
 	video->RoundUpPosition(false);
 
-	RenderParticleList(particles);
 	m_lights.clear();
 	RenderTransparentLayer(halos);
 }
@@ -539,8 +538,7 @@ void ETHScene::DrawEntityMultimap(
 	SpritePtr pOutline,
 	const bool roundUp,
 	SpritePtr pInvisibleEntSymbol,
-	std::list<ETHRenderEntity*> &outHalos,
-	std::list<ETHRenderEntity*> &outParticles)
+	std::list<ETHRenderEntity*> &outHalos)
 {
 	const VideoPtr& video = m_provider->GetVideo();
 
@@ -594,12 +592,6 @@ void ETHScene::DrawEntityMultimap(
 			outHalos.push_back(pRenderEntity);
 		}
 
-		// fill the particle list for this frame
-		if (pRenderEntity->HasParticleSystems())
-		{
-			outParticles.push_back(pRenderEntity);
-		}
-
 		// fill the callback list
 		m_activeEntityHandler.AddCallbackWhenEligible(pRenderEntity);
 
@@ -649,6 +641,12 @@ void ETHScene::DrawEntityMultimap(
 				}
 				video->UnsetScissor();
 			}
+		}
+
+		// fill the particle list for this frame
+		if (pRenderEntity->HasParticleSystems())
+		{
+			RenderParticles(pRenderEntity);
 		}
 	}
 
@@ -838,23 +836,16 @@ void ETHScene::RunCallbacksFromList()
 	m_activeEntityHandler.RunCallbacksFromLists();
 }
 
-bool ETHScene::RenderParticleList(std::list<ETHRenderEntity*> &particles)
+void ETHScene::RenderParticles(ETHRenderEntity* entity)
 {
 	if (m_provider->GetShaderManager()->BeginParticlePass())
 	{
-		for (std::list<ETHRenderEntity*>::iterator iter = particles.begin(); iter != particles.end();)
+		for (std::size_t t = 0; t < entity->GetNumParticleSystems(); t++)
 		{
-			ETHRenderEntity *pRenderEntity = (*iter);
-			for (std::size_t t=0; t<pRenderEntity->GetNumParticleSystems(); t++)
-			{
-				pRenderEntity->DrawParticles(t, m_maxSceneHeight, m_minSceneHeight, m_sceneProps);
-			}
-			++iter;
+			entity->DrawParticles(t, m_maxSceneHeight, m_minSceneHeight, m_sceneProps);
 		}
 		m_provider->GetShaderManager()->EndParticlePass();
 	}
-	Randomizer::Seed(m_provider->GetVideo()->GetElapsedTime());
-	return true;
 }
 
 void ETHScene::ForceAllSFXStop()
