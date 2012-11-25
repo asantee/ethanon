@@ -28,15 +28,20 @@ ETHRawEntityController::ETHRawEntityController(const Vector3& pos, const float a
 	m_angle(angle),
 	m_pContext(0),
 	m_callbackId(-1),
-	m_constructorCallbackId(-1)
+	m_constructorCallbackId(-1),
+	m_hadRunConstructor(false)
 {
 }
 
-ETHRawEntityController::ETHRawEntityController(const ETHEntityControllerPtr& old, asIScriptContext *pContext,
-											   const int callbackId, const int constructorCallbackId) :
+ETHRawEntityController::ETHRawEntityController(
+	const ETHEntityControllerPtr& old,
+	asIScriptContext *pContext,
+	const int callbackId,
+	const int constructorCallbackId) :
 	m_pContext(pContext),
 	m_callbackId(callbackId),
-	m_constructorCallbackId(constructorCallbackId)
+	m_constructorCallbackId(constructorCallbackId),
+	m_hadRunConstructor(false)
 {
 	m_pos = old->GetPos();
 	m_angle = old->GetAngle();
@@ -144,10 +149,10 @@ void ETHRawEntityController::AddToAngle(const float angle)
 
 bool ETHRawEntityController::RunCallback(ETHScriptEntity* entity)
 {
-	if (HasConstructorCallback())
+	if (HasConstructorCallback() && !m_hadRunConstructor)
 	{
 		ETHGlobal::RunEntityCallback(m_pContext, entity, m_constructorCallbackId);
-		m_constructorCallbackId =-1; // never run it again. that's the trick
+		m_hadRunConstructor = true;
 	}
 	if (HasCallback())
 	{

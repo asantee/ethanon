@@ -73,6 +73,7 @@ protected:
 	asIScriptContext *m_pContext;
 	Vector3 m_pos;
 	float m_angle;
+	bool m_hadRunConstructor;
 
 public:
 	ETHRawEntityController(const Vector3& pos, const float angle);
