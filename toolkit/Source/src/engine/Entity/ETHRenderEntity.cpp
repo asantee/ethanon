@@ -316,9 +316,9 @@ bool ETHRenderEntity::DrawProjShadow(
 
 		//fade the color according to the ambient light brightness
 		const Vector3 &ambientColor = sceneProps.ambient;
-		const float ambientColorLen = 1.0f-((ambientColor.x + ambientColor.y + ambientColor.z)/3.0f);
-		attenBias = Min(attenBias*ambientColorLen, 1.0f);
-		attenBias *= Max(Min((1-(GetPosition().z/Max(GetCurrentSize().y, 1.0f))), 1.0f), 0.0f);
+		const float ambientColorLen = 1.0f - ((ambientColor.x + ambientColor.y + ambientColor.z) / 3.0f);
+		attenBias = Min(attenBias * ambientColorLen, 1.0f);
+		attenBias *= Max(Min((1 - (GetPosition().z / Max(GetCurrentSize().y, 1.0f))), 1.0f), 0.0f);
 	}
 
 	GS_BYTE alpha = static_cast<GS_BYTE>(attenBias*255.0f*opacity);
@@ -333,6 +333,7 @@ bool ETHRenderEntity::DrawProjShadow(
 	pShadow->DrawShaped(v2ShadowPos, v2ShadowSize,
 		dwShadowColor, dwShadowColor, dwShadowColor, dwShadowColor,
 		RadianToDegree(shadowAngle));
+	pShadow->SetRectMode(Sprite::RM_TWO_TRIANGLES);
 
 	return true;
 }

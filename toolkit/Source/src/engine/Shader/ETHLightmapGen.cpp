@@ -56,9 +56,14 @@ ETHLightmapGen::ETHLightmapGen(ETHRenderEntity* entity,
 		return;
 	}
 
+	const bool zBuffer = video->GetZBuffer();
+	const bool zWrite = video->GetZWrite();
+
+	video->SetZBuffer(false); video->SetZWrite(false);
+
 	// Paint it black
 	video->SetRenderTarget(entity->m_pLightmap);
-	if (!video->BeginTargetScene(gs2d::constant::BLACK))
+	if (!video->BeginTargetScene(gs2d::constant::BLACK, true))
 	{
 		ETH_STREAM_DECL(ss) << GS_L("ETHRenderEntity::GenerateLightmap: coudn't render to target.");
 		logger->Log(ss.str(), Platform::FileLogger::ERROR);
@@ -93,7 +98,7 @@ ETHLightmapGen::ETHLightmapGen(ETHRenderEntity* entity,
 			return;
 		}
 
-		if (!video->BeginTargetScene(gs2d::constant::BLACK))
+		if (!video->BeginTargetScene(gs2d::constant::BLACK, true))
 		{
 			ETH_STREAM_DECL(ss) << GS_L("ETHRenderEntity::GenerateLightmap: coudn't render to temporary target.");
 			logger->Log(ss.str(), Platform::FileLogger::ERROR);
@@ -154,6 +159,8 @@ ETHLightmapGen::ETHLightmapGen(ETHRenderEntity* entity,
 		video->SetAlphaMode(oldAM);
 		video->EndTargetScene();
 	}
+
+	video->SetZBuffer(zBuffer); video->SetZWrite(zWrite);
 
 	entity->m_pLightmap->GenerateBackup();
 	video->SetRenderTarget(SpritePtr());
