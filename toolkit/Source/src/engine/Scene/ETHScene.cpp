@@ -420,7 +420,6 @@ void ETHScene::Update(
 
 	// fill a map containing all entities we should render
 	MapEntitiesToBeRendered(
-		m_entitiesToRender,
 		minHeight,
 		maxHeight,
 		backBuffer,
@@ -457,7 +456,6 @@ void ETHScene::RenderScene(
 	video->RoundUpPosition(roundUp);
 
 	DrawEntityMultimap(
-		m_entitiesToRender,
 		backBuffer,
 		roundUp,
 		halos);
@@ -472,7 +470,6 @@ void ETHScene::RenderScene(
 }
 
 void ETHScene::DecomposeEntityIntoPiecesToMultimap(
-	std::multimap<float, ETHEntityPieceRendererPtr>& mmEntities,
 	ETHRenderEntity* entity,
 	const float minHeight,
 	const float maxHeight,
@@ -506,7 +503,7 @@ void ETHScene::DecomposeEntityIntoPiecesToMultimap(
 		const float drawHash = ComputeDrawHash(depth, type);
 
 		// add the entity to the render map
-		mmEntities.insert(std::pair<float, ETHEntityPieceRendererPtr>(drawHash, spritePiece));
+		m_entitiesToRender.insert(std::pair<float, ETHEntityPieceRendererPtr>(drawHash, spritePiece));
 	}
 
 	// decompose halo
@@ -516,7 +513,7 @@ void ETHScene::DecomposeEntityIntoPiecesToMultimap(
 		const float drawHash = ComputeDrawHash(depth, type);
 
 		ETHEntityPieceRendererPtr haloPiece(new ETHEntityHaloRenderer(entity, shaderManager, GetHaloRotation(), depth));
-		mmEntities.insert(std::pair<float, ETHEntityPieceRendererPtr>(drawHash, haloPiece));
+		m_entitiesToRender.insert(std::pair<float, ETHEntityPieceRendererPtr>(drawHash, haloPiece));
 	}
 
 	// decompose the particle list for this entity
@@ -536,13 +533,12 @@ void ETHScene::DecomposeEntityIntoPiecesToMultimap(
 
 			const float drawHash = ComputeDrawHash(depth, type);
 
-			mmEntities.insert(std::pair<float, ETHEntityPieceRendererPtr>(drawHash, particlePiece));
+			m_entitiesToRender.insert(std::pair<float, ETHEntityPieceRendererPtr>(drawHash, particlePiece));
 		}
 	}
 }
 
 void ETHScene::MapEntitiesToBeRendered(
-	std::multimap<float, ETHEntityPieceRendererPtr>& mmEntities,
 	float &minHeight,
 	float &maxHeight,
 	const ETHBackBufferTargetManagerPtr& backBuffer,
@@ -618,20 +614,19 @@ void ETHScene::MapEntitiesToBeRendered(
 			// fill the callback list
 			m_activeEntityHandler.AddCallbackWhenEligible(entity);
 
-			DecomposeEntityIntoPiecesToMultimap(mmEntities, entity, minHeight, maxHeight, backBuffer, outline, invisibleEntSymbol);
+			DecomposeEntityIntoPiecesToMultimap(entity, minHeight, maxHeight, backBuffer, outline, invisibleEntSymbol);
 
 			m_nRenderedEntities++;
 		}
 	}
 
 	// Add persistent entities (the ones the user wants to force to render)
-	FillMultimapAndClearPersistenList(mmEntities, bucketList, backBuffer);
+	FillMultimapAndClearPersistenList(bucketList, backBuffer);
 
 	m_nCurrentLights = m_lights.size();
 }
 
 void ETHScene::DrawEntityMultimap(
-	std::multimap<float, ETHEntityPieceRendererPtr>& mmEntities,
 	const ETHBackBufferTargetManagerPtr& backBuffer,
 	const bool roundUp,
 	std::list<ETHRenderEntity*> &outHalos)
@@ -641,7 +636,7 @@ void ETHScene::DrawEntityMultimap(
 	video->RoundUpPosition(roundUp);
 
 	// Draw visible entities ordered in an alpha-friendly map
-	for (std::multimap<float, ETHEntityPieceRendererPtr>::iterator iter = mmEntities.begin(); iter != mmEntities.end(); ++iter)
+	for (std::multimap<float, ETHEntityPieceRendererPtr>::iterator iter = m_entitiesToRender.begin(); iter != m_entitiesToRender.end(); ++iter)
 	{
 		iter->second->Render(m_sceneProps, m_maxSceneHeight, m_minSceneHeight);
 	}
@@ -661,9 +656,9 @@ void ETHScene::DrawEntityMultimap(
 	}
 }
 
-void ETHScene::ReleaseMappedEntities(std::multimap<float, ETHEntityPieceRendererPtr>& mmEntities)
+void ETHScene::ReleaseMappedEntities(std::multimap<float, ETHEntityPieceRendererPtr>& mm)
 {
-	mmEntities.clear();
+	mm.clear();
 }
 
 void ETHScene::EnableLightmaps(const bool enable)
@@ -1053,7 +1048,6 @@ void ETHScene::AddEntityToPersistentList(ETHRenderEntity* entity)
 }
 
 void ETHScene::FillMultimapAndClearPersistenList(
-	std::multimap<float, ETHEntityPieceRendererPtr>& mm,
 	const std::list<Vector2>& currentBucketList,
 	const ETHBackBufferTargetManagerPtr& backBuffer)
 {
@@ -1068,7 +1062,7 @@ void ETHScene::FillMultimapAndClearPersistenList(
 		const bool bucketNotProcessed = std::find(currentBucketList.begin(), currentBucketList.end(), currentBucket) == currentBucketList.end();
 		if (bucketNotProcessed)
 		{
-			DecomposeEntityIntoPiecesToMultimap(mm, entity, m_minSceneHeight, m_maxSceneHeight, backBuffer, SpritePtr(), SpritePtr());
+			DecomposeEntityIntoPiecesToMultimap(entity, m_minSceneHeight, m_maxSceneHeight, backBuffer, SpritePtr(), SpritePtr());
 			m_nRenderedEntities++;
 		}
 		entity->Release();

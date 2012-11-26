@@ -160,7 +160,6 @@ private:
 	void RunCallbacksFromList();
 
 	void MapEntitiesToBeRendered(
-		std::multimap<float, ETHEntityPieceRendererPtr>& mmEntities,
 		float &maxHeight,
 		float &minHeight,
 		const ETHBackBufferTargetManagerPtr& backBuffer,
@@ -169,15 +168,13 @@ private:
 		const unsigned int lastFrameElapsedTime);
 
 	void DrawEntityMultimap(
-		std::multimap<float, ETHEntityPieceRendererPtr>& mmEntities,
 		const ETHBackBufferTargetManagerPtr& backBuffer,
 		const bool roundUp,
 		std::list<ETHRenderEntity*> &outHalos);
 
-	static void ReleaseMappedEntities(std::multimap<float, ETHEntityPieceRendererPtr>& mmEntities);
+	static void ReleaseMappedEntities(std::multimap<float, ETHEntityPieceRendererPtr>& mm);
 
 	void DecomposeEntityIntoPiecesToMultimap(
-		std::multimap<float, ETHEntityPieceRendererPtr>& mmEntities,
 		ETHRenderEntity* entity,
 		const float minHeight,
 		const float maxHeight,
@@ -191,7 +188,6 @@ private:
 	bool ReadFromXMLFile(TiXmlElement *pElement);
 
 	void FillMultimapAndClearPersistenList(
-		std::multimap<float, ETHEntityPieceRendererPtr>& mm,
 		const std::list<Vector2>& currentBucketList,
 		const ETHBackBufferTargetManagerPtr& backBuffer);
 
