@@ -94,7 +94,7 @@ ETHScene::~ETHScene()
 	}
 	m_persistentEntities.clear();
 
-	ReleaseMappedEntities(m_entitiesToRender);
+	ReleaseMappedEntities(m_piecesToRender);
 }
 
 void ETHScene::Init(ETHResourceProviderPtr provider, const ETHSceneProperties& props, asIScriptModule *pModule, asIScriptContext *pContext)
@@ -416,7 +416,7 @@ void ETHScene::Update(
 
 	float minHeight, maxHeight;
 
-	assert(m_entitiesToRender.empty());
+	assert(m_piecesToRender.empty());
 
 	// fill a map containing all entities we should render
 	MapEntitiesToBeRendered(
@@ -461,7 +461,7 @@ void ETHScene::RenderScene(
 		halos);
 
 	// call this guy after both update and rendering are finished
-	ReleaseMappedEntities(m_entitiesToRender);
+	ReleaseMappedEntities(m_piecesToRender);
 
 	m_buckets.ResolveMoveRequests();
 	video->RoundUpPosition(false);
@@ -503,7 +503,7 @@ void ETHScene::DecomposeEntityIntoPiecesToMultimap(
 		const float drawHash = ComputeDrawHash(depth, type);
 
 		// add the entity to the render map
-		m_entitiesToRender.insert(std::pair<float, ETHEntityPieceRendererPtr>(drawHash, spritePiece));
+		m_piecesToRender.insert(std::pair<float, ETHEntityPieceRendererPtr>(drawHash, spritePiece));
 	}
 
 	// decompose halo
@@ -513,7 +513,7 @@ void ETHScene::DecomposeEntityIntoPiecesToMultimap(
 		const float drawHash = ComputeDrawHash(depth, type);
 
 		ETHEntityPieceRendererPtr haloPiece(new ETHEntityHaloRenderer(entity, shaderManager, GetHaloRotation(), depth));
-		m_entitiesToRender.insert(std::pair<float, ETHEntityPieceRendererPtr>(drawHash, haloPiece));
+		m_piecesToRender.insert(std::pair<float, ETHEntityPieceRendererPtr>(drawHash, haloPiece));
 	}
 
 	// decompose the particle list for this entity
@@ -533,7 +533,7 @@ void ETHScene::DecomposeEntityIntoPiecesToMultimap(
 
 			const float drawHash = ComputeDrawHash(depth, type);
 
-			m_entitiesToRender.insert(std::pair<float, ETHEntityPieceRendererPtr>(drawHash, particlePiece));
+			m_piecesToRender.insert(std::pair<float, ETHEntityPieceRendererPtr>(drawHash, particlePiece));
 		}
 	}
 }
@@ -636,7 +636,7 @@ void ETHScene::DrawEntityMultimap(
 	video->RoundUpPosition(roundUp);
 
 	// Draw visible entities ordered in an alpha-friendly map
-	for (std::multimap<float, ETHEntityPieceRendererPtr>::iterator iter = m_entitiesToRender.begin(); iter != m_entitiesToRender.end(); ++iter)
+	for (std::multimap<float, ETHEntityPieceRendererPtr>::iterator iter = m_piecesToRender.begin(); iter != m_piecesToRender.end(); ++iter)
 	{
 		iter->second->Render(m_sceneProps, m_maxSceneHeight, m_minSceneHeight);
 	}

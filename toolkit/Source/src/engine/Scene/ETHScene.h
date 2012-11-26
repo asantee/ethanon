@@ -150,7 +150,7 @@ public:
 	void AddEntityToPersistentList(ETHRenderEntity* entity);
 
 private:
-	std::multimap<float, ETHEntityPieceRendererPtr> m_entitiesToRender;
+	std::multimap<float, ETHEntityPieceRendererPtr> m_piecesToRender;
 	const bool m_isInEditor;
 
 	bool LoadFromFile(const str_type::string& fileName);
