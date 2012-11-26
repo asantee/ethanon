@@ -527,7 +527,7 @@ void ETHScene::DecomposeEntityIntoPiecesToMultimap(
 			ETHParticleManagerPtr particle = entity->GetParticleManager(t);
 
 			const float depth = ETHEntity::ComputeDepth(
-				particle->GetTileZ() + entity->GetPositionZ() + _ETH_PARTICLE_DEPTH_SHIFT,
+				particle->GetZPosition() + entity->GetPositionZ() + _ETH_PARTICLE_DEPTH_SHIFT,
 				maxHeight,
 				minHeight);
 

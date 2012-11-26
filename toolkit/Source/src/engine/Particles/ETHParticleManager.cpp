@@ -493,12 +493,12 @@ bool ETHParticleManager::DrawParticleSystem(
 	return true;
 }
 
-void ETHParticleManager::SetTileZ(const float z)
+void ETHParticleManager::SetZPosition(const float z)
 {
 	m_system.startPoint.z = z;
 }
 
-float ETHParticleManager::GetTileZ() const
+float ETHParticleManager::GetZPosition() const
 {
 	return m_system.startPoint.z;
 }

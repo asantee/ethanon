@@ -126,8 +126,8 @@ public:
 	str_type::string GetSoundName() const;
 
 	/// Set a tilebased Z position for the tile
-	void SetTileZ(const float z);
-	float GetTileZ() const;
+	void SetZPosition(const float z);
+	float GetZPosition() const;
 
 	/// Return the maximum number of particles
 	int GetNumParticles() const;

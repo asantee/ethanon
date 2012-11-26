@@ -95,7 +95,7 @@ void ParticleEditor::DeleteSoundFX()
 
 void ParticleEditor::DrawParticleSystem()
 {	
-	m_manager->SetTileZ(0.0f);
+	m_manager->SetZPosition(0.0f);
 	const VideoPtr& video = m_provider->GetVideo();
 	const InputPtr& input = m_provider->GetInput();
 	const Vector2 v2Screen = video->GetScreenSizeF();
@@ -554,7 +554,7 @@ void ParticleEditor::ParticlePanel()
 		{
 			m_manager = ETHParticleManagerPtr(
 				new ETHParticleManager(m_provider, utf8::c(path).wstr(), m_v2Pos, Vector3(m_v2Pos, 0), m_systemAngle, 1.0f));
-			m_manager->SetTileZ(0.0f);
+			m_manager->SetZPosition(0.0f);
 			m_manager->Kill(false);
 			m_system = *m_manager->GetSystem();
 			SetMenuConstants();
