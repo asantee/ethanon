@@ -32,12 +32,12 @@ public:
 	~ETHActiveEntityHandler();
 
 	bool AddEntityWhenEligible(ETHRenderEntity* entity);
-	bool IsEntityActive(ETHRenderEntity* entity) const;
+	bool ShouldEntityBeAlwaysActive(ETHRenderEntity* entity) const;
 
 	void UpdateActiveEntities(const Vector2& zAxisDir, ETHBucketManager& buckets, const unsigned long lastFrameElapsedTime);
 
-	bool AddCallbackWhenEligible(ETHRenderEntity* entity);
-	bool IsCallbackEligible(ETHRenderEntity* entity) const;
+	bool AddStaticCallbackWhenEligible(ETHRenderEntity* entity);
+	bool IsStaticCallbackEligible(ETHRenderEntity* entity) const;
 
 	bool IsCallbackListEmpty() const;
 

@@ -54,7 +54,7 @@ void ETHActiveEntityHandler::ClearCallbackEntities()
 
 bool ETHActiveEntityHandler::AddEntityWhenEligible(ETHRenderEntity* entity)
 {
-	if (IsEntityActive(entity))
+	if (ShouldEntityBeAlwaysActive(entity))
 	{
 		entity->AddRef();
 		m_dynamicOrTempEntities.push_back(entity);
@@ -71,15 +71,15 @@ bool ETHActiveEntityHandler::AddEntityWhenEligible(ETHRenderEntity* entity)
 	}
 }
 
-bool ETHActiveEntityHandler::IsEntityActive(ETHRenderEntity* entity) const
+bool ETHActiveEntityHandler::ShouldEntityBeAlwaysActive(ETHRenderEntity* entity) const
 {
 	return (((entity->HasAnyCallbackFunction() || entity->HasSimulatedBody()) && !entity->IsStatic())
 			|| entity->IsTemporary());
 }
 
-bool ETHActiveEntityHandler::AddCallbackWhenEligible(ETHRenderEntity* entity)
+bool ETHActiveEntityHandler::AddStaticCallbackWhenEligible(ETHRenderEntity* entity)
 {
-	if (IsCallbackEligible(entity))
+	if (IsStaticCallbackEligible(entity))
 	{
 		m_lastFrameCallbacks.push_back(entity);
 		entity->AddRef();
@@ -96,9 +96,9 @@ bool ETHActiveEntityHandler::AddCallbackWhenEligible(ETHRenderEntity* entity)
 	}
 }
 
-bool ETHActiveEntityHandler::IsCallbackEligible(ETHRenderEntity* entity) const
+bool ETHActiveEntityHandler::IsStaticCallbackEligible(ETHRenderEntity* entity) const
 {
-	return (!IsEntityActive(entity));
+	return (!ShouldEntityBeAlwaysActive(entity));
 }
 
 void ETHActiveEntityHandler::TestEntityLists() const

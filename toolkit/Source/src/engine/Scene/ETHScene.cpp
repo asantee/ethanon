@@ -602,7 +602,7 @@ void ETHScene::MapEntitiesToBeRendered(
 			}
 
 			// fill the callback list
-			m_activeEntityHandler.AddCallbackWhenEligible(entity);
+			m_activeEntityHandler.AddStaticCallbackWhenEligible(entity);
 
 			DecomposeEntityIntoPiecesToMultimap(entity, minHeight, maxHeight, backBuffer, outline, invisibleEntSymbol);
 
