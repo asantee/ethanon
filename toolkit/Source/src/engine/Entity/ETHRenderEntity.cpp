@@ -33,7 +33,11 @@ ETHRenderEntity::ETHRenderEntity(TiXmlElement *pElement, ETHResourceProviderPtr 
 {
 }
 
-ETHRenderEntity::ETHRenderEntity(ETHResourceProviderPtr provider, const ETHEntityProperties& properties, const float angle, const float scale) :
+ETHRenderEntity::ETHRenderEntity(
+	ETHResourceProviderPtr provider,
+	const ETHEntityProperties& properties,
+	const float angle,
+	const float scale) :
 	ETHSpriteEntity(provider, properties, angle, scale)
 {
 }
@@ -57,9 +61,12 @@ bool ETHRenderEntity::ShouldUseFourTriangles(const float parallaxIntensity) cons
 	return true;
 }
 
-bool ETHRenderEntity::DrawAmbientPass(const float maxHeight, const float minHeight,
-									  const bool enableLightmaps, const ETHSceneProperties& sceneProps,
-									  const float parallaxIntensity)
+bool ETHRenderEntity::DrawAmbientPass(
+	const float maxHeight,
+	const float minHeight,
+	const bool enableLightmaps,
+	const ETHSceneProperties& sceneProps,
+	const float parallaxIntensity)
 {
 	if (!m_pSprite || IsHidden())
 		return false;
@@ -77,6 +84,7 @@ bool ETHRenderEntity::DrawAmbientPass(const float maxHeight, const float minHeig
 	const bool applyLightmap = (m_pLightmap && enableLightmaps && IsStatic());
 	if (applyLightmap)
 	{
+		video->SetBlendMode(1, Video::BM_ADD);
 		m_pLightmap->SetAsTexture(1);
 	}
 	else
@@ -101,7 +109,7 @@ bool ETHRenderEntity::DrawAmbientPass(const float maxHeight, const float minHeig
 	if (shouldUseFourTriangles)
 		m_pSprite->SetRectMode(Sprite::RM_FOUR_TRIANGLES);
 
-	m_pSprite->DrawOptimal(pos,	ConvertToDW(v4FinalAmbient), angle, GetCurrentSize());
+	m_pSprite->DrawOptimal(pos, ConvertToDW(v4FinalAmbient), angle, GetCurrentSize());
 
 	if (shouldUseFourTriangles)
 		m_pSprite->SetRectMode(Sprite::RM_TWO_TRIANGLES);
@@ -172,14 +180,30 @@ bool ETHRenderEntity::IsSpriteVisible(const ETHSceneProperties& sceneProps, cons
 	}
 }
 
-bool ETHRenderEntity::DrawShadow(const float maxHeight, const float minHeight, const ETHSceneProperties& sceneProps, const ETHLight& light, ETHSpriteEntity *pParent,
-								 const bool maxOpacity, const bool drawToTarget, const float targetAngle, const Vector3& v3TargetPos)
+bool ETHRenderEntity::DrawShadow(
+	const float maxHeight,
+	const float minHeight,
+	const ETHSceneProperties& sceneProps,
+	const ETHLight& light,
+	ETHSpriteEntity *pParent,
+	const bool maxOpacity,
+	const bool drawToTarget,
+	const float targetAngle,
+	const Vector3& v3TargetPos)
 {
 	return DrawProjShadow(maxHeight, minHeight, sceneProps, light, pParent, maxOpacity, drawToTarget, targetAngle, v3TargetPos);
 }
 
-bool ETHRenderEntity::DrawProjShadow(const float maxHeight, const float minHeight, const ETHSceneProperties& sceneProps, const ETHLight& light, ETHSpriteEntity *pParent,
-									 const bool maxOpacity, const bool drawToTarget, const float targetAngle, const Vector3& v3TargetPos)
+bool ETHRenderEntity::DrawProjShadow(
+	const float maxHeight,
+	const float minHeight,
+	const ETHSceneProperties& sceneProps,
+	const ETHLight& light,
+	ETHSpriteEntity *pParent,
+	const bool maxOpacity,
+	const bool drawToTarget,
+	const float targetAngle,
+	const Vector3& v3TargetPos)
 {
 	if (!m_pSprite || IsHidden())
 		return false;
@@ -313,11 +337,11 @@ bool ETHRenderEntity::DrawProjShadow(const float maxHeight, const float minHeigh
 	return true;
 }
 
-bool ETHRenderEntity::DrawHalo(const float maxHeight, const float minHeight, const bool rotateHalo, const Vector2 &zAxisDirection)
+bool ETHRenderEntity::DrawHalo(
+	const bool rotateHalo,
+	const Vector2 &zAxisDirection,
+	const float depth)
 {
-	GS2D_UNUSED_ARGUMENT(minHeight);
-	GS2D_UNUSED_ARGUMENT(maxHeight);
-
 	if (!GetHalo() || !HasLightSource() || IsHidden())
 		return false;
 
@@ -327,7 +351,7 @@ bool ETHRenderEntity::DrawHalo(const float maxHeight, const float minHeight, con
 	const Vector3 v3EntityPos = GetPosition();
 
 	// will remain as 1.0 for a while
-	m_provider->GetVideo()->SetSpriteDepth(1.0f/*ETHGlobal::ComputeDepth(m_data.entity.light.pos.z+v3EntityPos.z+ETH_HALO_DEPTH_SHIFT, maxHeight, minHeight)*/);
+	m_provider->GetVideo()->SetSpriteDepth(depth);
 
 	// if it has a particle system in the first slot, adjust the light
 	// brightness according to the number of active particles
@@ -351,7 +375,11 @@ bool ETHRenderEntity::DrawHalo(const float maxHeight, const float minHeight, con
 	return true;
 }
 
-bool ETHRenderEntity::DrawParticles(const unsigned int n, const float maxHeight, const float minHeight, const ETHSceneProperties& sceneProps)
+bool ETHRenderEntity::DrawParticles(
+	const unsigned int n,
+	const float maxHeight,
+	const float minHeight,
+	const ETHSceneProperties& sceneProps)
 {
 	if (n >= m_particles.size() || IsHidden())
 	{

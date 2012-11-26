@@ -33,6 +33,7 @@
 
 #include "../Renderer/ETHEntitySpriteRenderer.h"
 #include "../Renderer/ETHEntityParticleRenderer.h"
+#include "../Renderer/ETHEntityHaloRenderer.h"
 
 #ifdef GS2D_STR_TYPE_WCHAR
 #include "../../addons/utf16/scriptbuilder.h"
@@ -468,7 +469,6 @@ void ETHScene::RenderScene(
 	video->RoundUpPosition(false);
 
 	m_lights.clear();
-	RenderTransparentLayer(halos);
 }
 
 void ETHScene::DecomposeEntityIntoPiecesToMultimap(
@@ -485,6 +485,8 @@ void ETHScene::DecomposeEntityIntoPiecesToMultimap(
 	const ETHEntityProperties::ENTITY_TYPE type = entity->GetType();
 
 	const bool spriteVisible = entity->IsSpriteVisible(m_sceneProps, backBuffer);
+	
+	// decompose entity sprite
 	if (spriteVisible)
 	{
 		ETHEntityPieceRendererPtr spritePiece(
@@ -507,7 +509,17 @@ void ETHScene::DecomposeEntityIntoPiecesToMultimap(
 		mmEntities.insert(std::pair<float, ETHEntityPieceRendererPtr>(drawHash, spritePiece));
 	}
 
-	// fill the particle list for this frame
+	// decompose halo
+	if (entity->HasLightSource() && entity->GetHalo())
+	{
+		const float depth = ETHEntity::ComputeDepth(entity->GetPositionZ() + entity->GetCurrentSize().y, maxHeight, minHeight);
+		const float drawHash = ComputeDrawHash(depth, type);
+
+		ETHEntityPieceRendererPtr haloPiece(new ETHEntityHaloRenderer(entity, shaderManager, GetHaloRotation(), depth));
+		mmEntities.insert(std::pair<float, ETHEntityPieceRendererPtr>(drawHash, haloPiece));
+	}
+
+	// decompose the particle list for this entity
 	if (entity->HasParticleSystems())
 	{
 		for (std::size_t t = 0; t < entity->GetNumParticleSystems(); t++)
@@ -632,14 +644,6 @@ void ETHScene::DrawEntityMultimap(
 	for (std::multimap<float, ETHEntityPieceRendererPtr>::iterator iter = mmEntities.begin(); iter != mmEntities.end(); ++iter)
 	{
 		iter->second->Render(m_sceneProps, m_maxSceneHeight, m_minSceneHeight);
-
-		// fill the halo list
-		// const ETHEntityFile &entity = pRenderEntity->GetData()->entity;
-		#warning draw halos
-		/*if (pRenderEntity->HasLightSource() && pRenderEntity->GetHalo())
-		{
-			outHalos.push_back(pRenderEntity);
-		}*/
 	}
 
 	// Show buckets outline in debug mode
@@ -713,20 +717,6 @@ void ETHScene::ShowLightmaps(const bool show)
 bool ETHScene::AreLightmapsShown()
 {
 	return m_showingLightmaps;
-}
-
-bool ETHScene::RenderTransparentLayer(std::list<ETHRenderEntity*> &halos)
-{
-	// Draw halos
-	for (std::list<ETHRenderEntity*>::iterator iter = halos.begin(); iter != halos.end(); ++iter)
-	{
-		if (m_provider->GetShaderManager()->BeginHaloPass(((*iter)->GetLight()), m_maxSceneHeight))
-		{
-			(*iter)->DrawHalo(m_maxSceneHeight, m_minSceneHeight, GetHaloRotation(), GetZAxisDirection());
-			m_provider->GetShaderManager()->EndHaloPass();
-		}
-	}
-	return true;
 }
 
 bool ETHScene::DrawBucketOutlines()

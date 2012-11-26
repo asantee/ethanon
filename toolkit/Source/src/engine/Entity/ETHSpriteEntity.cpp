@@ -509,11 +509,11 @@ float ETHSpriteEntity::ComputeDepth(const float maxHeight, const float minHeight
 	{
 	case ETHEntityProperties::ET_VERTICAL:
 	case ETHEntityProperties::ET_HORIZONTAL:
-		r = ETHEntity::ComputeDepth(GetPosition().z, maxHeight, minHeight);
+		r = ETHEntity::ComputeDepth(GetPositionZ(), maxHeight, minHeight);
 		break;
 	case ETHEntityProperties::ET_OPAQUE_DECAL:
 	case ETHEntityProperties::ET_GROUND_DECAL:
-		r = ETHEntity::ComputeDepth(GetPosition().z + ETH_SMALL_NUMBER, maxHeight, minHeight);
+		r = ETHEntity::ComputeDepth(GetPositionZ() + ETH_SMALL_NUMBER, maxHeight, minHeight);
 		break;
 	case ETHEntityProperties::ET_OVERALL:
 		r = (1.0f);

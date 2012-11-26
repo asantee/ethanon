@@ -130,6 +130,10 @@ class TestEntity : Test
 			}
 		}
 		
+		ETHInput@ input = GetInputHandle();
+		if (input.GetKeyState(K_SPACE) == KS_HIT)
+			GenerateLightmaps();
+
 		scrollCamera();
 		moveDynamicBarrels();
 		updateCharacter();

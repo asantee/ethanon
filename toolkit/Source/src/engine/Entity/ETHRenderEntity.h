@@ -40,17 +40,53 @@ public:
 
 	// rendering methods
 	bool IsSpriteVisible(const ETHSceneProperties& sceneProps, const ETHBackBufferTargetManagerPtr& backBuffer) const;
+
 	bool DrawLightPass(const Vector2 &zAxisDirection, const float parallaxIntensity, const bool drawToTarget = false);
-	bool DrawHalo(const float maxHeight, const float minHeight, const bool rotateHalo, const Vector2& zAxisDirection);
-	bool DrawAmbientPass(const float maxHeight, const float minHeight, const bool enableLightmaps, const ETHSceneProperties& sceneProps, const float parallaxIntensity);
-	bool DrawParticles(const unsigned int n, const float maxHeight, const float minHeight, const ETHSceneProperties& sceneProps);
-	void DrawCollisionBox(SpritePtr pOutline, const Color& dwColor, const Vector2 &zAxisDirection) const;
-	bool DrawShadow(const float maxHeight, const float minHeight, const ETHSceneProperties& sceneProps, const ETHLight& light, ETHSpriteEntity *pParent,
-					const bool maxOpacity = false, const bool drawToTarget = false, const float targetAngle = 0.0f,
-					const Vector3& v3TargetPos = Vector3(0,0,0));
-	bool DrawProjShadow(const float maxHeight, const float minHeight, const ETHSceneProperties& sceneProps, const ETHLight& light,
-						 ETHSpriteEntity *pParent, const bool maxOpacity, const bool drawToTarget,
-						 const float targetAngle, const Vector3& v3TargetPos);
+
+	bool DrawHalo(
+		const bool rotateHalo,
+		const Vector2& zAxisDirection,
+		const float depth);
+
+	bool DrawAmbientPass(
+		const float maxHeight,
+		const float minHeight,
+		const bool enableLightmaps,
+		const ETHSceneProperties& sceneProps,
+		const float parallaxIntensity);
+
+	bool DrawParticles(
+		const unsigned int n,
+		const float maxHeight,
+		const float minHeight,
+		const ETHSceneProperties& sceneProps);
+
+	void DrawCollisionBox(
+		SpritePtr pOutline,
+		const Color& dwColor,
+		const Vector2 &zAxisDirection) const;
+
+	bool DrawShadow(
+		const float maxHeight,
+		const float minHeight,
+		const ETHSceneProperties& sceneProps,
+		const ETHLight& light,
+		ETHSpriteEntity *pParent,
+		const bool maxOpacity = false,
+		const bool drawToTarget = false,
+		const float targetAngle = 0.0f,
+		const Vector3& v3TargetPos = Vector3(0,0,0));
+
+	bool DrawProjShadow(
+		const float maxHeight,
+		const float minHeight,
+		const ETHSceneProperties& sceneProps,
+		const ETHLight& light,
+		ETHSpriteEntity *pParent,
+		const bool maxOpacity,
+		const bool drawToTarget,
+		const float targetAngle,
+		const Vector3& v3TargetPos);
 };
 
 #endif

@@ -158,7 +158,6 @@ private:
 	void Init(ETHResourceProviderPtr provider, const ETHSceneProperties& props, asIScriptModule *pModule, asIScriptContext *pContext);
 
 	void RunCallbacksFromList();
-	bool RenderTransparentLayer(std::list<ETHRenderEntity*> &halos);
 
 	void MapEntitiesToBeRendered(
 		std::multimap<float, ETHEntityPieceRendererPtr>& mmEntities,
