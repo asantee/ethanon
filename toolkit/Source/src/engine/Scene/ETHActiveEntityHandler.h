@@ -39,11 +39,11 @@ public:
 	bool AddCallbackWhenEligible(ETHRenderEntity* entity);
 	bool IsCallbackEligible(ETHRenderEntity* entity) const;
 
-	void RunCallbacksFromLists();
-
 	bool IsCallbackListEmpty() const;
 
 private:
+	bool RemoveFinishedTemporaryEntity(ETHRenderEntity* entity, ETHBucketManager& buckets);
+
 	void ClearCallbackEntities();
 	void TestEntityLists() const;
 

@@ -89,8 +89,6 @@ public:
 		SpritePtr outline = SpritePtr(),
 		SpritePtr invisibleEntSymbol = SpritePtr());
 
-	void UpdateActiveEntities(const unsigned long lastFrameElapsedTime);
-
 	bool DeleteEntity(ETHEntity *pEntity);
 
 	const ETHSceneProperties* GetSceneProperties() const;
@@ -156,8 +154,6 @@ private:
 	bool LoadFromFile(const str_type::string& fileName);
 
 	void Init(ETHResourceProviderPtr provider, const ETHSceneProperties& props, asIScriptModule *pModule, asIScriptContext *pContext);
-
-	void RunCallbacksFromList();
 
 	void MapEntitiesToBeRendered(
 		float &maxHeight,

@@ -412,7 +412,6 @@ void ETHScene::Update(
 {
 	m_destructorManager->RunDestructors();
 	m_physicsSimulator.Update(lastFrameElapsedTime);
-	RunCallbacksFromList();
 
 	float minHeight, maxHeight;
 
@@ -427,15 +426,12 @@ void ETHScene::Update(
 		invisibleEntSymbol,
 		lastFrameElapsedTime);
 
+	m_activeEntityHandler.UpdateActiveEntities(GetZAxisDirection(), m_buckets, lastFrameElapsedTime);
+
 	m_minSceneHeight = minHeight;
 	m_maxSceneHeight = maxHeight;
 
 	Randomizer::Seed(m_provider->GetVideo()->GetElapsedTime());
-}
-
-void ETHScene::UpdateActiveEntities(const unsigned long lastFrameElapsedTime)
-{
-	m_activeEntityHandler.UpdateActiveEntities(GetZAxisDirection(), m_buckets, lastFrameElapsedTime);
 }
 
 void ETHScene::RenderScene(
@@ -603,12 +599,6 @@ void ETHScene::MapEntitiesToBeRendered(
 						static_cast<float>(paticleManager->GetNumParticles());
 				}
 				AddLight(light, entity->GetPosition(), entity->GetScale());
-			}
-
-			// If it is not going to be executed during the temp/dynamic entity management, update it now
-			if (m_activeEntityHandler.IsCallbackEligible(entity))
-			{
-				entity->Update(lastFrameElapsedTime, GetZAxisDirection(), m_buckets);
 			}
 
 			// fill the callback list
@@ -787,11 +777,6 @@ float ETHScene::ComputeDrawHash(const float entityDepth, const ETHEntityProperti
 int ETHScene::GetNumRenderedEntities()
 {
 	return m_nRenderedEntities;
-}
-
-void ETHScene::RunCallbacksFromList()
-{
-	m_activeEntityHandler.RunCallbacksFromLists();
 }
 
 void ETHScene::ForceAllSFXStop()

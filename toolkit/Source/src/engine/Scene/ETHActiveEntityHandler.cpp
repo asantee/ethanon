@@ -124,82 +124,78 @@ void ETHActiveEntityHandler::UpdateActiveEntities(const Vector2& zAxisDir, ETHBu
 
 	for (std::list<ETHRenderEntity*>::iterator iter = m_dynamicOrTempEntities.begin(); iter != m_dynamicOrTempEntities.end();)
 	{
-		ETHRenderEntity* pRenderEntity = *iter;
+		ETHRenderEntity* entity = (*iter);
 
-		pRenderEntity->Update(lastFrameElapsedTime, zAxisDir, buckets);
-
-		// if the particle system is finished, erase it
-		if ((pRenderEntity->IsTemporary() && pRenderEntity->AreParticlesOver()))
+		if (!(entity->IsAlive()) || RemoveFinishedTemporaryEntity(entity, buckets))
 		{
-			const Vector2 v2Bucket = ETHBucketManager::GetBucket(pRenderEntity->GetPositionXY(), buckets.GetBucketSize());
-			ETHBucketMap::iterator bucketIter = buckets.Find(v2Bucket);
-
-			if (bucketIter == buckets.GetLastBucket())
-			{
-				++iter;
-				continue;
-			}
-
-			// Remove from main bucket map
-			buckets.DeleteEntity(pRenderEntity->GetID(), v2Bucket, false);
-
 			#if defined(_DEBUG) || defined(DEBUG)
-			ETH_STREAM_DECL(ss) << GS_L("Entity ") << (*iter)->GetEntityName() << GS_L(" (ID#") << pRenderEntity->GetID() << GS_L(") removed from dynamic entity list (particle effects over)");
-			m_provider->Log(ss.str(), Platform::Logger::INFO);
+			 ETH_STREAM_DECL(ss) << GS_L("Entity removed from dynamic entity list: ") << entity->GetEntityName();
+			 m_provider->Log(ss.str(), Platform::Logger::INFO);
 			#endif
-			(*iter)->Release();
+			entity->Release();
 			iter = m_dynamicOrTempEntities.erase(iter);
 			continue;
 		}
+
+		entity->Update(lastFrameElapsedTime, zAxisDir, buckets);
+
+		if (entity->HasAnyCallbackFunction())
+		{
+			entity->RunCallbackScript();
+		}
+
 		++iter;
 	}
-}
 
-void ETHActiveEntityHandler::RunCallbacksFromLists()
-{
-	for (std::list<ETHRenderEntity*>::iterator iter = m_dynamicOrTempEntities.begin(); iter != m_dynamicOrTempEntities.end();)
-	{
-		if (!((*iter)->IsAlive()))
-		{
-			#if defined(_DEBUG) || defined(DEBUG)
-			ETH_STREAM_DECL(ss) << GS_L("Entity removed from dynamic entity list: ") << (*iter)->GetEntityName();
-			m_provider->Log(ss.str(), Platform::Logger::INFO);
-			#endif
-			(*iter)->Release();
-			iter = m_dynamicOrTempEntities.erase(iter);
-			continue;
-		}
-		else
-		{
-			if ((*iter)->HasAnyCallbackFunction())
-			{
-				(*iter)->RunCallbackScript();
-			}
-			++iter;
-		}
-	}
-
+	// todo/to-do remove duplicate code
 	for (std::list<ETHRenderEntity*>::iterator iter = m_lastFrameCallbacks.begin(); iter != m_lastFrameCallbacks.end();)
 	{
-		if (!((*iter)->IsAlive()))
+		ETHRenderEntity* entity = (*iter);
+
+		if (!(entity->IsAlive()))
 		{
 			#if defined(_DEBUG) || defined(DEBUG)
-			ETH_STREAM_DECL(ss) << GS_L("Entity callback removed: ") << (*iter)->GetEntityName();
-			m_provider->Log(ss.str(), Platform::Logger::INFO);
+			 ETH_STREAM_DECL(ss) << GS_L("Entity callback removed: ") << entity->GetEntityName();
+			 m_provider->Log(ss.str(), Platform::Logger::INFO);
 			#endif
-			(*iter)->Release();
+			entity->Release();
 			iter = m_lastFrameCallbacks.erase(iter);
 			continue;
 		}
 		else
 		{
-			if ((*iter)->HasAnyCallbackFunction())
+			entity->Update(lastFrameElapsedTime, zAxisDir, buckets);
+
+			if (entity->HasAnyCallbackFunction())
 			{
-				(*iter)->RunCallbackScript();
+				entity->RunCallbackScript();
 			}
-			(*iter)->Release();
+
+			entity->Release();
+
 			++iter;
 		}
 	}
 	m_lastFrameCallbacks.clear();
+}
+
+bool ETHActiveEntityHandler::RemoveFinishedTemporaryEntity(ETHRenderEntity* entity, ETHBucketManager& buckets)
+{
+	if ((entity->IsTemporary() && entity->AreParticlesOver()))
+	{
+		const Vector2 v2Bucket = ETHBucketManager::GetBucket(entity->GetPositionXY(), buckets.GetBucketSize());
+		ETHBucketMap::iterator bucketIter = buckets.Find(v2Bucket);
+
+		assert(bucketIter != buckets.GetLastBucket());
+
+		// Remove from main bucket map
+		buckets.DeleteEntity(entity->GetID(), v2Bucket, false);
+
+		#if defined(_DEBUG) || defined(DEBUG)
+		 ETH_STREAM_DECL(ss) << GS_L("Entity ") << entity->GetEntityName() << GS_L(" (ID#") << entity->GetID() << GS_L(") removed from dynamic entity list (particle effects over)");
+		 m_provider->Log(ss.str(), Platform::Logger::INFO);
+		#endif
+		return true;
+	}
+	return false;
 }

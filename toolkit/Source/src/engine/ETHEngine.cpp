@@ -140,11 +140,9 @@ Application::APP_STATUS ETHEngine::Update(
 	// run garbage collector
 	GarbageCollect(m_gcMode, m_pASEngine);
 
-	//update timer
-	m_timer.CalcLastFrame();
-
-	if (m_pScene)
-		m_pScene->Update(lastFrameDeltaTimeMS, m_backBuffer);
+	// process scene load request
+	if (!LoadNextSceneIfRequested())
+		Abort();
 
 	if (m_hasBeenResumed) // I know I know...
 	{
@@ -152,13 +150,13 @@ Application::APP_STATUS ETHEngine::Update(
 		m_hasBeenResumed = false;
 	}
 
-	RunOnSceneUpdateFunction();
+	//update timer
+	m_timer.CalcLastFrame();
 
 	if (m_pScene)
-		m_pScene->UpdateActiveEntities(lastFrameDeltaTimeMS);
+		m_pScene->Update(lastFrameDeltaTimeMS, m_backBuffer);
 
-	if (!LoadNextSceneIfRequested())
-		Abort();
+	RunOnSceneUpdateFunction();
 
 	if (Aborted())
 		return Application::APP_QUIT;
