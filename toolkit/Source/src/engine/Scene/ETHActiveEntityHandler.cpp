@@ -58,6 +58,11 @@ bool ETHActiveEntityHandler::AddEntityWhenEligible(ETHRenderEntity* entity)
 	{
 		entity->AddRef();
 		m_dynamicOrTempEntities.push_back(entity);
+
+		#if defined(_DEBUG) || defined(DEBUG)
+		TestEntityLists();
+		#endif
+
 		return true;
 	}
 	else
@@ -78,6 +83,11 @@ bool ETHActiveEntityHandler::AddCallbackWhenEligible(ETHRenderEntity* entity)
 	{
 		m_lastFrameCallbacks.push_back(entity);
 		entity->AddRef();
+
+		#if defined(_DEBUG) || defined(DEBUG)
+		TestEntityLists();
+		#endif
+
 		return true;
 	}
 	else
@@ -97,7 +107,11 @@ void ETHActiveEntityHandler::TestEntityLists() const
 	{
 		for (std::list<ETHRenderEntity*>::const_iterator b = m_lastFrameCallbacks.begin(); b != m_lastFrameCallbacks.end(); ++b)
 		{
-			assert((*a)->GetID() != (*b)->GetID());
+			ETHRenderEntity* entityA = (*a);
+			ETHRenderEntity* entityB = (*b);
+			const int idA = entityA->GetID();
+			const int idB = entityB->GetID();
+			assert(idA != idB);
 		}
 	}
 }

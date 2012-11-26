@@ -403,7 +403,11 @@ bool ETHScene::GenerateLightmaps(const int id)
 	return true;
 }
 
-void ETHScene::Update(const unsigned long lastFrameElapsedTime, const ETHBackBufferTargetManagerPtr& backBuffer)
+void ETHScene::Update(
+	const unsigned long lastFrameElapsedTime,
+	const ETHBackBufferTargetManagerPtr& backBuffer,
+	SpritePtr outline,
+	SpritePtr invisibleEntSymbol)
 {
 	m_destructorManager->RunDestructors();
 	m_physicsSimulator.Update(lastFrameElapsedTime);
@@ -418,9 +422,10 @@ void ETHScene::Update(const unsigned long lastFrameElapsedTime, const ETHBackBuf
 		m_entitiesToRender,
 		minHeight,
 		maxHeight,
-		backBuffer);
-
-	UpdateActiveEntitiesFromMultimap(m_entitiesToRender, lastFrameElapsedTime);
+		backBuffer,
+		outline,
+		invisibleEntSymbol,
+		lastFrameElapsedTime);
 
 	m_minSceneHeight = minHeight;
 	m_maxSceneHeight = maxHeight;
@@ -435,9 +440,7 @@ void ETHScene::UpdateActiveEntities(const unsigned long lastFrameElapsedTime)
 
 void ETHScene::RenderScene(
 	const bool roundUp,
-	const ETHBackBufferTargetManagerPtr& backBuffer,
-	SpritePtr pOutline,
-	SpritePtr pInvisibleEntSymbol)
+	const ETHBackBufferTargetManagerPtr& backBuffer)
 {
 	const VideoPtr& video = m_provider->GetVideo();
 
@@ -455,9 +458,7 @@ void ETHScene::RenderScene(
 	DrawEntityMultimap(
 		m_entitiesToRender,
 		backBuffer,
-		pOutline,
 		roundUp,
-		pInvisibleEntSymbol,
 		halos);
 
 	// call this guy after both update and rendering are finished
@@ -470,11 +471,72 @@ void ETHScene::RenderScene(
 	RenderTransparentLayer(halos);
 }
 
+void ETHScene::DecomposeEntityIntoPiecesToMultimap(
+	std::multimap<float, ETHEntityPieceRendererPtr>& mmEntities,
+	ETHRenderEntity* entity,
+	const float minHeight,
+	const float maxHeight,
+	const ETHBackBufferTargetManagerPtr& backBuffer,
+	SpritePtr pOutline,
+	SpritePtr pInvisibleEntSymbol)
+{
+	const VideoPtr& video = m_provider->GetVideo();
+	const ETHShaderManagerPtr& shaderManager = m_provider->GetShaderManager();
+	const ETHEntityProperties::ENTITY_TYPE type = entity->GetType();
+
+	const bool spriteVisible = entity->IsSpriteVisible(m_sceneProps, backBuffer);
+	if (spriteVisible)
+	{
+		ETHEntityPieceRendererPtr spritePiece(
+			new ETHEntitySpriteRenderer(
+				entity,
+				shaderManager,
+				video,
+				pOutline,
+				pInvisibleEntSymbol,
+				(m_enableLightmaps && m_showingLightmaps),
+				AreRealTimeShadowsEnabled(),
+				m_isInEditor,
+				&m_lights));
+
+		// add this entity to the multimap to sort it for an alpha-friendly rendering list
+		const float depth = entity->ComputeDepth(maxHeight, minHeight);
+		const float drawHash = ComputeDrawHash(depth, type);
+
+		// add the entity to the render map
+		mmEntities.insert(std::pair<float, ETHEntityPieceRendererPtr>(drawHash, spritePiece));
+	}
+
+	// fill the particle list for this frame
+	if (entity->HasParticleSystems())
+	{
+		for (std::size_t t = 0; t < entity->GetNumParticleSystems(); t++)
+		{
+			ETHEntityPieceRendererPtr particlePiece(
+				new ETHEntityParticleRenderer(entity, shaderManager, t));
+
+			ETHParticleManagerPtr particle = entity->GetParticleManager(t);
+
+			const float depth = ETHEntity::ComputeDepth(
+				particle->GetTileZ() + entity->GetPositionZ() + _ETH_PARTICLE_DEPTH_SHIFT,
+				maxHeight,
+				minHeight);
+
+			const float drawHash = ComputeDrawHash(depth, type);
+
+			mmEntities.insert(std::pair<float, ETHEntityPieceRendererPtr>(drawHash, particlePiece));
+		}
+	}
+}
+
 void ETHScene::MapEntitiesToBeRendered(
-	std::multimap<float, ETHRenderEntity*>& mmEntities,
+	std::multimap<float, ETHEntityPieceRendererPtr>& mmEntities,
 	float &minHeight,
 	float &maxHeight,
-	const ETHBackBufferTargetManagerPtr& backBuffer)
+	const ETHBackBufferTargetManagerPtr& backBuffer,
+	SpritePtr outline,
+	SpritePtr invisibleEntSymbol,
+	const unsigned int lastFrameElapsedTime)
 {
 	// store the max and min height to assign when everything is drawn
 	maxHeight = m_maxSceneHeight;
@@ -491,6 +553,8 @@ void ETHScene::MapEntitiesToBeRendered(
 	std::list<Vector2> bucketList;
 	const Vector2& camPos = video->GetCameraPos(); //for debugging purposes
 	m_buckets.GetIntersectingBuckets(bucketList, camPos, backBuffer->GetBufferSize(), IsDrawingBorderBuckets(), IsDrawingBorderBuckets());
+
+	assert(m_activeEntityHandler.IsCallbackListEmpty());
 
 	// Loop through all visible Buckets
 	for (std::list<Vector2>::iterator bucketPositionIter = bucketList.begin(); bucketPositionIter != bucketList.end(); ++bucketPositionIter)
@@ -517,7 +581,6 @@ void ETHScene::MapEntitiesToBeRendered(
 				continue;
 
 			// fill the light list for this frame
-			// const ETHEntityFile &entity = pRenderEntity->GetData()->entity;
 			if (entity->HasLightSource() && m_richLighting)
 			{
 				ETHLight light = *(entity->GetLight());
@@ -525,6 +588,7 @@ void ETHScene::MapEntitiesToBeRendered(
 				// brightness according to the number os active particles
 				if (entity->GetParticleManager(0) && !entity->IsStatic())
 				{
+					#warning create method for this
 					boost::shared_ptr<ETHParticleManager> paticleManager = entity->GetParticleManager(0);
 					light.color *= 
 						static_cast<float>(paticleManager->GetNumActiveParticles()) /
@@ -533,79 +597,49 @@ void ETHScene::MapEntitiesToBeRendered(
 				AddLight(light, entity->GetPosition(), entity->GetScale());
 			}
 
-			// add this entity to the multimap to sort it for an alpha-friendly rendering list
-			const ETHEntityProperties::ENTITY_TYPE type = entity->GetType();
-			const float depth = entity->ComputeDepth(maxHeight, minHeight);
-			const float drawHash = ComputeDrawHash(depth, type);
+			// If it is not going to be executed during the temp/dynamic entity management, update it now
+			if (m_activeEntityHandler.IsCallbackEligible(entity))
+			{
+				entity->Update(lastFrameElapsedTime, GetZAxisDirection(), m_buckets);
+			}
 
-			// add the entity to the render map
-			entity->AddRef();
-			mmEntities.insert(std::pair<float, ETHRenderEntity*>(drawHash, entity));
+			// fill the callback list
+			m_activeEntityHandler.AddCallbackWhenEligible(entity);
+
+			DecomposeEntityIntoPiecesToMultimap(mmEntities, entity, minHeight, maxHeight, backBuffer, outline, invisibleEntSymbol);
+
 			m_nRenderedEntities++;
 		}
 	}
 
 	// Add persistent entities (the ones the user wants to force to render)
-	FillMultimapAndClearPersistenList(mmEntities, bucketList);
+	FillMultimapAndClearPersistenList(mmEntities, bucketList, backBuffer);
 
 	m_nCurrentLights = m_lights.size();
 }
 
 void ETHScene::DrawEntityMultimap(
-	std::multimap<float, ETHRenderEntity*>& mmEntities,
+	std::multimap<float, ETHEntityPieceRendererPtr>& mmEntities,
 	const ETHBackBufferTargetManagerPtr& backBuffer,
-	SpritePtr pOutline,
 	const bool roundUp,
-	SpritePtr pInvisibleEntSymbol,
 	std::list<ETHRenderEntity*> &outHalos)
 {
 	const VideoPtr& video = m_provider->GetVideo();
 
-	const ETHShaderManagerPtr& shaderManager = m_provider->GetShaderManager();
+	video->RoundUpPosition(roundUp);
 
 	// Draw visible entities ordered in an alpha-friendly map
-	for (std::multimap<float, ETHRenderEntity*>::iterator iter = mmEntities.begin(); iter != mmEntities.end(); ++iter)
+	for (std::multimap<float, ETHEntityPieceRendererPtr>::iterator iter = mmEntities.begin(); iter != mmEntities.end(); ++iter)
 	{
-		ETHRenderEntity *pRenderEntity = (iter->second);
-
-		const bool spriteVisible = pRenderEntity->IsSpriteVisible(m_sceneProps, backBuffer);
-
-		#warning remove
-		if (spriteVisible)
-		{
-			ETHEntitySpriteRenderer spriteRenderer(
-				pRenderEntity,
-				shaderManager,
-				video,
-				pOutline,
-				pInvisibleEntSymbol,
-				(m_enableLightmaps && m_showingLightmaps),
-				AreRealTimeShadowsEnabled(),
-				m_isInEditor,
-				&m_lights);
-			video->RoundUpPosition(roundUp);
-			spriteRenderer.Render(m_sceneProps, m_maxSceneHeight, m_minSceneHeight);
-		}
+		iter->second->Render(m_sceneProps, m_maxSceneHeight, m_minSceneHeight);
 
 		// fill the halo list
 		// const ETHEntityFile &entity = pRenderEntity->GetData()->entity;
-		if (pRenderEntity->HasLightSource() && pRenderEntity->GetHalo())
+		#warning draw halos
+		/*if (pRenderEntity->HasLightSource() && pRenderEntity->GetHalo())
 		{
 			outHalos.push_back(pRenderEntity);
-		}
-
-		// fill the callback list
-		m_activeEntityHandler.AddCallbackWhenEligible(pRenderEntity);
-
-		// fill the particle list for this frame
-		if (pRenderEntity->HasParticleSystems())
-		{
-			for (std::size_t t = 0; t < pRenderEntity->GetNumParticleSystems(); t++)
-			{
-				ETHEntityParticleRenderer particleRenderer(pRenderEntity, shaderManager, t);
-				particleRenderer.Render(m_sceneProps, m_maxSceneHeight, m_minSceneHeight);
-			}
-		}
+		}*/
 	}
 
 	// Show buckets outline in debug mode
@@ -623,28 +657,9 @@ void ETHScene::DrawEntityMultimap(
 	}
 }
 
-void ETHScene::ReleaseMappedEntities(std::multimap<float, ETHRenderEntity*>& mmEntities)
+void ETHScene::ReleaseMappedEntities(std::multimap<float, ETHEntityPieceRendererPtr>& mmEntities)
 {
-	for (std::multimap<float, ETHRenderEntity*>::iterator iter = mmEntities.begin(); iter != mmEntities.end(); ++iter)
-	{
-		iter->second->Release();
-	}
 	mmEntities.clear();
-}
-
-void ETHScene::UpdateActiveEntitiesFromMultimap(std::multimap<float, ETHRenderEntity*>& mmEntities,	const unsigned long lastFrameElapsedTime)
-{
-	const Vector2 zAxisDirection(GetZAxisDirection());
-	for (std::multimap<float, ETHRenderEntity*>::iterator iter = mmEntities.begin(); iter != mmEntities.end(); ++iter)
-	{
-		ETHRenderEntity *pRenderEntity = (iter->second);
-
-		// If it is not going to be executed during the temp/dynamic entity management
-		if (!m_activeEntityHandler.IsEntityActive(pRenderEntity))
-		{
-			pRenderEntity->Update(lastFrameElapsedTime, zAxisDirection, m_buckets);
-		}
-	}
 }
 
 void ETHScene::EnableLightmaps(const bool enable)
@@ -1047,7 +1062,10 @@ void ETHScene::AddEntityToPersistentList(ETHRenderEntity* entity)
 	m_persistentEntities.push_back(entity);
 }
 
-void ETHScene::FillMultimapAndClearPersistenList(std::multimap<float, ETHRenderEntity*>& mm, const std::list<Vector2>& currentBucketList)
+void ETHScene::FillMultimapAndClearPersistenList(
+	std::multimap<float, ETHEntityPieceRendererPtr>& mm,
+	const std::list<Vector2>& currentBucketList,
+	const ETHBackBufferTargetManagerPtr& backBuffer)
 {
 	if (m_persistentEntities.empty())
 		return;
@@ -1060,11 +1078,7 @@ void ETHScene::FillMultimapAndClearPersistenList(std::multimap<float, ETHRenderE
 		const bool bucketNotProcessed = std::find(currentBucketList.begin(), currentBucketList.end(), currentBucket) == currentBucketList.end();
 		if (bucketNotProcessed)
 		{
-			const ETHEntityProperties::ENTITY_TYPE type = entity->GetType();
-			const float depth = entity->ComputeDepth(m_maxSceneHeight, m_minSceneHeight);
-			const float drawHash = ComputeDrawHash(depth, type);
-			entity->AddRef();
-			mm.insert(std::pair<float, ETHRenderEntity*>(drawHash, entity));
+			DecomposeEntityIntoPiecesToMultimap(mm, entity, m_minSceneHeight, m_maxSceneHeight, backBuffer, SpritePtr(), SpritePtr());
 			m_nRenderedEntities++;
 		}
 		entity->Release();

@@ -462,7 +462,11 @@ bool ETHParticleManager::DrawParticleSystem(
 		const Vector2 v2Pos = ETHGlobal::ToScreenPos(Vector3(particle.pos, m_system.startPoint.z), zAxisDirection);
 
 		// compute depth
-		if (ownerType != LAYERABLE)
+		if (ownerType == LAYERABLE)
+		{
+			SetParticleDepth(ownerDepth);
+		}
+		else
 		{
 			float offsetYZ = particle.startPoint.z;
 			if (ownerType == INDIVIDUAL_OFFSET)
@@ -470,10 +474,6 @@ bool ETHParticleManager::DrawParticleSystem(
 				offsetYZ += particle.GetOffset() + _ETH_PARTICLE_DEPTH_SHIFT;
 			}
 			SetParticleDepth(ETHEntity::ComputeDepth(offsetYZ, maxHeight, minHeight));
-		}
-		else
-		{
-			SetParticleDepth(ownerDepth);
 		}
 
 		// draw

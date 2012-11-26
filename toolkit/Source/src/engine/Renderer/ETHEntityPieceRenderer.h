@@ -34,7 +34,11 @@ protected:
 
 public:
 	ETHEntityPieceRenderer(ETHRenderEntity* entity);
+	~ETHEntityPieceRenderer();
 	virtual void Render(const ETHSceneProperties& props, const float maxHeight, const float minHeight) = 0;
+	ETHRenderEntity* GetEntity();
 };
+
+typedef boost::shared_ptr<ETHEntityPieceRenderer> ETHEntityPieceRendererPtr;
 
 #endif

@@ -68,9 +68,7 @@ public:
 
 	void RenderScene(
 		const bool roundUp,
-		const ETHBackBufferTargetManagerPtr& backBuffer,
-		SpritePtr pOutline = SpritePtr(),
-		SpritePtr pInvisibleEntSymbol = SpritePtr());
+		const ETHBackBufferTargetManagerPtr& backBuffer);
 
 	bool SaveToFile(const str_type::string& fileName);
 	int AddEntity(ETHRenderEntity* pEntity);
@@ -84,8 +82,15 @@ public:
 	void EnableRealTimeShadows(const bool enable);
 	bool AreRealTimeShadowsEnabled() const;
 	void ForceAllSFXStop();
-	void Update(const unsigned long lastFrameElapsedTime, const ETHBackBufferTargetManagerPtr& backBuffer);
+
+	void Update(
+		const unsigned long lastFrameElapsedTime,
+		const ETHBackBufferTargetManagerPtr& backBuffer,
+		SpritePtr outline = SpritePtr(),
+		SpritePtr invisibleEntSymbol = SpritePtr());
+
 	void UpdateActiveEntities(const unsigned long lastFrameElapsedTime);
+
 	bool DeleteEntity(ETHEntity *pEntity);
 
 	const ETHSceneProperties* GetSceneProperties() const;
@@ -145,7 +150,7 @@ public:
 	void AddEntityToPersistentList(ETHRenderEntity* entity);
 
 private:
-	std::multimap<float, ETHRenderEntity*> m_entitiesToRender;
+	std::multimap<float, ETHEntityPieceRendererPtr> m_entitiesToRender;
 	const bool m_isInEditor;
 
 	bool LoadFromFile(const str_type::string& fileName);
@@ -156,29 +161,40 @@ private:
 	bool RenderTransparentLayer(std::list<ETHRenderEntity*> &halos);
 
 	void MapEntitiesToBeRendered(
-		std::multimap<float, ETHRenderEntity*>& mmEntities,
+		std::multimap<float, ETHEntityPieceRendererPtr>& mmEntities,
 		float &maxHeight,
 		float &minHeight,
-		const ETHBackBufferTargetManagerPtr& backBuffer);
+		const ETHBackBufferTargetManagerPtr& backBuffer,
+		SpritePtr outline,
+		SpritePtr invisibleEntSymbol,
+		const unsigned int lastFrameElapsedTime);
 
 	void DrawEntityMultimap(
-		std::multimap<float, ETHRenderEntity*>& mmEntities,
+		std::multimap<float, ETHEntityPieceRendererPtr>& mmEntities,
 		const ETHBackBufferTargetManagerPtr& backBuffer,
-		SpritePtr pOutline,
 		const bool roundUp,
-		SpritePtr pInvisibleEntSymbol,
 		std::list<ETHRenderEntity*> &outHalos);
 
-	static void ReleaseMappedEntities(std::multimap<float, ETHRenderEntity*>& mmEntities);
+	static void ReleaseMappedEntities(std::multimap<float, ETHEntityPieceRendererPtr>& mmEntities);
 
-	void UpdateActiveEntitiesFromMultimap(std::multimap<float, ETHRenderEntity*>& mmEntities, const unsigned long lastFrameElapsedTime);
+	void DecomposeEntityIntoPiecesToMultimap(
+		std::multimap<float, ETHEntityPieceRendererPtr>& mmEntities,
+		ETHRenderEntity* entity,
+		const float minHeight,
+		const float maxHeight,
+		const ETHBackBufferTargetManagerPtr& backBuffer,
+		SpritePtr outline,
+		SpritePtr invisibleEntSymbol);
 
 	bool AssignCallbackScript(ETHSpriteEntity* entity);
 	void AssignControllerToEntity(ETHEntity* entity, const int callbackId, const int constructorCallbackId, const int destructorCallbackId);
 	bool DrawBucketOutlines();
 	bool ReadFromXMLFile(TiXmlElement *pElement);
 
-	void FillMultimapAndClearPersistenList(std::multimap<float, ETHRenderEntity*>& mm, const std::list<Vector2>& currentBucketList);
+	void FillMultimapAndClearPersistenList(
+		std::multimap<float, ETHEntityPieceRendererPtr>& mm,
+		const std::list<Vector2>& currentBucketList,
+		const ETHBackBufferTargetManagerPtr& backBuffer);
 
 	float ComputeDrawHash(const float entityDepth, const ETHEntityProperties::ENTITY_TYPE& type) const;
 	ETHBucketManager m_buckets;

@@ -50,7 +50,7 @@ private:
 	ETHResourceProviderPtr m_provider;
 
 	/*
-	 * This list will hold every temporary or dynamic entity with callbacks.
+	 * This list will hold every temporary or dynamic entity with callbacks or physics.
 	 * It must be kept separetely because these entities will be updated at every,
 	 * frame even if they're culled out by the spatial hashing system.
 	 */
