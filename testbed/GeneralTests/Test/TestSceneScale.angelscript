@@ -31,7 +31,7 @@ class TestSceneScale : Test
 	{
 		SetBorderBucketsDrawing(true);
 		AddEntity("barrel.ent", vector3(128.0f, 128.0f, 0.0f));
-		AddEntity("barrel_light.ent", vector3(0,0,4), "cursor");
+		AddEntity("barrel_light.ent", vector3(0,0,0), "cursor");
 	}
 	
 	void loop()

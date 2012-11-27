@@ -470,7 +470,6 @@ void ETHScene::DecomposeEntityIntoPiecesToMultimap(
 {
 	const VideoPtr& video = m_provider->GetVideo();
 	const ETHShaderManagerPtr& shaderManager = m_provider->GetShaderManager();
-	const ETHEntityProperties::ENTITY_TYPE type = entity->GetType();
 
 	const bool spriteVisible = entity->IsSpriteVisible(m_sceneProps, backBuffer);
 	
@@ -491,7 +490,7 @@ void ETHScene::DecomposeEntityIntoPiecesToMultimap(
 
 		// add this entity to the multimap to sort it for an alpha-friendly rendering list
 		const float depth = entity->ComputeDepth(maxHeight, minHeight);
-		const float drawHash = ComputeDrawHash(depth, type);
+		const float drawHash = ComputeDrawHash(depth, entity);
 
 		// add the entity to the render map
 		m_piecesToRender.insert(std::pair<float, ETHEntityPieceRendererPtr>(drawHash, spritePiece));
@@ -501,7 +500,7 @@ void ETHScene::DecomposeEntityIntoPiecesToMultimap(
 	if (entity->HasLightSource() && entity->GetHalo())
 	{
 		const float depth = ETHEntity::ComputeDepth(entity->GetPositionZ() + entity->GetCurrentSize().y, maxHeight, minHeight);
-		const float drawHash = ComputeDrawHash(depth, type);
+		const float drawHash = ComputeDrawHash(depth, entity);
 
 		ETHEntityPieceRendererPtr haloPiece(new ETHEntityHaloRenderer(entity, shaderManager, depth));
 		m_piecesToRender.insert(std::pair<float, ETHEntityPieceRendererPtr>(drawHash, haloPiece));
@@ -522,7 +521,7 @@ void ETHScene::DecomposeEntityIntoPiecesToMultimap(
 				maxHeight,
 				minHeight);
 
-			const float drawHash = ComputeDrawHash(depth, type);
+			const float drawHash = ComputeDrawHash(depth, entity);
 
 			m_piecesToRender.insert(std::pair<float, ETHEntityPieceRendererPtr>(drawHash, particlePiece));
 		}
@@ -738,23 +737,30 @@ bool ETHScene::DrawBucketOutlines()
 	return true;
 }
 
-float ETHScene::ComputeDrawHash(const float entityDepth, const ETHEntityProperties::ENTITY_TYPE& type) const
+float ETHScene::ComputeDrawHash(const float entityDepth, const ETHSpriteEntity* entity) const
 {
+	static const float precisionScale = 100.0f;
 	float drawHash;
-	switch (type)
+	float verticalHashShift;
+	VideoPtr video = m_provider->GetVideo();
+	const float screenHeight = video->GetScreenSize().y * precisionScale;
+	const float hashDepth = entityDepth * screenHeight;
+
+	switch (entity->GetType())
 	{
 	case ETHEntityProperties::ET_HORIZONTAL:
-		drawHash = entityDepth / 2.0f;
+		drawHash = hashDepth;
 		break;
 	case ETHEntityProperties::ET_VERTICAL:
-		drawHash = (entityDepth / 2.0f) + 0.01f;
+		verticalHashShift = ((entity->GetPositionY() - video->GetCameraPos().y) * precisionScale) / screenHeight;
+		drawHash = hashDepth + verticalHashShift + 0.1f;
 		break;
 	case ETHEntityProperties::ET_GROUND_DECAL:
 	case ETHEntityProperties::ET_OPAQUE_DECAL:
-		drawHash = entityDepth / 2.0f + 0.01f;
+		drawHash = hashDepth + 0.1f;
 		break;
 	default:
-		drawHash = entityDepth;
+		drawHash = hashDepth;
 	}
 	return drawHash;
 }

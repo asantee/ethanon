@@ -184,7 +184,7 @@ private:
 		const std::list<Vector2>& currentBucketList,
 		const ETHBackBufferTargetManagerPtr& backBuffer);
 
-	float ComputeDrawHash(const float entityDepth, const ETHEntityProperties::ENTITY_TYPE& type) const;
+	float ComputeDrawHash(const float entityDepth, const ETHSpriteEntity* entity) const;
 	ETHBucketManager m_buckets;
 	ETHActiveEntityHandler m_activeEntityHandler;
 
