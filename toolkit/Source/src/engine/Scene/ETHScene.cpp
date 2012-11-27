@@ -499,7 +499,8 @@ void ETHScene::DecomposeEntityIntoPiecesToMultimap(
 	// decompose halo
 	if (entity->HasLightSource() && entity->GetHalo())
 	{
-		const float depth = ETHEntity::ComputeDepth(entity->GetPositionZ() + entity->GetCurrentSize().y, maxHeight, minHeight);
+		const float haloZ = entity->GetPositionZ() + ((entity->GetType() == ETHEntityProperties::ET_VERTICAL) ? entity->GetCurrentSize().y : 0.0f);
+		const float depth = ETHEntity::ComputeDepth(haloZ, maxHeight, minHeight);
 		const float drawHash = ComputeDrawHash(depth, entity);
 
 		ETHEntityPieceRendererPtr haloPiece(new ETHEntityHaloRenderer(entity, shaderManager, depth));
