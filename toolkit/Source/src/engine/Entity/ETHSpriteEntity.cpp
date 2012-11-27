@@ -489,6 +489,22 @@ bool ETHSpriteEntity::HasParticleSystem(const unsigned int n) const
 	}
 }
 
+float ETHSpriteEntity::ComputeLightIntensity()
+{
+	// if it has a particle system in the first slot, adjust the light
+	// brightness according to the number os active particles
+	ETHParticleManagerPtr particleManager = GetParticleManager(0);
+	if (particleManager && !IsStatic())
+	{
+		return static_cast<float>(particleManager->GetNumActiveParticles()) /
+			   static_cast<float>(particleManager->GetNumParticles());
+	}
+	else
+	{
+		return 1.0f;
+	}
+}
+
 float ETHSpriteEntity::ComputeDepth(const float maxHeight, const float minHeight) const
 {
 	float r = 0.f;

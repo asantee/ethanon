@@ -583,16 +583,7 @@ void ETHScene::MapEntitiesToBeRendered(
 			if (entity->HasLightSource() && m_richLighting)
 			{
 				ETHLight light = *(entity->GetLight());
-				// if it has a particle system in the first slot, adjust the light
-				// brightness according to the number os active particles
-				if (entity->GetParticleManager(0) && !entity->IsStatic())
-				{
-					#warning create method for this
-					boost::shared_ptr<ETHParticleManager> paticleManager = entity->GetParticleManager(0);
-					light.color *= 
-						static_cast<float>(paticleManager->GetNumActiveParticles()) /
-						static_cast<float>(paticleManager->GetNumParticles());
-				}
+				light.color *= entity->ComputeLightIntensity();
 				AddLight(light, entity->GetPosition(), entity->GetScale());
 			}
 

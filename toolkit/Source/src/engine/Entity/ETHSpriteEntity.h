@@ -95,6 +95,8 @@ public:
 	void Update(const unsigned long lastFrameElapsedTime, const Vector2& zAxisDir, ETHBucketManager& buckets);
 	void UpdateParticleSystems(const Vector2& zAxisDirection, const unsigned long lastFrameElapsedTime);
 
+	float ComputeLightIntensity();
+
 	ETHPhysicsController* GetPhysicsController();
 
 	void ForceSFXStop();
