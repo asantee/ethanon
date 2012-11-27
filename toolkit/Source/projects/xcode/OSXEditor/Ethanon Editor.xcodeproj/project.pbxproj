@@ -582,7 +582,7 @@
 					OPENGL,
 					_ETHANON_EDITOR,
 				);
-				GCC_WARN_UNUSED_PARAMETER = YES;
+				GCC_WARN_UNUSED_PARAMETER = NO;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../src/gs2d/src\"",
 					"\"$(SRCROOT)/../../../src/gs2d/vendors/SDL.framework/Headers\"",
@@ -615,7 +615,7 @@
 					OPENGL,
 					_ETHANON_EDITOR,
 				);
-				GCC_WARN_UNUSED_PARAMETER = YES;
+				GCC_WARN_UNUSED_PARAMETER = NO;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../src/gs2d/src\"",
 					"\"$(SRCROOT)/../../../src/gs2d/vendors/SDL.framework/Headers\"",
