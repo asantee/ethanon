@@ -135,7 +135,7 @@ bool ETHLight::IsActive() const
 void ETHLight::SetLightScissor(const VideoPtr& video, const Vector2& zAxisDir) const
 {
 	const float squareEdgeSize = range * 2.0f;
-	Vector2 sum(zAxisDir * pos.z * 2.0f);
+	Vector2 sum((zAxisDir.SquaredLength() > 0.0f) ? (zAxisDir * pos.z * 4.0f) : math::constant::ZERO_VECTOR2);
 	sum.x = Abs(sum.x);
 	sum.y = Abs(sum.y);
 	const Vector2 squareSize(Vector2(squareEdgeSize, squareEdgeSize) + sum);
