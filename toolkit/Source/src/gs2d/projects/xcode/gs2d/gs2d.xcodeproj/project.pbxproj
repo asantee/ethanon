@@ -787,6 +787,7 @@
 					"$(inherited)",
 					OPENGL,
 				);
+				GCC_WARN_UNUSED_PARAMETER = NO;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../vendors/BoostSDK\"",
 					"\"$(SRCROOT)/../../../vendors/soil\"",
@@ -824,6 +825,7 @@
 					MACOSX,
 					OPENGL,
 				);
+				GCC_WARN_UNUSED_PARAMETER = NO;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../vendors/BoostSDK\"",
 					"\"$(SRCROOT)/../../../vendors/soil\"",

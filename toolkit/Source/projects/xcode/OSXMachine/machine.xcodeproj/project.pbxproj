@@ -469,6 +469,7 @@
 					MACOSX,
 					OPENGL,
 				);
+				GCC_WARN_UNUSED_PARAMETER = NO;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../src/gs2d/src\"",
 					"\"$(SRCROOT)/../../../src/gs2d/vendors/SDL.framework/Headers\"",
@@ -500,6 +501,7 @@
 					MACOSX,
 					OPENGL,
 				);
+				GCC_WARN_UNUSED_PARAMETER = NO;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../src/gs2d/src\"",
 					"\"$(SRCROOT)/../../../src/gs2d/vendors/SDL.framework/Headers\"",

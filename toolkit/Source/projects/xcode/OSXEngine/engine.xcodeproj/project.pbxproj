@@ -1101,6 +1101,7 @@
 					ETH_DEFINE_DEPRECATED_SIGNATURES_FROM_0_9_5,
 					AS_NO_THREADS,
 				);
+				GCC_WARN_UNUSED_PARAMETER = NO;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../src/gs2d/vendors/BoostSDK\"",
 					"\"$(SRCROOT)/../../../src/gs2d/src\"",
@@ -1134,6 +1135,7 @@
 					AS_MAX_PORTABILITY,
 					ETH_DEFINE_DEPRECATED_SIGNATURES_FROM_0_9_5,
 				);
+				GCC_WARN_UNUSED_PARAMETER = NO;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../src/gs2d/vendors/BoostSDK\"",
 					"\"$(SRCROOT)/../../../src/gs2d/src\"",
