@@ -76,7 +76,6 @@ public:
 	void ValidateSpriteCut(const SpritePtr& sprite) const;
 	Vector2 GetCurrentSize() const;
 	Vector2 ComputeParallaxOffset() const;
-	float ComputeHaloAngle() const;
 	float ComputeDepth(const float maxHeight, const float minHeight) const;
 	void SetScale(const Vector2& scale);
 
@@ -120,7 +119,6 @@ protected:
 	SpritePtr m_pLightmap;
 
 	static const float m_layrableMinimumDepth;
-	static const float m_haloRotation;
 
 private:
 	void Create();

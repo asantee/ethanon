@@ -184,7 +184,6 @@ asDECLARE_FUNCTION_WRAPPER(__GetEntitiesAroundBucketWithBlackList, ETHScriptWrap
 asDECLARE_FUNCTION_WRAPPER(__IsPixelShaderSupported,  ETHScriptWrapper::IsPixelShaderSupported);
 asDECLARE_FUNCTION_WRAPPER(__SetPositionRoundUp,      ETHScriptWrapper::SetPositionRoundUp);
 asDECLARE_FUNCTION_WRAPPER(__GetPositionRoundUp,      ETHScriptWrapper::GetPositionRoundUp);
-asDECLARE_FUNCTION_WRAPPER(__SetHaloRotation,         ETHScriptWrapper::SetHaloRotation);
 asDECLARE_FUNCTION_WRAPPER(__EnableQuitKeys,          ETHScriptWrapper::EnableQuitKeys);
 asDECLARE_FUNCTION_WRAPPER(__EnableRealTimeShadows,   ETHScriptWrapper::EnableRealTimeShadows);
 asDECLARE_FUNCTION_WRAPPER(__SetBorderBucketsDrawing, ETHScriptWrapper::SetBorderBucketsDrawing);
@@ -434,7 +433,6 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("bool IsPixelShaderSupported()",            asFUNCTION(__IsPixelShaderSupported),  asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void SetPositionRoundUp(const bool)",      asFUNCTION(__SetPositionRoundUp),      asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool GetPositionRoundUp()",                asFUNCTION(__GetPositionRoundUp),      asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("void SetHaloRotation(const bool)",         asFUNCTION(__SetHaloRotation),         asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void EnableQuitKeys(const bool)",          asFUNCTION(__EnableQuitKeys),          asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void EnableRealTimeShadows(const bool)",   asFUNCTION(__EnableRealTimeShadows),   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void SetBorderBucketsDrawing(const bool)", asFUNCTION(__SetBorderBucketsDrawing), asCALL_GENERIC); assert(r >= 0);

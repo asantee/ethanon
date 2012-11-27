@@ -44,7 +44,6 @@ public:
 	bool DrawLightPass(const Vector2 &zAxisDirection, const float parallaxIntensity, const bool drawToTarget = false);
 
 	bool DrawHalo(
-		const bool rotateHalo,
 		const Vector2& zAxisDirection,
 		const float depth);
 

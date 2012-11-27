@@ -30,14 +30,12 @@
 class ETHEntityHaloRenderer : public ETHEntityPieceRenderer
 {
 	ETHShaderManagerPtr m_shaderManager;
-	bool m_rotatingHalos;
 	float m_depth;
 
 public:
 	ETHEntityHaloRenderer(
 		ETHRenderEntity* entity,
 		const ETHShaderManagerPtr& shaderManager,
-		const bool rotatingHalos,
 		const float depth);
 
 	void Render(const ETHSceneProperties& props, const float maxHeight, const float minHeight);

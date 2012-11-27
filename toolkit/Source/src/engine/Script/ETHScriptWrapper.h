@@ -295,7 +295,6 @@ public:
 	static bool GetPositionRoundUp();
 	static void SetZBuffer(const bool enable);
 	static bool GetZBuffer();
-	static void SetHaloRotation(const bool enable);
 	static void EnableQuitKeys(const bool enable);
 	static void EnableRealTimeShadows(const bool enable);
 	static void GetVisibleEntities(ETHEntityArray &entityArray);

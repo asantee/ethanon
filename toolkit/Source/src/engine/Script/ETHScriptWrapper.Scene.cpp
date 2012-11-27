@@ -462,13 +462,6 @@ bool ETHScriptWrapper::GetZBuffer()
 	return m_pScene->GetZBuffer();
 }
 
-void ETHScriptWrapper::SetHaloRotation(const bool enable)
-{
-	if (WarnIfRunsInMainFunction(GS_L("SetHaloRotation")))
-		return;
-	m_pScene->SetHaloRotation(enable);
-}
-
 void ETHScriptWrapper::EnableRealTimeShadows(const bool enable)
 {
 	if (WarnIfRunsInMainFunction(GS_L("EnableRealTimeShadows")))

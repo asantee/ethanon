@@ -1481,7 +1481,7 @@ void EntityEditor::DrawEntity()
 		const Vector2 screenSize(video->GetScreenSizeF());
 		if (shaderManager->BeginHaloPass(m_pEditEntity->light.get(), screenSize.y, m_renderEntity.get()))
 		{
-			m_renderEntity->DrawHalo(false, ETH_DEFAULT_ZDIRECTION, 1.0f);
+			m_renderEntity->DrawHalo(ETH_DEFAULT_ZDIRECTION, 1.0f);
 			shaderManager->EndHaloPass();
 		}
 

@@ -124,8 +124,6 @@ public:
 	float GetMaxHeight() const;
 	float GetMinHeight() const;
 	Vector2 GetBucketSize() const;
-	void SetHaloRotation(const bool enable);
-	bool GetHaloRotation() const;
 	int GetNumRenderedEntities();
 	void ScaleEntities(const float scale, const bool scalePosition);
 
@@ -165,8 +163,7 @@ private:
 
 	void DrawEntityMultimap(
 		const ETHBackBufferTargetManagerPtr& backBuffer,
-		const bool roundUp,
-		std::list<ETHRenderEntity*> &outHalos);
+		const bool roundUp);
 
 	static void ReleaseMappedEntities(std::multimap<float, ETHEntityPieceRendererPtr>& mm);
 
@@ -206,7 +203,6 @@ private:
 	int m_nRenderedEntities;
 	bool m_enableLightmaps;
 	bool m_showingLightmaps;
-	bool m_rotatingHalos;
 	bool m_usingRTShadows;
 	bool m_richLighting;
 	bool m_enableZBuffer;

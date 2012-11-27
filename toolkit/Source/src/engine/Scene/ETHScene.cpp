@@ -110,7 +110,6 @@ void ETHScene::Init(ETHResourceProviderPtr provider, const ETHSceneProperties& p
 	m_nCurrentLights = 0;
 	m_nRenderedEntities = -1;
 	m_showingLightmaps = true;
-	m_rotatingHalos = false;
 	m_enableZBuffer = true;
 	m_maxSceneHeight = m_provider->GetVideo()->GetScreenSizeF().y;
 	const ETHShaderManagerPtr& shaderManager = m_provider->GetShaderManager();
@@ -445,16 +444,12 @@ void ETHScene::RenderScene(
 	video->SetZWrite(GetZBuffer());
 	video->SetZBuffer(GetZBuffer());
 
-	// temporary list that will tell what to render
-	std::list<ETHRenderEntity*> halos;
-
 	// draw ambient pass
 	video->RoundUpPosition(roundUp);
 
 	DrawEntityMultimap(
 		backBuffer,
-		roundUp,
-		halos);
+		roundUp);
 
 	// call this guy after both update and rendering are finished
 	ReleaseMappedEntities(m_piecesToRender);
@@ -508,7 +503,7 @@ void ETHScene::DecomposeEntityIntoPiecesToMultimap(
 		const float depth = ETHEntity::ComputeDepth(entity->GetPositionZ() + entity->GetCurrentSize().y, maxHeight, minHeight);
 		const float drawHash = ComputeDrawHash(depth, type);
 
-		ETHEntityPieceRendererPtr haloPiece(new ETHEntityHaloRenderer(entity, shaderManager, GetHaloRotation(), depth));
+		ETHEntityPieceRendererPtr haloPiece(new ETHEntityHaloRenderer(entity, shaderManager, depth));
 		m_piecesToRender.insert(std::pair<float, ETHEntityPieceRendererPtr>(drawHash, haloPiece));
 	}
 
@@ -618,8 +613,7 @@ void ETHScene::MapEntitiesToBeRendered(
 
 void ETHScene::DrawEntityMultimap(
 	const ETHBackBufferTargetManagerPtr& backBuffer,
-	const bool roundUp,
-	std::list<ETHRenderEntity*> &outHalos)
+	const bool roundUp)
 {
 	const VideoPtr& video = m_provider->GetVideo();
 
@@ -943,16 +937,6 @@ float ETHScene::GetMinHeight() const
 Vector2 ETHScene::GetBucketSize() const
 {
 	return m_buckets.GetBucketSize();
-}
-
-void ETHScene::SetHaloRotation(const bool enable)
-{
-	m_rotatingHalos = enable;
-}
-
-bool ETHScene::GetHaloRotation() const
-{
-	return m_rotatingHalos;
 }
 
 ETHBucketManager& ETHScene::GetBucketManager()

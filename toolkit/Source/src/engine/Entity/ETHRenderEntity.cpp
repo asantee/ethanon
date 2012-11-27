@@ -339,7 +339,6 @@ bool ETHRenderEntity::DrawProjShadow(
 }
 
 bool ETHRenderEntity::DrawHalo(
-	const bool rotateHalo,
 	const Vector2 &zAxisDirection,
 	const float depth)
 {
@@ -371,8 +370,7 @@ bool ETHRenderEntity::DrawHalo(
 	m_pHalo->DrawShaped(
 		ETHGlobal::ToScreenPos(v3HaloPos, zAxisDirection) + ComputeParallaxOffset(),
 		v2Size * m_properties.scale,
-		dwColor, dwColor, dwColor, dwColor,
-		(rotateHalo) ? ComputeHaloAngle() : 0.0f);
+		dwColor, dwColor, dwColor, dwColor, 0.0f);
 	return true;
 }
 

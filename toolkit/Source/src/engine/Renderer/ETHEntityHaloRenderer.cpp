@@ -25,11 +25,9 @@
 ETHEntityHaloRenderer::ETHEntityHaloRenderer(
 	ETHRenderEntity* entity,
 	const ETHShaderManagerPtr& shaderManager,
-	const bool rotatingHalos,
 	const float depth) :
 	ETHEntityPieceRenderer(entity),
 	m_shaderManager(shaderManager),
-	m_rotatingHalos(rotatingHalos),
 	m_depth(depth)
 {
 }
@@ -38,7 +36,7 @@ void ETHEntityHaloRenderer::Render(const ETHSceneProperties& props, const float 
 {
 	if (m_shaderManager->BeginHaloPass(m_entity->GetLight(), maxHeight))
 	{
-		m_entity->DrawHalo(m_rotatingHalos, props.zAxisDirection, m_depth);
+		m_entity->DrawHalo(props.zAxisDirection, m_depth);
 		m_shaderManager->EndHaloPass();
 	}
 }

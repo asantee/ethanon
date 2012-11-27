@@ -27,7 +27,6 @@
 #include <iostream>
 
 const float ETHSpriteEntity::m_layrableMinimumDepth(0.001f);
-const float ETHSpriteEntity::m_haloRotation(90.0f);
 
 ETHSpriteEntity::ETHSpriteEntity(const str_type::string& filePath, ETHResourceProviderPtr provider, const int nId) :
 	m_provider(provider),
@@ -262,18 +261,6 @@ Vector2 ETHSpriteEntity::GetSpriteCut() const
 	return Vector2(
 		static_cast<float>(m_properties.spriteCut.x),
 		static_cast<float>(m_properties.spriteCut.y));
-}
-
-float ETHSpriteEntity::ComputeHaloAngle() const
-{
-	VideoPtr video = m_provider->GetVideo();
-	const Vector2 v2HalfScreen = video->GetScreenSizeF() / 2;
-	const Vector2 v2ScreenPos = ETHGlobal::ToVector2(GetLightPosition()) - video->GetCameraPos() - v2HalfScreen;
-	const float horizontalBias = (Clamp(v2ScreenPos.x / v2HalfScreen.x,-1.0f, 1.0f));
-	const float verticalBias   = (Clamp(v2ScreenPos.y / v2HalfScreen.y,-1.0f, 1.0f));
-	const float angleX = Square(horizontalBias) * Sign(horizontalBias) * m_haloRotation;
-	const float angleY = Square(verticalBias) * Sign(verticalBias) * m_haloRotation;
-	return (angleX) + (angleY);
 }
 
 Vector2 ETHSpriteEntity::ComputeParallaxOffset() const
