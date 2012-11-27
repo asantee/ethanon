@@ -112,7 +112,7 @@ void ETHScriptWrapper::DrawSprite(const str_type::string &name, const Vector2 &v
 	m_drawableManager.Insert(boost::shared_ptr<ETHDrawable>(
 		new ETHSpriteDrawer(m_provider, m_provider->GetGraphicResourceManager(),
 							m_provider->GetFileIOHub()->GetResourceDirectory(), name, v2Pos,
-							Vector2(0,0), color, 0.0f, angle, pSprite->GetRectIndex())));
+							Vector2(0,0), color, angle, pSprite->GetRectIndex())));
 }
 
 void ETHScriptWrapper::DrawShaped(const str_type::string &name, const Vector2 &v2Pos, const Vector2 &v2Size, const GS_DWORD color, const float angle)
@@ -121,25 +121,7 @@ void ETHScriptWrapper::DrawShaped(const str_type::string &name, const Vector2 &v
 	m_drawableManager.Insert(boost::shared_ptr<ETHDrawable>(
 		new ETHSpriteDrawer(m_provider, m_provider->GetGraphicResourceManager(),
 							m_provider->GetFileIOHub()->GetResourceDirectory(), name, v2Pos,
-							v2Size, color, 0.0f, angle, pSprite->GetRectIndex())));
-}
-
-void ETHScriptWrapper::DrawSpriteZ(const str_type::string &name, const float depth, const Vector2 &v2Pos, const GS_DWORD color, const float angle)
-{
-	SpritePtr pSprite = LoadAndGetSprite(name);
-	m_drawableManager.Insert(boost::shared_ptr<ETHDrawable>(
-		new ETHSpriteDrawer(m_provider, m_provider->GetGraphicResourceManager(),
-							m_provider->GetFileIOHub()->GetResourceDirectory(), name, v2Pos,
-							Vector2(0,0), color, depth, angle, pSprite->GetRectIndex())));
-}
-
-void ETHScriptWrapper::DrawShapedZ(const str_type::string &name, const float depth, const Vector2 &v2Pos, const Vector2 &v2Size, const GS_DWORD color, const float angle)
-{
-	SpritePtr pSprite = LoadAndGetSprite(name);
-	m_drawableManager.Insert(boost::shared_ptr<ETHDrawable>(
-		new ETHSpriteDrawer(m_provider, m_provider->GetGraphicResourceManager(),
-							m_provider->GetFileIOHub()->GetResourceDirectory(), name, v2Pos,
-							v2Size, color, depth, angle, pSprite->GetRectIndex())));
+							v2Size, color, angle, pSprite->GetRectIndex())));
 }
 
 void ETHScriptWrapper::PlayParticleEffect(const str_type::string& fileName, const Vector2& pos, const float angle, const float scale)

@@ -74,8 +74,7 @@ public:
 		const ETHResourceProviderPtr& provider,
 		const Vector2& pos,
 		const Vector2& size,
-		const Color& color,
-		const float depth = 0.0f);
+		const Color& color);
 
 	ETHRectangleDrawer(
 		const ETHResourceProviderPtr& provider,
@@ -84,8 +83,7 @@ public:
 		const Color& color0,
 		const Color& color1,
 		const Color& color2,
-		const Color& color3,
-		const float depth = 0.0f);
+		const Color& color3);
 
 	bool Draw(const unsigned long lastFrameElapsedTimeMS);
 	bool IsAlive() const;
@@ -94,7 +92,6 @@ private:
 	Vector2 v2Pos;
 	Vector2 v2Size;
 	Color color0, color1, color2, color3;
-	float depth;
 	ETHResourceProviderPtr provider;
 };
 
@@ -108,8 +105,7 @@ public:
 		const Vector2& b, 
 		const Color& color0,
 		const Color& color1,
-		const float width,
-		const float depth = 0.0f);
+		const float width);
 
 	bool Draw(const unsigned long lastFrameElapsedTimeMS);
 	bool IsAlive() const;
@@ -117,7 +113,7 @@ public:
 private:
 	Vector2 a, b;
 	Color colorA, colorB;
-	float width, depth;
+	float width;
 	ETHResourceProviderPtr provider;
 };
 
@@ -132,7 +128,6 @@ public:
 		const Vector2& pos,
 		const Vector2& size,
 		const Color& color,
-		const float depth,
 		const float angle,
 		const unsigned int frame);
 
@@ -146,7 +141,6 @@ private:
 	SpritePtr sprite;
 	Color color0, color1, color2, color3;
 	str_type::string name;
-	float depth;
 	float angle;
 	str_type::string resourceDirectory;
 	unsigned int frame;

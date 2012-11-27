@@ -86,8 +86,7 @@ ETHRectangleDrawer::ETHRectangleDrawer(
 	const ETHResourceProviderPtr& provider,
 	const Vector2& pos,
 	const Vector2& size,
-	const Color& color,
-	const float depth)
+	const Color& color)
 {
 	this->v2Pos = pos;
 	this->v2Size = size;
@@ -95,7 +94,6 @@ ETHRectangleDrawer::ETHRectangleDrawer(
 	this->color1 = color;
 	this->color2 = color;
 	this->color3 = color;
-	this->depth = depth;
 	this->provider = provider;
 }
 
@@ -106,8 +104,7 @@ ETHRectangleDrawer::ETHRectangleDrawer(
 	const Color& color0,
 	const Color& color1,
 	const Color& color2,
-	const Color& color3,
-	const float depth)
+	const Color& color3)
 {
 	this->v2Pos = pos;
 	this->v2Size = size;
@@ -115,14 +112,12 @@ ETHRectangleDrawer::ETHRectangleDrawer(
 	this->color1 = color1;
 	this->color2 = color2;
 	this->color3 = color3;
-	this->depth = depth;
 	this->provider = provider;
 }
 
 bool ETHRectangleDrawer::Draw(const unsigned long lastFrameElapsedTimeMS)
 {
 	GS2D_UNUSED_ARGUMENT(lastFrameElapsedTimeMS);
-	provider->GetVideo()->SetSpriteDepth(depth);
 	return provider->GetVideo()->DrawRectangle(v2Pos, v2Size, color0, color1, color2, color3, 0.0f);
 }
 
@@ -137,14 +132,12 @@ ETHLineDrawer::ETHLineDrawer(
 	const Vector2& b,
 	const Color& color0,
 	const Color& color1,
-	const float width,
-	const float depth)
+	const float width)
 {
 	this->a = a;
 	this->b = b;
 	this->colorA = color0;
 	this->colorB = color1;
-	this->depth = depth;
 	this->width = width;
 	this->provider = provider;
 }
@@ -153,7 +146,6 @@ bool ETHLineDrawer::Draw(const unsigned long lastFrameElapsedTimeMS)
 {
 	GS2D_UNUSED_ARGUMENT(lastFrameElapsedTimeMS);
 	VideoPtr video = provider->GetVideo();
-	video->SetSpriteDepth(depth);
 	video->SetLineWidth(width);
 	return video->DrawLine(a, b, colorA, colorB);
 }
@@ -171,7 +163,6 @@ ETHSpriteDrawer::ETHSpriteDrawer(
 	const Vector2& pos,
 	const Vector2& size,
 	const Color& color,
-	const float depth,
 	const float angle,
 	const unsigned int frame)
 {
@@ -182,7 +173,6 @@ ETHSpriteDrawer::ETHSpriteDrawer(
 	this->color3 = color;
 	this->v2Pos = pos;
 	this->v2Size = size;
-	this->depth = depth;
 	this->angle = angle;
 	this->provider = provider;
 	this->resourceDirectory = resourceDirectory;
@@ -200,7 +190,6 @@ bool ETHSpriteDrawer::Draw(const unsigned long lastFrameElapsedTimeMS)
 	if (sprite)
 	{
 		const Vector2 size(v2Size == Vector2(0,0) ? sprite->GetBitmapSizeF() : v2Size);
-		provider->GetVideo()->SetSpriteDepth(depth);
 		sprite->SetOrigin(v2Origin);
 		sprite->SetRect(frame);
 		return sprite->DrawShaped(v2Pos, size, color0, color1, color2, color3, angle);

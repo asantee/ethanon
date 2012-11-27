@@ -26,8 +26,8 @@ void ETHDrawableManager::DrawTopLayer(const unsigned int lastFrameElapsedTimeMS,
 {
 	const Vector2 oldCamPos = video->GetCameraPos();
 	video->SetCameraPos(Vector2(0,0));
-	video->SetZBuffer(scene->GetZBuffer());
-	video->SetZWrite(scene->GetZBuffer());
+	video->SetZBuffer(false);
+	video->SetZWrite(false);
 	video->SetSpriteDepth(0.0f);
 	for (std::list<boost::shared_ptr<ETHDrawable> >::iterator iter = m_drawableList.begin();
 		iter != m_drawableList.end(); ++iter)
