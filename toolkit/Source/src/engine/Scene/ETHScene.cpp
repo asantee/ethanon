@@ -989,6 +989,9 @@ bool ETHScene::DeleteEntity(ETHEntity *pEntity)
 
 void ETHScene::ScaleEntities(const float scale, const bool scalePosition)
 {
+	if (scale == 1.0f)
+		return;
+
 	ETHEntityArray entities;
 	m_buckets.GetEntityArray(entities);
 	for (unsigned int t = 0; t < entities.size(); t++)
