@@ -532,13 +532,11 @@ bool ETHScriptWrapper::LoadScene(const str_type::string &escFile, const Vector2&
 	// if the name is set to _ETH_EMPTY_SCENE_STRING, don't load anything
 	if (escFile != _ETH_EMPTY_SCENE_STRING && escFile.size() > 0)
 	{
-		m_pScene = ETHScenePtr(new ETHScene(fileName, m_provider, m_richLighting, ETHSceneProperties(), m_pASModule,
-			m_pScriptContext, false, bucketSize));
+		m_pScene = ETHScenePtr(new ETHScene(fileName, m_provider, ETHSceneProperties(), m_pASModule, m_pScriptContext, bucketSize));
 	}
 	else
 	{
-		m_pScene = ETHScenePtr(new ETHScene(m_provider, m_richLighting, ETHSceneProperties(), m_pASModule,
-			m_pScriptContext, false, bucketSize));
+		m_pScene = ETHScenePtr(new ETHScene(m_provider, ETHSceneProperties(), m_pASModule, m_pScriptContext, bucketSize));
 	}
 
 	m_pScene->ScaleEntities(m_provider->GetGlobalScaleManager()->GetScale(), true);

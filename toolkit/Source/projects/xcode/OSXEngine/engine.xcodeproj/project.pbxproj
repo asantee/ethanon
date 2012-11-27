@@ -176,6 +176,8 @@
 		7429A2AE16627E8000134A7E /* ETHEntityParticleRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7429A2AC16627E8000134A7E /* ETHEntityParticleRenderer.h */; };
 		7429A2B11663AF2200134A7E /* ETHEntityHaloRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7429A2AF1663AF2200134A7E /* ETHEntityHaloRenderer.cpp */; };
 		7429A2B21663AF2200134A7E /* ETHEntityHaloRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7429A2B01663AF2200134A7E /* ETHEntityHaloRenderer.h */; };
+		74EB49AC16653D0A002DA2F0 /* ETHEntityRenderingManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74EB49AA16653D0A002DA2F0 /* ETHEntityRenderingManager.cpp */; };
+		74EB49AD16653D0A002DA2F0 /* ETHEntityRenderingManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 74EB49AB16653D0A002DA2F0 /* ETHEntityRenderingManager.h */; };
 		74F00AD71646B9EB00B8B51B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F00AD61646B9EB00B8B51B /* Cocoa.framework */; };
 		74F00AE11646B9EB00B8B51B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 74F00ADF1646B9EB00B8B51B /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
@@ -379,6 +381,8 @@
 		7429A2AC16627E8000134A7E /* ETHEntityParticleRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityParticleRenderer.h; path = ../../../../src/engine/Renderer/ETHEntityParticleRenderer.h; sourceTree = "<group>"; };
 		7429A2AF1663AF2200134A7E /* ETHEntityHaloRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityHaloRenderer.cpp; path = ../../../../src/engine/Renderer/ETHEntityHaloRenderer.cpp; sourceTree = "<group>"; };
 		7429A2B01663AF2200134A7E /* ETHEntityHaloRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityHaloRenderer.h; path = ../../../../src/engine/Renderer/ETHEntityHaloRenderer.h; sourceTree = "<group>"; };
+		74EB49AA16653D0A002DA2F0 /* ETHEntityRenderingManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityRenderingManager.cpp; path = ../../../../src/engine/Renderer/ETHEntityRenderingManager.cpp; sourceTree = "<group>"; };
+		74EB49AB16653D0A002DA2F0 /* ETHEntityRenderingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityRenderingManager.h; path = ../../../../src/engine/Renderer/ETHEntityRenderingManager.h; sourceTree = "<group>"; };
 		74F00AD31646B9EB00B8B51B /* engine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = engine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		74F00AD61646B9EB00B8B51B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		74F00AD91646B9EB00B8B51B /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -641,6 +645,8 @@
 		7429A29D16625FF100134A7E /* Renderer */ = {
 			isa = PBXGroup;
 			children = (
+				74EB49AA16653D0A002DA2F0 /* ETHEntityRenderingManager.cpp */,
+				74EB49AB16653D0A002DA2F0 /* ETHEntityRenderingManager.h */,
 				7429A2AF1663AF2200134A7E /* ETHEntityHaloRenderer.cpp */,
 				7429A2B01663AF2200134A7E /* ETHEntityHaloRenderer.h */,
 				7429A29F1662600E00134A7E /* ETHEntityPieceRenderer.cpp */,
@@ -834,6 +840,7 @@
 				7429A2AA1662620E00134A7E /* ETHEntitySpriteRenderer.h in Headers */,
 				7429A2AE16627E8000134A7E /* ETHEntityParticleRenderer.h in Headers */,
 				7429A2B21663AF2200134A7E /* ETHEntityHaloRenderer.h in Headers */,
+				74EB49AD16653D0A002DA2F0 /* ETHEntityRenderingManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1004,6 +1011,7 @@
 				7429A2A91662620E00134A7E /* ETHEntitySpriteRenderer.cpp in Sources */,
 				7429A2AD16627E8000134A7E /* ETHEntityParticleRenderer.cpp in Sources */,
 				7429A2B11663AF2200134A7E /* ETHEntityHaloRenderer.cpp in Sources */,
+				74EB49AC16653D0A002DA2F0 /* ETHEntityRenderingManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

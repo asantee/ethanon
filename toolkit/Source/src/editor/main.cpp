@@ -182,7 +182,7 @@ std::string FindStartupProject(const int argc, char **argv, const Platform::File
 			ETHGraphicResourceManagerPtr(new ETHGraphicResourceManager(ETHSpriteDensityManager())),
 			ETHAudioResourceManagerPtr(new ETHAudioResourceManager()),
 			ETHShaderManagerPtr(new ETHShaderManager(video, fileIOHub->GetProgramDirectory() + ETHDirectories::GetShaderDirectory(), true)),
-			video, audio, input, fileIOHub));
+			video, audio, input, fileIOHub, true));
 
 		// instantiate and load every editor
 		std::vector<boost::shared_ptr<EditorBase>> editor(nEditors);

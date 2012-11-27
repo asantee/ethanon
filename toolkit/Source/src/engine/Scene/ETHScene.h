@@ -24,11 +24,8 @@
 #define ETH_SCENE_H_
 
 #include "ETHBucketManager.h"
-#include "ETHSceneProperties.h"
 
 #include "../Entity/ETHEntityArray.h"
-
-#include "../Resource/ETHResourceProvider.h"
 
 #include "../Util/ETHASUtil.h"
 
@@ -38,7 +35,7 @@
 
 #include "../Script/ETHEntityDestructorManager.h"
 
-#include "../Renderer/ETHEntityPieceRenderer.h"
+#include "../Renderer/ETHEntityRenderingManager.h"
 
 class ETHScene
 {
@@ -46,20 +43,16 @@ public:
 	ETHScene(
 		const str_type::string& fileName,
 		ETHResourceProviderPtr provider,
-		const bool richLighting,
 		const ETHSceneProperties& props,
 		asIScriptModule *pModule,
 		asIScriptContext *pContext,
-		const bool isInEditor,
 		const Vector2 &v2BucketSize = Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
 
 	ETHScene(
 		ETHResourceProviderPtr provider,
-		const bool richLighting,
 		const ETHSceneProperties& props,
 		asIScriptModule *pModule,
 		asIScriptContext *pContext,
-		const bool isInEditor,
 		const Vector2 &v2BucketSize = Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
 
 	~ETHScene();
@@ -74,8 +67,6 @@ public:
 	int AddEntity(ETHRenderEntity* pEntity);
 	int AddEntity(ETHRenderEntity* pEntity, const str_type::string& alternativeName);
 	void SetSceneProperties(const ETHSceneProperties &prop);
-	void AddLight(const ETHLight &light);
-	void AddLight(const ETHLight &light, const Vector3& v3Pos, const Vector2& scale);
 	bool GenerateLightmaps(const int id = -1);
 	void EnableLightmaps(const bool enable);
 	bool AreLightmapsEnabled() const;
@@ -85,14 +76,14 @@ public:
 
 	void Update(
 		const unsigned long lastFrameElapsedTime,
-		const ETHBackBufferTargetManagerPtr& backBuffer,
-		SpritePtr outline = SpritePtr(),
-		SpritePtr invisibleEntSymbol = SpritePtr());
+		const ETHBackBufferTargetManagerPtr& backBuffer);
 
 	bool DeleteEntity(ETHEntity *pEntity);
 
 	const ETHSceneProperties* GetSceneProperties() const;
 	ETHSceneProperties* GetEditableSceneProperties();
+
+	void AddLight(const ETHLight& light);
 
 	bool AddFloatData(const str_type::string &entity, const str_type::string &name, const float value);
 	bool AddIntData(const str_type::string &entity, const str_type::string &name, const int value);
@@ -104,9 +95,6 @@ public:
 
 	int GetNumLights();
 	int CountLights();
-
-	void ShowLightmaps(const bool show);
-	bool AreLightmapsShown();
 
 	void SetLightIntensity(const float intensity);
 	float GetLightIntensity() const;
@@ -146,9 +134,6 @@ public:
 	void AddEntityToPersistentList(ETHRenderEntity* entity);
 
 private:
-	std::multimap<float, ETHEntityPieceRendererPtr> m_piecesToRender;
-	const bool m_isInEditor;
-
 	bool LoadFromFile(const str_type::string& fileName);
 
 	void Init(ETHResourceProviderPtr provider, const ETHSceneProperties& props, asIScriptModule *pModule, asIScriptContext *pContext);
@@ -157,26 +142,20 @@ private:
 		float &maxHeight,
 		float &minHeight,
 		const ETHBackBufferTargetManagerPtr& backBuffer,
-		SpritePtr outline,
-		SpritePtr invisibleEntSymbol,
 		const unsigned int lastFrameElapsedTime);
 
 	void DrawEntityMultimap(
 		const ETHBackBufferTargetManagerPtr& backBuffer,
 		const bool roundUp);
 
-	static void ReleaseMappedEntities(std::multimap<float, ETHEntityPieceRendererPtr>& mm);
-
-	void DecomposeEntityIntoPiecesToMultimap(
-		ETHRenderEntity* entity,
-		const float minHeight,
-		const float maxHeight,
-		const ETHBackBufferTargetManagerPtr& backBuffer,
-		SpritePtr outline,
-		SpritePtr invisibleEntSymbol);
-
 	bool AssignCallbackScript(ETHSpriteEntity* entity);
-	void AssignControllerToEntity(ETHEntity* entity, const int callbackId, const int constructorCallbackId, const int destructorCallbackId);
+
+	void AssignControllerToEntity(
+		ETHEntity* entity,
+		const int callbackId,
+		const int constructorCallbackId,
+		const int destructorCallbackId);
+
 	bool DrawBucketOutlines();
 	bool ReadFromXMLFile(TiXmlElement *pElement);
 
@@ -188,9 +167,9 @@ private:
 	ETHBucketManager m_buckets;
 	ETHActiveEntityHandler m_activeEntityHandler;
 
-	std::list<ETHLight> m_lights;
 	std::list<ETHRenderEntity*> m_persistentEntities;
 
+	ETHEntityRenderingManager m_renderingManager;
 	ETHResourceProviderPtr m_provider;
 	ETHSceneProperties m_sceneProps;
 	ETHPhysicsSimulator m_physicsSimulator;
@@ -201,10 +180,6 @@ private:
 	int m_idCounter;
 	int m_nCurrentLights;
 	int m_nRenderedEntities;
-	bool m_enableLightmaps;
-	bool m_showingLightmaps;
-	bool m_usingRTShadows;
-	bool m_richLighting;
 	bool m_enableZBuffer;
 };
 

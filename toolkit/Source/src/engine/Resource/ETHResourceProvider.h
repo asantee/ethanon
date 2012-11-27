@@ -24,8 +24,11 @@
 #define ETH_RESOURCE_PROVIDER_H_
 
 #include "ETHResourceManager.h"
+
 #include "../Util/ETHGlobalScaleManager.h"
+
 #include "../Platform/ETHPlatform.h"
+
 #include <Platform/Platform.h>
 #include <Platform/FileLogger.h>
 #include <Platform/FileIOHub.h>
@@ -45,6 +48,14 @@ class ETHResourceProvider
 	static ETHGlobalScaleManagerPtr m_globalScaleManager;
 	static Platform::FileIOHubPtr m_fileIOHub;
 
+	static SpritePtr m_outline;
+	static SpritePtr m_invisibleEntSymbol;
+	static bool m_enableLightmaps;
+	static bool m_usingRTShadows;
+	static bool m_richLighting;
+
+	const bool m_isInEditor;
+
 public:
 	ETHResourceProvider(
 		ETHGraphicResourceManagerPtr graphicResources,
@@ -53,9 +64,21 @@ public:
 		VideoPtr video,
 		AudioPtr audio,
 		InputPtr input,
-		Platform::FileIOHubPtr fileIOHub);
+		Platform::FileIOHubPtr fileIOHub,
+		const bool isInEditor);
 
 	static void Log(const str_type::string& str, const Platform::Logger::TYPE& type);
+
+	bool IsInEditor() const;
+
+	void EnableLightmaps(const bool enable);
+	bool AreLightmapsEnabled() const;
+
+	void EnableRealTimeShadows(const bool enable);
+	bool AreRealTimeShadowsEnabled() const;
+
+	bool IsRichLightingEnabled() const;
+	void SetRichLighting(const bool enable);
 
 	ETHGlobalScaleManagerPtr& GetGlobalScaleManager();
 	const Platform::FileLogger* GetLogger() const;
@@ -68,6 +91,10 @@ public:
 	str_type::string GetByteCodeSaveDirectory();
 	const Platform::FileManagerPtr& GetFileManager();
 	Platform::FileIOHubPtr GetFileIOHub();
+
+	void SetEditorSprites(SpritePtr outline, SpritePtr invisibleEntSymbol);
+	SpritePtr GetOutlineSprite();
+	SpritePtr GetInvisibleEntSymbol();
 };
 
 #endif

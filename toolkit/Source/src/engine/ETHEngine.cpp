@@ -95,7 +95,7 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 		ETHGraphicResourceManagerPtr(new ETHGraphicResourceManager(file.GetDensityManager())),
 		ETHAudioResourceManagerPtr(new ETHAudioResourceManager()),
 		ETHShaderManagerPtr(new ETHShaderManager(video, fileIOHub->GetStartResourceDirectory() + ETHDirectories::GetShaderDirectory(), m_richLighting)),
-		video, audio, input, fileIOHub));
+		video, audio, input, fileIOHub, false));
 
 	m_ethInput.SetProvider(m_provider);
 

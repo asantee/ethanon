@@ -74,9 +74,9 @@ bool SceneEditor::ProjectManagerRequested()
 void SceneEditor::RebuildScene(const str_type::string& fileName)
 {
 	if (fileName != _ETH_EMPTY_SCENE_STRING)
-		m_pScene = ETHScenePtr(new ETHScene(fileName, m_provider, true, ETHSceneProperties(), 0, 0, true, _ETH_SCENE_EDITOR_BUCKET_SIZE));
+		m_pScene = ETHScenePtr(new ETHScene(fileName, m_provider, ETHSceneProperties(), 0, 0, _ETH_SCENE_EDITOR_BUCKET_SIZE));
 	else
-		m_pScene = ETHScenePtr(new ETHScene(m_provider, true, ETHSceneProperties(), 0, 0, true, _ETH_SCENE_EDITOR_BUCKET_SIZE));
+		m_pScene = ETHScenePtr(new ETHScene(m_provider, ETHSceneProperties(), 0, 0, _ETH_SCENE_EDITOR_BUCKET_SIZE));
 	m_sceneProps = *m_pScene->GetSceneProperties();
 	m_pSelected = 0;
 	m_genLightmapForThisOneOnly =-1;
@@ -120,6 +120,8 @@ void SceneEditor::LoadEditor()
 
 	m_arrows = video->CreateSprite(programDirectory + GS_L("data/arrows.png"));
 	m_arrows->SetOrigin(Sprite::EO_CENTER);
+
+	m_provider->SetEditorSprites(m_outline, m_invisible);
 
 	const InputPtr& input = m_provider->GetInput();
 	m_renderMode.SetupMenu(video, input, m_menuSize, m_menuWidth*2, true, false, false);
@@ -1541,7 +1543,7 @@ void SceneEditor::RenderScene()
 {
 	m_pScene->SetBorderBucketsDrawing(true);
 	const unsigned long lastFrameElapsedTimeMS = ComputeElapsedTime(m_provider->GetVideo());
-	m_pScene->Update(lastFrameElapsedTimeMS, m_backBuffer, m_outline, m_invisible);
+	m_pScene->Update(lastFrameElapsedTimeMS, m_backBuffer);
 	m_pScene->RenderScene(false, m_backBuffer);
 }
 
