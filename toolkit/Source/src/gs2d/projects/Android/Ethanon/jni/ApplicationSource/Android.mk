@@ -107,6 +107,11 @@ LOCAL_SRC_FILES := \
 	$(ENGINE_PATH)/Drawing/ETHDrawable.cpp \
 	$(ENGINE_PATH)/Drawing/ETHDrawableManager.cpp \
 	$(ENGINE_PATH)/Drawing/ETHParticleDrawer.cpp \
+	$(ENGINE_PATH)/Renderer/ETHEntityHaloRenderer.cpp \
+	$(ENGINE_PATH)/Renderer/ETHEntityParticleRenderer.cpp \
+	$(ENGINE_PATH)/Renderer/ETHEntityPieceRenderer.cpp \
+	$(ENGINE_PATH)/Renderer/ETHEntitySpriteRenderer.cpp \
+	$(ENGINE_PATH)/Renderer/ETHEntityRenderingManager.cpp \
 	$(ENGINE_PATH)/Platform/ETHAppEnmlFile.cpp
 
 LOCAL_LDLIBS := -ldl -llog -lGLESv2 -lz
