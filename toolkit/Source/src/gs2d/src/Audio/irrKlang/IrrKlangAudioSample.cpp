@@ -35,7 +35,9 @@ IrrKlangAudioSample::IrrKlangAudioSample() :
 	m_engine(0),
 	m_source(0),
 	m_sound(0),
-	m_loop(false)
+	m_loop(false),
+	m_speed(1.0f),
+	m_pan(0.0f)
 {
 }
 
@@ -111,13 +113,10 @@ bool IrrKlangAudioSample::Play()
 {
 	if (m_sound->isFinished())
 	{
-		const float speed = m_sound->getPlaybackSpeed();
-		const float pan = m_sound->getPan();
-		const bool looping = m_sound->isLooped();
 		m_sound->drop();
-		m_sound = m_engine->play2D(m_source, looping, true, true);
-		m_sound->setPlaybackSpeed(speed);
-		m_sound->setPan(pan);
+		m_sound = m_engine->play2D(m_source, m_loop, true, true);
+		m_sound->setPlaybackSpeed(m_speed);
+		m_sound->setPan(m_pan);
 	}
 	else
 	{
@@ -161,7 +160,7 @@ Audio::SAMPLE_STATUS IrrKlangAudioSample::GetStatus()
 
 bool IrrKlangAudioSample::SetLoop(const bool enable)
 {
-	m_sound->setIsLooped(true);
+	m_sound->setIsLooped(enable);
 	m_loop = enable;
 	return true;
 }
@@ -184,6 +183,7 @@ Audio::SAMPLE_TYPE IrrKlangAudioSample::GetType() const
 
 bool IrrKlangAudioSample::SetSpeed(const float speed)
 {
+	m_speed = speed;
 	return m_sound->setPlaybackSpeed(speed);
 }
 
@@ -194,6 +194,7 @@ float IrrKlangAudioSample::GetSpeed() const
 
 bool IrrKlangAudioSample::SetPan(const float pan)
 {
+	m_pan = pan;
 	m_sound->setPan(pan);
 	return true;
 }

@@ -39,6 +39,7 @@ class IrrKlangAudioSample : public AudioSample
 	Audio::SAMPLE_TYPE m_type;
 
 	bool m_loop;
+	float m_speed, m_pan;
 
 public:
 	IrrKlangAudioSample();
