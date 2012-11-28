@@ -1,3 +1,6 @@
 Copy OpenGL ES 2.0 shaders* and all your project-specific files here.
 
-*They are in ethanon/toolkit/Source/src/gs2d/projects/Android/Ethanon/assets/data/* and ethanon/toolkit/Source/src/gs2d/projects/Android/Ethanon/assets/shaders/*
+*They are in
+	ethanon/toolkit/Source/src/gs2d/projects/Android/Ethanon/assets/data/*
+	and
+	ethanon/toolkit/Source/src/gs2d/projects/Android/Ethanon/assets/shaders/*

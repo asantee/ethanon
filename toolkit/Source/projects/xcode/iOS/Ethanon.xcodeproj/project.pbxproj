@@ -212,6 +212,11 @@
 		74868C6E14374C3B00E7B3DD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 74868C6D14374C3B00E7B3DD /* main.m */; };
 		74868C7214374C3B00E7B3DD /* EthanonAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 74868C7114374C3B00E7B3DD /* EthanonAppDelegate.mm */; };
 		74868C7514374C3B00E7B3DD /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 74868C7314374C3B00E7B3DD /* MainWindow.xib */; };
+		749CB4711666554F00939B0A /* ETHEntityHaloRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 749CB4671666554F00939B0A /* ETHEntityHaloRenderer.cpp */; };
+		749CB4721666554F00939B0A /* ETHEntityParticleRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 749CB4691666554F00939B0A /* ETHEntityParticleRenderer.cpp */; };
+		749CB4731666554F00939B0A /* ETHEntityPieceRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 749CB46B1666554F00939B0A /* ETHEntityPieceRenderer.cpp */; };
+		749CB4741666554F00939B0A /* ETHEntityRenderingManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 749CB46D1666554F00939B0A /* ETHEntityRenderingManager.cpp */; };
+		749CB4751666554F00939B0A /* ETHEntitySpriteRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 749CB46F1666554F00939B0A /* ETHEntitySpriteRenderer.cpp */; };
 		74FBEF4214374E4100C67129 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74FBEF4114374E4100C67129 /* AudioToolbox.framework */; };
 		74FBEF4414374E5100C67129 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74FBEF4314374E5100C67129 /* AVFoundation.framework */; };
 		74FBEF4614374E5F00C67129 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74FBEF4514374E5F00C67129 /* OpenAL.framework */; };
@@ -641,6 +646,16 @@
 		74868C7014374C3B00E7B3DD /* EthanonAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EthanonAppDelegate.h; sourceTree = "<group>"; };
 		74868C7114374C3B00E7B3DD /* EthanonAppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = EthanonAppDelegate.mm; sourceTree = "<group>"; };
 		74868C7414374C3B00E7B3DD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
+		749CB4671666554F00939B0A /* ETHEntityHaloRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityHaloRenderer.cpp; path = ../../../src/engine/Renderer/ETHEntityHaloRenderer.cpp; sourceTree = "<group>"; };
+		749CB4681666554F00939B0A /* ETHEntityHaloRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityHaloRenderer.h; path = ../../../src/engine/Renderer/ETHEntityHaloRenderer.h; sourceTree = "<group>"; };
+		749CB4691666554F00939B0A /* ETHEntityParticleRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityParticleRenderer.cpp; path = ../../../src/engine/Renderer/ETHEntityParticleRenderer.cpp; sourceTree = "<group>"; };
+		749CB46A1666554F00939B0A /* ETHEntityParticleRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityParticleRenderer.h; path = ../../../src/engine/Renderer/ETHEntityParticleRenderer.h; sourceTree = "<group>"; };
+		749CB46B1666554F00939B0A /* ETHEntityPieceRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityPieceRenderer.cpp; path = ../../../src/engine/Renderer/ETHEntityPieceRenderer.cpp; sourceTree = "<group>"; };
+		749CB46C1666554F00939B0A /* ETHEntityPieceRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityPieceRenderer.h; path = ../../../src/engine/Renderer/ETHEntityPieceRenderer.h; sourceTree = "<group>"; };
+		749CB46D1666554F00939B0A /* ETHEntityRenderingManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityRenderingManager.cpp; path = ../../../src/engine/Renderer/ETHEntityRenderingManager.cpp; sourceTree = "<group>"; };
+		749CB46E1666554F00939B0A /* ETHEntityRenderingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityRenderingManager.h; path = ../../../src/engine/Renderer/ETHEntityRenderingManager.h; sourceTree = "<group>"; };
+		749CB46F1666554F00939B0A /* ETHEntitySpriteRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntitySpriteRenderer.cpp; path = ../../../src/engine/Renderer/ETHEntitySpriteRenderer.cpp; sourceTree = "<group>"; };
+		749CB4701666554F00939B0A /* ETHEntitySpriteRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntitySpriteRenderer.h; path = ../../../src/engine/Renderer/ETHEntitySpriteRenderer.h; sourceTree = "<group>"; };
 		74F451AA143F419600AF7B17 /* Ethanon.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Ethanon.entitlements; sourceTree = "<group>"; };
 		74FBEF4114374E4100C67129 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		74FBEF4314374E5100C67129 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -811,6 +826,23 @@
 				74868C6F14374C3B00E7B3DD /* Ethanon-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		749CB4651666553D00939B0A /* Renderer */ = {
+			isa = PBXGroup;
+			children = (
+				749CB4671666554F00939B0A /* ETHEntityHaloRenderer.cpp */,
+				749CB4681666554F00939B0A /* ETHEntityHaloRenderer.h */,
+				749CB4691666554F00939B0A /* ETHEntityParticleRenderer.cpp */,
+				749CB46A1666554F00939B0A /* ETHEntityParticleRenderer.h */,
+				749CB46B1666554F00939B0A /* ETHEntityPieceRenderer.cpp */,
+				749CB46C1666554F00939B0A /* ETHEntityPieceRenderer.h */,
+				749CB46D1666554F00939B0A /* ETHEntityRenderingManager.cpp */,
+				749CB46E1666554F00939B0A /* ETHEntityRenderingManager.h */,
+				749CB46F1666554F00939B0A /* ETHEntitySpriteRenderer.cpp */,
+				749CB4701666554F00939B0A /* ETHEntitySpriteRenderer.h */,
+			);
+			name = Renderer;
 			sourceTree = "<group>";
 		};
 		74D9E979157E45960000EB42 /* Resource */ = {
@@ -1134,6 +1166,7 @@
 		74FBEFC01437AC1000C67129 /* Engine */ = {
 			isa = PBXGroup;
 			children = (
+				749CB4651666553D00939B0A /* Renderer */,
 				74678F8A1625FEAA002A636D /* Drawing */,
 				74678F821625FE7D002A636D /* Particles */,
 				74D9E979157E45960000EB42 /* Resource */,
@@ -1712,6 +1745,11 @@
 				7423B6B0166151FA008848EA /* SharedData.cpp in Sources */,
 				7423B6B1166151FA008848EA /* SharedDataManager.cpp in Sources */,
 				7423B6B316615238008848EA /* ETHScriptWrapper.SharedData.cpp in Sources */,
+				749CB4711666554F00939B0A /* ETHEntityHaloRenderer.cpp in Sources */,
+				749CB4721666554F00939B0A /* ETHEntityParticleRenderer.cpp in Sources */,
+				749CB4731666554F00939B0A /* ETHEntityPieceRenderer.cpp in Sources */,
+				749CB4741666554F00939B0A /* ETHEntityRenderingManager.cpp in Sources */,
+				749CB4751666554F00939B0A /* ETHEntitySpriteRenderer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
