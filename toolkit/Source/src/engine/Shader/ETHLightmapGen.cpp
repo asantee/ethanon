@@ -24,10 +24,17 @@
 #include "../Scene/ETHBucketManager.h"
 #include "ETHShaderManager.h"
 
-ETHLightmapGen::ETHLightmapGen(ETHRenderEntity* entity,
-			   boost::shared_ptr<ETHShaderManager> shaderManager, std::list<ETHLight>::iterator iBegin, std::list<ETHLight>::iterator iEnd,
-			   ETHBucketManager& buckets, const Vector3& oldPos, const Vector3& newPos, const float minHeight, const float maxHeight,
-			   const ETHSceneProperties &sceneProps)
+ETHLightmapGen::ETHLightmapGen(
+	ETHRenderEntity* entity,
+	boost::shared_ptr<ETHShaderManager> shaderManager,
+	std::list<ETHLight>::iterator iBegin,
+	std::list<ETHLight>::iterator iEnd,
+	ETHBucketManager& buckets,
+	const Vector3& oldPos,
+	const Vector3& newPos,
+	const float minHeight,
+	const float maxHeight,
+	const ETHSceneProperties &sceneProps)
 {
 	entity->m_pLightmap.reset();
 	const SpritePtr& sprite = entity->m_pSprite;
@@ -113,7 +120,7 @@ ETHLightmapGen::ETHLightmapGen(ETHRenderEntity* entity,
 		iter->range /= tmpScale.y;
 		if (shaderManager->BeginLightPass(entity, &(*iter), video->GetScreenSizeF().y, 0.0f, sceneProps.lightIntensity, 0, true))
 		{
-			entity->DrawLightPass(sceneProps.zAxisDirection, true);
+			entity->DrawLightPass(sceneProps.zAxisDirection, 0.0f, true);
 			shaderManager->EndLightPass();
 		}
 
