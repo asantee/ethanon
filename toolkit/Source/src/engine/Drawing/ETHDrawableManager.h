@@ -31,7 +31,7 @@ class ETHDrawableManager
 	std::list<boost::shared_ptr<ETHDrawable> > m_drawableList;
 
 public:
-	void DrawTopLayer(const unsigned int lastFrameElapsedTimeMS, const ETHScenePtr& scene, const VideoPtr& video);
+	void DrawTopLayer(const unsigned int lastFrameElapsedTimeMS, const VideoPtr& video);
 	void Insert(const boost::shared_ptr<ETHDrawable>& newItem);
 	void Clear();
 	void RemoveTheDead();

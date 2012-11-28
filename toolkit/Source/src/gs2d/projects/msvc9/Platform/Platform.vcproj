@@ -200,6 +200,26 @@
 				</File>
 			</Filter>
 		</Filter>
+		<Filter
+			Name="SharedData"
+			>
+			<File
+				RelativePath="..\..\..\src\Platform\SharedData\SharedData.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\Platform\SharedData\SharedData.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\Platform\SharedData\SharedDataManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\Platform\SharedData\SharedDataManager.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath="..\..\..\src\Platform\FileIOHub.cpp"
 			>

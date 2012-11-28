@@ -57,7 +57,7 @@ public:
 	bool BeginShadowPass(const ETHSpriteEntity* pRender, const ETHLight* light, const float maxHeight, const float minHeight);
 	bool EndShadowPass();
 
-	bool BeginHaloPass(const ETHLight* light, const float maxHeight, const ETHSpriteEntity* pParent = 0);
+	bool BeginHaloPass(const ETHLight* light);
 	bool EndHaloPass();
 
 	bool BeginParticlePass();

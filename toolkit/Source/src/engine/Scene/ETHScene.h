@@ -59,9 +59,7 @@ public:
 
 	void ClearResources();
 
-	void RenderScene(
-		const bool roundUp,
-		const ETHBackBufferTargetManagerPtr& backBuffer);
+	void RenderScene(const bool roundUp);
 
 	bool SaveToFile(const str_type::string& fileName);
 	int AddEntity(ETHRenderEntity* pEntity);
@@ -141,12 +139,9 @@ private:
 	void MapEntitiesToBeRendered(
 		float &maxHeight,
 		float &minHeight,
-		const ETHBackBufferTargetManagerPtr& backBuffer,
-		const unsigned int lastFrameElapsedTime);
+		const ETHBackBufferTargetManagerPtr& backBuffer);
 
-	void DrawEntityMultimap(
-		const ETHBackBufferTargetManagerPtr& backBuffer,
-		const bool roundUp);
+	void DrawEntityMultimap(const bool roundUp);
 
 	bool AssignCallbackScript(ETHSpriteEntity* entity);
 

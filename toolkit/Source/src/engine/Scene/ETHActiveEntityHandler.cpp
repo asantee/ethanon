@@ -111,7 +111,9 @@ void ETHActiveEntityHandler::TestEntityLists() const
 			ETHRenderEntity* entityB = (*b);
 			const int idA = entityA->GetID();
 			const int idB = entityB->GetID();
-			assert(idA != idB);
+			bool idAssert;
+			idAssert = (idA != idB);
+			assert(idAssert);
 		}
 	}
 }

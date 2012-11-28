@@ -61,6 +61,13 @@ ETHResourceProvider::ETHResourceProvider(
 	m_fileIOHub = fileIOHub;
 }
 
+ETHResourceProvider& ETHResourceProvider::operator=(const ETHResourceProvider &tmp)
+{
+	// dummy... not allowed
+	GS2D_UNUSED_ARGUMENT(tmp);
+	return *this;
+}
+
 void ETHResourceProvider::Log(const str_type::string& str, const Platform::Logger::TYPE& type)
 {
 	m_logger->Log(str, type);

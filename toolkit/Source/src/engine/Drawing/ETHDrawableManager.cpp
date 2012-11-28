@@ -22,7 +22,7 @@
 
 #include "ETHDrawableManager.h"
 
-void ETHDrawableManager::DrawTopLayer(const unsigned int lastFrameElapsedTimeMS, const ETHScenePtr& scene, const VideoPtr& video)
+void ETHDrawableManager::DrawTopLayer(const unsigned int lastFrameElapsedTimeMS, const VideoPtr& video)
 {
 	const Vector2 oldCamPos = video->GetCameraPos();
 	video->SetCameraPos(Vector2(0,0));

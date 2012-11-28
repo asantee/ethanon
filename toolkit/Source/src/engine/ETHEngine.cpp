@@ -188,7 +188,7 @@ void ETHEngine::RenderFrame()
 	m_backBuffer->BeginRendering();
 
 	// draw scene (if there's any)
-	m_pScene->RenderScene(IsRoundingUpPosition(), m_backBuffer);
+	m_pScene->RenderScene(IsRoundingUpPosition());
 	m_v2LastCamPos = GetCameraPos();
 
 	// draw sprites, rects, lines and texts
@@ -426,7 +426,7 @@ bool ETHEngine::CheckAngelScriptError(const int r, const str_type::string &descr
 
 void ETHEngine::DrawTopLayer(const unsigned int lastFrameElapsedTimeMS)
 {
-	m_drawableManager.DrawTopLayer(lastFrameElapsedTimeMS, m_pScene, m_provider->GetVideo());
+	m_drawableManager.DrawTopLayer(lastFrameElapsedTimeMS, m_provider->GetVideo());
 }
 
 void ETHEngine::MessageCallback(const asSMessageInfo *msg)

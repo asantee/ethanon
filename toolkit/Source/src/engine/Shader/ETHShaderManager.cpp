@@ -175,10 +175,8 @@ bool ETHShaderManager::EndShadowPass()
 	return true;
 }
 
-bool ETHShaderManager::BeginHaloPass(const ETHLight* light, const float maxHeight, const ETHSpriteEntity *pParent)
+bool ETHShaderManager::BeginHaloPass(const ETHLight* light)
 {
-	GS2D_UNUSED_ARGUMENT(maxHeight);
-	GS2D_UNUSED_ARGUMENT(pParent);
 	if (!light || light->haloBitmap == GS_L(""))
 		return false;
 

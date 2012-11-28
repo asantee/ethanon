@@ -389,8 +389,7 @@ void ETHScene::Update(
 	MapEntitiesToBeRendered(
 		minHeight,
 		maxHeight,
-		backBuffer,
-		lastFrameElapsedTime);
+		backBuffer);
 
 	m_activeEntityHandler.UpdateActiveEntities(GetZAxisDirection(), m_buckets, lastFrameElapsedTime);
 
@@ -400,9 +399,7 @@ void ETHScene::Update(
 	Randomizer::Seed(m_provider->GetVideo()->GetElapsedTime());
 }
 
-void ETHScene::RenderScene(
-	const bool roundUp,
-	const ETHBackBufferTargetManagerPtr& backBuffer)
+void ETHScene::RenderScene(const bool roundUp)
 {
 	const VideoPtr& video = m_provider->GetVideo();
 
@@ -414,9 +411,7 @@ void ETHScene::RenderScene(
 	// draw ambient pass
 	video->RoundUpPosition(roundUp);
 
-	DrawEntityMultimap(
-		backBuffer,
-		roundUp);
+	DrawEntityMultimap(roundUp);
 
 	m_buckets.ResolveMoveRequests();
 	video->RoundUpPosition(false);
@@ -425,8 +420,7 @@ void ETHScene::RenderScene(
 void ETHScene::MapEntitiesToBeRendered(
 	float &minHeight,
 	float &maxHeight,
-	const ETHBackBufferTargetManagerPtr& backBuffer,
-	const unsigned int lastFrameElapsedTime)
+	const ETHBackBufferTargetManagerPtr& backBuffer)
 {
 	// store the max and min height to assign when everything is drawn
 	maxHeight = m_maxSceneHeight;
@@ -485,9 +479,7 @@ void ETHScene::MapEntitiesToBeRendered(
 	m_nCurrentLights = m_renderingManager.GetNumLights();
 }
 
-void ETHScene::DrawEntityMultimap(
-	const ETHBackBufferTargetManagerPtr& backBuffer,
-	const bool roundUp)
+void ETHScene::DrawEntityMultimap(const bool roundUp)
 {
 	const VideoPtr& video = m_provider->GetVideo();
 

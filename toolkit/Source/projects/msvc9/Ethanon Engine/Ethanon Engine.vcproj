@@ -730,6 +730,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\src\engine\Script\ETHScriptWrapper.SharedData.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\engine\Script\ETHScriptWrapper.System.cpp"
 					>
 				</File>
@@ -829,6 +833,50 @@
 						>
 					</File>
 				</Filter>
+			</Filter>
+			<Filter
+				Name="Renderer"
+				>
+				<File
+					RelativePath="..\..\..\src\engine\Renderer\ETHEntityHaloRenderer.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\engine\Renderer\ETHEntityHaloRenderer.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\engine\Renderer\ETHEntityParticleRenderer.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\engine\Renderer\ETHEntityParticleRenderer.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\engine\Renderer\ETHEntityPieceRenderer.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\engine\Renderer\ETHEntityPieceRenderer.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\engine\Renderer\ETHEntityRenderingManager.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\engine\Renderer\ETHEntityRenderingManager.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\engine\Renderer\ETHEntitySpriteRenderer.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\engine\Renderer\ETHEntitySpriteRenderer.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter

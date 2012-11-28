@@ -34,7 +34,9 @@ ETHEntityHaloRenderer::ETHEntityHaloRenderer(
 
 void ETHEntityHaloRenderer::Render(const ETHSceneProperties& props, const float maxHeight, const float minHeight)
 {
-	if (m_shaderManager->BeginHaloPass(m_entity->GetLight(), maxHeight))
+	GS2D_UNUSED_ARGUMENT(minHeight);
+	GS2D_UNUSED_ARGUMENT(maxHeight);
+	if (m_shaderManager->BeginHaloPass(m_entity->GetLight()))
 	{
 		m_entity->DrawHalo(props.zAxisDirection, m_depth);
 		m_shaderManager->EndHaloPass();

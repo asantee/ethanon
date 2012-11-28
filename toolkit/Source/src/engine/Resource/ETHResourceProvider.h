@@ -56,6 +56,8 @@ class ETHResourceProvider
 
 	const bool m_isInEditor;
 
+	ETHResourceProvider& operator=(const ETHResourceProvider &tmp);
+
 public:
 	ETHResourceProvider(
 		ETHGraphicResourceManagerPtr graphicResources,
