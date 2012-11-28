@@ -62,11 +62,8 @@ void ETHEntityRenderingManager::AddDecomposedPieces(
 				entity,
 				shaderManager,
 				video,
-				m_provider->GetOutlineSprite(),
-				m_provider->GetInvisibleEntSymbol(),
 				m_provider->AreLightmapsEnabled(),
 				m_provider->AreRealTimeShadowsEnabled(),
-				m_provider->IsInEditor(),
 				&m_lights));
 
 		// add this entity to the multimap to sort it for an alpha-friendly rendering list

@@ -1480,6 +1480,16 @@ void SceneEditor::LoopThroughEntityList()
 			}
 		}
 
+		// draw invisible entity symbol
+		if (pEntity->IsInvisible() && !pEntity->IsCollidable() && !pEntity->HasHalo())
+		{
+			VideoPtr video = m_provider->GetVideo();
+			const float depth = video->GetSpriteDepth();
+			video->SetSpriteDepth(1.0f);
+			m_invisible->Draw(pEntity->GetPositionXY());
+			video->SetSpriteDepth(depth);
+		}
+
 		// draw custom data
 		if (pEntity->HasCustomData() && m_panel.GetButtonStatus(_S_SHOW_CUSTOM_DATA))
 		{

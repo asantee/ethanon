@@ -26,20 +26,14 @@ ETHEntitySpriteRenderer::ETHEntitySpriteRenderer(
 	ETHRenderEntity* entity,
 	const ETHShaderManagerPtr& shaderManager,
 	const VideoPtr& video,
-	const SpritePtr& outline,
-	const SpritePtr& invisibleSymbol,
 	const bool lightmapEnabled,
 	const bool realTimeShadowsEnabled,
-	const bool isInEditor,
 	std::list<ETHLight>* lights) :
 	ETHEntityPieceRenderer(entity),
 	m_shaderManager(shaderManager),
 	m_video(video),
-	m_outline(outline),
-	m_invisibleSymbol(invisibleSymbol),
 	m_lightmapEnabled(lightmapEnabled),
 	m_realTimeShadowsEnabled(realTimeShadowsEnabled),
-	m_isInEditor(isInEditor),
 	m_lights(lights)
 {
 }
@@ -54,37 +48,12 @@ void ETHEntitySpriteRenderer::RenderAmbientPass(const ETHSceneProperties& props,
 {
 	m_shaderManager->BeginAmbientPass(m_entity, maxHeight, minHeight);
 
-	// draws the ambient pass and if we're at the editor, draw the collision box if it's an invisible entity
-	if (m_isInEditor)
-	{
-		if (m_outline && m_entity->IsInvisible() && m_entity->IsCollidable())
-		{
-			m_entity->DrawCollisionBox(m_outline, gs2d::constant::WHITE, props.zAxisDirection);
-		}
-	}
-
 	m_entity->DrawAmbientPass(
 		maxHeight,
 		minHeight,
 		m_lightmapEnabled,
 		props,
 		m_shaderManager->GetParallaxIntensity());
-
-	// draw "invisible entity symbol" if we're in the editor
-	if (m_isInEditor)
-	{
-		if (m_entity->IsInvisible() && m_entity->IsCollidable())
-		{
-			m_entity->DrawCollisionBox(m_outline, gs2d::constant::WHITE, props.zAxisDirection);
-		}
-		if (m_entity->IsInvisible() && !m_entity->IsCollidable() && !m_entity->HasHalo())
-		{
-			const float depth = m_video->GetSpriteDepth();
-			m_video->SetSpriteDepth(1.0f);
-			m_invisibleSymbol->Draw(m_entity->GetPositionXY());
-			m_video->SetSpriteDepth(depth);
-		}
-	}
 
 	m_shaderManager->EndAmbientPass();
 }

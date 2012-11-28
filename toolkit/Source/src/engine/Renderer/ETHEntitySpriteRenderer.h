@@ -31,10 +31,7 @@ class ETHEntitySpriteRenderer : public ETHEntityPieceRenderer
 {
 	ETHShaderManagerPtr m_shaderManager;
 	VideoPtr m_video;
-	SpritePtr m_outline;
-	SpritePtr m_invisibleSymbol;
 	bool m_lightmapEnabled;
-	bool m_isInEditor;
 	bool m_realTimeShadowsEnabled;
 	std::list<ETHLight>* m_lights;
 
@@ -46,11 +43,8 @@ public:
 		ETHRenderEntity* entity,
 		const ETHShaderManagerPtr& shaderManager,
 		const VideoPtr& video,
-		const SpritePtr& outline,
-		const SpritePtr& invisibleSymbol,
 		const bool lightmapEnabled,
 		const bool realTimeShadowsEnabled,
-		const bool isInEditor,
 		std::list<ETHLight>* lights);
 
 	void Render(const ETHSceneProperties& props, const float maxHeight, const float minHeight);
