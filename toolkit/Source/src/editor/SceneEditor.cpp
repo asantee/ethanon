@@ -1237,7 +1237,8 @@ void SceneEditor::EntityPlacer()
 	const float angle = m_currentEntity->GetAngle();
 	if (angle != 0.0f)
 	{
-		ss.precision(1);
+		ss.precision(0);
+		ss.setf(std::ios_base::fixed | std::ios_base::dec, std::ios_base::floatfield);
 		ss << angle;
 	}
 	ShadowPrint(m_currentEntity->GetScreenRect(*m_pScene->GetSceneProperties()).max, ss.str().c_str(), Color(100, 255, 255, 255));
