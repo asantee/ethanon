@@ -159,7 +159,7 @@ public class GS2DActivity extends KeyEventListener {
 	}
 
 	private void setValuesToSharedMemory() {
-		final String languageCode = Locale.getDefault().getDisplayLanguage();
+		final String languageCode = Locale.getDefault().getLanguage();
 		GS2DJNI.createConstSharedData("ethanon.system.language", languageCode);
 	}
 
