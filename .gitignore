@@ -42,6 +42,9 @@ toolkit/Source/src/gs2d/projects/Android/Ethanon/assets/*
 !toolkit/Source/src/gs2d/projects/Android/Ethanon/assets/data/*
 !toolkit/Source/src/gs2d/projects/Android/Ethanon/assets/main.angelscript
 !toolkit/Source/src/gs2d/projects/Android/Ethanon/assets/shaders/*
+toolkit/Source/projects/xcode/iOS/_assets/
+toolkit/Source/projects/xcode/iOS/__assets/
+toolkit/Source/projects/xcode/iOS/___assets/
 
 # Misc garbage
 *.DS_Store
