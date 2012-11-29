@@ -189,6 +189,8 @@ bool ETHSpriteDrawer::Draw(const unsigned long lastFrameElapsedTimeMS)
 	GS2D_UNUSED_ARGUMENT(lastFrameElapsedTimeMS);
 	if (sprite)
 	{
+		provider->GetVideo()->SetVertexShader(ShaderPtr());
+		provider->GetVideo()->SetPixelShader(ShaderPtr());
 		const Vector2 size(v2Size == Vector2(0,0) ? sprite->GetBitmapSizeF() : v2Size);
 		sprite->SetOrigin(v2Origin);
 		sprite->SetRect(frame);
