@@ -26,6 +26,8 @@ namespace gs2d {
 
 using namespace math;
 
+Platform::SharedDataManager Application::SharedData;
+
 GS2D_API unsigned long ComputeElapsedTime(ApplicationPtr app)
 {
 	return static_cast<unsigned long>(ComputeElapsedTimeF(app));

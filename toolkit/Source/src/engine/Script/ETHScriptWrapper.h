@@ -32,8 +32,6 @@
 
 #include "../../angelscript/include/angelscript.h"
 
-#include <Platform/SharedData/SharedDataManager.h>
-
 class ETHScriptWrapper
 {
 	static str_type::string m_sceneFileName;
@@ -69,8 +67,6 @@ public:
 	};
 
 	static ETHResourceProviderPtr m_provider;
-
-	static Platform::SharedDataManager m_sharedDataManager;
 
 	static bool IsRoundingUpPosition() { return m_roundUpPosition; }
 	static bool IsRunningMainFunction() { return m_runningMainFunction; }

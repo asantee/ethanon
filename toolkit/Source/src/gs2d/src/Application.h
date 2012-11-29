@@ -23,10 +23,12 @@
 #ifndef GS2D_APPLICATION_H_
 #define GS2D_APPLICATION_H_
 
-#include "Math/GameMath.h"
 #include "Types.h"
-#include "Platform/FileIOHub.h"
 #include "Texture.h"
+#include "Math/GameMath.h"
+
+#include "Platform/FileIOHub.h"
+#include "Platform/SharedData/SharedDataManager.h"
 
 namespace gs2d {
 
@@ -67,6 +69,8 @@ public:
 	};
 	typedef boost::shared_ptr<ScreenSizeChangeListener> ScreenSizeChangeListenerPtr;
 	typedef boost::weak_ptr<ScreenSizeChangeListener> ScreenSizeChangeListenerWeakPtr;
+
+	static Platform::SharedDataManager SharedData;
 
 	/// Presents the back buffer, handle events and clears the screen
 	virtual bool ManageLoop() = 0;

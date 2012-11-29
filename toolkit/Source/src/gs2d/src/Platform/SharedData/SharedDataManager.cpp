@@ -71,13 +71,13 @@ bool SharedDataManager::Remove(const gs2d::str_type::string& key)
 	std::map<gs2d::str_type::string, SharedDataPtr>::iterator iter = m_data.find(key);
 	if (iter != m_data.end())
 	{
-		m_data.erase(iter);
-		return true;
+		if (!iter->second->IsConstant())
+		{
+			m_data.erase(iter);
+			return true;
+		}
 	}
-	else
-	{
-		return false;
-	}
+	return false;
 }
 
 } // namespace Platform
