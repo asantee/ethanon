@@ -23,6 +23,9 @@
 package net.asantee.gs2d;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Locale;
 
 import net.asantee.gs2d.audio.MediaStreamListener;
 import net.asantee.gs2d.audio.SoundCommandListener;
@@ -42,24 +45,33 @@ import android.widget.Toast;
 
 public class GS2DActivity extends KeyEventListener {
 
+	private String externalStoragePath;
+	private String globalExternalStoragePath;
+	private AccelerometerListener accelerometerListener;
+	private static final String LOG_DIRECTORY_NAME = "log";
+	private static final String NON_CONTEXT_LOG_DIRECTORY_NAME = ".ethanon/gs2dlog";
+	private GL2JNIView surfaceView;
+	private ArrayList<NativeCommandListener> commandListeners = new ArrayList<NativeCommandListener>();
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		setupExternalStorageDirectories();
+		setValuesToSharedMemory();
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
 		accelerometerListener = new AccelerometerListener(this);
-		mediaStreamListener = new MediaStreamListener(this);
-		surfaceView = new GL2JNIView(this, retrieveApkPath(), accelerometerListener, this, customCommandListener, mediaStreamListener);
+		commandListeners.add(new MediaStreamListener(this));
+		surfaceView = new GL2JNIView(this, retrieveApkPath(), accelerometerListener, this, commandListeners);
 		setContentView(surfaceView);
 	}
 
-	public void setCustomCommandListener(NativeCommandListener commandListener) {
-		this.customCommandListener = commandListener;
+	public void insertCommandListener(NativeCommandListener commandListener) {
+		commandListeners.add(commandListener);
 	}
 
 	@Override
@@ -69,15 +81,14 @@ public class GS2DActivity extends KeyEventListener {
 		surfaceView.onPause();
 
 		surfaceView.destroy();
-		soundCmdListener.clearAll();
-		mediaStreamListener.stop();
+		clearAllSounds();
+		stopMediaStreaming();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		soundCmdListener = new SoundCommandListener(this);
-		GL2JNIView.Renderer.soundCommandListener = soundCmdListener;
+		replaceSoundCommandListener();
 		accelerometerListener.onResume();
 		surfaceView.onResume();
 	}
@@ -85,13 +96,52 @@ public class GS2DActivity extends KeyEventListener {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		mediaStreamListener.release();
+		releaseMediaStreaming();
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu (Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		return false;
+	}
+
+	void replaceSoundCommandListener() {
+		for (int t = 0; t < commandListeners.size(); t++) {
+			if (commandListeners.get(t) instanceof SoundCommandListener) {
+				commandListeners.remove(t);
+			}
+		}
+		commandListeners.add(new SoundCommandListener(this));
+	}
+
+	void clearAllSounds() {
+		findSoundCommandListener(commandListeners).clearAll();
+	}
+
+	void stopMediaStreaming() {
+		findMediaStreamListener(commandListeners).stop();
+	}
+
+	void releaseMediaStreaming() {
+		findMediaStreamListener(commandListeners).release();
+	}
+
+	public static SoundCommandListener findSoundCommandListener(ArrayList<NativeCommandListener> list) {
+		for (Iterator<NativeCommandListener> i = list.iterator(); i.hasNext();) {
+			NativeCommandListener current = i.next();
+			if (current instanceof SoundCommandListener)
+				return (SoundCommandListener) current;
+		}
+		return null;
+	}
+
+	public static MediaStreamListener findMediaStreamListener(ArrayList<NativeCommandListener> list) {
+		for (Iterator<NativeCommandListener> i = list.iterator(); i.hasNext();) {
+			NativeCommandListener current = i.next();
+			if (current instanceof MediaStreamListener)
+				return (MediaStreamListener) current;
+		}
+		return null;
 	}
 
 	String retrieveApkPath() {
@@ -106,6 +156,11 @@ public class GS2DActivity extends KeyEventListener {
 		}
 		apkFilePath = appInfo.sourceDir;
 		return (apkFilePath);
+	}
+
+	private void setValuesToSharedMemory() {
+		final String languageCode = Locale.getDefault().getDisplayLanguage();
+		GS2DJNI.createConstSharedData("ethanon.system.language", languageCode);
 	}
 
 	private boolean verifyExternalStorageState() {
@@ -166,14 +221,4 @@ public class GS2DActivity extends KeyEventListener {
 			}
 		});
 	}
-
-	private String externalStoragePath;
-	private String globalExternalStoragePath;
-	private MediaStreamListener mediaStreamListener;
-	private AccelerometerListener accelerometerListener;
-	private SoundCommandListener soundCmdListener;
-	private static final String LOG_DIRECTORY_NAME = "log";
-	private static final String NON_CONTEXT_LOG_DIRECTORY_NAME = ".ethanon/gs2dlog";
-	private GL2JNIView surfaceView;
-	private NativeCommandListener customCommandListener = null;
 }

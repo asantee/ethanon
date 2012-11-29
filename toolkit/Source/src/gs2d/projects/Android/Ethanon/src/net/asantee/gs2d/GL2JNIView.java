@@ -1,20 +1,29 @@
-/*
- * Copyright (C) 2009 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+/*--------------------------------------------------------------------------------------
+ Ethanon Engine (C) Copyright 2008-2012 Andre Santee
+ http://www.asantee.net/ethanon/
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy of this
+    software and associated documentation files (the "Software"), to deal in the
+    Software without restriction, including without limitation the rights to use, copy,
+    modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+    and to permit persons to whom the Software is furnished to do so, subject to the
+    following conditions:
+
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+    INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+    PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+    HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+    CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+    OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+--------------------------------------------------------------------------------------*/
 
 package net.asantee.gs2d;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.microedition.khronos.egl.EGL10;
 import javax.microedition.khronos.egl.EGLConfig;
@@ -22,8 +31,6 @@ import javax.microedition.khronos.egl.EGLContext;
 import javax.microedition.khronos.egl.EGLDisplay;
 import javax.microedition.khronos.opengles.GL10;
 
-import net.asantee.gs2d.audio.MediaStreamListener;
-import net.asantee.gs2d.audio.SoundCommandListener;
 import net.asantee.gs2d.io.AccelerometerListener;
 import net.asantee.gs2d.io.ApplicationCommandListener;
 import net.asantee.gs2d.io.DefaultCommandListener;
@@ -44,12 +51,10 @@ public class GL2JNIView extends GLSurfaceView {
 	public final String apkPath;
 	private static int MAXIMUM_TOUCHES = 5;
 	protected static Vector2[] currentTouch = new Vector2[MAXIMUM_TOUCHES];
-	// protected static int touchCount = 0;
-	protected MediaStreamListener mediaStreamListener;
 	private FrameHandler frameHandler;
 	private static AccelerometerListener accelerometerListener;
 	private static KeyEventListener keyEventListener;
-	private NativeCommandListener customListener;
+	private ArrayList<NativeCommandListener> commandListeners;
 
 	static class Vector2 {
 		Vector2(float x, float y) {
@@ -68,13 +73,11 @@ public class GL2JNIView extends GLSurfaceView {
 	}
 
 	public GL2JNIView(GS2DActivity activity, String apkPath, AccelerometerListener accelerometerListener,
-			KeyEventListener keyEventListener, NativeCommandListener customListener, MediaStreamListener mediaStreamListener) {
+			KeyEventListener keyEventListener, ArrayList<NativeCommandListener> commandListeners) {
 		super(activity.getApplication());
-		// GL2JNIView.gm = new DefaultGameManager;
 		GL2JNIView.accelerometerListener = accelerometerListener;
 		this.apkPath = apkPath;
-		this.customListener = customListener;
-		this.mediaStreamListener = mediaStreamListener;
+		this.commandListeners = commandListeners;
 		GL2JNIView.keyEventListener = keyEventListener;
 		init(false, 1, 0, activity);
 		retrieveScreenSize(activity);
@@ -95,7 +98,7 @@ public class GL2JNIView extends GLSurfaceView {
 		}
 		setEGLContextFactory(new ContextFactory());
 		setEGLConfigChooser(translucent ? new ConfigChooser(8, 8, 8, 8, depth, stencil) : new ConfigChooser(5, 6, 5, 0, depth, stencil));
-		setRenderer(new Renderer(apkPath, mediaStreamListener, customListener, activity));
+		setRenderer(new Renderer(apkPath, commandListeners, activity));
 	}
 
 	private static class ContextFactory implements GLSurfaceView.EGLContextFactory {
@@ -238,21 +241,16 @@ public class GL2JNIView extends GLSurfaceView {
 	}
 
 	static class Renderer implements GLSurfaceView.Renderer {
-		static SoundCommandListener soundCommandListener; // this one must be recreated after pauses
 		String apkPath;
-		ApplicationCommandListener appListener;
-		NativeCommandListener customListener;
-		MediaStreamListener mediaStreamListener;
 		GS2DActivity activity;
-		DefaultCommandListener defaultCommandListener;
+		ArrayList<NativeCommandListener> commandListeners;
 
-		Renderer(String apkPath, MediaStreamListener mediaStreamListener, NativeCommandListener customListener, GS2DActivity activity) {
+		Renderer(String apkPath, ArrayList<NativeCommandListener> commandListeners, GS2DActivity activity) {
 			this.apkPath = apkPath;
-			this.mediaStreamListener = mediaStreamListener;
-			this.appListener = new ApplicationCommandListener(activity);
-			this.customListener = customListener;
+			this.commandListeners = commandListeners;
+			this.commandListeners.add(new DefaultCommandListener(activity));
+			this.commandListeners.add(new ApplicationCommandListener(activity));
 			this.activity = activity;
-			this.defaultCommandListener = new DefaultCommandListener(activity);
 		}
 
 		public void onDrawFrame(GL10 gl) {
@@ -261,13 +259,11 @@ public class GL2JNIView extends GLSurfaceView {
 			if (!commands.equals("")) {
 				activity.runOnUiThread(new Runnable() {
 					public void run() {
-						defaultCommandListener.parseAndExecuteCommands(commands);
-						if (soundCommandListener != null)
-							soundCommandListener.parseAndExecuteCommands(commands);
-						appListener.parseAndExecuteCommands(commands);
-						mediaStreamListener.parseAndExecuteCommands(commands);
-						if (customListener != null)
-							customListener.parseAndExecuteCommands(commands);
+						for (Iterator<NativeCommandListener> i = commandListeners.iterator(); i.hasNext();) {
+							NativeCommandListener current = i.next();
+							if (current != null)
+								current.parseAndExecuteCommands(commands);
+						}
 					}
 				});
 				Log.i("GS2D_Native_command", commands);
