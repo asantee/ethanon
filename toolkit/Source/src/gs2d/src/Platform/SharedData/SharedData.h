@@ -34,7 +34,7 @@ class SharedData
 
 public:
 	SharedData(const bool constant);
-	bool Set(const gs2d::str_type::string& data);
+	bool Set(const gs2d::str_type::string& data, const bool forceValue = false);
 	gs2d::str_type::string Get() const;
 	bool IsConstant() const;
 	operator gs2d::str_type::string () const;
@@ -42,6 +42,6 @@ public:
 
 typedef boost::shared_ptr<SharedData> SharedDataPtr;
 
-} // namespace SharedData
+} // namespace Platform
 
 #endif

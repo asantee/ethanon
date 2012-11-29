@@ -29,14 +29,14 @@ SharedData::SharedData(const bool constant) :
 {
 }
 
-bool SharedData::Set(const gs2d::str_type::string& data)
+bool SharedData::Set(const gs2d::str_type::string& data, const bool forceValue)
 {
-	const bool isNotConstant = !IsConstant();
-	if (isNotConstant)
+	const bool approved = (!IsConstant() || forceValue);
+	if (approved)
 	{
 		m_data = data;
 	}
-	return isNotConstant;
+	return approved;
 }
 
 gs2d::str_type::string SharedData::Get() const

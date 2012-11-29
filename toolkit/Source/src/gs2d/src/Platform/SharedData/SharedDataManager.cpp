@@ -24,11 +24,21 @@
 
 namespace Platform {
 
+void SharedDataManager::Force(const gs2d::str_type::string& key, const gs2d::str_type::string& data)
+{
+	Set(key, data, true);
+}
+
 bool SharedDataManager::Set(const gs2d::str_type::string& key, const gs2d::str_type::string& data)
+{
+	return Set(key, data, false);
+}
+
+bool SharedDataManager::Set(const gs2d::str_type::string& key, const gs2d::str_type::string& data, const bool forceValue)
 {
 	std::map<gs2d::str_type::string, SharedDataPtr>::const_iterator iter = m_data.find(key);
 	if (iter != m_data.end())
-		return iter->second->Set(data);
+		return iter->second->Set(data, forceValue);
 	else
 		return false;
 }
