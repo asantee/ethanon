@@ -24,6 +24,13 @@
 
 namespace Platform {
 
+void SharedDataManager::Create(const gs2d::str_type::string& key, const gs2d::str_type::string& data, const bool constant)
+{
+	SharedDataPtr newData(new SharedData(constant));
+	newData->Set(data, true);
+	m_data[key] = newData;
+}
+
 void SharedDataManager::Force(const gs2d::str_type::string& key, const gs2d::str_type::string& data)
 {
 	Set(key, data, true);
@@ -38,9 +45,14 @@ bool SharedDataManager::Set(const gs2d::str_type::string& key, const gs2d::str_t
 {
 	std::map<gs2d::str_type::string, SharedDataPtr>::const_iterator iter = m_data.find(key);
 	if (iter != m_data.end())
+	{
 		return iter->second->Set(data, forceValue);
+	}
 	else
-		return false;
+	{
+		Create(key, data, false);
+		return true;
+	}
 }
 
 bool SharedDataManager::IsConstant(const gs2d::str_type::string& key) const

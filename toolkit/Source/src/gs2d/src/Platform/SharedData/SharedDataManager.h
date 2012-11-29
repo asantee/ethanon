@@ -38,6 +38,7 @@ class SharedDataManager
 	bool Set(const gs2d::str_type::string& key, const gs2d::str_type::string& data, const bool forceValue);
 
 public:
+	void Create(const gs2d::str_type::string& key, const gs2d::str_type::string& data, const bool constant);
 	void Force(const gs2d::str_type::string& key, const gs2d::str_type::string& data);
 	bool Set(const gs2d::str_type::string& key, const gs2d::str_type::string& data);
 	bool IsConstant(const gs2d::str_type::string& key) const;
