@@ -685,9 +685,9 @@
 			children = (
 				7421F2F01648417C00C55BAE /* gs2d.framework */,
 				7421F2EE1648415D00C55BAE /* box2d.framework */,
+				74F00ADC1646B9EB00B8B51B /* engine */,
 				7421F28C1647413C00C55BAE /* addons */,
 				7421F2B0164741B700C55BAE /* tinyxml */,
-				74F00ADC1646B9EB00B8B51B /* engine */,
 				74F00AD51646B9EB00B8B51B /* Frameworks */,
 				74F00AD41646B9EB00B8B51B /* Products */,
 				7421F2C1164743D200C55BAE /* angelscript.xcodeproj */,
