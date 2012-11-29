@@ -35,10 +35,10 @@ class SharedDataManager
 {
 	std::map<gs2d::str_type::string, SharedDataPtr> m_data;
 
-	void Force(const gs2d::str_type::string& key, const gs2d::str_type::string& data);
 	bool Set(const gs2d::str_type::string& key, const gs2d::str_type::string& data, const bool forceValue);
 
 public:
+	void Force(const gs2d::str_type::string& key, const gs2d::str_type::string& data);
 	bool Set(const gs2d::str_type::string& key, const gs2d::str_type::string& data);
 	bool IsConstant(const gs2d::str_type::string& key) const;
 	gs2d::str_type::string Get(const gs2d::str_type::string& key) const;
