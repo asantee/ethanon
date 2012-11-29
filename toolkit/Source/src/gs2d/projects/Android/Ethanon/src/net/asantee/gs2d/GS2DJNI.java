@@ -32,4 +32,9 @@ class GS2DJNI {
 	public static native void restore();
 	public static native void start(String apkPath, String externalPath, String globalExternalPath, int width, int height);
 	public static native String runOnUIThread(String inputStr);
+
+	// shared data method bindings
+	public static native String getSharedData(String key);
+	public static native void setSharedData(String key, String value);
+	public static native void createConstSharedData(String key, String value);
 }
