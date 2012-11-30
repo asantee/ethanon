@@ -24,6 +24,7 @@
 		7421F4A51652BCF700C55BAE /* particles in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F49A1652BCF700C55BAE /* particles */; };
 		7421F4A61652BCF700C55BAE /* scenes in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F49B1652BCF700C55BAE /* scenes */; };
 		7421F4A71652BCF700C55BAE /* soundfx in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F49C1652BCF700C55BAE /* soundfx */; };
+		745C90E8166954CE00F3E4EC /* Cg.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 745C90E7166954CE00F3E4EC /* Cg.framework */; };
 		746947371646C59C00CCD9D3 /* SDLMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 746947351646C59C00CCD9D3 /* SDLMain.m */; };
 		7487A4F21646C7D7002DD331 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7487A4F11646C7D7002DD331 /* SDL.framework */; };
 		7487A51D1646DC43002DD331 /* engine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7487A4EB1646C75B002DD331 /* engine.framework */; };
@@ -99,6 +100,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				745C90E8166954CE00F3E4EC /* Cg.framework in CopyFiles */,
 				7421F2D316474D3800C55BAE /* box2d.framework in CopyFiles */,
 				7421F02A1646EFCB00C55BAE /* gs2d.framework in CopyFiles */,
 				7487A53F1646DFC2002DD331 /* SDL.framework in CopyFiles */,
@@ -125,6 +127,7 @@
 		7421F49A1652BCF700C55BAE /* particles */ = {isa = PBXFileReference; lastKnownFileType = folder; name = particles; path = "../../../../Ethanon Toolkit/particles"; sourceTree = "<group>"; };
 		7421F49B1652BCF700C55BAE /* scenes */ = {isa = PBXFileReference; lastKnownFileType = folder; name = scenes; path = "../../../../Ethanon Toolkit/scenes"; sourceTree = "<group>"; };
 		7421F49C1652BCF700C55BAE /* soundfx */ = {isa = PBXFileReference; lastKnownFileType = folder; name = soundfx; path = "../../../../Ethanon Toolkit/soundfx"; sourceTree = "<group>"; };
+		745C90E7166954CE00F3E4EC /* Cg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cg.framework; path = ../../../src/gs2d/vendors/Cg.framework; sourceTree = "<group>"; };
 		746947341646C59C00CCD9D3 /* SDLMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLMain.h; path = ../../../../src/gs2d/src/Platform/macosx/SDLMain.h; sourceTree = "<group>"; };
 		746947351646C59C00CCD9D3 /* SDLMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLMain.m; path = ../../../../src/gs2d/src/Platform/macosx/SDLMain.m; sourceTree = "<group>"; };
 		7487A4D91646C749002DD331 /* engine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = engine.xcodeproj; path = ../OSXEngine/engine.xcodeproj; sourceTree = "<group>"; };
@@ -202,6 +205,7 @@
 		74F00B0E1646C12200B8B51B = {
 			isa = PBXGroup;
 			children = (
+				745C90E7166954CE00F3E4EC /* Cg.framework */,
 				7421F4A81652BCFF00C55BAE /* assets */,
 				7487A53E1646DFC2002DD331 /* SDL.framework */,
 				7487A4F11646C7D7002DD331 /* SDL.framework */,

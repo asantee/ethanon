@@ -83,7 +83,6 @@
 		74838D6C1641C32C0027CFFC /* libirrklang.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 74838D6B1641C32C0027CFFC /* libirrklang.dylib */; settings = {ATTRIBUTES = (Required, ); }; };
 		74838D731641C97B0027CFFC /* libirrklang.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74838D6B1641C32C0027CFFC /* libirrklang.dylib */; };
 		7486553816382B6A0096D869 /* Cg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7486553716382B6A0096D869 /* Cg.framework */; };
-		7486553B16382B960096D869 /* Cg.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7486553A16382B960096D869 /* Cg.framework */; };
 		7486553E16382C000096D869 /* GLCgShaderContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7486553C16382C000096D869 /* GLCgShaderContext.cpp */; };
 		7486553F16382C000096D869 /* GLCgShaderContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 7486553D16382C000096D869 /* GLCgShaderContext.h */; };
 		7486554316383A540096D869 /* GLCgShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7486554116383A540096D869 /* GLCgShader.cpp */; };
@@ -115,7 +114,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				74838D731641C97B0027CFFC /* libirrklang.dylib in CopyFiles */,
-				7486553B16382B960096D869 /* Cg.framework in CopyFiles */,
 				742D34161637A64300A447A2 /* SDL.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

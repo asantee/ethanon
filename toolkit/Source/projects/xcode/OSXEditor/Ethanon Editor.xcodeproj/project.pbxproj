@@ -43,6 +43,7 @@
 		7421F433164C374200C55BAE /* soundfx in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F428164C374200C55BAE /* soundfx */; };
 		7421F43A1651587D00C55BAE /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7421F4391651587C00C55BAE /* icon.icns */; };
 		7421F43E16518D9F00C55BAE /* editor_icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7421F43D16518D9F00C55BAE /* editor_icon.icns */; };
+		745C90E6166952DC00F3E4EC /* Cg.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 745C90E5166952DC00F3E4EC /* Cg.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +91,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				745C90E6166952DC00F3E4EC /* Cg.framework in CopyFiles */,
 				7421F3E6164BF11A00C55BAE /* engine.framework in CopyFiles */,
 				7421F3E5164BF10C00C55BAE /* SDL.framework in CopyFiles */,
 				7421F3E3164BF0EC00C55BAE /* gs2d.framework in CopyFiles */,
@@ -174,6 +176,7 @@
 		7421F4391651587C00C55BAE /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 		7421F43D16518D9F00C55BAE /* editor_icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = editor_icon.icns; sourceTree = "<group>"; };
 		7421F4711651B22000C55BAE /* MainSharedHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MainSharedHeader.h; path = ../../../../src/gs2d/src/Platform/MainSharedHeader.h; sourceTree = "<group>"; };
+		745C90E5166952DC00F3E4EC /* Cg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cg.framework; path = ../../../src/gs2d/vendors/Cg.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,6 +197,7 @@
 		7421F378164BED3200C55BAE = {
 			isa = PBXGroup;
 			children = (
+				745C90E5166952DC00F3E4EC /* Cg.framework */,
 				7421F43D16518D9F00C55BAE /* editor_icon.icns */,
 				7421F4391651587C00C55BAE /* icon.icns */,
 				7421F434164C839700C55BAE /* Resources */,
