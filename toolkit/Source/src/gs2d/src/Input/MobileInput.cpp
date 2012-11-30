@@ -111,14 +111,19 @@ bool MobileInput::Update()
 	{
 		m_touchStates[t].Update(m_currentTouch[t] != GS_NO_TOUCH);
 
-		m_touchMove[t] = Vector2(0, 0);
-		if (m_currentTouch[t] != GS_NO_TOUCH)
+		const GS_KEY_STATE state = m_touchStates[t].GetCurrentState();
+		if (state == GSKS_HIT)
 		{
-			if (m_touchStates[t].GetCurrentState() == GSKS_DOWN)
-			{
-				m_touchMove[t] = m_currentTouch[t] - m_lastTouch[t];
-				m_lastTouch[t] = m_currentTouch[t];
-			}
+			m_lastTouch[t] = m_currentTouch[t];
+		}
+		else if (state == GSKS_DOWN)
+		{
+			m_touchMove[t] = m_currentTouch[t] - m_lastTouch[t];
+			m_lastTouch[t] = m_currentTouch[t];
+		}
+		else
+		{
+			m_touchMove[t] = Vector2(0, 0);
 		}
 	}
 	return true;
