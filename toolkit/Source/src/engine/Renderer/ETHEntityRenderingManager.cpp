@@ -95,8 +95,9 @@ void ETHEntityRenderingManager::AddDecomposedPieces(
 
 			ETHParticleManagerPtr particle = entity->GetParticleManager(t);
 
+			const float shift = ETHParticleManager::GetParticleDepthShift(ETHEntityProperties::ResolveDepthSortingMode(entity->GetType()));
 			const float depth = ETHEntity::ComputeDepth(
-				particle->GetZPosition() + entity->GetPositionZ() + _ETH_PARTICLE_DEPTH_SHIFT,
+				particle->GetZPosition() + entity->GetPositionZ() + shift,
 				maxHeight,
 				minHeight);
 

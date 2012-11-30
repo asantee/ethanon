@@ -402,6 +402,37 @@ void ETHParticleManager::BubbleSort(std::vector<PARTICLE> &v)
 	}
 }
 
+float ETHParticleManager::ComputeParticleDepth(
+	const DEPTH_SORTING_MODE& ownerType,
+	const float& ownerDepth,
+	const PARTICLE& particle,
+	const float& maxHeight,
+	const float& minHeight)
+{
+	float r = 0.0f;
+
+	// compute depth
+	if (ownerType == LAYERABLE)
+	{
+		r = (ownerDepth);
+	}
+	else
+	{
+		float offsetYZ = particle.startPoint.z;
+		if (ownerType == INDIVIDUAL_OFFSET)
+		{
+			offsetYZ += particle.GetOffset() + GetParticleDepthShift(ownerType);
+		}
+		r = (ETHEntity::ComputeDepth(offsetYZ, maxHeight, minHeight));
+	}
+	return r;
+}
+
+float ETHParticleManager::GetParticleDepthShift(const DEPTH_SORTING_MODE& ownerType)
+{
+	return (ownerType == INDIVIDUAL_OFFSET) ? _ETH_PARTICLE_DEPTH_SHIFT : 0.0f;
+}
+
 bool ETHParticleManager::DrawParticleSystem(
 	Vector3 v3Ambient,
 	const float maxHeight,
@@ -461,20 +492,7 @@ bool ETHParticleManager::DrawParticleSystem(
 		// compute the right in-screen position
 		const Vector2 v2Pos = ETHGlobal::ToScreenPos(Vector3(particle.pos, m_system.startPoint.z), zAxisDirection);
 
-		// compute depth
-		if (ownerType == LAYERABLE)
-		{
-			SetParticleDepth(ownerDepth);
-		}
-		else
-		{
-			float offsetYZ = particle.startPoint.z;
-			if (ownerType == INDIVIDUAL_OFFSET)
-			{
-				offsetYZ += particle.GetOffset() + _ETH_PARTICLE_DEPTH_SHIFT;
-			}
-			SetParticleDepth(ETHEntity::ComputeDepth(offsetYZ, maxHeight, minHeight));
-		}
+		SetParticleDepth(ComputeParticleDepth(ownerType, ownerType, particle, maxHeight, minHeight));
 
 		// draw
 		if (m_system.spriteCut.x > 1 || m_system.spriteCut.y > 1)

@@ -230,6 +230,16 @@ private:
 	void ResetParticle(const int t, const Vector2& v2Pos, const Vector3& v3Pos, const float angle, const Matrix4x4& rotMatrix);
 	void PositionParticle(const int t, const Vector2& v2Pos, const float angle, const Matrix4x4& rotMatrix, const Vector3& v3Pos);
 	void SetParticleDepth(const float depth);
+
+public:
+	static float ComputeParticleDepth(
+		const DEPTH_SORTING_MODE& ownerType,
+		const float& ownerDepth,
+		const PARTICLE& particle,
+		const float& maxHeight,
+		const float& minHeight);
+
+	static float GetParticleDepthShift(const DEPTH_SORTING_MODE& ownerType);
 };
 
 typedef boost::shared_ptr<ETHParticleManager> ETHParticleManagerPtr;
