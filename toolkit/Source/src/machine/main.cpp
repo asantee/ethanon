@@ -78,7 +78,7 @@ str_type::string FindResourceDir(const int argc, gs2d::str_type::char_t* argv[])
 		const str_type::string argStr = (argv[t]);
 		if (argStr.substr(0, 4) == GS_L("dir="))
 		{
-			const std::vector<str_type::string> pieces = ETHGlobal::SplitString(argStr, GS_L("="));
+			const std::vector<str_type::string> pieces = Platform::SplitString(argStr, GS_L("="));
 			if (pieces.size() >= 2)
 			{
 				str_type::string dir = Platform::AddLastSlash(pieces[1]);

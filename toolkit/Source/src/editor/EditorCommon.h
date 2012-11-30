@@ -24,13 +24,14 @@
 #define ETH_EDITORCOMMON_H_
 
 #include "../engine/ETHTypes.h"
-#include "../engine/Util/ETHASUtil.h"
+
+#include <Platform/Platform.h>
 
 struct FILE_FORM_FILTER
 {
 	inline FILE_FORM_FILTER(const str_type::string& _title, const str_type::string& commaSeparatedExtensions) :
 		title(_title),
-		extensionsAllowed(ETHGlobal::SplitString(commaSeparatedExtensions, GS_L(",")))
+		extensionsAllowed(Platform::SplitString(commaSeparatedExtensions, GS_L(",")))
 	{
 	}
 	str_type::string title;
