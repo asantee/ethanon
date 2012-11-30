@@ -211,3 +211,24 @@ void runMathTests()
 	
 	}
 }
+
+void runSharedDataTests()
+{
+	SetSharedData("ethanon.testbed.data01", "data01");
+	SetSharedData("ethanon.testbed.data02", "data02");
+	SetSharedData("ethanon.testbed.data03", "data03");
+
+	if (!SharedDataExists("ethanon.testbed.data01")
+		|| SharedDataExists("ethanon.testbed.data02")
+		|| SharedDataExists("ethanon.testbed.data03"))
+	{
+		print("SharedDataExists test failed\x07\n");
+	}
+
+	if (GetSharedData("ethanon.testbed.data01") != "data01")
+		print("GetSharedData test failed\x07\n");
+	if (GetSharedData("ethanon.testbed.data02") != "data02")
+		print("GetSharedData test failed\x07\n");
+	if (GetSharedData("ethanon.testbed.data03") != "data03")
+		print("GetSharedData test failed\x07\n");
+}
