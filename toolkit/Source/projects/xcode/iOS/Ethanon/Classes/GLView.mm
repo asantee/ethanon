@@ -22,7 +22,6 @@
 
 #import "GLView.h"
 #import <OpenGLES/ES2/gl.h>
-#import <AudioToolbox/AudioServices.h>
 
 #import <Platform/ios/Platform.ios.h>
 #import <Platform/FileLogger.h>
@@ -30,6 +29,8 @@
 
 #import <Input/iOS/IOSInput.h>
 #import <Audio/iOS/IOSAudio.h>
+
+#import <Platform/ios/IOSNativeCommandListener.h>
 
 @implementation GLView
 
@@ -96,7 +97,11 @@
 
 		[[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
 	}
+
 	Platform::ios::StartTime::m_startTime = [[NSDate date] timeIntervalSince1970];
+
+	[self insertCommandListener:(Platform::NativeCommandListenerPtr(new Platform::IOSNativeCommmandListener(m_video)))];
+
     return self;
 }
 
@@ -115,7 +120,10 @@
 {
 	if (!m_mayRender)
 		return;
+
 	static bool render = false;
+
+	#warning to-do: do update and render on different threads
 	if (render)
 	{
 		m_engine->RenderFrame();
@@ -142,37 +150,18 @@
 	render = !render;
 }
 
+- (void) insertCommandListener:(Platform::NativeCommandListenerPtr)listener
+{
+	m_commandListeners.push_back(listener);
+}
+
 - (void) manageCommands
 {
 	const gs2d::str_type::string str = m_video->PullCommands();
-	NSString* cmds = [NSString stringWithUTF8String:str.c_str()];
-	NSArray *lines = [cmds componentsSeparatedByString:@"\n"];
-	for (NSString* line in lines)
+	for (std::size_t t = 0; t < m_commandListeners.size(); t++)
 	{
-		NSArray *words = [line componentsSeparatedByString:@" "];
-		NSString* word0 = [words objectAtIndex:0];
-		if ([word0 isEqual:@"open_url"])
-		{
-			NSString* word1 = [words objectAtIndex:1];
-			[self upenUrl:word1];
-		}
-		else if ([word0 isEqual:@"vibrate"])
-		{
-			NSString* word1 = [words objectAtIndex:1];
-			const double vibrateTime = [word1 doubleValue];
-			// if the vibrate time requested is to low, let's not even trigger the
-			// event since iOS doesn't allow specific vibration intervals
-			if (vibrateTime > 60)
-			{
-				AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-			}
-		}
+		m_commandListeners[t]->ParseAndExecuteCommands(str);
 	}
-}
-
-- (void) upenUrl: (NSString*)url
-{
-	[[UIApplication sharedApplication] openURL:[NSURL URLWithString: url]];
 }
 
 - (void) applicationDidEnterBackground:(UIApplication *)application

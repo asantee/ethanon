@@ -201,6 +201,7 @@
 		74666E86165A7D1E00C70736 /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666E81165A7D1E00C70736 /* tinyxml.cpp */; };
 		74666E87165A7D1E00C70736 /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666E83165A7D1E00C70736 /* tinyxmlerror.cpp */; };
 		74666E88165A7D1E00C70736 /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666E84165A7D1E00C70736 /* tinyxmlparser.cpp */; };
+		747F75D61668F3000004CB39 /* IOSNativeCommandListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = 747F75D41668F3000004CB39 /* IOSNativeCommandListener.mm */; };
 		748503091562BCBD00E2104A /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 748503081562BCBC00E2104A /* Default-Landscape@2x~ipad.png */; };
 		7485030B1562BCE600E2104A /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7485030A1562BCE600E2104A /* Default-Portrait@2x~ipad.png */; };
 		7485030D1562BCF300E2104A /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7485030C1562BCF300E2104A /* Default-Landscape~ipad.png */; };
@@ -631,6 +632,9 @@
 		74666E82165A7D1E00C70736 /* tinyxml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tinyxml.h; path = ../../../src/vendors/tinyxml_ansi/tinyxml.h; sourceTree = "<group>"; };
 		74666E83165A7D1E00C70736 /* tinyxmlerror.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxmlerror.cpp; path = ../../../src/vendors/tinyxml_ansi/tinyxmlerror.cpp; sourceTree = "<group>"; };
 		74666E84165A7D1E00C70736 /* tinyxmlparser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxmlparser.cpp; path = ../../../src/vendors/tinyxml_ansi/tinyxmlparser.cpp; sourceTree = "<group>"; };
+		747F75D31668F1890004CB39 /* NativeCommandListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NativeCommandListener.h; path = ../../../src/gs2d/src/Platform/NativeCommandListener.h; sourceTree = "<group>"; };
+		747F75D41668F3000004CB39 /* IOSNativeCommandListener.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = IOSNativeCommandListener.mm; path = ../../../src/gs2d/src/Platform/ios/IOSNativeCommandListener.mm; sourceTree = "<group>"; };
+		747F75D51668F3000004CB39 /* IOSNativeCommandListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IOSNativeCommandListener.h; path = ../../../src/gs2d/src/Platform/ios/IOSNativeCommandListener.h; sourceTree = "<group>"; };
 		748503081562BCBC00E2104A /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
 		7485030A1562BCE600E2104A /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
 		7485030C1562BCF300E2104A /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
@@ -1126,6 +1130,7 @@
 				74666E3F165A7C3A00C70736 /* Platform.h */,
 				74666E40165A7C3A00C70736 /* StdAnsiFileManager.cpp */,
 				74666E41165A7C3A00C70736 /* StdAnsiFileManager.h */,
+				747F75D31668F1890004CB39 /* NativeCommandListener.h */,
 			);
 			name = Platform;
 			sourceTree = "<group>";
@@ -1467,10 +1472,12 @@
 		74FBF1821437D10800C67129 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				747F75D41668F3000004CB39 /* IOSNativeCommandListener.mm */,
+				747F75D51668F3000004CB39 /* IOSNativeCommandListener.h */,
 				74666E4A165A7C4E00C70736 /* IOSFileIOHub.cpp */,
 				74666E4B165A7C4E00C70736 /* IOSFileIOHub.h */,
-				74666E4C165A7C4E00C70736 /* Platform.ios.h */,
 				74666E4D165A7C4E00C70736 /* Platform.ios.mm */,
+				74666E4C165A7C4E00C70736 /* Platform.ios.h */,
 			);
 			name = iOS;
 			sourceTree = "<group>";
@@ -1750,6 +1757,7 @@
 				749CB4731666554F00939B0A /* ETHEntityPieceRenderer.cpp in Sources */,
 				749CB4741666554F00939B0A /* ETHEntityRenderingManager.cpp in Sources */,
 				749CB4751666554F00939B0A /* ETHEntitySpriteRenderer.cpp in Sources */,
+				747F75D61668F3000004CB39 /* IOSNativeCommandListener.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

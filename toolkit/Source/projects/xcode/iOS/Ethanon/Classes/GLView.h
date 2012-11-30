@@ -21,9 +21,12 @@
  --------------------------------------------------------------------------------------*/
 
 #import <QuartzCore/QuartzCore.h>
+
 #import <Video.h>
 #import <Input.h>
 #import <Audio.h>
+#import <Platform/NativeCommandListener.h>
+
 #import <engine/ETHEngine.h>
 
 @interface GLView : UIView
@@ -37,17 +40,18 @@
 	gs2d::BaseApplicationPtr m_engine;
 	float m_density;
 	bool m_mayRender;
+	std::vector<Platform::NativeCommandListenerPtr> m_commandListeners;
 }
 
 - (id) initWithFrame:(CGRect) screenBounds;
 - (void) renderFrame: (CADisplayLink*) displayLink;
 - (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation;
-- (void) upenUrl: (NSString*)url;
 - (void) setAccelVectorToInput:(const gs2d::math::Vector3&) cellVector;
 - (void) manageCommands;
 - (void) applicationDidEnterBackground:(UIApplication*)application;
 - (void) applicationWillEnterForeground:(UIApplication*)application;
 - (void) applicationWillResignActive:(UIApplication*)application;
 - (void) applicationDidBecomeActive:(UIApplication*)application;
+- (void) insertCommandListener:(Platform::NativeCommandListenerPtr)listener;
 
 @end
