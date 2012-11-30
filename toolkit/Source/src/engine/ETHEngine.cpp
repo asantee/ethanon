@@ -188,7 +188,10 @@ void ETHEngine::RenderFrame()
 	m_backBuffer->BeginRendering();
 
 	// draw scene (if there's any)
-	m_pScene->RenderScene(IsRoundingUpPosition());
+	
+	if (m_pScene)
+		m_pScene->RenderScene(IsRoundingUpPosition());
+
 	m_v2LastCamPos = GetCameraPos();
 
 	// draw sprites, rects, lines and texts
