@@ -163,19 +163,6 @@ std::string AppendExtensionIfNeeded(std::string source, const std::string& ext)
 	return source;
 }
 
-std::vector<str_type::string> SplitString(str_type::string str, const str_type::string& c)
-{
-	std::vector<str_type::string> v; // I know...
-	std::size_t pos;
-	while ((pos = str.find(c)) != str_type::string::npos)
-	{
-		v.push_back(str.substr(0, pos));
-		str = str.substr(pos + c.length(), str_type::string::npos);
-	}
-	v.push_back(str);
-	return v;
-}
-
 str_type::string GetDataResourceFullPath(const str_type::string& path, const str_type::string& file)
 {
 	return path + file;

@@ -22,6 +22,7 @@
 
 #include "ETHEntityChooser.h"
 
+#include <Platform/Platform.h>
 
 ETHEntityNameChooser::ETHEntityNameChooser(const gs2d::str_type::string& name) :
 	m_name(name)
@@ -42,7 +43,7 @@ ETHEntityNameArrayChooser::ETHEntityNameArrayChooser(const std::vector<gs2d::str
 ETHEntityNameArrayChooser::ETHEntityNameArrayChooser(const gs2d::str_type::string& semicolonSeparatedNames, const bool isIgnoreList) :
 	m_isIgnoreList(isIgnoreList)
 {
-	m_names = ETHGlobal::SplitString(semicolonSeparatedNames, GS_L(";"));
+	m_names = Platform::SplitString(semicolonSeparatedNames, GS_L(";"));
 }
 
 bool ETHEntityNameArrayChooser::Choose(ETHEntity* entity) const

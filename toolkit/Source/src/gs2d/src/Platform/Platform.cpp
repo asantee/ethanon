@@ -115,6 +115,19 @@ bool IsExtensionRight(const gs2d::str_type::string& fileName, const gs2d::str_ty
 	}
 }
 
+std::vector<gs2d::str_type::string> SplitString(gs2d::str_type::string str, const gs2d::str_type::string& c)
+{
+	std::vector<gs2d::str_type::string> v;
+	std::size_t pos;
+	while ((pos = str.find(c)) != gs2d::str_type::string::npos)
+	{
+		v.push_back(str.substr(0, pos));
+		str = str.substr(pos + c.length(), gs2d::str_type::string::npos);
+	}
+	v.push_back(str);
+	return v;
+}
+
 #ifdef GS2D_STR_TYPE_WCHAR
 	std::wstring GetFileName(const std::wstring& source)
 	{

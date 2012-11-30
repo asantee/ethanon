@@ -37,7 +37,6 @@ namespace ETHGlobal {
 	bool IsTrue(const std::string& source);
 	bool FileExists(const str_type::string& file, const Platform::FileManagerPtr& fileManager);
 	std::string AppendExtensionIfNeeded(std::string source, const std::string& ext);
-	std::vector<str_type::string> SplitString(str_type::string str, const str_type::string& c);
 	str_type::string GetDataResourceFullPath(const str_type::string& path, const str_type::string& file);
 	Vector2 ToScreenPos(const Vector3 &v3Pos, const Vector2 &zAxisDirection);
 	Vector2 ToVector2(const Vector3 &v3);

@@ -23,7 +23,10 @@
 #include "ETHAppEnmlFile.h"
 
 #include "../ETHTypes.h"
+
 #include "../Util/ETHASUtil.h"
+
+#include <Platform/Platform.h>
 
 #include <boost/lexical_cast.hpp>
 
@@ -125,7 +128,7 @@ void ETHAppEnmlFile::LoadProperties(const str_type::string& platformName, const 
 	if (!newTitle.empty())
 		title = newTitle;
 
-	std::vector<gs2d::str_type::string> words = ETHGlobal::SplitString(file.Get(platformName, GS_L("definedWords")), GS_L(","));
+	std::vector<gs2d::str_type::string> words = Platform::SplitString(file.Get(platformName, GS_L("definedWords")), GS_L(","));
 	definedWords.insert(definedWords.end(), words.begin(), words.end());
 	std::sort(definedWords.begin(), definedWords.end());
 

@@ -25,7 +25,7 @@
 
 #include "../Types.h"
 
-#include <string>
+#include <vector>
 
 namespace Platform {
 
@@ -37,6 +37,7 @@ std::string& FixSlashes(std::string& path, const char slash);
 std::string& FixSlashesForUnix(std::string& path);
 
 bool CreateDirectory(const std::string& path);
+std::vector<gs2d::str_type::string> SplitString(gs2d::str_type::string str, const gs2d::str_type::string& c);
 
 char GetDirectorySlashA();
 gs2d::str_type::string GetModuleDirectory();
