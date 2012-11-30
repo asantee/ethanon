@@ -102,6 +102,9 @@
 
 	[self insertCommandListener:(Platform::NativeCommandListenerPtr(new Platform::IOSNativeCommmandListener(m_video)))];
 
+	NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
+	gs2d::Application::SharedData.Create(GS_L("ethanon.system.language"), [language cStringUsingEncoding:1], true);
+
     return self;
 }
 
