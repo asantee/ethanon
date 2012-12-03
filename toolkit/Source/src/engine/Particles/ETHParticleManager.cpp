@@ -492,7 +492,7 @@ bool ETHParticleManager::DrawParticleSystem(
 		// compute the right in-screen position
 		const Vector2 v2Pos = ETHGlobal::ToScreenPos(Vector3(particle.pos, m_system.startPoint.z), zAxisDirection);
 
-		SetParticleDepth(ComputeParticleDepth(ownerType, ownerType, particle, maxHeight, minHeight));
+		SetParticleDepth(ComputeParticleDepth(ownerType, ownerDepth, particle, maxHeight, minHeight));
 
 		// draw
 		if (m_system.spriteCut.x > 1 || m_system.spriteCut.y > 1)
