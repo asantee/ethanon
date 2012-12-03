@@ -93,6 +93,13 @@ bool ETHScriptWrapper::Aborted()
 	return m_abort;
 }
 
+void ETHScriptWrapper::DrawBlackCurtain()
+{
+	const SpritePtr sprite = m_provider->GetShaderManager()->GetOpaqueSprite();
+	const Vector2& screenSize(m_provider->GetVideo()->GetScreenSizeF());
+	DrawShapedFromPtr(sprite, gs2d::math::constant::ZERO_VECTOR2, screenSize, gs2d::constant::BLACK, 0.0f);
+}
+
 Vector2 ETHScriptWrapper::GetCursorPos()
 {
 	return m_provider->GetInput()->GetCursorPositionF(m_provider->GetVideo()) * m_backBuffer->GetTargetScale();

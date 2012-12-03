@@ -48,8 +48,7 @@ void ETHScriptWrapper::LoadSprite(const str_type::string &name)
 SpritePtr ETHScriptWrapper::LoadAndGetSprite(const str_type::string &name)
 {
 	str_type::string resourceDirectory = m_provider->GetFileIOHub()->GetResourceDirectory();
-	str_type::string path = resourceDirectory;
-	path += name;
+	str_type::string path = resourceDirectory + name;
 	return m_provider->GetGraphicResourceManager()->AddFile(m_provider->GetVideo(), path, resourceDirectory, false);
 }
 
@@ -106,22 +105,34 @@ void ETHScriptWrapper::SetSpriteOrigin(const str_type::string& name, const Vecto
 	}
 }
 
+void ETHScriptWrapper::DrawShapedFromPtr(
+	const SpritePtr& sprite,
+	const Vector2 &v2Pos,
+	const Vector2 &v2Size,
+	const GS_DWORD color,
+	const float angle)
+{
+	m_drawableManager.Insert(boost::shared_ptr<ETHDrawable>(
+		new ETHSpriteDrawer(
+			m_provider,
+			sprite,
+			v2Pos,
+			v2Size,
+			color,
+			angle,
+			sprite->GetRectIndex())));
+}
+
 void ETHScriptWrapper::DrawSprite(const str_type::string &name, const Vector2 &v2Pos, const GS_DWORD color, const float angle)
 {
-	SpritePtr pSprite = LoadAndGetSprite(name);
-	m_drawableManager.Insert(boost::shared_ptr<ETHDrawable>(
-		new ETHSpriteDrawer(m_provider, m_provider->GetGraphicResourceManager(),
-							m_provider->GetFileIOHub()->GetResourceDirectory(), name, v2Pos,
-							Vector2(0,0), color, angle, pSprite->GetRectIndex())));
+	SpritePtr sprite = LoadAndGetSprite(name);
+	DrawShapedFromPtr(sprite, v2Pos, Vector2(-1,-1), color, angle);
 }
 
 void ETHScriptWrapper::DrawShaped(const str_type::string &name, const Vector2 &v2Pos, const Vector2 &v2Size, const GS_DWORD color, const float angle)
 {
-	SpritePtr pSprite = LoadAndGetSprite(name);
-	m_drawableManager.Insert(boost::shared_ptr<ETHDrawable>(
-		new ETHSpriteDrawer(m_provider, m_provider->GetGraphicResourceManager(),
-							m_provider->GetFileIOHub()->GetResourceDirectory(), name, v2Pos,
-							v2Size, color, angle, pSprite->GetRectIndex())));
+	SpritePtr sprite = LoadAndGetSprite(name);
+	DrawShapedFromPtr(sprite, v2Pos, v2Size, color, angle);
 }
 
 void ETHScriptWrapper::PlayParticleEffect(const str_type::string& fileName, const Vector2& pos, const float angle, const float scale)

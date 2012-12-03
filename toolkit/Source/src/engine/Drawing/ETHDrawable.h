@@ -122,9 +122,7 @@ class ETHSpriteDrawer : public ETHDrawable
 public:
 	ETHSpriteDrawer(
 		const ETHResourceProviderPtr& provider,
-		ETHGraphicResourceManagerPtr graphicResources,
-		const str_type::string& resourceDirectory,
-		const str_type::string& name,
+		const SpritePtr& sprite,
 		const Vector2& pos,
 		const Vector2& size,
 		const Color& color,
@@ -135,16 +133,14 @@ public:
 	bool IsAlive() const;
 
 private:
+	ETHResourceProviderPtr provider;
 	Vector2 v2Pos;
 	Vector2 v2Size;
 	Vector2 v2Origin;
 	SpritePtr sprite;
 	Color color0, color1, color2, color3;
-	str_type::string name;
 	float angle;
-	str_type::string resourceDirectory;
 	unsigned int frame;
-	ETHResourceProviderPtr provider;
 };
 
 #endif

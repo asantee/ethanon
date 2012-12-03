@@ -50,6 +50,8 @@ ETHShaderManager::ETHShaderManager(VideoPtr video, const str_type::string& shade
 		m_projShadow = m_video->CreateSprite(ETHGlobal::GetDataResourceFullPath(shaderPath, GS_L("shadow.dds")));
 	#endif
 
+	m_opaqueSprite = m_video->CreateSprite(ETHGlobal::GetDataResourceFullPath(shaderPath, GS_L("default_nm.png")));
+
 	if (m_richLighting)
 	{
 		// Not yet implemented on GLES2
@@ -142,6 +144,11 @@ bool ETHShaderManager::BeginLightPass(ETHSpriteEntity *pRender, const ETHLight* 
 	m_currentProfile->BeginLightPass(pRender, v3LightPos, v2Size, light, maxHeight, minHeight, lightIntensity, drawToTarget);
 	m_parallaxManager.SetShaderParameters(m_video, m_video->GetVertexShader(), pRender->GetPosition(), pRender->GetParallaxIndividualIntensity(), drawToTarget);
 	return true;
+}
+
+SpritePtr ETHShaderManager::GetOpaqueSprite()
+{
+	return m_opaqueSprite;
 }
 
 bool ETHShaderManager::EndLightPass()

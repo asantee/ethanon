@@ -50,6 +50,8 @@ protected:
 	static GARBAGE_COLLECT_MODE m_gcMode;
 	static int GetFunctionId(asIScriptModule* pModule, const str_type::string& name);
 
+	static void DrawBlackCurtain();
+
 public:
 	struct ETH_VIDEO_MODE_POD
 	{
@@ -251,6 +253,7 @@ public:
 	static bool AddVector3Data(const str_type::string &entity, const str_type::string &name, const Vector3 &value);
 
 	static SpritePtr LoadAndGetSprite(const str_type::string &name);
+	static void DrawShapedFromPtr(const SpritePtr& sprite, const Vector2 &v2Pos, const Vector2 &v2Size, const GS_DWORD color, const float angle);
 	static void LoadSprite(const str_type::string &name);
 	static void DrawSprite(const str_type::string &name, const Vector2 &v2Pos, const GS_DWORD color, const float angle);
 	static void DrawShaped(const str_type::string &name, const Vector2 &v2Pos, const Vector2 &v2Size, const GS_DWORD color, const float angle);

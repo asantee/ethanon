@@ -78,6 +78,8 @@ public:
 	inline float GetParallaxVerticalIntensity() const { return m_parallaxManager.GetVerticalIntensity(); }
 	inline bool IsRichLightingEnabled() const { return m_richLighting; }
 
+	SpritePtr GetOpaqueSprite();
+
 private:
 
 	ETHLightingProfilePtr FindHighestLightingProfile();
@@ -89,7 +91,7 @@ private:
 	ETHLightingProfilePtr m_currentProfile;
 	VideoPtr m_video;
 	Video::ALPHA_MODE m_lastAM;
-	SpritePtr m_projShadow;
+	SpritePtr m_projShadow, m_opaqueSprite;
 	ShaderPtr m_shadowVS;
 	ShaderPtr m_defaultVS;
 	ShaderPtr m_particle;

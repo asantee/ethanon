@@ -157,16 +157,14 @@ bool ETHLineDrawer::IsAlive() const
 
 ETHSpriteDrawer::ETHSpriteDrawer(
 	const ETHResourceProviderPtr& provider,
-	ETHGraphicResourceManagerPtr graphicResources,
-	const str_type::string& resourceDirectory,
-	const str_type::string& name,
+	const SpritePtr& sprite,
 	const Vector2& pos,
 	const Vector2& size,
 	const Color& color,
 	const float angle,
 	const unsigned int frame)
 {
-	this->name = name;
+	this->sprite = sprite;
 	this->color0 = color;
 	this->color1 = color;
 	this->color2 = color;
@@ -174,13 +172,10 @@ ETHSpriteDrawer::ETHSpriteDrawer(
 	this->v2Pos = pos;
 	this->v2Size = size;
 	this->angle = angle;
-	this->provider = provider;
-	this->resourceDirectory = resourceDirectory;
 	this->frame = frame;
+	this->provider = provider;
 
-	str_type::string searchPath(Platform::GetFileDirectory(name.c_str()));
-	sprite = graphicResources->GetPointer(provider->GetVideo(), name, resourceDirectory, searchPath, false);
-	if (sprite)
+	if (this->sprite)
 		this->v2Origin = sprite->GetOrigin();
 }
 
@@ -191,7 +186,7 @@ bool ETHSpriteDrawer::Draw(const unsigned long lastFrameElapsedTimeMS)
 	{
 		provider->GetVideo()->SetVertexShader(ShaderPtr());
 		provider->GetVideo()->SetPixelShader(ShaderPtr());
-		const Vector2 size(v2Size == Vector2(0,0) ? sprite->GetBitmapSizeF() : v2Size);
+		const Vector2 size(v2Size == Vector2(-1,-1) ? sprite->GetFrameSize() : v2Size);
 		sprite->SetOrigin(v2Origin);
 		sprite->SetRect(frame);
 		return sprite->DrawShaped(v2Pos, size, color0, color1, color2, color3, angle);
