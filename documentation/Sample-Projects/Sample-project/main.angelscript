@@ -33,10 +33,13 @@ void GameLoop()
 	if (input.GetKeyState(K_ALT) == KS_DOWN && input.GetKeyState(K_RETURN) == KS_HIT)
 	{
 		const bool willGoWindowed = !Windowed();
-		const vector2 systemScreenSize = GetSystemScreenSize();
+		print(willGoWindowed ? "going to windows" : "going to fullscreen");
+
+		const videoMode bestVideoMode = GetVideoMode(GetVideoModeCount() - 1);
+
 		SetWindowProperties("Ethanon Engine",
-							willGoWindowed ? 1024 : uint(systemScreenSize.x),
-							willGoWindowed ?  768 : uint(systemScreenSize.y),
+							willGoWindowed ? 1024 : bestVideoMode.width,
+							willGoWindowed ?  768 : bestVideoMode.height,
 							willGoWindowed, true, PF32BIT);
 	}
 
