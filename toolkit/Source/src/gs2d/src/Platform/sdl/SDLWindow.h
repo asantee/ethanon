@@ -32,6 +32,7 @@ namespace gs2d {
 class SDLWindow : public virtual Video
 {
 	friend class SDLInput;
+	friend class GLSDLVideo;
 
 	Platform::FileIOHubPtr m_fileIOHub;
 	bool m_maximizable, m_sync, m_windowed, m_quitKeysEnabled, m_quit;

@@ -178,7 +178,11 @@ bool GLSDLVideo::ResetVideoMode(
 	const Texture::PIXEL_FORMAT pfBB,
 	const bool toggleFullscreen)
 {
-	if (SDL_SetVideoMode(width, height, 0, AssembleFlags(IsWindowed(), IsMaximizable(), SyncEnabled())) != 0)
+	bool windowed = IsWindowed();
+	if (toggleFullscreen)
+		windowed = !windowed;
+
+	if (SDL_SetVideoMode(width, height, 0, AssembleFlags(windowed, IsMaximizable(), SyncEnabled())) != 0)
 	{
 		m_screenSize.x = static_cast<float>(width);
 		m_screenSize.y = static_cast<float>(height);
