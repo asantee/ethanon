@@ -1,8 +1,29 @@
-﻿ethanon
-=======
+﻿Ethanon engine
+==============
 
-Ethanon Engine is a free 2D game development tool focused on the recent video cards for hardware acceleration and shader effects. Any game style is allowed, such as top-down view RPGs, side scrollers and shoot'em up games. The main goal is to provide high-quality lighting, shadow and particle effects with an easy to use visual interface, simple and direct scripting environment.
+- [About the engine] [1]
+- [Sample codes] [2]
 
-Entirely based on 2D sprites, Ethanon Engine uses pixel shaders to perform normal map based lighting and supports many sorts of map design (e.g.: isometric, orthogonal, hexagonal) since it is based on arbitrarily positioned entities instead of fixed tiles.
+  [1]: http://doc.ethanonengine.com/manual/6
+  [2]: https://github.com/asantee/ethanon-samples
 
-Game flow on Ethanon Engine is controlled by the AngelScript language, which brings familiar Java/C#/C++ syntax to gameplay scripts.
+How to build
+============
+
+Things that can't be missed in order to compile successfully.
+
+Windows
+-------
+
+- Use Visual Studio 2008 (9.0)
+- Run **make_deploy.bat** to deploy all platform libraries and binaries.
+
+Mac OS X
+--------
+
+- Use Xcode
+- Unpack the following files located at **toolkit/Source/src/gs2d/vendors**:
+  - vendors.7z (for the BoostSDK/)
+  - irrKlang.zip
+  - Cg.framework.zip
+  - SDL.framework.zip
