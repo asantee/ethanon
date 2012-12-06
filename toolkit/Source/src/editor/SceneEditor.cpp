@@ -21,11 +21,15 @@
 --------------------------------------------------------------------------------------*/
 
 #include "../engine/Platform/FileListing.h"
+
 #include "SceneEditor.h"
 #include "EditorCommon.h"
+
 #include <unicode/utf8converter.h>
+
 #include "../engine/Entity/ETHRenderEntity.h"
 #include "../engine/Resource/ETHDirectories.h"
+
 #include <sstream>
 #include <string>
 

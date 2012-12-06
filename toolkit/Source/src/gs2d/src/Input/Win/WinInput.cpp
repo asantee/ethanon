@@ -138,6 +138,7 @@ WinInput::WinInput(boost::any data, const bool showJoystickWarnings)
 	m_keyID[GSK_PLUS] = 0xBB;
 	m_keyID[GSK_COMMA] = 0xBC;
 	m_keyID[GSK_DOT] = 0xBE;
+	m_keyID[GSK_META] = VK_LWIN;
 	m_keyID[GSK_NUMPAD0] = VK_NUMPAD0;
 	m_keyID[GSK_NUMPAD1] = VK_NUMPAD1;
 	m_keyID[GSK_NUMPAD2] = VK_NUMPAD2;
