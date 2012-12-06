@@ -329,7 +329,7 @@ std::string SceneEditor::DoEditor(SpritePtr pNextAppButton)
 	{
 		SaveAs();
 	}
-	if (file_r.text == _S_SAVE || (input->GetKeyState(GSK_CTRL) == GSKS_DOWN && input->GetKeyState(GSK_S) == GSKS_HIT))
+	if (file_r.text == _S_SAVE || (input->GetKeyState(EDITOR_GSK_CONTROL) == GSKS_DOWN && input->GetKeyState(GSK_S) == GSKS_HIT))
 	{
 		if (GetCurrentFile(true) == _BASEEDITOR_DEFAULT_UNTITLED_FILE)
 			SaveAs();
@@ -402,9 +402,9 @@ std::string SceneEditor::DoEditor(SpritePtr pNextAppButton)
 		m_arrows->Draw(m_slidingAxis+m_v2CamPos);
 	}
 
-	if (input->IsKeyDown(GSK_CTRL) && input->GetKeyState(GSK_C) == GSKS_HIT)
+	if (input->IsKeyDown(EDITOR_GSK_CONTROL) && input->GetKeyState(GSK_C) == GSKS_HIT)
 		CopySelectedToClipboard();
-	if (input->IsKeyDown(GSK_CTRL) && input->GetKeyState(GSK_V) == GSKS_HIT)
+	if (input->IsKeyDown(EDITOR_GSK_CONTROL) && input->GetKeyState(GSK_V) == GSKS_HIT)
 		PasteFromClipboard();
 
 	CentralizeShortcut();
@@ -1622,7 +1622,7 @@ void SceneEditor::ShowLightmapMessage()
 
 void SceneEditor::CentralizeShortcut()
 {
-	if (m_provider->GetInput()->GetKeyState(GSK_CTRL) == GSKS_DOWN && m_provider->GetInput()->GetKeyState(GSK_SPACE) == GSKS_HIT)
+	if (m_provider->GetInput()->GetKeyState(EDITOR_GSK_CONTROL) == GSKS_DOWN && m_provider->GetInput()->GetKeyState(GSK_SPACE) == GSKS_HIT)
 	{
 		m_v2CamPos = Vector2(0,0);
 	}

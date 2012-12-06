@@ -27,6 +27,12 @@
 
 #include <Platform/Platform.h>
 
+#ifdef MACOSX
+ #define EDITOR_GSK_CONTROL GSK_META
+#else
+ #define EDITOR_GSK_CONTROL GSK_CONTROL
+#endif
+
 struct FILE_FORM_FILTER
 {
 	inline FILE_FORM_FILTER(const str_type::string& _title, const str_type::string& commaSeparatedExtensions) :
