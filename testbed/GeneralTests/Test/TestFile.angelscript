@@ -135,6 +135,10 @@ class TestFile : Test
 		{
 			enmlFile f;
 			f.parseFromFile("test.enml");
+
+			if (f.getEntityNames() != "ent01_,myEntity")
+				r += "getEntityNames failed: " + f.getEntityNames() + "\n";
+
 			double _d = 0;
 			f.getDouble("ent01_", "double", _d);
 			if (_d != 0.5)
