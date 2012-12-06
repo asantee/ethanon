@@ -135,6 +135,7 @@ SDLInput::SDLInput(const bool showJoystickWarnings) :
 	m_sdlKeyID[GSK_PLUS] = SDLK_PLUS;
 	m_sdlKeyID[GSK_COMMA] = SDLK_COMMA;
 	m_sdlKeyID[GSK_DOT] = SDLK_PERIOD;
+	m_sdlKeyID[GSK_META] = SDLK_LMETA;
 
 	m_sdlKeyID[GSK_RMOUSE] = SDLK_LAST;
 	m_sdlKeyID[GSK_LMOUSE] = SDLK_LAST;
