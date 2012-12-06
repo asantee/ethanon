@@ -118,7 +118,7 @@ void ETHActiveEntityHandler::TestEntityLists() const
 	}
 }
 
-void ETHActiveEntityHandler::UpdateActiveEntities(const Vector2& zAxisDir, ETHBucketManager& buckets, const unsigned long lastFrameElapsedTime)
+void ETHActiveEntityHandler::UpdateAlwaysActiveEntities(const Vector2& zAxisDir, ETHBucketManager& buckets, const unsigned long lastFrameElapsedTime)
 {
 	#if defined(_DEBUG) || defined(DEBUG)
 	TestEntityLists();
@@ -148,8 +148,14 @@ void ETHActiveEntityHandler::UpdateActiveEntities(const Vector2& zAxisDir, ETHBu
 
 		++iter;
 	}
+}
 
-	// todo/to-do remove duplicate code
+void ETHActiveEntityHandler::UpdateCurrentFrameEntities(const Vector2& zAxisDir, ETHBucketManager& buckets, const unsigned long lastFrameElapsedTime)
+{
+	#if defined(_DEBUG) || defined(DEBUG)
+	TestEntityLists();
+	#endif
+
 	for (std::list<ETHRenderEntity*>::iterator iter = m_lastFrameCallbacks.begin(); iter != m_lastFrameCallbacks.end();)
 	{
 		ETHRenderEntity* entity = (*iter);
