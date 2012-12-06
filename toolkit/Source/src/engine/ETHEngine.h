@@ -59,7 +59,6 @@ class ETHEngine : public gs2d::BaseApplication, public ETHScriptWrapper
 	bool PrepareScriptingEngine(const std::vector<gs2d::str_type::string>& definedWords);
 	bool BuildModule(const std::vector<gs2d::str_type::string>& definedWords);
 	int GetMainFunctionId() const;
-	bool RunOnSceneUpdateFunction() const;
 	bool RunOnResumeFunction() const;
 	bool RunFunction(const int functionId) const;
 	bool LoadNextSceneIfRequested();

@@ -32,9 +32,9 @@
 #include "../Physics/ETHPhysicsSimulator.h"
 
 #ifdef GS2D_STR_TYPE_WCHAR
-#include "../../addons/utf16/scriptbuilder.h"
+ #include "../../addons/utf16/scriptbuilder.h"
 #else
-#include "../../addons/ansi/scriptbuilder.h"
+ #include "../../addons/ansi/scriptbuilder.h"
 #endif
 
 #include <Math/Randomizer.h>
@@ -376,11 +376,17 @@ bool ETHScene::GenerateLightmaps(const int id)
 
 void ETHScene::Update(
 	const unsigned long lastFrameElapsedTime,
-	const ETHBackBufferTargetManagerPtr& backBuffer)
+	const ETHBackBufferTargetManagerPtr& backBuffer,
+	const int onUpdateCallbackFunctionId)
 {
 	m_destructorManager->RunDestructors();
 	m_physicsSimulator.Update(lastFrameElapsedTime);
 
+	// Run onSceneUpdate functon
+	if (onUpdateCallbackFunctionId >= 0)
+		ETHGlobal::ExecuteContext(m_pContext, onUpdateCallbackFunctionId);
+
+	// start mapping process
 	float minHeight, maxHeight;
 
 	assert(m_renderingManager.IsEmpty());
@@ -391,6 +397,7 @@ void ETHScene::Update(
 		maxHeight,
 		backBuffer);
 
+	// update mapped entities
 	m_activeEntityHandler.UpdateActiveEntities(GetZAxisDirection(), m_buckets, lastFrameElapsedTime);
 
 	m_minSceneHeight = minHeight;

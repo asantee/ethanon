@@ -74,7 +74,8 @@ public:
 
 	void Update(
 		const unsigned long lastFrameElapsedTime,
-		const ETHBackBufferTargetManagerPtr& backBuffer);
+		const ETHBackBufferTargetManagerPtr& backBuffer,
+		const int onUpdateCallbackFunctionId);
 
 	bool DeleteEntity(ETHEntity *pEntity);
 

@@ -153,10 +153,8 @@ Application::APP_STATUS ETHEngine::Update(
 	//update timer
 	m_timer.CalcLastFrame();
 
-	RunOnSceneUpdateFunction();
-
 	if (m_pScene)
-		m_pScene->Update(lastFrameDeltaTimeMS, m_backBuffer);
+		m_pScene->Update(lastFrameDeltaTimeMS, m_backBuffer, m_onSceneUpdateFunctionId);
 
 	if (Aborted())
 		return Application::APP_QUIT;
@@ -200,11 +198,6 @@ void ETHEngine::RenderFrame()
 	m_backBuffer->EndRendering();
 
 	m_backBuffer->Present();
-}
-
-bool ETHEngine::RunOnSceneUpdateFunction() const
-{
-	return RunFunction(m_onSceneUpdateFunctionId);
 }
 
 bool ETHEngine::RunOnResumeFunction() const
