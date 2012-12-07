@@ -267,21 +267,29 @@ bool ETHPhysicsEntityController::ResolveJoints(ETHEntityArray& entities, const E
 
 		// get the other entity name from the joint definition
 		str_type::string otherEntityName = ETHJoint::GetOtherEntityName(jointName, file);
+		int otherEntityID = -1;
 
 		// if the other entity name is not declared in the joint definition, look for it into the custom data
 		if (otherEntityName == GS_L(""))
 		{
-			str_type::string str;
-			if (properties.GetString(jointName, str))
-				otherEntityName = str;
+			if (properties.Check(jointName) == ETHCustomData::DT_STRING)
+			{
+				properties.GetString(jointName, otherEntityName);
+			}
+			else if (properties.Check(jointName) == ETHCustomData::DT_INT)
+			{
+				properties.GetInt(jointName, otherEntityID);
+			}
 			else
+			{
 				continue;
+			}
 		}
 
 		// iterate over entities to find the other-entity
 		for (std::size_t t = 0; t < numEntities; t++)
 		{
-			if (entities[t]->GetEntityName() == otherEntityName)
+			if (entities[t]->GetEntityName() == otherEntityName || entities[t]->GetID() == otherEntityID)
 			{
 				boost::shared_ptr<ETHJoint> joint =
 					ETHJoint::CreateJoint(jointName, file, simulator, static_cast<ETHEntity*>(m_body->GetUserData()), (entities[t]));
