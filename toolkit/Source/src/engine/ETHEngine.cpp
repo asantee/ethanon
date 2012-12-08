@@ -113,7 +113,7 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 
 		if (m_compileAndRun)
 		{
-			if (!RunMainFunction(GetMainFunctionId()))
+			if (!RunMainFunction(GetMainFunction()))
 			{
 				Abort();
 				return;
@@ -154,7 +154,7 @@ Application::APP_STATUS ETHEngine::Update(
 	m_timer.CalcLastFrame();
 
 	if (m_pScene)
-		m_pScene->Update(lastFrameDeltaTimeMS, m_backBuffer, m_onSceneUpdateFunctionId);
+		m_pScene->Update(lastFrameDeltaTimeMS, m_backBuffer, m_onSceneUpdateFunction);
 
 	if (Aborted())
 		return Application::APP_QUIT;
@@ -202,14 +202,14 @@ void ETHEngine::RenderFrame()
 
 bool ETHEngine::RunOnResumeFunction() const
 {
-	return RunFunction(m_onResumeFunctionId);
+	return RunFunction(m_onResumeFunction);
 }
 
-bool ETHEngine::RunFunction(const int functionId) const
+bool ETHEngine::RunFunction(asIScriptFunction* func) const
 {
-	if (functionId >= 0)
+	if (func)
 	{
-		ETHGlobal::ExecuteContext(m_pScriptContext, functionId);
+		ETHGlobal::ExecuteContext(m_pScriptContext, func);
 		return true;
 	}
 	else
@@ -237,7 +237,7 @@ bool ETHEngine::PrepareScriptingEngine(const std::vector<gs2d::str_type::string>
 
 	// Set UTF-8 encoding
 	int r = m_pASEngine->SetEngineProperty(asEP_SCRIPT_SCANNER, 1);
-	if (!CheckAngelScriptError(r, GS_L("Failed setting up script scanner.")))
+	if (!CheckAngelScriptError((r < 0), GS_L("Failed setting up script scanner.")))
 		return false;
 
 	#ifdef GS2D_STR_TYPE_WCHAR
@@ -246,12 +246,12 @@ bool ETHEngine::PrepareScriptingEngine(const std::vector<gs2d::str_type::string>
 	// r = m_pASEngine->SetEngineProperty(asEP_STRING_ENCODING, 0);
 	#endif
 
-	if (!CheckAngelScriptError(r, GS_L("Failed while setting up string encoding")))
+	if (!CheckAngelScriptError((r < 0), GS_L("Failed while setting up string encoding")))
 		return false;
 
 	// Message callback
 	r = m_pASEngine->SetMessageCallback(asFUNCTION(MessageCallback), 0, asCALL_CDECL);
-	if (!CheckAngelScriptError(r, GS_L("Failed while setting message callback.")))
+	if (!CheckAngelScriptError((r < 0), GS_L("Failed while setting message callback.")))
 		return false;
 
 	ETHGlobal::RegisterEnumTypes(m_pASEngine);
@@ -398,18 +398,18 @@ bool ETHEngine::BuildModule(const std::vector<gs2d::str_type::string>& definedWo
 	return true;
 }
 
-int ETHEngine::GetMainFunctionId() const
+asIScriptFunction* ETHEngine::GetMainFunction() const
 {
 	// finds the main function
-	const int mainFuncId = CScriptBuilder::GetFunctionIdByName(m_pASModule, ETH_MAIN_FUNCTION);
+	asIScriptFunction* mainFunc = m_pASModule->GetFunctionByName(ETH_MAIN_FUNCTION.c_str());
 	ETH_STREAM_DECL(ss) << GS_L("Function not found: ") << ETH_MAIN_FUNCTION;
-	CheckAngelScriptError(mainFuncId, ss.str());
-	return mainFuncId;
+	CheckAngelScriptError((!mainFunc), ss.str());
+	return mainFunc;
 }
 
-bool ETHEngine::CheckAngelScriptError(const int r, const str_type::string &description)
+bool ETHEngine::CheckAngelScriptError(const bool error, const str_type::string &description)
 {
-	if (r < 0)
+	if (error)
 	{
 		ShowMessage(description, ETH_ERROR);
 		return false;

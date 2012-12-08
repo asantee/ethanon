@@ -596,14 +596,14 @@ Vector2 ETHScriptWrapper::GetLastCameraPos()
 
 void ETHScriptWrapper::LoadSceneScripts()
 {
-	const int onSceneLoadedFuncId = GetFunctionId(m_pASModule, m_nextScene.GetOnSceneLoadedFunc());
-	if (onSceneLoadedFuncId >= 0)
+	asIScriptFunction* onSceneLoadedFunc = m_pASModule->GetFunctionByName(m_nextScene.GetOnSceneLoadedFunc().c_str());
+	if (onSceneLoadedFunc)
 	{
-		ETHGlobal::ExecuteContext(m_pScriptContext, onSceneLoadedFuncId);
+		ETHGlobal::ExecuteContext(m_pScriptContext, onSceneLoadedFunc);
 	}
 
-	m_onSceneUpdateFunctionId = GetFunctionId(m_pASModule, m_nextScene.GetOnSceneUpdateFunc());
-	m_onResumeFunctionId = GetFunctionId(m_pASModule, m_nextScene.GetOnResumeFunc());
+	m_onSceneUpdateFunction = m_pASModule->GetFunctionByName(m_nextScene.GetOnSceneUpdateFunc().c_str());
+	m_onResumeFunction      = m_pASModule->GetFunctionByName(m_nextScene.GetOnResumeFunc().c_str());
 }
 
 void ETHScriptWrapper::SetGravity(const Vector2& gravity)

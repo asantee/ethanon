@@ -1,6 +1,6 @@
 /*
    AngelCode Scripting Library
-   Copyright (c) 2003-2010 Andreas Jonsson
+   Copyright (c) 2003-2012 Andreas Jonsson
 
    This software is provided 'as-is', without any express or implied 
    warranty. In no event will the authors be held liable for any 
@@ -44,7 +44,6 @@
 #include "as_string.h"
 #include "as_array.h"
 #include "as_objecttype.h"
-#include "as_map.h"
 
 BEGIN_AS_NAMESPACE
 
@@ -64,9 +63,6 @@ public:
 	bool HasLiveObjects();
 	void RemoveConfiguration(asCScriptEngine *engine, bool notUsed = false);
 
-	int SetModuleAccess(const char *module, bool hasAccess);
-	bool HasModuleAccess(const char *module);
-
 #ifdef AS_DEBUG
 	void ValidateNoUsage(asCScriptEngine *engine, asCObjectType *type);
 #endif
@@ -79,10 +75,6 @@ public:
 	asCArray<asCGlobalProperty*> globalProps;
 	asCArray<asCConfigGroup*>    referencedConfigGroups;
 	asCArray<asCScriptFunction*> funcDefs;
-
-	// Module access
-	bool defaultAccess;
-	asCMap<asCString, bool> moduleAccess;
 };
 
 END_AS_NAMESPACE

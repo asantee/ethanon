@@ -1,6 +1,6 @@
 /*
    AngelCode Scripting Library
-   Copyright (c) 2003-2011 Andreas Jonsson
+   Copyright (c) 2003-2012 Andreas Jonsson
 
    This software is provided 'as-is', without any express or implied 
    warranty. In no event will the authors be held liable for any 
@@ -41,6 +41,9 @@
 #define AS_COMPILER_H
 
 #include "as_config.h"
+
+#ifndef AS_NO_COMPILER
+
 #include "as_builder.h"
 #include "as_scriptfunction.h"
 #include "as_variablescope.h"
@@ -63,6 +66,9 @@ struct asSDeferredParam
 	asSExprContext *origExpr;
 };
 
+// TODO: refactor: asSExprContext should have indicators to inform where the value is, 
+//                 i.e. if the reference to an object is pushed on the stack or not, etc
+
 struct asSExprContext
 {
 	asSExprContext(asCScriptEngine *engine) : bc(engine) 
@@ -78,20 +84,45 @@ struct asSExprContext
 	}
 	~asSExprContext() 
 	{
-		asASSERT(property_arg == 0);
+		if( property_arg )
+			asDELETE(property_arg, asSExprContext);
+	}
+	void Clear()
+	{
+		bc.ClearAll();
+		type.SetDummy();
+		if( property_arg )
+			asDELETE(property_arg, asSExprContext);
+		property_arg = 0;
+		deferredParams.SetLength(0);
+		exprNode        = 0; 
+		origExpr        = 0; 
+		property_get    = 0; 
+		property_set    = 0; 
+		property_const  = false;
+		property_handle = false;
+		property_ref    = false;
 	}
 
 	asCByteCode bc;
 	asCTypeInfo type;
 	int  property_get;
 	int  property_set;
-	bool property_const; // If the object that is being accessed through property accessor is read-only
+	bool property_const;  // If the object that is being accessed through property accessor is read-only
 	bool property_handle; // If the property accessor is called on an object stored in a handle
-	bool property_ref; // If the property accessor is called on a reference
+	bool property_ref;    // If the property accessor is called on a reference
 	asSExprContext *property_arg;
 	asCArray<asSDeferredParam> deferredParams;
 	asCScriptNode  *exprNode;
 	asSExprContext *origExpr;
+};
+
+struct asSOverloadCandidate
+{
+	asSOverloadCandidate() : funcId(0), cost(0) {}
+	asSOverloadCandidate(int _id, asUINT _cost ) : funcId(_id), cost(_cost) {}
+	int funcId;
+	asUINT cost;
 };
 
 enum EImplicitConv
@@ -101,16 +132,28 @@ enum EImplicitConv
 	asIC_EXPLICIT_VAL_CAST
 };
 
+enum EConvCost
+{
+	asCC_NO_CONV               = 0,
+	asCC_CONST_CONV            = 1,
+	asCC_PRIMITIVE_SIZE_CONV   = 2,
+	asCC_SIGNED_CONV           = 3,
+	asCC_INT_FLOAT_CONV        = 4,
+	asCC_REF_CONV              = 5,
+	asCC_OBJ_TO_PRIMITIVE_CONV = 6,
+	asCC_TO_OBJECT_CONV        = 7,
+	asCC_VARIABLE_CONV         = 8
+};
+
 class asCCompiler
 {
 public:
 	asCCompiler(asCScriptEngine *engine);
 	~asCCompiler();
 
-	int CompileFunction(asCBuilder *builder, asCScriptCode *script, asCScriptNode *func, asCScriptFunction *outFunc);
-	int CompileDefaultConstructor(asCBuilder *builder, asCScriptCode *script, asCScriptFunction *outFunc);
+	int CompileFunction(asCBuilder *builder, asCScriptCode *script, asCArray<asCString> &parameterNames, asCScriptNode *func, asCScriptFunction *outFunc);
+	int CompileDefaultConstructor(asCBuilder *builder, asCScriptCode *script, asCScriptNode *node, asCScriptFunction *outFunc);
 	int CompileFactory(asCBuilder *builder, asCScriptCode *script, asCScriptFunction *outFunc);
-	int CompileTemplateFactoryStub(asCBuilder *builder, int trueFactoryId, asCObjectType *objType, asCScriptFunction *outFunc);
 	int CompileGlobalVariable(asCBuilder *builder, asCScriptCode *script, asCScriptNode *expr, sGlobalVariableDescription *gvar, asCScriptFunction *outFunc);
 
 protected:
@@ -142,7 +185,7 @@ protected:
 	int  CompileExpressionPreOp(asCScriptNode *node, asSExprContext *out);
 	int  CompileExpressionPostOp(asCScriptNode *node, asSExprContext *out);
 	int  CompileExpressionValue(asCScriptNode *node, asSExprContext *out);
-	void CompileFunctionCall(asCScriptNode *node, asSExprContext *out, asCObjectType *objectType, bool objIsConst, const asCString &scope = "");
+	int  CompileFunctionCall(asCScriptNode *node, asSExprContext *out, asCObjectType *objectType, bool objIsConst, const asCString &scope = "");
 	void CompileConstructCall(asCScriptNode *node, asSExprContext *out);
 	void CompileConversion(asCScriptNode *node, asSExprContext *out);
 	int  CompileOperator(asCScriptNode *node, asSExprContext *l, asSExprContext *r, asSExprContext *out);
@@ -156,74 +199,71 @@ protected:
 
 	void CompileInitList(asCTypeInfo *var, asCScriptNode *node, asCByteCode *bc);
 
-	int  CallDefaultConstructor(asCDataType &type, int offset, bool isObjectOnHeap, asCByteCode *bc, asCScriptNode *node, bool isGlobalVar = false);
-	int  CallCopyConstructor(asCDataType &type, int offset, bool isObjectOnHeap, asCByteCode *bc, asSExprContext *arg, asCScriptNode *node, bool isGlobalVar = false);
+	int  CallDefaultConstructor(asCDataType &type, int offset, bool isObjectOnHeap, asCByteCode *bc, asCScriptNode *node, bool isGlobalVar = false, bool deferDest = false);
+	int  CallCopyConstructor(asCDataType &type, int offset, bool isObjectOnHeap, asCByteCode *bc, asSExprContext *arg, asCScriptNode *node, bool isGlobalVar = false, bool derefDestination = false);
 	void CallDestructor(asCDataType &type, int offset, bool isObjectOnHeap, asCByteCode *bc);
 	int  CompileArgumentList(asCScriptNode *node, asCArray<asSExprContext *> &args);
 	int  CompileDefaultArgs(asCScriptNode *node, asCArray<asSExprContext*> &args, asCScriptFunction *func);
-	void MatchFunctions(asCArray<int> &funcs, asCArray<asSExprContext*> &args, asCScriptNode *node, const char *name, asCObjectType *objectType = NULL, bool isConstMethod = false, bool silent = false, bool allowObjectConstruct = true, const asCString &scope = "");
-	int  CompileVariableAccess(const asCString &name, const asCString &scope, asSExprContext *ctx, asCScriptNode *errNode, bool isOptional = false, bool noFunction = false, asCObjectType *objType = 0);
+	asUINT MatchFunctions(asCArray<int> &funcs, asCArray<asSExprContext*> &args, asCScriptNode *node, const char *name, asCObjectType *objectType = NULL, bool isConstMethod = false, bool silent = false, bool allowObjectConstruct = true, const asCString &scope = "");
+	int  CompileVariableAccess(const asCString &name, const asCString &scope, asSExprContext *ctx, asCScriptNode *errNode, bool isOptional = false, bool noFunction = false, bool noGlobal = false, asCObjectType *objType = 0);
 
 	// Helper functions
 	void ProcessPropertyGetAccessor(asSExprContext *ctx, asCScriptNode *node);
 	int  ProcessPropertySetAccessor(asSExprContext *ctx, asSExprContext *arg, asCScriptNode *node);
-	int  FindPropertyAccessor(const asCString &name, asSExprContext *ctx, asCScriptNode *node);
-	int  FindPropertyAccessor(const asCString &name, asSExprContext *ctx, asSExprContext *arg, asCScriptNode *node);
-	void SwapPostFixOperands(asCArray<asCScriptNode *> &postfix, asCArray<asCScriptNode *> &target);
-	void PrepareTemporaryObject(asCScriptNode *node, asSExprContext *ctx, asCArray<int> *reservedVars, bool forceOnHeap = false);
+	int  FindPropertyAccessor(const asCString &name, asSExprContext *ctx, asCScriptNode *node, bool isThisAccess = false);
+	int  FindPropertyAccessor(const asCString &name, asSExprContext *ctx, asSExprContext *arg, asCScriptNode *node, bool isThisAccess = false);
+	void PrepareTemporaryObject(asCScriptNode *node, asSExprContext *ctx, bool forceOnHeap = false);
 	void PrepareOperand(asSExprContext *ctx, asCScriptNode *node);
-	void PrepareForAssignment(asCDataType *lvalue, asSExprContext *rvalue, asCScriptNode *node, asSExprContext *lvalueExpr = 0);
-	void PerformAssignment(asCTypeInfo *lvalue, asCTypeInfo *rvalue, asCByteCode *bc, asCScriptNode *node);
+	void PrepareForAssignment(asCDataType *lvalue, asSExprContext *rvalue, asCScriptNode *node, bool toTemporary, asSExprContext *lvalueExpr = 0);
+	int  PerformAssignment(asCTypeInfo *lvalue, asCTypeInfo *rvalue, asCByteCode *bc, asCScriptNode *node);
 	bool IsVariableInitialized(asCTypeInfo *type, asCScriptNode *node);
 	void Dereference(asSExprContext *ctx, bool generateCode);
 	bool CompileRefCast(asSExprContext *ctx, const asCDataType &to, bool isExplicit, asCScriptNode *node, bool generateCode = true);
-	int  MatchArgument(asCArray<int> &funcs, asCArray<int> &matches, const asCTypeInfo *argType, int paramNum, bool allowObjectConstruct = true);
+	asUINT MatchArgument(asCArray<int> &funcs, asCArray<asSOverloadCandidate> &matches, const asCTypeInfo *argType, int paramNum, bool allowObjectConstruct = true);
 	void PerformFunctionCall(int funcId, asSExprContext *out, bool isConstructor = false, asCArray<asSExprContext*> *args = 0, asCObjectType *objTypeForConstruct = 0, bool useVariable = false, int varOffset = 0, int funcPtrVar = 0);
 	void MoveArgsToStack(int funcId, asCByteCode *bc, asCArray<asSExprContext *> &args, bool addOneToOffset);
 	void MakeFunctionCall(asSExprContext *ctx, int funcId, asCObjectType *objectType, asCArray<asSExprContext*> &args, asCScriptNode *node, bool useVariable = false, int stackOffset = 0, int funcPtrVar = 0);
 	void PrepareFunctionCall(int funcId, asCByteCode *bc, asCArray<asSExprContext *> &args);
 	void AfterFunctionCall(int funcId, asCArray<asSExprContext*> &args, asSExprContext *ctx, bool deferAll);
 	void ProcessDeferredParams(asSExprContext *ctx);
-	void PrepareArgument(asCDataType *paramType, asSExprContext *ctx, asCScriptNode *node, bool isFunction = false, int refType = 0, asCArray<int> *reservedVars = 0, bool forceOnHeap = false);
-	void PrepareArgument2(asSExprContext *ctx, asSExprContext *arg, asCDataType *paramType, bool isFunction = false, int refType = 0, asCArray<int> *reservedVars = 0);
+	void PrepareArgument(asCDataType *paramType, asSExprContext *ctx, asCScriptNode *node, bool isFunction = false, int refType = 0, bool isMakingCopy = false);
+	void PrepareArgument2(asSExprContext *ctx, asSExprContext *arg, asCDataType *paramType, bool isFunction = false, int refType = 0, bool isMakingCopy = false);
 	bool IsLValue(asCTypeInfo &type);
 	int  DoAssignment(asSExprContext *out, asSExprContext *lctx, asSExprContext *rctx, asCScriptNode *lexpr, asCScriptNode *rexpr, int op, asCScriptNode *opNode);
 	void MergeExprBytecode(asSExprContext *before, asSExprContext *after);
 	void MergeExprBytecodeAndType(asSExprContext *before, asSExprContext *after);
-	void FilterConst(asCArray<int> &funcs);
+	void FilterConst(asCArray<int> &funcs, bool removeConst = true);
 	void ConvertToVariable(asSExprContext *ctx);
 	void ConvertToVariableNotIn(asSExprContext *ctx, asSExprContext *exclude);
-	void ConvertToVariableNotIn(asSExprContext *ctx, asCArray<int> *reservedVars);
 	void ConvertToTempVariable(asSExprContext *ctx);
 	void ConvertToTempVariableNotIn(asSExprContext *ctx, asSExprContext *exclude);
-	void ConvertToTempVariableNotIn(asSExprContext *ctx, asCArray<int> *reservedVars);
 	void ConvertToReference(asSExprContext *ctx);
 	void PushVariableOnStack(asSExprContext *ctx, bool asReference);
-	asCString GetScopeFromNode(asCScriptNode *node);
 	void DestroyVariables(asCByteCode *bc);
+	asSNameSpace *DetermineNameSpace(const asCString &scope);
+	int  SetupParametersAndReturnVariable(asCArray<asCString> &parameterNames, asCScriptNode *func);
 
-	void ImplicitConversion(asSExprContext *ctx, const asCDataType &to, asCScriptNode *node, EImplicitConv convType, bool generateCode = true, asCArray<int> *reservedVars = 0, bool allowObjectConstruct = true);
-	void ImplicitConvPrimitiveToPrimitive(asSExprContext *ctx, const asCDataType &to, asCScriptNode *node, EImplicitConv convType, bool generateCode = true, asCArray<int> *reservedVars = 0);
-	void ImplicitConvObjectToPrimitive(asSExprContext *ctx, const asCDataType &to, asCScriptNode *node, EImplicitConv convType, bool generateCode = true, asCArray<int> *reservedVars = 0);
-	void ImplicitConvPrimitiveToObject(asSExprContext *ctx, const asCDataType &to, asCScriptNode *node, EImplicitConv convType, bool generateCode = true, asCArray<int> *reservedVars = 0, bool allowObjectConstruct = true);
-	void ImplicitConvObjectToObject(asSExprContext *ctx, const asCDataType &to, asCScriptNode *node, EImplicitConv convType, bool generateCode = true, asCArray<int> *reservedVars = 0, bool allowObjectConstruct = true);
-	void ImplicitConversionConstant(asSExprContext *ctx, const asCDataType &to, asCScriptNode *node, EImplicitConv convType);
+	// Returns the cost of the conversion (the sum of the EConvCost performed)
+	asUINT ImplicitConversion(asSExprContext *ctx, const asCDataType &to, asCScriptNode *node, EImplicitConv convType, bool generateCode = true, bool allowObjectConstruct = true);
+	asUINT ImplicitConvPrimitiveToPrimitive(asSExprContext *ctx, const asCDataType &to, asCScriptNode *node, EImplicitConv convType, bool generateCode = true);
+	asUINT ImplicitConvObjectToPrimitive(asSExprContext *ctx, const asCDataType &to, asCScriptNode *node, EImplicitConv convType, bool generateCode = true);
+	asUINT ImplicitConvPrimitiveToObject(asSExprContext *ctx, const asCDataType &to, asCScriptNode *node, EImplicitConv convType, bool generateCode = true, bool allowObjectConstruct = true);
+	asUINT ImplicitConvObjectToObject(asSExprContext *ctx, const asCDataType &to, asCScriptNode *node, EImplicitConv convType, bool generateCode = true, bool allowObjectConstruct = true);
+	asUINT ImplicitConvObjectRef(asSExprContext *ctx, const asCDataType &to, asCScriptNode *node, EImplicitConv convType, bool generateCode);
+	asUINT ImplicitConvObjectValue(asSExprContext *ctx, const asCDataType &to, asCScriptNode *node, EImplicitConv convType, bool generateCode);
+	void   ImplicitConversionConstant(asSExprContext *ctx, const asCDataType &to, asCScriptNode *node, EImplicitConv convType);
 
 	void LineInstr(asCByteCode *bc, size_t pos);
 
 	asUINT ProcessStringConstant(asCString &str, asCScriptNode *node, bool processEscapeSequences = true);
 	void ProcessHeredocStringConstant(asCString &str, asCScriptNode *node);
 	int  GetPrecedence(asCScriptNode *op);
-
-	void Error(const char *msg, asCScriptNode *node);
-	void Warning(const char *msg, asCScriptNode *node);
-	void Information(const char *msg, asCScriptNode *node);
+	void Error(const asCString &msg, asCScriptNode *node);
+	void Warning(const asCString &msg, asCScriptNode *node);
+	void Information(const asCString &msg, asCScriptNode *node);
 	void PrintMatchingFuncs(asCArray<int> &funcs, asCScriptNode *node);
-
-
 	void AddVariableScope(bool isBreakScope = false, bool isContinueScope = false);
 	void RemoveVariableScope();
-
 	void FinalizeFunction();
 
 	asCByteCode byteCode;
@@ -245,7 +285,7 @@ protected:
 	asCArray<int> continueLabels;
 
 	int AllocateVariable(const asCDataType &type, bool isTemporary, bool forceOnHeap = false);
-	int AllocateVariableNotIn(const asCDataType &type, bool isTemporary, asCArray<int> *vars, bool forceOnHeap = false);
+	int AllocateVariableNotIn(const asCDataType &type, bool isTemporary, bool forceOnHeap, asSExprContext *ctx);
 	int GetVariableOffset(int varIndex);
 	int GetVariableSlot(int varOffset);
 	void DeallocateVariable(int pos);
@@ -253,18 +293,34 @@ protected:
 	void ReleaseTemporaryVariable(int offset, asCByteCode *bc);
 	bool IsVariableOnHeap(int offset);
 
+	// This ordered array indicates the type of each variable
 	asCArray<asCDataType> variableAllocations;
-	asCArray<bool>        variableIsTemporary;
-	asCArray<bool>        variableIsOnHeap;
-	asCArray<int>         freeVariables;
-	asCArray<int>         tempVariables;
 
-	bool globalExpression;
+	// This ordered array indicates which variables are temporaries or not
+	asCArray<bool>        variableIsTemporary;
+
+	// This unordered array gives the offsets of all temporary variables, whether currently allocated or not
+	asCArray<int>         tempVariableOffsets;
+
+	// This ordered array indicated if the variable is on the heap or not
+	asCArray<bool>        variableIsOnHeap;
+
+	// This unordered array gives the indexes of the currently unused variables
+	asCArray<int>         freeVariables;
+
+	// This array holds the offsets of the currently allocated temporary variables
+	asCArray<int>         tempVariables; 
+
+	// This array holds the indices of variables that must not be used in an allocation
+	asCArray<int>         reservedVariables;
+
 	bool isCompilingDefaultArg;
 	bool isProcessingDeferredParams;
 	int noCodeOutput;
 };
 
 END_AS_NAMESPACE
+
+#endif // AS_NO_COMPILER
 
 #endif

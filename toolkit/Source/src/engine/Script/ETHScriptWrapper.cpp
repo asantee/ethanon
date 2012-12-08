@@ -47,8 +47,8 @@ str_type::string ETHScriptWrapper::m_sceneFileName = GS_L("");
 ETHInput ETHScriptWrapper::m_ethInput;
 asIScriptModule *ETHScriptWrapper::m_pASModule = 0;
 Vector2 ETHScriptWrapper::m_v2LastCamPos(0,0);
-int ETHScriptWrapper::m_onSceneUpdateFunctionId =-1;
-int ETHScriptWrapper::m_onResumeFunctionId =-1;
+asIScriptFunction* ETHScriptWrapper::m_onSceneUpdateFunction = 0;
+asIScriptFunction* ETHScriptWrapper::m_onResumeFunction = 0;
 asIScriptContext *ETHScriptWrapper::m_pScriptContext = 0;
 asIScriptContext *ETHScriptWrapper::m_pConstructorContext = 0;
 bool ETHScriptWrapper::m_runningMainFunction = false;
@@ -59,13 +59,13 @@ ETHEntityCache ETHScriptWrapper::m_entityCache;
 ETHScriptWrapper::GARBAGE_COLLECT_MODE ETHScriptWrapper::m_gcMode = ETHScriptWrapper::ONE_STEP;
 bool ETHScriptWrapper::m_richLighting = false;
 
-bool ETHScriptWrapper::RunMainFunction(const int mainFuncId)
+bool ETHScriptWrapper::RunMainFunction(asIScriptFunction* mainFunc)
 {
-	if (mainFuncId < 0)
+	if (!mainFunc)
 		return false;
 
 	m_runningMainFunction = true;
-	ETHGlobal::ExecuteContext(m_pScriptContext, mainFuncId, true);
+	ETHGlobal::ExecuteContext(m_pScriptContext, mainFunc, true);
 	m_runningMainFunction = false;
 	return true;
 }
@@ -249,20 +249,6 @@ void ETHScriptWrapper::SetPersistentResources(const bool enable)
 bool ETHScriptWrapper::ArePersistentResourcesEnabled()
 {
 	return m_persistentResources;
-}
-
-int ETHScriptWrapper::GetFunctionId(asIScriptModule* pModule, const str_type::string& name)
-{
-	int id =-1;
-	if (name != GS_L(""))
-	{
-		id = CScriptBuilder::GetFunctionIdByName(pModule, name);
-		if (id < 0)
-		{
-			ETHGlobal::CheckFunctionSeekError(id, name);
-		}
-	}
-	return id;
 }
 
 ETHResourceProviderPtr ETHScriptWrapper::GetProvider()

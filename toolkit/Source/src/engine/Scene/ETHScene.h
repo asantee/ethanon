@@ -75,7 +75,7 @@ public:
 	void Update(
 		const unsigned long lastFrameElapsedTime,
 		const ETHBackBufferTargetManagerPtr& backBuffer,
-		const int onUpdateCallbackFunctionId);
+		asIScriptFunction* onUpdateCallbackFunction);
 
 	bool DeleteEntity(ETHEntity *pEntity);
 
@@ -148,9 +148,9 @@ private:
 
 	void AssignControllerToEntity(
 		ETHEntity* entity,
-		const int callbackId,
-		const int constructorCallbackId,
-		const int destructorCallbackId);
+		asIScriptFunction* callback,
+		asIScriptFunction* constructorCallback,
+		asIScriptFunction* destructorCallback);
 
 	bool DrawBucketOutlines();
 	bool ReadFromXMLFile(TiXmlElement *pElement);

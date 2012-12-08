@@ -31,9 +31,9 @@ namespace ETHGlobal {
 	void CheckFunctionSeekError(const int id, const str_type::string& function);
 	void PrintException(asIScriptContext *pContext);
 	void ShowMessage(str_type::string message, const ETH_MESSAGE type);
-	void ExecuteContext(asIScriptContext *pContext, const int id, const bool prepare = true);
-	int FindCallbackFunction(asIScriptModule* pModule, const ETHScriptEntity* entity, const str_type::string& prefix, const Platform::Logger& logger);
-	bool RunEntityCallback(asIScriptContext* pContext, ETHScriptEntity* entity, const int id);
+	void ExecuteContext(asIScriptContext *pContext, asIScriptFunction* func, const bool prepare = true);
+	asIScriptFunction* FindCallbackFunction(asIScriptModule* pModule, const ETHScriptEntity* entity, const str_type::string& prefix, const Platform::Logger& logger);
+	bool RunEntityCallback(asIScriptContext* pContext, ETHScriptEntity* entity, asIScriptFunction* func);
 	bool IsTrue(const std::string& source);
 	bool FileExists(const str_type::string& file, const Platform::FileManagerPtr& fileManager);
 	std::string AppendExtensionIfNeeded(std::string source, const std::string& ext);

@@ -5,8 +5,11 @@
 // string type must be registered with the engine before registering the
 // dictionary type
 
-#include "../angelscript/include/angelscript.h"
-#include <Types.h>
+#ifndef ANGELSCRIPT_H 
+// Avoid having to inform include path if header is already include before
+#include "../../angelscript/include/angelscript.h"
+#endif
+
 #include <string>
 
 #ifdef _MSC_VER
@@ -16,7 +19,21 @@
 
 #include <map>
 
+// Sometimes it may be desired to use the same method names as used by C++ STL.
+// This may for example reduce time when converting code from script to C++ or
+// back.
+//
+//  0 = off
+//  1 = on
+
+#ifndef AS_USE_STLNAMES
+#define AS_USE_STLNAMES 0
+#endif
+
+
 BEGIN_AS_NAMESPACE
+
+class CScriptArray;
 
 class CScriptDictionary
 {
@@ -29,25 +46,30 @@ public:
     CScriptDictionary &operator =(const CScriptDictionary &other);
 
     // Sets/Gets a variable type value for a key
-    void Set(const gs2d::str_type::string &key, void *value, int typeId);
-    bool Get(const gs2d::str_type::string &key, void *value, int typeId) const;
+    void Set(const std::string &key, void *value, int typeId);
+    bool Get(const std::string &key, void *value, int typeId) const;
 
     // Sets/Gets an integer number value for a key
-    void Set(const gs2d::str_type::string &key, asINT64 &value);
-    bool Get(const gs2d::str_type::string &key, asINT64 &value) const;
+    void Set(const std::string &key, asINT64 &value);
+    bool Get(const std::string &key, asINT64 &value) const;
 
     // Sets/Gets a real number value for a key
-    void Set(const gs2d::str_type::string &key, double &value);
-    bool Get(const gs2d::str_type::string &key, double &value) const;
+    void Set(const std::string &key, double &value);
+    bool Get(const std::string &key, double &value) const;
 
     // Returns true if the key is set
-    bool Exists(const gs2d::str_type::string &key) const;
+    bool Exists(const std::string &key) const;
+	bool IsEmpty() const;
+	asUINT GetSize() const;
 
     // Deletes the key
-    void Delete(const gs2d::str_type::string &key);
+    void Delete(const std::string &key);
 
     // Deletes all keys
     void DeleteAll();
+
+	// Get an array of all keys
+	CScriptArray *GetKeys() const;
 
 	// Garbage collections behaviours
 	int GetRefCount();
@@ -78,7 +100,9 @@ protected:
 	// Our properties
     asIScriptEngine *engine;
     mutable int refCount;
-    std::map<gs2d::str_type::string, valueStruct> dict;
+
+	// TODO: optimize: Use C++11 std::unordered_map instead
+    std::map<std::string, valueStruct> dict;
 };
 
 // This function will determine the configuration of the engine
