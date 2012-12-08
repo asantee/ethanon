@@ -66,7 +66,7 @@ b2Shape* ETHCompoundShape::GetShape(const unsigned int idx, const gs2d::math::Ve
 	{
 		const float posX = ETHGlobal::ParseFloat(entity.Get(GS_L("posX")).c_str()) * scale.x * 0.5f;
 		const float posY = ETHGlobal::ParseFloat(entity.Get(GS_L("posY")).c_str()) * scale.y * 0.5f;
-		const float radius = ETHGlobal::ParseFloat(entity.Get(GS_L("radius")).c_str()) * (scale.x + scale.y) * 0.25f;
+		const float radius = ETHGlobal::ParseFloat(entity.Get(GS_L("radius")).c_str()) * (scale.x * 0.5f);
 		ETHCollisionBox collision(Vector3(posX, posY, 0.0f), Vector3(radius * 2.0f, radius * 2.0f, 1.0f));
 		return ETHPhysicsSimulator::GetCircleShape(collision)[0];
 	}
