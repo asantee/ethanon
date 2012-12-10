@@ -24,11 +24,12 @@
 		7421F4A51652BCF700C55BAE /* particles in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F49A1652BCF700C55BAE /* particles */; };
 		7421F4A61652BCF700C55BAE /* scenes in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F49B1652BCF700C55BAE /* scenes */; };
 		7421F4A71652BCF700C55BAE /* soundfx in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F49C1652BCF700C55BAE /* soundfx */; };
+		74490C4816764E91004116B5 /* engine.xcodeproj in Resources */ = {isa = PBXBuildFile; fileRef = 74490C4716764E91004116B5 /* engine.xcodeproj */; };
+		7458968216764F120012C1EF /* engine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7458967E16764EBA0012C1EF /* engine.framework */; };
+		7458968316764FC30012C1EF /* engine.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7458967E16764EBA0012C1EF /* engine.framework */; };
 		745C90E8166954CE00F3E4EC /* Cg.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 745C90E7166954CE00F3E4EC /* Cg.framework */; };
 		746947371646C59C00CCD9D3 /* SDLMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 746947351646C59C00CCD9D3 /* SDLMain.m */; };
 		7487A4F21646C7D7002DD331 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7487A4F11646C7D7002DD331 /* SDL.framework */; };
-		7487A51D1646DC43002DD331 /* engine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7487A4EB1646C75B002DD331 /* engine.framework */; };
-		7487A51E1646DC57002DD331 /* engine.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7487A4EB1646C75B002DD331 /* engine.framework */; };
 		7487A53F1646DFC2002DD331 /* SDL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7487A53E1646DFC2002DD331 /* SDL.framework */; };
 		74F00B1E1646C12200B8B51B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F00B1D1646C12200B8B51B /* Cocoa.framework */; };
 		74F00B281646C12200B8B51B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 74F00B261646C12200B8B51B /* InfoPlist.strings */; };
@@ -56,16 +57,16 @@
 			remoteGlobalIDString = 7421F162164734E900C55BAE;
 			remoteInfo = box2d;
 		};
-		7487A4EA1646C75B002DD331 /* PBXContainerItemProxy */ = {
+		7458967D16764EBA0012C1EF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 7487A4D91646C749002DD331 /* engine.xcodeproj */;
+			containerPortal = 74490C4716764E91004116B5 /* engine.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 74F00AD31646B9EB00B8B51B;
 			remoteInfo = engine;
 		};
-		7487A51B1646DC3E002DD331 /* PBXContainerItemProxy */ = {
+		7458968016764EC10012C1EF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 7487A4D91646C749002DD331 /* engine.xcodeproj */;
+			containerPortal = 74490C4716764E91004116B5 /* engine.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 74F00AD21646B9EB00B8B51B;
 			remoteInfo = engine;
@@ -100,11 +101,11 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				7458968316764FC30012C1EF /* engine.framework in CopyFiles */,
 				745C90E8166954CE00F3E4EC /* Cg.framework in CopyFiles */,
 				7421F2D316474D3800C55BAE /* box2d.framework in CopyFiles */,
 				7421F02A1646EFCB00C55BAE /* gs2d.framework in CopyFiles */,
 				7487A53F1646DFC2002DD331 /* SDL.framework in CopyFiles */,
-				7487A51E1646DC57002DD331 /* engine.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,10 +128,10 @@
 		7421F49A1652BCF700C55BAE /* particles */ = {isa = PBXFileReference; lastKnownFileType = folder; name = particles; path = "../../../../Ethanon Toolkit/particles"; sourceTree = "<group>"; };
 		7421F49B1652BCF700C55BAE /* scenes */ = {isa = PBXFileReference; lastKnownFileType = folder; name = scenes; path = "../../../../Ethanon Toolkit/scenes"; sourceTree = "<group>"; };
 		7421F49C1652BCF700C55BAE /* soundfx */ = {isa = PBXFileReference; lastKnownFileType = folder; name = soundfx; path = "../../../../Ethanon Toolkit/soundfx"; sourceTree = "<group>"; };
+		74490C4716764E91004116B5 /* engine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = engine.xcodeproj; path = ../OSXEngine/engine.xcodeproj; sourceTree = "<group>"; };
 		745C90E7166954CE00F3E4EC /* Cg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cg.framework; path = ../../../src/gs2d/vendors/Cg.framework; sourceTree = "<group>"; };
 		746947341646C59C00CCD9D3 /* SDLMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLMain.h; path = ../../../../src/gs2d/src/Platform/macosx/SDLMain.h; sourceTree = "<group>"; };
 		746947351646C59C00CCD9D3 /* SDLMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLMain.m; path = ../../../../src/gs2d/src/Platform/macosx/SDLMain.m; sourceTree = "<group>"; };
-		7487A4D91646C749002DD331 /* engine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = engine.xcodeproj; path = ../OSXEngine/engine.xcodeproj; sourceTree = "<group>"; };
 		7487A4F11646C7D7002DD331 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = ../../../src/gs2d/vendors/SDL.framework; sourceTree = "<group>"; };
 		7487A53E1646DFC2002DD331 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = ../../../src/gs2d/vendors/SDL.framework; sourceTree = "<group>"; };
 		74F00B191646C12200B8B51B /* machine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = machine.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -148,9 +149,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7458968216764F120012C1EF /* engine.framework in Frameworks */,
 				7421F0241646EF8400C55BAE /* gs2d.framework in Frameworks */,
 				7487A4F21646C7D7002DD331 /* SDL.framework in Frameworks */,
-				7487A51D1646DC43002DD331 /* engine.framework in Frameworks */,
 				74F00B1E1646C12200B8B51B /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -194,10 +195,10 @@
 			name = assets;
 			sourceTree = "<group>";
 		};
-		7487A4E71646C75B002DD331 /* Products */ = {
+		7458967916764EBA0012C1EF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7487A4EB1646C75B002DD331 /* engine.framework */,
+				7458967E16764EBA0012C1EF /* engine.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -212,9 +213,9 @@
 				74F00B231646C12200B8B51B /* machine */,
 				74F00B1C1646C12200B8B51B /* Frameworks */,
 				74F00B1A1646C12200B8B51B /* Products */,
+				74490C4716764E91004116B5 /* engine.xcodeproj */,
 				7421F2CC16474D2800C55BAE /* box2d.xcodeproj */,
 				7421F0181646EE4A00C55BAE /* gs2d.xcodeproj */,
-				7487A4D91646C749002DD331 /* engine.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
@@ -282,8 +283,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				7458968116764EC10012C1EF /* PBXTargetDependency */,
 				7421F0211646EF0400C55BAE /* PBXTargetDependency */,
-				7487A51C1646DC3E002DD331 /* PBXTargetDependency */,
 			);
 			name = machine;
 			productName = machine;
@@ -316,8 +317,8 @@
 					ProjectRef = 7421F2CC16474D2800C55BAE /* box2d.xcodeproj */;
 				},
 				{
-					ProductGroup = 7487A4E71646C75B002DD331 /* Products */;
-					ProjectRef = 7487A4D91646C749002DD331 /* engine.xcodeproj */;
+					ProductGroup = 7458967916764EBA0012C1EF /* Products */;
+					ProjectRef = 74490C4716764E91004116B5 /* engine.xcodeproj */;
 				},
 				{
 					ProductGroup = 7421F0191646EE4A00C55BAE /* Products */;
@@ -346,11 +347,11 @@
 			remoteRef = 7421F2D016474D2800C55BAE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		7487A4EB1646C75B002DD331 /* engine.framework */ = {
+		7458967E16764EBA0012C1EF /* engine.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = engine.framework;
-			remoteRef = 7487A4EA1646C75B002DD331 /* PBXContainerItemProxy */;
+			remoteRef = 7458967D16764EBA0012C1EF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -362,6 +363,7 @@
 			files = (
 				74F00B281646C12200B8B51B /* InfoPlist.strings in Resources */,
 				7421F43C165158BA00C55BAE /* icon.icns in Resources */,
+				74490C4816764E91004116B5 /* engine.xcodeproj in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,10 +387,10 @@
 			name = gs2d;
 			targetProxy = 7421F0201646EF0400C55BAE /* PBXContainerItemProxy */;
 		};
-		7487A51C1646DC3E002DD331 /* PBXTargetDependency */ = {
+		7458968116764EC10012C1EF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = engine;
-			targetProxy = 7487A51B1646DC3E002DD331 /* PBXContainerItemProxy */;
+			targetProxy = 7458968016764EC10012C1EF /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

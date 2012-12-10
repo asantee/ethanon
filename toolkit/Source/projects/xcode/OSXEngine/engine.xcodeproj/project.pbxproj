@@ -163,7 +163,6 @@
 		7421F2BA164741F300C55BAE /* tinyxml.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F2B4164741F300C55BAE /* tinyxml.h */; };
 		7421F2BB164741F300C55BAE /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F2B5164741F300C55BAE /* tinyxmlerror.cpp */; };
 		7421F2BC164741F300C55BAE /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F2B6164741F300C55BAE /* tinyxmlparser.cpp */; };
-		7421F2CA164743F900C55BAE /* libas.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F2C6164743D200C55BAE /* libas.a */; };
 		7421F2EF1648415D00C55BAE /* box2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F2EE1648415D00C55BAE /* box2d.framework */; };
 		7421F2F11648417C00C55BAE /* gs2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F2F01648417C00C55BAE /* gs2d.framework */; };
 		7421F436164D8E4000C55BAE /* FileListing.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7421F435164D8E4000C55BAE /* FileListing.mm */; };
@@ -176,6 +175,7 @@
 		7429A2AE16627E8000134A7E /* ETHEntityParticleRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7429A2AC16627E8000134A7E /* ETHEntityParticleRenderer.h */; };
 		7429A2B11663AF2200134A7E /* ETHEntityHaloRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7429A2AF1663AF2200134A7E /* ETHEntityHaloRenderer.cpp */; };
 		7429A2B21663AF2200134A7E /* ETHEntityHaloRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7429A2B01663AF2200134A7E /* ETHEntityHaloRenderer.h */; };
+		74490C4416764D35004116B5 /* libangelscript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74490C4116763ED1004116B5 /* libangelscript.a */; };
 		74EB49AC16653D0A002DA2F0 /* ETHEntityRenderingManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74EB49AA16653D0A002DA2F0 /* ETHEntityRenderingManager.cpp */; };
 		74EB49AD16653D0A002DA2F0 /* ETHEntityRenderingManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 74EB49AB16653D0A002DA2F0 /* ETHEntityRenderingManager.h */; };
 		74F00AD71646B9EB00B8B51B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F00AD61646B9EB00B8B51B /* Cocoa.framework */; };
@@ -183,19 +183,19 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		7421F2C5164743D200C55BAE /* PBXContainerItemProxy */ = {
+		74490C4016763ED1004116B5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 7421F2C1164743D200C55BAE /* angelscript.xcodeproj */;
+			containerPortal = 74490C3C16763ED1004116B5 /* angelscript.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 9B2358C50A2DC63E008FE303;
-			remoteInfo = as;
+			remoteGlobalIDString = 74490B8916763D0B004116B5;
+			remoteInfo = angelscript;
 		};
-		7421F2C8164743F400C55BAE /* PBXContainerItemProxy */ = {
+		74490C4216764D2C004116B5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 7421F2C1164743D200C55BAE /* angelscript.xcodeproj */;
+			containerPortal = 74490C3C16763ED1004116B5 /* angelscript.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 9B2358C40A2DC63E008FE303;
-			remoteInfo = as;
+			remoteGlobalIDString = 74490B8816763D0B004116B5;
+			remoteInfo = angelscript;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -368,7 +368,6 @@
 		7421F2B4164741F300C55BAE /* tinyxml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tinyxml.h; path = ../../../src/vendors/tinyxml_ansi/tinyxml.h; sourceTree = "<group>"; };
 		7421F2B5164741F300C55BAE /* tinyxmlerror.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxmlerror.cpp; path = ../../../src/vendors/tinyxml_ansi/tinyxmlerror.cpp; sourceTree = "<group>"; };
 		7421F2B6164741F300C55BAE /* tinyxmlparser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxmlparser.cpp; path = ../../../src/vendors/tinyxml_ansi/tinyxmlparser.cpp; sourceTree = "<group>"; };
-		7421F2C1164743D200C55BAE /* angelscript.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = angelscript.xcodeproj; path = /Users/blackdog/Documents/workspace/ethanon/toolkit/Source/projects/xcode/../../src/angelscript/projects/xcode/angelscript.xcodeproj; sourceTree = "<absolute>"; };
 		7421F2EE1648415D00C55BAE /* box2d.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = box2d.framework; path = "../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gxkgpuwgwqxighfefncafkvqrxui/Build/Products/Debug/box2d.framework"; sourceTree = "<group>"; };
 		7421F2F01648417C00C55BAE /* gs2d.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = gs2d.framework; path = "../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gxkgpuwgwqxighfefncafkvqrxui/Build/Products/Debug/gs2d.framework"; sourceTree = "<group>"; };
 		7421F435164D8E4000C55BAE /* FileListing.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = FileListing.mm; path = ../../../../src/engine/Platform/macosx/FileListing.mm; sourceTree = "<group>"; };
@@ -381,6 +380,7 @@
 		7429A2AC16627E8000134A7E /* ETHEntityParticleRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityParticleRenderer.h; path = ../../../../src/engine/Renderer/ETHEntityParticleRenderer.h; sourceTree = "<group>"; };
 		7429A2AF1663AF2200134A7E /* ETHEntityHaloRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityHaloRenderer.cpp; path = ../../../../src/engine/Renderer/ETHEntityHaloRenderer.cpp; sourceTree = "<group>"; };
 		7429A2B01663AF2200134A7E /* ETHEntityHaloRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityHaloRenderer.h; path = ../../../../src/engine/Renderer/ETHEntityHaloRenderer.h; sourceTree = "<group>"; };
+		74490C3C16763ED1004116B5 /* angelscript.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = angelscript.xcodeproj; path = /Users/blackdog/Documents/workspace/ethanon/toolkit/Source/projects/xcode/../../src/angelscript/projects/osx/angelscript/angelscript.xcodeproj; sourceTree = "<absolute>"; };
 		74EB49AA16653D0A002DA2F0 /* ETHEntityRenderingManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityRenderingManager.cpp; path = ../../../../src/engine/Renderer/ETHEntityRenderingManager.cpp; sourceTree = "<group>"; };
 		74EB49AB16653D0A002DA2F0 /* ETHEntityRenderingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityRenderingManager.h; path = ../../../../src/engine/Renderer/ETHEntityRenderingManager.h; sourceTree = "<group>"; };
 		74F00AD31646B9EB00B8B51B /* engine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = engine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -398,9 +398,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74490C4416764D35004116B5 /* libangelscript.a in Frameworks */,
 				7421F2F11648417C00C55BAE /* gs2d.framework in Frameworks */,
 				7421F2EF1648415D00C55BAE /* box2d.framework in Frameworks */,
-				7421F2CA164743F900C55BAE /* libas.a in Frameworks */,
 				74F00AD71646B9EB00B8B51B /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -634,14 +634,6 @@
 			name = tinyxml;
 			sourceTree = "<group>";
 		};
-		7421F2C2164743D200C55BAE /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				7421F2C6164743D200C55BAE /* libas.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		7429A29D16625FF100134A7E /* Renderer */ = {
 			isa = PBXGroup;
 			children = (
@@ -657,6 +649,14 @@
 				7429A2AC16627E8000134A7E /* ETHEntityParticleRenderer.h */,
 			);
 			name = Renderer;
+			sourceTree = "<group>";
+		};
+		74490C3D16763ED1004116B5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				74490C4116763ED1004116B5 /* libangelscript.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		7487A51F1646DD24002DD331 /* Util */ = {
@@ -690,7 +690,7 @@
 				7421F2B0164741B700C55BAE /* tinyxml */,
 				74F00AD51646B9EB00B8B51B /* Frameworks */,
 				74F00AD41646B9EB00B8B51B /* Products */,
-				7421F2C1164743D200C55BAE /* angelscript.xcodeproj */,
+				74490C3C16763ED1004116B5 /* angelscript.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
@@ -860,7 +860,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				7421F2C9164743F400C55BAE /* PBXTargetDependency */,
+				74490C4316764D2C004116B5 /* PBXTargetDependency */,
 			);
 			name = engine;
 			productName = engine;
@@ -888,8 +888,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 7421F2C2164743D200C55BAE /* Products */;
-					ProjectRef = 7421F2C1164743D200C55BAE /* angelscript.xcodeproj */;
+					ProductGroup = 74490C3D16763ED1004116B5 /* Products */;
+					ProjectRef = 74490C3C16763ED1004116B5 /* angelscript.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -900,11 +900,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		7421F2C6164743D200C55BAE /* libas.a */ = {
+		74490C4116763ED1004116B5 /* libangelscript.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libas.a;
-			remoteRef = 7421F2C5164743D200C55BAE /* PBXContainerItemProxy */;
+			path = libangelscript.a;
+			remoteRef = 74490C4016763ED1004116B5 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1018,10 +1018,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		7421F2C9164743F400C55BAE /* PBXTargetDependency */ = {
+		74490C4316764D2C004116B5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = as;
-			targetProxy = 7421F2C8164743F400C55BAE /* PBXContainerItemProxy */;
+			name = angelscript;
+			targetProxy = 74490C4216764D2C004116B5 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1105,7 +1105,6 @@
 					"$(inherited)",
 					MACOSX,
 					OPENGL,
-					AS_MAX_PORTABILITY,
 					ETH_DEFINE_DEPRECATED_SIGNATURES_FROM_0_9_5,
 					AS_NO_THREADS,
 				);
@@ -1140,7 +1139,6 @@
 					MACOSX,
 					OPENGL,
 					AS_NO_THREADS,
-					AS_MAX_PORTABILITY,
 					ETH_DEFINE_DEPRECATED_SIGNATURES_FROM_0_9_5,
 				);
 				GCC_WARN_UNUSED_PARAMETER = NO;
