@@ -63,6 +63,7 @@ using namespace gs2d;
 #define _ETH_SCENE_EDITOR_BUCKET_SIZE (Vector2(512.0f,512.0f))
 
 #define ETH_STREAM_DECL(name) gs2d::str_type::stringstream name; name
+#define ETH_STD_STREAM_DECL(name) std::stringstream name; name
 
 #define ETH_CALLBACK_PREFIX GS_L("ETHCallback_")
 #define ETH_CONSTRUCTOR_CALLBACK_PREFIX GS_L("ETHConstructorCallback_")

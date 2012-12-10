@@ -89,7 +89,6 @@ public:
 #endif
 
 	static asIScriptModule * GetModule(asIScriptEngine * targetEngine, const std::wstring& module, asEGMFlags flag = asGM_ONLY_IF_EXISTS);
-	static int GetFunctionIdByName(asIScriptModule * targetModule, const std::wstring& name);
 
 protected:
 	void ClearAll();

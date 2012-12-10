@@ -5,7 +5,8 @@
 
 BEGIN_AS_NAMESPACE
 
-using namespace std;
+using gs2d::str_type::string;
+using std::map;
 
 //--------------------------------------------------------------------------
 // CScriptDictionary implementation

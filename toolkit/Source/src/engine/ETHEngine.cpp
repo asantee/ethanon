@@ -21,11 +21,17 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHEngine.h"
+
 #include "Script/ETHScriptObjRegister.h"
 #include "Script/ETHBinaryStream.h"
+
 #include "ETHTypes.h"
+
 #include "Platform/ETHAppEnmlFile.h"
+
 #include "Resource/ETHDirectories.h"
+
+#include <Unicode/UTF8Converter.h>
 
 #ifdef GS2D_STR_TYPE_WCHAR
  #include "../addons/utf16/scriptbuilder.h"
@@ -333,13 +339,13 @@ bool ETHEngine::BuildModule(const std::vector<gs2d::str_type::string>& definedWo
 
 		int r;
 		r = builder.StartNewModule(m_pASEngine, ETH_SCRIPT_MODULE.c_str());
-		if (!CheckAngelScriptError(r, GS_L("Failed while starting the new module.")))
+		if (!CheckAngelScriptError(r < 0, GS_L("Failed while starting the new module.")))
 			return false;
 
 		r = builder.AddSectionFromFile(mainScript.c_str());
 		str_type::stringstream ss;
 		ss << GS_L("Failed while loading the main script. Verify the ") << mainScript << GS_L(" file");
-		if (!CheckAngelScriptError(r, ss.str()))
+		if (!CheckAngelScriptError(r < 0, ss.str()))
 			return false;
 
 		// builds the module
@@ -348,7 +354,7 @@ bool ETHEngine::BuildModule(const std::vector<gs2d::str_type::string>& definedWo
 		r = builder.BuildModule();
 		str_type::stringstream timeStringStream; timeStringStream << GS_L("Compile time: ") << video->GetElapsedTime() - buildTime << GS_L(" milliseconds");
 		m_provider->Log(timeStringStream.str(), Platform::Logger::INFO);
-		if (!CheckAngelScriptError(r, GS_L("Failed while building module.")))
+		if (!CheckAngelScriptError(r < 0, GS_L("Failed while building module.")))
 			return false;
 
 		// Gets the recently built module
@@ -401,7 +407,7 @@ bool ETHEngine::BuildModule(const std::vector<gs2d::str_type::string>& definedWo
 asIScriptFunction* ETHEngine::GetMainFunction() const
 {
 	// finds the main function
-	asIScriptFunction* mainFunc = m_pASModule->GetFunctionByName(ETH_MAIN_FUNCTION.c_str());
+	asIScriptFunction* mainFunc = m_pASModule->GetFunctionByName(utf8::c(ETH_MAIN_FUNCTION).c_str());
 	ETH_STREAM_DECL(ss) << GS_L("Function not found: ") << ETH_MAIN_FUNCTION;
 	CheckAngelScriptError((!mainFunc), ss.str());
 	return mainFunc;

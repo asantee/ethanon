@@ -370,9 +370,9 @@ int CScriptBuilder::Build()
 		else if( decl->type == 2 )
 		{
 			// Find the function id
-			int funcId = module->GetFunctionIdByDecl(decl->declaration.c_str());
-			if( funcId >= 0 )
-				funcMetadataMap.insert(map<int, string>::value_type(funcId, decl->metadata));
+			asIScriptFunction* func = module->GetFunctionByDecl(decl->declaration.c_str());
+			if( func )
+				funcMetadataMap.insert(map<int, string>::value_type(func->GetId(), decl->metadata));
 		}
 		else if( decl->type == 3 )
 		{
@@ -635,11 +635,6 @@ const char *CScriptBuilder::GetMetadataStringForVar(int varIdx)
 asIScriptModule * CScriptBuilder::GetModule(asIScriptEngine * targetEngine, const std::wstring& module, asEGMFlags flag)
 {
 	return targetEngine->GetModule(utf8::Converter(module).c_str(), flag);
-}
-
-int CScriptBuilder::GetFunctionIdByName(asIScriptModule * targetModule, const std::wstring& name)
-{
-	return targetModule->GetFunctionIdByName(utf8::Converter(name).c_str());
 }
 
 static const wchar_t *GetCurrentDir(wchar_t *buf, size_t size)

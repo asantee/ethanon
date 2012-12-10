@@ -21,9 +21,12 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHASUtil.h"
+
 #include <iostream>
 
 #include "../Resource/ETHResourceProvider.h"
+
+#include <Unicode/UTF8Converter.h>
 
 #ifdef GS2D_STR_TYPE_WCHAR
 #	include "../addons/utf16/scriptbuilder.h"
@@ -113,8 +116,10 @@ asIScriptFunction* FindCallbackFunction(asIScriptModule* pModule, const ETHScrip
 	const str_type::string entityName = Platform::RemoveExtension(entity->GetEntityName().c_str());
 	str_type::stringstream funcName;
 	funcName << prefix << entityName;
-	asIScriptFunction* func = pModule->GetFunctionByName(funcName.str().c_str());
+	asIScriptFunction* func = pModule->GetFunctionByName(utf8::c(funcName.str()).c_str());
 
+	// TODO/TO-DO: handle function overload ambiguity
+	GS2D_UNUSED_ARGUMENT(logger);
 	/*if (id == asMULTIPLE_FUNCTIONS)
 	{
 		str_type::stringstream ss;

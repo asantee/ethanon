@@ -21,10 +21,10 @@ class TestEntity : Test
 		@cursor = SeekEntity("cursor");
 
 		barrels.clear();
-		GetEntityArray("barrel.ent", @barrels);
+		GetEntityArray("barrel.ent", barrels);
 		print("\n\nBarrels found: " + barrels.size() + "\n");
 		print("Adding the same barrels to the list\n");
-		GetEntityArray("barrel.ent", @barrels);
+		GetEntityArray("barrel.ent", barrels);
 		print("Barrels found: " + barrels.size() + "\n");
 		print("Calling unique method to remove repeated entities\n");
 		barrels.unique();

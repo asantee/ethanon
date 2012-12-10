@@ -29,7 +29,10 @@
 #endif
 
 #include "../ETHEngine.h"
+
 #include "ETHPhysicsController.h"
+
+#include <Unicode/UTF8Converter.h>
 
 const str_type::string ETHPhysicsEntityController::BEGIN_CONTACT_CALLBACK_PREFIX    = GS_L("ETHBeginContactCallback_");
 const str_type::string ETHPhysicsEntityController::END_CONTACT_CALLBACK_PREFIX      = GS_L("ETHEndContactCallback_");
@@ -70,7 +73,7 @@ asIScriptFunction* ETHPhysicsEntityController::GetContactCallback(const str_type
 	ETHEntity* entity = static_cast<ETHEntity*>(m_body->GetUserData());
 	str_type::stringstream ss;
 	ss << prefix << Platform::RemoveExtension(entity->GetEntityName().c_str());
-	return module->GetFunctionByName(ss.str().c_str());
+	return module->GetFunctionByName(utf8::c(ss.str()).c_str());
 }
 
 void ETHPhysicsEntityController::Update(const unsigned long lastFrameElapsedTime, ETHBucketManager& buckets)
@@ -244,7 +247,7 @@ bool ETHPhysicsEntityController::RunPreSolveContactCallback(ETHEntity* other, Ve
 
 bool ETHPhysicsEntityController::IsValidFunction(asIScriptFunction* func) const
 {
-	return (func);
+	return (func != 0);
 }
 
 b2Body* ETHPhysicsEntityController::GetBody()

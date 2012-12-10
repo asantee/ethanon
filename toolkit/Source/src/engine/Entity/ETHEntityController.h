@@ -87,8 +87,8 @@ public:
 	void SetPos(const Vector3& pos);
 	void SetAngle(const float angle);
 
-	bool HasConstructorCallback() const { return (m_constructorCallback); }
-	bool HasCallback() const { return (m_callback); }
+	bool HasConstructorCallback() const { return (m_constructorCallback != 0); }
+	bool HasCallback() const { return (m_callback != 0); }
 	bool HasAnyCallbackFunction() const { return (HasCallback() || HasConstructorCallback()); }
 	bool RunCallback(ETHScriptEntity* entity);
 

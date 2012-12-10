@@ -21,10 +21,15 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHScriptWrapper.h"
+
 #include "../Shader/ETHShaderManager.h"
+
 #include "../Entity/ETHRenderEntity.h"
 #include "../Entity/ETHEntityChooser.h"
+
 #include "../Resource/ETHDirectories.h"
+
+#include <Unicode/UTF8Converter.h>
 
 ETHScriptWrapper::ETH_NEXT_SCENE::ETH_NEXT_SCENE()
 {
@@ -596,14 +601,14 @@ Vector2 ETHScriptWrapper::GetLastCameraPos()
 
 void ETHScriptWrapper::LoadSceneScripts()
 {
-	asIScriptFunction* onSceneLoadedFunc = m_pASModule->GetFunctionByName(m_nextScene.GetOnSceneLoadedFunc().c_str());
+	asIScriptFunction* onSceneLoadedFunc = m_pASModule->GetFunctionByName(utf8::c(m_nextScene.GetOnSceneLoadedFunc()).c_str());
 	if (onSceneLoadedFunc)
 	{
 		ETHGlobal::ExecuteContext(m_pScriptContext, onSceneLoadedFunc);
 	}
 
-	m_onSceneUpdateFunction = m_pASModule->GetFunctionByName(m_nextScene.GetOnSceneUpdateFunc().c_str());
-	m_onResumeFunction      = m_pASModule->GetFunctionByName(m_nextScene.GetOnResumeFunc().c_str());
+	m_onSceneUpdateFunction = m_pASModule->GetFunctionByName(utf8::c(m_nextScene.GetOnSceneUpdateFunc()).c_str());
+	m_onResumeFunction      = m_pASModule->GetFunctionByName(utf8::c(m_nextScene.GetOnResumeFunc()).c_str());
 }
 
 void ETHScriptWrapper::SetGravity(const Vector2& gravity)

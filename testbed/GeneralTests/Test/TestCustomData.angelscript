@@ -1,5 +1,14 @@
 ﻿class MyCustomObject
 {
+	MyCustomObject()
+	{
+		f = 0.0f;
+		ui = 0;
+		i = 0;
+		str = "";
+		@ent = null;
+	}
+
 	MyCustomObject(float _f, uint _ui, int _i, string _str, ETHEntity@ _ent)
 	{
 		f = _f;

@@ -1295,6 +1295,8 @@ void CScriptArray::EnumReferences(asIScriptEngine *engine)
 // GC behaviour
 void CScriptArray::ReleaseAllHandles(asIScriptEngine *engine)
 {
+	// unnused param
+	(engine);
 	// Resizing to zero will release everything
 	Resize(0);
 }

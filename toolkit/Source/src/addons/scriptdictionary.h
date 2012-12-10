@@ -12,6 +12,8 @@
 
 #include <string>
 
+#include <Types.h>
+
 #ifdef _MSC_VER
 // Turn off annoying warnings about truncated symbol names
 #pragma warning (disable:4786)
@@ -46,24 +48,24 @@ public:
     CScriptDictionary &operator =(const CScriptDictionary &other);
 
     // Sets/Gets a variable type value for a key
-    void Set(const std::string &key, void *value, int typeId);
-    bool Get(const std::string &key, void *value, int typeId) const;
+    void Set(const gs2d::str_type::string &key, void *value, int typeId);
+    bool Get(const gs2d::str_type::string &key, void *value, int typeId) const;
 
     // Sets/Gets an integer number value for a key
-    void Set(const std::string &key, asINT64 &value);
-    bool Get(const std::string &key, asINT64 &value) const;
+    void Set(const gs2d::str_type::string &key, asINT64 &value);
+    bool Get(const gs2d::str_type::string &key, asINT64 &value) const;
 
     // Sets/Gets a real number value for a key
-    void Set(const std::string &key, double &value);
-    bool Get(const std::string &key, double &value) const;
+    void Set(const gs2d::str_type::string &key, double &value);
+    bool Get(const gs2d::str_type::string &key, double &value) const;
 
     // Returns true if the key is set
-    bool Exists(const std::string &key) const;
+    bool Exists(const gs2d::str_type::string &key) const;
 	bool IsEmpty() const;
 	asUINT GetSize() const;
 
     // Deletes the key
-    void Delete(const std::string &key);
+    void Delete(const gs2d::str_type::string &key);
 
     // Deletes all keys
     void DeleteAll();
@@ -102,7 +104,7 @@ protected:
     mutable int refCount;
 
 	// TODO: optimize: Use C++11 std::unordered_map instead
-    std::map<std::string, valueStruct> dict;
+    std::map<gs2d::str_type::string, valueStruct> dict;
 };
 
 // This function will determine the configuration of the engine
