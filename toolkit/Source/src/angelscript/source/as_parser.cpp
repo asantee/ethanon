@@ -1731,12 +1731,7 @@ asCScriptNode *asCParser::ParseScript(bool inBlock)
 			else if( t1.type == ttNamespace )
 				node->AddChildLast(ParseNamespace());
 			else if( t1.type == ttEnd )
-			{
-				if( inBlock )
-					Error(ExpectedToken(asCTokenizer::GetDefinition(ttEndStatementBlock)), &t1);
-
 				return node;
-			}
 			else if( inBlock && t1.type == ttEndStatementBlock )
 				return node;
 			else
@@ -1799,7 +1794,12 @@ asCScriptNode *asCParser::ParseNamespace()
 	if( t1.type == ttStartStatementBlock )
 		node->UpdateSourcePos(t1.pos, t1.length);
 	else
+	{
 		Error(ExpectedToken(asCTokenizer::GetDefinition(ttStartStatementBlock)), &t1);
+		return node;
+	}
+
+	sToken start = t1;
 
 	node->AddChildLast(ParseScript(true));
 
@@ -1809,7 +1809,14 @@ asCScriptNode *asCParser::ParseNamespace()
 		if( t1.type == ttEndStatementBlock )
 			node->UpdateSourcePos(t1.pos, t1.length);
 		else
-			Error(ExpectedToken(asCTokenizer::GetDefinition(ttEndStatementBlock)), &t1);
+		{
+			if( t1.type == ttEnd )
+				Error(TXT_UNEXPECTED_END_OF_FILE, &t1);
+			else
+				Error(ExpectedToken(asCTokenizer::GetDefinition(ttEndStatementBlock)), &t1);
+			Info(TXT_WHILE_PARSING_NAMESPACE, &start);
+			return node;
+		}
 	}
 
 	return node;
@@ -2727,6 +2734,8 @@ asCScriptNode *asCParser::ParseClass()
 	return node;
 }
 
+// TODO: clean-up: This can probably be merged with ParseDeclaration() used for class members and local variables. 
+//                 The syntax for all three is almost identical and should be parsed equally.
 asCScriptNode *asCParser::ParseGlobalVar()
 {
 	asCScriptNode *node = CreateNode(snGlobalVar);
@@ -3157,9 +3166,21 @@ asCScriptNode *asCParser::ParseDeclaration(bool isClassProp)
 		node->AddChildLast(ParseIdentifier());
 		if( isSyntaxError ) return node;
 
-		// If next token is assignment, parse expression
-		if( !isClassProp )
+		if( isClassProp )
 		{
+			// Only superficially parse the initialization info for the class property
+			GetToken(&t);
+			RewindTo(&t);
+			if( t.type == ttAssignment || t.type == ttOpenParanthesis )
+			{
+				// TODO: decl: Change the name of the method as we're now using it for more than global vars
+				node->AddChildLast(SuperficiallyParseGlobalVarInit());
+				if( isSyntaxError ) return node;
+			}
+		}
+		else
+		{
+			// If next token is assignment, parse expression
 			GetToken(&t);
 			if( t.type == ttOpenParanthesis )
 			{

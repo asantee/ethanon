@@ -156,6 +156,9 @@ AS_API const char * asGetLibraryOptions()
 #ifdef AS_ILLUMOS
 		"AS_ILLUMOS "
 #endif
+#ifdef AS_MARMALADE
+		"AS_MARMALADE "
+#endif
 
 
 	// CPU family
@@ -852,7 +855,7 @@ int asCScriptEngine::SetMessageCallback(const asSFuncPtr &callback, void *obj, a
 			return asINVALID_ARG;
 		}
 	}
-	int r = DetectCallingConvention(isObj, callback, callConv, &msgCallbackFunc);
+	int r = DetectCallingConvention(isObj, callback, callConv, 0, &msgCallbackFunc);
 	if( r < 0 ) msgCallback = false;
 	return r;
 }
@@ -1024,39 +1027,34 @@ void asCScriptEngine::ClearUnusedTypes()
 
 		for( n = 0; n < types.GetLength(); n++ )
 		{
-			// Template types and script classes will have two references for each factory stub
 			int refCount = 0;
-			if( (types[n]->flags & asOBJ_TEMPLATE) || (types[n]->flags & asOBJ_SCRIPT_OBJECT) )
+			asCObjectType *type = types[n];
+
+			// Template types and script classes will have two references for each factory stub
+			if( (type->flags & asOBJ_TEMPLATE) )
 			{
-				refCount = 2*(int)types[n]->beh.factories.GetLength();
-				if( types[n]->beh.listFactory )
+				refCount = 2*(int)type->beh.factories.GetLength();
+				if( type->beh.listFactory )
 					refCount += 2;
 			}
 
-			if( types[n]->GetRefCount() == refCount )
+			if( type->GetRefCount() == refCount )
 			{
-				if( types[n]->flags & asOBJ_TEMPLATE )
+				if( type->flags & asOBJ_TEMPLATE )
 				{
 					didClearTemplateInstanceType = true;
-					RemoveTemplateInstanceType(types[n]);
+					RemoveTemplateInstanceType(type);
 				}
 				else
 				{
-					RemoveFromTypeIdMap(types[n]);
-					asDELETE(types[n],asCObjectType);
+					RemoveFromTypeIdMap(type);
+					asDELETE(type,asCObjectType);
 
-					int i = classTypes.IndexOf(types[n]);
-					if( i == (signed)classTypes.GetLength() - 1 )
-						classTypes.PopLast();
-					else
-						classTypes[i] = classTypes.PopLast();
+					classTypes.RemoveIndexUnordered(classTypes.IndexOf(type));
 				}
 
 				// Remove the type from the array
-				if( n < types.GetLength() - 1 )
-					types[n] = types.PopLast();
-				else
-					types.PopLast();
+				types.RemoveIndexUnordered(n);
 				n--;
 			}
 		}
@@ -1073,10 +1071,7 @@ void asCScriptEngine::RemoveTypeAndRelatedFromList(asCArray<asCObjectType*> &typ
 	int i = types.IndexOf(ot);
 	if( i == -1 ) return;
 
-	if( i == (signed)types.GetLength() - 1 )
-		types.PopLast();
-	else
-		types[i] = types.PopLast();
+	types.RemoveIndexUnordered(i);
 
 	// If the type is an template type, then remove all sub types as well
 	if( ot->templateSubType.GetObjectType() )
@@ -1686,7 +1681,7 @@ int asCScriptEngine::RegisterBehaviourToObjectType(asCObjectType *objectType, as
 		if( callConv != asCALL_GENERIC )
 			return ConfigError(asNOT_SUPPORTED, "RegisterObjectBehaviour", objectType->name.AddressOf(), decl);
 #endif
-		int r = DetectCallingConvention(false, funcPointer, callConv, &internal);
+		int r = DetectCallingConvention(false, funcPointer, callConv, 0, &internal);
 		if( r < 0 )
 			return ConfigError(r, "RegisterObjectBehaviour", objectType->name.AddressOf(), decl);
 	}
@@ -1703,7 +1698,7 @@ int asCScriptEngine::RegisterBehaviourToObjectType(asCObjectType *objectType, as
 			return ConfigError(asNOT_SUPPORTED, "RegisterObjectBehaviour", objectType->name.AddressOf(), decl);
 #endif
 
-		int r = DetectCallingConvention(true, funcPointer, callConv, &internal);
+		int r = DetectCallingConvention(true, funcPointer, callConv, 0, &internal);
 		if( r < 0 )
 			return ConfigError(r, "RegisterObjectBehaviour", objectType->name.AddressOf(), decl);
 	}
@@ -2106,22 +2101,9 @@ int asCScriptEngine::AddBehaviourFunction(asCScriptFunction &func, asSSystemFunc
 
 	int id = GetNextScriptFunctionId();
 
-	asSSystemFunctionInterface *newInterface = asNEW(asSSystemFunctionInterface);
+	asSSystemFunctionInterface *newInterface = asNEW(asSSystemFunctionInterface)(internal);
 	if( newInterface == 0 )
 		return asOUT_OF_MEMORY;
-
-	newInterface->func               = internal.func;
-	newInterface->baseOffset         = internal.baseOffset;
-	newInterface->callConv           = internal.callConv;
-	newInterface->scriptReturnSize   = internal.scriptReturnSize;
-	newInterface->hostReturnInMemory = internal.hostReturnInMemory;
-	newInterface->hostReturnFloat    = internal.hostReturnFloat;
-	newInterface->hostReturnSize     = internal.hostReturnSize;
-	newInterface->paramSize          = internal.paramSize;
-	newInterface->takesObjByVal      = internal.takesObjByVal;
-	newInterface->paramAutoHandles   = internal.paramAutoHandles;
-	newInterface->returnAutoHandle   = internal.returnAutoHandle;
-	newInterface->hasAutoHandles     = internal.hasAutoHandles;
 
 	asCScriptFunction *f = asNEW(asCScriptFunction)(this, 0, asFUNC_SYSTEM);
 	if( f == 0 )
@@ -2337,7 +2319,7 @@ int asCScriptEngine::RegisterObjectMethod(const char *obj, const char *declarati
 int asCScriptEngine::RegisterMethodToObjectType(asCObjectType *objectType, const char *declaration, const asSFuncPtr &funcPointer, asDWORD callConv)
 {
 	asSSystemFunctionInterface internal;
-	int r = DetectCallingConvention(true, funcPointer, callConv, &internal);
+	int r = DetectCallingConvention(true, funcPointer, callConv, 0, &internal);
 	if( r < 0 )
 		return ConfigError(r, "RegisterObjectMethod", objectType->name.AddressOf(), declaration);
 
@@ -2462,10 +2444,10 @@ int asCScriptEngine::RegisterMethodToObjectType(asCObjectType *objectType, const
 }
 
 // interface
-int asCScriptEngine::RegisterGlobalFunction(const char *declaration, const asSFuncPtr &funcPointer, asDWORD callConv)
+int asCScriptEngine::RegisterGlobalFunction(const char *declaration, const asSFuncPtr &funcPointer, asDWORD callConv, void *objForThiscall)
 {
 	asSSystemFunctionInterface internal;
-	int r = DetectCallingConvention(false, funcPointer, callConv, &internal);
+	int r = DetectCallingConvention(false, funcPointer, callConv, objForThiscall, &internal);
 	if( r < 0 )
 		return ConfigError(r, "RegisterGlobalFunction", declaration, 0);
 
@@ -2475,6 +2457,7 @@ int asCScriptEngine::RegisterGlobalFunction(const char *declaration, const asSFu
 #else
 	if( callConv != asCALL_CDECL &&
 		callConv != asCALL_STDCALL &&
+		callConv != asCALL_THISCALL_ASGLOBAL &&
 		callConv != asCALL_GENERIC )
 		return ConfigError(asNOT_SUPPORTED, "RegisterGlobalFunction", declaration, 0);
 #endif
@@ -2788,7 +2771,7 @@ int asCScriptEngine::GetDefaultArrayTypeId() const
 int asCScriptEngine::RegisterStringFactory(const char *datatype, const asSFuncPtr &funcPointer, asDWORD callConv)
 {
 	asSSystemFunctionInterface internal;
-	int r = DetectCallingConvention(false, funcPointer, callConv, &internal);
+	int r = DetectCallingConvention(false, funcPointer, callConv, 0, &internal);
 	if( r < 0 )
 		return ConfigError(r, "RegisterStringFactory", datatype, 0);
 
@@ -3050,7 +3033,7 @@ asCObjectType *asCScriptEngine::GetTemplateInstanceType(asCObjectType *templateT
 		scriptFunctions[ot->beh.templateCallback]->AddRef();
 	}
 
-	ot->methods   = templateType->methods;
+	ot->methods = templateType->methods;
 	for( n = 0; n < ot->methods.GetLength(); n++ )
 		scriptFunctions[ot->methods[n]]->AddRef();
 
@@ -3709,7 +3692,12 @@ void asCScriptEngine::CallGlobalFunction(void *param1, void *param2, asSSystemFu
 	}
 	else
 	{
-		asCGeneric gen(this, s, 0, (asDWORD*)&param1);
+		// We must guarantee the order of the arguments which is why we copy them to this
+		// array. Otherwise the compiler may put them anywhere it likes, or even keep them 
+		// in the registers which causes problem.
+		void *params[2] = {param1, param2};
+
+		asCGeneric gen(this, s, 0, (asDWORD*)&params);
 		void (*f)(asIScriptGeneric *) = (void (*)(asIScriptGeneric *))(i->func);
 		f(&gen);
 	}
@@ -3731,7 +3719,12 @@ bool asCScriptEngine::CallGlobalFunctionRetBool(void *param1, void *param2, asSS
 	{
 		// TODO: When simulating a 64bit environment by defining AS_64BIT_PTR on a 32bit platform this code
 		//       fails, because the stack given to asCGeneric is not prepared with two 64bit arguments.
-		asCGeneric gen(this, s, 0, (asDWORD*)&param1);
+
+		// We must guarantee the order of the arguments which is why we copy them to this
+		// array. Otherwise the compiler may put them anywhere it likes, or even keep them 
+		// in the registers which causes problem.
+		void *params[2] = {param1, param2};
+		asCGeneric gen(this, s, 0, (asDWORD*)params);
 		void (*f)(asIScriptGeneric *) = (void (*)(asIScriptGeneric *))(i->func);
 		f(&gen);
 		return *(bool*)gen.GetReturnPointer();

@@ -111,6 +111,7 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 	{
 		video->SetBGColor(gs2d::constant::BLACK);
 
+		GS2D_COUT << GS_L("AngelScript v") << asGetLibraryVersion() << GS_L(" options: ") << asGetLibraryOptions() << std::endl;
 		if (!PrepareScriptingEngine(file.GetDefinedWords()))
 		{
 			Abort();

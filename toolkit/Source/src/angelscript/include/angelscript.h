@@ -58,8 +58,8 @@ BEGIN_AS_NAMESPACE
 
 // AngelScript version
 
-#define ANGELSCRIPT_VERSION        22502
-#define ANGELSCRIPT_VERSION_STRING "2.25.2"
+#define ANGELSCRIPT_VERSION        22600
+#define ANGELSCRIPT_VERSION_STRING "2.26.0 WIP"
 
 // Data types
 
@@ -101,12 +101,13 @@ enum asEEngineProp
 // Calling conventions
 enum asECallConvTypes
 {
-	asCALL_CDECL            = 0,
-	asCALL_STDCALL          = 1,
-	asCALL_THISCALL         = 2,
-	asCALL_CDECL_OBJLAST    = 3,
-	asCALL_CDECL_OBJFIRST   = 4,
-	asCALL_GENERIC          = 5
+	asCALL_CDECL             = 0,
+	asCALL_STDCALL           = 1,
+	asCALL_THISCALL_ASGLOBAL = 2,
+	asCALL_THISCALL          = 3,
+	asCALL_CDECL_OBJLAST     = 4,
+	asCALL_CDECL_OBJFIRST    = 5,
+	asCALL_GENERIC           = 6
 };
 
 // Object type flags
@@ -334,7 +335,7 @@ enum asEFuncType
 typedef unsigned char  asBYTE;
 typedef unsigned short asWORD;
 typedef unsigned int   asUINT;
-#if (defined(_MSC_VER) && _MSC_VER <= 1200) || defined(AS_MARMALADE) || defined(MARMALADE)
+#if (defined(_MSC_VER) && _MSC_VER <= 1200) || defined(__S3E__)
 	// size_t is not really correct, since it only guaranteed to be large enough to hold the segment size.
 	// For example, on 16bit systems the size_t may be 16bits only even if pointers are 32bit. But nobody
 	// is likely to use MSVC6 to compile for 16bit systems anymore, so this should be ok.
@@ -529,7 +530,7 @@ public:
 	virtual asIJITCompiler *GetJITCompiler() const = 0;
 
 	// Global functions
-	virtual int                RegisterGlobalFunction(const char *declaration, const asSFuncPtr &funcPointer, asDWORD callConv) = 0;
+	virtual int                RegisterGlobalFunction(const char *declaration, const asSFuncPtr &funcPointer, asDWORD callConv, void *objForThiscall = 0) = 0;
 	virtual asUINT             GetGlobalFunctionCount() const = 0;
 #ifdef AS_DEPRECATED
 	// Deprecated since 2.24.0 - 2012-05-20
@@ -1163,7 +1164,7 @@ struct asSMethodPtr<SINGLE_PTR_SIZE+2*sizeof(int)>
 
 			// Copy the virtual table index to the 4th dword so that AngelScript
 			// can properly detect and deny the use of methods with virtual inheritance.
-			*(static_cast<asDWORD*>(&p)+3) = *(static_cast<asDWORD*>(&p)+2);
+			*(reinterpret_cast<asDWORD*>(&p)+3) = *(reinterpret_cast<asDWORD*>(&p)+2);
 #endif
 
 		return p;

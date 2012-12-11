@@ -237,6 +237,8 @@ asCScriptObject::asCScriptObject(asCObjectType *ot, bool doInitialize)
 		objType->engine->gc.AddScriptObjectToGC(this, objType);
 
 	// Construct all properties
+	// TODO: decl: When creating an initialized object this routine should just clear the memory. All allocation and initialization will be done by the bytecode for the constructor
+	//             When creating an uninitialized object this routine should allocate the objects that are not handles without calling their constructors as is done now
 	asCScriptEngine *engine = objType->engine;
 	for( asUINT n = 0; n < objType->properties.GetLength(); n++ )
 	{
@@ -564,6 +566,7 @@ int asCScriptObject::CopyFrom(asIScriptObject *other)
 	return 0;
 }
 
+// TODO: decl: This method shouldn't be called unless an uninitialized object is being created. Remove logic where doInitialize is true
 void *asCScriptObject::AllocateObject(asCObjectType *objType, asCScriptEngine *engine, bool doInitialize)
 {
 	void *ptr = 0;
