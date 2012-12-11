@@ -52,15 +52,15 @@ class ETHEngine : public gs2d::BaseApplication, public ETHScriptWrapper
 	bool m_hasBeenResumed;
 
 	static void MessageCallback(const asSMessageInfo *msg);
-	static bool CheckAngelScriptError(const int r, const str_type::string &description);
+	static bool CheckAngelScriptError(const bool error, const str_type::string &description);
 
 	ETHEngine &operator=(const ETHEngine &other);
 
 	bool PrepareScriptingEngine(const std::vector<gs2d::str_type::string>& definedWords);
 	bool BuildModule(const std::vector<gs2d::str_type::string>& definedWords);
-	int GetMainFunctionId() const;
+	asIScriptFunction* GetMainFunction() const;
 	bool RunOnResumeFunction() const;
-	bool RunFunction(const int functionId) const;
+	bool RunFunction(asIScriptFunction* func) const;
 	bool LoadNextSceneIfRequested();
 
 	void DrawTopLayer(const unsigned int lastFrameElapsedTimeMS);

@@ -537,11 +537,15 @@ void RegisterStdString_Native(asIScriptEngine *engine)
 	{
 		r = engine->RegisterObjectMethod("string", "uint length() const", asMETHOD(string,size), asCALL_THISCALL); assert( r >= 0 );
 		r = engine->RegisterObjectMethod("string", "void resize(uint)", asMETHODPR(string,resize,(size_t),void), asCALL_THISCALL); assert( r >= 0 );
+		r = engine->RegisterObjectMethod("string", "uint find(const string &in) const", asFUNCTION(StringFindGeneric), asCALL_GENERIC); assert( r >= 0 );
+		r = engine->RegisterObjectMethod("string", "string substr(const uint, const uint) const", asFUNCTION(StringSubstrGeneric), asCALL_GENERIC); assert( r >= 0 );
 	}
 	else
 	{
 		r = engine->RegisterObjectMethod("string", "uint64 length() const", asMETHOD(string,size), asCALL_THISCALL); assert( r >= 0 );
 		r = engine->RegisterObjectMethod("string", "void resize(uint64)", asMETHODPR(string,resize,(size_t),void), asCALL_THISCALL); assert( r >= 0 );
+		r = engine->RegisterObjectMethod("string", "uint64 find(const string &in) const", asFUNCTION(StringFindGeneric), asCALL_GENERIC); assert( r >= 0 );
+		r = engine->RegisterObjectMethod("string", "string substr(const uint64, const uint64) const", asFUNCTION(StringSubstrGeneric), asCALL_GENERIC); assert( r >= 0 );
 	}
 
 	// Register the index operator, both as a mutator and as an inspector

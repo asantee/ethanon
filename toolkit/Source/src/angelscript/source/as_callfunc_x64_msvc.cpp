@@ -1,6 +1,6 @@
 /*
    AngelCode Scripting Library
-   Copyright (c) 2003-2011 Andreas Jonsson
+   Copyright (c) 2003-2012 Andreas Jonsson
 
    This software is provided 'as-is', without any express or implied
    warranty. In no event will the authors be held liable for any
@@ -49,7 +49,7 @@ extern "C" asQWORD GetReturnedDouble();
 
 asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, void *obj, asDWORD *args, void *retPointer, asQWORD &/*retQW2*/)
 {
-	asCScriptEngine *engine = context->engine;
+	asCScriptEngine *engine = context->m_engine;
 	asSSystemFunctionInterface *sysFunc = descr->sysFuncIntf;
 
 	asQWORD  retQW             = 0;
@@ -91,7 +91,7 @@ asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, 
 	{
 		// Get the true function pointer from the virtual function table
 		vftable = *(void***)obj;
-		func = vftable[size_t(func)>>2];
+		func = vftable[asPWORD(func)>>2];
 	}
 
 	// Move the arguments to the buffer
@@ -101,7 +101,8 @@ asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, 
 	{
 		if( descr->parameterTypes[n].IsObject() && !descr->parameterTypes[n].IsObjectHandle() && !descr->parameterTypes[n].IsReference() )
 		{
-			if( descr->parameterTypes[n].GetSizeInMemoryDWords() >= AS_LARGE_OBJ_MIN_SIZE )
+			if( descr->parameterTypes[n].GetSizeInMemoryDWords() >= AS_LARGE_OBJ_MIN_SIZE ||
+				(descr->parameterTypes[n].GetObjectType()->flags & COMPLEX_MASK) )
 			{
 				allArgBuffer[dpos++] = *(asQWORD*)&args[spos];
 				spos += AS_PTR_SIZE;
@@ -169,9 +170,7 @@ asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, 
 		allArgBuffer[paramSize++] = (asQWORD)obj;
 	}
 
-	context->isCallingSystemFunction = true;
-	retQW = CallX64(allArgBuffer, floatArgBuffer, paramSize*8, (size_t)func);
-	context->isCallingSystemFunction = false;
+	retQW = CallX64(allArgBuffer, floatArgBuffer, paramSize*8, (asPWORD)func);
 
 	// If the return is a float value we need to get the value from the FP register
 	if( sysFunc->hostReturnFloat )

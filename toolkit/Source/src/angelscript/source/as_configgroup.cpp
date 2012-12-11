@@ -1,6 +1,6 @@
 /*
    AngelCode Scripting Library
-   Copyright (c) 2003-2010 Andreas Jonsson
+   Copyright (c) 2003-2012 Andreas Jonsson
 
    This software is provided 'as-is', without any express or implied 
    warranty. In no event will the authors be held liable for any 
@@ -46,7 +46,6 @@ BEGIN_AS_NAMESPACE
 asCConfigGroup::asCConfigGroup()
 {
 	refCount = 0;
-	defaultAccess = true;
 }
 
 asCConfigGroup::~asCConfigGroup()
@@ -106,13 +105,13 @@ void asCConfigGroup::RemoveConfiguration(asCScriptEngine *engine, bool notUsed)
 	// Remove global variables
 	for( n = 0; n < globalProps.GetLength(); n++ )
 	{
-		int index = engine->registeredGlobalProps.IndexOf(globalProps[n]);
+		int index = engine->registeredGlobalProps.GetIndex(globalProps[n]);
 		if( index >= 0 )
 		{
 			globalProps[n]->Release();
 
 			// TODO: global: Should compact the registeredGlobalProps array
-			engine->registeredGlobalProps[index] = 0;
+			engine->registeredGlobalProps.Erase(index);
 		}
 	}
 	globalProps.SetLength(0);
@@ -206,39 +205,5 @@ void asCConfigGroup::ValidateNoUsage(asCScriptEngine *engine, asCObjectType *typ
 	// TODO: Check also usage of the type as sub types in other types
 }
 #endif
-
-int asCConfigGroup::SetModuleAccess(const char *module, bool hasAccess)
-{
-	if( module == asALL_MODULES )
-	{
-		// Set default module access
-		defaultAccess = hasAccess;
-	}
-	else
-	{
-		asCString mod(module ? module : "");
-		asSMapNode<asCString,bool> *cursor = 0;
-		if( moduleAccess.MoveTo(&cursor, mod) )
-		{
-			moduleAccess.GetValue(cursor) = hasAccess;
-		}
-		else
-		{
-			moduleAccess.Insert(mod, hasAccess);
-		}
-	}
-
-	return 0;
-}
-
-bool asCConfigGroup::HasModuleAccess(const char *module)
-{
-	asCString mod(module ? module : "");
-	asSMapNode<asCString,bool> *cursor = 0;
-	if( moduleAccess.MoveTo(&cursor, mod) )
-		return moduleAccess.GetValue(cursor);
-	
-	return defaultAccess;
-}
 
 END_AS_NAMESPACE

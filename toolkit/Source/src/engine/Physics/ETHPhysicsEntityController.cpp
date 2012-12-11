@@ -29,17 +29,20 @@
 #endif
 
 #include "../ETHEngine.h"
+
 #include "ETHPhysicsController.h"
+
+#include <Unicode/UTF8Converter.h>
 
 const str_type::string ETHPhysicsEntityController::BEGIN_CONTACT_CALLBACK_PREFIX    = GS_L("ETHBeginContactCallback_");
 const str_type::string ETHPhysicsEntityController::END_CONTACT_CALLBACK_PREFIX      = GS_L("ETHEndContactCallback_");
 const str_type::string ETHPhysicsEntityController::PRESOLVE_CONTACT_CALLBACK_PREFIX = GS_L("ETHPreSolveContactCallback_");
 const str_type::string ETHPhysicsEntityController::CONTACT_CALLBACK_ARGS            = GS_L("ETHEntity@, ETHEntity@, const vector2 &in");
 
-ETHPhysicsEntityController::CONTACT_CALLBACK_IDS::CONTACT_CALLBACK_IDS() :
-	beginContact(-1),
-	endContact(-1),
-	preSolveContact(-1)
+ETHPhysicsEntityController::CONTACT_CALLBACKS::CONTACT_CALLBACKS() :
+	beginContact(0),
+	endContact(0),
+	preSolveContact(0)
 {
 }
 
@@ -49,28 +52,28 @@ ETHPhysicsEntityController::ETHPhysicsEntityController(
 	boost::shared_ptr<b2World> world,
 	asIScriptModule* module,
 	asIScriptContext* context) :
-	ETHRawEntityController(old, 0,-1,-1),
+	ETHRawEntityController(old, 0, 0, 0),
 	m_body(body),
 	m_world(world)
 {
 	ETHRawEntityControllerPtr raw = boost::dynamic_pointer_cast<ETHRawEntityController>(old);
 	if (raw)
 	{
-		m_callbackId = raw->GetCallbackId();
-		m_constructorCallbackId = raw->GetConstructorCallbackId();
+		m_callback = raw->GetCallback();
+		m_constructorCallback = raw->GetConstructorCallback();
 		m_pContext = context;
-		m_contactCallbacks.beginContact    = GetContactCallbackId(BEGIN_CONTACT_CALLBACK_PREFIX,    module);
-		m_contactCallbacks.endContact      = GetContactCallbackId(END_CONTACT_CALLBACK_PREFIX,      module);
-		m_contactCallbacks.preSolveContact = GetContactCallbackId(PRESOLVE_CONTACT_CALLBACK_PREFIX, module);
+		m_contactCallbacks.beginContact    = GetContactCallback(BEGIN_CONTACT_CALLBACK_PREFIX,    module);
+		m_contactCallbacks.endContact      = GetContactCallback(END_CONTACT_CALLBACK_PREFIX,      module);
+		m_contactCallbacks.preSolveContact = GetContactCallback(PRESOLVE_CONTACT_CALLBACK_PREFIX, module);
 	}
 }
 
-int ETHPhysicsEntityController::GetContactCallbackId(const str_type::string& prefix, asIScriptModule* module)
+asIScriptFunction* ETHPhysicsEntityController::GetContactCallback(const str_type::string& prefix, asIScriptModule* module)
 {
 	ETHEntity* entity = static_cast<ETHEntity*>(m_body->GetUserData());
 	str_type::stringstream ss;
 	ss << prefix << Platform::RemoveExtension(entity->GetEntityName().c_str());
-	return CScriptBuilder::GetFunctionIdByName(module, ss.str());
+	return module->GetFunctionByName(utf8::c(ss.str()).c_str());
 }
 
 void ETHPhysicsEntityController::Update(const unsigned long lastFrameElapsedTime, ETHBucketManager& buckets)
@@ -210,20 +213,20 @@ bool ETHPhysicsEntityController::HasPreSolveContactCallback() const
 	return IsValidFunction(m_contactCallbacks.preSolveContact);
 }
 
-bool ETHPhysicsEntityController::RunContactCallback(const int functionId, ETHEntity* other, Vector2& point0, Vector2& point1, Vector2& normal)
+bool ETHPhysicsEntityController::RunContactCallback(asIScriptFunction* func, ETHEntity* other, Vector2& point0, Vector2& point1, Vector2& normal)
 {
-	if (!IsValidFunction(functionId))
+	if (!IsValidFunction(func))
 		return true;
 
 	ETHEntity* entity = static_cast<ETHEntity*>(m_body->GetUserData());
 
-	if (m_pContext->Prepare(functionId) < 0) return false;
+	if (m_pContext->Prepare(func) < 0) return false;
 	if (m_pContext->SetArgObject(0, entity) < 0) return false;
 	if (m_pContext->SetArgObject(1, other) < 0) return false;
 	if (m_pContext->SetArgObject(2, &point0) < 0) return false;
 	if (m_pContext->SetArgObject(3, &point1) < 0) return false;
 	if (m_pContext->SetArgObject(4, &normal) < 0) return false;
-	ETHGlobal::ExecuteContext(m_pContext, functionId, false);
+	ETHGlobal::ExecuteContext(m_pContext, func, false);
 	return true;
 }
 
@@ -242,9 +245,9 @@ bool ETHPhysicsEntityController::RunPreSolveContactCallback(ETHEntity* other, Ve
 	return RunContactCallback(m_contactCallbacks.preSolveContact, other, point0, point1, normal);
 }
 
-bool ETHPhysicsEntityController::IsValidFunction(const int functionId) const
+bool ETHPhysicsEntityController::IsValidFunction(asIScriptFunction* func) const
 {
-	return (functionId >= 0);
+	return (func != 0);
 }
 
 b2Body* ETHPhysicsEntityController::GetBody()
@@ -267,21 +270,29 @@ bool ETHPhysicsEntityController::ResolveJoints(ETHEntityArray& entities, const E
 
 		// get the other entity name from the joint definition
 		str_type::string otherEntityName = ETHJoint::GetOtherEntityName(jointName, file);
+		int otherEntityID = -1;
 
 		// if the other entity name is not declared in the joint definition, look for it into the custom data
 		if (otherEntityName == GS_L(""))
 		{
-			str_type::string str;
-			if (properties.GetString(jointName, str))
-				otherEntityName = str;
+			if (properties.Check(jointName) == ETHCustomData::DT_STRING)
+			{
+				properties.GetString(jointName, otherEntityName);
+			}
+			else if (properties.Check(jointName) == ETHCustomData::DT_INT)
+			{
+				properties.GetInt(jointName, otherEntityID);
+			}
 			else
+			{
 				continue;
+			}
 		}
 
 		// iterate over entities to find the other-entity
 		for (std::size_t t = 0; t < numEntities; t++)
 		{
-			if (entities[t]->GetEntityName() == otherEntityName)
+			if (entities[t]->GetEntityName() == otherEntityName || entities[t]->GetID() == otherEntityID)
 			{
 				boost::shared_ptr<ETHJoint> joint =
 					ETHJoint::CreateJoint(jointName, file, simulator, static_cast<ETHEntity*>(m_body->GetUserData()), (entities[t]));

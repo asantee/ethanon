@@ -1,6 +1,6 @@
 /*
    AngelCode Scripting Library
-   Copyright (c) 2003-2011 Andreas Jonsson
+   Copyright (c) 2003-2012 Andreas Jonsson
 
    This software is provided 'as-is', without any express or implied 
    warranty. In no event will the authors be held liable for any 
@@ -52,12 +52,14 @@ class asCScriptEngine;
 class asCModule;
 class asCConfigGroup;
 class asCGlobalProperty;
+struct asSNameSpace;
 
 struct asSScriptVariable
 {
 	asCString   name;
 	asCDataType type;
 	int         stackOffset;
+	asUINT      declaredAtProgramPos;
 };
 
 enum asEObjVarInfoOption
@@ -97,26 +99,38 @@ public:
 	int AddRef() const;
 	int Release() const;
 
+	// Miscellaneous
 	int                  GetId() const;
 	asEFuncType          GetFuncType() const;
 	const char          *GetModuleName() const;
+	const char          *GetScriptSectionName() const;
+	const char          *GetConfigGroup() const;
+	asDWORD              GetAccessMask() const;
+
+	// Function signature
 	asIObjectType       *GetObjectType() const;
 	const char          *GetObjectName() const;
 	const char          *GetName() const;
-	const char          *GetDeclaration(bool includeObjectName = true) const;
-	const char          *GetScriptSectionName() const;
-	const char          *GetConfigGroup() const;
+	const char          *GetNamespace() const;
+	const char          *GetDeclaration(bool includeObjectName = true, bool includeNamespace = false) const;
 	bool                 IsReadOnly() const;
 	bool                 IsPrivate() const;
-
-	int                  GetParamCount() const;
-	int                  GetParamTypeId(int index, asDWORD *flags = 0) const;
+	bool                 IsFinal() const;
+	bool                 IsOverride() const;
+	bool                 IsShared() const;
+	asUINT               GetParamCount() const;
+	int                  GetParamTypeId(asUINT index, asDWORD *flags = 0) const;
 	int                  GetReturnTypeId() const;
 
+	// Type id for function pointers 
+	int                  GetTypeId() const;
+	bool                 IsCompatibleWithTypeId(int typeId) const;
+
 	// Debug information
-	int                  GetVarCount() const;
+	asUINT               GetVarCount() const;
 	int                  GetVar(asUINT index, const char **name, int *typeId = 0) const;
 	const char *         GetVarDecl(asUINT index) const;
+	int                  FindNextLineWithCode(int line) const;
 
 	// For JIT compilation
 	asDWORD             *GetByteCode(asUINT *length = 0);
@@ -125,12 +139,6 @@ public:
 	void                *SetUserData(void *userData);
 	void                *GetUserData() const;
 
-#ifdef AS_DEPRECATED
-	// Since 2.20.0
-	bool                 IsClassMethod() const;
-	bool                 IsInterfaceMethod() const;
-#endif
-
 public:
 	//-----------------------------------
 	// Internal methods
@@ -138,20 +146,29 @@ public:
 	asCScriptFunction(asCScriptEngine *engine, asCModule *mod, asEFuncType funcType);
 	~asCScriptFunction();
 
+	void      DestroyInternal();
+	void      Orphan(asIScriptModule *mod);
+
 	void      AddVariable(asCString &name, asCDataType &type, int stackOffset);
 
 	int       GetSpaceNeededForArguments();
 	int       GetSpaceNeededForReturnValue();
-	asCString GetDeclarationStr(bool includeObjectName = true) const;
+	asCString GetDeclarationStr(bool includeObjectName = true, bool includeNamespace = false) const;
 	int       GetLineNumber(int programPosition);
 	void      ComputeSignatureId();
 	bool      IsSignatureEqual(const asCScriptFunction *func) const;
 	bool      IsSignatureExceptNameEqual(const asCScriptFunction *func) const;
+	bool      IsSignatureExceptNameEqual(const asCDataType &retType, const asCArray<asCDataType> &paramTypes, const asCArray<asETypeModifiers> &inOutFlags, const asCObjectType *type, bool isReadOnly) const;
+	bool      IsSignatureExceptNameAndReturnTypeEqual(const asCScriptFunction *fun) const;
+	bool      IsSignatureExceptNameAndReturnTypeEqual(const asCArray<asCDataType> &paramTypes, const asCArray<asETypeModifiers> &inOutFlags, const asCObjectType *type, bool isReadOnly) const;
 
-    void      JITCompile();
+	bool      DoesReturnOnStack() const;
+
+	void      JITCompile();
 
 	void      AddReferences();
 	void      ReleaseReferences();
+
 
 	asCGlobalProperty *GetPropertyByGlobalVarPtr(void *gvarPtr);
 
@@ -181,22 +198,41 @@ public:
 	asCArray<asCString *>        defaultArgs;
 	bool                         isReadOnly;
 	bool                         isPrivate;
+	bool                         isFinal;
+	bool                         isOverride;
 	asCObjectType               *objectType;
 	int                          signatureId;
 
 	int                          id;
 
 	asEFuncType                  funcType;
+	asDWORD                      accessMask;
+	bool                         isShared;
+
+	asSNameSpace                *nameSpace;
 
 	// Used by asFUNC_SCRIPT
 	asCArray<asDWORD>               byteCode;
+	// The stack space needed for the local variables
+	asDWORD                         variableSpace;
+
+	// These hold information objects and function pointers, including temporary
+	// variables used by exception handler and when saving bytecode
 	asCArray<asCObjectType*>        objVariableTypes;
+	asCArray<asCScriptFunction*>    funcVariableTypes;
 	asCArray<int>	                objVariablePos;
-	asCArray<bool>                  objVariableIsOnHeap;
+	// The first variables in above array are allocated on the heap, the rest on the stack.
+	// This variable shows how many are on the heap.
+	asUINT                          objVariablesOnHeap;
+
+	// Holds information on scope for object variables on the stack
 	asCArray<asSObjectVariableInfo> objVariableInfo;
+
+	// Holds information on explicitly declared variables
+	asCArray<asSScriptVariable*>    variables;        // debug info
+
 	int                             stackNeeded;
 	asCArray<int>                   lineNumbers;      // debug info
-	asCArray<asSScriptVariable*>    variables;        // debug info
 	int                             scriptSectionIdx; // debug info
 	bool                            dontCleanUpOnException;   // Stub functions don't own the object and parameters
 

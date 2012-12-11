@@ -24,17 +24,22 @@
 #define ETH_SCRIPT_ENTITY_H_
 
 #include "../Physics/ETHCollisionBox.h"
+
 #include "../Scene/ETHSceneProperties.h"
-#include "ETHCustomDataManager.h"
 #include "../Scene/ETHBucketManager.h"
+
+#include "ETHCustomDataManager.h"
+
 #include "../Entity/ETHEntityProperties.h"
+
+#include "../../angelscript/include/angelscript.h"
 
 class ETHPhysicsController;
 
 class ETHScriptEntity
 {
 	bool m_isAlive;
-	int m_destructorCallbackId;
+	asIScriptFunction* m_destructorCallback;
 
 protected:
 	ETHScriptEntity();
@@ -167,8 +172,8 @@ public:
 	virtual void Release() = 0;
 	void Kill();
 	bool IsAlive() const;
-	void SetDestructorCallbackId(const int id);
-	int GetDestructorCallbackId() const;
+	void SetDestructorCallback(asIScriptFunction* func);
+	asIScriptFunction* GetDestructorCallback() const;
 
 	virtual void SetPositionX(const float v, ETHBucketManager& buckets) = 0;
 	virtual void SetPositionY(const float v, ETHBucketManager& buckets) = 0;

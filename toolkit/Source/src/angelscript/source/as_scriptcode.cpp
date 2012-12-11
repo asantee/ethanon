@@ -1,6 +1,6 @@
 /*
    AngelCode Scripting Library
-   Copyright (c) 2003-2011 Andreas Jonsson
+   Copyright (c) 2003-2012 Andreas Jonsson
 
    This software is provided 'as-is', without any express or implied 
    warranty. In no event will the authors be held liable for any 
@@ -76,6 +76,8 @@ int asCScriptCode::SetCode(const char *name, const char *code, size_t length, bo
 	if( makeCopy )
 	{
 		this->code = asNEWARRAY(char,length);
+		if( this->code == 0 )
+			return asOUT_OF_MEMORY;
 		memcpy((char*)this->code, code, length);
 		codeLength = length;
 		sharedCode = false;
@@ -137,6 +139,14 @@ void asCScriptCode::ConvertPosToRowCol(size_t pos, int *row, int *col)
 
 	if( row ) *row = i + 1 + lineOffset;
 	if( col ) *col = (int)(pos - linePositions[i]) + 1;
+}
+
+bool asCScriptCode::TokenEquals(size_t pos, size_t len, const char *str)
+{
+	if( pos + len > codeLength ) return false;
+	if( strncmp(code + pos, str, len) == 0 && strlen(str) == len )
+		return true;
+	return false;
 }
 
 END_AS_NAMESPACE

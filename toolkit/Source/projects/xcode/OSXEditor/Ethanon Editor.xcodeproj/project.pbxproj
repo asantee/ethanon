@@ -21,7 +21,6 @@
 		7421F3F2164BF40B00C55BAE /* gsgui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F3F0164BF40B00C55BAE /* gsgui.cpp */; };
 		7421F3F7164BF4BE00C55BAE /* EditorBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F3F5164BF4BE00C55BAE /* EditorBase.cpp */; };
 		7421F3FA164BF98C00C55BAE /* CustomDataEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F3F8164BF98B00C55BAE /* CustomDataEditor.cpp */; };
-		7421F3FE164BFC5500C55BAE /* UTF8Converter.dummy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F3FC164BFC5500C55BAE /* UTF8Converter.dummy.cpp */; };
 		7421F404164C096900C55BAE /* ikpMP3.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F403164C096900C55BAE /* ikpMP3.dylib */; };
 		7421F406164C12C100C55BAE /* EditorBase.macosx.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7421F405164C12C100C55BAE /* EditorBase.macosx.mm */; };
 		7421F409164C13A500C55BAE /* EntityEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F407164C13A500C55BAE /* EntityEditor.cpp */; };
@@ -146,8 +145,6 @@
 		7421F3F6164BF4BE00C55BAE /* EditorBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EditorBase.h; path = ../../../../src/editor/EditorBase.h; sourceTree = "<group>"; };
 		7421F3F8164BF98B00C55BAE /* CustomDataEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CustomDataEditor.cpp; path = ../../../../src/editor/CustomDataEditor.cpp; sourceTree = "<group>"; };
 		7421F3F9164BF98B00C55BAE /* CustomDataEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomDataEditor.h; path = ../../../../src/editor/CustomDataEditor.h; sourceTree = "<group>"; };
-		7421F3FC164BFC5500C55BAE /* UTF8Converter.dummy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UTF8Converter.dummy.cpp; path = ../../../../src/gs2d/src/Unicode/UTF8Converter.dummy.cpp; sourceTree = "<group>"; };
-		7421F3FD164BFC5500C55BAE /* UTF8Converter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UTF8Converter.h; path = ../../../../src/gs2d/src/Unicode/UTF8Converter.h; sourceTree = "<group>"; };
 		7421F403164C096900C55BAE /* ikpMP3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = ikpMP3.dylib; path = "../../../src/gs2d/vendors/irrKlang/bin/macosx-gcc/ikpMP3.dylib"; sourceTree = "<group>"; };
 		7421F405164C12C100C55BAE /* EditorBase.macosx.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = EditorBase.macosx.mm; path = ../../../../src/editor/EditorBase.macosx.mm; sourceTree = "<group>"; };
 		7421F407164C13A500C55BAE /* EntityEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EntityEditor.cpp; path = ../../../../src/editor/EntityEditor.cpp; sourceTree = "<group>"; };
@@ -257,8 +254,6 @@
 			isa = PBXGroup;
 			children = (
 				7421F4711651B22000C55BAE /* MainSharedHeader.h */,
-				7421F3FC164BFC5500C55BAE /* UTF8Converter.dummy.cpp */,
-				7421F3FD164BFC5500C55BAE /* UTF8Converter.h */,
 				7421F3E9164BF24C00C55BAE /* SDLMain.h */,
 				7421F3EA164BF24C00C55BAE /* SDLMain.m */,
 				7421F38F164BED3200C55BAE /* Ethanon Editor-Info.plist */,
@@ -478,7 +473,6 @@
 				7421F3F2164BF40B00C55BAE /* gsgui.cpp in Sources */,
 				7421F3F7164BF4BE00C55BAE /* EditorBase.cpp in Sources */,
 				7421F3FA164BF98C00C55BAE /* CustomDataEditor.cpp in Sources */,
-				7421F3FE164BFC5500C55BAE /* UTF8Converter.dummy.cpp in Sources */,
 				7421F406164C12C100C55BAE /* EditorBase.macosx.mm in Sources */,
 				7421F409164C13A500C55BAE /* EntityEditor.cpp in Sources */,
 				7421F40C164C141D00C55BAE /* ParticleScale.cpp in Sources */,

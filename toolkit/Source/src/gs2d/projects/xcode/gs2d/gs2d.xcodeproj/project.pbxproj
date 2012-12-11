@@ -14,6 +14,8 @@
 		7423B69F165FF413008848EA /* SharedDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7423B69B165FF413008848EA /* SharedDataManager.cpp */; };
 		7423B6A0165FF413008848EA /* SharedDataManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7423B69C165FF413008848EA /* SharedDataManager.h */; };
 		742D34161637A64300A447A2 /* SDL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 742D34151637A64300A447A2 /* SDL.framework */; };
+		74589689167650CD0012C1EF /* UTF8Converter.dummy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74589687167650CD0012C1EF /* UTF8Converter.dummy.cpp */; };
+		7458968A167650CD0012C1EF /* UTF8Converter.h in Headers */ = {isa = PBXBuildFile; fileRef = 74589688167650CD0012C1EF /* UTF8Converter.h */; };
 		7458F0801635F18300D48019 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7458F07F1635F18300D48019 /* OpenGL.framework */; };
 		7458F0841636CFB200D48019 /* MacOSXFileIOHub.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7458F0821636CFB200D48019 /* MacOSXFileIOHub.mm */; };
 		7458F0851636CFB200D48019 /* MacOSXFileIOHub.h in Headers */ = {isa = PBXBuildFile; fileRef = 7458F0831636CFB200D48019 /* MacOSXFileIOHub.h */; };
@@ -128,6 +130,8 @@
 		7423B69B165FF413008848EA /* SharedDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SharedDataManager.cpp; path = ../../../../src/Platform/SharedData/SharedDataManager.cpp; sourceTree = "<group>"; };
 		7423B69C165FF413008848EA /* SharedDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SharedDataManager.h; path = ../../../../src/Platform/SharedData/SharedDataManager.h; sourceTree = "<group>"; };
 		742D34151637A64300A447A2 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = ../../../vendors/SDL.framework; sourceTree = "<group>"; };
+		74589687167650CD0012C1EF /* UTF8Converter.dummy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UTF8Converter.dummy.cpp; path = ../../../../src/Unicode/UTF8Converter.dummy.cpp; sourceTree = "<group>"; };
+		74589688167650CD0012C1EF /* UTF8Converter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UTF8Converter.h; path = ../../../../src/Unicode/UTF8Converter.h; sourceTree = "<group>"; };
 		7458F07F1635F18300D48019 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		7458F0821636CFB200D48019 /* MacOSXFileIOHub.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MacOSXFileIOHub.mm; path = ../../../../src/Platform/macosx/MacOSXFileIOHub.mm; sourceTree = "<group>"; };
 		7458F0831636CFB200D48019 /* MacOSXFileIOHub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacOSXFileIOHub.h; path = ../../../../src/Platform/macosx/MacOSXFileIOHub.h; sourceTree = "<group>"; };
@@ -253,6 +257,15 @@
 				7423B69C165FF413008848EA /* SharedDataManager.h */,
 			);
 			name = SharedData;
+			sourceTree = "<group>";
+		};
+		7458968C167650D10012C1EF /* Unicode */ = {
+			isa = PBXGroup;
+			children = (
+				74589687167650CD0012C1EF /* UTF8Converter.dummy.cpp */,
+				74589688167650CD0012C1EF /* UTF8Converter.h */,
+			);
+			name = Unicode;
 			sourceTree = "<group>";
 		};
 		7473CA8716330318005DB920 /* Math */ = {
@@ -487,6 +500,7 @@
 				74838D29163C0C390027CFFC /* Utilities */,
 				7473CA8816330323005DB920 /* Platform */,
 				7473CA8716330318005DB920 /* Math */,
+				7458968C167650D10012C1EF /* Unicode */,
 				7473CA6B16330304005DB920 /* Application.cpp */,
 				7473CA6C16330304005DB920 /* Application.h */,
 				7473CA6D16330304005DB920 /* Audio.h */,
@@ -575,6 +589,7 @@
 				7421F2E01648173000C55BAE /* StdFileManager.h in Headers */,
 				7423B69E165FF413008848EA /* SharedData.h in Headers */,
 				7423B6A0165FF413008848EA /* SharedDataManager.h in Headers */,
+				7458968A167650CD0012C1EF /* UTF8Converter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -697,6 +712,7 @@
 				7421F2DF1648173000C55BAE /* StdFileManager.cpp in Sources */,
 				7423B69D165FF413008848EA /* SharedData.cpp in Sources */,
 				7423B69F165FF413008848EA /* SharedDataManager.cpp in Sources */,
+				74589689167650CD0012C1EF /* UTF8Converter.dummy.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

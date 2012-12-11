@@ -377,14 +377,17 @@ bool ETHScene::GenerateLightmaps(const int id)
 void ETHScene::Update(
 	const unsigned long lastFrameElapsedTime,
 	const ETHBackBufferTargetManagerPtr& backBuffer,
-	const int onUpdateCallbackFunctionId)
+	asIScriptFunction* onUpdateCallbackFunction)
 {
 	m_destructorManager->RunDestructors();
 	m_physicsSimulator.Update(lastFrameElapsedTime);
 
+	// update entities that are always active (dynamic entities with callback or physics and temporary entities)
+	m_activeEntityHandler.UpdateAlwaysActiveEntities(GetZAxisDirection(), m_buckets, lastFrameElapsedTime);
+
 	// Run onSceneUpdate functon
-	if (onUpdateCallbackFunctionId >= 0)
-		ETHGlobal::ExecuteContext(m_pContext, onUpdateCallbackFunctionId);
+	if (onUpdateCallbackFunction)
+		ETHGlobal::ExecuteContext(m_pContext, onUpdateCallbackFunction);
 
 	// start mapping process
 	float minHeight, maxHeight;
@@ -397,8 +400,8 @@ void ETHScene::Update(
 		maxHeight,
 		backBuffer);
 
-	// update mapped entities
-	m_activeEntityHandler.UpdateActiveEntities(GetZAxisDirection(), m_buckets, lastFrameElapsedTime);
+	// update static mapped entities that weren't called in UpdateAlwaysActiveEntities
+	m_activeEntityHandler.UpdateCurrentFrameEntities(GetZAxisDirection(), m_buckets, lastFrameElapsedTime);
 
 	m_minSceneHeight = minHeight;
 	m_maxSceneHeight = maxHeight;
@@ -620,20 +623,20 @@ void ETHScene::ForceAllSFXStop()
 
 bool ETHScene::AssignCallbackScript(ETHSpriteEntity* entity)
 {
-	const int callbackId = ETHGlobal::FindCallbackFunction(m_pModule, entity, ETH_CALLBACK_PREFIX, *m_provider->GetLogger());
-	const int constructorCallbackId = ETHGlobal::FindCallbackFunction(m_pModule, entity, ETH_CONSTRUCTOR_CALLBACK_PREFIX, *m_provider->GetLogger());
-	const int destructorCallbackId = ETHGlobal::FindCallbackFunction(m_pModule, entity, ETH_DESTRUCTOR_CALLBACK_PREFIX, *m_provider->GetLogger());
-	AssignControllerToEntity(entity, callbackId, constructorCallbackId, destructorCallbackId);
+	asIScriptFunction* callbackId = ETHGlobal::FindCallbackFunction(m_pModule, entity, ETH_CALLBACK_PREFIX, *m_provider->GetLogger());
+	asIScriptFunction* constructorCallback = ETHGlobal::FindCallbackFunction(m_pModule, entity, ETH_CONSTRUCTOR_CALLBACK_PREFIX, *m_provider->GetLogger());
+	asIScriptFunction* destructorCallback = ETHGlobal::FindCallbackFunction(m_pModule, entity, ETH_DESTRUCTOR_CALLBACK_PREFIX, *m_provider->GetLogger());
+	AssignControllerToEntity(entity, callbackId, constructorCallback, destructorCallback);
 	return true;
 } 
 
-void ETHScene::AssignControllerToEntity(ETHEntity* entity, const int callbackId, const int constructorCallbackId, const int destructorCallbackId)
+void ETHScene::AssignControllerToEntity(ETHEntity* entity, asIScriptFunction* callback, asIScriptFunction* constructorCallback, asIScriptFunction* destructorCallback)
 {
-	entity->SetDestructorCallbackId(destructorCallbackId);
-	if (callbackId >= 0 || constructorCallbackId >= 0)
+	entity->SetDestructorCallback(destructorCallback);
+	if (callback || constructorCallback)
 	{
 		ETHEntityControllerPtr currentController(entity->GetController());
-		ETHEntityControllerPtr newController(new ETHRawEntityController(currentController, m_pContext, callbackId, constructorCallbackId));
+		ETHEntityControllerPtr newController(new ETHRawEntityController(currentController, m_pContext, callback, constructorCallback));
 		entity->SetController(newController);
 	}
 	if (entity->IsBody())

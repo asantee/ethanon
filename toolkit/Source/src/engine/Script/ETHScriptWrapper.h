@@ -48,7 +48,6 @@ protected:
 		ONE_STEP = 0, DESTROY_ALL_GARBAGE = 1, FULL_CYCLE = 2
 	};
 	static GARBAGE_COLLECT_MODE m_gcMode;
-	static int GetFunctionId(asIScriptModule* pModule, const str_type::string& name);
 
 	static void DrawBlackCurtain();
 
@@ -93,8 +92,8 @@ public:
 
 	static asIScriptContext *m_pScriptContext;
 	static asIScriptContext *m_pConstructorContext;
-	static int m_onSceneUpdateFunctionId;
-	static int m_onResumeFunctionId;
+	static asIScriptFunction* m_onSceneUpdateFunction;
+	static asIScriptFunction* m_onResumeFunction;
 
 	static ETHEntityCache m_entityCache;
 
@@ -139,7 +138,7 @@ public:
 	} m_math;
 
 	void RegisterGlobalFunctions(asIScriptEngine *pASEngine);
-	static bool RunMainFunction(const int mainFuncId);
+	static bool RunMainFunction(asIScriptFunction* mainFunc);
 	static bool WarnIfRunsInMainFunction(const str_type::string &functionName);
 
 	static void LoadSceneInScript(const str_type::string &escFile);

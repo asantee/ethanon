@@ -1558,7 +1558,7 @@ void SceneEditor::RenderScene()
 {
 	m_pScene->SetBorderBucketsDrawing(true);
 	const unsigned long lastFrameElapsedTimeMS = ComputeElapsedTime(m_provider->GetVideo());
-	m_pScene->Update(lastFrameElapsedTimeMS, m_backBuffer, -1);
+	m_pScene->Update(lastFrameElapsedTimeMS, m_backBuffer, 0);
 	m_pScene->RenderScene(false);
 }
 

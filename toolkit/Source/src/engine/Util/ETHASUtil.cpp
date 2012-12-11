@@ -21,9 +21,12 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHASUtil.h"
+
 #include <iostream>
 
 #include "../Resource/ETHResourceProvider.h"
+
+#include <Unicode/UTF8Converter.h>
 
 #ifdef GS2D_STR_TYPE_WCHAR
 #	include "../addons/utf16/scriptbuilder.h"
@@ -32,13 +35,13 @@
 #endif
 
 namespace ETHGlobal {
-void ExecuteContext(asIScriptContext *pContext, const int id, const bool prepare)
+void ExecuteContext(asIScriptContext *pContext, asIScriptFunction* func, const bool prepare)
 {
 	if (prepare)
 	{
-		if (pContext->Prepare(id) < 0)
+		if (pContext->Prepare(func) < 0)
 		{
-			ETH_STREAM_DECL(ss) << GS_L("(ExecuteContext) Couldn't prepare context for function  ID ") << id;
+			ETH_STREAM_DECL(ss) << GS_L("(ExecuteContext) Couldn't prepare context for function  ID ") << func->GetId();
 			ETHResourceProvider::Log(ss.str(), Platform::Logger::ERROR);
 			return;
 		}
@@ -100,42 +103,42 @@ void ShowMessage(str_type::string message, const ETH_MESSAGE type)
 
 void PrintException(asIScriptContext *pContext)
 {
-	asIScriptEngine *m_pASEngine = pContext->GetEngine();
-	const int funcId = pContext->GetExceptionFunction();
-	const asIScriptFunction *pFunction = m_pASEngine->GetFunctionDescriptorById(funcId);
-	ETH_STREAM_DECL(ss) << GS_L("Function: ") << pFunction->GetDeclaration() << std::endl
-						<< GS_L("Section: ") << pFunction->GetScriptSectionName() << std::endl
+	const asIScriptFunction* func = pContext->GetExceptionFunction();
+	ETH_STREAM_DECL(ss) << GS_L("Function: ") << func->GetDeclaration() << std::endl
+						<< GS_L("Section: ") << func->GetScriptSectionName() << std::endl
 						<< GS_L("Line: ") << pContext->GetExceptionLineNumber() << std::endl
 						<< GS_L("Description: ") << pContext->GetExceptionString() << std::endl;
 	ETHResourceProvider::Log(ss.str(), Platform::Logger::ERROR);
 }
 
-int FindCallbackFunction(asIScriptModule* pModule, const ETHScriptEntity* entity, const str_type::string& prefix, const Platform::Logger& logger)
+asIScriptFunction* FindCallbackFunction(asIScriptModule* pModule, const ETHScriptEntity* entity, const str_type::string& prefix, const Platform::Logger& logger)
 {
 	const str_type::string entityName = Platform::RemoveExtension(entity->GetEntityName().c_str());
 	str_type::stringstream funcName;
 	funcName << prefix << entityName;
-	const int id = CScriptBuilder::GetFunctionIdByName(pModule, funcName.str());
+	asIScriptFunction* func = pModule->GetFunctionByName(utf8::c(funcName.str()).c_str());
 
-	if (id == asMULTIPLE_FUNCTIONS)
+	// TODO/TO-DO: handle function overload ambiguity
+	GS2D_UNUSED_ARGUMENT(logger);
+	/*if (id == asMULTIPLE_FUNCTIONS)
 	{
 		str_type::stringstream ss;
 		ss << GS_L("ETHScene::FindCallbackFunction: found multiple functions named (") << funcName.str() << GS_L(").");
 		logger.Log(ss.str(), Platform::FileLogger::ERROR);
-	}
-	return id;
+	}*/
+	return func;
 }
 
-bool RunEntityCallback(asIScriptContext* pContext, ETHScriptEntity* entity, const int id)
+bool RunEntityCallback(asIScriptContext* pContext, ETHScriptEntity* entity, asIScriptFunction* func)
 {
-	if (id < 0)
+	if (!func)
 		return false;
 
-	if (pContext->Prepare(id) < 0)
+	if (pContext->Prepare(func) < 0)
 		return false;
 
 	if (pContext->SetArgObject(0, entity) >= 0)
-		ETHGlobal::ExecuteContext(pContext, id, false);
+		ETHGlobal::ExecuteContext(pContext, func, false);
 	else
 		return false;
 	return true;

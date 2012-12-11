@@ -27,8 +27,8 @@ ETHRawEntityController::ETHRawEntityController(const Vector3& pos, const float a
 	m_pos(pos),
 	m_angle(angle),
 	m_pContext(0),
-	m_callbackId(-1),
-	m_constructorCallbackId(-1),
+	m_callback(0),
+	m_constructorCallback(0),
 	m_hadRunConstructor(false)
 {
 }
@@ -36,11 +36,11 @@ ETHRawEntityController::ETHRawEntityController(const Vector3& pos, const float a
 ETHRawEntityController::ETHRawEntityController(
 	const ETHEntityControllerPtr& old,
 	asIScriptContext *pContext,
-	const int callbackId,
-	const int constructorCallbackId) :
+	asIScriptFunction* callback,
+	asIScriptFunction* constructorCallback) :
 	m_pContext(pContext),
-	m_callbackId(callbackId),
-	m_constructorCallbackId(constructorCallbackId),
+	m_callback(callback),
+	m_constructorCallback(constructorCallback),
 	m_hadRunConstructor(false)
 {
 	m_pos = old->GetPos();
@@ -151,12 +151,12 @@ bool ETHRawEntityController::RunCallback(ETHScriptEntity* entity)
 {
 	if (HasConstructorCallback() && !m_hadRunConstructor)
 	{
-		ETHGlobal::RunEntityCallback(m_pContext, entity, m_constructorCallbackId);
+		ETHGlobal::RunEntityCallback(m_pContext, entity, m_constructorCallback);
 		m_hadRunConstructor = true;
 	}
 	if (HasCallback())
 	{
-		ETHGlobal::RunEntityCallback(m_pContext, entity, m_callbackId);
+		ETHGlobal::RunEntityCallback(m_pContext, entity, m_callback);
 	}
 	return true;
 }
@@ -166,14 +166,14 @@ asIScriptContext* ETHRawEntityController::GetScriptContext()
 	return m_pContext;
 }
 
-int ETHRawEntityController::GetCallbackId()
+asIScriptFunction* ETHRawEntityController::GetCallback()
 {
-	return m_callbackId;
+	return m_callback;
 }
 
-int ETHRawEntityController::GetConstructorCallbackId()
+asIScriptFunction* ETHRawEntityController::GetConstructorCallback()
 {
-	return m_constructorCallbackId;
+	return m_constructorCallback;
 }
 
 void ETHRawEntityController::Destroy()

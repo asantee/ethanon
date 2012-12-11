@@ -35,5 +35,5 @@ ETHEntityDestructorScript::~ETHEntityDestructorScript()
 
 void ETHEntityDestructorScript::Run(asIScriptContext* pContext)
 {
-	ETHGlobal::RunEntityCallback(pContext, m_entity, m_entity->GetDestructorCallbackId());
+	ETHGlobal::RunEntityCallback(pContext, m_entity, m_entity->GetDestructorCallback());
 }

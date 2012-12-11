@@ -39,7 +39,7 @@ static bool GetContactData(
 	Vector2& v2Point0,
 	Vector2& v2Point1,
 	Vector2& v2Normal,
-	const ETHPhysicsEntityController::CONTACT_CALLBACK_IDS::TYPE type)
+	const ETHPhysicsEntityController::CONTACT_CALLBACKS::TYPE type)
 {
 	b2WorldManifold worldManifold; 
 	contact->GetWorldManifold(&worldManifold); 
@@ -56,15 +56,15 @@ static bool GetContactData(
 	// if neither entities have the current callback type assigned to it, don't even bother...
 	switch (type)
 	{
-	case ETHPhysicsEntityController::CONTACT_CALLBACK_IDS::BEGIN:
+	case ETHPhysicsEntityController::CONTACT_CALLBACKS::BEGIN:
 		if (!(*controllerA)->HasBeginContactCallback() && !(*controllerB)->HasBeginContactCallback())
 			return false;
 		break;
-	case ETHPhysicsEntityController::CONTACT_CALLBACK_IDS::PRESOLVE:
+	case ETHPhysicsEntityController::CONTACT_CALLBACKS::PRESOLVE:
 		if (!(*controllerA)->HasPreSolveContactCallback() && !(*controllerB)->HasPreSolveContactCallback())
 			return false;
 		break;
-	case ETHPhysicsEntityController::CONTACT_CALLBACK_IDS::END:
+	case ETHPhysicsEntityController::CONTACT_CALLBACKS::END:
 		if (!(*controllerA)->HasEndContactCallback() && !(*controllerB)->HasEndContactCallback())
 			return false;
 		break;
@@ -93,7 +93,7 @@ void ETHContactListener::BeginContact(b2Contact* contact)
 		point0,
 		point1,
 		normal,
-		ETHPhysicsEntityController::CONTACT_CALLBACK_IDS::BEGIN))
+		ETHPhysicsEntityController::CONTACT_CALLBACKS::BEGIN))
 	{
 		controllerA->RunBeginContactCallback(entityB, point0, point1, normal);
 		controllerB->RunBeginContactCallback(entityA, point0, point1, normal);
@@ -116,7 +116,7 @@ void ETHContactListener::PreSolve(b2Contact* contact, const b2Manifold* oldManif
 		point0,
 		point1,
 		normal,
-		ETHPhysicsEntityController::CONTACT_CALLBACK_IDS::PRESOLVE))
+		ETHPhysicsEntityController::CONTACT_CALLBACKS::PRESOLVE))
 	{
 		controllerA->RunPreSolveContactCallback(entityB, point0, point1, normal);
 		controllerB->RunPreSolveContactCallback(entityA, point0, point1, normal);
@@ -145,7 +145,7 @@ void ETHContactListener::EndContact(b2Contact* contact)
 		point0,
 		point1,
 		normal,
-		ETHPhysicsEntityController::CONTACT_CALLBACK_IDS::END))
+		ETHPhysicsEntityController::CONTACT_CALLBACKS::END))
 	{
 		controllerA->RunEndContactCallback(entityB, point0, point1, normal);
 		controllerB->RunEndContactCallback(entityA, point0, point1, normal);

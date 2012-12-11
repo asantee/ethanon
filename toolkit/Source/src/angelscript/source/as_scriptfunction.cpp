@@ -1,6 +1,6 @@
 /*
    AngelCode Scripting Library
-   Copyright (c) 2003-2011 Andreas Jonsson
+   Copyright (c) 2003-2012 Andreas Jonsson
 
    This software is provided 'as-is', without any express or implied 
    warranty. In no event will the authors be held liable for any 
@@ -99,9 +99,10 @@ static void ScriptFunction_ReleaseAllHandles_Generic(asIScriptGeneric *gen)
 void RegisterScriptFunction(asCScriptEngine *engine)
 {
 	// Register the gc behaviours for the script functions
-	int r;
+	int r = 0;
+	UNUSED_VAR(r); // It is only used in debug mode
 	engine->functionBehaviours.engine = engine;
-	engine->functionBehaviours.flags = asOBJ_REF | asOBJ_GC;
+	engine->functionBehaviours.flags = asOBJ_REF | asOBJ_GC | asOBJ_SCRIPT_FUNCTION;
 	engine->functionBehaviours.name = "_builtin_function_";
 #ifndef AS_MAX_PORTABILITY
 	r = engine->RegisterBehaviourToObjectType(&engine->functionBehaviours, asBEHAVE_ADDREF, "void f()", asMETHOD(asCScriptFunction,AddRef), asCALL_THISCALL); asASSERT( r >= 0 );
@@ -133,6 +134,8 @@ asCScriptFunction::asCScriptFunction(asCScriptEngine *engine, asCModule *mod, as
 	name                   = ""; 
 	isReadOnly             = false;
 	isPrivate              = false;
+	isFinal                = false;
+	isOverride             = false;
 	stackNeeded            = 0;
 	sysFuncIntf            = 0;
 	signatureId            = 0;
@@ -143,46 +146,67 @@ asCScriptFunction::asCScriptFunction(asCScriptEngine *engine, asCModule *mod, as
 	gcFlag                 = false;
 	userData               = 0;
 	id                     = 0;
+	accessMask             = 0xFFFFFFFF;
+	isShared               = false;
+	variableSpace          = 0;
+	nameSpace              = engine->nameSpaces[0];
 
 	// Notify the GC of script functions
-	if( funcType == asFUNC_SCRIPT )
+	if( funcType == asFUNC_SCRIPT && mod == 0 )
 		engine->gc.AddScriptObjectToGC(this, &engine->functionBehaviours);
 }
 
 // internal
 asCScriptFunction::~asCScriptFunction()
 {
-	// Clean user data
-	if( userData && engine->cleanFunctionFunc )
-		engine->cleanFunctionFunc(this);
-
 	// Imported functions are not reference counted, nor are dummy 
 	// functions that are allocated on the stack
 	asASSERT( funcType == asFUNC_DUMMY    ||
 		      funcType == asFUNC_IMPORTED ||
 		      refCount.get() == 0         );
 
-	ReleaseReferences();
+	// If the engine pointer is 0, then DestroyInternal has already been called and there is nothing more to do
+	if( engine == 0 ) return;
 
-	// Tell engine to free the function id
+	DestroyInternal();
+
+	// Tell engine to free the function id. This will make it impossible to
+	// refer to the function by id. Where this is done, it is quite possible
+	// they will leak.
 	if( funcType != -1 && funcType != asFUNC_IMPORTED && id )
 		engine->FreeScriptFunctionId(id);
+	id = 0;
+
+	// Finally set the engine pointer to 0 because it must not be accessed again
+	engine = 0;
+}
+
+// internal
+void asCScriptFunction::DestroyInternal()
+{
+	// Clean up user data
+	if( userData && engine->cleanFunctionFunc )
+		engine->cleanFunctionFunc(this);
+	userData = 0;
+
+	// Release all references the function holds to other objects
+	ReleaseReferences();
+	parameterTypes.SetLength(0);
+	returnType = asCDataType::CreatePrimitive(ttVoid, false);
+	byteCode.SetLength(0);
 
 	for( asUINT n = 0; n < variables.GetLength(); n++ )
-	{
 		asDELETE(variables[n],asSScriptVariable);
-	}
-
-	if( sysFuncIntf )
-	{
-		asDELETE(sysFuncIntf,asSSystemFunctionInterface);
-	}
-
+	variables.SetLength(0);
+	
 	for( asUINT p = 0; p < defaultArgs.GetLength(); p++ )
-	{
 		if( defaultArgs[p] )
 			asDELETE(defaultArgs[p], asCString);
-	}
+	defaultArgs.SetLength(0);
+
+	if( sysFuncIntf )
+		asDELETE(sysFuncIntf,asSSystemFunctionInterface);
+	sysFuncIntf = 0;
 }
 
 // interface
@@ -205,28 +229,54 @@ int asCScriptFunction::Release() const
 	gcFlag = false;
 	asASSERT( funcType != asFUNC_IMPORTED );
 	int r = refCount.atomicDec();
-	if( r == 0 && funcType != -1 ) // Dummy functions are allocated on the stack and cannot be deleted
+	if( r == 0 && funcType != asFUNC_DUMMY ) // Dummy functions are allocated on the stack and cannot be deleted
 		asDELETE(const_cast<asCScriptFunction*>(this),asCScriptFunction);
 
 	return r;
 }
 
-// interface 
-void asCScriptEngine::SetEngineUserDataCleanupCallback(asCLEANENGINEFUNC_t callback)
+// internal
+void asCScriptFunction::Orphan(asIScriptModule *mod)
 {
-	cleanEngineFunc = callback;
+	if( mod && module == mod )
+	{
+		module = 0;
+		if( funcType == asFUNC_SCRIPT && refCount.get() > 1 )
+		{
+			// This function is being orphaned, so notify the GC so it can check for circular references
+			engine->gc.AddScriptObjectToGC(this, &engine->functionBehaviours);
+		}
+	}
+
+	Release();
 }
 
 // interface
-void asCScriptEngine::SetContextUserDataCleanupCallback(asCLEANCONTEXTFUNC_t callback)
+int asCScriptFunction::GetTypeId() const
 {
-	cleanContextFunc = callback;
+	// This const cast is ok, the object won't be modified
+	asCDataType dt = asCDataType::CreateFuncDef(const_cast<asCScriptFunction*>(this));
+	return engine->GetTypeIdFromDataType(dt);
 }
 
 // interface
-void asCScriptEngine::SetFunctionUserDataCleanupCallback(asCLEANFUNCTIONFUNC_t callback)
+bool asCScriptFunction::IsCompatibleWithTypeId(int typeId) const
 {
-	cleanFunctionFunc = callback;
+	asCDataType dt = engine->GetDataTypeFromTypeId(typeId);
+
+	// Make sure the type is a function
+	asCScriptFunction *func = dt.GetFuncDef();
+	if( func == 0 )
+		return false;
+
+	if( !IsSignatureExceptNameEqual(func) )
+		return false;
+
+	// If this is a class method, then only return true if the object type is the same
+	if( objectType != func->objectType )
+		return false;
+
+	return true;
 }
 
 // interface
@@ -261,20 +311,11 @@ const char *asCScriptFunction::GetName() const
 	return name.AddressOf();
 }
 
-#ifdef AS_DEPRECATED
-// Since 2.20.0
 // interface
-bool asCScriptFunction::IsClassMethod() const
+const char *asCScriptFunction::GetNamespace() const
 {
-	return objectType && objectType->IsInterface() == false;
+	return nameSpace->name.AddressOf();
 }
-
-// interface
-bool asCScriptFunction::IsInterfaceMethod() const
-{
-	return objectType && objectType->IsInterface();
-}
-#endif
 
 // interface
 bool asCScriptFunction::IsReadOnly() const
@@ -306,7 +347,18 @@ int asCScriptFunction::GetSpaceNeededForReturnValue()
 }
 
 // internal
-asCString asCScriptFunction::GetDeclarationStr(bool includeObjectName) const
+bool asCScriptFunction::DoesReturnOnStack() const
+{
+	if( returnType.GetObjectType() &&
+		(returnType.GetObjectType()->flags & asOBJ_VALUE) &&
+		!returnType.IsReference() )
+		return true;
+		
+	return false;
+}
+
+// internal
+asCString asCScriptFunction::GetDeclarationStr(bool includeObjectName, bool includeNamespace) const
 {
 	asCString str;
 
@@ -322,10 +374,17 @@ asCString asCScriptFunction::GetDeclarationStr(bool includeObjectName) const
 	}
 	if( objectType && includeObjectName )
 	{
+		if( includeNamespace )
+			str += objectType->nameSpace->name + "::";
+			
 		if( objectType->name != "" )
 			str += objectType->name + "::";
 		else
 			str += "_unnamed_type_::";
+	}
+	else if( includeNamespace )
+	{
+		str += nameSpace->name + "::";
 	}
 	if( name == "" )
 		str += "_unnamed_function_(";
@@ -380,6 +439,28 @@ asCString asCScriptFunction::GetDeclarationStr(bool includeObjectName) const
 	return str;
 }
 
+// interface
+int asCScriptFunction::FindNextLineWithCode(int line) const
+{
+	if( lineNumbers.GetLength() == 0 ) return -1;
+
+	// Check if given line is outside function
+	// TODO: should start at declaration instead of first line of code
+	if( line < (lineNumbers[1]&0xFFFFF) ) return -1;
+	if( line > (lineNumbers[lineNumbers.GetLength()-1]&0xFFFFF) ) return -1;
+
+	// Find the line with code on or right after the input line
+	// TODO: optimize: Do binary search instead
+	if( line == (lineNumbers[1]&0xFFFFF) ) return line;
+	for( asUINT n = 3; n < lineNumbers.GetLength(); n += 2 )
+	{
+		if( line <= (lineNumbers[n]&0xFFFFF) )
+			return (lineNumbers[n]&0xFFFFF);
+	}
+
+	return -1;
+}
+
 // internal
 int asCScriptFunction::GetLineNumber(int programPosition)
 {
@@ -424,7 +505,7 @@ asEFuncType asCScriptFunction::GetFuncType() const
 }
 
 // interface
-int asCScriptFunction::GetVarCount() const
+asUINT asCScriptFunction::GetVarCount() const
 {
 	return int(variables.GetLength());
 }
@@ -449,8 +530,7 @@ const char *asCScriptFunction::GetVarDecl(asUINT index) const
 	if( index >= variables.GetLength() )
 		return 0;
 
-	asASSERT(threadManager);
-	asCString *tempString = &threadManager->GetLocalData()->string;
+	asCString *tempString = &asCThreadManager::GetLocalData()->string;
 	*tempString = variables[index]->type.Format();
 	*tempString += " " + variables[index]->name;
 
@@ -461,9 +541,15 @@ const char *asCScriptFunction::GetVarDecl(asUINT index) const
 void asCScriptFunction::AddVariable(asCString &name, asCDataType &type, int stackOffset)
 {
 	asSScriptVariable *var = asNEW(asSScriptVariable);
-	var->name        = name;
-	var->type        = type;
-	var->stackOffset = stackOffset;
+	if( var == 0 )
+	{
+		// Out of memory
+		return;
+	}
+	var->name                 = name;
+	var->type                 = type;
+	var->stackOffset          = stackOffset;
+	var->declaredAtProgramPos = 0;
 	variables.PushLast(var);
 }
 
@@ -500,11 +586,30 @@ bool asCScriptFunction::IsSignatureEqual(const asCScriptFunction *func) const
 // internal
 bool asCScriptFunction::IsSignatureExceptNameEqual(const asCScriptFunction *func) const
 {
-	if( returnType        != func->returnType        ) return false;
-	if( isReadOnly        != func->isReadOnly        ) return false;
-	if( inOutFlags        != func->inOutFlags        ) return false;
-	if( parameterTypes    != func->parameterTypes    ) return false;
-	if( (objectType != 0) != (func->objectType != 0) ) return false;
+	return IsSignatureExceptNameEqual(func->returnType, func->parameterTypes, func->inOutFlags, func->objectType, func->isReadOnly);
+}
+
+// internal
+bool asCScriptFunction::IsSignatureExceptNameEqual(const asCDataType &retType, const asCArray<asCDataType> &paramTypes, const asCArray<asETypeModifiers> &paramInOut, const asCObjectType *objType, bool readOnly) const
+{
+	if( this->returnType != retType ) return false;
+
+	return IsSignatureExceptNameAndReturnTypeEqual(paramTypes, paramInOut, objType, readOnly);
+}
+
+// internal
+bool asCScriptFunction::IsSignatureExceptNameAndReturnTypeEqual(const asCScriptFunction *func) const
+{
+	return IsSignatureExceptNameAndReturnTypeEqual(func->parameterTypes, func->inOutFlags, func->objectType, func->isReadOnly);
+}
+
+// internal
+bool asCScriptFunction::IsSignatureExceptNameAndReturnTypeEqual(const asCArray<asCDataType> &paramTypes, const asCArray<asETypeModifiers> &paramInOut, const asCObjectType *objType, bool readOnly) const
+{
+	if( this->isReadOnly        != readOnly       ) return false;
+	if( this->inOutFlags        != paramInOut     ) return false;
+	if( this->parameterTypes    != paramTypes     ) return false;
+	if( (this->objectType != 0) != (objType != 0) ) return false;
 
 	return true;
 }
@@ -544,8 +649,9 @@ void asCScriptFunction::AddReferences()
 		case asBC_OBJTYPE:
 		case asBC_FREE:
 		case asBC_REFCPY:
+		case asBC_RefCpyV:
 			{
-                asCObjectType *objType = (asCObjectType*)(size_t)asBC_PTRARG(&byteCode[n]);
+                asCObjectType *objType = (asCObjectType*)asBC_PTRARG(&byteCode[n]);
 				objType->AddRef();
 			}
 			break;
@@ -553,7 +659,7 @@ void asCScriptFunction::AddReferences()
 		// Object type and function
 		case asBC_ALLOC:
 			{
-				asCObjectType *objType = (asCObjectType*)(size_t)asBC_PTRARG(&byteCode[n]);
+				asCObjectType *objType = (asCObjectType*)asBC_PTRARG(&byteCode[n]);
 				objType->AddRef();
 
 				int func = asBC_INTARG(&byteCode[n]+AS_PTR_SIZE);
@@ -564,6 +670,7 @@ void asCScriptFunction::AddReferences()
 
 		// Global variables
 		case asBC_PGA:
+		case asBC_PshGPtr:
 		case asBC_LDG:
 		case asBC_PshG4:
 		case asBC_LdGRdR4:
@@ -572,7 +679,7 @@ void asCScriptFunction::AddReferences()
 		case asBC_SetG4:
 			// Need to increase the reference for each global variable
 			{
-				void *gvarPtr = (void*)(size_t)asBC_PTRARG(&byteCode[n]);
+				void *gvarPtr = (void*)asBC_PTRARG(&byteCode[n]);
 				if( !gvarPtr ) break;
 				asCGlobalProperty *prop = GetPropertyByGlobalVarPtr(gvarPtr);
 				if( !prop ) break;
@@ -612,7 +719,7 @@ void asCScriptFunction::AddReferences()
 		// Function pointers
 		case asBC_FuncPtr:
 			{
-				asCScriptFunction *func = (asCScriptFunction*)(size_t)asBC_PTRARG(&byteCode[n]);
+				asCScriptFunction *func = (asCScriptFunction*)asBC_PTRARG(&byteCode[n]);
 				func->AddRef();
 			}
 			break;
@@ -651,8 +758,9 @@ void asCScriptFunction::ReleaseReferences()
 		case asBC_OBJTYPE:
 		case asBC_FREE:
 		case asBC_REFCPY:
+		case asBC_RefCpyV:
 			{
-				asCObjectType *objType = (asCObjectType*)(size_t)asBC_PTRARG(&byteCode[n]);
+				asCObjectType *objType = (asCObjectType*)asBC_PTRARG(&byteCode[n]);
 				if( objType ) 
 					objType->Release();
 			}
@@ -661,18 +769,29 @@ void asCScriptFunction::ReleaseReferences()
 		// Object type and function
 		case asBC_ALLOC:
 			{
-				asCObjectType *objType = (asCObjectType*)(size_t)asBC_PTRARG(&byteCode[n]);
+				asCObjectType *objType = (asCObjectType*)asBC_PTRARG(&byteCode[n]);
 				if( objType )
 					objType->Release();
 
 				int func = asBC_INTARG(&byteCode[n]+AS_PTR_SIZE);
 				if( func )
-					engine->scriptFunctions[func]->Release();
+				{
+					asCScriptFunction *fptr = engine->scriptFunctions[func];
+					if( fptr )
+						fptr->Release();
+
+					// The engine may have been forced to destroy the function internals early
+					// and this may will make it impossible to find the function by id anymore.
+					// This should only happen if the engine is released while the application
+					// is still keeping functions alive.
+					// TODO: Fix this possible memory leak
+				}
 			}
 			break;
 
 		// Global variables
 		case asBC_PGA:
+		case asBC_PshGPtr:
 		case asBC_LDG:
 		case asBC_PshG4:
 		case asBC_LdGRdR4:
@@ -681,7 +800,7 @@ void asCScriptFunction::ReleaseReferences()
 		case asBC_SetG4:
 			// Need to increase the reference for each global variable
 			{
-				void *gvarPtr = (void*)(size_t)asBC_PTRARG(&byteCode[n]);
+				void *gvarPtr = (void*)asBC_PTRARG(&byteCode[n]);
 				if( !gvarPtr ) break;
 				asCGlobalProperty *prop = GetPropertyByGlobalVarPtr(gvarPtr);
 				if( !prop ) break;
@@ -716,14 +835,24 @@ void asCScriptFunction::ReleaseReferences()
 			{
 				int func = asBC_INTARG(&byteCode[n]);
 				if( func )
-					engine->scriptFunctions[func]->Release();
+				{
+					asCScriptFunction *fptr = engine->scriptFunctions[func];
+					if( fptr )
+						fptr->Release();
+
+					// The engine may have been forced to destroy the function internals early
+					// and this may will make it impossible to find the function by id anymore.
+					// This should only happen if the engine is released while the application
+					// is still keeping functions alive.
+					// TODO: Fix this possible memory leak
+				}
 			}
 			break;
 
 		// Function pointers
 		case asBC_FuncPtr:
 			{
-				asCScriptFunction *func = (asCScriptFunction*)(size_t)asBC_PTRARG(&byteCode[n]);
+				asCScriptFunction *func = (asCScriptFunction*)asBC_PTRARG(&byteCode[n]);
 				if( func )
 					func->Release();
 			}
@@ -744,15 +873,15 @@ int asCScriptFunction::GetReturnTypeId() const
 }
 
 // interface
-int asCScriptFunction::GetParamCount() const
+asUINT asCScriptFunction::GetParamCount() const
 {
-	return (int)parameterTypes.GetLength();
+	return (asUINT)parameterTypes.GetLength();
 }
 
 // interface
-int asCScriptFunction::GetParamTypeId(int index, asDWORD *flags) const
+int asCScriptFunction::GetParamTypeId(asUINT index, asDWORD *flags) const
 {
-	if( index < 0 || (unsigned)index >= parameterTypes.GetLength() )
+	if( index >= parameterTypes.GetLength() )
 		return asINVALID_ARG;
 
 	if( flags )
@@ -768,11 +897,10 @@ asIScriptEngine *asCScriptFunction::GetEngine() const
 }
 
 // interface
-const char *asCScriptFunction::GetDeclaration(bool includeObjectName) const
+const char *asCScriptFunction::GetDeclaration(bool includeObjectName, bool includeNamespace) const
 {
-	asASSERT(threadManager);
-	asCString *tempString = &threadManager->GetLocalData()->string;
-	*tempString = GetDeclarationStr(includeObjectName);
+	asCString *tempString = &asCThreadManager::GetLocalData()->string;
+	*tempString = GetDeclarationStr(includeObjectName, includeNamespace);
 	return tempString->AddressOf();
 }
 
@@ -788,11 +916,22 @@ const char *asCScriptFunction::GetScriptSectionName() const
 // interface
 const char *asCScriptFunction::GetConfigGroup() const
 {
-	asCConfigGroup *group = engine->FindConfigGroupForFunction(id);
+	asCConfigGroup *group = 0;
+	if( funcType != asFUNC_FUNCDEF )
+		group = engine->FindConfigGroupForFunction(id);
+	else
+		group = engine->FindConfigGroupForFuncDef(this);
+
 	if( group == 0 )
 		return 0;
 
 	return group->groupName.AddressOf();
+}
+
+// interface
+asDWORD asCScriptFunction::GetAccessMask() const
+{
+	return accessMask;
 }
 
 // internal
@@ -846,12 +985,15 @@ void *asCScriptFunction::GetUserData() const
 }
 
 // internal
+// TODO: cleanup: This method should probably be a member of the engine
 asCGlobalProperty *asCScriptFunction::GetPropertyByGlobalVarPtr(void *gvarPtr)
 {
-	for( asUINT g = 0; g < engine->globalProperties.GetLength(); g++ )
-		if( engine->globalProperties[g] && engine->globalProperties[g]->GetAddressOfValue() == gvarPtr )
-			return engine->globalProperties[g];
-
+	asSMapNode<void*, asCGlobalProperty*> *node;
+	if( engine->varAddressMap.MoveTo(&node, gvarPtr) )
+	{
+		asASSERT(gvarPtr == node->value->GetAddressOfValue());
+		return node->value;
+	}
 	return 0;
 }
 
@@ -895,15 +1037,16 @@ void asCScriptFunction::EnumReferences(asIScriptEngine *)
 		case asBC_OBJTYPE:
 		case asBC_FREE:
 		case asBC_REFCPY:
+		case asBC_RefCpyV:
 			{
-                asCObjectType *objType = (asCObjectType*)(size_t)asBC_PTRARG(&byteCode[n]);
+                asCObjectType *objType = (asCObjectType*)asBC_PTRARG(&byteCode[n]);
 				engine->GCEnumCallback(objType);
 			}
 			break;
 
 		case asBC_ALLOC:
 			{
-				asCObjectType *objType = (asCObjectType*)(size_t)asBC_PTRARG(&byteCode[n]);
+				asCObjectType *objType = (asCObjectType*)asBC_PTRARG(&byteCode[n]);
 				engine->GCEnumCallback(objType);
 
 				int func = asBC_INTARG(&byteCode[n]+AS_PTR_SIZE);
@@ -924,7 +1067,7 @@ void asCScriptFunction::EnumReferences(asIScriptEngine *)
 		// Function pointers
 		case asBC_FuncPtr:
 			{
-				asCScriptFunction *func = (asCScriptFunction*)(size_t)asBC_PTRARG(&byteCode[n]);
+				asCScriptFunction *func = (asCScriptFunction*)asBC_PTRARG(&byteCode[n]);
 				if( func )
 					engine->GCEnumCallback(func);
 			}
@@ -932,6 +1075,7 @@ void asCScriptFunction::EnumReferences(asIScriptEngine *)
 
 		// Global variables
 		case asBC_PGA:
+		case asBC_PshGPtr:
 		case asBC_LDG:
 		case asBC_PshG4:
 		case asBC_LdGRdR4:
@@ -941,7 +1085,7 @@ void asCScriptFunction::EnumReferences(asIScriptEngine *)
 			// Need to enumerate the reference for each global variable
 			{
 				// TODO: optimize: Keep an array of accessed global properties
-				void *gvarPtr = (void*)(size_t)asBC_PTRARG(&byteCode[n]);
+				void *gvarPtr = (void*)asBC_PTRARG(&byteCode[n]);
 				asCGlobalProperty *prop = GetPropertyByGlobalVarPtr(gvarPtr);
 
 				engine->GCEnumCallback(prop);
@@ -984,18 +1128,25 @@ void asCScriptFunction::ReleaseAllHandles(asIScriptEngine *)
 		case asBC_OBJTYPE:
 		case asBC_FREE:
 		case asBC_REFCPY:
+		case asBC_RefCpyV:
 			{
-                asCObjectType *objType = (asCObjectType*)(size_t)asBC_PTRARG(&byteCode[n]);
-				objType->Release();
-				*(void**)&byteCode[n+1] = 0;
+				asCObjectType *objType = (asCObjectType*)asBC_PTRARG(&byteCode[n]);
+				if( objType )
+				{
+					objType->Release();
+					*(void**)&byteCode[n+1] = 0;
+				}
 			}
 			break;
 
 		case asBC_ALLOC:
 			{
-				asCObjectType *objType = (asCObjectType*)(size_t)asBC_PTRARG(&byteCode[n]);
-				objType->Release();
-				*(void**)&byteCode[n+1] = 0;
+				asCObjectType *objType = (asCObjectType*)asBC_PTRARG(&byteCode[n]);
+				if( objType )
+				{
+					objType->Release();
+				*	(void**)&byteCode[n+1] = 0;
+				}
 
 				int func = asBC_INTARG(&byteCode[n]+AS_PTR_SIZE);
 				if( func )
@@ -1021,11 +1172,11 @@ void asCScriptFunction::ReleaseAllHandles(asIScriptEngine *)
 		// Function pointers
 		case asBC_FuncPtr:
 			{
-				asCScriptFunction *func = (asCScriptFunction*)(size_t)asBC_PTRARG(&byteCode[n]);
+				asCScriptFunction *func = (asCScriptFunction*)asBC_PTRARG(&byteCode[n]);
 				if( func )
 				{
 					func->Release();
-					*(size_t*)&byteCode[n+1] = 0;
+					*(asPWORD*)&byteCode[n+1] = 0;
 				}
 			}
 			break;
@@ -1034,6 +1185,31 @@ void asCScriptFunction::ReleaseAllHandles(asIScriptEngine *)
 		// variable itself release the function to break the circle
 		}
 	}
+}
+
+// internal
+bool asCScriptFunction::IsShared() const
+{
+	// All system functions are shared
+	if( funcType == asFUNC_SYSTEM ) return true;
+
+	// All class methods for shared classes are also shared
+	if( objectType && (objectType->flags & asOBJ_SHARED) ) return true;
+
+	// Functions that have been specifically marked as shared are shared
+	return isShared;
+}
+
+// internal
+bool asCScriptFunction::IsFinal() const
+{
+	return isFinal;
+}
+
+// internal
+bool asCScriptFunction::IsOverride() const
+{
+	return isOverride;
 }
 
 END_AS_NAMESPACE
