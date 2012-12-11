@@ -608,7 +608,7 @@
 		#include <TargetConditionals.h>
 
 		// Is this a Mac or an IPhone?
-		#ifdef TARGET_OS_IPHONE
+		#if TARGET_OS_IPHONE != 0
 			#define AS_IPHONE
 		#else
 			#define AS_MAC
