@@ -452,7 +452,10 @@ void ETHEngine::MessageCallback(const asSMessageInfo *msg)
 		typeStr = GS_L("ERROR");
 	}
 
-	ETH_STREAM_DECL(ss) << std::endl << GS_L("AngelScript ") << typeStr << GS_L(" (line ") << msg->row << GS_L("): ") << std::endl << msg->message;
+	ETH_STREAM_DECL(ss) << std::endl
+		<< GS_L("AngelScript ") << typeStr
+		<< GS_L(" (") << msg->section << GS_L(" line ") << msg->row << GS_L("): ")
+		<< std::endl << msg->message;
 	m_provider->Log(ss.str(), type);
 }
 
