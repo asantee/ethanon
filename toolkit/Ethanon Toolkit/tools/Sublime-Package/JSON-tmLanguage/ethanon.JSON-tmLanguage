@@ -6,7 +6,7 @@
     "patterns": [
         {
             "comment": "This comment is optional.", 
-            "match": "\\b(and|break|case|cast|class|continue|default|do|else|enum|for|from|if|import|interface|is|not|or|return|switch|typedef|void|while|xor|funcdef)\\b", 
+            "match": "\\b(and|break|case|cast|class|continue|default|do|else|enum|for|from|if|import|interface|is|not|or|return|switch|typedef|void|while|xor|funcdef|namespace)\\b", 
             "name": "keyword.control.ethanon"
         }, 
         {
