@@ -213,8 +213,10 @@ bool ETHBucketManager::MoveEntity(const int id, const Vector2 &currentBucket, co
 	}
 
 	#if defined(_DEBUG) || defined(DEBUG)
-	ETH_STREAM_DECL(ss) << GS_L("Entity moved from bucket (") << currentBucket.x << GS_L(",") << currentBucket.y << GS_L(") to bucket (")
-		 << destBucket.x << GS_L(",") << destBucket.y << GS_L(")");
+	ETH_STREAM_DECL(ss)
+	<< entity->GetEntityName() << GS_L("(") << entity->GetID() << GS_L(")")
+	<< GS_L(" moved from bucket (") << currentBucket.x << GS_L(",") << currentBucket.y << GS_L(") to bucket (")
+	<< destBucket.x << GS_L(",") << destBucket.y << GS_L(")");
 	m_provider->Log(ss.str(), Platform::Logger::INFO);
 	#endif
 	return true;
