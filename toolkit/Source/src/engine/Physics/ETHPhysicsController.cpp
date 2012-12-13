@@ -119,7 +119,7 @@ gs2d::math::Vector2 ETHPhysicsController::GetLinearVelocity() const
 	const b2Body* body = m_controller->m_body;
 	if (!body) return Vector2(0.0f, 0.0f);
 	const b2Vec2& v = body->GetLinearVelocity();
-	return Vector2(v.x, v.y);
+	return Vector2(v.x, v.y) / m_globalScaleManager->GetScale();
 }
 
 void ETHPhysicsController::ApplyTorque(const float torque)
@@ -161,7 +161,7 @@ void ETHPhysicsController::ApplyLinearImpulse(const Vector2& impulse, const Vect
 {
 	b2Body* body = m_controller->m_body;
 	if (!body) return;
-	body->ApplyLinearImpulse(b2Vec2(impulse.x, impulse.y), b2Vec2(point.x, point.y));
+	body->ApplyLinearImpulse(m_globalScaleManager->GetScale() * b2Vec2(impulse.x, impulse.y), b2Vec2(point.x, point.y));
 }
 
 bool ETHPhysicsController::IsSensor() const
