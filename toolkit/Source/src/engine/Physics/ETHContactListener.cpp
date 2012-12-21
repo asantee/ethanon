@@ -73,8 +73,8 @@ static bool GetContactData(
 	const b2Vec2& point0 = worldManifold.points[0];
 	const b2Vec2& point1 = worldManifold.points[1];
 	const b2Vec2& normal = worldManifold.normal;
-	v2Point0 = Vector2(point0.x, point0.y);
-	v2Point1 = Vector2(point1.x, point1.y);
+	v2Point0 = ETHPhysicsSimulator::ScaleFromBox2D(point0);
+	v2Point1 = ETHPhysicsSimulator::ScaleFromBox2D(point1);
 	v2Normal = Vector2(normal.x, normal.y);
 	return true;
 }
