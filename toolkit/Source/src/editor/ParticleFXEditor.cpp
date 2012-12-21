@@ -484,6 +484,7 @@ void ParticleEditor::Clear()
 {
 	m_system.Reset();
 	ResetSystem();
+	SetMenuConstants();
 
 	SetCurrentFile(_BASEEDITOR_DEFAULT_UNTITLED_FILE);
 	m_untitled = true;
@@ -559,15 +560,22 @@ void ParticleEditor::ParticlePanel()
 			m_system = *m_manager->GetSystem();
 			SetMenuConstants();
 
-			std::string sSoundFXName = GetCurrentProjectPath(false);
-			sSoundFXName += "/soundfx/";
-			sSoundFXName += utf8::c(m_system.soundFXFile).str();
-
-			std::ifstream ifs(sSoundFXName.c_str());
-			if (ifs.is_open())
+			if (!m_system.soundFXFile.empty())
 			{
-				LoadSoundFX(utf8::c(sSoundFXName).c_str(), utf8::c(m_system.soundFXFile).c_str());
-				ifs.close();
+				std::string sSoundFXName = GetCurrentProjectPath(false);
+				sSoundFXName += "/soundfx/";
+				sSoundFXName += utf8::c(m_system.soundFXFile).str();
+
+				std::ifstream ifs(sSoundFXName.c_str());
+				if (ifs.is_open())
+				{
+					LoadSoundFX(utf8::c(sSoundFXName).c_str(), utf8::c(m_system.soundFXFile).c_str());
+					ifs.close();
+				}
+				else
+				{
+					DeleteSoundFX();
+				}
 			}
 			else
 			{
@@ -756,7 +764,15 @@ void ParticleEditor::ResetSystem()
 	m_system.boundingSphere = 512.0f;
 	m_system.allAtOnce = false;
 
-	//CreateParticles();
+	m_manager = ETHParticleManagerPtr(
+		new ETHParticleManager(
+			m_provider,
+			m_system,
+			m_v2Pos,
+			Vector3(m_v2Pos, 0),
+			m_systemAngle,
+			1.0f,
+			1.0f));
 }
 
 bool ParticleEditor::OpenParticleBMP(char *oFilePathName, char *oFileName)

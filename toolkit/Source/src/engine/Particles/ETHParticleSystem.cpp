@@ -81,6 +81,7 @@ void ETHParticleSystem::Reset()
 	allAtOnce = false;
 	boundingSphere = 512.0f;
 	soundFXFile = GS_L("");
+	bitmapFile = ETH_DEFAULT_PARTICLE_BITMAP;
 	spriteCut = Vector2i(1,1);
 	animationMode = PLAY_ANIMATION;
 }
