@@ -783,7 +783,7 @@ void EntityEditor::DoMainMenu()
 	if (file_r.text == _S_LOAD_PAR1)
 	{
 		char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
-		if (OpenForm(filter, std::string(currentProjectPath + utf8::c(ETHDirectories::GetEffectsDirectory()).str()).c_str(), path, file))
+		if (OpenForm(parFilter, std::string(currentProjectPath + utf8::c(ETHDirectories::GetEffectsDirectory()).str()).c_str(), path, file))
 		{
 			if (LoadParticle(1, file, path))
 			{
