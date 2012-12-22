@@ -717,7 +717,8 @@ bool ETHEntity::IsInvisible() const
 
 bool ETHEntity::IsBody() const
 {
-	return (m_properties.shape != ETHEntityProperties::BS_NONE);
+	return (m_properties.shape != ETHEntityProperties::BS_NONE
+			&& IsCollidable());
 }
 
 Vector2 ETHEntity::GetCurrentBucket(const ETHBucketManager& buckets) const
