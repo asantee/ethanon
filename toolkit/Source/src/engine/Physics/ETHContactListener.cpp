@@ -21,8 +21,8 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHContactListener.h"
+
 #include "ETHPhysicsSimulator.h"
-#include "../Entity/ETHEntity.h"
 
 ETHContactListener::ETHContactListener() :
 	m_disableNextContact(false),
@@ -53,7 +53,7 @@ static bool GetContactData(
 	*entityB = static_cast<ETHEntity*>(bodyB->GetUserData());
 	*controllerB = static_cast<ETHPhysicsEntityController*>((*entityB)->GetController().get());
 
-	// if neither entities have the current callback type assigned to it, don't even bother...
+	// if both entities don't have the current callback type assigned to it, don't even bother...
 	switch (type)
 	{
 	case ETHPhysicsEntityController::CONTACT_CALLBACKS::BEGIN:
@@ -147,9 +147,43 @@ void ETHContactListener::EndContact(b2Contact* contact)
 		normal,
 		ETHPhysicsEntityController::CONTACT_CALLBACKS::END))
 	{
-		controllerA->RunEndContactCallback(entityB, point0, point1, normal);
-		controllerB->RunEndContactCallback(entityA, point0, point1, normal);
+		EndContactCallbackDataPtr data(new EndContactCallbackData);
+
+		entityA->AddRef();
+		data->entityA = entityA;
+		entityB->AddRef();
+		data->entityB = entityB;
+
+		data->normal = normal;
+		data->point0 = point0;
+		data->point1 = point1;
+
+		m_stackedEndContactCallbacks.push_back(data);
 	}
+}
+
+void ETHContactListener::RunAndClearStackedEndContactCallbacks()
+{
+	for (std::list<EndContactCallbackDataPtr>::iterator iter = m_stackedEndContactCallbacks.begin();
+		iter != m_stackedEndContactCallbacks.end(); ++iter)
+	{
+		EndContactCallbackDataPtr data = (*iter);
+		
+		ETHPhysicsEntityController* controllerA = static_cast<ETHPhysicsEntityController*>(data->entityA->GetController().get());
+		ETHPhysicsEntityController* controllerB = static_cast<ETHPhysicsEntityController*>(data->entityB->GetController().get());
+
+		if (controllerA)
+			if (controllerA->GetBody())
+				controllerA->RunEndContactCallback(data->entityB, data->point0, data->point1, data->normal);
+
+		if (controllerB)
+			if (controllerB->GetBody())
+				controllerB->RunEndContactCallback(data->entityA, data->point0, data->point1, data->normal);
+
+		data->entityA->Release();
+		data->entityB->Release();
+	}
+	m_stackedEndContactCallbacks.clear();
 }
 
 void ETHContactListener::DisableNextContact()

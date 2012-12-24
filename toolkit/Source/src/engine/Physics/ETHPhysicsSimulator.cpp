@@ -157,6 +157,8 @@ void ETHPhysicsSimulator::Update(const unsigned long lastFrameElapsedTime)
 	m_dynamicTimeStep = (static_cast<float32>(lastFrameElapsedTime) / 1000.0f);
 	const float step = (!m_fixedTimeStep) ? m_dynamicTimeStep : m_fixedTimeStepValue;
 	m_world->Step(step * m_timeStepScale, m_velocityIterations, m_positionIterations);
+
+	m_contactListener.RunAndClearStackedEndContactCallbacks();
 }
 
 float ETHPhysicsSimulator::GetCurrentDynamicTimeStepMS() const
