@@ -50,7 +50,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				WholeProgramOptimization="false"
-				PreprocessorDefinitions="ANGELSCRIPT_EXPORT;AS_DEBUG;WIN32;_DEBUG;_LIB;AS_NO_THREADS"
+				PreprocessorDefinitions="ANGELSCRIPT_EXPORT;AS_DEBUG;WIN32;_DEBUG;_LIB;;AS_MAX_PORTABILITY;AS_NO_THREADS"
 				StringPooling="true"
 				ExceptionHandling="0"
 				BasicRuntimeChecks="3"
@@ -261,7 +261,7 @@
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
 				WholeProgramOptimization="true"
-				PreprocessorDefinitions="ANGELSCRIPT_EXPORT;NDEBUG;_LIB"
+				PreprocessorDefinitions="ANGELSCRIPT_EXPORT;NDEBUG;_LIB;AS_MAX_PORTABILITY;AS_NO_THREADS"
 				StringPooling="true"
 				ExceptionHandling="0"
 				RuntimeLibrary="0"
@@ -348,44 +348,6 @@
 			<File
 				RelativePath="..\..\source\as_callfunc_x64_gcc.cpp"
 				>
-			</File>
-			<File
-				RelativePath="..\..\source\as_callfunc_x64_msvc.asm"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="MASM"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|x64"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						CommandLine="ml64.exe /c  /nologo /Fo$(OutDir)\as_callfunc_x64_msvc_asm.obj /W3 /Zi /Ta $(InputDir)\$(InputFileName)&#x0D;&#x0A;"
-						Outputs="$(OutDir)\as_callfunc_x64_msvc_asm.obj"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="MASM"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						CommandLine="ml64.exe /c  /nologo /Fo$(OutDir)\as_callfunc_x64_msvc_asm.obj /W3 /Zi /Ta $(InputDir)\$(InputFileName)&#x0D;&#x0A;"
-						Outputs="$(OutDir)\as_callfunc_x64_msvc_asm.obj"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\source\as_callfunc_x64_msvc.cpp"
