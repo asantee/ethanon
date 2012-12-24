@@ -504,6 +504,7 @@ void RegisterEnumTypes(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterEnumValue("KEY", "K_CTRL", GSK_CTRL); assert(r >= 0);
 	r = pASEngine->RegisterEnumValue("KEY", "K_ALT", GSK_ALT); assert(r >= 0);
 	r = pASEngine->RegisterEnumValue("KEY", "K_SHIFT", GSK_SHIFT); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("KEY", "K_META", GSK_META); assert(r >= 0);
 	r = pASEngine->RegisterEnumValue("KEY", "K_RMOUSE", GSK_RMOUSE); assert(r >= 0);
 	r = pASEngine->RegisterEnumValue("KEY", "K_MMOUSE", GSK_MMOUSE); assert(r >= 0);
 	r = pASEngine->RegisterEnumValue("KEY", "K_LMOUSE", GSK_LMOUSE); assert(r >= 0);
