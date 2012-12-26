@@ -196,6 +196,15 @@ void ETHPhysicsController::SetFriction(const float friction)
 	body->GetFixtureList()->SetFriction(friction); // TODO/TO-DO: manipulate next fixtures
 }
 
+float ETHPhysicsController::GetDensity() const
+{
+	b2Body* body = m_controller->m_body;
+	if (!body) return 0.0f;
+	const ETHEntity* entity = static_cast<ETHEntity*>(body->GetUserData());
+	if (!entity) return 0.0f;
+	return entity->GetProperties()->density;
+}
+
 float ETHPhysicsController::GetRestitution() const
 {
 	b2Body* body = m_controller->m_body;
