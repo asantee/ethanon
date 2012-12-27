@@ -30,6 +30,11 @@ ETHContactListener::ETHContactListener() :
 {
 }
 
+ETHContactListener::~ETHContactListener()
+{
+	ClearStackedEndContactCallbacks();
+}
+
 static bool GetContactData(
 	const b2Contact* contact,
 	ETHPhysicsEntityController** controllerA,
@@ -160,6 +165,18 @@ void ETHContactListener::EndContact(b2Contact* contact)
 
 		m_stackedEndContactCallbacks.push_back(data);
 	}
+}
+
+void ETHContactListener::ClearStackedEndContactCallbacks()
+{
+	for (std::list<EndContactCallbackDataPtr>::iterator iter = m_stackedEndContactCallbacks.begin();
+		iter != m_stackedEndContactCallbacks.end(); ++iter)
+	{
+		EndContactCallbackDataPtr data = (*iter);
+		data->entityA->Release();
+		data->entityB->Release();
+	}
+	m_stackedEndContactCallbacks.clear();
 }
 
 void ETHContactListener::RunAndClearStackedEndContactCallbacks()

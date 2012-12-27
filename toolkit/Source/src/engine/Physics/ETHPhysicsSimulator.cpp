@@ -133,9 +133,9 @@ ETHPhysicsSimulator::ETHPhysicsSimulator(ETHGlobalScaleManagerPtr globalScaleMan
 	m_world->SetDestructionListener(&m_destructionListener);
 }
 
-
 ETHPhysicsSimulator::~ETHPhysicsSimulator()
 {
+	m_world->SetContactListener(NULL);
 	m_world->SetDestructionListener(NULL);
 	m_world.reset();
 }

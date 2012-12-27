@@ -44,8 +44,11 @@ class ETHContactListener : public b2ContactListener
 
 	std::list<EndContactCallbackDataPtr> m_stackedEndContactCallbacks;
 
+	void ClearStackedEndContactCallbacks();
+
 public:
 	ETHContactListener();
+	~ETHContactListener();
 	void DisableNextContact();
 	bool IsRunningPreSolveContactCallback() const;
 	void RunAndClearStackedEndContactCallbacks();
