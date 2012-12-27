@@ -442,10 +442,10 @@
 				7421F0591647258E00C55BAE /* ETHLight.h */,
 				7421F05A1647258E00C55BAE /* ETHRenderEntity.cpp */,
 				7421F05B1647258E00C55BAE /* ETHRenderEntity.h */,
-				7421F05C1647258E00C55BAE /* ETHScriptEntity.cpp */,
-				7421F05D1647258E00C55BAE /* ETHScriptEntity.h */,
 				7421F05E1647258E00C55BAE /* ETHSpriteEntity.cpp */,
 				7421F05F1647258E00C55BAE /* ETHSpriteEntity.h */,
+				7421F05C1647258E00C55BAE /* ETHScriptEntity.cpp */,
+				7421F05D1647258E00C55BAE /* ETHScriptEntity.h */,
 			);
 			name = Entity;
 			sourceTree = "<group>";

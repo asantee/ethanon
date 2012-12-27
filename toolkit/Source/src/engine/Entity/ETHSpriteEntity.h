@@ -93,6 +93,11 @@ public:
 	bool SetGloss(const str_type::string &fileName);
 	bool SetHalo(const str_type::string &fileName);
 
+	str_type::string GetSpriteName() const;
+	str_type::string GetNormalName() const;
+	str_type::string GetGlossName() const;
+	str_type::string GetHaloName() const;
+
 	void Update(const unsigned long lastFrameElapsedTime, const Vector2& zAxisDir, ETHBucketManager& buckets);
 	void UpdateParticleSystems(const Vector2& zAxisDirection, const unsigned long lastFrameElapsedTime);
 

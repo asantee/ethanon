@@ -202,6 +202,29 @@ bool ETHSpriteEntity::SetHalo(const str_type::string &fileName)
 	}
 }
 
+str_type::string ETHSpriteEntity::GetSpriteName() const
+{
+	return m_properties.spriteFile;
+}
+
+str_type::string ETHSpriteEntity::GetNormalName() const
+{
+	return m_properties.normalFile;
+}
+
+str_type::string ETHSpriteEntity::GetGlossName() const
+{
+	return m_properties.glossFile;
+}
+
+str_type::string ETHSpriteEntity::GetHaloName() const
+{
+	if (m_properties.light)
+		return m_properties.light->haloBitmap;
+	else
+		return GS_L("");
+}
+
 void ETHSpriteEntity::LoadParticleSystem()
 {
 	ETHGraphicResourceManagerPtr graphicResources = m_provider->GetGraphicResourceManager();
@@ -397,7 +420,11 @@ void ETHSpriteEntity::SetParticleBitmap(const unsigned int n, SpritePtr bitmap)
 void ETHSpriteEntity::SetParticleBitmap(const unsigned int n, const str_type::string& bitmap)
 {
 	if (n < m_particles.size())
+	{
+		if (n < m_properties.particleSystems.size())
+			m_properties.particleSystems[n]->bitmapFile = bitmap;
 		m_particles[n]->SetParticleBitmap(bitmap);
+	}
 }
 
 void ETHSpriteEntity::SetParticleSFX(const unsigned int n, AudioSamplePtr pSample)

@@ -127,6 +127,12 @@ public:
 	virtual bool SetSprite(const str_type::string &fileName) = 0;
 	virtual bool SetNormal(const str_type::string &fileName) = 0;
 	virtual bool SetGloss(const str_type::string &fileName) = 0;
+	virtual bool SetHalo(const str_type::string &fileName) = 0;
+
+	virtual str_type::string GetSpriteName() const = 0;
+	virtual str_type::string GetNormalName() const = 0;
+	virtual str_type::string GetGlossName() const = 0;
+	virtual str_type::string GetHaloName() const = 0;
 
 	virtual void SetFloat(const str_type::string &name, const float &value) = 0;
 	virtual void SetInt(const str_type::string &name, const int &value) = 0;

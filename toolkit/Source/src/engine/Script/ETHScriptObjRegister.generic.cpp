@@ -243,6 +243,13 @@ asDECLARE_METHOD_WRAPPERPR(__ComputeParallaxOffset,  ETHScriptEntity, ComputePar
 
 asDECLARE_METHOD_WRAPPERPR(__SetSprite,          ETHScriptEntity, SetSprite,           (const str_type::string&), bool);
 asDECLARE_METHOD_WRAPPERPR(__SetNormal,          ETHScriptEntity, SetNormal,           (const str_type::string&), bool);
+asDECLARE_METHOD_WRAPPERPR(__SetGloss,           ETHScriptEntity, SetGloss,            (const str_type::string&), bool);
+asDECLARE_METHOD_WRAPPERPR(__SetHalo,            ETHScriptEntity, SetHalo,             (const str_type::string&), bool);
+asDECLARE_METHOD_WRAPPERPR(__GetSpriteBitmap,    ETHScriptEntity, GetSpriteName,       (void) const, str_type::string);
+asDECLARE_METHOD_WRAPPERPR(__GetNormalBitmap,    ETHScriptEntity, GetNormalName,       (void) const, str_type::string);
+asDECLARE_METHOD_WRAPPERPR(__GetGlossBitmap,     ETHScriptEntity, GetGlossName,        (void) const, str_type::string);
+asDECLARE_METHOD_WRAPPERPR(__GetHaloBitmap,      ETHScriptEntity, GetHaloName,         (void) const, str_type::string);
+
 asDECLARE_METHOD_WRAPPERPR(__IsInvisible,        ETHScriptEntity, IsInvisible,         (void) const,              bool);
 asDECLARE_METHOD_WRAPPERPR(__HasParticleSystem0, ETHScriptEntity, HasParticleSystem,   (void) const,              bool);
 asDECLARE_METHOD_WRAPPERPR(__HasParticleSystem1, ETHScriptEntity, HasParticleSystem,   (unsigned int) const,      bool);
@@ -370,6 +377,13 @@ void RegisterEntityMethods(asIScriptEngine *pASEngine)
 
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool SetSprite(const string &in)",         asFUNCTION(__SetSprite),          asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool SetNormal(const string &in)",         asFUNCTION(__SetNormal),          asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool SetGloss(const string &in)",          asFUNCTION(__SetGloss),           asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool SetHalo(const string &in)",           asFUNCTION(__SetHalo),            asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "string GetSprite() const",                 asFUNCTION(__GetSpriteBitmap),    asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "string GetNormal() const",                 asFUNCTION(__GetNormalBitmap),    asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "string GetGloss() const",                  asFUNCTION(__GetGlossBitmap),     asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "string GetHalo() const",                   asFUNCTION(__GetHaloBitmap),      asCALL_GENERIC); assert(r >= 0);
+
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool IsInvisible() const",                 asFUNCTION(__IsInvisible),        asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool HasParticleSystem() const",           asFUNCTION(__HasParticleSystem0), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool HasParticleSystem(uint) const",       asFUNCTION(__HasParticleSystem1), asCALL_GENERIC); assert(r >= 0);
@@ -412,6 +426,7 @@ void RegisterEntityMethods(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool SetSpriteCut(const uint col, const uint row)",         asFUNCTION(__SetSpriteCut),          asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector2 GetSpriteCut() const",                              asFUNCTION(__GetSpriteCut),          asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetParticlePosition(const uint n, const vector3 &in)", asFUNCTION(__SetParticlePosition),   asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetParticleBitmap(const uint n, const string &in)",    asFUNCTION(__SetParticleBitmap),     asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void ScaleParticleSystem(const uint n, const float)",       asFUNCTION(__ScaleParticleSystem),   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool MirrorParticleSystemX(const uint n, const bool)",      asFUNCTION(__MirrorParticleSystemX), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool MirrorParticleSystemY(const uint n, const bool)",      asFUNCTION(__MirrorParticleSystemY), asCALL_GENERIC); assert(r >= 0);
