@@ -280,6 +280,7 @@ asDECLARE_METHOD_WRAPPERPR(__AddToAngle,            ETHScriptEntity, AddToAngle,
 asDECLARE_METHOD_WRAPPERPR(__SetSpriteCut,          ETHScriptEntity, SetSpriteCut,          (const unsigned int col, const unsigned int row), bool);
 asDECLARE_METHOD_WRAPPERPR(__GetSpriteCut,          ETHScriptEntity, GetSpriteCut,          (void) const,                                     Vector2);
 asDECLARE_METHOD_WRAPPERPR(__SetParticlePosition,   ETHScriptEntity, SetParticlePosition,   (const unsigned int n, const Vector3&),           void);
+asDECLARE_METHOD_WRAPPERPR(__SetParticleBitmap,     ETHScriptEntity, SetParticleBitmap,     (const unsigned int n, const str_type::string&),  void);
 asDECLARE_METHOD_WRAPPERPR(__ScaleParticleSystem,   ETHScriptEntity, ScaleParticleSystem,   (const unsigned int n, const float),              void);
 asDECLARE_METHOD_WRAPPERPR(__MirrorParticleSystemX, ETHScriptEntity, MirrorParticleSystemX, (const unsigned int n, const bool),               bool);
 asDECLARE_METHOD_WRAPPERPR(__MirrorParticleSystemY, ETHScriptEntity, MirrorParticleSystemY, (const unsigned int n, const bool),               bool);

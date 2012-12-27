@@ -55,7 +55,8 @@ public:
 	float GetMinHeight();
 
 	void DestroyParticleSystem(const unsigned int n);
-	void SetParticleBMP(const int unsigned n, SpritePtr pBMP);
+	void SetParticleBitmap(const int unsigned n, SpritePtr bitmap);
+	void SetParticleBitmap(const unsigned int n, const str_type::string& bitmap);
 	void SetParticleSFX(const int unsigned n, AudioSamplePtr pSample);
 	void SetParticlePosition(const unsigned int n, const Vector3 &v3Pos);
 	void ScaleParticleSystem(const unsigned int n, const float scale);

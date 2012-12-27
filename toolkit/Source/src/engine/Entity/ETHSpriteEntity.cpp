@@ -388,10 +388,16 @@ float ETHSpriteEntity::GetMinHeight()
 	return minHeight;
 }
 
-void ETHSpriteEntity::SetParticleBMP(const unsigned int n, SpritePtr pBMP)
+void ETHSpriteEntity::SetParticleBitmap(const unsigned int n, SpritePtr bitmap)
 {
 	if (n < m_particles.size())
-		m_particles[n]->SetParticleBitmap(pBMP);
+		m_particles[n]->SetParticleBitmap(bitmap);
+}
+
+void ETHSpriteEntity::SetParticleBitmap(const unsigned int n, const str_type::string& bitmap)
+{
+	if (n < m_particles.size())
+		m_particles[n]->SetParticleBitmap(bitmap);
 }
 
 void ETHSpriteEntity::SetParticleSFX(const unsigned int n, AudioSamplePtr pSample)

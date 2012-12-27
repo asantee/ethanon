@@ -57,8 +57,10 @@ ETHGraphicResourceManager::ETHGraphicResourceManager(const ETHSpriteDensityManag
 
 SpritePtr ETHGraphicResourceManager::GetPointer(
 	VideoPtr video,
-	const str_type::string &fileRelativePath, const str_type::string &resourceDirectory,
-	const str_type::string &searchPath, const bool cutOutBlackPixels)
+	const str_type::string &fileRelativePath,
+	const str_type::string &resourceDirectory,
+	const str_type::string &searchPath,
+	const bool cutOutBlackPixels)
 {
 	if (fileRelativePath == GS_L(""))
 		return SpritePtr();

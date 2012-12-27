@@ -92,6 +92,7 @@ public:
 	virtual void AddToAngle(const float angle) = 0;
 	virtual bool SetSpriteCut(const unsigned int columns, const unsigned int rows) = 0;
 	virtual void SetParticlePosition(const unsigned int n, const Vector3 &v3Pos) = 0;
+	virtual void SetParticleBitmap(const unsigned int n, const str_type::string& bitmap) = 0;
 	virtual void ScaleParticleSystem(const unsigned int n, const float scale) = 0;
 	virtual bool MirrorParticleSystemX(const unsigned int n, const bool mirrorGravity) = 0;
 	virtual bool MirrorParticleSystemY(const unsigned int n, const bool mirrorGravity) = 0;

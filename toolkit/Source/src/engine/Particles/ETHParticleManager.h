@@ -97,6 +97,7 @@ public:
 
 	/// Set another particle bitmap  (it can be used during the animation)
 	void SetParticleBitmap(SpritePtr pBMP);
+	void SetParticleBitmap(const gs2d::str_type::string& bitmap);
 
 	/// Return a handle to the current particle bitmap
 	SpritePtr GetParticleBitmap();

@@ -194,6 +194,17 @@ void ETHParticleManager::SetParticleBitmap(SpritePtr pBMP)
 	m_pBMP = pBMP;
 }
 
+void ETHParticleManager::SetParticleBitmap(const gs2d::str_type::string& bitmap)
+{
+	m_system.bitmapFile = bitmap;
+	SetParticleBitmap(m_provider->GetGraphicResourceManager()->GetPointer(
+		m_provider->GetVideo(),
+		bitmap,
+		m_provider->GetFileIOHub()->GetResourceDirectory(),
+		ETHDirectories::GetParticlesDirectory(),
+		false));
+}
+
 SpritePtr ETHParticleManager::GetParticleBitmap()
 {
 	return m_pBMP;
