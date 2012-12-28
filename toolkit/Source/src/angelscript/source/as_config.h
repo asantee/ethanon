@@ -94,6 +94,12 @@
 // AS_NO_EXCEPTIONS
 // Define this if exception handling is turned off or not available on the target platform.
 
+// AS_NO_MEMBER_INIT
+// Disable the support for initialization of class members directly in the declaration.
+// This was as a form to maintain backwards compatibility with versions before 2.26.0
+// if the new order of the member initialization caused null pointer exceptions in older
+// scripts (e.g. if a base class accessed members of a derived class through a virtual method).
+
 
 //
 // Library usage
@@ -224,6 +230,7 @@
 // AS_DC        - Sega Dreamcast
 // AS_GC        - Nintendo GameCube
 // AS_WII       - Nintendo Wii
+// AS_WIIU      - Nintendo Wii U
 // AS_IPHONE    - Apple IPhone
 // AS_ANDROID   - Android
 // AS_HAIKU     - Haiku
@@ -556,8 +563,15 @@
 	#define STDCALL __attribute__((stdcall))
 	#define ASM_AT_N_T
 
+	// WII U
+	#if defined(__ghs__)
+		#define AS_WIIU
+	
+		// Native calling conventions are not yet supported
+		#define AS_MAX_PORTABILITY
+
 	// Marmalade is a cross platform SDK. It uses g++ to compile for iOS and Android
-	#if defined(__S3E__)
+	#elif defined(__S3E__)
 		#ifndef AS_MARMALADE
 			// From now on we'll use the below define
 			#define AS_MARMALADE
@@ -773,6 +787,13 @@
 			#define THISCALL_RETURN_SIMPLE_IN_MEMORY_MIN_SIZE 2
 			#define CDECL_RETURN_SIMPLE_IN_MEMORY_MIN_SIZE 2
 			#define STDCALL_RETURN_SIMPLE_IN_MEMORY_MIN_SIZE 2
+		#elif defined(__mips__)
+			#define AS_MIPS
+			#define AS_BIG_ENDIAN
+			#define AS_USE_DOUBLE_AS_FLOAT
+
+			// Native calling conventions for Linux/Mips do not work yet.
+			#define AS_MAX_PORTABILITY
 		#else
 			#define AS_MAX_PORTABILITY
 		#endif

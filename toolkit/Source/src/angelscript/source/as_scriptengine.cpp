@@ -106,6 +106,9 @@ AS_API const char * asGetLibraryOptions()
 #ifdef AS_NO_COMPILER
 		"AS_NO_COMPILER "
 #endif
+#ifdef AS_NO_MEMBER_INIT
+		"AS_NO_MEMBER_INIT "
+#endif
 
 	// Target system
 #ifdef AS_WIN
@@ -143,6 +146,9 @@ AS_API const char * asGetLibraryOptions()
 #endif
 #ifdef AS_WII
 		"AS_WII "
+#endif
+#ifdef AS_WIIU
+		"AS_WIIU "
 #endif
 #ifdef AS_IPHONE
 		"AS_IPHONE "
@@ -1394,7 +1400,7 @@ int asCScriptEngine::RegisterObjectType(const char *name, int byteSize, asDWORD 
 	{
 		// Cannot use reference flags
 		// TODO: template: Should be possible to register a value type as template type
-		if( flags & (asOBJ_REF | asOBJ_GC | asOBJ_SCOPED | asOBJ_TEMPLATE | asOBJ_NOCOUNT) )
+		if( flags & (asOBJ_REF | asOBJ_GC | asOBJ_NOHANDLE | asOBJ_SCOPED | asOBJ_TEMPLATE | asOBJ_NOCOUNT) )
 			return ConfigError(asINVALID_ARG, "RegisterObjectType", name, 0);
 
 		// flags are exclusive
@@ -3566,7 +3572,8 @@ void *asCScriptEngine::CallGlobalFunctionRetPtr(asSSystemFunctionInterface *i, a
 	}
 	else if( i->callConv == ICC_STDCALL )
 	{
-		void *(STDCALL *f)() = (void *(STDCALL *)())(i->func);
+		typedef void *(STDCALL *func_t)();
+		func_t f = (func_t)(i->func);
 		return f();
 	}
 	else
@@ -3587,7 +3594,8 @@ void *asCScriptEngine::CallGlobalFunctionRetPtr(asSSystemFunctionInterface *i, a
 	}
 	else if( i->callConv == ICC_STDCALL )
 	{
-		void *(STDCALL *f)(void *) = (void *(STDCALL *)(void *))(i->func);
+		typedef void *(STDCALL *func_t)(void *);
+		func_t f = (func_t)(i->func);
 		return f(param1);
 	}
 	else
@@ -3687,7 +3695,8 @@ void asCScriptEngine::CallGlobalFunction(void *param1, void *param2, asSSystemFu
 	}
 	else if( i->callConv == ICC_STDCALL )
 	{
-		void (STDCALL *f)(void *, void *) = (void (STDCALL *)(void *, void *))(i->func);
+		typedef void (STDCALL *func_t)(void *, void *);
+		func_t f = (func_t)(i->func);
 		f(param1, param2);
 	}
 	else
@@ -3712,7 +3721,8 @@ bool asCScriptEngine::CallGlobalFunctionRetBool(void *param1, void *param2, asSS
 	}
 	else if( i->callConv == ICC_STDCALL )
 	{
-		bool (STDCALL *f)(void *, void *) = (bool (STDCALL *)(void *, void *))(i->func);
+		typedef bool (STDCALL *func_t)(void *, void *);
+		func_t f = (func_t)(i->func);
 		return f(param1, param2);
 	}
 	else
@@ -3845,7 +3855,7 @@ asCDataType asCScriptEngine::GetDataTypeFromTypeId(int typeId) const
 	{
 		asCDataType dt(*mapTypeIdToDataType.GetValue(cursor));
 		if( typeId & asTYPEID_OBJHANDLE )
-			dt.MakeHandle(true);
+			dt.MakeHandle(true, true);
 		if( typeId & asTYPEID_HANDLETOCONST )
 			dt.MakeHandleToConst(true);
 		return dt;

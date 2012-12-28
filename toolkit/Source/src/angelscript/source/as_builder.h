@@ -85,12 +85,13 @@ void asCSymbolTable<sGlobalVariableDescription>::GetKey(const sGlobalVariableDes
 
 struct sPropertyInitializer
 {
-	sPropertyInitializer() : node(0), file(0) {}
-	sPropertyInitializer(const asCString &nm, asCScriptNode *nd, asCScriptCode *f) : name(nm), node(nd), file(f) {}
-	sPropertyInitializer &operator=(const sPropertyInitializer &o) {name = o.name; node = o.node; file = o.file; return *this;}
+	sPropertyInitializer() : declNode(0), initNode(0), file(0) {}
+	sPropertyInitializer(const asCString &nm, asCScriptNode *decl, asCScriptNode *init, asCScriptCode *f) : name(nm), declNode(decl), initNode(init), file(f) {}
+	sPropertyInitializer &operator=(const sPropertyInitializer &o) {name = o.name; declNode = o.declNode; initNode = o.initNode; file = o.file; return *this;}
 
 	asCString      name;
-	asCScriptNode *node;
+	asCScriptNode *declNode;
+	asCScriptNode *initNode;
 	asCScriptCode *file;
 };
 
@@ -222,7 +223,7 @@ protected:
 	void               CompleteFuncDef(sFuncDef *funcDef);
 	void               CompileInterfaces();
 	void               CompileClasses();
-	void               GetParsedFunctionDetails(asCScriptNode *node, asCScriptCode *file, asCObjectType *objType, asCString &name, asCDataType &returnType, asCArray<asCString> &parameterNames, asCArray<asCDataType> &parameterTypes, asCArray<asETypeModifiers> &inOutFlags, asCArray<asCString *> &defaultArgs, bool &isConstMethod, bool &isConstructor, bool &isDestructor, bool &isPrivate, bool &isOverride, bool &isFinal, bool &isShared);
+	void               GetParsedFunctionDetails(asCScriptNode *node, asCScriptCode *file, asCObjectType *objType, asCString &name, asCDataType &returnType, asCArray<asCString> &parameterNames, asCArray<asCDataType> &parameterTypes, asCArray<asETypeModifiers> &inOutFlags, asCArray<asCString *> &defaultArgs, bool &isConstMethod, bool &isConstructor, bool &isDestructor, bool &isPrivate, bool &isOverride, bool &isFinal, bool &isShared, asSNameSpace *implicitNamespace);
 	bool               DoesMethodExist(asCObjectType *objType, int methodId, asUINT *methodIndex = 0);
 	void               AddDefaultConstructor(asCObjectType *objType, asCScriptCode *file);
 	asCObjectProperty *AddPropertyToClass(sClassDeclaration *c, const asCString &name, const asCDataType &type, bool isPrivate, asCScriptCode *file = 0, asCScriptNode *node = 0);

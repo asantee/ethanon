@@ -1719,7 +1719,7 @@ asCScriptNode *asCParser::ParseScript(bool inBlock)
 				if( IsVirtualPropertyDecl() )
 					node->AddChildLast(ParseVirtualPropertyDecl(false, false));
 				else if( IsVarDecl() )
-					node->AddChildLast(ParseGlobalVar());
+					node->AddChildLast(ParseDeclaration(false, true));
 				else
 					node->AddChildLast(ParseFunction());
 			}
@@ -1934,7 +1934,7 @@ asCScriptNode *asCParser::ParseEnumeration()
 
 			RewindTo(&token);
 
-			tmp = SuperficiallyParseGlobalVarInit();
+			tmp = SuperficiallyParseVarInit();
 
 			node->AddChildLast(tmp);
 			if( isSyntaxError ) return node;
@@ -2734,54 +2734,7 @@ asCScriptNode *asCParser::ParseClass()
 	return node;
 }
 
-// TODO: clean-up: This can probably be merged with ParseDeclaration() used for class members and local variables. 
-//                 The syntax for all three is almost identical and should be parsed equally.
-asCScriptNode *asCParser::ParseGlobalVar()
-{
-	asCScriptNode *node = CreateNode(snGlobalVar);
-	if( node == 0 ) return 0;
-
-	// Parse data type
-	node->AddChildLast(ParseType(true));
-	if( isSyntaxError ) return node;
-
-	sToken t;
-
-	for(;;)
-	{
-		// Parse identifier
-		node->AddChildLast(ParseIdentifier());
-		if( isSyntaxError ) return node;
-
-		// Only superficially parse the initialization info for the variable
-		GetToken(&t);
-		RewindTo(&t);
-		if( t.type == ttAssignment || t.type == ttOpenParanthesis )
-		{
-			node->AddChildLast(SuperficiallyParseGlobalVarInit());
-			if( isSyntaxError ) return node;
-		}
-
-		// continue if list separator, else terminate with end statement
-		GetToken(&t);
-		if( t.type == ttListSeparator )
-			continue;
-		else if( t.type == ttEndStatement )
-		{
-			node->UpdateSourcePos(t.pos, t.length);
-
-			return node;
-		}
-		else
-		{
-			Error(ExpectedTokens(",", ";"), &t);
-			return node;
-		}
-	}
-	UNREACHABLE_RETURN;
-}
-
-int asCParser::ParseGlobalVarInit(asCScriptCode *script, asCScriptNode *init)
+int asCParser::ParseVarInit(asCScriptCode *script, asCScriptNode *init)
 {
 	Reset();
 
@@ -2829,7 +2782,7 @@ int asCParser::ParseGlobalVarInit(asCScriptCode *script, asCScriptNode *init)
 	return 0;
 }
 
-asCScriptNode *asCParser::SuperficiallyParseGlobalVarInit()
+asCScriptNode *asCParser::SuperficiallyParseVarInit()
 {
 	asCScriptNode *node = CreateNode(snAssignment);
 	if( node == 0 ) return 0;
@@ -3143,7 +3096,7 @@ asCScriptNode *asCParser::ParseInitList()
 	UNREACHABLE_RETURN;
 }
 
-asCScriptNode *asCParser::ParseDeclaration(bool isClassProp)
+asCScriptNode *asCParser::ParseDeclaration(bool isClassProp, bool isGlobalVar)
 {
 	asCScriptNode *node = CreateNode(snDeclaration);
 	if( node == 0 ) return 0;
@@ -3166,15 +3119,14 @@ asCScriptNode *asCParser::ParseDeclaration(bool isClassProp)
 		node->AddChildLast(ParseIdentifier());
 		if( isSyntaxError ) return node;
 
-		if( isClassProp )
+		if( isClassProp || isGlobalVar )
 		{
 			// Only superficially parse the initialization info for the class property
 			GetToken(&t);
 			RewindTo(&t);
 			if( t.type == ttAssignment || t.type == ttOpenParanthesis )
 			{
-				// TODO: decl: Change the name of the method as we're now using it for more than global vars
-				node->AddChildLast(SuperficiallyParseGlobalVarInit());
+				node->AddChildLast(SuperficiallyParseVarInit());
 				if( isSyntaxError ) return node;
 			}
 		}

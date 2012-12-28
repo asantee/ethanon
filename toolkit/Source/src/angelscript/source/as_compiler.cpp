@@ -126,6 +126,11 @@ int asCCompiler::CompileDefaultConstructor(asCBuilder *builder, asCScriptCode *s
 	// Insert a JitEntry at the start of the function for JIT compilers
 	byteCode.InstrPTR(asBC_JitEntry, 0);
 
+	// Initialize the class members that have no explicit expression first. This will allow the
+	// base class' constructor to access these members without worry they will be uninitialized.
+	// This can happen if the base class' constructor calls a method that is overridden by the derived class
+	CompileMemberInitialization(&byteCode, true);
+
 	// If the class is derived from another, then the base class' default constructor must be called
 	if( outFunc->objectType->derivedFrom )
 	{
@@ -135,13 +140,18 @@ int asCCompiler::CompileDefaultConstructor(asCBuilder *builder, asCScriptCode *s
 		byteCode.Call(asBC_CALL, outFunc->objectType->derivedFrom->beh.construct, AS_PTR_SIZE);
 	}
 
-	// Initialize the class members
-	CompileMemberInitialization(&byteCode);
+	// Initialize the class members that explicit expressions afterwards. This allow the expressions 
+	// to access the base class members without worry they will be uninitialized
+	CompileMemberInitialization(&byteCode, false);
+	byteCode.OptimizeLocally(tempVariableOffsets);
 
 	// Pop the object pointer from the stack
 	byteCode.Ret(AS_PTR_SIZE);
 
-	byteCode.OptimizeLocally(tempVariableOffsets);
+	// Count total variable size
+	int varSize = GetVariableOffset((int)variableAllocations.GetLength()) - 1;
+	outFunc->variableSpace = varSize;
+
 	FinalizeFunction();
 
 #ifdef AS_DEBUG
@@ -272,6 +282,18 @@ void asCCompiler::FinalizeFunction()
 	outFunc->AddReferences();
 	outFunc->stackNeeded = byteCode.largestStackUsed + outFunc->variableSpace;
 	outFunc->lineNumbers = byteCode.lineNumbers;
+
+	// Extract the script section indexes too if there are any entries that are different from the function's script section
+	int lastIdx = outFunc->scriptSectionIdx;
+	for( n = 0; n < byteCode.sectionIdxs.GetLength(); n++ )
+	{
+		if( byteCode.sectionIdxs[n] != lastIdx )
+		{
+			lastIdx = byteCode.sectionIdxs[n];
+			outFunc->sectionIdxs.PushLast(byteCode.lineNumbers[n*2]);
+			outFunc->sectionIdxs.PushLast(lastIdx);
+		}
+	}
 }
 
 // internal
@@ -373,7 +395,7 @@ int asCCompiler::SetupParametersAndReturnVariable(asCArray<asCString> &parameter
 	return stackPos;
 }
 
-void asCCompiler::CompileMemberInitialization(asCByteCode *byteCode)
+void asCCompiler::CompileMemberInitialization(asCByteCode *byteCode, bool onlyDefaults)
 {
 	asASSERT( m_classDecl );
 
@@ -383,76 +405,93 @@ void asCCompiler::CompileMemberInitialization(asCByteCode *byteCode)
 		asCObjectProperty *prop = outFunc->objectType->properties[n];
 
 		// Check if the property has an initialization expression
-		bool found = false;
+		asCScriptNode *declNode = 0;
 		asCScriptNode *initNode = 0;
 		asCScriptCode *initScript = 0;
 		for( asUINT m = 0; m < m_classDecl->propInits.GetLength(); m++ )
 		{
 			if( m_classDecl->propInits[m].name == prop->name )
 			{
-#ifndef AS_NEW
-				// TODO: decl: Allow all types to be initialized
-				if( !prop->type.IsPrimitive() && !prop->type.IsObjectHandle() )
-				{
-					Error("Initialization of class member objects in declaration is not yet supported", m_classDecl->propInits[m].node);
-				}
-				else
-#endif
-				{
-					found = true;
-					initNode = m_classDecl->propInits[m].node;
-					initScript = m_classDecl->propInits[m].file;
-				}
+				declNode   = m_classDecl->propInits[m].declNode;
+				initNode   = m_classDecl->propInits[m].initNode;
+				initScript = m_classDecl->propInits[m].file;
 				break;
 			}
 		}
 
-#ifndef AS_NEW
-		if( found && initNode )
-#endif
+		// If declNode is null, the property was inherited in which case
+		// it was already initialized by the base class' constructor
+		if( declNode )
 		{
 			if( initNode )
 			{
+				if( onlyDefaults )
+					continue;
+
+#ifdef AS_NO_MEMBER_INIT
+				// Give an error as the initialization in the declaration has been disabled
+				asCScriptCode *origScript = script;
+				script = initScript;
+				Error("Initialization of members in declaration is not supported", initNode);
+				script = origScript;
+
+				// Clear the initialization node
+				initNode = 0;
+				initScript = script;
+#else
 				// Re-parse the initialization expression as the parser now knows the types, which it didn't earlier
 				asCParser parser(builder);
-				// TODO: decl: Change the name of the method as we're now using it for more than global variables
-				int r = parser.ParseGlobalVarInit(initScript, initNode);
+				int r = parser.ParseVarInit(initScript, initNode);
 				if( r < 0 )
 					continue;
 
 				initNode = parser.GetScriptNode();
+#endif
+			}
+			else
+			{
+				if( !onlyDefaults )
+					continue;
 			}
 
+#ifdef AS_NO_MEMBER_INIT
+			// The initialization will be done in the asCScriptObject constructor, so  
+			// here we should just validate that the member has a default constructor
+			if( prop->type.IsObject() && 
+				!prop->type.IsObjectHandle() &&
+				(((prop->type.GetObjectType()->flags & asOBJ_REF) &&
+				  prop->type.GetBehaviour()->factory == 0) ||
+				 ((prop->type.GetObjectType()->flags & asOBJ_VALUE) &&
+				  prop->type.GetBehaviour()->construct == 0 &&
+				  !(prop->type.GetObjectType()->flags & asOBJ_POD))) )
+			{
+				// Class has no default factory/constructor.
+				asCString str;
+				// TODO: funcdef: asCDataType should have a GetTypeName()
+				if( prop->type.GetFuncDef() )
+					str.Format(TXT_NO_DEFAULT_CONSTRUCTOR_FOR_s, prop->type.GetFuncDef()->GetName());
+				else
+					str.Format(TXT_NO_DEFAULT_CONSTRUCTOR_FOR_s, prop->type.GetObjectType()->GetName());
+				Error(str, declNode);
+			}
+#else
+			// Temporarily set the script that is being compiled to where the member initialization is declared.
+			// The script can be different when including mixin classes from a different script section
+			asCScriptCode *origScript = script;
+			script = initScript;
+
+			// Add a line instruction with the position of the declaration
+			LineInstr(byteCode, declNode->tokenPos);
+
+			// Compile the initialization
 			asQWORD constantValue;
 			asCByteCode bc(engine);
-			CompileInitialization(initNode, &bc, prop->type, initNode ? initNode : m_classDecl->node, prop->byteOffset, &constantValue, 2);
-	
-			// TODO: decl: Need to know where the property has been declared even if not explicitly initialized
-			if( initNode )
-				LineInstr(byteCode, initNode->tokenPos);
+			CompileInitialization(initNode, &bc, prop->type, declNode, prop->byteOffset, &constantValue, 2);
 			byteCode->AddCode(&bc);
-		}
-#ifndef AS_NEW
-		else
-		{
-			// TODO: decl: Compile the initialization of the member with the default constructor
-			//             This is currently done directly in asCScriptObject construct, but will now be done in the bytecode
 
-			// Make sure all the class members can be initialized with default constructors
-			asCDataType &dt = outFunc->objectType->properties[n]->type;
-			if( dt.IsObject() && !dt.IsObjectHandle() &&
-				(((dt.GetObjectType()->flags & asOBJ_REF) && dt.GetObjectType()->beh.factory == 0) ||
-				 ((dt.GetObjectType()->flags & asOBJ_VALUE) && !(dt.GetObjectType()->flags & asOBJ_POD) && dt.GetObjectType()->beh.construct == 0)) )
-			{
-				asCString str;
-				if( dt.GetFuncDef() )
-					str.Format(TXT_NO_DEFAULT_CONSTRUCTOR_FOR_s, dt.GetFuncDef()->GetName());
-				else
-					str.Format(TXT_NO_DEFAULT_CONSTRUCTOR_FOR_s, dt.GetObjectType()->GetName());
-				Error(str, m_classDecl->node);
-			}
-		}
+			script = origScript;
 #endif
+		}
 	}
 }
 
@@ -512,10 +551,6 @@ int asCCompiler::CompileFunction(asCBuilder *builder, asCScriptCode *script, asC
 	// Insert a JitEntry at the start of the function for JIT compilers
 	byteCode.InstrPTR(asBC_JitEntry, 0);
 
-	// Count total variable size
-	int varSize = GetVariableOffset((int)variableAllocations.GetLength()) - 1;
-	outFunc->variableSpace = varSize;
-
 	if( outFunc->objectType )
 	{
 		if( m_isConstructor )
@@ -527,6 +562,10 @@ int asCCompiler::CompileFunction(asCBuilder *builder, asCScriptCode *script, asC
 				{
 					if( outFunc->objectType->derivedFrom->beh.construct )
 					{
+						// Initialize members without explicit expression first
+						CompileMemberInitialization(&byteCode, true);
+
+						// Call base class' constructor
 						asCByteCode tmpBC(engine);
 						tmpBC.InstrSHORT(asBC_PSF, 0);
 						tmpBC.Instr(asBC_RDSPtr);
@@ -534,23 +573,24 @@ int asCCompiler::CompileFunction(asCBuilder *builder, asCScriptCode *script, asC
 						tmpBC.OptimizeLocally(tempVariableOffsets);
 						byteCode.AddCode(&tmpBC);
 
-						// Add the initialization of the members
-						CompileMemberInitialization(&byteCode);
+						// Add the initialization of the members with explicit expressions
+						CompileMemberInitialization(&byteCode, false);
 					}
 					else
 						Error(TEXT_BASE_DOESNT_HAVE_DEF_CONSTR, blockBegin);
 				}
 				else
 				{
-					// TODO: decl: The member initialization should be done right after calling the base class' constructor
-					if( m_classDecl->propInits.GetLength() > 0 )
-						Error("Member initialization in declaration is not yet supported when base class' constructor is called manually", blockBegin);
+					// Only initialize members that don't have an explicit expression
+					// The members that are explicitly initialized will be initialized after the call to base class' constructor
+					CompileMemberInitialization(&byteCode, true);
 				}
 			}
 			else
 			{
 				// Add the initialization of the members
-				CompileMemberInitialization(&byteCode);
+				CompileMemberInitialization(&byteCode, true);
+				CompileMemberInitialization(&byteCode, false);
 			}
 		}
 
@@ -573,6 +613,10 @@ int asCCompiler::CompileFunction(asCBuilder *builder, asCScriptCode *script, asC
 
 	// Add the code for the statement block
 	byteCode.AddCode(&bc);
+
+	// Count total variable size
+	int varSize = GetVariableOffset((int)variableAllocations.GetLength()) - 1;
+	outFunc->variableSpace = varSize;
 
 	// Deallocate all local variables
 	int n;
@@ -751,8 +795,6 @@ int asCCompiler::CallCopyConstructor(asCDataType &type, int offset, bool isObjec
 
 int asCCompiler::CallDefaultConstructor(asCDataType &type, int offset, bool isObjectOnHeap, asCByteCode *bc, asCScriptNode *node, int isVarGlobOrMem, bool deferDest)
 {
-	// TODO: decl: This method should be able to call default constructor for class members during initialization too
-
 	if( !type.IsObject() || type.IsObjectHandle() )
 		return 0;
 
@@ -780,7 +822,16 @@ int asCCompiler::CallDefaultConstructor(asCDataType &type, int offset, bool isOb
 				// Call factory
 				PerformFunctionCall(func, &ctx, false, 0, type.GetObjectType());
 
-				ctx.bc.Instr(asBC_RDSPtr);
+				// TODO: runtime optimize: Should have a way of storing the object pointer directly to the destination
+				//                         instead of first storing it in a local variable and then copying it to the 
+				//                         destination.
+
+				if( !(type.GetObjectType()->flags & asOBJ_SCOPED) )
+				{
+					// Only dereference the variable if not a scoped type
+					ctx.bc.Instr(asBC_RDSPtr);
+				}
+
 				if( isVarGlobOrMem == 1 )
 				{
 					// Store the returned handle in the global variable
@@ -788,12 +839,25 @@ int asCCompiler::CallDefaultConstructor(asCDataType &type, int offset, bool isOb
 				}
 				else
 				{
-					// Store the return handle in the class member
+					// Store the returned handle in the class member
 					ctx.bc.InstrSHORT(asBC_PSF, 0);
 					ctx.bc.Instr(asBC_RDSPtr);
 					ctx.bc.InstrSHORT_DW(asBC_ADDSi, (short)offset, engine->GetTypeIdFromDataType(asCDataType::CreateObject(outFunc->objectType, false)));
 				}
-				ctx.bc.InstrPTR(asBC_REFCPY, type.GetObjectType());
+	
+				if( type.GetObjectType()->flags & asOBJ_SCOPED )
+				{
+					// For scoped typed we must move the reference from the local  
+					// variable rather than copy it as there is no AddRef behaviour
+					ctx.bc.InstrSHORT_DW(asBC_COPY, AS_PTR_SIZE, asTYPEID_OBJHANDLE | engine->GetTypeIdFromDataType(type));
+
+					// Clear the local variable so the reference isn't released
+					ctx.bc.InstrSHORT(asBC_ClrVPtr, ctx.type.stackOffset);
+				}
+				else
+				{
+					ctx.bc.InstrPTR(asBC_REFCPY, type.GetObjectType());
+				}
 				ctx.bc.Instr(asBC_PopPtr);
 				ReleaseTemporaryVariable(ctx.type.stackOffset, &ctx.bc);
 			}
@@ -902,12 +966,9 @@ void asCCompiler::CallDestructor(asCDataType &type, int offset, bool isObjectOnH
 
 void asCCompiler::LineInstr(asCByteCode *bc, size_t pos)
 {
-	// TODO: decl: Must store the file as well as token position, as with mixin classes, class declarations
-	//             may include initialization of members from multiple different files. 
-
 	int r, c;
 	script->ConvertPosToRowCol(pos, &r, &c);
-	bc->Line(r, c);
+	bc->Line(r, c, script->idx);
 }
 
 void asCCompiler::CompileStatementBlock(asCScriptNode *block, bool ownVariableScope, bool *hasReturn, asCByteCode *bc)
@@ -989,7 +1050,7 @@ int asCCompiler::CompileGlobalVariable(asCBuilder *builder, asCScriptCode *scrip
 	asCParser parser(builder);
 	if( node )
 	{
-		int r = parser.ParseGlobalVarInit(script, node);
+		int r = parser.ParseVarInit(script, node);
 		if( r < 0 )
 			return r;
 
@@ -1314,11 +1375,7 @@ void asCCompiler::PrepareArgument(asCDataType *paramType, asSExprContext *ctx, a
 			else if( ctx->type.dataType.IsPrimitive() )
 				ctx->bc.Instr(asBC_PshRPtr);
 			else if( ctx->type.dataType.IsObjectHandle() && !ctx->type.dataType.IsReference() )
-			{
-				asCDataType dt = ctx->type.dataType;
-				dt.MakeReference(true);
-				ImplicitConversion(ctx, dt, node, asIC_IMPLICIT_CONV, true, false);
-			}
+				ImplicitConversion(ctx, param, node, asIC_IMPLICIT_CONV, true, false);
 		}
 	}
 	else
@@ -1613,7 +1670,7 @@ int asCCompiler::CompileDefaultArgs(asCScriptNode *node, asCArray<asSExprContext
 		script = &code;
 
 		// Don't allow the expression to access local variables
-		// TODO: namespace: The default arg should see the symbols declared in the same scope as the function
+		// TODO: namespace: The default arg should see the symbols declared in the same scope as the function that is called
 		isCompilingDefaultArg = true;
 		asSExprContext expr(engine);
 		r = CompileExpression(arg, &expr);
@@ -1825,8 +1882,7 @@ asUINT asCCompiler::MatchFunctions(asCArray<int> &funcs, asCArray<asSExprContext
 void asCCompiler::CompileDeclaration(asCScriptNode *decl, asCByteCode *bc)
 {
 	// Get the data type
-	// TODO: namespace: Use correct implicit namespace from function
-	asCDataType type = builder->CreateDataTypeFromNode(decl->firstChild, script, engine->nameSpaces[0]);
+	asCDataType type = builder->CreateDataTypeFromNode(decl->firstChild, script, outFunc->nameSpace);
 
 	// Declare all variables in this declaration
 	asCScriptNode *node = decl->firstChild->next;
@@ -1965,10 +2021,20 @@ bool asCCompiler::CompileInitialization(asCScriptNode *node, asCByteCode *bc, as
 							else
 							{
 								MakeFunctionCall(&ctx, funcs[0], 0, args, node);
-
-								// Store the returned handle in the global variable
 								ctx.bc.Instr(asBC_RDSPtr);
-								ctx.bc.InstrPTR(asBC_PGA, engine->globalProperties[offset]->GetAddressOfValue());
+								if( isVarGlobOrMem == 1 )
+								{
+									// Store the returned handle in the global variable
+									ctx.bc.InstrPTR(asBC_PGA, engine->globalProperties[offset]->GetAddressOfValue());
+								}
+								else
+								{
+									// Store the returned handle in the member
+									ctx.bc.InstrSHORT(asBC_PSF, 0);
+									ctx.bc.Instr(asBC_RDSPtr);
+									ctx.bc.InstrSHORT_DW(asBC_ADDSi, (short)offset, engine->GetTypeIdFromDataType(asCDataType::CreateObject(outFunc->objectType, false)));
+									ctx.bc.Instr(asBC_PopRPtr);
+								}
 								ctx.bc.InstrPTR(asBC_REFCPY, type.GetObjectType());
 								ReleaseTemporaryVariable(ctx.type.stackOffset, &ctx.bc);
 							}
@@ -1999,7 +2065,14 @@ bool asCCompiler::CompileInitialization(asCScriptNode *node, asCByteCode *bc, as
 								//       be difficult to serialize as the context doesn't know that the value represents a
 								//       pointer.
 								onHeap = true;
-								ctx.bc.InstrPTR(asBC_PGA, engine->globalProperties[offset]->GetAddressOfValue());
+								if( isVarGlobOrMem == 1 )
+									ctx.bc.InstrPTR(asBC_PGA, engine->globalProperties[offset]->GetAddressOfValue());
+								else
+								{
+									ctx.bc.InstrSHORT(asBC_PSF, 0);
+									ctx.bc.Instr(asBC_RDSPtr);
+									ctx.bc.InstrSHORT_DW(asBC_ADDSi, (short)offset, engine->GetTypeIdFromDataType(asCDataType::CreateObject(outFunc->objectType, false)));
+								}
 							}
 
 							PrepareFunctionCall(funcs[0], &ctx.bc, args);
@@ -2278,8 +2351,6 @@ void asCCompiler::CompileInitList(asCTypeInfo *var, asCScriptNode *node, asCByte
 			ctx.bc.InstrSHORT(asBC_PSF, 0);
 			ctx.bc.Instr(asBC_RDSPtr);
 			ctx.bc.InstrSHORT_DW(asBC_ADDSi, (short)var->stackOffset, engine->GetTypeIdFromDataType(asCDataType::CreateObject(outFunc->objectType, false)));
-			
-			// TODO: decl: For non-handles we need more
 		}
 		ctx.bc.InstrPTR(asBC_REFCPY, var->dataType.GetObjectType());
 		ctx.bc.Instr(asBC_PopPtr);
@@ -2366,9 +2437,9 @@ void asCCompiler::CompileInitList(asCTypeInfo *var, asCScriptNode *node, asCByte
 					lctx.bc.InstrPTR(asBC_PGA, engine->globalProperties[var->stackOffset]->GetAddressOfValue());
 				else
 				{
-					ctx.bc.InstrSHORT(asBC_PSF, 0);
-					ctx.bc.Instr(asBC_RDSPtr);
-					ctx.bc.InstrSHORT_DW(asBC_ADDSi, (short)var->stackOffset, engine->GetTypeIdFromDataType(asCDataType::CreateObject(outFunc->objectType, false)));
+					lctx.bc.InstrSHORT(asBC_PSF, 0);
+					lctx.bc.Instr(asBC_RDSPtr);
+					lctx.bc.InstrSHORT_DW(asBC_ADDSi, (short)var->stackOffset, engine->GetTypeIdFromDataType(asCDataType::CreateObject(outFunc->objectType, false)));
 				}
 			}
 			lctx.bc.Instr(asBC_RDSPtr);
@@ -5180,7 +5251,7 @@ asUINT asCCompiler::ImplicitConvObjectToObject(asSExprContext *ctx, const asCDat
 			Dereference(ctx, generateCode);
 		}
 	}
-	else
+	else // if( !to.IsObjectHandle() )
 	{
 		if( !to.IsReference() )
 		{
@@ -5248,7 +5319,7 @@ asUINT asCCompiler::ImplicitConvObjectToObject(asSExprContext *ctx, const asCDat
 				ctx->type.dataType.MakeReadOnly(true);
 			}
 		}
-		else
+		else // if( to.IsReference() )
 		{
 			// reference to handle -> reference
 			// handle              -> reference
@@ -5292,50 +5363,61 @@ asUINT asCCompiler::ImplicitConvObjectToObject(asSExprContext *ctx, const asCDat
 					cost += asCC_TO_OBJECT_CONV;
 				}
 			}
-			else
+			else // if( !ctx->type.dataType.IsReference() )
 			{
-				// A value type allocated on the stack is differentiated
-				// by it not being a reference. But it can be handled as
-				// reference by pushing the pointer on the stack
-				if( (ctx->type.dataType.GetObjectType()->GetFlags() & asOBJ_VALUE) &&
-					(ctx->type.isVariable || ctx->type.isTemporary) &&
-					!IsVariableOnHeap(ctx->type.stackOffset) )
-				{
-					// Actually the pointer is already pushed on the stack in
-					// CompileVariableAccess, so we don't need to do anything else
-				}
-				else if( generateCode )
-				{
-					// A non-reference can be converted to a reference,
-					// by putting the value in a temporary variable
-
-					// If the input type is read-only we'll need to temporarily
-					// remove this constness, otherwise the assignment will fail
-					bool typeIsReadOnly = ctx->type.dataType.IsReadOnly();
-					ctx->type.dataType.MakeReadOnly(false);
-
-					// If the object already is a temporary variable, then the copy
-					// doesn't have to be made as it is already a unique object
-					PrepareTemporaryObject(node, ctx);
-
-					ctx->type.dataType.MakeReadOnly(typeIsReadOnly);
-
-					// Add the cost for the copy
-					cost += asCC_TO_OBJECT_CONV;
-				}
-
-				// A handle can be converted to a reference, by checking for a null pointer
+				// A non-reference handle can be converted to a non-handle reference by checking against null handle
 				if( ctx->type.dataType.IsObjectHandle() )
 				{
+					bool readOnly = false;
+					if( ctx->type.dataType.IsHandleToConst() )
+						readOnly = true;
+
 					if( generateCode )
-						ctx->bc.InstrSHORT(asBC_ChkNullV, ctx->type.stackOffset);
+					{
+						if( ctx->type.isVariable )
+							ctx->bc.InstrSHORT(asBC_ChkNullV, ctx->type.stackOffset);
+						else
+							ctx->bc.Instr(asBC_CHKREF);
+					}
 					ctx->type.dataType.MakeHandle(false);
 					ctx->type.dataType.MakeReference(true);
 
-					// TODO: Make sure a handle to const isn't converted to non-const reference
+					// Make sure a handle to const isn't converted to non-const reference
+					if( readOnly )
+						ctx->type.dataType.MakeReadOnly(true);
 				}
-				else
+				else 
 				{
+					// A value type allocated on the stack is differentiated
+					// by it not being a reference. But it can be handled as
+					// reference by pushing the pointer on the stack
+					if( (ctx->type.dataType.GetObjectType()->GetFlags() & asOBJ_VALUE) &&
+						(ctx->type.isVariable || ctx->type.isTemporary) &&
+						!IsVariableOnHeap(ctx->type.stackOffset) )
+					{
+						// Actually the pointer is already pushed on the stack in
+						// CompileVariableAccess, so we don't need to do anything else
+					}
+					else if( generateCode )
+					{
+						// A non-reference can be converted to a reference,
+						// by putting the value in a temporary variable
+
+						// If the input type is read-only we'll need to temporarily
+						// remove this constness, otherwise the assignment will fail
+						bool typeIsReadOnly = ctx->type.dataType.IsReadOnly();
+						ctx->type.dataType.MakeReadOnly(false);
+
+						// If the object already is a temporary variable, then the copy
+						// doesn't have to be made as it is already a unique object
+						PrepareTemporaryObject(node, ctx);
+
+						ctx->type.dataType.MakeReadOnly(typeIsReadOnly);
+
+						// Add the cost for the copy
+						cost += asCC_TO_OBJECT_CONV;
+					}
+
 					// This may look strange as the conversion was to make the expression a reference
 					// but a value type allocated on the stack is a reference even without the type
 					// being marked as such.
@@ -7435,8 +7517,7 @@ void asCCompiler::CompileConversion(asCScriptNode *node, asSExprContext *ctx)
 		}
 
 		// Determine the requested type
-		// TODO: namespace: Use correct implicit namespace from function
-		to = builder->CreateDataTypeFromNode(node->firstChild, script, engine->nameSpaces[0]);
+		to = builder->CreateDataTypeFromNode(node->firstChild, script, outFunc->nameSpace);
 		to.MakeReadOnly(true); // Default to const
 		asASSERT(to.IsPrimitive());
 	}
@@ -7450,8 +7531,7 @@ void asCCompiler::CompileConversion(asCScriptNode *node, asSExprContext *ctx)
 			anyErrors = true;
 
 		// Determine the requested type
-		// TODO: namespace: Use correct implicit namespace from function
-		to = builder->CreateDataTypeFromNode(node->firstChild, script, engine->nameSpaces[0]);
+		to = builder->CreateDataTypeFromNode(node->firstChild, script, outFunc->nameSpace);
 		to = builder->ModifyDataTypeFromNode(to, node->firstChild->next, script, 0, 0);
 
 		// If the type support object handles, then use it
@@ -7704,8 +7784,7 @@ void asCCompiler::CompileConstructCall(asCScriptNode *node, asSExprContext *ctx)
 
 	// It is possible that the name is really a constructor
 	asCDataType dt;
-	// TODO: namespace: Use correct implicit namespace from function
-	dt = builder->CreateDataTypeFromNode(node->firstChild, script, engine->nameSpaces[0]);
+	dt = builder->CreateDataTypeFromNode(node->firstChild, script, outFunc->nameSpace);
 	if( dt.IsPrimitive() )
 	{
 		// This is a cast to a primitive type
@@ -7892,6 +7971,7 @@ int asCCompiler::CompileFunctionCall(asCScriptNode *node, asSExprContext *ctx, a
 	asCTypeInfo tempObj;
 	asCArray<int> funcs;
 	int localVar = -1;
+	bool initializeMembers = false;
 
 	asCScriptNode *nm = node->lastChild->prev;
 	name.Assign(&script->code[nm->tokenPos], nm->tokenLength);
@@ -7946,12 +8026,8 @@ int asCCompiler::CompileFunctionCall(asCScriptNode *node, asSExprContext *ctx, a
 				}
 				m_isConstructorCalled = true;
 
-				// TODO: decl: Need to initialize members here, as they may use the properties of the base class
-				//             If there are multiple paths that call super(), then there will also be multiple 
-				//             locations with initializations of the members. It is not possible to consolidate
-				//             these in one place, as the expressions for the initialization is evaluated where 
-				//             it is compiled, which means that they may access different variables depending on the
-				//             scope where super() is called.
+				// We need to initialize the class members, but only after all the deferred arguments have been completed
+				initializeMembers = true;
 			}
 			else
 			{
@@ -8108,6 +8184,22 @@ int asCCompiler::CompileFunctionCall(asCScriptNode *node, asSExprContext *ctx, a
 		{
 			asDELETE(args[n],asSExprContext);
 		}
+
+	if( initializeMembers )
+	{
+		asASSERT( m_isConstructor );
+
+		// Need to initialize members here, as they may use the properties of the base class
+		// If there are multiple paths that call super(), then there will also be multiple 
+		// locations with initializations of the members. It is not possible to consolidate
+		// these in one place, as the expressions for the initialization are evaluated where 
+		// they are compiled, which means that they may access different variables depending
+		// on the scope where super() is called.
+		// Members that don't have an explicit initialization expression will be initialized
+		// beginning of the constructor as they are guaranteed not to use at the any 
+		// members of the base class.
+		CompileMemberInitialization(&ctx->bc, false);
+	}
 
 	return 0;
 }

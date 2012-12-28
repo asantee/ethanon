@@ -236,9 +236,9 @@ asCScriptObject::asCScriptObject(asCObjectType *ot, bool doInitialize)
 	if( objType->flags & asOBJ_GC )
 		objType->engine->gc.AddScriptObjectToGC(this, objType);
 
-#ifdef AS_NEW
 	if( doInitialize )
 	{
+#ifndef AS_NO_MEMBER_INIT
 		// The actual initialization will be done by the bytecode, so here we should just clear the
 		// memory to guarantee that no pointers with have scratch values in case of an exception
 		// TODO: runtime optimize: Is it quicker to just do a memset on the entire object? 
@@ -251,6 +251,27 @@ asCScriptObject::asCScriptObject(asCObjectType *ot, bool doInitialize)
 				*ptr = 0;
 			}
 		}
+#else
+		// When member initialization is disabled the constructor must make sure
+		// to allocate and initialize all members with the default constructor
+		for( asUINT n = 0; n < objType->properties.GetLength(); n++ )
+		{
+			asCObjectProperty *prop = objType->properties[n];
+			if( prop->type.IsObject() )
+			{
+				asPWORD *ptr = reinterpret_cast<asPWORD*>(reinterpret_cast<asBYTE*>(this) + prop->byteOffset);
+				if( prop->type.IsObjectHandle() )
+					*ptr = 0;
+				else
+				{
+					if( prop->type.GetObjectType()->flags & asOBJ_SCRIPT_OBJECT )
+						*ptr = (asPWORD)ScriptObjectFactory(prop->type.GetObjectType(), ot->engine);
+					else
+						*ptr = (asPWORD)AllocateUninitializedObject(prop->type.GetObjectType(), ot->engine);
+				}
+			}
+		}
+#endif
 	}
 	else
 	{
@@ -265,32 +286,10 @@ asCScriptObject::asCScriptObject(asCObjectType *ot, bool doInitialize)
 				if( prop->type.IsObjectHandle() )
 					*ptr = 0;
 				else
-					*ptr = (asPWORD)AllocateObject(prop->type.GetObjectType(), engine, false);
+					*ptr = (asPWORD)AllocateUninitializedObject(prop->type.GetObjectType(), engine);
 			}
 		}
 	}
-#else
-	// Construct all properties
-	// TODO: decl: When creating an initialized object this routine should just clear the memory. All allocation and initialization will be done by the bytecode for the constructor
-	//             When creating an uninitialized object this routine should allocate the objects that are not handles without calling their constructors as is done now
-	asCScriptEngine *engine = objType->engine;
-	for( asUINT n = 0; n < objType->properties.GetLength(); n++ )
-	{
-		asCObjectProperty *prop = objType->properties[n];
-		if( prop->type.IsObject() )
-		{
-			asPWORD *ptr = (asPWORD*)(((char*)this) + prop->byteOffset);
-
-			if( prop->type.IsObjectHandle() )
-				*ptr = 0;
-			else
-			{
-				// Allocate the object and call it's constructor
-				*ptr = (asPWORD)AllocateObject(prop->type.GetObjectType(), engine, doInitialize);
-			}
-		}
-	}
-#endif
 }
 
 void asCScriptObject::Destruct()
@@ -601,20 +600,14 @@ int asCScriptObject::CopyFrom(asIScriptObject *other)
 	return 0;
 }
 
-// TODO: decl: This method shouldn't be called unless an uninitialized object is being created. Remove logic where doInitialize is true
-void *asCScriptObject::AllocateObject(asCObjectType *objType, asCScriptEngine *engine, bool doInitialize)
+void *asCScriptObject::AllocateUninitializedObject(asCObjectType *objType, asCScriptEngine *engine)
 {
 	void *ptr = 0;
 
 	if( objType->flags & asOBJ_SCRIPT_OBJECT )
 	{
-		if( doInitialize )
-			ptr = ScriptObjectFactory(objType, engine);
-		else
-		{
-			ptr = engine->CallAlloc(objType);
-			ScriptObject_ConstructUnitialized(objType, reinterpret_cast<asCScriptObject*>(ptr));
-		}
+		ptr = engine->CallAlloc(objType);
+		ScriptObject_ConstructUnitialized(objType, reinterpret_cast<asCScriptObject*>(ptr));
 	}
 	else if( objType->flags & asOBJ_TEMPLATE )
 	{

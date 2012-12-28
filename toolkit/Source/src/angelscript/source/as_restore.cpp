@@ -686,7 +686,11 @@ asCScriptFunction *asCReader::ReadFunction(bool &isNew, bool addToModule, bool a
 			for( i = 0; i < length; ++i )
 				func->lineNumbers[i] = ReadEncodedUInt();
 
-			// TODO: decl: Read the array of script sections 
+			// Read the array of script sections 
+			length = ReadEncodedUInt();
+			func->sectionIdxs.SetLength(length);
+			for( i = 0; i < length; ++i )
+				func->sectionIdxs[i] = ReadEncodedUInt();
 		}
 
 		ReadData(&func->isShared, 1);
@@ -1407,7 +1411,10 @@ void asCReader::ReadDataType(asCDataType *dt)
 	if( isObjectHandle )
 	{
 		dt->MakeReadOnly(isHandleToConst);
-		dt->MakeHandle(true);
+		
+		// Here we must allow a scoped type to be a handle 
+		// e.g. if the datatype is for a system function
+		dt->MakeHandle(true, true);
 	}
 	dt->MakeReadOnly(isReadOnly);
 	dt->MakeReference(isReference);
@@ -1958,16 +1965,25 @@ void asCReader::TranslateFunction(asCScriptFunction *func)
 			int *tid = (int*)&bc[n+1];
 			*tid = FindTypeId(*tid);
 
-			// COPY is used to copy POD types that don't have the opAssign method
+			// COPY is used to copy POD types that don't have the opAssign method. It is 
+			// also used to copy references to scoped types during variable initializations.
 			// Update the number of dwords to copy as it may be different on the target platform
-			asCDataType dt = engine->GetDataTypeFromTypeId(*tid);
-			if( !dt.IsValid() )
+			if( (*tid) & asTYPEID_OBJHANDLE )
 			{
-				// TODO: Write error to message
-				error = true;
+				// It is the actual reference that is being copied, not the object itself
+				asBC_SWORDARG0(&bc[n]) = AS_PTR_SIZE;
 			}
 			else
-				asBC_SWORDARG0(&bc[n]) = (short)dt.GetSizeInMemoryDWords();
+			{
+				asCDataType dt = engine->GetDataTypeFromTypeId(*tid);
+				if( !dt.IsValid() )
+				{
+					// TODO: Write error to message
+					error = true;
+				}
+				else
+					asBC_SWORDARG0(&bc[n]) = (short)dt.GetSizeInMemoryDWords();
+			}
 		}
 		else if( c == asBC_RET )
 		{
@@ -2206,9 +2222,9 @@ void asCReader::TranslateFunction(asCScriptFunction *func)
 	// The program position (every even number) needs to be adjusted
 	// for the line numbers to be in number of dwords instead of number of instructions 
 	for( n = 0; n < func->lineNumbers.GetLength(); n += 2 )
-	{
 		func->lineNumbers[n] = instructionNbrToPos[func->lineNumbers[n]];
-	}
+	for( n = 0; n < func->sectionIdxs.GetLength(); n += 2 )
+		func->sectionIdxs[n] = instructionNbrToPos[func->sectionIdxs[n]];
 
 	CalculateStackNeeded(func);
 }
@@ -2938,7 +2954,16 @@ void asCWriter::WriteFunction(asCScriptFunction* func)
 					WriteEncodedInt64(func->lineNumbers[i]);
 			}
 
-			// TODO: decl: Write the array of script sections
+			// Write the array of script sections
+			length = (asUINT)func->sectionIdxs.GetLength();
+			WriteEncodedInt64(length);
+			for( i = 0; i < length; ++i )
+			{
+				if( (i & 1) == 0 )
+					WriteEncodedInt64(bytecodeNbrByPos[func->sectionIdxs[i]]);
+				else
+					WriteEncodedInt64(func->sectionIdxs[i]);
+			}
 		}
 
 		WriteData(&func->isShared, 1);
