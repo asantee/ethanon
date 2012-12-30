@@ -297,6 +297,11 @@ bool GLVideo::BeginSpriteScene(const Color& dwBGColor)
 bool GLVideo::EndSpriteScene()
 {
 	m_rendering = false;
+	const GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+	if (status != GL_FRAMEBUFFER_COMPLETE)
+	{
+		ResetVideoMode(static_cast<unsigned int>(GetScreenSize().x), static_cast<unsigned int>(GetScreenSize().y), Texture::PF_DEFAULT);
+	}
 	return true;
 }
 
