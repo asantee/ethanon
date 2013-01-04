@@ -26,6 +26,8 @@
 		749D45C71697237600B44C38 /* gs2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 749D45C31697236100B44C38 /* gs2d.framework */; };
 		749D45C91697244400B44C38 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 749D45C81697244400B44C38 /* SDL.framework */; };
 		749D45CA1697248700B44C38 /* SDL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 749D45C81697244400B44C38 /* SDL.framework */; };
+		749D45CC1697252500B44C38 /* Cg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 749D45CB1697252500B44C38 /* Cg.framework */; };
+		749D45CD1697252D00B44C38 /* Cg.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 749D45CB1697252500B44C38 /* Cg.framework */; };
 		74C111E91697224100AEDCE1 /* engine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F0D18B1697037C009A3C78 /* engine.framework */; };
 		74F00B1E1646C12200B8B51B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F00B1D1646C12200B8B51B /* Cocoa.framework */; };
 		74F00B281646C12200B8B51B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 74F00B261646C12200B8B51B /* InfoPlist.strings */; };
@@ -105,6 +107,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				749D45CA1697248700B44C38 /* SDL.framework in CopyFiles */,
+				749D45CD1697252D00B44C38 /* Cg.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,6 +132,7 @@
 		746947351646C59C00CCD9D3 /* SDLMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLMain.m; path = ../../../../src/gs2d/src/Platform/macosx/SDLMain.m; sourceTree = "<group>"; };
 		7497649F169703680065F616 /* engine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = engine.xcodeproj; path = ../OSXEngine/engine.xcodeproj; sourceTree = "<group>"; };
 		749D45C81697244400B44C38 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = ../../../src/gs2d/vendors/SDL.framework; sourceTree = "<group>"; };
+		749D45CB1697252500B44C38 /* Cg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cg.framework; path = ../../../src/gs2d/vendors/Cg.framework; sourceTree = "<group>"; };
 		74C111EC169722CD00AEDCE1 /* gs2d.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = gs2d.xcodeproj; path = ../../../src/gs2d/projects/xcode/gs2d/gs2d.xcodeproj; sourceTree = "<group>"; };
 		74F00B191646C12200B8B51B /* machine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = machine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		74F00B1D1646C12200B8B51B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -146,6 +150,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				749D45CC1697252500B44C38 /* Cg.framework in Frameworks */,
 				749D45C91697244400B44C38 /* SDL.framework in Frameworks */,
 				749D45C71697237600B44C38 /* gs2d.framework in Frameworks */,
 				74C111E91697224100AEDCE1 /* engine.framework in Frameworks */,
@@ -195,6 +200,7 @@
 		74F00B0E1646C12200B8B51B = {
 			isa = PBXGroup;
 			children = (
+				749D45CB1697252500B44C38 /* Cg.framework */,
 				749D45C81697244400B44C38 /* SDL.framework */,
 				7421F4A81652BCFF00C55BAE /* assets */,
 				74F00B231646C12200B8B51B /* machine */,
