@@ -29,6 +29,8 @@
 		749D45CC1697252500B44C38 /* Cg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 749D45CB1697252500B44C38 /* Cg.framework */; };
 		749D45CD1697252D00B44C38 /* Cg.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 749D45CB1697252500B44C38 /* Cg.framework */; };
 		749D45CE169725B500B44C38 /* gs2d.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 749D45C31697236100B44C38 /* gs2d.framework */; };
+		749D45CF169726A700B44C38 /* engine.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74F0D18B1697037C009A3C78 /* engine.framework */; };
+		749D45D0169726F200B44C38 /* box2d.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74C111C916971EAB00AEDCE1 /* box2d.framework */; };
 		74C111E91697224100AEDCE1 /* engine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F0D18B1697037C009A3C78 /* engine.framework */; };
 		74F00B1E1646C12200B8B51B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F00B1D1646C12200B8B51B /* Cocoa.framework */; };
 		74F00B281646C12200B8B51B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 74F00B261646C12200B8B51B /* InfoPlist.strings */; };
@@ -107,6 +109,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				749D45D0169726F200B44C38 /* box2d.framework in CopyFiles */,
+				749D45CF169726A700B44C38 /* engine.framework in CopyFiles */,
 				749D45CE169725B500B44C38 /* gs2d.framework in CopyFiles */,
 				749D45CA1697248700B44C38 /* SDL.framework in CopyFiles */,
 				749D45CD1697252D00B44C38 /* Cg.framework in CopyFiles */,
