@@ -40,9 +40,6 @@
 		7421F43A1651587D00C55BAE /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7421F4391651587C00C55BAE /* icon.icns */; };
 		7421F43E16518D9F00C55BAE /* editor_icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7421F43D16518D9F00C55BAE /* editor_icon.icns */; };
 		745C90E6166952DC00F3E4EC /* Cg.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 745C90E5166952DC00F3E4EC /* Cg.framework */; };
-		74F0D1C416971996009A3C78 /* box2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F0D1C316971996009A3C78 /* box2d.framework */; };
-		74F0D1CB16971A47009A3C78 /* gs2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F0D1CA16971A47009A3C78 /* gs2d.framework */; };
-		74F0D1CC16971A4E009A3C78 /* gs2d.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74F0D1CA16971A47009A3C78 /* gs2d.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,7 +66,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				74F0D1CC16971A4E009A3C78 /* gs2d.framework in CopyFiles */,
 				745C90E6166952DC00F3E4EC /* Cg.framework in CopyFiles */,
 				7421F3E6164BF11A00C55BAE /* engine.framework in CopyFiles */,
 				7421F3E5164BF10C00C55BAE /* SDL.framework in CopyFiles */,
@@ -152,8 +148,8 @@
 		7421F43D16518D9F00C55BAE /* editor_icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = editor_icon.icns; sourceTree = "<group>"; };
 		7421F4711651B22000C55BAE /* MainSharedHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MainSharedHeader.h; path = ../../../../src/gs2d/src/Platform/MainSharedHeader.h; sourceTree = "<group>"; };
 		745C90E5166952DC00F3E4EC /* Cg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cg.framework; path = ../../../src/gs2d/vendors/Cg.framework; sourceTree = "<group>"; };
-		74F0D1C316971996009A3C78 /* box2d.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = box2d.framework; path = "../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gvjozjhkkmktongujlmxpcntgfaw/Build/Products/Release/box2d.framework"; sourceTree = "<group>"; };
-		74F0D1CA16971A47009A3C78 /* gs2d.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = gs2d.framework; path = "../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gvjozjhkkmktongujlmxpcntgfaw/Build/Products/Release/gs2d.framework"; sourceTree = "<group>"; };
+		749D45D2169727DA00B44C38 /* gs2d.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = gs2d.xcodeproj; path = ../../../src/gs2d/projects/xcode/gs2d/gs2d.xcodeproj; sourceTree = "<group>"; };
+		749D45D8169727E800B44C38 /* box2d.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = box2d.xcodeproj; path = ../../../src/box2d/Build/xcode/box2d.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,8 +157,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				74F0D1CB16971A47009A3C78 /* gs2d.framework in Frameworks */,
-				74F0D1C416971996009A3C78 /* box2d.framework in Frameworks */,
 				7421F3E0164BEFA300C55BAE /* engine.framework in Frameworks */,
 				7421F3DF164BEF9900C55BAE /* SDL.framework in Frameworks */,
 				7421F388164BED3200C55BAE /* Cocoa.framework in Frameworks */,
@@ -175,8 +169,6 @@
 		7421F378164BED3200C55BAE = {
 			isa = PBXGroup;
 			children = (
-				74F0D1CA16971A47009A3C78 /* gs2d.framework */,
-				74F0D1C316971996009A3C78 /* box2d.framework */,
 				745C90E5166952DC00F3E4EC /* Cg.framework */,
 				7421F43D16518D9F00C55BAE /* editor_icon.icns */,
 				7421F4391651587C00C55BAE /* icon.icns */,
@@ -188,6 +180,8 @@
 				7421F384164BED3200C55BAE /* Products */,
 				7421F3B1164BEF0D00C55BAE /* box2d.xcodeproj */,
 				7421F3AB164BEEFF00C55BAE /* gs2d.xcodeproj */,
+				749D45D8169727E800B44C38 /* box2d.xcodeproj */,
+				749D45D2169727DA00B44C38 /* gs2d.xcodeproj */,
 				7421F3A9164BEEF300C55BAE /* engine.xcodeproj */,
 			);
 			sourceTree = "<group>";
@@ -509,7 +503,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../src/gs2d/vendors\"",
-					"\"$(SRCROOT)/../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gvjozjhkkmktongujlmxpcntgfaw/Build/Products/Release\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Ethanon Editor/Ethanon Editor-Prefix.pch";
@@ -545,7 +538,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../src/gs2d/vendors\"",
-					"\"$(SRCROOT)/../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gvjozjhkkmktongujlmxpcntgfaw/Build/Products/Release\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Ethanon Editor/Ethanon Editor-Prefix.pch";
