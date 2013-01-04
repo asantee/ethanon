@@ -12,8 +12,6 @@
 		7421F3AA164BEEF300C55BAE /* engine.xcodeproj in Resources */ = {isa = PBXBuildFile; fileRef = 7421F3A9164BEEF300C55BAE /* engine.xcodeproj */; };
 		7421F3DF164BEF9900C55BAE /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F3DE164BEF9900C55BAE /* SDL.framework */; };
 		7421F3E0164BEFA300C55BAE /* engine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F3DA164BEF4E00C55BAE /* engine.framework */; };
-		7421F3E5164BF10C00C55BAE /* SDL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F3E4164BF10C00C55BAE /* SDL.framework */; };
-		7421F3E6164BF11A00C55BAE /* engine.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F3DA164BEF4E00C55BAE /* engine.framework */; };
 		7421F3EB164BF24C00C55BAE /* SDLMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 7421F3EA164BF24C00C55BAE /* SDLMain.m */; };
 		7421F3F2164BF40B00C55BAE /* gsgui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F3F0164BF40B00C55BAE /* gsgui.cpp */; };
 		7421F3F7164BF4BE00C55BAE /* EditorBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F3F5164BF4BE00C55BAE /* EditorBase.cpp */; };
@@ -39,7 +37,13 @@
 		7421F433164C374200C55BAE /* soundfx in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F428164C374200C55BAE /* soundfx */; };
 		7421F43A1651587D00C55BAE /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7421F4391651587C00C55BAE /* icon.icns */; };
 		7421F43E16518D9F00C55BAE /* editor_icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7421F43D16518D9F00C55BAE /* editor_icon.icns */; };
-		745C90E6166952DC00F3E4EC /* Cg.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 745C90E5166952DC00F3E4EC /* Cg.framework */; };
+		74DBCE07169728A900D9C16A /* box2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74DBCDFC1697288500D9C16A /* box2d.framework */; };
+		74DBCE08169728AC00D9C16A /* gs2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74DBCE021697288500D9C16A /* gs2d.framework */; };
+		74DBCE091697294100D9C16A /* Cg.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 745C90E5166952DC00F3E4EC /* Cg.framework */; };
+		74DBCE0A1697295200D9C16A /* SDL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F3E4164BF10C00C55BAE /* SDL.framework */; };
+		74DBCE0B1697297400D9C16A /* engine.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F3DA164BEF4E00C55BAE /* engine.framework */; };
+		74DBCE0C1697298400D9C16A /* gs2d.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74DBCE021697288500D9C16A /* gs2d.framework */; };
+		74DBCE0D1697298F00D9C16A /* box2d.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74DBCDFC1697288500D9C16A /* box2d.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +61,34 @@
 			remoteGlobalIDString = 74F00AD21646B9EB00B8B51B;
 			remoteInfo = engine;
 		};
+		74DBCDFB1697288500D9C16A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 749D45D8169727E800B44C38 /* box2d.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7421F162164734E900C55BAE;
+			remoteInfo = box2d;
+		};
+		74DBCE011697288500D9C16A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 749D45D2169727DA00B44C38 /* gs2d.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 74F3A4F61632E3870064C9A5;
+			remoteInfo = gs2d;
+		};
+		74DBCE031697289500D9C16A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 749D45D8169727E800B44C38 /* box2d.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 7421F161164734E900C55BAE;
+			remoteInfo = box2d;
+		};
+		74DBCE051697289900D9C16A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 749D45D2169727DA00B44C38 /* gs2d.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 74F3A4F51632E3870064C9A5;
+			remoteInfo = gs2d;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -66,9 +98,11 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				745C90E6166952DC00F3E4EC /* Cg.framework in CopyFiles */,
-				7421F3E6164BF11A00C55BAE /* engine.framework in CopyFiles */,
-				7421F3E5164BF10C00C55BAE /* SDL.framework in CopyFiles */,
+				74DBCE0D1697298F00D9C16A /* box2d.framework in CopyFiles */,
+				74DBCE0C1697298400D9C16A /* gs2d.framework in CopyFiles */,
+				74DBCE0B1697297400D9C16A /* engine.framework in CopyFiles */,
+				74DBCE091697294100D9C16A /* Cg.framework in CopyFiles */,
+				74DBCE0A1697295200D9C16A /* SDL.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -157,6 +191,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74DBCE08169728AC00D9C16A /* gs2d.framework in Frameworks */,
+				74DBCE07169728A900D9C16A /* box2d.framework in Frameworks */,
 				7421F3E0164BEFA300C55BAE /* engine.framework in Frameworks */,
 				7421F3DF164BEF9900C55BAE /* SDL.framework in Frameworks */,
 				7421F388164BED3200C55BAE /* Cocoa.framework in Frameworks */,
@@ -322,6 +358,22 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
+		74DBCDF81697288500D9C16A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				74DBCDFC1697288500D9C16A /* box2d.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		74DBCDFE1697288500D9C16A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				74DBCE021697288500D9C16A /* gs2d.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -338,6 +390,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				74DBCE061697289900D9C16A /* PBXTargetDependency */,
+				74DBCE041697289500D9C16A /* PBXTargetDependency */,
 				7421F3DC164BEF5700C55BAE /* PBXTargetDependency */,
 			);
 			name = "Ethanon Editor";
@@ -367,8 +421,16 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 74DBCDF81697288500D9C16A /* Products */;
+					ProjectRef = 749D45D8169727E800B44C38 /* box2d.xcodeproj */;
+				},
+				{
 					ProductGroup = 7421F3D6164BEF4E00C55BAE /* Products */;
 					ProjectRef = 7421F3A9164BEEF300C55BAE /* engine.xcodeproj */;
+				},
+				{
+					ProductGroup = 74DBCDFE1697288500D9C16A /* Products */;
+					ProjectRef = 749D45D2169727DA00B44C38 /* gs2d.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -384,6 +446,20 @@
 			fileType = wrapper.framework;
 			path = engine.framework;
 			remoteRef = 7421F3D9164BEF4E00C55BAE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		74DBCDFC1697288500D9C16A /* box2d.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = box2d.framework;
+			remoteRef = 74DBCDFB1697288500D9C16A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		74DBCE021697288500D9C16A /* gs2d.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = gs2d.framework;
+			remoteRef = 74DBCE011697288500D9C16A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -428,6 +504,16 @@
 			isa = PBXTargetDependency;
 			name = engine;
 			targetProxy = 7421F3DB164BEF5700C55BAE /* PBXContainerItemProxy */;
+		};
+		74DBCE041697289500D9C16A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = box2d;
+			targetProxy = 74DBCE031697289500D9C16A /* PBXContainerItemProxy */;
+		};
+		74DBCE061697289900D9C16A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = gs2d;
+			targetProxy = 74DBCE051697289900D9C16A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
