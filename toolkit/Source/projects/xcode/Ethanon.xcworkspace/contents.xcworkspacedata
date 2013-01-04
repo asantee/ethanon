@@ -14,9 +14,9 @@
       location = "group:../../src/gs2d/projects/xcode/gs2d/gs2d.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:../../src/box2d/Build/xcode/box2d.xcodeproj">
+      location = "group:../../src/angelscript/projects/osx/angelscript/angelscript.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:../../src/angelscript/projects/osx/angelscript/angelscript.xcodeproj">
+      location = "group:../../src/box2d/Build/xcode/box2d.xcodeproj">
    </FileRef>
 </Workspace>

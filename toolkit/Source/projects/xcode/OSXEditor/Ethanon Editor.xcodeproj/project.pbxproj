@@ -10,11 +10,8 @@
 		7421F388164BED3200C55BAE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F387164BED3200C55BAE /* Cocoa.framework */; };
 		7421F392164BED3200C55BAE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7421F390164BED3200C55BAE /* InfoPlist.strings */; };
 		7421F3AA164BEEF300C55BAE /* engine.xcodeproj in Resources */ = {isa = PBXBuildFile; fileRef = 7421F3A9164BEEF300C55BAE /* engine.xcodeproj */; };
-		7421F3DD164BEF7300C55BAE /* gs2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F3B0164BEEFF00C55BAE /* gs2d.framework */; };
 		7421F3DF164BEF9900C55BAE /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F3DE164BEF9900C55BAE /* SDL.framework */; };
 		7421F3E0164BEFA300C55BAE /* engine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F3DA164BEF4E00C55BAE /* engine.framework */; };
-		7421F3E2164BF0E500C55BAE /* box2d.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F3B6164BEF0D00C55BAE /* box2d.framework */; };
-		7421F3E3164BF0EC00C55BAE /* gs2d.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F3B0164BEEFF00C55BAE /* gs2d.framework */; };
 		7421F3E5164BF10C00C55BAE /* SDL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F3E4164BF10C00C55BAE /* SDL.framework */; };
 		7421F3E6164BF11A00C55BAE /* engine.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F3DA164BEF4E00C55BAE /* engine.framework */; };
 		7421F3EB164BF24C00C55BAE /* SDLMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 7421F3EA164BF24C00C55BAE /* SDLMain.m */; };
@@ -43,30 +40,12 @@
 		7421F43A1651587D00C55BAE /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7421F4391651587C00C55BAE /* icon.icns */; };
 		7421F43E16518D9F00C55BAE /* editor_icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7421F43D16518D9F00C55BAE /* editor_icon.icns */; };
 		745C90E6166952DC00F3E4EC /* Cg.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 745C90E5166952DC00F3E4EC /* Cg.framework */; };
+		74F0D1C416971996009A3C78 /* box2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F0D1C316971996009A3C78 /* box2d.framework */; };
+		74F0D1CB16971A47009A3C78 /* gs2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F0D1CA16971A47009A3C78 /* gs2d.framework */; };
+		74F0D1CC16971A4E009A3C78 /* gs2d.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74F0D1CA16971A47009A3C78 /* gs2d.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		7421F3AF164BEEFF00C55BAE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7421F3AB164BEEFF00C55BAE /* gs2d.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 74F3A4F61632E3870064C9A5;
-			remoteInfo = gs2d;
-		};
-		7421F3B5164BEF0D00C55BAE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7421F3B1164BEF0D00C55BAE /* box2d.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 7421F162164734E900C55BAE;
-			remoteInfo = box2d;
-		};
-		7421F3B7164BEF3A00C55BAE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7421F3AB164BEEFF00C55BAE /* gs2d.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 74F3A4F51632E3870064C9A5;
-			remoteInfo = gs2d;
-		};
 		7421F3D9164BEF4E00C55BAE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7421F3A9164BEEF300C55BAE /* engine.xcodeproj */;
@@ -90,11 +69,10 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				74F0D1CC16971A4E009A3C78 /* gs2d.framework in CopyFiles */,
 				745C90E6166952DC00F3E4EC /* Cg.framework in CopyFiles */,
 				7421F3E6164BF11A00C55BAE /* engine.framework in CopyFiles */,
 				7421F3E5164BF10C00C55BAE /* SDL.framework in CopyFiles */,
-				7421F3E3164BF0EC00C55BAE /* gs2d.framework in CopyFiles */,
-				7421F3E2164BF0E500C55BAE /* box2d.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,8 +109,8 @@
 		7421F391164BED3200C55BAE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7421F395164BED3200C55BAE /* Ethanon Editor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ethanon Editor-Prefix.pch"; sourceTree = "<group>"; };
 		7421F3A9164BEEF300C55BAE /* engine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = engine.xcodeproj; path = ../OSXEngine/engine.xcodeproj; sourceTree = "<group>"; };
-		7421F3AB164BEEFF00C55BAE /* gs2d.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = gs2d.xcodeproj; path = /Users/blackdog/Documents/workspace/ethanon/toolkit/Source/projects/xcode/../../src/gs2d/projects/xcode/gs2d/gs2d.xcodeproj; sourceTree = "<absolute>"; };
-		7421F3B1164BEF0D00C55BAE /* box2d.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = box2d.xcodeproj; path = /Users/blackdog/Documents/workspace/ethanon/toolkit/Source/projects/xcode/../../src/box2d/Build/xcode/box2d.xcodeproj; sourceTree = "<absolute>"; };
+		7421F3AB164BEEFF00C55BAE /* gs2d.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = gs2d.xcodeproj; path = ../../../../../../ethanon/toolkit/Source/src/gs2d/projects/xcode/gs2d/gs2d.xcodeproj; sourceTree = "<group>"; };
+		7421F3B1164BEF0D00C55BAE /* box2d.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = box2d.xcodeproj; path = ../../../../../../ethanon/toolkit/Source/src/box2d/Build/xcode/box2d.xcodeproj; sourceTree = "<group>"; };
 		7421F3DE164BEF9900C55BAE /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = ../../../src/gs2d/vendors/SDL.framework; sourceTree = "<group>"; };
 		7421F3E4164BF10C00C55BAE /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = ../../../src/gs2d/vendors/SDL.framework; sourceTree = "<group>"; };
 		7421F3E9164BF24C00C55BAE /* SDLMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLMain.h; path = ../../../../src/gs2d/src/Platform/macosx/SDLMain.h; sourceTree = "<group>"; };
@@ -174,6 +152,8 @@
 		7421F43D16518D9F00C55BAE /* editor_icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = editor_icon.icns; sourceTree = "<group>"; };
 		7421F4711651B22000C55BAE /* MainSharedHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MainSharedHeader.h; path = ../../../../src/gs2d/src/Platform/MainSharedHeader.h; sourceTree = "<group>"; };
 		745C90E5166952DC00F3E4EC /* Cg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cg.framework; path = ../../../src/gs2d/vendors/Cg.framework; sourceTree = "<group>"; };
+		74F0D1C316971996009A3C78 /* box2d.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = box2d.framework; path = "../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gvjozjhkkmktongujlmxpcntgfaw/Build/Products/Release/box2d.framework"; sourceTree = "<group>"; };
+		74F0D1CA16971A47009A3C78 /* gs2d.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = gs2d.framework; path = "../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gvjozjhkkmktongujlmxpcntgfaw/Build/Products/Release/gs2d.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,9 +161,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74F0D1CB16971A47009A3C78 /* gs2d.framework in Frameworks */,
+				74F0D1C416971996009A3C78 /* box2d.framework in Frameworks */,
 				7421F3E0164BEFA300C55BAE /* engine.framework in Frameworks */,
 				7421F3DF164BEF9900C55BAE /* SDL.framework in Frameworks */,
-				7421F3DD164BEF7300C55BAE /* gs2d.framework in Frameworks */,
 				7421F388164BED3200C55BAE /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -194,6 +175,8 @@
 		7421F378164BED3200C55BAE = {
 			isa = PBXGroup;
 			children = (
+				74F0D1CA16971A47009A3C78 /* gs2d.framework */,
+				74F0D1C316971996009A3C78 /* box2d.framework */,
 				745C90E5166952DC00F3E4EC /* Cg.framework */,
 				7421F43D16518D9F00C55BAE /* editor_icon.icns */,
 				7421F4391651587C00C55BAE /* icon.icns */,
@@ -261,22 +244,6 @@
 				7421F395164BED3200C55BAE /* Ethanon Editor-Prefix.pch */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		7421F3AC164BEEFF00C55BAE /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				7421F3B0164BEEFF00C55BAE /* gs2d.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		7421F3B2164BEF0D00C55BAE /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				7421F3B6164BEF0D00C55BAE /* box2d.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		7421F3D6164BEF4E00C55BAE /* Products */ = {
@@ -378,7 +345,6 @@
 			);
 			dependencies = (
 				7421F3DC164BEF5700C55BAE /* PBXTargetDependency */,
-				7421F3B8164BEF3A00C55BAE /* PBXTargetDependency */,
 			);
 			name = "Ethanon Editor";
 			productName = "Ethanon Editor";
@@ -407,16 +373,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 7421F3B2164BEF0D00C55BAE /* Products */;
-					ProjectRef = 7421F3B1164BEF0D00C55BAE /* box2d.xcodeproj */;
-				},
-				{
 					ProductGroup = 7421F3D6164BEF4E00C55BAE /* Products */;
 					ProjectRef = 7421F3A9164BEEF300C55BAE /* engine.xcodeproj */;
-				},
-				{
-					ProductGroup = 7421F3AC164BEEFF00C55BAE /* Products */;
-					ProjectRef = 7421F3AB164BEEFF00C55BAE /* gs2d.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -427,20 +385,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		7421F3B0164BEEFF00C55BAE /* gs2d.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = gs2d.framework;
-			remoteRef = 7421F3AF164BEEFF00C55BAE /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		7421F3B6164BEF0D00C55BAE /* box2d.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = box2d.framework;
-			remoteRef = 7421F3B5164BEF0D00C55BAE /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		7421F3DA164BEF4E00C55BAE /* engine.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -486,11 +430,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		7421F3B8164BEF3A00C55BAE /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = gs2d;
-			targetProxy = 7421F3B7164BEF3A00C55BAE /* PBXContainerItemProxy */;
-		};
 		7421F3DC164BEF5700C55BAE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = engine;
@@ -570,6 +509,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../src/gs2d/vendors\"",
+					"\"$(SRCROOT)/../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gvjozjhkkmktongujlmxpcntgfaw/Build/Products/Release\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Ethanon Editor/Ethanon Editor-Prefix.pch";
@@ -605,6 +545,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../src/gs2d/vendors\"",
+					"\"$(SRCROOT)/../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gvjozjhkkmktongujlmxpcntgfaw/Build/Products/Release\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Ethanon Editor/Ethanon Editor-Prefix.pch";

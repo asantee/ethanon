@@ -163,8 +163,6 @@
 		7421F2BA164741F300C55BAE /* tinyxml.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F2B4164741F300C55BAE /* tinyxml.h */; };
 		7421F2BB164741F300C55BAE /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F2B5164741F300C55BAE /* tinyxmlerror.cpp */; };
 		7421F2BC164741F300C55BAE /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F2B6164741F300C55BAE /* tinyxmlparser.cpp */; };
-		7421F2EF1648415D00C55BAE /* box2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F2EE1648415D00C55BAE /* box2d.framework */; };
-		7421F2F11648417C00C55BAE /* gs2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F2F01648417C00C55BAE /* gs2d.framework */; };
 		7421F436164D8E4000C55BAE /* FileListing.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7421F435164D8E4000C55BAE /* FileListing.mm */; };
 		7423B6A5166005CF008848EA /* ETHScriptWrapper.SharedData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7423B6A4166005CF008848EA /* ETHScriptWrapper.SharedData.cpp */; };
 		7429A2A11662600E00134A7E /* ETHEntityPieceRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7429A29F1662600E00134A7E /* ETHEntityPieceRenderer.cpp */; };
@@ -175,7 +173,9 @@
 		7429A2AE16627E8000134A7E /* ETHEntityParticleRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7429A2AC16627E8000134A7E /* ETHEntityParticleRenderer.h */; };
 		7429A2B11663AF2200134A7E /* ETHEntityHaloRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7429A2AF1663AF2200134A7E /* ETHEntityHaloRenderer.cpp */; };
 		7429A2B21663AF2200134A7E /* ETHEntityHaloRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7429A2B01663AF2200134A7E /* ETHEntityHaloRenderer.h */; };
-		74490C4416764D35004116B5 /* libangelscript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74490C4116763ED1004116B5 /* libangelscript.a */; };
+		74C111DF16971F1F00AEDCE1 /* box2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C111CD16971EAB00AEDCE1 /* box2d.framework */; };
+		74C111E016971F2300AEDCE1 /* gs2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C111D316971EAB00AEDCE1 /* gs2d.framework */; };
+		74C111E116971F2700AEDCE1 /* libangelscript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C111D816971EAB00AEDCE1 /* libangelscript.a */; };
 		74EB49AC16653D0A002DA2F0 /* ETHEntityRenderingManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74EB49AA16653D0A002DA2F0 /* ETHEntityRenderingManager.cpp */; };
 		74EB49AD16653D0A002DA2F0 /* ETHEntityRenderingManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 74EB49AB16653D0A002DA2F0 /* ETHEntityRenderingManager.h */; };
 		74F00AD71646B9EB00B8B51B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F00AD61646B9EB00B8B51B /* Cocoa.framework */; };
@@ -183,16 +183,44 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		74490C4016763ED1004116B5 /* PBXContainerItemProxy */ = {
+		74C111CC16971EAB00AEDCE1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 74490C3C16763ED1004116B5 /* angelscript.xcodeproj */;
+			containerPortal = 74F0D197169703E7009A3C78 /* box2d.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7421F162164734E900C55BAE;
+			remoteInfo = box2d;
+		};
+		74C111D216971EAB00AEDCE1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 74F0D191169703C9009A3C78 /* gs2d.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 74F3A4F61632E3870064C9A5;
+			remoteInfo = gs2d;
+		};
+		74C111D716971EAB00AEDCE1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 74F0D19D169703F1009A3C78 /* angelscript.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 74490B8916763D0B004116B5;
 			remoteInfo = angelscript;
 		};
-		74490C4216764D2C004116B5 /* PBXContainerItemProxy */ = {
+		74C111D916971EC500AEDCE1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 74490C3C16763ED1004116B5 /* angelscript.xcodeproj */;
+			containerPortal = 74F0D191169703C9009A3C78 /* gs2d.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 74F3A4F51632E3870064C9A5;
+			remoteInfo = gs2d;
+		};
+		74C111DB16971ED400AEDCE1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 74F0D197169703E7009A3C78 /* box2d.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 7421F161164734E900C55BAE;
+			remoteInfo = box2d;
+		};
+		74C111DD16971ED800AEDCE1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 74F0D19D169703F1009A3C78 /* angelscript.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 74490B8816763D0B004116B5;
 			remoteInfo = angelscript;
@@ -368,8 +396,6 @@
 		7421F2B4164741F300C55BAE /* tinyxml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tinyxml.h; path = ../../../src/vendors/tinyxml_ansi/tinyxml.h; sourceTree = "<group>"; };
 		7421F2B5164741F300C55BAE /* tinyxmlerror.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxmlerror.cpp; path = ../../../src/vendors/tinyxml_ansi/tinyxmlerror.cpp; sourceTree = "<group>"; };
 		7421F2B6164741F300C55BAE /* tinyxmlparser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxmlparser.cpp; path = ../../../src/vendors/tinyxml_ansi/tinyxmlparser.cpp; sourceTree = "<group>"; };
-		7421F2EE1648415D00C55BAE /* box2d.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = box2d.framework; path = "../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gxkgpuwgwqxighfefncafkvqrxui/Build/Products/Debug/box2d.framework"; sourceTree = "<group>"; };
-		7421F2F01648417C00C55BAE /* gs2d.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = gs2d.framework; path = "../../../../../../../../Library/Developer/Xcode/DerivedData/Ethanon-gxkgpuwgwqxighfefncafkvqrxui/Build/Products/Debug/gs2d.framework"; sourceTree = "<group>"; };
 		7421F435164D8E4000C55BAE /* FileListing.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = FileListing.mm; path = ../../../../src/engine/Platform/macosx/FileListing.mm; sourceTree = "<group>"; };
 		7423B6A4166005CF008848EA /* ETHScriptWrapper.SharedData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptWrapper.SharedData.cpp; path = ../../../../src/engine/Script/ETHScriptWrapper.SharedData.cpp; sourceTree = "<group>"; };
 		7429A29F1662600E00134A7E /* ETHEntityPieceRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityPieceRenderer.cpp; path = ../../../../src/engine/Renderer/ETHEntityPieceRenderer.cpp; sourceTree = "<group>"; };
@@ -380,7 +406,6 @@
 		7429A2AC16627E8000134A7E /* ETHEntityParticleRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityParticleRenderer.h; path = ../../../../src/engine/Renderer/ETHEntityParticleRenderer.h; sourceTree = "<group>"; };
 		7429A2AF1663AF2200134A7E /* ETHEntityHaloRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityHaloRenderer.cpp; path = ../../../../src/engine/Renderer/ETHEntityHaloRenderer.cpp; sourceTree = "<group>"; };
 		7429A2B01663AF2200134A7E /* ETHEntityHaloRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityHaloRenderer.h; path = ../../../../src/engine/Renderer/ETHEntityHaloRenderer.h; sourceTree = "<group>"; };
-		74490C3C16763ED1004116B5 /* angelscript.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = angelscript.xcodeproj; path = /Users/blackdog/Documents/workspace/ethanon/toolkit/Source/projects/xcode/../../src/angelscript/projects/osx/angelscript/angelscript.xcodeproj; sourceTree = "<absolute>"; };
 		74EB49AA16653D0A002DA2F0 /* ETHEntityRenderingManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityRenderingManager.cpp; path = ../../../../src/engine/Renderer/ETHEntityRenderingManager.cpp; sourceTree = "<group>"; };
 		74EB49AB16653D0A002DA2F0 /* ETHEntityRenderingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityRenderingManager.h; path = ../../../../src/engine/Renderer/ETHEntityRenderingManager.h; sourceTree = "<group>"; };
 		74F00AD31646B9EB00B8B51B /* engine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = engine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -391,6 +416,10 @@
 		74F00ADE1646B9EB00B8B51B /* engine-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "engine-Info.plist"; sourceTree = "<group>"; };
 		74F00AE01646B9EB00B8B51B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		74F00AE21646B9EB00B8B51B /* engine-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "engine-Prefix.pch"; sourceTree = "<group>"; };
+		74F0D191169703C9009A3C78 /* gs2d.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = gs2d.xcodeproj; path = ../../../src/gs2d/projects/xcode/gs2d/gs2d.xcodeproj; sourceTree = "<group>"; };
+		74F0D197169703E7009A3C78 /* box2d.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = box2d.xcodeproj; path = ../../../src/box2d/Build/xcode/box2d.xcodeproj; sourceTree = "<group>"; };
+		74F0D19D169703F1009A3C78 /* angelscript.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = angelscript.xcodeproj; path = ../../../src/angelscript/projects/osx/angelscript/angelscript.xcodeproj; sourceTree = "<group>"; };
+		74F0D1BC169716F8009A3C78 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = ../../../src/gs2d/vendors/SDL.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -398,9 +427,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				74490C4416764D35004116B5 /* libangelscript.a in Frameworks */,
-				7421F2F11648417C00C55BAE /* gs2d.framework in Frameworks */,
-				7421F2EF1648415D00C55BAE /* box2d.framework in Frameworks */,
+				74C111E116971F2700AEDCE1 /* libangelscript.a in Frameworks */,
+				74C111E016971F2300AEDCE1 /* gs2d.framework in Frameworks */,
+				74C111DF16971F1F00AEDCE1 /* box2d.framework in Frameworks */,
 				74F00AD71646B9EB00B8B51B /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -651,14 +680,6 @@
 			name = Renderer;
 			sourceTree = "<group>";
 		};
-		74490C3D16763ED1004116B5 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				74490C4116763ED1004116B5 /* libangelscript.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		7487A51F1646DD24002DD331 /* Util */ = {
 			isa = PBXGroup;
 			children = (
@@ -680,17 +701,42 @@
 			name = Util;
 			sourceTree = "<group>";
 		};
+		74C111C516971EAB00AEDCE1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				74C111CD16971EAB00AEDCE1 /* box2d.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		74C111CF16971EAB00AEDCE1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				74C111D316971EAB00AEDCE1 /* gs2d.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		74C111D416971EAB00AEDCE1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				74C111D816971EAB00AEDCE1 /* libangelscript.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		74F00AC71646B9EB00B8B51B = {
 			isa = PBXGroup;
 			children = (
-				7421F2F01648417C00C55BAE /* gs2d.framework */,
-				7421F2EE1648415D00C55BAE /* box2d.framework */,
+				74F0D1BC169716F8009A3C78 /* SDL.framework */,
 				74F00ADC1646B9EB00B8B51B /* engine */,
 				7421F28C1647413C00C55BAE /* addons */,
 				7421F2B0164741B700C55BAE /* tinyxml */,
 				74F00AD51646B9EB00B8B51B /* Frameworks */,
 				74F00AD41646B9EB00B8B51B /* Products */,
-				74490C3C16763ED1004116B5 /* angelscript.xcodeproj */,
+				74F0D19D169703F1009A3C78 /* angelscript.xcodeproj */,
+				74F0D197169703E7009A3C78 /* box2d.xcodeproj */,
+				74F0D191169703C9009A3C78 /* gs2d.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
@@ -860,7 +906,9 @@
 			buildRules = (
 			);
 			dependencies = (
-				74490C4316764D2C004116B5 /* PBXTargetDependency */,
+				74C111DE16971ED800AEDCE1 /* PBXTargetDependency */,
+				74C111DC16971ED400AEDCE1 /* PBXTargetDependency */,
+				74C111DA16971EC500AEDCE1 /* PBXTargetDependency */,
 			);
 			name = engine;
 			productName = engine;
@@ -888,8 +936,16 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 74490C3D16763ED1004116B5 /* Products */;
-					ProjectRef = 74490C3C16763ED1004116B5 /* angelscript.xcodeproj */;
+					ProductGroup = 74C111D416971EAB00AEDCE1 /* Products */;
+					ProjectRef = 74F0D19D169703F1009A3C78 /* angelscript.xcodeproj */;
+				},
+				{
+					ProductGroup = 74C111C516971EAB00AEDCE1 /* Products */;
+					ProjectRef = 74F0D197169703E7009A3C78 /* box2d.xcodeproj */;
+				},
+				{
+					ProductGroup = 74C111CF16971EAB00AEDCE1 /* Products */;
+					ProjectRef = 74F0D191169703C9009A3C78 /* gs2d.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -900,11 +956,25 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		74490C4116763ED1004116B5 /* libangelscript.a */ = {
+		74C111CD16971EAB00AEDCE1 /* box2d.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = box2d.framework;
+			remoteRef = 74C111CC16971EAB00AEDCE1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		74C111D316971EAB00AEDCE1 /* gs2d.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = gs2d.framework;
+			remoteRef = 74C111D216971EAB00AEDCE1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		74C111D816971EAB00AEDCE1 /* libangelscript.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libangelscript.a;
-			remoteRef = 74490C4016763ED1004116B5 /* PBXContainerItemProxy */;
+			remoteRef = 74C111D716971EAB00AEDCE1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1018,10 +1088,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		74490C4316764D2C004116B5 /* PBXTargetDependency */ = {
+		74C111DA16971EC500AEDCE1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = gs2d;
+			targetProxy = 74C111D916971EC500AEDCE1 /* PBXContainerItemProxy */;
+		};
+		74C111DC16971ED400AEDCE1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = box2d;
+			targetProxy = 74C111DB16971ED400AEDCE1 /* PBXContainerItemProxy */;
+		};
+		74C111DE16971ED800AEDCE1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = angelscript;
-			targetProxy = 74490C4216764D2C004116B5 /* PBXContainerItemProxy */;
+			targetProxy = 74C111DD16971ED800AEDCE1 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1096,7 +1176,10 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../src/gs2d/vendors\"",
+				);
 				FRAMEWORK_VERSION = A;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "engine/engine-Prefix.pch";
@@ -1117,6 +1200,7 @@
 				INFOPLIST_FILE = "engine/engine-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.7;
 				WRAPPER_EXTENSION = framework;
@@ -1131,7 +1215,10 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../src/gs2d/vendors\"",
+				);
 				FRAMEWORK_VERSION = A;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "engine/engine-Prefix.pch";
@@ -1150,6 +1237,7 @@
 				INFOPLIST_FILE = "engine/engine-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.7;
 				WRAPPER_EXTENSION = framework;
