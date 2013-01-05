@@ -15,7 +15,7 @@ BEGIN
             VALUE "FileVersion", "0.9.7"
             VALUE "FileDescription", "Ethanon engine executable"
             VALUE "InternalName", ""
-            VALUE "LegalCopyright", "Copyright © 2009-2012 Andre Santee"
+            VALUE "LegalCopyright", "Copyright © 2009-2013 Andre Santee"
             VALUE "LegalTrademarks", ""
             VALUE "OriginalFilename", ""
             VALUE "ProductName", "Ethanon Engine"
