@@ -20,6 +20,10 @@
 		<string>Default-Landscape~ipad.png</string>
 		<string>Default-Portrait~ipad.png</string>
 		<string>Default-Portrait~ipad.png</string>
+		<string>ethanon_icon_72.png</string>
+		<string>ethanon_icon_144.png</string>
+		<string>ethanon_icon_57.png</string>
+		<string>ethanon_icon_114.png</string>
 	</array>
 	<key>CFBundleIcons</key>
 	<dict>
@@ -37,6 +41,10 @@
 				<string>Default-Landscape~ipad.png</string>
 				<string>Default-Portrait~ipad.png</string>
 				<string>Default-Portrait~ipad.png</string>
+				<string>ethanon_icon_72.png</string>
+				<string>ethanon_icon_144.png</string>
+				<string>ethanon_icon_57.png</string>
+				<string>ethanon_icon_114.png</string>
 			</array>
 		</dict>
 	</dict>

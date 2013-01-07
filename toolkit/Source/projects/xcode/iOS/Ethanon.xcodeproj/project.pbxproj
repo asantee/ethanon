@@ -218,6 +218,11 @@
 		749CB4731666554F00939B0A /* ETHEntityPieceRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 749CB46B1666554F00939B0A /* ETHEntityPieceRenderer.cpp */; };
 		749CB4741666554F00939B0A /* ETHEntityRenderingManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 749CB46D1666554F00939B0A /* ETHEntityRenderingManager.cpp */; };
 		749CB4751666554F00939B0A /* ETHEntitySpriteRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 749CB46F1666554F00939B0A /* ETHEntitySpriteRenderer.cpp */; };
+		74E50D23169B796F00256A31 /* UTF8Converter.dummy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E50D21169B796F00256A31 /* UTF8Converter.dummy.cpp */; };
+		74E50D27169B7D7F00256A31 /* ethanon_icon_72.png in Resources */ = {isa = PBXBuildFile; fileRef = 74E50D26169B7D7F00256A31 /* ethanon_icon_72.png */; };
+		74E50D29169B7D8D00256A31 /* ethanon_icon_144.png in Resources */ = {isa = PBXBuildFile; fileRef = 74E50D28169B7D8D00256A31 /* ethanon_icon_144.png */; };
+		74E50D2B169B7DA400256A31 /* ethanon_icon_57.png in Resources */ = {isa = PBXBuildFile; fileRef = 74E50D2A169B7DA400256A31 /* ethanon_icon_57.png */; };
+		74E50D2D169B7DAB00256A31 /* ethanon_icon_114.png in Resources */ = {isa = PBXBuildFile; fileRef = 74E50D2C169B7DAB00256A31 /* ethanon_icon_114.png */; };
 		74FBEF4214374E4100C67129 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74FBEF4114374E4100C67129 /* AudioToolbox.framework */; };
 		74FBEF4414374E5100C67129 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74FBEF4314374E5100C67129 /* AVFoundation.framework */; };
 		74FBEF4614374E5F00C67129 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74FBEF4514374E5F00C67129 /* OpenAL.framework */; };
@@ -660,6 +665,12 @@
 		749CB46E1666554F00939B0A /* ETHEntityRenderingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityRenderingManager.h; path = ../../../src/engine/Renderer/ETHEntityRenderingManager.h; sourceTree = "<group>"; };
 		749CB46F1666554F00939B0A /* ETHEntitySpriteRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntitySpriteRenderer.cpp; path = ../../../src/engine/Renderer/ETHEntitySpriteRenderer.cpp; sourceTree = "<group>"; };
 		749CB4701666554F00939B0A /* ETHEntitySpriteRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntitySpriteRenderer.h; path = ../../../src/engine/Renderer/ETHEntitySpriteRenderer.h; sourceTree = "<group>"; };
+		74E50D21169B796F00256A31 /* UTF8Converter.dummy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UTF8Converter.dummy.cpp; path = ../../../src/gs2d/src/Unicode/UTF8Converter.dummy.cpp; sourceTree = "<group>"; };
+		74E50D22169B796F00256A31 /* UTF8Converter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UTF8Converter.h; path = ../../../src/gs2d/src/Unicode/UTF8Converter.h; sourceTree = "<group>"; };
+		74E50D26169B7D7F00256A31 /* ethanon_icon_72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ethanon_icon_72.png; sourceTree = "<group>"; };
+		74E50D28169B7D8D00256A31 /* ethanon_icon_144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ethanon_icon_144.png; sourceTree = "<group>"; };
+		74E50D2A169B7DA400256A31 /* ethanon_icon_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ethanon_icon_57.png; sourceTree = "<group>"; };
+		74E50D2C169B7DAB00256A31 /* ethanon_icon_114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ethanon_icon_114.png; sourceTree = "<group>"; };
 		74F451AA143F419600AF7B17 /* Ethanon.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Ethanon.entitlements; sourceTree = "<group>"; };
 		74FBEF4114374E4100C67129 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		74FBEF4314374E5100C67129 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -764,6 +775,10 @@
 		74868C5214374C3B00E7B3DD = {
 			isa = PBXGroup;
 			children = (
+				74E50D2C169B7DAB00256A31 /* ethanon_icon_114.png */,
+				74E50D2A169B7DA400256A31 /* ethanon_icon_57.png */,
+				74E50D28169B7D8D00256A31 /* ethanon_icon_144.png */,
+				74E50D26169B7D7F00256A31 /* ethanon_icon_72.png */,
 				7445451E16039A89007CC0FB /* Default-568h@2x.png */,
 				7485030E1562BD0300E2104A /* Default-Portrait~ipad.png */,
 				7485030C1562BCF300E2104A /* Default-Landscape~ipad.png */,
@@ -1010,6 +1025,15 @@
 			name = Shader;
 			sourceTree = "<group>";
 		};
+		74E50D25169B799900256A31 /* Unicode */ = {
+			isa = PBXGroup;
+			children = (
+				74E50D21169B796F00256A31 /* UTF8Converter.dummy.cpp */,
+				74E50D22169B796F00256A31 /* UTF8Converter.h */,
+			);
+			name = Unicode;
+			sourceTree = "<group>";
+		};
 		74F64C081626729400CB2C13 /* Register */ = {
 			isa = PBXGroup;
 			children = (
@@ -1039,6 +1063,7 @@
 		74FBEF52143769E400C67129 /* GS2D */ = {
 			isa = PBXGroup;
 			children = (
+				74E50D25169B799900256A31 /* Unicode */,
 				7479C8AC162640950059402B /* Enml */,
 				7479C89E16263BF80059402B /* Math */,
 				74FBEF7F14376A9E00C67129 /* Platform */,
@@ -1544,6 +1569,10 @@
 				7485030D1562BCF300E2104A /* Default-Landscape~ipad.png in Resources */,
 				7485030F1562BD0300E2104A /* Default-Portrait~ipad.png in Resources */,
 				7445451F16039A89007CC0FB /* Default-568h@2x.png in Resources */,
+				74E50D27169B7D7F00256A31 /* ethanon_icon_72.png in Resources */,
+				74E50D29169B7D8D00256A31 /* ethanon_icon_144.png in Resources */,
+				74E50D2B169B7DA400256A31 /* ethanon_icon_57.png in Resources */,
+				74E50D2D169B7DAB00256A31 /* ethanon_icon_114.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1758,6 +1787,7 @@
 				749CB4741666554F00939B0A /* ETHEntityRenderingManager.cpp in Sources */,
 				749CB4751666554F00939B0A /* ETHEntitySpriteRenderer.cpp in Sources */,
 				747F75D61668F3000004CB39 /* IOSNativeCommandListener.mm in Sources */,
+				74E50D23169B796F00256A31 /* UTF8Converter.dummy.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
