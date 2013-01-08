@@ -30,7 +30,6 @@
 
 #include "../../Platform/FileIOHub.h"
 #include <map>
-#include <sys/time.h>
 
 #define _GS2D_GLES2_MAX_MULTI_TEXTURES 2
 
@@ -44,6 +43,7 @@ typedef boost::shared_ptr<GLES2ShaderContext> GLES2ShaderContextPtr;
 class GLES2Video : public Video, public Platform::NativeCommandForwarder
 {
 	friend class IOSGLES2Video;
+	friend class AndroidGLES2Video;
 
 	GLES2Video(
 		const unsigned int width,
@@ -278,7 +278,6 @@ protected:
 		m_fastRenderVS, m_optimalVS, m_modulate1, m_add1;
 	math::Matrix4x4 m_orthoMatrix;
 	float m_fpsRate;
-	timeval m_lastTime;
 
 	Video::TEXTUREFILTER_MODE m_textureFilterMode;
 
@@ -300,11 +299,6 @@ protected:
 		const bool maximizable = false);
 
 	Platform::FileIOHubPtr GetFileIOHub();
-
-	//unsigned long GetElapsedTime(const TIME_UNITY unity = TU_MILLISECONDS) const;
-	//float GetElapsedTimeF(const TIME_UNITY unity = TU_MILLISECONDS) const;
-	//double GetElapsedTimeD(const TIME_UNITY unity = TU_MILLISECONDS) const;
-	//void ResetTimer();
 };
 	
 void UnbindFrameBuffer();

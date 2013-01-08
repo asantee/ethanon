@@ -36,6 +36,7 @@ LOCAL_SRC_FILES := \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Video/GLES2/GLES2Texture.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Video/GLES2/GLES2RectRenderer.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Video/GLES2/GLES2UniformParameter.cpp \
+	$(GS2D_SOURCE_RELATIVE_PATH)/Video/GLES2/android/AndroidGLES2Video.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Input/Android/AndroidInput.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Input/MobileInput.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Input/KeyStateManager.cpp \

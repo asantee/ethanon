@@ -39,7 +39,6 @@
 #include "GLES2Sprite.h"
 
 #include <sstream>
-#include <time.h>
 
 namespace gs2d {
 
@@ -916,50 +915,6 @@ void GLES2Video::Message(const str_type::string& text, const GS_MESSAGE_TYPE typ
 	}
 	m_logger.Log(str + text, logType);
 }
-
-// the boost timer is behaving very strange on iOS, so this method will be implemented outside
-/*float GLES2Video::GetElapsedTimeF(const TIME_UNITY unity) const
-{
-	return static_cast<float>(GetElapsedTimeD(unity));
-}
-
-unsigned long GLES2Video::GetElapsedTime(const TIME_UNITY unity) const
-{
-	return static_cast<unsigned long>(GetElapsedTimeD(unity));
-}*/
-
-/*double GLES2Video::GetElapsedTimeD(const TIME_UNITY unity) const
-{
-	struct timespec current;
-	clock_gettime(CLOCK_MONOTONIC, &current);
-	const double curr = current.tv_sec    + (current.tv_nsec    / 1000000000);
-	const double last = m_lastTime.tv_sec + (m_lastTime.tv_nsec / 1000000000);
-
-	double elapsedTimeS = curr - last;
-
-	switch (unity)
-	{
-	case TU_HOURS:
-		elapsedTimeS /= 60.0;
-		elapsedTimeS /= 60.0;
-		break;
-	case TU_MINUTES:
-		elapsedTimeS /= 60.0;
-		break;
-	case TU_MILLISECONDS:
-		elapsedTimeS *= 1000.0;
-	case TU_SECONDS:
-	default:
-		break;
-	};
-	return elapsedTimeS;
-}*/
-
-/*void GLES2Video::ResetTimer()
-{
-	//clock_gettime(CLOCK_MONOTONIC, &m_lastTime);
-	gettimeofday(&m_lastTime, NULL);
-}*/
 
 void GLES2Video::Quit()
 {
