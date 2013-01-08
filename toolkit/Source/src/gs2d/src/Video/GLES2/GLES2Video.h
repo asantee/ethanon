@@ -53,6 +53,9 @@ class GLES2Video : public Video, public Platform::NativeCommandForwarder
 
 	boost::weak_ptr<GLES2Video> weak_this;
 
+	float m_previousTime;
+	unsigned long m_frameCount;
+
 public:
 	static const float ZNEAR;
 	static const float ZFAR;

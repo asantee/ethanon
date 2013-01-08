@@ -168,7 +168,9 @@ JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_mainLoop(JNIEnv* env, jo
 		{
 			StartApplication();
 		}
-		application->Update(Min(static_cast<unsigned long>(1000), ComputeElapsedTime(video)));
+
+		const unsigned long lastFrameElapsedTime = ComputeElapsedTime(video);
+		application->Update(Min(static_cast<unsigned long>(1000), lastFrameElapsedTime));
 		application->RenderFrame();
 	}
 	else

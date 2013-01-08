@@ -91,7 +91,9 @@ GLES2Video::GLES2Video(
 	m_blend(false),
 	m_zBuffer(true),
 	m_zWrite(true),
-	m_fileIOHub(fileIOHub)
+	m_fileIOHub(fileIOHub),
+	m_frameCount(0),
+	m_previousTime(0)
 {
 	for (std::size_t t = 0; t < _GS2D_GLES2_MAX_MULTI_TEXTURES; t++)
 	{
@@ -715,7 +717,6 @@ bool GLES2Video::BeginSpriteScene(const Color& dwBGColor)
 bool GLES2Video::EndSpriteScene()
 {
 	m_rendering = false;
-	ComputeFPSRate();
 	return true;
 }
 
@@ -863,6 +864,7 @@ Vector2i GLES2Video::GetClientScreenSize() const
 
 Application::APP_STATUS GLES2Video::HandleEvents()
 {
+	ComputeFPSRate();
 	if (m_quit)
 	{
 		Command(Platform::NativeCommandAssembler::QuitApplication());
@@ -877,20 +879,16 @@ float GLES2Video::GetFPSRate() const
 
 void GLES2Video::ComputeFPSRate()
 {
-	static float counter = 0.0f;
-	const clock_t current = GetElapsedTime(TU_MILLISECONDS);
-	static clock_t last = current;
+	m_frameCount++;
 
-	const clock_t elapsed = current - last;
-	if (elapsed > 500)
+	const float currentTime = GetElapsedTimeF(TU_SECONDS);
+	const float timeInterval = currentTime - m_previousTime;
+
+	if (timeInterval > 1.0f)
 	{
-		m_fpsRate = (counter * 2);
-		counter = 0.0f;
-		last = current;
-	}
-	else
-	{
-		counter++;
+		m_fpsRate = static_cast<float>(m_frameCount) * (timeInterval);
+		m_previousTime = currentTime;
+		m_frameCount = 0;
 	}
 }
 
