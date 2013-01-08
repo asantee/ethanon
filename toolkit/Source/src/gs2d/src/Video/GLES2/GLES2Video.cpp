@@ -39,6 +39,7 @@
 #include "GLES2Sprite.h"
 
 #include <sstream>
+#include <time.h>
 
 namespace gs2d {
 
@@ -74,11 +75,6 @@ GLES2ShaderPtr LoadInternalShader(GLES2Video* video, const str_type::string& str
 	return shader;
 }
 
-GS2D_API VideoPtr CreateVideo(const unsigned int width, const unsigned int height, const Platform::FileIOHubPtr& fileIOHub)
-{
-	return GLES2Video::Create(width, height, GS_L("GS2D"), fileIOHub);
-}
-
 GLES2Video::GLES2Video(
 	const unsigned int width,
 	const unsigned int height,
@@ -103,22 +99,10 @@ GLES2Video::GLES2Video(
 		m_blendModes[t] = Video::BM_MODULATE;
 	}
 
-	ResetTimer();
 	m_logger.Log("Creating shader context...", Platform::FileLogger::INFO);
 	m_shaderContext = GLES2ShaderContextPtr(new GLES2ShaderContext(this));
 	m_logger.Log("StartApplication...", Platform::FileLogger::INFO);
 	StartApplication(width, height, winTitle, false, false, Texture::PF_DEFAULT, false);
-}
-
-boost::shared_ptr<GLES2Video> GLES2Video::Create(
-	const unsigned int width,
-	const unsigned int height,
-	const str_type::string& winTitle,
-	const Platform::FileIOHubPtr& fileIOHub)
-{
-	boost::shared_ptr<GLES2Video> p(new GLES2Video(width, height, winTitle, fileIOHub));
-	p->weak_this = p;
-	return p;
 }
 
 static bool HasFragmentShaderMaximumPrecision()
@@ -934,8 +918,7 @@ void GLES2Video::Message(const str_type::string& text, const GS_MESSAGE_TYPE typ
 }
 
 // the boost timer is behaving very strange on iOS, so this method will be implemented outside
-#ifndef APPLE_IOS
-float GLES2Video::GetElapsedTimeF(const TIME_UNITY unity) const
+/*float GLES2Video::GetElapsedTimeF(const TIME_UNITY unity) const
 {
 	return static_cast<float>(GetElapsedTimeD(unity));
 }
@@ -943,15 +926,17 @@ float GLES2Video::GetElapsedTimeF(const TIME_UNITY unity) const
 unsigned long GLES2Video::GetElapsedTime(const TIME_UNITY unity) const
 {
 	return static_cast<unsigned long>(GetElapsedTimeD(unity));
-}
+}*/
 
-double GLES2Video::GetElapsedTimeD(const TIME_UNITY unity) const
+/*double GLES2Video::GetElapsedTimeD(const TIME_UNITY unity) const
 {
-	timeval current;
-	gettimeofday(&current, NULL);
-	const double curr = current.tv_sec    + (current.tv_usec    / 1000000.0);
-	const double last = m_lastTime.tv_sec + (m_lastTime.tv_usec / 1000000.0);
+	struct timespec current;
+	clock_gettime(CLOCK_MONOTONIC, &current);
+	const double curr = current.tv_sec    + (current.tv_nsec    / 1000000000);
+	const double last = m_lastTime.tv_sec + (m_lastTime.tv_nsec / 1000000000);
+
 	double elapsedTimeS = curr - last;
+
 	switch (unity)
 	{
 	case TU_HOURS:
@@ -968,13 +953,13 @@ double GLES2Video::GetElapsedTimeD(const TIME_UNITY unity) const
 		break;
 	};
 	return elapsedTimeS;
-}
-#endif
+}*/
 
-void GLES2Video::ResetTimer()
+/*void GLES2Video::ResetTimer()
 {
+	//clock_gettime(CLOCK_MONOTONIC, &m_lastTime);
 	gettimeofday(&m_lastTime, NULL);
-}
+}*/
 
 void GLES2Video::Quit()
 {

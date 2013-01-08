@@ -43,6 +43,8 @@ typedef boost::shared_ptr<GLES2ShaderContext> GLES2ShaderContextPtr;
 
 class GLES2Video : public Video, public Platform::NativeCommandForwarder
 {
+	friend class IOSGLES2Video;
+
 	GLES2Video(
 		const unsigned int width,
 		const unsigned int height,
@@ -56,12 +58,6 @@ public:
 	static const float ZFAR;
 	static const str_type::string VIDEO_LOG_FILE;
 	static const unsigned long ALPHAREF;
-
-	static boost::shared_ptr<GLES2Video> Create(
-		const unsigned int width,
-		const unsigned int height,
-		const str_type::string& winTitle,
-		const Platform::FileIOHubPtr& fileIOHub);
 
 	static void CheckGLError(const str_type::string& op, const Platform::FileLogger& logger);
 
@@ -228,9 +224,6 @@ public:
 	APP_STATUS HandleEvents();
 	float GetFPSRate() const;
 	void Message(const str_type::string& text, const GS_MESSAGE_TYPE type = GSMT_ERROR) const;
-	unsigned long GetElapsedTime(const TIME_UNITY unity = TU_MILLISECONDS) const;
-	float GetElapsedTimeF(const TIME_UNITY unity = TU_MILLISECONDS) const;
-	void ResetTimer();
 	void Quit();
 	void EnableQuitShortcuts(const bool enable);
 	bool QuitShortcutsEnabled();
@@ -259,7 +252,7 @@ public:
 	bool IsTrue(const GLboolean& enabled);
 	void SetBlend(const bool enable);
 
-private:
+protected:
 	Video::BLEND_MODE m_blendModes[_GS2D_GLES2_MAX_MULTI_TEXTURES];
 	GLES2TexturePtr m_blendTextures[_GS2D_GLES2_MAX_MULTI_TEXTURES];
 
@@ -308,10 +301,10 @@ private:
 
 	Platform::FileIOHubPtr GetFileIOHub();
 
-	#ifndef APPLE_IOS
-		double GetElapsedTimeD(const TIME_UNITY unity = TU_MILLISECONDS) const;
-	#endif
-
+	//unsigned long GetElapsedTime(const TIME_UNITY unity = TU_MILLISECONDS) const;
+	//float GetElapsedTimeF(const TIME_UNITY unity = TU_MILLISECONDS) const;
+	//double GetElapsedTimeD(const TIME_UNITY unity = TU_MILLISECONDS) const;
+	//void ResetTimer();
 };
 	
 void UnbindFrameBuffer();

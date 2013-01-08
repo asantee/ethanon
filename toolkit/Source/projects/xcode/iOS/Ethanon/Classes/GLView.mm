@@ -98,8 +98,6 @@
 		[[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
 	}
 
-	Platform::ios::StartTime::m_startTime = [[NSDate date] timeIntervalSince1970];
-
 	[self insertCommandListener:(Platform::NativeCommandListenerPtr(new Platform::IOSNativeCommmandListener(m_video)))];
 
 	NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
@@ -126,7 +124,6 @@
 
 	static bool render = false;
 
-	#warning to-do: do update and render on different threads
 	if (render)
 	{
 		m_engine->RenderFrame();
@@ -144,11 +141,8 @@
 		[self manageCommands];
 		m_input->Update();
 
-		static double lastTime = [[NSDate date] timeIntervalSince1970];
-		const double elapsedTime = [[NSDate date] timeIntervalSince1970] - lastTime;
-		lastTime = [[NSDate date] timeIntervalSince1970];
-
-		m_engine->Update(Min(static_cast<unsigned long>(1000), static_cast<unsigned long>(elapsedTime * 1000.0)));
+		const unsigned long elapsedTime = static_cast<unsigned long>(gs2d::ComputeElapsedTime(m_video));
+		m_engine->Update(Min(static_cast<unsigned long>(1000), elapsedTime));
 	}
 	render = !render;
 }

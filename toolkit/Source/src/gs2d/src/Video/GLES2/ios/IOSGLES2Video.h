@@ -20,19 +20,35 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#ifndef PLATFORM_IOS_H_
-#define PLATFORM_IOS_H_
+#ifndef GS2D_IOS_GLES2_H_
+#define GS2D_IOS_GLES2_H_
 
-#include "../StdAnsiFileManager.h"
-#include "../NativeCommandAssembler.h"
-#include "../NativeCommandForwarder.h"
-#include "../FileLogger.h"
+#include "../GLES2Video.h"
 
-namespace Platform {
-	gs2d::str_type::string ResourceDirectory();
-	gs2d::str_type::string ExternalStorageDirectory();
-	gs2d::str_type::string GlobalExternalStorageDirectory();
-	bool CreateDirectory(const std::string& path);
-} // namespace
+namespace gs2d {
+
+class IOSGLES2Video : public GLES2Video
+{
+	double m_startTime;
+
+public:
+	IOSGLES2Video(
+		const unsigned int width,
+		const unsigned int height,
+		const str_type::string& winTitle,
+		const Platform::FileIOHubPtr& fileIOHub);
+
+	static boost::shared_ptr<GLES2Video> Create(
+		const unsigned int width,
+		const unsigned int height,
+		const str_type::string& winTitle,
+		const Platform::FileIOHubPtr& fileIOHub);
+
+	float GetElapsedTimeF(const TIME_UNITY unity) const;
+	unsigned long GetElapsedTime(const TIME_UNITY unity) const;
+	void ResetTimer();
+};
+
+} // namespace gs2d
 
 #endif

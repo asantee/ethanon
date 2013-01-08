@@ -223,6 +223,7 @@
 		74E50D29169B7D8D00256A31 /* ethanon_icon_144.png in Resources */ = {isa = PBXBuildFile; fileRef = 74E50D28169B7D8D00256A31 /* ethanon_icon_144.png */; };
 		74E50D2B169B7DA400256A31 /* ethanon_icon_57.png in Resources */ = {isa = PBXBuildFile; fileRef = 74E50D2A169B7DA400256A31 /* ethanon_icon_57.png */; };
 		74E50D2D169B7DAB00256A31 /* ethanon_icon_114.png in Resources */ = {isa = PBXBuildFile; fileRef = 74E50D2C169B7DAB00256A31 /* ethanon_icon_114.png */; };
+		74E50D33169BAE1700256A31 /* IOSGLES2Video.mm in Sources */ = {isa = PBXBuildFile; fileRef = 74E50D31169BAE1700256A31 /* IOSGLES2Video.mm */; };
 		74FBEF4214374E4100C67129 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74FBEF4114374E4100C67129 /* AudioToolbox.framework */; };
 		74FBEF4414374E5100C67129 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74FBEF4314374E5100C67129 /* AVFoundation.framework */; };
 		74FBEF4614374E5F00C67129 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74FBEF4514374E5F00C67129 /* OpenAL.framework */; };
@@ -671,6 +672,8 @@
 		74E50D28169B7D8D00256A31 /* ethanon_icon_144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ethanon_icon_144.png; sourceTree = "<group>"; };
 		74E50D2A169B7DA400256A31 /* ethanon_icon_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ethanon_icon_57.png; sourceTree = "<group>"; };
 		74E50D2C169B7DAB00256A31 /* ethanon_icon_114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ethanon_icon_114.png; sourceTree = "<group>"; };
+		74E50D31169BAE1700256A31 /* IOSGLES2Video.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = IOSGLES2Video.mm; path = ../../../src/gs2d/src/Video/GLES2/ios/IOSGLES2Video.mm; sourceTree = "<group>"; };
+		74E50D32169BAE1700256A31 /* IOSGLES2Video.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IOSGLES2Video.h; path = ../../../src/gs2d/src/Video/GLES2/ios/IOSGLES2Video.h; sourceTree = "<group>"; };
 		74F451AA143F419600AF7B17 /* Ethanon.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Ethanon.entitlements; sourceTree = "<group>"; };
 		74FBEF4114374E4100C67129 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		74FBEF4314374E5100C67129 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -1107,6 +1110,8 @@
 				74666E68165A7CBD00C70736 /* GLES2UniformParameter.h */,
 				74666E69165A7CBD00C70736 /* GLES2Video.cpp */,
 				74666E6A165A7CBD00C70736 /* GLES2Video.h */,
+				74E50D31169BAE1700256A31 /* IOSGLES2Video.mm */,
+				74E50D32169BAE1700256A31 /* IOSGLES2Video.h */,
 			);
 			name = Video;
 			sourceTree = "<group>";
@@ -1788,6 +1793,7 @@
 				749CB4751666554F00939B0A /* ETHEntitySpriteRenderer.cpp in Sources */,
 				747F75D61668F3000004CB39 /* IOSNativeCommandListener.mm in Sources */,
 				74E50D23169B796F00256A31 /* UTF8Converter.dummy.cpp in Sources */,
+				74E50D33169BAE1700256A31 /* IOSGLES2Video.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
