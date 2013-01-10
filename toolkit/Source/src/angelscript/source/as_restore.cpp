@@ -264,7 +264,7 @@ int asCReader::ReadInner()
 
 	// scriptGlobals[]
 	count = ReadEncodedUInt();
-	if( engine->ep.disallowGlobalVars )
+	if( count && engine->ep.disallowGlobalVars )
 	{
 		engine->WriteMessage("", 0, 0, asMSGTYPE_ERROR, TXT_GLOBAL_VARS_NOT_ALLOWED);
 		error = true;
@@ -1569,7 +1569,7 @@ void asCReader::ReadByteCode(asCScriptFunction *func)
 
 		// Allocate the space for the instruction
 		asUINT len = asBCTypeSize[asBCInfo[b].type];
-		asUINT newSize = func->byteCode.GetLength() + len;
+		asUINT newSize = asUINT(func->byteCode.GetLength()) + len;
 		if( func->byteCode.GetCapacity() < newSize )
 		{
 			// Determine the average size of the loaded instructions and re-estimate the final size
