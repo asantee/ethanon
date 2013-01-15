@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?fileVersion 4.0.0?><cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
+<?fileVersion 4.0.0?>
+
+<cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
 	<storageModule moduleId="org.eclipse.cdt.core.settings">
 		<cconfiguration id="cdt.managedbuild.config.gnu.cross.lib.debug.165702084">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.cross.lib.debug.165702084" moduleId="org.eclipse.cdt.core.settings" name="Debug">
@@ -30,6 +32,10 @@
 								<option id="gnu.c.compiler.option.include.paths.1015896472" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="../../../source"/>
 								</option>
+								<option id="gnu.c.compiler.option.preprocessor.def.symbols.258963794" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="AS_NO_THREADS"/>
+									<listOptionValue builtIn="false" value="AS_MAX_PORTABILITY"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1789221762" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.compiler.1203003572" name="Cross G++ Compiler" superClass="cdt.managedbuild.tool.gnu.cross.cpp.compiler">
@@ -37,6 +43,10 @@
 								<option id="gnu.cpp.compiler.option.debugging.level.753768870" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.351054076" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="../../../source"/>
+								</option>
+								<option id="gnu.cpp.compiler.option.preprocessor.def.1546593100" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="AS_NO_THREADS"/>
+									<listOptionValue builtIn="false" value="AS_MAX_PORTABILITY"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.725928625" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
