@@ -31,6 +31,6 @@ From .sublime-package
 Setting up build option
 -----------------------
 
--Open the *.angelscript file from your project with Sublime Text
--Go to **Tools** -> **Build system** and pick **Ethanon**
--Use **Cmd + B** to Build and **Cmd + Shift + B** to Run
+- Open the *.angelscript file from your project with Sublime Text
+- Go to **Tools** -> **Build system** and pick **Ethanon**
+- Use **Cmd + B** to Build and **Cmd + Shift + B** to Run
