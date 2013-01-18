@@ -27,3 +27,10 @@ From .sublime-package
   Note: Sublime plugin source files must be in the package root
 - Move Ethanon.sublime-package to "sublime-dir/Installed Packages/"
 - Restart Sublime Text
+
+Setting up build option
+-----------------------
+
+-Open the *.angelscript file from your project with Sublime Text
+-Go to **Tools** -> **Build system** and pick **Ethanon**
+-Use **Cmd + B** to Build and **Cmd + Shift + B** to Run
