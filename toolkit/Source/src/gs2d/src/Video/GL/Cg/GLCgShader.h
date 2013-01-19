@@ -24,7 +24,7 @@
 #define GS2D_GLCGSHADER_H_
 
 #include "../../../Shader.h"
-#include "GLCGShaderContext.h"
+#include "GLCgShaderContext.h"
 
 #include <Cg/cg.h>
 
