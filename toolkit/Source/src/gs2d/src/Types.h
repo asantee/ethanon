@@ -41,7 +41,7 @@
 namespace gs2d {
 
 namespace str_type {
-#if defined(ANDROID) || defined(APPLE_IOS) || defined(MACOSX)
+#if defined(ANDROID) || defined(APPLE_IOS) || defined(MACOSX) || defined(LINUX)
  typedef std::string string;
  typedef std::stringstream stringstream;
  typedef char char_t;
