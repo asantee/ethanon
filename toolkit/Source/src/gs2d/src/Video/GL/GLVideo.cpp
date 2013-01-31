@@ -471,7 +471,7 @@ bool GLVideo::DrawRectangle(
 	UnsetTexture(0);
 	UnsetTexture(1);
 	GetVertexShader()->SetShader();
-	m_rectRenderer.Draw(Sprite::RM_TWO_TRIANGLES);
+	m_rectRenderer.Draw(Sprite::RM_TWO_TRIANGLES, false, false);
 
 	SetPixelShader(prevPixelShader);
 	SetVertexShader(prevVertexShader);

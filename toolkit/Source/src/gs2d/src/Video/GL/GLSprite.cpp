@@ -200,7 +200,7 @@ bool GLSprite::DrawShaped(
 	pCurrentVS->SetShader();
 
 	// draw the one-pixel-quad applying the vertex shader
-	video->GetRectRenderer().Draw(m_rectMode);
+	video->GetRectRenderer().Draw(m_rectMode, m_flipX, m_flipY);
 
 	return true;
 }
@@ -296,7 +296,7 @@ bool GLSprite::DrawShapedFast(const math::Vector2 &v2Pos, const math::Vector2 &v
 
 	pCurrentVS->SetShader();
 
-	video->GetRectRenderer().Draw(m_rectMode);
+	video->GetRectRenderer().Draw(m_rectMode, m_flipX, m_flipY);
 	return true;
 }
 

@@ -26,21 +26,26 @@
 
 namespace gs2d {
 
-void GLRectRenderer::Draw(const Sprite::RECT_MODE mode) const
+void GLRectRenderer::Draw(const Sprite::RECT_MODE mode, const bool flipX, const bool flipY) const
 {
 	switch (mode)
 	{
 	case Sprite::RM_TWO_TRIANGLES:
 		glBegin(GL_TRIANGLE_FAN);
 		{
+			const float oneX  = (flipX) ? 0.0f : 1.0f;
+			const float zeroX = (flipX) ? 1.0f : 0.0f;
+			const float oneY  = (flipY) ? 0.0f : 1.0f;
+			const float zeroY = (flipY) ? 1.0f : 0.0f;
+
 			glTexCoord2f(0, 1);
-			glVertex3f(0.0f, 1.0f, 0.0f);
+			glVertex3f(zeroX, oneY, 0.0f);
 			glTexCoord2f(0, 0);
-			glVertex3f(0.0f, 0.0f, 0.0f);
+			glVertex3f(zeroX, zeroY, 0.0f);
 			glTexCoord2f(1, 0);
-			glVertex3f(1.0f, 0.0f, 0.0f);
+			glVertex3f(oneX, zeroY, 0.0f);
 			glTexCoord2f(1, 1);
-			glVertex3f(1.0f, 1.0f, 0.0f);
+			glVertex3f(oneX, oneY, 0.0f);
 		}
 		glEnd();
 		break;

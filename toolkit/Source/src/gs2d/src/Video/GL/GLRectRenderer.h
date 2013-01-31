@@ -30,7 +30,7 @@ namespace gs2d {
 class GLRectRenderer
 {
 public:
-	void Draw(const Sprite::RECT_MODE mode) const;
+	void Draw(const Sprite::RECT_MODE mode, const bool flipX, const bool flipY) const;
 };
 
 } // namespace gs2d
