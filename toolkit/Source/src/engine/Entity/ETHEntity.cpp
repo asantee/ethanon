@@ -95,7 +95,7 @@ void ETHEntity::Zero()
 	m_v4Color = ETH_DEFAULT_COLOR;
 	m_spriteFrame = (0);
 	m_shadowZ = (0.0f);
-	m_hide = (ETH_FALSE);
+	m_hide = m_flipX = m_flipY = (ETH_FALSE);
 	m_gcDict = 0;
 }
 
@@ -157,8 +157,9 @@ bool ETHEntity::WriteToXMLFile(TiXmlElement *pHeadRoot) const
 	if (m_properties.castShadow)
 		pEntity->SetDoubleAttribute(GS_L("shadowZ"), m_shadowZ);
 
-	if (m_hide != ETH_FALSE)
-		pEntity->SetAttribute(GS_L("hide"), m_hide);
+	ETHEntityProperties::SetBooleanPropertyToXmlElement(pEntity, GS_L("hide"),  m_hide,  ETH_FALSE);
+	ETHEntityProperties::SetBooleanPropertyToXmlElement(pEntity, GS_L("flipX"), m_flipX, ETH_FALSE);
+	ETHEntityProperties::SetBooleanPropertyToXmlElement(pEntity, GS_L("flipY"), m_flipY, ETH_FALSE);
 
 	m_properties.WriteToXMLFile(pEntity);
 	return true;
@@ -169,9 +170,9 @@ bool ETHEntity::ReadFromXMLFile(TiXmlElement *pElement)
 	pElement->QueryIntAttribute(GS_L("id"), &m_id);
 	pElement->QueryFloatAttribute(GS_L("shadowZ"), &m_shadowZ);
 
-	int nHide = 0;
-	pElement->QueryIntAttribute(GS_L("hide"), &nHide);
-	m_hide = (!nHide) ? ETH_FALSE : ETH_TRUE;
+	m_hide = ETHEntityProperties::ReadBooleanPropertyFromXmlElement(pElement, GS_L("hide"), m_hide);
+	m_flipX = ETHEntityProperties::ReadBooleanPropertyFromXmlElement(pElement, GS_L("flipX"), m_flipX);
+	m_flipY = ETHEntityProperties::ReadBooleanPropertyFromXmlElement(pElement, GS_L("flipY"), m_flipX);
 
 	int signedSpriteFrame = 0;
 	pElement->QueryIntAttribute(GS_L("spriteFrame"), &signedSpriteFrame);

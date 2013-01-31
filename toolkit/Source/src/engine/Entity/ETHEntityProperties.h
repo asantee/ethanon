@@ -110,6 +110,22 @@ public:
 
 	static ETHParticleManager::DEPTH_SORTING_MODE ResolveDepthSortingMode(const ENTITY_TYPE type);
 
+	static void SetBooleanPropertyToXmlElement(
+		TiXmlElement *pEntity,
+		const str_type::string& name,
+		const ETH_BOOL value);
+
+	static void SetBooleanPropertyToXmlElement(
+		TiXmlElement *pEntity,
+		const str_type::string& name,
+		const ETH_BOOL value,
+		const ETH_BOOL defaultValue);
+
+	static ETH_BOOL ReadBooleanPropertyFromXmlElement(
+		TiXmlElement *pEntity,
+		const str_type::string& name,
+		const ETH_BOOL defaultValue);
+
 	BODY_SHAPE shape;
 	str_type::string entityName;
 	ETH_BOOL staticEntity;

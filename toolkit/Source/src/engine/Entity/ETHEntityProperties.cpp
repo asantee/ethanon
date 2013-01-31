@@ -208,21 +208,10 @@ bool ETHEntityProperties::ReadFromXMLFile(TiXmlElement *pElement)
 {
 	pElement->QueryIntAttribute(GS_L("type"), (int*)&type);
 
-	int nStaticEntity = static_cast<int>(staticEntity);
-	pElement->QueryIntAttribute(GS_L("static"), &nStaticEntity);
-	staticEntity = static_cast<ETH_BOOL>(nStaticEntity);
-
-	int nApplyLight = static_cast<int>(applyLight);
-	pElement->QueryIntAttribute(GS_L("applyLight"), &nApplyLight);
-	applyLight = static_cast<ETH_BOOL>(nApplyLight);
-
-	int nCastShadow = static_cast<int>(castShadow);
-	pElement->QueryIntAttribute(GS_L("castShadow"), &nCastShadow);
-	castShadow = static_cast<ETH_BOOL>(nCastShadow);
-
-	int nHideFromSceneEditor = static_cast<int>(hideFromSceneEditor);
-	pElement->QueryIntAttribute(GS_L("hideFromSceneEditor"), &nHideFromSceneEditor);
-	hideFromSceneEditor = static_cast<ETH_BOOL>(nHideFromSceneEditor);
+	staticEntity = ReadBooleanPropertyFromXmlElement(pElement, GS_L("static"), staticEntity);
+	applyLight = ReadBooleanPropertyFromXmlElement(pElement, GS_L("applyLight"), applyLight);
+	castShadow = ReadBooleanPropertyFromXmlElement(pElement, GS_L("castShadow"), castShadow);
+	hideFromSceneEditor = ReadBooleanPropertyFromXmlElement(pElement, GS_L("hideFromSceneEditor"), hideFromSceneEditor);
 
 	pElement->QueryIntAttribute(GS_L("shape"), (int*)&shape);
 	pElement->QueryIntAttribute(GS_L("blendMode"), (int*)&blendMode);
@@ -245,17 +234,9 @@ bool ETHEntityProperties::ReadFromXMLFile(TiXmlElement *pElement)
 
 	if (shape != BS_NONE)
 	{
-		int nSensor = static_cast<int>(sensor);
-		pElement->QueryIntAttribute(GS_L("sensor"), &nSensor);
-		sensor = static_cast<ETH_BOOL>(nSensor);
-
-		int nFixedRotation = static_cast<int>(fixedRotation);
-		pElement->QueryIntAttribute(GS_L("fixedRotation"), &nFixedRotation);
-		fixedRotation = static_cast<ETH_BOOL>(nFixedRotation);
-
-		int nBullet = static_cast<int>(bullet);
-		pElement->QueryIntAttribute(GS_L("bullet"), &nBullet);
-		bullet = static_cast<ETH_BOOL>(nBullet);
+		sensor = ReadBooleanPropertyFromXmlElement(pElement, GS_L("sensor"), sensor);
+		fixedRotation = ReadBooleanPropertyFromXmlElement(pElement, GS_L("fixedRotation"), fixedRotation);
+		bullet = ReadBooleanPropertyFromXmlElement(pElement, GS_L("bullet"), bullet);
 
 		pElement->QueryFloatAttribute(GS_L("friction"), &friction);
 		pElement->QueryFloatAttribute(GS_L("density"), &density);
@@ -545,7 +526,7 @@ bool ETHEntityProperties::WriteToXMLFile(TiXmlElement *pHeadRoot) const
 				pElement->LinkEndChild(text);
 				pCollisionRoot->LinkEndChild(pElement);
 			}
-			else if (shape == BS_POLYGON) // it the polygon data is empty, write sample data into it
+			else if (shape == BS_POLYGON) // if the polygon data is empty, write sample data into it
 			{
 				pElement = new TiXmlElement(GS_L("Polygon"));
 				TiXmlText* text = new TiXmlText(POLYGON_ENML_SAMPLE);
@@ -635,4 +616,31 @@ bool ETHEntityProperties::WriteToXMLFile(TiXmlElement *pHeadRoot) const
 
 	WriteDataToFile(pRoot);
 	return true;
+}
+
+void ETHEntityProperties::SetBooleanPropertyToXmlElement(TiXmlElement *pEntity, const str_type::string& name, const ETH_BOOL value)
+{
+	pEntity->SetAttribute(name, value);
+}
+
+void ETHEntityProperties::SetBooleanPropertyToXmlElement(
+	TiXmlElement *pEntity,
+	const str_type::string& name,
+	const ETH_BOOL value,
+	const ETH_BOOL defaultValue)
+{
+	if (value != defaultValue)
+		SetBooleanPropertyToXmlElement(pEntity, name, value);
+}
+
+ETH_BOOL ETHEntityProperties::ReadBooleanPropertyFromXmlElement(
+	TiXmlElement *pEntity,
+	const str_type::string& name,
+	const ETH_BOOL defaultValue)
+{
+	int value = 0;
+	if (pEntity->QueryIntAttribute(name, &value) == TIXML_SUCCESS)
+		return (!value) ? ETH_FALSE : ETH_TRUE;
+	else
+		return defaultValue;
 }

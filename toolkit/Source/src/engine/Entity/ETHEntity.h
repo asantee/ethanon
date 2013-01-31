@@ -218,12 +218,13 @@ private:
 									// handle AngelScript's garbage collection stuff on our code
 
 	void InstantiateDictionary();
+
 protected:
 	ETHEntityControllerPtr m_controller;
 	ETHEntityProperties m_properties;
 	unsigned int m_spriteFrame;
 	Vector4 m_v4Color;
-	ETH_BOOL m_hide;
+	ETH_BOOL m_hide, m_flipX, m_flipY;
 	float m_shadowZ;
 };
 
