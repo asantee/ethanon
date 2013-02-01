@@ -21,6 +21,7 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHCollisionBox.h"
+#include "ETHEntityProperties.h"
 
 ETHCollisionBox::ETHCollisionBox()
 {
@@ -35,21 +36,8 @@ ETHCollisionBox::ETHCollisionBox(const Vector3 &v3Pos, const Vector3 &v3Size)
 
 bool ETHCollisionBox::ReadFromXMLFile(TiXmlElement *pElement)
 {
-	TiXmlElement *pIter;
-	pIter = pElement->FirstChild(GS_L("Position"))->ToElement();
-	if (pIter)
-	{
-		pIter->QueryFloatAttribute(GS_L("x"), &pos.x);
-		pIter->QueryFloatAttribute(GS_L("y"), &pos.y);
-		pIter->QueryFloatAttribute(GS_L("z"), &pos.z);
-	}
-	pIter = pElement->FirstChild(GS_L("Size"))->ToElement();
-	if (pIter)
-	{
-		pIter->QueryFloatAttribute(GS_L("x"), &size.x);
-		pIter->QueryFloatAttribute(GS_L("y"), &size.y);
-		pIter->QueryFloatAttribute(GS_L("z"), &size.z);
-	}
+	ETHEntityProperties::ReadVector3PropertyFromXmlElement(pElement, GS_L("Position"), pos);
+	ETHEntityProperties::ReadVector3PropertyFromXmlElement(pElement, GS_L("Size"), size);
 	return true;
 }
 

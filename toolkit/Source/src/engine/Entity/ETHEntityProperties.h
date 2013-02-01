@@ -141,6 +141,16 @@ public:
 		const str_type::string& name,
 		Vector3& value);
 
+	static void ReadColorPropertyFromXmlElement(
+		TiXmlElement *pElement,
+		const str_type::string& name,
+		Vector4& value);
+
+	static void ReadColorPropertyFromXmlElement(
+		TiXmlElement *pElement,
+		const str_type::string& name,
+		Vector3& value);
+
 	BODY_SHAPE shape;
 	str_type::string entityName;
 	ETH_BOOL staticEntity;

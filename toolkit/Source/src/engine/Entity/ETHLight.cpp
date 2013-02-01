@@ -22,6 +22,7 @@
 
 #include "ETHLight.h"
 #include "../Util/ETHASUtil.h"
+#include "ETHEntityProperties.h"
 
 ETHLight::ETHLight(const bool active) :
 	active(active),
@@ -54,34 +55,10 @@ bool ETHLight::ReadFromXMLFile(TiXmlElement *pElement)
 	pElement->QueryFloatAttribute(GS_L("haloBrightness"), &haloBrightness);
 	pElement->QueryFloatAttribute(GS_L("haloSize"), &haloSize);
 
-	TiXmlNode *pNode;
-	TiXmlElement *pIter;
+	ETHEntityProperties::ReadVector3PropertyFromXmlElement(pElement, GS_L("Position"), pos);
+	ETHEntityProperties::ReadColorPropertyFromXmlElement(pElement, GS_L("Color"), color);
 
-	pNode = pElement->FirstChild(GS_L("Position"));
-	if (pNode)
-	{
-		pIter = pNode->ToElement();
-		if (pIter)
-		{
-			pIter->QueryFloatAttribute(GS_L("x"), &pos.x);
-			pIter->QueryFloatAttribute(GS_L("y"), &pos.y);
-			pIter->QueryFloatAttribute(GS_L("z"), &pos.z);
-		}
-	}
-
-	pNode = pElement->FirstChild(GS_L("Color"));
-	if (pNode)
-	{
-		pIter = pNode->ToElement();
-		if (pIter)
-		{
-			pIter->QueryFloatAttribute(GS_L("r"), &color.x);
-			pIter->QueryFloatAttribute(GS_L("g"), &color.y);
-			pIter->QueryFloatAttribute(GS_L("b"), &color.z);
-		}
-	}
-
-	pNode = pElement->FirstChild(GS_L("HaloBitmap"));
+	TiXmlNode *pNode = pElement->FirstChild(GS_L("HaloBitmap"));
 	if (pNode)
 	{
 		TiXmlElement *pStringElement = pNode->ToElement();

@@ -667,3 +667,40 @@ void ETHEntityProperties::ReadVector3PropertyFromXmlElement(
 		}
 	}
 }
+
+void ETHEntityProperties::ReadColorPropertyFromXmlElement(
+	TiXmlElement *pElement,
+	const str_type::string& name,
+	Vector4& value)
+{
+	TiXmlNode *pNode = pElement->FirstChild(name);
+	if (pNode)
+	{
+		TiXmlElement *pIter = pNode->ToElement();
+		if (pIter)
+		{
+			pIter->QueryFloatAttribute(GS_L("r"), &value.x);
+			pIter->QueryFloatAttribute(GS_L("g"), &value.y);
+			pIter->QueryFloatAttribute(GS_L("b"), &value.z);
+			pIter->QueryFloatAttribute(GS_L("a"), &value.w);
+		}
+	}
+}
+
+void ETHEntityProperties::ReadColorPropertyFromXmlElement(
+	TiXmlElement *pElement,
+	const str_type::string& name,
+	Vector3& value)
+{
+	TiXmlNode *pNode = pElement->FirstChild(name);
+	if (pNode)
+	{
+		TiXmlElement *pIter = pNode->ToElement();
+		if (pIter)
+		{
+			pIter->QueryFloatAttribute(GS_L("r"), &value.x);
+			pIter->QueryFloatAttribute(GS_L("g"), &value.y);
+			pIter->QueryFloatAttribute(GS_L("b"), &value.z);
+		}
+	}
+}
