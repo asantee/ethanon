@@ -142,17 +142,7 @@ bool ETHParticleSystem::ReadFromXMLFile(TiXmlElement *pElement)
 	ETHEntityProperties::ReadVector2PropertyFromXmlElement(pElement, GS_L("RandStartPoint"), randStartPoint);
 	ETHEntityProperties::ReadVector2iPropertyFromXmlElement(pElement, GS_L("SpriteCut"), spriteCut);
 
-	pNode = pElement->FirstChild(GS_L("StartPoint"));
-	if (pNode)
-	{
-		pIter = pNode->ToElement();
-		if (pIter)
-		{
-			pIter->QueryFloatAttribute(GS_L("x"), &startPoint.x);
-			pIter->QueryFloatAttribute(GS_L("y"), &startPoint.y);
-			pIter->QueryFloatAttribute(GS_L("z"), &startPoint.z);
-		}
-	}
+	ETHEntityProperties::ReadVector3PropertyFromXmlElement(pElement, GS_L("StartPoint"), startPoint);
 
 	pNode = pElement->FirstChild(GS_L("Color0"));
 	if (pNode)

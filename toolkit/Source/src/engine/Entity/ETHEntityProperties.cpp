@@ -649,3 +649,21 @@ void ETHEntityProperties::ReadVector2iPropertyFromXmlElement(
 		}
 	}
 }
+
+void ETHEntityProperties::ReadVector3PropertyFromXmlElement(
+	TiXmlElement *pElement,
+	const str_type::string& name,
+	Vector3& value)
+{
+	TiXmlNode *pNode = pElement->FirstChild(name);
+	if (pNode)
+	{
+		TiXmlElement *pIter = pNode->ToElement();
+		if (pIter)
+		{
+			pIter->QueryFloatAttribute(GS_L("x"), &value.x);
+			pIter->QueryFloatAttribute(GS_L("y"), &value.y);
+			pIter->QueryFloatAttribute(GS_L("z"), &value.z);
+		}
+	}
+}

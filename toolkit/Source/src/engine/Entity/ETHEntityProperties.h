@@ -136,6 +136,11 @@ public:
 		const str_type::string& name,
 		Vector2i& value);
 
+	static void ReadVector3PropertyFromXmlElement(
+		TiXmlElement *pElement,
+		const str_type::string& name,
+		Vector3& value);
+
 	BODY_SHAPE shape;
 	str_type::string entityName;
 	ETH_BOOL staticEntity;
