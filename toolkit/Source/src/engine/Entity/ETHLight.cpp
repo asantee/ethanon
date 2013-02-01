@@ -67,21 +67,12 @@ bool ETHLight::WriteToXMLFile(TiXmlElement *pRoot) const
 	TiXmlElement *pLightRoot = new TiXmlElement(GS_L("Light"));
 	pRoot->LinkEndChild(pLightRoot); 
 
-	TiXmlElement *pElement;
-	pElement = new TiXmlElement(GS_L("Position"));
-	pLightRoot->LinkEndChild(pElement);
-	pElement->SetDoubleAttribute(GS_L("x"), pos.x);
-	pElement->SetDoubleAttribute(GS_L("y"), pos.y);
-	pElement->SetDoubleAttribute(GS_L("z"), pos.z);
-
-	pElement = new TiXmlElement(GS_L("Color"));
-	pLightRoot->LinkEndChild(pElement);
-	pElement->SetDoubleAttribute(GS_L("r"), color.x);
-	pElement->SetDoubleAttribute(GS_L("g"), color.y);
-	pElement->SetDoubleAttribute(GS_L("b"), color.z);
+	ETHEntityProperties::SetVector3PropertyToXmlElement(pLightRoot, GS_L("Position"), pos);
+	ETHEntityProperties::SetColorPropertyToXmlElement(pLightRoot, GS_L("Color"), color);
 
 	if (haloBitmap != GS_L(""))
 	{
+		TiXmlElement *pElement;
 		pElement = new TiXmlElement(GS_L("HaloBitmap"));
 		pElement->LinkEndChild(new TiXmlText(haloBitmap));
 		pLightRoot->LinkEndChild(pElement);

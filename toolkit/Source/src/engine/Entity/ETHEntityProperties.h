@@ -151,6 +151,31 @@ public:
 		const str_type::string& name,
 		Vector3& value);
 
+	static void SetVector2PropertyToXmlElement(
+		TiXmlElement *pRoot,
+		const str_type::string& name,
+		const Vector2& value);
+
+	static void SetVector2iPropertyToXmlElement(
+		TiXmlElement *pRoot,
+		const str_type::string& name,
+		const Vector2i& value);
+
+	static void SetVector3PropertyToXmlElement(
+		TiXmlElement *pRoot,
+		const str_type::string& name,
+		const Vector3& value);
+
+	static void SetColorPropertyToXmlElement(
+		TiXmlElement *pRoot,
+		const str_type::string& name,
+		const Vector3& value);
+
+	static void SetColorPropertyToXmlElement(
+		TiXmlElement *pRoot,
+		const str_type::string& name,
+		const Vector4& value);
+
 	BODY_SHAPE shape;
 	str_type::string entityName;
 	ETH_BOOL staticEntity;

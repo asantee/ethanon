@@ -46,18 +46,8 @@ TiXmlElement* ETHCollisionBox::WriteToXMLFile(TiXmlElement *pRoot) const
 	TiXmlElement *pCollisionRoot = new TiXmlElement(GS_L("Collision"));
 	pRoot->LinkEndChild(pCollisionRoot); 
 
-	TiXmlElement *pElement;
-	pElement = new TiXmlElement(GS_L("Position"));
-	pCollisionRoot->LinkEndChild(pElement);
-	pElement->SetDoubleAttribute(GS_L("x"), pos.x);
-	pElement->SetDoubleAttribute(GS_L("y"), pos.y);
-	pElement->SetDoubleAttribute(GS_L("z"), pos.z);
-
-	pElement = new TiXmlElement(GS_L("Size"));
-	pCollisionRoot->LinkEndChild(pElement);
-	pElement->SetDoubleAttribute(GS_L("x"), size.x);
-	pElement->SetDoubleAttribute(GS_L("y"), size.y);
-	pElement->SetDoubleAttribute(GS_L("z"), size.z);
+	ETHEntityProperties::SetVector3PropertyToXmlElement(pCollisionRoot, GS_L("Position"), pos);
+	ETHEntityProperties::SetVector3PropertyToXmlElement(pCollisionRoot, GS_L("Size"), size);
 	return pCollisionRoot;
 }
 

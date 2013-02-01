@@ -189,56 +189,16 @@ bool ETHParticleSystem::WriteToXMLFile(TiXmlElement *pRoot) const
 		pParticleRoot->LinkEndChild(pElement);
 	}
 
-	pElement = new TiXmlElement(GS_L("Gravity"));
-	pParticleRoot->LinkEndChild(pElement);
-	pElement->SetDoubleAttribute(GS_L("x"), gravityVector.x);
-	pElement->SetDoubleAttribute(GS_L("y"), gravityVector.y);
-
-	pElement = new TiXmlElement(GS_L("Direction"));
-	pParticleRoot->LinkEndChild(pElement);
-	pElement->SetDoubleAttribute(GS_L("x"), directionVector.x);
-	pElement->SetDoubleAttribute(GS_L("y"), directionVector.y);
-
-	pElement = new TiXmlElement(GS_L("RandomizeDir"));
-	pParticleRoot->LinkEndChild(pElement);
-	pElement->SetDoubleAttribute(GS_L("x"), randomizeDir.x);
-	pElement->SetDoubleAttribute(GS_L("y"), randomizeDir.y);
-
-	pElement = new TiXmlElement(GS_L("SpriteCut"));
-	pParticleRoot->LinkEndChild(pElement);
-	pElement->SetDoubleAttribute(GS_L("x"), spriteCut.x);
-	pElement->SetDoubleAttribute(GS_L("y"), spriteCut.y);
-
-	pElement = new TiXmlElement(GS_L("StartPoint"));
-	pParticleRoot->LinkEndChild(pElement);
-	pElement->SetDoubleAttribute(GS_L("x"), startPoint.x);
-	pElement->SetDoubleAttribute(GS_L("y"), startPoint.y);
-	pElement->SetDoubleAttribute(GS_L("z"), startPoint.z);
-
-	pElement = new TiXmlElement(GS_L("RandStartPoint"));
-	pParticleRoot->LinkEndChild(pElement);
-	pElement->SetDoubleAttribute(GS_L("x"), randStartPoint.x);
-	pElement->SetDoubleAttribute(GS_L("y"), randStartPoint.y);
-
-	pElement = new TiXmlElement(GS_L("Color0"));
-	pParticleRoot->LinkEndChild(pElement);
-	pElement->SetDoubleAttribute(GS_L("r"), color0.x);
-	pElement->SetDoubleAttribute(GS_L("g"), color0.y);
-	pElement->SetDoubleAttribute(GS_L("b"), color0.z);
-	pElement->SetDoubleAttribute(GS_L("a"), color0.w);
-
-	pElement = new TiXmlElement(GS_L("Color1"));
-	pParticleRoot->LinkEndChild(pElement);
-	pElement->SetDoubleAttribute(GS_L("r"), color1.x);
-	pElement->SetDoubleAttribute(GS_L("g"), color1.y);
-	pElement->SetDoubleAttribute(GS_L("b"), color1.z);
-	pElement->SetDoubleAttribute(GS_L("a"), color1.w);
-
-	pElement = new TiXmlElement(GS_L("Luminance"));
-	pParticleRoot->LinkEndChild(pElement);
-	pElement->SetDoubleAttribute(GS_L("r"), emissive.x);
-	pElement->SetDoubleAttribute(GS_L("g"), emissive.y);
-	pElement->SetDoubleAttribute(GS_L("b"), emissive.z);
+	ETHEntityProperties::SetVector2PropertyToXmlElement(pParticleRoot, GS_L("Gravity"), gravityVector);
+	ETHEntityProperties::SetVector2PropertyToXmlElement(pParticleRoot, GS_L("Direction"), directionVector);
+	ETHEntityProperties::SetVector2PropertyToXmlElement(pParticleRoot, GS_L("RandomizeDir"), randomizeDir);
+	ETHEntityProperties::SetVector2iPropertyToXmlElement(pParticleRoot, GS_L("SpriteCut"), spriteCut);
+	ETHEntityProperties::SetVector3PropertyToXmlElement(pParticleRoot, GS_L("StartPoint"), startPoint);
+	ETHEntityProperties::SetVector2PropertyToXmlElement(pParticleRoot, GS_L("RandStartPoint"), randStartPoint);
+	
+	ETHEntityProperties::SetColorPropertyToXmlElement(pParticleRoot, GS_L("Color0"), color0);
+	ETHEntityProperties::SetColorPropertyToXmlElement(pParticleRoot, GS_L("Color1"), color1);
+	ETHEntityProperties::SetColorPropertyToXmlElement(pParticleRoot, GS_L("Luminance"), emissive);
 
 	pParticleRoot->SetAttribute(GS_L("particles"), nParticles);
 	pParticleRoot->SetAttribute(GS_L("allAtOnce"), allAtOnce);

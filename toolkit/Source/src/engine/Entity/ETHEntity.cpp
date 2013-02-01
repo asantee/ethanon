@@ -129,14 +129,7 @@ bool ETHEntity::WriteToXMLFile(TiXmlElement *pHeadRoot) const
 	}
 
 	if (m_v4Color != ETH_DEFAULT_COLOR)
-	{
-		pElement = new TiXmlElement(GS_L("Color"));
-		pEntity->LinkEndChild(pElement); 
-		pElement->SetDoubleAttribute(GS_L("r"), m_v4Color.x);
-		pElement->SetDoubleAttribute(GS_L("g"), m_v4Color.y);
-		pElement->SetDoubleAttribute(GS_L("b"), m_v4Color.z);
-		pElement->SetDoubleAttribute(GS_L("a"), m_v4Color.w);
-	}
+		ETHEntityProperties::SetColorPropertyToXmlElement(pEntity, GS_L("Color"), m_v4Color);
 
 	pElement = new TiXmlElement(GS_L("Position"));
 	pEntity->LinkEndChild(pElement);

@@ -244,25 +244,14 @@ bool ETHEntityProperties::ReadFromXMLFile(TiXmlElement *pElement)
 		pElement->QueryFloatAttribute(GS_L("restitution"), &restitution);
 	}
 
-	TiXmlElement *pIter;
-	TiXmlNode *pNode;
-
-	pNode = pElement->FirstChild(GS_L("EmissiveColor"));
-	if (pNode)
-	{
-		pIter = pNode->ToElement();
-		if (pIter)
-		{
-			pIter->QueryFloatAttribute(GS_L("r"), &emissiveColor.x);
-			pIter->QueryFloatAttribute(GS_L("g"), &emissiveColor.y);
-			pIter->QueryFloatAttribute(GS_L("b"), &emissiveColor.z);
-			pIter->QueryFloatAttribute(GS_L("a"), &emissiveColor.w);
-		}
-	}
+	ETHEntityProperties::ReadColorPropertyFromXmlElement(pElement, GS_L("EmissiveColor"), emissiveColor);
 
 	ReadVector2iPropertyFromXmlElement(pElement, GS_L("SpriteCut"), spriteCut);
 	ReadVector2PropertyFromXmlElement(pElement, GS_L("Scale"), scale);
 	ReadVector2PropertyFromXmlElement(pElement, GS_L("PivotAdjust"), pivotAdjust);
+
+	TiXmlElement *pIter;
+	TiXmlNode *pNode;
 
 	pNode = pElement->FirstChild(GS_L("Sprite"));
 	if (pNode)
@@ -413,38 +402,16 @@ bool ETHEntityProperties::WriteToXMLFile(TiXmlElement *pHeadRoot) const
 	TiXmlElement *pElement;
 
 	if (emissiveColor != ETH_DEFAULT_EMISSIVE_COLOR)
-	{
-		pElement = new TiXmlElement(GS_L("EmissiveColor"));
-		pRoot->LinkEndChild(pElement); 
-		pElement->SetDoubleAttribute(GS_L("r"), emissiveColor.x);
-		pElement->SetDoubleAttribute(GS_L("g"), emissiveColor.y);
-		pElement->SetDoubleAttribute(GS_L("b"), emissiveColor.z);
-		pElement->SetDoubleAttribute(GS_L("a"), emissiveColor.w);
-	}
+		ETHEntityProperties::SetColorPropertyToXmlElement(pRoot, GS_L("EmissiveColor"), emissiveColor);
 
 	if (spriteCut != ETH_DEFAULT_SPRITE_CUT)
-	{
-		pElement = new TiXmlElement(GS_L("SpriteCut"));
-		pRoot->LinkEndChild(pElement);
-		pElement->SetDoubleAttribute(GS_L("x"), spriteCut.x);
-		pElement->SetDoubleAttribute(GS_L("y"), spriteCut.y);
-	}
+		ETHEntityProperties::SetVector2iPropertyToXmlElement(pRoot, GS_L("SpriteCut"), spriteCut);
 
 	if (scale != ETH_DEFAULT_SCALE)
-	{
-		pElement = new TiXmlElement(GS_L("Scale"));
-		pRoot->LinkEndChild(pElement);
-		pElement->SetDoubleAttribute(GS_L("x"), scale.x);
-		pElement->SetDoubleAttribute(GS_L("y"), scale.y);
-	}
+		ETHEntityProperties::SetVector2PropertyToXmlElement(pRoot, GS_L("Scale"), scale);
 
 	if (pivotAdjust != ETH_DEFAULT_PIVOT_ADJUST)
-	{
-		pElement = new TiXmlElement(GS_L("PivotAdjust"));
-		pRoot->LinkEndChild(pElement);
-		pElement->SetDoubleAttribute(GS_L("x"), pivotAdjust.x);
-		pElement->SetDoubleAttribute(GS_L("y"), pivotAdjust.y);
-	}
+		ETHEntityProperties::SetVector2PropertyToXmlElement(pRoot, GS_L("PivotAdjust"), pivotAdjust);
 
 	if (spriteFile != GS_L(""))
 	{
@@ -563,24 +530,16 @@ bool ETHEntityProperties::WriteToXMLFile(TiXmlElement *pHeadRoot) const
 
 	pRoot->SetAttribute(GS_L("type"), type);
 	if (type == ET_LAYERABLE)
-	{
 		pRoot->SetDoubleAttribute(GS_L("layerDepth"), layerDepth);
-	}
 
 	if (soundVolume != ETH_DEFAULT_SOUND_VOLUME)
-	{
 		pRoot->SetDoubleAttribute(GS_L("soundVolume"), soundVolume);
-	}
 
 	if (parallaxIntensity != ETH_DEFAULT_PARALLAX_INTENS)
-	{
 		pRoot->SetDoubleAttribute(GS_L("parallaxIntensity"), parallaxIntensity);
-	}
 
 	if (hideFromSceneEditor != ETH_FALSE)
-	{
 		pRoot->SetAttribute(GS_L("hideFromSceneEditor"), hideFromSceneEditor);
-	}
 
 	pRoot->SetAttribute(GS_L("static"), staticEntity);
 	pRoot->SetAttribute(GS_L("blendMode"), blendMode);
@@ -703,4 +662,63 @@ void ETHEntityProperties::ReadColorPropertyFromXmlElement(
 			pIter->QueryFloatAttribute(GS_L("b"), &value.z);
 		}
 	}
+}
+
+void ETHEntityProperties::SetVector2PropertyToXmlElement(
+	TiXmlElement *pRoot,
+	const str_type::string& name,
+	const Vector2& value)
+{
+	TiXmlElement* pElement = new TiXmlElement(name);
+	pRoot->LinkEndChild(pElement);
+	pElement->SetDoubleAttribute(GS_L("x"), value.x);
+	pElement->SetDoubleAttribute(GS_L("y"), value.y);
+}
+
+void ETHEntityProperties::SetVector2iPropertyToXmlElement(
+	TiXmlElement *pRoot,
+	const str_type::string& name,
+	const Vector2i& value)
+{
+	TiXmlElement* pElement = new TiXmlElement(name);
+	pRoot->LinkEndChild(pElement);
+	pElement->SetAttribute(GS_L("x"), value.x);
+	pElement->SetAttribute(GS_L("y"), value.y);
+}
+
+void ETHEntityProperties::SetVector3PropertyToXmlElement(
+	TiXmlElement *pRoot,
+	const str_type::string& name,
+	const Vector3& value)
+{
+	TiXmlElement* pElement = new TiXmlElement(name);
+	pRoot->LinkEndChild(pElement);
+	pElement->SetDoubleAttribute(GS_L("x"), value.x);
+	pElement->SetDoubleAttribute(GS_L("y"), value.y);
+	pElement->SetDoubleAttribute(GS_L("z"), value.z);
+}
+
+void ETHEntityProperties::SetColorPropertyToXmlElement(
+	TiXmlElement *pRoot,
+	const str_type::string& name,
+	const Vector3& value)
+{
+	TiXmlElement* pElement = new TiXmlElement(name);
+	pRoot->LinkEndChild(pElement);
+	pElement->SetDoubleAttribute(GS_L("r"), value.x);
+	pElement->SetDoubleAttribute(GS_L("g"), value.y);
+	pElement->SetDoubleAttribute(GS_L("b"), value.z);
+}
+
+void ETHEntityProperties::SetColorPropertyToXmlElement(
+	TiXmlElement *pRoot,
+	const str_type::string& name,
+	const Vector4& value)
+{
+	TiXmlElement* pElement = new TiXmlElement(name);
+	pRoot->LinkEndChild(pElement);
+	pElement->SetDoubleAttribute(GS_L("r"), value.x);
+	pElement->SetDoubleAttribute(GS_L("g"), value.y);
+	pElement->SetDoubleAttribute(GS_L("b"), value.z);
+	pElement->SetDoubleAttribute(GS_L("a"), value.w);
 }
