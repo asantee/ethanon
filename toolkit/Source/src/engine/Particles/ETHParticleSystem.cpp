@@ -91,7 +91,7 @@ bool ETHParticleSystem::ReadFromXMLFile(TiXmlElement *pElement)
 {
 	pElement->QueryIntAttribute(GS_L("particles"), &nParticles);
 
-	ETHEntityProperties::SetBooleanPropertyToXmlElement(pElement, GS_L("allAtOnce"), allAtOnce);
+	allAtOnce = ETHEntityProperties::ReadBooleanPropertyFromXmlElement(pElement, GS_L("allAtOnce"), allAtOnce);
 
 	pElement->QueryIntAttribute(GS_L("alphaMode"), (int*)&alphaMode);
 	pElement->QueryIntAttribute(GS_L("repeat"), &repeat);
