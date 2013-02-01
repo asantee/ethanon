@@ -305,6 +305,11 @@ asDECLARE_METHOD_WRAPPERPR(__GetString,  ETHScriptEntity, GetString,  (const str
 asDECLARE_METHOD_WRAPPERPR(__GetVector2, ETHScriptEntity, GetVector2, (const str_type::string&) const,                    Vector2);
 asDECLARE_METHOD_WRAPPERPR(__GetVector3, ETHScriptEntity, GetVector3, (const str_type::string&) const,                    Vector3);
 
+asDECLARE_METHOD_WRAPPERPR(__GetFlipX, ETHScriptEntity, GetFlipX, (void) const, bool);
+asDECLARE_METHOD_WRAPPERPR(__GetFlipY, ETHScriptEntity, GetFlipY, (void) const, bool);
+asDECLARE_METHOD_WRAPPERPR(__SetFlipX, ETHScriptEntity, SetFlipX, (const bool), void);
+asDECLARE_METHOD_WRAPPERPR(__SetFlipY, ETHScriptEntity, SetFlipY, (const bool), void);
+
 void __SetObject(asIScriptGeneric *gen)
 {
 	ETHScriptEntity *entity = (ETHScriptEntity*)gen->GetObject();
@@ -457,6 +462,11 @@ void RegisterEntityMethods(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void MultiplyUInt(const string &in, const uint &in)",     asFUNCTION(__MultiplyUInt),    asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void MultiplyVector2(const string &in, const float &in)", asFUNCTION(__MultiplyVector2), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void MultiplyVector3(const string &in, const float &in)", asFUNCTION(__MultiplyVector3), asCALL_GENERIC); assert(r >= 0);
+
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool GetFlipX() const", asFUNCTION(__GetFlipX), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool GetFlipY() const", asFUNCTION(__GetFlipY), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetFlipX(const bool)", asFUNCTION(__SetFlipX), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetFlipY(const bool)", asFUNCTION(__SetFlipY), asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "ETHPhysicsController@ GetPhysicsController()", asFUNCTION(__GetPhysicsController), asCALL_GENERIC); assert(r >= 0);
 }

@@ -75,7 +75,6 @@ public:
 	void SetOrphanPositionXY(const Vector2& pos);
 	float GetAngle() const;
 	void SetAngle(const float angle);
-	Vector4 GetColorF() const;
 	bool SetFrame(const unsigned int frame);
 	bool SetFrame(const unsigned int column, const unsigned int row);
 	unsigned int GetFrame() const;
@@ -137,6 +136,11 @@ public:
 	void SetLightColor(const Vector3 &color);
 	Vector3 GetLightColor() const;
 	void DisableLightSource();
+
+	void SetFlipX(const bool flipX);
+	void SetFlipY(const bool flipY);
+	bool GetFlipX() const;
+	bool GetFlipY() const;
 
 	// Custom data related methods:
 	const ETHCustomDataManager *GetCustomDataManager() const;

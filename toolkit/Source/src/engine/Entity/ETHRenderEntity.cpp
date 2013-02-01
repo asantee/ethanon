@@ -81,6 +81,7 @@ bool ETHRenderEntity::DrawAmbientPass(
 
 	const VideoPtr& video = m_provider->GetVideo();
 
+	// apply lightmap textures
 	const bool applyLightmap = (m_pLightmap && enableLightmaps && IsStatic());
 	if (applyLightmap)
 	{
@@ -106,6 +107,9 @@ bool ETHRenderEntity::DrawAmbientPass(
 	const float angle = (m_properties.type == ETHEntityProperties::ET_VERTICAL) ? 0.0f : GetAngle();
 	const Vector2 pos = ETHGlobal::ToScreenPos(GetPosition(), sceneProps.zAxisDirection);
 
+	m_pSprite->FlipX(m_flipX);
+	m_pSprite->FlipY(m_flipY);
+
 	if (shouldUseFourTriangles)
 		m_pSprite->SetRectMode(Sprite::RM_FOUR_TRIANGLES);
 
@@ -113,6 +117,9 @@ bool ETHRenderEntity::DrawAmbientPass(
 
 	if (shouldUseFourTriangles)
 		m_pSprite->SetRectMode(Sprite::RM_TWO_TRIANGLES);
+
+	m_pSprite->FlipX(false);
+	m_pSprite->FlipY(false);
 
 	if (applyLightmap)
 	{
@@ -137,7 +144,7 @@ bool ETHRenderEntity::DrawLightPass(const Vector2 &zAxisDirection, const float p
 
 	const float angle = (!IsRotatable() || drawToTarget) ? 0.0f : GetAngle();
 	m_pSprite->DrawOptimal(ETHGlobal::ToScreenPos(GetPosition(), zAxisDirection),
-		ConvertToDW(GetColorF()), angle, m_properties.scale * m_pSprite->GetFrameSize());
+		ConvertToDW(GetColorARGB()), angle, m_properties.scale * m_pSprite->GetFrameSize());
 
 	if (shouldUseFourTriangles)
 		m_pSprite->SetRectMode(Sprite::RM_TWO_TRIANGLES);

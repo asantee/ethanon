@@ -582,11 +582,6 @@ bool ETHEntity::IsRotatable() const
 	return GetType() != ETHEntityProperties::ET_VERTICAL;
 }
 
-Vector4 ETHEntity::GetColorF() const
-{
-	return m_v4Color;
-}
-
 bool ETHEntity::HasLightSource() const
 {
 	return (m_properties.light);
@@ -1010,4 +1005,24 @@ ETHCompoundShapePtr ETHEntity::GetCompoundShape() const
 void ETHEntity::DisableLightSource()
 {
 	m_properties.light.reset();
+}
+
+void ETHEntity::SetFlipX(const bool flipX)
+{
+	m_flipX = flipX;
+}
+
+void ETHEntity::SetFlipY(const bool flipY)
+{
+	m_flipY = flipY;
+}
+
+bool ETHEntity::GetFlipX() const
+{
+	return m_flipX;
+}
+
+bool ETHEntity::GetFlipY() const
+{
+	return m_flipY;
 }

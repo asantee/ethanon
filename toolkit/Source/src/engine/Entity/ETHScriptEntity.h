@@ -119,6 +119,11 @@ public:
 	virtual void RecoverResources() = 0;
 	virtual void DisableLightSource() = 0;
 
+	virtual void SetFlipX(const bool flipX) = 0;
+	virtual void SetFlipY(const bool flipY) = 0;
+	virtual bool GetFlipX() const = 0;
+ 	virtual bool GetFlipY() const = 0;
+
 	virtual void Scale(const Vector2& scale) = 0;
 	virtual void Scale(const float scale) = 0;
 	virtual void SetScale(const Vector2& scale) = 0;
