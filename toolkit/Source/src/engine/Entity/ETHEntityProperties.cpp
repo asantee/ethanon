@@ -260,38 +260,9 @@ bool ETHEntityProperties::ReadFromXMLFile(TiXmlElement *pElement)
 		}
 	}
 
-	pNode = pElement->FirstChild(GS_L("SpriteCut"));
-	if (pNode)
-	{
-		pIter = pNode->ToElement();
-		if (pIter)
-		{
-			pIter->QueryIntAttribute(GS_L("x"), &spriteCut.x);
-			pIter->QueryIntAttribute(GS_L("y"), &spriteCut.y);
-		}
-	}
-
-	pNode = pElement->FirstChild(GS_L("Scale"));
-	if (pNode)
-	{
-		pIter = pNode->ToElement();
-		if (pIter)
-		{
-			pIter->QueryFloatAttribute(GS_L("x"), &scale.x);
-			pIter->QueryFloatAttribute(GS_L("y"), &scale.y);
-		}
-	}
-
-	pNode = pElement->FirstChild(GS_L("PivotAdjust"));
-	if (pNode)
-	{
-		pIter = pNode->ToElement();
-		if (pIter)
-		{
-			pIter->QueryFloatAttribute(GS_L("x"), &pivotAdjust.x);
-			pIter->QueryFloatAttribute(GS_L("y"), &pivotAdjust.y);
-		}
-	}
+	ReadVector2iPropertyFromXmlElement(pElement, GS_L("SpriteCut"), spriteCut);
+	ReadVector2PropertyFromXmlElement(pElement, GS_L("Scale"), scale);
+	ReadVector2PropertyFromXmlElement(pElement, GS_L("PivotAdjust"), pivotAdjust);
 
 	pNode = pElement->FirstChild(GS_L("Sprite"));
 	if (pNode)
@@ -643,4 +614,38 @@ ETH_BOOL ETHEntityProperties::ReadBooleanPropertyFromXmlElement(
 		return (!value) ? ETH_FALSE : ETH_TRUE;
 	else
 		return defaultValue;
+}
+
+void ETHEntityProperties::ReadVector2PropertyFromXmlElement(
+	TiXmlElement *pElement,
+	const str_type::string& name,
+	Vector2& value)
+{
+	TiXmlNode *pNode = pElement->FirstChild(name);
+	if (pNode)
+	{
+		TiXmlElement *pIter = pNode->ToElement();
+		if (pIter)
+		{
+			pIter->QueryFloatAttribute(GS_L("x"), &value.x);
+			pIter->QueryFloatAttribute(GS_L("y"), &value.y);
+		}
+	}
+}
+
+void ETHEntityProperties::ReadVector2iPropertyFromXmlElement(
+	TiXmlElement *pElement,
+	const str_type::string& name,
+	Vector2i& value)
+{
+	TiXmlNode *pNode = pElement->FirstChild(name);
+	if (pNode)
+	{
+		TiXmlElement *pIter = pNode->ToElement();
+		if (pIter)
+		{
+			pIter->QueryIntAttribute(GS_L("x"), &value.x);
+			pIter->QueryIntAttribute(GS_L("y"), &value.y);
+		}
+	}
 }

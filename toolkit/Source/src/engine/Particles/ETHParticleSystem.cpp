@@ -21,6 +21,7 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHParticleSystem.h"
+#include "../Entity/ETHEntityProperties.h"
 #include <Platform/Platform.h>
 
 void ETHParticleSystem::Scale(const float scale)
@@ -134,38 +135,12 @@ bool ETHParticleSystem::ReadFromXMLFile(TiXmlElement *pElement)
 	}
 
 	TiXmlElement *pIter;
-	pNode = pElement->FirstChild(GS_L("Gravity"));
-	if (pNode)
-	{
-		pIter = pNode->ToElement();
-		if (pIter)
-		{
-			pIter->QueryFloatAttribute(GS_L("x"), &gravityVector.x);
-			pIter->QueryFloatAttribute(GS_L("y"), &gravityVector.y);
-		}
-	}
 
-	pNode = pElement->FirstChild(GS_L("Direction"));
-	if (pNode)
-	{
-		pIter = pNode->ToElement();
-		if (pIter)
-		{
-			pIter->QueryFloatAttribute(GS_L("x"), &directionVector.x);
-			pIter->QueryFloatAttribute(GS_L("y"), &directionVector.y);
-		}
-	}
-
-	pNode = pElement->FirstChild(GS_L("RandomizeDir"));
-	if (pNode)
-	{
-		pIter = pNode->ToElement();
-		if (pIter)
-		{
-			pIter->QueryFloatAttribute(GS_L("x"), &randomizeDir.x);
-			pIter->QueryFloatAttribute(GS_L("y"), &randomizeDir.y);
-		}
-	}
+	ETHEntityProperties::ReadVector2PropertyFromXmlElement(pElement, GS_L("Gravity"), gravityVector);
+	ETHEntityProperties::ReadVector2PropertyFromXmlElement(pElement, GS_L("Direction"), directionVector);
+	ETHEntityProperties::ReadVector2PropertyFromXmlElement(pElement, GS_L("RandomizeDir"), randomizeDir);
+	ETHEntityProperties::ReadVector2PropertyFromXmlElement(pElement, GS_L("RandStartPoint"), randStartPoint);
+	ETHEntityProperties::ReadVector2iPropertyFromXmlElement(pElement, GS_L("SpriteCut"), spriteCut);
 
 	pNode = pElement->FirstChild(GS_L("StartPoint"));
 	if (pNode)
@@ -176,28 +151,6 @@ bool ETHParticleSystem::ReadFromXMLFile(TiXmlElement *pElement)
 			pIter->QueryFloatAttribute(GS_L("x"), &startPoint.x);
 			pIter->QueryFloatAttribute(GS_L("y"), &startPoint.y);
 			pIter->QueryFloatAttribute(GS_L("z"), &startPoint.z);
-		}
-	}
-
-	pNode = pElement->FirstChild(GS_L("RandStartPoint"));
-	if (pNode)
-	{
-		pIter = pNode->ToElement();
-		if (pIter)
-		{
-			pIter->QueryFloatAttribute(GS_L("x"), &randStartPoint.x);
-			pIter->QueryFloatAttribute(GS_L("y"), &randStartPoint.y);
-		}
-	}
-
-	pNode = pElement->FirstChild(GS_L("SpriteCut"));
-	if (pNode)
-	{
-		pIter = pNode->ToElement();
-		if (pIter)
-		{
-			pIter->QueryIntAttribute(GS_L("x"), &spriteCut.x);
-			pIter->QueryIntAttribute(GS_L("y"), &spriteCut.y);
 		}
 	}
 

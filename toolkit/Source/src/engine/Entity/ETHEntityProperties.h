@@ -126,6 +126,16 @@ public:
 		const str_type::string& name,
 		const ETH_BOOL defaultValue);
 
+	static void ReadVector2PropertyFromXmlElement(
+		TiXmlElement *pElement,
+		const str_type::string& name,
+		Vector2& value);
+
+	static void ReadVector2iPropertyFromXmlElement(
+		TiXmlElement *pElement,
+		const str_type::string& name,
+		Vector2i& value);
+
 	BODY_SHAPE shape;
 	str_type::string entityName;
 	ETH_BOOL staticEntity;
