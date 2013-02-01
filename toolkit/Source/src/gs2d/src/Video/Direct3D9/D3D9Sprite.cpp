@@ -386,18 +386,9 @@ bool D3D9Sprite::DrawShaped(
 		return true;
 	}
 
-	// do the flip (parameters that will be send to the VS)
-	Vector2 flipMul(1,1), flipAdd(0,0);
-	if (m_flipX)
-	{
-		flipMul.x =-1;
-		flipAdd.x = 1;
-	}
-	if (m_flipY)
-	{
-		flipMul.y =-1;
-		flipAdd.y = 1;
-	}
+	// compute flip parameters that will be sent to the VS
+	Vector2 flipAdd, flipMul;
+	GetFlipShaderParameters(flipAdd, flipMul);
 
 	// centralizes the sprite according to the origin
 	Vector2 v2Center = m_normalizedOrigin*v2Size;

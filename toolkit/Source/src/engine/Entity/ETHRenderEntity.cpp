@@ -107,8 +107,8 @@ bool ETHRenderEntity::DrawAmbientPass(
 	const float angle = (m_properties.type == ETHEntityProperties::ET_VERTICAL) ? 0.0f : GetAngle();
 	const Vector2 pos = ETHGlobal::ToScreenPos(GetPosition(), sceneProps.zAxisDirection);
 
-	m_pSprite->FlipX(m_flipX);
-	m_pSprite->FlipY(m_flipY);
+	m_pSprite->FlipX(GetFlipX());
+	m_pSprite->FlipY(GetFlipY());
 
 	if (shouldUseFourTriangles)
 		m_pSprite->SetRectMode(Sprite::RM_FOUR_TRIANGLES);

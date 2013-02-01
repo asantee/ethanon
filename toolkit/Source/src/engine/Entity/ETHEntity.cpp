@@ -1009,20 +1009,20 @@ void ETHEntity::DisableLightSource()
 
 void ETHEntity::SetFlipX(const bool flipX)
 {
-	m_flipX = flipX;
+	m_flipX = (flipX) ? ETH_TRUE : ETH_FALSE;
 }
 
 void ETHEntity::SetFlipY(const bool flipY)
 {
-	m_flipY = flipY;
+	m_flipY = (flipY) ? ETH_TRUE : ETH_FALSE;
 }
 
 bool ETHEntity::GetFlipX() const
 {
-	return m_flipX;
+	return (m_flipX == ETH_TRUE);
 }
 
 bool ETHEntity::GetFlipY() const
 {
-	return m_flipY;
+	return (m_flipY == ETH_TRUE);
 }

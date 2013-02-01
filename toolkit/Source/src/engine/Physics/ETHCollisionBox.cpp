@@ -21,7 +21,7 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHCollisionBox.h"
-#include "ETHEntityProperties.h"
+#include "../Entity/ETHEntityProperties.h"
 
 ETHCollisionBox::ETHCollisionBox()
 {
