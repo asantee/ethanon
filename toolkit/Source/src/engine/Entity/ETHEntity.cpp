@@ -191,24 +191,12 @@ bool ETHEntity::ReadFromXMLFile(TiXmlElement *pElement)
 		}
 	}
 
-	TiXmlElement *pIter;
-	pNode = pElement->FirstChild(GS_L("Color"));
-	if (pNode)
-	{
-		pIter = pNode->ToElement();
-		if (pIter)
-		{
-			pIter->QueryFloatAttribute(GS_L("r"), &m_v4Color.x);
-			pIter->QueryFloatAttribute(GS_L("g"), &m_v4Color.y);
-			pIter->QueryFloatAttribute(GS_L("b"), &m_v4Color.z);
-			pIter->QueryFloatAttribute(GS_L("a"), &m_v4Color.w);
-		}
-	}
+	ETHEntityProperties::ReadColorPropertyFromXmlElement(pElement, GS_L("Color"), m_v4Color);
 
 	pNode = pElement->FirstChild(GS_L("Position"));
 	if (pNode)
 	{
-		pIter = pNode->ToElement();
+		TiXmlElement *pIter = pNode->ToElement();
 		if (pIter)
 		{
 			Vector3 pos; float angle = 0.0f;

@@ -39,17 +39,9 @@ ETHLight::ETHLight(const bool active) :
 
 bool ETHLight::ReadFromXMLFile(TiXmlElement *pElement)
 {
-	int nActive;
-	pElement->QueryIntAttribute(GS_L("active"), &nActive);
-	active = static_cast<ETH_BOOL>(nActive);
-
-	int nStatic;
-	pElement->QueryIntAttribute(GS_L("static"), &nStatic);
-	staticLight = static_cast<ETH_BOOL>(nStatic);
-
-	int nCastShadows;
-	pElement->QueryIntAttribute(GS_L("castShadows"), &nCastShadows);
-	castShadows = static_cast<ETH_BOOL>(nCastShadows);
+	ETHEntityProperties::ReadBooleanPropertyFromXmlElement(pElement, GS_L("active"), active);
+	ETHEntityProperties::ReadBooleanPropertyFromXmlElement(pElement, GS_L("static"), staticLight);
+	ETHEntityProperties::ReadBooleanPropertyFromXmlElement(pElement, GS_L("castShadows"), castShadows);
 
 	pElement->QueryFloatAttribute(GS_L("range"), &range);
 	pElement->QueryFloatAttribute(GS_L("haloBrightness"), &haloBrightness);

@@ -91,9 +91,7 @@ bool ETHParticleSystem::ReadFromXMLFile(TiXmlElement *pElement)
 {
 	pElement->QueryIntAttribute(GS_L("particles"), &nParticles);
 
-	int tempAllAtOnce;
-	pElement->QueryIntAttribute(GS_L("allAtOnce"), &tempAllAtOnce);
-	allAtOnce = static_cast<ETH_BOOL>(tempAllAtOnce);
+	ETHEntityProperties::SetBooleanPropertyToXmlElement(pElement, GS_L("allAtOnce"), allAtOnce);
 
 	pElement->QueryIntAttribute(GS_L("alphaMode"), (int*)&alphaMode);
 	pElement->QueryIntAttribute(GS_L("repeat"), &repeat);
@@ -134,8 +132,6 @@ bool ETHParticleSystem::ReadFromXMLFile(TiXmlElement *pElement)
 		}
 	}
 
-	TiXmlElement *pIter;
-
 	ETHEntityProperties::ReadVector2PropertyFromXmlElement(pElement, GS_L("Gravity"), gravityVector);
 	ETHEntityProperties::ReadVector2PropertyFromXmlElement(pElement, GS_L("Direction"), directionVector);
 	ETHEntityProperties::ReadVector2PropertyFromXmlElement(pElement, GS_L("RandomizeDir"), randomizeDir);
@@ -144,43 +140,9 @@ bool ETHParticleSystem::ReadFromXMLFile(TiXmlElement *pElement)
 
 	ETHEntityProperties::ReadVector3PropertyFromXmlElement(pElement, GS_L("StartPoint"), startPoint);
 
-	pNode = pElement->FirstChild(GS_L("Color0"));
-	if (pNode)
-	{
-		pIter = pNode->ToElement();
-		if (pIter)
-		{
-			pIter->QueryFloatAttribute(GS_L("r"), &color0.x);
-			pIter->QueryFloatAttribute(GS_L("g"), &color0.y);
-			pIter->QueryFloatAttribute(GS_L("b"), &color0.z);
-			pIter->QueryFloatAttribute(GS_L("a"), &color0.w);
-		}
-	}
-
-	pNode = pElement->FirstChild(GS_L("Color1"));
-	if (pNode)
-	{
-		pIter = pNode->ToElement();
-		if (pIter)
-		{
-			pIter->QueryFloatAttribute(GS_L("r"), &color1.x);
-			pIter->QueryFloatAttribute(GS_L("g"), &color1.y);
-			pIter->QueryFloatAttribute(GS_L("b"), &color1.z);
-			pIter->QueryFloatAttribute(GS_L("a"), &color1.w);
-		}
-	}
-
-	pNode = pElement->FirstChild(GS_L("Luminance"));
-	if (pNode)
-	{
-		pIter = pNode->ToElement();
-		if (pIter)
-		{
-			pIter->QueryFloatAttribute(GS_L("r"), &emissive.x);
-			pIter->QueryFloatAttribute(GS_L("g"), &emissive.y);
-			pIter->QueryFloatAttribute(GS_L("b"), &emissive.z);
-		}
-	}
+	ETHEntityProperties::ReadColorPropertyFromXmlElement(pElement, GS_L("Color0"), color0);
+	ETHEntityProperties::ReadColorPropertyFromXmlElement(pElement, GS_L("Color1"), color1);
+	ETHEntityProperties::ReadColorPropertyFromXmlElement(pElement, GS_L("Luminance"), emissive);
 	return true;
 }
 
