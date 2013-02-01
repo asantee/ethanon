@@ -67,6 +67,8 @@ public:
 
 	Sprite();
 
+	void GetFlipShaderParameters(math::Vector2& flipAdd, math::Vector2& flipMul) const;
+
 	virtual bool LoadSprite(
 		VideoWeakPtr video,
 		GS_BYTE* pBuffer,
