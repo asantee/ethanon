@@ -141,8 +141,8 @@
 		[self manageCommands];
 		m_input->Update();
 
-		const unsigned long elapsedTime = static_cast<unsigned long>(gs2d::ComputeElapsedTime(m_video));
-		m_engine->Update(Min(static_cast<unsigned long>(1000), elapsedTime));
+		const float elapsedTime = (gs2d::ComputeElapsedTimeF(m_video));
+		m_engine->Update(Min(1000.0f, elapsedTime));
 	}
 	render = !render;
 }
