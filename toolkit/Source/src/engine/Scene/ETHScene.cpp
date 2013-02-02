@@ -375,7 +375,7 @@ bool ETHScene::GenerateLightmaps(const int id)
 }
 
 void ETHScene::Update(
-	const unsigned long lastFrameElapsedTime,
+	const float lastFrameElapsedTime,
 	const ETHBackBufferTargetManagerPtr& backBuffer,
 	asIScriptFunction* onUpdateCallbackFunction)
 {

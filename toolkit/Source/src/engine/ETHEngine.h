@@ -71,7 +71,7 @@ public:
 	ETHEngine(const bool testing, const bool compileAndRun);
 	~ETHEngine();
 	void Start(gs2d::VideoPtr video, gs2d::InputPtr input, gs2d::AudioPtr audio);
-	gs2d::Application::APP_STATUS Update(unsigned long lastFrameDeltaTimeMS); 
+	gs2d::Application::APP_STATUS Update(const float lastFrameDeltaTimeMS); 
 	void RenderFrame();
 	void Destroy();
 	void Restore();

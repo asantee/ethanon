@@ -240,10 +240,10 @@ bool ETHParticleManager::UpdateParticleSystem(
 	const Vector2& v2Pos,
 	const Vector3& v3Pos,
 	const float angle,
-	const unsigned long lastFrameElapsedTime)
+	const float lastFrameElapsedTime)
 {
 	bool anythingDrawn = false;
-	const unsigned long cappedLastFrameElapsedTime = Min(lastFrameElapsedTime, static_cast<unsigned long>(250));
+	const float cappedLastFrameElapsedTime = Min(lastFrameElapsedTime, 250.0f);
 	const float frameSpeed = static_cast<float>((static_cast<double>(cappedLastFrameElapsedTime) / 1000.0) * 60.0);
 
 	Matrix4x4 rot = RotateZ(DegreeToRadian(angle));

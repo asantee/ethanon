@@ -148,7 +148,7 @@ str_type::string FindResourceDir(const int argc, gs2d::str_type::char_t* argv[])
 						continue;
 
 					input->Update();
-					if (application->Update(Min(static_cast<unsigned long>(1000), ComputeElapsedTime(video))) == Application::APP_QUIT)
+					if (application->Update(Min(1000.0f, ComputeElapsedTimeF(video))) == Application::APP_QUIT)
 					{
 						break;
 					}

@@ -118,7 +118,7 @@ void ETHActiveEntityHandler::TestEntityLists() const
 	}
 }
 
-void ETHActiveEntityHandler::UpdateAlwaysActiveEntities(const Vector2& zAxisDir, ETHBucketManager& buckets, const unsigned long lastFrameElapsedTime)
+void ETHActiveEntityHandler::UpdateAlwaysActiveEntities(const Vector2& zAxisDir, ETHBucketManager& buckets, const float lastFrameElapsedTime)
 {
 	#if defined(_DEBUG) || defined(DEBUG)
 	TestEntityLists();
@@ -150,7 +150,7 @@ void ETHActiveEntityHandler::UpdateAlwaysActiveEntities(const Vector2& zAxisDir,
 	}
 }
 
-void ETHActiveEntityHandler::UpdateCurrentFrameEntities(const Vector2& zAxisDir, ETHBucketManager& buckets, const unsigned long lastFrameElapsedTime)
+void ETHActiveEntityHandler::UpdateCurrentFrameEntities(const Vector2& zAxisDir, ETHBucketManager& buckets, const float lastFrameElapsedTime)
 {
 	#if defined(_DEBUG) || defined(DEBUG)
 	TestEntityLists();

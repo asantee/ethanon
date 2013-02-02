@@ -137,12 +137,12 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 }
 
 Application::APP_STATUS ETHEngine::Update(
-	unsigned long lastFrameDeltaTimeMS)
+	const float lastFrameDeltaTimeMS)
 {
 	// removes dead elements on top layer to fill the list once again
 	m_drawableManager.RemoveTheDead();
 
-	SetLastFrameElapsedTime(lastFrameDeltaTimeMS);
+	SetLastFrameElapsedTime(static_cast<unsigned long>(lastFrameDeltaTimeMS));
 
 	// run garbage collector
 	GarbageCollect(m_gcMode, m_pASEngine);

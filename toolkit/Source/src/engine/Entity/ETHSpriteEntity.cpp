@@ -374,7 +374,7 @@ void ETHSpriteEntity::DestroyParticleSystem(const unsigned int n)
 	}
 }
 
-void ETHSpriteEntity::Update(const unsigned long lastFrameElapsedTime, const Vector2& zAxisDir, ETHBucketManager& buckets)
+void ETHSpriteEntity::Update(const float lastFrameElapsedTime, const Vector2& zAxisDir, ETHBucketManager& buckets)
 {
 	if (!IsStatic())
 	{
@@ -498,7 +498,7 @@ bool ETHSpriteEntity::AreParticlesOver() const
 	}
 }
 
-void ETHSpriteEntity::UpdateParticleSystems(const Vector2& zAxisDirection, const unsigned long lastFrameElapsedTime)
+void ETHSpriteEntity::UpdateParticleSystems(const Vector2& zAxisDirection, const float lastFrameElapsedTime)
 {
 	for (std::size_t t=0; t<m_particles.size(); t++)
 	{

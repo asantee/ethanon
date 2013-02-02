@@ -34,7 +34,7 @@ class BaseApplication
 {
 public:
 	virtual void Start(VideoPtr video, InputPtr input, AudioPtr audio) = 0;
-	virtual Application::APP_STATUS Update(unsigned long lastFrameDeltaTimeMS) = 0;
+	virtual Application::APP_STATUS Update(const float lastFrameDeltaTimeMS) = 0;
 	virtual void RenderFrame() = 0;
 	virtual void Destroy() = 0;
 	virtual void Restore() = 0;

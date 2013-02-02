@@ -1445,7 +1445,7 @@ void EntityEditor::DrawEntity()
 	}
 
 	m_speedTimer.CalcLastFrame();
-	m_renderEntity->UpdateParticleSystems(ETH_DEFAULT_ZDIRECTION, static_cast<unsigned long>(m_speedTimer.GetElapsedTime() * 1000.0));
+	m_renderEntity->UpdateParticleSystems(ETH_DEFAULT_ZDIRECTION, static_cast<float>(m_speedTimer.GetElapsedTime() * 1000.0));
 
 	std::list<ETHLight> lights;
 	if (m_pEditEntity->light)

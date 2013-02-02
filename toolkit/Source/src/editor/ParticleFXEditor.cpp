@@ -115,7 +115,7 @@ void ParticleEditor::DrawParticleSystem()
 		m_systemAngle = 180.0f;
 
 	m_timer.CalcLastFrame();
-	m_manager->UpdateParticleSystem(m_v2Pos, Vector3(m_v2Pos, 0), m_systemAngle, static_cast<unsigned long>(m_timer.GetElapsedTime() * 1000.0));
+	m_manager->UpdateParticleSystem(m_v2Pos, Vector3(m_v2Pos, 0), m_systemAngle, static_cast<float>(m_timer.GetElapsedTime() * 1000.0));
 
 	video->SetScissor(Rect2D((int)m_menuWidth*2, 0, video->GetScreenSize().x-(int)m_menuWidth*2, video->GetScreenSize().y));
 	if ((m_boundingSphere.IsActive() || m_boundingSphere.IsMouseOver()) && m_system.boundingSphere >= 1)

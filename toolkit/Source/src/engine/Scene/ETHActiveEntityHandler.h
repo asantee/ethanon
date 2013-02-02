@@ -34,8 +34,8 @@ public:
 	bool AddEntityWhenEligible(ETHRenderEntity* entity);
 	bool ShouldEntityBeAlwaysActive(ETHRenderEntity* entity) const;
 
-	void UpdateAlwaysActiveEntities(const Vector2& zAxisDir, ETHBucketManager& buckets, const unsigned long lastFrameElapsedTime);
-	void UpdateCurrentFrameEntities(const Vector2& zAxisDir, ETHBucketManager& buckets, const unsigned long lastFrameElapsedTime);
+	void UpdateAlwaysActiveEntities(const Vector2& zAxisDir, ETHBucketManager& buckets, const float lastFrameElapsedTime);
+	void UpdateCurrentFrameEntities(const Vector2& zAxisDir, ETHBucketManager& buckets, const float lastFrameElapsedTime);
 
 	bool AddStaticCallbackWhenEligible(ETHRenderEntity* entity);
 	bool IsStaticCallbackEligible(ETHRenderEntity* entity) const;

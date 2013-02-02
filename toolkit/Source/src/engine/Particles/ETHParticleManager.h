@@ -64,7 +64,7 @@ public:
 		const Vector2& v2Pos,
 		const Vector3& v3Pos,
 		const float angle,
-		const unsigned long lastFrameElapsedTime);
+		const float lastFrameElapsedTime);
 
 	/// Draw all particles also considering it's ambient light color
 	bool DrawParticleSystem(

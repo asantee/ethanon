@@ -98,8 +98,8 @@ public:
 	str_type::string GetGlossName() const;
 	str_type::string GetHaloName() const;
 
-	void Update(const unsigned long lastFrameElapsedTime, const Vector2& zAxisDir, ETHBucketManager& buckets);
-	void UpdateParticleSystems(const Vector2& zAxisDirection, const unsigned long lastFrameElapsedTime);
+	void Update(const float lastFrameElapsedTime, const Vector2& zAxisDir, ETHBucketManager& buckets);
+	void UpdateParticleSystems(const Vector2& zAxisDirection, const float lastFrameElapsedTime);
 
 	float ComputeLightIntensity();
 
