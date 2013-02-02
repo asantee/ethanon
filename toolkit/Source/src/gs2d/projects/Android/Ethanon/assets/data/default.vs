@@ -16,6 +16,9 @@ uniform vec2 entityPos;
 uniform vec2 center;
 uniform vec2 cameraPos;
 
+uniform vec2 flipMul;
+uniform vec2 flipAdd;
+
 uniform vec4 color0;
 uniform vec4 color1;
 uniform vec4 color2;

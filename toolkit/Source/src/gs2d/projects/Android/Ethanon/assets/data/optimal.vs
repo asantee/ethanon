@@ -9,7 +9,7 @@ uniform mat4 rotationMatrix;
 
 uniform vec2 screenSize;
 
-uniform vec2 params[10];
+uniform vec2 params[12];
 
 #define rectPos params[0]
 #define rectSize params[1]

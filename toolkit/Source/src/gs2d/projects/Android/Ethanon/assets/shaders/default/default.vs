@@ -16,6 +16,9 @@ uniform vec2 entityPos;
 uniform vec2 center;
 uniform vec2 cameraPos;
 
+uniform vec2 flipMul;
+uniform vec2 flipAdd;
+
 uniform vec4 color0;
 uniform vec4 color1;
 uniform vec4 color2;
@@ -25,7 +28,7 @@ uniform float depth;
 
 vec4 transformSprite(vec3 position)
 {
-	vec4 newPos = vec4(position, 1.0);
+	vec4 newPos = vec4(position, 1.0) * vec4(flipMul, 1.0, 1.0) + vec4(flipAdd, 0.0, 0.0);
 	newPos = newPos * vec4(size, 1.0, 1.0) - vec4(center, 0.0, 0.0);
 	newPos = (rotationMatrix * newPos);
 	newPos += vec4(entityPos, 0.0, 0.0)-vec4(screenSize/2.0, 0.0, 0.0)-vec4(cameraPos, 0.0, 0.0);

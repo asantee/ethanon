@@ -171,6 +171,8 @@ bool GLES2Sprite::DrawShaped(
 	GLES2Shader* ps = m_shaderContext->GetCurrentPS().get();
 
 	Vector2 pos(v2Pos), camPos(m_video->GetCameraPos()), center(m_normalizedOrigin*v2Size);
+
+	// to-do/todo: make this more generic
 	if (m_video->IsRoundingUpPosition())
 	{
 		pos.x = floor(pos.x);
@@ -194,6 +196,8 @@ bool GLES2Sprite::DrawShaped(
 	static const std::size_t COLOR3_HASH = fastHash("color3");
 	static const std::size_t CAMERA_POS_HASH = fastHash("cameraPos");
 	static const std::size_t DEPTH_HASH = fastHash("depth");
+	static const std::size_t FLIP_MUL = fastHash("flipMul");
+	static const std::size_t FLIP_ADD = fastHash("flipAdd");
 
 	Matrix4x4 mRot;
 	if (angle != 0.0f)
@@ -215,6 +219,9 @@ bool GLES2Sprite::DrawShaped(
 		vs->SetConstant(RECT_POS_HASH, "rectPos", m_rect.pos);
 	}
 
+	Vector2 flipAdd, flipMul;
+	GetFlipShaderParameters(flipAdd, flipMul);
+
 	vs->SetConstant(BITMAP_SIZE_HASH, "bitmapSize", m_bitmapSize);
 	vs->SetConstant(ENTITY_POS_HASH, "entityPos", pos);
 	vs->SetConstant(CENTER_HASH, "center", center);
@@ -223,6 +230,8 @@ bool GLES2Sprite::DrawShaped(
 	vs->SetConstant(COLOR1_HASH, "color1", color1);
 	vs->SetConstant(COLOR2_HASH, "color2", color2);
 	vs->SetConstant(COLOR3_HASH, "color3", color3);
+	vs->SetConstant(FLIP_ADD, "flipAdd", flipAdd);
+	vs->SetConstant(FLIP_MUL, "flipMul", flipMul);
 	vs->SetConstant(CAMERA_POS_HASH, "cameraPos", camPos);
 	vs->SetConstant(DEPTH_HASH, "depth", m_video->GetSpriteDepth());
 	m_shaderContext->DrawRect(m_rectMode);
@@ -272,10 +281,13 @@ bool GLES2Sprite::DrawOptimal(const math::Vector2 &v2Pos, const Color& color, co
 		rectSize = m_rect.size;
 	}
 
+	Vector2 flipAdd, flipMul;
+	GetFlipShaderParameters(flipAdd, flipMul);
+
 	Vector4 v4Color;
 	v4Color.SetColor(color);
 
-	static const unsigned int numParams = 10;
+	static const unsigned int numParams = 12;
 	Vector2 *params = new Vector2 [numParams];
 	params[0] = rectPos;
 	params[1] = rectSize;
@@ -287,6 +299,8 @@ bool GLES2Sprite::DrawOptimal(const math::Vector2 &v2Pos, const Color& color, co
 	params[7] = Vector2(v4Color.x, v4Color.y);
 	params[8] = Vector2(v4Color.z, v4Color.w);
 	params[9] = Vector2(m_video->GetSpriteDepth(), m_video->GetSpriteDepth());
+	params[10] = flipAdd;
+	params[11] = flipMul;
 
 	vs->SetMatrixConstant(ROTATION_MATRIX_HASH, "rotationMatrix", mRot);
 	vs->SetConstantArray(PARAMS_HASH, "params", numParams, boost::shared_array<const math::Vector2>(params));

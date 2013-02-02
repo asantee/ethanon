@@ -13,7 +13,7 @@ uniform mat4 rotationMatrix;
 
 uniform vec2 screenSize;
 
-uniform vec2 params[10];
+uniform vec2 params[12];
 
 #define rectPos params[0]
 #define rectSize params[1]
@@ -25,6 +25,8 @@ uniform vec2 params[10];
 #define colorRG params[7]
 #define colorBA params[8]
 #define depth params[9]
+#define flipAdd params[10]
+#define flipMul params[11]
 
 uniform float3 parallaxOrigin_verticalIntensity;
 uniform float4 entityPos3D_parallaxIntensity;
@@ -45,7 +47,7 @@ float2 computeParallaxOffset(float2 vertPos, float3 inPosition)
 
 float4 transformSprite(float3 position)
 {
-	float4 newPos = float4(position, 1.0);
+	float4 newPos = float4(position, 1.0) * vec4(flipMul, 1.0, 1.0) + vec4(flipAdd, 0.0, 0.0);
 	newPos = newPos * float4(size, 1.0, 1.0) - float4(center, 0.0, 0.0);
 	newPos = (rotationMatrix * newPos);
 	newPos += float4(entityPos, 0.0, 0.0) - float4(cameraPos, 0.0, 0.0);

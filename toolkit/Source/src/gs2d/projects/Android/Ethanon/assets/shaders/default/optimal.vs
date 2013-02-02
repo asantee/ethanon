@@ -9,7 +9,7 @@ uniform mat4 rotationMatrix;
 
 uniform vec2 screenSize;
 
-uniform vec2 params[10];
+uniform vec2 params[12];
 
 #define rectPos params[0]
 #define rectSize params[1]
@@ -21,10 +21,12 @@ uniform vec2 params[10];
 #define colorRG params[7]
 #define colorBA params[8]
 #define depth params[9]
+#define flipAdd params[10]
+#define flipMul params[11]
 
 vec4 transformSprite(vec3 position)
 {
-	vec4 newPos = vec4(position, 1.0);
+	vec4 newPos = vec4(position, 1.0) * vec4(flipMul, 1.0, 1.0) + vec4(flipAdd, 0.0, 0.0);
 	newPos = newPos * vec4(size, 1.0, 1.0) - vec4(center, 0.0, 0.0);
 	newPos = (rotationMatrix * newPos);
 	newPos += vec4(entityPos, 0.0, 0.0)-vec4(screenSize/2.0, 0.0, 0.0)-vec4(cameraPos, 0.0, 0.0);
