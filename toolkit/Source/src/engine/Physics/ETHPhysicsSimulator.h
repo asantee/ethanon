@@ -61,7 +61,7 @@ public:
 	static b2Body* CreateBody(ETHEntity *entity, const boost::shared_ptr<b2World>& world);
 	static ETHPhysicsEntityControllerPtr CreatePhysicsController(ETHEntity *entity, const boost::shared_ptr<b2World>& world,
 		asIScriptModule* module, asIScriptContext* context);
-	void Update(const unsigned long lastFrameElapsedTime);
+	void Update(const float lastFrameElapsedTime);
 	static b2Vec2 ScaleToBox2D(const Vector2& v);
 	static Vector2 ScaleFromBox2D(const b2Vec2& v);
 	static float32 ScaleToBox2D(const float& v);

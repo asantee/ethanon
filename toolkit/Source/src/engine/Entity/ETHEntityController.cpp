@@ -49,7 +49,7 @@ ETHRawEntityController::ETHRawEntityController(
 
 ETHRawEntityController::~ETHRawEntityController() {}
 
-void ETHRawEntityController::Update(const unsigned long lastFrameElapsedTime, ETHBucketManager& buckets)
+void ETHRawEntityController::Update(const float lastFrameElapsedTime, ETHBucketManager& buckets)
 {
 	GS2D_UNUSED_ARGUMENT(lastFrameElapsedTime);
 	GS2D_UNUSED_ARGUMENT(buckets);

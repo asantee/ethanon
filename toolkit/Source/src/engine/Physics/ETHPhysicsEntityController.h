@@ -60,7 +60,7 @@ public:
 
 	ETHPhysicsEntityController(const ETHEntityControllerPtr& old, b2Body* body, boost::shared_ptr<b2World> world,
 		asIScriptModule* module, asIScriptContext* context);
-	void Update(const unsigned long lastFrameElapsedTime, ETHBucketManager& buckets);
+	void Update(const float lastFrameElapsedTime, ETHBucketManager& buckets);
 	void SetPos(const Vector3& pos);
 	void AddToPos(const Vector3& pos);
 	void AddToAngle(const float angle);

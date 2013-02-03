@@ -76,7 +76,7 @@ asIScriptFunction* ETHPhysicsEntityController::GetContactCallback(const str_type
 	return module->GetFunctionByName(utf8::c(ss.str()).c_str());
 }
 
-void ETHPhysicsEntityController::Update(const unsigned long lastFrameElapsedTime, ETHBucketManager& buckets)
+void ETHPhysicsEntityController::Update(const float lastFrameElapsedTime, ETHBucketManager& buckets)
 {
 	if (!m_body)
 		return;

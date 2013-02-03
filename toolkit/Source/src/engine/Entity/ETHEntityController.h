@@ -35,7 +35,7 @@ class ETHBucketManager;
 class ETHEntityController
 {
 public:
-	virtual void Update(const unsigned long lastFrameElapsedTime, ETHBucketManager& buckets) = 0;
+	virtual void Update(const float lastFrameElapsedTime, ETHBucketManager& buckets) = 0;
 	virtual Vector3 GetPos() const = 0;
 	virtual Vector2 GetPosXY() const = 0;
 	virtual float GetPosX() const = 0;
@@ -80,7 +80,7 @@ public:
 	ETHRawEntityController(const ETHEntityControllerPtr& old, asIScriptContext *pContext,
 						   asIScriptFunction* callback, asIScriptFunction* constructorCallback);
 	virtual ~ETHRawEntityController();
-	void Update(const unsigned long lastFrameElapsedTime, ETHBucketManager& buckets);
+	void Update(const float lastFrameElapsedTime, ETHBucketManager& buckets);
 	Vector3 GetPos() const;
 	Vector2 GetPosXY() const;
 	float GetAngle() const;
