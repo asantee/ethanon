@@ -47,14 +47,16 @@ uniform float3 lightPos;
 uniform float lightRange;
 uniform float4 lightColor;
 
-uniform float2 parallaxOrigin;
+uniform float3 parallaxOrigin_verticalIntensity;
 uniform float parallaxIntensity;
 uniform float3 entityPos3D;
-float2 computeParallaxOffset()
+
+float2 computeParallaxOffset(const float2 vertPos)
 {
-	const float2 screenSpacePos = float2(entityPos3D.x, entityPos3D.y)-cameraPos;
-	return ((screenSpacePos-parallaxOrigin)/screenSize.x)*entityPos3D.z*parallaxIntensity;
+	const float2 parallaxOrigin = parallaxOrigin_verticalIntensity.xy;
+	return ((vertPos - parallaxOrigin) / screenSize.x) * entityPos3D.z * parallaxIntensity;
 }
+
 struct SPRITE_TRANSFORM
 {
 	float4 position;
@@ -65,12 +67,12 @@ SPRITE_TRANSFORM transformSprite(float3 position)
 	SPRITE_TRANSFORM r;
 	float4 newPos = float4(position, 1);
 	newPos = newPos * float4(size,1,1) - float4(center, 0, 0);
-	newPos = mul(rotationMatrix, newPos)+float4(entityPos,0,0);
-	r.vertPos = newPos.xy;
-	
+	newPos = mul(rotationMatrix, newPos) + float4(entityPos,0,0);
+	r.vertPos = newPos.xy / screenSize;
+
 	// project the vertex on the screen
-	newPos -= float4(screenSize/2,0,0)+float4(cameraPos,0,0);
-	newPos += float4(computeParallaxOffset(),0,0);
+	newPos -= float4(cameraPos,0,0);
+	newPos += float4(computeParallaxOffset(newPos),0,0) - float4(screenSize / 2,0,0);
 	newPos *= float4(1,-1,1,1);
 	r.position = mul(viewMatrix, newPos);
 	return r;

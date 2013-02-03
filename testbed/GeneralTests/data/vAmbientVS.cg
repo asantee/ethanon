@@ -67,7 +67,7 @@ float2 computeParallaxOffset(const float2 vertPos, float3 inPosition)
 // origin in screen space and rotation angle
 float4 transformSprite(float3 position)
 {
-	float4 newPos = float4(position, 1);
+	float4 newPos = float4(position, 1) * float4(flipMul,1,1) + float4(flipAdd,0,0);
 
 	// scales and position the sprite center
 	newPos = newPos * float4(size,1,1) - float4(center, 0, 0);
