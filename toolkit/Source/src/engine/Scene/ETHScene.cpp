@@ -383,7 +383,10 @@ void ETHScene::Update(
 	m_physicsSimulator.Update(lastFrameElapsedTime);
 
 	// update entities that are always active (dynamic entities with callback or physics and temporary entities)
-	m_activeEntityHandler.UpdateAlwaysActiveEntities(GetZAxisDirection(), m_buckets, lastFrameElapsedTime);
+	m_activeEntityHandler.UpdateAlwaysActiveEntities(
+		GetZAxisDirection(),
+		m_buckets,
+		lastFrameElapsedTime * m_physicsSimulator.GetTimeStepScale());
 
 	// Run onSceneUpdate functon
 	if (onUpdateCallbackFunction)
@@ -401,7 +404,10 @@ void ETHScene::Update(
 		backBuffer);
 
 	// update static mapped entities that weren't called in UpdateAlwaysActiveEntities
-	m_activeEntityHandler.UpdateCurrentFrameEntities(GetZAxisDirection(), m_buckets, lastFrameElapsedTime);
+	m_activeEntityHandler.UpdateCurrentFrameEntities(
+		GetZAxisDirection(),
+		m_buckets,
+		lastFrameElapsedTime * m_physicsSimulator.GetTimeStepScale());
 
 	m_minSceneHeight = minHeight;
 	m_maxSceneHeight = maxHeight;
