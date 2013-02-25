@@ -1154,6 +1154,7 @@ void SceneEditor::PlaceEntitySelection()
 			}
 			else
 			{
+				video->SetVertexShader(ShaderPtr());
 				m_invisible->Draw(m_currentEntity->GetPositionXY());
 			}
 		}
@@ -1492,7 +1493,8 @@ void SceneEditor::LoopThroughEntityList()
 		{
 			VideoPtr video = m_provider->GetVideo();
 			const float depth = video->GetSpriteDepth();
-			video->SetSpriteDepth(1.0f);
+			video->SetSpriteDepth(0.0f);
+			video->SetVertexShader(ShaderPtr());
 			m_invisible->Draw(pEntity->GetPositionXY());
 			video->SetSpriteDepth(depth);
 		}
