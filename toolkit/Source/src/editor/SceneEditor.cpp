@@ -550,6 +550,7 @@ void SceneEditor::EntitySelector(const bool guiButtonsFree)
 			const Color dwColor(128,255,255,255);
 			m_richOutline->SetOrigin(Sprite::EO_CENTER);
 			const Vector2 v2Pos = m_pSelected->ComputeInScreenSpriteCenter(*m_pScene->GetSceneProperties()) + video->GetCameraPos();
+			video->SetVertexShader(ShaderPtr());
 			m_richOutline->DrawShaped(v2Pos, m_pSelected->GetCurrentSize(), dwColor, dwColor, dwColor, dwColor, m_pSelected->GetAngle());
 			DrawEntityString(m_pSelected, gs2d::constant::WHITE);
 
@@ -580,6 +581,7 @@ void SceneEditor::EntitySelector(const bool guiButtonsFree)
 				const Color dwColor(48, 255, 255, 255);
 				const Vector2& size(pSelected->GetCurrentSize());
 				m_richOutline->SetOrigin(Sprite::EO_CENTER);
+				video->SetVertexShader(ShaderPtr());
 				m_richOutline->DrawShaped(pSelected->ComputeInScreenSpriteCenter(*m_pScene->GetSceneProperties()) + video->GetCameraPos(),
 									  size, dwColor, dwColor, dwColor, dwColor, pSelected->GetAngle());
 				DrawEntityString(pSelected, Color(100, 255, 255, 255));
