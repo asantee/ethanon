@@ -274,6 +274,7 @@ unsigned int BitmapFont::FindClosestCarretPosition(const str_type::string& text,
 template<class TChar>
 inline int ConvertCharacterToIndex(const TChar* character, std::size_t& t)
 {
+#ifdef GS2D_STR_TYPE_ANSI
 	int index = 0;
 	if (utf8::is_valid(character, character + 1))
 	{
@@ -294,6 +295,18 @@ inline int ConvertCharacterToIndex(const TChar* character, std::size_t& t)
 		t++;
 	}
 	return math::Min(index, static_cast<int>(GS2D_CHARSET_MAX_CHARS - 1));
+#else
+	GS2D_UNUSED_ARGUMENT(t);
+	static const int bitsInByte = 8;
+	static const int maxTCharValue = 1 << bitsInByte * sizeof(TChar);
+	int index = static_cast<int>(character[0]);
+	if (index < 0)
+	{
+		index += maxTCharValue;
+	}
+	assert(index < maxTCharValue);
+	return index;
+#endif
 }
 
 Vector2 BitmapFont::ComputeCarretPosition(const str_type::string& text, const unsigned int pos)
