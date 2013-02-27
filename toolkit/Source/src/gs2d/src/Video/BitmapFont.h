@@ -29,6 +29,8 @@
 
 namespace gs2d {
 
+#define GS2D_CHARSET_MAX_CHARS (65536)
+
 /**
  * \brief Stores and renders bitmap fonts
  *
@@ -57,7 +59,7 @@ class BitmapFont
 		float base;
 		float width, height;
 		int pages;
-		CHAR_DESCRIPTOR chars[65536];
+		CHAR_DESCRIPTOR chars[GS2D_CHARSET_MAX_CHARS];
 		std::vector<str_type::string> textureNames;
 		float paddingUp, paddingRight, paddingDown, paddingLeft;
 	} m_charSet;

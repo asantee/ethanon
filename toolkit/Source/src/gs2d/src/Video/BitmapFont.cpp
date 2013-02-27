@@ -22,6 +22,7 @@
 
 #include "BitmapFont.h"
 #include "../Video.h"
+#include "../Unicode/utf8/utf8.h"
 
 namespace gs2d {
 using namespace gs2d::math;
@@ -271,17 +272,28 @@ unsigned int BitmapFont::FindClosestCarretPosition(const str_type::string& text,
 }
 
 template<class TChar>
-inline int ConvertCharacterToIndex(TChar character)
+inline int ConvertCharacterToIndex(const TChar* character, std::size_t& t)
 {
-	static const int bitsInByte = 8;
-	static const int maxTCharValue = 1 << bitsInByte * sizeof(TChar);
-	int index = static_cast<int>(character);
-	if (index < 0)
+	int index = 0;
+	if (utf8::is_valid(character, character + 1))
 	{
-		index += maxTCharValue;
+		static const int bitsInByte = 8;
+		static const int maxTCharValue = 1 << bitsInByte * sizeof(TChar);
+		index = static_cast<int>(character[0]);
+		if (index < 0)
+		{
+			index += maxTCharValue;
+		}
+		assert(index < maxTCharValue);
 	}
-	assert(index < maxTCharValue);
-	return index;
+	else if (utf8::is_valid(character, character + 2))
+	{
+		std::vector<unsigned short> utf16line;
+        utf8::utf8to16(character, character + 2, std::back_inserter(utf16line));
+		index = static_cast<int>(utf16line[0]);
+		t++;
+	}
+	return math::Min(index, static_cast<int>(GS2D_CHARSET_MAX_CHARS - 1));
 }
 
 Vector2 BitmapFont::ComputeCarretPosition(const str_type::string& text, const unsigned int pos)
@@ -302,7 +314,8 @@ Vector2 BitmapFont::ComputeCarretPosition(const str_type::string& text, const un
 			cursor.y += m_charSet.lineHeight;
 			continue;
 		}
-		int charId = ConvertCharacterToIndex<str_type::char_t>(text[t]);
+
+		int charId = ConvertCharacterToIndex<str_type::char_t>(&text[t], t);
 		const CHAR_DESCRIPTOR& currentChar = m_charSet.chars[charId];
 		cursor.x += currentChar.xAdvance;
 	}
@@ -328,7 +341,7 @@ Vector2 BitmapFont::ComputeTextBoxSize(const str_type::string& text)
 			cursor.y += m_charSet.lineHeight;
 			continue;
 		}
-		int charId = ConvertCharacterToIndex<str_type::char_t>(text[t]);
+		int charId = ConvertCharacterToIndex<str_type::char_t>(&text[t], t);
 		const CHAR_DESCRIPTOR &currentChar = m_charSet.chars[charId];
 		if (t == lastChar)
 		{
@@ -366,7 +379,7 @@ Vector2 BitmapFont::DrawBitmapText(const Vector2& pos, const str_type::string& t
 			cursor.y += m_charSet.lineHeight * scale;
 			continue;
 		}
-		int charId = ConvertCharacterToIndex<str_type::char_t>(text[t]);
+		int charId = ConvertCharacterToIndex<str_type::char_t>(&text[t], t);
 		const CHAR_DESCRIPTOR &currentChar = m_charSet.chars[charId];
 		if (currentChar.width > 0 && currentChar.height > 0)
 		{
