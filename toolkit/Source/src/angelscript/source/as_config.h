@@ -1,6 +1,6 @@
 /*
    AngelCode Scripting Library
-   Copyright (c) 2003-2012 Andreas Jonsson
+   Copyright (c) 2003-2013 Andreas Jonsson
 
    This software is provided 'as-is', without any express or implied
    warranty. In no event will the authors be held liable for any
@@ -997,6 +997,12 @@
 	#endif
 #endif
 
+// If the platform doesn't support atomic instructions we can't allow 
+// multithreading as the reference counters won't be threadsafe
+#if defined(AS_NO_ATOMIC) && !defined(AS_NO_THREADS)
+	#define AS_NO_THREADS
+#endif
+
 // If the form of threads to use hasn't been chosen
 // then the library will be compiled without support
 // for multithreading
@@ -1042,7 +1048,7 @@
 
 // This macro is used to avoid warnings about unused variables.
 // Usually where the variables are only used in debug mode.
-#define UNUSED_VAR(x) (x)=(x)
+#define UNUSED_VAR(x) (void)(x)
 
 #include "../include/angelscript.h"
 #include "as_memory.h"

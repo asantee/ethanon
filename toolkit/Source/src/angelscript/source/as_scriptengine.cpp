@@ -1,6 +1,6 @@
 /*
    AngelCode Scripting Library
-   Copyright (c) 2003-2012 Andreas Jonsson
+   Copyright (c) 2003-2013 Andreas Jonsson
 
    This software is provided 'as-is', without any express or implied
    warranty. In no event will the authors be held liable for any
@@ -413,7 +413,7 @@ asPWORD asCScriptEngine::GetEngineProperty(asEEngineProp property) const
 
 asCScriptEngine::asCScriptEngine()
 {
-	asCThreadManager::Prepare();
+	asCThreadManager::Prepare(0);
 
 	// Engine properties
 	{
@@ -756,6 +756,12 @@ asSNameSpace *asCScriptEngine::FindNameSpace(const char *name)
 }
 
 // interface
+const char *asCScriptEngine::GetDefaultNamespace() const
+{
+	return defaultNamespace->name.AddressOf();
+}
+
+// interface
 int asCScriptEngine::SetDefaultNamespace(const char *nameSpace)
 {
 	if( nameSpace == 0 )
@@ -967,8 +973,10 @@ int asCScriptEngine::DiscardModule(const char *module)
 }
 
 // internal
-void asCScriptEngine::ClearUnusedTypes()
+int asCScriptEngine::ClearUnusedTypes()
 {
+	int clearCount = 0;
+
 	// Build a list of all types to check for
 	asCArray<asCObjectType*> types;
 	types = classTypes;
@@ -1050,11 +1058,13 @@ void asCScriptEngine::ClearUnusedTypes()
 				{
 					didClearTemplateInstanceType = true;
 					RemoveTemplateInstanceType(type);
+					clearCount++;
 				}
 				else
 				{
 					RemoveFromTypeIdMap(type);
 					asDELETE(type,asCObjectType);
+					clearCount++;
 
 					classTypes.RemoveIndexUnordered(classTypes.IndexOf(type));
 				}
@@ -1068,6 +1078,8 @@ void asCScriptEngine::ClearUnusedTypes()
 		if( didClearTemplateInstanceType == false )
 			break;
 	}
+
+	return clearCount;
 }
 
 // internal
@@ -2978,6 +2990,30 @@ void asCScriptEngine::RemoveTemplateInstanceType(asCObjectType *t)
 }
 
 // internal
+void asCScriptEngine::OrphanTemplateInstances(asCObjectType *subType)
+{
+	for( asUINT n = 0; n < templateTypes.GetLength(); n++ )
+	{
+		if( templateTypes[n] &&
+			templateTypes[n]->templateSubType.GetObjectType() == subType )
+		{
+			if( templateTypes[n]->module )
+			{
+				// Tell the GC that the template type exists so it can resolve potential circular references
+				gc.AddScriptObjectToGC(templateTypes[n], &objectTypeBehaviours);
+
+				// Clear the module
+				templateTypes[n]->module = 0;
+				templateTypes[n]->Release();
+
+				// Do a recursive check for other template instances
+				OrphanTemplateInstances(templateTypes[n]);
+			}
+		}
+	}
+}
+
+// internal
 asCObjectType *asCScriptEngine::GetTemplateInstanceType(asCObjectType *templateType, asCDataType &subType)
 {
 	asUINT n;
@@ -3012,6 +3048,15 @@ asCObjectType *asCScriptEngine::GetTemplateInstanceType(asCObjectType *templateT
 	ot->flags     = templateType->flags;
 	ot->size      = templateType->size;
 	ot->name      = templateType->name;
+
+	// The template instance type will inherit the same module as the subType
+	// This will allow the module to orphan the template instance types afterwards
+	if( subType.GetObjectType() )
+	{
+		ot->module = subType.GetObjectType()->module;
+		if( ot->module )
+			ot->AddRef();
+	}
 
 	// Before filling in the methods, call the template instance callback behaviour to validate the type
 	if( templateType->beh.templateCallback )

@@ -1,6 +1,6 @@
 /*
    AngelCode Scripting Library
-   Copyright (c) 2003-2012 Andreas Jonsson
+   Copyright (c) 2003-2013 Andreas Jonsson
 
    This software is provided 'as-is', without any express or implied
    warranty. In no event will the authors be held liable for any
@@ -59,7 +59,7 @@ BEGIN_AS_NAMESPACE
 // AngelScript version
 
 #define ANGELSCRIPT_VERSION        22600
-#define ANGELSCRIPT_VERSION_STRING "2.26.0 WIP"
+#define ANGELSCRIPT_VERSION_STRING "2.26.0"
 
 // Data types
 
@@ -72,6 +72,7 @@ class asIObjectType;
 class asIScriptFunction;
 class asIBinaryStream;
 class asIJITCompiler;
+class asIThreadManager;
 
 // Enumerations and constants
 
@@ -397,6 +398,19 @@ typedef void (asCUnknownClass::*asMETHOD_t)();
 
 struct asSFuncPtr
 {
+	asSFuncPtr(asBYTE f)
+	{
+		for( size_t n = 0; n < sizeof(ptr.dummy); n++ )
+			ptr.dummy[n] = 0;
+		flag = f;
+	}
+
+	void CopyMethodPtr(const void *mthdPtr, size_t size)
+	{
+		for( size_t n = 0; n < size; n++ )
+			ptr.dummy[n] = reinterpret_cast<const char *>(mthdPtr)[n];
+	}
+
 	union
 	{
 		// The largest known method point is 20 bytes (MSVC 64bit),
@@ -435,6 +449,13 @@ template <typename T>
 
 struct asSFuncPtr
 {
+	asSFuncPtr(asBYTE f)
+	{
+		for( int n = 0; n < sizeof(ptr.dummy); n++ )
+			ptr.dummy[n] = 0;
+		flag = f;
+	}
+
 	union
 	{
 		char dummy[25]; // largest known class method pointer
@@ -485,21 +506,24 @@ struct asSMessageInfo
 extern "C"
 {
 	// Engine
-	AS_API asIScriptEngine * asCreateScriptEngine(asDWORD version);
-	AS_API const char * asGetLibraryVersion();
-	AS_API const char * asGetLibraryOptions();
+	AS_API asIScriptEngine *asCreateScriptEngine(asDWORD version);
+	AS_API const char      *asGetLibraryVersion();
+	AS_API const char      *asGetLibraryOptions();
 
 	// Context
-	AS_API asIScriptContext * asGetActiveContext();
+	AS_API asIScriptContext *asGetActiveContext();
 
 	// Thread support
-	AS_API void asPrepareMultithread();
-	AS_API void asUnprepareMultithread();
-	AS_API void asAcquireExclusiveLock();
-	AS_API void asReleaseExclusiveLock();
-	AS_API void asAcquireSharedLock();
-	AS_API void asReleaseSharedLock();
-	AS_API int  asThreadCleanup();
+	AS_API int               asPrepareMultithread(asIThreadManager *externalMgr = 0);
+	AS_API void              asUnprepareMultithread();
+	AS_API asIThreadManager *asGetThreadManager();
+	AS_API void              asAcquireExclusiveLock();
+	AS_API void              asReleaseExclusiveLock();
+	AS_API void              asAcquireSharedLock();
+	AS_API void              asReleaseSharedLock();
+	AS_API int               asAtomicInc(int &value);
+	AS_API int               asAtomicDec(int &value);
+	AS_API int               asThreadCleanup();
 
 	// Memory management
 	AS_API int asSetGlobalMemoryFunctions(asALLOCFUNC_t allocFunc, asFREEFUNC_t freeFunc);
@@ -584,11 +608,12 @@ public:
 	virtual const char *GetTypedefByIndex(asUINT index, int *typeId, const char **nameSpace = 0, const char **configGroup = 0, asDWORD *accessMask = 0) const = 0;
 
 	// Configuration groups
-	virtual int     BeginConfigGroup(const char *groupName) = 0;
-	virtual int     EndConfigGroup() = 0;
-	virtual int     RemoveConfigGroup(const char *groupName) = 0;
-	virtual asDWORD SetDefaultAccessMask(asDWORD defaultMask) = 0;
-	virtual int     SetDefaultNamespace(const char *nameSpace) = 0;
+	virtual int         BeginConfigGroup(const char *groupName) = 0;
+	virtual int         EndConfigGroup() = 0;
+	virtual int         RemoveConfigGroup(const char *groupName) = 0;
+	virtual asDWORD     SetDefaultAccessMask(asDWORD defaultMask) = 0;
+	virtual int         SetDefaultNamespace(const char *nameSpace) = 0;
+	virtual const char *GetDefaultNamespace() const = 0;
 
 	// Script modules
 	virtual asIScriptModule *GetModule(const char *module, asEGMFlags flag = asGM_ONLY_IF_EXISTS) = 0;
@@ -641,6 +666,12 @@ protected:
 	virtual ~asIScriptEngine() {}
 };
 
+class asIThreadManager
+{
+protected:
+	virtual ~asIThreadManager() {}
+};
+
 class asIScriptModule
 {
 public:
@@ -649,12 +680,13 @@ public:
 	virtual const char      *GetName() const = 0;
 
 	// Compilation
-	virtual int     AddScriptSection(const char *name, const char *code, size_t codeLength = 0, int lineOffset = 0) = 0;
-	virtual int     Build() = 0;
-	virtual int     CompileFunction(const char *sectionName, const char *code, int lineOffset, asDWORD compileFlags, asIScriptFunction **outFunc) = 0;
-	virtual int     CompileGlobalVar(const char *sectionName, const char *code, int lineOffset) = 0;
-	virtual asDWORD SetAccessMask(asDWORD accessMask) = 0;
-	virtual int     SetDefaultNamespace(const char *nameSpace) = 0;
+	virtual int         AddScriptSection(const char *name, const char *code, size_t codeLength = 0, int lineOffset = 0) = 0;
+	virtual int         Build() = 0;
+	virtual int         CompileFunction(const char *sectionName, const char *code, int lineOffset, asDWORD compileFlags, asIScriptFunction **outFunc) = 0;
+	virtual int         CompileGlobalVar(const char *sectionName, const char *code, int lineOffset) = 0;
+	virtual asDWORD     SetAccessMask(asDWORD accessMask) = 0;
+	virtual int         SetDefaultNamespace(const char *nameSpace) = 0;
+	virtual const char *GetDefaultNamespace() const = 0;
 
 	// Functions
 	virtual asUINT             GetFunctionCount() const = 0;
@@ -891,8 +923,9 @@ public:
 	virtual asDWORD          GetFlags() const = 0;
 	virtual asUINT           GetSize() const = 0;
 	virtual int              GetTypeId() const = 0;
-	virtual int              GetSubTypeId() const = 0;
-	virtual asIObjectType   *GetSubType() const = 0;
+	virtual int              GetSubTypeId(asUINT subTypeIndex = 0) const = 0;
+	virtual asIObjectType   *GetSubType(asUINT subTypeIndex = 0) const = 0;
+	virtual asUINT           GetSubTypeCount() const = 0;
 
 	// Interfaces
 	virtual asUINT           GetInterfaceCount() const = 0;
@@ -1004,31 +1037,13 @@ public:
 //-----------------------------------------------------------------
 // Function pointers
 
-// Use our own memset() and memcpy() implementations for better portability
-inline void asMemClear(void *_p, size_t size)
-{
-	char *p = reinterpret_cast<char *>(_p);
-	const char *e = p + size;
-	for( ; p < e; p++ )
-		*p = 0;
-}
-
-inline void asMemCopy(void *_d, const void *_s, size_t size)
-{
-	char *d = reinterpret_cast<char *>(_d);
-	const char *s = reinterpret_cast<const char *>(_s);
-	const char *e = s + size;
-	for( ; s < e; d++, s++ )
-		*d = *s;
-}
-
 // Template function to capture all global functions,
 // except the ones using the generic calling convention
 template <class T>
 inline asSFuncPtr asFunctionPtr(T func)
 {
-	asSFuncPtr p;
-	asMemClear(&p, sizeof(p));
+	// Mark this as a global function
+	asSFuncPtr p(2);
 
 #ifdef AS_64BIT_PTR
 	// The size_t cast is to avoid a compiler warning with asFUNCTION(0) 
@@ -1040,9 +1055,6 @@ inline asSFuncPtr asFunctionPtr(T func)
 	p.ptr.f.func = reinterpret_cast<asFUNCTION_t>(func);
 #endif
 
-	// Mark this as a global function
-	p.flag = 2;
-
 	return p;
 }
 
@@ -1050,13 +1062,9 @@ inline asSFuncPtr asFunctionPtr(T func)
 template<>
 inline asSFuncPtr asFunctionPtr<asGENFUNC_t>(asGENFUNC_t func)
 {
-	asSFuncPtr p;
-	asMemClear(&p, sizeof(p));
-	p.ptr.f.func = reinterpret_cast<asFUNCTION_t>(func);
-
 	// Mark this as a generic function
-	p.flag = 1;
-
+	asSFuncPtr p(1);
+	p.ptr.f.func = reinterpret_cast<asFUNCTION_t>(func);
 	return p;
 }
 
@@ -1081,7 +1089,7 @@ struct asSMethodPtr
 
 		int ERROR_UnsupportedMethodPtr[N-100];
 
-		asSFuncPtr p;
+		asSFuncPtr p(0);
 		return p;
 	}
 };
@@ -1093,14 +1101,9 @@ struct asSMethodPtr<SINGLE_PTR_SIZE>
 	template<class M>
 	static asSFuncPtr Convert(M Mthd)
 	{
-		asSFuncPtr p;
-		asMemClear(&p, sizeof(p));
-
-		asMemCopy(&p, &Mthd, SINGLE_PTR_SIZE);
-
 		// Mark this as a class method
-		p.flag = 3;
-
+		asSFuncPtr p(3);
+		p.CopyMethodPtr(&Mthd, SINGLE_PTR_SIZE);
 		return p;
 	}
 };
@@ -1114,14 +1117,9 @@ struct asSMethodPtr<SINGLE_PTR_SIZE+1*sizeof(int)>
 	template <class M>
 	static asSFuncPtr Convert(M Mthd)
 	{
-		asSFuncPtr p;
-		asMemClear(&p, sizeof(p));
-
-		asMemCopy(&p, &Mthd, SINGLE_PTR_SIZE+sizeof(int));
-
 		// Mark this as a class method
-		p.flag = 3;
-
+		asSFuncPtr p(3);
+		p.CopyMethodPtr(&Mthd, SINGLE_PTR_SIZE+sizeof(int));
 		return p;
 	}
 };
@@ -1135,13 +1133,9 @@ struct asSMethodPtr<SINGLE_PTR_SIZE+2*sizeof(int)>
 		// On 32bit platforms with is where a class with virtual inheritance falls.
 		// On 64bit platforms we can also fall here if 8byte data alignments is used.
 
-		asSFuncPtr p;
-		asMemClear(&p, sizeof(p));
-
-		asMemCopy(&p, &Mthd, SINGLE_PTR_SIZE+2*sizeof(int));
-
 		// Mark this as a class method
-		p.flag = 3;
+		asSFuncPtr p(3);
+		p.CopyMethodPtr(&Mthd, SINGLE_PTR_SIZE+2*sizeof(int));
 
 		// Microsoft has a terrible optimization on class methods with virtual inheritance.
 		// They are hardcoding an important offset, which is not coming in the method pointer.
@@ -1177,14 +1171,9 @@ struct asSMethodPtr<SINGLE_PTR_SIZE+3*sizeof(int)>
 	template <class M>
 	static asSFuncPtr Convert(M Mthd)
 	{
-		asSFuncPtr p;
-		asMemClear(&p, sizeof(p));
-
-		asMemCopy(&p, &Mthd, SINGLE_PTR_SIZE+3*sizeof(int));
-
 		// Mark this as a class method
-		p.flag = 3;
-
+		asSFuncPtr p(3);
+		p.CopyMethodPtr(&Mthd, SINGLE_PTR_SIZE+3*sizeof(int));
 		return p;
 	}
 };
@@ -1198,14 +1187,9 @@ struct asSMethodPtr<SINGLE_PTR_SIZE+4*sizeof(int)>
 		// On 64bit platforms with 8byte data alignment
 		// the unknown class method pointers will come here.
 
-		asSFuncPtr p;
-		asMemClear(&p, sizeof(p));
-
-		asMemCopy(&p, &Mthd, SINGLE_PTR_SIZE+4*sizeof(int));
-
 		// Mark this as a class method
-		p.flag = 3;
-
+		asSFuncPtr p(3);
+		p.CopyMethodPtr(&Mthd, SINGLE_PTR_SIZE+4*sizeof(int));
 		return p;
 	}
 };

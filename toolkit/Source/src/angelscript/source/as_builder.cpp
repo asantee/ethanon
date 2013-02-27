@@ -1,6 +1,6 @@
 /*
    AngelCode Scripting Library
-   Copyright (c) 2003-2012 Andreas Jonsson
+   Copyright (c) 2003-2013 Andreas Jonsson
 
    This software is provided 'as-is', without any express or implied
    warranty. In no event will the authors be held liable for any
@@ -255,6 +255,7 @@ int asCBuilder::CompileGlobalVar(const char *sectionName, const char *code, int 
 
 	script->SetCode(sectionName, code, true);
 	script->lineOffset = lineOffset;
+	script->idx = engine->GetScriptSectionNameIndex(sectionName ? sectionName : "");
 	scripts.PushLast(script);
 
 	// Parse the string
@@ -945,7 +946,7 @@ int asCBuilder::ParseFunctionDeclaration(asCObjectType *objType, const char *dec
 	func->returnType = CreateDataTypeFromNode(node->firstChild, &source, objType ? objType->nameSpace : ns, true, objType);
 	func->returnType = ModifyDataTypeFromNode(func->returnType, node->firstChild->next, &source, 0, &autoHandle);
 	if( autoHandle && (!func->returnType.IsObjectHandle() || func->returnType.IsReference()) )
-			return asINVALID_DECLARATION;
+		return asINVALID_DECLARATION;
 	if( returnAutoHandle ) *returnAutoHandle = autoHandle;
 
 	// Reference types cannot be returned by value from system functions
@@ -1509,7 +1510,14 @@ int asCBuilder::RegisterClass(asCScriptNode *node, asCScriptCode *file, asSNameS
 	if( st == 0 )
 		return asOUT_OF_MEMORY;
 
-	st->flags = asOBJ_REF | asOBJ_SCRIPT_OBJECT;
+	// By default all script classes are marked as garbage collected. 
+	// Only after the complete structure and relationship between classes
+	// is known, can the flag be cleared for those objects that truly cannot 
+	// form circular references. This is important because a template 
+	// callback may be called with a script class before the compilation 
+	// complete, and until it is known, the callback must assume the class 
+	// is garbage collected.
+	st->flags = asOBJ_REF | asOBJ_SCRIPT_OBJECT | asOBJ_GC;
 
 	if( isShared )
 		st->flags |= asOBJ_SHARED;
@@ -2671,40 +2679,103 @@ void asCBuilder::CompileClasses()
 
 	if( numErrors > 0 ) return;
 
-	// Verify potential circular references
+	// Verify which script classes can really form circular references, and mark only those as garbage collected.
+
+	// TODO: runtime optimize: This algorithm can be further improved by checking the types that inherits from
+	//                         a base class. If the base class is not shared all the classes that derive from it
+	//                         are known at compile time, and can thus be checked for potential circular references too.
+	//                         
+	//                         Observe, that doing this would conflict with another potential future feature, which is to
+	//                         allow incremental builds, i.e. allow application to add or replace classes in an
+	//                         existing module. However, the applications that want to use that should use a special
+	//                         build flag to not finalize the module.
+
 	for( n = 0; n < classDeclarations.GetLength(); n++ )
 	{
 		sClassDeclaration *decl = classDeclarations[n];
-		if( decl->isExistingShared ) continue;
-		asCObjectType *ot = decl->objType;
 
+		// Existing shared classes won't be re-evaluated
+		if( decl->isExistingShared ) continue;
+
+		asCObjectType *ot = decl->objType;
+		
 		// Is there some path in which this structure is involved in circular references?
+		bool gc = false;
 		for( asUINT p = 0; p < ot->properties.GetLength(); p++ )
 		{
 			asCDataType dt = ot->properties[p]->type;
-			if( dt.IsObject() )
+			if( !dt.IsObject() ) 
+				continue;
+
+			if( dt.IsObjectHandle() )
 			{
-				if( dt.IsObjectHandle() )
-				{
-					// TODO: runtime optimize: If it is known that the handle can't be involved in a circular reference
-					//                         then this object doesn't need to be marked as garbage collected.
-					//                         - The application could set a flag when registering the object.
-					//                         - The script classes can be marked as final, then the compiler will
-					//                           be able to determine whether the class is garbage collected or not.
+				// If it is known that the handle can't be involved in a circular reference
+				// then this object doesn't need to be marked as garbage collected.
+				asCObjectType *prop = dt.GetObjectType();
 
-					ot->flags |= asOBJ_GC;
-					break;
+				if( prop->flags & asOBJ_SCRIPT_OBJECT )
+				{
+					// For script objects, treat non-final classes as if they can contain references 
+					// as it is not known what derived classes might do. For final types, check all 
+					// properties to determine if any of those can cause a circular reference.
+					if( prop->flags & asOBJ_NOINHERIT )
+					{
+						for( asUINT sp = 0; sp < prop->properties.GetLength(); sp++ )
+						{
+							asCDataType sdt = prop->properties[sp]->type;
+
+							if( sdt.IsObject() )
+							{
+								if( sdt.IsObjectHandle() )
+								{
+									// TODO: runtime optimize: If the handle is again to a final class, then we can recursively check if the circular reference can occur
+									if( sdt.GetObjectType()->flags & (asOBJ_SCRIPT_OBJECT | asOBJ_GC) )
+									{
+										gc = true;
+										break;
+									}
+								}
+								else if( sdt.GetObjectType()->flags & asOBJ_GC )
+								{
+									// TODO: runtime optimize: Just because the member type is a potential circle doesn't mean that this one is.
+									//                         Only if the object is of a type that can reference this type, either directly or indirectly
+									gc = true;
+									break;
+								}
+							}
+						}
+
+						if( gc )
+							break;
+					}
+					else
+					{
+						// Assume it is garbage collected as it is not known at compile time what might inherit from this type
+						gc = true;
+						break;
+					}
 				}
-				else if( dt.GetObjectType()->flags & asOBJ_GC )
+				else if( prop->flags & asOBJ_GC ) 
 				{
-					// TODO: runtime optimize: Just because the member type is a potential circle doesn't mean that this one is
-					//                         Only if the object is of a type that can reference this type, either directly or indirectly
-
-					ot->flags |= asOBJ_GC;
+					// If a type is not a script object, adopt its GC flag
+					gc = true;
 					break;
 				}
 			}
+			else if( dt.GetObjectType()->flags & asOBJ_GC )
+			{
+				// TODO: runtime optimize: Just because the member type is a potential circle doesn't mean that this one is.
+				//                         Only if the object is of a type that can reference this type, either directly or indirectly
+				gc = true;
+				break;
+			}
 		}
+
+		// Update the flag in the object type
+		if( gc )
+			ot->flags |= asOBJ_GC;
+		else
+			ot->flags &= ~asOBJ_GC;
 	}
 }
 
