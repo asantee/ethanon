@@ -66,7 +66,7 @@ float2 computeParallaxOffset(const float2 vertPos)
 float4 transformSprite(float3 position)
 {
 	// flips the sprite (if the parameters are set to flip)
-	float4 newPos = float4(position, 1) * float4(flipMul,1,1) + float4(flipAdd,0,0);
+	float4 newPos = float4(position, 1);
 
 	// scales and position the sprite center
 	newPos = newPos * float4(size,1,1) - float4(center, 0, 0);

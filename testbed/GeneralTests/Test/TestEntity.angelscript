@@ -29,8 +29,8 @@ class TestEntity : Test
 		print("Calling unique method to remove repeated entities\n");
 		barrels.unique();
 		print("Barrels found: " + barrels.size() + "\n");
-		DrawFadingText(vector2(10,300), "If you see this it's\nbecause multipage bitmap\nfonts work just fine",
-				"Verdana128.fnt", 0xFFFFFFFF, 6000);
+		DrawFadingText(vector2(10,300), "If you see this it's\nbecause multipage bitmap\nfonts work just fine\náàãéèíìóòõúùñÁÀÃÉÈÍÌÓÒÕÚÙÑ",
+				"Verdana128.fnt", 0xFFFFFFFF, 6000, 0.5f);
 
 		const int birdId = AddEntity("bird.ent", vector3(GetScreenSize()/2, 10.0f), 0);
 		@bird = SeekEntity(birdId);
