@@ -205,6 +205,16 @@ float ETHPhysicsController::GetDensity() const
 	return entity->GetProperties()->density;
 }
 
+void ETHPhysicsController::SetDensity(const float density)
+{
+	b2Body* body = m_controller->m_body;
+	if (!body) return;
+
+	b2Fixture* fixture = body->GetFixtureList(); // TODO/TO-DO: manipulate next fixtures
+	fixture->SetDensity(density);
+	body->ResetMassData();
+}
+
 float ETHPhysicsController::GetRestitution() const
 {
 	b2Body* body = m_controller->m_body;

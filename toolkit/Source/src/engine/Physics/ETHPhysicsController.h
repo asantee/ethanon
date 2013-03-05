@@ -57,6 +57,7 @@ public:
 	bool IsFixedRotation() const;
 	float GetFriction() const;
 	float GetDensity() const;
+	void SetDensity(const float density);
 	void SetFriction(const float friction);
 	float GetRestitution() const;
 	void SetRestitution(const float res);

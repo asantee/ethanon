@@ -582,6 +582,7 @@ asDECLARE_METHOD_WRAPPERPR(__IsFixedRotation,     ETHPhysicsController, IsFixedR
 asDECLARE_METHOD_WRAPPERPR(__SetFriction,         ETHPhysicsController, SetFriction,         (const float), void);
 asDECLARE_METHOD_WRAPPERPR(__GetFriction,         ETHPhysicsController, GetFriction,         (void) const, float);
 asDECLARE_METHOD_WRAPPERPR(__GetDensity,          ETHPhysicsController, GetDensity,          (void) const, float);
+asDECLARE_METHOD_WRAPPERPR(__SetDensity,          ETHPhysicsController, SetDensity,          (const float), void);
 asDECLARE_METHOD_WRAPPERPR(__GetRestitution,      ETHPhysicsController, GetRestitution,      (void) const, float);
 asDECLARE_METHOD_WRAPPERPR(__SetRestitution,      ETHPhysicsController, SetRestitution,      (const float), void);
 asDECLARE_METHOD_WRAPPERPR(__GetRevoluteJoint,    ETHPhysicsController, GetRevoluteJoint,    (const unsigned int), b2RevoluteJoint*);
@@ -615,6 +616,7 @@ void RegisterPhysicsControllerMethods(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterObjectMethod("ETHPhysicsController", "bool IsFixedRotation() const",                                  asFUNCTION(__IsFixedRotation),     asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHPhysicsController", "float GetFriction() const",                                     asFUNCTION(__GetFriction),         asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHPhysicsController", "float GetDensity() const",                                      asFUNCTION(__GetDensity),          asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHPhysicsController", "void SetDensity(const float)",                                  asFUNCTION(__SetDensity),         asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHPhysicsController", "void SetFriction(const float)",                                 asFUNCTION(__SetFriction),         asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHPhysicsController", "float GetRestitution() const",                                  asFUNCTION(__GetRestitution),      asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHPhysicsController", "void SetRestitution(const float)",                              asFUNCTION(__SetRestitution),      asCALL_GENERIC); assert(r >= 0);
