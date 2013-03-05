@@ -295,10 +295,11 @@ public:
 	void               RemoveFromTypeIdMap(asCObjectType *type);
 
 	bool               IsTemplateType(const char *name) const;
-	asCObjectType     *GetTemplateInstanceType(asCObjectType *templateType, asCDataType &subType);
+	asCObjectType     *GetTemplateInstanceType(asCObjectType *templateType, asCArray<asCDataType> &subTypes);
 	asCScriptFunction *GenerateTemplateFactoryStub(asCObjectType *templateType, asCObjectType *templateInstanceType, int origFactoryId);
-	bool               GenerateNewTemplateFunction(asCObjectType *templateType, asCObjectType *templateInstanceType, asCDataType &subType, asCScriptFunction *templateFunc, asCScriptFunction **newFunc);
+	bool               GenerateNewTemplateFunction(asCObjectType *templateType, asCObjectType *templateInstanceType, asCScriptFunction *templateFunc, asCScriptFunction **newFunc);
 	void               OrphanTemplateInstances(asCObjectType *subType);
+	asCDataType        DetermineTypeForTemplate(const asCDataType &orig, asCObjectType *tmpl, asCObjectType *ot);
 
 	// String constants
 	// TODO: Must free unused string constants, thus the ref count for each must be tracked

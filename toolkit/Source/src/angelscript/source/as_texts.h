@@ -1,6 +1,6 @@
 /*
    AngelCode Scripting Library
-   Copyright (c) 2003-2012 Andreas Jonsson
+   Copyright (c) 2003-2013 Andreas Jonsson
 
    This software is provided 'as-is', without any express or implied 
    warranty. In no event will the authors be held liable for any 
@@ -110,7 +110,6 @@
 #define TXT_ILLEGAL_TARGET_TYPE_FOR_REF_CAST    "Illegal target type for reference cast"
 #define TXT_ILLEGAL_VARIABLE_NAME_s             "Illegal variable name '%s'."
 #define TXT_INIT_LIST_CANNOT_BE_USED_WITH_s     "Initialization lists cannot be used with '%s'"
-#define TXT_INTERFACE_s_ALREADY_IMPLEMENTED     "The interface '%s' is already implemented"
 #define TXT_INTERFACE_CAN_ONLY_IMPLEMENT_INTERFACE "Interfaces can only implement other interfaces"
 #define TXT_INVALID_BREAK                       "Invalid 'break'"
 #define TXT_INVALID_CHAR_LITERAL                "Invalid character literal"
@@ -161,6 +160,7 @@
 #define TXT_NO_MATCHING_OP_FOUND_FOR_TYPE_s        "No matching operator that takes the type '%s' found"
 #define TXT_NO_MATCHING_OP_FOUND_FOR_TYPES_s_AND_s "No matching operator that takes the types '%s' and '%s' found"
 #define TXT_NON_CONST_METHOD_ON_CONST_OBJ          "Non-const method call on read-only object reference"
+#define TXT_NONTERMINATED_STRING                   "Non-terminated string literal"
 #define TXT_NOT_A_FUNC_s_IS_VAR                    "Expression doesn't form a function call. '%s' is a variable of a non-function type"
 #define TXT_NOT_ALL_PATHS_RETURN                   "Not all paths return a value"
 #define TXT_s_NOT_DECLARED                         "'%s' is not declared"
@@ -208,8 +208,9 @@
 #define TXT_SWITCH_CASE_MUST_BE_CONSTANT               "Case expressions must be constants"
 #define TXT_SWITCH_MUST_BE_INTEGRAL                    "Switch expressions must be integral numbers"
 
-#define TXT_TYPE_s_NOT_AVAILABLE_FOR_MODULE  "Type '%s' is not available for this module"
+#define TXT_TMPL_s_EXPECTS_d_SUBTYPES        "Template '%s' expects %d sub type(s)"
 #define TXT_TOO_MANY_JUMP_LABELS             "The function has too many jump labels to handle. Split the function into smaller ones."
+#define TXT_TYPE_s_NOT_AVAILABLE_FOR_MODULE  "Type '%s' is not available for this module"
 
 #define TXT_UNEXPECTED_END_OF_FILE        "Unexpected end of file"
 #define TXT_UNEXPECTED_TOKEN_s            "Unexpected token '%s'"

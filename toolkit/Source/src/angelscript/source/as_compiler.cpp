@@ -126,6 +126,10 @@ int asCCompiler::CompileDefaultConstructor(asCBuilder *builder, asCScriptCode *s
 	// Insert a JitEntry at the start of the function for JIT compilers
 	byteCode.InstrPTR(asBC_JitEntry, 0);
 
+	// Add a variable scope that might be needed to declare dummy variables
+	// in case the member initialization refers to undefined symbols.
+	AddVariableScope();
+
 	// Initialize the class members that have no explicit expression first. This will allow the
 	// base class' constructor to access these members without worry they will be uninitialized.
 	// This can happen if the base class' constructor calls a method that is overridden by the derived class
@@ -1720,10 +1724,19 @@ int asCCompiler::CompileDefaultArgs(asCScriptNode *node, asCArray<asSExprContext
 
 				asCDataType dt = args[n]->type.dataType;
 				dt.MakeReference(false);
-				int newOffset = AllocateVariable(dt, true, IsVariableOnHeap(offset));
 
+				// Reserve all variables already used in the expression so none of them will be used
+				asCArray<int> used;
+				args[n]->bc.GetVarsUsed(used);
+				size_t prevReserved = reservedVariables.GetLength();
+				reservedVariables.Concatenate(used);
+
+				int newOffset = AllocateVariable(dt, true, IsVariableOnHeap(offset));
 				asASSERT( IsVariableOnHeap(offset) == IsVariableOnHeap(newOffset) );
 
+				reservedVariables.SetLength(prevReserved);
+
+				// Replace the variable in the expression
 				args[n]->bc.ExchangeVar(offset, newOffset);
 				args[n]->type.stackOffset = (short)newOffset;
 				args[n]->type.isTemporary = true;
@@ -2993,6 +3006,7 @@ void asCCompiler::CompileForStatement(asCScriptNode *fnode, asCByteCode *bc)
 	//---------------------------------------
 	// Compile the initialization statement
 	asCByteCode initBC(engine);
+	LineInstr(&initBC, fnode->firstChild->tokenPos);
 	if( fnode->firstChild->nodeType == snDeclaration )
 		CompileDeclaration(fnode->firstChild, &initBC);
 	else
@@ -3024,6 +3038,12 @@ void asCCompiler::CompileForStatement(asCScriptNode *fnode, asCByteCode *bc)
 				ReleaseTemporaryVariable(expr.type, &expr.bc);
 
 				expr.bc.OptimizeLocally(tempVariableOffsets);
+
+				// Prepend the line instruction for the condition
+				asCByteCode tmp(engine);
+				LineInstr(&tmp, second->firstChild->tokenPos);
+				tmp.AddCode(&expr.bc);
+				expr.bc.AddCode(&tmp);
 			}
 		}
 	}
@@ -3033,7 +3053,10 @@ void asCCompiler::CompileForStatement(asCScriptNode *fnode, asCByteCode *bc)
 	asCByteCode nextBC(engine);
 	asCScriptNode *third = second->next;
 	if( third->nodeType == snExpressionStatement )
+	{
+		LineInstr(&nextBC, third->tokenPos);
 		CompileExpressionStatement(third, &nextBC);
+	}
 
 	//------------------------------
 	// Compile loop statement
@@ -3367,12 +3390,12 @@ void asCCompiler::PrepareTemporaryObject(asCScriptNode *node, asSExprContext *ct
 			// Pop the original reference
 			ctx->bc.Instr(asBC_PopPtr);
 		}
-	}
 
-	// If the expression was holding off on releasing a
-	// previously used object, we need to release it now
-	if( ctx->type.isTemporary )
-		ReleaseTemporaryVariable(ctx->type, &ctx->bc);
+		// If the expression was holding off on releasing a
+		// previously used object, we need to release it now
+		if( ctx->type.isTemporary )
+			ReleaseTemporaryVariable(ctx->type, &ctx->bc);	
+	}
 
 	// Push the reference to the temporary variable on the stack
 	ctx->bc.InstrSHORT(asBC_PSF, (short)offset);
@@ -5450,11 +5473,106 @@ asUINT asCCompiler::ImplicitConvObjectToObject(asSExprContext *ctx, const asCDat
 	return cost;
 }
 
-asUINT asCCompiler::ImplicitConvPrimitiveToObject(asSExprContext * /*ctx*/, const asCDataType & /*to*/, asCScriptNode * /*node*/, EImplicitConv /*isExplicit*/, bool /*generateCode*/, bool /*allowObjectConstruct*/)
+asUINT asCCompiler::ImplicitConvPrimitiveToObject(asSExprContext *ctx, const asCDataType &to, asCScriptNode * /*node*/, EImplicitConv /*isExplicit*/, bool generateCode, bool /*allowObjectConstruct*/)
 {
-	// TODO: This function should call the constructor/factory that has been marked as available
-	//       for implicit conversions. The code will likely be similar to CallCopyConstructor()
-	return asCC_NO_CONV;
+	// Reference types currently don't allow implicit conversion from primitive to object
+	// TODO: Allow implicit conversion to scoped reference types as they are supposed to appear like ordinary value types
+	asCObjectType *objType = to.GetObjectType();
+	asASSERT( objType );
+	if( !objType || (objType->flags & asOBJ_REF) )
+		return asCC_NO_CONV;
+
+	// For value types the object must have a constructor that takes a single primitive argument either by value or as input reference
+	asCArray<int> funcs;
+	for( asUINT n = 0; n < objType->beh.constructors.GetLength(); n++ )
+	{
+		asCScriptFunction *func = engine->scriptFunctions[objType->beh.constructors[n]];
+		if( func->parameterTypes.GetLength() == 1 &&
+			func->parameterTypes[0].IsPrimitive() &&
+			!(func->inOutFlags[0] & asTM_OUTREF) )
+		{
+			funcs.PushLast(func->id);
+		}
+	}
+
+	if( funcs.GetLength() == 0 )
+		return asCC_NO_CONV;
+
+	// Check if it is possible to choose a best match
+	asSExprContext arg(engine);
+	arg.type = ctx->type;
+	asCArray<asSExprContext*> args;
+	args.PushLast(&arg);
+	asUINT cost = asCC_TO_OBJECT_CONV + MatchFunctions(funcs, args, 0, 0, objType, false, true, false);
+	if( funcs.GetLength() != 1 )
+		return asCC_NO_CONV;
+
+	if( !generateCode )
+	{
+		ctx->type.Set(to);
+		return cost;
+	}
+
+	// TODO: clean up: This part is similar to CompileCosntructCall(). It should be put in a common function
+
+	bool onHeap = true;
+
+	// Value types and script types are allocated through the constructor
+	asCTypeInfo tempObj;
+	tempObj.dataType = to;
+	tempObj.stackOffset = (short)AllocateVariable(to, true);
+	tempObj.dataType.MakeReference(true);
+	tempObj.isTemporary = true;
+	tempObj.isVariable = true;
+
+	onHeap = IsVariableOnHeap(tempObj.stackOffset);
+
+	// Push the address of the object on the stack
+	if( onHeap )
+		ctx->bc.InstrSHORT(asBC_VAR, tempObj.stackOffset);
+
+	PrepareFunctionCall(funcs[0], &ctx->bc, args);
+	MoveArgsToStack(funcs[0], &ctx->bc, args, false);
+
+	if( !(objType->flags & asOBJ_REF) )
+	{
+		// If the object is allocated on the stack, then call the constructor as a normal function
+		if( onHeap )
+		{
+			int offset = 0;
+			asCScriptFunction *descr = builder->GetFunctionDescription(funcs[0]);
+			for( asUINT n = 0; n < args.GetLength(); n++ )
+				offset += descr->parameterTypes[n].GetSizeOnStackDWords();
+
+			ctx->bc.InstrWORD(asBC_GETREF, (asWORD)offset);
+		}
+		else
+			ctx->bc.InstrSHORT(asBC_PSF, tempObj.stackOffset);
+
+		PerformFunctionCall(funcs[0], ctx, onHeap, &args, tempObj.dataType.GetObjectType());
+
+		// Add tag that the object has been initialized
+		ctx->bc.ObjInfo(tempObj.stackOffset, asOBJ_INIT);
+
+		// The constructor doesn't return anything,
+		// so we have to manually inform the type of
+		// the return value
+		ctx->type = tempObj;
+		if( !onHeap )
+			ctx->type.dataType.MakeReference(false);
+
+		// Push the address of the object on the stack again
+		ctx->bc.InstrSHORT(asBC_PSF, tempObj.stackOffset);
+	}
+	else
+	{
+		asASSERT( objType->flags & asOBJ_SCOPED );
+
+		// Call the factory to create the reference type
+		PerformFunctionCall(funcs[0], ctx, false, &args);
+	}
+
+	return cost;
 }
 
 void asCCompiler::ImplicitConversionConstant(asSExprContext *from, const asCDataType &to, asCScriptNode *node, EImplicitConv convType)
@@ -7087,10 +7205,11 @@ int asCCompiler::CompileExpressionValue(asCScriptNode *node, asSExprContext *ctx
 		}
 		else if( vnode->tokenType == ttBitsConstant )
 		{
-			asCString value(&script->code[vnode->tokenPos+2], vnode->tokenLength-2);
+			asCString value(&script->code[vnode->tokenPos], vnode->tokenLength);
 
+			// Let the function determine the radix from the prefix 0x = 16, 0d = 10, 0o = 8, or 0b = 2
 			// TODO: Check for overflow
-			asQWORD val = asStringScanUInt64(value.AddressOf(), 16, 0);
+			asQWORD val = asStringScanUInt64(value.AddressOf(), 0, 0);
 
 			// Do we need 64 bits?
 			if( val>>32 )
@@ -7478,12 +7597,16 @@ void asCCompiler::ProcessHeredocStringConstant(asCString &str, asCScriptNode *no
 		}
 	}
 
-	// Remove last line break and the line after that if it only contains whitespaces
+	// Remove the line after the last line break if it only contains whitespaces
 	int end;
 	for( end = (int)str.GetLength() - 1; end >= 0; end-- )
 	{
 		if( str[end] == '\n' )
+		{
+			// Don't remove the last line break
+			end++;
 			break;
+		}
 
 		if( str[end] != ' '  &&
 			str[end] != '\t' &&
@@ -8149,7 +8272,7 @@ int asCCompiler::CompileFunctionCall(asCScriptNode *node, asSExprContext *ctx, a
 			int r = asSUCCESS;
 
 			// Add the default values for arguments not explicitly supplied
-			asCScriptFunction *func = (funcs[0] & 0xFFFF0000) == 0 ? engine->scriptFunctions[funcs[0]] : 0;
+			asCScriptFunction *func = builder->GetFunctionDescription(funcs[0]);
 			if( func && args.GetLength() < (asUINT)func->GetParamCount() )
 				r = CompileDefaultArgs(node, args, func);
 
@@ -8160,9 +8283,9 @@ int asCCompiler::CompileFunctionCall(asCScriptNode *node, asSExprContext *ctx, a
 			// by first storing the function pointer in a local variable (if it isn't already in one)
 			if( r == asSUCCESS )
 			{
-				if( (funcs[0] & 0xFFFF0000) == 0 && engine->scriptFunctions[funcs[0]]->funcType == asFUNC_FUNCDEF )
+				if( func->funcType == asFUNC_FUNCDEF )
 				{
-					if( objectType )
+					if( objectType && funcPtr.property_get <= 0 )
 					{
 						Dereference(ctx, true); // Dereference the object pointer to access the member
 
@@ -8170,11 +8293,25 @@ int asCCompiler::CompileFunctionCall(asCScriptNode *node, asSExprContext *ctx, a
 						objectType = 0;
 					}
 
-					Dereference(&funcPtr, true);
-					ConvertToVariable(&funcPtr);
-					ctx->bc.AddCode(&funcPtr.bc);
-					if( !funcPtr.type.isTemporary )
-						ctx->bc.Instr(asBC_PopPtr);
+					if( funcPtr.property_get > 0 )
+					{
+						ProcessPropertyGetAccessor(&funcPtr, node);
+						Dereference(&funcPtr, true);
+
+						// The function call will be made directly from the local variable so the function pointer shouldn't be on the stack
+						funcPtr.bc.Instr(asBC_PopPtr);
+					}
+					else
+					{
+						Dereference(&funcPtr, true);
+						ConvertToVariable(&funcPtr);
+
+						// The function call will be made directly from the local variable so the function pointer shouldn't be on the stack
+						if( !funcPtr.type.isTemporary )
+							funcPtr.bc.Instr(asBC_PopPtr);
+					}
+
+					MergeExprBytecodeAndType(ctx, &funcPtr);
 				}
 
 				MakeFunctionCall(ctx, funcs[0], objectType, args, node, false, 0, funcPtr.type.stackOffset);
@@ -10298,8 +10435,11 @@ void asCCompiler::CompileMathOperator(asCScriptNode *node, asSExprContext *lctx,
 	if( rctx->type.dataType.IsReference() )
 		ConvertToVariable(rctx);
 
-	ImplicitConversion(lctx, to, node, asIC_IMPLICIT_CONV, true);
-	ImplicitConversion(rctx, to, node, asIC_IMPLICIT_CONV, true);
+	if( to.IsPrimitive() )
+	{
+		ImplicitConversion(lctx, to, node, asIC_IMPLICIT_CONV, true);
+		ImplicitConversion(rctx, to, node, asIC_IMPLICIT_CONV, true);
+	}
 	reservedVariables.SetLength(l);
 
 	// Verify that the conversion was successful
@@ -11523,7 +11663,8 @@ void asCCompiler::PerformFunctionCall(int funcId, asSExprContext *ctx, bool isCo
 	int argSize = descr->GetSpaceNeededForArguments();
 
 	if( descr->objectType && descr->returnType.IsReference() &&
-		!ctx->type.isVariable && (ctx->type.dataType.IsObjectHandle() || ctx->type.dataType.SupportHandles()) &&
+		!(ctx->type.isVariable || ctx->type.isTemporary) && 
+		(ctx->type.dataType.IsObjectHandle() || ctx->type.dataType.SupportHandles()) &&
 		!(ctx->type.dataType.GetObjectType()->GetFlags() & asOBJ_SCOPED) &&
 		!(ctx->type.dataType.GetObjectType()->GetFlags() & asOBJ_ASHANDLE) )
 	{
@@ -11628,7 +11769,7 @@ void asCCompiler::PerformFunctionCall(int funcId, asSExprContext *ctx, bool isCo
 				// Allocate a temporary variable for the returned object
 				// The returned object will actually be allocated on the heap, so
 				// we must force the allocation of the variable to do the same
-				returnOffset = AllocateVariable(descr->returnType, true, true);
+				returnOffset = AllocateVariable(descr->returnType, true, !descr->returnType.IsObjectHandle());
 				ctx->type.SetVariable(descr->returnType, returnOffset, true);
 			}
 

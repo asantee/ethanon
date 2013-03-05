@@ -235,6 +235,17 @@ int asCModule::Build()
     JITCompile();
 
  	engine->PrepareEngine();
+
+#ifdef AS_DEBUG
+	// Verify that there are no unwanted gaps in the scriptFunctions array.
+	for( asUINT n = 1; n < engine->scriptFunctions.GetLength(); n++ )
+	{
+		int id = n;
+		if( engine->scriptFunctions[n] == 0 && !engine->freeScriptFunctionIds.Exists(id) )
+			asASSERT( false );
+	}
+#endif
+
 	engine->BuildCompleted();
 
 	// Initialize global variables
@@ -454,8 +465,8 @@ void asCModule::InternalReset()
 	// Free funcdefs
 	for( n = 0; n < funcDefs.GetLength(); n++ )
 	{
-		// TODO: funcdefs: These may be shared between modules, so we can't just remove them
-		engine->funcDefs.RemoveValue(funcDefs[n]);
+		// The funcdefs are not removed from the engine at this moment as they may still be referred
+		// to by other types. The engine's ClearUnusedTypes will take care of the clean up.
 		funcDefs[n]->Release();
 	}
 	funcDefs.SetLength(0);
@@ -693,7 +704,9 @@ int asCModule::GetGlobalVarIndexByDecl(const char *decl) const
 	asCString name;
 	asSNameSpace *nameSpace;
 	asCDataType dt;
-	bld.ParseVariableDeclaration(decl, defaultNamespace, name, nameSpace, dt);
+	int r = bld.ParseVariableDeclaration(decl, defaultNamespace, name, nameSpace, dt);
+	if( r < 0 )
+		return r;
 
 	// Search global variables for a match
 	int id = scriptGlobals.GetFirstIndex(nameSpace, name, asCCompGlobPropType(dt));
@@ -855,7 +868,7 @@ const char *asCModule::GetTypedefByIndex(asUINT index, int *typeId, const char *
 		return 0;
 
 	if( typeId )
-		*typeId = engine->GetTypeIdFromDataType(typeDefs[index]->templateSubType); 
+		*typeId = engine->GetTypeIdFromDataType(typeDefs[index]->templateSubTypes[0]); 
 
 	if( nameSpace )
 		*nameSpace = typeDefs[index]->nameSpace->name.AddressOf();
@@ -1185,6 +1198,16 @@ int asCModule::LoadByteCode(asIBinaryStream *in, bool *wasDebugInfoStripped)
 	r = read.Read(wasDebugInfoStripped);
 
     JITCompile();
+
+#ifdef AS_DEBUG
+	// Verify that there are no unwanted gaps in the scriptFunctions array.
+	for( asUINT n = 1; n < engine->scriptFunctions.GetLength(); n++ )
+	{
+		int id = n;
+		if( engine->scriptFunctions[n] == 0 && !engine->freeScriptFunctionIds.Exists(id) )
+			asASSERT( false );
+	}
+#endif
 
 	engine->BuildCompleted();
 
