@@ -37,6 +37,7 @@ import net.asantee.gs2d.io.DefaultCommandListener;
 import net.asantee.gs2d.io.KeyEventListener;
 import net.asantee.gs2d.io.NativeCommandListener;
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.PixelFormat;
 import android.opengl.GLSurfaceView;
 import android.util.DisplayMetrics;
@@ -49,9 +50,13 @@ public class GL2JNIView extends GLSurfaceView {
 	protected static int displayWidth, displayHeight;
 	private static final boolean DEBUG = false;
 	public final String apkPath;
+
 	private static int MAXIMUM_TOUCHES = 5;
 	protected static Vector2[] currentTouch = new Vector2[MAXIMUM_TOUCHES];
+	protected static Boolean[] touchSlotReleasedLastFrame = new Boolean[MAXIMUM_TOUCHES];
+
 	private FrameHandler frameHandler;
+
 	private static AccelerometerListener accelerometerListener;
 	private static KeyEventListener keyEventListener;
 	private ArrayList<NativeCommandListener> commandListeners;
@@ -72,18 +77,28 @@ public class GL2JNIView extends GLSurfaceView {
 		displayHeight = metrics.heightPixels;
 	}
 
+	public GL2JNIView(Context context) {
+	    super(context, null);
+		this.apkPath = null;
+	}
+
 	public GL2JNIView(GS2DActivity activity, String apkPath, AccelerometerListener accelerometerListener,
 			KeyEventListener keyEventListener, ArrayList<NativeCommandListener> commandListeners) {
 		super(activity.getApplication());
+
 		GL2JNIView.accelerometerListener = accelerometerListener;
 		this.apkPath = apkPath;
 		this.commandListeners = commandListeners;
 		GL2JNIView.keyEventListener = keyEventListener;
+
 		init(false, 1, 0, activity);
 		retrieveScreenSize(activity);
 		setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+
 		frameHandler = new FrameHandler(this, 100);
 		frameHandler.start();
+
+		resetTouchMonitoringData();
 	}
 
 	@Override
@@ -285,11 +300,17 @@ public class GL2JNIView extends GLSurfaceView {
 		return "" + v + " ";
 	}
 
+	private static void resetTouchMonitoringData() {
+		for (int t = 0; t < GL2JNIView.touchSlotReleasedLastFrame.length; t++) {
+			GL2JNIView.touchSlotReleasedLastFrame[t] = Boolean.valueOf(false);
+		}
+	}
+
 	protected static String getTouchDataString() {
 		String out = "" + MAXIMUM_TOUCHES + " ";
 		for (int t = 0; t < MAXIMUM_TOUCHES; t++) {
 			Vector2 touchPos = currentTouch[t];
-			if (touchPos != null) {
+			if (touchPos != null && !GL2JNIView.touchSlotReleasedLastFrame[t].booleanValue()) {
 				out += dataSegment(touchPos.x);
 				out += dataSegment(touchPos.y);
 			} else {
@@ -297,6 +318,7 @@ public class GL2JNIView extends GLSurfaceView {
 				out += dataSegment(-1.0f);
 			}
 		}
+		GL2JNIView.resetTouchMonitoringData();
 		return out;
 	}
 
@@ -315,48 +337,55 @@ public class GL2JNIView extends GLSurfaceView {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		final int action = event.getAction();
-		final int maximumTouchId = Math.min(event.getPointerCount(), MAXIMUM_TOUCHES);
+		int action = event.getAction() & MotionEvent.ACTION_MASK;
 
-		final int pact = action & MotionEvent.ACTION_MASK;
-		int pid = 0;
-		if (pact == MotionEvent.ACTION_POINTER_DOWN || pact == MotionEvent.ACTION_POINTER_UP) {
-			final int pind = (action & MotionEvent.ACTION_POINTER_ID_MASK) >> MotionEvent.ACTION_POINTER_ID_SHIFT;
-			pid = event.getPointerId(pind);
-		} else if (pact == MotionEvent.ACTION_DOWN) {
-			pid = event.getPointerId(0);
-		}
-
-		switch (pact) {
-		case MotionEvent.ACTION_DOWN:
-		case MotionEvent.ACTION_POINTER_DOWN:
-			if (pid < maximumTouchId) {
-				currentTouch[pid] = new Vector2(event.getX(pid), event.getY(pid));
+		switch(action) {
+			case MotionEvent.ACTION_DOWN : {
+				int id = event.getPointerId(0);
+				if (id < MAXIMUM_TOUCHES) {
+					currentTouch[id] = new Vector2(event.getX(), event.getY());
+				}
+				break;
 			}
-			break;
-
-		case MotionEvent.ACTION_UP:
-			for (int i = 0; i < MAXIMUM_TOUCHES; ++i)
-				currentTouch[i] = null;
-			break;
-
-		case MotionEvent.ACTION_POINTER_UP:
-			if (pid < maximumTouchId) {
-				currentTouch[pid] = null;
-			}
-			break;
-
-		case MotionEvent.ACTION_MOVE:
-			for (int i = 0; i < maximumTouchId; ++i) {
-				int p = event.getPointerId(i);
-				if (p < maximumTouchId) {
-					currentTouch[p] = new Vector2(event.getX(i), event.getY(i));
+			case MotionEvent.ACTION_MOVE : {
+				int touchCounter = event.getPointerCount();
+				for (int t = 0; t < touchCounter; t++) {
+					int id = event.getPointerId(t);
+					if (id < MAXIMUM_TOUCHES) {
+						currentTouch[id] = new Vector2(event.getX(t), event.getY(t));
+					}
 				}
 			}
-			break;
+			case MotionEvent.ACTION_POINTER_DOWN : {
+				int id = event.getPointerId(getIndex(event));
+				if (id < MAXIMUM_TOUCHES) {
+					currentTouch[id] = new Vector2(event.getX(getIndex(event)), event.getY(getIndex(event)));
+				}
+				break;
+			}
+			case MotionEvent.ACTION_POINTER_UP : {
+				int id = event.getPointerId(getIndex(event));
+				if (id < MAXIMUM_TOUCHES) {
+					currentTouch[id] = null;
+					GL2JNIView.touchSlotReleasedLastFrame[id] = Boolean.valueOf(true);
+				}
+				break;
+			}
+			case MotionEvent.ACTION_UP : {
+				int id = event.getPointerId(0);
+				if (id < MAXIMUM_TOUCHES) {
+					currentTouch[id] = null;
+					GL2JNIView.touchSlotReleasedLastFrame[id] = Boolean.valueOf(true);
+				}
+				break;
+			}
 		}
-
 		return true;
+	}
+
+	private int getIndex(MotionEvent event) {
+		int idx = (event.getAction() & MotionEvent.ACTION_POINTER_INDEX_MASK) >> MotionEvent.ACTION_POINTER_INDEX_SHIFT;
+		return idx;
 	}
 
 	public void destroy() {
