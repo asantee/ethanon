@@ -173,14 +173,17 @@ void GLES2Video::Enable2D(const int width, const int height, const bool flipY)
 	glDepthRangef(0.0f, 1.0f);
 }
 
-void GLES2Video::CheckGLError(const str_type::string& op, const Platform::FileLogger& logger)
+bool GLES2Video::CheckGLError(const str_type::string& op, const Platform::FileLogger& logger)
 {
+	bool r = false;
 	for (GLint error = glGetError(); error; error = glGetError())
 	{
 		std::stringstream ss;
 		ss << "ERROR: after " << op << ". Error code " << error;
 		logger.Log(ss.str(), Platform::FileLogger::ERROR);
+		r = true;
 	}
+	return r;
 }
 
 TexturePtr GLES2Video::CreateTextureFromFileInMemory(

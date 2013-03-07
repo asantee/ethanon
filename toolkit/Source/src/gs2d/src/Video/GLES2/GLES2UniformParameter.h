@@ -58,7 +58,8 @@ class GLES2UniformParameter
 	friend class GLES2ShaderContext;
 	friend class GLES2Texture;
 	LocationMapPtr m_locations;
-	str_type::string m_name;
+	str_type::string m_parameterName;
+	str_type::string m_shaderName;
 	static GLenum m_activatedTexture;
 	static GLenum m_boundTexture2D;
 
@@ -70,12 +71,12 @@ protected:
 	static void BindTexture2D(const GLenum& texture);
 	static void ActiveTexture(const GLenum& texture);
 public:
-	const str_type::string& GetName() const;
-	GLES2UniformParameter(const str_type::string& name);
+	const str_type::string& GetParameterName() const;
+	GLES2UniformParameter(const str_type::string& shaderName, const str_type::string& parameterName);
 	void SetLocations(const LocationMapPtr& locations);
 	LocationMapPtr GetLocations();
-	inline int GetLocation(const GLuint program, const str_type::string& name, const Platform::FileLogger& logger);
-	virtual bool SetParameter(const GLuint program, const str_type::string& name, const Platform::FileLogger& logger) = 0;
+	inline int GetLocation(const GLuint program, const Platform::FileLogger& logger);
+	virtual bool SetParameter(const GLuint program, const Platform::FileLogger& logger) = 0;
 	virtual bool IsEqual(const GLES2UniformParameter* other) const = 0;
 	virtual PARAMETER_TYPE GetType() const = 0;
 };
@@ -84,8 +85,8 @@ class GLES2UPVec1 : public GLES2UniformParameter
 {
 	GLfloat v;
 public:
-	GLES2UPVec1(const float v, const str_type::string& name);
-	bool SetParameter(const GLuint program, const str_type::string& name, const Platform::FileLogger& logger);
+	GLES2UPVec1(const float v, const str_type::string& shaderName, const str_type::string& parameterName);
+	bool SetParameter(const GLuint program, const Platform::FileLogger& logger);
 	PARAMETER_TYPE GetType() const;
 	bool IsEqual(const GLES2UniformParameter* other) const;
 };
@@ -94,8 +95,8 @@ class GLES2UPVec2 : public GLES2UniformParameter
 {
 	math::Vector2 v;
 public:
-	GLES2UPVec2(const math::Vector2& v, const str_type::string& name);
-	bool SetParameter(const GLuint program, const str_type::string& name, const Platform::FileLogger& logger);
+	GLES2UPVec2(const math::Vector2& v, const str_type::string& shaderName, const str_type::string& parameterName);
+	bool SetParameter(const GLuint program, const Platform::FileLogger& logger);
 	PARAMETER_TYPE GetType() const;
 	bool IsEqual(const GLES2UniformParameter* other) const;
 };
@@ -104,8 +105,8 @@ class GLES2UPVec3 : public GLES2UniformParameter
 {
 	math::Vector3 v;
 public:
-	GLES2UPVec3(const math::Vector3& v, const str_type::string& name);
-	bool SetParameter(const GLuint program, const str_type::string& name, const Platform::FileLogger& logger);
+	GLES2UPVec3(const math::Vector3& v, const str_type::string& shaderName, const str_type::string& parameterName);
+	bool SetParameter(const GLuint program, const Platform::FileLogger& logger);
 	PARAMETER_TYPE GetType() const;
 	bool IsEqual(const GLES2UniformParameter* other) const;
 };
@@ -114,8 +115,8 @@ class GLES2UPVec4 : public GLES2UniformParameter
 {
 	math::Vector4 v;
 public:
-	GLES2UPVec4(const math::Vector4& v, const str_type::string& name);
-	bool SetParameter(const GLuint program, const str_type::string& name, const Platform::FileLogger& logger);
+	GLES2UPVec4(const math::Vector4& v, const str_type::string& shaderName, const str_type::string& parameterName);
+	bool SetParameter(const GLuint program, const Platform::FileLogger& logger);
 	PARAMETER_TYPE GetType() const;
 	bool IsEqual(const GLES2UniformParameter* other) const;
 };
@@ -124,8 +125,8 @@ class GLES2UPMat4x4 : public GLES2UniformParameter
 {
 	math::Matrix4x4 v;
 public:
-	GLES2UPMat4x4(const math::Matrix4x4& v, const str_type::string& name);
-	bool SetParameter(const GLuint program, const str_type::string& name, const Platform::FileLogger& logger);
+	GLES2UPMat4x4(const math::Matrix4x4& v, const str_type::string& shaderName, const str_type::string& parameterName);
+	bool SetParameter(const GLuint program, const Platform::FileLogger& logger);
 	PARAMETER_TYPE GetType() const;
 	bool IsEqual(const GLES2UniformParameter* other) const;
 };
@@ -136,8 +137,8 @@ class GLES2UPTexture : public GLES2UniformParameter
 	GLuint texture;
 	GLint unit;
 public:
-	GLES2UPTexture(const GLenum texturePass, GLuint texture, const GLint unit, const str_type::string& name);
-	bool SetParameter(const GLuint program, const str_type::string& name, const Platform::FileLogger& logger);
+	GLES2UPTexture(const GLenum texturePass, GLuint texture, const GLint unit, const str_type::string& shaderName, const str_type::string& parameterName);
+	bool SetParameter(const GLuint program, const Platform::FileLogger& logger);
 	PARAMETER_TYPE GetType() const;
 	bool IsEqual(const GLES2UniformParameter* other) const;
 };
@@ -147,8 +148,8 @@ class GLES2UPVec2Array : public GLES2UniformParameter
 	boost::shared_array<const math::Vector2> va;
 	GLsizei count;
 public:
-	GLES2UPVec2Array(const boost::shared_array<const math::Vector2>& v, const unsigned int count, const str_type::string& name);
-	bool SetParameter(const GLuint program, const str_type::string& name, const Platform::FileLogger& logger);
+	GLES2UPVec2Array(const boost::shared_array<const math::Vector2>& v, const unsigned int count, const str_type::string& shaderName, const str_type::string& parameterName);
+	bool SetParameter(const GLuint program, const Platform::FileLogger& logger);
 	PARAMETER_TYPE GetType() const;
 	bool IsEqual(const GLES2UniformParameter* other) const;
 };

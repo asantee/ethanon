@@ -305,7 +305,7 @@ void GLES2ShaderContext::SetUniformParametersFromCurrentProgram(GLES2ShaderPtr s
 			parameters.begin(); iter != parameters.end(); iter++)
 	{
 		GLES2UniformParameter* param = iter->second.get();
-		param->SetParameter(m_currentProgram, param->GetName(), m_logger);
+		param->SetParameter(m_currentProgram, m_logger);
 	}
 }
 
@@ -518,38 +518,38 @@ inline void SetParameter(const str_type::string& name, const GLES2UniformParamet
 
 bool GLES2Shader::SetConstant(const std::size_t nameHash, const str_type::string& name, const math::Vector4 &v)
 {
-	SetParameter(nameHash, GLES2UPVec4Ptr(new GLES2UPVec4(v, name)), m_parameters);
+	SetParameter(nameHash, GLES2UPVec4Ptr(new GLES2UPVec4(v, m_shaderName, name)), m_parameters);
 	return true;
 }
 
 bool GLES2Shader::SetConstant(const std::size_t nameHash, const str_type::string& name, const math::Vector3 &v)
 {
-	SetParameter(nameHash, GLES2UPVec3Ptr(new GLES2UPVec3(v, name)), m_parameters);
+	SetParameter(nameHash, GLES2UPVec3Ptr(new GLES2UPVec3(v, m_shaderName, name)), m_parameters);
 	return true;
 }
 
 bool GLES2Shader::SetConstant(const std::size_t nameHash, const str_type::string& name, const math::Vector2 &v)
 {
-	SetParameter(nameHash, GLES2UPVec2Ptr(new GLES2UPVec2(v, name)), m_parameters);
+	SetParameter(nameHash, GLES2UPVec2Ptr(new GLES2UPVec2(v, m_shaderName, name)), m_parameters);
 	return true;
 }
 
 bool GLES2Shader::SetConstant(const std::size_t nameHash, const str_type::string& name, const float x)
 {
-	SetParameter(nameHash, GLES2UPVec1Ptr(new GLES2UPVec1(x, name)), m_parameters);
+	SetParameter(nameHash, GLES2UPVec1Ptr(new GLES2UPVec1(x, m_shaderName, name)), m_parameters);
 	return true;
 }
 
 bool GLES2Shader::SetMatrixConstant(const std::size_t nameHash, const str_type::string& name, const math::Matrix4x4 &matrix)
 {
-	SetParameter(nameHash, GLES2UPMat4x4Ptr(new GLES2UPMat4x4(matrix, name)), m_parameters);
+	SetParameter(nameHash, GLES2UPMat4x4Ptr(new GLES2UPMat4x4(matrix, m_shaderName, name)), m_parameters);
 	return true;
 }
 
 bool GLES2Shader::SetConstantArray(const std::size_t nameHash, const str_type::string& name, unsigned int nElements,
 								   const boost::shared_array<const math::Vector2>& v)
 {
-	SetParameter(nameHash, GLES2UPVec2ArrayPtr(new GLES2UPVec2Array(v, nElements, name)), m_parameters);
+	SetParameter(nameHash, GLES2UPVec2ArrayPtr(new GLES2UPVec2Array(v, nElements, m_shaderName, name)), m_parameters);
 	return true;
 }
 
@@ -562,22 +562,19 @@ bool GLES2Shader::SetConstant(const std::size_t nameHash, const str_type::string
 
 bool GLES2Shader::SetConstant(const str_type::string& name, const math::Vector4 &v)
 {
-	//m_parameters[name] = GLES2UPVec4Ptr(new GLES2UPVec4(v));
-	SetParameter(name, GLES2UPVec4Ptr(new GLES2UPVec4(v, name)), m_parameters);
+	SetParameter(name, GLES2UPVec4Ptr(new GLES2UPVec4(v, m_shaderName, name)), m_parameters);
 	return true;
 }
 
 bool GLES2Shader::SetConstant(const str_type::string& name, const math::Vector3 &v)
 {
-	//m_parameters[name] = GLES2UPVec3Ptr(new GLES2UPVec3(v));
-	SetParameter(name, GLES2UPVec3Ptr(new GLES2UPVec3(v, name)), m_parameters);
+	SetParameter(name, GLES2UPVec3Ptr(new GLES2UPVec3(v, m_shaderName, name)), m_parameters);
 	return true;
 }
 
 bool GLES2Shader::SetConstant(const str_type::string& name, const math::Vector2 &v)
 {
-	//m_parameters[name] = GLES2UPVec2Ptr(new GLES2UPVec2(v));
-	SetParameter(name, GLES2UPVec2Ptr(new GLES2UPVec2(v, name)), m_parameters);
+	SetParameter(name, GLES2UPVec2Ptr(new GLES2UPVec2(v, m_shaderName, name)), m_parameters);
 	return true;
 }
 
@@ -598,8 +595,7 @@ bool GLES2Shader::SetConstant(const str_type::string& name, const float x, const
 
 bool GLES2Shader::SetConstant(const str_type::string& name, const float x)
 {
-	//m_parameters[name] = GLES2UPVec1Ptr(new GLES2UPVec1(x));
-	SetParameter(name, GLES2UPVec1Ptr(new GLES2UPVec1(x, name)), m_parameters);
+	SetParameter(name, GLES2UPVec1Ptr(new GLES2UPVec1(x, m_shaderName, name)), m_parameters);
 	return true;
 }
 
@@ -611,14 +607,13 @@ bool GLES2Shader::SetConstant(const str_type::string& name, const int n)
 
 bool GLES2Shader::SetConstantArray(const str_type::string& name, unsigned int nElements, const boost::shared_array<const math::Vector2>& v)
 {
-	SetParameter(name, GLES2UPVec2ArrayPtr(new GLES2UPVec2Array(v, nElements, name)), m_parameters);
+	SetParameter(name, GLES2UPVec2ArrayPtr(new GLES2UPVec2Array(v, nElements, m_shaderName, name)), m_parameters);
 	return true;
 }
 
 bool GLES2Shader::SetMatrixConstant(const str_type::string& name, const math::Matrix4x4 &matrix)
 {
-	//m_parameters[name] = GLES2UPMat4x4Ptr(new GLES2UPMat4x4(matrix));
-	SetParameter(name, GLES2UPMat4x4Ptr(new GLES2UPMat4x4(matrix, name)), m_parameters);
+	SetParameter(name, GLES2UPMat4x4Ptr(new GLES2UPMat4x4(matrix, m_shaderName, name)), m_parameters);
 	return true;
 }
 
@@ -636,16 +631,15 @@ bool GLES2Shader::SetTexture(const str_type::string& name, TextureWeakPtr pTextu
 	GLES2Texture* tex = static_cast<GLES2Texture*>(pTexture.lock().get());
 	if (tex)
 	{
-		//m_parameters[name] = GLES2UPTexturePtr(new GLES2UPTexture(GetEquivalentTexturePass(pass), tex->GetTextureID(), pass));
-		SetParameter(name, GLES2UPTexturePtr(new GLES2UPTexture(GetEquivalentTexturePass(pass), tex->GetTextureID(), pass, name)), m_parameters);
-		/*if (name == DIFFUSE_TEXTURE_NAME)
-		{
-			m_parameters[name] = GLES2UPTexturePtr(new GLES2UPTexture(GL_TEXTURE0, tex->GetTextureID(), 0));
-		}
-		else
-		{
-			m_parameters[name] = GLES2UPTexturePtr(new GLES2UPTexture(GL_TEXTURE1, tex->GetTextureID(), 1));
-		}*/
+		SetParameter(
+			name,
+			GLES2UPTexturePtr(new GLES2UPTexture(
+				GetEquivalentTexturePass(pass),
+				tex->GetTextureID(),
+				pass,
+				m_shaderName,
+				name)),
+			m_parameters);
 		return true;
 	}
 	else

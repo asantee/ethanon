@@ -286,11 +286,13 @@ public class GL2JNIView extends GLSurfaceView {
 		}
 
 		public void onSurfaceChanged(GL10 gl, int width, int height) {
+			Log.i("Ethanon", "GS2DJNI.resize / GS2DJNI.restore");
 			GS2DJNI.resize(width, height);
 			GS2DJNI.restore();
 		}
 
 		public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+			Log.i("Ethanon", "GS2DJNI.start");
 			GS2DJNI.start(apkPath, activity.getExternalStoragePath(), activity.getGlobalExternalStoragePath(),
 						  GL2JNIView.displayWidth, GL2JNIView.displayHeight);
 		}

@@ -27,9 +27,10 @@ namespace gs2d {
 
 int counter = 1;
 
-GLES2UniformParameter::GLES2UniformParameter(const str_type::string& name) :
+GLES2UniformParameter::GLES2UniformParameter(const str_type::string& shaderName, const str_type::string& parameterName) :
 	m_locations(new LocationMap),
-	m_name(name)
+	m_parameterName(parameterName),
+	m_shaderName(shaderName)
 {
 }
 
@@ -38,9 +39,9 @@ LocationMapPtr GLES2UniformParameter::GetLocations()
 	return m_locations;
 }
 
-const str_type::string& GLES2UniformParameter::GetName() const
+const str_type::string& GLES2UniformParameter::GetParameterName() const
 {
-	return m_name;
+	return m_parameterName;
 }
 
 void GLES2UniformParameter::SetLocations(const LocationMapPtr& locations)
@@ -48,7 +49,7 @@ void GLES2UniformParameter::SetLocations(const LocationMapPtr& locations)
 	m_locations = locations;
 }
 
-inline int GLES2UniformParameter::GetLocation(const GLuint program, const str_type::string& name, const Platform::FileLogger& logger)
+inline int GLES2UniformParameter::GetLocation(const GLuint program, const Platform::FileLogger& logger)
 {
 	LocationMap& locations = *m_locations.get();
 	std::map<GLuint, int>::iterator iter = locations.find(program);
@@ -58,13 +59,27 @@ inline int GLES2UniformParameter::GetLocation(const GLuint program, const str_ty
 	}
 	else
 	{
-		const int location = glGetUniformLocation(program, name.c_str());
-		GLES2Video::CheckGLError(name + ": uniform parameter not found with glGetUniformLocation", logger);
 		str_type::stringstream ss;
-		ss << "Location obtained successfully [" << name << "] " << counter++ << ": " << location;
-		logger.Log(ss.str(), Platform::FileLogger::INFO);
-		locations[program] = location;
-		return location;
+		const str_type::string& name = GetParameterName();
+
+		glUseProgram(program);
+		const int location = glGetUniformLocation(program, name.c_str());
+		if (!GLES2Video::CheckGLError(name + ": uniform parameter not found with glGetUniformLocation", logger))
+		{
+			ss << "Location obtained successfully [" << name << "] " << counter++ << ": " << location;
+			logger.Log(ss.str(), Platform::FileLogger::INFO);
+			locations[program] = location;
+			return location;
+		}
+		else
+		{
+			GLuint currentProgram;
+			glGetIntegerv(GL_CURRENT_PROGRAM, (GLint*)&currentProgram);
+			ss << "Couldn't get location for parameter " << name << " on shader " << m_shaderName
+			   << " (current: " << currentProgram << " / " << "should be " << program << ")";
+			logger.Log(ss.str(), Platform::FileLogger::ERROR);
+			return -1;
+		}
 	}
 }
 
@@ -131,20 +146,15 @@ void GLES2UniformParameter::ActiveTexture(const GLenum& texture)
 	}
 }
 
-GLES2UPVec1::GLES2UPVec1(const float v, const str_type::string& name) :
-	GLES2UniformParameter(name)
+GLES2UPVec1::GLES2UPVec1(const float v, const str_type::string& shaderName, const str_type::string& parameterName) :
+	GLES2UniformParameter(shaderName, parameterName)
 {
 	this->v = v;
 }
-bool GLES2UPVec1::SetParameter(const GLuint program, const str_type::string& name, const Platform::FileLogger& logger)
+bool GLES2UPVec1::SetParameter(const GLuint program, const Platform::FileLogger& logger)
 {
-	const int location = GetLocation(program, name, logger);
-	//if (!IsEqualToAlreadyDefinedParam(program, location, this, logger))
-	{
-		//AddParam(program, location, GLES2UniformParameterPtr(new GLES2UPVec1(v, GS_L(""))));
-		glUniform1f(location, v);
-		//GLES2Video::CheckGLError(name + ": uniform parameter not found with glUniform1f", logger);
-	}
+	const int location = GetLocation(program, logger);
+	glUniform1f(location, v);
 	return true;
 }
 
@@ -165,20 +175,15 @@ bool GLES2UPVec1::IsEqual(const gs2d::GLES2UniformParameter *other) const
 	return false;
 }
 
-GLES2UPVec2::GLES2UPVec2(const math::Vector2& v, const str_type::string& name) :
-	GLES2UniformParameter(name)
+GLES2UPVec2::GLES2UPVec2(const math::Vector2& v, const str_type::string& shaderName, const str_type::string& parameterName) :
+	GLES2UniformParameter(shaderName, parameterName)
 {
 	this->v = v;
 }
-bool GLES2UPVec2::SetParameter(const GLuint program, const str_type::string& name, const Platform::FileLogger& logger)
+bool GLES2UPVec2::SetParameter(const GLuint program, const Platform::FileLogger& logger)
 {
-	const int location = GetLocation(program, name, logger);
-	//if (!IsEqualToAlreadyDefinedParam(program, location, this, logger))
-	{
-		//AddParam(program, location, GLES2UniformParameterPtr(new GLES2UPVec2(v, GS_L(""))));
-		glUniform2fv(location, 1, &v.x);
-		//GLES2Video::CheckGLError(name + ": uniform parameter not found with glUniform2fv", logger);
-	}
+	const int location = GetLocation(program, logger);
+	glUniform2fv(location, 1, &v.x);
 	return true;
 }
 	
@@ -199,20 +204,15 @@ bool GLES2UPVec2::IsEqual(const gs2d::GLES2UniformParameter *other) const
 	return false;
 }
 
-GLES2UPVec3::GLES2UPVec3(const math::Vector3& v, const str_type::string& name) :
-	GLES2UniformParameter(name)
+GLES2UPVec3::GLES2UPVec3(const math::Vector3& v, const str_type::string& shaderName, const str_type::string& parameterName) :
+	GLES2UniformParameter(shaderName, parameterName)
 {
 	this->v = v;
 }
-bool GLES2UPVec3::SetParameter(const GLuint program, const str_type::string& name, const Platform::FileLogger& logger)
+bool GLES2UPVec3::SetParameter(const GLuint program, const Platform::FileLogger& logger)
 {
-	const int location = GetLocation(program, name, logger);
-	//if (!IsEqualToAlreadyDefinedParam(program, location, this, logger))
-	{
-		//AddParam(program, location, GLES2UniformParameterPtr(new GLES2UPVec3(v, GS_L(""))));
-		glUniform3fv(location, 1, &v.x);
-		//GLES2Video::CheckGLError(name + ": uniform parameter not found with glUniform3fv", logger);
-	}
+	const int location = GetLocation(program, logger);
+	glUniform3fv(location, 1, &v.x);
 	return true;
 }
 
@@ -233,20 +233,15 @@ bool GLES2UPVec3::IsEqual(const gs2d::GLES2UniformParameter *other) const
 	return false;
 }
 	
-GLES2UPVec4::GLES2UPVec4(const math::Vector4& v, const str_type::string& name) :
-	GLES2UniformParameter(name)
+GLES2UPVec4::GLES2UPVec4(const math::Vector4& v, const str_type::string& shaderName, const str_type::string& parameterName) :
+	GLES2UniformParameter(shaderName, parameterName)
 {
 	this->v = v;
 }
-bool GLES2UPVec4::SetParameter(const GLuint program, const str_type::string& name, const Platform::FileLogger& logger)
+bool GLES2UPVec4::SetParameter(const GLuint program, const Platform::FileLogger& logger)
 {
-	const int location = GetLocation(program, name, logger);
-	//if (!IsEqualToAlreadyDefinedParam(program, location, this, logger))
-	{
-		//AddParam(program, location, GLES2UniformParameterPtr(new GLES2UPVec4(v, GS_L(""))));
-		glUniform4fv(location, 1, &v.x);
-		//GLES2Video::CheckGLError(name + ": uniform parameter not found with glUniform4fv", logger);
-	}
+	const int location = GetLocation(program, logger);
+	glUniform4fv(location, 1, &v.x);
 	return true;
 }
 
@@ -267,20 +262,15 @@ bool GLES2UPVec4::IsEqual(const gs2d::GLES2UniformParameter *other) const
 	return false;
 }
 
-GLES2UPMat4x4::GLES2UPMat4x4(const math::Matrix4x4& v, const str_type::string& name) :
-	GLES2UniformParameter(name)
+GLES2UPMat4x4::GLES2UPMat4x4(const math::Matrix4x4& v, const str_type::string& shaderName, const str_type::string& parameterName) :
+	GLES2UniformParameter(shaderName, parameterName)
 {
 	this->v = v;
 }
-bool GLES2UPMat4x4::SetParameter(const GLuint program, const str_type::string& name, const Platform::FileLogger& logger)
+bool GLES2UPMat4x4::SetParameter(const GLuint program, const Platform::FileLogger& logger)
 {
-	const int location = GetLocation(program, name, logger);
-	//if (!IsEqualToAlreadyDefinedParam(program, location, this, logger))
-	{
-		//AddParam(program, location, GLES2UniformParameterPtr(new GLES2UPMat4x4(v, GS_L(""))));
-		glUniformMatrix4fv(location, 1, GL_FALSE, (GLfloat*)&v.m[0][0]);
-		//GLES2Video::CheckGLError(name + ": uniform parameter not found with glUniformMatrix4fv", logger);
-	}
+	const int location = GetLocation(program, logger);
+	glUniformMatrix4fv(location, 1, GL_FALSE, (GLfloat*)&v.m[0][0]);
 	return true;
 }
 
@@ -301,24 +291,24 @@ bool GLES2UPMat4x4::IsEqual(const gs2d::GLES2UniformParameter *other) const
 	return false;
 }
 	
-GLES2UPTexture::GLES2UPTexture(const GLenum texturePass, GLuint texture, const GLint unit, const str_type::string& name) :
-	GLES2UniformParameter(name)
+GLES2UPTexture::GLES2UPTexture(
+	const GLenum texturePass,
+	GLuint texture,
+	const GLint unit,
+	const str_type::string& shaderName,
+	const str_type::string& parameterName) :
+	GLES2UniformParameter(shaderName, parameterName)
 {
 	this->texturePass = texturePass;
 	this->texture = texture;
 	this->unit = unit;
 }
-bool GLES2UPTexture::SetParameter(const GLuint program, const str_type::string& name, const Platform::FileLogger& logger)
+bool GLES2UPTexture::SetParameter(const GLuint program, const Platform::FileLogger& logger)
 {
 	ActiveTexture(texturePass);
 	BindTexture2D(texture);
-	const int location = GetLocation(program, name, logger);
-	//if (!IsEqualToAlreadyDefinedParam(program, location, this, logger))
-	{
-		//AddParam(program, location, GLES2UniformParameterPtr(new GLES2UPTexture(texturePass, texture, unit, GS_L(""))));
-		glUniform1i(location, unit);
-		//GLES2Video::CheckGLError(name + ": uniform parameter not found with glUniform1i", logger);
-	}
+	const int location = GetLocation(program, logger);
+	glUniform1i(location, unit);
 	return true;
 }
 
@@ -340,21 +330,21 @@ bool GLES2UPTexture::IsEqual(const gs2d::GLES2UniformParameter *other) const
 	}
 }
 	
-GLES2UPVec2Array::GLES2UPVec2Array(const boost::shared_array<const gs2d::math::Vector2>& v, const unsigned int count, const str_type::string& name) :
-	GLES2UniformParameter(name),
+GLES2UPVec2Array::GLES2UPVec2Array(
+	const boost::shared_array<const gs2d::math::Vector2>& v,
+	const unsigned int count,
+	const str_type::string& shaderName,
+	const str_type::string& parameterName) :
+	GLES2UniformParameter(shaderName, parameterName),
 	count(static_cast<GLsizei>(count))
 {
 	this->va = v;
 }
-bool GLES2UPVec2Array::SetParameter(const GLuint program, const str_type::string& name, const Platform::FileLogger& logger)
+
+bool GLES2UPVec2Array::SetParameter(const GLuint program, const Platform::FileLogger& logger)
 {
-	const int location = GetLocation(program, name, logger);
-	//if (!IsEqualToAlreadyDefinedParam(program, location, this, logger))
-	{
-		//AddParam(program, location, GLES2UniformParameterPtr(new GLES2UPVec2Array(va, count, GS_L(""))));
-		glUniform2fv(location, count, &(va.get()->x));
-		//GLES2Video::CheckGLError(name + ": uniform parameter not found with glUniform2fv", logger);
-	}
+	const int location = GetLocation(program, logger);
+	glUniform2fv(location, count, &(va.get()->x));
 	return true;
 }
 

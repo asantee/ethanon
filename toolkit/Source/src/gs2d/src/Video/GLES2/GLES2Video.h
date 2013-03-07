@@ -62,7 +62,7 @@ public:
 	static const str_type::string VIDEO_LOG_FILE;
 	static const unsigned long ALPHAREF;
 
-	static void CheckGLError(const str_type::string& op, const Platform::FileLogger& logger);
+	static bool CheckGLError(const str_type::string& op, const Platform::FileLogger& logger);
 
 	TexturePtr CreateTextureFromFileInMemory(
 		const void *pBuffer,
