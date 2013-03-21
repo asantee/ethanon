@@ -858,6 +858,7 @@ void ETHScene::ScaleEntities(const float scale, const bool scalePosition)
 			entities[t]->SetPosition(entities[t]->GetPosition() * scale, m_buckets);
 		}
 	}
+	m_buckets.ResolveMoveRequests();
 }
 
 void ETHScene::AddEntityToPersistentList(ETHRenderEntity* entity)
