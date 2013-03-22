@@ -51,7 +51,7 @@ public class GS2DActivity extends KeyEventListener {
 	private static final String LOG_DIRECTORY_NAME = "log";
 	private static final String NON_CONTEXT_LOG_DIRECTORY_NAME = ".ethanon/gs2dlog";
 	private GL2JNIView surfaceView;
-	private ArrayList<NativeCommandListener> commandListeners = new ArrayList<NativeCommandListener>();
+	private ArrayList<NativeCommandListener> commandListeners;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -64,6 +64,7 @@ public class GS2DActivity extends KeyEventListener {
 	@Override
 	protected void onStart() {
 		super.onStart();
+		commandListeners = new ArrayList<NativeCommandListener>();
 		accelerometerListener = new AccelerometerListener(this);
 		commandListeners.add(new MediaStreamListener(this));
 		surfaceView = new GL2JNIView(this, retrieveApkPath(), accelerometerListener, this, commandListeners);
