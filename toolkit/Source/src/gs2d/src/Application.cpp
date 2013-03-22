@@ -37,7 +37,15 @@ GS2D_API float ComputeElapsedTimeF(ApplicationPtr app)
 {
 	static float lastTime = 0;
 	const float currentTime = app->GetElapsedTimeF(Application::TU_SECONDS);
-	const float elapsedTime = currentTime - lastTime;
+	float elapsedTime = currentTime - lastTime;
+
+	// if the timer had been reset, the elapsed time will be negative,
+	// since it can't be, lets set it to an acceptable value
+	if (elapsedTime <= 0.0f)
+	{
+		elapsedTime = 1.0f / 60.0f;
+	}
+
 	lastTime = currentTime;
 	return elapsedTime * 1000.0f;
 }
