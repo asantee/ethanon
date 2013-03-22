@@ -165,10 +165,11 @@ private:
 	struct PARTICLE
 	{
 		PARTICLE() :
-		released(false),
+			released(false),
 			repeat(0),
 			id(-1),
-			currentFrame(0)
+			currentFrame(0),
+			elapsed(0.0f)
 		{
 		}
 

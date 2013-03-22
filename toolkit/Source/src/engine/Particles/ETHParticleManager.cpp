@@ -479,7 +479,7 @@ bool ETHParticleManager::DrawParticleSystem(
 			if (particle.repeat >= m_system.repeat)
 				continue;
 
-		if (particle.size <= 0.0f || !particle.released)
+		if (particle.size <= 0.0f || !particle.released || particle.color.w <= 0.0f)
 			continue;
 
 		if (Killed() && particle.elapsed > particle.lifeTime)
