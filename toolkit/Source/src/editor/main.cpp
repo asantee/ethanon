@@ -185,7 +185,7 @@ std::string FindStartupProject(const int argc, char **argv, const Platform::File
 			video, audio, input, fileIOHub, true));
 
 		// instantiate and load every editor
-		std::vector<boost::shared_ptr<EditorBase>> editor(nEditors);
+		std::vector<boost::shared_ptr<EditorBase> > editor(nEditors);
 		editor[PROJECT] = boost::shared_ptr<EditorBase>(new ProjectManager(provider));
 		editor[ENTITY] = boost::shared_ptr<EditorBase>(new EntityEditor(provider));
 		editor[SCENE] = boost::shared_ptr<EditorBase>(new SceneEditor(provider));
