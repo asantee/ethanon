@@ -195,16 +195,11 @@ bool GLCgShader::LoadShaderFromString(
 
 	if (focus == Shader::SF_PIXEL)
 	{
-		//CGprofile latestProfile = cgGLGetLatestProfile(CG_GL_FRAGMENT);
-		m_cgProfile = CG_PROFILE_ARBFP1;
+		m_cgProfile = cgGLGetLatestProfile(CG_GL_FRAGMENT);
 	}
 	else
 	{
-		#ifdef MACOSX
-			m_cgProfile = CG_PROFILE_ARBVP1;
-		#else
-			m_cgProfile = cgGLGetLatestProfile(CG_GL_VERTEX);
-		#endif
+		m_cgProfile = cgGLGetLatestProfile(CG_GL_VERTEX);
 	}
 
 	cgGLSetOptimalOptions(m_cgProfile);
