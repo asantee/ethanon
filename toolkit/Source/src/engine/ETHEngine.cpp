@@ -39,6 +39,10 @@
  #include "../addons/ansi/scriptbuilder.h"
 #endif
 
+#if defined(APPLE_IOS) || defined(ANDROID)
+ #define MOBILE
+#endif
+
 using namespace gs2d;
 using namespace gs2d::math;
 
@@ -134,6 +138,11 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 		video->SetBGColor(m_lastBGColor);
 		m_pScene->RecoverResources();
 	}
+
+	// disable z-buffer on mobile
+	#ifdef MOBILE
+		SetZBuffer(false);
+	#endif
 }
 
 Application::APP_STATUS ETHEngine::Update(
@@ -298,7 +307,7 @@ static void RegisterDefinedWords(const std::vector<gs2d::str_type::string>& defi
 	#ifdef LINUX
 		builder.DefineWord("LINUX");
 	#endif
-	#if defined(APPLE_IOS) || defined(ANDROID)
+	#ifdef MOBILE
 		builder.DefineWord("MOBILE");
 		builder.DefineWord("MOBILE_DEVICE");
 		builder.DefineWord("HANDHELD");
