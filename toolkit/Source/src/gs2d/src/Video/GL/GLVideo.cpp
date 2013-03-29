@@ -88,6 +88,7 @@ bool GLVideo::StartApplication(
 
 	UpdateInternalShadersViewData(GetScreenSizeF(), false);
 
+	m_rectRenderer = boost::shared_ptr<GLRectRenderer>(new GLRectRenderer());
 	return true;
 }
 
@@ -322,7 +323,7 @@ Color GLVideo::GetBGColor() const
 
 const GLRectRenderer& GLVideo::GetRectRenderer() const
 {
-	return m_rectRenderer;
+	return *m_rectRenderer.get();
 }
 
 ShaderPtr GLVideo::GetFontShader()
@@ -471,7 +472,7 @@ bool GLVideo::DrawRectangle(
 	UnsetTexture(0);
 	UnsetTexture(1);
 	GetVertexShader()->SetShader();
-	m_rectRenderer.Draw(Sprite::RM_TWO_TRIANGLES);
+	m_rectRenderer->Draw(Sprite::RM_TWO_TRIANGLES);
 
 	SetPixelShader(prevPixelShader);
 	SetVertexShader(prevVertexShader);

@@ -48,7 +48,7 @@ class GLVideo : public virtual Video, public RecoverableResourceManager
 	math::Rect2D m_scissor;
 	TextureWeakPtr m_currentTarget;
 
-	GLRectRenderer m_rectRenderer;
+	boost::shared_ptr<GLRectRenderer> m_rectRenderer;
 
 	void Enable2DStates();
 
