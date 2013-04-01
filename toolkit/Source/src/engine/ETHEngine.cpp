@@ -138,11 +138,6 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 		video->SetBGColor(m_lastBGColor);
 		m_pScene->RecoverResources();
 	}
-
-	// disable z-buffer on mobile
-	#ifdef MOBILE
-		SetZBuffer(false);
-	#endif
 }
 
 Application::APP_STATUS ETHEngine::Update(
