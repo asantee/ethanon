@@ -101,7 +101,6 @@
 		7486555B163981310096D869 /* stb_image_aug.h in Headers */ = {isa = PBXBuildFile; fileRef = 74865551163981310096D869 /* stb_image_aug.h */; };
 		7486555C163981310096D869 /* stbi_DDS_aug_c.h in Headers */ = {isa = PBXBuildFile; fileRef = 74865552163981310096D869 /* stbi_DDS_aug_c.h */; };
 		7486555D163981310096D869 /* stbi_DDS_aug.h in Headers */ = {isa = PBXBuildFile; fileRef = 74865553163981310096D869 /* stbi_DDS_aug.h */; };
-		7486555F1639AEFF0096D869 /* cgShaderCode.h in Headers */ = {isa = PBXBuildFile; fileRef = 7486555E1639AEFE0096D869 /* cgShaderCode.h */; };
 		748655621639E1600096D869 /* GLSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 748655601639E15F0096D869 /* GLSprite.cpp */; };
 		748655631639E1600096D869 /* GLSprite.h in Headers */ = {isa = PBXBuildFile; fileRef = 748655611639E15F0096D869 /* GLSprite.h */; };
 		74F3A4FA1632E3870064C9A5 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F3A4F91632E3870064C9A5 /* Cocoa.framework */; };
@@ -219,7 +218,6 @@
 		74865551163981310096D869 /* stb_image_aug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_image_aug.h; path = ../../../vendors/soil/stb_image_aug.h; sourceTree = "<group>"; };
 		74865552163981310096D869 /* stbi_DDS_aug_c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stbi_DDS_aug_c.h; path = ../../../vendors/soil/stbi_DDS_aug_c.h; sourceTree = "<group>"; };
 		74865553163981310096D869 /* stbi_DDS_aug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stbi_DDS_aug.h; path = ../../../vendors/soil/stbi_DDS_aug.h; sourceTree = "<group>"; };
-		7486555E1639AEFE0096D869 /* cgShaderCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cgShaderCode.h; path = ../../../../src/Video/cgShaderCode.h; sourceTree = "<group>"; };
 		748655601639E15F0096D869 /* GLSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLSprite.cpp; path = ../../../../src/Video/GL/GLSprite.cpp; sourceTree = "<group>"; };
 		748655611639E15F0096D869 /* GLSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLSprite.h; path = ../../../../src/Video/GL/GLSprite.h; sourceTree = "<group>"; };
 		74F3A4F61632E3870064C9A5 /* gs2d.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = gs2d.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -325,7 +323,6 @@
 				7473CAB01633044E005DB920 /* BitmapFontManager.h */,
 				7473CAB11633044E005DB920 /* cgShaderCode.h */,
 				7473CAB41633044E005DB920 /* Window.h */,
-				7486555E1639AEFE0096D869 /* cgShaderCode.h */,
 			);
 			name = Video;
 			sourceTree = "<group>";
@@ -578,7 +575,6 @@
 				7486555B163981310096D869 /* stb_image_aug.h in Headers */,
 				7486555C163981310096D869 /* stbi_DDS_aug_c.h in Headers */,
 				7486555D163981310096D869 /* stbi_DDS_aug.h in Headers */,
-				7486555F1639AEFF0096D869 /* cgShaderCode.h in Headers */,
 				748655631639E1600096D869 /* GLSprite.h in Headers */,
 				74838D2F163C13E30027CFFC /* RecoverableResourceManager.h in Headers */,
 				74838D37163F25AB0027CFFC /* SDLInput.h in Headers */,
