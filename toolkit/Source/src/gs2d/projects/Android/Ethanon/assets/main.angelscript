@@ -8,5 +8,5 @@
 
 void onSceneUpdate()
 {
-	DrawText(vector2(0), "Oi meu nome é André\näãáàéèëïíìóòöõúùüñÄÃÁÀÉÈËÏÍÌÓÒÖÕÚÙÜÑ", "Verdana20_shadow.fnt", 0xFFFFFFFF);
+	DrawText(vector2(0), "" + GetFPSRate(), "Verdana20_shadow.fnt", 0xFFFFFFFF);
 }
