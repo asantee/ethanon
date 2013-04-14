@@ -562,33 +562,17 @@ void GLES2Video::SetZBuffer(const bool enable)
 
 bool GLES2Video::GetZBuffer() const
 {
-	/*GLboolean enabled;
-	glGetBooleanv(GL_DEPTH_TEST, &enabled);
-	return (enabled == GL_TRUE) ? true : false;*/
 	return m_zBuffer;
 }
 
 void GLES2Video::SetZWrite(const bool enable)
 {
-	if (m_zWrite)
-	{
-		if (!enable)
-			glDepthMask(GL_FALSE);
-	}
-	else
-	{
-		if (enable)
-			glDepthMask(GL_TRUE);
-	}
-	m_zWrite = enable;
+	// dummy on opengl
 }
 
 bool GLES2Video::GetZWrite() const
 {
-	/*GLboolean enabled;
-	glGetBooleanv(GL_DEPTH_WRITEMASK, &enabled);
-	return (enabled == GL_TRUE) ? true : false;*/
-	return m_zWrite;
+	return true;
 }
 
 bool GLES2Video::SetClamp(const bool set)
