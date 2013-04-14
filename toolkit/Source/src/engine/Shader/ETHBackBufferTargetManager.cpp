@@ -64,14 +64,22 @@ ETHBackBufferTargetManager::ETHBackBufferTargetManager(gs2d::VideoPtr video, con
 	m_bufferSize.x = gs2d::math::Min(screenSize.x, m_bufferSize.x);
 	m_bufferSize.y = gs2d::math::Min(screenSize.y, m_bufferSize.y);
 
-	m_backBuffer = (m_bufferSize == screenSize) ? 
-					ETHDynamicBackBufferPtr(new ETHNoDynamicBackBuffer(video, m_bufferSize)) :
-					ETHDynamicBackBufferPtr(new ETHDefaultDynamicBackBuffer(video, m_bufferSize));
+	gs2d::str_type::stringstream ss; ss << GS_L("Backbuffer created as ") << m_bufferSize.x << GS_L(", ") << m_bufferSize.y
+										<< GS_L(" on ");
+	if (m_bufferSize == screenSize)
+	{
+		m_backBuffer = ETHDynamicBackBufferPtr(new ETHNoDynamicBackBuffer(video, m_bufferSize));
+		ss << GS_L("default backbuffer mode");
+	}
+	else
+	{
+		m_backBuffer = ETHDynamicBackBufferPtr(new ETHDefaultDynamicBackBuffer(video, m_bufferSize));
+		ss << GS_L("dynamic framebuffer mode");
+	}
 	m_targetScale = m_bufferSize.x / screenSize.x;
 
 	CreateOBB();
 
-	gs2d::str_type::stringstream ss; ss << GS_L("Backbuffer created as ") << m_bufferSize.x << GS_L(", ") << m_bufferSize.y;
 	logger.Log(ss.str(), Platform::Logger::INFO);
 }
 
