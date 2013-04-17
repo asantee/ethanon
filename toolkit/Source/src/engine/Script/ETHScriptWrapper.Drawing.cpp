@@ -142,6 +142,7 @@ void ETHScriptWrapper::PlayParticleEffect(const str_type::string& fileName, cons
 			new ETHParticleDrawer(
 				m_provider,
 				m_provider->GetGraphicResourceManager(),
+				m_provider->GetShaderManager(),
 				m_provider->GetFileIOHub()->GetResourceDirectory(),
 				fileName,
 				pos,
