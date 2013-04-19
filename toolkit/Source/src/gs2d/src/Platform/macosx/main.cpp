@@ -30,7 +30,8 @@ int SDL_main (int argc, char **argv)
 		gs2d::SpritePtr black(video->CreateSprite(fileIOHub->GetResourceDirectory() + "resources/planets_black.png"));
 		gs2d::SpritePtr road(video->CreateSprite(fileIOHub->GetResourceDirectory() + "resources/road.jpg"));
 	
-		gs2d::ShaderPtr ps = video->LoadShaderFromFile(fileIOHub->GetResourceDirectory() + "resources/shaders/minimalPixelShader.cg", Shader::SF_PIXEL);
+		//gs2d::ShaderPtr ps = video->LoadShaderFromFile(
+		//	fileIOHub->GetResourceDirectory() + "resources/shaders/minimalPixelShader.cg", Shader::SF_PIXEL, Shader::SP_HIGHEST, "multiTexture2t");
 	
 		gs2d::Video::APP_STATUS status;
 		while ((status = video->HandleEvents()) != gs2d::Video::APP_QUIT)
@@ -42,14 +43,17 @@ int SDL_main (int argc, char **argv)
 
             const Vector2 screenSize(video->GetScreenSizeF());
 
-			video->BeginSpriteScene();
+			video->BeginSpriteScene(0xFF333333);
 
-			video->SetPixelShader(ps);
+			//video->SetPixelShader(ps);
 			road->Draw(Vector2(0.0f, 0.0f));
 			
 			video->SetPixelShader(ShaderPtr());
 			skull->Draw(screenSize * 0.5f);
+			
+			road->SetAsTexture(1);
 			planets->Draw(screenSize * Vector2(0.5f, 0.0f));
+			video->UnsetTexture(1);
 
 			video->DrawRectangle(screenSize * 0.8f, Vector2(100,200), 0xFFFF0000, 0xFF00FF00, 0xFF0000FF, 0xFFFFFF00);
             
