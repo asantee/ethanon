@@ -134,7 +134,7 @@
 		7458F07F1635F18300D48019 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		7458F0821636CFB200D48019 /* MacOSXFileIOHub.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MacOSXFileIOHub.mm; path = ../../../../src/Platform/macosx/MacOSXFileIOHub.mm; sourceTree = "<group>"; };
 		7458F0831636CFB200D48019 /* MacOSXFileIOHub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacOSXFileIOHub.h; path = ../../../../src/Platform/macosx/MacOSXFileIOHub.h; sourceTree = "<group>"; };
-		7458F08E16377D9000D48019 /* GLRectRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLRectRenderer.cpp; path = ../../../../src/Video/GL/GLRectRenderer.cpp; sourceTree = "<group>"; };
+		7458F08E16377D9000D48019 /* GLRectRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLRectRenderer.cpp; path = ../../../../src/Video/GL/GLRectRenderer.cpp; sourceTree = "<group>"; usesTabs = 1; };
 		7458F08F16377D9000D48019 /* GLRectRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLRectRenderer.h; path = ../../../../src/Video/GL/GLRectRenderer.h; sourceTree = "<group>"; };
 		7458F09216377E3A00D48019 /* GLInclude.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLInclude.h; path = ../../../../src/Video/GL/GLInclude.h; sourceTree = "<group>"; };
 		7458F0971637A3E000D48019 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = ../../../vendors/SDL.framework; sourceTree = "<group>"; };
@@ -455,6 +455,7 @@
 				74F3A4F71632E3870064C9A5 /* Products */,
 			);
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		74F3A4F71632E3870064C9A5 /* Products */ = {
 			isa = PBXGroup;
