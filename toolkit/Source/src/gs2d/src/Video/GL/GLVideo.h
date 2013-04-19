@@ -52,7 +52,7 @@ class GLVideo : public virtual Video, public RecoverableResourceManager
 
 	void Enable2DStates();
 
-	ShaderPtr m_defaultVS, m_rectVS, m_fastVS;
+	ShaderPtr m_defaultVS, m_rectVS, m_fastVS, m_defaultPS, m_defaultModulatePS, m_defaultAddPS;
 	ShaderPtr m_currentVS, m_currentPS;
 	
 protected:
@@ -80,6 +80,9 @@ public:
 	
 	ShaderPtr GetFontShader();
 	ShaderPtr GetOptimalVS();
+	ShaderPtr GetDefaultPS();
+	ShaderPtr GetDefaultModulatePS();
+	ShaderPtr GetDefaultAddPS();
 	ShaderPtr GetDefaultVS();
 	ShaderPtr GetVertexShader();
 	ShaderPtr GetPixelShader();
@@ -88,7 +91,7 @@ public:
 	bool SetPixelShader(ShaderPtr pShader);
 	Shader::SHADER_PROFILE GetHighestVertexProfile() const;
 	Shader::SHADER_PROFILE GetHighestPixelProfile() const;
-	
+
 	boost::any GetGraphicContext();
 		
 	bool SetRenderTarget(SpritePtr pTarget, const unsigned int target);
@@ -111,7 +114,7 @@ public:
 	bool SetScissor(const bool &enable);
 	math::Rect2D GetScissor() const;
 	void UnsetScissor();
-	
+
 	bool DrawLine(const math::Vector2 &p1, const math::Vector2 &p2, const Color& color1, const Color& color2);
 	
 	bool DrawRectangle(

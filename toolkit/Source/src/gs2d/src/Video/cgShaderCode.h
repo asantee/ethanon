@@ -100,6 +100,35 @@ const char defaultVSCode[] =
 "	oColor = getVertexColor(position);\n" \
 "}";
 
+const char defaultFragmentShaders[] =
+"void minimal(float2 texCoord : TEXCOORD0,\n" \
+"			 float4 color0 : COLOR0,\n" \
+"			 out float4 oColor : COLOR,\n" \
+"			 uniform sampler2D diffuse)\n" \
+"{\n" \
+"	const float4 diffuseColor = tex2D(diffuse, texCoord);\n" \
+"	oColor = diffuseColor * color0;\n" \
+"}\n" \
+"void modulate(float2 texCoord : TEXCOORD0,\n" \
+"					float4 color0 : COLOR0,\n" \
+"					out float4 oColor : COLOR,\n" \
+"					uniform sampler2D diffuse,\n" \
+"					uniform sampler2D pass1)\n" \
+"{\n" \
+"	const float4 diffuseColor = tex2D(diffuse, texCoord);\n" \
+"	const float4 pass1Color   = tex2D(pass1, texCoord);\n" \
+"	oColor = diffuseColor * pass1Color * color0;\n" \
+"}\n" \
+"void add(float2 texCoord : TEXCOORD0,\n" \
+"		float4 color0 : COLOR0,\n" \
+"		out float4 oColor : COLOR,\n" \
+"		uniform sampler2D diffuse,\n" \
+"		uniform sampler2D pass1)\n" \
+"{\n" \
+"	const float4 diffuseColor = tex2D(diffuse, texCoord);\n" \
+"	const float4 pass1Color   = tex2D(pass1, texCoord);\n" \
+"	oColor = color0 * diffuseColor + float4(pass1Color.xyz, 0);\n" \
+"}";
 
 const char fastSimpleVSCode[] = 
 "uniform float4x4 viewMatrix;\n" \

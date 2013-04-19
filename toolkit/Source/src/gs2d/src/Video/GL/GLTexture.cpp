@@ -31,6 +31,13 @@
 
 namespace gs2d {
 
+boost::shared_ptr<GLTexture> GLTexture::Create(VideoWeakPtr video, Platform::FileManagerPtr fileManager)
+{
+    GLTexturePtr texture = GLTexturePtr(new GLTexture(video, fileManager));
+    texture->weak_this = texture;
+    return texture;
+}
+
 static void ApplyPixelMask(unsigned char *ht_map, const Color mask, const int channels, const int width, const int height);
 
 GLuint GLTexture::m_textureID(1000);
@@ -84,17 +91,6 @@ void GLTexture::DeleteGLTexture()
 
 bool GLTexture::SetTexture(const unsigned int passIdx)
 {
-	switch (passIdx)
-	{
-	case 0:
-		glActiveTexture(GL_TEXTURE0);
-		break;
-	case 1:
-	default:
-		glActiveTexture(GL_TEXTURE1);
-		break;
-	}
-	glBindTexture(GL_TEXTURE_2D, m_textureInfo.m_texture);
 	return true;
 }
 
