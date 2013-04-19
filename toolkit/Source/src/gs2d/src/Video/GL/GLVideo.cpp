@@ -394,6 +394,12 @@ bool GLVideo::SetPixelShader(ShaderPtr pShader)
 			return false;
 		}
 	}
+    else
+    {
+        m_shaderContext->DisableFragmentShader();
+    }
+    
+    // unbind previous shader before binding the new one
 	if (m_currentPS != pShader && m_currentPS)
 		m_currentPS->UnbindShader();
 
