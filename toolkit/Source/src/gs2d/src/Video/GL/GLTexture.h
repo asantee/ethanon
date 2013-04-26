@@ -37,6 +37,8 @@ class GLVideo;
 
 class GLTexture : public Texture, public RecoverableResource
 {
+	boost::weak_ptr<GLTexture> weak_this;
+
 	Platform::FileManagerPtr m_fileManager;
 	boost::weak_ptr<GLVideo> m_video;
 
@@ -62,8 +64,12 @@ class GLTexture : public Texture, public RecoverableResource
 	void CreateTextureFromBitmap(GS_BYTE* data, const int width, const int height, const int channels, const bool pow2);
 	void DeleteGLTexture();
 
-public:
 	GLTexture(VideoWeakPtr video, Platform::FileManagerPtr fileManager);
+
+public:
+
+    static boost::shared_ptr<GLTexture> Create(VideoWeakPtr video, Platform::FileManagerPtr fileManager);
+
 	~GLTexture();
 
 	bool SetTexture(const unsigned int passIdx = 0);

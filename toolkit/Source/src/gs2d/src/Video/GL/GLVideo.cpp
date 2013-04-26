@@ -84,7 +84,17 @@ bool GLVideo::StartApplication(
 	if (!m_fastVS)
 		m_fastVS = LoadShaderFromString("fastShader", gs2dglobal::fastSimpleVSCode, Shader::SF_VERTEX, Shader::SP_MODEL_2, "fast");
 
+	if (!m_defaultModulatePS)
+		m_defaultModulatePS = LoadShaderFromString("modulate", gs2dglobal::defaultFragmentShaders, Shader::SF_PIXEL, Shader::SP_MODEL_1, "modulate");
+
+	if (!m_defaultAddPS)
+		m_defaultAddPS = LoadShaderFromString("add", gs2dglobal::defaultFragmentShaders, Shader::SF_PIXEL, Shader::SP_MODEL_1, "add");
+
+	if (!m_defaultPS)
+		m_defaultPS = LoadShaderFromString("minimal", gs2dglobal::defaultFragmentShaders, Shader::SF_PIXEL, Shader::SP_MODEL_1, "minimal");
+
 	m_currentVS = m_defaultVS;
+    m_currentPS = m_defaultPS;
 
 	UpdateInternalShadersViewData(GetScreenSizeF(), false);
 
@@ -341,6 +351,21 @@ ShaderPtr GLVideo::GetDefaultVS()
 	return m_defaultVS;
 }
 
+ShaderPtr GLVideo::GetDefaultPS()
+{
+	return m_defaultPS;
+}
+
+ShaderPtr GLVideo::GetDefaultModulatePS()
+{
+	return m_defaultModulatePS;
+}
+
+ShaderPtr GLVideo::GetDefaultAddPS()
+{
+	return m_defaultAddPS;
+}
+
 ShaderContextPtr GLVideo::GetShaderContext()
 {
 	return m_shaderContext;
@@ -394,8 +419,10 @@ bool GLVideo::SetPixelShader(ShaderPtr pShader)
 			return false;
 		}
 	}
-	if (m_currentPS != pShader && m_currentPS)
-		m_currentPS->UnbindShader();
+    else
+    {
+        pShader = m_defaultPS;
+    }
 
 	m_currentPS = pShader;
 	return true;
@@ -467,7 +494,7 @@ bool GLVideo::DrawRectangle(
 	ShaderPtr prevVertexShader = GetVertexShader(), prevPixelShader = GetPixelShader();
 
 	SetVertexShader(m_rectVS);
-	SetPixelShader(ShaderPtr());
+	m_shaderContext->DisableFragmentShader();
 
 	UnsetTexture(0);
 	UnsetTexture(1);

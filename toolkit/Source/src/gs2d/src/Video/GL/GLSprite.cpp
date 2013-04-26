@@ -186,9 +186,10 @@ bool GLSprite::DrawShaped(
 
 	// apply textures according to the rendering mode (pixel shaded or not)
 	ShaderPtr pCurrentPS = video->GetPixelShader();
-	SetDiffuseTexture(pCurrentPS);
+	pCurrentPS->SetTexture("diffuse", m_texture);
 
 	pCurrentVS->SetShader();
+	pCurrentPS->SetShader();
 
 	// draw the one-pixel-quad applying the vertex shader
 	video->GetRectRenderer().Draw(m_rectMode);
@@ -245,7 +246,8 @@ void GLSprite::BeginFastRendering()
 
 	// apply textures according to the rendering mode (pixel shaded or not)
 	ShaderPtr pCurrentPS = video->GetPixelShader();
-	SetDiffuseTexture(pCurrentPS);
+	pCurrentPS->SetTexture("diffuse", m_texture);
+	pCurrentPS->SetShader();
 }
 
 bool GLSprite::DrawShapedFast(const math::Vector2 &v2Pos, const math::Vector2 &v2Size, const Color& color)
@@ -297,19 +299,6 @@ void GLSprite::EndFastRendering()
 	m_video.lock()->SetPixelShader(ShaderPtr());
 }
 
-void GLSprite::SetDiffuseTexture(ShaderPtr currentPixelShader)
-{
-	if (!currentPixelShader)
-	{
-		m_texture->SetTexture(0);
-	}
-	else
-	{
-		currentPixelShader->SetTexture("diffuse", m_texture);
-		currentPixelShader->SetShader();
-	}
-}
-
 bool GLSprite::SaveBitmap(
 	const str_type::char_t* name,
 	const Texture::BITMAP_FORMAT fmt,
@@ -320,7 +309,16 @@ bool GLSprite::SaveBitmap(
 
 bool GLSprite::SetAsTexture(const unsigned int passIdx)
 {
-	return m_texture->SetTexture(passIdx);
+	GLVideoPtr video = m_video.lock();
+	if (passIdx == 1 && video->GetPixelShader() == video->GetDefaultPS())
+	{
+		ShaderPtr defaultPS = (video->GetBlendMode(1) == Video::BM_MODULATE)
+								? video->GetDefaultModulatePS()
+								: video->GetDefaultAddPS();
+		video->SetPixelShader(defaultPS);
+		defaultPS->SetTexture("pass1", m_texture);
+	}
+	return true;
 }
 
 void GLSprite::GenerateBackup()

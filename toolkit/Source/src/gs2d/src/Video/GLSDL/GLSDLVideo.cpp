@@ -129,7 +129,7 @@ TexturePtr GLSDLVideo::CreateTextureFromFileInMemory(
 	const unsigned int height,
 	const unsigned int nMipMaps)
 {
-	TexturePtr texture(new GLTexture(weak_this, GetFileIOHub()->GetFileManager()));
+	TexturePtr texture(GLTexture::Create(weak_this, GetFileIOHub()->GetFileManager()));
 	if (texture->LoadTexture(weak_this, pBuffer, mask, width, height, nMipMaps, bufferLength))
 	{
 		return texture;
@@ -144,7 +144,7 @@ TexturePtr GLSDLVideo::LoadTextureFromFile(
 	const unsigned int height,
 	const unsigned int nMipMaps)
 {
-	TexturePtr texture(new GLTexture(weak_this, GetFileIOHub()->GetFileManager()));
+	TexturePtr texture(GLTexture::Create(weak_this, GetFileIOHub()->GetFileManager()));
 	if (texture->LoadTexture(weak_this, fileName, mask, width, height, nMipMaps))
 	{
 		return texture;
@@ -157,7 +157,7 @@ TexturePtr GLSDLVideo::CreateRenderTargetTexture(
 	const unsigned int height,
 	const Texture::TARGET_FORMAT fmt)
 {
-	TexturePtr texture(new GLTexture(weak_this, GetFileIOHub()->GetFileManager()));
+	TexturePtr texture(GLTexture::Create(weak_this, GetFileIOHub()->GetFileManager()));
 	if (texture->CreateRenderTarget(weak_this, width, height, fmt))
 	{
 		return texture;
