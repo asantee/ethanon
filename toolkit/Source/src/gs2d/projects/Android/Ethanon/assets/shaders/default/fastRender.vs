@@ -5,17 +5,17 @@ varying vec4 v_color;
 varying vec2 v_texCoord;
 
 uniform mat4 viewMatrix;
-uniform vec2 screenSize;
 
-uniform vec4 color;
-
-uniform vec2 params[5];
+uniform vec2 params[8];
 
 #define rectPos params[0]
 #define rectSize params[1]
 #define size params[2]
 #define entityPos params[3]
 #define bitmapSize params[4]
+#define screenSize params[5]
+#define colorRG params[6]
+#define colorBA params[7]
 
 vec4 transformSprite(vec3 position)
 {
@@ -34,6 +34,6 @@ vec2 transformCoord(vec2 texCoord)
 void main()
 {
 	gl_Position = transformSprite(vec3(vPosition.x, vPosition.y, vPosition.z));
-	v_color = color;
+	v_color = vec4(colorRG.x, colorRG.y, colorBA.x, colorBA.y);
 	v_texCoord = transformCoord(vTexCoord);
 }

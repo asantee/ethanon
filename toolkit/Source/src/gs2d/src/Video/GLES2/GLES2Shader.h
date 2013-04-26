@@ -78,6 +78,8 @@ public:
 	float GetSpriteDepth() const;
 	
 	static const int INVALID_ATTRIB_LOCATION;
+	
+	math::Vector2 GetScreenSize() const;
 
 protected:
 	GLES2ShaderPtr m_currentVS;

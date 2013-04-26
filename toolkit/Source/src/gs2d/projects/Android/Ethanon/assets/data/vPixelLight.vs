@@ -12,9 +12,7 @@ varying vec3 v_vertPos3D;
 uniform mat4 viewMatrix;
 uniform mat4 rotationMatrix;
 
-uniform vec2 screenSize;
-
-uniform vec2 params[12];
+uniform vec2 params[17];
 
 #define rectPos params[0]
 #define rectSize params[1]
@@ -26,9 +24,14 @@ uniform vec2 params[12];
 #define colorRG params[7]
 #define colorBA params[8]
 #define depth params[9]
+#define screenSize params[10]
+#define flipAdd params[11]
+#define flipMul params[12]
+#define entityPos3DXY params[13]
+#define entityPos3DZ_parallaxIntensity params[14]
+#define parallaxOrigin params[15]
+#define verticalIntensity params[16]
 
-uniform float3 parallaxOrigin_verticalIntensity;
-uniform float4 entityPos3D_parallaxIntensity;
 uniform float spaceLength;
 
 uniform float3 topLeft3DPos;
@@ -41,9 +44,7 @@ float computeVerticalOffsetInPixels(float posY, float rectSizeY)
 float2 computeParallaxOffset(float2 vertPos, float3 inPosition)
 {
 	float vOffset = computeVerticalOffsetInPixels(inPosition.y, rectSize.y);
-	float2 parallaxOrigin = float2(parallaxOrigin_verticalIntensity.x, parallaxOrigin_verticalIntensity.y);
-	float verticalIntensity = parallaxOrigin_verticalIntensity.z;
-	return ((vertPos - parallaxOrigin) / screenSize.x) * (entityPos3D_parallaxIntensity.z + (vOffset * verticalIntensity)) * entityPos3D_parallaxIntensity.w;
+	return ((vertPos - parallaxOrigin) / screenSize.x) * (entityPos3DZ_parallaxIntensity.x + (vOffset * verticalIntensity.x)) * entityPos3DZ_parallaxIntensity.y;
 }
 
 float4 transformSprite(float3 position)

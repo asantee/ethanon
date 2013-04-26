@@ -7,9 +7,7 @@ varying vec2 v_texCoord;
 uniform mat4 viewMatrix;
 uniform mat4 rotationMatrix;
 
-uniform vec2 screenSize;
-
-uniform vec2 params[12];
+uniform vec2 params[13];
 
 #define rectPos params[0]
 #define rectSize params[1]
@@ -21,8 +19,9 @@ uniform vec2 params[12];
 #define colorRG params[7]
 #define colorBA params[8]
 #define depth params[9]
-#define flipAdd params[10]
-#define flipMul params[11]
+#define screenSize params[10]
+#define flipAdd params[11]
+#define flipMul params[12]
 
 vec4 transformSprite(vec3 position)
 {
