@@ -869,8 +869,7 @@ void SceneEditor::DoStateManager()
 		{
 			str_type::string directoryName = m_pScene->ConvertFileNameToLightmapDirectory(utf8::c(GetCurrentFile(true)).wstr());
 			Platform::FixSlashes(directoryName);
-			Platform::CreateDirectory(directoryName);
-			m_provider->GetVideo()->SetWindowTitle("Saving lightmap bitmaps...");
+			Platform::CreateDirectory(utf8::c(directoryName).c_str());
 			m_pScene->SaveLightmapsToFile(directoryName);
 		}
 	}
