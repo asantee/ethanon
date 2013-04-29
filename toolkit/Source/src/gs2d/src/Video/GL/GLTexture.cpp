@@ -302,7 +302,25 @@ bool GLTexture::SaveBitmap(const str_type::char_t* name, const Texture::BITMAP_F
 	if (!Platform::IsExtensionRight(fileName, ext))
 		fileName.append(ext);
 
-	const bool r = (SOIL_save_image(fileName.c_str(), type, m_profile.originalWidth, m_profile.originalHeight, m_channels, m_bitmap) != 0);
+	unsigned char* data = 0;
+	if (m_bitmap)
+	{
+		data = m_bitmap;
+	}
+	else
+	{
+		if (!m_textureInfo.renderTargetBackup.get())
+			SaveTargetSurfaceBackup();
+		data = m_textureInfo.renderTargetBackup.get();
+	}
+
+	const bool r = (SOIL_save_image(
+		fileName.c_str(),
+		type,
+		m_profile.originalWidth,
+		m_profile.originalHeight,
+		m_channels,
+		data) != 0);
 
 	if (!r)
 		ShowMessage(str_type::string("Couldn't save texture ") + fileName, GSMT_ERROR);
