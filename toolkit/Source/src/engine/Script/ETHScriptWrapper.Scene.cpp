@@ -201,7 +201,22 @@ bool ETHScriptWrapper::GenerateLightmaps()
 {
 	if (!m_useLightmaps)
 		return false;
-	return m_pScene->GenerateLightmaps();
+	else
+		return m_pScene->GenerateLightmaps();
+}
+
+void ETHScriptWrapper::LoadLightmaps()
+{
+	if (m_usePreLoadedLightmapsFromFile)
+		ReadLightmapsFromBitmapFiles();
+	else
+		GenerateLightmaps();
+}
+
+void ETHScriptWrapper::ReadLightmapsFromBitmapFiles()
+{
+	if (m_pScene)
+		m_pScene->LoadLightmapsFromBitmapFiles(GetResourceDirectory() + GetSceneFileName());
 }
 
 void ETHScriptWrapper::SetAmbientLight(const Vector3 &v3Color)
@@ -299,6 +314,11 @@ void ETHScriptWrapper::EnableLightmaps(const bool enable)
 
 	m_useLightmaps = enable;
 	m_pScene->EnableLightmaps(enable);
+}
+
+void ETHScriptWrapper::EnablePreLoadedLightmapsFromFile(const bool enable)
+{
+	m_usePreLoadedLightmapsFromFile = enable;
 }
 
 Vector2 ETHScriptWrapper::GetCameraPos()
@@ -549,7 +569,7 @@ bool ETHScriptWrapper::LoadScene(const str_type::string &escFile, const Vector2&
 	m_drawableManager.Clear();
 	m_sceneFileName = escFile;
 	m_pScene->EnableLightmaps(m_useLightmaps);
-	GenerateLightmaps();
+	LoadLightmaps();
 	m_provider->GetVideo()->SetCameraPos(Vector2(0,0));
 	LoadSceneScripts();
 	m_timer.CalcLastFrame();

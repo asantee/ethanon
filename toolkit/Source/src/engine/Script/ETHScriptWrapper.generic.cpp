@@ -109,6 +109,7 @@ asDECLARE_FUNCTION_WRAPPER(__ComputeTextBoxSize,    ETHScriptWrapper::ComputeTex
 asDECLARE_FUNCTION_WRAPPER(__EnableLightmaps, ETHScriptWrapper::EnableLightmaps);
 asDECLARE_FUNCTION_WRAPPER(__UsePixelShaders, ETHScriptWrapper::UsePixelShaders);
 asDECLARE_FUNCTION_WRAPPER(__GetFPSRate,      ETHScriptWrapper::GetFPSRate);
+asDECLARE_FUNCTION_WRAPPER(__EnablePreLoadedLightmapsFromFile, ETHScriptWrapper::EnablePreLoadedLightmapsFromFile);
 
 asDECLARE_FUNCTION_WRAPPER(__LoadMusic,       ETHScriptWrapper::LoadMusic);
 asDECLARE_FUNCTION_WRAPPER(__LoadSoundEffect, ETHScriptWrapper::LoadSoundEffect);
@@ -358,6 +359,7 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void EnableLightmaps(const bool)", asFUNCTION(__EnableLightmaps), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void UsePixelShaders(const bool)", asFUNCTION(__UsePixelShaders), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("float GetFPSRate()",               asFUNCTION(__GetFPSRate),      asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void EnablePreLoadedLightmapsFromFile(const bool)", asFUNCTION(__EnablePreLoadedLightmapsFromFile), asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("bool LoadMusic(const string &in)",                    asFUNCTION(__LoadMusic),       asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool LoadSoundEffect(const string &in)",              asFUNCTION(__LoadSoundEffect), asCALL_GENERIC); assert(r >= 0);

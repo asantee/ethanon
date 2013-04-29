@@ -38,6 +38,7 @@ ETHBackBufferTargetManagerPtr ETHScriptWrapper::m_backBuffer;
 bool ETHScriptWrapper::m_abort = false;
 bool ETHScriptWrapper::m_highEndDevice = false;
 bool ETHScriptWrapper::m_useLightmaps = true;
+bool ETHScriptWrapper::m_usePreLoadedLightmapsFromFile = false;
 ETHSpeedTimer ETHScriptWrapper::m_timer;
 bool ETHScriptWrapper::m_roundUpPosition = true;
 int ETHScriptWrapper::m_argc = 0;
