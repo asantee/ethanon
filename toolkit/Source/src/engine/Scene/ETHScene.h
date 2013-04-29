@@ -72,6 +72,7 @@ public:
 
 	str_type::string ConvertFileNameToLightmapDirectory(str_type::string filePath);
 	bool GenerateLightmaps(const int id = -1);
+	void LoadLightmapsFromBitmapFiles(const str_type::string& currentSceneFilePath);
 	void SaveLightmapsToFile(const str_type::string& directory);
 	bool AreLightmapsEnabled() const;
 

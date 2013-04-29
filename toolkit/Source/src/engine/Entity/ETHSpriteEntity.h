@@ -57,6 +57,8 @@ public:
 	float GetMaxHeight();
 	float GetMinHeight();
 
+	bool LoadLightmapFromFile(const str_type::string& filePath);
+
 	void DestroyParticleSystem(const unsigned int n);
 	void SetParticleBitmap(const int unsigned n, SpritePtr bitmap);
 	void SetParticleBitmap(const unsigned int n, const str_type::string& bitmap);

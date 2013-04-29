@@ -281,6 +281,22 @@ void ETHScene::SetSceneProperties(const ETHSceneProperties &prop)
 	m_provider->GetShaderManager()->SetParallaxIntensity(m_sceneProps.parallaxIntensity);
 }
 
+void ETHScene::LoadLightmapsFromBitmapFiles(const str_type::string& currentSceneFilePath)
+{
+	for (ETHBucketMap::iterator bucketIter = m_buckets.GetFirstBucket(); bucketIter != m_buckets.GetLastBucket(); ++bucketIter)
+	{
+		// iterate over all entities in this bucket
+		ETHEntityList& entityList = bucketIter->second;
+		ETHEntityList::const_iterator iEnd = entityList.end();
+		for (ETHEntityList::iterator iter = entityList.begin(); iter != iEnd; ++iter)
+		{
+			ETHRenderEntity* entity = (*iter);
+			const str_type::string fileDirectory = ConvertFileNameToLightmapDirectory(currentSceneFilePath);
+			entity->LoadLightmapFromFile(entity->AssembleLightmapFileName(fileDirectory));
+		}
+	}
+}
+
 bool ETHScene::GenerateLightmaps(const int id)
 {
 	if (!m_provider->IsRichLightingEnabled())

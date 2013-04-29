@@ -109,6 +109,28 @@ void ETHSpriteEntity::RecoverResources()
 	Create();
 }
 
+bool ETHSpriteEntity::LoadLightmapFromFile(const str_type::string& filePath)
+{
+	ETHGraphicResourceManagerPtr graphicResources = m_provider->GetGraphicResourceManager();
+	VideoPtr video = m_provider->GetVideo();
+
+	// don't go further if it doesn't have any context
+	if (!video || !graphicResources)
+		return false;
+
+	if (ETHGlobal::FileExists(filePath, m_provider->GetFileManager()))
+	{
+		m_pLightmap = graphicResources->GetPointer(
+			video,
+			Platform::GetFileName(filePath),
+			GS_L(""),
+			Platform::GetFileDirectory(filePath.c_str()),
+			false);
+	}
+
+	return (m_pLightmap);
+}
+
 bool ETHSpriteEntity::SetSprite(const str_type::string &fileName)
 {
 	m_pSprite = m_provider->GetGraphicResourceManager()->GetPointer(
