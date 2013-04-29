@@ -49,14 +49,15 @@ void main()
 const string LOOP = "loop";
 const string PRELOOP = "preLoop";
 
-void loop()
-{
-	testbed.runCurrentLoopFunction();
-}
-
 void preLoop()
 {
+	EnablePreLoadedLightmapsFromFile(false);
 	testPacking();
 	SetBorderBucketsDrawing(false);
 	testbed.runCurrentPreLoopFunction();
+}
+
+void loop()
+{
+	testbed.runCurrentLoopFunction();
 }

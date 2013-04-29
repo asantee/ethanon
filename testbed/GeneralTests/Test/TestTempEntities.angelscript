@@ -14,6 +14,7 @@ class TestTempEntities : Test
 	
 	void start()
 	{
+		EnablePreLoadedLightmapsFromFile(true);
 		SetScaleFactor(1.0f);
 		LoadScene("scenes/temporary_entity_test.esc", PRELOOP, LOOP);
 		HideCursor(false);
