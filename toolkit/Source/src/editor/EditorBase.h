@@ -41,6 +41,7 @@
 #define _S_USE_PS GS_L("Pixel shaded")
 #define _S_USE_VS GS_L("Vertex shaded")
 #define _S_GENERATE_LIGHTMAPS GS_L("Update lightmaps")
+#define _S_SAVE_LIGHTMAPS GS_L("Save lightmaps to file")
 #define _S_UPDATE_ENTITIES GS_L("Update entities")
 #define _S_LOCK_STATIC GS_L("Lock static entities")
 #define _S_USE_STATIC_LIGHTMAPS GS_L("Use static lightmaps")

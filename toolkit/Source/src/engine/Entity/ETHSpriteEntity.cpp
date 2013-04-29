@@ -374,6 +374,24 @@ void ETHSpriteEntity::DestroyParticleSystem(const unsigned int n)
 	}
 }
 
+str_type::string ETHSpriteEntity::AssembleLightmapFileName(const str_type::string& directory) const
+{
+	str_type::stringstream ss;
+	ss << directory << GS_L("add") << GetID() << GS_L(".bmp");
+	return ss.str();
+}
+
+bool ETHSpriteEntity::SaveLightmapToFile(const str_type::string& directory)
+{
+	if (!m_pLightmap)
+	{
+		return false;
+	}
+	
+	m_pLightmap->SaveBitmap(AssembleLightmapFileName(directory).c_str(), Texture::BF_BMP);
+	return true;
+}
+
 void ETHSpriteEntity::Update(const float lastFrameElapsedTime, const Vector2& zAxisDir, ETHBucketManager& buckets)
 {
 	if (!IsStatic())

@@ -374,6 +374,36 @@ bool ETHScene::GenerateLightmaps(const int id)
 	return true;
 }
 
+str_type::string ETHScene::ConvertFileNameToLightmapDirectory(str_type::string filePath)
+{
+	str_type::string fileName = Platform::GetFileName(filePath);
+	for (std::size_t t = 0; t < fileName.length(); t++)
+	{
+		if (fileName[t] == GS_L('.'))
+		{
+			fileName[t] = GS_L('-');
+		}
+	}
+	
+	const str_type::string directory(fileName + GS_L("/"));
+	str_type::string r = str_type::string(Platform::GetFileDirectory(filePath.c_str())).append(directory);
+	return r;
+}
+
+void ETHScene::SaveLightmapsToFile(const str_type::string& directory)
+{
+	for (ETHBucketMap::iterator bucketIter = m_buckets.GetFirstBucket(); bucketIter != m_buckets.GetLastBucket(); ++bucketIter)
+	{
+		ETHEntityList& entityList = bucketIter->second;
+		ETHEntityList::const_iterator iEnd = entityList.end();
+		for (ETHEntityList::iterator iter = entityList.begin(); iter != iEnd; ++iter)
+		{
+			ETHSpriteEntity* entity = (*iter);
+			entity->SaveLightmapToFile(directory);
+		}
+	}
+}
+
 void ETHScene::Update(
 	const float lastFrameElapsedTime,
 	const ETHBackBufferTargetManagerPtr& backBuffer,

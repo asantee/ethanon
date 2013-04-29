@@ -65,12 +65,15 @@ public:
 	int AddEntity(ETHRenderEntity* pEntity);
 	int AddEntity(ETHRenderEntity* pEntity, const str_type::string& alternativeName);
 	void SetSceneProperties(const ETHSceneProperties &prop);
-	bool GenerateLightmaps(const int id = -1);
 	void EnableLightmaps(const bool enable);
-	bool AreLightmapsEnabled() const;
 	void EnableRealTimeShadows(const bool enable);
 	bool AreRealTimeShadowsEnabled() const;
 	void ForceAllSFXStop();
+
+	str_type::string ConvertFileNameToLightmapDirectory(str_type::string filePath);
+	bool GenerateLightmaps(const int id = -1);
+	void SaveLightmapsToFile(const str_type::string& directory);
+	bool AreLightmapsEnabled() const;
 
 	void Update(
 		const float lastFrameElapsedTime,

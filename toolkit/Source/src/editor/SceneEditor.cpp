@@ -141,6 +141,7 @@ void SceneEditor::LoadEditor()
 
 	m_panel.SetupMenu(video, input, m_menuSize, m_menuWidth*2, false, true, false);
 	m_panel.AddButton(_S_GENERATE_LIGHTMAPS, false);
+	m_panel.AddButton(_S_SAVE_LIGHTMAPS, false);
 	m_panel.AddButton(_S_UPDATE_ENTITIES, false);
 	m_panel.AddButton(_S_TOGGLE_STATIC_DYNAMIC, false);
 	m_panel.AddButton(_S_LOCK_STATIC, true);
@@ -858,6 +859,20 @@ void SceneEditor::DoStateManager()
 		m_updateLights = true;
 		ShowLightmapMessage();
 		m_panel.DeactivateButton(_S_UPDATE_ENTITIES);
+	}
+
+	// if the user clicked to save lightmaps button...
+	if (m_panel.GetButtonStatus(_S_SAVE_LIGHTMAPS))
+	{
+		m_panel.DeactivateButton(_S_SAVE_LIGHTMAPS);
+		if (m_pScene)
+		{
+			str_type::string directoryName = m_pScene->ConvertFileNameToLightmapDirectory(utf8::c(GetCurrentFile(true)).wstr());
+			Platform::FixSlashes(directoryName);
+			Platform::CreateDirectory(directoryName);
+			m_provider->GetVideo()->SetWindowTitle("Saving lightmap bitmaps...");
+			m_pScene->SaveLightmapsToFile(directoryName);
+		}
 	}
 
 	// if the user clicked to toggle form
