@@ -125,7 +125,8 @@ bool ETHSpriteEntity::LoadLightmapFromFile(const str_type::string& filePath)
 			Platform::GetFileName(filePath),
 			GS_L(""),
 			Platform::GetFileDirectory(filePath.c_str()),
-			false);
+			false,
+			true);
 	}
 
 	return (m_pLightmap);
@@ -267,7 +268,7 @@ void ETHSpriteEntity::LoadParticleSystem()
 			path += ETHDirectories::GetParticlesDirectory();
 			path += Platform::GetFileName(pSystem->GetActualBitmapFile());
 
-			if (!graphicResources->AddFile(video, path, resourcePath, (pSystem->alphaMode == Video::AM_ADD)))
+			if (!graphicResources->AddFile(video, path, resourcePath, (pSystem->alphaMode == Video::AM_ADD), false))
 				continue;
 
 			const float particleScale = (GetScale().x + GetScale().y) / 2.0f;

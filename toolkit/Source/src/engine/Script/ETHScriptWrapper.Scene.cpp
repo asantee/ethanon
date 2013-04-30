@@ -199,7 +199,7 @@ ETHEntity *ETHScriptWrapper::DeleteEntity(ETHEntity *pEntity)
 
 bool ETHScriptWrapper::GenerateLightmaps()
 {
-	if (!m_useLightmaps)
+	if (!m_useLightmaps || !m_richLighting)
 		return false;
 	else
 		return m_pScene->GenerateLightmaps();
@@ -550,6 +550,8 @@ bool ETHScriptWrapper::LoadScene(const str_type::string &escFile, const Vector2&
 			ReleaseResources();
 		}
 	}
+
+	m_provider->GetGraphicResourceManager()->ReleaseTemporaryResources();
 
 	str_type::string fileName = m_provider->GetFileIOHub()->GetResourceDirectory();
 	fileName += escFile;

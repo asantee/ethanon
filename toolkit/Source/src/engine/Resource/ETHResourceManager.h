@@ -38,11 +38,14 @@ public:
 		friend class ETHGraphicResourceManager;
 		SpritePtr m_sprite;
 		str_type::string m_fullOriginPath;
+		bool m_temporary;
 	public:
 		SpriteResource(
 			const str_type::string& resourceDirectory,
 			const str_type::string& fullOriginPath,
-			const SpritePtr& sprite);
+			const SpritePtr& sprite,
+			const bool temporary);
+		bool IsTemporary() const;
 	};
 
 	SpritePtr GetPointer(
@@ -50,16 +53,19 @@ public:
 		const str_type::string& fileRelativePath,
 		const str_type::string& resourceDirectory,
 		const str_type::string &searchPath,
-		const bool cutOutBlackPixels);
+		const bool cutOutBlackPixels,
+		const bool temporary = false);
 
 	int GetNumResources();
 	void ReleaseResources();
+	void ReleaseTemporaryResources();
 
 	SpritePtr AddFile(
 		VideoPtr video,
 		const str_type::string& path,
 		const str_type::string& resourceDirectory,
-		const bool cutOutBlackPixels);
+		const bool cutOutBlackPixels,
+		const bool temporary);
 
 	void RemoveResource(const str_type::string &file);
 

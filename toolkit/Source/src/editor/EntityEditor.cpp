@@ -1478,7 +1478,6 @@ void EntityEditor::DrawEntity()
 
 	if (m_pEditEntity->light)
 	{
-		const Vector2 screenSize(video->GetScreenSizeF());
 		if (shaderManager->BeginHaloPass(m_pEditEntity->light.get()))
 		{
 			m_renderEntity->DrawHalo(ETH_DEFAULT_ZDIRECTION, 1.0f);
@@ -1538,7 +1537,9 @@ bool EntityEditor::LoadHalo(const char *file, const char *path)
 			m_provider->GetVideo(),
 			utf8::c(path).wc_str(),
 			m_provider->GetFileIOHub()->GetResourceDirectory(),
-			true) && m_pEditEntity->light)
+			true,
+			false)
+			 && m_pEditEntity->light)
 	{
 		m_pEditEntity->light->haloBitmap = utf8::c(file).wstr();
 		return true;
