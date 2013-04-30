@@ -290,7 +290,7 @@ bool GLES2Sprite::DrawOptimal(const math::Vector2 &v2Pos, const Color& color, co
 	Vector4 v4Color;
 	v4Color.SetColor(color);
 
-	static const unsigned int numParams = 13 + m_attachedParameters.size();
+	const unsigned int numParams = 13 + m_attachedParameters.size();
 	Vector2 *params = new Vector2 [numParams];
 	params[0] = rectPos;
 	params[1] = rectSize;
@@ -306,10 +306,10 @@ bool GLES2Sprite::DrawOptimal(const math::Vector2 &v2Pos, const Color& color, co
 	params[11] = flipAdd;
 	params[12] = flipMul;
 	const std::size_t first = 13; // to-do make it safer
-	
-	for (std::size_t t = first; t < numParams; t++)
+
+	for (std::size_t t = 0; t < m_attachedParameters.size(); t++)
 	{
-		params[13] = m_attachedParameters[t];
+		params[t + first] = m_attachedParameters[t];
 	}
 
 	vs->SetMatrixConstant(ROTATION_MATRIX_HASH, "rotationMatrix", mRot);
