@@ -19,8 +19,8 @@ public abstract class KeyEventListener extends Activity implements CommandForwar
 		forwarder.addCommand(NativeCommandForwarder.KEY_PRESSED_CMD + " " + key);
 	}
 
-	public String getCommands() {
-		return forwarder.getCommands();
+	public void appendCommands(StringBuilder builder) {
+		forwarder.appendCommands(builder);
 	}
 
 	private NativeCommandForwarder forwarder = new NativeCommandForwarder();

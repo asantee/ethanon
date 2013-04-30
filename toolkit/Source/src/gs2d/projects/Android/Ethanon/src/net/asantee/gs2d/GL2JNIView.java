@@ -268,9 +268,15 @@ public class GL2JNIView extends GLSurfaceView {
 			this.activity = activity;
 		}
 
+		private String commands = new String();
+		private StringBuilder commandBuilder = new StringBuilder();
 		public void onDrawFrame(GL10 gl) {
-			final String commands = GS2DJNI.mainLoop(GL2JNIView.getTouchDataString() + GL2JNIView.getAccelerometerDataString()
-					+ GL2JNIView.keyEventListener.getCommands());
+			commandBuilder.setLength(0);
+			GL2JNIView.appendTouchDataString(commandBuilder);
+			GL2JNIView.appendAccelerometerDataString(commandBuilder);
+			GL2JNIView.keyEventListener.appendCommands(commandBuilder);
+
+			commands = GS2DJNI.mainLoop(commandBuilder.toString());
 			if (!commands.equals("")) {
 				activity.runOnUiThread(new Runnable() {
 					public void run() {
@@ -298,8 +304,8 @@ public class GL2JNIView extends GLSurfaceView {
 		}
 	}
 
-	protected static String dataSegment(float v) {
-		return "" + v + " ";
+	protected static void appendDataSegment(float v, StringBuilder builder) {
+		builder.append(v).append(" ");
 	}
 
 	private static void resetTouchMonitoringData() {
@@ -308,28 +314,25 @@ public class GL2JNIView extends GLSurfaceView {
 		}
 	}
 
-	protected static String getTouchDataString() {
-		String out = "" + MAXIMUM_TOUCHES + " ";
+	protected static void appendTouchDataString(StringBuilder builder) {
+		builder.append(MAXIMUM_TOUCHES).append(" ");
 		for (int t = 0; t < MAXIMUM_TOUCHES; t++) {
 			Vector2 touchPos = currentTouch[t];
 			if (touchPos != null && !GL2JNIView.touchSlotReleasedLastFrame[t].booleanValue()) {
-				out += dataSegment(touchPos.x);
-				out += dataSegment(touchPos.y);
+				appendDataSegment(touchPos.x, builder);
+				appendDataSegment(touchPos.y, builder);
 			} else {
-				out += dataSegment(-1.0f);
-				out += dataSegment(-1.0f);
+				appendDataSegment(-1.0f, builder);
+				appendDataSegment(-1.0f, builder);
 			}
 		}
 		GL2JNIView.resetTouchMonitoringData();
-		return out;
 	}
 
-	protected static String getAccelerometerDataString() {
-		String out = "";
-		out += dataSegment(accelerometerListener.getX());
-		out += dataSegment(accelerometerListener.getY());
-		out += dataSegment(accelerometerListener.getZ());
-		return out;
+	protected static void appendAccelerometerDataString(StringBuilder builder) {
+		appendDataSegment(accelerometerListener.getX(), builder);
+		appendDataSegment(accelerometerListener.getY(), builder);
+		appendDataSegment(accelerometerListener.getZ(), builder);
 	}
 
 	@Override
