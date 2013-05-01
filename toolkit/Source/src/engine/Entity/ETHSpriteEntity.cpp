@@ -85,8 +85,12 @@ void ETHSpriteEntity::Create()
 	const str_type::string& resourceDirectory = m_provider->GetFileIOHub()->GetResourceDirectory();
 
 	m_pSprite = graphicResources->GetPointer(video, m_properties.spriteFile, resourceDirectory, ETHDirectories::GetEntityDirectory(), false);
-	m_pNormal = graphicResources->GetPointer(video, m_properties.normalFile, resourceDirectory, ETHDirectories::GetNormalMapDirectory(), false);
-	m_pGloss  = graphicResources->GetPointer(video, m_properties.glossFile,  resourceDirectory, ETHDirectories::GetEntityDirectory(), false);
+	
+	if (m_provider->IsRichLightingEnabled())
+	{
+		m_pNormal = graphicResources->GetPointer(video, m_properties.normalFile, resourceDirectory, ETHDirectories::GetNormalMapDirectory(), false);
+		m_pGloss  = graphicResources->GetPointer(video, m_properties.glossFile,  resourceDirectory, ETHDirectories::GetEntityDirectory(), false);
+	}
 
 	if (m_properties.light)
 		m_pHalo = graphicResources->GetPointer(video, m_properties.light->haloBitmap, resourceDirectory, ETHDirectories::GetHaloDirectory(), true);
