@@ -38,6 +38,8 @@ ETHAppEnmlFile::ETHAppEnmlFile(
 	const gs2d::str_type::string& platformName) :
 	hdDensityValue(2.0f),
 	fullHdDensityValue(4.0f),
+	ldDensityValue(0.5f),
+	xldDensityValue(0.25f),
 	width(640),
 	height(480),
 	windowed(true),
@@ -45,7 +47,9 @@ ETHAppEnmlFile::ETHAppEnmlFile(
 	title(GS_L("Ethanon Engine")),
 	richLighting(true),
 	minScreenHeightForHdVersion(720),
-	minScreenHeightForFullHdVersion(1080)
+	minScreenHeightForFullHdVersion(1080),
+	maxScreenHeightBeforeNdVersion(480),
+	maxScreenHeightBeforeLdVersion(320)
 {
 	str_type::string out;
 	fileManager->GetAnsiFileString(fileName, out);
@@ -121,8 +125,15 @@ void ETHAppEnmlFile::LoadProperties(const str_type::string& platformName, const 
 
 	file.GetFloat(platformName, GS_L("hdDensityValue"), &hdDensityValue);
 	file.GetFloat(platformName, GS_L("fullHdDensityValue"), &fullHdDensityValue);
+	
+	file.GetFloat(platformName, GS_L("ldDensityValue"), &ldDensityValue);
+	file.GetFloat(platformName, GS_L("xldDensityValue"), &xldDensityValue);
+
 	file.GetUInt(platformName, GS_L("minScreenHeightForHdVersion"), &minScreenHeightForHdVersion);
 	file.GetUInt(platformName, GS_L("minScreenHeightForFullHdVersion"), &minScreenHeightForFullHdVersion);
+	
+	file.GetUInt(platformName, GS_L("maxScreenHeightBeforeNdVersion"), &maxScreenHeightBeforeNdVersion);
+	file.GetUInt(platformName, GS_L("maxScreenHeightBeforeLdVersion"), &maxScreenHeightBeforeLdVersion);
 
 	const str_type::string newTitle = file.Get(platformName, GS_L("title"));
 	if (!newTitle.empty())
@@ -166,6 +177,16 @@ float ETHAppEnmlFile::GetFullHdDensityValue() const
 	return fullHdDensityValue;
 }
 
+float ETHAppEnmlFile::GetLdDensityValue() const
+{
+	return ldDensityValue;
+}
+
+float ETHAppEnmlFile::GetXldDensityValue() const
+{
+	return xldDensityValue;
+}
+
 unsigned int ETHAppEnmlFile::GetMinScreenHeightForHdVersion() const
 {
 	return minScreenHeightForHdVersion;
@@ -174,6 +195,16 @@ unsigned int ETHAppEnmlFile::GetMinScreenHeightForHdVersion() const
 unsigned int ETHAppEnmlFile::GetMinScreenHeightForFullHdVersion() const
 {
 	return minScreenHeightForFullHdVersion;
+}
+
+unsigned int ETHAppEnmlFile::GetMaxScreenHeightBeforeNdVersion() const
+{
+	return maxScreenHeightBeforeNdVersion;
+}
+
+unsigned int ETHAppEnmlFile::GetMaxScreenHeightBeforeLdVersion() const
+{
+	return maxScreenHeightBeforeLdVersion;
 }
 
 bool ETHAppEnmlFile::IsWindowed() const

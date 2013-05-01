@@ -40,8 +40,12 @@ public:
 
 	float GetHdDensityValue() const;
 	float GetFullHdDensityValue() const;
+	float GetLdDensityValue() const;
+	float GetXldDensityValue() const;
 	unsigned int GetMinScreenHeightForHdVersion() const;
 	unsigned int GetMinScreenHeightForFullHdVersion() const;
+	unsigned int GetMaxScreenHeightBeforeNdVersion() const;
+	unsigned int GetMaxScreenHeightBeforeLdVersion() const;
 
 	bool IsWindowed() const;
 	bool IsVsyncEnabled() const;
@@ -62,7 +66,10 @@ private:
 
 	float hdDensityValue;
 	float fullHdDensityValue;
+	float ldDensityValue;
+	float xldDensityValue;
 	unsigned int minScreenHeightForHdVersion, minScreenHeightForFullHdVersion;
+	unsigned int maxScreenHeightBeforeNdVersion, maxScreenHeightBeforeLdVersion;
 
 	bool windowed, vsync;
 	bool richLighting;
