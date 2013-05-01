@@ -199,7 +199,7 @@ ETHEntity *ETHScriptWrapper::DeleteEntity(ETHEntity *pEntity)
 
 bool ETHScriptWrapper::GenerateLightmaps()
 {
-	if (!m_useLightmaps || !m_richLighting)
+	if (!m_useLightmaps || !m_provider->IsRichLightingEnabled())
 		return false;
 	else
 		return m_pScene->GenerateLightmaps();

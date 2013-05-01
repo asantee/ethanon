@@ -58,7 +58,6 @@ ETHScriptWrapper::Math ETHScriptWrapper::m_math;
 unsigned long ETHScriptWrapper::m_lastFrameElapsedTime = 1;
 ETHEntityCache ETHScriptWrapper::m_entityCache;
 ETHScriptWrapper::GARBAGE_COLLECT_MODE ETHScriptWrapper::m_gcMode = ETHScriptWrapper::ONE_STEP;
-bool ETHScriptWrapper::m_richLighting = false;
 
 bool ETHScriptWrapper::RunMainFunction(asIScriptFunction* mainFunc)
 {

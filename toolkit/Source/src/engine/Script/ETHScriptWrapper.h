@@ -79,7 +79,6 @@ public:
 	static bool m_abort;
 	static bool m_useLightmaps;
 	static bool m_usePreLoadedLightmapsFromFile;
-	static bool m_richLighting;
 	static bool m_highEndDevice;
 	static int m_argc;
 	static str_type::char_t **m_argv;
