@@ -639,6 +639,7 @@
 		74666E83165A7D1E00C70736 /* tinyxmlerror.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxmlerror.cpp; path = ../../../src/vendors/tinyxml_ansi/tinyxmlerror.cpp; sourceTree = "<group>"; };
 		74666E84165A7D1E00C70736 /* tinyxmlparser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxmlparser.cpp; path = ../../../src/vendors/tinyxml_ansi/tinyxmlparser.cpp; sourceTree = "<group>"; };
 		747D56C31732A78E00283563 /* shaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = shaders.h; path = ../../../src/shaders/shaders.h; sourceTree = "<group>"; };
+		747D56C41732AE8200283563 /* glslShaderCode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = glslShaderCode.h; path = ../../../src/gs2d/src/Video/glslShaderCode.h; sourceTree = "<group>"; };
 		747F75D31668F1890004CB39 /* NativeCommandListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NativeCommandListener.h; path = ../../../src/gs2d/src/Platform/NativeCommandListener.h; sourceTree = "<group>"; };
 		747F75D41668F3000004CB39 /* IOSNativeCommandListener.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = IOSNativeCommandListener.mm; path = ../../../src/gs2d/src/Platform/ios/IOSNativeCommandListener.mm; sourceTree = "<group>"; };
 		747F75D51668F3000004CB39 /* IOSNativeCommandListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IOSNativeCommandListener.h; path = ../../../src/gs2d/src/Platform/ios/IOSNativeCommandListener.h; sourceTree = "<group>"; };
@@ -1114,6 +1115,7 @@
 				74666E6A165A7CBD00C70736 /* GLES2Video.h */,
 				74E50D31169BAE1700256A31 /* IOSGLES2Video.mm */,
 				74E50D32169BAE1700256A31 /* IOSGLES2Video.h */,
+				747D56C41732AE8200283563 /* glslShaderCode.h */,
 			);
 			name = Video;
 			sourceTree = "<group>";
