@@ -70,11 +70,11 @@ GLES2ShaderPtr LoadInternalShader(GLES2Video* video,
 	GLES2ShaderPtr shader = video->LoadGLES2ShaderFromString(shaderName, str, focus);
 	if (shader)
 	{
-		video->Message(str + " default shader created successfully", GSMT_INFO);
+		video->Message(shaderName + " default shader created successfully", GSMT_INFO);
 	}
 	else
 	{
-		video->Message(str + " couldn't create default shader", GSMT_ERROR);
+		video->Message(shaderName + " couldn't create default shader", GSMT_ERROR);
 	}
 	return shader;
 }
