@@ -173,6 +173,7 @@
 		7429A2AE16627E8000134A7E /* ETHEntityParticleRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7429A2AC16627E8000134A7E /* ETHEntityParticleRenderer.h */; };
 		7429A2B11663AF2200134A7E /* ETHEntityHaloRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7429A2AF1663AF2200134A7E /* ETHEntityHaloRenderer.cpp */; };
 		7429A2B21663AF2200134A7E /* ETHEntityHaloRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7429A2B01663AF2200134A7E /* ETHEntityHaloRenderer.h */; };
+		747D56C217329A9D00283563 /* shaders.h in Headers */ = {isa = PBXBuildFile; fileRef = 747D56C117329A9D00283563 /* shaders.h */; };
 		74C111DF16971F1F00AEDCE1 /* box2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C111CD16971EAB00AEDCE1 /* box2d.framework */; };
 		74C111E016971F2300AEDCE1 /* gs2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C111D316971EAB00AEDCE1 /* gs2d.framework */; };
 		74C111E116971F2700AEDCE1 /* libangelscript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C111D816971EAB00AEDCE1 /* libangelscript.a */; };
@@ -406,6 +407,7 @@
 		7429A2AC16627E8000134A7E /* ETHEntityParticleRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityParticleRenderer.h; path = ../../../../src/engine/Renderer/ETHEntityParticleRenderer.h; sourceTree = "<group>"; };
 		7429A2AF1663AF2200134A7E /* ETHEntityHaloRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityHaloRenderer.cpp; path = ../../../../src/engine/Renderer/ETHEntityHaloRenderer.cpp; sourceTree = "<group>"; };
 		7429A2B01663AF2200134A7E /* ETHEntityHaloRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityHaloRenderer.h; path = ../../../../src/engine/Renderer/ETHEntityHaloRenderer.h; sourceTree = "<group>"; };
+		747D56C117329A9D00283563 /* shaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = shaders.h; path = ../../../../src/shaders/shaders.h; sourceTree = "<group>"; };
 		74EB49AA16653D0A002DA2F0 /* ETHEntityRenderingManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityRenderingManager.cpp; path = ../../../../src/engine/Renderer/ETHEntityRenderingManager.cpp; sourceTree = "<group>"; };
 		74EB49AB16653D0A002DA2F0 /* ETHEntityRenderingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityRenderingManager.h; path = ../../../../src/engine/Renderer/ETHEntityRenderingManager.h; sourceTree = "<group>"; };
 		74F00AD31646B9EB00B8B51B /* engine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = engine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -500,10 +502,11 @@
 				7421F11B1647266600C55BAE /* ETHPixelLightDiffuseSpecular.h */,
 				7421F11C1647266600C55BAE /* ETHShaderManager.cpp */,
 				7421F11D1647266600C55BAE /* ETHShaderManager.h */,
-				7421F11E1647266600C55BAE /* ETHShaders.cg.cpp */,
-				7421F1201647266600C55BAE /* ETHShaders.h */,
 				7421F1211647266600C55BAE /* ETHVertexLightDiffuse.cpp */,
 				7421F1221647266600C55BAE /* ETHVertexLightDiffuse.h */,
+				7421F1201647266600C55BAE /* ETHShaders.h */,
+				7421F11E1647266600C55BAE /* ETHShaders.cg.cpp */,
+				747D56C117329A9D00283563 /* shaders.h */,
 			);
 			name = Shader;
 			sourceTree = "<group>";
@@ -887,6 +890,7 @@
 				7429A2AE16627E8000134A7E /* ETHEntityParticleRenderer.h in Headers */,
 				7429A2B21663AF2200134A7E /* ETHEntityHaloRenderer.h in Headers */,
 				74EB49AD16653D0A002DA2F0 /* ETHEntityRenderingManager.h in Headers */,
+				747D56C217329A9D00283563 /* shaders.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -32,8 +32,8 @@ ETHVertexLightDiffuse::ETHVertexLightDiffuse(VideoPtr video, const str_type::str
 	#ifdef OPENGL
 	 sp = Shader::SP_MODEL_1;
 	#endif
-	m_hVertexLightVS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::VL_VS_Hor_Diff()).c_str(), Shader::SF_VERTEX, sp, "sprite_pvl");
-	m_vVertexLightVS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::VL_VS_Ver_Diff()).c_str(), Shader::SF_VERTEX, sp, "sprite_pvl");
+	m_hVertexLightVS = m_video->LoadShaderFromString(GS_L("hVertexLightVS"), ETHShaders::VL_VS_Hor_Diff(), Shader::SF_VERTEX, sp, "sprite_pvl");
+	m_vVertexLightVS = m_video->LoadShaderFromString(GS_L("hVertexLightVS"), ETHShaders::VL_VS_Ver_Diff(), Shader::SF_VERTEX, sp, "sprite_pvl");
 }
 
 bool ETHVertexLightDiffuse::BeginLightPass(

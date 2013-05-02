@@ -22,76 +22,78 @@
 
 #include "ETHShaders.h"
 
-gs2d::str_type::string ETHShaders::DefaultVS()
+const std::string& ETHShaders::DefaultVS()
 {
-	return GS_L("defaultVS.cg");
+	return ETHGlobal::Cg_defaultVS_cg;
 }
 
-gs2d::str_type::string ETHShaders::DefaultPS()
+static const std::string emptyStr;
+
+const std::string& ETHShaders::DefaultPS()
 {
-	return GS_L("");
+	return emptyStr;
 }
 
 // ambient pass
-gs2d::str_type::string ETHShaders::Ambient_VS_Hor()
+const std::string& ETHShaders::Ambient_VS_Hor()
 {
-	return GS_L("hAmbientVS.cg");
+	return ETHGlobal::Cg_hAmbientVS_cg;
 }
 
-gs2d::str_type::string ETHShaders::Ambient_VS_Ver()
+const std::string& ETHShaders::Ambient_VS_Ver()
 {
-	return GS_L("vAmbientVS.cg");
+	return ETHGlobal::Cg_vAmbientVS_cg;
 }
 
 // particles
-gs2d::str_type::string ETHShaders::Particle_VS()
+const std::string& ETHShaders::Particle_VS()
 {
-	return GS_L("particleVS.cg");
+	return ETHGlobal::Cg_particleVS_cg;
 }
 
 // shadow
-gs2d::str_type::string ETHShaders::Shadow_VS_Ver()
+const std::string& ETHShaders::Shadow_VS_Ver()
 {
-	return GS_L("dynaShadowVS.cg");
+	return ETHGlobal::Cg_dynaShadowVS_cg;
 }
 
 // pixel light
-gs2d::str_type::string ETHShaders::PL_PS_Hor_Diff()
+const std::string& ETHShaders::PL_PS_Hor_Diff()
 {
-	return GS_L("hPixelLightDiff.cg");
+	return ETHGlobal::Cg_hPixelLightDiff_cg;
 }
 
-gs2d::str_type::string ETHShaders::PL_PS_Ver_Diff()
+const std::string& ETHShaders::PL_PS_Ver_Diff()
 {
-	return GS_L("vPixelLightDiff.cg");
+	return ETHGlobal::Cg_vPixelLightDiff_cg;
 }
 
-gs2d::str_type::string ETHShaders::PL_PS_Hor_Spec()
+const std::string& ETHShaders::PL_PS_Hor_Spec()
 {
-	return GS_L("hPixelLightSpec.cg");
+	return ETHGlobal::Cg_hPixelLightSpec_cg;
 }
 
-gs2d::str_type::string ETHShaders::PL_PS_Ver_Spec()
+const std::string& ETHShaders::PL_PS_Ver_Spec()
 {
-	return GS_L("vPixelLightSpec.cg");
+	return ETHGlobal::Cg_vPixelLightSpec_cg;
 }
 
-gs2d::str_type::string ETHShaders::PL_VS_Hor_Light()
+const std::string& ETHShaders::PL_VS_Hor_Light()
 {
-	return GS_L("hPixelLightVS.cg");
+	return ETHGlobal::Cg_hPixelLightVS_cg;
 }
 
-gs2d::str_type::string ETHShaders::PL_VS_Ver_Light()
+const std::string& ETHShaders::PL_VS_Ver_Light()
 {
-	return GS_L("vPixelLightVS.cg");
+	return ETHGlobal::Cg_vPixelLightVS_cg;
 }
 
-gs2d::str_type::string ETHShaders::VL_VS_Hor_Diff()
+const std::string& ETHShaders::VL_VS_Hor_Diff()
 {
-	return GS_L("hVertexLightShader.cg");
+	return ETHGlobal::Cg_hVertexLightShader_cg;
 }
 
-gs2d::str_type::string ETHShaders::VL_VS_Ver_Diff()
+const std::string& ETHShaders::VL_VS_Ver_Diff()
 {
-	return GS_L("vVertexLightShader.cg");
+	return ETHGlobal::Cg_vVertexLightShader_cg;
 }
