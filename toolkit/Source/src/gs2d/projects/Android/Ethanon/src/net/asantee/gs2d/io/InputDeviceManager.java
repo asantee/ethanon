@@ -16,7 +16,25 @@ public abstract class InputDeviceManager {
 	public static final int DPAD_DOWN = -3; 
 	public static final int DPAD_LEFT = -4; 
 	public static final int DPAD_RIGHT = -5; 
-	
+
+	public static final int KEYCODE_XPERIA_TRIANGLE = KeyEvent.KEYCODE_BUTTON_Y;
+	public static final int KEYCODE_XPERIA_CIRCLE   = KeyEvent.KEYCODE_BACK;
+	public static final int KEYCODE_XPERIA_X        = KeyEvent.KEYCODE_DPAD_CENTER;
+	public static final int KEYCODE_XPERIA_SQUARE   = KeyEvent.KEYCODE_BUTTON_X;
+	public static final int KEYCODE_XPERIA_L        = KeyEvent.KEYCODE_BUTTON_L1;
+	public static final int KEYCODE_XPERIA_R        = KeyEvent.KEYCODE_BUTTON_R1;
+	public static final int KEYCODE_XPERIA_START    = KeyEvent.KEYCODE_BUTTON_START;
+	public static final int KEYCODE_XPERIA_SELECT   = KeyEvent.KEYCODE_BUTTON_SELECT;
+
+	public static final int KEYCODE_XPERIA_1 = KEYCODE_XPERIA_TRIANGLE;
+	public static final int KEYCODE_XPERIA_2 = KEYCODE_XPERIA_CIRCLE;
+	public static final int KEYCODE_XPERIA_3 = KEYCODE_XPERIA_X;
+	public static final int KEYCODE_XPERIA_4 = KEYCODE_XPERIA_SQUARE;
+	public static final int KEYCODE_XPERIA_5 = KEYCODE_XPERIA_L;
+	public static final int KEYCODE_XPERIA_6 = KEYCODE_XPERIA_R;
+	public static final int KEYCODE_XPERIA_9 = KEYCODE_XPERIA_SELECT;
+	public static final int KEYCODE_XPERIA_10 = KEYCODE_XPERIA_START;
+
 	private StringBuilder report = new StringBuilder();
 	private ArrayList<InputDeviceState> devices;
 	private final char DEFAULT_O_BUTTON_LABEL = 0x25CB; // hex for WHITE_CIRCLE
@@ -28,7 +46,9 @@ public abstract class InputDeviceManager {
 	}
 
 	public static InputDeviceManager instantiate() {
-		if (isInstantiable()) {
+		if (InputDeviceManagerAPI12.isInstantiable()) {
+			return new InputDeviceManagerAPI12();
+		} else if (InputDeviceManagerAPI9.isInstantiable()) {
 			return new InputDeviceManagerAPI9();
 		} else {
 			return null;

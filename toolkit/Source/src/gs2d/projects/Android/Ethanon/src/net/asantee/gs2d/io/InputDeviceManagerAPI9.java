@@ -7,27 +7,26 @@ import android.view.KeyEvent;
 @TargetApi(Build.VERSION_CODES.GINGERBREAD)
 public class InputDeviceManagerAPI9 extends InputDeviceManager {
 
-	protected InputDeviceManagerAPI9() {
-	}
-
+	public static boolean isInstantiable() {
+		final int sdkVersion = Integer.parseInt(Build.VERSION.SDK);
+		return (sdkVersion >= Build.VERSION_CODES.GINGERBREAD);
+	}	
+	
+	@Override
 	public int keyCodeToButtonIndex(int keyCode) {
 		switch (keyCode) {
-		case KeyEvent.KEYCODE_BUTTON_A: return 1;
-		case KeyEvent.KEYCODE_BUTTON_B: return 2;
-		case KeyEvent.KEYCODE_BUTTON_C: return 3;
-		case KeyEvent.KEYCODE_BUTTON_X: return 4;
-		case KeyEvent.KEYCODE_BUTTON_Y: return 5;
-		case KeyEvent.KEYCODE_BUTTON_Z: return 6;
-		case KeyEvent.KEYCODE_BUTTON_L1: return 7;
-		case KeyEvent.KEYCODE_BUTTON_L2: return 8;
-		case KeyEvent.KEYCODE_BUTTON_R1: return 9;
-		case KeyEvent.KEYCODE_BUTTON_R2: return 10;
-		case KeyEvent.KEYCODE_BUTTON_SELECT: return 11;
-		case KeyEvent.KEYCODE_BUTTON_START: return 12;
-		case KeyEvent.KEYCODE_BUTTON_THUMBR: return 13;
-		case KeyEvent.KEYCODE_BUTTON_THUMBL: return 14;
-		case KeyEvent.KEYCODE_BUTTON_MODE: return 15;
-		case KeyEvent.KEYCODE_DPAD_CENTER: return 16;
+		case InputDeviceManager.KEYCODE_XPERIA_1:  return 1;
+		case InputDeviceManager.KEYCODE_XPERIA_2:  return 2;
+		case InputDeviceManager.KEYCODE_XPERIA_3:  return 3;
+		case InputDeviceManager.KEYCODE_XPERIA_4:  return 4;
+		case InputDeviceManager.KEYCODE_XPERIA_5:  return 5;
+		case InputDeviceManager.KEYCODE_XPERIA_6:  return 6;
+		case KeyEvent.KEYCODE_BUTTON_C:            return 7;
+		case KeyEvent.KEYCODE_BUTTON_Z:            return 8;
+		case InputDeviceManager.KEYCODE_XPERIA_9:  return 9;
+		case InputDeviceManager.KEYCODE_XPERIA_10: return 10;
+		case KeyEvent.KEYCODE_BUTTON_L2:           return 11;
+		case KeyEvent.KEYCODE_BUTTON_R2:           return 12;
 		case KeyEvent.KEYCODE_DPAD_UP: return InputDeviceManager.DPAD_UP;
 		case KeyEvent.KEYCODE_DPAD_DOWN: return InputDeviceManager.DPAD_DOWN;
 		case KeyEvent.KEYCODE_DPAD_LEFT: return InputDeviceManager.DPAD_LEFT;
@@ -36,25 +35,22 @@ public class InputDeviceManagerAPI9 extends InputDeviceManager {
 		}
 	}
 	
+	@Override
 	public boolean isGamepadButton(KeyEvent event) {
 		int keyCode = event.getKeyCode();
 		switch (keyCode) {
-		case KeyEvent.KEYCODE_BUTTON_A:
-		case KeyEvent.KEYCODE_BUTTON_B:
+		case InputDeviceManager.KEYCODE_XPERIA_1:
+		//case InputDeviceManager.KEYCODE_XPERIA_2: // SAME AS BACK
+		case InputDeviceManager.KEYCODE_XPERIA_3:
+		case InputDeviceManager.KEYCODE_XPERIA_4:
+		case InputDeviceManager.KEYCODE_XPERIA_5:
+		case InputDeviceManager.KEYCODE_XPERIA_6:
 		case KeyEvent.KEYCODE_BUTTON_C:
-		case KeyEvent.KEYCODE_BUTTON_L1:
-		case KeyEvent.KEYCODE_BUTTON_L2:
-		case KeyEvent.KEYCODE_BUTTON_R1:
-		case KeyEvent.KEYCODE_BUTTON_R2:
-		case KeyEvent.KEYCODE_BUTTON_SELECT:
-		case KeyEvent.KEYCODE_BUTTON_START:
-		case KeyEvent.KEYCODE_BUTTON_THUMBR:
-		case KeyEvent.KEYCODE_BUTTON_THUMBL:
-		case KeyEvent.KEYCODE_BUTTON_X:
-		case KeyEvent.KEYCODE_BUTTON_Y:
 		case KeyEvent.KEYCODE_BUTTON_Z:
-		case KeyEvent.KEYCODE_BUTTON_MODE:
-		case KeyEvent.KEYCODE_DPAD_CENTER:
+		case InputDeviceManager.KEYCODE_XPERIA_9:
+		case InputDeviceManager.KEYCODE_XPERIA_10:
+		case KeyEvent.KEYCODE_BUTTON_L2:
+		case KeyEvent.KEYCODE_BUTTON_R2:
 			return true;
 		case KeyEvent.KEYCODE_BACK:
 			if (event.isAltPressed())
