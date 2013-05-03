@@ -27,6 +27,7 @@ public class InputDeviceManagerAPI9 extends InputDeviceManager {
 		case KeyEvent.KEYCODE_BUTTON_THUMBR: return 13;
 		case KeyEvent.KEYCODE_BUTTON_THUMBL: return 14;
 		case KeyEvent.KEYCODE_BUTTON_MODE: return 15;
+		case KeyEvent.KEYCODE_DPAD_CENTER: return 16;
 		case KeyEvent.KEYCODE_DPAD_UP: return -2;
 		case KeyEvent.KEYCODE_DPAD_DOWN: return -3;
 		case KeyEvent.KEYCODE_DPAD_LEFT: return -4;
@@ -35,7 +36,8 @@ public class InputDeviceManagerAPI9 extends InputDeviceManager {
 		}
 	}
 	
-	public boolean isGamepadButton(int keyCode) {
+	public boolean isGamepadButton(KeyEvent event) {
+		int keyCode = event.getKeyCode();
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_BUTTON_A:
 		case KeyEvent.KEYCODE_BUTTON_B:
@@ -52,7 +54,11 @@ public class InputDeviceManagerAPI9 extends InputDeviceManager {
 		case KeyEvent.KEYCODE_BUTTON_Y:
 		case KeyEvent.KEYCODE_BUTTON_Z:
 		case KeyEvent.KEYCODE_BUTTON_MODE:
+		case KeyEvent.KEYCODE_DPAD_CENTER:
 			return true;
+		case KeyEvent.KEYCODE_BACK:
+			if (event.isAltPressed())
+				return true;
 		default:
 			return false;
 		}

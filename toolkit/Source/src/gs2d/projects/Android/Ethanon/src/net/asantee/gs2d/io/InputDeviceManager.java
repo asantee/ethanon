@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import net.asantee.gs2d.GS2DJNI;
 import android.annotation.TargetApi;
 import android.os.Build;
-import android.util.Log;
 import android.view.InputDevice;
+import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 
 @TargetApi(Build.VERSION_CODES.GINGERBREAD)
@@ -14,10 +14,12 @@ public abstract class InputDeviceManager {
 
 	private StringBuilder report = new StringBuilder();
 	private ArrayList<InputDeviceState> devices;
+	private final char DEFAULT_O_BUTTON_LABEL = 0x25CB; // hex for WHITE_CIRCLE
+	private boolean xperiaPlayXKeySwapped = false;
 
 	public static boolean isInstantiable() {
 		final int sdkVersion = Integer.parseInt(Build.VERSION.SDK);
-	    return (sdkVersion >= Build.VERSION_CODES.GINGERBREAD);
+		return (sdkVersion >= Build.VERSION_CODES.GINGERBREAD);
 	}
 
 	public static InputDeviceManager instantiate() {
@@ -27,17 +29,21 @@ public abstract class InputDeviceManager {
 			return null;
 		}
 	}
-	
+
 	protected InputDeviceManager() {
 		devices = new ArrayList<InputDeviceState>();
 
 		int[] deviceIds = InputDevice.getDeviceIds();
 		for (int t = 0; t < deviceIds.length; t++) {
 			InputDevice device = InputDevice.getDevice(deviceIds[t]);
-			Log.e("INPUT DEVICE:", device.getName());
 			if (isGameInputDevice(device.getSources())) {
-				Log.e("INPUT DEVICE ADDED:", device.getName());
 				devices.add(new InputDeviceState(device));
+
+				// check for key swap on xperia play
+				KeyCharacterMap kcm = KeyCharacterMap.load(deviceIds[t]);
+				if (kcm != null && DEFAULT_O_BUTTON_LABEL == kcm.getDisplayLabel(KeyEvent.KEYCODE_DPAD_CENTER)) {
+					xperiaPlayXKeySwapped = true;
+				}
 			}
 		}
 		updateReport();
@@ -59,7 +65,7 @@ public abstract class InputDeviceManager {
 		}
 		GS2DJNI.setSharedData("inputStuff", report.toString());
 	}
-	
+
 	protected InputDeviceState getStateObjectFromDevice(InputDevice device) {
 		for (int t = 0; t < devices.size(); t++) {
 			InputDeviceState deviceState = devices.get(t);
@@ -69,15 +75,14 @@ public abstract class InputDeviceManager {
 		}
 		return null;
 	}
-	
+
 	public boolean onKeyUp(KeyEvent event) {
 		InputDeviceState state = getStateObjectFromDevice(event.getDevice());
 		if (state == null)
 			return false;
 
-		int keyCode = event.getKeyCode();
-		if (isGameKey(keyCode)) {
-			state.keys.put(keyCode, 0);
+		if (isGameKey(event)) {
+			state.keys.put(event.getKeyCode(), 0);
 			return true;
 		}
 		return false;
@@ -87,11 +92,10 @@ public abstract class InputDeviceManager {
 		InputDeviceState state = getStateObjectFromDevice(event.getDevice());
 		if (state == null)
 			return false;
-		
-		int keyCode = event.getKeyCode();
+
 		if (event.getRepeatCount() == 0) {
-			if (isGameKey(keyCode)) {
-				state.keys.put(keyCode, 1);
+			if (isGameKey(event)) {
+				state.keys.put(event.getKeyCode(), 1);
 				updateReport();
 				return true;
 			}
@@ -99,7 +103,12 @@ public abstract class InputDeviceManager {
 		return false;
 	}
 
-	private boolean isGameKey(int keyCode) {
+	public boolean isXperiaPlayXKeySwapped() {
+		return xperiaPlayXKeySwapped;
+	}
+	
+	private boolean isGameKey(KeyEvent event) {
+		int keyCode = event.getKeyCode();
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_DPAD_UP:
 		case KeyEvent.KEYCODE_DPAD_DOWN:
@@ -107,21 +116,20 @@ public abstract class InputDeviceManager {
 		case KeyEvent.KEYCODE_DPAD_RIGHT:
 			return true;
 		default:
-			return isGamepadButton(keyCode);
+			return isGamepadButton(event);
 		}
 	}
 
 	public static boolean isGameInputDevice(int source) {
-		return ((source & InputDevice.SOURCE_CLASS_JOYSTICK) != 0)/*
-				|| ((source & InputDevice.SOURCE_GAMEPAD) != 0)
-				|| ((source & InputDevice.SOURCE_DPAD) != 0)
-				|| ((source & InputDevice.SOURCE_JOYSTICK) != 0)*/;
+		return ((source & InputDevice.SOURCE_CLASS_JOYSTICK) != 0);
 	}
 
-	public abstract boolean isGamepadButton(int keyCode);
+	public abstract boolean isGamepadButton(KeyEvent event);
+
 	public abstract int keyCodeToButtonIndex(int keyCode);
 
-	public static float processAxis(InputDevice.MotionRange range, float axisValue) {
+	public static float processAxis(InputDevice.MotionRange range,
+			float axisValue) {
 		float deadZone = range.getFlat();
 		if (Math.abs(axisValue) <= deadZone) {
 			return 0.0f;
