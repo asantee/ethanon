@@ -28,10 +28,10 @@ public class InputDeviceManagerAPI9 extends InputDeviceManager {
 		case KeyEvent.KEYCODE_BUTTON_THUMBL: return 14;
 		case KeyEvent.KEYCODE_BUTTON_MODE: return 15;
 		case KeyEvent.KEYCODE_DPAD_CENTER: return 16;
-		case KeyEvent.KEYCODE_DPAD_UP: return -2;
-		case KeyEvent.KEYCODE_DPAD_DOWN: return -3;
-		case KeyEvent.KEYCODE_DPAD_LEFT: return -4;
-		case KeyEvent.KEYCODE_DPAD_RIGHT: return -5;
+		case KeyEvent.KEYCODE_DPAD_UP: return InputDeviceManager.DPAD_UP;
+		case KeyEvent.KEYCODE_DPAD_DOWN: return InputDeviceManager.DPAD_DOWN;
+		case KeyEvent.KEYCODE_DPAD_LEFT: return InputDeviceManager.DPAD_LEFT;
+		case KeyEvent.KEYCODE_DPAD_RIGHT: return InputDeviceManager.DPAD_RIGHT;
 		default: return -1;
 		}
 	}

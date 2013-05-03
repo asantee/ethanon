@@ -12,6 +12,11 @@ import android.view.KeyEvent;
 @TargetApi(Build.VERSION_CODES.GINGERBREAD)
 public abstract class InputDeviceManager {
 
+	public static final int DPAD_UP = -2; 
+	public static final int DPAD_DOWN = -3; 
+	public static final int DPAD_LEFT = -4; 
+	public static final int DPAD_RIGHT = -5; 
+	
 	private StringBuilder report = new StringBuilder();
 	private ArrayList<InputDeviceState> devices;
 	private final char DEFAULT_O_BUTTON_LABEL = 0x25CB; // hex for WHITE_CIRCLE
