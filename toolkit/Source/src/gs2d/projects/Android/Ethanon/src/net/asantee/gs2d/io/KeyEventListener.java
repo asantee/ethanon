@@ -18,8 +18,10 @@ public abstract class KeyEventListener extends Activity implements CommandForwar
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_BACK:
-			forwarder.addCommand(NativeCommandForwarder.KEY_PRESSED_CMD + " " + "back");
-			return true;
+			if (!event.isAltPressed()) {
+				forwarder.addCommand(NativeCommandForwarder.KEY_PRESSED_CMD + " " + "back");
+				return true;
+			}
 		}
 		return super.onKeyDown(keyCode, event);
 	}
