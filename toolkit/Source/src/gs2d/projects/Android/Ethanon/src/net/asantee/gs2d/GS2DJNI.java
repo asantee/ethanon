@@ -22,7 +22,7 @@
 
 package net.asantee.gs2d;
 
-class GS2DJNI {
+public class GS2DJNI {
 	static {
 		System.loadLibrary("Application");
 	}
