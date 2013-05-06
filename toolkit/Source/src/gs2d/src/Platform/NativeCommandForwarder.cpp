@@ -39,13 +39,14 @@ void NativeCommandForwarder::ForwardCommands(str_type::string& out)
 
 void NativeCommandForwarder::Command(const str_type::string& commandStr, const bool onTop)
 {
+	const str_type::string commandLine = (commandStr + GS_L("\n"));
 	if (!onTop)
 	{
-		m_commands += (commandStr + GS_L("\n"));
+		m_commands += commandLine;
 	}
 	else
 	{
-		m_commands = (commandStr + GS_L("\n")) + m_commands;
+		m_commands = commandLine + m_commands;
 	}
 }
 
