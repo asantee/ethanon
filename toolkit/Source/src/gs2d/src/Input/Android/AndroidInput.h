@@ -28,7 +28,7 @@
 
 namespace gs2d {
 
-class AndroidInput : public MobileInput
+class AndroidInput : public MobileInput, public Platform::NativeCommandForwarder
 {
 	math::Vector3 m_accelerometer;
 	const std::string *m_input;
@@ -44,12 +44,29 @@ class AndroidInput : public MobileInput
 public:
 	AndroidInput(const unsigned int maxTouchCount, const std::string *input);
 
+	str_type::string PullCommands();
+
 	bool IsKeyDown(const GS_KEY key) const;
 	GS_KEY_STATE GetKeyState(const GS_KEY key) const;
 
 	bool Update();
 
 	math::Vector3 GetAccelerometerData() const;
+
+	unsigned int GetMaxJoysticks() const;
+	void ShowJoystickWarnings(const bool enable);
+	bool IsShowingJoystickWarnings() const;
+	GS_KEY_STATE GetJoystickButtonState(const unsigned int id, const GS_JOYSTICK_BUTTON key) const;
+	bool IsJoystickButtonDown(const unsigned int id, const GS_JOYSTICK_BUTTON key) const;
+	bool DetectJoysticks();
+	GS_JOYSTICK_STATUS GetJoystickStatus(const unsigned int id) const;
+	unsigned int GetNumJoyButtons(const unsigned int id) const;
+	math::Vector2 GetJoystickXY(const unsigned int id) const;
+	float GetJoystickZ(const unsigned int id) const;
+	float GetJoystickRudder(const unsigned int id) const;
+	math::Vector2 GetJoystickUV(const unsigned int id) const;
+	GS_JOYSTICK_BUTTON GetFirstButtonDown(const unsigned int id) const;
+	unsigned int GetNumJoysticks() const;
 };
 
 typedef boost::shared_ptr<AndroidInput> AndroidInputPtr;

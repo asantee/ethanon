@@ -6,7 +6,7 @@ import android.view.KeyEvent;
 
 public abstract class KeyEventListener extends Activity implements CommandForwarder {
 
-	InputDeviceManager inputDeviceManager;
+	protected InputDeviceManager inputDeviceManager;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

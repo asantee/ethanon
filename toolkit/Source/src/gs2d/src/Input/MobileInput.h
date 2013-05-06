@@ -59,13 +59,9 @@ public:
 	math::Vector2i GetCursorPosition(WindowPtr pWindow) const;
 	math::Vector2  GetCursorPositionF(WindowPtr pWindow) const;
 
-	unsigned int GetMaxJoysticks() const;
 	float GetWheelState() const;
 
 	bool Update();
-
-	void ShowJoystickWarnings(const bool enable);
-	bool IsShowingJoystickWarnings() const;
 
 	math::Vector2 GetTouchPos(const unsigned int n, WindowPtr pWindow) const;
 	GS_KEY_STATE  GetTouchState(const unsigned int n, WindowPtr pWindow) const;
@@ -74,6 +70,9 @@ public:
 
 	str_type::char_t GetLastCharInput() const;
 
+	unsigned int GetMaxJoysticks() const;
+	void ShowJoystickWarnings(const bool enable);
+	bool IsShowingJoystickWarnings() const;
 	GS_KEY_STATE GetJoystickButtonState(const unsigned int id, const GS_JOYSTICK_BUTTON key) const;
 	bool IsJoystickButtonDown(const unsigned int id, const GS_JOYSTICK_BUTTON key) const;
 	bool DetectJoysticks();

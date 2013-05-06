@@ -35,10 +35,16 @@ const str_type::string NativeCommandAssembler::CMD_DELETE_MUSIC = "delete_music"
 const str_type::string NativeCommandAssembler::CMD_STOP_MUSIC = "stop_music";
 const str_type::string NativeCommandAssembler::CMD_SET_GLOBAL_VOLUME = "set_global_volume";
 const str_type::string NativeCommandAssembler::CMD_QUIT_APP = "quit_app";
+const str_type::string NativeCommandAssembler::CMD_DETECT_JOYSTICKS = "detect_joysticks";
 
 gs2d::str_type::string  NativeCommandAssembler::QuitApplication()
 {
 	return CMD_QUIT_APP;
+}
+
+gs2d::str_type::string  NativeCommandAssembler::DetectJoysticks()
+{
+	return CMD_DETECT_JOYSTICKS;
 }
 
 str_type::string NativeCommandAssembler::LoadSound(const str_type::string& fileName)

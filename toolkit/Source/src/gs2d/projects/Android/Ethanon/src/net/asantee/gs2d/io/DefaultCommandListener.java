@@ -8,7 +8,7 @@ import android.os.Vibrator;
 public class DefaultCommandListener implements NativeCommandListener {
 	
 	protected Activity activity;
-	
+
 	public DefaultCommandListener(Activity activity) {
 		this.activity = activity;
 	}

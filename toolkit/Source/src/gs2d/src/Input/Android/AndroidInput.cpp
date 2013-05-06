@@ -59,6 +59,13 @@ AndroidInput::AndroidInput(const unsigned int maxTouchCount, const std::string *
 	m_keyName[GSK_PAUSE] = "pause";
 }
 
+str_type::string AndroidInput::PullCommands()
+{
+	str_type::string inputCommands;
+	ForwardCommands(inputCommands);
+	return inputCommands;
+}
+
 bool AndroidInput::IsKeyDown(const GS_KEY key) const
 {
 	return (m_keyState[key] == GSKS_HIT || m_keyState[key] == GSKS_DOWN);
@@ -144,6 +151,89 @@ bool AndroidInput::Update()
 math::Vector3 AndroidInput::GetAccelerometerData() const
 {
 	return m_accelerometer;
+}
+
+bool AndroidInput::DetectJoysticks()
+{
+	Command(Platform::NativeCommandAssembler::DetectJoysticks());
+	return true;
+}
+
+void AndroidInput::ShowJoystickWarnings(const bool enable)
+{
+	// TODO
+}
+
+bool AndroidInput::IsShowingJoystickWarnings() const
+{
+	// TODO
+	return false;
+}
+
+unsigned int AndroidInput::GetMaxJoysticks() const
+{
+	// TODO
+	return 0;
+}
+
+GS_KEY_STATE AndroidInput::GetJoystickButtonState(const unsigned int id, const GS_JOYSTICK_BUTTON key) const
+{
+	// TODO
+	return GSKS_UP;
+}
+
+bool AndroidInput::IsJoystickButtonDown(const unsigned int id, const GS_JOYSTICK_BUTTON key) const
+{
+	// TODO
+	return false;
+}
+
+GS_JOYSTICK_STATUS AndroidInput::GetJoystickStatus(const unsigned int id) const
+{
+	// TODO
+	return GSJS_NOTDETECTED;
+}
+
+unsigned int AndroidInput::GetNumJoyButtons(const unsigned int id) const
+{
+	// TODO
+	return 0;
+}
+
+math::Vector2 AndroidInput::GetJoystickXY(const unsigned int id) const
+{
+	// TODO
+	return Vector2();
+}
+
+float AndroidInput::GetJoystickZ(const unsigned int id) const
+{
+	// TODO
+	return 0.0f;
+}
+
+float AndroidInput::GetJoystickRudder(const unsigned int id) const
+{
+	// TODO
+	return 0.0f;
+}
+
+math::Vector2 AndroidInput::GetJoystickUV(const unsigned int id) const
+{
+	// TODO
+	return Vector2();
+}
+
+GS_JOYSTICK_BUTTON AndroidInput::GetFirstButtonDown(const unsigned int id) const
+{
+	// TODO
+	return GSB_01;
+}
+
+unsigned int AndroidInput::GetNumJoysticks() const
+{
+	// TODO
+	return 0;
 }
 
 } // namespace gs2d

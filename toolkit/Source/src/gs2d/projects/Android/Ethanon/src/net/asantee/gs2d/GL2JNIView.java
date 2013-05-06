@@ -34,6 +34,7 @@ import javax.microedition.khronos.opengles.GL10;
 import net.asantee.gs2d.io.AccelerometerListener;
 import net.asantee.gs2d.io.ApplicationCommandListener;
 import net.asantee.gs2d.io.DefaultCommandListener;
+import net.asantee.gs2d.io.InputDeviceManager;
 import net.asantee.gs2d.io.KeyEventListener;
 import net.asantee.gs2d.io.NativeCommandListener;
 import android.app.Activity;
@@ -83,7 +84,7 @@ public class GL2JNIView extends GLSurfaceView {
 	}
 
 	public GL2JNIView(GS2DActivity activity, String apkPath, AccelerometerListener accelerometerListener,
-			KeyEventListener keyEventListener, ArrayList<NativeCommandListener> commandListeners) {
+			KeyEventListener keyEventListener, ArrayList<NativeCommandListener> commandListeners, InputDeviceManager inputDeviceManager) {
 		super(activity.getApplication());
 
 		GL2JNIView.accelerometerListener = accelerometerListener;
@@ -91,7 +92,7 @@ public class GL2JNIView extends GLSurfaceView {
 		this.commandListeners = commandListeners;
 		GL2JNIView.keyEventListener = keyEventListener;
 
-		init(false, 1, 0, activity);
+		init(false, 1, 0, activity, inputDeviceManager);
 		retrieveScreenSize(activity);
 		setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
 
@@ -107,13 +108,13 @@ public class GL2JNIView extends GLSurfaceView {
 		GL2JNIView.keyEventListener.emulateKey("pause");
 	}
 
-	private void init(boolean translucent, int depth, int stencil, GS2DActivity activity) {
+	private void init(boolean translucent, int depth, int stencil, GS2DActivity activity, InputDeviceManager inputDeviceManager) {
 		if (translucent) {
 			this.getHolder().setFormat(PixelFormat.TRANSLUCENT);
 		}
 		setEGLContextFactory(new ContextFactory());
 		setEGLConfigChooser(translucent ? new ConfigChooser(8, 8, 8, 8, depth, stencil) : new ConfigChooser(5, 6, 5, 0, depth, stencil));
-		setRenderer(new Renderer(apkPath, commandListeners, activity));
+		setRenderer(new Renderer(apkPath, commandListeners, activity, inputDeviceManager));
 	}
 
 	private static class ContextFactory implements GLSurfaceView.EGLContextFactory {
@@ -260,11 +261,11 @@ public class GL2JNIView extends GLSurfaceView {
 		GS2DActivity activity;
 		ArrayList<NativeCommandListener> commandListeners;
 
-		Renderer(String apkPath, ArrayList<NativeCommandListener> commandListeners, GS2DActivity activity) {
+		Renderer(String apkPath, ArrayList<NativeCommandListener> commandListeners, GS2DActivity activity, InputDeviceManager inputDeviceManager) {
 			this.apkPath = apkPath;
 			this.commandListeners = commandListeners;
 			this.commandListeners.add(new DefaultCommandListener(activity));
-			this.commandListeners.add(new ApplicationCommandListener(activity));
+			this.commandListeners.add(new ApplicationCommandListener(activity, inputDeviceManager));
 			this.activity = activity;
 		}
 

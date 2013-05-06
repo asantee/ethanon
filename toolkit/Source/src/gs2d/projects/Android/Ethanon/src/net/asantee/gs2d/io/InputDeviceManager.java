@@ -56,6 +56,11 @@ public abstract class InputDeviceManager {
 	}
 
 	protected InputDeviceManager() {
+		detectJoysticks();
+		updateReport();
+	}
+
+	public void detectJoysticks() {
 		devices = new ArrayList<InputDeviceState>();
 
 		int[] deviceIds = InputDevice.getDeviceIds();
@@ -71,7 +76,6 @@ public abstract class InputDeviceManager {
 				}
 			}
 		}
-		updateReport();
 	}
 
 	public void updateReport() {
