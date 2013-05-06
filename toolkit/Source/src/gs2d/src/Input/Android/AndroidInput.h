@@ -42,8 +42,19 @@ class AndroidInput : public MobileInput, public Platform::NativeCommandForwarder
 	std::vector<std::string>     m_joyButtonsPressedList;
 	std::vector<std::size_t>     m_joyNumButtons;
 	std::vector<std::vector<KeyStateManager> > m_joyKeyStates;
+	std::vector<std::vector<KeyStateManager> > m_joystickDpadStates;
 
 	static const std::string KEY_PRESSED_CMD;
+
+	static const std::string DPAD_0_UP;
+	static const std::string DPAD_1_DOWN;
+	static const std::string DPAD_2_LEFT;
+	static const std::string DPAD_3_RIGHT;
+
+	static const std::size_t DPAD_KEY_UP;
+	static const std::size_t DPAD_KEY_DOWN;
+	static const std::size_t DPAD_KEY_LEFT;
+	static const std::size_t DPAD_KEY_RIGHT;
 
 	void UpdateKeys(const std::string& str);
 	void UpdateKey(const std::string& str, const std::string& keyName, const GS_KEY key);

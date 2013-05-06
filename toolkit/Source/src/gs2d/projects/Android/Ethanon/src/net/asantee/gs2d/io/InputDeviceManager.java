@@ -17,10 +17,10 @@ import android.view.KeyEvent;
 @TargetApi(Build.VERSION_CODES.GINGERBREAD)
 public abstract class InputDeviceManager {
 
-	public static final int DPAD_UP = -2; 
-	public static final int DPAD_DOWN = -3; 
-	public static final int DPAD_LEFT = -4; 
-	public static final int DPAD_RIGHT = -5; 
+	public static final int DPAD_UP = -2;
+	public static final int DPAD_DOWN = -3;
+	public static final int DPAD_LEFT = -4;
+	public static final int DPAD_RIGHT = -5;
 
 	public static final int KEYCODE_XPERIA_TRIANGLE = KeyEvent.KEYCODE_BUTTON_Y;
 	public static final int KEYCODE_XPERIA_CIRCLE   = KeyEvent.KEYCODE_BACK;
@@ -114,7 +114,7 @@ public abstract class InputDeviceManager {
 			for (int b = 0; b < device.keys.size(); b++) {
 				int key = device.keys.keyAt(b);
 				if (device.keys.get(key) != 0) {
-					buttonLineBuilder.append("b").append(keyCodeToButtonIndex(key) - 1).append(";");
+					buttonLineBuilder.append("b").append(keyCodeToButtonIndex(key)).append(";");
 				}
 			}
 			sendSharedParameterChangeRequest(assembleJoystickSharedDataPath(d, "buttonPressedList"), buttonLineBuilder.toString());

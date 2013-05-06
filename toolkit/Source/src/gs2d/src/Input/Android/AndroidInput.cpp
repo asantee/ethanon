@@ -46,6 +46,15 @@ GS2D_API InputPtr CreateInput(boost::any data, const bool showJoystickWarnings)
 }
 
 const std::string AndroidInput::KEY_PRESSED_CMD = "key_pressed ";
+const std::string AndroidInput::DPAD_0_UP    = "b-2;";
+const std::string AndroidInput::DPAD_1_DOWN  = "b-3;";
+const std::string AndroidInput::DPAD_2_LEFT  = "b-4;";
+const std::string AndroidInput::DPAD_3_RIGHT = "b-5;";
+
+const std::size_t AndroidInput::DPAD_KEY_UP = 0;
+const std::size_t AndroidInput::DPAD_KEY_DOWN = 1;
+const std::size_t AndroidInput::DPAD_KEY_LEFT = 2;
+const std::size_t AndroidInput::DPAD_KEY_RIGHT = 3;
 
 AndroidInput::AndroidInput(const unsigned int maxTouchCount, const std::string *input) :
 	MobileInput(maxTouchCount),
@@ -155,6 +164,9 @@ void AndroidInput::UpdateJoysticks()
 		m_joyButtonsPressedList.resize(m_numJoysticks);
 		m_joyNumButtons.resize(m_numJoysticks, 0);
 		m_joyKeyStates.resize(m_numJoysticks);
+		m_joystickDpadStates.resize(m_numJoysticks);
+		for (std::size_t j = 0; j < m_numJoysticks; j++)
+			m_joystickDpadStates[j].resize(4);
 	}
 
 	// update joystick buttons
@@ -167,11 +179,20 @@ void AndroidInput::UpdateJoysticks()
 		{
 			m_joyKeyStates[j].resize(m_joyNumButtons[j]);
 		}
+
+		const char* joyButtonPressedList = m_joyButtonsPressedList[j].c_str();
 		for (std::size_t b = 0; b < m_joyNumButtons[j]; b++)
 		{
 			str_type::stringstream ss; ss << "b" << b << ";";
-			m_joyKeyStates[j][b].Update(strstr(m_joyButtonsPressedList[j].c_str(), ss.str().c_str()) != NULL);
+
+			// TO-DO/TODO: optimize it... it's not the fastest way to do it
+			m_joyKeyStates[j][b].Update(strstr(joyButtonPressedList, ss.str().c_str()) != NULL);
 		}
+
+		m_joystickDpadStates[j][DPAD_KEY_UP   ].Update(strstr(joyButtonPressedList, DPAD_0_UP.c_str())    != NULL);
+		m_joystickDpadStates[j][DPAD_KEY_DOWN ].Update(strstr(joyButtonPressedList, DPAD_1_DOWN.c_str())  != NULL);
+		m_joystickDpadStates[j][DPAD_KEY_LEFT ].Update(strstr(joyButtonPressedList, DPAD_2_LEFT.c_str())  != NULL);
+		m_joystickDpadStates[j][DPAD_KEY_RIGHT].Update(strstr(joyButtonPressedList, DPAD_3_RIGHT.c_str()) != NULL);
 	}
 }
 
@@ -230,6 +251,17 @@ GS_KEY_STATE AndroidInput::GetJoystickButtonState(const unsigned int id, const G
 		if (std::size_t(key) < m_joyKeyStates[id].size())
 		{
 			return m_joyKeyStates[id][key].GetCurrentState();
+		}
+		else
+		{
+			if (key == GSB_LEFT)
+				return m_joystickDpadStates[id][DPAD_KEY_LEFT].GetCurrentState();
+			else if (key == GSB_RIGHT)
+				return m_joystickDpadStates[id][DPAD_KEY_RIGHT].GetCurrentState();
+			else if (key == GSB_UP)
+				return m_joystickDpadStates[id][DPAD_KEY_UP].GetCurrentState();
+			else if (key == GSB_DOWN)
+				return m_joystickDpadStates[id][DPAD_KEY_DOWN].GetCurrentState();
 		}
 	}
 	return GSKS_UP;
