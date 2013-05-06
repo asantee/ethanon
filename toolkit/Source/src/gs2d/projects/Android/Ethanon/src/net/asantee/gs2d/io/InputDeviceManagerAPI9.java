@@ -11,6 +11,10 @@ public class InputDeviceManagerAPI9 extends InputDeviceManager {
 		final int sdkVersion = Integer.parseInt(Build.VERSION.SDK);
 		return (sdkVersion >= Build.VERSION_CODES.GINGERBREAD);
 	}	
+
+	public int getMaxJoystickButtons() {
+		return 12;
+	}
 	
 	@Override
 	public int keyCodeToButtonIndex(int keyCode) {

@@ -23,7 +23,10 @@
 #ifndef GS2D_ANDROID_INPUT_H_
 #define GS2D_ANDROID_INPUT_H_
 
+#include <vector>
+
 #include "../MobileInput.h"
+
 #include "../../Platform/Android/Platform.android.h"
 
 namespace gs2d {
@@ -32,14 +35,21 @@ class AndroidInput : public MobileInput, public Platform::NativeCommandForwarder
 {
 	math::Vector3 m_accelerometer;
 	const std::string *m_input;
-	GS_KEY_STATE m_keyState[GS_NUM_KEYS];
-	int m_count[GS_NUM_KEYS];
+	KeyStateManager m_keyStates[GS_NUM_KEYS];
 	std::string m_keyName[GS_NUM_KEYS];
+	std::size_t m_numJoysticks;
+	std::size_t m_maxJoysticks;
+	std::vector<std::string>     m_joyButtonsPressedList;
+	std::vector<std::size_t>     m_joyNumButtons;
+	std::vector<std::vector<KeyStateManager> > m_joyKeyStates;
 
 	static const std::string KEY_PRESSED_CMD;
 
 	void UpdateKeys(const std::string& str);
 	void UpdateKey(const std::string& str, const std::string& keyName, const GS_KEY key);
+
+	void UpdateJoysticks();
+	std::string AssembleJoystickSharedDataPath(const std::size_t j, const std::string& parameter);
 
 public:
 	AndroidInput(const unsigned int maxTouchCount, const std::string *input);

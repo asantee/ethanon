@@ -1,8 +1,13 @@
 package net.asantee.gs2d.io;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import net.asantee.gs2d.GS2DJNI;
+
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.view.InputDevice;
@@ -35,8 +40,10 @@ public abstract class InputDeviceManager {
 	public static final int KEYCODE_XPERIA_9 = KEYCODE_XPERIA_SELECT;
 	public static final int KEYCODE_XPERIA_10 = KEYCODE_XPERIA_START;
 
-	private StringBuilder report = new StringBuilder();
+	public static final int MAX_JOYSTICKS = 4;
+	
 	private ArrayList<InputDeviceState> devices;
+	private HashMap<String, String> sharedParameterChangeRequests = new HashMap<String, String>();
 	private final char DEFAULT_O_BUTTON_LABEL = 0x25CB; // hex for WHITE_CIRCLE
 	private boolean xperiaPlayXKeySwapped = false;
 
@@ -57,7 +64,6 @@ public abstract class InputDeviceManager {
 
 	protected InputDeviceManager() {
 		detectJoysticks();
-		updateReport();
 	}
 
 	public void detectJoysticks() {
@@ -76,23 +82,48 @@ public abstract class InputDeviceManager {
 				}
 			}
 		}
+		updateJoystickButtonsReport();
+		sendSharedParameterChangeRequest("ethanon.system.maxJoysticks", Integer.toString(MAX_JOYSTICKS));
+		sendSharedParameterChangeRequest("ethanon.system.numJoysticks", Integer.toString(devices.size()));
+
+		for (int d = 0; d < devices.size(); d++) {
+			sendSharedParameterChangeRequest(assembleJoystickSharedDataPath(d, "numButtons"), Integer.toString(getMaxJoystickButtons()));
+		}
 	}
 
-	public void updateReport() {
-		report.setLength(0);
-		report.append("report:\n");
+	private void sendSharedParameterChangeRequest(String key, String value) {
+		sharedParameterChangeRequests.put(key, value);
+	}
+
+	public void updateSharedData() {
+		updateJoystickButtonsReport();
+
+		Iterator<Entry<String, String>> it = sharedParameterChangeRequests.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry<String, String> pairs = (Map.Entry<String, String>) it.next();
+			GS2DJNI.setSharedData(pairs.getKey(), pairs.getValue());
+		}
+		sharedParameterChangeRequests.clear();
+	}
+
+	private void updateJoystickButtonsReport() {
 		for (int d = 0; d < devices.size(); d++) {
 			InputDeviceState device = devices.get(d);
-			report.append(device.device.getName()).append(": ");
+
+			StringBuilder buttonLineBuilder = new StringBuilder();
 			for (int b = 0; b < device.keys.size(); b++) {
 				int key = device.keys.keyAt(b);
 				if (device.keys.get(key) != 0) {
-					report.append(keyCodeToButtonIndex(key));
+					buttonLineBuilder.append("b").append(keyCodeToButtonIndex(key) - 1).append(";");
 				}
 			}
-			report.append("\n");
+			sendSharedParameterChangeRequest(assembleJoystickSharedDataPath(d, "buttonPressedList"), buttonLineBuilder.toString());
 		}
-		GS2DJNI.setSharedData("inputStuff", report.toString());
+	}
+
+	private String assembleJoystickSharedDataPath(int j, String parameter)
+	{
+		return "ethanon.system.joystick" + j + "." + parameter;
 	}
 
 	protected InputDeviceState getStateObjectFromDevice(InputDevice device) {
@@ -125,7 +156,6 @@ public abstract class InputDeviceManager {
 		if (event.getRepeatCount() == 0) {
 			if (isGameKey(event)) {
 				state.keys.put(event.getKeyCode(), 1);
-				updateReport();
 				return true;
 			}
 		}
@@ -156,6 +186,8 @@ public abstract class InputDeviceManager {
 	public abstract boolean isGamepadButton(KeyEvent event);
 
 	public abstract int keyCodeToButtonIndex(int keyCode);
+
+	public abstract int getMaxJoystickButtons();
 
 	public static float processAxis(InputDevice.MotionRange range,
 			float axisValue) {

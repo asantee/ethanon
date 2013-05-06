@@ -260,8 +260,10 @@ public class GL2JNIView extends GLSurfaceView {
 		String apkPath;
 		GS2DActivity activity;
 		ArrayList<NativeCommandListener> commandListeners;
+		InputDeviceManager inputDeviceManager;
 
 		Renderer(String apkPath, ArrayList<NativeCommandListener> commandListeners, GS2DActivity activity, InputDeviceManager inputDeviceManager) {
+			this.inputDeviceManager = inputDeviceManager;
 			this.apkPath = apkPath;
 			this.commandListeners = commandListeners;
 			this.commandListeners.add(new DefaultCommandListener(activity));
@@ -276,6 +278,10 @@ public class GL2JNIView extends GLSurfaceView {
 			GL2JNIView.appendTouchDataString(commandBuilder);
 			GL2JNIView.appendAccelerometerDataString(commandBuilder);
 			GL2JNIView.keyEventListener.appendCommands(commandBuilder);
+
+			if (inputDeviceManager != null) {
+				inputDeviceManager.updateSharedData();
+			}
 
 			commands = GS2DJNI.mainLoop(commandBuilder.toString());
 			if (!commands.equals("")) {

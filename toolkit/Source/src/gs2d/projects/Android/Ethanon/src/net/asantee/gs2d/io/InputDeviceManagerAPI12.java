@@ -12,6 +12,10 @@ public class InputDeviceManagerAPI12 extends InputDeviceManager {
 		return (sdkVersion >= Build.VERSION_CODES.HONEYCOMB_MR1);
 	}
 
+	public int getMaxJoystickButtons() {
+		return 16;
+	}
+	
 	@Override
 	public int keyCodeToButtonIndex(int keyCode) {
 		switch (keyCode) {
