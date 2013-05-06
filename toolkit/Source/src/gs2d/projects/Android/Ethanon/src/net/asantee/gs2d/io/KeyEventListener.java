@@ -27,6 +27,14 @@ public abstract class KeyEventListener extends Activity implements CommandForwar
 	}
 
 	@Override
+	protected void onResume() {
+		super.onResume();
+		if (inputDeviceManager != null) {
+			inputDeviceManager.detectJoysticks();
+		}
+	}
+
+	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		if (inputDeviceManager == null)
 			return super.dispatchKeyEvent(event);
