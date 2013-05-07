@@ -124,8 +124,8 @@ unsigned int ReadValuePairs(std::stringstream& stream, std::vector<Vector2>& out
 
 void AndroidInput::UpdateKeys(const std::string& str)
 {
-	UpdateKey(str, KEY_PRESSED_CMD + "back",  GSK_BACK);
-	UpdateKey(str, KEY_PRESSED_CMD + "pause", GSK_PAUSE);
+	UpdateKey(str, KEY_PRESSED_CMD + m_keyName[GSK_BACK],  GSK_BACK);
+	UpdateKey(str, KEY_PRESSED_CMD + m_keyName[GSK_PAUSE], GSK_PAUSE);
 }
 
 void AndroidInput::UpdateKey(const std::string& str, const std::string& keyName, const GS_KEY key)
