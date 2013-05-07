@@ -8,10 +8,12 @@ import java.util.Map.Entry;
 
 import net.asantee.gs2d.GS2DJNI;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.os.Build;
 import android.view.InputDevice;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 
 @TargetApi(Build.VERSION_CODES.GINGERBREAD)
 public abstract class InputDeviceManager {
@@ -39,7 +41,7 @@ public abstract class InputDeviceManager {
 	public static final int KEYCODE_XPERIA_9 = KEYCODE_XPERIA_SELECT;
 	public static final int KEYCODE_XPERIA_10 = KEYCODE_XPERIA_START;
 
-	private ArrayList<InputDeviceState> devices;
+	protected ArrayList<InputDeviceState> devices;
 	private HashMap<String, String> sharedParameterChangeRequests = new HashMap<String, String>();
 	private final char DEFAULT_O_BUTTON_LABEL = 0x25CB; // hex for WHITE_CIRCLE
 	private boolean xperiaPlayXKeySwapped = false;
@@ -69,7 +71,8 @@ public abstract class InputDeviceManager {
 	
 	public void detectJoysticks(InputDevice specificDevice) {
 		devices = new ArrayList<InputDeviceState>();
-		
+
+		int gs2dIndex = 0;
 		int[] deviceIds = InputDevice.getDeviceIds();
 		for (int t = 0; t < deviceIds.length; t++) {
 			InputDevice device = InputDevice.getDevice(deviceIds[t]);
@@ -82,7 +85,7 @@ public abstract class InputDeviceManager {
 			}
 			
 			if (isGameInputDevice(device.getSources()) || deviceMatch) {
-				devices.add(new InputDeviceState(device));
+				devices.add(new InputDeviceState(device, gs2dIndex++));
 
 				// check for key swap on xperia play
 				KeyCharacterMap kcm = KeyCharacterMap.load(deviceIds[t]);
@@ -103,7 +106,7 @@ public abstract class InputDeviceManager {
 		sendSharedParameterChangeRequest("ethanon.system.gameInputDeviceNameList", deviceNames.toString());
 	}
 
-	private void sendSharedParameterChangeRequest(String key, String value) {
+	protected void sendSharedParameterChangeRequest(String key, String value) {
 		sharedParameterChangeRequests.put(key, value);
 	}
 
@@ -135,7 +138,12 @@ public abstract class InputDeviceManager {
 
 	private String assembleJoystickSharedDataPath(int j, String parameter)
 	{
-		return "ethanon.system.joystick" + j + "." + parameter;
+		return new StringBuilder().append("ethanon.system.joystick").append(j).append(".").append(parameter).toString();
+	}
+
+	protected String assembleJoystickAxisValueSharedDataPath(int j, int index)
+	{
+		return new StringBuilder().append("ethanon.system.joystick").append(j).append(".").append("axis").append(index).toString();
 	}
 
 	protected InputDeviceState getStateObjectFromDevice(InputDevice device) {
@@ -191,6 +199,8 @@ public abstract class InputDeviceManager {
 		}
 	}
 
+	public abstract boolean onJoystickMotion(MotionEvent event, Activity activity);
+
 	public abstract boolean isGameInputDevice(int source);
 
 	public abstract boolean isGamepadButton(KeyEvent event);
@@ -201,8 +211,7 @@ public abstract class InputDeviceManager {
 
 	public abstract int getMaxJoystickButtons();
 
-	public static float processAxis(InputDevice.MotionRange range,
-			float axisValue) {
+	public static float processAxis(InputDevice.MotionRange range, float axisValue) {
 		float deadZone = range.getFlat();
 		if (Math.abs(axisValue) <= deadZone) {
 			return 0.0f;

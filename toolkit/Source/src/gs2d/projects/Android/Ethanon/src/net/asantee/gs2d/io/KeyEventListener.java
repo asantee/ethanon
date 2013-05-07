@@ -3,6 +3,7 @@ package net.asantee.gs2d.io;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 
 public abstract class KeyEventListener extends Activity implements CommandForwarder {
 
@@ -33,6 +34,14 @@ public abstract class KeyEventListener extends Activity implements CommandForwar
 			inputDeviceManager.detectJoysticks();
 		}
 	}
+
+	public boolean dispatchGenericMotionEvent(MotionEvent event) {
+		if (inputDeviceManager != null)
+			return (inputDeviceManager.onJoystickMotion(event, this));
+		else
+			return true;
+	}
+
 
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {

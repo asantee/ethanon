@@ -1,8 +1,10 @@
 package net.asantee.gs2d.io;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.os.Build;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 
 @TargetApi(Build.VERSION_CODES.GINGERBREAD)
 public class InputDeviceManagerAPI9 extends InputDeviceManager {
@@ -83,5 +85,10 @@ public class InputDeviceManagerAPI9 extends InputDeviceManager {
 	@Override
 	public int getMaxJoysticks() {
 		return 1;
+	}
+
+	@Override
+	public boolean onJoystickMotion(MotionEvent event, Activity activity) {
+		return false;
 	}
 }

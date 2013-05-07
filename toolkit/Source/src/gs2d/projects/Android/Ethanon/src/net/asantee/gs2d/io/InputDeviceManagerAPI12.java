@@ -1,9 +1,12 @@
 package net.asantee.gs2d.io;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.os.Build;
 import android.view.InputDevice;
+import android.view.InputDevice.MotionRange;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
 public class InputDeviceManagerAPI12 extends InputDeviceManager {
@@ -11,6 +14,63 @@ public class InputDeviceManagerAPI12 extends InputDeviceManager {
 	public static boolean isInstantiable() {
 		final int sdkVersion = Integer.parseInt(Build.VERSION.SDK);
 		return (sdkVersion >= Build.VERSION_CODES.HONEYCOMB_MR1);
+	}
+
+	InputDeviceManagerAPI12() {
+		super();
+	}
+
+	@Override
+	public void detectJoysticks(InputDevice specificDevice) {
+		super.detectJoysticks(specificDevice);
+
+		for (int d = 0; d < devices.size(); d++) {
+			InputDeviceState deviceState = devices.get(d);
+			InputDevice device = deviceState.device;
+			int numAxes = 0;
+			for (MotionRange range : device.getMotionRanges()) {
+				if (isGameInputDevice(range.getSource())) {
+
+					String sharedDataParam = assembleJoystickAxisValueSharedDataPath(deviceState.gs2dIndex, numAxes);
+					sendSharedParameterChangeRequest(sharedDataParam, Float.toString(0.0f));
+
+					numAxes += 1;
+				}
+			}
+			
+			deviceState.axes		= new int[numAxes];
+			deviceState.axisValues	= new float[numAxes];
+			
+			int i = 0;
+			for (MotionRange range : device.getMotionRanges()) {
+				if (isGameInputDevice(range.getSource())) {
+					deviceState.axes[i++] = range.getAxis();
+				}
+			}
+		}
+	}
+
+	@Override
+	public boolean onJoystickMotion(MotionEvent event, Activity activity) {
+		if (event.getAction() != MotionEvent.ACTION_MOVE)
+			return activity.onGenericMotionEvent(event);
+
+		InputDeviceState state = getStateObjectFromDevice(event.getDevice());
+		if (state == null)
+			return activity.onGenericMotionEvent(event);
+
+		for (int i = 0; i < state.axes.length; i++) {
+			int axis = state.axes[i];
+
+			float value = event.getAxisValue(axis);
+			if (value != state.axisValues[i]) {
+				state.axisValues[i] = value;
+				float processedValue = processAxis(state.device.getMotionRange(axis), value);
+				String sharedDataParam = assembleJoystickAxisValueSharedDataPath(state.gs2dIndex, i);
+				sendSharedParameterChangeRequest(sharedDataParam, Float.toString(processedValue));
+			}
+		}
+		return activity.onGenericMotionEvent(event);
 	}
 
 	public int getMaxJoystickButtons() {
@@ -58,4 +118,5 @@ public class InputDeviceManagerAPI12 extends InputDeviceManager {
 	public int getMaxJoysticks() {
 		return 4;
 	}
+
 }
