@@ -2,6 +2,7 @@ package net.asantee.gs2d.io;
 
 import android.annotation.TargetApi;
 import android.os.Build;
+import android.view.InputDevice;
 import android.view.KeyEvent;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
@@ -42,9 +43,19 @@ public class InputDeviceManagerAPI12 extends InputDeviceManager {
 		default: return -1;
 		}
 	}
-	
+
+	@Override
+	public boolean isGameInputDevice(int source) {
+		return ((source & InputDevice.SOURCE_CLASS_JOYSTICK) != 0);
+	}
+
 	@Override
 	public boolean isGamepadButton(KeyEvent event) {
 		return KeyEvent.isGamepadButton(event.getKeyCode());
+	}
+
+	@Override
+	public int getMaxJoysticks() {
+		return 4;
 	}
 }

@@ -15,13 +15,24 @@ public class InputDeviceManagerAPI9 extends InputDeviceManager {
 	public int getMaxJoystickButtons() {
 		return 14;
 	}
-	
+
+	@Override
+	public boolean onKeyDown(KeyEvent event) {
+		if (isGameKey(event)) {
+			InputDeviceState state = getStateObjectFromDevice(event.getDevice());
+			if (state == null) {
+				detectJoysticks(event.getDevice());
+			}		
+		}
+		return super.onKeyDown(event);
+	}	
+
 	@Override
 	public int keyCodeToButtonIndex(int keyCode) {
 		switch (keyCode) {
 		case InputDeviceManager.KEYCODE_XPERIA_1:  return 0;
-		case InputDeviceManager.KEYCODE_XPERIA_2:  return 1;
-		case InputDeviceManager.KEYCODE_XPERIA_3:  return 2;
+		case InputDeviceManager.KEYCODE_XPERIA_2:  if (!isXperiaPlayXKeySwapped()) return 1; else return 2;
+		case InputDeviceManager.KEYCODE_XPERIA_3:  if (!isXperiaPlayXKeySwapped()) return 2; else return 1;
 		case InputDeviceManager.KEYCODE_XPERIA_4:  return 3;
 		case InputDeviceManager.KEYCODE_XPERIA_5:  return 4;
 		case InputDeviceManager.KEYCODE_XPERIA_6:  return 5;
@@ -38,7 +49,12 @@ public class InputDeviceManagerAPI9 extends InputDeviceManager {
 		default: return -1;
 		}
 	}
-	
+
+	@Override
+	public boolean isGameInputDevice(int source) {
+		return false; // gingerbread devices will be added on the go
+	}
+
 	@Override
 	public boolean isGamepadButton(KeyEvent event) {
 		int keyCode = event.getKeyCode();
@@ -62,5 +78,10 @@ public class InputDeviceManagerAPI9 extends InputDeviceManager {
 		default:
 			return false;
 		}
+	}
+
+	@Override
+	public int getMaxJoysticks() {
+		return 1;
 	}
 }

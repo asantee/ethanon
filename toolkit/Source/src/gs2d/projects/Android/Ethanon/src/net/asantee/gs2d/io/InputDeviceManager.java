@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import net.asantee.gs2d.GS2DJNI;
-
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.view.InputDevice;
@@ -40,8 +39,6 @@ public abstract class InputDeviceManager {
 	public static final int KEYCODE_XPERIA_9 = KEYCODE_XPERIA_SELECT;
 	public static final int KEYCODE_XPERIA_10 = KEYCODE_XPERIA_START;
 
-	public static final int MAX_JOYSTICKS = 4;
-	
 	private ArrayList<InputDeviceState> devices;
 	private HashMap<String, String> sharedParameterChangeRequests = new HashMap<String, String>();
 	private final char DEFAULT_O_BUTTON_LABEL = 0x25CB; // hex for WHITE_CIRCLE
@@ -67,12 +64,24 @@ public abstract class InputDeviceManager {
 	}
 
 	public void detectJoysticks() {
+		detectJoysticks(null);
+	}
+	
+	public void detectJoysticks(InputDevice specificDevice) {
 		devices = new ArrayList<InputDeviceState>();
-
+		
 		int[] deviceIds = InputDevice.getDeviceIds();
 		for (int t = 0; t < deviceIds.length; t++) {
 			InputDevice device = InputDevice.getDevice(deviceIds[t]);
-			if (isGameInputDevice(device.getSources())) {
+			if (device == null)
+				continue;
+			
+			boolean deviceMatch = false;
+			if (specificDevice != null) {
+				deviceMatch = (specificDevice.getId() == device.getId());
+			}
+			
+			if (isGameInputDevice(device.getSources()) || deviceMatch) {
 				devices.add(new InputDeviceState(device));
 
 				// check for key swap on xperia play
@@ -83,12 +92,15 @@ public abstract class InputDeviceManager {
 			}
 		}
 		updateJoystickButtonsReport();
-		sendSharedParameterChangeRequest("ethanon.system.maxJoysticks", Integer.toString(MAX_JOYSTICKS));
+		sendSharedParameterChangeRequest("ethanon.system.maxJoysticks", Integer.toString(getMaxJoysticks()));
 		sendSharedParameterChangeRequest("ethanon.system.numJoysticks", Integer.toString(devices.size()));
 
+		StringBuilder deviceNames = new StringBuilder();
 		for (int d = 0; d < devices.size(); d++) {
 			sendSharedParameterChangeRequest(assembleJoystickSharedDataPath(d, "numButtons"), Integer.toString(getMaxJoystickButtons()));
+			deviceNames.append(devices.get(d).device.getName()).append("\n");
 		}
+		sendSharedParameterChangeRequest("ethanon.system.gameInputDeviceNameList", deviceNames.toString());
 	}
 
 	private void sendSharedParameterChangeRequest(String key, String value) {
@@ -129,7 +141,7 @@ public abstract class InputDeviceManager {
 	protected InputDeviceState getStateObjectFromDevice(InputDevice device) {
 		for (int t = 0; t < devices.size(); t++) {
 			InputDeviceState deviceState = devices.get(t);
-			if (deviceState.device == device) {
+			if (deviceState.device.getId() == device.getId()) {
 				return deviceState;
 			}
 		}
@@ -166,7 +178,7 @@ public abstract class InputDeviceManager {
 		return xperiaPlayXKeySwapped;
 	}
 	
-	private boolean isGameKey(KeyEvent event) {
+	protected boolean isGameKey(KeyEvent event) {
 		int keyCode = event.getKeyCode();
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_DPAD_UP:
@@ -179,13 +191,13 @@ public abstract class InputDeviceManager {
 		}
 	}
 
-	public static boolean isGameInputDevice(int source) {
-		return ((source & InputDevice.SOURCE_CLASS_JOYSTICK) != 0);
-	}
+	public abstract boolean isGameInputDevice(int source);
 
 	public abstract boolean isGamepadButton(KeyEvent event);
 
 	public abstract int keyCodeToButtonIndex(int keyCode);
+
+	public abstract int getMaxJoysticks();
 
 	public abstract int getMaxJoystickButtons();
 
