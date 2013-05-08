@@ -50,12 +50,18 @@ public class InputDeviceManagerAPI12 extends InputDeviceManager {
 		}
 	}
 
+	// this method is expected to run inside the Activity.onGenericMotionEvent method above API level 12
+	// It must call its activity's onGenericMotionEvent method as returns
 	@Override
 	public boolean onJoystickMotion(MotionEvent event, Activity activity) {
+		InputDevice device = event.getDevice(); 
+		if (device == null)
+			return false;
+		
 		if (event.getAction() != MotionEvent.ACTION_MOVE)
 			return activity.onGenericMotionEvent(event);
 
-		InputDeviceState state = getStateObjectFromDevice(event.getDevice());
+		InputDeviceState state = getStateObjectFromDevice(device);
 		if (state == null)
 			return activity.onGenericMotionEvent(event);
 
@@ -66,7 +72,7 @@ public class InputDeviceManagerAPI12 extends InputDeviceManager {
 			if (value != state.axisValues[i]) {
 				state.axisValues[i] = value;
 				float processedValue = processAxis(state.device.getMotionRange(axis), value);
-				String sharedDataParam = assembleJoystickAxisValueSharedDataPath(state.gs2dIndex, i);
+				String sharedDataParam = assembleJoystickAxisValueSharedDataPath(state.gs2dIndex, axis);
 				sendSharedParameterChangeRequest(sharedDataParam, Float.toString(processedValue));
 			}
 		}

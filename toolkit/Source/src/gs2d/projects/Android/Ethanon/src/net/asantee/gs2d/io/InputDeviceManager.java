@@ -1,10 +1,10 @@
 package net.asantee.gs2d.io;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.asantee.gs2d.GS2DJNI;
 import android.annotation.TargetApi;
@@ -42,7 +42,7 @@ public abstract class InputDeviceManager {
 	public static final int KEYCODE_XPERIA_10 = KEYCODE_XPERIA_START;
 
 	protected ArrayList<InputDeviceState> devices;
-	private HashMap<String, String> sharedParameterChangeRequests = new HashMap<String, String>();
+	private ConcurrentHashMap<String, String> sharedParameterChangeRequests = new ConcurrentHashMap<String, String>();
 	private final char DEFAULT_O_BUTTON_LABEL = 0x25CB; // hex for WHITE_CIRCLE
 	private boolean xperiaPlayXKeySwapped = false;
 
@@ -113,12 +113,14 @@ public abstract class InputDeviceManager {
 	public void updateSharedData() {
 		updateJoystickButtonsReport();
 
-		Iterator<Entry<String, String>> it = sharedParameterChangeRequests.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry<String, String> pairs = (Map.Entry<String, String>) it.next();
-			GS2DJNI.setSharedData(pairs.getKey(), pairs.getValue());
+		if (!sharedParameterChangeRequests.isEmpty()) {
+			Iterator<Entry<String, String>> it = sharedParameterChangeRequests.entrySet().iterator();
+			while (it.hasNext()) {
+				Map.Entry<String, String> pairs = (Map.Entry<String, String>) it.next();
+				GS2DJNI.setSharedData(pairs.getKey(), pairs.getValue());
+			}
+			sharedParameterChangeRequests.clear();
 		}
-		sharedParameterChangeRequests.clear();
 	}
 
 	private void updateJoystickButtonsReport() {
@@ -141,23 +143,29 @@ public abstract class InputDeviceManager {
 		return new StringBuilder().append("ethanon.system.joystick").append(j).append(".").append(parameter).toString();
 	}
 
-	protected String assembleJoystickAxisValueSharedDataPath(int j, int index)
+	protected String assembleJoystickAxisValueSharedDataPath(int j, int axis)
 	{
-		return new StringBuilder().append("ethanon.system.joystick").append(j).append(".").append("axis").append(index).toString();
+		return new StringBuilder().append("ethanon.system.joystick").append(j).append(".").append("axis").append(axisIdToString(axis)).toString();
 	}
 
 	protected InputDeviceState getStateObjectFromDevice(InputDevice device) {
 		for (int t = 0; t < devices.size(); t++) {
 			InputDeviceState deviceState = devices.get(t);
-			if (deviceState.device.getId() == device.getId()) {
-				return deviceState;
+			if (deviceState.device != null) {
+				if (deviceState.device.getId() == device.getId()) {
+					return deviceState;
+				}
 			}
 		}
 		return null;
 	}
 
 	public boolean onKeyUp(KeyEvent event) {
-		InputDeviceState state = getStateObjectFromDevice(event.getDevice());
+		InputDevice device = event.getDevice(); 
+		if (device == null)
+			return false;
+
+		InputDeviceState state = getStateObjectFromDevice(device);
 		if (state == null)
 			return false;
 
@@ -169,7 +177,11 @@ public abstract class InputDeviceManager {
 	}
 
 	public boolean onKeyDown(KeyEvent event) {
-		InputDeviceState state = getStateObjectFromDevice(event.getDevice());
+		InputDevice device = event.getDevice(); 
+		if (device == null)
+			return false;
+
+		InputDeviceState state = getStateObjectFromDevice(device);
 		if (state == null)
 			return false;
 
@@ -199,6 +211,16 @@ public abstract class InputDeviceManager {
 		}
 	}
 
+	public static String axisIdToString(int axis) {
+		switch (axis) {
+		case MotionEvent.AXIS_X: return "X";
+		case MotionEvent.AXIS_Y: return "Y";
+		case MotionEvent.AXIS_Z: return "Z";
+		case MotionEvent.AXIS_RUDDER: return "Rudder";
+		default: return "";
+		}
+	}
+	
 	public abstract boolean onJoystickMotion(MotionEvent event, Activity activity);
 
 	public abstract boolean isGameInputDevice(int source);
@@ -217,6 +239,6 @@ public abstract class InputDeviceManager {
 			return 0.0f;
 		}
 		float cap = (axisValue < 0.0f) ? range.getMin() : range.getMax();
-		return axisValue / cap;
+		return axisValue / Math.abs(cap);
 	}
 }

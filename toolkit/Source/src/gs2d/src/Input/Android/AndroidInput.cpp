@@ -165,8 +165,14 @@ void AndroidInput::UpdateJoysticks()
 		m_joyNumButtons.resize(m_numJoysticks, 0);
 		m_joyKeyStates.resize(m_numJoysticks);
 		m_joystickDpadStates.resize(m_numJoysticks);
+		m_xy.resize(m_numJoysticks);
+		m_z.resize(m_numJoysticks);
+		m_rudder.resize(m_numJoysticks);
 		for (std::size_t j = 0; j < m_numJoysticks; j++)
+		{
 			m_joystickDpadStates[j].resize(4);
+			m_z[j] = m_rudder[j] = 0.0f;
+		}
 	}
 
 	// update joystick buttons
@@ -193,6 +199,11 @@ void AndroidInput::UpdateJoysticks()
 		m_joystickDpadStates[j][DPAD_KEY_DOWN ].Update(strstr(joyButtonPressedList, DPAD_1_DOWN.c_str())  != NULL);
 		m_joystickDpadStates[j][DPAD_KEY_LEFT ].Update(strstr(joyButtonPressedList, DPAD_2_LEFT.c_str())  != NULL);
 		m_joystickDpadStates[j][DPAD_KEY_RIGHT].Update(strstr(joyButtonPressedList, DPAD_3_RIGHT.c_str()) != NULL);
+
+		m_xy[j].x   = static_cast<float>(ReadJoystickValue(AssembleJoystickAxisValueSharedDataPath(j, "X")));
+		m_xy[j].y   = static_cast<float>(ReadJoystickValue(AssembleJoystickAxisValueSharedDataPath(j, "Y")));
+		m_z[j]      = static_cast<float>(ReadJoystickValue(AssembleJoystickAxisValueSharedDataPath(j, "Z")));
+		m_rudder[j] = static_cast<float>(ReadJoystickValue(AssembleJoystickAxisValueSharedDataPath(j, "Rudder")));
 	}
 }
 
@@ -200,6 +211,13 @@ std::string AndroidInput::AssembleJoystickSharedDataPath(const std::size_t j, co
 {
 	std::stringstream ss;
 	ss << "ethanon.system.joystick" << j << "." << parameter;
+	return ss.str();
+}
+
+std::string AndroidInput::AssembleJoystickAxisValueSharedDataPath(const std::size_t j, const std::string& axis)
+{
+	std::stringstream ss;
+	ss << "ethanon.system.joystick" << j << "." << "axis" << axis;
 	return ss.str();
 }
 
@@ -278,28 +296,46 @@ unsigned int AndroidInput::GetNumJoysticks() const
 	return m_numJoysticks;
 }
 
-GS_JOYSTICK_BUTTON AndroidInput::GetFirstButtonDown(const unsigned int id) const
-{
-	// TODO
-	return GSB_NONE;
-}
-
 math::Vector2 AndroidInput::GetJoystickXY(const unsigned int id) const
 {
-	// TODO
-	return Vector2();
+	if (id < m_xy.size())
+	{
+		return m_xy[id];
+	}
+	else
+	{
+		return Vector2();
+	}
 }
 
 float AndroidInput::GetJoystickZ(const unsigned int id) const
 {
-	// TODO
-	return 0.0f;
+	if (id < m_z.size())
+	{
+		return m_z[id];
+	}
+	else
+	{
+		return 0.0f;
+	}
 }
 
 float AndroidInput::GetJoystickRudder(const unsigned int id) const
 {
+	if (id < m_rudder.size())
+	{
+		return m_rudder[id];
+	}
+	else
+	{
+		return 0.0f;
+	}
+}
+
+GS_JOYSTICK_BUTTON AndroidInput::GetFirstButtonDown(const unsigned int id) const
+{
 	// TODO
-	return 0.0f;
+	return GSB_NONE;
 }
 
 math::Vector2 AndroidInput::GetJoystickUV(const unsigned int id) const

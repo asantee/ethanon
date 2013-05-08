@@ -35,6 +35,8 @@ public abstract class KeyEventListener extends Activity implements CommandForwar
 		}
 	}
 
+	// this method is expected to override parent's method above API level 12
+	// It must call its SUPER method at some point
 	public boolean dispatchGenericMotionEvent(MotionEvent event) {
 		if (inputDeviceManager != null)
 			return (inputDeviceManager.onJoystickMotion(event, this));

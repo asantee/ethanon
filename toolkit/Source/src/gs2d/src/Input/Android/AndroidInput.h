@@ -43,6 +43,10 @@ class AndroidInput : public MobileInput, public Platform::NativeCommandForwarder
 	std::vector<std::size_t>     m_joyNumButtons;
 	std::vector<std::vector<KeyStateManager> > m_joyKeyStates;
 	std::vector<std::vector<KeyStateManager> > m_joystickDpadStates;
+	std::vector<math::Vector2> m_xy;
+	std::vector<float> m_z;
+	std::vector<float> m_rudder;
+
 
 	static const std::string KEY_PRESSED_CMD;
 
@@ -61,6 +65,7 @@ class AndroidInput : public MobileInput, public Platform::NativeCommandForwarder
 
 	void UpdateJoysticks();
 	std::string AssembleJoystickSharedDataPath(const std::size_t j, const std::string& parameter);
+	std::string AssembleJoystickAxisValueSharedDataPath(const std::size_t j, const std::string& axis);
 
 public:
 	AndroidInput(const unsigned int maxTouchCount, const std::string *input);
