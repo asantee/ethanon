@@ -111,6 +111,10 @@ void ETHSpriteEntity::Create()
 void ETHSpriteEntity::RecoverResources()
 {
 	Create();
+
+	// if it has had a pre-rendered lightmap, reload it
+	if (!m_preRenderedLightmapFilePath.empty())
+		LoadLightmapFromFile(m_preRenderedLightmapFilePath);
 }
 
 bool ETHSpriteEntity::LoadLightmapFromFile(const str_type::string& filePath)
@@ -131,6 +135,9 @@ bool ETHSpriteEntity::LoadLightmapFromFile(const str_type::string& filePath)
 			Platform::GetFileDirectory(filePath.c_str()),
 			false,
 			true);
+
+		// store bitmap name to restore when necessary
+		m_preRenderedLightmapFilePath = filePath;
 	}
 
 	return (m_pLightmap);

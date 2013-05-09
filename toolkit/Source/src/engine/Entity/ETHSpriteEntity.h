@@ -130,6 +130,7 @@ protected:
 	SpritePtr m_pNormal;
 	SpritePtr m_pHalo;
 	SpritePtr m_pLightmap;
+	str_type::string m_preRenderedLightmapFilePath;
 
 	static const float m_layrableMinimumDepth;
 
