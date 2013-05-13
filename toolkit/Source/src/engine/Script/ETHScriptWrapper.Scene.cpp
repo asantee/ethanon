@@ -275,6 +275,20 @@ float ETHScriptWrapper::GetParallaxVerticalIntensity()
 	return m_provider->GetShaderManager()->GetParallaxIntensity();
 }
 
+void ETHScriptWrapper::SetBucketClearenceFactor(const float factor)
+{
+	if (WarnIfRunsInMainFunction(GS_L("SetBucketClearenceFactor")))
+		return;
+	m_pScene->SetBucketClearenceFactor(factor);
+}
+
+float ETHScriptWrapper::GetBucketClearenceFactor()
+{
+	if (WarnIfRunsInMainFunction(GS_L("GetBucketClearenceFactor")))
+		return 0.0f;
+	return m_pScene->GetBucketClearenceFactor();
+}
+
 Vector3 ETHScriptWrapper::GetAmbientLight()
 {
 	if (WarnIfRunsInMainFunction(GS_L("GetAmbientLight")))

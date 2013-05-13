@@ -349,9 +349,10 @@ std::string SceneEditor::DoEditor(SpritePtr pNextAppButton)
 	{
 		m_projManagerRequested = true;
 	}
-	if (CheckForFileUpdate())
+	if (!video->WindowInFocus())
 	{
-		OpenByFilename(GetCurrentFile(true).c_str());
+		if (CheckForFileUpdate())
+			OpenByFilename(GetCurrentFile(true).c_str());
 	}
 
 	if (guiButtonsFree && m_tool.GetButtonStatus(_S_PLACE))
@@ -1577,7 +1578,7 @@ void SceneEditor::RenderScene()
 	m_pScene->SetBorderBucketsDrawing(true);
 	const float lastFrameElapsedTimeMS = ComputeElapsedTimeF(m_provider->GetVideo());
 	m_pScene->Update(lastFrameElapsedTimeMS, m_backBuffer, 0);
-	m_pScene->RenderScene(false);
+	m_pScene->RenderScene(false, m_backBuffer);
 }
 
 bool SceneEditor::SaveAs()

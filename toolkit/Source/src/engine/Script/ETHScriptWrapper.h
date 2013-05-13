@@ -205,6 +205,8 @@ public:
 	static void SetParallaxVerticalIntensity(const float intensity);
 	static float GetParallaxIntensity();
 	static float GetParallaxVerticalIntensity();
+	static void SetBucketClearenceFactor(const float factor);
+	static float GetBucketClearenceFactor();
 	static Vector3 GetAmbientLight();
 	static unsigned int GetScreenWidth();
 	static unsigned int GetScreenHeight();

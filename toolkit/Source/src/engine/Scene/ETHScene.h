@@ -59,7 +59,7 @@ public:
 
 	void ClearResources();
 
-	void RenderScene(const bool roundUp);
+	void RenderScene(const bool roundUp, const ETHBackBufferTargetManagerPtr& backBuffer);
 
 	bool SaveToFile(const str_type::string& fileName);
 	int AddEntity(ETHRenderEntity* pEntity);
@@ -101,6 +101,9 @@ public:
 
 	void SetLightIntensity(const float intensity);
 	float GetLightIntensity() const;
+
+	void SetBucketClearenceFactor(const float factor);
+	float GetBucketClearenceFactor() const;
 
 	void SetAmbientLight(const Vector3 &color);
 	Vector3 GetAmbientLight() const;
@@ -146,7 +149,7 @@ private:
 		float &minHeight,
 		const ETHBackBufferTargetManagerPtr& backBuffer);
 
-	void DrawEntityMultimap(const bool roundUp);
+	void DrawEntityMultimap(const bool roundUp, const ETHBackBufferTargetManagerPtr& backBuffer);
 
 	bool AssignCallbackScript(ETHSpriteEntity* entity);
 
@@ -156,8 +159,10 @@ private:
 		asIScriptFunction* constructorCallback,
 		asIScriptFunction* destructorCallback);
 
-	bool DrawBucketOutlines();
+	bool DrawBucketOutlines(const ETHBackBufferTargetManagerPtr& backBuffer);
 	bool ReadFromXMLFile(TiXmlElement *pElement);
+
+	void FillCurrentlyVisibleBucketList(std::list<Vector2>& bucketList, const ETHBackBufferTargetManagerPtr& backBuffer);
 
 	void FillMultimapAndClearPersistenList(
 		const std::list<Vector2>& currentBucketList,
@@ -181,6 +186,7 @@ private:
 	int m_nCurrentLights;
 	int m_nRenderedEntities;
 	bool m_enableZBuffer;
+	float m_bucketClearenceFactor;
 };
 
 typedef boost::shared_ptr<ETHScene> ETHScenePtr;

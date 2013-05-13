@@ -208,7 +208,7 @@ void ETHEngine::RenderFrame()
 	// draw scene (if there's any)
 	
 	if (m_pScene)
-		m_pScene->RenderScene(IsRoundingUpPosition());
+		m_pScene->RenderScene(IsRoundingUpPosition(), m_backBuffer);
 
 	m_v2LastCamPos = GetCameraPos();
 
