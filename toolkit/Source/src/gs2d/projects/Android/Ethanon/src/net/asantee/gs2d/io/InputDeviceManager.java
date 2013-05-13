@@ -68,7 +68,7 @@ public abstract class InputDeviceManager {
 	public void detectJoysticks() {
 		detectJoysticks(null);
 	}
-	
+
 	public void detectJoysticks(InputDevice specificDevice) {
 		devices = new ArrayList<InputDeviceState>();
 
