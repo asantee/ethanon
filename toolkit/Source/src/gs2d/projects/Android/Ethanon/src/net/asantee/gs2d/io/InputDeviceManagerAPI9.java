@@ -41,9 +41,9 @@ public class InputDeviceManagerAPI9 extends InputDeviceManager {
 		case KeyEvent.KEYCODE_BUTTON_C:            return 6;
 		case KeyEvent.KEYCODE_BUTTON_Z:            return 7;
 		case InputDeviceManager.KEYCODE_XPERIA_9:  return 8;
-		case InputDeviceManager.KEYCODE_XPERIA_10: return 11;
-		case KeyEvent.KEYCODE_BUTTON_L2:           return 12;
-		case KeyEvent.KEYCODE_BUTTON_R2:           return 13;
+		case InputDeviceManager.KEYCODE_XPERIA_10: return 9;
+		case KeyEvent.KEYCODE_BUTTON_L2:           return 11;
+		case KeyEvent.KEYCODE_BUTTON_R2:           return 12;
 		case KeyEvent.KEYCODE_DPAD_UP: return InputDeviceManager.DPAD_UP;
 		case KeyEvent.KEYCODE_DPAD_DOWN: return InputDeviceManager.DPAD_DOWN;
 		case KeyEvent.KEYCODE_DPAD_LEFT: return InputDeviceManager.DPAD_LEFT;
