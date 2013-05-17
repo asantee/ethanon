@@ -75,8 +75,41 @@ public:
 	const str_type::string& GetFileName() const;
 
 	static const str_type::string TEXTURE_LOG_FILE;
+	static const str_type::string ETC1_FILE_FORMAT;
+
+	struct ETC1Header
+	{
+		char tag[6];        // "PKM 10"
+		short format;         // Format == number of mips (== zero)
+		short texWidth;       // Texture dimensions, multiple of 4 (big-endian)
+		short texHeight;
+		short origWidth;      // Original dimensions (big-endian)
+		short origHeight;
+	};
 
 private:
+
+	bool HasETC1CompressedVersion(str_type::string& fileName);
+
+	bool LoadTexture(
+		VideoWeakPtr video,
+		const void* pBuffer,
+		Color mask,
+		const unsigned int width,
+		const unsigned int height,
+		const unsigned int nMipMaps,
+		const unsigned int bufferLength,
+		const bool compressed);
+
+	bool LoadETC1Texture(
+		VideoWeakPtr video,
+		const void* pBuffer,
+		Color mask,
+		const unsigned int width,
+		const unsigned int height,
+		const unsigned int nMipMaps,
+		const unsigned int bufferLength);
+
 	struct TEXTURE_INFO
 	{
 		TEXTURE_INFO();

@@ -29,6 +29,7 @@
 namespace gs2d {
 
 const str_type::string GLES2Texture::TEXTURE_LOG_FILE("GLES2Texture.log.txt");
+const str_type::string GLES2Texture::ETC1_FILE_FORMAT("pkm");
 GLuint GLES2Texture::m_textureID(1000);
 Platform::FileLogger GLES2Texture::m_logger(Platform::FileLogger::GetLogDirectory() + GLES2Texture::TEXTURE_LOG_FILE);
 	
@@ -200,17 +201,50 @@ bool GLES2Texture::LoadTexture(
 	const unsigned int height,
 	const unsigned int nMipMaps)
 {
-	m_logger.Log(str_type::string("\n___________________\n") + fileName + " loading texture...", Platform::FileLogger::INFO);
-
 	m_fileName = fileName;
+	const bool compressed = HasETC1CompressedVersion(m_fileName);
+
 	Platform::FileBuffer out;
-	m_fileManager->GetFileBuffer(fileName, out);
+	m_fileManager->GetFileBuffer(m_fileName, out);
 	if (!out)
 	{
-		m_logger.Log(fileName + " could not load buffer", Platform::FileLogger::ERROR);
+		m_logger.Log(m_fileName + " could not load buffer", Platform::FileLogger::ERROR);
 		return false;
 	}
-	return LoadTexture(video, out->GetAddress(), mask, width, height, nMipMaps, out->GetBufferSize());
+	return LoadTexture(video, out->GetAddress(), mask, width, height, nMipMaps, out->GetBufferSize(), compressed);
+}
+
+bool GLES2Texture::LoadTexture(
+	VideoWeakPtr video,
+	const void* pBuffer,
+	Color mask,
+	const unsigned int width,
+	const unsigned int height,
+	const unsigned int nMipMaps,
+	const unsigned int bufferLength,
+	const bool compressed)
+{
+	if (compressed)
+		return LoadETC1Texture(video, pBuffer, mask, width, height, nMipMaps, bufferLength);
+	else
+		return LoadTexture(video, pBuffer, mask, width, height, nMipMaps, bufferLength);
+}
+
+bool GLES2Texture::HasETC1CompressedVersion(str_type::string& fileName)
+{
+	// not supported on iOS
+	if (Application::GetPlatformName() == "ios")
+		return false;
+
+	const GLubyte* extensions = glGetString(GL_EXTENSIONS);
+	if (strstr((char*)extensions, "GL_IMG_texture_compression_pvrtc") == 0)
+		return false;
+
+	const str_type::string pkmFileName = Platform::RemoveExtension(fileName.c_str()).append(".").append(ETC1_FILE_FORMAT);
+	const bool etc1VersionExists = (m_fileManager->FileExists(pkmFileName));
+	if (etc1VersionExists)
+		fileName = pkmFileName;
+	return etc1VersionExists;
 }
 
 bool GLES2Texture::LoadTexture(
@@ -250,16 +284,63 @@ bool GLES2Texture::LoadTexture(
 		SOIL_free_image_data(ht_map);
 		return false;
 	}
-	else
+
+	m_type = TT_STATIC;
+	m_profile.width = static_cast<unsigned int>(iWidth);
+	m_profile.height = static_cast<unsigned int>(iHeight);
+	m_profile.originalWidth = m_profile.width;
+	m_profile.originalHeight = m_profile.height;
+	m_logger.Log(m_fileName + " texture loaded", Platform::FileLogger::INFO);
+	SOIL_free_image_data(ht_map);
+
+	GLES2UniformParameter::m_boundTexture2D = 0;
+	glBindTexture(GL_TEXTURE_2D, 0);
+	return true;
+}
+
+bool GLES2Texture::LoadETC1Texture(
+	VideoWeakPtr video,
+	const void* pBuffer,
+	Color mask,
+	const unsigned int width,
+	const unsigned int height,
+	const unsigned int nMipMaps,
+	const unsigned int bufferLength)
+{
+	const ETC1Header* header = (ETC1Header*)pBuffer;
+	if (strstr(header->tag, "PKM") == 0)
 	{
-		m_type = TT_STATIC;
-		m_profile.width = static_cast<unsigned int>(iWidth);
-		m_profile.height = static_cast<unsigned int>(iHeight);
-		m_profile.originalWidth = m_profile.width;
-		m_profile.originalHeight = m_profile.height;
-		m_logger.Log(m_fileName + " texture loaded", Platform::FileLogger::INFO);
-		SOIL_free_image_data(ht_map);
+		return false;
 	}
+
+	m_type = TT_STATIC;
+	m_profile.width = static_cast<unsigned int>(Platform::ShortEndianSwap(header->texWidth));
+	m_profile.height = static_cast<unsigned int>(Platform::ShortEndianSwap(header->texHeight));
+	m_profile.originalWidth = static_cast<unsigned int>(Platform::ShortEndianSwap(header->origWidth));
+	m_profile.originalHeight = static_cast<unsigned int>(Platform::ShortEndianSwap(header->origHeight));
+	m_logger.Log(m_fileName + " texture loaded", Platform::FileLogger::INFO);
+
+	const std::size_t size = (m_profile.width / 4) * (m_profile.height / 4) * 8;
+
+	// not supported on iOS, so we'll only use the enum on non-ios devices
+	GLenum internalformat = 0;
+	#ifndef APPLE_IOS
+		internalformat = GL_ETC1_RGB8_OES;
+	#endif
+
+	m_textureInfo.m_texture = m_textureID++;
+
+	glBindTexture(GL_TEXTURE_2D, m_textureInfo.m_texture);
+
+	unsigned char *data = (unsigned char*)pBuffer;
+	glCompressedTexImage2D(GL_TEXTURE_2D, 0, internalformat, m_profile.width, m_profile.height, 0, size, data + sizeof(ETC1Header));
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
 	GLES2UniformParameter::m_boundTexture2D = 0;
 	glBindTexture(GL_TEXTURE_2D, 0);
 	return true;
