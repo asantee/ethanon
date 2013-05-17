@@ -90,9 +90,12 @@ std::string AddLastSlash(const std::string& path)
 gs2d::str_type::string RemoveExtension(const gs2d::str_type::char_t* source)
 {
 	gs2d::str_type::string dest = source;
-	const std::size_t len = dest.length();
-	for (std::size_t t = 0; t < len; t++)
+	const int max = dest.length() - 1;
+	for (int t = max - 1; t >= 0; t--)
 	{
+		if (source[t] == Platform::GetDirectorySlash())
+			return source;
+
 		if (source[t] == GS_L('.'))
 		{
 			dest.resize(t);
@@ -113,6 +116,14 @@ bool IsExtensionRight(const gs2d::str_type::string& fileName, const gs2d::str_ty
 	{
 		return false;
 	}
+}
+
+short ShortEndianSwap(const short s)
+{
+	unsigned char b1, b2;
+	b1 = s & 255;
+	b2 = (s >> 8) & 255;
+	return (b1 << 8) + b2;
 }
 
 std::vector<gs2d::str_type::string> SplitString(gs2d::str_type::string str, const gs2d::str_type::string& c)
