@@ -53,6 +53,9 @@ void ETHSpriteDensityManager::FillParametersFromFile(const ETHAppEnmlFile& file)
 	
 	minScreenHeightForHdResources = file.GetMinScreenHeightForHdVersion();
 	minScreenHeightForFullHdResources = file.GetMinScreenHeightForFullHdVersion();
+
+	maxScreenHeightBeforeLdVersion = file.GetMaxScreenHeightBeforeLdVersion();
+	maxScreenHeightBeforeNdVersion = file.GetMaxScreenHeightBeforeNdVersion();
 }
 
 bool ETHSpriteDensityManager::ShouldUseHdResources(const gs2d::VideoPtr& video) const
