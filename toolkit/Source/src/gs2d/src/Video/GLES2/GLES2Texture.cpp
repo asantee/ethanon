@@ -30,6 +30,7 @@ namespace gs2d {
 
 const str_type::string GLES2Texture::TEXTURE_LOG_FILE("GLES2Texture.log.txt");
 const str_type::string GLES2Texture::ETC1_FILE_FORMAT("pkm");
+const str_type::string GLES2Texture::PVR_FILE_FORMAT("pvr");
 GLuint GLES2Texture::m_textureID(1000);
 Platform::FileLogger GLES2Texture::m_logger(Platform::FileLogger::GetLogDirectory() + GLES2Texture::TEXTURE_LOG_FILE);
 	
@@ -202,7 +203,7 @@ bool GLES2Texture::LoadTexture(
 	const unsigned int nMipMaps)
 {
 	m_fileName = fileName;
-	const bool compressed = HasETC1CompressedVersion(m_fileName);
+	const COMPRESSION_FORMAT format = FindCompressionFormat(m_fileName);
 
 	Platform::FileBuffer out;
 	m_fileManager->GetFileBuffer(m_fileName, out);
@@ -211,7 +212,7 @@ bool GLES2Texture::LoadTexture(
 		m_logger.Log(m_fileName + " could not load buffer", Platform::FileLogger::ERROR);
 		return false;
 	}
-	return LoadTexture(video, out->GetAddress(), mask, width, height, nMipMaps, out->GetBufferSize(), compressed);
+	return LoadTexture(video, out->GetAddress(), mask, width, height, nMipMaps, out->GetBufferSize(), format);
 }
 
 bool GLES2Texture::LoadTexture(
@@ -222,29 +223,61 @@ bool GLES2Texture::LoadTexture(
 	const unsigned int height,
 	const unsigned int nMipMaps,
 	const unsigned int bufferLength,
-	const bool compressed)
+	const COMPRESSION_FORMAT format)
 {
-	if (compressed)
-		return LoadETC1Texture(video, pBuffer, mask, width, height, nMipMaps, bufferLength);
-	else
+	if (format == NO_COMPRESSION)
+	{
 		return LoadTexture(video, pBuffer, mask, width, height, nMipMaps, bufferLength);
+	}
+	else
+	{
+		if (format == PVRTC)
+			return LoadPVRTexture(video, pBuffer, mask, width, height, nMipMaps, bufferLength);
+		else
+			return LoadETC1Texture(video, pBuffer, mask, width, height, nMipMaps, bufferLength);
+	}
 }
 
-bool GLES2Texture::HasETC1CompressedVersion(str_type::string& fileName)
+GLES2Texture::COMPRESSION_FORMAT GLES2Texture::FindCompressionFormat(str_type::string& fileName)
+{
+	if (MayUsePVRCompressedVersion(fileName))
+		return PVRTC;
+	else if (MayUseETC1CompressedVersion(fileName))
+		return ETC1;
+	else
+		return NO_COMPRESSION;
+}
+
+bool GLES2Texture::CheckTextureVersion(
+	str_type::string& fileName,
+	const str_type::string& format,
+	Platform::FileManagerPtr fileManager)
+{
+	const str_type::string alternativeFileName = Platform::RemoveExtension(fileName.c_str()).append(".").append(format);
+	const bool versionExists = (fileManager->FileExists(alternativeFileName));
+	if (versionExists)
+		fileName = alternativeFileName;
+	return versionExists;
+}
+
+bool GLES2Texture::MayUseETC1CompressedVersion(str_type::string& fileName)
 {
 	// not supported on iOS
 	if (Application::GetPlatformName() == "ios")
 		return false;
 
+	const bool etc1VersionExists = CheckTextureVersion(fileName, ETC1_FILE_FORMAT, m_fileManager);
+	return etc1VersionExists;
+}
+
+bool GLES2Texture::MayUsePVRCompressedVersion(str_type::string& fileName)
+{
 	const GLubyte* extensions = glGetString(GL_EXTENSIONS);
 	if (strstr((char*)extensions, "GL_IMG_texture_compression_pvrtc") == 0)
 		return false;
 
-	const str_type::string pkmFileName = Platform::RemoveExtension(fileName.c_str()).append(".").append(ETC1_FILE_FORMAT);
-	const bool etc1VersionExists = (m_fileManager->FileExists(pkmFileName));
-	if (etc1VersionExists)
-		fileName = pkmFileName;
-	return etc1VersionExists;
+	const bool pvrVersionExists = CheckTextureVersion(fileName, PVR_FILE_FORMAT, m_fileManager);
+	return pvrVersionExists;
 }
 
 bool GLES2Texture::LoadTexture(
@@ -310,6 +343,7 @@ bool GLES2Texture::LoadETC1Texture(
 	const ETC1Header* header = (ETC1Header*)pBuffer;
 	if (strstr(header->tag, "PKM") == 0)
 	{
+		m_logger.Log(m_fileName + " invalid header", Platform::FileLogger::ERROR);
 		return false;
 	}
 
@@ -334,6 +368,74 @@ bool GLES2Texture::LoadETC1Texture(
 
 	unsigned char *data = (unsigned char*)pBuffer;
 	glCompressedTexImage2D(GL_TEXTURE_2D, 0, internalformat, m_profile.width, m_profile.height, 0, size, data + sizeof(ETC1Header));
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	GLES2UniformParameter::m_boundTexture2D = 0;
+	glBindTexture(GL_TEXTURE_2D, 0);
+	return true;
+}
+
+static GLenum FindPVRTCFormatFromPVRHeaderData(const uint32_t* pixelFormat)
+{
+	const uint32_t format = (pixelFormat[0] != 0x0) ? pixelFormat[0] : pixelFormat[1];
+	switch (format)
+	{
+	case 0: // PVRTC 2bpp RGB
+		return GL_COMPRESSED_RGB_PVRTC_2BPPV1_IMG;
+	case 1: // PVRTC 2bpp RGBA
+		return GL_COMPRESSED_RGBA_PVRTC_2BPPV1_IMG;
+	case 2: // PVRTC 4bpp RGB
+		return GL_COMPRESSED_RGB_PVRTC_4BPPV1_IMG;
+	case 3: // PVRTC 4bpp RGBA
+	default:
+		return GL_COMPRESSED_RGBA_PVRTC_4BPPV1_IMG;
+	};
+}
+
+bool GLES2Texture::LoadPVRTexture(
+	VideoWeakPtr video,
+	const void* pBuffer,
+	Color mask,
+	const unsigned int width,
+	const unsigned int height,
+	const unsigned int nMipMaps,
+	const unsigned int bufferLength)
+{
+	const PVRHeader* header = (PVRHeader*)pBuffer;
+	const uint32_t littleEndianVersionId = 0x03525650;
+	const uint32_t bigEndianVersionId    = 0x50565203;
+	if (header->version != littleEndianVersionId && header->version != bigEndianVersionId)
+	{
+		m_logger.Log(m_fileName + " invalid header", Platform::FileLogger::ERROR);
+		return false;
+	}
+
+	m_type = TT_STATIC;
+	m_profile.width = static_cast<unsigned int>(header->width);
+	m_profile.height = static_cast<unsigned int>(header->height);
+	m_profile.originalWidth = static_cast<unsigned int>(m_profile.width);
+	m_profile.originalHeight = static_cast<unsigned int>(m_profile.height);
+	m_logger.Log(m_fileName + " texture loaded", Platform::FileLogger::INFO);
+
+	m_textureInfo.m_texture = m_textureID++;
+
+	glBindTexture(GL_TEXTURE_2D, m_textureInfo.m_texture);
+
+	unsigned char *data = (unsigned char*)pBuffer;
+	data += sizeof(PVRHeader);
+	data += header->metaDataSize;
+
+	const std::size_t size = bufferLength - (sizeof(PVRHeader) + header->metaDataSize);
+	//std::size_t size = (header->width * header->height * bitsPerPixel) >> 3;
+	//size = (size < 32) ? 32 : size;
+
+	const GLenum format = FindPVRTCFormatFromPVRHeaderData(header->pixelFormat);
+	glCompressedTexImage2D(GL_TEXTURE_2D, 0, format, header->width, header->height, 0, size, data);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
