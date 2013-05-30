@@ -51,7 +51,7 @@ float4 transformSprite(float3 position)
 {
 	float4 newPos = float4(position, 1.0);
 	newPos = newPos * float4(size, 1.0, 1.0) - float4(center, 0.0, 0.0);
-	newPos = (rotationMatrix * newPos);
+
 	newPos += float4(entityPos, 0.0, 0.0) - float4(cameraPos, 0.0, 0.0);
 	newPos += float4(computeParallaxOffset(float2(newPos.x, newPos.y), position), 0.0, 0.0) - float4(screenSize / 2.0, 0.0, 0.0);
 	newPos *= float4(1.0,-1.0, 1.0, 1.0);

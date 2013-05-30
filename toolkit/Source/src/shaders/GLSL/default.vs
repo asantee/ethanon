@@ -30,8 +30,18 @@ vec4 transformSprite(vec3 position)
 {
 	vec4 newPos = vec4(position, 1.0);
 	newPos = newPos * vec4(size, 1.0, 1.0) - vec4(center, 0.0, 0.0);
-	newPos = (rotationMatrix * newPos);
-	newPos += vec4(entityPos, 0.0, 0.0)-vec4(screenSize/2.0, 0.0, 0.0)-vec4(cameraPos, 0.0, 0.0);
+
+	newPos = vec4(newPos.x * rotationMatrix[0][0] + newPos.y * rotationMatrix[1][0],
+				 -newPos.x * rotationMatrix[1][0] + newPos.y * rotationMatrix[0][0],
+				  newPos.z,
+				  newPos.w);
+
+	vec2 halfScreenSize = screenSize / 2.0;
+
+	newPos += vec4(entityPos.x, entityPos.y, 0.0, 0.0);
+	newPos -= vec4(halfScreenSize.x, halfScreenSize.y, 0.0, 0.0);
+	newPos -= vec4(cameraPos.x, cameraPos.y, 0.0, 0.0);
+
 	newPos *= vec4(1.0, -1.0, 1.0, 1.0);
 	return (viewMatrix * newPos);
 }
