@@ -7,7 +7,7 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{1D28BFE6-D8BA-423B-B37E-149E732DDB49}
 AppName=Ethanon Engine
-AppVerName=Ethanon Engine 0.9.8
+AppVerName=Ethanon Engine 0.9.9
 AppPublisher=Asantee Games
 AppPublisherURL=http://ethanonengine.com
 AppSupportURL=http://ethanonengine.com
@@ -17,7 +17,7 @@ DefaultGroupName=Ethanon Engine
 LicenseFile=MIT_LICENSE.rtf
 InfoBeforeFile=About.rtf
 ;OutputDir=
-OutputBaseFilename=setup_ethanonengine-0.9.8
+OutputBaseFilename=setup_ethanonengine-0.9.9
 SetupIconFile=icon.ico
 Compression=lzma
 SolidCompression=yes
@@ -73,21 +73,6 @@ Source: "..\Source\src\gs2d\vendors\DX9SDK\bin\d3dx9_42.dll"; DestDir: "{app}"; 
 ;Source: "..\Ethanon Editor\d3dx9_41.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ;Sample Project files
-;shaders
-Source: "..\Ethanon Toolkit\data\defaultVS.cg"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\particleVS.cg"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\dynaShadowVS.cg"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\hAmbientVS.cg"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\hVertexLightShader.cg"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\hPixelLightDiff.cg"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\hPixelLightSpec.cg"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\hPixelLightVS.cg"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\vAmbientVS.cg"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\vPixelLightSpec.cg"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\vPixelLightVS.cg"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\vPixelLightDiff.cg"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
-Source: "..\Ethanon Toolkit\data\vVertexLightShader.cg"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
-
 ;bitmaps/fonts
 Source: "..\Ethanon Toolkit\data\shadow.png"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
 Source: "..\Ethanon Toolkit\data\shadow.dds"; DestDir: "{commondocs}\Ethanon\Sample-Project\data\"; Flags: ignoreversion
