@@ -178,6 +178,12 @@ bool D3D9Texture::GetInternalData()
 	return true;
 }
 
+bool D3D9Texture::IsAllBlack() const
+{
+	ShowMessage(L"D3D9Texture::IsAllBlack: Method not implemented on D3D9", GSMT_WARNING);
+	return false;
+}
+
 Vector2 D3D9Texture::GetBitmapSize() const
 {
 	return Vector2(static_cast<float>(m_profile.width), static_cast<float>(m_profile.height));

@@ -25,7 +25,7 @@
 
 const Shader::SHADER_PROFILE ETHVertexLightDiffuse::m_profile = Shader::SP_MODEL_2;
 
-ETHVertexLightDiffuse::ETHVertexLightDiffuse(VideoPtr video, const str_type::string& shaderPath)
+ETHVertexLightDiffuse::ETHVertexLightDiffuse(VideoPtr video)
 {
 	m_video = video;
 	Shader::SHADER_PROFILE sp = Shader::SP_MODEL_2;

@@ -51,6 +51,8 @@ public:
 	boost::any GetTextureObject();
 	math::Vector2 GetBitmapSize() const;
 
+	bool IsAllBlack() const;
+
 protected:
 	bool CreateRenderTarget(
 		VideoWeakPtr video, const unsigned int width, const unsigned int height, const TARGET_FORMAT fmt

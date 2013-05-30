@@ -56,7 +56,7 @@ ETHShaderManager::ETHShaderManager(VideoPtr video, const str_type::string& shade
 	{
 		// Not yet implemented on GLES2
 		#if !defined(GLES2)
-		  {ETHLightingProfilePtr profile(new ETHVertexLightDiffuse(m_video, shaderPath));
+		  {ETHLightingProfilePtr profile(new ETHVertexLightDiffuse(m_video));
 		  if (profile->IsSupportedByHardware())
 		  {
 			 m_lightingProfiles[VERTEX_LIGHTING_DIFFUSE] = profile;
