@@ -72,6 +72,8 @@ public:
 
 	~GLTexture();
 
+	bool IsAllBlack() const;
+
 	bool SetTexture(const unsigned int passIdx = 0);
 	PROFILE GetProfile() const;
 	TYPE GetTextureType() const;

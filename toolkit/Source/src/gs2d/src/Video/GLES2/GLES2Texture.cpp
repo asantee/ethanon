@@ -448,6 +448,12 @@ bool GLES2Texture::LoadPVRTexture(
 	return true;
 }
 
+// not supported on GLES2 for now
+bool GLES2Texture::IsAllBlack() const
+{
+	return false;
+}
+
 math::Vector2 GLES2Texture::GetBitmapSize() const
 {
 	return math::Vector2(static_cast<float>(m_profile.width), static_cast<float>(m_profile.height));

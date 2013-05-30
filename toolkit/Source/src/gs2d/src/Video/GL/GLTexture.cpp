@@ -275,9 +275,31 @@ void GLTexture::Recover()
 	}
 	else if (m_type == TT_RENDER_TARGET)
 	{
-		//CreateRenderTarget(m_video, m_profile.originalWidth, m_profile.originalHeight, m_textureInfo.gsTargetFmt);
 		CreateTextureFromBitmap(m_textureInfo.renderTargetBackup.get(), m_profile.originalWidth, m_profile.originalHeight, m_channels, false);
 	}
+}
+
+bool GLTexture::IsAllBlack() const
+{
+	const GS_BYTE maxTolerance = 0xF;
+	const GS_BYTE* bitmap = (m_type == TT_RENDER_TARGET) ? m_textureInfo.renderTargetBackup.get() : m_bitmap;
+	const size_t size = m_profile.originalWidth * m_profile.originalHeight * m_channels;
+	for (std::size_t t = 0; t < size; t++)
+	{
+		if (m_channels == 4)
+		{
+			if (t % 4 == 3)
+			{
+				continue;
+			}
+		}
+
+		if (bitmap[t] > maxTolerance)
+		{
+			return false;
+		}
+	}
+	return true;
 }
 
 bool GLTexture::SaveTargetSurfaceBackup()

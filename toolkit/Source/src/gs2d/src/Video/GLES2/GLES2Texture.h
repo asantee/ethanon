@@ -78,6 +78,7 @@ public:
 		const unsigned int nMipMaps,
 		const unsigned int bufferLength);
 
+	bool IsAllBlack() const;
 	math::Vector2 GetBitmapSize() const;
 	const str_type::string& GetFileName() const;
 

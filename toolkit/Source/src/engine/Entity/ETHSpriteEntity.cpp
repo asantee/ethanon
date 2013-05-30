@@ -422,7 +422,8 @@ bool ETHSpriteEntity::SaveLightmapToFile(const str_type::string& directory)
 		return false;
 	}
 	
-	m_pLightmap->SaveBitmap(AssembleLightmapFileName(directory).c_str(), Texture::BF_BMP);
+	if (!m_pLightmap->GetTexture().lock()->IsAllBlack())
+		m_pLightmap->SaveBitmap(AssembleLightmapFileName(directory).c_str(), Texture::BF_BMP);
 	return true;
 }
 
