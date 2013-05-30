@@ -139,12 +139,12 @@ bool GLES2Video::StartApplication(
 	glDisable(GL_DITHER);
 	glHint(GL_GENERATE_MIPMAP_HINT, GL_FASTEST);
 
-	m_defaultVS =    LoadInternalShader(this, "default.vs",    gs2d::gs2dglobal::GLSL_default_default_vs, Shader::SF_VERTEX);
-	m_defaultPS =    LoadInternalShader(this, "default.ps",    gs2d::gs2dglobal::GLSL_default_default_ps, Shader::SF_PIXEL);
-	m_fastRenderVS = LoadInternalShader(this, "fastRender.vs", gs2d::gs2dglobal::GLSL_default_fastRender_vs, Shader::SF_VERTEX);
-	m_optimalVS =    LoadInternalShader(this, "optimal.vs",    gs2d::gs2dglobal::GLSL_default_optimal_vs, Shader::SF_VERTEX);
-	m_modulate1 =    LoadInternalShader(this, "modulate1.ps",  gs2d::gs2dglobal::GLSL_default_modulate1_ps, Shader::SF_PIXEL);
-	m_add1 =         LoadInternalShader(this, "add1.ps",       gs2d::gs2dglobal::GLSL_default_add1_ps, Shader::SF_PIXEL);
+	m_defaultVS =    LoadInternalShader(this, "default.vs",    gs2dshaders::GLSL_default_default_vs, Shader::SF_VERTEX);
+	m_defaultPS =    LoadInternalShader(this, "default.ps",    gs2dshaders::GLSL_default_default_ps, Shader::SF_PIXEL);
+	m_fastRenderVS = LoadInternalShader(this, "fastRender.vs", gs2dshaders::GLSL_default_fastRender_vs, Shader::SF_VERTEX);
+	m_optimalVS =    LoadInternalShader(this, "optimal.vs",    gs2dshaders::GLSL_default_optimal_vs, Shader::SF_VERTEX);
+	m_modulate1 =    LoadInternalShader(this, "modulate1.ps",  gs2dshaders::GLSL_default_modulate1_ps, Shader::SF_PIXEL);
+	m_add1 =         LoadInternalShader(this, "add1.ps",       gs2dshaders::GLSL_default_add1_ps, Shader::SF_PIXEL);
 
 	// forces shader pre-load to avoid runtime lag
 	m_shaderContext->SetShader(m_defaultVS,		m_defaultPS, m_orthoMatrix, GetScreenSizeF());
