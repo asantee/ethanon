@@ -408,10 +408,10 @@ void ETHSpriteEntity::DestroyParticleSystem(const unsigned int n)
 	}
 }
 
-str_type::string ETHSpriteEntity::AssembleLightmapFileName(const str_type::string& directory) const
+str_type::string ETHSpriteEntity::AssembleLightmapFileName(const str_type::string& directory, const str_type::string& extension) const
 {
 	str_type::stringstream ss;
-	ss << directory << GS_L("add") << GetID() << GS_L(".bmp");
+	ss << directory << GS_L("add") << GetID() << GS_L(".") << extension;
 	return ss.str();
 }
 
@@ -423,7 +423,7 @@ bool ETHSpriteEntity::SaveLightmapToFile(const str_type::string& directory)
 	}
 	
 	if (!m_pLightmap->GetTexture().lock()->IsAllBlack())
-		m_pLightmap->SaveBitmap(AssembleLightmapFileName(directory).c_str(), Texture::BF_BMP);
+		m_pLightmap->SaveBitmap(AssembleLightmapFileName(directory, GS_L("bmp")).c_str(), Texture::BF_BMP);
 	return true;
 }
 

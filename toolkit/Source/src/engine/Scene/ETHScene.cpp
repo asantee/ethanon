@@ -293,7 +293,12 @@ void ETHScene::LoadLightmapsFromBitmapFiles(const str_type::string& currentScene
 		{
 			ETHRenderEntity* entity = (*iter);
 			const str_type::string fileDirectory = ConvertFileNameToLightmapDirectory(currentSceneFilePath);
-			entity->LoadLightmapFromFile(entity->AssembleLightmapFileName(fileDirectory));
+	
+			// PNG lightmaps have higher priority than BMP
+			const str_type::string filePathBmp = entity->AssembleLightmapFileName(fileDirectory, GS_L("bmp"));
+			const str_type::string filePathPng = entity->AssembleLightmapFileName(fileDirectory, GS_L("png"));
+			const bool pngFileExists = (ETHGlobal::FileExists(filePathPng, m_provider->GetFileManager()));
+			entity->LoadLightmapFromFile(pngFileExists ? filePathPng : filePathBmp);
 		}
 	}
 }

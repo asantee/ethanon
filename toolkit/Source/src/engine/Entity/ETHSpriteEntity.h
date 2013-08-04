@@ -51,7 +51,7 @@ public:
 	SpritePtr GetParticleBMP(const unsigned int n);
 	AudioSamplePtr GetParticleSFX(const unsigned int n);
 
-	str_type::string AssembleLightmapFileName(const str_type::string& directory) const;
+	str_type::string AssembleLightmapFileName(const str_type::string& directory, const str_type::string& extension) const;
 	bool SaveLightmapToFile(const str_type::string& directory);
 
 	float GetMaxHeight();
