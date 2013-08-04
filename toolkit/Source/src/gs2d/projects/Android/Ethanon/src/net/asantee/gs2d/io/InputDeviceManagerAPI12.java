@@ -86,16 +86,16 @@ public class InputDeviceManagerAPI12 extends InputDeviceManager {
 	@Override
 	public int keyCodeToButtonIndex(int keyCode) {
 		switch (keyCode) {
-		case KeyEvent.KEYCODE_BUTTON_1: return 0;
-		case KeyEvent.KEYCODE_BUTTON_2: return 1;
-		case KeyEvent.KEYCODE_BUTTON_3: return 2;
-		case KeyEvent.KEYCODE_BUTTON_4: return 3;
-		case KeyEvent.KEYCODE_BUTTON_5: return 4;
-		case KeyEvent.KEYCODE_BUTTON_6: return 5;
-		case KeyEvent.KEYCODE_BUTTON_7: return 6;
-		case KeyEvent.KEYCODE_BUTTON_8: return 7;
-		case KeyEvent.KEYCODE_BUTTON_9: return 8;
-		case KeyEvent.KEYCODE_BUTTON_10: return 9;
+		case KeyEvent.KEYCODE_BUTTON_1: case InputDeviceManager.KEYCODE_XPERIA_1: return 0;
+		case KeyEvent.KEYCODE_BUTTON_2: case KeyEvent.KEYCODE_BUTTON_B: case InputDeviceManager.KEYCODE_XPERIA_2: return 1;
+		case KeyEvent.KEYCODE_BUTTON_3: case KeyEvent.KEYCODE_BUTTON_A: case InputDeviceManager.KEYCODE_XPERIA_3: return 2;
+		case KeyEvent.KEYCODE_BUTTON_4: case InputDeviceManager.KEYCODE_XPERIA_4: return 3;
+		case KeyEvent.KEYCODE_BUTTON_5: case InputDeviceManager.KEYCODE_XPERIA_5: return 4;
+		case KeyEvent.KEYCODE_BUTTON_6: case InputDeviceManager.KEYCODE_XPERIA_6: return 5;
+		case KeyEvent.KEYCODE_BUTTON_7: case KeyEvent.KEYCODE_BUTTON_C: return 6;
+		case KeyEvent.KEYCODE_BUTTON_8: case KeyEvent.KEYCODE_BUTTON_Z: return 7;
+		case KeyEvent.KEYCODE_BUTTON_9: case InputDeviceManager.KEYCODE_XPERIA_9: return 8;
+		case KeyEvent.KEYCODE_BUTTON_10: case InputDeviceManager.KEYCODE_XPERIA_10: return 9;
 		case KeyEvent.KEYCODE_BUTTON_11: return 10;
 		case KeyEvent.KEYCODE_BUTTON_12: return 11;
 		case KeyEvent.KEYCODE_BUTTON_13: return 12;

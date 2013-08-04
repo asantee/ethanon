@@ -27,13 +27,15 @@ public class InputDeviceManagerAPI9 extends InputDeviceManager {
 			}		
 		}
 		return super.onKeyDown(event);
-	}	
+	}
 
 	@Override
 	public int keyCodeToButtonIndex(int keyCode) {
 		switch (keyCode) {
 		case InputDeviceManager.KEYCODE_XPERIA_1:  return 0;
+		case KeyEvent.KEYCODE_BUTTON_B:
 		case InputDeviceManager.KEYCODE_XPERIA_2:  if (!isXperiaPlayXKeySwapped()) return 1; else return 2;
+		case KeyEvent.KEYCODE_BUTTON_A:
 		case InputDeviceManager.KEYCODE_XPERIA_3:  if (!isXperiaPlayXKeySwapped()) return 2; else return 1;
 		case InputDeviceManager.KEYCODE_XPERIA_4:  return 3;
 		case InputDeviceManager.KEYCODE_XPERIA_5:  return 4;
@@ -69,6 +71,8 @@ public class InputDeviceManagerAPI9 extends InputDeviceManager {
 		case InputDeviceManager.KEYCODE_XPERIA_6:
 		case KeyEvent.KEYCODE_BUTTON_C:
 		case KeyEvent.KEYCODE_BUTTON_Z:
+		case KeyEvent.KEYCODE_BUTTON_A:
+		case KeyEvent.KEYCODE_BUTTON_B:
 		case InputDeviceManager.KEYCODE_XPERIA_9:
 		case InputDeviceManager.KEYCODE_XPERIA_10:
 		case KeyEvent.KEYCODE_BUTTON_L2:
