@@ -28,7 +28,7 @@
 #import <Platform/ios/IOSFileIOHub.h>
 
 #import <Input/iOS/IOSInput.h>
-#import <Audio/iOS/IOSAudio.h>
+#import <Audio/CocosDenshion/CDAudioContext.h>
 
 #import <Platform/ios/IOSNativeCommandListener.h>
 

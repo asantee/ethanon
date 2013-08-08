@@ -20,61 +20,22 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#import "IOSAudio.h"
+#import "CDAudioSample.h"
 #import <SimpleAudioEngine.h>
 
 namespace gs2d {
 
-GS2D_API AudioPtr CreateAudio(boost::any data)
-{
-	AudioPtr audio = IOSAudioContext::Create(data);
-	if (audio)
-	{
-		return audio;
-	}
-	else
-	{
-		return AudioPtr();
-	}
-}
-
-boost::shared_ptr<IOSAudioContext> IOSAudioContext::Create(boost::any data)
-{
-	boost::shared_ptr<IOSAudioContext> p(new IOSAudioContext());
-	p->weak_this = p;
-	if (p->CreateAudioDevice(data))
-	{
-		return p;
-	}
-	else
-	{
-		return IOSAudioContextPtr();
-	}
-}
-
-IOSAudioContext::IOSAudioContext() :
-	m_logger(Platform::FileLogger::GetLogDirectory() + "IOSAudioContext.log.txt")
-{
-	SetGlobalVolume(1.0f);
-}
-
-bool IOSAudioContext::CreateAudioDevice(boost::any data)
-{
-	m_logger.Log("Audio device initialized", Platform::FileLogger::INFO);
-	return true;
-}
-
-AudioSamplePtr IOSAudioContext::LoadSampleFromFile(
+AudioSamplePtr CDAudioContext::LoadSampleFromFile(
 	const str_type::string& fileName,
 	const Platform::FileManagerPtr& fileManager,
 	const Audio::SAMPLE_TYPE type)
 {
-	AudioSamplePtr sample = AudioSamplePtr(new IOSAudioSample);
+	AudioSamplePtr sample = AudioSamplePtr(new CDAudioSample);
 	sample->LoadSampleFromFile(weak_this, fileName, fileManager, type);
 	return sample;
 }
 
-AudioSamplePtr IOSAudioContext::LoadSampleFromFileInMemory(
+AudioSamplePtr CDAudioContext::LoadSampleFromFileInMemory(
 	void *pBuffer,
 	const unsigned int bufferLength,
 	const Audio::SAMPLE_TYPE type)
@@ -82,51 +43,10 @@ AudioSamplePtr IOSAudioContext::LoadSampleFromFileInMemory(
 	return AudioSamplePtr();
 }
 
-boost::any IOSAudioContext::GetAudioContext()
-{
-	return 0;
-}
+Platform::FileLogger CDAudioSample::m_logger(Platform::FileLogger::GetLogDirectory() + "CDAudioSample.log.txt");
+str_type::string CDAudioSample::m_currentStreamableTrack;
 
-bool IOSAudioContext::IsStreamable(const Audio::SAMPLE_TYPE type)
-{
-	switch (type)
-	{
-	case Audio::SOUND_EFFECT:
-		return false;
-	case Audio::MUSIC:
-		return true;
-	case Audio::SOUNDTRACK:
-		return true;
-	case Audio::AMBIENT_SFX:
-		return true;
-	case Audio::UNKNOWN_TYPE:
-	default:
-		return false;
-	}
-}
-
-void IOSAudioContext::SetGlobalVolume(const float volume)
-{
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	[[SimpleAudioEngine sharedEngine] setEffectsVolume:volume];
-	[[SimpleAudioEngine sharedEngine] setBackgroundMusicVolume:volume];
-	[pool release];
-}
-
-float IOSAudioContext::GetGlobalVolume() const
-{
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	const float r = [[SimpleAudioEngine sharedEngine] effectsVolume]; 
-	[pool release];
-	return r;
-}
-
-// Audio sample
-
-Platform::FileLogger IOSAudioSample::m_logger(Platform::FileLogger::GetLogDirectory() + "IOSAudioSample.log.txt");
-str_type::string IOSAudioSample::m_currentStreamableTrack;
-
-IOSAudioSample::IOSAudioSample() :
+CDAudioSample::CDAudioSample() :
 	m_volume(1.0f),
 	m_speed(1.0f),
 	m_loop(false),
@@ -134,35 +54,31 @@ IOSAudioSample::IOSAudioSample() :
 {
 }
 
-IOSAudioSample::~IOSAudioSample()
+CDAudioSample::~CDAudioSample()
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	NSString* nsFileName = [NSString stringWithUTF8String:m_fileName.c_str()];
-	if (!IOSAudioContext::IsStreamable(m_type))
+	if (!CDAudioContext::IsStreamable(m_type))
 	{
 		[[SimpleAudioEngine sharedEngine] unloadEffect:nsFileName];
 	}
-	/*else
-	{
-		[[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
-	}*/
 	m_logger.Log(m_fileName + " file deleted", Platform::FileLogger::INFO);
 	[pool release];
 }
 
-bool IOSAudioSample::LoadSampleFromFile(
+bool CDAudioSample::LoadSampleFromFile(
 	AudioWeakPtr audio,
 	const str_type::string& fileName,
 	const Platform::FileManagerPtr& fileManager,
 	const Audio::SAMPLE_TYPE type)
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	m_audio = static_cast<IOSAudioContext*>(audio.lock().get());
+	m_audio = static_cast<CDAudioContext*>(audio.lock().get());
 	m_fileName = fileName;
 	m_type = type;
 
 	NSString* nsFileName = [NSString stringWithUTF8String:m_fileName.c_str()];
-	if (!IOSAudioContext::IsStreamable(m_type))
+	if (!CDAudioContext::IsStreamable(m_type))
 	{
 		[[SimpleAudioEngine sharedEngine] preloadEffect:nsFileName];
 	}
@@ -175,7 +91,7 @@ bool IOSAudioSample::LoadSampleFromFile(
 	return true;
 }
 
-bool IOSAudioSample::LoadSampleFromFileInMemory(
+bool CDAudioSample::LoadSampleFromFileInMemory(
 	AudioWeakPtr audio,
 	void *pBuffer,
 	const unsigned int bufferLength,
@@ -185,22 +101,22 @@ bool IOSAudioSample::LoadSampleFromFileInMemory(
 	return false;
 }
 
-bool IOSAudioSample::SetLoop(const bool enable)
+bool CDAudioSample::SetLoop(const bool enable)
 {
 	m_loop = enable;
 	return true;
 }
 
-bool IOSAudioSample::GetLoop() const
+bool CDAudioSample::GetLoop() const
 {
 	return m_loop;
 }
 
-bool IOSAudioSample::Play()
+bool CDAudioSample::Play()
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	NSString* fileName = [NSString stringWithUTF8String:m_fileName.c_str()];
-	if (!IOSAudioContext::IsStreamable(m_type))
+	if (!CDAudioContext::IsStreamable(m_type))
 	{
 		[[SimpleAudioEngine sharedEngine] playEffect:fileName pitch:m_speed pan:m_pan gain:m_volume];
 	}
@@ -214,17 +130,17 @@ bool IOSAudioSample::Play()
 	return true;
 }
 
-Audio::SAMPLE_STATUS IOSAudioSample::GetStatus()
+Audio::SAMPLE_STATUS CDAudioSample::GetStatus()
 {
 	// TODO
 	return Audio::UNKNOWN_STATUS;
 }
 
-bool IOSAudioSample::IsPlaying()
+bool CDAudioSample::IsPlaying()
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	bool r;
-	if (IOSAudioContext::IsStreamable(m_type))
+	if (CDAudioContext::IsStreamable(m_type))
 	{
 		r = [[SimpleAudioEngine sharedEngine] isBackgroundMusicPlaying];
 	}
@@ -236,10 +152,10 @@ bool IOSAudioSample::IsPlaying()
 	return r;
 }
 
-bool IOSAudioSample::Pause()
+bool CDAudioSample::Pause()
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	if (IOSAudioContext::IsStreamable(m_type))
+	if (CDAudioContext::IsStreamable(m_type))
 	{
 		[[SimpleAudioEngine sharedEngine] pauseBackgroundMusic];
 	}
@@ -252,10 +168,10 @@ bool IOSAudioSample::Pause()
 	return true;
 }
 
-bool IOSAudioSample::Stop()
+bool CDAudioSample::Stop()
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	if (IOSAudioContext::IsStreamable(m_type))
+	if (CDAudioContext::IsStreamable(m_type))
 	{
 		[[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
 	}
@@ -268,40 +184,40 @@ bool IOSAudioSample::Stop()
 	return true;
 }
 
-Audio::SAMPLE_TYPE IOSAudioSample::GetType() const
+Audio::SAMPLE_TYPE CDAudioSample::GetType() const
 {
 	return m_type;
 }
 
-bool IOSAudioSample::SetSpeed(const float speed)
+bool CDAudioSample::SetSpeed(const float speed)
 {
 	m_speed = speed;
 	return true;
 }
 
-float IOSAudioSample::GetSpeed() const
+float CDAudioSample::GetSpeed() const
 {
 	return m_speed;
 }
 
-bool IOSAudioSample::SetVolume(const float volume)
+bool CDAudioSample::SetVolume(const float volume)
 {
 	m_volume = volume;
 	return true;
 }
 
-float IOSAudioSample::GetVolume() const
+float CDAudioSample::GetVolume() const
 {
 	return m_volume;
 }
 
-bool IOSAudioSample::SetPan(const float pan)
+bool CDAudioSample::SetPan(const float pan)
 {
 	m_pan = pan;
 	return true;
 }
 
-float IOSAudioSample::GetPan() const
+float CDAudioSample::GetPan() const
 {
 	return m_pan;
 }

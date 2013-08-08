@@ -20,51 +20,17 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#ifndef GS2D_IOS_AUDIO_H_
-#define GS2D_IOS_AUDIO_H_
+#ifndef GS2D_CD_AUDIO_SAMPLE_H_
+#define GS2D_CD_AUDIO_SAMPLE_H_
 
 #include "../../Audio.h"
-#include "../../Platform/FileLogger.h"
-#include "../../Platform/ios/Platform.ios.h"
+#include "CDAudioContext.h"
 
 namespace gs2d {
 
-class IOSAudioContext : public Audio
+class CDAudioSample : public AudioSample
 {
-	bool CreateAudioDevice(boost::any data);
-	Platform::FileLogger m_logger;
-
-	boost::weak_ptr<IOSAudioContext> weak_this;
-
-	IOSAudioContext();
-
-public:
-	static boost::shared_ptr<IOSAudioContext> Create(boost::any data);
-
-	static bool IsStreamable(const Audio::SAMPLE_TYPE type);
-
-	AudioSamplePtr LoadSampleFromFile(
-		const str_type::string& fileName,
-		const Platform::FileManagerPtr& fileManager,
-		const Audio::SAMPLE_TYPE type = Audio::UNKNOWN_TYPE);
-
-	AudioSamplePtr LoadSampleFromFileInMemory(
-		void *pBuffer,
-		const unsigned int bufferLength,
-		const Audio::SAMPLE_TYPE type = Audio::UNKNOWN_TYPE);
-
-	boost::any GetAudioContext();
-
-	void SetGlobalVolume(const float volume);
-	float GetGlobalVolume() const;
-};
-
-typedef boost::shared_ptr<IOSAudioContext> IOSAudioContextPtr;
-typedef boost::shared_ptr<IOSAudioContext> IOSAudioContextWeakPtr;
-
-class IOSAudioSample : public AudioSample
-{
-	IOSAudioContext* m_audio;
+	CDAudioContext* m_audio;
 
 	str_type::string m_fileName;
 	static str_type::string m_currentStreamableTrack;
@@ -74,8 +40,8 @@ class IOSAudioSample : public AudioSample
 	static Platform::FileLogger m_logger;
 
 public:
-	IOSAudioSample();
-	~IOSAudioSample();
+	CDAudioSample();
+	~CDAudioSample();
 
 	bool LoadSampleFromFile(
 		AudioWeakPtr audio,

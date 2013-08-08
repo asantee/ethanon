@@ -24,10 +24,6 @@
 
 #import "CocosDenshion.h"
 
-ALvoid  alBufferDataStaticProc(const ALint bid, ALenum format, ALvoid* data, ALsizei size, ALsizei freq);
-ALvoid  alcMacOSXMixerOutputRateProc(const ALdouble value);
-
-
 typedef ALvoid	AL_APIENTRY	(*alBufferDataStaticProcPtr) (const ALint bid, ALenum format, ALvoid* data, ALsizei size, ALsizei freq);
 ALvoid  alBufferDataStaticProc(const ALint bid, ALenum format, ALvoid* data, ALsizei size, ALsizei freq)
 {
@@ -74,7 +70,7 @@ float const kCD_GainDefault = 1.0f;
 -(void) _dumpSourceGroupsInfo;
 -(void) _getSourceIndexForSourceGroup;
 -(void) _freeSourceGroups;
--(BOOL) _setUpSourceGroups:(int[]) definitions total:(NSUInteger) total; 
+-(BOOL) _setUpSourceGroups:(int[]) definitions total:(int) total; 
 @end
 
 #pragma mark -
@@ -272,7 +268,7 @@ static BOOL _mixerRateSet = NO;
 	[super dealloc];
 }	
 
--(NSUInteger) sourceGroupTotal {
+-(int) sourceGroupTotal {
 	return _sourceGroupTotal;
 }	
 
@@ -290,7 +286,7 @@ static BOOL _mixerRateSet = NO;
 	}	
 }	
 
--(BOOL) _redefineSourceGroups:(int[]) definitions total:(NSUInteger) total
+-(BOOL) _redefineSourceGroups:(int[]) definitions total:(int) total
 {
 	if (_sourceGroups) {
 		//Stop all sounds
@@ -301,7 +297,7 @@ static BOOL _mixerRateSet = NO;
 	return [self _setUpSourceGroups:definitions total:total];
 }	
 
--(BOOL) _setUpSourceGroups:(int[]) definitions total:(NSUInteger) total 
+-(BOOL) _setUpSourceGroups:(int[]) definitions total:(int) total 
 {
 	_sourceGroups = (sourceGroup *)malloc( sizeof(_sourceGroups[0]) * total);
 	if(!_sourceGroups) {
@@ -330,18 +326,18 @@ static BOOL _mixerRateSet = NO;
 	return YES;
 }
 
--(void) defineSourceGroups:(int[]) sourceGroupDefinitions total:(NSUInteger) total {
+-(void) defineSourceGroups:(int[]) sourceGroupDefinitions total:(int) total {
 	[self _redefineSourceGroups:sourceGroupDefinitions total:total];
 }
 
 -(void) defineSourceGroups:(NSArray*) sourceGroupDefinitions {
 	CDLOGINFO(@"Denshion::CDSoundEngine - source groups defined by NSArray.");
-	NSUInteger totalDefs = [sourceGroupDefinitions count];
+	int totalDefs = [sourceGroupDefinitions count];
 	int* defs = (int *)malloc( sizeof(int) * totalDefs);
 	int currentIndex = 0;
 	for (id currentDef in sourceGroupDefinitions) {
 		if ([currentDef isKindOfClass:[NSNumber class]]) {
-			defs[currentIndex] = (int)[(NSNumber*)currentDef integerValue];
+			defs[currentIndex] = [(NSNumber*)currentDef integerValue];
 			CDLOGINFO(@"Denshion::CDSoundEngine - found definition %i.",defs[currentIndex]);
 		} else {
 			CDLOG(@"Denshion::CDSoundEngine - warning, did not understand source definition.");
@@ -840,7 +836,14 @@ static BOOL _mixerRateSet = NO;
 #endif		
 		return CD_MUTE;
 	}	
-
+	
+#if TARGET_IPHONE_SIMULATOR	
+	//Fix for issue reported by Walzer, prevents speaker destruction when running in simulator ;)
+	gain = (gain < 0.0f ? 0.0f : gain);
+	gain = (gain > 2.0f ? 2.0f : gain);
+#endif
+	
+	
 	int sourceIndex = [self _getSourceIndexForSourceGroup:sourceGroupId];//This method ensures sourceIndex is valid
 	
 	if (sourceIndex != CD_NO_SOURCE) {
@@ -889,7 +892,6 @@ static BOOL _mixerRateSet = NO;
 	alSourcei(source, AL_BUFFER, buffer);//Attach to sound data
 	if((lastErrorCode_ = alGetError()) == AL_NO_ERROR) {
 		_sources[soundSource->_sourceIndex].attachedBufferId = buffer;
-		//_sourceBufferAttachments[soundSource->_sourceIndex] = buffer;//Keep track of which
 		soundSource->_soundId = soundId;
 		return YES;
 	} else {
@@ -912,11 +914,6 @@ static BOOL _mixerRateSet = NO;
 		[self _lockSource:sourceIndex lock:YES];
 		//Try to attach to the buffer
 		if ([self _soundSourceAttachToBuffer:result soundId:soundId]) {
-			//Set to a known state
-			result.pitch = 1.0f;
-			result.pan = 0.0f;
-			result.gain = 1.0f;
-			result.looping = NO;
 			return [result autorelease];
 		} else {
 			//Release the sound source we just created, this will also unlock the source
@@ -1042,6 +1039,7 @@ static BOOL _mixerRateSet = NO;
 @implementation CDSoundSource
 
 @synthesize lastError;
+@synthesize delegate = delegate_;
 
 //Macro for handling the al error code
 #define CDSOUNDSOURCE_UPDATE_LAST_ERROR (lastError = alGetError())
@@ -1054,7 +1052,13 @@ static BOOL _mixerRateSet = NO;
 		_sourceIndex = index;
 		enabled_ = YES;
 		mute_ = NO;
+		
+		self.pitch = kCD_PitchDefault;
+		self.pan = kCD_PanDefault;
+		self.gain = kCD_GainDefault;
+		self.looping = NO;
 		_preMuteGain = self.gain;
+		_wasPlayingAtLastUpdate = NO;
 	} 
 	return self;
 }
@@ -1062,7 +1066,8 @@ static BOOL _mixerRateSet = NO;
 -(void) dealloc
 {
 	CDLOGINFO(@"Denshion::CDSoundSource deallocated %i",self->_sourceIndex);
-
+	//detach delegate
+	self.delegate = nil;
 	//Notify sound engine we are about to release
 	[_engine _soundSourcePreRelease:self];
 	[super dealloc];
@@ -1075,6 +1080,11 @@ static BOOL _mixerRateSet = NO;
 
 - (void) setGain:(float) newGainValue {
 	if (!mute_) {
+#if TARGET_IPHONE_SIMULATOR
+		//Fix for issue reported by Walzer, prevents speaker destruction when running in simulator ;)
+		newGainValue = (newGainValue < 0.0f ? 0.0f : newGainValue);
+		newGainValue = (newGainValue > 2.0f ? 2.0f : newGainValue);
+#endif
 		alSourcef(_sourceId, AL_GAIN, newGainValue);	
 	} else {
 		_preMuteGain = newGainValue;
@@ -1139,9 +1149,26 @@ static BOOL _mixerRateSet = NO;
 	return CDSOUNDSOURCE_ERROR_HANDLER;
 }	
 
+-(void) update {
+	//Only check if there is a delegate
+	if (delegate_) {
+		//Need to check if sound is still playing
+		if (_wasPlayingAtLastUpdate) {
+			if (!self.isPlaying) {
+				_wasPlayingAtLastUpdate = NO;
+				//Notify delegate that sound has stopped playing
+				if ([delegate_ respondsToSelector:@selector(cdSoundSourceDidFinishPlaying:)]) {
+					[delegate_ cdSoundSourceDidFinishPlaying:self];
+				}	
+			}	
+		}	
+	}	
+}	
+
 -(BOOL) play {
 	if (enabled_) {
 		alSourcePlay(_sourceId);
+		_wasPlayingAtLastUpdate = YES;
 		CDSOUNDSOURCE_UPDATE_LAST_ERROR;
 		if (lastError != AL_NO_ERROR) {
 			if (alcGetCurrentContext() == NULL) {
@@ -1342,8 +1369,7 @@ static BOOL _mixerRateSet = NO;
 -(id) init:(int) theSoundId filePath:(const NSString *) theFilePath {
 	if ((self = [super init])) {
 		soundId = theSoundId;
-		filePath = [theFilePath copy];//TODO: is retain necessary or does copy set retain count
-		[filePath retain];
+		filePath = [theFilePath copy];
 	} 
 	return self;
 }
