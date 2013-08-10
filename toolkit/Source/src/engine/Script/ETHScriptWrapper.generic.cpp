@@ -95,6 +95,8 @@ asDECLARE_FUNCTION_WRAPPER(__SetParallaxIntensity, ETHScriptWrapper::SetParallax
 asDECLARE_FUNCTION_WRAPPER(__GetParallaxIntensity, ETHScriptWrapper::GetParallaxIntensity);
 asDECLARE_FUNCTION_WRAPPER(__SetParallaxVerticalIntensity, ETHScriptWrapper::SetParallaxVerticalIntensity);
 asDECLARE_FUNCTION_WRAPPER(__GetParallaxVerticalIntensity, ETHScriptWrapper::GetParallaxVerticalIntensity);
+asDECLARE_FUNCTION_WRAPPER(__SetBucketClearenceFactor, ETHScriptWrapper::SetBucketClearenceFactor);
+asDECLARE_FUNCTION_WRAPPER(__GetBucketClearenceFactor, ETHScriptWrapper::GetBucketClearenceFactor);
 
 asDECLARE_FUNCTION_WRAPPER(__SetWindowProperties, ETHScriptWrapper::SetWindowProperties);
 asDECLARE_FUNCTION_WRAPPER(__SetCameraPos,        ETHScriptWrapper::SetCameraPos);
@@ -109,6 +111,7 @@ asDECLARE_FUNCTION_WRAPPER(__ComputeTextBoxSize,    ETHScriptWrapper::ComputeTex
 asDECLARE_FUNCTION_WRAPPER(__EnableLightmaps, ETHScriptWrapper::EnableLightmaps);
 asDECLARE_FUNCTION_WRAPPER(__UsePixelShaders, ETHScriptWrapper::UsePixelShaders);
 asDECLARE_FUNCTION_WRAPPER(__GetFPSRate,      ETHScriptWrapper::GetFPSRate);
+asDECLARE_FUNCTION_WRAPPER(__EnablePreLoadedLightmapsFromFile, ETHScriptWrapper::EnablePreLoadedLightmapsFromFile);
 
 asDECLARE_FUNCTION_WRAPPER(__LoadMusic,       ETHScriptWrapper::LoadMusic);
 asDECLARE_FUNCTION_WRAPPER(__LoadSoundEffect, ETHScriptWrapper::LoadSoundEffect);
@@ -342,6 +345,9 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void SetParallaxVerticalIntensity(const float)", asFUNCTION(__SetParallaxVerticalIntensity), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("float GetParallaxVerticalIntensity()",           asFUNCTION(__GetParallaxVerticalIntensity), asCALL_GENERIC); assert(r >= 0);
 
+	r = pASEngine->RegisterGlobalFunction("void SetBucketClearenceFactor(const float)", asFUNCTION(__SetBucketClearenceFactor), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("float GetBucketClearenceFactor()",           asFUNCTION(__GetBucketClearenceFactor), asCALL_GENERIC); assert(r >= 0);
+
 	r = pASEngine->RegisterGlobalFunction("void SetZAxisDirection(const vector2 &in)", asFUNCTION(__SetZAxisDirection), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 GetZAxisDirection()",               asFUNCTION(__GetZAxisDirection), asCALL_GENERIC); assert(r >= 0);
 
@@ -358,6 +364,7 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void EnableLightmaps(const bool)", asFUNCTION(__EnableLightmaps), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void UsePixelShaders(const bool)", asFUNCTION(__UsePixelShaders), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("float GetFPSRate()",               asFUNCTION(__GetFPSRate),      asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void EnablePreLoadedLightmapsFromFile(const bool)", asFUNCTION(__EnablePreLoadedLightmapsFromFile), asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("bool LoadMusic(const string &in)",                    asFUNCTION(__LoadMusic),       asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool LoadSoundEffect(const string &in)",              asFUNCTION(__LoadSoundEffect), asCALL_GENERIC); assert(r >= 0);

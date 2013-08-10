@@ -85,8 +85,12 @@ void ETHSpriteEntity::Create()
 	const str_type::string& resourceDirectory = m_provider->GetFileIOHub()->GetResourceDirectory();
 
 	m_pSprite = graphicResources->GetPointer(video, m_properties.spriteFile, resourceDirectory, ETHDirectories::GetEntityDirectory(), false);
-	m_pNormal = graphicResources->GetPointer(video, m_properties.normalFile, resourceDirectory, ETHDirectories::GetNormalMapDirectory(), false);
-	m_pGloss  = graphicResources->GetPointer(video, m_properties.glossFile,  resourceDirectory, ETHDirectories::GetEntityDirectory(), false);
+	
+	if (m_provider->IsRichLightingEnabled())
+	{
+		m_pNormal = graphicResources->GetPointer(video, m_properties.normalFile, resourceDirectory, ETHDirectories::GetNormalMapDirectory(), false);
+		m_pGloss  = graphicResources->GetPointer(video, m_properties.glossFile,  resourceDirectory, ETHDirectories::GetEntityDirectory(), false);
+	}
 
 	if (m_properties.light)
 		m_pHalo = graphicResources->GetPointer(video, m_properties.light->haloBitmap, resourceDirectory, ETHDirectories::GetHaloDirectory(), true);
@@ -107,6 +111,36 @@ void ETHSpriteEntity::Create()
 void ETHSpriteEntity::RecoverResources()
 {
 	Create();
+
+	// if it has had a pre-rendered lightmap, reload it
+	if (!m_preRenderedLightmapFilePath.empty())
+		LoadLightmapFromFile(m_preRenderedLightmapFilePath);
+}
+
+bool ETHSpriteEntity::LoadLightmapFromFile(const str_type::string& filePath)
+{
+	ETHGraphicResourceManagerPtr graphicResources = m_provider->GetGraphicResourceManager();
+	VideoPtr video = m_provider->GetVideo();
+
+	// don't go further if it doesn't have any context
+	if (!video || !graphicResources)
+		return false;
+
+	if (ETHGlobal::FileExists(filePath, m_provider->GetFileManager()))
+	{
+		m_pLightmap = graphicResources->GetPointer(
+			video,
+			Platform::GetFileName(filePath),
+			GS_L(""),
+			Platform::GetFileDirectory(filePath.c_str()),
+			false,
+			true);
+
+		// store bitmap name to restore when necessary
+		m_preRenderedLightmapFilePath = filePath;
+	}
+
+	return (m_pLightmap);
 }
 
 bool ETHSpriteEntity::SetSprite(const str_type::string &fileName)
@@ -245,7 +279,7 @@ void ETHSpriteEntity::LoadParticleSystem()
 			path += ETHDirectories::GetParticlesDirectory();
 			path += Platform::GetFileName(pSystem->GetActualBitmapFile());
 
-			if (!graphicResources->AddFile(video, path, resourcePath, (pSystem->alphaMode == Video::AM_ADD)))
+			if (!graphicResources->AddFile(video, path, resourcePath, (pSystem->alphaMode == Video::AM_ADD), false))
 				continue;
 
 			const float particleScale = (GetScale().x + GetScale().y) / 2.0f;
@@ -372,6 +406,25 @@ void ETHSpriteEntity::DestroyParticleSystem(const unsigned int n)
 	{
 		m_particles[n].reset();
 	}
+}
+
+str_type::string ETHSpriteEntity::AssembleLightmapFileName(const str_type::string& directory, const str_type::string& extension) const
+{
+	str_type::stringstream ss;
+	ss << directory << GS_L("add") << GetID() << GS_L(".") << extension;
+	return ss.str();
+}
+
+bool ETHSpriteEntity::SaveLightmapToFile(const str_type::string& directory)
+{
+	if (!m_pLightmap)
+	{
+		return false;
+	}
+	
+	if (!m_pLightmap->GetTexture().lock()->IsAllBlack())
+		m_pLightmap->SaveBitmap(AssembleLightmapFileName(directory, GS_L("bmp")).c_str(), Texture::BF_BMP);
+	return true;
 }
 
 void ETHSpriteEntity::Update(const float lastFrameElapsedTime, const Vector2& zAxisDir, ETHBucketManager& buckets)

@@ -24,35 +24,36 @@
 #define ETH_SHADERS_H_
 
 #include <Types.h>
+#include "../../shaders/shaders.h"
 
 class ETHShaders
 {
 public:
-	static gs2d::str_type::string DefaultVS();
-	static gs2d::str_type::string DefaultPS();
+	static const std::string& DefaultVS();
+	static const std::string& DefaultPS();
 
 	// ambient pass
-	static gs2d::str_type::string Ambient_VS_Hor();
-	static gs2d::str_type::string Ambient_VS_Ver();
+	static const std::string& Ambient_VS_Hor();
+	static const std::string& Ambient_VS_Ver();
 
 	// particles
-	static gs2d::str_type::string Particle_VS();
+	static const std::string& Particle_VS();
 
 	// shadow
-	static gs2d::str_type::string Shadow_VS_Ver();
+	static const std::string& Shadow_VS_Ver();
 
 	// pixel light
-	static gs2d::str_type::string PL_PS_Hor_Diff();
-	static gs2d::str_type::string PL_PS_Ver_Diff();
-	static gs2d::str_type::string PL_PS_Hor_Spec();
-	static gs2d::str_type::string PL_PS_Ver_Spec();
+	static const std::string& PL_PS_Hor_Diff();
+	static const std::string& PL_PS_Ver_Diff();
+	static const std::string& PL_PS_Hor_Spec();
+	static const std::string& PL_PS_Ver_Spec();
 
-	static gs2d::str_type::string PL_VS_Hor_Light();
-	static gs2d::str_type::string PL_VS_Ver_Light();
+	static const std::string& PL_VS_Hor_Light();
+	static const std::string& PL_VS_Ver_Light();
 
 	// vertex light
-	static gs2d::str_type::string VL_VS_Hor_Diff();
-	static gs2d::str_type::string VL_VS_Ver_Diff();
+	static const std::string& VL_VS_Hor_Diff();
+	static const std::string& VL_VS_Ver_Diff();
 };
 
 #endif

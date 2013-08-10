@@ -31,6 +31,13 @@
 
 namespace gs2d {
 
+boost::shared_ptr<GLTexture> GLTexture::Create(VideoWeakPtr video, Platform::FileManagerPtr fileManager)
+{
+    GLTexturePtr texture = GLTexturePtr(new GLTexture(video, fileManager));
+    texture->weak_this = texture;
+    return texture;
+}
+
 static void ApplyPixelMask(unsigned char *ht_map, const Color mask, const int channels, const int width, const int height);
 
 GLuint GLTexture::m_textureID(1000);
@@ -84,17 +91,6 @@ void GLTexture::DeleteGLTexture()
 
 bool GLTexture::SetTexture(const unsigned int passIdx)
 {
-	switch (passIdx)
-	{
-	case 0:
-		glActiveTexture(GL_TEXTURE0);
-		break;
-	case 1:
-	default:
-		glActiveTexture(GL_TEXTURE1);
-		break;
-	}
-	glBindTexture(GL_TEXTURE_2D, m_textureInfo.m_texture);
 	return true;
 }
 
@@ -279,9 +275,31 @@ void GLTexture::Recover()
 	}
 	else if (m_type == TT_RENDER_TARGET)
 	{
-		//CreateRenderTarget(m_video, m_profile.originalWidth, m_profile.originalHeight, m_textureInfo.gsTargetFmt);
 		CreateTextureFromBitmap(m_textureInfo.renderTargetBackup.get(), m_profile.originalWidth, m_profile.originalHeight, m_channels, false);
 	}
+}
+
+bool GLTexture::IsAllBlack() const
+{
+	const GS_BYTE maxTolerance = 0xF;
+	const GS_BYTE* bitmap = (m_type == TT_RENDER_TARGET) ? m_textureInfo.renderTargetBackup.get() : m_bitmap;
+	const size_t size = m_profile.originalWidth * m_profile.originalHeight * m_channels;
+	for (std::size_t t = 0; t < size; t++)
+	{
+		if (m_channels == 4)
+		{
+			if (t % 4 == 3)
+			{
+				continue;
+			}
+		}
+
+		if (bitmap[t] > maxTolerance)
+		{
+			return false;
+		}
+	}
+	return true;
 }
 
 bool GLTexture::SaveTargetSurfaceBackup()
@@ -306,7 +324,25 @@ bool GLTexture::SaveBitmap(const str_type::char_t* name, const Texture::BITMAP_F
 	if (!Platform::IsExtensionRight(fileName, ext))
 		fileName.append(ext);
 
-	const bool r = (SOIL_save_image(fileName.c_str(), type, m_profile.originalWidth, m_profile.originalHeight, m_channels, m_bitmap) != 0);
+	unsigned char* data = 0;
+	if (m_bitmap)
+	{
+		data = m_bitmap;
+	}
+	else
+	{
+		if (!m_textureInfo.renderTargetBackup.get())
+			SaveTargetSurfaceBackup();
+		data = m_textureInfo.renderTargetBackup.get();
+	}
+
+	const bool r = (SOIL_save_image(
+		fileName.c_str(),
+		type,
+		m_profile.originalWidth,
+		m_profile.originalHeight,
+		m_channels,
+		data) != 0);
 
 	if (!r)
 		ShowMessage(str_type::string("Couldn't save texture ") + fileName, GSMT_ERROR);

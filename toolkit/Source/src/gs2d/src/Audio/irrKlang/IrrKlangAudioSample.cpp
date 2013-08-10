@@ -183,7 +183,7 @@ Audio::SAMPLE_TYPE IrrKlangAudioSample::GetType() const
 
 bool IrrKlangAudioSample::SetSpeed(const float speed)
 {
-	m_speed = speed;
+	m_speed = math::Max(0.5f,(math::Min(2.0f, speed)));
 	return m_sound->setPlaybackSpeed(speed);
 }
 

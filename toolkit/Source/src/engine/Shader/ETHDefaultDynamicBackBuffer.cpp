@@ -36,6 +36,8 @@ void ETHDefaultDynamicBackBuffer::BeginRendering()
 		video->SetRenderTarget(m_target);
 		video->SetAlphaMode(gs2d::Video::AM_PIXEL);
 		video->BeginTargetScene(gs2d::constant::ZERO, true);
+		video->SetVertexShader(gs2d::ShaderPtr());
+		video->SetPixelShader(gs2d::ShaderPtr());
 	}
 }
 
@@ -54,6 +56,8 @@ void ETHDefaultDynamicBackBuffer::Present()
 	gs2d::VideoPtr video = m_video.lock();
 	if (video)
 	{
+		video->SetVertexShader(gs2d::ShaderPtr());
+		video->SetPixelShader(gs2d::ShaderPtr());
 		video->BeginSpriteScene();
 
 		const gs2d::Video::ALPHA_MODE alpha = video->GetAlphaMode();

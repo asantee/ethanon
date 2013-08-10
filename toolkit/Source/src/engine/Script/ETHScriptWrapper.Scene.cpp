@@ -199,9 +199,24 @@ ETHEntity *ETHScriptWrapper::DeleteEntity(ETHEntity *pEntity)
 
 bool ETHScriptWrapper::GenerateLightmaps()
 {
-	if (!m_useLightmaps)
+	if (!m_useLightmaps || !m_provider->IsRichLightingEnabled())
 		return false;
-	return m_pScene->GenerateLightmaps();
+	else
+		return m_pScene->GenerateLightmaps();
+}
+
+void ETHScriptWrapper::LoadLightmaps()
+{
+	if (m_usePreLoadedLightmapsFromFile)
+		ReadLightmapsFromBitmapFiles();
+	else
+		GenerateLightmaps();
+}
+
+void ETHScriptWrapper::ReadLightmapsFromBitmapFiles()
+{
+	if (m_pScene)
+		m_pScene->LoadLightmapsFromBitmapFiles(GetResourceDirectory() + GetSceneFileName());
 }
 
 void ETHScriptWrapper::SetAmbientLight(const Vector3 &v3Color)
@@ -260,6 +275,20 @@ float ETHScriptWrapper::GetParallaxVerticalIntensity()
 	return m_provider->GetShaderManager()->GetParallaxIntensity();
 }
 
+void ETHScriptWrapper::SetBucketClearenceFactor(const float factor)
+{
+	if (WarnIfRunsInMainFunction(GS_L("SetBucketClearenceFactor")))
+		return;
+	m_pScene->SetBucketClearenceFactor(factor);
+}
+
+float ETHScriptWrapper::GetBucketClearenceFactor()
+{
+	if (WarnIfRunsInMainFunction(GS_L("GetBucketClearenceFactor")))
+		return 0.0f;
+	return m_pScene->GetBucketClearenceFactor();
+}
+
 Vector3 ETHScriptWrapper::GetAmbientLight()
 {
 	if (WarnIfRunsInMainFunction(GS_L("GetAmbientLight")))
@@ -299,6 +328,11 @@ void ETHScriptWrapper::EnableLightmaps(const bool enable)
 
 	m_useLightmaps = enable;
 	m_pScene->EnableLightmaps(enable);
+}
+
+void ETHScriptWrapper::EnablePreLoadedLightmapsFromFile(const bool enable)
+{
+	m_usePreLoadedLightmapsFromFile = enable;
 }
 
 Vector2 ETHScriptWrapper::GetCameraPos()
@@ -531,6 +565,8 @@ bool ETHScriptWrapper::LoadScene(const str_type::string &escFile, const Vector2&
 		}
 	}
 
+	m_provider->GetGraphicResourceManager()->ReleaseTemporaryResources();
+
 	str_type::string fileName = m_provider->GetFileIOHub()->GetResourceDirectory();
 	fileName += escFile;
 
@@ -549,7 +585,7 @@ bool ETHScriptWrapper::LoadScene(const str_type::string &escFile, const Vector2&
 	m_drawableManager.Clear();
 	m_sceneFileName = escFile;
 	m_pScene->EnableLightmaps(m_useLightmaps);
-	GenerateLightmaps();
+	LoadLightmaps();
 	m_provider->GetVideo()->SetCameraPos(Vector2(0,0));
 	LoadSceneScripts();
 	m_timer.CalcLastFrame();

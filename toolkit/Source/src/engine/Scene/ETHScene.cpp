@@ -97,6 +97,7 @@ void ETHScene::Init(ETHResourceProviderPtr provider, const ETHSceneProperties& p
 	m_minSceneHeight = 0.0f;
 	m_nCurrentLights = 0;
 	m_nRenderedEntities = -1;
+	m_bucketClearenceFactor = 0.0f;
 	m_enableZBuffer = true;
 	m_maxSceneHeight = m_provider->GetVideo()->GetScreenSizeF().y;
 	const ETHShaderManagerPtr& shaderManager = m_provider->GetShaderManager();
@@ -281,6 +282,27 @@ void ETHScene::SetSceneProperties(const ETHSceneProperties &prop)
 	m_provider->GetShaderManager()->SetParallaxIntensity(m_sceneProps.parallaxIntensity);
 }
 
+void ETHScene::LoadLightmapsFromBitmapFiles(const str_type::string& currentSceneFilePath)
+{
+	for (ETHBucketMap::iterator bucketIter = m_buckets.GetFirstBucket(); bucketIter != m_buckets.GetLastBucket(); ++bucketIter)
+	{
+		// iterate over all entities in this bucket
+		ETHEntityList& entityList = bucketIter->second;
+		ETHEntityList::const_iterator iEnd = entityList.end();
+		for (ETHEntityList::iterator iter = entityList.begin(); iter != iEnd; ++iter)
+		{
+			ETHRenderEntity* entity = (*iter);
+			const str_type::string fileDirectory = ConvertFileNameToLightmapDirectory(currentSceneFilePath);
+	
+			// PNG lightmaps have higher priority than BMP
+			const str_type::string filePathBmp = entity->AssembleLightmapFileName(fileDirectory, GS_L("bmp"));
+			const str_type::string filePathPng = entity->AssembleLightmapFileName(fileDirectory, GS_L("png"));
+			const bool pngFileExists = (ETHGlobal::FileExists(filePathPng, m_provider->GetFileManager()));
+			entity->LoadLightmapFromFile(pngFileExists ? filePathPng : filePathBmp);
+		}
+	}
+}
+
 bool ETHScene::GenerateLightmaps(const int id)
 {
 	if (!m_provider->IsRichLightingEnabled())
@@ -374,6 +396,36 @@ bool ETHScene::GenerateLightmaps(const int id)
 	return true;
 }
 
+str_type::string ETHScene::ConvertFileNameToLightmapDirectory(str_type::string filePath)
+{
+	str_type::string fileName = Platform::GetFileName(filePath);
+	for (std::size_t t = 0; t < fileName.length(); t++)
+	{
+		if (fileName[t] == GS_L('.'))
+		{
+			fileName[t] = GS_L('-');
+		}
+	}
+	
+	const str_type::string directory(fileName + GS_L("/"));
+	str_type::string r = str_type::string(Platform::GetFileDirectory(filePath.c_str())).append(directory);
+	return r;
+}
+
+void ETHScene::SaveLightmapsToFile(const str_type::string& directory)
+{
+	for (ETHBucketMap::iterator bucketIter = m_buckets.GetFirstBucket(); bucketIter != m_buckets.GetLastBucket(); ++bucketIter)
+	{
+		ETHEntityList& entityList = bucketIter->second;
+		ETHEntityList::const_iterator iEnd = entityList.end();
+		for (ETHEntityList::iterator iter = entityList.begin(); iter != iEnd; ++iter)
+		{
+			ETHSpriteEntity* entity = (*iter);
+			entity->SaveLightmapToFile(directory);
+		}
+	}
+}
+
 void ETHScene::Update(
 	const float lastFrameElapsedTime,
 	const ETHBackBufferTargetManagerPtr& backBuffer,
@@ -415,7 +467,7 @@ void ETHScene::Update(
 	Randomizer::Seed(m_provider->GetVideo()->GetElapsedTime());
 }
 
-void ETHScene::RenderScene(const bool roundUp)
+void ETHScene::RenderScene(const bool roundUp, const ETHBackBufferTargetManagerPtr& backBuffer)
 {
 	const VideoPtr& video = m_provider->GetVideo();
 
@@ -427,10 +479,19 @@ void ETHScene::RenderScene(const bool roundUp)
 	// draw ambient pass
 	video->RoundUpPosition(roundUp);
 
-	DrawEntityMultimap(roundUp);
+	DrawEntityMultimap(roundUp, backBuffer);
 
 	m_buckets.ResolveMoveRequests();
 	video->RoundUpPosition(false);
+}
+
+void ETHScene::FillCurrentlyVisibleBucketList(std::list<Vector2>& bucketList, const ETHBackBufferTargetManagerPtr& backBuffer)
+{
+	const VideoPtr& video = m_provider->GetVideo();
+	const Vector2 clearence(GetBucketSize() * m_bucketClearenceFactor);
+	const Vector2 min(video->GetCameraPos() - clearence);
+	const Vector2 max(backBuffer->GetBufferSize() + (clearence * 2.0f));
+	m_buckets.GetIntersectingBuckets(bucketList, min, max, IsDrawingBorderBuckets(), IsDrawingBorderBuckets());
 }
 
 void ETHScene::MapEntitiesToBeRendered(
@@ -444,15 +505,13 @@ void ETHScene::MapEntitiesToBeRendered(
 
 	m_nRenderedEntities = 0;
 
-	const VideoPtr& video = m_provider->GetVideo();
-
 	// don't let bucket size equal to 0
-	assert(GetBucketSize().x != 0 || GetBucketSize().y != 0);
+	const Vector2 bucketSize(GetBucketSize());
+	assert(bucketSize.x != 0 || bucketSize.y != 0);
 
 	// Gets the list of visible buckets
 	std::list<Vector2> bucketList;
-	const Vector2& camPos = video->GetCameraPos(); //for debugging purposes
-	m_buckets.GetIntersectingBuckets(bucketList, camPos, backBuffer->GetBufferSize(), IsDrawingBorderBuckets(), IsDrawingBorderBuckets());
+	FillCurrentlyVisibleBucketList(bucketList, backBuffer);
 
 	assert(m_activeEntityHandler.IsCallbackListEmpty());
 
@@ -495,7 +554,7 @@ void ETHScene::MapEntitiesToBeRendered(
 	m_nCurrentLights = m_renderingManager.GetNumLights();
 }
 
-void ETHScene::DrawEntityMultimap(const bool roundUp)
+void ETHScene::DrawEntityMultimap(const bool roundUp, const ETHBackBufferTargetManagerPtr& backBuffer)
 {
 	const VideoPtr& video = m_provider->GetVideo();
 
@@ -506,14 +565,14 @@ void ETHScene::DrawEntityMultimap(const bool roundUp)
 	// Show buckets outline in debug mode
 	bool debug = false;
 	#if defined(_DEBUG) || defined(DEBUG)
-	debug = true;
+		debug = true;
 	#endif
 
 	if (m_provider->IsInEditor() || debug)
 	{
-		if (m_provider->GetInput()->IsKeyDown(GSK_PAUSE) || m_provider->GetInput()->IsKeyDown(GSK_F12))
+		if (m_provider->GetInput()->IsKeyDown(GSK_PAUSE) || m_provider->GetInput()->IsKeyDown(GSK_F1))
 		{
-			DrawBucketOutlines();
+			DrawBucketOutlines(backBuffer);
 		}
 	}
 }
@@ -561,14 +620,13 @@ int ETHScene::CountLights()
 	return m_nCurrentLights;
 }
 
-bool ETHScene::DrawBucketOutlines()
+bool ETHScene::DrawBucketOutlines(const ETHBackBufferTargetManagerPtr& backBuffer)
 {
 	const VideoPtr& video = m_provider->GetVideo();
 
 	// Gets the list of visible buckets
 	std::list<Vector2> bucketList;
-	ETHBucketManager::GetIntersectingBuckets(bucketList, m_provider->GetVideo()->GetCameraPos(), video->GetScreenSizeF(),
-									  GetBucketSize(), IsDrawingBorderBuckets(), IsDrawingBorderBuckets());
+	FillCurrentlyVisibleBucketList(bucketList, backBuffer);
 
 	int nVisibleBuckets = 0;
 
@@ -734,6 +792,16 @@ void ETHScene::SetLightIntensity(const float intensity)
 float ETHScene::GetLightIntensity() const
 {
 	return m_sceneProps.lightIntensity;
+}
+
+void ETHScene::SetBucketClearenceFactor(const float factor)
+{
+	m_bucketClearenceFactor = factor;
+}
+
+float ETHScene::GetBucketClearenceFactor() const
+{
+	return m_bucketClearenceFactor;
 }
 
 void ETHScene::SetAmbientLight(const Vector3 &color)

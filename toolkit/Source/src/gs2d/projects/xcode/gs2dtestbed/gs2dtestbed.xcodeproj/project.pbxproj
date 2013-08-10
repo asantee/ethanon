@@ -12,27 +12,29 @@
 		746BCE8916431E8F006643B8 /* ikpMP3.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 74832732164312CA00FA2F36 /* ikpMP3.dylib */; };
 		7473CADB16331681005DB920 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7473CAD716331681005DB920 /* main.cpp */; };
 		7473CADC16331681005DB920 /* SDLMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 7473CADA16331681005DB920 /* SDLMain.m */; };
-		74838D25163B460F0027CFFC /* gs2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F3A5551632E4490064C9A5 /* gs2d.framework */; };
-		74838D26163B46230027CFFC /* gs2d.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74F3A5551632E4490064C9A5 /* gs2d.framework */; };
-		74865585163B1A270096D869 /* resources in Resources */ = {isa = PBXBuildFile; fileRef = 74865584163B1A270096D869 /* resources */; };
 		74F3A51E1632E3C20064C9A5 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F3A51D1632E3C20064C9A5 /* Cocoa.framework */; };
 		74F3A5281632E3C20064C9A5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 74F3A5261632E3C20064C9A5 /* InfoPlist.strings */; };
 		74F3A5341632E3C30064C9A5 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 74F3A5321632E3C30064C9A5 /* MainMenu.xib */; };
+		C9742B07172188AA004CB92C /* gs2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9742AF817218209004CB92C /* gs2d.framework */; };
+		C9742B1317218AA4004CB92C /* gs2d.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C9742AF817218209004CB92C /* gs2d.framework */; };
+		C9742B2217218B76004CB92C /* Cg.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C9742B2117218B76004CB92C /* Cg.framework */; };
+		C9742B3317218E58004CB92C /* resources in CopyFiles */ = {isa = PBXBuildFile; fileRef = C9742B3217218E58004CB92C /* resources */; };
+		C9D088301721819B00BE3620 /* gs2d.xcodeproj in Resources */ = {isa = PBXBuildFile; fileRef = C9D0882F1721819B00BE3620 /* gs2d.xcodeproj */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		74838D23163B46080027CFFC /* PBXContainerItemProxy */ = {
+		C9742AF717218209004CB92C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 74F3A5481632E4340064C9A5 /* gs2d.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 74F3A4F51632E3870064C9A5;
-			remoteInfo = gs2d;
-		};
-		74F3A5541632E4490064C9A5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 74F3A5481632E4340064C9A5 /* gs2d.xcodeproj */;
+			containerPortal = C9D0882F1721819B00BE3620 /* gs2d.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 74F3A4F61632E3870064C9A5;
+			remoteInfo = gs2d;
+		};
+		C9742B1F17218B50004CB92C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C9D0882F1721819B00BE3620 /* gs2d.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 74F3A4F51632E3870064C9A5;
 			remoteInfo = gs2d;
 		};
 /* End PBXContainerItemProxy section */
@@ -44,8 +46,19 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				74838D26163B46230027CFFC /* gs2d.framework in CopyFiles */,
+				C9742B2217218B76004CB92C /* Cg.framework in CopyFiles */,
+				C9742B1317218AA4004CB92C /* gs2d.framework in CopyFiles */,
 				742D34121637A60A00A447A2 /* SDL.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9742B2317218E0C004CB92C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = assets;
+			dstSubfolderSpec = 7;
+			files = (
+				C9742B3317218E58004CB92C /* resources in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,7 +73,6 @@
 		7473CAD916331681005DB920 /* SDLMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLMain.h; path = ../../../../src/Platform/macosx/SDLMain.h; sourceTree = "<group>"; };
 		7473CADA16331681005DB920 /* SDLMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLMain.m; path = ../../../../src/Platform/macosx/SDLMain.m; sourceTree = "<group>"; };
 		74832732164312CA00FA2F36 /* ikpMP3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = ikpMP3.dylib; path = "../../../vendors/irrKlang/bin/macosx-gcc/ikpMP3.dylib"; sourceTree = "<group>"; };
-		74865584163B1A270096D869 /* resources */ = {isa = PBXFileReference; lastKnownFileType = folder; name = resources; path = ../../../src/Testbed/resources; sourceTree = "<group>"; };
 		74F3A5191632E3C20064C9A5 /* gs2dtestbed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gs2dtestbed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		74F3A51D1632E3C20064C9A5 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		74F3A5201632E3C20064C9A5 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -70,7 +82,9 @@
 		74F3A5271632E3C20064C9A5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		74F3A52B1632E3C20064C9A5 /* gs2dtestbed-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "gs2dtestbed-Prefix.pch"; sourceTree = "<group>"; };
 		74F3A5331632E3C30064C9A5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		74F3A5481632E4340064C9A5 /* gs2d.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = gs2d.xcodeproj; path = ../gs2d/gs2d.xcodeproj; sourceTree = "<group>"; };
+		C9742B2117218B76004CB92C /* Cg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cg.framework; path = ../../../vendors/Cg.framework; sourceTree = "<group>"; };
+		C9742B3217218E58004CB92C /* resources */ = {isa = PBXFileReference; lastKnownFileType = folder; name = resources; path = ../../../src/Testbed/resources; sourceTree = "<group>"; };
+		C9D0882F1721819B00BE3620 /* gs2d.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = gs2d.xcodeproj; path = ../gs2d/gs2d.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,7 +92,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				74838D25163B460F0027CFFC /* gs2d.framework in Frameworks */,
+				C9742B07172188AA004CB92C /* gs2d.framework in Frameworks */,
 				7458F09C1637A49800D48019 /* SDL.framework in Frameworks */,
 				74F3A51E1632E3C20064C9A5 /* Cocoa.framework in Frameworks */,
 			);
@@ -90,13 +104,14 @@
 		74F3A50E1632E3C20064C9A5 = {
 			isa = PBXGroup;
 			children = (
+				C9742B3217218E58004CB92C /* resources */,
+				C9742B2117218B76004CB92C /* Cg.framework */,
 				74832732164312CA00FA2F36 /* ikpMP3.dylib */,
-				74865584163B1A270096D869 /* resources */,
 				742D34111637A60A00A447A2 /* SDL.framework */,
 				74F3A5231632E3C20064C9A5 /* gs2dtestbed */,
 				74F3A51C1632E3C20064C9A5 /* Frameworks */,
 				74F3A51A1632E3C20064C9A5 /* Products */,
-				74F3A5481632E4340064C9A5 /* gs2d.xcodeproj */,
+				C9D0882F1721819B00BE3620 /* gs2d.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
@@ -152,10 +167,10 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		74F3A5511632E4490064C9A5 /* Products */ = {
+		C9742AF417218209004CB92C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				74F3A5551632E4490064C9A5 /* gs2d.framework */,
+				C9742AF817218209004CB92C /* gs2d.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -171,11 +186,12 @@
 				74F3A5161632E3C20064C9A5 /* Frameworks */,
 				74F3A5171632E3C20064C9A5 /* Resources */,
 				7473CA651632EDA6005DB920 /* CopyFiles */,
+				C9742B2317218E0C004CB92C /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				74838D24163B46080027CFFC /* PBXTargetDependency */,
+				C9742B2017218B50004CB92C /* PBXTargetDependency */,
 			);
 			name = gs2dtestbed;
 			productName = gs2dtestbed;
@@ -203,8 +219,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 74F3A5511632E4490064C9A5 /* Products */;
-					ProjectRef = 74F3A5481632E4340064C9A5 /* gs2d.xcodeproj */;
+					ProductGroup = C9742AF417218209004CB92C /* Products */;
+					ProjectRef = C9D0882F1721819B00BE3620 /* gs2d.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -215,11 +231,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		74F3A5551632E4490064C9A5 /* gs2d.framework */ = {
+		C9742AF817218209004CB92C /* gs2d.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = gs2d.framework;
-			remoteRef = 74F3A5541632E4490064C9A5 /* PBXContainerItemProxy */;
+			remoteRef = C9742AF717218209004CB92C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -229,10 +245,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				74865585163B1A270096D869 /* resources in Resources */,
 				746BCE8916431E8F006643B8 /* ikpMP3.dylib in Resources */,
 				74F3A5281632E3C20064C9A5 /* InfoPlist.strings in Resources */,
 				74F3A5341632E3C30064C9A5 /* MainMenu.xib in Resources */,
+				C9D088301721819B00BE3620 /* gs2d.xcodeproj in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,10 +267,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		74838D24163B46080027CFFC /* PBXTargetDependency */ = {
+		C9742B2017218B50004CB92C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = gs2d;
-			targetProxy = 74838D23163B46080027CFFC /* PBXContainerItemProxy */;
+			targetProxy = C9742B1F17218B50004CB92C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -333,6 +349,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LIBRARY = "libstdc++";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -343,6 +360,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					MACOSX,
+					OPENGL,
 				);
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../vendors/SDL.framework/Headers\"",
@@ -361,6 +379,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LIBRARY = "libstdc++";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -368,7 +387,10 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "gs2dtestbed/gs2dtestbed-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = MACOSX;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					MACOSX,
+					OPENGL,
+				);
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../vendors/SDL.framework/Headers\"",
 					"\"$(SRCROOT)/../../../vendors/BoostSDK\"",

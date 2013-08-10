@@ -40,6 +40,8 @@
 
 #include <sstream>
 
+#include "../glslShaderCode.h"
+
 namespace gs2d {
 
 using namespace math;
@@ -60,16 +62,19 @@ void UnbindFrameBuffer()
 	glBindFramebuffer(GL_FRAMEBUFFER, idx);
 }
 
-GLES2ShaderPtr LoadInternalShader(GLES2Video* video, const str_type::string& str, const Shader::SHADER_FOCUS focus)
+GLES2ShaderPtr LoadInternalShader(GLES2Video* video,
+	const str_type::string& shaderName,
+	const str_type::string& str,
+	const Shader::SHADER_FOCUS focus)
 {
-	GLES2ShaderPtr shader = video->LoadGLES2ShaderFromFile(str, focus);
+	GLES2ShaderPtr shader = video->LoadGLES2ShaderFromString(shaderName, str, focus);
 	if (shader)
 	{
-		video->Message(str + " default shader created successfully", GSMT_INFO);
+		video->Message(shaderName + " default shader created successfully", GSMT_INFO);
 	}
 	else
 	{
-		video->Message(str + " couldn't create default shader", GSMT_ERROR);
+		video->Message(shaderName + " couldn't create default shader", GSMT_ERROR);
 	}
 	return shader;
 }
@@ -134,13 +139,12 @@ bool GLES2Video::StartApplication(
 	glDisable(GL_DITHER);
 	glHint(GL_GENERATE_MIPMAP_HINT, GL_FASTEST);
 
-	str_type::string resourceDirectory = m_fileIOHub->GetResourceDirectory();
-	m_defaultVS = LoadInternalShader(this, resourceDirectory + "shaders/default/default.vs", Shader::SF_VERTEX);
-	m_defaultPS = LoadInternalShader(this, resourceDirectory + "shaders/default/default.ps", Shader::SF_PIXEL);
-	m_fastRenderVS = LoadInternalShader(this, resourceDirectory + "shaders/default/fastRender.vs", Shader::SF_VERTEX);
-	m_optimalVS = LoadInternalShader(this, resourceDirectory + "shaders/default/optimal.vs", Shader::SF_VERTEX);
-	m_modulate1 = LoadInternalShader(this, resourceDirectory + "shaders/default/modulate1.ps", Shader::SF_PIXEL);
-	m_add1 = LoadInternalShader(this, resourceDirectory + "shaders/default/add1.ps", Shader::SF_PIXEL);
+	m_defaultVS =    LoadInternalShader(this, "default.vs",    gs2dshaders::GLSL_default_default_vs, Shader::SF_VERTEX);
+	m_defaultPS =    LoadInternalShader(this, "default.ps",    gs2dshaders::GLSL_default_default_ps, Shader::SF_PIXEL);
+	m_fastRenderVS = LoadInternalShader(this, "fastRender.vs", gs2dshaders::GLSL_default_fastRender_vs, Shader::SF_VERTEX);
+	m_optimalVS =    LoadInternalShader(this, "optimal.vs",    gs2dshaders::GLSL_default_optimal_vs, Shader::SF_VERTEX);
+	m_modulate1 =    LoadInternalShader(this, "modulate1.ps",  gs2dshaders::GLSL_default_modulate1_ps, Shader::SF_PIXEL);
+	m_add1 =         LoadInternalShader(this, "add1.ps",       gs2dshaders::GLSL_default_add1_ps, Shader::SF_PIXEL);
 
 	// forces shader pre-load to avoid runtime lag
 	m_shaderContext->SetShader(m_defaultVS,		m_defaultPS, m_orthoMatrix, GetScreenSizeF());
@@ -562,33 +566,17 @@ void GLES2Video::SetZBuffer(const bool enable)
 
 bool GLES2Video::GetZBuffer() const
 {
-	/*GLboolean enabled;
-	glGetBooleanv(GL_DEPTH_TEST, &enabled);
-	return (enabled == GL_TRUE) ? true : false;*/
 	return m_zBuffer;
 }
 
 void GLES2Video::SetZWrite(const bool enable)
 {
-	if (m_zWrite)
-	{
-		if (!enable)
-			glDepthMask(GL_FALSE);
-	}
-	else
-	{
-		if (enable)
-			glDepthMask(GL_TRUE);
-	}
-	m_zWrite = enable;
+	// dummy on opengl
 }
 
 bool GLES2Video::GetZWrite() const
 {
-	/*GLboolean enabled;
-	glGetBooleanv(GL_DEPTH_WRITEMASK, &enabled);
-	return (enabled == GL_TRUE) ? true : false;*/
-	return m_zWrite;
+	return true;
 }
 
 bool GLES2Video::SetClamp(const bool set)

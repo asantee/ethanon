@@ -294,8 +294,13 @@ void GLES2ShaderContext::SetShader(GLES2ShaderPtr vs, GLES2ShaderPtr ps, const m
 
 void GLES2ShaderContext::ResetViewConstants(const math::Matrix4x4 &ortho, const math::Vector2& screenSize)
 {
-	m_currentVS->SetConstant("screenSize", screenSize);
+	m_screenSize = screenSize;
 	m_currentVS->SetMatrixConstant("viewMatrix", ortho);
+}
+
+math::Vector2 GLES2ShaderContext::GetScreenSize() const
+{
+	return m_screenSize;
 }
 
 void GLES2ShaderContext::SetUniformParametersFromCurrentProgram(GLES2ShaderPtr shader) const

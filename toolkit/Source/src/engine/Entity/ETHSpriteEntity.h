@@ -51,8 +51,13 @@ public:
 	SpritePtr GetParticleBMP(const unsigned int n);
 	AudioSamplePtr GetParticleSFX(const unsigned int n);
 
+	str_type::string AssembleLightmapFileName(const str_type::string& directory, const str_type::string& extension) const;
+	bool SaveLightmapToFile(const str_type::string& directory);
+
 	float GetMaxHeight();
 	float GetMinHeight();
+
+	bool LoadLightmapFromFile(const str_type::string& filePath);
 
 	void DestroyParticleSystem(const unsigned int n);
 	void SetParticleBitmap(const int unsigned n, SpritePtr bitmap);
@@ -125,6 +130,7 @@ protected:
 	SpritePtr m_pNormal;
 	SpritePtr m_pHalo;
 	SpritePtr m_pLightmap;
+	str_type::string m_preRenderedLightmapFilePath;
 
 	static const float m_layrableMinimumDepth;
 

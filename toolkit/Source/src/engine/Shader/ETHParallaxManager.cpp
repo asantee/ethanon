@@ -21,7 +21,13 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHParallaxManager.h"
+
 #include <Video.h>
+
+// TODO/TO-DO: this is an ugly workaround for performance boost. Fix that some day...
+#ifdef GLES2
+	#include <Video/GLES2/GLES2Sprite.h>
+#endif
 
 ETHParallaxManager::ETHParallaxManager()
  : m_normalizedOrigin(0.5f, 0.5f), m_intensity(0), m_verticalIntensity(0.1f)
@@ -62,21 +68,22 @@ float ETHParallaxManager::GetIntensity() const
 void ETHParallaxManager::SetShaderParameters(const VideoConstPtr& video, const ShaderPtr& shader, const Vector3& entityPos,
 											 const float& individualParallaxIntensity, const bool drawToTarget) const
 {
-	if (!drawToTarget)
-	{
-		const float parallaxIntensity = GetIntensity() * individualParallaxIntensity;
-		#ifdef GLES2
-			shader->SetConstant(GS_L("entityPos3D_parallaxIntensity"), Vector4(entityPos, parallaxIntensity));
-		#else
-			shader->SetConstant(GS_L("entityPos3D"), entityPos);
-			shader->SetConstant(GS_L("parallaxIntensity"), parallaxIntensity);
-		#endif
-		shader->SetConstant(GS_L("parallaxOrigin_verticalIntensity"), Vector3(GetInScreenOrigin(video), GetVerticalIntensity()));
-	}
-	else
-	{
-		shader->SetConstant(GS_L("parallaxIntensity"), 0.0f);
-	}
+	const float parallaxIntensity = (drawToTarget) ? 0.0f : (GetIntensity() * individualParallaxIntensity);
+	const Vector2 origin(GetInScreenOrigin(video));
+	const float verticalIntensity = GetVerticalIntensity();
+
+	#ifdef GLES2
+		std::vector<Vector2> params(4);
+		params[0] = Vector2(entityPos.x, entityPos.y);
+		params[1] = Vector2(entityPos.z, parallaxIntensity);
+		params[2] = Vector2(origin);
+		params[3] = Vector2(verticalIntensity, verticalIntensity);
+		GLES2Sprite::AttachParametersToOptimalRenderer(params);
+	#else
+		shader->SetConstant(GS_L("entityPos3D"), entityPos);
+		shader->SetConstant(GS_L("parallaxIntensity"), parallaxIntensity);
+		shader->SetConstant(GS_L("parallaxOrigin_verticalIntensity"), Vector3(origin, verticalIntensity));
+	#endif
 }
 
 void ETHParallaxManager::SetVerticalIntensity(const float intensity)

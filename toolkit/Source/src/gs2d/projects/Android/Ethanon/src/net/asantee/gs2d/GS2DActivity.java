@@ -67,7 +67,14 @@ public class GS2DActivity extends KeyEventListener {
 		commandListeners = new ArrayList<NativeCommandListener>();
 		accelerometerListener = new AccelerometerListener(this);
 		commandListeners.add(new MediaStreamListener(this));
-		surfaceView = new GL2JNIView(this, retrieveApkPath(), accelerometerListener, this, commandListeners);
+
+		surfaceView = new GL2JNIView(
+			this, retrieveApkPath(),
+			accelerometerListener,
+			this,
+			commandListeners,
+			inputDeviceManager);
+
 		setContentView(surfaceView);
 	}
 

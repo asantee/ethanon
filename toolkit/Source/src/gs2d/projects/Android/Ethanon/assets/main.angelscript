@@ -8,5 +8,10 @@ void main()
 
 void onSceneUpdate()
 {
+<<<<<<< HEAD
 	DrawText(vector2(0), "Your game here...", "Verdana20_shadow.fnt", 0xFFFFFFFF);
 }
+=======
+	DrawText(vector2(0), "" + GetFPSRate(), "Verdana20_shadow.fnt", 0xFFFFFFFF);
+}
+>>>>>>> v0-9-9

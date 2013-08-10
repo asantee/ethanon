@@ -38,11 +38,11 @@ ETHShaderManager::ETHShaderManager(VideoPtr video, const str_type::string& shade
 	 sp = Shader::SP_MODEL_1;
 	#endif
 
-	m_defaultVS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::DefaultVS()).c_str(), Shader::SF_VERTEX, sp);
-	m_particle  = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::Particle_VS()).c_str(), Shader::SF_VERTEX, sp);
-	m_defaultStaticAmbientVS  = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::Ambient_VS_Hor()).c_str(), Shader::SF_VERTEX, sp);
-	m_verticalStaticAmbientVS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::Ambient_VS_Ver()).c_str(), Shader::SF_VERTEX, sp);
-	m_shadowVS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::Shadow_VS_Ver()).c_str(), Shader::SF_VERTEX, sp);
+	m_defaultVS = m_video->LoadShaderFromString(GS_L("defaultVS"), ETHShaders::DefaultVS(), Shader::SF_VERTEX, sp);
+	m_particle  = m_video->LoadShaderFromString(GS_L("particle"), ETHShaders::Particle_VS(), Shader::SF_VERTEX, sp);
+	m_defaultStaticAmbientVS  = m_video->LoadShaderFromString(GS_L("defaultStaticAmbientVS"), ETHShaders::Ambient_VS_Hor(), Shader::SF_VERTEX, sp);
+	m_verticalStaticAmbientVS = m_video->LoadShaderFromString(GS_L("verticalStaticAmbientVS"), ETHShaders::Ambient_VS_Ver(), Shader::SF_VERTEX, sp);
+	m_shadowVS = m_video->LoadShaderFromString(GS_L("shadowVS"), ETHShaders::Shadow_VS_Ver(), Shader::SF_VERTEX, sp);
 
 	#if defined(GLES2) || defined(OPENGL)
 		m_projShadow = m_video->CreateSprite(ETHGlobal::GetDataResourceFullPath(shaderPath, GS_L("shadow.png")));
@@ -56,7 +56,7 @@ ETHShaderManager::ETHShaderManager(VideoPtr video, const str_type::string& shade
 	{
 		// Not yet implemented on GLES2
 		#if !defined(GLES2)
-		  {ETHLightingProfilePtr profile(new ETHVertexLightDiffuse(m_video, shaderPath));
+		  {ETHLightingProfilePtr profile(new ETHVertexLightDiffuse(m_video));
 		  if (profile->IsSupportedByHardware())
 		  {
 			 m_lightingProfiles[VERTEX_LIGHTING_DIFFUSE] = profile;

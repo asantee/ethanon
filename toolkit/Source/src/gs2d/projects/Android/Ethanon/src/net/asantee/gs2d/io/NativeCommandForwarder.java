@@ -5,14 +5,13 @@ public class NativeCommandForwarder implements CommandForwarder {
 	public static String KEY_PRESSED_CMD = "key_pressed";
 
 	public void addCommand(String cmd) {
-		commands = commands + "\n" + cmd;
+		commands.append("\n").append(cmd);
 	}
 
-	public String getCommands() {
-		String cmds = new String(commands);
-		commands = "";
-		return cmds;
+	public void appendCommands(StringBuilder builder) {
+		builder.append(commands);
+		commands.setLength(0);
 	}
 
-	private String commands = new String();
+	private StringBuilder commands = new StringBuilder();
 }

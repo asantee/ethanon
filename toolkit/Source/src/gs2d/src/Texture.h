@@ -79,6 +79,8 @@ public:
 
 	static const unsigned int FULL_MIPMAP_CHAIN = 0x00FFFFFF;
 
+    virtual bool IsAllBlack() const = 0;
+
 	virtual bool SetTexture(const unsigned int passIdx = 0) = 0;
 	virtual PROFILE GetProfile() const = 0;
 	virtual TYPE GetTextureType() const = 0;

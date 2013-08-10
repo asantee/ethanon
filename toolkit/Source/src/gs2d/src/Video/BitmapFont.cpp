@@ -344,28 +344,20 @@ Vector2 BitmapFont::ComputeTextBoxSize(const str_type::string& text)
 	const std::size_t length = text.size();
 	Vector2 cursor = Vector2(0,m_charSet.lineHeight);
 	float lineWidth = 0.0f;
-	const std::size_t lastChar = length - 1;
 	for (std::size_t t = 0; t < length; t++)
 	{
 		if (text[t] == GS_L('\n'))
 		{
-			cursor.x = Max(cursor.x, lineWidth);
 			lineWidth = 0.0f;
 			cursor.y += m_charSet.lineHeight;
 			continue;
 		}
 		int charId = ConvertCharacterToIndex<str_type::char_t>(&text[t], t);
 		const CHAR_DESCRIPTOR &currentChar = m_charSet.chars[charId];
-		if (t == lastChar)
-		{
-			lineWidth += currentChar.height - m_charSet.paddingRight - m_charSet.paddingLeft;
-		}
-		else
-		{
-			lineWidth += currentChar.xAdvance;
-		}
+		lineWidth += currentChar.xAdvance;
+
+		cursor.x = Max(cursor.x, lineWidth);
 	}
-	cursor.x = Max(cursor.x, lineWidth);
 	return cursor;
 }
 

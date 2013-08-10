@@ -141,6 +141,7 @@ void SceneEditor::LoadEditor()
 
 	m_panel.SetupMenu(video, input, m_menuSize, m_menuWidth*2, false, true, false);
 	m_panel.AddButton(_S_GENERATE_LIGHTMAPS, false);
+	m_panel.AddButton(_S_SAVE_LIGHTMAPS, false);
 	m_panel.AddButton(_S_UPDATE_ENTITIES, false);
 	m_panel.AddButton(_S_TOGGLE_STATIC_DYNAMIC, false);
 	m_panel.AddButton(_S_LOCK_STATIC, true);
@@ -348,9 +349,10 @@ std::string SceneEditor::DoEditor(SpritePtr pNextAppButton)
 	{
 		m_projManagerRequested = true;
 	}
-	if (CheckForFileUpdate())
+	if (!video->WindowInFocus())
 	{
-		OpenByFilename(GetCurrentFile(true).c_str());
+		if (CheckForFileUpdate())
+			OpenByFilename(GetCurrentFile(true).c_str());
 	}
 
 	if (guiButtonsFree && m_tool.GetButtonStatus(_S_PLACE))
@@ -858,6 +860,19 @@ void SceneEditor::DoStateManager()
 		m_updateLights = true;
 		ShowLightmapMessage();
 		m_panel.DeactivateButton(_S_UPDATE_ENTITIES);
+	}
+
+	// if the user clicked to save lightmaps button...
+	if (m_panel.GetButtonStatus(_S_SAVE_LIGHTMAPS))
+	{
+		m_panel.DeactivateButton(_S_SAVE_LIGHTMAPS);
+		if (m_pScene)
+		{
+			str_type::string directoryName = m_pScene->ConvertFileNameToLightmapDirectory(utf8::c(GetCurrentFile(true)).wstr());
+			Platform::FixSlashes(directoryName);
+			Platform::CreateDirectory(utf8::c(directoryName).c_str());
+			m_pScene->SaveLightmapsToFile(directoryName);
+		}
 	}
 
 	// if the user clicked to toggle form
@@ -1563,7 +1578,7 @@ void SceneEditor::RenderScene()
 	m_pScene->SetBorderBucketsDrawing(true);
 	const float lastFrameElapsedTimeMS = ComputeElapsedTimeF(m_provider->GetVideo());
 	m_pScene->Update(lastFrameElapsedTimeMS, m_backBuffer, 0);
-	m_pScene->RenderScene(false);
+	m_pScene->RenderScene(false, m_backBuffer);
 }
 
 bool SceneEditor::SaveAs()

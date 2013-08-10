@@ -1,0 +1,1 @@
+All *.PAR effect files must be in this folder.

@@ -39,6 +39,10 @@
  #include "../addons/ansi/scriptbuilder.h"
 #endif
 
+#if defined(APPLE_IOS) || defined(ANDROID)
+ #define MOBILE
+#endif
+
 using namespace gs2d;
 using namespace gs2d::math;
 
@@ -95,14 +99,23 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 	Platform::FileIOHubPtr fileIOHub = video->GetFileIOHub();
 
 	ETHAppEnmlFile file(fileIOHub->GetResourceDirectory() + ETH_APP_PROPERTIES_FILE, fileIOHub->GetFileManager(), video->GetPlatformName());
-	m_richLighting = file.IsRichLightingEnabled();
+	const bool richLighting = file.IsRichLightingEnabled();
 
 	m_provider = ETHResourceProviderPtr(new ETHResourceProvider(
 		ETHGraphicResourceManagerPtr(new ETHGraphicResourceManager(file.GetDensityManager())),
 		ETHAudioResourceManagerPtr(new ETHAudioResourceManager()),
-		ETHShaderManagerPtr(new ETHShaderManager(video, fileIOHub->GetStartResourceDirectory() + ETHDirectories::GetShaderDirectory(), m_richLighting)),
-		video, audio, input, fileIOHub, false));
+		ETHShaderManagerPtr(
+			new ETHShaderManager(
+				video,
+				fileIOHub->GetStartResourceDirectory() + ETHDirectories::GetShaderDirectory(),
+				richLighting)),
+		video,
+		audio,
+		input,
+		fileIOHub,
+		false));
 
+	m_provider->SetRichLighting(richLighting);
 	m_ethInput.SetProvider(m_provider);
 
 	CreateDynamicBackBuffer(file);
@@ -195,7 +208,7 @@ void ETHEngine::RenderFrame()
 	// draw scene (if there's any)
 	
 	if (m_pScene)
-		m_pScene->RenderScene(IsRoundingUpPosition());
+		m_pScene->RenderScene(IsRoundingUpPosition(), m_backBuffer);
 
 	m_v2LastCamPos = GetCameraPos();
 
@@ -298,7 +311,7 @@ static void RegisterDefinedWords(const std::vector<gs2d::str_type::string>& defi
 	#ifdef LINUX
 		builder.DefineWord("LINUX");
 	#endif
-	#if defined(APPLE_IOS) || defined(ANDROID)
+	#ifdef MOBILE
 		builder.DefineWord("MOBILE");
 		builder.DefineWord("MOBILE_DEVICE");
 		builder.DefineWord("HANDHELD");
@@ -461,7 +474,7 @@ void ETHEngine::MessageCallback(const asSMessageInfo *msg)
 
 void ETHEngine::Restore()
 {
-	if (m_richLighting && m_useLightmaps && m_pScene)
+	if (m_provider->IsRichLightingEnabled() && m_useLightmaps && m_pScene)
 	{
 		m_pScene->GenerateLightmaps();
 	}

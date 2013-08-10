@@ -26,22 +26,44 @@
 #include "../Entity/ETHEntityChooser.h"
 #include <iostream>
 
-Vector2 ETHBucketManager::GetBucket(const Vector2 &v2, const Vector2 &v2BucketSize)
+Vector2 ETHBucketManager::GetBucket(const Vector2& v2, const Vector2& v2BucketSize)
 {
 	return Vector2(floor(v2.x / v2BucketSize.x), floor(v2.y / v2BucketSize.y));
 }
 
-void ETHBucketManager::GetIntersectingBuckets(std::list<Vector2> &outList, const Vector2 &v2Pos, const Vector2 &v2Size,
-								  const Vector2 &v2BucketSize, const bool includeUpperSeams, const bool includeLowerSeams)
+void ETHBucketManager::GetIntersectingBuckets(
+	std::list<Vector2>& outList,
+	const Vector2& pos,
+	const Vector2& size,
+	const Vector2& bucketSize,
+	const bool includeUpperSeams,
+	const bool includeLowerSeams)
 {
-	const std::size_t ETH_MAX_BUCKETS = 512;
-	const Vector2 v2Min = GetBucket(v2Pos, v2BucketSize) - ((includeUpperSeams) ? Vector2(1,1) : Vector2(0,0));
-	const Vector2 v2Max = GetBucket(v2Pos+v2Size, v2BucketSize) + ((includeLowerSeams) ? Vector2(1,1) : Vector2(0,0));
+	const static std::size_t ETH_MAX_BUCKETS = 512;
+	
+	const Vector2 &min = pos;
+	const Vector2 max(pos + size);
+
+	// find minimum and maximum bucket pos (top left and bottom right points in the bucket grid)
+	Vector2 minBucket = GetBucket(min, bucketSize);
+	Vector2 maxBucket = GetBucket(max, bucketSize);
+
+	if (includeLowerSeams)
+	{
+		minBucket.x -= 1;
+		minBucket.y -= 1;
+	}
+
+	if (includeUpperSeams)
+	{
+		maxBucket.x += 1;
+		maxBucket.y += 1;
+	}
 
 	outList.clear();
-	for (float y = v2Min.y; y<=v2Max.y; y+=1.0f)
+	for (float y = minBucket.y; y <= maxBucket.y; y += 1.0f)
 	{
-		for (float x = v2Min.x; x<=v2Max.x; x+=1.0f)
+		for (float x = minBucket.x; x <= maxBucket.x; x += 1.0f)
 		{
 			outList.push_back(Vector2(x, y));
 			if (outList.size() > ETH_MAX_BUCKETS)
@@ -50,6 +72,16 @@ void ETHBucketManager::GetIntersectingBuckets(std::list<Vector2> &outList, const
 			}
 		}
 	}
+}
+
+Vector2 ETHBucketManager::ComputeBucketRelativePosition(const Vector2& p, const Vector2& bucketSize)
+{
+	Vector2 r(
+		static_cast<float>(static_cast<int>(p.x) % static_cast<int>(bucketSize.x)) + p.x - floor(p.x),
+		static_cast<float>(static_cast<int>(p.y) % static_cast<int>(bucketSize.y)) + p.y - floor(p.y));
+	if (r.x <= 0.0f) r.x += bucketSize.x;
+	if (r.y <= 0.0f) r.y += bucketSize.y;
+	return r;
 }
 
 // Vector2 hash function
@@ -528,8 +560,12 @@ void ETHBucketManager::GetEntitiesAroundBucketWithBlackList(const Vector2& bucke
 	GetEntitiesAroundBucket(bucket, outVector, ETHEntityNameArrayChooser(semicolonSeparatedNames, true));
 }
 
-void ETHBucketManager::GetIntersectingBuckets(std::list<Vector2>& bucketList,
-	const Vector2& pos, const Vector2& size, const bool upperSeams, const bool lowerSeams)
+void ETHBucketManager::GetIntersectingBuckets(
+	std::list<Vector2>& bucketList,
+	const Vector2& pos,
+	const Vector2& size,
+	const bool upperSeams,
+	const bool lowerSeams)
 {
 	ETHBucketManager::GetIntersectingBuckets(bucketList, pos, size, GetBucketSize(), upperSeams, lowerSeams);
 }

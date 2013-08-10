@@ -44,6 +44,8 @@ private:
 	Video* m_video;
 	float m_densityValue;
 	
+	static std::vector<math::Vector2> m_attachedParameters;
+	
 public:
 	GLES2Sprite(GLES2ShaderContextPtr shaderContext);
 
@@ -88,6 +90,8 @@ public:
 		const Color& color = gs2d::constant::WHITE,
 		const float angle = 0.0f,
 		const math::Vector2 &v2Size = math::Vector2(-1,-1));
+
+	static void AttachParametersToOptimalRenderer(const std::vector<math::Vector2>& params);
 
 	bool SaveBitmap(const str_type::char_t* wcsName, const Texture::BITMAP_FORMAT fmt, math::Rect2D *pRect = 0);
 

@@ -78,7 +78,7 @@ public:
 	static ETHScenePtr m_pScene;
 	static bool m_abort;
 	static bool m_useLightmaps;
-	static bool m_richLighting;
+	static bool m_usePreLoadedLightmapsFromFile;
 	static bool m_highEndDevice;
 	static int m_argc;
 	static str_type::char_t **m_argv;
@@ -205,13 +205,18 @@ public:
 	static void SetParallaxVerticalIntensity(const float intensity);
 	static float GetParallaxIntensity();
 	static float GetParallaxVerticalIntensity();
+	static void SetBucketClearenceFactor(const float factor);
+	static float GetBucketClearenceFactor();
 	static Vector3 GetAmbientLight();
 	static unsigned int GetScreenWidth();
 	static unsigned int GetScreenHeight();
 	static Vector2 GetScreenSize();
 	static void SetCameraPos(const Vector2 &v2Pos);
 	static void AddToCameraPos(const Vector2 &v2Add);
+
 	static void EnableLightmaps(const bool enable);
+	static void EnablePreLoadedLightmapsFromFile(const bool enable);
+
 	static Vector2 GetCameraPos();
 	static float GetFPSRate();
 	static Vector2 ComputeCarretPosition(const str_type::string &font, const str_type::string &text, const unsigned int pos);
@@ -227,6 +232,8 @@ public:
 	static int AddEntity(const str_type::string &file, const Vector3 &v3Pos, const str_type::string &alternativeName);
 	static ETHEntity *DeleteEntity(ETHEntity *pEntity);
 	static bool GenerateLightmaps();
+	static void ReadLightmapsFromBitmapFiles();
+	static void LoadLightmaps();
 	static ETHEntity *SeekEntity(const int id);
 	static ETHEntity *SeekEntity(const str_type::string &name);
 	static bool LoadMusic(const str_type::string &file);

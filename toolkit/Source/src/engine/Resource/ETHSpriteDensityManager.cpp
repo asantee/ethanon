@@ -29,12 +29,18 @@ using gs2d::str_type::string;
 
 const gs2d::str_type::string ETHSpriteDensityManager::HD_VERSION_PATH_NAME = GS_L("hd/");
 const gs2d::str_type::string ETHSpriteDensityManager::FULL_HD_VERSION_PATH_NAME = GS_L("fullhd/");
+const gs2d::str_type::string ETHSpriteDensityManager::LD_VERSION_PATH_NAME = GS_L("ld/");
+const gs2d::str_type::string ETHSpriteDensityManager::XLD_VERSION_PATH_NAME = GS_L("xld/");
 
 ETHSpriteDensityManager::ETHSpriteDensityManager() :
 	hdDensityValue(2.0f),
 	fullHdDensityValue(4.0f),
+	ldDensityValue(0.5f),
+	xldDensityValue(0.25f),
 	minScreenHeightForHdResources(720),
-	minScreenHeightForFullHdResources(1080)
+	minScreenHeightForFullHdResources(1080),
+	maxScreenHeightBeforeNdVersion(480),
+	maxScreenHeightBeforeLdVersion(320)
 {
 }
 
@@ -42,8 +48,14 @@ void ETHSpriteDensityManager::FillParametersFromFile(const ETHAppEnmlFile& file)
 {
 	hdDensityValue = file.GetHdDensityValue();
 	fullHdDensityValue = file.GetFullHdDensityValue();
+	ldDensityValue = file.GetLdDensityValue();
+	xldDensityValue = file.GetXldDensityValue();
+	
 	minScreenHeightForHdResources = file.GetMinScreenHeightForHdVersion();
 	minScreenHeightForFullHdResources = file.GetMinScreenHeightForFullHdVersion();
+
+	maxScreenHeightBeforeLdVersion = file.GetMaxScreenHeightBeforeLdVersion();
+	maxScreenHeightBeforeNdVersion = file.GetMaxScreenHeightBeforeNdVersion();
 }
 
 bool ETHSpriteDensityManager::ShouldUseHdResources(const gs2d::VideoPtr& video) const
@@ -54,6 +66,16 @@ bool ETHSpriteDensityManager::ShouldUseHdResources(const gs2d::VideoPtr& video) 
 bool ETHSpriteDensityManager::ShouldUseFullHdResources(const gs2d::VideoPtr& video) const
 {
 	return (video->GetScreenSize().y >= static_cast<int>(minScreenHeightForFullHdResources));
+}
+
+bool ETHSpriteDensityManager::ShouldUseLdResources(const gs2d::VideoPtr& video) const
+{
+	return (video->GetScreenSize().y <= static_cast<int>(maxScreenHeightBeforeNdVersion)) && !ShouldUseXLdResources(video);
+}
+
+bool ETHSpriteDensityManager::ShouldUseXLdResources(const gs2d::VideoPtr& video) const
+{
+	return (video->GetScreenSize().y <= static_cast<int>(maxScreenHeightBeforeLdVersion));
 }
 
 static gs2d::str_type::string AssembleResourceName(const string& fullFilePath, const string& versionPathName)
@@ -89,8 +111,30 @@ gs2d::str_type::string ETHSpriteDensityManager::ChooseSpriteVersion(
 			return hdVersionFileName;
 		}
 	}
+	
+	// low definition seeking
+	const bool shouldUseXldResources = ShouldUseXLdResources(video);
+	if (shouldUseXldResources)
+	{
+		const string xldVersionFileName(AssembleResourceName(fullFilePath, XLD_VERSION_PATH_NAME));
+		if (fileManager->FileExists(xldVersionFileName))
+		{
+			densityLevel = ETHSpriteDensityManager::XLD;
+			return xldVersionFileName;
+		}
+	}
 
-	densityLevel = ETHSpriteDensityManager::DEFAULT;
+	if (ShouldUseLdResources(video) || shouldUseXldResources)
+	{
+		const string ldVersionFileName(AssembleResourceName(fullFilePath, LD_VERSION_PATH_NAME));
+		if (fileManager->FileExists(ldVersionFileName))
+		{
+			densityLevel = ETHSpriteDensityManager::LD;
+			return ldVersionFileName;
+		}
+	}
+
+	densityLevel = ETHSpriteDensityManager::NORMAL;
 	return fullFilePath;
 }
 
@@ -107,7 +151,11 @@ float ETHSpriteDensityManager::GetDensityValue(const DENSITY_LEVEL& level) const
 		return hdDensityValue;
 	case FULL_HD:
 		return fullHdDensityValue;
-	case DEFAULT:
+	case LD:
+		return ldDensityValue;
+	case XLD:
+		return xldDensityValue;
+	case NORMAL:
 	default:
 		return 1.0f;
 	}

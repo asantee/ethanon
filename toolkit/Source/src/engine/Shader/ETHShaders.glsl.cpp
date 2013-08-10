@@ -22,79 +22,81 @@
 
 #include "ETHShaders.h"
 
-gs2d::str_type::string ETHShaders::DefaultVS()
+const std::string& ETHShaders::DefaultVS()
 {
-	return GS_L("default.vs");
+	return ETHGlobal::GLSL_default_vs;
 }
 
-gs2d::str_type::string ETHShaders::DefaultPS()
+static const std::string emptyStr;
+
+const std::string& ETHShaders::DefaultPS()
 {
-	return GS_L("");
+	return emptyStr;
 }
 
 // ambient pass
-gs2d::str_type::string ETHShaders::Ambient_VS_Hor()
+const std::string& ETHShaders::Ambient_VS_Hor()
 {
-	return GS_L("hAmbient.vs");
+	return ETHGlobal::GLSL_hAmbient_vs;
 }
 
-gs2d::str_type::string ETHShaders::Ambient_VS_Ver()
+const std::string& ETHShaders::Ambient_VS_Ver()
 {
-	return GS_L("vAmbient.vs");
+	return ETHGlobal::GLSL_vAmbient_vs;
 }
 
 // particles
-gs2d::str_type::string ETHShaders::Particle_VS()
+const std::string& ETHShaders::Particle_VS()
 {
-	return GS_L("particle.vs");
+	return ETHGlobal::GLSL_particle_vs;
 }
 
 // shadow
-gs2d::str_type::string ETHShaders::Shadow_VS_Ver()
+const std::string& ETHShaders::Shadow_VS_Ver()
 {
-	return GS_L("default.vs"); //return GS_L("dynaShadowVS.cg");
+	// TO-DO/TODO: implement shadows here
+	return ETHGlobal::GLSL_default_vs;
 }
 
 // pixel light
-gs2d::str_type::string ETHShaders::PL_PS_Hor_Diff()
+const std::string& ETHShaders::PL_PS_Hor_Diff()
 {
-	return GS_L("hPixelLightDiff.ps");
+	return ETHGlobal::GLSL_hPixelLightDiff_ps;
 }
 
-gs2d::str_type::string ETHShaders::PL_PS_Ver_Diff()
+const std::string& ETHShaders::PL_PS_Ver_Diff()
 {
-	return GS_L("vPixelLightDiff.ps");
+	return ETHGlobal::GLSL_vPixelLightDiff_ps;
 }
 
-gs2d::str_type::string ETHShaders::PL_PS_Hor_Spec()
+const std::string& ETHShaders::PL_PS_Hor_Spec()
 {
-	return GS_L("hPixelLightDiff.ps"); // TO-DO/TODO: implement specular component
+	// TO-DO/TODO: implement specular component
+	return ETHGlobal::GLSL_hPixelLightDiff_ps;
 }
 
-gs2d::str_type::string ETHShaders::PL_PS_Ver_Spec()
+const std::string& ETHShaders::PL_PS_Ver_Spec()
 {
-	return GS_L("vPixelLightDiff.ps"); // TO-DO/TODO: implement specular component
+	// TO-DO/TODO: implement specular component
+	return ETHGlobal::GLSL_vPixelLightDiff_ps;
 }
 
-gs2d::str_type::string ETHShaders::PL_VS_Hor_Light()
+const std::string& ETHShaders::PL_VS_Hor_Light()
 {
-	return GS_L("hPixelLight.vs");
+	return ETHGlobal::GLSL_hPixelLight_vs;
 }
 
-gs2d::str_type::string ETHShaders::PL_VS_Ver_Light()
+const std::string& ETHShaders::PL_VS_Ver_Light()
 {
-	return GS_L("vPixelLight.vs");
+	return ETHGlobal::GLSL_vPixelLight_vs;
 }
 
-gs2d::str_type::string ETHShaders::VL_VS_Hor_Diff()
+const std::string& ETHShaders::VL_VS_Hor_Diff()
 {
-	//return GS_L("hVertexLightShader.cg");
-	return GS_L("default.vs");
+	return ETHGlobal::GLSL_default_vs;
 }
 
-gs2d::str_type::string ETHShaders::VL_VS_Ver_Diff()
+const std::string& ETHShaders::VL_VS_Ver_Diff()
 {
-	//return GS_L("vVertexLightShader.cg");
-	return GS_L("default.vs");
+	return ETHGlobal::GLSL_default_vs;
 }
-

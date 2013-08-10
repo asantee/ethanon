@@ -28,7 +28,7 @@
 class ETHVertexLightDiffuse : public ETHLightingProfile
 {
 public:
-	ETHVertexLightDiffuse(VideoPtr video, const str_type::string& shaderPath);
+	ETHVertexLightDiffuse(VideoPtr video);
 
 	bool BeginLightPass(
 		ETHSpriteEntity* pRender,

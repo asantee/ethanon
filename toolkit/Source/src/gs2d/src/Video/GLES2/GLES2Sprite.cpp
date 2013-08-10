@@ -28,6 +28,7 @@ using namespace math;
 
 const str_type::string GLES2Sprite::SPRITE_LOG_FILE("GLES2Sprite.log.txt");
 Platform::FileLogger GLES2Sprite::m_logger(Platform::FileLogger::GetLogDirectory() + GLES2Sprite::SPRITE_LOG_FILE);
+std::vector<Vector2> GLES2Sprite::m_attachedParameters;
 
 GLES2Sprite::GLES2Sprite(GLES2ShaderContextPtr shaderContext) :
 		m_type(T_NOT_LOADED),
@@ -198,6 +199,7 @@ bool GLES2Sprite::DrawShaped(
 	static const std::size_t DEPTH_HASH = fastHash("depth");
 	static const std::size_t FLIP_MUL = fastHash("flipMul");
 	static const std::size_t FLIP_ADD = fastHash("flipAdd");
+	static const std::size_t SCREEN_SIZE = fastHash("screenSize");
 
 	Matrix4x4 mRot;
 	if (angle != 0.0f)
@@ -222,6 +224,7 @@ bool GLES2Sprite::DrawShaped(
 	Vector2 flipAdd, flipMul;
 	GetFlipShaderParameters(flipAdd, flipMul);
 
+	vs->SetConstant(SCREEN_SIZE, "screenSize", m_shaderContext->GetScreenSize());
 	vs->SetConstant(BITMAP_SIZE_HASH, "bitmapSize", m_bitmapSize);
 	vs->SetConstant(ENTITY_POS_HASH, "entityPos", pos);
 	vs->SetConstant(CENTER_HASH, "center", center);
@@ -287,7 +290,7 @@ bool GLES2Sprite::DrawOptimal(const math::Vector2 &v2Pos, const Color& color, co
 	Vector4 v4Color;
 	v4Color.SetColor(color);
 
-	static const unsigned int numParams = 12;
+	const unsigned int numParams = 13 + m_attachedParameters.size();
 	Vector2 *params = new Vector2 [numParams];
 	params[0] = rectPos;
 	params[1] = rectSize;
@@ -299,13 +302,26 @@ bool GLES2Sprite::DrawOptimal(const math::Vector2 &v2Pos, const Color& color, co
 	params[7] = Vector2(v4Color.x, v4Color.y);
 	params[8] = Vector2(v4Color.z, v4Color.w);
 	params[9] = Vector2(m_video->GetSpriteDepth(), m_video->GetSpriteDepth());
-	params[10] = flipAdd;
-	params[11] = flipMul;
+	params[10] = m_shaderContext->GetScreenSize();
+	params[11] = flipAdd;
+	params[12] = flipMul;
+	const std::size_t first = 13; // to-do make it safer
+
+	for (std::size_t t = 0; t < m_attachedParameters.size(); t++)
+	{
+		params[t + first] = m_attachedParameters[t];
+	}
 
 	vs->SetMatrixConstant(ROTATION_MATRIX_HASH, "rotationMatrix", mRot);
 	vs->SetConstantArray(PARAMS_HASH, "params", numParams, boost::shared_array<const math::Vector2>(params));
 	m_shaderContext->DrawRect(m_rectMode);
+	m_attachedParameters.clear();
 	return true;
+}
+
+void GLES2Sprite::AttachParametersToOptimalRenderer(const std::vector<math::Vector2>& params)
+{
+	m_attachedParameters = params;
 }
 
 bool GLES2Sprite::SaveBitmap(const str_type::char_t* wcsName, const Texture::BITMAP_FORMAT fmt, Rect2D *pRect)
@@ -318,7 +334,6 @@ bool GLES2Sprite::DrawShapedFast(const Vector2 &v2Pos, const Vector2 &v2Size, co
 {
 	GLES2Shader* vs = m_shaderContext->GetCurrentVS().get();
 
-	static const std::size_t COLOR_HASH = fastHash("color");
 	static const std::size_t PARAMS_HASH = fastHash("params");
 
 	Vector2 rectSize, rectPos;
@@ -333,16 +348,21 @@ bool GLES2Sprite::DrawShapedFast(const Vector2 &v2Pos, const Vector2 &v2Size, co
 		rectPos = m_rect.pos;
 	}	
 
-	static const unsigned int numParams = 5;
+	Vector4 v4Color;
+	v4Color.SetColor(color);
+
+	static const unsigned int numParams = 8;
 	Vector2 *params = new Vector2 [numParams];
 	params[0] = rectPos;
 	params[1] = rectSize;
 	params[2] = v2Size;
 	params[3] = v2Pos;
 	params[4] = m_bitmapSize;
+	params[5] = m_shaderContext->GetScreenSize();
+	params[6] = Vector2(v4Color.x, v4Color.y);
+	params[7] = Vector2(v4Color.z, v4Color.w);
 
 	vs->SetConstantArray(PARAMS_HASH, "params", numParams, boost::shared_array<const math::Vector2>(params));
-	vs->SetConstant(COLOR_HASH, "color", color);
 	m_shaderContext->FastDraw();
 	return true;
 }

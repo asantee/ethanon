@@ -44,6 +44,8 @@ gs2d::str_type::string GetModuleDirectory();
 gs2d::str_type::string RemoveExtension(const gs2d::str_type::char_t* source);
 bool IsExtensionRight(const gs2d::str_type::string& fileName, const gs2d::str_type::string& ext);
 
+short ShortEndianSwap(const short s);
+
 #ifdef GS2D_STR_TYPE_WCHAR
 	gs2d::str_type::string GetFileName(const gs2d::str_type::string& source);
 	gs2d::str_type::string GetFileDirectory(const wchar_t* source);

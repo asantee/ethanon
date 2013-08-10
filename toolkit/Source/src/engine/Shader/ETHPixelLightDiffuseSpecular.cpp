@@ -38,12 +38,12 @@ ETHPixelLightDiffuseSpecular::ETHPixelLightDiffuseSpecular(
 	m_video = video;
 	if (IsSupportedByHardware())
 	{
-		m_hPixelLightPS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::PL_PS_Hor_Diff()).c_str(), Shader::SF_PIXEL, m_profile);
-		m_vPixelLightPS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::PL_PS_Ver_Diff()).c_str(), Shader::SF_PIXEL, m_profile);
-		m_hPixelLightVS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::PL_VS_Hor_Light()).c_str(), Shader::SF_VERTEX, Shader::SP_MODEL_2);
-		m_vPixelLightVS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::PL_VS_Ver_Light()).c_str(), Shader::SF_VERTEX, Shader::SP_MODEL_2);
-		m_hPixelLightSpecularPS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::PL_PS_Hor_Spec()).c_str(), Shader::SF_PIXEL, m_profile);
-		m_vPixelLightSpecularPS = m_video->LoadShaderFromFile(ETHGlobal::GetDataResourceFullPath(shaderPath, ETHShaders::PL_PS_Ver_Spec()).c_str(), Shader::SF_PIXEL, m_profile);
+		m_hPixelLightPS = m_video->LoadShaderFromString(GS_L("hPixelLightPS"), ETHShaders::PL_PS_Hor_Diff(), Shader::SF_PIXEL, m_profile);
+		m_vPixelLightPS = m_video->LoadShaderFromString(GS_L("vPixelLightPS"), ETHShaders::PL_PS_Ver_Diff(), Shader::SF_PIXEL, m_profile);
+		m_hPixelLightVS = m_video->LoadShaderFromString(GS_L("hPixelLightVS"), ETHShaders::PL_VS_Hor_Light(), Shader::SF_VERTEX, Shader::SP_MODEL_2);
+		m_vPixelLightVS = m_video->LoadShaderFromString(GS_L("vPixelLightVS"), ETHShaders::PL_VS_Ver_Light(), Shader::SF_VERTEX, Shader::SP_MODEL_2);
+		m_hPixelLightSpecularPS = m_video->LoadShaderFromString(GS_L("hPixelLightSpecularPS"), ETHShaders::PL_PS_Hor_Spec(), Shader::SF_PIXEL, m_profile);
+		m_vPixelLightSpecularPS = m_video->LoadShaderFromString(GS_L("vPixelLightSpecularPS"), ETHShaders::PL_PS_Ver_Spec(), Shader::SF_PIXEL, m_profile);
 		m_defaultNM = m_video->CreateSprite(ETHGlobal::GetDataResourceFullPath(shaderPath, GS_L("default_nm.png")));
 	}
 }

@@ -26,8 +26,11 @@
 #include <signal.h>
 
 #include <BaseApplication.h>
+
 #include <Platform/android/Platform.android.h>
 #include <Platform/android/AndroidFileIOHub.h>
+
+#include <Input/Android/AndroidInput.h>
 
 #include "../../../../engine/Resource/ETHDirectories.h"
 
@@ -141,7 +144,9 @@ str_type::string AssembleCommands()
 	{
 		ss
 		<< boost::any_cast<str_type::string>(audio->GetAudioContext())
-		<< boost::any_cast<str_type::string>(video->GetGraphicContext());
+		<< boost::any_cast<str_type::string>(video->GetGraphicContext())
+		<< boost::static_pointer_cast<AndroidInput>(input)->PullCommands();
+
 		return ss.str();
 	}
 	catch (const boost::bad_any_cast& e)

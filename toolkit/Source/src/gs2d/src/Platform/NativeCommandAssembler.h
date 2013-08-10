@@ -37,6 +37,7 @@ public:
 	static const gs2d::str_type::string CMD_DELETE_SOUND;
 	static const gs2d::str_type::string CMD_DELETE_MUSIC;
     static const gs2d::str_type::string CMD_QUIT_APP;
+    static const gs2d::str_type::string CMD_DETECT_JOYSTICKS;
 	static const gs2d::str_type::string CMD_STOP_MUSIC;
 	static const gs2d::str_type::string CMD_SET_GLOBAL_VOLUME;
 
@@ -47,6 +48,7 @@ public:
 	*/
 
 	static gs2d::str_type::string QuitApplication();
+	static gs2d::str_type::string DetectJoysticks();
 	static gs2d::str_type::string LoadSound(const gs2d::str_type::string& fileName);
 	static gs2d::str_type::string LoadMusic(const gs2d::str_type::string& fileName);
 	static gs2d::str_type::string DeleteSound(const gs2d::str_type::string& fileName);

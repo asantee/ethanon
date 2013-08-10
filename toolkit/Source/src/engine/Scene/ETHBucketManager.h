@@ -30,7 +30,9 @@ class ETHEntityArray;
 
 #include "ETHSceneProperties.h"
 #include "ETHEntityKillListener.h"
+
 #include "../Resource/ETHResourceProvider.h"
+
 #include <list>
 
 // Vector2 hash function
@@ -49,8 +51,15 @@ class ETHBucketManager
 {
 public:
 	static Vector2 GetBucket(const Vector2 &v2, const Vector2 &v2BucketSize);
-	static void GetIntersectingBuckets(std::list<Vector2> &outList, const Vector2 &v2Pos, const Vector2 &v2Size,
-		const Vector2 &v2BucketSize, const bool includeUpperSeams = false, const bool includeLowerSeams = false);
+	static void GetIntersectingBuckets(
+		std::list<Vector2> &outList,
+		const Vector2 &pos,
+		const Vector2 &size,
+		const Vector2 &bucketSize,
+		bool includeUpperSeams = false,
+		bool includeLowerSeams = false);
+
+	static Vector2 ComputeBucketRelativePosition(const Vector2& p, const Vector2 &bucketSize);
 
 	ETHBucketManager(const ETHResourceProviderPtr& provider, const Vector2& bucketSize, const bool drawingBorderBuckets);
 	~ETHBucketManager();

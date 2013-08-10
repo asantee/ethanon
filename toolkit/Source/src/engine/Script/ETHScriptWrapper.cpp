@@ -38,6 +38,7 @@ ETHBackBufferTargetManagerPtr ETHScriptWrapper::m_backBuffer;
 bool ETHScriptWrapper::m_abort = false;
 bool ETHScriptWrapper::m_highEndDevice = false;
 bool ETHScriptWrapper::m_useLightmaps = true;
+bool ETHScriptWrapper::m_usePreLoadedLightmapsFromFile = false;
 ETHSpeedTimer ETHScriptWrapper::m_timer;
 bool ETHScriptWrapper::m_roundUpPosition = true;
 int ETHScriptWrapper::m_argc = 0;
@@ -57,7 +58,6 @@ ETHScriptWrapper::Math ETHScriptWrapper::m_math;
 unsigned long ETHScriptWrapper::m_lastFrameElapsedTime = 1;
 ETHEntityCache ETHScriptWrapper::m_entityCache;
 ETHScriptWrapper::GARBAGE_COLLECT_MODE ETHScriptWrapper::m_gcMode = ETHScriptWrapper::ONE_STEP;
-bool ETHScriptWrapper::m_richLighting = false;
 
 bool ETHScriptWrapper::RunMainFunction(asIScriptFunction* mainFunc)
 {

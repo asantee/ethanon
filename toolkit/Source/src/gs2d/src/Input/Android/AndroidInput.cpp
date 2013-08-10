@@ -21,6 +21,9 @@
 --------------------------------------------------------------------------------------*/
 
 #include "AndroidInput.h"
+
+#include "../../Application.h"
+
 #include <string.h>
 #include <stdio.h>
 
@@ -43,37 +46,61 @@ GS2D_API InputPtr CreateInput(boost::any data, const bool showJoystickWarnings)
 }
 
 const std::string AndroidInput::KEY_PRESSED_CMD = "key_pressed ";
+const std::string AndroidInput::DPAD_0_UP    = "b-2;";
+const std::string AndroidInput::DPAD_1_DOWN  = "b-3;";
+const std::string AndroidInput::DPAD_2_LEFT  = "b-4;";
+const std::string AndroidInput::DPAD_3_RIGHT = "b-5;";
+
+const std::size_t AndroidInput::DPAD_KEY_UP = 0;
+const std::size_t AndroidInput::DPAD_KEY_DOWN = 1;
+const std::size_t AndroidInput::DPAD_KEY_LEFT = 2;
+const std::size_t AndroidInput::DPAD_KEY_RIGHT = 3;
 
 AndroidInput::AndroidInput(const unsigned int maxTouchCount, const std::string *input) :
 	MobileInput(maxTouchCount),
-	m_input(input)
+	m_input(input),
+	m_numJoysticks(0),
+	m_maxJoysticks(0),
+	m_joyNumButtons(0)
 {
-	for (int t=0; t<GS_NUM_KEYS; t++)
-	{
-		m_count[t] = 0;
-		m_keyState[t] = GSKS_UP;
-	}
-
 	// TODO/TO-DO: implement other keys...
 	m_keyName[GSK_BACK]  = "back";
 	m_keyName[GSK_PAUSE] = "pause";
 }
 
+str_type::string AndroidInput::PullCommands()
+{
+	str_type::string inputCommands;
+	ForwardCommands(inputCommands);
+	return inputCommands;
+}
+
 bool AndroidInput::IsKeyDown(const GS_KEY key) const
 {
-	return (m_keyState[key] == GSKS_HIT || m_keyState[key] == GSKS_DOWN);
+	const GS_KEY_STATE state = m_keyStates[key].GetCurrentState();
+	return (state == GSKS_HIT || state == GSKS_DOWN);
 }
 
 GS_KEY_STATE AndroidInput::GetKeyState(const GS_KEY key) const
 {
-	return m_keyState[key];
+	return m_keyStates[key].GetCurrentState();
 }
-
 
 double ReadValue(std::stringstream& ss)
 {
 	double r;
 	ss >> r;
+	return r;
+}
+
+double ReadJoystickValue(const std::string& key)
+{
+	std::stringstream ss; ss << gs2d::Application::SharedData.Get(key);
+	double r = 0;
+	if (!ss.str().empty())
+	{
+		ss >> r;
+	}
 	return r;
 }
 
@@ -97,35 +124,13 @@ unsigned int ReadValuePairs(std::stringstream& stream, std::vector<Vector2>& out
 
 void AndroidInput::UpdateKeys(const std::string& str)
 {
-	UpdateKey(str, KEY_PRESSED_CMD + "back",  GSK_BACK);
-	UpdateKey(str, KEY_PRESSED_CMD + "pause", GSK_PAUSE);
+	UpdateKey(str, KEY_PRESSED_CMD + m_keyName[GSK_BACK],  GSK_BACK);
+	UpdateKey(str, KEY_PRESSED_CMD + m_keyName[GSK_PAUSE], GSK_PAUSE);
 }
 
 void AndroidInput::UpdateKey(const std::string& str, const std::string& keyName, const GS_KEY key)
 {
-	if (strstr(str.c_str(), keyName.c_str()) != NULL)
-	{
-		m_count[key]++;
-	}
-	else if (m_count[key] > 0)
-	{
-		m_count[key] = 0;
-		m_keyState[key] = GSKS_RELEASE;
-		return;
-	}
-	else if (m_count[key] == 0)
-	{
-		m_keyState[key] = GSKS_UP;
-		return;
-	}
-
-	if (m_count[key] == 1)
-	{
-		m_keyState[key] = GSKS_HIT;
-		return;
-	}
-
-	m_keyState[key] = GSKS_DOWN;
+	m_keyStates[key].Update(strstr(str.c_str(), keyName.c_str()) != NULL);
 }
 
 bool AndroidInput::Update()
@@ -137,6 +142,7 @@ bool AndroidInput::Update()
 	m_accelerometer.y = static_cast<float>(ReadValue(stream));
 	m_accelerometer.z = static_cast<float>(ReadValue(stream));
 
+	UpdateJoysticks();
 	UpdateKeys(*m_input);
 	MobileInput::Update();
 }
@@ -144,6 +150,198 @@ bool AndroidInput::Update()
 math::Vector3 AndroidInput::GetAccelerometerData() const
 {
 	return m_accelerometer;
+}
+
+void AndroidInput::UpdateJoysticks()
+{
+	const std::size_t oldNumJoysticks = m_numJoysticks;
+	m_numJoysticks = static_cast<std::size_t>(ReadJoystickValue("ethanon.system.numJoysticks"));
+	m_maxJoysticks = static_cast<std::size_t>(ReadJoystickValue("ethanon.system.maxJoysticks"));
+
+	// update internal joystick data
+	if (oldNumJoysticks != m_numJoysticks)
+	{
+		m_joyButtonsPressedList.resize(m_numJoysticks);
+		m_joyNumButtons.resize(m_numJoysticks, 0);
+		m_joyKeyStates.resize(m_numJoysticks);
+		m_joystickDpadStates.resize(m_numJoysticks);
+		m_xy.resize(m_numJoysticks);
+		m_z.resize(m_numJoysticks);
+		m_rudder.resize(m_numJoysticks);
+		for (std::size_t j = 0; j < m_numJoysticks; j++)
+		{
+			m_joystickDpadStates[j].resize(4);
+			m_z[j] = m_rudder[j] = 0.0f;
+		}
+	}
+
+	// update joystick buttons
+	for (std::size_t j = 0; j < m_numJoysticks; j++)
+	{
+		m_joyNumButtons[j]         = ReadJoystickValue(AssembleJoystickSharedDataPath(j, "numButtons"));
+		m_joyButtonsPressedList[j] = gs2d::Application::SharedData.Get(AssembleJoystickSharedDataPath(j, "buttonPressedList"));
+
+		if (m_joyNumButtons[j] != m_joyKeyStates[j].size())
+		{
+			m_joyKeyStates[j].resize(m_joyNumButtons[j]);
+		}
+
+		const char* joyButtonPressedList = m_joyButtonsPressedList[j].c_str();
+		for (std::size_t b = 0; b < m_joyNumButtons[j]; b++)
+		{
+			str_type::stringstream ss; ss << "b" << b << ";";
+
+			// TO-DO/TODO: optimize it... it's not the fastest way to do it
+			m_joyKeyStates[j][b].Update(strstr(joyButtonPressedList, ss.str().c_str()) != NULL);
+		}
+
+		m_joystickDpadStates[j][DPAD_KEY_UP   ].Update(strstr(joyButtonPressedList, DPAD_0_UP.c_str())    != NULL);
+		m_joystickDpadStates[j][DPAD_KEY_DOWN ].Update(strstr(joyButtonPressedList, DPAD_1_DOWN.c_str())  != NULL);
+		m_joystickDpadStates[j][DPAD_KEY_LEFT ].Update(strstr(joyButtonPressedList, DPAD_2_LEFT.c_str())  != NULL);
+		m_joystickDpadStates[j][DPAD_KEY_RIGHT].Update(strstr(joyButtonPressedList, DPAD_3_RIGHT.c_str()) != NULL);
+
+		m_xy[j].x   = static_cast<float>(ReadJoystickValue(AssembleJoystickAxisValueSharedDataPath(j, "X")));
+		m_xy[j].y   = static_cast<float>(ReadJoystickValue(AssembleJoystickAxisValueSharedDataPath(j, "Y")));
+		m_z[j]      = static_cast<float>(ReadJoystickValue(AssembleJoystickAxisValueSharedDataPath(j, "Z")));
+		m_rudder[j] = static_cast<float>(ReadJoystickValue(AssembleJoystickAxisValueSharedDataPath(j, "Rudder")));
+	}
+}
+
+std::string AndroidInput::AssembleJoystickSharedDataPath(const std::size_t j, const std::string& parameter)
+{
+	std::stringstream ss;
+	ss << "ethanon.system.joystick" << j << "." << parameter;
+	return ss.str();
+}
+
+std::string AndroidInput::AssembleJoystickAxisValueSharedDataPath(const std::size_t j, const std::string& axis)
+{
+	std::stringstream ss;
+	ss << "ethanon.system.joystick" << j << "." << "axis" << axis;
+	return ss.str();
+}
+
+GS_JOYSTICK_STATUS AndroidInput::GetJoystickStatus(const unsigned int id) const
+{
+	if (id < m_numJoysticks)
+	{
+		return GSJS_DETECTED;
+	}
+	else
+	{
+		return GSJS_NOTDETECTED;
+	}
+}
+
+bool AndroidInput::DetectJoysticks()
+{
+	Command(Platform::NativeCommandAssembler::DetectJoysticks());
+	return true;
+}
+
+unsigned int AndroidInput::GetNumJoyButtons(const unsigned int id) const
+{
+	if (id < m_joyNumButtons.size())
+		return m_joyNumButtons[id];
+	else
+		return 0;
+}
+
+void AndroidInput::ShowJoystickWarnings(const bool enable)
+{
+	// dummy
+}
+
+bool AndroidInput::IsShowingJoystickWarnings() const
+{
+	return false;
+}
+
+unsigned int AndroidInput::GetMaxJoysticks() const
+{
+	return m_maxJoysticks;
+}
+
+GS_KEY_STATE AndroidInput::GetJoystickButtonState(const unsigned int id, const GS_JOYSTICK_BUTTON key) const
+{
+	if (id < m_joyKeyStates.size())
+	{
+		if (std::size_t(key) < m_joyKeyStates[id].size())
+		{
+			return m_joyKeyStates[id][key].GetCurrentState();
+		}
+		else
+		{
+			if (key == GSB_LEFT)
+				return m_joystickDpadStates[id][DPAD_KEY_LEFT].GetCurrentState();
+			else if (key == GSB_RIGHT)
+				return m_joystickDpadStates[id][DPAD_KEY_RIGHT].GetCurrentState();
+			else if (key == GSB_UP)
+				return m_joystickDpadStates[id][DPAD_KEY_UP].GetCurrentState();
+			else if (key == GSB_DOWN)
+				return m_joystickDpadStates[id][DPAD_KEY_DOWN].GetCurrentState();
+		}
+	}
+	return GSKS_UP;
+}
+
+bool AndroidInput::IsJoystickButtonDown(const unsigned int id, const GS_JOYSTICK_BUTTON key) const
+{
+	const GS_KEY_STATE state = GetJoystickButtonState(id, key);
+	return (state == GSKS_HIT || state == GSKS_DOWN);
+}
+
+unsigned int AndroidInput::GetNumJoysticks() const
+{
+	return m_numJoysticks;
+}
+
+math::Vector2 AndroidInput::GetJoystickXY(const unsigned int id) const
+{
+	if (id < m_xy.size())
+	{
+		return m_xy[id];
+	}
+	else
+	{
+		return Vector2();
+	}
+}
+
+float AndroidInput::GetJoystickZ(const unsigned int id) const
+{
+	if (id < m_z.size())
+	{
+		return m_z[id];
+	}
+	else
+	{
+		return 0.0f;
+	}
+}
+
+float AndroidInput::GetJoystickRudder(const unsigned int id) const
+{
+	if (id < m_rudder.size())
+	{
+		return m_rudder[id];
+	}
+	else
+	{
+		return 0.0f;
+	}
+}
+
+GS_JOYSTICK_BUTTON AndroidInput::GetFirstButtonDown(const unsigned int id) const
+{
+	// TODO
+	return GSB_NONE;
+}
+
+math::Vector2 AndroidInput::GetJoystickUV(const unsigned int id) const
+{
+	// TODO
+	return Vector2();
 }
 
 } // namespace gs2d

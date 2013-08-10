@@ -93,12 +93,6 @@ math::Vector2  MobileInput::GetCursorPositionF(WindowPtr pWindow) const
 	return m_currentTouch[0];
 }
 
-unsigned int MobileInput::GetMaxJoysticks() const
-{
-	// TODO
-	return 0;
-}
-
 float MobileInput::GetWheelState() const
 {
 	// TODO
@@ -127,17 +121,6 @@ bool MobileInput::Update()
 		}
 	}
 	return true;
-}
-
-void MobileInput::ShowJoystickWarnings(const bool enable)
-{
-	// TODO
-}
-
-bool MobileInput::IsShowingJoystickWarnings() const
-{
-	// TODO
-	return false;
 }
 
 math::Vector2 MobileInput::GetTouchPos(const unsigned int n, WindowPtr pWindow) const
@@ -185,6 +168,23 @@ str_type::char_t MobileInput::GetLastCharInput() const
 {
 	// TODO
 	return '\0';
+}
+
+void MobileInput::ShowJoystickWarnings(const bool enable)
+{
+	// TODO
+}
+
+bool MobileInput::IsShowingJoystickWarnings() const
+{
+	// TODO
+	return false;
+}
+
+unsigned int MobileInput::GetMaxJoysticks() const
+{
+	// TODO
+	return 0;
 }
 
 GS_KEY_STATE MobileInput::GetJoystickButtonState(const unsigned int id, const GS_JOYSTICK_BUTTON key) const

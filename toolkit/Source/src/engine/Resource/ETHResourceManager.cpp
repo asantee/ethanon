@@ -39,15 +39,36 @@ static str_type::string RemoveResourceDirectory(
 ETHGraphicResourceManager::SpriteResource::SpriteResource(
 	const str_type::string& resourceDirectory,
 	const str_type::string& fullOriginPath,
-	const SpritePtr& sprite) :
+	const SpritePtr& sprite,
+	const bool temporary) :
 	m_sprite(sprite),
+	m_temporary(temporary),
 	m_fullOriginPath(RemoveResourceDirectory(resourceDirectory, fullOriginPath))
 {
+}
+
+bool ETHGraphicResourceManager::SpriteResource::IsTemporary() const
+{
+	return m_temporary;
 }
 
 void ETHGraphicResourceManager::ReleaseResources()
 {
 	m_resource.clear();
+}
+
+void ETHGraphicResourceManager::ReleaseTemporaryResources()
+{
+	std::list<str_type::string> deleteList;
+	for (std::map<str_type::string, SpriteResource>::iterator iter = m_resource.begin(); iter != m_resource.end(); ++iter)
+	{
+		if (iter->second.IsTemporary())
+			deleteList.push_back(iter->first);
+	}
+	for (std::list<str_type::string>::iterator iter = deleteList.begin(); iter != deleteList.end(); ++iter)
+	{
+		m_resource.erase(*iter);
+	}
 }
 
 ETHGraphicResourceManager::ETHGraphicResourceManager(const ETHSpriteDensityManager& densityManager) :
@@ -60,7 +81,8 @@ SpritePtr ETHGraphicResourceManager::GetPointer(
 	const str_type::string &fileRelativePath,
 	const str_type::string &resourceDirectory,
 	const str_type::string &searchPath,
-	const bool cutOutBlackPixels)
+	const bool cutOutBlackPixels,
+	const bool temporary)
 {
 	if (fileRelativePath == GS_L(""))
 		return SpritePtr();
@@ -81,7 +103,7 @@ SpritePtr ETHGraphicResourceManager::GetPointer(
 	// it hasn't been loaded yet
 	if (searchPath != GS_L(""))
 	{
-		AddFile(video, resourceFullPath, resourceDirectory, cutOutBlackPixels);
+		AddFile(video, resourceFullPath, resourceDirectory, cutOutBlackPixels, temporary);
 		return FindSprite(resourceFullPath, fileName, resourceDirectory);
 	}
 	return SpritePtr();
@@ -91,7 +113,8 @@ SpritePtr ETHGraphicResourceManager::AddFile(
 	VideoPtr video,
 	const str_type::string &path,
 	const str_type::string& resourceDirectory,
-	const bool cutOutBlackPixels)
+	const bool cutOutBlackPixels,
+	const bool temporary)
 {
 	str_type::string fileName = Platform::GetFileName(path);
 	{
@@ -121,7 +144,7 @@ SpritePtr ETHGraphicResourceManager::AddFile(
 	ETH_STREAM_DECL(ss) << GS_L("(Loaded) ") << fileName;
 	ETHResourceProvider::Log(ss.str(), Platform::Logger::INFO);
 	//#endif
-	m_resource.insert(std::pair<str_type::string, SpriteResource>(fileName, SpriteResource(resourceDirectory, fixedName, pBitmap)));
+	m_resource.insert(std::pair<str_type::string, SpriteResource>(fileName, SpriteResource(resourceDirectory, fixedName, pBitmap, temporary)));
 	return pBitmap;
 }
 
