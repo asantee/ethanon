@@ -37,11 +37,16 @@ testbed/___GeneralTests
 toolkit/Source/src/gs2d/projects/Android/Ethanon/___assets/
 toolkit/Source/src/gs2d/projects/Android/Ethanon/__assets/
 toolkit/Source/src/gs2d/projects/Android/Ethanon/_assets/
+toolkit/Source/src/gs2d/projects/Android/Ethanon/assets_joystick_tests
+toolkit/Source/src/gs2d/projects/Android/Ethanon/assets_mr
+toolkit/Source/src/gs2d/projects/Android/Ethanon/assets_mp
+toolkit/Source/src/gs2d/projects/Android/Ethanon/assets_tests
 toolkit/Source/src/gs2d/projects/Android/Ethanon/assets/*
 !toolkit/Source/src/gs2d/projects/Android/Ethanon/assets/app.enml
 !toolkit/Source/src/gs2d/projects/Android/Ethanon/assets/data/*
 !toolkit/Source/src/gs2d/projects/Android/Ethanon/assets/main.angelscript
 !toolkit/Source/src/gs2d/projects/Android/Ethanon/assets/shaders/*
+toolkit/Source/projects/xcode/iOS/assets_mr/
 toolkit/Source/projects/xcode/iOS/_assets/
 toolkit/Source/projects/xcode/iOS/__assets/
 toolkit/Source/projects/xcode/iOS/___assets/
