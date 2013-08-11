@@ -18,6 +18,7 @@ class TestEntity : Test
 	
 	void preLoop()
 	{
+		EnablePreLoadedLightmapsFromFile(true);
 		@cursor = SeekEntity("cursor");
 
 		barrels.clear();
