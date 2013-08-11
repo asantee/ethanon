@@ -17,6 +17,9 @@ void NewGame()
 	{
 		jazag.SetVector2("lastDirection", vector2(0.0f, 1.0f));
 	}
+
+	// load audio resources
+	LoadSoundEffect("soundfx/explosion.mp3");
 }
 
 // This function will be executed every frame
@@ -129,6 +132,7 @@ void ETHCallback_fireball(ETHEntity @fireball)
 		{
 			vector3 pos = fireball.GetPosition();
 			AddEntity("explosion.ent", pos, 0);
+			PlaySample("soundfx/explosion.mp3");
 			@fireball = DeleteEntity(fireball);
 			return;
 		}
