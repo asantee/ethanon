@@ -25,13 +25,11 @@
 
 #include "../../Shader.h"
 
-//#define WIN32_LEAN_AND_MEAN
-//#ifdef _DEBUG
-//#define D3D_DEBUG_INFO
-//#endif
+#include "../../Platform/windows/targetver.h"
 
 #include <Cg/cg.h>
 #include <Cg/cgD3D9.h>
+
 #include <map>
 
 namespace gs2d {

@@ -25,6 +25,8 @@
 #include "../engine/ETHTypes.h"
 #include "../engine/Util/ETHASUtil.h"
 
+#include "../gs2d/src/Platform/windows/targetver.h"
+
 #include <Unicode/UTF8Converter.h>
 
 #include <windows.h>

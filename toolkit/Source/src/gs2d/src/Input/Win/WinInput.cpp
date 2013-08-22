@@ -21,6 +21,7 @@
 --------------------------------------------------------------------------------------*/
 
 #include "WinInput.h"
+
 #include "../../Video/Direct3D9/D3D9Video.h"
 
 namespace gs2d {
@@ -32,11 +33,100 @@ GS2D_API InputPtr CreateInput(boost::any data, const bool showJoystickWarnings)
 	return InputPtr(new WinInput(data, showJoystickWarnings));
 }
 
-inline void CheckJoyMinimumValue(float &a)
+inline static void CheckJoyMinimumValue(float &a)
 {
 	static const float joyMinimumValue = 0.01f;
 	if (a > -joyMinimumValue && a < joyMinimumValue)
 		a = 0.0f;
+}
+
+inline static math::Vector2 ConvertTouchInput(HWND hWnd, const TOUCHINPUT& touchInput)
+{
+	POINT pt;
+	pt.x = touchInput.x / 100;
+	pt.y = touchInput.y / 100;
+	ScreenToClient(hWnd, &pt);
+	return math::Vector2((float)pt.x, (float)pt.y);
+}
+
+unsigned int WinInput::m_maxTouchCount = 1;
+std::map<DWORD, WinInput::TouchSpot> WinInput::m_touchSpots;
+
+void WinInput::PrepareTouchInput(HWND hWnd)
+{
+	int value = GetSystemMetrics(SM_DIGITIZER);
+
+	if ((value & NID_MULTI_INPUT) && (value & NID_READY))
+	{
+		RegisterTouchWindow(hWnd, 0);
+
+		const BYTE nInputs = (BYTE)GetSystemMetrics(SM_MAXIMUMTOUCHES);
+		m_maxTouchCount = math::Max(static_cast<unsigned int>(1), static_cast<unsigned int>(nInputs));
+	}
+}
+
+LRESULT WinInput::OnTouch(HWND hWnd, WPARAM wParam, LPARAM lParam)
+{
+	BOOL handled = FALSE;
+	const UINT cInputs = LOWORD(wParam);
+	PTOUCHINPUT pInputs = new TOUCHINPUT[cInputs];
+	if (pInputs)
+	{
+		if (GetTouchInputInfo((HTOUCHINPUT)lParam, cInputs, pInputs, sizeof(TOUCHINPUT)))
+		{
+			for (UINT i = 0; i < cInputs; i++)
+			{
+				PTOUCHINPUT pInput = &pInputs[i];
+				const DWORD flags = pInput->dwFlags;
+				const DWORD id    = pInput->dwID;
+
+				// find iterator based on id
+				std::map<DWORD, TouchSpot>::iterator iter = m_touchSpots.find(id);
+				if (iter == m_touchSpots.end())
+				{
+					m_touchSpots[id];
+					iter = m_touchSpots.find(id);
+				}
+
+				// update state
+				TouchSpot& touchSpot = iter->second;
+				if ((flags & TOUCHEVENTF_DOWN) || (flags & TOUCHEVENTF_MOVE))
+				{
+					touchSpot.down = true;
+					const Vector2 currentPos(ConvertTouchInput(hWnd, *pInput));
+
+					if (flags & TOUCHEVENTF_MOVE)
+					{
+						touchSpot.move = currentPos - touchSpot.pos;
+					}
+					else if (flags & TOUCHEVENTF_DOWN)
+					{
+						touchSpot.move = Vector2(0.0f, 0.0f);
+					}
+					touchSpot.pos = currentPos;
+				}
+
+				if (flags & TOUCHEVENTF_UP)
+				{
+					touchSpot.down = false;
+					touchSpot.pos = ConvertTouchInput(hWnd, *pInput);
+					touchSpot.move = Vector2(0.0f, 0.0f);
+				}
+			}
+			handled = TRUE;
+		}
+		delete [] pInputs;
+	}
+
+	if (handled)
+	{
+		CloseTouchInputHandle((HTOUCHINPUT)lParam);
+		return 0;
+	}
+	else
+	{
+		return DefWindowProc(hWnd, WM_TOUCH, wParam, lParam);
+	}
 }
 
 WinInput::WinInput(boost::any data, const bool showJoystickWarnings)
@@ -400,28 +490,47 @@ GS_KEY_STATE WinInput::GetMiddleClickState() const
 // emulates the screen touch with the left mouse click
 math::Vector2 WinInput::GetTouchPos(const unsigned int n, WindowPtr pWindow) const
 {
-	if (n == 0 && IsKeyDown(GSK_LMOUSE))
+	if (n == 0 && GetKeyState(GSK_LMOUSE) != GSKS_UP)
 	{
 		return GetCursorPositionF(pWindow);
 	}
 	else
 	{
-		return GS_NO_TOUCH;
+		TouchSpot spot;
+		if (GetTouchSpotByIndex(n, spot))
+		{
+			if (spot.keyState.GetCurrentState() != GSKS_UP)
+			{
+				return spot.pos;
+			}
+		}
 	}
+	return GS_NO_TOUCH;
 }
 
-// emulates the screen touch with the left mouse click
 GS_KEY_STATE WinInput::GetTouchState(const unsigned int n, WindowPtr pWindow) const
 {
+	TouchSpot spot;
+	if (GetTouchSpotByIndex(n, spot))
+	{
+		if (spot.keyState.GetCurrentState() != GSKS_UP)
+		{
+			return spot.keyState.GetCurrentState();
+		}
+	}
+
+	// emulates the screen touch with the left mouse click
 	if (n == 0)
+	{
 		return m_keyState[GSK_LMOUSE].GetCurrentState();
-	else
-		return GSKS_UP;
+	}
+
+	return GSKS_UP;
 }
 
 unsigned int WinInput::GetMaxTouchCount() const
 {
-	return 1;
+	return m_maxTouchCount;
 }
 
 Vector2i WinInput::GetMouseMove() const
@@ -431,13 +540,23 @@ Vector2i WinInput::GetMouseMove() const
 
 Vector2 WinInput::GetTouchMove(const unsigned int n) const
 {
-	if (n != 0)
-		return Vector2(0, 0);
+	TouchSpot spot;
+	if (GetTouchSpotByIndex(n, spot))
+	{
+		if (spot.keyState.GetCurrentState() == GSKS_DOWN)
+		{
+			return spot.move;
+		}
+	}
 
-	if (IsKeyDown(GSK_LMOUSE))
-		return GetMouseMoveF();
-	else
-		return Vector2(0, 0);
+	// emulates the screen touch with the left mouse click
+	if (n == 0)
+	{
+		if (IsKeyDown(GSK_LMOUSE))
+			return GetMouseMoveF();
+	}
+
+	return Vector2(0, 0);
 }
 
 bool WinInput::SetCursorPosition(Vector2i v2Pos)
@@ -489,6 +608,7 @@ bool WinInput::Update()
 	D3D9Video::m_currentChar = '\0';
 
 	UpdateJoystick();
+	UpdateTouchInput();
 	return true;
 }
 
@@ -610,6 +730,38 @@ GS_JOYSTICK_BUTTON WinInput::GetFirstButtonDown(const unsigned int id) const
 			return (GS_JOYSTICK_BUTTON)t;
 	}
 	return GSB_NONE;
+}
+
+void WinInput::UpdateTouchInput()
+{
+	for (std::map<DWORD, TouchSpot>::iterator iter = m_touchSpots.begin(); iter != m_touchSpots.end(); ++iter)
+	{
+		iter->second.keyState.Update(iter->second.down);
+	}
+	if (m_touchSpots.size() > 0)
+	{
+		std::map<DWORD, TouchSpot>::iterator last = m_touchSpots.end();
+		--last;
+		if (last->second.keyState.GetCurrentState() == GSKS_UP)
+			m_touchSpots.erase(last);
+	}
+}
+
+bool WinInput::GetTouchSpotByIndex(const unsigned int n, TouchSpot& outSpot)
+{
+	unsigned int idx = 0;
+	for (std::map<DWORD, TouchSpot>::iterator iter = m_touchSpots.begin();
+		iter != m_touchSpots.end() && idx <= n;
+		++iter)
+	{
+		if (n == idx)
+		{
+			outSpot = iter->second;
+			return true;
+		}
+		++idx;
+	}
+	return false;
 }
 
 bool WinInput::UpdateJoystick()

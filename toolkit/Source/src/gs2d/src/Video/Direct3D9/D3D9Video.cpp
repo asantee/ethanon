@@ -24,9 +24,14 @@
 #include "D3D9Texture.h"
 #include "D3D9Sprite.h"
 #include "D3D9CgShader.h"
+
 #include "../cgShaderCode.h"
-#include <vector>
+
 #include "../../Unicode/UTF8Converter.h"
+
+#include "../../Input/Win/WinInput.h"
+
+#include <vector>
 
 namespace gs2d {
 using namespace math;
@@ -362,7 +367,7 @@ LRESULT WINAPI D3D9Video::MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 {
 	D3D9VideoInfo* pInfo = (D3D9VideoInfo*)(GetWindowLong(hWnd, GWL_USERDATA));
 
-	switch(msg)
+	switch (msg)
 	{
 		case WM_CREATE:
 			{
@@ -397,6 +402,10 @@ LRESULT WINAPI D3D9Video::MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 			pInfo->m_inFocus = false;
 			return 0;
 
+		case WM_TOUCH:
+			WinInput::OnTouch(hWnd, wParam, lParam);
+			break;
+
 		case WM_SIZE:
 			switch (wParam)
 			{
@@ -421,11 +430,13 @@ LRESULT WINAPI D3D9Video::MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 					return 0;
 			}
 			break;
+
 		case WM_SYSKEYDOWN:
 			if (wParam == VK_F4)
 				if (!pInfo->m_quitKeysEnabled)
 					return 0;
 			break;
+
 		case WM_CHAR:
 			switch (wParam) 
 			{ 
@@ -1339,9 +1350,14 @@ unsigned int D3D9Video::GetVideoModeCount() const
 	return m_modes.size();
 }
 
-bool D3D9Video::StartApplication(const unsigned int width, const unsigned int height,
-								const std::wstring& winTitle, const bool windowed,
-								const bool sync, const Texture::PIXEL_FORMAT pfBB, const bool maximizable)
+bool D3D9Video::StartApplication(
+	const unsigned int width,
+	const unsigned int height,
+	const std::wstring& winTitle,
+	const bool windowed,
+	const bool sync,
+	const Texture::PIXEL_FORMAT pfBB,
+	const bool maximizable)
 {
 	if (!m_pD3D)
 	{
@@ -1400,16 +1416,25 @@ bool D3D9Video::StartApplication(const unsigned int width, const unsigned int he
 	}
 	else
 	{
-		m_windowPos = (GetClientScreenSize()/2) - (GetScreenSize()/2);
-		m_windowedDim.x = rect.right-rect.left;
-		m_windowedDim.y = rect.bottom-rect.top;
+		m_windowPos = (GetClientScreenSize() / 2) - (GetScreenSize() / 2);
+		m_windowedDim.x = rect.right - rect.left;
+		m_windowedDim.y = rect.bottom - rect.top;
 		m_topBarSize.x = -rect.left;
 		m_topBarSize.y = -rect.top;
 	}
 
-	m_videoInfo->m_hWnd= CreateWindowW(m_videoInfo->className.c_str(), winTitle.c_str(),
-							m_videoInfo->m_windowStyle, m_windowPos.x, m_windowPos.y, m_windowedDim.x, m_windowedDim.y,
-							GetDesktopWindow(), NULL, wc.hInstance, m_videoInfo.get());
+	m_videoInfo->m_hWnd = CreateWindowW(
+		m_videoInfo->className.c_str(),
+		winTitle.c_str(),
+		m_videoInfo->m_windowStyle,
+		m_windowPos.x,
+		m_windowPos.y,
+		m_windowedDim.x,
+		m_windowedDim.y,
+		GetDesktopWindow(),
+		NULL,
+		wc.hInstance,
+		m_videoInfo.get());
 
 	// convert from GSlib format to D3D_FORMAT
 	D3DFORMAT d3dFmt;
@@ -1426,6 +1451,9 @@ bool D3D9Video::StartApplication(const unsigned int width, const unsigned int he
 		break;
 	};
 
+	// enable touch input
+	WinInput::PrepareTouchInput(m_videoInfo->m_hWnd);
+
 	// get the current display mode for checking
 	D3DDISPLAYMODE currentMode;
 	if(FAILED(m_pD3D->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &currentMode)))
@@ -1440,9 +1468,13 @@ bool D3D9Video::StartApplication(const unsigned int width, const unsigned int he
 		d3dFmt = fmtCurrent;
 
 	// check if it'll work
-	if(FAILED(m_pD3D->CheckDeviceFormat(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL,
-										fmtCurrent, D3DUSAGE_RENDERTARGET,
-										D3DRTYPE_SURFACE, d3dFmt)))
+	if(FAILED(m_pD3D->CheckDeviceFormat(
+		D3DADAPTER_DEFAULT,
+		D3DDEVTYPE_HAL,
+		fmtCurrent,
+		D3DUSAGE_RENDERTARGET,
+		D3DRTYPE_SURFACE,
+		d3dFmt)))
 	{
 		Message(L"The back buffer format had to be changed to default - D3D9Video::StartApplication");
 		d3dFmt = fmtCurrent;

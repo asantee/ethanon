@@ -24,9 +24,14 @@
 #define GS2D_WIN_INPUT_H_
 
 #include "../../Input.h"
+
+#include "../../Platform/windows/targetver.h"
+
 #include "../KeyStateManager.h"
 
 #include <windows.h>
+
+#include <map>
 
 #pragma warning( push )
 #pragma warning( disable : 4201 )
@@ -61,8 +66,28 @@ struct JOYSTICK_DATA
 class WinInput : public Input
 {
 	friend InputPtr CreateInput(boost::any data, const bool showJoystickWarnings);
+	friend class D3D9Video;
+
 	WinInput(boost::any data, const bool showJoystickWarnings);
+
+	struct TouchSpot
+	{
+		TouchSpot() : down(false) {}
+		math::Vector2 pos, move;
+		KeyStateManager keyState;
+		bool down;
+	};
+
+	static void PrepareTouchInput(HWND hWnd);
+	static LRESULT OnTouch(HWND hWnd, WPARAM wParam, LPARAM lParam);
+	static void UpdateTouchInput();
+	static bool GetTouchSpotByIndex(const unsigned int n, TouchSpot& outSpot);
+
+	static unsigned int m_maxTouchCount;
+	static std::map<DWORD, TouchSpot> m_touchSpots;
+
 	const static unsigned int MAX_JOYSTICKS = 4;
+
 	bool UpdateJoystick();
 	JOYSTICK_DATA m_joystick[MAX_JOYSTICKS];
 	bool IsArrowPressed(const GS_JOYSTICK_BUTTON key, const float direction);

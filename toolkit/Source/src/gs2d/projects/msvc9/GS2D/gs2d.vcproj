@@ -206,6 +206,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\src\Platform\windows\targetver.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\src\Texture.h"
 				>
 			</File>
