@@ -24,6 +24,7 @@
 #define GS2D_D3D9_VIDEO_INFO_H_
 
 #include "../../Video.h"
+
 #include "D3D9CgShader.h"
 
 namespace gs2d {

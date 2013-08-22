@@ -24,6 +24,7 @@
 #define GS2D_D3D9VIDEO_H_
 
 #include "D3D9VideoInfo.h"
+
 #include <vector>
 #include <map>
 
