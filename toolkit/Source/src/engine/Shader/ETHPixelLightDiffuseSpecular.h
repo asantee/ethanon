@@ -55,6 +55,8 @@ private:
 	ShaderPtr m_vPixelLightSpecularPS;
 	ShaderPtr m_hPixelLightVS;
 	ShaderPtr m_vPixelLightVS;
+
+	static const float LIGHT_PRECISION_DOWNSCALE;
 };
 
 #endif

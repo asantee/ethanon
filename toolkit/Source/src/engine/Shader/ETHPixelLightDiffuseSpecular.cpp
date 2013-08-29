@@ -29,6 +29,8 @@
  const Shader::SHADER_PROFILE ETHPixelLightDiffuseSpecular::m_profile = Shader::SP_MODEL_2;
 #endif
 
+const float ETHPixelLightDiffuseSpecular::LIGHT_PRECISION_DOWNSCALE = 1.0f / 12800.0f;
+
 ETHPixelLightDiffuseSpecular::ETHPixelLightDiffuseSpecular(
 	VideoPtr video,
 	const str_type::string& shaderPath,
@@ -131,8 +133,16 @@ bool ETHPixelLightDiffuseSpecular::BeginLightPass(ETHSpriteEntity *pRender, Vect
 	// Set a depth value depending on the entity type
 	pRender->SetDepth(maxHeight, minHeight);
  
-	pLightShader->SetConstant(GS_L("lightPos"), v3LightPos);
-	pLightShader->SetConstant(GS_L("squaredRange"), light->range * light->range);
+ 	// downscales pixel shader ranges on android to prevent from lower precision glitches
+ 	float lightPrecisionDownScale = 1.0f;
+ 	#ifdef GLES2
+	 	lightPrecisionDownScale = LIGHT_PRECISION_DOWNSCALE;
+ 	#endif
+
+	pLightShader->SetConstant(GS_L("lightPos"), v3LightPos * lightPrecisionDownScale);
+
+	const float scaledRange = (light->range * lightPrecisionDownScale);
+	pLightShader->SetConstant(GS_L("squaredRange"), scaledRange * scaledRange);
 	pLightShader->SetConstant(GS_L("lightColor"), Vector4(light->color, 1.0f) * lightIntensity);
 
 	return true;
