@@ -32,6 +32,8 @@ uniform vec2 params[17];
 #define parallaxOrigin params[15]
 #define verticalIntensity params[16]
 
+#define LIGHT_PRECISION_DOWNSCALE 0.00078125
+
 uniform float spaceLength;
 
 uniform float3 topLeft3DPos;
@@ -72,5 +74,5 @@ void main()
 	gl_Position = outPos;
 	v_color = float4(colorRG, colorBA);
 	v_texCoord = transformCoord(vTexCoord);
-	v_vertPos3D = topLeft3DPos + (float3(vPosition.x, 0.0, vPosition.y) * float3(size.x, 0.0,-size.y));
+	v_vertPos3D = (topLeft3DPos + (float3(vPosition.x, 0.0, vPosition.y) * float3(size.x, 0.0,-size.y))) * LIGHT_PRECISION_DOWNSCALE;
 }

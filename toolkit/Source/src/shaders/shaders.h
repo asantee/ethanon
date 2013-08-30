@@ -1177,7 +1177,7 @@ const std::string GLSL_hPixelLight_vs =
 "#define parallaxOrigin params[15]\n" \
 "#define verticalIntensity params[16]\n" \
 "\n" \
-"#define LIGHT_PRECISION_DOWNSCALE 0.000078125\n" \
+"#define LIGHT_PRECISION_DOWNSCALE 0.00078125\n" \
 "\n" \
 "uniform float3 topLeft3DPos;\n" \
 "\n" \
@@ -1505,6 +1505,8 @@ const std::string GLSL_vPixelLight_vs =
 "#define parallaxOrigin params[15]\n" \
 "#define verticalIntensity params[16]\n" \
 "\n" \
+"#define LIGHT_PRECISION_DOWNSCALE 0.00078125\n" \
+"\n" \
 "uniform float spaceLength;\n" \
 "\n" \
 "uniform float3 topLeft3DPos;\n" \
@@ -1545,7 +1547,7 @@ const std::string GLSL_vPixelLight_vs =
 "	gl_Position = outPos;\n" \
 "	v_color = float4(colorRG, colorBA);\n" \
 "	v_texCoord = transformCoord(vTexCoord);\n" \
-"	v_vertPos3D = topLeft3DPos + (float3(vPosition.x, 0.0, vPosition.y) * float3(size.x, 0.0,-size.y));\n" \
+"	v_vertPos3D = (topLeft3DPos + (float3(vPosition.x, 0.0, vPosition.y) * float3(size.x, 0.0,-size.y))) * LIGHT_PRECISION_DOWNSCALE;\n" \
 "}\n" \
 "\n" \
 "\n";

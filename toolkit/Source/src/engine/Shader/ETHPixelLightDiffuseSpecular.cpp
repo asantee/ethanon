@@ -29,7 +29,7 @@
  const Shader::SHADER_PROFILE ETHPixelLightDiffuseSpecular::m_profile = Shader::SP_MODEL_2;
 #endif
 
-const float ETHPixelLightDiffuseSpecular::LIGHT_PRECISION_DOWNSCALE = 1.0f / 12800.0f;
+const float ETHPixelLightDiffuseSpecular::LIGHT_PRECISION_DOWNSCALE = 1.0f / 1280.0f;
 
 ETHPixelLightDiffuseSpecular::ETHPixelLightDiffuseSpecular(
 	VideoPtr video,

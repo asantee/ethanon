@@ -32,7 +32,7 @@ uniform vec2 params[17];
 #define parallaxOrigin params[15]
 #define verticalIntensity params[16]
 
-#define LIGHT_PRECISION_DOWNSCALE 0.000078125
+#define LIGHT_PRECISION_DOWNSCALE 0.00078125
 
 uniform float3 topLeft3DPos;
 
