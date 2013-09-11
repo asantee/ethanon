@@ -45,6 +45,11 @@ const std::string& ETHShaders::Ambient_VS_Ver()
 	return ETHGlobal::Cg_vAmbientVS_cg;
 }
 
+const std::string& ETHShaders::Highlight_PS()
+{
+	return ETHGlobal::Cg_highlightPS_cg;
+}
+
 // particles
 const std::string& ETHShaders::Particle_VS()
 {

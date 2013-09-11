@@ -118,6 +118,8 @@ public:
 	void RecoverResources();
 	void ReleaseLightmap();
 
+	bool ShouldUseHighlightPixelShader() const;
+
 	Vector2 GetSpriteCut() const;
 
 protected:

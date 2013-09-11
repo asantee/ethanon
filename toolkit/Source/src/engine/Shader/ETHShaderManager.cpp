@@ -44,6 +44,8 @@ ETHShaderManager::ETHShaderManager(VideoPtr video, const str_type::string& shade
 	m_verticalStaticAmbientVS = m_video->LoadShaderFromString(GS_L("verticalStaticAmbientVS"), ETHShaders::Ambient_VS_Ver(), Shader::SF_VERTEX, sp);
 	m_shadowVS = m_video->LoadShaderFromString(GS_L("shadowVS"), ETHShaders::Shadow_VS_Ver(), Shader::SF_VERTEX, sp);
 
+	m_highlightPS = m_video->LoadShaderFromString(GS_L("highlightPS"), ETHShaders::Highlight_PS(), Shader::SF_PIXEL, sp);
+
 	#if defined(GLES2) || defined(OPENGL)
 		m_projShadow = m_video->CreateSprite(ETHGlobal::GetDataResourceFullPath(shaderPath, GS_L("shadow.png")));
 	#else
@@ -97,7 +99,13 @@ SpritePtr ETHShaderManager::GetProjShadow()
 
 bool ETHShaderManager::BeginAmbientPass(const ETHSpriteEntity *pRender, const float maxHeight, const float minHeight)
 {
-	m_video->SetPixelShader(ShaderPtr());
+	const bool shouldUseHighlightPS = pRender->ShouldUseHighlightPixelShader();
+	m_video->SetPixelShader(shouldUseHighlightPS ? m_highlightPS : ShaderPtr());
+
+	if (shouldUseHighlightPS)
+	{
+		m_highlightPS->SetConstant("highlight", pRender->GetColorARGB());
+	}
 
 	if (pRender->GetType() == ETHEntityProperties::ET_VERTICAL)
 	{
@@ -118,6 +126,8 @@ bool ETHShaderManager::EndAmbientPass()
 {
 	if (m_lastAM != m_video->GetAlphaMode())
 		m_video->SetAlphaMode(m_lastAM);
+	
+	m_video->SetPixelShader(ShaderPtr());
 	return true;
 }
 

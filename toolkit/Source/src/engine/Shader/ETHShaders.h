@@ -35,6 +35,7 @@ public:
 	// ambient pass
 	static const std::string& Ambient_VS_Hor();
 	static const std::string& Ambient_VS_Ver();
+	static const std::string& Highlight_PS();
 
 	// particles
 	static const std::string& Particle_VS();

@@ -143,6 +143,15 @@ bool ETHSpriteEntity::LoadLightmapFromFile(const str_type::string& filePath)
 	return (m_pLightmap);
 }
 
+bool ETHSpriteEntity::ShouldUseHighlightPixelShader() const
+{
+	return (
+			m_v4Color.x > 1.0f
+		 || m_v4Color.y > 1.0f
+		 || m_v4Color.z > 1.0f
+	);
+}
+
 bool ETHSpriteEntity::SetSprite(const str_type::string &fileName)
 {
 	m_pSprite = m_provider->GetGraphicResourceManager()->GetPointer(
