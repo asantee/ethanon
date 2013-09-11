@@ -91,15 +91,18 @@ str_type::string FindResourceDir(const int argc, gs2d::str_type::char_t* argv[])
 
 #ifdef GS2D_USE_SDL
  int SDL_main(int argc, char** argv)
-#else
- #ifdef GS2D_STR_TYPE_WCHAR
-  #define ETH_MACHINE_MAIN_FUNC wmain
- #else
-  #define ETH_MACHINE_MAIN_FUNC main
- #endif
- int ETH_MACHINE_MAIN_FUNC(int argc, gs2d::str_type::char_t** argv)
+#elif WIN32
+ #include <windows.h>
+ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR lpCmdLine, int nCmdShow)
 #endif
 {
+	#ifdef WIN32
+	 GS2D_UNUSED_ARGUMENT(hInstance);
+	 GS2D_UNUSED_ARGUMENT(nCmdShow);
+	 int argc = 0;
+	 LPWSTR* argv = CommandLineToArgvW(lpCmdLine, &argc);
+	#endif
+
 	bool compileAndRun, testing, wait;
 	ProcParams(argc, argv, compileAndRun, testing, wait);
 	ETHScriptWrapper::SetArgc(argc);
@@ -181,6 +184,7 @@ str_type::string FindResourceDir(const int argc, gs2d::str_type::char_t* argv[])
 	#if defined(_DEBUG) || defined(DEBUG)
 	 #ifdef WIN32
 	  _CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
+	  LocalFree(argv);
 	  #endif
 	#endif
 	return 0;

@@ -71,7 +71,7 @@
 				AdditionalLibraryDirectories="..\..\..\src\gs2d\vendors\DX9SDK\Lib;..\..\..\src\gs2d\vendors\CgSDK\lib"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
-				SubSystem="1"
+				SubSystem="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -152,7 +152,7 @@
 				AdditionalLibraryDirectories="..\..\..\src\gs2d\vendors\DX9SDK\Lib;..\..\..\src\gs2d\vendors\CgSDK\lib"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
-				SubSystem="1"
+				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				TargetMachine="1"
