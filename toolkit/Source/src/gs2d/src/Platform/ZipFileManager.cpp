@@ -186,10 +186,13 @@ bool ZipFileManager::FileExists(const gs2d::str_type::string& fileName) const
 	if (!IsLoaded())
 		return false;
 
+	str_type::string fixedPath = fileName;
+	FixSlashesForUnix(fixedPath);
+
 	#ifdef GS2D_STR_TYPE_WCHAR
-		zip_file *file = zip_fopen(m_archive, utf8::Converter(fileName).c_str(), 0);
+		zip_file *file = zip_fopen(m_archive, utf8::Converter(fixedPath).c_str(), 0);
 	#else
-		zip_file *file = zip_fopen(m_archive, fileName.c_str(), 0);
+		zip_file *file = zip_fopen(m_archive, fixedPath.c_str(), 0);
 	#endif
 
 	if (file != NULL)
