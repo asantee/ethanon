@@ -1451,9 +1451,6 @@ bool D3D9Video::StartApplication(
 		break;
 	};
 
-	// enable touch input
-	WinInput::PrepareTouchInput(m_videoInfo->m_hWnd);
-
 	// get the current display mode for checking
 	D3DDISPLAYMODE currentMode;
 	if(FAILED(m_pD3D->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &currentMode)))
@@ -1603,6 +1600,10 @@ bool D3D9Video::StartApplication(
 	SetAlphaMode(AM_PIXEL);
 	SetZBuffer(false);
 	SetZWrite(false);
+
+	// enable touch input
+	WinInput::PrepareTouchInput(m_videoInfo->m_hWnd);
+
 	return true;
 }
 

@@ -58,7 +58,7 @@ void WinInput::PrepareTouchInput(HWND hWnd)
 
 	if ((value & NID_MULTI_INPUT) && (value & NID_READY))
 	{
-		RegisterTouchWindow(hWnd, 0);
+		RegisterTouchWindow(hWnd, TWF_FINETOUCH | TWF_WANTPALM);
 
 		const BYTE nInputs = (BYTE)GetSystemMetrics(SM_MAXIMUMTOUCHES);
 		m_maxTouchCount = math::Max(static_cast<unsigned int>(1), static_cast<unsigned int>(nInputs));
