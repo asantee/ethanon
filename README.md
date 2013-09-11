@@ -36,6 +36,7 @@ Windows
 -------
 
 - Use Visual Studio 2008 (9.0)
+- Make sure Windows 7 SDK is installed and enabled on VS
 - Run **make_deploy.bat** to deploy all platform libraries and binaries.
 
 Mac OS X
