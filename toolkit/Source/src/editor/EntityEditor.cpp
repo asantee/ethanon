@@ -1373,7 +1373,7 @@ void EntityEditor::DrawEntity()
 	{
 		const Vector2 v2LightPos(m_pEditEntity->light->pos.x, m_pEditEntity->light->pos.y); //-V807
 		const float diameter = m_pEditEntity->light->range * 2;
-		const Color color = ConvertToDW(m_pEditEntity->light->color);
+		const Vector4 color(m_pEditEntity->light->color, 1.0f);
 		m_range->DrawShaped(m_renderEntity->GetPositionXY() + v2LightPos, Vector2(diameter,diameter),
 					  color,color,color,color);
 	}
@@ -1386,7 +1386,7 @@ void EntityEditor::DrawEntity()
 	{
 		const Vector2 v2LightPos(m_pEditEntity->light->pos.x, m_pEditEntity->light->pos.y);
 		const float diameter = m_pEditEntity->light->range * 2;
-		const Color color = ConvertToDW(m_pEditEntity->light->color);
+		const Vector4 color(m_pEditEntity->light->color, 1.0f);
 		m_range->DrawShaped(m_renderEntity->GetPositionXY() + v2LightPos, Vector2(diameter,diameter),
 							color, color, color, color);
 	}
@@ -1503,7 +1503,7 @@ void EntityEditor::DrawEntity()
 			video->SetZWrite(false);
 			video->SetZBuffer(false);
 			const Vector2 v2LightPos(m_pEditEntity->light->pos.x, m_pEditEntity->light->pos.y);
-			m_spot.m_sprite->Draw(m_renderEntity->GetPositionXY() + v2LightPos, ConvertToDW(m_pEditEntity->light->color));
+			m_spot.m_sprite->Draw(m_renderEntity->GetPositionXY() + v2LightPos, Vector4(m_pEditEntity->light->color, 1.0f));
 		}
 	}
 	if (m_tool.GetButtonStatus(_S_EDIT_PARTICLES))
@@ -1515,7 +1515,7 @@ void EntityEditor::DrawEntity()
 			if (m_pEditEntity->particleSystems[t]->nParticles > 0) //-V807
 			{
 				m_particleSpot[t].m_sprite->Draw(m_renderEntity->GetPositionXY() + ETHGlobal::ToVector2(m_pEditEntity->particleSystems[t]->startPoint),
-												 ConvertToDW(m_pEditEntity->particleSystems[t]->color0));
+												 Vector4(m_pEditEntity->particleSystems[t]->color0));
 			}
 		}
 	}

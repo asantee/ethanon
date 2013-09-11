@@ -160,7 +160,7 @@ ETHSpriteDrawer::ETHSpriteDrawer(
 	const SpritePtr& sprite,
 	const Vector2& pos,
 	const Vector2& size,
-	const Color& color,
+	const Vector4& color,
 	const float angle,
 	const unsigned int frame)
 {

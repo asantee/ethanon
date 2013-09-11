@@ -1182,7 +1182,7 @@ void SceneEditor::PlaceEntitySelection()
 	{
 		Vector3 v3Light = m_v3Pos + m_entityFiles[m_currentEntityIdx]->light->pos;
 		m_lSprite->Draw(Vector2(v3Light.x, v3Light.y - v3Light.z),
-						ConvertToDW(m_entityFiles[m_currentEntityIdx]->light->color));
+						Vector4(m_entityFiles[m_currentEntityIdx]->light->color, 1.0f));
 	}
 
 	// draws the particle symbols to show that the entity has particles
@@ -1192,7 +1192,7 @@ void SceneEditor::PlaceEntitySelection()
 		{
 			const Vector3 v3Part = m_v3Pos+m_entityFiles[m_currentEntityIdx]->particleSystems[t]->startPoint;
 			m_pSprite->Draw(Vector2(v3Part.x, v3Part.y-v3Part.z),
-							ConvertToDW(m_entityFiles[m_currentEntityIdx]->particleSystems[t]->color0));
+							(m_entityFiles[m_currentEntityIdx]->particleSystems[t]->color0));
 		}
 	}
 
@@ -1209,7 +1209,7 @@ void SceneEditor::PlaceEntitySelection()
 	// if the current entity has sound effects attached to it's particle systems, show the sound wave bitmap
 	if (m_currentEntity->HasSoundEffect())
 	{
-		m_soundWave->Draw(m_currentEntity->GetPositionXY(), ARGB(150, 255, 255, 255));
+		m_soundWave->Draw(m_currentEntity->GetPositionXY(), math::Vector4(1.0f, 1.0f, 1.0f, 0.6f));
 	}
 }
 
@@ -1408,7 +1408,7 @@ void SceneEditor::DrawEntitySelectionGrid(SpritePtr pNextAppButton)
 				v2SymbolPos.x = Clamp(v2SymbolPos.x,-_ENTITY_SELECTION_BAR_HEIGHT/2, _ENTITY_SELECTION_BAR_HEIGHT/2);
 				v2SymbolPos.y = Clamp(v2SymbolPos.y,-_ENTITY_SELECTION_BAR_HEIGHT/2, _ENTITY_SELECTION_BAR_HEIGHT/2);
 				const Vector2 v2PPos = v2Pos+v2SymbolPos;
-				m_pSprite->Draw(v2PPos, ConvertToDW(m_entityFiles[t]->particleSystems[p]->color0));
+				m_pSprite->Draw(v2PPos, (m_entityFiles[t]->particleSystems[p]->color0));
 			}
 		}
 
@@ -1419,7 +1419,7 @@ void SceneEditor::DrawEntitySelectionGrid(SpritePtr pNextAppButton)
 			v2SymbolPos.x = Clamp(v2SymbolPos.x,-_ENTITY_SELECTION_BAR_HEIGHT/2, _ENTITY_SELECTION_BAR_HEIGHT/2);
 			v2SymbolPos.y = Clamp(v2SymbolPos.y,-_ENTITY_SELECTION_BAR_HEIGHT/2, _ENTITY_SELECTION_BAR_HEIGHT/2);
 			const Vector2 v2LightPos = v2Pos + v2SymbolPos;
-			m_lSprite->Draw(v2LightPos, ConvertToDW(m_entityFiles[t]->light->color));
+			m_lSprite->Draw(v2LightPos, Vector4(m_entityFiles[t]->light->color, 1.0f));
 		}
 
 		// highlight the 'mouseover' entity
@@ -1495,7 +1495,7 @@ void SceneEditor::LoopThroughEntityList()
 			{
 				const Vector3 v3LightPos(pEntity->GetLightRelativePosition());
 				m_lSprite->Draw(Vector2(v3EntityPos.x + v3LightPos.x, v3EntityPos.y + v3LightPos.y - v3EntityPos.z - v3LightPos.z),
-					ConvertToDW(pEntity->GetLightColor()));
+					Vector4(pEntity->GetLightColor(), 1.0f));
 			}
 			else if (pEntity->IsCollidable())
 			{

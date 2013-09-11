@@ -71,12 +71,6 @@ bool ETHRenderEntity::DrawAmbientPass(
 	if (!m_pSprite || IsHidden())
 		return false;
 
-	Vector4 v4FinalAmbient = Vector4(sceneProps.ambient, 1.0f);
-	v4FinalAmbient.x = Min(1.0f, v4FinalAmbient.x + m_properties.emissiveColor.x);
-	v4FinalAmbient.y = Min(1.0f, v4FinalAmbient.y + m_properties.emissiveColor.y);
-	v4FinalAmbient.z = Min(1.0f, v4FinalAmbient.z + m_properties.emissiveColor.z);
-	v4FinalAmbient = v4FinalAmbient * m_v4Color;
-
 	SetDepth(maxHeight, minHeight);
 
 	const VideoPtr& video = m_provider->GetVideo();
@@ -107,13 +101,21 @@ bool ETHRenderEntity::DrawAmbientPass(
 	const float angle = (m_properties.type == ETHEntityProperties::ET_VERTICAL) ? 0.0f : GetAngle();
 	const Vector2 pos = ETHGlobal::ToScreenPos(GetPosition(), sceneProps.zAxisDirection);
 
+	// Set sprite flip
 	m_pSprite->FlipX(GetFlipX());
 	m_pSprite->FlipY(GetFlipY());
+
+	// compute color
+	Vector4 diffuseColor = Vector4(sceneProps.ambient, 1.0f);
+	diffuseColor.x = Min(1.0f, diffuseColor.x + m_properties.emissiveColor.x);
+	diffuseColor.y = Min(1.0f, diffuseColor.y + m_properties.emissiveColor.y);
+	diffuseColor.z = Min(1.0f, diffuseColor.z + m_properties.emissiveColor.z);
+	diffuseColor = diffuseColor * m_v4Color;
 
 	if (shouldUseFourTriangles)
 		m_pSprite->SetRectMode(Sprite::RM_FOUR_TRIANGLES);
 
-	m_pSprite->DrawOptimal(pos, ConvertToDW(v4FinalAmbient), angle, GetCurrentSize());
+	m_pSprite->DrawOptimal(pos, diffuseColor, angle, GetCurrentSize());
 
 	if (shouldUseFourTriangles)
 		m_pSprite->SetRectMode(Sprite::RM_TWO_TRIANGLES);
@@ -144,7 +146,7 @@ bool ETHRenderEntity::DrawLightPass(const Vector2 &zAxisDirection, const float p
 
 	const float angle = (!IsRotatable() || drawToTarget) ? 0.0f : GetAngle();
 	m_pSprite->DrawOptimal(ETHGlobal::ToScreenPos(GetPosition(), zAxisDirection),
-		ConvertToDW(GetColorARGB()), angle, m_properties.scale * m_pSprite->GetFrameSize());
+		GetColorARGB(), angle, m_properties.scale * m_pSprite->GetFrameSize());
 
 	if (shouldUseFourTriangles)
 		m_pSprite->SetRectMode(Sprite::RM_TWO_TRIANGLES);
@@ -371,13 +373,13 @@ bool ETHRenderEntity::DrawHalo(
 
 	Vector3 v3HaloPos = light->pos + v3EntityPos;
 
-	Color dwColor = ConvertToDW(light->color * light->haloBrightness * brightness);
+	const Vector4 color(Vector4(light->color, 1.0f) * light->haloBrightness * brightness);
 	Vector2 v2Size(light->haloSize, light->haloSize);
 
 	m_pHalo->DrawShaped(
 		ETHGlobal::ToScreenPos(v3HaloPos, zAxisDirection) + ComputeParallaxOffset(),
 		v2Size * m_properties.scale,
-		dwColor, dwColor, dwColor, dwColor, 0.0f);
+		color, color, color, color, 0.0f);
 	return true;
 }
 

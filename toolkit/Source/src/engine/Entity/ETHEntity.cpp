@@ -467,8 +467,7 @@ void ETHEntity::SetAlpha(const float alpha)
 
 Vector3 ETHEntity::GetColor() const
 {
-	const Vector4 *p = &m_v4Color;
-	return Vector3(p->x, p->y, p->z);
+	return Vector3(m_v4Color.x, m_v4Color.y, m_v4Color.z);
 }
 
 Vector4 ETHEntity::GetColorARGB() const

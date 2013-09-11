@@ -125,7 +125,7 @@ public:
 		const SpritePtr& sprite,
 		const Vector2& pos,
 		const Vector2& size,
-		const Color& color,
+		const Vector4& color,
 		const float angle,
 		const unsigned int frame);
 
@@ -138,7 +138,7 @@ private:
 	Vector2 v2Size;
 	Vector2 v2Origin;
 	SpritePtr sprite;
-	Color color0, color1, color2, color3;
+	Vector4 color0, color1, color2, color3;
 	float angle;
 	unsigned int frame;
 };

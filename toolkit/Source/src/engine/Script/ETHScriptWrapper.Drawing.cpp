@@ -118,7 +118,7 @@ void ETHScriptWrapper::DrawShapedFromPtr(
 			sprite,
 			v2Pos,
 			v2Size,
-			color,
+			Vector4(color),
 			angle,
 			sprite->GetRectIndex())));
 }

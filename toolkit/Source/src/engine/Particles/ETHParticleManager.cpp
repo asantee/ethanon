@@ -445,7 +445,7 @@ float ETHParticleManager::GetParticleDepthShift(const DEPTH_SORTING_MODE& ownerT
 }
 
 bool ETHParticleManager::DrawParticleSystem(
-	Vector3 v3Ambient,
+	Vector3 ambient,
 	const float maxHeight,
 	const float minHeight,
 	const DEPTH_SORTING_MODE ownerType,
@@ -485,20 +485,15 @@ bool ETHParticleManager::DrawParticleSystem(
 		if (Killed() && particle.elapsed > particle.lifeTime)
 			continue;
 
-		Vector3 v3FinalAmbient(1, 1, 1);
+		Vector3 finalAmbient(1, 1, 1);
 		if (m_system.alphaMode == Video::AM_PIXEL || m_system.alphaMode == Video::AM_ALPHA_TEST)
 		{
-			v3FinalAmbient.x = Min(m_system.emissive.x + v3Ambient.x, 1.0f);
-			v3FinalAmbient.y = Min(m_system.emissive.y + v3Ambient.y, 1.0f);
-			v3FinalAmbient.z = Min(m_system.emissive.z + v3Ambient.z, 1.0f);
+			finalAmbient.x = Min(m_system.emissive.x + ambient.x, 1.0f);
+			finalAmbient.y = Min(m_system.emissive.y + ambient.y, 1.0f);
+			finalAmbient.z = Min(m_system.emissive.z + ambient.z, 1.0f);
 		}
 
-		Color dwColor;
-		const Vector4& color(particle.color);
-		dwColor.a = (GS_BYTE)(color.w * 255.0f);
-		dwColor.r = (GS_BYTE)(color.x * v3FinalAmbient.x * 255.0f);
-		dwColor.g = (GS_BYTE)(color.y * v3FinalAmbient.y * 255.0f);
-		dwColor.b = (GS_BYTE)(color.z * v3FinalAmbient.z * 255.0f);
+		Vector4 finalColor = particle.color * Vector4(finalAmbient, 1.0f);
 
 		// compute the right in-screen position
 		const Vector2 v2Pos = ETHGlobal::ToScreenPos(Vector3(particle.pos, m_system.startPoint.z), zAxisDirection);
@@ -516,7 +511,7 @@ bool ETHParticleManager::DrawParticleSystem(
 		{
 			m_pBMP->UnsetRect();
 		}
-		m_pBMP->DrawOptimal((v2Pos + parallaxOffset), dwColor, particle.angle, Vector2(particle.size, particle.size));
+		m_pBMP->DrawOptimal((v2Pos + parallaxOffset), finalColor, particle.angle, Vector2(particle.size, particle.size));
 	}
 	video->SetAlphaMode(alpha);
 	return true;

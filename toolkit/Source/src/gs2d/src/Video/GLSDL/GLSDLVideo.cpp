@@ -24,6 +24,7 @@
 
 #include "../GL/GLSprite.h"
 #include "../GL/Cg/GLCgShader.h"
+
 #include <SDL/SDL.h>
 
 namespace gs2d {
