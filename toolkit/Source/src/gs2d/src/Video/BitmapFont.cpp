@@ -27,6 +27,42 @@
 namespace gs2d {
 using namespace gs2d::math;
 
+
+const str_type::string BitmapFont::COLOR_CODE_BEGIN_SEQUENCE = GS_L("!#color#");
+const str_type::string BitmapFont::COLOR_CODE_END_SEQUENCE   = GS_L("##!");
+
+void BitmapFont::RemoveColorMarkup(str_type::string& str)
+{
+	std::size_t pos = 0;
+	while ((pos = str.find(COLOR_CODE_BEGIN_SEQUENCE, pos)) != str_type::string::npos)
+	{
+		std::size_t end = str.find(COLOR_CODE_END_SEQUENCE, pos);
+		if (end != str_type::string::npos)
+		{
+			str.erase(pos, (end - pos) + COLOR_CODE_END_SEQUENCE.length());
+		}
+	}
+}
+
+str_type::string BitmapFont::AssembleColorCode(const Color& color)
+{
+	str_type::stringstream ss;
+	ss << COLOR_CODE_BEGIN_SEQUENCE << color.color << COLOR_CODE_END_SEQUENCE;
+	return ss.str();
+}
+
+bool BitmapFont::IsColorCode(const str_type::string& text, const std::size_t pos)
+{
+	if (COLOR_CODE_BEGIN_SEQUENCE[0] == text[pos])
+	{
+		return (COLOR_CODE_BEGIN_SEQUENCE == text.substr(pos, COLOR_CODE_BEGIN_SEQUENCE.length()));
+	}
+	else
+	{
+		return false;
+	}
+}
+
 BitmapFont::CHAR_DESCRIPTOR::CHAR_DESCRIPTOR() :
 	x(0),
 	y(0),
@@ -248,12 +284,15 @@ bool BitmapFont::IsLoaded() const
 
 unsigned int BitmapFont::FindClosestCarretPosition(const str_type::string& text, const Vector2& textPos, const Vector2& reference)
 {
-	const std::size_t cursors = text.length() + 1;
+	str_type::string cleanText = text;
+	RemoveColorMarkup(cleanText);
+	
+	const std::size_t cursors = cleanText.length() + 1;
 	float distance =-1;
 	unsigned int returnCursor = 0;
 	for (unsigned int t = 0; t < cursors; ++t)
 	{
-		const Vector2 pos = ComputeCarretPosition(text, t) + textPos;
+		const Vector2 pos = ComputeCarretPosition(cleanText, t) + textPos;
 		if (distance == -1)
 		{
 			distance = Distance(reference, pos);
@@ -290,7 +329,7 @@ inline int ConvertCharacterToIndex(const TChar* character, std::size_t& t)
 	else if (utf8::is_valid(character, character + 2))
 	{
 		std::vector<unsigned short> utf16line;
-        utf8::utf8to16(character, character + 2, std::back_inserter(utf16line));
+		utf8::utf8to16(character, character + 2, std::back_inserter(utf16line));
 		index = static_cast<int>(utf16line[0]);
 		t++;
 	}
@@ -311,24 +350,27 @@ inline int ConvertCharacterToIndex(const TChar* character, std::size_t& t)
 
 Vector2 BitmapFont::ComputeCarretPosition(const str_type::string& text, const unsigned int pos)
 {
+	str_type::string cleanText = text;
+	RemoveColorMarkup(cleanText);
+
 	if (!IsLoaded())
 	{
 		return Vector2(0,0);
 	}
 
 	// seek the cursor position or the last character
-	const std::size_t length = Min(text.size(), static_cast<std::size_t>(pos));
+	const std::size_t length = Min(cleanText.size(), static_cast<std::size_t>(pos));
 
 	Vector2 cursor = Vector2(0,0);
 	for (std::size_t t = 0; t < length; t++)
 	{
-		if (text[t] == GS_L('\n'))
+		if (cleanText[t] == GS_L('\n'))
 		{
 			cursor.y += m_charSet.lineHeight;
 			continue;
 		}
 
-		int charId = ConvertCharacterToIndex<str_type::char_t>(&text[t], t);
+		int charId = ConvertCharacterToIndex<str_type::char_t>(&cleanText[t], t);
 		const CHAR_DESCRIPTOR& currentChar = m_charSet.chars[charId];
 		cursor.x += currentChar.xAdvance;
 	}
@@ -337,22 +379,25 @@ Vector2 BitmapFont::ComputeCarretPosition(const str_type::string& text, const un
 
 Vector2 BitmapFont::ComputeTextBoxSize(const str_type::string& text)
 {
+	str_type::string cleanText = text;
+	RemoveColorMarkup(cleanText);
+
 	if (!IsLoaded())
 	{
 		return Vector2(0,0);
 	}
-	const std::size_t length = text.size();
+	const std::size_t length = cleanText.size();
 	Vector2 cursor = Vector2(0,m_charSet.lineHeight);
 	float lineWidth = 0.0f;
 	for (std::size_t t = 0; t < length; t++)
 	{
-		if (text[t] == GS_L('\n'))
+		if (cleanText[t] == GS_L('\n'))
 		{
 			lineWidth = 0.0f;
 			cursor.y += m_charSet.lineHeight;
 			continue;
 		}
-		int charId = ConvertCharacterToIndex<str_type::char_t>(&text[t], t);
+		int charId = ConvertCharacterToIndex<str_type::char_t>(&cleanText[t], t);
 		const CHAR_DESCRIPTOR &currentChar = m_charSet.chars[charId];
 		lineWidth += currentChar.xAdvance;
 
@@ -375,6 +420,8 @@ Vector2 BitmapFont::DrawBitmapText(const Vector2& pos, const str_type::string& t
 	for (std::size_t t = 0; t < bitmapsPointers.size(); t++)
 		bitmapsPointers[t] = m_bitmaps[t].get();
 
+	Color currentColor = color;
+
 	int lastPageUsed =-1;
 	for (std::size_t t = 0; t < length; t++)
 	{
@@ -384,6 +431,27 @@ Vector2 BitmapFont::DrawBitmapText(const Vector2& pos, const str_type::string& t
 			cursor.y += m_charSet.lineHeight * scale;
 			continue;
 		}
+		
+		// check color code
+		if (IsColorCode(text, t))
+		{
+			const std::size_t end = text.find(COLOR_CODE_END_SEQUENCE, t);
+			if (end != str_type::string::npos)
+			{
+				const std::size_t codeStartPos = t + COLOR_CODE_BEGIN_SEQUENCE.length();
+				const str_type::string colorCodeValue = text.substr(codeStartPos, end);
+				Color localColor;
+				if (GS2D_SSCANF(colorCodeValue.c_str(), GS_L("%lu"), &localColor.color) == 1)
+				{
+                    const Vector4 currentColorV4(Vector4(color) * Vector4(localColor));
+					currentColor = math::ConvertToDW(currentColorV4);
+				}
+				t = (end) + COLOR_CODE_END_SEQUENCE.length() - 1;
+				continue;
+			}
+		}
+
+		// find mapped character
 		int charId = ConvertCharacterToIndex<str_type::char_t>(&text[t], t);
 		const CHAR_DESCRIPTOR &currentChar = m_charSet.chars[charId];
 		if (currentChar.width > 0 && currentChar.height > 0)
@@ -410,7 +478,7 @@ Vector2 BitmapFont::DrawBitmapText(const Vector2& pos, const str_type::string& t
 			}
 
 			bitmapsPointers[currentPage]->SetRect(rect);
-			bitmapsPointers[currentPage]->DrawShapedFast(charPos, Vector2(currentChar.width, currentChar.height) * scale, color);
+			bitmapsPointers[currentPage]->DrawShapedFast(charPos, Vector2(currentChar.width, currentChar.height) * scale, currentColor);
 
 			lastPageUsed = currentPage;
 		}

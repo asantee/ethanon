@@ -222,6 +222,7 @@ public:
 	static Vector2 ComputeCarretPosition(const str_type::string &font, const str_type::string &text, const unsigned int pos);
 	static Vector2 ComputeTextBoxSize(const str_type::string &font, const str_type::string &text);
 	static void DrawText(const Vector2 &v2Pos, const str_type::string &text, const str_type::string &font, const GS_DWORD color, const float scale);
+	static str_type::string AssembleColorCode(const GS_DWORD color);
 	static void DrawFadingText(const Vector2 &v2Pos, const str_type::string &text, const str_type::string &font, const GS_DWORD color, unsigned long time, const float scale);
 	static void AddLight(const Vector3 &v3Pos, const Vector3 &v3Color, const float range, const bool castShadows);
 	static int AddEntity(const str_type::string &file, const Vector3 &v3Pos, const float angle, ETHEntity **ppOutEntity, const str_type::string &alternativeName, const float scale);

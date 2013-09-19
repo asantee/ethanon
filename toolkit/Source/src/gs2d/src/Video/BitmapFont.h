@@ -68,6 +68,11 @@ class BitmapFont
 
 	std::vector<SpritePtr> m_bitmaps;
 
+    static const str_type::string COLOR_CODE_BEGIN_SEQUENCE;
+    static const str_type::string COLOR_CODE_END_SEQUENCE;
+    static void RemoveColorMarkup(str_type::string& str);
+    static bool IsColorCode(const str_type::string& text, const std::size_t pos);
+
 public:
 	bool IsLoaded() const;
 	BitmapFont(
@@ -83,6 +88,8 @@ public:
 
 	math::Vector2 ComputeTextBoxSize(const str_type::string& text);
 	math::Vector2 ComputeCarretPosition(const str_type::string& text, const unsigned int pos);
+
+    static str_type::string AssembleColorCode(const Color& color);
 
 	unsigned int FindClosestCarretPosition(
 		const str_type::string& text,

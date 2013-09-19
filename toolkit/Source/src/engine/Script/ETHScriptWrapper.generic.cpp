@@ -107,6 +107,7 @@ asDECLARE_FUNCTION_WRAPPER(__DrawText,              ETHScriptWrapper::DrawText);
 asDECLARE_FUNCTION_WRAPPER(__DrawFadingText,        ETHScriptWrapper::DrawFadingText);
 asDECLARE_FUNCTION_WRAPPER(__ComputeCarretPosition, ETHScriptWrapper::ComputeCarretPosition);
 asDECLARE_FUNCTION_WRAPPER(__ComputeTextBoxSize,    ETHScriptWrapper::ComputeTextBoxSize);
+asDECLARE_FUNCTION_WRAPPER(__AssembleColorCode,     ETHScriptWrapper::AssembleColorCode);
 
 asDECLARE_FUNCTION_WRAPPER(__EnableLightmaps, ETHScriptWrapper::EnableLightmaps);
 asDECLARE_FUNCTION_WRAPPER(__UsePixelShaders, ETHScriptWrapper::UsePixelShaders);
@@ -356,10 +357,11 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void AddToCameraPos(const vector2 &in)", asFUNCTION(__AddToCameraPos),  asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 GetCameraPos()",                 asFUNCTION(__GetCameraPos),    asCALL_GENERIC); assert(r >= 0);
 
-	r = pASEngine->RegisterGlobalFunction("void DrawText(const vector2 &in, const string &in, const string &in, const uint color = 0xFFFFFFFF, const float scale = 1.0f)",							asFUNCTION(__DrawText),			asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("void DrawFadingText(const vector2 &in, const string &in, const string &in, const uint, const uint, const float scale = 1.0f)",		asFUNCTION(__DrawFadingText),	asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void DrawText(const vector2 &in, const string &in, const string &in, const uint color = 0xFFFFFFFF, const float scale = 1.0f)",	asFUNCTION(__DrawText),			asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void DrawFadingText(const vector2 &in, const string &in, const string &in, const uint, const uint, const float scale = 1.0f)",	asFUNCTION(__DrawFadingText),	asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 ComputeCarretPosition(const string &in, const string &in, const uint pos)",	asFUNCTION(__ComputeCarretPosition),asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 ComputeTextBoxSize(const string &in, const string &in)",						asFUNCTION(__ComputeTextBoxSize),	asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("string AssembleColorCode(const uint)",												asFUNCTION(__AssembleColorCode),	asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("void EnableLightmaps(const bool)", asFUNCTION(__EnableLightmaps), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void UsePixelShaders(const bool)", asFUNCTION(__UsePixelShaders), asCALL_GENERIC); assert(r >= 0);
