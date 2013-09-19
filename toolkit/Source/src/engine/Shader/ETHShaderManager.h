@@ -60,7 +60,7 @@ public:
 	bool BeginHaloPass(const ETHLight* light);
 	bool EndHaloPass();
 
-	bool BeginParticlePass();
+	bool BeginParticlePass(const ETHParticleSystem& system);
 	bool EndParticlePass();
 
 	void UsePS(const bool usePS);

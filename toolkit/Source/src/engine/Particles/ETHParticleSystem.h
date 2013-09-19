@@ -48,6 +48,8 @@ public:
 	bool ReadFromFile(const str_type::string& fileName, const Platform::FileManagerPtr& fileManager);
 	bool WriteToXMLFile(TiXmlElement *pRoot) const;
 	int GetNumFrames() const;
+	
+	bool ShouldUseHighlightPS() const;
 
 	str_type::string GetActualBitmapFile() const;
 

@@ -470,6 +470,9 @@ bool ETHParticleManager::DrawParticleSystem(
 		BubbleSort(m_particles);
 	}
 
+	const bool shouldUseHightlightPS = m_system.ShouldUseHighlightPS();
+	const ShaderPtr& currentPS = m_provider->GetVideo()->GetPixelShader();
+
 	m_pBMP->SetOrigin(Sprite::EO_CENTER);
 	for (int t = 0; t < m_system.nParticles; t++)
 	{
@@ -511,6 +514,12 @@ bool ETHParticleManager::DrawParticleSystem(
 		{
 			m_pBMP->UnsetRect();
 		}
+		
+		if (shouldUseHightlightPS)
+		{
+			currentPS->SetConstant("highlight", finalColor);
+		}
+		
 		m_pBMP->DrawOptimal((v2Pos + parallaxOffset), finalColor, particle.angle, Vector2(particle.size, particle.size));
 	}
 	video->SetAlphaMode(alpha);

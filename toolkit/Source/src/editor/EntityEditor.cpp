@@ -1456,26 +1456,31 @@ void EntityEditor::DrawEntity()
 	{
 		lights.push_back(m_cursorLight);
 	}
-	if (shaderManager->BeginParticlePass())
-	{
-		for (int t=0; t<ETH_MAX_PARTICLE_SYS_PER_ENTITY; t++)
-		{
-			const Vector2 screenSize(video->GetScreenSizeF());
-			if (m_renderEntity->HasParticleSystem(t))
-				m_renderEntity->DrawParticles(t, screenSize.y,-screenSize.y, m_sceneProps);
-		}
-		shaderManager->EndParticlePass();
 
-		if (m_renderEntity->AreParticlesOver())
+	// render particles
+	for (int t=0; t<ETH_MAX_PARTICLE_SYS_PER_ENTITY; t++)
+	{
+		const Vector2 screenSize(video->GetScreenSizeF());
+		if (m_renderEntity->HasParticleSystem(t))
 		{
-			for (int t=0; t<ETH_MAX_PARTICLE_SYS_PER_ENTITY; t++)
+			if (shaderManager->BeginParticlePass(*m_renderEntity->GetParticleManager(t)->GetSystem()))
 			{
-				if (m_renderEntity->HasParticleSystem(t))
-					m_renderEntity->PlayParticleSystem(t, ETH_DEFAULT_ZDIRECTION);
+				m_renderEntity->DrawParticles(t, screenSize.y,-screenSize.y, m_sceneProps);
 			}
 		}
 	}
+	shaderManager->EndParticlePass();
 
+	if (m_renderEntity->AreParticlesOver())
+	{
+		for (int t=0; t<ETH_MAX_PARTICLE_SYS_PER_ENTITY; t++)
+		{
+			if (m_renderEntity->HasParticleSystem(t))
+				m_renderEntity->PlayParticleSystem(t, ETH_DEFAULT_ZDIRECTION);
+		}
+	}
+
+	// draw halo
 	if (m_pEditEntity->light)
 	{
 		if (shaderManager->BeginHaloPass(m_pEditEntity->light.get()))

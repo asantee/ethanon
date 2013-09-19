@@ -212,10 +212,12 @@ bool ETHShaderManager::EndHaloPass()
 	return true;
 }
 
-bool ETHShaderManager::BeginParticlePass()
+bool ETHShaderManager::BeginParticlePass(const ETHParticleSystem& system)
 {
 	m_video->SetVertexShader(m_particle);
-	m_video->SetPixelShader(ShaderPtr());
+	
+	const ShaderPtr& ps = (system.ShouldUseHighlightPS()) ? m_highlightPS : ShaderPtr();
+	m_video->SetPixelShader(ps);
 	return true;
 }
 

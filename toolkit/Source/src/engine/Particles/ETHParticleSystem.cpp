@@ -221,6 +221,18 @@ bool ETHParticleSystem::WriteToXMLFile(TiXmlElement *pRoot) const
 	return true;
 }
 
+bool ETHParticleSystem::ShouldUseHighlightPS() const
+{
+	return (
+		   color0.x > 1.0f
+		|| color0.y > 1.0f
+		|| color0.z > 1.0f
+		|| color1.x > 1.0f
+		|| color1.y > 1.0f
+		|| color1.z > 1.0f
+	);
+}
+
 int ETHParticleSystem::GetNumFrames() const
 {
 	return spriteCut.x * spriteCut.y;

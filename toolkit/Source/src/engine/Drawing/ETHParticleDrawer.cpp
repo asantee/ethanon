@@ -50,7 +50,7 @@ bool ETHParticleDrawer::Draw(const unsigned long lastFrameElapsedTimeMS)
 {
 	m_particleManager->UpdateParticleSystem(m_pos, Vector3(m_pos, 0.0f), m_angle, static_cast<float>(lastFrameElapsedTimeMS));
 
-	if (m_shaderManager->BeginParticlePass())
+	if (m_shaderManager->BeginParticlePass(*m_particleManager->GetSystem()))
 	{
 		m_particleManager->DrawParticleSystem(
 			Vector3(1.0f, 1.0f, 1.0f),

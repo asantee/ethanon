@@ -22,10 +22,14 @@
 
 #include "ParticleFXEditor.h"
 #include "EditorCommon.h"
+
 #include <Unicode/UTF8Converter.h>
+
 #include <sstream>
+
 #include "../engine/Resource/ETHDirectories.h"
 #include "../engine/Util/ETHASUtil.h"
+#include "../engine/Shader/ETHShaderManager.h"
 
 #include <Platform/Platform.h>
 
@@ -127,7 +131,13 @@ void ParticleEditor::DrawParticleSystem()
 	}
 	const bool zBuffer = video->GetZBuffer();
 	video->SetZBuffer(false);
-	m_manager->DrawParticleSystem(Vector3(1,1,1),v2Screen.y,-v2Screen.y, ETHParticleManager::SAME_DEPTH_AS_OWNER, ETH_DEFAULT_ZDIRECTION, Vector2(0,0), 1.0f);
+	
+	if (m_provider->GetShaderManager()->BeginParticlePass(m_system))
+	{
+		m_manager->DrawParticleSystem(Vector3(1,1,1),v2Screen.y,-v2Screen.y, ETHParticleManager::SAME_DEPTH_AS_OWNER, ETH_DEFAULT_ZDIRECTION, Vector2(0,0), 1.0f);
+		m_provider->GetShaderManager()->EndParticlePass();
+		
+	}
 	video->SetZBuffer(zBuffer);
 	video->UnsetScissor();
 
@@ -258,17 +268,17 @@ void ParticleEditor::SetMenuConstants()
 	m_color0[0].SetDescription(GS_L("Starting color alpha (transparency from 0.0 to 1.0)"));
 	m_color0[1].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_color0[1].SetConstant(m_system.color0.x);
-	m_color0[1].SetClamp(true, 0, 1);
+	m_color0[1].SetClamp(true, 0, 8);
 	m_color0[1].SetText(GS_L("Color0.R:"));
 	m_color0[1].SetDescription(GS_L("Starting color red component (from 0.0 to 1.0)"));
 	m_color0[2].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_color0[2].SetConstant(m_system.color0.y);
-	m_color0[2].SetClamp(true, 0, 1);
+	m_color0[2].SetClamp(true, 0, 8);
 	m_color0[2].SetText(GS_L("Color0.G:"));
 	m_color0[2].SetDescription(GS_L("Starting color green component (from 0.0 to 1.0)"));
 	m_color0[3].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_color0[3].SetConstant(m_system.color0.z);
-	m_color0[3].SetClamp(true, 0, 1);
+	m_color0[3].SetClamp(true, 0, 8);
 	m_color0[3].SetText(GS_L("Color0.B:"));
 	m_color0[3].SetDescription(GS_L("Starting color blue component (from 0.0 to 1.0)"));
 
@@ -279,17 +289,17 @@ void ParticleEditor::SetMenuConstants()
 	m_color1[0].SetDescription(GS_L("Ending color alpha (transparency)"));
 	m_color1[1].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_color1[1].SetConstant(m_system.color1.x);
-	m_color1[1].SetClamp(true, 0, 1);
+	m_color1[1].SetClamp(true, 0, 8);
 	m_color1[1].SetText(GS_L("Color1.R:"));
 	m_color1[1].SetDescription(GS_L("Ending color red component (from 0.0 to 1.0)"));
 	m_color1[2].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_color1[2].SetConstant(m_system.color1.y);
-	m_color1[2].SetClamp(true, 0, 1);
+	m_color1[2].SetClamp(true, 0, 8);
 	m_color1[2].SetText(GS_L("Color1.G:"));
 	m_color1[2].SetDescription(GS_L("Ending color green component (from 0.0 to 1.0)"));
 	m_color1[3].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_color1[3].SetConstant(m_system.color1.z);
-	m_color1[3].SetClamp(true, 0, 1);
+	m_color1[3].SetClamp(true, 0, 8);
 	m_color1[3].SetText(GS_L("Color1.B:"));
 	m_color1[3].SetDescription(GS_L("Ending color blue component (from 0.0 to 1.0)"));
 
