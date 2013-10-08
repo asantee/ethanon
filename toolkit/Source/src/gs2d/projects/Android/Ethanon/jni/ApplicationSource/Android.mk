@@ -34,9 +34,9 @@ LOCAL_SRC_FILES := \
 	$(ENGINE_VENDORS_PATH)/tinyxml_ansi/tinystr.cpp \
 	$(ENGINE_VENDORS_PATH)/tinyxml_ansi/tinyxmlerror.cpp \
 	$(ENGINE_VENDORS_PATH)/tinyxml_ansi/tinyxmlparser.cpp \
-	$(ADDONS_PATH)/ansi/scriptstdstring.cpp \
-	$(ADDONS_PATH)/ansi/scriptbuilder.cpp \
-	$(ADDONS_PATH)/ansi/scriptfile.cpp \
+	$(ADDONS_PATH)/scriptstdstring.cpp \
+	$(ADDONS_PATH)/scriptbuilder.cpp \
+	$(ADDONS_PATH)/scriptfile.cpp \
 	$(ADDONS_PATH)/scriptarray.cpp \
 	$(ADDONS_PATH)/scriptmath.cpp \
 	$(ADDONS_PATH)/scriptmath2d.cpp \
