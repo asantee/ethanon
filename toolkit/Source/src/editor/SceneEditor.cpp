@@ -25,8 +25,6 @@
 #include "SceneEditor.h"
 #include "EditorCommon.h"
 
-#include <unicode/utf8converter.h>
-
 #include "../engine/Entity/ETHRenderEntity.h"
 #include "../engine/Resource/ETHDirectories.h"
 
@@ -130,8 +128,8 @@ void SceneEditor::LoadEditor()
 	const InputPtr& input = m_provider->GetInput();
 	m_renderMode.SetupMenu(video, input, m_menuSize, m_menuWidth*2, true, false, false);
 
-	const std::string programPath = utf8::c(programDirectory).c_str();
-	str_type::string rmStatus = utf8::c(GetAttributeFromInfoFile("status", "renderMode")).wc_str();
+	const std::string programPath = programDirectory;
+	str_type::string rmStatus = GetAttributeFromInfoFile("status", "renderMode");
 	if (rmStatus != _S_USE_PS && rmStatus != _S_USE_VS)
 	{
 		rmStatus = _S_USE_PS;
@@ -227,7 +225,7 @@ std::string SceneEditor::DoEditor(SpritePtr pNextAppButton)
 	const bool lmEnabled = m_pScene->AreLightmapsEnabled();
 	m_pScene->EnableLightmaps(m_panel.GetButtonStatus(_S_USE_STATIC_LIGHTMAPS));
 
-	const std::string programPath = utf8::c(m_provider->GetFileIOHub()->GetProgramDirectory()).str();
+	const std::string programPath = m_provider->GetFileIOHub()->GetProgramDirectory();
 
 	// if the lightmaps status has changed, save it's status again
 	if (lmEnabled != m_pScene->AreLightmapsEnabled())
@@ -557,7 +555,7 @@ void SceneEditor::EntitySelector(const bool guiButtonsFree)
 			DrawEntityString(m_pSelected, gs2d::constant::WHITE);
 
 			ShadowPrint(Vector2(m_guiX,m_guiY), GS_L("Entity name:")); m_guiY += m_menuSize;
-			m_pSelected->ChangeEntityName(utf8::c(m_entityName.PlaceInput(Vector2(m_guiX,m_guiY))).wstr()); m_guiY += m_menuSize;
+			m_pSelected->ChangeEntityName(m_entityName.PlaceInput(Vector2(m_guiX,m_guiY))); m_guiY += m_menuSize;
 			m_guiY += m_menuSize/2;
 
 			// assign the position according to the position panel
@@ -685,7 +683,7 @@ str_type::string SceneEditor::DrawEntityString(ETHEntity *pEntity, const Color& 
 	str_type::stringstream sID;
 	sID << pEntity->GetID() << " ";
 	if (drawName)
-		sID << utf8::c(pEntity->GetEntityName()).wc_str();
+		sID << pEntity->GetEntityName();
 	ShadowPrint(box.min, sID.str().c_str(), dwColor);
 
 	str_type::stringstream sPos;
@@ -805,13 +803,13 @@ void SceneEditor::DoStateManager()
 	shaderManager->UsePS(m_renderMode.GetButtonStatus(_S_USE_PS));
 	m_guiY+=m_menuSize/2;
 
-	const std::string programPath = utf8::c(m_provider->GetFileIOHub()->GetProgramDirectory()).str();
+	const std::string programPath = m_provider->GetFileIOHub()->GetProgramDirectory();
 
 	// if this button's status has changed, save the change to the ENML file
 	if (usePS != shaderManager->IsUsingPixelShader())
 	{
 		const str_type::string str = shaderManager->IsUsingPixelShader() ? _S_USE_PS : _S_USE_VS;
-		SaveAttributeToInfoFile("status", "renderMode", utf8::c(str).c_str());
+		SaveAttributeToInfoFile("status", "renderMode", str);
 	}
 
 	ShadowPrint(Vector2(m_guiX, m_guiY), _S_TOOL_MENU); m_guiY+=m_menuSize;
@@ -868,9 +866,9 @@ void SceneEditor::DoStateManager()
 		m_panel.DeactivateButton(_S_SAVE_LIGHTMAPS);
 		if (m_pScene)
 		{
-			str_type::string directoryName = m_pScene->ConvertFileNameToLightmapDirectory(utf8::c(GetCurrentFile(true)).wstr());
+			str_type::string directoryName = m_pScene->ConvertFileNameToLightmapDirectory(GetCurrentFile(true));
 			Platform::FixSlashes(directoryName);
-			Platform::CreateDirectory(utf8::c(directoryName).c_str());
+			Platform::CreateDirectory(directoryName.c_str());
 			m_pScene->SaveLightmapsToFile(directoryName);
 		}
 	}
@@ -907,7 +905,7 @@ void SceneEditor::DoStateManager()
 	{
 		ShadowPrint(
 			Vector2(m_guiX,m_guiY), 
-			utf8::c(m_currentEntity->GetEntityName()).wc_str()
+			m_currentEntity->GetEntityName().c_str()
 		); 
 		m_guiY+=m_menuSize;
 	}
@@ -1319,7 +1317,7 @@ void SceneEditor::DrawEntitySelectionGrid(SpritePtr pNextAppButton)
 	{
 		SpritePtr pSprite = m_provider->GetGraphicResourceManager()->GetPointer(
 			video, 
-			utf8::c(m_entityFiles[t]->spriteFile).wc_str(), utf8::c(GetCurrentProjectPath(true)).wc_str(), 
+			m_entityFiles[t]->spriteFile, GetCurrentProjectPath(true),
 			ETHDirectories::GetEntityDirectory(), false
 		);
 
@@ -1438,7 +1436,7 @@ void SceneEditor::DrawEntitySelectionGrid(SpritePtr pNextAppButton)
 				SetPlacingMode();
 			}
 
-			textToDraw = utf8::c(m_entityFiles[t]->entityName).wc_str();
+			textToDraw = m_entityFiles[t]->entityName;
 			textToDraw += GS_L(" {");
 			textToDraw += (m_entityFiles[t]->staticEntity) ? GS_L("static/") : GS_L("dynamic/");
 			textToDraw += ETHGlobal::entityTypes[m_entityFiles[t]->type];
@@ -1530,7 +1528,7 @@ void SceneEditor::UpdateEntities()
 	const unsigned int size = entityArray.size();
 	for (unsigned int t=0; t<size; t++)
 	{
-		const int idx = GetEntityByName(utf8::c(entityArray[t]->GetEntityName()).str());
+		const int idx = GetEntityByName(entityArray[t]->GetEntityName());
 		if (idx >= 0)
 		{
 			entityArray[t]->Refresh(*m_entityFiles[idx].get());
@@ -1542,7 +1540,7 @@ int SceneEditor::GetEntityByName(const std::string &name)
 {
 	for (std::size_t t = 0; t < m_entityFiles.size(); t++)
 	{
-		if (utf8::c(m_entityFiles[t]->entityName).str() == name)
+		if (m_entityFiles[t]->entityName == name)
 		{
 			return t;
 		}
@@ -1585,14 +1583,14 @@ bool SceneEditor::SaveAs()
 {
 	FILE_FORM_FILTER filter(GS_L("Ethanon scene files (*.esc)"), GS_L("esc"));
 	char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
-	if (SaveForm(filter, std::string(GetCurrentProjectPath(true) + utf8::c(ETHDirectories::GetSceneDirectory()).c_str()).c_str(), path, file))
+	if (SaveForm(filter, std::string(GetCurrentProjectPath(true) + ETHDirectories::GetSceneDirectory()).c_str(), path, file))
 	{
 		std::string sOut;
 		AddExtension(path, ".esc", sOut);
-		if (m_pScene->SaveToFile(utf8::c(sOut).wstr()))
+		if (m_pScene->SaveToFile(sOut))
 		{
 			SetCurrentFile(sOut.c_str());
-			CreateFileUpdateDetector(utf8::c(GetCurrentFile(true)).wstr());
+			CreateFileUpdateDetector(GetCurrentFile(true));
 		}
 	}
 	return true;
@@ -1600,8 +1598,8 @@ bool SceneEditor::SaveAs()
 
 bool SceneEditor::Save()
 {
-	m_pScene->SaveToFile(utf8::c(GetCurrentFile(true)).wstr());
-	CreateFileUpdateDetector(utf8::c(GetCurrentFile(true)).wstr());
+	m_pScene->SaveToFile(GetCurrentFile(true));
+	CreateFileUpdateDetector(GetCurrentFile(true));
 	return true;
 }
 
@@ -1609,7 +1607,7 @@ bool SceneEditor::Open()
 {
 	FILE_FORM_FILTER filter(GS_L("Ethanon scene files (*.esc)"), GS_L("esc"));
 	char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
-	if (OpenForm(filter, std::string(GetCurrentProjectPath(true) + utf8::c(ETHDirectories::GetSceneDirectory()).c_str()).c_str(), path, file))
+	if (OpenForm(filter, std::string(GetCurrentProjectPath(true) + ETHDirectories::GetSceneDirectory()).c_str(), path, file))
 	{
 		OpenByFilename(path);
 	}
@@ -1618,7 +1616,7 @@ bool SceneEditor::Open()
 
 void SceneEditor::OpenByFilename(const std::string& filename)
 {
-	RebuildScene(utf8::c(filename).wstr());
+	RebuildScene(filename);
 	if (m_pScene->GetNumEntities())
 	{
 		m_sceneProps = *m_pScene->GetSceneProperties();
@@ -1628,9 +1626,9 @@ void SceneEditor::OpenByFilename(const std::string& filename)
 		{
 			m_updateLights = true;
 		}
-		//m_currentEntityIdx = 0;
+
 		m_provider->GetVideo()->SetCameraPos(Vector2(0,0));
-		CreateFileUpdateDetector(utf8::c(filename).wstr());
+		CreateFileUpdateDetector(filename);
 	}
 }
 
@@ -1661,9 +1659,9 @@ void SceneEditor::ReloadFiles()
 	}
 
 	Platform::FileListing entityFiles;
-	std::string currentProjectPath = GetCurrentProjectPath(true) + utf8::c(ETHDirectories::GetEntityDirectory()).str();
+	std::string currentProjectPath = GetCurrentProjectPath(true) + ETHDirectories::GetEntityDirectory();
 
-	entityFiles.ListDirectoryFiles(utf8::c(currentProjectPath).wc_str(), GS_L("ent"));
+	entityFiles.ListDirectoryFiles(currentProjectPath.c_str(), GS_L("ent"));
 	const int nFiles = entityFiles.GetNumFiles();
 	if (nFiles >= 1)
 	{
@@ -1673,11 +1671,10 @@ void SceneEditor::ReloadFiles()
 			entityFiles.GetFileName(t, file);
 			str_type::string full;
 			file.GetFullFileName(full);
-			std::string sFull = utf8::c(full).str();
 
-			std::cout << "(Scene editor)Entity found: " <<  utf8::c(file.file).str() << " - Loading...";
+			std::cout << "(Scene editor)Entity found: " <<  file.file << " - Loading...";
 
-			boost::shared_ptr<ETHEntityProperties> props(new ETHEntityProperties(utf8::c(sFull).wstr(), m_provider->GetFileManager()));
+			boost::shared_ptr<ETHEntityProperties> props(new ETHEntityProperties(full, m_provider->GetFileManager()));
 			if (!props->hideFromSceneEditor)
 			{
 				m_entityFiles.push_back(props);

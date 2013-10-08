@@ -50,12 +50,6 @@ namespace ETHGlobal {
 	float ParseFloatStd(const str_type::string &str);
 	int ParseIntStd(const str_type::string &str);
 	unsigned int ParseUIntStd(const str_type::string &str);
-
-#ifdef GS2D_STR_TYPE_WCHAR
-	std::wstring AppendExtensionIfNeeded(std::wstring source, const std::wstring& ext);
-	bool IsTrue(const std::wstring& source);
-#endif
-
 } // namespace ETHGlobal
 
 #endif

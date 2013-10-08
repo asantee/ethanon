@@ -59,7 +59,7 @@ void ETHFileChangeDetector::Update()
 			m_fileManager->GetAnsiFileString(m_filePath, newContent);
 			break;
 		case UTF8_WITH_BOM:
-			m_fileManager->GetUTF8BOMFileString(m_filePath, newContent);
+			m_fileManager->GetUTF8FileString(m_filePath, newContent);
 			break;
 		case UTF16_WITH_BOM:
 			m_fileManager->GetUTF16FileString(m_filePath, newContent);

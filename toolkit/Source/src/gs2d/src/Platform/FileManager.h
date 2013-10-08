@@ -76,14 +76,17 @@ class FileManager
 public:
 	virtual bool IsLoaded() const = 0;
 	virtual bool GetFileBuffer(const gs2d::str_type::string& fileName, FileBuffer &out) = 0;
-	virtual bool GetAnsiFileString(const gs2d::str_type::string& fileName, gs2d::str_type::string &out) = 0;
-	virtual bool GetUTF8BOMFileString(const gs2d::str_type::string& fileName, gs2d::str_type::string &out) = 0;
-	virtual bool GetUTF16FileString(const gs2d::str_type::string& fileName, gs2d::str_type::string &out) = 0;
+
+	virtual bool GetAnsiFileString(const gs2d::str_type::string& fileName, gs2d::str_type::string &out);
+	virtual bool GetUTF8FileString(const gs2d::str_type::string& fileName, gs2d::str_type::string &out);
+	virtual bool GetUTF16FileString(const gs2d::str_type::string& fileName, gs2d::str_type::string &out);
+
 	virtual bool FileExists(const gs2d::str_type::string& fileName) const = 0;
 	virtual bool IsPacked() const = 0;
-
-	virtual bool ConvertAnsiFileToUTF16LE(const gs2d::str_type::string& fileName);
+    
+	static const unsigned short UTF16LE_BOM;
 };
+
 typedef boost::shared_ptr<FileManager> FileManagerPtr;
 
 }

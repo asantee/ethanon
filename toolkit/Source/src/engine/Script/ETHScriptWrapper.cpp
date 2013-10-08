@@ -21,14 +21,12 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHScriptWrapper.h"
+
 #include "../Shader/ETHShaderManager.h"
+
 #include "../Entity/ETHRenderEntity.h"
 
-#ifdef GS2D_STR_TYPE_WCHAR
- #include "../../addons/utf16/scriptbuilder.h"
-#else
- #include "../../addons/ansi/scriptbuilder.h"
-#endif
+#include "../../addons/scriptbuilder.h"
 
 asIScriptEngine *ETHScriptWrapper::m_pASEngine = 0;
 ETHResourceProviderPtr ETHScriptWrapper::m_provider;

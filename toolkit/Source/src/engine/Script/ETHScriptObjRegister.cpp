@@ -21,9 +21,13 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHScriptObjRegister.h"
+
 #include "../Util/ETHInput.h"
+
 #include <assert.h>
+
 #include <Enml/Enml.h>
+
 #include "ETHScriptWrapper.h"
 
 #include "../../addons/scriptmath3d.h"
@@ -32,13 +36,8 @@
 #include "../../addons/scriptmath.h"
 #include "../../addons/scriptdictionary.h"
 
-#ifdef GS2D_STR_TYPE_WCHAR
- #include "../../addons/utf16/scriptfile.h"
- #include "../../addons/utf16/scriptstdstring.h"
-#else
- #include "../../addons/ansi/scriptfile.h"
- #include "../../addons/ansi/scriptstdstring.h"
-#endif
+#include "../../addons/scriptfile.h"
+#include "../../addons/scriptstdstring.h"
 
 namespace ETHGlobal {
 

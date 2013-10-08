@@ -198,9 +198,6 @@ bool ETHEntityProperties::SaveToFile(const str_type::string& filePath, const Pla
 
 	WriteToXMLFile(doc.RootElement());
 	doc.SaveFile(filePath);
-	#ifdef GS2D_STR_TYPE_ANSI
-	  fileManager->ConvertAnsiFileToUTF16LE(filePath);
-	#endif
 	return true;
 }
 

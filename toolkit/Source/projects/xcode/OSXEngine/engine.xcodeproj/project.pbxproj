@@ -151,12 +151,6 @@
 		7421F2A01647415E00C55BAE /* scriptmath2d.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F2951647415E00C55BAE /* scriptmath2d.h */; };
 		7421F2A11647415E00C55BAE /* scriptmath3d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F2961647415E00C55BAE /* scriptmath3d.cpp */; };
 		7421F2A21647415E00C55BAE /* scriptmath3d.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F2971647415E00C55BAE /* scriptmath3d.h */; };
-		7421F2AA1647416F00C55BAE /* scriptbuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F2A41647416F00C55BAE /* scriptbuilder.cpp */; };
-		7421F2AB1647416F00C55BAE /* scriptbuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F2A51647416F00C55BAE /* scriptbuilder.h */; };
-		7421F2AC1647416F00C55BAE /* scriptfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F2A61647416F00C55BAE /* scriptfile.cpp */; };
-		7421F2AD1647416F00C55BAE /* scriptfile.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F2A71647416F00C55BAE /* scriptfile.h */; };
-		7421F2AE1647416F00C55BAE /* scriptstdstring.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F2A81647416F00C55BAE /* scriptstdstring.cpp */; };
-		7421F2AF1647416F00C55BAE /* scriptstdstring.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F2A91647416F00C55BAE /* scriptstdstring.h */; };
 		7421F2B7164741F300C55BAE /* tinystr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F2B1164741F300C55BAE /* tinystr.cpp */; };
 		7421F2B8164741F300C55BAE /* tinystr.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F2B2164741F300C55BAE /* tinystr.h */; };
 		7421F2B9164741F300C55BAE /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F2B3164741F300C55BAE /* tinyxml.cpp */; };
@@ -181,6 +175,12 @@
 		74EB49AD16653D0A002DA2F0 /* ETHEntityRenderingManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 74EB49AB16653D0A002DA2F0 /* ETHEntityRenderingManager.h */; };
 		74F00AD71646B9EB00B8B51B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F00AD61646B9EB00B8B51B /* Cocoa.framework */; };
 		74F00AE11646B9EB00B8B51B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 74F00ADF1646B9EB00B8B51B /* InfoPlist.strings */; };
+		74FF04E618046C4D006D0F9F /* scriptfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74FF04E418046C4D006D0F9F /* scriptfile.cpp */; };
+		74FF04E718046C4D006D0F9F /* scriptfile.h in Headers */ = {isa = PBXBuildFile; fileRef = 74FF04E518046C4D006D0F9F /* scriptfile.h */; };
+		74FF04EC18046C5D006D0F9F /* scriptbuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74FF04E818046C5D006D0F9F /* scriptbuilder.cpp */; };
+		74FF04ED18046C5D006D0F9F /* scriptbuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 74FF04E918046C5D006D0F9F /* scriptbuilder.h */; };
+		74FF04EE18046C5D006D0F9F /* scriptstdstring.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74FF04EA18046C5D006D0F9F /* scriptstdstring.cpp */; };
+		74FF04EF18046C5D006D0F9F /* scriptstdstring.h in Headers */ = {isa = PBXBuildFile; fileRef = 74FF04EB18046C5D006D0F9F /* scriptstdstring.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -385,12 +385,6 @@
 		7421F2951647415E00C55BAE /* scriptmath2d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scriptmath2d.h; path = ../../../src/addons/scriptmath2d.h; sourceTree = "<group>"; };
 		7421F2961647415E00C55BAE /* scriptmath3d.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scriptmath3d.cpp; path = ../../../src/addons/scriptmath3d.cpp; sourceTree = "<group>"; };
 		7421F2971647415E00C55BAE /* scriptmath3d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scriptmath3d.h; path = ../../../src/addons/scriptmath3d.h; sourceTree = "<group>"; };
-		7421F2A41647416F00C55BAE /* scriptbuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scriptbuilder.cpp; path = ../../../src/addons/ansi/scriptbuilder.cpp; sourceTree = "<group>"; };
-		7421F2A51647416F00C55BAE /* scriptbuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scriptbuilder.h; path = ../../../src/addons/ansi/scriptbuilder.h; sourceTree = "<group>"; };
-		7421F2A61647416F00C55BAE /* scriptfile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scriptfile.cpp; path = ../../../src/addons/ansi/scriptfile.cpp; sourceTree = "<group>"; };
-		7421F2A71647416F00C55BAE /* scriptfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scriptfile.h; path = ../../../src/addons/ansi/scriptfile.h; sourceTree = "<group>"; };
-		7421F2A81647416F00C55BAE /* scriptstdstring.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scriptstdstring.cpp; path = ../../../src/addons/ansi/scriptstdstring.cpp; sourceTree = "<group>"; };
-		7421F2A91647416F00C55BAE /* scriptstdstring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scriptstdstring.h; path = ../../../src/addons/ansi/scriptstdstring.h; sourceTree = "<group>"; };
 		7421F2B1164741F300C55BAE /* tinystr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinystr.cpp; path = ../../../src/vendors/tinyxml_ansi/tinystr.cpp; sourceTree = "<group>"; };
 		7421F2B2164741F300C55BAE /* tinystr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tinystr.h; path = ../../../src/vendors/tinyxml_ansi/tinystr.h; sourceTree = "<group>"; };
 		7421F2B3164741F300C55BAE /* tinyxml.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxml.cpp; path = ../../../src/vendors/tinyxml_ansi/tinyxml.cpp; sourceTree = "<group>"; };
@@ -422,6 +416,12 @@
 		74F0D197169703E7009A3C78 /* box2d.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = box2d.xcodeproj; path = ../../../src/box2d/Build/xcode/box2d.xcodeproj; sourceTree = "<group>"; };
 		74F0D19D169703F1009A3C78 /* angelscript.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = angelscript.xcodeproj; path = ../../../src/angelscript/projects/osx/angelscript/angelscript.xcodeproj; sourceTree = "<group>"; };
 		74F0D1BC169716F8009A3C78 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = ../../../src/gs2d/vendors/SDL.framework; sourceTree = "<group>"; };
+		74FF04E418046C4D006D0F9F /* scriptfile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scriptfile.cpp; path = ../../../src/addons/scriptfile.cpp; sourceTree = "<group>"; };
+		74FF04E518046C4D006D0F9F /* scriptfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scriptfile.h; path = ../../../src/addons/scriptfile.h; sourceTree = "<group>"; };
+		74FF04E818046C5D006D0F9F /* scriptbuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scriptbuilder.cpp; path = ../../../src/addons/scriptbuilder.cpp; sourceTree = "<group>"; };
+		74FF04E918046C5D006D0F9F /* scriptbuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scriptbuilder.h; path = ../../../src/addons/scriptbuilder.h; sourceTree = "<group>"; };
+		74FF04EA18046C5D006D0F9F /* scriptstdstring.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scriptstdstring.cpp; path = ../../../src/addons/scriptstdstring.cpp; sourceTree = "<group>"; };
+		74FF04EB18046C5D006D0F9F /* scriptstdstring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scriptstdstring.h; path = ../../../src/addons/scriptstdstring.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -624,7 +624,12 @@
 		7421F28C1647413C00C55BAE /* addons */ = {
 			isa = PBXGroup;
 			children = (
-				7421F2A31647416200C55BAE /* ansi */,
+				74FF04E818046C5D006D0F9F /* scriptbuilder.cpp */,
+				74FF04E918046C5D006D0F9F /* scriptbuilder.h */,
+				74FF04EA18046C5D006D0F9F /* scriptstdstring.cpp */,
+				74FF04EB18046C5D006D0F9F /* scriptstdstring.h */,
+				74FF04E418046C4D006D0F9F /* scriptfile.cpp */,
+				74FF04E518046C4D006D0F9F /* scriptfile.h */,
 				7421F28D1647415E00C55BAE /* aswrappedcall.h */,
 				7421F28E1647415E00C55BAE /* scriptarray.cpp */,
 				7421F28F1647415E00C55BAE /* scriptarray.h */,
@@ -638,19 +643,6 @@
 				7421F2971647415E00C55BAE /* scriptmath3d.h */,
 			);
 			name = addons;
-			sourceTree = "<group>";
-		};
-		7421F2A31647416200C55BAE /* ansi */ = {
-			isa = PBXGroup;
-			children = (
-				7421F2A41647416F00C55BAE /* scriptbuilder.cpp */,
-				7421F2A51647416F00C55BAE /* scriptbuilder.h */,
-				7421F2A61647416F00C55BAE /* scriptfile.cpp */,
-				7421F2A71647416F00C55BAE /* scriptfile.h */,
-				7421F2A81647416F00C55BAE /* scriptstdstring.cpp */,
-				7421F2A91647416F00C55BAE /* scriptstdstring.h */,
-			);
-			name = ansi;
 			sourceTree = "<group>";
 		};
 		7421F2B0164741B700C55BAE /* tinyxml */ = {
@@ -880,9 +872,6 @@
 				7421F29E1647415E00C55BAE /* scriptmath.h in Headers */,
 				7421F2A01647415E00C55BAE /* scriptmath2d.h in Headers */,
 				7421F2A21647415E00C55BAE /* scriptmath3d.h in Headers */,
-				7421F2AB1647416F00C55BAE /* scriptbuilder.h in Headers */,
-				7421F2AD1647416F00C55BAE /* scriptfile.h in Headers */,
-				7421F2AF1647416F00C55BAE /* scriptstdstring.h in Headers */,
 				7421F2B8164741F300C55BAE /* tinystr.h in Headers */,
 				7421F2BA164741F300C55BAE /* tinyxml.h in Headers */,
 				7429A2A21662600E00134A7E /* ETHEntityPieceRenderer.h in Headers */,
@@ -891,6 +880,9 @@
 				7429A2B21663AF2200134A7E /* ETHEntityHaloRenderer.h in Headers */,
 				74EB49AD16653D0A002DA2F0 /* ETHEntityRenderingManager.h in Headers */,
 				747D56C217329A9D00283563 /* shaders.h in Headers */,
+				74FF04E718046C4D006D0F9F /* scriptfile.h in Headers */,
+				74FF04ED18046C5D006D0F9F /* scriptbuilder.h in Headers */,
+				74FF04EF18046C5D006D0F9F /* scriptstdstring.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1072,9 +1064,6 @@
 				7421F29D1647415E00C55BAE /* scriptmath.cpp in Sources */,
 				7421F29F1647415E00C55BAE /* scriptmath2d.cpp in Sources */,
 				7421F2A11647415E00C55BAE /* scriptmath3d.cpp in Sources */,
-				7421F2AA1647416F00C55BAE /* scriptbuilder.cpp in Sources */,
-				7421F2AC1647416F00C55BAE /* scriptfile.cpp in Sources */,
-				7421F2AE1647416F00C55BAE /* scriptstdstring.cpp in Sources */,
 				7421F2B7164741F300C55BAE /* tinystr.cpp in Sources */,
 				7421F2B9164741F300C55BAE /* tinyxml.cpp in Sources */,
 				7421F2BB164741F300C55BAE /* tinyxmlerror.cpp in Sources */,
@@ -1086,6 +1075,9 @@
 				7429A2AD16627E8000134A7E /* ETHEntityParticleRenderer.cpp in Sources */,
 				7429A2B11663AF2200134A7E /* ETHEntityHaloRenderer.cpp in Sources */,
 				74EB49AC16653D0A002DA2F0 /* ETHEntityRenderingManager.cpp in Sources */,
+				74FF04E618046C4D006D0F9F /* scriptfile.cpp in Sources */,
+				74FF04EC18046C5D006D0F9F /* scriptbuilder.cpp in Sources */,
+				74FF04EE18046C5D006D0F9F /* scriptstdstring.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

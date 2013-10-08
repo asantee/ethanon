@@ -21,9 +21,10 @@
 --------------------------------------------------------------------------------------*/
 
 #include "EntityEditor.h"
-#include <Unicode/UTF8Converter.h>
+
 #include "../engine/Entity/ETHRenderEntity.h"
 #include "../engine/Resource/ETHDirectories.h"
+
 #include <sstream>
 
 #define _S_ADD_RESOURCES GS_L("Add resources")
@@ -633,7 +634,7 @@ void EntityEditor::ResetEntityMenu()
 	m_playStopButton.SetButton(GS_L("play.png"));
 	m_animationTimer.Reset();
 
-	CreateFileUpdateDetector(utf8::c(GetCurrentFile(true)).wstr());
+	CreateFileUpdateDetector(GetCurrentFile(true));
 }
 
 void EntityEditor::ResetParticleMenu()
@@ -718,9 +719,9 @@ void EntityEditor::DoMainMenu()
 	if (file_r.text == _S_OPEN_ENTITY)
 	{
 		char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
-		if (OpenForm(filter, std::string(currentProjectPath + utf8::c(ETHDirectories::GetEntityDirectory()).str()).c_str(), path, file))
+		if (OpenForm(filter, std::string(currentProjectPath + ETHDirectories::GetEntityDirectory()).c_str(), path, file))
 		{
-			ETHGlobal::CopyFileToProject(utf8::c(currentProjectPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetEntityDirectory(), m_provider->GetFileManager());
+			ETHGlobal::CopyFileToProject(currentProjectPath, path, ETHDirectories::GetEntityDirectory(), m_provider->GetFileManager());
 			if (LoadSprite(file, path))
 			{
 				resourceManager->RemoveResource(m_pEditEntity->spriteFile);
@@ -731,9 +732,9 @@ void EntityEditor::DoMainMenu()
 	if (file_r.text == _S_OPEN_NORMALMAP)
 	{
 		char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
-		if (OpenForm(filter, std::string(currentProjectPath + utf8::c(ETHDirectories::GetNormalMapDirectory()).str()).c_str(), path, file))
+		if (OpenForm(filter, std::string(currentProjectPath + ETHDirectories::GetNormalMapDirectory()).c_str(), path, file))
 		{
-			ETHGlobal::CopyFileToProject(utf8::c(currentProjectPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetNormalMapDirectory(), m_provider->GetFileManager());
+			ETHGlobal::CopyFileToProject(currentProjectPath, path, ETHDirectories::GetNormalMapDirectory(), m_provider->GetFileManager());
 			if (LoadNormal(file, path))
 			{
 				resourceManager->RemoveResource(m_pEditEntity->normalFile);
@@ -744,9 +745,9 @@ void EntityEditor::DoMainMenu()
 	if (file_r.text == _S_OPEN_HALO && m_pEditEntity->light)
 	{
 		char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
-		if (OpenForm(filter, std::string(currentProjectPath + utf8::c(ETHDirectories::GetEntityDirectory()).str()).c_str(), path, file))
+		if (OpenForm(filter, std::string(currentProjectPath + ETHDirectories::GetEntityDirectory()).c_str(), path, file))
 		{
-			ETHGlobal::CopyFileToProject(utf8::c(currentProjectPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetEntityDirectory(), m_provider->GetFileManager());
+			ETHGlobal::CopyFileToProject(currentProjectPath, path, ETHDirectories::GetEntityDirectory(), m_provider->GetFileManager());
 			if (LoadHalo(file, path))
 			{
 				resourceManager->RemoveResource(m_pEditEntity->light->haloBitmap);
@@ -757,9 +758,9 @@ void EntityEditor::DoMainMenu()
 	if (file_r.text == _S_OPEN_GLOSSMAP)
 	{
 		char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
-		if (OpenForm(filter, std::string(currentProjectPath + utf8::c(ETHDirectories::GetEntityDirectory()).str()).c_str(), path, file))
+		if (OpenForm(filter, std::string(currentProjectPath + ETHDirectories::GetEntityDirectory()).c_str(), path, file))
 		{
-			ETHGlobal::CopyFileToProject(utf8::c(currentProjectPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetEntityDirectory(), m_provider->GetFileManager());
+			ETHGlobal::CopyFileToProject(currentProjectPath, path, ETHDirectories::GetEntityDirectory(), m_provider->GetFileManager());
 			if (LoadGloss(file, path))
 			{
 				resourceManager->RemoveResource(m_pEditEntity->glossFile);
@@ -771,7 +772,7 @@ void EntityEditor::DoMainMenu()
 	if (file_r.text == _S_LOAD_PAR0)
 	{
 		char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
-		if (OpenForm(parFilter, std::string(currentProjectPath + utf8::c(ETHDirectories::GetEffectsDirectory()).str()).c_str(), path, file))
+		if (OpenForm(parFilter, std::string(currentProjectPath + ETHDirectories::GetEffectsDirectory()).c_str(), path, file))
 		{
 			if (LoadParticle(0, file, path))
 			{
@@ -783,7 +784,7 @@ void EntityEditor::DoMainMenu()
 	if (file_r.text == _S_LOAD_PAR1)
 	{
 		char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
-		if (OpenForm(parFilter, std::string(currentProjectPath + utf8::c(ETHDirectories::GetEffectsDirectory()).str()).c_str(), path, file))
+		if (OpenForm(parFilter, std::string(currentProjectPath + ETHDirectories::GetEffectsDirectory()).c_str(), path, file))
 		{
 			if (LoadParticle(1, file, path))
 			{
@@ -872,7 +873,7 @@ void EntityEditor::DrawEntityElementName(const Vector2 &v2Pos, SpritePtr pSprite
 	}
 	m_provider->GetVideo()->DrawBitmapText(
 		v2Pos + Vector2(m_menuSize, 0), 
-		utf8::c(name).wc_str(),
+		name.c_str(),
 		GS_L("Verdana14_shadow.fnt"),
 		gs2d::constant::WHITE);
 }
@@ -888,22 +889,22 @@ void EntityEditor::ShowEntityResources(Vector2 v2Pos)
 
 	if (m_renderEntity->GetSprite())
 	{
-		DrawEntityElementName(v2Pos, m_renderEntity->GetSprite(), utf8::c(m_pEditEntity->spriteFile + GS_L(" (sprite)")).str());
+		DrawEntityElementName(v2Pos, m_renderEntity->GetSprite(), m_pEditEntity->spriteFile + GS_L(" (sprite)"));
 		v2Pos.y += m_menuSize;
 	}
 	if (m_renderEntity->GetNormal())
 	{
-		DrawEntityElementName(v2Pos, m_renderEntity->GetNormal(), utf8::c(m_pEditEntity->normalFile + GS_L(" (normal)")).str());
+		DrawEntityElementName(v2Pos, m_renderEntity->GetNormal(), m_pEditEntity->normalFile + GS_L(" (normal)"));
 		v2Pos.y += m_menuSize;
 	}
 	if (m_renderEntity->GetGloss())
 	{
-		DrawEntityElementName(v2Pos, m_renderEntity->GetGloss(), utf8::c(m_pEditEntity->glossFile + GS_L(" (gloss)")).str());
+		DrawEntityElementName(v2Pos, m_renderEntity->GetGloss(), m_pEditEntity->glossFile + GS_L(" (gloss)"));
 		v2Pos.y += m_menuSize;
 	}
 	if (m_renderEntity->GetHalo() && m_pEditEntity->light)
 	{
-		DrawEntityElementName(v2Pos, m_renderEntity->GetHalo(), utf8::c(m_pEditEntity->light->haloBitmap + GS_L(" (halo)")).str());
+		DrawEntityElementName(v2Pos, m_renderEntity->GetHalo(), m_pEditEntity->light->haloBitmap + GS_L(" (halo)"));
 		v2Pos.y += m_menuSize;
 	}
 	for (unsigned int t=0; t<ETH_MAX_PARTICLE_SYS_PER_ENTITY; t++)
@@ -917,9 +918,9 @@ void EntityEditor::ShowEntityResources(Vector2 v2Pos)
 		);
 		v2Pos.y += m_menuSize;
 
-		DrawEntityElementName(v2Pos+Vector2(m_menuSize/2,0), m_renderEntity->GetParticleBMP(t), utf8::c(m_pEditEntity->particleSystems[t]->bitmapFile).c_str());
+		DrawEntityElementName(v2Pos + Vector2(m_menuSize/2,0), m_renderEntity->GetParticleBMP(t), m_pEditEntity->particleSystems[t]->bitmapFile);
 		v2Pos.y += m_menuSize;
-		DrawEntityElementName(v2Pos+Vector2(m_menuSize/2,0), SpritePtr(), utf8::c(m_pEditEntity->particleSystems[t]->soundFXFile).c_str());
+		DrawEntityElementName(v2Pos + Vector2(m_menuSize/2,0), SpritePtr(), m_pEditEntity->particleSystems[t]->soundFXFile);
 		v2Pos.y += m_menuSize;
 	}
 }
@@ -1103,7 +1104,7 @@ std::string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 			{
 				if (
 					m_attachLight.GetButtonStatus(
-						utf8::c(m_pEditEntity->particleSystems[t]->bitmapFile).wc_str()
+						m_pEditEntity->particleSystems[t]->bitmapFile
 					)
 				)
 				if (m_pEditEntity->light)
@@ -1296,7 +1297,7 @@ bool EntityEditor::SaveAs()
 {
 	FILE_FORM_FILTER filter(GS_L("Ethanon Entity files (*.ent)"), GS_L("ent"));
 	char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
-	if (SaveForm(filter, std::string(GetCurrentProjectPath(true) + utf8::c(ETHDirectories::GetEntityDirectory()).str()).c_str(), path, file))
+	if (SaveForm(filter, std::string(GetCurrentProjectPath(true) + ETHDirectories::GetEntityDirectory()).c_str(), path, file))
 	{
 		Save(path);
 	}
@@ -1307,9 +1308,9 @@ bool EntityEditor::Save(const char *path)
 {
 	std::string sOut;
 	AddExtension(path, ".ent", sOut);
-	m_pEditEntity->SaveToFile(utf8::c(sOut).wstr(), m_provider->GetFileManager());
+	m_pEditEntity->SaveToFile(sOut, m_provider->GetFileManager());
 	SetCurrentFile(sOut.c_str());
-	CreateFileUpdateDetector(utf8::c(path).wstr());
+	CreateFileUpdateDetector(path);
 	return true;
 }
 
@@ -1318,7 +1319,7 @@ void EntityEditor::OpenEntity(const char* fullFilePath)
 	m_renderEntity->ForceSFXStop();
 	m_renderEntity->ClearCustomData();
 
-	InstantiateEntity(utf8::c(fullFilePath).wstr());
+	InstantiateEntity(fullFilePath);
 
 	m_attachLight.Clear();
 	SetCurrentFile(fullFilePath);
@@ -1328,7 +1329,7 @@ void EntityEditor::OpenEntity(const char* fullFilePath)
 	{
 		if (m_pEditEntity->particleSystems[t]->nParticles > 0 && m_pEditEntity->particleSystems[t]->bitmapFile != GS_L("")) //-V807
 		{
-			m_attachLight.AddButton(utf8::c(m_pEditEntity->particleSystems[t]->bitmapFile).wc_str());
+			m_attachLight.AddButton(m_pEditEntity->particleSystems[t]->bitmapFile);
 		}
 	}
 	m_customDataEditor.Rebuild(m_renderEntity.get(), this);
@@ -1340,7 +1341,7 @@ bool EntityEditor::Open()
 
 	FILE_FORM_FILTER filter(GS_L("Ethanon Entity files (*.ent)"), GS_L("ent"));
 	char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
-	if (OpenForm(filter, std::string(currentProjectPath + utf8::c(ETHDirectories::GetEntityDirectory()).str()).c_str(), path, file))
+	if (OpenForm(filter, std::string(currentProjectPath + ETHDirectories::GetEntityDirectory()).c_str(), path, file))
 	{
 		OpenEntity(path);
 	}
@@ -1540,13 +1541,13 @@ bool EntityEditor::LoadHalo(const char *file, const char *path)
 {
 	if (m_provider->GetGraphicResourceManager()->AddFile(
 			m_provider->GetVideo(),
-			utf8::c(path).wc_str(),
+			path,
 			m_provider->GetFileIOHub()->GetResourceDirectory(),
 			true,
 			false)
 			 && m_pEditEntity->light)
 	{
-		m_pEditEntity->light->haloBitmap = utf8::c(file).wstr();
+		m_pEditEntity->light->haloBitmap = file;
 		return true;
 	}
 	else
@@ -1557,52 +1558,31 @@ bool EntityEditor::LoadHalo(const char *file, const char *path)
 
 bool EntityEditor::LoadSprite(const char *file, const char *path)
 {
-	//if (m_provider->GetGraphicResourceManager()->AddFile(m_provider->GetVideo(), utf8::c(path).wc_str(), false))
-	{
-		m_pEditEntity->spriteFile = utf8::c(file).wstr();
-		return true;
-	}
-	//else
-	//{
-	//	return false;
-	//}
+	m_pEditEntity->spriteFile = file;
+	return true;
 }
 
 bool EntityEditor::LoadNormal(const char *file, const char *path)
 {
-	//if (m_provider->GetGraphicResourceManager()->AddFile(m_provider->GetVideo(), utf8::c(path).wc_str(), false))
-	{
-		m_pEditEntity->normalFile = utf8::c(file).wstr();
-		return true;
-	}
-	//else
-	//{
-	//	return false;
-	//}
+	m_pEditEntity->normalFile = file;
+	return true;
 }
 
 bool EntityEditor::LoadGloss(const char *file, const char *path)
 {
-	//if (m_provider->GetGraphicResourceManager()->AddFile(m_provider->GetVideo(), utf8::c(path).wc_str(), false))
-	{
-		m_pEditEntity->glossFile = utf8::c(file).wstr();
-		return true;
-	}
-	//else
-	//{
-	//	return false;
-	//}
+	m_pEditEntity->glossFile = file;
+	return true;
 }
 
 bool EntityEditor::LoadParticle(const int n, const char *file, const char *path)
 {
 	UnloadParticle(n);
 	ETHParticleSystem parSystem;
-	if (parSystem.ReadFromFile(utf8::c(path).wstr(), m_provider->GetFileManager()))
+	if (parSystem.ReadFromFile(path, m_provider->GetFileManager()))
 	{
 		*(m_pEditEntity->particleSystems[n].get()) = parSystem;
 		m_attachLight.AddButton(
-			utf8::c(m_pEditEntity->particleSystems[n]->bitmapFile).wc_str()
+			m_pEditEntity->particleSystems[n]->bitmapFile
 		);
 		m_tool.ResetButtons();
 		m_tool.ActivateButton(_S_EDIT_PARTICLES);
@@ -1642,7 +1622,7 @@ void EntityEditor::UnloadParticle(const int n)
 			m_renderEntity->GetParticleSFX(n)->Stop();
 		}
 	}
-	m_attachLight.DelButton(utf8::c(m_pEditEntity->particleSystems[n]->bitmapFile).wc_str()); //-V807
+	m_attachLight.DelButton(m_pEditEntity->particleSystems[n]->bitmapFile);
 	m_pEditEntity->particleSystems[n]->bitmapFile = GS_L("");
 	m_pEditEntity->particleSystems[n]->nParticles = 0;
 	m_renderEntity->DestroyParticleSystem(n);

@@ -64,8 +64,8 @@ bool ETHBinaryStream::OpenW(const str_type::string& fileName)
 {
 	CloseW();
 	SetFileName(fileName);
-	#ifdef GS2D_STR_TYPE_WCHAR
-		errno_t error = _wfopen_s(&m_out, GetFileName().c_str(), L"wb");
+	#ifdef WIN32
+		errno_t error = _fopen_s(&m_out, GetFileName().c_str(), GS_L("wb"));
 	#else
 		int error = 0; m_out = fopen(GetFileName().c_str(), "wb");
 	#endif

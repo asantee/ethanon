@@ -21,7 +21,7 @@
 --------------------------------------------------------------------------------------*/
 
 #include "CustomDataEditor.h"
-#include <Unicode/UTF8Converter.h>
+
 #include <string>
 #include <sstream>
 #include <map>
@@ -230,13 +230,13 @@ void CustomDataEditor::Rebuild(const ETHEntity* pEntity, EditorBase *pEditor)
 			ss << data->GetFloat();
 			break;
 		case ETHCustomData::DT_STRING:
-			ss << GS_L("\"") << utf8::c(data->GetString()).wc_str() << GS_L("\"");
+			ss << GS_L("\"") << data->GetString() << GS_L("\"");
 			break;
 		default:
 			editable = false;
 		};
 		if (editable)
-			m_customDataButtonList.AddButton(utf8::c(name).wc_str(), false, ss.str().c_str());
+			m_customDataButtonList.AddButton(name.c_str(), false, ss.str().c_str());
 	}
 }
 
@@ -272,16 +272,16 @@ void CustomDataEditor::EditVariable(ETHEntity* pEntity, EditorBase *pEditor)
 		switch (type)
 		{
 		case ETHCustomData::DT_INT:
-			pEntity->SetInt(r.text, ETHGlobal::ParseInt(utf8::c(m_inValueInput.PlaceInput(v2Pos)).wc_str()));
+			pEntity->SetInt(r.text, ETHGlobal::ParseInt(m_inValueInput.PlaceInput(v2Pos).c_str()));
 			break;
 		case ETHCustomData::DT_UINT:
-			pEntity->SetUInt(r.text, ETHGlobal::ParseUInt(utf8::c(m_inValueInput.PlaceInput(v2Pos)).wc_str()));
+			pEntity->SetUInt(r.text, ETHGlobal::ParseUInt(m_inValueInput.PlaceInput(v2Pos).c_str()));
 			break;
 		case ETHCustomData::DT_STRING:
-			pEntity->SetString(r.text, utf8::c(m_inValueInput.PlaceInput(v2Pos)).wstr());
+			pEntity->SetString(r.text, m_inValueInput.PlaceInput(v2Pos));
 			break;
 		case ETHCustomData::DT_FLOAT:
-			pEntity->SetFloat(r.text, ETHGlobal::ParseFloat(utf8::c(m_inValueInput.PlaceInput(v2Pos)).wc_str()));
+			pEntity->SetFloat(r.text, ETHGlobal::ParseFloat(m_inValueInput.PlaceInput(v2Pos).c_str()));
 			break;
 		default:
 			break;

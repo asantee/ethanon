@@ -31,11 +31,7 @@
 
 #include "../Physics/ETHPhysicsSimulator.h"
 
-#ifdef GS2D_STR_TYPE_WCHAR
- #include "../../addons/utf16/scriptbuilder.h"
-#else
- #include "../../addons/ansi/scriptbuilder.h"
-#endif
+#include "../../addons/scriptbuilder.h"
 
 #include <Math/Randomizer.h>
 
@@ -152,9 +148,6 @@ bool ETHScene::SaveToFile(const str_type::string& fileName)
 	}
 
 	doc.SaveFile(fileName);
-	#ifdef GS2D_STR_TYPE_ANSI
-	  m_provider->GetFileManager()->ConvertAnsiFileToUTF16LE(fileName);
-	#endif
 	return true;
 }
 

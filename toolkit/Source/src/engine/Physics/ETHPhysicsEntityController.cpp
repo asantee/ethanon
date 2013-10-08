@@ -22,17 +22,11 @@
 
 #include "ETHPhysicsEntityController.h"
 
-#ifdef GS2D_STR_TYPE_WCHAR
-#include "../../addons/utf16/scriptbuilder.h"
-#else
-#include "../../addons/ansi/scriptbuilder.h"
-#endif
+#include "../../addons/scriptbuilder.h"
 
 #include "../ETHEngine.h"
 
 #include "ETHPhysicsController.h"
-
-#include <Unicode/UTF8Converter.h>
 
 const str_type::string ETHPhysicsEntityController::BEGIN_CONTACT_CALLBACK_PREFIX    = GS_L("ETHBeginContactCallback_");
 const str_type::string ETHPhysicsEntityController::END_CONTACT_CALLBACK_PREFIX      = GS_L("ETHEndContactCallback_");
@@ -73,7 +67,7 @@ asIScriptFunction* ETHPhysicsEntityController::GetContactCallback(const str_type
 	ETHEntity* entity = static_cast<ETHEntity*>(m_body->GetUserData());
 	str_type::stringstream ss;
 	ss << prefix << Platform::RemoveExtension(entity->GetEntityName().c_str());
-	return module->GetFunctionByName(utf8::c(ss.str()).c_str());
+	return module->GetFunctionByName(ss.str().c_str());
 }
 
 void ETHPhysicsEntityController::Update(const float lastFrameElapsedTime, ETHBucketManager& buckets)

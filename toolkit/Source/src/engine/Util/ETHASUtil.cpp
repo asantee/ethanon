@@ -26,13 +26,7 @@
 
 #include "../Resource/ETHResourceProvider.h"
 
-#include <Unicode/UTF8Converter.h>
-
-#ifdef GS2D_STR_TYPE_WCHAR
-#	include "../addons/utf16/scriptbuilder.h"
-#else
-#	include "../addons/ansi/scriptbuilder.h"
-#endif
+#include "../addons/scriptbuilder.h"
 
 namespace ETHGlobal {
 void ExecuteContext(asIScriptContext *pContext, asIScriptFunction* func, const bool prepare)
@@ -116,7 +110,7 @@ asIScriptFunction* FindCallbackFunction(asIScriptModule* pModule, const ETHScrip
 	const str_type::string entityName = Platform::RemoveExtension(entity->GetEntityName().c_str());
 	str_type::stringstream funcName;
 	funcName << prefix << entityName;
-	asIScriptFunction* func = pModule->GetFunctionByName(utf8::c(funcName.str()).c_str());
+	asIScriptFunction* func = pModule->GetFunctionByName(funcName.str().c_str());
 
 	// TODO/TO-DO: handle function overload ambiguity
 	GS2D_UNUSED_ARGUMENT(logger);
@@ -245,24 +239,5 @@ bool IsSphereInScreen(const Vector3& pos, const float radius, const Vector2& zAx
 		return true;
 	}
 }
-
-#ifdef GS2D_STR_TYPE_WCHAR
-std::wstring AppendExtensionIfNeeded(std::wstring source, const std::wstring& ext)
-{
-	if (source.rfind(ext) != (source.size() - ext.size()))
-	{
-		source.append(ext);
-	}
-	return source;
-}
-
-bool IsTrue(const std::wstring& source)
-{
-	if (source == L"true" || source == L"TRUE" || source == L"yes" || source == L"YES" || source == L"1")
-		return true;
-	else
-		return false;
-}
-#endif
 
 } // namespace ETHGlobal

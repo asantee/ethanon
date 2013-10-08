@@ -31,13 +31,7 @@
 
 #include "Resource/ETHDirectories.h"
 
-#include <Unicode/UTF8Converter.h>
-
-#ifdef GS2D_STR_TYPE_WCHAR
- #include "../addons/utf16/scriptbuilder.h"
-#else
- #include "../addons/ansi/scriptbuilder.h"
-#endif
+#include "../addons/scriptbuilder.h"
 
 #if defined(APPLE_IOS) || defined(ANDROID)
  #define MOBILE
@@ -260,12 +254,6 @@ bool ETHEngine::PrepareScriptingEngine(const std::vector<gs2d::str_type::string>
 	if (!CheckAngelScriptError((r < 0), GS_L("Failed setting up script scanner.")))
 		return false;
 
-	#ifdef GS2D_STR_TYPE_WCHAR
-	r = m_pASEngine->SetEngineProperty(asEP_STRING_ENCODING, 1);
-	// #else
-	// r = m_pASEngine->SetEngineProperty(asEP_STRING_ENCODING, 0);
-	#endif
-
 	if (!CheckAngelScriptError((r < 0), GS_L("Failed while setting up string encoding")))
 		return false;
 
@@ -421,7 +409,7 @@ bool ETHEngine::BuildModule(const std::vector<gs2d::str_type::string>& definedWo
 asIScriptFunction* ETHEngine::GetMainFunction() const
 {
 	// finds the main function
-	asIScriptFunction* mainFunc = m_pASModule->GetFunctionByName(utf8::c(ETH_MAIN_FUNCTION).c_str());
+	asIScriptFunction* mainFunc = m_pASModule->GetFunctionByName(ETH_MAIN_FUNCTION.c_str());
 	ETH_STREAM_DECL(ss) << GS_L("Function not found: ") << ETH_MAIN_FUNCTION;
 	CheckAngelScriptError((!mainFunc), ss.str());
 	return mainFunc;
