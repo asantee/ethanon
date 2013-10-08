@@ -23,7 +23,7 @@
 #ifndef PLATFORM_IOS_H_
 #define PLATFORM_IOS_H_
 
-#include "../StdAnsiFileManager.h"
+#include "../StdFileManager.h"
 #include "../NativeCommandAssembler.h"
 #include "../NativeCommandForwarder.h"
 #include "../FileLogger.h"

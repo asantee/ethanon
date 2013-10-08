@@ -46,12 +46,12 @@ bool FileManager::GetUTF8FileString(const str_type::string &fileName, str_type::
 
 		// check for UTF8 BOM
 		std::size_t firstChar = 0;
-		if (utf8::starts_with_bom(&adr[0], &adr[bufferSize - 1]))
+		if (utf8::starts_with_bom(&adr[0], &adr[bufferSize]))
 		{
 			firstChar = 3;
 		}
 
-		utf8::replace_invalid(&adr[firstChar], &adr[bufferSize - 1], back_inserter(out));
+		utf8::replace_invalid(&adr[firstChar], &adr[bufferSize], back_inserter(out));
 		return true;
 	}
 	else
@@ -69,9 +69,12 @@ bool FileManager::GetUTF16FileString(const str_type::string &fileName, str_type:
 
 		if (bufferSize == 0)
 			return false;
-	
-		const unsigned char* adr = (buffer->GetAddress());
-		utf8::utf16to8(&adr[0], &adr[bufferSize - 1], back_inserter(out));
+        
+        const std::size_t bomSizeInBytes = 2;
+        
+		const unsigned char* begin = &(buffer->GetAddress()[bomSizeInBytes]);
+		const unsigned char* end   = &begin[bufferSize - bomSizeInBytes];
+		utf8::utf16to8((unsigned short*)begin, (unsigned short*)end, back_inserter(out));
 		return true;
 	}
 	else
