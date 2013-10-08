@@ -517,7 +517,7 @@ bool ETHParticleManager::DrawParticleSystem(
 		
 		if (shouldUseHightlightPS)
 		{
-			currentPS->SetConstant("highlight", finalColor);
+			currentPS->SetConstant(GS_L("highlight"), finalColor);
 		}
 		
 		m_pBMP->DrawOptimal((v2Pos + parallaxOffset), finalColor, particle.angle, Vector2(particle.size, particle.size));

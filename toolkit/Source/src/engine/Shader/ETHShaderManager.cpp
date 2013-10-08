@@ -104,7 +104,7 @@ bool ETHShaderManager::BeginAmbientPass(const ETHSpriteEntity *pRender, const fl
 
 	if (shouldUseHighlightPS)
 	{
-		m_highlightPS->SetConstant("highlight", pRender->GetColorARGB());
+		m_highlightPS->SetConstant(GS_L("highlight"), pRender->GetColorARGB());
 	}
 
 	if (pRender->GetType() == ETHEntityProperties::ET_VERTICAL)

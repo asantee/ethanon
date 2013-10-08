@@ -173,7 +173,7 @@ void D3D9Sprite::RecoverFromBackup()
 	GetInternalData();
 }
 
-bool D3D9Sprite::DrawOptimal(const math::Vector2 &v2Pos, const Color& color, const float angle, const math::Vector2 &v2Size)
+bool D3D9Sprite::DrawOptimal(const math::Vector2 &v2Pos, const math::Vector4& color, const float angle, const math::Vector2 &v2Size)
 {
 	Vector2 size;
 	if (v2Size == Vector2(-1, -1))
@@ -355,7 +355,7 @@ Vector2 D3D9Sprite::GetBitmapSizeF() const
 
 bool D3D9Sprite::Draw(
 	const Vector2& v2Pos,
-	const Color& color,
+	const math::Vector4& color,
 	const float angle,
 	const Vector2& v2Scale)
 {
@@ -375,10 +375,10 @@ bool D3D9Sprite::Draw(
 bool D3D9Sprite::DrawShaped(
 	const Vector2& v2Pos,
 	const Vector2& v2Size,
-	const Color& color0,
-	const Color& color1,
-	const Color& color2,
-	const Color& color3,
+	const math::Vector4& color0,
+	const math::Vector4& color1,
+	const math::Vector4& color2,
+	const math::Vector4& color3,
 	const float angle)
 {
 	if (v2Size == Vector2(0,0))
@@ -501,7 +501,7 @@ void D3D9Sprite::EndFastRendering()
 	m_pDevice->SetVertexShader(NULL);
 }
 
-bool D3D9Sprite::DrawShapedFast(const Vector2 &v2Pos, const Vector2 &v2Size, const Color& color)
+bool D3D9Sprite::DrawShapedFast(const Vector2 &v2Pos, const Vector2 &v2Size, const math::Vector4& color)
 {
 	if (v2Size == Vector2(0,0))
 	{
