@@ -137,7 +137,7 @@ ETHEntityProperties::ETHEntityProperties(const str_type::string& filePath, const
 
 	TiXmlDocument doc(filePath);
 	str_type::string content;
-	fileManager->GetUTF16FileString(filePath, content);
+	fileManager->GetUTFFileString(filePath, content);
 	if (!doc.LoadFile(content, TIXML_ENCODING_LEGACY))
 	{
 		ETH_STREAM_DECL(ss) << GS_L("Couldn't load file: ") << filePath;

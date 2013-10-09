@@ -73,6 +73,10 @@ T *_FileBuffer<T>::GetAddress()
 
 class FileManager
 {
+	virtual bool GetUTF8FileString(const FileBuffer& buffer, gs2d::str_type::string &out);
+	virtual bool GetUTF16FileString(const FileBuffer& buffer, gs2d::str_type::string &out);
+	virtual bool HasUTF16LEBOM(const FileBuffer& buffer);
+
 public:
 	virtual bool IsLoaded() const = 0;
 	virtual bool GetFileBuffer(const gs2d::str_type::string& fileName, FileBuffer &out) = 0;
@@ -80,6 +84,7 @@ public:
 	virtual bool GetAnsiFileString(const gs2d::str_type::string& fileName, gs2d::str_type::string &out);
 	virtual bool GetUTF8FileString(const gs2d::str_type::string& fileName, gs2d::str_type::string &out);
 	virtual bool GetUTF16FileString(const gs2d::str_type::string& fileName, gs2d::str_type::string &out);
+	virtual bool GetUTFFileString(const gs2d::str_type::string& fileName, gs2d::str_type::string &out);
 
 	virtual bool FileExists(const gs2d::str_type::string& fileName) const = 0;
 	virtual bool IsPacked() const = 0;

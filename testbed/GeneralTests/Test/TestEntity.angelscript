@@ -34,7 +34,7 @@ class TestEntity : Test
 			"If you see this it's\nbecause multipage bitmap\nfonts work just fine",
 			"Verdana128.fnt", 0xFFFFFFFF, 6000, 0.5f);
 
-		const int birdId = AddEntity("bird.ent", vector3(GetScreenSize()/2, 10.0f), 0);
+		const int birdId = AddEntity("bird_utf8_bom.ent", vector3(GetScreenSize()/2, 10.0f), 0);
 		@bird = SeekEntity(birdId);
 
 		@character = SeekEntity("character");

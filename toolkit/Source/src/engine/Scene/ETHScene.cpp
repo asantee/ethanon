@@ -167,7 +167,7 @@ bool ETHScene::LoadFromFile(const str_type::string& fileName)
 	// Read the header and check if the file is valid
 	TiXmlDocument doc(fileName);
 	str_type::string content;
-	fileManager->GetUTF16FileString(fileName, content);
+	fileManager->GetUTFFileString(fileName, content);
 	if (!doc.LoadFile(content, TIXML_ENCODING_LEGACY))
 	{
 		ETH_STREAM_DECL(ss) << GS_L("ETHScene::Open: file found, but parsing failed (") << fileName << GS_L(")");
