@@ -3,6 +3,8 @@
 #include "globalCallbacks.angelscript"
 #include "nonCoreTests.angelscript"
 
+#include "fileEncodedWithoutUTF8BOM.angelscript"
+
 Testbed testbed;
 
 void main()
@@ -44,6 +46,8 @@ void main()
 	{
 		print("app.enml defined words test PASSED!");
 	}
+
+	codeInsideFileWithoutBOM::print();
 }
 
 const string LOOP = "loop";
