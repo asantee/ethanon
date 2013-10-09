@@ -42,7 +42,7 @@ class D3D9Sprite : public Sprite
 
 	bool LoadSprite(
 		VideoWeakPtr video,
-		const std::wstring& fileName,
+		const str_type::string& fileName,
 		Color mask = constant::ZERO,
 		const unsigned int width = 0,
 		const unsigned int height = 0);

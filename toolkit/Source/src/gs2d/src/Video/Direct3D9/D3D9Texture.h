@@ -59,7 +59,7 @@ protected:
 	);
 	bool LoadTexture(
 		VideoWeakPtr video,
-		const std::wstring& fileName, Color mask,
+		const str_type::string& fileName, Color mask,
 			const unsigned int width = 0, const unsigned int height = 0,
 			const unsigned int nMipMaps = 0
 	);

@@ -24,9 +24,12 @@
 #include "D3D9Texture.h"
 #include "D3D9Sprite.h"
 #include "D3D9CgShader.h"
+
+#include "../../Platform/Platform.h"
+
 #include "../cgShaderCode.h"
+
 #include <vector>
-#include "../../Unicode/UTF8Converter.h"
 
 namespace gs2d {
 using namespace math;
@@ -53,7 +56,7 @@ D3D9Video::RENDER_TARGET::RENDER_TARGET(
 GS2D_API VideoPtr CreateVideo(
 	const unsigned int width,
 	const unsigned int height,
-	const std::wstring& winTitle,
+	const str_type::string& winTitle,
 	const bool windowed,
 	const bool sync,
 	const Platform::FileIOHubPtr& fileIOHub,
@@ -64,20 +67,20 @@ GS2D_API VideoPtr CreateVideo(
 }
 
 /// Platform specific user message function implementation
-void ShowMessage(std::wstringstream &stream, const GS_MESSAGE_TYPE type)
+void ShowMessage(str_type::stringstream &stream, const GS_MESSAGE_TYPE type)
 {
 	if (type == GSMT_INFO)
 	{
-		std::wcout << L"GS2D INFO: " << stream.str() << std::endl;
+		GS2D_COUT << GS_L("GS2D INFO: ") << stream.str() << std::endl;
 	}
 	else if (type == GSMT_WARNING)
 	{
-		std::wcerr << L"GS2D WARNING: " << stream.str() << std::endl;
+		GS2D_CERR << GS_L("GS2D WARNING: ") << stream.str() << std::endl;
 	}
 	else if (type == GSMT_ERROR)
 	{
-		std::wcerr << L"GS2D ERROR: " << stream.str() << std::endl;
-		MessageBox(NULL, stream.str().c_str(), L"GS2D ERROR", MB_OK | MB_ICONERROR);
+		GS2D_CERR << GS_L("GS2D ERROR: ") << stream.str() << std::endl;
+		MessageBoxA(NULL, stream.str().c_str(), GS_L("GS2D ERROR"), MB_OK | MB_ICONERROR);
 	}
 }
 
@@ -95,14 +98,14 @@ void SetupShaderViewData(IDirect3DDevice9 *pDevice, ShaderPtr pCurrentVS, Shader
 	Matrix4x4 ortho;
 	Orthogonal(ortho, width, height, D3D9Video::ZNEAR, D3D9Video::ZFAR);
 
-	pCurrentVS->SetMatrixConstant(L"viewMatrix", ortho);
-	pCurrentVS->SetConstant(L"screenSize", Vector2(width, height));
+	pCurrentVS->SetMatrixConstant(GS_L("viewMatrix"), ortho);
+	pCurrentVS->SetConstant(GS_L("screenSize"), Vector2(width, height));
 
-	pRectVS->SetMatrixConstant(L"viewMatrix", ortho);
-	pRectVS->SetConstant(L"screenSize", Vector2(width, height));
+	pRectVS->SetMatrixConstant(GS_L("viewMatrix"), ortho);
+	pRectVS->SetConstant(GS_L("screenSize"), Vector2(width, height));
 
-	pFontVS->SetMatrixConstant(L"viewMatrix", ortho);
-	pFontVS->SetConstant(L"screenSize", Vector2(width, height));
+	pFontVS->SetMatrixConstant(GS_L("viewMatrix"), ortho);
+	pFontVS->SetConstant(GS_L("screenSize"), Vector2(width, height));
 	pSurface->Release();
 }
 
@@ -128,8 +131,8 @@ IDirect3D9 *CreateAPI()
 	IDirect3D9* m_pD3D;
 	if ((m_pD3D = Direct3DCreate9(D3D_SDK_VERSION)) == NULL)
 	{
-		std::wstringstream ss;
-		ss << L"Couldn't create the IDirect3D9 object";
+		str_type::stringstream ss;
+		ss << GS_L("Couldn't create the IDirect3D9 object");
 		ShowMessage(ss, GSMT_ERROR);
 		return NULL;
 	}
@@ -150,7 +153,7 @@ const unsigned int D3D9Video::TEXTURE_CHANNELS = 8;
 boost::shared_ptr<D3D9Video> D3D9Video::Create(
 	const unsigned int width,
 	const unsigned int height,
-	const std::wstring& winTitle,
+	const str_type::string& winTitle,
 	const bool windowed,
 	const bool sync,
 	const Texture::PIXEL_FORMAT pfBB,
@@ -180,7 +183,7 @@ TexturePtr D3D9Video::CreateTextureFromFileInMemory(
 }
 
 TexturePtr D3D9Video::LoadTextureFromFile(
-	const std::wstring& fileName,
+	const str_type::string& fileName,
 	Color mask,
 	const unsigned int width,
 	const unsigned int height,
@@ -223,7 +226,7 @@ SpritePtr D3D9Video::CreateSprite(
 }
 
 SpritePtr D3D9Video::CreateSprite(
-	const std::wstring& fileName,
+	const str_type::string& fileName,
 	Color mask,
 	const unsigned int width,
 	const unsigned int height)
@@ -250,7 +253,7 @@ SpritePtr D3D9Video::CreateRenderTarget(
 }
 
 ShaderPtr D3D9Video::LoadShaderFromFile(
-	const std::wstring& fileName,
+	const str_type::string& fileName,
 	const Shader::SHADER_FOCUS focus,
 	const Shader::SHADER_PROFILE profile,
 	const char *entry)
@@ -281,7 +284,7 @@ ShaderPtr D3D9Video::LoadShaderFromString(
 D3D9Video::D3D9Video(
 	const unsigned int width,
 	const unsigned int height,
-	const std::wstring& winTitle,
+	const str_type::string& winTitle,
 	const bool windowed,
 	const bool sync,
 	const Texture::PIXEL_FORMAT pfBB,
@@ -335,7 +338,7 @@ D3D9Video::~D3D9Video()
 
 	//ShowWindow(m_videoInfo->m_hWnd, SW_HIDE);
 	SendMessage(m_videoInfo->m_hWnd, WM_CLOSE, 0, 0);
-	UnregisterClassW(m_videoInfo->className.c_str(), m_videoInfo->m_hInstance);
+	UnregisterClassA(m_videoInfo->className.c_str(), m_videoInfo->m_hInstance);
 }
 
 void D3D9Video::RemoveFromTargetList(Sprite *pSprite)
@@ -474,9 +477,9 @@ Color D3D9Video::GetBGColor() const
 	return m_backgroundColor;
 }
 
-void D3D9Video::Message(const std::wstring& text, const GS_MESSAGE_TYPE type) const
+void D3D9Video::Message(const str_type::string& text, const GS_MESSAGE_TYPE type) const
 {
-	std::wstringstream ss;
+	str_type::stringstream ss;
 	ss << text;
 	ShowMessage(ss, type);
 }
@@ -492,13 +495,13 @@ bool D3D9Video::BeginScene(const Color& bgColor, const bool clear)
 	{
 		if (FAILED(m_pDevice->Clear(0, NULL, D3DCLEAR_TARGET|D3DCLEAR_ZBUFFER, color, 1.0f, 0)))
 		{
-			Message(L"IDirect3DDevice9::Clear has failed", GSMT_ERROR);
+			Message(GS_L("IDirect3DDevice9::Clear has failed"), GSMT_ERROR);
 			return false;
 		}
 	}
 	if (FAILED(m_pDevice->BeginScene()))
 	{
-		Message(L"IDirect3DDevice9::BeginScene has failed", GSMT_ERROR);
+		Message(GS_L("IDirect3DDevice9::BeginScene has failed"), GSMT_ERROR);
 		return false;
 	}
 	m_rendering = true;
@@ -509,7 +512,7 @@ bool D3D9Video::EndScene(const bool swap)
 {
 	if (FAILED(m_pDevice->EndScene()))
 	{
-		Message(L"IDirect3DDevice9::EndScene has failed", GSMT_ERROR);
+		Message(GS_L("IDirect3DDevice9::EndScene has failed"), GSMT_ERROR);
 	}
 	if (swap)
 	{
@@ -518,7 +521,7 @@ bool D3D9Video::EndScene(const bool swap)
 			m_videoInfo->m_deviceLost = true;
 		else if (FAILED(hr))
 		{
-			Message(L"IDirect3DDevice9::Present has failed", GSMT_ERROR);
+			Message(GS_L("IDirect3DDevice9::Present has failed"), GSMT_ERROR);
 		}
 	}
 
@@ -530,7 +533,7 @@ bool D3D9Video::BeginSpriteScene(const Color& bgColor)
 {
 	if (!(BeginScene(bgColor)))
 	{
-		Message(L"IDirect3DDevice9::BeginScene has failed");
+		Message(GS_L("IDirect3DDevice9::BeginScene has failed"));
 	}
 	m_pDevice->SetRenderState(D3DRS_AMBIENT, gs2d::constant::WHITE);
 	m_pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
@@ -559,7 +562,7 @@ bool D3D9Video::BeginTargetScene(const Color& bgColor, const bool clear)
 {
 	if (FAILED(BeginScene(bgColor, clear)))
 	{
-		Message(L"IDirect3DDevice9::BeginScene has failed");
+		Message(GS_L("IDirect3DDevice9::BeginScene has failed"));
 	}
 	m_pDevice->SetRenderState(D3DRS_AMBIENT, gs2d::constant::WHITE);
 	for (unsigned int t=0; t<TEXTURE_CHANNELS; t++)
@@ -642,7 +645,7 @@ bool D3D9Video::SetScissor(const Rect2D& rect)
 	m_scissor = rect;
 	if (!m_videoInfo->m_scissorSupported)
 	{
-		Message(L"Hardware scissors are not supported - D3D9Video::SetScissor");
+		Message(GS_L("Hardware scissors are not supported - D3D9Video::SetScissor"));
 		return false;
 	}
 
@@ -837,15 +840,15 @@ bool D3D9Video::ResetVideoMode(const VIDEO_MODE& mode, const bool toggleFullscre
 
 	if (rendering)
 	{
-		Message(L"scene ended", GSMT_INFO);
+		Message(GS_L("scene ended"), GSMT_INFO);
 		EndSpriteScene();
 	}
-	Message(L"starting device reset", GSMT_INFO);
+	Message(GS_L("starting device reset"), GSMT_INFO);
 
 	// Prepare render targets before reseting the device
 	if (!m_targets.empty())
 	{
-		Message(L"deleting render targets...", GSMT_INFO);
+		Message(GS_L("deleting render targets..."), GSMT_INFO);
 		RENDER_TARGET_LIST::iterator iter;
 		for (iter = m_targets.begin(); iter != m_targets.end(); ++iter)
 		{
@@ -853,7 +856,7 @@ bool D3D9Video::ResetVideoMode(const VIDEO_MODE& mode, const bool toggleFullscre
 			if (sprite->GetType() != Sprite::T_NOT_LOADED)
 				sprite->OnLostDevice();
 		}
-		Message(L"render targets deleted", GSMT_INFO);
+		Message(GS_L("render targets deleted"), GSMT_INFO);
 	}
 
 	// Destroy the backbuffer
@@ -861,14 +864,14 @@ bool D3D9Video::ResetVideoMode(const VIDEO_MODE& mode, const bool toggleFullscre
 	{
 		m_videoInfo->m_pBackBuffer->Release();
 		m_videoInfo->m_pBackBuffer = NULL;
-		Message(L"backbuffer released", GSMT_INFO);
+		Message(GS_L("backbuffer released"), GSMT_INFO);
 	}
 
 	// if the mode is toggled, do the window properties changing
 	D3DPRESENT_PARAMETERS& d3dpp = m_videoInfo->m_d3dPP;
 	if (toggleFullscreen)
 	{
-		Message(L"trying to toggle fullscreen", GSMT_INFO);
+		Message(GS_L("trying to toggle fullscreen"), GSMT_INFO);
 		d3dpp.Windowed = !d3dpp.Windowed;
 		m_videoInfo->m_windowStyle = (d3dpp.Windowed) ? W32_WINDOWED_STYLE : W32_FULLSCREEN_STYLE;
 
@@ -886,7 +889,7 @@ bool D3D9Video::ResetVideoMode(const VIDEO_MODE& mode, const bool toggleFullscre
 	// change sizes if the user wants to resize the backbuffer
 	if (mode.width != 0 && mode.height != 0 || toggleFullscreen)
 	{
-		Message(L"recreating the D3DPP...", GSMT_INFO);
+		Message(GS_L("recreating the D3DPP..."), GSMT_INFO);
 		d3dpp.BackBufferWidth  = m_screenDim.x = mode.width;
 		d3dpp.BackBufferHeight = m_screenDim.y = mode.height;
 
@@ -913,11 +916,11 @@ bool D3D9Video::ResetVideoMode(const VIDEO_MODE& mode, const bool toggleFullscre
 	const HRESULT hr = m_pDevice->Reset(&d3dpp);
 	if (FAILED(hr))
 	{
-		Message(L"Couldn't reset the video mode");
+		Message(GS_L("Couldn't reset the video mode"));
 	}
 	else
 	{
-		Message(L"device successfully reset", GSMT_INFO);
+		Message(GS_L("device successfully reset"), GSMT_INFO);
 		SetVertexShader(GetVertexShader());
 		SetPixelShader(GetPixelShader());
 		SetupShaderViewData(m_pDevice, GetVertexShader(), m_rectVS, m_fastVS);
@@ -951,7 +954,7 @@ bool D3D9Video::ResetVideoMode(const VIDEO_MODE& mode, const bool toggleFullscre
 					sprite->RecoverFromBackup();
 				}
 			}
-			Message(L"targets recovered from backup (if possible)", GSMT_INFO);
+			Message(GS_L("targets recovered from backup (if possible)"), GSMT_INFO);
 		}
 		// Get the backbuffer again
 		m_pDevice->GetRenderTarget(0, &m_videoInfo->m_pBackBuffer);
@@ -971,10 +974,10 @@ bool D3D9Video::ResetVideoMode(const VIDEO_MODE& mode, const bool toggleFullscre
 	// if it has been done during the rendering... keep it up
 	if (rendering)
 	{
-		Message(L"begining scene rendering", GSMT_INFO);
+		Message(GS_L("begining scene rendering"), GSMT_INFO);
 		BeginSpriteScene();
 	}
-	Message(L"device successfully reset", GSMT_INFO);
+	Message(GS_L("device successfully reset"), GSMT_INFO);
 
 	ScreenSizeChangeListenerPtr listener = m_screenSizeChangeListener.lock();
 	if (listener)
@@ -1072,7 +1075,7 @@ bool D3D9Video::SetVertexShader(ShaderPtr pShader)
 	{
 		if (pShader->GetShaderFocus() != Shader::SF_VERTEX)
 		{
-			Message(L"The shader set is not a vertex program - D3D9Video::SetVertexShader");
+			Message(GS_L("The shader set is not a vertex program - D3D9Video::SetVertexShader"));
 			return false;
 		}
 		m_pCurrentVS = pShader;
@@ -1096,7 +1099,7 @@ bool D3D9Video::SetPixelShader(ShaderPtr pShader)
 	else
 	if (pShader->GetShaderFocus() != Shader::SF_PIXEL)
 	{
-		Message(L"The shader set is not a vertex program - D3D9Video::SetPixelShader");
+		Message(GS_L("The shader set is not a vertex program - D3D9Video::SetPixelShader"));
 		return false;
 	}
 	return true;
@@ -1166,7 +1169,7 @@ bool D3D9Video::SetBlendMode(const unsigned int passIdx, const BLEND_MODE mode)
 {
 	if (passIdx <= 0)
 	{
-		Message(L"nPass can't be less or equal to 0 - D3D9Video::SetBlendMode");
+		Message(GS_L("nPass can't be less or equal to 0 - D3D9Video::SetBlendMode"));
 		return false;
 	}
 	m_pDevice->SetTextureStageState(passIdx, D3DTSS_COLOROP, (mode==BM_ADD) ? D3DTOP_ADD : D3DTOP_MODULATE);
@@ -1217,7 +1220,7 @@ bool D3D9Video::DrawLine(const Vector2 &p1, const Vector2 &p2, const Color& colo
 		Vector2 a = p1, b = p2;
 		if (a == b)
 		{
-			Message(L"The line can't be a point (a can't be == b) - D3D9Video::DrawLine", GSMT_WARNING);
+			Message(GS_L("The line can't be a point (a can't be == b) - D3D9Video::DrawLine"), GSMT_WARNING);
 			return false;
 		}
 		const Vector2 v2Dir = a - b;
@@ -1281,14 +1284,14 @@ bool D3D9Video::DrawRectangle(const Vector2 &v2Pos, const Vector2 &v2Size,
 	Matrix4x4 mRot;
 	if (angle != 0.0f)
 		mRot = RotateZ(DegreeToRadian(angle));
-	m_rectVS->SetMatrixConstant(L"rotationMatrix", mRot);
-	m_rectVS->SetConstant(L"size", v2Size);
-	m_rectVS->SetConstant(L"entityPos", v2Pos);
-	m_rectVS->SetConstant(L"center", v2Center);
-	m_rectVS->SetConstant(L"color0", color0);
-	m_rectVS->SetConstant(L"color1", color1);
-	m_rectVS->SetConstant(L"color2", color2);
-	m_rectVS->SetConstant(L"color3", color3);
+	m_rectVS->SetMatrixConstant(GS_L("rotationMatrix"), mRot);
+	m_rectVS->SetConstant(GS_L("size"), v2Size);
+	m_rectVS->SetConstant(GS_L("entityPos"), v2Pos);
+	m_rectVS->SetConstant(GS_L("center"), v2Center);
+	m_rectVS->SetConstant(GS_L("color0"), color0);
+	m_rectVS->SetConstant(GS_L("color1"), color1);
+	m_rectVS->SetConstant(GS_L("color2"), color2);
+	m_rectVS->SetConstant(GS_L("color3"), color3);
 
 	ShaderPtr vertexShader = GetVertexShader(), pixelShader = GetPixelShader();
 
@@ -1300,7 +1303,7 @@ bool D3D9Video::DrawRectangle(const Vector2 &v2Pos, const Vector2 &v2Size,
 
 	if (!m_videoInfo->DrawSprite(m_pDevice, Sprite::RM_TWO_TRIANGLES))
 	{
-		Message(L"Rendering failed - D3D9Video::DrawRectangle");
+		Message(GS_L("Rendering failed - D3D9Video::DrawRectangle"));
 		return false;
 	}
 
@@ -1319,7 +1322,7 @@ Video::VIDEO_MODE D3D9Video::GetVideoMode(const unsigned int modeIdx) const
 		mode.pf = Texture::PF_UNKNOWN;
 		mode.idx = 0x0;
 
-		Message(L"The selected video mode doesn't exist - D3D9Video::GetVideoMode");
+		Message(GS_L("The selected video mode doesn't exist - D3D9Video::GetVideoMode"));
 		return mode;
 	}
 	return m_modes[modeIdx];
@@ -1331,7 +1334,7 @@ unsigned int D3D9Video::GetVideoModeCount() const
 	{
 		if ((m_pD3D = CreateAPI()) == NULL)
 		{
-			Message(L"Couldn't create the IDirect3D9 object - D3D9Video::GetVideoModeCount");
+			Message(GS_L("Couldn't create the IDirect3D9 object - D3D9Video::GetVideoModeCount"));
 			return 0;
 		}
 		SetDisplayModes(m_pD3D);
@@ -1340,30 +1343,30 @@ unsigned int D3D9Video::GetVideoModeCount() const
 }
 
 bool D3D9Video::StartApplication(const unsigned int width, const unsigned int height,
-								const std::wstring& winTitle, const bool windowed,
+								const str_type::string& winTitle, const bool windowed,
 								const bool sync, const Texture::PIXEL_FORMAT pfBB, const bool maximizable)
 {
 	if (!m_pD3D)
 	{
 		if ((m_pD3D = CreateAPI()) == NULL)
 		{
-			Message(L"Couldn't create the IDirect3D9 object - D3D9Video::StartApplication");
+			Message(GS_L("Couldn't create the IDirect3D9 object - D3D9Video::StartApplication"));
 			return false;
 		}
 		SetDisplayModes(m_pD3D);
-		Message(L"creating the API object IDirect3D9", GSMT_INFO);
+		Message(GS_L("creating the API object IDirect3D9"), GSMT_INFO);
 	}
 
 	m_sync = sync;
 
 	// open window
-	WNDCLASSEXW wc = { sizeof(WNDCLASSEX), 0, MsgProc, 0, 0,
+	WNDCLASSEXA wc = { sizeof(WNDCLASSEX), 0, MsgProc, 0, 0,
 						GetModuleHandle(NULL), NULL, NULL, NULL, NULL,
 						winTitle.c_str(), NULL };
 	m_videoInfo->m_hInstance = wc.hInstance;
 	m_videoInfo->className = winTitle;
 
-	RegisterClassExW(&wc);
+	RegisterClassExA(&wc);
 
 	m_windowTitle = winTitle;
 	m_screenDim.x = width;
@@ -1407,7 +1410,7 @@ bool D3D9Video::StartApplication(const unsigned int width, const unsigned int he
 		m_topBarSize.y = -rect.top;
 	}
 
-	m_videoInfo->m_hWnd= CreateWindowW(m_videoInfo->className.c_str(), winTitle.c_str(),
+	m_videoInfo->m_hWnd= CreateWindowA(m_videoInfo->className.c_str(), winTitle.c_str(),
 							m_videoInfo->m_windowStyle, m_windowPos.x, m_windowPos.y, m_windowedDim.x, m_windowedDim.y,
 							GetDesktopWindow(), NULL, wc.hInstance, m_videoInfo.get());
 
@@ -1430,7 +1433,7 @@ bool D3D9Video::StartApplication(const unsigned int width, const unsigned int he
 	D3DDISPLAYMODE currentMode;
 	if(FAILED(m_pD3D->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &currentMode)))
 	{
-		Message(L"Couldn't get the display mode - D3D9Video::StartApplication");
+		Message(GS_L("Couldn't get the display mode - D3D9Video::StartApplication"));
 		m_pD3D->Release();
 		m_pD3D = NULL;
 		return false;
@@ -1444,7 +1447,7 @@ bool D3D9Video::StartApplication(const unsigned int width, const unsigned int he
 										fmtCurrent, D3DUSAGE_RENDERTARGET,
 										D3DRTYPE_SURFACE, d3dFmt)))
 	{
-		Message(L"The back buffer format had to be changed to default - D3D9Video::StartApplication");
+		Message(GS_L("The back buffer format had to be changed to default - D3D9Video::StartApplication"));
 		d3dFmt = fmtCurrent;
 	}
 
@@ -1467,18 +1470,18 @@ bool D3D9Video::StartApplication(const unsigned int width, const unsigned int he
 	m_videoInfo->m_nMaxRTs = static_cast<int>(caps.NumSimultaneousRTs);
 
 	if (!m_videoInfo->m_pow2Tex)
-		Message(L"non pow-2 textures aren't supported. You may experience lower graphic quality", GSMT_INFO);
+		Message(GS_L("non pow-2 textures aren't supported. You may experience lower graphic quality"), GSMT_INFO);
 
 	m_videoInfo->m_scissorSupported = (caps.RasterCaps & D3DPRASTERCAPS_SCISSORTEST);
 	if (!m_videoInfo->m_scissorSupported)
-		Message(L"Scissors aren't supported", GSMT_INFO);
+		Message(GS_L("Scissors aren't supported"), GSMT_INFO);
 
 	m_videoInfo->m_magAniso = (caps.TextureFilterCaps  & D3DPTFILTERCAPS_MAGFANISOTROPIC);
 	m_videoInfo->m_minAniso = (caps.TextureFilterCaps  & D3DPTFILTERCAPS_MINFANISOTROPIC);
 	m_videoInfo->m_maxAniso = caps.MaxAnisotropy;
 	m_videoInfo->m_nMaxMultiTex = static_cast<unsigned int>(caps.MaxSimultaneousTextures);
-	std::wstringstream ss;
-	ss << L"Maximum number of simultaneous textures: " << m_videoInfo->m_nMaxMultiTex << std::endl;
+	str_type::stringstream ss;
+	ss << GS_L("Maximum number of simultaneous textures: ") << m_videoInfo->m_nMaxMultiTex << std::endl;
 	ShowMessage(ss, GSMT_INFO);
 
 	m_videoInfo->m_isVSSupported = (caps.VertexShaderVersion >= D3DVS_VERSION(1,1));
@@ -1500,9 +1503,9 @@ bool D3D9Video::StartApplication(const unsigned int width, const unsigned int he
 		flags = D3DCREATE_SOFTWARE_VERTEXPROCESSING;
 
 	if (flags & D3DCREATE_HARDWARE_VERTEXPROCESSING)
-		Message(L"setting up the window with HARDware vertex processing...", GSMT_INFO);
+		Message(GS_L("setting up the window with HARDware vertex processing..."), GSMT_INFO);
 	else
-		Message(L"setting up the window with SOFTware vertex processing...", GSMT_INFO);
+		Message(GS_L("setting up the window with SOFTware vertex processing..."), GSMT_INFO);
 
 	if (FAILED(m_pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, m_videoInfo->m_hWnd,
 								flags, &d3dpp, &m_pDevice)))
@@ -1516,7 +1519,7 @@ bool D3D9Video::StartApplication(const unsigned int width, const unsigned int he
 		}
 		else
 		{
-			Message(L"The window couldn't be created");
+			Message(GS_L("The window couldn't be created"));
 			m_pD3D->Release();
 			m_pD3D = NULL;
 			return false;
@@ -1525,14 +1528,14 @@ bool D3D9Video::StartApplication(const unsigned int width, const unsigned int he
 		if (FAILED(m_pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, m_videoInfo->m_hWnd,
 										flags, &m_videoInfo->m_d3dPP, &m_pDevice)))
 		{
-			Message(L"The window screen parameters are probably invalid");
+			Message(GS_L("The window screen parameters are probably invalid"));
 			m_pD3D->Release();
 			m_pD3D = NULL;
 			return false;
 		}
 	}
 
-	Message(L"the application started successfuly", GSMT_INFO);
+	Message(GS_L("the application started successfuly"), GSMT_INFO);
 
 	m_screenDim.x = m_videoInfo->m_d3dPP.BackBufferWidth;
 	m_screenDim.y = m_videoInfo->m_d3dPP.BackBufferHeight;
@@ -1550,14 +1553,14 @@ bool D3D9Video::StartApplication(const unsigned int width, const unsigned int he
 	m_videoInfo->m_startTime = GetTickCount();
 	if (!m_videoInfo->CreateVB(m_pDevice))
 	{
-		Message(L"The main vertex buffer couldn't be created");
+		Message(GS_L("The main vertex buffer couldn't be created"));
 	}
 	m_shaderContext = D3D9CgShaderContextPtr(new D3D9CgShaderContext(m_pDevice));
-	m_defaultVS = LoadShaderFromString(L"defaultShader", gs2dglobal::defaultVSCode, Shader::SF_VERTEX, Shader::SP_MODEL_2, "sprite");
-	m_rectVS = LoadShaderFromString(L"rectShader", gs2dglobal::defaultVSCode, Shader::SF_VERTEX, Shader::SP_MODEL_2, "rectangle");
-	m_fastVS = LoadShaderFromString(L"fastShader", gs2dglobal::fastSimpleVSCode, Shader::SF_VERTEX, Shader::SP_MODEL_2, "fast");
+	m_defaultVS = LoadShaderFromString(GS_L("defaultShader"), gs2dglobal::defaultVSCode, Shader::SF_VERTEX, Shader::SP_MODEL_2, "sprite");
+	m_rectVS = LoadShaderFromString(GS_L("rectShader"), gs2dglobal::defaultVSCode, Shader::SF_VERTEX, Shader::SP_MODEL_2, "rectangle");
+	m_fastVS = LoadShaderFromString(GS_L("fastShader"), gs2dglobal::fastSimpleVSCode, Shader::SF_VERTEX, Shader::SP_MODEL_2, "fast");
 	m_pCurrentVS = m_defaultVS;
-	m_defaultVS->SetConstant(L"cameraPos", GetCameraPos());
+	m_defaultVS->SetConstant(GS_L("cameraPos"), GetCameraPos());
 
 	Orthogonal(m_videoInfo->m_orthoMatrix, GetScreenSizeF().x, GetScreenSizeF().y, ZNEAR, ZFAR);
 	SetBGColor(gs2d::constant::BLACK);
@@ -1606,13 +1609,13 @@ bool D3D9Video::SetRenderTarget(SpritePtr pTarget, const unsigned int target)
 			}
 			if (!pTexture)
 			{
-				Message(L"Invalid target - D3D9Video::SetRenderTarget");
+				Message(GS_L("Invalid target - D3D9Video::SetRenderTarget"));
 			}
 			pTexture->GetSurfaceLevel(0, &pSurface);
 		}
 		if (FAILED(m_pDevice->SetRenderTarget(static_cast<DWORD>(target), pSurface)))
 		{
-			Message(L"Invalid target - D3D9Video::SetRenderTarget");
+			Message(GS_L("Invalid target - D3D9Video::SetRenderTarget"));
 			return false;
 		}
 		else if (pSurface)
@@ -1726,15 +1729,15 @@ void D3D9Video::SetDisplayModes(IDirect3D9 *pD3D) const
 	m_modes.resize(iter - m_modes.begin());
 }
 
-bool D3D9Video::SetWindowTitle(const std::wstring& title)
+bool D3D9Video::SetWindowTitle(const str_type::string& title)
 {
 	m_windowTitle = title;
 	if (m_videoInfo->m_d3dPP.Windowed)
-		SetWindowTextW(m_videoInfo->m_hWnd, title.c_str());
+		SetWindowTextA(m_videoInfo->m_hWnd, title.c_str());
 	return true;
 }
 
-std::wstring D3D9Video::GetWindowTitle() const
+str_type::string D3D9Video::GetWindowTitle() const
 {
 	return m_windowTitle;
 }
@@ -1810,7 +1813,7 @@ bool D3D9Video::IsCursorHidden() const
 	return m_cursorHidden;
 }
 
-bool D3D9Video::SaveScreenshot(const wchar_t *wcsName, const Texture::BITMAP_FORMAT fmt, Rect2D rect)
+bool D3D9Video::SaveScreenshot(const str_type::char_t* name, const Texture::BITMAP_FORMAT fmt, Rect2D rect)
 {
 	IDirect3DSurface9 *pd3dsFront = NULL;
 	D3DDISPLAYMODE displayMode;
@@ -1819,7 +1822,7 @@ bool D3D9Video::SaveScreenshot(const wchar_t *wcsName, const Texture::BITMAP_FOR
 	if (FAILED(m_pDevice->CreateOffscreenPlainSurface(displayMode.Width, displayMode.Height,
 		D3DFMT_A8R8G8B8, D3DPOOL_SYSTEMMEM, &pd3dsFront, NULL)))
 	{
-		Message(L"Failed while creating an offscreen surface - D3D9Video::SaveScreenshot");
+		Message(GS_L("Failed while creating an offscreen surface - D3D9Video::SaveScreenshot"));
 		return false;
 	}
 
@@ -1838,20 +1841,20 @@ bool D3D9Video::SaveScreenshot(const wchar_t *wcsName, const Texture::BITMAP_FOR
 			wRect.right = rect.pos.x+rect.size.x;
 			wRect.bottom = rect.pos.y+rect.size.y;
 		}
-		std::wstring finalName = wcsName;
-		std::wstring ext = GetImageExtension(fmt);
-		if (!IsTheExtensionRight(finalName.c_str(), ext.c_str()))
+		str_type::string finalName = name;
+		str_type::string ext = GetImageExtension(fmt);
+		if (!Platform::IsExtensionRight(finalName, ext))
 		{
 			finalName += ext;
 		}
 		if (
-			FAILED(D3DXSaveSurfaceToFile(
+			FAILED(D3DXSaveSurfaceToFileA(
 				finalName.c_str(), 
 				GetD3DPF(fmt), pd3dsFront, NULL, (cut || m_windowed) ? &wRect : NULL)
 			)
 		)
 		{
-			Message(L"Couldn't save the screenshot to the disc - D3D9Video::SaveScreenshot");
+			Message(GS_L("Couldn't save the screenshot to the disc - D3D9Video::SaveScreenshot"));
 			if (pd3dsFront)
 				pd3dsFront->Release();
 			return false;
@@ -1859,7 +1862,7 @@ bool D3D9Video::SaveScreenshot(const wchar_t *wcsName, const Texture::BITMAP_FOR
 	}
 	else
 	{
-		Message(L"Couldn't get front buffer data - D3D9Video::SaveScreenshot");
+		Message(GS_L("Couldn't get front buffer data - D3D9Video::SaveScreenshot"));
 		if (pd3dsFront)
 			pd3dsFront->Release();
 		return false;

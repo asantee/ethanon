@@ -396,7 +396,7 @@ std::string SceneEditor::DoEditor(SpritePtr pNextAppButton)
 			std::stringstream ss;
 			ss << m_pSelected->GetID();
 
-			video->DrawBitmapText(Vector2(100,100), utf8::c(ss.str()).wstr(), GS_L("Verdana20_shadow.fnt"), gs2d::constant::WHITE
+			video->DrawBitmapText(Vector2(100,100), ss.str(), GS_L("Verdana20_shadow.fnt"), gs2d::constant::WHITE
 			);
 		}
 	#endif

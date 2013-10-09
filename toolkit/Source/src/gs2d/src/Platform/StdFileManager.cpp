@@ -33,7 +33,7 @@ static FILE* LoadFile(const str_type::string& fileName)
 {
 	FILE* file = 0;
 	#if _MSC_VER >= 1500
-		_fopen_s(&file, fileName.c_str(), L"rb");
+		fopen_s(&file, fileName.c_str(), "rb");
 	#else
 		file = fopen(fileName.c_str(), "rb");
 	#endif

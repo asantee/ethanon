@@ -21,9 +21,10 @@
 --------------------------------------------------------------------------------------*/
 
 #include "AudiereAudio.h"
+
 #include "../../Math/GameMath.h"
+
 #include "../../Application.h"
-#include "../../Unicode/UTF8Converter.h"
 
 namespace gs2d {
 
@@ -57,7 +58,7 @@ boost::shared_ptr<AudiereContext> AudiereContext::Create(boost::any data)
 }
 
 AudioSamplePtr AudiereContext::LoadSampleFromFile(
-	const std::wstring& fileName,
+	const str_type::string& fileName,
 	const Platform::FileManagerPtr& fileManager,
 	const Audio::SAMPLE_TYPE type)
 {
@@ -87,7 +88,7 @@ bool AudiereContext::CreateAudioDevice(boost::any data)
 	m_device = audiere::OpenDevice();
 	if (!m_device)
 	{
-		ShowMessage(L"Audiere initialization failed - AudiereContext::CreateAudioDevice");
+		ShowMessage(GS_L("Audiere initialization failed - AudiereContext::CreateAudioDevice"));
 		return false;
 	}
 	return true;
@@ -127,7 +128,7 @@ AudiereSample::~AudiereSample()
 
 bool AudiereSample::LoadSampleFromFile(
 	AudioWeakPtr audio,
-	const std::wstring& fileName,
+	const str_type::string& fileName,
 	const Platform::FileManagerPtr& fileManager,
 	const Audio::SAMPLE_TYPE type)
 {
@@ -142,8 +143,8 @@ bool AudiereSample::LoadSampleFromFile(
 
 	if (!r)
 	{
-		std::wstringstream ss;
-		ss << L"Failed while loading the file: " << fileName;
+		str_type::stringstream ss;
+		ss << GS_L("Failed while loading the file: ") << fileName;
 		ShowMessage(ss);
 		return false;
 	}

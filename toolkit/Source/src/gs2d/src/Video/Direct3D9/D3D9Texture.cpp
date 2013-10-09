@@ -21,8 +21,8 @@
 --------------------------------------------------------------------------------------*/
 
 #include "D3D9Texture.h"
+
 #include "../../Video.h"
-#include "../../unicode/utf8converter.h"
 
 namespace gs2d {
 using namespace math;
@@ -57,8 +57,8 @@ bool D3D9Texture::CreateRenderTarget(VideoWeakPtr video, const unsigned int widt
 	const DWORD dwUsage = D3DUSAGE_RENDERTARGET;
 	if (width <= 0 || height <= 0)
 	{
-		std::wstringstream ss;
-		ss << L"Couldn't create the render surface - D3D9Texture::LoadTexture" << std::endl;
+		str_type::stringstream ss;
+		ss << GS_L("Couldn't create the render surface - D3D9Texture::LoadTexture") << std::endl;
 		ShowMessage(ss, GSMT_ERROR);
 		return false;
 	}
@@ -81,7 +81,7 @@ bool D3D9Texture::CreateRenderTarget(VideoWeakPtr video, const unsigned int widt
 	return true;
 }
 
-bool D3D9Texture::LoadTexture(VideoWeakPtr video, const std::wstring& fileName, Color mask,
+bool D3D9Texture::LoadTexture(VideoWeakPtr video, const str_type::string& fileName, Color mask,
 							  const unsigned int width, const unsigned int height, const unsigned int nMipMaps)
 {
 	Platform::FileManagerPtr fileManager = video.lock()->GetFileIOHub()->GetFileManager();
@@ -97,8 +97,8 @@ bool D3D9Texture::LoadTexture(VideoWeakPtr video, const std::wstring& fileName, 
 	
 	if (!r)
 	{
-		std::wstringstream ss;
-		ss << L"D3D9Texture::LoadTextureFromFile:\nCannot find and/or create the texture from a bitmap: ";
+		str_type::stringstream ss;
+		ss << GS_L("D3D9Texture::LoadTextureFromFile:\nCannot find and/or create the texture from a bitmap: ");
 		ss << fileName << std::endl;
 		ShowMessage(ss, GSMT_ERROR);
 	}
@@ -170,8 +170,8 @@ bool D3D9Texture::GetInternalData()
 	}
 	catch (const boost::bad_any_cast &)
 	{
-		std::wstringstream ss;
-		ss << L"D3D9Texture::GetInternalData: Invalid device";
+		str_type::stringstream ss;
+		ss << GS_L("D3D9Texture::GetInternalData: Invalid device");
 		ShowMessage(ss, GSMT_ERROR);
 		return false;
 	}
@@ -180,7 +180,7 @@ bool D3D9Texture::GetInternalData()
 
 bool D3D9Texture::IsAllBlack() const
 {
-	ShowMessage(L"D3D9Texture::IsAllBlack: Method not implemented on D3D9", GSMT_WARNING);
+	ShowMessage(GS_L("D3D9Texture::IsAllBlack: Method not implemented on D3D9"), GSMT_WARNING);
 	return false;
 }
 

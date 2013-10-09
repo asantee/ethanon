@@ -43,7 +43,7 @@ public:
 	static boost::shared_ptr<AudiereContext> Create(boost::any data);
 
 	AudioSamplePtr LoadSampleFromFile(
-		const std::wstring& fileName,
+		const str_type::string& fileName,
 		const Platform::FileManagerPtr& fileManager,
 		const Audio::SAMPLE_TYPE type = Audio::UNKNOWN_TYPE);
 
@@ -72,7 +72,7 @@ class AudiereSample : public AudioSample
 
 	bool LoadSampleFromFile(
 		AudioWeakPtr audio,
-		const std::wstring& fileName,
+		const str_type::string& fileName,
 		const Platform::FileManagerPtr& fileManager,
 		const Audio::SAMPLE_TYPE type = Audio::UNKNOWN_TYPE);
 

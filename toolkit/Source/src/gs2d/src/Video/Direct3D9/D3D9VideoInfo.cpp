@@ -54,46 +54,30 @@ D3DXIMAGE_FILEFORMAT GetD3DPF(const Texture::BITMAP_FORMAT fmt)
 	}
 }
 
-std::wstring GetImageExtension(const Texture::BITMAP_FORMAT fmt)
+str_type::string GetImageExtension(const Texture::BITMAP_FORMAT fmt)
 {
 	switch (fmt)
 	{
 	case Texture::BF_JPG:
-		return L".jpg";
+		return GS_L(".jpg");
 		break;
 	case Texture::BF_PNG:
-		return L".png";
+		return GS_L(".png");
 		break;
 	case Texture::BF_TGA:
-		return L".tga";
+		return GS_L(".tga");
 		break;
 	case Texture::BF_DDS:
-		return L".dds";
+		return GS_L(".dds");
 		break;
 	case Texture::BF_HDR:
-		return L".hdr";
+		return GS_L(".hdr");
 		break;
 	case Texture::BF_BMP:
 	default:
-		return L".bmp";
+		return GS_L(".bmp");
 		break;
 	}
-}
-
-bool IsTheExtensionRight(const wchar_t *fileName, const wchar_t *extension)
-{
-	const unsigned int fileLen = wcslen(fileName);
-	const unsigned int extLen = wcslen(extension);
-	const unsigned int diff = fileLen-extLen+1;
-	for (unsigned int t=0; t<diff; t++)
-	{
-		if (wcscmp(&fileName[t], extension) == 0)
-		{
-			if (fileName[t+extLen] == L'\0')
-				return true;
-		}
-	}
-	return false;
 }
 
 void D3D9VideoInfo::BuildIn()

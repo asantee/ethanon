@@ -21,7 +21,7 @@
 			OutputDirectory="&quot;$(SolutionDir)#bin#\$(ConfigurationName)\&quot;"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
-			CharacterSet="1"
+			CharacterSet="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -90,7 +90,7 @@
 			OutputDirectory="&quot;$(SolutionDir)#bin#\$(ConfigurationName)\&quot;"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
-			CharacterSet="1"
+			CharacterSet="0"
 			WholeProgramOptimization="1"
 			>
 			<Tool
@@ -163,36 +163,32 @@
 			Name="Vendors"
 			>
 			<Filter
-				Name="TinyXml UTF-16"
+				Name="TinyXml"
 				>
 				<File
-					RelativePath="..\..\..\src\vendors\tinyxml_utf16\tinystr.cpp"
+					RelativePath="..\..\..\src\vendors\tinyxml_ansi\tinystr.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\vendors\tinyxml_utf16\tinystr.h"
+					RelativePath="..\..\..\src\vendors\tinyxml_ansi\tinystr.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\vendors\tinyxml_utf16\tinyxml.cpp"
+					RelativePath="..\..\..\src\vendors\tinyxml_ansi\tinyxml.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\vendors\tinyxml_utf16\tinyxml.h"
+					RelativePath="..\..\..\src\vendors\tinyxml_ansi\tinyxml.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\vendors\tinyxml_utf16\tinyxmlerror.cpp"
+					RelativePath="..\..\..\src\vendors\tinyxml_ansi\tinyxmlerror.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\vendors\tinyxml_utf16\tinyxmlparser.cpp"
+					RelativePath="..\..\..\src\vendors\tinyxml_ansi\tinyxmlparser.cpp"
 					>
 				</File>
-			</Filter>
-			<Filter
-				Name="TinyXml ANSI"
-				>
 			</Filter>
 		</Filter>
 		<Filter
@@ -753,11 +749,27 @@
 						>
 					</File>
 					<File
+						RelativePath="..\..\..\src\addons\scriptbuilder.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\addons\scriptbuilder.h"
+						>
+					</File>
+					<File
 						RelativePath="..\..\..\src\addons\scriptdictionary.cpp"
 						>
 					</File>
 					<File
 						RelativePath="..\..\..\src\addons\scriptdictionary.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\addons\scriptfile.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\addons\scriptfile.h"
 						>
 					</File>
 					<File
@@ -784,38 +796,14 @@
 						RelativePath="..\..\..\src\addons\scriptmath3d.h"
 						>
 					</File>
-					<Filter
-						Name="utf16"
+					<File
+						RelativePath="..\..\..\src\addons\scriptstdstring.cpp"
 						>
-						<File
-							RelativePath="..\..\..\src\addons\utf16\scriptbuilder.cpp"
-							>
-						</File>
-						<File
-							RelativePath="..\..\..\src\addons\utf16\scriptbuilder.h"
-							>
-						</File>
-						<File
-							RelativePath="..\..\..\src\addons\utf16\scriptfile.cpp"
-							>
-						</File>
-						<File
-							RelativePath="..\..\..\src\addons\utf16\scriptfile.h"
-							>
-						</File>
-						<File
-							RelativePath="..\..\..\src\addons\utf16\scriptstdstring.cpp"
-							>
-						</File>
-						<File
-							RelativePath="..\..\..\src\addons\utf16\scriptstdstring.h"
-							>
-						</File>
-					</Filter>
-					<Filter
-						Name="ansi"
+					</File>
+					<File
+						RelativePath="..\..\..\src\addons\scriptstdstring.h"
 						>
-					</Filter>
+					</File>
 				</Filter>
 				<Filter
 					Name="Generic"
