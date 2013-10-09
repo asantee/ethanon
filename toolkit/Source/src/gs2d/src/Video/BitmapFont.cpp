@@ -326,12 +326,17 @@ inline int ConvertCharacterToIndex(const TChar* character, std::size_t& t)
 		}
 		assert(index < maxTCharValue);
 	}
-	else if (utf8::is_valid(character, character + 2))
+	else
 	{
-		std::vector<unsigned short> utf16line;
-		utf8::utf8to16(character, character + 2, std::back_inserter(utf16line));
-		index = static_cast<int>(utf16line[0]);
-		t++;
+		static const std::size_t MAXIMUM_BYTE_COUNT = 32;
+		std::size_t charByteCount = 1;
+		while (!utf8::is_valid(character, character + (++charByteCount)) || charByteCount > MAXIMUM_BYTE_COUNT);
+
+		std::vector<unsigned long> utf32line;
+		utf8::utf8to32(character, character + charByteCount, std::back_inserter(utf32line));
+		index = static_cast<int>(utf32line[0]);
+
+		t += (charByteCount - 1);
 	}
 	return math::Min(index, static_cast<int>(GS2D_CHARSET_MAX_CHARS - 1));
 #else
