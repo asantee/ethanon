@@ -33,8 +33,6 @@
 
 #include "../Physics/ETHPhysicsSimulator.h"
 
-#include "../Script/ETHEntityDestructorManager.h"
-
 #include "../Renderer/ETHEntityRenderingManager.h"
 
 class ETHScene
@@ -155,8 +153,7 @@ private:
 	void AssignControllerToEntity(
 		ETHEntity* entity,
 		asIScriptFunction* callback,
-		asIScriptFunction* constructorCallback,
-		asIScriptFunction* destructorCallback);
+		asIScriptFunction* constructorCallback);
 
 	bool DrawBucketOutlines(const ETHBackBufferTargetManagerPtr& backBuffer);
 	bool ReadFromXMLFile(TiXmlElement *pElement);
@@ -177,7 +174,6 @@ private:
 	ETHResourceProviderPtr m_provider;
 	ETHSceneProperties m_sceneProps;
 	ETHPhysicsSimulator m_physicsSimulator;
-	ETHEntityDestructorManagerPtr m_destructorManager;
 	asIScriptModule *m_pModule;
 	asIScriptContext *m_pContext;
 	float m_maxSceneHeight, m_minSceneHeight;

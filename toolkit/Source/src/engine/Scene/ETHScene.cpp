@@ -102,8 +102,6 @@ void ETHScene::Init(ETHResourceProviderPtr provider, const ETHSceneProperties& p
 	m_maxSceneHeight = m_provider->GetVideo()->GetScreenSizeF().y;
 	const ETHShaderManagerPtr& shaderManager = m_provider->GetShaderManager();
 	shaderManager->SetParallaxIntensity(m_sceneProps.parallaxIntensity);
-	m_destructorManager = ETHEntityDestructorManagerPtr(new ETHEntityDestructorManager(pContext));
-	m_buckets.SetDestructionListener(m_destructorManager);
 }
 
 void ETHScene::ClearResources()
@@ -427,7 +425,6 @@ void ETHScene::Update(
 	const ETHBackBufferTargetManagerPtr& backBuffer,
 	asIScriptFunction* onUpdateCallbackFunction)
 {
-	m_destructorManager->RunDestructors();
 	m_physicsSimulator.Update(lastFrameElapsedTime);
 
 	// update entities that are always active (dynamic entities with callback or physics and temporary entities)
@@ -673,14 +670,12 @@ bool ETHScene::AssignCallbackScript(ETHSpriteEntity* entity)
 {
 	asIScriptFunction* callbackId = ETHGlobal::FindCallbackFunction(m_pModule, entity, ETH_CALLBACK_PREFIX, *m_provider->GetLogger());
 	asIScriptFunction* constructorCallback = ETHGlobal::FindCallbackFunction(m_pModule, entity, ETH_CONSTRUCTOR_CALLBACK_PREFIX, *m_provider->GetLogger());
-	asIScriptFunction* destructorCallback = ETHGlobal::FindCallbackFunction(m_pModule, entity, ETH_DESTRUCTOR_CALLBACK_PREFIX, *m_provider->GetLogger());
-	AssignControllerToEntity(entity, callbackId, constructorCallback, destructorCallback);
+	AssignControllerToEntity(entity, callbackId, constructorCallback);
 	return true;
 } 
 
-void ETHScene::AssignControllerToEntity(ETHEntity* entity, asIScriptFunction* callback, asIScriptFunction* constructorCallback, asIScriptFunction* destructorCallback)
+void ETHScene::AssignControllerToEntity(ETHEntity* entity, asIScriptFunction* callback, asIScriptFunction* constructorCallback)
 {
-	entity->SetDestructorCallback(destructorCallback);
 	if (callback || constructorCallback)
 	{
 		ETHEntityControllerPtr currentController(entity->GetController());

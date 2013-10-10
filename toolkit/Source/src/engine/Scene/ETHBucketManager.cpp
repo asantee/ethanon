@@ -414,9 +414,6 @@ bool ETHBucketManager::DeleteEntity(const int id)
 					m_provider->Log(ss.str(), Platform::Logger::INFO);
 				#endif
 
-				if (m_entityKillListener)
-					m_entityKillListener->EntityKilled((*iter));
-
 				(*iter)->Kill();
 				(*iter)->Release();
 				entityList.erase(iter);
@@ -445,9 +442,6 @@ bool ETHBucketManager::DeleteEntity(const int id, const Vector2 &searchBucket)
 				m_provider->Log(ss.str(), Platform::Logger::INFO);
 				#endif
 
-				if (m_entityKillListener)
-					m_entityKillListener->EntityKilled((*iter));
-
 				(*iter)->Kill();
 				(*iter)->Release();
 				ETHEntityList::iterator i = iter.base();
@@ -472,9 +466,6 @@ bool ETHBucketManager::DeleteEntity(const int id, const Vector2 &searchBucket)
 					ETH_STREAM_DECL(ss) << GS_L("Entity ") << (*iter)->GetEntityName() << GS_L(" (ID#") << (*iter)->GetID() << GS_L(") removed (DeleteEntity method)");
 					m_provider->Log(ss.str(), Platform::Logger::INFO);
 				#endif
-
-				if (m_entityKillListener)
-					m_entityKillListener->EntityKilled((*iter));
 
 				(*iter)->Kill();
 				return true;
@@ -660,11 +651,6 @@ void ETHBucketManager::ResolveMoveRequests()
 		MoveEntity(iter->GetID(), iter->GetOldBucket(), iter->GetNewBucket());
 	}
 	m_moveRequests.clear();
-}
-
-void ETHBucketManager::SetDestructionListener(const ETHEntityKillListenerPtr& listener)
-{
-	m_entityKillListener = listener;
 }
 
 ETHBucketManager::ETHBucketMoveRequest::ETHBucketMoveRequest(ETHEntity* target, const Vector2& oldPos, const Vector2& newPos, const Vector2& bucketSize) :
