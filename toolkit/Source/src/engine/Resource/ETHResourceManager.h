@@ -67,7 +67,7 @@ public:
 		const bool cutOutBlackPixels,
 		const bool temporary);
 
-	void RemoveResource(const str_type::string &file);
+	bool ReleaseResource(const str_type::string& file);
 
 private:
 	SpritePtr FindSprite(
