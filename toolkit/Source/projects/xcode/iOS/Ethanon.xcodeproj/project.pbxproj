@@ -70,8 +70,6 @@
 		74666D00165A79B200C70736 /* ETHShaders.glsl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666CF4165A79B200C70736 /* ETHShaders.glsl.cpp */; };
 		74666D01165A79B200C70736 /* ETHVertexLightDiffuse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666CF6165A79B200C70736 /* ETHVertexLightDiffuse.cpp */; };
 		74666D14165A79C700C70736 /* ETHBinaryStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666D02165A79C700C70736 /* ETHBinaryStream.cpp */; };
-		74666D15165A79C700C70736 /* ETHEntityDestructorManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666D04165A79C700C70736 /* ETHEntityDestructorManager.cpp */; };
-		74666D16165A79C700C70736 /* ETHEntityDestructorScript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666D06165A79C700C70736 /* ETHEntityDestructorScript.cpp */; };
 		74666D17165A79C700C70736 /* ETHScriptObjRegister.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666D08165A79C700C70736 /* ETHScriptObjRegister.cpp */; };
 		74666D18165A79C700C70736 /* ETHScriptObjRegister.generic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666D09165A79C700C70736 /* ETHScriptObjRegister.generic.cpp */; };
 		74666D19165A79C700C70736 /* ETHScriptWrapper.Audio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666D0B165A79C700C70736 /* ETHScriptWrapper.Audio.cpp */; };
@@ -372,10 +370,6 @@
 		74666CF7165A79B200C70736 /* ETHVertexLightDiffuse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHVertexLightDiffuse.h; path = ../../../src/engine/Shader/ETHVertexLightDiffuse.h; sourceTree = "<group>"; };
 		74666D02165A79C700C70736 /* ETHBinaryStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHBinaryStream.cpp; path = ../../../src/engine/Script/ETHBinaryStream.cpp; sourceTree = "<group>"; };
 		74666D03165A79C700C70736 /* ETHBinaryStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHBinaryStream.h; path = ../../../src/engine/Script/ETHBinaryStream.h; sourceTree = "<group>"; };
-		74666D04165A79C700C70736 /* ETHEntityDestructorManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityDestructorManager.cpp; path = ../../../src/engine/Script/ETHEntityDestructorManager.cpp; sourceTree = "<group>"; };
-		74666D05165A79C700C70736 /* ETHEntityDestructorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityDestructorManager.h; path = ../../../src/engine/Script/ETHEntityDestructorManager.h; sourceTree = "<group>"; };
-		74666D06165A79C700C70736 /* ETHEntityDestructorScript.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityDestructorScript.cpp; path = ../../../src/engine/Script/ETHEntityDestructorScript.cpp; sourceTree = "<group>"; };
-		74666D07165A79C700C70736 /* ETHEntityDestructorScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityDestructorScript.h; path = ../../../src/engine/Script/ETHEntityDestructorScript.h; sourceTree = "<group>"; };
 		74666D08165A79C700C70736 /* ETHScriptObjRegister.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptObjRegister.cpp; path = ../../../src/engine/Script/ETHScriptObjRegister.cpp; sourceTree = "<group>"; };
 		74666D09165A79C700C70736 /* ETHScriptObjRegister.generic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptObjRegister.generic.cpp; path = ../../../src/engine/Script/ETHScriptObjRegister.generic.cpp; sourceTree = "<group>"; };
 		74666D0A165A79C700C70736 /* ETHScriptObjRegister.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHScriptObjRegister.h; path = ../../../src/engine/Script/ETHScriptObjRegister.h; sourceTree = "<group>"; };
@@ -992,10 +986,6 @@
 				74F64C081626729400CB2C13 /* Register */,
 				74666D02165A79C700C70736 /* ETHBinaryStream.cpp */,
 				74666D03165A79C700C70736 /* ETHBinaryStream.h */,
-				74666D04165A79C700C70736 /* ETHEntityDestructorManager.cpp */,
-				74666D05165A79C700C70736 /* ETHEntityDestructorManager.h */,
-				74666D06165A79C700C70736 /* ETHEntityDestructorScript.cpp */,
-				74666D07165A79C700C70736 /* ETHEntityDestructorScript.h */,
 				74666D0C165A79C700C70736 /* ETHScriptWrapper.cpp */,
 				74666D0F165A79C700C70736 /* ETHScriptWrapper.h */,
 				74666D0B165A79C700C70736 /* ETHScriptWrapper.Audio.cpp */,
@@ -1643,8 +1633,6 @@
 				74666D00165A79B200C70736 /* ETHShaders.glsl.cpp in Sources */,
 				74666D01165A79B200C70736 /* ETHVertexLightDiffuse.cpp in Sources */,
 				74666D14165A79C700C70736 /* ETHBinaryStream.cpp in Sources */,
-				74666D15165A79C700C70736 /* ETHEntityDestructorManager.cpp in Sources */,
-				74666D16165A79C700C70736 /* ETHEntityDestructorScript.cpp in Sources */,
 				74666D17165A79C700C70736 /* ETHScriptObjRegister.cpp in Sources */,
 				74666D18165A79C700C70736 /* ETHScriptObjRegister.generic.cpp in Sources */,
 				74666D19165A79C700C70736 /* ETHScriptWrapper.Audio.cpp in Sources */,

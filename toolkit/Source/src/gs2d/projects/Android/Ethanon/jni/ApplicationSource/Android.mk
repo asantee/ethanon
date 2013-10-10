@@ -84,8 +84,6 @@ LOCAL_SRC_FILES := \
 	$(ENGINE_PATH)/Script/ETHScriptObjRegister.cpp \
 	$(ENGINE_PATH)/Script/ETHScriptObjRegister.generic.cpp \
 	$(ENGINE_PATH)/Script/ETHBinaryStream.cpp \
-	$(ENGINE_PATH)/Script/ETHEntityDestructorManager.cpp \
-	$(ENGINE_PATH)/Script/ETHEntityDestructorScript.cpp \
 	$(ENGINE_PATH)/Script/ETHScriptWrapper.Audio.cpp \
 	$(ENGINE_PATH)/Script/ETHScriptWrapper.Drawing.cpp \
 	$(ENGINE_PATH)/Script/ETHScriptWrapper.Scene.cpp \
