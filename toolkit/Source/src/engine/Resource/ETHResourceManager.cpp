@@ -186,12 +186,17 @@ str_type::string ETHGraphicResourceManager::AssembleResourceFullPath(
 	return programPath + searchPath + fileName;
 }
 
-void ETHGraphicResourceManager::RemoveResource(const str_type::string &file)
+bool ETHGraphicResourceManager::ReleaseResource(const str_type::string &file)
 {
 	std::map<str_type::string, SpriteResource>::iterator iter = m_resource.find(Platform::GetFileName(file));
 	if (iter != m_resource.end())
 	{
 		m_resource.erase(iter);
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }
 

@@ -260,7 +260,8 @@ public:
 
 	static SpritePtr LoadAndGetSprite(const str_type::string &name);
 	static void DrawShapedFromPtr(const SpritePtr& sprite, const Vector2 &v2Pos, const Vector2 &v2Size, const GS_DWORD color, const float angle);
-	static void LoadSprite(const str_type::string &name);
+	static void LoadSprite(const str_type::string& name);
+	static bool ReleaseSprite(const str_type::string& name);
 	static void DrawSprite(const str_type::string &name, const Vector2 &v2Pos, const GS_DWORD color, const float angle);
 	static void DrawShaped(const str_type::string &name, const Vector2 &v2Pos, const Vector2 &v2Size, const GS_DWORD color, const float angle);
 	static void PlayParticleEffect(const str_type::string& fileName, const Vector2& pos, const float angle, const float scale);
