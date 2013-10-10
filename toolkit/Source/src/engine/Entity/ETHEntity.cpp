@@ -591,16 +591,6 @@ bool ETHEntity::HasParticleSystems() const
 	return (m_properties.particleSystems.size() > 0);
 }
 
-bool ETHEntity::HasSoundEffect() const
-{
-	for (std::size_t t = 0; t < m_properties.particleSystems.size(); t++)
-	{
-		if (m_properties.particleSystems[t]->soundFXFile.length() > 0)
-			return true;
-	}
-	return false;
-}
-
 Vector3 ETHEntity::GetLightPosition() const
 {
 	if (HasLightSource())

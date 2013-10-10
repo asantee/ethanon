@@ -74,16 +74,13 @@ public:
 	virtual int GetID() const = 0;
 	virtual void TurnDynamic() = 0;
 	virtual void TurnStatic() = 0;
-	virtual void SilenceParticleSystems(const bool silence) = 0;
 	virtual void KillParticleSystem(const unsigned int n) = 0;
 	virtual bool ParticlesKilled(const unsigned int n) const = 0;
 	virtual bool PlayParticleSystem(const unsigned int n, const Vector2& zAxisDirection) = 0;
 	virtual bool AreParticlesOver() const = 0;
-	virtual void SetSoundVolume(const float volume) = 0;
 	virtual ETHCollisionBox GetCollisionBox() const = 0;
 	virtual bool HasParticleSystems() const = 0;
 	virtual bool HasParticleSystem(const unsigned int n) const = 0;
-	virtual bool HasSoundEffect() const = 0;
 	virtual void SetShadowZ(const float z) = 0;
 	virtual float GetShadowZ() const = 0;
 	virtual bool HasShadow() const = 0;
@@ -96,7 +93,6 @@ public:
 	virtual void ScaleParticleSystem(const unsigned int n, const float scale) = 0;
 	virtual bool MirrorParticleSystemX(const unsigned int n, const bool mirrorGravity) = 0;
 	virtual bool MirrorParticleSystemY(const unsigned int n, const bool mirrorGravity) = 0;
-	virtual void ForceSFXStop() = 0;
 	virtual Vector2 ComputeParallaxOffset() const = 0;
 	virtual float GetParallaxIndividualIntensity() const = 0;
 	virtual void SetParallaxIndividualIntensity(const float& individualIntensity) = 0;

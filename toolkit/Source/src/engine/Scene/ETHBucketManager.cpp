@@ -427,7 +427,7 @@ bool ETHBucketManager::DeleteEntity(const int id)
 	return false;
 }
 
-bool ETHBucketManager::DeleteEntity(const int id, const Vector2 &searchBucket, const bool stopSfx)
+bool ETHBucketManager::DeleteEntity(const int id, const Vector2 &searchBucket)
 {
 	ETHBucketMap::iterator bucketIter = Find(searchBucket);
 
@@ -448,8 +448,6 @@ bool ETHBucketManager::DeleteEntity(const int id, const Vector2 &searchBucket, c
 				if (m_entityKillListener)
 					m_entityKillListener->EntityKilled((*iter));
 
-				if(!stopSfx)
-					(*iter)->SetStopSFXWhenDestroyed(false);
 				(*iter)->Kill();
 				(*iter)->Release();
 				ETHEntityList::iterator i = iter.base();

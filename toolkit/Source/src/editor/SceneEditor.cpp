@@ -65,7 +65,6 @@ SceneEditor::~SceneEditor()
 
 void SceneEditor::StopAllSoundFXs()
 {
-	m_pScene->ForceAllSFXStop();
 }
 
 bool SceneEditor::ProjectManagerRequested()
@@ -377,7 +376,6 @@ std::string SceneEditor::DoEditor(SpritePtr pNextAppButton)
 		{
 			const bool update = m_pSelected->HasShadow() || m_pSelected->HasLightSource();
 
-			m_pSelected->ForceSFXStop();
 			m_pScene->GetBucketManager().DeleteEntity(m_pSelected->GetID(), ETHBucketManager::GetBucket(m_pSelected->GetPositionXY(), m_pScene->GetBucketSize()));
 			m_pSelected = 0;
 			if (m_pScene->GetNumLights() && update)
@@ -1205,12 +1203,6 @@ void SceneEditor::PlaceEntitySelection()
 		light.staticLight = false;
 		m_pScene->AddLight(light);
 	}
-
-	// if the current entity has sound effects attached to it's particle systems, show the sound wave bitmap
-	if (m_currentEntity->HasSoundEffect())
-	{
-		m_soundWave->Draw(m_currentEntity->GetPositionXY(), math::Vector4(1.0f, 1.0f, 1.0f, 0.6f));
-	}
 }
 
 void SceneEditor::UpdateInternalData()
@@ -1381,20 +1373,6 @@ void SceneEditor::DrawEntitySelectionGrid(SpritePtr pNextAppButton)
 			}
 			if (!hasParticles)
 				m_invisible->Draw(v2Pos);
-		}
-
-		// if it has sound effect, show it
-		for (std::size_t p = 0; p < m_entityFiles[t]->particleSystems.size(); p++)
-		{
-			if (m_entityFiles[t]->particleSystems[p]->soundFXFile.length() > 0)
-			{
-				const Vector2 v2Size = m_soundWave->GetBitmapSizeF();
-				const float largestSize = Max(v2Size.x, v2Size.y);
-				const float bias = (largestSize / _ENTITY_SELECTION_BAR_HEIGHT);
-				const Vector2 v2NewSize = v2Size / bias;
-				m_soundWave->DrawShaped(v2Pos, v2NewSize, gs2d::constant::WHITE, gs2d::constant::WHITE, gs2d::constant::WHITE, gs2d::constant::WHITE, 0.0f);
-				break;
-			}
 		}
 
 		// if it has particle systems, show the P symbol

@@ -254,10 +254,6 @@ int ETHScene::AddEntity(ETHRenderEntity* pEntity, const str_type::string& altern
 	// if it has a callback and is dynamic, or if it's temporary, add it to the "callback constant run list"
 	m_activeEntityHandler.AddEntityWhenEligible(pEntity);
 
-	// restart all sound effects for this one
-	// It's useful in case of explosion sfx's for example. It'll start all over again
-	pEntity->StartSFX();
-
 	return pEntity->GetID();
 }
 
@@ -671,18 +667,6 @@ bool ETHScene::DrawBucketOutlines(const ETHBackBufferTargetManagerPtr& backBuffe
 int ETHScene::GetNumRenderedEntities()
 {
 	return m_nRenderedEntities;
-}
-
-void ETHScene::ForceAllSFXStop()
-{
-	for (ETHBucketMap::iterator bucketIter = m_buckets.GetFirstBucket(); bucketIter != m_buckets.GetLastBucket(); ++bucketIter)
-	{
-		ETHEntityList::const_iterator iEnd = bucketIter->second.end();
-		for (ETHEntityList::iterator iter = bucketIter->second.begin(); iter != iEnd; ++iter)
-		{
-			(*iter)->ForceSFXStop();
-		}
-	}
 }
 
 bool ETHScene::AssignCallbackScript(ETHSpriteEntity* entity)

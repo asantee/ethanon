@@ -229,8 +229,6 @@ asDECLARE_METHOD_WRAPPERPR(__GetAngleEnt,      ETHScriptEntity, GetAngle,       
 asDECLARE_METHOD_WRAPPERPR(__SetAngle,         ETHScriptEntity, SetAngle,         (const float), void);
 asDECLARE_METHOD_WRAPPERPR(__IsStatic,         ETHScriptEntity, IsStatic,         (void) const,  bool);
 
-asDECLARE_METHOD_WRAPPERPR(__SilenceParticleSystems, ETHScriptEntity, SilenceParticleSystems, (const bool),                    void);
-asDECLARE_METHOD_WRAPPERPR(__SetSoundVolume,         ETHScriptEntity, SetSoundVolume,         (const float),                   void);
 asDECLARE_METHOD_WRAPPERPR(__GetCollisionBox,        ETHScriptEntity, GetCollisionBox,        (void) const,                    ETHCollisionBox);
 asDECLARE_METHOD_WRAPPERPR(__GetEntityName,          ETHScriptEntity, GetEntityName,          (void) const,                    str_type::string);
 asDECLARE_METHOD_WRAPPERPR(__Collidable,             ETHScriptEntity, IsCollidable,           (void) const,                    bool);
@@ -254,7 +252,6 @@ asDECLARE_METHOD_WRAPPERPR(__IsInvisible,        ETHScriptEntity, IsInvisible,  
 asDECLARE_METHOD_WRAPPERPR(__HasParticleSystem0, ETHScriptEntity, HasParticleSystem,   (void) const,              bool);
 asDECLARE_METHOD_WRAPPERPR(__HasParticleSystem1, ETHScriptEntity, HasParticleSystem,   (unsigned int) const,      bool);
 asDECLARE_METHOD_WRAPPERPR(__HasLightSource,     ETHScriptEntity, HasLightSource,      (void) const,              bool);
-asDECLARE_METHOD_WRAPPERPR(__HasSoundEffect,     ETHScriptEntity, HasSoundEffect,      (void) const,              bool);
 asDECLARE_METHOD_WRAPPERPR(__SetLightRange,      ETHScriptEntity, SetLightRange,       (const float),             void);
 asDECLARE_METHOD_WRAPPERPR(__GetLightRange,      ETHScriptEntity, GetLightRange,       (void) const,              float);
 asDECLARE_METHOD_WRAPPERPR(__SetLightColor,      ETHScriptEntity, SetLightColor,       (const Vector3&),          void);
@@ -368,8 +365,6 @@ void RegisterEntityMethods(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetAngle(const float)",       asFUNCTION(__SetAngle),         asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool IsStatic() const",            asFUNCTION(__IsStatic),         asCALL_GENERIC); assert(r >= 0);
 
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SilenceParticleSystems(const bool)",           asFUNCTION(__SilenceParticleSystems), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetSoundVolume(const float)",                  asFUNCTION(__SetSoundVolume),         asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "collisionBox GetCollisionBox() const",              asFUNCTION(__GetCollisionBox),        asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "string GetEntityName() const",                      asFUNCTION(__GetEntityName),          asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool Collidable() const",                           asFUNCTION(__Collidable),             asCALL_GENERIC); assert(r >= 0);
@@ -393,7 +388,6 @@ void RegisterEntityMethods(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool HasParticleSystem() const",           asFUNCTION(__HasParticleSystem0), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool HasParticleSystem(uint) const",       asFUNCTION(__HasParticleSystem1), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool HasLightSource() const",              asFUNCTION(__HasLightSource),     asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool HasSoundEffect() const",              asFUNCTION(__HasSoundEffect),     asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetLightRange(const float)",          asFUNCTION(__SetLightRange),      asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "float GetLightRange() const",              asFUNCTION(__GetLightRange),      asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetLightColor(const vector3 &in)",    asFUNCTION(__SetLightColor),      asCALL_GENERIC); assert(r >= 0);

@@ -197,7 +197,7 @@ bool ETHActiveEntityHandler::RemoveFinishedTemporaryEntity(ETHRenderEntity* enti
 		assert(bucketIter != buckets.GetLastBucket());
 
 		// Remove from main bucket map
-		buckets.DeleteEntity(entity->GetID(), v2Bucket, false);
+		buckets.DeleteEntity(entity->GetID(), v2Bucket);
 
 		#if defined(_DEBUG) || defined(DEBUG)
 		 ETH_STREAM_DECL(ss) << GS_L("Entity ") << entity->GetEntityName() << GS_L(" (ID#") << entity->GetID() << GS_L(") removed from dynamic entity list (particle effects over)");

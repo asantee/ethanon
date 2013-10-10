@@ -85,7 +85,6 @@ public:
 	const ETHLight* GetLight() const;
 	void TurnDynamic();
 	void TurnStatic();
-	bool HasSoundEffect() const;
 	void Hide(const bool hide);
 	Vector2 GetCurrentBucket(const ETHBucketManager& buckets) const;
 

@@ -31,10 +31,6 @@ ETHScriptEntity::ETHScriptEntity() :
 
 void ETHScriptEntity::Kill()
 {
-	if (!IsTemporary())
-	{
-		ForceSFXStop();
-	}
 	m_isAlive = false;
 }
 
