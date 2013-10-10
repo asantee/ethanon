@@ -124,7 +124,6 @@ void EntityEditor::InstantiateEntity(const str_type::string& fileName)
 
 void EntityEditor::StopAllSoundFXs()
 {
-	m_renderEntity->ForceSFXStop();
 }
 
 bool EntityEditor::ProjectManagerRequested()
@@ -678,7 +677,6 @@ void EntityEditor::DoMainMenu()
 
 	if (file_r.text == _S_NEW)
 	{
-		m_renderEntity->ForceSFXStop();
 		UnloadAll();
 		SetCurrentFile(_BASEEDITOR_DEFAULT_UNTITLED_FILE);
 		InstantiateEntity();
@@ -919,8 +917,6 @@ void EntityEditor::ShowEntityResources(Vector2 v2Pos)
 		v2Pos.y += m_menuSize;
 
 		DrawEntityElementName(v2Pos + Vector2(m_menuSize/2,0), m_renderEntity->GetParticleBMP(t), m_pEditEntity->particleSystems[t]->bitmapFile);
-		v2Pos.y += m_menuSize;
-		DrawEntityElementName(v2Pos + Vector2(m_menuSize/2,0), SpritePtr(), m_pEditEntity->particleSystems[t]->soundFXFile);
 		v2Pos.y += m_menuSize;
 	}
 }
@@ -1233,13 +1229,6 @@ std::string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 			y+=m_menuSize/2;
 		}
 
-		if (m_renderEntity->HasSoundEffect())
-		{
-			m_pEditEntity->soundVolume = m_soundVolume.PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth);	y+=m_menuSize;
-			m_renderEntity->SetSoundVolume(m_pEditEntity->soundVolume);
-			y+=m_menuSize/2;
-		}
-
 		if (m_type.GetButtonStatus(_S_LAYERABLE))
 		{
 			m_pEditEntity->layerDepth = m_layerDepth.PlaceInput(Vector2(x, y), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuWidth);	y+=m_menuSize;
@@ -1316,7 +1305,6 @@ bool EntityEditor::Save(const char *path)
 
 void EntityEditor::OpenEntity(const char* fullFilePath)
 {
-	m_renderEntity->ForceSFXStop();
 	m_renderEntity->ClearCustomData();
 
 	InstantiateEntity(fullFilePath);
@@ -1615,13 +1603,6 @@ void EntityEditor::Clear()
 
 void EntityEditor::UnloadParticle(const int n)
 {
-	if (m_renderEntity->HasParticleSystem(n))
-	{
-		if (m_renderEntity->GetParticleSFX(n))
-		{
-			m_renderEntity->GetParticleSFX(n)->Stop();
-		}
-	}
 	m_attachLight.DelButton(m_pEditEntity->particleSystems[n]->bitmapFile);
 	m_pEditEntity->particleSystems[n]->bitmapFile = GS_L("");
 	m_pEditEntity->particleSystems[n]->nParticles = 0;
@@ -1678,7 +1659,6 @@ bool EntityEditor::SpriteFrameChanged()
 		r = false;
 
 	m_v2LastSpriteCut = m_pEditEntity->spriteCut;
-	//m_lastStartFrame = m_pEditEntity->startFrame;
 
 	return r;
 }
@@ -1688,15 +1668,6 @@ void EntityEditor::ResetSpriteCut()
 	if (m_renderEntity->GetSprite() && m_pEditEntity->spriteCut.x > 0 && m_pEditEntity->spriteCut.y > 0)
 	{
 		m_renderEntity->GetSprite()->SetupSpriteRects(m_pEditEntity->spriteCut.x, m_pEditEntity->spriteCut.y);
-		/*if (m_pEditEntity->startFrame >= 0 && m_pEditEntity->startFrame < (m_pEditEntity->spriteCut.x*m_pEditEntity->spriteCut.y))
-		{
-			m_renderEntity->GetSprite()->SetRect(m_pEditEntity->startFrame);
-		}*/
-		/*if (m_renderEntity.GetNormal())
-		{
-			m_renderEntity.GetNormal()->SetupSpriteRects(m_pEditEntity->spriteCut.x, m_pEditEntity->spriteCut.y);
-			m_renderEntity.GetNormal()->SetRect(m_pEditEntity->startFrame);
-		}*/
 	}
 	m_startFrame.SetClamp(true, 0, (float)(m_pEditEntity->spriteCut.x * m_pEditEntity->spriteCut.y - 1));
 }

@@ -103,7 +103,7 @@ public:
 	ETHSpriteEntity *SeekEntity(const str_type::string& fileName);
 
 	/// Delete the entity by ID #
-	bool DeleteEntity(const int id, const Vector2 &searchBucket, const bool stopSfx = true);
+	bool DeleteEntity(const int id, const Vector2 &searchBucket);
 
 	/// Delete the entity by ID #
 	bool DeleteEntity(const int id);

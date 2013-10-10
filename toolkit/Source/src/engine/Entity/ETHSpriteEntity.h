@@ -49,7 +49,6 @@ public:
 	SpritePtr GetLightmap();
 	SpritePtr GetHalo();
 	SpritePtr GetParticleBMP(const unsigned int n);
-	AudioSamplePtr GetParticleSFX(const unsigned int n);
 
 	str_type::string AssembleLightmapFileName(const str_type::string& directory, const str_type::string& extension) const;
 	bool SaveLightmapToFile(const str_type::string& directory);
@@ -62,7 +61,6 @@ public:
 	void DestroyParticleSystem(const unsigned int n);
 	void SetParticleBitmap(const int unsigned n, SpritePtr bitmap);
 	void SetParticleBitmap(const unsigned int n, const str_type::string& bitmap);
-	void SetParticleSFX(const int unsigned n, AudioSamplePtr pSample);
 	void SetParticlePosition(const unsigned int n, const Vector3 &v3Pos);
 	void ScaleParticleSystem(const unsigned int n, const float scale);
 	bool MirrorParticleSystemX(const unsigned int n, const bool mirrorGravity);
@@ -71,8 +69,6 @@ public:
 
 	ETHParticleManagerPtr GetParticleManager(const std::size_t n);
 	bool AreParticlesOver() const;
-	void SetStopSFXWhenDestroyed(const bool enable);
-	void SilenceParticleSystems(const bool silence);
 	bool PlayParticleSystem(const unsigned int n, const Vector2& zAxisDirection);
 	void KillParticleSystem(const unsigned int n);
 	bool ParticlesKilled(const unsigned int n) const;
@@ -110,9 +106,6 @@ public:
 
 	ETHPhysicsController* GetPhysicsController();
 
-	void ForceSFXStop();
-	void StartSFX();
-
 	void LoadParticleSystem();
 
 	void RecoverResources();
@@ -125,7 +118,6 @@ public:
 protected:
 	std::vector<ETHParticleManagerPtr> m_particles;
 
-	bool m_stopSFXWhenDestroyed;
 	ETHResourceProviderPtr m_provider;
 	mutable SpritePtr m_pSprite;
 	SpritePtr m_pGloss;

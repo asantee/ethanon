@@ -68,7 +68,6 @@ public:
 	void EnableLightmaps(const bool enable);
 	void EnableRealTimeShadows(const bool enable);
 	bool AreRealTimeShadowsEnabled() const;
-	void ForceAllSFXStop();
 
 	str_type::string ConvertFileNameToLightmapDirectory(str_type::string filePath);
 	bool GenerateLightmaps(const int id = -1);

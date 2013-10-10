@@ -54,7 +54,6 @@ public:
 	str_type::string GetActualBitmapFile() const;
 
 	str_type::string bitmapFile;
-	str_type::string soundFXFile;
 	ETH_BOOL allAtOnce;
 	float boundingSphere;
 	Video::ALPHA_MODE alphaMode;

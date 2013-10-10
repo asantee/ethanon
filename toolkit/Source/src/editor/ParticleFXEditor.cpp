@@ -26,19 +26,17 @@
 #include <sstream>
 
 #include "../engine/Resource/ETHDirectories.h"
+
 #include "../engine/Util/ETHASUtil.h"
+
 #include "../engine/Shader/ETHShaderManager.h"
 
 #include <Platform/Platform.h>
 
 #define LOAD_BMP GS_L("Load bitmap")
-//#define ALPHA_ADD "Alpha add"
-//#define ALPHA_PIXEL "Alpha pixeGS_L("
 #define SAVE_SYSTEM GS_L("Save")
 #define SAVE_SYSTEM_AS GS_L("Save as...")
 #define OPEN_SYSTEM GS_L("Open")
-#define LOAD_SOUND GS_L("Load sound fx")
-#define LOAD_XSOUND GS_L("Unload sound fx...")
 #define LOAD_BG GS_L("Load background")
 #define WINDOW_TITLE GS_L("Ethanon ParticleFX Editor")
 #define REPLAY_MESSAGE GS_L("Press space or click anywhere to play again")
@@ -61,7 +59,6 @@ ParticleEditor::ParticleEditor(ETHResourceProviderPtr provider) :
 
 ParticleEditor::~ParticleEditor()
 {
-	DeleteSoundFX();
 }
 
 void ParticleEditor::CreateParticles()
@@ -74,25 +71,6 @@ bool ParticleEditor::ProjectManagerRequested()
 	const bool r = m_projManagerRequested;
 	m_projManagerRequested = false;
 	return r;
-}
-
-void ParticleEditor::LoadSoundFX(const char *path, const char *file)
-{
-	std::string programPath = GetCurrentProjectPath(false);
-	ETHGlobal::CopyFileToProject(programPath, path, ETHDirectories::GetSoundFXDirectory(), m_provider->GetFileManager());
-	m_manager->SetSoundEffect(m_provider->GetAudio()->LoadSampleFromFile(path, m_provider->GetFileManager(), Audio::SOUND_EFFECT));
-	m_system.soundFXFile = file;
-	m_manager->SetSystem(m_system);
-}
-
-void ParticleEditor::DeleteSoundFX()
-{
-	if (m_manager)
-	{
-		m_manager->SetSoundEffect(AudioSamplePtr());
-		m_system.soundFXFile = GS_L("");
-		m_manager->SetSystem(m_system);
-	}
 }
 
 void ParticleEditor::DrawParticleSystem()
@@ -151,10 +129,6 @@ void ParticleEditor::DrawParticleSystem()
 
 	str_type::stringstream ss;
 	ss << m_system.bitmapFile;
-	if (m_manager->GetSystem()->soundFXFile != GS_L(""))
-	{
-		ss << GS_L(" | ") << m_manager->GetSystem()->soundFXFile;
-	}
 	ss << GS_L(" | ") << GS_L("Active particles: ") << m_manager->GetNumActiveParticles() << GS_L("/") << m_manager->GetNumParticles();
 	const float infoTextSize = m_menuSize * m_menuScale;
 	ShadowPrint(Vector2(m_menuWidth*2+5,v2Screen.y-infoTextSize-m_menuSize), ss.str().c_str(), GS_L("Verdana14_shadow.fnt"), gs2d::constant::WHITE);
@@ -166,11 +140,7 @@ void ParticleEditor::SetupMenu()
 	m_fileMenu.AddButton(SAVE_SYSTEM);
 	m_fileMenu.AddButton(SAVE_SYSTEM_AS);
 	m_fileMenu.AddButton(OPEN_SYSTEM);
-	//m_fileMenu.AddButton(ALPHA_ADD);
-	//m_fileMenu.AddButton(ALPHA_PIXEL);
 	m_fileMenu.AddButton(LOAD_BMP);
-	m_fileMenu.AddButton(LOAD_SOUND);
-	m_fileMenu.AddButton(LOAD_XSOUND);
 	m_fileMenu.AddButton(LOAD_BG);
 	m_fileMenu.AddButton(_S_GOTO_PROJ);
 
@@ -474,11 +444,6 @@ void ParticleEditor::Save()
 
 void ParticleEditor::StopAllSoundFXs()
 {
-	if (m_manager)
-	{
-		if (m_manager->GetSoundEffect())
-			m_manager->GetSoundEffect()->Stop();
-	}
 }
 
 void ParticleEditor::Clear()
@@ -489,7 +454,6 @@ void ParticleEditor::Clear()
 
 	SetCurrentFile(_BASEEDITOR_DEFAULT_UNTITLED_FILE);
 	m_untitled = true;
-	DeleteSoundFX();
 }
 
 void ParticleEditor::ParticlePanel()
@@ -534,20 +498,6 @@ void ParticleEditor::ParticlePanel()
 		}	
 	}
 
-	if (file_r.text == LOAD_SOUND)
-	{
-		char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
-		if (OpenSoundFX(path, file))
-		{
-			LoadSoundFX(path, file);
-		}
-	}
-	
-	if (file_r.text == LOAD_XSOUND)
-	{
-		DeleteSoundFX();
-	}
-
 	if (file_r.text == OPEN_SYSTEM)
 	{
 		m_systemAngle = 0.0f;
@@ -560,28 +510,6 @@ void ParticleEditor::ParticlePanel()
 			m_manager->Kill(false);
 			m_system = *m_manager->GetSystem();
 			SetMenuConstants();
-
-			if (!m_system.soundFXFile.empty())
-			{
-				std::string sSoundFXName = GetCurrentProjectPath(false);
-				sSoundFXName += "/soundfx/";
-				sSoundFXName += m_system.soundFXFile;
-
-				std::ifstream ifs(sSoundFXName.c_str());
-				if (ifs.is_open())
-				{
-					LoadSoundFX(sSoundFXName.c_str(), m_system.soundFXFile.c_str());
-					ifs.close();
-				}
-				else
-				{
-					DeleteSoundFX();
-				}
-			}
-			else
-			{
-				DeleteSoundFX();
-			}
 
 			SetCurrentFile(path);
 			m_untitled = false;
@@ -788,14 +716,6 @@ bool ParticleEditor::OpenSystem(char *oFilePathName, char *oFileName)
 {
 	FILE_FORM_FILTER filter(GS_L("Particle effect file (*.par)"), GS_L("par"));
 	std::string initDir = GetCurrentProjectPath(true) + "effects/";
-	Platform::FixSlashes(initDir);
-	return OpenForm(filter, initDir.c_str(), oFilePathName, oFileName);
-}
-
-bool ParticleEditor::OpenSoundFX(char *oFilePathName, char *oFileName)
-{
-	FILE_FORM_FILTER filter(GS_L("Supported sound files"), GS_L("ogg,wav,mp3"));
-	std::string initDir = GetCurrentProjectPath(true) + "soundfx/";
 	Platform::FixSlashes(initDir);
 	return OpenForm(filter, initDir.c_str(), oFilePathName, oFileName);
 }

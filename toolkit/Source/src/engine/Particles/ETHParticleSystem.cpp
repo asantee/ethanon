@@ -81,7 +81,6 @@ void ETHParticleSystem::Reset()
 	emissive = Vector3(1,1,1);
 	allAtOnce = false;
 	boundingSphere = 512.0f;
-	soundFXFile = GS_L("");
 	bitmapFile = ETH_DEFAULT_PARTICLE_BITMAP;
 	spriteCut = Vector2i(1,1);
 	animationMode = PLAY_ANIMATION;
@@ -119,16 +118,6 @@ bool ETHParticleSystem::ReadFromXMLFile(TiXmlElement *pElement)
 		if (pStringElement)
 		{
 			bitmapFile = pStringElement->GetText();
-		}
-	}
-
-	pNode = pElement->FirstChild(GS_L("SoundEffect"));
-	if (pNode)
-	{
-		pStringElement = pNode->ToElement();
-		if (pStringElement)
-		{
-			soundFXFile = pStringElement->GetText();
 		}
 	}
 
@@ -172,15 +161,6 @@ bool ETHParticleSystem::WriteToXMLFile(TiXmlElement *pRoot) const
 	pRoot->LinkEndChild(pParticleRoot); 
 
 	TiXmlElement *pElement;
-
-	if (soundFXFile != GS_L(""))
-	{
-		pElement = new TiXmlElement(GS_L("SoundEffect"));
-		pElement->LinkEndChild(
-			new TiXmlText(Platform::GetFileName(soundFXFile))
-			);
-		pParticleRoot->LinkEndChild(pElement);
-	}
 
 	if (bitmapFile != GS_L(""))
 	{
