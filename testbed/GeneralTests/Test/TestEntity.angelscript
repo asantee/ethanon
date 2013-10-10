@@ -310,11 +310,3 @@ void ETHConstructorCallback_barrel(ETHEntity@ thisEntity)
 	print("Barrel constructor!");
 	thisEntity.SetString("test", "test value");
 }
-
-void ETHDestructorCallback_barrel(ETHEntity@ thisEntity)
-{
-	if (thisEntity.GetString("test") == "test value")
-	{
-		print("Barrel destructor test passed...");
-	}
-}
