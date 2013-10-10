@@ -49,7 +49,6 @@ Vector2 ETHScriptWrapper::m_v2LastCamPos(0,0);
 asIScriptFunction* ETHScriptWrapper::m_onSceneUpdateFunction = 0;
 asIScriptFunction* ETHScriptWrapper::m_onResumeFunction = 0;
 asIScriptContext *ETHScriptWrapper::m_pScriptContext = 0;
-asIScriptContext *ETHScriptWrapper::m_pConstructorContext = 0;
 bool ETHScriptWrapper::m_runningMainFunction = false;
 bool ETHScriptWrapper::m_persistentResources = false;
 ETHScriptWrapper::Math ETHScriptWrapper::m_math;

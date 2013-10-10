@@ -30,7 +30,6 @@
 namespace ETHGlobal {
 	void CheckFunctionSeekError(const int id, const str_type::string& function);
 	void PrintException(asIScriptContext *pContext);
-	void ShowMessage(str_type::string message, const ETH_MESSAGE type);
 	void ExecuteContext(asIScriptContext *pContext, asIScriptFunction* func, const bool prepare = true);
 	asIScriptFunction* FindCallbackFunction(asIScriptModule* pModule, const ETHScriptEntity* entity, const str_type::string& prefix, const Platform::Logger& logger);
 	bool RunEntityCallback(asIScriptContext* pContext, ETHScriptEntity* entity, asIScriptFunction* func);

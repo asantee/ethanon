@@ -74,7 +74,7 @@ ETHShaderManager::ETHShaderManager(VideoPtr video, const str_type::string& shade
 
 	if (m_lightingProfiles.empty())
 	{
-		video->Message(GS_L("ETHShaderManager::ETHShaderManager: no lighting profile"), GSMT_WARNING);
+		video->Message(GS_L("ETHShaderManager::ETHShaderManager: no lighting profile"), GSMT_INFO);
 	}
 	else
 	{
@@ -86,7 +86,7 @@ ETHLightingProfilePtr ETHShaderManager::FindHighestLightingProfile()
 {
 	if (m_lightingProfiles.empty())
 	{
-		m_video->Message(GS_L("ETHShaderManager::FindHighestLightingProfile: no lighting profile"), GSMT_WARNING);
+		m_video->Message(GS_L("ETHShaderManager::FindHighestLightingProfile: no lighting profile"), GSMT_INFO);
 		return ETHLightingProfilePtr();
 	}
 	return m_lightingProfiles.rbegin()->second;
@@ -240,7 +240,7 @@ void ETHShaderManager::UsePS(const bool usePS)
 	}
 	else
 	{
-		m_video->Message(GS_L("ETHShaderManager::UsePS: no lighting profile"), GSMT_WARNING);
+		m_video->Message(GS_L("ETHShaderManager::UsePS: no lighting profile"), GSMT_INFO);
 	}
 }
 
@@ -248,7 +248,7 @@ bool ETHShaderManager::IsUsingPixelShader()
 {
 	if (m_lightingProfiles.empty())
 	{
-		m_video->Message(GS_L("ETHShaderManager::IsUsingPixelShader: no lighting profile"), GSMT_WARNING);
+		m_video->Message(GS_L("ETHShaderManager::IsUsingPixelShader: no lighting profile"), GSMT_INFO);
 		return false;
 	}
 	return m_currentProfile->IsUsingPixelShader();
@@ -258,7 +258,7 @@ bool ETHShaderManager::IsPixelLightingSupported()
 {
 	if (m_lightingProfiles.empty())
 	{
-		m_video->Message(GS_L("ETHShaderManager::IsPixelLightingSupported: no lighting profile"), GSMT_WARNING);
+		m_video->Message(GS_L("ETHShaderManager::IsPixelLightingSupported: no lighting profile"), GSMT_INFO);
 		return false;
 	}
 	return (m_lightingProfiles.find(PIXEL_LIGHTING_DIFFUSE_SPECULAR) != m_lightingProfiles.end());

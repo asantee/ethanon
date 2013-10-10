@@ -41,19 +41,7 @@ void ExecuteContext(asIScriptContext *pContext, asIScriptFunction* func, const b
 		}
 	}
 
-	const int r = pContext->Execute();
-	if (r != asEXECUTION_FINISHED)
-	{
-		if (r == asEXECUTION_EXCEPTION)
-		{
-			PrintException(pContext);
-			ETH_STREAM_DECL(ss) << GS_L("Exception: ") << pContext->GetExceptionString();
-			#if defined(_DEBUG) || defined(DEBUG)
-			ss << static_cast<str_type::char_t>(0x07);
-			#endif
-			ShowMessage(ss.str(), ETH_ERROR);
-		}
-	}
+	pContext->Execute();
 }
 
 void CheckFunctionSeekError(const int id, const str_type::string& function)
@@ -70,39 +58,6 @@ void CheckFunctionSeekError(const int id, const str_type::string& function)
 		ETHResourceProvider::Log(ss.str(), Platform::Logger::ERROR);
 		break;
 	};
-}
-
-void ShowMessage(str_type::string message, const ETH_MESSAGE type)
-{
-	str_type::stringstream ss;
-	switch (type)
-	{
-	case ETH_ERROR:
-		ss << GS_L("ERROR - ") << message;
-		ETHResourceProvider::Log(ss.str(), Platform::Logger::ERROR);
-		break;
-	case ETH_WARNING:
-		ss << GS_L("Warning - ") << message;
-		ETHResourceProvider::Log(ss.str(), Platform::Logger::ERROR);
-		break;
-	case ETH_INFO:
-		ss << message;
-		ETHResourceProvider::Log(ss.str(), Platform::Logger::INFO);
-		break;
-	};
-	#ifndef ANDROID
-	std::wcout << std::endl;
-	#endif
-}
-
-void PrintException(asIScriptContext *pContext)
-{
-	const asIScriptFunction* func = pContext->GetExceptionFunction();
-	ETH_STREAM_DECL(ss) << GS_L("Function: ") << func->GetDeclaration() << std::endl
-						<< GS_L("Section: ") << func->GetScriptSectionName() << std::endl
-						<< GS_L("Line: ") << pContext->GetExceptionLineNumber() << std::endl
-						<< GS_L("Description: ") << pContext->GetExceptionString() << std::endl;
-	ETHResourceProvider::Log(ss.str(), Platform::Logger::ERROR);
 }
 
 asIScriptFunction* FindCallbackFunction(asIScriptModule* pModule, const ETHScriptEntity* entity, const str_type::string& prefix, const Platform::Logger& logger)

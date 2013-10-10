@@ -131,20 +131,6 @@ enml::Entity *EnmlEntityFactory()
 	return new enml::Entity();
 }
 
-bool CheckASError(const int r, const str_type::string &description)
-{
-	if (r < 0)
-	{
-		ETH_STREAM_DECL(ss) << GS_L("ERROR - ") << description;
-		ETHResourceProvider::Log(ss.str(), Platform::FileLogger::ERROR);
-		return false;
-	}
-	else
-	{
-		return true;
-	}
-}
-
 Matrix4x4 Scale(const float x, const float y, const float z)
 {
 	return Matrix4x4(
