@@ -722,7 +722,7 @@ void EntityEditor::DoMainMenu()
 			ETHGlobal::CopyFileToProject(currentProjectPath, path, ETHDirectories::GetEntityDirectory(), m_provider->GetFileManager());
 			if (LoadSprite(file, path))
 			{
-				resourceManager->RemoveResource(m_pEditEntity->spriteFile);
+				resourceManager->ReleaseResource(m_pEditEntity->spriteFile);
 				m_renderEntity->SetSprite(m_pEditEntity->spriteFile);			
 			}
 		}
@@ -735,7 +735,7 @@ void EntityEditor::DoMainMenu()
 			ETHGlobal::CopyFileToProject(currentProjectPath, path, ETHDirectories::GetNormalMapDirectory(), m_provider->GetFileManager());
 			if (LoadNormal(file, path))
 			{
-				resourceManager->RemoveResource(m_pEditEntity->normalFile);
+				resourceManager->ReleaseResource(m_pEditEntity->normalFile);
 				m_renderEntity->SetNormal(m_pEditEntity->normalFile);			
 			}
 		}
@@ -748,7 +748,7 @@ void EntityEditor::DoMainMenu()
 			ETHGlobal::CopyFileToProject(currentProjectPath, path, ETHDirectories::GetEntityDirectory(), m_provider->GetFileManager());
 			if (LoadHalo(file, path))
 			{
-				resourceManager->RemoveResource(m_pEditEntity->light->haloBitmap);
+				resourceManager->ReleaseResource(m_pEditEntity->light->haloBitmap);
 				m_renderEntity->SetHalo(m_pEditEntity->light->haloBitmap);
 			}
 		}
@@ -761,7 +761,7 @@ void EntityEditor::DoMainMenu()
 			ETHGlobal::CopyFileToProject(currentProjectPath, path, ETHDirectories::GetEntityDirectory(), m_provider->GetFileManager());
 			if (LoadGloss(file, path))
 			{
-				resourceManager->RemoveResource(m_pEditEntity->glossFile);
+				resourceManager->ReleaseResource(m_pEditEntity->glossFile);
 				m_renderEntity->SetGloss(m_pEditEntity->glossFile);
 			}
 		}
