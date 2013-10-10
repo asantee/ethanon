@@ -39,7 +39,6 @@ class ETHPhysicsController;
 class ETHScriptEntity
 {
 	bool m_isAlive;
-	asIScriptFunction* m_destructorCallback;
 
 protected:
 	ETHScriptEntity();
@@ -180,8 +179,6 @@ public:
 	virtual void Release() = 0;
 	void Kill();
 	bool IsAlive() const;
-	void SetDestructorCallback(asIScriptFunction* func);
-	asIScriptFunction* GetDestructorCallback() const;
 
 	virtual void SetPositionX(const float v, ETHBucketManager& buckets) = 0;
 	virtual void SetPositionY(const float v, ETHBucketManager& buckets) = 0;

@@ -29,7 +29,6 @@ class ETHEntity;
 class ETHEntityArray;
 
 #include "ETHSceneProperties.h"
-#include "ETHEntityKillListener.h"
 
 #include "../Resource/ETHResourceProvider.h"
 
@@ -135,8 +134,6 @@ public:
 
 	void ResolveMoveRequests();
 
-	void SetDestructionListener(const ETHEntityKillListenerPtr& listener);
-
 private:
 
 	class ETHBucketMoveRequest
@@ -161,7 +158,6 @@ private:
 	ETHBucketMap m_entities;
 	const Vector2 m_bucketSize;
 	bool m_drawingBorderBuckets;
-	ETHEntityKillListenerPtr m_entityKillListener;
 };
 
 #endif

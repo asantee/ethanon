@@ -88,10 +88,6 @@
 		7421F0E11647261800C55BAE /* ETHActiveEntityHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0D81647261800C55BAE /* ETHActiveEntityHandler.h */; };
 		7421F0F71647263700C55BAE /* ETHBinaryStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0E21647263700C55BAE /* ETHBinaryStream.cpp */; };
 		7421F0F81647263700C55BAE /* ETHBinaryStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0E31647263700C55BAE /* ETHBinaryStream.h */; };
-		7421F0F91647263700C55BAE /* ETHEntityDestructorManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0E41647263700C55BAE /* ETHEntityDestructorManager.cpp */; };
-		7421F0FA1647263700C55BAE /* ETHEntityDestructorManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0E51647263700C55BAE /* ETHEntityDestructorManager.h */; };
-		7421F0FB1647263700C55BAE /* ETHEntityDestructorScript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0E61647263700C55BAE /* ETHEntityDestructorScript.cpp */; };
-		7421F0FC1647263700C55BAE /* ETHEntityDestructorScript.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0E71647263700C55BAE /* ETHEntityDestructorScript.h */; };
 		7421F0FD1647263700C55BAE /* ETHScriptObjRegister.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0E81647263700C55BAE /* ETHScriptObjRegister.cpp */; };
 		7421F0FE1647263700C55BAE /* ETHScriptObjRegister.generic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F0E91647263700C55BAE /* ETHScriptObjRegister.generic.cpp */; };
 		7421F0FF1647263700C55BAE /* ETHScriptObjRegister.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F0EA1647263700C55BAE /* ETHScriptObjRegister.h */; };
@@ -322,10 +318,6 @@
 		7421F0D81647261800C55BAE /* ETHActiveEntityHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHActiveEntityHandler.h; path = ../../../../src/engine/Scene/ETHActiveEntityHandler.h; sourceTree = "<group>"; };
 		7421F0E21647263700C55BAE /* ETHBinaryStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHBinaryStream.cpp; path = ../../../../src/engine/Script/ETHBinaryStream.cpp; sourceTree = "<group>"; };
 		7421F0E31647263700C55BAE /* ETHBinaryStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHBinaryStream.h; path = ../../../../src/engine/Script/ETHBinaryStream.h; sourceTree = "<group>"; };
-		7421F0E41647263700C55BAE /* ETHEntityDestructorManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityDestructorManager.cpp; path = ../../../../src/engine/Script/ETHEntityDestructorManager.cpp; sourceTree = "<group>"; };
-		7421F0E51647263700C55BAE /* ETHEntityDestructorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityDestructorManager.h; path = ../../../../src/engine/Script/ETHEntityDestructorManager.h; sourceTree = "<group>"; };
-		7421F0E61647263700C55BAE /* ETHEntityDestructorScript.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityDestructorScript.cpp; path = ../../../../src/engine/Script/ETHEntityDestructorScript.cpp; sourceTree = "<group>"; };
-		7421F0E71647263700C55BAE /* ETHEntityDestructorScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityDestructorScript.h; path = ../../../../src/engine/Script/ETHEntityDestructorScript.h; sourceTree = "<group>"; };
 		7421F0E81647263700C55BAE /* ETHScriptObjRegister.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptObjRegister.cpp; path = ../../../../src/engine/Script/ETHScriptObjRegister.cpp; sourceTree = "<group>"; };
 		7421F0E91647263700C55BAE /* ETHScriptObjRegister.generic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptObjRegister.generic.cpp; path = ../../../../src/engine/Script/ETHScriptObjRegister.generic.cpp; sourceTree = "<group>"; };
 		7421F0EA1647263700C55BAE /* ETHScriptObjRegister.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHScriptObjRegister.h; path = ../../../../src/engine/Script/ETHScriptObjRegister.h; sourceTree = "<group>"; };
@@ -516,10 +508,6 @@
 			children = (
 				7421F0E21647263700C55BAE /* ETHBinaryStream.cpp */,
 				7421F0E31647263700C55BAE /* ETHBinaryStream.h */,
-				7421F0E41647263700C55BAE /* ETHEntityDestructorManager.cpp */,
-				7421F0E51647263700C55BAE /* ETHEntityDestructorManager.h */,
-				7421F0E61647263700C55BAE /* ETHEntityDestructorScript.cpp */,
-				7421F0E71647263700C55BAE /* ETHEntityDestructorScript.h */,
 				7421F0E81647263700C55BAE /* ETHScriptObjRegister.cpp */,
 				7421F0EA1647263700C55BAE /* ETHScriptObjRegister.h */,
 				7421F0ED1647263700C55BAE /* ETHScriptWrapper.cpp */,
@@ -843,8 +831,6 @@
 				7421F0DF1647261800C55BAE /* ETHSceneProperties.h in Headers */,
 				7421F0E11647261800C55BAE /* ETHActiveEntityHandler.h in Headers */,
 				7421F0F81647263700C55BAE /* ETHBinaryStream.h in Headers */,
-				7421F0FA1647263700C55BAE /* ETHEntityDestructorManager.h in Headers */,
-				7421F0FC1647263700C55BAE /* ETHEntityDestructorScript.h in Headers */,
 				7421F0FF1647263700C55BAE /* ETHScriptObjRegister.h in Headers */,
 				7421F1051647263700C55BAE /* ETHScriptWrapper.h in Headers */,
 				7421F1241647266600C55BAE /* ETHBackBufferTargetManager.h in Headers */,
@@ -1030,8 +1016,6 @@
 				7421F0DE1647261800C55BAE /* ETHSceneProperties.cpp in Sources */,
 				7421F0E01647261800C55BAE /* ETHActiveEntityHandler.cpp in Sources */,
 				7421F0F71647263700C55BAE /* ETHBinaryStream.cpp in Sources */,
-				7421F0F91647263700C55BAE /* ETHEntityDestructorManager.cpp in Sources */,
-				7421F0FB1647263700C55BAE /* ETHEntityDestructorScript.cpp in Sources */,
 				7421F0FD1647263700C55BAE /* ETHScriptObjRegister.cpp in Sources */,
 				7421F0FE1647263700C55BAE /* ETHScriptObjRegister.generic.cpp in Sources */,
 				7421F1011647263700C55BAE /* ETHScriptWrapper.Audio.cpp in Sources */,
