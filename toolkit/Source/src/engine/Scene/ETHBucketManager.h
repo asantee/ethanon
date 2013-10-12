@@ -142,6 +142,7 @@ private:
 		ETHEntity* entity;
 	public:
 		ETHBucketMoveRequest(ETHEntity* target, const Vector2& oldPos, const Vector2& newPos, const Vector2& bucketSize);
+		~ETHBucketMoveRequest();
 		bool IsABucketMove() const;
 		int GetID() const;
 		const Vector2& GetOldBucket() const;
@@ -149,9 +150,11 @@ private:
 		bool IsAlive() const;
 	};
 
+	typedef boost::shared_ptr<ETHBucketMoveRequest> ETHBucketMoveRequestPtr;
+
 	bool MoveEntity(const int id, const Vector2 &currentBucket, const Vector2 &destBucket);
 
-	std::list<ETHBucketMoveRequest> m_moveRequests;
+	std::list<ETHBucketMoveRequestPtr> m_moveRequests;
 
 	ETHResourceProviderPtr m_provider;
 	ETHBucketManager& operator=(const ETHBucketManager& p);

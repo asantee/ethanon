@@ -630,8 +630,8 @@ void ETHBucketManager::GetEntityArray(ETHEntityArray &outVector)
 
 void ETHBucketManager::RequestBucketMove(ETHEntity* target, const Vector2& oldPos, const Vector2& newPos)
 {
-	ETHBucketMoveRequest request(target, oldPos, newPos, GetBucketSize());
-	if (request.IsABucketMove())
+	ETHBucketMoveRequestPtr request(new ETHBucketMoveRequest(target, oldPos, newPos, GetBucketSize()));
+	if (request->IsABucketMove())
 	{
 		m_moveRequests.push_back(request);
 	}
@@ -639,16 +639,17 @@ void ETHBucketManager::RequestBucketMove(ETHEntity* target, const Vector2& oldPo
 
 void ETHBucketManager::ResolveMoveRequests()
 {
-	for (std::list<ETHBucketMoveRequest>::iterator iter = m_moveRequests.begin();
+	for (std::list<ETHBucketMoveRequestPtr>::iterator iter = m_moveRequests.begin();
 		iter != m_moveRequests.end(); ++iter)
 	{
+		const ETHBucketMoveRequestPtr& request = *iter;
 		// if it's dead, no use in moving it. Let's just discard
-		if (!iter->IsAlive())
+		if (!request->IsAlive())
 		{
-			DeleteEntity(iter->GetID());
+			DeleteEntity(request->GetID());
 			continue;
 		}
-		MoveEntity(iter->GetID(), iter->GetOldBucket(), iter->GetNewBucket());
+		MoveEntity(request->GetID(), request->GetOldBucket(), request->GetNewBucket());
 	}
 	m_moveRequests.clear();
 }
@@ -656,10 +657,15 @@ void ETHBucketManager::ResolveMoveRequests()
 ETHBucketManager::ETHBucketMoveRequest::ETHBucketMoveRequest(ETHEntity* target, const Vector2& oldPos, const Vector2& newPos, const Vector2& bucketSize) :
 	entity(target)
 {
+	entity->AddRef();
 	oldBucket = ETHBucketManager::GetBucket(oldPos, bucketSize);
 	newBucket = ETHBucketManager::GetBucket(newPos, bucketSize);
 }
 
+ETHBucketManager::ETHBucketMoveRequest::~ETHBucketMoveRequest()
+{
+	entity->Release();
+}
 
 bool ETHBucketManager::ETHBucketMoveRequest::IsAlive() const
 {
