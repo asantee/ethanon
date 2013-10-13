@@ -163,7 +163,7 @@
 			Name="Vendors"
 			>
 			<Filter
-				Name="TinyXml UTF-16"
+				Name="tinyxml"
 				>
 				<File
 					RelativePath="..\..\..\src\vendors\tinyxml_utf16\tinystr.cpp"
@@ -189,10 +189,6 @@
 					RelativePath="..\..\..\src\vendors\tinyxml_utf16\tinyxmlparser.cpp"
 					>
 				</File>
-			</Filter>
-			<Filter
-				Name="TinyXml ANSI"
-				>
 			</Filter>
 		</Filter>
 		<Filter
@@ -679,22 +675,6 @@
 				</File>
 				<File
 					RelativePath="..\..\..\src\engine\Script\ETHBinaryStream.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\engine\Script\ETHEntityDestructorManager.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\engine\Script\ETHEntityDestructorManager.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\engine\Script\ETHEntityDestructorScript.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\engine\Script\ETHEntityDestructorScript.h"
 					>
 				</File>
 				<File
