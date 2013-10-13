@@ -103,7 +103,6 @@ private:
 	GSGUI_FLOAT_INPUT m_parallaxIntensity;
 	GSGUI_FLOAT_INPUT m_shadowOpacity;
 	GSGUI_FLOAT_INPUT m_shadowLength;
-	GSGUI_FLOAT_INPUT m_soundVolume;
 	GSGUI_FLOAT_INPUT m_layerDepth;
 	GSGUI_FLOAT_INPUT m_specularPower;
 	GSGUI_FLOAT_INPUT m_specularBrightness;

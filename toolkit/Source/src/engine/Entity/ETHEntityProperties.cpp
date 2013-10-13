@@ -76,7 +76,6 @@ static const str_type::string POLYGON_ENML_SAMPLE(
 #define ETH_DEFAULT_SPRITE_CUT		Vector2i(1, 1)
 #define ETH_DEFAULT_PIVOT_ADJUST	Vector2(0, 0)
 #define ETH_DEFAULT_SCALE			Vector2(1, 1)
-#define ETH_DEFAULT_SOUND_VOLUME	1.0f
 #define ETH_DEFAULT_PARALLAX_INTENS	1.0f
 
 void ETHEntityMaterial::Reset()
@@ -176,7 +175,6 @@ void ETHEntityProperties::Reset()
 	type = ET_HORIZONTAL;
 	layerDepth = 0.0f;
 	successfullyLoaded = false;
-	soundVolume = ETH_DEFAULT_SOUND_VOLUME;
 	parallaxIntensity = ETH_DEFAULT_PARALLAX_INTENS;
 	shape = BS_NONE;
 }
@@ -216,7 +214,6 @@ bool ETHEntityProperties::ReadFromXMLFile(TiXmlElement *pElement)
 	pElement->QueryIntAttribute(GS_L("shape"), (int*)&shape);
 	pElement->QueryIntAttribute(GS_L("blendMode"), (int*)&blendMode);
 	pElement->QueryFloatAttribute(GS_L("layerDepth"), &layerDepth);
-	pElement->QueryFloatAttribute(GS_L("soundVolume"), &soundVolume);
 	pElement->QueryFloatAttribute(GS_L("parallaxIntensity"), &parallaxIntensity);
 
 	if (applyLight)
@@ -531,9 +528,6 @@ bool ETHEntityProperties::WriteToXMLFile(TiXmlElement *pHeadRoot) const
 	pRoot->SetAttribute(GS_L("type"), type);
 	if (type == ET_LAYERABLE)
 		pRoot->SetDoubleAttribute(GS_L("layerDepth"), layerDepth);
-
-	if (soundVolume != ETH_DEFAULT_SOUND_VOLUME)
-		pRoot->SetDoubleAttribute(GS_L("soundVolume"), soundVolume);
 
 	if (parallaxIntensity != ETH_DEFAULT_PARALLAX_INTENS)
 		pRoot->SetDoubleAttribute(GS_L("parallaxIntensity"), parallaxIntensity);

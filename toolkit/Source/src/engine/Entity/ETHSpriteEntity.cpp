@@ -293,7 +293,7 @@ void ETHSpriteEntity::LoadParticleSystem()
 			const float particleScale = (GetScale().x + GetScale().y) / 2.0f;
 			m_particles[t] = ETHParticleManagerPtr(
 				new ETHParticleManager(m_provider, *pSystem, GetPositionXY(), GetPosition(),
-									   GetAngle(), m_properties.soundVolume, particleScale));
+									   GetAngle(), particleScale));
 		}
 	}
 }
