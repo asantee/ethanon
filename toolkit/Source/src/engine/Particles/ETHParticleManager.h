@@ -45,8 +45,7 @@ public:
 		const str_type::string& file,
 		const Vector2& v2Pos,
 		const Vector3& v3Pos,
-		const float angle,
-		const float entityVolume);
+		const float angle);
 
 	ETHParticleManager(
 		ETHResourceProviderPtr provider,
@@ -54,7 +53,6 @@ public:
 		const Vector2& v2Pos,
 		const Vector3& v3Pos,
 		const float angle,
-		const float entityVolume,
 		const float scale);
 
 	/// Update the position, size and angle of all particles in the system (if they are active)
@@ -196,7 +194,6 @@ private:
 		const Vector2& v2Pos,
 		const Vector3& v3Pos,
 		const float angle,
-		const float entityVolume,
 		const float scale);
 
 	void ResetParticle(const int t, const Vector2& v2Pos, const Vector3& v3Pos, const float angle, const Matrix4x4& rotMatrix);

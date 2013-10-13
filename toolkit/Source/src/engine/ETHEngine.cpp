@@ -477,6 +477,8 @@ void ETHEngine::MessageCallback(const asSMessageInfo *msg)
 
 void ETHEngine::ExceptionCallback(asIScriptContext *ctx, void *param)
 {
+	GS2D_UNUSED_ARGUMENT(param);
+
 	asIScriptFunction* function = ctx->GetExceptionFunction();
 
 	const str_type::string section = RemoveResourceDirectoryFromSectionString(function->GetScriptSectionName());

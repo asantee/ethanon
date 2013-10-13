@@ -163,7 +163,7 @@
 			Name="Vendors"
 			>
 			<Filter
-				Name="TinyXml"
+				Name="tinyxml"
 				>
 				<File
 					RelativePath="..\..\..\src\vendors\tinyxml_ansi\tinystr.cpp"
@@ -675,22 +675,6 @@
 				</File>
 				<File
 					RelativePath="..\..\..\src\engine\Script\ETHBinaryStream.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\engine\Script\ETHEntityDestructorManager.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\engine\Script\ETHEntityDestructorManager.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\engine\Script\ETHEntityDestructorScript.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\engine\Script\ETHEntityDestructorScript.h"
 					>
 				</File>
 				<File

@@ -183,7 +183,6 @@ public:
 	ENTITY_TYPE type;
 	float parallaxIntensity;
 	float layerDepth;
-	float soundVolume;
 	Vector2 scale;
 	boost::shared_ptr<ETHCollisionBox> collision;
 	std::vector<boost::shared_ptr<ETHParticleSystem> > particleSystems;

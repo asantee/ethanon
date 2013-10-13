@@ -40,14 +40,13 @@ ETHParticleManager::ETHParticleManager(
 	const str_type::string& file,
 	const Vector2& v2Pos,
 	const Vector3& v3Pos,
-	const float angle,
-	const float entityVolume) :
+	const float angle) :
 	m_provider(provider)
 {
 	ETHParticleSystem partSystem;
 	if (partSystem.ReadFromFile(file, m_provider->GetFileManager()))
 	{
-		CreateParticleSystem(partSystem, v2Pos, v3Pos, angle, entityVolume, 1.0f);
+		CreateParticleSystem(partSystem, v2Pos, v3Pos, angle, 1.0f);
 	}
 	else
 	{
@@ -62,11 +61,10 @@ ETHParticleManager::ETHParticleManager(
 	const Vector2& v2Pos,
 	const Vector3& v3Pos,
 	const float angle,
-	const float entityVolume,
 	const float scale) :
 	m_provider(provider)
 {
-	CreateParticleSystem(partSystem, v2Pos, v3Pos, angle, entityVolume, scale);
+	CreateParticleSystem(partSystem, v2Pos, v3Pos, angle, scale);
 }
 
 bool ETHParticleManager::CreateParticleSystem(
@@ -74,7 +72,6 @@ bool ETHParticleManager::CreateParticleSystem(
 	const Vector2& v2Pos,
 	const Vector3& v3Pos,
 	const float angle,
-	const float entityVolume,
 	const float scale)
 {
 	GS2D_UNUSED_ARGUMENT(v3Pos);

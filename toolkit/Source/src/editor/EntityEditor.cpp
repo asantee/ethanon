@@ -308,13 +308,6 @@ void EntityEditor::LoadEditor()
 	m_shadowLength.SetScrollAdd(0.1f);
 	m_shadowLength.SetDescription(GS_L("Shadow length scale"));
 
-	m_soundVolume.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 6, false);
-	m_soundVolume.SetConstant(m_pEditEntity->soundVolume);
-	m_soundVolume.SetClamp(true, 0, 1.0f);
-	m_soundVolume.SetText(GS_L("Sound volume:"));
-	m_soundVolume.SetScrollAdd(0.1f);
-	m_soundVolume.SetDescription(GS_L("Entity general sound volume"));
-
 	m_lightPos[0].SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 8, false);
 	//m_lightPos[0].SetConstant(m_pEditEntity->light.pos.x);
 	m_lightPos[0].SetConstant(0.0f);
@@ -617,7 +610,6 @@ void EntityEditor::ResetEntityMenu()
 	m_shadowLength.SetConstant(m_pEditEntity->shadowLengthScale);
 	m_shadowScale.SetConstant(m_pEditEntity->shadowScale);
 	m_parallaxIntensity.SetConstant(m_pEditEntity->parallaxIntensity);
-	m_soundVolume.SetConstant(m_pEditEntity->soundVolume);
 	m_layerDepth.SetConstant(m_pEditEntity->layerDepth);
 	m_specularPower.SetConstant(m_pEditEntity->specularPower);
 	m_specularBrightness.SetConstant(m_pEditEntity->specularBrightness);
