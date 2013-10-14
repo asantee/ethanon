@@ -24,7 +24,9 @@
 #define FILE_LISTING_H_
 
 #include <Platform/Platform.h>
+
 #include <vector>
+
 #include <iostream>
 
 namespace Platform {

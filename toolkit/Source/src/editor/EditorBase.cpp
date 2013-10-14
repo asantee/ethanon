@@ -21,14 +21,14 @@
 --------------------------------------------------------------------------------------*/
 
 #include "../engine/Platform/FileListing.h"
+#include "../engine/Util/ETHASUtil.h"
 #include "../engine/Resource/ETHDirectories.h"
 
 #include <Enml/Enml.h>
+
 #include "EditorBase.h"
 #include "EditorCommon.h"
 
-#include <Unicode/UTF8Converter.h>
-#include "../engine/Util/ETHASUtil.h"
 
 #define _ENML_EDITOR_GENERAL_INFO GS_L("userdata.enml")
 
@@ -122,7 +122,7 @@ void EditorBase::SaveAttributeToInfoFile(
 {
 	str_type::string file = m_provider->GetFileIOHub()->GetExternalStorageDirectory() + _ENML_EDITOR_GENERAL_INFO;
 	enml::File parseFile(enml::GetStringFromAnsiFile(file));
-	parseFile.Add(utf8::c(entity).wstr(), utf8::c(attrib).wstr(), utf8::c(value).wstr());
+	parseFile.Add(entity, attrib, value);
 	parseFile.WriteToFile(file);
 }
 
@@ -136,7 +136,7 @@ std::string EditorBase::GetAttributeFromInfoFile(
 		file = m_provider->GetFileIOHub()->GetProgramDirectory() + GS_L("editor.enml");
 	}
 	enml::File parseFile(enml::GetStringFromAnsiFile(file));
-	return utf8::c(parseFile.Get(utf8::c(entity).wstr(), utf8::c(attrib).wstr())).str();
+	return parseFile.Get(entity, attrib);
 }
 
 void EditorBase::CreateFileMenu()
@@ -158,7 +158,7 @@ GSGUI_BUTTON EditorBase::PlaceFileMenu()
 void EditorBase::SetFileNameToTitle(VideoPtr video, const str_type::char_t *wszTitle)
 {
 	str_type::string newTitle, file;
-	file = utf8::c(GetCurrentFile(false)).wc_str();
+	file = GetCurrentFile(false);
 	newTitle = wszTitle;
 	newTitle += GS_L(" - ");
 	newTitle += file;
@@ -178,7 +178,7 @@ bool EditorBase::AddExtension(const char *path, const char *extension, std::stri
 
 std::string EditorBase::GetCurrentProjectPath(const bool keepLastSlash)
 {
-	std::string r = Platform::GetFileDirectory(utf8::c(m_provider->GetFileIOHub()->GetResourceDirectory()).c_str());
+	std::string r = Platform::GetFileDirectory(m_provider->GetFileIOHub()->GetResourceDirectory().c_str());
 	if (!keepLastSlash)
 		r = r.substr(0, r.size() - 1);
 	return r;
@@ -186,12 +186,12 @@ std::string EditorBase::GetCurrentProjectPath(const bool keepLastSlash)
 
 std::string EditorBase::GetCurrentProject()
 {
-	return utf8::c(m_provider->GetFileIOHub()->GetResourceDirectory()).c_str();
+	return m_provider->GetFileIOHub()->GetResourceDirectory();
 }
 
 bool EditorBase::SetCurrentProject(const char *path)
 {
-	m_provider->GetFileIOHub()->SetResourceDirectory(utf8::c(Platform::GetFileDirectory(path)).wstr());
+	m_provider->GetFileIOHub()->SetResourceDirectory(Platform::GetFileDirectory(path));
 	return true;
 }
 
@@ -204,7 +204,7 @@ std::string EditorBase::GetCurrentFile(const bool fullPath)
 
 std::string EditorBase::GetProgramPath()
 {
-	return utf8::c(m_provider->GetFileIOHub()->GetProgramDirectory()).str();
+	return m_provider->GetFileIOHub()->GetProgramDirectory();
 }
 
 void EditorBase::ShadowPrint(Vector2 v2Pos, const str_type::char_t *text, const Color& color) const
@@ -237,9 +237,13 @@ AudioPtr EditorBase::GetAudioHandler()
 
 namespace ETHGlobal 
 {
-bool CopyFileToProject(const str_type::string &currentPath, const str_type::string &filePath, const str_type::string &destPath, const Platform::FileManagerPtr& fileManager)
+bool CopyFileToProject(
+	const str_type::string &currentPath,
+	const str_type::string &filePath,
+	const str_type::string &destPath,
+	const Platform::FileManagerPtr& fileManager)
 {
-	str_type::stringstream slash; slash << Platform::GetDirectorySlash();
+	str_type::stringstream slash; slash << Platform::GetDirectorySlashA();
 	const str_type::string fileName = Platform::GetFileName(filePath);
 	if (ETHGlobal::FileExists(currentPath + slash.str() + destPath + fileName, fileManager))
 	{
@@ -254,7 +258,7 @@ bool CopyFileToProject(const str_type::string &currentPath, const str_type::stri
 
 bool _MoveFile(const str_type::string &source, const str_type::string &dest, const bool overwrite)
 {
-	std::ifstream ifs(utf8::c(source).c_str(), std::ios::binary);
+	std::ifstream ifs(source.c_str(), std::ios::binary);
 	if (!ifs.is_open())
 	{
 		GS2D_CERR << "Couldn't copy file " << source << std::endl;
@@ -263,7 +267,7 @@ bool _MoveFile(const str_type::string &source, const str_type::string &dest, con
 
 	if (!overwrite)
 	{
-		std::ifstream exist(utf8::c(dest).c_str(), std::ios::binary);
+		std::ifstream exist(dest.c_str(), std::ios::binary);
 		if (exist.is_open())
 		{
 			exist.close();
@@ -272,7 +276,7 @@ bool _MoveFile(const str_type::string &source, const str_type::string &dest, con
 		}
 	}
 
-	std::ofstream ofs(utf8::c(dest).c_str(), std::ios::binary);
+	std::ofstream ofs(dest.c_str(), std::ios::binary);
 	if (!ofs.is_open())
 	{
 		ifs.close();

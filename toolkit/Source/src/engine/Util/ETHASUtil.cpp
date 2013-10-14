@@ -26,13 +26,7 @@
 
 #include "../Resource/ETHResourceProvider.h"
 
-#include <Unicode/UTF8Converter.h>
-
-#ifdef GS2D_STR_TYPE_WCHAR
-#	include "../addons/utf16/scriptbuilder.h"
-#else
-#	include "../addons/ansi/scriptbuilder.h"
-#endif
+#include "../addons/scriptbuilder.h"
 
 namespace ETHGlobal {
 void ExecuteContext(asIScriptContext *pContext, asIScriptFunction* func, const bool prepare)
@@ -47,19 +41,7 @@ void ExecuteContext(asIScriptContext *pContext, asIScriptFunction* func, const b
 		}
 	}
 
-	const int r = pContext->Execute();
-	if (r != asEXECUTION_FINISHED)
-	{
-		if (r == asEXECUTION_EXCEPTION)
-		{
-			PrintException(pContext);
-			ETH_STREAM_DECL(ss) << GS_L("Exception: ") << pContext->GetExceptionString();
-			#if defined(_DEBUG) || defined(DEBUG)
-			ss << static_cast<str_type::char_t>(0x07);
-			#endif
-			ShowMessage(ss.str(), ETH_ERROR);
-		}
-	}
+	pContext->Execute();
 }
 
 void CheckFunctionSeekError(const int id, const str_type::string& function)
@@ -78,45 +60,12 @@ void CheckFunctionSeekError(const int id, const str_type::string& function)
 	};
 }
 
-void ShowMessage(str_type::string message, const ETH_MESSAGE type)
-{
-	str_type::stringstream ss;
-	switch (type)
-	{
-	case ETH_ERROR:
-		ss << GS_L("ERROR - ") << message;
-		ETHResourceProvider::Log(ss.str(), Platform::Logger::ERROR);
-		break;
-	case ETH_WARNING:
-		ss << GS_L("Warning - ") << message;
-		ETHResourceProvider::Log(ss.str(), Platform::Logger::ERROR);
-		break;
-	case ETH_INFO:
-		ss << message;
-		ETHResourceProvider::Log(ss.str(), Platform::Logger::INFO);
-		break;
-	};
-	#ifndef ANDROID
-	std::wcout << std::endl;
-	#endif
-}
-
-void PrintException(asIScriptContext *pContext)
-{
-	const asIScriptFunction* func = pContext->GetExceptionFunction();
-	ETH_STREAM_DECL(ss) << GS_L("Function: ") << func->GetDeclaration() << std::endl
-						<< GS_L("Section: ") << func->GetScriptSectionName() << std::endl
-						<< GS_L("Line: ") << pContext->GetExceptionLineNumber() << std::endl
-						<< GS_L("Description: ") << pContext->GetExceptionString() << std::endl;
-	ETHResourceProvider::Log(ss.str(), Platform::Logger::ERROR);
-}
-
 asIScriptFunction* FindCallbackFunction(asIScriptModule* pModule, const ETHScriptEntity* entity, const str_type::string& prefix, const Platform::Logger& logger)
 {
 	const str_type::string entityName = Platform::RemoveExtension(entity->GetEntityName().c_str());
 	str_type::stringstream funcName;
 	funcName << prefix << entityName;
-	asIScriptFunction* func = pModule->GetFunctionByName(utf8::c(funcName.str()).c_str());
+	asIScriptFunction* func = pModule->GetFunctionByName(funcName.str().c_str());
 
 	// TODO/TO-DO: handle function overload ambiguity
 	GS2D_UNUSED_ARGUMENT(logger);
@@ -245,24 +194,5 @@ bool IsSphereInScreen(const Vector3& pos, const float radius, const Vector2& zAx
 		return true;
 	}
 }
-
-#ifdef GS2D_STR_TYPE_WCHAR
-std::wstring AppendExtensionIfNeeded(std::wstring source, const std::wstring& ext)
-{
-	if (source.rfind(ext) != (source.size() - ext.size()))
-	{
-		source.append(ext);
-	}
-	return source;
-}
-
-bool IsTrue(const std::wstring& source)
-{
-	if (source == L"true" || source == L"TRUE" || source == L"yes" || source == L"YES" || source == L"1")
-		return true;
-	else
-		return false;
-}
-#endif
 
 } // namespace ETHGlobal

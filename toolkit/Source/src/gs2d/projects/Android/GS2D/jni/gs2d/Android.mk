@@ -53,8 +53,7 @@ LOCAL_SRC_FILES := \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/NativeCommandAssembler.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/SharedData/SharedDataManager.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/SharedData/SharedData.cpp \
-	$(GS2D_SOURCE_RELATIVE_PATH)/Enml/Enml.cpp \
-	$(GS2D_SOURCE_RELATIVE_PATH)/Unicode/UTF8Converter.dummy.cpp
+	$(GS2D_SOURCE_RELATIVE_PATH)/Enml/Enml.cpp
 
 LOCAL_LDLIBS := -ldl -lz -llog -lGLESv2
 

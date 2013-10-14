@@ -922,12 +922,7 @@ bool ETHEntity::HasCustomData() const
 
 void ETHEntity::DebugPrintCustomData() const
 {
-	#ifdef GS2D_STR_TYPE_WCHAR
-	std::wcout
-	#else
-	std::cout
-	#endif
-		<< m_properties.GetDebugStringData();
+	GS2D_COUT << m_properties.GetDebugStringData();
 }
 
 void ETHEntity::ClearCustomData()

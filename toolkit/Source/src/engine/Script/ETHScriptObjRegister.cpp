@@ -21,9 +21,13 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHScriptObjRegister.h"
+
 #include "../Util/ETHInput.h"
+
 #include <assert.h>
+
 #include <Enml/Enml.h>
+
 #include "ETHScriptWrapper.h"
 
 #include "../../addons/scriptmath3d.h"
@@ -32,13 +36,8 @@
 #include "../../addons/scriptmath.h"
 #include "../../addons/scriptdictionary.h"
 
-#ifdef GS2D_STR_TYPE_WCHAR
- #include "../../addons/utf16/scriptfile.h"
- #include "../../addons/utf16/scriptstdstring.h"
-#else
- #include "../../addons/ansi/scriptfile.h"
- #include "../../addons/ansi/scriptstdstring.h"
-#endif
+#include "../../addons/scriptfile.h"
+#include "../../addons/scriptstdstring.h"
 
 namespace ETHGlobal {
 
@@ -130,20 +129,6 @@ enml::File *EnmlFileFactory()
 enml::Entity *EnmlEntityFactory()
 {
 	return new enml::Entity();
-}
-
-bool CheckASError(const int r, const str_type::string &description)
-{
-	if (r < 0)
-	{
-		ETH_STREAM_DECL(ss) << GS_L("ERROR - ") << description;
-		ETHResourceProvider::Log(ss.str(), Platform::FileLogger::ERROR);
-		return false;
-	}
-	else
-	{
-		return true;
-	}
 }
 
 Matrix4x4 Scale(const float x, const float y, const float z)

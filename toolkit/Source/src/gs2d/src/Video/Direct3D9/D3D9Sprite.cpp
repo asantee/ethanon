@@ -21,7 +21,8 @@
 --------------------------------------------------------------------------------------*/
 
 #include "D3D9Sprite.h"
-#include "../../unicode/utf8converter.h"
+
+#include "../../Platform/Platform.h"
 
 namespace gs2d {
 using namespace math;
@@ -44,8 +45,8 @@ bool D3D9Sprite::GetInternalData()
 	}
 	catch (const boost::bad_any_cast &)
 	{
-		std::wstringstream ss;
-		ss << L"D3D9Sprite::GetInternalData Invalid texture pointer" << std::endl;
+		str_type::stringstream ss;
+		ss << GS_L("D3D9Sprite::GetInternalData Invalid texture pointer") << std::endl;
 		ShowMessage(ss, GSMT_ERROR);
 		return false;
 	}
@@ -57,8 +58,8 @@ bool D3D9Sprite::GetInternalData()
 	}
 	catch (const boost::bad_any_cast &)
 	{
-		std::wstringstream ss;
-		ss << L"D3D9Sprite::GetInternalData Invalid device" << std::endl;
+		str_type::stringstream ss;
+		ss << GS_L("D3D9Sprite::GetInternalData Invalid device") << std::endl;
 		ShowMessage(ss, GSMT_ERROR);
 		return false;
 	}
@@ -69,8 +70,8 @@ bool D3D9Sprite::GetInternalData()
 	}
 	catch (const boost::bad_any_cast &)
 	{
-		std::wstringstream ss;
-		ss << L"D3D9Sprite::GetInternalData Video::GetVideoInfo returns an invalid D3D9VideoInfo object" << std::endl;
+		str_type::stringstream ss;
+		ss << GS_L("D3D9Sprite::GetInternalData Video::GetVideoInfo returns an invalid D3D9VideoInfo object") << std::endl;
 		ShowMessage(ss, GSMT_ERROR);
 		return false;
 	}
@@ -119,7 +120,7 @@ void D3D9Sprite::GenerateBackup()
 	}
 	catch (const boost::bad_any_cast &)
 	{
-		ShowMessage(L"D3D9Sprite::GenerateBackup Invalid texture pointer");
+		ShowMessage(GS_L("D3D9Sprite::GenerateBackup Invalid texture pointer"));
 		return;
 	}
 	IDirect3DSurface9* pActualSurface = NULL;
@@ -155,8 +156,8 @@ void D3D9Sprite::RecoverFromBackup()
 	}
 	catch (const boost::bad_any_cast &)
 	{
-		std::wstringstream ss;
-		ss << L"D3D9Sprite::RecoverFromBackup Invalid texture pointer" << std::endl;
+		str_type::stringstream ss;
+		ss << GS_L("D3D9Sprite::RecoverFromBackup Invalid texture pointer") << std::endl;
 		ShowMessage(ss, GSMT_ERROR);
 		return;
 	}
@@ -187,7 +188,7 @@ bool D3D9Sprite::SaveBitmap(const str_type::char_t* name, const Texture::BITMAP_
 {
 	if (m_type == Sprite::T_NOT_LOADED)
 	{
-		m_video.lock()->Message(L"Bad sprite. Not loaded yet - D3D9Sprite::SaveBitmap");
+		m_video.lock()->Message(GS_L("Bad sprite. Not loaded yet - D3D9Sprite::SaveBitmap"));
 		return false;
 	}
 	Rect2D rect;
@@ -211,20 +212,20 @@ bool D3D9Sprite::SaveBitmap(const str_type::char_t* name, const Texture::BITMAP_
 		wRect.right = rect.pos.x+rect.size.x;
 		wRect.bottom = rect.pos.y+rect.size.y;
 
-		std::wstring finalName;
-		std::wstring ext = GetImageExtension(fmt);
+		str_type::string finalName;
+		str_type::string ext = GetImageExtension(fmt);
 		finalName = name;
-		if (!IsTheExtensionRight(finalName.c_str(), ext.c_str()))
+		if (!Platform::IsExtensionRight(finalName.c_str(), ext.c_str()))
 		{
 			finalName += ext;
 		}
 		if (
 			FAILED(
-				D3DXSaveSurfaceToFile( finalName.c_str(), GetD3DPF(fmt), pd3dsFront, NULL, &wRect)
+				D3DXSaveSurfaceToFileA( finalName.c_str(), GetD3DPF(fmt), pd3dsFront, NULL, &wRect)
 			)
 		)
 		{
-			m_video.lock()->Message(L"Couldn't save the sprite - D3D9Sprite::SaveBitmap");
+			m_video.lock()->Message(GS_L("Couldn't save the sprite - D3D9Sprite::SaveBitmap"));
 			if (pd3dsFront)
 				pd3dsFront->Release();
 			return false;
@@ -232,7 +233,7 @@ bool D3D9Sprite::SaveBitmap(const str_type::char_t* name, const Texture::BITMAP_
 	}
 	else
 	{
-		m_video.lock()->Message(L"Couldn't get surface data - D3D9Sprite::SaveBitmap");
+		m_video.lock()->Message(GS_L("Couldn't get surface data - D3D9Sprite::SaveBitmap"));
 		if (pd3dsFront)
 			pd3dsFront->Release();
 		return false;
@@ -255,7 +256,7 @@ bool D3D9Sprite::LoadSprite(
 	m_video = video;
 	if (m_type != Sprite::T_NOT_LOADED)
 	{
-		m_video.lock()->Message(L"The sprite can't be loaded twice - D3D9Sprite::LoadSprite");
+		m_video.lock()->Message(GS_L("The sprite can't be loaded twice - D3D9Sprite::LoadSprite"));
 		return false;
 	}
 
@@ -273,7 +274,7 @@ bool D3D9Sprite::LoadSprite(
 
 bool D3D9Sprite::LoadSprite(
 	VideoWeakPtr video,
-	const std::wstring& fileName,
+	const str_type::string& fileName,
 	Color mask,
 	const unsigned int width,
 	const unsigned int height)
@@ -281,7 +282,7 @@ bool D3D9Sprite::LoadSprite(
 	m_video = video;
 	if (m_type != Sprite::T_NOT_LOADED)
 	{
-		m_video.lock()->Message(L"The sprite can't be loaded twice - D3D9Sprite::LoadSprite");
+		m_video.lock()->Message(GS_L("The sprite can't be loaded twice - D3D9Sprite::LoadSprite"));
 		return false;
 	}
 
@@ -305,7 +306,7 @@ bool D3D9Sprite::CreateRenderTarget(
 {
 	if (m_type != Sprite::T_NOT_LOADED && m_type != Sprite::T_RELOAD)
 	{
-		m_video.lock()->Message(L"The sprite can't be loaded twice - D3D9Sprite::CreateRenderTarget");
+		m_video.lock()->Message(GS_L("The sprite can't be loaded twice - D3D9Sprite::CreateRenderTarget"));
 		return false;
 	}
 	m_video = video;
@@ -315,7 +316,7 @@ bool D3D9Sprite::CreateRenderTarget(
 	const unsigned int screenY = static_cast<unsigned int>(pVideo->GetScreenSize().y);
 	if (width > screenX || height > screenY)
 	{
-		pVideo->Message(L"The render target surface size can't be greater than the backbuffer - D3D9Sprite::CreateRenderTarget");
+		pVideo->Message(GS_L("The render target surface size can't be greater than the backbuffer - D3D9Sprite::CreateRenderTarget"));
 		return false;
 	}
 
@@ -399,7 +400,7 @@ bool D3D9Sprite::DrawShaped(
 	Matrix4x4 mRot;
 	if (angle != 0.0f)
 		mRot = RotateZ(DegreeToRadian(angle));
-	pCurrentVS->SetMatrixConstant(L"rotationMatrix", mRot);
+	pCurrentVS->SetMatrixConstant(GS_L("rotationMatrix"), mRot);
 
 	// rounds up the final position to avoid alpha distortion
 	Vector2 v2FinalPos;
@@ -416,37 +417,37 @@ bool D3D9Sprite::DrawShaped(
 	// subtract 0.5 to align pixel-texel
 	v2FinalPos -= math::constant::HALF_VECTOR2;
 
-	pCurrentVS->SetConstant(L"size", v2Size);
-	pCurrentVS->SetConstant(L"entityPos", v2FinalPos);
-	pCurrentVS->SetConstant(L"center", v2Center);
-	pCurrentVS->SetConstant(L"flipMul", flipMul);
-	pCurrentVS->SetConstant(L"flipAdd", flipAdd);
-	pCurrentVS->SetConstant(L"bitmapSize", GetBitmapSizeF());
-	pCurrentVS->SetConstant(L"scroll", GetScroll());
-	pCurrentVS->SetConstant(L"multiply", GetMultiply());
+	pCurrentVS->SetConstant(GS_L("size"), v2Size);
+	pCurrentVS->SetConstant(GS_L("entityPos"), v2FinalPos);
+	pCurrentVS->SetConstant(GS_L("center"), v2Center);
+	pCurrentVS->SetConstant(GS_L("flipMul"), flipMul);
+	pCurrentVS->SetConstant(GS_L("flipAdd"), flipAdd);
+	pCurrentVS->SetConstant(GS_L("bitmapSize"), GetBitmapSizeF());
+	pCurrentVS->SetConstant(GS_L("scroll"), GetScroll());
+	pCurrentVS->SetConstant(GS_L("multiply"), GetMultiply());
 
-	const bool setCameraPos = pCurrentVS->ConstantExist(L"cameraPos");
+	const bool setCameraPos = pCurrentVS->ConstantExist(GS_L("cameraPos"));
 	if (setCameraPos)
-		pCurrentVS->SetConstant(L"cameraPos", video->GetCameraPos());
+		pCurrentVS->SetConstant(GS_L("cameraPos"), video->GetCameraPos());
 
 	if (m_rect.size.x == 0 || m_rect.size.y == 0)
 	{
-		pCurrentVS->SetConstant(L"rectSize", GetBitmapSizeF());
-		pCurrentVS->SetConstant(L"rectPos", 0, 0);
+		pCurrentVS->SetConstant(GS_L("rectSize"), GetBitmapSizeF());
+		pCurrentVS->SetConstant(GS_L("rectPos"), 0, 0);
 	}
 	else
 	{
-		pCurrentVS->SetConstant(L"rectSize", m_rect.size);
-		pCurrentVS->SetConstant(L"rectPos", m_rect.pos);
+		pCurrentVS->SetConstant(GS_L("rectSize"), m_rect.size);
+		pCurrentVS->SetConstant(GS_L("rectPos"), m_rect.pos);
 	}
 
-	pCurrentVS->SetConstant(L"color0", color0);
-	pCurrentVS->SetConstant(L"color1", color1);
-	pCurrentVS->SetConstant(L"color2", color2);
-	pCurrentVS->SetConstant(L"color3", color3);
+	pCurrentVS->SetConstant(GS_L("color0"), color0);
+	pCurrentVS->SetConstant(GS_L("color1"), color1);
+	pCurrentVS->SetConstant(GS_L("color2"), color2);
+	pCurrentVS->SetConstant(GS_L("color3"), color3);
 
-	if (pCurrentVS->ConstantExist(L"depth"))
-		pCurrentVS->SetConstant(L"depth", video->GetSpriteDepth());
+	if (pCurrentVS->ConstantExist(GS_L("depth")))
+		pCurrentVS->SetConstant(GS_L("depth"), video->GetSpriteDepth());
 
 	pCurrentVS->SetShader();
 
@@ -461,7 +462,7 @@ bool D3D9Sprite::DrawShaped(
 	else
 	{
 		pCurrentPS->SetShader();
-		pCurrentPS->SetTexture(L"diffuse", GetTexture());
+		pCurrentPS->SetTexture(GS_L("diffuse"), GetTexture());
 	}
 
 	// draw the one-pixel-quad applying the vertex shader
@@ -477,7 +478,7 @@ void D3D9Sprite::BeginFastRendering()
 	Video* video = m_video.lock().get();
 	video->SetVertexShader(video->GetFontShader());
 	ShaderPtr pCurrentVS = video->GetVertexShader();
-	pCurrentVS->SetConstant(L"bitmapSize", GetBitmapSizeF());
+	pCurrentVS->SetConstant(GS_L("bitmapSize"), GetBitmapSizeF());
 
 	// apply textures according to the rendering mode (pixel shaded or not)
 	ShaderPtr pCurrentPS = video->GetPixelShader();
@@ -490,7 +491,7 @@ void D3D9Sprite::BeginFastRendering()
 	else
 	{
 		pCurrentPS->SetShader();
-		pCurrentPS->SetTexture(L"diffuse", GetTexture());
+		pCurrentPS->SetTexture(GS_L("diffuse"), GetTexture());
 	}
 	m_pVideoInfo->BeginFastDraw(m_pDevice, m_rectMode);
 }
@@ -526,19 +527,19 @@ bool D3D9Sprite::DrawShapedFast(const Vector2 &v2Pos, const Vector2 &v2Size, con
 	// subtract 0.5 to align pixel-texel
 	v2FinalPos -= math::constant::HALF_VECTOR2;
 
-	pCurrentVS->SetConstant(L"size", v2Size);
-	pCurrentVS->SetConstant(L"entityPos", v2FinalPos);
-	pCurrentVS->SetConstant(L"color0", color);
+	pCurrentVS->SetConstant(GS_L("size"), v2Size);
+	pCurrentVS->SetConstant(GS_L("entityPos"), v2FinalPos);
+	pCurrentVS->SetConstant(GS_L("color0"), color);
 
 	if (m_rect.size.x == 0 || m_rect.size.y == 0)
 	{
-		pCurrentVS->SetConstant(L"rectSize", GetBitmapSizeF());
-		pCurrentVS->SetConstant(L"rectPos", 0, 0);
+		pCurrentVS->SetConstant(GS_L("rectSize"), GetBitmapSizeF());
+		pCurrentVS->SetConstant(GS_L("rectPos"), 0, 0);
 	}
 	else
 	{
-		pCurrentVS->SetConstant(L"rectSize", m_rect.size);
-		pCurrentVS->SetConstant(L"rectPos", m_rect.pos);
+		pCurrentVS->SetConstant(GS_L("rectSize"), m_rect.size);
+		pCurrentVS->SetConstant(GS_L("rectPos"), m_rect.pos);
 	}
 
 	pCurrentVS->SetShader();
@@ -553,7 +554,7 @@ bool D3D9Sprite::SetAsTexture(const unsigned int passIdx)
 {
 	if (passIdx == 0)
 	{
-		m_video.lock()->Message(L"The pass 0 is reserved - D3D9Sprite::SetAsTexture");
+		m_video.lock()->Message(GS_L("The pass 0 is reserved - D3D9Sprite::SetAsTexture"));
 		return false;
 	}
 	m_pDevice->SetTexture(passIdx, m_pTexture);

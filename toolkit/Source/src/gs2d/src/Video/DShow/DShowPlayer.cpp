@@ -21,13 +21,13 @@
 --------------------------------------------------------------------------------------*/
 
 #include "DShowPlayer.h"
+
 #include "../../Video/Direct3D9/D3D9Video.h"
-#include "../../Unicode/UTF8Converter.h"
 
 namespace gs2d {
 using namespace math;
 
-GS2D_API PlayerPtr CreatePlayer(VideoPtr pVideo, const std::wstring& fileName)
+GS2D_API PlayerPtr CreatePlayer(VideoPtr pVideo, const str_type::string& fileName)
 {
 	PlayerPtr player = PlayerPtr(new DShowPlayer);
 	
@@ -93,11 +93,11 @@ DShowPlayer::~DShowPlayer()
 	//CoUninitialize();
 }
 
-bool DShowPlayer::LoadVideo(VideoPtr pVideo, const std::wstring& fileName)
+bool DShowPlayer::LoadVideo(VideoPtr pVideo, const str_type::string& fileName)
 {
 	if (pVideo->Rendering())
 	{
-		ShowMessage(L"Videos can't be loaded while rendering - DShowPlayer::LoadVideo", GSMT_ERROR);
+		ShowMessage(GS_L("Videos can't be loaded while rendering - DShowPlayer::LoadVideo"), GSMT_ERROR);
 		return false;
 	}
 
@@ -110,7 +110,7 @@ bool DShowPlayer::LoadVideo(VideoPtr pVideo, const std::wstring& fileName)
 	}
 	catch (const boost::bad_any_cast &)
 	{
-		ShowMessage(L"Invalid D3D9VideoInfoPtr object - DShowPlayer::LoadVideo", GSMT_ERROR);
+		ShowMessage(GS_L("Invalid D3D9VideoInfoPtr object - DShowPlayer::LoadVideo"), GSMT_ERROR);
 		return false;
 	}
 
@@ -118,7 +118,7 @@ bool DShowPlayer::LoadVideo(VideoPtr pVideo, const std::wstring& fileName)
 
 	if (FAILED(CoInitializeEx(NULL, COINIT_APARTMENTTHREADED)))
 	{
-		m_pVideo->Message(L"Failed while trying to start COM interface - DShowPlayer::LoadVideo", GSMT_ERROR);
+		m_pVideo->Message(GS_L("Failed while trying to start COM interface - DShowPlayer::LoadVideo"), GSMT_ERROR);
 		return false;
 	}
 
@@ -133,22 +133,25 @@ bool DShowPlayer::LoadVideo(VideoPtr pVideo, const std::wstring& fileName)
 
 	if (failed)
 	{
-		m_pVideo->Message(L"Failed while trying to query COM interfaces - DShowPlayer::LoadVideo", GSMT_ERROR);
+		m_pVideo->Message(GS_L("Failed while trying to query COM interfaces - DShowPlayer::LoadVideo"), GSMT_ERROR);
 		return false;
 	}
 
-	if (FAILED(m_data.pGB->RenderFile(fileName.c_str(), NULL)))
+	std::size_t convertCount = 0;
+	wchar_t wfileName[4096];
+	mbstowcs_s(&convertCount, wfileName, sizeof(wfileName), fileName.c_str(), fileName.length() + 1);
+	if (FAILED(m_data.pGB->RenderFile(wfileName, NULL)))
 	{
-		std::wstring message = fileName;
-		message += L"\nFailed while trying to load and decode the video - DShowPlayer::LoadVideo";
+		str_type::string message = fileName;
+		message += GS_L("\nFailed while trying to load and decode the video - DShowPlayer::LoadVideo");
 		m_pVideo->Message(message, GSMT_ERROR);
 		return false;
 	}
 
 	if (FAILED(m_data.pVW->put_MessageDrain((OAHWND)m_data.hWnd)))
 	{
-		std::wstring message = fileName;
-		message += L" is not a video file. - DShowPlayer::LoadVideo";
+		str_type::string message = fileName;
+		message += GS_L(" is not a video file. - DShowPlayer::LoadVideo");
 		m_pVideo->Message(message, GSMT_ERROR);
 		return false;
 	}
@@ -313,12 +316,12 @@ bool DShowPlayer::IsVideoVisible()
 	return (lVisible == OATRUE);
 }
 
-GS_PLAYER_INFO PlayCutscene(VideoPtr pVideo, const std::wstring& fileName,
+GS_PLAYER_INFO PlayCutscene(VideoPtr pVideo, const str_type::string& fileName,
 							InputPtr pInput, const GS_KEY escapeKey)
 {
 	if (!pVideo)
 	{
-		ShowMessage(L"Invalid video handler - gs2d::PlayCutscene", GSMT_ERROR);
+		ShowMessage(GS_L("Invalid video handler - gs2d::PlayCutscene"), GSMT_ERROR);
 		return GSPI_FAILED;
 	}
 
@@ -332,7 +335,7 @@ GS_PLAYER_INFO PlayCutscene(VideoPtr pVideo, const std::wstring& fileName,
 	PlayerPtr player = CreatePlayer(pVideo, fileName);
 	if (!player)
 	{
-		ShowMessage(L"Failed while trying to load the video - gs2d::PlayCutscene", GSMT_ERROR);
+		ShowMessage(GS_L("Failed while trying to load the video - gs2d::PlayCutscene"), GSMT_ERROR);
 		if (rendering)
 			pVideo->BeginSpriteScene();
 		return GSPI_FAILED;

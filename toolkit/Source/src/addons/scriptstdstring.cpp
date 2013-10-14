@@ -309,8 +309,12 @@ void RegisterStdString_Generic(asIScriptEngine *engine) {
   r = engine->RegisterObjectMethod("string", "int opCmp(const string &in) const", asFUNCTION(StringCmpGeneric), asCALL_GENERIC); assert( r >= 0 );
   r = engine->RegisterObjectMethod("string", "string opAdd(const string &in) const", asFUNCTION(StringAddGeneric), asCALL_GENERIC); assert( r >= 0 );
 
+#pragma warning( push )
+#pragma warning( disable : 4127 )
   // Register the object methods
-  if (sizeof(size_t) == 4) {
+  if( sizeof(size_t) == 4 )
+#pragma warning( pop )
+  {
     r = engine->RegisterObjectMethod("string", "uint length() const", asFUNCTION(StringLengthGeneric), asCALL_GENERIC); assert( r >= 0 );
     r = engine->RegisterObjectMethod("string", "void resize(uint)",   asFUNCTION(StringResizeGeneric), asCALL_GENERIC); assert( r >= 0 );
 	r = engine->RegisterObjectMethod("string", "uint find(const string &in) const", asFUNCTION(StringFindGeneric), asCALL_GENERIC); assert( r >= 0 );
@@ -532,8 +536,11 @@ void RegisterStdString_Native(asIScriptEngine *engine)
 	r = engine->RegisterObjectMethod("string", "int opCmp(const string &in) const", asFUNCTION(StringCmp), asCALL_CDECL_OBJFIRST); assert( r >= 0 );
 	r = engine->RegisterObjectMethod("string", "string opAdd(const string &in) const", asFUNCTIONPR(operator +, (const string &, const string &), string), asCALL_CDECL_OBJFIRST); assert( r >= 0 );
 
+#pragma warning( push )
+#pragma warning( disable : 4127 )
 	// Register the object methods
 	if( sizeof(size_t) == 4 )
+#pragma warning( pop )
 	{
 		r = engine->RegisterObjectMethod("string", "uint length() const", asMETHOD(string,size), asCALL_THISCALL); assert( r >= 0 );
 		r = engine->RegisterObjectMethod("string", "void resize(uint)", asMETHODPR(string,resize,(size_t),void), asCALL_THISCALL); assert( r >= 0 );

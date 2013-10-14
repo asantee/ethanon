@@ -21,15 +21,17 @@
 --------------------------------------------------------------------------------------*/
 
 #include "IOSFileIOHub.h"
+
 #include "../Platform.h"
-#include "../StdAnsiFileManager.h"
+#include "../StdFileManager.h"
+
 #include "Platform.ios.h"
 
 namespace Platform {
 
 IOSFileIOHub::IOSFileIOHub(const gs2d::str_type::string& bitmapFontSearchDirectory) :
 	FileIOHub(
-		Platform::StdAnsiFileManagerPtr(new Platform::StdAnsiFileManager(GS_L(""))),
+		Platform::StdFileManagerPtr(new Platform::StdFileManager()),
 		ResourceDirectory(),
 		GetModuleDirectory(),
 		ExternalStorageDirectory(),

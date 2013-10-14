@@ -21,14 +21,12 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHScriptWrapper.h"
+
 #include "../Shader/ETHShaderManager.h"
+
 #include "../Entity/ETHRenderEntity.h"
 
-#ifdef GS2D_STR_TYPE_WCHAR
- #include "../../addons/utf16/scriptbuilder.h"
-#else
- #include "../../addons/ansi/scriptbuilder.h"
-#endif
+#include "../../addons/scriptbuilder.h"
 
 asIScriptEngine *ETHScriptWrapper::m_pASEngine = 0;
 ETHResourceProviderPtr ETHScriptWrapper::m_provider;
@@ -51,7 +49,6 @@ Vector2 ETHScriptWrapper::m_v2LastCamPos(0,0);
 asIScriptFunction* ETHScriptWrapper::m_onSceneUpdateFunction = 0;
 asIScriptFunction* ETHScriptWrapper::m_onResumeFunction = 0;
 asIScriptContext *ETHScriptWrapper::m_pScriptContext = 0;
-asIScriptContext *ETHScriptWrapper::m_pConstructorContext = 0;
 bool ETHScriptWrapper::m_runningMainFunction = false;
 bool ETHScriptWrapper::m_persistentResources = false;
 ETHScriptWrapper::Math ETHScriptWrapper::m_math;

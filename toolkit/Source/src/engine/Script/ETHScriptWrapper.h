@@ -91,7 +91,6 @@ public:
 	static ETHBackBufferTargetManagerPtr m_backBuffer;
 
 	static asIScriptContext *m_pScriptContext;
-	static asIScriptContext *m_pConstructorContext;
 	static asIScriptFunction* m_onSceneUpdateFunction;
 	static asIScriptFunction* m_onResumeFunction;
 

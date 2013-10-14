@@ -31,11 +31,7 @@
 
 #include "../Physics/ETHPhysicsSimulator.h"
 
-#ifdef GS2D_STR_TYPE_WCHAR
- #include "../../addons/utf16/scriptbuilder.h"
-#else
- #include "../../addons/ansi/scriptbuilder.h"
-#endif
+#include "../../addons/scriptbuilder.h"
 
 #include <Math/Randomizer.h>
 
@@ -150,9 +146,6 @@ bool ETHScene::SaveToFile(const str_type::string& fileName)
 	}
 
 	doc.SaveFile(fileName);
-	#ifdef GS2D_STR_TYPE_ANSI
-	  m_provider->GetFileManager()->ConvertAnsiFileToUTF16LE(fileName);
-	#endif
 	return true;
 }
 
@@ -172,7 +165,7 @@ bool ETHScene::LoadFromFile(const str_type::string& fileName)
 	// Read the header and check if the file is valid
 	TiXmlDocument doc(fileName);
 	str_type::string content;
-	fileManager->GetUTF16FileString(fileName, content);
+	fileManager->GetUTFFileString(fileName, content);
 	if (!doc.LoadFile(content, TIXML_ENCODING_LEGACY))
 	{
 		ETH_STREAM_DECL(ss) << GS_L("ETHScene::Open: file found, but parsing failed (") << fileName << GS_L(")");

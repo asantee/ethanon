@@ -23,19 +23,17 @@
 #include "ParticleFXEditor.h"
 #include "EditorCommon.h"
 
-#include <Unicode/UTF8Converter.h>
-
 #include <sstream>
 
 #include "../engine/Resource/ETHDirectories.h"
+
 #include "../engine/Util/ETHASUtil.h"
+
 #include "../engine/Shader/ETHShaderManager.h"
 
 #include <Platform/Platform.h>
 
 #define LOAD_BMP GS_L("Load bitmap")
-//#define ALPHA_ADD "Alpha add"
-//#define ALPHA_PIXEL "Alpha pixeGS_L("
 #define SAVE_SYSTEM GS_L("Save")
 #define SAVE_SYSTEM_AS GS_L("Save as...")
 #define OPEN_SYSTEM GS_L("Open")
@@ -130,7 +128,7 @@ void ParticleEditor::DrawParticleSystem()
 	}
 
 	str_type::stringstream ss;
-	ss << utf8::c(m_system.bitmapFile).wc_str();
+	ss << m_system.bitmapFile;
 	ss << GS_L(" | ") << GS_L("Active particles: ") << m_manager->GetNumActiveParticles() << GS_L("/") << m_manager->GetNumParticles();
 	const float infoTextSize = m_menuSize * m_menuScale;
 	ShadowPrint(Vector2(m_menuWidth*2+5,v2Screen.y-infoTextSize-m_menuSize), ss.str().c_str(), GS_L("Verdana14_shadow.fnt"), gs2d::constant::WHITE);
@@ -420,11 +418,8 @@ void ParticleEditor::SaveAs()
 		doc.LinkEndChild(pElement);
 
 		m_system.WriteToXMLFile(doc.RootElement());
-		const str_type::string filePath = utf8::c(path).wstr();
+		const str_type::string filePath = path;
 		doc.SaveFile(filePath);
-		#ifdef GS2D_STR_TYPE_ANSI
-		  m_provider->GetFileManager()->ConvertAnsiFileToUTF16LE(filePath);
-		#endif
 
 		SetCurrentFile(path);
 		m_untitled = false;
@@ -441,12 +436,8 @@ void ParticleEditor::Save()
 	doc.LinkEndChild(pElement);
 
 	m_system.WriteToXMLFile(doc.RootElement());
-	const str_type::string filePath = utf8::c(GetCurrentFile(true)).wstr();
+	const str_type::string filePath = GetCurrentFile(true);
 	doc.SaveFile(filePath);
-	#ifdef GS2D_STR_TYPE_ANSI
-	  m_provider->GetFileManager()->ConvertAnsiFileToUTF16LE(filePath);
-	#endif
-
 
 	m_untitled = false;
 }
@@ -477,8 +468,8 @@ void ParticleEditor::ParticlePanel()
 		char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
 		if (OpenParticleBMP(path, file))
 		{
-			ETHGlobal::CopyFileToProject(utf8::c(programPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetParticlesDirectory(), m_provider->GetFileManager());
-			m_system.bitmapFile = utf8::c(file).wstr();
+			ETHGlobal::CopyFileToProject(programPath, path, ETHDirectories::GetParticlesDirectory(), m_provider->GetFileManager());
+			m_system.bitmapFile = file;
 			m_provider->GetGraphicResourceManager()->ReleaseResource(m_system.bitmapFile);
 			m_manager = ETHParticleManagerPtr(
 				new ETHParticleManager(m_provider, m_system, m_v2Pos, Vector3(m_v2Pos, 0), m_systemAngle, 1.0f));
@@ -503,7 +494,7 @@ void ParticleEditor::ParticlePanel()
 		char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
 		if (OpenParticleBMP(path, file))
 		{
-			m_backgroundSprite = video->CreateSprite(utf8::c(path).wc_str());
+			m_backgroundSprite = video->CreateSprite(path);
 		}	
 	}
 
@@ -514,7 +505,7 @@ void ParticleEditor::ParticlePanel()
 		if (OpenSystem(path, file))
 		{
 			m_manager = ETHParticleManagerPtr(
-				new ETHParticleManager(m_provider, utf8::c(path).wstr(), m_v2Pos, Vector3(m_v2Pos, 0), m_systemAngle));
+				new ETHParticleManager(m_provider, path, m_v2Pos, Vector3(m_v2Pos, 0), m_systemAngle));
 			m_manager->SetZPosition(0.0f);
 			m_manager->Kill(false);
 			m_system = *m_manager->GetSystem();
@@ -667,7 +658,7 @@ std::string ParticleEditor::DoEditor(SpritePtr pNextAppButton)
 
 void ParticleEditor::LoadEditor()
 {
-	m_sphereSprite = m_provider->GetVideo()->CreateSprite(utf8::c(utf8::c(m_provider->GetFileIOHub()->GetProgramDirectory()).str() + "/" + BSPHERE_BMP).wc_str());
+	m_sphereSprite = m_provider->GetVideo()->CreateSprite(m_provider->GetFileIOHub()->GetProgramDirectory() + "/" + BSPHERE_BMP);
 	ResetSystem();
 	SetupMenu();
 }

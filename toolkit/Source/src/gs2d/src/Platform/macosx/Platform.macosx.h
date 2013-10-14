@@ -23,7 +23,6 @@
 #ifndef PLATFORM_MACOSX_H_
 #define PLATFORM_MACOSX_H_
 
-#include "../StdAnsiFileManager.h"
 #include "../NativeCommandAssembler.h"
 #include "../NativeCommandForwarder.h"
 #include "../FileLogger.h"

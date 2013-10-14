@@ -24,11 +24,12 @@
 #include "EntityEditor.h"
 #include "SceneEditor.h"
 #include "ParticleFXEditor.h"
+
 #include <Platform/Platform.h>
 #include <Platform/FileIOHub.h>
-#include <unicode/UTF8Converter.h>
 #include <Platform/StdFileManager.h>
 #include <Platform/MainSharedHeader.h>
+
 #include "../engine/Platform/ETHAppEnmlFile.h"
 #include "../engine/Resource/ETHDirectories.h"
 
@@ -134,7 +135,7 @@ std::string FindStartupProject(const int argc, char **argv, const Platform::File
 {
 	for (int t = 0; t < argc; t++)
 	{
-		if (Platform::IsExtensionRight(utf8::c(argv[t]).wstr(), GS_L(".ethproj")) && ETHGlobal::FileExists(utf8::c(argv[t]).wstr(), fileManager))
+		if (Platform::IsExtensionRight(argv[t], GS_L(".ethproj")) && ETHGlobal::FileExists(argv[t], fileManager))
 		{
 			return argv[t];
 		}

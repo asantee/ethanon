@@ -32,9 +32,6 @@ class StdFileManager : public FileManager
 public:
 	bool IsLoaded() const;
 	bool GetFileBuffer(const gs2d::str_type::string &fileName, FileBuffer &out);
-	bool GetAnsiFileString(const gs2d::str_type::string &fileName, gs2d::str_type::string &out);
-	bool GetUTF8BOMFileString(const gs2d::str_type::string &fileName, gs2d::str_type::string &out);
-	bool GetUTF16FileString(const gs2d::str_type::string &fileName, gs2d::str_type::string &out);
 	bool FileExists(const gs2d::str_type::string& fileName) const;
 	bool IsPacked() const;
 };

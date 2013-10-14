@@ -25,11 +25,7 @@
 
 #include <Math/GameMath.h>
 
-#ifdef GS2D_STR_TYPE_WCHAR
-#	include "../vendors/tinyxml_utf16/tinyxml.h"
-#else
-#	include "../vendors/tinyxml_ansi/tinyxml.h"
-#endif
+#include "../vendors/tinyxml_ansi/tinyxml.h"
 
 using namespace gs2d::math;
 using namespace gs2d;

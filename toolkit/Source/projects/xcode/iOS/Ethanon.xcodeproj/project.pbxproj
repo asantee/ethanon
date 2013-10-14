@@ -49,9 +49,6 @@
 		74666CAE165A785400C70736 /* scriptmath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666CA6165A785400C70736 /* scriptmath.cpp */; };
 		74666CAF165A785400C70736 /* scriptmath2d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666CA8165A785400C70736 /* scriptmath2d.cpp */; };
 		74666CB0165A785400C70736 /* scriptmath3d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666CAA165A785400C70736 /* scriptmath3d.cpp */; };
-		74666CC0165A788300C70736 /* scriptbuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666CBA165A788300C70736 /* scriptbuilder.cpp */; };
-		74666CC1165A788300C70736 /* scriptfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666CBC165A788300C70736 /* scriptfile.cpp */; };
-		74666CC2165A788300C70736 /* scriptstdstring.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666CBE165A788300C70736 /* scriptstdstring.cpp */; };
 		74666CC6165A796400C70736 /* ETHEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666CC3165A796400C70736 /* ETHEngine.cpp */; };
 		74666CCD165A797A00C70736 /* ETHDrawable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666CC7165A797A00C70736 /* ETHDrawable.cpp */; };
 		74666CCE165A797A00C70736 /* ETHDrawableManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666CC9165A797A00C70736 /* ETHDrawableManager.cpp */; };
@@ -73,8 +70,6 @@
 		74666D00165A79B200C70736 /* ETHShaders.glsl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666CF4165A79B200C70736 /* ETHShaders.glsl.cpp */; };
 		74666D01165A79B200C70736 /* ETHVertexLightDiffuse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666CF6165A79B200C70736 /* ETHVertexLightDiffuse.cpp */; };
 		74666D14165A79C700C70736 /* ETHBinaryStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666D02165A79C700C70736 /* ETHBinaryStream.cpp */; };
-		74666D15165A79C700C70736 /* ETHEntityDestructorManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666D04165A79C700C70736 /* ETHEntityDestructorManager.cpp */; };
-		74666D16165A79C700C70736 /* ETHEntityDestructorScript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666D06165A79C700C70736 /* ETHEntityDestructorScript.cpp */; };
 		74666D17165A79C700C70736 /* ETHScriptObjRegister.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666D08165A79C700C70736 /* ETHScriptObjRegister.cpp */; };
 		74666D18165A79C700C70736 /* ETHScriptObjRegister.generic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666D09165A79C700C70736 /* ETHScriptObjRegister.generic.cpp */; };
 		74666D19165A79C700C70736 /* ETHScriptWrapper.Audio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666D0B165A79C700C70736 /* ETHScriptWrapper.Audio.cpp */; };
@@ -179,7 +174,6 @@
 		74666E46165A7C3A00C70736 /* NativeCommandAssembler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666E3A165A7C3A00C70736 /* NativeCommandAssembler.cpp */; };
 		74666E47165A7C3A00C70736 /* NativeCommandForwarder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666E3C165A7C3A00C70736 /* NativeCommandForwarder.cpp */; };
 		74666E48165A7C3A00C70736 /* Platform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666E3E165A7C3A00C70736 /* Platform.cpp */; };
-		74666E49165A7C3A00C70736 /* StdAnsiFileManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666E40165A7C3A00C70736 /* StdAnsiFileManager.cpp */; };
 		74666E4E165A7C4E00C70736 /* IOSFileIOHub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666E4A165A7C4E00C70736 /* IOSFileIOHub.cpp */; };
 		74666E4F165A7C4E00C70736 /* Platform.ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 74666E4D165A7C4E00C70736 /* Platform.ios.mm */; };
 		74666E52165A7C6F00C70736 /* MobileInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666E50165A7C6F00C70736 /* MobileInput.cpp */; };
@@ -223,7 +217,6 @@
 		74D47C4717B4158D00E60B05 /* CDOpenALSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 74D47C4017B4158D00E60B05 /* CDOpenALSupport.m */; };
 		74D47C4817B4158D00E60B05 /* CocosDenshion.m in Sources */ = {isa = PBXBuildFile; fileRef = 74D47C4217B4158D00E60B05 /* CocosDenshion.m */; };
 		74D47C4917B4158D00E60B05 /* SimpleAudioEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 74D47C4417B4158D00E60B05 /* SimpleAudioEngine.m */; };
-		74E50D23169B796F00256A31 /* UTF8Converter.dummy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E50D21169B796F00256A31 /* UTF8Converter.dummy.cpp */; };
 		74E50D27169B7D7F00256A31 /* ethanon_icon_72.png in Resources */ = {isa = PBXBuildFile; fileRef = 74E50D26169B7D7F00256A31 /* ethanon_icon_72.png */; };
 		74E50D29169B7D8D00256A31 /* ethanon_icon_144.png in Resources */ = {isa = PBXBuildFile; fileRef = 74E50D28169B7D8D00256A31 /* ethanon_icon_144.png */; };
 		74E50D2B169B7DA400256A31 /* ethanon_icon_57.png in Resources */ = {isa = PBXBuildFile; fileRef = 74E50D2A169B7DA400256A31 /* ethanon_icon_57.png */; };
@@ -237,6 +230,10 @@
 		74FBEF50143767CE00C67129 /* GLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 74FBEF4D143767CE00C67129 /* GLView.mm */; };
 		74FBEF51143767CE00C67129 /* GS2DViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 74FBEF4F143767CE00C67129 /* GS2DViewController.mm */; };
 		74FBEFBF143797C500C67129 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 74FBEFBE143797C500C67129 /* assets */; };
+		74FF04F218047A20006D0F9F /* StdFileManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74FF04F018047A20006D0F9F /* StdFileManager.cpp */; };
+		74FF04F918047AF6006D0F9F /* scriptbuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74FF04F318047AF6006D0F9F /* scriptbuilder.cpp */; };
+		74FF04FA18047AF6006D0F9F /* scriptfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74FF04F518047AF6006D0F9F /* scriptfile.cpp */; };
+		74FF04FB18047AF6006D0F9F /* scriptstdstring.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74FF04F718047AF6006D0F9F /* scriptstdstring.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -328,12 +325,6 @@
 		74666CA9165A785400C70736 /* scriptmath2d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scriptmath2d.h; path = ../../../src/addons/scriptmath2d.h; sourceTree = "<group>"; };
 		74666CAA165A785400C70736 /* scriptmath3d.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scriptmath3d.cpp; path = ../../../src/addons/scriptmath3d.cpp; sourceTree = "<group>"; };
 		74666CAB165A785400C70736 /* scriptmath3d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scriptmath3d.h; path = ../../../src/addons/scriptmath3d.h; sourceTree = "<group>"; };
-		74666CBA165A788300C70736 /* scriptbuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scriptbuilder.cpp; path = ../../../src/addons/ansi/scriptbuilder.cpp; sourceTree = "<group>"; };
-		74666CBB165A788300C70736 /* scriptbuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scriptbuilder.h; path = ../../../src/addons/ansi/scriptbuilder.h; sourceTree = "<group>"; };
-		74666CBC165A788300C70736 /* scriptfile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scriptfile.cpp; path = ../../../src/addons/ansi/scriptfile.cpp; sourceTree = "<group>"; };
-		74666CBD165A788300C70736 /* scriptfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scriptfile.h; path = ../../../src/addons/ansi/scriptfile.h; sourceTree = "<group>"; };
-		74666CBE165A788300C70736 /* scriptstdstring.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scriptstdstring.cpp; path = ../../../src/addons/ansi/scriptstdstring.cpp; sourceTree = "<group>"; };
-		74666CBF165A788300C70736 /* scriptstdstring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scriptstdstring.h; path = ../../../src/addons/ansi/scriptstdstring.h; sourceTree = "<group>"; };
 		74666CC3165A796400C70736 /* ETHEngine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEngine.cpp; path = ../../../src/engine/ETHEngine.cpp; sourceTree = "<group>"; };
 		74666CC4165A796400C70736 /* ETHEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEngine.h; path = ../../../src/engine/ETHEngine.h; sourceTree = "<group>"; };
 		74666CC5165A796400C70736 /* ETHTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHTypes.h; path = ../../../src/engine/ETHTypes.h; sourceTree = "<group>"; };
@@ -379,10 +370,6 @@
 		74666CF7165A79B200C70736 /* ETHVertexLightDiffuse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHVertexLightDiffuse.h; path = ../../../src/engine/Shader/ETHVertexLightDiffuse.h; sourceTree = "<group>"; };
 		74666D02165A79C700C70736 /* ETHBinaryStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHBinaryStream.cpp; path = ../../../src/engine/Script/ETHBinaryStream.cpp; sourceTree = "<group>"; };
 		74666D03165A79C700C70736 /* ETHBinaryStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHBinaryStream.h; path = ../../../src/engine/Script/ETHBinaryStream.h; sourceTree = "<group>"; };
-		74666D04165A79C700C70736 /* ETHEntityDestructorManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityDestructorManager.cpp; path = ../../../src/engine/Script/ETHEntityDestructorManager.cpp; sourceTree = "<group>"; };
-		74666D05165A79C700C70736 /* ETHEntityDestructorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityDestructorManager.h; path = ../../../src/engine/Script/ETHEntityDestructorManager.h; sourceTree = "<group>"; };
-		74666D06165A79C700C70736 /* ETHEntityDestructorScript.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityDestructorScript.cpp; path = ../../../src/engine/Script/ETHEntityDestructorScript.cpp; sourceTree = "<group>"; };
-		74666D07165A79C700C70736 /* ETHEntityDestructorScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityDestructorScript.h; path = ../../../src/engine/Script/ETHEntityDestructorScript.h; sourceTree = "<group>"; };
 		74666D08165A79C700C70736 /* ETHScriptObjRegister.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptObjRegister.cpp; path = ../../../src/engine/Script/ETHScriptObjRegister.cpp; sourceTree = "<group>"; };
 		74666D09165A79C700C70736 /* ETHScriptObjRegister.generic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptObjRegister.generic.cpp; path = ../../../src/engine/Script/ETHScriptObjRegister.generic.cpp; sourceTree = "<group>"; };
 		74666D0A165A79C700C70736 /* ETHScriptObjRegister.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHScriptObjRegister.h; path = ../../../src/engine/Script/ETHScriptObjRegister.h; sourceTree = "<group>"; };
@@ -595,8 +582,6 @@
 		74666E3D165A7C3A00C70736 /* NativeCommandForwarder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NativeCommandForwarder.h; path = ../../../src/gs2d/src/Platform/NativeCommandForwarder.h; sourceTree = "<group>"; };
 		74666E3E165A7C3A00C70736 /* Platform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Platform.cpp; path = ../../../src/gs2d/src/Platform/Platform.cpp; sourceTree = "<group>"; };
 		74666E3F165A7C3A00C70736 /* Platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Platform.h; path = ../../../src/gs2d/src/Platform/Platform.h; sourceTree = "<group>"; };
-		74666E40165A7C3A00C70736 /* StdAnsiFileManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StdAnsiFileManager.cpp; path = ../../../src/gs2d/src/Platform/StdAnsiFileManager.cpp; sourceTree = "<group>"; };
-		74666E41165A7C3A00C70736 /* StdAnsiFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StdAnsiFileManager.h; path = ../../../src/gs2d/src/Platform/StdAnsiFileManager.h; sourceTree = "<group>"; };
 		74666E4A165A7C4E00C70736 /* IOSFileIOHub.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IOSFileIOHub.cpp; path = ../../../src/gs2d/src/Platform/ios/IOSFileIOHub.cpp; sourceTree = "<group>"; };
 		74666E4B165A7C4E00C70736 /* IOSFileIOHub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IOSFileIOHub.h; path = ../../../src/gs2d/src/Platform/ios/IOSFileIOHub.h; sourceTree = "<group>"; };
 		74666E4C165A7C4E00C70736 /* Platform.ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Platform.ios.h; path = ../../../src/gs2d/src/Platform/ios/Platform.ios.h; sourceTree = "<group>"; };
@@ -680,8 +665,6 @@
 		74D47C4217B4158D00E60B05 /* CocosDenshion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CocosDenshion.m; path = ../../../src/gs2d/src/Audio/CocosDenshion/CocosDenshion/CocosDenshion.m; sourceTree = "<group>"; };
 		74D47C4317B4158D00E60B05 /* SimpleAudioEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SimpleAudioEngine.h; path = ../../../src/gs2d/src/Audio/CocosDenshion/CocosDenshion/SimpleAudioEngine.h; sourceTree = "<group>"; };
 		74D47C4417B4158D00E60B05 /* SimpleAudioEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SimpleAudioEngine.m; path = ../../../src/gs2d/src/Audio/CocosDenshion/CocosDenshion/SimpleAudioEngine.m; sourceTree = "<group>"; };
-		74E50D21169B796F00256A31 /* UTF8Converter.dummy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UTF8Converter.dummy.cpp; path = ../../../src/gs2d/src/Unicode/UTF8Converter.dummy.cpp; sourceTree = "<group>"; };
-		74E50D22169B796F00256A31 /* UTF8Converter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UTF8Converter.h; path = ../../../src/gs2d/src/Unicode/UTF8Converter.h; sourceTree = "<group>"; };
 		74E50D26169B7D7F00256A31 /* ethanon_icon_72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ethanon_icon_72.png; sourceTree = "<group>"; };
 		74E50D28169B7D8D00256A31 /* ethanon_icon_144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ethanon_icon_144.png; sourceTree = "<group>"; };
 		74E50D2A169B7DA400256A31 /* ethanon_icon_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ethanon_icon_57.png; sourceTree = "<group>"; };
@@ -699,6 +682,14 @@
 		74FBEF4E143767CE00C67129 /* GS2DViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GS2DViewController.h; path = Ethanon/Classes/GS2DViewController.h; sourceTree = "<group>"; };
 		74FBEF4F143767CE00C67129 /* GS2DViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = GS2DViewController.mm; path = Ethanon/Classes/GS2DViewController.mm; sourceTree = "<group>"; };
 		74FBEFBE143797C500C67129 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
+		74FF04F018047A20006D0F9F /* StdFileManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StdFileManager.cpp; path = ../../../src/gs2d/src/Platform/StdFileManager.cpp; sourceTree = "<group>"; };
+		74FF04F118047A20006D0F9F /* StdFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StdFileManager.h; path = ../../../src/gs2d/src/Platform/StdFileManager.h; sourceTree = "<group>"; };
+		74FF04F318047AF6006D0F9F /* scriptbuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scriptbuilder.cpp; path = ../../../src/addons/scriptbuilder.cpp; sourceTree = "<group>"; };
+		74FF04F418047AF6006D0F9F /* scriptbuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scriptbuilder.h; path = ../../../src/addons/scriptbuilder.h; sourceTree = "<group>"; };
+		74FF04F518047AF6006D0F9F /* scriptfile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scriptfile.cpp; path = ../../../src/addons/scriptfile.cpp; sourceTree = "<group>"; };
+		74FF04F618047AF6006D0F9F /* scriptfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scriptfile.h; path = ../../../src/addons/scriptfile.h; sourceTree = "<group>"; };
+		74FF04F718047AF6006D0F9F /* scriptstdstring.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scriptstdstring.cpp; path = ../../../src/addons/scriptstdstring.cpp; sourceTree = "<group>"; };
+		74FF04F818047AF6006D0F9F /* scriptstdstring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scriptstdstring.h; path = ../../../src/addons/scriptstdstring.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -995,10 +986,6 @@
 				74F64C081626729400CB2C13 /* Register */,
 				74666D02165A79C700C70736 /* ETHBinaryStream.cpp */,
 				74666D03165A79C700C70736 /* ETHBinaryStream.h */,
-				74666D04165A79C700C70736 /* ETHEntityDestructorManager.cpp */,
-				74666D05165A79C700C70736 /* ETHEntityDestructorManager.h */,
-				74666D06165A79C700C70736 /* ETHEntityDestructorScript.cpp */,
-				74666D07165A79C700C70736 /* ETHEntityDestructorScript.h */,
 				74666D0C165A79C700C70736 /* ETHScriptWrapper.cpp */,
 				74666D0F165A79C700C70736 /* ETHScriptWrapper.h */,
 				74666D0B165A79C700C70736 /* ETHScriptWrapper.Audio.cpp */,
@@ -1041,15 +1028,6 @@
 			name = Shader;
 			sourceTree = "<group>";
 		};
-		74E50D25169B799900256A31 /* Unicode */ = {
-			isa = PBXGroup;
-			children = (
-				74E50D21169B796F00256A31 /* UTF8Converter.dummy.cpp */,
-				74E50D22169B796F00256A31 /* UTF8Converter.h */,
-			);
-			name = Unicode;
-			sourceTree = "<group>";
-		};
 		74F64C081626729400CB2C13 /* Register */ = {
 			isa = PBXGroup;
 			children = (
@@ -1079,7 +1057,6 @@
 		74FBEF52143769E400C67129 /* GS2D */ = {
 			isa = PBXGroup;
 			children = (
-				74E50D25169B799900256A31 /* Unicode */,
 				7479C8AC162640950059402B /* Enml */,
 				7479C89E16263BF80059402B /* Math */,
 				74FBEF7F14376A9E00C67129 /* Platform */,
@@ -1174,9 +1151,9 @@
 				74666E3D165A7C3A00C70736 /* NativeCommandForwarder.h */,
 				74666E3E165A7C3A00C70736 /* Platform.cpp */,
 				74666E3F165A7C3A00C70736 /* Platform.h */,
-				74666E40165A7C3A00C70736 /* StdAnsiFileManager.cpp */,
-				74666E41165A7C3A00C70736 /* StdAnsiFileManager.h */,
 				747F75D31668F1890004CB39 /* NativeCommandListener.h */,
+				74FF04F018047A20006D0F9F /* StdFileManager.cpp */,
+				74FF04F118047A20006D0F9F /* StdFileManager.h */,
 			);
 			name = Platform;
 			sourceTree = "<group>";
@@ -1465,7 +1442,6 @@
 		74FBF0C91437C60900C67129 /* addons */ = {
 			isa = PBXGroup;
 			children = (
-				74FBF0DA1437C62300C67129 /* ansi */,
 				74666CA1165A785400C70736 /* aswrappedcall.h */,
 				74666CA2165A785400C70736 /* scriptarray.cpp */,
 				74666CA3165A785400C70736 /* scriptarray.h */,
@@ -1477,21 +1453,14 @@
 				74666CA9165A785400C70736 /* scriptmath2d.h */,
 				74666CAA165A785400C70736 /* scriptmath3d.cpp */,
 				74666CAB165A785400C70736 /* scriptmath3d.h */,
+				74FF04F318047AF6006D0F9F /* scriptbuilder.cpp */,
+				74FF04F418047AF6006D0F9F /* scriptbuilder.h */,
+				74FF04F518047AF6006D0F9F /* scriptfile.cpp */,
+				74FF04F618047AF6006D0F9F /* scriptfile.h */,
+				74FF04F718047AF6006D0F9F /* scriptstdstring.cpp */,
+				74FF04F818047AF6006D0F9F /* scriptstdstring.h */,
 			);
 			name = addons;
-			sourceTree = "<group>";
-		};
-		74FBF0DA1437C62300C67129 /* ansi */ = {
-			isa = PBXGroup;
-			children = (
-				74666CBA165A788300C70736 /* scriptbuilder.cpp */,
-				74666CBB165A788300C70736 /* scriptbuilder.h */,
-				74666CBC165A788300C70736 /* scriptfile.cpp */,
-				74666CBD165A788300C70736 /* scriptfile.h */,
-				74666CBE165A788300C70736 /* scriptstdstring.cpp */,
-				74666CBF165A788300C70736 /* scriptstdstring.h */,
-			);
-			name = ansi;
 			sourceTree = "<group>";
 		};
 		74FBF0E41437C72400C67129 /* tinyxml */ = {
@@ -1643,9 +1612,6 @@
 				74666CAE165A785400C70736 /* scriptmath.cpp in Sources */,
 				74666CAF165A785400C70736 /* scriptmath2d.cpp in Sources */,
 				74666CB0165A785400C70736 /* scriptmath3d.cpp in Sources */,
-				74666CC0165A788300C70736 /* scriptbuilder.cpp in Sources */,
-				74666CC1165A788300C70736 /* scriptfile.cpp in Sources */,
-				74666CC2165A788300C70736 /* scriptstdstring.cpp in Sources */,
 				74666CC6165A796400C70736 /* ETHEngine.cpp in Sources */,
 				74666CCD165A797A00C70736 /* ETHDrawable.cpp in Sources */,
 				74666CCE165A797A00C70736 /* ETHDrawableManager.cpp in Sources */,
@@ -1667,8 +1633,6 @@
 				74666D00165A79B200C70736 /* ETHShaders.glsl.cpp in Sources */,
 				74666D01165A79B200C70736 /* ETHVertexLightDiffuse.cpp in Sources */,
 				74666D14165A79C700C70736 /* ETHBinaryStream.cpp in Sources */,
-				74666D15165A79C700C70736 /* ETHEntityDestructorManager.cpp in Sources */,
-				74666D16165A79C700C70736 /* ETHEntityDestructorScript.cpp in Sources */,
 				74666D17165A79C700C70736 /* ETHScriptObjRegister.cpp in Sources */,
 				74666D18165A79C700C70736 /* ETHScriptObjRegister.generic.cpp in Sources */,
 				74666D19165A79C700C70736 /* ETHScriptWrapper.Audio.cpp in Sources */,
@@ -1773,7 +1737,6 @@
 				74666E46165A7C3A00C70736 /* NativeCommandAssembler.cpp in Sources */,
 				74666E47165A7C3A00C70736 /* NativeCommandForwarder.cpp in Sources */,
 				74666E48165A7C3A00C70736 /* Platform.cpp in Sources */,
-				74666E49165A7C3A00C70736 /* StdAnsiFileManager.cpp in Sources */,
 				74666E4E165A7C4E00C70736 /* IOSFileIOHub.cpp in Sources */,
 				74666E4F165A7C4E00C70736 /* Platform.ios.mm in Sources */,
 				74666E52165A7C6F00C70736 /* MobileInput.cpp in Sources */,
@@ -1804,7 +1767,6 @@
 				749CB4741666554F00939B0A /* ETHEntityRenderingManager.cpp in Sources */,
 				749CB4751666554F00939B0A /* ETHEntitySpriteRenderer.cpp in Sources */,
 				747F75D61668F3000004CB39 /* IOSNativeCommandListener.mm in Sources */,
-				74E50D23169B796F00256A31 /* UTF8Converter.dummy.cpp in Sources */,
 				74E50D33169BAE1700256A31 /* IOSGLES2Video.mm in Sources */,
 				74D47C3817B4140F00E60B05 /* CDAudioContext.mm in Sources */,
 				74D47C3917B4140F00E60B05 /* CDAudioSample.mm in Sources */,
@@ -1812,6 +1774,10 @@
 				74D47C4717B4158D00E60B05 /* CDOpenALSupport.m in Sources */,
 				74D47C4817B4158D00E60B05 /* CocosDenshion.m in Sources */,
 				74D47C4917B4158D00E60B05 /* SimpleAudioEngine.m in Sources */,
+				74FF04F218047A20006D0F9F /* StdFileManager.cpp in Sources */,
+				74FF04F918047AF6006D0F9F /* scriptbuilder.cpp in Sources */,
+				74FF04FA18047AF6006D0F9F /* scriptfile.cpp in Sources */,
+				74FF04FB18047AF6006D0F9F /* scriptstdstring.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

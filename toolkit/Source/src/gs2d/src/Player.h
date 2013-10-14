@@ -46,7 +46,7 @@ enum GS_PLAYER_STATUS
 class Player
 {
 public:
-	virtual bool LoadVideo(VideoPtr pVideo, const std::wstring& fileName) = 0;
+	virtual bool LoadVideo(VideoPtr pVideo, const str_type::string& fileName) = 0;
 	virtual void UpdateVideo() = 0;
 
 	virtual bool Play() = 0;
@@ -69,14 +69,14 @@ public:
 	virtual GS_PLAYER_STATUS GetStatus() = 0;
 };
 
-GS_PLAYER_INFO PlayCutscene(VideoPtr pVideo, const std::wstring& fileName,
+GS_PLAYER_INFO PlayCutscene(VideoPtr pVideo, const str_type::string& fileName,
 							InputPtr pInput, const GS_KEY escapeKey = GSK_ESC);
 
 
 typedef boost::shared_ptr<Player> PlayerPtr;
 typedef boost::weak_ptr<Player> PlayerWeakPtr;
 
-GS2D_API PlayerPtr CreatePlayer(VideoPtr pVideo, const std::wstring& fileName);
+GS2D_API PlayerPtr CreatePlayer(VideoPtr pVideo, const str_type::string& fileName);
 
 } // namespace gs2d
 

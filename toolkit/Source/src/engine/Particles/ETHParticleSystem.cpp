@@ -139,7 +139,7 @@ bool ETHParticleSystem::ReadFromFile(const str_type::string& fileName, const Pla
 {
 	TiXmlDocument doc(fileName);
 	str_type::string content;
-	fileManager->GetUTF16FileString(fileName, content);
+	fileManager->GetUTFFileString(fileName, content);
 	if (!doc.LoadFile(content, TIXML_ENCODING_LEGACY))
 		return false;
 

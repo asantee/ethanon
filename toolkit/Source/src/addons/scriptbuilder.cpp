@@ -1,9 +1,4 @@
 #include "scriptbuilder.h"
-
-#define UNSAFE_UTF8_ALLOWED
-#include <unicode/utf8converter.h>
-#undef UNSAFE_UTF8_ALLOWED
-
 #include <vector>
 using namespace std;
 
@@ -19,7 +14,7 @@ using namespace std;
 BEGIN_AS_NAMESPACE
 
 // Helper functions
-static const wchar_t *GetCurrentDir(wchar_t *buf, size_t size);
+static const char *GetCurrentDir(char *buf, size_t size);
 
 CScriptBuilder::CScriptBuilder(const ETHResourceProviderPtr& provider) :
 	m_provider(provider)
@@ -37,12 +32,12 @@ void CScriptBuilder::SetIncludeCallback(INCLUDECALLBACK_t callback, void *userPa
 	callbackParam   = userParam;
 }
 
-int CScriptBuilder::StartNewModule(asIScriptEngine *engine, const wchar_t *moduleName)
+int CScriptBuilder::StartNewModule(asIScriptEngine *engine, const char *moduleName)
 {
 	if( engine == 0 ) return -1;
 
 	this->engine = engine;
-	module = engine->GetModule(utf8::Converter(moduleName).c_str(), asGM_ALWAYS_CREATE);
+	module = engine->GetModule(moduleName, asGM_ALWAYS_CREATE);
 	if( module == 0 )
 		return -1;
 
@@ -51,8 +46,11 @@ int CScriptBuilder::StartNewModule(asIScriptEngine *engine, const wchar_t *modul
 	return 0;
 }
 
-int CScriptBuilder::AddSectionFromFile(const wchar_t *filename)
+int CScriptBuilder::AddSectionFromFile(const char *filename)
 {
+	// TODO: The file name stored in the set should be the fully resolved name because
+	// it is possible to name the same file in multiple ways using relative paths.
+
 	if( IncludeIfNotAlreadyIncluded(filename) )
 	{
 		int r = LoadScriptSection(filename);
@@ -63,7 +61,7 @@ int CScriptBuilder::AddSectionFromFile(const wchar_t *filename)
 	return 0;
 }
 
-int CScriptBuilder::AddSectionFromMemory(const char *scriptCode, const wchar_t *sectionName)
+int CScriptBuilder::AddSectionFromMemory(const char *scriptCode, const char *sectionName)
 {
 	if( IncludeIfNotAlreadyIncluded(sectionName) )
 	{
@@ -89,11 +87,6 @@ void CScriptBuilder::DefineWord(const char *word)
 	}
 }
 
-void CScriptBuilder::DefineWord(const wchar_t *word)
-{
-	DefineWord(utf8::Converter(word).c_str());
-}
-
 void CScriptBuilder::ClearAll()
 {
 	includedScripts.clear();
@@ -106,9 +99,9 @@ void CScriptBuilder::ClearAll()
 #endif
 }
 
-bool CScriptBuilder::IncludeIfNotAlreadyIncluded(const wchar_t *filename)
+bool CScriptBuilder::IncludeIfNotAlreadyIncluded(const char *filename)
 {
-	wstring scriptFile = filename;
+	string scriptFile = filename;
 	if( includedScripts.find(scriptFile) != includedScripts.end() )
 	{
 		// Already included
@@ -121,35 +114,35 @@ bool CScriptBuilder::IncludeIfNotAlreadyIncluded(const wchar_t *filename)
 	return true;
 }
 
-int CScriptBuilder::LoadScriptSection(const wchar_t *filename)
+int CScriptBuilder::LoadScriptSection(const char *filename)
 {
-	// TODO: The file name stored in the set should be the fully resolved name because
-	// it is possible to name the same file in multiple ways using relative paths.
-
 	// Open the script file
-	wstring code;
-	if(!m_provider->GetFileManager()->GetUTF8BOMFileString(filename, code))
+	string code;
+	if(!m_provider->GetFileManager()->GetUTF8FileString(filename, code))
 	{
 		// Write a message to the engine's message callback
-		wchar_t buf[256];
-		string msg = "Failed to open script file in path: '" + utf8::Converter(GetCurrentDir(buf, 256)).str() + utf8::Converter(filename).str() + "'";
-		engine->WriteMessage(utf8::Converter(filename).c_str(), 0, 0, asMSGTYPE_ERROR, msg.c_str());
+		char buf[256];
+		string msg = "Failed to open script file '" + string(GetCurrentDir(buf, 256)) + filename + "'";
+		engine->WriteMessage(filename, 0, 0, asMSGTYPE_ERROR, msg.c_str());
+
+		// TODO: Write the file where this one was included from
+
 		return -1;
 	}
 
-	if( code.empty() ) 
+	if (code.empty())
 	{
 		// Write a message to the engine's message callback
-		wchar_t buf[256];
-		string msg = "Failed to load script file in path: '" + utf8::Converter(GetCurrentDir(buf, 256)).str() + "'";
-		engine->WriteMessage(utf8::Converter(filename).c_str(), 0, 0, asMSGTYPE_ERROR, msg.c_str());
+		char buf[256];
+		string msg = "Failed to load script file '" + string(GetCurrentDir(buf, 256)) + filename + "'";
+		engine->WriteMessage(filename, 0, 0, asMSGTYPE_ERROR, msg.c_str());
 		return -1;
 	}
 
-	return ProcessScriptSection(utf8::c(code).c_str(), filename);
+	return ProcessScriptSection(code.c_str(), filename);
 }
 
-int CScriptBuilder::ProcessScriptSection(const char *script, const wchar_t *sectionname)
+int CScriptBuilder::ProcessScriptSection(const char *script, const char *sectionname)
 {
 	vector<string> includes;
 
@@ -301,7 +294,7 @@ int CScriptBuilder::ProcessScriptSection(const char *script, const wchar_t *sect
 
 	// Build the actual script
 	engine->SetEngineProperty(asEP_COPY_SCRIPT_SECTIONS, true);
-	module->AddScriptSection(utf8::Converter(sectionname).c_str(), modifiedScript.c_str(), modifiedScript.size());
+	module->AddScriptSection(sectionname, modifiedScript.c_str(), modifiedScript.size());
 
 	if( includes.size() > 0 )
 	{
@@ -310,7 +303,7 @@ int CScriptBuilder::ProcessScriptSection(const char *script, const wchar_t *sect
 		{
 			for( int n = 0; n < (int)includes.size(); n++ )
 			{
-				int r = includeCallback(includes[n].c_str(), utf8::Converter(sectionname).c_str(), this, callbackParam);
+				int r = includeCallback(includes[n].c_str(), sectionname, this, callbackParam);
 				if( r < 0 )
 					return r;
 			}
@@ -320,7 +313,7 @@ int CScriptBuilder::ProcessScriptSection(const char *script, const wchar_t *sect
 			// By default we try to load the included file from the relative directory of the current file
 
 			// Determine the path of the current script so that we can resolve relative paths for includes
-			string path = utf8::Converter(sectionname).str();
+			string path = sectionname;
 			size_t posOfSlash = path.find_last_of("/\\");
 			if( posOfSlash != string::npos )
 				path.resize(posOfSlash+1);
@@ -338,7 +331,7 @@ int CScriptBuilder::ProcessScriptSection(const char *script, const wchar_t *sect
 				}
 
 				// Include the script section
-				int r = AddSectionFromFile(utf8::Converter(includes[n]).wc_str());
+				int r = AddSectionFromFile(includes[n].c_str());
 				if( r < 0 )
 					return r;
 			}
@@ -632,12 +625,12 @@ const char *CScriptBuilder::GetMetadataStringForVar(int varIdx)
 }
 #endif
 
-asIScriptModule * CScriptBuilder::GetModule(asIScriptEngine * targetEngine, const std::wstring& module, asEGMFlags flag)
+asIScriptModule * CScriptBuilder::GetModule(asIScriptEngine * targetEngine, const std::string& module, asEGMFlags flag)
 {
-	return targetEngine->GetModule(utf8::Converter(module).c_str(), flag);
+	return targetEngine->GetModule(module.c_str(), flag);
 }
 
-static const wchar_t *GetCurrentDir(wchar_t *buf, size_t size)
+static const char *GetCurrentDir(char *buf, size_t size)
 {
 #ifdef _MSC_VER
 #ifdef _WIN32_WCE
@@ -664,18 +657,20 @@ static const wchar_t *GetCurrentDir(wchar_t *buf, size_t size)
         // Terminate the string after the trailing backslash
         apppath[appLen] = TEXT('\0');
     }
-#ifndef _UNICODE
-#pragma warning("Program supports Unicode compilation only")
-#endif
+#ifdef _UNICODE
+    wcstombs(buf, apppath, min(size, wcslen(apppath)*sizeof(wchar_t)));
+#else
     memcpy(buf, apppath, min(size, strlen(apppath)));
+#endif
+
     return buf;
 #else
-	return _wgetcwd(buf, (int)size);
+	return _getcwd(buf, (int)size);
 #endif
 #elif defined(__APPLE__)
-	return getcwd(buf, size); // WARNING: it will not work with Unicode as is
+	return getcwd(buf, size);
 #else
-	return L"";
+	return "";
 #endif
 }
 

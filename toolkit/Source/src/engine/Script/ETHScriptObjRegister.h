@@ -46,7 +46,6 @@ namespace ETHGlobal
 	enml::Entity *EnmlEntityFactory();
 	ETHEntityArray *ETHEntityArrayFactory();
 	void EnmlEntityCopyConstructor(const enml::Entity &other, enml::Entity *self);
-	bool CheckASError(const int r, const str_type::string &description);
 	bool RegisterInputObject(asIScriptEngine *pASEngine);
 	bool RegisterENMLObject(asIScriptEngine *pASEngine);
 	bool RegisterEntityObject(asIScriptEngine *pASEngine);
