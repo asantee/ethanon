@@ -83,7 +83,7 @@ public class GL2JNIView extends GLSurfaceView {
 
 	public GL2JNIView(GS2DActivity activity, String apkPath, AccelerometerListener accelerometerListener,
 			KeyEventListener keyEventListener, ArrayList<NativeCommandListener> commandListeners,
-			InputDeviceManager inputDeviceManager) {
+			InputDeviceManager inputDeviceManager, int fixedFrameRate) {
 		super(activity.getApplication());
 
 		GL2JNIView.accelerometerListener = accelerometerListener;
@@ -93,10 +93,15 @@ public class GL2JNIView extends GLSurfaceView {
 
 		init(false, 1, 0, activity, inputDeviceManager);
 		retrieveScreenSize(activity);
-		setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
 
-		frameHandler = new FrameHandler(this, 100);
-		frameHandler.start();
+		int renderMode = (fixedFrameRate > 0) ? GLSurfaceView.RENDERMODE_WHEN_DIRTY : GLSurfaceView.RENDERMODE_CONTINUOUSLY;
+		
+		setRenderMode(renderMode);
+
+		if (renderMode == GLSurfaceView.RENDERMODE_WHEN_DIRTY) {
+			frameHandler = new FrameHandler(this, fixedFrameRate);
+			frameHandler.start();
+		}
 
 		resetTouchMonitoringData();
 	}
