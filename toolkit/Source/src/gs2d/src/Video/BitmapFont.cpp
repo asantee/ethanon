@@ -311,9 +311,8 @@ unsigned int BitmapFont::FindClosestCarretPosition(const str_type::string& text,
 }
 
 template<class TChar>
-inline int ConvertCharacterToIndex(const TChar* character, std::size_t& t)
+inline int ConvertCharacterToIndex(const TChar* character, std::size_t& t, const std::size_t length)
 {
-    // To-do: it looks bad... make it more definitive
 	int index = 0;
 	if (utf8::is_valid(character, character + 1))
 	{
@@ -328,15 +327,26 @@ inline int ConvertCharacterToIndex(const TChar* character, std::size_t& t)
 	}
 	else
 	{
-		static const std::size_t MAXIMUM_BYTE_COUNT = 32;
-		std::size_t charByteCount = 1;
-		while (!utf8::is_valid(character, character + (++charByteCount)) || charByteCount > MAXIMUM_BYTE_COUNT);
+        const std::size_t maxByteCount = math::Min(static_cast<std::size_t>(8), length - t);
+		std::size_t charByteCount = 2;
+		
+		while (!utf8::is_valid(character, character + (charByteCount)) && charByteCount < maxByteCount)
+		{
+			++charByteCount;
+		}
 
-		std::vector<unsigned long> utf32line;
-		utf8::utf8to32(character, character + charByteCount, std::back_inserter(utf32line));
-		index = static_cast<int>(utf32line[0]);
+		if (charByteCount <= maxByteCount)
+		{
+			std::vector<unsigned long> utf32line;
+			utf8::utf8to32(character, character + charByteCount, std::back_inserter(utf32line));
+			index = static_cast<int>(utf32line[0]);
 
-		t += (charByteCount - 1);
+			t += (charByteCount - 1);
+		}
+		else
+		{
+			index = 0;
+		}
 	}
 	return math::Min(index, static_cast<int>(GS2D_CHARSET_MAX_CHARS - 1));
 }
@@ -363,7 +373,7 @@ Vector2 BitmapFont::ComputeCarretPosition(const str_type::string& text, const un
 			continue;
 		}
 
-		int charId = ConvertCharacterToIndex<str_type::char_t>(&cleanText[t], t);
+		int charId = ConvertCharacterToIndex<str_type::char_t>(&cleanText[t], t, length);
 		const CHAR_DESCRIPTOR& currentChar = m_charSet.chars[charId];
 		cursor.x += currentChar.xAdvance;
 	}
@@ -390,7 +400,7 @@ Vector2 BitmapFont::ComputeTextBoxSize(const str_type::string& text)
 			cursor.y += m_charSet.lineHeight;
 			continue;
 		}
-		int charId = ConvertCharacterToIndex<str_type::char_t>(&cleanText[t], t);
+		int charId = ConvertCharacterToIndex<str_type::char_t>(&cleanText[t], t, length);
 		const CHAR_DESCRIPTOR &currentChar = m_charSet.chars[charId];
 		lineWidth += currentChar.xAdvance;
 
@@ -436,7 +446,7 @@ Vector2 BitmapFont::DrawBitmapText(const Vector2& pos, const str_type::string& t
 				Color localColor;
 				if (GS2D_SSCANF(colorCodeValue.c_str(), GS_L("%lu"), &localColor.color) == 1)
 				{
-                    const Vector4 currentColorV4(Vector4(color) * Vector4(localColor));
+					const Vector4 currentColorV4(Vector4(color) * Vector4(localColor));
 					currentColor = math::ConvertToDW(currentColorV4);
 				}
 				t = (end) + COLOR_CODE_END_SEQUENCE.length() - 1;
@@ -445,7 +455,7 @@ Vector2 BitmapFont::DrawBitmapText(const Vector2& pos, const str_type::string& t
 		}
 
 		// find mapped character
-		int charId = ConvertCharacterToIndex<str_type::char_t>(&text[t], t);
+		int charId = ConvertCharacterToIndex<str_type::char_t>(&text[t], t, length);
 		const CHAR_DESCRIPTOR &currentChar = m_charSet.chars[charId];
 		if (currentChar.width > 0 && currentChar.height > 0)
 		{
