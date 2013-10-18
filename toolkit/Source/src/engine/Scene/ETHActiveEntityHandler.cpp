@@ -109,11 +109,12 @@ void ETHActiveEntityHandler::TestEntityLists() const
 		{
 			ETHRenderEntity* entityA = (*a);
 			ETHRenderEntity* entityB = (*b);
-			const int idA = entityA->GetID();
-			const int idB = entityB->GetID();
-			bool idAssert;
-			idAssert = (idA != idB);
-			assert(idAssert);
+			if (entityA == entityB)
+			{
+				ETH_STREAM_DECL(ss) << GS_L("Equal entities found on both lists: ") << entityA->GetEntityName();
+				m_provider->Log(ss.str(), Platform::Logger::WARNING);
+			}
+			assert(entityA != entityB);
 		}
 	}
 }
