@@ -356,7 +356,7 @@ bool ETHEngine::BuildModule(const std::vector<gs2d::str_type::string>& definedWo
 		const VideoPtr& video = m_provider->GetVideo();
 		const unsigned long buildTime = video->GetElapsedTime();
 		r = builder.BuildModule();
-		str_type::stringstream timeStringStream; timeStringStream << GS_L("Compile time: ") << video->GetElapsedTime() - buildTime << GS_L(" milliseconds");
+		str_type::stringstream timeStringStream; timeStringStream << GS_L("\nCompile time: ") << video->GetElapsedTime() - buildTime << GS_L(" milliseconds");
 		m_provider->Log(timeStringStream.str(), Platform::Logger::INFO);
 		if (!CheckAngelScriptError(r < 0, GS_L("Failed while building module.")))
 			return false;
@@ -449,6 +449,11 @@ str_type::string ETHEngine::RemoveResourceDirectoryFromSectionString(const str_t
 
 void ETHEngine::MessageCallback(const asSMessageInfo *msg)
 {
+	static int lastRow = msg->row;
+
+	const bool differentRow = (msg->row != lastRow);
+	lastRow = msg->row;
+
 	str_type::string typeStr = GS_L("");
 	Platform::Logger::TYPE type;
 	switch (msg->type)
@@ -469,9 +474,14 @@ void ETHEngine::MessageCallback(const asSMessageInfo *msg)
 	const str_type::string section = RemoveResourceDirectoryFromSectionString(msg->section);
 
 	str_type::stringstream ss;
+
+	if (differentRow)
+		ss << std::endl;
+
 	ss << GS_L("[") << typeStr << GS_L("] ");
 	ss << section << GS_L(", line ") << msg->row << GS_L(": ");
-	ss << msg->message << std::endl;
+	ss << msg->message;
+
 	m_provider->Log(ss.str(), type);
 }
 
