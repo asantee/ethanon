@@ -450,7 +450,7 @@ void ETHScene::Update(
 	m_minSceneHeight = minHeight;
 	m_maxSceneHeight = maxHeight;
 
-	Randomizer::Seed(m_provider->GetVideo()->GetElapsedTime());
+	Randomizer::Seed(static_cast<unsigned int>(m_provider->GetVideo()->GetElapsedTime()));
 }
 
 void ETHScene::RenderScene(const bool roundUp, const ETHBackBufferTargetManagerPtr& backBuffer)
@@ -537,7 +537,7 @@ void ETHScene::MapEntitiesToBeRendered(
 	// Add persistent entities (the ones the user wants to force to render)
 	FillMultimapAndClearPersistenList(bucketList, backBuffer);
 
-	m_nCurrentLights = m_renderingManager.GetNumLights();
+	m_nCurrentLights = static_cast<unsigned int>(m_renderingManager.GetNumLights());
 }
 
 void ETHScene::DrawEntityMultimap(const bool roundUp, const ETHBackBufferTargetManagerPtr& backBuffer)

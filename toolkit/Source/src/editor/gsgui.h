@@ -52,10 +52,10 @@ public:
 	void SendCursorToEnd();
 
 private:
-	unsigned int blinkTime;
-	unsigned int lastBlink;
-	unsigned int showingCarret;
-	unsigned int cursor;
+	unsigned long blinkTime;
+	unsigned long lastBlink;
+	std::size_t showingCarret;
+	std::size_t cursor;
 	bool numbersOnly;
 	str_type::string ss;
 };
@@ -187,7 +187,7 @@ public:
 	GSGUI_BUTTON PlaceMenu(Vector2 v2Pos);
 	void AddButton(const str_type::string &text);
 	void DelButton(const str_type::string &text);
-	int GetNumButtons() const;
+	std::size_t GetNumButtons() const;
 	bool IsActive() const;
 	void SetActive(const bool b);
 	bool IsMouseOver() const;

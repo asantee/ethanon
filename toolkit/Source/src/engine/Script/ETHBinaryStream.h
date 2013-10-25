@@ -51,7 +51,7 @@ private:
 
 	FILE* m_out;
 	str_type::string m_fileName;
-	unsigned int m_inCarret;
+	unsigned long m_inCarret;
 	Platform::FileBuffer m_buffer;
 	Platform::FileManagerPtr m_fileManager;
 };

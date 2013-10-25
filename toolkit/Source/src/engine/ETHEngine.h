@@ -65,7 +65,7 @@ class ETHEngine : public gs2d::BaseApplication, public ETHScriptWrapper
 	bool RunFunction(asIScriptFunction* func) const;
 	bool LoadNextSceneIfRequested();
 
-	void DrawTopLayer(const unsigned int lastFrameElapsedTimeMS);
+	void DrawTopLayer(const unsigned long lastFrameElapsedTimeMS);
 
 public:
 	static const str_type::string ETH_SCRIPT_MODULE;

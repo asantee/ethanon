@@ -54,7 +54,7 @@ void ETHEntityArray::push_back(ETHEntityRawPtr p)
 
 unsigned int ETHEntityArray::size() const
 {
-	return m_vector.size();
+	return static_cast<unsigned int>(m_vector.size());
 }
 
 ETHEntityRawPtr &ETHEntityArray::operator[] (const unsigned int index)
@@ -65,6 +65,16 @@ ETHEntityRawPtr &ETHEntityArray::operator[] (const unsigned int index)
 const ETHEntityRawPtr &ETHEntityArray::operator[] (const unsigned int index) const
 {
 	return m_vector[index];
+}
+
+ETHEntityRawPtr &ETHEntityArray::operator[] (const unsigned long index)
+{
+	return (*this)[index];
+}
+
+const ETHEntityRawPtr &ETHEntityArray::operator[] (const unsigned long index) const
+{
+	return (*this)[index];
 }
 
 ETHEntityArray &ETHEntityArray::operator+=(const ETHEntityArray &other)

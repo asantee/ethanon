@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		741E44AE181ADC5100E7ED3E /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 741E44AD181ADC5100E7ED3E /* OpenAL.framework */; };
+		741E44B0181ADC5800E7ED3E /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 741E44AF181ADC5800E7ED3E /* AudioToolbox.framework */; };
 		7421F2DF1648173000C55BAE /* StdFileManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F2DD1648173000C55BAE /* StdFileManager.cpp */; };
 		7421F2E01648173000C55BAE /* StdFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F2DE1648173000C55BAE /* StdFileManager.h */; };
 		7423B69D165FF413008848EA /* SharedData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7423B699165FF413008848EA /* SharedData.cpp */; };
@@ -95,8 +97,6 @@
 		7486555D163981310096D869 /* stbi_DDS_aug.h in Headers */ = {isa = PBXBuildFile; fileRef = 74865553163981310096D869 /* stbi_DDS_aug.h */; };
 		748655621639E1600096D869 /* GLSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 748655601639E15F0096D869 /* GLSprite.cpp */; };
 		748655631639E1600096D869 /* GLSprite.h in Headers */ = {isa = PBXBuildFile; fileRef = 748655611639E15F0096D869 /* GLSprite.h */; };
-		74D47C0D17B3FADA00E60B05 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74D47C0C17B3FADA00E60B05 /* OpenAL.framework */; };
-		74D47C0F17B3FB0E00E60B05 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74D47C0E17B3FB0E00E60B05 /* AudioToolbox.framework */; };
 		74D47C1417B40A5300E60B05 /* CDAudioContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 74D47C1217B40A5300E60B05 /* CDAudioContext.h */; };
 		74D47C1517B40A5300E60B05 /* CDAudioContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 74D47C1317B40A5300E60B05 /* CDAudioContext.mm */; };
 		74D47C2117B40A5F00E60B05 /* CDAudioManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 74D47C1617B40A5F00E60B05 /* CDAudioManager.h */; };
@@ -131,6 +131,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		741E44AD181ADC5100E7ED3E /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		741E44AF181ADC5800E7ED3E /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		7421F2DD1648173000C55BAE /* StdFileManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StdFileManager.cpp; path = ../../../../src/Platform/StdFileManager.cpp; sourceTree = "<group>"; };
 		7421F2DE1648173000C55BAE /* StdFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StdFileManager.h; path = ../../../../src/Platform/StdFileManager.h; sourceTree = "<group>"; };
 		7423B699165FF413008848EA /* SharedData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SharedData.cpp; path = ../../../../src/Platform/SharedData/SharedData.cpp; sourceTree = "<group>"; };
@@ -222,8 +224,6 @@
 		74865553163981310096D869 /* stbi_DDS_aug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stbi_DDS_aug.h; path = ../../../vendors/soil/stbi_DDS_aug.h; sourceTree = "<group>"; };
 		748655601639E15F0096D869 /* GLSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLSprite.cpp; path = ../../../../src/Video/GL/GLSprite.cpp; sourceTree = "<group>"; usesTabs = 1; };
 		748655611639E15F0096D869 /* GLSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLSprite.h; path = ../../../../src/Video/GL/GLSprite.h; sourceTree = "<group>"; };
-		74D47C0C17B3FADA00E60B05 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/OpenAL.framework; sourceTree = DEVELOPER_DIR; };
-		74D47C0E17B3FB0E00E60B05 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/AudioToolbox.framework; sourceTree = DEVELOPER_DIR; };
 		74D47C1217B40A5300E60B05 /* CDAudioContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDAudioContext.h; path = ../../../src/Audio/CocosDenshion/CDAudioContext.h; sourceTree = "<group>"; };
 		74D47C1317B40A5300E60B05 /* CDAudioContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CDAudioContext.mm; path = ../../../src/Audio/CocosDenshion/CDAudioContext.mm; sourceTree = "<group>"; };
 		74D47C1617B40A5F00E60B05 /* CDAudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDAudioManager.h; path = ../../../src/Audio/CocosDenshion/CocosDenshion/CDAudioManager.h; sourceTree = "<group>"; };
@@ -255,8 +255,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				74D47C0F17B3FB0E00E60B05 /* AudioToolbox.framework in Frameworks */,
-				74D47C0D17B3FADA00E60B05 /* OpenAL.framework in Frameworks */,
+				741E44B0181ADC5800E7ED3E /* AudioToolbox.framework in Frameworks */,
+				741E44AE181ADC5100E7ED3E /* OpenAL.framework in Frameworks */,
 				7486553816382B6A0096D869 /* Cg.framework in Frameworks */,
 				7458F09A1637A44800D48019 /* SDL.framework in Frameworks */,
 				7458F0801635F18300D48019 /* OpenGL.framework in Frameworks */,
@@ -495,8 +495,6 @@
 		74F3A4EA1632E3870064C9A5 = {
 			isa = PBXGroup;
 			children = (
-				74D47C0E17B3FB0E00E60B05 /* AudioToolbox.framework */,
-				74D47C0C17B3FADA00E60B05 /* OpenAL.framework */,
 				74F3A4FF1632E3870064C9A5 /* gs2d */,
 				74865549163980EF0096D869 /* SOIL */,
 				74F3A4F81632E3870064C9A5 /* Frameworks */,
@@ -516,6 +514,8 @@
 		74F3A4F81632E3870064C9A5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				741E44AF181ADC5800E7ED3E /* AudioToolbox.framework */,
+				741E44AD181ADC5100E7ED3E /* OpenAL.framework */,
 				7486553A16382B960096D869 /* Cg.framework */,
 				742D34151637A64300A447A2 /* SDL.framework */,
 				7486553716382B6A0096D869 /* Cg.framework */,
@@ -866,7 +866,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -900,7 +900,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;

@@ -286,10 +286,11 @@ bool ETHPhysicsEntityController::ResolveJoints(ETHEntityArray& entities, const E
 		// iterate over entities to find the other-entity
 		for (std::size_t t = 0; t < numEntities; t++)
 		{
-			if (entities[t]->GetEntityName() == otherEntityName || entities[t]->GetID() == otherEntityID)
+			const unsigned int idx = static_cast<unsigned int>(t);
+			if (entities[idx]->GetEntityName() == otherEntityName || entities[idx]->GetID() == otherEntityID)
 			{
 				boost::shared_ptr<ETHJoint> joint =
-					ETHJoint::CreateJoint(jointName, file, simulator, static_cast<ETHEntity*>(m_body->GetUserData()), (entities[t]));
+					ETHJoint::CreateJoint(jointName, file, simulator, static_cast<ETHEntity*>(m_body->GetUserData()), (entities[idx]));
 				if (joint)
 					m_joints.push_back(joint);
 				break;

@@ -155,3 +155,5 @@ toolkit/Source/src/gs2d/projects/Android/soil/
 toolkit/Source/src/gs2d/projects/Android/vendors/
 
 toolkit/Source/src/gs2d/projects/Android/google-play-services_lib/
+
+*.xccheckout

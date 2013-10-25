@@ -148,7 +148,7 @@ SpritePtr ETHGraphicResourceManager::AddFile(
 	return pBitmap;
 }
 
-int ETHGraphicResourceManager::GetNumResources()
+std::size_t ETHGraphicResourceManager::GetNumResources()
 {
 	return m_resource.size();
 }
@@ -283,7 +283,7 @@ AudioSamplePtr ETHAudioResourceManager::AddFile(
 	return pSample;
 }
 
-int ETHAudioResourceManager::GetNumResources()
+std::size_t ETHAudioResourceManager::GetNumResources()
 {
 	return m_resource.size();
 }

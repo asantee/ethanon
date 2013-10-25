@@ -153,7 +153,7 @@ void ETHEntityRenderingManager::ReleaseMappedPieces()
 	m_piecesToRender.clear();
 }
 
-unsigned int ETHEntityRenderingManager::GetNumLights() const
+std::size_t ETHEntityRenderingManager::GetNumLights() const
 {
 	return m_lights.size();
 }

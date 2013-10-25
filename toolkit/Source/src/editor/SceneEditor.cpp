@@ -1005,7 +1005,7 @@ void SceneEditor::PlaceEntitySelection()
 		if (m_currentEntityIdx >= static_cast<int>(m_entityFiles.size()))
 			m_currentEntityIdx = 0;
 		if (m_currentEntityIdx < 0)
-			m_currentEntityIdx = m_entityFiles.size() - 1;
+			m_currentEntityIdx = static_cast<int>(m_entityFiles.size()) - 1;
 
 		// move the entity up and down (along the Z axis)
 		if (input->GetKeyState(GSK_PAGEUP) == GSKS_HIT)
@@ -1410,7 +1410,7 @@ void SceneEditor::DrawEntitySelectionGrid(SpritePtr pNextAppButton)
 			if (m_provider->GetInput()->GetKeyState(GSK_LMOUSE) == GSKS_HIT)
 			{
 				m_v3Pos.z = 0.0f;
-				m_currentEntityIdx = t;
+				m_currentEntityIdx = static_cast<int>(t);
 				SetPlacingMode();
 			}
 
@@ -1520,7 +1520,7 @@ int SceneEditor::GetEntityByName(const std::string &name)
 	{
 		if (m_entityFiles[t]->entityName == name)
 		{
-			return t;
+			return static_cast<int>(t);
 		}
 	}
 	return -1;

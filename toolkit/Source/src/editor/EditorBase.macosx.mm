@@ -59,7 +59,7 @@ static bool OpenPanel(
 	NSURL* initPath = [NSURL URLWithString:[NSString stringWithUTF8String:initDirectory.c_str()]];
 	[panel setDirectoryURL:initPath];
 
-	const int i = [panel runModal];
+	const long i = [panel runModal];
 	const bool r = (i == NSFileHandlingPanelOKButton);
 
 	if (r)

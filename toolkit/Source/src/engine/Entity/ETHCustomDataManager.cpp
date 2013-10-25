@@ -407,7 +407,7 @@ bool ETHCustomDataManager::EraseData(const str_type::string &name)
 
 unsigned int ETHCustomDataManager::GetNumVariables() const
 {
-	return m_data.size();
+	return static_cast<unsigned int>(m_data.size());
 }
 
 void ETHCustomDataManager::Clear()

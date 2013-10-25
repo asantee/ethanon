@@ -56,7 +56,7 @@ public:
 		const bool cutOutBlackPixels,
 		const bool temporary = false);
 
-	int GetNumResources();
+	std::size_t GetNumResources();
 	void ReleaseResources();
 	void ReleaseTemporaryResources();
 
@@ -102,7 +102,7 @@ public:
 		const str_type::string& path,
 		const Audio::SAMPLE_TYPE type);
 
-	int GetNumResources();
+	std::size_t GetNumResources();
 
 	void ReleaseResources();
 

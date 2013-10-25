@@ -236,7 +236,7 @@ ETHPhysicsEntityControllerPtr ETHPhysicsController::GetEntityController()
 
 unsigned int ETHPhysicsController::GetNumJoints() const
 {
-	return m_controller->GetNumJoints();
+	return static_cast<unsigned int>(m_controller->GetNumJoints());
 }
 
 b2RevoluteJoint* ETHPhysicsController::GetRevoluteJoint(const unsigned int idx)

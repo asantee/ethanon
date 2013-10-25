@@ -34,7 +34,7 @@ class ETHFileChangeDetector
 	gs2d::str_type::string m_fileContent;
 	bool m_fileChanged;
 	static const unsigned int m_timeStrideMS;
-	unsigned int m_lastTime;
+	unsigned long m_lastTime;
 
 public:
 

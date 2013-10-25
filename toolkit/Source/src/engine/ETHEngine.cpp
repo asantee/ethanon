@@ -429,7 +429,7 @@ bool ETHEngine::CheckAngelScriptError(const bool error, const str_type::string &
 	}
 }
 
-void ETHEngine::DrawTopLayer(const unsigned int lastFrameElapsedTimeMS)
+void ETHEngine::DrawTopLayer(const unsigned long lastFrameElapsedTimeMS)
 {
 	m_drawableManager.DrawTopLayer(lastFrameElapsedTimeMS, m_provider->GetVideo());
 }
@@ -497,12 +497,12 @@ void ETHEngine::ExceptionCallback(asIScriptContext *ctx, void *param)
 
 	for (std::size_t n = 0; n < ctx->GetCallstackSize(); n++)
 	{
-		asIScriptFunction* stackedFunction = ctx->GetFunction(n);
+		asIScriptFunction* stackedFunction = ctx->GetFunction(static_cast<asUINT>(n));
 		if (stackedFunction != NULL)
 		{
 			const str_type::string section = RemoveResourceDirectoryFromSectionString(stackedFunction->GetScriptSectionName());
 			ss << GS_L("    ") << stackedFunction->GetDeclaration()
-			   << GS_L(" (") << section << GS_L(", ") << ctx->GetLineNumber(n) << GS_L(")") << std::endl;
+			   << GS_L(" (") << section << GS_L(", ") << ctx->GetLineNumber(static_cast<asUINT>(n)) << GS_L(")") << std::endl;
 		}
 	}
 	ss << std::endl;

@@ -186,7 +186,7 @@ private:
 	int m_nActiveParticles;
 	Vector2 m_v2Move;
 
-	static void BubbleSort(std::vector<PARTICLE> &v);
+	static void Sort(std::vector<PARTICLE> &v);
 
 	/// Create a particle system
 	bool CreateParticleSystem(

@@ -541,7 +541,7 @@ void ETHEntity::Scale(const Vector2& scale)
 	m_properties.scale = m_properties.scale * scale;
 	for (std::size_t t = 0; t < GetNumParticleSystems(); t++)
 	{
-		ScaleParticleSystem(t, (scale.x + scale.y) / 2.0f);
+		ScaleParticleSystem(static_cast<unsigned int>(t), (scale.x + scale.y) / 2.0f);
 	}
 	m_controller->Scale(scale, this);
 }
@@ -551,7 +551,7 @@ void ETHEntity::Scale(const float scale)
 	m_properties.scale *= scale;
 	for (std::size_t t = 0; t < GetNumParticleSystems(); t++)
 	{
-		ScaleParticleSystem(t, scale);
+		ScaleParticleSystem(static_cast<unsigned int>(t), scale);
 	}
 	m_controller->Scale(Vector2(scale, scale), this);
 }

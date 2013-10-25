@@ -55,7 +55,7 @@ public:
 		const float parallaxIntensity);
 
 	bool DrawParticles(
-		const unsigned int n,
+		const std::size_t n,
 		const float maxHeight,
 		const float minHeight,
 		const ETHSceneProperties& sceneProps);

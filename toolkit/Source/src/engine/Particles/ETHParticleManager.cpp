@@ -284,9 +284,9 @@ bool ETHParticleManager::Play(const Vector2 &v2Pos, const Vector3 &v3Pos, const 
 	return true;
 }
 
-void ETHParticleManager::BubbleSort(std::vector<PARTICLE> &v)
+void ETHParticleManager::Sort(std::vector<PARTICLE> &v)
 {
-	const int len = v.size();
+	const int len = static_cast<int>(v.size());
 	for (int j = len - 1; j > 0; j--)
 	{
 		bool leave = true;
@@ -357,7 +357,7 @@ bool ETHParticleManager::DrawParticleSystem(
 	// if the alpha blending is not additive, we'll have to sort it
 	if (alpha == Video::AM_PIXEL)
 	{
-		BubbleSort(m_particles);
+		Sort(m_particles);
 	}
 
 	const bool shouldUseHightlightPS = m_system.ShouldUseHighlightPS();

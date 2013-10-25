@@ -49,7 +49,7 @@ public:
 
 	float ComputeDrawHash(VideoPtr video, const float entityDepth, const ETHSpriteEntity* entity) const;
 
-	unsigned int GetNumLights() const;
+	std::size_t GetNumLights() const;
 
 	void AddLight(const ETHLight &light, const ETHSceneProperties& props);
 

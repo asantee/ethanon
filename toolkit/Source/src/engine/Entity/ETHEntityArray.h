@@ -40,6 +40,10 @@ public:
 	unsigned int size() const;
 	ETHEntityRawPtr& operator[] (const unsigned int index);
 	const ETHEntityRawPtr& operator[] (const unsigned int index) const;
+
+	ETHEntityRawPtr& operator[] (const unsigned long index);
+	const ETHEntityRawPtr& operator[] (const unsigned long index) const;
+
 	void clear();
 	ETHEntityArray& operator+=(const ETHEntityArray& other);
 	void unique();

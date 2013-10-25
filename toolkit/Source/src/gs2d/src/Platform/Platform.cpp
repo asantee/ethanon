@@ -90,7 +90,7 @@ std::string AddLastSlash(const std::string& path)
 gs2d::str_type::string RemoveExtension(const gs2d::str_type::char_t* source)
 {
 	gs2d::str_type::string dest = source;
-	const int max = dest.length() - 1;
+	const int max = static_cast<int>(dest.length()) - 1;
 	for (int t = max - 1; t >= 0; t--)
 	{
 		if (source[t] == Platform::GetDirectorySlashA())

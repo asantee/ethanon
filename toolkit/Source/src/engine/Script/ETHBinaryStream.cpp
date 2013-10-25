@@ -35,7 +35,7 @@ void ETHBinaryStream::Read(void *ptr, asUINT size)
 	assert(m_buffer->GetAddress());
 	if (m_inCarret + size > static_cast<unsigned int>(m_buffer->GetBufferSize()))
 	{
-		size = m_buffer->GetBufferSize() - m_inCarret;
+		size = static_cast<asUINT>(m_buffer->GetBufferSize() - m_inCarret);
 	}
 	memcpy(ptr, &(m_buffer->GetAddress()[m_inCarret]), size);
 	m_inCarret += size;

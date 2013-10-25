@@ -178,7 +178,7 @@ private:
 	asIScriptContext *m_pContext;
 	float m_maxSceneHeight, m_minSceneHeight;
 	int m_idCounter;
-	int m_nCurrentLights;
+	unsigned int m_nCurrentLights;
 	int m_nRenderedEntities;
 	bool m_enableZBuffer;
 	float m_bucketClearenceFactor;
