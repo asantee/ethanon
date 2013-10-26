@@ -28,6 +28,7 @@
 #include "../Shader/ETHShaderManager.h"
 
 #include "../Resource/ETHResourceProvider.h"
+#include "../Resource/ETHDirectories.h"
 
 #include "../Physics/ETHPhysicsSimulator.h"
 
@@ -47,6 +48,7 @@ ETHScene::ETHScene(
 	const ETHSceneProperties& props,
 	asIScriptModule *pModule,
 	asIScriptContext *pContext,
+	ETHEntityCache& entityCache,
 	const Vector2& v2BucketSize) :
 	m_renderingManager(provider),
 	m_buckets(provider, v2BucketSize, true),
@@ -54,7 +56,7 @@ ETHScene::ETHScene(
 	m_physicsSimulator(provider->GetGlobalScaleManager(), provider->GetVideo()->GetFPSRate())
 {
 	Init(provider, props, pModule, pContext);
-	LoadFromFile(fileName);
+	LoadFromFile(fileName, entityCache, m_provider->GetFileIOHub()->GetResourceDirectory() + ETHDirectories::GetEntityDirectory());
 }
 
 ETHScene::ETHScene(
@@ -106,7 +108,7 @@ void ETHScene::ClearResources()
 	m_provider->GetAudioResourceManager()->ReleaseResources();
 }
 
-bool ETHScene::SaveToFile(const str_type::string& fileName)
+bool ETHScene::SaveToFile(const str_type::string& fileName, ETHEntityCache& entityCache)
 {
 	if (m_buckets.IsEmpty())
 	{
@@ -137,7 +139,12 @@ bool ETHScene::SaveToFile(const str_type::string& fileName)
 		ETHEntityList::const_iterator iEnd = bucketIter->second.end();
 		for (ETHEntityList::iterator iter = bucketIter->second.begin(); iter != iEnd; ++iter)
 		{
-			(*iter)->WriteToXMLFile(pEntities);
+			(*iter)->WriteToXMLFile(
+				pEntities,
+				entityCache,
+				m_provider->GetFileIOHub()->GetResourceDirectory() + ETHDirectories::GetEntityDirectory(),
+				m_provider->GetFileManager());
+
 			#if defined(_DEBUG) || defined(DEBUG)
 			ETH_STREAM_DECL(ss) << GS_L("Entity written to file: ") << (*iter)->GetEntityName();
 			m_provider->Log(ss.str(), Platform::FileLogger::INFO);
@@ -149,7 +156,10 @@ bool ETHScene::SaveToFile(const str_type::string& fileName)
 	return true;
 }
 
-bool ETHScene::LoadFromFile(const str_type::string& fileName)
+bool ETHScene::LoadFromFile(
+	const str_type::string& fileName,
+	ETHEntityCache& entityCache,
+	const str_type::string &entityPath)
 {
 	Platform::FileManagerPtr fileManager = m_provider->GetFileManager();
 
@@ -183,10 +193,13 @@ bool ETHScene::LoadFromFile(const str_type::string& fileName)
 		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
 		return false;
 	}
-	return ReadFromXMLFile(pElement);
+	return ReadFromXMLFile(pElement, entityCache, entityPath);
 }
 
-bool ETHScene::ReadFromXMLFile(TiXmlElement *pRoot)
+bool ETHScene::ReadFromXMLFile(
+	TiXmlElement *pRoot,
+	ETHEntityCache& entityCache,
+	const str_type::string &entityPath)
 {
 	m_sceneProps.ReadFromXMLFile(pRoot);
 	TiXmlNode *pNode = pRoot->FirstChild(GS_L("EntitiesInScene"));
@@ -203,7 +216,7 @@ bool ETHScene::ReadFromXMLFile(TiXmlElement *pRoot)
 				{
 					do
 					{
-						ETHRenderEntity* entity = new ETHRenderEntity(pEntityIter, m_provider);
+						ETHRenderEntity* entity = new ETHRenderEntity(pEntityIter, m_provider, entityCache, entityPath);
 						AddEntity(entity);
 						pEntityIter = pEntityIter->NextSiblingElement();
 					} while (pEntityIter);

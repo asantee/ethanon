@@ -31,8 +31,16 @@ class ETHSpriteEntity : public ETHEntity
 {
 public:
 	ETHSpriteEntity(const str_type::string& filePath, ETHResourceProviderPtr provider, const int nId =-1);
-	ETHSpriteEntity(TiXmlElement *pElement, ETHResourceProviderPtr provider);
-	ETHSpriteEntity(ETHResourceProviderPtr provider, const ETHEntityProperties& properties, const float angle, const float scale);
+	ETHSpriteEntity(
+		TiXmlElement *pElement,
+		ETHResourceProviderPtr provider,
+		ETHEntityCache& entityCache,
+		const str_type::string& entityPath);
+	ETHSpriteEntity(
+		ETHResourceProviderPtr provider,
+		const ETHEntityProperties& properties,
+		const float angle,
+		const float scale);
 	ETHSpriteEntity(ETHResourceProviderPtr provider);
 
 	void Refresh(const ETHEntityProperties& properties);

@@ -22,6 +22,8 @@
 
 #include "ETHEntityCache.h"
 
+#include "ETHEntityProperties.h"
+
 const ETHEntityProperties* ETHEntityCache::Get(const str_type::string& fileName, const str_type::string& filePath, const Platform::FileManagerPtr& fileManager)
 {
 	std::map<str_type::string, ETHEntityProperties>::iterator iter = m_props.find(fileName);
@@ -31,15 +33,17 @@ const ETHEntityProperties* ETHEntityCache::Get(const str_type::string& fileName,
 	}
 	else
 	{
-		ETHEntityProperties props(filePath + fileName, fileManager);
-		if (props.IsSuccessfullyLoaded())
+		const str_type::string fullFilePath = filePath + fileName;
+		
+		if (fileManager->FileExists(fullFilePath))
 		{
-			m_props[fileName] = props;
-			return &(m_props[fileName]);
-		}
-		else
-		{
-			return 0;
+			ETHEntityProperties props(fullFilePath, fileManager);
+			if (props.IsSuccessfullyLoaded())
+			{
+				m_props[fileName] = props;
+				return &(m_props[fileName]);
+			}
 		}
 	}
+	return 0;
 }

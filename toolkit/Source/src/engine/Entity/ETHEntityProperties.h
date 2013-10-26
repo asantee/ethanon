@@ -24,8 +24,11 @@
 #define ETH_ENTITY_PROPERTIES_H_
 
 #include "ETHLight.h"
+
 #include "../Particles/ETHParticleManager.h"
+
 #include "ETHCustomDataManager.h"
+
 #include "../Physics/ETHPolygon.h"
 #include "../Physics/ETHCompoundShape.h"
 #include "../Physics/ETHCollisionBox.h"
@@ -65,6 +68,8 @@ public:
 	unsigned int GetNumFrames() const;
 };
 
+class ETHEntityCache;
+
 class ETHEntityProperties : public ETHEntitySpriteProperties, public ETHCustomDataManager
 {
 	friend class ETHEntity;
@@ -103,10 +108,18 @@ public:
 	ETHEntityProperties();
 	bool IsCollidable() const;
 	void Reset();
-	bool SaveToFile(const str_type::string& filePath, const Platform::FileManagerPtr& fileManager);
+	bool SaveToFile(const str_type::string& filePath);
+
+	bool ReadFromXMLFile(
+		TiXmlElement *pElement,
+		ETHEntityCache& entityCache,
+		const str_type::string &entityPath,
+		Platform::FileManagerPtr fileManager);
 	bool ReadFromXMLFile(TiXmlElement *pElement);
-	bool WriteToXMLFile(TiXmlElement *pHeadRoot) const;
 	bool IsSuccessfullyLoaded() const;
+
+	bool WriteContentToXMLFile(TiXmlElement *pHeadRoot) const;
+	bool WriteEntityNameToXMLFile(TiXmlElement *pHeadRoot) const;
 
 	static ETHParticleManager::DEPTH_SORTING_MODE ResolveDepthSortingMode(const ENTITY_TYPE type);
 

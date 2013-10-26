@@ -536,7 +536,7 @@ bool ETHScriptWrapper::SaveScene(const str_type::string &escFile)
 	str_type::string fileName = m_provider->GetFileIOHub()->GetResourceDirectory();
 	fileName += escFile;
 
-	return m_pScene->SaveToFile(fileName);
+	return m_pScene->SaveToFile(fileName, m_entityCache);
 }
 
 void ETHScriptWrapper::ReleaseResources()
@@ -571,7 +571,15 @@ bool ETHScriptWrapper::LoadScene(const str_type::string &escFile, const Vector2&
 	// if the name is set to _ETH_EMPTY_SCENE_STRING, don't load anything
 	if (escFile != _ETH_EMPTY_SCENE_STRING && escFile.size() > 0)
 	{
-		m_pScene = ETHScenePtr(new ETHScene(fileName, m_provider, ETHSceneProperties(), m_pASModule, m_pScriptContext, bucketSize));
+		m_pScene = ETHScenePtr(
+			new ETHScene(
+				fileName,
+				m_provider,
+				ETHSceneProperties(),
+				m_pASModule,
+				m_pScriptContext,
+				m_entityCache,
+				bucketSize));
 	}
 	else
 	{

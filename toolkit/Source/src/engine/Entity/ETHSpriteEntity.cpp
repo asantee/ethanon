@@ -21,9 +21,14 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHSpriteEntity.h"
+#include "ETHEntityCache.h"
+
 #include "../Shader/ETHShaderManager.h"
+
 #include "../Physics/ETHPhysicsController.h"
+
 #include "../Resource/ETHDirectories.h"
+
 #include <iostream>
 
 const float ETHSpriteEntity::m_layrableMinimumDepth(0.001f);
@@ -36,8 +41,12 @@ ETHSpriteEntity::ETHSpriteEntity(const str_type::string& filePath, ETHResourcePr
 	Create();
 }
 
-ETHSpriteEntity::ETHSpriteEntity(TiXmlElement *pElement, ETHResourceProviderPtr provider) :
-	ETHEntity(pElement),
+ETHSpriteEntity::ETHSpriteEntity(
+	TiXmlElement *pElement,
+	ETHResourceProviderPtr provider,
+	ETHEntityCache& entityCache,
+	const str_type::string& entityPath) :
+	ETHEntity(pElement, entityCache, entityPath, provider->GetFileManager()),
 	m_provider(provider)
 {
 	Zero();

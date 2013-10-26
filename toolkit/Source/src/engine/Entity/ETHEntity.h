@@ -26,7 +26,11 @@
 #include "ETHEntityProperties.h"
 #include "ETHScriptEntity.h"
 #include "ETHEntityController.h"
+
 #include "../Physics/ETHCompoundShape.h"
+
+#include "../Entity/ETHEntityCache.h"
+
 #include "../addons/scriptdictionary.h"
 
 class ETHEntity : public ETHScriptEntity
@@ -37,13 +41,20 @@ public:
 	static float ComputeDepth(const float height, const float maxHeight, const float minHeight);
 
 	ETHEntity(const str_type::string& filePath, const int nId, const Platform::FileManagerPtr& fileManager);
-	ETHEntity(TiXmlElement *pElement);
+	ETHEntity(TiXmlElement *pElement,
+		ETHEntityCache& entityCache,
+		const str_type::string &entityPath,
+		Platform::FileManagerPtr fileManager);
 	ETHEntity();
 	~ETHEntity();
 
 	virtual void Refresh(const ETHEntityProperties& properties) = 0;
 
-	bool WriteToXMLFile(TiXmlElement *pHeadRoot) const;
+	bool WriteToXMLFile(
+		TiXmlElement *pHeadRoot,
+		ETHEntityCache& entityCache,
+		const str_type::string &entityPath,
+		Platform::FileManagerPtr fileManager) const;
 
 	ETH_INLINE const ETHEntityProperties* GetProperties() const { return &m_properties; };
 	ETHEntityControllerPtr GetController();
@@ -213,8 +224,17 @@ public:
 
 private:
 	void Zero();
+
 	void SetID(const int id) { m_id = id; }
+
+	bool ReadFromXMLFile(
+		TiXmlElement *pElement,
+		ETHEntityCache& entityCache,
+		const str_type::string &entityPath,
+		Platform::FileManagerPtr fileManager);
 	bool ReadFromXMLFile(TiXmlElement *pElement);
+	void ReadInSceneDataFromXMLFile(TiXmlElement *pElement);
+
 	int m_id;
 
 	CScriptDictionary *m_gcDict;	// will be used to store script objects since we don't want to 

@@ -75,9 +75,22 @@ bool SceneEditor::ProjectManagerRequested()
 void SceneEditor::RebuildScene(const str_type::string& fileName)
 {
 	if (fileName != _ETH_EMPTY_SCENE_STRING)
-		m_pScene = ETHScenePtr(new ETHScene(fileName, m_provider, ETHSceneProperties(), 0, 0, _ETH_SCENE_EDITOR_BUCKET_SIZE));
+	{
+		ETHEntityCache entityCache;
+		m_pScene = ETHScenePtr(
+			new ETHScene(
+				fileName,
+				m_provider,
+				ETHSceneProperties(),
+				0,
+				0,
+				entityCache,
+				_ETH_SCENE_EDITOR_BUCKET_SIZE));
+	}
 	else
+	{
 		m_pScene = ETHScenePtr(new ETHScene(m_provider, ETHSceneProperties(), 0, 0, _ETH_SCENE_EDITOR_BUCKET_SIZE));
+	}
 	m_sceneProps = *m_pScene->GetSceneProperties();
 	m_pSelected = 0;
 	m_genLightmapForThisOneOnly =-1;
@@ -1565,7 +1578,8 @@ bool SceneEditor::SaveAs()
 	{
 		std::string sOut;
 		AddExtension(path, ".esc", sOut);
-		if (m_pScene->SaveToFile(sOut))
+		ETHEntityCache entityCache;
+		if (m_pScene->SaveToFile(sOut, entityCache))
 		{
 			SetCurrentFile(sOut.c_str());
 			CreateFileUpdateDetector(GetCurrentFile(true));
@@ -1576,7 +1590,8 @@ bool SceneEditor::SaveAs()
 
 bool SceneEditor::Save()
 {
-	m_pScene->SaveToFile(GetCurrentFile(true));
+	ETHEntityCache entityCache;
+	m_pScene->SaveToFile(GetCurrentFile(true), entityCache);
 	CreateFileUpdateDetector(GetCurrentFile(true));
 	return true;
 }

@@ -44,6 +44,7 @@ public:
 		const ETHSceneProperties& props,
 		asIScriptModule *pModule,
 		asIScriptContext *pContext,
+		ETHEntityCache& entityCache,
 		const Vector2 &v2BucketSize = Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
 
 	ETHScene(
@@ -59,7 +60,7 @@ public:
 
 	void RenderScene(const bool roundUp, const ETHBackBufferTargetManagerPtr& backBuffer);
 
-	bool SaveToFile(const str_type::string& fileName);
+	bool SaveToFile(const str_type::string& fileName, ETHEntityCache& entityCache);
 	int AddEntity(ETHRenderEntity* pEntity);
 	int AddEntity(ETHRenderEntity* pEntity, const str_type::string& alternativeName);
 	void SetSceneProperties(const ETHSceneProperties &prop);
@@ -137,7 +138,10 @@ public:
 	void AddEntityToPersistentList(ETHRenderEntity* entity);
 
 private:
-	bool LoadFromFile(const str_type::string& fileName);
+	bool LoadFromFile(
+		const str_type::string& fileName,
+		ETHEntityCache& entityCache,
+		const str_type::string &entityPath);
 
 	void Init(ETHResourceProviderPtr provider, const ETHSceneProperties& props, asIScriptModule *pModule, asIScriptContext *pContext);
 
@@ -156,7 +160,10 @@ private:
 		asIScriptFunction* constructorCallback);
 
 	bool DrawBucketOutlines(const ETHBackBufferTargetManagerPtr& backBuffer);
-	bool ReadFromXMLFile(TiXmlElement *pElement);
+	bool ReadFromXMLFile(
+		TiXmlElement *pElement,
+		ETHEntityCache& entityCache,
+		const str_type::string &entityPath);
 
 	void FillCurrentlyVisibleBucketList(std::list<Vector2>& bucketList, const ETHBackBufferTargetManagerPtr& backBuffer);
 

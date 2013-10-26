@@ -21,7 +21,11 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHEntityProperties.h"
+
+#include "ETHEntityCache.h"
+
 #include "../Resource/ETHResourceProvider.h"
+
 #include <iostream>
 
 static const str_type::string COMPOUND_SHAPE_ENML_SAMPLE(
@@ -184,9 +188,8 @@ bool ETHEntityProperties::IsSuccessfullyLoaded() const
 	return successfullyLoaded;
 }
 
-bool ETHEntityProperties::SaveToFile(const str_type::string& filePath, const Platform::FileManagerPtr& fileManager)
+bool ETHEntityProperties::SaveToFile(const str_type::string& filePath)
 {
-	GS2D_UNUSED_ARGUMENT(fileManager);
 	TiXmlDocument doc;
 	TiXmlDeclaration *pDecl = new TiXmlDeclaration(GS_L("1.0"), GS_L(""), GS_L(""));
 	doc.LinkEndChild(pDecl);
@@ -194,9 +197,33 @@ bool ETHEntityProperties::SaveToFile(const str_type::string& filePath, const Pla
 	TiXmlElement *pElement = new TiXmlElement(GS_L("Ethanon"));
 	doc.LinkEndChild(pElement);
 
-	WriteToXMLFile(doc.RootElement());
+	WriteContentToXMLFile(doc.RootElement());
 	doc.SaveFile(filePath);
 	return true;
+}
+
+bool ETHEntityProperties::ReadFromXMLFile(
+	TiXmlElement *pElement,
+	ETHEntityCache& entityCache,
+	const str_type::string &entityPath,
+	Platform::FileManagerPtr fileManager)
+{
+	TiXmlNode *pNode = pElement->FirstChild(GS_L("FileName"));
+	if (pNode)
+	{
+		const ETHEntityProperties* props = entityCache.Get(entityName, entityPath, fileManager);
+		if (props)
+		{
+			*this = *props;
+			ReadDataFromXMLFile(pElement);
+			return true;
+		}
+	}
+	else
+	{
+		return ReadFromXMLFile(pElement);
+	}
+	return false;
 }
 
 bool ETHEntityProperties::ReadFromXMLFile(TiXmlElement *pElement)
@@ -388,7 +415,20 @@ bool ETHEntityProperties::ReadFromXMLFile(TiXmlElement *pElement)
 	return true;
 }
 
-bool ETHEntityProperties::WriteToXMLFile(TiXmlElement *pHeadRoot) const
+bool ETHEntityProperties::WriteEntityNameToXMLFile(TiXmlElement *pHeadRoot) const
+{
+	TiXmlElement *pRoot = new TiXmlElement(GS_L("Entity"));
+	pHeadRoot->LinkEndChild(pRoot);
+	
+	TiXmlElement *pElement = new TiXmlElement(GS_L("FileName"));
+	pElement->LinkEndChild(new TiXmlText(entityName));
+	pRoot->LinkEndChild(pElement);
+	
+	WriteDataToFile(pRoot);
+	return true;
+}
+
+bool ETHEntityProperties::WriteContentToXMLFile(TiXmlElement *pHeadRoot) const
 {
 	TiXmlElement *pRoot = new TiXmlElement(GS_L("Entity"));
 	pHeadRoot->LinkEndChild(pRoot); 

@@ -28,8 +28,12 @@ ETHRenderEntity::ETHRenderEntity(const str_type::string& filePath, ETHResourcePr
 {
 }
 
-ETHRenderEntity::ETHRenderEntity(TiXmlElement *pElement, ETHResourceProviderPtr provider) :
-	ETHSpriteEntity(pElement, provider)
+ETHRenderEntity::ETHRenderEntity(
+	TiXmlElement *pElement,
+	ETHResourceProviderPtr provider,
+	ETHEntityCache& entityCache,
+	const str_type::string &entityPath) :
+	ETHSpriteEntity(pElement, provider, entityCache, entityPath)
 {
 }
 
