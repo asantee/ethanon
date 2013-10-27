@@ -161,10 +161,7 @@ ETHEntityProperties::ETHEntityProperties(const str_type::string& filePath, const
 
 	hRoot = TiXmlHandle(pElem);
 	entityName = Platform::GetFileName(filePath);
-	if (ReadFromXMLFile(hRoot.FirstChildElement().Element()))
-	{
-		successfullyLoaded = true;
-	}
+	ReadFromXMLFile(hRoot.FirstChildElement().Element());
 }
 
 void ETHEntityProperties::Reset()
@@ -216,7 +213,7 @@ bool ETHEntityProperties::ReadFromXMLFile(
 		{
 			*this = *props;
 			ReadDataFromXMLFile(pElement);
-			return true;
+			return (successfullyLoaded = true);
 		}
 	}
 	else
@@ -412,7 +409,7 @@ bool ETHEntityProperties::ReadFromXMLFile(TiXmlElement *pElement)
 		}
 	}
 	ReadDataFromXMLFile(pElement);
-	return true;
+	return (successfullyLoaded = true);
 }
 
 bool ETHEntityProperties::WriteEntityNameToXMLFile(TiXmlElement *pHeadRoot) const

@@ -181,8 +181,7 @@ bool ETHEntity::ReadFromXMLFile(TiXmlElement *pElement)
 	TiXmlNode *pNode = pElement->FirstChild(GS_L("Entity"));
 	if (pNode)
 	{
-		m_properties.ReadFromXMLFile(pNode->ToElement());
-		return true;
+		return m_properties.ReadFromXMLFile(pNode->ToElement());
 	}
 	else
 	{
@@ -200,8 +199,7 @@ bool ETHEntity::ReadFromXMLFile(
 	TiXmlNode *pNode = pElement->FirstChild(GS_L("Entity"));
 	if (pNode)
 	{
-		m_properties.ReadFromXMLFile(pNode->ToElement(), entityCache, entityPath, fileManager);
-		return true;
+		return m_properties.ReadFromXMLFile(pNode->ToElement(), entityCache, entityPath, fileManager);
 	}
 	else
 	{

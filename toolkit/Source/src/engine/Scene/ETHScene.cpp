@@ -165,7 +165,7 @@ bool ETHScene::LoadFromFile(
 
 	if (!fileManager->FileExists(fileName))
 	{
-		ETH_STREAM_DECL(ss) << GS_L("ETHScene::Open: file not found (") << fileName << GS_L(")");
+		ETH_STREAM_DECL(ss) << GS_L("ETHScene::LoadFromFile: file not found (") << fileName << GS_L(")");
 		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
 		return false;
 	}
@@ -178,7 +178,7 @@ bool ETHScene::LoadFromFile(
 	fileManager->GetUTFFileString(fileName, content);
 	if (!doc.LoadFile(content, TIXML_ENCODING_LEGACY))
 	{
-		ETH_STREAM_DECL(ss) << GS_L("ETHScene::Open: file found, but parsing failed (") << fileName << GS_L(")");
+		ETH_STREAM_DECL(ss) << GS_L("ETHScene::LoadFromFile: file found, but parsing failed (") << fileName << GS_L(")");
 		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
 		return false;
 	}
@@ -189,20 +189,26 @@ bool ETHScene::LoadFromFile(
 	TiXmlElement *pElement = hDoc.FirstChildElement().Element();
 	if (!pElement)
 	{
-		ETH_STREAM_DECL(ss) << GS_L("ETHScene::Open: couldn't find root element (") << fileName << GS_L(")");
+		ETH_STREAM_DECL(ss) << GS_L("ETHScene::LoadFromFile: couldn't find root element (") << fileName << GS_L(")");
 		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
 		return false;
 	}
-	return ReadFromXMLFile(pElement, entityCache, entityPath);
+	return ReadFromXMLFile(fileName, pElement, entityCache, entityPath);
 }
 
 bool ETHScene::ReadFromXMLFile(
+	const str_type::string& fileName,
 	TiXmlElement *pRoot,
 	ETHEntityCache& entityCache,
 	const str_type::string &entityPath)
 {
+	str_type::stringstream ss;
+	const str_type::string sceneFileName = Platform::GetFileName(fileName.c_str());
+
 	m_sceneProps.ReadFromXMLFile(pRoot);
+
 	TiXmlNode *pNode = pRoot->FirstChild(GS_L("EntitiesInScene"));
+
 	if (pNode)
 	{
 		TiXmlElement *pEntities = pNode->ToElement();
@@ -217,7 +223,25 @@ bool ETHScene::ReadFromXMLFile(
 					do
 					{
 						ETHRenderEntity* entity = new ETHRenderEntity(pEntityIter, m_provider, entityCache, entityPath);
-						AddEntity(entity);
+						const ETHEntityProperties* entityProperties = entity->GetProperties();
+
+						if (entityProperties->IsSuccessfullyLoaded())
+						{
+							AddEntity(entity);
+						}
+						else
+						{
+							ss << std::endl
+								<< sceneFileName
+								<< GS_L(": couldn't load entity ")
+								<< entityProperties->entityName
+								<< GS_L("(")
+								<< entityPath
+								<< entityProperties->entityName
+								<< GS_L(")")
+								<< std::endl;
+						}
+
 						pEntityIter = pEntityIter->NextSiblingElement();
 					} while (pEntityIter);
 				}
@@ -225,6 +249,11 @@ bool ETHScene::ReadFromXMLFile(
 		}
 	}
 	m_provider->GetShaderManager()->SetParallaxIntensity(m_sceneProps.parallaxIntensity);
+
+	if (!ss.str().empty())
+	{
+		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
+	}
 	return true;
 }
 

@@ -161,6 +161,7 @@ private:
 
 	bool DrawBucketOutlines(const ETHBackBufferTargetManagerPtr& backBuffer);
 	bool ReadFromXMLFile(
+		const str_type::string& fileName,
 		TiXmlElement *pElement,
 		ETHEntityCache& entityCache,
 		const str_type::string &entityPath);
