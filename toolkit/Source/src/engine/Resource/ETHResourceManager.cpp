@@ -21,9 +21,12 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHResourceManager.h"
+
 #include <Platform/Platform.h>
 
 #include "ETHResourceProvider.h"
+
+const gs2d::str_type::string ETHGraphicResourceManager::SD_EXPANSION_FILE_PATH = "com.ethanonengine.expansionFile.path";
 
 static str_type::string RemoveResourceDirectory(
 	const str_type::string& resourceDirectory,

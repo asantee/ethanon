@@ -39,14 +39,17 @@ class ETHScriptWrapper
 	static bool m_runningMainFunction;
 	static bool m_persistentResources;
 	static unsigned long m_lastFrameElapsedTime;
-
+	
 protected:
+	static Platform::FileManagerPtr m_expansionFileManager;
+
 	static void SetLastFrameElapsedTime(const unsigned long lastFrameElapsedTime);
 
 	enum GARBAGE_COLLECT_MODE
 	{
 		ONE_STEP = 0, DESTROY_ALL_GARBAGE = 1, FULL_CYCLE = 2
 	};
+
 	static GARBAGE_COLLECT_MODE m_gcMode;
 
 	static void DrawBlackCurtain();
@@ -327,6 +330,7 @@ public:
 	static bool IsPackLoadingEnabled();
 	static void DisablePackLoading();
 	static bool IsResourcePackingSupported();
+	static bool EnableLightmapsFromExpansionPack(const bool enable);
 
 	static void SetHighEndDevice(const bool highEnd);
 	static bool IsHighEndDevice();

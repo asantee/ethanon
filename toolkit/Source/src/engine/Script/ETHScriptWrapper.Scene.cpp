@@ -195,14 +195,6 @@ ETHEntity *ETHScriptWrapper::DeleteEntity(ETHEntity *pEntity)
 	return 0;
 }
 
-bool ETHScriptWrapper::GenerateLightmaps()
-{
-	if (!m_useLightmaps || !m_provider->IsRichLightingEnabled())
-		return false;
-	else
-		return m_pScene->GenerateLightmaps();
-}
-
 void ETHScriptWrapper::LoadLightmaps()
 {
 	if (m_usePreLoadedLightmapsFromFile)
@@ -214,7 +206,29 @@ void ETHScriptWrapper::LoadLightmaps()
 void ETHScriptWrapper::ReadLightmapsFromBitmapFiles()
 {
 	if (m_pScene)
-		m_pScene->LoadLightmapsFromBitmapFiles(GetResourceDirectory() + GetSceneFileName());
+	{
+		const str_type::string resourceDirectory = (m_expansionFileManager) ? GS_L("") : GetResourceDirectory();
+		
+		Platform::FileIOHubPtr fileIOHub = m_provider->GetFileIOHub();
+		Platform::FileManagerPtr currentFileManager     = fileIOHub->GetFileManager();
+		const str_type::string currentResourceDirectory = fileIOHub->GetResourceDirectory();
+		if (m_expansionFileManager)
+		{
+			fileIOHub->SetFileManager(m_expansionFileManager, resourceDirectory);
+		}
+		
+		m_pScene->LoadLightmapsFromBitmapFiles(resourceDirectory + GetSceneFileName());
+		
+		fileIOHub->SetFileManager(currentFileManager, currentResourceDirectory);
+	}
+}
+
+bool ETHScriptWrapper::GenerateLightmaps()
+{
+	if (!m_useLightmaps || !m_provider->IsRichLightingEnabled())
+		return false;
+	else
+		return m_pScene->GenerateLightmaps();
 }
 
 void ETHScriptWrapper::SetAmbientLight(const Vector3 &v3Color)

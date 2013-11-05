@@ -134,7 +134,7 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 	else
 	{
 		video->SetBGColor(m_lastBGColor);
-		m_pScene->RecoverResources();
+		m_pScene->RecoverResources(m_expansionFileManager);
 	}
 }
 

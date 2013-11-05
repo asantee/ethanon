@@ -878,13 +878,13 @@ unsigned int ETHScene::GetNumEntities() const
 	return m_buckets.GetNumEntities();
 }
 
-void ETHScene::RecoverResources()
+void ETHScene::RecoverResources(const Platform::FileManagerPtr& expansionFileManager)
 {
 	ETHEntityArray entities;
 	m_buckets.GetEntityArray(entities);
 	for (std::size_t t = 0; t < entities.size(); t++)
 	{
-		entities[t]->RecoverResources();
+		entities[t]->RecoverResources(expansionFileManager);
 	}
 }
 

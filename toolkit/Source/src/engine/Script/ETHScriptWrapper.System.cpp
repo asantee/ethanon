@@ -24,7 +24,7 @@
 #include "../Entity/ETHRenderEntity.h"
 #include <Platform/StdFileManager.h>
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER) || defined(ANDROID)
  #include <Platform/ZipFileManager.h>
 #endif
 
@@ -285,6 +285,36 @@ bool ETHScriptWrapper::EnablePackLoading(const str_type::string& packFileName, c
 #else
 	return false;
 #endif
+}
+
+bool ETHScriptWrapper::EnableLightmapsFromExpansionPack(const bool enable)
+{
+	m_expansionFileManager = Platform::FileManagerPtr();
+	if (enable)
+	{
+	#ifdef ANDROID
+		const str_type::string expansionFilePath = GetSharedData(ETHGraphicResourceManager::SD_EXPANSION_FILE_PATH);
+		Platform::FileManagerPtr expansionFileManager = Platform::FileManagerPtr(new Platform::ZipFileManager(expansionFilePath.c_str()));
+		if (expansionFileManager->IsLoaded())
+		{
+			m_expansionFileManager = expansionFileManager;
+			m_provider->Log(expansionFilePath + GS_L(" expansion file loaded"), Platform::Logger::INFO);
+			return true;
+		}
+		else
+		{
+			m_provider->Log(expansionFilePath + GS_L(" ERROR: file not found"), Platform::Logger::ERROR);
+			return false;
+		}
+	#else
+		m_provider->Log(GS_L("ERROR: This platform doesn't support Expansion packages"), Platform::Logger::ERROR);
+		return false;
+	#endif
+	}
+	else
+	{
+		return true;
+	}
 }
 
 void ETHScriptWrapper::DisablePackLoading()

@@ -125,7 +125,7 @@ public:
 
 	unsigned int GetNumEntities() const;
 
-	void RecoverResources();
+	void RecoverResources(const Platform::FileManagerPtr& expansionFileManager);
 	void ClearLightmaps();
 
 	void SetZBuffer(const bool enable);

@@ -116,13 +116,25 @@ void ETHSpriteEntity::Create()
 	}
 }
 
-void ETHSpriteEntity::RecoverResources()
+void ETHSpriteEntity::RecoverResources(const Platform::FileManagerPtr& expansionFileManager)
 {
 	Create();
 
 	// if it has had a pre-rendered lightmap, reload it
 	if (!m_preRenderedLightmapFilePath.empty())
+	{
+		Platform::FileIOHubPtr fileIOHub = m_provider->GetFileIOHub();
+		Platform::FileManagerPtr currentFileManager     = fileIOHub->GetFileManager();
+		const str_type::string currentResourceDirectory = fileIOHub->GetResourceDirectory();
+		if (expansionFileManager)
+		{
+			fileIOHub->SetFileManager(expansionFileManager, GS_L(""));
+		}
+
 		LoadLightmapFromFile(m_preRenderedLightmapFilePath);
+
+		fileIOHub->SetFileManager(currentFileManager, currentResourceDirectory);
+	}
 }
 
 bool ETHSpriteEntity::LoadLightmapFromFile(const str_type::string& filePath)

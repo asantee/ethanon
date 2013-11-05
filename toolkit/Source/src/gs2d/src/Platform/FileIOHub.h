@@ -24,6 +24,7 @@
 #define FILE_IO_HUB_H_
 
 #include <boost/shared_ptr.hpp>
+
 #include "FileManager.h"
 
 namespace Platform {

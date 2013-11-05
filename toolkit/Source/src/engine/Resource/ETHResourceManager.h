@@ -24,13 +24,18 @@
 #define ETH_RESOURCE_MANAGER_H_
 
 #include <Platform/FileIOHub.h>
+
 #include "../ETHTypes.h"
+
 #include "ETHSpriteDensityManager.h"
+
 #include <Audio.h>
 
 class ETHGraphicResourceManager
 {
 public:
+    static const gs2d::str_type::string SD_EXPANSION_FILE_PATH;
+
 	ETHGraphicResourceManager(const ETHSpriteDensityManager& densityManager);
 
 	class SpriteResource

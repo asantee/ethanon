@@ -116,7 +116,7 @@ public:
 
 	void LoadParticleSystem();
 
-	void RecoverResources();
+	void RecoverResources(const Platform::FileManagerPtr& expansionFileManager);
 	void ReleaseLightmap();
 
 	bool ShouldUseHighlightPixelShader() const;

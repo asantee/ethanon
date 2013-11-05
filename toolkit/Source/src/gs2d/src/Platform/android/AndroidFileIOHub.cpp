@@ -38,7 +38,8 @@ AndroidFileIOHub::AndroidFileIOHub(Platform::FileManagerPtr fileManager,
 
 void AndroidFileIOHub::SetFileManager(Platform::FileManagerPtr fileManager, const gs2d::str_type::string& resourceDirectory)
 {
-    // not supported
+    m_fileManager = fileManager;
+    SetResourceDirectory(resourceDirectory);
 }
 
 bool AndroidFileIOHub::IsResourcePackingSupported()
