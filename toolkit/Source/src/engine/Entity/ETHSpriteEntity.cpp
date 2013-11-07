@@ -126,6 +126,8 @@ void ETHSpriteEntity::RecoverResources(const Platform::FileManagerPtr& expansion
 		Platform::FileIOHubPtr fileIOHub = m_provider->GetFileIOHub();
 		Platform::FileManagerPtr currentFileManager     = fileIOHub->GetFileManager();
 		const str_type::string currentResourceDirectory = fileIOHub->GetResourceDirectory();
+
+		// gather from expansion file if it has one
 		if (expansionFileManager)
 		{
 			fileIOHub->SetFileManager(expansionFileManager, GS_L(""));
