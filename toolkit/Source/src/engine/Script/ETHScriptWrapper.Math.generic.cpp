@@ -21,7 +21,9 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHScriptWrapper.h"
+
 #include <math.h>
+
 #include "../addons/aswrappedcall.h"
 
 asDECLARE_FUNCTION_WRAPPERPR(__length2, ETHScriptWrapper::Math::Length, (const Vector2&), float);
