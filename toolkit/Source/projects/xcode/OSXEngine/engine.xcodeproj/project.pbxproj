@@ -790,9 +790,9 @@
 		74F00AC71646B9EB00B8B51B = {
 			isa = PBXGroup;
 			children = (
-				74A21A65182BFA840000F783 /* hashlib2plus */,
 				74F0D1BC169716F8009A3C78 /* SDL.framework */,
 				74F00ADC1646B9EB00B8B51B /* engine */,
+				74A21A65182BFA840000F783 /* hashlib2plus */,
 				7421F28C1647413C00C55BAE /* addons */,
 				7421F2B0164741B700C55BAE /* tinyxml */,
 				74F00AD51646B9EB00B8B51B /* Frameworks */,
@@ -1278,6 +1278,7 @@
 				GCC_WARN_UNUSED_PARAMETER = NO;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../src/gs2d/vendors/BoostSDK\"",
+					"\"$(SRCROOT)/../../../src/vendors/hashlib2plus/src\"",
 					"\"$(SRCROOT)/../../../src/gs2d/src\"",
 					"\"$(SRCROOT)/../../../src/box2d\"",
 				);
@@ -1315,6 +1316,7 @@
 				GCC_WARN_UNUSED_PARAMETER = NO;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../src/gs2d/vendors/BoostSDK\"",
+					"\"$(SRCROOT)/../../../src/vendors/hashlib2plus/src\"",
 					"\"$(SRCROOT)/../../../src/gs2d/src\"",
 					"\"$(SRCROOT)/../../../src/box2d\"",
 				);

@@ -24,11 +24,15 @@
 #define ETH_SCRIPT_WRAPPER_H_
 
 #include "../Scene/ETHScene.h"
+
 #include "../Util/ETHInput.h"
-#include "../Entity/ETHEntityCache.h"
-#include "../Drawing/ETHDrawableManager.h"
-#include "../Shader/ETHBackBufferTargetManager.h"
 #include "../Util/ETHSpeedTimer.h"
+
+#include "../Entity/ETHEntityCache.h"
+
+#include "../Drawing/ETHDrawableManager.h"
+
+#include "../Shader/ETHBackBufferTargetManager.h"
 
 #include "../../angelscript/include/angelscript.h"
 
@@ -137,6 +141,11 @@ public:
 		static int Sign(const int v);
 		static float Distance(const Vector2 &a, const Vector2 &b);
 		static float Distance(const Vector3 &a, const Vector3 &b);
+
+		// Encryption‎ functions
+		static str_type::string GetHashFromString(const str_type::string& type, const str_type::string& str);
+		static str_type::string GetMD5HashFromString(const str_type::string& str);
+		static str_type::string GetSHA1HashFromString(const str_type::string& str);
 	} m_math;
 
 	void RegisterGlobalFunctions(asIScriptEngine *pASEngine);
