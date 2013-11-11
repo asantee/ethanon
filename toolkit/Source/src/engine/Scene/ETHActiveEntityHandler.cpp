@@ -21,6 +21,7 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHActiveEntityHandler.h"
+
 #include "../Entity/ETHRenderEntity.h"
 
 ETHActiveEntityHandler::ETHActiveEntityHandler(ETHResourceProviderPtr provider) :
