@@ -33,16 +33,23 @@ class ETHEntityArray;
 #include "../Resource/ETHResourceProvider.h"
 
 #include <list>
+#include <map>
 
 // Vector2 hash function
 namespace boost {
 std::size_t hash_value(Vector2 const& p);
 } // namepace boost
 
+struct BUCKET_COMP
+{
+	bool operator() (const Vector2& lhs, const Vector2& rhs) const;
+};
+
 #include <boost/unordered/unordered_map.hpp>
 
 typedef std::list<ETHRenderEntity*> ETHEntityList;
 typedef boost::unordered_map<Vector2, ETHEntityList, boost::hash<Vector2> > ETHBucketMap;
+typedef std::map<Vector2, ETHEntityList, BUCKET_COMP> ETHOrderedBucketMap;
 
 class ETHEntityChooser;
 

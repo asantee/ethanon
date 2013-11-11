@@ -133,8 +133,9 @@ bool ETHScene::SaveToFile(const str_type::string& fileName, ETHEntityCache& enti
 	TiXmlElement *pEntities = new TiXmlElement(GS_L("EntitiesInScene"));
 	pRoot->LinkEndChild(pEntities);
 
-	// Write every entity
-	for (ETHBucketMap::iterator bucketIter = m_buckets.GetFirstBucket(); bucketIter != m_buckets.GetLastBucket(); ++bucketIter)
+	// Write every entity as an ordered bucket map
+	ETHOrderedBucketMap map(m_buckets.GetFirstBucket(), m_buckets.GetLastBucket());
+	for (ETHOrderedBucketMap::iterator bucketIter = map.begin(); bucketIter != map.end(); ++bucketIter)
 	{
 		ETHEntityList::const_iterator iEnd = bucketIter->second.end();
 		for (ETHEntityList::iterator iter = bucketIter->second.begin(); iter != iEnd; ++iter)
@@ -273,7 +274,7 @@ int ETHScene::AddEntity(ETHRenderEntity* pEntity, const str_type::string& altern
 		pEntity->SetID(m_idCounter);
 	}
 
-	m_buckets.Add(pEntity, (pEntity->GetType() == ETHEntityProperties::ET_HORIZONTAL) ? ETHBucketManager::FRONT : ETHBucketManager::BACK);
+	m_buckets.Add(pEntity, ETHBucketManager::BACK);
 
 	m_maxSceneHeight = Max(m_maxSceneHeight, pEntity->GetMaxHeight());
 	m_minSceneHeight = Min(m_minSceneHeight, pEntity->GetMinHeight());

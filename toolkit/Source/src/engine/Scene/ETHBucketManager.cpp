@@ -21,10 +21,28 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHBucketManager.h"
+
 #include "../Entity/ETHEntityArray.h"
 #include "../Entity/ETHRenderEntity.h"
 #include "../Entity/ETHEntityChooser.h"
+
 #include <iostream>
+
+// Vector2 hash functions
+namespace boost {
+inline std::size_t hash_value(Vector2 const& p)
+{
+	std::size_t seed = 0;
+	boost::hash_combine(seed, p.x);
+	boost::hash_combine(seed, p.y);
+	return seed;
+}
+} // namepace boost
+
+bool BUCKET_COMP::operator() (const Vector2& lhs, const Vector2& rhs) const
+{
+	return boost::hash_value(lhs) < boost::hash_value(rhs);
+}
 
 Vector2 ETHBucketManager::GetBucket(const Vector2& v2, const Vector2& v2BucketSize)
 {
@@ -83,17 +101,6 @@ Vector2 ETHBucketManager::ComputeBucketRelativePosition(const Vector2& p, const 
 	if (r.y <= 0.0f) r.y += bucketSize.y;
 	return r;
 }
-
-// Vector2 hash function
-namespace boost {
-inline std::size_t hash_value(Vector2 const& p)
-{
-	std::size_t seed = 0;
-	boost::hash_combine(seed, p.x);
-	boost::hash_combine(seed, p.y);
-	return seed;
-}
-} // namepace boost
 
 ETHBucketManager::ETHBucketManager(const ETHResourceProviderPtr& provider, const Vector2& bucketSize, const bool drawingBorderBuckets) :
 	m_bucketSize(bucketSize),
