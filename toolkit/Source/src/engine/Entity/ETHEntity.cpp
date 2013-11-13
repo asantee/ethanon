@@ -710,7 +710,10 @@ bool ETHEntity::IsTemporary() const
 	{
 		return true;
 	}
-	return false;
+	else
+	{
+		return false;
+	}
 }
 
 bool ETHEntity::IsCastShadow() const

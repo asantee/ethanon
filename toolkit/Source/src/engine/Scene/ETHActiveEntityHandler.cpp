@@ -59,11 +59,6 @@ bool ETHActiveEntityHandler::AddEntityWhenEligible(ETHRenderEntity* entity)
 	{
 		entity->AddRef();
 		m_dynamicOrTempEntities.push_back(entity);
-
-		#if defined(_DEBUG) || defined(DEBUG)
-		TestEntityLists();
-		#endif
-
 		return true;
 	}
 	else
@@ -84,11 +79,6 @@ bool ETHActiveEntityHandler::AddStaticCallbackWhenEligible(ETHRenderEntity* enti
 	{
 		m_lastFrameCallbacks.push_back(entity);
 		entity->AddRef();
-
-		#if defined(_DEBUG) || defined(DEBUG)
-		TestEntityLists();
-		#endif
-
 		return true;
 	}
 	else
@@ -162,17 +152,7 @@ void ETHActiveEntityHandler::UpdateCurrentFrameEntities(const Vector2& zAxisDir,
 	{
 		ETHRenderEntity* entity = (*iter);
 
-		if (!(entity->IsAlive()))
-		{
-			#if defined(_DEBUG) || defined(DEBUG)
-			 ETH_STREAM_DECL(ss) << GS_L("Entity callback removed: ") << entity->GetEntityName();
-			 m_provider->Log(ss.str(), Platform::Logger::INFO);
-			#endif
-			entity->Release();
-			iter = m_lastFrameCallbacks.erase(iter);
-			continue;
-		}
-		else
+		if (entity->IsAlive())
 		{
 			entity->Update(lastFrameElapsedTime, zAxisDir, buckets);
 
@@ -180,13 +160,10 @@ void ETHActiveEntityHandler::UpdateCurrentFrameEntities(const Vector2& zAxisDir,
 			{
 				entity->RunCallbackScript();
 			}
-
-			entity->Release();
-
-			++iter;
 		}
+		entity->Release();
+		iter = m_lastFrameCallbacks.erase(iter);
 	}
-	m_lastFrameCallbacks.clear();
 }
 
 bool ETHActiveEntityHandler::RemoveFinishedTemporaryEntity(ETHRenderEntity* entity, ETHBucketManager& buckets)
