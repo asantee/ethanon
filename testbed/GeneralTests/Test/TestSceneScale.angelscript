@@ -44,8 +44,13 @@ class TestSceneScale : Test
 			string fmt;
 			if (vm[t].format == PF32BIT)
 				fmt = "32";
+			else if (vm[t].format == PF24BIT)
+				fmt = "24";
 			else if (vm[t].format == PF16BIT)
 				fmt = "16";
+			else
+				fmt = "unknown";
+
 			str += ("" + (t+1) + ". " + vm[t].width + "x" + vm[t].height) + "x" + fmt + "\n";
 		}
 		const vector2 textSize = ComputeTextBoxSize("Verdana20_shadow.fnt", str);
