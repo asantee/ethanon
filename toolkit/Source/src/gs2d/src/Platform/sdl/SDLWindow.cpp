@@ -35,7 +35,6 @@ SDLWindow::SDLWindow(Platform::FileIOHubPtr fileIOHub) :
 	m_fileIOHub(fileIOHub),
 	m_maximizable(false),
 	m_sync(true),
-	m_quitKeysEnabled(true),
 	m_quit(false),
 	m_fpsRate(30.0f),
 	m_windowHasFocus(false),
@@ -350,12 +349,12 @@ math::Vector2 SDLWindow::GetScreenSizeF() const
 
 void SDLWindow::EnableQuitShortcuts(const bool enable)
 {
-	m_quitKeysEnabled = enable;
+	// not allowed on Mac for now (AppStore rejects apps that completely ignore it)
 }
 
 bool SDLWindow::QuitShortcutsEnabled()
 {
-	return m_quitKeysEnabled;
+	return true;
 }
 
 bool SDLWindow::IsWindowed() const
@@ -379,12 +378,12 @@ void SDLWindow::EnableMediaPlaying(const bool enable)
 
 void SDLWindow::ForwardCommand(const str_type::string& cmd)
 {
-	// yet to be implemented
+	// TODO yet to be implemented
 }
 
 str_type::string SDLWindow::PullCommands()
 {
-	// yet to be implemented
+	// TODO yet to be implemented
 	return "";
 }
 
@@ -416,13 +415,14 @@ math::Vector2i SDLWindow::GetClientScreenSize() const
 
 math::Vector2i SDLWindow::GetWindowPosition()
 {
-	// yet to be implemented
-	return math::Vector2i(0, 0);
+	math::Vector2i r;
+	SDL_GetWindowPosition(m_window, &r.x, &r.y);
+	return r;
 }
 
 void SDLWindow::SetWindowPosition(const math::Vector2i &v2)
 {
-	// yet to be implemented
+	SDL_SetWindowPosition(m_window, v2.x, v2.y);
 }
 
 math::Vector2i SDLWindow::ScreenToWindow(const math::Vector2i &v2Point) const
