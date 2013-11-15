@@ -44,6 +44,7 @@ public:
 	{
 		PF_16BIT = 0,
 		PF_32BIT = 1,
+		PF_24BIT = 0,
 		PF_UNKNOWN = 2,
 		PF_DEFAULT = 3,
 	};

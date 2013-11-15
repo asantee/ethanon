@@ -25,7 +25,7 @@
 #include "../GL/GLSprite.h"
 #include "../GL/Cg/GLCgShader.h"
 
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 
 namespace gs2d {
 
@@ -179,28 +179,44 @@ bool GLSDLVideo::ResetVideoMode(
 	const Texture::PIXEL_FORMAT pfBB,
 	const bool toggleFullscreen)
 {
-	bool windowed = IsWindowed();
+	return ResetVideoMode(width, height, pfBB, toggleFullscreen, true);
+}
+
+bool GLSDLVideo::ResetVideoMode(
+	const unsigned int width,
+	const unsigned int height,
+	const Texture::PIXEL_FORMAT pfBB,
+	const bool toggleFullscreen,
+	const bool forceWindowResize)
+{
 	if (toggleFullscreen)
-		windowed = !windowed;
-
-	if (SDL_SetVideoMode(width, height, 0, AssembleFlags(windowed, IsMaximizable(), SyncEnabled())) != 0)
 	{
-		m_screenSize.x = static_cast<float>(width);
-		m_screenSize.y = static_cast<float>(height);
-
-		GLVideo::StartApplication(width, height, GetWindowTitle(), IsWindowed(), SyncEnabled());
-		RecoverAll();
-
-		ScreenSizeChangeListenerPtr listener = m_screenSizeChangeListener.lock();
-		if (listener)
-			listener->ScreenSizeChanged(GetScreenSizeF());
-
-		return true;
+		SDL_SetWindowFullscreen(m_window, (IsWindowed()) ? SDL_WINDOW_FULLSCREEN : 0);
 	}
-	else
+
+	if (forceWindowResize)
 	{
-		return false;
+		SDL_SetWindowSize(m_window, static_cast<int>(width), static_cast<int>(height));
 	}
+
+	// perform OpenGL context cleanup
+	SDL_GL_DeleteContext(m_glcontext);
+	m_glcontext = SDL_GL_CreateContext(m_window);
+
+	m_screenSize.x = static_cast<float>(width);
+	m_screenSize.y = static_cast<float>(height);
+
+	GLVideo::StartApplication(width, height, GetWindowTitle(), IsWindowed(), SyncEnabled());
+	RecoverAll();
+
+	// call listener if there's any
+	ScreenSizeChangeListenerPtr listener = m_screenSizeChangeListener.lock();
+	if (listener)
+	{
+		listener->ScreenSizeChanged(GetScreenSizeF());
+	}
+
+	return true;
 }
 
 SpritePtr GLSDLVideo::CreateSprite(

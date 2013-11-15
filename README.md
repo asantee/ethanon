@@ -45,4 +45,4 @@ Mac OS X
 - Unpack the following files located at **toolkit/Source/src/gs2d/vendors**:
   - vendors.7z (for the BoostSDK/)
   - Cg.framework.zip
-  - SDL.framework.zip
+  - SDL2.framework.zip

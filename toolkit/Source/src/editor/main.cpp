@@ -35,7 +35,7 @@
 
 #if defined(MACOSX) || defined(LINUX)
  #define GS2D_USE_SDL
- #include <SDL/SDL.h>
+ #include <SDL2/SDL.h>
 #endif
 
 #ifndef _DEBUG
@@ -143,11 +143,7 @@ std::string FindStartupProject(const int argc, char **argv, const Platform::File
 	return ("");
 }
 
-#ifdef GS2D_USE_SDL
- int SDL_main(int argc, char **argv)
-#else
- int main(const int argc, char** argv)
-#endif
+int main(int argc, char **argv)
 {
 	VideoPtr video;
 	InputPtr input;

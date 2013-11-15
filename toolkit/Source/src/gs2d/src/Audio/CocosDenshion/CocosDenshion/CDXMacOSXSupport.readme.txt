@@ -1,0 +1,6 @@
+André Santee - 14/11/2013
+
+Original CDXMacOSXSupport.x files have been replaced by the ones available in this Gist: https://gist.github.com/andrew0/1172770
+
+The reason why is that AVAudioPlayer has been merged into Apple's default API (after 10.7 or so). Double definitions were causing random crashes that could drive anyone nuts.
+

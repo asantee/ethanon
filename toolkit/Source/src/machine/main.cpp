@@ -22,7 +22,7 @@
 
 #if defined(MACOSX) || defined(LINUX)
  #define GS2D_USE_SDL
- #include <SDL/SDL.h>
+ #include <SDL2/SDL.h>
 #endif
 
 #ifdef WIN32
@@ -89,11 +89,11 @@ str_type::string FindResourceDir(const int argc, gs2d::str_type::char_t* argv[])
 	return GS_L("");
 }
 
-#ifdef GS2D_USE_SDL
- int SDL_main(int argc, char** argv)
-#elif WIN32
+#if WIN32
  #include <windows.h>
  int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR lpCmdLine, int nCmdShow)
+#else
+ int main(int argc, char** argv)
 #endif
 {
 	// convert args to multibyte char

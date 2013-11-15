@@ -232,7 +232,7 @@ public:
 	virtual void ShowJoystickWarnings(const bool enable) = 0;
 	virtual bool IsShowingJoystickWarnings() const = 0;
 
-	virtual str_type::char_t GetLastCharInput() const = 0;
+	virtual str_type::string GetLastCharInput() const = 0;
 
 	virtual GS_KEY_STATE GetJoystickButtonState(const unsigned int id, const GS_JOYSTICK_BUTTON key) const = 0;
 	virtual bool IsJoystickButtonDown(const unsigned int id, const GS_JOYSTICK_BUTTON key) const = 0;

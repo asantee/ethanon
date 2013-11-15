@@ -24,8 +24,13 @@
 #define GS2D_SDL_WINDOW_H_
 
 #include "../../Video.h"
+
+#include <iostream>
 #include <vector>
+
 #include <sys/time.h>
+
+#include <SDL2/SDL_video.h>
 
 namespace gs2d {
 
@@ -35,7 +40,7 @@ class SDLWindow : public virtual Video
 	friend class GLSDLVideo;
 
 	Platform::FileIOHubPtr m_fileIOHub;
-	bool m_maximizable, m_sync, m_windowed, m_quitKeysEnabled, m_quit;
+	bool m_maximizable, m_sync, m_quitKeysEnabled, m_quit;
 	bool m_windowHasFocus, m_windowIsVisible;
 	std::vector<VIDEO_MODE> m_videoModes;
 	
@@ -54,15 +59,25 @@ protected:
 		const Texture::PIXEL_FORMAT pfBB = Texture::PF_UNKNOWN,
 		const bool maximizable = false);
 
+	virtual bool ResetVideoMode(
+		const unsigned int width,
+		const unsigned int height,
+		const Texture::PIXEL_FORMAT pfBB,
+		const bool toggleFullscreen,
+		const bool forceWindowResize) = 0;
+
 	bool EndSpriteScene();
-	unsigned int AssembleFlags(const bool windowed, const bool maximizable, const bool sync);
+	Uint32 AssembleFlags(const bool windowed, const bool maximizable, const bool sync);
 
 	math::Vector2 m_screenSize;
 
 	static float m_mouseWheel;
-	static str_type::char_t m_lastCharInput;
+	static str_type::string m_lastCharInput;
 
 	math::Vector2 CatchBestScreenResolution() const;
+
+	SDL_Window* m_window;
+	SDL_GLContext m_glcontext;
 
 public:
 	SDLWindow(Platform::FileIOHubPtr fileIOHub);

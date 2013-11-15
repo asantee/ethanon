@@ -23,7 +23,7 @@
 #include "SDLInput.h"
 #include "../../Platform/sdl/SDLWindow.h"
 
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 
 namespace gs2d {
 
@@ -39,107 +39,108 @@ SDLInput::SDLInput(const bool showJoystickWarnings) :
 	m_lastCursorPos(math::Vector2i(0, 0)),
 	m_mouseBits(0)
 {
-	m_sdlKeyID[GSK_UP] = SDLK_UP;
-	m_sdlKeyID[GSK_DOWN] = SDLK_DOWN;
-	m_sdlKeyID[GSK_LEFT] = SDLK_LEFT;
-	m_sdlKeyID[GSK_RIGHT] = SDLK_RIGHT;
-	m_sdlKeyID[GSK_CTRL] = SDLK_LCTRL;
-	m_sdlKeyID[GSK_ALT] = SDLK_LALT;
-	m_sdlKeyID[GSK_SHIFT] = SDLK_LSHIFT;
-	m_sdlKeyID[GSK_PAGEDOWN] = SDLK_PAGEDOWN;
-	m_sdlKeyID[GSK_PAGEUP] = SDLK_PAGEUP;
-	m_sdlKeyID[GSK_SPACE] = SDLK_SPACE;
-	m_sdlKeyID[GSK_ENTER] = SDLK_RETURN;
-	m_sdlKeyID[GSK_DELETE] = SDLK_DELETE;
-	m_sdlKeyID[GSK_HOME] = SDLK_HOME;
-	m_sdlKeyID[GSK_END] = SDLK_END;
-	m_sdlKeyID[GSK_INSERT] = SDLK_INSERT;
-	m_sdlKeyID[GSK_PAUSE] = SDLK_PAUSE;
-	m_sdlKeyID[GSK_ESC] = SDLK_ESCAPE;
-	m_sdlKeyID[GSK_BACK] = SDLK_BACKSPACE;
-	m_sdlKeyID[GSK_TAB] = SDLK_TAB;
-	m_sdlKeyID[GSK_PRINTSCREEN] = SDLK_PRINT;
-	m_sdlKeyID[GSK_SUBTRACT] = SDLK_MINUS;
-	m_sdlKeyID[GSK_ADD] = SDLK_PLUS;
-	m_sdlKeyID[GSK_F1] = SDLK_F1;
-	m_sdlKeyID[GSK_F2] = SDLK_F2;
-	m_sdlKeyID[GSK_F3] = SDLK_F3;
-	m_sdlKeyID[GSK_F4] = SDLK_F4;
-	m_sdlKeyID[GSK_F5] = SDLK_F5;
-	m_sdlKeyID[GSK_F6] = SDLK_F6;
-	m_sdlKeyID[GSK_F7] = SDLK_F7;
-	m_sdlKeyID[GSK_F8] = SDLK_F8;
-	m_sdlKeyID[GSK_F9] = SDLK_F9;
-	m_sdlKeyID[GSK_F10] = SDLK_F10;
-	m_sdlKeyID[GSK_F11] = SDLK_F11;
-	m_sdlKeyID[GSK_F12] = SDLK_F12;
-	m_sdlKeyID[GSK_F13] = SDLK_F13;
-	m_sdlKeyID[GSK_F14] = SDLK_F14;
-	m_sdlKeyID[GSK_F15] = SDLK_F15;
-	m_sdlKeyID[GSK_F16] = SDLK_LAST;
-	m_sdlKeyID[GSK_F17] = SDLK_LAST;
-	m_sdlKeyID[GSK_F18] = SDLK_LAST;
-	m_sdlKeyID[GSK_F19] = SDLK_LAST;
-	m_sdlKeyID[GSK_F20] = SDLK_LAST;
-	m_sdlKeyID[GSK_F21] = SDLK_LAST;
-	m_sdlKeyID[GSK_F22] = SDLK_LAST;
-	m_sdlKeyID[GSK_F23] = SDLK_LAST;
-	m_sdlKeyID[GSK_F24] = SDLK_LAST;
-	m_sdlKeyID[GSK_A] = SDLK_a;
-	m_sdlKeyID[GSK_B] = SDLK_b;
-	m_sdlKeyID[GSK_C] = SDLK_c;
-	m_sdlKeyID[GSK_D] = SDLK_d;
-	m_sdlKeyID[GSK_E] = SDLK_e;
-	m_sdlKeyID[GSK_F] = SDLK_f;
-	m_sdlKeyID[GSK_G] = SDLK_g;
-	m_sdlKeyID[GSK_H] = SDLK_h;
-	m_sdlKeyID[GSK_I] = SDLK_i;
-	m_sdlKeyID[GSK_J] = SDLK_j;
-	m_sdlKeyID[GSK_K] = SDLK_k;
-	m_sdlKeyID[GSK_L] = SDLK_l;
-	m_sdlKeyID[GSK_M] = SDLK_m;
-	m_sdlKeyID[GSK_N] = SDLK_n;
-	m_sdlKeyID[GSK_O] = SDLK_o;
-	m_sdlKeyID[GSK_P] = SDLK_p;
-	m_sdlKeyID[GSK_Q] = SDLK_q;
-	m_sdlKeyID[GSK_R] = SDLK_r;
-	m_sdlKeyID[GSK_S] = SDLK_s;
-	m_sdlKeyID[GSK_T] = SDLK_t;
-	m_sdlKeyID[GSK_U] = SDLK_u;
-	m_sdlKeyID[GSK_V] = SDLK_v;
-	m_sdlKeyID[GSK_W] = SDLK_w;
-	m_sdlKeyID[GSK_X] = SDLK_x;
-	m_sdlKeyID[GSK_Y] = SDLK_y;
-	m_sdlKeyID[GSK_Z] = SDLK_z;
-	m_sdlKeyID[GSK_1] = SDLK_1;
-	m_sdlKeyID[GSK_2] = SDLK_2;
-	m_sdlKeyID[GSK_3] = SDLK_3;
-	m_sdlKeyID[GSK_4] = SDLK_4;
-	m_sdlKeyID[GSK_5] = SDLK_5;
-	m_sdlKeyID[GSK_6] = SDLK_6;
-	m_sdlKeyID[GSK_7] = SDLK_7;
-	m_sdlKeyID[GSK_8] = SDLK_8;
-	m_sdlKeyID[GSK_9] = SDLK_9;
-	m_sdlKeyID[GSK_0] = SDLK_0;
-	m_sdlKeyID[GSK_NUMPAD0] = SDLK_KP0;
-	m_sdlKeyID[GSK_NUMPAD1] = SDLK_KP1;
-	m_sdlKeyID[GSK_NUMPAD2] = SDLK_KP2;
-	m_sdlKeyID[GSK_NUMPAD3] = SDLK_KP3;
-	m_sdlKeyID[GSK_NUMPAD4] = SDLK_KP4;
-	m_sdlKeyID[GSK_NUMPAD5] = SDLK_KP5;
-	m_sdlKeyID[GSK_NUMPAD6] = SDLK_KP6;
-	m_sdlKeyID[GSK_NUMPAD7] = SDLK_KP7;
-	m_sdlKeyID[GSK_NUMPAD8] = SDLK_KP8;
-	m_sdlKeyID[GSK_NUMPAD9] = SDLK_KP9;
-	m_sdlKeyID[GSK_MINUS] = SDLK_MINUS;
-	m_sdlKeyID[GSK_PLUS] = SDLK_PLUS;
-	m_sdlKeyID[GSK_COMMA] = SDLK_COMMA;
-	m_sdlKeyID[GSK_DOT] = SDLK_PERIOD;
-	m_sdlKeyID[GSK_META] = SDLK_LMETA;
+	m_sdlKeyID[GSK_UP] = SDL_SCANCODE_UP;
+	m_sdlKeyID[GSK_DOWN] = SDL_SCANCODE_DOWN;
+	m_sdlKeyID[GSK_LEFT] = SDL_SCANCODE_LEFT;
+	m_sdlKeyID[GSK_RIGHT] = SDL_SCANCODE_RIGHT;
+	m_sdlKeyID[GSK_CTRL] = SDL_SCANCODE_LCTRL;
+	m_sdlKeyID[GSK_ALT] = SDL_SCANCODE_LALT;
+	m_sdlKeyID[GSK_SHIFT] = SDL_SCANCODE_LSHIFT;
+	m_sdlKeyID[GSK_PAGEDOWN] = SDL_SCANCODE_PAGEDOWN;
+	m_sdlKeyID[GSK_PAGEUP] = SDL_SCANCODE_PAGEUP;
+	m_sdlKeyID[GSK_SPACE] = SDL_SCANCODE_SPACE;
+	m_sdlKeyID[GSK_ENTER] = SDL_SCANCODE_RETURN;
+	m_sdlKeyID[GSK_DELETE] = SDL_SCANCODE_DELETE;
+	m_sdlKeyID[GSK_HOME] = SDL_SCANCODE_HOME;
+	m_sdlKeyID[GSK_END] = SDL_SCANCODE_END;
+	m_sdlKeyID[GSK_INSERT] = SDL_SCANCODE_INSERT;
+	m_sdlKeyID[GSK_PAUSE] = SDL_SCANCODE_PAUSE;
+	m_sdlKeyID[GSK_ESC] = SDL_SCANCODE_ESCAPE;
+	m_sdlKeyID[GSK_BACK] = SDL_SCANCODE_BACKSPACE;
+	m_sdlKeyID[GSK_TAB] = SDL_SCANCODE_TAB;
+	m_sdlKeyID[GSK_PRINTSCREEN] = SDL_SCANCODE_PRINTSCREEN;
+	m_sdlKeyID[GSK_SUBTRACT] = SDL_SCANCODE_MINUS;
+	m_sdlKeyID[GSK_ADD] = SDL_SCANCODE_KP_PLUS; // this is messed up
+	m_sdlKeyID[GSK_F1] = SDL_SCANCODE_F1;
+	m_sdlKeyID[GSK_F2] = SDL_SCANCODE_F2;
+	m_sdlKeyID[GSK_F3] = SDL_SCANCODE_F3;
+	m_sdlKeyID[GSK_F4] = SDL_SCANCODE_F4;
+	m_sdlKeyID[GSK_F5] = SDL_SCANCODE_F5;
+	m_sdlKeyID[GSK_F6] = SDL_SCANCODE_F6;
+	m_sdlKeyID[GSK_F7] = SDL_SCANCODE_F7;
+	m_sdlKeyID[GSK_F8] = SDL_SCANCODE_F8;
+	m_sdlKeyID[GSK_F9] = SDL_SCANCODE_F9;
+	m_sdlKeyID[GSK_F10] = SDL_SCANCODE_F10;
+	m_sdlKeyID[GSK_F11] = SDL_SCANCODE_F11;
+	m_sdlKeyID[GSK_F12] = SDL_SCANCODE_F12;
+	m_sdlKeyID[GSK_F13] = SDL_SCANCODE_F13;
+	m_sdlKeyID[GSK_F14] = SDL_SCANCODE_F14;
+	m_sdlKeyID[GSK_F15] = SDL_SCANCODE_F15;
+	m_sdlKeyID[GSK_F16] = SDL_SCANCODE_F16;
+	m_sdlKeyID[GSK_F17] = SDL_SCANCODE_F17;
+	m_sdlKeyID[GSK_F18] = SDL_SCANCODE_F18;
+	m_sdlKeyID[GSK_F19] = SDL_SCANCODE_F19;
+	m_sdlKeyID[GSK_F20] = SDL_SCANCODE_F20;
+	m_sdlKeyID[GSK_F21] = SDL_SCANCODE_F21;
+	m_sdlKeyID[GSK_F22] = SDL_SCANCODE_F22;
+	m_sdlKeyID[GSK_F23] = SDL_SCANCODE_F23;
+	m_sdlKeyID[GSK_F24] = SDL_SCANCODE_F24;
+	m_sdlKeyID[GSK_A] = SDL_SCANCODE_A;
+	m_sdlKeyID[GSK_B] = SDL_SCANCODE_B;
+	m_sdlKeyID[GSK_C] = SDL_SCANCODE_C;
+	m_sdlKeyID[GSK_D] = SDL_SCANCODE_D;
+	m_sdlKeyID[GSK_E] = SDL_SCANCODE_E;
+	m_sdlKeyID[GSK_F] = SDL_SCANCODE_F;
+	m_sdlKeyID[GSK_G] = SDL_SCANCODE_G;
+	m_sdlKeyID[GSK_H] = SDL_SCANCODE_H;
+	m_sdlKeyID[GSK_I] = SDL_SCANCODE_I;
+	m_sdlKeyID[GSK_J] = SDL_SCANCODE_J;
+	m_sdlKeyID[GSK_K] = SDL_SCANCODE_K;
+	m_sdlKeyID[GSK_L] = SDL_SCANCODE_L;
+	m_sdlKeyID[GSK_M] = SDL_SCANCODE_M;
+	m_sdlKeyID[GSK_N] = SDL_SCANCODE_N;
+	m_sdlKeyID[GSK_O] = SDL_SCANCODE_O;
+	m_sdlKeyID[GSK_P] = SDL_SCANCODE_P;
+	m_sdlKeyID[GSK_Q] = SDL_SCANCODE_Q;
+	m_sdlKeyID[GSK_R] = SDL_SCANCODE_R;
+	m_sdlKeyID[GSK_S] = SDL_SCANCODE_S;
+	m_sdlKeyID[GSK_T] = SDL_SCANCODE_T;
+	m_sdlKeyID[GSK_U] = SDL_SCANCODE_U;
+	m_sdlKeyID[GSK_V] = SDL_SCANCODE_V;
+	m_sdlKeyID[GSK_W] = SDL_SCANCODE_W;
+	m_sdlKeyID[GSK_X] = SDL_SCANCODE_X;
+	m_sdlKeyID[GSK_Y] = SDL_SCANCODE_Y;
+	m_sdlKeyID[GSK_Z] = SDL_SCANCODE_Z;
+	m_sdlKeyID[GSK_1] = SDL_SCANCODE_1;
+	m_sdlKeyID[GSK_2] = SDL_SCANCODE_2;
+	m_sdlKeyID[GSK_3] = SDL_SCANCODE_3;
+	m_sdlKeyID[GSK_4] = SDL_SCANCODE_4;
+	m_sdlKeyID[GSK_5] = SDL_SCANCODE_5;
+	m_sdlKeyID[GSK_6] = SDL_SCANCODE_6;
+	m_sdlKeyID[GSK_7] = SDL_SCANCODE_7;
+	m_sdlKeyID[GSK_8] = SDL_SCANCODE_8;
+	m_sdlKeyID[GSK_9] = SDL_SCANCODE_9;
+	m_sdlKeyID[GSK_0] = SDL_SCANCODE_0;
+	m_sdlKeyID[GSK_NUMPAD0] = SDL_SCANCODE_KP_0;
+	m_sdlKeyID[GSK_NUMPAD1] = SDL_SCANCODE_KP_1;
+	m_sdlKeyID[GSK_NUMPAD2] = SDL_SCANCODE_KP_2;
+	m_sdlKeyID[GSK_NUMPAD3] = SDL_SCANCODE_KP_3;
+	m_sdlKeyID[GSK_NUMPAD4] = SDL_SCANCODE_KP_4;
+	m_sdlKeyID[GSK_NUMPAD5] = SDL_SCANCODE_KP_5;
+	m_sdlKeyID[GSK_NUMPAD6] = SDL_SCANCODE_KP_6;
+	m_sdlKeyID[GSK_NUMPAD7] = SDL_SCANCODE_KP_7;
+	m_sdlKeyID[GSK_NUMPAD8] = SDL_SCANCODE_KP_8;
+	m_sdlKeyID[GSK_NUMPAD9] = SDL_SCANCODE_KP_9;
+	m_sdlKeyID[GSK_MINUS] = SDL_SCANCODE_KP_MINUS;
+	m_sdlKeyID[GSK_PLUS] = SDL_SCANCODE_KP_PLUS;
+	m_sdlKeyID[GSK_COMMA] = SDL_SCANCODE_COMMA;
+	m_sdlKeyID[GSK_DOT] = SDL_SCANCODE_PERIOD;
+	m_sdlKeyID[GSK_META] = SDL_SCANCODE_LGUI;
 
-	m_sdlKeyID[GSK_RMOUSE] = SDLK_LAST;
-	m_sdlKeyID[GSK_LMOUSE] = SDLK_LAST;
-	m_sdlKeyID[GSK_MMOUSE] = SDLK_LAST;
+	// not used:
+	m_sdlKeyID[GSK_RMOUSE] = SDL_NUM_SCANCODES;
+	m_sdlKeyID[GSK_LMOUSE] = SDL_NUM_SCANCODES;
+	m_sdlKeyID[GSK_MMOUSE] = SDL_NUM_SCANCODES;
 
 	UpdateCursorPos();
 	m_lastCursorPos = m_cursorPos;
@@ -147,7 +148,7 @@ SDLInput::SDLInput(const bool showJoystickWarnings) :
 
 bool SDLInput::Update()
 {
-	const Uint8 *keystate = SDL_GetKeyState(NULL);
+	const Uint8 *keystate = SDL_GetKeyboardState(NULL);
 	for (std::size_t t = 0; t < GS_NUM_KEYS; t++)
 	{
 		m_keyStates[t].Update(IsKeyPressed((GS_KEY)t, keystate));
@@ -183,7 +184,7 @@ void SDLInput::UpdateCursorPos()
 bool SDLInput::SetCursorPosition(math::Vector2i v2Pos)
 {
 	m_cursorPos = v2Pos;
-	SDL_WarpMouse(static_cast<Uint16>(v2Pos.x), static_cast<Uint16>(v2Pos.y));
+	SDL_WarpMouseInWindow(NULL, static_cast<Uint16>(v2Pos.x), static_cast<Uint16>(v2Pos.y));
 	return true;
 }
 
@@ -280,40 +281,41 @@ float SDLInput::GetWheelState() const
 	return SDLWindow::m_mouseWheel;
 }
 
-str_type::char_t SDLInput::GetLastCharInput() const
+str_type::string SDLInput::GetLastCharInput() const
 {
-	str_type::char_t c = SDLWindow::m_lastCharInput;
-	switch (c)
+	if (SDLWindow::m_lastCharInput.length() == 1)
 	{
-	case 0x00:
-	case 0x01:
-	case 0x02:
-	case 0x03:
-	case 0x04:
-	case 0x05:
-	case 0x06:
-	case 0x07:
-	case 0x08:
-	case 0x0E:
-	case 0x0F:
-	case 0x10:
-	case 0x11:
-	case 0x12:
-	case 0x13:
-	case 0x14:
-	case 0x15:
-	case 0x16:
-	case 0x17:
-	case 0x18:
-	case 0x19:
-	case 0x1A:
-	case 0x1B:
-	case 0x7F:
-		return GS_L('\0');
-	default:
-		return c;
+		str_type::char_t c = SDLWindow::m_lastCharInput[0];
+		switch (c)
+		{
+		case 0x00:
+		case 0x01:
+		case 0x02:
+		case 0x03:
+		case 0x04:
+		case 0x05:
+		case 0x06:
+		case 0x07:
+		case 0x08:
+		case 0x0E:
+		case 0x0F:
+		case 0x10:
+		case 0x11:
+		case 0x12:
+		case 0x13:
+		case 0x14:
+		case 0x15:
+		case 0x16:
+		case 0x17:
+		case 0x18:
+		case 0x19:
+		case 0x1A:
+		case 0x1B:
+		case 0x7F:
+			return GS_L("");
+		}
 	}
-	return c;
+	return SDLWindow::m_lastCharInput;
 }
 
 } // namespace gs2d

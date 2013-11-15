@@ -455,7 +455,6 @@
 		74F0D191169703C9009A3C78 /* gs2d.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = gs2d.xcodeproj; path = ../../../src/gs2d/projects/xcode/gs2d/gs2d.xcodeproj; sourceTree = "<group>"; };
 		74F0D197169703E7009A3C78 /* box2d.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = box2d.xcodeproj; path = ../../../src/box2d/Build/xcode/box2d.xcodeproj; sourceTree = "<group>"; };
 		74F0D19D169703F1009A3C78 /* angelscript.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = angelscript.xcodeproj; path = ../../../src/angelscript/projects/osx/angelscript/angelscript.xcodeproj; sourceTree = "<group>"; };
-		74F0D1BC169716F8009A3C78 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = ../../../src/gs2d/vendors/SDL.framework; sourceTree = "<group>"; };
 		74FF04E418046C4D006D0F9F /* scriptfile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scriptfile.cpp; path = ../../../src/addons/scriptfile.cpp; sourceTree = "<group>"; };
 		74FF04E518046C4D006D0F9F /* scriptfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scriptfile.h; path = ../../../src/addons/scriptfile.h; sourceTree = "<group>"; };
 		74FF04E818046C5D006D0F9F /* scriptbuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scriptbuilder.cpp; path = ../../../src/addons/scriptbuilder.cpp; sourceTree = "<group>"; };
@@ -790,7 +789,6 @@
 		74F00AC71646B9EB00B8B51B = {
 			isa = PBXGroup;
 			children = (
-				74F0D1BC169716F8009A3C78 /* SDL.framework */,
 				74F00ADC1646B9EB00B8B51B /* engine */,
 				74A21A65182BFA840000F783 /* hashlib2plus */,
 				7421F28C1647413C00C55BAE /* addons */,

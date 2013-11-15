@@ -57,20 +57,24 @@ void GSGUI_STRING_INPUT::PlaceInput(const Vector2& pos, const str_type::string& 
 	// don't let the cursor exceed the text range
 	cursor = Min(cursor, static_cast<std::size_t>(ss.length()));
 
-	str_type::char_t lastInput = input->GetLastCharInput();
-	if (lastInput != '\0' && ss.length() < nMaxChars)
+	str_type::string lastInput = input->GetLastCharInput();
+	if (!lastInput.empty() && ss.length() < nMaxChars)
 	{
 		if (numbersOnly)
 		{
-			if ((lastInput < 'a' || lastInput > 'z') &&
-				(lastInput < 'A' || lastInput > 'Z'))
+			if (lastInput.length() == 1)
 			{
-				ss.insert(cursor, 1, lastInput);
+				const str_type::char_t lastChar = lastInput[0];
+				if ((lastChar < 'a' || lastChar > 'z') &&
+					(lastChar < 'A' || lastChar > 'Z'))
+				{
+					ss.insert(cursor, 1, lastChar);
+				}
 			}
 		}
 		else
 		{
-			ss.insert(cursor, 1, lastInput);
+			ss.insert(cursor, lastInput);
 		}
 		cursor++;
 	}

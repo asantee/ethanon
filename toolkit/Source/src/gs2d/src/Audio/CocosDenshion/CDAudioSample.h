@@ -24,6 +24,7 @@
 #define GS2D_CD_AUDIO_SAMPLE_H_
 
 #include "../../Audio.h"
+
 #include "CDAudioContext.h"
 
 namespace gs2d {

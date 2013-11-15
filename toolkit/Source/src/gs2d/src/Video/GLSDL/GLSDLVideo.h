@@ -41,6 +41,14 @@ class GLSDLVideo : public GLVideo, public SDLWindow
 
 	boost::weak_ptr<GLSDLVideo> weak_this;
 
+protected:
+	bool ResetVideoMode(
+		const unsigned int width,
+		const unsigned int height,
+		const Texture::PIXEL_FORMAT pfBB,
+		const bool toggleFullscreen,
+		const bool forceWindowResize);
+
 public:
 	static boost::shared_ptr<GLSDLVideo> Create(
 		const unsigned int width,
@@ -117,7 +125,7 @@ public:
 	bool ResetVideoMode(
 		const VIDEO_MODE& mode,
 		const bool toggleFullscreen = false);
-	
+
 	bool ResetVideoMode(
 		const unsigned int width,
 		const unsigned int height,

@@ -23,6 +23,8 @@ toolkit/Source/src/gs2d/vendors/SDL.framework/
 toolkit/Source/src/gs2d/vendors/Cg.framework/
 toolkit/Source/src/gs2d/vendors/irrKlang/
 
+toolkit/Source/src/gs2d/vendors/SDL2.framework/
+
 # Dump files
 *AS_DEBUG/
 *.log.txt

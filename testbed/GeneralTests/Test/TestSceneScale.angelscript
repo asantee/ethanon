@@ -16,15 +16,10 @@ class TestSceneScale : Test
 		SetBackgroundColor(0xFF000000);
 
 		vm.resize(0);
-		videoMode v;
-		v.width = 360; v.height = 256;
-		vm.insertLast(v);
-		v.width = 854; v.height = 480;
-		vm.insertLast(v);
-		v.width = 720; v.height = 512;
-		vm.insertLast(v);
-		v.width = 1280; v.height = 720;
-		vm.insertLast(v);
+		for (uint t = 0; t < GetVideoModeCount(); t++)
+		{			
+			vm.insertLast(GetVideoMode(t));
+		}
 	}
 
 	void preLoop()
@@ -46,7 +41,12 @@ class TestSceneScale : Test
 		string str;
 		for (uint t = 0; t < vm.length(); t++)
 		{
-			str += ("" + (t+1) + ". " + vm[t].width + "x" + vm[t].height) + "\n";
+			string fmt;
+			if (vm[t].format == PF32BIT)
+				fmt = "32";
+			else if (vm[t].format == PF16BIT)
+				fmt = "16";
+			str += ("" + (t+1) + ". " + vm[t].width + "x" + vm[t].height) + "x" + fmt + "\n";
 		}
 		const vector2 textSize = ComputeTextBoxSize("Verdana20_shadow.fnt", str);
 		DrawText(vector2(0, GetScreenSize().y - textSize.y), str, "Verdana20_shadow.fnt", 0xFFFFFFFF);

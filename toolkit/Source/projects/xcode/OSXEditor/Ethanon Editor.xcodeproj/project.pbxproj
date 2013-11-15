@@ -10,9 +10,7 @@
 		7421F388164BED3200C55BAE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F387164BED3200C55BAE /* Cocoa.framework */; };
 		7421F392164BED3200C55BAE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7421F390164BED3200C55BAE /* InfoPlist.strings */; };
 		7421F3AA164BEEF300C55BAE /* engine.xcodeproj in Resources */ = {isa = PBXBuildFile; fileRef = 7421F3A9164BEEF300C55BAE /* engine.xcodeproj */; };
-		7421F3DF164BEF9900C55BAE /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F3DE164BEF9900C55BAE /* SDL.framework */; };
 		7421F3E0164BEFA300C55BAE /* engine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421F3DA164BEF4E00C55BAE /* engine.framework */; };
-		7421F3EB164BF24C00C55BAE /* SDLMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 7421F3EA164BF24C00C55BAE /* SDLMain.m */; };
 		7421F3F2164BF40B00C55BAE /* gsgui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F3F0164BF40B00C55BAE /* gsgui.cpp */; };
 		7421F3F7164BF4BE00C55BAE /* EditorBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F3F5164BF4BE00C55BAE /* EditorBase.cpp */; };
 		7421F3FA164BF98C00C55BAE /* CustomDataEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F3F8164BF98B00C55BAE /* CustomDataEditor.cpp */; };
@@ -37,10 +35,11 @@
 		7421F433164C374200C55BAE /* soundfx in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F428164C374200C55BAE /* soundfx */; };
 		7421F43A1651587D00C55BAE /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7421F4391651587C00C55BAE /* icon.icns */; };
 		7421F43E16518D9F00C55BAE /* editor_icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7421F43D16518D9F00C55BAE /* editor_icon.icns */; };
+		7490C8D618357EA300AC21C5 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7490C8D518357EA300AC21C5 /* SDL2.framework */; };
+		7490C8D718357ECC00AC21C5 /* SDL2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7490C8D518357EA300AC21C5 /* SDL2.framework */; };
 		74DBCE07169728A900D9C16A /* box2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74DBCDFC1697288500D9C16A /* box2d.framework */; };
 		74DBCE08169728AC00D9C16A /* gs2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74DBCE021697288500D9C16A /* gs2d.framework */; };
 		74DBCE091697294100D9C16A /* Cg.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 745C90E5166952DC00F3E4EC /* Cg.framework */; };
-		74DBCE0A1697295200D9C16A /* SDL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F3E4164BF10C00C55BAE /* SDL.framework */; };
 		74DBCE0B1697297400D9C16A /* engine.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F3DA164BEF4E00C55BAE /* engine.framework */; };
 		74DBCE0C1697298400D9C16A /* gs2d.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74DBCE021697288500D9C16A /* gs2d.framework */; };
 		74DBCE0D1697298F00D9C16A /* box2d.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74DBCDFC1697288500D9C16A /* box2d.framework */; };
@@ -112,11 +111,11 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				7490C8D718357ECC00AC21C5 /* SDL2.framework in CopyFiles */,
 				74DBCE0D1697298F00D9C16A /* box2d.framework in CopyFiles */,
 				74DBCE0C1697298400D9C16A /* gs2d.framework in CopyFiles */,
 				74DBCE0B1697297400D9C16A /* engine.framework in CopyFiles */,
 				74DBCE091697294100D9C16A /* Cg.framework in CopyFiles */,
-				74DBCE0A1697295200D9C16A /* SDL.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -155,10 +154,6 @@
 		7421F3A9164BEEF300C55BAE /* engine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = engine.xcodeproj; path = ../OSXEngine/engine.xcodeproj; sourceTree = "<group>"; };
 		7421F3AB164BEEFF00C55BAE /* gs2d.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = gs2d.xcodeproj; path = ../../../../../../ethanon/toolkit/Source/src/gs2d/projects/xcode/gs2d/gs2d.xcodeproj; sourceTree = "<group>"; };
 		7421F3B1164BEF0D00C55BAE /* box2d.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = box2d.xcodeproj; path = ../../../../../../ethanon/toolkit/Source/src/box2d/Build/xcode/box2d.xcodeproj; sourceTree = "<group>"; };
-		7421F3DE164BEF9900C55BAE /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = ../../../src/gs2d/vendors/SDL.framework; sourceTree = "<group>"; };
-		7421F3E4164BF10C00C55BAE /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = ../../../src/gs2d/vendors/SDL.framework; sourceTree = "<group>"; };
-		7421F3E9164BF24C00C55BAE /* SDLMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLMain.h; path = ../../../../src/gs2d/src/Platform/macosx/SDLMain.h; sourceTree = "<group>"; };
-		7421F3EA164BF24C00C55BAE /* SDLMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLMain.m; path = ../../../../src/gs2d/src/Platform/macosx/SDLMain.m; sourceTree = "<group>"; };
 		7421F3F0164BF40B00C55BAE /* gsgui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gsgui.cpp; path = ../../../../src/editor/gsgui.cpp; sourceTree = "<group>"; };
 		7421F3F1164BF40B00C55BAE /* gsgui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gsgui.h; path = ../../../../src/editor/gsgui.h; sourceTree = "<group>"; };
 		7421F3F3164BF45A00C55BAE /* EditorCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EditorCommon.h; path = ../../../../src/editor/EditorCommon.h; sourceTree = "<group>"; };
@@ -196,6 +191,7 @@
 		7421F43D16518D9F00C55BAE /* editor_icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = editor_icon.icns; sourceTree = "<group>"; };
 		7421F4711651B22000C55BAE /* MainSharedHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MainSharedHeader.h; path = ../../../../src/gs2d/src/Platform/MainSharedHeader.h; sourceTree = "<group>"; };
 		745C90E5166952DC00F3E4EC /* Cg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cg.framework; path = ../../../src/gs2d/vendors/Cg.framework; sourceTree = "<group>"; };
+		7490C8D518357EA300AC21C5 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../src/gs2d/vendors/SDL2.framework; sourceTree = "<group>"; };
 		749D45D2169727DA00B44C38 /* gs2d.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = gs2d.xcodeproj; path = ../../../src/gs2d/projects/xcode/gs2d/gs2d.xcodeproj; sourceTree = "<group>"; };
 		749D45D8169727E800B44C38 /* box2d.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = box2d.xcodeproj; path = ../../../src/box2d/Build/xcode/box2d.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -205,10 +201,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7490C8D618357EA300AC21C5 /* SDL2.framework in Frameworks */,
 				74DBCE08169728AC00D9C16A /* gs2d.framework in Frameworks */,
 				74DBCE07169728A900D9C16A /* box2d.framework in Frameworks */,
 				7421F3E0164BEFA300C55BAE /* engine.framework in Frameworks */,
-				7421F3DF164BEF9900C55BAE /* SDL.framework in Frameworks */,
 				7421F388164BED3200C55BAE /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -223,8 +219,6 @@
 				7421F43D16518D9F00C55BAE /* editor_icon.icns */,
 				7421F4391651587C00C55BAE /* icon.icns */,
 				7421F434164C839700C55BAE /* Resources */,
-				7421F3E4164BF10C00C55BAE /* SDL.framework */,
-				7421F3DE164BEF9900C55BAE /* SDL.framework */,
 				7421F38D164BED3200C55BAE /* Ethanon Editor */,
 				7421F386164BED3200C55BAE /* Frameworks */,
 				7421F384164BED3200C55BAE /* Products */,
@@ -247,6 +241,7 @@
 		7421F386164BED3200C55BAE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7490C8D518357EA300AC21C5 /* SDL2.framework */,
 				7421F387164BED3200C55BAE /* Cocoa.framework */,
 				7421F389164BED3200C55BAE /* Other Frameworks */,
 			);
@@ -281,8 +276,6 @@
 			isa = PBXGroup;
 			children = (
 				7421F4711651B22000C55BAE /* MainSharedHeader.h */,
-				7421F3E9164BF24C00C55BAE /* SDLMain.h */,
-				7421F3EA164BF24C00C55BAE /* SDLMain.m */,
 				7421F38F164BED3200C55BAE /* Ethanon Editor-Info.plist */,
 				7421F390164BED3200C55BAE /* InfoPlist.strings */,
 				7421F395164BED3200C55BAE /* Ethanon Editor-Prefix.pch */,
@@ -535,7 +528,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7421F3EB164BF24C00C55BAE /* SDLMain.m in Sources */,
 				7421F3F2164BF40B00C55BAE /* gsgui.cpp in Sources */,
 				7421F3F7164BF4BE00C55BAE /* EditorBase.cpp in Sources */,
 				7421F3FA164BF98C00C55BAE /* CustomDataEditor.cpp in Sources */,
@@ -673,6 +665,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LIBRARY = "libstdc++";
 				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../src/gs2d/vendors\"",

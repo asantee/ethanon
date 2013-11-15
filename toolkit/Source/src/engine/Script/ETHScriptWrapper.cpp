@@ -116,8 +116,8 @@ bool ETHScriptWrapper::SetCursorPos(const Vector2 &v2Pos)
 str_type::string ETHScriptWrapper::GetLastCharInput()
 {
 	str_type::stringstream ss;
-	str_type::char_t lastChar = m_provider->GetInput()->GetLastCharInput();
-	if (lastChar)
+	str_type::string lastChar = m_provider->GetInput()->GetLastCharInput();
+	if (!lastChar.empty())
 	{
 		ss << lastChar;
 		return ss.str();

@@ -21,11 +21,10 @@
 		7421F4A51652BCF700C55BAE /* particles in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F49A1652BCF700C55BAE /* particles */; };
 		7421F4A61652BCF700C55BAE /* scenes in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F49B1652BCF700C55BAE /* scenes */; };
 		7421F4A71652BCF700C55BAE /* soundfx in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F49C1652BCF700C55BAE /* soundfx */; };
-		746947371646C59C00CCD9D3 /* SDLMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 746947351646C59C00CCD9D3 /* SDLMain.m */; };
+		7490C8D118356AF200AC21C5 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7490C8D018356AF200AC21C5 /* SDL2.framework */; };
+		7490C8D218356BCB00AC21C5 /* SDL2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7490C8D018356AF200AC21C5 /* SDL2.framework */; };
 		749764A0169703680065F616 /* engine.xcodeproj in Resources */ = {isa = PBXBuildFile; fileRef = 7497649F169703680065F616 /* engine.xcodeproj */; };
 		749D45C71697237600B44C38 /* gs2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 749D45C31697236100B44C38 /* gs2d.framework */; };
-		749D45C91697244400B44C38 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 749D45C81697244400B44C38 /* SDL.framework */; };
-		749D45CA1697248700B44C38 /* SDL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 749D45C81697244400B44C38 /* SDL.framework */; };
 		749D45CC1697252500B44C38 /* Cg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 749D45CB1697252500B44C38 /* Cg.framework */; };
 		749D45CD1697252D00B44C38 /* Cg.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 749D45CB1697252500B44C38 /* Cg.framework */; };
 		749D45CE169725B500B44C38 /* gs2d.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 749D45C31697236100B44C38 /* gs2d.framework */; };
@@ -109,10 +108,10 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				7490C8D218356BCB00AC21C5 /* SDL2.framework in CopyFiles */,
 				749D45D0169726F200B44C38 /* box2d.framework in CopyFiles */,
 				749D45CF169726A700B44C38 /* engine.framework in CopyFiles */,
 				749D45CE169725B500B44C38 /* gs2d.framework in CopyFiles */,
-				749D45CA1697248700B44C38 /* SDL.framework in CopyFiles */,
 				749D45CD1697252D00B44C38 /* Cg.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -134,10 +133,8 @@
 		7421F49A1652BCF700C55BAE /* particles */ = {isa = PBXFileReference; lastKnownFileType = folder; name = particles; path = "../../../../Ethanon Toolkit/particles"; sourceTree = "<group>"; };
 		7421F49B1652BCF700C55BAE /* scenes */ = {isa = PBXFileReference; lastKnownFileType = folder; name = scenes; path = "../../../../Ethanon Toolkit/scenes"; sourceTree = "<group>"; };
 		7421F49C1652BCF700C55BAE /* soundfx */ = {isa = PBXFileReference; lastKnownFileType = folder; name = soundfx; path = "../../../../Ethanon Toolkit/soundfx"; sourceTree = "<group>"; };
-		746947341646C59C00CCD9D3 /* SDLMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLMain.h; path = ../../../../src/gs2d/src/Platform/macosx/SDLMain.h; sourceTree = "<group>"; };
-		746947351646C59C00CCD9D3 /* SDLMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLMain.m; path = ../../../../src/gs2d/src/Platform/macosx/SDLMain.m; sourceTree = "<group>"; };
+		7490C8D018356AF200AC21C5 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../src/gs2d/vendors/SDL2.framework; sourceTree = "<group>"; };
 		7497649F169703680065F616 /* engine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = engine.xcodeproj; path = ../OSXEngine/engine.xcodeproj; sourceTree = "<group>"; };
-		749D45C81697244400B44C38 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = ../../../src/gs2d/vendors/SDL.framework; sourceTree = "<group>"; };
 		749D45CB1697252500B44C38 /* Cg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cg.framework; path = ../../../src/gs2d/vendors/Cg.framework; sourceTree = "<group>"; };
 		74C111EC169722CD00AEDCE1 /* gs2d.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = gs2d.xcodeproj; path = ../../../src/gs2d/projects/xcode/gs2d/gs2d.xcodeproj; sourceTree = "<group>"; };
 		74F00B191646C12200B8B51B /* machine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = machine.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -156,8 +153,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7490C8D118356AF200AC21C5 /* SDL2.framework in Frameworks */,
 				749D45CC1697252500B44C38 /* Cg.framework in Frameworks */,
-				749D45C91697244400B44C38 /* SDL.framework in Frameworks */,
 				749D45C71697237600B44C38 /* gs2d.framework in Frameworks */,
 				74C111E91697224100AEDCE1 /* engine.framework in Frameworks */,
 				74F00B1E1646C12200B8B51B /* Cocoa.framework in Frameworks */,
@@ -207,7 +204,6 @@
 			isa = PBXGroup;
 			children = (
 				749D45CB1697252500B44C38 /* Cg.framework */,
-				749D45C81697244400B44C38 /* SDL.framework */,
 				7421F4A81652BCFF00C55BAE /* assets */,
 				74F00B231646C12200B8B51B /* machine */,
 				74F00B1C1646C12200B8B51B /* Frameworks */,
@@ -229,6 +225,7 @@
 		74F00B1C1646C12200B8B51B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7490C8D018356AF200AC21C5 /* SDL2.framework */,
 				74F00B1D1646C12200B8B51B /* Cocoa.framework */,
 				74F00B1F1646C12200B8B51B /* Other Frameworks */,
 			);
@@ -257,8 +254,6 @@
 		74F00B241646C12200B8B51B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				746947341646C59C00CCD9D3 /* SDLMain.h */,
-				746947351646C59C00CCD9D3 /* SDLMain.m */,
 				74F00B251646C12200B8B51B /* machine-Info.plist */,
 				74F00B261646C12200B8B51B /* InfoPlist.strings */,
 				74F00B2B1646C12200B8B51B /* machine-Prefix.pch */,
@@ -382,7 +377,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				746947371646C59C00CCD9D3 /* SDLMain.m in Sources */,
 				7421F2DB164805C000C55BAE /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -491,7 +485,7 @@
 				GCC_WARN_UNUSED_PARAMETER = NO;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../src/gs2d/src\"",
-					"\"$(SRCROOT)/../../../src/gs2d/vendors/SDL.framework/Headers\"",
+					"\"$(SRCROOT)/../../../src/gs2d/vendors/SDL2.framework/Headers\"",
 					"\"$(SRCROOT)/../../../src/gs2d/vendors/BoostSDK\"",
 					"\"$(SRCROOT)/../../../src/box2d\"",
 				);
@@ -524,7 +518,7 @@
 				GCC_WARN_UNUSED_PARAMETER = NO;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../src/gs2d/src\"",
-					"\"$(SRCROOT)/../../../src/gs2d/vendors/SDL.framework/Headers\"",
+					"\"$(SRCROOT)/../../../src/gs2d/vendors/SDL2.framework/Headers\"",
 					"\"$(SRCROOT)/../../../src/gs2d/vendors/BoostSDK\"",
 					"\"$(SRCROOT)/../../../src/box2d\"",
 				);
