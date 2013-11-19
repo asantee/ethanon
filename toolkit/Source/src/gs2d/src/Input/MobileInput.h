@@ -68,7 +68,7 @@ public:
 	unsigned int GetMaxTouchCount() const;
 	math::Vector2 GetTouchMove(const unsigned int n) const;
 
-	str_type::char_t GetLastCharInput() const;
+	str_type::string GetLastCharInput() const;
 
 	unsigned int GetMaxJoysticks() const;
 	void ShowJoystickWarnings(const bool enable);

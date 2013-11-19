@@ -206,6 +206,16 @@
 		74868C6E14374C3B00E7B3DD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 74868C6D14374C3B00E7B3DD /* main.m */; };
 		74868C7214374C3B00E7B3DD /* EthanonAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 74868C7114374C3B00E7B3DD /* EthanonAppDelegate.mm */; };
 		74868C7514374C3B00E7B3DD /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 74868C7314374C3B00E7B3DD /* MainWindow.xib */; };
+		7490C8F5183B9B0100AC21C5 /* hl_md5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7490C8DF183B9B0100AC21C5 /* hl_md5.cpp */; };
+		7490C8F6183B9B0100AC21C5 /* hl_md5wrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7490C8E1183B9B0100AC21C5 /* hl_md5wrapper.cpp */; };
+		7490C8F7183B9B0100AC21C5 /* hl_sha1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7490C8E3183B9B0100AC21C5 /* hl_sha1.cpp */; };
+		7490C8F8183B9B0100AC21C5 /* hl_sha1wrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7490C8E5183B9B0100AC21C5 /* hl_sha1wrapper.cpp */; };
+		7490C8F9183B9B0100AC21C5 /* hl_sha2ext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7490C8E7183B9B0100AC21C5 /* hl_sha2ext.cpp */; };
+		7490C8FA183B9B0100AC21C5 /* hl_sha256.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7490C8EA183B9B0100AC21C5 /* hl_sha256.cpp */; };
+		7490C8FB183B9B0100AC21C5 /* hl_sha256wrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7490C8EC183B9B0100AC21C5 /* hl_sha256wrapper.cpp */; };
+		7490C8FC183B9B0100AC21C5 /* hl_sha384wrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7490C8EE183B9B0100AC21C5 /* hl_sha384wrapper.cpp */; };
+		7490C8FD183B9B0100AC21C5 /* hl_sha512wrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7490C8F0183B9B0100AC21C5 /* hl_sha512wrapper.cpp */; };
+		7490C8FE183B9B0100AC21C5 /* hl_wrapperfactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7490C8F3183B9B0100AC21C5 /* hl_wrapperfactory.cpp */; };
 		749CB4711666554F00939B0A /* ETHEntityHaloRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 749CB4671666554F00939B0A /* ETHEntityHaloRenderer.cpp */; };
 		749CB4721666554F00939B0A /* ETHEntityParticleRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 749CB4691666554F00939B0A /* ETHEntityParticleRenderer.cpp */; };
 		749CB4731666554F00939B0A /* ETHEntityPieceRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 749CB46B1666554F00939B0A /* ETHEntityPieceRenderer.cpp */; };
@@ -642,6 +652,31 @@
 		74868C7014374C3B00E7B3DD /* EthanonAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EthanonAppDelegate.h; sourceTree = "<group>"; };
 		74868C7114374C3B00E7B3DD /* EthanonAppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = EthanonAppDelegate.mm; sourceTree = "<group>"; };
 		74868C7414374C3B00E7B3DD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
+		7490C8DC183B9B0100AC21C5 /* hashlibpp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hashlibpp.h; path = ../../../src/vendors/hashlib2plus/src/hashlibpp.h; sourceTree = "<group>"; };
+		7490C8DD183B9B0100AC21C5 /* hl_exception.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_exception.h; path = ../../../src/vendors/hashlib2plus/src/hl_exception.h; sourceTree = "<group>"; };
+		7490C8DE183B9B0100AC21C5 /* hl_hashwrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_hashwrapper.h; path = ../../../src/vendors/hashlib2plus/src/hl_hashwrapper.h; sourceTree = "<group>"; };
+		7490C8DF183B9B0100AC21C5 /* hl_md5.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = hl_md5.cpp; path = ../../../src/vendors/hashlib2plus/src/hl_md5.cpp; sourceTree = "<group>"; };
+		7490C8E0183B9B0100AC21C5 /* hl_md5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_md5.h; path = ../../../src/vendors/hashlib2plus/src/hl_md5.h; sourceTree = "<group>"; };
+		7490C8E1183B9B0100AC21C5 /* hl_md5wrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = hl_md5wrapper.cpp; path = ../../../src/vendors/hashlib2plus/src/hl_md5wrapper.cpp; sourceTree = "<group>"; };
+		7490C8E2183B9B0100AC21C5 /* hl_md5wrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_md5wrapper.h; path = ../../../src/vendors/hashlib2plus/src/hl_md5wrapper.h; sourceTree = "<group>"; };
+		7490C8E3183B9B0100AC21C5 /* hl_sha1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = hl_sha1.cpp; path = ../../../src/vendors/hashlib2plus/src/hl_sha1.cpp; sourceTree = "<group>"; };
+		7490C8E4183B9B0100AC21C5 /* hl_sha1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_sha1.h; path = ../../../src/vendors/hashlib2plus/src/hl_sha1.h; sourceTree = "<group>"; };
+		7490C8E5183B9B0100AC21C5 /* hl_sha1wrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = hl_sha1wrapper.cpp; path = ../../../src/vendors/hashlib2plus/src/hl_sha1wrapper.cpp; sourceTree = "<group>"; };
+		7490C8E6183B9B0100AC21C5 /* hl_sha1wrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_sha1wrapper.h; path = ../../../src/vendors/hashlib2plus/src/hl_sha1wrapper.h; sourceTree = "<group>"; };
+		7490C8E7183B9B0100AC21C5 /* hl_sha2ext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = hl_sha2ext.cpp; path = ../../../src/vendors/hashlib2plus/src/hl_sha2ext.cpp; sourceTree = "<group>"; };
+		7490C8E8183B9B0100AC21C5 /* hl_sha2ext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_sha2ext.h; path = ../../../src/vendors/hashlib2plus/src/hl_sha2ext.h; sourceTree = "<group>"; };
+		7490C8E9183B9B0100AC21C5 /* hl_sha2mac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_sha2mac.h; path = ../../../src/vendors/hashlib2plus/src/hl_sha2mac.h; sourceTree = "<group>"; };
+		7490C8EA183B9B0100AC21C5 /* hl_sha256.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = hl_sha256.cpp; path = ../../../src/vendors/hashlib2plus/src/hl_sha256.cpp; sourceTree = "<group>"; };
+		7490C8EB183B9B0100AC21C5 /* hl_sha256.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_sha256.h; path = ../../../src/vendors/hashlib2plus/src/hl_sha256.h; sourceTree = "<group>"; };
+		7490C8EC183B9B0100AC21C5 /* hl_sha256wrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = hl_sha256wrapper.cpp; path = ../../../src/vendors/hashlib2plus/src/hl_sha256wrapper.cpp; sourceTree = "<group>"; };
+		7490C8ED183B9B0100AC21C5 /* hl_sha256wrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_sha256wrapper.h; path = ../../../src/vendors/hashlib2plus/src/hl_sha256wrapper.h; sourceTree = "<group>"; };
+		7490C8EE183B9B0100AC21C5 /* hl_sha384wrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = hl_sha384wrapper.cpp; path = ../../../src/vendors/hashlib2plus/src/hl_sha384wrapper.cpp; sourceTree = "<group>"; };
+		7490C8EF183B9B0100AC21C5 /* hl_sha384wrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_sha384wrapper.h; path = ../../../src/vendors/hashlib2plus/src/hl_sha384wrapper.h; sourceTree = "<group>"; };
+		7490C8F0183B9B0100AC21C5 /* hl_sha512wrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = hl_sha512wrapper.cpp; path = ../../../src/vendors/hashlib2plus/src/hl_sha512wrapper.cpp; sourceTree = "<group>"; };
+		7490C8F1183B9B0100AC21C5 /* hl_sha512wrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_sha512wrapper.h; path = ../../../src/vendors/hashlib2plus/src/hl_sha512wrapper.h; sourceTree = "<group>"; };
+		7490C8F2183B9B0100AC21C5 /* hl_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_types.h; path = ../../../src/vendors/hashlib2plus/src/hl_types.h; sourceTree = "<group>"; };
+		7490C8F3183B9B0100AC21C5 /* hl_wrapperfactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = hl_wrapperfactory.cpp; path = ../../../src/vendors/hashlib2plus/src/hl_wrapperfactory.cpp; sourceTree = "<group>"; };
+		7490C8F4183B9B0100AC21C5 /* hl_wrapperfactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_wrapperfactory.h; path = ../../../src/vendors/hashlib2plus/src/hl_wrapperfactory.h; sourceTree = "<group>"; };
 		749CB4671666554F00939B0A /* ETHEntityHaloRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityHaloRenderer.cpp; path = ../../../src/engine/Renderer/ETHEntityHaloRenderer.cpp; sourceTree = "<group>"; };
 		749CB4681666554F00939B0A /* ETHEntityHaloRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityHaloRenderer.h; path = ../../../src/engine/Renderer/ETHEntityHaloRenderer.h; sourceTree = "<group>"; };
 		749CB4691666554F00939B0A /* ETHEntityParticleRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityParticleRenderer.cpp; path = ../../../src/engine/Renderer/ETHEntityParticleRenderer.cpp; sourceTree = "<group>"; };
@@ -844,6 +879,46 @@
 				74868C6F14374C3B00E7B3DD /* Ethanon-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		7490C8DA183B9ACE00AC21C5 /* Vendors */ = {
+			isa = PBXGroup;
+			children = (
+				7490C8DB183B9ADB00AC21C5 /* hashlib2plus */,
+			);
+			name = Vendors;
+			sourceTree = "<group>";
+		};
+		7490C8DB183B9ADB00AC21C5 /* hashlib2plus */ = {
+			isa = PBXGroup;
+			children = (
+				7490C8DC183B9B0100AC21C5 /* hashlibpp.h */,
+				7490C8DD183B9B0100AC21C5 /* hl_exception.h */,
+				7490C8DE183B9B0100AC21C5 /* hl_hashwrapper.h */,
+				7490C8DF183B9B0100AC21C5 /* hl_md5.cpp */,
+				7490C8E0183B9B0100AC21C5 /* hl_md5.h */,
+				7490C8E1183B9B0100AC21C5 /* hl_md5wrapper.cpp */,
+				7490C8E2183B9B0100AC21C5 /* hl_md5wrapper.h */,
+				7490C8E3183B9B0100AC21C5 /* hl_sha1.cpp */,
+				7490C8E4183B9B0100AC21C5 /* hl_sha1.h */,
+				7490C8E5183B9B0100AC21C5 /* hl_sha1wrapper.cpp */,
+				7490C8E6183B9B0100AC21C5 /* hl_sha1wrapper.h */,
+				7490C8E7183B9B0100AC21C5 /* hl_sha2ext.cpp */,
+				7490C8E8183B9B0100AC21C5 /* hl_sha2ext.h */,
+				7490C8E9183B9B0100AC21C5 /* hl_sha2mac.h */,
+				7490C8EA183B9B0100AC21C5 /* hl_sha256.cpp */,
+				7490C8EB183B9B0100AC21C5 /* hl_sha256.h */,
+				7490C8EC183B9B0100AC21C5 /* hl_sha256wrapper.cpp */,
+				7490C8ED183B9B0100AC21C5 /* hl_sha256wrapper.h */,
+				7490C8EE183B9B0100AC21C5 /* hl_sha384wrapper.cpp */,
+				7490C8EF183B9B0100AC21C5 /* hl_sha384wrapper.h */,
+				7490C8F0183B9B0100AC21C5 /* hl_sha512wrapper.cpp */,
+				7490C8F1183B9B0100AC21C5 /* hl_sha512wrapper.h */,
+				7490C8F2183B9B0100AC21C5 /* hl_types.h */,
+				7490C8F3183B9B0100AC21C5 /* hl_wrapperfactory.cpp */,
+				7490C8F4183B9B0100AC21C5 /* hl_wrapperfactory.h */,
+			);
+			name = hashlib2plus;
 			sourceTree = "<group>";
 		};
 		749CB4651666553D00939B0A /* Renderer */ = {
@@ -1206,6 +1281,7 @@
 				74DD3897144248A40041C2EA /* Physics */,
 				74DD3878144248760041C2EA /* Entity */,
 				74FBF1781437C7DB00C67129 /* Platform */,
+				7490C8DA183B9ACE00AC21C5 /* Vendors */,
 				74666CC3165A796400C70736 /* ETHEngine.cpp */,
 				74666CC4165A796400C70736 /* ETHEngine.h */,
 				74666CC5165A796400C70736 /* ETHTypes.h */,
@@ -1595,6 +1671,7 @@
 				74666C92165A784400C70736 /* as_objecttype.cpp in Sources */,
 				74666C93165A784400C70736 /* as_outputbuffer.cpp in Sources */,
 				74666C94165A784400C70736 /* as_parser.cpp in Sources */,
+				7490C8F7183B9B0100AC21C5 /* hl_sha1.cpp in Sources */,
 				74666C95165A784400C70736 /* as_restore.cpp in Sources */,
 				74666C96165A784400C70736 /* as_scriptcode.cpp in Sources */,
 				74666C97165A784400C70736 /* as_scriptengine.cpp in Sources */,
@@ -1619,6 +1696,7 @@
 				74666CD4165A798700C70736 /* ETHParticleManager.cpp in Sources */,
 				74666CD5165A798700C70736 /* ETHParticleSystem.cpp in Sources */,
 				74666CDE165A799A00C70736 /* ETHDirectories.cpp in Sources */,
+				7490C8FD183B9B0100AC21C5 /* hl_sha512wrapper.cpp in Sources */,
 				74666CDF165A799A00C70736 /* ETHResourceManager.cpp in Sources */,
 				74666CE0165A799A00C70736 /* ETHResourceProvider.cpp in Sources */,
 				74666CE1165A799A00C70736 /* ETHSpriteDensityManager.cpp in Sources */,
@@ -1629,8 +1707,10 @@
 				74666CFC165A79B200C70736 /* ETHNoDynamicBackBuffer.cpp in Sources */,
 				74666CFD165A79B200C70736 /* ETHParallaxManager.cpp in Sources */,
 				74666CFE165A79B200C70736 /* ETHPixelLightDiffuseSpecular.cpp in Sources */,
+				7490C8FC183B9B0100AC21C5 /* hl_sha384wrapper.cpp in Sources */,
 				74666CFF165A79B200C70736 /* ETHShaderManager.cpp in Sources */,
 				74666D00165A79B200C70736 /* ETHShaders.glsl.cpp in Sources */,
+				7490C8F9183B9B0100AC21C5 /* hl_sha2ext.cpp in Sources */,
 				74666D01165A79B200C70736 /* ETHVertexLightDiffuse.cpp in Sources */,
 				74666D14165A79C700C70736 /* ETHBinaryStream.cpp in Sources */,
 				74666D17165A79C700C70736 /* ETHScriptObjRegister.cpp in Sources */,
@@ -1704,8 +1784,10 @@
 				74666DE3165A7B7400C70736 /* b2ChainAndCircleContact.cpp in Sources */,
 				74666DE4165A7B7400C70736 /* b2ChainAndPolygonContact.cpp in Sources */,
 				74666DE5165A7B7400C70736 /* b2CircleContact.cpp in Sources */,
+				7490C8FE183B9B0100AC21C5 /* hl_wrapperfactory.cpp in Sources */,
 				74666DE6165A7B7400C70736 /* b2Contact.cpp in Sources */,
 				74666DE7165A7B7400C70736 /* b2ContactSolver.cpp in Sources */,
+				7490C8F6183B9B0100AC21C5 /* hl_md5wrapper.cpp in Sources */,
 				74666DE8165A7B7400C70736 /* b2EdgeAndCircleContact.cpp in Sources */,
 				74666DE9165A7B7400C70736 /* b2EdgeAndPolygonContact.cpp in Sources */,
 				74666DEA165A7B7400C70736 /* b2PolygonAndCircleContact.cpp in Sources */,
@@ -1736,10 +1818,13 @@
 				74666E45165A7C3A00C70736 /* Logger.cpp in Sources */,
 				74666E46165A7C3A00C70736 /* NativeCommandAssembler.cpp in Sources */,
 				74666E47165A7C3A00C70736 /* NativeCommandForwarder.cpp in Sources */,
+				7490C8F8183B9B0100AC21C5 /* hl_sha1wrapper.cpp in Sources */,
 				74666E48165A7C3A00C70736 /* Platform.cpp in Sources */,
 				74666E4E165A7C4E00C70736 /* IOSFileIOHub.cpp in Sources */,
 				74666E4F165A7C4E00C70736 /* Platform.ios.mm in Sources */,
 				74666E52165A7C6F00C70736 /* MobileInput.cpp in Sources */,
+				7490C8FA183B9B0100AC21C5 /* hl_sha256.cpp in Sources */,
+				7490C8FB183B9B0100AC21C5 /* hl_sha256wrapper.cpp in Sources */,
 				74666E55165A7C7800C70736 /* IOSInput.cpp in Sources */,
 				74666E5D165A7CB400C70736 /* BitmapFont.cpp in Sources */,
 				74666E5E165A7CB400C70736 /* BitmapFontManager.cpp in Sources */,
@@ -1772,6 +1857,7 @@
 				74D47C3917B4140F00E60B05 /* CDAudioSample.mm in Sources */,
 				74D47C4517B4158D00E60B05 /* CDAudioManager.m in Sources */,
 				74D47C4717B4158D00E60B05 /* CDOpenALSupport.m in Sources */,
+				7490C8F5183B9B0100AC21C5 /* hl_md5.cpp in Sources */,
 				74D47C4817B4158D00E60B05 /* CocosDenshion.m in Sources */,
 				74D47C4917B4158D00E60B05 /* SimpleAudioEngine.m in Sources */,
 				74FF04F218047A20006D0F9F /* StdFileManager.cpp in Sources */,
@@ -1886,6 +1972,7 @@
 					"DEBUG=1",
 					"_DEBUG=1",
 					ETH_DEFINE_DEPRECATED_SIGNATURES_FROM_0_9_5,
+					CD_USE_OWN_FILEUTILS,
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -1896,6 +1983,7 @@
 				GCC_WARN_UNUSED_PARAMETER = NO;
 				HEADER_SEARCH_PATHS = (
 					../../../src/soil,
+					../../../src/vendors/hashlib2plus/src,
 					../../../src/gs2d/vendors/BoostSDK,
 					../../../src/box2d,
 					../../../src/,
@@ -1930,6 +2018,7 @@
 					AS_MAX_PORTABILITY,
 					AS_NO_THREADS,
 					ETH_DEFINE_DEPRECATED_SIGNATURES_FROM_0_9_5,
+					CD_USE_OWN_FILEUTILS,
 				);
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
@@ -1939,6 +2028,7 @@
 				GCC_WARN_UNUSED_PARAMETER = NO;
 				HEADER_SEARCH_PATHS = (
 					../../../src/soil,
+					../../../src/vendors/hashlib2plus/src,
 					../../../src/gs2d/vendors/BoostSDK,
 					../../../src/box2d,
 					../../../src/,
