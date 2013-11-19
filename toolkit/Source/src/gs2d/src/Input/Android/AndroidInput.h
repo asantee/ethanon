@@ -47,7 +47,6 @@ class AndroidInput : public MobileInput, public Platform::NativeCommandForwarder
 	std::vector<float> m_z;
 	std::vector<float> m_rudder;
 
-
 	static const std::string KEY_PRESSED_CMD;
 
 	static const std::string DPAD_0_UP;
@@ -62,6 +61,7 @@ class AndroidInput : public MobileInput, public Platform::NativeCommandForwarder
 
 	void UpdateKeys(const std::string& str);
 	void UpdateKey(const std::string& str, const std::string& keyName, const GS_KEY key);
+	void UpdateKey(const std::string& keyName, const GS_KEY key);
 
 	void UpdateJoysticks();
 	std::string AssembleJoystickSharedDataPath(const std::size_t j, const std::string& parameter);
@@ -93,6 +93,74 @@ public:
 	math::Vector2 GetJoystickUV(const unsigned int id) const;
 	GS_JOYSTICK_BUTTON GetFirstButtonDown(const unsigned int id) const;
 	unsigned int GetNumJoysticks() const;
+
+public:
+	const static str_type::string KEY_STATE_DOWN;
+	const static str_type::string KEY_STATE_UP;
+
+	const static str_type::string KEY_CODE_UP;
+	const static str_type::string KEY_CODE_DOWN;
+	const static str_type::string KEY_CODE_LEFT;
+	const static str_type::string KEY_CODE_RIGHT;
+	const static str_type::string KEY_CODE_PAGE_UP;
+	const static str_type::string KEY_CODE_PAGE_DOWN;
+	const static str_type::string KEY_CODE_SPACE;
+	const static str_type::string KEY_CODE_ENTER;
+	const static str_type::string KEY_CODE_HOME;
+	const static str_type::string KEY_CODE_INSERT;
+	const static str_type::string KEY_CODE_ESCAPE;
+	const static str_type::string KEY_CODE_TAB;
+	const static str_type::string KEY_CODE_SHIFT;
+	const static str_type::string KEY_CODE_ALT;
+	const static str_type::string KEY_CODE_CTRL;
+	const static str_type::string KEY_CODE_F1;
+	const static str_type::string KEY_CODE_F2;
+	const static str_type::string KEY_CODE_F3;
+	const static str_type::string KEY_CODE_F4;
+	const static str_type::string KEY_CODE_F5;
+	const static str_type::string KEY_CODE_F6;
+	const static str_type::string KEY_CODE_F7;
+	const static str_type::string KEY_CODE_F8;
+	const static str_type::string KEY_CODE_F9;
+	const static str_type::string KEY_CODE_F10;
+	const static str_type::string KEY_CODE_F11;
+	const static str_type::string KEY_CODE_F12;
+	const static str_type::string KEY_CODE_A;
+	const static str_type::string KEY_CODE_B;
+	const static str_type::string KEY_CODE_C;
+	const static str_type::string KEY_CODE_D;
+	const static str_type::string KEY_CODE_E;
+	const static str_type::string KEY_CODE_F;
+	const static str_type::string KEY_CODE_G;
+	const static str_type::string KEY_CODE_H;
+	const static str_type::string KEY_CODE_I;
+	const static str_type::string KEY_CODE_J;
+	const static str_type::string KEY_CODE_K;
+	const static str_type::string KEY_CODE_L;
+	const static str_type::string KEY_CODE_M;
+	const static str_type::string KEY_CODE_N;
+	const static str_type::string KEY_CODE_O;
+	const static str_type::string KEY_CODE_P;
+	const static str_type::string KEY_CODE_Q;
+	const static str_type::string KEY_CODE_R;
+	const static str_type::string KEY_CODE_S;
+	const static str_type::string KEY_CODE_T;
+	const static str_type::string KEY_CODE_U;
+	const static str_type::string KEY_CODE_V;
+	const static str_type::string KEY_CODE_X;
+	const static str_type::string KEY_CODE_Y;
+	const static str_type::string KEY_CODE_Z;
+	const static str_type::string KEY_CODE_W;
+	const static str_type::string KEY_CODE_0;
+	const static str_type::string KEY_CODE_1;
+	const static str_type::string KEY_CODE_2;
+	const static str_type::string KEY_CODE_3;
+	const static str_type::string KEY_CODE_4;
+	const static str_type::string KEY_CODE_5;
+	const static str_type::string KEY_CODE_6;
+	const static str_type::string KEY_CODE_7;
+	const static str_type::string KEY_CODE_8;
+	const static str_type::string KEY_CODE_9;
 };
 
 typedef boost::shared_ptr<AndroidInput> AndroidInputPtr;

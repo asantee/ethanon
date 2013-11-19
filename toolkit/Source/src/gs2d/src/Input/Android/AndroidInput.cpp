@@ -31,6 +31,73 @@ namespace gs2d {
 
 using namespace math;
 
+const str_type::string AndroidInput::KEY_STATE_DOWN = "down";
+const str_type::string AndroidInput::KEY_STATE_UP = "up";
+
+const str_type::string AndroidInput::KEY_CODE_UP = "ethanon.system.keyboard.up";
+const str_type::string AndroidInput::KEY_CODE_DOWN = "ethanon.system.keyboard.down";
+const str_type::string AndroidInput::KEY_CODE_LEFT = "ethanon.system.keyboard.left";
+const str_type::string AndroidInput::KEY_CODE_RIGHT = "ethanon.system.keyboard.right";
+const str_type::string AndroidInput::KEY_CODE_PAGE_UP = "ethanon.system.keyboard.pageUp";
+const str_type::string AndroidInput::KEY_CODE_PAGE_DOWN = "ethanon.system.keyboard.pageDown";
+const str_type::string AndroidInput::KEY_CODE_SPACE = "ethanon.system.keyboard.space";
+const str_type::string AndroidInput::KEY_CODE_ENTER = "ethanon.system.keyboard.enter";
+const str_type::string AndroidInput::KEY_CODE_HOME = "ethanon.system.keyboard.home";
+const str_type::string AndroidInput::KEY_CODE_INSERT = "ethanon.system.keyboard.insert";
+const str_type::string AndroidInput::KEY_CODE_ESCAPE = "ethanon.system.keyboard.esc";
+const str_type::string AndroidInput::KEY_CODE_TAB = "ethanon.system.keyboard.tab";
+const str_type::string AndroidInput::KEY_CODE_SHIFT = "ethanon.system.keyboard.shift";
+const str_type::string AndroidInput::KEY_CODE_ALT = "ethanon.system.keyboard.alt";
+const str_type::string AndroidInput::KEY_CODE_CTRL = "ethanon.system.keyboard.ctrl";
+const str_type::string AndroidInput::KEY_CODE_F1 = "ethanon.system.keyboard.f1";
+const str_type::string AndroidInput::KEY_CODE_F2 = "ethanon.system.keyboard.f2";
+const str_type::string AndroidInput::KEY_CODE_F3 = "ethanon.system.keyboard.f3";
+const str_type::string AndroidInput::KEY_CODE_F4 = "ethanon.system.keyboard.f4";
+const str_type::string AndroidInput::KEY_CODE_F5 = "ethanon.system.keyboard.f5";
+const str_type::string AndroidInput::KEY_CODE_F6 = "ethanon.system.keyboard.f6";
+const str_type::string AndroidInput::KEY_CODE_F7 = "ethanon.system.keyboard.f7";
+const str_type::string AndroidInput::KEY_CODE_F8 = "ethanon.system.keyboard.f8";
+const str_type::string AndroidInput::KEY_CODE_F9 = "ethanon.system.keyboard.f9";
+const str_type::string AndroidInput::KEY_CODE_F10 = "ethanon.system.keyboard.f10";
+const str_type::string AndroidInput::KEY_CODE_F11 = "ethanon.system.keyboard.f11";
+const str_type::string AndroidInput::KEY_CODE_F12 = "ethanon.system.keyboard.f12";
+const str_type::string AndroidInput::KEY_CODE_A = "ethanon.system.keyboard.a";
+const str_type::string AndroidInput::KEY_CODE_B = "ethanon.system.keyboard.b";
+const str_type::string AndroidInput::KEY_CODE_C = "ethanon.system.keyboard.c";
+const str_type::string AndroidInput::KEY_CODE_D = "ethanon.system.keyboard.d";
+const str_type::string AndroidInput::KEY_CODE_E = "ethanon.system.keyboard.e";
+const str_type::string AndroidInput::KEY_CODE_F = "ethanon.system.keyboard.f";
+const str_type::string AndroidInput::KEY_CODE_G = "ethanon.system.keyboard.g";
+const str_type::string AndroidInput::KEY_CODE_H = "ethanon.system.keyboard.h";
+const str_type::string AndroidInput::KEY_CODE_I = "ethanon.system.keyboard.i";
+const str_type::string AndroidInput::KEY_CODE_J = "ethanon.system.keyboard.j";
+const str_type::string AndroidInput::KEY_CODE_K = "ethanon.system.keyboard.k";
+const str_type::string AndroidInput::KEY_CODE_L = "ethanon.system.keyboard.l";
+const str_type::string AndroidInput::KEY_CODE_M = "ethanon.system.keyboard.m";
+const str_type::string AndroidInput::KEY_CODE_N = "ethanon.system.keyboard.n";
+const str_type::string AndroidInput::KEY_CODE_O = "ethanon.system.keyboard.o";
+const str_type::string AndroidInput::KEY_CODE_P = "ethanon.system.keyboard.p";
+const str_type::string AndroidInput::KEY_CODE_Q = "ethanon.system.keyboard.q";
+const str_type::string AndroidInput::KEY_CODE_R = "ethanon.system.keyboard.r";
+const str_type::string AndroidInput::KEY_CODE_S = "ethanon.system.keyboard.s";
+const str_type::string AndroidInput::KEY_CODE_T = "ethanon.system.keyboard.t";
+const str_type::string AndroidInput::KEY_CODE_U = "ethanon.system.keyboard.u";
+const str_type::string AndroidInput::KEY_CODE_V = "ethanon.system.keyboard.v";
+const str_type::string AndroidInput::KEY_CODE_X = "ethanon.system.keyboard.x";
+const str_type::string AndroidInput::KEY_CODE_Y = "ethanon.system.keyboard.y";
+const str_type::string AndroidInput::KEY_CODE_Z = "ethanon.system.keyboard.z";
+const str_type::string AndroidInput::KEY_CODE_W = "ethanon.system.keyboard.w";
+const str_type::string AndroidInput::KEY_CODE_0 = "ethanon.system.keyboard.0";
+const str_type::string AndroidInput::KEY_CODE_1 = "ethanon.system.keyboard.1";
+const str_type::string AndroidInput::KEY_CODE_2 = "ethanon.system.keyboard.2";
+const str_type::string AndroidInput::KEY_CODE_3 = "ethanon.system.keyboard.3";
+const str_type::string AndroidInput::KEY_CODE_4 = "ethanon.system.keyboard.4";
+const str_type::string AndroidInput::KEY_CODE_5 = "ethanon.system.keyboard.5";
+const str_type::string AndroidInput::KEY_CODE_6 = "ethanon.system.keyboard.6";
+const str_type::string AndroidInput::KEY_CODE_7 = "ethanon.system.keyboard.7";
+const str_type::string AndroidInput::KEY_CODE_8 = "ethanon.system.keyboard.8";
+const str_type::string AndroidInput::KEY_CODE_9 = "ethanon.system.keyboard.9";
+
 GS2D_API InputPtr CreateInput(boost::any data, const bool showJoystickWarnings)
 {
 	std::string *str;
@@ -126,11 +193,80 @@ void AndroidInput::UpdateKeys(const std::string& str)
 {
 	UpdateKey(str, KEY_PRESSED_CMD + m_keyName[GSK_BACK],  GSK_BACK);
 	UpdateKey(str, KEY_PRESSED_CMD + m_keyName[GSK_PAUSE], GSK_PAUSE);
+
+	UpdateKey(KEY_CODE_UP, GSK_UP);
+	UpdateKey(KEY_CODE_DOWN, GSK_DOWN);
+	UpdateKey(KEY_CODE_LEFT, GSK_LEFT);
+	UpdateKey(KEY_CODE_RIGHT, GSK_RIGHT);
+	UpdateKey(KEY_CODE_PAGE_UP, GSK_PAGEUP);
+	UpdateKey(KEY_CODE_PAGE_DOWN, GSK_PAGEDOWN);
+	UpdateKey(KEY_CODE_SPACE, GSK_SPACE);
+	UpdateKey(KEY_CODE_ENTER, GSK_ENTER);
+	UpdateKey(KEY_CODE_HOME, GSK_HOME);
+	UpdateKey(KEY_CODE_INSERT, GSK_INSERT);
+	UpdateKey(KEY_CODE_ESCAPE, GSK_ESC);
+	UpdateKey(KEY_CODE_TAB, GSK_TAB);
+	UpdateKey(KEY_CODE_SHIFT, GSK_SHIFT);
+	UpdateKey(KEY_CODE_ALT, GSK_ALT);
+	UpdateKey(KEY_CODE_CTRL, GSK_CTRL);
+	UpdateKey(KEY_CODE_F1, GSK_F1);
+	UpdateKey(KEY_CODE_F2, GSK_F2);
+	UpdateKey(KEY_CODE_F3, GSK_F3);
+	UpdateKey(KEY_CODE_F4, GSK_F4);
+	UpdateKey(KEY_CODE_F5, GSK_F5);
+	UpdateKey(KEY_CODE_F6, GSK_F6);
+	UpdateKey(KEY_CODE_F7, GSK_F7);
+	UpdateKey(KEY_CODE_F8, GSK_F8);
+	UpdateKey(KEY_CODE_F9, GSK_F9);
+	UpdateKey(KEY_CODE_F10, GSK_F10);
+	UpdateKey(KEY_CODE_F11, GSK_F11);
+	UpdateKey(KEY_CODE_F12, GSK_F12);
+	UpdateKey(KEY_CODE_A, GSK_A);
+	UpdateKey(KEY_CODE_B, GSK_B);
+	UpdateKey(KEY_CODE_C, GSK_C);
+	UpdateKey(KEY_CODE_D, GSK_D);
+	UpdateKey(KEY_CODE_E, GSK_E);
+	UpdateKey(KEY_CODE_F, GSK_F);
+	UpdateKey(KEY_CODE_G, GSK_G);
+	UpdateKey(KEY_CODE_H, GSK_H);
+	UpdateKey(KEY_CODE_I, GSK_I);
+	UpdateKey(KEY_CODE_J, GSK_J);
+	UpdateKey(KEY_CODE_K, GSK_K);
+	UpdateKey(KEY_CODE_L, GSK_L);
+	UpdateKey(KEY_CODE_M, GSK_M);
+	UpdateKey(KEY_CODE_N, GSK_N);
+	UpdateKey(KEY_CODE_O, GSK_O);
+	UpdateKey(KEY_CODE_P, GSK_P);
+	UpdateKey(KEY_CODE_Q, GSK_Q);
+	UpdateKey(KEY_CODE_R, GSK_R);
+	UpdateKey(KEY_CODE_S, GSK_S);
+	UpdateKey(KEY_CODE_T, GSK_T);
+	UpdateKey(KEY_CODE_U, GSK_U);
+	UpdateKey(KEY_CODE_V, GSK_V);
+	UpdateKey(KEY_CODE_X, GSK_X);
+	UpdateKey(KEY_CODE_Y, GSK_Y);
+	UpdateKey(KEY_CODE_Z, GSK_Z);
+	UpdateKey(KEY_CODE_W, GSK_W);
+	UpdateKey(KEY_CODE_0, GSK_0);
+	UpdateKey(KEY_CODE_1, GSK_1);
+	UpdateKey(KEY_CODE_2, GSK_2);
+	UpdateKey(KEY_CODE_3, GSK_3);
+	UpdateKey(KEY_CODE_4, GSK_4);
+	UpdateKey(KEY_CODE_5, GSK_5);
+	UpdateKey(KEY_CODE_6, GSK_6);
+	UpdateKey(KEY_CODE_7, GSK_7);
+	UpdateKey(KEY_CODE_8, GSK_8);
+	UpdateKey(KEY_CODE_9, GSK_9);
 }
 
 void AndroidInput::UpdateKey(const std::string& str, const std::string& keyName, const GS_KEY key)
 {
 	m_keyStates[key].Update(strstr(str.c_str(), keyName.c_str()) != NULL);
+}
+
+void AndroidInput::UpdateKey(const std::string& keyName, const GS_KEY key)
+{
+	m_keyStates[key].Update(gs2d::Application::SharedData.Get(keyName) == KEY_STATE_DOWN);
 }
 
 bool AndroidInput::Update()

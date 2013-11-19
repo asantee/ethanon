@@ -24,6 +24,7 @@
 #define GS2D_MOBILE_INPUT_H_
 
 #include "../Input.h"
+
 #include "KeyStateManager.h"
 
 #include <vector>
