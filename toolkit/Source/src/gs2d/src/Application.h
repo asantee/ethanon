@@ -62,6 +62,15 @@ public:
 		TU_HOURS = 3
 	};
 
+	class FileOpenListener
+	{
+	public:
+		virtual bool OnFileOpen(const str_type::string& fullFilePath) = 0;
+	};
+	typedef boost::shared_ptr<FileOpenListener> FileOpenListenerPtr;
+
+	virtual void SetFileOpenListener(const FileOpenListenerPtr& listener);
+
 	class ScreenSizeChangeListener
 	{
 	public:
@@ -69,6 +78,8 @@ public:
 	};
 	typedef boost::shared_ptr<ScreenSizeChangeListener> ScreenSizeChangeListenerPtr;
 	typedef boost::weak_ptr<ScreenSizeChangeListener> ScreenSizeChangeListenerWeakPtr;
+
+	virtual void SetScreenSizeChangeListener(const ScreenSizeChangeListenerPtr& listener);
 
 	static Platform::SharedDataManager SharedData;
 
@@ -111,10 +122,9 @@ public:
 
 	virtual Platform::FileIOHubPtr GetFileIOHub() = 0;
 
-	virtual void SetScreenSizeChangeListener(const ScreenSizeChangeListenerPtr& listener);
-
 protected:
 	ScreenSizeChangeListenerWeakPtr m_screenSizeChangeListener;
+	FileOpenListenerPtr m_fileOpenListener;
 
 	virtual bool StartApplication(
 		const unsigned int width,

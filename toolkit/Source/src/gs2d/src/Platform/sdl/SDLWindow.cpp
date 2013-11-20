@@ -73,6 +73,8 @@ bool SDLWindow::StartApplication(
 		return false;
 	}
 
+	SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
+
 	// enumerates m_videoModes
 	ReadDisplayModes();
 
@@ -228,6 +230,13 @@ Application::APP_STATUS SDLWindow::HandleEvents()
 			break;
 		case SDL_TEXTINPUT:
 			m_lastCharInput = event.text.text;
+			break;
+		case SDL_DROPFILE:
+			if (m_fileOpenListener)
+			{
+				const str_type::string file = event.drop.file;
+				m_fileOpenListener->OnFileOpen(file);
+			}
 			break;
 		}
 	}

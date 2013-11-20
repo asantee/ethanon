@@ -79,6 +79,16 @@ extern "C" {
 	}
 }
 
+class EditorFileOpener : public gs2d::Application::FileOpenListener
+{
+public:
+	bool OnFileOpen(const str_type::string& fullFilePath)
+	{
+		g_externalProjectOpenRequest = fullFilePath;
+		return true;
+	}
+};
+
 bool DoNextAppButton(int nextApp, SpritePtr pSprite, VideoPtr video, InputPtr input,
 					 const float menuSize, boost::shared_ptr<EditorBase> pEditor)
 {
@@ -131,10 +141,11 @@ bool DoNextAppButton(int nextApp, SpritePtr pSprite, VideoPtr video, InputPtr in
 	return false;
 }
 
-std::string FindStartupProject(const int argc, char **argv, const Platform::FileManagerPtr& fileManager)
+std::string FindStartupProject(const int argc, char **argv, const Platform::FileManagerPtr& fileManager, const Platform::Logger& logger)
 {
 	for (int t = 0; t < argc; t++)
 	{
+		logger.Log(argv[t], Platform::Logger::INFO);
 		if (Platform::IsExtensionRight(argv[t], GS_L(".ethproj")) && ETHGlobal::FileExists(argv[t], fileManager))
 		{
 			return argv[t];
@@ -181,6 +192,8 @@ int main(int argc, char **argv)
 			ETHShaderManagerPtr(new ETHShaderManager(video, fileIOHub->GetProgramDirectory() + ETHDirectories::GetShaderDirectory(), true)),
 			video, audio, input, fileIOHub, true));
 
+		video->SetFileOpenListener(gs2d::Application::FileOpenListenerPtr(new EditorFileOpener()));
+
 		// instantiate and load every editor
 		std::vector<boost::shared_ptr<EditorBase> > editor(nEditors);
 		editor[PROJECT] = boost::shared_ptr<EditorBase>(new ProjectManager(provider));
@@ -201,7 +214,7 @@ int main(int argc, char **argv)
 		//ETH_STARTUP_RESOURCES_ENML_FILE startup(fileIOHub->GetProgramDirectory() + GS_L("editor.enml"), Platform::FileManagerPtr(new Platform::StdFileManager));
 
 		// if the user tried the "open with..." feature on windows, open that project
-		const std::string projectFile = FindStartupProject(argc, argv, fileManager);
+		const std::string projectFile = FindStartupProject(argc, argv, fileManager, *provider->GetLogger());
 		if (!projectFile.empty())
 		{
 			editor[PROJECT]->SetCurrentProject(projectFile.c_str());

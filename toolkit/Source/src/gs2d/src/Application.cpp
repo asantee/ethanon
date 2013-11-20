@@ -62,5 +62,9 @@ void Application::SetScreenSizeChangeListener(const ScreenSizeChangeListenerPtr&
 	m_screenSizeChangeListener = listener;
 }
 
-} // namespace gs2d
+void Application::SetFileOpenListener(const FileOpenListenerPtr& listener)
+{
+	m_fileOpenListener = listener;
+}
 
+} // namespace gs2d
