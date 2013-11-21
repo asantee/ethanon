@@ -417,7 +417,8 @@ Vector2 BitmapFont::DrawBitmapText(const Vector2& pos, const str_type::string& t
 	}
 
 	const std::size_t length = text.size();
-	Vector2 cursor = Vector2(floor(pos.x), floor(pos.y));
+    
+	Vector2 cursor = pos;
 
 	std::vector<Sprite*> bitmapsPointers(m_bitmaps.size());
 	for (std::size_t t = 0; t < bitmapsPointers.size(); t++)
