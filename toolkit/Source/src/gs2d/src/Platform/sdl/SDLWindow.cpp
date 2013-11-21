@@ -92,8 +92,8 @@ bool SDLWindow::StartApplication(
 	if ((m_window = SDL_CreateWindow(
 			winTitle.c_str(),
 			SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-			width,
-			height,
+			static_cast<int>(m_screenSize.x),
+			static_cast<int>(m_screenSize.y),
 			AssembleFlags(windowed, IsMaximizable(), SyncEnabled()))) != NULL)
 	{
 		m_glcontext = SDL_GL_CreateContext(m_window);
@@ -124,8 +124,8 @@ Uint32 SDLWindow::AssembleFlags(const bool windowed, const bool maximizable, con
 	Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
 
 	if (!windowed)
-		flags |= SDL_WINDOW_FULLSCREEN;
-	else if (maximizable)
+		flags |= SDL_WINDOW_FULLSCREEN | SDL_WINDOW_BORDERLESS;
+	else if (maximizable && windowed)
 		flags |= SDL_WINDOW_RESIZABLE;
 
 	return flags;
