@@ -24,13 +24,13 @@ public abstract class InputDeviceManager {
 	public static final int DPAD_RIGHT = -5;
 
 	public static final int KEYCODE_XPERIA_TRIANGLE = KeyEvent.KEYCODE_BUTTON_Y;
-	public static final int KEYCODE_XPERIA_CIRCLE   = KeyEvent.KEYCODE_BACK;
-	public static final int KEYCODE_XPERIA_X        = KeyEvent.KEYCODE_DPAD_CENTER;
-	public static final int KEYCODE_XPERIA_SQUARE   = KeyEvent.KEYCODE_BUTTON_X;
-	public static final int KEYCODE_XPERIA_L        = KeyEvent.KEYCODE_BUTTON_L1;
-	public static final int KEYCODE_XPERIA_R        = KeyEvent.KEYCODE_BUTTON_R1;
-	public static final int KEYCODE_XPERIA_START    = KeyEvent.KEYCODE_BUTTON_START;
-	public static final int KEYCODE_XPERIA_SELECT   = KeyEvent.KEYCODE_BUTTON_SELECT;
+	public static final int KEYCODE_XPERIA_CIRCLE = KeyEvent.KEYCODE_BACK;
+	public static final int KEYCODE_XPERIA_X = KeyEvent.KEYCODE_DPAD_CENTER;
+	public static final int KEYCODE_XPERIA_SQUARE = KeyEvent.KEYCODE_BUTTON_X;
+	public static final int KEYCODE_XPERIA_L = KeyEvent.KEYCODE_BUTTON_L1;
+	public static final int KEYCODE_XPERIA_R = KeyEvent.KEYCODE_BUTTON_R1;
+	public static final int KEYCODE_XPERIA_START = KeyEvent.KEYCODE_BUTTON_START;
+	public static final int KEYCODE_XPERIA_SELECT = KeyEvent.KEYCODE_BUTTON_SELECT;
 
 	public static final int KEYCODE_XPERIA_1 = KEYCODE_XPERIA_TRIANGLE;
 	public static final int KEYCODE_XPERIA_2 = KEYCODE_XPERIA_CIRCLE;
@@ -78,12 +78,12 @@ public abstract class InputDeviceManager {
 			InputDevice device = InputDevice.getDevice(deviceIds[t]);
 			if (device == null)
 				continue;
-			
+
 			boolean deviceMatch = false;
 			if (specificDevice != null) {
 				deviceMatch = (specificDevice.getId() == device.getId());
 			}
-			
+
 			if (isGameInputDevice(device.getSources()) || deviceMatch) {
 				devices.add(new InputDeviceState(device, gs2dIndex++));
 
@@ -100,7 +100,8 @@ public abstract class InputDeviceManager {
 
 		StringBuilder deviceNames = new StringBuilder();
 		for (int d = 0; d < devices.size(); d++) {
-			sendSharedParameterChangeRequest(assembleJoystickSharedDataPath(d, "numButtons"), Integer.toString(getMaxJoystickButtons()));
+			sendSharedParameterChangeRequest(assembleJoystickSharedDataPath(d, "numButtons"),
+					Integer.toString(getMaxJoystickButtons()));
 			deviceNames.append(devices.get(d).device.getName()).append("\n");
 		}
 		sendSharedParameterChangeRequest("ethanon.system.gameInputDeviceNameList", deviceNames.toString());
@@ -134,18 +135,18 @@ public abstract class InputDeviceManager {
 					buttonLineBuilder.append("b").append(keyCodeToButtonIndex(key)).append(";");
 				}
 			}
-			sendSharedParameterChangeRequest(assembleJoystickSharedDataPath(d, "buttonPressedList"), buttonLineBuilder.toString());
+			sendSharedParameterChangeRequest(assembleJoystickSharedDataPath(d, "buttonPressedList"),
+					buttonLineBuilder.toString());
 		}
 	}
 
-	private String assembleJoystickSharedDataPath(int j, String parameter)
-	{
+	private String assembleJoystickSharedDataPath(int j, String parameter) {
 		return new StringBuilder().append("ethanon.system.joystick").append(j).append(".").append(parameter).toString();
 	}
 
-	protected String assembleJoystickAxisValueSharedDataPath(int j, int axis)
-	{
-		return new StringBuilder().append("ethanon.system.joystick").append(j).append(".").append("axis").append(axisIdToString(axis)).toString();
+	protected String assembleJoystickAxisValueSharedDataPath(int j, int axis) {
+		return new StringBuilder().append("ethanon.system.joystick").append(j).append(".").append("axis")
+				.append(axisIdToString(axis)).toString();
 	}
 
 	protected InputDeviceState getStateObjectFromDevice(InputDevice device) {
@@ -160,10 +161,22 @@ public abstract class InputDeviceManager {
 		return null;
 	}
 
-	public boolean onKeyUp(KeyEvent event) {
-		InputDevice device = event.getDevice(); 
-		if (device == null)
+	public boolean onKeyDown(KeyEvent event) {
+		InputDevice device = event.getDevice();
+
+		InputDeviceState state = getStateObjectFromDevice(device);
+		if (state == null)
 			return false;
+
+		if (isGameKey(event)) {
+			state.keys.put(event.getKeyCode(), 1);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean onKeyUp(KeyEvent event) {
+		InputDevice device = event.getDevice();
 
 		InputDeviceState state = getStateObjectFromDevice(device);
 		if (state == null)
@@ -176,28 +189,10 @@ public abstract class InputDeviceManager {
 		return false;
 	}
 
-	public boolean onKeyDown(KeyEvent event) {
-		InputDevice device = event.getDevice(); 
-		if (device == null)
-			return false;
-
-		InputDeviceState state = getStateObjectFromDevice(device);
-		if (state == null)
-			return false;
-
-		if (event.getRepeatCount() == 0) {
-			if (isGameKey(event)) {
-				state.keys.put(event.getKeyCode(), 1);
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public boolean isXperiaPlayXKeySwapped() {
 		return xperiaPlayXKeySwapped;
 	}
-	
+
 	protected boolean isGameKey(KeyEvent event) {
 		int keyCode = event.getKeyCode();
 		switch (keyCode) {
@@ -213,14 +208,19 @@ public abstract class InputDeviceManager {
 
 	public static String axisIdToString(int axis) {
 		switch (axis) {
-		case MotionEvent.AXIS_X: return "X";
-		case MotionEvent.AXIS_Y: return "Y";
-		case MotionEvent.AXIS_Z: return "Z";
-		case MotionEvent.AXIS_RUDDER: return "Rudder";
-		default: return "";
+		case MotionEvent.AXIS_X:
+			return "X";
+		case MotionEvent.AXIS_Y:
+			return "Y";
+		case MotionEvent.AXIS_Z:
+			return "Z";
+		case MotionEvent.AXIS_RUDDER:
+			return "Rudder";
+		default:
+			return "";
 		}
 	}
-	
+
 	public abstract boolean onJoystickMotion(MotionEvent event, Activity activity);
 
 	public abstract boolean isGameInputDevice(int source);
