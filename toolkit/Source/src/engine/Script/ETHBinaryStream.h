@@ -24,7 +24,9 @@
 #define ETH_BINARY_STREAM_H_
 
 #include <Platform/FileManager.h>
+
 #include "../../angelscript/include/angelscript.h"
+
 #include <string>
 #include <iostream>
 #include <fstream>
