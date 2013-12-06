@@ -1003,8 +1003,6 @@ str_type::string GLES2Video::PullCommands()
 {
 	str_type::string out;
 	ForwardCommands(out);
-	out += m_commands;
-	m_commands = GS_L("");
 	return out;
 }
 
@@ -1013,7 +1011,7 @@ void GLES2Video::ForwardCommand(const str_type::string& cmd)
 #	ifdef DEBUG
 	std::cout << cmd << std::endl;
 #	endif
-	m_commands += (GS_L("\n") + cmd);
+	Command(cmd);
 }
 
 Platform::FileIOHubPtr GLES2Video::GetFileIOHub()

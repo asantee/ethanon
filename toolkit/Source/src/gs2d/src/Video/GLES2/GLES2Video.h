@@ -268,7 +268,6 @@ protected:
 	str_type::string m_externalStoragePath;
 	str_type::string m_globalExternalStoragePath;
 	str_type::string m_windowTitle;
-	str_type::string m_commands;
 	math::Rect2D m_scissor;
 	bool m_quit;
 	bool m_rendering;
