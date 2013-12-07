@@ -27,6 +27,8 @@
 
 #include "../../Platform/Platform.h"
 
+#include "../../Unicode/utf8/utf8.h"
+
 #include "../cgShaderCode.h"
 
 #include <vector>
@@ -146,7 +148,7 @@ const DWORD D3D9Video::W32_FULLSCREEN_STYLE = (WS_CLIPCHILDREN | WS_POPUP);
 const DWORD D3D9Video::ALPHAREF = (0x01);
 SHORT D3D9Video::m_wheelDelta = 0;
 bool D3D9Video::m_inputFocus = false;
-TCHAR D3D9Video::m_currentChar = '\0';
+std::string D3D9Video::m_currentStringInput;
 D3D9Video::RENDER_TARGET_LIST D3D9Video::m_targets;
 const unsigned int D3D9Video::TEXTURE_CHANNELS = 8;
 
@@ -311,7 +313,7 @@ D3D9Video::D3D9Video(
 	for (unsigned int t = 1; t < TEXTURE_CHANNELS; t++)
 		m_blendModes[t] = BM_MODULATE;
 
-	m_currentChar = '\0';
+	m_currentStringInput.clear();
 	m_wheelDelta = 0;
 	m_inputFocus = false;
 	StartApplication(width, height, winTitle, windowed, sync, pfBB, maximizable);
@@ -443,7 +445,9 @@ LRESULT WINAPI D3D9Video::MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 						SendMessage(hWnd, WM_CHAR, 0x20, 0); 
 					return 0; 
  				default:	// displayable character 
-					m_currentChar = (TCHAR)wParam;
+					unsigned short* end = (unsigned short*)(&wParam); // wParam enters as UTF-16 according to docs
+					end++;
+					utf8::utf16to8((unsigned short*)&wParam, end, back_inserter(m_currentStringInput));
  					break; 
 			} 
 			break; 

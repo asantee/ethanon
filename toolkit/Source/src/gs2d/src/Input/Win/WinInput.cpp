@@ -178,7 +178,7 @@ float WinInput::GetWheelState() const
 
 str_type::string WinInput::GetLastCharInput() const
 {
-	return m_charInput;
+	return m_stringInput;
 }
 
 GS_JOYSTICK_STATUS GetJoystickError(const MMRESULT mmr, const bool showJoystickWarnings)
@@ -484,9 +484,9 @@ bool WinInput::Update()
 
 	// mouse wheel and character input
 	m_mouseWheel = static_cast<float>(D3D9Video::m_wheelDelta)/120.0f;
-	m_charInput = static_cast<str_type::char_t>(D3D9Video::m_currentChar);
+	m_stringInput = D3D9Video::m_currentStringInput;
+	D3D9Video::m_currentStringInput.clear();
 	D3D9Video::m_wheelDelta = 0;
-	D3D9Video::m_currentChar = '\0';
 
 	UpdateJoystick();
 	return true;

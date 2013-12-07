@@ -310,7 +310,7 @@ private:
 	// these members must be static because their content must be shared with the Input object
 	static SHORT m_wheelDelta;
 	static bool m_inputFocus;
-	static TCHAR m_currentChar;
+	static std::string m_currentStringInput;
 };
 
 } // namespace gs2d

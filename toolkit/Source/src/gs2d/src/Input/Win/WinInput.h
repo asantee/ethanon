@@ -79,7 +79,7 @@ class WinInput : public Input
 	JOYCAPS m_joyCaps[MAX_JOYSTICKS];
 	JOYINFOEX m_joyInfoEx[MAX_JOYSTICKS];
 	float m_mouseWheel;
-	str_type::string m_charInput;
+	str_type::string m_stringInput;
 
 public:
 	bool IsKeyDown(const GS_KEY key) const;
