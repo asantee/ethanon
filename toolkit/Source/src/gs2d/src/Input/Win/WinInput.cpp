@@ -176,7 +176,7 @@ float WinInput::GetWheelState() const
 	return m_mouseWheel;
 }
 
-str_type::char_t WinInput::GetLastCharInput() const
+str_type::string WinInput::GetLastCharInput() const
 {
 	return m_charInput;
 }

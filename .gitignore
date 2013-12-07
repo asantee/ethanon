@@ -143,6 +143,8 @@ toolkit/Source/src/gs2d/projects/msvc9/GS2D/Release/
 toolkit/Source/src/gs2d/projects/msvc9/Platform/Release/
 toolkit/Source/src/gs2d/src/Audio/Audiere/audiere/msvc9/audiere/Debug/
 toolkit/Source/src/gs2d/projects/msvc9/Testbed/Debug/
+toolkit/Source/src/vendors/hashlib2plus/project/msvc9/hashlib/Debug/
+toolkit/Source/src/vendors/hashlib2plus/project/msvc9/hashlib/Release/
 
 # Cygwin binary output paths
 toolkit/Source/src/gs2d/projects/Android/Ethanon/obj/

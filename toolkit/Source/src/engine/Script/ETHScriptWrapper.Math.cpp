@@ -24,9 +24,13 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include <hashlibpp.h>
-
 #include <math.h>
+
+#if defined(_MSC_VER)
+	#pragma warning (disable : 4512)
+#endif
+
+#include <hashlibpp.h>
 
 str_type::string ETHScriptWrapper::Math::GetHashFromString(const str_type::string& type, const str_type::string& str)
 {

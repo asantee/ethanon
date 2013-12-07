@@ -79,7 +79,7 @@ class WinInput : public Input
 	JOYCAPS m_joyCaps[MAX_JOYSTICKS];
 	JOYINFOEX m_joyInfoEx[MAX_JOYSTICKS];
 	float m_mouseWheel;
-	str_type::char_t m_charInput;
+	str_type::string m_charInput;
 
 public:
 	bool IsKeyDown(const GS_KEY key) const;
@@ -109,7 +109,7 @@ public:
 	void ShowJoystickWarnings(const bool enable);
 	bool IsShowingJoystickWarnings() const;
 
-	str_type::char_t GetLastCharInput() const;
+	str_type::string GetLastCharInput() const;
 
 	unsigned int GetMaxJoysticks() const;
 	GS_KEY_STATE GetJoystickButtonState(const unsigned int id, const GS_JOYSTICK_BUTTON key) const;
