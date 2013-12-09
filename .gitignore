@@ -43,9 +43,7 @@ toolkit/Source/src/gs2d/projects/Android/Ethanon/assets_joystick_tests
 toolkit/Source/src/gs2d/projects/Android/Ethanon/assets_mr
 toolkit/Source/src/gs2d/projects/Android/Ethanon/assets_mp
 toolkit/Source/src/gs2d/projects/Android/Ethanon/assets_tests
-toolkit/Source/src/gs2d/projects/Android/Ethanon/assets/*
 !toolkit/Source/src/gs2d/projects/Android/Ethanon/assets/app.enml
-!toolkit/Source/src/gs2d/projects/Android/Ethanon/assets/data/*
 !toolkit/Source/src/gs2d/projects/Android/Ethanon/assets/main.angelscript
 !toolkit/Source/src/gs2d/projects/Android/Ethanon/assets/shaders/*
 toolkit/Source/src/gs2d/projects/Android/Ethanon/assets_mp
@@ -161,3 +159,5 @@ toolkit/Source/src/gs2d/projects/Android/vendors/
 toolkit/Source/src/gs2d/projects/Android/google-play-services_lib/
 
 *.xccheckout
+
+toolkit/Source/src/gs2d/projects/Android/Ethanon/assets/particles/particle.png
