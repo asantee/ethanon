@@ -11,7 +11,7 @@ BEGIN
     BEGIN
         BLOCK "040904E4"
         BEGIN
-            VALUE "CompanyName", "ASANTEE"
+            VALUE "CompanyName", "Asantee Games"
             VALUE "FileVersion", "0.9.10"
             VALUE "FileDescription", "Ethanon engine executable"
             VALUE "InternalName", ""
