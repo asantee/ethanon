@@ -194,6 +194,9 @@ bool ETHGraphicResourceManager::ReleaseResource(const str_type::string &file)
 	std::map<str_type::string, SpriteResource>::iterator iter = m_resource.find(Platform::GetFileName(file));
 	if (iter != m_resource.end())
 	{
+		str_type::string fileName = Platform::GetFileName(file);
+		ETH_STREAM_DECL(ss) << GS_L("(Released) ") << fileName;
+		ETHResourceProvider::Log(ss.str(), Platform::Logger::INFO);
 		m_resource.erase(iter);
 		return true;
 	}
