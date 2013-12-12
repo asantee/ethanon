@@ -22,7 +22,6 @@ SetupIconFile=icon.ico
 Compression=lzma
 SolidCompression=yes
 AlwaysRestart=no
-PrivilegesRequired=lowest
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
