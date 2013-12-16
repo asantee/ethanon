@@ -34,7 +34,11 @@ class ETHRenderEntity : public ETHSpriteEntity
 
 public:
 	ETHRenderEntity(const str_type::string& filePath, ETHResourceProviderPtr provider, const int nId =-1);
-	ETHRenderEntity(TiXmlElement *pElement, ETHResourceProviderPtr provider);
+	ETHRenderEntity(
+		TiXmlElement *pElement,
+		ETHResourceProviderPtr provider,
+		ETHEntityCache& entityCache,
+		const str_type::string &entityPath);
 	ETHRenderEntity(ETHResourceProviderPtr provider, const ETHEntityProperties& properties, const float angle, const float scale);
 	ETHRenderEntity(ETHResourceProviderPtr provider);
 
@@ -55,7 +59,7 @@ public:
 		const float parallaxIntensity);
 
 	bool DrawParticles(
-		const unsigned int n,
+		const std::size_t n,
 		const float maxHeight,
 		const float minHeight,
 		const ETHSceneProperties& sceneProps);

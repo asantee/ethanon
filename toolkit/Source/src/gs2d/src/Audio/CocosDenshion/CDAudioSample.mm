@@ -21,6 +21,7 @@
 --------------------------------------------------------------------------------------*/
 
 #import "CDAudioSample.h"
+
 #import <SimpleAudioEngine.h>
 
 namespace gs2d {
@@ -122,18 +123,31 @@ bool CDAudioSample::Play()
 	}
 	else
 	{
-		if (!IsPlaying() || m_currentStreamableTrack != m_fileName)
-			[[SimpleAudioEngine sharedEngine] playBackgroundMusic:fileName loop:m_loop];
-		m_currentStreamableTrack = m_fileName;
+		if ([[SimpleAudioEngine sharedEngine] willPlayBackgroundMusic])
+		{
+			if (!IsPlaying() || m_currentStreamableTrack != m_fileName)
+			{
+				[[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
+				[[SimpleAudioEngine sharedEngine] playBackgroundMusic:fileName loop:m_loop];
+				m_currentStreamableTrack = m_fileName;
+			}
+		}
 	}
 	[pool release];
 	return true;
 }
 
-Audio::SAMPLE_STATUS CDAudioSample::GetStatus()
+bool CDAudioSample::Stop()
 {
-	// TODO
-	return Audio::UNKNOWN_STATUS;
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	const bool streamable = CDAudioContext::IsStreamable(m_type);
+	if (streamable)
+	{
+		[[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
+		m_currentStreamableTrack.clear();
+	}
+	[pool release];
+	return streamable; // TODO Implement sound effect support
 }
 
 bool CDAudioSample::IsPlaying()
@@ -146,42 +160,28 @@ bool CDAudioSample::IsPlaying()
 	}
 	else
 	{
-		r = false; // hard to track... we don't need it for now
+		r = false;  // TODO Implement sound effect support
 	}
 	[pool release];
 	return r;
 }
 
+Audio::SAMPLE_STATUS CDAudioSample::GetStatus()
+{
+	// TODO
+	return Audio::UNKNOWN_STATUS;
+}
+
 bool CDAudioSample::Pause()
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	if (CDAudioContext::IsStreamable(m_type))
+	const bool streamable = CDAudioContext::IsStreamable(m_type);
+	if (streamable)
 	{
 		[[SimpleAudioEngine sharedEngine] pauseBackgroundMusic];
 	}
-	else
-	{
-		// can't pause sfx's
-		return false;
-	}
 	[pool release];
-	return true;
-}
-
-bool CDAudioSample::Stop()
-{
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	if (CDAudioContext::IsStreamable(m_type))
-	{
-		[[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
-	}
-	else
-	{
-		// can't stop sfx's
-		return false;
-	}
-	[pool release];
-	return true;
+	return streamable; // TODO Implement sound effect support
 }
 
 Audio::SAMPLE_TYPE CDAudioSample::GetType() const

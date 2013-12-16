@@ -38,7 +38,7 @@ class D3D9Video : public Video
 	D3D9Video(
 		const unsigned int width,
 		const unsigned int height,
-		const std::wstring& winTitle,
+		const str_type::string& winTitle,
 		const bool windowed,
 		const bool sync,
 		const Texture::PIXEL_FORMAT pfBB,
@@ -78,7 +78,7 @@ class D3D9Video : public Video
 	bool m_clamp;
 	bool m_maximizable;
 	math::Rect2D m_scissor;
-	std::wstring m_windowTitle;
+	str_type::string m_windowTitle;
 
 	void ForwardCommand(const str_type::string& cmd);
 	str_type::string PullCommands();
@@ -117,7 +117,7 @@ public:
 	static boost::shared_ptr<D3D9Video> Create(
 		const unsigned int width,
 		const unsigned int height,
-		const std::wstring& winTitle,
+		const str_type::string& winTitle,
 		const bool windowed,
 		const bool sync,
 		const Texture::PIXEL_FORMAT pfBB,
@@ -133,7 +133,7 @@ public:
 		const unsigned int nMipMaps = 0);
 
 	TexturePtr LoadTextureFromFile(
-		const std::wstring& fileName,
+		const str_type::string& fileName,
 		Color mask,
 		const unsigned int width = 0,
 		const unsigned int height = 0,
@@ -152,7 +152,7 @@ public:
 		const unsigned int height = 0);
 
 	SpritePtr CreateSprite(
-		const std::wstring& fileName,
+		const str_type::string& fileName,
 		Color mask = constant::ZERO,
 		const unsigned int width = 0,
 		const unsigned int height = 0);
@@ -163,13 +163,13 @@ public:
 		const Texture::TARGET_FORMAT format = Texture::TF_DEFAULT);
 
 	ShaderPtr LoadShaderFromFile(
-		const std::wstring& fileName,
+		const str_type::string& fileName,
 		const Shader::SHADER_FOCUS focus,
 		const Shader::SHADER_PROFILE profile = Shader::SP_HIGHEST,
 		const char *entry = 0);
 
 	ShaderPtr LoadShaderFromString(
-		const std::wstring& shaderName,
+		const str_type::string& shaderName,
 		const std::string& codeAsciiString,
 		const Shader::SHADER_FOCUS focus,
 		const Shader::SHADER_PROFILE profile = Shader::SP_HIGHEST,
@@ -257,7 +257,7 @@ public:
 
 	bool Rendering() const;
 
-	bool SaveScreenshot(const wchar_t *wcsName, const Texture::BITMAP_FORMAT fmt = Texture::BF_BMP,
+	bool SaveScreenshot(const str_type::char_t* name, const Texture::BITMAP_FORMAT fmt = Texture::BF_BMP,
 						math::Rect2D rect = math::Rect2D(0,0,0,0));
 
 	boost::any GetGraphicContext();
@@ -266,7 +266,7 @@ public:
 	math::Vector2i GetClientScreenSize() const;
 	APP_STATUS HandleEvents();
 	float GetFPSRate() const;
-	void Message(const std::wstring& text, const GS_MESSAGE_TYPE type = GSMT_ERROR) const;
+	void Message(const str_type::string& text, const GS_MESSAGE_TYPE type = GSMT_ERROR) const;
 	unsigned long GetElapsedTime(const TIME_UNITY unity = TU_MILLISECONDS) const;
 	float GetElapsedTimeF(const TIME_UNITY unity = TU_MILLISECONDS) const;
 	void ResetTimer();
@@ -274,8 +274,8 @@ public:
 	// Window method implementations:
 	void EnableQuitShortcuts(const bool enable);
 	bool QuitShortcutsEnabled();
-	bool SetWindowTitle(const std::wstring& wcsTitle);
-	std::wstring GetWindowTitle() const;
+	bool SetWindowTitle(const str_type::string& wcsTitle);
+	str_type::string GetWindowTitle() const;
 	void EnableMediaPlaying(const bool enable);
 	bool IsWindowed() const;
 	math::Vector2i GetScreenSize() const;
@@ -296,7 +296,7 @@ private:
 	bool StartApplication(
 		const unsigned int width,
 		const unsigned int height,
-		const std::wstring& winTitle,
+		const str_type::string& winTitle,
 		const bool windowed,
 		const bool sync,
 		const Texture::PIXEL_FORMAT pfBB,
@@ -310,7 +310,7 @@ private:
 	// these members must be static because their content must be shared with the Input object
 	static SHORT m_wheelDelta;
 	static bool m_inputFocus;
-	static TCHAR m_currentChar;
+	static std::string m_currentStringInput;
 };
 
 } // namespace gs2d

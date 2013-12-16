@@ -21,6 +21,7 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHActiveEntityHandler.h"
+
 #include "../Entity/ETHRenderEntity.h"
 
 ETHActiveEntityHandler::ETHActiveEntityHandler(ETHResourceProviderPtr provider) :
@@ -58,11 +59,6 @@ bool ETHActiveEntityHandler::AddEntityWhenEligible(ETHRenderEntity* entity)
 	{
 		entity->AddRef();
 		m_dynamicOrTempEntities.push_back(entity);
-
-		#if defined(_DEBUG) || defined(DEBUG)
-		TestEntityLists();
-		#endif
-
 		return true;
 	}
 	else
@@ -83,11 +79,6 @@ bool ETHActiveEntityHandler::AddStaticCallbackWhenEligible(ETHRenderEntity* enti
 	{
 		m_lastFrameCallbacks.push_back(entity);
 		entity->AddRef();
-
-		#if defined(_DEBUG) || defined(DEBUG)
-		TestEntityLists();
-		#endif
-
 		return true;
 	}
 	else
@@ -109,11 +100,12 @@ void ETHActiveEntityHandler::TestEntityLists() const
 		{
 			ETHRenderEntity* entityA = (*a);
 			ETHRenderEntity* entityB = (*b);
-			const int idA = entityA->GetID();
-			const int idB = entityB->GetID();
-			bool idAssert;
-			idAssert = (idA != idB);
-			assert(idAssert);
+			if (entityA == entityB)
+			{
+				ETH_STREAM_DECL(ss) << GS_L("Equal entities found on both lists: ") << entityA->GetEntityName();
+				m_provider->Log(ss.str(), Platform::Logger::WARNING);
+			}
+			assert(entityA != entityB);
 		}
 	}
 }
@@ -160,17 +152,7 @@ void ETHActiveEntityHandler::UpdateCurrentFrameEntities(const Vector2& zAxisDir,
 	{
 		ETHRenderEntity* entity = (*iter);
 
-		if (!(entity->IsAlive()))
-		{
-			#if defined(_DEBUG) || defined(DEBUG)
-			 ETH_STREAM_DECL(ss) << GS_L("Entity callback removed: ") << entity->GetEntityName();
-			 m_provider->Log(ss.str(), Platform::Logger::INFO);
-			#endif
-			entity->Release();
-			iter = m_lastFrameCallbacks.erase(iter);
-			continue;
-		}
-		else
+		if (entity->IsAlive())
 		{
 			entity->Update(lastFrameElapsedTime, zAxisDir, buckets);
 
@@ -178,13 +160,10 @@ void ETHActiveEntityHandler::UpdateCurrentFrameEntities(const Vector2& zAxisDir,
 			{
 				entity->RunCallbackScript();
 			}
-
-			entity->Release();
-
-			++iter;
 		}
+		entity->Release();
+		iter = m_lastFrameCallbacks.erase(iter);
 	}
-	m_lastFrameCallbacks.clear();
 }
 
 bool ETHActiveEntityHandler::RemoveFinishedTemporaryEntity(ETHRenderEntity* entity, ETHBucketManager& buckets)
@@ -197,7 +176,7 @@ bool ETHActiveEntityHandler::RemoveFinishedTemporaryEntity(ETHRenderEntity* enti
 		assert(bucketIter != buckets.GetLastBucket());
 
 		// Remove from main bucket map
-		buckets.DeleteEntity(entity->GetID(), v2Bucket, false);
+		buckets.DeleteEntity(entity->GetID(), v2Bucket);
 
 		#if defined(_DEBUG) || defined(DEBUG)
 		 ETH_STREAM_DECL(ss) << GS_L("Entity ") << entity->GetEntityName() << GS_L(" (ID#") << entity->GetID() << GS_L(") removed from dynamic entity list (particle effects over)");

@@ -24,6 +24,7 @@
 #define ETH_ENTITY_CACHE_H_
 
 #include "ETHEntityProperties.h"
+
 #include <map>
 
 class ETHEntityCache

@@ -21,7 +21,7 @@
 			OutputDirectory="..\..\..\lib\"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
-			CharacterSet="1"
+			CharacterSet="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -88,7 +88,7 @@
 			OutputDirectory="..\..\..\lib\"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
-			CharacterSet="1"
+			CharacterSet="0"
 			WholeProgramOptimization="1"
 			>
 			<Tool
@@ -352,11 +352,19 @@
 			Name="Unicode"
 			>
 			<File
-				RelativePath="..\..\..\src\unicode\UTF8Converter.cpp"
+				RelativePath="..\..\..\src\Unicode\utf8\utf8\checked.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\unicode\UTF8Converter.h"
+				RelativePath="..\..\..\src\Unicode\utf8\utf8\core.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\Unicode\utf8\utf8\unchecked.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\Unicode\utf8\utf8.h"
 				>
 			</File>
 		</Filter>

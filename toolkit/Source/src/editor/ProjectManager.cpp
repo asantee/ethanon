@@ -22,7 +22,7 @@
 
 #include "ProjectManager.h"
 #include "EditorCommon.h"
-#include <Unicode/UTF8Converter.h>
+
 #include "../engine/Scene/ETHScene.h"
 #include "../engine/ETHEngine.h"
 
@@ -40,7 +40,7 @@ void ProjectManager::LoadEditor()
 {
 	CreateFileMenu();
 	// get current program path
-	m_curve = m_provider->GetVideo()->CreateSprite(utf8::c(GetProgramPath() + "data/curve_right.png").wc_str());
+	m_curve = m_provider->GetVideo()->CreateSprite(GetProgramPath() + "data/curve_right.png");
 }
 
 void ProjectManager::SaveLastDir(const char *szLastDir)
@@ -90,7 +90,7 @@ std::string ProjectManager::DoEditor(SpritePtr pNextAppButton)
 	else
 	{
 		str_type::string currentProjectFilename = 
-			utf8::c(Platform::GetFileName(GetCurrentFile(false))).wc_str();
+			Platform::GetFileName(GetCurrentFile(false)).c_str();
 			str_type::string sText = GS_L("Project loaded: ") + currentProjectFilename + GS_L("\n") +
 			GS_L("We're ready to go. Press TAB or click the arrow to go to the Editors");
 		ShadowPrint(Vector2(64,128), sText.c_str());
@@ -199,18 +199,18 @@ void ProjectManager::PrepareProjectDir()
 		 {"cgD3D9.dll", true},
 		 {"d3dx9_42.dll", true},
 		#endif
-		{utf8::Converter(_ETH_DEFAULT_MAIN_SCRIPT_FILE).str(), false},
+		{_ETH_DEFAULT_MAIN_SCRIPT_FILE, false},
 		{"eth_util.angelscript", false},
 		{"Collide.angelscript", true},
 	};
 
-	const std::string programPath = utf8::c(m_provider->GetFileIOHub()->GetProgramDirectory()).c_str();
+	const std::string programPath = m_provider->GetFileIOHub()->GetProgramDirectory();
 	const std::string sProjectPath = GetCurrentProjectPath(true);
 	const unsigned int size = sizeof(fileToCopy)/sizeof(ETH_FILE_TO_COPY);
 	for (unsigned int t=0; t<size; t++)
 	{
 		const std::string sNewFolder = sProjectPath + fileToCopy[t].file;
-		Platform::CreateDirectory(Platform::GetFileDirectory(utf8::c(sNewFolder).c_str()));
-		ETHGlobal::_MoveFile( utf8::c(programPath + fileToCopy[t].file).wstr(), utf8::c(sNewFolder).wstr(), fileToCopy[t].overwrite);
+		Platform::CreateDirectory(Platform::GetFileDirectory(sNewFolder.c_str()));
+		ETHGlobal::_MoveFile(programPath + fileToCopy[t].file, sNewFolder, fileToCopy[t].overwrite);
 	}
 }

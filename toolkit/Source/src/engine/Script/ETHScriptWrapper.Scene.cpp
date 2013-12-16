@@ -29,8 +29,6 @@
 
 #include "../Resource/ETHDirectories.h"
 
-#include <Unicode/UTF8Converter.h>
-
 ETHScriptWrapper::ETH_NEXT_SCENE::ETH_NEXT_SCENE()
 {
 	Reset();
@@ -197,14 +195,6 @@ ETHEntity *ETHScriptWrapper::DeleteEntity(ETHEntity *pEntity)
 	return 0;
 }
 
-bool ETHScriptWrapper::GenerateLightmaps()
-{
-	if (!m_useLightmaps || !m_provider->IsRichLightingEnabled())
-		return false;
-	else
-		return m_pScene->GenerateLightmaps();
-}
-
 void ETHScriptWrapper::LoadLightmaps()
 {
 	if (m_usePreLoadedLightmapsFromFile)
@@ -216,7 +206,29 @@ void ETHScriptWrapper::LoadLightmaps()
 void ETHScriptWrapper::ReadLightmapsFromBitmapFiles()
 {
 	if (m_pScene)
-		m_pScene->LoadLightmapsFromBitmapFiles(GetResourceDirectory() + GetSceneFileName());
+	{
+		const str_type::string resourceDirectory = (m_expansionFileManager) ? GS_L("") : GetResourceDirectory();
+		
+		Platform::FileIOHubPtr fileIOHub = m_provider->GetFileIOHub();
+		Platform::FileManagerPtr currentFileManager     = fileIOHub->GetFileManager();
+		const str_type::string currentResourceDirectory = fileIOHub->GetResourceDirectory();
+		if (m_expansionFileManager)
+		{
+			fileIOHub->SetFileManager(m_expansionFileManager, resourceDirectory);
+		}
+		
+		m_pScene->LoadLightmapsFromBitmapFiles(resourceDirectory + GetSceneFileName());
+		
+		fileIOHub->SetFileManager(currentFileManager, currentResourceDirectory);
+	}
+}
+
+bool ETHScriptWrapper::GenerateLightmaps()
+{
+	if (!m_useLightmaps || !m_provider->IsRichLightingEnabled())
+		return false;
+	else
+		return m_pScene->GenerateLightmaps();
 }
 
 void ETHScriptWrapper::SetAmbientLight(const Vector3 &v3Color)
@@ -538,7 +550,7 @@ bool ETHScriptWrapper::SaveScene(const str_type::string &escFile)
 	str_type::string fileName = m_provider->GetFileIOHub()->GetResourceDirectory();
 	fileName += escFile;
 
-	return m_pScene->SaveToFile(fileName);
+	return m_pScene->SaveToFile(fileName, m_entityCache);
 }
 
 void ETHScriptWrapper::ReleaseResources()
@@ -573,7 +585,15 @@ bool ETHScriptWrapper::LoadScene(const str_type::string &escFile, const Vector2&
 	// if the name is set to _ETH_EMPTY_SCENE_STRING, don't load anything
 	if (escFile != _ETH_EMPTY_SCENE_STRING && escFile.size() > 0)
 	{
-		m_pScene = ETHScenePtr(new ETHScene(fileName, m_provider, ETHSceneProperties(), m_pASModule, m_pScriptContext, bucketSize));
+		m_pScene = ETHScenePtr(
+			new ETHScene(
+				fileName,
+				m_provider,
+				ETHSceneProperties(),
+				m_pASModule,
+				m_pScriptContext,
+				m_entityCache,
+				bucketSize));
 	}
 	else
 	{
@@ -637,14 +657,14 @@ Vector2 ETHScriptWrapper::GetLastCameraPos()
 
 void ETHScriptWrapper::LoadSceneScripts()
 {
-	asIScriptFunction* onSceneLoadedFunc = m_pASModule->GetFunctionByName(utf8::c(m_nextScene.GetOnSceneLoadedFunc()).c_str());
+	asIScriptFunction* onSceneLoadedFunc = m_pASModule->GetFunctionByName(m_nextScene.GetOnSceneLoadedFunc().c_str());
 	if (onSceneLoadedFunc)
 	{
 		ETHGlobal::ExecuteContext(m_pScriptContext, onSceneLoadedFunc);
 	}
 
-	m_onSceneUpdateFunction = m_pASModule->GetFunctionByName(utf8::c(m_nextScene.GetOnSceneUpdateFunc()).c_str());
-	m_onResumeFunction      = m_pASModule->GetFunctionByName(utf8::c(m_nextScene.GetOnResumeFunc()).c_str());
+	m_onSceneUpdateFunction = m_pASModule->GetFunctionByName(m_nextScene.GetOnSceneUpdateFunc().c_str());
+	m_onResumeFunction      = m_pASModule->GetFunctionByName(m_nextScene.GetOnResumeFunc().c_str());
 }
 
 void ETHScriptWrapper::SetGravity(const Vector2& gravity)

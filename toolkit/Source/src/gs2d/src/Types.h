@@ -41,7 +41,6 @@
 namespace gs2d {
 
 namespace str_type {
-#if defined(ANDROID) || defined(APPLE_IOS) || defined(MACOSX) || defined(LINUX)
  typedef std::string string;
  typedef std::stringstream stringstream;
  typedef char char_t;
@@ -49,40 +48,14 @@ namespace str_type {
  typedef std::ofstream ofstream;
  typedef std::ostringstream ostringstream;
  #define GS_L(x) x
- #define GS2D_STR_TYPE_ANSI
- #undef GS2D_STR_TYPE_WCHAR
  #define GS2D_COUT std::cout
  #define GS2D_CERR std::cerr
-#else
- #if defined(__WIN32__) || defined(_MSC_VER)
-  #include <xstring>
- #endif
- typedef std::wstring string;
- typedef std::wstringstream stringstream;
- typedef wchar_t char_t;
- typedef std::wifstream ifstream;
- typedef std::wofstream ofstream;
- typedef std::wostringstream ostringstream;
- #define GS_L(x) L##x
- #define GS2D_STR_TYPE_WCHAR
- #undef GS2D_STR_TYPE_ANSI
- #define GS2D_COUT std::wcout
- #define GS2D_CERR std::wcerr
-#endif
-} // namespace str
+} // namespace str_type
 
 #ifdef _MSC_VER
- #ifdef GS2D_STR_TYPE_ANSI
   #define GS2D_SSCANF sscanf_s
- #else
-  #define GS2D_SSCANF swscanf_s
- #endif
 #else
- #ifdef GS2D_STR_TYPE_ANSI
   #define GS2D_SSCANF sscanf
- #else
-  #define GS2D_SSCANF swscanf
- #endif
 #endif
 
 class Texture;

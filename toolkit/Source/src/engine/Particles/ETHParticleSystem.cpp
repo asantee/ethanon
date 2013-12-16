@@ -81,7 +81,6 @@ void ETHParticleSystem::Reset()
 	emissive = Vector3(1,1,1);
 	allAtOnce = false;
 	boundingSphere = 512.0f;
-	soundFXFile = GS_L("");
 	bitmapFile = ETH_DEFAULT_PARTICLE_BITMAP;
 	spriteCut = Vector2i(1,1);
 	animationMode = PLAY_ANIMATION;
@@ -122,16 +121,6 @@ bool ETHParticleSystem::ReadFromXMLFile(TiXmlElement *pElement)
 		}
 	}
 
-	pNode = pElement->FirstChild(GS_L("SoundEffect"));
-	if (pNode)
-	{
-		pStringElement = pNode->ToElement();
-		if (pStringElement)
-		{
-			soundFXFile = pStringElement->GetText();
-		}
-	}
-
 	ETHEntityProperties::ReadVector2PropertyFromXmlElement(pElement, GS_L("Gravity"), gravityVector);
 	ETHEntityProperties::ReadVector2PropertyFromXmlElement(pElement, GS_L("Direction"), directionVector);
 	ETHEntityProperties::ReadVector2PropertyFromXmlElement(pElement, GS_L("RandomizeDir"), randomizeDir);
@@ -150,7 +139,7 @@ bool ETHParticleSystem::ReadFromFile(const str_type::string& fileName, const Pla
 {
 	TiXmlDocument doc(fileName);
 	str_type::string content;
-	fileManager->GetUTF16FileString(fileName, content);
+	fileManager->GetUTFFileString(fileName, content);
 	if (!doc.LoadFile(content, TIXML_ENCODING_LEGACY))
 		return false;
 
@@ -172,15 +161,6 @@ bool ETHParticleSystem::WriteToXMLFile(TiXmlElement *pRoot) const
 	pRoot->LinkEndChild(pParticleRoot); 
 
 	TiXmlElement *pElement;
-
-	if (soundFXFile != GS_L(""))
-	{
-		pElement = new TiXmlElement(GS_L("SoundEffect"));
-		pElement->LinkEndChild(
-			new TiXmlText(Platform::GetFileName(soundFXFile))
-			);
-		pParticleRoot->LinkEndChild(pElement);
-	}
 
 	if (bitmapFile != GS_L(""))
 	{
@@ -219,6 +199,18 @@ bool ETHParticleSystem::WriteToXMLFile(TiXmlElement *pRoot) const
 	pParticleRoot->SetDoubleAttribute(GS_L("randAngleStart"), randAngleStart);	
 
 	return true;
+}
+
+bool ETHParticleSystem::ShouldUseHighlightPS() const
+{
+	return (
+		   color0.x > 1.0f
+		|| color0.y > 1.0f
+		|| color0.z > 1.0f
+		|| color1.x > 1.0f
+		|| color1.y > 1.0f
+		|| color1.z > 1.0f
+	);
 }
 
 int ETHParticleSystem::GetNumFrames() const

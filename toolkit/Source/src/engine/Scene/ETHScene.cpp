@@ -28,14 +28,11 @@
 #include "../Shader/ETHShaderManager.h"
 
 #include "../Resource/ETHResourceProvider.h"
+#include "../Resource/ETHDirectories.h"
 
 #include "../Physics/ETHPhysicsSimulator.h"
 
-#ifdef GS2D_STR_TYPE_WCHAR
- #include "../../addons/utf16/scriptbuilder.h"
-#else
- #include "../../addons/ansi/scriptbuilder.h"
-#endif
+#include "../../addons/scriptbuilder.h"
 
 #include <Math/Randomizer.h>
 
@@ -51,6 +48,7 @@ ETHScene::ETHScene(
 	const ETHSceneProperties& props,
 	asIScriptModule *pModule,
 	asIScriptContext *pContext,
+	ETHEntityCache& entityCache,
 	const Vector2& v2BucketSize) :
 	m_renderingManager(provider),
 	m_buckets(provider, v2BucketSize, true),
@@ -58,7 +56,7 @@ ETHScene::ETHScene(
 	m_physicsSimulator(provider->GetGlobalScaleManager(), provider->GetVideo()->GetFPSRate())
 {
 	Init(provider, props, pModule, pContext);
-	LoadFromFile(fileName);
+	LoadFromFile(fileName, entityCache, m_provider->GetFileIOHub()->GetResourceDirectory() + ETHDirectories::GetEntityDirectory());
 }
 
 ETHScene::ETHScene(
@@ -102,8 +100,6 @@ void ETHScene::Init(ETHResourceProviderPtr provider, const ETHSceneProperties& p
 	m_maxSceneHeight = m_provider->GetVideo()->GetScreenSizeF().y;
 	const ETHShaderManagerPtr& shaderManager = m_provider->GetShaderManager();
 	shaderManager->SetParallaxIntensity(m_sceneProps.parallaxIntensity);
-	m_destructorManager = ETHEntityDestructorManagerPtr(new ETHEntityDestructorManager(pContext));
-	m_buckets.SetDestructionListener(m_destructorManager);
 }
 
 void ETHScene::ClearResources()
@@ -112,7 +108,7 @@ void ETHScene::ClearResources()
 	m_provider->GetAudioResourceManager()->ReleaseResources();
 }
 
-bool ETHScene::SaveToFile(const str_type::string& fileName)
+bool ETHScene::SaveToFile(const str_type::string& fileName, ETHEntityCache& entityCache)
 {
 	if (m_buckets.IsEmpty())
 	{
@@ -137,13 +133,19 @@ bool ETHScene::SaveToFile(const str_type::string& fileName)
 	TiXmlElement *pEntities = new TiXmlElement(GS_L("EntitiesInScene"));
 	pRoot->LinkEndChild(pEntities);
 
-	// Write every entity
-	for (ETHBucketMap::iterator bucketIter = m_buckets.GetFirstBucket(); bucketIter != m_buckets.GetLastBucket(); ++bucketIter)
+	// Write every entity as an ordered bucket map
+	ETHOrderedBucketMap map(m_buckets.GetFirstBucket(), m_buckets.GetLastBucket());
+	for (ETHOrderedBucketMap::iterator bucketIter = map.begin(); bucketIter != map.end(); ++bucketIter)
 	{
 		ETHEntityList::const_iterator iEnd = bucketIter->second.end();
 		for (ETHEntityList::iterator iter = bucketIter->second.begin(); iter != iEnd; ++iter)
 		{
-			(*iter)->WriteToXMLFile(pEntities);
+			(*iter)->WriteToXMLFile(
+				pEntities,
+				entityCache,
+				m_provider->GetFileIOHub()->GetResourceDirectory() + ETHDirectories::GetEntityDirectory(),
+				m_provider->GetFileManager());
+
 			#if defined(_DEBUG) || defined(DEBUG)
 			ETH_STREAM_DECL(ss) << GS_L("Entity written to file: ") << (*iter)->GetEntityName();
 			m_provider->Log(ss.str(), Platform::FileLogger::INFO);
@@ -152,19 +154,19 @@ bool ETHScene::SaveToFile(const str_type::string& fileName)
 	}
 
 	doc.SaveFile(fileName);
-	#ifdef GS2D_STR_TYPE_ANSI
-	  m_provider->GetFileManager()->ConvertAnsiFileToUTF16LE(fileName);
-	#endif
 	return true;
 }
 
-bool ETHScene::LoadFromFile(const str_type::string& fileName)
+bool ETHScene::LoadFromFile(
+	const str_type::string& fileName,
+	ETHEntityCache& entityCache,
+	const str_type::string &entityPath)
 {
 	Platform::FileManagerPtr fileManager = m_provider->GetFileManager();
 
 	if (!fileManager->FileExists(fileName))
 	{
-		ETH_STREAM_DECL(ss) << GS_L("ETHScene::Open: file not found (") << fileName << GS_L(")");
+		ETH_STREAM_DECL(ss) << GS_L("ETHScene::LoadFromFile: file not found (") << fileName << GS_L(")");
 		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
 		return false;
 	}
@@ -174,10 +176,10 @@ bool ETHScene::LoadFromFile(const str_type::string& fileName)
 	// Read the header and check if the file is valid
 	TiXmlDocument doc(fileName);
 	str_type::string content;
-	fileManager->GetUTF16FileString(fileName, content);
+	fileManager->GetUTFFileString(fileName, content);
 	if (!doc.LoadFile(content, TIXML_ENCODING_LEGACY))
 	{
-		ETH_STREAM_DECL(ss) << GS_L("ETHScene::Open: file found, but parsing failed (") << fileName << GS_L(")");
+		ETH_STREAM_DECL(ss) << GS_L("ETHScene::LoadFromFile: file found, but parsing failed (") << fileName << GS_L(")");
 		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
 		return false;
 	}
@@ -188,17 +190,26 @@ bool ETHScene::LoadFromFile(const str_type::string& fileName)
 	TiXmlElement *pElement = hDoc.FirstChildElement().Element();
 	if (!pElement)
 	{
-		ETH_STREAM_DECL(ss) << GS_L("ETHScene::Open: couldn't find root element (") << fileName << GS_L(")");
+		ETH_STREAM_DECL(ss) << GS_L("ETHScene::LoadFromFile: couldn't find root element (") << fileName << GS_L(")");
 		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
 		return false;
 	}
-	return ReadFromXMLFile(pElement);
+	return ReadFromXMLFile(fileName, pElement, entityCache, entityPath);
 }
 
-bool ETHScene::ReadFromXMLFile(TiXmlElement *pRoot)
+bool ETHScene::ReadFromXMLFile(
+	const str_type::string& fileName,
+	TiXmlElement *pRoot,
+	ETHEntityCache& entityCache,
+	const str_type::string &entityPath)
 {
+	str_type::stringstream ss;
+	const str_type::string sceneFileName = Platform::GetFileName(fileName.c_str());
+
 	m_sceneProps.ReadFromXMLFile(pRoot);
+
 	TiXmlNode *pNode = pRoot->FirstChild(GS_L("EntitiesInScene"));
+
 	if (pNode)
 	{
 		TiXmlElement *pEntities = pNode->ToElement();
@@ -212,8 +223,26 @@ bool ETHScene::ReadFromXMLFile(TiXmlElement *pRoot)
 				{
 					do
 					{
-						ETHRenderEntity* entity = new ETHRenderEntity(pEntityIter, m_provider);
-						AddEntity(entity);
+						ETHRenderEntity* entity = new ETHRenderEntity(pEntityIter, m_provider, entityCache, entityPath);
+						const ETHEntityProperties* entityProperties = entity->GetProperties();
+
+						if (entityProperties->IsSuccessfullyLoaded())
+						{
+							AddEntity(entity);
+						}
+						else
+						{
+							ss << std::endl
+								<< sceneFileName
+								<< GS_L(": couldn't load entity ")
+								<< entityProperties->entityName
+								<< GS_L("(")
+								<< entityPath
+								<< entityProperties->entityName
+								<< GS_L(")")
+								<< std::endl;
+						}
+
 						pEntityIter = pEntityIter->NextSiblingElement();
 					} while (pEntityIter);
 				}
@@ -221,6 +250,11 @@ bool ETHScene::ReadFromXMLFile(TiXmlElement *pRoot)
 		}
 	}
 	m_provider->GetShaderManager()->SetParallaxIntensity(m_sceneProps.parallaxIntensity);
+
+	if (!ss.str().empty())
+	{
+		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
+	}
 	return true;
 }
 
@@ -240,7 +274,7 @@ int ETHScene::AddEntity(ETHRenderEntity* pEntity, const str_type::string& altern
 		pEntity->SetID(m_idCounter);
 	}
 
-	m_buckets.Add(pEntity, (pEntity->GetType() == ETHEntityProperties::ET_HORIZONTAL) ? ETHBucketManager::FRONT : ETHBucketManager::BACK);
+	m_buckets.Add(pEntity, ETHBucketManager::BACK);
 
 	m_maxSceneHeight = Max(m_maxSceneHeight, pEntity->GetMaxHeight());
 	m_minSceneHeight = Min(m_minSceneHeight, pEntity->GetMinHeight());
@@ -253,10 +287,6 @@ int ETHScene::AddEntity(ETHRenderEntity* pEntity, const str_type::string& altern
 
 	// if it has a callback and is dynamic, or if it's temporary, add it to the "callback constant run list"
 	m_activeEntityHandler.AddEntityWhenEligible(pEntity);
-
-	// restart all sound effects for this one
-	// It's useful in case of explosion sfx's for example. It'll start all over again
-	pEntity->StartSFX();
 
 	return pEntity->GetID();
 }
@@ -431,7 +461,6 @@ void ETHScene::Update(
 	const ETHBackBufferTargetManagerPtr& backBuffer,
 	asIScriptFunction* onUpdateCallbackFunction)
 {
-	m_destructorManager->RunDestructors();
 	m_physicsSimulator.Update(lastFrameElapsedTime);
 
 	// update entities that are always active (dynamic entities with callback or physics and temporary entities)
@@ -464,7 +493,7 @@ void ETHScene::Update(
 	m_minSceneHeight = minHeight;
 	m_maxSceneHeight = maxHeight;
 
-	Randomizer::Seed(m_provider->GetVideo()->GetElapsedTime());
+	Randomizer::Seed(static_cast<unsigned int>(m_provider->GetVideo()->GetElapsedTime()));
 }
 
 void ETHScene::RenderScene(const bool roundUp, const ETHBackBufferTargetManagerPtr& backBuffer)
@@ -551,7 +580,7 @@ void ETHScene::MapEntitiesToBeRendered(
 	// Add persistent entities (the ones the user wants to force to render)
 	FillMultimapAndClearPersistenList(bucketList, backBuffer);
 
-	m_nCurrentLights = m_renderingManager.GetNumLights();
+	m_nCurrentLights = static_cast<unsigned int>(m_renderingManager.GetNumLights());
 }
 
 void ETHScene::DrawEntityMultimap(const bool roundUp, const ETHBackBufferTargetManagerPtr& backBuffer)
@@ -673,30 +702,16 @@ int ETHScene::GetNumRenderedEntities()
 	return m_nRenderedEntities;
 }
 
-void ETHScene::ForceAllSFXStop()
-{
-	for (ETHBucketMap::iterator bucketIter = m_buckets.GetFirstBucket(); bucketIter != m_buckets.GetLastBucket(); ++bucketIter)
-	{
-		ETHEntityList::const_iterator iEnd = bucketIter->second.end();
-		for (ETHEntityList::iterator iter = bucketIter->second.begin(); iter != iEnd; ++iter)
-		{
-			(*iter)->ForceSFXStop();
-		}
-	}
-}
-
 bool ETHScene::AssignCallbackScript(ETHSpriteEntity* entity)
 {
 	asIScriptFunction* callbackId = ETHGlobal::FindCallbackFunction(m_pModule, entity, ETH_CALLBACK_PREFIX, *m_provider->GetLogger());
 	asIScriptFunction* constructorCallback = ETHGlobal::FindCallbackFunction(m_pModule, entity, ETH_CONSTRUCTOR_CALLBACK_PREFIX, *m_provider->GetLogger());
-	asIScriptFunction* destructorCallback = ETHGlobal::FindCallbackFunction(m_pModule, entity, ETH_DESTRUCTOR_CALLBACK_PREFIX, *m_provider->GetLogger());
-	AssignControllerToEntity(entity, callbackId, constructorCallback, destructorCallback);
+	AssignControllerToEntity(entity, callbackId, constructorCallback);
 	return true;
 } 
 
-void ETHScene::AssignControllerToEntity(ETHEntity* entity, asIScriptFunction* callback, asIScriptFunction* constructorCallback, asIScriptFunction* destructorCallback)
+void ETHScene::AssignControllerToEntity(ETHEntity* entity, asIScriptFunction* callback, asIScriptFunction* constructorCallback)
 {
-	entity->SetDestructorCallback(destructorCallback);
 	if (callback || constructorCallback)
 	{
 		ETHEntityControllerPtr currentController(entity->GetController());
@@ -864,13 +879,13 @@ unsigned int ETHScene::GetNumEntities() const
 	return m_buckets.GetNumEntities();
 }
 
-void ETHScene::RecoverResources()
+void ETHScene::RecoverResources(const Platform::FileManagerPtr& expansionFileManager)
 {
 	ETHEntityArray entities;
 	m_buckets.GetEntityArray(entities);
 	for (std::size_t t = 0; t < entities.size(); t++)
 	{
-		entities[t]->RecoverResources();
+		entities[t]->RecoverResources(expansionFileManager);
 	}
 }
 

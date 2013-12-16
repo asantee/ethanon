@@ -43,14 +43,14 @@ ETHParticleDrawer::ETHParticleDrawer(
 	particleSystem.ReadFromFile(resourceDirectory + ETHDirectories::GetEffectsDirectory() + fileName, provider->GetFileManager());
 	const Vector2 startPos(m_pos + provider->GetVideo()->GetCameraPos());
 	m_particleManager = ETHParticleManagerPtr(
-		new ETHParticleManager(provider, particleSystem, startPos, Vector3(startPos, 0.0f), angle, 1.0f, scale));
+		new ETHParticleManager(provider, particleSystem, startPos, Vector3(startPos, 0.0f), angle, scale));
 }
 
 bool ETHParticleDrawer::Draw(const unsigned long lastFrameElapsedTimeMS)
 {
 	m_particleManager->UpdateParticleSystem(m_pos, Vector3(m_pos, 0.0f), m_angle, static_cast<float>(lastFrameElapsedTimeMS));
 
-	if (m_shaderManager->BeginParticlePass())
+	if (m_shaderManager->BeginParticlePass(*m_particleManager->GetSystem()))
 	{
 		m_particleManager->DrawParticleSystem(
 			Vector3(1.0f, 1.0f, 1.0f),

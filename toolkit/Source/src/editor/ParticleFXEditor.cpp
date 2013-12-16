@@ -22,21 +22,21 @@
 
 #include "ParticleFXEditor.h"
 #include "EditorCommon.h"
-#include <Unicode/UTF8Converter.h>
+
 #include <sstream>
+
 #include "../engine/Resource/ETHDirectories.h"
+
 #include "../engine/Util/ETHASUtil.h"
+
+#include "../engine/Shader/ETHShaderManager.h"
 
 #include <Platform/Platform.h>
 
 #define LOAD_BMP GS_L("Load bitmap")
-//#define ALPHA_ADD "Alpha add"
-//#define ALPHA_PIXEL "Alpha pixeGS_L("
 #define SAVE_SYSTEM GS_L("Save")
 #define SAVE_SYSTEM_AS GS_L("Save as...")
 #define OPEN_SYSTEM GS_L("Open")
-#define LOAD_SOUND GS_L("Load sound fx")
-#define LOAD_XSOUND GS_L("Unload sound fx...")
 #define LOAD_BG GS_L("Load background")
 #define WINDOW_TITLE GS_L("Ethanon ParticleFX Editor")
 #define REPLAY_MESSAGE GS_L("Press space or click anywhere to play again")
@@ -59,12 +59,11 @@ ParticleEditor::ParticleEditor(ETHResourceProviderPtr provider) :
 
 ParticleEditor::~ParticleEditor()
 {
-	DeleteSoundFX();
 }
 
 void ParticleEditor::CreateParticles()
 {
-	m_manager = ETHParticleManagerPtr(new ETHParticleManager(m_provider, m_system, m_v2Pos, Vector3(m_v2Pos, 0), m_systemAngle, 1.0f, 1.0f));
+	m_manager = ETHParticleManagerPtr(new ETHParticleManager(m_provider, m_system, m_v2Pos, Vector3(m_v2Pos, 0), m_systemAngle, 1.0f));
 }
 
 bool ParticleEditor::ProjectManagerRequested()
@@ -72,25 +71,6 @@ bool ParticleEditor::ProjectManagerRequested()
 	const bool r = m_projManagerRequested;
 	m_projManagerRequested = false;
 	return r;
-}
-
-void ParticleEditor::LoadSoundFX(const char *path, const char *file)
-{
-	std::string programPath = GetCurrentProjectPath(false);
-	ETHGlobal::CopyFileToProject(utf8::c(programPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetSoundFXDirectory(), m_provider->GetFileManager());
-	m_manager->SetSoundEffect(m_provider->GetAudio()->LoadSampleFromFile(utf8::c(path).wc_str(), m_provider->GetFileManager(), Audio::SOUND_EFFECT));
-	m_system.soundFXFile = utf8::c(file).wstr();
-	m_manager->SetSystem(m_system);
-}
-
-void ParticleEditor::DeleteSoundFX()
-{
-	if (m_manager)
-	{
-		m_manager->SetSoundEffect(AudioSamplePtr());
-		m_system.soundFXFile = GS_L("");
-		m_manager->SetSystem(m_system);
-	}
 }
 
 void ParticleEditor::DrawParticleSystem()
@@ -127,7 +107,13 @@ void ParticleEditor::DrawParticleSystem()
 	}
 	const bool zBuffer = video->GetZBuffer();
 	video->SetZBuffer(false);
-	m_manager->DrawParticleSystem(Vector3(1,1,1),v2Screen.y,-v2Screen.y, ETHParticleManager::SAME_DEPTH_AS_OWNER, ETH_DEFAULT_ZDIRECTION, Vector2(0,0), 1.0f);
+	
+	if (m_provider->GetShaderManager()->BeginParticlePass(m_system))
+	{
+		m_manager->DrawParticleSystem(Vector3(1,1,1),v2Screen.y,-v2Screen.y, ETHParticleManager::SAME_DEPTH_AS_OWNER, ETH_DEFAULT_ZDIRECTION, Vector2(0,0), 1.0f);
+		m_provider->GetShaderManager()->EndParticlePass();
+		
+	}
 	video->SetZBuffer(zBuffer);
 	video->UnsetScissor();
 
@@ -142,11 +128,7 @@ void ParticleEditor::DrawParticleSystem()
 	}
 
 	str_type::stringstream ss;
-	ss << utf8::c(m_system.bitmapFile).wc_str();
-	if (m_manager->GetSystem()->soundFXFile != GS_L(""))
-	{
-		ss << GS_L(" | ") << utf8::c(m_manager->GetSystem()->soundFXFile).wc_str();
-	}
+	ss << m_system.bitmapFile;
 	ss << GS_L(" | ") << GS_L("Active particles: ") << m_manager->GetNumActiveParticles() << GS_L("/") << m_manager->GetNumParticles();
 	const float infoTextSize = m_menuSize * m_menuScale;
 	ShadowPrint(Vector2(m_menuWidth*2+5,v2Screen.y-infoTextSize-m_menuSize), ss.str().c_str(), GS_L("Verdana14_shadow.fnt"), gs2d::constant::WHITE);
@@ -158,11 +140,7 @@ void ParticleEditor::SetupMenu()
 	m_fileMenu.AddButton(SAVE_SYSTEM);
 	m_fileMenu.AddButton(SAVE_SYSTEM_AS);
 	m_fileMenu.AddButton(OPEN_SYSTEM);
-	//m_fileMenu.AddButton(ALPHA_ADD);
-	//m_fileMenu.AddButton(ALPHA_PIXEL);
 	m_fileMenu.AddButton(LOAD_BMP);
-	m_fileMenu.AddButton(LOAD_SOUND);
-	m_fileMenu.AddButton(LOAD_XSOUND);
 	m_fileMenu.AddButton(LOAD_BG);
 	m_fileMenu.AddButton(_S_GOTO_PROJ);
 
@@ -258,17 +236,17 @@ void ParticleEditor::SetMenuConstants()
 	m_color0[0].SetDescription(GS_L("Starting color alpha (transparency from 0.0 to 1.0)"));
 	m_color0[1].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_color0[1].SetConstant(m_system.color0.x);
-	m_color0[1].SetClamp(true, 0, 1);
+	m_color0[1].SetClamp(true, 0, 8);
 	m_color0[1].SetText(GS_L("Color0.R:"));
 	m_color0[1].SetDescription(GS_L("Starting color red component (from 0.0 to 1.0)"));
 	m_color0[2].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_color0[2].SetConstant(m_system.color0.y);
-	m_color0[2].SetClamp(true, 0, 1);
+	m_color0[2].SetClamp(true, 0, 8);
 	m_color0[2].SetText(GS_L("Color0.G:"));
 	m_color0[2].SetDescription(GS_L("Starting color green component (from 0.0 to 1.0)"));
 	m_color0[3].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_color0[3].SetConstant(m_system.color0.z);
-	m_color0[3].SetClamp(true, 0, 1);
+	m_color0[3].SetClamp(true, 0, 8);
 	m_color0[3].SetText(GS_L("Color0.B:"));
 	m_color0[3].SetDescription(GS_L("Starting color blue component (from 0.0 to 1.0)"));
 
@@ -279,17 +257,17 @@ void ParticleEditor::SetMenuConstants()
 	m_color1[0].SetDescription(GS_L("Ending color alpha (transparency)"));
 	m_color1[1].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_color1[1].SetConstant(m_system.color1.x);
-	m_color1[1].SetClamp(true, 0, 1);
+	m_color1[1].SetClamp(true, 0, 8);
 	m_color1[1].SetText(GS_L("Color1.R:"));
 	m_color1[1].SetDescription(GS_L("Ending color red component (from 0.0 to 1.0)"));
 	m_color1[2].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_color1[2].SetConstant(m_system.color1.y);
-	m_color1[2].SetClamp(true, 0, 1);
+	m_color1[2].SetClamp(true, 0, 8);
 	m_color1[2].SetText(GS_L("Color1.G:"));
 	m_color1[2].SetDescription(GS_L("Ending color green component (from 0.0 to 1.0)"));
 	m_color1[3].SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_color1[3].SetConstant(m_system.color1.z);
-	m_color1[3].SetClamp(true, 0, 1);
+	m_color1[3].SetClamp(true, 0, 8);
 	m_color1[3].SetText(GS_L("Color1.B:"));
 	m_color1[3].SetDescription(GS_L("Ending color blue component (from 0.0 to 1.0)"));
 
@@ -440,11 +418,8 @@ void ParticleEditor::SaveAs()
 		doc.LinkEndChild(pElement);
 
 		m_system.WriteToXMLFile(doc.RootElement());
-		const str_type::string filePath = utf8::c(path).wstr();
+		const str_type::string filePath = path;
 		doc.SaveFile(filePath);
-		#ifdef GS2D_STR_TYPE_ANSI
-		  m_provider->GetFileManager()->ConvertAnsiFileToUTF16LE(filePath);
-		#endif
 
 		SetCurrentFile(path);
 		m_untitled = false;
@@ -461,23 +436,14 @@ void ParticleEditor::Save()
 	doc.LinkEndChild(pElement);
 
 	m_system.WriteToXMLFile(doc.RootElement());
-	const str_type::string filePath = utf8::c(GetCurrentFile(true)).wstr();
+	const str_type::string filePath = GetCurrentFile(true);
 	doc.SaveFile(filePath);
-	#ifdef GS2D_STR_TYPE_ANSI
-	  m_provider->GetFileManager()->ConvertAnsiFileToUTF16LE(filePath);
-	#endif
-
 
 	m_untitled = false;
 }
 
 void ParticleEditor::StopAllSoundFXs()
 {
-	if (m_manager)
-	{
-		if (m_manager->GetSoundEffect())
-			m_manager->GetSoundEffect()->Stop();
-	}
 }
 
 void ParticleEditor::Clear()
@@ -488,7 +454,6 @@ void ParticleEditor::Clear()
 
 	SetCurrentFile(_BASEEDITOR_DEFAULT_UNTITLED_FILE);
 	m_untitled = true;
-	DeleteSoundFX();
 }
 
 void ParticleEditor::ParticlePanel()
@@ -503,11 +468,11 @@ void ParticleEditor::ParticlePanel()
 		char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
 		if (OpenParticleBMP(path, file))
 		{
-			ETHGlobal::CopyFileToProject(utf8::c(programPath).wstr(), utf8::c(path).wstr(), ETHDirectories::GetParticlesDirectory(), m_provider->GetFileManager());
-			m_system.bitmapFile = utf8::c(file).wstr();
-			m_provider->GetGraphicResourceManager()->RemoveResource(m_system.bitmapFile);
+			ETHGlobal::CopyFileToProject(programPath, path, ETHDirectories::GetParticlesDirectory(), m_provider->GetFileManager());
+			m_system.bitmapFile = file;
+			m_provider->GetGraphicResourceManager()->ReleaseResource(m_system.bitmapFile);
 			m_manager = ETHParticleManagerPtr(
-				new ETHParticleManager(m_provider, m_system, m_v2Pos, Vector3(m_v2Pos, 0), m_systemAngle, 1.0f, 1.0f));
+				new ETHParticleManager(m_provider, m_system, m_v2Pos, Vector3(m_v2Pos, 0), m_systemAngle, 1.0f));
 		}
 	}
 
@@ -529,22 +494,8 @@ void ParticleEditor::ParticlePanel()
 		char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
 		if (OpenParticleBMP(path, file))
 		{
-			m_backgroundSprite = video->CreateSprite(utf8::c(path).wc_str());
+			m_backgroundSprite = video->CreateSprite(path);
 		}	
-	}
-
-	if (file_r.text == LOAD_SOUND)
-	{
-		char path[___OUTPUT_LENGTH], file[___OUTPUT_LENGTH];
-		if (OpenSoundFX(path, file))
-		{
-			LoadSoundFX(path, file);
-		}
-	}
-	
-	if (file_r.text == LOAD_XSOUND)
-	{
-		DeleteSoundFX();
 	}
 
 	if (file_r.text == OPEN_SYSTEM)
@@ -554,33 +505,11 @@ void ParticleEditor::ParticlePanel()
 		if (OpenSystem(path, file))
 		{
 			m_manager = ETHParticleManagerPtr(
-				new ETHParticleManager(m_provider, utf8::c(path).wstr(), m_v2Pos, Vector3(m_v2Pos, 0), m_systemAngle, 1.0f));
+				new ETHParticleManager(m_provider, path, m_v2Pos, Vector3(m_v2Pos, 0), m_systemAngle));
 			m_manager->SetZPosition(0.0f);
 			m_manager->Kill(false);
 			m_system = *m_manager->GetSystem();
 			SetMenuConstants();
-
-			if (!m_system.soundFXFile.empty())
-			{
-				std::string sSoundFXName = GetCurrentProjectPath(false);
-				sSoundFXName += "/soundfx/";
-				sSoundFXName += utf8::c(m_system.soundFXFile).str();
-
-				std::ifstream ifs(sSoundFXName.c_str());
-				if (ifs.is_open())
-				{
-					LoadSoundFX(utf8::c(sSoundFXName).c_str(), utf8::c(m_system.soundFXFile).c_str());
-					ifs.close();
-				}
-				else
-				{
-					DeleteSoundFX();
-				}
-			}
-			else
-			{
-				DeleteSoundFX();
-			}
 
 			SetCurrentFile(path);
 			m_untitled = false;
@@ -646,7 +575,7 @@ void ParticleEditor::ParticlePanel()
 		{
 			m_system.nParticles = nParticles;
 			m_manager = ETHParticleManagerPtr(
-				new ETHParticleManager(m_provider, m_system, m_v2Pos, Vector3(m_v2Pos, 0), m_systemAngle, 1.0f, 1.0f));
+				new ETHParticleManager(m_provider, m_system, m_v2Pos, Vector3(m_v2Pos, 0), m_systemAngle, 1.0f));
 			m_manager->Kill(false);
 		}
 
@@ -729,7 +658,7 @@ std::string ParticleEditor::DoEditor(SpritePtr pNextAppButton)
 
 void ParticleEditor::LoadEditor()
 {
-	m_sphereSprite = m_provider->GetVideo()->CreateSprite(utf8::c(utf8::c(m_provider->GetFileIOHub()->GetProgramDirectory()).str() + "/" + BSPHERE_BMP).wc_str());
+	m_sphereSprite = m_provider->GetVideo()->CreateSprite(m_provider->GetFileIOHub()->GetProgramDirectory() + "/" + BSPHERE_BMP);
 	ResetSystem();
 	SetupMenu();
 }
@@ -771,7 +700,6 @@ void ParticleEditor::ResetSystem()
 			m_v2Pos,
 			Vector3(m_v2Pos, 0),
 			m_systemAngle,
-			1.0f,
 			1.0f));
 }
 
@@ -787,14 +715,6 @@ bool ParticleEditor::OpenSystem(char *oFilePathName, char *oFileName)
 {
 	FILE_FORM_FILTER filter(GS_L("Particle effect file (*.par)"), GS_L("par"));
 	std::string initDir = GetCurrentProjectPath(true) + "effects/";
-	Platform::FixSlashes(initDir);
-	return OpenForm(filter, initDir.c_str(), oFilePathName, oFileName);
-}
-
-bool ParticleEditor::OpenSoundFX(char *oFilePathName, char *oFileName)
-{
-	FILE_FORM_FILTER filter(GS_L("Supported sound files"), GS_L("ogg,wav,mp3"));
-	std::string initDir = GetCurrentProjectPath(true) + "soundfx/";
 	Platform::FixSlashes(initDir);
 	return OpenForm(filter, initDir.c_str(), oFilePathName, oFileName);
 }

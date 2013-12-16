@@ -102,7 +102,7 @@ bool GLES2Sprite::CreateRenderTarget(
 
 bool GLES2Sprite::Draw(
 	const Vector2 &v2Pos,
-	const Color& color,
+	const Vector4& color,
 	const float angle,
 	const Vector2 &v2Scale)
 {
@@ -137,10 +137,10 @@ bool GLES2Sprite::Draw(
 bool GLES2Sprite::DrawShaped(
 	const Vector2 &v2Pos,
 	const Vector2 &v2Size,
-	const Color& color0,
-	const Color& color1,
-	const Color& color2,
-	const Color& color3,
+	const Vector4& color0,
+	const Vector4& color1,
+	const Vector4& color2,
+	const Vector4& color3,
 	const float angle)
 {
 	ShaderPtr
@@ -241,7 +241,7 @@ bool GLES2Sprite::DrawShaped(
 	return true;
 }
 
-bool GLES2Sprite::DrawOptimal(const math::Vector2 &v2Pos, const Color& color, const float angle, const Vector2 &v2Size)
+bool GLES2Sprite::DrawOptimal(const math::Vector2 &v2Pos, const Vector4& color, const float angle, const Vector2 &v2Size)
 {
 	static_cast<GLES2Video*>(m_video)->SetupMultitextureShader();
 	GLES2Shader* vs = m_shaderContext->GetCurrentVS().get();
@@ -287,9 +287,6 @@ bool GLES2Sprite::DrawOptimal(const math::Vector2 &v2Pos, const Color& color, co
 	Vector2 flipAdd, flipMul;
 	GetFlipShaderParameters(flipAdd, flipMul);
 
-	Vector4 v4Color;
-	v4Color.SetColor(color);
-
 	const unsigned int numParams = 13 + m_attachedParameters.size();
 	Vector2 *params = new Vector2 [numParams];
 	params[0] = rectPos;
@@ -299,8 +296,8 @@ bool GLES2Sprite::DrawOptimal(const math::Vector2 &v2Pos, const Color& color, co
 	params[4] = pos;
 	params[5] = camPos;
 	params[6] = m_bitmapSize;
-	params[7] = Vector2(v4Color.x, v4Color.y);
-	params[8] = Vector2(v4Color.z, v4Color.w);
+	params[7] = Vector2(color.x, color.y);
+	params[8] = Vector2(color.z, color.w);
 	params[9] = Vector2(m_video->GetSpriteDepth(), m_video->GetSpriteDepth());
 	params[10] = m_shaderContext->GetScreenSize();
 	params[11] = flipAdd;
@@ -330,7 +327,7 @@ bool GLES2Sprite::SaveBitmap(const str_type::char_t* wcsName, const Texture::BIT
 	return false;
 }
 
-bool GLES2Sprite::DrawShapedFast(const Vector2 &v2Pos, const Vector2 &v2Size, const Color& color)
+bool GLES2Sprite::DrawShapedFast(const Vector2 &v2Pos, const Vector2 &v2Size, const math::Vector4& color)
 {
 	GLES2Shader* vs = m_shaderContext->GetCurrentVS().get();
 
@@ -348,9 +345,6 @@ bool GLES2Sprite::DrawShapedFast(const Vector2 &v2Pos, const Vector2 &v2Size, co
 		rectPos = m_rect.pos;
 	}	
 
-	Vector4 v4Color;
-	v4Color.SetColor(color);
-
 	static const unsigned int numParams = 8;
 	Vector2 *params = new Vector2 [numParams];
 	params[0] = rectPos;
@@ -359,8 +353,8 @@ bool GLES2Sprite::DrawShapedFast(const Vector2 &v2Pos, const Vector2 &v2Size, co
 	params[3] = v2Pos;
 	params[4] = m_bitmapSize;
 	params[5] = m_shaderContext->GetScreenSize();
-	params[6] = Vector2(v4Color.x, v4Color.y);
-	params[7] = Vector2(v4Color.z, v4Color.w);
+	params[6] = Vector2(color.x, color.y);
+	params[7] = Vector2(color.z, color.w);
 
 	vs->SetConstantArray(PARAMS_HASH, "params", numParams, boost::shared_array<const math::Vector2>(params));
 	m_shaderContext->FastDraw();

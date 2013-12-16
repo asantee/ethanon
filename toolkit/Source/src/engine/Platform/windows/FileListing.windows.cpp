@@ -21,20 +21,23 @@
 --------------------------------------------------------------------------------------*/
 
 #include "../FileListing.h"
+
 #include <windows.h>
+
+using namespace gs2d;
 
 namespace Platform {
 
-bool FileListing::ListDirectoryFiles(const wchar_t *directory, const wchar_t *extension)
+bool FileListing::ListDirectoryFiles(const str_type::char_t* directory, const str_type::char_t* extension)
 {
 	m_fileName.clear();
-	std::wstring dirExt;
+	str_type::string dirExt;
 	dirExt = directory;
-	dirExt += L"*.";
+	dirExt += GS_L("*.");
 	dirExt += extension;
 
-	WIN32_FIND_DATAW findFileData;
-	HANDLE hFind = FindFirstFileW(dirExt.c_str(), &findFileData);
+	WIN32_FIND_DATAA findFileData;
+	HANDLE hFind = FindFirstFileA(dirExt.c_str(), &findFileData);
 	
 	if (hFind == INVALID_HANDLE_VALUE)
 	{
@@ -45,7 +48,7 @@ bool FileListing::ListDirectoryFiles(const wchar_t *directory, const wchar_t *ex
 	filename.file = findFileData.cFileName;
 	m_fileName.push_back(filename);
 
-	while (FindNextFileW(hFind, &findFileData) != 0)
+	while (FindNextFileA(hFind, &findFileData) != 0)
 	{
 		filename.dir = directory;
 		filename.file = findFileData.cFileName;

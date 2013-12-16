@@ -14,6 +14,7 @@ LOCAL_C_INCLUDES = \
 	$(VENDORS_PATH)/libzip/ \
 	$(SOURCE_PATH)/soil/ \
 	$(SOURCE_PATH)/gs2d/src/ \
+	$(SOURCE_PATH)/vendors/hashlib2plus/src/ \
 	$(SOURCE_PATH)/box2d/
 
 LOCAL_MODULE    := Application
@@ -34,9 +35,19 @@ LOCAL_SRC_FILES := \
 	$(ENGINE_VENDORS_PATH)/tinyxml_ansi/tinystr.cpp \
 	$(ENGINE_VENDORS_PATH)/tinyxml_ansi/tinyxmlerror.cpp \
 	$(ENGINE_VENDORS_PATH)/tinyxml_ansi/tinyxmlparser.cpp \
-	$(ADDONS_PATH)/ansi/scriptstdstring.cpp \
-	$(ADDONS_PATH)/ansi/scriptbuilder.cpp \
-	$(ADDONS_PATH)/ansi/scriptfile.cpp \
+	$(ENGINE_VENDORS_PATH)/hashlib2plus/src/hl_md5.cpp \
+	$(ENGINE_VENDORS_PATH)/hashlib2plus/src/hl_md5wrapper.cpp \
+	$(ENGINE_VENDORS_PATH)/hashlib2plus/src/hl_sha1.cpp \
+	$(ENGINE_VENDORS_PATH)/hashlib2plus/src/hl_sha1wrapper.cpp \
+	$(ENGINE_VENDORS_PATH)/hashlib2plus/src/hl_sha2ext.cpp \
+	$(ENGINE_VENDORS_PATH)/hashlib2plus/src/hl_sha256.cpp \
+	$(ENGINE_VENDORS_PATH)/hashlib2plus/src/hl_sha256wrapper.cpp \
+	$(ENGINE_VENDORS_PATH)/hashlib2plus/src/hl_sha384wrapper.cpp \
+	$(ENGINE_VENDORS_PATH)/hashlib2plus/src/hl_sha512wrapper.cpp \
+	$(ENGINE_VENDORS_PATH)/hashlib2plus/src/hl_wrapperfactory.cpp \
+	$(ADDONS_PATH)/scriptstdstring.cpp \
+	$(ADDONS_PATH)/scriptbuilder.cpp \
+	$(ADDONS_PATH)/scriptfile.cpp \
 	$(ADDONS_PATH)/scriptarray.cpp \
 	$(ADDONS_PATH)/scriptmath.cpp \
 	$(ADDONS_PATH)/scriptmath2d.cpp \
@@ -84,8 +95,6 @@ LOCAL_SRC_FILES := \
 	$(ENGINE_PATH)/Script/ETHScriptObjRegister.cpp \
 	$(ENGINE_PATH)/Script/ETHScriptObjRegister.generic.cpp \
 	$(ENGINE_PATH)/Script/ETHBinaryStream.cpp \
-	$(ENGINE_PATH)/Script/ETHEntityDestructorManager.cpp \
-	$(ENGINE_PATH)/Script/ETHEntityDestructorScript.cpp \
 	$(ENGINE_PATH)/Script/ETHScriptWrapper.Audio.cpp \
 	$(ENGINE_PATH)/Script/ETHScriptWrapper.Drawing.cpp \
 	$(ENGINE_PATH)/Script/ETHScriptWrapper.Scene.cpp \

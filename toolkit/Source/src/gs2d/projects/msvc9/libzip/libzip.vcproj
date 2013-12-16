@@ -21,7 +21,7 @@
 			OutputDirectory="$(SolutionDir)#bin#\$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
-			CharacterSet="1"
+			CharacterSet="0"
 			ManagedExtensions="0"
 			>
 			<Tool
@@ -82,7 +82,7 @@
 			OutputDirectory="$(SolutionDir)#bin#\$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
-			CharacterSet="1"
+			CharacterSet="0"
 			ManagedExtensions="0"
 			WholeProgramOptimization="1"
 			>

@@ -24,7 +24,9 @@
 #define GS2D_DSHOW_PLAYER_H_
 
 #include "../../Player.h"
+
 #include <dshow.h>
+
 #pragma warning( push )
 #pragma warning( disable : 4201 )
 #include <mmsystem.h>
@@ -34,7 +36,7 @@ namespace gs2d {
 
 class DShowPlayer : public Player
 {
-	friend PlayerPtr CreatePlayer(VideoPtr pVideo, const std::wstring& fileName);
+	friend PlayerPtr CreatePlayer(VideoPtr pVideo, const str_type::string& fileName);
 
 	struct VIDEO_DATA
 	{
@@ -63,7 +65,7 @@ class DShowPlayer : public Player
 	math::Vector2i m_pos;
 
 	DShowPlayer();
-	bool LoadVideo(VideoPtr pVideo, const std::wstring& fileName);
+	bool LoadVideo(VideoPtr pVideo, const str_type::string& fileName);
 
 public:
 	~DShowPlayer();

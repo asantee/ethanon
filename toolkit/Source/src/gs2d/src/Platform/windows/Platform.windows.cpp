@@ -20,11 +20,13 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#include "../Platform.h"
 #include "../../Application.h"
+
+#include "../Platform.h"
 #include "../FileLogger.h"
-#include "../../unicode/UTF8Converter.h"
+
 #include <assert.h>
+
 #include <windows.h>
 #include <direct.h>
 

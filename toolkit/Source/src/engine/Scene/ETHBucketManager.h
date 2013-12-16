@@ -29,21 +29,27 @@ class ETHEntity;
 class ETHEntityArray;
 
 #include "ETHSceneProperties.h"
-#include "ETHEntityKillListener.h"
 
 #include "../Resource/ETHResourceProvider.h"
 
 #include <list>
+#include <map>
 
 // Vector2 hash function
 namespace boost {
 std::size_t hash_value(Vector2 const& p);
 } // namepace boost
 
+struct BUCKET_COMP
+{
+	bool operator() (const Vector2& lhs, const Vector2& rhs) const;
+};
+
 #include <boost/unordered/unordered_map.hpp>
 
 typedef std::list<ETHRenderEntity*> ETHEntityList;
 typedef boost::unordered_map<Vector2, ETHEntityList, boost::hash<Vector2> > ETHBucketMap;
+typedef std::map<Vector2, ETHEntityList, BUCKET_COMP> ETHOrderedBucketMap;
 
 class ETHEntityChooser;
 
@@ -103,7 +109,7 @@ public:
 	ETHSpriteEntity *SeekEntity(const str_type::string& fileName);
 
 	/// Delete the entity by ID #
-	bool DeleteEntity(const int id, const Vector2 &searchBucket, const bool stopSfx = true);
+	bool DeleteEntity(const int id, const Vector2 &searchBucket);
 
 	/// Delete the entity by ID #
 	bool DeleteEntity(const int id);
@@ -135,8 +141,6 @@ public:
 
 	void ResolveMoveRequests();
 
-	void SetDestructionListener(const ETHEntityKillListenerPtr& listener);
-
 private:
 
 	class ETHBucketMoveRequest
@@ -145,6 +149,7 @@ private:
 		ETHEntity* entity;
 	public:
 		ETHBucketMoveRequest(ETHEntity* target, const Vector2& oldPos, const Vector2& newPos, const Vector2& bucketSize);
+		~ETHBucketMoveRequest();
 		bool IsABucketMove() const;
 		int GetID() const;
 		const Vector2& GetOldBucket() const;
@@ -152,16 +157,17 @@ private:
 		bool IsAlive() const;
 	};
 
+	typedef boost::shared_ptr<ETHBucketMoveRequest> ETHBucketMoveRequestPtr;
+
 	bool MoveEntity(const int id, const Vector2 &currentBucket, const Vector2 &destBucket);
 
-	std::list<ETHBucketMoveRequest> m_moveRequests;
+	std::list<ETHBucketMoveRequestPtr> m_moveRequests;
 
 	ETHResourceProviderPtr m_provider;
 	ETHBucketManager& operator=(const ETHBucketManager& p);
 	ETHBucketMap m_entities;
 	const Vector2 m_bucketSize;
 	bool m_drawingBorderBuckets;
-	ETHEntityKillListenerPtr m_entityKillListener;
 };
 
 #endif

@@ -1,0 +1,12 @@
+default
+{
+	title = Ethanon Sample Project;
+	richLighting = true;
+	width = 1024; height = 768;
+}
+
+windows
+{
+	windowed = true;
+	vsync = true;
+}

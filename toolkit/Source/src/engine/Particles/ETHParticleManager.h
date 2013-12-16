@@ -24,9 +24,9 @@
 #define ETH_PARTICLE_MANAGER_H_
 
 #include "ETHParticleSystem.h"
+
 #include <Audio.h>
 
-#define _ETH_MINIMUM_PARTICLE_REPEATS_TO_LOOP_SOUND (4)
 #define _ETH_PARTICLE_DEPTH_SHIFT (10.0f)
 
 class ETHParticleManager
@@ -45,8 +45,7 @@ public:
 		const str_type::string& file,
 		const Vector2& v2Pos,
 		const Vector3& v3Pos,
-		const float angle,
-		const float entityVolume);
+		const float angle);
 
 	ETHParticleManager(
 		ETHResourceProviderPtr provider,
@@ -54,7 +53,6 @@ public:
 		const Vector2& v2Pos,
 		const Vector3& v3Pos,
 		const float angle,
-		const float entityVolume,
 		const float scale);
 
 	/// Update the position, size and angle of all particles in the system (if they are active)
@@ -82,15 +80,6 @@ public:
 
 	/// Restart the system execution by setting all particles repeat count to zero
 	bool Play(const Vector2 &v2Pos, const Vector3 &v3Pos, const float angle);
-
-	/// Set a sound effect
-	void SetSoundEffect(AudioSamplePtr pSound);
-
-	/// Get a sound effect handle
-	AudioSamplePtr GetSoundEffect();
-
-	/// Return true if it has a SFX
-	bool HasSoundEffect() const;
 
 	/// Set another system configuration (it can be used during the animation)
 	void SetSystem(const ETHParticleSystem &partSystem);
@@ -122,9 +111,6 @@ public:
 	
 	/// Return particle bitmap name
 	str_type::string GetBitmapName() const;
-	
-	/// Return particle sound FX name (if there's one)
-	str_type::string GetSoundName() const;
 
 	/// Set a tilebased Z position for the tile
 	void SetZPosition(const float z);
@@ -135,18 +121,6 @@ public:
 
 	/// Return the number of active particles
 	int GetNumActiveParticles() const;
-
-	/// Return true if this sound effect loops
-	bool IsSoundLooping() const;
-
-	/// If true, forces the sound effect to be stopped
-	void StopSFX(const bool stopped);
-
-	/// Set an arbitrary sound volume for this one
-	void SetSoundVolume(const float volume);
-
-	/// Return the sound volume
-	float GetSoundVolume() const;
 
 	/// Return true if the particle system is endless (nRepeats == 0)
 	bool IsEndless() const;
@@ -208,17 +182,11 @@ private:
 	std::vector<PARTICLE> m_particles;
 	ETHResourceProviderPtr m_provider;
 	SpritePtr m_pBMP;
-	AudioSamplePtr m_pSound;
 	bool m_finished, m_killed;
 	int m_nActiveParticles;
 	Vector2 m_v2Move;
-	float m_soundVolume;
-	bool m_isSoundLooping;
-	bool m_isSoundStopped;
-	float m_entityVolume, m_generalVolume;
 
-	static void BubbleSort(std::vector<PARTICLE> &v);
-	void HandleSoundPlayback(const Vector2 &v2Pos, const float frameSpeed);
+	static void Sort(std::vector<PARTICLE> &v);
 
 	/// Create a particle system
 	bool CreateParticleSystem(
@@ -226,7 +194,6 @@ private:
 		const Vector2& v2Pos,
 		const Vector3& v3Pos,
 		const float angle,
-		const float entityVolume,
 		const float scale);
 
 	void ResetParticle(const int t, const Vector2& v2Pos, const Vector3& v3Pos, const float angle, const Matrix4x4& rotMatrix);

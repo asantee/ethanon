@@ -21,6 +21,7 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHEntity.h"
+
 #include "../Physics/ETHPhysicsSimulator.h"
 
 Sprite::ENTITY_ORIGIN ETHEntity::ConvertToGSSO(const ETHEntityProperties::ENTITY_TYPE type)
@@ -56,13 +57,17 @@ ETHEntity::ETHEntity(const str_type::string& filePath, const int nId, const Plat
 	Zero();
 }
 
-ETHEntity::ETHEntity(TiXmlElement *pElement) : 
+ETHEntity::ETHEntity(
+	TiXmlElement *pElement,
+	ETHEntityCache& entityCache,
+	const str_type::string &entityPath,
+	Platform::FileManagerPtr fileManager) :
 	ETHScriptEntity(),
 	m_id(-1),
 	m_controller(new ETHRawEntityController(Vector3(0, 0, 0), 0.0f))
 {
 	Zero();
-	ReadFromXMLFile(pElement);
+	ReadFromXMLFile(pElement, entityCache, entityPath, fileManager);
 }
 
 ETHEntity::ETHEntity() : 
@@ -113,7 +118,11 @@ bool ETHEntity::GetAngelScriptObject(const str_type::string &name, void *value, 
 	return m_gcDict->Get(name, value, typeId);
 }
 
-bool ETHEntity::WriteToXMLFile(TiXmlElement *pHeadRoot) const
+bool ETHEntity::WriteToXMLFile(
+	TiXmlElement *pHeadRoot,
+	ETHEntityCache& entityCache,
+	const str_type::string &entityPath,
+	Platform::FileManagerPtr fileManager) const
 {
 	TiXmlElement *pEntity = new TiXmlElement(GS_L("Entity"));
 	pHeadRoot->LinkEndChild(pEntity);
@@ -154,11 +163,51 @@ bool ETHEntity::WriteToXMLFile(TiXmlElement *pHeadRoot) const
 	ETHEntityProperties::SetBooleanPropertyToXmlElement(pEntity, GS_L("flipX"), m_flipX, ETH_FALSE);
 	ETHEntityProperties::SetBooleanPropertyToXmlElement(pEntity, GS_L("flipY"), m_flipY, ETH_FALSE);
 
-	m_properties.WriteToXMLFile(pEntity);
+	// write entity data as file reference or inline data (if the entity source file doesn't exist)
+	if (entityCache.Get(m_properties.entityName, entityPath, fileManager))
+	{
+		m_properties.WriteEntityNameToXMLFile(pEntity);
+	}
+	else
+	{
+		m_properties.WriteContentToXMLFile(pEntity);
+	}
 	return true;
 }
 
 bool ETHEntity::ReadFromXMLFile(TiXmlElement *pElement)
+{
+	ReadInSceneDataFromXMLFile(pElement);
+	TiXmlNode *pNode = pElement->FirstChild(GS_L("Entity"));
+	if (pNode)
+	{
+		return m_properties.ReadFromXMLFile(pNode->ToElement());
+	}
+	else
+	{
+		return false;
+	}
+}
+
+bool ETHEntity::ReadFromXMLFile(
+	TiXmlElement *pElement,
+	ETHEntityCache& entityCache,
+	const str_type::string &entityPath,
+	Platform::FileManagerPtr fileManager)
+{
+	ReadInSceneDataFromXMLFile(pElement);
+	TiXmlNode *pNode = pElement->FirstChild(GS_L("Entity"));
+	if (pNode)
+	{
+		return m_properties.ReadFromXMLFile(pNode->ToElement(), entityCache, entityPath, fileManager);
+	}
+	else
+	{
+		return false;
+	}
+}
+
+void ETHEntity::ReadInSceneDataFromXMLFile(TiXmlElement *pElement)
 {
 	pElement->QueryIntAttribute(GS_L("id"), &m_id);
 	pElement->QueryFloatAttribute(GS_L("shadowZ"), &m_shadowZ);
@@ -201,13 +250,6 @@ bool ETHEntity::ReadFromXMLFile(TiXmlElement *pElement)
 			m_controller->SetAngle(angle);
 		}
 	}
-
-	pNode = pElement->FirstChild(GS_L("Entity"));
-	if (pNode)
-	{
-		m_properties.ReadFromXMLFile(pNode->ToElement());
-	}
-	return true;
 }
 
 int ETHEntity::GetID() const
@@ -467,8 +509,7 @@ void ETHEntity::SetAlpha(const float alpha)
 
 Vector3 ETHEntity::GetColor() const
 {
-	const Vector4 *p = &m_v4Color;
-	return Vector3(p->x, p->y, p->z);
+	return Vector3(m_v4Color.x, m_v4Color.y, m_v4Color.z);
 }
 
 Vector4 ETHEntity::GetColorARGB() const
@@ -542,7 +583,7 @@ void ETHEntity::Scale(const Vector2& scale)
 	m_properties.scale = m_properties.scale * scale;
 	for (std::size_t t = 0; t < GetNumParticleSystems(); t++)
 	{
-		ScaleParticleSystem(t, (scale.x + scale.y) / 2.0f);
+		ScaleParticleSystem(static_cast<unsigned int>(t), (scale.x + scale.y) / 2.0f);
 	}
 	m_controller->Scale(scale, this);
 }
@@ -552,7 +593,7 @@ void ETHEntity::Scale(const float scale)
 	m_properties.scale *= scale;
 	for (std::size_t t = 0; t < GetNumParticleSystems(); t++)
 	{
-		ScaleParticleSystem(t, scale);
+		ScaleParticleSystem(static_cast<unsigned int>(t), scale);
 	}
 	m_controller->Scale(Vector2(scale, scale), this);
 }
@@ -590,16 +631,6 @@ bool ETHEntity::HasLightSource() const
 bool ETHEntity::HasParticleSystems() const
 {
 	return (m_properties.particleSystems.size() > 0);
-}
-
-bool ETHEntity::HasSoundEffect() const
-{
-	for (std::size_t t = 0; t < m_properties.particleSystems.size(); t++)
-	{
-		if (m_properties.particleSystems[t]->soundFXFile.length() > 0)
-			return true;
-	}
-	return false;
 }
 
 Vector3 ETHEntity::GetLightPosition() const
@@ -679,7 +710,10 @@ bool ETHEntity::IsTemporary() const
 	{
 		return true;
 	}
-	return false;
+	else
+	{
+		return false;
+	}
 }
 
 bool ETHEntity::IsCastShadow() const
@@ -933,12 +967,7 @@ bool ETHEntity::HasCustomData() const
 
 void ETHEntity::DebugPrintCustomData() const
 {
-	#ifdef GS2D_STR_TYPE_WCHAR
-	std::wcout
-	#else
-	std::cout
-	#endif
-		<< m_properties.GetDebugStringData();
+	GS2D_COUT << m_properties.GetDebugStringData();
 }
 
 void ETHEntity::ClearCustomData()

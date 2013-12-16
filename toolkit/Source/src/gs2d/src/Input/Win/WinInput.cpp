@@ -176,9 +176,9 @@ float WinInput::GetWheelState() const
 	return m_mouseWheel;
 }
 
-wchar_t WinInput::GetLastCharInput() const
+str_type::string WinInput::GetLastCharInput() const
 {
-	return m_charInput;
+	return m_stringInput;
 }
 
 GS_JOYSTICK_STATUS GetJoystickError(const MMRESULT mmr, const bool showJoystickWarnings)
@@ -192,32 +192,32 @@ GS_JOYSTICK_STATUS GetJoystickError(const MMRESULT mmr, const bool showJoystickW
 	case JOYERR_UNPLUGGED:
 		r = GSJS_NOTDETECTED;
 		if (showJoystickWarnings)
-			ShowMessage(L"joystick is unplugged - WinInput::DetectJoysticks", GSMT_WARNING);
+			ShowMessage(GS_L("joystick is unplugged - WinInput::DetectJoysticks"), GSMT_WARNING);
 		break;
 	case MMSYSERR_NODRIVER:
 		r = GSJS_INVALID;
 		if (showJoystickWarnings)
-			ShowMessage(L"joystick driver couldn't be found - WinInput::DetectJoysticks", GSMT_WARNING);
+			ShowMessage(GS_L("joystick driver couldn't be found - WinInput::DetectJoysticks"), GSMT_WARNING);
 		break;
 	case MMSYSERR_INVALPARAM:
 		r = GSJS_INVALID;
 		if (showJoystickWarnings)
-			ShowMessage(L"joystick couldn't be detected - WinInput::DetectJoysticks", GSMT_WARNING);
+			ShowMessage(GS_L("joystick couldn't be detected - WinInput::DetectJoysticks"), GSMT_WARNING);
 		break;
 	case MMSYSERR_BADDEVICEID:
 		r = GSJS_INVALID;
 		if (showJoystickWarnings)
-			ShowMessage(L"joystick couldn't be detected (bad device) - WinInput::DetectJoysticks", GSMT_WARNING);
+			ShowMessage(GS_L("joystick couldn't be detected (bad device) - WinInput::DetectJoysticks"), GSMT_WARNING);
 		break;
 	case JOYERR_PARMS:
 		r = GSJS_INVALID;
 		if (showJoystickWarnings)
-			ShowMessage(L"WARNING: joystick couldn't be detected - WinInput::DetectJoysticks", GSMT_WARNING);
+			ShowMessage(GS_L("WARNING: joystick couldn't be detected - WinInput::DetectJoysticks"), GSMT_WARNING);
 		break;
 	default:
 		r = GSJS_INVALID;
 		if (showJoystickWarnings)
-			ShowMessage(L"Joystick unknown error - WinInput::DetectJoysticks", GSMT_WARNING);
+			ShowMessage(GS_L("Joystick unknown error - WinInput::DetectJoysticks"), GSMT_WARNING);
 		break;
 	};
 	return r;
@@ -269,7 +269,7 @@ bool WinInput::DetectJoysticks()
 	if (m_nJoysticks == 0)
 	{
 		if (IsShowingJoystickWarnings())
-			ShowMessage(L"Joysticks are not supported - WinInput::DetectJoysticks", GSMT_WARNING);
+			ShowMessage(GS_L("Joysticks are not supported - WinInput::DetectJoysticks"), GSMT_WARNING);
 		return false;
 	}
 
@@ -352,20 +352,20 @@ GS_KEY_STATE WinInput::GetJoystickButtonState(const unsigned int id, const GS_JO
 {
 	if (id >= MAX_JOYSTICKS)
 	{
-		ShowMessage(L"Invalid joystick id - WinInput::JoyButtonState");
+		ShowMessage(GS_L("Invalid joystick id - WinInput::JoyButtonState"));
 		return GSKS_UP;
 	}
 
 	if (m_joystick[id].status != GSJS_DETECTED)
 	{
 		if (IsShowingJoystickWarnings())
-			ShowMessage(L"The joystick hasn't been detected - WinInput::JoyButtonState");
+			ShowMessage(GS_L("The joystick hasn't been detected - WinInput::JoyButtonState"));
 		return GSKS_UP;
 	}
 	if (key >= m_joystick[id].nButtons && key < GSB_UP)
 	{
 		if (IsShowingJoystickWarnings())
-			ShowMessage(L"Invalid button. Make sure that the joypad has enough buttons - WinInput::JoyButtonState");
+			ShowMessage(GS_L("Invalid button. Make sure that the joypad has enough buttons - WinInput::JoyButtonState"));
 		return GSKS_UP;
 	}
 	return m_joystick[id].state[key].GetCurrentState();
@@ -484,9 +484,9 @@ bool WinInput::Update()
 
 	// mouse wheel and character input
 	m_mouseWheel = static_cast<float>(D3D9Video::m_wheelDelta)/120.0f;
-	m_charInput = static_cast<wchar_t>(D3D9Video::m_currentChar);
+	m_stringInput = D3D9Video::m_currentStringInput;
+	D3D9Video::m_currentStringInput.clear();
 	D3D9Video::m_wheelDelta = 0;
-	D3D9Video::m_currentChar = '\0';
 
 	UpdateJoystick();
 	return true;
@@ -496,14 +496,14 @@ Vector2 WinInput::GetJoystickXY(const unsigned int id) const
 {
 	if (id >= MAX_JOYSTICKS)
 	{
-		ShowMessage(L"Invalid joystick id - WinInput::GetJoystickXY");
+		ShowMessage(GS_L("Invalid joystick id - WinInput::GetJoystickXY"));
 		return Vector2(0,0);
 	}
 
 	if (m_joystick[id].status != GSJS_DETECTED)
 	{
 		if (IsShowingJoystickWarnings())
-			ShowMessage(L"The joystick hasn't been detected - WinInput::GetJoystickXY");
+			ShowMessage(GS_L("The joystick hasn't been detected - WinInput::GetJoystickXY"));
 		return Vector2(0.0f,0.0f);
 	}
 	return m_joystick[id].xy;
@@ -513,14 +513,14 @@ float WinInput::GetJoystickZ(const unsigned int id) const
 {
 	if (id >= MAX_JOYSTICKS)
 	{
-		ShowMessage(L"Invalid joystick id - WinInput::GetJoystickXY");
+		ShowMessage(GS_L("Invalid joystick id - WinInput::GetJoystickXY"));
 		return 0.0f;
 	}
 
 	if (m_joystick[id].status != GSJS_DETECTED)
 	{
 		if (IsShowingJoystickWarnings())
-			ShowMessage(L"The joystick hasn't been detected - WinInput::GetJoystickZ");
+			ShowMessage(GS_L("The joystick hasn't been detected - WinInput::GetJoystickZ"));
 		return 0.0f;
 	}
 	return m_joystick[id].z;
@@ -531,14 +531,14 @@ float WinInput::GetJoystickRudder(const unsigned int id) const
 {
 	if (id >= MAX_JOYSTICKS)
 	{
-		ShowMessage(L"Invalid joystick id - WinInput::GetJoystickRudder");
+		ShowMessage(GS_L("Invalid joystick id - WinInput::GetJoystickRudder"));
 		return 0.0f;
 	}
 
 	if (m_joystick[id].status != GSJS_DETECTED)
 	{
 		if (IsShowingJoystickWarnings())
-			ShowMessage(L"The joystick hasn't been detected - WinInput::GetJoystickRudder");
+			ShowMessage(GS_L("The joystick hasn't been detected - WinInput::GetJoystickRudder"));
 		return 0.0f;
 	}
 	return m_joystick[id].rudder;
@@ -548,14 +548,14 @@ Vector2 WinInput::GetJoystickUV(const unsigned int id) const
 {
 	if (id >= MAX_JOYSTICKS)
 	{
-		ShowMessage(L"Invalid joystick id - WinInput::GetJoystickUV");
+		ShowMessage(GS_L("Invalid joystick id - WinInput::GetJoystickUV"));
 		return Vector2(0,0);
 	}
 
 	if (m_joystick[id].status != GSJS_DETECTED)
 	{
 		if (IsShowingJoystickWarnings())
-			ShowMessage(L"The joystick hasn't been detected - WinInput::GetJoystickUV");
+			ShowMessage(GS_L("The joystick hasn't been detected - WinInput::GetJoystickUV"));
 		return Vector2(0.0f,0.0f);
 	}
 	return m_joystick[id].uv;
@@ -565,7 +565,7 @@ GS_JOYSTICK_STATUS WinInput::GetJoystickStatus(const unsigned int id) const
 {
 	if (id >= MAX_JOYSTICKS)
 	{
-		ShowMessage(L"Invalid joystick id - WinInput::GetJoystickStatus");
+		ShowMessage(GS_L("Invalid joystick id - WinInput::GetJoystickStatus"));
 		return GSJS_INVALID;
 	}
 	return m_joystick[id].status;
@@ -575,14 +575,14 @@ unsigned int WinInput::GetNumJoyButtons(const unsigned int id) const
 {
 	if (id >= MAX_JOYSTICKS)
 	{
-		ShowMessage(L"Invalid joystick id - WinInput::GetNumJoyButtons");
+		ShowMessage(GS_L("Invalid joystick id - WinInput::GetNumJoyButtons"));
 		return 0;
 	}
 
 	if (m_joystick[id].status != GSJS_DETECTED)
 	{
 		if (IsShowingJoystickWarnings())
-			ShowMessage(L"The joystick hasn't been detected - WinInput::GetNumJoyButtons");
+			ShowMessage(GS_L("The joystick hasn't been detected - WinInput::GetNumJoyButtons"));
 		return 0;
 	}
 	return m_joystick[id].nButtons;
@@ -592,14 +592,14 @@ GS_JOYSTICK_BUTTON WinInput::GetFirstButtonDown(const unsigned int id) const
 {
 	if (id >= MAX_JOYSTICKS)
 	{
-		ShowMessage(L"Invalid joystick id - WinInput::GetFirstButtonDown");
+		ShowMessage(GS_L("Invalid joystick id - WinInput::GetFirstButtonDown"));
 		return GSB_NONE;
 	}
 
 	if (m_joystick[id].status != GSJS_DETECTED)
 	{
 		if (IsShowingJoystickWarnings())
-			ShowMessage(L"The joystick is not detected - WinInput::GetFirstButtonDown");
+			ShowMessage(GS_L("The joystick is not detected - WinInput::GetFirstButtonDown"));
 		return GSB_NONE;
 	}
 	const unsigned int nButtons = static_cast<unsigned int>(m_joystick[id].nButtons);
@@ -629,7 +629,7 @@ bool WinInput::UpdateJoystick()
 			if (m_joystick[j].status != GSJS_DETECTED)
 			{
 				if (IsShowingJoystickWarnings())
-					ShowMessage(L"The joystick has been unplugged - WinInput::UpdateJoystick");
+					ShowMessage(GS_L("The joystick has been unplugged - WinInput::UpdateJoystick"));
 				continue;
 			}
 

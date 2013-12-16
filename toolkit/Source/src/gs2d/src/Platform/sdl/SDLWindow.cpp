@@ -22,57 +22,33 @@
 
 #include "SDLWindow.h"
 
-#include <SDL/SDL.h>
-#include <SDL/SDL_opengl.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_opengl.h>
 
 namespace gs2d {
 
-static int SetPixelFormat(const Texture::PIXEL_FORMAT format)
-{
-	int bpp = 0;
-	if (format == Texture::PF_16BIT)
-	{
-		SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
-		SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
-		SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
-		bpp = 16;
-	}
-	else if (format == Texture::PF_32BIT)
-	{
-		SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
-		SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
-		SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
-		SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
-		bpp = 32;
-	}
-	else
-	{
-		bpp = 0;
-	}
-	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
-	return bpp;
-}
-
 float SDLWindow::m_mouseWheel(0.0f);
-str_type::char_t SDLWindow::m_lastCharInput('\0');
+str_type::string SDLWindow::m_lastCharInput("");
 
 // Application implementations
 SDLWindow::SDLWindow(Platform::FileIOHubPtr fileIOHub) :
 	m_fileIOHub(fileIOHub),
 	m_maximizable(false),
-	m_windowed(true),
 	m_sync(true),
-	m_quitKeysEnabled(true),
 	m_quit(false),
 	m_fpsRate(30.0f),
 	m_windowHasFocus(false),
-	m_windowIsVisible(false)
+	m_windowIsVisible(false),
+	m_window(NULL),
+	m_glcontext(NULL)
 {
 	ResetTimer();
 }
 
 SDLWindow::~SDLWindow()
 {
+	SDL_GL_DeleteContext(m_glcontext);
+	SDL_DestroyWindow(m_window);
 	SDL_Quit();
 }
 
@@ -89,7 +65,6 @@ bool SDLWindow::StartApplication(
 	m_screenSize.y = static_cast<float>(height);
 
 	m_maximizable = maximizable;
-	m_windowed = windowed;
 	m_sync = sync;
 
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) < 0)
@@ -98,17 +73,7 @@ bool SDLWindow::StartApplication(
 		return false;
 	}
 
-	//const SDL_VideoInfo* info = SDL_GetVideoInfo();
-
-	const int bpp = SetPixelFormat(pfBB);
-	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-
-	const Uint32 flags = AssembleFlags(windowed, maximizable, sync);
-
-	if (sync)
-	{
-		SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
-	}
+	SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
 
 	// enumerates m_videoModes
 	ReadDisplayModes();
@@ -119,19 +84,29 @@ bool SDLWindow::StartApplication(
 		m_screenSize = CatchBestScreenResolution();
 	}
 
-	if (SDL_SetVideoMode(static_cast<int>(m_screenSize.x), static_cast<int>(m_screenSize.y), bpp, flags) == 0)
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+
+	if ((m_window = SDL_CreateWindow(
+			winTitle.c_str(),
+			SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+			static_cast<int>(m_screenSize.x),
+			static_cast<int>(m_screenSize.y),
+			AssembleFlags(windowed, IsMaximizable(), SyncEnabled()))) != NULL)
 	{
-		m_screenSize = CatchBestScreenResolution();
-		if (SDL_SetVideoMode(static_cast<int>(m_screenSize.x), static_cast<int>(m_screenSize.y), bpp, flags) == 0)
-		{
-			Message("Invalid video mode - SDLWindow::StartApplication", GSMT_ERROR);
-			return false;
-		}
+		m_glcontext = SDL_GL_CreateContext(m_window);
+	}
+	else
+	{
+		return false;
 	}
 
-	SetWindowTitle(winTitle);
-
-	SDL_EnableUNICODE(1);
+	if (sync)
+	{
+		SDL_GL_SetSwapInterval(1);
+	}
 
 	chdir(m_fileIOHub->GetProgramDirectory().c_str());
 
@@ -144,46 +119,51 @@ math::Vector2 SDLWindow::CatchBestScreenResolution() const
 	return math::Vector2(static_cast<float>(highest.width), static_cast<float>(highest.height));
 }
 
-unsigned int SDLWindow::AssembleFlags(const bool windowed, const bool maximizable, const bool sync)
+Uint32 SDLWindow::AssembleFlags(const bool windowed, const bool maximizable, const bool sync)
 {
-	unsigned int flags = SDL_OPENGL;
+	Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
 
 	if (!windowed)
-		flags |= SDL_FULLSCREEN;
-	else if (maximizable)
-		flags |= SDL_RESIZABLE;
+		flags |= SDL_WINDOW_FULLSCREEN | SDL_WINDOW_BORDERLESS;
+	else if (maximizable && windowed)
+		flags |= SDL_WINDOW_RESIZABLE;
 
-	if (sync)
-	{
-		flags |= SDL_ASYNCBLIT;
-	}
 	return flags;
 }
 
 void SDLWindow::ReadDisplayModes()
 {
-	SDL_Rect **modes;
-	modes = SDL_ListModes(NULL, SDL_FULLSCREEN | SDL_HWSURFACE);
+	const int PRIMARY_DISPLAY = 0;
 
-	if (modes == NULL || modes == (SDL_Rect**)-1)
+	const int numDisplayModes = SDL_GetNumDisplayModes(PRIMARY_DISPLAY);
+
+	for (int t = 0; t < numDisplayModes; t++)
 	{
-		return;
-	}
+		SDL_DisplayMode mode;
+		if (SDL_GetDisplayMode(PRIMARY_DISPLAY, t, &mode) == 0)
+		{
+			VIDEO_MODE videoMode;
+			videoMode.width  = mode.w;
+			videoMode.height = mode.h;
+			videoMode.idx = mode.format;
 
-	// count number of modes
-	std::size_t videoModeCount;
-	for (videoModeCount = 0; modes[videoModeCount]; videoModeCount++);
-
-	const Uint8 bitsPerPixel = SDL_GetVideoInfo()->vfmt->BitsPerPixel;
-
-	for (std::size_t t = 0; t < videoModeCount; t++)
-	{
-		VIDEO_MODE videoMode;
-		videoMode.width  = modes[t]->w;
-		videoMode.height = modes[t]->h;
-		videoMode.idx = static_cast<GS_DWORD>(bitsPerPixel);
-		videoMode.pf = (bitsPerPixel == 32) ? Texture::PF_16BIT : Texture::PF_32BIT;
-		m_videoModes.push_back(videoMode);
+			switch (SDL_BYTESPERPIXEL(mode.format))
+			{
+			case 4:
+				videoMode.pf = Texture::PF_32BIT;
+				break;
+			case 3:
+				videoMode.pf = Texture::PF_24BIT;
+				break;
+			case 2:
+				videoMode.pf = Texture::PF_16BIT;
+				break;
+			default:
+				videoMode.pf = Texture::PF_DEFAULT;
+				break;
+			}
+			m_videoModes.push_back(videoMode);
+		}
 	}
 	std::sort(m_videoModes.begin(), m_videoModes.end());
 }
@@ -214,7 +194,7 @@ void SDLWindow::Message(const str_type::string& text, const GS_MESSAGE_TYPE type
 Application::APP_STATUS SDLWindow::HandleEvents()
 {
 	m_mouseWheel = 0.0f;
-	m_lastCharInput = '\0';
+	m_lastCharInput.clear();
 	APP_STATUS r = APP_OK;
 
 	SDL_Event event;
@@ -222,60 +202,44 @@ Application::APP_STATUS SDLWindow::HandleEvents()
 	{
 		switch (event.type)
 		{
-		case SDL_VIDEORESIZE:
-			ResetVideoMode(event.resize.w, event.resize.h, Texture::PF_UNKNOWN);
+		case SDL_WINDOWEVENT:
+			switch (event.window.event)
+			{
+				case SDL_WINDOWEVENT_RESIZED:
+					ResetVideoMode(event.window.data1, event.window.data2, Texture::PF_UNKNOWN, false, false);
+					break;
+				case SDL_WINDOWEVENT_FOCUS_GAINED:
+					m_windowHasFocus = true;
+					break;
+				case SDL_WINDOWEVENT_FOCUS_LOST:
+					m_windowHasFocus = false;
+					break;
+				case SDL_WINDOWEVENT_SHOWN:
+					m_windowIsVisible = true;
+					break;
+				case SDL_WINDOWEVENT_HIDDEN:
+					m_windowIsVisible = false;
+					break;
+			}
 			break;
 		case SDL_QUIT:
 			r = APP_QUIT;
 			break;
-		case SDL_MOUSEBUTTONDOWN:
-			if (event.button.button == SDL_BUTTON_WHEELUP)
-				m_mouseWheel = 1.0f;
-			else if (event.button.button == SDL_BUTTON_WHEELDOWN)
-				m_mouseWheel =-1.0f;
+		case SDL_MOUSEWHEEL:
+				m_mouseWheel = static_cast<float>(event.wheel.y);
 			break;
-		case SDL_KEYDOWN:
-		case SDL_KEYUP:
-			if (event.key.type == SDL_KEYDOWN)
+		case SDL_TEXTINPUT:
+			m_lastCharInput = event.text.text;
+			break;
+		case SDL_DROPFILE:
+			if (m_fileOpenListener)
 			{
-				if (event.key.keysym.unicode < 0x80 && event.key.keysym.unicode > 0)
-				{
-					m_lastCharInput = (char)event.key.keysym.unicode;
-				}
+				const str_type::string file = event.drop.file;
+				m_fileOpenListener->OnFileOpen(file);
 			}
 			break;
 		}
 	}
-
-	Uint8 *keys = SDL_GetKeyState(NULL);
-
-	//const SDLKey macSDLK_LOPTION = SDLK_LALT;
-	//const SDLKey macSDLK_LCOMMAND = SDLK_LMETA;
-	//const SDLKey macSDLK_LCONTROL = SDLK_LCTRL;
-
-	#ifdef MACOSX
-		// This is a workaround due to outdated (perhaps) SDL implementation
-		// Always enable quit shortcut on fullscreen mode otherwise the user won't
-		// be able to close the window
-		if (QuitShortcutsEnabled() || !IsWindowed())
-		{
-			if ((keys[SDLK_LMETA] || keys[SDLK_RMETA]) && keys[SDLK_q])
-			{
-				r = APP_QUIT;
-			}
-		}
-	#endif
-
-	Uint8 state = SDL_GetAppState();
-	if ((state & SDL_APPINPUTFOCUS))
-		m_windowHasFocus = true;
-	else
-		m_windowHasFocus = false;
-
-	if ((state & SDL_APPACTIVE))
-		m_windowIsVisible = true;
-	else
-		m_windowIsVisible = false;
 
 	if (!m_windowIsVisible)
 		r = APP_SKIP;
@@ -288,7 +252,7 @@ Application::APP_STATUS SDLWindow::HandleEvents()
 
 bool SDLWindow::EndSpriteScene()
 {
-	SDL_GL_SwapBuffers();
+	SDL_GL_SwapWindow(m_window);
 	return true;
 }
 
@@ -321,7 +285,7 @@ double SDLWindow::GetElapsedTimeD(const TIME_UNITY unity) const
 {
 	timeval current;
 	gettimeofday(&current, NULL);
-	const double curr = current.tv_sec    + (current.tv_usec    / 1000000.0);
+	const double curr = current.tv_sec	+ (current.tv_usec	/ 1000000.0);
 	const double last = m_lastTime.tv_sec + (m_lastTime.tv_usec / 1000000.0);
 	double elapsedTimeS = curr - last;
 	switch (unity)
@@ -373,15 +337,12 @@ float SDLWindow::GetFPSRate() const
 
 str_type::string SDLWindow::GetWindowTitle() const
 {
-	char *title;
-	char *iconText;
-	SDL_WM_GetCaption(&title, &iconText);
-	return title;
+	return SDL_GetWindowTitle(m_window);
 }
 
 bool SDLWindow::SetWindowTitle(const str_type::string& title)
 {
-	SDL_WM_SetCaption(title.c_str(), title.c_str());
+	SDL_SetWindowTitle(m_window, title.c_str());
 	return true;
 }
 
@@ -397,18 +358,17 @@ math::Vector2 SDLWindow::GetScreenSizeF() const
 
 void SDLWindow::EnableQuitShortcuts(const bool enable)
 {
-	m_quitKeysEnabled = enable;
+	// not allowed on Mac for now (AppStore rejects apps that completely ignore it)
 }
 
 bool SDLWindow::QuitShortcutsEnabled()
 {
-	return m_quitKeysEnabled;
+	return true;
 }
 
 bool SDLWindow::IsWindowed() const
 {
-	SDL_Surface* surface = SDL_GetVideoSurface();
-	return !(surface->flags & SDL_FULLSCREEN);
+	return !(SDL_GetWindowFlags(m_window) & SDL_WINDOW_FULLSCREEN);
 }
 
 bool SDLWindow::WindowVisible() const
@@ -427,12 +387,12 @@ void SDLWindow::EnableMediaPlaying(const bool enable)
 
 void SDLWindow::ForwardCommand(const str_type::string& cmd)
 {
-	// yet to be implemented
+	// TODO yet to be implemented
 }
 
 str_type::string SDLWindow::PullCommands()
 {
-	// yet to be implemented
+	// TODO yet to be implemented
 	return "";
 }
 
@@ -449,18 +409,29 @@ bool SDLWindow::IsCursorHidden() const
 
 math::Vector2i SDLWindow::GetClientScreenSize() const
 {
-	return math::Vector2i(SDL_GetVideoInfo()->current_w, SDL_GetVideoInfo()->current_h);
+	SDL_DisplayMode mode;
+	
+	// if the window's display can't be found, use primary as default
+	int display = SDL_GetWindowDisplayIndex(m_window);
+	if (display < 0)
+	{
+		display = 0;
+	}
+	
+	SDL_GetCurrentDisplayMode(display, &mode);
+	return math::Vector2i(mode.w, mode.h);
 }
 
 math::Vector2i SDLWindow::GetWindowPosition()
 {
-	// yet to be implemented
-	return math::Vector2i(0, 0);
+	math::Vector2i r;
+	SDL_GetWindowPosition(m_window, &r.x, &r.y);
+	return r;
 }
 
 void SDLWindow::SetWindowPosition(const math::Vector2i &v2)
 {
-	// yet to be implemented
+	SDL_SetWindowPosition(m_window, v2.x, v2.y);
 }
 
 math::Vector2i SDLWindow::ScreenToWindow(const math::Vector2i &v2Point) const

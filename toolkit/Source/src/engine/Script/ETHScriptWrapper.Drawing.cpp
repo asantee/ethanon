@@ -38,11 +38,23 @@ void ETHScriptWrapper::DrawText(const Vector2 &v2Pos, const str_type::string &te
 	m_drawableManager.Insert(boost::shared_ptr<ETHDrawable>(new ETHTextDrawer(m_provider, v2Pos, text, font, color, 0x0, scale)));
 }
 
-void ETHScriptWrapper::LoadSprite(const str_type::string &name)
+str_type::string ETHScriptWrapper::AssembleColorCode(const GS_DWORD color)
+{
+	return gs2d::BitmapFont::AssembleColorCode(color);
+}
+
+void ETHScriptWrapper::LoadSprite(const str_type::string& name)
 {
 	if (WarnIfRunsInMainFunction(GS_L("LoadSprite")))
 		return;
 	LoadAndGetSprite(name);
+}
+
+bool ETHScriptWrapper::ReleaseSprite(const str_type::string& name)
+{
+	if (WarnIfRunsInMainFunction(GS_L("ReleaseSprite")))
+		return false;
+	return m_provider->GetGraphicResourceManager()->ReleaseResource(name);
 }
 
 SpritePtr ETHScriptWrapper::LoadAndGetSprite(const str_type::string &name)
@@ -118,7 +130,7 @@ void ETHScriptWrapper::DrawShapedFromPtr(
 			sprite,
 			v2Pos,
 			v2Size,
-			color,
+			Vector4(color),
 			angle,
 			sprite->GetRectIndex())));
 }

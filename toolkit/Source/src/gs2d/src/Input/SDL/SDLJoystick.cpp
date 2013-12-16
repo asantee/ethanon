@@ -118,7 +118,7 @@ bool SDLJoystick::Update()
 	{
 		if (m_joysticks[j].status == GSJS_DETECTED)
 		{
-			m_joysticks[j].status = (SDL_JoystickOpened(j) != 0) ? GSJS_DETECTED : GSJS_NOTDETECTED;
+			m_joysticks[j].status = (SDL_JoystickGetAttached(m_joysticks[j].sdlJoystick)) ? GSJS_DETECTED : GSJS_NOTDETECTED;
 
 			if (m_joysticks[j].status != GSJS_DETECTED)
 			{
@@ -165,7 +165,7 @@ bool SDLJoystick::DetectJoysticks()
 	for (unsigned int t = 0; t < m_nDetectedJoysticks; t++)
 	{
 		m_joysticks[t].sdlJoystick = SDL_JoystickOpen(t);
-		if (m_joysticks[t].sdlJoystick && SDL_JoystickOpened(t))
+		if (m_joysticks[t].sdlJoystick && SDL_JoystickGetAttached(m_joysticks[t].sdlJoystick))
 		{
 			m_joysticks[t].status = GSJS_DETECTED;
 			m_joysticks[t].nButtons = SDL_JoystickNumButtons(m_joysticks[t].sdlJoystick);

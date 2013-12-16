@@ -21,9 +21,12 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHResourceManager.h"
+
 #include <Platform/Platform.h>
 
 #include "ETHResourceProvider.h"
+
+const gs2d::str_type::string ETHGraphicResourceManager::SD_EXPANSION_FILE_PATH = "com.ethanonengine.expansionFile.path";
 
 static str_type::string RemoveResourceDirectory(
 	const str_type::string& resourceDirectory,
@@ -148,7 +151,7 @@ SpritePtr ETHGraphicResourceManager::AddFile(
 	return pBitmap;
 }
 
-int ETHGraphicResourceManager::GetNumResources()
+std::size_t ETHGraphicResourceManager::GetNumResources()
 {
 	return m_resource.size();
 }
@@ -186,12 +189,20 @@ str_type::string ETHGraphicResourceManager::AssembleResourceFullPath(
 	return programPath + searchPath + fileName;
 }
 
-void ETHGraphicResourceManager::RemoveResource(const str_type::string &file)
+bool ETHGraphicResourceManager::ReleaseResource(const str_type::string &file)
 {
 	std::map<str_type::string, SpriteResource>::iterator iter = m_resource.find(Platform::GetFileName(file));
 	if (iter != m_resource.end())
 	{
+		str_type::string fileName = Platform::GetFileName(file);
+		ETH_STREAM_DECL(ss) << GS_L("(Released) ") << fileName;
+		ETHResourceProvider::Log(ss.str(), Platform::Logger::INFO);
 		m_resource.erase(iter);
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }
 
@@ -278,7 +289,7 @@ AudioSamplePtr ETHAudioResourceManager::AddFile(
 	return pSample;
 }
 
-int ETHAudioResourceManager::GetNumResources()
+std::size_t ETHAudioResourceManager::GetNumResources()
 {
 	return m_resource.size();
 }

@@ -21,9 +21,14 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHSpriteEntity.h"
+#include "ETHEntityCache.h"
+
 #include "../Shader/ETHShaderManager.h"
+
 #include "../Physics/ETHPhysicsController.h"
+
 #include "../Resource/ETHDirectories.h"
+
 #include <iostream>
 
 const float ETHSpriteEntity::m_layrableMinimumDepth(0.001f);
@@ -36,8 +41,12 @@ ETHSpriteEntity::ETHSpriteEntity(const str_type::string& filePath, ETHResourcePr
 	Create();
 }
 
-ETHSpriteEntity::ETHSpriteEntity(TiXmlElement *pElement, ETHResourceProviderPtr provider) :
-	ETHEntity(pElement),
+ETHSpriteEntity::ETHSpriteEntity(
+	TiXmlElement *pElement,
+	ETHResourceProviderPtr provider,
+	ETHEntityCache& entityCache,
+	const str_type::string& entityPath) :
+	ETHEntity(pElement, entityCache, entityPath, provider->GetFileManager()),
 	m_provider(provider)
 {
 	Zero();
@@ -70,7 +79,6 @@ void ETHSpriteEntity::Refresh(const ETHEntityProperties& properties)
 
 void ETHSpriteEntity::Zero()
 {
-	m_stopSFXWhenDestroyed = true;
 }
 
 void ETHSpriteEntity::Create()
@@ -108,13 +116,27 @@ void ETHSpriteEntity::Create()
 	}
 }
 
-void ETHSpriteEntity::RecoverResources()
+void ETHSpriteEntity::RecoverResources(const Platform::FileManagerPtr& expansionFileManager)
 {
 	Create();
 
 	// if it has had a pre-rendered lightmap, reload it
 	if (!m_preRenderedLightmapFilePath.empty())
+	{
+		Platform::FileIOHubPtr fileIOHub = m_provider->GetFileIOHub();
+		Platform::FileManagerPtr currentFileManager     = fileIOHub->GetFileManager();
+		const str_type::string currentResourceDirectory = fileIOHub->GetResourceDirectory();
+
+		// gather from expansion file if it has one
+		if (expansionFileManager)
+		{
+			fileIOHub->SetFileManager(expansionFileManager, GS_L(""));
+		}
+
 		LoadLightmapFromFile(m_preRenderedLightmapFilePath);
+
+		fileIOHub->SetFileManager(currentFileManager, currentResourceDirectory);
+	}
 }
 
 bool ETHSpriteEntity::LoadLightmapFromFile(const str_type::string& filePath)
@@ -141,6 +163,15 @@ bool ETHSpriteEntity::LoadLightmapFromFile(const str_type::string& filePath)
 	}
 
 	return (m_pLightmap);
+}
+
+bool ETHSpriteEntity::ShouldUseHighlightPixelShader() const
+{
+	return (
+			m_v4Color.x > 1.0f
+		 || m_v4Color.y > 1.0f
+		 || m_v4Color.z > 1.0f
+	);
 }
 
 bool ETHSpriteEntity::SetSprite(const str_type::string &fileName)
@@ -285,7 +316,7 @@ void ETHSpriteEntity::LoadParticleSystem()
 			const float particleScale = (GetScale().x + GetScale().y) / 2.0f;
 			m_particles[t] = ETHParticleManagerPtr(
 				new ETHParticleManager(m_provider, *pSystem, GetPositionXY(), GetPosition(),
-									   GetAngle(), m_properties.soundVolume, particleScale));
+									   GetAngle(), particleScale));
 		}
 	}
 }
@@ -392,14 +423,6 @@ SpritePtr ETHSpriteEntity::GetParticleBMP(const unsigned int n)
 		return m_particles[n]->GetParticleBitmap();
 }
 
-AudioSamplePtr ETHSpriteEntity::GetParticleSFX(const unsigned int n)
-{
-	if (n >= m_particles.size())
-		return AudioSamplePtr();
-	else
-		return m_particles[n]->GetSoundEffect();
-}
-
 void ETHSpriteEntity::DestroyParticleSystem(const unsigned int n)
 {
 	if (n < m_particles.size())
@@ -478,12 +501,6 @@ void ETHSpriteEntity::SetParticleBitmap(const unsigned int n, const str_type::st
 			m_properties.particleSystems[n]->bitmapFile = bitmap;
 		m_particles[n]->SetParticleBitmap(bitmap);
 	}
-}
-
-void ETHSpriteEntity::SetParticleSFX(const unsigned int n, AudioSamplePtr pSample)
-{
-	if (n < m_particles.size())
-		m_particles[n]->SetSoundEffect(pSample);
 }
 
 void ETHSpriteEntity::SetParticlePosition(const unsigned int n, const Vector3 &v3Pos)
@@ -775,60 +792,6 @@ bool ETHSpriteEntity::IsPointOnSprite(const ETHSceneProperties& sceneProps, cons
 	}
 }
 
-void ETHSpriteEntity::StartSFX()
-{
-	for(std::size_t t=0; t<m_particles.size(); t++)
-	{
-		AudioSamplePtr pSample = m_particles[t]->GetSoundEffect();
-		if (pSample)
-			pSample->Play();
-	}
-}
-
-void ETHSpriteEntity::ForceSFXStop()
-{
-	for(std::size_t t=0; t<m_particles.size(); t++)
-	{
-		if (m_particles[t])
-		{
-			AudioSamplePtr pSample = m_particles[t]->GetSoundEffect();
-			if (pSample)
-			{
-				//if (m_particles[t].IsSoundLooping())
-					pSample->Stop();
-			}
-		}
-	}
-}
-
-void ETHSpriteEntity::SetStopSFXWhenDestroyed(const bool enable)
-{
-	m_stopSFXWhenDestroyed = enable;
-}
-
-void ETHSpriteEntity::SetSoundVolume(const float volume)
-{
-	for(std::size_t t = 0; t < m_particles.size(); t++)
-	{
-		if (m_particles[t])
-			if (m_particles[t]->GetSoundEffect())
-				m_particles[t]->SetSoundVolume(volume);
-	}
-}
-
-void ETHSpriteEntity::SilenceParticleSystems(const bool silence)
-{
-	for(std::size_t t = 0; t < m_particles.size(); t++)
-	{
-		AudioSamplePtr pSample = m_particles[t]->GetSoundEffect();
-		if (pSample)
-		{
-			pSample->Stop();
-		}
-		m_particles[t]->StopSFX(silence);
-	}
-}
-
 bool ETHSpriteEntity::PlayParticleSystem(const unsigned int n, const Vector2& zAxisDirection)
 {
 	if (n >= m_particles.size())
@@ -873,17 +836,6 @@ void ETHSpriteEntity::Release()
 {
 	if (--m_ref == 0)
 	{
-		if (m_stopSFXWhenDestroyed)
-		{
-			ForceSFXStop();
-		}
-		/*#if defined(_DEBUG) || defined(DEBUG)
-		if (GetID() >= 0)
-		{
-			ETH_STREAM_DECL(ss) << GS_L("Entity destroyed: #") << GetID();
-			m_provider->Log(ss.str(), Platform::Logger::INFO);
-		}
-		#endif*/
 		delete this;
 	}
 }

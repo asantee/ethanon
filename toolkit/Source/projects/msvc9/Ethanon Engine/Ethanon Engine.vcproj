@@ -21,7 +21,7 @@
 			OutputDirectory="&quot;$(SolutionDir)#bin#\$(ConfigurationName)\&quot;"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
-			CharacterSet="1"
+			CharacterSet="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -44,7 +44,7 @@
 				Optimization="0"
 				EnableIntrinsicFunctions="false"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="..\..\..\src\gs2d\vendors\BoostSDK\;..\..\..\src\box2d\;..\..\..\src\gs2d\src\"
+				AdditionalIncludeDirectories="..\..\..\src\gs2d\vendors\BoostSDK\;..\..\..\src\box2d\;..\..\..\src\gs2d\src\;..\..\..\src\vendors\hashlib2plus\src\"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;D3D_DEBUG_INFO;AS_MAX_PORTABILITY;ETH_DEFINE_DEPRECATED_SIGNATURES_FROM_0_9_5"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -90,7 +90,7 @@
 			OutputDirectory="&quot;$(SolutionDir)#bin#\$(ConfigurationName)\&quot;"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
-			CharacterSet="1"
+			CharacterSet="0"
 			WholeProgramOptimization="1"
 			>
 			<Tool
@@ -114,7 +114,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="..\..\..\src\gs2d\vendors\BoostSDK\;..\..\..\src\box2d\;..\..\..\src\gs2d\src\"
+				AdditionalIncludeDirectories="..\..\..\src\gs2d\vendors\BoostSDK\;..\..\..\src\box2d\;..\..\..\src\gs2d\src\;..\..\..\src\vendors\hashlib2plus\src\"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;ETH_DEFINE_DEPRECATED_SIGNATURES_FROM_0_9_5"
 				RuntimeLibrary="0"
 				StructMemberAlignment="0"
@@ -163,36 +163,32 @@
 			Name="Vendors"
 			>
 			<Filter
-				Name="TinyXml UTF-16"
+				Name="tinyxml"
 				>
 				<File
-					RelativePath="..\..\..\src\vendors\tinyxml_utf16\tinystr.cpp"
+					RelativePath="..\..\..\src\vendors\tinyxml_ansi\tinystr.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\vendors\tinyxml_utf16\tinystr.h"
+					RelativePath="..\..\..\src\vendors\tinyxml_ansi\tinystr.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\vendors\tinyxml_utf16\tinyxml.cpp"
+					RelativePath="..\..\..\src\vendors\tinyxml_ansi\tinyxml.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\vendors\tinyxml_utf16\tinyxml.h"
+					RelativePath="..\..\..\src\vendors\tinyxml_ansi\tinyxml.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\vendors\tinyxml_utf16\tinyxmlerror.cpp"
+					RelativePath="..\..\..\src\vendors\tinyxml_ansi\tinyxmlerror.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\vendors\tinyxml_utf16\tinyxmlparser.cpp"
+					RelativePath="..\..\..\src\vendors\tinyxml_ansi\tinyxmlparser.cpp"
 					>
 				</File>
-			</Filter>
-			<Filter
-				Name="TinyXml ANSI"
-				>
 			</Filter>
 		</Filter>
 		<Filter
@@ -682,22 +678,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\engine\Script\ETHEntityDestructorManager.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\engine\Script\ETHEntityDestructorManager.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\engine\Script\ETHEntityDestructorScript.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\engine\Script\ETHEntityDestructorScript.h"
-					>
-				</File>
-				<File
 					RelativePath="..\..\..\src\engine\Script\ETHScriptObjRegister.cpp"
 					>
 				</File>
@@ -753,11 +733,27 @@
 						>
 					</File>
 					<File
+						RelativePath="..\..\..\src\addons\scriptbuilder.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\addons\scriptbuilder.h"
+						>
+					</File>
+					<File
 						RelativePath="..\..\..\src\addons\scriptdictionary.cpp"
 						>
 					</File>
 					<File
 						RelativePath="..\..\..\src\addons\scriptdictionary.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\addons\scriptfile.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\src\addons\scriptfile.h"
 						>
 					</File>
 					<File
@@ -784,38 +780,14 @@
 						RelativePath="..\..\..\src\addons\scriptmath3d.h"
 						>
 					</File>
-					<Filter
-						Name="utf16"
+					<File
+						RelativePath="..\..\..\src\addons\scriptstdstring.cpp"
 						>
-						<File
-							RelativePath="..\..\..\src\addons\utf16\scriptbuilder.cpp"
-							>
-						</File>
-						<File
-							RelativePath="..\..\..\src\addons\utf16\scriptbuilder.h"
-							>
-						</File>
-						<File
-							RelativePath="..\..\..\src\addons\utf16\scriptfile.cpp"
-							>
-						</File>
-						<File
-							RelativePath="..\..\..\src\addons\utf16\scriptfile.h"
-							>
-						</File>
-						<File
-							RelativePath="..\..\..\src\addons\utf16\scriptstdstring.cpp"
-							>
-						</File>
-						<File
-							RelativePath="..\..\..\src\addons\utf16\scriptstdstring.h"
-							>
-						</File>
-					</Filter>
-					<Filter
-						Name="ansi"
+					</File>
+					<File
+						RelativePath="..\..\..\src\addons\scriptstdstring.h"
 						>
-					</Filter>
+					</File>
 				</Filter>
 				<Filter
 					Name="Generic"

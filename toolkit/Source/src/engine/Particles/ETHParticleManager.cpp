@@ -21,11 +21,16 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHParticleManager.h"
+
 #include "../Resource/ETHResourceProvider.h"
 #include "../Resource/ETHDirectories.h"
+
 #include "../Util/ETHASUtil.h"
+
 #include "../Entity/ETHEntity.h"
+
 #include <Math/Randomizer.h>
+
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -35,14 +40,13 @@ ETHParticleManager::ETHParticleManager(
 	const str_type::string& file,
 	const Vector2& v2Pos,
 	const Vector3& v3Pos,
-	const float angle,
-	const float entityVolume) :
+	const float angle) :
 	m_provider(provider)
 {
 	ETHParticleSystem partSystem;
 	if (partSystem.ReadFromFile(file, m_provider->GetFileManager()))
 	{
-		CreateParticleSystem(partSystem, v2Pos, v3Pos, angle, entityVolume, 1.0f);
+		CreateParticleSystem(partSystem, v2Pos, v3Pos, angle, 1.0f);
 	}
 	else
 	{
@@ -57,11 +61,10 @@ ETHParticleManager::ETHParticleManager(
 	const Vector2& v2Pos,
 	const Vector3& v3Pos,
 	const float angle,
-	const float entityVolume,
 	const float scale) :
 	m_provider(provider)
 {
-	CreateParticleSystem(partSystem, v2Pos, v3Pos, angle, entityVolume, scale);
+	CreateParticleSystem(partSystem, v2Pos, v3Pos, angle, scale);
 }
 
 bool ETHParticleManager::CreateParticleSystem(
@@ -69,7 +72,6 @@ bool ETHParticleManager::CreateParticleSystem(
 	const Vector2& v2Pos,
 	const Vector3& v3Pos,
 	const float angle,
-	const float entityVolume,
 	const float scale)
 {
 	GS2D_UNUSED_ARGUMENT(v3Pos);
@@ -83,12 +85,7 @@ bool ETHParticleManager::CreateParticleSystem(
 	m_finished = false;
 	m_killed = false;
 	m_nActiveParticles = 0;
-	m_soundVolume = 1.0f;
-	m_isSoundLooping = false;
-	m_isSoundStopped = false;
-	m_generalVolume = 1.0f;
 	m_system = partSystem;
-	m_entityVolume = entityVolume;
 
 	m_system.Scale(scale);
 
@@ -109,13 +106,6 @@ bool ETHParticleManager::CreateParticleSystem(
 
 	m_pBMP = graphics->GetPointer(m_provider->GetVideo(), m_system.bitmapFile, currentPath,
 		ETHDirectories::GetParticlesDirectory(), (m_system.alphaMode == Video::AM_ADD));
-
-	// find the particle sound effect
-	if (m_system.soundFXFile != GS_L(""))
-	{
-		m_pSound = samples->GetPointer(m_provider->GetAudio(), m_provider->GetFileIOHub(), m_system.soundFXFile,
-			ETHDirectories::GetSoundFXDirectory(), Audio::SOUND_EFFECT);
-	}
 
 	if (m_system.allAtOnce)
 	{
@@ -138,21 +128,6 @@ bool ETHParticleManager::CreateParticleSystem(
 	return true;
 }
 
-void ETHParticleManager::SetSoundVolume(const float volume)
-{
-	m_entityVolume = Min(Max(volume, 0.0f), 1.0f);
-}
-
-float ETHParticleManager::GetSoundVolume() const
-{
-	return m_entityVolume;
-}
-
-void ETHParticleManager::StopSFX(const bool stopped)
-{
-	m_isSoundStopped = stopped;
-}
-
 Vector3 ETHParticleManager::GetStartPos() const
 {
 	return m_system.startPoint;
@@ -171,11 +146,6 @@ float ETHParticleManager::GetBoundingRadius() const
 str_type::string ETHParticleManager::GetBitmapName() const
 {
 	return m_system.bitmapFile;
-}
-
-str_type::string ETHParticleManager::GetSoundName() const
-{
-	return m_system.soundFXFile;
 }
 
 void ETHParticleManager::Kill(const bool kill)
@@ -213,27 +183,6 @@ SpritePtr ETHParticleManager::GetParticleBitmap()
 const ETHParticleSystem *ETHParticleManager::GetSystem() const
 {
 	return &m_system;
-}
-
-void ETHParticleManager::SetSoundEffect(AudioSamplePtr pSound)
-{
-	m_pSound = pSound;
-}
-  
-AudioSamplePtr ETHParticleManager::GetSoundEffect()
-{
-	return m_pSound;
-}
-
-// Returns true if it has a SFX
-bool ETHParticleManager::HasSoundEffect() const
-{
-	return (m_system.soundFXFile != GS_L(""));
-}
-
-bool ETHParticleManager::IsSoundLooping() const
-{
-	return m_isSoundLooping;
 }
 
 bool ETHParticleManager::UpdateParticleSystem(
@@ -314,64 +263,7 @@ bool ETHParticleManager::UpdateParticleSystem(
 	}
 	m_finished = !anythingDrawn;
 
-	// manages the sound
-	HandleSoundPlayback(v2Pos, frameSpeed);
-
 	return true;
-}
-
-void ETHParticleManager::HandleSoundPlayback(const Vector2 &v2Pos, const float frameSpeed)
-{
-	if (!m_pSound)
-		return;
-
-	const Vector2 v2FinalPos = v2Pos+ETHGlobal::ToVector2(m_system.startPoint);
-	if (m_nActiveParticles <= 0)
-	{
-		if (IsSoundLooping())
-			m_pSound->Stop();
-	}
-	else
-	{
-		const VideoPtr& video = m_provider->GetVideo();
-		const float move = Distance(v2FinalPos, m_v2Move);
-		const float screenSize = Distance(Vector2(0,0), video->GetScreenSizeF());
-		const float moveVolume = move/screenSize;
-		m_soundVolume -= moveVolume;
-		m_soundVolume = Max(m_soundVolume, 0.2f);
-		m_soundVolume = Min(m_soundVolume, 1.0f);
-
-		const float screenWidth = video->GetScreenSizeF().x;
-		const float pan = ((Max(Min(v2FinalPos.x - video->GetCameraPos().x, screenWidth), 0.0f) / screenWidth) - 0.5f) * 2;
-		m_pSound->SetPan(pan);
-
-		float volume = 1.0f;
-		if (m_isSoundLooping)
-		{
-			volume = (float)m_nActiveParticles / (float)m_system.nParticles;
-		}
-		m_pSound->SetVolume(m_soundVolume * volume * m_entityVolume * m_generalVolume);
-
-		// if the particle system is supposed to repeat many times (nRepeat >= N), lets loop
-		// it's sound effect. If it's not, then the application has to take care of it
-		if ((!m_pSound->IsPlaying() || !m_pSound->GetLoop()) &&
-			(m_system.repeat >= _ETH_MINIMUM_PARTICLE_REPEATS_TO_LOOP_SOUND || m_system.repeat <= 0))
-		{
-			m_isSoundLooping = true;
-
-			// if it's not forced to remain quiet, play it
-			if (!m_isSoundStopped)
-			{
-				m_pSound->Play();
-				m_pSound->SetLoop(true);
-			}
-		}
-		if (m_system.repeat < _ETH_MINIMUM_PARTICLE_REPEATS_TO_LOOP_SOUND && m_system.repeat > 0)
-			m_isSoundLooping = false;
-
-		m_soundVolume += 0.01f * frameSpeed;
-	}
-	m_v2Move = v2FinalPos;
 }
 
 bool ETHParticleManager::Finished() const
@@ -381,11 +273,9 @@ bool ETHParticleManager::Finished() const
 
 bool ETHParticleManager::Play(const Vector2 &v2Pos, const Vector3 &v3Pos, const float angle)
 {
-	if (m_pSound)
-		m_pSound->Play();
 	Matrix4x4 rot = RotateZ(DegreeToRadian(angle));
 	m_finished = false;
-	for (int t=0; t<m_system.nParticles; t++)
+	for (int t = 0; t < m_system.nParticles; t++)
 	{
 		m_particles[t].repeat = 0;
 		m_particles[t].released = false;
@@ -394,9 +284,9 @@ bool ETHParticleManager::Play(const Vector2 &v2Pos, const Vector3 &v3Pos, const 
 	return true;
 }
 
-void ETHParticleManager::BubbleSort(std::vector<PARTICLE> &v)
+void ETHParticleManager::Sort(std::vector<PARTICLE> &v)
 {
-	const int len = v.size();
+	const int len = static_cast<int>(v.size());
 	for (int j = len - 1; j > 0; j--)
 	{
 		bool leave = true;
@@ -445,7 +335,7 @@ float ETHParticleManager::GetParticleDepthShift(const DEPTH_SORTING_MODE& ownerT
 }
 
 bool ETHParticleManager::DrawParticleSystem(
-	Vector3 v3Ambient,
+	Vector3 ambient,
 	const float maxHeight,
 	const float minHeight,
 	const DEPTH_SORTING_MODE ownerType,
@@ -467,8 +357,11 @@ bool ETHParticleManager::DrawParticleSystem(
 	// if the alpha blending is not additive, we'll have to sort it
 	if (alpha == Video::AM_PIXEL)
 	{
-		BubbleSort(m_particles);
+		Sort(m_particles);
 	}
+
+	const bool shouldUseHightlightPS = m_system.ShouldUseHighlightPS();
+	const ShaderPtr& currentPS = m_provider->GetVideo()->GetPixelShader();
 
 	m_pBMP->SetOrigin(Sprite::EO_CENTER);
 	for (int t = 0; t < m_system.nParticles; t++)
@@ -485,20 +378,15 @@ bool ETHParticleManager::DrawParticleSystem(
 		if (Killed() && particle.elapsed > particle.lifeTime)
 			continue;
 
-		Vector3 v3FinalAmbient(1, 1, 1);
+		Vector3 finalAmbient(1, 1, 1);
 		if (m_system.alphaMode == Video::AM_PIXEL || m_system.alphaMode == Video::AM_ALPHA_TEST)
 		{
-			v3FinalAmbient.x = Min(m_system.emissive.x + v3Ambient.x, 1.0f);
-			v3FinalAmbient.y = Min(m_system.emissive.y + v3Ambient.y, 1.0f);
-			v3FinalAmbient.z = Min(m_system.emissive.z + v3Ambient.z, 1.0f);
+			finalAmbient.x = Min(m_system.emissive.x + ambient.x, 1.0f);
+			finalAmbient.y = Min(m_system.emissive.y + ambient.y, 1.0f);
+			finalAmbient.z = Min(m_system.emissive.z + ambient.z, 1.0f);
 		}
 
-		Color dwColor;
-		const Vector4& color(particle.color);
-		dwColor.a = (GS_BYTE)(color.w * 255.0f);
-		dwColor.r = (GS_BYTE)(color.x * v3FinalAmbient.x * 255.0f);
-		dwColor.g = (GS_BYTE)(color.y * v3FinalAmbient.y * 255.0f);
-		dwColor.b = (GS_BYTE)(color.z * v3FinalAmbient.z * 255.0f);
+		Vector4 finalColor = particle.color * Vector4(finalAmbient, 1.0f);
 
 		// compute the right in-screen position
 		const Vector2 v2Pos = ETHGlobal::ToScreenPos(Vector3(particle.pos, m_system.startPoint.z), zAxisDirection);
@@ -516,7 +404,13 @@ bool ETHParticleManager::DrawParticleSystem(
 		{
 			m_pBMP->UnsetRect();
 		}
-		m_pBMP->DrawOptimal((v2Pos + parallaxOffset), dwColor, particle.angle, Vector2(particle.size, particle.size));
+		
+		if (shouldUseHightlightPS)
+		{
+			currentPS->SetConstant(GS_L("highlight"), finalColor);
+		}
+		
+		m_pBMP->DrawOptimal((v2Pos + parallaxOffset), finalColor, particle.angle, Vector2(particle.size, particle.size));
 	}
 	video->SetAlphaMode(alpha);
 	return true;

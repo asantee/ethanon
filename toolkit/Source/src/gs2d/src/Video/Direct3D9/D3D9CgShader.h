@@ -54,7 +54,7 @@ public:
 	bool DisableTextureParams() { return true; }
 
 protected:
-	bool CheckForError(const std::wstring& situation);
+	bool CheckForError(const str_type::string& situation);
 };
 
 typedef boost::shared_ptr<D3D9CgShaderContext> D3D9CgShaderContextPtr;
@@ -66,33 +66,33 @@ class D3D9CgShader : public Shader
 {
 	CGprogram m_cgProgram;
 	CGprofile m_cgLatestProfile;
-	std::map<std::wstring, CGparameter> m_mParam;
+	std::map<str_type::string, CGparameter> m_mParam;
 
 	bool SetupParameters();
 	SHADER_FOCUS m_focus;
 	SHADER_PROFILE m_profile;
-	std::wstring m_shaderName;
+	str_type::string m_shaderName;
 	ShaderContextPtr m_pShaderContext;
 
-	bool CheckForError(const std::wstring &situation, const std::wstring &add);
+	bool CheckForError(const str_type::string &situation, const str_type::string &add);
 
 public:
 	D3D9CgShader();
 	~D3D9CgShader();
 
-	bool ConstantExist(const std::wstring& name);
-	bool SetConstant(const std::wstring& name, const Color& dw);
-	bool SetConstant(const std::wstring& name, const math::Vector4 &v);
-	bool SetConstant(const std::wstring& name, const math::Vector3 &v);
-	bool SetConstant(const std::wstring& name, const math::Vector2 &v);
-	bool SetConstant(const std::wstring& name, const float x, const float y, const float z, const float w);
-	bool SetConstant(const std::wstring& name, const float x, const float y, const float z);
-	bool SetConstant(const std::wstring& name, const float x, const float y);
-	bool SetConstant(const std::wstring& name, const float x);
-	bool SetConstant(const std::wstring& name, const int n);
-	bool SetConstantArray(const std::wstring& name, unsigned int nElements, const boost::shared_array<const math::Vector2>& v);
-	bool SetMatrixConstant(const std::wstring& name, const math::Matrix4x4 &matrix);
-	bool SetTexture(const std::wstring& name, TextureWeakPtr pTexture);
+	bool ConstantExist(const str_type::string& name);
+	bool SetConstant(const str_type::string& name, const Color& dw);
+	bool SetConstant(const str_type::string& name, const math::Vector4 &v);
+	bool SetConstant(const str_type::string& name, const math::Vector3 &v);
+	bool SetConstant(const str_type::string& name, const math::Vector2 &v);
+	bool SetConstant(const str_type::string& name, const float x, const float y, const float z, const float w);
+	bool SetConstant(const str_type::string& name, const float x, const float y, const float z);
+	bool SetConstant(const str_type::string& name, const float x, const float y);
+	bool SetConstant(const str_type::string& name, const float x);
+	bool SetConstant(const str_type::string& name, const int n);
+	bool SetConstantArray(const str_type::string& name, unsigned int nElements, const boost::shared_array<const math::Vector2>& v);
+	bool SetMatrixConstant(const str_type::string& name, const math::Matrix4x4 &matrix);
+	bool SetTexture(const str_type::string& name, TextureWeakPtr pTexture);
 
 	bool CompileShader();
 	bool SetShader();
@@ -104,10 +104,10 @@ public:
 
 protected:
 
-	bool LoadShaderFromFile(ShaderContextPtr context, const std::wstring& fileName, const SHADER_FOCUS focus,
+	bool LoadShaderFromFile(ShaderContextPtr context, const str_type::string& fileName, const SHADER_FOCUS focus,
 		const SHADER_PROFILE profile = SP_HIGHEST, const char *entry = 0);
 
-	bool LoadShaderFromString(ShaderContextPtr context, const std::wstring& shaderName, const std::string& codeAsciiString, const SHADER_FOCUS focus,
+	bool LoadShaderFromString(ShaderContextPtr context, const str_type::string& shaderName, const std::string& codeAsciiString, const SHADER_FOCUS focus,
 		const SHADER_PROFILE profile = SP_HIGHEST, const char *entry = 0);
 };
 

@@ -24,13 +24,18 @@
 #define ETH_RESOURCE_MANAGER_H_
 
 #include <Platform/FileIOHub.h>
+
 #include "../ETHTypes.h"
+
 #include "ETHSpriteDensityManager.h"
+
 #include <Audio.h>
 
 class ETHGraphicResourceManager
 {
 public:
+    static const gs2d::str_type::string SD_EXPANSION_FILE_PATH;
+
 	ETHGraphicResourceManager(const ETHSpriteDensityManager& densityManager);
 
 	class SpriteResource
@@ -56,7 +61,7 @@ public:
 		const bool cutOutBlackPixels,
 		const bool temporary = false);
 
-	int GetNumResources();
+	std::size_t GetNumResources();
 	void ReleaseResources();
 	void ReleaseTemporaryResources();
 
@@ -67,7 +72,7 @@ public:
 		const bool cutOutBlackPixels,
 		const bool temporary);
 
-	void RemoveResource(const str_type::string &file);
+	bool ReleaseResource(const str_type::string& file);
 
 private:
 	SpritePtr FindSprite(
@@ -102,7 +107,7 @@ public:
 		const str_type::string& path,
 		const Audio::SAMPLE_TYPE type);
 
-	int GetNumResources();
+	std::size_t GetNumResources();
 
 	void ReleaseResources();
 

@@ -35,7 +35,7 @@ void ETHBinaryStream::Read(void *ptr, asUINT size)
 	assert(m_buffer->GetAddress());
 	if (m_inCarret + size > static_cast<unsigned int>(m_buffer->GetBufferSize()))
 	{
-		size = m_buffer->GetBufferSize() - m_inCarret;
+		size = static_cast<asUINT>(m_buffer->GetBufferSize() - m_inCarret);
 	}
 	memcpy(ptr, &(m_buffer->GetAddress()[m_inCarret]), size);
 	m_inCarret += size;
@@ -64,8 +64,8 @@ bool ETHBinaryStream::OpenW(const str_type::string& fileName)
 {
 	CloseW();
 	SetFileName(fileName);
-	#ifdef GS2D_STR_TYPE_WCHAR
-		errno_t error = _wfopen_s(&m_out, GetFileName().c_str(), L"wb");
+	#ifdef WIN32
+		errno_t error = fopen_s(&m_out, GetFileName().c_str(), GS_L("wb"));
 	#else
 		int error = 0; m_out = fopen(GetFileName().c_str(), "wb");
 	#endif

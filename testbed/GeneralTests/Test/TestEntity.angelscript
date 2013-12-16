@@ -12,7 +12,7 @@ class TestEntity : Test
 		SetScaleFactor(1.0f);
 		LoadScene("scenes/TestEntity.esc", PRELOOP, LOOP);
 		HideCursor(false);
-		//SetWindowProperties("Ethanon Engine", 1024, 768, true, true, PF32BIT);
+		SetWindowProperties("Ethanon Engine", 1024, 768, true, true, PF32BIT);
 		SetBackgroundColor(0xFF000000);
 	}
 	
@@ -30,10 +30,11 @@ class TestEntity : Test
 		print("Calling unique method to remove repeated entities\n");
 		barrels.unique();
 		print("Barrels found: " + barrels.size() + "\n");
-		DrawFadingText(vector2(10,300), "If you see this it's\nbecause multipage bitmap\nfonts work just fine\náàãéèíìóòõúùñÁÀÃÉÈÍÌÓÒÕÚÙÑ",
-				"Verdana128.fnt", 0xFFFFFFFF, 6000, 0.5f);
+		DrawFadingText(vector2(10,300),
+			"If you see this it's\nbecause multipage bitmap\nfonts work just fine",
+			"Verdana128.fnt", 0xFFFFFFFF, 6000, 0.5f);
 
-		const int birdId = AddEntity("bird.ent", vector3(GetScreenSize()/2, 10.0f), 0);
+		const int birdId = AddEntity("bird_utf8_bom.ent", vector3(GetScreenSize()/2, 10.0f), 0);
 		@bird = SeekEntity(birdId);
 
 		@character = SeekEntity("character");
@@ -130,7 +131,9 @@ class TestEntity : Test
 				}
 			}
 		}
-		
+
+		DrawText(vector2(10,130), "Português: Olá, ãõé\nChinese: 新宋体 End of chinese.", "Simsun14.fnt", 0xFFFFFFFF);
+
 		ETHInput@ input = GetInputHandle();
 		if (input.GetKeyState(K_SPACE) == KS_HIT)
 			GenerateLightmaps();
@@ -306,12 +309,4 @@ void ETHConstructorCallback_barrel(ETHEntity@ thisEntity)
 {
 	print("Barrel constructor!");
 	thisEntity.SetString("test", "test value");
-}
-
-void ETHDestructorCallback_barrel(ETHEntity@ thisEntity)
-{
-	if (thisEntity.GetString("test") == "test value")
-	{
-		print("Barrel destructor test passed...");
-	}
 }

@@ -30,7 +30,6 @@
 namespace ETHGlobal {
 	void CheckFunctionSeekError(const int id, const str_type::string& function);
 	void PrintException(asIScriptContext *pContext);
-	void ShowMessage(str_type::string message, const ETH_MESSAGE type);
 	void ExecuteContext(asIScriptContext *pContext, asIScriptFunction* func, const bool prepare = true);
 	asIScriptFunction* FindCallbackFunction(asIScriptModule* pModule, const ETHScriptEntity* entity, const str_type::string& prefix, const Platform::Logger& logger);
 	bool RunEntityCallback(asIScriptContext* pContext, ETHScriptEntity* entity, asIScriptFunction* func);
@@ -50,12 +49,6 @@ namespace ETHGlobal {
 	float ParseFloatStd(const str_type::string &str);
 	int ParseIntStd(const str_type::string &str);
 	unsigned int ParseUIntStd(const str_type::string &str);
-
-#ifdef GS2D_STR_TYPE_WCHAR
-	std::wstring AppendExtensionIfNeeded(std::wstring source, const std::wstring& ext);
-	bool IsTrue(const std::wstring& source);
-#endif
-
 } // namespace ETHGlobal
 
 #endif

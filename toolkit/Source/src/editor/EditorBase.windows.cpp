@@ -25,10 +25,9 @@
 #include "../engine/ETHTypes.h"
 #include "../engine/Util/ETHASUtil.h"
 
-#include <Unicode/UTF8Converter.h>
-
 #include <windows.h>
 #include <io.h>
+
 #include <sys/types.h>
 #include <sys/stat.h>
 
@@ -72,7 +71,7 @@ static char* AssembleWin32FilterString(const FILE_FORM_FILTER& filter, std::stri
 	}
 	ss << nullcharSymbol << nullcharSymbol;
 
-	out = utf8::c(ss.str()).str();
+	out = ss.str();
 	const std::size_t initialSize = out.size();
 	for (std::size_t t = 0; t < initialSize; t++)
 	{

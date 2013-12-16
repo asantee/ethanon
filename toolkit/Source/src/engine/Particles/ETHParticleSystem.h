@@ -48,11 +48,12 @@ public:
 	bool ReadFromFile(const str_type::string& fileName, const Platform::FileManagerPtr& fileManager);
 	bool WriteToXMLFile(TiXmlElement *pRoot) const;
 	int GetNumFrames() const;
+	
+	bool ShouldUseHighlightPS() const;
 
 	str_type::string GetActualBitmapFile() const;
 
 	str_type::string bitmapFile;
-	str_type::string soundFXFile;
 	ETH_BOOL allAtOnce;
 	float boundingSphere;
 	Video::ALPHA_MODE alphaMode;

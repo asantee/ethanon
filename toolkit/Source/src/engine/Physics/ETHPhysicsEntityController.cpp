@@ -22,17 +22,11 @@
 
 #include "ETHPhysicsEntityController.h"
 
-#ifdef GS2D_STR_TYPE_WCHAR
-#include "../../addons/utf16/scriptbuilder.h"
-#else
-#include "../../addons/ansi/scriptbuilder.h"
-#endif
+#include "../../addons/scriptbuilder.h"
 
 #include "../ETHEngine.h"
 
 #include "ETHPhysicsController.h"
-
-#include <Unicode/UTF8Converter.h>
 
 const str_type::string ETHPhysicsEntityController::BEGIN_CONTACT_CALLBACK_PREFIX    = GS_L("ETHBeginContactCallback_");
 const str_type::string ETHPhysicsEntityController::END_CONTACT_CALLBACK_PREFIX      = GS_L("ETHEndContactCallback_");
@@ -73,7 +67,7 @@ asIScriptFunction* ETHPhysicsEntityController::GetContactCallback(const str_type
 	ETHEntity* entity = static_cast<ETHEntity*>(m_body->GetUserData());
 	str_type::stringstream ss;
 	ss << prefix << Platform::RemoveExtension(entity->GetEntityName().c_str());
-	return module->GetFunctionByName(utf8::c(ss.str()).c_str());
+	return module->GetFunctionByName(ss.str().c_str());
 }
 
 void ETHPhysicsEntityController::Update(const float lastFrameElapsedTime, ETHBucketManager& buckets)
@@ -292,10 +286,11 @@ bool ETHPhysicsEntityController::ResolveJoints(ETHEntityArray& entities, const E
 		// iterate over entities to find the other-entity
 		for (std::size_t t = 0; t < numEntities; t++)
 		{
-			if (entities[t]->GetEntityName() == otherEntityName || entities[t]->GetID() == otherEntityID)
+			const unsigned int idx = static_cast<unsigned int>(t);
+			if (entities[idx]->GetEntityName() == otherEntityName || entities[idx]->GetID() == otherEntityID)
 			{
 				boost::shared_ptr<ETHJoint> joint =
-					ETHJoint::CreateJoint(jointName, file, simulator, static_cast<ETHEntity*>(m_body->GetUserData()), (entities[t]));
+					ETHJoint::CreateJoint(jointName, file, simulator, static_cast<ETHEntity*>(m_body->GetUserData()), (entities[idx]));
 				if (joint)
 					m_joints.push_back(joint);
 				break;

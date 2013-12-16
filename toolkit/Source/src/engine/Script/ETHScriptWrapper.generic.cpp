@@ -107,6 +107,7 @@ asDECLARE_FUNCTION_WRAPPER(__DrawText,              ETHScriptWrapper::DrawText);
 asDECLARE_FUNCTION_WRAPPER(__DrawFadingText,        ETHScriptWrapper::DrawFadingText);
 asDECLARE_FUNCTION_WRAPPER(__ComputeCarretPosition, ETHScriptWrapper::ComputeCarretPosition);
 asDECLARE_FUNCTION_WRAPPER(__ComputeTextBoxSize,    ETHScriptWrapper::ComputeTextBoxSize);
+asDECLARE_FUNCTION_WRAPPER(__AssembleColorCode,     ETHScriptWrapper::AssembleColorCode);
 
 asDECLARE_FUNCTION_WRAPPER(__EnableLightmaps, ETHScriptWrapper::EnableLightmaps);
 asDECLARE_FUNCTION_WRAPPER(__UsePixelShaders, ETHScriptWrapper::UsePixelShaders);
@@ -147,6 +148,7 @@ asDECLARE_FUNCTION_WRAPPER(__degreeToRadian, DegreeToRadian);
 asDECLARE_FUNCTION_WRAPPER(__ARGB,           ARGB);
 
 asDECLARE_FUNCTION_WRAPPER(__LoadSprite,       ETHScriptWrapper::LoadSprite);
+asDECLARE_FUNCTION_WRAPPER(__ReleaseSprite,    ETHScriptWrapper::ReleaseSprite);
 asDECLARE_FUNCTION_WRAPPER(__DrawSprite,       ETHScriptWrapper::DrawSprite);
 asDECLARE_FUNCTION_WRAPPER(__DrawShapedSprite, ETHScriptWrapper::DrawShaped);
 asDECLARE_FUNCTION_WRAPPER(__GetSpriteSize,    ETHScriptWrapper::GetSpriteSize);
@@ -217,10 +219,11 @@ asDECLARE_FUNCTION_WRAPPER(__FileExists,                    ETHScriptWrapper::Fi
 asDECLARE_FUNCTION_WRAPPER(__IsHighEndDevice,               ETHScriptWrapper::IsHighEndDevice);
 asDECLARE_FUNCTION_WRAPPER(__GetPlatformName,               ETHScriptWrapper::GetPlatformName);
 
-asDECLARE_FUNCTION_WRAPPER(__EnablePackLoading,          ETHScriptWrapper::EnablePackLoading);
-asDECLARE_FUNCTION_WRAPPER(__DisablePackLoading,         ETHScriptWrapper::DisablePackLoading);
-asDECLARE_FUNCTION_WRAPPER(__IsResourcePackingSupported, ETHScriptWrapper::IsResourcePackingSupported);
-asDECLARE_FUNCTION_WRAPPER(__IsPackLoadingEnabled,       ETHScriptWrapper::IsPackLoadingEnabled);
+asDECLARE_FUNCTION_WRAPPER(__EnablePackLoading,                ETHScriptWrapper::EnablePackLoading);
+asDECLARE_FUNCTION_WRAPPER(__DisablePackLoading,               ETHScriptWrapper::DisablePackLoading);
+asDECLARE_FUNCTION_WRAPPER(__IsResourcePackingSupported,       ETHScriptWrapper::IsResourcePackingSupported);
+asDECLARE_FUNCTION_WRAPPER(__IsPackLoadingEnabled,             ETHScriptWrapper::IsPackLoadingEnabled);
+asDECLARE_FUNCTION_WRAPPER(__EnableLightmapsFromExpansionPack, ETHScriptWrapper::EnableLightmapsFromExpansionPack);
 
 asDECLARE_FUNCTION_WRAPPER(__SetGravity, ETHScriptWrapper::SetGravity);
 asDECLARE_FUNCTION_WRAPPER(__GetGravity, ETHScriptWrapper::GetGravity);
@@ -356,10 +359,11 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void AddToCameraPos(const vector2 &in)", asFUNCTION(__AddToCameraPos),  asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 GetCameraPos()",                 asFUNCTION(__GetCameraPos),    asCALL_GENERIC); assert(r >= 0);
 
-	r = pASEngine->RegisterGlobalFunction("void DrawText(const vector2 &in, const string &in, const string &in, const uint color = 0xFFFFFFFF, const float scale = 1.0f)",							asFUNCTION(__DrawText),			asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("void DrawFadingText(const vector2 &in, const string &in, const string &in, const uint, const uint, const float scale = 1.0f)",		asFUNCTION(__DrawFadingText),	asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void DrawText(const vector2 &in, const string &in, const string &in, const uint color = 0xFFFFFFFF, const float scale = 1.0f)",	asFUNCTION(__DrawText),			asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void DrawFadingText(const vector2 &in, const string &in, const string &in, const uint, const uint, const float scale = 1.0f)",	asFUNCTION(__DrawFadingText),	asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 ComputeCarretPosition(const string &in, const string &in, const uint pos)",	asFUNCTION(__ComputeCarretPosition),asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 ComputeTextBoxSize(const string &in, const string &in)",						asFUNCTION(__ComputeTextBoxSize),	asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("string AssembleColorCode(const uint)",												asFUNCTION(__AssembleColorCode),	asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("void EnableLightmaps(const bool)", asFUNCTION(__EnableLightmaps), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void UsePixelShaders(const bool)", asFUNCTION(__UsePixelShaders), asCALL_GENERIC); assert(r >= 0);
@@ -396,7 +400,9 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("float degreeToRadian(const float)",                             asFUNCTION(__degreeToRadian), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("uint ARGB(const uint8, const uint8, const uint8, const uint8)", asFUNCTION(__ARGB),           asCALL_GENERIC); assert(r >= 0);
 
-	r = pASEngine->RegisterGlobalFunction("void LoadSprite(const string &in)",                                                                        asFUNCTION(__LoadSprite),       asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void LoadSprite(const string &in)",    asFUNCTION(__LoadSprite),    asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("bool ReleaseSprite(const string &in)", asFUNCTION(__ReleaseSprite), asCALL_GENERIC); assert(r >= 0);
+
 	r = pASEngine->RegisterGlobalFunction("void DrawSprite(const string &in, const vector2 &in, const uint color = 0xFFFFFFFF, const float angle = 0.0f)",                      asFUNCTION(__DrawSprite),       asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void DrawShapedSprite(const string &in, const vector2 &in, const vector2 &in, const uint color = 0xFFFFFFFF, const float angle = 0.0f)", asFUNCTION(__DrawShapedSprite), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 GetSpriteSize(const string &in)",                                                                  asFUNCTION(__GetSpriteSize),    asCALL_GENERIC); assert(r >= 0);
@@ -479,6 +485,7 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void DisablePackLoading()",         asFUNCTION(__DisablePackLoading),         asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool IsResourcePackingSupported()", asFUNCTION(__IsResourcePackingSupported), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool IsPackLoadingEnabled()",       asFUNCTION(__IsPackLoadingEnabled),       asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("bool EnableLightmapsFromExpansionPack(const bool)", asFUNCTION(__EnableLightmapsFromExpansionPack), asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("string GetStringFromFileInPackage(const string &in)", asFUNCTION(__GetStringFromFileInPackage), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool FileInPackageExists(const string &in)",          asFUNCTION(__FileInPackageExists),        asCALL_GENERIC); assert(r >= 0);

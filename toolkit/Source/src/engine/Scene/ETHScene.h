@@ -33,8 +33,6 @@
 
 #include "../Physics/ETHPhysicsSimulator.h"
 
-#include "../Script/ETHEntityDestructorManager.h"
-
 #include "../Renderer/ETHEntityRenderingManager.h"
 
 class ETHScene
@@ -46,6 +44,7 @@ public:
 		const ETHSceneProperties& props,
 		asIScriptModule *pModule,
 		asIScriptContext *pContext,
+		ETHEntityCache& entityCache,
 		const Vector2 &v2BucketSize = Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
 
 	ETHScene(
@@ -61,14 +60,13 @@ public:
 
 	void RenderScene(const bool roundUp, const ETHBackBufferTargetManagerPtr& backBuffer);
 
-	bool SaveToFile(const str_type::string& fileName);
+	bool SaveToFile(const str_type::string& fileName, ETHEntityCache& entityCache);
 	int AddEntity(ETHRenderEntity* pEntity);
 	int AddEntity(ETHRenderEntity* pEntity, const str_type::string& alternativeName);
 	void SetSceneProperties(const ETHSceneProperties &prop);
 	void EnableLightmaps(const bool enable);
 	void EnableRealTimeShadows(const bool enable);
 	bool AreRealTimeShadowsEnabled() const;
-	void ForceAllSFXStop();
 
 	str_type::string ConvertFileNameToLightmapDirectory(str_type::string filePath);
 	bool GenerateLightmaps(const int id = -1);
@@ -127,7 +125,7 @@ public:
 
 	unsigned int GetNumEntities() const;
 
-	void RecoverResources();
+	void RecoverResources(const Platform::FileManagerPtr& expansionFileManager);
 	void ClearLightmaps();
 
 	void SetZBuffer(const bool enable);
@@ -140,7 +138,10 @@ public:
 	void AddEntityToPersistentList(ETHRenderEntity* entity);
 
 private:
-	bool LoadFromFile(const str_type::string& fileName);
+	bool LoadFromFile(
+		const str_type::string& fileName,
+		ETHEntityCache& entityCache,
+		const str_type::string &entityPath);
 
 	void Init(ETHResourceProviderPtr provider, const ETHSceneProperties& props, asIScriptModule *pModule, asIScriptContext *pContext);
 
@@ -156,11 +157,14 @@ private:
 	void AssignControllerToEntity(
 		ETHEntity* entity,
 		asIScriptFunction* callback,
-		asIScriptFunction* constructorCallback,
-		asIScriptFunction* destructorCallback);
+		asIScriptFunction* constructorCallback);
 
 	bool DrawBucketOutlines(const ETHBackBufferTargetManagerPtr& backBuffer);
-	bool ReadFromXMLFile(TiXmlElement *pElement);
+	bool ReadFromXMLFile(
+		const str_type::string& fileName,
+		TiXmlElement *pElement,
+		ETHEntityCache& entityCache,
+		const str_type::string &entityPath);
 
 	void FillCurrentlyVisibleBucketList(std::list<Vector2>& bucketList, const ETHBackBufferTargetManagerPtr& backBuffer);
 
@@ -178,12 +182,11 @@ private:
 	ETHResourceProviderPtr m_provider;
 	ETHSceneProperties m_sceneProps;
 	ETHPhysicsSimulator m_physicsSimulator;
-	ETHEntityDestructorManagerPtr m_destructorManager;
 	asIScriptModule *m_pModule;
 	asIScriptContext *m_pContext;
 	float m_maxSceneHeight, m_minSceneHeight;
 	int m_idCounter;
-	int m_nCurrentLights;
+	unsigned int m_nCurrentLights;
 	int m_nRenderedEntities;
 	bool m_enableZBuffer;
 	float m_bucketClearenceFactor;

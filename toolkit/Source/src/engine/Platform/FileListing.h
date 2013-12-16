@@ -24,7 +24,9 @@
 #define FILE_LISTING_H_
 
 #include <Platform/Platform.h>
+
 #include <vector>
+
 #include <iostream>
 
 namespace Platform {
@@ -46,7 +48,7 @@ public:
 
 	inline unsigned int GetNumFiles()
 	{
-		return m_fileName.size();
+		return static_cast<unsigned int>(m_fileName.size());
 	}
 
 	inline bool GetFileName(const unsigned int index, FILE_NAME& fileName)

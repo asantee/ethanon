@@ -25,6 +25,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ethanon Engine", "projects\
 	ProjectSection(ProjectDependencies) = postProject
 		{32128A8E-B145-4AE6-A31A-C18FCBAC5F8C} = {32128A8E-B145-4AE6-A31A-C18FCBAC5F8C}
 		{39E6AF97-6BA3-4A72-8C61-BCEBF214EBFD} = {39E6AF97-6BA3-4A72-8C61-BCEBF214EBFD}
+		{1620F3D2-07A9-46A4-97D6-258131B0667F} = {1620F3D2-07A9-46A4-97D6-258131B0667F}
 		{0CDFCAE6-2058-47C8-960E-95C444DF0059} = {0CDFCAE6-2058-47C8-960E-95C444DF0059}
 	EndProjectSection
 EndProject
@@ -41,6 +42,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libzip", "src\gs2d\projects
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlib", "src\gs2d\projects\msvc9\zlib\zlib.vcproj", "{004CBCF5-9647-42A4-AE2A-42E44C7D63AA}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hashlib", "src\vendors\hashlib2plus\project\msvc9\hashlib\hashlib.vcproj", "{1620F3D2-07A9-46A4-97D6-258131B0667F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -208,6 +211,21 @@ Global
 		{004CBCF5-9647-42A4-AE2A-42E44C7D63AA}.RelWithDebInfo|Win32.ActiveCfg = Release|Win32
 		{004CBCF5-9647-42A4-AE2A-42E44C7D63AA}.RelWithDebInfo|Win32.Build.0 = Release|Win32
 		{004CBCF5-9647-42A4-AE2A-42E44C7D63AA}.RelWithDebInfo|x64.ActiveCfg = Release|Win32
+		{1620F3D2-07A9-46A4-97D6-258131B0667F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1620F3D2-07A9-46A4-97D6-258131B0667F}.Debug|Win32.Build.0 = Debug|Win32
+		{1620F3D2-07A9-46A4-97D6-258131B0667F}.Debug|x64.ActiveCfg = Debug|Win32
+		{1620F3D2-07A9-46A4-97D6-258131B0667F}.MinSizeRel|Win32.ActiveCfg = Release|Win32
+		{1620F3D2-07A9-46A4-97D6-258131B0667F}.MinSizeRel|Win32.Build.0 = Release|Win32
+		{1620F3D2-07A9-46A4-97D6-258131B0667F}.MinSizeRel|x64.ActiveCfg = Release|Win32
+		{1620F3D2-07A9-46A4-97D6-258131B0667F}.Release|Win32.ActiveCfg = Release|Win32
+		{1620F3D2-07A9-46A4-97D6-258131B0667F}.Release|Win32.Build.0 = Release|Win32
+		{1620F3D2-07A9-46A4-97D6-258131B0667F}.Release|x64.ActiveCfg = Release|Win32
+		{1620F3D2-07A9-46A4-97D6-258131B0667F}.ReleaseWithoutAsm|Win32.ActiveCfg = Release|Win32
+		{1620F3D2-07A9-46A4-97D6-258131B0667F}.ReleaseWithoutAsm|Win32.Build.0 = Release|Win32
+		{1620F3D2-07A9-46A4-97D6-258131B0667F}.ReleaseWithoutAsm|x64.ActiveCfg = Release|Win32
+		{1620F3D2-07A9-46A4-97D6-258131B0667F}.RelWithDebInfo|Win32.ActiveCfg = Release|Win32
+		{1620F3D2-07A9-46A4-97D6-258131B0667F}.RelWithDebInfo|Win32.Build.0 = Release|Win32
+		{1620F3D2-07A9-46A4-97D6-258131B0667F}.RelWithDebInfo|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

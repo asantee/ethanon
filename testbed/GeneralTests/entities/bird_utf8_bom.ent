@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" ?>
+<Ethanon>
+     <Entity type="2" static="0" collidable="0" startFrame="0" applyLight="0" castShadow="0" blendMode="2" layerDepth="0.000000" soundVolume="1.000000" shadowScale="0.000000" shadowLengthScale="1.000000" shadowOpacity="1.000000" specularPower="50.000000" specularBrightness="1.000000">
+          <EmissiveColor r="1.000000" g="1.000000" b="1.000000" a="0.000000" />
+          <SpriteCut x="4.000000" y="4.000000" />
+          <PivotAdjust x="0.000000" y="0.000000" />
+          <Sprite>LOS-GreyBirdFly.png</Sprite>
+          <Particles />
+          <Light active="0" static="0" castShadows="1" range="256.000000" haloBrightness="1.000000" haloSize="64.000000">
+               <Position x="0.000000" y="0.000000" z="0.000000" />
+               <Color r="1.000000" g="1.000000" b="1.000000" />
+        </Light>
+          <Collision>
+               <Position x="0.000000" y="0.000000" z="0.000000" />
+               <Size x="0.000000" y="0.000000" z="0.000000" />
+        </Collision>
+          <CustomData />
+    </Entity>
+</Ethanon>

@@ -75,7 +75,7 @@ public:
 	HINSTANCE	m_hInstance;
 	MSG			m_msg;
 	HCURSOR   m_cursor;
-	std::wstring className;
+	str_type::string className;
 	DWORD m_pow2Tex;
 	DWORD m_magAniso;
 	DWORD m_minAniso;
@@ -103,10 +103,7 @@ public:
 };
 
 /// Converts a GS_BITMAP_FORMAT constant to an extension string
-std::wstring GetImageExtension(const Texture::BITMAP_FORMAT fmt);
-
-/// Returns true if the file name has an explicit extension in its string
-bool IsTheExtensionRight(const wchar_t* fileName, const wchar_t* extension);
+str_type::string GetImageExtension(const Texture::BITMAP_FORMAT fmt);
 
 /// Returns a D3DXIMAGE constant for a GS_BITMAP_FORMAT one
 D3DXIMAGE_FILEFORMAT GetD3DPF(const Texture::BITMAP_FORMAT fmt);

@@ -21,7 +21,11 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHEntityProperties.h"
+
+#include "ETHEntityCache.h"
+
 #include "../Resource/ETHResourceProvider.h"
+
 #include <iostream>
 
 static const str_type::string COMPOUND_SHAPE_ENML_SAMPLE(
@@ -76,7 +80,6 @@ static const str_type::string POLYGON_ENML_SAMPLE(
 #define ETH_DEFAULT_SPRITE_CUT		Vector2i(1, 1)
 #define ETH_DEFAULT_PIVOT_ADJUST	Vector2(0, 0)
 #define ETH_DEFAULT_SCALE			Vector2(1, 1)
-#define ETH_DEFAULT_SOUND_VOLUME	1.0f
 #define ETH_DEFAULT_PARALLAX_INTENS	1.0f
 
 void ETHEntityMaterial::Reset()
@@ -137,7 +140,7 @@ ETHEntityProperties::ETHEntityProperties(const str_type::string& filePath, const
 
 	TiXmlDocument doc(filePath);
 	str_type::string content;
-	fileManager->GetUTF16FileString(filePath, content);
+	fileManager->GetUTFFileString(filePath, content);
 	if (!doc.LoadFile(content, TIXML_ENCODING_LEGACY))
 	{
 		ETH_STREAM_DECL(ss) << GS_L("Couldn't load file: ") << filePath;
@@ -158,10 +161,7 @@ ETHEntityProperties::ETHEntityProperties(const str_type::string& filePath, const
 
 	hRoot = TiXmlHandle(pElem);
 	entityName = Platform::GetFileName(filePath);
-	if (ReadFromXMLFile(hRoot.FirstChildElement().Element()))
-	{
-		successfullyLoaded = true;
-	}
+	ReadFromXMLFile(hRoot.FirstChildElement().Element());
 }
 
 void ETHEntityProperties::Reset()
@@ -176,7 +176,6 @@ void ETHEntityProperties::Reset()
 	type = ET_HORIZONTAL;
 	layerDepth = 0.0f;
 	successfullyLoaded = false;
-	soundVolume = ETH_DEFAULT_SOUND_VOLUME;
 	parallaxIntensity = ETH_DEFAULT_PARALLAX_INTENS;
 	shape = BS_NONE;
 }
@@ -186,9 +185,8 @@ bool ETHEntityProperties::IsSuccessfullyLoaded() const
 	return successfullyLoaded;
 }
 
-bool ETHEntityProperties::SaveToFile(const str_type::string& filePath, const Platform::FileManagerPtr& fileManager)
+bool ETHEntityProperties::SaveToFile(const str_type::string& filePath)
 {
-	GS2D_UNUSED_ARGUMENT(fileManager);
 	TiXmlDocument doc;
 	TiXmlDeclaration *pDecl = new TiXmlDeclaration(GS_L("1.0"), GS_L(""), GS_L(""));
 	doc.LinkEndChild(pDecl);
@@ -196,12 +194,33 @@ bool ETHEntityProperties::SaveToFile(const str_type::string& filePath, const Pla
 	TiXmlElement *pElement = new TiXmlElement(GS_L("Ethanon"));
 	doc.LinkEndChild(pElement);
 
-	WriteToXMLFile(doc.RootElement());
+	WriteContentToXMLFile(doc.RootElement());
 	doc.SaveFile(filePath);
-	#ifdef GS2D_STR_TYPE_ANSI
-	  fileManager->ConvertAnsiFileToUTF16LE(filePath);
-	#endif
 	return true;
+}
+
+bool ETHEntityProperties::ReadFromXMLFile(
+	TiXmlElement *pElement,
+	ETHEntityCache& entityCache,
+	const str_type::string &entityPath,
+	Platform::FileManagerPtr fileManager)
+{
+	TiXmlNode *pNode = pElement->FirstChild(GS_L("FileName"));
+	if (pNode)
+	{
+		const ETHEntityProperties* props = entityCache.Get(entityName, entityPath, fileManager);
+		if (props)
+		{
+			*this = *props;
+			ReadDataFromXMLFile(pElement);
+			return (successfullyLoaded = true);
+		}
+	}
+	else
+	{
+		return ReadFromXMLFile(pElement);
+	}
+	return false;
 }
 
 bool ETHEntityProperties::ReadFromXMLFile(TiXmlElement *pElement)
@@ -216,7 +235,6 @@ bool ETHEntityProperties::ReadFromXMLFile(TiXmlElement *pElement)
 	pElement->QueryIntAttribute(GS_L("shape"), (int*)&shape);
 	pElement->QueryIntAttribute(GS_L("blendMode"), (int*)&blendMode);
 	pElement->QueryFloatAttribute(GS_L("layerDepth"), &layerDepth);
-	pElement->QueryFloatAttribute(GS_L("soundVolume"), &soundVolume);
 	pElement->QueryFloatAttribute(GS_L("parallaxIntensity"), &parallaxIntensity);
 
 	if (applyLight)
@@ -391,10 +409,23 @@ bool ETHEntityProperties::ReadFromXMLFile(TiXmlElement *pElement)
 		}
 	}
 	ReadDataFromXMLFile(pElement);
+	return (successfullyLoaded = true);
+}
+
+bool ETHEntityProperties::WriteEntityNameToXMLFile(TiXmlElement *pHeadRoot) const
+{
+	TiXmlElement *pRoot = new TiXmlElement(GS_L("Entity"));
+	pHeadRoot->LinkEndChild(pRoot);
+	
+	TiXmlElement *pElement = new TiXmlElement(GS_L("FileName"));
+	pElement->LinkEndChild(new TiXmlText(entityName));
+	pRoot->LinkEndChild(pElement);
+	
+	WriteDataToFile(pRoot);
 	return true;
 }
 
-bool ETHEntityProperties::WriteToXMLFile(TiXmlElement *pHeadRoot) const
+bool ETHEntityProperties::WriteContentToXMLFile(TiXmlElement *pHeadRoot) const
 {
 	TiXmlElement *pRoot = new TiXmlElement(GS_L("Entity"));
 	pHeadRoot->LinkEndChild(pRoot); 
@@ -531,9 +562,6 @@ bool ETHEntityProperties::WriteToXMLFile(TiXmlElement *pHeadRoot) const
 	pRoot->SetAttribute(GS_L("type"), type);
 	if (type == ET_LAYERABLE)
 		pRoot->SetDoubleAttribute(GS_L("layerDepth"), layerDepth);
-
-	if (soundVolume != ETH_DEFAULT_SOUND_VOLUME)
-		pRoot->SetDoubleAttribute(GS_L("soundVolume"), soundVolume);
 
 	if (parallaxIntensity != ETH_DEFAULT_PARALLAX_INTENS)
 		pRoot->SetDoubleAttribute(GS_L("parallaxIntensity"), parallaxIntensity);

@@ -89,10 +89,7 @@ class ParticleEditor : public EditorBase
 	void ParticlePanel();
 	bool OpenParticleBMP(char *filePathName, char *fileName);
 	bool OpenSystem(char *filePathName, char *fileName);
-	bool OpenSoundFX(char *filePathName, char *fileName);
 	bool SaveSystem(char *filePathName, char *fileName);
-	void LoadSoundFX(const char *path, const char *file);
-	void DeleteSoundFX();
 	void ResetSystem();
 
 	const Color BSPHERE_COLOR;

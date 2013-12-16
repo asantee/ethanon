@@ -33,7 +33,7 @@ class SDLInput : public SDLJoystick
 	math::Vector2i m_lastCursorPos;
 
 	KeyStateManager m_keyStates[GS_NUM_KEYS];
-	SDLKey m_sdlKeyID[GS_NUM_KEYS];
+	SDL_Scancode m_sdlKeyID[GS_NUM_KEYS];
 	Uint8 m_mouseBits;
 
 	void UpdateCursorPos();
@@ -66,7 +66,7 @@ public:
 
 	bool Update();
 
-	str_type::char_t GetLastCharInput() const;
+	str_type::string GetLastCharInput() const;
 
 	math::Vector3 GetAccelerometerData() const;
 };

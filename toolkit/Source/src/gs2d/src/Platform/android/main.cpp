@@ -95,7 +95,8 @@ JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_start(
 	video->ResetVideoMode(width, height, Texture::PF_DEFAULT, false);
 	audio->SetGlobalVolume(g_globalVolume);
 
-	splashSprite = video->CreateSprite(GS_L("assets/data/splash.bmp"));
+	splashSprite = video->CreateSprite(GS_L("assets/data/splash.png"));
+	splashSprite->SetupSpriteRects(1, 2);
 
 	// if the application is already initialized, let's reset the device
 	if (application)
@@ -111,7 +112,7 @@ static void StartApplication()
 	application->Start(video, input, audio);
 }
 
-static void DrawSplashScreen()
+static void DrawSplashScreen(const bool firstTime)
 {
 	video->BeginSpriteScene(gs2d::constant::BLACK);
 	if (splashSprite)
@@ -119,6 +120,8 @@ static void DrawSplashScreen()
 		splashSprite->SetOrigin(gs2d::Sprite::EO_CENTER);
 		const Vector2 screenSize(video->GetScreenSizeF());
 		const float scale = ComputeSplashScale(screenSize);
+
+		splashSprite->SetRect(firstTime ? 0 : 1);
 		splashSprite->Draw(screenSize * 0.5f, gs2d::constant::WHITE, 0.0f, Vector2(scale, scale));
 	}
 	video->EndSpriteScene();
@@ -181,7 +184,8 @@ JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_mainLoop(JNIEnv* env, jo
 	else
 	{
 		// draw the splash screen and prepare the engine start
-		DrawSplashScreen();
+		const bool firstTime = (!application);
+		DrawSplashScreen(firstTime);
 		g_splashShown = true;
 	}
 

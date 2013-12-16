@@ -42,7 +42,7 @@ class D3D9Sprite : public Sprite
 
 	bool LoadSprite(
 		VideoWeakPtr video,
-		const std::wstring& fileName,
+		const str_type::string& fileName,
 		Color mask = constant::ZERO,
 		const unsigned int width = 0,
 		const unsigned int height = 0);
@@ -75,26 +75,26 @@ public:
 
 	bool Draw(
 		const math::Vector2& v2Pos,
-		const Color& color = constant::WHITE,
+		const math::Vector4& color,
 		const float angle = 0.0f,
 		const math::Vector2& v2Scale = math::Vector2(1.0f,1.0f));
 
 	bool DrawShaped(
 		const math::Vector2& v2Pos,
 		const math::Vector2& v2Size,
-		const Color& color0,
-		const Color& color1,
-		const Color& color2,
-		const Color& color3,
+		const math::Vector4& color0,
+		const math::Vector4& color1,
+		const math::Vector4& color2,
+		const math::Vector4& color3,
 		const float angle = 0.0f);
 
 	bool SaveBitmap(const str_type::char_t* name, const Texture::BITMAP_FORMAT fmt, math::Rect2D *pRect = 0);
 
-	bool DrawShapedFast(const math::Vector2 &v2Pos, const math::Vector2 &v2Size, const Color& color);
+	bool DrawShapedFast(const math::Vector2 &v2Pos, const math::Vector2 &v2Size, const math::Vector4& color);
 
 	bool DrawOptimal(
 		const math::Vector2& v2Pos,
-		const Color& color = constant::WHITE,
+		const math::Vector4& color,
 		const float angle = 0.0f,
 		const math::Vector2& v2Size = math::Vector2(-1,-1));
 

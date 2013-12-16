@@ -45,7 +45,7 @@ const gs2d::str_type::string& ETHCompoundShape::GetENMLDeclaration() const
 
 unsigned int ETHCompoundShape::GetNumShapes() const
 {
-	return m_entities.size();
+	return static_cast<unsigned int>(m_entities.size());
 }
 
 b2Shape* ETHCompoundShape::GetShape(const unsigned int idx, const gs2d::math::Vector2& scale) const
@@ -81,7 +81,7 @@ std::vector<b2Shape*> ETHCompoundShape::GetShapes(const gs2d::math::Vector2& sca
 	std::vector<b2Shape*> r;
 	for (std::size_t t = 0; t < GetNumShapes(); t++)
 	{
-		r.push_back(GetShape(t, scale));
+		r.push_back(GetShape(static_cast<unsigned int>(t), scale));
 	}
 	return r;
 }

@@ -24,11 +24,15 @@
 #define ETH_SCRIPT_WRAPPER_H_
 
 #include "../Scene/ETHScene.h"
+
 #include "../Util/ETHInput.h"
-#include "../Entity/ETHEntityCache.h"
-#include "../Drawing/ETHDrawableManager.h"
-#include "../Shader/ETHBackBufferTargetManager.h"
 #include "../Util/ETHSpeedTimer.h"
+
+#include "../Entity/ETHEntityCache.h"
+
+#include "../Drawing/ETHDrawableManager.h"
+
+#include "../Shader/ETHBackBufferTargetManager.h"
 
 #include "../../angelscript/include/angelscript.h"
 
@@ -39,14 +43,17 @@ class ETHScriptWrapper
 	static bool m_runningMainFunction;
 	static bool m_persistentResources;
 	static unsigned long m_lastFrameElapsedTime;
-
+	
 protected:
+	static Platform::FileManagerPtr m_expansionFileManager;
+
 	static void SetLastFrameElapsedTime(const unsigned long lastFrameElapsedTime);
 
 	enum GARBAGE_COLLECT_MODE
 	{
 		ONE_STEP = 0, DESTROY_ALL_GARBAGE = 1, FULL_CYCLE = 2
 	};
+
 	static GARBAGE_COLLECT_MODE m_gcMode;
 
 	static void DrawBlackCurtain();
@@ -91,7 +98,6 @@ public:
 	static ETHBackBufferTargetManagerPtr m_backBuffer;
 
 	static asIScriptContext *m_pScriptContext;
-	static asIScriptContext *m_pConstructorContext;
 	static asIScriptFunction* m_onSceneUpdateFunction;
 	static asIScriptFunction* m_onResumeFunction;
 
@@ -135,6 +141,11 @@ public:
 		static int Sign(const int v);
 		static float Distance(const Vector2 &a, const Vector2 &b);
 		static float Distance(const Vector3 &a, const Vector3 &b);
+
+		// Encryption‎ functions
+		static str_type::string GetHashFromString(const str_type::string& type, const str_type::string& str);
+		static str_type::string GetMD5HashFromString(const str_type::string& str);
+		static str_type::string GetSHA1HashFromString(const str_type::string& str);
 	} m_math;
 
 	void RegisterGlobalFunctions(asIScriptEngine *pASEngine);
@@ -222,6 +233,7 @@ public:
 	static Vector2 ComputeCarretPosition(const str_type::string &font, const str_type::string &text, const unsigned int pos);
 	static Vector2 ComputeTextBoxSize(const str_type::string &font, const str_type::string &text);
 	static void DrawText(const Vector2 &v2Pos, const str_type::string &text, const str_type::string &font, const GS_DWORD color, const float scale);
+	static str_type::string AssembleColorCode(const GS_DWORD color);
 	static void DrawFadingText(const Vector2 &v2Pos, const str_type::string &text, const str_type::string &font, const GS_DWORD color, unsigned long time, const float scale);
 	static void AddLight(const Vector3 &v3Pos, const Vector3 &v3Color, const float range, const bool castShadows);
 	static int AddEntity(const str_type::string &file, const Vector3 &v3Pos, const float angle, ETHEntity **ppOutEntity, const str_type::string &alternativeName, const float scale);
@@ -260,7 +272,8 @@ public:
 
 	static SpritePtr LoadAndGetSprite(const str_type::string &name);
 	static void DrawShapedFromPtr(const SpritePtr& sprite, const Vector2 &v2Pos, const Vector2 &v2Size, const GS_DWORD color, const float angle);
-	static void LoadSprite(const str_type::string &name);
+	static void LoadSprite(const str_type::string& name);
+	static bool ReleaseSprite(const str_type::string& name);
 	static void DrawSprite(const str_type::string &name, const Vector2 &v2Pos, const GS_DWORD color, const float angle);
 	static void DrawShaped(const str_type::string &name, const Vector2 &v2Pos, const Vector2 &v2Size, const GS_DWORD color, const float angle);
 	static void PlayParticleEffect(const str_type::string& fileName, const Vector2& pos, const float angle, const float scale);
@@ -326,6 +339,7 @@ public:
 	static bool IsPackLoadingEnabled();
 	static void DisablePackLoading();
 	static bool IsResourcePackingSupported();
+	static bool EnableLightmapsFromExpansionPack(const bool enable);
 
 	static void SetHighEndDevice(const bool highEnd);
 	static bool IsHighEndDevice();

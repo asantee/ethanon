@@ -44,6 +44,8 @@ ETHShaderManager::ETHShaderManager(VideoPtr video, const str_type::string& shade
 	m_verticalStaticAmbientVS = m_video->LoadShaderFromString(GS_L("verticalStaticAmbientVS"), ETHShaders::Ambient_VS_Ver(), Shader::SF_VERTEX, sp);
 	m_shadowVS = m_video->LoadShaderFromString(GS_L("shadowVS"), ETHShaders::Shadow_VS_Ver(), Shader::SF_VERTEX, sp);
 
+	m_highlightPS = m_video->LoadShaderFromString(GS_L("highlightPS"), ETHShaders::Highlight_PS(), Shader::SF_PIXEL, sp);
+
 	#if defined(GLES2) || defined(OPENGL)
 		m_projShadow = m_video->CreateSprite(ETHGlobal::GetDataResourceFullPath(shaderPath, GS_L("shadow.png")));
 	#else
@@ -72,7 +74,7 @@ ETHShaderManager::ETHShaderManager(VideoPtr video, const str_type::string& shade
 
 	if (m_lightingProfiles.empty())
 	{
-		video->Message(GS_L("ETHShaderManager::ETHShaderManager: no lighting profile"), GSMT_WARNING);
+		video->Message(GS_L("ETHShaderManager::ETHShaderManager: no lighting profile"), GSMT_INFO);
 	}
 	else
 	{
@@ -84,7 +86,7 @@ ETHLightingProfilePtr ETHShaderManager::FindHighestLightingProfile()
 {
 	if (m_lightingProfiles.empty())
 	{
-		m_video->Message(GS_L("ETHShaderManager::FindHighestLightingProfile: no lighting profile"), GSMT_WARNING);
+		m_video->Message(GS_L("ETHShaderManager::FindHighestLightingProfile: no lighting profile"), GSMT_INFO);
 		return ETHLightingProfilePtr();
 	}
 	return m_lightingProfiles.rbegin()->second;
@@ -97,7 +99,13 @@ SpritePtr ETHShaderManager::GetProjShadow()
 
 bool ETHShaderManager::BeginAmbientPass(const ETHSpriteEntity *pRender, const float maxHeight, const float minHeight)
 {
-	m_video->SetPixelShader(ShaderPtr());
+	const bool shouldUseHighlightPS = pRender->ShouldUseHighlightPixelShader();
+	m_video->SetPixelShader(shouldUseHighlightPS ? m_highlightPS : ShaderPtr());
+
+	if (shouldUseHighlightPS)
+	{
+		m_highlightPS->SetConstant(GS_L("highlight"), pRender->GetColorARGB());
+	}
 
 	if (pRender->GetType() == ETHEntityProperties::ET_VERTICAL)
 	{
@@ -118,6 +126,8 @@ bool ETHShaderManager::EndAmbientPass()
 {
 	if (m_lastAM != m_video->GetAlphaMode())
 		m_video->SetAlphaMode(m_lastAM);
+	
+	m_video->SetPixelShader(ShaderPtr());
 	return true;
 }
 
@@ -202,10 +212,12 @@ bool ETHShaderManager::EndHaloPass()
 	return true;
 }
 
-bool ETHShaderManager::BeginParticlePass()
+bool ETHShaderManager::BeginParticlePass(const ETHParticleSystem& system)
 {
 	m_video->SetVertexShader(m_particle);
-	m_video->SetPixelShader(ShaderPtr());
+	
+	const ShaderPtr& ps = (system.ShouldUseHighlightPS()) ? m_highlightPS : ShaderPtr();
+	m_video->SetPixelShader(ps);
 	return true;
 }
 
@@ -228,7 +240,7 @@ void ETHShaderManager::UsePS(const bool usePS)
 	}
 	else
 	{
-		m_video->Message(GS_L("ETHShaderManager::UsePS: no lighting profile"), GSMT_WARNING);
+		m_video->Message(GS_L("ETHShaderManager::UsePS: no lighting profile"), GSMT_INFO);
 	}
 }
 
@@ -236,7 +248,7 @@ bool ETHShaderManager::IsUsingPixelShader()
 {
 	if (m_lightingProfiles.empty())
 	{
-		m_video->Message(GS_L("ETHShaderManager::IsUsingPixelShader: no lighting profile"), GSMT_WARNING);
+		m_video->Message(GS_L("ETHShaderManager::IsUsingPixelShader: no lighting profile"), GSMT_INFO);
 		return false;
 	}
 	return m_currentProfile->IsUsingPixelShader();
@@ -246,7 +258,7 @@ bool ETHShaderManager::IsPixelLightingSupported()
 {
 	if (m_lightingProfiles.empty())
 	{
-		m_video->Message(GS_L("ETHShaderManager::IsPixelLightingSupported: no lighting profile"), GSMT_WARNING);
+		m_video->Message(GS_L("ETHShaderManager::IsPixelLightingSupported: no lighting profile"), GSMT_INFO);
 		return false;
 	}
 	return (m_lightingProfiles.find(PIXEL_LIGHTING_DIFFUSE_SPECULAR) != m_lightingProfiles.end());

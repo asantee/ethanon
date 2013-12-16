@@ -39,7 +39,6 @@ class ETHPhysicsController;
 class ETHScriptEntity
 {
 	bool m_isAlive;
-	asIScriptFunction* m_destructorCallback;
 
 protected:
 	ETHScriptEntity();
@@ -74,16 +73,13 @@ public:
 	virtual int GetID() const = 0;
 	virtual void TurnDynamic() = 0;
 	virtual void TurnStatic() = 0;
-	virtual void SilenceParticleSystems(const bool silence) = 0;
 	virtual void KillParticleSystem(const unsigned int n) = 0;
 	virtual bool ParticlesKilled(const unsigned int n) const = 0;
 	virtual bool PlayParticleSystem(const unsigned int n, const Vector2& zAxisDirection) = 0;
 	virtual bool AreParticlesOver() const = 0;
-	virtual void SetSoundVolume(const float volume) = 0;
 	virtual ETHCollisionBox GetCollisionBox() const = 0;
 	virtual bool HasParticleSystems() const = 0;
 	virtual bool HasParticleSystem(const unsigned int n) const = 0;
-	virtual bool HasSoundEffect() const = 0;
 	virtual void SetShadowZ(const float z) = 0;
 	virtual float GetShadowZ() const = 0;
 	virtual bool HasShadow() const = 0;
@@ -96,7 +92,6 @@ public:
 	virtual void ScaleParticleSystem(const unsigned int n, const float scale) = 0;
 	virtual bool MirrorParticleSystemX(const unsigned int n, const bool mirrorGravity) = 0;
 	virtual bool MirrorParticleSystemY(const unsigned int n, const bool mirrorGravity) = 0;
-	virtual void ForceSFXStop() = 0;
 	virtual Vector2 ComputeParallaxOffset() const = 0;
 	virtual float GetParallaxIndividualIntensity() const = 0;
 	virtual void SetParallaxIndividualIntensity(const float& individualIntensity) = 0;
@@ -116,7 +111,7 @@ public:
 	virtual float GetLayerDepth() const = 0;
 	virtual void SetPivotAdjust(const Vector2& p) = 0;
 	virtual Vector2 GetPivotAdjust() const = 0;
-	virtual void RecoverResources() = 0;
+	virtual void RecoverResources(const Platform::FileManagerPtr& expansionFileManager) = 0;
 	virtual void DisableLightSource() = 0;
 
 	virtual void SetFlipX(const bool flipX) = 0;
@@ -184,8 +179,6 @@ public:
 	virtual void Release() = 0;
 	void Kill();
 	bool IsAlive() const;
-	void SetDestructorCallback(asIScriptFunction* func);
-	asIScriptFunction* GetDestructorCallback() const;
 
 	virtual void SetPositionX(const float v, ETHBucketManager& buckets) = 0;
 	virtual void SetPositionY(const float v, ETHBucketManager& buckets) = 0;

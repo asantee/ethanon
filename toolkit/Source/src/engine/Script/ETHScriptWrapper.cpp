@@ -21,14 +21,12 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHScriptWrapper.h"
+
 #include "../Shader/ETHShaderManager.h"
+
 #include "../Entity/ETHRenderEntity.h"
 
-#ifdef GS2D_STR_TYPE_WCHAR
- #include "../../addons/utf16/scriptbuilder.h"
-#else
- #include "../../addons/ansi/scriptbuilder.h"
-#endif
+#include "../../addons/scriptbuilder.h"
 
 asIScriptEngine *ETHScriptWrapper::m_pASEngine = 0;
 ETHResourceProviderPtr ETHScriptWrapper::m_provider;
@@ -40,6 +38,7 @@ bool ETHScriptWrapper::m_highEndDevice = false;
 bool ETHScriptWrapper::m_useLightmaps = true;
 bool ETHScriptWrapper::m_usePreLoadedLightmapsFromFile = false;
 ETHSpeedTimer ETHScriptWrapper::m_timer;
+Platform::FileManagerPtr ETHScriptWrapper::m_expansionFileManager;
 bool ETHScriptWrapper::m_roundUpPosition = true;
 int ETHScriptWrapper::m_argc = 0;
 str_type::char_t **ETHScriptWrapper::m_argv = 0;
@@ -51,7 +50,6 @@ Vector2 ETHScriptWrapper::m_v2LastCamPos(0,0);
 asIScriptFunction* ETHScriptWrapper::m_onSceneUpdateFunction = 0;
 asIScriptFunction* ETHScriptWrapper::m_onResumeFunction = 0;
 asIScriptContext *ETHScriptWrapper::m_pScriptContext = 0;
-asIScriptContext *ETHScriptWrapper::m_pConstructorContext = 0;
 bool ETHScriptWrapper::m_runningMainFunction = false;
 bool ETHScriptWrapper::m_persistentResources = false;
 ETHScriptWrapper::Math ETHScriptWrapper::m_math;
@@ -118,8 +116,8 @@ bool ETHScriptWrapper::SetCursorPos(const Vector2 &v2Pos)
 str_type::string ETHScriptWrapper::GetLastCharInput()
 {
 	str_type::stringstream ss;
-	str_type::char_t lastChar = m_provider->GetInput()->GetLastCharInput();
-	if (lastChar)
+	str_type::string lastChar = m_provider->GetInput()->GetLastCharInput();
+	if (!lastChar.empty())
 	{
 		ss << lastChar;
 		return ss.str();

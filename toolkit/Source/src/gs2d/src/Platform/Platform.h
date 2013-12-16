@@ -46,25 +46,6 @@ bool IsExtensionRight(const gs2d::str_type::string& fileName, const gs2d::str_ty
 
 short ShortEndianSwap(const short s);
 
-#ifdef GS2D_STR_TYPE_WCHAR
-	gs2d::str_type::string GetFileName(const gs2d::str_type::string& source);
-	gs2d::str_type::string GetFileDirectory(const wchar_t* source);
-	gs2d::str_type::string AddLastSlash(const gs2d::str_type::string& path);
-	gs2d::str_type::string& FixSlashes(gs2d::str_type::string& path);
-	gs2d::str_type::string& FixSlashes(gs2d::str_type::string& path, const wchar_t slash);
-	gs2d::str_type::string& FixSlashesForUnix(gs2d::str_type::string& path);
-
-	gs2d::str_type::string ConvertUtf8ToUnicode(const char* utf8String); // use it in low-level only. utf8::converter is a high-level wrapper
-	std::string ConvertUnicodeToUtf8(const wchar_t* unicodeString); // use it in low-level only. utf8::converter is a high-level wrapper
-	gs2d::str_type::string ConvertAsciiToUnicode(const char* asciiString); // use it in low-level only. utf8::converter is a high-level wrapper
-	std::string ConvertUnicodeToAscii(const wchar_t* unicodeString); // use it in low-level only. utf8::converter is a high-level wrapper
-
-	wchar_t GetDirectorySlashW();
-#	define GetDirectorySlash GetDirectorySlashW
-#else
-#	define GetDirectorySlash GetDirectorySlashA
-#endif
-
 } 
 // namespace Platform
 

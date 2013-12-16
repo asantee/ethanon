@@ -21,10 +21,28 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHBucketManager.h"
+
 #include "../Entity/ETHEntityArray.h"
 #include "../Entity/ETHRenderEntity.h"
 #include "../Entity/ETHEntityChooser.h"
+
 #include <iostream>
+
+// Vector2 hash functions
+namespace boost {
+inline std::size_t hash_value(Vector2 const& p)
+{
+	std::size_t seed = 0;
+	boost::hash_combine(seed, p.x);
+	boost::hash_combine(seed, p.y);
+	return seed;
+}
+} // namepace boost
+
+bool BUCKET_COMP::operator() (const Vector2& lhs, const Vector2& rhs) const
+{
+	return boost::hash_value(lhs) < boost::hash_value(rhs);
+}
 
 Vector2 ETHBucketManager::GetBucket(const Vector2& v2, const Vector2& v2BucketSize)
 {
@@ -83,17 +101,6 @@ Vector2 ETHBucketManager::ComputeBucketRelativePosition(const Vector2& p, const 
 	if (r.y <= 0.0f) r.y += bucketSize.y;
 	return r;
 }
-
-// Vector2 hash function
-namespace boost {
-inline std::size_t hash_value(Vector2 const& p)
-{
-	std::size_t seed = 0;
-	boost::hash_combine(seed, p.x);
-	boost::hash_combine(seed, p.y);
-	return seed;
-}
-} // namepace boost
 
 ETHBucketManager::ETHBucketManager(const ETHResourceProviderPtr& provider, const Vector2& bucketSize, const bool drawingBorderBuckets) :
 	m_bucketSize(bucketSize),
@@ -414,9 +421,6 @@ bool ETHBucketManager::DeleteEntity(const int id)
 					m_provider->Log(ss.str(), Platform::Logger::INFO);
 				#endif
 
-				if (m_entityKillListener)
-					m_entityKillListener->EntityKilled((*iter));
-
 				(*iter)->Kill();
 				(*iter)->Release();
 				entityList.erase(iter);
@@ -427,7 +431,7 @@ bool ETHBucketManager::DeleteEntity(const int id)
 	return false;
 }
 
-bool ETHBucketManager::DeleteEntity(const int id, const Vector2 &searchBucket, const bool stopSfx)
+bool ETHBucketManager::DeleteEntity(const int id, const Vector2 &searchBucket)
 {
 	ETHBucketMap::iterator bucketIter = Find(searchBucket);
 
@@ -445,11 +449,6 @@ bool ETHBucketManager::DeleteEntity(const int id, const Vector2 &searchBucket, c
 				m_provider->Log(ss.str(), Platform::Logger::INFO);
 				#endif
 
-				if (m_entityKillListener)
-					m_entityKillListener->EntityKilled((*iter));
-
-				if(!stopSfx)
-					(*iter)->SetStopSFXWhenDestroyed(false);
 				(*iter)->Kill();
 				(*iter)->Release();
 				ETHEntityList::iterator i = iter.base();
@@ -474,9 +473,6 @@ bool ETHBucketManager::DeleteEntity(const int id, const Vector2 &searchBucket, c
 					ETH_STREAM_DECL(ss) << GS_L("Entity ") << (*iter)->GetEntityName() << GS_L(" (ID#") << (*iter)->GetID() << GS_L(") removed (DeleteEntity method)");
 					m_provider->Log(ss.str(), Platform::Logger::INFO);
 				#endif
-
-				if (m_entityKillListener)
-					m_entityKillListener->EntityKilled((*iter));
 
 				(*iter)->Kill();
 				return true;
@@ -641,8 +637,8 @@ void ETHBucketManager::GetEntityArray(ETHEntityArray &outVector)
 
 void ETHBucketManager::RequestBucketMove(ETHEntity* target, const Vector2& oldPos, const Vector2& newPos)
 {
-	ETHBucketMoveRequest request(target, oldPos, newPos, GetBucketSize());
-	if (request.IsABucketMove())
+	ETHBucketMoveRequestPtr request(new ETHBucketMoveRequest(target, oldPos, newPos, GetBucketSize()));
+	if (request->IsABucketMove())
 	{
 		m_moveRequests.push_back(request);
 	}
@@ -650,32 +646,33 @@ void ETHBucketManager::RequestBucketMove(ETHEntity* target, const Vector2& oldPo
 
 void ETHBucketManager::ResolveMoveRequests()
 {
-	for (std::list<ETHBucketMoveRequest>::iterator iter = m_moveRequests.begin();
+	for (std::list<ETHBucketMoveRequestPtr>::iterator iter = m_moveRequests.begin();
 		iter != m_moveRequests.end(); ++iter)
 	{
+		const ETHBucketMoveRequestPtr& request = *iter;
 		// if it's dead, no use in moving it. Let's just discard
-		if (!iter->IsAlive())
+		if (!request->IsAlive())
 		{
-			DeleteEntity(iter->GetID());
+			DeleteEntity(request->GetID());
 			continue;
 		}
-		MoveEntity(iter->GetID(), iter->GetOldBucket(), iter->GetNewBucket());
+		MoveEntity(request->GetID(), request->GetOldBucket(), request->GetNewBucket());
 	}
 	m_moveRequests.clear();
-}
-
-void ETHBucketManager::SetDestructionListener(const ETHEntityKillListenerPtr& listener)
-{
-	m_entityKillListener = listener;
 }
 
 ETHBucketManager::ETHBucketMoveRequest::ETHBucketMoveRequest(ETHEntity* target, const Vector2& oldPos, const Vector2& newPos, const Vector2& bucketSize) :
 	entity(target)
 {
+	entity->AddRef();
 	oldBucket = ETHBucketManager::GetBucket(oldPos, bucketSize);
 	newBucket = ETHBucketManager::GetBucket(newPos, bucketSize);
 }
 
+ETHBucketManager::ETHBucketMoveRequest::~ETHBucketMoveRequest()
+{
+	entity->Release();
+}
 
 bool ETHBucketManager::ETHBucketMoveRequest::IsAlive() const
 {

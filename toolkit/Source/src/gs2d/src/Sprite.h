@@ -24,6 +24,7 @@
 #define GS2D_SPRITE_H_
 
 #include "Texture.h"
+
 #include <boost/shared_array.hpp>
 
 namespace gs2d {
@@ -92,17 +93,17 @@ public:
 
 	virtual bool Draw(
 		const math::Vector2& v2Pos,
-		const Color& color = constant::WHITE,
+		const math::Vector4& color = math::constant::ONE_VECTOR4,
 		const float angle = 0.0f,
-		const math::Vector2& v2Scale = math::Vector2(1.0f,1.0f)) = 0;
+		const math::Vector2& v2Scale = math::constant::ONE_VECTOR2) = 0;
 
 	virtual bool DrawShaped(
 		const math::Vector2 &v2Pos,
 		const math::Vector2 &v2Size,
-		const Color& color0,
-		const Color& color1,
-		const Color& color2,
-		const Color& color3,
+		const math::Vector4& color0,
+		const math::Vector4& color1,
+		const math::Vector4& color2,
+		const math::Vector4& color3,
 		const float angle = 0.0f) = 0;
 
 	virtual bool SaveBitmap(
@@ -110,11 +111,11 @@ public:
 		const Texture::BITMAP_FORMAT fmt,
 		math::Rect2D* pRect = 0) = 0;
 
-	virtual bool DrawShapedFast(const math::Vector2 &v2Pos, const math::Vector2 &v2Size, const Color& color) = 0;
+	virtual bool DrawShapedFast(const math::Vector2 &v2Pos, const math::Vector2 &v2Size, const math::Vector4& color) = 0;
 
 	virtual bool DrawOptimal(
 		const math::Vector2 &v2Pos,
-		const Color& color = constant::WHITE,
+		const math::Vector4& color = math::constant::ONE_VECTOR4,
 		const float angle = 0.0f,
 		const math::Vector2 &v2Size = math::Vector2(-1,-1)) = 0;
 

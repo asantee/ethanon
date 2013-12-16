@@ -21,6 +21,7 @@
 --------------------------------------------------------------------------------------*/
 
 #include "D3D9CgShader.h"
+
 #include "../../Platform/Platform.h"
 #include "../../Application.h"
 #include "../../Texture.h"
@@ -31,87 +32,56 @@
 namespace gs2d {
 using namespace math;
 
-const std::wstring cgGetLastErrorStringW(CGerror* error)
-{
-	return Platform::ConvertAsciiToUnicode( cgGetLastErrorString(error) );
-}
 
-const std::wstring cgGetLastListingW(CGcontext context)
+// TODO/TO-DO: move it to Foundation
+inline str_type::string getAsciiStringFromFileC(const str_type::char_t* file)
 {
-	return Platform::ConvertAsciiToUnicode( cgGetLastListing(context) );
+	str_type::stringstream ss;
+	str_type::ifstream f(file);
+	if (f.is_open())
+	{
+		while(!f.eof())
+		{
+			str_type::char_t ch = GS_L('\0');
+			f.get(ch);
+			if (ch != GS_L('\0'))
+			{
+				ss << ch;
+			}
+		}
+		f.close();
+		return ss.str();
+	}
+	return GS_L("");
 }
-
-const std::wstring cgGetParameterNameW(CGparameter param)
-{
-	return Platform::ConvertAsciiToUnicode(cgGetParameterName(param));
-}
-
-CGprogram cgCreateProgramW(
-	CGcontext ctx,
-    CGenum program_type,
-	const std::string& program,
-    CGprofile profile,
-    const char *entry,
-    const char **args
-)
-{
-	return cgCreateProgram(
-		ctx, 
-		program_type,
-		program.c_str(),
-		profile,
-		entry,
-		args
-	);
-}
-
-CGprogram cgCreateProgramFromFileW(
-	CGcontext ctx,
-    CGenum program_type,
-    const std::wstring& program_file,
-    CGprofile profile,
-    const char *entry,
-    const char **args
-)
-{
-	return cgCreateProgramFromFile(
-		ctx, 
-		program_type,
-		Platform::ConvertUnicodeToAscii(program_file.c_str()).c_str(),
-		profile,
-		entry,
-		args
-	);
-}
-
 
 D3D9CgShaderContext::D3D9CgShaderContext(IDirect3DDevice9 *pDevice)
 {
 	m_cgContext = 0;
 
 	m_cgContext = cgCreateContext();
-	if (CheckForError(L"D3D9CgShaderContext::RegisterShaderHandler creating the context"))
+	if (CheckForError(GS_L("D3D9CgShaderContext::RegisterShaderHandler creating the context")))
 	{
 		m_cgContext = 0;
 		return;
 	}
 
 	cgSetParameterSettingMode(m_cgContext, CG_DEFERRED_PARAMETER_SETTING);
-	if (CheckForError(L"D3D9CgShaderContext::RegisterShaderHandler setting parameter mode"))
+	if (CheckForError(GS_L("D3D9CgShaderContext::RegisterShaderHandler setting parameter mode")))
 	{
 		m_cgContext = 0;
 		return;
 	}
 
 	cgD3D9SetDevice(pDevice);
-	if (CheckForError(L"D3D9CgShaderContext::RegisterShaderHandler setting Direct3D device"))
+	if (CheckForError(GS_L("D3D9CgShaderContext::RegisterShaderHandler setting Direct3D device")))
 	{
 		m_cgContext = 0;
 		return;
 	}
 
-	std::wstringstream ss;
-	ss << L"the NVIDIA Cg language context has been successfuly created";
+	str_type::stringstream ss;
+	ss << GS_L("the NVIDIA Cg language context has been successfuly created");
 	ShowMessage(ss, GSMT_INFO);
 }
 
@@ -121,13 +91,13 @@ D3D9CgShaderContext::~D3D9CgShaderContext()
 	cgDestroyContext(m_cgContext);
 }
 
-bool D3D9CgShaderContext::CheckForError(const std::wstring& situation)
+bool D3D9CgShaderContext::CheckForError(const str_type::string& situation)
 {
 	CGerror error;
-	const std::wstring errorString = cgGetLastErrorStringW(&error);
+	const char* errorString = cgGetLastErrorString(&error);
 	if (error != CG_NO_ERROR)
 	{
-		std::wcerr << L"Situation: " << situation << L"\nError: " << errorString << std::endl;
+		GS2D_CERR << GS_L("Situation: ") << situation << GS_L("\nError: ") << errorString << std::endl;
 		return true;
 	}
 	return false;
@@ -143,12 +113,12 @@ D3D9CgShader::D3D9CgShader()
 	m_cgProgram = 0;
 	m_focus = SF_NONE;
 	m_profile = SP_NONE;
-	m_shaderName = L"";
+	m_shaderName = GS_L("");
 }
 
-inline CGparameter SeekParameter(const std::wstring &name, std::map<std::wstring, CGparameter> &m_mParam)
+inline CGparameter SeekParameter(const str_type::string &name, std::map<str_type::string, CGparameter> &m_mParam)
 {
-	std::map<std::wstring, CGparameter>::iterator iter = m_mParam.find(name);
+	std::map<str_type::string, CGparameter>::iterator iter = m_mParam.find(name);
 	if (iter != m_mParam.end())
 		return iter->second;	
 	return 0;
@@ -173,155 +143,155 @@ bool D3D9CgShader::SetShader()
 {
 	if (!m_cgProgram)
 	{
-		ShowMessage(L"D3D9CgShader::SetShader - The shader object or it's context are invalid.");
+		ShowMessage(GS_L("D3D9CgShader::SetShader - The shader object or it's context are invalid."));
 		return false;
 	}
 	cgD3D9BindProgram(m_cgProgram);
-	if (CheckForError(L"D3D9CgShader::SetShader", m_shaderName))
+	if (CheckForError(GS_L("D3D9CgShader::SetShader"), m_shaderName))
 		return false;
 	cgUpdateProgramParameters(m_cgProgram);
-	if (CheckForError(L"D3D9CgShader::SetShader", m_shaderName))
+	if (CheckForError(GS_L("D3D9CgShader::SetShader"), m_shaderName))
 		return false;
 	return true;
 }
 
-bool D3D9CgShader::SetConstant(const std::wstring& name, const Color& dw)
+bool D3D9CgShader::SetConstant(const str_type::string& name, const Color& dw)
 {
 	Vector4 v;
 	v.SetColor(dw);
 	return SetConstant(name, v);
 }
 
-bool D3D9CgShader::SetConstant(const std::wstring& name, const float x, const float y, const float z, const float w)
+bool D3D9CgShader::SetConstant(const str_type::string& name, const float x, const float y, const float z, const float w)
 {
 	return SetConstant(name, Vector4(x,y,z,w));
 }
 
-bool D3D9CgShader::SetConstant(const std::wstring& name, const float x, const float y, const float z)
+bool D3D9CgShader::SetConstant(const str_type::string& name, const float x, const float y, const float z)
 {
 	return SetConstant(name, Vector3(x,y,z));
 }
 
-bool D3D9CgShader::SetConstant(const std::wstring& name, const float x, const float y)
+bool D3D9CgShader::SetConstant(const str_type::string& name, const float x, const float y)
 {
 	return SetConstant(name, Vector2(x,y));
 }
 
-bool D3D9CgShader::SetConstant(const std::wstring& name, const Vector4 &v)
+bool D3D9CgShader::SetConstant(const str_type::string& name, const Vector4 &v)
 {
 	CGparameter param = SeekParameter(name, m_mParam);
 
 	if (!param)
 	{
-		std::wstring message = L"D3D9CgShader::Set(*) invalid parameter: ";
+		str_type::string message = GS_L("D3D9CgShader::Set(*) invalid parameter: ");
 		message += name;
 		ShowMessage(message);
 		return false;
 	}
 
 	cgSetParameter4fv(param, (float*)&v);
-	if (CheckForError(L"D3D9CgShader::SetConstant4F setting parameter", m_shaderName))
+	if (CheckForError(GS_L("D3D9CgShader::SetConstant4F setting parameter"), m_shaderName))
 		return false;
 	return true;
 }
 
-bool D3D9CgShader::SetConstant(const std::wstring& name, const Vector3 &v)
+bool D3D9CgShader::SetConstant(const str_type::string& name, const Vector3 &v)
 {
 	CGparameter param = SeekParameter(name, m_mParam);
 
 	if (!param)
 	{
-		std::wstring message = L"D3D9CgShader::Set(*) invalid parameter: ";
+		str_type::string message = GS_L("D3D9CgShader::Set(*) invalid parameter: ");
 		message += name;
 		ShowMessage(message);
 		return false;
 	}
 
 	cgSetParameter3fv(param, (float*)&v);
-	if (CheckForError(L"D3D9CgShader::SetConstant3F setting parameter", m_shaderName))
+	if (CheckForError(GS_L("D3D9CgShader::SetConstant3F setting parameter"), m_shaderName))
 		return false;
 	return true;
 }
 
-bool D3D9CgShader::SetConstant(const std::wstring& name, const Vector2 &v)
+bool D3D9CgShader::SetConstant(const str_type::string& name, const Vector2 &v)
 {
 	CGparameter param = SeekParameter(name, m_mParam);
 
 	if (!param)
 	{
-		std::wstring message = L"D3D9CgShader::Set(*) invalid parameter: ";
+		str_type::string message = GS_L("D3D9CgShader::Set(*) invalid parameter: ");
 		message += name;
 		ShowMessage(message);
 		return false;
 	}
 
 	cgSetParameter2fv(param, (float*)&v);
-	if (CheckForError(L"D3D9CgShader::SetConstant2F setting parameter", m_shaderName))
+	if (CheckForError(GS_L("D3D9CgShader::SetConstant2F setting parameter"), m_shaderName))
 		return false;
 	return true;
 }
 
-bool D3D9CgShader::SetConstant(const std::wstring& name, const float value)
+bool D3D9CgShader::SetConstant(const str_type::string& name, const float value)
 {
 	CGparameter param = SeekParameter(name, m_mParam);
 	
 	if (!param)
 	{
-		std::wstring message = L"D3D9CgShader::Set(*) invalid parameter: ";
+		str_type::string message = GS_L("D3D9CgShader::Set(*) invalid parameter: ");
 		message += name;
 		ShowMessage(message);
 		return false;
 	}
 
 	cgSetParameter1f(param, value);
-	if (CheckForError(L"D3D9CgShader::SetConstant1F setting parameter", m_shaderName))
+	if (CheckForError(GS_L("D3D9CgShader::SetConstant1F setting parameter"), m_shaderName))
 		return false;
 	return true;
 }
 
-bool D3D9CgShader::SetConstant(const std::wstring& name, const int n)
+bool D3D9CgShader::SetConstant(const str_type::string& name, const int n)
 {
 	CGparameter param = SeekParameter(name, m_mParam);
 	
 	if (!param)
 	{
-		std::wstring message = L"D3D9CgShader::Set(*) invalid parameter: ";
+		str_type::string message = GS_L("D3D9CgShader::Set(*) invalid parameter: ");
 		message += name;
 		ShowMessage(message);
 		return false;
 	}
 
 	cgSetParameter1i(param, n);
-	if (CheckForError(L"D3D9CgShader::SetConstant1I setting parameter", m_shaderName))
+	if (CheckForError(GS_L("D3D9CgShader::SetConstant1I setting parameter"), m_shaderName))
 		return false;
 	return true;
 }
 
-bool D3D9CgShader::SetMatrixConstant(const std::wstring& name, const Matrix4x4 &matrix)
+bool D3D9CgShader::SetMatrixConstant(const str_type::string& name, const Matrix4x4 &matrix)
 {
 	CGparameter param = SeekParameter(name, m_mParam);
 
 	if (!param)
 	{
-		std::wstring message = L"D3D9CgShader::Set(*) invalid parameter: ";
+		str_type::string message = GS_L("D3D9CgShader::Set(*) invalid parameter: ");
 		message += name;
 		ShowMessage(message);
 		return false;
 	}
 
 	cgSetMatrixParameterfr(param, (float*)&matrix);
-	if (CheckForError(L"D3D9CgShader::SetMatrixConstantF setting parameter", m_shaderName))
+	if (CheckForError(GS_L("D3D9CgShader::SetMatrixConstantF setting parameter"), m_shaderName))
 		return false;
 	return true;
 }
 
-bool D3D9CgShader::SetConstantArray(const std::wstring& name, unsigned int nElements, const boost::shared_array<const math::Vector2>& v)
+bool D3D9CgShader::SetConstantArray(const str_type::string& name, unsigned int nElements, const boost::shared_array<const math::Vector2>& v)
 {
 	CGparameter param = SeekParameter(name, m_mParam);
 
 	if (!param)
 	{
-		std::wstring message = L"D3D9CgShader::Set(*) invalid parameter: ";
+		str_type::string message = GS_L("D3D9CgShader::Set(*) invalid parameter: ");
 		message += name;
 		ShowMessage(message);
 		return false;
@@ -329,12 +299,12 @@ bool D3D9CgShader::SetConstantArray(const std::wstring& name, unsigned int nElem
 
 	//cgSetArraySize(param, nElements);
 	cgD3D9SetUniformArray(param, 0, (DWORD)nElements, &(v.get()->x));
-	if (CheckForError(L"D3D9CgShader::SetConstantArrayF setting parameter", m_shaderName))
+	if (CheckForError(GS_L("D3D9CgShader::SetConstantArrayF setting parameter"), m_shaderName))
 		return false;
 	return true;
 }
 
-bool D3D9CgShader::ConstantExist(const std::wstring& name)
+bool D3D9CgShader::ConstantExist(const str_type::string& name)
 {
 	CGparameter param = SeekParameter(name, m_mParam);
 	if (!param)
@@ -342,12 +312,12 @@ bool D3D9CgShader::ConstantExist(const std::wstring& name)
 	return true;
 }
 
-bool D3D9CgShader::SetTexture(const std::wstring& name, TextureWeakPtr pTexture)
+bool D3D9CgShader::SetTexture(const str_type::string& name, TextureWeakPtr pTexture)
 {
 	TexturePtr texture = pTexture.lock();
 	if (m_focus != SF_PIXEL)
 	{
-		ShowMessage(L"D3D9CgShader::SetTexture - textures can't be set as vertex shader parameter");
+		ShowMessage(GS_L("D3D9CgShader::SetTexture - textures can't be set as vertex shader parameter"));
 		return false;
 	}
 
@@ -355,7 +325,7 @@ bool D3D9CgShader::SetTexture(const std::wstring& name, TextureWeakPtr pTexture)
 
 	if (!param)
 	{
-		std::wstring message = L"D3D9CgShader::Set(*) invalid parameter: ";
+		str_type::string message = GS_L("D3D9CgShader::Set(*) invalid parameter: ");
 		message += name;
 		ShowMessage(message);
 		return false;
@@ -368,11 +338,11 @@ bool D3D9CgShader::SetTexture(const std::wstring& name, TextureWeakPtr pTexture)
 	}
 	catch (const boost::bad_any_cast &)
 	{
-		ShowMessage(L"D3D9CgShader::SetTexture Invalid texture pointer");
+		ShowMessage(GS_L("D3D9CgShader::SetTexture Invalid texture pointer"));
 		return false;
 	}
 	cgD3D9SetTexture(param, pD3DTexture);
-	if (CheckForError(L"D3D9CgShader::SetTexture", m_shaderName))
+	if (CheckForError(GS_L("D3D9CgShader::SetTexture"), m_shaderName))
 		return false;
 	return true;
 }
@@ -382,71 +352,27 @@ bool D3D9CgShader::SetupParameters()
 	CGparameter param = cgGetFirstParameter(m_cgProgram, CG_GLOBAL);
 	while (param)
 	{
-		m_mParam[cgGetParameterNameW(param)] = param;
+		m_mParam[cgGetParameterName(param)] = param;
 		param = cgGetNextParameter(param);
 	}
 	param = cgGetFirstParameter(m_cgProgram, CG_PROGRAM);
 	while (param)
 	{
-		m_mParam[cgGetParameterNameW(param)] = param;
+		m_mParam[cgGetParameterName(param)] = param;
 		param = cgGetNextParameter(param);
 	}
 
 	return true;
 }
 
-// TODO/TO-DO: move it to Foundation
-inline std::string getAsciiStringFromFileC(const wchar_t *file)
-{
-	std::wstringstream ss;
-	std::wifstream f(file);
-	if (f.is_open())
-	{
-		while(!f.eof())
-		{
-			wchar_t ch = L'\0';
-			f.get(ch);
-			if (ch != L'\0')
-			{
-				ss << ch;
-			}
-		}
-		f.close();
-		return Platform::ConvertUnicodeToAscii(ss.str().c_str());
-	}
-	return "";
-}
-
-// TODO/TO-DO: move it to Foundation
-inline std::wstring getStringFromFileC(const wchar_t *file)
-{
-	std::wstringstream ss;
-	std::wifstream f(file);
-	if (f.is_open())
-	{
-		while(!f.eof())
-		{
-			wchar_t ch = L'\0';
-			f.get(ch);
-			if (ch != L'\0')
-			{
-				ss << ch;
-			}
-		}
-		f.close();
-		return ss.str();
-	}
-	return L"";
-}
-
-bool D3D9CgShader::LoadShaderFromFile(ShaderContextPtr context, const std::wstring& fileName, const SHADER_FOCUS focus,
+bool D3D9CgShader::LoadShaderFromFile(ShaderContextPtr context, const str_type::string& fileName, const SHADER_FOCUS focus,
 							  const SHADER_PROFILE profile, const char *entry)
 {
 	const std::string codeAsciiString = getAsciiStringFromFileC(fileName.c_str());
 	return LoadShaderFromString(context, fileName, codeAsciiString, focus, profile, entry);
 }
 
-bool D3D9CgShader::LoadShaderFromString(ShaderContextPtr context, const std::wstring& shaderName, const std::string& codeAsciiString, const SHADER_FOCUS focus,
+bool D3D9CgShader::LoadShaderFromString(ShaderContextPtr context, const str_type::string& shaderName, const std::string& codeAsciiString, const SHADER_FOCUS focus,
 							  const SHADER_PROFILE profile, const char *entry)
 {
 	m_pShaderContext = context;
@@ -459,7 +385,7 @@ bool D3D9CgShader::LoadShaderFromString(ShaderContextPtr context, const std::wst
 	if (focus == SF_PIXEL)
 	{
 		m_cgLatestProfile = cgD3D9GetLatestPixelProfile();
-		if (CheckForError(L"D3D9CgShader::LoadShader getting latest pixel profile", m_shaderName))
+		if (CheckForError(GS_L("D3D9CgShader::LoadShader getting latest pixel profile"), m_shaderName))
 			return false;
 		switch (profile)
 		{
@@ -479,7 +405,7 @@ bool D3D9CgShader::LoadShaderFromString(ShaderContextPtr context, const std::wst
 	else
 	{
 		m_cgLatestProfile = cgD3D9GetLatestVertexProfile();
-		if (CheckForError(L"D3D9CgShader::LoadShader getting latest vertex profile", m_shaderName))
+		if (CheckForError(GS_L("D3D9CgShader::LoadShader getting latest vertex profile"), m_shaderName))
 			return false;
 		switch (profile)
 		{
@@ -500,12 +426,12 @@ bool D3D9CgShader::LoadShaderFromString(ShaderContextPtr context, const std::wst
 	if (cgProfile > m_cgLatestProfile)
 	{
 		cgProfile = m_cgLatestProfile;
-		ShowMessage(L"D3D9CgShader::LoadShader the current profile is not supported");
+		ShowMessage(GS_L("D3D9CgShader::LoadShader the current profile is not supported"));
 	}
 
 	const char **profileOpts;
 	profileOpts = cgD3D9GetOptimalOptions(cgProfile);
-	if (CheckForError(L"D3D9CgShader::LoadShader getting optimal options", m_shaderName))
+	if (CheckForError(GS_L("D3D9CgShader::LoadShader getting optimal options"), m_shaderName))
 		return false;
 
 	CGcontext cgContext;
@@ -515,19 +441,19 @@ bool D3D9CgShader::LoadShaderFromString(ShaderContextPtr context, const std::wst
 	}
 	catch (const boost::bad_any_cast &)
 	{
-		ShowMessage(L"D3D9CgShader::LoadShader invalid CGcontext");
+		ShowMessage(GS_L("D3D9CgShader::LoadShader invalid CGcontext"));
 		return false;
 	}
-	m_cgProgram = cgCreateProgramW(
+	m_cgProgram = cgCreateProgram(
 		cgContext, 
 		CG_SOURCE,
-		codeAsciiString,
+		codeAsciiString.c_str(),
 		cgProfile,
 		entry,
 		profileOpts
 	);
 
-	if (CheckForError(L"D3D9CgShader::LoadShader creating program from file", m_shaderName))
+	if (CheckForError(GS_L("D3D9CgShader::LoadShader creating program from file"), m_shaderName))
 		return false;
 
 	CompileShader();
@@ -538,26 +464,26 @@ bool D3D9CgShader::LoadShaderFromString(ShaderContextPtr context, const std::wst
 bool D3D9CgShader::CompileShader()
 {
 	cgD3D9LoadProgram(m_cgProgram, false, 0);
-	if (CheckForError(L"D3D9CgShader::CompileShader loading the program", m_shaderName))
+	if (CheckForError(GS_L("D3D9CgShader::CompileShader loading the program"), m_shaderName))
 		return false;
 	return true;
 }
 
-bool D3D9CgShader::CheckForError(const std::wstring &situation, const std::wstring &add)
+bool D3D9CgShader::CheckForError(const str_type::string &situation, const str_type::string &add)
 {
 	CGerror error;
-	const std::wstring str = cgGetLastErrorStringW(&error);
+	const char* str = cgGetLastErrorString(&error);
 	if (error != CG_NO_ERROR)
 	{
-		std::wstring text = L"Situation: ";
+		str_type::string text = GS_L("Situation: ");
 		text += situation;
-		text += L"\nCg error string: ";
+		text += GS_L("\nCg error string: ");
 		text += str;
-		text += L"\nAdditional info: ";
+		text += GS_L("\nAdditional info: ");
 		text += add;
 		if (error == CG_COMPILER_ERROR)
 		{
-			text += L"\nCg compiler error: ";
+			text += GS_L("\nCg compiler error: ");
 
 			CGcontext cgContext;
 			try
@@ -566,14 +492,14 @@ bool D3D9CgShader::CheckForError(const std::wstring &situation, const std::wstri
 			}
 			catch (const boost::bad_any_cast &)
 			{
-				ShowMessage(L"D3D9CgShader::CheckForError invalid CGcontext");
+				ShowMessage(GS_L("D3D9CgShader::CheckForError invalid CGcontext"));
 				return false;
 			}
-			text += cgGetLastListingW(cgContext);
+			text += cgGetLastListing(cgContext);
 		}
 		if (error == CG_UNKNOWN_PROFILE_ERROR)
 		{
-			text += L"\nThe current profile is not supported!";
+			text += GS_L("\nThe current profile is not supported!");
 		}
 		ShowMessage(text);
 		return true;

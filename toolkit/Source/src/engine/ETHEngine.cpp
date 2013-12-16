@@ -31,13 +31,7 @@
 
 #include "Resource/ETHDirectories.h"
 
-#include <Unicode/UTF8Converter.h>
-
-#ifdef GS2D_STR_TYPE_WCHAR
- #include "../addons/utf16/scriptbuilder.h"
-#else
- #include "../addons/ansi/scriptbuilder.h"
-#endif
+#include "../addons/scriptbuilder.h"
 
 #if defined(APPLE_IOS) || defined(ANDROID)
  #define MOBILE
@@ -79,11 +73,6 @@ ETHEngine::~ETHEngine()
 	{
 		m_pScriptContext->Release();
 		m_pScriptContext = 0;
-	}
-	if (m_pConstructorContext)
-	{
-		m_pConstructorContext->Release();
-		m_pConstructorContext = 0;
 	}
 	m_pASEngine->Release();
 	m_pASEngine = 0;
@@ -145,7 +134,7 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 	else
 	{
 		video->SetBGColor(m_lastBGColor);
-		m_pScene->RecoverResources();
+		m_pScene->RecoverResources(m_expansionFileManager);
 	}
 }
 
@@ -194,7 +183,7 @@ bool ETHEngine::LoadNextSceneIfRequested()
 	{
 		if (!m_pScene)
 		{
-			ShowMessage(GS_L("ETHEngine::StartEngine: the script has set no scene to load."), ETH_ERROR);
+			ShowMessage(GS_L("ETHEngine::StartEngine: no scene has been loaded."), ETH_ERROR);
 			return false;
 		}
 	}
@@ -260,12 +249,6 @@ bool ETHEngine::PrepareScriptingEngine(const std::vector<gs2d::str_type::string>
 	if (!CheckAngelScriptError((r < 0), GS_L("Failed setting up script scanner.")))
 		return false;
 
-	#ifdef GS2D_STR_TYPE_WCHAR
-	r = m_pASEngine->SetEngineProperty(asEP_STRING_ENCODING, 1);
-	// #else
-	// r = m_pASEngine->SetEngineProperty(asEP_STRING_ENCODING, 0);
-	#endif
-
 	if (!CheckAngelScriptError((r < 0), GS_L("Failed while setting up string encoding")))
 		return false;
 
@@ -280,7 +263,11 @@ bool ETHEngine::PrepareScriptingEngine(const std::vector<gs2d::str_type::string>
 	RegisterGlobalFunctions(m_pASEngine);
 
 	m_pScriptContext = m_pASEngine->CreateContext();
-	m_pConstructorContext = m_pASEngine->CreateContext();
+
+	// Exception callback
+	r = m_pScriptContext->SetExceptionCallback(asFUNCTION(ExceptionCallback), 0, asCALL_CDECL);
+	if (!CheckAngelScriptError((r < 0), GS_L("Failed while setting exception callback.")))
+		return false;
 
 	if (!BuildModule(definedWords))
 		return false;
@@ -340,10 +327,13 @@ bool ETHEngine::BuildModule(const std::vector<gs2d::str_type::string>& definedWo
 	const str_type::string byteCodeWriteFile = m_provider->GetByteCodeSaveDirectory() + ETH_DEFAULT_MAIN_BYTECODE_FILE;
 	const str_type::string byteCodeReadFile  = resourcePath + ETH_DEFAULT_MAIN_BYTECODE_FILE;
 
+	// line separator to ease script output reading
+	m_provider->Log(GS_L("____________________________\n"), Platform::Logger::INFO);
+
 	// if there's a main script file, load the source from text code and compile it
 	if (ETHGlobal::FileExists(mainScript, m_provider->GetFileManager()))
 	{
-		ETH_STREAM_DECL(ssi) << GS_L("Loading game script from source-code: ") << ETH_DEFAULT_MAIN_SCRIPT_FILE;
+		ETH_STREAM_DECL(ssi) << GS_L("Loading game script from source-code: ") << ETH_DEFAULT_MAIN_SCRIPT_FILE << std::endl;
 		m_provider->Log(ssi.str(), Platform::Logger::INFO);
 
 		// Load the main script
@@ -366,7 +356,7 @@ bool ETHEngine::BuildModule(const std::vector<gs2d::str_type::string>& definedWo
 		const VideoPtr& video = m_provider->GetVideo();
 		const unsigned long buildTime = video->GetElapsedTime();
 		r = builder.BuildModule();
-		str_type::stringstream timeStringStream; timeStringStream << GS_L("Compile time: ") << video->GetElapsedTime() - buildTime << GS_L(" milliseconds");
+		str_type::stringstream timeStringStream; timeStringStream << GS_L("\nCompile time: ") << video->GetElapsedTime() - buildTime << GS_L(" milliseconds");
 		m_provider->Log(timeStringStream.str(), Platform::Logger::INFO);
 		if (!CheckAngelScriptError(r < 0, GS_L("Failed while building module.")))
 			return false;
@@ -385,12 +375,11 @@ bool ETHEngine::BuildModule(const std::vector<gs2d::str_type::string>& definedWo
 		{
 			ETH_STREAM_DECL(ss) << GS_L("Failed while writing the byte code file ") << byteCodeWriteFile;
 			m_provider->Log(ss.str(), Platform::Logger::ERROR);
-			// return false;
 		}
 	}
 	else // otherwiser, try to load the bytecode
 	{
-		ETH_STREAM_DECL(ss) << GS_L("Loading game script from pre-compiled byte code: ") << ETH_DEFAULT_MAIN_BYTECODE_FILE;
+		ETH_STREAM_DECL(ss) << GS_L("Loading game script from pre-compiled byte code: ") << ETH_DEFAULT_MAIN_BYTECODE_FILE << std::endl;
 		m_provider->Log(ss.str(), Platform::Logger::INFO);
 	
 		m_pASModule = CScriptBuilder::GetModule(m_pASEngine, ETH_SCRIPT_MODULE, asGM_ALWAYS_CREATE);
@@ -421,7 +410,7 @@ bool ETHEngine::BuildModule(const std::vector<gs2d::str_type::string>& definedWo
 asIScriptFunction* ETHEngine::GetMainFunction() const
 {
 	// finds the main function
-	asIScriptFunction* mainFunc = m_pASModule->GetFunctionByName(utf8::c(ETH_MAIN_FUNCTION).c_str());
+	asIScriptFunction* mainFunc = m_pASModule->GetFunctionByName(ETH_MAIN_FUNCTION.c_str());
 	ETH_STREAM_DECL(ss) << GS_L("Function not found: ") << ETH_MAIN_FUNCTION;
 	CheckAngelScriptError((!mainFunc), ss.str());
 	return mainFunc;
@@ -440,36 +429,84 @@ bool ETHEngine::CheckAngelScriptError(const bool error, const str_type::string &
 	}
 }
 
-void ETHEngine::DrawTopLayer(const unsigned int lastFrameElapsedTimeMS)
+void ETHEngine::DrawTopLayer(const unsigned long lastFrameElapsedTimeMS)
 {
 	m_drawableManager.DrawTopLayer(lastFrameElapsedTimeMS, m_provider->GetVideo());
 }
 
-void ETHEngine::MessageCallback(const asSMessageInfo *msg)
+str_type::string ETHEngine::RemoveResourceDirectoryFromSectionString(const str_type::string& section)
 {
-	str_type::string typeStr = GS_L("");
-	Platform::Logger::TYPE type;
-	if (msg->type == asMSGTYPE_WARNING)
+	const str_type::string resourceDirectory = m_provider->GetFileIOHub()->GetResourceDirectory();
+	if (section.find(resourceDirectory) == 0)
 	{
-		type = Platform::Logger::WARNING;
-		typeStr = GS_L("WARNING");
-	}
-	else if (msg->type == asMSGTYPE_INFORMATION) 
-	{
-		type = Platform::Logger::INFO;
-		typeStr = GS_L("INFO");
+		return section.substr(resourceDirectory.length(), str_type::string::npos);
 	}
 	else
 	{
+		return section;
+	}
+}
+
+void ETHEngine::MessageCallback(const asSMessageInfo *msg)
+{
+	static int lastRow = msg->row;
+
+	const bool differentRow = (msg->row != lastRow);
+	lastRow = msg->row;
+
+	str_type::string typeStr = GS_L("");
+	Platform::Logger::TYPE type;
+	switch (msg->type)
+	{
+	case asMSGTYPE_WARNING:
+		type = Platform::Logger::WARNING;
+		typeStr = GS_L("WARN ");
+		break;
+	case asMSGTYPE_ERROR:
 		type = Platform::Logger::ERROR;
 		typeStr = GS_L("ERROR");
+		break;
+	default:
+		typeStr = GS_L("INFO ");
+		type = Platform::Logger::INFO;
 	}
 
-	ETH_STREAM_DECL(ss) << std::endl
-		<< GS_L("AngelScript ") << typeStr
-		<< GS_L(" (") << msg->section << GS_L(" line ") << msg->row << GS_L("): ")
-		<< std::endl << msg->message;
+	const str_type::string section = RemoveResourceDirectoryFromSectionString(msg->section);
+
+	str_type::stringstream ss;
+
+	if (differentRow)
+		ss << std::endl;
+
+	ss << GS_L("[") << typeStr << GS_L("] ");
+	ss << section << GS_L(", line ") << msg->row << GS_L(": ");
+	ss << msg->message;
+
 	m_provider->Log(ss.str(), type);
+}
+
+void ETHEngine::ExceptionCallback(asIScriptContext *ctx, void *param)
+{
+	GS2D_UNUSED_ARGUMENT(param);
+
+	asIScriptFunction* function = ctx->GetExceptionFunction();
+
+	const str_type::string section = RemoveResourceDirectoryFromSectionString(function->GetScriptSectionName());
+	str_type::stringstream ss;
+	ss << GS_L("Exception: ") << ctx->GetExceptionString() << std::endl << GS_L("  Callstack:") << std::endl;
+
+	for (std::size_t n = 0; n < ctx->GetCallstackSize(); n++)
+	{
+		asIScriptFunction* stackedFunction = ctx->GetFunction(static_cast<asUINT>(n));
+		if (stackedFunction != NULL)
+		{
+			const str_type::string section = RemoveResourceDirectoryFromSectionString(stackedFunction->GetScriptSectionName());
+			ss << GS_L("    ") << stackedFunction->GetDeclaration()
+			   << GS_L(" (") << section << GS_L(", ") << ctx->GetLineNumber(static_cast<asUINT>(n)) << GS_L(")") << std::endl;
+		}
+	}
+	ss << std::endl;
+	m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
 }
 
 void ETHEngine::Restore()

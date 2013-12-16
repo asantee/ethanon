@@ -23,6 +23,8 @@ toolkit/Source/src/gs2d/vendors/SDL.framework/
 toolkit/Source/src/gs2d/vendors/Cg.framework/
 toolkit/Source/src/gs2d/vendors/irrKlang/
 
+toolkit/Source/src/gs2d/vendors/SDL2.framework/
+
 # Dump files
 *AS_DEBUG/
 *.log.txt
@@ -41,9 +43,7 @@ toolkit/Source/src/gs2d/projects/Android/Ethanon/assets_joystick_tests
 toolkit/Source/src/gs2d/projects/Android/Ethanon/assets_mr
 toolkit/Source/src/gs2d/projects/Android/Ethanon/assets_mp
 toolkit/Source/src/gs2d/projects/Android/Ethanon/assets_tests
-toolkit/Source/src/gs2d/projects/Android/Ethanon/assets/*
 !toolkit/Source/src/gs2d/projects/Android/Ethanon/assets/app.enml
-!toolkit/Source/src/gs2d/projects/Android/Ethanon/assets/data/*
 !toolkit/Source/src/gs2d/projects/Android/Ethanon/assets/main.angelscript
 !toolkit/Source/src/gs2d/projects/Android/Ethanon/assets/shaders/*
 toolkit/Source/src/gs2d/projects/Android/Ethanon/assets_mp
@@ -88,6 +88,7 @@ xcuserdata/*
 # Android generated files
 toolkit/Source/src/gs2d/projects/Android/Ethanon/bin/
 toolkit/Source/src/gs2d/projects/Android/Ethanon/gen/
+toolkit/Source/src/gs2d/projects/Android/Ethanon/libs/acra-4.4.0.jar
 
 # Frequently used binaries
 audiere.dll
@@ -140,6 +141,8 @@ toolkit/Source/src/gs2d/projects/msvc9/GS2D/Release/
 toolkit/Source/src/gs2d/projects/msvc9/Platform/Release/
 toolkit/Source/src/gs2d/src/Audio/Audiere/audiere/msvc9/audiere/Debug/
 toolkit/Source/src/gs2d/projects/msvc9/Testbed/Debug/
+toolkit/Source/src/vendors/hashlib2plus/project/msvc9/hashlib/Debug/
+toolkit/Source/src/vendors/hashlib2plus/project/msvc9/hashlib/Release/
 
 # Cygwin binary output paths
 toolkit/Source/src/gs2d/projects/Android/Ethanon/obj/
@@ -152,3 +155,9 @@ toolkit/Source/src/gs2d/projects/Android/addons/
 toolkit/Source/src/gs2d/projects/Android/engine/
 toolkit/Source/src/gs2d/projects/Android/soil/
 toolkit/Source/src/gs2d/projects/Android/vendors/
+
+toolkit/Source/src/gs2d/projects/Android/google-play-services_lib/
+
+*.xccheckout
+
+toolkit/Source/src/gs2d/projects/Android/Ethanon/assets/particles/particle.png

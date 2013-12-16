@@ -416,6 +416,11 @@ struct Vector4
 		x = y = z = w = 0.0f;
 	}
 
+	Vector4(const Color& color)
+	{
+		SetColor(color);
+	}
+
 	Vector4(const Vector4 &v4)
 	{
 		x = v4.x;
@@ -1014,6 +1019,8 @@ const Vector2 ONE_VECTOR2(1.0f, 1.0f);
 const Vector3 HALF_VECTOR3(0.5f, 0.5f, 0.5f);
 const Vector3 ZERO_VECTOR3(0.0f, 0.0f, 0.0f);
 const Vector3 ONE_VECTOR3(1.0f, 1.0f, 1.0f);
+const Vector4 ONE_VECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+const Vector4 ZERO_VECTOR4(0.0f, 0.0f, 0.0f, 0.0f);
 } // namespace constant
 
 } // namespace math

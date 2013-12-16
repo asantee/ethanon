@@ -38,6 +38,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.WindowManager;
@@ -52,6 +53,8 @@ public class GS2DActivity extends KeyEventListener {
 	private static final String NON_CONTEXT_LOG_DIRECTORY_NAME = ".ethanon/gs2dlog";
 	private GL2JNIView surfaceView;
 	private ArrayList<NativeCommandListener> commandListeners;
+	private int fixedFrameRate = 0;
+	private boolean startedActivity = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -68,14 +71,22 @@ public class GS2DActivity extends KeyEventListener {
 		accelerometerListener = new AccelerometerListener(this);
 		commandListeners.add(new MediaStreamListener(this));
 
-		surfaceView = new GL2JNIView(
-			this, retrieveApkPath(),
-			accelerometerListener,
-			this,
-			commandListeners,
-			inputDeviceManager);
+		surfaceView = new GL2JNIView(this, retrieveApkPath(), accelerometerListener, this, commandListeners,
+				inputDeviceManager, fixedFrameRate);
+
+		startedActivity = true;
 
 		setContentView(surfaceView);
+	}
+
+	public boolean setFixedFrameRate(int fixedFrameRate) {
+		if (!startedActivity) {
+			this.fixedFrameRate = fixedFrameRate;
+			return true;
+		} else {
+			Log.e("GS2DActivity.setFixedFrameRate", "Can't set fixed frame rate after Activity's onStart");
+			return false;
+		}
 	}
 
 	public void insertCommandListener(NativeCommandListener commandListener) {
@@ -108,7 +119,7 @@ public class GS2DActivity extends KeyEventListener {
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu (Menu menu) {
+	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		return false;
 	}
@@ -177,12 +188,12 @@ public class GS2DActivity extends KeyEventListener {
 		String state = Environment.getExternalStorageState();
 
 		if (Environment.MEDIA_MOUNTED.equals(state)) {
-		    externalStorageAvailable = externalStorageWriteable = true;
+			externalStorageAvailable = externalStorageWriteable = true;
 		} else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-		    externalStorageAvailable = true;
-		    externalStorageWriteable = false;
+			externalStorageAvailable = true;
+			externalStorageWriteable = false;
 		} else {
-		    externalStorageAvailable = externalStorageWriteable = false;
+			externalStorageAvailable = externalStorageWriteable = false;
 		}
 		if (!externalStorageAvailable) {
 			toast("Warning: external storage is not available. Game saves won't work", this);
@@ -192,10 +203,11 @@ public class GS2DActivity extends KeyEventListener {
 		}
 		return true;
 	}
-	
+
 	private void setupExternalStorageDirectories() {
 		if (verifyExternalStorageState()) {
-			externalStoragePath = Environment.getExternalStorageDirectory() + "/Android/data/" + this.getPackageName() + "/files/";
+			externalStoragePath = Environment.getExternalStorageDirectory() + "/Android/data/" + this.getPackageName()
+					+ "/files/";
 			{
 				File dir = new File(externalStoragePath + LOG_DIRECTORY_NAME);
 				dir.mkdirs();
@@ -204,7 +216,8 @@ public class GS2DActivity extends KeyEventListener {
 				File dir = new File(Environment.getExternalStorageDirectory() + "/" + NON_CONTEXT_LOG_DIRECTORY_NAME);
 				dir.mkdirs();
 			}
-			globalExternalStoragePath = Environment.getExternalStorageDirectory() + "/.ethanon/" + this.getPackageName() + "/files/";
+			globalExternalStoragePath = Environment.getExternalStorageDirectory() + "/.ethanon/"
+					+ this.getPackageName() + "/files/";
 			{
 				File dir = new File(globalExternalStoragePath);
 				dir.mkdirs();

@@ -77,12 +77,13 @@ public class GL2JNIView extends GLSurfaceView {
 	}
 
 	public GL2JNIView(Context context) {
-	    super(context, null);
+		super(context, null);
 		this.apkPath = null;
 	}
 
 	public GL2JNIView(GS2DActivity activity, String apkPath, AccelerometerListener accelerometerListener,
-			KeyEventListener keyEventListener, ArrayList<NativeCommandListener> commandListeners, InputDeviceManager inputDeviceManager) {
+			KeyEventListener keyEventListener, ArrayList<NativeCommandListener> commandListeners,
+			InputDeviceManager inputDeviceManager, int fixedFrameRate) {
 		super(activity.getApplication());
 
 		GL2JNIView.accelerometerListener = accelerometerListener;
@@ -92,10 +93,15 @@ public class GL2JNIView extends GLSurfaceView {
 
 		init(false, 1, 0, activity, inputDeviceManager);
 		retrieveScreenSize(activity);
-		setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
 
-		frameHandler = new FrameHandler(this, 100);
-		frameHandler.start();
+		int renderMode = (fixedFrameRate > 0) ? GLSurfaceView.RENDERMODE_WHEN_DIRTY : GLSurfaceView.RENDERMODE_CONTINUOUSLY;
+		
+		setRenderMode(renderMode);
+
+		if (renderMode == GLSurfaceView.RENDERMODE_WHEN_DIRTY) {
+			frameHandler = new FrameHandler(this, fixedFrameRate);
+			frameHandler.start();
+		}
 
 		resetTouchMonitoringData();
 	}
@@ -106,12 +112,14 @@ public class GL2JNIView extends GLSurfaceView {
 		GL2JNIView.keyEventListener.emulateKey("pause");
 	}
 
-	private void init(boolean translucent, int depth, int stencil, GS2DActivity activity, InputDeviceManager inputDeviceManager) {
+	private void init(boolean translucent, int depth, int stencil, GS2DActivity activity,
+			InputDeviceManager inputDeviceManager) {
 		if (translucent) {
 			this.getHolder().setFormat(PixelFormat.TRANSLUCENT);
 		}
 		setEGLContextFactory(new GLContextFactory());
-		setEGLConfigChooser(translucent ? new ConfigChooser(8, 8, 8, 8, depth, stencil) : new ConfigChooser(5, 6, 5, 0, depth, stencil));
+		setEGLConfigChooser(translucent ? new ConfigChooser(8, 8, 8, 8, depth, stencil) : new ConfigChooser(5, 6, 5, 0,
+				depth, stencil));
 		setRenderer(new Renderer(apkPath, commandListeners, activity, inputDeviceManager));
 	}
 
@@ -125,10 +133,12 @@ public class GL2JNIView extends GLSurfaceView {
 	static class NativeCommandRunner implements Runnable {
 		private String commands;
 		private ArrayList<NativeCommandListener> commandListeners;
+
 		NativeCommandRunner(String commands, ArrayList<NativeCommandListener> commandListeners) {
 			this.commands = commands;
 			this.commandListeners = commandListeners;
 		}
+
 		public void run() {
 			for (Iterator<NativeCommandListener> i = commandListeners.iterator(); i.hasNext();) {
 				NativeCommandListener current = i.next();
@@ -139,14 +149,15 @@ public class GL2JNIView extends GLSurfaceView {
 			Log.i("GS2D_Native_command", commands);
 		}
 	}
-	
+
 	static class Renderer implements GLSurfaceView.Renderer {
 		String apkPath;
 		GS2DActivity activity;
 		ArrayList<NativeCommandListener> commandListeners;
 		InputDeviceManager inputDeviceManager;
 
-		Renderer(String apkPath, ArrayList<NativeCommandListener> commandListeners, GS2DActivity activity, InputDeviceManager inputDeviceManager) {
+		Renderer(String apkPath, ArrayList<NativeCommandListener> commandListeners, GS2DActivity activity,
+				InputDeviceManager inputDeviceManager) {
 			this.inputDeviceManager = inputDeviceManager;
 			this.apkPath = apkPath;
 			this.commandListeners = commandListeners;
@@ -154,9 +165,10 @@ public class GL2JNIView extends GLSurfaceView {
 			this.commandListeners.add(new ApplicationCommandListener(activity, inputDeviceManager));
 			this.activity = activity;
 		}
-		
+
 		private String commands = new String();
 		private StringBuilder commandBuilder = new StringBuilder();
+
 		public void onDrawFrame(GL10 gl) {
 			commandBuilder.setLength(0);
 			GL2JNIView.appendTouchDataString(commandBuilder);
@@ -182,7 +194,7 @@ public class GL2JNIView extends GLSurfaceView {
 		public void onSurfaceCreated(GL10 gl, EGLConfig config) {
 			Log.i("Ethanon", "GS2DJNI.start");
 			GS2DJNI.start(apkPath, activity.getExternalStoragePath(), activity.getGlobalExternalStoragePath(),
-						  GL2JNIView.displayWidth, GL2JNIView.displayHeight);
+					GL2JNIView.displayWidth, GL2JNIView.displayHeight);
 		}
 	}
 
@@ -226,46 +238,46 @@ public class GL2JNIView extends GLSurfaceView {
 	public boolean onTouchEvent(MotionEvent event) {
 		int action = event.getAction() & MotionEvent.ACTION_MASK;
 
-		switch(action) {
-			case MotionEvent.ACTION_DOWN : {
-				int id = event.getPointerId(0);
+		switch (action) {
+		case MotionEvent.ACTION_DOWN: {
+			int id = event.getPointerId(0);
+			if (id < MAXIMUM_TOUCHES) {
+				currentTouch[id] = new Vector2(event.getX(), event.getY());
+			}
+			break;
+		}
+		case MotionEvent.ACTION_MOVE: {
+			int touchCounter = event.getPointerCount();
+			for (int t = 0; t < touchCounter; t++) {
+				int id = event.getPointerId(t);
 				if (id < MAXIMUM_TOUCHES) {
-					currentTouch[id] = new Vector2(event.getX(), event.getY());
-				}
-				break;
-			}
-			case MotionEvent.ACTION_MOVE : {
-				int touchCounter = event.getPointerCount();
-				for (int t = 0; t < touchCounter; t++) {
-					int id = event.getPointerId(t);
-					if (id < MAXIMUM_TOUCHES) {
-						currentTouch[id] = new Vector2(event.getX(t), event.getY(t));
-					}
+					currentTouch[id] = new Vector2(event.getX(t), event.getY(t));
 				}
 			}
-			case MotionEvent.ACTION_POINTER_DOWN : {
-				int id = event.getPointerId(getIndex(event));
-				if (id < MAXIMUM_TOUCHES) {
-					currentTouch[id] = new Vector2(event.getX(getIndex(event)), event.getY(getIndex(event)));
-				}
-				break;
+		}
+		case MotionEvent.ACTION_POINTER_DOWN: {
+			int id = event.getPointerId(getIndex(event));
+			if (id < MAXIMUM_TOUCHES) {
+				currentTouch[id] = new Vector2(event.getX(getIndex(event)), event.getY(getIndex(event)));
 			}
-			case MotionEvent.ACTION_POINTER_UP : {
-				int id = event.getPointerId(getIndex(event));
-				if (id < MAXIMUM_TOUCHES) {
-					currentTouch[id] = null;
-					GL2JNIView.touchSlotReleasedLastFrame[id] = Boolean.valueOf(true);
-				}
-				break;
+			break;
+		}
+		case MotionEvent.ACTION_POINTER_UP: {
+			int id = event.getPointerId(getIndex(event));
+			if (id < MAXIMUM_TOUCHES) {
+				currentTouch[id] = null;
+				GL2JNIView.touchSlotReleasedLastFrame[id] = Boolean.valueOf(true);
 			}
-			case MotionEvent.ACTION_UP : {
-				int id = event.getPointerId(0);
-				if (id < MAXIMUM_TOUCHES) {
-					currentTouch[id] = null;
-					GL2JNIView.touchSlotReleasedLastFrame[id] = Boolean.valueOf(true);
-				}
-				break;
+			break;
+		}
+		case MotionEvent.ACTION_UP: {
+			int id = event.getPointerId(0);
+			if (id < MAXIMUM_TOUCHES) {
+				currentTouch[id] = null;
+				GL2JNIView.touchSlotReleasedLastFrame[id] = Boolean.valueOf(true);
 			}
+			break;
+		}
 		}
 		return true;
 	}

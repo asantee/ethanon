@@ -34,7 +34,7 @@ ETHEntityParticleRenderer::ETHEntityParticleRenderer(
 
 void ETHEntityParticleRenderer::Render(const ETHSceneProperties& props, const float maxHeight, const float minHeight)
 {
-	if (m_shaderManager->BeginParticlePass())
+	if (m_shaderManager->BeginParticlePass(*m_entity->GetParticleManager(m_particleIndex)->GetSystem()))
 	{
 		m_entity->DrawParticles(m_particleIndex, maxHeight, minHeight, props);
 		m_shaderManager->EndParticlePass();

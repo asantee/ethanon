@@ -92,7 +92,7 @@ public class SoundEffectManager {
 					Log.e("GS2DError", fileName + " playback failed. Trying to reload");
 				}
 			} else {
-				GS2DActivity.toast(fileName + " file has not been loaded", activity);
+				Log.w("GS2DError", fileName + " playback failed. file has not been loaded yet. It might be just a concurrency issue");
 			}
 		}
 	}

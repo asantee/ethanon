@@ -48,7 +48,7 @@ std::vector<b2Shape*> ETHPhysicsSimulator::GetPolygonShape(const ETHCollisionBox
 	}
 
 	b2PolygonShape* polygonShape = new b2PolygonShape;
-	polygonShape->Set(vertices.get(), numVertices);
+	polygonShape->Set(vertices.get(), static_cast<unsigned int>(numVertices));
 	std::vector<b2Shape*> r; if (polygonShape) r.push_back(polygonShape);
 	return r;
 }
@@ -101,12 +101,13 @@ b2Body* ETHPhysicsSimulator::CreateBody(ETHEntity *entity, const boost::shared_p
 	{
 		for (std::size_t t = 0; t < shapes.size(); t++)
 		{
+			const unsigned int idx = static_cast<unsigned int>(t);
 			b2FixtureDef fixtureDef;
 			fixtureDef.shape = shapes[t];
-			fixtureDef.density = entity->IsStatic() ? 0.0f : entity->GetDensity(t);
-			fixtureDef.friction = entity->GetFriction(t);
+			fixtureDef.density = entity->IsStatic() ? 0.0f : entity->GetDensity(idx);
+			fixtureDef.friction = entity->GetFriction(idx);
 			fixtureDef.isSensor = entity->IsSensor();
-			fixtureDef.restitution = entity->GetRestitution(t);
+			fixtureDef.restitution = entity->GetRestitution(idx);
 			body->CreateFixture(&fixtureDef);
 			delete shapes[t];
 		}
