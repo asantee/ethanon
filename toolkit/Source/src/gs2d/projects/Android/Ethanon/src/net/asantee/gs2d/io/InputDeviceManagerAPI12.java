@@ -12,7 +12,7 @@ import android.view.MotionEvent;
 public class InputDeviceManagerAPI12 extends InputDeviceManager {
 
 	public static boolean isInstantiable() {
-		final int sdkVersion = Integer.parseInt(Build.VERSION.SDK);
+		final int sdkVersion = Build.VERSION.SDK_INT;
 		return (sdkVersion >= Build.VERSION_CODES.HONEYCOMB_MR1);
 	}
 

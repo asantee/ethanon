@@ -47,7 +47,7 @@ public abstract class InputDeviceManager {
 	private boolean xperiaPlayXKeySwapped = false;
 
 	public static boolean isInstantiable() {
-		final int sdkVersion = Integer.parseInt(Build.VERSION.SDK);
+		final int sdkVersion = Build.VERSION.SDK_INT;
 		return (sdkVersion >= Build.VERSION_CODES.GINGERBREAD);
 	}
 

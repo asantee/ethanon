@@ -24,7 +24,7 @@ public class AccelerometerListener implements SensorEventListener {
 	}
 	
 	private void updateOrientationInfo() {
-		rotateOrientation = (display.getOrientation() == Surface.ROTATION_90) ? true : false;
+		rotateOrientation = (display.getRotation() == Surface.ROTATION_90) ? true : false;
 	}
 
 	public float getX() {
