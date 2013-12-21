@@ -200,6 +200,8 @@ asDECLARE_FUNCTION_WRAPPER(__GetNumRenderedEntities,       ETHScriptWrapper::Get
 asDECLARE_FUNCTION_WRAPPER(__ParseInt,                     ETHGlobal::ParseIntStd);
 asDECLARE_FUNCTION_WRAPPER(__ParseUInt,                    ETHGlobal::ParseUIntStd);
 asDECLARE_FUNCTION_WRAPPER(__ParseFloat,                   ETHGlobal::ParseFloatStd);
+asDECLARE_FUNCTION_WRAPPER(__IsValidUTF8,                  ETHGlobal::IsValidUTF8);
+asDECLARE_FUNCTION_WRAPPER(__DistanceUTF8,                 ETHGlobal::DistanceUTF8);
 asDECLARE_FUNCTION_WRAPPER(__GetArgc,                      ETHScriptWrapper::GetArgc);
 asDECLARE_FUNCTION_WRAPPER(__GetArgv,                      ETHScriptWrapper::GetArgv);
 asDECLARE_FUNCTION_WRAPPER(__GetWorldSpaceCursorPos2,      ETHScriptWrapper::GetWorldSpaceCursorPos2);
@@ -454,6 +456,8 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("int parseInt(const string &in)",             asFUNCTION(__ParseInt),                      asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("uint parseUInt(const string &in)",           asFUNCTION(__ParseUInt),                     asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("float parseFloat(const string &in)",         asFUNCTION(__ParseFloat),                    asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("uint distanceUTF8(const string &in)",        asFUNCTION(__DistanceUTF8),                  asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("bool isValidUTF8(const string &in)",         asFUNCTION(__IsValidUTF8),                   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("int GetArgc()",                              asFUNCTION(__GetArgc),                       asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("string GetArgv(const int)",                  asFUNCTION(__GetArgv),                       asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 GetWorldSpaceCursorPos2()",          asFUNCTION(__GetWorldSpaceCursorPos2),       asCALL_GENERIC); assert(r >= 0);

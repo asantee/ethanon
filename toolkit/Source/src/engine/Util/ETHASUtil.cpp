@@ -28,6 +28,8 @@
 
 #include "../addons/scriptbuilder.h"
 
+#include "../../gs2d/src/Unicode/utf8/utf8.h"
+
 namespace ETHGlobal {
 void ExecuteContext(asIScriptContext *pContext, asIScriptFunction* func, const bool prepare)
 {
@@ -174,6 +176,16 @@ int ParseIntStd(const str_type::string& str)
 unsigned int ParseUIntStd(const str_type::string& str)
 {
 	return ParseUInt(str.c_str());
+}
+
+bool IsValidUTF8(const str_type::string& str)
+{
+	return utf8::is_valid(&str[0], &str[0] + str.length());
+}
+
+unsigned int DistanceUTF8(const str_type::string& str)
+{
+	return static_cast<unsigned int>(utf8::distance(&str[0], &str[0] + str.length()));
 }
 
 bool IsSphereInScreen(const Vector3& pos, const float radius, const Vector2& zAxisDir, const VideoPtr& video)
