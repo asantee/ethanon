@@ -31,7 +31,7 @@ import android.os.Bundle;
 public class EthanonActivity extends GS2DActivity {
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {		
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setSensorOrientation();
 	}
