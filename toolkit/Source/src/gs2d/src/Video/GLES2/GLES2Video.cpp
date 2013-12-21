@@ -136,9 +136,15 @@ bool GLES2Video::StartApplication(
 	const Texture::PIXEL_FORMAT pfBB,
 	const bool maximizable)
 {
-	glDisable(GL_DITHER);
 	glHint(GL_GENERATE_MIPMAP_HINT, GL_FASTEST);
 
+	// toggle dither
+	if (gs2d::Application::SharedData.Get("ethanon.system.gles2dither") == "enable")
+		glEnable(GL_DITHER);
+	else
+		glDisable(GL_DITHER);
+
+	// create shaders
 	m_defaultVS =    LoadInternalShader(this, "default.vs",    gs2dshaders::GLSL_default_default_vs, Shader::SF_VERTEX);
 	m_defaultPS =    LoadInternalShader(this, "default.ps",    gs2dshaders::GLSL_default_default_ps, Shader::SF_PIXEL);
 	m_fastRenderVS = LoadInternalShader(this, "fastRender.vs", gs2dshaders::GLSL_default_fastRender_vs, Shader::SF_VERTEX);
