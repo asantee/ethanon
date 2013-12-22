@@ -434,16 +434,13 @@ LRESULT WINAPI D3D9Video::MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 		case WM_CHAR:
 			switch (wParam) 
 			{ 
-				case 0x08:  // backspace 
 				case 0x0A:  // linefeed 
 				case 0x1B:  // escape 
 				case 0x0D:
 					break;
-				case 0x09:  // tab 
-					// Convert tabs to four consecutive spaces. 
-					for (int i=0; i<4; i++) 
-						SendMessage(hWnd, WM_CHAR, 0x20, 0); 
-					return 0; 
+				case 0x08:  // backspace
+					m_currentStringInput.resize(1, 0x08);
+					break;
  				default:	// displayable character 
 					unsigned short* end = (unsigned short*)(&wParam); // wParam enters as UTF-16 according to docs
 					end++;
