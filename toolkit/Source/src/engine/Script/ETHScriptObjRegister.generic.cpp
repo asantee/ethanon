@@ -257,6 +257,7 @@ asDECLARE_METHOD_WRAPPERPR(__GetLightRange,      ETHScriptEntity, GetLightRange,
 asDECLARE_METHOD_WRAPPERPR(__SetLightColor,      ETHScriptEntity, SetLightColor,       (const Vector3&),          void);
 asDECLARE_METHOD_WRAPPERPR(__SetLightPosition,   ETHScriptEntity, SetLightPosition,    (const Vector3&),          void);
 asDECLARE_METHOD_WRAPPERPR(__GetLightColor,      ETHScriptEntity, GetLightColor,       (void) const,              Vector3);
+asDECLARE_METHOD_WRAPPERPR(__GetLightPosition,   ETHScriptEntity, GetLightPosition,    (void) const,              Vector3);
 asDECLARE_METHOD_WRAPPERPR(__SetEmissiveColor,   ETHScriptEntity, SetEmissiveColor,    (const Vector3&),          void);
 asDECLARE_METHOD_WRAPPERPR(__GetEmissiveColor,   ETHScriptEntity, GetEmissiveColor,    (void) const,              Vector3);
 asDECLARE_METHOD_WRAPPERPR(__DisableLightSource, ETHScriptEntity, DisableLightSource,  (void),                    void);
@@ -394,6 +395,7 @@ void RegisterEntityMethods(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetLightColor(const vector3 &in)",    asFUNCTION(__SetLightColor),      asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetLightPosition(const vector3 &in)", asFUNCTION(__SetLightPosition),   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector3 GetLightColor() const",            asFUNCTION(__GetLightColor),      asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector3 GetLightPosition() const",         asFUNCTION(__GetLightPosition),   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetEmissiveColor(const vector3 &in)", asFUNCTION(__SetEmissiveColor),   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector3 GetEmissiveColor() const",         asFUNCTION(__GetEmissiveColor),   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void DisableLightSource()",                asFUNCTION(__DisableLightSource), asCALL_GENERIC); assert(r >= 0);
