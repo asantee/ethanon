@@ -641,6 +641,14 @@ Vector3 ETHEntity::GetLightPosition() const
 		return Vector3(0,0,0);
 }
 
+void ETHEntity::SetLightPosition(const Vector3& pos)
+{
+	if (HasLightSource())
+	{
+		m_properties.light->pos = pos;
+	}
+}
+
 Vector3 ETHEntity::GetLightRelativePosition() const
 {
 	if (HasLightSource())

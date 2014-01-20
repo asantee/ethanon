@@ -66,7 +66,6 @@ public:
 	int GetID() const;
 	Vector2 ComputeOrigin(const Vector2 &v2Size) const;
 	Vector2 ComputeAbsoluteOrigin(const Vector2 &v2Size) const;
-	Vector3 GetLightPosition() const;
 	Vector3 GetLightRelativePosition() const;
 	ETHCollisionBox GetCollisionBox() const;
 	ETHCompoundShapePtr GetCompoundShape() const;
@@ -145,6 +144,8 @@ public:
 	float GetLightRange() const;
 	void SetLightColor(const Vector3 &color);
 	Vector3 GetLightColor() const;
+	void SetLightPosition(const Vector3& pos);
+	Vector3 GetLightPosition() const;
 	void DisableLightSource();
 
 	void SetFlipX(const bool flipX);

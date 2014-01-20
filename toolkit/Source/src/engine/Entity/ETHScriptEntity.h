@@ -64,7 +64,6 @@ public:
 	virtual bool IsStatic() const = 0;
 	virtual bool IsTemporary() const = 0;
 	virtual bool IsInvisible() const = 0;
-	virtual Vector3 GetLightPosition() const = 0;
 	virtual void Hide(const bool hide) = 0;
 	virtual bool IsHidden() const = 0;
 	virtual ETHEntityProperties::VIEW_RECT GetScreenRect(const ETHSceneProperties& sceneProps) const = 0;
@@ -96,6 +95,8 @@ public:
 	virtual float GetParallaxIndividualIntensity() const = 0;
 	virtual void SetParallaxIndividualIntensity(const float& individualIntensity) = 0;
 
+	virtual void SetLightPosition(const Vector3& pos) = 0;
+	virtual Vector3 GetLightPosition() const = 0;
 	virtual void SetLightRange(const float range) = 0;
 	virtual float GetLightRange() const = 0;
 	virtual void SetLightColor(const Vector3 &color) = 0;

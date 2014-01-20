@@ -255,6 +255,7 @@ asDECLARE_METHOD_WRAPPERPR(__HasLightSource,     ETHScriptEntity, HasLightSource
 asDECLARE_METHOD_WRAPPERPR(__SetLightRange,      ETHScriptEntity, SetLightRange,       (const float),             void);
 asDECLARE_METHOD_WRAPPERPR(__GetLightRange,      ETHScriptEntity, GetLightRange,       (void) const,              float);
 asDECLARE_METHOD_WRAPPERPR(__SetLightColor,      ETHScriptEntity, SetLightColor,       (const Vector3&),          void);
+asDECLARE_METHOD_WRAPPERPR(__SetLightPosition,   ETHScriptEntity, SetLightPosition,    (const Vector3&),          void);
 asDECLARE_METHOD_WRAPPERPR(__GetLightColor,      ETHScriptEntity, GetLightColor,       (void) const,              Vector3);
 asDECLARE_METHOD_WRAPPERPR(__SetEmissiveColor,   ETHScriptEntity, SetEmissiveColor,    (const Vector3&),          void);
 asDECLARE_METHOD_WRAPPERPR(__GetEmissiveColor,   ETHScriptEntity, GetEmissiveColor,    (void) const,              Vector3);
@@ -391,6 +392,7 @@ void RegisterEntityMethods(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetLightRange(const float)",          asFUNCTION(__SetLightRange),      asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "float GetLightRange() const",              asFUNCTION(__GetLightRange),      asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetLightColor(const vector3 &in)",    asFUNCTION(__SetLightColor),      asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetLightPosition(const vector3 &in)", asFUNCTION(__SetLightPosition),   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector3 GetLightColor() const",            asFUNCTION(__GetLightColor),      asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetEmissiveColor(const vector3 &in)", asFUNCTION(__SetEmissiveColor),   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector3 GetEmissiveColor() const",         asFUNCTION(__GetEmissiveColor),   asCALL_GENERIC); assert(r >= 0);
