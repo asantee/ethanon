@@ -62,6 +62,7 @@ asDECLARE_FUNCTION_WRAPPERPR(__LoadSceneSSSArgs,   ETHScriptWrapper::LoadSceneIn
 asDECLARE_FUNCTION_WRAPPERPR(__LoadSceneSSSSArgs,  ETHScriptWrapper::LoadSceneInScript, (const str_type::string&, const str_type::string&, const str_type::string&, const str_type::string&), void);
 asDECLARE_FUNCTION_WRAPPERPR(__LoadSceneSSSVArgs,  ETHScriptWrapper::LoadSceneInScript, (const str_type::string&, const str_type::string&, const str_type::string&, const Vector2&), void);
 asDECLARE_FUNCTION_WRAPPERPR(__LoadSceneSSSSVArgs, ETHScriptWrapper::LoadSceneInScript, (const str_type::string&, const str_type::string&, const str_type::string&, const str_type::string&, const Vector2&), void);
+asDECLARE_FUNCTION_WRAPPERPR(__LoadSceneSSSSSVArgs, ETHScriptWrapper::LoadSceneInScript, (const str_type::string&, const str_type::string&, const str_type::string&, const str_type::string&, const str_type::string&, const Vector2&), void);
 
 asDECLARE_FUNCTION_WRAPPER(__SaveScene, ETHScriptWrapper::SaveScene);
 
@@ -312,10 +313,11 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void print(const uint)",       asFUNCTION(__PrintUInt),  asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in)", asFUNCTION(__LoadScene1Arg), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in, const string &in, const string &in onSceneUpdate = \"\")",                                      asFUNCTION(__LoadSceneSSSArgs), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in, const string &in, const string &in, const string &in)",                    asFUNCTION(__LoadSceneSSSSArgs), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in, const string &in, const string &in, const vector2 &in)",                   asFUNCTION(__LoadSceneSSSVArgs), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in, const string &in, const string &in, const string &in, const vector2 &in)", asFUNCTION(__LoadSceneSSSSVArgs), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in, const string &in, const string &in onSceneUpdate = \"\")",                                   asFUNCTION(__LoadSceneSSSArgs), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in, const string &in, const string &in, const string &in)",                                      asFUNCTION(__LoadSceneSSSSArgs), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in, const string &in, const string &in, const vector2 &in)",                                     asFUNCTION(__LoadSceneSSSVArgs), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in, const string &in, const string &in, const string &in, const vector2 &in)",                   asFUNCTION(__LoadSceneSSSSVArgs), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in, const string &in, const string &in, const string &in, const string &in, const vector2 &in)", asFUNCTION(__LoadSceneSSSSSVArgs), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool SaveScene(const string &in)",														                   asFUNCTION(__SaveScene),      asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("float GetTimeF()",                  asFUNCTION(__GetTimeF),       asCALL_GENERIC); assert(r >= 0);

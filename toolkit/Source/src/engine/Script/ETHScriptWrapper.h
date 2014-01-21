@@ -109,6 +109,7 @@ public:
 		str_type::string onSceneUpdateFunc;
 		str_type::string onSceneLoadedFunc;
 		str_type::string onResumeFunc;
+		str_type::string lightmapDirectory;
 		Vector2 bucketSize;
 
 	public:
@@ -117,6 +118,7 @@ public:
 		str_type::string GetOnSceneLoadedFunc() const;
 		str_type::string GetOnSceneUpdateFunc() const;
 		str_type::string GetOnResumeFunc() const;
+		str_type::string GetLightmapDirectory() const;
 		Vector2 GetBucketSize() const;
 
 		void SetNextScene(
@@ -124,6 +126,7 @@ public:
 			const str_type::string& onSceneLoadedFunc,
 			const str_type::string& onSceneUpdateFunc,
 			const str_type::string& onResumeFunc,
+			const str_type::string& lightmapDirectory,
 			const Vector2& bucketSize);
 
 		void Reset();
@@ -154,9 +157,16 @@ public:
 
 	static void LoadSceneInScript(const str_type::string &escFile);
 
-	static void LoadSceneInScript(const str_type::string &escFile, const str_type::string &onSceneLoadedFunc, const str_type::string &onSceneUpdateFunc);
+	static void LoadSceneInScript(
+		const str_type::string &escFile,
+		const str_type::string &onSceneLoadedFunc,
+		const str_type::string &onSceneUpdateFunc);
 
-	static void LoadSceneInScript(const str_type::string &escFile, const str_type::string &onSceneLoadedFunc, const str_type::string &onSceneUpdateFunc, const Vector2& v2BucketSize);
+	static void LoadSceneInScript(
+		const str_type::string &escFile,
+		const str_type::string &onSceneLoadedFunc,
+		const str_type::string &onSceneUpdateFunc,
+		const Vector2& v2BucketSize);
 
 	static void LoadSceneInScript(
 		const str_type::string& escFile,
@@ -171,8 +181,16 @@ public:
 		const str_type::string& onResumeFunc,
 		const Vector2& v2BucketSize);
 
+	static void LoadSceneInScript(
+		const str_type::string& escFile,
+		const str_type::string& onSceneLoadedFunc,
+		const str_type::string& onSceneUpdateFunc,
+		const str_type::string& onResumeFunc,
+		const str_type::string &lightmapDirectory,
+		const Vector2& v2BucketSize);
+
 	static bool SaveScene(const str_type::string &escFile);
-	static bool LoadScene(const str_type::string &escFile, const Vector2& bucketSize);
+	static bool LoadScene(const str_type::string &escFile, const str_type::string& lightmapDirectory, const Vector2& bucketSize);
 
 	/// temporarily store the names of the next functions to load them after
 	/// the script is finished
@@ -244,8 +262,8 @@ public:
 	static int AddEntity(const str_type::string &file, const Vector3 &v3Pos, const str_type::string &alternativeName);
 	static ETHEntity *DeleteEntity(ETHEntity *pEntity);
 	static bool GenerateLightmaps();
-	static void ReadLightmapsFromBitmapFiles();
-	static void LoadLightmaps();
+	static void ReadLightmapsFromBitmapFiles(const str_type::string& directory);
+	static void LoadLightmaps(const str_type::string& directory);
 	static ETHEntity *SeekEntity(const int id);
 	static ETHEntity *SeekEntity(const str_type::string &name);
 	static bool LoadMusic(const str_type::string &file);

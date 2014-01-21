@@ -68,20 +68,30 @@ str_type::string ETHScriptWrapper::ETH_NEXT_SCENE::GetOnResumeFunc() const
 	return onResumeFunc;
 }
 
+str_type::string ETHScriptWrapper::ETH_NEXT_SCENE::GetLightmapDirectory() const
+{
+	return lightmapDirectory;
+}
+
 Vector2 ETHScriptWrapper::ETH_NEXT_SCENE::GetBucketSize() const
 {
 	return bucketSize;
 }
 
-void ETHScriptWrapper::ETH_NEXT_SCENE::SetNextScene(const str_type::string &sceneName, const str_type::string &onSceneLoadedFunc,
-													const str_type::string &onSceneUpdateFunc, const str_type::string& onResumeFunc,
-													const Vector2 &bucketSize)
+void ETHScriptWrapper::ETH_NEXT_SCENE::SetNextScene(
+	const str_type::string &sceneName,
+	const str_type::string &onSceneLoadedFunc,
+	const str_type::string &onSceneUpdateFunc,
+	const str_type::string& onResumeFunc,
+	const str_type::string& lightmapDirectory,
+	const Vector2 &bucketSize)
 {
 	this->sceneName = sceneName;
 	this->onSceneLoadedFunc = onSceneLoadedFunc;
 	this->onSceneUpdateFunc = onSceneUpdateFunc;
 	this->onResumeFunc = onResumeFunc;
 	this->bucketSize = bucketSize;
+	this->lightmapDirectory = lightmapDirectory;
 }
 
 ETHEntity *ETHScriptWrapper::SeekEntity(const int id)
@@ -195,19 +205,20 @@ ETHEntity *ETHScriptWrapper::DeleteEntity(ETHEntity *pEntity)
 	return 0;
 }
 
-void ETHScriptWrapper::LoadLightmaps()
+void ETHScriptWrapper::LoadLightmaps(const str_type::string& directory)
 {
 	if (m_usePreLoadedLightmapsFromFile)
-		ReadLightmapsFromBitmapFiles();
+		ReadLightmapsFromBitmapFiles(directory);
 	else
 		GenerateLightmaps();
 }
 
-void ETHScriptWrapper::ReadLightmapsFromBitmapFiles()
+void ETHScriptWrapper::ReadLightmapsFromBitmapFiles(const str_type::string& directory)
 {
 	if (m_pScene)
 	{
 		const str_type::string resourceDirectory = (m_expansionFileManager) ? GS_L("") : GetResourceDirectory();
+		const str_type::string lightmapDirectory = (directory.empty()) ? GetSceneFileName() : directory;
 		
 		Platform::FileIOHubPtr fileIOHub = m_provider->GetFileIOHub();
 		Platform::FileManagerPtr currentFileManager     = fileIOHub->GetFileManager();
@@ -217,7 +228,7 @@ void ETHScriptWrapper::ReadLightmapsFromBitmapFiles()
 			fileIOHub->SetFileManager(m_expansionFileManager, resourceDirectory);
 		}
 		
-		m_pScene->LoadLightmapsFromBitmapFiles(resourceDirectory + GetSceneFileName());
+		m_pScene->LoadLightmapsFromBitmapFiles(resourceDirectory + lightmapDirectory);
 		
 		fileIOHub->SetFileManager(currentFileManager, currentResourceDirectory);
 	}
@@ -567,7 +578,7 @@ void ETHScriptWrapper::ResolveJoints()
 		m_pScene->ResolveJoints();
 }
 
-bool ETHScriptWrapper::LoadScene(const str_type::string &escFile, const Vector2& bucketSize)
+bool ETHScriptWrapper::LoadScene(const str_type::string &escFile, const str_type::string& lightmapDirectory, const Vector2& bucketSize)
 {
 	if (!ArePersistentResourcesEnabled())
 	{
@@ -605,7 +616,7 @@ bool ETHScriptWrapper::LoadScene(const str_type::string &escFile, const Vector2&
 	m_drawableManager.Clear();
 	m_sceneFileName = escFile;
 	m_pScene->EnableLightmaps(m_useLightmaps);
-	LoadLightmaps();
+	LoadLightmaps(lightmapDirectory);
 	m_provider->GetVideo()->SetCameraPos(Vector2(0,0));
 	LoadSceneScripts();
 	m_timer.CalcLastFrame();
@@ -614,32 +625,86 @@ bool ETHScriptWrapper::LoadScene(const str_type::string &escFile, const Vector2&
 
 void ETHScriptWrapper::LoadSceneInScript(const str_type::string &escFile)
 {
-	LoadSceneInScript(escFile, GS_L(""), GS_L(""), GS_L(""), Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
+	LoadSceneInScript(
+		escFile,
+		GS_L(""),
+		GS_L(""),
+		GS_L(""),
+		Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
 }
 
-void ETHScriptWrapper::LoadSceneInScript(const str_type::string &escFile, const str_type::string &onSceneLoadedFunc,
-										 const str_type::string &onSceneUpdateFunc, const str_type::string &onResumeFunc)
+void ETHScriptWrapper::LoadSceneInScript(
+	const str_type::string &escFile,
+	const str_type::string &onSceneLoadedFunc,
+	const str_type::string &onSceneUpdateFunc,
+	const str_type::string &onResumeFunc)
 {
-	LoadSceneInScript(escFile, onSceneLoadedFunc, onSceneUpdateFunc, onResumeFunc, Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
+	LoadSceneInScript(
+		escFile,
+		onSceneLoadedFunc,
+		onSceneUpdateFunc,
+		onResumeFunc,
+		Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
 }
 
 void ETHScriptWrapper::LoadSceneInScript(const str_type::string &escFile, const str_type::string &onSceneLoadedFunc, const str_type::string &onSceneUpdateFunc)
 {
-	LoadSceneInScript(escFile, onSceneLoadedFunc, onSceneUpdateFunc, GS_L(""), Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
+	LoadSceneInScript(
+		escFile,
+		onSceneLoadedFunc,
+		onSceneUpdateFunc,
+		GS_L(""),
+		Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
 }
 
-void ETHScriptWrapper::LoadSceneInScript(const str_type::string &escFile, const str_type::string &onSceneLoadedFunc,
-										 const str_type::string &onSceneUpdateFunc, const Vector2 &v2BucketSize)
+void ETHScriptWrapper::LoadSceneInScript(
+	const str_type::string &escFile,
+	const str_type::string &onSceneLoadedFunc,
+	const str_type::string &onSceneUpdateFunc,
+	const Vector2 &v2BucketSize)
 {
-	LoadSceneInScript(escFile, onSceneLoadedFunc, onSceneUpdateFunc, GS_L(""), v2BucketSize);
+	LoadSceneInScript(
+		escFile,
+		onSceneLoadedFunc,
+		onSceneUpdateFunc,
+		GS_L(""),
+		v2BucketSize);
 }
 
-void ETHScriptWrapper::LoadSceneInScript(const str_type::string &escFile, const str_type::string &onSceneLoadedFunc,
-										 const str_type::string &onSceneUpdateFunc, const str_type::string &onResumeFunc, const Vector2 &v2BucketSize)
+void ETHScriptWrapper::LoadSceneInScript(
+	const str_type::string &escFile,
+	const str_type::string &onSceneLoadedFunc,
+	const str_type::string &onSceneUpdateFunc,
+	const str_type::string &onResumeFunc,
+	const Vector2 &v2BucketSize)
+{
+	LoadSceneInScript(
+		escFile,
+		onSceneLoadedFunc,
+		onSceneUpdateFunc,
+		onResumeFunc,
+		GS_L(""),
+		v2BucketSize);
+}
+
+void ETHScriptWrapper::LoadSceneInScript(
+	const str_type::string &escFile,
+	const str_type::string &onSceneLoadedFunc,
+	const str_type::string &onSceneUpdateFunc,
+	const str_type::string &onResumeFunc,
+	const str_type::string &lightmapDirectory,
+	const Vector2 &v2BucketSize)
 {
 	const float globalScale = m_provider->GetGlobalScaleManager()->GetScale();
 	const str_type::string& sceneName((escFile == GS_L("")) ? _ETH_EMPTY_SCENE_STRING : escFile);
-	m_nextScene.SetNextScene(sceneName, onSceneLoadedFunc, onSceneUpdateFunc, onResumeFunc, v2BucketSize * globalScale);
+	
+	m_nextScene.SetNextScene(
+		sceneName,
+		onSceneLoadedFunc,
+		onSceneUpdateFunc,
+		onResumeFunc,
+		lightmapDirectory,
+		v2BucketSize * globalScale);
 }
 
 str_type::string ETHScriptWrapper::GetSceneFileName()

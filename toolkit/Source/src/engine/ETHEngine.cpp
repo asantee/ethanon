@@ -175,7 +175,7 @@ bool ETHEngine::LoadNextSceneIfRequested()
 {
 	if (m_nextScene.HasNextScene())
 	{
-		LoadScene(m_nextScene.GetSceneName(), m_nextScene.GetBucketSize());
+		LoadScene(m_nextScene.GetSceneName(), m_nextScene.GetLightmapDirectory(), m_nextScene.GetBucketSize());
 		m_nextScene.Reset();
 		GarbageCollect(DESTROY_ALL_GARBAGE, m_pASEngine);
 	}
