@@ -138,15 +138,23 @@ ETHEntity *ETHScriptWrapper::SeekEntity(const str_type::string &name)
 	return 0;
 }
 
-int ETHScriptWrapper::AddEntity(const str_type::string &file, const Vector3 &v3Pos, const float angle, ETHEntity **ppOutEntity,
-								const str_type::string &alternativeName, const float scale)
+int ETHScriptWrapper::AddEntity(
+	const str_type::string &file,
+	const Vector3 &v3Pos,
+	const float angle,
+	ETHEntity **ppOutEntity,
+	const str_type::string &alternativeName,
+	const float scale)
 {
 	if (WarnIfRunsInMainFunction(GS_L("AddEntity")))
 		return -1;
 
 	const str_type::string resourceDirectory = m_provider->GetFileIOHub()->GetResourceDirectory();
-	const ETHEntityProperties* props = m_entityCache.Get(file, resourceDirectory + ETHDirectories::GetEntityDirectory(),
-														 m_provider->GetFileManager());
+
+	const ETHEntityProperties* props = m_entityCache.Get(
+		file,
+		resourceDirectory + ETHDirectories::GetEntityDirectory(),
+		m_provider->GetFileManager());
 
 	if (!props)
 	{
