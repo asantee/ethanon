@@ -116,7 +116,7 @@ bool ETHShaderManager::BeginAmbientPass(const ETHSpriteEntity *pRender, const fl
 	{
 		m_video->SetVertexShader(m_defaultStaticAmbientVS);
 	}
-	m_parallaxManager.SetShaderParameters(m_video, m_video->GetVertexShader(), pRender->GetPosition(), pRender->GetParallaxIndividualIntensity(), false);
+	m_parallaxManager.SetShaderParameters(m_video, m_video->GetVertexShader(), pRender->GetPosition(), pRender->GetParallaxIntensity(), false);
 
 	m_lastAM = m_video->GetAlphaMode();
 	return true;
@@ -152,7 +152,7 @@ bool ETHShaderManager::BeginLightPass(ETHSpriteEntity *pRender, const ETHLight* 
 		return false;
 
 	m_currentProfile->BeginLightPass(pRender, v3LightPos, v2Size, light, maxHeight, minHeight, lightIntensity, drawToTarget);
-	m_parallaxManager.SetShaderParameters(m_video, m_video->GetVertexShader(), pRender->GetPosition(), pRender->GetParallaxIndividualIntensity(), drawToTarget);
+	m_parallaxManager.SetShaderParameters(m_video, m_video->GetVertexShader(), pRender->GetPosition(), pRender->GetParallaxIntensity(), drawToTarget);
 	return true;
 }
 

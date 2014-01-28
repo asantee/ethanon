@@ -1009,12 +1009,12 @@ bool ETHEntity::IsBullet()
 	return (m_properties.bullet == ETH_TRUE);
 }
 
-float ETHEntity::GetParallaxIndividualIntensity() const
+float ETHEntity::GetParallaxIntensity() const
 {
 	return m_properties.parallaxIntensity;
 }
 
-void ETHEntity::SetParallaxIndividualIntensity(const float& individualIntensity)
+void ETHEntity::SetParallaxIntensity(const float individualIntensity)
 {
 	m_properties.parallaxIntensity = individualIntensity;
 }

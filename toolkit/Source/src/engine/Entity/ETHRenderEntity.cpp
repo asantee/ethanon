@@ -59,7 +59,7 @@ bool ETHRenderEntity::ShouldUseFourTriangles(const float parallaxIntensity) cons
 	if (GetType() != ETHEntityProperties::ET_VERTICAL)
 		return false;
 
-	if ((parallaxIntensity * GetParallaxIndividualIntensity()) == 0.0f)
+	if ((parallaxIntensity * GetParallaxIntensity()) == 0.0f)
 		return false;
 
 	return true;

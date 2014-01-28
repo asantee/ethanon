@@ -353,7 +353,7 @@ Vector2 ETHSpriteEntity::GetSpriteCut() const
 
 Vector2 ETHSpriteEntity::ComputeParallaxOffset() const
 {
-	return m_provider->GetShaderManager()->ComputeParallaxOffset(m_provider->GetVideo(), GetPosition(), GetParallaxIndividualIntensity());
+	return m_provider->GetShaderManager()->ComputeParallaxOffset(m_provider->GetVideo(), GetPosition(), GetParallaxIntensity());
 }
 
 bool ETHSpriteEntity::SetDepth(const float maxHeight, const float minHeight)

@@ -92,8 +92,8 @@ public:
 	virtual bool MirrorParticleSystemX(const unsigned int n, const bool mirrorGravity) = 0;
 	virtual bool MirrorParticleSystemY(const unsigned int n, const bool mirrorGravity) = 0;
 	virtual Vector2 ComputeParallaxOffset() const = 0;
-	virtual float GetParallaxIndividualIntensity() const = 0;
-	virtual void SetParallaxIndividualIntensity(const float& individualIntensity) = 0;
+	virtual float GetParallaxIntensity() const = 0;
+	virtual void SetParallaxIntensity(const float individualIntensity) = 0;
 
 	virtual void SetLightPosition(const Vector3& pos) = 0;
 	virtual Vector3 GetLightPosition() const = 0;

@@ -209,8 +209,8 @@ public:
 
 	virtual void ReleaseLightmap() = 0;
 	
-	float GetParallaxIndividualIntensity() const;
-	void SetParallaxIndividualIntensity(const float& individualIntensity);
+	float GetParallaxIntensity() const;
+	void SetParallaxIntensity(const float individualIntensity);
 	ETHPolygonPtr GetPolygon() const;
 
 	void SetPositionX(const float v, ETHBucketManager& buckets);

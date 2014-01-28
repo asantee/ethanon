@@ -262,8 +262,8 @@ asDECLARE_METHOD_WRAPPERPR(__SetEmissiveColor,   ETHScriptEntity, SetEmissiveCol
 asDECLARE_METHOD_WRAPPERPR(__GetEmissiveColor,   ETHScriptEntity, GetEmissiveColor,    (void) const,              Vector3);
 asDECLARE_METHOD_WRAPPERPR(__DisableLightSource, ETHScriptEntity, DisableLightSource,  (void),                    void);
 
-asDECLARE_METHOD_WRAPPERPR(__SetParallaxIntensity, ETHScriptEntity, SetParallaxIndividualIntensity, (const float), void);
-asDECLARE_METHOD_WRAPPERPR(__GetParallaxIntensity, ETHScriptEntity, GetParallaxIndividualIntensity, (void) const,  float);
+asDECLARE_METHOD_WRAPPERPR(__SetParallaxIntensity, ETHScriptEntity, SetParallaxIntensity, (const float), void);
+asDECLARE_METHOD_WRAPPERPR(__GetParallaxIntensity, ETHScriptEntity, GetParallaxIntensity, (void) const,  float);
 
 asDECLARE_METHOD_WRAPPERPR(__KillParticleSystem, ETHScriptEntity, KillParticleSystem, (const unsigned int),       void);
 asDECLARE_METHOD_WRAPPERPR(__ParticlesKilled,    ETHScriptEntity, ParticlesKilled,    (const unsigned int) const, bool);
