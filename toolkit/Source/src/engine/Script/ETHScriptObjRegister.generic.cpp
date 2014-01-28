@@ -262,6 +262,9 @@ asDECLARE_METHOD_WRAPPERPR(__SetEmissiveColor,   ETHScriptEntity, SetEmissiveCol
 asDECLARE_METHOD_WRAPPERPR(__GetEmissiveColor,   ETHScriptEntity, GetEmissiveColor,    (void) const,              Vector3);
 asDECLARE_METHOD_WRAPPERPR(__DisableLightSource, ETHScriptEntity, DisableLightSource,  (void),                    void);
 
+asDECLARE_METHOD_WRAPPERPR(__SetParallaxIntensity, ETHScriptEntity, SetParallaxIndividualIntensity, (const float), void);
+asDECLARE_METHOD_WRAPPERPR(__GetParallaxIntensity, ETHScriptEntity, GetParallaxIndividualIntensity, (void) const,  float);
+
 asDECLARE_METHOD_WRAPPERPR(__KillParticleSystem, ETHScriptEntity, KillParticleSystem, (const unsigned int),       void);
 asDECLARE_METHOD_WRAPPERPR(__ParticlesKilled,    ETHScriptEntity, ParticlesKilled,    (const unsigned int) const, bool);
 asDECLARE_METHOD_WRAPPERPR(__EraseData,          ETHScriptEntity, EraseData,          (const str_type::string&),  bool);
@@ -386,19 +389,21 @@ void RegisterEntityMethods(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "string GetGloss() const",                  asFUNCTION(__GetGlossBitmap),     asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "string GetHalo() const",                   asFUNCTION(__GetHaloBitmap),      asCALL_GENERIC); assert(r >= 0);
 
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool IsInvisible() const",                 asFUNCTION(__IsInvisible),        asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool HasParticleSystem() const",           asFUNCTION(__HasParticleSystem0), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool HasParticleSystem(uint) const",       asFUNCTION(__HasParticleSystem1), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool HasLightSource() const",              asFUNCTION(__HasLightSource),     asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetLightRange(const float)",          asFUNCTION(__SetLightRange),      asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "float GetLightRange() const",              asFUNCTION(__GetLightRange),      asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetLightColor(const vector3 &in)",    asFUNCTION(__SetLightColor),      asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetLightPosition(const vector3 &in)", asFUNCTION(__SetLightPosition),   asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector3 GetLightColor() const",            asFUNCTION(__GetLightColor),      asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector3 GetLightPosition() const",         asFUNCTION(__GetLightPosition),   asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetEmissiveColor(const vector3 &in)", asFUNCTION(__SetEmissiveColor),   asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector3 GetEmissiveColor() const",         asFUNCTION(__GetEmissiveColor),   asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "void DisableLightSource()",                asFUNCTION(__DisableLightSource), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool IsInvisible() const",                 asFUNCTION(__IsInvisible),          asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool HasParticleSystem() const",           asFUNCTION(__HasParticleSystem0),   asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool HasParticleSystem(uint) const",       asFUNCTION(__HasParticleSystem1),   asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool HasLightSource() const",              asFUNCTION(__HasLightSource),       asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetLightRange(const float)",          asFUNCTION(__SetLightRange),        asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "float GetLightRange() const",              asFUNCTION(__GetLightRange),        asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetLightColor(const vector3 &in)",    asFUNCTION(__SetLightColor),        asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetLightPosition(const vector3 &in)", asFUNCTION(__SetLightPosition),     asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector3 GetLightColor() const",            asFUNCTION(__GetLightColor),        asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector3 GetLightPosition() const",         asFUNCTION(__GetLightPosition),     asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetEmissiveColor(const vector3 &in)", asFUNCTION(__SetEmissiveColor),     asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector3 GetEmissiveColor() const",         asFUNCTION(__GetEmissiveColor),     asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "void DisableLightSource()",                asFUNCTION(__DisableLightSource),   asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetParallaxIntensity(const float)",   asFUNCTION(__SetParallaxIntensity), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "float GetParallaxIntensity() const",       asFUNCTION(__GetParallaxIntensity), asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void Scale(const float)",          asFUNCTION(__ScaleF),   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void Scale(const vector2& in)",    asFUNCTION(__ScaleV2),  asCALL_GENERIC); assert(r >= 0);
