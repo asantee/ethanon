@@ -649,7 +649,6 @@
 				74F3A4F31632E3870064C9A5 /* Headers */,
 				74F3A4F41632E3870064C9A5 /* Resources */,
 				742D34131637A62C00A447A2 /* CopyFiles */,
-				74838D6A1641C2390027CFFC /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -697,23 +696,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		74838D6A1641C2390027CFFC /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/$(PRODUCT_NAME) ",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "install_name_tool -id @loader_path/Frameworks/libirrklang.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.framework/Versions/A/Frameworks/libirrklang.dylib\"\ninstall_name_tool -change /usr/local/lib/libirrklang.dylib @loader_path/Frameworks/libirrklang.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.framework/Versions/A/$PRODUCT_NAME\"";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		74F3A4F11632E3870064C9A5 /* Sources */ = {
