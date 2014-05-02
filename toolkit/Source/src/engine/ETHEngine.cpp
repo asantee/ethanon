@@ -41,6 +41,7 @@ using namespace gs2d;
 using namespace gs2d::math;
 
 const str_type::string ETHEngine::ETH_SCRIPT_MODULE(GS_L("EthanonModule"));
+const str_type::string ETHEngine::SCRIPT_EXCEPTION_LOG_SHARED_DATA_KEY(GS_L("com.ethanonengine.scriptExceptions"));
 
 gs2d::BaseApplicationPtr gs2d::CreateBaseApplication()
 {
@@ -64,6 +65,7 @@ ETHEngine::ETHEngine(const bool testing, const bool compileAndRun) :
 	m_lastBGColor(0x0),
 	m_hasBeenResumed(false)
 {
+	Application::SharedData.Create(SCRIPT_EXCEPTION_LOG_SHARED_DATA_KEY, GS_L(""), false);
 }
 
 ETHEngine::~ETHEngine()
@@ -506,6 +508,9 @@ void ETHEngine::ExceptionCallback(asIScriptContext *ctx, void *param)
 		}
 	}
 	ss << std::endl;
+	
+	Application::SharedData.Set(SCRIPT_EXCEPTION_LOG_SHARED_DATA_KEY, ss.str());
+
 	m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
 }
 
