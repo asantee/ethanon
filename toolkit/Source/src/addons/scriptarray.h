@@ -25,6 +25,7 @@ struct SArrayCache;
 class CScriptArray
 {
 public:
+	CScriptArray(asIObjectType *ot, void *initBuf); // Called from script when initialized with list
 	CScriptArray(asUINT length, asIObjectType *ot);
 	CScriptArray(asUINT length, void *defVal, asIObjectType *ot);
 	CScriptArray(const CScriptArray &other);
@@ -59,12 +60,14 @@ public:
 	void RemoveLast();
 	void SortAsc();
 	void SortDesc();
-	void SortAsc(asUINT index, asUINT count);
-	void SortDesc(asUINT index, asUINT count);
-	void Sort(asUINT index, asUINT count, bool asc);
+	void SortAsc(asUINT startAt, asUINT count);
+	void SortDesc(asUINT startAt, asUINT count);
+	void Sort(asUINT startAt, asUINT count, bool asc);
 	void Reverse();
 	int  Find(void *value) const;
-	int  Find(asUINT index, void *value) const;
+	int  Find(asUINT startAt, void *value) const;
+	int  FindByRef(void *ref) const;
+	int  FindByRef(asUINT startAt, void *ref) const;
 
 	// GC methods
 	int  GetRefCount();
@@ -81,7 +84,7 @@ protected:
 	int               elementSize;
 	int               subTypeId;
 
-	bool  Less(const void *a, const void *b, bool asc, asIScriptContext *ctx);
+	bool  Less(const void *a, const void *b, bool asc, asIScriptContext *ctx, SArrayCache *cache);
 	void *GetArrayItemPointer(int index);
 	void *GetDataPointer(void *buffer);
 	void  Copy(void *dst, void *src);

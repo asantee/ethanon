@@ -190,7 +190,7 @@
 		74A21A98182BFA9D0000F783 /* hl_wrapperfactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 74A21A7E182BFA9D0000F783 /* hl_wrapperfactory.h */; };
 		74C111DF16971F1F00AEDCE1 /* box2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C111CD16971EAB00AEDCE1 /* box2d.framework */; };
 		74C111E016971F2300AEDCE1 /* gs2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C111D316971EAB00AEDCE1 /* gs2d.framework */; };
-		74C111E116971F2700AEDCE1 /* libangelscript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C111D816971EAB00AEDCE1 /* libangelscript.a */; };
+		74E8F17E1915485E0091A778 /* libangelscript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74E8F178191546820091A778 /* libangelscript.a */; };
 		74EB49AC16653D0A002DA2F0 /* ETHEntityRenderingManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74EB49AA16653D0A002DA2F0 /* ETHEntityRenderingManager.cpp */; };
 		74EB49AD16653D0A002DA2F0 /* ETHEntityRenderingManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 74EB49AB16653D0A002DA2F0 /* ETHEntityRenderingManager.h */; };
 		74F00AD71646B9EB00B8B51B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F00AD61646B9EB00B8B51B /* Cocoa.framework */; };
@@ -218,13 +218,6 @@
 			remoteGlobalIDString = 74F3A4F61632E3870064C9A5;
 			remoteInfo = gs2d;
 		};
-		74C111D716971EAB00AEDCE1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 74F0D19D169703F1009A3C78 /* angelscript.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 74490B8916763D0B004116B5;
-			remoteInfo = angelscript;
-		};
 		74C111D916971EC500AEDCE1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 74F0D191169703C9009A3C78 /* gs2d.xcodeproj */;
@@ -239,12 +232,26 @@
 			remoteGlobalIDString = 7421F161164734E900C55BAE;
 			remoteInfo = box2d;
 		};
-		74C111DD16971ED800AEDCE1 /* PBXContainerItemProxy */ = {
+		74E8F177191546820091A778 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 74F0D19D169703F1009A3C78 /* angelscript.xcodeproj */;
+			containerPortal = 74E8F172191546820091A778 /* angelscript.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D2AAC07E0554694100DB518D;
+			remoteInfo = "angelscript OSX";
+		};
+		74E8F179191546820091A778 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 74E8F172191546820091A778 /* angelscript.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6E91FFE31823DA0D00D59009;
+			remoteInfo = "angelscript iOS";
+		};
+		74E8F17B1915473C0091A778 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 74E8F172191546820091A778 /* angelscript.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 74490B8816763D0B004116B5;
-			remoteInfo = angelscript;
+			remoteGlobalIDString = D2AAC07D0554694100DB518D;
+			remoteInfo = "angelscript OSX";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -442,6 +449,7 @@
 		74A21A7C182BFA9D0000F783 /* hl_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_types.h; path = ../../../src/vendors/hashlib2plus/src/hl_types.h; sourceTree = "<group>"; };
 		74A21A7D182BFA9D0000F783 /* hl_wrapperfactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = hl_wrapperfactory.cpp; path = ../../../src/vendors/hashlib2plus/src/hl_wrapperfactory.cpp; sourceTree = "<group>"; };
 		74A21A7E182BFA9D0000F783 /* hl_wrapperfactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_wrapperfactory.h; path = ../../../src/vendors/hashlib2plus/src/hl_wrapperfactory.h; sourceTree = "<group>"; };
+		74E8F172191546820091A778 /* angelscript.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = angelscript.xcodeproj; path = ../../../src/angelscript/projects/xcode/angelscript.xcodeproj; sourceTree = "<group>"; };
 		74EB49AA16653D0A002DA2F0 /* ETHEntityRenderingManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityRenderingManager.cpp; path = ../../../../src/engine/Renderer/ETHEntityRenderingManager.cpp; sourceTree = "<group>"; };
 		74EB49AB16653D0A002DA2F0 /* ETHEntityRenderingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityRenderingManager.h; path = ../../../../src/engine/Renderer/ETHEntityRenderingManager.h; sourceTree = "<group>"; };
 		74F00AD31646B9EB00B8B51B /* engine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = engine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -454,7 +462,6 @@
 		74F00AE21646B9EB00B8B51B /* engine-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "engine-Prefix.pch"; sourceTree = "<group>"; };
 		74F0D191169703C9009A3C78 /* gs2d.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = gs2d.xcodeproj; path = ../../../src/gs2d/projects/xcode/gs2d/gs2d.xcodeproj; sourceTree = "<group>"; };
 		74F0D197169703E7009A3C78 /* box2d.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = box2d.xcodeproj; path = ../../../src/box2d/Build/xcode/box2d.xcodeproj; sourceTree = "<group>"; };
-		74F0D19D169703F1009A3C78 /* angelscript.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = angelscript.xcodeproj; path = ../../../src/angelscript/projects/osx/angelscript/angelscript.xcodeproj; sourceTree = "<group>"; };
 		74FF04E418046C4D006D0F9F /* scriptfile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scriptfile.cpp; path = ../../../src/addons/scriptfile.cpp; sourceTree = "<group>"; };
 		74FF04E518046C4D006D0F9F /* scriptfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scriptfile.h; path = ../../../src/addons/scriptfile.h; sourceTree = "<group>"; };
 		74FF04E818046C5D006D0F9F /* scriptbuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scriptbuilder.cpp; path = ../../../src/addons/scriptbuilder.cpp; sourceTree = "<group>"; };
@@ -468,7 +475,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				74C111E116971F2700AEDCE1 /* libangelscript.a in Frameworks */,
+				74E8F17E1915485E0091A778 /* libangelscript.a in Frameworks */,
 				74C111E016971F2300AEDCE1 /* gs2d.framework in Frameworks */,
 				74C111DF16971F1F00AEDCE1 /* box2d.framework in Frameworks */,
 				74F00AD71646B9EB00B8B51B /* Cocoa.framework in Frameworks */,
@@ -778,10 +785,11 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		74C111D416971EAB00AEDCE1 /* Products */ = {
+		74E8F173191546820091A778 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				74C111D816971EAB00AEDCE1 /* libangelscript.a */,
+				74E8F178191546820091A778 /* libangelscript.a */,
+				74E8F17A191546820091A778 /* libangelscript.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -795,7 +803,7 @@
 				7421F2B0164741B700C55BAE /* tinyxml */,
 				74F00AD51646B9EB00B8B51B /* Frameworks */,
 				74F00AD41646B9EB00B8B51B /* Products */,
-				74F0D19D169703F1009A3C78 /* angelscript.xcodeproj */,
+				74E8F172191546820091A778 /* angelscript.xcodeproj */,
 				74F0D197169703E7009A3C78 /* box2d.xcodeproj */,
 				74F0D191169703C9009A3C78 /* gs2d.xcodeproj */,
 			);
@@ -980,7 +988,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				74C111DE16971ED800AEDCE1 /* PBXTargetDependency */,
+				74E8F17C1915473C0091A778 /* PBXTargetDependency */,
 				74C111DC16971ED400AEDCE1 /* PBXTargetDependency */,
 				74C111DA16971EC500AEDCE1 /* PBXTargetDependency */,
 			);
@@ -1010,8 +1018,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 74C111D416971EAB00AEDCE1 /* Products */;
-					ProjectRef = 74F0D19D169703F1009A3C78 /* angelscript.xcodeproj */;
+					ProductGroup = 74E8F173191546820091A778 /* Products */;
+					ProjectRef = 74E8F172191546820091A778 /* angelscript.xcodeproj */;
 				},
 				{
 					ProductGroup = 74C111C516971EAB00AEDCE1 /* Products */;
@@ -1044,11 +1052,18 @@
 			remoteRef = 74C111D216971EAB00AEDCE1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		74C111D816971EAB00AEDCE1 /* libangelscript.a */ = {
+		74E8F178191546820091A778 /* libangelscript.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libangelscript.a;
-			remoteRef = 74C111D716971EAB00AEDCE1 /* PBXContainerItemProxy */;
+			remoteRef = 74E8F177191546820091A778 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		74E8F17A191546820091A778 /* libangelscript.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libangelscript.a;
+			remoteRef = 74E8F179191546820091A778 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1180,10 +1195,10 @@
 			name = box2d;
 			targetProxy = 74C111DB16971ED400AEDCE1 /* PBXContainerItemProxy */;
 		};
-		74C111DE16971ED800AEDCE1 /* PBXTargetDependency */ = {
+		74E8F17C1915473C0091A778 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = angelscript;
-			targetProxy = 74C111DD16971ED800AEDCE1 /* PBXContainerItemProxy */;
+			name = "angelscript OSX";
+			targetProxy = 74E8F17B1915473C0091A778 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

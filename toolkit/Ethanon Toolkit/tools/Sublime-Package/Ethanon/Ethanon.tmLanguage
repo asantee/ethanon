@@ -14,7 +14,7 @@
 			<key>comment</key>
 			<string>This comment is optional.</string>
 			<key>match</key>
-			<string>\b(and|break|case|cast|class|continue|default|do|else|enum|for|from|if|import|interface|is|not|or|return|switch|typedef|void|while|xor|funcdef|namespace|this|super|endif)\b</string>
+			<string>\b(and|break|case|cast|class|continue|default|do|else|enum|for|from|if|import|interface|is|not|or|return|switch|typedef|void|while|xor|funcdef|namespace|this|super|endif|final|override)\b</string>
 			<key>name</key>
 			<string>keyword.control.ethanon</string>
 		</dict>

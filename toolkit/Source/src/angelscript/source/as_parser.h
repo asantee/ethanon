@@ -1,6 +1,6 @@
 /*
    AngelCode Scripting Library
-   Copyright (c) 2003-2012 Andreas Jonsson
+   Copyright (c) 2003-2014 Andreas Jonsson
 
    This software is provided 'as-is', without any express or implied 
    warranty. In no event will the authors be held liable for any 
@@ -53,7 +53,7 @@ public:
 	asCParser(asCBuilder *builder);
 	~asCParser();
 
-	int ParseFunctionDefinition(asCScriptCode *script);
+	int ParseFunctionDefinition(asCScriptCode *script, bool expectListPattern);
 	int ParsePropertyDeclaration(asCScriptCode *script);
 	int ParseDataType(asCScriptCode *script, bool isReturnType);
 	int ParseTemplateDecl(asCScriptCode *script);
@@ -90,8 +90,11 @@ protected:
 	asCScriptNode *ParseDataType(bool allowVariableType = false);
 	asCScriptNode *ParseIdentifier();
 
+	asCScriptNode *ParseListPattern();
+
 	bool IsRealType(int tokenType);
 	bool IsDataType(const sToken &token);
+	bool IdentifierIs(const sToken &t, const char *str);
 
 #ifndef AS_NO_COMPILER
 	// Statements
@@ -140,7 +143,7 @@ protected:
 	asCScriptNode *ParseExprPreOp();
 	asCScriptNode *ParseExprPostOp();
 	asCScriptNode *ParseExprValue();
-	asCScriptNode *ParseArgList();
+	asCScriptNode *ParseArgList(bool withParenthesis = true);
 	asCScriptNode *ParseFunctionCall();
 	asCScriptNode *ParseVariableAccess();
 	asCScriptNode *ParseConstructCall();
@@ -155,7 +158,6 @@ protected:
 	bool IsAssignOperator(int tokenType);
 	bool IsFunctionCall();
 
-	bool IdentifierIs(const sToken &t, const char *str);
 	bool CheckTemplateType(sToken &t);
 #endif
 
@@ -166,6 +168,7 @@ protected:
 	asCString ExpectedTokens(const char *token1, const char *token2);
 	asCString ExpectedOneOf(int *tokens, int count);
 	asCString ExpectedOneOf(const char **tokens, int count);
+	asCString InsteadFound(sToken &t);
 
 	bool errorWhileParsing;
 	bool isSyntaxError;
@@ -176,6 +179,8 @@ protected:
 	asCBuilder      *builder;
 	asCScriptCode   *script;
 	asCScriptNode   *scriptNode;
+
+	asCString tempString; // Used for reduzing amount of dynamic allocations
 
 	sToken       lastToken;
 	size_t       sourcePos;

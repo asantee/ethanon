@@ -12,8 +12,6 @@
 
 #include <string>
 
-#include <Types.h>
-
 #ifdef _MSC_VER
 // Turn off annoying warnings about truncated symbol names
 #pragma warning (disable:4786)
@@ -40,35 +38,36 @@ class CScriptArray;
 class CScriptDictionary
 {
 public:
-    // Memory management
-    CScriptDictionary(asIScriptEngine *engine);
-    void AddRef() const;
-    void Release() const;
+	// Memory management
+	CScriptDictionary(asIScriptEngine *engine);
+	CScriptDictionary(asBYTE *buffer);
+	void AddRef() const;
+	void Release() const;
 
-    CScriptDictionary &operator =(const CScriptDictionary &other);
+	CScriptDictionary &operator =(const CScriptDictionary &other);
 
-    // Sets/Gets a variable type value for a key
-    void Set(const gs2d::str_type::string &key, void *value, int typeId);
-    bool Get(const gs2d::str_type::string &key, void *value, int typeId) const;
+	// Sets/Gets a variable type value for a key
+	void Set(const std::string &key, void *value, int typeId);
+	bool Get(const std::string &key, void *value, int typeId) const;
 
-    // Sets/Gets an integer number value for a key
-    void Set(const gs2d::str_type::string &key, asINT64 &value);
-    bool Get(const gs2d::str_type::string &key, asINT64 &value) const;
+	// Sets/Gets an integer number value for a key
+	void Set(const std::string &key, const asINT64 &value);
+	bool Get(const std::string &key, asINT64 &value) const;
 
-    // Sets/Gets a real number value for a key
-    void Set(const gs2d::str_type::string &key, double &value);
-    bool Get(const gs2d::str_type::string &key, double &value) const;
+	// Sets/Gets a real number value for a key
+	void Set(const std::string &key, const double &value);
+	bool Get(const std::string &key, double &value) const;
 
-    // Returns true if the key is set
-    bool Exists(const gs2d::str_type::string &key) const;
+	// Returns true if the key is set
+	bool Exists(const std::string &key) const;
 	bool IsEmpty() const;
 	asUINT GetSize() const;
 
-    // Deletes the key
-    void Delete(const gs2d::str_type::string &key);
+	// Deletes the key
+	void Delete(const std::string &key);
 
-    // Deletes all keys
-    void DeleteAll();
+	// Deletes all keys
+	void DeleteAll();
 
 	// Get an array of all keys
 	CScriptArray *GetKeys() const;
@@ -82,29 +81,30 @@ public:
 
 protected:
 	// The structure for holding the values
-    struct valueStruct
-    {
-        union
-        {
-            asINT64 valueInt;
-            double  valueFlt;
-            void   *valueObj;
-        };
-        int   typeId;
-    };
-    
+	struct valueStruct
+	{
+		union
+		{
+			asINT64 valueInt;
+			double  valueFlt;
+			void   *valueObj;
+		};
+		int   typeId;
+	};
+
 	// We don't want anyone to call the destructor directly, it should be called through the Release method
 	virtual ~CScriptDictionary();
 
 	// Helper methods
-    void FreeValue(valueStruct &value);
+	void FreeValue(valueStruct &value);
 	
 	// Our properties
-    asIScriptEngine *engine;
-    mutable int refCount;
+	asIScriptEngine *engine;
+	mutable int refCount;
+	mutable bool gcFlag;
 
 	// TODO: optimize: Use C++11 std::unordered_map instead
-    std::map<gs2d::str_type::string, valueStruct> dict;
+	std::map<std::string, valueStruct> dict;
 };
 
 // This function will determine the configuration of the engine
