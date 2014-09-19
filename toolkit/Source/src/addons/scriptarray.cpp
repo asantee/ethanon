@@ -186,7 +186,8 @@ void RegisterScriptArray(asIScriptEngine *engine, bool defaultArray)
 
 	if( defaultArray )
 	{
-		int r = engine->RegisterDefaultArrayType("array<T>"); assert( r >= 0 );
+		int r = engine->RegisterDefaultArrayType("array<T>");assert( r >= 0 );
+		r; // supress 
 	}
 }
 
@@ -1550,6 +1551,7 @@ void CScriptArray::EnumReferences(asIScriptEngine *engine)
 // GC behaviour
 void CScriptArray::ReleaseAllHandles(asIScriptEngine *engine)
 {
+	(engine); // drop unused argument warning
 	// Resizing to zero will release everything
 	Resize(0);
 }
