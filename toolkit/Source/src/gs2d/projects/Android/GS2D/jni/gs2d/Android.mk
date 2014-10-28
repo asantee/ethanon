@@ -55,7 +55,5 @@ LOCAL_SRC_FILES := \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/SharedData/SharedData.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Enml/Enml.cpp
 
-LOCAL_LDLIBS := -ldl -lz -llog -lGLESv2
-
 # include $(BUILD_SHARED_LIBRARY)
 include $(BUILD_STATIC_LIBRARY)

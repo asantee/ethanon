@@ -10,8 +10,6 @@ LOCAL_SRC_FILES := \
   stb_image_aug.c  \
   image_DXT.c \
   SOIL.c \
-	
-LOCAL_LDLIBS := -lz
 
 #include $(BUILD_SHARED_LIBRARY)
 include $(BUILD_STATIC_LIBRARY)
