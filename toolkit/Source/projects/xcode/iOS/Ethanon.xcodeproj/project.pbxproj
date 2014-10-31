@@ -186,10 +186,6 @@
 		74666E6E165A7CBD00C70736 /* GLES2Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666E65165A7CBD00C70736 /* GLES2Texture.cpp */; };
 		74666E6F165A7CBD00C70736 /* GLES2UniformParameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666E67165A7CBD00C70736 /* GLES2UniformParameter.cpp */; };
 		74666E70165A7CBD00C70736 /* GLES2Video.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666E69165A7CBD00C70736 /* GLES2Video.cpp */; };
-		74666E7B165A7CF300C70736 /* image_DXT.c in Sources */ = {isa = PBXBuildFile; fileRef = 74666E71165A7CF300C70736 /* image_DXT.c */; };
-		74666E7C165A7CF300C70736 /* image_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = 74666E73165A7CF300C70736 /* image_helper.c */; };
-		74666E7D165A7CF300C70736 /* SOIL.c in Sources */ = {isa = PBXBuildFile; fileRef = 74666E75165A7CF300C70736 /* SOIL.c */; };
-		74666E7E165A7CF300C70736 /* stb_image_aug.c in Sources */ = {isa = PBXBuildFile; fileRef = 74666E77165A7CF300C70736 /* stb_image_aug.c */; };
 		74666E85165A7D1E00C70736 /* tinystr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666E7F165A7D1E00C70736 /* tinystr.cpp */; };
 		74666E86165A7D1E00C70736 /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666E81165A7D1E00C70736 /* tinyxml.cpp */; };
 		74666E87165A7D1E00C70736 /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74666E83165A7D1E00C70736 /* tinyxmlerror.cpp */; };
@@ -221,6 +217,10 @@
 		749CB4731666554F00939B0A /* ETHEntityPieceRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 749CB46B1666554F00939B0A /* ETHEntityPieceRenderer.cpp */; };
 		749CB4741666554F00939B0A /* ETHEntityRenderingManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 749CB46D1666554F00939B0A /* ETHEntityRenderingManager.cpp */; };
 		749CB4751666554F00939B0A /* ETHEntitySpriteRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 749CB46F1666554F00939B0A /* ETHEntitySpriteRenderer.cpp */; };
+		74D066ED1A03CD9500D45F66 /* image_DXT.c in Sources */ = {isa = PBXBuildFile; fileRef = 74D066E31A03CD9500D45F66 /* image_DXT.c */; };
+		74D066EE1A03CD9500D45F66 /* image_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = 74D066E51A03CD9500D45F66 /* image_helper.c */; };
+		74D066EF1A03CD9500D45F66 /* SOIL.c in Sources */ = {isa = PBXBuildFile; fileRef = 74D066E71A03CD9500D45F66 /* SOIL.c */; };
+		74D066F01A03CD9500D45F66 /* stb_image_aug.c in Sources */ = {isa = PBXBuildFile; fileRef = 74D066E91A03CD9500D45F66 /* stb_image_aug.c */; };
 		74D47C3817B4140F00E60B05 /* CDAudioContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 74D47C3517B4140F00E60B05 /* CDAudioContext.mm */; };
 		74D47C3917B4140F00E60B05 /* CDAudioSample.mm in Sources */ = {isa = PBXBuildFile; fileRef = 74D47C3717B4140F00E60B05 /* CDAudioSample.mm */; };
 		74D47C4517B4158D00E60B05 /* CDAudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 74D47C3B17B4158D00E60B05 /* CDAudioManager.m */; };
@@ -616,16 +616,6 @@
 		74666E68165A7CBD00C70736 /* GLES2UniformParameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLES2UniformParameter.h; path = ../../../src/gs2d/src/Video/GLES2/GLES2UniformParameter.h; sourceTree = "<group>"; };
 		74666E69165A7CBD00C70736 /* GLES2Video.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLES2Video.cpp; path = ../../../src/gs2d/src/Video/GLES2/GLES2Video.cpp; sourceTree = "<group>"; };
 		74666E6A165A7CBD00C70736 /* GLES2Video.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLES2Video.h; path = ../../../src/gs2d/src/Video/GLES2/GLES2Video.h; sourceTree = "<group>"; };
-		74666E71165A7CF300C70736 /* image_DXT.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = image_DXT.c; path = ../../../src/gs2d/vendors/soil/image_DXT.c; sourceTree = "<group>"; };
-		74666E72165A7CF300C70736 /* image_DXT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = image_DXT.h; path = ../../../src/gs2d/vendors/soil/image_DXT.h; sourceTree = "<group>"; };
-		74666E73165A7CF300C70736 /* image_helper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = image_helper.c; path = ../../../src/gs2d/vendors/soil/image_helper.c; sourceTree = "<group>"; };
-		74666E74165A7CF300C70736 /* image_helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = image_helper.h; path = ../../../src/gs2d/vendors/soil/image_helper.h; sourceTree = "<group>"; };
-		74666E75165A7CF300C70736 /* SOIL.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = SOIL.c; path = ../../../src/gs2d/vendors/soil/SOIL.c; sourceTree = "<group>"; };
-		74666E76165A7CF300C70736 /* SOIL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SOIL.h; path = ../../../src/gs2d/vendors/soil/SOIL.h; sourceTree = "<group>"; };
-		74666E77165A7CF300C70736 /* stb_image_aug.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = stb_image_aug.c; path = ../../../src/gs2d/vendors/soil/stb_image_aug.c; sourceTree = "<group>"; };
-		74666E78165A7CF300C70736 /* stb_image_aug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_image_aug.h; path = ../../../src/gs2d/vendors/soil/stb_image_aug.h; sourceTree = "<group>"; };
-		74666E79165A7CF300C70736 /* stbi_DDS_aug_c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stbi_DDS_aug_c.h; path = ../../../src/gs2d/vendors/soil/stbi_DDS_aug_c.h; sourceTree = "<group>"; };
-		74666E7A165A7CF300C70736 /* stbi_DDS_aug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stbi_DDS_aug.h; path = ../../../src/gs2d/vendors/soil/stbi_DDS_aug.h; sourceTree = "<group>"; };
 		74666E7F165A7D1E00C70736 /* tinystr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinystr.cpp; path = ../../../src/vendors/tinyxml_ansi/tinystr.cpp; sourceTree = "<group>"; };
 		74666E80165A7D1E00C70736 /* tinystr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tinystr.h; path = ../../../src/vendors/tinyxml_ansi/tinystr.h; sourceTree = "<group>"; };
 		74666E81165A7D1E00C70736 /* tinyxml.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxml.cpp; path = ../../../src/vendors/tinyxml_ansi/tinyxml.cpp; sourceTree = "<group>"; };
@@ -687,6 +677,16 @@
 		749CB46E1666554F00939B0A /* ETHEntityRenderingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityRenderingManager.h; path = ../../../src/engine/Renderer/ETHEntityRenderingManager.h; sourceTree = "<group>"; };
 		749CB46F1666554F00939B0A /* ETHEntitySpriteRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntitySpriteRenderer.cpp; path = ../../../src/engine/Renderer/ETHEntitySpriteRenderer.cpp; sourceTree = "<group>"; };
 		749CB4701666554F00939B0A /* ETHEntitySpriteRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntitySpriteRenderer.h; path = ../../../src/engine/Renderer/ETHEntitySpriteRenderer.h; sourceTree = "<group>"; };
+		74D066E31A03CD9500D45F66 /* image_DXT.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = image_DXT.c; path = ../../../src/soil/image_DXT.c; sourceTree = "<group>"; };
+		74D066E41A03CD9500D45F66 /* image_DXT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = image_DXT.h; path = ../../../src/soil/image_DXT.h; sourceTree = "<group>"; };
+		74D066E51A03CD9500D45F66 /* image_helper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = image_helper.c; path = ../../../src/soil/image_helper.c; sourceTree = "<group>"; };
+		74D066E61A03CD9500D45F66 /* image_helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = image_helper.h; path = ../../../src/soil/image_helper.h; sourceTree = "<group>"; };
+		74D066E71A03CD9500D45F66 /* SOIL.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = SOIL.c; path = ../../../src/soil/SOIL.c; sourceTree = "<group>"; };
+		74D066E81A03CD9500D45F66 /* SOIL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SOIL.h; path = ../../../src/soil/SOIL.h; sourceTree = "<group>"; };
+		74D066E91A03CD9500D45F66 /* stb_image_aug.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = stb_image_aug.c; path = ../../../src/soil/stb_image_aug.c; sourceTree = "<group>"; };
+		74D066EA1A03CD9500D45F66 /* stb_image_aug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_image_aug.h; path = ../../../src/soil/stb_image_aug.h; sourceTree = "<group>"; };
+		74D066EB1A03CD9500D45F66 /* stbi_DDS_aug_c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stbi_DDS_aug_c.h; path = ../../../src/soil/stbi_DDS_aug_c.h; sourceTree = "<group>"; };
+		74D066EC1A03CD9500D45F66 /* stbi_DDS_aug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stbi_DDS_aug.h; path = ../../../src/soil/stbi_DDS_aug.h; sourceTree = "<group>"; };
 		74D47C3417B4140F00E60B05 /* CDAudioContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDAudioContext.h; path = ../../../src/gs2d/src/Audio/CocosDenshion/CDAudioContext.h; sourceTree = "<group>"; };
 		74D47C3517B4140F00E60B05 /* CDAudioContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CDAudioContext.mm; path = ../../../src/gs2d/src/Audio/CocosDenshion/CDAudioContext.mm; sourceTree = "<group>"; };
 		74D47C3617B4140F00E60B05 /* CDAudioSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDAudioSample.h; path = ../../../src/gs2d/src/Audio/CocosDenshion/CDAudioSample.h; sourceTree = "<group>"; };
@@ -1253,16 +1253,16 @@
 		74FBEFA714376C2200C67129 /* SOIL */ = {
 			isa = PBXGroup;
 			children = (
-				74666E71165A7CF300C70736 /* image_DXT.c */,
-				74666E72165A7CF300C70736 /* image_DXT.h */,
-				74666E73165A7CF300C70736 /* image_helper.c */,
-				74666E74165A7CF300C70736 /* image_helper.h */,
-				74666E75165A7CF300C70736 /* SOIL.c */,
-				74666E76165A7CF300C70736 /* SOIL.h */,
-				74666E77165A7CF300C70736 /* stb_image_aug.c */,
-				74666E78165A7CF300C70736 /* stb_image_aug.h */,
-				74666E79165A7CF300C70736 /* stbi_DDS_aug_c.h */,
-				74666E7A165A7CF300C70736 /* stbi_DDS_aug.h */,
+				74D066E31A03CD9500D45F66 /* image_DXT.c */,
+				74D066E41A03CD9500D45F66 /* image_DXT.h */,
+				74D066E51A03CD9500D45F66 /* image_helper.c */,
+				74D066E61A03CD9500D45F66 /* image_helper.h */,
+				74D066E71A03CD9500D45F66 /* SOIL.c */,
+				74D066E81A03CD9500D45F66 /* SOIL.h */,
+				74D066E91A03CD9500D45F66 /* stb_image_aug.c */,
+				74D066EA1A03CD9500D45F66 /* stb_image_aug.h */,
+				74D066EB1A03CD9500D45F66 /* stbi_DDS_aug_c.h */,
+				74D066EC1A03CD9500D45F66 /* stbi_DDS_aug.h */,
 			);
 			name = SOIL;
 			sourceTree = "<group>";
@@ -1705,6 +1705,7 @@
 				74666CFA165A79B200C70736 /* ETHFakeEyePositionManager.cpp in Sources */,
 				74666CFB165A79B200C70736 /* ETHLightmapGen.cpp in Sources */,
 				74666CFC165A79B200C70736 /* ETHNoDynamicBackBuffer.cpp in Sources */,
+				74D066F01A03CD9500D45F66 /* stb_image_aug.c in Sources */,
 				74666CFD165A79B200C70736 /* ETHParallaxManager.cpp in Sources */,
 				74666CFE165A79B200C70736 /* ETHPixelLightDiffuseSpecular.cpp in Sources */,
 				7490C8FC183B9B0100AC21C5 /* hl_sha384wrapper.cpp in Sources */,
@@ -1784,6 +1785,7 @@
 				74666DE3165A7B7400C70736 /* b2ChainAndCircleContact.cpp in Sources */,
 				74666DE4165A7B7400C70736 /* b2ChainAndPolygonContact.cpp in Sources */,
 				74666DE5165A7B7400C70736 /* b2CircleContact.cpp in Sources */,
+				74D066ED1A03CD9500D45F66 /* image_DXT.c in Sources */,
 				7490C8FE183B9B0100AC21C5 /* hl_wrapperfactory.cpp in Sources */,
 				74666DE6165A7B7400C70736 /* b2Contact.cpp in Sources */,
 				74666DE7165A7B7400C70736 /* b2ContactSolver.cpp in Sources */,
@@ -1819,6 +1821,7 @@
 				74666E46165A7C3A00C70736 /* NativeCommandAssembler.cpp in Sources */,
 				74666E47165A7C3A00C70736 /* NativeCommandForwarder.cpp in Sources */,
 				7490C8F8183B9B0100AC21C5 /* hl_sha1wrapper.cpp in Sources */,
+				74D066EF1A03CD9500D45F66 /* SOIL.c in Sources */,
 				74666E48165A7C3A00C70736 /* Platform.cpp in Sources */,
 				74666E4E165A7C4E00C70736 /* IOSFileIOHub.cpp in Sources */,
 				74666E4F165A7C4E00C70736 /* Platform.ios.mm in Sources */,
@@ -1834,10 +1837,6 @@
 				74666E6E165A7CBD00C70736 /* GLES2Texture.cpp in Sources */,
 				74666E6F165A7CBD00C70736 /* GLES2UniformParameter.cpp in Sources */,
 				74666E70165A7CBD00C70736 /* GLES2Video.cpp in Sources */,
-				74666E7B165A7CF300C70736 /* image_DXT.c in Sources */,
-				74666E7C165A7CF300C70736 /* image_helper.c in Sources */,
-				74666E7D165A7CF300C70736 /* SOIL.c in Sources */,
-				74666E7E165A7CF300C70736 /* stb_image_aug.c in Sources */,
 				74666E85165A7D1E00C70736 /* tinystr.cpp in Sources */,
 				74666E86165A7D1E00C70736 /* tinyxml.cpp in Sources */,
 				74666E87165A7D1E00C70736 /* tinyxmlerror.cpp in Sources */,
@@ -1862,6 +1861,7 @@
 				74D47C4917B4158D00E60B05 /* SimpleAudioEngine.m in Sources */,
 				74FF04F218047A20006D0F9F /* StdFileManager.cpp in Sources */,
 				74FF04F918047AF6006D0F9F /* scriptbuilder.cpp in Sources */,
+				74D066EE1A03CD9500D45F66 /* image_helper.c in Sources */,
 				74FF04FA18047AF6006D0F9F /* scriptfile.cpp in Sources */,
 				74FF04FB18047AF6006D0F9F /* scriptstdstring.cpp in Sources */,
 			);
