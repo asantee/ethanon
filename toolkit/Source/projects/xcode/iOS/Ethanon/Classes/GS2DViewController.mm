@@ -33,14 +33,7 @@
 
 - (void)loadView
 {
-	CGRect screen = [[UIScreen mainScreen] bounds];
-#	ifdef GS2D_FORCE_HANDHELD_LANDSCAPE
-	{
-		const CGFloat temp = screen.size.width;
-		screen.size.width = screen.size.height;
-		screen.size.height = temp;
-	}
-#	endif
+	CGRect screen = [[UIScreen mainScreen] applicationFrame];
 	m_glView = [[GLView alloc] initWithFrame:screen];
 	m_glView.multipleTouchEnabled = YES;
 	self.view = m_glView;
