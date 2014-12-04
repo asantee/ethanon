@@ -15,6 +15,22 @@
 		74E6E5181A30F06900E89172 /* GameMath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E5101A30F06900E89172 /* GameMath.cpp */; };
 		74E6E5191A30F06900E89172 /* OrientedBoundingBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E5131A30F06900E89172 /* OrientedBoundingBox.cpp */; };
 		74E6E51A1A30F06900E89172 /* Randomizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E5151A30F06900E89172 /* Randomizer.cpp */; };
+		74E6E52E1A30F19900E89172 /* FileIOHub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E51C1A30F19900E89172 /* FileIOHub.cpp */; };
+		74E6E52F1A30F19900E89172 /* FileLogger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E51E1A30F19900E89172 /* FileLogger.cpp */; };
+		74E6E5301A30F19900E89172 /* FileManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E5201A30F19900E89172 /* FileManager.cpp */; };
+		74E6E5311A30F19900E89172 /* Logger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E5221A30F19900E89172 /* Logger.cpp */; };
+		74E6E5321A30F19900E89172 /* NativeCommandAssembler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E5251A30F19900E89172 /* NativeCommandAssembler.cpp */; };
+		74E6E5331A30F19900E89172 /* NativeCommandForwarder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E5271A30F19900E89172 /* NativeCommandForwarder.cpp */; };
+		74E6E5341A30F19900E89172 /* Platform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E52A1A30F19900E89172 /* Platform.cpp */; };
+		74E6E5351A30F19900E89172 /* StdFileManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E52C1A30F19900E89172 /* StdFileManager.cpp */; };
+		74E6E53C1A30F1B300E89172 /* SharedData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E5381A30F1B300E89172 /* SharedData.cpp */; };
+		74E6E53D1A30F1B300E89172 /* SharedDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E53A1A30F1B300E89172 /* SharedDataManager.cpp */; };
+		74E6E5441A30F1C600E89172 /* IOSFileIOHub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E53E1A30F1C600E89172 /* IOSFileIOHub.cpp */; };
+		74E6E5451A30F1C600E89172 /* IOSNativeCommandListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E5411A30F1C600E89172 /* IOSNativeCommandListener.mm */; };
+		74E6E5461A30F1C600E89172 /* Platform.ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E5431A30F1C600E89172 /* Platform.ios.mm */; };
+		74E6E57C1A30FFB600E89172 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E56E1A30FFB500E89172 /* Application.cpp */; };
+		74E6E57D1A30FFB600E89172 /* Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E5751A30FFB500E89172 /* Sprite.cpp */; };
+		74E6E57E1A30FFB600E89172 /* Video.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E5791A30FFB600E89172 /* Video.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +73,50 @@
 		74E6E5141A30F06900E89172 /* OrientedBoundingBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OrientedBoundingBox.h; path = ../../../../src/gs2d/src/Math/OrientedBoundingBox.h; sourceTree = "<group>"; };
 		74E6E5151A30F06900E89172 /* Randomizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Randomizer.cpp; path = ../../../../src/gs2d/src/Math/Randomizer.cpp; sourceTree = "<group>"; };
 		74E6E5161A30F06900E89172 /* Randomizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Randomizer.h; path = ../../../../src/gs2d/src/Math/Randomizer.h; sourceTree = "<group>"; };
+		74E6E51C1A30F19900E89172 /* FileIOHub.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FileIOHub.cpp; path = ../../../../src/gs2d/src/Platform/FileIOHub.cpp; sourceTree = "<group>"; };
+		74E6E51D1A30F19900E89172 /* FileIOHub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileIOHub.h; path = ../../../../src/gs2d/src/Platform/FileIOHub.h; sourceTree = "<group>"; };
+		74E6E51E1A30F19900E89172 /* FileLogger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FileLogger.cpp; path = ../../../../src/gs2d/src/Platform/FileLogger.cpp; sourceTree = "<group>"; };
+		74E6E51F1A30F19900E89172 /* FileLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileLogger.h; path = ../../../../src/gs2d/src/Platform/FileLogger.h; sourceTree = "<group>"; };
+		74E6E5201A30F19900E89172 /* FileManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FileManager.cpp; path = ../../../../src/gs2d/src/Platform/FileManager.cpp; sourceTree = "<group>"; };
+		74E6E5211A30F19900E89172 /* FileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileManager.h; path = ../../../../src/gs2d/src/Platform/FileManager.h; sourceTree = "<group>"; };
+		74E6E5221A30F19900E89172 /* Logger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Logger.cpp; path = ../../../../src/gs2d/src/Platform/Logger.cpp; sourceTree = "<group>"; };
+		74E6E5231A30F19900E89172 /* Logger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Logger.h; path = ../../../../src/gs2d/src/Platform/Logger.h; sourceTree = "<group>"; };
+		74E6E5241A30F19900E89172 /* MainSharedHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainSharedHeader.h; path = ../../../../src/gs2d/src/Platform/MainSharedHeader.h; sourceTree = "<group>"; };
+		74E6E5251A30F19900E89172 /* NativeCommandAssembler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NativeCommandAssembler.cpp; path = ../../../../src/gs2d/src/Platform/NativeCommandAssembler.cpp; sourceTree = "<group>"; };
+		74E6E5261A30F19900E89172 /* NativeCommandAssembler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NativeCommandAssembler.h; path = ../../../../src/gs2d/src/Platform/NativeCommandAssembler.h; sourceTree = "<group>"; };
+		74E6E5271A30F19900E89172 /* NativeCommandForwarder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NativeCommandForwarder.cpp; path = ../../../../src/gs2d/src/Platform/NativeCommandForwarder.cpp; sourceTree = "<group>"; };
+		74E6E5281A30F19900E89172 /* NativeCommandForwarder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NativeCommandForwarder.h; path = ../../../../src/gs2d/src/Platform/NativeCommandForwarder.h; sourceTree = "<group>"; };
+		74E6E5291A30F19900E89172 /* NativeCommandListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NativeCommandListener.h; path = ../../../../src/gs2d/src/Platform/NativeCommandListener.h; sourceTree = "<group>"; };
+		74E6E52A1A30F19900E89172 /* Platform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Platform.cpp; path = ../../../../src/gs2d/src/Platform/Platform.cpp; sourceTree = "<group>"; };
+		74E6E52B1A30F19900E89172 /* Platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Platform.h; path = ../../../../src/gs2d/src/Platform/Platform.h; sourceTree = "<group>"; };
+		74E6E52C1A30F19900E89172 /* StdFileManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StdFileManager.cpp; path = ../../../../src/gs2d/src/Platform/StdFileManager.cpp; sourceTree = "<group>"; };
+		74E6E52D1A30F19900E89172 /* StdFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StdFileManager.h; path = ../../../../src/gs2d/src/Platform/StdFileManager.h; sourceTree = "<group>"; };
+		74E6E5381A30F1B300E89172 /* SharedData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SharedData.cpp; path = ../../../../src/gs2d/src/Platform/SharedData/SharedData.cpp; sourceTree = "<group>"; };
+		74E6E5391A30F1B300E89172 /* SharedData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SharedData.h; path = ../../../../src/gs2d/src/Platform/SharedData/SharedData.h; sourceTree = "<group>"; };
+		74E6E53A1A30F1B300E89172 /* SharedDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SharedDataManager.cpp; path = ../../../../src/gs2d/src/Platform/SharedData/SharedDataManager.cpp; sourceTree = "<group>"; };
+		74E6E53B1A30F1B300E89172 /* SharedDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SharedDataManager.h; path = ../../../../src/gs2d/src/Platform/SharedData/SharedDataManager.h; sourceTree = "<group>"; };
+		74E6E53E1A30F1C600E89172 /* IOSFileIOHub.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IOSFileIOHub.cpp; path = ../../../../src/gs2d/src/Platform/ios/IOSFileIOHub.cpp; sourceTree = "<group>"; };
+		74E6E53F1A30F1C600E89172 /* IOSFileIOHub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IOSFileIOHub.h; path = ../../../../src/gs2d/src/Platform/ios/IOSFileIOHub.h; sourceTree = "<group>"; };
+		74E6E5401A30F1C600E89172 /* IOSNativeCommandListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IOSNativeCommandListener.h; path = ../../../../src/gs2d/src/Platform/ios/IOSNativeCommandListener.h; sourceTree = "<group>"; };
+		74E6E5411A30F1C600E89172 /* IOSNativeCommandListener.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = IOSNativeCommandListener.mm; path = ../../../../src/gs2d/src/Platform/ios/IOSNativeCommandListener.mm; sourceTree = "<group>"; };
+		74E6E5421A30F1C600E89172 /* Platform.ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Platform.ios.h; path = ../../../../src/gs2d/src/Platform/ios/Platform.ios.h; sourceTree = "<group>"; };
+		74E6E5431A30F1C600E89172 /* Platform.ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Platform.ios.mm; path = ../../../../src/gs2d/src/Platform/ios/Platform.ios.mm; sourceTree = "<group>"; };
+		74E6E5471A30F3DD00E89172 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		74E6E5491A30F41100E89172 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		74E6E56E1A30FFB500E89172 /* Application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Application.cpp; path = ../../../../src/gs2d/src/Application.cpp; sourceTree = "<group>"; };
+		74E6E56F1A30FFB500E89172 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Application.h; path = ../../../../src/gs2d/src/Application.h; sourceTree = "<group>"; };
+		74E6E5701A30FFB500E89172 /* Audio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Audio.h; path = ../../../../src/gs2d/src/Audio.h; sourceTree = "<group>"; };
+		74E6E5711A30FFB500E89172 /* BaseApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseApplication.h; path = ../../../../src/gs2d/src/BaseApplication.h; sourceTree = "<group>"; };
+		74E6E5721A30FFB500E89172 /* Input.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Input.h; path = ../../../../src/gs2d/src/Input.h; sourceTree = "<group>"; };
+		74E6E5731A30FFB500E89172 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Player.h; path = ../../../../src/gs2d/src/Player.h; sourceTree = "<group>"; };
+		74E6E5741A30FFB500E89172 /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Shader.h; path = ../../../../src/gs2d/src/Shader.h; sourceTree = "<group>"; };
+		74E6E5751A30FFB500E89172 /* Sprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Sprite.cpp; path = ../../../../src/gs2d/src/Sprite.cpp; sourceTree = "<group>"; };
+		74E6E5761A30FFB600E89172 /* Sprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sprite.h; path = ../../../../src/gs2d/src/Sprite.h; sourceTree = "<group>"; };
+		74E6E5771A30FFB600E89172 /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Texture.h; path = ../../../../src/gs2d/src/Texture.h; sourceTree = "<group>"; };
+		74E6E5781A30FFB600E89172 /* Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Types.h; path = ../../../../src/gs2d/src/Types.h; sourceTree = "<group>"; };
+		74E6E5791A30FFB600E89172 /* Video.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Video.cpp; path = ../../../../src/gs2d/src/Video.cpp; sourceTree = "<group>"; };
+		74E6E57A1A30FFB600E89172 /* Video.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Video.h; path = ../../../../src/gs2d/src/Video.h; sourceTree = "<group>"; };
+		74E6E57B1A30FFB600E89172 /* Window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Window.h; path = ../../../../src/gs2d/src/Window.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +141,8 @@
 		74E6E4E11A30EFB500E89172 = {
 			isa = PBXGroup;
 			children = (
+				74E6E5491A30F41100E89172 /* CoreFoundation.framework */,
+				74E6E5471A30F3DD00E89172 /* Foundation.framework */,
 				74E6E5081A30F04300E89172 /* GS2D */,
 				74E6E4EC1A30EFB500E89172 /* Application */,
 				74E6E4F91A30EFB500E89172 /* ApplicationTests */,
@@ -128,6 +190,20 @@
 				74E6E51B1A30F0EA00E89172 /* Platform */,
 				74E6E50A1A30F04D00E89172 /* Math */,
 				74E6E5091A30F04800E89172 /* Enml */,
+				74E6E56E1A30FFB500E89172 /* Application.cpp */,
+				74E6E56F1A30FFB500E89172 /* Application.h */,
+				74E6E5701A30FFB500E89172 /* Audio.h */,
+				74E6E5711A30FFB500E89172 /* BaseApplication.h */,
+				74E6E5721A30FFB500E89172 /* Input.h */,
+				74E6E5731A30FFB500E89172 /* Player.h */,
+				74E6E5741A30FFB500E89172 /* Shader.h */,
+				74E6E5751A30FFB500E89172 /* Sprite.cpp */,
+				74E6E5761A30FFB600E89172 /* Sprite.h */,
+				74E6E5771A30FFB600E89172 /* Texture.h */,
+				74E6E5781A30FFB600E89172 /* Types.h */,
+				74E6E5791A30FFB600E89172 /* Video.cpp */,
+				74E6E57A1A30FFB600E89172 /* Video.h */,
+				74E6E57B1A30FFB600E89172 /* Window.h */,
 			);
 			name = GS2D;
 			sourceTree = "<group>";
@@ -160,8 +236,52 @@
 		74E6E51B1A30F0EA00E89172 /* Platform */ = {
 			isa = PBXGroup;
 			children = (
+				74E6E5371A30F1A000E89172 /* SharedData */,
+				74E6E5361A30F19C00E89172 /* iOS */,
+				74E6E51C1A30F19900E89172 /* FileIOHub.cpp */,
+				74E6E51D1A30F19900E89172 /* FileIOHub.h */,
+				74E6E51E1A30F19900E89172 /* FileLogger.cpp */,
+				74E6E51F1A30F19900E89172 /* FileLogger.h */,
+				74E6E5201A30F19900E89172 /* FileManager.cpp */,
+				74E6E5211A30F19900E89172 /* FileManager.h */,
+				74E6E5221A30F19900E89172 /* Logger.cpp */,
+				74E6E5231A30F19900E89172 /* Logger.h */,
+				74E6E5241A30F19900E89172 /* MainSharedHeader.h */,
+				74E6E5251A30F19900E89172 /* NativeCommandAssembler.cpp */,
+				74E6E5261A30F19900E89172 /* NativeCommandAssembler.h */,
+				74E6E5271A30F19900E89172 /* NativeCommandForwarder.cpp */,
+				74E6E5281A30F19900E89172 /* NativeCommandForwarder.h */,
+				74E6E5291A30F19900E89172 /* NativeCommandListener.h */,
+				74E6E52A1A30F19900E89172 /* Platform.cpp */,
+				74E6E52B1A30F19900E89172 /* Platform.h */,
+				74E6E52C1A30F19900E89172 /* StdFileManager.cpp */,
+				74E6E52D1A30F19900E89172 /* StdFileManager.h */,
 			);
 			name = Platform;
+			sourceTree = "<group>";
+		};
+		74E6E5361A30F19C00E89172 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				74E6E53E1A30F1C600E89172 /* IOSFileIOHub.cpp */,
+				74E6E53F1A30F1C600E89172 /* IOSFileIOHub.h */,
+				74E6E5401A30F1C600E89172 /* IOSNativeCommandListener.h */,
+				74E6E5411A30F1C600E89172 /* IOSNativeCommandListener.mm */,
+				74E6E5421A30F1C600E89172 /* Platform.ios.h */,
+				74E6E5431A30F1C600E89172 /* Platform.ios.mm */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		74E6E5371A30F1A000E89172 /* SharedData */ = {
+			isa = PBXGroup;
+			children = (
+				74E6E5381A30F1B300E89172 /* SharedData.cpp */,
+				74E6E5391A30F1B300E89172 /* SharedData.h */,
+				74E6E53A1A30F1B300E89172 /* SharedDataManager.cpp */,
+				74E6E53B1A30F1B300E89172 /* SharedDataManager.h */,
+			);
+			name = SharedData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -252,12 +372,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74E6E52E1A30F19900E89172 /* FileIOHub.cpp in Sources */,
+				74E6E5331A30F19900E89172 /* NativeCommandForwarder.cpp in Sources */,
+				74E6E53D1A30F1B300E89172 /* SharedDataManager.cpp in Sources */,
+				74E6E57E1A30FFB600E89172 /* Video.cpp in Sources */,
+				74E6E5441A30F1C600E89172 /* IOSFileIOHub.cpp in Sources */,
+				74E6E5311A30F19900E89172 /* Logger.cpp in Sources */,
+				74E6E57D1A30FFB600E89172 /* Sprite.cpp in Sources */,
+				74E6E5351A30F19900E89172 /* StdFileManager.cpp in Sources */,
+				74E6E5451A30F1C600E89172 /* IOSNativeCommandListener.mm in Sources */,
+				74E6E5341A30F19900E89172 /* Platform.cpp in Sources */,
 				74E6E5191A30F06900E89172 /* OrientedBoundingBox.cpp in Sources */,
+				74E6E5321A30F19900E89172 /* NativeCommandAssembler.cpp in Sources */,
 				74E6E4F01A30EFB500E89172 /* Application.m in Sources */,
+				74E6E53C1A30F1B300E89172 /* SharedData.cpp in Sources */,
+				74E6E57C1A30FFB600E89172 /* Application.cpp in Sources */,
+				74E6E5301A30F19900E89172 /* FileManager.cpp in Sources */,
 				74E6E5181A30F06900E89172 /* GameMath.cpp in Sources */,
+				74E6E5461A30F1C600E89172 /* Platform.ios.mm in Sources */,
 				74E6E5171A30F06900E89172 /* Color.cpp in Sources */,
 				74E6E51A1A30F06900E89172 /* Randomizer.cpp in Sources */,
 				74E6E50D1A30F05A00E89172 /* Enml.cpp in Sources */,
+				74E6E52F1A30F19900E89172 /* FileLogger.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,6 +437,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -314,6 +451,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					../../../../src/gs2d/vendors/BoostSDK,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
@@ -344,6 +482,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -352,6 +491,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					../../../../src/gs2d/vendors/BoostSDK,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
@@ -364,6 +504,18 @@
 		74E6E4FF1A30EFB500E89172 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					GS2D_FORCE_HANDHELD_LANDSCAPE,
+					APPLE_IOS,
+					GLES2,
+					GS2D_WARN_SLOWDRAWING,
+					AS_MAX_PORTABILITY,
+					AS_NO_THREADS,
+					"DEBUG=1",
+					"$(inherited)",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -373,6 +525,16 @@
 		74E6E5001A30EFB500E89172 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					GS2D_FORCE_HANDHELD_LANDSCAPE,
+					APPLE_IOS,
+					GLES2,
+					GS2D_WARN_SLOWDRAWING,
+					AS_MAX_PORTABILITY,
+					AS_NO_THREADS,
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -428,6 +590,7 @@
 				74E6E5001A30EFB500E89172 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		74E6E5011A30EFB500E89172 /* Build configuration list for PBXNativeTarget "ApplicationTests" */ = {
 			isa = XCConfigurationList;
@@ -436,6 +599,7 @@
 				74E6E5031A30EFB500E89172 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
