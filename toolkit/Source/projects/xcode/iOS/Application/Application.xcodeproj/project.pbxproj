@@ -1,0 +1,443 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		74E6E4EE1A30EFB500E89172 /* Application.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74E6E4ED1A30EFB500E89172 /* Application.h */; };
+		74E6E4F01A30EFB500E89172 /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E4EF1A30EFB500E89172 /* Application.m */; };
+		74E6E4F61A30EFB500E89172 /* libApplication.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74E6E4EA1A30EFB500E89172 /* libApplication.a */; };
+		74E6E50D1A30F05A00E89172 /* Enml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E50B1A30F05A00E89172 /* Enml.cpp */; };
+		74E6E5171A30F06900E89172 /* Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E50E1A30F06900E89172 /* Color.cpp */; };
+		74E6E5181A30F06900E89172 /* GameMath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E5101A30F06900E89172 /* GameMath.cpp */; };
+		74E6E5191A30F06900E89172 /* OrientedBoundingBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E5131A30F06900E89172 /* OrientedBoundingBox.cpp */; };
+		74E6E51A1A30F06900E89172 /* Randomizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E5151A30F06900E89172 /* Randomizer.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		74E6E4F71A30EFB500E89172 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 74E6E4E21A30EFB500E89172 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 74E6E4E91A30EFB500E89172;
+			remoteInfo = Application;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		74E6E4E81A30EFB500E89172 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+				74E6E4EE1A30EFB500E89172 /* Application.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		74E6E4EA1A30EFB500E89172 /* libApplication.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libApplication.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		74E6E4ED1A30EFB500E89172 /* Application.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
+		74E6E4EF1A30EFB500E89172 /* Application.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Application.m; sourceTree = "<group>"; };
+		74E6E4F51A30EFB500E89172 /* ApplicationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ApplicationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		74E6E4FB1A30EFB500E89172 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		74E6E50B1A30F05A00E89172 /* Enml.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Enml.cpp; path = ../../../../src/gs2d/src/Enml/Enml.cpp; sourceTree = "<group>"; };
+		74E6E50C1A30F05A00E89172 /* Enml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Enml.h; path = ../../../../src/gs2d/src/Enml/Enml.h; sourceTree = "<group>"; };
+		74E6E50E1A30F06900E89172 /* Color.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Color.cpp; path = ../../../../src/gs2d/src/Math/Color.cpp; sourceTree = "<group>"; };
+		74E6E50F1A30F06900E89172 /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Color.h; path = ../../../../src/gs2d/src/Math/Color.h; sourceTree = "<group>"; };
+		74E6E5101A30F06900E89172 /* GameMath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameMath.cpp; path = ../../../../src/gs2d/src/Math/GameMath.cpp; sourceTree = "<group>"; };
+		74E6E5111A30F06900E89172 /* GameMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameMath.h; path = ../../../../src/gs2d/src/Math/GameMath.h; sourceTree = "<group>"; };
+		74E6E5121A30F06900E89172 /* MersenneTwister.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MersenneTwister.h; path = ../../../../src/gs2d/src/Math/MersenneTwister.h; sourceTree = "<group>"; };
+		74E6E5131A30F06900E89172 /* OrientedBoundingBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OrientedBoundingBox.cpp; path = ../../../../src/gs2d/src/Math/OrientedBoundingBox.cpp; sourceTree = "<group>"; };
+		74E6E5141A30F06900E89172 /* OrientedBoundingBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OrientedBoundingBox.h; path = ../../../../src/gs2d/src/Math/OrientedBoundingBox.h; sourceTree = "<group>"; };
+		74E6E5151A30F06900E89172 /* Randomizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Randomizer.cpp; path = ../../../../src/gs2d/src/Math/Randomizer.cpp; sourceTree = "<group>"; };
+		74E6E5161A30F06900E89172 /* Randomizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Randomizer.h; path = ../../../../src/gs2d/src/Math/Randomizer.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		74E6E4E71A30EFB500E89172 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		74E6E4F21A30EFB500E89172 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				74E6E4F61A30EFB500E89172 /* libApplication.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		74E6E4E11A30EFB500E89172 = {
+			isa = PBXGroup;
+			children = (
+				74E6E5081A30F04300E89172 /* GS2D */,
+				74E6E4EC1A30EFB500E89172 /* Application */,
+				74E6E4F91A30EFB500E89172 /* ApplicationTests */,
+				74E6E4EB1A30EFB500E89172 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		74E6E4EB1A30EFB500E89172 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				74E6E4EA1A30EFB500E89172 /* libApplication.a */,
+				74E6E4F51A30EFB500E89172 /* ApplicationTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		74E6E4EC1A30EFB500E89172 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				74E6E4ED1A30EFB500E89172 /* Application.h */,
+				74E6E4EF1A30EFB500E89172 /* Application.m */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		74E6E4F91A30EFB500E89172 /* ApplicationTests */ = {
+			isa = PBXGroup;
+			children = (
+				74E6E4FA1A30EFB500E89172 /* Supporting Files */,
+			);
+			path = ApplicationTests;
+			sourceTree = "<group>";
+		};
+		74E6E4FA1A30EFB500E89172 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				74E6E4FB1A30EFB500E89172 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		74E6E5081A30F04300E89172 /* GS2D */ = {
+			isa = PBXGroup;
+			children = (
+				74E6E51B1A30F0EA00E89172 /* Platform */,
+				74E6E50A1A30F04D00E89172 /* Math */,
+				74E6E5091A30F04800E89172 /* Enml */,
+			);
+			name = GS2D;
+			sourceTree = "<group>";
+		};
+		74E6E5091A30F04800E89172 /* Enml */ = {
+			isa = PBXGroup;
+			children = (
+				74E6E50B1A30F05A00E89172 /* Enml.cpp */,
+				74E6E50C1A30F05A00E89172 /* Enml.h */,
+			);
+			name = Enml;
+			sourceTree = "<group>";
+		};
+		74E6E50A1A30F04D00E89172 /* Math */ = {
+			isa = PBXGroup;
+			children = (
+				74E6E50E1A30F06900E89172 /* Color.cpp */,
+				74E6E50F1A30F06900E89172 /* Color.h */,
+				74E6E5101A30F06900E89172 /* GameMath.cpp */,
+				74E6E5111A30F06900E89172 /* GameMath.h */,
+				74E6E5121A30F06900E89172 /* MersenneTwister.h */,
+				74E6E5131A30F06900E89172 /* OrientedBoundingBox.cpp */,
+				74E6E5141A30F06900E89172 /* OrientedBoundingBox.h */,
+				74E6E5151A30F06900E89172 /* Randomizer.cpp */,
+				74E6E5161A30F06900E89172 /* Randomizer.h */,
+			);
+			name = Math;
+			sourceTree = "<group>";
+		};
+		74E6E51B1A30F0EA00E89172 /* Platform */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Platform;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		74E6E4E91A30EFB500E89172 /* Application */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 74E6E4FE1A30EFB500E89172 /* Build configuration list for PBXNativeTarget "Application" */;
+			buildPhases = (
+				74E6E4E61A30EFB500E89172 /* Sources */,
+				74E6E4E71A30EFB500E89172 /* Frameworks */,
+				74E6E4E81A30EFB500E89172 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Application;
+			productName = Application;
+			productReference = 74E6E4EA1A30EFB500E89172 /* libApplication.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		74E6E4F41A30EFB500E89172 /* ApplicationTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 74E6E5011A30EFB500E89172 /* Build configuration list for PBXNativeTarget "ApplicationTests" */;
+			buildPhases = (
+				74E6E4F11A30EFB500E89172 /* Sources */,
+				74E6E4F21A30EFB500E89172 /* Frameworks */,
+				74E6E4F31A30EFB500E89172 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				74E6E4F81A30EFB500E89172 /* PBXTargetDependency */,
+			);
+			name = ApplicationTests;
+			productName = ApplicationTests;
+			productReference = 74E6E4F51A30EFB500E89172 /* ApplicationTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		74E6E4E21A30EFB500E89172 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = "Asantee Games";
+				TargetAttributes = {
+					74E6E4E91A30EFB500E89172 = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+					74E6E4F41A30EFB500E89172 = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+				};
+			};
+			buildConfigurationList = 74E6E4E51A30EFB500E89172 /* Build configuration list for PBXProject "Application" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 74E6E4E11A30EFB500E89172;
+			productRefGroup = 74E6E4EB1A30EFB500E89172 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				74E6E4E91A30EFB500E89172 /* Application */,
+				74E6E4F41A30EFB500E89172 /* ApplicationTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		74E6E4F31A30EFB500E89172 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		74E6E4E61A30EFB500E89172 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				74E6E5191A30F06900E89172 /* OrientedBoundingBox.cpp in Sources */,
+				74E6E4F01A30EFB500E89172 /* Application.m in Sources */,
+				74E6E5181A30F06900E89172 /* GameMath.cpp in Sources */,
+				74E6E5171A30F06900E89172 /* Color.cpp in Sources */,
+				74E6E51A1A30F06900E89172 /* Randomizer.cpp in Sources */,
+				74E6E50D1A30F05A00E89172 /* Enml.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		74E6E4F11A30EFB500E89172 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		74E6E4F81A30EFB500E89172 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 74E6E4E91A30EFB500E89172 /* Application */;
+			targetProxy = 74E6E4F71A30EFB500E89172 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		74E6E4FC1A30EFB500E89172 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					../../../../src/gs2d/vendors/BoostSDK,
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		74E6E4FD1A30EFB500E89172 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					../../../../src/gs2d/vendors/BoostSDK,
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		74E6E4FF1A30EFB500E89172 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		74E6E5001A30EFB500E89172 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		74E6E5021A30EFB500E89172 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = ApplicationTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		74E6E5031A30EFB500E89172 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = ApplicationTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		74E6E4E51A30EFB500E89172 /* Build configuration list for PBXProject "Application" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				74E6E4FC1A30EFB500E89172 /* Debug */,
+				74E6E4FD1A30EFB500E89172 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		74E6E4FE1A30EFB500E89172 /* Build configuration list for PBXNativeTarget "Application" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				74E6E4FF1A30EFB500E89172 /* Debug */,
+				74E6E5001A30EFB500E89172 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		74E6E5011A30EFB500E89172 /* Build configuration list for PBXNativeTarget "ApplicationTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				74E6E5021A30EFB500E89172 /* Debug */,
+				74E6E5031A30EFB500E89172 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 74E6E4E21A30EFB500E89172 /* Project object */;
+}
