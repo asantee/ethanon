@@ -21,8 +21,12 @@
 --------------------------------------------------------------------------------------*/
 
 #import "Platform.ios.h"
+
 #import "../Platform.h"
+
 #import "../../Video/GLES2/GLES2Video.h"
+
+#import <Foundation/Foundation.h>
 
 gs2d::str_type::string gs2d::Application::GetPlatformName()
 {
@@ -45,28 +49,28 @@ namespace Platform {
 
 gs2d::str_type::string ResourceDirectory()
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	NSString* resourceDir = [[NSBundle mainBundle] resourcePath];
-	resourceDir = [resourceDir stringByAppendingString:@"/assets/"];
+	@autoreleasepool {
+		NSString* resourceDir = [[NSBundle mainBundle] resourcePath];
+		resourceDir = [resourceDir stringByAppendingString:@"/assets/"];
 
-	const gs2d::str_type::string r = [resourceDir cStringUsingEncoding:1];
-	[pool release];
-	return r;
+		const gs2d::str_type::string r = [resourceDir cStringUsingEncoding:1];
+		return r;
+	}
 }
 
 gs2d::str_type::string ExternalStorageDirectory()
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	NSString* externalStorageDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+	@autoreleasepool {
+		NSString* externalStorageDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
 
-	// apprend proc name plus slash
-	externalStorageDir = [externalStorageDir stringByAppendingString:@"/ethdata/"];
-	externalStorageDir = [externalStorageDir stringByAppendingPathComponent:[[NSProcessInfo processInfo] processName]];
-	externalStorageDir = [externalStorageDir stringByAppendingString:@"/"];
+		// apprend proc name plus slash
+		externalStorageDir = [externalStorageDir stringByAppendingString:@"/ethdata/"];
+		externalStorageDir = [externalStorageDir stringByAppendingPathComponent:[[NSProcessInfo processInfo] processName]];
+		externalStorageDir = [externalStorageDir stringByAppendingString:@"/"];
 
-	const gs2d::str_type::string r = [externalStorageDir cStringUsingEncoding:1];
-	[pool release];
-	return r;
+		const gs2d::str_type::string r = [externalStorageDir cStringUsingEncoding:1];
+		return r;
+	}
 }
 
 gs2d::str_type::string GlobalExternalStorageDirectory()
@@ -84,11 +88,11 @@ gs2d::str_type::string GetModuleDirectory()
 
 bool CreateDirectoryNS(NSString* dir)
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	NSFileManager* fileManager = [NSFileManager defaultManager];
-	const bool r = ([fileManager createDirectoryAtPath:dir withIntermediateDirectories:YES attributes:nil error:nil] == YES);
-	[pool release];
-	return r;
+	@autoreleasepool {
+		NSFileManager* fileManager = [NSFileManager defaultManager];
+		const bool r = ([fileManager createDirectoryAtPath:dir withIntermediateDirectories:YES attributes:nil error:nil] == YES);
+		return r;
+	}
 }
 
 bool CreateDirectory(const std::string& path)
