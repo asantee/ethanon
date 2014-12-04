@@ -40,6 +40,9 @@
 		74E6E5981A3101DC00E89172 /* GLES2UniformParameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E5901A3101DC00E89172 /* GLES2UniformParameter.cpp */; };
 		74E6E5991A3101DC00E89172 /* GLES2Video.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E5921A3101DC00E89172 /* GLES2Video.cpp */; };
 		74E6E59D1A3101F000E89172 /* IOSGLES2Video.mm in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E59C1A3101F000E89172 /* IOSGLES2Video.mm */; };
+		74E6E5A31A310C6100E89172 /* KeyStateManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E59F1A310C6100E89172 /* KeyStateManager.cpp */; };
+		74E6E5A41A310C6100E89172 /* MobileInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E5A11A310C6100E89172 /* MobileInput.cpp */; };
+		74E6E5A81A310C7300E89172 /* IOSInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E5A61A310C7300E89172 /* IOSInput.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -145,6 +148,12 @@
 		74E6E5931A3101DC00E89172 /* GLES2Video.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLES2Video.h; path = ../../../../src/gs2d/src/Video/GLES2/GLES2Video.h; sourceTree = "<group>"; };
 		74E6E59B1A3101F000E89172 /* IOSGLES2Video.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IOSGLES2Video.h; path = ../../../../src/gs2d/src/Video/GLES2/ios/IOSGLES2Video.h; sourceTree = "<group>"; };
 		74E6E59C1A3101F000E89172 /* IOSGLES2Video.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = IOSGLES2Video.mm; path = ../../../../src/gs2d/src/Video/GLES2/ios/IOSGLES2Video.mm; sourceTree = "<group>"; };
+		74E6E59F1A310C6100E89172 /* KeyStateManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = KeyStateManager.cpp; path = ../../../../src/gs2d/src/Input/KeyStateManager.cpp; sourceTree = "<group>"; };
+		74E6E5A01A310C6100E89172 /* KeyStateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KeyStateManager.h; path = ../../../../src/gs2d/src/Input/KeyStateManager.h; sourceTree = "<group>"; };
+		74E6E5A11A310C6100E89172 /* MobileInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MobileInput.cpp; path = ../../../../src/gs2d/src/Input/MobileInput.cpp; sourceTree = "<group>"; };
+		74E6E5A21A310C6100E89172 /* MobileInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MobileInput.h; path = ../../../../src/gs2d/src/Input/MobileInput.h; sourceTree = "<group>"; };
+		74E6E5A61A310C7300E89172 /* IOSInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IOSInput.cpp; path = ../../../../src/gs2d/src/Input/iOS/IOSInput.cpp; sourceTree = "<group>"; };
+		74E6E5A71A310C7300E89172 /* IOSInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IOSInput.h; path = ../../../../src/gs2d/src/Input/iOS/IOSInput.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -215,6 +224,7 @@
 		74E6E5081A30F04300E89172 /* GS2D */ = {
 			isa = PBXGroup;
 			children = (
+				74E6E59E1A310C4600E89172 /* Input */,
 				74E6E57F1A31004500E89172 /* Video */,
 				74E6E51B1A30F0EA00E89172 /* Platform */,
 				74E6E50A1A30F04D00E89172 /* Math */,
@@ -355,6 +365,27 @@
 			name = ios;
 			sourceTree = "<group>";
 		};
+		74E6E59E1A310C4600E89172 /* Input */ = {
+			isa = PBXGroup;
+			children = (
+				74E6E5A51A310C6500E89172 /* iOS */,
+				74E6E59F1A310C6100E89172 /* KeyStateManager.cpp */,
+				74E6E5A01A310C6100E89172 /* KeyStateManager.h */,
+				74E6E5A11A310C6100E89172 /* MobileInput.cpp */,
+				74E6E5A21A310C6100E89172 /* MobileInput.h */,
+			);
+			name = Input;
+			sourceTree = "<group>";
+		};
+		74E6E5A51A310C6500E89172 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				74E6E5A61A310C7300E89172 /* IOSInput.cpp */,
+				74E6E5A71A310C7300E89172 /* IOSInput.h */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -449,9 +480,12 @@
 				74E6E5971A3101DC00E89172 /* GLES2Texture.cpp in Sources */,
 				74E6E5981A3101DC00E89172 /* GLES2UniformParameter.cpp in Sources */,
 				74E6E5941A3101DC00E89172 /* GLES2RectRenderer.cpp in Sources */,
+				74E6E5A81A310C7300E89172 /* IOSInput.cpp in Sources */,
 				74E6E53D1A30F1B300E89172 /* SharedDataManager.cpp in Sources */,
+				74E6E5A41A310C6100E89172 /* MobileInput.cpp in Sources */,
 				74E6E57E1A30FFB600E89172 /* Video.cpp in Sources */,
 				74E6E5441A30F1C600E89172 /* IOSFileIOHub.cpp in Sources */,
+				74E6E5A31A310C6100E89172 /* KeyStateManager.cpp in Sources */,
 				74E6E5311A30F19900E89172 /* Logger.cpp in Sources */,
 				74E6E57D1A30FFB600E89172 /* Sprite.cpp in Sources */,
 				74E6E5351A30F19900E89172 /* StdFileManager.cpp in Sources */,
