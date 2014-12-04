@@ -35,6 +35,8 @@
 
 namespace gs2d {
 
+typedef std::map<std::size_t, GLuint> GLES2ProgramMap;
+
 class GLES2Shader;
 typedef boost::shared_ptr<GLES2Shader> GLES2ShaderPtr;
 
@@ -84,7 +86,7 @@ public:
 protected:
 	GLES2ShaderPtr m_currentVS;
 	GLES2ShaderPtr m_currentPS;
-	std::map<std::size_t, GLuint> m_programs;
+	GLES2ProgramMap m_programs;
 	std::map<GLuint, int> m_vertexPosLocations;
 	std::map<GLuint, int> m_texCoordLocations;
 	bool CheckForError(const str_type::string& situation);

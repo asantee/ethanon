@@ -287,7 +287,8 @@ bool GLES2Sprite::DrawOptimal(const math::Vector2 &v2Pos, const Vector4& color, 
 	Vector2 flipAdd, flipMul;
 	GetFlipShaderParameters(flipAdd, flipMul);
 
-	const unsigned int numParams = 13 + m_attachedParameters.size();
+	const std::size_t numBasicParams = 13;
+	const std::size_t numParams = numBasicParams + m_attachedParameters.size();
 	Vector2 *params = new Vector2 [numParams];
 	params[0] = rectPos;
 	params[1] = rectSize;
@@ -302,7 +303,7 @@ bool GLES2Sprite::DrawOptimal(const math::Vector2 &v2Pos, const Vector4& color, 
 	params[10] = m_shaderContext->GetScreenSize();
 	params[11] = flipAdd;
 	params[12] = flipMul;
-	const std::size_t first = 13; // to-do make it safer
+	const std::size_t first = numBasicParams; // to-do make it safer
 
 	for (std::size_t t = 0; t < m_attachedParameters.size(); t++)
 	{
@@ -310,8 +311,15 @@ bool GLES2Sprite::DrawOptimal(const math::Vector2 &v2Pos, const Vector4& color, 
 	}
 
 	vs->SetMatrixConstant(ROTATION_MATRIX_HASH, "rotationMatrix", mRot);
-	vs->SetConstantArray(PARAMS_HASH, "params", numParams, boost::shared_array<const math::Vector2>(params));
+
+	vs->SetConstantArray(
+		PARAMS_HASH,
+		"params",
+		static_cast<unsigned int>(numParams),
+		boost::shared_array<const math::Vector2>(params));
+
 	m_shaderContext->DrawRect(m_rectMode);
+
 	m_attachedParameters.clear();
 	return true;
 }
