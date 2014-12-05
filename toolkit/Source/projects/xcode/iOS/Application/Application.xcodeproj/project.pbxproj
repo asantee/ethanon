@@ -53,6 +53,27 @@
 			remoteGlobalIDString = 74E6E4E91A30EFB500E89172;
 			remoteInfo = Application;
 		};
+		74E6E5E71A31108600E89172 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 74E6E5E21A31108500E89172 /* CocosDenshion.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 74E6E5C81A31108400E89172;
+			remoteInfo = CocosDenshion;
+		};
+		74E6E5E91A31108600E89172 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 74E6E5E21A31108500E89172 /* CocosDenshion.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 74E6E5D31A31108500E89172;
+			remoteInfo = CocosDenshionTests;
+		};
+		74E6E5F81A3110D200E89172 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 74E6E5E21A31108500E89172 /* CocosDenshion.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 74E6E5C71A31108400E89172;
+			remoteInfo = CocosDenshion;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -154,6 +175,7 @@
 		74E6E5A21A310C6100E89172 /* MobileInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MobileInput.h; path = ../../../../src/gs2d/src/Input/MobileInput.h; sourceTree = "<group>"; };
 		74E6E5A61A310C7300E89172 /* IOSInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IOSInput.cpp; path = ../../../../src/gs2d/src/Input/iOS/IOSInput.cpp; sourceTree = "<group>"; };
 		74E6E5A71A310C7300E89172 /* IOSInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IOSInput.h; path = ../../../../src/gs2d/src/Input/iOS/IOSInput.h; sourceTree = "<group>"; };
+		74E6E5E21A31108500E89172 /* CocosDenshion.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CocosDenshion.xcodeproj; path = CocosDenshion/CocosDenshion.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,6 +200,7 @@
 		74E6E4E11A30EFB500E89172 = {
 			isa = PBXGroup;
 			children = (
+				74E6E5E21A31108500E89172 /* CocosDenshion.xcodeproj */,
 				74E6E5491A30F41100E89172 /* CoreFoundation.framework */,
 				74E6E5471A30F3DD00E89172 /* Foundation.framework */,
 				74E6E5081A30F04300E89172 /* GS2D */,
@@ -386,6 +409,15 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
+		74E6E5E31A31108500E89172 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				74E6E5E81A31108600E89172 /* libCocosDenshion.a */,
+				74E6E5EA1A31108600E89172 /* CocosDenshionTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -400,6 +432,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				74E6E5F91A3110D200E89172 /* PBXTargetDependency */,
 			);
 			name = Application;
 			productName = Application;
@@ -451,6 +484,12 @@
 			mainGroup = 74E6E4E11A30EFB500E89172;
 			productRefGroup = 74E6E4EB1A30EFB500E89172 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 74E6E5E31A31108500E89172 /* Products */;
+					ProjectRef = 74E6E5E21A31108500E89172 /* CocosDenshion.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				74E6E4E91A30EFB500E89172 /* Application */,
@@ -458,6 +497,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		74E6E5E81A31108600E89172 /* libCocosDenshion.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libCocosDenshion.a;
+			remoteRef = 74E6E5E71A31108600E89172 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		74E6E5EA1A31108600E89172 /* CocosDenshionTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = CocosDenshionTests.xctest;
+			remoteRef = 74E6E5E91A31108600E89172 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		74E6E4F31A30EFB500E89172 /* Resources */ = {
@@ -525,6 +581,11 @@
 			isa = PBXTargetDependency;
 			target = 74E6E4E91A30EFB500E89172 /* Application */;
 			targetProxy = 74E6E4F71A30EFB500E89172 /* PBXContainerItemProxy */;
+		};
+		74E6E5F91A3110D200E89172 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CocosDenshion;
+			targetProxy = 74E6E5F81A3110D200E89172 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
