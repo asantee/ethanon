@@ -186,8 +186,9 @@ void RegisterScriptArray(asIScriptEngine *engine, bool defaultArray)
 
 	if( defaultArray )
 	{
-		int r = engine->RegisterDefaultArrayType("array<T>");assert( r >= 0 );
-		r; // supress 
+		int r = engine->RegisterDefaultArrayType("array<T>");
+		const bool success = r >= 0;
+		assert( success );
 	}
 }
 

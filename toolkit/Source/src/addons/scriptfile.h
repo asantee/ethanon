@@ -27,7 +27,7 @@
 // Declaration
 //
 
-#include "../../angelscript/include/angelscript.h"
+#include "../angelscript/include/angelscript.h"
 #include <string>
 #include <stdio.h>
 

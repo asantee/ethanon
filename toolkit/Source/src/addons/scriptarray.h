@@ -3,7 +3,7 @@
 
 #ifndef ANGELSCRIPT_H 
 // Avoid having to inform include path if header is already include before
-#include "../../angelscript/include/angelscript.h"
+#include "../angelscript/include/angelscript.h"
 #endif
 
 // Sometimes it may be desired to use the same method names as used by C++ STL.

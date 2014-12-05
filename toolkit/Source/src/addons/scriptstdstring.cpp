@@ -278,7 +278,7 @@ void AddBool2StringGeneric(asIScriptGeneric * gen) {
 static void StringFindGeneric(asIScriptGeneric * gen) {
 	std::string * a = static_cast<std::string *>(gen->GetObject());
 	std::string * b = static_cast<std::string *>(gen->GetArgAddress(0));
-	gen->SetReturnDWord(a->find(*b, 0));
+	gen->SetReturnDWord(static_cast<asDWORD>(a->find(*b, 0)));
 }
 
 static void StringSubstrGeneric(asIScriptGeneric * gen) {
