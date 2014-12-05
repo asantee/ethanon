@@ -162,7 +162,7 @@ bool ETHSpriteEntity::LoadLightmapFromFile(const str_type::string& filePath)
 		m_preRenderedLightmapFilePath = filePath;
 	}
 
-	return (m_pLightmap);
+	return static_cast<bool>(m_pLightmap);
 }
 
 bool ETHSpriteEntity::ShouldUseHighlightPixelShader() const

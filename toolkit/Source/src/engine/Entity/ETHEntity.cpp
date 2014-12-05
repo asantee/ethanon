@@ -625,7 +625,7 @@ bool ETHEntity::IsRotatable() const
 
 bool ETHEntity::HasLightSource() const
 {
-	return (m_properties.light);
+	return static_cast<bool>(m_properties.light);
 }
 
 bool ETHEntity::HasParticleSystems() const
@@ -664,7 +664,7 @@ bool ETHEntity::HasHalo() const
 
 bool ETHEntity::IsCollidable() const
 {
-	return (m_properties.collision);
+	return static_cast<bool>(m_properties.collision);
 }
 
 Video::ALPHA_MODE ETHEntity::GetBlendMode() const
@@ -1001,7 +1001,7 @@ bool ETHEntity::IsSensor() const
 
 bool ETHEntity::HasSimulatedBody() const
 {
-	return (boost::dynamic_pointer_cast<ETHPhysicsEntityController>(m_controller));
+	return static_cast<bool>(boost::dynamic_pointer_cast<ETHPhysicsEntityController>(m_controller));
 }
 
 bool ETHEntity::IsBullet()
