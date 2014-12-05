@@ -127,6 +127,14 @@
 		74E6E7111A31E4F800E89172 /* b2WeldJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E7041A31E4F800E89172 /* b2WeldJoint.cpp */; };
 		74E6E7121A31E4F800E89172 /* b2WheelJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E7061A31E4F800E89172 /* b2WheelJoint.cpp */; };
 		74E6E7151A31E50F00E89172 /* b2Rope.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E7131A31E50F00E89172 /* b2Rope.cpp */; };
+		74E6E71D1A31E67B00E89172 /* tinystr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E7171A31E67B00E89172 /* tinystr.cpp */; };
+		74E6E71E1A31E67B00E89172 /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E7191A31E67B00E89172 /* tinyxml.cpp */; };
+		74E6E71F1A31E67B00E89172 /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E71B1A31E67B00E89172 /* tinyxmlerror.cpp */; };
+		74E6E7201A31E67B00E89172 /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E71C1A31E67B00E89172 /* tinyxmlparser.cpp */; };
+		74E6E72C1A31E6A600E89172 /* image_DXT.c in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E7221A31E6A600E89172 /* image_DXT.c */; };
+		74E6E72D1A31E6A600E89172 /* image_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E7241A31E6A600E89172 /* image_helper.c */; };
+		74E6E72E1A31E6A600E89172 /* SOIL.c in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E7261A31E6A600E89172 /* SOIL.c */; };
+		74E6E72F1A31E6A600E89172 /* stb_image_aug.c in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E7281A31E6A600E89172 /* stb_image_aug.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -437,6 +445,22 @@
 		74E6E7071A31E4F800E89172 /* b2WheelJoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = b2WheelJoint.h; path = ../../../../src/box2d/Box2D/Dynamics/Joints/b2WheelJoint.h; sourceTree = "<group>"; };
 		74E6E7131A31E50F00E89172 /* b2Rope.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = b2Rope.cpp; path = ../../../../src/box2d/Box2D/Rope/b2Rope.cpp; sourceTree = "<group>"; };
 		74E6E7141A31E50F00E89172 /* b2Rope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = b2Rope.h; path = ../../../../src/box2d/Box2D/Rope/b2Rope.h; sourceTree = "<group>"; };
+		74E6E7171A31E67B00E89172 /* tinystr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinystr.cpp; path = ../../../../src/vendors/tinyxml_ansi/tinystr.cpp; sourceTree = "<group>"; };
+		74E6E7181A31E67B00E89172 /* tinystr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tinystr.h; path = ../../../../src/vendors/tinyxml_ansi/tinystr.h; sourceTree = "<group>"; };
+		74E6E7191A31E67B00E89172 /* tinyxml.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxml.cpp; path = ../../../../src/vendors/tinyxml_ansi/tinyxml.cpp; sourceTree = "<group>"; };
+		74E6E71A1A31E67B00E89172 /* tinyxml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tinyxml.h; path = ../../../../src/vendors/tinyxml_ansi/tinyxml.h; sourceTree = "<group>"; };
+		74E6E71B1A31E67B00E89172 /* tinyxmlerror.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxmlerror.cpp; path = ../../../../src/vendors/tinyxml_ansi/tinyxmlerror.cpp; sourceTree = "<group>"; };
+		74E6E71C1A31E67B00E89172 /* tinyxmlparser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxmlparser.cpp; path = ../../../../src/vendors/tinyxml_ansi/tinyxmlparser.cpp; sourceTree = "<group>"; };
+		74E6E7221A31E6A600E89172 /* image_DXT.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = image_DXT.c; path = ../../../../src/soil/image_DXT.c; sourceTree = "<group>"; };
+		74E6E7231A31E6A600E89172 /* image_DXT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = image_DXT.h; path = ../../../../src/soil/image_DXT.h; sourceTree = "<group>"; };
+		74E6E7241A31E6A600E89172 /* image_helper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = image_helper.c; path = ../../../../src/soil/image_helper.c; sourceTree = "<group>"; };
+		74E6E7251A31E6A600E89172 /* image_helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = image_helper.h; path = ../../../../src/soil/image_helper.h; sourceTree = "<group>"; };
+		74E6E7261A31E6A600E89172 /* SOIL.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = SOIL.c; path = ../../../../src/soil/SOIL.c; sourceTree = "<group>"; };
+		74E6E7271A31E6A600E89172 /* SOIL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SOIL.h; path = ../../../../src/soil/SOIL.h; sourceTree = "<group>"; };
+		74E6E7281A31E6A600E89172 /* stb_image_aug.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = stb_image_aug.c; path = ../../../../src/soil/stb_image_aug.c; sourceTree = "<group>"; };
+		74E6E7291A31E6A600E89172 /* stb_image_aug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_image_aug.h; path = ../../../../src/soil/stb_image_aug.h; sourceTree = "<group>"; };
+		74E6E72A1A31E6A600E89172 /* stbi_DDS_aug_c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stbi_DDS_aug_c.h; path = ../../../../src/soil/stbi_DDS_aug_c.h; sourceTree = "<group>"; };
+		74E6E72B1A31E6A600E89172 /* stbi_DDS_aug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stbi_DDS_aug.h; path = ../../../../src/soil/stbi_DDS_aug.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -467,6 +491,8 @@
 				74E6E5081A30F04300E89172 /* GS2D */,
 				74E6E6861A31E29300E89172 /* Box2D */,
 				74E6E6011A31DD4C00E89172 /* AngelScript */,
+				74E6E7161A31E66900E89172 /* tinyxml */,
+				74E6E7211A31E68900E89172 /* SOIL */,
 				74E6E4EC1A30EFB500E89172 /* Application */,
 				74E6E4F91A30EFB500E89172 /* ApplicationTests */,
 				74E6E4EB1A30EFB500E89172 /* Products */,
@@ -936,6 +962,36 @@
 			name = Contacts;
 			sourceTree = "<group>";
 		};
+		74E6E7161A31E66900E89172 /* tinyxml */ = {
+			isa = PBXGroup;
+			children = (
+				74E6E7171A31E67B00E89172 /* tinystr.cpp */,
+				74E6E7181A31E67B00E89172 /* tinystr.h */,
+				74E6E7191A31E67B00E89172 /* tinyxml.cpp */,
+				74E6E71A1A31E67B00E89172 /* tinyxml.h */,
+				74E6E71B1A31E67B00E89172 /* tinyxmlerror.cpp */,
+				74E6E71C1A31E67B00E89172 /* tinyxmlparser.cpp */,
+			);
+			name = tinyxml;
+			sourceTree = "<group>";
+		};
+		74E6E7211A31E68900E89172 /* SOIL */ = {
+			isa = PBXGroup;
+			children = (
+				74E6E7221A31E6A600E89172 /* image_DXT.c */,
+				74E6E7231A31E6A600E89172 /* image_DXT.h */,
+				74E6E7241A31E6A600E89172 /* image_helper.c */,
+				74E6E7251A31E6A600E89172 /* image_helper.h */,
+				74E6E7261A31E6A600E89172 /* SOIL.c */,
+				74E6E7271A31E6A600E89172 /* SOIL.h */,
+				74E6E7281A31E6A600E89172 /* stb_image_aug.c */,
+				74E6E7291A31E6A600E89172 /* stb_image_aug.h */,
+				74E6E72A1A31E6A600E89172 /* stbi_DDS_aug_c.h */,
+				74E6E72B1A31E6A600E89172 /* stbi_DDS_aug.h */,
+			);
+			name = SOIL;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1049,6 +1105,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				74E6E7111A31E4F800E89172 /* b2WeldJoint.cpp in Sources */,
+				74E6E71E1A31E67B00E89172 /* tinyxml.cpp in Sources */,
 				74E6E6641A31DD9900E89172 /* as_scriptobject.cpp in Sources */,
 				74E6E6BE1A31E4C500E89172 /* b2Math.cpp in Sources */,
 				74E6E52E1A30F19900E89172 /* FileIOHub.cpp in Sources */,
@@ -1071,6 +1128,7 @@
 				74E6E5A81A310C7300E89172 /* IOSInput.cpp in Sources */,
 				74E6E65D1A31DD9900E89172 /* as_outputbuffer.cpp in Sources */,
 				74E6E53D1A30F1B300E89172 /* SharedDataManager.cpp in Sources */,
+				74E6E7201A31E67B00E89172 /* tinyxmlparser.cpp in Sources */,
 				74E6E7151A31E50F00E89172 /* b2Rope.cpp in Sources */,
 				74E6E5A41A310C6100E89172 /* MobileInput.cpp in Sources */,
 				74E6E70A1A31E4F800E89172 /* b2GearJoint.cpp in Sources */,
@@ -1081,6 +1139,7 @@
 				74E6E7101A31E4F800E89172 /* b2RopeJoint.cpp in Sources */,
 				74E6E5311A30F19900E89172 /* Logger.cpp in Sources */,
 				74E6E57D1A30FFB600E89172 /* Sprite.cpp in Sources */,
+				74E6E72E1A31E6A600E89172 /* SOIL.c in Sources */,
 				74E6E6581A31DD9900E89172 /* as_generic.cpp in Sources */,
 				74E6E5351A30F19900E89172 /* StdFileManager.cpp in Sources */,
 				74E6E6AD1A31E4B300E89172 /* b2EdgeShape.cpp in Sources */,
@@ -1096,6 +1155,7 @@
 				74E6E6D61A31E4E500E89172 /* b2WorldCallbacks.cpp in Sources */,
 				74E6E5861A31006700E89172 /* BitmapFontManager.cpp in Sources */,
 				74E6E5851A31006700E89172 /* BitmapFont.cpp in Sources */,
+				74E6E72F1A31E6A600E89172 /* stb_image_aug.c in Sources */,
 				74E6E64B1A31DD9900E89172 /* as_bytecode.cpp in Sources */,
 				74E6E69E1A31E4A700E89172 /* b2Collision.cpp in Sources */,
 				74E6E6651A31DD9900E89172 /* as_string_util.cpp in Sources */,
@@ -1119,6 +1179,7 @@
 				74E6E65A1A31DD9900E89172 /* as_memory.cpp in Sources */,
 				74E6E6C11A31E4C500E89172 /* b2Timer.cpp in Sources */,
 				74E6E57C1A30FFB600E89172 /* Application.cpp in Sources */,
+				74E6E72D1A31E6A600E89172 /* image_helper.c in Sources */,
 				74E6E6D51A31E4E500E89172 /* b2World.cpp in Sources */,
 				74E6E6BD1A31E4C500E89172 /* b2Draw.cpp in Sources */,
 				74E6E69D1A31E4A700E89172 /* b2CollidePolygon.cpp in Sources */,
@@ -1129,6 +1190,7 @@
 				74E6E7091A31E4F800E89172 /* b2FrictionJoint.cpp in Sources */,
 				74E6E5301A30F19900E89172 /* FileManager.cpp in Sources */,
 				74E6E6491A31DD9900E89172 /* as_atomic.cpp in Sources */,
+				74E6E71D1A31E67B00E89172 /* tinystr.cpp in Sources */,
 				74E6E6691A31DD9900E89172 /* as_typeinfo.cpp in Sources */,
 				74E6E6C01A31E4C500E89172 /* b2StackAllocator.cpp in Sources */,
 				74E6E70C1A31E4F800E89172 /* b2MouseJoint.cpp in Sources */,
@@ -1155,8 +1217,10 @@
 				74E6E50D1A30F05A00E89172 /* Enml.cpp in Sources */,
 				74E6E6671A31DD9900E89172 /* as_thread.cpp in Sources */,
 				74E6E66A1A31DD9900E89172 /* as_variablescope.cpp in Sources */,
+				74E6E71F1A31E67B00E89172 /* tinyxmlerror.cpp in Sources */,
 				74E6E6821A31DE1C00E89172 /* scriptmath2d.cpp in Sources */,
 				74E6E67E1A31DE1C00E89172 /* scriptbuilder.cpp in Sources */,
+				74E6E72C1A31E6A600E89172 /* image_DXT.c in Sources */,
 				74E6E64E1A31DD9900E89172 /* as_callfunc_arm.cpp in Sources */,
 				74E6E6571A31DD9900E89172 /* as_gc.cpp in Sources */,
 				74E6E70D1A31E4F800E89172 /* b2PrismaticJoint.cpp in Sources */,
