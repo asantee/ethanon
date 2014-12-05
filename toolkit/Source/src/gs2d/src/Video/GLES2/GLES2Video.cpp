@@ -205,7 +205,14 @@ TexturePtr GLES2Video::CreateTextureFromFileInMemory(
 	const unsigned int nMipMaps)
 {
 	TexturePtr texture(new GLES2Texture(weak_this, GS_L("from_memory"), m_fileIOHub->GetFileManager()));
-	if (texture->LoadTexture(weak_this, pBuffer, bufferLength, mask, width, height, nMipMaps))
+	if (texture->LoadTexture(
+		weak_this,
+		pBuffer,
+		mask,
+		width,
+		height,
+		nMipMaps,
+		bufferLength))
 	{
 		return texture;
 	}
