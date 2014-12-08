@@ -14,6 +14,8 @@
 		7481CE201A35E42200E25DD3 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7481CE1F1A35E42200E25DD3 /* GameViewController.m */; };
 		7481CE251A35E42300E25DD3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7481CE241A35E42300E25DD3 /* Images.xcassets */; };
 		7481CE341A35E42300E25DD3 /* iOSBaseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7481CE331A35E42300E25DD3 /* iOSBaseTests.m */; };
+		7481CE4C1A362AB400E25DD3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7481CE4A1A362AB400E25DD3 /* Main.storyboard */; };
+		7481CE521A36405900E25DD3 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7481CE511A36405900E25DD3 /* Launch Screen.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +64,8 @@
 		7481CE321A35E42300E25DD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7481CE331A35E42300E25DD3 /* iOSBaseTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iOSBaseTests.m; sourceTree = "<group>"; };
 		7481CE3D1A35EB7900E25DD3 /* Application.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Application.xcodeproj; path = ../Application/Application.xcodeproj; sourceTree = "<group>"; };
+		7481CE4B1A362AB400E25DD3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		7481CE511A36405900E25DD3 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +114,8 @@
 				7481CE1C1A35E42200E25DD3 /* Shader.vsh */,
 				7481CE1E1A35E42200E25DD3 /* GameViewController.h */,
 				7481CE1F1A35E42200E25DD3 /* GameViewController.m */,
+				7481CE4A1A362AB400E25DD3 /* Main.storyboard */,
+				7481CE511A36405900E25DD3 /* Launch Screen.xib */,
 				7481CE241A35E42300E25DD3 /* Images.xcassets */,
 				7481CE131A35E42200E25DD3 /* Supporting Files */,
 			);
@@ -258,6 +264,8 @@
 				7481CE251A35E42300E25DD3 /* Images.xcassets in Resources */,
 				7481CE1D1A35E42200E25DD3 /* Shader.vsh in Resources */,
 				7481CE1B1A35E42200E25DD3 /* Shader.fsh in Resources */,
+				7481CE4C1A362AB400E25DD3 /* Main.storyboard in Resources */,
+				7481CE521A36405900E25DD3 /* Launch Screen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,6 +311,17 @@
 			targetProxy = 7481CE461A35EB8C00E25DD3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		7481CE4A1A362AB400E25DD3 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7481CE4B1A362AB400E25DD3 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		7481CE351A35E42300E25DD3 /* Debug */ = {
@@ -387,7 +406,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = iOSBase/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -400,7 +418,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = iOSBase/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
