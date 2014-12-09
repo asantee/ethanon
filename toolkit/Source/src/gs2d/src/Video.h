@@ -23,7 +23,6 @@
 #ifndef GS2D_VIDEO_H_
 #define GS2D_VIDEO_H_
 
-#include <sstream>
 #include <list>
 #include <vector>
 #include <iostream>
