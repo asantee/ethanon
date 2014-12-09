@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		7481CE161A35E42200E25DD3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7481CE151A35E42200E25DD3 /* main.m */; };
 		7481CE191A35E42200E25DD3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7481CE181A35E42200E25DD3 /* AppDelegate.m */; };
-		7481CE1B1A35E42200E25DD3 /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 7481CE1A1A35E42200E25DD3 /* Shader.fsh */; };
-		7481CE1D1A35E42200E25DD3 /* Shader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 7481CE1C1A35E42200E25DD3 /* Shader.vsh */; };
 		7481CE201A35E42200E25DD3 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7481CE1F1A35E42200E25DD3 /* GameViewController.m */; };
 		7481CE251A35E42300E25DD3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7481CE241A35E42300E25DD3 /* Images.xcassets */; };
 		7481CE341A35E42300E25DD3 /* iOSBaseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7481CE331A35E42300E25DD3 /* iOSBaseTests.m */; };
@@ -55,8 +53,6 @@
 		7481CE151A35E42200E25DD3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7481CE171A35E42200E25DD3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		7481CE181A35E42200E25DD3 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		7481CE1A1A35E42200E25DD3 /* Shader.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = Shader.fsh; path = Shaders/Shader.fsh; sourceTree = "<group>"; };
-		7481CE1C1A35E42200E25DD3 /* Shader.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = Shader.vsh; path = Shaders/Shader.vsh; sourceTree = "<group>"; };
 		7481CE1E1A35E42200E25DD3 /* GameViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
 		7481CE1F1A35E42200E25DD3 /* GameViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
 		7481CE241A35E42300E25DD3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -110,8 +106,6 @@
 			children = (
 				7481CE171A35E42200E25DD3 /* AppDelegate.h */,
 				7481CE181A35E42200E25DD3 /* AppDelegate.m */,
-				7481CE1A1A35E42200E25DD3 /* Shader.fsh */,
-				7481CE1C1A35E42200E25DD3 /* Shader.vsh */,
 				7481CE1E1A35E42200E25DD3 /* GameViewController.h */,
 				7481CE1F1A35E42200E25DD3 /* GameViewController.m */,
 				7481CE4A1A362AB400E25DD3 /* Main.storyboard */,
@@ -262,8 +256,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7481CE251A35E42300E25DD3 /* Images.xcassets in Resources */,
-				7481CE1D1A35E42200E25DD3 /* Shader.vsh in Resources */,
-				7481CE1B1A35E42200E25DD3 /* Shader.fsh in Resources */,
 				7481CE4C1A362AB400E25DD3 /* Main.storyboard in Resources */,
 				7481CE521A36405900E25DD3 /* Launch Screen.xib in Resources */,
 			);
