@@ -96,4 +96,24 @@
 	m_ethanonApplication.RenderFrame();
 }
 
+- (void)touchesBegan: (NSSet*) touches withEvent: (UIEvent*) event
+{
+	m_ethanonApplication.TouchesBegan(self.view, touches, event);
+}
+
+- (void)touchesMoved: (NSSet*) touches withEvent: (UIEvent*) event
+{
+	m_ethanonApplication.TouchesMoved(self.view, touches, event);
+}
+
+- (void)touchesEnded: (NSSet*) touches withEvent: (UIEvent*) event
+{
+	m_ethanonApplication.TouchesEnded(self.view, touches, event);
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	m_ethanonApplication.TouchesCancelled(touches, event);
+}
+
 @end

@@ -8,11 +8,8 @@
 
 #import "Application.h"
 
-#import <UIKit/UIKit.h>
-
 //#import <Platform/ios/Platform.ios.h>
 //#import <Platform/FileLogger.h>
-//#import <Input/iOS/IOSInput.h>
 //#import <Audio/CocosDenshion/CDAudioContext.h>
 //#import <Platform/ios/IOSNativeCommandListener.h>
 
@@ -24,10 +21,12 @@
 
 #import <BaseApplication.h>
 
-static gs2d::VideoPtr video;
-static gs2d::InputPtr input;
-static gs2d::AudioPtr audio;
-static gs2d::BaseApplicationPtr engine;
+#import <Input/iOS/IOSInput.h>
+
+static gs2d::VideoPtr g_video;
+static gs2d::InputPtr g_input;
+static gs2d::AudioPtr g_audio;
+static gs2d::BaseApplicationPtr g_engine;
 
 static gs2d::math::Vector2 GetScreenSize()
 {
@@ -49,36 +48,112 @@ static gs2d::math::Vector2 GetScreenSize()
 	return (gs2d::math::Vector2(width, height) * [[UIScreen mainScreen] scale]);
 }
 
+ApplicationWrapper::ApplicationWrapper() : m_pixelDensity(1.0f)
+{
+}
+
 void ApplicationWrapper::Start()
 {
-	audio = gs2d::CreateAudio(0);
-	input = gs2d::CreateInput(0, false);
+	g_audio = gs2d::CreateAudio(0);
+	g_input = gs2d::CreateInput(0, false);
 
 	Platform::FileIOHubPtr fileIOHub(new Platform::IOSFileIOHub(GS_L("data/")));
 
 	const gs2d::math::Vector2 size = GetScreenSize();
-	video = gs2d::CreateVideo(static_cast<unsigned int>(size.x), static_cast<unsigned int>(size.y), fileIOHub);
+	g_video = gs2d::CreateVideo(static_cast<unsigned int>(size.x), static_cast<unsigned int>(size.y), fileIOHub);
 
-	engine = gs2d::CreateBaseApplication();
-	engine->Start(video, input, audio);
+	g_engine = gs2d::CreateBaseApplication();
+	g_engine->Start(g_video, g_input, g_audio);
+
+	m_pixelDensity = [[UIScreen mainScreen] scale];
 }
 
 void ApplicationWrapper::RenderFrame()
 {
-	if (video->HandleEvents() == gs2d::Application::APP_QUIT)
+	if (g_video->HandleEvents() == gs2d::Application::APP_QUIT)
 	{
 		exit(0);
 	}
 	
-	input->Update();
+	g_input->Update();
 
-	const float elapsedTime = (gs2d::ComputeElapsedTimeF(video));
-	engine->Update(gs2d::math::Min(1000.0f, elapsedTime));
+	const float elapsedTime = (gs2d::ComputeElapsedTimeF(g_video));
+	g_engine->Update(gs2d::math::Min(1000.0f, elapsedTime));
 
-	engine->RenderFrame();
+	g_engine->RenderFrame();
 }
 
 void ApplicationWrapper::Destroy()
 {
-	engine->Destroy();
+	g_engine->Destroy();
+}
+
+void ApplicationWrapper::TouchesBegan(UIView* thisView, NSSet* touches, UIEvent* event)
+{
+	for (UITouch *touch in touches)
+	{
+		gs2d::IOSInput* input = static_cast<gs2d::IOSInput*>(g_input.get());
+		for (std::size_t t = 0; t < g_input->GetMaxTouchCount(); t++)
+		{
+			if (input->GetTouchPos(t, g_video) == gs2d::GS_NO_TOUCH)
+			{
+				CGPoint location = [touch locationInView: thisView];
+				input->SetCurrentTouchPos(t, gs2d::math::Vector2(location.x, location.y) * m_pixelDensity);
+				break;
+			}
+		}
+	}
+}
+
+void ApplicationWrapper::TouchesMoved(UIView* thisView, NSSet* touches, UIEvent* event)
+{
+	gs2d::IOSInput* input = static_cast<gs2d::IOSInput*>(g_input.get());
+	for (UITouch *touch in touches)
+	{
+		CGPoint prevLocation = [touch previousLocationInView: thisView];
+		const gs2d::math::Vector2 prevLocationV2(gs2d::math::Vector2(prevLocation.x, prevLocation.y) * m_pixelDensity);
+		
+		CGPoint location = [touch locationInView: thisView];
+		const gs2d::math::Vector2 locationV2(gs2d::math::Vector2(location.x, location.y) * m_pixelDensity);
+		for (std::size_t t = 0; t < g_input->GetMaxTouchCount(); t++)
+		{
+			if (input->GetTouchPos(t, g_video) == prevLocationV2 || input->GetTouchPos(t, g_video) == locationV2)
+			{
+				CGPoint location = [touch locationInView: thisView];
+				input->SetCurrentTouchPos(t, gs2d::math::Vector2(location.x, location.y) * m_pixelDensity);
+				break;
+			}
+		}
+	}
+}
+
+void ApplicationWrapper::TouchesEnded(UIView* thisView, NSSet* touches, UIEvent* event)
+{
+	gs2d::IOSInput* input = static_cast<gs2d::IOSInput*>(g_input.get());
+	for (UITouch *touch in touches)
+	{
+		CGPoint prevLocation = [touch previousLocationInView: thisView];
+		const gs2d::math::Vector2 prevLocationV2(gs2d::math::Vector2(prevLocation.x, prevLocation.y) * m_pixelDensity);
+		
+		CGPoint location = [touch locationInView: thisView];
+		const gs2d::math::Vector2 locationV2(gs2d::math::Vector2(location.x, location.y) * m_pixelDensity);
+		
+		for (std::size_t t = 0; t < g_input->GetMaxTouchCount(); t++)
+		{
+			if (input->GetTouchPos(t, g_video) == prevLocationV2 || input->GetTouchPos(t, g_video) == locationV2)
+			{
+				input->SetCurrentTouchPos(t, gs2d::GS_NO_TOUCH);
+				break;
+			}
+		}
+	}
+}
+
+void ApplicationWrapper::TouchesCancelled(NSSet* touches, UIEvent* event)
+{
+	gs2d::IOSInput* input = static_cast<gs2d::IOSInput*>(g_input.get());
+	for (std::size_t t = 0; t < g_input->GetMaxTouchCount(); t++)
+	{
+		input->SetCurrentTouchPos(t, gs2d::GS_NO_TOUCH);
+	}
 }
