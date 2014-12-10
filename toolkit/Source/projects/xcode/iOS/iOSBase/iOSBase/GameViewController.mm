@@ -8,10 +8,11 @@
 
 #import "GameViewController.h"
 
+#import "Application/Application.h"
+
 @interface GameViewController () {
 
-	// declare engine here
-
+	ApplicationWrapper m_ethanonApplication;
 }
 
 @property (strong, nonatomic) EAGLContext *context;
@@ -45,7 +46,7 @@
 - (void)dealloc
 {	
 	[self shutDownEngine];
-	
+
 	if ([EAGLContext currentContext] == self.context) {
 		[EAGLContext setCurrentContext:nil];
 	}
@@ -57,16 +58,16 @@
 
 	if ([self isViewLoaded] && ([[self view] window] == nil)) {
 		self.view = nil;
-		
+
 		[self shutDownEngine];
-		
+
 		if ([EAGLContext currentContext] == self.context) {
 			[EAGLContext setCurrentContext:nil];
 		}
 		self.context = nil;
 	}
 
-	// Dispose of any resources that can be recreated.
+	m_ethanonApplication.Destroy();
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -75,10 +76,12 @@
 
 - (void)startEngine
 {
+	m_ethanonApplication.Start();
 }
 
 - (void)shutDownEngine
 {
+	m_ethanonApplication.Destroy();
 	[EAGLContext setCurrentContext:self.context];
 }
 
@@ -90,6 +93,7 @@
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
+	m_ethanonApplication.RenderFrame();
 }
 
 @end

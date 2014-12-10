@@ -9,11 +9,18 @@
 /* Begin PBXBuildFile section */
 		7481CE161A35E42200E25DD3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7481CE151A35E42200E25DD3 /* main.m */; };
 		7481CE191A35E42200E25DD3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7481CE181A35E42200E25DD3 /* AppDelegate.m */; };
-		7481CE201A35E42200E25DD3 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7481CE1F1A35E42200E25DD3 /* GameViewController.m */; };
+		7481CE201A35E42200E25DD3 /* GameViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7481CE1F1A35E42200E25DD3 /* GameViewController.mm */; };
 		7481CE251A35E42300E25DD3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7481CE241A35E42300E25DD3 /* Images.xcassets */; };
 		7481CE341A35E42300E25DD3 /* iOSBaseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7481CE331A35E42300E25DD3 /* iOSBaseTests.m */; };
-		7481CE4C1A362AB400E25DD3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7481CE4A1A362AB400E25DD3 /* Main.storyboard */; };
 		7481CE521A36405900E25DD3 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7481CE511A36405900E25DD3 /* Launch Screen.xib */; };
+		7481CE811A37907100E25DD3 /* libApplication.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7481CE431A35EB7900E25DD3 /* libApplication.a */; };
+		7481CE831A3790DC00E25DD3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7481CE4A1A362AB400E25DD3 /* Main.storyboard */; };
+		7481CE851A37915600E25DD3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7481CE841A37915600E25DD3 /* AudioToolbox.framework */; };
+		7481CE871A37917000E25DD3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7481CE861A37917000E25DD3 /* AVFoundation.framework */; };
+		7481CE891A37918500E25DD3 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7481CE881A37918500E25DD3 /* OpenAL.framework */; };
+		7481CE8B1A3791D800E25DD3 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7481CE8A1A3791D800E25DD3 /* OpenGLES.framework */; };
+		7481CE8D1A3791FB00E25DD3 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7481CE8C1A3791FB00E25DD3 /* GLKit.framework */; };
+		7481CEB31A37951100E25DD3 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 7481CEB21A37951100E25DD3 /* assets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,7 +61,7 @@
 		7481CE171A35E42200E25DD3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		7481CE181A35E42200E25DD3 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		7481CE1E1A35E42200E25DD3 /* GameViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
-		7481CE1F1A35E42200E25DD3 /* GameViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
+		7481CE1F1A35E42200E25DD3 /* GameViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = GameViewController.mm; sourceTree = "<group>"; };
 		7481CE241A35E42300E25DD3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		7481CE2D1A35E42300E25DD3 /* iOSBaseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOSBaseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7481CE321A35E42300E25DD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -62,6 +69,12 @@
 		7481CE3D1A35EB7900E25DD3 /* Application.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Application.xcodeproj; path = ../Application/Application.xcodeproj; sourceTree = "<group>"; };
 		7481CE4B1A362AB400E25DD3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7481CE511A36405900E25DD3 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
+		7481CE841A37915600E25DD3 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		7481CE861A37917000E25DD3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		7481CE881A37918500E25DD3 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		7481CE8A1A3791D800E25DD3 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		7481CE8C1A3791FB00E25DD3 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		7481CEB21A37951100E25DD3 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +82,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7481CE8D1A3791FB00E25DD3 /* GLKit.framework in Frameworks */,
+				7481CE8B1A3791D800E25DD3 /* OpenGLES.framework in Frameworks */,
+				7481CE891A37918500E25DD3 /* OpenAL.framework in Frameworks */,
+				7481CE871A37917000E25DD3 /* AVFoundation.framework in Frameworks */,
+				7481CE851A37915600E25DD3 /* AudioToolbox.framework in Frameworks */,
+				7481CE811A37907100E25DD3 /* libApplication.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,6 +104,11 @@
 		7481CE071A35E42200E25DD3 = {
 			isa = PBXGroup;
 			children = (
+				7481CE8C1A3791FB00E25DD3 /* GLKit.framework */,
+				7481CE8A1A3791D800E25DD3 /* OpenGLES.framework */,
+				7481CE881A37918500E25DD3 /* OpenAL.framework */,
+				7481CE861A37917000E25DD3 /* AVFoundation.framework */,
+				7481CE841A37915600E25DD3 /* AudioToolbox.framework */,
 				7481CE3D1A35EB7900E25DD3 /* Application.xcodeproj */,
 				7481CE121A35E42200E25DD3 /* iOSBase */,
 				7481CE301A35E42300E25DD3 /* iOSBaseTests */,
@@ -104,10 +128,11 @@
 		7481CE121A35E42200E25DD3 /* iOSBase */ = {
 			isa = PBXGroup;
 			children = (
+				7481CEB21A37951100E25DD3 /* assets */,
 				7481CE171A35E42200E25DD3 /* AppDelegate.h */,
 				7481CE181A35E42200E25DD3 /* AppDelegate.m */,
 				7481CE1E1A35E42200E25DD3 /* GameViewController.h */,
-				7481CE1F1A35E42200E25DD3 /* GameViewController.m */,
+				7481CE1F1A35E42200E25DD3 /* GameViewController.mm */,
 				7481CE4A1A362AB400E25DD3 /* Main.storyboard */,
 				7481CE511A36405900E25DD3 /* Launch Screen.xib */,
 				7481CE241A35E42300E25DD3 /* Images.xcassets */,
@@ -255,8 +280,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7481CE831A3790DC00E25DD3 /* Main.storyboard in Resources */,
+				7481CEB31A37951100E25DD3 /* assets in Resources */,
 				7481CE251A35E42300E25DD3 /* Images.xcassets in Resources */,
-				7481CE4C1A362AB400E25DD3 /* Main.storyboard in Resources */,
 				7481CE521A36405900E25DD3 /* Launch Screen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -276,7 +302,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7481CE191A35E42200E25DD3 /* AppDelegate.m in Sources */,
-				7481CE201A35E42200E25DD3 /* GameViewController.m in Sources */,
+				7481CE201A35E42200E25DD3 /* GameViewController.mm in Sources */,
 				7481CE161A35E42200E25DD3 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -471,6 +497,7 @@
 				7481CE391A35E42300E25DD3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7481CE3A1A35E42300E25DD3 /* Build configuration list for PBXNativeTarget "iOSBaseTests" */ = {
 			isa = XCConfigurationList;
@@ -479,6 +506,7 @@
 				7481CE3C1A35E42300E25DD3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Application : NSObject
-
-@end
+class ApplicationWrapper
+{
+public:
+	void Start();
+	void RenderFrame();
+	void Destroy();
+};
