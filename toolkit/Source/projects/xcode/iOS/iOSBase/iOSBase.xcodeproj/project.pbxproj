@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		7481CE161A35E42200E25DD3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7481CE151A35E42200E25DD3 /* main.m */; };
-		7481CE191A35E42200E25DD3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7481CE181A35E42200E25DD3 /* AppDelegate.m */; };
 		7481CE201A35E42200E25DD3 /* GameViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7481CE1F1A35E42200E25DD3 /* GameViewController.mm */; };
 		7481CE251A35E42300E25DD3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7481CE241A35E42300E25DD3 /* Images.xcassets */; };
 		7481CE341A35E42300E25DD3 /* iOSBaseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7481CE331A35E42300E25DD3 /* iOSBaseTests.m */; };
@@ -58,8 +57,6 @@
 		7481CE101A35E42200E25DD3 /* iOSBase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSBase.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7481CE141A35E42200E25DD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7481CE151A35E42200E25DD3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		7481CE171A35E42200E25DD3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		7481CE181A35E42200E25DD3 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		7481CE1E1A35E42200E25DD3 /* GameViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
 		7481CE1F1A35E42200E25DD3 /* GameViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = GameViewController.mm; sourceTree = "<group>"; };
 		7481CE241A35E42300E25DD3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -129,8 +126,6 @@
 			isa = PBXGroup;
 			children = (
 				7481CEB21A37951100E25DD3 /* assets */,
-				7481CE171A35E42200E25DD3 /* AppDelegate.h */,
-				7481CE181A35E42200E25DD3 /* AppDelegate.m */,
 				7481CE1E1A35E42200E25DD3 /* GameViewController.h */,
 				7481CE1F1A35E42200E25DD3 /* GameViewController.mm */,
 				7481CE4A1A362AB400E25DD3 /* Main.storyboard */,
@@ -301,7 +296,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7481CE191A35E42200E25DD3 /* AppDelegate.m in Sources */,
 				7481CE201A35E42200E25DD3 /* GameViewController.mm in Sources */,
 				7481CE161A35E42200E25DD3 /* main.m in Sources */,
 			);

@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7481CEB81A3886EC00E25DD3 /* SimpleAudioEngine.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74E6E5F21A3110B700E89172 /* SimpleAudioEngine.h */; };
+		7481CEB91A38875100E25DD3 /* CDAudioManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74E6E5EB1A3110B700E89172 /* CDAudioManager.h */; };
+		7481CEBA1A38875100E25DD3 /* CDConfig.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74E6E5ED1A3110B700E89172 /* CDConfig.h */; };
+		7481CEBB1A38875100E25DD3 /* CDOpenALSupport.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74E6E5EE1A3110B700E89172 /* CDOpenALSupport.h */; };
+		7481CEBC1A38875100E25DD3 /* CocosDenshion.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74E6E5F01A3110B700E89172 /* CocosDenshion.h */; };
 		74E6E5D41A31108500E89172 /* libCocosDenshion.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74E6E5C81A31108400E89172 /* libCocosDenshion.a */; };
 		74E6E5F41A3110B700E89172 /* CDAudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E5EC1A3110B700E89172 /* CDAudioManager.m */; };
 		74E6E5F51A3110B700E89172 /* CDOpenALSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E5EF1A3110B700E89172 /* CDOpenALSupport.m */; };
@@ -33,6 +38,11 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+				7481CEB91A38875100E25DD3 /* CDAudioManager.h in CopyFiles */,
+				7481CEBA1A38875100E25DD3 /* CDConfig.h in CopyFiles */,
+				7481CEBB1A38875100E25DD3 /* CDOpenALSupport.h in CopyFiles */,
+				7481CEBC1A38875100E25DD3 /* CocosDenshion.h in CopyFiles */,
+				7481CEB81A3886EC00E25DD3 /* SimpleAudioEngine.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -414,6 +424,7 @@
 				74E6E5DE1A31108500E89172 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		74E6E5DF1A31108500E89172 /* Build configuration list for PBXNativeTarget "CocosDenshionTests" */ = {
 			isa = XCConfigurationList;
@@ -422,6 +433,7 @@
 				74E6E5E11A31108500E89172 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
