@@ -18,10 +18,9 @@
 		7481CEAF1A37928900E25DD3 /* hl_sha384wrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7481CEA11A37928900E25DD3 /* hl_sha384wrapper.cpp */; };
 		7481CEB01A37928900E25DD3 /* hl_sha512wrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7481CEA31A37928900E25DD3 /* hl_sha512wrapper.cpp */; };
 		7481CEB11A37928900E25DD3 /* hl_wrapperfactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7481CEA61A37928900E25DD3 /* hl_wrapperfactory.cpp */; };
-		7481CEB61A38844700E25DD3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7481CEB51A38844700E25DD3 /* AppDelegate.m */; };
-		7481CEB71A3884B600E25DD3 /* AppDelegate.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7481CEB41A38844600E25DD3 /* AppDelegate.h */; };
-		74E6E4EE1A30EFB500E89172 /* Application.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74E6E4ED1A30EFB500E89172 /* Application.h */; };
-		74E6E4F01A30EFB500E89172 /* Application.mm in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E4EF1A30EFB500E89172 /* Application.mm */; };
+		7481CEC11A38BD2100E25DD3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7481CEBE1A38BD2100E25DD3 /* AppDelegate.m */; };
+		7481CEC21A38BD2100E25DD3 /* Application.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7481CEC01A38BD2100E25DD3 /* Application.mm */; };
+		74A781E11A38C05600EB3E76 /* Application.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7481CEBF1A38BD2100E25DD3 /* Application.h */; };
 		74E6E4F61A30EFB500E89172 /* libApplication.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74E6E4EA1A30EFB500E89172 /* libApplication.a */; };
 		74E6E50D1A30F05A00E89172 /* Enml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E50B1A30F05A00E89172 /* Enml.cpp */; };
 		74E6E5171A30F06900E89172 /* Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E50E1A30F06900E89172 /* Color.cpp */; };
@@ -259,8 +258,7 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
-				7481CEB71A3884B600E25DD3 /* AppDelegate.h in CopyFiles */,
-				74E6E4EE1A30EFB500E89172 /* Application.h in CopyFiles */,
+				74A781E11A38C05600EB3E76 /* Application.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,11 +290,11 @@
 		7481CEA51A37928900E25DD3 /* hl_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_types.h; path = ../../../../src/vendors/hashlib2plus/src/hl_types.h; sourceTree = "<group>"; };
 		7481CEA61A37928900E25DD3 /* hl_wrapperfactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = hl_wrapperfactory.cpp; path = ../../../../src/vendors/hashlib2plus/src/hl_wrapperfactory.cpp; sourceTree = "<group>"; };
 		7481CEA71A37928900E25DD3 /* hl_wrapperfactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_wrapperfactory.h; path = ../../../../src/vendors/hashlib2plus/src/hl_wrapperfactory.h; sourceTree = "<group>"; };
-		7481CEB41A38844600E25DD3 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		7481CEB51A38844700E25DD3 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		7481CEBD1A38BD2100E25DD3 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ../../../../src/gs2d/src/Platform/ios/AppDelegate.h; sourceTree = "<group>"; };
+		7481CEBE1A38BD2100E25DD3 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ../../../../src/gs2d/src/Platform/ios/AppDelegate.m; sourceTree = "<group>"; };
+		7481CEBF1A38BD2100E25DD3 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Application.h; path = ../../../../src/gs2d/src/Platform/ios/Application.h; sourceTree = "<group>"; };
+		7481CEC01A38BD2100E25DD3 /* Application.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Application.mm; path = ../../../../src/gs2d/src/Platform/ios/Application.mm; sourceTree = "<group>"; };
 		74E6E4EA1A30EFB500E89172 /* libApplication.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libApplication.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		74E6E4ED1A30EFB500E89172 /* Application.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
-		74E6E4EF1A30EFB500E89172 /* Application.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Application.mm; sourceTree = "<group>"; };
 		74E6E4F51A30EFB500E89172 /* ApplicationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ApplicationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		74E6E4FB1A30EFB500E89172 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		74E6E50B1A30F05A00E89172 /* Enml.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Enml.cpp; path = ../../../../src/gs2d/src/Enml/Enml.cpp; sourceTree = "<group>"; };
@@ -775,7 +773,6 @@
 				74E6E6011A31DD4C00E89172 /* AngelScript */,
 				74E6E7161A31E66900E89172 /* tinyxml */,
 				74E6E7211A31E68900E89172 /* SOIL */,
-				74E6E4EC1A30EFB500E89172 /* Application */,
 				74E6E4F91A30EFB500E89172 /* ApplicationTests */,
 				74E6E4EB1A30EFB500E89172 /* Products */,
 			);
@@ -788,17 +785,6 @@
 				74E6E4F51A30EFB500E89172 /* ApplicationTests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		74E6E4EC1A30EFB500E89172 /* Application */ = {
-			isa = PBXGroup;
-			children = (
-				7481CEB41A38844600E25DD3 /* AppDelegate.h */,
-				7481CEB51A38844700E25DD3 /* AppDelegate.m */,
-				74E6E4ED1A30EFB500E89172 /* Application.h */,
-				74E6E4EF1A30EFB500E89172 /* Application.mm */,
-			);
-			path = Application;
 			sourceTree = "<group>";
 		};
 		74E6E4F91A30EFB500E89172 /* ApplicationTests */ = {
@@ -898,6 +884,10 @@
 		74E6E5361A30F19C00E89172 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				7481CEBD1A38BD2100E25DD3 /* AppDelegate.h */,
+				7481CEBE1A38BD2100E25DD3 /* AppDelegate.m */,
+				7481CEBF1A38BD2100E25DD3 /* Application.h */,
+				7481CEC01A38BD2100E25DD3 /* Application.mm */,
 				74E6E53E1A30F1C600E89172 /* IOSFileIOHub.cpp */,
 				74E6E53F1A30F1C600E89172 /* IOSFileIOHub.h */,
 				74E6E5401A30F1C600E89172 /* IOSNativeCommandListener.h */,
@@ -1640,7 +1630,6 @@
 				74E6E8161A31EAA500E89172 /* ETHShaderManager.cpp in Sources */,
 				74E6E5331A30F19900E89172 /* NativeCommandForwarder.cpp in Sources */,
 				74E6E7871A31E9EA00E89172 /* ETHEntityProperties.cpp in Sources */,
-				7481CEB61A38844700E25DD3 /* AppDelegate.m in Sources */,
 				74E6E6531A31DD9900E89172 /* as_compiler.cpp in Sources */,
 				74E6E6661A31DD9900E89172 /* as_string.cpp in Sources */,
 				7481CEB01A37928900E25DD3 /* hl_sha512wrapper.cpp in Sources */,
@@ -1663,6 +1652,7 @@
 				74E6E65D1A31DD9900E89172 /* as_outputbuffer.cpp in Sources */,
 				74E6E53D1A30F1B300E89172 /* SharedDataManager.cpp in Sources */,
 				74E6E7201A31E67B00E89172 /* tinyxmlparser.cpp in Sources */,
+				7481CEC21A38BD2100E25DD3 /* Application.mm in Sources */,
 				74E6E7151A31E50F00E89172 /* b2Rope.cpp in Sources */,
 				74E6E7881A31E9EA00E89172 /* ETHLight.cpp in Sources */,
 				74E6E5A41A310C6100E89172 /* MobileInput.cpp in Sources */,
@@ -1693,7 +1683,6 @@
 				74E6E6601A31DD9900E89172 /* as_scriptcode.cpp in Sources */,
 				74E6E5321A30F19900E89172 /* NativeCommandAssembler.cpp in Sources */,
 				74E6E6681A31DD9900E89172 /* as_tokenizer.cpp in Sources */,
-				74E6E4F01A30EFB500E89172 /* Application.mm in Sources */,
 				74E6E82C1A31EADB00E89172 /* ETHGlobalScaleManager.cpp in Sources */,
 				74E6E6D61A31E4E500E89172 /* b2WorldCallbacks.cpp in Sources */,
 				74E6E5861A31006700E89172 /* BitmapFontManager.cpp in Sources */,
@@ -1714,6 +1703,7 @@
 				74E6E53C1A30F1B300E89172 /* SharedData.cpp in Sources */,
 				74E6E80F1A31EAA500E89172 /* ETHBackBufferTargetManager.cpp in Sources */,
 				74E6E6621A31DD9900E89172 /* as_scriptfunction.cpp in Sources */,
+				7481CEC11A38BD2100E25DD3 /* AppDelegate.m in Sources */,
 				74E6E6A01A31E4A700E89172 /* b2DynamicTree.cpp in Sources */,
 				74E6E6561A31DD9900E89172 /* as_datatype.cpp in Sources */,
 				74E6E7B21A31EA0200E89172 /* ETHRevoluteJoint.cpp in Sources */,
