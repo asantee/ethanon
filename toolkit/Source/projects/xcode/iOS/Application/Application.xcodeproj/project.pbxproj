@@ -21,6 +21,8 @@
 		7481CEC11A38BD2100E25DD3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7481CEBE1A38BD2100E25DD3 /* AppDelegate.m */; };
 		7481CEC21A38BD2100E25DD3 /* Application.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7481CEC01A38BD2100E25DD3 /* Application.mm */; };
 		74A781E11A38C05600EB3E76 /* Application.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7481CEBF1A38BD2100E25DD3 /* Application.h */; };
+		74A781EA1A3A13DE00EB3E76 /* EthanonViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 74A781E91A3A13DE00EB3E76 /* EthanonViewController.mm */; };
+		74A781EC1A3A154800EB3E76 /* EthanonViewController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74A781E81A3A13DE00EB3E76 /* EthanonViewController.h */; };
 		74E6E4F61A30EFB500E89172 /* libApplication.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74E6E4EA1A30EFB500E89172 /* libApplication.a */; };
 		74E6E50D1A30F05A00E89172 /* Enml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E50B1A30F05A00E89172 /* Enml.cpp */; };
 		74E6E5171A30F06900E89172 /* Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E50E1A30F06900E89172 /* Color.cpp */; };
@@ -258,6 +260,7 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+				74A781EC1A3A154800EB3E76 /* EthanonViewController.h in CopyFiles */,
 				74A781E11A38C05600EB3E76 /* Application.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -294,6 +297,8 @@
 		7481CEBE1A38BD2100E25DD3 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ../../../../src/gs2d/src/Platform/ios/AppDelegate.m; sourceTree = "<group>"; };
 		7481CEBF1A38BD2100E25DD3 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Application.h; path = ../../../../src/gs2d/src/Platform/ios/Application.h; sourceTree = "<group>"; };
 		7481CEC01A38BD2100E25DD3 /* Application.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Application.mm; path = ../../../../src/gs2d/src/Platform/ios/Application.mm; sourceTree = "<group>"; };
+		74A781E81A3A13DE00EB3E76 /* EthanonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EthanonViewController.h; path = ../../../../src/gs2d/src/Platform/ios/EthanonViewController.h; sourceTree = "<group>"; };
+		74A781E91A3A13DE00EB3E76 /* EthanonViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = EthanonViewController.mm; path = ../../../../src/gs2d/src/Platform/ios/EthanonViewController.mm; sourceTree = "<group>"; };
 		74E6E4EA1A30EFB500E89172 /* libApplication.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libApplication.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		74E6E4F51A30EFB500E89172 /* ApplicationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ApplicationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		74E6E4FB1A30EFB500E89172 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -888,6 +893,8 @@
 				7481CEBE1A38BD2100E25DD3 /* AppDelegate.m */,
 				7481CEBF1A38BD2100E25DD3 /* Application.h */,
 				7481CEC01A38BD2100E25DD3 /* Application.mm */,
+				74A781E81A3A13DE00EB3E76 /* EthanonViewController.h */,
+				74A781E91A3A13DE00EB3E76 /* EthanonViewController.mm */,
 				74E6E53E1A30F1C600E89172 /* IOSFileIOHub.cpp */,
 				74E6E53F1A30F1C600E89172 /* IOSFileIOHub.h */,
 				74E6E5401A30F1C600E89172 /* IOSNativeCommandListener.h */,
@@ -1771,6 +1778,7 @@
 				74E6E5461A30F1C600E89172 /* Platform.ios.mm in Sources */,
 				74E6E7911A31E9F500E89172 /* ETHParticleSystem.cpp in Sources */,
 				74E6E6D21A31E4E500E89172 /* b2ContactManager.cpp in Sources */,
+				74A781EA1A3A13DE00EB3E76 /* EthanonViewController.mm in Sources */,
 				74E6E7891A31E9EA00E89172 /* ETHRenderEntity.cpp in Sources */,
 				74E6E8111A31EAA500E89172 /* ETHFakeEyePositionManager.cpp in Sources */,
 				74E6E8121A31EAA500E89172 /* ETHLightmapGen.cpp in Sources */,

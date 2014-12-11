@@ -6,9 +6,8 @@
 //  Copyright (c) 2014 Asantee Games. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import <GLKit/GLKit.h>
+#import "Application/EthanonViewController.h"
 
-@interface GameViewController : GLKViewController
+@interface GameViewController : EthanonViewController
 
 @end
