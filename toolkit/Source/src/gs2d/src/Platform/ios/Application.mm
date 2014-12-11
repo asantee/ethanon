@@ -50,6 +50,13 @@ static gs2d::math::Vector2 GetScreenSize()
 
 ApplicationWrapper::ApplicationWrapper() : m_pixelDensity(1.0f)
 {
+	// setup default subplatform
+	const bool constant = false;
+	gs2d::Application::SharedData.Create("com.ethanonengine.subplatform", "apple", constant);
+
+	// setup language code
+	NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
+	gs2d::Application::SharedData.Create(GS_L("ethanon.system.language"), [language cStringUsingEncoding:1], true);
 }
 
 void ApplicationWrapper::Start()
