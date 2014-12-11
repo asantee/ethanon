@@ -20,9 +20,10 @@
 		7481CEB11A37928900E25DD3 /* hl_wrapperfactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7481CEA61A37928900E25DD3 /* hl_wrapperfactory.cpp */; };
 		7481CEC11A38BD2100E25DD3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7481CEBE1A38BD2100E25DD3 /* AppDelegate.m */; };
 		7481CEC21A38BD2100E25DD3 /* Application.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7481CEC01A38BD2100E25DD3 /* Application.mm */; };
-		74A781E11A38C05600EB3E76 /* Application.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7481CEBF1A38BD2100E25DD3 /* Application.h */; };
 		74A781EA1A3A13DE00EB3E76 /* EthanonViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 74A781E91A3A13DE00EB3E76 /* EthanonViewController.mm */; };
-		74A781EC1A3A154800EB3E76 /* EthanonViewController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74A781E81A3A13DE00EB3E76 /* EthanonViewController.h */; };
+		74A781ED1A3A325B00EB3E76 /* Application.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7481CEBF1A38BD2100E25DD3 /* Application.h */; };
+		74A781EE1A3A32D200EB3E76 /* EthanonViewController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74A781E81A3A13DE00EB3E76 /* EthanonViewController.h */; };
+		74A781EF1A3A33FF00EB3E76 /* AppDelegate.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7481CEBD1A38BD2100E25DD3 /* AppDelegate.h */; };
 		74E6E4F61A30EFB500E89172 /* libApplication.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74E6E4EA1A30EFB500E89172 /* libApplication.a */; };
 		74E6E50D1A30F05A00E89172 /* Enml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E50B1A30F05A00E89172 /* Enml.cpp */; };
 		74E6E5171A30F06900E89172 /* Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E50E1A30F06900E89172 /* Color.cpp */; };
@@ -260,8 +261,9 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
-				74A781EC1A3A154800EB3E76 /* EthanonViewController.h in CopyFiles */,
-				74A781E11A38C05600EB3E76 /* Application.h in CopyFiles */,
+				74A781EF1A3A33FF00EB3E76 /* AppDelegate.h in CopyFiles */,
+				74A781EE1A3A32D200EB3E76 /* EthanonViewController.h in CopyFiles */,
+				74A781ED1A3A325B00EB3E76 /* Application.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -164,3 +164,12 @@ void ApplicationWrapper::TouchesCancelled(NSSet* touches, UIEvent* event)
 		input->SetCurrentTouchPos(t, gs2d::GS_NO_TOUCH);
 	}
 }
+
+void ApplicationWrapper::UpdateAccelerometer(CMAccelerometerData *accelerometerData)
+{
+	gs2d::IOSInput* input = static_cast<gs2d::IOSInput*>(g_input.get());
+	input->SetAccelerometerData(gs2d::math::Vector3(
+		static_cast<float>(accelerometerData.acceleration.x),
+		static_cast<float>(accelerometerData.acceleration.y),
+		static_cast<float>(accelerometerData.acceleration.z)));
+}

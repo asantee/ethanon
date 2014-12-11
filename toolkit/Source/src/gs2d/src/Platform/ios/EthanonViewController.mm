@@ -8,17 +8,20 @@
 
 #import "EthanonViewController.h"
 
-#import "Application/Application.h"
+#import "Application.h"
 
-@interface EthanonViewController () {
-
+@interface EthanonViewController ()
+{
 	ApplicationWrapper m_ethanonApplication;
 }
+
+@property (strong, nonatomic) CMMotionManager *motionManager;
 
 @property (strong, nonatomic) EAGLContext *context;
 
 - (void)startEngine;
 - (void)shutDownEngine;
+- (void)setupAccelerometer;
 
 @end
 
@@ -41,6 +44,26 @@
 	[EAGLContext setCurrentContext:self.context];
 
 	[self startEngine];
+}
+
+- (void)setupAccelerometer
+{
+	// setup accelerometer
+	self.motionManager = [[CMMotionManager alloc] init];
+	self.motionManager.accelerometerUpdateInterval = .2;
+	self.motionManager.gyroUpdateInterval = .2;
+
+	[self.motionManager startAccelerometerUpdatesToQueue:[NSOperationQueue currentQueue]
+		withHandler:^(CMAccelerometerData *accelerometerData, NSError *error)
+		{
+			m_ethanonApplication.UpdateAccelerometer(accelerometerData);
+
+			if (error)
+			{
+				NSLog(@"%@", error);
+			}
+		 }
+	];
 }
 
 - (void)dealloc

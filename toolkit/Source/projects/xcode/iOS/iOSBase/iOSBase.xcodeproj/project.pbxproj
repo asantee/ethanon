@@ -20,6 +20,7 @@
 		7481CE8B1A3791D800E25DD3 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7481CE8A1A3791D800E25DD3 /* OpenGLES.framework */; };
 		7481CE8D1A3791FB00E25DD3 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7481CE8C1A3791FB00E25DD3 /* GLKit.framework */; };
 		7481CEB31A37951100E25DD3 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 7481CEB21A37951100E25DD3 /* assets */; };
+		74A781F11A3A358000EB3E76 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74A781F01A3A358000EB3E76 /* CoreMotion.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +73,7 @@
 		7481CE8A1A3791D800E25DD3 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		7481CE8C1A3791FB00E25DD3 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		7481CEB21A37951100E25DD3 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
+		74A781F01A3A358000EB3E76 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74A781F11A3A358000EB3E76 /* CoreMotion.framework in Frameworks */,
 				7481CE8D1A3791FB00E25DD3 /* GLKit.framework in Frameworks */,
 				7481CE8B1A3791D800E25DD3 /* OpenGLES.framework in Frameworks */,
 				7481CE891A37918500E25DD3 /* OpenAL.framework in Frameworks */,
@@ -101,6 +104,7 @@
 		7481CE071A35E42200E25DD3 = {
 			isa = PBXGroup;
 			children = (
+				74A781F01A3A358000EB3E76 /* CoreMotion.framework */,
 				7481CE8C1A3791FB00E25DD3 /* GLKit.framework */,
 				7481CE8A1A3791D800E25DD3 /* OpenGLES.framework */,
 				7481CE881A37918500E25DD3 /* OpenAL.framework */,

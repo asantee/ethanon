@@ -10,6 +10,8 @@
 
 #import <UIKit/UIKit.h>
 
+#import <CoreMotion/CoreMotion.h>
+
 class ApplicationWrapper
 {
 	float m_pixelDensity;
@@ -25,4 +27,6 @@ public:
 	void TouchesMoved(UIView* thisView, NSSet* touches, UIEvent* event);
 	void TouchesEnded(UIView* thisView, NSSet* touches, UIEvent* event);
 	void TouchesCancelled(NSSet* touches, UIEvent* event);
+	
+	void UpdateAccelerometer(CMAccelerometerData *accelerometerData);
 };
