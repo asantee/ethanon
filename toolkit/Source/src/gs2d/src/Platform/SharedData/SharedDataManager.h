@@ -23,8 +23,6 @@
 #ifndef SHARED_DATA_MANAGER_H_
 #define SHARED_DATA_MANAGER_H_
 
-#include "SharedDataManager.h"
-
 #include "SharedData.h"
 
 #include <map>
