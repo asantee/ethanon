@@ -85,7 +85,7 @@ void ApplicationWrapper::RenderFrame()
 	g_input->Update();
 
 	const float elapsedTime = (gs2d::ComputeElapsedTimeF(g_video));
-	g_engine->Update(gs2d::math::Min(1000.0f, elapsedTime));
+	g_engine->Update(gs2d::math::Min(400.0f, elapsedTime));
 
 	g_engine->RenderFrame();
 }
