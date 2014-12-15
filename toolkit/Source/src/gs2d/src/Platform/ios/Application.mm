@@ -8,18 +8,15 @@
 
 #import "Application.h"
 
-//#import <Platform/ios/Platform.ios.h>
-//#import <Platform/FileLogger.h>
-//#import <Audio/CocosDenshion/CDAudioContext.h>
-//#import <Platform/ios/IOSNativeCommandListener.h>
-
-#import <Platform/ios/IOSFileIOHub.h>
-
 #import <Video.h>
 #import <Audio.h>
 #import <Input.h>
 
 #import <BaseApplication.h>
+
+#import <Platform/NativeCommandManager.h>
+#import <Platform/ios/IOSFileIOHub.h>
+#import <Platform/ios/IOSNativeCommandListener.h>
 
 #import <Input/iOS/IOSInput.h>
 
@@ -73,6 +70,8 @@ void ApplicationWrapper::Start()
 	g_engine->Start(g_video, g_input, g_audio);
 
 	m_pixelDensity = [[UIScreen mainScreen] scale];
+	
+	m_commandManager.InsertCommandListener(Platform::IOSNativeCommmandListenerPtr(new Platform::IOSNativeCommmandListener));
 }
 
 void ApplicationWrapper::RenderFrame()
@@ -88,6 +87,8 @@ void ApplicationWrapper::RenderFrame()
 	g_engine->Update(gs2d::math::Min(400.0f, elapsedTime));
 
 	g_engine->RenderFrame();
+	
+	m_commandManager.RunCommands(g_video->PullCommands());
 }
 
 void ApplicationWrapper::Destroy()

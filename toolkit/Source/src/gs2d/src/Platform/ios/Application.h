@@ -12,6 +12,8 @@
 
 #import <CoreMotion/CoreMotion.h>
 
+#import "../NativeCommandManager.h"
+
 class ApplicationWrapper
 {
 	float m_pixelDensity;
@@ -29,4 +31,6 @@ public:
 	void TouchesCancelled(NSSet* touches, UIEvent* event);
 	
 	void UpdateAccelerometer(CMAccelerometerData *accelerometerData);
+
+	Platform::NativeCommandManager m_commandManager;
 };
