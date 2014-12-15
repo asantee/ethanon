@@ -24,6 +24,7 @@
 		74A781ED1A3A325B00EB3E76 /* Application.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7481CEBF1A38BD2100E25DD3 /* Application.h */; };
 		74A781EE1A3A32D200EB3E76 /* EthanonViewController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74A781E81A3A13DE00EB3E76 /* EthanonViewController.h */; };
 		74A781EF1A3A33FF00EB3E76 /* AppDelegate.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7481CEBD1A38BD2100E25DD3 /* AppDelegate.h */; };
+		74CD20471A3B325800DE8AF9 /* NativeCommandManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74CD20461A3B325800DE8AF9 /* NativeCommandManager.cpp */; };
 		74E6E4F61A30EFB500E89172 /* libApplication.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74E6E4EA1A30EFB500E89172 /* libApplication.a */; };
 		74E6E50D1A30F05A00E89172 /* Enml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E50B1A30F05A00E89172 /* Enml.cpp */; };
 		74E6E5171A30F06900E89172 /* Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E50E1A30F06900E89172 /* Color.cpp */; };
@@ -301,6 +302,8 @@
 		7481CEC01A38BD2100E25DD3 /* Application.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Application.mm; path = ../../../../src/gs2d/src/Platform/ios/Application.mm; sourceTree = "<group>"; };
 		74A781E81A3A13DE00EB3E76 /* EthanonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EthanonViewController.h; path = ../../../../src/gs2d/src/Platform/ios/EthanonViewController.h; sourceTree = "<group>"; };
 		74A781E91A3A13DE00EB3E76 /* EthanonViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = EthanonViewController.mm; path = ../../../../src/gs2d/src/Platform/ios/EthanonViewController.mm; sourceTree = "<group>"; };
+		74CD20441A3B318000DE8AF9 /* NativeCommandManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NativeCommandManager.h; path = ../../../../src/gs2d/src/Platform/NativeCommandManager.h; sourceTree = "<group>"; };
+		74CD20461A3B325800DE8AF9 /* NativeCommandManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NativeCommandManager.cpp; path = ../../../../src/gs2d/src/Platform/NativeCommandManager.cpp; sourceTree = "<group>"; };
 		74E6E4EA1A30EFB500E89172 /* libApplication.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libApplication.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		74E6E4F51A30EFB500E89172 /* ApplicationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ApplicationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		74E6E4FB1A30EFB500E89172 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -880,6 +883,8 @@
 				74E6E5271A30F19900E89172 /* NativeCommandForwarder.cpp */,
 				74E6E5281A30F19900E89172 /* NativeCommandForwarder.h */,
 				74E6E5291A30F19900E89172 /* NativeCommandListener.h */,
+				74CD20461A3B325800DE8AF9 /* NativeCommandManager.cpp */,
+				74CD20441A3B318000DE8AF9 /* NativeCommandManager.h */,
 				74E6E52A1A30F19900E89172 /* Platform.cpp */,
 				74E6E52B1A30F19900E89172 /* Platform.h */,
 				74E6E52C1A30F19900E89172 /* StdFileManager.cpp */,
@@ -1663,6 +1668,7 @@
 				74E6E7201A31E67B00E89172 /* tinyxmlparser.cpp in Sources */,
 				7481CEC21A38BD2100E25DD3 /* Application.mm in Sources */,
 				74E6E7151A31E50F00E89172 /* b2Rope.cpp in Sources */,
+				74CD20471A3B325800DE8AF9 /* NativeCommandManager.cpp in Sources */,
 				74E6E7881A31E9EA00E89172 /* ETHLight.cpp in Sources */,
 				74E6E5A41A310C6100E89172 /* MobileInput.cpp in Sources */,
 				74E6E7B11A31EA0200E89172 /* ETHRayCastCallback.cpp in Sources */,

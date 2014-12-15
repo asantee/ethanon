@@ -100,7 +100,7 @@ void ApplicationWrapper::TouchesBegan(UIView* thisView, NSSet* touches, UIEvent*
 	for (UITouch *touch in touches)
 	{
 		gs2d::IOSInput* input = static_cast<gs2d::IOSInput*>(g_input.get());
-		for (std::size_t t = 0; t < g_input->GetMaxTouchCount(); t++)
+		for (unsigned int t = 0; t < g_input->GetMaxTouchCount(); t++)
 		{
 			if (input->GetTouchPos(t, g_video) == gs2d::GS_NO_TOUCH)
 			{
@@ -122,7 +122,7 @@ void ApplicationWrapper::TouchesMoved(UIView* thisView, NSSet* touches, UIEvent*
 		
 		CGPoint location = [touch locationInView: thisView];
 		const gs2d::math::Vector2 locationV2(gs2d::math::Vector2(location.x, location.y) * m_pixelDensity);
-		for (std::size_t t = 0; t < g_input->GetMaxTouchCount(); t++)
+		for (unsigned int t = 0; t < g_input->GetMaxTouchCount(); t++)
 		{
 			if (input->GetTouchPos(t, g_video) == prevLocationV2 || input->GetTouchPos(t, g_video) == locationV2)
 			{
@@ -145,7 +145,7 @@ void ApplicationWrapper::TouchesEnded(UIView* thisView, NSSet* touches, UIEvent*
 		CGPoint location = [touch locationInView: thisView];
 		const gs2d::math::Vector2 locationV2(gs2d::math::Vector2(location.x, location.y) * m_pixelDensity);
 		
-		for (std::size_t t = 0; t < g_input->GetMaxTouchCount(); t++)
+		for (unsigned int t = 0; t < g_input->GetMaxTouchCount(); t++)
 		{
 			if (input->GetTouchPos(t, g_video) == prevLocationV2 || input->GetTouchPos(t, g_video) == locationV2)
 			{
@@ -159,7 +159,7 @@ void ApplicationWrapper::TouchesEnded(UIView* thisView, NSSet* touches, UIEvent*
 void ApplicationWrapper::TouchesCancelled(NSSet* touches, UIEvent* event)
 {
 	gs2d::IOSInput* input = static_cast<gs2d::IOSInput*>(g_input.get());
-	for (std::size_t t = 0; t < g_input->GetMaxTouchCount(); t++)
+	for (unsigned int t = 0; t < g_input->GetMaxTouchCount(); t++)
 	{
 		input->SetCurrentTouchPos(t, gs2d::GS_NO_TOUCH);
 	}
