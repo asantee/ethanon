@@ -41,6 +41,9 @@
 	view.context = self.context;
 	view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
 
+	view.userInteractionEnabled = YES;
+	view.multipleTouchEnabled = YES;
+
 	[EAGLContext setCurrentContext:self.context];
 
 	[self startEngine];

@@ -12,4 +12,13 @@ void main()
 void onSceneUpdate()
 {
 	DrawText(vector2(0), str, "Verdana20_shadow.fnt", 0xFFFFFFFF);
+
+	ETHInput@ input = GetInputHandle();
+	for (uint t = 0; t < input.GetMaxTouchCount(); t++)
+	{
+		if (input.GetTouchState(t) != KS_UP)
+		{
+			DrawText(input.GetTouchPos(t), "*     -> " + (t + 1), "Verdana20_shadow.fnt", 0xFFFFFFFF);
+		}
+	}
 }
