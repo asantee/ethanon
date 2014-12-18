@@ -343,7 +343,7 @@
 				CLANG_ENABLE_OBJC_ARC = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					CD_USE_OWN_FILEUTILS,
-					"DEBUG=1",
+					"CD_DEBUG=2",
 					"$(inherited)",
 				);
 				HEADER_SEARCH_PATHS = (
