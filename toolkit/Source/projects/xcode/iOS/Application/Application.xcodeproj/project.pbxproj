@@ -62,7 +62,6 @@
 		74E6E6491A31DD9900E89172 /* as_atomic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E6031A31DD9900E89172 /* as_atomic.cpp */; };
 		74E6E64A1A31DD9900E89172 /* as_builder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E6051A31DD9900E89172 /* as_builder.cpp */; };
 		74E6E64B1A31DD9900E89172 /* as_bytecode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E6071A31DD9900E89172 /* as_bytecode.cpp */; };
-		74E6E64C1A31DD9900E89172 /* as_callfunc_arm_gcc.S in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E6091A31DD9900E89172 /* as_callfunc_arm_gcc.S */; };
 		74E6E64D1A31DD9900E89172 /* as_callfunc_arm_xcode.S in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E60A1A31DD9900E89172 /* as_callfunc_arm_xcode.S */; };
 		74E6E64E1A31DD9900E89172 /* as_callfunc_arm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E60B1A31DD9900E89172 /* as_callfunc_arm.cpp */; };
 		74E6E6521A31DD9900E89172 /* as_callfunc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E60F1A31DD9900E89172 /* as_callfunc.cpp */; };
@@ -395,7 +394,6 @@
 		74E6E6061A31DD9900E89172 /* as_builder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = as_builder.h; path = ../../../../src/angelscript/source/as_builder.h; sourceTree = "<group>"; };
 		74E6E6071A31DD9900E89172 /* as_bytecode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = as_bytecode.cpp; path = ../../../../src/angelscript/source/as_bytecode.cpp; sourceTree = "<group>"; };
 		74E6E6081A31DD9900E89172 /* as_bytecode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = as_bytecode.h; path = ../../../../src/angelscript/source/as_bytecode.h; sourceTree = "<group>"; };
-		74E6E6091A31DD9900E89172 /* as_callfunc_arm_gcc.S */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; name = as_callfunc_arm_gcc.S; path = ../../../../src/angelscript/source/as_callfunc_arm_gcc.S; sourceTree = "<group>"; };
 		74E6E60A1A31DD9900E89172 /* as_callfunc_arm_xcode.S */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; name = as_callfunc_arm_xcode.S; path = ../../../../src/angelscript/source/as_callfunc_arm_xcode.S; sourceTree = "<group>"; };
 		74E6E60B1A31DD9900E89172 /* as_callfunc_arm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = as_callfunc_arm.cpp; path = ../../../../src/angelscript/source/as_callfunc_arm.cpp; sourceTree = "<group>"; };
 		74E6E60F1A31DD9900E89172 /* as_callfunc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = as_callfunc.cpp; path = ../../../../src/angelscript/source/as_callfunc.cpp; sourceTree = "<group>"; };
@@ -1007,7 +1005,6 @@
 				74E6E6061A31DD9900E89172 /* as_builder.h */,
 				74E6E6071A31DD9900E89172 /* as_bytecode.cpp */,
 				74E6E6081A31DD9900E89172 /* as_bytecode.h */,
-				74E6E6091A31DD9900E89172 /* as_callfunc_arm_gcc.S */,
 				74E6E60A1A31DD9900E89172 /* as_callfunc_arm_xcode.S */,
 				74E6E60B1A31DD9900E89172 /* as_callfunc_arm.cpp */,
 				74E6E60F1A31DD9900E89172 /* as_callfunc.cpp */,
@@ -1735,7 +1732,6 @@
 				74E6E7C41A31EA4B00E89172 /* ETHEntitySpriteRenderer.cpp in Sources */,
 				74E6E70E1A31E4F800E89172 /* b2PulleyJoint.cpp in Sources */,
 				74E6E65F1A31DD9900E89172 /* as_restore.cpp in Sources */,
-				74E6E64C1A31DD9900E89172 /* as_callfunc_arm_gcc.S in Sources */,
 				74E6E7F51A31EA9100E89172 /* ETHScriptWrapper.Scene.cpp in Sources */,
 				74E6E65A1A31DD9900E89172 /* as_memory.cpp in Sources */,
 				74E6E6C11A31E4C500E89172 /* b2Timer.cpp in Sources */,
