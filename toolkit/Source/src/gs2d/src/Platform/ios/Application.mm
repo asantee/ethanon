@@ -45,6 +45,8 @@ static gs2d::math::Vector2 GetScreenSize()
 	return (gs2d::math::Vector2(width, height) * [[UIScreen mainScreen] scale]);
 }
 
+Platform::NativeCommandManager ApplicationWrapper::m_commandManager;
+
 ApplicationWrapper::ApplicationWrapper() : m_pixelDensity(1.0f)
 {
 	// setup default subplatform

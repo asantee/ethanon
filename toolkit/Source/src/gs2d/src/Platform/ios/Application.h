@@ -32,5 +32,5 @@ public:
 	
 	void UpdateAccelerometer(CMAccelerometerData *accelerometerData);
 
-	Platform::NativeCommandManager m_commandManager;
+	static Platform::NativeCommandManager m_commandManager;
 };
