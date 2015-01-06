@@ -45,7 +45,7 @@ float const ToastGap = 10.0f;
     self.textLabel.text = text;
 }
 
-+ (void)showToastInParentView: (UIView *)parentView withText:(NSString *)text withDuaration:(float)duration;
++ (void)showToastInParentView: (UIView *)parentView withText:(NSString *)text withDuration:(float)duration;
 {
 
     //Count toast views are already showing on parent. Made to show several toasts one above another

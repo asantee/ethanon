@@ -9,6 +9,6 @@
 
 @property (strong, nonatomic) NSString *text;
 
-+ (void)showToastInParentView: (UIView *)parentView withText:(NSString *)text withDuaration:(float)duration;
++ (void)showToastInParentView: (UIView *)parentView withText:(NSString *)text withDuration:(float)duration;
 
 @end
