@@ -221,6 +221,7 @@
 		74E6E82C1A31EADB00E89172 /* ETHGlobalScaleManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E8221A31EADB00E89172 /* ETHGlobalScaleManager.cpp */; };
 		74E6E82D1A31EADB00E89172 /* ETHInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E8241A31EADB00E89172 /* ETHInput.cpp */; };
 		74E6E82E1A31EADB00E89172 /* ETHSpeedTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E8261A31EADB00E89172 /* ETHSpeedTimer.cpp */; };
+		74EAF2BD1A5C211900E2A6DB /* ToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 74EAF2BC1A5C211900E2A6DB /* ToastView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -715,6 +716,8 @@
 		74E6E8251A31EADB00E89172 /* ETHInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHInput.h; path = ../../../../src/engine/Util/ETHInput.h; sourceTree = "<group>"; };
 		74E6E8261A31EADB00E89172 /* ETHSpeedTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHSpeedTimer.cpp; path = ../../../../src/engine/Util/ETHSpeedTimer.cpp; sourceTree = "<group>"; };
 		74E6E8271A31EADB00E89172 /* ETHSpeedTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHSpeedTimer.h; path = ../../../../src/engine/Util/ETHSpeedTimer.h; sourceTree = "<group>"; };
+		74EAF2BB1A5C211900E2A6DB /* ToastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToastView.h; path = ../../../../src/gs2d/src/Platform/ios/ToastView.h; sourceTree = "<group>"; };
+		74EAF2BC1A5C211900E2A6DB /* ToastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToastView.m; path = ../../../../src/gs2d/src/Platform/ios/ToastView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -906,6 +909,8 @@
 				74E6E5411A30F1C600E89172 /* IOSNativeCommandListener.mm */,
 				74E6E5421A30F1C600E89172 /* Platform.ios.h */,
 				74E6E5431A30F1C600E89172 /* Platform.ios.mm */,
+				74EAF2BB1A5C211900E2A6DB /* ToastView.h */,
+				74EAF2BC1A5C211900E2A6DB /* ToastView.m */,
 			);
 			name = iOS;
 			sourceTree = "<group>";
@@ -1685,6 +1690,7 @@
 				74E6E5351A30F19900E89172 /* StdFileManager.cpp in Sources */,
 				74E6E7DB1A31EA8300E89172 /* ETHScene.cpp in Sources */,
 				7481CEAB1A37928900E25DD3 /* hl_sha1wrapper.cpp in Sources */,
+				74EAF2BD1A5C211900E2A6DB /* ToastView.m in Sources */,
 				74E6E6AD1A31E4B300E89172 /* b2EdgeShape.cpp in Sources */,
 				74E6E7EC1A31EA9100E89172 /* ETHBinaryStream.cpp in Sources */,
 				74E6E5451A30F1C600E89172 /* IOSNativeCommandListener.mm in Sources */,
