@@ -59,11 +59,13 @@
 	[self.motionManager startAccelerometerUpdatesToQueue:[NSOperationQueue currentQueue]
 		withHandler:^(CMAccelerometerData *accelerometerData, NSError *error)
 		{
-			m_ethanonApplication.UpdateAccelerometer(accelerometerData);
-
 			if (error)
 			{
-				NSLog(@"%@", error);
+				NSLog(@"%@", [error localizedDescription]);
+			}
+			else
+			{
+				m_ethanonApplication.UpdateAccelerometer(accelerometerData);
 			}
 		 }
 	];
