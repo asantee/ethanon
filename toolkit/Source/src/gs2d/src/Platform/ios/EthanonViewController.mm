@@ -94,8 +94,6 @@
 		}
 		self.context = nil;
 	}
-
-	m_ethanonApplication.Destroy();
 }
 
 - (BOOL)prefersStatusBarHidden {
