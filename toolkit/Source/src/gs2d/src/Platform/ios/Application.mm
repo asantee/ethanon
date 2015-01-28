@@ -53,6 +53,9 @@ ApplicationWrapper::ApplicationWrapper() : m_pixelDensity(1.0f)
 	const bool constant = false;
 	gs2d::Application::SharedData.Create("com.ethanonengine.subplatform", "apple", constant);
 
+	NSString* appVersionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+	gs2d::Application::SharedData.Create("com.ethanonengine.versionName", [appVersionString UTF8String], constant);
+
 	// setup language code
 	NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
 	gs2d::Application::SharedData.Create(GS_L("ethanon.system.language"), [language cStringUsingEncoding:1], true);
