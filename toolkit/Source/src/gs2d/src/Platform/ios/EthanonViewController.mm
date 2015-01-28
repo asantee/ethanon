@@ -61,7 +61,7 @@
 		{
 			if (error)
 			{
-				NSLog(@"%@", [error localizedDescription]);
+				NSLog(@"%@", [error description]);
 			}
 			else
 			{
