@@ -135,7 +135,7 @@
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	m_ethanonApplication.TouchesCancelled(touches, event);
+	m_ethanonApplication.TouchesCancelled(self.view, touches, event);
 }
 
 @end

@@ -29,6 +29,9 @@ Platform::NativeCommandManager ApplicationWrapper::m_commandManager;
 
 ApplicationWrapper::ApplicationWrapper() : m_pixelDensity(1.0f)
 {
+	m_touches   = [[NSMutableArray alloc] init];
+	m_arrayLock = [[NSLock alloc] init];
+
 	// setup default subplatform
 	const bool constant = false;
 	gs2d::Application::SharedData.Create("com.ethanonengine.subplatform", "apple", constant);
@@ -105,18 +108,37 @@ gs2d::math::Vector2 ApplicationWrapper::GetScreenSize(GLKView *view)
 
 void ApplicationWrapper::TouchesBegan(UIView* thisView, NSSet* touches, UIEvent* event)
 {
+	gs2d::IOSInput* input = static_cast<gs2d::IOSInput*>(g_input.get());
+
 	for (UITouch *touch in touches)
 	{
-		gs2d::IOSInput* input = static_cast<gs2d::IOSInput*>(g_input.get());
-		for (unsigned int t = 0; t < g_input->GetMaxTouchCount(); t++)
+		unsigned int touchIdx = 0;
+		bool added = false;
+
+		[m_arrayLock lock];
+		NSUInteger count = [m_touches count];
+		for (NSUInteger ui = 0; ui < count; ui++)
 		{
-			if (input->GetTouchPos(t, g_video) == gs2d::GS_NO_TOUCH)
+			id storedTouch = [m_touches objectAtIndex:ui];
+			if (storedTouch == nil || storedTouch == [NSNull null])
 			{
-				CGPoint location = [touch locationInView: thisView];
-				input->SetCurrentTouchPos(t, gs2d::math::Vector2(location.x, location.y) * m_pixelDensity);
+				touchIdx = ui;
+				[m_touches setObject:touch atIndexedSubscript:ui];
+				added = true;
 				break;
 			}
 		}
+
+		if (!added)
+		{
+			touchIdx = count;
+			[m_touches addObject:touch];
+			added = true;
+		}
+		[m_arrayLock unlock];
+
+		CGPoint location = [touch locationInView:thisView];
+		input->SetCurrentTouchPos(touchIdx++, gs2d::math::Vector2(location.x, location.y) * m_pixelDensity);
 	}
 }
 
@@ -125,19 +147,14 @@ void ApplicationWrapper::TouchesMoved(UIView* thisView, NSSet* touches, UIEvent*
 	gs2d::IOSInput* input = static_cast<gs2d::IOSInput*>(g_input.get());
 	for (UITouch *touch in touches)
 	{
-		CGPoint prevLocation = [touch previousLocationInView: thisView];
-		const gs2d::math::Vector2 prevLocationV2(gs2d::math::Vector2(prevLocation.x, prevLocation.y) * m_pixelDensity);
-		
-		CGPoint location = [touch locationInView: thisView];
-		const gs2d::math::Vector2 locationV2(gs2d::math::Vector2(location.x, location.y) * m_pixelDensity);
-		for (unsigned int t = 0; t < g_input->GetMaxTouchCount(); t++)
+		[m_arrayLock lock];
+		NSUInteger touchIdx = [m_touches indexOfObject:touch];
+		[m_arrayLock unlock];
+
+		if (touchIdx != NSNotFound)
 		{
-			if (input->GetTouchPos(t, g_video) == prevLocationV2 || input->GetTouchPos(t, g_video) == locationV2)
-			{
-				CGPoint location = [touch locationInView: thisView];
-				input->SetCurrentTouchPos(t, gs2d::math::Vector2(location.x, location.y) * m_pixelDensity);
-				break;
-			}
+			CGPoint location = [touch locationInView:thisView];
+			input->SetCurrentTouchPos(touchIdx, gs2d::math::Vector2(location.x, location.y) * m_pixelDensity);
 		}
 	}
 }
@@ -147,30 +164,19 @@ void ApplicationWrapper::TouchesEnded(UIView* thisView, NSSet* touches, UIEvent*
 	gs2d::IOSInput* input = static_cast<gs2d::IOSInput*>(g_input.get());
 	for (UITouch *touch in touches)
 	{
-		CGPoint prevLocation = [touch previousLocationInView: thisView];
-		const gs2d::math::Vector2 prevLocationV2(gs2d::math::Vector2(prevLocation.x, prevLocation.y) * m_pixelDensity);
-		
-		CGPoint location = [touch locationInView: thisView];
-		const gs2d::math::Vector2 locationV2(gs2d::math::Vector2(location.x, location.y) * m_pixelDensity);
-		
-		for (unsigned int t = 0; t < g_input->GetMaxTouchCount(); t++)
-		{
-			if (input->GetTouchPos(t, g_video) == prevLocationV2 || input->GetTouchPos(t, g_video) == locationV2)
-			{
-				input->SetCurrentTouchPos(t, gs2d::GS_NO_TOUCH);
-				break;
-			}
-		}
+		[m_arrayLock lock];
+		NSUInteger touchIdx = [m_touches indexOfObject:touch];
+		if (touchIdx != NSNotFound)
+			[m_touches setObject:[NSNull null] atIndexedSubscript:touchIdx];
+		[m_arrayLock unlock];
+		if (touchIdx != NSNotFound)
+			input->SetCurrentTouchPos(touchIdx, gs2d::GS_NO_TOUCH);
 	}
 }
 
-void ApplicationWrapper::TouchesCancelled(NSSet* touches, UIEvent* event)
+void ApplicationWrapper::TouchesCancelled(UIView* thisView, NSSet* touches, UIEvent* event)
 {
-	gs2d::IOSInput* input = static_cast<gs2d::IOSInput*>(g_input.get());
-	for (unsigned int t = 0; t < g_input->GetMaxTouchCount(); t++)
-	{
-		input->SetCurrentTouchPos(t, gs2d::GS_NO_TOUCH);
-	}
+	TouchesEnded(thisView, touches, event);
 }
 
 void ApplicationWrapper::UpdateAccelerometer(CMAccelerometerData *accelerometerData)

@@ -21,6 +21,9 @@
 class ApplicationWrapper
 {
 	float m_pixelDensity;
+	
+	NSMutableArray* m_touches;
+	NSLock* m_arrayLock;
 
 public:
 	ApplicationWrapper();
@@ -35,7 +38,7 @@ public:
 	void TouchesBegan(UIView* thisView, NSSet* touches, UIEvent* event);
 	void TouchesMoved(UIView* thisView, NSSet* touches, UIEvent* event);
 	void TouchesEnded(UIView* thisView, NSSet* touches, UIEvent* event);
-	void TouchesCancelled(NSSet* touches, UIEvent* event);
+	void TouchesCancelled(UIView* thisView, NSSet* touches, UIEvent* event);
 	
 	void UpdateAccelerometer(CMAccelerometerData *accelerometerData);
 
