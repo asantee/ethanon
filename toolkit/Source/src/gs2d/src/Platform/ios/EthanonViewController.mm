@@ -10,6 +10,8 @@
 
 #import "Application.h"
 
+static const float MAX_IPAD_RESOLUTION_WIDTH = 2048;
+
 @interface EthanonViewController ()
 {
 	ApplicationWrapper m_ethanonApplication;
@@ -43,10 +45,49 @@
 
 	view.userInteractionEnabled = YES;
 	view.multipleTouchEnabled = YES;
+	view.exclusiveTouch = YES;
+
+	// toggle retina usage when necessary
+	if (![self useIPadRetinaDisplay])
+	{
+		CGPoint currentSize = [self getScreenAbsoluteSize];
+		const float maxDimension = std::max(currentSize.x, currentSize.y);
+		if (maxDimension >= MAX_IPAD_RESOLUTION_WIDTH)
+		{
+			view.contentScaleFactor = 1.0f;
+		}
+	}
 
 	[EAGLContext setCurrentContext:self.context];
+}
 
-	[self startEngine];
+- (BOOL)useIPadRetinaDisplay
+{
+	return YES;
+}
+
+- (CGPoint)getScreenAbsoluteSize
+{
+	float width;
+	float height;
+	UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+	if (( [[[UIDevice currentDevice] systemVersion] floatValue] < 8.0f)
+		&& UIInterfaceOrientationIsLandscape(orientation))
+	{
+		width = [[UIScreen mainScreen] bounds].size.height;
+		height = [[UIScreen mainScreen] bounds].size.width;
+	}
+	else
+	{
+		width = [[UIScreen mainScreen] bounds].size.width;
+		height = [[UIScreen mainScreen] bounds].size.height;
+	}
+
+	CGPoint r;
+	r.x = width  * [[UIScreen mainScreen] scale];
+	r.y = height * [[UIScreen mainScreen] scale];
+
+	return r;
 }
 
 - (void)setupAccelerometer
