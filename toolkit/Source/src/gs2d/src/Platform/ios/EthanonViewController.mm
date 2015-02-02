@@ -19,7 +19,6 @@
 
 @property (strong, nonatomic) EAGLContext *context;
 
-- (void)startEngine;
 - (void)shutDownEngine;
 - (void)setupAccelerometer;
 
@@ -39,7 +38,8 @@
 
 	GLKView *view = (GLKView *)self.view;
 	view.context = self.context;
-	view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
+	view.drawableDepthFormat = GLKViewDrawableDepthFormat16;
+	view.drawableColorFormat = GLKViewDrawableColorFormatRGBA8888;
 
 	view.userInteractionEnabled = YES;
 	view.multipleTouchEnabled = YES;
@@ -100,11 +100,6 @@
 	return YES;
 }
 
-- (void)startEngine
-{
-	m_ethanonApplication.Start();
-}
-
 - (void)shutDownEngine
 {
 	m_ethanonApplication.Destroy();
@@ -115,11 +110,12 @@
 
 - (void)update
 {
+	m_ethanonApplication.Update();
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
-	m_ethanonApplication.RenderFrame();
+	m_ethanonApplication.RenderFrame(view);
 }
 
 - (void)touchesBegan: (NSSet*) touches withEvent: (UIEvent*) event

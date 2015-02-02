@@ -12,6 +12,10 @@
 
 #import <CoreMotion/CoreMotion.h>
 
+#import <GLKit/GLKit.h>
+
+#import "../../Math/GameMath.h"
+
 #import "../NativeCommandManager.h"
 
 class ApplicationWrapper
@@ -21,9 +25,12 @@ class ApplicationWrapper
 public:
 	ApplicationWrapper();
 
-	void Start();
-	void RenderFrame();
+	void Start(GLKView *view);
+	void Update();
+	void RenderFrame(GLKView *view);
 	void Destroy();
+	
+	static gs2d::math::Vector2 GetScreenSize(GLKView* view);
 
 	void TouchesBegan(UIView* thisView, NSSet* touches, UIEvent* event);
 	void TouchesMoved(UIView* thisView, NSSet* touches, UIEvent* event);
