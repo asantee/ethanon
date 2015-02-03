@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		744D93901A81160800BAAE4A /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 744D938F1A81160800BAAE4A /* GameController.framework */; };
 		7481CE161A35E42200E25DD3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7481CE151A35E42200E25DD3 /* main.m */; };
 		7481CE201A35E42200E25DD3 /* GameViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7481CE1F1A35E42200E25DD3 /* GameViewController.mm */; };
 		7481CE251A35E42300E25DD3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7481CE241A35E42300E25DD3 /* Images.xcassets */; };
@@ -55,6 +56,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		744D938F1A81160800BAAE4A /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
 		7481CE101A35E42200E25DD3 /* iOSBase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSBase.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7481CE141A35E42200E25DD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7481CE151A35E42200E25DD3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -81,6 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				744D93901A81160800BAAE4A /* GameController.framework in Frameworks */,
 				74A781F11A3A358000EB3E76 /* CoreMotion.framework in Frameworks */,
 				7481CE8D1A3791FB00E25DD3 /* GLKit.framework in Frameworks */,
 				7481CE8B1A3791D800E25DD3 /* OpenGLES.framework in Frameworks */,
@@ -104,6 +107,7 @@
 		7481CE071A35E42200E25DD3 = {
 			isa = PBXGroup;
 			children = (
+				744D938F1A81160800BAAE4A /* GameController.framework */,
 				74A781F01A3A358000EB3E76 /* CoreMotion.framework */,
 				7481CE8C1A3791FB00E25DD3 /* GLKit.framework */,
 				7481CE8A1A3791D800E25DD3 /* OpenGLES.framework */,
