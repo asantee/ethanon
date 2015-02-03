@@ -122,7 +122,7 @@ void ApplicationWrapper::TouchesBegan(UIView* thisView, NSSet* touches, UIEvent*
 			id storedTouch = [m_touches objectAtIndex:ui];
 			if (storedTouch == nil || storedTouch == [NSNull null])
 			{
-				touchIdx = ui;
+				touchIdx = static_cast<unsigned int>(ui);
 				[m_touches setObject:touch atIndexedSubscript:ui];
 				added = true;
 				break;
@@ -131,7 +131,7 @@ void ApplicationWrapper::TouchesBegan(UIView* thisView, NSSet* touches, UIEvent*
 
 		if (!added)
 		{
-			touchIdx = count;
+			touchIdx = static_cast<unsigned int>(count);
 			[m_touches addObject:touch];
 			added = true;
 		}
@@ -154,7 +154,9 @@ void ApplicationWrapper::TouchesMoved(UIView* thisView, NSSet* touches, UIEvent*
 		if (touchIdx != NSNotFound)
 		{
 			CGPoint location = [touch locationInView:thisView];
-			input->SetCurrentTouchPos(touchIdx, gs2d::math::Vector2(location.x, location.y) * m_pixelDensity);
+			input->SetCurrentTouchPos(
+				static_cast<unsigned int>(touchIdx),
+				gs2d::math::Vector2(location.x, location.y) * m_pixelDensity);
 		}
 	}
 }
@@ -170,7 +172,7 @@ void ApplicationWrapper::TouchesEnded(UIView* thisView, NSSet* touches, UIEvent*
 			[m_touches setObject:[NSNull null] atIndexedSubscript:touchIdx];
 		[m_arrayLock unlock];
 		if (touchIdx != NSNotFound)
-			input->SetCurrentTouchPos(touchIdx, gs2d::GS_NO_TOUCH);
+			input->SetCurrentTouchPos(static_cast<unsigned int>(touchIdx), gs2d::GS_NO_TOUCH);
 	}
 }
 
