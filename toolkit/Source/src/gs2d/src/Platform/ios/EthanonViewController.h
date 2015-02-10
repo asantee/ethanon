@@ -11,6 +11,6 @@
 
 @interface EthanonViewController : GLKViewController
 
-- (BOOL)useIPadRetinaDisplay;
+- (CGFloat)customContentScaleFactor;
 
 @end

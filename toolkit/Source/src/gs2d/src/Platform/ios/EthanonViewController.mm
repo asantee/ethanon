@@ -47,23 +47,15 @@ static const float MAX_IPAD_RESOLUTION_WIDTH = 2048;
 	view.multipleTouchEnabled = YES;
 	view.exclusiveTouch = YES;
 
-	// toggle retina usage when necessary
-	if (![self useIPadRetinaDisplay])
-	{
-		CGPoint currentSize = [self getScreenAbsoluteSize];
-		const float maxDimension = std::max(currentSize.x, currentSize.y);
-		if (maxDimension >= MAX_IPAD_RESOLUTION_WIDTH)
-		{
-			view.contentScaleFactor = 1.0f;
-		}
-	}
+	view.contentScaleFactor = [self customContentScaleFactor];
 
 	[EAGLContext setCurrentContext:self.context];
 }
 
-- (BOOL)useIPadRetinaDisplay
+- (CGFloat)customContentScaleFactor
 {
-	return YES;
+	GLKView *view = (GLKView *)self.view;
+	return view.contentScaleFactor;
 }
 
 - (CGPoint)getScreenAbsoluteSize
