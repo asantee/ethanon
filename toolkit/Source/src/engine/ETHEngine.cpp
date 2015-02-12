@@ -51,7 +51,11 @@ gs2d::BaseApplicationPtr gs2d::CreateBaseApplication()
 #ifdef ANDROID
 #	define ETH_BYTECODE_FILE_NAME GS_L("android_game.bin")
 #elif APPLE_IOS
-#	define ETH_BYTECODE_FILE_NAME GS_L("ios_game.bin")
+#	ifdef __LP64__
+#		define ETH_BYTECODE_FILE_NAME GS_L("ios_game_64.bin")
+#	else
+#		define ETH_BYTECODE_FILE_NAME GS_L("ios_game.bin")
+#	endif
 #else
 #	define ETH_BYTECODE_FILE_NAME GS_L("game.bin")
 #endif
@@ -372,6 +376,8 @@ bool ETHEngine::BuildModule(const std::vector<gs2d::str_type::string>& definedWo
 		{
 			m_pASModule->SaveByteCode(&stream);
 			stream.CloseW();
+			ETH_STREAM_DECL(ss) << GS_L("ByteCode saved: ") << byteCodeWriteFile;
+			m_provider->Log(ss.str(), Platform::Logger::INFO);
 		}
 		else
 		{
