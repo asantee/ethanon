@@ -41,6 +41,8 @@ ApplicationWrapper::ApplicationWrapper() : m_pixelDensity(1.0f)
 
 	// setup language code
 	NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
+	NSRange designatorRange = NSMakeRange(0, 2);
+	language = [language substringWithRange:designatorRange];
 	gs2d::Application::SharedData.Create(GS_L("ethanon.system.language"), [language cStringUsingEncoding:1], true);
 }
 
