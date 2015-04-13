@@ -10,8 +10,6 @@
 
 #import "Application.h"
 
-static const float MAX_IPAD_RESOLUTION_WIDTH = 2048;
-
 @interface EthanonViewController ()
 {
 	ApplicationWrapper m_ethanonApplication;
