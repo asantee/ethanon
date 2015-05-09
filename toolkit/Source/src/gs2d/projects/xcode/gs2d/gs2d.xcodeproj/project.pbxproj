@@ -55,7 +55,6 @@
 		7473CAB71633044E005DB920 /* BitmapFontManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7473CAAF1633044E005DB920 /* BitmapFontManager.cpp */; };
 		7473CAB81633044E005DB920 /* BitmapFontManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CAB01633044E005DB920 /* BitmapFontManager.h */; };
 		7473CAB91633044E005DB920 /* cgShaderCode.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CAB11633044E005DB920 /* cgShaderCode.h */; };
-		7473CABC1633044E005DB920 /* Window.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CAB41633044E005DB920 /* Window.h */; };
 		7473CABF1633045D005DB920 /* Enml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7473CABD1633045D005DB920 /* Enml.cpp */; };
 		7473CAC01633045D005DB920 /* Enml.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CABE1633045D005DB920 /* Enml.h */; };
 		7473CAC316330624005DB920 /* Platform.macosx.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CAC116330624005DB920 /* Platform.macosx.h */; };
@@ -88,7 +87,7 @@
 		7490C8C51835299900AC21C5 /* CDXMacOSXSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 7490C8C31835299900AC21C5 /* CDXMacOSXSupport.h */; };
 		7490C8C61835299900AC21C5 /* CDXMacOSXSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 7490C8C41835299900AC21C5 /* CDXMacOSXSupport.m */; };
 		7490C8C8183529C300AC21C5 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7490C8C7183529C300AC21C5 /* SDL2.framework */; };
-		7490C8CA18352B4A00AC21C5 /* SDL2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7490C8C7183529C300AC21C5 /* SDL2.framework */; };
+		7490C8CA18352B4A00AC21C5 /* SDL2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7490C8C7183529C300AC21C5 /* SDL2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		7490C8D91835861000AC21C5 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7490C8D81835861000AC21C5 /* AVFoundation.framework */; };
 		74D066D91A03CBF300D45F66 /* image_DXT.c in Sources */ = {isa = PBXBuildFile; fileRef = 74D066CF1A03CBF300D45F66 /* image_DXT.c */; };
 		74D066DA1A03CBF300D45F66 /* image_DXT.h in Headers */ = {isa = PBXBuildFile; fileRef = 74D066D01A03CBF300D45F66 /* image_DXT.h */; };
@@ -603,7 +602,6 @@
 				7473CAB61633044E005DB920 /* BitmapFont.h in Headers */,
 				7473CAB81633044E005DB920 /* BitmapFontManager.h in Headers */,
 				7473CAB91633044E005DB920 /* cgShaderCode.h in Headers */,
-				7473CABC1633044E005DB920 /* Window.h in Headers */,
 				7473CAC01633045D005DB920 /* Enml.h in Headers */,
 				7473CAC316330624005DB920 /* Platform.macosx.h in Headers */,
 				7473CAC816330E1C005DB920 /* Platform.h in Headers */,
@@ -665,7 +663,7 @@
 		74F3A4EC1632E3870064C9A5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0620;
 				ORGANIZATIONNAME = "Asantee Games";
 			};
 			buildConfigurationList = 74F3A4EF1632E3870064C9A5 /* Build configuration list for PBXProject "gs2d" */;
@@ -765,7 +763,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -794,7 +791,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -815,7 +811,6 @@
 		74F3A50C1632E3870064C9A5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LIBRARY = "libstdc++";
 				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -851,7 +846,6 @@
 		74F3A50D1632E3870064C9A5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LIBRARY = "libstdc++";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;

@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		7421F2DB164805C000C55BAE /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F2DA164805C000C55BAE /* main.cpp */; };
-		7421F2FF1649A1F000C55BAE /* ikpMP3.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F2F71649A18B00C55BAE /* ikpMP3.dylib */; };
 		7421F43C165158BA00C55BAE /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7421F43B165158BA00C55BAE /* icon.icns */; };
 		7421F49D1652BCF700C55BAE /* app.enml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F4921652BCF700C55BAE /* app.enml */; };
 		7421F49E1652BCF700C55BAE /* Collide.angelscript in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F4931652BCF700C55BAE /* Collide.angelscript */; };
@@ -22,14 +21,14 @@
 		7421F4A61652BCF700C55BAE /* scenes in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F49B1652BCF700C55BAE /* scenes */; };
 		7421F4A71652BCF700C55BAE /* soundfx in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F49C1652BCF700C55BAE /* soundfx */; };
 		7490C8D118356AF200AC21C5 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7490C8D018356AF200AC21C5 /* SDL2.framework */; };
-		7490C8D218356BCB00AC21C5 /* SDL2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7490C8D018356AF200AC21C5 /* SDL2.framework */; };
+		7490C8D218356BCB00AC21C5 /* SDL2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7490C8D018356AF200AC21C5 /* SDL2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		749764A0169703680065F616 /* engine.xcodeproj in Resources */ = {isa = PBXBuildFile; fileRef = 7497649F169703680065F616 /* engine.xcodeproj */; };
 		749D45C71697237600B44C38 /* gs2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 749D45C31697236100B44C38 /* gs2d.framework */; };
 		749D45CC1697252500B44C38 /* Cg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 749D45CB1697252500B44C38 /* Cg.framework */; };
-		749D45CD1697252D00B44C38 /* Cg.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 749D45CB1697252500B44C38 /* Cg.framework */; };
-		749D45CE169725B500B44C38 /* gs2d.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 749D45C31697236100B44C38 /* gs2d.framework */; };
-		749D45CF169726A700B44C38 /* engine.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74F0D18B1697037C009A3C78 /* engine.framework */; };
-		749D45D0169726F200B44C38 /* box2d.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74C111C916971EAB00AEDCE1 /* box2d.framework */; };
+		749D45CD1697252D00B44C38 /* Cg.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 749D45CB1697252500B44C38 /* Cg.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		749D45CE169725B500B44C38 /* gs2d.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 749D45C31697236100B44C38 /* gs2d.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		749D45CF169726A700B44C38 /* engine.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74F0D18B1697037C009A3C78 /* engine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		749D45D0169726F200B44C38 /* box2d.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74C111C916971EAB00AEDCE1 /* box2d.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		74C111E91697224100AEDCE1 /* engine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F0D18B1697037C009A3C78 /* engine.framework */; };
 		74F00B1E1646C12200B8B51B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F00B1D1646C12200B8B51B /* Cocoa.framework */; };
 		74F00B281646C12200B8B51B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 74F00B261646C12200B8B51B /* InfoPlist.strings */; };
@@ -98,7 +97,6 @@
 				7421F4A51652BCF700C55BAE /* particles in CopyFiles */,
 				7421F4A61652BCF700C55BAE /* scenes in CopyFiles */,
 				7421F4A71652BCF700C55BAE /* soundfx in CopyFiles */,
-				7421F2FF1649A1F000C55BAE /* ikpMP3.dylib in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,7 +299,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = ETH;
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0620;
 				ORGANIZATIONNAME = "Asantee Games";
 			};
 			buildConfigurationList = 74F00B131646C12200B8B51B /* Build configuration list for PBXProject "machine" */;
@@ -417,7 +415,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -446,7 +443,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -467,7 +463,6 @@
 		74F00B381646C12300B8B51B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LIBRARY = "libstdc++";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -495,6 +490,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				VALID_ARCHS = "x86_64 i386";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -502,7 +498,6 @@
 		74F00B391646C12300B8B51B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LIBRARY = "libstdc++";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
@@ -529,6 +524,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				VALID_ARCHS = "x86_64 i386";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

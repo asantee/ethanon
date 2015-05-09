@@ -14,7 +14,6 @@
 		7421F3F2164BF40B00C55BAE /* gsgui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F3F0164BF40B00C55BAE /* gsgui.cpp */; };
 		7421F3F7164BF4BE00C55BAE /* EditorBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F3F5164BF4BE00C55BAE /* EditorBase.cpp */; };
 		7421F3FA164BF98C00C55BAE /* CustomDataEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F3F8164BF98B00C55BAE /* CustomDataEditor.cpp */; };
-		7421F404164C096900C55BAE /* ikpMP3.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7421F403164C096900C55BAE /* ikpMP3.dylib */; };
 		7421F406164C12C100C55BAE /* EditorBase.macosx.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7421F405164C12C100C55BAE /* EditorBase.macosx.mm */; };
 		7421F409164C13A500C55BAE /* EntityEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F407164C13A500C55BAE /* EntityEditor.cpp */; };
 		7421F40C164C141D00C55BAE /* ParticleScale.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F40A164C141D00C55BAE /* ParticleScale.cpp */; };
@@ -136,7 +135,6 @@
 				7421F431164C374200C55BAE /* particles in CopyFiles */,
 				7421F432164C374200C55BAE /* scenes in CopyFiles */,
 				7421F433164C374200C55BAE /* soundfx in CopyFiles */,
-				7421F404164C096900C55BAE /* ikpMP3.dylib in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -627,7 +625,7 @@
 		7421F3A2164BED3300C55BAE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LIBRARY = "libstdc++";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -662,7 +660,7 @@
 		7421F3A3164BED3300C55BAE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LIBRARY = "libstdc++";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
