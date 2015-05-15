@@ -20,9 +20,13 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
+#include <iostream>
+
 #include "Platform.macosx.h"
+
 #include "../Platform.h"
-#include "../../Video/GLES2/GLES2Video.h"
+
+#include "../../Application.h"
 
 void gs2d::ShowMessage(str_type::stringstream& stream, const GS_MESSAGE_TYPE type)
 {
