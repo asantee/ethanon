@@ -21,7 +21,7 @@
 --------------------------------------------------------------------------------------*/
 
 #import "CDAudioContext.h"
-#import <SimpleAudioEngine.h>
+#import "CocosDenshion/SimpleAudioEngine.h"
 
 namespace gs2d {
 
