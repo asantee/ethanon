@@ -20,6 +20,8 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
+#import <AppKit/AppKit.h>
+
 #include <iostream>
 
 #include "Platform.macosx.h"
