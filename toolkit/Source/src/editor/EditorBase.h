@@ -47,6 +47,8 @@
 #define _S_USE_STATIC_LIGHTMAPS GS_L("Use static lightmaps")
 #define _S_SHOW_CUSTOM_DATA GS_L("Show custom data")
 #define _S_SHOW_ADVANCED_OPTIONS GS_L("Show advanced options")
+#define _S_TOGGLE_FLIPX GS_L("Flip X")
+#define _S_TOGGLE_FLIPY GS_L("Flip Y")
 #define _S_TOGGLE_STATIC_DYNAMIC GS_L("Toggle static/dynamic")
 
 const Vector2 ETH_DEFAULT_ZDIRECTION(0,-1);

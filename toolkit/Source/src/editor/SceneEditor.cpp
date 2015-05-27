@@ -154,6 +154,8 @@ void SceneEditor::LoadEditor()
 	m_panel.AddButton(_S_SAVE_LIGHTMAPS, false);
 	m_panel.AddButton(_S_UPDATE_ENTITIES, false);
 	m_panel.AddButton(_S_TOGGLE_STATIC_DYNAMIC, false);
+	m_panel.AddButton(_S_TOGGLE_FLIPX, false);
+	m_panel.AddButton(_S_TOGGLE_FLIPY, false);
 	m_panel.AddButton(_S_LOCK_STATIC, true);
 
 	// gets the last status saved into the info file
@@ -477,6 +479,8 @@ void SceneEditor::SetSelectionMode()
 	m_tool.DeactivateButton(_S_PLACE);
 	m_panel.HideButton(_S_LOCK_STATIC, false);
 	m_panel.HideButton(_S_TOGGLE_STATIC_DYNAMIC, false);
+	m_panel.HideButton(_S_TOGGLE_FLIPX, false);
+	m_panel.HideButton(_S_TOGGLE_FLIPY, false);
 }
 void SceneEditor::SetPlacingMode()
 {
@@ -484,6 +488,8 @@ void SceneEditor::SetPlacingMode()
 	m_tool.DeactivateButton(_S_SELECT);
 	m_panel.HideButton(_S_LOCK_STATIC, true);
 	m_panel.HideButton(_S_TOGGLE_STATIC_DYNAMIC, true);
+	m_panel.HideButton(_S_TOGGLE_FLIPX, true);
+	m_panel.HideButton(_S_TOGGLE_FLIPY, true);
 }
 
 void SceneEditor::EntitySelector(const bool guiButtonsFree)
@@ -910,6 +916,24 @@ void SceneEditor::DoStateManager()
 			}
 		}
 		m_panel.DeactivateButton(_S_TOGGLE_STATIC_DYNAMIC);
+	}
+
+	// Flip toggle buttons
+	if (m_panel.GetButtonStatus(_S_TOGGLE_FLIPX))
+	{
+		if (m_pSelected)
+		{
+			m_pSelected->SetFlipX(!m_pSelected->GetFlipX());
+		}
+		m_panel.DeactivateButton(_S_TOGGLE_FLIPX);
+	}
+	if (m_panel.GetButtonStatus(_S_TOGGLE_FLIPY))
+	{
+		if (m_pSelected)
+		{
+			m_pSelected->SetFlipY(!m_pSelected->GetFlipY());
+		}
+		m_panel.DeactivateButton(_S_TOGGLE_FLIPY);
 	}
 
 	if (m_tool.GetButtonStatus(_S_PLACE) && m_currentEntity)
