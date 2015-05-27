@@ -58,11 +58,20 @@ public:
 	/// Update the position, size and angle of all particles in the system (if they are active)
 	/// Must be called once every frame (only once). The new particles are positioned according
 	/// to v2Pos and it's starting position
-	bool UpdateParticleSystem(
+	void UpdateParticleSystem(
 		const Vector2& v2Pos,
 		const Vector3& v3Pos,
 		const float angle,
 		const float lastFrameElapsedTime);
+
+	void UpdateParticle(
+		const int t,
+		const Vector2& v2Pos,
+		const Vector3& v3Pos,
+		const float angle,
+		const float lastFrameElapsedTime,
+		const Matrix4x4& rot,
+		bool& anythingDrawn);
 
 	/// Draw all particles also considering it's ambient light color
 	bool DrawParticleSystem(
