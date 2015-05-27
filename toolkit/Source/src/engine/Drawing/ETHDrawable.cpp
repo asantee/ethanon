@@ -162,7 +162,9 @@ ETHSpriteDrawer::ETHSpriteDrawer(
 	const Vector2& size,
 	const Vector4& color,
 	const float angle,
-	const unsigned int frame)
+	const unsigned int frame,
+	const bool flipX,
+	const bool flipY)
 {
 	this->sprite = sprite;
 	this->color0 = color;
@@ -174,6 +176,8 @@ ETHSpriteDrawer::ETHSpriteDrawer(
 	this->angle = angle;
 	this->frame = frame;
 	this->provider = provider;
+	this->flipX = flipX;
+	this->flipY = flipY;
 
 	if (this->sprite)
 		this->v2Origin = sprite->GetOrigin();
@@ -189,6 +193,8 @@ bool ETHSpriteDrawer::Draw(const unsigned long lastFrameElapsedTimeMS)
 		const Vector2 size(v2Size == Vector2(-1,-1) ? sprite->GetFrameSize() : v2Size);
 		sprite->SetOrigin(v2Origin);
 		sprite->SetRect(frame);
+		sprite->FlipX(flipX);
+		sprite->FlipY(flipY);
 		return sprite->DrawShaped(v2Pos, size, color0, color1, color2, color3, angle);
 	}
 	else

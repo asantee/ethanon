@@ -127,7 +127,9 @@ public:
 		const Vector2& size,
 		const Vector4& color,
 		const float angle,
-		const unsigned int frame);
+		const unsigned int frame,
+		const bool flipX,
+		const bool flipY);
 
 	bool Draw(const unsigned long lastFrameElapsedTimeMS);
 	bool IsAlive() const;
@@ -141,6 +143,7 @@ private:
 	Vector4 color0, color1, color2, color3;
 	float angle;
 	unsigned int frame;
+	bool flipX, flipY;
 };
 
 #endif

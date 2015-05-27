@@ -160,7 +160,9 @@ void ETHScriptWrapper::DrawShapedFromPtr(
 			v2Size,
 			Vector4(color),
 			angle,
-			sprite->GetRectIndex())));
+			sprite->GetRectIndex(),
+			sprite->GetFlipX(),
+			sprite->GetFlipY())));
 }
 
 void ETHScriptWrapper::DrawSprite(const str_type::string &name, const Vector2 &v2Pos, const GS_DWORD color, const float angle)
