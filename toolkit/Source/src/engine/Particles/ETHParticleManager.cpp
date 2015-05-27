@@ -527,11 +527,14 @@ void ETHParticleManager::ResetParticle(
 		if (m_system.animationMode == ETHParticleSystem::PLAY_ANIMATION)
 		{
 			particle.currentFrame = 0;
-		} else
+		}
+		else
+		{
 			if (m_system.animationMode == ETHParticleSystem::PICK_RANDOM_FRAME)
 			{
 				particle.currentFrame = Randomizer::Int(m_system.spriteCut.x * m_system.spriteCut.y - 1);
 			}
+		}
 	}
 }
 
