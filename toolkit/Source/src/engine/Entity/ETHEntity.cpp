@@ -214,7 +214,7 @@ void ETHEntity::ReadInSceneDataFromXMLFile(TiXmlElement *pElement)
 
 	m_hide = ETHEntityProperties::ReadBooleanPropertyFromXmlElement(pElement, GS_L("hide"), m_hide);
 	m_flipX = ETHEntityProperties::ReadBooleanPropertyFromXmlElement(pElement, GS_L("flipX"), m_flipX);
-	m_flipY = ETHEntityProperties::ReadBooleanPropertyFromXmlElement(pElement, GS_L("flipY"), m_flipX);
+	m_flipY = ETHEntityProperties::ReadBooleanPropertyFromXmlElement(pElement, GS_L("flipY"), m_flipY);
 
 	int signedSpriteFrame = 0;
 	pElement->QueryIntAttribute(GS_L("spriteFrame"), &signedSpriteFrame);
