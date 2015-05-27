@@ -281,7 +281,7 @@ void ETHParticleManager::UpdateParticle(
 			{
 				const float diff = particle.elapsed - particle.lifeTime;
 				ResetParticle(t, v2Pos, v3Pos, angle, rot);
-				if (diff > 0.0f)
+				if (diff > 0.0f && particle.lifeTime > 0.0f)
 				{
 					UpdateParticle(
 						t,
