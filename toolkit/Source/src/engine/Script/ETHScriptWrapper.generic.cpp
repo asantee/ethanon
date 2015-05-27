@@ -166,6 +166,8 @@ asDECLARE_FUNCTION_WRAPPER(__GetSpriteFrameSize, ETHScriptWrapper::GetSpriteFram
 asDECLARE_FUNCTION_WRAPPER(__SetupSpriteRects,   ETHScriptWrapper::SetupSpriteRects);
 asDECLARE_FUNCTION_WRAPPER(__SetSpriteRect,      ETHScriptWrapper::SetSpriteRect);
 asDECLARE_FUNCTION_WRAPPER(__SetSpriteOrigin,    ETHScriptWrapper::SetSpriteOrigin);
+asDECLARE_FUNCTION_WRAPPER(__SetSpriteFlipX,    ETHScriptWrapper::SetSpriteFlipX);
+asDECLARE_FUNCTION_WRAPPER(__SetSpriteFlipY,    ETHScriptWrapper::SetSpriteFlipY);
 
 asDECLARE_FUNCTION_WRAPPER(__GetSceneFileName,    ETHScriptWrapper::GetSceneFileName);
 asDECLARE_FUNCTION_WRAPPER(__GetScreenSize,       ETHScriptWrapper::GetScreenSize);
@@ -425,6 +427,9 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void SetupSpriteRects(const string &in, const uint, const uint)", asFUNCTION(__SetupSpriteRects),   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void SetSpriteRect(const string &in, const uint)",                asFUNCTION(__SetSpriteRect),      asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void SetSpriteOrigin(const string &in, const vector2 &in)",       asFUNCTION(__SetSpriteOrigin),    asCALL_GENERIC); assert(r >= 0);
+
+	r = pASEngine->RegisterGlobalFunction("void SetSpriteFlipX(const string &in, const bool)",       asFUNCTION(__SetSpriteFlipX),    asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void SetSpriteFlipY(const string &in, const bool)",       asFUNCTION(__SetSpriteFlipY),    asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("string GetSceneFileName()",           asFUNCTION(__GetSceneFileName),    asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 GetScreenSize()",             asFUNCTION(__GetScreenSize),       asCALL_GENERIC); assert(r >= 0);

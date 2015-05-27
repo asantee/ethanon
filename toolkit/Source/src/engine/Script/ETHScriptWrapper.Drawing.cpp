@@ -117,6 +117,24 @@ void ETHScriptWrapper::SetSpriteOrigin(const str_type::string& name, const Vecto
 	}
 }
 
+void ETHScriptWrapper::SetSpriteFlipX(const str_type::string &name, const bool flip)
+{
+	SpritePtr pSprite = LoadAndGetSprite(name);
+	if (pSprite)
+	{
+		pSprite->FlipX(flip);
+	}
+}
+
+void ETHScriptWrapper::SetSpriteFlipY(const str_type::string &name, const bool flip)
+{
+	SpritePtr pSprite = LoadAndGetSprite(name);
+	if (pSprite)
+	{
+		pSprite->FlipY(flip);
+	}
+}
+
 void ETHScriptWrapper::DrawShapedFromPtr(
 	const SpritePtr& sprite,
 	const Vector2 &v2Pos,

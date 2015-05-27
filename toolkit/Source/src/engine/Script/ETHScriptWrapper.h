@@ -303,6 +303,8 @@ public:
 	static void SetupSpriteRects(const str_type::string& name, const unsigned int columns, const unsigned int rows);
 	static void SetSpriteRect(const str_type::string& name, const unsigned int frame);
 	static void SetSpriteOrigin(const str_type::string& name, const Vector2& origin);
+	static void SetSpriteFlipX(const str_type::string& name, const bool flip);
+	static void SetSpriteFlipY(const str_type::string& name, const bool flip);
 	static void DrawLine(const Vector2 &v2A, const Vector2 &v2B, const Color a, const Color b, const float width);
 	// static void PlayCutscene(const str_type::string &fileName);
 	static bool Windowed();
