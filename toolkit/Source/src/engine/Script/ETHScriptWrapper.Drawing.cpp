@@ -124,6 +124,16 @@ void ETHScriptWrapper::DrawShapedFromPtr(
 	const GS_DWORD color,
 	const float angle)
 {
+	DrawShapedFromPtr(sprite, v2Pos, v2Size, Vector4(Color(color)), angle);
+}
+
+void ETHScriptWrapper::DrawShapedFromPtr(
+	const SpritePtr& sprite,
+	const Vector2 &v2Pos,
+	const Vector2 &v2Size,
+	const Vector4 &color,
+	const float angle)
+{
 	m_drawableManager.Insert(boost::shared_ptr<ETHDrawable>(
 		new ETHSpriteDrawer(
 			m_provider,
@@ -145,6 +155,18 @@ void ETHScriptWrapper::DrawShaped(const str_type::string &name, const Vector2 &v
 {
 	SpritePtr sprite = LoadAndGetSprite(name);
 	DrawShapedFromPtr(sprite, v2Pos, v2Size, color, angle);
+}
+
+void ETHScriptWrapper::DrawSprite(const str_type::string &name, const Vector2 &v2Pos, const float alpha, const Vector3 &color, const float angle)
+{
+	SpritePtr sprite = LoadAndGetSprite(name);
+	DrawShapedFromPtr(sprite, v2Pos, Vector2(-1,-1), Vector4(color, alpha), angle);
+}
+
+void ETHScriptWrapper::DrawShaped(const str_type::string &name, const Vector2 &v2Pos, const Vector2 &v2Size, const float alpha, const Vector3 &color, const float angle)
+{
+	SpritePtr sprite = LoadAndGetSprite(name);
+	DrawShapedFromPtr(sprite, v2Pos, v2Size, Vector4(color, alpha), angle);
 }
 
 void ETHScriptWrapper::PlayParticleEffect(const str_type::string& fileName, const Vector2& pos, const float angle, const float scale)
