@@ -66,6 +66,7 @@ public:
 
 	void UpdateParticle(
 		const int t,
+		const bool hasJustBeenReset,
 		const Vector2& v2Pos,
 		const Vector3& v3Pos,
 		const float angle,

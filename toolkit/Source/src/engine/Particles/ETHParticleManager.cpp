@@ -192,7 +192,7 @@ void ETHParticleManager::UpdateParticleSystem(
 	const float lastFrameElapsedTime)
 {
 	bool anythingDrawn = false;
-	const float cappedLastFrameElapsedTime = lastFrameElapsedTime;//Min(lastFrameElapsedTime, 10000.0f);
+	const float cappedLastFrameElapsedTime = Min(lastFrameElapsedTime, 250.0f);
 
 	Matrix4x4 rot = RotateZ(DegreeToRadian(angle));
 	m_nActiveParticles = 0;
@@ -200,6 +200,7 @@ void ETHParticleManager::UpdateParticleSystem(
 	{
 		UpdateParticle(
 			t,
+			false, // hasJustBeenReset
 			v2Pos,
 			v3Pos,
 			angle,
@@ -212,6 +213,7 @@ void ETHParticleManager::UpdateParticleSystem(
 
 void ETHParticleManager::UpdateParticle(
 	const int t,
+	const bool hasJustBeenReset,
 	const Vector2& v2Pos,
 	const Vector3& v3Pos,
 	const float angle,
@@ -228,8 +230,9 @@ void ETHParticleManager::UpdateParticle(
 	// check how many particles are active
 	if (particle.size > 0.0f && particle.released)
 	{
-		if (!Killed() || (Killed() && particle.elapsed < particle.lifeTime))
-			m_nActiveParticles++;
+		if (!hasJustBeenReset)
+			if (!Killed() || (Killed() && particle.elapsed < particle.lifeTime))
+				m_nActiveParticles++;
 	}
 
 	anythingDrawn = true;
@@ -285,6 +288,7 @@ void ETHParticleManager::UpdateParticle(
 				{
 					UpdateParticle(
 						t,
+						true, // hasJustBeenReset
 						v2Pos,
 						v3Pos,
 						angle,
