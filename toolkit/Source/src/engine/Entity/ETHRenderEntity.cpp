@@ -114,7 +114,7 @@ bool ETHRenderEntity::DrawAmbientPass(
 	diffuseColor.x = Min(1.0f, diffuseColor.x + m_properties.emissiveColor.x);
 	diffuseColor.y = Min(1.0f, diffuseColor.y + m_properties.emissiveColor.y);
 	diffuseColor.z = Min(1.0f, diffuseColor.z + m_properties.emissiveColor.z);
-	diffuseColor = diffuseColor * m_v4Color;
+	diffuseColor = diffuseColor * m_v4Color * m_properties.diffuseColor;
 
 	if (shouldUseFourTriangles)
 		m_pSprite->SetRectMode(Sprite::RM_FOUR_TRIANGLES);

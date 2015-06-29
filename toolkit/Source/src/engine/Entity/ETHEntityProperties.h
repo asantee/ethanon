@@ -38,6 +38,7 @@ class ETHEntityMaterial
 public:
 	void Reset();
 	Vector4 emissiveColor;
+	Vector4 diffuseColor;
 	ETH_BOOL castShadow;
 	ETH_BOOL applyLight;
 	str_type::string glossFile;

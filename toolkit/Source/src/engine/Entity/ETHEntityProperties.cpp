@@ -77,6 +77,7 @@ static const str_type::string POLYGON_ENML_SAMPLE(
 	GS_L("}\n"));
 
 #define ETH_DEFAULT_EMISSIVE_COLOR	Vector4(0, 0, 0, 0)
+#define ETH_DEFAULT_DIFFUSE_COLOR	Vector4(1, 1, 1, 1)
 #define ETH_DEFAULT_SPRITE_CUT		Vector2i(1, 1)
 #define ETH_DEFAULT_PIVOT_ADJUST	Vector2(0, 0)
 #define ETH_DEFAULT_SCALE			Vector2(1, 1)
@@ -85,6 +86,7 @@ static const str_type::string POLYGON_ENML_SAMPLE(
 void ETHEntityMaterial::Reset()
 {
 	emissiveColor = ETH_DEFAULT_EMISSIVE_COLOR;
+	diffuseColor = ETH_DEFAULT_DIFFUSE_COLOR;
 	castShadow = ETH_FALSE;
 	applyLight = ETH_FALSE;
 	sensor = ETH_FALSE;
@@ -263,6 +265,7 @@ bool ETHEntityProperties::ReadFromXMLFile(TiXmlElement *pElement)
 	}
 
 	ETHEntityProperties::ReadColorPropertyFromXmlElement(pElement, GS_L("EmissiveColor"), emissiveColor);
+	ETHEntityProperties::ReadColorPropertyFromXmlElement(pElement, GS_L("DiffuseColor"), diffuseColor);
 
 	ReadVector2iPropertyFromXmlElement(pElement, GS_L("SpriteCut"), spriteCut);
 	ReadVector2PropertyFromXmlElement(pElement, GS_L("Scale"), scale);
@@ -434,6 +437,9 @@ bool ETHEntityProperties::WriteContentToXMLFile(TiXmlElement *pHeadRoot) const
 
 	if (emissiveColor != ETH_DEFAULT_EMISSIVE_COLOR)
 		ETHEntityProperties::SetColorPropertyToXmlElement(pRoot, GS_L("EmissiveColor"), emissiveColor);
+
+	if (diffuseColor != ETH_DEFAULT_DIFFUSE_COLOR)
+		ETHEntityProperties::SetColorPropertyToXmlElement(pRoot, GS_L("DiffuseColor"), diffuseColor);
 
 	if (spriteCut != ETH_DEFAULT_SPRITE_CUT)
 		ETHEntityProperties::SetVector2iPropertyToXmlElement(pRoot, GS_L("SpriteCut"), spriteCut);
