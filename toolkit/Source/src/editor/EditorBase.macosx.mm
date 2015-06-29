@@ -20,6 +20,9 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
+#import <Foundation/Foundation.h>
+#import <AppKit/AppKit.h>
+
 #include "EditorBase.h"
 
 #include "../engine/ETHTypes.h"
