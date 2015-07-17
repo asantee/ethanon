@@ -22,31 +22,13 @@
 
 #include "IOSNativeCommandListener.h"
 
-#include "../Platform.h"
-
 #import <AudioToolbox/AudioServices.h>
 
 #import <UIKit/UIKit.h>
 
-#import <Foundation/Foundation.h>
-
 namespace Platform {
 
-IOSNativeCommmandListener::IOSNativeCommmandListener(gs2d::VideoPtr video) :
-	m_video(video)
-{
-}
-
-void IOSNativeCommmandListener::ParseAndExecuteCommands(const gs2d::str_type::string& commands)
-{
-	std::vector<gs2d::str_type::string> commandLines = Platform::SplitString(commands, GS_L("\n"));
-	for (std::size_t t = 0; t < commandLines.size(); t++)
-	{
-		ExecuteCommand(commandLines[t]);
-	}
-}
-
-void IOSNativeCommmandListener::ExecuteCommand(const gs2d::str_type::string &commandLine)
+bool IOSNativeCommmandListener::ExecuteCommand(const gs2d::str_type::string& commandLine)
 {
 	@autoreleasepool {
 		NSString* line = [NSString stringWithUTF8String:commandLine.c_str()];
@@ -57,6 +39,8 @@ void IOSNativeCommmandListener::ExecuteCommand(const gs2d::str_type::string &com
 		{
 			NSString* word1 = [words objectAtIndex:1];
 			[[UIApplication sharedApplication] openURL:[NSURL URLWithString: word1]];
+			
+			return true;
 		}
 		else if ([word0 isEqual:@"vibrate"])
 		{
@@ -68,8 +52,10 @@ void IOSNativeCommmandListener::ExecuteCommand(const gs2d::str_type::string &com
 			{
 				AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
 			}
+			return true;
 		}
 	}
+	return false;
 }
 
 } // namespace Platform

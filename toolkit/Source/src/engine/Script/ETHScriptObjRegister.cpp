@@ -514,7 +514,27 @@ void RegisterGlobalProperties(asIScriptEngine *pASEngine)
 	static std::size_t stdNpos = str_type::string::npos;
 	r = pASEngine->RegisterGlobalProperty("const float PI", &pi); assert( r >= 0 );
 	r = pASEngine->RegisterGlobalProperty("const float PIb", &pib); assert( r >= 0 );
-	r = pASEngine->RegisterGlobalProperty("const uint NPOS", &stdNpos); assert( r >= 0 );
+
+	gs2d::str_type::string nposDecl;
+	gs2d::str_type::string sizeTypeDecl;
+	
+	#pragma warning( push )
+	#pragma warning( disable : 4127 )
+	// Register the object methods
+	if( sizeof(str_type::string::npos) == 4 )
+	#pragma warning( pop )
+	{
+		nposDecl = "const uint NPOS";
+		sizeTypeDecl = "uint";
+	}
+	else
+	{
+		sizeTypeDecl = "uint64";
+		nposDecl = "const uint64 NPOS";
+	}
+	r = pASEngine->RegisterGlobalProperty(nposDecl.c_str(), &stdNpos); assert( r >= 0 );
+
+	pASEngine->RegisterTypedef("size_t", sizeTypeDecl.c_str());
 }
 
 bool RegisterVideoModeObject(asIScriptEngine *pASEngine)

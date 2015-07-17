@@ -24,6 +24,7 @@
 		74A781ED1A3A325B00EB3E76 /* Application.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7481CEBF1A38BD2100E25DD3 /* Application.h */; };
 		74A781EE1A3A32D200EB3E76 /* EthanonViewController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74A781E81A3A13DE00EB3E76 /* EthanonViewController.h */; };
 		74A781EF1A3A33FF00EB3E76 /* AppDelegate.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7481CEBD1A38BD2100E25DD3 /* AppDelegate.h */; };
+		74CD20471A3B325800DE8AF9 /* NativeCommandManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74CD20461A3B325800DE8AF9 /* NativeCommandManager.cpp */; };
 		74E6E4F61A30EFB500E89172 /* libApplication.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74E6E4EA1A30EFB500E89172 /* libApplication.a */; };
 		74E6E50D1A30F05A00E89172 /* Enml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E50B1A30F05A00E89172 /* Enml.cpp */; };
 		74E6E5171A30F06900E89172 /* Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E50E1A30F06900E89172 /* Color.cpp */; };
@@ -61,7 +62,6 @@
 		74E6E6491A31DD9900E89172 /* as_atomic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E6031A31DD9900E89172 /* as_atomic.cpp */; };
 		74E6E64A1A31DD9900E89172 /* as_builder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E6051A31DD9900E89172 /* as_builder.cpp */; };
 		74E6E64B1A31DD9900E89172 /* as_bytecode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E6071A31DD9900E89172 /* as_bytecode.cpp */; };
-		74E6E64C1A31DD9900E89172 /* as_callfunc_arm_gcc.S in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E6091A31DD9900E89172 /* as_callfunc_arm_gcc.S */; };
 		74E6E64D1A31DD9900E89172 /* as_callfunc_arm_xcode.S in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E60A1A31DD9900E89172 /* as_callfunc_arm_xcode.S */; };
 		74E6E64E1A31DD9900E89172 /* as_callfunc_arm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E60B1A31DD9900E89172 /* as_callfunc_arm.cpp */; };
 		74E6E6521A31DD9900E89172 /* as_callfunc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E60F1A31DD9900E89172 /* as_callfunc.cpp */; };
@@ -221,6 +221,7 @@
 		74E6E82C1A31EADB00E89172 /* ETHGlobalScaleManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E8221A31EADB00E89172 /* ETHGlobalScaleManager.cpp */; };
 		74E6E82D1A31EADB00E89172 /* ETHInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E8241A31EADB00E89172 /* ETHInput.cpp */; };
 		74E6E82E1A31EADB00E89172 /* ETHSpeedTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E8261A31EADB00E89172 /* ETHSpeedTimer.cpp */; };
+		74EAF2BD1A5C211900E2A6DB /* ToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 74EAF2BC1A5C211900E2A6DB /* ToastView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -301,6 +302,8 @@
 		7481CEC01A38BD2100E25DD3 /* Application.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Application.mm; path = ../../../../src/gs2d/src/Platform/ios/Application.mm; sourceTree = "<group>"; };
 		74A781E81A3A13DE00EB3E76 /* EthanonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EthanonViewController.h; path = ../../../../src/gs2d/src/Platform/ios/EthanonViewController.h; sourceTree = "<group>"; };
 		74A781E91A3A13DE00EB3E76 /* EthanonViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = EthanonViewController.mm; path = ../../../../src/gs2d/src/Platform/ios/EthanonViewController.mm; sourceTree = "<group>"; };
+		74CD20441A3B318000DE8AF9 /* NativeCommandManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NativeCommandManager.h; path = ../../../../src/gs2d/src/Platform/NativeCommandManager.h; sourceTree = "<group>"; };
+		74CD20461A3B325800DE8AF9 /* NativeCommandManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NativeCommandManager.cpp; path = ../../../../src/gs2d/src/Platform/NativeCommandManager.cpp; sourceTree = "<group>"; };
 		74E6E4EA1A30EFB500E89172 /* libApplication.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libApplication.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		74E6E4F51A30EFB500E89172 /* ApplicationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ApplicationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		74E6E4FB1A30EFB500E89172 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -392,7 +395,6 @@
 		74E6E6061A31DD9900E89172 /* as_builder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = as_builder.h; path = ../../../../src/angelscript/source/as_builder.h; sourceTree = "<group>"; };
 		74E6E6071A31DD9900E89172 /* as_bytecode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = as_bytecode.cpp; path = ../../../../src/angelscript/source/as_bytecode.cpp; sourceTree = "<group>"; };
 		74E6E6081A31DD9900E89172 /* as_bytecode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = as_bytecode.h; path = ../../../../src/angelscript/source/as_bytecode.h; sourceTree = "<group>"; };
-		74E6E6091A31DD9900E89172 /* as_callfunc_arm_gcc.S */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; name = as_callfunc_arm_gcc.S; path = ../../../../src/angelscript/source/as_callfunc_arm_gcc.S; sourceTree = "<group>"; };
 		74E6E60A1A31DD9900E89172 /* as_callfunc_arm_xcode.S */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; name = as_callfunc_arm_xcode.S; path = ../../../../src/angelscript/source/as_callfunc_arm_xcode.S; sourceTree = "<group>"; };
 		74E6E60B1A31DD9900E89172 /* as_callfunc_arm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = as_callfunc_arm.cpp; path = ../../../../src/angelscript/source/as_callfunc_arm.cpp; sourceTree = "<group>"; };
 		74E6E60F1A31DD9900E89172 /* as_callfunc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = as_callfunc.cpp; path = ../../../../src/angelscript/source/as_callfunc.cpp; sourceTree = "<group>"; };
@@ -714,6 +716,8 @@
 		74E6E8251A31EADB00E89172 /* ETHInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHInput.h; path = ../../../../src/engine/Util/ETHInput.h; sourceTree = "<group>"; };
 		74E6E8261A31EADB00E89172 /* ETHSpeedTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHSpeedTimer.cpp; path = ../../../../src/engine/Util/ETHSpeedTimer.cpp; sourceTree = "<group>"; };
 		74E6E8271A31EADB00E89172 /* ETHSpeedTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHSpeedTimer.h; path = ../../../../src/engine/Util/ETHSpeedTimer.h; sourceTree = "<group>"; };
+		74EAF2BB1A5C211900E2A6DB /* ToastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToastView.h; path = ../../../../src/gs2d/src/Platform/ios/ToastView.h; sourceTree = "<group>"; };
+		74EAF2BC1A5C211900E2A6DB /* ToastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToastView.m; path = ../../../../src/gs2d/src/Platform/ios/ToastView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -880,6 +884,8 @@
 				74E6E5271A30F19900E89172 /* NativeCommandForwarder.cpp */,
 				74E6E5281A30F19900E89172 /* NativeCommandForwarder.h */,
 				74E6E5291A30F19900E89172 /* NativeCommandListener.h */,
+				74CD20461A3B325800DE8AF9 /* NativeCommandManager.cpp */,
+				74CD20441A3B318000DE8AF9 /* NativeCommandManager.h */,
 				74E6E52A1A30F19900E89172 /* Platform.cpp */,
 				74E6E52B1A30F19900E89172 /* Platform.h */,
 				74E6E52C1A30F19900E89172 /* StdFileManager.cpp */,
@@ -903,6 +909,8 @@
 				74E6E5411A30F1C600E89172 /* IOSNativeCommandListener.mm */,
 				74E6E5421A30F1C600E89172 /* Platform.ios.h */,
 				74E6E5431A30F1C600E89172 /* Platform.ios.mm */,
+				74EAF2BB1A5C211900E2A6DB /* ToastView.h */,
+				74EAF2BC1A5C211900E2A6DB /* ToastView.m */,
 			);
 			name = iOS;
 			sourceTree = "<group>";
@@ -1002,7 +1010,6 @@
 				74E6E6061A31DD9900E89172 /* as_builder.h */,
 				74E6E6071A31DD9900E89172 /* as_bytecode.cpp */,
 				74E6E6081A31DD9900E89172 /* as_bytecode.h */,
-				74E6E6091A31DD9900E89172 /* as_callfunc_arm_gcc.S */,
 				74E6E60A1A31DD9900E89172 /* as_callfunc_arm_xcode.S */,
 				74E6E60B1A31DD9900E89172 /* as_callfunc_arm.cpp */,
 				74E6E60F1A31DD9900E89172 /* as_callfunc.cpp */,
@@ -1663,6 +1670,7 @@
 				74E6E7201A31E67B00E89172 /* tinyxmlparser.cpp in Sources */,
 				7481CEC21A38BD2100E25DD3 /* Application.mm in Sources */,
 				74E6E7151A31E50F00E89172 /* b2Rope.cpp in Sources */,
+				74CD20471A3B325800DE8AF9 /* NativeCommandManager.cpp in Sources */,
 				74E6E7881A31E9EA00E89172 /* ETHLight.cpp in Sources */,
 				74E6E5A41A310C6100E89172 /* MobileInput.cpp in Sources */,
 				74E6E7B11A31EA0200E89172 /* ETHRayCastCallback.cpp in Sources */,
@@ -1682,6 +1690,7 @@
 				74E6E5351A30F19900E89172 /* StdFileManager.cpp in Sources */,
 				74E6E7DB1A31EA8300E89172 /* ETHScene.cpp in Sources */,
 				7481CEAB1A37928900E25DD3 /* hl_sha1wrapper.cpp in Sources */,
+				74EAF2BD1A5C211900E2A6DB /* ToastView.m in Sources */,
 				74E6E6AD1A31E4B300E89172 /* b2EdgeShape.cpp in Sources */,
 				74E6E7EC1A31EA9100E89172 /* ETHBinaryStream.cpp in Sources */,
 				74E6E5451A30F1C600E89172 /* IOSNativeCommandListener.mm in Sources */,
@@ -1729,7 +1738,6 @@
 				74E6E7C41A31EA4B00E89172 /* ETHEntitySpriteRenderer.cpp in Sources */,
 				74E6E70E1A31E4F800E89172 /* b2PulleyJoint.cpp in Sources */,
 				74E6E65F1A31DD9900E89172 /* as_restore.cpp in Sources */,
-				74E6E64C1A31DD9900E89172 /* as_callfunc_arm_gcc.S in Sources */,
 				74E6E7F51A31EA9100E89172 /* ETHScriptWrapper.Scene.cpp in Sources */,
 				74E6E65A1A31DD9900E89172 /* as_memory.cpp in Sources */,
 				74E6E6C11A31E4C500E89172 /* b2Timer.cpp in Sources */,

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="Ethanon Engine"
 	ProjectGUID="{3A88ABE2-E925-467F-9361-D6567538DE26}"
 	RootNamespace="EthanonEngine"
@@ -50,8 +50,8 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
-				WarningLevel="4"
-				WarnAsError="true"
+				WarningLevel="0"
+				WarnAsError="false"
 				DebugInformationFormat="1"
 			/>
 			<Tool

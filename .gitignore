@@ -13,6 +13,11 @@ toolkit/Installer/Output/
 *.la
 *.a
 
+toolkit/Build2013
+Build
+toolkit/Source/src/box2d/Box2D/CMakeLists copy.txt
+
+
 # Unpacked vendor paths
 toolkit/Source/src/gs2d/vendors/BoostSDK/
 toolkit/Source/src/gs2d/vendors/CgSDK/

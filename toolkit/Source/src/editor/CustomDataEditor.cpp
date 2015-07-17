@@ -121,7 +121,9 @@ void CustomDataEditor::InputVariableName(ETHEntity* pEntity, EditorBase *pEditor
 		str_type::stringstream ss;
 		ss << ETHCustomDataManager::GetDataName(m_cdesState);
 		pEditor->ShadowPrint(v2Pos-Vector2(0.0f,m_inVariableName.GetSize()), ss.str().c_str(),
-			GS_L("Verdana14_shadow.fnt"), gs2d::constant::BLACK);
+			GS_L("Verdana14_shadow.fnt"),gs2d::constant::BLACK);
+		//GS_L("Verdana14_shadow.fnt"), gs2d::constant::BLACK);
+										  
 
 		// if it has just been unactivated
 		if (!m_inVariableName.IsActive())

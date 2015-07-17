@@ -23,7 +23,7 @@ namespace audiere {
       stream_buffer_length = DEFAULT_BUFFER_LENGTH;
     }
     int min_buffer_length = parameters.getInt("min_buffer_size", 0);
-    min_buffer_length = std::max(1, min_buffer_length);
+    min_buffer_length = (std::max)(1, min_buffer_length); // aqui
     bool global_focus = parameters.getBoolean("global", true);
 
     // initialize COM
@@ -264,7 +264,7 @@ namespace audiere {
       dsbd.dwFlags |= DSBCAPS_GLOBALFOCUS;
     }
 
-    const int buffer_frame_count = std::max(m_min_buffer_length, frame_count);
+    const int buffer_frame_count = (std::max)(m_min_buffer_length, frame_count);
     const int buffer_size = buffer_frame_count * frame_size;
     dsbd.dwBufferBytes = buffer_size;
     dsbd.lpwfxFormat   = &wfx;

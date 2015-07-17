@@ -32,6 +32,7 @@
 
 #include <SDL2/SDL_video.h>
 
+
 namespace gs2d {
 
 class SDLWindow : public virtual Video

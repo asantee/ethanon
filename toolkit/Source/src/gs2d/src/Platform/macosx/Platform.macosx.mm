@@ -19,10 +19,12 @@
 	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
+#include <iostream>
+#import <AppKit/AppKit.h>
 
 #include "Platform.macosx.h"
 #include "../Platform.h"
-#include "../../Video/GLES2/GLES2Video.h"
+#include "../../Application.h"
 
 void gs2d::ShowMessage(str_type::stringstream& stream, const GS_MESSAGE_TYPE type)
 {

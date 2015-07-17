@@ -47,7 +47,7 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
-				WarningLevel="4"
+				WarningLevel="0"
 				DebugInformationFormat="4"
 			/>
 			<Tool

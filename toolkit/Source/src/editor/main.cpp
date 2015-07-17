@@ -154,7 +154,7 @@ std::string FindStartupProject(const int argc, char **argv, const Platform::File
 	return ("");
 }
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
 	VideoPtr video;
 	InputPtr input;

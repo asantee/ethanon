@@ -11,4 +11,6 @@
 
 @interface EthanonViewController : GLKViewController
 
+- (BOOL)useIPadRetinaDisplay;
+
 @end
