@@ -212,7 +212,15 @@ bool GLES2Texture::LoadTexture(
 		m_logger.Log(m_fileName + " could not load buffer", Platform::FileLogger::ERROR);
 		return false;
 	}
-	return LoadTexture(video, out->GetAddress(), mask, width, height, nMipMaps, out->GetBufferSize(), format);
+	return LoadTexture(
+		video,
+		out->GetAddress(),
+		mask,
+		width,
+		height,
+		nMipMaps,
+		static_cast<unsigned int>(out->GetBufferSize()),
+		format);
 }
 
 bool GLES2Texture::LoadTexture(
@@ -367,7 +375,15 @@ bool GLES2Texture::LoadETC1Texture(
 	glBindTexture(GL_TEXTURE_2D, m_textureInfo.m_texture);
 
 	unsigned char *data = (unsigned char*)pBuffer;
-	glCompressedTexImage2D(GL_TEXTURE_2D, 0, internalformat, m_profile.width, m_profile.height, 0, size, data + sizeof(ETC1Header));
+	glCompressedTexImage2D(
+		GL_TEXTURE_2D,
+		0,
+		internalformat,
+		m_profile.width,
+		m_profile.height,
+		0,
+		static_cast<GLsizei>(size),
+		data + sizeof(ETC1Header));
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -435,7 +451,15 @@ bool GLES2Texture::LoadPVRTexture(
 	//size = (size < 32) ? 32 : size;
 
 	const GLenum format = FindPVRTCFormatFromPVRHeaderData(header->pixelFormat);
-	glCompressedTexImage2D(GL_TEXTURE_2D, 0, format, header->width, header->height, 0, size, data);
+	glCompressedTexImage2D(
+		GL_TEXTURE_2D,
+		0,
+		format,
+		header->width,
+		header->height,
+		0,
+		static_cast<GLsizei>(size),
+		data);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

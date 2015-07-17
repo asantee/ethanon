@@ -162,7 +162,7 @@ bool ETHSpriteEntity::LoadLightmapFromFile(const str_type::string& filePath)
 		m_preRenderedLightmapFilePath = filePath;
 	}
 
-	return (m_pLightmap);
+	return static_cast<bool>(m_pLightmap);
 }
 
 bool ETHSpriteEntity::ShouldUseHighlightPixelShader() const
@@ -353,7 +353,7 @@ Vector2 ETHSpriteEntity::GetSpriteCut() const
 
 Vector2 ETHSpriteEntity::ComputeParallaxOffset() const
 {
-	return m_provider->GetShaderManager()->ComputeParallaxOffset(m_provider->GetVideo(), GetPosition(), GetParallaxIndividualIntensity());
+	return m_provider->GetShaderManager()->ComputeParallaxOffset(m_provider->GetVideo(), GetPosition(), GetParallaxIntensity());
 }
 
 bool ETHSpriteEntity::SetDepth(const float maxHeight, const float minHeight)

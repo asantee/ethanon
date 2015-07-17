@@ -47,7 +47,7 @@ GLVideo::GLVideo() :
 	m_backgroundColor(gs2d::constant::BLACK),
 	m_rendering(false),
 	m_clamp(true),
-	m_blendMode(BLEND_MODE::BM_MODULATE),
+    m_blendMode(BM_MODULATE),
 	m_scissor(math::Vector2i(0, 0), math::Vector2i(0, 0))
 {
 }

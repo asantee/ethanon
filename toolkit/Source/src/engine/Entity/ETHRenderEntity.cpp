@@ -59,7 +59,7 @@ bool ETHRenderEntity::ShouldUseFourTriangles(const float parallaxIntensity) cons
 	if (GetType() != ETHEntityProperties::ET_VERTICAL)
 		return false;
 
-	if ((parallaxIntensity * GetParallaxIndividualIntensity()) == 0.0f)
+	if ((parallaxIntensity * GetParallaxIntensity()) == 0.0f)
 		return false;
 
 	return true;
@@ -413,7 +413,7 @@ bool ETHRenderEntity::DrawParticles(
 void ETHRenderEntity::DrawCollisionBox(SpritePtr pOutline, const Color& dwColor, const Vector2 &zAxisDirection) const
 {
 	VideoPtr video = m_provider->GetVideo();
-	const bool collidable = (m_properties.collision);
+	const bool collidable = static_cast<bool>(m_properties.collision);
 	const Vector3 v3Size = (collidable) ? m_properties.collision->size : Vector3(32,32,32);
 	const Vector3 v3Pos = (collidable) ? (m_properties.collision->pos + GetPosition()) : GetPosition();
 

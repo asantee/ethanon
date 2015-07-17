@@ -1,0 +1,1 @@
+Copy all your project files here, including all files in ethanon/toolkit/Source/src/gs2d/projects/Android/Ethanon/assets/data/*

@@ -20,10 +20,15 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
+#import <Foundation/Foundation.h>
+#import <AppKit/AppKit.h>
+
 #include "EditorBase.h"
 
 #include "../engine/ETHTypes.h"
 #include "../engine/Util/ETHASUtil.h"
+
+
 
 bool DirectoryExists(const std::string& dir)
 {

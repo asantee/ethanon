@@ -105,10 +105,10 @@ bool FileLogger::Log(const gs2d::str_type::string& str, const TYPE& type) const
 		{
 		case ERROR:
 		case WARNING:
-			LOGE(str.c_str());
+			LOGE("%s", str.c_str());
 			break;
 		default:
-			LOGI(str.c_str());
+			LOGI("%s", str.c_str());
 		}
 	#endif
 	return AppendToFile(m_fileName, str);

@@ -1,6 +1,6 @@
 /*
    AngelCode Scripting Library
-   Copyright (c) 2003-2013 Andreas Jonsson
+   Copyright (c) 2003-2014 Andreas Jonsson
 
    This software is provided 'as-is', without any express or implied 
    warranty. In no event will the authors be held liable for any 
@@ -179,7 +179,7 @@ asCString asCDataType::Format(bool includeNamespace) const
 	else if( objectType )
 	{
 		str += objectType->name;
-		if( objectType->flags & asOBJ_TEMPLATE )
+		if( objectType->templateSubTypes.GetLength() > 0 )
 		{
 			str += "<";
 			for( asUINT subtypeIndex = 0; subtypeIndex < objectType->templateSubTypes.GetLength(); subtypeIndex++ )
@@ -361,6 +361,14 @@ bool asCDataType::IsHandleToConst() const
 	return isReadOnly;
 }
 
+bool asCDataType::IsObjectConst() const
+{
+	if( IsObjectHandle() )
+		return IsHandleToConst();
+
+	return IsReadOnly();
+}
+
 // TODO: 3.0.0: This should be removed
 bool asCDataType::IsArrayType() const
 {
@@ -456,21 +464,6 @@ bool asCDataType::IsPrimitive() const
 	return true;
 }
 
-bool asCDataType::IsSamePrimitiveBaseType(const asCDataType &dt) const
-{
-	if( !IsPrimitive() || !dt.IsPrimitive() ) return false;
-	
-	if( IsIntegerType()  && dt.IsIntegerType()  ) return true;
-	if( IsUnsignedType() && dt.IsUnsignedType() ) return true;
-	if( IsFloatType()    && dt.IsFloatType()    ) return true;
-	if( IsDoubleType()   && dt.IsDoubleType()   ) return true;
-	if( IsBooleanType()  && dt.IsBooleanType()  ) return true;
-	if( IsFloatType()    && dt.IsDoubleType()   ) return true;
-	if( IsDoubleType()   && dt.IsFloatType()    ) return true;
-
-	return false;
-}
-
 bool asCDataType::IsIntegerType() const
 {
 	if( tokenType == ttInt ||
@@ -479,7 +472,8 @@ bool asCDataType::IsIntegerType() const
 		tokenType == ttInt64 )
 		return true;
 
-	return false;
+	// Enums are also integer types
+	return IsEnumType();
 }
 
 bool asCDataType::IsUnsignedType() const
@@ -519,13 +513,14 @@ bool asCDataType::IsBooleanType() const
 
 bool asCDataType::IsObject() const
 {
-	//	Enumerations are not objects, even though they are described with an objectType.
-	if( IsEnumType() )
+	if( IsPrimitive() )
 		return false;
 
-	if( objectType ) return true;
+	// Null handle doesn't have an object type but should still be considered an object
+	if( objectType == 0 ) 
+		return IsNullHandle();
 
-	return false;
+	return true;
 }
 
 int asCDataType::GetSizeInMemoryBytes() const
@@ -565,6 +560,10 @@ int asCDataType::GetSizeInMemoryDWords() const
 	if( s == 0 ) return 0;
 	if( s <= 4 ) return 1;
 	
+	// Pad the size to 4 bytes
+	if( s & 0x3 )
+		s += 4 - (s & 0x3);
+
 	return s/4;
 }
 

@@ -4,7 +4,7 @@
 // Project > Project Options to edit these values.
 1 VERSIONINFO
 FILEVERSION 0,9,10,0
-PRODUCTVERSION 0,9,10,0
+PRODUCTVERSION 0,9,11,0
 FILETYPE VFT_APP
 BEGIN
     BLOCK "StringFileInfo"
@@ -12,14 +12,14 @@ BEGIN
         BLOCK "040904E4"
         BEGIN
             VALUE "CompanyName", "Asantee Games"
-            VALUE "FileVersion", "0.9.10"
+            VALUE "FileVersion", "0.9.11"
             VALUE "FileDescription", "Ethanon engine executable"
             VALUE "InternalName", ""
-            VALUE "LegalCopyright", "Copyright © 2009-2013 Andre Santee"
+            VALUE "LegalCopyright", "Copyright © 2008-2014 Andre Santee"
             VALUE "LegalTrademarks", ""
             VALUE "OriginalFilename", ""
             VALUE "ProductName", "Ethanon Engine"
-            VALUE "ProductVersion", "0.9.10"
+            VALUE "ProductVersion", "0.9.11"
         END
     END
     BLOCK "VarFileInfo"

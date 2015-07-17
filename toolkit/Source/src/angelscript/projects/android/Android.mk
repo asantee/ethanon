@@ -2,7 +2,7 @@ commonSources:= as_callfunc_arm_gcc.S as_atomic.cpp as_builder.cpp as_bytecode.c
 LOCAL_PATH:= $(call my-dir)/../../source
 include $(CLEAR_VARS)
 #-DNDEBUG -DNDK_DEBUG=0
-LOCAL_CFLAGS    := -DANDROID=1 -DAS_MAX_PORTABILITY
+LOCAL_CFLAGS    := -DANDROID=1 -DAS_MAX_PORTABILITY -DAS_NO_THREADS
 LOCAL_SRC_FILES:= $(commonSources)
 LOCAL_MODULE:= libangelscript
 include $(BUILD_STATIC_LIBRARY)

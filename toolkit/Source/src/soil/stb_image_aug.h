@@ -172,10 +172,6 @@ enum
 
 typedef unsigned char stbi_uc;
 
-#ifdef APPLE_IOS
-typedef unsigned int uint;
-#endif
-
 #ifdef __cplusplus
 extern "C" {
 #endif

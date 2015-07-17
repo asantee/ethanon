@@ -20,18 +20,20 @@
 	#include <windows.h>
 	#include <wingdi.h>
 	#include <GL/gl.h>
-#elif (defined(__APPLE__) || defined(__APPLE_CC__)) && !defined(APPLE_IOS)
+#elif defined(__APPLE__) || defined(__APPLE_CC__)
 	/*	I can't test this Apple stuff!	*/
-	#include <OpenGL/gl.h>
-	#include <Carbon/Carbon.h>
-	#define APIENTRY
+	#if defined(APPLE_IOS)
+		#include <OpenGLES/ES2/gl.h>
+		#include <OpenGLES/ES2/glext.h>
+		#define APIENTRY
+	#else
+		#include <OpenGL/gl.h>
+		#include <Carbon/Carbon.h>
+		#define APIENTRY
+	#endif
 #elif defined(ANDROID)
 	#include <GLES2/gl2.h>
 	#include <GLES2/gl2ext.h>
-	#define APIENTRY
-#elif defined(APPLE_IOS)
-	#include <OpenGLES/ES2/gl.h>
-	#include <OpenGLES/ES2/glext.h>
 	#define APIENTRY
 #else
 	#include <GL/gl.h>
@@ -1351,11 +1353,7 @@ unsigned int
 		} else
 		{
 			/*	unsigned int clamp_mode = SOIL_CLAMP_TO_EDGE;	*/
-			#ifdef GLES2
 			unsigned int clamp_mode = GL_CLAMP_TO_EDGE;
-			#else
-			unsigned int clamp_mode = GL_CLAMP;
-			#endif
 			glTexParameteri( opengl_texture_type, GL_TEXTURE_WRAP_S, clamp_mode );
 			glTexParameteri( opengl_texture_type, GL_TEXTURE_WRAP_T, clamp_mode );
 			if( opengl_texture_type == SOIL_TEXTURE_CUBE_MAP )
@@ -1822,11 +1820,7 @@ unsigned int SOIL_direct_load_DDS_from_memory(
 		} else
 		{
 			/*	unsigned int clamp_mode = SOIL_CLAMP_TO_EDGE;	*/
-			#ifdef GLES2
 			unsigned int clamp_mode = GL_CLAMP_TO_EDGE;
-			#else
-			unsigned int clamp_mode = GL_CLAMP;
-			#endif
 			glTexParameteri( opengl_texture_type, GL_TEXTURE_WRAP_S, clamp_mode );
 			glTexParameteri( opengl_texture_type, GL_TEXTURE_WRAP_T, clamp_mode );
 			glTexParameteri( opengl_texture_type, SOIL_TEXTURE_WRAP_R, clamp_mode );

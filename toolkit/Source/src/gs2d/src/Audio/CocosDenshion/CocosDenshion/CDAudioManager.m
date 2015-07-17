@@ -317,10 +317,7 @@ static BOOL configured = FALSE;
 }
 
 -(BOOL) isOtherAudioPlaying {
-	UInt32 isPlaying = 0;
-	UInt32 varSize = sizeof(isPlaying);
-	AudioSessionGetProperty (kAudioSessionProperty_OtherAudioIsPlaying, &varSize, &isPlaying);
-	return (isPlaying != 0);
+	return [[AVAudioSession sharedInstance] isOtherAudioPlaying];
 }
 
 -(void) setMode:(tAudioManagerMode) mode {
@@ -398,8 +395,9 @@ static BOOL configured = FALSE;
 	if ((self = [super init])) {
 
 		//Initialise the audio session
-		AVAudioSession* session = [AVAudioSession sharedInstance];
-		session.delegate = self;
+		/*AVAudioSession* session = [AVAudioSession sharedInstance];
+		session.delegate = self;*/
+		[[AVAudioSession sharedInstance] setActive:YES error:nil];
 
 		_mode = mode;
 		backgroundMusicCompletionSelector = nil;

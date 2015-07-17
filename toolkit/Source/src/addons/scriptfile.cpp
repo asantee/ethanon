@@ -343,12 +343,12 @@ int CScriptFile::GetSize() const
 	if( file == 0 )
 		return -1;
 
-	int pos = ftell(file);
+	long pos = ftell(file);
 	fseek(file, 0, SEEK_END);
-	int size = ftell(file);
+	long size = ftell(file);
 	fseek(file, pos, SEEK_SET);
 
-	return size;
+	return static_cast<int>(size);
 }
 
 int CScriptFile::GetPos() const
@@ -356,7 +356,7 @@ int CScriptFile::GetPos() const
 	if( file == 0 )
 		return -1;
 
-	return ftell(file);
+	return static_cast<int>(ftell(file));
 }
  
 int CScriptFile::SetPos(int pos)
@@ -406,7 +406,7 @@ int CScriptFile::ReadLine(std::string &str)
 	do
 	{
 		// Get the current position so we can determine how many characters were read
-		int start = ftell(file);
+		long start = ftell(file);
 
 		// Set the last byte to something different that 0, so that we can check if the buffer was filled up
 		buf[255] = 1;
@@ -415,7 +415,7 @@ int CScriptFile::ReadLine(std::string &str)
 		fgets(buf, 256, file);
 		
 		// Get the position after the read
-		int end = ftell(file);
+		long end = ftell(file);
 
 		// Add the read characters to the output buffer
 		str.append(buf, end-start);

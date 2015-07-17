@@ -51,6 +51,7 @@ class ETHEngine : public gs2d::BaseApplication, public ETHScriptWrapper
 	const bool m_testing, m_compileAndRun;
 	bool m_hasBeenResumed;
 
+	static const str_type::string SCRIPT_EXCEPTION_LOG_SHARED_DATA_KEY;
 	static void MessageCallback(const asSMessageInfo* msg);
 	static void ExceptionCallback(asIScriptContext* ctx, void* param);
 	static bool CheckAngelScriptError(const bool error, const str_type::string& description);

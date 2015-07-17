@@ -552,14 +552,18 @@ void EntityEditor::ResetEntityMenu()
 	m_restitution.SetConstant(m_pEditEntity->restitution);
 	m_gravityScale.SetConstant(m_pEditEntity->gravityScale);
 
+//		m_bool.AddButton(_S_COLLIDABLE, ETHGlobal::ToBool(m_pEditEntity->collision));
+//		m_bool.AddButton(_S_ACTIVE_LIGHT, ETHGlobal::ToBool(m_pEditEntity->light));
 	m_bool.Destroy();
-	m_bool.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth*2, false, true, false);
+	m_bool.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth * 2, false, true, false);
 	m_bool.AddButton(_S_CAST_SHADOW, ETHGlobal::ToBool(m_pEditEntity->castShadow));
 	m_bool.AddButton(_S_STATIC_ENTITY, ETHGlobal::ToBool(m_pEditEntity->staticEntity));
-	m_bool.AddButton(_S_COLLIDABLE, m_pEditEntity->collision);
+	//m_bool.AddButton(_S_COLLIDABLE, m_pEditEntity->collision);
+	m_bool.AddButton(_S_COLLIDABLE, static_cast<bool>(m_pEditEntity->collision));
 	m_bool.AddButton(_S_APPLY_LIGHT, ETHGlobal::ToBool(m_pEditEntity->applyLight));
-	m_bool.AddButton(_S_ACTIVE_LIGHT, m_pEditEntity->light);
+	m_bool.AddButton(_S_ACTIVE_LIGHT, static_cast<bool>(m_pEditEntity->light));
 	m_bool.AddButton(_S_HIDE_FROM_SCENE_EDITOR, m_pEditEntity->hideFromSceneEditor == ETH_TRUE);
+
 
 	m_blendMode.Destroy();
 	m_blendMode.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth*2, true, false, false);

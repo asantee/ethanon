@@ -23,7 +23,9 @@
 #include "GLES2Shader.h"
 
 #include "../../Video.h"
+
 #include <sstream>
+
 #include <boost/functional/hash/hash.hpp>
 
 namespace gs2d {
@@ -86,8 +88,8 @@ GLES2ShaderContext::~GLES2ShaderContext()
 {
 	// since android doesn't tell us when it wants to unload resources, it must be this way
 	#ifndef ANDROID
-	for (std::map<std::size_t, GLuint>::iterator iter = m_programs.begin();
-		iter != m_programs.end(); iter++) 
+	GLES2ProgramMap::iterator iter;
+	for (iter = m_programs.begin(); iter != m_programs.end(); iter++)
 	{
 		glDeleteProgram(iter->second);
 	}
@@ -236,7 +238,7 @@ void GLES2ShaderContext::CreateProgram()
 	{
 		const std::size_t programHash = ComputeProgramHashValue(m_currentVS, m_currentPS);
 
-		std::map<std::size_t, GLuint>::iterator iter = m_programs.find(programHash);
+		GLES2ProgramMap::iterator iter = m_programs.find(programHash);
 		if (iter == m_programs.end())
 		{
 			std::stringstream ss;

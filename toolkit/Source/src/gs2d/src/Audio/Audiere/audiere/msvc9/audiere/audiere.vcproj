@@ -4,6 +4,7 @@
 	Version="9,00"
 	Name="audiere"
 	ProjectGUID="{E5195361-63CD-4C1B-8DD7-3E579779B1F6}"
+	RootNamespace="audiere"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -129,8 +130,8 @@
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;AUDIERE_EXPORTS;NOMINMAX;WIN32_LEAN_AND_MEAN;STRICT;FLAC__NO_DLL;_CRT_SECURE_NO_WARNINGS;ETH_UNICODE"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
-				WarningLevel="3"
-				WarnAsError="true"
+				WarningLevel="0"
+				WarnAsError="false"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
 			/>

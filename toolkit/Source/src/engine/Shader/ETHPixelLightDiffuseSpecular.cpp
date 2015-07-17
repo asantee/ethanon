@@ -58,7 +58,7 @@ bool ETHPixelLightDiffuseSpecular::BeginLightPass(ETHSpriteEntity *pRender, Vect
 
 	// set the correct light shader
 	ShaderPtr pLightShader;
-	const bool hasGloss = pRender->GetGloss();
+	const bool hasGloss = static_cast<bool>(pRender->GetGloss());
 	if (pRender->GetType() == ETHEntityProperties::ET_VERTICAL)
 	{
 		if (hasGloss)

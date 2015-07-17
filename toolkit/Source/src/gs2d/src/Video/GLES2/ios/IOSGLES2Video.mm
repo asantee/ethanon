@@ -22,6 +22,8 @@
 
 #include "IOSGLES2Video.h"
 
+#import <Foundation/Foundation.h>
+
 namespace gs2d {
 
 using namespace math;
@@ -56,30 +58,30 @@ boost::shared_ptr<GLES2Video> IOSGLES2Video::Create(
 // it will be implemented here for the boost timer is presenting strange behaviour
 float IOSGLES2Video::GetElapsedTimeF(const TIME_UNITY unity) const
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	const double time = [[NSDate date] timeIntervalSince1970] - m_startTime;
+	@autoreleasepool {
+		const double time = [[NSDate date] timeIntervalSince1970] - m_startTime;
 
-	double elapsedTimeMS = time * 1000.0;
-	switch (unity)
-	{
-		case TU_HOURS:
-			elapsedTimeMS /= 1000.0;
-			elapsedTimeMS /= 60.0;
-			elapsedTimeMS /= 60.0;
-			break;
-		case TU_MINUTES:
-			elapsedTimeMS /= 1000.0;
-			elapsedTimeMS /= 60.0;
-			break;
-		case TU_SECONDS:
-			elapsedTimeMS /= 1000.0;
-			break;
-		case TU_MILLISECONDS:
-		default:
-			break;
-	};
-	[pool release];
-	return static_cast<float>(elapsedTimeMS);
+		double elapsedTimeMS = time * 1000.0;
+		switch (unity)
+		{
+			case TU_HOURS:
+				elapsedTimeMS /= 1000.0;
+				elapsedTimeMS /= 60.0;
+				elapsedTimeMS /= 60.0;
+				break;
+			case TU_MINUTES:
+				elapsedTimeMS /= 1000.0;
+				elapsedTimeMS /= 60.0;
+				break;
+			case TU_SECONDS:
+				elapsedTimeMS /= 1000.0;
+				break;
+			case TU_MILLISECONDS:
+			default:
+				break;
+		};
+		return static_cast<float>(elapsedTimeMS);
+	}
 }
 
 unsigned long IOSGLES2Video::GetElapsedTime(const TIME_UNITY unity) const
@@ -89,9 +91,9 @@ unsigned long IOSGLES2Video::GetElapsedTime(const TIME_UNITY unity) const
 
 void IOSGLES2Video::ResetTimer()
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	m_startTime = [[NSDate date] timeIntervalSince1970];
-	[pool release];
+	@autoreleasepool {
+		m_startTime = [[NSDate date] timeIntervalSince1970];
+	}
 }
 
 } // namespace gs2d

@@ -24,6 +24,7 @@
 #define ETH_RENDER_ENTITY_H_
 
 #include "ETHSpriteEntity.h"
+
 #include <boost/unordered/unordered_map.hpp>
 
 class ETHRenderEntity : public ETHSpriteEntity

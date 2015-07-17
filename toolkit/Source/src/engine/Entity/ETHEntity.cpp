@@ -625,7 +625,7 @@ bool ETHEntity::IsRotatable() const
 
 bool ETHEntity::HasLightSource() const
 {
-	return (m_properties.light);
+	return static_cast<bool>(m_properties.light);
 }
 
 bool ETHEntity::HasParticleSystems() const
@@ -639,6 +639,14 @@ Vector3 ETHEntity::GetLightPosition() const
 		return GetPosition() + m_properties.light->pos;
 	else
 		return Vector3(0,0,0);
+}
+
+void ETHEntity::SetLightPosition(const Vector3& pos)
+{
+	if (HasLightSource())
+	{
+		m_properties.light->pos = pos;
+	}
 }
 
 Vector3 ETHEntity::GetLightRelativePosition() const
@@ -656,7 +664,7 @@ bool ETHEntity::HasHalo() const
 
 bool ETHEntity::IsCollidable() const
 {
-	return (m_properties.collision);
+	return static_cast<bool>(m_properties.collision);
 }
 
 Video::ALPHA_MODE ETHEntity::GetBlendMode() const
@@ -993,7 +1001,7 @@ bool ETHEntity::IsSensor() const
 
 bool ETHEntity::HasSimulatedBody() const
 {
-	return (boost::dynamic_pointer_cast<ETHPhysicsEntityController>(m_controller));
+	return static_cast<bool>(boost::dynamic_pointer_cast<ETHPhysicsEntityController>(m_controller));
 }
 
 bool ETHEntity::IsBullet()
@@ -1001,12 +1009,12 @@ bool ETHEntity::IsBullet()
 	return (m_properties.bullet == ETH_TRUE);
 }
 
-float ETHEntity::GetParallaxIndividualIntensity() const
+float ETHEntity::GetParallaxIntensity() const
 {
 	return m_properties.parallaxIntensity;
 }
 
-void ETHEntity::SetParallaxIndividualIntensity(const float& individualIntensity)
+void ETHEntity::SetParallaxIntensity(const float individualIntensity)
 {
 	m_properties.parallaxIntensity = individualIntensity;
 }

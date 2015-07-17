@@ -43,6 +43,9 @@ namespace ETHGlobal {
 	bool ToBool(const ETH_BOOL b);
 	bool IsSphereInScreen(const Vector3& v3Pos, const float radius, const Vector2& zAxisDir, const VideoPtr& video);
 
+	bool IsValidUTF8(const str_type::string& str);
+	unsigned int DistanceUTF8(const str_type::string& str);
+
 	float ParseFloat(const str_type::char_t *str);
 	int ParseInt(const str_type::char_t *str);
 	unsigned int ParseUInt(const str_type::char_t *str);

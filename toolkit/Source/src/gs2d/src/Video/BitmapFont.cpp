@@ -456,9 +456,10 @@ Vector2 BitmapFont::DrawBitmapText(const Vector2& pos, const str_type::string& t
 		}
 
 		// find mapped character
+        const bool isSpace = (text[t] == GS_L(' '));
 		int charId = ConvertCharacterToIndex<str_type::char_t>(&text[t], t, length);
 		const CHAR_DESCRIPTOR &currentChar = m_charSet.chars[charId];
-		if (currentChar.width > 0 && currentChar.height > 0)
+		if (currentChar.width > 0 && currentChar.height > 0 && !isSpace)
 		{
 			Rect2Df rect;
 			rect.pos = Vector2(currentChar.x, currentChar.y);

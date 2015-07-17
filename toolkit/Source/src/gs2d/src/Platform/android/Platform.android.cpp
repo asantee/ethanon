@@ -37,15 +37,15 @@ void ShowMessage(str_type::stringstream& stream, const GS_MESSAGE_TYPE type)
 {
 	if (type == GSMT_INFO)
 	{
-		LOGI(stream.str().c_str());
+		LOGI("%s", stream.str().c_str());
 	}
 	else if (type == GSMT_WARNING)
 	{
-		LOGI(stream.str().c_str());
+		LOGI("%s", stream.str().c_str());
 	}
 	else if (type == GSMT_ERROR)
 	{
-		LOGE(stream.str().c_str());
+		LOGE("%s", stream.str().c_str());
 	}
 }
 

@@ -62,6 +62,7 @@ asDECLARE_FUNCTION_WRAPPERPR(__LoadSceneSSSArgs,   ETHScriptWrapper::LoadSceneIn
 asDECLARE_FUNCTION_WRAPPERPR(__LoadSceneSSSSArgs,  ETHScriptWrapper::LoadSceneInScript, (const str_type::string&, const str_type::string&, const str_type::string&, const str_type::string&), void);
 asDECLARE_FUNCTION_WRAPPERPR(__LoadSceneSSSVArgs,  ETHScriptWrapper::LoadSceneInScript, (const str_type::string&, const str_type::string&, const str_type::string&, const Vector2&), void);
 asDECLARE_FUNCTION_WRAPPERPR(__LoadSceneSSSSVArgs, ETHScriptWrapper::LoadSceneInScript, (const str_type::string&, const str_type::string&, const str_type::string&, const str_type::string&, const Vector2&), void);
+asDECLARE_FUNCTION_WRAPPERPR(__LoadSceneSSSSSVArgs, ETHScriptWrapper::LoadSceneInScript, (const str_type::string&, const str_type::string&, const str_type::string&, const str_type::string&, const str_type::string&, const Vector2&), void);
 
 asDECLARE_FUNCTION_WRAPPER(__SaveScene, ETHScriptWrapper::SaveScene);
 
@@ -200,6 +201,8 @@ asDECLARE_FUNCTION_WRAPPER(__GetNumRenderedEntities,       ETHScriptWrapper::Get
 asDECLARE_FUNCTION_WRAPPER(__ParseInt,                     ETHGlobal::ParseIntStd);
 asDECLARE_FUNCTION_WRAPPER(__ParseUInt,                    ETHGlobal::ParseUIntStd);
 asDECLARE_FUNCTION_WRAPPER(__ParseFloat,                   ETHGlobal::ParseFloatStd);
+asDECLARE_FUNCTION_WRAPPER(__IsValidUTF8,                  ETHGlobal::IsValidUTF8);
+asDECLARE_FUNCTION_WRAPPER(__DistanceUTF8,                 ETHGlobal::DistanceUTF8);
 asDECLARE_FUNCTION_WRAPPER(__GetArgc,                      ETHScriptWrapper::GetArgc);
 asDECLARE_FUNCTION_WRAPPER(__GetArgv,                      ETHScriptWrapper::GetArgv);
 asDECLARE_FUNCTION_WRAPPER(__GetWorldSpaceCursorPos2,      ETHScriptWrapper::GetWorldSpaceCursorPos2);
@@ -310,10 +313,11 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void print(const uint)",       asFUNCTION(__PrintUInt),  asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in)", asFUNCTION(__LoadScene1Arg), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in, const string &in, const string &in onSceneUpdate = \"\")",                                      asFUNCTION(__LoadSceneSSSArgs), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in, const string &in, const string &in, const string &in)",                    asFUNCTION(__LoadSceneSSSSArgs), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in, const string &in, const string &in, const vector2 &in)",                   asFUNCTION(__LoadSceneSSSVArgs), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in, const string &in, const string &in, const string &in, const vector2 &in)", asFUNCTION(__LoadSceneSSSSVArgs), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in, const string &in, const string &in onSceneUpdate = \"\")",                                   asFUNCTION(__LoadSceneSSSArgs), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in, const string &in, const string &in, const string &in)",                                      asFUNCTION(__LoadSceneSSSSArgs), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in, const string &in, const string &in, const vector2 &in)",                                     asFUNCTION(__LoadSceneSSSVArgs), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in, const string &in, const string &in, const string &in, const vector2 &in)",                   asFUNCTION(__LoadSceneSSSSVArgs), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in, const string &in, const string &in, const string &in, const string &in, const vector2 &in)", asFUNCTION(__LoadSceneSSSSSVArgs), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool SaveScene(const string &in)",														                   asFUNCTION(__SaveScene),      asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("float GetTimeF()",                  asFUNCTION(__GetTimeF),       asCALL_GENERIC); assert(r >= 0);
@@ -454,6 +458,8 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("int parseInt(const string &in)",             asFUNCTION(__ParseInt),                      asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("uint parseUInt(const string &in)",           asFUNCTION(__ParseUInt),                     asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("float parseFloat(const string &in)",         asFUNCTION(__ParseFloat),                    asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("uint distanceUTF8(const string &in)",        asFUNCTION(__DistanceUTF8),                  asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("bool isValidUTF8(const string &in)",         asFUNCTION(__IsValidUTF8),                   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("int GetArgc()",                              asFUNCTION(__GetArgc),                       asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("string GetArgv(const int)",                  asFUNCTION(__GetArgv),                       asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 GetWorldSpaceCursorPos2()",          asFUNCTION(__GetWorldSpaceCursorPos2),       asCALL_GENERIC); assert(r >= 0);

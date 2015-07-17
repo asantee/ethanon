@@ -30,7 +30,7 @@ namespace Platform {
 class NativeCommandListener
 {
 public:
-	virtual void ParseAndExecuteCommands(const gs2d::str_type::string& commands) = 0;
+	virtual bool ExecuteCommand(const gs2d::str_type::string& command) = 0;
 };
 
 typedef boost::shared_ptr<NativeCommandListener> NativeCommandListenerPtr;

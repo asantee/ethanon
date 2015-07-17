@@ -23,7 +23,6 @@
 #ifndef GS2D_VIDEO_H_
 #define GS2D_VIDEO_H_
 
-#include <sstream>
 #include <list>
 #include <vector>
 #include <iostream>
@@ -78,7 +77,7 @@ public:
 	enum BLEND_MODE
 	{
 		BM_ADD = 0,
-		BM_MODULATE = 1,
+		BM_MODULATE = 1
 	};
 
 	struct VIDEO_MODE

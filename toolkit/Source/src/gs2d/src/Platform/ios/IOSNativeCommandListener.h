@@ -25,20 +25,12 @@
 
 #include "../NativeCommandListener.h"
 
-#include "../../Video.h"
-
 namespace Platform {
 
 class IOSNativeCommmandListener : public NativeCommandListener
 {
-	gs2d::VideoPtr m_video;
-
-	void ExecuteCommand(const gs2d::str_type::string& commandLine);
-
 public:
-	IOSNativeCommmandListener(gs2d::VideoPtr video);
-
-	void ParseAndExecuteCommands(const gs2d::str_type::string& commands);
+	bool ExecuteCommand(const gs2d::str_type::string& commandLine);
 };
 
 typedef boost::shared_ptr<IOSNativeCommmandListener> IOSNativeCommmandListenerPtr;
