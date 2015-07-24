@@ -49,6 +49,7 @@
 #endif
 
 // Export functions from the DLL
+// Export functions from the DLL
 #ifndef ADR_DECL
 #  if defined(WIN32) || defined(_WIN32)
 #    ifdef AUDIERE_EXPORTS
@@ -60,6 +61,7 @@
 #    define ADR_DECL
 #  endif
 #endif
+
 
 
 

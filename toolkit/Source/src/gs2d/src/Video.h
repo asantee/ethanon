@@ -77,7 +77,7 @@ public:
 	enum BLEND_MODE
 	{
 		BM_ADD = 0,
-		BM_MODULATE = 1,
+		BM_MODULATE = 1
 	};
 
 	struct VIDEO_MODE

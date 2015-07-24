@@ -22,6 +22,8 @@
 
 #include "../FileListing.h"
 
+#include <Foundation/Foundation.h>
+
 namespace Platform {
 
 bool FileListing::ListDirectoryFiles(const gs2d::str_type::char_t* directory, const gs2d::str_type::char_t* extension)
