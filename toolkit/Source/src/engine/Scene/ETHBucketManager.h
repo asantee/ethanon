@@ -56,6 +56,8 @@ class ETHEntityChooser;
 class ETHBucketManager
 {
 public:
+	const static int SCENE_LENGTH;
+
 	static Vector2 GetBucket(const Vector2 &v2, const Vector2 &v2BucketSize);
 	static void GetIntersectingBuckets(
 		std::list<Vector2> &outList,

@@ -30,19 +30,21 @@
 
 // Vector2 hash functions
 namespace boost {
-inline std::size_t hash_value(Vector2 const& p)
-{
-	std::size_t seed = 0;
-	boost::hash_combine(seed, p.x);
-	boost::hash_combine(seed, p.y);
-	return seed;
-}
+	std::size_t hash_value(Vector2 const& p)
+	{
+		const int x = static_cast<int>(p.x) + ETHBucketManager::SCENE_LENGTH;
+		const int y = static_cast<int>(p.y) + ETHBucketManager::SCENE_LENGTH;
+		const int r = (y * ETHBucketManager::SCENE_LENGTH) + (x % ETHBucketManager::SCENE_LENGTH);
+		return static_cast<std::size_t>(r);
+	}
 } // namepace boost
 
 bool BUCKET_COMP::operator() (const Vector2& lhs, const Vector2& rhs) const
 {
 	return boost::hash_value(lhs) < boost::hash_value(rhs);
 }
+
+const int ETHBucketManager::SCENE_LENGTH = 10000;
 
 Vector2 ETHBucketManager::GetBucket(const Vector2& v2, const Vector2& v2BucketSize)
 {
