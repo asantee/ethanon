@@ -52,6 +52,13 @@
 			remoteGlobalIDString = 74E6E4E91A30EFB500E89172;
 			remoteInfo = Application;
 		};
+		74DA95621B4B01E800665165 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 74DA955D1B4B01E800665165 /* CleanupTool.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 743B98ED1A8B95550065FAE0;
+			remoteInfo = CleanupTool;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -74,6 +81,7 @@
 		7481CE8C1A3791FB00E25DD3 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		7481CEB21A37951100E25DD3 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
 		74A781F01A3A358000EB3E76 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		74DA955D1B4B01E800665165 /* CleanupTool.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CleanupTool.xcodeproj; path = "../../../../../../../projectx/ios-project/CleanupTool/CleanupTool.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +112,7 @@
 		7481CE071A35E42200E25DD3 = {
 			isa = PBXGroup;
 			children = (
+				74DA955D1B4B01E800665165 /* CleanupTool.xcodeproj */,
 				74A781F01A3A358000EB3E76 /* CoreMotion.framework */,
 				7481CE8C1A3791FB00E25DD3 /* GLKit.framework */,
 				7481CE8A1A3791D800E25DD3 /* OpenGLES.framework */,
@@ -171,6 +180,14 @@
 			children = (
 				7481CE431A35EB7900E25DD3 /* libApplication.a */,
 				7481CE451A35EB7900E25DD3 /* ApplicationTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		74DA955E1B4B01E800665165 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				74DA95631B4B01E800665165 /* CleanupTool */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -248,6 +265,10 @@
 					ProductGroup = 7481CE3E1A35EB7900E25DD3 /* Products */;
 					ProjectRef = 7481CE3D1A35EB7900E25DD3 /* Application.xcodeproj */;
 				},
+				{
+					ProductGroup = 74DA955E1B4B01E800665165 /* Products */;
+					ProjectRef = 74DA955D1B4B01E800665165 /* CleanupTool.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -270,6 +291,13 @@
 			fileType = wrapper.cfbundle;
 			path = ApplicationTests.xctest;
 			remoteRef = 7481CE441A35EB7900E25DD3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		74DA95631B4B01E800665165 /* CleanupTool */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = CleanupTool;
+			remoteRef = 74DA95621B4B01E800665165 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
