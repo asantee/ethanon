@@ -23,7 +23,6 @@
 #include "ETHShaderManager.h"
 #include "../Scene/ETHScene.h"
 #include "ETHPixelLightDiffuseSpecular.h"
-#include "ETHVertexLightDiffuse.h"
 #include "ETHShaders.h"
 
 ETHShaderManager::ETHShaderManager(VideoPtr video, const str_type::string& shaderPath, const bool richLighting) :
@@ -56,15 +55,6 @@ ETHShaderManager::ETHShaderManager(VideoPtr video, const str_type::string& shade
 
 	if (m_richLighting)
 	{
-		// Not yet implemented on GLES2
-		#if !defined(GLES2)
-		  {ETHLightingProfilePtr profile(new ETHVertexLightDiffuse(m_video));
-		  if (profile->IsSupportedByHardware())
-		  {
-			 m_lightingProfiles[VERTEX_LIGHTING_DIFFUSE] = profile;
-		  }}
-		#endif
-
 		{ETHLightingProfilePtr profile(new ETHPixelLightDiffuseSpecular(m_video, shaderPath, m_fakeEyeManager));
 		if (profile->IsSupportedByHardware())
 		{
@@ -226,40 +216,4 @@ bool ETHShaderManager::EndParticlePass()
 	m_video->SetPixelShader(ShaderPtr());
 	m_video->SetVertexShader(ShaderPtr());
 	return true;
-}
-
-
-void ETHShaderManager::UsePS(const bool usePS)
-{
-	if (!m_lightingProfiles.empty())
-	{
-		if (usePS)
-			m_currentProfile = FindHighestLightingProfile();
-		else
-			m_currentProfile = m_lightingProfiles.find(VERTEX_LIGHTING_DIFFUSE)->second;
-	}
-	else
-	{
-		m_video->Message(GS_L("ETHShaderManager::UsePS: no lighting profile"), GSMT_INFO);
-	}
-}
-
-bool ETHShaderManager::IsUsingPixelShader()
-{
-	if (m_lightingProfiles.empty())
-	{
-		m_video->Message(GS_L("ETHShaderManager::IsUsingPixelShader: no lighting profile"), GSMT_INFO);
-		return false;
-	}
-	return m_currentProfile->IsUsingPixelShader();
-}
-
-bool ETHShaderManager::IsPixelLightingSupported()
-{
-	if (m_lightingProfiles.empty())
-	{
-		m_video->Message(GS_L("ETHShaderManager::IsPixelLightingSupported: no lighting profile"), GSMT_INFO);
-		return false;
-	}
-	return (m_lightingProfiles.find(PIXEL_LIGHTING_DIFFUSE_SPECULAR) != m_lightingProfiles.end());
 }

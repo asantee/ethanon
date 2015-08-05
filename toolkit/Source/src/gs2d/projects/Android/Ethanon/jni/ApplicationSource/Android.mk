@@ -77,7 +77,6 @@ LOCAL_SRC_FILES := \
 	$(ENGINE_PATH)/Shader/ETHShaders.glsl.cpp \
 	$(ENGINE_PATH)/Shader/ETHParallaxManager.cpp \
 	$(ENGINE_PATH)/Shader/ETHShaderManager.cpp \
-	$(ENGINE_PATH)/Shader/ETHVertexLightDiffuse.cpp \
 	$(ENGINE_PATH)/Shader/ETHPixelLightDiffuseSpecular.cpp \
 	$(ENGINE_PATH)/Shader/ETHFakeEyePositionManager.cpp \
 	$(ENGINE_PATH)/Shader/ETHLightmapGen.cpp \

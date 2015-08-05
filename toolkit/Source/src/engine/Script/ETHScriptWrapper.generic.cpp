@@ -111,7 +111,6 @@ asDECLARE_FUNCTION_WRAPPER(__ComputeTextBoxSize,    ETHScriptWrapper::ComputeTex
 asDECLARE_FUNCTION_WRAPPER(__AssembleColorCode,     ETHScriptWrapper::AssembleColorCode);
 
 asDECLARE_FUNCTION_WRAPPER(__EnableLightmaps, ETHScriptWrapper::EnableLightmaps);
-asDECLARE_FUNCTION_WRAPPER(__UsePixelShaders, ETHScriptWrapper::UsePixelShaders);
 asDECLARE_FUNCTION_WRAPPER(__GetFPSRate,      ETHScriptWrapper::GetFPSRate);
 asDECLARE_FUNCTION_WRAPPER(__EnablePreLoadedLightmapsFromFile, ETHScriptWrapper::EnablePreLoadedLightmapsFromFile);
 
@@ -190,7 +189,6 @@ asDECLARE_FUNCTION_WRAPPER(__ForceEntityRendering,    ETHScriptWrapper::ForceEnt
 asDECLARE_FUNCTION_WRAPPER(__GetWhiteListedEntitiesAroundBucket,  ETHScriptWrapper::GetWhiteListedEntitiesAroundBucket);
 asDECLARE_FUNCTION_WRAPPER(__GetEntitiesAroundBucketWithBlackList, ETHScriptWrapper::GetEntitiesAroundBucketWithBlackList);
 
-asDECLARE_FUNCTION_WRAPPER(__IsPixelShaderSupported,  ETHScriptWrapper::IsPixelShaderSupported);
 asDECLARE_FUNCTION_WRAPPER(__SetPositionRoundUp,      ETHScriptWrapper::SetPositionRoundUp);
 asDECLARE_FUNCTION_WRAPPER(__GetPositionRoundUp,      ETHScriptWrapper::GetPositionRoundUp);
 asDECLARE_FUNCTION_WRAPPER(__EnableQuitKeys,          ETHScriptWrapper::EnableQuitKeys);
@@ -376,7 +374,6 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("string AssembleColorCode(const uint)",												asFUNCTION(__AssembleColorCode),	asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("void EnableLightmaps(const bool)", asFUNCTION(__EnableLightmaps), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("void UsePixelShaders(const bool)", asFUNCTION(__UsePixelShaders), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("float GetFPSRate()",               asFUNCTION(__GetFPSRate),      asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void EnablePreLoadedLightmapsFromFile(const bool)", asFUNCTION(__EnablePreLoadedLightmapsFromFile), asCALL_GENERIC); assert(r >= 0);
 
@@ -452,7 +449,6 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void GetEntitiesAroundBucketWithBlackList(const vector2 &in, ETHEntityArray &, const string &in)", asFUNCTION(__GetEntitiesAroundBucketWithBlackList), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void GetEntitiesAroundEntity(ETHEntity@, ETHEntityArray &)",                    asFUNCTION(__GetEntitiesAroundEntity), asCALL_GENERIC); assert(r >= 0);
 
-	r = pASEngine->RegisterGlobalFunction("bool IsPixelShaderSupported()",            asFUNCTION(__IsPixelShaderSupported),  asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void SetPositionRoundUp(const bool)",      asFUNCTION(__SetPositionRoundUp),      asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool GetPositionRoundUp()",                asFUNCTION(__GetPositionRoundUp),      asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void EnableQuitKeys(const bool)",          asFUNCTION(__EnableQuitKeys),          asCALL_GENERIC); assert(r >= 0);

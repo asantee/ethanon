@@ -34,7 +34,6 @@ class ETHShaderManager
 public:
 	enum PROFILE
 	{
-		VERTEX_LIGHTING_DIFFUSE = 0,
 		PIXEL_LIGHTING_DIFFUSE_SPECULAR = 1
 	};
 
@@ -62,10 +61,6 @@ public:
 
 	bool BeginParticlePass(const ETHParticleSystem& system);
 	bool EndParticlePass();
-
-	void UsePS(const bool usePS);
-	bool IsUsingPixelShader();
-	bool IsPixelLightingSupported();
 
 	SpritePtr GetProjShadow();
 

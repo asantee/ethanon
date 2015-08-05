@@ -812,23 +812,6 @@ void SceneEditor::DoStateManager()
 	ShadowPrint(Vector2(m_guiX, m_guiY), ss.str().c_str(), Color(255,255,255,255)); m_guiY += m_menuSize;
 	m_guiY += m_menuSize/2;
 
-	ShadowPrint(Vector2(m_guiX,m_guiY), GS_L("Lighting mode:")); m_guiY+=m_menuSize;
-	m_renderMode.PlaceMenu(Vector2(m_guiX,m_guiY)); m_guiY += m_menuSize*m_renderMode.GetNumButtons();
-
-	const ETHShaderManagerPtr& shaderManager = m_provider->GetShaderManager();
-	const bool usePS = shaderManager->IsUsingPixelShader();
-	shaderManager->UsePS(m_renderMode.GetButtonStatus(_S_USE_PS));
-	m_guiY+=m_menuSize/2;
-
-	const std::string programPath = m_provider->GetFileIOHub()->GetProgramDirectory();
-
-	// if this button's status has changed, save the change to the ENML file
-	if (usePS != shaderManager->IsUsingPixelShader())
-	{
-		const str_type::string str = shaderManager->IsUsingPixelShader() ? _S_USE_PS : _S_USE_VS;
-		SaveAttributeToInfoFile("status", "renderMode", str);
-	}
-
 	ShadowPrint(Vector2(m_guiX, m_guiY), _S_TOOL_MENU); m_guiY+=m_menuSize;
 	m_tool.PlaceMenu(Vector2(m_guiX, m_guiY)); m_guiY += m_menuSize * m_renderMode.GetNumButtons();
 	m_guiY+=m_menuSize/2;

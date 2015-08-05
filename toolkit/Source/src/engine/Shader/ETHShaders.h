@@ -51,10 +51,6 @@ public:
 
 	static const std::string& PL_VS_Hor_Light();
 	static const std::string& PL_VS_Ver_Light();
-
-	// vertex light
-	static const std::string& VL_VS_Hor_Diff();
-	static const std::string& VL_VS_Ver_Diff();
 };
 
 #endif

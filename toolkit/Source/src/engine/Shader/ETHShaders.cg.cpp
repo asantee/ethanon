@@ -92,13 +92,3 @@ const std::string& ETHShaders::PL_VS_Ver_Light()
 {
 	return ETHGlobal::Cg_vPixelLightVS_cg;
 }
-
-const std::string& ETHShaders::VL_VS_Hor_Diff()
-{
-	return ETHGlobal::Cg_hVertexLightShader_cg;
-}
-
-const std::string& ETHShaders::VL_VS_Ver_Diff()
-{
-	return ETHGlobal::Cg_vVertexLightShader_cg;
-}

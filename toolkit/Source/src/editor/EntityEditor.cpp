@@ -1110,11 +1110,6 @@ std::string EntityEditor::DoEditor(SpritePtr pNextAppButton)
 		m_tool.PlaceMenu(Vector2(x,y)); y += m_menuSize*m_tool.GetNumButtons();
 		y+=m_menuSize/2;
 
-		ShadowPrint(Vector2(x,y), GS_L("Lighting mode:")); y+=m_menuSize;
-		m_renderMode.PlaceMenu(Vector2(x,y)); y += m_menuSize*m_renderMode.GetNumButtons();
-		m_provider->GetShaderManager()->UsePS(m_renderMode.GetButtonStatus(_S_USE_PS));
-		y+=m_menuSize/2;
-
 		ShadowPrint(Vector2(x,y), GS_L("Blend mode:")); y+=m_menuSize;
 		m_blendMode.PlaceMenu(Vector2(x,y)); y += m_menuSize*m_blendMode.GetNumButtons();
 		if (m_blendMode.GetButtonStatus(_S_BLEND_MODE_DEFAULT))

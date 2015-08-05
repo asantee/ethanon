@@ -119,8 +119,6 @@
 		7421F1341647266600C55BAE /* ETHShaderManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F11D1647266600C55BAE /* ETHShaderManager.h */; };
 		7421F1351647266600C55BAE /* ETHShaders.cg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F11E1647266600C55BAE /* ETHShaders.cg.cpp */; };
 		7421F1371647266600C55BAE /* ETHShaders.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F1201647266600C55BAE /* ETHShaders.h */; };
-		7421F1381647266600C55BAE /* ETHVertexLightDiffuse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F1211647266600C55BAE /* ETHVertexLightDiffuse.cpp */; };
-		7421F1391647266600C55BAE /* ETHVertexLightDiffuse.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F1221647266600C55BAE /* ETHVertexLightDiffuse.h */; };
 		7421F1481647267300C55BAE /* ETHASUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F13A1647267300C55BAE /* ETHASUtil.cpp */; };
 		7421F1491647267300C55BAE /* ETHASUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F13B1647267300C55BAE /* ETHASUtil.h */; };
 		7421F14A1647267300C55BAE /* ETHDateTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F13C1647267300C55BAE /* ETHDateTime.cpp */; };
@@ -380,8 +378,6 @@
 		7421F11D1647266600C55BAE /* ETHShaderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHShaderManager.h; path = ../../../../src/engine/Shader/ETHShaderManager.h; sourceTree = "<group>"; };
 		7421F11E1647266600C55BAE /* ETHShaders.cg.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHShaders.cg.cpp; path = ../../../../src/engine/Shader/ETHShaders.cg.cpp; sourceTree = "<group>"; };
 		7421F1201647266600C55BAE /* ETHShaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHShaders.h; path = ../../../../src/engine/Shader/ETHShaders.h; sourceTree = "<group>"; };
-		7421F1211647266600C55BAE /* ETHVertexLightDiffuse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHVertexLightDiffuse.cpp; path = ../../../../src/engine/Shader/ETHVertexLightDiffuse.cpp; sourceTree = "<group>"; };
-		7421F1221647266600C55BAE /* ETHVertexLightDiffuse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHVertexLightDiffuse.h; path = ../../../../src/engine/Shader/ETHVertexLightDiffuse.h; sourceTree = "<group>"; };
 		7421F13A1647267300C55BAE /* ETHASUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHASUtil.cpp; path = ../../../../src/engine/Util/ETHASUtil.cpp; sourceTree = "<group>"; };
 		7421F13B1647267300C55BAE /* ETHASUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHASUtil.h; path = ../../../../src/engine/Util/ETHASUtil.h; sourceTree = "<group>"; };
 		7421F13C1647267300C55BAE /* ETHDateTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHDateTime.cpp; path = ../../../../src/engine/Util/ETHDateTime.cpp; sourceTree = "<group>"; };
@@ -548,8 +544,6 @@
 				7421F11B1647266600C55BAE /* ETHPixelLightDiffuseSpecular.h */,
 				7421F11C1647266600C55BAE /* ETHShaderManager.cpp */,
 				7421F11D1647266600C55BAE /* ETHShaderManager.h */,
-				7421F1211647266600C55BAE /* ETHVertexLightDiffuse.cpp */,
-				7421F1221647266600C55BAE /* ETHVertexLightDiffuse.h */,
 				7421F1201647266600C55BAE /* ETHShaders.h */,
 				7421F11E1647266600C55BAE /* ETHShaders.cg.cpp */,
 				747D56C117329A9D00283563 /* shaders.h */,
@@ -940,7 +934,6 @@
 				7421F1341647266600C55BAE /* ETHShaderManager.h in Headers */,
 				7421F1371647266600C55BAE /* ETHShaders.h in Headers */,
 				74A21A88182BFA9D0000F783 /* hl_sha1.h in Headers */,
-				7421F1391647266600C55BAE /* ETHVertexLightDiffuse.h in Headers */,
 				7421F1491647267300C55BAE /* ETHASUtil.h in Headers */,
 				7421F14B1647267300C55BAE /* ETHDateTime.h in Headers */,
 				7421F14D1647267300C55BAE /* ETHFileChangeDetector.h in Headers */,
@@ -1150,7 +1143,6 @@
 				7421F1311647266600C55BAE /* ETHPixelLightDiffuseSpecular.cpp in Sources */,
 				7421F1331647266600C55BAE /* ETHShaderManager.cpp in Sources */,
 				7421F1351647266600C55BAE /* ETHShaders.cg.cpp in Sources */,
-				7421F1381647266600C55BAE /* ETHVertexLightDiffuse.cpp in Sources */,
 				7421F1481647267300C55BAE /* ETHASUtil.cpp in Sources */,
 				7421F14A1647267300C55BAE /* ETHDateTime.cpp in Sources */,
 				7421F14C1647267300C55BAE /* ETHFileChangeDetector.cpp in Sources */,

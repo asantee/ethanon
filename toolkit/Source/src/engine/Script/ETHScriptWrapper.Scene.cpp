@@ -849,22 +849,6 @@ void ETHScriptWrapper::DisableContact()
 	simulator.DisableNextContact();	
 }
 
-void ETHScriptWrapper::UsePixelShaders(const bool enable)
-{
-	if (!m_provider->GetShaderManager()->IsPixelLightingSupported() && enable)
-	{
-		ETH_STREAM_DECL(ss) << GS_L("Scripting error: pixel shaders are no supported.");
-		m_provider->Log(ss.str(), Platform::FileLogger::WARNING);
-		return;
-	}
-	m_provider->GetShaderManager()->UsePS(enable);
-}
-
-bool ETHScriptWrapper::IsPixelShaderSupported()
-{
-	return m_provider->GetShaderManager()->IsPixelLightingSupported();
-}
-
 void ETHScriptWrapper::SetFixedHeight(const float height)
 {
 	ETHGlobalScaleManagerPtr globalScaleManager = m_provider->GetGlobalScaleManager();

@@ -95,13 +95,3 @@ const std::string& ETHShaders::PL_VS_Ver_Light()
 {
 	return ETHGlobal::GLSL_vPixelLight_vs;
 }
-
-const std::string& ETHShaders::VL_VS_Hor_Diff()
-{
-	return ETHGlobal::GLSL_default_vs;
-}
-
-const std::string& ETHShaders::VL_VS_Ver_Diff()
-{
-	return ETHGlobal::GLSL_default_vs;
-}

@@ -344,8 +344,6 @@ public:
 	static int GetArgc();
 	static str_type::string GetArgv(const int n);
 	static Vector2 GetWorldSpaceCursorPos2();
-	static void UsePixelShaders(const bool enable);
-	static bool IsPixelShaderSupported();
 	static void SetPersistentResources(const bool enable);
 	static bool ArePersistentResourcesEnabled();
 	static void ReleaseResources();

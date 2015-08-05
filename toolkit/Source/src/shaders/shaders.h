@@ -12,13 +12,11 @@ Cg/hAmbientVS.cg                ->     Cg_hAmbientVS_cg
 Cg/hPixelLightDiff.cg           ->     Cg_hPixelLightDiff_cg
 Cg/hPixelLightSpec.cg           ->     Cg_hPixelLightSpec_cg
 Cg/hPixelLightVS.cg             ->     Cg_hPixelLightVS_cg
-Cg/hVertexLightShader.cg        ->     Cg_hVertexLightShader_cg
 Cg/particleVS.cg                ->     Cg_particleVS_cg
 Cg/vAmbientVS.cg                ->     Cg_vAmbientVS_cg
 Cg/vPixelLightDiff.cg           ->     Cg_vPixelLightDiff_cg
 Cg/vPixelLightSpec.cg           ->     Cg_vPixelLightSpec_cg
 Cg/vPixelLightVS.cg             ->     Cg_vPixelLightVS_cg
-Cg/vVertexLightShader.cg        ->     Cg_vVertexLightShader_cg
 Cg/highlightPS.cg               ->     Cg_highlightPS_cg
 GLSL/default.ps                 ->     GLSL_default_ps
 GLSL/highlight.ps               ->     GLSL_highlight_ps
@@ -441,106 +439,6 @@ const std::string Cg_hPixelLightVS_cg =
 "\n" \
 "\n";
 
-const std::string Cg_hVertexLightShader_cg = 
-"// sprite and screen properties\n" \
-"uniform float4x4 viewMatrix;\n" \
-"uniform float4x4 rotationMatrix;\n" \
-"uniform float2 screenSize;\n" \
-"uniform float2 size;\n" \
-"uniform float2 entityPos;\n" \
-"uniform float2 center;\n" \
-"uniform float2 bitmapSize;\n" \
-"uniform float2 rectPos;\n" \
-"uniform float2 rectSize;\n" \
-"uniform float2 scroll;\n" \
-"uniform float2 multiply;\n" \
-"uniform float4 color0;\n" \
-"uniform float4 color1;\n" \
-"uniform float4 color2;\n" \
-"uniform float4 color3;\n" \
-"uniform float2 flipAdd;\n" \
-"uniform float2 flipMul;\n" \
-"uniform float2 cameraPos;\n" \
-"uniform float depth;\n" \
-"uniform float lightIntensity;\n" \
-"\n" \
-"uniform float3 pivotAdjust;\n" \
-"uniform float3 lightPos;\n" \
-"uniform float lightRange;\n" \
-"uniform float4 lightColor;\n" \
-"\n" \
-"uniform float3 parallaxOrigin_verticalIntensity;\n" \
-"uniform float parallaxIntensity;\n" \
-"uniform float3 entityPos3D;\n" \
-"\n" \
-"float2 computeParallaxOffset(const float2 vertPos)\n" \
-"{\n" \
-"	const float2 parallaxOrigin = parallaxOrigin_verticalIntensity.xy;\n" \
-"	return ((vertPos - parallaxOrigin) / screenSize.x) * entityPos3D.z * parallaxIntensity;\n" \
-"}\n" \
-"\n" \
-"struct SPRITE_TRANSFORM\n" \
-"{\n" \
-"	float4 position;\n" \
-"	float2 vertPos;\n" \
-"};\n" \
-"SPRITE_TRANSFORM transformSprite(float3 position)\n" \
-"{\n" \
-"	SPRITE_TRANSFORM r;\n" \
-"	float4 newPos = float4(position, 1);\n" \
-"	newPos = newPos * float4(size,1,1) - float4(center, 0, 0);\n" \
-"	newPos = mul(rotationMatrix, newPos) + float4(entityPos,0,0);\n" \
-"	r.vertPos = newPos.xy / screenSize;\n" \
-"\n" \
-"	// project the vertex on the screen\n" \
-"	newPos -= float4(cameraPos,0,0);\n" \
-"	newPos += float4(computeParallaxOffset(newPos),0,0) - float4(screenSize / 2,0,0);\n" \
-"	newPos *= float4(1,-1,1,1);\n" \
-"	r.position = mul(viewMatrix, newPos);\n" \
-"	return r;\n" \
-"}\n" \
-"\n" \
-"// returns the texture coordinate according to the rect\n" \
-"float2 transformCoord(float2 texCoord)\n" \
-"{\n" \
-"	float2 newCoord = texCoord * (rectSize/bitmapSize);\n" \
-"	newCoord += (rectPos/bitmapSize);\n" \
-"	return (newCoord+(scroll/bitmapSize))*multiply;\n" \
-"}\n" \
-"\n" \
-"// main sprite program (with per-pixel lighting)\n" \
-"void sprite_pvl(float3 position : POSITION,\n" \
-"				float2 texCoord : TEXCOORD0,\n" \
-"				out float4 oPosition : POSITION,\n" \
-"				out float4 oColor    : COLOR0,\n" \
-"				out float2 oTexCoord : TEXCOORD0,\n" \
-"				out float2 oVertPos : TEXCOORD1,\n" \
-"				uniform float3 topLeft3DPos)\n" \
-"{\n" \
-"	SPRITE_TRANSFORM transform = transformSprite(position);\n" \
-"	transform.position.z = 1-depth;\n" \
-"	oPosition = transform.position;\n" \
-"	oVertPos = transform.vertPos;\n" \
-"	oTexCoord = transformCoord(texCoord);\n" \
-"\n" \
-"	lightColor.a = 1.0;\n" \
-"\n" \
-"	float3 vertPos3D = topLeft3DPos + (position*float3(size,1));\n" \
-"\n" \
-"	float3 lightVec  = vertPos3D-lightPos;\n" \
-"	float squaredDist = dot(lightVec,lightVec);\n" \
-"\n" \
-"	float3 normalColor = float3(0.0,0.0,-1.0);\n" \
-"	float diffuseLight = dot(normalize(lightVec), normalColor);\n" \
-"\n" \
-"	float squaredRange = lightRange*lightRange;\n" \
-"	squaredRange = max(squaredDist, squaredRange);\n" \
-"	float attenBias = 1-(squaredDist/squaredRange);\n" \
-"	oColor = color0*diffuseLight*attenBias*lightColor*lightIntensity;\n" \
-"}\n" \
-"\n" \
-"\n";
-
 const std::string Cg_particleVS_cg = 
 "// the following global uniform parameters are set automaticaly\n" \
 "// by the GameSpaceLib runtime\n" \
@@ -864,114 +762,6 @@ const std::string Cg_vPixelLightVS_cg =
 "	oVertPos3D = topLeft3DPos + (float3(position.x,0,position.y) * float3(size.x,0,-size.y));\n" \
 "	oTexCoord = transformCoord(texCoord);\n" \
 "	oColor = color0;\n" \
-"}\n" \
-"\n" \
-"\n";
-
-const std::string Cg_vVertexLightShader_cg = 
-"// sprite and screen properties\n" \
-"uniform float4x4 viewMatrix;\n" \
-"uniform float4x4 rotationMatrix;\n" \
-"uniform float2 screenSize;\n" \
-"uniform float2 size;\n" \
-"uniform float2 entityPos;\n" \
-"uniform float2 center;\n" \
-"uniform float2 bitmapSize;\n" \
-"uniform float2 rectPos;\n" \
-"uniform float2 rectSize;\n" \
-"uniform float2 scroll;\n" \
-"uniform float2 multiply;\n" \
-"uniform float4 color0;\n" \
-"uniform float4 color1;\n" \
-"uniform float4 color2;\n" \
-"uniform float4 color3;\n" \
-"uniform float2 flipAdd;\n" \
-"uniform float2 flipMul;\n" \
-"uniform float2 cameraPos;\n" \
-"uniform float depth;\n" \
-"uniform float lightIntensity;\n" \
-"\n" \
-"uniform float3 pivotAdjust;\n" \
-"uniform float3 lightPos;\n" \
-"uniform float lightRange;\n" \
-"uniform float4 lightColor;\n" \
-"\n" \
-"\n" \
-"\n" \
-"uniform float3 parallaxOrigin_verticalIntensity;\n" \
-"uniform float parallaxIntensity;\n" \
-"uniform float3 entityPos3D;\n" \
-"float computeVerticalOffsetInPixels(const float posY, const float rectSizeY)\n" \
-"{\n" \
-"	return ((1 - posY) * rectSizeY);\n" \
-"}\n" \
-"\n" \
-"float2 computeParallaxOffset(const float2 vertPos, float3 inPosition)\n" \
-"{\n" \
-"	const float2 parallaxOrigin = parallaxOrigin_verticalIntensity.xy;\n" \
-"	const float verticalIntensity = parallaxOrigin_verticalIntensity.z;\n" \
-"	const float vOffset = computeVerticalOffsetInPixels(inPosition.y, rectSize.y);\n" \
-"	return ((vertPos - parallaxOrigin) / screenSize.x) * (entityPos3D.z + (vOffset * verticalIntensity)) * parallaxIntensity;\n" \
-"}\n" \
-"\n" \
-"struct SPRITE_TRANSFORM\n" \
-"{\n" \
-"	float4 position;\n" \
-"	float2 vertPos;\n" \
-"};\n" \
-"SPRITE_TRANSFORM transformSprite(float3 position)\n" \
-"{\n" \
-"	SPRITE_TRANSFORM r;\n" \
-"	float4 newPos = float4(position, 1);\n" \
-"	newPos = newPos * float4(size,1,1) - float4(center, 0, 0);\n" \
-"	newPos = mul(rotationMatrix, newPos) + float4(entityPos,0,0);\n" \
-"	r.vertPos = newPos.xy/screenSize;\n" \
-"\n" \
-"	// project the vertex on the screen\n" \
-"	newPos -= float4(cameraPos,0,0);\n" \
-"	newPos += float4(computeParallaxOffset(newPos.xy, position),0,0) - float4(screenSize / 2,0,0);\n" \
-"	newPos *= float4(1,-1,1,1);\n" \
-"	r.position = mul(viewMatrix, newPos);\n" \
-"	return r;\n" \
-"}	\n" \
-"\n" \
-"// returns the texture coordinate according to the rect\n" \
-"float2 transformCoord(float2 texCoord)\n" \
-"{\n" \
-"	float2 newCoord = texCoord * (rectSize/bitmapSize);\n" \
-"	newCoord += (rectPos/bitmapSize);\n" \
-"	return (newCoord+(scroll/bitmapSize))*multiply;\n" \
-"}\n" \
-"\n" \
-"// main sprite program (with per-pixel lighting)\n" \
-"void sprite_pvl(float3 position : POSITION,\n" \
-"				float2 texCoord : TEXCOORD0,\n" \
-"				out float4 oPosition : POSITION,\n" \
-"				out float4 oColor    : COLOR0,\n" \
-"				out float2 oTexCoord : TEXCOORD0,\n" \
-"				out float2 oVertPos : TEXCOORD1,\n" \
-"				uniform float3 topLeft3DPos,\n" \
-"				uniform float spaceLength)\n" \
-"{\n" \
-"	SPRITE_TRANSFORM transform = transformSprite(position);\n" \
-"	transform.position.z = (1 - depth) - ((computeVerticalOffsetInPixels(position.y, rectSize.y)) / spaceLength);\n" \
-"	oPosition = transform.position;\n" \
-"	oVertPos = transform.vertPos;\n" \
-"	oTexCoord = transformCoord(texCoord);\n" \
-"	\n" \
-"	lightColor.a = 1.0;\n" \
-"	\n" \
-"	float3 vertPos3D = topLeft3DPos + (float3(position.x,0,position.y)*float3(size.x,0,-size.y));\n" \
-"	\n" \
-"	float3 lightVec = vertPos3D-lightPos;\n" \
-"	float squaredDist = dot(lightVec,lightVec);\n" \
-"\n" \
-"	float3 normalColor = float3(0.0,-1.0,0.0);\n" \
-"	float diffuseLight = dot(normalize(lightVec), normalColor);\n" \
-"	float squaredRange = lightRange*lightRange;\n" \
-"	squaredRange = max(squaredDist, squaredRange);\n" \
-"	float attenBias = 1-(squaredDist/squaredRange);\n" \
-"	oColor = color0*diffuseLight*attenBias*lightColor*lightIntensity;\n" \
 "}\n" \
 "\n" \
 "\n";
