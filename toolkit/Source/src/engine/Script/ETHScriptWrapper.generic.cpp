@@ -225,6 +225,7 @@ asDECLARE_FUNCTION_WRAPPER(__FileInPackageExists,           ETHScriptWrapper::Fi
 asDECLARE_FUNCTION_WRAPPER(__FileExists,                    ETHScriptWrapper::FileExists);
 asDECLARE_FUNCTION_WRAPPER(__IsHighEndDevice,               ETHScriptWrapper::IsHighEndDevice);
 asDECLARE_FUNCTION_WRAPPER(__GetPlatformName,               ETHScriptWrapper::GetPlatformName);
+asDECLARE_FUNCTION_WRAPPER(__GetCurrentCallstack,           ETHScriptWrapper::GetCurrentCallstack);
 
 asDECLARE_FUNCTION_WRAPPER(__EnablePackLoading,                ETHScriptWrapper::EnablePackLoading);
 asDECLARE_FUNCTION_WRAPPER(__DisablePackLoading,               ETHScriptWrapper::DisablePackLoading);
@@ -493,6 +494,7 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void SetFastGarbageCollector(const bool)", asFUNCTION(__SetFastGarbageCollector),       asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool IsHighEndDevice()",                   asFUNCTION(__IsHighEndDevice),               asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("string GetPlatformName()",                 asFUNCTION(__GetPlatformName),               asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("string GetCurrentCallstack()",             asFUNCTION(__GetCurrentCallstack),           asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("bool EnablePackLoading(const string &in, const string &in password = \"\")", asFUNCTION(__EnablePackLoading),  asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void DisablePackLoading()",         asFUNCTION(__DisablePackLoading),         asCALL_GENERIC); assert(r >= 0);

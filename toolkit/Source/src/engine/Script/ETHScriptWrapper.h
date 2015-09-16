@@ -355,6 +355,7 @@ public:
 
 	static void GarbageCollect(const GARBAGE_COLLECT_MODE mode, asIScriptEngine* engine);
 	static void SetFastGarbageCollector(const bool enable);
+	static str_type::string GetCurrentCallstack();
 
 	static bool EnablePackLoading(const str_type::string& packFileName, const str_type::string& password);
 	static bool IsPackLoadingEnabled();

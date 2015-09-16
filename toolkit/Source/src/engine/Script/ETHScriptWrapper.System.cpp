@@ -112,6 +112,22 @@ void ETHScriptWrapper::Exit()
 	m_provider->GetVideo()->Quit();
 }
 
+str_type::string ETHScriptWrapper::GetCurrentCallstack()
+{
+	str_type::stringstream ss;
+	for (std::size_t n = 0; n < m_pScriptContext->GetCallstackSize(); n++)
+	{
+		asIScriptFunction* stackedFunction = m_pScriptContext->GetFunction(static_cast<asUINT>(n));
+		if (stackedFunction != NULL)
+		{
+			const str_type::string section = (stackedFunction->GetScriptSectionName());
+			ss << GS_L("    ") << stackedFunction->GetDeclaration()
+			   << GS_L(" (") << section << GS_L(", ") << m_pScriptContext->GetLineNumber(static_cast<asUINT>(n)) << GS_L(")") << std::endl;
+		}
+	}
+	return ss.str();
+}
+
 unsigned int ETHScriptWrapper::GetScreenWidth()
 {
 	return static_cast<unsigned int>(GetScreenSize().x);
