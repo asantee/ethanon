@@ -213,7 +213,6 @@
 		74E6E8151A31EAA500E89172 /* ETHPixelLightDiffuseSpecular.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E8061A31EAA500E89172 /* ETHPixelLightDiffuseSpecular.cpp */; };
 		74E6E8161A31EAA500E89172 /* ETHShaderManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E8081A31EAA500E89172 /* ETHShaderManager.cpp */; };
 		74E6E8181A31EAA500E89172 /* ETHShaders.glsl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E80B1A31EAA500E89172 /* ETHShaders.glsl.cpp */; };
-		74E6E8191A31EAA500E89172 /* ETHVertexLightDiffuse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E80D1A31EAA500E89172 /* ETHVertexLightDiffuse.cpp */; };
 		74E6E8281A31EADB00E89172 /* ETHASUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E81A1A31EADB00E89172 /* ETHASUtil.cpp */; };
 		74E6E8291A31EADB00E89172 /* ETHDateTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E81C1A31EADB00E89172 /* ETHDateTime.cpp */; };
 		74E6E82A1A31EADB00E89172 /* ETHFileChangeDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E81E1A31EADB00E89172 /* ETHFileChangeDetector.cpp */; };
@@ -700,8 +699,6 @@
 		74E6E8091A31EAA500E89172 /* ETHShaderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHShaderManager.h; path = ../../../../src/engine/Shader/ETHShaderManager.h; sourceTree = "<group>"; };
 		74E6E80B1A31EAA500E89172 /* ETHShaders.glsl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHShaders.glsl.cpp; path = ../../../../src/engine/Shader/ETHShaders.glsl.cpp; sourceTree = "<group>"; };
 		74E6E80C1A31EAA500E89172 /* ETHShaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHShaders.h; path = ../../../../src/engine/Shader/ETHShaders.h; sourceTree = "<group>"; };
-		74E6E80D1A31EAA500E89172 /* ETHVertexLightDiffuse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHVertexLightDiffuse.cpp; path = ../../../../src/engine/Shader/ETHVertexLightDiffuse.cpp; sourceTree = "<group>"; };
-		74E6E80E1A31EAA500E89172 /* ETHVertexLightDiffuse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHVertexLightDiffuse.h; path = ../../../../src/engine/Shader/ETHVertexLightDiffuse.h; sourceTree = "<group>"; };
 		74E6E81A1A31EADB00E89172 /* ETHASUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHASUtil.cpp; path = ../../../../src/engine/Util/ETHASUtil.cpp; sourceTree = "<group>"; };
 		74E6E81B1A31EADB00E89172 /* ETHASUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHASUtil.h; path = ../../../../src/engine/Util/ETHASUtil.h; sourceTree = "<group>"; };
 		74E6E81C1A31EADB00E89172 /* ETHDateTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHDateTime.cpp; path = ../../../../src/engine/Util/ETHDateTime.cpp; sourceTree = "<group>"; };
@@ -1348,8 +1345,6 @@
 				74E6E8091A31EAA500E89172 /* ETHShaderManager.h */,
 				74E6E80B1A31EAA500E89172 /* ETHShaders.glsl.cpp */,
 				74E6E80C1A31EAA500E89172 /* ETHShaders.h */,
-				74E6E80D1A31EAA500E89172 /* ETHVertexLightDiffuse.cpp */,
-				74E6E80E1A31EAA500E89172 /* ETHVertexLightDiffuse.h */,
 			);
 			name = Shader;
 			sourceTree = "<group>";
@@ -1834,7 +1829,6 @@
 				74E6E6AB1A31E4B300E89172 /* b2ChainShape.cpp in Sources */,
 				74E6E7081A31E4F800E89172 /* b2DistanceJoint.cpp in Sources */,
 				7481CEAA1A37928900E25DD3 /* hl_sha1.cpp in Sources */,
-				74E6E8191A31EAA500E89172 /* ETHVertexLightDiffuse.cpp in Sources */,
 				74E6E6EC1A31E4EE00E89172 /* b2Contact.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
