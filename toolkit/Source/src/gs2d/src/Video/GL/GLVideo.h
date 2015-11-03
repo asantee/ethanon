@@ -27,7 +27,9 @@
 
 #include "GLInclude.h"
 #include "GLRectRenderer.h"
+
 #include "Cg/GLCgShaderContext.h"
+
 #include "../../Utilities/RecoverableResourceManager.h"
 
 #include <list>

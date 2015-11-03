@@ -24,11 +24,14 @@
 #define GS2D_GLES2_H_
 
 #include "../../Video.h"
+
 #include "../../Platform/Platform.h"
 #include "../../Platform/FileLogger.h"
+
 #include "GLES2Texture.h"
 
 #include "../../Platform/FileIOHub.h"
+
 #include <map>
 
 #define _GS2D_GLES2_MAX_MULTI_TEXTURES 2
