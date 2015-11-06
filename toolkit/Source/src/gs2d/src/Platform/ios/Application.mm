@@ -108,6 +108,23 @@ gs2d::math::Vector2 ApplicationWrapper::GetScreenSize(GLKView *view)
 	);
 }
 
+void ApplicationWrapper::DetectJoysticks()
+{
+	if (g_input)
+	{
+		g_input->DetectJoysticks();
+	}
+}
+
+void ApplicationWrapper::ForceGamepadPause()
+{
+	gs2d::IOSInput* input = static_cast<gs2d::IOSInput*>(g_input.get());
+	if (input)
+	{
+		input->ForceGamepadPause();
+	}
+}
+
 void ApplicationWrapper::TouchesBegan(UIView* thisView, NSSet* touches, UIEvent* event)
 {
 	gs2d::IOSInput* input = static_cast<gs2d::IOSInput*>(g_input.get());

@@ -32,7 +32,10 @@ public:
 	void Update();
 	void RenderFrame(GLKView *view);
 	void Destroy();
-	
+
+	void DetectJoysticks();
+	void ForceGamepadPause();
+
 	static gs2d::math::Vector2 GetScreenSize(GLKView* view);
 
 	void TouchesBegan(UIView* thisView, NSSet* touches, UIEvent* event);

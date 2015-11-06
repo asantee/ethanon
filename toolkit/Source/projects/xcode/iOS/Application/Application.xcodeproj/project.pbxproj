@@ -58,7 +58,7 @@
 		74E6E59D1A3101F000E89172 /* IOSGLES2Video.mm in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E59C1A3101F000E89172 /* IOSGLES2Video.mm */; };
 		74E6E5A31A310C6100E89172 /* KeyStateManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E59F1A310C6100E89172 /* KeyStateManager.cpp */; };
 		74E6E5A41A310C6100E89172 /* MobileInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E5A11A310C6100E89172 /* MobileInput.cpp */; };
-		74E6E5A81A310C7300E89172 /* IOSInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E5A61A310C7300E89172 /* IOSInput.cpp */; };
+		74E6E5A81A310C7300E89172 /* IOSInput.mm in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E5A61A310C7300E89172 /* IOSInput.mm */; };
 		74E6E6491A31DD9900E89172 /* as_atomic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E6031A31DD9900E89172 /* as_atomic.cpp */; };
 		74E6E64A1A31DD9900E89172 /* as_builder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E6051A31DD9900E89172 /* as_builder.cpp */; };
 		74E6E64B1A31DD9900E89172 /* as_bytecode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E6071A31DD9900E89172 /* as_bytecode.cpp */; };
@@ -384,7 +384,7 @@
 		74E6E5A01A310C6100E89172 /* KeyStateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KeyStateManager.h; path = ../../../../src/gs2d/src/Input/KeyStateManager.h; sourceTree = "<group>"; };
 		74E6E5A11A310C6100E89172 /* MobileInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MobileInput.cpp; path = ../../../../src/gs2d/src/Input/MobileInput.cpp; sourceTree = "<group>"; };
 		74E6E5A21A310C6100E89172 /* MobileInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MobileInput.h; path = ../../../../src/gs2d/src/Input/MobileInput.h; sourceTree = "<group>"; };
-		74E6E5A61A310C7300E89172 /* IOSInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IOSInput.cpp; path = ../../../../src/gs2d/src/Input/iOS/IOSInput.cpp; sourceTree = "<group>"; };
+		74E6E5A61A310C7300E89172 /* IOSInput.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = IOSInput.mm; path = ../../../../src/gs2d/src/Input/iOS/IOSInput.mm; sourceTree = "<group>"; };
 		74E6E5A71A310C7300E89172 /* IOSInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IOSInput.h; path = ../../../../src/gs2d/src/Input/iOS/IOSInput.h; sourceTree = "<group>"; };
 		74E6E5E21A31108500E89172 /* CocosDenshion.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CocosDenshion.xcodeproj; path = CocosDenshion/CocosDenshion.xcodeproj; sourceTree = "<group>"; };
 		74E6E6021A31DD9900E89172 /* as_array.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = as_array.h; path = ../../../../src/angelscript/source/as_array.h; sourceTree = "<group>"; };
@@ -980,7 +980,7 @@
 		74E6E5A51A310C6500E89172 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				74E6E5A61A310C7300E89172 /* IOSInput.cpp */,
+				74E6E5A61A310C7300E89172 /* IOSInput.mm */,
 				74E6E5A71A310C7300E89172 /* IOSInput.h */,
 			);
 			name = iOS;
@@ -1659,7 +1659,7 @@
 				74E6E6E91A31E4EE00E89172 /* b2ChainAndCircleContact.cpp in Sources */,
 				74E6E7811A31E9EA00E89172 /* ETHCustomDataManager.cpp in Sources */,
 				74E6E78B1A31E9EA00E89172 /* ETHSpriteEntity.cpp in Sources */,
-				74E6E5A81A310C7300E89172 /* IOSInput.cpp in Sources */,
+				74E6E5A81A310C7300E89172 /* IOSInput.mm in Sources */,
 				74E6E65D1A31DD9900E89172 /* as_outputbuffer.cpp in Sources */,
 				74E6E53D1A30F1B300E89172 /* SharedDataManager.cpp in Sources */,
 				74E6E7201A31E67B00E89172 /* tinyxmlparser.cpp in Sources */,

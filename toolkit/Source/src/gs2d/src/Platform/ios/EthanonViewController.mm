@@ -10,10 +10,16 @@
 
 #import "Application.h"
 
+#import <GameController/GameController.h>
+
 @interface EthanonViewController ()
 {
 	ApplicationWrapper m_ethanonApplication;
 }
+
+@property (nonatomic, strong) id connectObserver;
+@property (nonatomic, strong) id disconnectObserver;
+@property (nonatomic, strong) id pauseToggleObserver;
 
 @property (strong, nonatomic) CMMotionManager *motionManager;
 
@@ -48,6 +54,57 @@
 	view.contentScaleFactor = [self customContentScaleFactor];
 
 	[EAGLContext setCurrentContext:self.context];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+	[super viewDidAppear:animated];
+
+
+	[GCController startWirelessControllerDiscoveryWithCompletionHandler:^{
+		m_ethanonApplication.DetectJoysticks();
+	}];
+
+	// register gamepad listeners
+	__weak typeof(self) weakself = self;
+	self.connectObserver =
+		[[NSNotificationCenter defaultCenter]
+			addObserverForName:GCControllerDidConnectNotification
+			object:nil
+			queue:[NSOperationQueue mainQueue]
+			usingBlock:^(NSNotification *note)
+			{
+				__strong typeof(self) strongSelf = weakself;
+				if (strongSelf)
+					strongSelf->m_ethanonApplication.DetectJoysticks();
+			}
+		];
+
+	self.disconnectObserver =
+		[[NSNotificationCenter defaultCenter]
+			addObserverForName:GCControllerDidDisconnectNotification
+			object:nil
+			queue:[NSOperationQueue mainQueue]
+			usingBlock:^(NSNotification *note)
+			{
+				__strong typeof(self) strongSelf = weakself;
+				if (strongSelf)
+					strongSelf->m_ethanonApplication.DetectJoysticks();
+			}
+		];
+
+	self.pauseToggleObserver =
+		[[NSNotificationCenter defaultCenter]
+			addObserverForName:@"GameTogglePauseNotification"
+			object:nil
+			queue:[NSOperationQueue mainQueue]
+			usingBlock:^(NSNotification *note)
+			{
+				__strong typeof(self) strongSelf = weakself;
+				if (strongSelf)
+					strongSelf->m_ethanonApplication.ForceGamepadPause();
+			}
+		];
 }
 
 - (CGFloat)customContentScaleFactor
@@ -109,6 +166,10 @@
 	if ([EAGLContext currentContext] == self.context) {
 		[EAGLContext setCurrentContext:nil];
 	}
+
+	[[NSNotificationCenter defaultCenter] removeObserver:self.connectObserver];
+	[[NSNotificationCenter defaultCenter] removeObserver:self.disconnectObserver];
+	[[NSNotificationCenter defaultCenter] removeObserver:self.pauseToggleObserver];
 }
 
 - (void)didReceiveMemoryWarning
