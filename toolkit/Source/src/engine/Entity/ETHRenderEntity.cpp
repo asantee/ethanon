@@ -166,11 +166,12 @@ bool ETHRenderEntity::IsSpriteVisible(
 		return false;
 
 	const float angle = GetAngle();
+	const Vector2& bufferSize = backBuffer->GetBufferSize();
 	if (GetType() == ETHEntityProperties::ET_VERTICAL || angle == 0.0f)
 	{
-		const Vector2& bufferSize = backBuffer->GetBufferSize();
 		const ETHEntityProperties::VIEW_RECT& rect = GetScreenRect(sceneProps);
 		const Vector2& min = rect.min;
+		
 		const Vector2& max = rect.max;
 		if (min.x > bufferSize.x || min.y > bufferSize.y)
 		{
@@ -188,10 +189,13 @@ bool ETHRenderEntity::IsSpriteVisible(
 	else
 	{
 		// TODO/TO-DO perform this in the OrientedBoundingBox class
-		const Vector2& size = GetCurrentSize();
+		gs2d::math::OrientedBoundingBoxPtr backbufferObb(new gs2d::math::OrientedBoundingBox(bufferSize * 0.5f, bufferSize, 0.0f));
+
+		const Vector2 size = GetCurrentSize();
 		const float radianAngle = -DegreeToRadian(angle);
 		const OrientedBoundingBox entityObb(ComputeInScreenSpriteCenter(sceneProps), size, radianAngle);
-		return entityObb.Overlaps(*(backBuffer->GetOBB().get()));
+		
+		return entityObb.Overlaps(*backbufferObb);
 	}
 }
 
