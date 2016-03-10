@@ -40,7 +40,7 @@ void gs2d::ShowMessage(str_type::stringstream& stream, const GS_MESSAGE_TYPE typ
 		[alert setAlertStyle:NSCriticalAlertStyle];
 		[alert runModal];
 
-		std::cerr << "Error: " << stream.str() << std::endl;
+		std::cerr << "Error: " << stream << std::endl;
 	}
 	else
 	{
