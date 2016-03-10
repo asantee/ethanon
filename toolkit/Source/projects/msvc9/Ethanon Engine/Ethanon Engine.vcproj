@@ -381,14 +381,6 @@
 					RelativePath="..\..\..\src\engine\Shader\ETHShaders.h"
 					>
 				</File>
-				<File
-					RelativePath="..\..\..\src\engine\Shader\ETHVertexLightDiffuse.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\engine\Shader\ETHVertexLightDiffuse.h"
-					>
-				</File>
 			</Filter>
 			<Filter
 				Name="Physics"
