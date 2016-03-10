@@ -182,6 +182,11 @@ Vector2 ETHScriptWrapper::GetSystemScreenSize()
 	return Vector2((float)v2.x, (float)v2.y);
 }
 
+bool ETHScriptWrapper::SaveScreenShot(const str_type::string& filePath)
+{
+	return m_provider->GetVideo()->SaveScreenshot(filePath.c_str(), Texture::BF_TGA);
+}
+
 int ETHScriptWrapper::GetArgc()
 {
 	return m_argc;

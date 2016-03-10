@@ -698,31 +698,29 @@ bool GLVideo::SaveScreenshot(
 	const Texture::BITMAP_FORMAT fmt,
 	math::Rect2D rect)
 {
-	str_type::string fileName = name, ext;
-	const int type = GetSOILTexType(fmt, ext);
+	str_type::string fileName = name;
+	const str_type::string ext = ".tga";
 
+	// fix file name format
 	if (!Platform::IsExtensionRight(fileName, ext))
 		fileName.append(ext);
 
+	// recognize default value for full screen shot
 	if (rect.size.x <= 0 || rect.size.y <= 0)
 	{
 		rect.pos = math::Vector2i(0,0);
 		rect.size = GetScreenSize();
 	}
 
-	const bool r = (SOIL_save_screenshot(
+	const int result = SOIL_save_screenshot(
 		fileName.c_str(),
-		type,
+		SOIL_SAVE_TYPE_TGA,
 		rect.pos.x,
 		rect.pos.y,
 		rect.size.x,
-		rect.size.y));
+		rect.size.y);
 
-	if (!r)
-	{
-		ShowMessage(str_type::string("Couldn't save screen shot ") + fileName, GSMT_ERROR);
-	}
-	return r;
+	return (result != 0);
 }
 
 } // namespace gs2d
