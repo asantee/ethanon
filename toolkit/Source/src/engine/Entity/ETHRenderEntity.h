@@ -44,7 +44,9 @@ public:
 	ETHRenderEntity(ETHResourceProviderPtr provider);
 
 	// rendering methods
-	bool IsSpriteVisible(const ETHSceneProperties& sceneProps, const ETHBackBufferTargetManagerPtr& backBuffer) const;
+	bool IsSpriteVisible(
+		const ETHSceneProperties& sceneProps,
+		const ETHBackBufferTargetManagerPtr& backBuffer) const;
 
 	bool DrawLightPass(const Vector2 &zAxisDirection, const float parallaxIntensity, const bool drawToTarget = false);
 

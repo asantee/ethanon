@@ -158,7 +158,9 @@ bool ETHRenderEntity::DrawLightPass(const Vector2 &zAxisDirection, const float p
 	return true;
 }
 
-bool ETHRenderEntity::IsSpriteVisible(const ETHSceneProperties& sceneProps, const ETHBackBufferTargetManagerPtr& backBuffer) const
+bool ETHRenderEntity::IsSpriteVisible(
+	const ETHSceneProperties& sceneProps,
+	const ETHBackBufferTargetManagerPtr& backBuffer) const
 {
 	if (!m_pSprite || IsHidden())
 		return false;

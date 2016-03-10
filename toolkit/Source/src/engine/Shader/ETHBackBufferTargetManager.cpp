@@ -23,13 +23,16 @@
 #include "ETHBackBufferTargetManager.h"
 #include "ETHDefaultDynamicBackBuffer.h"
 #include "ETHNoDynamicBackBuffer.h"
+
 #include "../Util/ETHInput.h"
 
 #include <Video.h>
 
-ETHBackBufferTargetManagerPtr ETHBackBufferTargetManager::Create(gs2d::VideoPtr video,
-																 const ETHAppEnmlFile& file, const Platform::Logger& logger,
-																 ETHInput& ethInput)
+ETHBackBufferTargetManagerPtr ETHBackBufferTargetManager::Create(
+	gs2d::VideoPtr video,
+	const ETHAppEnmlFile& file,
+	const Platform::Logger& logger,
+	ETHInput& ethInput)
 {
 	ETHBackBufferTargetManagerPtr r(new ETHBackBufferTargetManager(video, file, logger));
 	video->SetScreenSizeChangeListener(r);
@@ -52,7 +55,10 @@ ETHBackBufferTargetManager::ETHBackBufferTargetManager(gs2d::VideoPtr video)
 	CreateOBB();
 }
 
-ETHBackBufferTargetManager::ETHBackBufferTargetManager(gs2d::VideoPtr video, const ETHAppEnmlFile& file, const Platform::Logger& logger)
+ETHBackBufferTargetManager::ETHBackBufferTargetManager(
+	gs2d::VideoPtr video,
+	const ETHAppEnmlFile& file,
+	const Platform::Logger& logger)
 {
 	const gs2d::str_type::string fixedWidth  = file.GetFixedWidth();
 	const gs2d::str_type::string fixedHeight = file.GetFixedHeight();
