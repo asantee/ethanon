@@ -275,7 +275,7 @@ void EntityEditor::LoadEditor()
 	m_haloAlpha.SetupMenu(video, m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	//m_haloAlpha.SetConstant(m_pEditEntity->light.haloBrightness);
 	m_haloAlpha.SetConstant(1.0f);
-	m_haloAlpha.SetClamp(true, 0, 1);
+	m_haloAlpha.SetClamp(true, 0, 100);
 	m_haloAlpha.SetText(GS_L("Halo alpha:"));
 	m_haloAlpha.SetScrollAdd(0.05f);
 	m_haloAlpha.SetDescription(GS_L("Halo brightness"));
