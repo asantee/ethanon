@@ -492,8 +492,6 @@ void ETHScene::Update(
 
 	m_minSceneHeight = minHeight;
 	m_maxSceneHeight = maxHeight;
-
-	Randomizer::Seed(static_cast<unsigned int>(m_provider->GetVideo()->GetElapsedTime()));
 }
 
 void ETHScene::RenderScene(const bool roundUp, const ETHBackBufferTargetManagerPtr& backBuffer)

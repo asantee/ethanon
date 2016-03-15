@@ -142,6 +142,8 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 		video->SetBGColor(m_lastBGColor);
 		m_pScene->RecoverResources(m_expansionFileManager);
 	}
+	
+	Randomizer::Seed(static_cast<unsigned int>(m_provider->GetVideo()->GetElapsedTime()));
 }
 
 Application::APP_STATUS ETHEngine::Update(
