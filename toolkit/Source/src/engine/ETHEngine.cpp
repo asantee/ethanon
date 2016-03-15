@@ -33,6 +33,8 @@
 
 #include "../addons/scriptbuilder.h"
 
+#include <Math/Randomizer.h>
+
 #if defined(APPLE_IOS) || defined(ANDROID)
  #define MOBILE
 #endif
