@@ -150,9 +150,14 @@ private:
 		Vector2 oldBucket, newBucket;
 		ETHEntity* entity;
 	public:
-		ETHBucketMoveRequest(ETHEntity* target, const Vector2& oldPos, const Vector2& newPos, const Vector2& bucketSize);
+		ETHBucketMoveRequest(
+			ETHEntity* target,
+			const Vector2& oldPos,
+			const Vector2& newPos,
+			const Vector2& bucketSize);
 		~ETHBucketMoveRequest();
 		bool IsABucketMove() const;
+		ETHEntity* GetEntity() const;
 		int GetID() const;
 		const Vector2& GetOldBucket() const;
 		const Vector2& GetNewBucket() const;
@@ -161,7 +166,7 @@ private:
 
 	typedef boost::shared_ptr<ETHBucketMoveRequest> ETHBucketMoveRequestPtr;
 
-	bool MoveEntity(const int id, const Vector2 &currentBucket, const Vector2 &destBucket);
+	bool MoveEntity(ETHEntity* entity, const Vector2 &currentBucket, const Vector2 &destBucket);
 
 	std::list<ETHBucketMoveRequestPtr> m_moveRequests;
 

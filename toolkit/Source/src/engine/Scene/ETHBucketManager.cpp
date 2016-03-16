@@ -207,7 +207,7 @@ void ETHBucketManager::Add(ETHRenderEntity* entity, const SIDE side)
 }
 
 // moves an entity from a bucket to another
-bool ETHBucketManager::MoveEntity(const int id, const Vector2 &currentBucket, const Vector2 &destBucket)
+bool ETHBucketManager::MoveEntity(ETHEntity* entity, const Vector2 &currentBucket, const Vector2 &destBucket)
 {
 	// if the destiny bucket is the current bucket, don't need to do anything
 	if (currentBucket == destBucket)
@@ -218,46 +218,39 @@ bool ETHBucketManager::MoveEntity(const int id, const Vector2 &currentBucket, co
 
 	if (bucketIter == GetLastBucket())
 	{
-		ETH_STREAM_DECL(ss) << GS_L("The current bucket doesn't exist: (") << currentBucket.x << GS_L(",") << currentBucket.y << GS_L(")");
+		ETH_STREAM_DECL(ss)
+			<< GS_L("The current bucket doesn't exist: (")
+			<< currentBucket.x << GS_L(",") << currentBucket.y << GS_L(")")
+			<< GS_L(" -> ") << entity->GetEntityName();
 		m_provider->Log(ss.str(), Platform::Logger::ERROR);
 		return false;
 	}
 
-	ETHRenderEntity* entity = 0;
 	ETHEntityList& entityList = bucketIter->second;
 	for (ETHEntityList::iterator iter = entityList.begin(); iter != entityList.end(); ++iter)
 	{
-		if ((*iter)->GetID() == id)
+		if ((*iter) == entity)
 		{
-			entity = *iter;
 			entityList.erase(iter);
 			break;
 		}
 	}
 
-	// if the entity hasn't been found
-	if (!entity)
-	{
-		ETH_STREAM_DECL(ss) << GS_L("Couldn't find entity ID ") << id << GS_L(" to move");
-		m_provider->Log(ss.str(), Platform::Logger::ERROR);
-		return false;
-	}
-
 	// adds the entity to the destiny bucket
 	if (entity->GetType() == ETHEntityProperties::ET_HORIZONTAL)
 	{
-		m_entities[destBucket].push_front(entity);
+		m_entities[destBucket].push_front((ETHRenderEntity*)entity);
 	}
 	else
 	{
-		m_entities[destBucket].push_back(entity);
+		m_entities[destBucket].push_back((ETHRenderEntity*)entity);
 	}
 
 	#if defined(_DEBUG) || defined(DEBUG)
 	ETH_STREAM_DECL(ss)
-	<< entity->GetEntityName() << GS_L("(") << entity->GetID() << GS_L(")")
-	<< GS_L(" moved from bucket (") << currentBucket.x << GS_L(",") << currentBucket.y << GS_L(") to bucket (")
-	<< destBucket.x << GS_L(",") << destBucket.y << GS_L(")");
+		<< entity->GetEntityName() << GS_L("(") << entity->GetID() << GS_L(")")
+		<< GS_L(" moved from bucket (") << currentBucket.x << GS_L(",") << currentBucket.y << GS_L(") to bucket (")
+		<< destBucket.x << GS_L(",") << destBucket.y << GS_L(")");
 	m_provider->Log(ss.str(), Platform::Logger::INFO);
 	#endif
 	return true;
@@ -658,12 +651,16 @@ void ETHBucketManager::ResolveMoveRequests()
 			DeleteEntity(request->GetID());
 			continue;
 		}
-		MoveEntity(request->GetID(), request->GetOldBucket(), request->GetNewBucket());
+		MoveEntity(request->GetEntity(), request->GetOldBucket(), request->GetNewBucket());
 	}
 	m_moveRequests.clear();
 }
 
-ETHBucketManager::ETHBucketMoveRequest::ETHBucketMoveRequest(ETHEntity* target, const Vector2& oldPos, const Vector2& newPos, const Vector2& bucketSize) :
+ETHBucketManager::ETHBucketMoveRequest::ETHBucketMoveRequest(
+	ETHEntity* target,
+	const Vector2& oldPos,
+	const Vector2& newPos,
+	const Vector2& bucketSize) :
 	entity(target)
 {
 	entity->AddRef();
@@ -684,6 +681,11 @@ bool ETHBucketManager::ETHBucketMoveRequest::IsAlive() const
 bool ETHBucketManager::ETHBucketMoveRequest::IsABucketMove() const
 {
 	return (oldBucket != newBucket);
+}
+
+ETHEntity* ETHBucketManager::ETHBucketMoveRequest::GetEntity() const
+{
+	return entity;
 }
 
 int ETHBucketManager::ETHBucketMoveRequest::GetID() const
