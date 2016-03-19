@@ -315,8 +315,12 @@ void ETHSpriteEntity::LoadParticleSystem()
 
 			const float particleScale = (GetScale().x + GetScale().y) / 2.0f;
 			m_particles[t] = ETHParticleManagerPtr(
-				new ETHParticleManager(m_provider, *pSystem, GetPositionXY(), GetPosition(),
-									   GetAngle(), particleScale));
+				new ETHParticleManager(
+					m_provider,
+					*pSystem,
+					GetPosition(),
+					GetAngle(),
+					particleScale));
 		}
 	}
 }
@@ -461,12 +465,12 @@ void ETHSpriteEntity::Update(const float lastFrameElapsedTime, const Vector2& zA
 
 float ETHSpriteEntity::GetMaxHeight()
 {
-	float maxHeight = GetPosition().z+GetCurrentSize().y;
-	for(std::size_t t=0; t<m_particles.size(); t++)
+	float maxHeight = GetPosition().z + GetCurrentSize().y;
+	for(std::size_t t = 0; t < m_particles.size(); t++)
 	{
 		boost::shared_ptr<ETHParticleSystem> system = m_properties.particleSystems[t];
 		if (system->nParticles > 0)
-			maxHeight = Max(maxHeight, GetPosition().z+system->startPoint.z+(system->boundingSphere*2));
+			maxHeight = Max(maxHeight, GetPosition().z + system->startPoint.z);
 	}
 	if (HasLightSource() && HasHalo())
 		maxHeight = Max(maxHeight, m_properties.light->pos.z);
@@ -475,12 +479,12 @@ float ETHSpriteEntity::GetMaxHeight()
 
 float ETHSpriteEntity::GetMinHeight()
 {
-	float minHeight = GetPosition().z-GetCurrentSize().y;
-	for(std::size_t t=0; t<m_particles.size(); t++)
+	float minHeight = GetPosition().z - GetCurrentSize().y;
+	for(std::size_t t = 0; t < m_particles.size(); t++)
 	{
 		boost::shared_ptr<ETHParticleSystem> system = m_properties.particleSystems[t];
 		if (system->nParticles > 0)
-			minHeight = Min(minHeight, GetPosition().z+system->startPoint.z-(system->boundingSphere*2));
+			minHeight = Min(minHeight, GetPosition().z + system->startPoint.z);
 	}
 	if (HasLightSource() && HasHalo())
 		minHeight = Min(minHeight, m_properties.light->pos.z);
@@ -573,7 +577,7 @@ void ETHSpriteEntity::UpdateParticleSystems(const Vector2& zAxisDirection, const
 	for (std::size_t t=0; t<m_particles.size(); t++)
 	{
 		if (m_particles[t])
-			m_particles[t]->UpdateParticleSystem(ETHGlobal::ToScreenPos(GetPosition(), zAxisDirection), GetPosition(), GetAngle(), lastFrameElapsedTime);
+			m_particles[t]->UpdateParticleSystem(GetPosition(), GetAngle(), lastFrameElapsedTime);
 	}
 }
 
@@ -804,7 +808,7 @@ bool ETHSpriteEntity::PlayParticleSystem(const unsigned int n, const Vector2& zA
 	{
 		m_particles[n]->Kill(false);
 		const Vector3 v3Pos = GetPosition();
-		m_particles[n]->Play(ETHGlobal::ToScreenPos(v3Pos, zAxisDirection), v3Pos, GetAngle());
+		m_particles[n]->Play(v3Pos, GetAngle());
 		return true;
 	}
 }

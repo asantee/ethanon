@@ -170,9 +170,10 @@ bool ETHRenderEntity::IsSpriteVisible(
 	if (GetType() == ETHEntityProperties::ET_VERTICAL || angle == 0.0f)
 	{
 		const ETHEntityProperties::VIEW_RECT& rect = GetScreenRect(sceneProps);
+
 		const Vector2& min = rect.min;
-		
 		const Vector2& max = rect.max;
+
 		if (min.x > bufferSize.x || min.y > bufferSize.y)
 		{
 			return false;

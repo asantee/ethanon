@@ -55,7 +55,6 @@ public:
 
 	str_type::string bitmapFile;
 	ETH_BOOL allAtOnce;
-	float boundingSphere;
 	Video::ALPHA_MODE alphaMode;
 	int nParticles;
 	Vector2 gravityVector;

@@ -982,6 +982,16 @@ inline Color ConvertToDW(Vector3 v3)
 	return Color(255, (GS_BYTE)(v3.x*255.0f), (GS_BYTE)(v3.y*255.0f), (GS_BYTE)(v3.z*255.0f));
 }
 
+inline Vector2 Vector2Min(const Vector2& a, const Vector2& b)
+{
+    return Vector2(Min(a.x, b.x), Min(a.y, b.y));
+}
+
+inline Vector2 Vector2Max(const Vector2& a, const Vector2& b)
+{
+    return Vector2(Max(a.x, b.x), Max(a.y, b.y));
+}
+
 typedef Vector4 Plane;
 inline Plane ComputePlane(const Vector3& pos, const Vector3& normal)
 {

@@ -43,36 +43,26 @@ public:
 	ETHParticleManager(
 		ETHResourceProviderPtr provider,
 		const str_type::string& file,
-		const Vector2& v2Pos,
 		const Vector3& v3Pos,
 		const float angle);
 
 	ETHParticleManager(
 		ETHResourceProviderPtr provider,
 		const ETHParticleSystem& partSystem,
-		const Vector2& v2Pos,
 		const Vector3& v3Pos,
 		const float angle,
 		const float scale);
 
 	/// Update the position, size and angle of all particles in the system (if they are active)
 	/// Must be called once every frame (only once). The new particles are positioned according
-	/// to v2Pos and it's starting position
+	/// to v3Pos and it's starting position
 	void UpdateParticleSystem(
-		const Vector2& v2Pos,
 		const Vector3& v3Pos,
 		const float angle,
 		const float lastFrameElapsedTime);
 
-	void UpdateParticle(
-		const int t,
-		const bool hasJustBeenReset,
-		const Vector2& v2Pos,
-		const Vector3& v3Pos,
-		const float angle,
-		const float lastFrameElapsedTime,
-		const Matrix4x4& rot,
-		bool& anythingDrawn);
+	// Compute maximum bounding square for the system
+	Rect2Df ComputeBoundingSquare(const float angle) const;
 
 	/// Draw all particles also considering it's ambient light color
 	bool DrawParticleSystem(
@@ -89,7 +79,7 @@ public:
 	bool Finished() const;
 
 	/// Restart the system execution by setting all particles repeat count to zero
-	bool Play(const Vector2 &v2Pos, const Vector3 &v3Pos, const float angle);
+	bool Play(const Vector3 &v3Pos, const float angle);
 
 	/// Set another system configuration (it can be used during the animation)
 	void SetSystem(const ETHParticleSystem &partSystem);
@@ -112,9 +102,6 @@ public:
 
 	/// Return the particles starting position
 	Vector3 GetStartPos() const;
-
-	/// Return the bounding sphere radius
-	float GetBoundingRadius() const;
 
 	/// Return all the data from the system
 	const ETHParticleSystem *GetSystem() const;
@@ -188,6 +175,18 @@ private:
 		unsigned int currentFrame;
 	};
 
+	static void UpdateParticle(
+		const ETHParticleSystem& system,
+		PARTICLE& particle,
+		const bool hasJustBeenReset,
+		const bool killed,
+		const Vector3& v3Pos,
+		const float angle,
+		const float lastFrameElapsedTime,
+		const Matrix4x4& rot,
+		bool& anythingDrawn,
+		int& activeParticles);
+
 	ETHParticleSystem m_system;
 	std::vector<PARTICLE> m_particles;
 	ETHResourceProviderPtr m_provider;
@@ -201,13 +200,24 @@ private:
 	/// Create a particle system
 	bool CreateParticleSystem(
 		const ETHParticleSystem& partSystem,
-		const Vector2& v2Pos,
 		const Vector3& v3Pos,
 		const float angle,
 		const float scale);
 
-	void ResetParticle(const int t, const Vector2& v2Pos, const Vector3& v3Pos, const float angle, const Matrix4x4& rotMatrix);
-	void PositionParticle(const int t, const Vector2& v2Pos, const float angle, const Matrix4x4& rotMatrix, const Vector3& v3Pos);
+	static void ResetParticle(
+		const ETHParticleSystem& system,
+		PARTICLE& particle,
+		const Vector3& v3Pos,
+		const float angle,
+		const Matrix4x4& rotMatrix);
+
+	static void PositionParticle(
+		const ETHParticleSystem& system,
+		PARTICLE& particle,
+		const float angle,
+		const Matrix4x4& rotMatrix,
+		const Vector3& v3Pos);
+
 	void SetParticleDepth(const float depth);
 
 public:

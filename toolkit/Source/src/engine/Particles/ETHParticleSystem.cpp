@@ -26,7 +26,6 @@
 
 void ETHParticleSystem::Scale(const float scale)
 {
-	boundingSphere *= scale;
 	gravityVector *= scale;
 	directionVector *= scale;
 	randomizeDir *= scale;
@@ -80,7 +79,6 @@ void ETHParticleSystem::Reset()
 	angleStart = 0.0f;
 	emissive = Vector3(1,1,1);
 	allAtOnce = false;
-	boundingSphere = 512.0f;
 	bitmapFile = ETH_DEFAULT_PARTICLE_BITMAP;
 	spriteCut = Vector2i(1,1);
 	animationMode = PLAY_ANIMATION;
@@ -94,7 +92,6 @@ bool ETHParticleSystem::ReadFromXMLFile(TiXmlElement *pElement)
 
 	pElement->QueryIntAttribute(GS_L("alphaMode"), (int*)&alphaMode);
 	pElement->QueryIntAttribute(GS_L("repeat"), &repeat);
-	pElement->QueryFloatAttribute(GS_L("boundingSphere"), &boundingSphere);
 	pElement->QueryFloatAttribute(GS_L("lifeTime"), &lifeTime);
 	pElement->QueryFloatAttribute(GS_L("randomLifeTime"), &randomizeLifeTime);
 	pElement->QueryFloatAttribute(GS_L("angleDir"), &angleDir);
@@ -185,7 +182,6 @@ bool ETHParticleSystem::WriteToXMLFile(TiXmlElement *pRoot) const
 	pParticleRoot->SetAttribute(GS_L("alphaMode"), alphaMode);
 	pParticleRoot->SetAttribute(GS_L("repeat"), repeat);
 	pParticleRoot->SetAttribute(GS_L("animationMode"), animationMode);
-	pParticleRoot->SetDoubleAttribute(GS_L("boundingSphere"), boundingSphere);
 	pParticleRoot->SetDoubleAttribute(GS_L("lifeTime"), lifeTime);
 	pParticleRoot->SetDoubleAttribute(GS_L("randomLifeTime"), randomizeLifeTime);
 	pParticleRoot->SetDoubleAttribute(GS_L("angleDir"), angleDir);

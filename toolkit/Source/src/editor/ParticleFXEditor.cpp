@@ -63,7 +63,7 @@ ParticleEditor::~ParticleEditor()
 
 void ParticleEditor::CreateParticles()
 {
-	m_manager = ETHParticleManagerPtr(new ETHParticleManager(m_provider, m_system, m_v2Pos, Vector3(m_v2Pos, 0), m_systemAngle, 1.0f));
+	m_manager = ETHParticleManagerPtr(new ETHParticleManager(m_provider, m_system, Vector3(m_v2Pos, 0), m_systemAngle, 1.0f));
 }
 
 bool ParticleEditor::ProjectManagerRequested()
@@ -95,16 +95,17 @@ void ParticleEditor::DrawParticleSystem()
 		m_systemAngle = 180.0f;
 
 	m_timer.CalcLastFrame();
-	m_manager->UpdateParticleSystem(m_v2Pos, Vector3(m_v2Pos, 0), m_systemAngle, static_cast<float>(m_timer.GetElapsedTime() * 1000.0));
+	m_manager->UpdateParticleSystem(Vector3(m_v2Pos, 0), m_systemAngle, static_cast<float>(m_timer.GetElapsedTime() * 1000.0));
 
 	video->SetScissor(Rect2D((int)m_menuWidth*2, 0, video->GetScreenSize().x-(int)m_menuWidth*2, video->GetScreenSize().y));
-	if ((m_boundingSphere.IsActive() || m_boundingSphere.IsMouseOver()) && m_system.boundingSphere >= 1)
-	{
-		m_sphereSprite->SetOrigin(Sprite::EO_CENTER);
-		m_sphereSprite->DrawShaped(m_v2Pos + ETHGlobal::ToVector2(m_manager->GetStartPos()),
-								  Vector2(m_system.boundingSphere, m_system.boundingSphere),
-								  BSPHERE_COLOR, BSPHERE_COLOR, BSPHERE_COLOR, BSPHERE_COLOR);
-	}
+
+	// Draw bounding rect
+	const Rect2Df boundingSquareSize(m_manager->ComputeBoundingSquare(m_systemAngle));
+	video->DrawRectangle(
+		boundingSquareSize.pos + m_v2Pos - (boundingSquareSize.size * 0.5f),
+		boundingSquareSize.size,
+		Color(0x11FFFFFF));
+
 	const bool zBuffer = video->GetZBuffer();
 	video->SetZBuffer(false);
 	
@@ -122,7 +123,7 @@ void ParticleEditor::DrawParticleSystem()
 		ShadowPrint(Vector2(200.0f, video->GetScreenSizeF().y/2), REPLAY_MESSAGE, GS_L("Verdana14_shadow.fnt"), gs2d::constant::WHITE);
 		if (input->GetKeyState(GSK_SPACE) == GSKS_HIT || input->GetLeftClickState() == GSKS_HIT)
 		{
-			m_manager->Play(m_v2Pos, Vector3(m_v2Pos, 0), m_systemAngle);
+			m_manager->Play(Vector3(m_v2Pos, 0), m_systemAngle);
 			m_manager->Kill(false);
 		}
 	}
@@ -361,13 +362,6 @@ void ParticleEditor::SetMenuConstants()
 	m_angleStart.SetScrollAdd(1.0f);
 	m_angleStart.SetDescription(GS_L("Particle starting angle"));
 
-	m_boundingSphere.SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
-	m_boundingSphere.SetConstant(m_system.boundingSphere);
-	m_boundingSphere.SetClamp(true, 0, 2048);
-	m_boundingSphere.SetText(GS_L("Bounding:"));
-	m_boundingSphere.SetScrollAdd(2.0f);
-	m_boundingSphere.SetDescription(GS_L("Bounding Sphere diameter"));
-
 	m_allAtOnce.SetupMenu(m_provider->GetVideo(), m_provider->GetInput(), m_menuSize, m_menuWidth, 9, false);
 	m_allAtOnce.SetConstant((m_system.allAtOnce) ? 1.0f : 0.0f);
 	m_allAtOnce.SetClamp(true, 0, 1);
@@ -472,7 +466,7 @@ void ParticleEditor::ParticlePanel()
 			m_system.bitmapFile = file;
 			m_provider->GetGraphicResourceManager()->ReleaseResource(m_system.bitmapFile);
 			m_manager = ETHParticleManagerPtr(
-				new ETHParticleManager(m_provider, m_system, m_v2Pos, Vector3(m_v2Pos, 0), m_systemAngle, 1.0f));
+				new ETHParticleManager(m_provider, m_system, Vector3(m_v2Pos, 0), m_systemAngle, 1.0f));
 		}
 	}
 
@@ -505,7 +499,7 @@ void ParticleEditor::ParticlePanel()
 		if (OpenSystem(path, file))
 		{
 			m_manager = ETHParticleManagerPtr(
-				new ETHParticleManager(m_provider, path, m_v2Pos, Vector3(m_v2Pos, 0), m_systemAngle));
+				new ETHParticleManager(m_provider, path, Vector3(m_v2Pos, 0), m_systemAngle));
 			m_manager->SetZPosition(0.0f);
 			m_manager->Kill(false);
 			m_system = *m_manager->GetSystem();
@@ -575,7 +569,7 @@ void ParticleEditor::ParticlePanel()
 		{
 			m_system.nParticles = nParticles;
 			m_manager = ETHParticleManagerPtr(
-				new ETHParticleManager(m_provider, m_system, m_v2Pos, Vector3(m_v2Pos, 0), m_systemAngle, 1.0f));
+				new ETHParticleManager(m_provider, m_system, Vector3(m_v2Pos, 0), m_systemAngle, 1.0f));
 			m_manager->Kill(false);
 		}
 
@@ -587,10 +581,6 @@ void ParticleEditor::ParticlePanel()
 
 		m_system.randomizeDir.x = m_randDir[0].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
 		m_system.randomizeDir.y = m_randDir[1].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
-		menu += m_menuSize/2;
-
-		m_system.boundingSphere = m_boundingSphere.PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
-		m_system.allAtOnce = (bool)(m_allAtOnce.PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize) != 0); menu += m_menuSize;
 		menu += m_menuSize/2;
 
 		m_system.startPoint.x = m_startPoint[0].PlaceInput(Vector2(0.0f,menu), Vector2(0.0f, v2ScreenDim.y-m_menuSize), m_menuSize); menu += m_menuSize;
@@ -690,14 +680,12 @@ void ParticleEditor::ResetSystem()
 	m_system.randAngleStart = 0.0f;
 	m_system.angleStart = 0.0f;
 	m_system.emissive = Vector3(1,1,1);
-	m_system.boundingSphere = 512.0f;
 	m_system.allAtOnce = false;
 
 	m_manager = ETHParticleManagerPtr(
 		new ETHParticleManager(
 			m_provider,
 			m_system,
-			m_v2Pos,
 			Vector3(m_v2Pos, 0),
 			m_systemAngle,
 			1.0f));

@@ -70,7 +70,6 @@ class ParticleEditor : public EditorBase
 	GSGUI_FLOAT_INPUT m_minSize;
 	GSGUI_FLOAT_INPUT m_maxSize;
 	GSGUI_FLOAT_INPUT m_angleStart;
-	GSGUI_FLOAT_INPUT m_boundingSphere;
 	GSGUI_FLOAT_INPUT m_allAtOnce;
 
 	GSGUI_FLOAT_INPUT m_spriteCut[2];
