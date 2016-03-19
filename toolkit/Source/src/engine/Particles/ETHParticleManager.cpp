@@ -178,6 +178,8 @@ const ETHParticleSystem *ETHParticleManager::GetSystem() const
 
 void ETHParticleManager::UpdateParticleSystem(
 	const Vector3& v3Pos,
+	const Vector2& zAxisDirection,
+	const Vector2& parallaxOffset,
 	const float angle,
 	const float lastFrameElapsedTime)
 {
@@ -186,11 +188,17 @@ void ETHParticleManager::UpdateParticleSystem(
 
 	Matrix4x4 rot = RotateZ(DegreeToRadian(angle));
 	m_nActiveParticles = 0;
+
+	m_worldSpaceBoundingMin = ETHGlobal::ToScreenPos(v3Pos + m_system.startPoint, zAxisDirection);
+	m_worldSpaceBoundingMax = m_worldSpaceBoundingMin;
+
 	for (int t = 0; t < m_system.nParticles; t++)
 	{
+		PARTICLE& particle = m_particles[t];
+
 		UpdateParticle(
 			m_system,
-			m_particles[t],
+			particle,
 			false, // hasJustBeenReset
 			Killed(),
 			v3Pos,
@@ -199,8 +207,23 @@ void ETHParticleManager::UpdateParticleSystem(
 			rot,
 			anythingDrawn,
 			m_nActiveParticles);
+		
+		const Vector2 worldSpacePos =
+			ETHGlobal::ToScreenPos(Vector3(particle.pos, m_system.startPoint.z), zAxisDirection) + parallaxOffset;
+		m_worldSpaceBoundingMin = Vector2Min(m_worldSpaceBoundingMin, worldSpacePos - (particle.size * 0.5f));
+		m_worldSpaceBoundingMax = Vector2Max(m_worldSpaceBoundingMax, worldSpacePos + (particle.size * 0.5f));
 	}
 	m_finished = !anythingDrawn;
+}
+
+Vector2 ETHParticleManager::GetWorldSpaceBoundingMin() const
+{
+	return m_worldSpaceBoundingMin;
+}
+
+Vector2 ETHParticleManager::GetWorldSpaceBoundingMax() const
+{
+	return m_worldSpaceBoundingMax;
 }
 
 void ETHParticleManager::UpdateParticle(
@@ -461,9 +484,6 @@ bool ETHParticleManager::DrawParticleSystem(
 
 		Vector4 finalColor = particle.color * Vector4(finalAmbient, 1.0f);
 
-		// compute the right in-screen position
-		const Vector2 v2Pos = ETHGlobal::ToScreenPos(Vector3(particle.pos, particle.startPoint.z), zAxisDirection);
-
 		SetParticleDepth(ComputeParticleDepth(ownerType, ownerDepth, particle, maxHeight, minHeight));
 
 		// draw
@@ -483,7 +503,9 @@ bool ETHParticleManager::DrawParticleSystem(
 			currentPS->SetConstant(GS_L("highlight"), finalColor);
 		}
 		
-		m_pBMP->DrawOptimal((v2Pos + parallaxOffset), finalColor, particle.angle, Vector2(particle.size, particle.size));
+		const Vector2 v2Pos =
+			ETHGlobal::ToScreenPos(Vector3(particle.pos, particle.startPoint.z), zAxisDirection) + parallaxOffset;
+		m_pBMP->DrawOptimal(v2Pos, finalColor, particle.angle, Vector2(particle.size, particle.size));
 	}
 	video->SetAlphaMode(alpha);
 	return true;

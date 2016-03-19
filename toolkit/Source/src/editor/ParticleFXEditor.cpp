@@ -95,16 +95,30 @@ void ParticleEditor::DrawParticleSystem()
 		m_systemAngle = 180.0f;
 
 	m_timer.CalcLastFrame();
-	m_manager->UpdateParticleSystem(Vector3(m_v2Pos, 0), m_systemAngle, static_cast<float>(m_timer.GetElapsedTime() * 1000.0));
+	m_manager->UpdateParticleSystem(
+		Vector3(m_v2Pos, 0),
+		Vector2(0.0f, 0.0f),
+		Vector2(0.0f, 0.0f),
+		m_systemAngle,
+		static_cast<float>(m_timer.GetElapsedTime() * 1000.0));
 
 	video->SetScissor(Rect2D((int)m_menuWidth*2, 0, video->GetScreenSize().x-(int)m_menuWidth*2, video->GetScreenSize().y));
 
-	// Draw bounding rect
-	const Rect2Df boundingSquareSize(m_manager->ComputeBoundingSquare(m_systemAngle));
-	video->DrawRectangle(
-		boundingSquareSize.pos + m_v2Pos - (boundingSquareSize.size * 0.5f),
-		boundingSquareSize.size,
-		Color(0x11FFFFFF));
+	// Draw bounding rects
+	if (m_particles.IsActive() || m_particles.IsMouseOver())
+	{
+		const Rect2Df boundingSquareSize(m_manager->ComputeBoundingSquare(m_systemAngle));
+		video->DrawRectangle(
+			boundingSquareSize.pos + m_v2Pos - (boundingSquareSize.size * 0.5f),
+			boundingSquareSize.size,
+			Color(0x05FFFFFF));
+
+		const Vector2 worldSpaceRectSize(m_manager->GetWorldSpaceBoundingMax() - m_manager->GetWorldSpaceBoundingMin());
+		video->DrawRectangle(
+			((m_manager->GetWorldSpaceBoundingMin() + m_manager->GetWorldSpaceBoundingMax()) / 2.0f) - (worldSpaceRectSize * 0.5f),
+			worldSpaceRectSize,
+			Color(0x05FFFFFF));
+	}
 
 	const bool zBuffer = video->GetZBuffer();
 	video->SetZBuffer(false);

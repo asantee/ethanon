@@ -577,7 +577,14 @@ void ETHSpriteEntity::UpdateParticleSystems(const Vector2& zAxisDirection, const
 	for (std::size_t t=0; t<m_particles.size(); t++)
 	{
 		if (m_particles[t])
-			m_particles[t]->UpdateParticleSystem(GetPosition(), GetAngle(), lastFrameElapsedTime);
+		{
+			m_particles[t]->UpdateParticleSystem(
+				GetPosition(),
+				zAxisDirection,
+				ComputeParallaxOffset(),
+				GetAngle(),
+				lastFrameElapsedTime);
+		}
 	}
 }
 

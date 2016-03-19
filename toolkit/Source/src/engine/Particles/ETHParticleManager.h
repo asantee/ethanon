@@ -58,6 +58,8 @@ public:
 	/// to v3Pos and it's starting position
 	void UpdateParticleSystem(
 		const Vector3& v3Pos,
+		const Vector2& zAxisDirection,
+		const Vector2& parallaxOffset,
 		const float angle,
 		const float lastFrameElapsedTime);
 
@@ -131,6 +133,9 @@ public:
 	/// Mirror the entire system along the Y-axis
 	void MirrorY(const bool mirrorGravity);
 
+	Vector2 GetWorldSpaceBoundingMin() const;
+	Vector2 GetWorldSpaceBoundingMax() const;
+
 private:
 
 	struct PARTICLE
@@ -193,7 +198,7 @@ private:
 	SpritePtr m_pBMP;
 	bool m_finished, m_killed;
 	int m_nActiveParticles;
-	Vector2 m_v2Move;
+	Vector2 m_worldSpaceBoundingMin, m_worldSpaceBoundingMax;
 
 	static void Sort(std::vector<PARTICLE> &v);
 
