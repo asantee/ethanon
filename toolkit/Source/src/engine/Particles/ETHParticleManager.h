@@ -136,6 +136,10 @@ public:
 	Vector2 GetWorldSpaceBoundingMin() const;
 	Vector2 GetWorldSpaceBoundingMax() const;
 
+	bool IsVisible(
+		const Vector2& worldSpaceScreenMin,
+		const Vector2& worldSpaceScreenMax) const;
+
 private:
 
 	struct PARTICLE

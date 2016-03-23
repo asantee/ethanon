@@ -21,6 +21,7 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHRenderEntity.h"
+
 #include "../Shader/ETHShaderManager.h"
 
 ETHRenderEntity::ETHRenderEntity(const str_type::string& filePath, ETHResourceProviderPtr provider, const int nId) :

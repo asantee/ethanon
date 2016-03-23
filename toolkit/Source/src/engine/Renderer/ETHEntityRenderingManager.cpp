@@ -86,25 +86,27 @@ void ETHEntityRenderingManager::AddDecomposedPieces(
 	}
 
 	// decompose the particle list for this entity
-	if (entity->HasParticleSystems())
+	for (std::size_t t = 0; t < entity->GetNumParticleSystems(); t++)
 	{
-		for (std::size_t t = 0; t < entity->GetNumParticleSystems(); t++)
+		ETHParticleManagerPtr particle = entity->GetParticleManager(t);
+
+		if (!particle->IsVisible(video->GetCameraPos(), video->GetCameraPos() + backBuffer->GetBufferSize()))
 		{
-			ETHEntityPieceRendererPtr particlePiece(
-				new ETHEntityParticleRenderer(entity, shaderManager, t));
-
-			ETHParticleManagerPtr particle = entity->GetParticleManager(t);
-
-			const float shift = ETHParticleManager::GetParticleDepthShift(ETHEntityProperties::ResolveDepthSortingMode(entity->GetType()));
-			const float depth = ETHEntity::ComputeDepth(
-				particle->GetZPosition() + entity->GetPositionZ() + shift,
-				maxHeight,
-				minHeight);
-
-			const float drawHash = ComputeDrawHash(video, depth, entity);
-
-			m_piecesToRender.insert(std::pair<float, ETHEntityPieceRendererPtr>(drawHash, particlePiece));
+			continue;
 		}
+	
+		ETHEntityPieceRendererPtr particlePiece(
+			new ETHEntityParticleRenderer(entity, shaderManager, t));
+
+		const float shift = ETHParticleManager::GetParticleDepthShift(ETHEntityProperties::ResolveDepthSortingMode(entity->GetType()));
+		const float depth = ETHEntity::ComputeDepth(
+			particle->GetZPosition() + entity->GetPositionZ() + shift,
+			maxHeight,
+			minHeight);
+
+		const float drawHash = ComputeDrawHash(video, depth, entity);
+
+		m_piecesToRender.insert(std::pair<float, ETHEntityPieceRendererPtr>(drawHash, particlePiece));
 	}
 
 	// fill the light list for this frame

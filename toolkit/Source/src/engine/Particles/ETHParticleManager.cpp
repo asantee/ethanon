@@ -146,7 +146,6 @@ void ETHParticleManager::Kill(const bool kill)
 
 void ETHParticleManager::SetSystem(const ETHParticleSystem &partSystem)
 {
-	//partSystem.nParticles = m_system.nParticles;
 	m_system = partSystem;
 }
 
@@ -224,6 +223,21 @@ Vector2 ETHParticleManager::GetWorldSpaceBoundingMin() const
 Vector2 ETHParticleManager::GetWorldSpaceBoundingMax() const
 {
 	return m_worldSpaceBoundingMax;
+}
+
+bool ETHParticleManager::IsVisible(
+	const Vector2& worldSpaceScreenMin,
+	const Vector2& worldSpaceScreenMax) const
+{
+	if (   m_worldSpaceBoundingMin.x > worldSpaceScreenMax.x || m_worldSpaceBoundingMin.y > worldSpaceScreenMax.y
+		|| m_worldSpaceBoundingMax.x < worldSpaceScreenMin.x || m_worldSpaceBoundingMax.y < worldSpaceScreenMin.y)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
 }
 
 void ETHParticleManager::UpdateParticle(
