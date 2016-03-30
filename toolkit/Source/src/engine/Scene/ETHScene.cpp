@@ -370,7 +370,7 @@ bool ETHScene::GenerateLightmaps(const int id)
 			Vector2 v2AbsoluteOrigin(0,0);
 			if (entity->GetSprite())
 			{
-				v2Size = entity->GetCurrentSize();
+				v2Size = entity->GetSize();
 				v2AbsoluteOrigin = entity->ComputeAbsoluteOrigin(v2Size);
 			}
 

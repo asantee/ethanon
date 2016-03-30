@@ -568,7 +568,7 @@ void SceneEditor::EntitySelector(const bool guiButtonsFree)
 			m_richOutline->SetOrigin(Sprite::EO_CENTER);
 			const Vector2 v2Pos = m_pSelected->ComputeInScreenSpriteCenter(*m_pScene->GetSceneProperties()) + video->GetCameraPos();
 			video->SetVertexShader(ShaderPtr());
-			m_richOutline->DrawShaped(v2Pos, m_pSelected->GetCurrentSize(), dwColor, dwColor, dwColor, dwColor, m_pSelected->GetAngle());
+			m_richOutline->DrawShaped(v2Pos, m_pSelected->GetSize(), dwColor, dwColor, dwColor, dwColor, m_pSelected->GetAngle());
 			DrawEntityString(m_pSelected, gs2d::constant::WHITE);
 
 			ShadowPrint(Vector2(m_guiX,m_guiY), GS_L("Entity name:")); m_guiY += m_menuSize;
@@ -596,7 +596,7 @@ void SceneEditor::EntitySelector(const bool guiButtonsFree)
 			if (pSelected)
 			{
 				const Color dwColor(48, 255, 255, 255);
-				const Vector2& size(pSelected->GetCurrentSize());
+				const Vector2& size(pSelected->GetSize());
 				m_richOutline->SetOrigin(Sprite::EO_CENTER);
 				video->SetVertexShader(ShaderPtr());
 				m_richOutline->DrawShaped(pSelected->ComputeInScreenSpriteCenter(*m_pScene->GetSceneProperties()) + video->GetCameraPos(),
@@ -943,7 +943,7 @@ void SceneEditor::DoStateManager()
 
 void SceneEditor::DrawGrid()
 {
-	const Vector2 currentSize(m_currentEntity->GetCurrentSize());
+	const Vector2 currentSize(m_currentEntity->GetSize());
 	const VideoPtr& video = m_provider->GetVideo();
 
 	int sizeX = (int)currentSize.x;
@@ -1062,7 +1062,7 @@ void SceneEditor::PlaceEntitySelection()
 	const Vector2 screenSize(video->GetScreenSizeF());
 	m_v3Pos = Vector3(v2Cursor.x+v2CamPos.x, v2Cursor.y+v2CamPos.y, m_v3Pos.z);
 
-	const Vector2 currentSize(m_currentEntity->GetCurrentSize());
+	const Vector2 currentSize(m_currentEntity->GetSize());
 	if (input->GetKeyState(GSK_SHIFT) == GSKS_DOWN && currentSize != Vector2(0,0))
 	{
 		int sizeX = (int)currentSize.x;
@@ -1551,7 +1551,7 @@ void SceneEditor::CopySelectedToClipboard()
 	if (!m_pSelected)
 		return;
 
-	const Vector2 v2Size = m_pSelected->GetCurrentSize();
+	const Vector2 v2Size = m_pSelected->GetSize();
 	m_clipBoard = boost::shared_ptr<ETHRenderEntity>(new ETHRenderEntity(m_provider, *m_pSelected->GetProperties(), m_pSelected->GetAngle(), 1.0f));
 	m_clipBoard->SetOrphanPosition(m_pSelected->GetPosition() + Vector3(v2Size.x, v2Size.y, 0));
 	m_clipBoard->SetAngle(m_pSelected->GetAngle());

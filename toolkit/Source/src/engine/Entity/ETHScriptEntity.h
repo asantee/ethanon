@@ -56,7 +56,7 @@ public:
 	virtual bool SetFrame(const unsigned int frame) = 0;
 	virtual bool SetFrame(const unsigned int column, const unsigned int row) = 0;
 	virtual unsigned int GetFrame() const = 0;
-	virtual Vector2 GetCurrentSize() const = 0;
+	virtual Vector2 GetSize() const = 0;
 	virtual bool HasLightSource() const = 0;
 	virtual bool HasHalo() const = 0;
 	virtual bool IsCollidable() const = 0;

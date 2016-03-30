@@ -120,7 +120,7 @@ bool ETHRenderEntity::DrawAmbientPass(
 	if (shouldUseFourTriangles)
 		m_pSprite->SetRectMode(Sprite::RM_FOUR_TRIANGLES);
 
-	m_pSprite->DrawOptimal(pos, diffuseColor, angle, GetCurrentSize());
+	m_pSprite->DrawOptimal(pos, diffuseColor, angle, GetSize());
 
 	if (shouldUseFourTriangles)
 		m_pSprite->SetRectMode(Sprite::RM_TWO_TRIANGLES);
@@ -193,7 +193,7 @@ bool ETHRenderEntity::IsSpriteVisible(
 		// TODO/TO-DO perform this in the OrientedBoundingBox class
 		gs2d::math::OrientedBoundingBoxPtr backbufferObb(new gs2d::math::OrientedBoundingBox(bufferSize * 0.5f, bufferSize, 0.0f));
 
-		const Vector2 size = GetCurrentSize();
+		const Vector2 size = GetSize();
 		const float radianAngle = -DegreeToRadian(angle);
 		const OrientedBoundingBox entityObb(ComputeInScreenSpriteCenter(sceneProps), size, radianAngle);
 		
@@ -256,7 +256,7 @@ bool ETHRenderEntity::DrawProjShadow(
 
 	const float scale = (m_properties.shadowScale <= 0.0f) ? 1.0f : m_properties.shadowScale;
 	const float opacity = (m_properties.shadowOpacity <= 0.0f) ? 1.0f : m_properties.shadowOpacity;
-	const Vector2 v2Size = GetCurrentSize();
+	const Vector2 v2Size = GetSize();
 	Vector2 v2ShadowSize(v2Size.x, v2Size.y);
 	Vector2 v2ShadowPos(v3EntityPos.x, v3EntityPos.y);
 
@@ -339,7 +339,7 @@ bool ETHRenderEntity::DrawProjShadow(
 		const Vector3 &ambientColor = sceneProps.ambient;
 		const float ambientColorLen = 1.0f - ((ambientColor.x + ambientColor.y + ambientColor.z) / 3.0f);
 		attenBias = Min(attenBias * ambientColorLen, 1.0f);
-		attenBias *= Max(Min((1 - (GetPosition().z / Max(GetCurrentSize().y, 1.0f))), 1.0f), 0.0f);
+		attenBias *= Max(Min((1 - (GetPosition().z / Max(GetSize().y, 1.0f))), 1.0f), 0.0f);
 	}
 
 	GS_BYTE alpha = static_cast<GS_BYTE>(attenBias*255.0f*opacity);

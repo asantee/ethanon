@@ -281,7 +281,7 @@ int ETHBucketManager::SeekEntity(const Vector2& pointAbsPos, ETHEntity** pOutDat
 
 	if (pAfterThisOne)
 	{
-		if (!pAfterThisOne->IsPointOnSprite(props, relativePos, pAfterThisOne->GetCurrentSize()))
+		if (!pAfterThisOne->IsPointOnSprite(props, relativePos, pAfterThisOne->GetSize()))
 		{
 			pAfterThisOne = 0;
 		}
@@ -310,7 +310,7 @@ int ETHBucketManager::SeekEntity(const Vector2& pointAbsPos, ETHEntity** pOutDat
 		for (ETHEntityList::reverse_iterator iter = entityList.rbegin(); iter != iEnd; ++iter)
 		{
 			ETHSpriteEntity *pRenderEntity = (*iter);
-			if (pRenderEntity->IsPointOnSprite(props, relativePos, pRenderEntity->GetCurrentSize()))
+			if (pRenderEntity->IsPointOnSprite(props, relativePos, pRenderEntity->GetSize()))
 			{
 				if (!pAfterThisOne)
 				{
@@ -349,7 +349,7 @@ int ETHBucketManager::SeekEntity(const Vector2& pointAbsPos, ETHEntity** pOutDat
 		for (iter = entityList.begin(); iter != iEnd; ++iter)
 		{
 			ETHSpriteEntity *pRenderEntity = (*iter);
-			if (pRenderEntity->IsPointOnSprite(props, relativePos, pRenderEntity->GetCurrentSize()))
+			if (pRenderEntity->IsPointOnSprite(props, relativePos, pRenderEntity->GetSize()))
 			{
 				pClosestFromTheFront = const_cast<ETHRenderEntity*>(*iter);
 				closestFromTheFrontID = pClosestFromTheFront->GetID();

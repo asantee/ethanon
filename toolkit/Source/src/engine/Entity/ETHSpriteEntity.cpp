@@ -370,7 +370,7 @@ bool ETHSpriteEntity::SetDepth(const float maxHeight, const float minHeight)
 
 void ETHSpriteEntity::SetOrigin()
 {
-	const Vector2 v2Origin = ComputeOrigin(GetCurrentSize());
+	const Vector2 v2Origin = ComputeOrigin(GetSize());
 	m_pSprite->SetOrigin(v2Origin);
 	if (m_pLightmap)
 		m_pLightmap->SetOrigin(v2Origin);
@@ -465,7 +465,7 @@ void ETHSpriteEntity::Update(const float lastFrameElapsedTime, const Vector2& zA
 
 float ETHSpriteEntity::GetMaxHeight()
 {
-	float maxHeight = GetPosition().z + GetCurrentSize().y;
+	float maxHeight = GetPosition().z + GetSize().y;
 	for(std::size_t t = 0; t < m_particles.size(); t++)
 	{
 		boost::shared_ptr<ETHParticleSystem> system = m_properties.particleSystems[t];
@@ -479,7 +479,7 @@ float ETHSpriteEntity::GetMaxHeight()
 
 float ETHSpriteEntity::GetMinHeight()
 {
-	float minHeight = GetPosition().z - GetCurrentSize().y;
+	float minHeight = GetPosition().z - GetSize().y;
 	for(std::size_t t = 0; t < m_particles.size(); t++)
 	{
 		boost::shared_ptr<ETHParticleSystem> system = m_properties.particleSystems[t];
@@ -660,7 +660,7 @@ ETHPhysicsController* ETHSpriteEntity::GetPhysicsController()
 	}
 }
 
-Vector2 ETHSpriteEntity::GetCurrentSize() const
+Vector2 ETHSpriteEntity::GetSize() const
 {
 	Vector2 v2R(32.0f, 32.0f);
 
@@ -754,7 +754,7 @@ ETHEntityProperties::VIEW_RECT ETHSpriteEntity::GetScreenRect(const ETHSceneProp
 {
 	ETHEntityProperties::VIEW_RECT box;
 	const Vector2& pos = ComputeInScreenPosition(sceneProps);
-	const Vector2& size = GetCurrentSize();
+	const Vector2& size = GetSize();
 	const Vector2& absoluteOrigin = ComputeAbsoluteOrigin(size);
 
 	box.min = pos - absoluteOrigin;

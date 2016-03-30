@@ -500,7 +500,7 @@ void EntityEditor::CreateCollisionBoxFromEntity()
 	if (!pSprite)
 		return;
 
-	const Vector2 v2CurrentSize = m_renderEntity->GetCurrentSize();
+	const Vector2 v2CurrentSize = m_renderEntity->GetSize();
 
 	Vector3 v3Size, v3Pos(m_pEditEntity->pivotAdjust.x, m_pEditEntity->pivotAdjust.y,0);
 	v3Size.x = v2CurrentSize.x;

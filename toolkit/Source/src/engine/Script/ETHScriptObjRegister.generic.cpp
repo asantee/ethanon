@@ -219,7 +219,7 @@ asDECLARE_METHOD_WRAPPERPR(__GetPositionXY, ETHScriptEntity, GetPositionXY,  (vo
 asDECLARE_METHOD_WRAPPERPR(__GetPositionX,  ETHScriptEntity, GetPositionX,   (void) const,         float);
 asDECLARE_METHOD_WRAPPERPR(__GetPositionY,  ETHScriptEntity, GetPositionY,   (void) const,         float);
 asDECLARE_METHOD_WRAPPERPR(__GetPositionZ,  ETHScriptEntity, GetPositionZ,   (void) const,         float);
-asDECLARE_METHOD_WRAPPERPR(__GetSize,       ETHScriptEntity, GetCurrentSize, (void) const,         Vector2);
+asDECLARE_METHOD_WRAPPERPR(__GetSize,       ETHScriptEntity, GetSize,        (void) const,         Vector2);
 asDECLARE_METHOD_WRAPPERPR(__GetFrame,      ETHScriptEntity, GetFrame,       (void) const,         unsigned int);
 asDECLARE_METHOD_WRAPPERPR(__SetFrameN,     ETHScriptEntity, SetFrame,       (const unsigned int), bool);
 asDECLARE_METHOD_WRAPPERPR(__SetFrameXY,    ETHScriptEntity, SetFrame,       (const unsigned int, const unsigned int), bool);

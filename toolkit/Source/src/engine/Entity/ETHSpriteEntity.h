@@ -84,7 +84,7 @@ public:
 	bool SetSpriteCut(const unsigned int col, const unsigned int row);
 
 	void ValidateSpriteCut(const SpritePtr& sprite) const;
-	Vector2 GetCurrentSize() const;
+	Vector2 GetSize() const;
 	Vector2 ComputeParallaxOffset() const;
 	float ComputeDepth(const float maxHeight, const float minHeight) const;
 	void SetScale(const Vector2& scale);
