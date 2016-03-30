@@ -394,6 +394,14 @@ ETHParticleManagerPtr ETHSpriteEntity::GetParticleManager(const std::size_t n)
 		return m_particles[n];
 }
 
+ETHParticleManagerConstPtr ETHSpriteEntity::GetConstParticleManager(const std::size_t n) const
+{
+	if (n >= m_particles.size())
+		return ETHParticleManagerConstPtr();
+	else
+		return m_particles[n];
+}
+
 SpritePtr ETHSpriteEntity::GetSprite()
 {
 	return m_pSprite;
@@ -662,7 +670,7 @@ ETHPhysicsController* ETHSpriteEntity::GetPhysicsController()
 
 Vector2 ETHSpriteEntity::GetSize() const
 {
-	Vector2 v2R(32.0f, 32.0f);
+	Vector2 r(32.0f, 32.0f);
 
 	if (!m_pSprite)
 	{
@@ -675,22 +683,27 @@ Vector2 ETHSpriteEntity::GetSize() const
 				const float haloSize = m_properties.light->haloSize;
 				if (m_pHalo && haloSize > 16.0f)
 				{
-					v2R = Vector2(haloSize, haloSize);
+					r = Vector2(haloSize, haloSize);
 				}
 			}
 		}
 		else if (IsCollidable()) // if it has no light source BUT is collidable
 		{
-			v2R = ETHGlobal::ToVector2(m_properties.collision->size);
+			r = ETHGlobal::ToVector2(m_properties.collision->size);
 		}
+		else if (HasParticleSystem(0))
+		{
+			r = GetConstParticleManager(0)->ComputeBoundingRectangle(GetAngle()).size;
+		}
+		
 	}
 	else
 	{
 		ValidateSpriteCut(m_pSprite);
-		v2R = m_pSprite->GetFrameSize();
+		r = m_pSprite->GetFrameSize();
 	}
 
-	return v2R * m_properties.scale;
+	return r * m_properties.scale;
 }
 
 Vector2 ETHSpriteEntity::ComputeInScreenPosition(const ETHSceneProperties& sceneProps) const

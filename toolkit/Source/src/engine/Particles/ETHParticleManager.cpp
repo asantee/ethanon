@@ -332,7 +332,7 @@ void ETHParticleManager::UpdateParticle(
 	}
 }
 
-Rect2Df ETHParticleManager::ComputeBoundingSquare(const float angle) const
+Rect2Df ETHParticleManager::ComputeBoundingRectangle(const float angle) const
 {
 	PARTICLE particle;
 	particle.id = 0;

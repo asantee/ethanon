@@ -76,6 +76,7 @@ public:
 	bool HasParticleSystem(const unsigned int n) const;
 
 	ETHParticleManagerPtr GetParticleManager(const std::size_t n);
+	ETHParticleManagerConstPtr GetConstParticleManager(const std::size_t n) const;
 	bool AreParticlesOver() const;
 	bool PlayParticleSystem(const unsigned int n, const Vector2& zAxisDirection);
 	void KillParticleSystem(const unsigned int n);

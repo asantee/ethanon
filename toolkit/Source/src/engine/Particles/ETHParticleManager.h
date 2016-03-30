@@ -63,8 +63,8 @@ public:
 		const float angle,
 		const float lastFrameElapsedTime);
 
-	// Compute maximum bounding square for the system
-	Rect2Df ComputeBoundingSquare(const float angle) const;
+	// Compute maximum bounding rectangle for the system
+	Rect2Df ComputeBoundingRectangle(const float angle) const;
 
 	/// Draw all particles also considering it's ambient light color
 	bool DrawParticleSystem(
@@ -241,5 +241,6 @@ public:
 };
 
 typedef boost::shared_ptr<ETHParticleManager> ETHParticleManagerPtr;
+typedef boost::shared_ptr<const ETHParticleManager> ETHParticleManagerConstPtr;
 
 #endif

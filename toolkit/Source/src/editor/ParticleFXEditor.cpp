@@ -107,7 +107,7 @@ void ParticleEditor::DrawParticleSystem()
 	// Draw bounding rects
 	if (m_particles.IsActive() || m_particles.IsMouseOver())
 	{
-		const Rect2Df boundingSquareSize(m_manager->ComputeBoundingSquare(m_systemAngle));
+		const Rect2Df boundingSquareSize(m_manager->ComputeBoundingRectangle(m_systemAngle));
 		video->DrawRectangle(
 			boundingSquareSize.pos + m_v2Pos - (boundingSquareSize.size * 0.5f),
 			boundingSquareSize.size,
