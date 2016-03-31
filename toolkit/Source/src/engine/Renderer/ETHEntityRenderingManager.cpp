@@ -47,7 +47,8 @@ void ETHEntityRenderingManager::AddDecomposedPieces(
 	const float minHeight,
 	const float maxHeight,
 	const ETHBackBufferTargetManagerPtr& backBuffer,
-	const ETHSceneProperties& props)
+	const ETHSceneProperties& props,
+	unsigned int& piecesAddedThisTime)
 {
 	const VideoPtr& video = m_provider->GetVideo();
 	const ETHShaderManagerPtr& shaderManager = m_provider->GetShaderManager();
@@ -72,6 +73,8 @@ void ETHEntityRenderingManager::AddDecomposedPieces(
 
 		// add the entity to the render map
 		m_piecesToRender.insert(std::pair<float, ETHEntityPieceRendererPtr>(drawHash, spritePiece));
+		
+		piecesAddedThisTime++;
 	}
 
 	// decompose halo
@@ -83,6 +86,8 @@ void ETHEntityRenderingManager::AddDecomposedPieces(
 
 		ETHEntityPieceRendererPtr haloPiece(new ETHEntityHaloRenderer(entity, shaderManager, depth));
 		m_piecesToRender.insert(std::pair<float, ETHEntityPieceRendererPtr>(drawHash, haloPiece));
+		
+		piecesAddedThisTime++;
 	}
 
 	// decompose the particle list for this entity
@@ -107,6 +112,8 @@ void ETHEntityRenderingManager::AddDecomposedPieces(
 		const float drawHash = ComputeDrawHash(video, depth, entity);
 
 		m_piecesToRender.insert(std::pair<float, ETHEntityPieceRendererPtr>(drawHash, particlePiece));
+		
+		piecesAddedThisTime++;
 	}
 
 	// fill the light list for this frame

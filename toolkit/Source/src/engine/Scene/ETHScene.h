@@ -116,7 +116,8 @@ public:
 	float GetMaxHeight() const;
 	float GetMinHeight() const;
 	Vector2 GetBucketSize() const;
-	int GetNumRenderedEntities();
+	int GetNumProcessedEntities();
+	int GetNumRenderedPieces();
 	void ScaleEntities(const float scale, const bool scalePosition);
 
 	ETHBucketManager& GetBucketManager();
@@ -168,7 +169,7 @@ private:
 
 	void FillCurrentlyVisibleBucketList(std::list<Vector2>& bucketList, const ETHBackBufferTargetManagerPtr& backBuffer);
 
-	void FillMultimapAndClearPersistenList(
+	void FillMultimapAndClearPersistentList(
 		const std::list<Vector2>& currentBucketList,
 		const ETHBackBufferTargetManagerPtr& backBuffer);
 
@@ -187,7 +188,8 @@ private:
 	float m_maxSceneHeight, m_minSceneHeight;
 	int m_idCounter;
 	unsigned int m_nCurrentLights;
-	int m_nRenderedEntities;
+	unsigned int m_nProcessedEntities;
+	unsigned int m_nRenderedPieces;
 	bool m_enableZBuffer;
 	float m_bucketClearenceFactor;
 };

@@ -553,11 +553,18 @@ void ETHScriptWrapper::GetIntersectingEntities(const Vector2 &v2Here, ETHEntityA
 	m_pScene->GetIntersectingEntities(v2Here, outVector, screenSpace);
 }
 
-int ETHScriptWrapper::GetNumRenderedEntities()
+int ETHScriptWrapper::GetNumProcessedEntities()
 {
-	if (WarnIfRunsInMainFunction(GS_L("GetNumRenderedEntities")))
+	if (WarnIfRunsInMainFunction(GS_L("GetNumProcessedEntities")))
 		return 0;
-	return m_pScene->GetNumRenderedEntities();
+	return m_pScene->GetNumProcessedEntities();
+}
+
+int ETHScriptWrapper::GetNumRenderedPieces()
+{
+	if (WarnIfRunsInMainFunction(GS_L("GetNumRenderedPieces")))
+		return 0;
+	return m_pScene->GetNumRenderedPieces();
 }
 
 bool ETHScriptWrapper::SaveScene(const str_type::string &escFile)

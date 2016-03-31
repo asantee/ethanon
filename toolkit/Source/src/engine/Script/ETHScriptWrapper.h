@@ -339,7 +339,8 @@ public:
 	static void EnableRealTimeShadows(const bool enable);
 	static void GetVisibleEntities(ETHEntityArray &entityArray);
 	static void GetIntersectingEntities(const Vector2 &v2Here, ETHEntityArray &outVector, const bool screenSpace);
-	static int GetNumRenderedEntities();
+	static int GetNumProcessedEntities();
+	static int GetNumRenderedPieces();
 	static void SetBorderBucketsDrawing(const bool enable);
 	static bool IsDrawingBorderBuckets();
 	static int GetArgc();

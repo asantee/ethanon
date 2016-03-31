@@ -808,8 +808,11 @@ void SceneEditor::DoStateManager()
 
 	str_type::stringstream ss;
 	const unsigned int nEntities = m_pScene->GetNumEntities();
-	ss << GS_L("Entities in scene: ") << m_pScene->GetNumRenderedEntities() << GS_L("/") << nEntities;
-	ShadowPrint(Vector2(m_guiX, m_guiY), ss.str().c_str(), Color(255,255,255,255)); m_guiY += m_menuSize;
+	ss
+		<< GS_L("Processed entities: ") << m_pScene->GetNumProcessedEntities() << GS_L("/") << nEntities << std::endl
+		<< GS_L("Rendered pieces:    ") << m_pScene->GetNumRenderedPieces() << GS_L("/") << nEntities;
+	
+	ShadowPrint(Vector2(m_guiX, m_guiY), ss.str().c_str(), Color(255,255,255,255)); m_guiY += m_menuSize * 2;
 	m_guiY += m_menuSize/2;
 
 	ShadowPrint(Vector2(m_guiX, m_guiY), _S_TOOL_MENU); m_guiY+=m_menuSize;

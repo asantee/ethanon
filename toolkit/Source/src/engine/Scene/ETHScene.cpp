@@ -92,7 +92,7 @@ void ETHScene::Init(ETHResourceProviderPtr provider, const ETHSceneProperties& p
 	m_idCounter = 0;
 	m_minSceneHeight = 0.0f;
 	m_nCurrentLights = 0;
-	m_nRenderedEntities = -1;
+	m_nProcessedEntities = m_nRenderedPieces = 0;
 	m_bucketClearenceFactor = 0.0f;
 	m_enableZBuffer = true;
 	m_maxSceneHeight = m_provider->GetVideo()->GetScreenSizeF().y;
@@ -528,7 +528,7 @@ void ETHScene::MapEntitiesToBeRendered(
 	maxHeight = m_maxSceneHeight;
 	minHeight = m_minSceneHeight;
 
-	m_nRenderedEntities = 0;
+	m_nProcessedEntities = m_nRenderedPieces = 0;
 
 	// don't let bucket size equal to 0
 	const Vector2 bucketSize(GetBucketSize());
@@ -567,14 +567,20 @@ void ETHScene::MapEntitiesToBeRendered(
 			// fill the callback list
 			m_activeEntityHandler.AddStaticCallbackWhenEligible(entity);
 
-			m_renderingManager.AddDecomposedPieces(entity, minHeight, maxHeight, backBuffer, m_sceneProps);
+			m_renderingManager.AddDecomposedPieces(
+				entity,
+				minHeight,
+				maxHeight,
+				backBuffer,
+				m_sceneProps,
+				m_nRenderedPieces);
 
-			m_nRenderedEntities++;
+			m_nProcessedEntities++;
 		}
 	}
 
 	// Add persistent entities (the ones the user wants to force to render)
-	FillMultimapAndClearPersistenList(bucketList, backBuffer);
+	FillMultimapAndClearPersistentList(bucketList, backBuffer);
 
 	m_nCurrentLights = static_cast<unsigned int>(m_renderingManager.GetNumLights());
 }
@@ -693,9 +699,14 @@ bool ETHScene::DrawBucketOutlines(const ETHBackBufferTargetManagerPtr& backBuffe
 	return true;
 }
 
-int ETHScene::GetNumRenderedEntities()
+int ETHScene::GetNumProcessedEntities()
 {
-	return m_nRenderedEntities;
+	return static_cast<int>(m_nProcessedEntities);
+}
+
+int ETHScene::GetNumRenderedPieces()
+{
+	return static_cast<int>(m_nRenderedPieces);
 }
 
 bool ETHScene::AssignCallbackScript(ETHSpriteEntity* entity)
@@ -946,7 +957,7 @@ void ETHScene::AddEntityToPersistentList(ETHRenderEntity* entity)
 	m_persistentEntities.push_back(entity);
 }
 
-void ETHScene::FillMultimapAndClearPersistenList(
+void ETHScene::FillMultimapAndClearPersistentList(
 	const std::list<Vector2>& currentBucketList,
 	const ETHBackBufferTargetManagerPtr& backBuffer)
 {
@@ -966,9 +977,10 @@ void ETHScene::FillMultimapAndClearPersistenList(
 				m_minSceneHeight,
 				m_maxSceneHeight,
 				backBuffer,
-				m_sceneProps);
+				m_sceneProps,
+				m_nRenderedPieces);
 
-			m_nRenderedEntities++;
+			m_nProcessedEntities++;
 		}
 		entity->Release();
 	}

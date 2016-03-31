@@ -58,7 +58,8 @@ public:
 		const float minHeight,
 		const float maxHeight,
 		const ETHBackBufferTargetManagerPtr& backBuffer,
-		const ETHSceneProperties& props);
+		const ETHSceneProperties& props,
+		unsigned int& piecesAddedThisTime);
 };
 
 #endif
