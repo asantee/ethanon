@@ -240,6 +240,7 @@ void RegisterScriptArray(asIScriptEngine *engine, bool defaultArray)
 	if( defaultArray )
 	{
 		int r = engine->RegisterDefaultArrayType("array<T>"); assert( r >= 0 );
+		((void)(r));
 	}
 }
 
