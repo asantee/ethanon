@@ -119,7 +119,7 @@ int asCReader::Error(const char *msg)
 		error = true;
 	}
 
-	return -1;
+	return asERROR;
 }
 
 int asCReader::ReadInner() 
@@ -153,9 +153,9 @@ int asCReader::ReadInner()
 		bool sharedExists = false;
 		if( ot->IsShared() )
 		{
-			for( asUINT n = 0; n < engine->classTypes.GetLength(); n++ )
+			for( asUINT n = 0; n < engine->scriptTypes.GetLength(); n++ )
 			{
-				asCObjectType *t = engine->classTypes[n];
+				asCObjectType *t = engine->scriptTypes[n];
 				if( t && 
 					t->IsShared() &&
 					t->name == ot->name &&
@@ -173,7 +173,12 @@ int asCReader::ReadInner()
 		if( sharedExists )
 			existingShared.Insert(ot, true);
 		else
-			engine->classTypes.PushLast(ot);
+		{
+			engine->scriptTypes.PushLast(ot);
+
+			// Set this module as the owner
+			ot->module = module;
+		}
 		module->enumTypes.PushLast(ot);
 		ot->AddRef();
 		ReadObjectTypeDeclaration(ot, 2);
@@ -200,9 +205,9 @@ int asCReader::ReadInner()
 		bool sharedExists = false;
 		if( ot->IsShared() )
 		{
-			for( asUINT n = 0; n < engine->classTypes.GetLength(); n++ )
+			for( asUINT n = 0; n < engine->scriptTypes.GetLength(); n++ )
 			{
-				asCObjectType *t = engine->classTypes[n];
+				asCObjectType *t = engine->scriptTypes[n];
 				if( t &&
 					t->IsShared() &&
 					t->name == ot->name &&
@@ -221,7 +226,7 @@ int asCReader::ReadInner()
 			existingShared.Insert(ot, true);
 		else
 		{
-			engine->classTypes.PushLast(ot);
+			engine->scriptTypes.PushLast(ot);
 
 			// Set this module as the owner
 			ot->module = module;
@@ -312,7 +317,8 @@ int asCReader::ReadInner()
 		}
 
 		ReadObjectTypeDeclaration(ot, 1);
-		engine->classTypes.PushLast(ot);
+		ot->module = module;
+		engine->scriptTypes.PushLast(ot);
 		module->typeDefs.PushLast(ot);
 		ot->AddRef();
 		ReadObjectTypeDeclaration(ot, 2);
@@ -386,6 +392,10 @@ int asCReader::ReadInner()
 		func = ReadFunction(isNew, false, false);
 		if( func )
 		{
+			// All the global functions were already loaded while loading the scriptFunctions, here
+			// we're just re-reading the refernces to know which goes into the globalFunctions array
+			asASSERT( !isNew );
+
 			module->globalFunctions.Put(func);
 			func->AddRef();
 		}
@@ -486,6 +496,12 @@ int asCReader::ReadInner()
 				engine->WriteMessage("", 0, 0, asMSGTYPE_ERROR, str.AddressOf());
 				Error(TXT_INVALID_BYTECODE_d);
 			}
+			else
+			{
+				// If the callback said this template instance won't be garbage collected then remove the flag
+				if( dontGarbageCollect )
+					usedTypes[i]->flags &= ~asOBJ_GC;
+			}
 		}
 	}
 	engine->deferValidationOfTemplateTypes = false;
@@ -579,17 +595,35 @@ void asCReader::ReadUsedFunctions()
 			// Find the correct function
 			if( c == 'm' )
 			{
-				for( asUINT i = 0; i < module->scriptFunctions.GetLength(); i++ )
+				if( func.funcType == asFUNC_IMPORTED )
 				{
-					asCScriptFunction *f = module->scriptFunctions[i];
-					if( !func.IsSignatureEqual(f) ||
-						func.objectType != f->objectType ||
-						func.funcType != f->funcType || 
-						func.nameSpace != f->nameSpace )
-						continue;
+					for( asUINT i = 0; i < module->bindInformations.GetLength(); i++ )
+					{
+						asCScriptFunction *f = module->bindInformations[i]->importedFunctionSignature;
+						if( !func.IsSignatureEqual(f) ||
+							func.objectType != f->objectType ||
+							func.funcType != f->funcType || 
+							func.nameSpace != f->nameSpace )
+							continue;
 
-					usedFunctions[n] = f;
-					break;
+						usedFunctions[n] = f;
+						break;
+					}
+				}
+				else
+				{
+					for( asUINT i = 0; i < module->scriptFunctions.GetLength(); i++ )
+					{
+						asCScriptFunction *f = module->scriptFunctions[i];
+						if( !func.IsSignatureEqual(f) ||
+							func.objectType != f->objectType ||
+							func.funcType != f->funcType || 
+							func.nameSpace != f->nameSpace )
+							continue;
+
+						usedFunctions[n] = f;
+						break;
+					}
 				}
 			}
 			else
@@ -658,7 +692,7 @@ void asCReader::ReadFunctionSignature(asCScriptFunction *func)
 	}
 
 	func->inOutFlags.SetLength(func->parameterTypes.GetLength());
-	if( func->parameterTypes.GetLength() != func->parameterTypes.GetLength() )
+	if( func->inOutFlags.GetLength() != func->parameterTypes.GetLength() )
 	{
 		// Out of memory
 		error = true;
@@ -758,7 +792,7 @@ asCScriptFunction *asCReader::ReadFunction(bool &isNew, bool addToModule, bool a
 
 	// Load the new function
 	isNew = true;
-	asCScriptFunction *func = asNEW(asCScriptFunction)(engine,module,asFUNC_DUMMY);
+	asCScriptFunction *func = asNEW(asCScriptFunction)(engine,0,asFUNC_DUMMY);
 	if( func == 0 )
 	{
 		// Out of memory
@@ -774,7 +808,7 @@ asCScriptFunction *asCReader::ReadFunction(bool &isNew, bool addToModule, bool a
 	ReadFunctionSignature(func);
 	if( error )
 	{
-		asDELETE(func, asCScriptFunction);
+		func->DestroyHalfCreated();
 		return 0;
 	}
 
@@ -785,6 +819,7 @@ asCScriptFunction *asCReader::ReadFunction(bool &isNew, bool addToModule, bool a
 		{
 			// Out of memory
 			error = true;
+			func->DestroyHalfCreated();
 			return 0;
 		}
 
@@ -806,6 +841,13 @@ asCScriptFunction *asCReader::ReadFunction(bool &isNew, bool addToModule, bool a
 			func->scriptData->funcVariableTypes.PushLast((asCScriptFunction*)(asPWORD)idx);
 			num = ReadEncodedUInt();
 			func->scriptData->objVariablePos.PushLast(num);
+
+			if( error )
+			{
+				// No need to continue (the error has already been reported before)
+				func->DestroyHalfCreated();
+				return 0;
+			}
 		}
 		if( count > 0 )
 			func->scriptData->objVariablesOnHeap = ReadEncodedUInt();
@@ -829,6 +871,7 @@ asCScriptFunction *asCReader::ReadFunction(bool &isNew, bool addToModule, bool a
 			{
 				// Out of memory
 				error = true;
+				func->DestroyHalfCreated();
 				return 0;
 			}
 			for( i = 0; i < length; ++i )
@@ -841,6 +884,7 @@ asCScriptFunction *asCReader::ReadFunction(bool &isNew, bool addToModule, bool a
 			{
 				// Out of memory
 				error = true;
+				func->DestroyHalfCreated();
 				return 0;
 			}
 			for( i = 0; i < length; ++i )
@@ -868,7 +912,7 @@ asCScriptFunction *asCReader::ReadFunction(bool &isNew, bool addToModule, bool a
 				{
 					// Out of memory
 					error = true;
-					asDELETE(func, asCScriptFunction);
+					func->DestroyHalfCreated();
 					return 0;
 				}
 				func->scriptData->variables.PushLast(var);
@@ -877,6 +921,13 @@ asCScriptFunction *asCReader::ReadFunction(bool &isNew, bool addToModule, bool a
 				var->stackOffset = ReadEncodedUInt();
 				ReadString(&var->name);
 				ReadDataType(&var->type);
+
+				if( error )
+				{
+					// No need to continue (the error has already been reported before)
+					func->DestroyHalfCreated();
+					return 0;
+				}
 			}
 		}
 
@@ -893,6 +944,21 @@ asCScriptFunction *asCReader::ReadFunction(bool &isNew, bool addToModule, bool a
 			func->scriptData->scriptSectionIdx = engine->GetScriptSectionNameIndex(name.AddressOf());
 			func->scriptData->declaredAt = ReadEncodedUInt();
 		}
+
+		// Read parameter names
+		if( !noDebugInfo )
+		{
+			asUINT count = asUINT(ReadEncodedUInt64());
+			if( count > func->parameterTypes.GetLength() )
+			{
+				error = true;
+				func->DestroyHalfCreated();
+				return 0;
+			}
+			func->parameterNames.SetLength(count);
+			for( asUINT n = 0; n < count; n++ )
+				ReadString(&func->parameterNames[n]);
+		}
 	}
 	else if( func->funcType == asFUNC_VIRTUAL || func->funcType == asFUNC_INTERFACE )
 	{
@@ -903,6 +969,7 @@ asCScriptFunction *asCReader::ReadFunction(bool &isNew, bool addToModule, bool a
 	{
 		// The refCount is already 1
 		module->scriptFunctions.PushLast(func);
+		func->module = module;
 	}
 	if( addToEngine )
 	{
@@ -1492,6 +1559,9 @@ void asCReader::ReadGlobalProperty()
 	asCScriptFunction *func = ReadFunction(isNew, false, true, false);
 	if( func )
 	{
+		// Make sure the function knows it is owned by the module
+		func->module = module;
+
 		prop->SetInitFunc(func);
 		func->Release();
 	}
@@ -1608,9 +1678,12 @@ asCObjectType* asCReader::ReadObjectType()
 	if( ch == 'a' )
 	{
 		// Read the name of the template type
-		asCString typeName;
+		asCString typeName, ns;
 		ReadString(&typeName);
-		asCObjectType *tmpl = engine->GetRegisteredObjectType(typeName.AddressOf(), engine->nameSpaces[0]);
+		ReadString(&ns);
+		asSNameSpace *nameSpace = engine->AddNameSpace(ns.AddressOf());
+
+		asCObjectType *tmpl = engine->GetRegisteredObjectType(typeName.AddressOf(), nameSpace);
 		if( tmpl == 0 )
 		{
 			asCString str;
@@ -1738,7 +1811,7 @@ asCObjectType* asCReader::ReadObjectType()
 	else
 	{
 		// No object type
-		asASSERT( ch == '\0' );
+		asASSERT( ch == '\0' || error );
 		ot = 0;
 	}
 
@@ -2110,9 +2183,10 @@ void asCReader::TranslateFunction(asCScriptFunction *func)
 	// Pre-compute the size of each instruction in order to translate jump offsets
 	asUINT n;
 	asDWORD *bc = func->scriptData->byteCode.AddressOf();
-	asCArray<asUINT> bcSizes(func->scriptData->byteCode.GetLength());
-	asCArray<asUINT> instructionNbrToPos(func->scriptData->byteCode.GetLength());
-	for( n = 0; n < func->scriptData->byteCode.GetLength(); )
+	asUINT bcLength = (asUINT)func->scriptData->byteCode.GetLength();
+	asCArray<asUINT> bcSizes(bcLength);
+	asCArray<asUINT> instructionNbrToPos(bcLength);
+	for( n = 0; n < bcLength; )
 	{
 		int c = *(asBYTE*)&bc[n];
 		asUINT size = asBCTypeSize[asBCInfo[c].type];
@@ -2127,7 +2201,7 @@ void asCReader::TranslateFunction(asCScriptFunction *func)
 	}
 
 	asUINT bcNum = 0;
-	for( n = 0; n < func->scriptData->byteCode.GetLength(); bcNum++ )
+	for( n = 0; n < bcLength; bcNum++ )
 	{
 		int c = *(asBYTE*)&bc[n];
 		if( c == asBC_REFCPY || 
@@ -2397,7 +2471,7 @@ void asCReader::TranslateFunction(asCScriptFunction *func)
 
 	// Adjust all variable positions in the bytecode
 	bc = func->scriptData->byteCode.AddressOf();
-	for( n = 0; n < func->scriptData->byteCode.GetLength(); )
+	for( n = 0; n < bcLength; )
 	{
 		int c = *(asBYTE*)&bc[n];
 		switch( asBCInfo[c].type )
@@ -2466,7 +2540,7 @@ void asCReader::TranslateFunction(asCScriptFunction *func)
 	//                 This will also make the AdjustGetOffset() function quicker as it can 
 	//                 receive the called function directly instead of having to search for it.
 	bc = func->scriptData->byteCode.AddressOf();
-	for( n = 0; n < func->scriptData->byteCode.GetLength(); )
+	for( n = 0; n < bcLength; )
 	{
 		int c = *(asBYTE*)&bc[n];
 
@@ -3473,6 +3547,15 @@ void asCWriter::WriteFunction(asCScriptFunction* func)
 			}
 			WriteEncodedInt64(func->scriptData->declaredAt);
 		}
+
+		// Store the parameter names
+		if( !stripDebugInfo )
+		{
+			asUINT count = asUINT(func->parameterNames.GetLength());
+			WriteEncodedInt64(count);
+			for( asUINT n = 0; n < count; n++ )
+				WriteString(&func->parameterNames[n]);
+		}
 	}
 	else if( func->funcType == asFUNC_VIRTUAL || func->funcType == asFUNC_INTERFACE )
 	{
@@ -3537,6 +3620,7 @@ void asCWriter::WriteObjectTypeDeclaration(asCObjectType *ot, int phase)
 			int size = (asUINT)ot->interfaces.GetLength();
 			WriteEncodedInt64(size);
 			asUINT n;
+			asASSERT( ot->interfaces.GetLength() == ot->interfaceVFTOffsets.GetLength() );
 			for( n = 0; n < ot->interfaces.GetLength(); n++ )
 			{
 				WriteObjectType(ot->interfaces[n]);
@@ -3780,6 +3864,7 @@ void asCWriter::WriteObjectType(asCObjectType* ot)
 				ch = 'a';
 				WriteData(&ch, 1);
 				WriteString(&ot->name);
+				WriteString(&ot->nameSpace->name);
 
 				WriteEncodedInt64(ot->templateSubTypes.GetLength());
 				for( asUINT n = 0; n < ot->templateSubTypes.GetLength(); n++ )

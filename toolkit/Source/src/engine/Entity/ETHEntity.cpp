@@ -90,7 +90,7 @@ ETHEntity::~ETHEntity()
 void ETHEntity::InstantiateDictionary()
 {
 	asIScriptEngine *engine = asGetActiveContext()->GetEngine();
-	m_gcDict = new CScriptDictionary(engine);
+	m_gcDict = CScriptDictionary::Create(engine);
 }
 
 #define ETH_DEFAULT_COLOR Vector4(1, 1, 1, 1)

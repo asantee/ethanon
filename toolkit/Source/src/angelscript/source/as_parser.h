@@ -76,6 +76,7 @@ protected:
 	void RewindTo(const sToken *token);
 	void SetPos(size_t pos);
 	void Error(const asCString &text, sToken *token);
+	void Warning(const asCString &text, sToken *token);
 	void Info(const asCString &text, sToken *token);
 
 	asCScriptNode *CreateNode(eScriptNode type);
@@ -83,11 +84,11 @@ protected:
 	asCScriptNode *ParseFunctionDefinition();
 	asCScriptNode *ParseParameterList();
 	asCScriptNode *SuperficiallyParseExpression();
-	asCScriptNode *ParseType(bool allowConst, bool allowVariableType = false);
+	asCScriptNode *ParseType(bool allowConst, bool allowVariableType = false, bool allowAuto = false);
 	asCScriptNode *ParseTypeMod(bool isParam);
 	void           ParseOptionalScope(asCScriptNode *node);
 	asCScriptNode *ParseRealType();
-	asCScriptNode *ParseDataType(bool allowVariableType = false);
+	asCScriptNode *ParseDataType(bool allowVariableType = false, bool allowAuto = false);
 	asCScriptNode *ParseIdentifier();
 
 	asCScriptNode *ParseListPattern();
