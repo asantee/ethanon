@@ -818,6 +818,7 @@ bool ETHSpriteEntity::IsPointOnSprite(const ETHSceneProperties& sceneProps, cons
 
 bool ETHSpriteEntity::PlayParticleSystem(const unsigned int n, const Vector2& zAxisDirection)
 {
+	GS2D_UNUSED_ARGUMENT(zAxisDirection);
 	if (n >= m_particles.size())
 	{
 		ETH_STREAM_DECL(ss) << GS_L("ETHRenderEntity::PlayParticleSystem: n > m_particles.size()");
