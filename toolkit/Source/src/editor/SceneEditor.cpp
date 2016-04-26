@@ -277,7 +277,10 @@ std::string SceneEditor::DoEditor(SpritePtr pNextAppButton)
 	const int wheel = (int)input->GetWheelState();
 	const Vector2 v2Cursor = input->GetCursorPositionF(video);
 	const bool guiButtonsFree = AreGUIButtonsFree(pNextAppButton);
-	if (wheel != 0 && guiButtonsFree)
+	if ((wheel != 0
+		|| input->GetKeyState(GSK_P) == GSKS_HIT
+		|| input->GetKeyState(GSK_O) == GSKS_HIT)
+		&& guiButtonsFree)
 		SetPlacingMode();
 
 	{
@@ -1024,6 +1027,12 @@ void SceneEditor::PlaceEntitySelection()
 	if (allowSwapWheel)
 	{
 		m_currentEntityIdx += wheelValue;
+		
+		if (input->GetKeyState(GSK_P) == GSKS_HIT)
+			m_currentEntityIdx++;
+
+		if (input->GetKeyState(GSK_O) == GSKS_HIT)
+			m_currentEntityIdx--;
 
 		if (m_currentEntityIdx >= static_cast<int>(m_entityFiles.size()))
 			m_currentEntityIdx = 0;
@@ -1031,11 +1040,11 @@ void SceneEditor::PlaceEntitySelection()
 			m_currentEntityIdx = static_cast<int>(m_entityFiles.size()) - 1;
 
 		// move the entity up and down (along the Z axis)
-		if (input->GetKeyState(GSK_PAGEUP) == GSKS_HIT)
+		if (input->GetKeyState(GSK_PAGEUP) == GSKS_HIT || input->GetKeyState(GSK_I) == GSKS_HIT)
 		{
 			m_v3Pos.z+=4;
 		}
-		if (input->GetKeyState(GSK_PAGEDOWN) == GSKS_HIT)
+		if (input->GetKeyState(GSK_PAGEDOWN) == GSKS_HIT || input->GetKeyState(GSK_K) == GSKS_HIT)
 		{
 			m_v3Pos.z-=4;
 		}
