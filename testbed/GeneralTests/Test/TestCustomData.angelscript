@@ -85,8 +85,8 @@ class TestCustomData : Test
 			entities[t].SetVector2("direction", vector2(sin(angle),cos(angle))*2.0f);
 			{
 				const float f = randF(10.0f);
-				const uint ui = randF(10);
-				const int i = randF(10);
+				const uint ui = rand(10);
+				const int i = rand(10);
 				const string str = "id equals " + entities[t].GetID();
 				entities[t].SetObject("myObj", MyCustomObject(f, ui, i, str, @barrelOnFire));
 

@@ -25,13 +25,13 @@ class TestLighting : Test
 		{
 			ETHEntity@ ent;
 			AddEntity("small_bump_test.ent",
-				vector3(rand(screenSize.x),randF(screenSize.y),randF(128.0f)),
+				vector3(randF(screenSize.x),randF(screenSize.y),randF(128.0f)),
 				randF(360.0f), @ent, "small_bump_surface", 0.5f + randF(1.5f));
 		}
 		for (uint t=0; t<15; t++)
 		{
 			AddEntity("palm.ent",
-				vector3(rand(screenSize.x),randF(screenSize.y),0), 0);
+				vector3(randF(screenSize.x),randF(screenSize.y),0), 0);
 		}
 		
 		SetAmbientLight(vector3(0.1f,0.1f,0.1f));
@@ -50,16 +50,6 @@ class TestLighting : Test
 			cursor.AddToPosition(vector3(0, 0,-moveSpeed));
 		}
 		
-		if (input.GetKeyState(K_P) == KS_HIT)
-		{
-			UsePixelShaders(true);
-		}
-
-		if (input.GetKeyState(K_V) == KS_HIT)
-		{
-			UsePixelShaders(false);
-		}
-
 		if (input.GetKeyState(K_NUMPAD0) == KS_HIT)
 		{
 			const vector2 dir(0, -1);
@@ -85,8 +75,7 @@ class TestLighting : Test
 		}
 
 		DrawText(cursor.GetPositionXY()-GetCameraPos(),
-				"Press UP and DOWN to move the cursor light\n"
-				"Press P and V to toggle pixel shaders",
+				"Press UP and DOWN to move the cursor light\n",
 				"Verdana14_shadow.fnt", ARGB(100,255,255,255));
 	}
 	

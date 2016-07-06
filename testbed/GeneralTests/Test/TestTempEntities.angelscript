@@ -39,15 +39,6 @@ class TestTempEntities : Test
 			cursor.AddToPosition(vector3(0, 0,-moveSpeed));
 		}
 
-		if (input.GetKeyState(K_P) == KS_HIT)
-		{
-			UsePixelShaders(true);
-		}
-		if (input.GetKeyState(K_V) == KS_HIT)
-		{
-			UsePixelShaders(false);
-		}
-
 		if (input.GetLeftClickState() == KS_HIT)
 		{
 			ETHEntity@ entity = null;
@@ -79,7 +70,6 @@ class TestTempEntities : Test
 
 		DrawText(GetCameraPos()+vector2(0, 50),
 				"Press UP and DOWN to move the cursor light\n"
-				"Press P and V to toggle pixel shaders\n"
 				"Left/right click to add explosions",
 				"Verdana14_shadow.fnt");
 	}
