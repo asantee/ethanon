@@ -208,14 +208,14 @@ bool ETHScriptWrapper::FileInPackageExists(const str_type::string& fileName)
 	return m_provider->GetFileManager()->FileExists(fileName);
 }
 
-void ETHScriptWrapper::SetAppDefaultVideoMode(const Vector2& size)
+void ETHScriptWrapper::SetAppDefaultVideoMode(const Vector2& size, const bool windowed)
 {
-	ETHAppEnmlFile::SetAppDefaultVideoMode(size, GetProvider()->GetFileIOHub()->GetExternalStorageDirectory());
+	ETHAppEnmlFile::SetAppDefaultVideoMode(size, windowed, GetProvider()->GetFileIOHub()->GetExternalStorageDirectory());
 }
 
-Vector2 ETHScriptWrapper::GetAppDefaultVideoMode()
+Vector2 ETHScriptWrapper::GetAppDefaultVideoMode(bool& windowed)
 {
-	return ETHAppEnmlFile::GetAppDefaultVideoMode(GetProvider()->GetFileIOHub()->GetExternalStorageDirectory());
+	return ETHAppEnmlFile::GetAppDefaultVideoMode(windowed, GetProvider()->GetFileIOHub()->GetExternalStorageDirectory());
 }
 
 bool ETHScriptWrapper::FileExists(const str_type::string& fileName)

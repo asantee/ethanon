@@ -386,8 +386,8 @@ public:
 		const bool sync,
 		const Texture::PIXEL_FORMAT gsPF);
 
-	static void SetAppDefaultVideoMode(const Vector2& size);
-	static Vector2 GetAppDefaultVideoMode();
+	static void SetAppDefaultVideoMode(const Vector2& size, const bool windowed);
+	static Vector2 GetAppDefaultVideoMode(bool& windowed);
 
 	static void Print(const str_type::string &str);
 	static void PrintFloat(const float f);

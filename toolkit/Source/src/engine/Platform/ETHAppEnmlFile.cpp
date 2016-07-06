@@ -50,9 +50,10 @@ ETHAppEnmlFile::ETHAppEnmlFile(
 	minScreenHeightForHdVersion(720),
 	minScreenHeightForFullHdVersion(1080),
 	maxScreenHeightBeforeNdVersion(480),
-	maxScreenHeightBeforeLdVersion(320)
+	maxScreenHeightBeforeLdVersion(320),
+	appDefaultWindowedMode(true)
 {
-	appDefaultVideoMode = GetAppDefaultVideoMode(externalStorageDirectory);
+	appDefaultVideoMode = GetAppDefaultVideoMode(appDefaultWindowedMode, externalStorageDirectory);
 
 	str_type::string out;
 	fileManager->GetAnsiFileString(fileName, out);
@@ -94,7 +95,10 @@ static void GetBoolean(const gs2d::enml::File& file, const str_type::string& pla
 		param = ETHGlobal::IsTrue(file.Get(platformName, attrib));
 }
 
-void ETHAppEnmlFile::SetAppDefaultVideoMode(const Vector2& size, const gs2d::str_type::string& externalStorageDirectory)
+void ETHAppEnmlFile::SetAppDefaultVideoMode(
+	const Vector2& size,
+	const bool windowed,
+	const gs2d::str_type::string& externalStorageDirectory)
 {
 	enml::File file;
 	{
@@ -105,12 +109,17 @@ void ETHAppEnmlFile::SetAppDefaultVideoMode(const Vector2& size, const gs2d::str
 		str_type::stringstream ss; ss << static_cast<unsigned int>(size.y);
 		file.Add("default", "height", ss.str());
 	}
+
+	file.Add("default", "windowed", windowed ? "true" : "false");
+
 	enml::SaveStringToAnsiFile(
 		externalStorageDirectory + "videoMode.enml",
 		file.GenerateString());
 }
 
-Vector2 ETHAppEnmlFile::GetAppDefaultVideoMode(const gs2d::str_type::string& externalStorageDirectory)
+Vector2 ETHAppEnmlFile::GetAppDefaultVideoMode(
+	bool& windowed,
+	const gs2d::str_type::string& externalStorageDirectory)
 {
 	const str_type::string content = enml::GetStringFromAnsiFile(externalStorageDirectory + "videoMode.enml");
 	if (content.empty())
@@ -126,6 +135,8 @@ Vector2 ETHAppEnmlFile::GetAppDefaultVideoMode(const gs2d::str_type::string& ext
 
 		unsigned int height = 0;
 		file.GetUInt("default", "height", &height);
+
+		GetBoolean(file, "default", "windowed", windowed);
 
 		return Vector2(static_cast<float>(width), static_cast<float>(height));
 	}
@@ -173,7 +184,11 @@ void ETHAppEnmlFile::LoadProperties(
 	GetScreenDimension(static_cast<unsigned int>(appDefaultVideoMode.x), file, platformName, GS_L("width"),  width);
 	GetScreenDimension(static_cast<unsigned int>(appDefaultVideoMode.y), file, platformName, GS_L("height"), height);
 
-	GetBoolean(file, platformName, GS_L("windowed"), windowed);
+	if (file.Get(platformName, GS_L("windowed")) == GS_L("default"))
+		windowed = appDefaultWindowedMode;
+	else
+		GetBoolean(file, platformName, GS_L("windowed"), windowed);
+
 	GetBoolean(file, platformName, GS_L("vsync"), vsync);
 	GetBoolean(file, platformName, GS_L("richLighting"), richLighting);
 

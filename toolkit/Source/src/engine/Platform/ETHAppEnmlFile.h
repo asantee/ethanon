@@ -60,8 +60,13 @@ public:
 	const ETHSpriteDensityManager& GetDensityManager() const;
 	const std::vector<gs2d::str_type::string>& GetDefinedWords() const;
 
-	static void SetAppDefaultVideoMode(const gs2d::math::Vector2& size, const gs2d::str_type::string& externalStorageDirectory);
-	static gs2d::math::Vector2 GetAppDefaultVideoMode(const gs2d::str_type::string& externalStorageDirectory);
+	static void SetAppDefaultVideoMode(
+		const gs2d::math::Vector2& size,
+		const bool windowed,
+		const gs2d::str_type::string& externalStorageDirectory);
+	static gs2d::math::Vector2 GetAppDefaultVideoMode(
+		bool& windowed,
+		const gs2d::str_type::string& externalStorageDirectory);
 
 private:
 	void LoadProperties(
@@ -80,6 +85,7 @@ private:
 	unsigned int maxScreenHeightBeforeNdVersion, maxScreenHeightBeforeLdVersion;
 
 	gs2d::math::Vector2 appDefaultVideoMode;
+	bool appDefaultWindowedMode;
 
 	bool windowed, vsync;
 	bool richLighting;
