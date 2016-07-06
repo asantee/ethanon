@@ -378,7 +378,7 @@ public:
 
 	static ETHInput *GetInputHandle();
 
-	static void SetWindowProperties(
+	static void ResetVideoMode(
 		const str_type::string& winTitle,
 		const unsigned int width,
 		const unsigned int height,

@@ -99,7 +99,7 @@ asDECLARE_FUNCTION_WRAPPER(__GetParallaxVerticalIntensity, ETHScriptWrapper::Get
 asDECLARE_FUNCTION_WRAPPER(__SetBucketClearenceFactor, ETHScriptWrapper::SetBucketClearenceFactor);
 asDECLARE_FUNCTION_WRAPPER(__GetBucketClearenceFactor, ETHScriptWrapper::GetBucketClearenceFactor);
 
-asDECLARE_FUNCTION_WRAPPER(__SetWindowProperties, ETHScriptWrapper::SetWindowProperties);
+asDECLARE_FUNCTION_WRAPPER(__ResetVideoMode,      ETHScriptWrapper::ResetVideoMode);
 asDECLARE_FUNCTION_WRAPPER(__SetCameraPos,        ETHScriptWrapper::SetCameraPos);
 asDECLARE_FUNCTION_WRAPPER(__AddToCameraPos,      ETHScriptWrapper::AddToCameraPos);
 asDECLARE_FUNCTION_WRAPPER(__GetCameraPos,        ETHScriptWrapper::GetCameraPos);
@@ -365,7 +365,8 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void SetZAxisDirection(const vector2 &in)", asFUNCTION(__SetZAxisDirection), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 GetZAxisDirection()",               asFUNCTION(__GetZAxisDirection), asCALL_GENERIC); assert(r >= 0);
 
-	r = pASEngine->RegisterGlobalFunction("void SetWindowProperties(const string &in, const uint, const uint, const bool, const bool, const PIXEL_FORMAT)", asFUNCTION(__SetWindowProperties), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void ResetVideoMode(const string &in, const uint, const uint, const bool, const bool, const PIXEL_FORMAT)", asFUNCTION(__ResetVideoMode), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void SetWindowProperties(const string &in, const uint, const uint, const bool, const bool, const PIXEL_FORMAT)", asFUNCTION(__ResetVideoMode), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void SetCameraPos(const vector2 &in)",   asFUNCTION(__SetCameraPos),    asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void AddToCameraPos(const vector2 &in)", asFUNCTION(__AddToCameraPos),  asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 GetCameraPos()",                 asFUNCTION(__GetCameraPos),    asCALL_GENERIC); assert(r >= 0);

@@ -252,7 +252,7 @@ void ETHScriptWrapper::EnableQuitKeys(const bool enable)
 	m_provider->GetVideo()->EnableQuitShortcuts(enable);
 }
 
-void ETHScriptWrapper::SetWindowProperties(
+void ETHScriptWrapper::ResetVideoMode(
 	const str_type::string& winTitle,
 	const unsigned int width,
 	const unsigned int height,
