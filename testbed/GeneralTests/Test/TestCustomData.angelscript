@@ -242,20 +242,66 @@ class TestCustomData : Test
 			const float fValue = randF(10.0f);
 
 			{
+				if (entities[t].CheckCustomData("this uint does not exist") != DT_NODATA
+				 || entities[t].CheckCustomData("this int does not exist") != DT_NODATA
+				 || entities[t].CheckCustomData("this float does not exist") != DT_NODATA
+				 || entities[t].CheckCustomData("this string does not exist") != DT_NODATA
+				 || entities[t].CheckCustomData("this vector2 does not exist") != DT_NODATA
+				 || entities[t].CheckCustomData("this vector3 does not exist") != DT_NODATA)
+					mathTestOutput += ("inexistant custom data test FAILED\x07\n");
+
+				if (entities[t].GetUInt("this uint does not exist", 12) != 12)
+					mathTestOutput += ("GetUInt default value test FAILED\x07\n");
+				else
+					mathTestOutput += ("GetUInt default value test PASSED\n");
+
+				if (entities[t].GetInt("this int does not exist", 13) != 13)
+					mathTestOutput += ("GetInt default value test FAILED\x07\n");
+				else
+					mathTestOutput += ("GetInt default value test PASSED\n");
+
+				if (entities[t].GetFloat("this float does not exist", 14.1f) != 14.1f)
+					mathTestOutput += ("GetFloat default value test FAILED\x07\n");
+				else
+					mathTestOutput += ("GetFloat default value test PASSED\n");
+
+				if (entities[t].GetString("this string does not exist", "dadada") != "dadada")
+					mathTestOutput += ("GetString default value test FAILED\x07\n");
+				else
+					mathTestOutput += ("GetString default value test PASSED\n");
+
+				if (entities[t].GetVector2("this vector2 does not exist", vector2(1.1f, 2.3f)) != vector2(1.1f, 2.3f))
+					mathTestOutput += ("GetVector2 default value test FAILED\x07\n");
+				else
+					mathTestOutput += ("GetVector2 default value test PASSED\n");
+
+				if (entities[t].GetVector3("this vector3 does not exist", vector3(2.2f, 3.4f, 4.5f)) != vector3(2.2f, 3.4f, 4.5f))
+					mathTestOutput += ("GetVector3 default value test FAILED\x07\n");
+				else
+					mathTestOutput += ("GetVector3 default value test PASSED\n");
+			}
+
+			float fResult;
+			int iResult;
+			uint uiResult;
+			vector2 v2Result;
+			vector3 v3Result;
+
+			{
 				entities[t].SetFloat("myFloat", f);
 				entities[t].SetInt("myInt", i);
 				entities[t].SetUInt("myUInt", ui);
 				entities[t].SetVector2("myVector2", v2);
 				entities[t].SetVector3("myVector3", v3);
-				
-				entities[t].MultiplyFloat("myFloat", fValue);
-				entities[t].MultiplyInt("myInt", iValue);
-				entities[t].MultiplyUInt("myUInt", uiValue);
-				entities[t].MultiplyVector2("myVector2", fValue);
-				entities[t].MultiplyVector3("myVector3", fValue);
+
+				fResult  = entities[t].MultiplyFloat("myFloat", fValue);
+				iResult  = entities[t].MultiplyInt("myInt", iValue);
+				uiResult = entities[t].MultiplyUInt("myUInt", uiValue);
+				v2Result = entities[t].MultiplyVector2("myVector2", fValue);
+				v3Result = entities[t].MultiplyVector3("myVector3", fValue);
 			}
 
-			if (entities[t].GetFloat("myFloat") == f*fValue)
+			if (entities[t].GetFloat("myFloat") == f*fValue && fResult == f*fValue)
 			{
 				mathTestOutput += "Float multiply test passed\n";
 			}
@@ -265,7 +311,7 @@ class TestCustomData : Test
 				mathTestOutput += "Float multiply test FAILED!\x07\n";
 			}
 
-			if (entities[t].GetInt("myInt") == i*iValue)
+			if (entities[t].GetInt("myInt") == i*iValue && iResult == i*iValue)
 			{
 				mathTestOutput += "Int multiply test passed\n";
 			}
@@ -275,7 +321,7 @@ class TestCustomData : Test
 				mathTestOutput += "Int multiply test FAILED!\x07\n";
 			}
 			
-			if (entities[t].GetUInt("myUInt") == ui*uiValue)
+			if (entities[t].GetUInt("myUInt") == ui*uiValue && uiResult == ui*uiValue)
 			{
 				mathTestOutput += "UInt multiply test passed\n";
 			}
@@ -285,7 +331,7 @@ class TestCustomData : Test
 				mathTestOutput += "UInt multiply test FAILED!\x07\n";
 			}
 
-			if (entities[t].GetVector2("myVector2") == v2*fValue)
+			if (entities[t].GetVector2("myVector2") == v2*fValue && v2Result == v2*fValue)
 			{
 				mathTestOutput += "Vector2 multiply test passed\n";
 			}
@@ -295,7 +341,7 @@ class TestCustomData : Test
 				mathTestOutput += "Vector2 multiply test FAILED!\x07\n";
 			}
 
-			if (entities[t].GetVector3("myVector3") == v3*fValue)
+			if (entities[t].GetVector3("myVector3") == v3*fValue && v3Result == v3*fValue)
 			{
 				mathTestOutput += "Vector3 multiply test passed\n";
 			}
@@ -306,14 +352,14 @@ class TestCustomData : Test
 			}
 
 			{
-				entities[t].AddToFloat("myFloat", fValue);
-				entities[t].AddToInt("myInt", iValue);
-				entities[t].AddToUInt("myUInt", uiValue);
-				entities[t].AddToVector2("myVector2", v2);
-				entities[t].AddToVector3("myVector3", v3);
+				fResult  = entities[t].AddToFloat("myFloat", fValue);
+				iResult  = entities[t].AddToInt("myInt", iValue);
+				uiResult = entities[t].AddToUInt("myUInt", uiValue);
+				v2Result = entities[t].AddToVector2("myVector2", v2);
+				v3Result = entities[t].AddToVector3("myVector3", v3);
 			}
-			
-			if (entities[t].GetFloat("myFloat") == f*fValue+fValue)
+
+			if (entities[t].GetFloat("myFloat") == f*fValue+fValue && fResult == f*fValue+fValue)
 			{
 				mathTestOutput += "Float add test passed\n";
 			}
@@ -323,7 +369,7 @@ class TestCustomData : Test
 				mathTestOutput += "Float add test FAILED!\x07\n";
 			}
 
-			if (entities[t].GetInt("myInt") == i*iValue+iValue)
+			if (entities[t].GetInt("myInt") == i*iValue+iValue && iResult == i*iValue+iValue)
 			{
 				mathTestOutput += "Int add test passed\n";
 			}
@@ -333,7 +379,7 @@ class TestCustomData : Test
 				mathTestOutput += "Int add test FAILED!\x07\n";
 			}
 			
-			if (entities[t].GetUInt("myUInt") == ui*uiValue+uiValue)
+			if (entities[t].GetUInt("myUInt") == ui*uiValue+uiValue && uiResult == ui*uiValue+uiValue)
 			{
 				mathTestOutput += "UInt add test passed\n";
 			}
@@ -343,7 +389,7 @@ class TestCustomData : Test
 				mathTestOutput += "UInt add test FAILED!\x07\n";
 			}
 
-			if (entities[t].GetVector2("myVector2") == v2*fValue+v2)
+			if (entities[t].GetVector2("myVector2") == v2*fValue+v2 && v2Result == v2*fValue+v2)
 			{
 				mathTestOutput += "Vector2 add test passed\n";
 			}
@@ -353,7 +399,7 @@ class TestCustomData : Test
 				mathTestOutput += "Vector2 add test FAILED!\x07\n";
 			}
 
-			if (entities[t].GetVector3("myVector3") == v3*fValue+v3)
+			if (entities[t].GetVector3("myVector3") == v3*fValue+v3 && v3Result == v3*fValue+v3)
 			{
 				mathTestOutput += "Vector3 add test passed\n";
 			}

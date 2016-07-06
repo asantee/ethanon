@@ -856,96 +856,126 @@ void ETHEntity::SetVector3(const str_type::string &name, const Vector3 &value)
 	m_properties.SetVector3(name, value);
 }
 
-float ETHEntity::GetFloat(const str_type::string &name) const
+float ETHEntity::GetFloat(const str_type::string &name, const float defaultValue) const
 {
-	float fOut = 0.0f;
+	float fOut = defaultValue;
 	m_properties.GetFloat(name, fOut);
 	return fOut;
 }
 
-int ETHEntity::GetInt(const str_type::string &name) const
+int ETHEntity::GetInt(const str_type::string &name, const int defaultValue) const
 {
-	int nOut = 0;
+	int nOut = defaultValue;
 	m_properties.GetInt(name, nOut);
 	return nOut;
 }
 
-unsigned int ETHEntity::GetUInt(const str_type::string &name) const
+unsigned int ETHEntity::GetUInt(const str_type::string &name, const unsigned int defaultValue) const
 {
-	unsigned int nOut = 0;
+	unsigned int nOut = defaultValue;
 	m_properties.GetUInt(name, nOut);
 	return nOut;
 }
 
-str_type::string ETHEntity::GetString(const str_type::string &name) const
+str_type::string ETHEntity::GetString(const str_type::string &name, const str_type::string& defaultValue) const
 {
-	str_type::string sOut = GS_L("");
+	str_type::string sOut = defaultValue;
 	m_properties.GetString(name, sOut);
 	return sOut;
 }
 
-Vector2 ETHEntity::GetVector2(const str_type::string &name) const
+Vector2 ETHEntity::GetVector2(const str_type::string &name, const Vector2& defaultValue) const
 {
-	Vector2 vOut(0,0);
+	Vector2 vOut(defaultValue);
 	m_properties.GetVector2(name, vOut);
 	return vOut;
 }
 
-Vector3 ETHEntity::GetVector3(const str_type::string &name) const
+Vector3 ETHEntity::GetVector3(const str_type::string &name, const Vector3& defaultValue) const
 {
-	Vector3 vOut(0,0,0);
+	Vector3 vOut(defaultValue);
 	m_properties.GetVector3(name, vOut);
 	return vOut;
 }
 
-void ETHEntity::AddToFloat(const str_type::string &name, const float &value)
+float ETHEntity::GetFloat(const str_type::string &name) const
 {
-	m_properties.AddToFloat(name, value);
+	return GetFloat(name, 0.0f);
 }
 
-void ETHEntity::AddToInt(const str_type::string &name, const int &value)
+int ETHEntity::GetInt(const str_type::string &name) const
 {
-	m_properties.AddToInt(name, value);
+	return GetInt(name, 0);
 }
 
-void ETHEntity::AddToUInt(const str_type::string &name, const unsigned int &value)
+unsigned int ETHEntity::GetUInt(const str_type::string &name) const
 {
-	m_properties.AddToUInt(name, value);
+	return GetUInt(name, 0);
 }
 
-void ETHEntity::AddToVector2(const str_type::string &name, const Vector2 &v)
+str_type::string ETHEntity::GetString(const str_type::string &name) const
 {
-	m_properties.AddToVector2(name, v);
+	return GetString(name, GS_L(""));
 }
 
-void ETHEntity::AddToVector3(const str_type::string &name, const Vector3 &v)
+Vector2 ETHEntity::GetVector2(const str_type::string &name) const
 {
-	m_properties.AddToVector3(name, v);
+	return GetVector2(name, Vector2());
 }
 
-void ETHEntity::MultiplyFloat(const str_type::string &name, const float &value)
+Vector3 ETHEntity::GetVector3(const str_type::string &name) const
 {
-	m_properties.MultiplyFloat(name, value);
+	return GetVector3(name, Vector3());
 }
 
-void ETHEntity::MultiplyInt(const str_type::string &name, const int &value)
+float ETHEntity::AddToFloat(const str_type::string &name, const float &value)
 {
-	m_properties.MultiplyInt(name, value);
+	return m_properties.AddToFloat(name, value);
 }
 
-void ETHEntity::MultiplyUInt(const str_type::string &name, const unsigned int &value)
+int ETHEntity::AddToInt(const str_type::string &name, const int &value)
 {
-	m_properties.MultiplyUInt(name, value);
+	return m_properties.AddToInt(name, value);
 }
 
-void ETHEntity::MultiplyVector2(const str_type::string &name, const float &value)
+unsigned int ETHEntity::AddToUInt(const str_type::string &name, const unsigned int &value)
 {
-	m_properties.MultiplyVector2(name, value);
+	return m_properties.AddToUInt(name, value);
 }
 
-void ETHEntity::MultiplyVector3(const str_type::string &name, const float &value)
+Vector2 ETHEntity::AddToVector2(const str_type::string &name, const Vector2 &v)
 {
-	m_properties.MultiplyVector3(name, value);
+	return m_properties.AddToVector2(name, v);
+}
+
+Vector3 ETHEntity::AddToVector3(const str_type::string &name, const Vector3 &v)
+{
+	return m_properties.AddToVector3(name, v);
+}
+
+float ETHEntity::MultiplyFloat(const str_type::string &name, const float &value)
+{
+	return m_properties.MultiplyFloat(name, value);
+}
+
+int ETHEntity::MultiplyInt(const str_type::string &name, const int &value)
+{
+	return m_properties.MultiplyInt(name, value);
+}
+
+unsigned int ETHEntity::MultiplyUInt(const str_type::string &name, const unsigned int &value)
+{
+	return m_properties.MultiplyUInt(name, value);
+}
+
+Vector2 ETHEntity::MultiplyVector2(const str_type::string &name, const float &value)
+{
+	return m_properties.MultiplyVector2(name, value);
+}
+
+Vector3 ETHEntity::MultiplyVector3(const str_type::string &name, const float &value)
+{
+	return m_properties.MultiplyVector3(name, value);
 }
 
 void ETHEntity::InsertData(const ETHCustomDataManager &dataIn)

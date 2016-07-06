@@ -307,6 +307,13 @@ asDECLARE_METHOD_WRAPPERPR(__GetString,  ETHScriptEntity, GetString,  (const str
 asDECLARE_METHOD_WRAPPERPR(__GetVector2, ETHScriptEntity, GetVector2, (const str_type::string&) const,                    Vector2);
 asDECLARE_METHOD_WRAPPERPR(__GetVector3, ETHScriptEntity, GetVector3, (const str_type::string&) const,                    Vector3);
 
+asDECLARE_METHOD_WRAPPERPR(__GetFloatEx,   ETHScriptEntity, GetFloat,   (const str_type::string&, const float)             const,                    float);
+asDECLARE_METHOD_WRAPPERPR(__GetIntEx,     ETHScriptEntity, GetInt,     (const str_type::string&, const int)               const,                    int);
+asDECLARE_METHOD_WRAPPERPR(__GetUIntEx,    ETHScriptEntity, GetUInt,    (const str_type::string&, const unsigned int)      const,                    unsigned int);
+asDECLARE_METHOD_WRAPPERPR(__GetStringEx,  ETHScriptEntity, GetString,  (const str_type::string&, const str_type::string&) const,                    str_type::string);
+asDECLARE_METHOD_WRAPPERPR(__GetVector2Ex, ETHScriptEntity, GetVector2, (const str_type::string&, const Vector2&)          const,                    Vector2);
+asDECLARE_METHOD_WRAPPERPR(__GetVector3Ex, ETHScriptEntity, GetVector3, (const str_type::string&, const Vector3&)          const,                    Vector3);
+
 asDECLARE_METHOD_WRAPPERPR(__GetFlipX, ETHScriptEntity, GetFlipX, (void) const, bool);
 asDECLARE_METHOD_WRAPPERPR(__GetFlipY, ETHScriptEntity, GetFlipY, (void) const, bool);
 asDECLARE_METHOD_WRAPPERPR(__SetFlipX, ETHScriptEntity, SetFlipX, (const bool), void);
@@ -330,16 +337,16 @@ void __GetObject(asIScriptGeneric *gen)
 	*(bool*)gen->GetAddressOfReturnLocation() = entity->GetAngelScriptObject(*key, ref, typeId);
 }
 
-asDECLARE_METHOD_WRAPPERPR(__AddToFloat,      ETHScriptEntity, AddToFloat,      (const str_type::string&, const float&),        void);
-asDECLARE_METHOD_WRAPPERPR(__AddToInt,        ETHScriptEntity, AddToInt,        (const str_type::string&, const int&),          void);
-asDECLARE_METHOD_WRAPPERPR(__AddToUInt,       ETHScriptEntity, AddToUInt,       (const str_type::string&, const unsigned int&), void);
-asDECLARE_METHOD_WRAPPERPR(__AddToVector2,    ETHScriptEntity, AddToVector2,    (const str_type::string&, const Vector2&),      void);
-asDECLARE_METHOD_WRAPPERPR(__AddToVector3,    ETHScriptEntity, AddToVector3,    (const str_type::string&, const Vector3&),      void);
-asDECLARE_METHOD_WRAPPERPR(__MultiplyFloat,   ETHScriptEntity, MultiplyFloat,   (const str_type::string&, const float&),        void);
-asDECLARE_METHOD_WRAPPERPR(__MultiplyInt,     ETHScriptEntity, MultiplyInt,     (const str_type::string&, const int&),          void);
-asDECLARE_METHOD_WRAPPERPR(__MultiplyUInt,    ETHScriptEntity, MultiplyUInt,    (const str_type::string&, const unsigned int&), void);
-asDECLARE_METHOD_WRAPPERPR(__MultiplyVector2, ETHScriptEntity, MultiplyVector2, (const str_type::string&, const float&),        void);
-asDECLARE_METHOD_WRAPPERPR(__MultiplyVector3, ETHScriptEntity, MultiplyVector3, (const str_type::string&, const float&),        void);
+asDECLARE_METHOD_WRAPPERPR(__AddToFloat,      ETHScriptEntity, AddToFloat,      (const str_type::string&, const float&),        float);
+asDECLARE_METHOD_WRAPPERPR(__AddToInt,        ETHScriptEntity, AddToInt,        (const str_type::string&, const int&),          int);
+asDECLARE_METHOD_WRAPPERPR(__AddToUInt,       ETHScriptEntity, AddToUInt,       (const str_type::string&, const unsigned int&), unsigned int);
+asDECLARE_METHOD_WRAPPERPR(__AddToVector2,    ETHScriptEntity, AddToVector2,    (const str_type::string&, const Vector2&),      Vector2);
+asDECLARE_METHOD_WRAPPERPR(__AddToVector3,    ETHScriptEntity, AddToVector3,    (const str_type::string&, const Vector3&),      Vector3);
+asDECLARE_METHOD_WRAPPERPR(__MultiplyFloat,   ETHScriptEntity, MultiplyFloat,   (const str_type::string&, const float&),        float);
+asDECLARE_METHOD_WRAPPERPR(__MultiplyInt,     ETHScriptEntity, MultiplyInt,     (const str_type::string&, const int&),          int);
+asDECLARE_METHOD_WRAPPERPR(__MultiplyUInt,    ETHScriptEntity, MultiplyUInt,    (const str_type::string&, const unsigned int&), unsigned int);
+asDECLARE_METHOD_WRAPPERPR(__MultiplyVector2, ETHScriptEntity, MultiplyVector2, (const str_type::string&, const float&),        Vector2);
+asDECLARE_METHOD_WRAPPERPR(__MultiplyVector3, ETHScriptEntity, MultiplyVector3, (const str_type::string&, const float&),        Vector3);
 
 asDECLARE_METHOD_WRAPPERPR(__SetScale, ETHScriptEntity, SetScale, (const Vector2&), void);
 asDECLARE_METHOD_WRAPPERPR(__ScaleV2,  ETHScriptEntity, Scale,    (const Vector2&), void);
@@ -445,6 +452,7 @@ void RegisterEntityMethods(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool SetString(const string &in, const string &in)",   asFUNCTION(__SetString),  asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool SetVector2(const string &in, const vector2 &in)", asFUNCTION(__SetVector2), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool SetVector3(const string &in, const vector3 &in)", asFUNCTION(__SetVector3), asCALL_GENERIC); assert(r >= 0);
+
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "float GetFloat(const string &in) const",               asFUNCTION(__GetFloat),   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "int GetInt(const string &in) const",                   asFUNCTION(__GetInt),     asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "uint GetUInt(const string &in) const",                 asFUNCTION(__GetUInt),    asCALL_GENERIC); assert(r >= 0);
@@ -452,19 +460,26 @@ void RegisterEntityMethods(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector2 GetVector2(const string &in) const",           asFUNCTION(__GetVector2), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector3 GetVector3(const string &in) const",           asFUNCTION(__GetVector3), asCALL_GENERIC); assert(r >= 0);
 
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "float GetFloat(const string &in, const float) const",           asFUNCTION(__GetFloatEx),   asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "int GetInt(const string &in, const int) const",                 asFUNCTION(__GetIntEx),     asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "uint GetUInt(const string &in, const uint) const",              asFUNCTION(__GetUIntEx),    asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "string GetString(const string &in, const string &in) const",    asFUNCTION(__GetStringEx),  asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector2 GetVector2(const string &in, const vector2 &in) const", asFUNCTION(__GetVector2Ex), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector3 GetVector3(const string &in, const vector3 &in) const", asFUNCTION(__GetVector3Ex), asCALL_GENERIC); assert(r >= 0);
+
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetObject(const string &in, ?&in)",               asFUNCTION(__SetObject),  asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool GetObject(const string &in, ?&out)",              asFUNCTION(__GetObject),  asCALL_GENERIC); assert(r >= 0);
 
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "void AddToFloat(const string &in, const float &in)",      asFUNCTION(__AddToFloat),      asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "void AddToInt(const string &in, const int &in)",          asFUNCTION(__AddToInt),        asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "void AddToUInt(const string &in, const uint &in)",        asFUNCTION(__AddToUInt),       asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "void AddToVector2(const string &in, const vector2 &in)",  asFUNCTION(__AddToVector2),    asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "void AddToVector3(const string &in, const vector3 &in)",  asFUNCTION(__AddToVector3),    asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "void MultiplyFloat(const string &in, const float &in)",   asFUNCTION(__MultiplyFloat),   asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "void MultiplyInt(const string &in, const int &in)",       asFUNCTION(__MultiplyInt),     asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "void MultiplyUInt(const string &in, const uint &in)",     asFUNCTION(__MultiplyUInt),    asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "void MultiplyVector2(const string &in, const float &in)", asFUNCTION(__MultiplyVector2), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "void MultiplyVector3(const string &in, const float &in)", asFUNCTION(__MultiplyVector3), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "float   AddToFloat(const string &in, const float &in)",      asFUNCTION(__AddToFloat),      asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "int     AddToInt(const string &in, const int &in)",          asFUNCTION(__AddToInt),        asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "uint    AddToUInt(const string &in, const uint &in)",        asFUNCTION(__AddToUInt),       asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector2 AddToVector2(const string &in, const vector2 &in)",  asFUNCTION(__AddToVector2),    asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector3 AddToVector3(const string &in, const vector3 &in)",  asFUNCTION(__AddToVector3),    asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "float   MultiplyFloat(const string &in, const float &in)",   asFUNCTION(__MultiplyFloat),   asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "int     MultiplyInt(const string &in, const int &in)",       asFUNCTION(__MultiplyInt),     asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "uint    MultiplyUInt(const string &in, const uint &in)",     asFUNCTION(__MultiplyUInt),    asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector2 MultiplyVector2(const string &in, const float &in)", asFUNCTION(__MultiplyVector2), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector3 MultiplyVector3(const string &in, const float &in)", asFUNCTION(__MultiplyVector3), asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool GetFlipX() const", asFUNCTION(__GetFlipX), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool GetFlipY() const", asFUNCTION(__GetFlipY), asCALL_GENERIC); assert(r >= 0);

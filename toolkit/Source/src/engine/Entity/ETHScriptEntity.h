@@ -142,6 +142,13 @@ public:
 	virtual void SetVector2(const str_type::string &name, const Vector2 &value) = 0;
 	virtual void SetVector3(const str_type::string &name, const Vector3 &value) = 0;
 
+	virtual float GetFloat(const str_type::string &name, const float defaultValue) const = 0;
+	virtual int GetInt(const str_type::string &name, const int defaultValue) const = 0;
+	virtual unsigned int GetUInt(const str_type::string &name, const unsigned int defaultValue) const = 0;
+	virtual str_type::string GetString(const str_type::string &name, const str_type::string& defaultValue) const = 0;
+	virtual Vector2 GetVector2(const str_type::string &name, const Vector2& defaultValue) const = 0;
+	virtual Vector3 GetVector3(const str_type::string &name, const Vector3& defaultValue) const = 0;
+
 	virtual float GetFloat(const str_type::string &name) const = 0;
 	virtual int GetInt(const str_type::string &name) const = 0;
 	virtual unsigned int GetUInt(const str_type::string &name) const = 0;
@@ -152,17 +159,17 @@ public:
 	virtual void SetAngelScriptObject(const str_type::string &name, void *value, int typeId) = 0;
 	virtual bool GetAngelScriptObject(const str_type::string &name, void *value, int typeId) = 0;
 
-	virtual void AddToFloat(const str_type::string &name, const float &value) = 0;
-	virtual void AddToInt(const str_type::string &name, const int &value) = 0;
-	virtual void AddToUInt(const str_type::string &name, const unsigned int &value) = 0;
-	virtual void AddToVector2(const str_type::string &name, const Vector2 &v) = 0;
-	virtual void AddToVector3(const str_type::string &name, const Vector3 &v) = 0;
+	virtual float AddToFloat(const str_type::string &name, const float &value) = 0;
+	virtual int AddToInt(const str_type::string &name, const int &value) = 0;
+	virtual unsigned int AddToUInt(const str_type::string &name, const unsigned int &value) = 0;
+	virtual Vector2 AddToVector2(const str_type::string &name, const Vector2 &v) = 0;
+	virtual Vector3 AddToVector3(const str_type::string &name, const Vector3 &v) = 0;
 
-	virtual void MultiplyFloat(const str_type::string &name, const float &value) = 0;
-	virtual void MultiplyInt(const str_type::string &name, const int &value) = 0;
-	virtual void MultiplyUInt(const str_type::string &name, const unsigned int &value) = 0;
-	virtual void MultiplyVector2(const str_type::string &name, const float &value) = 0;
-	virtual void MultiplyVector3(const str_type::string &name, const float &value) = 0;
+	virtual float MultiplyFloat(const str_type::string &name, const float &value) = 0;
+	virtual int MultiplyInt(const str_type::string &name, const int &value) = 0;
+	virtual unsigned int MultiplyUInt(const str_type::string &name, const unsigned int &value) = 0;
+	virtual Vector2 MultiplyVector2(const str_type::string &name, const float &value) = 0;
+	virtual Vector3 MultiplyVector3(const str_type::string &name, const float &value) = 0;
 
 	virtual bool EraseData(const str_type::string &name) = 0;
 	virtual ETHCustomData::DATA_TYPE CheckCustomData(const str_type::string &name) const = 0;

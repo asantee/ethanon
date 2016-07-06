@@ -163,6 +163,13 @@ public:
 	void SetVector3(const str_type::string &name, const Vector3 &value);
 	void AddData(const str_type::string &name, const ETHCustomDataConstPtr &dataIn);
 
+	float GetFloat(const str_type::string &name, const float defaultValue) const;
+	int GetInt(const str_type::string &name, const int defaultValue) const;
+	unsigned int GetUInt(const str_type::string &name, const unsigned int defaultValue) const;
+	str_type::string GetString(const str_type::string &name, const str_type::string& defaultValue) const;
+	Vector2 GetVector2(const str_type::string &name, const Vector2& defaultValue) const;
+	Vector3 GetVector3(const str_type::string &name, const Vector3& defaultValue) const;
+
 	float GetFloat(const str_type::string &name) const;
 	int GetInt(const str_type::string &name) const;
 	unsigned int GetUInt(const str_type::string &name) const;
@@ -173,17 +180,17 @@ public:
 	void SetObject(const str_type::string &name, void *value, int typeId);
 	void GetObject(const str_type::string &name, void *value, int typeId);
 
-	void AddToFloat(const str_type::string &name, const float &value);
-	void AddToInt(const str_type::string &name, const int &value);
-	void AddToUInt(const str_type::string &name, const unsigned int &value);
-	void AddToVector2(const str_type::string &name, const Vector2 &v);
-	void AddToVector3(const str_type::string &name, const Vector3 &v);
+	float AddToFloat(const str_type::string &name, const float &value);
+	int AddToInt(const str_type::string &name, const int &value);
+	unsigned int AddToUInt(const str_type::string &name, const unsigned int &value);
+	Vector2 AddToVector2(const str_type::string &name, const Vector2 &v);
+	Vector3 AddToVector3(const str_type::string &name, const Vector3 &v);
 
-	void MultiplyFloat(const str_type::string &name, const float &value);
-	void MultiplyInt(const str_type::string &name, const int &value);
-	void MultiplyUInt(const str_type::string &name, const unsigned int &value);
-	void MultiplyVector2(const str_type::string &name, const float &value);
-	void MultiplyVector3(const str_type::string &name, const float &value);
+	float MultiplyFloat(const str_type::string &name, const float &value);
+	int MultiplyInt(const str_type::string &name, const int &value);
+	unsigned int MultiplyUInt(const str_type::string &name, const unsigned int &value);
+	Vector2 MultiplyVector2(const str_type::string &name, const float &value);
+	Vector3 MultiplyVector3(const str_type::string &name, const float &value);
 
 	bool EraseData(const str_type::string &name);
 	ETHCustomData::DATA_TYPE CheckCustomData(const str_type::string &name) const;

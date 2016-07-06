@@ -82,13 +82,11 @@ bool ETHCustomDataManager::GetFloat(const str_type::string &name, float &outValu
 	std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
 	if (iter == m_data.end())
 	{
-		ETH_STREAM_DECL(ss) << GS_L("There's no matching data for ") << name;
 		return false;
 	}
 	const ETHCustomDataPtr& data = iter->second;
 	if (data->GetType() != ETHCustomData::DT_FLOAT)
 	{
-		ETH_STREAM_DECL(ss) << name << GS_L(":is not a float");
 		return false;
 	}
 	outValue = data->GetFloat();
@@ -100,13 +98,11 @@ bool ETHCustomDataManager::GetInt(const str_type::string &name, int &outValue) c
 	std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
 	if (iter == m_data.end())
 	{
-		ETH_STREAM_DECL(ss) << GS_L("There's no matching data for ") << name;
 		return false;
 	}
 	const ETHCustomDataPtr& data = iter->second;
 	if (data->GetType() != ETHCustomData::DT_INT)
 	{
-		ETH_STREAM_DECL(ss) << name << GS_L(":is not an int");
 		return false;
 	}
 	outValue = data->GetInt();
@@ -118,13 +114,11 @@ bool ETHCustomDataManager::GetUInt(const str_type::string &name, unsigned int &o
 	std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
 	if (iter == m_data.end())
 	{
-		ETH_STREAM_DECL(ss) << GS_L("There's no matching data for ") << name;
 		return false;
 	}
 	const ETHCustomDataPtr& data = iter->second;
 	if (data->GetType() != ETHCustomData::DT_UINT)
 	{
-		ETH_STREAM_DECL(ss) << name << GS_L(":is not an uint");
 		return false;
 	}
 	outValue = data->GetUInt();
@@ -136,13 +130,11 @@ bool ETHCustomDataManager::GetString(const str_type::string &name, str_type::str
 	std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
 	if (iter == m_data.end())
 	{
-		ETH_STREAM_DECL(ss) << GS_L("There's no matching data for ") << name;
 		return false;
 	}
 	const ETHCustomDataPtr& data = iter->second;
 	if (data->GetType() != ETHCustomData::DT_STRING)
 	{
-		ETH_STREAM_DECL(ss) << name << GS_L(":is not a string");
 		return false;
 	}
 	outValue = data->GetString();
@@ -154,13 +146,11 @@ bool ETHCustomDataManager::GetVector2(const str_type::string &name, Vector2 &out
 	std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
 	if (iter == m_data.end())
 	{
-		ETH_STREAM_DECL(ss) << GS_L("There's no matching data for ") << name;
 		return false;
 	}
 	const ETHCustomDataPtr& data = iter->second;
 	if (data->GetType() != ETHCustomData::DT_VECTOR2)
 	{
-		ETH_STREAM_DECL(ss) << name << GS_L(":is not a vector2");
 		return false;
 	}
 	outValue = data->GetVector2();
@@ -172,187 +162,175 @@ bool ETHCustomDataManager::GetVector3(const str_type::string &name, Vector3 &out
 	std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
 	if (iter == m_data.end())
 	{
-		ETH_STREAM_DECL(ss) << GS_L("There's no matching data for ") << name;
 		return false;
 	}
 	const ETHCustomDataPtr& data = iter->second;
 	if (data->GetType() != ETHCustomData::DT_VECTOR3)
 	{
-		ETH_STREAM_DECL(ss) << name << GS_L(":is not a vector3");
 		return false;
 	}
 	outValue = data->GetVector3();
 	return true;
 }
 
-void ETHCustomDataManager::AddToFloat(const str_type::string &name, const float &value)
+float ETHCustomDataManager::AddToFloat(const str_type::string &name, const float &value)
 {
 	std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
 	if (iter == m_data.end())
 	{
-		ETH_STREAM_DECL(ss) << GS_L("There's no matching data for ") << name;
-		return;
+		return 0.0f;
 	}
 	const ETHCustomDataPtr& data = iter->second;
 	if (data->GetType() != ETHCustomData::DT_FLOAT)
 	{
-		ETH_STREAM_DECL(ss) << name << GS_L(":is not a float");
-		return;
+		return 0.0f;
 	}
 	data->Set(value + data->GetFloat());
+	return data->GetFloat();
 }
 
-void ETHCustomDataManager::AddToInt(const str_type::string &name, const int &value)
+int ETHCustomDataManager::AddToInt(const str_type::string &name, const int &value)
 {
 	std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
 	if (iter == m_data.end())
 	{
-		ETH_STREAM_DECL(ss) << GS_L("There's no matching data for ") << name;
-		return;
+		return 0;
 	}
 	const ETHCustomDataPtr& data = iter->second;
 	if (data->GetType() != ETHCustomData::DT_INT)
 	{
-		ETH_STREAM_DECL(ss) << name << GS_L(":is not an int");
-		return;
+		return 0;
 	}
 	data->Set(value + data->GetInt());
+	return data->GetInt();
 }
 
-void ETHCustomDataManager::AddToUInt(const str_type::string &name, const unsigned int &value)
+unsigned int ETHCustomDataManager::AddToUInt(const str_type::string &name, const unsigned int &value)
 {
 	std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
 	if (iter == m_data.end())
 	{
-		ETH_STREAM_DECL(ss) << GS_L("There's no matching data for ") << name;
-		return;
+		return 0;
 	}
 	const ETHCustomDataPtr& data = iter->second;
 	if (data->GetType() != ETHCustomData::DT_UINT)
 	{
-		ETH_STREAM_DECL(ss) << name << GS_L(":is not an uint");
-		return;
+		return 0;
 	}
 	data->Set(value + data->GetUInt());
+	return data->GetUInt();
 }
 
-void ETHCustomDataManager::AddToVector2(const str_type::string &name, const Vector2 &v)
+Vector2 ETHCustomDataManager::AddToVector2(const str_type::string &name, const Vector2 &v)
 {
 	std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
 	if (iter == m_data.end())
 	{
-		ETH_STREAM_DECL(ss) << GS_L("There's no matching data for ") << name;
-		return;
+		return Vector2();
 	}
 	const ETHCustomDataPtr& data = iter->second;
 	if (data->GetType() != ETHCustomData::DT_VECTOR2)
 	{
-		ETH_STREAM_DECL(ss) << name << GS_L(":is not a vector2");
-		return;
+		return Vector2();
 	}
 	data->Set(v + data->GetVector2());
+	return data->GetVector2();
 }
 
-void ETHCustomDataManager::AddToVector3(const str_type::string &name, const Vector3 &v)
+Vector3 ETHCustomDataManager::AddToVector3(const str_type::string &name, const Vector3 &v)
 {
 	std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
 	if (iter == m_data.end())
 	{
-		ETH_STREAM_DECL(ss) << GS_L("There's no matching data for ") << name;
-		return;
+		return Vector3();
 	}
 	const ETHCustomDataPtr& data = iter->second;
 	if (data->GetType() != ETHCustomData::DT_VECTOR3)
 	{
-		ETH_STREAM_DECL(ss) << name << GS_L(":is not a vector3");
-		return;
+		return Vector3();
 	}
 	data->Set(v + data->GetVector3());
+	return data->GetVector3();
 }
 
-void ETHCustomDataManager::MultiplyFloat(const str_type::string &name, const float &value)
+float ETHCustomDataManager::MultiplyFloat(const str_type::string &name, const float &value)
 {
 	std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
 	if (iter == m_data.end())
 	{
-		ETH_STREAM_DECL(ss) << GS_L("There's no matching data for ") << name;
-		return;
+		return 0.0f;
 	}
 	const ETHCustomDataPtr& data = iter->second;
 	if (data->GetType() != ETHCustomData::DT_FLOAT)
 	{
-		ETH_STREAM_DECL(ss) << name << GS_L(":is not a float");
-		return;
+		return 0.0f;
 	}
 	data->Set(value * data->GetFloat());
+	return data->GetFloat();
 }
 
-void ETHCustomDataManager::MultiplyInt(const str_type::string &name, const int &value)
+int ETHCustomDataManager::MultiplyInt(const str_type::string &name, const int &value)
 {
 	std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
 	if (iter == m_data.end())
 	{
-		ETH_STREAM_DECL(ss) << GS_L("There's no matching data for ") << name;
-		return;
+		return 0;
 	}
 	const ETHCustomDataPtr& data = iter->second;
 	if (data->GetType() != ETHCustomData::DT_INT)
 	{
-		ETH_STREAM_DECL(ss) << name << GS_L(":is not an int");
-		return;
+		return 0;
 	}
 	data->Set(value * data->GetInt());
+	return data->GetInt();
 }
 
-void ETHCustomDataManager::MultiplyUInt(const str_type::string &name, const unsigned int &value)
+unsigned int ETHCustomDataManager::MultiplyUInt(const str_type::string &name, const unsigned int &value)
 {
 	std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
 	if (iter == m_data.end())
 	{
-		ETH_STREAM_DECL(ss) << GS_L("There's no matching data for ") << name;
-		return;
+		return 0;
 	}
 	const ETHCustomDataPtr& data = iter->second;
 	if (data->GetType() != ETHCustomData::DT_UINT)
 	{
-		ETH_STREAM_DECL(ss) << name << GS_L(":is not an uint");
-		return;
+		return 0;
 	}
 	data->Set(value * data->GetUInt());
+	return data->GetUInt();
 }
 
-void ETHCustomDataManager::MultiplyVector2(const str_type::string &name, const float &value)
+Vector2 ETHCustomDataManager::MultiplyVector2(const str_type::string &name, const float &value)
 {
 	std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
 	if (iter == m_data.end())
 	{
-		ETH_STREAM_DECL(ss) << GS_L("There's no matching data for ") << name;
-		return;
+		return Vector2();
 	}
 	const ETHCustomDataPtr& data = iter->second;
 	if (data->GetType() != ETHCustomData::DT_VECTOR2)
 	{
-		ETH_STREAM_DECL(ss) << name << GS_L(":is not a vector2");
-		return;
+		return Vector2();
 	}
 	data->Set(data->GetVector2() * value);
+	return data->GetVector2();
 }
 
-void ETHCustomDataManager::MultiplyVector3(const str_type::string &name, const float &value)
+Vector3 ETHCustomDataManager::MultiplyVector3(const str_type::string &name, const float &value)
 {
 	std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
 	if (iter == m_data.end())
 	{
-		ETH_STREAM_DECL(ss) << GS_L("There's no matching data for ") << name;
-		return;
+		return Vector3();
 	}
 	const ETHCustomDataPtr& data = iter->second;
 	if (data->GetType() != ETHCustomData::DT_VECTOR3)
 	{
-		ETH_STREAM_DECL(ss) << name << GS_L(":is not a vector3");
-		return;
+		return Vector3();
 	}
 	data->Set(data->GetVector3() * value);
+	return data->GetVector3();
 }
 
 ETHCustomData::DATA_TYPE ETHCustomDataManager::Check(const str_type::string &name) const
