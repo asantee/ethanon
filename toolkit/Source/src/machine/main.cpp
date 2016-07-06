@@ -138,10 +138,19 @@ str_type::string FindResourceDir(const int argc, gs2d::str_type::char_t* argv[])
 		ETHEnginePtr application = ETHEnginePtr(new ETHEngine(testing, compileAndRun));
 		application->SetHighEndDevice(true);
 
+		unsigned int displayWidth  = app.GetWidth();
+		unsigned int displayHeight = app.GetHeight();
+		const Vector2 appDefaultVideoMode = application->GetAppDefaultVideoMode(fileIOHub);
+		if (appDefaultVideoMode != Vector2(0.0f, 0.0f))
+		{
+			displayWidth  = static_cast<unsigned int>(appDefaultVideoMode.x);
+			displayHeight = static_cast<unsigned int>(appDefaultVideoMode.y);
+		}
+
 		VideoPtr video;
 		if ((video = CreateVideo(
-			app.GetWidth(),
-			app.GetHeight(),
+			displayWidth,
+			displayHeight,
 			app.GetTitle(),
 			app.IsWindowed(),
 			app.IsVsyncEnabled(),

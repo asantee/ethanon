@@ -204,6 +204,53 @@ bool ETHScriptWrapper::FileInPackageExists(const str_type::string& fileName)
 	return m_provider->GetFileManager()->FileExists(fileName);
 }
 
+void ETHScriptWrapper::SetAppDefaultVideoMode(const Vector2& size, Platform::FileIOHubPtr fileIOHub)
+{
+	enml::File file;
+	{
+		str_type::stringstream ss; ss << static_cast<unsigned int>(size.x);
+		file.Add("default", "width", ss.str());
+	}
+	{
+		str_type::stringstream ss; ss << static_cast<unsigned int>(size.y);
+		file.Add("default", "height", ss.str());
+	}
+	enml::SaveStringToAnsiFile(
+		fileIOHub->GetExternalStorageDirectory() + "videoMode.enml",
+		file.GenerateString());
+}
+
+Vector2 ETHScriptWrapper::GetAppDefaultVideoMode(Platform::FileIOHubPtr fileIOHub)
+{
+	const str_type::string content = enml::GetStringFromAnsiFile(fileIOHub->GetExternalStorageDirectory() + "videoMode.enml");
+	if (content.empty())
+	{
+		return Vector2(0.0f, 0.0f);
+	}
+	else
+	{
+		enml::File file(content);
+
+		unsigned int width = 0;
+		file.GetUInt("default", "width", &width);
+
+		unsigned int height = 0;
+		file.GetUInt("default", "height", &height);
+
+		return Vector2(static_cast<float>(width), static_cast<float>(height));
+	}
+}
+
+void ETHScriptWrapper::SetAppDefaultVideoMode(const Vector2& size)
+{
+	SetAppDefaultVideoMode(size, GetProvider()->GetFileIOHub());
+}
+
+Vector2 ETHScriptWrapper::GetAppDefaultVideoMode()
+{
+	return GetAppDefaultVideoMode(GetProvider()->GetFileIOHub());
+}
+
 bool ETHScriptWrapper::FileExists(const str_type::string& fileName)
 {
 	str_type::ifstream ifs(fileName.c_str());

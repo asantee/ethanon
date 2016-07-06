@@ -99,6 +99,9 @@ asDECLARE_FUNCTION_WRAPPER(__GetParallaxVerticalIntensity, ETHScriptWrapper::Get
 asDECLARE_FUNCTION_WRAPPER(__SetBucketClearenceFactor, ETHScriptWrapper::SetBucketClearenceFactor);
 asDECLARE_FUNCTION_WRAPPER(__GetBucketClearenceFactor, ETHScriptWrapper::GetBucketClearenceFactor);
 
+asDECLARE_FUNCTION_WRAPPERPR(__GetAppDefaultVideoMode, ETHScriptWrapper::GetAppDefaultVideoMode, (void), Vector2);
+asDECLARE_FUNCTION_WRAPPERPR(__SetAppDefaultVideoMode, ETHScriptWrapper::SetAppDefaultVideoMode, (const Vector2& size), void);
+
 asDECLARE_FUNCTION_WRAPPER(__ResetVideoMode,      ETHScriptWrapper::ResetVideoMode);
 asDECLARE_FUNCTION_WRAPPER(__SetCameraPos,        ETHScriptWrapper::SetCameraPos);
 asDECLARE_FUNCTION_WRAPPER(__AddToCameraPos,      ETHScriptWrapper::AddToCameraPos);
@@ -364,6 +367,9 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 
 	r = pASEngine->RegisterGlobalFunction("void SetZAxisDirection(const vector2 &in)", asFUNCTION(__SetZAxisDirection), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 GetZAxisDirection()",               asFUNCTION(__GetZAxisDirection), asCALL_GENERIC); assert(r >= 0);
+
+	r = pASEngine->RegisterGlobalFunction("vector2 GetAppDefaultVideoMode()",               asFUNCTION(__GetAppDefaultVideoMode), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void SetAppDefaultVideoMode(const vector2 &in)", asFUNCTION(__SetAppDefaultVideoMode), asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("void ResetVideoMode(const string &in, const uint, const uint, const bool, const bool, const PIXEL_FORMAT)", asFUNCTION(__ResetVideoMode), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void SetWindowProperties(const string &in, const uint, const uint, const bool, const bool, const PIXEL_FORMAT)", asFUNCTION(__ResetVideoMode), asCALL_GENERIC); assert(r >= 0);
