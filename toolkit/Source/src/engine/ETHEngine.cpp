@@ -301,6 +301,7 @@ static void RegisterDefinedWords(const std::vector<gs2d::str_type::string>& defi
 	#endif
 	#ifdef MACOSX
 		builder.DefineWord("MACOSX");
+		builder.DefineWord("MACOS");
 	#endif
 	#ifdef WIN32
 		builder.DefineWord("WINDOWS");

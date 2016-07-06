@@ -51,7 +51,7 @@ void ProcParams(const int argc, gs2d::str_type::char_t* argv[], bool& compileAnd
 	compileAndRun = true;
 	testing = false;
 
-	wait = Application::GetPlatformName() == GS_L("macosx") ? false : true;
+	wait = Application::GetPlatformName() == GS_L("macos") ? false : true;
 
 	for (int t = 0; t < argc; t++)
 	{
