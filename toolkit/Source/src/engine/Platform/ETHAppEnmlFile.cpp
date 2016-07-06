@@ -35,7 +35,8 @@ using namespace gs2d;
 ETHAppEnmlFile::ETHAppEnmlFile(
 	const str_type::string& fileName,
 	const Platform::FileManagerPtr& fileManager,
-	const gs2d::str_type::string& platformName) :
+	const gs2d::str_type::string& platformName,
+	const gs2d::str_type::string& externalStorageDirectory) :
 	hdDensityValue(2.0f),
 	fullHdDensityValue(4.0f),
 	ldDensityValue(0.5f),
@@ -51,9 +52,13 @@ ETHAppEnmlFile::ETHAppEnmlFile(
 	maxScreenHeightBeforeNdVersion(480),
 	maxScreenHeightBeforeLdVersion(320)
 {
+	appDefaultVideoMode = GetAppDefaultVideoMode(externalStorageDirectory);
+
 	str_type::string out;
 	fileManager->GetAnsiFileString(fileName, out);
+
 	enml::File file(out);
+
 	if (file.GetError() == enml::RV_SUCCESS)
 	{
 		LoadProperties(ETH_DEFAULT_PROPERTY_APP_ENML_ENTITY, file);
@@ -89,13 +94,63 @@ static void GetBoolean(const gs2d::enml::File& file, const str_type::string& pla
 		param = ETHGlobal::IsTrue(file.Get(platformName, attrib));
 }
 
-static void GetScreenDimension(const gs2d::enml::File& file, const str_type::string& platformName, const str_type::string& attrib, unsigned int& param)
+void ETHAppEnmlFile::SetAppDefaultVideoMode(const Vector2& size, const gs2d::str_type::string& externalStorageDirectory)
+{
+	enml::File file;
+	{
+		str_type::stringstream ss; ss << static_cast<unsigned int>(size.x);
+		file.Add("default", "width", ss.str());
+	}
+	{
+		str_type::stringstream ss; ss << static_cast<unsigned int>(size.y);
+		file.Add("default", "height", ss.str());
+	}
+	enml::SaveStringToAnsiFile(
+		externalStorageDirectory + "videoMode.enml",
+		file.GenerateString());
+}
+
+Vector2 ETHAppEnmlFile::GetAppDefaultVideoMode(const gs2d::str_type::string& externalStorageDirectory)
+{
+	const str_type::string content = enml::GetStringFromAnsiFile(externalStorageDirectory + "videoMode.enml");
+	if (content.empty())
+	{
+		return Vector2(0.0f, 0.0f);
+	}
+	else
+	{
+		enml::File file(content);
+
+		unsigned int width = 0;
+		file.GetUInt("default", "width", &width);
+
+		unsigned int height = 0;
+		file.GetUInt("default", "height", &height);
+
+		return Vector2(static_cast<float>(width), static_cast<float>(height));
+	}
+}
+
+static void GetScreenDimension(
+	const unsigned int defaultLength,
+	const gs2d::enml::File& file,
+	const str_type::string& platformName,
+	const str_type::string& attrib,
+	unsigned int& param)
 {
 	const str_type::string value = file.Get(platformName, attrib);
 
 	// if there's no value, we'll keep the default value
 	if (value.empty())
+	{
 		return;
+	}
+
+	if (value == GS_L("default"))
+	{
+		param = defaultLength;
+		return;
+	}
 
 	try
 	{
@@ -108,13 +163,15 @@ static void GetScreenDimension(const gs2d::enml::File& file, const str_type::str
 	}
 }
 
-void ETHAppEnmlFile::LoadProperties(const str_type::string& platformName, const gs2d::enml::File& file)
+void ETHAppEnmlFile::LoadProperties(
+	const str_type::string& platformName,
+	const gs2d::enml::File& file)
 {
 	if (!file.Exists(platformName))
 		return;
 
-	GetScreenDimension(file, platformName, GS_L("width"),  width);
-	GetScreenDimension(file, platformName, GS_L("height"), height);
+	GetScreenDimension(static_cast<unsigned int>(appDefaultVideoMode.x), file, platformName, GS_L("width"),  width);
+	GetScreenDimension(static_cast<unsigned int>(appDefaultVideoMode.y), file, platformName, GS_L("height"), height);
 
 	GetBoolean(file, platformName, GS_L("windowed"), windowed);
 	GetBoolean(file, platformName, GS_L("vsync"), vsync);

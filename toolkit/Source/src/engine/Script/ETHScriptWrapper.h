@@ -386,9 +386,6 @@ public:
 		const bool sync,
 		const Texture::PIXEL_FORMAT gsPF);
 
-	static void SetAppDefaultVideoMode(const Vector2& size, Platform::FileIOHubPtr fileIOHub);
-	static Vector2 GetAppDefaultVideoMode(Platform::FileIOHubPtr fileIOHub);
-
 	static void SetAppDefaultVideoMode(const Vector2& size);
 	static Vector2 GetAppDefaultVideoMode();
 

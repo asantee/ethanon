@@ -24,7 +24,9 @@
 #define ETH_APP_ENML_FILE_H_
 
 #include <Enml/Enml.h>
+
 #include <Platform/FileManager.h>
+
 #include "../Resource/ETHSpriteDensityManager.h"
 
 class ETHAppEnmlFile
@@ -33,7 +35,8 @@ public:
 	ETHAppEnmlFile(
 		const gs2d::str_type::string& fileName,
 		const Platform::FileManagerPtr& fileManager,
-		const gs2d::str_type::string& platformName);
+		const gs2d::str_type::string& platformName,
+		const gs2d::str_type::string& externalStorageDirectory);
 
 	unsigned int GetWidth() const;
 	unsigned int GetHeight() const;
@@ -57,8 +60,13 @@ public:
 	const ETHSpriteDensityManager& GetDensityManager() const;
 	const std::vector<gs2d::str_type::string>& GetDefinedWords() const;
 
+	static void SetAppDefaultVideoMode(const gs2d::math::Vector2& size, const gs2d::str_type::string& externalStorageDirectory);
+	static gs2d::math::Vector2 GetAppDefaultVideoMode(const gs2d::str_type::string& externalStorageDirectory);
+
 private:
-	void LoadProperties(const gs2d::str_type::string& platformName, const gs2d::enml::File& file);
+	void LoadProperties(
+		const gs2d::str_type::string& platformName,
+		const gs2d::enml::File& file);
 
 	ETHSpriteDensityManager densityManager;
 
@@ -70,6 +78,8 @@ private:
 	float xldDensityValue;
 	unsigned int minScreenHeightForHdVersion, minScreenHeightForFullHdVersion;
 	unsigned int maxScreenHeightBeforeNdVersion, maxScreenHeightBeforeLdVersion;
+
+	gs2d::math::Vector2 appDefaultVideoMode;
 
 	bool windowed, vsync;
 	bool richLighting;

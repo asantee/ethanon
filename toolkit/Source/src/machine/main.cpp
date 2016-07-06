@@ -130,7 +130,12 @@ str_type::string FindResourceDir(const int argc, gs2d::str_type::char_t* argv[])
 	}
 	const str_type::string resourceDirectory = fileIOHub->GetResourceDirectory(); 
 
-	const ETHAppEnmlFile app(resourceDirectory + ETH_APP_PROPERTIES_FILE, Platform::FileManagerPtr(new Platform::StdFileManager), Application::GetPlatformName());
+	const ETHAppEnmlFile app(
+		resourceDirectory + ETH_APP_PROPERTIES_FILE,
+		Platform::FileManagerPtr(new Platform::StdFileManager),
+		Application::GetPlatformName(),
+		fileIOHub->GetExternalStorageDirectory());
+
 	const str_type::string bitmapFontPath = resourceDirectory + ETHDirectories::GetBitmapFontDirectory();
 
 	bool aborted;
@@ -138,19 +143,10 @@ str_type::string FindResourceDir(const int argc, gs2d::str_type::char_t* argv[])
 		ETHEnginePtr application = ETHEnginePtr(new ETHEngine(testing, compileAndRun));
 		application->SetHighEndDevice(true);
 
-		unsigned int displayWidth  = app.GetWidth();
-		unsigned int displayHeight = app.GetHeight();
-		const Vector2 appDefaultVideoMode = application->GetAppDefaultVideoMode(fileIOHub);
-		if (appDefaultVideoMode != Vector2(0.0f, 0.0f))
-		{
-			displayWidth  = static_cast<unsigned int>(appDefaultVideoMode.x);
-			displayHeight = static_cast<unsigned int>(appDefaultVideoMode.y);
-		}
-
 		VideoPtr video;
 		if ((video = CreateVideo(
-			displayWidth,
-			displayHeight,
+			app.GetWidth(),
+			app.GetHeight(),
 			app.GetTitle(),
 			app.IsWindowed(),
 			app.IsVsyncEnabled(),

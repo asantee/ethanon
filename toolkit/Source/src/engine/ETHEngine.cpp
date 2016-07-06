@@ -95,7 +95,12 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 {
 	Platform::FileIOHubPtr fileIOHub = video->GetFileIOHub();
 
-	ETHAppEnmlFile file(fileIOHub->GetResourceDirectory() + ETH_APP_PROPERTIES_FILE, fileIOHub->GetFileManager(), video->GetPlatformName());
+	ETHAppEnmlFile file(
+		fileIOHub->GetResourceDirectory() + ETH_APP_PROPERTIES_FILE,
+		fileIOHub->GetFileManager(),
+		video->GetPlatformName(),
+		fileIOHub->GetExternalStorageDirectory());
+
 	const bool richLighting = file.IsRichLightingEnabled();
 
 	m_provider = ETHResourceProviderPtr(new ETHResourceProvider(
