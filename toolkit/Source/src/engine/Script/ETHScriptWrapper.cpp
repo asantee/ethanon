@@ -53,7 +53,7 @@ asIScriptContext *ETHScriptWrapper::m_pScriptContext = 0;
 bool ETHScriptWrapper::m_runningMainFunction = false;
 bool ETHScriptWrapper::m_persistentResources = false;
 ETHScriptWrapper::Math ETHScriptWrapper::m_math;
-unsigned long ETHScriptWrapper::m_lastFrameElapsedTime = 1;
+float ETHScriptWrapper::m_lastFrameElapsedTime = 1.0f;
 ETHEntityCache ETHScriptWrapper::m_entityCache;
 ETHScriptWrapper::GARBAGE_COLLECT_MODE ETHScriptWrapper::m_gcMode = ETHScriptWrapper::ONE_STEP;
 

@@ -98,15 +98,20 @@ unsigned long ETHScriptWrapper::GetTime()
 
 float ETHScriptWrapper::UnitsPerSecond(const float speed)
 {
-	return static_cast<float>(static_cast<double>(m_lastFrameElapsedTime) / 1000.0 * static_cast<double>(speed));
+	return (m_lastFrameElapsedTime / 1000.0f) * speed;
 }
 
-void ETHScriptWrapper::SetLastFrameElapsedTime(const unsigned long lastFrameElapsedTime)
+void ETHScriptWrapper::SetLastFrameElapsedTime(const float lastFrameElapsedTime)
 {
 	m_lastFrameElapsedTime = lastFrameElapsedTime;
 }
 
 unsigned long ETHScriptWrapper::GetLastFrameElapsedTime()
+{
+	return static_cast<unsigned long>(m_lastFrameElapsedTime);
+}
+
+float ETHScriptWrapper::GetLastFrameElapsedTimeF()
 {
 	return m_lastFrameElapsedTime;
 }

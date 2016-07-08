@@ -159,7 +159,7 @@ Application::APP_STATUS ETHEngine::Update(
 	// removes dead elements on top layer to fill the list once again
 	m_drawableManager.RemoveTheDead();
 
-	SetLastFrameElapsedTime(static_cast<unsigned long>(lastFrameDeltaTimeMS));
+	SetLastFrameElapsedTime(lastFrameDeltaTimeMS);
 
 	// run garbage collector
 	GarbageCollect(m_gcMode, m_pASEngine);

@@ -42,12 +42,12 @@ class ETHScriptWrapper
 	static bool m_roundUpPosition;
 	static bool m_runningMainFunction;
 	static bool m_persistentResources;
-	static unsigned long m_lastFrameElapsedTime;
+	static float m_lastFrameElapsedTime;
 	
 protected:
 	static Platform::FileManagerPtr m_expansionFileManager;
 
-	static void SetLastFrameElapsedTime(const unsigned long lastFrameElapsedTime);
+	static void SetLastFrameElapsedTime(const float lastFrameElapsedTime);
 
 	enum GARBAGE_COLLECT_MODE
 	{
@@ -394,6 +394,7 @@ public:
 	static void PrintInt(const int n);
 	static void PrintUInt(const unsigned int n);
 	static unsigned long GetLastFrameElapsedTime();
+	static float GetLastFrameElapsedTimeF();
 	static str_type::string GetStringFromFileInPackage(const str_type::string& fileName);
 	static bool FileInPackageExists(const str_type::string& fileName);
 	static bool FileExists(const str_type::string& fileName);

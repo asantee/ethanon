@@ -70,7 +70,8 @@ asDECLARE_FUNCTION_WRAPPER(__GetTimeF,       ETHScriptWrapper::GetTimeF);
 asDECLARE_FUNCTION_WRAPPER(__GetTime,        ETHScriptWrapper::GetTime);
 asDECLARE_FUNCTION_WRAPPER(__UnitsPerSecond, ETHScriptWrapper::UnitsPerSecond);
 asDECLARE_FUNCTION_WRAPPER(__Exit,           ETHScriptWrapper::Exit);
-asDECLARE_FUNCTION_WRAPPER(__GetLastFrameElapsedTime, ETHScriptWrapper::GetLastFrameElapsedTime);
+asDECLARE_FUNCTION_WRAPPER(__GetLastFrameElapsedTime,  ETHScriptWrapper::GetLastFrameElapsedTime);
+asDECLARE_FUNCTION_WRAPPER(__GetLastFrameElapsedTimeF, ETHScriptWrapper::GetLastFrameElapsedTimeF);
 
 asDECLARE_FUNCTION_WRAPPERPR(__AddEntityA, ETHScriptWrapper::AddEntity,       (const str_type::string&, const Vector3&, const float), int);
 asDECLARE_FUNCTION_WRAPPERPR(__AddEntityR, ETHScriptWrapper::AddEntity,       (const str_type::string&, const Vector3&, ETHEntity**), int);
@@ -334,7 +335,8 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("uint GetTime()",                    asFUNCTION(__GetTime),        asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("float UnitsPerSecond(const float)", asFUNCTION(__UnitsPerSecond), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void Exit()",                       asFUNCTION(__Exit),           asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("uint GetLastFrameElapsedTime()",    asFUNCTION(__GetLastFrameElapsedTime), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("uint GetLastFrameElapsedTime()",    asFUNCTION(__GetLastFrameElapsedTime),  asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("float GetLastFrameElapsedTimeF()",  asFUNCTION(__GetLastFrameElapsedTimeF), asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("int AddEntity(const string &in, const vector3 &in, const float angle = 0.0f)", asFUNCTION(__AddEntityA), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("int AddEntity(const string &in, const vector3 &in, ETHEntity@ &out)",    asFUNCTION(__AddEntityR), asCALL_GENERIC); assert(r >= 0);
