@@ -113,30 +113,6 @@
 	return view.contentScaleFactor;
 }
 
-- (CGPoint)getScreenAbsoluteSize
-{
-	float width;
-	float height;
-	UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
-	if (( [[[UIDevice currentDevice] systemVersion] floatValue] < 8.0f)
-		&& UIInterfaceOrientationIsLandscape(orientation))
-	{
-		width = [[UIScreen mainScreen] bounds].size.height;
-		height = [[UIScreen mainScreen] bounds].size.width;
-	}
-	else
-	{
-		width = [[UIScreen mainScreen] bounds].size.width;
-		height = [[UIScreen mainScreen] bounds].size.height;
-	}
-
-	CGPoint r;
-	r.x = width  * [[UIScreen mainScreen] scale];
-	r.y = height * [[UIScreen mainScreen] scale];
-
-	return r;
-}
-
 - (void)setupAccelerometer
 {
 	// setup accelerometer
