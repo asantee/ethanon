@@ -145,15 +145,10 @@ bool Video::IsRoundingUpPosition() const
 
 bool Video::SetSpriteDepth(const float depth)
 {
-	m_depth = depth;
-	if (m_depth > 1.0f || m_depth < 0.0f)
-	{
-		ShowMessage(GS_L("Warning: the depth must range 0.0f - 1.0f - D3D9Video::SetSpriteDepth"), GSMT_WARNING);
-		m_depth = math::Max(m_depth, 0.0f);
-		m_depth = math::Min(m_depth, 1.0f);
-	}
+	m_depth = math::Clamp(depth, 0.0f, 1.0f);
 	return true;
 }
+
 float Video::GetSpriteDepth() const
 {
 	return m_depth;
