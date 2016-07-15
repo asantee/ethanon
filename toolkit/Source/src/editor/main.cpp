@@ -167,7 +167,11 @@ int main(int argc, char **argv)
 
 	fileIOHub->SeekFontFromProgramPath(true);
 
-	const ETHAppEnmlFile app(fileIOHub->GetProgramDirectory() + GS_L("editor.enml"), fileManager, gs2d::Application::GetPlatformName());
+	const ETHAppEnmlFile app(
+		fileIOHub->GetProgramDirectory() + GS_L("editor.enml"),
+		fileManager,
+		gs2d::Application::GetPlatformName(),
+		fileIOHub->GetExternalStorageDirectory());
 	Vector2i v2Backbuffer(app.GetWidth(), app.GetHeight());
 
 	if ((video = CreateVideo(v2Backbuffer.x, v2Backbuffer.y, app.GetTitle(), app.IsWindowed(), app.IsVsyncEnabled(),
