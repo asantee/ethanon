@@ -51,7 +51,7 @@ ETHAppEnmlFile::ETHAppEnmlFile(
 	minScreenHeightForFullHdVersion(1080),
 	maxScreenHeightBeforeNdVersion(480),
 	maxScreenHeightBeforeLdVersion(320),
-	appDefaultWindowedMode(true)
+	appDefaultWindowedMode(false)
 {
 	appDefaultVideoMode = GetAppDefaultVideoMode(appDefaultWindowedMode, externalStorageDirectory);
 
