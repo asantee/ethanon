@@ -42,7 +42,6 @@ SDLWindow::SDLWindow(Platform::FileIOHubPtr fileIOHub) :
 	m_window(NULL),
 	m_glcontext(NULL)
 {
-	ResetTimer();
 }
 
 SDLWindow::~SDLWindow()
@@ -283,11 +282,14 @@ unsigned long SDLWindow::GetElapsedTime(const TIME_UNITY unity) const
 
 double SDLWindow::GetElapsedTimeD(const TIME_UNITY unity) const
 {
-	timeval current;
-	gettimeofday(&current, NULL);
-	const double curr = current.tv_sec	+ (current.tv_usec	/ 1000000.0);
-	const double last = m_lastTime.tv_sec + (m_lastTime.tv_usec / 1000000.0);
-	double elapsedTimeS = curr - last;
+	struct timespec current;
+	clock_gettime(CLOCK_MONOTONIC, &current);
+
+	const double sec  = static_cast<double>(current.tv_sec);
+	const double nsec = static_cast<double>(current.tv_nsec) / 1000000000.0;
+
+	double elapsedTimeS = sec + nsec;
+
 	switch (unity)
 	{
 	case TU_HOURS:
@@ -304,11 +306,6 @@ double SDLWindow::GetElapsedTimeD(const TIME_UNITY unity) const
 		break;
 	};
 	return elapsedTimeS;
-}
-
-void SDLWindow::ResetTimer()
-{
-	gettimeofday(&m_lastTime, NULL);
 }
 
 void SDLWindow::ComputeFPSRate()

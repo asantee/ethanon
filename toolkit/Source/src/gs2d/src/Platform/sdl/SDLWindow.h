@@ -47,7 +47,6 @@ class SDLWindow : public virtual Video
 	float m_fpsRate;
 
 	void ReadDisplayModes();
-	timeval m_lastTime;
 
 protected:
 	bool StartApplication(
@@ -94,8 +93,6 @@ public:
 	unsigned long GetElapsedTime(const TIME_UNITY unity = TU_MILLISECONDS) const;
 
 	float GetElapsedTimeF(const TIME_UNITY unity = TU_MILLISECONDS) const;
-
-	void ResetTimer();
 
 	void ForwardCommand(const str_type::string& cmd);
 	str_type::string PullCommands();
