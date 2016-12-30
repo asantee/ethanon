@@ -38,7 +38,6 @@ AndroidGLES2Video::AndroidGLES2Video(
 	const Platform::FileIOHubPtr& fileIOHub) :
 	GLES2Video(width, height, winTitle, fileIOHub)
 {
-	ResetTimer();
 }
 
 boost::shared_ptr<GLES2Video> AndroidGLES2Video::Create(
@@ -68,10 +67,10 @@ double AndroidGLES2Video::GetElapsedTimeD(const TIME_UNITY unity) const
 	struct timespec current;
 	clock_gettime(CLOCK_MONOTONIC, &current);
 
-	const double delta     = static_cast<double>(current.tv_sec  - m_startTime.tv_sec);
-	const double nanoDelta = static_cast<double>(current.tv_nsec - m_startTime.tv_nsec) / 1000000000.0;
+	const double sec  = static_cast<double>(current.tv_sec);
+	const double nsec = static_cast<double>(current.tv_nsec) / 1000000000.0;
 
-	double elapsedTimeS = delta + nanoDelta;
+	double elapsedTimeS = sec + nsec;
 
 	switch (unity)
 	{
@@ -89,11 +88,6 @@ double AndroidGLES2Video::GetElapsedTimeD(const TIME_UNITY unity) const
 		break;
 	};
 	return elapsedTimeS;
-}
-
-void AndroidGLES2Video::ResetTimer()
-{
-	clock_gettime(CLOCK_MONOTONIC, &m_startTime);
 }
 
 } // namespace gs2d

@@ -20,9 +20,9 @@
 	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 --------------------------------------------------------------------------------------*/
 
-#include "IOSGLES2Video.h"
-
 #import <Foundation/Foundation.h>
+
+#include "IOSGLES2Video.h"
 
 namespace gs2d {
 
@@ -38,10 +38,8 @@ IOSGLES2Video::IOSGLES2Video(
 	const unsigned int height,
 	const str_type::string& winTitle,
 	const Platform::FileIOHubPtr& fileIOHub) :
-	GLES2Video(width, height, winTitle, fileIOHub),
-	m_startTime(0)
+	GLES2Video(width, height, winTitle, fileIOHub)
 {
-	ResetTimer();
 }
 
 boost::shared_ptr<GLES2Video> IOSGLES2Video::Create(
@@ -59,7 +57,7 @@ boost::shared_ptr<GLES2Video> IOSGLES2Video::Create(
 float IOSGLES2Video::GetElapsedTimeF(const TIME_UNITY unity) const
 {
 	@autoreleasepool {
-		const double time = [[NSDate date] timeIntervalSince1970] - m_startTime;
+		const double time = [[NSDate date] timeIntervalSince1970];
 
 		double elapsedTimeMS = time * 1000.0;
 		switch (unity)
@@ -87,13 +85,6 @@ float IOSGLES2Video::GetElapsedTimeF(const TIME_UNITY unity) const
 unsigned long IOSGLES2Video::GetElapsedTime(const TIME_UNITY unity) const
 {
 	return static_cast<unsigned long>(GetElapsedTimeF(unity));
-}
-
-void IOSGLES2Video::ResetTimer()
-{
-	@autoreleasepool {
-		m_startTime = [[NSDate date] timeIntervalSince1970];
-	}
 }
 
 } // namespace gs2d

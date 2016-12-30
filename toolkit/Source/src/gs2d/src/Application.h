@@ -109,9 +109,6 @@ public:
 	 */
 	virtual float GetElapsedTimeF(const TIME_UNITY unity = TU_MILLISECONDS) const = 0;
 
-	/// Resets the application timer
-	virtual void ResetTimer() = 0;
-
 	virtual void ForwardCommand(const str_type::string& cmd) = 0;
 	virtual str_type::string PullCommands() = 0;
 

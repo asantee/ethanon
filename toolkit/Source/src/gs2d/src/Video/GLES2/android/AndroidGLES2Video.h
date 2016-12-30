@@ -32,8 +32,6 @@ namespace gs2d {
 
 class AndroidGLES2Video : public GLES2Video
 {
-	struct timespec m_startTime;
-
 public:
 	AndroidGLES2Video(
 		const unsigned int width,
@@ -50,7 +48,6 @@ public:
 	unsigned long GetElapsedTime(const TIME_UNITY unity = TU_MILLISECONDS) const;
 	float GetElapsedTimeF(const TIME_UNITY unity = TU_MILLISECONDS) const;
 	double GetElapsedTimeD(const TIME_UNITY unity = TU_MILLISECONDS) const;
-	void ResetTimer();
 };
 
 } // namespace gs2d

@@ -29,8 +29,6 @@ namespace gs2d {
 
 class IOSGLES2Video : public GLES2Video
 {
-	double m_startTime;
-
 public:
 	IOSGLES2Video(
 		const unsigned int width,
@@ -46,7 +44,6 @@ public:
 
 	float GetElapsedTimeF(const TIME_UNITY unity) const;
 	unsigned long GetElapsedTime(const TIME_UNITY unity) const;
-	void ResetTimer();
 };
 
 } // namespace gs2d
