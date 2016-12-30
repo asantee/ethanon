@@ -282,13 +282,9 @@ unsigned long SDLWindow::GetElapsedTime(const TIME_UNITY unity) const
 
 double SDLWindow::GetElapsedTimeD(const TIME_UNITY unity) const
 {
-	struct timespec current;
-	clock_gettime(CLOCK_MONOTONIC, &current);
-
-	const double sec  = static_cast<double>(current.tv_sec);
-	const double nsec = static_cast<double>(current.tv_nsec) / 1000000000.0;
-
-	double elapsedTimeS = sec + nsec;
+	timeval current;
+	gettimeofday(&current, NULL);
+	double elapsedTimeS = current.tv_sec + (current.tv_usec / 1000000.0);
 
 	switch (unity)
 	{
