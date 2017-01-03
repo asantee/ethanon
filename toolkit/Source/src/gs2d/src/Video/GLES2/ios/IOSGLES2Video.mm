@@ -56,30 +56,30 @@ boost::shared_ptr<GLES2Video> IOSGLES2Video::Create(
 // it will be implemented here for the boost timer is presenting strange behaviour
 float IOSGLES2Video::GetElapsedTimeF(const TIME_UNITY unity) const
 {
-	@autoreleasepool {
-		const double time = [[NSDate date] timeIntervalSince1970];
+	struct timespec current;
+	clock_gettime(CLOCK_MONOTONIC, &current);
 
-		double elapsedTimeMS = time * 1000.0;
-		switch (unity)
-		{
-			case TU_HOURS:
-				elapsedTimeMS /= 1000.0;
-				elapsedTimeMS /= 60.0;
-				elapsedTimeMS /= 60.0;
-				break;
-			case TU_MINUTES:
-				elapsedTimeMS /= 1000.0;
-				elapsedTimeMS /= 60.0;
-				break;
-			case TU_SECONDS:
-				elapsedTimeMS /= 1000.0;
-				break;
-			case TU_MILLISECONDS:
-			default:
-				break;
-		};
-		return static_cast<float>(elapsedTimeMS);
-	}
+	const double sec  = static_cast<double>(current.tv_sec);
+	const double nsec = static_cast<double>(current.tv_nsec) / 1000000000.0;
+
+	double elapsedTimeS = sec + nsec;
+
+	switch (unity)
+	{
+	case TU_HOURS:
+		elapsedTimeS /= 60.0;
+		elapsedTimeS /= 60.0;
+		break;
+	case TU_MINUTES:
+		elapsedTimeS /= 60.0;
+		break;
+	case TU_MILLISECONDS:
+		elapsedTimeS *= 1000.0;
+	case TU_SECONDS:
+	default:
+		break;
+	};
+	return elapsedTimeS;
 }
 
 unsigned long IOSGLES2Video::GetElapsedTime(const TIME_UNITY unity) const
