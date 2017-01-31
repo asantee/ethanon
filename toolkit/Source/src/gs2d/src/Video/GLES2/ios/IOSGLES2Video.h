@@ -29,6 +29,8 @@ namespace gs2d {
 
 class IOSGLES2Video : public GLES2Video
 {
+	timespec m_startTime;
+
 public:
 	IOSGLES2Video(
 		const unsigned int width,

@@ -40,6 +40,7 @@ IOSGLES2Video::IOSGLES2Video(
 	const Platform::FileIOHubPtr& fileIOHub) :
 	GLES2Video(width, height, winTitle, fileIOHub)
 {
+	clock_gettime(CLOCK_MONOTONIC, &m_startTime);
 }
 
 boost::shared_ptr<GLES2Video> IOSGLES2Video::Create(
@@ -57,10 +58,10 @@ boost::shared_ptr<GLES2Video> IOSGLES2Video::Create(
 float IOSGLES2Video::GetElapsedTimeF(const TIME_UNITY unity) const
 {
 	struct timespec current;
-	clock_gettime(CLOCK_MONOTONIC, &current);
+	clock_gettime(CLOCK_MONOTONIC_RAW, &current);
 
-	const double sec  = static_cast<double>(current.tv_sec);
-	const double nsec = static_cast<double>(current.tv_nsec) / 1000000000.0;
+	const double sec  = static_cast<double>(current.tv_sec - m_startTime.tv_sec);
+	const double nsec = static_cast<double>(current.tv_nsec - m_startTime.tv_nsec) / 1000000000.0;
 
 	double elapsedTimeS = sec + nsec;
 
