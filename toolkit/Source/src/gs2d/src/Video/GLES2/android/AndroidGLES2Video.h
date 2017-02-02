@@ -32,6 +32,8 @@ namespace gs2d {
 
 class AndroidGLES2Video : public GLES2Video
 {
+	timespec m_startTime;
+
 public:
 	AndroidGLES2Video(
 		const unsigned int width,

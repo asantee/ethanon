@@ -38,6 +38,7 @@ AndroidGLES2Video::AndroidGLES2Video(
 	const Platform::FileIOHubPtr& fileIOHub) :
 	GLES2Video(width, height, winTitle, fileIOHub)
 {
+	clock_gettime(CLOCK_MONOTONIC_RAW, &m_startTime);
 }
 
 boost::shared_ptr<GLES2Video> AndroidGLES2Video::Create(
@@ -65,10 +66,10 @@ unsigned long AndroidGLES2Video::GetElapsedTime(const TIME_UNITY unity) const
 double AndroidGLES2Video::GetElapsedTimeD(const TIME_UNITY unity) const
 {
 	struct timespec current;
-	clock_gettime(CLOCK_MONOTONIC, &current);
+	clock_gettime(CLOCK_MONOTONIC_RAW, &current);
 
-	const double sec  = static_cast<double>(current.tv_sec);
-	const double nsec = static_cast<double>(current.tv_nsec) / 1000000000.0;
+	const double sec  = static_cast<double>(current.tv_sec - m_startTime.tv_sec);
+	const double nsec = static_cast<double>(current.tv_nsec - m_startTime.tv_nsec) / 1000000000.0;
 
 	double elapsedTimeS = sec + nsec;
 
