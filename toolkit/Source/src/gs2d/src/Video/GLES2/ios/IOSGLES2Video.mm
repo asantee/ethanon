@@ -40,7 +40,7 @@ IOSGLES2Video::IOSGLES2Video(
 	const Platform::FileIOHubPtr& fileIOHub) :
 	GLES2Video(width, height, winTitle, fileIOHub)
 {
-	clock_gettime(CLOCK_MONOTONIC, &m_startTime);
+	clock_gettime(CLOCK_MONOTONIC_RAW, &m_startTime);
 }
 
 boost::shared_ptr<GLES2Video> IOSGLES2Video::Create(
