@@ -47,6 +47,8 @@ class SDLWindow : public virtual Video
 	float m_fpsRate;
 
 	void ReadDisplayModes();
+    
+    timeval m_startTime;
 
 protected:
 	bool StartApplication(
