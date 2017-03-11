@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 
-#import "CocosDenshion/SimpleAudioEngine.h"
+#import "../../Audio/CocosDenshion/CocosDenshion/SimpleAudioEngine.h"
 
 @interface AppDelegate ()
 {
