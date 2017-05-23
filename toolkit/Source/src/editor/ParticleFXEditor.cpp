@@ -73,7 +73,7 @@ bool ParticleEditor::ProjectManagerRequested()
 	return r;
 }
 
-void ParticleEditor::DrawParticleSystem()
+void ParticleEditor::DrawParticleSystem(const float lastFrameElapsedTime)
 {	
 	m_manager->SetZPosition(0.0f);
 	const VideoPtr& video = m_provider->GetVideo();
@@ -94,13 +94,12 @@ void ParticleEditor::DrawParticleSystem()
 	if (input->GetKeyState(GSK_DOWN) == GSKS_DOWN)
 		m_systemAngle = 180.0f;
 
-	m_timer.CalcLastFrame();
 	m_manager->UpdateParticleSystem(
 		Vector3(m_v2Pos, 0),
 		Vector2(0.0f, 0.0f),
 		Vector2(0.0f, 0.0f),
 		m_systemAngle,
-		static_cast<float>(m_timer.GetElapsedTime() * 1000.0));
+		lastFrameElapsedTime);
 
 	video->SetScissor(Rect2D((int)m_menuWidth*2, 0, video->GetScreenSize().x-(int)m_menuWidth*2, video->GetScreenSize().y));
 
@@ -577,6 +576,9 @@ void ParticleEditor::ParticlePanel()
 
 		ShadowPrint(Vector2(0.0f,menu), GS_L("Repeats:"), GS_L("Verdana14_shadow.fnt"), gs2d::constant::WHITE);
 		m_system.repeat = m_repeats.PlaceInput(Vector2(m_menuWidth,menu)); menu += m_menuSize;
+
+		ShadowPrint(Vector2(0.0f,menu), GS_L("All at once:"), GS_L("Verdana14_shadow.fnt"), gs2d::constant::WHITE);
+		m_system.allAtOnce = m_allAtOnce.PlaceInput(Vector2(m_menuWidth,menu)) != 0; menu += m_menuSize;
 		menu += m_menuSize/2;
 
 		if (nParticles != m_system.nParticles && nParticles > 0)
@@ -645,7 +647,7 @@ void ParticleEditor::ParticlePanel()
 	}
 }
 
-std::string ParticleEditor::DoEditor(SpritePtr pNextAppButton)
+std::string ParticleEditor::DoEditor(SpritePtr pNextAppButton, const float lastFrameElapsedTime)
 {
 	if (!m_manager)
 		CreateParticles();
@@ -655,7 +657,7 @@ std::string ParticleEditor::DoEditor(SpritePtr pNextAppButton)
 	if (m_backgroundSprite)
 		m_backgroundSprite->DrawShaped(Vector2(0,0), video->GetScreenSizeF(), gs2d::constant::WHITE, gs2d::constant::WHITE, gs2d::constant::WHITE, gs2d::constant::WHITE);
 	ParticlePanel();
-	DrawParticleSystem();
+	DrawParticleSystem(lastFrameElapsedTime);
 	SetFileNameToTitle(video, WINDOW_TITLE);
 	return "particle";
 }

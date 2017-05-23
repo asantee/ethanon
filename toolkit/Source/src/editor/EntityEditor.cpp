@@ -913,13 +913,13 @@ void EntityEditor::ShowEntityResources(Vector2 v2Pos)
 	}
 }
 
-std::string EntityEditor::DoEditor(SpritePtr pNextAppButton)
+std::string EntityEditor::DoEditor(SpritePtr pNextAppButton, const float lastFrameElapsedTime)
 {
 	VideoPtr video = m_provider->GetVideo();
 	video->SetZBuffer(false);
 	video->SetZWrite(false);
 	video->SetCameraPos(Vector2(0,0));
-	DrawEntity();
+	DrawEntity(lastFrameElapsedTime);
 
 	const std::string programPath = GetCurrentProjectPath(false);
 
@@ -1323,7 +1323,7 @@ bool EntityEditor::Open()
 	return true;
 }
 
-void EntityEditor::DrawEntity()
+void EntityEditor::DrawEntity(const float lastFrameElapsedTime)
 {
 	VideoPtr video = m_provider->GetVideo();
 	Vector2 screenMid = video->GetScreenSizeF()/2.0f;
@@ -1420,8 +1420,7 @@ void EntityEditor::DrawEntity()
 		}
 	}
 
-	m_speedTimer.CalcLastFrame();
-	m_renderEntity->UpdateParticleSystems(ETH_DEFAULT_ZDIRECTION, static_cast<float>(m_speedTimer.GetElapsedTime() * 1000.0));
+	m_renderEntity->UpdateParticleSystems(ETH_DEFAULT_ZDIRECTION, lastFrameElapsedTime);
 
 	std::list<ETHLight> lights;
 	if (m_pEditEntity->light)

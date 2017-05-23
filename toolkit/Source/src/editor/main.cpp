@@ -240,9 +240,11 @@ int main(int argc, char **argv)
 
 			const Vector2 v2ScreenF = video->GetScreenSizeF();
 
+			const float lastFrameElapsedTimeMS = ComputeElapsedTimeF(video);
+
 			// execute the current editor
 			if (current >= 0)
-				editor[current]->DoEditor(nextAppButton);
+				editor[current]->DoEditor(nextAppButton, lastFrameElapsedTimeMS);
 
 			// if the project has changed, clear all
 			if (lastProjectName != editor[PROJECT]->GetCurrentProject())

@@ -26,7 +26,6 @@
 #include "EditorBase.h"
 #include "../engine/Scene/ETHScene.h"
 #include "../engine/Util/ETHFrameTimer.h"
-#include "../engine/Util/ETHSpeedTimer.h"
 #include "../engine/Util/ETHFileChangeDetector.h"
 #include "../engine/Shader/ETHShaderManager.h"
 #include "CustomDataEditor.h"
@@ -54,7 +53,7 @@ public:
 	EntityEditor(ETHResourceProviderPtr provider);
 	~EntityEditor();
 	void LoadEditor();
-	std::string DoEditor(SpritePtr pNextAppButton);
+	std::string DoEditor(SpritePtr pNextAppButton, const float lastFrameElapsedTime);
 	void StopAllSoundFXs();
 	void Clear();
 	bool ProjectManagerRequested();
@@ -73,7 +72,6 @@ private:
 	CustomDataEditor m_customDataEditor;
 	cParticleScale m_particleScale;
 	ETHFrameTimer m_animationTimer;
-	ETHSpeedTimer m_speedTimer;
 
 	GSGUI_DROPDOWN m_addMenu;
 	GSGUI_DROPDOWN m_delMenu;
@@ -128,7 +126,7 @@ private:
 	void UnloadNormal();
 	void UnloadGloss();
 	void UnloadParticle(const int n);
-	void DrawEntity();
+	void DrawEntity(const float lastFrameElapsedTime);
 	void ResetEntityMenu();
 	void ResetParticleMenu();
 	void ResetLightMenu();

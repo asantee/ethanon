@@ -229,7 +229,7 @@ void SceneEditor::ResetForms()
 	m_zAxisDirection[1].SetConstant(m_sceneProps.zAxisDirection.y);
 }
 
-std::string SceneEditor::DoEditor(SpritePtr pNextAppButton)
+std::string SceneEditor::DoEditor(SpritePtr pNextAppButton, const float lastFrameElapsedTime)
 {
 	const VideoPtr& video = m_provider->GetVideo();
 	const InputPtr& input = m_provider->GetInput();
@@ -326,7 +326,7 @@ std::string SceneEditor::DoEditor(SpritePtr pNextAppButton)
 	}
 
 	m_axis->Draw(Vector2(0,0));
-	RenderScene();
+	RenderScene(lastFrameElapsedTime);
 
 	LoopThroughEntityList();
 
@@ -1581,11 +1581,10 @@ void SceneEditor::PasteFromClipboard()
 	m_pScene->AddEntity(entity);
 }
 
-void SceneEditor::RenderScene()
+void SceneEditor::RenderScene(const float lastFrameElapsedTime)
 {
 	m_pScene->SetBorderBucketsDrawing(true);
-	const float lastFrameElapsedTimeMS = ComputeElapsedTimeF(m_provider->GetVideo());
-	m_pScene->Update(lastFrameElapsedTimeMS, m_backBuffer, 0);
+	m_pScene->Update(lastFrameElapsedTime, m_backBuffer, 0);
 	m_pScene->RenderScene(false, m_backBuffer);
 }
 

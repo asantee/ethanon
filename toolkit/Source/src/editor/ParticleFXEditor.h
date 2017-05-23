@@ -33,7 +33,6 @@ using namespace gs2d;
 #include <stdlib.h>
 
 #include "../engine/Particles/ETHParticleManager.h"
-#include "../engine/Util/ETHSpeedTimer.h"
 #include "gsgui.h"
 
 class ParticleEditor : public EditorBase
@@ -47,6 +46,7 @@ class ParticleEditor : public EditorBase
 
 	GSGUI_INT_INPUT m_particles;
 	GSGUI_INT_INPUT m_repeats;
+	GSGUI_INT_INPUT m_allAtOnce;
 
 	GSGUI_FLOAT_INPUT m_gravity[2];
 	GSGUI_FLOAT_INPUT m_direction[2];
@@ -70,7 +70,6 @@ class ParticleEditor : public EditorBase
 	GSGUI_FLOAT_INPUT m_minSize;
 	GSGUI_FLOAT_INPUT m_maxSize;
 	GSGUI_FLOAT_INPUT m_angleStart;
-	GSGUI_FLOAT_INPUT m_allAtOnce;
 
 	GSGUI_FLOAT_INPUT m_spriteCut[2];
 
@@ -80,7 +79,7 @@ class ParticleEditor : public EditorBase
 	GSGUI_DROPDOWN m_fileMenu;
 
 	void CreateParticles();
-	void DrawParticleSystem();
+	void DrawParticleSystem(const float lastFrameElapsedTime);
 	void SetupMenu();
 	void SetMenuConstants();
 	void SaveAs();
@@ -94,12 +93,10 @@ class ParticleEditor : public EditorBase
 	const Color BSPHERE_COLOR;
 	const std::string BSPHERE_BMP;
 
-	ETHSpeedTimer m_timer;
-
 public:
 	ParticleEditor(ETHResourceProviderPtr provider);
 	~ParticleEditor();
-	std::string DoEditor(SpritePtr pNextAppButton);
+	std::string DoEditor(SpritePtr pNextAppButton, const float lastFrameElapsedTime);
 	void StopAllSoundFXs();
 	void LoadEditor();
 	void Clear();

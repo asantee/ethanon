@@ -221,6 +221,7 @@
 		74E6E82D1A31EADB00E89172 /* ETHInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E8241A31EADB00E89172 /* ETHInput.cpp */; };
 		74E6E82E1A31EADB00E89172 /* ETHSpeedTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E8261A31EADB00E89172 /* ETHSpeedTimer.cpp */; };
 		74EAF2BD1A5C211900E2A6DB /* ToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 74EAF2BC1A5C211900E2A6DB /* ToastView.m */; };
+		AA24C1A61E74407E00ABDFA2 /* getRealTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA24C1A41E74407E00ABDFA2 /* getRealTime.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -715,6 +716,8 @@
 		74E6E8271A31EADB00E89172 /* ETHSpeedTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHSpeedTimer.h; path = ../../../../src/engine/Util/ETHSpeedTimer.h; sourceTree = "<group>"; };
 		74EAF2BB1A5C211900E2A6DB /* ToastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToastView.h; path = ../../../../src/gs2d/src/Platform/ios/ToastView.h; sourceTree = "<group>"; };
 		74EAF2BC1A5C211900E2A6DB /* ToastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToastView.m; path = ../../../../src/gs2d/src/Platform/ios/ToastView.m; sourceTree = "<group>"; };
+		AA24C1A41E74407E00ABDFA2 /* getRealTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = getRealTime.cpp; path = ../../../../src/gs2d/src/Platform/getRealTime.cpp; sourceTree = "<group>"; };
+		AA24C1A51E74407E00ABDFA2 /* getRealTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = getRealTime.h; path = ../../../../src/gs2d/src/Platform/getRealTime.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -887,6 +890,8 @@
 				74E6E52B1A30F19900E89172 /* Platform.h */,
 				74E6E52C1A30F19900E89172 /* StdFileManager.cpp */,
 				74E6E52D1A30F19900E89172 /* StdFileManager.h */,
+				AA24C1A41E74407E00ABDFA2 /* getRealTime.cpp */,
+				AA24C1A51E74407E00ABDFA2 /* getRealTime.h */,
 			);
 			name = Platform;
 			sourceTree = "<group>";
@@ -1644,6 +1649,7 @@
 				74E6E6531A31DD9900E89172 /* as_compiler.cpp in Sources */,
 				74E6E6661A31DD9900E89172 /* as_string.cpp in Sources */,
 				7481CEB01A37928900E25DD3 /* hl_sha512wrapper.cpp in Sources */,
+				AA24C1A61E74407E00ABDFA2 /* getRealTime.cpp in Sources */,
 				74E6E7481A31E9AE00E89172 /* ETHDrawableManager.cpp in Sources */,
 				74E6E5971A3101DC00E89172 /* GLES2Texture.cpp in Sources */,
 				74E6E5981A3101DC00E89172 /* GLES2UniformParameter.cpp in Sources */,

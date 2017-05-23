@@ -66,7 +66,7 @@ public:
 	virtual void Clear() = 0;
 	virtual bool ProjectManagerRequested() = 0;
 	virtual void LoadEditor() = 0;
-	virtual std::string DoEditor(SpritePtr pNextAppButton) = 0;
+	virtual std::string DoEditor(SpritePtr pNextAppButton, const float lastFrameElapsedTime) = 0;
 	virtual void StopAllSoundFXs() = 0;
 	virtual void ReloadFiles();
 	virtual void UpdateInternalData();

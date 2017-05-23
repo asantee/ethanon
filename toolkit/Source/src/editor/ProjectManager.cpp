@@ -64,7 +64,7 @@ void ProjectManager::CreateFileMenu()
 	m_fileMenu.AddButton(_S_LOAD_PROJ);
 }
 
-std::string ProjectManager::DoEditor(SpritePtr pNextAppButton)
+std::string ProjectManager::DoEditor(SpritePtr pNextAppButton, const float lastFrameElapsedTime)
 {
 	GSGUI_BUTTON file_r = PlaceFileMenu();
 

@@ -42,7 +42,7 @@ class ProjectManager : public EditorBase
 public:
 	ProjectManager(ETHResourceProviderPtr provider);
 	void LoadEditor();
-	std::string DoEditor(SpritePtr pNextAppButton);
+	std::string DoEditor(SpritePtr pNextAppButton, const float lastFrameElapsedTime);
 	void Clear()
 	{
 		// dummy...

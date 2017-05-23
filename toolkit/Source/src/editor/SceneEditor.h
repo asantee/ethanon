@@ -40,7 +40,7 @@ public:
 	SceneEditor(ETHResourceProviderPtr provider);
 	~SceneEditor();
 	void LoadEditor();
-	std::string DoEditor(SpritePtr pNextAppButton);
+	std::string DoEditor(SpritePtr pNextAppButton, const float lastFrameElapsedTime);
 	void ReloadFiles();
 	void UpdateInternalData();
 	void StopAllSoundFXs();
@@ -56,7 +56,7 @@ private:
 	void PlaceEntitySelection();
 	void EntitySelector(const bool guiButtonsFree);
 	GSGUI_BUTTON DoMainMenu();
-	void RenderScene();
+	void RenderScene(const float lastFrameElapsedTime);
 	void DrawGrid();
 	void DoStateManager();
 	bool IsThereAnyFieldActive() const;
