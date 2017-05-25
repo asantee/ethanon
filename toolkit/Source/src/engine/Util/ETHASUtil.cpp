@@ -149,6 +149,13 @@ float ParseFloat(const str_type::char_t* str)
 	return f;
 }
 
+double ParseDouble(const str_type::char_t* str)
+{
+	double d = 0.0;
+	GS2D_SSCANF(str, GS_L("%lf"), &d);
+	return d;
+}
+
 int ParseInt(const str_type::char_t* str)
 {
 	int n = 0;
@@ -163,11 +170,30 @@ unsigned int ParseUInt(const str_type::char_t* str)
 	return n;
 }
 
+long ParseInt64(const str_type::char_t* str)
+{
+	long n = 0;
+	GS2D_SSCANF(str, GS_L("%ld"), &n);
+	return n;
+}
+
+unsigned long ParseUInt64(const str_type::char_t* str)
+{
+	unsigned long n = 0;
+	GS2D_SSCANF(str, GS_L("%lu"), &n);
+	return n;
+}
+	
 float ParseFloatStd(const str_type::string& str)
 {
 	return ParseFloat(str.c_str());
 }
 
+double ParseDoubleStd(const str_type::string& str)
+{
+	return ParseDouble(str.c_str());
+}
+	
 int ParseIntStd(const str_type::string& str)
 {
 	return ParseInt(str.c_str());
@@ -178,6 +204,16 @@ unsigned int ParseUIntStd(const str_type::string& str)
 	return ParseUInt(str.c_str());
 }
 
+long ParseInt64Std(const str_type::string& str)
+{
+	return ParseInt64(str.c_str());
+}
+
+unsigned long ParseUInt64Std(const str_type::string& str)
+{
+	return ParseUInt64(str.c_str());
+}
+	
 bool IsValidUTF8(const str_type::string& str)
 {
 	return utf8::is_valid(&str[0], &str[0] + str.length());

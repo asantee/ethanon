@@ -211,6 +211,9 @@ asDECLARE_FUNCTION_WRAPPER(__GetNumRenderedPieces,         ETHScriptWrapper::Get
 asDECLARE_FUNCTION_WRAPPER(__ParseInt,                     ETHGlobal::ParseIntStd);
 asDECLARE_FUNCTION_WRAPPER(__ParseUInt,                    ETHGlobal::ParseUIntStd);
 asDECLARE_FUNCTION_WRAPPER(__ParseFloat,                   ETHGlobal::ParseFloatStd);
+asDECLARE_FUNCTION_WRAPPER(__ParseInt64,                   ETHGlobal::ParseInt64Std);
+asDECLARE_FUNCTION_WRAPPER(__ParseUInt64,                  ETHGlobal::ParseUInt64Std);
+asDECLARE_FUNCTION_WRAPPER(__ParseDouble,                  ETHGlobal::ParseDoubleStd);
 asDECLARE_FUNCTION_WRAPPER(__IsValidUTF8,                  ETHGlobal::IsValidUTF8);
 asDECLARE_FUNCTION_WRAPPER(__DistanceUTF8,                 ETHGlobal::DistanceUTF8);
 asDECLARE_FUNCTION_WRAPPER(__GetArgc,                      ETHScriptWrapper::GetArgc);
@@ -480,6 +483,9 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("int parseInt(const string &in)",             asFUNCTION(__ParseInt),                      asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("uint parseUInt(const string &in)",           asFUNCTION(__ParseUInt),                     asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("float parseFloat(const string &in)",         asFUNCTION(__ParseFloat),                    asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("int64 parseInt64(const string &in)",         asFUNCTION(__ParseInt64),                    asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("uint64 parseUInt64(const string &in)",       asFUNCTION(__ParseUInt64),                   asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("double parseDouble(const string &in)",       asFUNCTION(__ParseDouble),                   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("uint distanceUTF8(const string &in)",        asFUNCTION(__DistanceUTF8),                  asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool isValidUTF8(const string &in)",         asFUNCTION(__IsValidUTF8),                   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("int GetArgc()",                              asFUNCTION(__GetArgc),                       asCALL_GENERIC); assert(r >= 0);
