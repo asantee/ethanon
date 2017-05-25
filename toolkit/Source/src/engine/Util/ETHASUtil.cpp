@@ -170,17 +170,17 @@ unsigned int ParseUInt(const str_type::char_t* str)
 	return n;
 }
 
-long ParseInt64(const str_type::char_t* str)
+long long ParseInt64(const str_type::char_t* str)
 {
-	long n = 0;
-	GS2D_SSCANF(str, GS_L("%ld"), &n);
+	long long n = 0;
+	GS2D_SSCANF(str, GS_L("%lld"), &n);
 	return n;
 }
 
-unsigned long ParseUInt64(const str_type::char_t* str)
+unsigned long long ParseUInt64(const str_type::char_t* str)
 {
-	unsigned long n = 0;
-	GS2D_SSCANF(str, GS_L("%lu"), &n);
+	unsigned long long n = 0;
+	GS2D_SSCANF(str, GS_L("%llu"), &n);
 	return n;
 }
 	
@@ -204,12 +204,12 @@ unsigned int ParseUIntStd(const str_type::string& str)
 	return ParseUInt(str.c_str());
 }
 
-long ParseInt64Std(const str_type::string& str)
+long long ParseInt64Std(const str_type::string& str)
 {
 	return ParseInt64(str.c_str());
 }
 
-unsigned long ParseUInt64Std(const str_type::string& str)
+unsigned long long ParseUInt64Std(const str_type::string& str)
 {
 	return ParseUInt64(str.c_str());
 }

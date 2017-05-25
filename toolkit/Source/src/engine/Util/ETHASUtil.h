@@ -50,15 +50,15 @@ namespace ETHGlobal {
 	double ParseDouble(const str_type::char_t *str);
 	int ParseInt(const str_type::char_t *str);
 	unsigned int ParseUInt(const str_type::char_t *str);
-	long ParseInt64(const str_type::char_t *str);
-	unsigned long ParseUInt64(const str_type::char_t *str);
+	long long ParseInt64(const str_type::char_t *str);
+	unsigned long long ParseUInt64(const str_type::char_t *str);
 
 	float ParseFloatStd(const str_type::string &str);
 	double ParseDoubleStd(const str_type::string &str);
 	int ParseIntStd(const str_type::string &str);
 	unsigned int ParseUIntStd(const str_type::string &str);
-	long ParseInt64Std(const str_type::string &str);
-	unsigned long ParseUInt64Std(const str_type::string &str);
+	long long ParseInt64Std(const str_type::string &str);
+	unsigned long long ParseUInt64Std(const str_type::string &str);
 } // namespace ETHGlobal
 
 #endif
