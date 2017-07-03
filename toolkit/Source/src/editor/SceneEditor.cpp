@@ -195,7 +195,7 @@ void SceneEditor::LoadEditor()
 	m_zAxisDirection[0].SetText(GS_L("Z-axis dir x:"));
 	m_zAxisDirection[1].SetText(GS_L("Z-axis dir y:"));
 
-	m_entityName.SetupMenu(video, input, m_menuSize, m_menuWidth*2, 24, false);
+	m_entityName.SetupMenu(video, input, m_menuSize, m_menuWidth*2, 48, false);
 
 	CreateEditablePosition();
 
