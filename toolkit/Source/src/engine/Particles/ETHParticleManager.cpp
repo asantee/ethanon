@@ -579,6 +579,16 @@ void ETHParticleManager::MirrorY(const bool mirrorGravity)
 	}
 }
 
+void ETHParticleManager::SetParticleColorA(const Vector3 &color, const float alpha)
+{
+	m_system.color0 = Vector4(color, alpha);
+}
+
+void ETHParticleManager::SetParticleColorB(const Vector3 &color, const float alpha)
+{
+	m_system.color1 = Vector4(color, alpha);
+}
+
 void ETHParticleManager::ResetParticle(
 	const ETHParticleSystem& system,
 	PARTICLE& particle,

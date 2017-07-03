@@ -73,6 +73,8 @@ public:
 	void ScaleParticleSystem(const unsigned int n, const float scale);
 	bool MirrorParticleSystemX(const unsigned int n, const bool mirrorGravity);
 	bool MirrorParticleSystemY(const unsigned int n, const bool mirrorGravity);
+	void SetParticleColorA(const unsigned int n, const Vector3 &color, const float alpha);
+	void SetParticleColorB(const unsigned int n, const Vector3 &color, const float alpha);
 	bool HasParticleSystem(const unsigned int n) const;
 
 	ETHParticleManagerPtr GetParticleManager(const std::size_t n);

@@ -140,6 +140,9 @@ public:
 		const Vector2& worldSpaceScreenMin,
 		const Vector2& worldSpaceScreenMax) const;
 
+	void SetParticleColorA(const Vector3 &color, const float alpha);
+	void SetParticleColorB(const Vector3 &color, const float alpha);
+
 private:
 
 	struct PARTICLE

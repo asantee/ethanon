@@ -293,6 +293,8 @@ asDECLARE_METHOD_WRAPPERPR(__SetParticleBitmap,     ETHScriptEntity, SetParticle
 asDECLARE_METHOD_WRAPPERPR(__ScaleParticleSystem,   ETHScriptEntity, ScaleParticleSystem,   (const unsigned int n, const float),              void);
 asDECLARE_METHOD_WRAPPERPR(__MirrorParticleSystemX, ETHScriptEntity, MirrorParticleSystemX, (const unsigned int n, const bool),               bool);
 asDECLARE_METHOD_WRAPPERPR(__MirrorParticleSystemY, ETHScriptEntity, MirrorParticleSystemY, (const unsigned int n, const bool),               bool);
+asDECLARE_METHOD_WRAPPERPR(__SetParticleColorA,     ETHScriptEntity, SetParticleColorA,     (const unsigned int n, const Vector3&, const float),               void);
+asDECLARE_METHOD_WRAPPERPR(__SetParticleColorB,     ETHScriptEntity, SetParticleColorB,     (const unsigned int n, const Vector3&, const float),               void);
 
 asDECLARE_METHOD_WRAPPERPR(__SetFloat,   ETHScriptEntity, SetFloat,   (const str_type::string&, const float&),            bool);
 asDECLARE_METHOD_WRAPPERPR(__SetInt,     ETHScriptEntity, SetInt,     (const str_type::string&, const int&),              bool);
@@ -445,7 +447,9 @@ void RegisterEntityMethods(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void ScaleParticleSystem(const uint n, const float)",       asFUNCTION(__ScaleParticleSystem),   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool MirrorParticleSystemX(const uint n, const bool)",      asFUNCTION(__MirrorParticleSystemX), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool MirrorParticleSystemY(const uint n, const bool)",      asFUNCTION(__MirrorParticleSystemY), asCALL_GENERIC); assert(r >= 0);
-
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool SetParticleColorA(const uint n, const vector3 &in, const float)", asFUNCTION(__SetParticleColorA), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool SetParticleColorB(const uint n, const vector3 &in, const float)", asFUNCTION(__SetParticleColorB), asCALL_GENERIC); assert(r >= 0);
+	
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool SetFloat(const string &in, const float &in)",     asFUNCTION(__SetFloat),   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool SetInt(const string &in, const int &in)",         asFUNCTION(__SetInt),     asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool SetUInt(const string &in, const uint &in)",       asFUNCTION(__SetUInt),    asCALL_GENERIC); assert(r >= 0);

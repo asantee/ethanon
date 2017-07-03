@@ -556,6 +556,22 @@ bool ETHSpriteEntity::MirrorParticleSystemY(const unsigned int n, const bool mir
 	}
 }
 
+void ETHSpriteEntity::SetParticleColorA(const unsigned int n, const Vector3 &color, const float alpha)
+{
+	if (n < m_particles.size())
+	{
+		m_particles[n]->SetParticleColorA(color, alpha);
+	}
+}
+
+void ETHSpriteEntity::SetParticleColorB(const unsigned int n, const Vector3 &color, const float alpha)
+{
+	if (n < m_particles.size())
+	{
+		m_particles[n]->SetParticleColorB(color, alpha);
+	}
+}
+
 bool ETHSpriteEntity::AreParticlesOver() const
 {
 	unsigned int nFinished = 0, nExistent = 0;

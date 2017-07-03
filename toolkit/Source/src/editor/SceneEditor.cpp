@@ -285,19 +285,30 @@ std::string SceneEditor::DoEditor(SpritePtr pNextAppButton, const float lastFram
 
 	{
 		const float fpsRate = video->GetFPSRate();
-		const float camMoveSpeed = floor(m_camSpeed/fpsRate);
+		const float camMoveSpeed = floor(m_camSpeed / fpsRate);
 		if (!IsThereAnyFieldActive())
 		{
 			if (fpsRate > 0.0f)
 			{
+				float arrowScrollSpeed = camMoveSpeed * 8;
+				if (input->IsKeyDown(GSK_1))
+					arrowScrollSpeed /= 4;
+				if (input->IsKeyDown(GSK_2))
+					arrowScrollSpeed /= 2;
+				else if (input->IsKeyDown(GSK_3))
+					arrowScrollSpeed *= 2;
+				else if (input->IsKeyDown(GSK_4))
+					arrowScrollSpeed *= 4;
+				else if (input->IsKeyDown(GSK_5))
+					arrowScrollSpeed *= 8;
 				if (input->IsKeyDown(GSK_LEFT))
-					video->MoveCamera(Vector2(-camMoveSpeed,0));
+					video->MoveCamera(Vector2(-arrowScrollSpeed,0));
 				if (input->IsKeyDown(GSK_RIGHT))
-					video->MoveCamera(Vector2(camMoveSpeed,0));
+					video->MoveCamera(Vector2(arrowScrollSpeed,0));
 				if (input->IsKeyDown(GSK_UP))
-					video->MoveCamera(Vector2(0,-camMoveSpeed));
+					video->MoveCamera(Vector2(0,-arrowScrollSpeed));
 				if (input->IsKeyDown(GSK_DOWN))
-					video->MoveCamera(Vector2(0,camMoveSpeed));
+					video->MoveCamera(Vector2(0,arrowScrollSpeed));
 			}
 		}
 		// border camera slide
