@@ -1654,6 +1654,9 @@ void EntityEditor::ResetSpriteCut()
 {
 	if (m_renderEntity->GetSprite() && m_pEditEntity->spriteCut.x > 0 && m_pEditEntity->spriteCut.y > 0)
 	{
+		if (m_renderEntity->GetSprite()->HasCustomRects())
+			return;
+		
 		m_renderEntity->GetSprite()->SetupSpriteRects(m_pEditEntity->spriteCut.x, m_pEditEntity->spriteCut.y);
 	}
 	m_startFrame.SetClamp(true, 0, (float)(m_pEditEntity->spriteCut.x * m_pEditEntity->spriteCut.y - 1));

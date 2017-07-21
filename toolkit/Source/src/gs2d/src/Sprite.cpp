@@ -37,7 +37,8 @@ Sprite::Sprite() :
 	m_flipX(false),
 	m_flipY(false),
 	m_multiply(1.0f, 1.0f),
-	m_scroll(0.0f, 0.0f)
+	m_scroll(0.0f, 0.0f),
+    m_hasCustomRects(false)
 {
 }
 
@@ -107,6 +108,7 @@ bool Sprite::SetRects(const std::vector<math::Rect2Df>& rects)
     m_nRows = 1;
     m_nColumns = rects.size();
     SetRect(0);
+    m_hasCustomRects = true;
 	return (rects.size() > 0);
 }
     
@@ -118,6 +120,7 @@ bool Sprite::SetupSpriteRects(const unsigned int columns, const unsigned int row
 		return false;
 	}
 
+    m_hasCustomRects = false;
 	m_nColumns = columns;
 	m_nRows = rows;
 	const unsigned int nRects = columns * rows;
@@ -234,6 +237,11 @@ void Sprite::SetOrigin(const ENTITY_ORIGIN origin)
 math::Vector2 Sprite::GetFrameSize() const
 {
 	return (m_rect.size == Vector2(0, 0)) ? GetBitmapSizeF() : m_rect.size;
+}
+    
+bool Sprite::HasCustomRects() const
+{
+    return m_hasCustomRects;
 }
 
 void Sprite::FlipX(const bool flip)

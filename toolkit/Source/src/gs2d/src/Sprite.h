@@ -169,6 +169,7 @@ public:
 	virtual unsigned int GetNumRows() const;
 	virtual unsigned int GetNumColumns() const;
 	virtual math::Vector2 GetFrameSize() const;
+    virtual bool HasCustomRects() const;
 
 	virtual bool Stretch(
 		const math::Vector2 &a,
@@ -182,7 +183,8 @@ public:
 	virtual math::Vector2 GetOrigin() const;
 
 protected:
-	unsigned int  m_currentRect;
+	unsigned int m_currentRect;
+    bool m_hasCustomRects;
     std::vector<math::Rect2Df> m_rects;
 	math::Rect2Df m_rect;
 	unsigned int m_nColumns, m_nRows;
