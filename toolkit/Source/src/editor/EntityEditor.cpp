@@ -1514,6 +1514,7 @@ void EntityEditor::DrawEntity(const float lastFrameElapsedTime)
 bool EntityEditor::LoadHalo(const char *file, const char *path)
 {
 	if (m_provider->GetGraphicResourceManager()->AddFile(
+			m_provider->GetFileManager(),
 			m_provider->GetVideo(),
 			path,
 			m_provider->GetFileIOHub()->GetResourceDirectory(),

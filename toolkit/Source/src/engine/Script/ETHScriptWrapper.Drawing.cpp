@@ -61,7 +61,7 @@ SpritePtr ETHScriptWrapper::LoadAndGetSprite(const str_type::string &name)
 {
 	str_type::string resourceDirectory = m_provider->GetFileIOHub()->GetResourceDirectory();
 	str_type::string path = resourceDirectory + name;
-	return m_provider->GetGraphicResourceManager()->AddFile(m_provider->GetVideo(), path, resourceDirectory, false, false);
+	return m_provider->GetGraphicResourceManager()->AddFile(m_provider->GetFileManager(), m_provider->GetVideo(), path, resourceDirectory, false, false);
 }
 
 Vector2 ETHScriptWrapper::GetSpriteSize(const str_type::string &name)

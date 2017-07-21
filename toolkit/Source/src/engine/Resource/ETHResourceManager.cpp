@@ -40,6 +40,7 @@ static str_type::string RemoveResourceDirectory(
 }
 
 ETHGraphicResourceManager::SpriteResource::SpriteResource(
+	const Platform::FileManagerPtr& fileManager,
 	const str_type::string& resourceDirectory,
 	const str_type::string& fullOriginPath,
 	const SpritePtr& sprite,
@@ -48,6 +49,52 @@ ETHGraphicResourceManager::SpriteResource::SpriteResource(
 	m_temporary(temporary),
 	m_fullOriginPath(RemoveResourceDirectory(resourceDirectory, fullOriginPath))
 {
+	const str_type::string frameXmlFileName = Platform::RemoveExtension(fullOriginPath.c_str()) + ".xml";
+	if (fileManager->FileExists(frameXmlFileName))
+	{
+		TiXmlDocument doc(frameXmlFileName);
+		str_type::string content;
+		fileManager->GetUTFFileString(frameXmlFileName, content);
+
+		if (!doc.LoadFile(content, TIXML_ENCODING_LEGACY))
+		{
+			return;
+		}
+		
+		TiXmlHandle hDoc(&doc);
+		
+		TiXmlElement *pRoot = hDoc.FirstChildElement().Element();
+
+		if (pRoot)
+		{
+			TiXmlElement *pSprites = pRoot->ToElement();
+			if (pSprites)
+			{
+				TiXmlNode* pNode = pSprites->FirstChild(GS_L("sprite"));
+				if (pNode)
+				{
+					TiXmlElement *pSpriteIter = pNode->ToElement();
+					if (pSpriteIter)
+					{
+						m_packedFrames.resize(0);
+						do
+						{
+							int x, y, width, height, offsetX, offsetY;
+							pSpriteIter->QueryIntAttribute(GS_L("x"), &x);
+							pSpriteIter->QueryIntAttribute(GS_L("y"), &y);
+							pSpriteIter->QueryIntAttribute(GS_L("w"), &width);
+							pSpriteIter->QueryIntAttribute(GS_L("h"), &height);
+							pSpriteIter->QueryIntAttribute(GS_L("oX"), &offsetX);
+							pSpriteIter->QueryIntAttribute(GS_L("oY"), &offsetY);
+							pSpriteIter = pSpriteIter->NextSiblingElement();
+
+							m_packedFrames.push_back(gs2d::math::Rect2Df(Vector2(x, y), Vector2(width, height), Vector2(offsetX, offsetY)));
+						} while (pSpriteIter);
+					}
+				}
+			}
+		}
+	}
 }
 
 bool ETHGraphicResourceManager::SpriteResource::IsTemporary() const
@@ -80,6 +127,7 @@ ETHGraphicResourceManager::ETHGraphicResourceManager(const ETHSpriteDensityManag
 }
 
 SpritePtr ETHGraphicResourceManager::GetPointer(
+	const Platform::FileManagerPtr& fileManager,
 	VideoPtr video,
 	const str_type::string &fileRelativePath,
 	const str_type::string &resourceDirectory,
@@ -106,13 +154,27 @@ SpritePtr ETHGraphicResourceManager::GetPointer(
 	// it hasn't been loaded yet
 	if (searchPath != GS_L(""))
 	{
-		AddFile(video, resourceFullPath, resourceDirectory, cutOutBlackPixels, temporary);
+		AddFile(fileManager, video, resourceFullPath, resourceDirectory, cutOutBlackPixels, temporary);
 		return FindSprite(resourceFullPath, fileName, resourceDirectory);
 	}
 	return SpritePtr();
 }
 
+std::vector<math::Rect2Df> ETHGraphicResourceManager::GetPackedFrames(const str_type::string& fileName)
+{
+	std::map<str_type::string, SpriteResource>::iterator iter = m_resource.find(fileName);
+	if (iter != m_resource.end())
+	{
+		return iter->second.m_packedFrames;
+	}
+	else
+	{
+		return std::vector<math::Rect2Df>();
+	}
+}
+
 SpritePtr ETHGraphicResourceManager::AddFile(
+	const Platform::FileManagerPtr& fileManager,
 	VideoPtr video,
 	const str_type::string &path,
 	const str_type::string& resourceDirectory,
@@ -147,7 +209,7 @@ SpritePtr ETHGraphicResourceManager::AddFile(
 	ETH_STREAM_DECL(ss) << GS_L("(Loaded) ") << fileName;
 	ETHResourceProvider::Log(ss.str(), Platform::Logger::INFO);
 	//#endif
-	m_resource.insert(std::pair<str_type::string, SpriteResource>(fileName, SpriteResource(resourceDirectory, fixedName, pBitmap, temporary)));
+	m_resource.insert(std::pair<str_type::string, SpriteResource>(fileName, SpriteResource(fileManager, resourceDirectory, fixedName, pBitmap, temporary)));
 	return pBitmap;
 }
 

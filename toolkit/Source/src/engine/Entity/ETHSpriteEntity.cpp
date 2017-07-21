@@ -91,17 +91,19 @@ void ETHSpriteEntity::Create()
 		return;
 
 	const str_type::string& resourceDirectory = m_provider->GetFileIOHub()->GetResourceDirectory();
+	
+	const Platform::FileManagerPtr& fileManager = m_provider->GetFileManager();
 
-	m_pSprite = graphicResources->GetPointer(video, m_properties.spriteFile, resourceDirectory, ETHDirectories::GetEntityDirectory(), false);
+	SetSprite(m_properties.spriteFile);
 	
 	if (m_provider->IsRichLightingEnabled())
 	{
-		m_pNormal = graphicResources->GetPointer(video, m_properties.normalFile, resourceDirectory, ETHDirectories::GetNormalMapDirectory(), false);
-		m_pGloss  = graphicResources->GetPointer(video, m_properties.glossFile,  resourceDirectory, ETHDirectories::GetEntityDirectory(), false);
+		m_pNormal = graphicResources->GetPointer(fileManager, video, m_properties.normalFile, resourceDirectory, ETHDirectories::GetNormalMapDirectory(), false);
+		m_pGloss  = graphicResources->GetPointer(fileManager, video, m_properties.glossFile,  resourceDirectory, ETHDirectories::GetEntityDirectory(), false);
 	}
 
 	if (m_properties.light)
-		m_pHalo = graphicResources->GetPointer(video, m_properties.light->haloBitmap, resourceDirectory, ETHDirectories::GetHaloDirectory(), true);
+		m_pHalo = graphicResources->GetPointer(fileManager, video, m_properties.light->haloBitmap, resourceDirectory, ETHDirectories::GetHaloDirectory(), true);
 
 	LoadParticleSystem();
 
@@ -110,7 +112,7 @@ void ETHSpriteEntity::Create()
 		//TODO/TO-DO: Remove duplicated code
 		m_properties.spriteCut.x = Max(1, m_properties.spriteCut.x);
 		m_properties.spriteCut.y = Max(1, m_properties.spriteCut.y);
-		m_pSprite->SetupSpriteRects(m_properties.spriteCut.x, m_properties.spriteCut.y);
+		ValidateSpriteCut(m_pSprite);
 		m_pSprite->SetRect(m_spriteFrame);
 		SetOrigin();
 	}
@@ -151,6 +153,7 @@ bool ETHSpriteEntity::LoadLightmapFromFile(const str_type::string& filePath)
 	if (ETHGlobal::FileExists(filePath, m_provider->GetFileManager()))
 	{
 		m_pLightmap = graphicResources->GetPointer(
+			m_provider->GetFileManager(),
 			video,
 			Platform::GetFileName(filePath),
 			GS_L(""),
@@ -177,6 +180,7 @@ bool ETHSpriteEntity::ShouldUseHighlightPixelShader() const
 bool ETHSpriteEntity::SetSprite(const str_type::string &fileName)
 {
 	m_pSprite = m_provider->GetGraphicResourceManager()->GetPointer(
+		m_provider->GetFileManager(),
 		m_provider->GetVideo(),
 		fileName,
 		m_provider->GetFileIOHub()->GetResourceDirectory(),
@@ -185,11 +189,21 @@ bool ETHSpriteEntity::SetSprite(const str_type::string &fileName)
 
 	if (m_pSprite)
 	{
-		//TODO/TO-DO: Remove duplicated code
 		m_properties.spriteFile = fileName;
-		m_properties.spriteCut.x = Max(1, m_properties.spriteCut.x);
-		m_properties.spriteCut.y = Max(1, m_properties.spriteCut.y);
-		m_pSprite->SetupSpriteRects(m_properties.spriteCut.x, m_properties.spriteCut.y);
+
+		std::vector<math::Rect2Df> packedFrames = m_provider->GetGraphicResourceManager()->GetPackedFrames(m_properties.spriteFile);
+		if (packedFrames.size() > 0)
+		{
+			m_pSprite->SetRects(packedFrames);
+			m_properties.spriteCut.x = m_pSprite->GetNumColumns();
+			m_properties.spriteCut.y = m_pSprite->GetNumRows();
+		}
+		else
+		{
+			m_properties.spriteCut.x = Max(1, m_properties.spriteCut.x);
+			m_properties.spriteCut.y = Max(1, m_properties.spriteCut.y);
+		}
+		ValidateSpriteCut(m_pSprite);
 		m_pSprite->SetRect(m_spriteFrame);
 		return true;
 	}
@@ -203,6 +217,7 @@ bool ETHSpriteEntity::SetSprite(const str_type::string &fileName)
 bool ETHSpriteEntity::SetNormal(const str_type::string &fileName)
 {
 	m_pNormal = m_provider->GetGraphicResourceManager()->GetPointer(
+		m_provider->GetFileManager(),
 		m_provider->GetVideo(),
 		fileName,
 		m_provider->GetFileIOHub()->GetResourceDirectory(),
@@ -223,6 +238,7 @@ bool ETHSpriteEntity::SetNormal(const str_type::string &fileName)
 bool ETHSpriteEntity::SetGloss(const str_type::string &fileName)
 {
 	m_pGloss = m_provider->GetGraphicResourceManager()->GetPointer(
+		m_provider->GetFileManager(),
 		m_provider->GetVideo(),
 		fileName,
 		m_provider->GetFileIOHub()->GetResourceDirectory(),
@@ -245,6 +261,7 @@ bool ETHSpriteEntity::SetHalo(const str_type::string &fileName)
 	if (m_properties.light)
 	{
 		m_pHalo = m_provider->GetGraphicResourceManager()->GetPointer(
+			m_provider->GetFileManager(),
 			m_provider->GetVideo(),
 			fileName,
 			m_provider->GetFileIOHub()->GetResourceDirectory(),
@@ -310,7 +327,7 @@ void ETHSpriteEntity::LoadParticleSystem()
 			path += ETHDirectories::GetParticlesDirectory();
 			path += Platform::GetFileName(pSystem->GetActualBitmapFile());
 
-			if (!graphicResources->AddFile(video, path, resourcePath, (pSystem->alphaMode == Video::AM_ADD), false))
+			if (!graphicResources->AddFile(m_provider->GetFileManager(), video, path, resourcePath, (pSystem->alphaMode == Video::AM_ADD), false))
 				continue;
 
 			const float particleScale = (GetScale().x + GetScale().y) / 2.0f;

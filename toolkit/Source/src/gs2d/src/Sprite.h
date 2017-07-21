@@ -25,7 +25,7 @@
 
 #include "Texture.h"
 
-#include <boost/shared_array.hpp>
+#include <vector>
 
 namespace gs2d {
 
@@ -156,7 +156,8 @@ public:
 	virtual math::Vector2 GetMultiply() const;
 	virtual void SetRectMode(const RECT_MODE mode);
 	virtual RECT_MODE GetRectMode() const;
-	virtual bool SetupSpriteRects(const unsigned int columns, const unsigned int rows);
+    virtual bool SetupSpriteRects(const unsigned int columns, const unsigned int rows);
+	virtual bool SetRects(const std::vector<math::Rect2Df>& rects);
 	virtual bool SetRect(const unsigned int column, const unsigned int row);
 	virtual bool SetRect(const unsigned int rect);
 	virtual void SetRect(const math::Rect2Df& rect);
@@ -182,7 +183,7 @@ public:
 
 protected:
 	unsigned int  m_currentRect;
-	boost::shared_array<math::Rect2Df> m_rects;
+    std::vector<math::Rect2Df> m_rects;
 	math::Rect2Df m_rect;
 	unsigned int m_nColumns, m_nRows;
 	RECT_MODE m_rectMode;

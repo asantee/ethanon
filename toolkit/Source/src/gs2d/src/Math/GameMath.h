@@ -589,8 +589,16 @@ struct Rect2Df
 	{
 		this->pos = pos;
 		this->size = size;
+        this->pivot = Vector2(0.0f, 0.0f);
 	}
 
+    Rect2Df(const Vector2 &pos, const Vector2 &size, const Vector2 &pivot)
+    {
+        this->pos = pos;
+        this->size = size;
+        this->pivot = pivot;
+    }
+    
 	Rect2Df(const float posX, const float posY, const float sizeX, const float sizeY)
 	{
 		this->pos.x = posX;
@@ -609,7 +617,7 @@ struct Rect2Df
 		return !(*this == r);
 	}	
 
-	Vector2 pos, size;
+	Vector2 pos, size, pivot;
 };
 
 struct Vertex2D

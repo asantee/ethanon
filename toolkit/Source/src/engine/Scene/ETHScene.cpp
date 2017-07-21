@@ -183,7 +183,6 @@ bool ETHScene::LoadFromFile(
 	}
 
 	TiXmlHandle hDoc(&doc);
-	TiXmlHandle hRoot(0);
 
 	TiXmlElement *pElement = hDoc.FirstChildElement().Element();
 	if (!pElement)

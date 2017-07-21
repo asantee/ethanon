@@ -1351,6 +1351,7 @@ void SceneEditor::DrawEntitySelectionGrid(SpritePtr pNextAppButton)
 	for (std::size_t t = 0; t < m_entityFiles.size(); t++)
 	{
 		SpritePtr pSprite = m_provider->GetGraphicResourceManager()->GetPointer(
+			m_provider->GetFileManager(),
 			video, 
 			m_entityFiles[t]->spriteFile, GetCurrentProjectPath(true),
 			ETHDirectories::GetEntityDirectory(), false

@@ -100,7 +100,7 @@ bool ETHParticleManager::CreateParticleSystem(
 	const str_type::string& programPath  = fileIOHub->GetProgramDirectory();
 	const str_type::string currentPath = (resourcePath.empty() && !fileManager->IsPacked()) ? programPath : resourcePath;
 
-	m_pBMP = graphics->GetPointer(m_provider->GetVideo(), m_system.bitmapFile, currentPath,
+	m_pBMP = graphics->GetPointer(fileManager, m_provider->GetVideo(), m_system.bitmapFile, currentPath,
 		ETHDirectories::GetParticlesDirectory(), (m_system.alphaMode == Video::AM_ADD));
 
 	if (m_system.allAtOnce)
@@ -158,6 +158,7 @@ void ETHParticleManager::SetParticleBitmap(const gs2d::str_type::string& bitmap)
 {
 	m_system.bitmapFile = bitmap;
 	SetParticleBitmap(m_provider->GetGraphicResourceManager()->GetPointer(
+		m_provider->GetFileManager(),
 		m_provider->GetVideo(),
 		bitmap,
 		m_provider->GetFileIOHub()->GetResourceDirectory(),

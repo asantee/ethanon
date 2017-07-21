@@ -101,10 +101,17 @@ bool Sprite::Stretch(
 	return r;
 }
 
+bool Sprite::SetRects(const std::vector<math::Rect2Df>& rects)
+{
+    m_rects = rects;
+    m_nRows = 1;
+    m_nColumns = rects.size();
+    SetRect(0);
+	return (rects.size() > 0);
+}
+    
 bool Sprite::SetupSpriteRects(const unsigned int columns, const unsigned int rows)
 {
-	m_rects.reset();
-
 	if (columns <= 0 || rows <=0)
 	{
 		ShowMessage(GS_L("The number of rows or columns set can't be 0 or less - Sprite::SetupSpriteRects"), GSMT_ERROR);
@@ -114,7 +121,7 @@ bool Sprite::SetupSpriteRects(const unsigned int columns, const unsigned int row
 	m_nColumns = columns;
 	m_nRows = rows;
 	const unsigned int nRects = columns * rows;
-	m_rects = boost::shared_array<Rect2Df>(new Rect2Df [nRects]);
+	m_rects.resize(nRects);
 
 	const Vector2i size(GetBitmapSize());
 	const unsigned int strideX = static_cast<unsigned int>(size.x) / columns, strideY = static_cast<unsigned int>(size.y) / rows;
