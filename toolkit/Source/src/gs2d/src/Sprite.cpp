@@ -135,8 +135,8 @@ bool Sprite::SetupSpriteRects(const unsigned int columns, const unsigned int row
 		{
 			m_rects[index].pos.x = static_cast<float>(x * strideX);
 			m_rects[index].pos.y = static_cast<float>(y * strideY);
-			m_rects[index].size.x = static_cast<float>(strideX);
-			m_rects[index].size.y = static_cast<float>(strideY);
+			m_rects[index].size.x = m_rects[index].originalSize.x = static_cast<float>(strideX);
+			m_rects[index].size.y = m_rects[index].originalSize.y = static_cast<float>(strideY);
 			index++;
 		}
 	}

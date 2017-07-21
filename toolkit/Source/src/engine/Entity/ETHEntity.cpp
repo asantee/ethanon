@@ -269,22 +269,25 @@ void ETHEntity::SetController(const ETHEntityControllerPtr& controller)
 
 Vector2 ETHEntity::ComputeAbsoluteOrigin(const Vector2 &v2Size) const
 {
+	const Rect2Df rect(GetFrameRect());
+	const Vector2 virtualSize = (rect.size == rect.originalSize) ? v2Size : rect.originalSize;
+
 	Vector2 v2Center;
 	switch (ETHEntity::ConvertToGSSO(GetType()))
 	{
 	case Sprite::EO_RECT_CENTER:
 	case Sprite::EO_CENTER:
-		v2Center.x = v2Size.x / 2.0f;
-		v2Center.y = v2Size.y / 2.0f;
+		v2Center.x = virtualSize.x / 2.0f;
+		v2Center.y = virtualSize.y / 2.0f;
 		break;
 	case Sprite::EO_RECT_CENTER_BOTTOM:
 	case Sprite::EO_CENTER_BOTTOM:
-		v2Center.x = v2Size.x / 2.0f;
-		v2Center.y = v2Size.y;
+		v2Center.x = virtualSize.x / 2.0f;
+		v2Center.y = virtualSize.y;
 		break;
 	case Sprite::EO_RECT_CENTER_TOP:
 	case Sprite::EO_CENTER_TOP:
-		v2Center.x = v2Size.x / 2.0f;
+		v2Center.x = virtualSize.x / 2.0f;
 		v2Center.y = 0.0f;
 		break;
 	default:
@@ -292,8 +295,15 @@ Vector2 ETHEntity::ComputeAbsoluteOrigin(const Vector2 &v2Size) const
 		v2Center.x = 0.0f;
 		v2Center.y = 0.0f;
 		break;
-	};	
-	return (v2Center + (m_properties.pivotAdjust * m_properties.scale));
+	};
+	
+	Vector2 offset(rect.offset);
+	v2Center -= (offset);
+
+	if (GetFlipX()) v2Center.x = rect.size.x - v2Center.x;
+	if (GetFlipY()) v2Center.y = rect.size.y - v2Center.y;
+	
+	return (v2Center + ((m_properties.pivotAdjust) * m_properties.scale));
 }
 
 Vector2 ETHEntity::ComputeOrigin(const Vector2 &v2Size) const

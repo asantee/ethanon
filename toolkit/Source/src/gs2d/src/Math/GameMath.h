@@ -581,22 +581,22 @@ struct Rect2D
 
 struct Rect2Df
 {
-	Rect2Df() : pos(0,0), size(0,0)
+    Rect2Df() : pos(0,0), size(0,0), originalSize(0,0), offset(0,0)
 	{
 	}
 
 	Rect2Df(const Vector2 &pos, const Vector2 &size)
 	{
 		this->pos = pos;
-		this->size = size;
-        this->pivot = Vector2(0.0f, 0.0f);
+		this->size = this->originalSize = size;
 	}
 
-    Rect2Df(const Vector2 &pos, const Vector2 &size, const Vector2 &pivot)
+    Rect2Df(const Vector2 &pos, const Vector2 &size, const Vector2 &offset, const Vector2 &originalSize)
     {
         this->pos = pos;
         this->size = size;
-        this->pivot = pivot;
+        this->offset = offset;
+        this->originalSize = originalSize;
     }
     
 	Rect2Df(const float posX, const float posY, const float sizeX, const float sizeY)
@@ -617,7 +617,7 @@ struct Rect2Df
 		return !(*this == r);
 	}	
 
-	Vector2 pos, size, pivot;
+	Vector2 pos, size, offset, originalSize;
 };
 
 struct Vertex2D

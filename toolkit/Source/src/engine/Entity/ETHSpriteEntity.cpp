@@ -393,8 +393,23 @@ void ETHSpriteEntity::SetOrigin()
 		m_pLightmap->SetOrigin(v2Origin);
 }
 
+Rect2Df ETHSpriteEntity::GetFrameRect() const
+{
+	if (m_pSprite)
+	{
+		return m_pSprite->GetRect();
+	}
+	else
+	{
+		return Rect2Df();
+	}
+}
+
 void ETHSpriteEntity::ValidateSpriteCut(const SpritePtr& sprite) const
 {
+	if (sprite->HasCustomRects())
+		return;
+
 	const Vector2i cut(sprite->GetNumColumns(), sprite->GetNumRows());
 	const Vector2i& entityCut = m_properties.spriteCut;
 	if (cut != entityCut)

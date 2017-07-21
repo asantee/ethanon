@@ -51,6 +51,8 @@ public:
 	bool SetDepth(const float maxHeight, const float minHeight);
 	void SetOrigin();
 
+	Rect2Df GetFrameRect() const;
+
 	SpritePtr GetSprite();
 	SpritePtr GetGloss();
 	SpritePtr GetNormal();

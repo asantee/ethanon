@@ -79,16 +79,22 @@ ETHGraphicResourceManager::SpriteResource::SpriteResource(
 						m_packedFrames.resize(0);
 						do
 						{
-							int x, y, width, height, offsetX, offsetY;
+							int x, y, width, height, offsetX, offsetY, originalWidth, originalHeight;
 							pSpriteIter->QueryIntAttribute(GS_L("x"), &x);
 							pSpriteIter->QueryIntAttribute(GS_L("y"), &y);
 							pSpriteIter->QueryIntAttribute(GS_L("w"), &width);
 							pSpriteIter->QueryIntAttribute(GS_L("h"), &height);
+							pSpriteIter->QueryIntAttribute(GS_L("oW"), &originalWidth);
+							pSpriteIter->QueryIntAttribute(GS_L("oH"), &originalHeight);
 							pSpriteIter->QueryIntAttribute(GS_L("oX"), &offsetX);
 							pSpriteIter->QueryIntAttribute(GS_L("oY"), &offsetY);
+							m_packedFrames.push_back(
+								gs2d::math::Rect2Df(
+									Vector2(x, y),
+									Vector2(width, height),
+									Vector2(offsetX, offsetY),
+									Vector2(originalWidth, originalHeight)));
 							pSpriteIter = pSpriteIter->NextSiblingElement();
-
-							m_packedFrames.push_back(gs2d::math::Rect2Df(Vector2(x, y), Vector2(width, height), Vector2(offsetX, offsetY)));
 						} while (pSpriteIter);
 					}
 				}
