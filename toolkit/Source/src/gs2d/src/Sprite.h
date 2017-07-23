@@ -66,6 +66,10 @@ public:
 		RM_FOUR_TRIANGLES,
 	};
 
+    typedef std::vector<math::Rect2Df> Rects;
+    typedef boost::shared_ptr<Rects> RectsPtr;
+    typedef boost::shared_ptr<const Rects> RectsConstPtr;
+
 	Sprite();
 
 	void GetFlipShaderParameters(math::Vector2& flipAdd, math::Vector2& flipMul) const;
@@ -157,7 +161,8 @@ public:
 	virtual void SetRectMode(const RECT_MODE mode);
 	virtual RECT_MODE GetRectMode() const;
     virtual bool SetupSpriteRects(const unsigned int columns, const unsigned int rows);
-	virtual bool SetRects(const std::vector<math::Rect2Df>& rects);
+	virtual bool SetRects(const RectsPtr& rects);
+    virtual RectsPtr GetRects();
 	virtual bool SetRect(const unsigned int column, const unsigned int row);
 	virtual bool SetRect(const unsigned int rect);
 	virtual void SetRect(const math::Rect2Df& rect);
@@ -184,8 +189,8 @@ public:
 
 protected:
 	unsigned int m_currentRect;
-    bool m_hasCustomRects;
-    std::vector<math::Rect2Df> m_rects;
+	bool m_hasCustomRects;
+	RectsPtr m_rects;
 	math::Rect2Df m_rect;
 	unsigned int m_nColumns, m_nRows;
 	RECT_MODE m_rectMode;

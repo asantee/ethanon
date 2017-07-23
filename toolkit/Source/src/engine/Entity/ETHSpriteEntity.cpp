@@ -191,18 +191,7 @@ bool ETHSpriteEntity::SetSprite(const str_type::string &fileName)
 	{
 		m_properties.spriteFile = fileName;
 
-		std::vector<math::Rect2Df> packedFrames = m_provider->GetGraphicResourceManager()->GetPackedFrames(m_properties.spriteFile);
-		if (packedFrames.size() > 0)
-		{
-			m_pSprite->SetRects(packedFrames);
-			m_properties.spriteCut.x = m_pSprite->GetNumColumns();
-			m_properties.spriteCut.y = m_pSprite->GetNumRows();
-		}
-		else
-		{
-			m_properties.spriteCut.x = Max(1, m_properties.spriteCut.x);
-			m_properties.spriteCut.y = Max(1, m_properties.spriteCut.y);
-		}
+		m_packedFrames = m_provider->GetGraphicResourceManager()->GetPackedFrames(m_properties.spriteFile);
 		ValidateSpriteCut(m_pSprite);
 		m_pSprite->SetRect(m_spriteFrame);
 		return true;
@@ -407,14 +396,26 @@ Rect2Df ETHSpriteEntity::GetFrameRect() const
 
 void ETHSpriteEntity::ValidateSpriteCut(const SpritePtr& sprite) const
 {
-	if (sprite->HasCustomRects())
-		return;
-
-	const Vector2i cut(sprite->GetNumColumns(), sprite->GetNumRows());
-	const Vector2i& entityCut = m_properties.spriteCut;
-	if (cut != entityCut)
+	if (m_packedFrames)
 	{
-		sprite->SetupSpriteRects(entityCut.x, entityCut.y);
+		if (m_pSprite->GetRects() != m_packedFrames)
+		{
+			m_pSprite->SetRects(m_packedFrames);
+			m_properties.spriteCut.x = m_pSprite->GetNumColumns();
+			m_properties.spriteCut.y = m_pSprite->GetNumRows();
+		}
+	}
+	else
+	{
+		m_properties.spriteCut.x = Max(1, m_properties.spriteCut.x);
+		m_properties.spriteCut.y = Max(1, m_properties.spriteCut.y);
+
+		const Vector2i cut(sprite->GetNumColumns(), sprite->GetNumRows());
+		const Vector2i& entityCut = m_properties.spriteCut;
+		if (cut != entityCut)
+		{
+			sprite->SetupSpriteRects(entityCut.x, entityCut.y);
+		}
 	}
 }
 

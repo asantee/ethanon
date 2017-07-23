@@ -65,7 +65,7 @@ class ETHEntitySpriteProperties : public ETHEntityMaterial
 {
 public:
 	Vector2 pivotAdjust;
-	Vector2i spriteCut;
+	mutable Vector2i spriteCut;
 	unsigned int GetNumFrames() const;
 };
 

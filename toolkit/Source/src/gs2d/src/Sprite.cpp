@@ -102,16 +102,30 @@ bool Sprite::Stretch(
 	return r;
 }
 
-bool Sprite::SetRects(const std::vector<math::Rect2Df>& rects)
+bool Sprite::SetRects(const RectsPtr& rects)
 {
-    m_rects = rects;
-    m_nRows = 1;
-    m_nColumns = rects.size();
+	m_rects = rects;
     SetRect(0);
-    m_hasCustomRects = true;
-	return (rects.size() > 0);
+	if (rects)
+	{
+        m_nRows = 1;
+        m_nColumns = rects->size();
+        m_hasCustomRects = true;
+        return (m_nColumns > 0);
+    }
+    else
+    {
+        m_nRows = m_nColumns = 0;
+        m_hasCustomRects = false;
+        return false;
+	}
 }
-    
+
+Sprite::RectsPtr Sprite::GetRects()
+{
+	return m_rects;
+}
+
 bool Sprite::SetupSpriteRects(const unsigned int columns, const unsigned int rows)
 {
 	if (columns <= 0 || rows <=0)
@@ -124,7 +138,9 @@ bool Sprite::SetupSpriteRects(const unsigned int columns, const unsigned int row
 	m_nColumns = columns;
 	m_nRows = rows;
 	const unsigned int nRects = columns * rows;
-	m_rects.resize(nRects);
+
+    m_rects = boost::shared_ptr<Rects>(new Rects());
+	m_rects->resize(nRects);
 
 	const Vector2i size(GetBitmapSize());
 	const unsigned int strideX = static_cast<unsigned int>(size.x) / columns, strideY = static_cast<unsigned int>(size.y) / rows;
@@ -133,10 +149,10 @@ bool Sprite::SetupSpriteRects(const unsigned int columns, const unsigned int row
 	{
 		for (unsigned int x = 0; x < columns; x++)
 		{
-			m_rects[index].pos.x = static_cast<float>(x * strideX);
-			m_rects[index].pos.y = static_cast<float>(y * strideY);
-			m_rects[index].size.x = m_rects[index].originalSize.x = static_cast<float>(strideX);
-			m_rects[index].size.y = m_rects[index].originalSize.y = static_cast<float>(strideY);
+			(*m_rects)[index].pos.x = static_cast<float>(x * strideX);
+			(*m_rects)[index].pos.y = static_cast<float>(y * strideY);
+			(*m_rects)[index].size.x = (*m_rects)[index].originalSize.x = static_cast<float>(strideX);
+			(*m_rects)[index].size.y = (*m_rects)[index].originalSize.y = static_cast<float>(strideY);
 			index++;
 		}
 	}
@@ -152,8 +168,11 @@ unsigned int Sprite::GetRectIndex() const
 
 bool Sprite::SetRect(const unsigned int rect)
 {
-	m_currentRect = gs2d::math::Min(rect, GetNumRects() - 1);
-	m_rect = m_rects[m_currentRect];
+    if (!m_rects)
+        return false;
+
+    m_currentRect = gs2d::math::Min(rect, GetNumRects() - 1);
+	m_rect = (*m_rects)[m_currentRect];
 	return (m_currentRect == rect);
 }
 
@@ -195,7 +214,10 @@ unsigned int Sprite::GetNumColumns() const
 
 Rect2Df Sprite::GetRect(const unsigned int rect) const
 {
-	return m_rects[Min(GetNumRects() - 1, rect)];
+    if (m_rects)
+		return (*m_rects)[Min(GetNumRects() - 1, rect)];
+    else
+        return Rect2Df(0, 0, 0, 0);
 }
 
 Vector2 Sprite::GetOrigin() const

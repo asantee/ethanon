@@ -49,6 +49,9 @@ ETHGraphicResourceManager::SpriteResource::SpriteResource(
 	m_temporary(temporary),
 	m_fullOriginPath(RemoveResourceDirectory(resourceDirectory, fullOriginPath))
 {
+	if (!fileManager)
+		return;
+
 	const str_type::string frameXmlFileName = Platform::RemoveExtension(fullOriginPath.c_str()) + ".xml";
 	if (fileManager->FileExists(frameXmlFileName))
 	{
@@ -76,7 +79,8 @@ ETHGraphicResourceManager::SpriteResource::SpriteResource(
 					TiXmlElement *pSpriteIter = pNode->ToElement();
 					if (pSpriteIter)
 					{
-						m_packedFrames.resize(0);
+						m_packedFrames = Sprite::RectsPtr(new Sprite::Rects());
+						m_packedFrames->resize(0);
 						do
 						{
 							int x, y, width, height, offsetX, offsetY, originalWidth, originalHeight;
@@ -88,7 +92,7 @@ ETHGraphicResourceManager::SpriteResource::SpriteResource(
 							pSpriteIter->QueryIntAttribute(GS_L("oH"), &originalHeight);
 							pSpriteIter->QueryIntAttribute(GS_L("oX"), &offsetX);
 							pSpriteIter->QueryIntAttribute(GS_L("oY"), &offsetY);
-							m_packedFrames.push_back(
+							m_packedFrames->push_back(
 								gs2d::math::Rect2Df(
 									Vector2(x, y),
 									Vector2(width, height),
@@ -166,7 +170,7 @@ SpritePtr ETHGraphicResourceManager::GetPointer(
 	return SpritePtr();
 }
 
-std::vector<math::Rect2Df> ETHGraphicResourceManager::GetPackedFrames(const str_type::string& fileName)
+Sprite::RectsPtr ETHGraphicResourceManager::GetPackedFrames(const str_type::string& fileName)
 {
 	std::map<str_type::string, SpriteResource>::iterator iter = m_resource.find(fileName);
 	if (iter != m_resource.end())
@@ -175,7 +179,20 @@ std::vector<math::Rect2Df> ETHGraphicResourceManager::GetPackedFrames(const str_
 	}
 	else
 	{
-		return std::vector<math::Rect2Df>();
+		return Sprite::RectsPtr();
+	}
+}
+
+ETHGraphicResourceManager::SpriteResource ETHGraphicResourceManager::GetSpriteResource(const str_type::string& fileName)
+{
+	std::map<str_type::string, SpriteResource>::iterator iter = m_resource.find(fileName);
+	if (iter != m_resource.end())
+	{
+		return iter->second;
+	}
+	else
+	{
+		return SpriteResource(Platform::FileManagerPtr(), GS_L(""), GS_L(""), SpritePtr(), false);
 	}
 }
 

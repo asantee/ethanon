@@ -95,7 +95,11 @@ void ETHScriptWrapper::SetupSpriteRects(const str_type::string& name, const unsi
 	SpritePtr pSprite = LoadAndGetSprite(name);
 	if (pSprite)
 	{
-		pSprite->SetupSpriteRects(columns, rows);
+		Sprite::RectsPtr packedFrames = m_provider->GetGraphicResourceManager()->GetPackedFrames(Platform::GetFileName(name));
+		if (packedFrames)
+			pSprite->SetRects(packedFrames);
+		else
+			pSprite->SetupSpriteRects(columns, rows);
 	}
 }
 

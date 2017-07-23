@@ -139,6 +139,8 @@ protected:
 	SpritePtr m_pLightmap;
 	str_type::string m_preRenderedLightmapFilePath;
 
+	Sprite::RectsPtr m_packedFrames;
+
 	static const float m_layrableMinimumDepth;
 
 private:

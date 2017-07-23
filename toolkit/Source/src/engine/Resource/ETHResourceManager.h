@@ -44,7 +44,7 @@ public:
 		SpritePtr m_sprite;
 		str_type::string m_fullOriginPath;
 		bool m_temporary;
-		std::vector<math::Rect2Df> m_packedFrames;
+		Sprite::RectsPtr m_packedFrames;
 	public:
 		SpriteResource(
 			const Platform::FileManagerPtr& fileManager,
@@ -64,8 +64,9 @@ public:
 		const bool cutOutBlackPixels,
 		const bool temporary = false);
 
-	std::vector<math::Rect2Df> GetPackedFrames(const str_type::string& fileName);
-	
+	Sprite::RectsPtr GetPackedFrames(const str_type::string& fileName);
+	SpriteResource GetSpriteResource(const str_type::string& fileName);
+
 	std::size_t GetNumResources();
 	void ReleaseResources();
 	void ReleaseTemporaryResources();
