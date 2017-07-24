@@ -190,9 +190,25 @@ bool ETHSpriteDrawer::Draw(const unsigned long lastFrameElapsedTimeMS)
 	{
 		provider->GetVideo()->SetVertexShader(ShaderPtr());
 		provider->GetVideo()->SetPixelShader(ShaderPtr());
-		const Vector2 size(v2Size == Vector2(-1,-1) ? sprite->GetFrameSize() : v2Size);
-		sprite->SetOrigin(v2Origin);
+
 		sprite->SetRect(frame);
+
+		const Vector2 frameSize(sprite->GetFrameSize());
+		const Vector2 size(v2Size == Vector2(-1,-1) ? frameSize : v2Size);
+		
+		if (size.x == 0.0f || size.y == 0.0f)
+			return true;
+
+		//const Vector2 spriteScale((size.x / frameSize.x), (size.y / frameSize.y));
+
+		const Rect2Df rect(sprite->GetRect());
+
+		const Vector2 bitmapSize = ((rect.size == rect.originalSize) ? frameSize : rect.size);
+		const Vector2 virtualSize = ((rect.size == rect.originalSize) ? frameSize : rect.originalSize);
+		const Vector2 absoluteOrigin = (virtualSize * v2Origin) - (rect.offset);
+		const Vector2 relativeOrigin(absoluteOrigin.x / bitmapSize.x, absoluteOrigin.y / bitmapSize.y);
+
+		sprite->SetOrigin(relativeOrigin);
 		sprite->FlipX(flipX);
 		sprite->FlipY(flipY);
 		return sprite->DrawShaped(v2Pos, size, color0, color1, color2, color3, angle);

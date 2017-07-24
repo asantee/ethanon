@@ -296,13 +296,13 @@ Vector2 ETHEntity::ComputeAbsoluteOrigin(const Vector2 &v2Size) const
 		v2Center.y = 0.0f;
 		break;
 	};
-	
+
 	Vector2 offset(rect.offset);
 	v2Center -= (offset);
 
 	if (GetFlipX()) v2Center.x = rect.size.x - v2Center.x;
 	if (GetFlipY()) v2Center.y = rect.size.y - v2Center.y;
-	
+
 	return (v2Center + ((m_properties.pivotAdjust) * m_properties.scale));
 }
 
