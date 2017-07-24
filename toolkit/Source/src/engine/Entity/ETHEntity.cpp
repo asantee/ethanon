@@ -270,7 +270,7 @@ void ETHEntity::SetController(const ETHEntityControllerPtr& controller)
 Vector2 ETHEntity::ComputeAbsoluteOrigin(const Vector2 &v2Size) const
 {
 	const Rect2Df rect(GetFrameRect());
-	const Vector2 virtualSize = (rect.size == rect.originalSize) ? v2Size : rect.originalSize;
+	const Vector2 virtualSize = (rect.size == rect.originalSize) ? v2Size : (rect.originalSize * m_properties.scale);
 
 	Vector2 v2Center;
 	switch (ETHEntity::ConvertToGSSO(GetType()))
@@ -297,11 +297,11 @@ Vector2 ETHEntity::ComputeAbsoluteOrigin(const Vector2 &v2Size) const
 		break;
 	};
 
-	Vector2 offset(rect.offset);
-	v2Center -= (offset);
+	Vector2 offset(rect.offset * m_properties.scale);
+	v2Center -= offset;
 
-	if (GetFlipX()) v2Center.x = rect.size.x - v2Center.x;
-	if (GetFlipY()) v2Center.y = rect.size.y - v2Center.y;
+	if (GetFlipX()) v2Center.x = (rect.size.x * m_properties.scale.x) - v2Center.x;
+	if (GetFlipY()) v2Center.y = (rect.size.y * m_properties.scale.y) - v2Center.y;
 
 	return (v2Center + ((m_properties.pivotAdjust) * m_properties.scale));
 }
