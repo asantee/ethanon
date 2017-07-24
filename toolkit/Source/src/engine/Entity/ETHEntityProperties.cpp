@@ -270,6 +270,8 @@ bool ETHEntityProperties::ReadFromXMLFile(TiXmlElement *pElement)
 	ReadVector2iPropertyFromXmlElement(pElement, GS_L("SpriteCut"), spriteCut);
 	ReadVector2PropertyFromXmlElement(pElement, GS_L("Scale"), scale);
 	ReadVector2PropertyFromXmlElement(pElement, GS_L("PivotAdjust"), pivotAdjust);
+	
+	originalSpriteCut = spriteCut;
 
 	TiXmlElement *pIter;
 	TiXmlNode *pNode;

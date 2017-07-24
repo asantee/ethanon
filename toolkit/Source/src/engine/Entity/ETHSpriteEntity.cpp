@@ -407,8 +407,8 @@ void ETHSpriteEntity::ValidateSpriteCut(const SpritePtr& sprite) const
 	}
 	else
 	{
-		m_properties.spriteCut.x = Max(1, m_properties.spriteCut.x);
-		m_properties.spriteCut.y = Max(1, m_properties.spriteCut.y);
+		m_properties.spriteCut.x = Max(1, m_properties.originalSpriteCut.x);
+		m_properties.spriteCut.y = Max(1, m_properties.originalSpriteCut.y);
 
 		const Vector2i cut(sprite->GetNumColumns(), sprite->GetNumRows());
 		const Vector2i& entityCut = m_properties.spriteCut;
