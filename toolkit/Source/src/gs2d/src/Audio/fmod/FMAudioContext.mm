@@ -277,6 +277,19 @@ bool FMAudioContext::IsStreamable(const Audio::SAMPLE_TYPE type)
 void FMAudioContext::SetGlobalVolume(const float volume)
 {
 	m_globalVolume = ((volume > 1.0f ? 1.0f : volume) < 0.0f) ? 0.0f : volume;
+
+	FMOD::ChannelGroup* channelGroup = 0;
+
+	FMOD_RESULT result;
+	result = m_system->getMasterChannelGroup(&channelGroup);
+
+	if (FMOD_ERRCHECK(result, m_logger))
+		return;
+	
+	if (channelGroup)
+	{
+		channelGroup->setVolume(m_globalVolume);
+	}
 }
 
 float FMAudioContext::GetGlobalVolume() const
