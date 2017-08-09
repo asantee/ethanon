@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7481CE821A3790BB00E25DD3 /* libCocosDenshion.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74E6E5E81A31108600E89172 /* libCocosDenshion.a */; };
 		7481CEA81A37928900E25DD3 /* hl_md5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7481CE921A37928900E25DD3 /* hl_md5.cpp */; };
 		7481CEA91A37928900E25DD3 /* hl_md5wrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7481CE941A37928900E25DD3 /* hl_md5wrapper.cpp */; };
 		7481CEAA1A37928900E25DD3 /* hl_sha1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7481CE961A37928900E25DD3 /* hl_sha1.cpp */; };
@@ -222,6 +221,12 @@
 		74E6E82E1A31EADB00E89172 /* ETHSpeedTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E8261A31EADB00E89172 /* ETHSpeedTimer.cpp */; };
 		74EAF2BD1A5C211900E2A6DB /* ToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 74EAF2BC1A5C211900E2A6DB /* ToastView.m */; };
 		AA24C1A61E74407E00ABDFA2 /* getRealTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA24C1A41E74407E00ABDFA2 /* getRealTime.cpp */; };
+		AA74563B1F3B63940053CF6A /* libfmodL_iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA7456391F3B63940053CF6A /* libfmodL_iphoneos.a */; };
+		AA74563C1F3B63940053CF6A /* libfmodL_iphonesimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA74563A1F3B63940053CF6A /* libfmodL_iphonesimulator.a */; };
+		AAC4401F1F38DEBE00F1B194 /* FMAudioContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAC4401C1F38DEBE00F1B194 /* FMAudioContext.mm */; };
+		AAC440201F38DEBE00F1B194 /* FMAudioSample.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAC4401E1F38DEBE00F1B194 /* FMAudioSample.mm */; };
+		AAC440681F39157000F1B194 /* libfmod_iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAC440661F39157000F1B194 /* libfmod_iphoneos.a */; };
+		AAC440691F39157000F1B194 /* libfmod_iphonesimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAC440671F39157000F1B194 /* libfmod_iphonesimulator.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -231,27 +236,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 74E6E4E91A30EFB500E89172;
 			remoteInfo = Application;
-		};
-		74E6E5E71A31108600E89172 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 74E6E5E21A31108500E89172 /* CocosDenshion.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 74E6E5C81A31108400E89172;
-			remoteInfo = CocosDenshion;
-		};
-		74E6E5E91A31108600E89172 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 74E6E5E21A31108500E89172 /* CocosDenshion.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 74E6E5D31A31108500E89172;
-			remoteInfo = CocosDenshionTests;
-		};
-		74E6E5F81A3110D200E89172 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 74E6E5E21A31108500E89172 /* CocosDenshion.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 74E6E5C71A31108400E89172;
-			remoteInfo = CocosDenshion;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -387,7 +371,6 @@
 		74E6E5A21A310C6100E89172 /* MobileInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MobileInput.h; path = ../../../../src/gs2d/src/Input/MobileInput.h; sourceTree = "<group>"; };
 		74E6E5A61A310C7300E89172 /* IOSInput.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = IOSInput.mm; path = ../../../../src/gs2d/src/Input/iOS/IOSInput.mm; sourceTree = "<group>"; };
 		74E6E5A71A310C7300E89172 /* IOSInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IOSInput.h; path = ../../../../src/gs2d/src/Input/iOS/IOSInput.h; sourceTree = "<group>"; };
-		74E6E5E21A31108500E89172 /* CocosDenshion.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CocosDenshion.xcodeproj; path = CocosDenshion/CocosDenshion.xcodeproj; sourceTree = "<group>"; };
 		74E6E6021A31DD9900E89172 /* as_array.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = as_array.h; path = ../../../../src/angelscript/source/as_array.h; sourceTree = "<group>"; };
 		74E6E6031A31DD9900E89172 /* as_atomic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = as_atomic.cpp; path = ../../../../src/angelscript/source/as_atomic.cpp; sourceTree = "<group>"; };
 		74E6E6041A31DD9900E89172 /* as_atomic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = as_atomic.h; path = ../../../../src/angelscript/source/as_atomic.h; sourceTree = "<group>"; };
@@ -718,6 +701,14 @@
 		74EAF2BC1A5C211900E2A6DB /* ToastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToastView.m; path = ../../../../src/gs2d/src/Platform/ios/ToastView.m; sourceTree = "<group>"; };
 		AA24C1A41E74407E00ABDFA2 /* getRealTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = getRealTime.cpp; path = ../../../../src/gs2d/src/Platform/getRealTime.cpp; sourceTree = "<group>"; };
 		AA24C1A51E74407E00ABDFA2 /* getRealTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = getRealTime.h; path = ../../../../src/gs2d/src/Platform/getRealTime.h; sourceTree = "<group>"; };
+		AA7456391F3B63940053CF6A /* libfmodL_iphoneos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfmodL_iphoneos.a; path = ../../../../src/gs2d/vendors/fmod/lib/libfmodL_iphoneos.a; sourceTree = "<group>"; };
+		AA74563A1F3B63940053CF6A /* libfmodL_iphonesimulator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfmodL_iphonesimulator.a; path = ../../../../src/gs2d/vendors/fmod/lib/libfmodL_iphonesimulator.a; sourceTree = "<group>"; };
+		AAC4401B1F38DEBE00F1B194 /* FMAudioContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMAudioContext.h; path = ../../../../src/gs2d/src/Audio/fmod/FMAudioContext.h; sourceTree = "<group>"; };
+		AAC4401C1F38DEBE00F1B194 /* FMAudioContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = FMAudioContext.mm; path = ../../../../src/gs2d/src/Audio/fmod/FMAudioContext.mm; sourceTree = "<group>"; };
+		AAC4401D1F38DEBE00F1B194 /* FMAudioSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMAudioSample.h; path = ../../../../src/gs2d/src/Audio/fmod/FMAudioSample.h; sourceTree = "<group>"; };
+		AAC4401E1F38DEBE00F1B194 /* FMAudioSample.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = FMAudioSample.mm; path = ../../../../src/gs2d/src/Audio/fmod/FMAudioSample.mm; sourceTree = "<group>"; };
+		AAC440661F39157000F1B194 /* libfmod_iphoneos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfmod_iphoneos.a; path = ../../../../src/gs2d/vendors/fmod/lib/libfmod_iphoneos.a; sourceTree = "<group>"; };
+		AAC440671F39157000F1B194 /* libfmod_iphonesimulator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfmod_iphonesimulator.a; path = ../../../../src/gs2d/vendors/fmod/lib/libfmod_iphonesimulator.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -725,7 +716,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7481CE821A3790BB00E25DD3 /* libCocosDenshion.a in Frameworks */,
+				AA74563B1F3B63940053CF6A /* libfmodL_iphoneos.a in Frameworks */,
+				AA74563C1F3B63940053CF6A /* libfmodL_iphonesimulator.a in Frameworks */,
+				AAC440681F39157000F1B194 /* libfmod_iphoneos.a in Frameworks */,
+				AAC440691F39157000F1B194 /* libfmod_iphonesimulator.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -775,7 +769,6 @@
 		74E6E4E11A30EFB500E89172 = {
 			isa = PBXGroup;
 			children = (
-				74E6E5E21A31108500E89172 /* CocosDenshion.xcodeproj */,
 				74E6E5491A30F41100E89172 /* CoreFoundation.framework */,
 				74E6E5471A30F3DD00E89172 /* Foundation.framework */,
 				74E6E5081A30F04300E89172 /* GS2D */,
@@ -786,6 +779,7 @@
 				74E6E7211A31E68900E89172 /* SOIL */,
 				74E6E4F91A30EFB500E89172 /* ApplicationTests */,
 				74E6E4EB1A30EFB500E89172 /* Products */,
+				AAC440211F38E21F00F1B194 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -817,6 +811,7 @@
 		74E6E5081A30F04300E89172 /* GS2D */ = {
 			isa = PBXGroup;
 			children = (
+				AAC4401A1F38DE9600F1B194 /* Audio */,
 				74E6E59E1A310C4600E89172 /* Input */,
 				74E6E57F1A31004500E89172 /* Video */,
 				74E6E51B1A30F0EA00E89172 /* Platform */,
@@ -989,15 +984,6 @@
 				74E6E5A71A310C7300E89172 /* IOSInput.h */,
 			);
 			name = iOS;
-			sourceTree = "<group>";
-		};
-		74E6E5E31A31108500E89172 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				74E6E5E81A31108600E89172 /* libCocosDenshion.a */,
-				74E6E5EA1A31108600E89172 /* CocosDenshionTests.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		74E6E6011A31DD4C00E89172 /* AngelScript */ = {
@@ -1514,6 +1500,28 @@
 			name = Drawing;
 			sourceTree = "<group>";
 		};
+		AAC4401A1F38DE9600F1B194 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				AAC4401B1F38DEBE00F1B194 /* FMAudioContext.h */,
+				AAC4401C1F38DEBE00F1B194 /* FMAudioContext.mm */,
+				AAC4401D1F38DEBE00F1B194 /* FMAudioSample.h */,
+				AAC4401E1F38DEBE00F1B194 /* FMAudioSample.mm */,
+			);
+			name = Audio;
+			sourceTree = "<group>";
+		};
+		AAC440211F38E21F00F1B194 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AA7456391F3B63940053CF6A /* libfmodL_iphoneos.a */,
+				AA74563A1F3B63940053CF6A /* libfmodL_iphonesimulator.a */,
+				AAC440661F39157000F1B194 /* libfmod_iphoneos.a */,
+				AAC440671F39157000F1B194 /* libfmod_iphonesimulator.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1528,7 +1536,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				74E6E5F91A3110D200E89172 /* PBXTargetDependency */,
 			);
 			name = Application;
 			productName = Application;
@@ -1580,12 +1587,6 @@
 			mainGroup = 74E6E4E11A30EFB500E89172;
 			productRefGroup = 74E6E4EB1A30EFB500E89172 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 74E6E5E31A31108500E89172 /* Products */;
-					ProjectRef = 74E6E5E21A31108500E89172 /* CocosDenshion.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				74E6E4E91A30EFB500E89172 /* Application */,
@@ -1593,23 +1594,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		74E6E5E81A31108600E89172 /* libCocosDenshion.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libCocosDenshion.a;
-			remoteRef = 74E6E5E71A31108600E89172 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		74E6E5EA1A31108600E89172 /* CocosDenshionTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = CocosDenshionTests.xctest;
-			remoteRef = 74E6E5E91A31108600E89172 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		74E6E4F31A30EFB500E89172 /* Resources */ = {
@@ -1693,6 +1677,7 @@
 				7481CEAB1A37928900E25DD3 /* hl_sha1wrapper.cpp in Sources */,
 				74EAF2BD1A5C211900E2A6DB /* ToastView.m in Sources */,
 				74E6E6AD1A31E4B300E89172 /* b2EdgeShape.cpp in Sources */,
+				AAC440201F38DEBE00F1B194 /* FMAudioSample.mm in Sources */,
 				74E6E7EC1A31EA9100E89172 /* ETHBinaryStream.cpp in Sources */,
 				74E6E5451A30F1C600E89172 /* IOSNativeCommandListener.mm in Sources */,
 				74E6E5341A30F19900E89172 /* Platform.cpp in Sources */,
@@ -1707,6 +1692,7 @@
 				74E6E5861A31006700E89172 /* BitmapFontManager.cpp in Sources */,
 				74E6E5851A31006700E89172 /* BitmapFont.cpp in Sources */,
 				74E6E72F1A31E6A600E89172 /* stb_image_aug.c in Sources */,
+				AAC4401F1F38DEBE00F1B194 /* FMAudioContext.mm in Sources */,
 				74E6E64B1A31DD9900E89172 /* as_bytecode.cpp in Sources */,
 				74E6E69E1A31E4A700E89172 /* b2Collision.cpp in Sources */,
 				74E6E7F31A31EA9100E89172 /* ETHScriptWrapper.Math.cpp in Sources */,
@@ -1854,11 +1840,6 @@
 			target = 74E6E4E91A30EFB500E89172 /* Application */;
 			targetProxy = 74E6E4F71A30EFB500E89172 /* PBXContainerItemProxy */;
 		};
-		74E6E5F91A3110D200E89172 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CocosDenshion;
-			targetProxy = 74E6E5F81A3110D200E89172 /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
@@ -1976,13 +1957,19 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					../../../../src/vendors/hashlib2plus/src,
+					../../../../src/gs2d/src/Audio/fmod/inc,
 					../../../../src/gs2d/vendors/BoostSDK,
 					../../../../src/gs2d/src/,
 					../../../../src/soil,
 					../../../../src/box2d,
 					../../../../src/,
 				);
-				OTHER_LDFLAGS = "-ObjC";
+				LIBRARY_SEARCH_PATHS = ../../../../src/gs2d/vendors/fmod/lib;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lfmodL_iphoneos",
+					"-lfmodL_iphonesimulator",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -2005,13 +1992,19 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					../../../../src/vendors/hashlib2plus/src,
+					../../../../src/gs2d/src/Audio/fmod/inc,
 					../../../../src/gs2d/vendors/BoostSDK,
 					../../../../src/gs2d/src/,
 					../../../../src/soil,
 					../../../../src/box2d,
 					../../../../src/,
 				);
-				OTHER_LDFLAGS = "-ObjC";
+				LIBRARY_SEARCH_PATHS = ../../../../src/gs2d/vendors/fmod/lib;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lfmod_iphoneos",
+					"-lfmod_iphonesimulator",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};

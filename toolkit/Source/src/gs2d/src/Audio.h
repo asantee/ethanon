@@ -79,6 +79,8 @@ public:
 	virtual boost::any GetAudioContext() = 0;
 	virtual void SetGlobalVolume(const float volume) = 0;
 	virtual float GetGlobalVolume() const = 0;
+
+	virtual void Update() = 0;
 };
 
 /**

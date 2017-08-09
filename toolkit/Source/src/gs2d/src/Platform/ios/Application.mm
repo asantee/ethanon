@@ -74,6 +74,7 @@ void ApplicationWrapper::Update()
 	}
 	
 	g_input->Update();
+	g_audio->Update();
 
 	const float elapsedTime = (gs2d::ComputeElapsedTimeF(g_video));
 	g_engine->Update(gs2d::math::Min(400.0f, elapsedTime));

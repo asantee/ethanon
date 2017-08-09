@@ -1,0 +1,1 @@
+Copy fmod's iOS library (*.a) files here.
