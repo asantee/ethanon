@@ -46,7 +46,7 @@ bool FMOD_ERRCHECK_fn(FMOD_RESULT result, const char *file, int line, Platform::
 
 FMOD::System* gSystem = 0;
 
-void Common_Init()
+void Common_Init(Platform::FileLogger& logger)
 {
     /*
         Optimize audio session for FMOD defaults
@@ -90,23 +90,38 @@ void Common_Init()
     */
     [[NSNotificationCenter defaultCenter] addObserverForName:AVAudioSessionInterruptionNotification object:nil queue:nil usingBlock:^(NSNotification *notification)
     {
+		NSLog(@"Start Interruption");
 		if ([[notification.userInfo valueForKey:AVAudioSessionInterruptionTypeKey] intValue] == AVAudioSessionInterruptionTypeBegan)
 		{
+			NSLog(@"Interruption started");
 			if (gSystem)
 			{
 				FMOD_RESULT result = gSystem->mixerSuspend();
-				assert(result == FMOD_OK);
+				FMOD_ERRCHECK(result, logger);
 			}
 		}
 		else
 		{
-			BOOL success = [[AVAudioSession sharedInstance] setActive:TRUE error:nil];
-			assert(success);
+			NSLog(@"Interruption ended");
+			NSError* error;
+			BOOL success;
+			const unsigned int maxTries = 40;
+			unsigned int tryCount = 0;
+			while (!(success = [[AVAudioSession sharedInstance] setActive:TRUE error:&error]) && tryCount < maxTries)
+			{
+				++tryCount;
+				if (error != nil)
+				{
+					NSLog(@"%@", [error description]);
+				}
+				[NSThread sleepForTimeInterval:0.1f];
+			}
+			logger.Log("AVAudioSession setActive failed!", Platform::Logger::ERROR);
 
 			if (gSystem)
 			{
 				FMOD_RESULT result = gSystem->mixerResume();
-				assert(result == FMOD_OK);
+				FMOD_ERRCHECK(result, logger);
 			}
 		}
     }];
@@ -223,7 +238,7 @@ FMAudioContext::~FMAudioContext()
 
 bool FMAudioContext::CreateAudioDevice(boost::any data)
 {
-	Common_Init();
+	Common_Init(m_logger);
 
 	FMOD_RESULT result;
 	unsigned int version;
