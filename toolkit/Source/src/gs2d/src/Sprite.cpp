@@ -109,7 +109,7 @@ bool Sprite::SetRects(const RectsPtr& rects)
 	if (rects)
 	{
         m_nRows = 1;
-        m_nColumns = rects->size();
+        m_nColumns = static_cast<unsigned int>(rects->size());
         m_hasCustomRects = true;
         return (m_nColumns > 0);
     }
