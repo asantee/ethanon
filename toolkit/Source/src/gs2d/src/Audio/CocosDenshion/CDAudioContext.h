@@ -56,6 +56,8 @@ public:
 
 	void SetGlobalVolume(const float volume);
 	float GetGlobalVolume() const;
+    
+    void Update();
 };
 
 typedef boost::shared_ptr<CDAudioContext> CDAudioContextPtr;

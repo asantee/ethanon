@@ -103,4 +103,8 @@ float CDAudioContext::GetGlobalVolume() const
 	return r;
 }
 
+void CDAudioContext::Update()
+{
+}
+
 } // namespace gs2d
