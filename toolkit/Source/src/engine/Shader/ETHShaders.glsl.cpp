@@ -50,6 +50,11 @@ const std::string& ETHShaders::Highlight_PS()
 	return ETHGlobal::GLSL_highlight_ps;
 }
 
+const std::string& ETHShaders::SolidColor_PS()
+{
+	return ETHGlobal::GLSL_solid_ps;
+}
+
 // particles
 const std::string& ETHShaders::Particle_VS()
 {

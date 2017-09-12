@@ -125,6 +125,7 @@ public:
 	void ReleaseLightmap();
 
 	bool ShouldUseHighlightPixelShader() const;
+	bool ShouldUseSolidColorPixelShader() const;
 
 	Vector2 GetSpriteCut() const;
 

@@ -44,6 +44,7 @@ ETHShaderManager::ETHShaderManager(VideoPtr video, const str_type::string& shade
 	m_shadowVS = m_video->LoadShaderFromString(GS_L("shadowVS"), ETHShaders::Shadow_VS_Ver(), Shader::SF_VERTEX, sp);
 
 	m_highlightPS = m_video->LoadShaderFromString(GS_L("highlightPS"), ETHShaders::Highlight_PS(), Shader::SF_PIXEL, sp);
+	m_solidColorPS = m_video->LoadShaderFromString(GS_L("solidColorPS"), ETHShaders::SolidColor_PS(), Shader::SF_PIXEL, sp);
 
 	#if defined(GLES2) || defined(OPENGL)
 		m_projShadow = m_video->CreateSprite(ETHGlobal::GetDataResourceFullPath(shaderPath, GS_L("shadow.png")));
@@ -90,11 +91,22 @@ SpritePtr ETHShaderManager::GetProjShadow()
 bool ETHShaderManager::BeginAmbientPass(const ETHSpriteEntity *pRender, const float maxHeight, const float minHeight)
 {
 	const bool shouldUseHighlightPS = pRender->ShouldUseHighlightPixelShader();
-	m_video->SetPixelShader(shouldUseHighlightPS ? m_highlightPS : ShaderPtr());
+	const bool shouldUseSolidColorPS = pRender->ShouldUseSolidColorPixelShader();
+
+	ShaderPtr pixelShader;
+	if (shouldUseHighlightPS)  pixelShader = m_highlightPS;
+	if (shouldUseSolidColorPS) pixelShader = m_solidColorPS;
+
+	m_video->SetPixelShader(pixelShader);
 
 	if (shouldUseHighlightPS)
 	{
 		m_highlightPS->SetConstant(GS_L("highlight"), pRender->GetColorARGB());
+	}
+
+	if (shouldUseSolidColorPS)
+	{
+		m_solidColorPS->SetConstant(GS_L("solidColor"), pRender->GetSolidColorARGB());
 	}
 
 	if (pRender->GetType() == ETHEntityProperties::ET_VERTICAL)

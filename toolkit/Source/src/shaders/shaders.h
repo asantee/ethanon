@@ -18,8 +18,10 @@ Cg/vPixelLightDiff.cg           ->     Cg_vPixelLightDiff_cg
 Cg/vPixelLightSpec.cg           ->     Cg_vPixelLightSpec_cg
 Cg/vPixelLightVS.cg             ->     Cg_vPixelLightVS_cg
 Cg/highlightPS.cg               ->     Cg_highlightPS_cg
+Cg/solidPS.cg                   ->     Cg_solidPS_cg
 GLSL/default.ps                 ->     GLSL_default_ps
 GLSL/highlight.ps               ->     GLSL_highlight_ps
+GLSL/solid.ps                   ->     GLSL_solid_ps
 GLSL/default.vs                 ->     GLSL_default_vs
 GLSL/hAmbient.vs                ->     GLSL_hAmbient_vs
 GLSL/hPixelLight.vs             ->     GLSL_hPixelLight_vs
@@ -779,6 +781,19 @@ const std::string Cg_highlightPS_cg =
 "\n" \
 "\n";
 
+const std::string Cg_solidPS_cg = 
+"void main(float2 texCoord : TEXCOORD0,\n" \
+"			 float4 color0 : COLOR0,\n" \
+"			 out float4 oColor : COLOR,\n" \
+"			 uniform sampler2D diffuse,\n" \
+"			 uniform float4 solidColor)\n" \
+"{\n" \
+"	const float4 diffuseColor = color0 * tex2D(diffuse, texCoord);\n" \
+"	oColor = float4(lerp(diffuseColor.xyz, solidColor.xyz, solidColor.w), diffuseColor.w);\n" \
+"}\n" \
+"\n" \
+"\n";
+
 const std::string GLSL_default_ps = 
 "precision mediump float;\n" \
 "uniform sampler2D diffuse;\n" \
@@ -804,6 +819,23 @@ const std::string GLSL_highlight_ps =
 "{\n" \
 "	gl_FragColor = highlight * texture2D(diffuse, v_texCoord);\n" \
 "}\n" \
+"\n";
+
+const std::string GLSL_solid_ps = 
+"precision lowp float;\n" \
+"uniform sampler2D diffuse;\n" \
+"\n" \
+"varying vec4 v_color;\n" \
+"varying vec2 v_texCoord;\n" \
+"\n" \
+"uniform vec4 solidColor;\n" \
+"\n" \
+"void main()\n" \
+"{\n" \
+"	vec4 diffuseColor = v_color * texture2D(diffuse, v_texCoord);\n" \
+"	gl_FragColor = vec4(mix(diffuseColor.xyz, solidColor.xyz, solidColor.w), diffuseColor.w);\n" \
+"}\n" \
+"\n" \
 "\n";
 
 const std::string GLSL_default_vs = 

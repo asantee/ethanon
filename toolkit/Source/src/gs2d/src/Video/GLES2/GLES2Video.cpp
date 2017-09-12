@@ -511,7 +511,10 @@ void GLES2Video::SetupMultitextureShader()
 
 void GLES2Video::DisableMultitextureShader()
 {
-	SetPixelShader(m_defaultPS);
+	if (GetPixelShader() == m_add1 || GetPixelShader() == m_modulate1)
+	{
+		SetPixelShader(m_defaultPS);
+	}
 }
 
 bool GLES2Video::SetBlendMode(const unsigned int passIdx, const Video::BLEND_MODE mode)

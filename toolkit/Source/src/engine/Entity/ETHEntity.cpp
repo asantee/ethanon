@@ -98,6 +98,7 @@ void ETHEntity::InstantiateDictionary()
 void ETHEntity::Zero()
 {
 	m_v4Color = ETH_DEFAULT_COLOR;
+	m_v4SolidColor = Vector4(0.0f, 0.0f, 0.0f, 0.0f);
 	m_spriteFrame = (0);
 	m_shadowZ = (0.0f);
 	m_hide = m_flipX = m_flipY = (ETH_FALSE);
@@ -530,6 +531,33 @@ Vector4 ETHEntity::GetColorARGB() const
 float ETHEntity::GetAlpha() const
 {
 	return m_v4Color.w;
+}
+
+Vector3 ETHEntity::GetSolidColor() const
+{
+	return Vector3(m_v4SolidColor.x, m_v4SolidColor.y, m_v4SolidColor.z);
+}
+
+void ETHEntity::SetSolidColor(const Vector3& color)
+{
+	m_v4SolidColor.x = color.x;
+	m_v4SolidColor.y = color.y;
+	m_v4SolidColor.z = color.z;
+}
+
+void ETHEntity::SetSolidColorAlpha(const float alpha)
+{
+	m_v4SolidColor.w = alpha;
+}
+
+float ETHEntity::GetSolidColorAlpha() const
+{
+	return m_v4SolidColor.w;
+}
+
+Vector4 ETHEntity::GetSolidColorARGB() const
+{
+	return m_v4SolidColor;
 }
 
 void ETHEntity::SetShadowZ(const float z)
