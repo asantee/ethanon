@@ -90,6 +90,7 @@ private:
 	ShaderPtr m_shadowVS;
 	ShaderPtr m_defaultVS;
 	ShaderPtr m_highlightPS;
+	ShaderPtr m_solidColorPS;
 	ShaderPtr m_particle;
 	ShaderPtr m_defaultStaticAmbientVS;
 	ShaderPtr m_verticalStaticAmbientVS;

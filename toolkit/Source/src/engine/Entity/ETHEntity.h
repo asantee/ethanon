@@ -116,6 +116,12 @@ public:
 	float GetFriction(const unsigned int fixtureIdx) const;
 	float GetRestitution(const unsigned int fixtureIdx) const;
 
+	Vector3 GetSolidColor() const;
+	void SetSolidColor(const Vector3& color);
+	void SetSolidColorAlpha(const float alpha);
+	float GetSolidColorAlpha() const;
+	Vector4 GetSolidColorARGB() const;
+
 	void Scale(const Vector2& scale);
 	void Scale(const float scale);
 	void SetScale(const Vector2& scale);
@@ -256,6 +262,7 @@ protected:
 	ETHEntityProperties m_properties;
 	unsigned int m_spriteFrame;
 	Vector4 m_v4Color;
+	Vector4 m_v4SolidColor;
 	ETH_BOOL m_hide, m_flipX, m_flipY;
 	float m_shadowZ;
 };

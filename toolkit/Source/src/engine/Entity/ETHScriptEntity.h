@@ -105,11 +105,19 @@ public:
 	virtual Vector3 GetLightColor() const = 0;
 	virtual void SetEmissiveColor(const Vector3 &color) = 0;
 	virtual Vector3 GetEmissiveColor() const = 0;
+
 	virtual void SetColor(const Vector3 &color) = 0;
 	virtual void SetAlpha(const float alpha) = 0;
 	virtual Vector3 GetColor() const = 0;
 	virtual Vector4 GetColorARGB() const = 0;
 	virtual float GetAlpha() const = 0;
+
+	virtual Vector3 GetSolidColor() const = 0;
+	virtual void SetSolidColor(const Vector3& color) = 0;
+	virtual void SetSolidColorAlpha(const float alpha) = 0;
+	virtual float GetSolidColorAlpha() const = 0;
+	virtual Vector4 GetSolidColorARGB() const = 0;
+
 	virtual void SetLayerDepth(const float depth) = 0;
 	virtual float GetLayerDepth() const = 0;
 	virtual void SetPivotAdjust(const Vector2& p) = 0;

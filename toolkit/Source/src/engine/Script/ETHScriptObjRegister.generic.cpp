@@ -283,6 +283,11 @@ asDECLARE_METHOD_WRAPPERPR(__HasHalo,            ETHScriptEntity, HasHalo,      
 asDECLARE_METHOD_WRAPPERPR(__SetPivotAdjust,     ETHScriptEntity, SetPivotAdjust,     (const Vector2&),           void);
 asDECLARE_METHOD_WRAPPERPR(__GetPivotAdjust,     ETHScriptEntity, GetPivotAdjust,     (void) const,               Vector2);
 
+asDECLARE_METHOD_WRAPPERPR(__SetSolidColor,      ETHScriptEntity, SetSolidColor,      (const Vector3&),           void);
+asDECLARE_METHOD_WRAPPERPR(__SetSolidColorAlpha, ETHScriptEntity, SetSolidColorAlpha, (const float),              void);
+asDECLARE_METHOD_WRAPPERPR(__GetSolidColor,      ETHScriptEntity, GetSolidColor,      (void) const,               Vector3);
+asDECLARE_METHOD_WRAPPERPR(__GetSolidColorAlpha, ETHScriptEntity, GetSolidColorAlpha, (void) const,               float);
+
 asDECLARE_METHOD_WRAPPERPR(__SetLayerDepth,         ETHScriptEntity, SetLayerDepth,         (const float),                                    void);
 asDECLARE_METHOD_WRAPPERPR(__GetLayerDepth,         ETHScriptEntity, GetLayerDepth,         (void) const,                                     float);
 asDECLARE_METHOD_WRAPPERPR(__AddToAngle,            ETHScriptEntity, AddToAngle,            (const float),                                    void);
@@ -436,6 +441,11 @@ void RegisterEntityMethods(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool HasHalo() const",                   asFUNCTION(__HasHalo),            asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetPivotAdjust(const vector2& in)", asFUNCTION(__SetPivotAdjust),     asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector2 GetPivotAdjust() const",         asFUNCTION(__GetPivotAdjust),     asCALL_GENERIC); assert(r >= 0);
+
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetSolidColor(const vector3 &in)",  asFUNCTION(__SetSolidColor),      asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetSolidColorAlpha(const float)",   asFUNCTION(__SetSolidColorAlpha), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector3 GetSolidColor()",                asFUNCTION(__GetSolidColor),      asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("ETHEntity", "float GetSolidColorAlpha()",             asFUNCTION(__GetSolidColorAlpha), asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetLayerDepth(const float)",                           asFUNCTION(__SetLayerDepth),         asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "float GetLayerDepth() const",                               asFUNCTION(__GetLayerDepth),         asCALL_GENERIC); assert(r >= 0);
