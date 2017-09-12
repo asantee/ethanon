@@ -54,35 +54,35 @@ void Common_Init(Platform::FileLogger& logger)
     double rate = 24000.0;
     int blockSize = 512;
     long channels = 2;
-    BOOL success = false;
+    //BOOL success = false;
     AVAudioSession *session = [AVAudioSession sharedInstance];
 
     // Make our category 'solo' for the best chance at getting our desired settings
     // Use AVAudioSessionCategoryPlayAndRecord if you need microphone input
-    success = [session setCategory:AVAudioSessionCategorySoloAmbient error:nil];
-    assert(success);
-    
+    /*success = */[session setCategory:AVAudioSessionCategorySoloAmbient error:nil];
+    //assert(success);
+
     // Set our preferred rate and activate the session to test it
-    success = [session setPreferredSampleRate:rate error:nil];
-    assert(success);
-    success = [session setActive:TRUE error:nil];
-    assert(success);
+    /*success = */[session setPreferredSampleRate:rate error:nil];
+    //assert(success);
+    /*success = */[session setActive:TRUE error:nil];
+    //assert(success);
     
     // Query the actual supported rate and max channels
     rate = [session sampleRate];
     channels = [session respondsToSelector:@selector(maximumOutputNumberOfChannels)] ? [session maximumOutputNumberOfChannels] : 2;
     
     // Deactivate the session so we can change parameters without route changes each time
-    success = [session setActive:FALSE error:nil];
-    assert(success);
+    /*success = */[session setActive:FALSE error:nil];
+    //assert(success);
     
     // Set the duration and channels based on known supported values
-    success = [session setPreferredIOBufferDuration:blockSize / rate error:nil];
-    assert(success);
+    /*success = */[session setPreferredIOBufferDuration:blockSize / rate error:nil];
+    //assert(success);
     if ([session respondsToSelector:@selector(setPreferredOutputNumberOfChannels:error:)])
     {
-        success = [session setPreferredOutputNumberOfChannels:channels error:nil];
-        assert(success);
+        /*success = */[session setPreferredOutputNumberOfChannels:channels error:nil];
+        //assert(success);
     }
     
     /*
@@ -189,8 +189,8 @@ void Common_Init(Platform::FileLogger& logger)
     /*
         Activate the audio session
     */
-    success = [session setActive:TRUE error:nil];
-    assert(success);
+    /*success = */[session setActive:TRUE error:nil];
+    //assert(success);
 }
 
 GS2D_API AudioPtr CreateAudio(boost::any data)
