@@ -138,12 +138,16 @@ public:
 
 	void AddEntityToPersistentList(ETHRenderEntity* entity);
 
-private:
-	bool LoadFromFile(
+	bool AddSceneFromFile(
 		const str_type::string& fileName,
 		ETHEntityCache& entityCache,
-		const str_type::string &entityPath);
+		const str_type::string &entityPath,
+		const bool readSceneProperties,
+		const Vector3& offset);
 
+	str_type::string AssembleEntityPath() const;
+
+private:
 	void Init(ETHResourceProviderPtr provider, const ETHSceneProperties& props, asIScriptModule *pModule, asIScriptContext *pContext);
 
 	void MapEntitiesToBeRendered(
@@ -161,11 +165,13 @@ private:
 		asIScriptFunction* constructorCallback);
 
 	bool DrawBucketOutlines(const ETHBackBufferTargetManagerPtr& backBuffer);
-	bool ReadFromXMLFile(
+	bool AddEntitiesFromXMLFile(
 		const str_type::string& fileName,
 		TiXmlElement *pElement,
 		ETHEntityCache& entityCache,
-		const str_type::string &entityPath);
+		const str_type::string &entityPath,
+		const bool readSceneProperties,
+		const Vector3& offset);
 
 	void FillCurrentlyVisibleBucketList(std::list<Vector2>& bucketList, const ETHBackBufferTargetManagerPtr& backBuffer);
 

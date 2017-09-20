@@ -64,6 +64,8 @@ asDECLARE_FUNCTION_WRAPPERPR(__LoadSceneSSSVArgs,  ETHScriptWrapper::LoadSceneIn
 asDECLARE_FUNCTION_WRAPPERPR(__LoadSceneSSSSVArgs, ETHScriptWrapper::LoadSceneInScript, (const str_type::string&, const str_type::string&, const str_type::string&, const str_type::string&, const Vector2&), void);
 asDECLARE_FUNCTION_WRAPPERPR(__LoadSceneSSSSSVArgs, ETHScriptWrapper::LoadSceneInScript, (const str_type::string&, const str_type::string&, const str_type::string&, const str_type::string&, const str_type::string&, const Vector2&), void);
 
+asDECLARE_FUNCTION_WRAPPER(__AddScene, ETHScriptWrapper::AddSceneInScript);
+
 asDECLARE_FUNCTION_WRAPPER(__SaveScene, ETHScriptWrapper::SaveScene);
 
 asDECLARE_FUNCTION_WRAPPER(__GetTimeF,       ETHScriptWrapper::GetTimeF);
@@ -333,6 +335,7 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in, const string &in, const string &in, const string &in, const vector2 &in)",                   asFUNCTION(__LoadSceneSSSSVArgs), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in, const string &in, const string &in, const string &in, const string &in, const vector2 &in)", asFUNCTION(__LoadSceneSSSSSVArgs), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool SaveScene(const string &in)",														                   asFUNCTION(__SaveScene),      asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void AddScene(const string &in, const vector3 &in)", asFUNCTION(__AddScene), asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("float GetTimeF()",                  asFUNCTION(__GetTimeF),       asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("uint GetTime()",                    asFUNCTION(__GetTime),        asCALL_GENERIC); assert(r >= 0);

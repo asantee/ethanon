@@ -54,7 +54,12 @@ ETHScene::ETHScene(
 	m_physicsSimulator(provider->GetGlobalScaleManager(), provider->GetVideo()->GetFPSRate())
 {
 	Init(provider, props, pModule, pContext);
-	LoadFromFile(fileName, entityCache, m_provider->GetFileIOHub()->GetResourceDirectory() + ETHDirectories::GetEntityDirectory());
+	AddSceneFromFile(
+		fileName,
+		entityCache,
+		AssembleEntityPath(),
+		true /*readSceneProperties*/,
+		Vector3(0.0f, 0.0f, 0.0f));
 }
 
 ETHScene::ETHScene(
@@ -98,6 +103,11 @@ void ETHScene::Init(ETHResourceProviderPtr provider, const ETHSceneProperties& p
 	m_maxSceneHeight = m_provider->GetVideo()->GetScreenSizeF().y;
 	const ETHShaderManagerPtr& shaderManager = m_provider->GetShaderManager();
 	shaderManager->SetParallaxIntensity(m_sceneProps.parallaxIntensity);
+}
+
+str_type::string ETHScene::AssembleEntityPath() const
+{
+	return m_provider->GetFileIOHub()->GetResourceDirectory() + ETHDirectories::GetEntityDirectory();
 }
 
 void ETHScene::ClearResources()
@@ -155,10 +165,12 @@ bool ETHScene::SaveToFile(const str_type::string& fileName, ETHEntityCache& enti
 	return true;
 }
 
-bool ETHScene::LoadFromFile(
+bool ETHScene::AddSceneFromFile(
 	const str_type::string& fileName,
 	ETHEntityCache& entityCache,
-	const str_type::string &entityPath)
+	const str_type::string &entityPath,
+	const bool readSceneProperties,
+	const Vector3& offset)
 {
 	Platform::FileManagerPtr fileManager = m_provider->GetFileManager();
 
@@ -191,19 +203,24 @@ bool ETHScene::LoadFromFile(
 		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
 		return false;
 	}
-	return ReadFromXMLFile(fileName, pElement, entityCache, entityPath);
+	return AddEntitiesFromXMLFile(fileName, pElement, entityCache, entityPath, readSceneProperties, offset);
 }
 
-bool ETHScene::ReadFromXMLFile(
+bool ETHScene::AddEntitiesFromXMLFile(
 	const str_type::string& fileName,
 	TiXmlElement *pRoot,
 	ETHEntityCache& entityCache,
-	const str_type::string &entityPath)
+	const str_type::string &entityPath,
+	const bool readSceneProperties,
+	const Vector3& offset)
 {
 	str_type::stringstream ss;
 	const str_type::string sceneFileName = Platform::GetFileName(fileName.c_str());
 
-	m_sceneProps.ReadFromXMLFile(pRoot);
+	if (readSceneProperties)
+	{
+		m_sceneProps.ReadFromXMLFile(pRoot);
+	}
 
 	TiXmlNode *pNode = pRoot->FirstChild(GS_L("EntitiesInScene"));
 
@@ -226,6 +243,7 @@ bool ETHScene::ReadFromXMLFile(
 						if (entityProperties->IsSuccessfullyLoaded())
 						{
 							AddEntity(entity);
+							entity->AddToPosition(offset, m_buckets);
 						}
 						else
 						{
