@@ -638,6 +638,15 @@ bool ETHScriptWrapper::LoadScene(const str_type::string &escFile, const str_type
 	return true;
 }
 
+void ETHScriptWrapper::AddSceneInScript(const str_type::string& escFile, const Vector3& offset)
+{
+	if (!m_pScene) return;
+
+	const str_type::string fileName = m_provider->GetFileIOHub()->GetResourceDirectory() + escFile;
+	
+	m_pScene->AddSceneFromFile(fileName, m_entityCache, m_pScene->AssembleEntityPath(), false /*readSceneProperties*/, offset);
+}
+
 void ETHScriptWrapper::LoadSceneInScript(const str_type::string &escFile)
 {
 	LoadSceneInScript(
