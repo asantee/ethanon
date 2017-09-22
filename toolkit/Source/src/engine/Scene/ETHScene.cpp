@@ -54,12 +54,14 @@ ETHScene::ETHScene(
 	m_physicsSimulator(provider->GetGlobalScaleManager(), provider->GetVideo()->GetFPSRate())
 {
 	Init(provider, props, pModule, pContext);
+	ETHEntityArray out;
 	AddSceneFromFile(
 		fileName,
 		entityCache,
 		AssembleEntityPath(),
 		true /*readSceneProperties*/,
-		Vector3(0.0f, 0.0f, 0.0f));
+		Vector3(0.0f, 0.0f, 0.0f),
+		out);
 }
 
 ETHScene::ETHScene(
@@ -170,7 +172,8 @@ bool ETHScene::AddSceneFromFile(
 	ETHEntityCache& entityCache,
 	const str_type::string &entityPath,
 	const bool readSceneProperties,
-	const Vector3& offset)
+	const Vector3& offset,
+	ETHEntityArray &outVector)
 {
 	Platform::FileManagerPtr fileManager = m_provider->GetFileManager();
 
@@ -203,7 +206,7 @@ bool ETHScene::AddSceneFromFile(
 		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
 		return false;
 	}
-	return AddEntitiesFromXMLFile(fileName, pElement, entityCache, entityPath, readSceneProperties, offset);
+	return AddEntitiesFromXMLFile(fileName, pElement, entityCache, entityPath, readSceneProperties, offset, outVector);
 }
 
 bool ETHScene::AddEntitiesFromXMLFile(
@@ -212,7 +215,8 @@ bool ETHScene::AddEntitiesFromXMLFile(
 	ETHEntityCache& entityCache,
 	const str_type::string &entityPath,
 	const bool readSceneProperties,
-	const Vector3& offset)
+	const Vector3& offset,
+	ETHEntityArray &outVector)
 {
 	str_type::stringstream ss;
 	const str_type::string sceneFileName = Platform::GetFileName(fileName.c_str());
@@ -244,6 +248,7 @@ bool ETHScene::AddEntitiesFromXMLFile(
 						{
 							AddEntity(entity);
 							entity->AddToPosition(offset, m_buckets);
+							outVector.push_back(entity);
 						}
 						else
 						{

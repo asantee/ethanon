@@ -335,7 +335,7 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in, const string &in, const string &in, const string &in, const vector2 &in)",                   asFUNCTION(__LoadSceneSSSSVArgs), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in, const string &in, const string &in, const string &in, const string &in, const vector2 &in)", asFUNCTION(__LoadSceneSSSSSVArgs), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool SaveScene(const string &in)",														                   asFUNCTION(__SaveScene),      asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("void AddScene(const string &in, const vector3 &in)", asFUNCTION(__AddScene), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void AddScene(const string &in, const vector3 &in, ETHEntityArray &)",                                      asFUNCTION(__AddScene), asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("float GetTimeF()",                  asFUNCTION(__GetTimeF),       asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("uint GetTime()",                    asFUNCTION(__GetTime),        asCALL_GENERIC); assert(r >= 0);

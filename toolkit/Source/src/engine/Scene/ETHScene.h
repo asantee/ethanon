@@ -143,7 +143,8 @@ public:
 		ETHEntityCache& entityCache,
 		const str_type::string &entityPath,
 		const bool readSceneProperties,
-		const Vector3& offset);
+		const Vector3& offset,
+		ETHEntityArray &outVector);
 
 	str_type::string AssembleEntityPath() const;
 
@@ -171,7 +172,8 @@ private:
 		ETHEntityCache& entityCache,
 		const str_type::string &entityPath,
 		const bool readSceneProperties,
-		const Vector3& offset);
+		const Vector3& offset,
+		ETHEntityArray &outVector);
 
 	void FillCurrentlyVisibleBucketList(std::list<Vector2>& bucketList, const ETHBackBufferTargetManagerPtr& backBuffer);
 
