@@ -242,12 +242,12 @@ bool ETHScene::AddEntitiesFromXMLFile(
 					do
 					{
 						ETHRenderEntity* entity = new ETHRenderEntity(pEntityIter, m_provider, entityCache, entityPath);
+						entity->GetController()->AddToPos(offset);
 						const ETHEntityProperties* entityProperties = entity->GetProperties();
 
 						if (entityProperties->IsSuccessfullyLoaded())
 						{
 							AddEntity(entity);
-							entity->AddToPosition(offset, m_buckets);
 							outVector.push_back(entity);
 						}
 						else
