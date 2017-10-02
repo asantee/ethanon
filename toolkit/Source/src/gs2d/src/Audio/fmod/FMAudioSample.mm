@@ -124,7 +124,7 @@ bool FMAudioSample::Play()
 		m_channel = 0;
 		return false;
 	}
-	
+
 	if (m_channel)
 	{
 		SetLoop(m_loop);
@@ -253,17 +253,8 @@ bool FMAudioSample::SetSpeed(const float speed)
 	if (m_channel)
 	{
 		FMOD_RESULT result;
-		
-		float frequency;
-		result = m_channel->getFrequency(&frequency);
-		
-		if ((result == FMOD_ERR_INVALID_HANDLE) || (result == FMOD_ERR_CHANNEL_STOLEN))
-		{
-			m_channel = 0;
-			return true;
-		}
 
-		result = m_channel->setFrequency(speed * frequency);
+		result = m_channel->setPitch(speed);
 
 		if (FMOD_ERRCHECK(result, m_logger))
 			return false;

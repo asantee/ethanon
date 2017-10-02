@@ -24,12 +24,6 @@
 
 #import "fmod_errors.h"
 
-#import <Foundation/Foundation.h>
-
-#import <AVFoundation/AVAudioSession.h>
-
-#import <UIKit/UIKit.h>
-
 namespace gs2d {
 
 bool FMOD_ERRCHECK_fn(FMOD_RESULT result, const char *file, int line, Platform::FileLogger& logger)
@@ -44,154 +38,7 @@ bool FMOD_ERRCHECK_fn(FMOD_RESULT result, const char *file, int line, Platform::
 	return false;
 }
 
-FMOD::System* gSystem = 0;
-
-void Common_Init(Platform::FileLogger& logger)
-{
-    /*
-        Optimize audio session for FMOD defaults
-    */
-    double rate = 24000.0;
-    int blockSize = 512;
-    long channels = 2;
-    //BOOL success = false;
-    AVAudioSession *session = [AVAudioSession sharedInstance];
-
-    // Make our category 'solo' for the best chance at getting our desired settings
-    // Use AVAudioSessionCategoryPlayAndRecord if you need microphone input
-    /*success = */[session setCategory:AVAudioSessionCategorySoloAmbient error:nil];
-    //assert(success);
-
-    // Set our preferred rate and activate the session to test it
-    /*success = */[session setPreferredSampleRate:rate error:nil];
-    //assert(success);
-    /*success = */[session setActive:TRUE error:nil];
-    //assert(success);
-    
-    // Query the actual supported rate and max channels
-    rate = [session sampleRate];
-    channels = [session respondsToSelector:@selector(maximumOutputNumberOfChannels)] ? [session maximumOutputNumberOfChannels] : 2;
-    
-    // Deactivate the session so we can change parameters without route changes each time
-    /*success = */[session setActive:FALSE error:nil];
-    //assert(success);
-    
-    // Set the duration and channels based on known supported values
-    /*success = */[session setPreferredIOBufferDuration:blockSize / rate error:nil];
-    //assert(success);
-    if ([session respondsToSelector:@selector(setPreferredOutputNumberOfChannels:error:)])
-    {
-        /*success = */[session setPreferredOutputNumberOfChannels:channels error:nil];
-        //assert(success);
-    }
-    
-    /*
-        Set up some observers for various notifications
-    */
-    [[NSNotificationCenter defaultCenter] addObserverForName:AVAudioSessionInterruptionNotification object:nil queue:nil usingBlock:^(NSNotification *notification)
-    {
-		NSLog(@"Start Interruption");
-		if ([[notification.userInfo valueForKey:AVAudioSessionInterruptionTypeKey] intValue] == AVAudioSessionInterruptionTypeBegan)
-		{
-			NSLog(@"Interruption started");
-			if (gSystem)
-			{
-				FMOD_RESULT result = gSystem->mixerSuspend();
-				FMOD_ERRCHECK(result, logger);
-			}
-		}
-		else
-		{
-			NSLog(@"Interruption ended");
-			NSError* error;
-			BOOL success;
-			const unsigned int maxTries = 40;
-			unsigned int tryCount = 0;
-			while (!(success = [[AVAudioSession sharedInstance] setActive:TRUE error:&error]) && tryCount < maxTries)
-			{
-				++tryCount;
-				if (error != nil)
-				{
-					NSLog(@"%@", [error description]);
-				}
-				[NSThread sleepForTimeInterval:0.1f];
-			}
-			logger.Log("AVAudioSession setActive failed!", Platform::Logger::ERROR);
-
-			if (gSystem)
-			{
-				FMOD_RESULT result = gSystem->mixerResume();
-				FMOD_ERRCHECK(result, logger);
-			}
-		}
-    }];
-
-    if (&AVAudioSessionSilenceSecondaryAudioHintNotification)
-    {
-        [[NSNotificationCenter defaultCenter] addObserverForName:AVAudioSessionSilenceSecondaryAudioHintNotification object:nil queue:nil usingBlock:^(NSNotification *notification)
-        {
-            bool began = [[notification.userInfo valueForKey:AVAudioSessionSilenceSecondaryAudioHintTypeKey] intValue] == AVAudioSessionSilenceSecondaryAudioHintTypeBegin;
-            NSLog(@"Silence secondary audio %@", began ? @"Began" : @"Ended");
-        }];
-    }
-
-    [[NSNotificationCenter defaultCenter] addObserverForName:AVAudioSessionRouteChangeNotification object:nil queue:nil usingBlock:^(NSNotification *notification)
-    {
-        NSNumber *reason = [[notification userInfo] valueForKey:AVAudioSessionRouteChangeReasonKey];
-        AVAudioSessionPortDescription *oldOutput = [[[notification userInfo] valueForKey:AVAudioSessionRouteChangePreviousRouteKey] outputs][0];
-        AVAudioSessionPortDescription *newOutput = [[[AVAudioSession sharedInstance] currentRoute] outputs][0];
-
-        const char *reasonString = NULL;
-        switch ([reason intValue])
-        {
-            case AVAudioSessionRouteChangeReasonNewDeviceAvailable:         reasonString = "New Device Available";              break;
-            case AVAudioSessionRouteChangeReasonOldDeviceUnavailable:       reasonString = "Old Device Unavailable";            break;
-            case AVAudioSessionRouteChangeReasonCategoryChange:             reasonString = "Category Change";                   break;
-            case AVAudioSessionRouteChangeReasonOverride:                   reasonString = "Override";                          break;
-            case AVAudioSessionRouteChangeReasonWakeFromSleep:              reasonString = "Wake From Sleep";                   break;
-            case AVAudioSessionRouteChangeReasonNoSuitableRouteForCategory: reasonString = "No Suitable Route For Category";    break;
-            case AVAudioSessionRouteChangeReasonRouteConfigurationChange:   reasonString = "Configuration Change";              break;
-            default:                                                        reasonString = "Unknown";
-        }
-
-        NSLog(@"Output route has changed from %dch %@ to %dch %@ due to '%s'", (int)[[oldOutput channels] count], [oldOutput portName], (int)[[newOutput channels] count], [newOutput portName], reasonString);
-    }];
-
-    if (&AVAudioSessionMediaServicesWereLostNotification)
-    {
-        [[NSNotificationCenter defaultCenter] addObserverForName:AVAudioSessionMediaServicesWereLostNotification object:nil queue:nil usingBlock:^(NSNotification *notification)
-        {
-            NSLog(@"Media services were lost");
-        }];
-    }
-    [[NSNotificationCenter defaultCenter] addObserverForName:AVAudioSessionMediaServicesWereResetNotification object:nil queue:nil usingBlock:^(NSNotification *notification)
-    {
-        NSLog(@"Media services were reset");
-    }];
-
-    [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidBecomeActiveNotification object:nil queue:nil usingBlock:^(NSNotification *notification)
-    {
-        NSLog(@"Application did become active");
-    }];
-    [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillResignActiveNotification object:nil queue:nil usingBlock:^(NSNotification *notification)
-    {
-        NSLog(@"Application will resign active");
-    }];
-    [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidEnterBackgroundNotification object:nil queue:nil usingBlock:^(NSNotification *notification)
-    {
-        NSLog(@"Application did enter background");
-    }];
-    [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillEnterForegroundNotification object:nil queue:nil usingBlock:^(NSNotification *notification)
-    {
-        NSLog(@"Application will enter foreground");
-    }];
-
-    /*
-        Activate the audio session
-    */
-    /*success = */[session setActive:TRUE error:nil];
-    //assert(success);
-}
+FMOD::System* FMAudioContext::m_system = 0;
 
 GS2D_API AudioPtr CreateAudio(boost::any data)
 {
@@ -238,7 +85,7 @@ FMAudioContext::~FMAudioContext()
 
 bool FMAudioContext::CreateAudioDevice(boost::any data)
 {
-	Common_Init(m_logger);
+	CommonInit(m_logger);
 
 	FMOD_RESULT result;
 	unsigned int version;
@@ -259,8 +106,6 @@ bool FMAudioContext::CreateAudioDevice(boost::any data)
 	result = m_system->init(32, FMOD_INIT_NORMAL, 0);
 	if (FMOD_ERRCHECK(result, m_logger))
 		return false;
-
-	gSystem = m_system;
 
 	m_logger.Log("Audio device initialized", Platform::FileLogger::INFO);
 	return true;

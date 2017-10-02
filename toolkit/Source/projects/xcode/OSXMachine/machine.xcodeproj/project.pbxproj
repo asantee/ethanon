@@ -32,6 +32,7 @@
 		74C111E91697224100AEDCE1 /* engine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F0D18B1697037C009A3C78 /* engine.framework */; };
 		74F00B1E1646C12200B8B51B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F00B1D1646C12200B8B51B /* Cocoa.framework */; };
 		74F00B281646C12200B8B51B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 74F00B261646C12200B8B51B /* InfoPlist.strings */; };
+		AA7BDF761F7EE3E10057B06F /* libfmod.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7BDF751F7EE3E00057B06F /* libfmod.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +107,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				AA7BDF761F7EE3E10057B06F /* libfmod.dylib in CopyFiles */,
 				7490C8D218356BCB00AC21C5 /* SDL2.framework in CopyFiles */,
 				749D45D0169726F200B44C38 /* box2d.framework in CopyFiles */,
 				749D45CF169726A700B44C38 /* engine.framework in CopyFiles */,
@@ -144,6 +146,7 @@
 		74F00B271646C12200B8B51B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		74F00B2B1646C12200B8B51B /* machine-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "machine-Prefix.pch"; sourceTree = "<group>"; };
 		74F0D1B016970677009A3C78 /* box2d.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = box2d.xcodeproj; path = ../../../src/box2d/Build/xcode/box2d.xcodeproj; sourceTree = "<group>"; };
+		AA7BDF751F7EE3E00057B06F /* libfmod.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfmod.dylib; path = ../../../src/gs2d/vendors/fmod/lib/libfmod.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,6 +204,7 @@
 		74F00B0E1646C12200B8B51B = {
 			isa = PBXGroup;
 			children = (
+				AA7BDF751F7EE3E00057B06F /* libfmod.dylib */,
 				749D45CB1697252500B44C38 /* Cg.framework */,
 				7421F4A81652BCFF00C55BAE /* assets */,
 				74F00B231646C12200B8B51B /* machine */,
@@ -279,6 +283,7 @@
 				74F00B171646C12200B8B51B /* Resources */,
 				74F00B551646C2DD00B8B51B /* CopyFiles */,
 				7421F2FE1649A1E500C55BAE /* CopyFiles */,
+				AA7BDF771F7EE40B0057B06F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -369,6 +374,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		AA7BDF771F7EE40B0057B06F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(PRODUCT_NAME)",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "install_name_tool -change /usr/local/lib/libfmod.dylib @executable_path/../Frameworks/libfmod.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"\n\ninstall_name_tool -id @executable_path/../Frameworks/libfmod.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/libfmod.dylib\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		74F00B151646C12200B8B51B /* Sources */ = {

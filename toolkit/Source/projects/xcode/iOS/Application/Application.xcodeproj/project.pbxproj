@@ -220,6 +220,7 @@
 		74E6E82D1A31EADB00E89172 /* ETHInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E8241A31EADB00E89172 /* ETHInput.cpp */; };
 		74E6E82E1A31EADB00E89172 /* ETHSpeedTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E8261A31EADB00E89172 /* ETHSpeedTimer.cpp */; };
 		74EAF2BD1A5C211900E2A6DB /* ToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 74EAF2BC1A5C211900E2A6DB /* ToastView.m */; };
+		AA19C1221F8281230096696A /* FMAudioContext.ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA19C1211F8281220096696A /* FMAudioContext.ios.mm */; };
 		AA24C1A61E74407E00ABDFA2 /* getRealTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA24C1A41E74407E00ABDFA2 /* getRealTime.cpp */; };
 		AA74563B1F3B63940053CF6A /* libfmodL_iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA7456391F3B63940053CF6A /* libfmodL_iphoneos.a */; };
 		AA74563C1F3B63940053CF6A /* libfmodL_iphonesimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA74563A1F3B63940053CF6A /* libfmodL_iphonesimulator.a */; };
@@ -699,6 +700,7 @@
 		74E6E8271A31EADB00E89172 /* ETHSpeedTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHSpeedTimer.h; path = ../../../../src/engine/Util/ETHSpeedTimer.h; sourceTree = "<group>"; };
 		74EAF2BB1A5C211900E2A6DB /* ToastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToastView.h; path = ../../../../src/gs2d/src/Platform/ios/ToastView.h; sourceTree = "<group>"; };
 		74EAF2BC1A5C211900E2A6DB /* ToastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToastView.m; path = ../../../../src/gs2d/src/Platform/ios/ToastView.m; sourceTree = "<group>"; };
+		AA19C1211F8281220096696A /* FMAudioContext.ios.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = FMAudioContext.ios.mm; path = ../../../../src/gs2d/src/Audio/fmod/FMAudioContext.ios.mm; sourceTree = "<group>"; };
 		AA24C1A41E74407E00ABDFA2 /* getRealTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = getRealTime.cpp; path = ../../../../src/gs2d/src/Platform/getRealTime.cpp; sourceTree = "<group>"; };
 		AA24C1A51E74407E00ABDFA2 /* getRealTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = getRealTime.h; path = ../../../../src/gs2d/src/Platform/getRealTime.h; sourceTree = "<group>"; };
 		AA7456391F3B63940053CF6A /* libfmodL_iphoneos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfmodL_iphoneos.a; path = ../../../../src/gs2d/vendors/fmod/lib/libfmodL_iphoneos.a; sourceTree = "<group>"; };
@@ -1505,6 +1507,7 @@
 			children = (
 				AAC4401B1F38DEBE00F1B194 /* FMAudioContext.h */,
 				AAC4401C1F38DEBE00F1B194 /* FMAudioContext.mm */,
+				AA19C1211F8281220096696A /* FMAudioContext.ios.mm */,
 				AAC4401D1F38DEBE00F1B194 /* FMAudioSample.h */,
 				AAC4401E1F38DEBE00F1B194 /* FMAudioSample.mm */,
 			);
@@ -1701,6 +1704,7 @@
 				74E6E5951A3101DC00E89172 /* GLES2Shader.cpp in Sources */,
 				74E6E59D1A3101F000E89172 /* IOSGLES2Video.mm in Sources */,
 				7481CEAE1A37928900E25DD3 /* hl_sha256wrapper.cpp in Sources */,
+				AA19C1221F8281230096696A /* FMAudioContext.ios.mm in Sources */,
 				74E6E6631A31DD9900E89172 /* as_scriptnode.cpp in Sources */,
 				74E6E7C31A31EA4B00E89172 /* ETHEntityRenderingManager.cpp in Sources */,
 				74E6E70F1A31E4F800E89172 /* b2RevoluteJoint.cpp in Sources */,

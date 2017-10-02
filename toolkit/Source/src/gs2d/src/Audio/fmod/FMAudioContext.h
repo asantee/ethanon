@@ -35,7 +35,7 @@ bool FMOD_ERRCHECK_fn(FMOD_RESULT result, const char *file, int line, Platform::
 
 class FMAudioContext : public Audio
 {
-	FMOD::System* m_system;
+	static FMOD::System* m_system;
 
 	float m_globalVolume;
 
@@ -52,6 +52,8 @@ public:
 	static boost::shared_ptr<FMAudioContext> Create(boost::any data);
 
 	static bool IsStreamable(const Audio::SAMPLE_TYPE type);
+
+	static void CommonInit(Platform::FileLogger& logger);
 
 	AudioSamplePtr LoadSampleFromFile(
 		const str_type::string& fileName,

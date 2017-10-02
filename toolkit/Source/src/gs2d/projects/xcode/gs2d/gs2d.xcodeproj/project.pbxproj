@@ -84,8 +84,6 @@
 		7486554816397C1D0096D869 /* GLTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = 7486554616397C1D0096D869 /* GLTexture.h */; };
 		748655621639E1600096D869 /* GLSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 748655601639E15F0096D869 /* GLSprite.cpp */; };
 		748655631639E1600096D869 /* GLSprite.h in Headers */ = {isa = PBXBuildFile; fileRef = 748655611639E15F0096D869 /* GLSprite.h */; };
-		7490C8C51835299900AC21C5 /* CDXMacOSXSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 7490C8C31835299900AC21C5 /* CDXMacOSXSupport.h */; };
-		7490C8C61835299900AC21C5 /* CDXMacOSXSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 7490C8C41835299900AC21C5 /* CDXMacOSXSupport.m */; };
 		7490C8C8183529C300AC21C5 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7490C8C7183529C300AC21C5 /* SDL2.framework */; };
 		7490C8CA18352B4A00AC21C5 /* SDL2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7490C8C7183529C300AC21C5 /* SDL2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		7490C8D91835861000AC21C5 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7490C8D81835861000AC21C5 /* AVFoundation.framework */; };
@@ -99,22 +97,14 @@
 		74D066E01A03CBF300D45F66 /* stb_image_aug.h in Headers */ = {isa = PBXBuildFile; fileRef = 74D066D61A03CBF300D45F66 /* stb_image_aug.h */; };
 		74D066E11A03CBF300D45F66 /* stbi_DDS_aug_c.h in Headers */ = {isa = PBXBuildFile; fileRef = 74D066D71A03CBF300D45F66 /* stbi_DDS_aug_c.h */; };
 		74D066E21A03CBF300D45F66 /* stbi_DDS_aug.h in Headers */ = {isa = PBXBuildFile; fileRef = 74D066D81A03CBF300D45F66 /* stbi_DDS_aug.h */; };
-		74D47C1417B40A5300E60B05 /* CDAudioContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 74D47C1217B40A5300E60B05 /* CDAudioContext.h */; };
-		74D47C1517B40A5300E60B05 /* CDAudioContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 74D47C1317B40A5300E60B05 /* CDAudioContext.mm */; };
-		74D47C2117B40A5F00E60B05 /* CDAudioManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 74D47C1617B40A5F00E60B05 /* CDAudioManager.h */; };
-		74D47C2217B40A5F00E60B05 /* CDAudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 74D47C1717B40A5F00E60B05 /* CDAudioManager.m */; };
-		74D47C2517B40A5F00E60B05 /* CDConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 74D47C1A17B40A5F00E60B05 /* CDConfig.h */; };
-		74D47C2617B40A5F00E60B05 /* CDOpenALSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 74D47C1B17B40A5F00E60B05 /* CDOpenALSupport.h */; };
-		74D47C2717B40A5F00E60B05 /* CDOpenALSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 74D47C1C17B40A5F00E60B05 /* CDOpenALSupport.m */; };
-		74D47C2817B40A5F00E60B05 /* CocosDenshion.h in Headers */ = {isa = PBXBuildFile; fileRef = 74D47C1D17B40A5F00E60B05 /* CocosDenshion.h */; };
-		74D47C2917B40A5F00E60B05 /* CocosDenshion.m in Sources */ = {isa = PBXBuildFile; fileRef = 74D47C1E17B40A5F00E60B05 /* CocosDenshion.m */; };
-		74D47C2A17B40A5F00E60B05 /* SimpleAudioEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 74D47C1F17B40A5F00E60B05 /* SimpleAudioEngine.h */; };
-		74D47C2B17B40A5F00E60B05 /* SimpleAudioEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 74D47C2017B40A5F00E60B05 /* SimpleAudioEngine.m */; };
-		74D47C3217B40B0800E60B05 /* CDAudioSample.h in Headers */ = {isa = PBXBuildFile; fileRef = 74D47C3017B40B0800E60B05 /* CDAudioSample.h */; };
-		74D47C3317B40B0800E60B05 /* CDAudioSample.mm in Sources */ = {isa = PBXBuildFile; fileRef = 74D47C3117B40B0800E60B05 /* CDAudioSample.mm */; };
 		74F3A4FA1632E3870064C9A5 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F3A4F91632E3870064C9A5 /* Cocoa.framework */; };
 		74F3A5041632E3870064C9A5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 74F3A5021632E3870064C9A5 /* InfoPlist.strings */; };
 		74FF04E318046B23006D0F9F /* utf8 in Resources */ = {isa = PBXBuildFile; fileRef = 74FF04E218046B23006D0F9F /* utf8 */; };
+		AA19C1241F8285BF0096696A /* FMAudioContext.macos.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA19C1231F8285BF0096696A /* FMAudioContext.macos.mm */; };
+		AA7BDF721F7EE1980057B06F /* libfmod.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA7BDF711F7EE1980057B06F /* libfmod.dylib */; };
+		AA7BDF731F7EE1A60057B06F /* libfmod.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7BDF711F7EE1980057B06F /* libfmod.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		AA7BDF801F7EE5750057B06F /* FMAudioContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA7BDF7C1F7EE5390057B06F /* FMAudioContext.mm */; };
+		AA7BDF811F7EE5750057B06F /* FMAudioSample.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA7BDF7F1F7EE53A0057B06F /* FMAudioSample.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -124,6 +114,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				AA7BDF731F7EE1A60057B06F /* libfmod.dylib in CopyFiles */,
 				7490C8CA18352B4A00AC21C5 /* SDL2.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -212,8 +203,6 @@
 		7486554616397C1D0096D869 /* GLTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLTexture.h; path = ../../../../src/Video/GL/GLTexture.h; sourceTree = "<group>"; usesTabs = 1; };
 		748655601639E15F0096D869 /* GLSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLSprite.cpp; path = ../../../../src/Video/GL/GLSprite.cpp; sourceTree = "<group>"; usesTabs = 1; };
 		748655611639E15F0096D869 /* GLSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLSprite.h; path = ../../../../src/Video/GL/GLSprite.h; sourceTree = "<group>"; };
-		7490C8C31835299900AC21C5 /* CDXMacOSXSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDXMacOSXSupport.h; path = ../../../src/Audio/CocosDenshion/CocosDenshion/CDXMacOSXSupport.h; sourceTree = "<group>"; };
-		7490C8C41835299900AC21C5 /* CDXMacOSXSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDXMacOSXSupport.m; path = ../../../src/Audio/CocosDenshion/CocosDenshion/CDXMacOSXSupport.m; sourceTree = "<group>"; };
 		7490C8C7183529C300AC21C5 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../vendors/SDL2.framework; sourceTree = "<group>"; };
 		7490C8D81835861000AC21C5 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		74D066CF1A03CBF300D45F66 /* image_DXT.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = image_DXT.c; path = ../../../../soil/image_DXT.c; sourceTree = "<group>"; };
@@ -226,19 +215,6 @@
 		74D066D61A03CBF300D45F66 /* stb_image_aug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_image_aug.h; path = ../../../../soil/stb_image_aug.h; sourceTree = "<group>"; };
 		74D066D71A03CBF300D45F66 /* stbi_DDS_aug_c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stbi_DDS_aug_c.h; path = ../../../../soil/stbi_DDS_aug_c.h; sourceTree = "<group>"; };
 		74D066D81A03CBF300D45F66 /* stbi_DDS_aug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stbi_DDS_aug.h; path = ../../../../soil/stbi_DDS_aug.h; sourceTree = "<group>"; };
-		74D47C1217B40A5300E60B05 /* CDAudioContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDAudioContext.h; path = ../../../src/Audio/CocosDenshion/CDAudioContext.h; sourceTree = "<group>"; };
-		74D47C1317B40A5300E60B05 /* CDAudioContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CDAudioContext.mm; path = ../../../src/Audio/CocosDenshion/CDAudioContext.mm; sourceTree = "<group>"; };
-		74D47C1617B40A5F00E60B05 /* CDAudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDAudioManager.h; path = ../../../src/Audio/CocosDenshion/CocosDenshion/CDAudioManager.h; sourceTree = "<group>"; };
-		74D47C1717B40A5F00E60B05 /* CDAudioManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDAudioManager.m; path = ../../../src/Audio/CocosDenshion/CocosDenshion/CDAudioManager.m; sourceTree = "<group>"; };
-		74D47C1A17B40A5F00E60B05 /* CDConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDConfig.h; path = ../../../src/Audio/CocosDenshion/CocosDenshion/CDConfig.h; sourceTree = "<group>"; };
-		74D47C1B17B40A5F00E60B05 /* CDOpenALSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDOpenALSupport.h; path = ../../../src/Audio/CocosDenshion/CocosDenshion/CDOpenALSupport.h; sourceTree = "<group>"; };
-		74D47C1C17B40A5F00E60B05 /* CDOpenALSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDOpenALSupport.m; path = ../../../src/Audio/CocosDenshion/CocosDenshion/CDOpenALSupport.m; sourceTree = "<group>"; };
-		74D47C1D17B40A5F00E60B05 /* CocosDenshion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CocosDenshion.h; path = ../../../src/Audio/CocosDenshion/CocosDenshion/CocosDenshion.h; sourceTree = "<group>"; };
-		74D47C1E17B40A5F00E60B05 /* CocosDenshion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CocosDenshion.m; path = ../../../src/Audio/CocosDenshion/CocosDenshion/CocosDenshion.m; sourceTree = "<group>"; };
-		74D47C1F17B40A5F00E60B05 /* SimpleAudioEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SimpleAudioEngine.h; path = ../../../src/Audio/CocosDenshion/CocosDenshion/SimpleAudioEngine.h; sourceTree = "<group>"; };
-		74D47C2017B40A5F00E60B05 /* SimpleAudioEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SimpleAudioEngine.m; path = ../../../src/Audio/CocosDenshion/CocosDenshion/SimpleAudioEngine.m; sourceTree = "<group>"; };
-		74D47C3017B40B0800E60B05 /* CDAudioSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDAudioSample.h; path = ../../../src/Audio/CocosDenshion/CDAudioSample.h; sourceTree = "<group>"; };
-		74D47C3117B40B0800E60B05 /* CDAudioSample.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CDAudioSample.mm; path = ../../../src/Audio/CocosDenshion/CDAudioSample.mm; sourceTree = "<group>"; };
 		74F3A4F61632E3870064C9A5 /* gs2d.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = gs2d.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		74F3A4F91632E3870064C9A5 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		74F3A4FC1632E3870064C9A5 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -248,6 +224,12 @@
 		74F3A5031632E3870064C9A5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		74F3A5051632E3870064C9A5 /* gs2d-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "gs2d-Prefix.pch"; sourceTree = "<group>"; };
 		74FF04E218046B23006D0F9F /* utf8 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = utf8; path = ../../../../src/Unicode/utf8; sourceTree = "<group>"; };
+		AA19C1231F8285BF0096696A /* FMAudioContext.macos.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = FMAudioContext.macos.mm; path = ../../../src/Audio/fmod/FMAudioContext.macos.mm; sourceTree = "<group>"; };
+		AA7BDF711F7EE1980057B06F /* libfmod.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfmod.dylib; path = ../../../vendors/fmod/lib/libfmod.dylib; sourceTree = "<group>"; };
+		AA7BDF7C1F7EE5390057B06F /* FMAudioContext.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = FMAudioContext.mm; path = ../../../src/Audio/fmod/FMAudioContext.mm; sourceTree = "<group>"; };
+		AA7BDF7D1F7EE5390057B06F /* FMAudioContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FMAudioContext.h; path = ../../../src/Audio/fmod/FMAudioContext.h; sourceTree = "<group>"; };
+		AA7BDF7E1F7EE5390057B06F /* FMAudioSample.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FMAudioSample.h; path = ../../../src/Audio/fmod/FMAudioSample.h; sourceTree = "<group>"; };
+		AA7BDF7F1F7EE53A0057B06F /* FMAudioSample.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = FMAudioSample.mm; path = ../../../src/Audio/fmod/FMAudioSample.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -255,6 +237,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA7BDF721F7EE1980057B06F /* libfmod.dylib in Frameworks */,
 				7490C8D91835861000AC21C5 /* AVFoundation.framework in Frameworks */,
 				7490C8C8183529C300AC21C5 /* SDL2.framework in Frameworks */,
 				741E44B0181ADC5800E7ED3E /* AudioToolbox.framework in Frameworks */,
@@ -429,11 +412,11 @@
 		74838D461641A86A0027CFFC /* Audio */ = {
 			isa = PBXGroup;
 			children = (
-				74D47C3017B40B0800E60B05 /* CDAudioSample.h */,
-				74D47C3117B40B0800E60B05 /* CDAudioSample.mm */,
-				74D47C1217B40A5300E60B05 /* CDAudioContext.h */,
-				74D47C1317B40A5300E60B05 /* CDAudioContext.mm */,
-				74D47C1017B40A2800E60B05 /* CocosDenshion */,
+				AA7BDF7D1F7EE5390057B06F /* FMAudioContext.h */,
+				AA7BDF7C1F7EE5390057B06F /* FMAudioContext.mm */,
+				AA19C1231F8285BF0096696A /* FMAudioContext.macos.mm */,
+				AA7BDF7E1F7EE5390057B06F /* FMAudioSample.h */,
+				AA7BDF7F1F7EE53A0057B06F /* FMAudioSample.mm */,
 			);
 			name = Audio;
 			path = ..;
@@ -467,24 +450,6 @@
 			name = SOIL;
 			sourceTree = "<group>";
 		};
-		74D47C1017B40A2800E60B05 /* CocosDenshion */ = {
-			isa = PBXGroup;
-			children = (
-				74D47C1617B40A5F00E60B05 /* CDAudioManager.h */,
-				74D47C1717B40A5F00E60B05 /* CDAudioManager.m */,
-				74D47C1A17B40A5F00E60B05 /* CDConfig.h */,
-				74D47C1B17B40A5F00E60B05 /* CDOpenALSupport.h */,
-				74D47C1C17B40A5F00E60B05 /* CDOpenALSupport.m */,
-				74D47C1D17B40A5F00E60B05 /* CocosDenshion.h */,
-				74D47C1E17B40A5F00E60B05 /* CocosDenshion.m */,
-				74D47C1F17B40A5F00E60B05 /* SimpleAudioEngine.h */,
-				74D47C2017B40A5F00E60B05 /* SimpleAudioEngine.m */,
-				7490C8C31835299900AC21C5 /* CDXMacOSXSupport.h */,
-				7490C8C41835299900AC21C5 /* CDXMacOSXSupport.m */,
-			);
-			name = CocosDenshion;
-			sourceTree = "<group>";
-		};
 		74F3A4EA1632E3870064C9A5 = {
 			isa = PBXGroup;
 			children = (
@@ -507,6 +472,7 @@
 		74F3A4F81632E3870064C9A5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AA7BDF711F7EE1980057B06F /* libfmod.dylib */,
 				7490C8D81835861000AC21C5 /* AVFoundation.framework */,
 				7490C8C7183529C300AC21C5 /* SDL2.framework */,
 				741E44AF181ADC5800E7ED3E /* AudioToolbox.framework */,
@@ -623,15 +589,7 @@
 				7421F2E01648173000C55BAE /* StdFileManager.h in Headers */,
 				7423B69E165FF413008848EA /* SharedData.h in Headers */,
 				7423B6A0165FF413008848EA /* SharedDataManager.h in Headers */,
-				74D47C1417B40A5300E60B05 /* CDAudioContext.h in Headers */,
-				74D47C2117B40A5F00E60B05 /* CDAudioManager.h in Headers */,
-				74D47C2517B40A5F00E60B05 /* CDConfig.h in Headers */,
-				74D47C2617B40A5F00E60B05 /* CDOpenALSupport.h in Headers */,
-				74D47C2817B40A5F00E60B05 /* CocosDenshion.h in Headers */,
-				7490C8C51835299900AC21C5 /* CDXMacOSXSupport.h in Headers */,
 				74D066E21A03CBF300D45F66 /* stbi_DDS_aug.h in Headers */,
-				74D47C2A17B40A5F00E60B05 /* SimpleAudioEngine.h in Headers */,
-				74D47C3217B40B0800E60B05 /* CDAudioSample.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -647,6 +605,7 @@
 				74F3A4F31632E3870064C9A5 /* Headers */,
 				74F3A4F41632E3870064C9A5 /* Resources */,
 				742D34131637A62C00A447A2 /* CopyFiles */,
+				AA7BDF741F7EE1B20057B06F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -695,11 +654,30 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		AA7BDF741F7EE1B20057B06F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(PRODUCT_NAME)",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "install_name_tool -change /usr/local/lib/libfmod.dylib @executable_path/../Frameworks/libfmod.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.framework/Versions/A/$PRODUCT_NAME\"\n\ninstall_name_tool -id @executable_path/../Frameworks/libfmod.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.framework/Versions/A/Frameworks/libfmod.dylib\"";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		74F3A4F11632E3870064C9A5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA7BDF801F7EE5750057B06F /* FMAudioContext.mm in Sources */,
+				AA7BDF811F7EE5750057B06F /* FMAudioSample.mm in Sources */,
 				7473CA7916330304005DB920 /* Application.cpp in Sources */,
 				7473CA8016330304005DB920 /* Sprite.cpp in Sources */,
 				7473CA8416330304005DB920 /* Video.cpp in Sources */,
@@ -711,7 +689,6 @@
 				7473CAA616330391005DB920 /* FileLogger.cpp in Sources */,
 				74D066DF1A03CBF300D45F66 /* stb_image_aug.c in Sources */,
 				7473CAA816330391005DB920 /* FileManager.cpp in Sources */,
-				7490C8C61835299900AC21C5 /* CDXMacOSXSupport.m in Sources */,
 				7473CAB51633044E005DB920 /* BitmapFont.cpp in Sources */,
 				7473CAB71633044E005DB920 /* BitmapFontManager.cpp in Sources */,
 				7473CABF1633045D005DB920 /* Enml.cpp in Sources */,
@@ -729,6 +706,7 @@
 				74D066DD1A03CBF300D45F66 /* SOIL.c in Sources */,
 				7486554716397C1D0096D869 /* GLTexture.cpp in Sources */,
 				748655621639E1600096D869 /* GLSprite.cpp in Sources */,
+				AA19C1241F8285BF0096696A /* FMAudioContext.macos.mm in Sources */,
 				74838D2E163C13E30027CFFC /* RecoverableResourceManager.cpp in Sources */,
 				74838D36163F25AB0027CFFC /* SDLInput.cpp in Sources */,
 				74838D3B1640730D0027CFFC /* KeyStateManager.cpp in Sources */,
@@ -736,12 +714,6 @@
 				7421F2DF1648173000C55BAE /* StdFileManager.cpp in Sources */,
 				7423B69D165FF413008848EA /* SharedData.cpp in Sources */,
 				7423B69F165FF413008848EA /* SharedDataManager.cpp in Sources */,
-				74D47C1517B40A5300E60B05 /* CDAudioContext.mm in Sources */,
-				74D47C2217B40A5F00E60B05 /* CDAudioManager.m in Sources */,
-				74D47C2717B40A5F00E60B05 /* CDOpenALSupport.m in Sources */,
-				74D47C2917B40A5F00E60B05 /* CocosDenshion.m in Sources */,
-				74D47C2B17B40A5F00E60B05 /* SimpleAudioEngine.m in Sources */,
-				74D47C3317B40B0800E60B05 /* CDAudioSample.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -837,11 +809,15 @@
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../vendors/BoostSDK\"",
 					"\"$(SRCROOT)/../../../../soil\"",
+					"\"$(SRCROOT)/../../../src/Audio/fmod/inc\"",
 				);
 				INFOPLIST_FILE = "gs2d/gs2d-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../vendors/fmod/lib\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				VALID_ARCHS = i386;
@@ -874,11 +850,15 @@
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../vendors/BoostSDK\"",
 					"\"$(SRCROOT)/../../../../soil\"",
+					"\"$(SRCROOT)/../../../src/Audio/fmod/inc\"",
 				);
 				INFOPLIST_FILE = "gs2d/gs2d-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../vendors/fmod/lib\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				VALID_ARCHS = i386;
