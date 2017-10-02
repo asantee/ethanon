@@ -102,7 +102,6 @@
 		74FF04E318046B23006D0F9F /* utf8 in Resources */ = {isa = PBXBuildFile; fileRef = 74FF04E218046B23006D0F9F /* utf8 */; };
 		AA19C1241F8285BF0096696A /* FMAudioContext.macos.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA19C1231F8285BF0096696A /* FMAudioContext.macos.mm */; };
 		AA7BDF721F7EE1980057B06F /* libfmod.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA7BDF711F7EE1980057B06F /* libfmod.dylib */; };
-		AA7BDF731F7EE1A60057B06F /* libfmod.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7BDF711F7EE1980057B06F /* libfmod.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		AA7BDF801F7EE5750057B06F /* FMAudioContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA7BDF7C1F7EE5390057B06F /* FMAudioContext.mm */; };
 		AA7BDF811F7EE5750057B06F /* FMAudioSample.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA7BDF7F1F7EE53A0057B06F /* FMAudioSample.mm */; };
 /* End PBXBuildFile section */
@@ -114,7 +113,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				AA7BDF731F7EE1A60057B06F /* libfmod.dylib in CopyFiles */,
 				7490C8CA18352B4A00AC21C5 /* SDL2.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -605,7 +603,6 @@
 				74F3A4F31632E3870064C9A5 /* Headers */,
 				74F3A4F41632E3870064C9A5 /* Resources */,
 				742D34131637A62C00A447A2 /* CopyFiles */,
-				AA7BDF741F7EE1B20057B06F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -653,23 +650,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		AA7BDF741F7EE1B20057B06F /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/$(PRODUCT_NAME)",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "install_name_tool -change /usr/local/lib/libfmod.dylib @executable_path/../Frameworks/libfmod.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.framework/Versions/A/$PRODUCT_NAME\"\n\ninstall_name_tool -id @executable_path/../Frameworks/libfmod.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.framework/Versions/A/Frameworks/libfmod.dylib\"";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		74F3A4F11632E3870064C9A5 /* Sources */ = {
