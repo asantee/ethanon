@@ -118,4 +118,8 @@ AudioSamplePtr IrrKlangAudio::LoadSampleFromFileInMemory(
 	return audio;
 }
 
+void IrrKlangAudio::Update()
+{
+}
+
 } // namespace gs2d

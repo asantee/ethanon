@@ -56,6 +56,8 @@ public:
 	float GetGlobalVolume() const;
 
 	irrklang::ISoundEngine* GetEngine();
+	
+	void Update();
 };
 
 typedef boost::shared_ptr<IrrKlangAudio> IrrKlangAudioPtr;

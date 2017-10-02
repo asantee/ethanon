@@ -24,7 +24,7 @@
 
 #include "IrrKlangAudio.h"
 
-#include "../../Platform/StdAnsiFileManager.h"
+#include "../../Platform/StdFileManager.h"
 
 #include "../../Application.h"
 
