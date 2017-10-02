@@ -88,7 +88,7 @@ bool FMAudioSample::LoadSampleFromFile(
 
 	if (FMAudioContext::IsStreamable(type))
 	{
-	    const FMOD_RESULT result = m_system->createStream(fileName.c_str(), FMOD_DEFAULT, 0, &m_sound);
+		const FMOD_RESULT result = m_system->createStream(fileName.c_str(), FMOD_DEFAULT, 0, &m_sound);
 		if (FMOD_ERRCHECK(result, m_logger))
 			return false;
 	}
@@ -252,9 +252,13 @@ bool FMAudioSample::SetSpeed(const float speed)
 	m_speed = speed;
 	if (m_channel)
 	{
-		FMOD_RESULT result;
+		FMOD_RESULT result = m_channel->setPitch(speed);
 
-		result = m_channel->setPitch(speed);
+		if ((result == FMOD_ERR_INVALID_HANDLE) || (result == FMOD_ERR_CHANNEL_STOLEN))
+		{
+			m_channel = 0;
+			return false;
+		}
 
 		if (FMOD_ERRCHECK(result, m_logger))
 			return false;
