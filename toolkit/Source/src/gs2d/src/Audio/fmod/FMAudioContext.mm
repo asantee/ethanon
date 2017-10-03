@@ -71,7 +71,6 @@ FMAudioContext::FMAudioContext() :
 	m_globalVolume(1.0f),
 	m_logger(Platform::FileLogger::GetLogDirectory() + "FMAudioContext.log.txt")
 {
-	SetGlobalVolume(1.0f);
 }
 
 FMAudioContext::~FMAudioContext()
