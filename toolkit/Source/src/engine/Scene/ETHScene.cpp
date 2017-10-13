@@ -955,22 +955,20 @@ bool ETHScene::DeleteEntity(ETHEntity *pEntity)
 	return m_buckets.DeleteEntity(pEntity->GetID(), ETHBucketManager::GetBucket(pEntity->GetPositionXY(), GetBucketSize()));
 }
 
-void ETHScene::ScaleEntities(const float scale, const bool scalePosition)
+void ETHScene::ScaleEntities(const ETHEntityArray& entities, ETHBucketManager& buckets, const float scale, const bool scalePosition)
 {
 	if (scale == 1.0f)
 		return;
 
-	ETHEntityArray entities;
-	m_buckets.GetEntityArray(entities);
 	for (unsigned int t = 0; t < entities.size(); t++)
 	{
 		entities[t]->Scale(scale);
 		if (scalePosition)
 		{
-			entities[t]->SetPosition(entities[t]->GetPosition() * scale, m_buckets);
+			entities[t]->SetPosition(entities[t]->GetPosition() * scale, buckets);
 		}
 	}
-	m_buckets.ResolveMoveRequests();
+	buckets.ResolveMoveRequests();
 }
 
 void ETHScene::AddEntityToPersistentList(ETHRenderEntity* entity)

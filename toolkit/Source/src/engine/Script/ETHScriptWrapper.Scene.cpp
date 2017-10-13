@@ -626,7 +626,9 @@ bool ETHScriptWrapper::LoadScene(const str_type::string &escFile, const str_type
 		m_pScene = ETHScenePtr(new ETHScene(m_provider, ETHSceneProperties(), m_pASModule, m_pScriptContext, bucketSize));
 	}
 
-	m_pScene->ScaleEntities(m_provider->GetGlobalScaleManager()->GetScale(), true);
+	ETHEntityArray entities;
+	m_pScene->GetBucketManager().GetEntityArray(entities);
+	m_pScene->ScaleEntities(entities, m_pScene->GetBucketManager(), m_provider->GetGlobalScaleManager()->GetScale(), true);
 	m_pScene->ResolveJoints();
 	m_drawableManager.Clear();
 	m_sceneFileName = escFile;
@@ -645,6 +647,9 @@ void ETHScriptWrapper::AddSceneInScript(const str_type::string& escFile, const V
 	const str_type::string fileName = m_provider->GetFileIOHub()->GetResourceDirectory() + escFile;
 	
 	m_pScene->AddSceneFromFile(fileName, m_entityCache, m_pScene->AssembleEntityPath(), false /*readSceneProperties*/, offset, outVector);
+
+	m_pScene->ScaleEntities(outVector, m_pScene->GetBucketManager(), m_provider->GetGlobalScaleManager()->GetScale(), true);
+
 }
 
 void ETHScriptWrapper::LoadSceneInScript(const str_type::string &escFile)

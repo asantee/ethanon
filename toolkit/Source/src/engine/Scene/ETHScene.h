@@ -118,7 +118,7 @@ public:
 	Vector2 GetBucketSize() const;
 	int GetNumProcessedEntities();
 	int GetNumRenderedPieces();
-	void ScaleEntities(const float scale, const bool scalePosition);
+	static void ScaleEntities(const ETHEntityArray& entities, ETHBucketManager& buckets, const float scale, const bool scalePosition);
 
 	ETHBucketManager& GetBucketManager();
 
