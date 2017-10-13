@@ -274,6 +274,9 @@ void ETHScriptWrapper::RescaleEntities(const float oldScale, const float newScal
 	if (oldScale != newScale)
 	{
 		const float rescaleFactor = newScale / oldScale;
-		m_pScene->ScaleEntities(rescaleFactor, true);
+		
+		ETHEntityArray entities;
+		m_pScene->GetBucketManager().GetEntityArray(entities);
+		m_pScene->ScaleEntities(entities, m_pScene->GetBucketManager(), rescaleFactor, true);
 	}
 }

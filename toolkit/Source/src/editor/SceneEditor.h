@@ -88,9 +88,18 @@ private:
 
 	void EditParallax();
 	void CentralizeShortcut();
-	std::vector<boost::shared_ptr<ETHEntityProperties> > m_entityFiles;
 	Vector3 m_v3Pos;
 	Vector2 m_v2CamPos;
+
+	std::vector<boost::shared_ptr<ETHEntityProperties> > m_entityFiles;
+	struct less_than_key
+	{
+		inline bool operator() (const boost::shared_ptr<ETHEntityProperties>& a, const boost::shared_ptr<ETHEntityProperties>& b)
+		{
+			if (!a || !b) return false;
+			return (a->entityName < b->entityName);
+		}
+	};
 
 	// menu component position control
 	float m_guiX, m_guiY;
