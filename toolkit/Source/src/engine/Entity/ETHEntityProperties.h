@@ -202,6 +202,8 @@ public:
 	boost::shared_ptr<ETHCollisionBox> collision;
 	std::vector<boost::shared_ptr<ETHParticleSystem> > particleSystems;
 	bool successfullyLoaded;
+	
+	bool operator < (const ETHEntityProperties& other) const;
 };
 
 #endif

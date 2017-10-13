@@ -1712,4 +1712,6 @@ void SceneEditor::ReloadFiles()
 		GS2D_CERR << GS_L("The editor couldn't find any *.ent files. Make sure there are valid files at the ")
 			 << ETHDirectories::GetEntityDirectory() << GS_L(" folder\n");
 	}
+	
+	std::sort(m_entityFiles.begin(), m_entityFiles.end(), less_than_key());
 }

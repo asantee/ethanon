@@ -758,3 +758,8 @@ void ETHEntityProperties::SetColorPropertyToXmlElement(
 	pElement->SetDoubleAttribute(GS_L("b"), value.z);
 	pElement->SetDoubleAttribute(GS_L("a"), value.w);
 }
+
+bool ETHEntityProperties::operator < (const ETHEntityProperties& other) const
+{
+	return (entityName < other.entityName);
+}
