@@ -57,6 +57,8 @@ public:
 
 	boost::any GetAudioContext();
 
+	void Update();
+
 	void SetGlobalVolume(const float volume);
 	float GetGlobalVolume() const;
 };

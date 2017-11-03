@@ -108,6 +108,10 @@ bool AndroidAudioContext::IsStreamable(const Audio::SAMPLE_TYPE type)
 	}
 }
 
+void AndroidAudioContext::Update()
+{
+}
+
 void AndroidAudioContext::SetGlobalVolume(const float volume)
 {
 	m_globalVolume = volume;
