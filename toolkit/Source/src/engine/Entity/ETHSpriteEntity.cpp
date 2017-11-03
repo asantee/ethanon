@@ -340,8 +340,8 @@ bool ETHSpriteEntity::SetSpriteCut(const unsigned int col, const unsigned int ro
 {
 	if (col >= 1 && row >= 1)
 	{
-		m_properties.spriteCut.x = col;
-		m_properties.spriteCut.y = row;
+		m_properties.spriteCut.x = m_properties.originalSpriteCut.x = col;
+		m_properties.spriteCut.y = m_properties.originalSpriteCut.y = row;
 	}
 	else
 	{
