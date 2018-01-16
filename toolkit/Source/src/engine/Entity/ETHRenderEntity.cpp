@@ -33,8 +33,9 @@ ETHRenderEntity::ETHRenderEntity(
 	TiXmlElement *pElement,
 	ETHResourceProviderPtr provider,
 	ETHEntityCache& entityCache,
-	const str_type::string &entityPath) :
-	ETHSpriteEntity(pElement, provider, entityCache, entityPath)
+	const str_type::string &entityPath,
+	const bool shouldGenerateNewID) :
+	ETHSpriteEntity(pElement, provider, entityCache, entityPath, shouldGenerateNewID)
 {
 }
 

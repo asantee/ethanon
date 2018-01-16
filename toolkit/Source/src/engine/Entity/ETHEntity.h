@@ -44,7 +44,8 @@ public:
 	ETHEntity(TiXmlElement *pElement,
 		ETHEntityCache& entityCache,
 		const str_type::string &entityPath,
-		Platform::FileManagerPtr fileManager);
+		Platform::FileManagerPtr fileManager,
+		const bool shouldGenerateNewID);
 	ETHEntity();
 	~ETHEntity();
 
@@ -246,9 +247,10 @@ private:
 		TiXmlElement *pElement,
 		ETHEntityCache& entityCache,
 		const str_type::string &entityPath,
-		Platform::FileManagerPtr fileManager);
-	bool ReadFromXMLFile(TiXmlElement *pElement);
-	void ReadInSceneDataFromXMLFile(TiXmlElement *pElement);
+		Platform::FileManagerPtr fileManager,
+		const bool shouldGenerateNewID);
+	bool ReadFromXMLFile(TiXmlElement *pElement, const bool shouldGenerateNewID);
+	void ReadInSceneDataFromXMLFile(TiXmlElement *pElement, const bool shouldGenerateNewID);
 
 	int m_id;
 

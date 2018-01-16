@@ -40,6 +40,8 @@
 #include <map>
 #include <assert.h>
 
+int ETHScene::m_idCounter = 0;
+
 ETHScene::ETHScene(
 	const str_type::string& fileName,
 	ETHResourceProviderPtr provider,
@@ -61,7 +63,8 @@ ETHScene::ETHScene(
 		AssembleEntityPath(),
 		true /*readSceneProperties*/,
 		Vector3(0.0f, 0.0f, 0.0f),
-		out);
+		out,
+		false);
 }
 
 ETHScene::ETHScene(
@@ -173,7 +176,8 @@ bool ETHScene::AddSceneFromFile(
 	const str_type::string &entityPath,
 	const bool readSceneProperties,
 	const Vector3& offset,
-	ETHEntityArray &outVector)
+	ETHEntityArray &outVector,
+	const bool shouldGenerateNewID)
 {
 	Platform::FileManagerPtr fileManager = m_provider->GetFileManager();
 
@@ -206,7 +210,7 @@ bool ETHScene::AddSceneFromFile(
 		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
 		return false;
 	}
-	return AddEntitiesFromXMLFile(fileName, pElement, entityCache, entityPath, readSceneProperties, offset, outVector);
+	return AddEntitiesFromXMLFile(fileName, pElement, entityCache, entityPath, readSceneProperties, offset, outVector, shouldGenerateNewID);
 }
 
 bool ETHScene::AddEntitiesFromXMLFile(
@@ -216,7 +220,8 @@ bool ETHScene::AddEntitiesFromXMLFile(
 	const str_type::string &entityPath,
 	const bool readSceneProperties,
 	const Vector3& offset,
-	ETHEntityArray &outVector)
+	ETHEntityArray &outVector,
+	const bool shouldGenerateNewID)
 {
 	str_type::stringstream ss;
 	const str_type::string sceneFileName = Platform::GetFileName(fileName.c_str());
@@ -241,7 +246,7 @@ bool ETHScene::AddEntitiesFromXMLFile(
 				{
 					do
 					{
-						ETHRenderEntity* entity = new ETHRenderEntity(pEntityIter, m_provider, entityCache, entityPath);
+						ETHRenderEntity* entity = new ETHRenderEntity(pEntityIter, m_provider, entityCache, entityPath, shouldGenerateNewID);
 						entity->GetController()->AddToPos(offset);
 						const ETHEntityProperties* entityProperties = entity->GetProperties();
 
@@ -286,7 +291,7 @@ int ETHScene::AddEntity(ETHRenderEntity* pEntity, const str_type::string& altern
 		pEntity->ChangeEntityName(alternativeName);
 	}
 
-	m_idCounter = Max(pEntity->GetID() + 1, m_idCounter + 1);
+	UpdateIDCounter(pEntity);
 
 	// generate an unique id
 	if (pEntity->GetID() < 0)
@@ -314,6 +319,11 @@ int ETHScene::AddEntity(ETHRenderEntity* pEntity, const str_type::string& altern
 int ETHScene::AddEntity(ETHRenderEntity* pEntity)
 {
 	return AddEntity(pEntity, GS_L(""));	
+}
+
+int ETHScene::UpdateIDCounter(ETHEntity* pEntity)
+{
+	return (m_idCounter = Max(pEntity->GetID() + 1, m_idCounter + 1));
 }
 
 const ETHSceneProperties* ETHScene::GetSceneProperties() const

@@ -39,7 +39,8 @@ public:
 		TiXmlElement *pElement,
 		ETHResourceProviderPtr provider,
 		ETHEntityCache& entityCache,
-		const str_type::string &entityPath);
+		const str_type::string &entityPath,
+		const bool shouldGenerateNewID);
 	ETHRenderEntity(ETHResourceProviderPtr provider, const ETHEntityProperties& properties, const float angle, const float scale);
 	ETHRenderEntity(ETHResourceProviderPtr provider);
 

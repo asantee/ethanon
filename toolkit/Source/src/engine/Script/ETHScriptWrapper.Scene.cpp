@@ -646,7 +646,7 @@ void ETHScriptWrapper::AddSceneInScript(const str_type::string& escFile, const V
 
 	const str_type::string fileName = m_provider->GetFileIOHub()->GetResourceDirectory() + escFile;
 	
-	m_pScene->AddSceneFromFile(fileName, m_entityCache, m_pScene->AssembleEntityPath(), false /*readSceneProperties*/, offset, outVector);
+	m_pScene->AddSceneFromFile(fileName, m_entityCache, m_pScene->AssembleEntityPath(), false /*readSceneProperties*/, offset, outVector, true);
 
 	m_pScene->ScaleEntities(outVector, m_pScene->GetBucketManager(), m_provider->GetGlobalScaleManager()->GetScale(), true);
 
