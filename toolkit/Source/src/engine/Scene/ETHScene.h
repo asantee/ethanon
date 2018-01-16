@@ -67,6 +67,8 @@ public:
 	void EnableLightmaps(const bool enable);
 	void EnableRealTimeShadows(const bool enable);
 	bool AreRealTimeShadowsEnabled() const;
+	
+	static int UpdateIDCounter(ETHEntity* pEntity);
 
 	str_type::string ConvertFileNameToLightmapDirectory(str_type::string filePath);
 	bool GenerateLightmaps(const int id = -1);
@@ -144,7 +146,8 @@ public:
 		const str_type::string &entityPath,
 		const bool readSceneProperties,
 		const Vector3& offset,
-		ETHEntityArray &outVector);
+		ETHEntityArray &outVector,
+		const bool shouldGenerateNewID);
 
 	str_type::string AssembleEntityPath() const;
 
@@ -173,7 +176,8 @@ private:
 		const str_type::string &entityPath,
 		const bool readSceneProperties,
 		const Vector3& offset,
-		ETHEntityArray &outVector);
+		ETHEntityArray &outVector,
+		const bool shouldGenerateNewID);
 
 	void FillCurrentlyVisibleBucketList(std::list<Vector2>& bucketList, const ETHBackBufferTargetManagerPtr& backBuffer);
 
@@ -194,7 +198,7 @@ private:
 	asIScriptModule *m_pModule;
 	asIScriptContext *m_pContext;
 	float m_maxSceneHeight, m_minSceneHeight;
-	int m_idCounter;
+	static int m_idCounter;
 	unsigned int m_nCurrentLights;
 	unsigned int m_nProcessedEntities;
 	unsigned int m_nRenderedPieces;

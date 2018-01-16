@@ -35,7 +35,8 @@ public:
 		TiXmlElement *pElement,
 		ETHResourceProviderPtr provider,
 		ETHEntityCache& entityCache,
-		const str_type::string& entityPath);
+		const str_type::string& entityPath,
+		const bool shouldGenerateNewID);
 	ETHSpriteEntity(
 		ETHResourceProviderPtr provider,
 		const ETHEntityProperties& properties,

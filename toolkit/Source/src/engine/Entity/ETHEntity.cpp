@@ -24,6 +24,8 @@
 
 #include "../Physics/ETHPhysicsSimulator.h"
 
+#include "../Scene/ETHScene.h"
+
 Sprite::ENTITY_ORIGIN ETHEntity::ConvertToGSSO(const ETHEntityProperties::ENTITY_TYPE type)
 {
 	switch (type)
@@ -61,13 +63,14 @@ ETHEntity::ETHEntity(
 	TiXmlElement *pElement,
 	ETHEntityCache& entityCache,
 	const str_type::string &entityPath,
-	Platform::FileManagerPtr fileManager) :
+	Platform::FileManagerPtr fileManager,
+	const bool shouldGenerateNewID) :
 	ETHScriptEntity(),
 	m_id(-1),
 	m_controller(new ETHRawEntityController(Vector3(0, 0, 0), 0.0f))
 {
 	Zero();
-	ReadFromXMLFile(pElement, entityCache, entityPath, fileManager);
+	ReadFromXMLFile(pElement, entityCache, entityPath, fileManager, shouldGenerateNewID);
 }
 
 ETHEntity::ETHEntity() : 
@@ -176,9 +179,9 @@ bool ETHEntity::WriteToXMLFile(
 	return true;
 }
 
-bool ETHEntity::ReadFromXMLFile(TiXmlElement *pElement)
+bool ETHEntity::ReadFromXMLFile(TiXmlElement *pElement, const bool shouldGenerateNewID)
 {
-	ReadInSceneDataFromXMLFile(pElement);
+	ReadInSceneDataFromXMLFile(pElement, shouldGenerateNewID);
 	TiXmlNode *pNode = pElement->FirstChild(GS_L("Entity"));
 	if (pNode)
 	{
@@ -194,9 +197,10 @@ bool ETHEntity::ReadFromXMLFile(
 	TiXmlElement *pElement,
 	ETHEntityCache& entityCache,
 	const str_type::string &entityPath,
-	Platform::FileManagerPtr fileManager)
+	Platform::FileManagerPtr fileManager,
+	const bool shouldGenerateNewID)
 {
-	ReadInSceneDataFromXMLFile(pElement);
+	ReadInSceneDataFromXMLFile(pElement, shouldGenerateNewID);
 	TiXmlNode *pNode = pElement->FirstChild(GS_L("Entity"));
 	if (pNode)
 	{
@@ -208,9 +212,16 @@ bool ETHEntity::ReadFromXMLFile(
 	}
 }
 
-void ETHEntity::ReadInSceneDataFromXMLFile(TiXmlElement *pElement)
+void ETHEntity::ReadInSceneDataFromXMLFile(TiXmlElement *pElement, const bool shouldGenerateNewID)
 {
-	pElement->QueryIntAttribute(GS_L("id"), &m_id);
+	if (shouldGenerateNewID)
+	{
+		m_id = ETHScene::UpdateIDCounter(this);
+	}
+	else
+	{
+		pElement->QueryIntAttribute(GS_L("id"), &m_id);
+	}
 	pElement->QueryFloatAttribute(GS_L("shadowZ"), &m_shadowZ);
 
 	m_hide = ETHEntityProperties::ReadBooleanPropertyFromXmlElement(pElement, GS_L("hide"), m_hide);

@@ -45,8 +45,9 @@ ETHSpriteEntity::ETHSpriteEntity(
 	TiXmlElement *pElement,
 	ETHResourceProviderPtr provider,
 	ETHEntityCache& entityCache,
-	const str_type::string& entityPath) :
-	ETHEntity(pElement, entityCache, entityPath, provider->GetFileManager()),
+	const str_type::string& entityPath,
+	const bool shouldGenerateNewID) :
+	ETHEntity(pElement, entityCache, entityPath, provider->GetFileManager(), shouldGenerateNewID),
 	m_provider(provider)
 {
 	Zero();
