@@ -525,7 +525,9 @@ void ETHEngine::ExceptionCallback(asIScriptContext *ctx, void *param)
 	}
 	ss << std::endl;
 	
-	Application::SharedData.Set(SCRIPT_EXCEPTION_LOG_SHARED_DATA_KEY, ss.str());
+	Application::SharedData.Set(
+		SCRIPT_EXCEPTION_LOG_SHARED_DATA_KEY,
+		Application::SharedData.Get(SCRIPT_EXCEPTION_LOG_SHARED_DATA_KEY) + ss.str());
 
 	m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
 }
