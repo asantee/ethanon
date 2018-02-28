@@ -71,7 +71,8 @@ BitmapFont::CHAR_DESCRIPTOR::CHAR_DESCRIPTOR() :
 	xOffset(0),
 	yOffset(0),
 	xAdvance(0),
-	page(0)
+	page(0),
+	available(false)
 {
 }
 
@@ -193,6 +194,8 @@ bool BitmapFont::ParseFNTString(const str_type::string& str)
 					converter >> m_charSet.chars[charID].xAdvance;
 				else if( key == GS_L("page") )
 					converter >> m_charSet.chars[charID].page;
+
+				m_charSet.chars[charID].available = true;
 			}
 		}
 		else if( read == GS_L("page") )
@@ -329,7 +332,7 @@ inline int ConvertCharacterToIndex(const TChar* character, std::size_t& t, const
 	{
         const std::size_t maxByteCount = math::Min(static_cast<std::size_t>(8), length - t);
 		std::size_t charByteCount = 2;
-		
+
 		while (!utf8::is_valid(character, character + (charByteCount)) && charByteCount < maxByteCount)
 		{
 			++charByteCount;
@@ -374,6 +377,10 @@ Vector2 BitmapFont::ComputeCarretPosition(const str_type::string& text, const un
 		}
 
 		int charId = ConvertCharacterToIndex<str_type::char_t>(&cleanText[t], t, length);
+
+		if (!m_charSet.chars[charId].available)
+			charId = 63; // question mark
+
 		const CHAR_DESCRIPTOR& currentChar = m_charSet.chars[charId];
 		cursor.x += currentChar.xAdvance;
 	}
@@ -401,6 +408,10 @@ Vector2 BitmapFont::ComputeTextBoxSize(const str_type::string& text)
 			continue;
 		}
 		int charId = ConvertCharacterToIndex<str_type::char_t>(&cleanText[t], t, length);
+
+		if (!m_charSet.chars[charId].available)
+			charId = 63; // question mark
+
 		const CHAR_DESCRIPTOR &currentChar = m_charSet.chars[charId];
 		lineWidth += currentChar.xAdvance;
 
@@ -458,7 +469,11 @@ Vector2 BitmapFont::DrawBitmapText(const Vector2& pos, const str_type::string& t
 		// find mapped character
         const bool isSpace = (text[t] == GS_L(' '));
 		int charId = ConvertCharacterToIndex<str_type::char_t>(&text[t], t, length);
-		const CHAR_DESCRIPTOR &currentChar = m_charSet.chars[charId];
+  
+  		if (!m_charSet.chars[charId].available)
+    		charId = 63; // question mark
+
+		const CHAR_DESCRIPTOR& currentChar = m_charSet.chars[charId];
 		if (currentChar.width > 0 && currentChar.height > 0 && !isSpace)
 		{
 			Rect2Df rect;

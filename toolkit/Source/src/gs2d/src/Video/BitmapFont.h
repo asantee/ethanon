@@ -48,6 +48,7 @@ class BitmapFont
 		float xOffset, yOffset;
 		float xAdvance;
 		int page;
+  		bool available;
 
 		CHAR_DESCRIPTOR();
 	};
