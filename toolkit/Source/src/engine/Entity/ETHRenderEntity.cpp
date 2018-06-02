@@ -384,7 +384,7 @@ bool ETHRenderEntity::DrawHalo(
 		brightness = static_cast<float>(paticleManager->GetNumActiveParticles())/static_cast<float>(paticleManager->GetNumParticles());
 	}
 
-	Vector3 v3HaloPos = light->pos + v3EntityPos;
+	Vector3 v3HaloPos = (light->pos * Vector3(GetScale(), 1.0f)) + v3EntityPos;
 
 	const Vector4 color(Vector4(light->color, 1.0f) * light->haloBrightness * brightness);
 	Vector2 v2Size(light->haloSize, light->haloSize);

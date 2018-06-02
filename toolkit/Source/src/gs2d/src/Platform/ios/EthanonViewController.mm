@@ -62,7 +62,7 @@
 
 
 	[GCController startWirelessControllerDiscoveryWithCompletionHandler:^{
-		m_ethanonApplication.DetectJoysticks();
+		self->m_ethanonApplication.DetectJoysticks();
 	}];
 
 	// register gamepad listeners
@@ -129,7 +129,7 @@
 			}
 			else
 			{
-				m_ethanonApplication.UpdateAccelerometer(accelerometerData);
+				self->m_ethanonApplication.UpdateAccelerometer(accelerometerData);
 			}
 		 }
 	];
