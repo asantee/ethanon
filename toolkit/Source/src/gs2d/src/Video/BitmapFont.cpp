@@ -333,12 +333,17 @@ inline int ConvertCharacterToIndex(const TChar* character, std::size_t& t, const
         const std::size_t maxByteCount = math::Min(static_cast<std::size_t>(8), length - t);
 		std::size_t charByteCount = 2;
 
+		// find how many bytes are in this character
 		while (!utf8::is_valid(character, character + (charByteCount)) && charByteCount < maxByteCount)
 		{
 			++charByteCount;
 		}
-
-		if (charByteCount <= maxByteCount)
+  
+  		if (!utf8::is_valid(character, character + charByteCount))
+		{
+			index = 0;
+        }
+        else if (charByteCount <= maxByteCount)
 		{
 			std::vector<unsigned long> utf32line;
 			utf8::utf8to32(character, character + charByteCount, std::back_inserter(utf32line));
