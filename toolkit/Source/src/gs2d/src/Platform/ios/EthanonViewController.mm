@@ -53,7 +53,30 @@
 
 	view.contentScaleFactor = [self customContentScaleFactor];
 
+	for (UIGestureRecognizer *recognizer in view.gestureRecognizers)
+	{
+		recognizer.delaysTouchesBegan = FALSE;
+		recognizer.delaysTouchesEnded = FALSE;
+		recognizer.enabled = FALSE;
+	}
+
+	UIWindow* window = view.window;
+	for (UIGestureRecognizer *recognizer in window.gestureRecognizers)
+	{
+		recognizer.delaysTouchesBegan = FALSE;
+		recognizer.delaysTouchesEnded = FALSE;
+		recognizer.enabled = FALSE;
+	}
+
+	self.navigationController.interactivePopGestureRecognizer.delaysTouchesBegan = FALSE;
+
 	[EAGLContext setCurrentContext:self.context];
+}
+
+- (UIRectEdge)preferredScreenEdgesDeferringSystemGestures
+{
+	NSLog(@"Preferred edge set");
+    return UIRectEdgeBottom | UIRectEdgeLeft | UIRectEdgeRight;
 }
 
 - (void)viewDidAppear:(BOOL)animated
