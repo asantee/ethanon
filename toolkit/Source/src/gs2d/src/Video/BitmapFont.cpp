@@ -380,6 +380,10 @@ Vector2 BitmapFont::ComputeCarretPosition(const str_type::string& text, const un
 			cursor.y += m_charSet.lineHeight;
 			continue;
 		}
+		else if (cleanText[t] == GS_L('\r'))
+		{
+			continue;
+		}
 
 		int charId = ConvertCharacterToIndex<str_type::char_t>(&cleanText[t], t, length);
 
@@ -412,6 +416,11 @@ Vector2 BitmapFont::ComputeTextBoxSize(const str_type::string& text)
 			cursor.y += m_charSet.lineHeight;
 			continue;
 		}
+		else if (cleanText[t] == GS_L('\r'))
+		{
+			continue;
+		}
+
 		int charId = ConvertCharacterToIndex<str_type::char_t>(&cleanText[t], t, length);
 
 		if (!m_charSet.chars[charId].available)
@@ -451,7 +460,11 @@ Vector2 BitmapFont::DrawBitmapText(const Vector2& pos, const str_type::string& t
 			cursor.y += m_charSet.lineHeight * scale;
 			continue;
 		}
-		
+		else if (text[t] == GS_L('\r'))
+		{
+			continue;
+		}
+
 		// check color code
 		if (IsColorCode(text, t))
 		{
@@ -474,7 +487,7 @@ Vector2 BitmapFont::DrawBitmapText(const Vector2& pos, const str_type::string& t
 		// find mapped character
         const bool isSpace = (text[t] == GS_L(' '));
 		int charId = ConvertCharacterToIndex<str_type::char_t>(&text[t], t, length);
-  
+
   		if (!m_charSet.chars[charId].available)
     		charId = 63; // question mark
 
