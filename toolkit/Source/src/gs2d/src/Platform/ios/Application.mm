@@ -128,6 +128,7 @@ void ApplicationWrapper::ForceGamepadPause()
 
 void ApplicationWrapper::TouchesBegan(UIView* thisView, NSSet* touches, UIEvent* event)
 {
+	[m_arrayLock lock];
 	gs2d::IOSInput* input = static_cast<gs2d::IOSInput*>(g_input.get());
 
 	for (UITouch *touch in touches)
@@ -135,7 +136,6 @@ void ApplicationWrapper::TouchesBegan(UIView* thisView, NSSet* touches, UIEvent*
 		unsigned int touchIdx = 0;
 		bool added = false;
 
-		[m_arrayLock lock];
 		NSUInteger count = [m_touches count];
 		for (NSUInteger ui = 0; ui < count; ui++)
 		{
@@ -155,21 +155,20 @@ void ApplicationWrapper::TouchesBegan(UIView* thisView, NSSet* touches, UIEvent*
 			[m_touches addObject:touch];
 			added = true;
 		}
-		[m_arrayLock unlock];
 
 		CGPoint location = [touch locationInView:thisView];
 		input->SetCurrentTouchPos(touchIdx++, gs2d::math::Vector2(location.x, location.y) * m_pixelDensity);
 	}
+	[m_arrayLock unlock];
 }
 
 void ApplicationWrapper::TouchesMoved(UIView* thisView, NSSet* touches, UIEvent* event)
 {
+	[m_arrayLock lock];
 	gs2d::IOSInput* input = static_cast<gs2d::IOSInput*>(g_input.get());
 	for (UITouch *touch in touches)
 	{
-		[m_arrayLock lock];
 		NSUInteger touchIdx = [m_touches indexOfObject:touch];
-		[m_arrayLock unlock];
 
 		if (touchIdx != NSNotFound)
 		{
@@ -178,22 +177,33 @@ void ApplicationWrapper::TouchesMoved(UIView* thisView, NSSet* touches, UIEvent*
 				static_cast<unsigned int>(touchIdx),
 				gs2d::math::Vector2(location.x, location.y) * m_pixelDensity);
 		}
+		else
+		{
+			NSLog(@"TouchMoved touch not found!");
+		}
 	}
+	[m_arrayLock unlock];
 }
 
 void ApplicationWrapper::TouchesEnded(UIView* thisView, NSSet* touches, UIEvent* event)
 {
+	[m_arrayLock lock];
 	gs2d::IOSInput* input = static_cast<gs2d::IOSInput*>(g_input.get());
 	for (UITouch *touch in touches)
 	{
-		[m_arrayLock lock];
 		NSUInteger touchIdx = [m_touches indexOfObject:touch];
 		if (touchIdx != NSNotFound)
 			[m_touches setObject:[NSNull null] atIndexedSubscript:touchIdx];
-		[m_arrayLock unlock];
 		if (touchIdx != NSNotFound)
+		{
 			input->SetCurrentTouchPos(static_cast<unsigned int>(touchIdx), gs2d::GS_NO_TOUCH);
+		}
+		else
+		{
+			NSLog(@"TouchEnded touch not found!");
+		}
 	}
+	[m_arrayLock unlock];
 }
 
 void ApplicationWrapper::TouchesCancelled(UIView* thisView, NSSet* touches, UIEvent* event)
