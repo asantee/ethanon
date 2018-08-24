@@ -174,7 +174,10 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 		video->SetBGColor(m_lastBGColor);
 		if (IsScriptEngineLoaded())
 		{
-			m_pScene->RecoverResources(m_expansionFileManager);
+			if (m_pScene)
+			{
+				m_pScene->RecoverResources(m_expansionFileManager);
+			}
 		}
 	}
 	
@@ -186,10 +189,12 @@ Application::APP_STATUS ETHEngine::Update(
 {
 	if (!m_mainFunctionRunned)
 	{
+		m_provider->Log(GS_L("Starting main function"), Platform::Logger::INFO);
 		RunMainFunction(GetMainFunction());
 		m_provider->GetVideo()->EnableQuitShortcuts(true);
 		m_v2LastCamPos = m_provider->GetVideo()->GetCameraPos();
 		m_mainFunctionRunned = true;
+		m_provider->Log(GS_L("Ended main function"), Platform::Logger::INFO);
 	}
 
 	// removes dead elements on top layer to fill the list once again
@@ -478,6 +483,7 @@ bool ETHEngine::BuildModule(const std::vector<gs2d::str_type::string>& definedWo
 			Abort();
 			return false;
 		}
+		m_provider->Log(GS_L("Finished loading bytecode"), Platform::Logger::INFO);
 	}
 
 	return true;
