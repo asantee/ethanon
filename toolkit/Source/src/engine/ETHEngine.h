@@ -48,8 +48,8 @@ class ETHEngine : public gs2d::BaseApplication, public ETHScriptWrapper
 
 	Platform::FileIOHubPtr m_fileIOHub;
 
-	const bool m_testing, m_compileAndRun;
-	bool m_hasBeenResumed;
+	const bool m_testing, m_compileAndRun, m_autoStartScriptEngine;
+	bool m_hasBeenResumed, m_scriptEngineReady, m_mainFunctionRunned;
 
 	static const str_type::string SCRIPT_EXCEPTION_LOG_SHARED_DATA_KEY;
 	static void MessageCallback(const asSMessageInfo* msg);
@@ -68,10 +68,17 @@ class ETHEngine : public gs2d::BaseApplication, public ETHScriptWrapper
 
 	void DrawTopLayer(const unsigned long lastFrameElapsedTimeMS);
 
+	std::vector<gs2d::str_type::string> m_definedWords;
+
 public:
+
+	static boost::shared_ptr<ETHEngine> Cast(gs2d::BaseApplicationPtr application);
+	bool StartScriptEngine();
+	bool IsScriptEngineLoaded() const;
+
 	static const str_type::string ETH_SCRIPT_MODULE;
 
-	ETHEngine(const bool testing, const bool compileAndRun);
+	ETHEngine(const bool testing, const bool compileAndRun, const bool autoStartScriptEngine);
 	~ETHEngine();
 	void Start(gs2d::VideoPtr video, gs2d::InputPtr input, gs2d::AudioPtr audio);
 	gs2d::Application::APP_STATUS Update(const float lastFrameDeltaTimeMS); 

@@ -32,6 +32,7 @@
 
 #include <Input/Android/AndroidInput.h>
 
+#include "../../../../engine/ETHEngine.h"
 #include "../../../../engine/Resource/ETHDirectories.h"
 
 using namespace gs2d;
@@ -42,6 +43,7 @@ extern "C" {
 	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_resize(JNIEnv* env, jobject thiz, jint width, jint height);
 	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_restore(JNIEnv* env, jobject thiz);
 	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_start(JNIEnv* env, jobject thiz, jstring apkPath, jstring externalPath, jstring globalPath, jint width, jint height);
+	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_engineStartup(JNIEnv* env, jobject thiz);
 	JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_destroy(JNIEnv* env, jobject thiz);
 	JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_runOnUIThread(JNIEnv* env, jobject thiz, jstring inputStr);
 
@@ -57,30 +59,14 @@ InputPtr input;
 AudioPtr audio;
 boost::shared_ptr<Platform::ZipFileManager> zip;
 SpritePtr splashSprite;
+ETHEnginePtr engine;
 
 std::string  g_inputStr;
 static float g_globalVolume = 1.0f;
-static bool g_splashShown = false;
-
-float ComputeSplashScale(const Vector2& screenSize)
-{
-	const float defaultScale = 1.0f;
-	const Vector2 size(splashSprite->GetBitmapSizeF() * defaultScale);
-	if (size.x > screenSize.x)
-	{
-		return screenSize.x / size.x;
-	}
-	else
-	{
-		return defaultScale;
-	}
-}
 
 JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_start(
 	JNIEnv* env, jobject thiz, jstring apkPath, jstring externalPath, jstring globalPath, jint width, jint height)
 {
-	g_splashShown = false;
-
 	jboolean isCopy;
 	const char* strApk = env->GetStringUTFChars(apkPath, &isCopy);
 	const char* strExt = env->GetStringUTFChars(externalPath, &isCopy);
@@ -98,33 +84,22 @@ JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_start(
 	splashSprite = video->CreateSprite(GS_L("assets/data/splash.png"));
 	splashSprite->SetupSpriteRects(1, 2);
 
-	// if the application is already initialized, let's reset the device
-	if (application)
+	if (!application)
+	{
+		BaseApplicationPtr newApplication = CreateBaseApplication(false /*autoStartScriptEngine*/);
+		newApplication->Start(video, input, audio);
+		application = newApplication;
+		engine = ETHEngine::Cast(application);
+	}
+	else
 	{
 		application->Start(video, input, audio);
 	}
 }
 
-static void StartApplication()
+JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_engineStartup(JNIEnv* env, jobject thiz)
 {
-	if (!application)
-		application = CreateBaseApplication();
-	application->Start(video, input, audio);
-}
-
-static void DrawSplashScreen(const bool firstTime)
-{
-	video->BeginSpriteScene(gs2d::constant::BLACK);
-	if (splashSprite)
-	{
-		splashSprite->SetOrigin(gs2d::Sprite::EO_CENTER);
-		const Vector2 screenSize(video->GetScreenSizeF());
-		const float scale = ComputeSplashScale(screenSize);
-
-		splashSprite->SetRect(firstTime ? 0 : 1);
-		splashSprite->Draw(screenSize * 0.5f, gs2d::constant::WHITE, 0.0f, Vector2(scale, scale));
-	}
-	video->EndSpriteScene();
+	engine->StartScriptEngine();
 }
 
 JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_resize(JNIEnv* env, jobject thiz, jint width, jint height)
@@ -167,26 +142,25 @@ JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_mainLoop(JNIEnv* env, jo
 	video->HandleEvents();
 	input->Update();
 
-	// if the splash screen has already been shown, do the regular engine loop
-	if (g_splashShown)
+	if (!application || !engine->IsScriptEngineLoaded()) // draw SPLASH SCREEN
 	{
-		// if the engine hasn't been started yet (which means the previous frame was the splash screen frame),
-		// start the engine machine before performing the regular loop
-		if (!application)
+		video->BeginSpriteScene(gs2d::constant::BLACK);
+		if (splashSprite)
 		{
-			StartApplication();
-		}
+			splashSprite->SetOrigin(gs2d::Sprite::EO_CENTER);
+			const Vector2 screenSize(video->GetScreenSizeF());
+			const float scale = (screenSize.y / 720.0f) * 0.8f;
 
+			splashSprite->SetRect(engine->IsScriptEngineLoaded() ? 1 : 0);
+			splashSprite->Draw(screenSize * 0.5f, gs2d::constant::WHITE, 0.0f, Vector2(scale, scale));
+		}
+		video->EndSpriteScene();
+	}
+	else // do default main loop
+	{
 		const float lastFrameElapsedTime = ComputeElapsedTimeF(video);
 		application->Update(Min(1000.0f, lastFrameElapsedTime));
 		application->RenderFrame();
-	}
-	else
-	{
-		// draw the splash screen and prepare the engine start
-		const bool firstTime = (!application);
-		DrawSplashScreen(firstTime);
-		g_splashShown = true;
 	}
 
 	return env->NewStringUTF(AssembleCommands().c_str());

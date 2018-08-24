@@ -45,13 +45,17 @@ using namespace gs2d::math;
 const str_type::string ETHEngine::ETH_SCRIPT_MODULE(GS_L("EthanonModule"));
 const str_type::string ETHEngine::SCRIPT_EXCEPTION_LOG_SHARED_DATA_KEY(GS_L("com.ethanonengine.scriptExceptions"));
 
-gs2d::BaseApplicationPtr gs2d::CreateBaseApplication()
+gs2d::BaseApplicationPtr gs2d::CreateBaseApplication(const bool autoStartScriptEngine)
 {
-	return BaseApplicationPtr(new ETHEngine(false, true));
+	return BaseApplicationPtr(new ETHEngine(false, true, autoStartScriptEngine));
 }
 
 #ifdef ANDROID
-#	define ETH_BYTECODE_FILE_NAME GS_L("android_game.bin")
+#	ifdef __aarch64__
+#		define ETH_BYTECODE_FILE_NAME GS_L("android_game_64.bin")
+#	else
+#		define ETH_BYTECODE_FILE_NAME GS_L("android_game.bin")
+#	endif
 #elif APPLE_IOS
 #	ifdef __LP64__
 #		define ETH_BYTECODE_FILE_NAME GS_L("ios_game_64.bin")
@@ -62,14 +66,17 @@ gs2d::BaseApplicationPtr gs2d::CreateBaseApplication()
 #	define ETH_BYTECODE_FILE_NAME GS_L("game.bin")
 #endif
 
-ETHEngine::ETHEngine(const bool testing, const bool compileAndRun) :
+ETHEngine::ETHEngine(const bool testing, const bool compileAndRun, const bool autoStartScriptEngine) :
 	ETH_DEFAULT_MAIN_SCRIPT_FILE(_ETH_DEFAULT_MAIN_SCRIPT_FILE),
 	ETH_DEFAULT_MAIN_BYTECODE_FILE(ETH_BYTECODE_FILE_NAME),
 	ETH_MAIN_FUNCTION(GS_L("main")),
 	m_testing(testing),
 	m_compileAndRun(compileAndRun),
 	m_lastBGColor(0x0),
-	m_hasBeenResumed(false)
+	m_hasBeenResumed(false),
+	m_scriptEngineReady(false),
+	m_mainFunctionRunned(false),
+	m_autoStartScriptEngine(autoStartScriptEngine)
 {
 	Application::SharedData.Create(SCRIPT_EXCEPTION_LOG_SHARED_DATA_KEY, GS_L(""), false);
 }
@@ -86,9 +93,38 @@ ETHEngine::~ETHEngine()
 	m_pASEngine = 0;
 }
 
+boost::shared_ptr<ETHEngine> ETHEngine::Cast(gs2d::BaseApplicationPtr application)
+{
+	return boost::static_pointer_cast<ETHEngine>(application);
+}
+
 ETHResourceProviderPtr ETHEngine::GetProvider()
 {
 	return m_provider;
+}
+
+bool ETHEngine::StartScriptEngine()
+{
+	if (m_pASEngine)
+		return true;
+
+	VideoPtr video = m_provider->GetVideo();
+	video->SetBGColor(gs2d::constant::BLACK);
+
+	GS2D_COUT << GS_L("AngelScript v") << asGetLibraryVersion() << GS_L(" options: ") << asGetLibraryOptions() << std::endl;
+	if (!PrepareScriptingEngine(m_definedWords))
+	{
+		Abort();
+		return false;
+	}
+
+	m_scriptEngineReady = true;
+	return true;
+}
+
+bool ETHEngine::IsScriptEngineLoaded() const
+{
+	return m_scriptEngineReady;
 }
 
 void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
@@ -102,6 +138,7 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 		fileIOHub->GetExternalStorageDirectory());
 
 	const bool richLighting = file.IsRichLightingEnabled();
+	m_definedWords = file.GetDefinedWords();
 
 	m_provider = ETHResourceProviderPtr(new ETHResourceProvider(
 		ETHGraphicResourceManagerPtr(new ETHGraphicResourceManager(file.GetDensityManager())),
@@ -124,30 +161,21 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 
 	if (!m_pASEngine)
 	{
-		video->SetBGColor(gs2d::constant::BLACK);
-
-		GS2D_COUT << GS_L("AngelScript v") << asGetLibraryVersion() << GS_L(" options: ") << asGetLibraryOptions() << std::endl;
-		if (!PrepareScriptingEngine(file.GetDefinedWords()))
+		if (m_autoStartScriptEngine)
 		{
-			Abort();
-			return;
-		}
-
-		if (m_compileAndRun)
-		{
-			if (!RunMainFunction(GetMainFunction()))
+			if (!StartScriptEngine())
 			{
-				Abort();
 				return;
 			}
-			video->EnableQuitShortcuts(true);
-			m_v2LastCamPos = video->GetCameraPos();
 		}
 	}
 	else
 	{
 		video->SetBGColor(m_lastBGColor);
-		m_pScene->RecoverResources(m_expansionFileManager);
+		if (IsScriptEngineLoaded())
+		{
+			m_pScene->RecoverResources(m_expansionFileManager);
+		}
 	}
 	
 	Randomizer::Seed(static_cast<unsigned int>(m_provider->GetVideo()->GetElapsedTime()));
@@ -156,6 +184,14 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 Application::APP_STATUS ETHEngine::Update(
 	const float lastFrameDeltaTimeMS)
 {
+	if (!m_mainFunctionRunned)
+	{
+		RunMainFunction(GetMainFunction());
+		m_provider->GetVideo()->EnableQuitShortcuts(true);
+		m_v2LastCamPos = m_provider->GetVideo()->GetCameraPos();
+		m_mainFunctionRunned = true;
+	}
+
 	// removes dead elements on top layer to fill the list once again
 	m_drawableManager.RemoveTheDead();
 
@@ -289,7 +325,7 @@ bool ETHEngine::PrepareScriptingEngine(const std::vector<gs2d::str_type::string>
 
 	// Always collect all garbage by default
 	SetFastGarbageCollector(false);
-
+	
 	return true;
 }
 
@@ -381,19 +417,41 @@ bool ETHEngine::BuildModule(const std::vector<gs2d::str_type::string>& definedWo
 		m_pASModule = CScriptBuilder::GetModule(m_pASEngine, ETH_SCRIPT_MODULE);
 
 		// Writes the compiled byte code to file
-		ETHBinaryStream stream(m_provider->GetFileManager());
-		if (stream.OpenW(byteCodeWriteFile))
 		{
-			m_pASModule->SaveByteCode(&stream);
-			stream.CloseW();
-			ETH_STREAM_DECL(ss) << GS_L("ByteCode saved: ") << byteCodeWriteFile;
-			m_provider->Log(ss.str(), Platform::Logger::INFO);
+			ETHBinaryStream stream(m_provider->GetFileManager());
+			if (stream.OpenW(byteCodeWriteFile))
+			{
+				m_pASModule->SaveByteCode(&stream);
+				stream.CloseW();
+				ETH_STREAM_DECL(ss) << GS_L("ByteCode saved: ") << byteCodeWriteFile;
+				m_provider->Log(ss.str(), Platform::Logger::INFO);
+			}
+			else
+			{
+				ETH_STREAM_DECL(ss) << GS_L("Failed while writing the byte code file ") << byteCodeWriteFile;
+				m_provider->Log(ss.str(), Platform::Logger::ERROR);
+			}
 		}
-		else
+
+		// write bytecode also on globar external storage place on android 
+		#if ANDROID
 		{
-			ETH_STREAM_DECL(ss) << GS_L("Failed while writing the byte code file ") << byteCodeWriteFile;
-			m_provider->Log(ss.str(), Platform::Logger::ERROR);
+			const str_type::string globalExternalByteCodeWriteFile = m_provider->GetFileIOHub()->GetGlobalExternalStorageDirectory() + ETH_DEFAULT_MAIN_BYTECODE_FILE;
+			ETHBinaryStream stream(m_provider->GetFileManager());
+			if (stream.OpenW(globalExternalByteCodeWriteFile))
+			{
+				m_pASModule->SaveByteCode(&stream);
+				stream.CloseW();
+				ETH_STREAM_DECL(ss) << GS_L("ByteCode saved on global external: ") << globalExternalByteCodeWriteFile;
+				m_provider->Log(ss.str(), Platform::Logger::INFO);
+			}
+			else
+			{
+				ETH_STREAM_DECL(ss) << GS_L("Failed while writing the byte code file ") << globalExternalByteCodeWriteFile;
+				m_provider->Log(ss.str(), Platform::Logger::ERROR);
+			}
 		}
+		#endif
 	}
 	else // otherwiser, try to load the bytecode
 	{

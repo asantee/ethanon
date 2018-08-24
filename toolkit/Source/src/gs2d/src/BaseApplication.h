@@ -43,7 +43,7 @@ public:
 
 typedef boost::shared_ptr<BaseApplication> BaseApplicationPtr;
 
-BaseApplicationPtr CreateBaseApplication();
+BaseApplicationPtr CreateBaseApplication(const bool autoStartScriptEngine = true);
 
 } // namespace gs2d
 
