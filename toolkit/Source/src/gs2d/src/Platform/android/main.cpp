@@ -104,7 +104,10 @@ JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_engineStartup(JNIEnv* env, 
 
 JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_resize(JNIEnv* env, jobject thiz, jint width, jint height)
 {
-	video->ResetVideoMode(width, height, Texture::PF_DEFAULT, false);
+	if (video)
+	{
+		video->ResetVideoMode(width, height, Texture::PF_DEFAULT, false);
+	}
 }
 
 JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_restore(JNIEnv* env, jobject thiz)
@@ -112,6 +115,18 @@ JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_restore(JNIEnv* env, jobjec
 	if (application)
 	{
 		application->Restore();
+	}
+}
+
+bool IsScriptEngineLoaded()
+{
+	if (engine)
+	{
+		return engine->IsScriptEngineLoaded();
+	}
+	else
+	{
+		return false;
 	}
 }
 
@@ -142,8 +157,16 @@ JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_mainLoop(JNIEnv* env, jo
 	video->HandleEvents();
 	input->Update();
 
-	if (!application || !engine->IsScriptEngineLoaded()) // draw SPLASH SCREEN
+	if (IsScriptEngineLoaded())
 	{
+		// Do default main loop
+		const float lastFrameElapsedTime = ComputeElapsedTimeF(video);
+		application->Update(Min(1000.0f, lastFrameElapsedTime));
+		application->RenderFrame();
+	}
+	else
+	{
+		// Draw SPLASH SCREEN
 		video->BeginSpriteScene(gs2d::constant::BLACK);
 		if (splashSprite)
 		{
@@ -151,16 +174,10 @@ JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_mainLoop(JNIEnv* env, jo
 			const Vector2 screenSize(video->GetScreenSizeF());
 			const float scale = (screenSize.y / 720.0f) * 0.8f;
 
-			splashSprite->SetRect(engine->IsScriptEngineLoaded() ? 1 : 0);
+			splashSprite->SetRect(/*(application) ? 1 : 0*/ 0);
 			splashSprite->Draw(screenSize * 0.5f, gs2d::constant::WHITE, 0.0f, Vector2(scale, scale));
 		}
 		video->EndSpriteScene();
-	}
-	else // do default main loop
-	{
-		const float lastFrameElapsedTime = ComputeElapsedTimeF(video);
-		application->Update(Min(1000.0f, lastFrameElapsedTime));
-		application->RenderFrame();
 	}
 
 	return env->NewStringUTF(AssembleCommands().c_str());
@@ -168,9 +185,16 @@ JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_mainLoop(JNIEnv* env, jo
 
 JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_destroy(JNIEnv* env, jobject thiz)
 {
-	application->Destroy();
-	video->Message(GS_L("Application resources destroyed"), GSMT_INFO);
-	g_globalVolume = audio->GetGlobalVolume();
+	if (IsScriptEngineLoaded())
+	{
+		application->Destroy();
+	}
+
+	if (video && audio)
+	{
+		video->Message(GS_L("Application resources destroyed"), GSMT_INFO);
+		g_globalVolume = audio->GetGlobalVolume();
+	}
 	return env->NewStringUTF(GS_L(""));
 }
 
