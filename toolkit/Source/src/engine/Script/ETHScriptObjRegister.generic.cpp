@@ -23,6 +23,7 @@
 #include "ETHScriptObjRegister.h"
 
 #include "../Util/ETHInput.h"
+#include "../Util/JSONObject.h"
 
 #include "../Physics/ETHPhysicsController.h"
 
