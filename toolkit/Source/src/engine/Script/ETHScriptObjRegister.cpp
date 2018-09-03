@@ -39,6 +39,8 @@
 #include "../../addons/scriptfile.h"
 #include "../../addons/scriptstdstring.h"
 
+#include "../../engine/Util/JSONObject.h"
+
 namespace ETHGlobal {
 
 void Matrix4x4DefaultConstructor(Matrix4x4 *self)
@@ -217,6 +219,15 @@ bool RegisterENMLObject(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterObjectType("enmlEntity", 0, asOBJ_REF); assert(r >= 0);
 	r = pASEngine->RegisterObjectType("enmlFile", 0, asOBJ_REF); assert(r >= 0);
 	RegisterENMLMethods(pASEngine);
+	return true;
+}
+
+void RegisterJSONObjectMethods(asIScriptEngine *pASEngine);
+bool RegisterJSONObject(asIScriptEngine *pASEngine)
+{
+	int r;
+	r = pASEngine->RegisterObjectType("JSONObject", sizeof(JSONObject), asOBJ_VALUE | asOBJ_POD | asOBJ_APP_CLASS_CA); assert(r >= 0);
+	RegisterJSONObjectMethods(pASEngine);
 	return true;
 }
 
@@ -571,6 +582,7 @@ void RegisterAllObjects(asIScriptEngine *pASEngine)
 	ETHGlobal::RegisterEntityObject(pASEngine);
 	ETHGlobal::RegisterInputObject(pASEngine);
 	ETHGlobal::RegisterEntityArrayObject(pASEngine);
+	ETHGlobal::RegisterJSONObject(pASEngine);
 }
 
 }

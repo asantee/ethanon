@@ -228,6 +228,8 @@
 		AAC440201F38DEBE00F1B194 /* FMAudioSample.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAC4401E1F38DEBE00F1B194 /* FMAudioSample.mm */; };
 		AAC440681F39157000F1B194 /* libfmod_iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAC440661F39157000F1B194 /* libfmod_iphoneos.a */; };
 		AAC440691F39157000F1B194 /* libfmod_iphonesimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAC440671F39157000F1B194 /* libfmod_iphonesimulator.a */; };
+		AAFA2E322139CDA6006D67FB /* cJSON.c in Sources */ = {isa = PBXBuildFile; fileRef = AAFA2E312139CDA6006D67FB /* cJSON.c */; };
+		AAFA2E352139D1C4006D67FB /* JSONObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAFA2E332139D1C3006D67FB /* JSONObject.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -711,6 +713,10 @@
 		AAC4401E1F38DEBE00F1B194 /* FMAudioSample.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = FMAudioSample.mm; path = ../../../../src/gs2d/src/Audio/fmod/FMAudioSample.mm; sourceTree = "<group>"; };
 		AAC440661F39157000F1B194 /* libfmod_iphoneos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfmod_iphoneos.a; path = ../../../../src/gs2d/vendors/fmod/lib/libfmod_iphoneos.a; sourceTree = "<group>"; };
 		AAC440671F39157000F1B194 /* libfmod_iphonesimulator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfmod_iphonesimulator.a; path = ../../../../src/gs2d/vendors/fmod/lib/libfmod_iphonesimulator.a; sourceTree = "<group>"; };
+		AAFA2E302139CDA6006D67FB /* cJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cJSON.h; path = ../../../../src/cjson/cJSON.h; sourceTree = "<group>"; };
+		AAFA2E312139CDA6006D67FB /* cJSON.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = cJSON.c; path = ../../../../src/cjson/cJSON.c; sourceTree = "<group>"; };
+		AAFA2E332139D1C3006D67FB /* JSONObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JSONObject.cpp; path = ../../../../src/engine/Util/JSONObject.cpp; sourceTree = "<group>"; };
+		AAFA2E342139D1C3006D67FB /* JSONObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONObject.h; path = ../../../../src/engine/Util/JSONObject.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -778,6 +784,7 @@
 				74E6E6861A31E29300E89172 /* Box2D */,
 				74E6E6011A31DD4C00E89172 /* AngelScript */,
 				74E6E7161A31E66900E89172 /* tinyxml */,
+				AAFA2E2F2139CD85006D67FB /* cJSON */,
 				74E6E7211A31E68900E89172 /* SOIL */,
 				74E6E4F91A30EFB500E89172 /* ApplicationTests */,
 				74E6E4EB1A30EFB500E89172 /* Products */,
@@ -1311,6 +1318,8 @@
 				74E6E8251A31EADB00E89172 /* ETHInput.h */,
 				74E6E8261A31EADB00E89172 /* ETHSpeedTimer.cpp */,
 				74E6E8271A31EADB00E89172 /* ETHSpeedTimer.h */,
+				AAFA2E332139D1C3006D67FB /* JSONObject.cpp */,
+				AAFA2E342139D1C3006D67FB /* JSONObject.h */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -1525,6 +1534,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		AAFA2E2F2139CD85006D67FB /* cJSON */ = {
+			isa = PBXGroup;
+			children = (
+				AAFA2E312139CDA6006D67FB /* cJSON.c */,
+				AAFA2E302139CDA6006D67FB /* cJSON.h */,
+			);
+			name = cJSON;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1639,6 +1657,7 @@
 				AA24C1A61E74407E00ABDFA2 /* getRealTime.cpp in Sources */,
 				74E6E7481A31E9AE00E89172 /* ETHDrawableManager.cpp in Sources */,
 				74E6E5971A3101DC00E89172 /* GLES2Texture.cpp in Sources */,
+				AAFA2E352139D1C4006D67FB /* JSONObject.cpp in Sources */,
 				74E6E5981A3101DC00E89172 /* GLES2UniformParameter.cpp in Sources */,
 				74E6E7CF1A31EA5500E89172 /* ETHResourceProvider.cpp in Sources */,
 				74E6E6EF1A31E4EE00E89172 /* b2EdgeAndPolygonContact.cpp in Sources */,
@@ -1668,6 +1687,7 @@
 				74E6E7AE1A31EA0200E89172 /* ETHPhysicsEntityController.cpp in Sources */,
 				74E6E5441A30F1C600E89172 /* IOSFileIOHub.cpp in Sources */,
 				74E6E5A31A310C6100E89172 /* KeyStateManager.cpp in Sources */,
+				AAFA2E322139CDA6006D67FB /* cJSON.c in Sources */,
 				74E6E7101A31E4F800E89172 /* b2RopeJoint.cpp in Sources */,
 				74E6E5311A30F19900E89172 /* Logger.cpp in Sources */,
 				74E6E57D1A30FFB600E89172 /* Sprite.cpp in Sources */,

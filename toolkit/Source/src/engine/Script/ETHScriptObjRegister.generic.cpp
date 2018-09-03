@@ -21,8 +21,11 @@
 --------------------------------------------------------------------------------------*/
 
 #include "ETHScriptObjRegister.h"
+
 #include "../Util/ETHInput.h"
+
 #include "../Physics/ETHPhysicsController.h"
+
 #include "../../addons/aswrappedcall.h"
 
 namespace ETHGlobal {
@@ -166,6 +169,82 @@ void RegisterENMLMethods(asIScriptEngine *pASEngine)
 	// util globals
 	r = pASEngine->RegisterGlobalFunction("string GetStringFromFile(const string &in)",                asFUNCTION(__GetStringFromFile), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool SaveStringToFile(const string &in, const string &in)", asFUNCTION(__SaveStringToFile),  asCALL_GENERIC); assert(r >= 0);
+}
+
+//asDECLARE_FUNCTION_WRAPPER(__JSONObjectFactory, JSONObjectFactory);
+//asDECLARE_METHOD_WRAPPERPR(__JSONObjectAddRef,  JSONObject, AddRef,  (void), void);
+//asDECLARE_METHOD_WRAPPERPR(__JSONObjectRelease, JSONObject, Release, (void), void);
+
+//asDECLARE_FUNCTION_OBJ_WRAPPER(__JSONObjectCopyConstructor, JSONObjectCopyConstructor, false);
+
+static void JSONObjectDefaultConstructor_Generic(asIScriptGeneric *gen)
+{
+	JSONObject *self = (JSONObject*)gen->GetObject();
+	new(self) JSONObject(NULL);
+}
+
+static void JSONObjectCopyConstructor(const JSONObject &other, JSONObject *self)
+{
+	new(self) JSONObject(other);
+}
+
+static void JSONObjectCopyConstructor_Generic(asIScriptGeneric *gen)
+{
+	JSONObject *other = (JSONObject*)gen->GetArgObject(0);
+	JSONObject *self = (JSONObject*)gen->GetObject();
+	JSONObjectCopyConstructor(*other, self);
+}
+
+asDECLARE_METHOD_WRAPPERPR(__ParseJSON,        JSONObject, Parse,             (const str_type::string&),                   bool);
+asDECLARE_METHOD_WRAPPERPR(__GetErrorJSON,     JSONObject, GetError,          (void) const,                                str_type::string);
+asDECLARE_METHOD_WRAPPERPR(__GetNext,          JSONObject, GetNext,           (void),                                      JSONObject);
+asDECLARE_METHOD_WRAPPERPR(__GetPrev,          JSONObject, GetPrev,           (void),                                      JSONObject);
+asDECLARE_METHOD_WRAPPERPR(__GetChild,         JSONObject, GetChild,          (void),                                      JSONObject);
+
+asDECLARE_METHOD_WRAPPERPR(__GetObjectItem,    JSONObject, GetObjectItem,     (const str_type::string&) const,             JSONObject);
+
+asDECLARE_METHOD_WRAPPERPR(__GetStringValue,   JSONObject, GetStringValue,    (void) const,                                str_type::string);
+asDECLARE_METHOD_WRAPPERPR(__GetDoubleValue,   JSONObject, GetDoubleValue,    (void) const,                                double);
+
+asDECLARE_METHOD_WRAPPERPR(__IsInvalid,        JSONObject, IsInvalid,         (void) const,                                bool)
+asDECLARE_METHOD_WRAPPERPR(__IsFalse,          JSONObject, IsFalse,           (void) const,                                bool)
+asDECLARE_METHOD_WRAPPERPR(__IsTrue,           JSONObject, IsTrue,            (void) const,                                bool)
+asDECLARE_METHOD_WRAPPERPR(__IsBool,           JSONObject, IsBool,            (void) const,                                bool)
+asDECLARE_METHOD_WRAPPERPR(__IsNull,           JSONObject, IsNull,            (void) const,                                bool)
+asDECLARE_METHOD_WRAPPERPR(__IsNumber,         JSONObject, IsNumber,          (void) const,                                bool)
+asDECLARE_METHOD_WRAPPERPR(__IsString,         JSONObject, IsString,          (void) const,                                bool)
+asDECLARE_METHOD_WRAPPERPR(__IsArray,          JSONObject, IsArray,           (void) const,                                bool)
+asDECLARE_METHOD_WRAPPERPR(__IsObject,         JSONObject, IsObject,          (void) const,                                bool)
+asDECLARE_METHOD_WRAPPERPR(__IsRaw,            JSONObject, IsRaw,             (void) const,                                bool)
+
+void RegisterJSONObjectMethods(asIScriptEngine *pASEngine)
+{
+	int r;
+
+	r = pASEngine->RegisterObjectBehaviour("JSONObject", asBEHAVE_CONSTRUCT, "void f()",                  asFUNCTION(JSONObjectDefaultConstructor_Generic), asCALL_GENERIC); assert( r >= 0 );
+	r = pASEngine->RegisterObjectBehaviour("JSONObject", asBEHAVE_CONSTRUCT, "void f(const JSONObject &in)", asFUNCTION(JSONObjectCopyConstructor_Generic), asCALL_GENERIC); assert( r >= 0 );
+
+	// methods
+	r = pASEngine->RegisterObjectMethod("JSONObject", "bool Parse(const string& in)",     asFUNCTION(__ParseJSON),       asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("JSONObject", "string GetError() const",          asFUNCTION(__GetErrorJSON),    asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("JSONObject", "JSONObject GetNext()",             asFUNCTION(__GetNext),         asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("JSONObject", "JSONObject GetPrev()",             asFUNCTION(__GetPrev),         asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("JSONObject", "JSONObject GetChild()",            asFUNCTION(__GetChild),        asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("JSONObject", "JSONObject GetObjectItem() const", asFUNCTION(__GetObjectItem),   asCALL_GENERIC); assert(r >= 0);
+
+	r = pASEngine->RegisterObjectMethod("JSONObject", "string GetStringValue() const",    asFUNCTION(__GetStringValue),  asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("JSONObject", "double GetDoubleValue() const",    asFUNCTION(__GetDoubleValue),  asCALL_GENERIC); assert(r >= 0);
+
+	r = pASEngine->RegisterObjectMethod("JSONObject", "bool IsInvalid() const",           asFUNCTION(__IsInvalid),       asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("JSONObject", "bool IsFalse() const",             asFUNCTION(__IsFalse),         asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("JSONObject", "bool IsTrue() const",              asFUNCTION(__IsTrue),          asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("JSONObject", "bool IsBool() const",              asFUNCTION(__IsBool),          asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("JSONObject", "bool IsNull() const",              asFUNCTION(__IsNull),          asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("JSONObject", "bool IsNumber() const",            asFUNCTION(__IsNumber),        asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("JSONObject", "bool IsString() const",            asFUNCTION(__IsString),        asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("JSONObject", "bool IsArray() const",             asFUNCTION(__IsArray),         asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("JSONObject", "bool IsObject() const",            asFUNCTION(__IsObject),        asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("JSONObject", "bool IsRaw() const",               asFUNCTION(__IsRaw),           asCALL_GENERIC); assert(r >= 0);
 }
 
 asDECLARE_FUNCTION_WRAPPER(__ETHEntityArrayFactory, ETHEntityArrayFactory);
