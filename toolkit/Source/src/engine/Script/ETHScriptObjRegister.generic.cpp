@@ -226,26 +226,26 @@ void RegisterJSONObjectMethods(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterObjectBehaviour("JSONObject", asBEHAVE_CONSTRUCT, "void f(const JSONObject &in)", asFUNCTION(JSONObjectCopyConstructor_Generic), asCALL_GENERIC); assert( r >= 0 );
 
 	// methods
-	r = pASEngine->RegisterObjectMethod("JSONObject", "bool Parse(const string& in)",     asFUNCTION(__ParseJSON),       asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("JSONObject", "string GetError() const",          asFUNCTION(__GetErrorJSON),    asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("JSONObject", "JSONObject GetNext()",             asFUNCTION(__GetNext),         asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("JSONObject", "JSONObject GetPrev()",             asFUNCTION(__GetPrev),         asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("JSONObject", "JSONObject GetChild()",            asFUNCTION(__GetChild),        asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("JSONObject", "JSONObject GetObjectItem() const", asFUNCTION(__GetObjectItem),   asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("JSONObject", "bool Parse(const string& in)",                     asFUNCTION(__ParseJSON),       asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("JSONObject", "string GetError() const",                          asFUNCTION(__GetErrorJSON),    asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("JSONObject", "JSONObject GetNext()",                             asFUNCTION(__GetNext),         asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("JSONObject", "JSONObject GetPrev()",                             asFUNCTION(__GetPrev),         asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("JSONObject", "JSONObject GetChild()",                            asFUNCTION(__GetChild),        asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("JSONObject", "JSONObject GetObjectItem(const string &in) const", asFUNCTION(__GetObjectItem),   asCALL_GENERIC); assert(r >= 0);
 
-	r = pASEngine->RegisterObjectMethod("JSONObject", "string GetStringValue() const",    asFUNCTION(__GetStringValue),  asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("JSONObject", "double GetDoubleValue() const",    asFUNCTION(__GetDoubleValue),  asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("JSONObject", "string GetStringValue() const",                    asFUNCTION(__GetStringValue),  asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("JSONObject", "double GetDoubleValue() const",                    asFUNCTION(__GetDoubleValue),  asCALL_GENERIC); assert(r >= 0);
 
-	r = pASEngine->RegisterObjectMethod("JSONObject", "bool IsInvalid() const",           asFUNCTION(__IsInvalid),       asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("JSONObject", "bool IsFalse() const",             asFUNCTION(__IsFalse),         asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("JSONObject", "bool IsTrue() const",              asFUNCTION(__IsTrue),          asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("JSONObject", "bool IsBool() const",              asFUNCTION(__IsBool),          asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("JSONObject", "bool IsNull() const",              asFUNCTION(__IsNull),          asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("JSONObject", "bool IsNumber() const",            asFUNCTION(__IsNumber),        asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("JSONObject", "bool IsString() const",            asFUNCTION(__IsString),        asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("JSONObject", "bool IsArray() const",             asFUNCTION(__IsArray),         asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("JSONObject", "bool IsObject() const",            asFUNCTION(__IsObject),        asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("JSONObject", "bool IsRaw() const",               asFUNCTION(__IsRaw),           asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("JSONObject", "bool IsInvalid() const",                           asFUNCTION(__IsInvalid),       asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("JSONObject", "bool IsFalse() const",                             asFUNCTION(__IsFalse),         asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("JSONObject", "bool IsTrue() const",                              asFUNCTION(__IsTrue),          asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("JSONObject", "bool IsBool() const",                              asFUNCTION(__IsBool),          asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("JSONObject", "bool IsNull() const",                              asFUNCTION(__IsNull),          asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("JSONObject", "bool IsNumber() const",                            asFUNCTION(__IsNumber),        asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("JSONObject", "bool IsString() const",                            asFUNCTION(__IsString),        asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("JSONObject", "bool IsArray() const",                             asFUNCTION(__IsArray),         asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("JSONObject", "bool IsObject() const",                            asFUNCTION(__IsObject),        asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("JSONObject", "bool IsRaw() const",                               asFUNCTION(__IsRaw),           asCALL_GENERIC); assert(r >= 0);
 }
 
 asDECLARE_FUNCTION_WRAPPER(__ETHEntityArrayFactory, ETHEntityArrayFactory);
