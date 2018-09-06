@@ -492,6 +492,12 @@ bool ETHEngine::BuildModule(const std::vector<gs2d::str_type::string>& definedWo
 asIScriptFunction* ETHEngine::GetMainFunction() const
 {
 	// finds the main function
+	if (!m_pASModule)
+	{
+		CheckAngelScriptError(true /*error*/, GS_L("Couldn't build scripting module."));
+		return 0;
+	}
+
 	asIScriptFunction* mainFunc = m_pASModule->GetFunctionByName(ETH_MAIN_FUNCTION.c_str());
 	ETH_STREAM_DECL(ss) << GS_L("Function not found: ") << ETH_MAIN_FUNCTION;
 	CheckAngelScriptError((!mainFunc), ss.str());
