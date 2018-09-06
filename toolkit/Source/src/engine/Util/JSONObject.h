@@ -30,10 +30,12 @@
 class JSONObject
 {
 	cJSON* m_cjson;
+	bool m_isParent;
 
 public:
 	JSONObject(cJSON* cjson);
 	JSONObject(const JSONObject& cjson);
+	~JSONObject();
 
 	bool Parse(const gs2d::str_type::string& value);
 	gs2d::str_type::string GetError() const;

@@ -23,13 +23,27 @@
 #include "JSONObject.h"
 
 JSONObject::JSONObject(cJSON* cjson) :
-	m_cjson(cjson)
+	m_cjson(cjson),
+	m_isParent(false)
 {
 }
 
-JSONObject::JSONObject(const JSONObject& cjson)
+JSONObject::JSONObject(const JSONObject& cjson) :
+	m_cjson(cjson.m_cjson),
+	m_isParent(false)
 {
-	m_cjson = cjson.m_cjson;
+}
+
+JSONObject::~JSONObject()
+{
+	if (m_cjson != NULL)
+	{
+		if (m_isParent)
+		{
+			cJSON_Delete(m_cjson);
+		}
+		m_cjson = NULL;
+	}
 }
 
 JSONObject JSONObject::GetNext()
@@ -62,6 +76,7 @@ JSONObject JSONObject::GetChild()
 bool JSONObject::Parse(const gs2d::str_type::string& value)
 {
 	m_cjson = cJSON_Parse(value.c_str());
+	m_isParent = true;
 	return (m_cjson != NULL);
 }
 
