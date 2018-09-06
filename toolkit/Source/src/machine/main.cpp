@@ -140,7 +140,7 @@ str_type::string FindResourceDir(const int argc, gs2d::str_type::char_t* argv[])
 
 	bool aborted;
 	{
-		ETHEnginePtr application = ETHEnginePtr(new ETHEngine(testing, compileAndRun));
+		ETHEnginePtr application = ETHEnginePtr(new ETHEngine(testing, compileAndRun, true /*autoStartScriptEngine*/));
 		application->SetHighEndDevice(true);
 
 		VideoPtr video;

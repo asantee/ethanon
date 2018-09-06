@@ -199,6 +199,10 @@
 		74FF04ED18046C5D006D0F9F /* scriptbuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 74FF04E918046C5D006D0F9F /* scriptbuilder.h */; };
 		74FF04EE18046C5D006D0F9F /* scriptstdstring.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74FF04EA18046C5D006D0F9F /* scriptstdstring.cpp */; };
 		74FF04EF18046C5D006D0F9F /* scriptstdstring.h in Headers */ = {isa = PBXBuildFile; fileRef = 74FF04EB18046C5D006D0F9F /* scriptstdstring.h */; };
+		AAFA2E4721419F50006D67FB /* JSONObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAFA2E4421419F4F006D67FB /* JSONObject.cpp */; };
+		AAFA2E4821419F50006D67FB /* JSONObject.h in Headers */ = {isa = PBXBuildFile; fileRef = AAFA2E4621419F50006D67FB /* JSONObject.h */; };
+		AAFA2E4C21419F90006D67FB /* cJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = AAFA2E4A21419F90006D67FB /* cJSON.h */; };
+		AAFA2E4D21419F90006D67FB /* cJSON.c in Sources */ = {isa = PBXBuildFile; fileRef = AAFA2E4B21419F90006D67FB /* cJSON.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -464,6 +468,10 @@
 		74FF04E918046C5D006D0F9F /* scriptbuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scriptbuilder.h; path = ../../../src/addons/scriptbuilder.h; sourceTree = "<group>"; };
 		74FF04EA18046C5D006D0F9F /* scriptstdstring.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scriptstdstring.cpp; path = ../../../src/addons/scriptstdstring.cpp; sourceTree = "<group>"; };
 		74FF04EB18046C5D006D0F9F /* scriptstdstring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scriptstdstring.h; path = ../../../src/addons/scriptstdstring.h; sourceTree = "<group>"; };
+		AAFA2E4421419F4F006D67FB /* JSONObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JSONObject.cpp; path = ../../../../src/engine/Util/JSONObject.cpp; sourceTree = "<group>"; };
+		AAFA2E4621419F50006D67FB /* JSONObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONObject.h; path = ../../../../src/engine/Util/JSONObject.h; sourceTree = "<group>"; };
+		AAFA2E4A21419F90006D67FB /* cJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cJSON.h; path = ../../../../../src/cjson/cJSON.h; sourceTree = "<group>"; };
+		AAFA2E4B21419F90006D67FB /* cJSON.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = cJSON.c; path = ../../../../../src/cjson/cJSON.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -713,6 +721,7 @@
 		7487A51F1646DD24002DD331 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				AAFA2E4921419F67006D67FB /* cjson */,
 				7421F13A1647267300C55BAE /* ETHASUtil.cpp */,
 				7421F13B1647267300C55BAE /* ETHASUtil.h */,
 				7421F13C1647267300C55BAE /* ETHDateTime.cpp */,
@@ -727,6 +736,8 @@
 				7421F1451647267300C55BAE /* ETHInput.h */,
 				7421F1461647267300C55BAE /* ETHSpeedTimer.cpp */,
 				7421F1471647267300C55BAE /* ETHSpeedTimer.h */,
+				AAFA2E4421419F4F006D67FB /* JSONObject.cpp */,
+				AAFA2E4621419F50006D67FB /* JSONObject.h */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -862,6 +873,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		AAFA2E4921419F67006D67FB /* cjson */ = {
+			isa = PBXGroup;
+			children = (
+				AAFA2E4B21419F90006D67FB /* cJSON.c */,
+				AAFA2E4A21419F90006D67FB /* cJSON.h */,
+			);
+			path = cjson;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -872,6 +892,7 @@
 				7421F0451647257B00C55BAE /* ETHDrawable.h in Headers */,
 				7421F0471647257B00C55BAE /* ETHDrawableManager.h in Headers */,
 				7421F0491647257B00C55BAE /* ETHParticleDrawer.h in Headers */,
+				AAFA2E4821419F50006D67FB /* JSONObject.h in Headers */,
 				7421F0611647258E00C55BAE /* ETHCustomDataManager.h in Headers */,
 				74A21A8D182BFA9D0000F783 /* hl_sha2mac.h in Headers */,
 				74A21A84182BFA9D0000F783 /* hl_md5.h in Headers */,
@@ -901,6 +922,7 @@
 				7421F0A1164725C100C55BAE /* ETHDestructionListener.h in Headers */,
 				7421F0A3164725C100C55BAE /* ETHJoint.h in Headers */,
 				7421F0A5164725C100C55BAE /* ETHPhysicsController.h in Headers */,
+				AAFA2E4C21419F90006D67FB /* cJSON.h in Headers */,
 				7421F0A7164725C100C55BAE /* ETHPhysicsEntityController.h in Headers */,
 				7421F0A9164725C100C55BAE /* ETHPhysicsSimulator.h in Headers */,
 				7421F0AD164725C100C55BAE /* ETHRayCastCallback.h in Headers */,
@@ -1098,6 +1120,7 @@
 				7421F082164725AD00C55BAE /* ETHParticleSystem.cpp in Sources */,
 				7421F09A164725C100C55BAE /* ETHCollisionBox.cpp in Sources */,
 				7421F09C164725C100C55BAE /* ETHCompoundShape.cpp in Sources */,
+				AAFA2E4D21419F90006D67FB /* cJSON.c in Sources */,
 				7421F09E164725C100C55BAE /* ETHContactListener.cpp in Sources */,
 				7421F0A0164725C100C55BAE /* ETHDestructionListener.cpp in Sources */,
 				7421F0A2164725C100C55BAE /* ETHJoint.cpp in Sources */,
@@ -1168,6 +1191,7 @@
 				74A21A90182BFA9D0000F783 /* hl_sha256wrapper.cpp in Sources */,
 				7429A2B11663AF2200134A7E /* ETHEntityHaloRenderer.cpp in Sources */,
 				74EB49AC16653D0A002DA2F0 /* ETHEntityRenderingManager.cpp in Sources */,
+				AAFA2E4721419F50006D67FB /* JSONObject.cpp in Sources */,
 				74FF04E618046C4D006D0F9F /* scriptfile.cpp in Sources */,
 				74FF04EC18046C5D006D0F9F /* scriptbuilder.cpp in Sources */,
 				74FF04EE18046C5D006D0F9F /* scriptstdstring.cpp in Sources */,

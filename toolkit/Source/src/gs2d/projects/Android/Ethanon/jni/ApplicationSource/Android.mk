@@ -27,6 +27,7 @@ LOCAL_DEFAULT_CPP_EXTENSION := cpp
 
 LOCAL_SRC_FILES := \
 	../../../../../src/Platform/android/main.cpp \
+	../../../../../../cjson/cJSON.c \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/Platform.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/android/Platform.android.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/ZipFileManager.cpp \
@@ -63,6 +64,7 @@ LOCAL_SRC_FILES := \
 	$(ENGINE_PATH)/Util/ETHDateTime.cpp \
 	$(ENGINE_PATH)/Util/ETHInput.cpp \
 	$(ENGINE_PATH)/Util/ETHGlobalScaleManager.cpp \
+	$(ENGINE_PATH)/Util/JSONObject.cpp \
 	$(ENGINE_PATH)/Entity/ETHScriptEntity.cpp \
 	$(ENGINE_PATH)/Entity/ETHRenderEntity.cpp \
 	$(ENGINE_PATH)/Entity/ETHSpriteEntity.cpp \
