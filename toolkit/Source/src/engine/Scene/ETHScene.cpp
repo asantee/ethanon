@@ -53,7 +53,7 @@ ETHScene::ETHScene(
 	m_renderingManager(provider),
 	m_buckets(provider, v2BucketSize, true),
 	m_activeEntityHandler(provider),
-	m_physicsSimulator(provider->GetGlobalScaleManager(), provider->GetVideo()->GetFPSRate())
+	m_physicsSimulator(provider->GetVideo()->GetFPSRate())
 {
 	Init(provider, props, pModule, pContext);
 	ETHEntityArray out;
@@ -76,7 +76,7 @@ ETHScene::ETHScene(
 	m_renderingManager(provider),
 	m_buckets(provider, v2BucketSize, true),
 	m_activeEntityHandler(provider),
-	m_physicsSimulator(provider->GetGlobalScaleManager(), provider->GetVideo()->GetFPSRate())
+	m_physicsSimulator(provider->GetVideo()->GetFPSRate())
 {
 	Init(provider, props, pModule, pContext);
 }
@@ -370,11 +370,6 @@ bool ETHScene::GenerateLightmaps(const int id)
 		return false;
 	}
 
-	// save current global scale and temporarily set it to 1
-	const ETHGlobalScaleManagerPtr& scaleManager = m_provider->GetGlobalScaleManager();
-	const float globalScale = scaleManager->GetScale();
-	scaleManager->SetScaleFactor(1.0f);
-
 	const ETHSpriteEntity *pRender = (id >= 0) ? m_buckets.SeekEntity(id) : 0;
 	const Vector2 v2Bucket = (pRender) ? ETHBucketManager::GetBucket(pRender->GetPositionXY(), GetBucketSize()) : Vector2(0,0);
 
@@ -450,9 +445,6 @@ bool ETHScene::GenerateLightmaps(const int id)
 	ETH_STREAM_DECL(ss) << GS_L("Lightmaps created... ");
 	m_provider->Log(ss.str(), Platform::FileLogger::INFO);
 	#endif
-
-	// go back to the previous global scale
-	scaleManager->SetScaleFactor(globalScale);
 	return true;
 }
 

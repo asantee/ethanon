@@ -25,6 +25,8 @@
 
 #include "ETHSpriteEntity.h"
 
+#include "../Shader/ETHBackBufferTargetManager.h"
+
 #include <boost/unordered/unordered_map.hpp>
 
 class ETHRenderEntity : public ETHSpriteEntity

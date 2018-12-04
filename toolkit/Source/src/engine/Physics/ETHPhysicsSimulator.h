@@ -26,7 +26,6 @@
 #include "ETHPhysicsEntityController.h"
 #include "ETHDestructionListener.h"
 #include "ETHContactListener.h"
-#include "../Util/ETHGlobalScaleManager.h"
 
 using namespace gs2d::math;
 using namespace gs2d;
@@ -46,10 +45,9 @@ class ETHPhysicsSimulator
 	float m_fixedTimeStepValue;
 	float m_timeStepUpdateTime;
 	ETHDestructionListener m_destructionListener;
-	ETHGlobalScaleManagerPtr m_globalScaleManager;
 
 public:
-	ETHPhysicsSimulator(ETHGlobalScaleManagerPtr globalScaleManager, const float currentFpsRate);
+	ETHPhysicsSimulator(const float currentFpsRate);
 	~ETHPhysicsSimulator();
 
 	static std::vector<b2Shape*> GetBoxShape(const ETHCollisionBox& box, const float angle = 0.0f);

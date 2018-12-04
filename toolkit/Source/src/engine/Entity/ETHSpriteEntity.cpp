@@ -29,6 +29,8 @@
 
 #include "../Resource/ETHDirectories.h"
 
+#include <Math/OrientedBoundingBox.h>
+
 #include <iostream>
 
 const float ETHSpriteEntity::m_layrableMinimumDepth(0.001f);
@@ -707,7 +709,7 @@ float ETHSpriteEntity::ComputeDepth(const float maxHeight, const float minHeight
 
 void ETHSpriteEntity::SetScale(const Vector2& scale)
 {
-	ETHEntity::SetScale(scale * m_provider->GetGlobalScaleManager()->GetScale());
+	ETHEntity::SetScale(scale);
 }
 
 ETHPhysicsController* ETHSpriteEntity::GetPhysicsController()
@@ -715,7 +717,7 @@ ETHPhysicsController* ETHSpriteEntity::GetPhysicsController()
 	ETHPhysicsEntityControllerPtr controller = boost::dynamic_pointer_cast<ETHPhysicsEntityController>(m_controller);
 	if (controller)
 	{
-		return new ETHPhysicsController(controller, m_provider->GetGlobalScaleManager());
+		return new ETHPhysicsController(controller);
 	}
 	else
 	{

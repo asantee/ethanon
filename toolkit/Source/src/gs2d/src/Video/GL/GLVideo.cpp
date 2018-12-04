@@ -104,22 +104,14 @@ bool GLVideo::StartApplication(
 
 void GLVideo::UpdateInternalShadersViewData(const math::Vector2& screenSize, const bool invertY)
 {
-	UpdateViewMatrix(screenSize, m_ortho, m_zNear, m_zFar, invertY);
-
-	UpdateShaderViewData(m_defaultVS, screenSize, m_ortho);
-	UpdateShaderViewData(m_rectVS, screenSize, m_ortho);
-	UpdateShaderViewData(m_fastVS, screenSize, m_ortho);
+	UpdateShaderViewData(m_defaultVS, screenSize);
+	UpdateShaderViewData(m_rectVS, screenSize);
+	UpdateShaderViewData(m_fastVS, screenSize);
 }
 
-void GLVideo::UpdateViewMatrix(const math::Vector2& screenSize, math::Matrix4x4& ortho, const float znear, const float zfar, const bool invertY)
-{
-	math::Orthogonal(ortho, screenSize.x, screenSize.y * ((invertY) ? -1.0f : 1.0f), znear, zfar);
-}
-
-void GLVideo::UpdateShaderViewData(const ShaderPtr& shader, const math::Vector2& screenSize, const math::Matrix4x4& ortho)
+void GLVideo::UpdateShaderViewData(const ShaderPtr& shader, const math::Vector2& screenSize)
 {
 	shader->SetConstant("screenSize", screenSize);
-	shader->SetMatrixConstant("viewMatrix", ortho);
 }
 
 void GLVideo::Enable2DStates()
@@ -399,8 +391,7 @@ bool GLVideo::SetVertexShader(ShaderPtr pShader)
 	}
 
 	const math::Vector2 screenSize = GetScreenSizeF();
-	UpdateViewMatrix(screenSize, m_ortho, m_zNear, m_zFar, (m_currentTarget.lock()) ? true : false);
-	UpdateShaderViewData(m_currentVS, screenSize, m_ortho);
+	UpdateShaderViewData(m_currentVS, screenSize);
 	return true;
 }
 

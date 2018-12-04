@@ -53,6 +53,7 @@ class Video :
 
 	float m_lineWidth;
 	float m_depth;
+	float m_virtualScreenHeight;
 	bool m_roundUpPosition;
 
 public:
@@ -272,6 +273,9 @@ public:
 	virtual float GetLineWidth() const;
 	virtual void RoundUpPosition(const bool roundUp);
 	virtual bool IsRoundingUpPosition() const;
+	virtual void SetVirtualScreenHeight(const float height);
+	virtual float GetVirtualScreenHeight() const;
+	virtual float GetScaleFactor() const;
 };
 
 /// Instantiate a Video object (must be defined in the API specific code)

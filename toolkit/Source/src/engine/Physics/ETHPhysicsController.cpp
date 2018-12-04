@@ -22,9 +22,8 @@
 
 #include "ETHPhysicsController.h"
 
-ETHPhysicsController::ETHPhysicsController(const ETHPhysicsEntityControllerPtr& controller, ETHGlobalScaleManagerPtr globalScaleManager) :
+ETHPhysicsController::ETHPhysicsController(const ETHPhysicsEntityControllerPtr& controller) :
 	m_controller(controller),
-	m_globalScaleManager(globalScaleManager),
 	m_ref(1)
 {
 }
@@ -119,7 +118,7 @@ gs2d::math::Vector2 ETHPhysicsController::GetLinearVelocity() const
 	const b2Body* body = m_controller->m_body;
 	if (!body) return Vector2(0.0f, 0.0f);
 	const b2Vec2& v = body->GetLinearVelocity();
-	return Vector2(v.x, v.y) / m_globalScaleManager->GetScale();
+	return Vector2(v.x, v.y);
 }
 
 void ETHPhysicsController::ApplyTorque(const float torque)
@@ -133,21 +132,21 @@ void ETHPhysicsController::ApplyForce(const Vector2& force, const Vector2& point
 {
 	b2Body* body = m_controller->m_body;
 	if (!body) return;
-	body->ApplyForce(m_globalScaleManager->GetScale() * b2Vec2(force.x, force.y), b2Vec2(point.x, point.y));
+	body->ApplyForce(b2Vec2(force.x, force.y), b2Vec2(point.x, point.y));
 }
 
 void ETHPhysicsController::ApplyForceToCenter(const Vector2& force)
 {
 	b2Body* body = m_controller->m_body;
 	if (!body) return;
-	body->ApplyForceToCenter(m_globalScaleManager->GetScale() * b2Vec2(force.x, force.y));
+	body->ApplyForceToCenter(b2Vec2(force.x, force.y));
 }
 
 void ETHPhysicsController::SetLinearVelocity(const Vector2& velocity)
 {
 	b2Body* body = m_controller->m_body;
 	if (!body) return;
-	body->SetLinearVelocity(m_globalScaleManager->GetScale() * b2Vec2(velocity.x, velocity.y));
+	body->SetLinearVelocity(b2Vec2(velocity.x, velocity.y));
 }
 
 void ETHPhysicsController::ApplyAngularImpulse(const float impulse)
@@ -161,7 +160,7 @@ void ETHPhysicsController::ApplyLinearImpulse(const Vector2& impulse, const Vect
 {
 	b2Body* body = m_controller->m_body;
 	if (!body) return;
-	body->ApplyLinearImpulse(m_globalScaleManager->GetScale() * b2Vec2(impulse.x, impulse.y), b2Vec2(point.x, point.y));
+	body->ApplyLinearImpulse(b2Vec2(impulse.x, impulse.y), b2Vec2(point.x, point.y));
 }
 
 bool ETHPhysicsController::IsSensor() const

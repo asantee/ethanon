@@ -37,7 +37,6 @@ namespace ETHGlobal {
 
 const std::string Cg_defaultVS_cg = 
 "// sprite and screen properties:\n" \
-"uniform float4x4 viewMatrix;     // orthogonal matrix for the screen space\n" \
 "uniform float4x4 rotationMatrix; // sprite rotation matrix\n" \
 "uniform float2 screenSize;       // current screen size\n" \
 "uniform float2 size;             // sprite width and height\n" \
@@ -75,7 +74,7 @@ const std::string Cg_defaultVS_cg =
 "\n" \
 "	// inverts the y coordinate\n" \
 "	newPos *= float4(1,-1,1,1);\n" \
-"	return mul(viewMatrix, newPos);\n" \
+"	return float4(newPos.x / (screenSize.x * 0.5), newPos.y / (screenSize.y * 0.5), newPos.z, newPos.w);\n" \
 "}\n" \
 "\n" \
 "// returns the texture coordinate according to the rect\n" \
@@ -110,7 +109,6 @@ const std::string Cg_defaultVS_cg =
 
 const std::string Cg_dynaShadowVS_cg = 
 "// sprite and screen properties:\n" \
-"uniform float4x4 viewMatrix;     // orthogonal matrix for the screen space\n" \
 "uniform float4x4 rotationMatrix; // sprite rotation matrix\n" \
 "uniform float2 screenSize;       // current screen size\n" \
 "uniform float2 size;             // sprite width and height\n" \
@@ -165,7 +163,7 @@ const std::string Cg_dynaShadowVS_cg =
 "	// project the vertex to the screen\n" \
 "	newPos -= float4(screenSize/2,0,0)+float4(cameraPos,0,0);\n" \
 "	newPos.y =-newPos.y+shadowZ;\n" \
-"	r.position = mul(viewMatrix, newPos);\n" \
+"	r.position = float4(newPos.x / (screenSize.x * 0.5), newPos.y / (screenSize.y * 0.5), newPos.z, newPos.w);\n" \
 "	return r;\n" \
 "}\n" \
 "\n" \
@@ -188,7 +186,6 @@ const std::string Cg_dynaShadowVS_cg =
 
 const std::string Cg_hAmbientVS_cg = 
 "// sprite and screen properties:\n" \
-"uniform float4x4 viewMatrix;     // orthogonal matrix for the screen space\n" \
 "uniform float4x4 rotationMatrix; // sprite rotation matrix\n" \
 "uniform float2 screenSize;       // current screen size\n" \
 "uniform float2 size;             // sprite width and height\n" \
@@ -244,7 +241,7 @@ const std::string Cg_hAmbientVS_cg =
 "\n" \
 "	// inverts the y coordinate\n" \
 "	newPos *= float4(1,-1,1,1);\n" \
-"	return mul(viewMatrix, newPos);\n" \
+"	return float4(newPos.x / (screenSize.x * 0.5), newPos.y / (screenSize.y * 0.5), newPos.z, newPos.w);\n" \
 "}\n" \
 "\n" \
 "// returns the texture coordinate according to the rect\n" \
@@ -357,7 +354,6 @@ const std::string Cg_hPixelLightSpec_cg =
 
 const std::string Cg_hPixelLightVS_cg = 
 "// sprite and screen properties\n" \
-"uniform float4x4 viewMatrix;\n" \
 "uniform float4x4 rotationMatrix;\n" \
 "uniform float2 screenSize;\n" \
 "uniform float2 size;\n" \
@@ -408,7 +404,7 @@ const std::string Cg_hPixelLightVS_cg =
 "	newPos -= float4(cameraPos,0,0);\n" \
 "	newPos += float4(computeParallaxOffset(newPos),0,0) - float4(screenSize / 2,0,0);\n" \
 "	newPos *= float4(1,-1,1,1);\n" \
-"	r.position = mul(viewMatrix, newPos);\n" \
+"	r.position = float4(newPos.x / (screenSize.x * 0.5), newPos.y / (screenSize.y * 0.5), newPos.z, newPos.w);\n" \
 "	return r;\n" \
 "}\n" \
 "\n" \
@@ -446,7 +442,6 @@ const std::string Cg_particleVS_cg =
 "// by the GameSpaceLib runtime\n" \
 "\n" \
 "// sprite and screen properties:\n" \
-"uniform float4x4 viewMatrix;     // orthogonal matrix for the screen space\n" \
 "uniform float4x4 rotationMatrix; // sprite rotation matrix\n" \
 "uniform float2 screenSize;       // current screen size\n" \
 "uniform float2 size;             // sprite width and height\n" \
@@ -484,7 +479,7 @@ const std::string Cg_particleVS_cg =
 "\n" \
 "	// inverts the y coordinate\n" \
 "	newPos *= float4(1,-1,1,1);\n" \
-"	return mul(viewMatrix, newPos);\n" \
+"	return float4(newPos.x / (screenSize.x * 0.5), newPos.y / (screenSize.y * 0.5), newPos.z, newPos.w);\n" \
 "}\n" \
 "\n" \
 "// returns the texture coordinate according to the rect\n" \
@@ -515,7 +510,6 @@ const std::string Cg_particleVS_cg =
 
 const std::string Cg_vAmbientVS_cg = 
 "// sprite and screen properties:\n" \
-"uniform float4x4 viewMatrix;     // orthogonal matrix for the screen space\n" \
 "uniform float4x4 rotationMatrix; // sprite rotation matrix\n" \
 "uniform float2 screenSize;       // current screen size\n" \
 "uniform float2 size;             // sprite width and height\n" \
@@ -572,7 +566,7 @@ const std::string Cg_vAmbientVS_cg =
 "\n" \
 "	// inverts the y coordinate\n" \
 "	newPos *= float4(1,-1,1,1);\n" \
-"	return mul(viewMatrix, newPos);\n" \
+"	return float4(newPos.x / (screenSize.x * 0.5), newPos.y / (screenSize.y * 0.5), newPos.z, newPos.w);\n" \
 "}\n" \
 "\n" \
 "// returns the texture coordinate according to the rect\n" \
@@ -685,7 +679,6 @@ const std::string Cg_vPixelLightSpec_cg =
 
 const std::string Cg_vPixelLightVS_cg = 
 "// sprite and screen properties\n" \
-"uniform float4x4 viewMatrix;\n" \
 "uniform float4x4 rotationMatrix;\n" \
 "uniform float2 screenSize;\n" \
 "uniform float2 size;\n" \
@@ -737,7 +730,7 @@ const std::string Cg_vPixelLightVS_cg =
 "\n" \
 "	// inverts the y coordinate\n" \
 "	newPos *= float4(1,-1,1,1);\n" \
-"	return mul(viewMatrix, newPos);\n" \
+"	return float4(newPos.x / (screenSize.x * 0.5), newPos.y / (screenSize.y * 0.5), newPos.z, newPos.w);\n" \
 "}\n" \
 "\n" \
 "// returns the texture coordinate according to the rect\n" \

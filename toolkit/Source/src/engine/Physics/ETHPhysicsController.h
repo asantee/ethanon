@@ -24,16 +24,14 @@
 #define ETH_PHYSICS_CONTROLLER
 
 #include "ETHPhysicsSimulator.h"
-#include "../Util/ETHGlobalScaleManager.h"
 
 class ETHPhysicsController
 {
 	int m_ref;
 	ETHPhysicsEntityControllerPtr m_controller;
-	ETHGlobalScaleManagerPtr m_globalScaleManager;
 
 public:
-	ETHPhysicsController(const ETHPhysicsEntityControllerPtr& controller, ETHGlobalScaleManagerPtr globalScaleManager);
+	ETHPhysicsController(const ETHPhysicsEntityControllerPtr& controller);
 	void AddRef();
 	void Release();
 	ETHEntityProperties::BODY_SHAPE GetShape() const;

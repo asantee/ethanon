@@ -28,7 +28,6 @@ namespace gs2dglobal {
 
 // the default vertex shader
 const char defaultVSCode[] = 
-"uniform float4x4 viewMatrix;\n" \
 "uniform float4x4 rotationMatrix;\n" \
 "uniform float2 screenSize;\n" \
 "uniform float2 size;\n" \
@@ -54,7 +53,7 @@ const char defaultVSCode[] =
 "	newPos = mul(rotationMatrix, newPos);\n" \
 "	newPos += float4(entityPos,0,0)-float4(screenSize/2,0,0)-float4(cameraPos,0,0);\n" \
 "	newPos *= float4(1,-1,1,1);\n" \
-"	return mul(viewMatrix, newPos);\n" \
+"	return float4(newPos.x / (screenSize.x * 0.5), newPos.y / (screenSize.y * 0.5), newPos.z, newPos.w);\n" \
 "}\n" \
 "float4 transformRectangle(float3 position)\n" \
 "{\n" \
@@ -62,7 +61,7 @@ const char defaultVSCode[] =
 "	newPos = mul(rotationMatrix, newPos);\n" \
 "	newPos += float4(entityPos,0,0)-float4(screenSize/2,0,0);\n" \
 "	newPos *= float4(1,-1,1,1);\n" \
-"	return mul(viewMatrix, newPos);\n" \
+"	return float4(newPos.x / (screenSize.x * 0.5), newPos.y / (screenSize.y * 0.5), newPos.z, newPos.w);\n" \
 "}\n" \
 "float2 transformCoord(float2 texCoord)\n" \
 "{\n" \
@@ -131,7 +130,6 @@ const char defaultFragmentShaders[] =
 "}";
 
 const char fastSimpleVSCode[] = 
-"uniform float4x4 viewMatrix;\n" \
 "uniform float2 screenSize;\n" \
 "uniform float2 size;\n" \
 "uniform float2 entityPos;\n" \
@@ -144,7 +142,7 @@ const char fastSimpleVSCode[] =
 "	float4 newPos = float4(position, 1) * float4(size,1,1);\n" \
 "	newPos += float4(entityPos,0,0)-float4(screenSize/2,0,0);\n" \
 "	newPos *= float4(1,-1,1,1);\n" \
-"	return mul(viewMatrix, newPos);\n" \
+"	return float4(newPos.x / (screenSize.x * 0.5), newPos.y / (screenSize.y * 0.5), newPos.z, newPos.w);\n" \
 "}\n" \
 "float2 transformFastCoord(float2 texCoord)\n" \
 "{\n" \

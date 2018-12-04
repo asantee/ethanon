@@ -419,13 +419,10 @@ public:
 	static bool GetContactEntities(const Vector2& a, const Vector2& b, ETHEntityArray& entities);
 
 	static void SetFixedHeight(const float height);
-	static void SetFixedWidth(const float width);
-	static float GetScale();
-	static float Scale(const float v);
-	static Vector2 Scale(const Vector2& v);
-	static Vector3 Scale(const Vector3& v);
-	static void SetScaleFactor(const float v);
-	static void RescaleEntities(const float oldScale, const float newScale);
+	static float GetDummyScale();
+	static float DummyScale(const float v);
+	static Vector2 DummyScale(const Vector2& v);
+	static Vector3 DummyScale(const Vector3& v);
 
 	// SharedData
 	static bool SetSharedData(const gs2d::str_type::string& key, const gs2d::str_type::string& data);

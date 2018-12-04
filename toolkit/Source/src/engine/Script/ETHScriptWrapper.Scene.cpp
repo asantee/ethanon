@@ -161,9 +161,7 @@ int ETHScriptWrapper::AddEntity(
 		return -1;
 	}
 
-	const float globalScale = m_provider->GetGlobalScaleManager()->GetScale();
-
-	ETHRenderEntity* entity = new ETHRenderEntity(m_provider, *props, angle, scale * globalScale);
+	ETHRenderEntity* entity = new ETHRenderEntity(m_provider, *props, angle, scale);
 	entity->SetOrphanPosition(v3Pos);
 	entity->SetAngle(angle);
 
@@ -348,7 +346,7 @@ void ETHScriptWrapper::AddToCameraPos(const Vector2 &v2Add)
 	// rounds up camera final position
 	VideoPtr video = m_provider->GetVideo();
 	video->RoundUpPosition(m_roundUpPosition);
-	video->MoveCamera(m_provider->GetGlobalScaleManager()->Scale(v2Add));
+	video->MoveCamera(v2Add);
 	video->RoundUpPosition(false);
 }
 
@@ -628,7 +626,6 @@ bool ETHScriptWrapper::LoadScene(const str_type::string &escFile, const str_type
 
 	ETHEntityArray entities;
 	m_pScene->GetBucketManager().GetEntityArray(entities);
-	m_pScene->ScaleEntities(entities, m_pScene->GetBucketManager(), m_provider->GetGlobalScaleManager()->GetScale(), true);
 	m_pScene->ResolveJoints();
 	m_drawableManager.Clear();
 	m_sceneFileName = escFile;
@@ -647,9 +644,6 @@ void ETHScriptWrapper::AddSceneInScript(const str_type::string& escFile, const V
 	const str_type::string fileName = m_provider->GetFileIOHub()->GetResourceDirectory() + escFile;
 	
 	m_pScene->AddSceneFromFile(fileName, m_entityCache, m_pScene->AssembleEntityPath(), false /*readSceneProperties*/, offset, outVector, true);
-
-	m_pScene->ScaleEntities(outVector, m_pScene->GetBucketManager(), m_provider->GetGlobalScaleManager()->GetScale(), true);
-
 }
 
 void ETHScriptWrapper::LoadSceneInScript(const str_type::string &escFile)
@@ -724,7 +718,6 @@ void ETHScriptWrapper::LoadSceneInScript(
 	const str_type::string &lightmapDirectory,
 	const Vector2 &v2BucketSize)
 {
-	const float globalScale = m_provider->GetGlobalScaleManager()->GetScale();
 	const str_type::string& sceneName((escFile == GS_L("")) ? _ETH_EMPTY_SCENE_STRING : escFile);
 	
 	m_nextScene.SetNextScene(
@@ -733,7 +726,7 @@ void ETHScriptWrapper::LoadSceneInScript(
 		onSceneUpdateFunc,
 		onResumeFunc,
 		lightmapDirectory,
-		v2BucketSize * globalScale);
+		v2BucketSize);
 }
 
 str_type::string ETHScriptWrapper::GetSceneFileName()
@@ -872,49 +865,27 @@ void ETHScriptWrapper::DisableContact()
 
 void ETHScriptWrapper::SetFixedHeight(const float height)
 {
-	ETHGlobalScaleManagerPtr globalScaleManager = m_provider->GetGlobalScaleManager();
-	const float oldScale = globalScaleManager->GetScale();
-	globalScaleManager->SetFixedHeight(m_backBuffer, height);
-	if (m_pScene)
-		RescaleEntities(oldScale, globalScaleManager->GetScale());
+	m_provider->GetVideo()->SetVirtualScreenHeight(height);
 }
 
-void ETHScriptWrapper::SetFixedWidth(const float width)
+float ETHScriptWrapper::GetDummyScale()
 {
-	ETHGlobalScaleManagerPtr globalScaleManager = m_provider->GetGlobalScaleManager();
-	const float oldScale = globalScaleManager->GetScale();
-	globalScaleManager->SetFixedWidth(m_backBuffer, width);
-	if (m_pScene)
-		RescaleEntities(oldScale, globalScaleManager->GetScale());
+	return 1.0f;
 }
 
-void ETHScriptWrapper::SetScaleFactor(const float v)
+float ETHScriptWrapper::DummyScale(const float v)
 {
-	ETHGlobalScaleManagerPtr globalScaleManager = m_provider->GetGlobalScaleManager();
-	const float oldScale = globalScaleManager->GetScale();
-	globalScaleManager->SetScaleFactor(v);
-	if (m_pScene)
-		RescaleEntities(oldScale, v);
+	return v;
 }
 
-float ETHScriptWrapper::GetScale()
+Vector2 ETHScriptWrapper::DummyScale(const Vector2& v)
 {
-	return m_provider->GetGlobalScaleManager()->GetScale();
+	return v;
 }
 
-float ETHScriptWrapper::Scale(const float v)
+Vector3 ETHScriptWrapper::DummyScale(const Vector3& v)
 {
-	return m_provider->GetGlobalScaleManager()->Scale(v);
-}
-
-Vector2 ETHScriptWrapper::Scale(const Vector2& v)
-{
-	return m_provider->GetGlobalScaleManager()->Scale(v);
-}
-
-Vector3 ETHScriptWrapper::Scale(const Vector3& v)
-{
-	return m_provider->GetGlobalScaleManager()->Scale(v);
+	return v;
 }
 
 void ETHScriptWrapper::SetZAxisDirection(const Vector2& dir)

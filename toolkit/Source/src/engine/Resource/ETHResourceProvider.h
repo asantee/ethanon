@@ -25,8 +25,6 @@
 
 #include "ETHResourceManager.h"
 
-#include "../Util/ETHGlobalScaleManager.h"
-
 #include "../Platform/ETHPlatform.h"
 
 #include <Platform/Platform.h>
@@ -45,7 +43,6 @@ class ETHResourceProvider
 	static AudioPtr m_audio;
 	static InputPtr m_input;
 	static Platform::FileLoggerPtr m_logger;
-	static ETHGlobalScaleManagerPtr m_globalScaleManager;
 	static Platform::FileIOHubPtr m_fileIOHub;
 
 	static SpritePtr m_outline;
@@ -82,7 +79,6 @@ public:
 	bool IsRichLightingEnabled() const;
 	void SetRichLighting(const bool enable);
 
-	ETHGlobalScaleManagerPtr& GetGlobalScaleManager();
 	const Platform::FileLogger* GetLogger() const;
 	ETHGraphicResourceManagerPtr GetGraphicResourceManager();
 	ETHAudioResourceManagerPtr GetAudioResourceManager();

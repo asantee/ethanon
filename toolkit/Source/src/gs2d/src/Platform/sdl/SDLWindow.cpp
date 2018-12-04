@@ -354,7 +354,7 @@ math::Vector2i SDLWindow::GetScreenSize() const
 
 math::Vector2 SDLWindow::GetScreenSizeF() const
 {
-	return m_screenSize;
+	return math::Vector2(m_screenSize.x * (m_screenSize.y / GetVirtualScreenHeight()), m_screenSize.y);
 }
 
 void SDLWindow::EnableQuitShortcuts(const bool enable)

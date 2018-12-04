@@ -1,5 +1,4 @@
 // sprite and screen properties
-uniform float4x4 viewMatrix;
 uniform float4x4 rotationMatrix;
 uniform float2 screenSize;
 uniform float2 size;
@@ -51,7 +50,7 @@ float4 transformSprite(float3 position)
 
 	// inverts the y coordinate
 	newPos *= float4(1,-1,1,1);
-	return mul(viewMatrix, newPos);
+	return float4(newPos.x / (screenSize.x * 0.5), newPos.y / (screenSize.y * 0.5), newPos.z, newPos.w);
 }
 
 // returns the texture coordinate according to the rect

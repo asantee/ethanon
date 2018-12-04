@@ -157,27 +157,27 @@ void ETHScriptWrapper::SetPositionZ(ETHEntity *pEntity, const float v)
 
 void ETHScriptWrapper::AddToPosition(ETHEntity *pEntity, const Vector3 &v3Pos)
 {
-	pEntity->AddToPosition(v3Pos * m_provider->GetGlobalScaleManager()->GetScale(), m_pScene->GetBucketManager());
+	pEntity->AddToPosition(v3Pos, m_pScene->GetBucketManager());
 }
 
 void ETHScriptWrapper::AddToPositionXY(ETHEntity *pEntity, const Vector2 &v2Pos)
 {
-	pEntity->AddToPositionXY(v2Pos * m_provider->GetGlobalScaleManager()->GetScale(), m_pScene->GetBucketManager());
+	pEntity->AddToPositionXY(v2Pos, m_pScene->GetBucketManager());
 }
 
 void ETHScriptWrapper::AddToPositionX(ETHEntity *pEntity, const float v)
 {
-	pEntity->AddToPositionX(v * m_provider->GetGlobalScaleManager()->GetScale(), m_pScene->GetBucketManager());
+	pEntity->AddToPositionX(v, m_pScene->GetBucketManager());
 }
 
 void ETHScriptWrapper::AddToPositionY(ETHEntity *pEntity, const float v)
 {
-	pEntity->AddToPositionY(v * m_provider->GetGlobalScaleManager()->GetScale(), m_pScene->GetBucketManager());
+	pEntity->AddToPositionY(v, m_pScene->GetBucketManager());
 }
 
 void ETHScriptWrapper::AddToPositionZ(ETHEntity *pEntity, const float v)
 {
-	pEntity->AddToPositionZ(v * m_provider->GetGlobalScaleManager()->GetScale());
+	pEntity->AddToPositionZ(v);
 }
 
 void ETHScriptWrapper::ResolveEntityJoints(ETHEntity* pEntity)
@@ -267,16 +267,4 @@ void ETHScriptWrapper::SetArgc(const int argc)
 void ETHScriptWrapper::SetArgv(str_type::char_t **argv)
 {
 	m_argv = argv;
-}
-
-void ETHScriptWrapper::RescaleEntities(const float oldScale, const float newScale)
-{
-	if (oldScale != newScale)
-	{
-		const float rescaleFactor = newScale / oldScale;
-		
-		ETHEntityArray entities;
-		m_pScene->GetBucketManager().GetEntityArray(entities);
-		m_pScene->ScaleEntities(entities, m_pScene->GetBucketManager(), rescaleFactor, true);
-	}
 }

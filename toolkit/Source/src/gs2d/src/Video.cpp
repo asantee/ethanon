@@ -27,7 +27,8 @@ namespace gs2d {
 Video::Video() :
 	m_depth(0.0f),
 	m_lineWidth(1.0f),
-	m_roundUpPosition(false)
+	m_roundUpPosition(false),
+	m_virtualScreenHeight(720.0f)
 {
 }
 
@@ -152,6 +153,21 @@ bool Video::SetSpriteDepth(const float depth)
 float Video::GetSpriteDepth() const
 {
 	return m_depth;
+}
+
+void Video::SetVirtualScreenHeight(const float height)
+{
+	m_virtualScreenHeight = height;
+}
+
+float Video::GetVirtualScreenHeight() const
+{
+	return m_virtualScreenHeight;
+}
+
+float Video::GetScaleFactor() const
+{
+	return (GetScreenSizeF().y / m_virtualScreenHeight);
 }
 
 } // namespace gs2d

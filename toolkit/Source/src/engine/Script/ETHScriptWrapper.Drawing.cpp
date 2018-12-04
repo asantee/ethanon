@@ -205,7 +205,7 @@ void ETHScriptWrapper::PlayParticleEffect(const str_type::string& fileName, cons
 				fileName,
 				pos,
 				angle,
-				scale * m_provider->GetGlobalScaleManager()->GetScale())));
+				scale)));
 }
 
 void ETHScriptWrapper::DrawFadingText(const Vector2 &v2Pos, const str_type::string &text, const str_type::string &font, const GS_DWORD color, unsigned long time, const float scale)

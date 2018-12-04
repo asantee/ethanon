@@ -43,7 +43,6 @@ class GLVideo : public virtual Video, public RecoverableResourceManager
 	GLenum m_textureExtension;
 	const double m_alphaRef;
 	const float m_zNear, m_zFar;
-	math::Matrix4x4 m_ortho;
 	Color m_backgroundColor;
 	bool m_rendering, m_clamp;
 	BLEND_MODE m_blendMode;
@@ -70,8 +69,7 @@ protected:
 	GLCgShaderContextPtr m_shaderContext;
 
 	void UpdateInternalShadersViewData(const math::Vector2& screenSize, const bool invertY);
-	static void UpdateViewMatrix(const math::Vector2& screenSize, math::Matrix4x4& ortho, const float znear, const float zfar, const bool invertY);
-	static void UpdateShaderViewData(const ShaderPtr& shader, const math::Vector2& screenSize, const math::Matrix4x4& ortho);
+	static void UpdateShaderViewData(const ShaderPtr& shader, const math::Vector2& screenSize);
 
 	math::Vector2 GetCurrentTargetSize() const;
 

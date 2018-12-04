@@ -120,16 +120,15 @@ b2Body* ETHPhysicsSimulator::CreateBody(ETHEntity *entity, const boost::shared_p
 	}
 }
 
-ETHPhysicsSimulator::ETHPhysicsSimulator(ETHGlobalScaleManagerPtr globalScaleManager, const float currentFpsRate) :
+ETHPhysicsSimulator::ETHPhysicsSimulator(const float currentFpsRate) :
 	m_timeStepScale(1.0f),
 	m_fixedTimeStep(false),
 	m_fixedTimeStepValue(1.0f / 60.0f),
 	m_dynamicTimeStep(1.0f / currentFpsRate),
-	m_timeStepUpdateTime(0.0f),
-	m_globalScaleManager(globalScaleManager)
+	m_timeStepUpdateTime(0.0f)
 {
 	const bool doSleep = true; // just making it more readable
-	m_world = boost::shared_ptr<b2World>(new b2World((m_globalScaleManager->GetScale()) * DEFAULT_GRAVITY, doSleep));
+	m_world = boost::shared_ptr<b2World>(new b2World(DEFAULT_GRAVITY, doSleep));
 	m_world->SetContactListener(&m_contactListener);
 	m_world->SetDestructionListener(&m_destructionListener);
 }
@@ -212,7 +211,7 @@ Vector2 ETHPhysicsSimulator::GetGravity(const boost::shared_ptr<b2World>& world)
 
 void ETHPhysicsSimulator::SetGravity(const Vector2& gravity)
 {
-	SetGravity(gravity * m_globalScaleManager->GetScale(), m_world);
+	SetGravity(gravity, m_world);
 }
 
 Vector2 ETHPhysicsSimulator::GetGravity() const

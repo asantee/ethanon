@@ -30,7 +30,6 @@ VideoPtr ETHResourceProvider::m_video;
 AudioPtr ETHResourceProvider::m_audio;
 InputPtr ETHResourceProvider::m_input;
 Platform::FileIOHubPtr ETHResourceProvider::m_fileIOHub;
-ETHGlobalScaleManagerPtr ETHResourceProvider::m_globalScaleManager(new ETHGlobalScaleManager);
 bool ETHResourceProvider::m_enableLightmaps = true;
 bool ETHResourceProvider::m_usingRTShadows = true;
 bool ETHResourceProvider::m_richLighting = true;
@@ -71,11 +70,6 @@ ETHResourceProvider& ETHResourceProvider::operator=(const ETHResourceProvider &t
 void ETHResourceProvider::Log(const str_type::string& str, const Platform::Logger::TYPE& type)
 {
 	m_logger->Log(str, type);
-}
-
-ETHGlobalScaleManagerPtr& ETHResourceProvider::GetGlobalScaleManager()
-{
-	return m_globalScaleManager;
 }
 
 const Platform::FileLogger* ETHResourceProvider::GetLogger() const

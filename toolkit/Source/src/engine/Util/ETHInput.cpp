@@ -49,7 +49,7 @@ GS_KEY_STATE ETHInput::GetMiddleClickState()
 
 Vector2 ETHInput::GetMouseMove()
 {
-	return (m_provider->GetInput()->GetMouseMoveF() * m_targetManager.lock()->GetTargetScale()) / m_provider->GetGlobalScaleManager()->GetScale();
+	return (m_provider->GetInput()->GetMouseMoveF() * m_targetManager.lock()->GetTargetScale()) / m_provider->GetVideo()->GetScaleFactor();
 }
 
 float ETHInput::GetWheelState()
@@ -139,7 +139,7 @@ unsigned int ETHInput::GetMaxTouchCount() const
 
 Vector2 ETHInput::GetTouchMove(const unsigned int n) const
 {
-	return (m_provider->GetInput()->GetTouchMove(n) * m_targetManager.lock()->GetTargetScale()) / m_provider->GetGlobalScaleManager()->GetScale();
+	return (m_provider->GetInput()->GetTouchMove(n) * m_targetManager.lock()->GetTargetScale()) / m_provider->GetVideo()->GetScaleFactor();
 }
 
 Vector3 ETHInput::GetAccelerometerData() const
