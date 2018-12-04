@@ -118,6 +118,7 @@ public:
 
 	math::Vector2i GetScreenSize() const;
 	math::Vector2 GetScreenSizeF() const;
+	math::Vector2 GetScreenSizeInPixels() const;
 
 	math::Vector2i GetWindowPosition();
 	void SetWindowPosition(const math::Vector2i &v2);

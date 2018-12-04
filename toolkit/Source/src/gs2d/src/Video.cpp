@@ -167,7 +167,7 @@ float Video::GetVirtualScreenHeight() const
 
 float Video::GetScaleFactor() const
 {
-	return (GetScreenSizeF().y / m_virtualScreenHeight);
+	return (m_virtualScreenHeight / GetScreenSizeInPixels().y);
 }
 
 } // namespace gs2d

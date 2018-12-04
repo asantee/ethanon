@@ -100,17 +100,19 @@ void ETHScriptWrapper::DrawBlackCurtain()
 
 Vector2 ETHScriptWrapper::GetCursorPos()
 {
-	return m_provider->GetInput()->GetCursorPositionF(m_provider->GetVideo()) * m_backBuffer->GetTargetScale();
+	const float scale = m_provider->GetVideo()->GetScaleFactor();
+	return (m_provider->GetInput()->GetCursorPositionF(m_provider->GetVideo()) * m_backBuffer->GetTargetScale()) * scale;
 }
 
 Vector2 ETHScriptWrapper::GetCursorAbsolutePos()
 {
-	return m_provider->GetInput()->GetCursorPositionF(VideoPtr()) * m_backBuffer->GetTargetScale();
+	return GetCursorPos();
 }
 
 bool ETHScriptWrapper::SetCursorPos(const Vector2 &v2Pos)
 {
-	return m_provider->GetInput()->SetCursorPositionF(v2Pos / m_backBuffer->GetTargetScale());
+	const float scale = m_provider->GetVideo()->GetScaleFactor();
+	return (m_provider->GetInput()->SetCursorPositionF(v2Pos / m_backBuffer->GetTargetScale())) * scale;
 }
 
 str_type::string ETHScriptWrapper::GetLastCharInput()
@@ -200,7 +202,7 @@ Vector2 ETHScriptWrapper::GetBucket(const Vector2 &v2)
 
 Vector2 ETHScriptWrapper::GetWorldSpaceCursorPos2()
 {
-	return Vector2(m_provider->GetInput()->GetCursorPositionF(m_provider->GetVideo())+m_provider->GetVideo()->GetCameraPos()) * m_backBuffer->GetTargetScale();
+	return m_provider->GetVideo()->GetCameraPos() + GetCursorPos();
 }
 
 void ETHScriptWrapper::GarbageCollect(const GARBAGE_COLLECT_MODE mode, asIScriptEngine* engine)

@@ -116,7 +116,7 @@ void GLVideo::UpdateShaderViewData(const ShaderPtr& shader, const math::Vector2&
 
 void GLVideo::Enable2DStates()
 {
-	const math::Vector2i screenSize(GetScreenSize());
+	const math::Vector2 screenSize(GetScreenSizeInPixels());
 	glViewport(0, 0, static_cast<GLsizei>(screenSize.x), static_cast<GLsizei>(screenSize.y));
 	glDisable(GL_LIGHTING);
 	glDisable(GL_CULL_FACE);

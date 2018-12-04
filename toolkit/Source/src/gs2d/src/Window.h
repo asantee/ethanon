@@ -48,6 +48,7 @@ public:
 
 	virtual math::Vector2i GetScreenSize() const = 0;
 	virtual math::Vector2 GetScreenSizeF() const = 0;
+	virtual math::Vector2 GetScreenSizeInPixels() const = 0;
 
 	virtual math::Vector2i GetWindowPosition() = 0;
 	virtual void SetWindowPosition(const math::Vector2i &v2) = 0;

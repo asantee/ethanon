@@ -49,7 +49,8 @@ GS_KEY_STATE ETHInput::GetMiddleClickState()
 
 Vector2 ETHInput::GetMouseMove()
 {
-	return (m_provider->GetInput()->GetMouseMoveF() * m_targetManager.lock()->GetTargetScale()) / m_provider->GetVideo()->GetScaleFactor();
+	const float scale = m_provider->GetVideo()->GetScaleFactor();
+	return ((m_provider->GetInput()->GetMouseMoveF() * m_targetManager.lock()->GetTargetScale()) / m_provider->GetVideo()->GetScaleFactor()) * scale;
 }
 
 float ETHInput::GetWheelState()
@@ -124,7 +125,8 @@ unsigned int ETHInput::GetMaxJoysticks() const
 
 Vector2 ETHInput::GetTouchPos(const unsigned int n) const
 {
-	return m_provider->GetInput()->GetTouchPos(n, m_provider->GetVideo()) * m_targetManager.lock()->GetTargetScale();
+	const float scale = m_provider->GetVideo()->GetScaleFactor();
+	return (m_provider->GetInput()->GetTouchPos(n, m_provider->GetVideo()) * m_targetManager.lock()->GetTargetScale()) * scale;
 }
 
 GS_KEY_STATE  ETHInput::GetTouchState(const unsigned int n) const
@@ -139,7 +141,7 @@ unsigned int ETHInput::GetMaxTouchCount() const
 
 Vector2 ETHInput::GetTouchMove(const unsigned int n) const
 {
-	return (m_provider->GetInput()->GetTouchMove(n) * m_targetManager.lock()->GetTargetScale()) / m_provider->GetVideo()->GetScaleFactor();
+	return (m_provider->GetInput()->GetTouchMove(n) * m_targetManager.lock()->GetTargetScale()) * m_provider->GetVideo()->GetScaleFactor();
 }
 
 Vector3 ETHInput::GetAccelerometerData() const
