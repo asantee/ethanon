@@ -275,7 +275,7 @@ void GLES2ShaderContext::CreateProgram()
 	}
 }
 
-void GLES2ShaderContext::SetShader(GLES2ShaderPtr vs, GLES2ShaderPtr ps, const math::Matrix4x4 &ortho, const math::Vector2& screenSize)
+void GLES2ShaderContext::SetShader(GLES2ShaderPtr vs, GLES2ShaderPtr ps)
 {
 	// Optimization: don't swap shaders if it's the same
 	if (m_currentVS == vs && m_currentPS == ps)
@@ -285,24 +285,6 @@ void GLES2ShaderContext::SetShader(GLES2ShaderPtr vs, GLES2ShaderPtr ps, const m
 
 	SetShader(vs);
 	SetShader(ps);
-	
-	m_ortho = ortho;
-	m_screenSize = screenSize;
-	if (ps && vs)
-	{
-		ResetViewConstants(m_ortho, m_screenSize);
-	}
-}
-
-void GLES2ShaderContext::ResetViewConstants(const math::Matrix4x4 &ortho, const math::Vector2& screenSize)
-{
-	m_screenSize = screenSize;
-	m_currentVS->SetMatrixConstant("viewMatrix", ortho);
-}
-
-math::Vector2 GLES2ShaderContext::GetScreenSize() const
-{
-	return m_screenSize;
 }
 
 void GLES2ShaderContext::SetUniformParametersFromCurrentProgram(GLES2ShaderPtr shader) const

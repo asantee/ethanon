@@ -153,13 +153,13 @@ bool GLES2Video::StartApplication(
 	m_add1 =         LoadInternalShader(this, "add1.ps",       gs2dshaders::GLSL_default_add1_ps, Shader::SF_PIXEL);
 
 	// forces shader pre-load to avoid runtime lag
-	m_shaderContext->SetShader(m_defaultVS,		m_defaultPS, m_orthoMatrix, GetScreenSizeF());
-	m_shaderContext->SetShader(m_defaultVS,		m_modulate1, m_orthoMatrix, GetScreenSizeF());
-	m_shaderContext->SetShader(m_defaultVS,		m_add1,      m_orthoMatrix, GetScreenSizeF());
-	m_shaderContext->SetShader(m_fastRenderVS,	m_defaultPS, m_orthoMatrix, GetScreenSizeF());
-	m_shaderContext->SetShader(m_optimalVS,		m_modulate1, m_orthoMatrix, GetScreenSizeF());
-	m_shaderContext->SetShader(m_optimalVS,		m_add1,      m_orthoMatrix, GetScreenSizeF());
-	m_shaderContext->SetShader(m_optimalVS,		m_defaultPS, m_orthoMatrix, GetScreenSizeF());
+	m_shaderContext->SetShader(m_defaultVS,		m_defaultPS);
+	m_shaderContext->SetShader(m_defaultVS,		m_modulate1);
+	m_shaderContext->SetShader(m_defaultVS,		m_add1);
+	m_shaderContext->SetShader(m_fastRenderVS,	m_defaultPS);
+	m_shaderContext->SetShader(m_optimalVS,		m_modulate1);
+	m_shaderContext->SetShader(m_optimalVS,		m_add1);
+	m_shaderContext->SetShader(m_optimalVS,		m_defaultPS);
 
 	LogFragmentShaderMaximumPrecision(m_logger);
 
@@ -177,7 +177,6 @@ void GLES2Video::Enable2D(const int width, const int height, const bool flipY)
 {
 	glViewport(0, 0, static_cast<GLsizei>(width), static_cast<GLsizei>(height));
 	glDisable(GL_CULL_FACE);
-	Orthogonal(m_orthoMatrix, static_cast<float>(width), static_cast<float>(height) * ((flipY) ? -1.0f : 1.0f), ZNEAR, ZFAR);
 
 	glDepthFunc(GL_LEQUAL);
 	glDepthRangef(0.0f, 1.0f);
@@ -384,14 +383,11 @@ bool GLES2Video::SetVertexShader(ShaderPtr pShader)
 	{
 		m_shaderContext->SetShader(
 			boost::dynamic_pointer_cast<GLES2Shader>(pShader),
-			boost::dynamic_pointer_cast<GLES2Shader>(m_shaderContext->GetCurrentPS()),
-			m_orthoMatrix,
-			GetCurrentTargetSize());
+			boost::dynamic_pointer_cast<GLES2Shader>(m_shaderContext->GetCurrentPS()));
 	}
 	else
 	{
-		m_shaderContext->SetShader(m_defaultVS, boost::dynamic_pointer_cast<GLES2Shader>(m_shaderContext->GetCurrentPS()),
-				m_orthoMatrix, GetCurrentTargetSize());
+		m_shaderContext->SetShader(m_defaultVS, boost::dynamic_pointer_cast<GLES2Shader>(m_shaderContext->GetCurrentPS()));
 	}
 	return true;
 }
@@ -402,13 +398,11 @@ bool GLES2Video::SetPixelShader(ShaderPtr pShader)
 	{
 		m_shaderContext->SetShader(
 			boost::dynamic_pointer_cast<GLES2Shader>(m_shaderContext->GetCurrentVS()),
-			boost::dynamic_pointer_cast<GLES2Shader>(pShader),
-			m_orthoMatrix, GetCurrentTargetSize());
+			boost::dynamic_pointer_cast<GLES2Shader>(pShader));
 	}
 	else
 	{
-		m_shaderContext->SetShader(boost::dynamic_pointer_cast<GLES2Shader>(m_shaderContext->GetCurrentVS()), m_defaultPS,
-				m_orthoMatrix, GetCurrentTargetSize());
+		m_shaderContext->SetShader(boost::dynamic_pointer_cast<GLES2Shader>(m_shaderContext->GetCurrentVS()), m_defaultPS);
 	}
 	return true;
 }
@@ -459,7 +453,6 @@ bool GLES2Video::ResetVideoMode(
 	m_screenSize.y = height;
 
 	Enable2D(width, height);
-	m_shaderContext->ResetViewConstants(m_orthoMatrix, GetScreenSizeF());
 
 	ScreenSizeChangeListenerPtr listener = m_screenSizeChangeListener.lock();
 	if (listener)
@@ -750,7 +743,6 @@ bool GLES2Video::BeginTargetScene(const Color& dwBGColor, const bool clear)
 
 		const Texture::PROFILE& profile = pGLES2Texture->GetProfile();
 		Enable2D(static_cast<int>(profile.width), static_cast<int>(profile.height), true);
-		m_shaderContext->ResetViewConstants(m_orthoMatrix, GetCurrentTargetSize());
 	}
 	else
 	{
@@ -766,7 +758,6 @@ bool GLES2Video::EndTargetScene()
 	m_rendering = false;
 	UnbindFrameBuffer();
 	Enable2D(m_screenSize.x, m_screenSize.y);
-	m_shaderContext->ResetViewConstants(m_orthoMatrix, GetScreenSizeF());
 	return true;
 }
 
@@ -967,10 +958,17 @@ bool GLES2Video::IsWindowed() const
 
 Vector2i GLES2Video::GetScreenSize() const
 {
-	return m_screenSize;
+	return GetScreenSizeF().ToVector2i();
 }
 
 Vector2 GLES2Video::GetScreenSizeF() const
+{
+	const float virtualScreenHeight = GetVirtualScreenHeight();
+	const float virtualWidth = m_screenSize.x * (virtualScreenHeight / m_screenSize.y);
+	return math::Vector2(virtualWidth, virtualScreenHeight);
+}
+
+math::Vector2 GLES2Video::GetScreenSizeInPixels() const
 {
 	return Vector2(static_cast<float>(m_screenSize.x), static_cast<float>(m_screenSize.y));
 }

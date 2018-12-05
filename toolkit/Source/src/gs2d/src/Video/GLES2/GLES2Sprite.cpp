@@ -224,7 +224,7 @@ bool GLES2Sprite::DrawShaped(
 	Vector2 flipAdd, flipMul;
 	GetFlipShaderParameters(flipAdd, flipMul);
 
-	vs->SetConstant(SCREEN_SIZE, "screenSize", m_shaderContext->GetScreenSize());
+	vs->SetConstant(SCREEN_SIZE, "screenSize", m_video->GetScreenSizeF());
 	vs->SetConstant(BITMAP_SIZE_HASH, "bitmapSize", m_bitmapSize);
 	vs->SetConstant(ENTITY_POS_HASH, "entityPos", pos);
 	vs->SetConstant(CENTER_HASH, "center", center);
@@ -300,7 +300,7 @@ bool GLES2Sprite::DrawOptimal(const math::Vector2 &v2Pos, const Vector4& color, 
 	params[7] = Vector2(color.x, color.y);
 	params[8] = Vector2(color.z, color.w);
 	params[9] = Vector2(m_video->GetSpriteDepth(), m_video->GetSpriteDepth());
-	params[10] = m_shaderContext->GetScreenSize();
+	params[10] = m_video->GetScreenSizeF();
 	params[11] = flipAdd;
 	params[12] = flipMul;
 	const std::size_t first = numBasicParams; // to-do make it safer
@@ -360,7 +360,7 @@ bool GLES2Sprite::DrawShapedFast(const Vector2 &v2Pos, const Vector2 &v2Size, co
 	params[2] = v2Size;
 	params[3] = v2Pos;
 	params[4] = m_bitmapSize;
-	params[5] = m_shaderContext->GetScreenSize();
+	params[5] = m_video->GetScreenSizeF();
 	params[6] = Vector2(color.x, color.y);
 	params[7] = Vector2(color.z, color.w);
 

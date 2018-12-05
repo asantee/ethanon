@@ -52,7 +52,6 @@ const std::string GLSL_default_default_vs =
 "uniform vec2 rectSize;\n" \
 "uniform vec2 bitmapSize;\n" \
 "\n" \
-"uniform mat4 viewMatrix;\n" \
 "uniform mat4 rotationMatrix;\n" \
 "uniform vec2 screenSize;\n" \
 "uniform vec2 size;\n" \
@@ -87,7 +86,7 @@ const std::string GLSL_default_default_vs =
 "	newPos -= vec4(cameraPos.x, cameraPos.y, 0.0, 0.0);\n" \
 "\n" \
 "	newPos *= vec4(1.0, -1.0, 1.0, 1.0);\n" \
-"	return (viewMatrix * newPos);\n" \
+"	return vec4(newPos.x / (screenSize.x * 0.5), newPos.y / (screenSize.y * 0.5), newPos.z, newPos.w);\n" \
 "}\n" \
 "\n" \
 "vec2 transformCoord(vec2 texCoord)\n" \
@@ -120,8 +119,6 @@ const std::string GLSL_default_fastRender_vs =
 "varying vec4 v_color;\n" \
 "varying vec2 v_texCoord;\n" \
 "\n" \
-"uniform mat4 viewMatrix;\n" \
-"\n" \
 "uniform vec2 params[8];\n" \
 "\n" \
 "#define rectPos params[0]\n" \
@@ -138,7 +135,7 @@ const std::string GLSL_default_fastRender_vs =
 "	vec4 newPos = vec4(position, 1.0) * vec4(size, 1.0, 1.0);\n" \
 "	newPos += vec4(entityPos, 0.0, 0.0)-vec4(screenSize/2.0, 0.0, 0.0);\n" \
 "	newPos *= vec4(1.0, -1.0, 1.0, 1.0);\n" \
-"	return (viewMatrix * newPos);\n" \
+"	return vec4(newPos.x / (screenSize.x * 0.5), newPos.y / (screenSize.y * 0.5), newPos.z, newPos.w);\n" \
 "}\n" \
 "\n" \
 "vec2 transformCoord(vec2 texCoord)\n" \
@@ -175,7 +172,6 @@ const std::string GLSL_default_optimal_vs =
 "varying vec4 v_color;\n" \
 "varying vec2 v_texCoord;\n" \
 "\n" \
-"uniform mat4 viewMatrix;\n" \
 "uniform mat4 rotationMatrix;\n" \
 "\n" \
 "uniform vec2 params[13];\n" \
@@ -210,7 +206,7 @@ const std::string GLSL_default_optimal_vs =
 "	newPos -= vec4(halfScreenSize.x, halfScreenSize.y, 0.0, 0.0);\n" \
 "	newPos -= vec4(cameraPos.x, cameraPos.y, 0.0, 0.0);\n" \
 "	newPos *= vec4(1.0, -1.0, 1.0, 1.0);\n" \
-"	return (viewMatrix * newPos);\n" \
+"	return vec4(newPos.x / (screenSize.x * 0.5), newPos.y / (screenSize.y * 0.5), newPos.z, newPos.w);\n" \
 "}\n" \
 "\n" \
 "vec2 transformCoord(vec2 texCoord)\n" \

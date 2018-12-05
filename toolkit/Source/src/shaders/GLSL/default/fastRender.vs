@@ -4,8 +4,6 @@ attribute vec2 vTexCoord;
 varying vec4 v_color;
 varying vec2 v_texCoord;
 
-uniform mat4 viewMatrix;
-
 uniform vec2 params[8];
 
 #define rectPos params[0]
@@ -22,7 +20,7 @@ vec4 transformSprite(vec3 position)
 	vec4 newPos = vec4(position, 1.0) * vec4(size, 1.0, 1.0);
 	newPos += vec4(entityPos, 0.0, 0.0)-vec4(screenSize/2.0, 0.0, 0.0);
 	newPos *= vec4(1.0, -1.0, 1.0, 1.0);
-	return (viewMatrix * newPos);
+	return vec4(newPos.x / (screenSize.x * 0.5), newPos.y / (screenSize.y * 0.5), newPos.z, newPos.w);
 }
 
 vec2 transformCoord(vec2 texCoord)

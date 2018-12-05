@@ -388,7 +388,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "install_name_tool -change /usr/local/lib/libfmod.dylib @executable_path/../Frameworks/libfmod.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"\n\ninstall_name_tool -id @executable_path/../Frameworks/libfmod.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/libfmod.dylib\"";
+			shellScript = "install_name_tool -change /usr/local/lib/libfmod.dylib @executable_path/../Frameworks/libfmod.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\"\n\ninstall_name_tool -id @executable_path/../Frameworks/libfmod.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/libfmod.dylib\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

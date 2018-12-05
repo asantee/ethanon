@@ -239,6 +239,7 @@ public:
 	bool IsWindowed() const;
 	math::Vector2i GetScreenSize() const;
 	math::Vector2 GetScreenSizeF() const;
+	math::Vector2 GetScreenSizeInPixels() const;
 	math::Vector2i GetWindowPosition();
 	void SetWindowPosition(const math::Vector2i &v2);
 	math::Vector2i ScreenToWindow(const math::Vector2i &v2Point) const;
@@ -281,7 +282,6 @@ protected:
 	GLES2ShaderContextPtr m_shaderContext;
 	GLES2ShaderPtr m_defaultVS, m_defaultPS,
 		m_fastRenderVS, m_optimalVS, m_modulate1, m_add1;
-	math::Matrix4x4 m_orthoMatrix;
 	float m_fpsRate;
 
 	Video::TEXTUREFILTER_MODE m_textureFilterMode;

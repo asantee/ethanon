@@ -8,7 +8,6 @@ uniform vec2 rectPos;
 uniform vec2 rectSize;
 uniform vec2 bitmapSize;
 
-uniform mat4 viewMatrix;
 uniform mat4 rotationMatrix;
 uniform vec2 screenSize;
 uniform vec2 size;
@@ -43,7 +42,7 @@ vec4 transformSprite(vec3 position)
 	newPos -= vec4(cameraPos.x, cameraPos.y, 0.0, 0.0);
 
 	newPos *= vec4(1.0, -1.0, 1.0, 1.0);
-	return (viewMatrix * newPos);
+	return vec4(newPos.x / (screenSize.x * 0.5), newPos.y / (screenSize.y * 0.5), newPos.z, newPos.w);
 }
 
 vec2 transformCoord(vec2 texCoord)

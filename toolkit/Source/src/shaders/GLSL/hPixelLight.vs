@@ -9,7 +9,6 @@ varying vec4 v_color;
 varying vec2 v_texCoord;
 varying vec3 v_vertPos3D;
 
-uniform mat4 viewMatrix;
 uniform mat4 rotationMatrix;
 
 uniform vec2 params[17];
@@ -61,7 +60,7 @@ float4 transformSprite(float3 position)
 	newPos -= vec4(halfScreenSize.x, halfScreenSize.y, 0.0, 0.0);
 
 	newPos *= float4(1.0,-1.0, 1.0, 1.0);
-	return (viewMatrix * newPos);
+	return vec4(newPos.x / (screenSize.x * 0.5), newPos.y / (screenSize.y * 0.5), newPos.z, newPos.w);
 }
 
 float2 transformCoord(float2 texCoord)

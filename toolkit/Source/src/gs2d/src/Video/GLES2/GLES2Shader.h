@@ -62,7 +62,7 @@ public:
 	boost::any GetContextPointer();
 	bool DisableTextureParams();
 
-	void SetShader(GLES2ShaderPtr vs, GLES2ShaderPtr ps, const math::Matrix4x4 &ortho, const math::Vector2& screenSize);
+	void SetShader(GLES2ShaderPtr vs, GLES2ShaderPtr ps);
 	void DrawRect(const Sprite::RECT_MODE mode);
 
 	void BeginFastDraw();
@@ -71,8 +71,6 @@ public:
 
 	void Log(const str_type::string& str, const Platform::FileLogger::TYPE& type) const;
 
-	void ResetViewConstants(const math::Matrix4x4 &ortho, const math::Vector2& screenSize);
-
 	GLES2ShaderPtr GetCurrentVS();
 	GLES2ShaderPtr GetCurrentPS();
 
@@ -80,8 +78,6 @@ public:
 	float GetSpriteDepth() const;
 	
 	static const int INVALID_ATTRIB_LOCATION;
-	
-	math::Vector2 GetScreenSize() const;
 
 protected:
 	GLES2ShaderPtr m_currentVS;
@@ -100,9 +96,6 @@ private:
 	mutable int m_lastPosLocation;
 	mutable int m_lastTexLocation;
 	void GetLocations(int& pos, int& tex) const;
-
-	math::Matrix4x4 m_ortho;
-	math::Vector2 m_screenSize;
 
 	static GLuint m_currentProgram;
 	Platform::FileLogger m_logger;
