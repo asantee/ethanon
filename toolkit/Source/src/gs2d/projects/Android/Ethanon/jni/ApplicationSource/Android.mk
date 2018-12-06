@@ -19,9 +19,9 @@ LOCAL_C_INCLUDES = \
 
 LOCAL_MODULE    := Application
 
-LOCAL_STATIC_LIBRARIES := libzip libpng libsoil libgs2d libangelscript libbox2d
+LOCAL_STATIC_LIBRARIES := libzip libsoil libgs2d libangelscript libbox2d
 
-LOCAL_CFLAGS    := -Werror -DANDROID=1 -DGLES2=1 -DAS_MAX_PORTABILITY -DAS_NO_THREADS -DETH_DEFINE_DEPRECATED_SIGNATURES_FROM_0_9_5
+LOCAL_CFLAGS    := -Wno-null-conversion -DANDROID=1 -DGLES2=1 -DAS_MAX_PORTABILITY -DAS_NO_THREADS -DETH_DEFINE_DEPRECATED_SIGNATURES_FROM_0_9_5
 
 LOCAL_DEFAULT_CPP_EXTENSION := cpp 
 
@@ -63,7 +63,6 @@ LOCAL_SRC_FILES := \
 	$(ENGINE_PATH)/Util/ETHASUtil.cpp \
 	$(ENGINE_PATH)/Util/ETHDateTime.cpp \
 	$(ENGINE_PATH)/Util/ETHInput.cpp \
-	$(ENGINE_PATH)/Util/ETHGlobalScaleManager.cpp \
 	$(ENGINE_PATH)/Util/JSONObject.cpp \
 	$(ENGINE_PATH)/Entity/ETHScriptEntity.cpp \
 	$(ENGINE_PATH)/Entity/ETHRenderEntity.cpp \

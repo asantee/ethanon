@@ -27,7 +27,7 @@
 
 #include "../MobileInput.h"
 
-#include "../../Platform/Android/Platform.android.h"
+#include "../../Platform/android/Platform.android.h"
 
 namespace gs2d {
 

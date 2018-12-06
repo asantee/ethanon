@@ -281,6 +281,7 @@ bool AndroidInput::Update()
 	UpdateJoysticks();
 	UpdateKeys(*m_input);
 	MobileInput::Update();
+	return true;
 }
 
 math::Vector3 AndroidInput::GetAccelerometerData() const
