@@ -147,11 +147,10 @@ bool ETHScene::SaveToFile(const str_type::string& fileName, ETHEntityCache& enti
 	pRoot->LinkEndChild(pEntities);
 
 	// Write every entity as an ordered bucket map
-	ETHOrderedBucketMap map(m_buckets.GetFirstBucket(), m_buckets.GetLastBucket());
-	for (ETHOrderedBucketMap::iterator bucketIter = map.begin(); bucketIter != map.end(); ++bucketIter)
+	for (ETHBucketMap::iterator bucketIter = m_buckets.GetFirstBucket(); bucketIter != m_buckets.GetLastBucket(); ++bucketIter)
 	{
 		ETHEntityList::const_iterator iEnd = bucketIter->second.end();
-		for (ETHEntityList::iterator iter = bucketIter->second.begin(); iter != iEnd; ++iter)
+		for (ETHEntityList::iterator iter = bucketIter.value().begin(); iter != iEnd; ++iter)
 		{
 			(*iter)->WriteToXMLFile(
 				pEntities,
@@ -347,7 +346,7 @@ void ETHScene::LoadLightmapsFromBitmapFiles(const str_type::string& currentScene
 	for (ETHBucketMap::iterator bucketIter = m_buckets.GetFirstBucket(); bucketIter != m_buckets.GetLastBucket(); ++bucketIter)
 	{
 		// iterate over all entities in this bucket
-		ETHEntityList& entityList = bucketIter->second;
+		ETHEntityList& entityList = bucketIter.value();
 		ETHEntityList::const_iterator iEnd = entityList.end();
 		for (ETHEntityList::iterator iter = entityList.begin(); iter != iEnd; ++iter)
 		{
@@ -379,11 +378,11 @@ bool ETHScene::GenerateLightmaps(const int id)
 		// I know we could have used the find method to go directly to that bucket
 		// but this function os not that critical to make the effort worth it.
 		if (id >= 0) 
-			if (v2Bucket != bucketIter->first)
+			if (ETHBucketManager::Hash(v2Bucket) != bucketIter.key())
 				continue;
 
 		// iterate over all entities in this bucket
-		ETHEntityList& entityList = bucketIter->second;
+		ETHEntityList& entityList = bucketIter.value();
 		ETHEntityList::const_iterator iEnd = entityList.end();
 		for (ETHEntityList::iterator iter = entityList.begin(); iter != iEnd; ++iter)
 		{
@@ -411,7 +410,7 @@ bool ETHScene::GenerateLightmaps(const int id)
 			// fill the light list
 			for (ETHBucketMap::iterator lbucketIter = m_buckets.GetFirstBucket(); lbucketIter != m_buckets.GetLastBucket(); ++lbucketIter)
 			{
-				ETHEntityList& lEntityList = lbucketIter->second;
+				ETHEntityList& lEntityList = lbucketIter.value();
 				ETHEntityList::const_iterator liEnd = lEntityList.end();
 				for (ETHEntityList::iterator liter = lEntityList.begin(); liter != liEnd; ++liter)
 				{
@@ -468,7 +467,7 @@ void ETHScene::SaveLightmapsToFile(const str_type::string& directory)
 {
 	for (ETHBucketMap::iterator bucketIter = m_buckets.GetFirstBucket(); bucketIter != m_buckets.GetLastBucket(); ++bucketIter)
 	{
-		ETHEntityList& entityList = bucketIter->second;
+		ETHEntityList& entityList = bucketIter.value();
 		ETHEntityList::const_iterator iEnd = entityList.end();
 		for (ETHEntityList::iterator iter = entityList.begin(); iter != iEnd; ++iter)
 		{
@@ -572,7 +571,7 @@ void ETHScene::MapEntitiesToBeRendered(
 		if (bucketIter == m_buckets.GetLastBucket())
 			continue;
 
-		ETHEntityList& entityList = bucketIter->second;
+		ETHEntityList& entityList = bucketIter.value();
 		if (entityList.empty())
 			continue;
 
@@ -664,7 +663,7 @@ int ETHScene::CountLights()
 	m_nCurrentLights = 0;
 	for (ETHBucketMap::iterator bucketIter = m_buckets.GetFirstBucket(); bucketIter != m_buckets.GetLastBucket(); ++bucketIter)
 	{
-		ETHEntityList& entityList = bucketIter->second;
+		ETHEntityList& entityList = bucketIter.value();
 		ETHEntityList::const_iterator iEnd = entityList.end();
 		for (ETHEntityList::iterator iter = entityList.begin(); iter != iEnd; ++iter)
 		{
@@ -807,7 +806,7 @@ bool ETHScene::AddCustomData(const str_type::string &entity, const str_type::str
 	for (ETHBucketMap::iterator bucketIter = m_buckets.GetFirstBucket(); bucketIter != m_buckets.GetLastBucket(); ++bucketIter)
 	{
 		ETHEntityList::const_iterator iEnd = bucketIter->second.end();
-		for (ETHEntityList::iterator iter = bucketIter->second.begin(); iter != iEnd; ++iter)
+		for (ETHEntityList::iterator iter = bucketIter.value().begin(); iter != iEnd; ++iter)
 		{
 			ETHSpriteEntity *pEntity = (*iter);
 			if (entity == pEntity->GetEntityName())

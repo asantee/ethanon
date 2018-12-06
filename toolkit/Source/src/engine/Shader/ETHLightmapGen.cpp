@@ -129,7 +129,7 @@ ETHLightmapGen::ETHLightmapGen(
 		{
 			for (ETHBucketMap::iterator bucketIter = buckets.GetFirstBucket(); bucketIter != buckets.GetLastBucket(); ++bucketIter)
 			{
-				for (ETHEntityList::iterator entityIter = bucketIter->second.begin();
+				for (ETHEntityList::iterator entityIter = bucketIter.value().begin();
 					entityIter != bucketIter->second.end(); ++entityIter)
 				{
 					ETHRenderEntity* ent = (*entityIter);

@@ -28,23 +28,15 @@
 
 #include <iostream>
 
-// Vector2 hash functions
-namespace boost {
-	std::size_t hash_value(Vector2 const& p)
-	{
-		const int x = static_cast<int>(p.x) + ETHBucketManager::SCENE_LENGTH;
-		const int y = static_cast<int>(p.y) + ETHBucketManager::SCENE_LENGTH;
-		const int r = (y * ETHBucketManager::SCENE_LENGTH) + (x % ETHBucketManager::SCENE_LENGTH);
-		return static_cast<std::size_t>(r);
-	}
-} // namepace boost
-
-bool BUCKET_COMP::operator() (const Vector2& lhs, const Vector2& rhs) const
+uint64_t ETHBucketManager::Hash(const math::Vector2& v)
 {
-	return boost::hash_value(lhs) < boost::hash_value(rhs);
+	const int64_t x = (int64_t)v.x;
+	const int64_t y = (int64_t)v.y;
+	uint64_t r = (0x00000000FFFFFFFF & x);
+	r <<= 32;
+	r |= (0x00000000FFFFFFFF & y);
+	return r;
 }
-
-const int ETHBucketManager::SCENE_LENGTH = 10000;
 
 Vector2 ETHBucketManager::GetBucket(const Vector2& v2, const Vector2& v2BucketSize)
 {
@@ -116,7 +108,7 @@ ETHBucketManager::~ETHBucketManager()
 	for (ETHBucketMap::iterator bucketIter = GetFirstBucket(); bucketIter != GetLastBucket(); ++bucketIter)
 	{
 		ETHEntityList::const_iterator iEnd = bucketIter->second.end();
-		for (ETHEntityList::iterator iter = bucketIter->second.begin(); iter != iEnd; ++iter)
+		for (ETHEntityList::iterator iter = bucketIter.value().begin(); iter != iEnd; ++iter)
 		{
 			(*iter)->Kill();
 			(*iter)->Release();
@@ -151,12 +143,12 @@ bool ETHBucketManager::IsEmpty() const
 
 ETHBucketMap::const_iterator ETHBucketManager::Find(const Vector2& key) const
 {
-	return m_entities.find(key);
+	return m_entities.find(Hash(key));
 }
 
 ETHBucketMap::iterator ETHBucketManager::Find(const Vector2& key)
 {
-	return m_entities.find(key);
+	return m_entities.find(Hash(key));
 }
 
 const Vector2& ETHBucketManager::GetBucketSize() const
@@ -192,11 +184,11 @@ void ETHBucketManager::Add(ETHRenderEntity* entity, const SIDE side)
 	const Vector2 bucket = ETHBucketManager::GetBucket(entity->GetPositionXY(), GetBucketSize());
 	if (side == FRONT)
 	{
-		m_entities[bucket].push_front(entity);
+		m_entities[Hash(bucket)].push_front(entity);
 	}
 	else
 	{
-		m_entities[bucket].push_back(entity);
+		m_entities[Hash(bucket)].push_back(entity);
 	}
 
 	#if defined(_DEBUG) || defined(DEBUG)
@@ -226,7 +218,7 @@ bool ETHBucketManager::MoveEntity(ETHEntity* entity, const Vector2 &currentBucke
 		return false;
 	}
 
-	ETHEntityList& entityList = bucketIter->second;
+	ETHEntityList& entityList = bucketIter.value();
 	for (ETHEntityList::iterator iter = entityList.begin(); iter != entityList.end(); ++iter)
 	{
 		if ((*iter) == entity)
@@ -239,11 +231,11 @@ bool ETHBucketManager::MoveEntity(ETHEntity* entity, const Vector2 &currentBucke
 	// adds the entity to the destiny bucket
 	if (entity->GetType() == ETHEntityProperties::ET_HORIZONTAL)
 	{
-		m_entities[destBucket].push_front((ETHRenderEntity*)entity);
+		m_entities[Hash(destBucket)].push_front((ETHRenderEntity*)entity);
 	}
 	else
 	{
-		m_entities[destBucket].push_back((ETHRenderEntity*)entity);
+		m_entities[Hash(destBucket)].push_back((ETHRenderEntity*)entity);
 	}
 
 	#if defined(_DEBUG) || defined(DEBUG)
@@ -304,7 +296,7 @@ int ETHBucketManager::SeekEntity(const Vector2& pointAbsPos, ETHEntity** pOutDat
 		if (bucketIter == GetLastBucket())
 			continue;
 
-		ETHEntityList& entityList = bucketIter->second;
+		ETHEntityList& entityList = bucketIter.value();
 		ETHEntityList::const_reverse_iterator iEnd = entityList.rend();
 		bool escape = false;
 		for (ETHEntityList::reverse_iterator iter = entityList.rbegin(); iter != iEnd; ++iter)
@@ -343,7 +335,7 @@ int ETHBucketManager::SeekEntity(const Vector2& pointAbsPos, ETHEntity** pOutDat
 			continue;
 
 		ETHEntityList::iterator iter;
-		ETHEntityList& entityList = bucketIter->second;
+		ETHEntityList& entityList = bucketIter.value();
 		ETHEntityList::const_iterator iEnd = entityList.end();
 		bool escape = false;
 		for (iter = entityList.begin(); iter != iEnd; ++iter)
@@ -375,7 +367,7 @@ ETHSpriteEntity* ETHBucketManager::SeekEntity(const int id)
 {
 	for (ETHBucketMap::iterator bucketIter = GetFirstBucket(); bucketIter != GetLastBucket(); ++bucketIter)
 	{
-		ETHEntityList& entityList = bucketIter->second;
+		ETHEntityList& entityList = bucketIter.value();
 		ETHEntityList::const_iterator iEnd = entityList.end();
 		for (ETHEntityList::iterator iter = entityList.begin(); iter != iEnd; ++iter)
 		{
@@ -390,7 +382,7 @@ ETHSpriteEntity* ETHBucketManager::SeekEntity(const str_type::string& fileName)
 {
 	for (ETHBucketMap::iterator bucketIter = GetFirstBucket(); bucketIter != GetLastBucket(); ++bucketIter)
 	{
-		ETHEntityList& entityList = bucketIter->second;
+		ETHEntityList& entityList = bucketIter.value();
 		ETHEntityList::const_iterator iEnd = entityList.end();
 		for (ETHEntityList::iterator iter = entityList.begin(); iter != iEnd; ++iter)
 		{
@@ -405,7 +397,7 @@ bool ETHBucketManager::DeleteEntity(const int id)
 {
 	for (ETHBucketMap::iterator bucketIter = GetFirstBucket(); bucketIter != GetLastBucket(); ++bucketIter)
 	{
-		ETHEntityList& entityList = bucketIter->second;
+		ETHEntityList& entityList = bucketIter.value();
 		ETHEntityList::const_iterator iEnd = entityList.end();
 		for (ETHEntityList::iterator iter = entityList.begin(); iter != iEnd; ++iter)
 		{
@@ -433,7 +425,7 @@ bool ETHBucketManager::DeleteEntity(const int id, const Vector2 &searchBucket)
 	// try getting it from bucket (faster)
 	if (bucketIter != GetLastBucket())
 	{
-		ETHEntityList& entityList = bucketIter->second;
+		ETHEntityList& entityList = bucketIter.value();
 		ETHEntityList::const_reverse_iterator iEnd = entityList.rend();
 		for (ETHEntityList::reverse_iterator iter = entityList.rbegin(); iter != iEnd; ++iter)
 		{
@@ -458,7 +450,7 @@ bool ETHBucketManager::DeleteEntity(const int id, const Vector2 &searchBucket)
 	// request has been sent. Let's just kill it then
 	for (bucketIter = GetFirstBucket(); bucketIter != GetLastBucket(); ++bucketIter)
 	{
-		ETHEntityList& entityList = bucketIter->second;
+		ETHEntityList& entityList = bucketIter.value();
 		ETHEntityList::const_iterator iEnd = entityList.end();
 		for (ETHEntityList::iterator iter = entityList.begin(); iter != iEnd; ++iter)
 		{
@@ -484,7 +476,7 @@ void ETHBucketManager::GetEntityArrayByName(const str_type::string& name, ETHEnt
 {
 	for (ETHBucketMap::iterator bucketIter = GetFirstBucket(); bucketIter != GetLastBucket(); ++bucketIter)
 	{
-		ETHEntityList& entityList = bucketIter->second;
+		ETHEntityList& entityList = bucketIter.value();
 		ETHEntityList::const_iterator iEnd = entityList.end();
 		for (ETHEntityList::iterator iter = entityList.begin(); iter != iEnd; ++iter)
 		{
@@ -503,7 +495,7 @@ void ETHBucketManager::GetEntityArrayFromBucket(const Vector2 &bucket, ETHEntity
 	if (bucketIter == GetLastBucket())
 		return;
 
-	ETHEntityList& entityList = bucketIter->second;
+	ETHEntityList& entityList = bucketIter.value();
 	ETHEntityList::const_iterator iEnd = entityList.end();
 	for (ETHEntityList::iterator iter = entityList.begin(); iter != iEnd; ++iter)
 	{
@@ -621,7 +613,7 @@ void ETHBucketManager::GetEntityArray(ETHEntityArray &outVector)
 {
 	for (ETHBucketMap::iterator bucketIter = GetFirstBucket(); bucketIter != GetLastBucket(); ++bucketIter)
 	{
-		ETHEntityList& entityList = bucketIter->second;
+		ETHEntityList& entityList = bucketIter.value();
 		ETHEntityList::const_iterator iEnd = entityList.end();
 		for (ETHEntityList::iterator iter = entityList.begin(); iter != iEnd; ++iter)
 		{
