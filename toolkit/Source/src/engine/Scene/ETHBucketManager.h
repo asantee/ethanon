@@ -37,10 +37,11 @@ class ETHEntityArray;
 #include <cstdint>
 
 #include <list>
+#include <map>
 
 typedef std::list<ETHRenderEntity*> ETHEntityList;
 typedef tsl::hopscotch_map<uint64_t, ETHEntityList> ETHBucketMap;
-//typedef std::map<Vector2, ETHEntityList, BUCKET_COMP> ETHOrderedBucketMap;
+typedef std::map<uint64_t, ETHEntityList> ETHOrderedBucketMap;
 
 class ETHEntityChooser;
 

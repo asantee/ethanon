@@ -147,10 +147,11 @@ bool ETHScene::SaveToFile(const str_type::string& fileName, ETHEntityCache& enti
 	pRoot->LinkEndChild(pEntities);
 
 	// Write every entity as an ordered bucket map
-	for (ETHBucketMap::iterator bucketIter = m_buckets.GetFirstBucket(); bucketIter != m_buckets.GetLastBucket(); ++bucketIter)
+	ETHOrderedBucketMap map(m_buckets.GetFirstBucket(), m_buckets.GetLastBucket());
+	for (ETHOrderedBucketMap::iterator bucketIter = map.begin(); bucketIter != map.end(); ++bucketIter)
 	{
 		ETHEntityList::const_iterator iEnd = bucketIter->second.end();
-		for (ETHEntityList::iterator iter = bucketIter.value().begin(); iter != iEnd; ++iter)
+		for (ETHEntityList::iterator iter = bucketIter->second.begin(); iter != iEnd; ++iter)
 		{
 			(*iter)->WriteToXMLFile(
 				pEntities,
