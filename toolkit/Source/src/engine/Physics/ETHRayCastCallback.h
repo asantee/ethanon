@@ -27,7 +27,6 @@
 #include "../Entity/ETHEntityArray.h"
 #include "../Entity/ETHEntityChooser.h"
 #include <Math/GameMath.h>
-#include <map>
 
 using namespace gs2d::math;
 using namespace gs2d;

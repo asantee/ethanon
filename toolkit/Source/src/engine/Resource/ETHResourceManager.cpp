@@ -120,7 +120,7 @@ void ETHGraphicResourceManager::ReleaseResources()
 void ETHGraphicResourceManager::ReleaseTemporaryResources()
 {
 	std::list<str_type::string> deleteList;
-	for (std::map<str_type::string, SpriteResource>::iterator iter = m_resource.begin(); iter != m_resource.end(); ++iter)
+	for (tsl::hopscotch_map<str_type::string, SpriteResource>::iterator iter = m_resource.begin(); iter != m_resource.end(); ++iter)
 	{
 		if (iter->second.IsTemporary())
 			deleteList.push_back(iter->first);
@@ -172,7 +172,7 @@ SpritePtr ETHGraphicResourceManager::GetPointer(
 
 Sprite::RectsPtr ETHGraphicResourceManager::GetPackedFrames(const str_type::string& fileName)
 {
-	std::map<str_type::string, SpriteResource>::iterator iter = m_resource.find(fileName);
+	tsl::hopscotch_map<str_type::string, SpriteResource>::iterator iter = m_resource.find(fileName);
 	if (iter != m_resource.end())
 	{
 		return iter->second.m_packedFrames;
@@ -185,7 +185,7 @@ Sprite::RectsPtr ETHGraphicResourceManager::GetPackedFrames(const str_type::stri
 
 ETHGraphicResourceManager::SpriteResource ETHGraphicResourceManager::GetSpriteResource(const str_type::string& fileName)
 {
-	std::map<str_type::string, SpriteResource>::iterator iter = m_resource.find(fileName);
+	tsl::hopscotch_map<str_type::string, SpriteResource>::iterator iter = m_resource.find(fileName);
 	if (iter != m_resource.end())
 	{
 		return iter->second;
@@ -246,7 +246,7 @@ gs2d::SpritePtr ETHGraphicResourceManager::FindSprite(
 	const str_type::string& fileName,
 	const str_type::string& resourceDirectory)
 {
-	std::map<str_type::string, SpriteResource>::iterator iter = m_resource.find(fileName);
+	tsl::hopscotch_map<str_type::string, SpriteResource>::iterator iter = m_resource.find(fileName);
 	if (iter != m_resource.end())
 	{
 		str_type::string fixedPath(fullFilePath);
@@ -276,7 +276,7 @@ str_type::string ETHGraphicResourceManager::AssembleResourceFullPath(
 
 bool ETHGraphicResourceManager::ReleaseResource(const str_type::string &file)
 {
-	std::map<str_type::string, SpriteResource>::iterator iter = m_resource.find(Platform::GetFileName(file));
+	tsl::hopscotch_map<str_type::string, SpriteResource>::iterator iter = m_resource.find(Platform::GetFileName(file));
 	if (iter != m_resource.end())
 	{
 		str_type::string fileName = Platform::GetFileName(file);
@@ -298,11 +298,11 @@ void ETHAudioResourceManager::ReleaseResources()
 
 void ETHAudioResourceManager::ReleaseAllButMusic()
 {
-	std::map<str_type::string, AudioSamplePtr> musicTracks;
-	for (std::map<str_type::string, AudioSamplePtr>::iterator iter = m_resource.begin(); iter != m_resource.end(); ++iter)
+	tsl::hopscotch_map<str_type::string, AudioSamplePtr> musicTracks;
+	for (tsl::hopscotch_map<str_type::string, AudioSamplePtr>::iterator iter = m_resource.begin(); iter != m_resource.end(); ++iter)
 	{
 		if ((iter->second)->GetType() == Audio::MUSIC)
-			musicTracks[iter->first] = iter->second;
+			musicTracks[iter.key()] = iter.value();
 	}
 	m_resource.clear(); // probably just paranoia
 	m_resource = musicTracks;
@@ -321,9 +321,9 @@ AudioSamplePtr ETHAudioResourceManager::GetPointer(
 	if (!m_resource.empty())
 	{
 		str_type::string fileName = Platform::GetFileName(fileRelativePath);
-		std::map<str_type::string, AudioSamplePtr>::iterator iter = m_resource.find(fileName);
+		tsl::hopscotch_map<str_type::string, AudioSamplePtr>::iterator iter = m_resource.find(fileName);
 		if (iter != m_resource.end())
-			return iter->second;
+			return iter.value();
 	}
 
 	// we can set a search path to search the file in case
@@ -350,9 +350,9 @@ AudioSamplePtr ETHAudioResourceManager::AddFile(
 	if (!m_resource.empty())
 	{
 		str_type::string fileName = Platform::GetFileName(path);
-		std::map<str_type::string, AudioSamplePtr>::iterator iter = m_resource.find(fileName);
+		tsl::hopscotch_map<str_type::string, AudioSamplePtr>::iterator iter = m_resource.find(fileName);
 		if (iter != m_resource.end())
-			return iter->second;
+			return iter.value();
 	}
 
 	AudioSamplePtr pSample;

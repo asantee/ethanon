@@ -35,11 +35,11 @@
   #include <GLES2/gl2ext.h>
 #endif
 
-#include <map>
+#include "../../../../tsl/hopscotch_map.h"
 
 namespace gs2d {
 
-typedef std::map<GLuint, int> LocationMap;
+typedef tsl::hopscotch_map<GLuint, int> LocationMap;
 typedef boost::shared_ptr<LocationMap> LocationMapPtr;
 
 enum PARAMETER_TYPE
@@ -65,7 +65,7 @@ class GLES2UniformParameter
 
 protected:
 	static void ClearParams();
-	static std::map<GLuint, std::map<int, boost::shared_ptr<GLES2UniformParameter> > > m_params;
+	static tsl::hopscotch_map<GLuint, tsl::hopscotch_map<int, boost::shared_ptr<GLES2UniformParameter> > > m_params;
 	static bool IsEqualToAlreadyDefinedParam(const GLuint& program, const int& location, const GLES2UniformParameter* param, const Platform::FileLogger& logger);
 	static void AddParam(const GLuint& program, const int& location, const boost::shared_ptr<GLES2UniformParameter>& param);
 	static void BindTexture2D(const GLenum& texture);

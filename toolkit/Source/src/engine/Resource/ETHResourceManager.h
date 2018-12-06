@@ -92,7 +92,7 @@ private:
 		const str_type::string& searchPath,
 		const str_type::string& fileName);
 
-	std::map<str_type::string, SpriteResource> m_resource;
+	tsl::hopscotch_map<str_type::string, SpriteResource> m_resource;
 	ETHSpriteDensityManager m_densityManager;
 };
 
@@ -119,7 +119,7 @@ public:
 	void ReleaseResources();
 
 private:
-	std::map<str_type::string, AudioSamplePtr> m_resource;
+	tsl::hopscotch_map<str_type::string, AudioSamplePtr> m_resource;
 	void ReleaseAllButMusic();
 };
 

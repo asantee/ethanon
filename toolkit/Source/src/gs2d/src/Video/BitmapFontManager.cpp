@@ -67,7 +67,7 @@ BitmapFontPtr BitmapFontManager::LoadBitmapFont(Video* video, const str_type::st
 
 BitmapFontPtr BitmapFontManager::SeekBitmapFont(Video* video, const str_type::string& font)
 {
-	std::map<str_type::string, BitmapFontPtr>::iterator iter = m_fonts.find(font);
+	tsl::hopscotch_map<str_type::string, BitmapFontPtr>::iterator iter = m_fonts.find(font);
 	BitmapFontPtr bitmapFont;
 	if (iter == m_fonts.end())
 	{
@@ -79,7 +79,7 @@ BitmapFontPtr BitmapFontManager::SeekBitmapFont(Video* video, const str_type::st
 	}
 	else
 	{
-		bitmapFont = iter->second;
+		bitmapFont = iter.value();
 	}
 	return bitmapFont;	
 }

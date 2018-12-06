@@ -24,7 +24,7 @@
 #define ETH_DATA_MANAGER_H_
 
 #include "../ETHTypes.h"
-#include <map>
+#include "../../tsl/hopscotch_map.h"
 #include <string>
 
 
@@ -164,14 +164,14 @@ public:
 
 	void InsertData(const ETHCustomDataManager &dataIn);
 	void MoveData(ETHCustomDataManager &dataOut) const;
-	void CopyMap(std::map<str_type::string, ETHCustomDataPtr> &inMap) const;
+	void CopyMap(tsl::hopscotch_map<str_type::string, ETHCustomDataPtr> &inMap) const;
 	str_type::string GetValueAsString(const str_type::string &name) const;
 
 	bool ReadDataFromXMLFile(TiXmlElement *pRoot);
 	bool WriteDataToFile(TiXmlElement *pHeadRoot) const;
 
 private:
-	std::map<str_type::string, ETHCustomDataPtr> m_data;
+	tsl::hopscotch_map<str_type::string, ETHCustomDataPtr> m_data;
 };
 
 #endif

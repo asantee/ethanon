@@ -79,7 +79,7 @@ void ETHCustomDataManager::SetVector3(const str_type::string &name, const Vector
 
 bool ETHCustomDataManager::GetFloat(const str_type::string &name, float &outValue) const
 {
-	std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
+	tsl::hopscotch_map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
 	if (iter == m_data.end())
 	{
 		return false;
@@ -95,7 +95,7 @@ bool ETHCustomDataManager::GetFloat(const str_type::string &name, float &outValu
 
 bool ETHCustomDataManager::GetInt(const str_type::string &name, int &outValue) const
 {
-	std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
+	tsl::hopscotch_map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
 	if (iter == m_data.end())
 	{
 		return false;
@@ -111,7 +111,7 @@ bool ETHCustomDataManager::GetInt(const str_type::string &name, int &outValue) c
 
 bool ETHCustomDataManager::GetUInt(const str_type::string &name, unsigned int &outValue) const
 {
-	std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
+	tsl::hopscotch_map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
 	if (iter == m_data.end())
 	{
 		return false;
@@ -127,7 +127,7 @@ bool ETHCustomDataManager::GetUInt(const str_type::string &name, unsigned int &o
 
 bool ETHCustomDataManager::GetString(const str_type::string &name, str_type::string &outValue) const
 {
-	std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
+	tsl::hopscotch_map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
 	if (iter == m_data.end())
 	{
 		return false;
@@ -143,7 +143,7 @@ bool ETHCustomDataManager::GetString(const str_type::string &name, str_type::str
 
 bool ETHCustomDataManager::GetVector2(const str_type::string &name, Vector2 &outValue) const
 {
-	std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
+	tsl::hopscotch_map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
 	if (iter == m_data.end())
 	{
 		return false;
@@ -159,7 +159,7 @@ bool ETHCustomDataManager::GetVector2(const str_type::string &name, Vector2 &out
 
 bool ETHCustomDataManager::GetVector3(const str_type::string &name, Vector3 &outValue) const
 {
-	std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
+	tsl::hopscotch_map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
 	if (iter == m_data.end())
 	{
 		return false;
@@ -175,7 +175,7 @@ bool ETHCustomDataManager::GetVector3(const str_type::string &name, Vector3 &out
 
 float ETHCustomDataManager::AddToFloat(const str_type::string &name, const float &value)
 {
-	std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
+	tsl::hopscotch_map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
 	if (iter == m_data.end())
 	{
 		return 0.0f;
@@ -191,7 +191,7 @@ float ETHCustomDataManager::AddToFloat(const str_type::string &name, const float
 
 int ETHCustomDataManager::AddToInt(const str_type::string &name, const int &value)
 {
-	std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
+	tsl::hopscotch_map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
 	if (iter == m_data.end())
 	{
 		return 0;
@@ -207,7 +207,7 @@ int ETHCustomDataManager::AddToInt(const str_type::string &name, const int &valu
 
 unsigned int ETHCustomDataManager::AddToUInt(const str_type::string &name, const unsigned int &value)
 {
-	std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
+	tsl::hopscotch_map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
 	if (iter == m_data.end())
 	{
 		return 0;
@@ -223,7 +223,7 @@ unsigned int ETHCustomDataManager::AddToUInt(const str_type::string &name, const
 
 Vector2 ETHCustomDataManager::AddToVector2(const str_type::string &name, const Vector2 &v)
 {
-	std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
+	tsl::hopscotch_map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
 	if (iter == m_data.end())
 	{
 		return Vector2();
@@ -239,7 +239,7 @@ Vector2 ETHCustomDataManager::AddToVector2(const str_type::string &name, const V
 
 Vector3 ETHCustomDataManager::AddToVector3(const str_type::string &name, const Vector3 &v)
 {
-	std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
+	tsl::hopscotch_map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
 	if (iter == m_data.end())
 	{
 		return Vector3();
@@ -255,7 +255,7 @@ Vector3 ETHCustomDataManager::AddToVector3(const str_type::string &name, const V
 
 float ETHCustomDataManager::MultiplyFloat(const str_type::string &name, const float &value)
 {
-	std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
+	tsl::hopscotch_map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
 	if (iter == m_data.end())
 	{
 		return 0.0f;
@@ -271,7 +271,7 @@ float ETHCustomDataManager::MultiplyFloat(const str_type::string &name, const fl
 
 int ETHCustomDataManager::MultiplyInt(const str_type::string &name, const int &value)
 {
-	std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
+	tsl::hopscotch_map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
 	if (iter == m_data.end())
 	{
 		return 0;
@@ -287,7 +287,7 @@ int ETHCustomDataManager::MultiplyInt(const str_type::string &name, const int &v
 
 unsigned int ETHCustomDataManager::MultiplyUInt(const str_type::string &name, const unsigned int &value)
 {
-	std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
+	tsl::hopscotch_map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
 	if (iter == m_data.end())
 	{
 		return 0;
@@ -303,7 +303,7 @@ unsigned int ETHCustomDataManager::MultiplyUInt(const str_type::string &name, co
 
 Vector2 ETHCustomDataManager::MultiplyVector2(const str_type::string &name, const float &value)
 {
-	std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
+	tsl::hopscotch_map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
 	if (iter == m_data.end())
 	{
 		return Vector2();
@@ -319,7 +319,7 @@ Vector2 ETHCustomDataManager::MultiplyVector2(const str_type::string &name, cons
 
 Vector3 ETHCustomDataManager::MultiplyVector3(const str_type::string &name, const float &value)
 {
-	std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
+	tsl::hopscotch_map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
 	if (iter == m_data.end())
 	{
 		return Vector3();
@@ -335,7 +335,7 @@ Vector3 ETHCustomDataManager::MultiplyVector3(const str_type::string &name, cons
 
 ETHCustomData::DATA_TYPE ETHCustomDataManager::Check(const str_type::string &name) const
 {
-	std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
+	tsl::hopscotch_map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
 	if (iter != m_data.end())
 	{
 		return iter->second->GetType();
@@ -351,7 +351,7 @@ str_type::string ETHCustomDataManager::GetDebugStringData() const
 	if (!m_data.empty())
 	{
 		str_type::stringstream ss;
-		for (std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.begin(); iter != m_data.end(); ++iter)
+		for (tsl::hopscotch_map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.begin(); iter != m_data.end(); ++iter)
 		{
 			ss << DATA_NAME[iter->second->GetType()] << GS_L(" ") << iter->first
 				<< GS_L(" = ") << iter->second->GetValueAsString() << std::endl;
@@ -371,7 +371,7 @@ bool ETHCustomDataManager::HasData() const
 
 bool ETHCustomDataManager::EraseData(const str_type::string &name)
 {
-	std::map<str_type::string, ETHCustomDataPtr>::iterator iter = m_data.find(name);
+	tsl::hopscotch_map<str_type::string, ETHCustomDataPtr>::iterator iter = m_data.find(name);
 	if (iter != m_data.end())
 	{
 		m_data.erase(iter);
@@ -396,7 +396,7 @@ void ETHCustomDataManager::Clear()
 void ETHCustomDataManager::MoveData(ETHCustomDataManager &dataOut) const
 {
 	
-	for (std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.begin();
+	for (tsl::hopscotch_map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.begin();
 		 iter != m_data.end(); ++iter)
 	{
 		dataOut.AddData(iter->first, iter->second);
@@ -405,17 +405,17 @@ void ETHCustomDataManager::MoveData(ETHCustomDataManager &dataOut) const
 
 void ETHCustomDataManager::InsertData(const ETHCustomDataManager &dataIn)
 {
-	for (std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = dataIn.m_data.begin();
+	for (tsl::hopscotch_map<str_type::string, ETHCustomDataPtr>::const_iterator iter = dataIn.m_data.begin();
 		 iter != dataIn.m_data.end(); ++iter)
 	{
 		AddData(iter->first, iter->second);
 	}
 }
 
-void ETHCustomDataManager::CopyMap(std::map<str_type::string, ETHCustomDataPtr> &inMap) const
+void ETHCustomDataManager::CopyMap(tsl::hopscotch_map<str_type::string, ETHCustomDataPtr> &inMap) const
 {
 	inMap.clear();
-	for (std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.begin(); iter != m_data.end(); ++iter)
+	for (tsl::hopscotch_map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.begin(); iter != m_data.end(); ++iter)
 	{
 		const ETHCustomDataPtr& data = iter->second;
 		const str_type::string& name = iter->first;
@@ -474,7 +474,7 @@ void ETHCustomDataManager::AddData(const str_type::string &name, const ETHCustom
 
 str_type::string ETHCustomDataManager::GetValueAsString(const str_type::string &name) const
 {
-	std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
+	tsl::hopscotch_map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.find(name);
 	if (iter == m_data.end())
 	{
 		return GS_L("");
@@ -589,7 +589,7 @@ bool ETHCustomDataManager::WriteDataToFile(TiXmlElement *pHeadRoot) const
 {
 	TiXmlElement *pCustomData = new TiXmlElement(GS_L("CustomData"));
 	pHeadRoot->LinkEndChild(pCustomData);
-	for (std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.begin();
+	for (tsl::hopscotch_map<str_type::string, ETHCustomDataPtr>::const_iterator iter = m_data.begin();
 		iter != m_data.end(); ++iter)
 	{
 		TiXmlElement *pVariableRoot = new TiXmlElement(GS_L("Variable"));

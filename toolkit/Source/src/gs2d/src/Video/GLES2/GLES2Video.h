@@ -32,8 +32,6 @@
 
 #include "../../Platform/FileIOHub.h"
 
-#include <map>
-
 #define _GS2D_GLES2_MAX_MULTI_TEXTURES 2
 
 namespace gs2d {

@@ -31,11 +31,11 @@
 #include "GLES2Texture.h"
 #include "GLES2UniformParameter.h"
 
-#include <map>
+#include "../../../../tsl/hopscotch_map.h"
 
 namespace gs2d {
 
-typedef std::map<std::size_t, GLuint> GLES2ProgramMap;
+typedef tsl::hopscotch_map<std::size_t, GLuint> GLES2ProgramMap;
 
 class GLES2Shader;
 typedef boost::shared_ptr<GLES2Shader> GLES2ShaderPtr;
@@ -83,8 +83,8 @@ protected:
 	GLES2ShaderPtr m_currentVS;
 	GLES2ShaderPtr m_currentPS;
 	GLES2ProgramMap m_programs;
-	std::map<GLuint, int> m_vertexPosLocations;
-	std::map<GLuint, int> m_texCoordLocations;
+	tsl::hopscotch_map<GLuint, int> m_vertexPosLocations;
+	tsl::hopscotch_map<GLuint, int> m_texCoordLocations;
 	bool CheckForError(const str_type::string& situation);
 	GLES2RectRenderer m_rectRenderer;
 
@@ -121,15 +121,15 @@ private:
 	GLES2ShaderContextPtr m_context;
 	str_type::string m_shaderName;
 	Shader::SHADER_FOCUS m_shaderFocus;
-	std::map<std::size_t, GLES2UniformParameterPtr> m_parameters;
+	tsl::hopscotch_map<std::size_t, GLES2UniformParameterPtr> m_parameters;
 	const str_type::string DIFFUSE_TEXTURE_NAME;
 	
-	std::map<str_type::string, GLint> m_texturePasses;
+	tsl::hopscotch_map<str_type::string, GLint> m_texturePasses;
 	GLint m_texturePassCounter;
 
 public:
 
-	const std::map<std::size_t, GLES2UniformParameterPtr>& GetParameters() const;
+	const tsl::hopscotch_map<std::size_t, GLES2UniformParameterPtr>& GetParameters() const;
 	GLuint GetShader();
 	str_type::string GetShaderName();
 	

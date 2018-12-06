@@ -43,7 +43,7 @@ bool SharedDataManager::Set(const gs2d::str_type::string& key, const gs2d::str_t
 
 bool SharedDataManager::Set(const gs2d::str_type::string& key, const gs2d::str_type::string& data, const bool forceValue)
 {
-	std::map<gs2d::str_type::string, SharedDataPtr>::const_iterator iter = m_data.find(key);
+	tsl::hopscotch_map<gs2d::str_type::string, SharedDataPtr>::const_iterator iter = m_data.find(key);
 	if (iter != m_data.end())
 	{
 		return iter->second->Set(data, forceValue);
@@ -57,7 +57,7 @@ bool SharedDataManager::Set(const gs2d::str_type::string& key, const gs2d::str_t
 
 bool SharedDataManager::IsConstant(const gs2d::str_type::string& key) const
 {
-	std::map<gs2d::str_type::string, SharedDataPtr>::const_iterator iter = m_data.find(key);
+	tsl::hopscotch_map<gs2d::str_type::string, SharedDataPtr>::const_iterator iter = m_data.find(key);
 	if (iter != m_data.end())
 		return iter->second->IsConstant();
 	else
@@ -66,7 +66,7 @@ bool SharedDataManager::IsConstant(const gs2d::str_type::string& key) const
 
 gs2d::str_type::string SharedDataManager::Get(const gs2d::str_type::string& key) const
 {
-	std::map<gs2d::str_type::string, SharedDataPtr>::const_iterator iter = m_data.find(key);
+	tsl::hopscotch_map<gs2d::str_type::string, SharedDataPtr>::const_iterator iter = m_data.find(key);
 	if (iter != m_data.end())
 		return iter->second->Get();
 	else
@@ -80,7 +80,7 @@ bool SharedDataManager::Exists(const gs2d::str_type::string& key) const
 
 bool SharedDataManager::Remove(const gs2d::str_type::string& key)
 {
-	std::map<gs2d::str_type::string, SharedDataPtr>::iterator iter = m_data.find(key);
+	tsl::hopscotch_map<gs2d::str_type::string, SharedDataPtr>::iterator iter = m_data.find(key);
 	if (iter != m_data.end())
 	{
 		if (!iter->second->IsConstant())

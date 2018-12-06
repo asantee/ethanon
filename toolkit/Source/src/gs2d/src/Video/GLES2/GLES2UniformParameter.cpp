@@ -52,7 +52,7 @@ void GLES2UniformParameter::SetLocations(const LocationMapPtr& locations)
 inline int GLES2UniformParameter::GetLocation(const GLuint program, const Platform::FileLogger& logger)
 {
 	LocationMap& locations = *m_locations.get();
-	std::map<GLuint, int>::iterator iter = locations.find(program);
+	tsl::hopscotch_map<GLuint, int>::iterator iter = locations.find(program);
 	if (iter != locations.end())
 	{
 		return iter->second;
@@ -83,19 +83,19 @@ inline int GLES2UniformParameter::GetLocation(const GLuint program, const Platfo
 	}
 }
 
-std::map<GLuint, std::map<int, boost::shared_ptr<GLES2UniformParameter> > > GLES2UniformParameter::m_params;
+tsl::hopscotch_map<GLuint, tsl::hopscotch_map<int, boost::shared_ptr<GLES2UniformParameter> > > GLES2UniformParameter::m_params;
 GLenum GLES2UniformParameter::m_activatedTexture = 0xF0000000;
 GLenum GLES2UniformParameter::m_boundTexture2D   = 0xF0000000;
 
 void GLES2UniformParameter::AddParam(const GLuint& program, const int& location, const boost::shared_ptr<GLES2UniformParameter>& param)
 {
-	std::map<GLuint, std::map<int, boost::shared_ptr<GLES2UniformParameter> > >::iterator mapIter = m_params.find(program);
+	tsl::hopscotch_map<GLuint, tsl::hopscotch_map<int, boost::shared_ptr<GLES2UniformParameter> > >::iterator mapIter = m_params.find(program);
 	if (mapIter == m_params.end())
 	{
 		m_params[program];
 		mapIter = m_params.find(program);
 	}
-	mapIter->second.insert(std::pair<int, boost::shared_ptr<GLES2UniformParameter> >(location, param));
+	mapIter.value().insert(std::pair<int, boost::shared_ptr<GLES2UniformParameter> >(location, param));
 
 }
 	
@@ -104,10 +104,10 @@ bool GLES2UniformParameter::IsEqualToAlreadyDefinedParam(const GLuint& program, 
 														 const Platform::FileLogger& logger)
 {
 	GS2D_UNUSED_ARGUMENT(logger);
-	std::map<GLuint, std::map<int, boost::shared_ptr<GLES2UniformParameter> > >::iterator mapIter = m_params.find(program);
+	tsl::hopscotch_map<GLuint, tsl::hopscotch_map<int, boost::shared_ptr<GLES2UniformParameter> > >::iterator mapIter = m_params.find(program);
 	if (mapIter != m_params.end())
 	{
-		std::map<int, boost::shared_ptr<GLES2UniformParameter> >::iterator iter = mapIter->second.find(location);
+		tsl::hopscotch_map<int, boost::shared_ptr<GLES2UniformParameter> >::iterator iter = mapIter.value().find(location);
 		if (iter != mapIter->second.end())
 		{
 			return param->IsEqual((iter->second).get());

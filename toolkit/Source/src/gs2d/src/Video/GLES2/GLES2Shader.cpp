@@ -143,8 +143,8 @@ void GLES2ShaderContext::GetLocations(int& pos, int& tex) const
 	if (m_currentProgram != m_lastProgram)
 	{
 		m_lastProgram = m_currentProgram;
-		std::map<GLuint, int>::const_iterator iterPos = m_vertexPosLocations.find(m_currentProgram);
-		std::map<GLuint, int>::const_iterator iterTex = m_texCoordLocations.find(m_currentProgram);
+		tsl::hopscotch_map<GLuint, int>::const_iterator iterPos = m_vertexPosLocations.find(m_currentProgram);
+		tsl::hopscotch_map<GLuint, int>::const_iterator iterTex = m_texCoordLocations.find(m_currentProgram);
 		if (iterPos != m_vertexPosLocations.end() && iterTex != m_texCoordLocations.end())
 		{
 			m_lastPosLocation = iterPos->second;
@@ -180,8 +180,8 @@ void GLES2ShaderContext::DrawRect(const Sprite::RECT_MODE mode)
 void GLES2ShaderContext::BeginFastDraw()
 {
 	CreateProgram();
-	std::map<GLuint, int>::const_iterator iterPos = m_vertexPosLocations.find(m_currentProgram);
-	std::map<GLuint, int>::const_iterator iterTex = m_texCoordLocations.find(m_currentProgram);
+	tsl::hopscotch_map<GLuint, int>::const_iterator iterPos = m_vertexPosLocations.find(m_currentProgram);
+	tsl::hopscotch_map<GLuint, int>::const_iterator iterTex = m_texCoordLocations.find(m_currentProgram);
 	if (iterPos != m_vertexPosLocations.end() && iterTex != m_texCoordLocations.end())
 	{
 		m_rectRenderer.BeginFastDraw(iterPos->second, iterTex->second, m_logger);
@@ -289,8 +289,8 @@ void GLES2ShaderContext::SetShader(GLES2ShaderPtr vs, GLES2ShaderPtr ps)
 
 void GLES2ShaderContext::SetUniformParametersFromCurrentProgram(GLES2ShaderPtr shader) const
 {
-	const std::map<std::size_t, GLES2UniformParameterPtr>& parameters = shader->GetParameters();
-	for (std::map<std::size_t, GLES2UniformParameterPtr>::const_iterator iter =
+	const tsl::hopscotch_map<std::size_t, GLES2UniformParameterPtr>& parameters = shader->GetParameters();
+	for (tsl::hopscotch_map<std::size_t, GLES2UniformParameterPtr>::const_iterator iter =
 			parameters.begin(); iter != parameters.end(); iter++)
 	{
 		GLES2UniformParameter* param = iter->second.get();
@@ -376,7 +376,7 @@ GLuint GLES2Shader::GetShader()
 	return m_shader;
 }
 
-const std::map<std::size_t, GLES2UniformParameterPtr>& GLES2Shader::GetParameters() const
+const tsl::hopscotch_map<std::size_t, GLES2UniformParameterPtr>& GLES2Shader::GetParameters() const
 {
 	return m_parameters;
 }
@@ -485,13 +485,13 @@ bool GLES2Shader::SetConstant(const str_type::string& name, const Color& dw)
 inline void SetParameter(
 	const std::size_t nameHash,
 	const GLES2UniformParameterPtr& param,
-	std::map<std::size_t, GLES2UniformParameterPtr>& parameters)
+	tsl::hopscotch_map<std::size_t, GLES2UniformParameterPtr>& parameters)
 {
-	std::map<std::size_t, GLES2UniformParameterPtr>::iterator iter = parameters.find(nameHash);
+	tsl::hopscotch_map<std::size_t, GLES2UniformParameterPtr>::iterator iter = parameters.find(nameHash);
 	if (iter != parameters.end())
 	{
 		param->SetLocations(iter->second->GetLocations());
-		iter->second = param;
+		iter.value() = param;
 	}
 	else
 	{
@@ -500,7 +500,7 @@ inline void SetParameter(
 }
 
 inline void SetParameter(const str_type::string& name, const GLES2UniformParameterPtr& param,
-						 std::map<std::size_t, GLES2UniformParameterPtr>& parameters)
+						 tsl::hopscotch_map<std::size_t, GLES2UniformParameterPtr>& parameters)
 {
 	SetParameter(fastHash(name), param, parameters);
 }
@@ -608,7 +608,7 @@ bool GLES2Shader::SetMatrixConstant(const str_type::string& name, const math::Ma
 
 bool GLES2Shader::SetTexture(const str_type::string& name, TextureWeakPtr pTexture)
 {
-	std::map<str_type::string, GLint>::iterator iter = m_texturePasses.find(name);
+	tsl::hopscotch_map<str_type::string, GLint>::iterator iter = m_texturePasses.find(name);
 	if (iter == m_texturePasses.end())
 	{
 		m_texturePasses[name] = m_texturePassCounter++;

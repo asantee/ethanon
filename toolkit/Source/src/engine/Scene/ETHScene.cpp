@@ -37,7 +37,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <sstream>
-#include <map>
 #include <assert.h>
 
 int ETHScene::m_idCounter = 0;

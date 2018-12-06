@@ -25,13 +25,13 @@
 
 #include "SharedData.h"
 
-#include <map>
+#include "../../../../tsl/hopscotch_map.h"
 
 namespace Platform {
 
 class SharedDataManager
 {
-	std::map<gs2d::str_type::string, SharedDataPtr> m_data;
+	tsl::hopscotch_map<gs2d::str_type::string, SharedDataPtr> m_data;
 
 	bool Set(const gs2d::str_type::string& key, const gs2d::str_type::string& data, const bool forceValue);
 
