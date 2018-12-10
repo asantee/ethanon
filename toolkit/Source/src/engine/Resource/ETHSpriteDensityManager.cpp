@@ -60,22 +60,22 @@ void ETHSpriteDensityManager::FillParametersFromFile(const ETHAppEnmlFile& file)
 
 bool ETHSpriteDensityManager::ShouldUseHdResources(const gs2d::VideoPtr& video) const
 {
-	return (video->GetScreenSize().y >= static_cast<int>(minScreenHeightForHdResources)) && !ShouldUseFullHdResources(video);
+	return (video->GetScreenSizeInPixels().y >= static_cast<int>(minScreenHeightForHdResources)) && !ShouldUseFullHdResources(video);
 }
 
 bool ETHSpriteDensityManager::ShouldUseFullHdResources(const gs2d::VideoPtr& video) const
 {
-	return (video->GetScreenSize().y >= static_cast<int>(minScreenHeightForFullHdResources));
+	return (video->GetScreenSizeInPixels().y >= static_cast<int>(minScreenHeightForFullHdResources));
 }
 
 bool ETHSpriteDensityManager::ShouldUseLdResources(const gs2d::VideoPtr& video) const
 {
-	return (video->GetScreenSize().y <= static_cast<int>(maxScreenHeightBeforeNdVersion)) && !ShouldUseXLdResources(video);
+	return (video->GetScreenSizeInPixels().y <= static_cast<int>(maxScreenHeightBeforeNdVersion)) && !ShouldUseXLdResources(video);
 }
 
 bool ETHSpriteDensityManager::ShouldUseXLdResources(const gs2d::VideoPtr& video) const
 {
-	return (video->GetScreenSize().y <= static_cast<int>(maxScreenHeightBeforeLdVersion));
+	return (video->GetScreenSizeInPixels().y <= static_cast<int>(maxScreenHeightBeforeLdVersion));
 }
 
 static gs2d::str_type::string AssembleResourceName(const string& fullFilePath, const string& versionPathName)
