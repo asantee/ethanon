@@ -152,6 +152,11 @@ Vector2 ETHScriptWrapper::GetScreenSize()
 	return m_backBuffer->GetBufferSize();
 }
 
+Vector2 ETHScriptWrapper::GetScreenSizeInPixels()
+{
+	return m_provider->GetVideo()->GetScreenSizeInPixels();
+}
+
 float ETHScriptWrapper::GetFPSRate()
 {
 	return m_provider->GetVideo()->GetFPSRate();

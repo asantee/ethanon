@@ -174,15 +174,16 @@ asDECLARE_FUNCTION_WRAPPER(__SetSpriteOrigin,    ETHScriptWrapper::SetSpriteOrig
 asDECLARE_FUNCTION_WRAPPER(__SetSpriteFlipX,    ETHScriptWrapper::SetSpriteFlipX);
 asDECLARE_FUNCTION_WRAPPER(__SetSpriteFlipY,    ETHScriptWrapper::SetSpriteFlipY);
 
-asDECLARE_FUNCTION_WRAPPER(__GetSceneFileName,    ETHScriptWrapper::GetSceneFileName);
-asDECLARE_FUNCTION_WRAPPER(__GetScreenSize,       ETHScriptWrapper::GetScreenSize);
-asDECLARE_FUNCTION_WRAPPER(__Windowed,            ETHScriptWrapper::Windowed);
-asDECLARE_FUNCTION_WRAPPER(__GetVideoModeCount,   ETHScriptWrapper::GetVideoModeCount);
-asDECLARE_FUNCTION_WRAPPER(__GetVideoMode,        ETHScriptWrapper::GetVideoMode);
-asDECLARE_FUNCTION_WRAPPER(__GetBackgroundColor,  ETHScriptWrapper::GetBackgroundColor);
-asDECLARE_FUNCTION_WRAPPER(__SetBackgroundColor,  ETHScriptWrapper::SetBackgroundColor);
-asDECLARE_FUNCTION_WRAPPER(__GetSystemScreenSize, ETHScriptWrapper::GetSystemScreenSize);
-asDECLARE_FUNCTION_WRAPPER(__SaveScreenShot,      ETHScriptWrapper::SaveScreenShot);
+asDECLARE_FUNCTION_WRAPPER(__GetSceneFileName,      ETHScriptWrapper::GetSceneFileName);
+asDECLARE_FUNCTION_WRAPPER(__GetScreenSize,         ETHScriptWrapper::GetScreenSize);
+asDECLARE_FUNCTION_WRAPPER(__GetScreenSizeInPixels, ETHScriptWrapper::GetScreenSizeInPixels);
+asDECLARE_FUNCTION_WRAPPER(__Windowed,              ETHScriptWrapper::Windowed);
+asDECLARE_FUNCTION_WRAPPER(__GetVideoModeCount,     ETHScriptWrapper::GetVideoModeCount);
+asDECLARE_FUNCTION_WRAPPER(__GetVideoMode,          ETHScriptWrapper::GetVideoMode);
+asDECLARE_FUNCTION_WRAPPER(__GetBackgroundColor,    ETHScriptWrapper::GetBackgroundColor);
+asDECLARE_FUNCTION_WRAPPER(__SetBackgroundColor,    ETHScriptWrapper::SetBackgroundColor);
+asDECLARE_FUNCTION_WRAPPER(__GetSystemScreenSize,   ETHScriptWrapper::GetSystemScreenSize);
+asDECLARE_FUNCTION_WRAPPER(__SaveScreenShot,        ETHScriptWrapper::SaveScreenShot);
 
 asDECLARE_FUNCTION_WRAPPER(__GetEntityArray,          ETHScriptWrapper::GetEntityArrayByName);
 asDECLARE_FUNCTION_WRAPPER(__GetEntitiesFromBucket,   ETHScriptWrapper::GetEntityArrayFromBucket);
@@ -444,15 +445,16 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void SetSpriteFlipX(const string &in, const bool)",       asFUNCTION(__SetSpriteFlipX),    asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void SetSpriteFlipY(const string &in, const bool)",       asFUNCTION(__SetSpriteFlipY),    asCALL_GENERIC); assert(r >= 0);
 
-	r = pASEngine->RegisterGlobalFunction("string GetSceneFileName()",             asFUNCTION(__GetSceneFileName),    asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("vector2 GetScreenSize()",               asFUNCTION(__GetScreenSize),       asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("bool Windowed()",                       asFUNCTION(__Windowed),            asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("uint GetVideoModeCount()",              asFUNCTION(__GetVideoModeCount),   asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("videoMode GetVideoMode(const uint)",    asFUNCTION(__GetVideoMode),        asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("uint GetBackgroundColor()",             asFUNCTION(__GetBackgroundColor),  asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("void SetBackgroundColor(const uint)",   asFUNCTION(__SetBackgroundColor),  asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("vector2 GetSystemScreenSize()",         asFUNCTION(__GetSystemScreenSize), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("bool SaveScreenShot(const string &in)", asFUNCTION(__SaveScreenShot),      asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("string GetSceneFileName()",             asFUNCTION(__GetSceneFileName),      asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("vector2 GetScreenSize()",               asFUNCTION(__GetScreenSize),         asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("vector2 GetScreenSizeInPixels()",       asFUNCTION(__GetScreenSizeInPixels), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("bool Windowed()",                       asFUNCTION(__Windowed),              asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("uint GetVideoModeCount()",              asFUNCTION(__GetVideoModeCount),     asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("videoMode GetVideoMode(const uint)",    asFUNCTION(__GetVideoMode),          asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("uint GetBackgroundColor()",             asFUNCTION(__GetBackgroundColor),    asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void SetBackgroundColor(const uint)",   asFUNCTION(__SetBackgroundColor),    asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("vector2 GetSystemScreenSize()",         asFUNCTION(__GetSystemScreenSize),   asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("bool SaveScreenShot(const string &in)", asFUNCTION(__SaveScreenShot),        asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("void GetEntityArray(const string &in, ETHEntityArray &)",                       asFUNCTION(__GetEntityArray),          asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void GetEntitiesFromBucket(const vector2 &in, ETHEntityArray &)",               asFUNCTION(__GetEntitiesFromBucket),   asCALL_GENERIC); assert(r >= 0);

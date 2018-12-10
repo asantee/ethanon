@@ -242,6 +242,7 @@ public:
 	static unsigned int GetScreenWidth();
 	static unsigned int GetScreenHeight();
 	static Vector2 GetScreenSize();
+	static Vector2 GetScreenSizeInPixels();
 	static void SetCameraPos(const Vector2 &v2Pos);
 	static void AddToCameraPos(const Vector2 &v2Add);
 
