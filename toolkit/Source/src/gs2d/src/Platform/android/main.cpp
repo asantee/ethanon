@@ -44,6 +44,7 @@ extern "C" {
 	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_restore(JNIEnv* env, jobject thiz);
 	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_start(JNIEnv* env, jobject thiz, jstring apkPath, jstring externalPath, jstring globalPath, jint width, jint height);
 	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_engineStartup(JNIEnv* env, jobject thiz);
+	JNIEXPORT jboolean JNICALL Java_net_asantee_gs2d_GS2DJNI_isLoading(JNIEnv* env, jobject thiz);
 	JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_destroy(JNIEnv* env, jobject thiz);
 	JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_runOnUIThread(JNIEnv* env, jobject thiz, jstring inputStr);
 
@@ -58,7 +59,7 @@ VideoPtr video;
 InputPtr input;
 AudioPtr audio;
 boost::shared_ptr<Platform::ZipFileManager> zip;
-SpritePtr splashSprite;
+SpritePtr splashSprite, cogSprite;
 ETHEnginePtr engine;
 
 std::string  g_inputStr;
@@ -82,7 +83,10 @@ JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_start(
 	audio->SetGlobalVolume(g_globalVolume);
 
 	splashSprite = video->CreateSprite(GS_L("assets/data/splash.png"));
-	splashSprite->SetupSpriteRects(1, 2);
+	splashSprite->SetOrigin(gs2d::Sprite::EO_CENTER);
+
+	cogSprite = video->CreateSprite(GS_L("assets/data/cog.png"));
+	cogSprite->SetOrigin(gs2d::Sprite::EO_CENTER);
 
 	if (!application)
 	{
@@ -149,6 +153,11 @@ str_type::string AssembleCommands()
 	}
 }
 
+JNIEXPORT jboolean JNICALL Java_net_asantee_gs2d_GS2DJNI_isLoading(JNIEnv* env, jobject thiz)
+{
+	return !IsScriptEngineLoaded();
+}
+
 JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_mainLoop(JNIEnv* env, jobject thiz, jstring inputStr)
 {
 	jboolean isCopy;
@@ -170,12 +179,17 @@ JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_mainLoop(JNIEnv* env, jo
 		video->BeginSpriteScene(gs2d::constant::BLACK);
 		if (splashSprite)
 		{
-			splashSprite->SetOrigin(gs2d::Sprite::EO_CENTER);
 			const Vector2 screenSize(video->GetScreenSizeF());
 			const float scale = (screenSize.y / 720.0f) * 0.8f;
 
-			splashSprite->SetRect(/*(application) ? 1 : 0*/ 0);
 			splashSprite->Draw(screenSize * 0.5f, gs2d::constant::WHITE, 0.0f, Vector2(scale, scale));
+
+			const Vector2 cogMiddle(screenSize.x * 0.5f, screenSize.y * 0.8f);
+			static float angle = 0.0f;
+			cogSprite->Draw(cogMiddle - Vector2(43.0f, 0.0f), gs2d::Color(0x97FFFFFF),-angle + 24.0f, Vector2(0.8f, 0.8f));
+			cogSprite->Draw(cogMiddle + Vector2(43.0f, 0.0f), gs2d::Color(0x97FFFFFF),-angle - 24.0f, Vector2(0.8f, 0.8f));
+			cogSprite->Draw(cogMiddle, gs2d::constant::WHITE, angle, Vector2(0.8f, 0.8f));
+			angle -= 4.0f;
 		}
 		video->EndSpriteScene();
 	}
