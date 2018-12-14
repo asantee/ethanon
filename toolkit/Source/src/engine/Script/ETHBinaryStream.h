@@ -39,8 +39,8 @@ class ETHBinaryStream : public asIBinaryStream
 public:
 	ETHBinaryStream(const Platform::FileManagerPtr& fileManager);
 
-	virtual void Read(void *ptr, asUINT size);
-	virtual void Write(const void *ptr, asUINT size);
+	virtual int Read(void *ptr, asUINT size);
+	virtual int Write(const void *ptr, asUINT size);
 
 	str_type::string GetFileName() const;
 	bool OpenW(const str_type::string& fileName);

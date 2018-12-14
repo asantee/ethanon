@@ -1,24 +1,24 @@
 /*
    AngelCode Scripting Library
-   Copyright (c) 2003-2014 Andreas Jonsson
+   Copyright (c) 2003-2017 Andreas Jonsson
 
-   This software is provided 'as-is', without any express or implied 
-   warranty. In no event will the authors be held liable for any 
+   This software is provided 'as-is', without any express or implied
+   warranty. In no event will the authors be held liable for any
    damages arising from the use of this software.
 
-   Permission is granted to anyone to use this software for any 
-   purpose, including commercial applications, and to alter it and 
+   Permission is granted to anyone to use this software for any
+   purpose, including commercial applications, and to alter it and
    redistribute it freely, subject to the following restrictions:
 
-   1. The origin of this software must not be misrepresented; you 
+   1. The origin of this software must not be misrepresented; you
       must not claim that you wrote the original software. If you use
-      this software in a product, an acknowledgment in the product 
+      this software in a product, an acknowledgment in the product
       documentation would be appreciated but is not required.
 
-   2. Altered source versions must be plainly marked as such, and 
+   2. Altered source versions must be plainly marked as such, and
       must not be misrepresented as being the original software.
 
-   3. This notice may not be removed or altered from any source 
+   3. This notice may not be removed or altered from any source
       distribution.
 
    The original version of this library can be located at:
@@ -53,6 +53,7 @@ class asCModule;
 class asCConfigGroup;
 class asCGlobalProperty;
 class asCScriptNode;
+class asCFuncdefType;
 struct asSNameSpace;
 
 struct asSScriptVariable
@@ -96,17 +97,39 @@ enum asEObjVarInfoOption
 	asBLOCK_END
 };
 
+enum asEFuncTrait
+{
+	asTRAIT_CONSTRUCTOR = 1,
+	asTRAIT_DESTRUCTOR  = 2,
+	asTRAIT_CONST       = 4,
+	asTRAIT_PRIVATE     = 8,
+	asTRAIT_PROTECTED   = 16,
+	asTRAIT_FINAL       = 32,
+	asTRAIT_OVERRIDE    = 64,
+	asTRAIT_SHARED      = 128,
+	asTRAIT_EXTERNAL    = 256
+};
+
+struct asSFunctionTraits
+{
+	asSFunctionTraits() : traits(0) {}
+	void SetTrait(asEFuncTrait trait, bool set) { if (set) traits |= trait; else traits &= ~trait; }
+	bool GetTrait(asEFuncTrait trait) const { return (traits & trait) ? true : false; }
+protected:
+	asDWORD traits;
+};
+
 struct asSObjectVariableInfo
 {
-	asUINT programPos;
-	int    variableOffset;
-	asUINT option;
+	asUINT              programPos;
+	int                 variableOffset;
+	asEObjVarInfoOption option;
 };
 
 struct asSSystemFunctionInterface;
 
-// TODO: Might be interesting to allow enumeration of accessed global variables, and 
-//       also functions/methods that are being called. This could be used to build a 
+// TODO: Might be interesting to allow enumeration of accessed global variables, and
+//       also functions/methods that are being called. This could be used to build a
 //       code database with call graphs, etc.
 
 void RegisterScriptFunction(asCScriptEngine *engine);
@@ -129,33 +152,31 @@ public:
 	const char          *GetScriptSectionName() const;
 	const char          *GetConfigGroup() const;
 	asDWORD              GetAccessMask() const;
+	void                *GetAuxiliary() const;
 
 	// Function signature
-	asIObjectType       *GetObjectType() const;
+	asITypeInfo         *GetObjectType() const;
 	const char          *GetObjectName() const;
 	const char          *GetName() const;
 	const char          *GetNamespace() const;
 	const char          *GetDeclaration(bool includeObjectName = true, bool includeNamespace = false, bool includeParamNames = false) const;
 	bool                 IsReadOnly() const;
 	bool                 IsPrivate() const;
+	bool                 IsProtected() const;
 	bool                 IsFinal() const;
 	bool                 IsOverride() const;
 	bool                 IsShared() const;
 	asUINT               GetParamCount() const;
 	int                  GetParam(asUINT index, int *typeId, asDWORD *flags = 0, const char **name = 0, const char **defaultArg = 0) const;
-#ifdef AS_DEPRECATED
-	// Deprecated, since 2.29.0, 2014-04-06
-	int                  GetParamTypeId(asUINT index, asDWORD *flags = 0) const;
-#endif
 	int                  GetReturnTypeId(asDWORD *flags = 0) const;
 
-	// Type id for function pointers 
+	// Type id for function pointers
 	int                  GetTypeId() const;
 	bool                 IsCompatibleWithTypeId(int typeId) const;
 
 	// Delegates
 	void                *GetDelegateObject() const;
-	asIObjectType       *GetDelegateObjectType() const;
+	asITypeInfo         *GetDelegateObjectType() const;
 	asIScriptFunction   *GetDelegateFunction() const;
 
 	// Debug information
@@ -175,21 +196,32 @@ public:
 	//-----------------------------------
 	// Internal methods
 
+	void SetShared(bool set) {traits.SetTrait(asTRAIT_SHARED, set);}
+	void SetReadOnly(bool set) { traits.SetTrait(asTRAIT_CONST, set); }
+	void SetFinal(bool set) { traits.SetTrait(asTRAIT_FINAL, set); }
+	void SetOverride(bool set) { traits.SetTrait(asTRAIT_OVERRIDE, set); }
+	void SetProtected(bool set) { traits.SetTrait(asTRAIT_PROTECTED, set); }
+	void SetPrivate(bool set) { traits.SetTrait(asTRAIT_PRIVATE, set); }
+
 	asCScriptFunction(asCScriptEngine *engine, asCModule *mod, asEFuncType funcType);
 	~asCScriptFunction();
 
+	// Keep an internal reference counter to separate references coming from
+	// application or script objects and references coming from the script code
+	int AddRefInternal();
+	int ReleaseInternal();
+
 	void     DestroyHalfCreated();
 
-	// TODO: 2.29.0: operator==
-	// TODO: 2.29.0: The asIScriptFunction should provide operator== and operator!= that should do a
-	//               a value comparison. Two delegate objects that point to the same object and class method should compare as equal
-	// TODO: 2.29.0: The operator== should also be provided in script as opEquals to allow the same comparison in script
-	//               To do this we'll need some way to adapt the argtype for opEquals for each funcdef, preferrably without instantiating lots of different methods
-	//               Perhaps reusing 'auto' to mean the same type as the object
+	// TODO: operator==
+	// TODO: The asIScriptFunction should provide operator== and operator!= that should do a
+	//       a value comparison. Two delegate objects that point to the same object and class method should compare as equal
+	// TODO: The operator== should also be provided in script as opEquals to allow the same comparison in script
+	//       To do this we'll need some way to adapt the argtype for opEquals for each funcdef, preferrably without instantiating lots of different methods
+	//       Perhaps reusing 'auto' to mean the same type as the object
 	//bool      operator==(const asCScriptFunction &other) const;
 
 	void      DestroyInternal();
-	void      Orphan(asIScriptModule *mod);
 
 	void      AddVariable(asCString &name, asCDataType &type, int stackOffset);
 
@@ -205,7 +237,7 @@ public:
 	bool      IsSignatureExceptNameAndReturnTypeEqual(const asCArray<asCDataType> &paramTypes, const asCArray<asETypeModifiers> &inOutFlags, const asCObjectType *type, bool isReadOnly) const;
 	bool      IsSignatureExceptNameAndObjectTypeEqual(const asCScriptFunction *func) const;
 
-	asCObjectType *GetObjectTypeOfLocalVar(short varOffset);
+	asCTypeInfo *GetTypeInfoOfLocalVar(short varOffset);
 
 	void      MakeDelegate(asCScriptFunction *func, void *obj);
 
@@ -224,7 +256,7 @@ public:
 
 	asCGlobalProperty *GetPropertyByGlobalVarPtr(void *gvarPtr);
 
-	// GC methods
+	// GC methods (for delegates)
 	int  GetRefCount();
 	void SetFlag();
 	bool GetFlag();
@@ -235,7 +267,8 @@ public:
 	//-----------------------------------
 	// Properties
 
-	mutable asCAtomic            refCount;
+	mutable asCAtomic            externalRefCount; // Used for external referneces
+	        asCAtomic            internalRefCount; // Used for internal references
 	mutable bool                 gcFlag;
 	asCScriptEngine             *engine;
 	asCModule                   *module;
@@ -249,10 +282,7 @@ public:
 	asCArray<asCString>          parameterNames;
 	asCArray<asETypeModifiers>   inOutFlags;
 	asCArray<asCString *>        defaultArgs;
-	bool                         isReadOnly;
-	bool                         isPrivate;
-	bool                         isFinal;
-	bool                         isOverride;
+	asSFunctionTraits            traits;
 	asCObjectType               *objectType;
 	int                          signatureId;
 
@@ -260,9 +290,13 @@ public:
 
 	asEFuncType                  funcType;
 	asDWORD                      accessMask;
-	bool                         isShared;
 
+	// Namespace will be null for funcdefs that are declared as child funcdefs
+	// of a class. In this case the namespace shall be taken from the parentClass
+	// in the funcdefType
 	asSNameSpace                *nameSpace;
+
+	asCFuncdefType              *funcdefType; // Doesn't increase refCount
 
 	// Used by asFUNC_DELEGATE
 	void              *objForDelegate;
@@ -282,8 +316,7 @@ public:
 
 		// These hold information on objects and function pointers, including temporary
 		// variables used by exception handler and when saving bytecode
-		asCArray<asCObjectType*>        objVariableTypes;
-		asCArray<asCScriptFunction*>    funcVariableTypes;
+		asCArray<asCTypeInfo*>          objVariableTypes;
 		asCArray<int>                   objVariablePos;
 
 		// The first variables in above array are allocated on the heap, the rest on the stack.
@@ -305,7 +338,7 @@ public:
 		asCArray<int>                   lineNumbers;
 		// Store the script section where the code was declared
 		int                             scriptSectionIdx;
-		// Store the location where the function was declared
+		// Store the location where the function was declared  (row in the lower 20 bits, and column in the upper 12)
 		int                             declaredAt;
 		// Store position/index pairs if the bytecode is compiled from multiple script sections
 		asCArray<int>                   sectionIdxs;
@@ -322,7 +355,7 @@ public:
 	asSSystemFunctionInterface  *sysFuncIntf;
 };
 
-const char * const DELEGATE_FACTORY = "%delegate_factory";
+const char * const DELEGATE_FACTORY = "$dlgte";
 asCScriptFunction *CreateDelegate(asCScriptFunction *func, void *obj);
 
 END_AS_NAMESPACE

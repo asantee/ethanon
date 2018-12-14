@@ -186,9 +186,9 @@ JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_mainLoop(JNIEnv* env, jo
 
 			const Vector2 cogMiddle(screenSize.x * 0.5f, screenSize.y * 0.8f);
 			static float angle = 0.0f;
-			cogSprite->Draw(cogMiddle - Vector2(43.0f, 0.0f), gs2d::Color(0x97FFFFFF),-angle + 24.0f, Vector2(0.8f, 0.8f));
-			cogSprite->Draw(cogMiddle + Vector2(43.0f, 0.0f), gs2d::Color(0x97FFFFFF),-angle - 24.0f, Vector2(0.8f, 0.8f));
-			cogSprite->Draw(cogMiddle, gs2d::constant::WHITE, angle, Vector2(0.8f, 0.8f));
+			cogSprite->Draw(cogMiddle - Vector2(32.0f, 0.0f), gs2d::Color(0xE0FFFFFF),-angle + 24.0f, Vector2(0.6f, 0.6f));
+			cogSprite->Draw(cogMiddle + Vector2(32.0f, 0.0f), gs2d::Color(0xE0FFFFFF),-angle - 24.0f, Vector2(0.6f, 0.6f));
+			cogSprite->Draw(cogMiddle, gs2d::Color(0xFFFFFFFF), angle, Vector2(0.6f, 0.6f));
 			angle -= 4.0f;
 		}
 		video->EndSpriteScene();

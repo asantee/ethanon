@@ -1,6 +1,6 @@
 /*
    AngelCode Scripting Library
-   Copyright (c) 2003-2014 Andreas Jonsson
+   Copyright (c) 2003-2016 Andreas Jonsson
 
    This software is provided 'as-is', without any express or implied
    warranty. In no event will the authors be held liable for any
@@ -38,7 +38,7 @@
 
 #include <stdlib.h>
 
-#if !defined(__APPLE__) && !defined( __SNC__ ) && !defined( __ghs__ ) && !defined(__FreeBSD__)
+#if !defined(__APPLE__) && !defined(__SNC__) && !defined(__ghs__) && !defined(__FreeBSD__) && !defined(__OpenBSD__)
 #include <malloc.h>
 #endif
 
@@ -142,6 +142,11 @@ extern "C"
 // interface
 int asSetGlobalMemoryFunctions(asALLOCFUNC_t allocFunc, asFREEFUNC_t freeFunc)
 {
+	// Clean-up thread local memory before changing the allocation routines to avoid 
+	// potential problem with trying to free memory using a different allocation
+	// routine than used when allocating it.
+	asThreadCleanup();
+
 	userAlloc = allocFunc;
 	userFree  = freeFunc;
 
@@ -151,6 +156,9 @@ int asSetGlobalMemoryFunctions(asALLOCFUNC_t allocFunc, asFREEFUNC_t freeFunc)
 // interface
 int asResetGlobalMemoryFunctions()
 {
+	// Clean-up thread local memory before changing the allocation routines to avoid 
+	// potential problem with trying to free memory using a different allocation
+	// routine than used when allocating it.
 	asThreadCleanup();
 
 	userAlloc = malloc;

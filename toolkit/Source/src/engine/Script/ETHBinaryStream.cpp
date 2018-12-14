@@ -30,7 +30,7 @@ ETHBinaryStream::ETHBinaryStream(const Platform::FileManagerPtr& fileManager) :
 {
 }
 
-void ETHBinaryStream::Read(void *ptr, asUINT size)
+int ETHBinaryStream::Read(void *ptr, asUINT size)
 {
 	assert(m_buffer->GetAddress());
 	if (m_inCarret + size > static_cast<unsigned int>(m_buffer->GetBufferSize()))
@@ -39,15 +39,17 @@ void ETHBinaryStream::Read(void *ptr, asUINT size)
 	}
 	memcpy(ptr, &(m_buffer->GetAddress()[m_inCarret]), size);
 	m_inCarret += size;
+	return 1;
 }
 
-void ETHBinaryStream::Write(const void *ptr, asUINT size)
+int ETHBinaryStream::Write(const void *ptr, asUINT size)
 {
 	assert(m_out != 0);
 	if (m_out)
 	{
 		fwrite(ptr, 1, size, m_out);
 	}
+	return 1;
 }
 
 str_type::string ETHBinaryStream::GetFileName() const

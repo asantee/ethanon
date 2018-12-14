@@ -419,7 +419,7 @@ bool ETHEngine::BuildModule(const std::vector<gs2d::str_type::string>& definedWo
 			return false;
 
 		// Gets the recently built module
-		m_pASModule = CScriptBuilder::GetModule(m_pASEngine, ETH_SCRIPT_MODULE);
+		m_pASModule = builder.GetModule();
 
 		// Writes the compiled byte code to file
 		{
@@ -458,12 +458,12 @@ bool ETHEngine::BuildModule(const std::vector<gs2d::str_type::string>& definedWo
 		}
 		#endif
 	}
-	else // otherwiser, try to load the bytecode
+	else // otherwise, try to load the bytecode
 	{
 		ETH_STREAM_DECL(ss) << GS_L("Loading game script from pre-compiled byte code: ") << ETH_DEFAULT_MAIN_BYTECODE_FILE << std::endl;
 		m_provider->Log(ss.str(), Platform::Logger::INFO);
 	
-		m_pASModule = CScriptBuilder::GetModule(m_pASEngine, ETH_SCRIPT_MODULE, asGM_ALWAYS_CREATE);
+		m_pASModule = m_pASEngine->GetModule(ETH_SCRIPT_MODULE.c_str(), asGM_ALWAYS_CREATE);
 		ETHBinaryStream stream(m_provider->GetFileManager());
 		if (stream.OpenR(byteCodeReadFile))
 		{

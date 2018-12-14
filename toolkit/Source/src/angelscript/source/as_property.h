@@ -1,24 +1,24 @@
 /*
    AngelCode Scripting Library
-   Copyright (c) 2003-2014 Andreas Jonsson
+   Copyright (c) 2003-2017 Andreas Jonsson
 
-   This software is provided 'as-is', without any express or implied 
-   warranty. In no event will the authors be held liable for any 
+   This software is provided 'as-is', without any express or implied
+   warranty. In no event will the authors be held liable for any
    damages arising from the use of this software.
 
-   Permission is granted to anyone to use this software for any 
-   purpose, including commercial applications, and to alter it and 
+   Permission is granted to anyone to use this software for any
+   purpose, including commercial applications, and to alter it and
    redistribute it freely, subject to the following restrictions:
 
-   1. The origin of this software must not be misrepresented; you 
+   1. The origin of this software must not be misrepresented; you
       must not claim that you wrote the original software. If you use
-      this software in a product, an acknowledgment in the product 
+      this software in a product, an acknowledgment in the product
       documentation would be appreciated but is not required.
 
-   2. Altered source versions must be plainly marked as such, and 
+   2. Altered source versions must be plainly marked as such, and
       must not be misrepresented as being the original software.
 
-   3. This notice may not be removed or altered from any source 
+   3. This notice may not be removed or altered from any source
       distribution.
 
    The original version of this library can be located at:
@@ -53,13 +53,17 @@ struct asSNameSpace;
 class asCObjectProperty
 {
 public:
-	asCObjectProperty() {accessMask = 0xFFFFFFFF;}
-	asCObjectProperty(const asCObjectProperty &o) : name(o.name), type(o.type), byteOffset(o.byteOffset), isPrivate(o.isPrivate), accessMask(o.accessMask) {}
+	asCObjectProperty() : byteOffset(0), accessMask(0xFFFFFFFF), compositeOffset(0), isCompositeIndirect(false), isPrivate(false), isProtected(false), isInherited(false) {}
+	asCObjectProperty(const asCObjectProperty &o) : name(o.name), type(o.type), byteOffset(o.byteOffset), accessMask(o.accessMask), compositeOffset(o.compositeOffset), isCompositeIndirect(o.isCompositeIndirect), isPrivate(o.isPrivate), isProtected(o.isProtected), isInherited(o.isInherited) {}
 	asCString   name;
 	asCDataType type;
 	int         byteOffset;
-	bool		isPrivate;
 	asDWORD     accessMask;
+	int         compositeOffset;
+	bool        isCompositeIndirect;
+	bool        isPrivate;
+	bool        isProtected;
+	bool        isInherited;
 };
 
 class asCGlobalProperty
@@ -70,7 +74,7 @@ public:
 
 	void AddRef();
 	void Release();
-	int  GetRefCount();
+	void DestroyInternal();
 
 	void *GetAddressOfValue();
 	void  AllocateMemory();
@@ -85,16 +89,7 @@ public:
 	void SetInitFunc(asCScriptFunction *initFunc);
 	asCScriptFunction *GetInitFunc();
 
-	static void RegisterGCBehaviours(asCScriptEngine *engine);
-
 //protected:
-	void SetGCFlag();
-	bool GetGCFlag();
-	void EnumReferences(asIScriptEngine *);
-	void ReleaseAllHandles(asIScriptEngine *);
-
-	void Orphan(asCModule *module);
-
 	// This is only stored for registered properties, and keeps the pointer given by the application
 	void       *realAddress;
 
@@ -109,7 +104,6 @@ public:
 	// The global property structure is reference counted, so that the
 	// engine can keep track of how many references to the property there are.
 	asCAtomic refCount;
-	bool      gcFlag;
 };
 
 class asCCompGlobPropType : public asIFilter

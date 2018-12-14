@@ -14,7 +14,7 @@
             "name": "storage.type.ethanon"
         }, 
         {
-            "match": "\\b(private|const|in|inout|out|array)\\b", 
+            "match": "\\b(protected|private|const|in|inout|out|array)\\b", 
             "name": "storage.modifier.ethanon"
         },
         {

@@ -1,6 +1,6 @@
 /*
    AngelCode Scripting Library
-   Copyright (c) 2003-2014 Andreas Jonsson
+   Copyright (c) 2003-2015 Andreas Jonsson
 
    This software is provided 'as-is', without any express or implied
    warranty. In no event will the authors be held liable for any
@@ -167,7 +167,7 @@ static asQWORD GetReturnedDouble()
 	return ret;
 }
 
-asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, void *obj, asDWORD *args, void *retPointer, asQWORD &/*retQW2*/)
+asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, void *obj, asDWORD *args, void *retPointer, asQWORD &/*retQW2*/, void *secondObject)
 {
 	asCScriptEngine *engine = context->m_engine;
 	asSSystemFunctionInterface *sysFunc = descr->sysFuncIntf;
@@ -197,11 +197,6 @@ asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, 
 		callConv == ICC_VIRTUAL_THISCALL ||
 		callConv == ICC_VIRTUAL_THISCALL_RETURNINMEM )
 #else
-	// Unpack the two object pointers
-	void **objectsPtrs  = (void**)obj;
-	void  *secondObject = objectsPtrs[1];
-	obj                 = objectsPtrs[0];
-
 	// Optimization to avoid check 12 values (all ICC_ that contains THISCALL)
 	if( (callConv >= ICC_THISCALL && callConv <= ICC_VIRTUAL_THISCALL_RETURNINMEM) ||
 		(callConv >= ICC_THISCALL_OBJLAST && callConv <= ICC_VIRTUAL_THISCALL_OBJFIRST_RETURNINMEM) )
@@ -253,7 +248,7 @@ asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, 
 		if( descr->parameterTypes[n].IsObject() && !descr->parameterTypes[n].IsObjectHandle() && !descr->parameterTypes[n].IsReference() )
 		{
 			if( descr->parameterTypes[n].GetSizeInMemoryDWords() >= AS_LARGE_OBJ_MIN_SIZE ||
-				(descr->parameterTypes[n].GetObjectType()->flags & COMPLEX_MASK) )
+				(descr->parameterTypes[n].GetTypeInfo()->flags & COMPLEX_MASK) )
 			{
 				allArgBuffer[dpos++] = *(asQWORD*)&args[spos];
 				spos += AS_PTR_SIZE;
