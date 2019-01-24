@@ -159,6 +159,8 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 
 	CreateDynamicBackBuffer(file);
 
+	m_drawableManager.Clear();
+
 	if (!m_pASEngine)
 	{
 		if (m_autoStartScriptEngine)
