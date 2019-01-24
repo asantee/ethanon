@@ -63,7 +63,6 @@ SpritePtr splashSprite, cogSprite;
 ETHEnginePtr engine;
 
 std::string  g_inputStr;
-static float g_globalVolume = 1.0f;
 
 JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_start(
 	JNIEnv* env, jobject thiz, jstring apkPath, jstring externalPath, jstring globalPath, jint width, jint height)
@@ -80,7 +79,6 @@ JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_start(
 	audio = CreateAudio(0);
 
 	video->ResetVideoMode(width, height, Texture::PF_DEFAULT, false);
-	audio->SetGlobalVolume(g_globalVolume);
 
 	splashSprite = video->CreateSprite(GS_L("assets/data/splash.png"));
 	splashSprite->SetOrigin(gs2d::Sprite::EO_CENTER);
@@ -207,7 +205,6 @@ JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_destroy(JNIEnv* env, job
 	if (video && audio)
 	{
 		video->Message(GS_L("Application resources destroyed"), GSMT_INFO);
-		g_globalVolume = audio->GetGlobalVolume();
 	}
 	return env->NewStringUTF(GS_L(""));
 }
