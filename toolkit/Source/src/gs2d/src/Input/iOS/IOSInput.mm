@@ -111,23 +111,32 @@ bool IOSInput::Update()
 
 		Joystick& joystick = m_joysticks[t];
 
-		joystick.state[GSB_01].Update([[gamepad buttonY] isPressed]);
-		joystick.state[GSB_02].Update([[gamepad buttonB] isPressed]);
-		joystick.state[GSB_03].Update([[gamepad buttonA] isPressed]);
-		joystick.state[GSB_04].Update([[gamepad buttonX] isPressed]);
+		joystick.state[GSB_01].Update([[gamepad buttonY] isPressed] || [[gamepad buttonY] value] > 0.05f);
+		joystick.state[GSB_02].Update([[gamepad buttonB] isPressed] || [[gamepad buttonB] value] > 0.05f);
+		joystick.state[GSB_03].Update([[gamepad buttonA] isPressed] || [[gamepad buttonA] value] > 0.05f);
+		joystick.state[GSB_04].Update([[gamepad buttonX] isPressed] || [[gamepad buttonX] value] > 0.05f);
 
-		joystick.state[GSB_05].Update([[gamepad  leftShoulder] isPressed]);
-		joystick.state[GSB_06].Update([[gamepad rightShoulder] isPressed]);
+		joystick.state[GSB_05].Update([[gamepad  leftShoulder] isPressed] || [[gamepad  leftShoulder] value] > 0.0f);
+		joystick.state[GSB_06].Update([[gamepad rightShoulder] isPressed] || [[gamepad rightShoulder] value] > 0.0f);
 
 		joystick.state[GSB_10].Update(m_forcePause);
 
-		joystick.xy.x = [[gamepad dpad] xAxis].value;
-		joystick.xy.y = [[gamepad dpad] yAxis].value;
+		const Vector2 dpad([[gamepad dpad] xAxis].value, [[gamepad dpad] yAxis].value);
 
-		joystick.state[GSB_LEFT].Update(joystick.xy.x < -0.8f);
-		joystick.state[GSB_RIGHT].Update(joystick.xy.x > 0.8f);
-		joystick.state[GSB_UP].Update(joystick.xy.y > 0.8f);
-		joystick.state[GSB_DOWN].Update(joystick.xy.y < -0.8f);
+		Vector2 leftThumbstick(0.0f, 0.0f);
+ 
+		if ([controller extendedGamepad])
+		{
+			GCExtendedGamepad* exGamepad = [controller extendedGamepad];
+			leftThumbstick.x = [[exGamepad leftThumbstick] xAxis].value;
+			leftThumbstick.y = [[exGamepad leftThumbstick] yAxis].value;
+			joystick.xy = leftThumbstick;
+		}
+
+		joystick.state[GSB_LEFT ].Update(leftThumbstick.x < -0.8f || dpad.x < -0.15f);
+		joystick.state[GSB_RIGHT].Update(leftThumbstick.x >  0.8f || dpad.x >  0.15f);
+		joystick.state[GSB_UP   ].Update(leftThumbstick.y >  0.8f || dpad.y >  0.15f);
+		joystick.state[GSB_DOWN ].Update(leftThumbstick.y < -0.8f || dpad.y < -0.15f);
 	}
 	m_forcePause =  false;
 	return MobileInput::Update();
