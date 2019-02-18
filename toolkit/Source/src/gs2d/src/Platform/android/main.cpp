@@ -61,6 +61,7 @@ AudioPtr audio;
 boost::shared_ptr<Platform::ZipFileManager> zip;
 SpritePtr splashSprite, cogSprite;
 ETHEnginePtr engine;
+Vector2 lastCameraPos(0.0f, 0.0f);
 
 std::string  g_inputStr;
 
@@ -77,6 +78,8 @@ JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_start(
 	video = CreateVideo(width, height, fileIOHub);
 	input = CreateInput(&g_inputStr, true);
 	audio = CreateAudio(0);
+
+	video->SetCameraPos(lastCameraPos);
 
 	video->ResetVideoMode(width, height, Texture::PF_DEFAULT, false);
 
@@ -169,7 +172,11 @@ JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_mainLoop(JNIEnv* env, jo
 		// Do default main loop
 		const float lastFrameElapsedTime = ComputeElapsedTimeF(video);
 		application->Update(Min(1000.0f, lastFrameElapsedTime));
+
+		lastCameraPos = video->GetCameraPos();
+
 		application->RenderFrame();
+
 	}
 	else
 	{
