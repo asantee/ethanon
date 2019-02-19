@@ -111,10 +111,10 @@ bool IOSInput::Update()
 
 		Joystick& joystick = m_joysticks[t];
 
-		joystick.state[GSB_01].Update([[gamepad buttonY] isPressed] || [[gamepad buttonY] value] > 0.05f);
-		joystick.state[GSB_02].Update([[gamepad buttonB] isPressed] || [[gamepad buttonB] value] > 0.05f);
-		joystick.state[GSB_03].Update([[gamepad buttonA] isPressed] || [[gamepad buttonA] value] > 0.05f);
-		joystick.state[GSB_04].Update([[gamepad buttonX] isPressed] || [[gamepad buttonX] value] > 0.05f);
+		joystick.state[GSB_01].Update([[gamepad buttonY] isPressed] || [[gamepad buttonY] value] > 0.01f);
+		joystick.state[GSB_02].Update([[gamepad buttonB] isPressed] || [[gamepad buttonB] value] > 0.01f);
+		joystick.state[GSB_03].Update([[gamepad buttonA] isPressed] || [[gamepad buttonA] value] > 0.01f);
+		joystick.state[GSB_04].Update([[gamepad buttonX] isPressed] || [[gamepad buttonX] value] > 0.01f);
 
 		joystick.state[GSB_05].Update([[gamepad  leftShoulder] isPressed] || [[gamepad  leftShoulder] value] > 0.0f);
 		joystick.state[GSB_06].Update([[gamepad rightShoulder] isPressed] || [[gamepad rightShoulder] value] > 0.0f);
@@ -133,10 +133,10 @@ bool IOSInput::Update()
 			joystick.xy = leftThumbstick;
 		}
 
-		joystick.state[GSB_LEFT ].Update(leftThumbstick.x < -0.8f || dpad.x < -0.15f);
-		joystick.state[GSB_RIGHT].Update(leftThumbstick.x >  0.8f || dpad.x >  0.15f);
-		joystick.state[GSB_UP   ].Update(leftThumbstick.y >  0.8f || dpad.y >  0.15f);
-		joystick.state[GSB_DOWN ].Update(leftThumbstick.y < -0.8f || dpad.y < -0.15f);
+		joystick.state[GSB_LEFT ].Update(leftThumbstick.x < -0.8f || dpad.x < -0.05f);
+		joystick.state[GSB_RIGHT].Update(leftThumbstick.x >  0.8f || dpad.x >  0.05f);
+		joystick.state[GSB_UP   ].Update(leftThumbstick.y >  0.8f || dpad.y >  0.05f);
+		joystick.state[GSB_DOWN ].Update(leftThumbstick.y < -0.8f || dpad.y < -0.05f);
 	}
 	m_forcePause =  false;
 	return MobileInput::Update();
