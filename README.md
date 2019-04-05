@@ -36,13 +36,14 @@ Windows
 -------
 
 - Use Visual Studio 2008 (9.0)
-- Run **make_deploy.bat** to deploy all platform libraries and binaries.
+- Unpack the following files located at **toolkit/Source/src/gs2d/vendors**:
+  - vendors.zip
 
 Mac OS X
 --------
 
 - Use Xcode
 - Unpack the following files located at **toolkit/Source/src/gs2d/vendors**:
-  - vendors.7z (for the BoostSDK/)
+  - vendors.zip
   - Cg.framework.zip
   - SDL2.framework.zip
