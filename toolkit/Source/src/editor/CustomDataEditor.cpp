@@ -154,7 +154,7 @@ void CustomDataEditor::InputVariableName(ETHEntity* pEntity, EditorBase *pEditor
 
 void CustomDataEditor::ShowInScreenCustomData(const ETHEntity* pEntity, EditorBase *pEditor) const
 {
-	std::map<str_type::string, ETHCustomDataPtr> dataMap;
+	tsl::hopscotch_map<str_type::string, ETHCustomDataPtr> dataMap;
 	pEntity->GetCustomDataManager()->CopyMap(dataMap);
 
 	const Vector2 v2Pos(pEntity->GetPositionXY()-Vector2(0,pEntity->GetPosition().z)
@@ -207,10 +207,10 @@ void CustomDataEditor::Rebuild(const ETHEntity* pEntity, EditorBase *pEditor)
 	m_customDataButtonList.SetupMenu(pEditor->GetVideoHandler(), pEditor->GetInputHandler(),
 		pEditor->GetMenuSize(), pEditor->GetMenuWidth()*2, true, true, false);
 
-	std::map<str_type::string, ETHCustomDataPtr> dataMap;
+	tsl::hopscotch_map<str_type::string, ETHCustomDataPtr> dataMap;
 	pEntity->GetCustomDataManager()->CopyMap(dataMap);
 
-	for (std::map<str_type::string, ETHCustomDataPtr>::const_iterator iter = dataMap.begin();
+	for (tsl::hopscotch_map<str_type::string, ETHCustomDataPtr>::const_iterator iter = dataMap.begin();
 		 iter != dataMap.end(); ++iter)
 	{
 		const ETHCustomDataPtr& data = iter->second;
