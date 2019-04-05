@@ -167,3 +167,6 @@ toolkit/Source/projects/xcode/iOS/iOSBase/iOSBase.xcodeproj/project.xcworkspace/
 egg.textClipping
 
 *.xcscmblueprint
+toolkit/Source/src/gs2d/vendors/fmod/lib/readme.txt
+toolkit/Source/src/gs2d/vendors/fmod/lib/libfmod.dylib
+toolkit/Source/src/gs2d/vendors/fmod/lib/libfmodL.dylib
