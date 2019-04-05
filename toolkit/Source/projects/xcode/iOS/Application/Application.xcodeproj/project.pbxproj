@@ -1582,7 +1582,7 @@
 		74E6E4E21A30EFB500E89172 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0930;
+				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = "Asantee Games";
 				TargetAttributes = {
 					74E6E4E91A30EFB500E89172 = {
@@ -1595,10 +1595,11 @@
 			};
 			buildConfigurationList = 74E6E4E51A30EFB500E89172 /* Build configuration list for PBXProject "Application" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 74E6E4E11A30EFB500E89172;
 			productRefGroup = 74E6E4EB1A30EFB500E89172 /* Products */;
