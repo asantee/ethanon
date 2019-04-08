@@ -62,7 +62,7 @@ public:
 	// Returns  1 if the file was included
 	//          0 if the file had already been included before
 	//         <0 on error
-	int AddSectionFromFile(const char *filename);
+	int AddSectionFromFile(const char *filename, const char *resourcedirectory);
 
 	// Load a script section from memory
 	// Returns  1 if the section was included
@@ -70,6 +70,7 @@ public:
 	//         <0 on error
 	int AddSectionFromMemory(const char *sectionName,
 							 const char *scriptCode,
+							 const char *resourcedirectory,
 							 unsigned int scriptLength = 0,
 							 int lineOffset = 0);
 
@@ -109,8 +110,8 @@ public:
 protected:
 	void ClearAll();
 	int  Build();
-	int  ProcessScriptSection(const char *script, unsigned int length, const char *sectionname, int lineOffset);
-	int  LoadScriptSection(const char *filename);
+	int  ProcessScriptSection(const char *script, unsigned int length, const char *sectionname, const char *resourcedirectory, int lineOffset);
+	int  LoadScriptSection(const char *filename, const char *resourcedirectory);
 	bool IncludeIfNotAlreadyIncluded(const char *filename);
 
 	int  SkipStatement(int pos);

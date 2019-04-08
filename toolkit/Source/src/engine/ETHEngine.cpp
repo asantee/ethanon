@@ -405,7 +405,7 @@ bool ETHEngine::BuildModule(const std::vector<gs2d::str_type::string>& definedWo
 		if (!CheckAngelScriptError(r < 0, GS_L("Failed while starting the new module.")))
 			return false;
 
-		r = builder.AddSectionFromFile(mainScript.c_str());
+		r = builder.AddSectionFromFile(mainScript.c_str(), m_provider->GetFileIOHub()->GetResourceDirectory().c_str());
 		str_type::stringstream ss;
 		ss << GS_L("Failed while loading the main script. Verify the ") << mainScript << GS_L(" file");
 		if (!CheckAngelScriptError(r < 0, ss.str()))

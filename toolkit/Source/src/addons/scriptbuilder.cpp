@@ -77,7 +77,7 @@ string CScriptBuilder::GetSectionName(unsigned int idx) const
 // Returns 1 if the section was included
 // Returns 0 if the section was not included because it had already been included before
 // Returns <0 if there was an error
-int CScriptBuilder::AddSectionFromFile(const char *filename)
+int CScriptBuilder::AddSectionFromFile(const char *filename, const char *resourcedirectory)
 {
 	// The file name stored in the set should be the fully resolved name because
 	// it is possible to name the same file in multiple ways using relative paths.
@@ -85,7 +85,7 @@ int CScriptBuilder::AddSectionFromFile(const char *filename)
 
 	if( IncludeIfNotAlreadyIncluded(fullpath.c_str()) )
 	{
-		int r = LoadScriptSection(fullpath.c_str());
+		int r = LoadScriptSection(fullpath.c_str(), resourcedirectory);
 		if( r < 0 )
 			return r;
 		else
@@ -98,11 +98,11 @@ int CScriptBuilder::AddSectionFromFile(const char *filename)
 // Returns 1 if the section was included
 // Returns 0 if the section was not included because it had already been included before
 // Returns <0 if there was an error
-int CScriptBuilder::AddSectionFromMemory(const char *sectionName, const char *scriptCode, unsigned int scriptLength, int lineOffset)
+int CScriptBuilder::AddSectionFromMemory(const char *sectionName, const char *scriptCode, const char *resourcedirectory, unsigned int scriptLength, int lineOffset)
 {
 	if( IncludeIfNotAlreadyIncluded(sectionName) )
 	{
-		int r = ProcessScriptSection(scriptCode, scriptLength, sectionName, lineOffset);
+		int r = ProcessScriptSection(scriptCode, scriptLength, sectionName, resourcedirectory, lineOffset);
 		if( r < 0 )
 			return r;
 		else
@@ -156,7 +156,7 @@ bool CScriptBuilder::IncludeIfNotAlreadyIncluded(const char *filename)
 	return true;
 }
 
-int CScriptBuilder::LoadScriptSection(const char *filename)
+int CScriptBuilder::LoadScriptSection(const char *filename, const char *resourcedirectory)
 {
 	// Open the script file
 	string code;
@@ -172,10 +172,10 @@ int CScriptBuilder::LoadScriptSection(const char *filename)
 	}
 
 	// Process the script section even if it is zero length so that the name is registered
-	return ProcessScriptSection(code.c_str(), (unsigned int)(code.length()), filename, 0);
+	return ProcessScriptSection(code.c_str(), (unsigned int)(code.length()), filename, resourcedirectory, 0);
 }
 
-int CScriptBuilder::ProcessScriptSection(const char *script, unsigned int length, const char *sectionname, int lineOffset)
+int CScriptBuilder::ProcessScriptSection(const char *script, unsigned int length, const char *sectionname, const char *resourcedirectory, int lineOffset)
 {
 	vector<string> includes;
 
@@ -435,7 +435,15 @@ int CScriptBuilder::ProcessScriptSection(const char *script, unsigned int length
 
 	// Build the actual script
 	engine->SetEngineProperty(asEP_COPY_SCRIPT_SECTIONS, true);
-	module->AddScriptSection(sectionname, modifiedScript.c_str(), modifiedScript.size(), lineOffset);
+
+	// remove resource directory from section name
+	const std::string resourceDirectory = resourcedirectory;
+	std::string shortSectionName = sectionname;
+	if (shortSectionName.find(resourceDirectory) == 0)
+	{
+		shortSectionName = shortSectionName.substr(resourceDirectory.length(), std::string::npos);
+	}
+	module->AddScriptSection(shortSectionName.c_str(), modifiedScript.c_str(), modifiedScript.size(), lineOffset);
 
 	if( includes.size() > 0 )
 	{
@@ -472,7 +480,7 @@ int CScriptBuilder::ProcessScriptSection(const char *script, unsigned int length
 				}
 
 				// Include the script section
-				int r = AddSectionFromFile(includes[n].c_str());
+				int r = AddSectionFromFile(includes[n].c_str(), resourcedirectory);
 				if( r < 0 )
 					return r;
 			}
