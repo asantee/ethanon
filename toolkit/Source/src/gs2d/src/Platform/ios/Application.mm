@@ -101,6 +101,14 @@ void ApplicationWrapper::Destroy()
 	g_engine->Destroy();
 }
 
+void ApplicationWrapper::Restore()
+{
+	if (g_engine)
+	{
+		g_engine->Restore();
+	}
+}
+
 gs2d::math::Vector2 ApplicationWrapper::GetScreenSize(GLKView *view)
 {
 	return gs2d::math::Vector2(
