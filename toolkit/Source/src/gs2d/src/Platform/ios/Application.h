@@ -6,6 +6,9 @@
 //  Copyright (c) 2014 Asantee Games. All rights reserved.
 //
 
+#ifndef GS2D_IOS_APPLICATION_H_
+#define GS2D_IOS_APPLICATION_H_
+
 #import <Foundation/Foundation.h>
 
 #import <UIKit/UIKit.h>
@@ -32,6 +35,7 @@ public:
 	void Update();
 	void RenderFrame(GLKView *view);
 	void Destroy();
+	static void Restore();
 
 	void DetectJoysticks();
 	void ForceGamepadPause();
@@ -47,3 +51,5 @@ public:
 
 	static Platform::NativeCommandManager m_commandManager;
 };
+
+#endif
