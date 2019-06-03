@@ -1,6 +1,6 @@
 /* ========================================================================================== */
 /* FMOD Studio - Built-in effects header file.                                                */
-/* Copyright (c), Firelight Technologies Pty, Ltd. 2004-2017.                                 */
+/* Copyright (c), Firelight Technologies Pty, Ltd. 2004-2019.                                 */
 /*                                                                                            */
 /* In this header you can find parameter structures for FMOD system registered DSP effects    */
 /* and generators.                                                                            */
@@ -58,7 +58,7 @@ typedef enum
     FMOD_DSP_TYPE_THREE_EQ,           /* This unit is a three-band equalizer. */
     FMOD_DSP_TYPE_FFT,                /* This unit simply analyzes the signal and provides spectrum information back through getParameter. */
     FMOD_DSP_TYPE_LOUDNESS_METER,     /* This unit analyzes the loudness and true peak of the signal. */
-    FMOD_DSP_TYPE_ENVELOPEFOLLOWER,   /* This unit tracks the envelope of the input/sidechain signal. Format to be publicly disclosed soon. */
+    FMOD_DSP_TYPE_ENVELOPEFOLLOWER,   /* This unit tracks the envelope of the input/sidechain signal. Deprecated and will be removed in a future release. */
     FMOD_DSP_TYPE_CONVOLUTIONREVERB,  /* This unit implements convolution reverb. */
     FMOD_DSP_TYPE_CHANNELMIX,         /* This unit provides per signal channel gain, and output channel mapping to allow 1 multichannel signal made up of many groups of signals to map to a single output signal. */
     FMOD_DSP_TYPE_TRANSCEIVER,        /* This unit 'sends' and 'receives' from a selection of up to 32 different slots.  It is like a send/return but it uses global slots rather than returns as the destination.  It also has other features.  Multiple transceivers can receive from a single channel, or multiple transceivers can send to a single channel, or a combination of both. */
@@ -212,6 +212,27 @@ typedef enum
     FMOD_DSP_ECHO_DRYLEVEL,    /* (Type:float) - Original sound volume in dB.  -80.0 to 10.0.  Default = 0. */
     FMOD_DSP_ECHO_WETLEVEL     /* (Type:float) - Volume of echo signal to pass to output in dB.  -80.0 to 10.0.  Default = 0. */
 } FMOD_DSP_ECHO;
+
+
+/*
+[ENUM]
+[
+    [DESCRIPTION]
+    Parameter types for the FMOD_DSP_TYPE_FADER filter.
+
+    [REMARKS]
+
+    [SEE_ALSO]
+    DSP::setParameterFloat
+    DSP::getParameterFloat
+    FMOD_DSP_TYPE
+]
+*/
+typedef enum FMOD_DSP_FADER
+{
+    FMOD_DSP_FADER_GAIN,            /* (Type:float) - Signal gain in dB. -80.0 to 10.0. Default = 0.0. */
+    FMOD_DSP_FADER_OVERALL_GAIN,    /* (Type:data)  - Overall gain. For information only, not set by user. Data of type FMOD_DSP_PARAMETER_DATA_TYPE_OVERALLGAIN to provide to FMOD, to allow FMOD to know the DSP is scaling the signal for virtualization purposes. */
+} FMOD_DSP_FADER;
 
 
 /*
@@ -466,7 +487,7 @@ typedef enum
     Parameter types for the FMOD_DSP_TYPE_CHORUS filter.
 
     [REMARKS]
-    Chorous is an effect where the sound is more 'spacious' due to 1 to 3 versions of the sound being played along side the original signal but with the pitch of each copy modulating on a sine wave.<br>
+    Chorus is an effect where the sound is more 'spacious' due to 1 to 3 versions of the sound being played along side the original signal but with the pitch of each copy modulating on a sine wave.<br>
 
     [SEE_ALSO]
     DSP::setParameterFloat
@@ -897,7 +918,8 @@ typedef enum
     FMOD_DSP_PAN_3D_PAN_BLEND,                  /* (Type:float) - 3D Pan Blend.              0.0 (fully 2D) to 1.0 (fully 3D).  Default = 0.0. */
     FMOD_DSP_PAN_LFE_UPMIX_ENABLED,             /* (Type:int)   - LFE Upmix Enabled.         Determines whether non-LFE source channels should mix to the LFE or leave it alone.  0 (off) to 1 (on).  Default = 0 (off). */
     FMOD_DSP_PAN_OVERALL_GAIN,                  /* (Type:data)  - Overall gain.              For information only, not set by user.  Data of type FMOD_DSP_PARAMETER_DATA_TYPE_OVERALLGAIN to provide to FMOD, to allow FMOD to know the DSP is scaling the signal for virtualization purposes. */
-    FMOD_DSP_PAN_SURROUND_SPEAKER_MODE          /* (Type:int)   - Surround speaker mode.     Target speaker mode for surround panning.  Default = FMOD_SPEAKERMODE_DEFAULT. */
+    FMOD_DSP_PAN_SURROUND_SPEAKER_MODE,         /* (Type:int)   - Surround speaker mode.     Target speaker mode for surround panning.  Default = FMOD_SPEAKERMODE_DEFAULT. */
+    FMOD_DSP_PAN_2D_HEIGHT_BLEND,               /* (Type:float) - 2D Height blend.           When the input or FMOD_DSP_PAN_SURROUND_SPEAKER_MODE has height speakers, control the blend between ground and height. -1.0 (push top speakers to ground), 0.0 (preserve top / ground separation), 1.0 (push ground speakers to top). Default = 0.0. */
 } FMOD_DSP_PAN;
 
 
@@ -1032,11 +1054,15 @@ typedef enum
 [ENUM]
 [  
     [DESCRIPTION]
+    Deprecated and will be removed in a future release.
+
     Parameter types for the FMOD_DSP_TYPE_ENVELOPEFOLLOWER unit.
     This is a simple envelope follower for tracking the signal level.<br>
 
     [REMARKS]
-    This unit does not affect the incoming signal
+    Deprecated and will be removed in a future release.
+
+    This unit does not affect the incoming signal.
     <br>
 
     [SEE_ALSO]
@@ -1074,7 +1100,7 @@ typedef enum
 */
 typedef enum
 {
-    FMOD_DSP_CONVOLUTION_REVERB_PARAM_IR,       /* (Type:data)  - [w]   16-bit reverb IR (short*) with an extra sample prepended to the start which specifies the number of channels. */
+    FMOD_DSP_CONVOLUTION_REVERB_PARAM_IR,       /* (Type:data)  - [w]   Array of signed 16-bit (short) PCM data to be used as reverb IR.  First member of the array should be a 16 bit value (short) which specifies the number of channels.  Array looks like [index 0=numchannels][index 1+ = raw 16 bit PCM data].  Data is copied internally so source can be freed. */
     FMOD_DSP_CONVOLUTION_REVERB_PARAM_WET,      /* (Type:float) - [r/w] Volume of echo signal to pass to output in dB.  -80.0 to 10.0.  Default = 0. */
     FMOD_DSP_CONVOLUTION_REVERB_PARAM_DRY,      /* (Type:float) - [r/w] Original sound volume in dB.  -80.0 to 10.0.  Default = 0. */
     FMOD_DSP_CONVOLUTION_REVERB_PARAM_LINKED    /* (Type:bool)  - [r/w] Linked - channels are mixed together before processing through the reverb.  Default = TRUE. */
@@ -1096,13 +1122,14 @@ typedef enum
 */
 typedef enum
 {
-    FMOD_DSP_CHANNELMIX_OUTPUT_DEFAULT,      /*  Output channel count = input channel count.  Mapping: See FMOD_SPEAKER enumeration. */
-    FMOD_DSP_CHANNELMIX_OUTPUT_ALLMONO,      /*  Output channel count = 1.  Mapping: Mono, Mono, Mono, Mono, Mono, Mono, ... (each channel all the way up to FMOD_MAX_CHANNEL_WIDTH channels are treated as if they were mono) */
-    FMOD_DSP_CHANNELMIX_OUTPUT_ALLSTEREO,    /*  Output channel count = 2.  Mapping: Left, Right, Left, Right, Left, Right, ... (each pair of channels is treated as stereo all the way up to FMOD_MAX_CHANNEL_WIDTH channels) */
-    FMOD_DSP_CHANNELMIX_OUTPUT_ALLQUAD,      /*  Output channel count = 4.  Mapping: Repeating pattern of Front Left, Front Right, Surround Left, Surround Right. */
-    FMOD_DSP_CHANNELMIX_OUTPUT_ALL5POINT1,   /*  Output channel count = 6.  Mapping: Repeating pattern of Front Left, Front Right, Center, LFE, Surround Left, Surround Right. */
-    FMOD_DSP_CHANNELMIX_OUTPUT_ALL7POINT1,   /*  Output channel count = 8.  Mapping: Repeating pattern of Front Left, Front Right, Center, LFE, Surround Left, Surround Right, Back Left, Back Right.  */
-    FMOD_DSP_CHANNELMIX_OUTPUT_ALLLFE        /*  Output channel count = 6.  Mapping: Repeating pattern of LFE in a 5.1 output signal.  */
+    FMOD_DSP_CHANNELMIX_OUTPUT_DEFAULT,         /*  Output channel count = input channel count.  Mapping: See FMOD_SPEAKER enumeration. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_ALLMONO,         /*  Output channel count = 1.  Mapping: Mono, Mono, Mono, Mono, Mono, Mono, ... (each channel all the way up to FMOD_MAX_CHANNEL_WIDTH channels are treated as if they were mono) */
+    FMOD_DSP_CHANNELMIX_OUTPUT_ALLSTEREO,       /*  Output channel count = 2.  Mapping: Left, Right, Left, Right, Left, Right, ... (each pair of channels is treated as stereo all the way up to FMOD_MAX_CHANNEL_WIDTH channels) */
+    FMOD_DSP_CHANNELMIX_OUTPUT_ALLQUAD,         /*  Output channel count = 4.  Mapping: Repeating pattern of Front Left, Front Right, Surround Left, Surround Right. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_ALL5POINT1,      /*  Output channel count = 6.  Mapping: Repeating pattern of Front Left, Front Right, Center, LFE, Surround Left, Surround Right. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_ALL7POINT1,      /*  Output channel count = 8.  Mapping: Repeating pattern of Front Left, Front Right, Center, LFE, Surround Left, Surround Right, Back Left, Back Right.  */
+    FMOD_DSP_CHANNELMIX_OUTPUT_ALLLFE,          /*  Output channel count = 6.  Mapping: Repeating pattern of LFE in a 5.1 output signal.  */
+    FMOD_DSP_CHANNELMIX_OUTPUT_ALL7POINT1POINT4 /*  Output channel count = 12. Mapping: Repeating pattern of Front Left, Front Right, Center, LFE, Surround Left, Surround Right, Back Left, Back Right, Top Front Left, Top Front Right, Top Back Left, Top Back Right.  */
 } FMOD_DSP_CHANNELMIX_OUTPUT;
 
 /*
@@ -1133,38 +1160,70 @@ typedef enum
 typedef enum
 {
     FMOD_DSP_CHANNELMIX_OUTPUTGROUPING,     /* (Type:int)   - Refer to FMOD_DSP_CHANNELMIX_OUTPUT enumeration.  Default = FMOD_DSP_CHANNELMIX_OUTPUT_DEFAULT.  See remarks. */
-    FMOD_DSP_CHANNELMIX_GAIN_CH0,           /* (Type:float) - Channel  #0 gain in dB.  -80.0 to 10.0.  Default = 0. */
-    FMOD_DSP_CHANNELMIX_GAIN_CH1,           /* (Type:float) - Channel  #1 gain in dB.  -80.0 to 10.0.  Default = 0. */
-    FMOD_DSP_CHANNELMIX_GAIN_CH2,           /* (Type:float) - Channel  #2 gain in dB.  -80.0 to 10.0.  Default = 0. */
-    FMOD_DSP_CHANNELMIX_GAIN_CH3,           /* (Type:float) - Channel  #3 gain in dB.  -80.0 to 10.0.  Default = 0. */
-    FMOD_DSP_CHANNELMIX_GAIN_CH4,           /* (Type:float) - Channel  #4 gain in dB.  -80.0 to 10.0.  Default = 0. */
-    FMOD_DSP_CHANNELMIX_GAIN_CH5,           /* (Type:float) - Channel  #5 gain in dB.  -80.0 to 10.0.  Default = 0. */
-    FMOD_DSP_CHANNELMIX_GAIN_CH6,           /* (Type:float) - Channel  #6 gain in dB.  -80.0 to 10.0.  Default = 0. */
-    FMOD_DSP_CHANNELMIX_GAIN_CH7,           /* (Type:float) - Channel  #7 gain in dB.  -80.0 to 10.0.  Default = 0. */
-    FMOD_DSP_CHANNELMIX_GAIN_CH8,           /* (Type:float) - Channel  #8 gain in dB.  -80.0 to 10.0.  Default = 0. */
-    FMOD_DSP_CHANNELMIX_GAIN_CH9,           /* (Type:float) - Channel  #9 gain in dB.  -80.0 to 10.0.  Default = 0. */
-    FMOD_DSP_CHANNELMIX_GAIN_CH10,          /* (Type:float) - Channel #10 gain in dB.  -80.0 to 10.0.  Default = 0. */
-    FMOD_DSP_CHANNELMIX_GAIN_CH11,          /* (Type:float) - Channel #11 gain in dB.  -80.0 to 10.0.  Default = 0. */
-    FMOD_DSP_CHANNELMIX_GAIN_CH12,          /* (Type:float) - Channel #12 gain in dB.  -80.0 to 10.0.  Default = 0. */
-    FMOD_DSP_CHANNELMIX_GAIN_CH13,          /* (Type:float) - Channel #13 gain in dB.  -80.0 to 10.0.  Default = 0. */
-    FMOD_DSP_CHANNELMIX_GAIN_CH14,          /* (Type:float) - Channel #14 gain in dB.  -80.0 to 10.0.  Default = 0. */
-    FMOD_DSP_CHANNELMIX_GAIN_CH15,          /* (Type:float) - Channel #15 gain in dB.  -80.0 to 10.0.  Default = 0. */
-    FMOD_DSP_CHANNELMIX_GAIN_CH16,          /* (Type:float) - Channel #16 gain in dB.  -80.0 to 10.0.  Default = 0. */
-    FMOD_DSP_CHANNELMIX_GAIN_CH17,          /* (Type:float) - Channel #17 gain in dB.  -80.0 to 10.0.  Default = 0. */
-    FMOD_DSP_CHANNELMIX_GAIN_CH18,          /* (Type:float) - Channel #18 gain in dB.  -80.0 to 10.0.  Default = 0. */
-    FMOD_DSP_CHANNELMIX_GAIN_CH19,          /* (Type:float) - Channel #19 gain in dB.  -80.0 to 10.0.  Default = 0. */
-    FMOD_DSP_CHANNELMIX_GAIN_CH20,          /* (Type:float) - Channel #20 gain in dB.  -80.0 to 10.0.  Default = 0. */
-    FMOD_DSP_CHANNELMIX_GAIN_CH21,          /* (Type:float) - Channel #21 gain in dB.  -80.0 to 10.0.  Default = 0. */
-    FMOD_DSP_CHANNELMIX_GAIN_CH22,          /* (Type:float) - Channel #22 gain in dB.  -80.0 to 10.0.  Default = 0. */
-    FMOD_DSP_CHANNELMIX_GAIN_CH23,          /* (Type:float) - Channel #23 gain in dB.  -80.0 to 10.0.  Default = 0. */
-    FMOD_DSP_CHANNELMIX_GAIN_CH24,          /* (Type:float) - Channel #24 gain in dB.  -80.0 to 10.0.  Default = 0. */
-    FMOD_DSP_CHANNELMIX_GAIN_CH25,          /* (Type:float) - Channel #25 gain in dB.  -80.0 to 10.0.  Default = 0. */
-    FMOD_DSP_CHANNELMIX_GAIN_CH26,          /* (Type:float) - Channel #26 gain in dB.  -80.0 to 10.0.  Default = 0. */
-    FMOD_DSP_CHANNELMIX_GAIN_CH27,          /* (Type:float) - Channel #27 gain in dB.  -80.0 to 10.0.  Default = 0. */
-    FMOD_DSP_CHANNELMIX_GAIN_CH28,          /* (Type:float) - Channel #28 gain in dB.  -80.0 to 10.0.  Default = 0. */
-    FMOD_DSP_CHANNELMIX_GAIN_CH29,          /* (Type:float) - Channel #29 gain in dB.  -80.0 to 10.0.  Default = 0. */
-    FMOD_DSP_CHANNELMIX_GAIN_CH30,          /* (Type:float) - Channel #30 gain in dB.  -80.0 to 10.0.  Default = 0. */
-    FMOD_DSP_CHANNELMIX_GAIN_CH31           /* (Type:float) - Channel #31 gain in dB.  -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_CHANNELMIX_GAIN_CH0,           /* (Type:float) - Input channel #0  gain in dB. -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_CHANNELMIX_GAIN_CH1,           /* (Type:float) - Input channel #1  gain in dB. -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_CHANNELMIX_GAIN_CH2,           /* (Type:float) - Input channel #2  gain in dB. -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_CHANNELMIX_GAIN_CH3,           /* (Type:float) - Input channel #3  gain in dB. -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_CHANNELMIX_GAIN_CH4,           /* (Type:float) - Input channel #4  gain in dB. -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_CHANNELMIX_GAIN_CH5,           /* (Type:float) - Input channel #5  gain in dB. -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_CHANNELMIX_GAIN_CH6,           /* (Type:float) - Input channel #6  gain in dB. -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_CHANNELMIX_GAIN_CH7,           /* (Type:float) - Input channel #7  gain in dB. -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_CHANNELMIX_GAIN_CH8,           /* (Type:float) - Input channel #8  gain in dB. -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_CHANNELMIX_GAIN_CH9,           /* (Type:float) - Input channel #9  gain in dB. -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_CHANNELMIX_GAIN_CH10,          /* (Type:float) - Input channel #10 gain in dB. -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_CHANNELMIX_GAIN_CH11,          /* (Type:float) - Input channel #11 gain in dB. -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_CHANNELMIX_GAIN_CH12,          /* (Type:float) - Input channel #12 gain in dB. -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_CHANNELMIX_GAIN_CH13,          /* (Type:float) - Input channel #13 gain in dB. -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_CHANNELMIX_GAIN_CH14,          /* (Type:float) - Input channel #14 gain in dB. -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_CHANNELMIX_GAIN_CH15,          /* (Type:float) - Input channel #15 gain in dB. -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_CHANNELMIX_GAIN_CH16,          /* (Type:float) - Input channel #16 gain in dB. -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_CHANNELMIX_GAIN_CH17,          /* (Type:float) - Input channel #17 gain in dB. -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_CHANNELMIX_GAIN_CH18,          /* (Type:float) - Input channel #18 gain in dB. -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_CHANNELMIX_GAIN_CH19,          /* (Type:float) - Input channel #19 gain in dB. -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_CHANNELMIX_GAIN_CH20,          /* (Type:float) - Input channel #20 gain in dB. -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_CHANNELMIX_GAIN_CH21,          /* (Type:float) - Input channel #21 gain in dB. -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_CHANNELMIX_GAIN_CH22,          /* (Type:float) - Input channel #22 gain in dB. -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_CHANNELMIX_GAIN_CH23,          /* (Type:float) - Input channel #23 gain in dB. -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_CHANNELMIX_GAIN_CH24,          /* (Type:float) - Input channel #24 gain in dB. -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_CHANNELMIX_GAIN_CH25,          /* (Type:float) - Input channel #25 gain in dB. -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_CHANNELMIX_GAIN_CH26,          /* (Type:float) - Input channel #26 gain in dB. -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_CHANNELMIX_GAIN_CH27,          /* (Type:float) - Input channel #27 gain in dB. -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_CHANNELMIX_GAIN_CH28,          /* (Type:float) - Input channel #28 gain in dB. -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_CHANNELMIX_GAIN_CH29,          /* (Type:float) - Input channel #29 gain in dB. -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_CHANNELMIX_GAIN_CH30,          /* (Type:float) - Input channel #30 gain in dB. -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_CHANNELMIX_GAIN_CH31,          /* (Type:float) - Input channel #31 gain in dB. -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_CH0,         /* (Type:int)   - Input channel #0  Output channel.   0 to 31.  Default = 0. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_CH1,         /* (Type:int)   - Input channel #1  Output channel.   0 to 31.  Default = 1. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_CH2,         /* (Type:int)   - Input channel #2  Output channel.   0 to 31.  Default = 2. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_CH3,         /* (Type:int)   - Input channel #3  Output channel.   0 to 31.  Default = 3. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_CH4,         /* (Type:int)   - Input channel #4  Output channel.   0 to 31.  Default = 4. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_CH5,         /* (Type:int)   - Input channel #5  Output channel.   0 to 31.  Default = 5. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_CH6,         /* (Type:int)   - Input channel #6  Output channel.   0 to 31.  Default = 6. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_CH7,         /* (Type:int)   - Input channel #7  Output channel.   0 to 31.  Default = 7. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_CH8,         /* (Type:int)   - Input channel #8  Output channel.   0 to 31.  Default = 8. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_CH9,         /* (Type:int)   - Input channel #9  Output channel.   0 to 31.  Default = 9. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_CH10,        /* (Type:int)   - Input channel #10 Output channel.   0 to 31.  Default = 10. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_CH11,        /* (Type:int)   - Input channel #11 Output channel.   0 to 31.  Default = 11. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_CH12,        /* (Type:int)   - Input channel #12 Output channel.   0 to 31.  Default = 12. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_CH13,        /* (Type:int)   - Input channel #13 Output channel.   0 to 31.  Default = 13. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_CH14,        /* (Type:int)   - Input channel #14 Output channel.   0 to 31.  Default = 14. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_CH15,        /* (Type:int)   - Input channel #15 Output channel.   0 to 31.  Default = 15. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_CH16,        /* (Type:int)   - Input channel #16 Output channel.   0 to 31.  Default = 16. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_CH17,        /* (Type:int)   - Input channel #17 Output channel.   0 to 31.  Default = 17. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_CH18,        /* (Type:int)   - Input channel #18 Output channel.   0 to 31.  Default = 18. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_CH19,        /* (Type:int)   - Input channel #19 Output channel.   0 to 31.  Default = 19. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_CH20,        /* (Type:int)   - Input channel #20 Output channel.   0 to 31.  Default = 20. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_CH21,        /* (Type:int)   - Input channel #21 Output channel.   0 to 31.  Default = 21. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_CH22,        /* (Type:int)   - Input channel #22 Output channel.   0 to 31.  Default = 22. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_CH23,        /* (Type:int)   - Input channel #23 Output channel.   0 to 31.  Default = 23. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_CH24,        /* (Type:int)   - Input channel #24 Output channel.   0 to 31.  Default = 24. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_CH25,        /* (Type:int)   - Input channel #25 Output channel.   0 to 31.  Default = 25. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_CH26,        /* (Type:int)   - Input channel #26 Output channel.   0 to 31.  Default = 26. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_CH27,        /* (Type:int)   - Input channel #27 Output channel.   0 to 31.  Default = 27. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_CH28,        /* (Type:int)   - Input channel #28 Output channel.   0 to 31.  Default = 28. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_CH29,        /* (Type:int)   - Input channel #29 Output channel.   0 to 31.  Default = 29. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_CH30,        /* (Type:int)   - Input channel #30 Output channel.   0 to 31.  Default = 30. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_CH31         /* (Type:int)   - Input channel #31 Output channel.   0 to 31.  Default = 31. */
 } FMOD_DSP_CHANNELMIX;
 
 /*

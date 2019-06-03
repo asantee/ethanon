@@ -2,7 +2,7 @@
 
 /* ======================================================================================== */
 /* FMOD Studio Low Level API - C header file.                                               */
-/* Copyright (c), Firelight Technologies Pty, Ltd. 2012-2017.                               */
+/* Copyright (c), Firelight Technologies Pty, Ltd. 2012-2019.                               */
 /*                                                                                          */
 /* Use this header in conjunction with fmod_common.h (which contains all the constants /    */
 /* callbacks) to develop using C interface.                                                 */
@@ -623,6 +623,7 @@ FMOD_RESULT F_API FMOD_DSP_GetUserData                  (FMOD_DSP *dsp, void **u
 FMOD_RESULT F_API FMOD_DSP_SetMeteringEnabled           (FMOD_DSP *dsp, FMOD_BOOL inputEnabled, FMOD_BOOL outputEnabled);
 FMOD_RESULT F_API FMOD_DSP_GetMeteringEnabled           (FMOD_DSP *dsp, FMOD_BOOL *inputEnabled, FMOD_BOOL *outputEnabled);
 FMOD_RESULT F_API FMOD_DSP_GetMeteringInfo              (FMOD_DSP *dsp, FMOD_DSP_METERING_INFO *inputInfo, FMOD_DSP_METERING_INFO *outputInfo);
+FMOD_RESULT F_API FMOD_DSP_GetCPUUsage                  (FMOD_DSP *dsp, unsigned int *exclusive, unsigned int *inclusive);
 
 /*
     'DSPConnection' API
