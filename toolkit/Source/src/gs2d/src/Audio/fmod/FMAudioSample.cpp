@@ -39,7 +39,9 @@ AudioSamplePtr FMAudioContext::LoadSampleFromFileInMemory(
 	const unsigned int bufferLength,
 	const Audio::SAMPLE_TYPE type)
 {
-	return AudioSamplePtr();
+	AudioSamplePtr sample = AudioSamplePtr(new FMAudioSample);
+	sample->LoadSampleFromFileInMemory(weak_this, pBuffer, bufferLength, type);
+	return sample;
 }
 
 Platform::FileLogger FMAudioSample::m_logger(Platform::FileLogger::GetLogDirectory() + "FMAudioSample.log.txt");
@@ -73,34 +75,16 @@ bool FMAudioSample::LoadSampleFromFile(
 	const Audio::SAMPLE_TYPE type)
 {
 	m_fileName = fileName;
-	try
+
+	Platform::FileBuffer out;
+	fileManager->GetFileBuffer(m_fileName, out);
+	if (!out)
 	{
-		Audio *pAudio = audio.lock().get();
-		m_system = boost::any_cast<FMOD::System*>(pAudio->GetAudioContext());
-	}
-	catch (const boost::bad_any_cast &)
-	{
-		str_type::stringstream ss;
-		ss << GS_L("FMAudioSample::LoadSampleFromFile: Invalid fmod system");
-		m_logger.Log(ss.str(), Platform::FileLogger::ERROR);
+		m_logger.Log(m_fileName + " could not load buffer", Platform::FileLogger::ERROR);
 		return false;
 	}
 
-	if (FMAudioContext::IsStreamable(type))
-	{
-		const FMOD_RESULT result = m_system->createStream(fileName.c_str(), FMOD_DEFAULT, 0, &m_sound);
-		if (FMOD_ERRCHECK(result, m_logger))
-			return false;
-	}
-	else
-	{
-		const FMOD_RESULT result = m_system->createSound(fileName.c_str(), FMOD_DEFAULT, 0, &m_sound);
-		if (FMOD_ERRCHECK(result, m_logger))
-			return false;
-	}
-
-	m_logger.Log(m_fileName + " file loaded", Platform::FileLogger::INFO);
-	return true;
+	return LoadSampleFromFileInMemory(audio, out->GetAddress(), out->GetBufferSize());
 }
 
 bool FMAudioSample::LoadSampleFromFileInMemory(
@@ -109,8 +93,39 @@ bool FMAudioSample::LoadSampleFromFileInMemory(
 	const unsigned int bufferLength,
 	const Audio::SAMPLE_TYPE type)
 {
-	// TODO
-	return false;
+	try
+	{
+		Audio *pAudio = audio.lock().get();
+		m_system = boost::any_cast<FMOD::System*>(pAudio->GetAudioContext());
+	}
+	catch (const boost::bad_any_cast &)
+	{
+		str_type::stringstream ss;
+		ss << GS_L("FMAudioSample::LoadSampleFromFileInMemory: Invalid fmod system");
+		m_logger.Log(ss.str(), Platform::FileLogger::ERROR);
+		return false;
+	}
+
+	FMOD_CREATESOUNDEXINFO audioInfo;
+	memset(&audioInfo, 0, sizeof(FMOD_CREATESOUNDEXINFO));
+	audioInfo.cbsize = sizeof(FMOD_CREATESOUNDEXINFO);
+	audioInfo.length = static_cast<unsigned int>(bufferLength);
+
+	if (FMAudioContext::IsStreamable(type))
+	{
+		const FMOD_RESULT result = m_system->createStream(static_cast<char*>(pBuffer), FMOD_OPENMEMORY | FMOD_CREATECOMPRESSEDSAMPLE, &audioInfo, &m_sound);
+		if (FMOD_ERRCHECK(result, m_logger))
+			return false;
+	}
+	else
+	{
+		const FMOD_RESULT result = m_system->createSound(static_cast<char*>(pBuffer), FMOD_OPENMEMORY, &audioInfo, &m_sound);
+		if (FMOD_ERRCHECK(result, m_logger))
+			return false;
+	}
+
+	m_logger.Log(m_fileName + " file loaded", Platform::FileLogger::INFO);
+	return true;
 }
 
 bool FMAudioSample::Play()

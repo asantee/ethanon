@@ -126,6 +126,7 @@ asDECLARE_FUNCTION_WRAPPER(__PlaySample,      ETHScriptWrapper::PlaySample);
 asDECLARE_FUNCTION_WRAPPER(__LoopSample,      ETHScriptWrapper::LoopSample);
 asDECLARE_FUNCTION_WRAPPER(__StopSample,      ETHScriptWrapper::StopSample);
 asDECLARE_FUNCTION_WRAPPER(__PauseSample,     ETHScriptWrapper::PauseSample);
+asDECLARE_FUNCTION_WRAPPER(__ReleaseSample,   ETHScriptWrapper::ReleaseSample);
 asDECLARE_FUNCTION_WRAPPER(__SetSampleVolume, ETHScriptWrapper::SetSampleVolume);
 asDECLARE_FUNCTION_WRAPPER(__SetSampleSpeed,  ETHScriptWrapper::SetSampleSpeed);
 asDECLARE_FUNCTION_WRAPPER(__SetSamplePan,    ETHScriptWrapper::SetSamplePan);
@@ -400,6 +401,7 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("bool LoopSample(const string &in, const bool)",       asFUNCTION(__LoopSample),      asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool StopSample(const string &in)",                   asFUNCTION(__StopSample),      asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool PauseSample(const string &in)",                  asFUNCTION(__PauseSample),     asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("bool ReleaseSample(const string &in)",                asFUNCTION(__ReleaseSample),   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool SetSampleVolume(const string &in, const float)", asFUNCTION(__SetSampleVolume), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool SetSamplePan(const string &in, const float)",    asFUNCTION(__SetSamplePan),    asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool SetSampleSpeed(const string &in, const float)",  asFUNCTION(__SetSampleSpeed),  asCALL_GENERIC); assert(r >= 0);

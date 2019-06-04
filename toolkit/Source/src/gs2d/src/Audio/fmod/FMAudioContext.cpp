@@ -102,6 +102,19 @@ bool FMAudioContext::CreateAudioDevice(boost::any data)
 		m_logger.Log("FMOD lib version doesn't match header version.", Platform::FileLogger::ERROR);
 	}
 
+	result = m_system->setDSPBufferSize(256, 8);
+	FMOD_ERRCHECK(result, m_logger);
+
+	/*int sampleRate;
+	FMOD_SPEAKERMODE speakerMode;
+	int numRawSpeakers;
+	result = m_system->getSoftwareFormat(&sampleRate, &speakerMode, &numRawSpeakers);
+	if (!FMOD_ERRCHECK(result, m_logger))
+	{
+		result = m_system->setSoftwareFormat(48000, speakerMode, numRawSpeakers);
+		FMOD_ERRCHECK(result, m_logger);
+	}*/
+	
 	result = m_system->init(32, FMOD_INIT_NORMAL, 0);
 	if (FMOD_ERRCHECK(result, m_logger))
 		return false;

@@ -275,6 +275,7 @@ public:
 	static bool LoopSample(const str_type::string &file, const bool loop);
 	static bool StopSample(const str_type::string &file);
 	static bool PauseSample(const str_type::string &file);
+	static bool ReleaseSample(const str_type::string &file);
 	static bool SetSampleVolume(const str_type::string &file, const float volume);
 	static bool SetSamplePan(const str_type::string &file, const float pan);
 	static bool SetSampleSpeed(const str_type::string &file, const float speed);

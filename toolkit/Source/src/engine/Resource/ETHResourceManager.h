@@ -114,6 +114,8 @@ public:
 		const str_type::string& path,
 		const Audio::SAMPLE_TYPE type);
 
+	void ReleaseResource(const str_type::string& file);
+
 	std::size_t GetNumResources();
 
 	void ReleaseResources();

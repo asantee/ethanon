@@ -102,6 +102,12 @@ bool ETHScriptWrapper::StopSample(const str_type::string &file)
 	return true;
 }
 
+bool ETHScriptWrapper::ReleaseSample(const str_type::string &file)
+{
+	m_provider->GetAudioResourceManager()->ReleaseResource(file);
+	return true;
+}
+
 bool ETHScriptWrapper::PauseSample(const str_type::string &file)
 {
 	Platform::FileIOHubPtr fileIOHub = m_provider->GetFileIOHub();

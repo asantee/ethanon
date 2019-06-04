@@ -165,6 +165,7 @@ JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_mainLoop(JNIEnv* env, jo
 
 	video->HandleEvents();
 	input->Update();
+	audio->Update();
 
 	if (IsScriptEngineLoaded())
 	{
