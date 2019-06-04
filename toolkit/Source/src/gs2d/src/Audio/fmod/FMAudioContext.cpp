@@ -22,7 +22,7 @@
 
 #import "FMAudioContext.h"
 
-#import "fmod_errors.h"
+#import <fmod_errors.h>
 
 namespace gs2d {
 

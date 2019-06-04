@@ -26,7 +26,7 @@
 #include "../../Audio.h"
 #include "../../Platform/FileLogger.h"
 
-#include "fmod.hpp"
+#include <fmod.hpp>
 
 namespace gs2d {
 

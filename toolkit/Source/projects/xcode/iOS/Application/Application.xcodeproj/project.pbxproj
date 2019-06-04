@@ -223,8 +223,8 @@
 		AA24C1A61E74407E00ABDFA2 /* getRealTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA24C1A41E74407E00ABDFA2 /* getRealTime.cpp */; };
 		AA74563B1F3B63940053CF6A /* libfmodL_iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA7456391F3B63940053CF6A /* libfmodL_iphoneos.a */; };
 		AA74563C1F3B63940053CF6A /* libfmodL_iphonesimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA74563A1F3B63940053CF6A /* libfmodL_iphonesimulator.a */; };
-		AAC4401F1F38DEBE00F1B194 /* FMAudioContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAC4401C1F38DEBE00F1B194 /* FMAudioContext.mm */; };
-		AAC440201F38DEBE00F1B194 /* FMAudioSample.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAC4401E1F38DEBE00F1B194 /* FMAudioSample.mm */; };
+		AAC4401F1F38DEBE00F1B194 /* FMAudioContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAC4401C1F38DEBE00F1B194 /* FMAudioContext.cpp */; };
+		AAC440201F38DEBE00F1B194 /* FMAudioSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAC4401E1F38DEBE00F1B194 /* FMAudioSample.cpp */; };
 		AAC440681F39157000F1B194 /* libfmod_iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAC440661F39157000F1B194 /* libfmod_iphoneos.a */; };
 		AAC440691F39157000F1B194 /* libfmod_iphonesimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAC440671F39157000F1B194 /* libfmod_iphonesimulator.a */; };
 		AAFA2E322139CDA6006D67FB /* cJSON.c in Sources */ = {isa = PBXBuildFile; fileRef = AAFA2E312139CDA6006D67FB /* cJSON.c */; };
@@ -705,9 +705,9 @@
 		AA7456391F3B63940053CF6A /* libfmodL_iphoneos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfmodL_iphoneos.a; path = ../../../../src/gs2d/vendors/fmod/lib/libfmodL_iphoneos.a; sourceTree = "<group>"; };
 		AA74563A1F3B63940053CF6A /* libfmodL_iphonesimulator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfmodL_iphonesimulator.a; path = ../../../../src/gs2d/vendors/fmod/lib/libfmodL_iphonesimulator.a; sourceTree = "<group>"; };
 		AAC4401B1F38DEBE00F1B194 /* FMAudioContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMAudioContext.h; path = ../../../../src/gs2d/src/Audio/fmod/FMAudioContext.h; sourceTree = "<group>"; };
-		AAC4401C1F38DEBE00F1B194 /* FMAudioContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = FMAudioContext.mm; path = ../../../../src/gs2d/src/Audio/fmod/FMAudioContext.mm; sourceTree = "<group>"; };
+		AAC4401C1F38DEBE00F1B194 /* FMAudioContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FMAudioContext.cpp; path = ../../../../src/gs2d/src/Audio/fmod/FMAudioContext.cpp; sourceTree = "<group>"; };
 		AAC4401D1F38DEBE00F1B194 /* FMAudioSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMAudioSample.h; path = ../../../../src/gs2d/src/Audio/fmod/FMAudioSample.h; sourceTree = "<group>"; };
-		AAC4401E1F38DEBE00F1B194 /* FMAudioSample.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = FMAudioSample.mm; path = ../../../../src/gs2d/src/Audio/fmod/FMAudioSample.mm; sourceTree = "<group>"; };
+		AAC4401E1F38DEBE00F1B194 /* FMAudioSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FMAudioSample.cpp; path = ../../../../src/gs2d/src/Audio/fmod/FMAudioSample.cpp; sourceTree = "<group>"; };
 		AAC440661F39157000F1B194 /* libfmod_iphoneos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfmod_iphoneos.a; path = ../../../../src/gs2d/vendors/fmod/lib/libfmod_iphoneos.a; sourceTree = "<group>"; };
 		AAC440671F39157000F1B194 /* libfmod_iphonesimulator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfmod_iphonesimulator.a; path = ../../../../src/gs2d/vendors/fmod/lib/libfmod_iphonesimulator.a; sourceTree = "<group>"; };
 		AAFA2E302139CDA6006D67FB /* cJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cJSON.h; path = ../../../../src/cjson/cJSON.h; sourceTree = "<group>"; };
@@ -1510,10 +1510,10 @@
 			isa = PBXGroup;
 			children = (
 				AAC4401B1F38DEBE00F1B194 /* FMAudioContext.h */,
-				AAC4401C1F38DEBE00F1B194 /* FMAudioContext.mm */,
+				AAC4401C1F38DEBE00F1B194 /* FMAudioContext.cpp */,
 				AA19C1211F8281220096696A /* FMAudioContext.ios.mm */,
 				AAC4401D1F38DEBE00F1B194 /* FMAudioSample.h */,
-				AAC4401E1F38DEBE00F1B194 /* FMAudioSample.mm */,
+				AAC4401E1F38DEBE00F1B194 /* FMAudioSample.cpp */,
 			);
 			name = Audio;
 			sourceTree = "<group>";
@@ -1696,7 +1696,7 @@
 				7481CEAB1A37928900E25DD3 /* hl_sha1wrapper.cpp in Sources */,
 				74EAF2BD1A5C211900E2A6DB /* ToastView.m in Sources */,
 				74E6E6AD1A31E4B300E89172 /* b2EdgeShape.cpp in Sources */,
-				AAC440201F38DEBE00F1B194 /* FMAudioSample.mm in Sources */,
+				AAC440201F38DEBE00F1B194 /* FMAudioSample.cpp in Sources */,
 				74E6E7EC1A31EA9100E89172 /* ETHBinaryStream.cpp in Sources */,
 				74E6E5451A30F1C600E89172 /* IOSNativeCommandListener.mm in Sources */,
 				74E6E5341A30F19900E89172 /* Platform.cpp in Sources */,
@@ -1710,7 +1710,7 @@
 				74E6E5861A31006700E89172 /* BitmapFontManager.cpp in Sources */,
 				74E6E5851A31006700E89172 /* BitmapFont.cpp in Sources */,
 				74E6E72F1A31E6A600E89172 /* stb_image_aug.c in Sources */,
-				AAC4401F1F38DEBE00F1B194 /* FMAudioContext.mm in Sources */,
+				AAC4401F1F38DEBE00F1B194 /* FMAudioContext.cpp in Sources */,
 				74E6E64B1A31DD9900E89172 /* as_bytecode.cpp in Sources */,
 				74E6E69E1A31E4A700E89172 /* b2Collision.cpp in Sources */,
 				74E6E7F31A31EA9100E89172 /* ETHScriptWrapper.Math.cpp in Sources */,

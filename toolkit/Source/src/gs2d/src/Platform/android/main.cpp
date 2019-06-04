@@ -141,7 +141,6 @@ str_type::string AssembleCommands()
 	try
 	{
 		ss
-		<< boost::any_cast<str_type::string>(audio->GetAudioContext())
 		<< boost::any_cast<str_type::string>(video->GetGraphicContext())
 		<< boost::static_pointer_cast<AndroidInput>(input)->PullCommands();
 
