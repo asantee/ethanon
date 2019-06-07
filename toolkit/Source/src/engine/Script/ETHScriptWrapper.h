@@ -190,6 +190,7 @@ public:
 		const Vector2& v2BucketSize);
 
 	static void AddSceneInScript(const str_type::string& escFile, const Vector3& offset, ETHEntityArray &outVector);
+	static void AddSceneFromString(const str_type::string& content, const Vector3& offset, ETHEntityArray &outVector);
 
 	static bool SaveScene(const str_type::string &escFile);
 	static bool LoadScene(const str_type::string &escFile, const str_type::string& lightmapDirectory, const Vector2& bucketSize);

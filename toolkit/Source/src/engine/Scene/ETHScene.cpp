@@ -186,14 +186,30 @@ bool ETHScene::AddSceneFromFile(
 		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
 		return false;
 	}
-	m_minSceneHeight = 0.0f;
-	m_maxSceneHeight = m_provider->GetVideo()->GetScreenSizeF().y;
 
 	// Read the header and check if the file is valid
 	TiXmlDocument doc(fileName);
 	str_type::string content;
 	fileManager->GetUTFFileString(fileName, content);
-	if (!doc.LoadFile(content, TIXML_ENCODING_LEGACY))
+	return AddSceneFromString(fileName, content, entityCache, entityPath, readSceneProperties, offset, outVector, shouldGenerateNewID);
+}
+
+bool ETHScene::AddSceneFromString(
+	const str_type::string& fileName,
+	const str_type::string& xmlContent,
+	ETHEntityCache& entityCache,
+	const str_type::string &entityPath,
+	const bool readSceneProperties,
+	const Vector3& offset,
+	ETHEntityArray &outVector,
+	const bool shouldGenerateNewID)
+{
+	m_minSceneHeight = 0.0f;
+	m_maxSceneHeight = m_provider->GetVideo()->GetScreenSizeF().y;
+
+	// Read the header and check if the file is valid
+	TiXmlDocument doc(fileName);
+	if (!doc.LoadFile(xmlContent, TIXML_ENCODING_LEGACY))
 	{
 		ETH_STREAM_DECL(ss) << GS_L("ETHScene::LoadFromFile: file found, but parsing failed (") << fileName << GS_L(")");
 		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);

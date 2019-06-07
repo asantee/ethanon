@@ -149,6 +149,16 @@ public:
 		ETHEntityArray &outVector,
 		const bool shouldGenerateNewID);
 
+	bool AddSceneFromString(
+		const str_type::string& fileName,
+		const str_type::string& xmlContent,
+		ETHEntityCache& entityCache,
+		const str_type::string &entityPath,
+		const bool readSceneProperties,
+		const Vector3& offset,
+		ETHEntityArray &outVector,
+		const bool shouldGenerateNewID);
+
 	str_type::string AssembleEntityPath() const;
 
 private:
