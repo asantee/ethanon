@@ -22,7 +22,6 @@ public:
 private:
 	VideoPtr m_video;
 	SpritePtr m_defaultNM;
-	static const Shader::SHADER_PROFILE m_profile;
 	ETHFakeEyePositionManagerPtr m_fakeEyeManager;
 	Video::ALPHA_MODE m_lastAM;
 	ShaderPtr m_hPixelLightPS;

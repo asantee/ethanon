@@ -1,12 +1,6 @@
 #include "ETHPixelLightDiffuseSpecular.h"
 #include "ETHShaders.h"
 
-#ifdef OPENGL
- const Shader::SHADER_PROFILE ETHPixelLightDiffuseSpecular::m_profile = Shader::SP_MODEL_1;
-#else
- const Shader::SHADER_PROFILE ETHPixelLightDiffuseSpecular::m_profile = Shader::SP_MODEL_2;
-#endif
-
 const float ETHPixelLightDiffuseSpecular::LIGHT_PRECISION_DOWNSCALE = 1.0f / 1280.0f;
 
 ETHPixelLightDiffuseSpecular::ETHPixelLightDiffuseSpecular(
@@ -16,9 +10,9 @@ ETHPixelLightDiffuseSpecular::ETHPixelLightDiffuseSpecular(
 	: m_fakeEyeManager(fakeEyeManager)
 {
 	m_video = video;
-	m_hPixelLightPS = m_video->LoadShaderFromString(GS_L("hPixelLightPS"), ETHShaders::PL_PS_Hor_Diff(), Shader::SF_PIXEL, m_profile);
-	m_hPixelLightVS = m_video->LoadShaderFromString(GS_L("hPixelLightVS"), ETHShaders::PL_VS_Hor_Light(), Shader::SF_VERTEX, Shader::SP_MODEL_2);
-	m_hPixelLightSpecularPS = m_video->LoadShaderFromString(GS_L("hPixelLightSpecularPS"), ETHShaders::PL_PS_Hor_Spec(), Shader::SF_PIXEL, m_profile);
+	m_hPixelLightPS = m_video->LoadShaderFromString(GS_L("hPixelLightPS"), ETHShaders::PL_PS_Hor_Diff(), Shader::SF_PIXEL);
+	m_hPixelLightVS = m_video->LoadShaderFromString(GS_L("hPixelLightVS"), ETHShaders::PL_VS_Hor_Light(), Shader::SF_VERTEX);
+	m_hPixelLightSpecularPS = m_video->LoadShaderFromString(GS_L("hPixelLightSpecularPS"), ETHShaders::PL_PS_Hor_Spec(), Shader::SF_PIXEL);
 	m_defaultNM = m_video->CreateSprite(ETHGlobal::GetDataResourceFullPath(shaderPath, GS_L("default_nm.png")));
 }
 

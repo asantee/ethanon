@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
- 
- Permission is hereby granted, free of charge, to any person obtaining a copy of this
- software and associated documentation files (the "Software"), to deal in the
- Software without restriction, including without limitation the rights to use, copy,
- modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
- and to permit persons to whom the Software is furnished to do so, subject to the
- following conditions:
- 
- The above copyright notice and this permission notice shall be included in all
- copies or substantial portions of the Software.
- 
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
- INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
- PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
- CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
- OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- --------------------------------------------------------------------------------------*/
-
 #include "GLCgShader.h"
 #include <Cg/cgGL.h>
 
@@ -45,7 +23,6 @@ GLCgShader::GLCgShader(GLVideo* video) :
 	m_cgProfile(CG_PROFILE_UNKNOWN),
 	m_cgProgam(NULL),
 	m_focus(Shader::SF_NONE),
-	m_profile(Shader::SP_NONE),
 	m_shaderName("none")
 {
 	m_video = (GLVideo*)(video);
@@ -69,11 +46,6 @@ void GLCgShader::DestroyCgProgram()
 Shader::SHADER_FOCUS GLCgShader::GetShaderFocus() const
 {
 	return m_focus;
-}
-
-Shader::SHADER_PROFILE GLCgShader::GetShaderProfile() const
-{
-	return m_profile;
 }
 
 CGcontext GLCgShader::ExtractCgContext(ShaderContextPtr context)
@@ -170,11 +142,10 @@ bool GLCgShader::LoadShaderFromFile(
 	ShaderContextPtr context,
 	const str_type::string& fileName,
 	const SHADER_FOCUS focus,
-	const SHADER_PROFILE profile,
 	const char *entry)
 {
 	const std::string& str = enml::GetStringFromAnsiFile(fileName);
-	return LoadShaderFromString(context, fileName, str, focus, profile, entry);
+	return LoadShaderFromString(context, fileName, str, focus, entry);
 }
 
 bool GLCgShader::LoadShaderFromString(
@@ -182,7 +153,6 @@ bool GLCgShader::LoadShaderFromString(
 	const str_type::string& shaderName,
 	const std::string& codeAsciiString,
 	const SHADER_FOCUS focus,
-	const SHADER_PROFILE profile,
 	const char *entry)
 {
 	if (entry)
@@ -191,7 +161,6 @@ bool GLCgShader::LoadShaderFromString(
 	m_cgContext = ExtractCgContext(context);
 	m_shaderName = shaderName;
 	m_focus = focus;
-	m_profile = profile;
 
 	if (focus == Shader::SF_PIXEL)
 	{

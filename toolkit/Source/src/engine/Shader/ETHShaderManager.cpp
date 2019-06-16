@@ -10,17 +10,12 @@ ETHShaderManager::ETHShaderManager(VideoPtr video, const str_type::string& shade
 {
 	m_video = video;
 
-	Shader::SHADER_PROFILE sp = Shader::SP_MODEL_2;
-	#ifdef OPENGL
-	 sp = Shader::SP_MODEL_1;
-	#endif
+	m_defaultVS = m_video->LoadShaderFromString(GS_L("defaultVS"), ETHShaders::DefaultVS(), Shader::SF_VERTEX);
+	m_particle  = m_video->LoadShaderFromString(GS_L("particle"), ETHShaders::Particle_VS(), Shader::SF_VERTEX);
+	m_defaultStaticAmbientVS  = m_video->LoadShaderFromString(GS_L("defaultStaticAmbientVS"), ETHShaders::Ambient_VS_Hor(), Shader::SF_VERTEX);
 
-	m_defaultVS = m_video->LoadShaderFromString(GS_L("defaultVS"), ETHShaders::DefaultVS(), Shader::SF_VERTEX, sp);
-	m_particle  = m_video->LoadShaderFromString(GS_L("particle"), ETHShaders::Particle_VS(), Shader::SF_VERTEX, sp);
-	m_defaultStaticAmbientVS  = m_video->LoadShaderFromString(GS_L("defaultStaticAmbientVS"), ETHShaders::Ambient_VS_Hor(), Shader::SF_VERTEX, sp);
-
-	m_highlightPS = m_video->LoadShaderFromString(GS_L("highlightPS"), ETHShaders::Highlight_PS(), Shader::SF_PIXEL, sp);
-	m_solidColorPS = m_video->LoadShaderFromString(GS_L("solidColorPS"), ETHShaders::SolidColor_PS(), Shader::SF_PIXEL, sp);
+	m_highlightPS = m_video->LoadShaderFromString(GS_L("highlightPS"), ETHShaders::Highlight_PS(), Shader::SF_PIXEL);
+	m_solidColorPS = m_video->LoadShaderFromString(GS_L("solidColorPS"), ETHShaders::SolidColor_PS(), Shader::SF_PIXEL);
 
 	#if defined(GLES2) || defined(OPENGL)
 		m_projShadow = m_video->CreateSprite(ETHGlobal::GetDataResourceFullPath(shaderPath, GS_L("shadow.png")));

@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
- 
- Permission is hereby granted, free of charge, to any person obtaining a copy of this
- software and associated documentation files (the "Software"), to deal in the
- Software without restriction, including without limitation the rights to use, copy,
- modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
- and to permit persons to whom the Software is furnished to do so, subject to the
- following conditions:
- 
- The above copyright notice and this permission notice shall be included in all
- copies or substantial portions of the Software.
- 
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
- INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
- PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
- CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
- OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- --------------------------------------------------------------------------------------*/
-
 #include "GLVideo.h"
 
 #include "../cgShaderCode.h"
@@ -76,22 +54,22 @@ bool GLVideo::StartApplication(
 		m_shaderContext = GLCgShaderContextPtr(new GLCgShaderContext);
 
 	if (!m_defaultVS)
-		m_defaultVS = LoadShaderFromString("defaultShader", gs2dglobal::defaultVSCode, Shader::SF_VERTEX, Shader::SP_MODEL_2, "sprite");
+		m_defaultVS = LoadShaderFromString("defaultShader", gs2dglobal::defaultVSCode, Shader::SF_VERTEX, "sprite");
 
 	if (!m_rectVS)
-		m_rectVS = LoadShaderFromString("rectShader", gs2dglobal::defaultVSCode, Shader::SF_VERTEX, Shader::SP_MODEL_2, "rectangle");
+		m_rectVS = LoadShaderFromString("rectShader", gs2dglobal::defaultVSCode, Shader::SF_VERTEX, "rectangle");
 
 	if (!m_fastVS)
-		m_fastVS = LoadShaderFromString("fastShader", gs2dglobal::fastSimpleVSCode, Shader::SF_VERTEX, Shader::SP_MODEL_2, "fast");
+		m_fastVS = LoadShaderFromString("fastShader", gs2dglobal::fastSimpleVSCode, Shader::SF_VERTEX, "fast");
 
 	if (!m_defaultModulatePS)
-		m_defaultModulatePS = LoadShaderFromString("modulate", gs2dglobal::defaultFragmentShaders, Shader::SF_PIXEL, Shader::SP_MODEL_1, "modulate");
+		m_defaultModulatePS = LoadShaderFromString("modulate", gs2dglobal::defaultFragmentShaders, Shader::SF_PIXEL, "modulate");
 
 	if (!m_defaultAddPS)
-		m_defaultAddPS = LoadShaderFromString("add", gs2dglobal::defaultFragmentShaders, Shader::SF_PIXEL, Shader::SP_MODEL_1, "add");
+		m_defaultAddPS = LoadShaderFromString("add", gs2dglobal::defaultFragmentShaders, Shader::SF_PIXEL, "add");
 
 	if (!m_defaultPS)
-		m_defaultPS = LoadShaderFromString("minimal", gs2dglobal::defaultFragmentShaders, Shader::SF_PIXEL, Shader::SP_MODEL_1, "minimal");
+		m_defaultPS = LoadShaderFromString("minimal", gs2dglobal::defaultFragmentShaders, Shader::SF_PIXEL, "minimal");
 
 	m_currentVS = m_defaultVS;
     m_currentPS = m_defaultPS;
@@ -599,16 +577,6 @@ math::Rect2D GLVideo::GetScissor() const
 void GLVideo::UnsetScissor()
 {
 	SetScissor(false);
-}
-
-Shader::SHADER_PROFILE GLVideo::GetHighestVertexProfile() const
-{
-	return GLCgShaderContext::CGProfileToGSProfile(m_shaderContext->GetLatestVertexProfile());
-}
-
-Shader::SHADER_PROFILE GLVideo::GetHighestPixelProfile() const
-{
-	return GLCgShaderContext::CGProfileToGSProfile(m_shaderContext->GetLatestFragmentProfile());
 }
 
 bool GLVideo::SetRenderTarget(SpritePtr pTarget, const unsigned int target)
