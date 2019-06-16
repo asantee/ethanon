@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "ETHSpriteEntity.h"
 #include "ETHEntityCache.h"
 
@@ -689,16 +667,8 @@ float ETHSpriteEntity::ComputeDepth(const float maxHeight, const float minHeight
 	float r = 0.f;
 	switch (GetType())
 	{
-	case ETHEntityProperties::ET_VERTICAL:
 	case ETHEntityProperties::ET_HORIZONTAL:
 		r = ETHEntity::ComputeDepth(GetPositionZ(), maxHeight, minHeight);
-		break;
-	case ETHEntityProperties::ET_OPAQUE_DECAL:
-	case ETHEntityProperties::ET_GROUND_DECAL:
-		r = ETHEntity::ComputeDepth(GetPositionZ() + ETH_SMALL_NUMBER, maxHeight, minHeight);
-		break;
-	case ETHEntityProperties::ET_OVERALL:
-		r = (1.0f);
 		break;
 	case ETHEntityProperties::ET_LAYERABLE:
 		r = Max(m_layrableMinimumDepth, m_properties.layerDepth);
@@ -772,7 +742,7 @@ Vector2 ETHSpriteEntity::ComputeInScreenPosition(const ETHSceneProperties& scene
 Vector2 ETHSpriteEntity::ComputeInScreenSpriteCenter(const ETHSceneProperties& sceneProps) const
 {
 	const float angle = GetAngle();
-	if (GetType() == ETHEntityProperties::ET_VERTICAL || angle == 0.0f)
+	if (angle == 0.0f)
 	{
 		const ETHEntityProperties::VIEW_RECT& rect = GetScreenRect(sceneProps);
 		return ((rect.max + rect.min) * 0.5f);
@@ -845,7 +815,7 @@ Vector2 ETHSpriteEntity::GetScreenRectMax(const ETHSceneProperties& sceneProps) 
 bool ETHSpriteEntity::IsPointOnSprite(const ETHSceneProperties& sceneProps, const Vector2& absolutePointPos, const Vector2& size) const
 {
 	const float angle = GetAngle();
-	if (GetType() == ETHEntityProperties::ET_VERTICAL || angle == 0.0f)
+	if (angle == 0.0f)
 	{
 		const ETHEntityProperties::VIEW_RECT& rect = GetScreenRect(sceneProps);
 		const Vector2& min = rect.min;
@@ -865,7 +835,6 @@ bool ETHSpriteEntity::IsPointOnSprite(const ETHSceneProperties& sceneProps, cons
 	}
 	else
 	{
-		// TODO/TO-DO perform this in the OrientedBoundingBox class
 		const float radianAngle = -DegreeToRadian(angle);
 		const OrientedBoundingBox pointObb(absolutePointPos, math::constant::ONE_VECTOR2, 0.0f);
 		const OrientedBoundingBox entityObb(ComputeInScreenSpriteCenter(sceneProps), size, radianAngle);

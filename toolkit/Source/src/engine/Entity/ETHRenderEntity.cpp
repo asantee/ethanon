@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "ETHRenderEntity.h"
 
 #include "../Shader/ETHShaderManager.h"
@@ -56,9 +34,6 @@ ETHRenderEntity::ETHRenderEntity(ETHResourceProviderPtr provider) :
 bool ETHRenderEntity::ShouldUseFourTriangles(const float parallaxIntensity) const
 {
 	if (!m_pSprite)
-		return false;
-
-	if (GetType() != ETHEntityProperties::ET_VERTICAL)
 		return false;
 
 	if ((parallaxIntensity * GetParallaxIntensity()) == 0.0f)
@@ -104,7 +79,7 @@ bool ETHRenderEntity::DrawAmbientPass(
 	SetOrigin();
 
 	const bool shouldUseFourTriangles = ShouldUseFourTriangles(parallaxIntensity);
-	const float angle = (m_properties.type == ETHEntityProperties::ET_VERTICAL) ? 0.0f : GetAngle();
+	const float angle = GetAngle();
 	const Vector2 pos = ETHGlobal::ToScreenPos(GetPosition(), sceneProps.zAxisDirection);
 
 	// Set sprite flip
@@ -169,7 +144,7 @@ bool ETHRenderEntity::IsSpriteVisible(
 
 	const float angle = GetAngle();
 	const Vector2& bufferSize = backBuffer->GetBufferSize();
-	if (GetType() == ETHEntityProperties::ET_VERTICAL || angle == 0.0f)
+	if (angle == 0.0f)
 	{
 		const ETHEntityProperties::VIEW_RECT& rect = GetScreenRect(sceneProps);
 
@@ -191,7 +166,6 @@ bool ETHRenderEntity::IsSpriteVisible(
 	}
 	else
 	{
-		// TODO/TO-DO perform this in the OrientedBoundingBox class
 		gs2d::math::OrientedBoundingBoxPtr backbufferObb(new gs2d::math::OrientedBoundingBox(bufferSize * 0.5f, bufferSize, 0.0f));
 
 		const Vector2 size = GetSize();
@@ -315,10 +289,7 @@ bool ETHRenderEntity::DrawProjShadow(
 	pVS->SetConstant(GS_L("entityZ"), Max(m_shadowZ, v3EntityPos.z));
 	pVS->SetConstant(GS_L("shadowZ"), m_shadowZ);
 	pVS->SetConstant(GS_L("lightPos"), v3LightPos);
-	video->SetSpriteDepth(
-		(GetType() == ETHEntityProperties::ET_VERTICAL) ?
-		ETHEntity::ComputeDepth(m_shadowZ, maxHeight, minHeight)
-		: Max(0.0f, ComputeDepth(maxHeight, minHeight) - m_layrableMinimumDepth));
+	video->SetSpriteDepth(Max(0.0f, ComputeDepth(maxHeight, minHeight) - m_layrableMinimumDepth));
 
 	v2ShadowSize.y = 1.0f;
 

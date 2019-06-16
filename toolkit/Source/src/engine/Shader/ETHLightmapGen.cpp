@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "ETHLightmapGen.h"
 #include "../Scene/ETHBucketManager.h"
 #include "ETHShaderManager.h"
@@ -124,33 +102,6 @@ ETHLightmapGen::ETHLightmapGen(
 			shaderManager->EndLightPass();
 		}
 
-		// draw shadows
-		if (entity->GetType() != ETHEntityProperties::ET_VERTICAL)
-		{
-			for (ETHBucketMap::iterator bucketIter = buckets.GetFirstBucket(); bucketIter != buckets.GetLastBucket(); ++bucketIter)
-			{
-				for (ETHEntityList::iterator entityIter = bucketIter.value().begin();
-					entityIter != bucketIter->second.end(); ++entityIter)
-				{
-					ETHRenderEntity* ent = (*entityIter);
-					if (!ent->IsStatic())
-						continue;
-					Vector3 oldPos2 = ent->GetPosition();
-					Vector3 newPos2 = oldPos2-(oldPos-newPos);
-					ent->SetOrphanPosition(newPos2 / Vector3(ent->GetScale(), 1));
-
-					const Vector2 tmpScale(ent->GetScale());
-					ent->SetScale(Vector2(1, 1));
-					if (shaderManager->BeginShadowPass(ent, &(*iter), maxHeight, minHeight))
-					{
-						ent->DrawShadow(maxHeight, minHeight, sceneProps, *iter, 0, true, true, entity->GetAngle(), entity->GetPosition());
-						shaderManager->EndShadowPass();
-					}
-					ent->SetScale(tmpScale);
-					ent->SetOrphanPosition(oldPos2);
-				}
-			}
-		}
 		video->EndTargetScene();
 
 		iter->pos *= tmpScale.y;

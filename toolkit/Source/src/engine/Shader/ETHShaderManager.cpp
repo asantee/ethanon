@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "ETHShaderManager.h"
 #include "../Scene/ETHScene.h"
 #include "ETHPixelLightDiffuseSpecular.h"
@@ -40,8 +18,6 @@ ETHShaderManager::ETHShaderManager(VideoPtr video, const str_type::string& shade
 	m_defaultVS = m_video->LoadShaderFromString(GS_L("defaultVS"), ETHShaders::DefaultVS(), Shader::SF_VERTEX, sp);
 	m_particle  = m_video->LoadShaderFromString(GS_L("particle"), ETHShaders::Particle_VS(), Shader::SF_VERTEX, sp);
 	m_defaultStaticAmbientVS  = m_video->LoadShaderFromString(GS_L("defaultStaticAmbientVS"), ETHShaders::Ambient_VS_Hor(), Shader::SF_VERTEX, sp);
-	m_verticalStaticAmbientVS = m_video->LoadShaderFromString(GS_L("verticalStaticAmbientVS"), ETHShaders::Ambient_VS_Ver(), Shader::SF_VERTEX, sp);
-	m_shadowVS = m_video->LoadShaderFromString(GS_L("shadowVS"), ETHShaders::Shadow_VS_Ver(), Shader::SF_VERTEX, sp);
 
 	m_highlightPS = m_video->LoadShaderFromString(GS_L("highlightPS"), ETHShaders::Highlight_PS(), Shader::SF_PIXEL, sp);
 	m_solidColorPS = m_video->LoadShaderFromString(GS_L("solidColorPS"), ETHShaders::SolidColor_PS(), Shader::SF_PIXEL, sp);
@@ -56,11 +32,8 @@ ETHShaderManager::ETHShaderManager(VideoPtr video, const str_type::string& shade
 
 	if (m_richLighting)
 	{
-		{ETHLightingProfilePtr profile(new ETHPixelLightDiffuseSpecular(m_video, shaderPath, m_fakeEyeManager));
-		if (profile->IsSupportedByHardware())
-		{
-			m_lightingProfiles[PIXEL_LIGHTING_DIFFUSE_SPECULAR] = profile;
-		}}
+		ETHLightingProfilePtr profile(new ETHPixelLightDiffuseSpecular(m_video, shaderPath, m_fakeEyeManager));
+		m_lightingProfiles[PIXEL_LIGHTING_DIFFUSE_SPECULAR] = profile;
 	}
 
 	if (m_lightingProfiles.empty())
@@ -109,15 +82,8 @@ bool ETHShaderManager::BeginAmbientPass(const ETHSpriteEntity *pRender, const fl
 		m_solidColorPS->SetConstant(GS_L("solidColor"), pRender->GetSolidColorARGB());
 	}
 
-	if (pRender->GetType() == ETHEntityProperties::ET_VERTICAL)
-	{
-		m_verticalStaticAmbientVS->SetConstant(GS_L("spaceLength"), (maxHeight-minHeight));
-		m_video->SetVertexShader(m_verticalStaticAmbientVS);
-	}
-	else
-	{
-		m_video->SetVertexShader(m_defaultStaticAmbientVS);
-	}
+	m_video->SetVertexShader(m_defaultStaticAmbientVS);
+
 	m_parallaxManager.SetShaderParameters(m_video, m_video->GetVertexShader(), pRender->GetPosition(), pRender->GetParallaxIntensity(), false);
 
 	m_lastAM = m_video->GetAlphaMode();

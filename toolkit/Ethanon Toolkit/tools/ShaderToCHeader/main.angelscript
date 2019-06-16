@@ -7,16 +7,11 @@ void main()
 
 	const string[] ethanonShaders = {
 		"Cg/defaultVS.cg",
-		"Cg/dynaShadowVS.cg",
 		"Cg/hAmbientVS.cg",
 		"Cg/hPixelLightDiff.cg",
 		"Cg/hPixelLightSpec.cg",
 		"Cg/hPixelLightVS.cg",
 		"Cg/particleVS.cg",
-		"Cg/vAmbientVS.cg",
-		"Cg/vPixelLightDiff.cg",
-		"Cg/vPixelLightSpec.cg",
-		"Cg/vPixelLightVS.cg",
 		"Cg/highlightPS.cg",
 		"Cg/solidPS.cg",
 		"GLSL/default.ps",
@@ -27,10 +22,7 @@ void main()
 		"GLSL/hPixelLight.vs",
 		"GLSL/hPixelLightDiff.ps",
 		"GLSL/optimal.vs",
-		"GLSL/particle.vs",
-		"GLSL/vAmbient.vs",
-		"GLSL/vPixelLight.vs",
-		"GLSL/vPixelLightDiff.ps"
+		"GLSL/particle.vs"
 	};
 
 	const string relativePath = GetResourceDirectory() + "../../../Source/src/shaders/";

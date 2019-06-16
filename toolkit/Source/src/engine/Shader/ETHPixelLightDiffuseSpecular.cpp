@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "ETHPixelLightDiffuseSpecular.h"
 #include "ETHShaders.h"
 
@@ -38,16 +16,10 @@ ETHPixelLightDiffuseSpecular::ETHPixelLightDiffuseSpecular(
 	: m_fakeEyeManager(fakeEyeManager)
 {
 	m_video = video;
-	if (IsSupportedByHardware())
-	{
-		m_hPixelLightPS = m_video->LoadShaderFromString(GS_L("hPixelLightPS"), ETHShaders::PL_PS_Hor_Diff(), Shader::SF_PIXEL, m_profile);
-		m_vPixelLightPS = m_video->LoadShaderFromString(GS_L("vPixelLightPS"), ETHShaders::PL_PS_Ver_Diff(), Shader::SF_PIXEL, m_profile);
-		m_hPixelLightVS = m_video->LoadShaderFromString(GS_L("hPixelLightVS"), ETHShaders::PL_VS_Hor_Light(), Shader::SF_VERTEX, Shader::SP_MODEL_2);
-		m_vPixelLightVS = m_video->LoadShaderFromString(GS_L("vPixelLightVS"), ETHShaders::PL_VS_Ver_Light(), Shader::SF_VERTEX, Shader::SP_MODEL_2);
-		m_hPixelLightSpecularPS = m_video->LoadShaderFromString(GS_L("hPixelLightSpecularPS"), ETHShaders::PL_PS_Hor_Spec(), Shader::SF_PIXEL, m_profile);
-		m_vPixelLightSpecularPS = m_video->LoadShaderFromString(GS_L("vPixelLightSpecularPS"), ETHShaders::PL_PS_Ver_Spec(), Shader::SF_PIXEL, m_profile);
-		m_defaultNM = m_video->CreateSprite(ETHGlobal::GetDataResourceFullPath(shaderPath, GS_L("default_nm.png")));
-	}
+	m_hPixelLightPS = m_video->LoadShaderFromString(GS_L("hPixelLightPS"), ETHShaders::PL_PS_Hor_Diff(), Shader::SF_PIXEL, m_profile);
+	m_hPixelLightVS = m_video->LoadShaderFromString(GS_L("hPixelLightVS"), ETHShaders::PL_VS_Hor_Light(), Shader::SF_VERTEX, Shader::SP_MODEL_2);
+	m_hPixelLightSpecularPS = m_video->LoadShaderFromString(GS_L("hPixelLightSpecularPS"), ETHShaders::PL_PS_Hor_Spec(), Shader::SF_PIXEL, m_profile);
+	m_defaultNM = m_video->CreateSprite(ETHGlobal::GetDataResourceFullPath(shaderPath, GS_L("default_nm.png")));
 }
 
 bool ETHPixelLightDiffuseSpecular::BeginLightPass(ETHSpriteEntity *pRender, Vector3 &v3LightPos, const Vector2 &v2Size,
@@ -59,27 +31,13 @@ bool ETHPixelLightDiffuseSpecular::BeginLightPass(ETHSpriteEntity *pRender, Vect
 	// set the correct light shader
 	ShaderPtr pLightShader;
 	const bool hasGloss = static_cast<bool>(pRender->GetGloss());
-	if (pRender->GetType() == ETHEntityProperties::ET_VERTICAL)
+	if (hasGloss)
 	{
-		if (hasGloss)
-		{
-			pLightShader = m_vPixelLightSpecularPS;
-		}
-		else
-		{
-			pLightShader = m_vPixelLightPS;
-		}
+		pLightShader = m_hPixelLightSpecularPS;
 	}
 	else
 	{
-		if (hasGloss)
-		{
-			pLightShader = m_hPixelLightSpecularPS;
-		}
-		else
-		{
-			pLightShader = m_hPixelLightPS;
-		}
+		pLightShader = m_hPixelLightPS;
 	}
 
 	// if it has a gloss map, send specular data to shader
@@ -103,28 +61,16 @@ bool ETHPixelLightDiffuseSpecular::BeginLightPass(ETHSpriteEntity *pRender, Vect
 	}
 
 	// sets spatial information to the shader
-	if (pRender->GetType() == ETHEntityProperties::ET_VERTICAL)
-	{
-		m_vPixelLightVS->SetConstant(GS_L("spaceLength"), (maxHeight-minHeight));
-		m_vPixelLightVS->SetConstant(GS_L("topLeft3DPos"), v3EntityPos-(Vector3(v2Origin.x,0,-v2Origin.y)));
-		m_video->SetVertexShader(m_vPixelLightVS);
-	}
-	else
-	{
-		m_hPixelLightVS->SetConstant(GS_L("topLeft3DPos"), v3EntityPos-Vector3(v2Origin,0));
-		m_video->SetVertexShader(m_hPixelLightVS);
-	}
+	m_hPixelLightVS->SetConstant(GS_L("topLeft3DPos"), v3EntityPos-Vector3(v2Origin,0));
+	m_video->SetVertexShader(m_hPixelLightVS);
 
 	// TO-DO it looks like a mess around here...
-	if (pRender->GetType() != ETHEntityProperties::ET_VERTICAL)
+	if (pRender->GetAngle() != 0.0f)
 	{
-		if (pRender->GetAngle() != 0.0f)
-		{
-			Vector3 newPos = v3LightPos-v3EntityPos;
-			Matrix4x4 matRot = RotateZ(-DegreeToRadian(pRender->GetAngle()));
-			newPos = Multiply(newPos, matRot);
-			v3LightPos = newPos + v3EntityPos;
-		}
+		Vector3 newPos = v3LightPos-v3EntityPos;
+		Matrix4x4 matRot = RotateZ(-DegreeToRadian(pRender->GetAngle()));
+		newPos = Multiply(newPos, matRot);
+		v3LightPos = newPos + v3EntityPos;
 	}
 
 	m_lastAM = m_video->GetAlphaMode();
@@ -153,16 +99,6 @@ bool ETHPixelLightDiffuseSpecular::EndLightPass()
 	m_video->SetPixelShader(ShaderPtr());
 	m_video->SetVertexShader(ShaderPtr());
 	m_video->SetAlphaMode(m_lastAM);
-	return true;
-}
-
-bool ETHPixelLightDiffuseSpecular::IsSupportedByHardware() const
-{
-	return (m_video->GetHighestPixelProfile() >= m_profile);
-}
-
-bool ETHPixelLightDiffuseSpecular::IsUsingPixelShader() const
-{
 	return true;
 }
 
