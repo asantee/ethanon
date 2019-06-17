@@ -10,18 +10,13 @@ ETHShaderManager::ETHShaderManager(VideoPtr video, const str_type::string& shade
 {
 	m_video = video;
 
-	m_defaultVS = m_video->LoadShaderFromString(GS_L("defaultVS"), ETHShaders::DefaultVS(), Shader::SF_VERTEX);
-	m_particle  = m_video->LoadShaderFromString(GS_L("particle"), ETHShaders::Particle_VS(), Shader::SF_VERTEX);
-	m_defaultStaticAmbientVS  = m_video->LoadShaderFromString(GS_L("defaultStaticAmbientVS"), ETHShaders::Ambient_VS_Hor(), Shader::SF_VERTEX);
-
-	m_highlightPS = m_video->LoadShaderFromString(GS_L("highlightPS"), ETHShaders::Highlight_PS(), Shader::SF_PIXEL);
-	m_solidColorPS = m_video->LoadShaderFromString(GS_L("solidColorPS"), ETHShaders::SolidColor_PS(), Shader::SF_PIXEL);
-
-	#if defined(GLES2) || defined(OPENGL)
-		m_projShadow = m_video->CreateSprite(ETHGlobal::GetDataResourceFullPath(shaderPath, GS_L("shadow.png")));
-	#else
-		m_projShadow = m_video->CreateSprite(ETHGlobal::GetDataResourceFullPath(shaderPath, GS_L("shadow.dds")));
-	#endif
+	m_defaultShader    = m_video->LoadShaderFromString("defaultShaderVS",    ETHShaders::DefaultVS(),      "", "defaultShaderVS", ETHShaders::DefaultPS(), "minimal");
+	m_ambientShader    = m_video->LoadShaderFromString("ambientShaderVS",    ETHShaders::Ambient_VS_Hor(), "", "ambientShaderVS", ETHShaders::DefaultPS(), "minimal");
+	m_ambientAddShader = m_video->LoadShaderFromString("ambientAddShaderVS", ETHShaders::Ambient_VS_Hor(), "", "ambientAddShaderVS", ETHShaders::DefaultPS(), "add");
+	m_highlightShader  = m_video->LoadShaderFromString("highlightShaderVS",  ETHShaders::Ambient_VS_Hor(), "", "highlightShaderVS", ETHShaders::Highlight_PS(), "");
+	m_solidColorShader = m_video->LoadShaderFromString("solidColorShaderVS", ETHShaders::Ambient_VS_Hor(), "", "solidColorShaderVS", ETHShaders::SolidColor_PS(), "");
+	m_particleShader   = m_video->LoadShaderFromString("particleShaderVS",   ETHShaders::Particle_VS(),    "", "particleShaderVS", ETHShaders::DefaultPS(), "minimal");
+	m_particleHighlightShader = m_video->LoadShaderFromString("particleHighlightShaderVS", ETHShaders::Particle_VS(), "", "particleHighlightShaderVS", ETHShaders::Highlight_PS(), "");
 
 	m_opaqueSprite = m_video->CreateSprite(ETHGlobal::GetDataResourceFullPath(shaderPath, GS_L("default_nm.png")));
 
@@ -51,35 +46,28 @@ ETHLightingProfilePtr ETHShaderManager::FindHighestLightingProfile()
 	return m_lightingProfiles.rbegin()->second;
 }
 
-SpritePtr ETHShaderManager::GetProjShadow()
-{
-	return m_projShadow;
-}
-
 bool ETHShaderManager::BeginAmbientPass(const ETHSpriteEntity *pRender, const float maxHeight, const float minHeight)
 {
 	const bool shouldUseHighlightPS = pRender->ShouldUseHighlightPixelShader();
 	const bool shouldUseSolidColorPS = pRender->ShouldUseSolidColorPixelShader();
 
-	ShaderPtr pixelShader;
-	if (shouldUseHighlightPS)  pixelShader = m_highlightPS;
-	if (shouldUseSolidColorPS) pixelShader = m_solidColorPS;
+	ShaderPtr shader = m_ambientShader;
+	if (shouldUseHighlightPS)  shader = m_highlightShader;
+	if (shouldUseSolidColorPS) shader = m_solidColorShader;
 
-	m_video->SetPixelShader(pixelShader);
+	m_video->SetCurrentShader(shader);
 
 	if (shouldUseHighlightPS)
 	{
-		m_highlightPS->SetConstant(GS_L("highlight"), pRender->GetColorARGB());
+		m_highlightShader->SetConstant(GS_L("highlight"), pRender->GetColorARGB());
 	}
 
 	if (shouldUseSolidColorPS)
 	{
-		m_solidColorPS->SetConstant(GS_L("solidColor"), pRender->GetSolidColorARGB());
+		m_solidColorShader->SetConstant(GS_L("solidColor"), pRender->GetSolidColorARGB());
 	}
 
-	m_video->SetVertexShader(m_defaultStaticAmbientVS);
-
-	m_parallaxManager.SetShaderParameters(m_video, m_video->GetVertexShader(), pRender->GetPosition(), pRender->GetParallaxIntensity(), false);
+	m_parallaxManager.SetShaderParameters(m_video, m_video->GetCurrentShader(), pRender->GetPosition(), pRender->GetParallaxIntensity(), false);
 
 	m_lastAM = m_video->GetAlphaMode();
 	return true;
@@ -89,8 +77,6 @@ bool ETHShaderManager::EndAmbientPass()
 {
 	if (m_lastAM != m_video->GetAlphaMode())
 		m_video->SetAlphaMode(m_lastAM);
-	
-	m_video->SetPixelShader(ShaderPtr());
 	return true;
 }
 
@@ -115,7 +101,7 @@ bool ETHShaderManager::BeginLightPass(ETHSpriteEntity *pRender, const ETHLight* 
 		return false;
 
 	m_currentProfile->BeginLightPass(pRender, v3LightPos, v2Size, light, maxHeight, minHeight, lightIntensity, drawToTarget);
-	m_parallaxManager.SetShaderParameters(m_video, m_video->GetVertexShader(), pRender->GetPosition(), pRender->GetParallaxIntensity(), drawToTarget);
+	m_parallaxManager.SetShaderParameters(m_video, m_video->GetCurrentShader(), pRender->GetPosition(), pRender->GetParallaxIntensity(), drawToTarget);
 	return true;
 }
 
@@ -126,31 +112,6 @@ SpritePtr ETHShaderManager::GetOpaqueSprite()
 
 bool ETHShaderManager::EndLightPass()
 {
-	m_video->SetPixelShader(ShaderPtr());
-	m_video->SetVertexShader(ShaderPtr());
-	m_video->SetAlphaMode(m_lastAM);
-	return true;
-}
-
-bool ETHShaderManager::BeginShadowPass(const ETHSpriteEntity *pRender, const ETHLight* light, const float maxHeight, const float minHeight)
-{
-	if (!light || !light->castShadows || !pRender->IsCastShadow()/* || pRender->GetType() != ETH_VERTICAL*/)
-		return false;
-
-	m_lastAM = m_video->GetAlphaMode();
-	m_video->SetAlphaMode(Video::AM_PIXEL);
-	m_video->SetVertexShader(m_shadowVS);
-
-	m_shadowVS->SetConstant(GS_L("lightRange"), light->range);
-	m_video->SetSpriteDepth(((pRender->GetPosition().z + ETH_SMALL_NUMBER - minHeight) / (maxHeight - minHeight)));
-	m_video->SetPixelShader(ShaderPtr());
-	return true;
-}
-
-bool ETHShaderManager::EndShadowPass()
-{
-	m_video->SetPixelShader(ShaderPtr());
-	m_video->SetVertexShader(ShaderPtr());
 	m_video->SetAlphaMode(m_lastAM);
 	return true;
 }
@@ -162,31 +123,24 @@ bool ETHShaderManager::BeginHaloPass(const ETHLight* light)
 
 	m_lastAM = m_video->GetAlphaMode();
 	m_video->SetAlphaMode(Video::AM_ADD);
-	m_video->SetVertexShader(m_defaultVS);
-	m_video->SetPixelShader(ShaderPtr());
+	m_video->SetCurrentShader(ShaderPtr());
 	return true;
 }
 
 bool ETHShaderManager::EndHaloPass()
 {
-	m_video->SetPixelShader(ShaderPtr());
-	m_video->SetVertexShader(ShaderPtr());
 	m_video->SetAlphaMode(m_lastAM);
 	return true;
 }
 
 bool ETHShaderManager::BeginParticlePass(const ETHParticleSystem& system)
 {
-	m_video->SetVertexShader(m_particle);
-	
-	const ShaderPtr& ps = (system.ShouldUseHighlightPS()) ? m_highlightPS : ShaderPtr();
-	m_video->SetPixelShader(ps);
+	const ShaderPtr& shader = (system.ShouldUseHighlightPS()) ? m_particleHighlightShader : m_particleShader;
+	m_video->SetCurrentShader(shader);
 	return true;
 }
 
 bool ETHShaderManager::EndParticlePass()
 {
-	m_video->SetPixelShader(ShaderPtr());
-	m_video->SetVertexShader(ShaderPtr());
 	return true;
 }

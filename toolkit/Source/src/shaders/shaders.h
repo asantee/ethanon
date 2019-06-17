@@ -7,6 +7,7 @@
 
 /* Shaders included in this file:
 Cg/defaultVS.cg                 ->     Cg_defaultVS_cg
+Cg/defaultPS.cg                 ->     Cg_defaultPS_cg
 Cg/hAmbientVS.cg                ->     Cg_hAmbientVS_cg
 Cg/hPixelLightDiff.cg           ->     Cg_hPixelLightDiff_cg
 Cg/hPixelLightSpec.cg           ->     Cg_hPixelLightSpec_cg
@@ -95,6 +96,43 @@ const std::string Cg_defaultVS_cg =
 "	float2 coord = transformCoord(texCoord);\n" \
 "	oTexCoord0 = oTexCoord1 = coord;\n" \
 "	oColor = color0;\n" \
+"}\n" \
+"\n" \
+"\n";
+
+const std::string Cg_defaultPS_cg = 
+"void minimal(\n" \
+"	float2 texCoord : TEXCOORD0,\n" \
+"	 float4 color0 : COLOR0,\n" \
+"	 out float4 oColor : COLOR,\n" \
+"	 uniform sampler2D diffuse)\n" \
+"{\n" \
+"	const float4 diffuseColor = tex2D(diffuse, texCoord);\n" \
+"	oColor = diffuseColor * color0;\n" \
+"}\n" \
+"\n" \
+"void modulate(\n" \
+"	float2 texCoord : TEXCOORD0,\n" \
+"	float4 color0 : COLOR0,\n" \
+"	out float4 oColor : COLOR,\n" \
+"	uniform sampler2D diffuse,\n" \
+"	uniform sampler2D pass1)\n" \
+"{\n" \
+"	const float4 diffuseColor = tex2D(diffuse, texCoord);\n" \
+"	const float4 pass1Color   = tex2D(pass1, texCoord);\n" \
+"	oColor = diffuseColor * pass1Color * color0;\n" \
+"}\n" \
+"\n" \
+"void add(\n" \
+"	float2 texCoord : TEXCOORD0,\n" \
+"	float4 color0 : COLOR0,\n" \
+"	out float4 oColor : COLOR,\n" \
+"	uniform sampler2D diffuse,\n" \
+"	uniform sampler2D pass1)\n" \
+"{\n" \
+"	const float4 diffuseColor = tex2D(diffuse, texCoord);\n" \
+"	const float4 pass1Color   = tex2D(pass1, texCoord);\n" \
+"	oColor = color0 * diffuseColor + float4(pass1Color.xyz, 0);\n" \
 "}\n" \
 "\n" \
 "\n";

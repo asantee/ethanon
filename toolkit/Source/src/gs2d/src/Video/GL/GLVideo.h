@@ -31,9 +31,14 @@ class GLVideo : public virtual Video, public RecoverableResourceManager
 
 	void Enable2DStates();
 
-	ShaderPtr m_defaultVS, m_rectVS, m_fastVS, m_defaultPS, m_defaultModulatePS, m_defaultAddPS;
-	ShaderPtr m_currentVS, m_currentPS;
-	
+	ShaderPtr m_defaultShader;
+    ShaderPtr m_rectShader;
+    ShaderPtr m_fastShader;
+    ShaderPtr m_modulateShader;
+    ShaderPtr m_addShader;
+
+	ShaderPtr m_currentShader;
+
 protected:
 	bool StartApplication(
 		const unsigned int width,
@@ -55,18 +60,16 @@ public:
 	GLVideo();
 	
 	boost::any GetVideoInfo();
-	
-	ShaderPtr GetFontShader();
-	ShaderPtr GetOptimalVS();
-	ShaderPtr GetDefaultPS();
-	ShaderPtr GetDefaultModulatePS();
-	ShaderPtr GetDefaultAddPS();
-	ShaderPtr GetDefaultVS();
-	ShaderPtr GetVertexShader();
-	ShaderPtr GetPixelShader();
+
+    ShaderPtr GetDefaultShader();
+    ShaderPtr GetRectShader();
+    ShaderPtr GetFastShader();
+    ShaderPtr GetModulateShader();
+    ShaderPtr GetAddShader();
+    ShaderPtr GetCurrentShader();
+
 	ShaderContextPtr GetShaderContext();
-	bool SetVertexShader(ShaderPtr pShader);
-	bool SetPixelShader(ShaderPtr pShader);
+	bool SetCurrentShader(ShaderPtr shader);
 
 	boost::any GetGraphicContext();
 		

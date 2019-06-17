@@ -86,15 +86,18 @@ public:
 		const Texture::TARGET_FORMAT format = Texture::TF_DEFAULT);
 
 	ShaderPtr LoadShaderFromFile(
-		const str_type::string& fileName,
-		const Shader::SHADER_FOCUS focus,
-		const char *entry = 0);
+	    const std::string& vsFileName,
+        const std::string& vsEntry,
+        const std::string& psFileName,
+        const std::string& psEntry);
 	
 	ShaderPtr LoadShaderFromString(
-		const str_type::string& shaderName,
-		const std::string& codeAsciiString,
-		const Shader::SHADER_FOCUS focus,
-		const char *entry = 0);
+		const std::string& vsShaderName,
+        const std::string& vsCodeAsciiString,
+        const std::string& vsEntry,
+        const std::string& psShaderName,
+        const std::string& psCodeAsciiString,
+        const std::string& psEntry);
 
 	bool EndSpriteScene();
 	

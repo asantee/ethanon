@@ -53,26 +53,13 @@ bool GLVideo::StartApplication(
 	if (!m_shaderContext)
 		m_shaderContext = GLCgShaderContextPtr(new GLCgShaderContext);
 
-	if (!m_defaultVS)
-		m_defaultVS = LoadShaderFromString("defaultShader", gs2dglobal::defaultVSCode, Shader::SF_VERTEX, "sprite");
+	m_defaultShader  = LoadShaderFromString("defaultShaderVS", gs2dglobal::defaultVSCode,    "sprite",    "defaultShaderPS",  gs2dglobal::defaultFragmentShaders, "minimal");
+	m_rectShader     = LoadShaderFromString("rectShaderVS",    gs2dglobal::defaultVSCode,    "rectangle", "rectShaderPS",     gs2dglobal::defaultFragmentShaders, "minimal");
+	m_fastShader     = LoadShaderFromString("fastShaderVS",    gs2dglobal::fastSimpleVSCode, "fast",      "fastShaderPS",     gs2dglobal::defaultFragmentShaders, "minimal");
+	m_modulateShader = LoadShaderFromString("fastShaderVS",    gs2dglobal::defaultVSCode,    "sprite",    "modulateShaderPS", gs2dglobal::defaultFragmentShaders, "modulate");
+	m_addShader      = LoadShaderFromString("addShaderVS",     gs2dglobal::defaultVSCode,    "sprite",    "addShaderPS",      gs2dglobal::defaultFragmentShaders, "add");
 
-	if (!m_rectVS)
-		m_rectVS = LoadShaderFromString("rectShader", gs2dglobal::defaultVSCode, Shader::SF_VERTEX, "rectangle");
-
-	if (!m_fastVS)
-		m_fastVS = LoadShaderFromString("fastShader", gs2dglobal::fastSimpleVSCode, Shader::SF_VERTEX, "fast");
-
-	if (!m_defaultModulatePS)
-		m_defaultModulatePS = LoadShaderFromString("modulate", gs2dglobal::defaultFragmentShaders, Shader::SF_PIXEL, "modulate");
-
-	if (!m_defaultAddPS)
-		m_defaultAddPS = LoadShaderFromString("add", gs2dglobal::defaultFragmentShaders, Shader::SF_PIXEL, "add");
-
-	if (!m_defaultPS)
-		m_defaultPS = LoadShaderFromString("minimal", gs2dglobal::defaultFragmentShaders, Shader::SF_PIXEL, "minimal");
-
-	m_currentVS = m_defaultVS;
-    m_currentPS = m_defaultPS;
+	m_currentShader = m_defaultShader;
 
 	UpdateInternalShadersViewData(GetScreenSizeF(), false);
 
@@ -82,9 +69,9 @@ bool GLVideo::StartApplication(
 
 void GLVideo::UpdateInternalShadersViewData(const math::Vector2& screenSize, const bool invertY)
 {
-	UpdateShaderViewData(m_defaultVS, screenSize);
-	UpdateShaderViewData(m_rectVS, screenSize);
-	UpdateShaderViewData(m_fastVS, screenSize);
+	UpdateShaderViewData(m_defaultShader, screenSize);
+	UpdateShaderViewData(m_rectShader, screenSize);
+	UpdateShaderViewData(m_fastShader, screenSize);
 }
 
 void GLVideo::UpdateShaderViewData(const ShaderPtr& shader, const math::Vector2& screenSize)
@@ -306,34 +293,34 @@ const GLRectRenderer& GLVideo::GetRectRenderer() const
 	return *m_rectRenderer.get();
 }
 
-ShaderPtr GLVideo::GetFontShader()
+ShaderPtr GLVideo::GetDefaultShader()
 {
-	return m_fastVS;
+	return m_defaultShader;
 }
 
-ShaderPtr GLVideo::GetOptimalVS()
+ShaderPtr GLVideo::GetRectShader()
 {
-	return m_defaultVS;
+	return m_rectShader;
 }
 
-ShaderPtr GLVideo::GetDefaultVS()
+ShaderPtr GLVideo::GetFastShader()
 {
-	return m_defaultVS;
+	return m_fastShader;
 }
 
-ShaderPtr GLVideo::GetDefaultPS()
+ShaderPtr GLVideo::GetModulateShader()
 {
-	return m_defaultPS;
+	return m_modulateShader;
 }
 
-ShaderPtr GLVideo::GetDefaultModulatePS()
+ShaderPtr GLVideo::GetAddShader()
 {
-	return m_defaultModulatePS;
+	return m_addShader;
 }
 
-ShaderPtr GLVideo::GetDefaultAddPS()
+ShaderPtr GLVideo::GetCurrentShader()
 {
-	return m_defaultAddPS;
+	return m_currentShader;
 }
 
 ShaderContextPtr GLVideo::GetShaderContext()
@@ -341,59 +328,19 @@ ShaderContextPtr GLVideo::GetShaderContext()
 	return m_shaderContext;
 }
 
-ShaderPtr GLVideo::GetVertexShader()
+bool GLVideo::SetCurrentShader(ShaderPtr shader)
 {
-	return m_currentVS;
-}
-
-bool GLVideo::SetVertexShader(ShaderPtr pShader)
-{
-	if (!pShader)
+	if (!shader)
 	{
-		if (m_currentVS != m_defaultVS)
-			m_currentVS->UnbindShader();
-		m_currentVS = m_defaultVS;
+		m_currentShader = m_defaultShader;
 	}
 	else
 	{
-		if (pShader->GetShaderFocus() != Shader::SF_VERTEX)
-		{
-			ShowMessage("The shader set is not a vertex program", GSMT_ERROR);
-			return false;
-		}
-		else
-		{
-			m_currentVS->UnbindShader();
-			m_currentVS = pShader;
-		}
+		m_currentShader = shader;
 	}
 
 	const math::Vector2 screenSize = GetScreenSizeF();
-	UpdateShaderViewData(m_currentVS, screenSize);
-	return true;
-}
-
-ShaderPtr GLVideo::GetPixelShader()
-{
-	return m_currentPS;
-}
-
-bool GLVideo::SetPixelShader(ShaderPtr pShader)
-{
-	if (pShader)
-	{
-		if (pShader->GetShaderFocus() != Shader::SF_PIXEL)
-		{
-			ShowMessage("The shader set is not a fragment program", GSMT_ERROR);
-			return false;
-		}
-	}
-    else
-    {
-        pShader = m_defaultPS;
-    }
-
-	m_currentPS = pShader;
+	UpdateShaderViewData(m_currentShader, screenSize);
 	return true;
 }
 
@@ -451,27 +398,25 @@ bool GLVideo::DrawRectangle(
 	math::Matrix4x4 mRot;
 	if (angle != 0.0f)
 		mRot = math::RotateZ(math::DegreeToRadian(angle));
-	m_rectVS->SetMatrixConstant("rotationMatrix", mRot);
-	m_rectVS->SetConstant("size", v2Size);
-	m_rectVS->SetConstant("entityPos", v2Pos);
-	m_rectVS->SetConstant("center", v2Center);
-	m_rectVS->SetConstant("color0", color0);
-	m_rectVS->SetConstant("color1", color1);
-	m_rectVS->SetConstant("color2", color2);
-	m_rectVS->SetConstant("color3", color3);
+	m_rectShader->SetMatrixConstant("rotationMatrix", mRot);
+	m_rectShader->SetConstant("size", v2Size);
+	m_rectShader->SetConstant("entityPos", v2Pos);
+	m_rectShader->SetConstant("center", v2Center);
+	m_rectShader->SetConstant("color0", color0);
+	m_rectShader->SetConstant("color1", color1);
+	m_rectShader->SetConstant("color2", color2);
+	m_rectShader->SetConstant("color3", color3);
 
-	ShaderPtr prevVertexShader = GetVertexShader(), prevPixelShader = GetPixelShader();
+	ShaderPtr prevShader = GetCurrentShader();
 
-	SetVertexShader(m_rectVS);
-	m_shaderContext->DisableFragmentShader();
+	SetCurrentShader(m_rectShader);
 
 	UnsetTexture(0);
 	UnsetTexture(1);
-	GetVertexShader()->SetShader();
+	GetCurrentShader()->SetShader();
 	m_rectRenderer->Draw(Sprite::RM_TWO_TRIANGLES);
 
-	SetPixelShader(prevPixelShader);
-	SetVertexShader(prevVertexShader);
+	SetCurrentShader(prevShader);
 	return true;
 }
 

@@ -176,161 +176,6 @@ bool ETHRenderEntity::IsSpriteVisible(
 	}
 }
 
-bool ETHRenderEntity::DrawShadow(
-	const float maxHeight,
-	const float minHeight,
-	const ETHSceneProperties& sceneProps,
-	const ETHLight& light,
-	ETHSpriteEntity *pParent,
-	const bool maxOpacity,
-	const bool drawToTarget,
-	const float targetAngle,
-	const Vector3& v3TargetPos)
-{
-	return DrawProjShadow(maxHeight, minHeight, sceneProps, light, pParent, maxOpacity, drawToTarget, targetAngle, v3TargetPos);
-}
-
-bool ETHRenderEntity::DrawProjShadow(
-	const float maxHeight,
-	const float minHeight,
-	const ETHSceneProperties& sceneProps,
-	const ETHLight& light,
-	ETHSpriteEntity *pParent,
-	const bool maxOpacity,
-	const bool drawToTarget,
-	const float targetAngle,
-	const Vector3& v3TargetPos)
-{
-	if (!m_pSprite || IsHidden())
-		return false;
-
-	VideoPtr video = m_provider->GetVideo();
-	ETHShaderManagerPtr shaderManager = m_provider->GetShaderManager();
-	SpritePtr pShadow = shaderManager->GetProjShadow();
-
-	Vector3 v3LightPos;
-	Vector3 v3ParentPos(0,0,0);
-
-	const Vector3 v3EntityPos = GetPosition();
-
-	if (pParent)
-	{
-		v3ParentPos = pParent->GetPosition();
-		v3LightPos = Vector3(v3ParentPos.x, v3ParentPos.y, 0) + light.pos;
-	}
-	else
-	{
-		v3LightPos = light.pos;
-	}
-
-	// if the object is higher than the light, then the shadow shouldn't be cast on the floor
-	if (v3LightPos.z < v3EntityPos.z)
-	{
-		return true;
-	}
-
-	const float scale = (m_properties.shadowScale <= 0.0f) ? 1.0f : m_properties.shadowScale;
-	const float opacity = (m_properties.shadowOpacity <= 0.0f) ? 1.0f : m_properties.shadowOpacity;
-	const Vector2 v2Size = GetSize();
-	Vector2 v2ShadowSize(v2Size.x, v2Size.y);
-	Vector2 v2ShadowPos(v3EntityPos.x, v3EntityPos.y);
-
-	// if we are drawing to a target of a rotated entity
-	if (drawToTarget && targetAngle != 0)
-	{
-		// rotate the shadow position according to entity angle
-		Matrix4x4 matRot = RotateZ(-DegreeToRadian(targetAngle));
-		Vector3 newShadowPos(v2ShadowPos, 0);
-		newShadowPos = newShadowPos - v3TargetPos;
-		newShadowPos = Multiply(newShadowPos, matRot);
-		newShadowPos = newShadowPos + v3TargetPos;
-		v2ShadowPos.x = newShadowPos.x;
-		v2ShadowPos.y = newShadowPos.y;
-
-		// rotate the light source to cast it correctly
-		Vector3 newPos = v3LightPos - v3TargetPos;
-		newPos = Multiply(newPos, matRot);
-		v3LightPos = newPos + v3TargetPos;
-	}
-
-	Vector3 diff = v3EntityPos - v3LightPos;
-	const float squaredDist = DP3(diff, diff);
-	float squaredRange = light.range * light.range;
-
-	if (squaredDist > squaredRange)
-	{
-		return true;
-	}
-
-	v2ShadowSize.x *= _ETH_SHADOW_SCALEX * scale;
-
-	// calculate the correct shadow length according to the light height
-	if ((GetPosition().z+v2Size.y) < light.pos.z) // if the light is over the entity
-	{
-		const float planarDist = Distance(GetPositionXY(), ETHGlobal::ToVector2(v3LightPos));
-		const float verticalDist = Abs((v3EntityPos.z+v2Size.y)-v3LightPos.z);
-		const float totalDist = (planarDist/verticalDist)*Abs(v3LightPos.z);
-		v2ShadowSize.y = totalDist-planarDist;
-
-		// clamp shadow length to the object's height. This is not realistic
-		// but it looks better for the real-time shadows.
-		v2ShadowSize.y = Min(v2Size.y*_ETH_SHADOW_FAKE_STRETCH, v2ShadowSize.y);
-	}
-	else
-	{
-		v2ShadowSize.y *= ((drawToTarget) ? _ETH_SHADOW_SCALEY : _ETH_SHADOW_SCALEY/4);
-	}
-
-	// specify a minimum length for the shadow
-	v2ShadowSize.y = Max(v2ShadowSize.y, v2Size.y);
-
-	ShaderPtr pVS = video->GetVertexShader();
-	pVS->SetConstant(GS_L("shadowLength"), v2ShadowSize.y * m_properties.shadowLengthScale);
-	pVS->SetConstant(GS_L("entityZ"), Max(m_shadowZ, v3EntityPos.z));
-	pVS->SetConstant(GS_L("shadowZ"), m_shadowZ);
-	pVS->SetConstant(GS_L("lightPos"), v3LightPos);
-	video->SetSpriteDepth(Max(0.0f, ComputeDepth(maxHeight, minHeight) - m_layrableMinimumDepth));
-
-	v2ShadowSize.y = 1.0f;
-
-	Vector2 lightPos2(v3LightPos.x, v3LightPos.y);
-	const float shadowAngle = ::GetAngle((lightPos2 - Vector2(v3EntityPos.x, v3EntityPos.y))) + DegreeToRadian(targetAngle);
-
-	squaredRange = Max(squaredDist, squaredRange);
-	float attenBias = 1;
-
-	// adjust brightness according to ambient light
-	if (!maxOpacity)
-	{
-		attenBias = (1-(squaredDist/squaredRange));
-		//fade the color according to the light brightness
-		const float colorLen = Max(Max(light.color.x, light.color.y), light.color.z);
-		attenBias *= Min(colorLen, 1.0f);
-
-		//fade the color according to the ambient light brightness
-		const Vector3 &ambientColor = sceneProps.ambient;
-		const float ambientColorLen = 1.0f - ((ambientColor.x + ambientColor.y + ambientColor.z) / 3.0f);
-		attenBias = Min(attenBias * ambientColorLen, 1.0f);
-		attenBias *= Max(Min((1 - (GetPosition().z / Max(GetSize().y, 1.0f))), 1.0f), 0.0f);
-	}
-
-	GS_BYTE alpha = static_cast<GS_BYTE>(attenBias*255.0f*opacity);
-
-	if (alpha < 8)
-		return true;
-
-	Color dwShadowColor(alpha,255,255,255);
-
-	pShadow->SetOrigin(Vector2(0.5f, 0.79f));
-	pShadow->SetRectMode(Sprite::RM_THREE_TRIANGLES);
-	pShadow->DrawShaped(v2ShadowPos, v2ShadowSize,
-		dwShadowColor, dwShadowColor, dwShadowColor, dwShadowColor,
-		RadianToDegree(shadowAngle));
-	pShadow->SetRectMode(Sprite::RM_TWO_TRIANGLES);
-
-	return true;
-}
-
 bool ETHRenderEntity::DrawHalo(
 	const Vector2 &zAxisDirection,
 	const float depth)
@@ -408,8 +253,8 @@ void ETHRenderEntity::DrawCollisionBox(SpritePtr pOutline, const Color& dwColor,
 	const bool zWrite = video->GetZWrite();
 	video->SetZWrite(false);
 
-	ShaderPtr pVS = video->GetVertexShader();
-	video->SetVertexShader(ShaderPtr());
+	ShaderPtr currentShader = video->GetCurrentShader();
+	video->SetCurrentShader(ShaderPtr());
 
 	const Color dwH = ARGB(150,dwColor.r,dwColor.g,dwColor.b);
 	const float depth = video->GetSpriteDepth();
@@ -421,6 +266,6 @@ void ETHRenderEntity::DrawCollisionBox(SpritePtr pOutline, const Color& dwColor,
 	video->SetZBuffer(zBuffer);
 	video->SetZBuffer(zWrite);
 	video->SetAlphaMode(alphaMode);
-	video->SetVertexShader(pVS);
+	video->SetCurrentShader(currentShader);
 	video->SetSpriteDepth(depth);
 }

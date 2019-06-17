@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
- 
- Permission is hereby granted, free of charge, to any person obtaining a copy of this
- software and associated documentation files (the "Software"), to deal in the
- Software without restriction, including without limitation the rights to use, copy,
- modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
- and to permit persons to whom the Software is furnished to do so, subject to the
- following conditions:
- 
- The above copyright notice and this permission notice shall be included in all
- copies or substantial portions of the Software.
- 
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
- INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
- PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
- CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
- OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- --------------------------------------------------------------------------------------*/
-
 #include "GLSprite.h"
 
 #include "../../Platform/Platform.h"
@@ -133,63 +111,51 @@ bool GLSprite::DrawShaped(
 	math::Vector2 v2Center = m_normalizedOrigin * v2Size;
 
 	GLVideo* video = m_video.lock().get();
-	ShaderPtr pCurrentVS = video->GetVertexShader();
+	ShaderPtr currentShader = video->GetCurrentShader();
 
 	math::Matrix4x4 mRot;
 	if (angle != 0.0f)
 		mRot = math::RotateZ(math::DegreeToRadian(angle));
-	pCurrentVS->SetMatrixConstant("rotationMatrix", mRot);
+	currentShader->SetMatrixConstant("rotationMatrix", mRot);
 
 	// rounds up the final position to avoid alpha distortion
-	math::Vector2 v2FinalPos;
-	if (video->IsRoundingUpPosition())
-	{
-		v2FinalPos.x = floor(v2Pos.x);
-		v2FinalPos.y = floor(v2Pos.y);
-	}
-	else
-	{
-		v2FinalPos = v2Pos;
-	}
+	math::Vector2 v2FinalPos = v2Pos;
 
-	pCurrentVS->SetConstant("size", v2Size);
-	pCurrentVS->SetConstant("entityPos", v2FinalPos);
-	pCurrentVS->SetConstant("center", v2Center);
-	pCurrentVS->SetConstant("flipMul", flipMul);
-	pCurrentVS->SetConstant("flipAdd", flipAdd);
-	pCurrentVS->SetConstant("bitmapSize", GetBitmapSizeF());
-	pCurrentVS->SetConstant("scroll", GetScroll());
-	pCurrentVS->SetConstant("multiply", GetMultiply());
+	currentShader->SetConstant("size", v2Size);
+	currentShader->SetConstant("entityPos", v2FinalPos);
+	currentShader->SetConstant("center", v2Center);
+	currentShader->SetConstant("flipMul", flipMul);
+	currentShader->SetConstant("flipAdd", flipAdd);
+	currentShader->SetConstant("bitmapSize", GetBitmapSizeF());
+	currentShader->SetConstant("scroll", GetScroll());
+	currentShader->SetConstant("multiply", GetMultiply());
 
-	const bool setCameraPos = pCurrentVS->ConstantExist("cameraPos");
+	const bool setCameraPos = currentShader->ConstantExist("cameraPos");
 	if (setCameraPos)
-		pCurrentVS->SetConstant("cameraPos", video->GetCameraPos());
+		currentShader->SetConstant("cameraPos", video->GetCameraPos());
 
 	if (m_rect.size.x == 0 || m_rect.size.y == 0)
 	{
-		pCurrentVS->SetConstant("rectSize", GetBitmapSizeF());
-		pCurrentVS->SetConstant("rectPos", 0, 0);
+		currentShader->SetConstant("rectSize", GetBitmapSizeF());
+		currentShader->SetConstant("rectPos", 0, 0);
 	}
 	else
 	{
-		pCurrentVS->SetConstant("rectSize", m_rect.size);
-		pCurrentVS->SetConstant("rectPos", m_rect.pos);
+		currentShader->SetConstant("rectSize", m_rect.size);
+		currentShader->SetConstant("rectPos", m_rect.pos);
 	}
 
-	pCurrentVS->SetConstant("color0", color0);
-	pCurrentVS->SetConstant("color1", color1);
-	pCurrentVS->SetConstant("color2", color2);
-	pCurrentVS->SetConstant("color3", color3);
+	currentShader->SetConstant("color0", color0);
+	currentShader->SetConstant("color1", color1);
+	currentShader->SetConstant("color2", color2);
+	currentShader->SetConstant("color3", color3);
 
-	if (pCurrentVS->ConstantExist("depth"))
-		pCurrentVS->SetConstant("depth", video->GetSpriteDepth());
+	if (currentShader->ConstantExist("depth"))
+		currentShader->SetConstant("depth", video->GetSpriteDepth());
 
-	// apply textures according to the rendering mode (pixel shaded or not)
-	ShaderPtr pCurrentPS = video->GetPixelShader();
-	pCurrentPS->SetTexture("diffuse", m_texture);
+	currentShader->SetTexture("diffuse", m_texture);
 
-	pCurrentVS->SetShader();
-	pCurrentPS->SetShader();
+	currentShader->SetShader();
 
 	// draw the one-pixel-quad applying the vertex shader
 	video->GetRectRenderer().Draw(m_rectMode);
@@ -240,14 +206,11 @@ boost::any GLSprite::GetTextureObject()
 void GLSprite::BeginFastRendering()
 {
 	GLVideo* video = m_video.lock().get();
-	video->SetVertexShader(video->GetFontShader());
-	ShaderPtr pCurrentVS = video->GetVertexShader();
-	pCurrentVS->SetConstant("bitmapSize", GetBitmapSizeF());
-
-	// apply textures according to the rendering mode (pixel shaded or not)
-	ShaderPtr pCurrentPS = video->GetPixelShader();
-	pCurrentPS->SetTexture("diffuse", m_texture);
-	pCurrentPS->SetShader();
+	video->SetCurrentShader(video->GetFastShader());
+	ShaderPtr current = video->GetCurrentShader();
+	current->SetConstant("bitmapSize", GetBitmapSizeF());
+	current->SetTexture("diffuse", m_texture);
+	current->SetShader();
 }
 
 bool GLSprite::DrawShapedFast(const math::Vector2 &v2Pos, const math::Vector2 &v2Size, const math::Vector4& color)
@@ -258,36 +221,27 @@ bool GLSprite::DrawShapedFast(const math::Vector2 &v2Pos, const math::Vector2 &v
 	}
 
 	GLVideo* video = m_video.lock().get();
-	ShaderPtr pCurrentVS = video->GetVertexShader();
+	ShaderPtr current = video->GetCurrentShader();
 
 	// rounds up the final position to avoid alpha distortion
-	math::Vector2 v2FinalPos;
-	if (video->IsRoundingUpPosition())
-	{
-		v2FinalPos.x = floor(v2Pos.x);
-		v2FinalPos.y = floor(v2Pos.y);
-	}
-	else
-	{
-		v2FinalPos = v2Pos;
-	}
+	math::Vector2 v2FinalPos = v2Pos;
 
-	pCurrentVS->SetConstant("size", v2Size);
-	pCurrentVS->SetConstant("entityPos", v2FinalPos);
-	pCurrentVS->SetConstant("color0", color);
+	current->SetConstant("size", v2Size);
+	current->SetConstant("entityPos", v2FinalPos);
+	current->SetConstant("color0", color);
 
 	if (m_rect.size.x == 0 || m_rect.size.y == 0)
 	{
-		pCurrentVS->SetConstant("rectSize", GetBitmapSizeF());
-		pCurrentVS->SetConstant("rectPos", 0, 0);
+		current->SetConstant("rectSize", GetBitmapSizeF());
+		current->SetConstant("rectPos", 0, 0);
 	}
 	else
 	{
-		pCurrentVS->SetConstant("rectSize", m_rect.size);
-		pCurrentVS->SetConstant("rectPos", m_rect.pos);
+		current->SetConstant("rectSize", m_rect.size);
+		current->SetConstant("rectPos", m_rect.pos);
 	}
 
-	pCurrentVS->SetShader();
+	current->SetShader();
 
 	video->GetRectRenderer().Draw(m_rectMode);
 	return true;
@@ -295,8 +249,7 @@ bool GLSprite::DrawShapedFast(const math::Vector2 &v2Pos, const math::Vector2 &v
 
 void GLSprite::EndFastRendering()
 {
-	m_video.lock()->SetVertexShader(ShaderPtr());
-	m_video.lock()->SetPixelShader(ShaderPtr());
+	m_video.lock()->SetCurrentShader(ShaderPtr());
 }
 
 bool GLSprite::SaveBitmap(
@@ -310,13 +263,13 @@ bool GLSprite::SaveBitmap(
 bool GLSprite::SetAsTexture(const unsigned int passIdx)
 {
 	GLVideoPtr video = m_video.lock();
-	if (passIdx == 1 && video->GetPixelShader() == video->GetDefaultPS())
+	if (passIdx == 1 && video->GetCurrentShader() == video->GetDefaultShader())
 	{
-		ShaderPtr defaultPS = (video->GetBlendMode(1) == Video::BM_MODULATE)
-								? video->GetDefaultModulatePS()
-								: video->GetDefaultAddPS();
-		video->SetPixelShader(defaultPS);
-		defaultPS->SetTexture("pass1", m_texture);
+		ShaderPtr defaultShader = (video->GetBlendMode(1) == Video::BM_MODULATE)
+								? video->GetModulateShader()
+								: video->GetAddShader();
+		video->SetCurrentShader(defaultShader);
+		defaultShader->SetTexture("pass1", m_texture);
 	}
 	return true;
 }

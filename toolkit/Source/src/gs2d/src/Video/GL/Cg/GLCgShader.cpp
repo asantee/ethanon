@@ -20,10 +20,12 @@ CGparameter SeekParameter(const std::string& name, std::map<std::string, CGparam
 }
 
 GLCgShader::GLCgShader(GLVideo* video) :
-	m_cgProfile(CG_PROFILE_UNKNOWN),
-	m_cgProgam(NULL),
-	m_focus(Shader::SF_NONE),
-	m_shaderName("none")
+	m_cgVsProfile(CG_PROFILE_UNKNOWN),
+    m_cgPsProfile(CG_PROFILE_UNKNOWN),
+	m_cgVsProgam(NULL),
+    m_cgPsProgam(NULL),
+	m_vsShaderName("none"),
+	m_psShaderName("none")
 {
 	m_video = (GLVideo*)(video);
 }
@@ -31,21 +33,17 @@ GLCgShader::GLCgShader(GLVideo* video) :
 GLCgShader::~GLCgShader()
 {
 	m_video->RemoveRecoverableResource(this);
-	DestroyCgProgram();
+	DestroyCgProgram(&m_cgVsProgam);
+    DestroyCgProgram(&m_cgPsProgam);
 }
 
-void GLCgShader::DestroyCgProgram()
+void GLCgShader::DestroyCgProgram(CGprogram* outProgram)
 {
-	if (m_cgProgam)
+	if (*outProgram)
 	{
-		cgDestroyProgram(m_cgProgam);
-		m_cgProgam = NULL;
+		cgDestroyProgram(*outProgram);
+		*outProgram = NULL;
 	}
-}
-
-Shader::SHADER_FOCUS GLCgShader::GetShaderFocus() const
-{
-	return m_focus;
 }
 
 CGcontext GLCgShader::ExtractCgContext(ShaderContextPtr context)
@@ -86,10 +84,13 @@ bool GLCgShader::CheckForError(const std::string& situation, const std::string& 
 
 void GLCgShader::UnbindShader()
 {
-	cgGLUnbindProgram(m_cgProfile);
-	cgGLDisableProfile(m_cgProfile);
-	if (m_focus == Shader::SF_PIXEL)
-		DisableTextures();
+	cgGLUnbindProgram(m_cgVsProfile);
+	cgGLDisableProfile(m_cgVsProfile);
+
+    cgGLUnbindProgram(m_cgPsProfile);
+    cgGLDisableProfile(m_cgPsProfile);
+
+	DisableTextures();
 }
 
 void GLCgShader::DisableIfEnabled(CGparameter param)
@@ -123,59 +124,74 @@ void GLCgShader::DisableTextures()
 
 bool GLCgShader::SetShader()
 {
-	cgGLBindProgram(m_cgProgam);
-	if (CheckForError("cgGLBindProgram", m_shaderName))
-		return false;
+	{
+        cgGLBindProgram(m_cgVsProgam);
+        if (CheckForError("cgGLBindProgram", m_vsShaderName))
+            return false;
 
-	cgUpdateProgramParameters(m_cgProgam);
-	if (CheckForError("cgUpdateProgramParameters", m_shaderName))
-		return false;
+        cgUpdateProgramParameters(m_cgVsProgam);
+        if (CheckForError("cgUpdateProgramParameters", m_vsShaderName))
+            return false;
 
-	cgGLEnableProfile(m_cgProfile);
-	if (CheckForError("cgGLEnableProfile", m_shaderName))
-		return false;
+        cgGLEnableProfile(m_cgVsProfile);
+        if (CheckForError("cgGLEnableProfile", m_vsShaderName))
+            return false;
+    }
+    {
+        cgGLBindProgram(m_cgPsProgam);
+        if (CheckForError("cgGLBindProgram", m_psShaderName))
+            return false;
+
+        cgUpdateProgramParameters(m_cgPsProgam);
+        if (CheckForError("cgUpdateProgramParameters", m_psShaderName))
+            return false;
+
+        cgGLEnableProfile(m_cgPsProfile);
+        if (CheckForError("cgGLEnableProfile", m_psShaderName))
+            return false;
+    }
 
 	return true;
 }
 
 bool GLCgShader::LoadShaderFromFile(
 	ShaderContextPtr context,
-	const str_type::string& fileName,
-	const SHADER_FOCUS focus,
-	const char *entry)
+	const std::string& vsFileName,
+	const std::string& vsEntry,
+	const std::string& psFileName,
+	const std::string& psEntry)
 {
-	const std::string& str = enml::GetStringFromAnsiFile(fileName);
-	return LoadShaderFromString(context, fileName, str, focus, entry);
+	const std::string& vsStr = enml::GetStringFromAnsiFile(vsFileName);
+    const std::string& psStr = enml::GetStringFromAnsiFile(psFileName);
+	return LoadShaderFromString(context, vsFileName, vsStr, vsEntry, psFileName, psStr, psEntry);
 }
 
 bool GLCgShader::LoadShaderFromString(
 	ShaderContextPtr context,
-	const str_type::string& shaderName,
-	const std::string& codeAsciiString,
-	const SHADER_FOCUS focus,
-	const char *entry)
+    const std::string& vsShaderName,
+    const std::string& vsCodeAsciiString,
+    const std::string& vsEntry,
+    const std::string& psShaderName,
+    const std::string& psCodeAsciiString,
+    const std::string& psEntry)
 {
-	if (entry)
-		m_entry = entry;
-	m_shaderCode = codeAsciiString;
-	m_cgContext = ExtractCgContext(context);
-	m_shaderName = shaderName;
-	m_focus = focus;
+	m_vsEntry = vsEntry;
+	m_psEntry = psEntry;
 
-	if (focus == Shader::SF_PIXEL)
-	{
-		m_cgProfile = cgGLGetLatestProfile(CG_GL_FRAGMENT);
-	}
-	else
-	{
-		m_cgProfile = cgGLGetLatestProfile(CG_GL_VERTEX);
-	}
+    m_cgContext = ExtractCgContext(context);
 
-	cgGLSetOptimalOptions(m_cgProfile);
-	if (CheckForError("Shader::LoadShader setting optimal options", m_shaderName))
-		return false;
+	m_vsShaderCode = vsCodeAsciiString;
+	m_vsShaderName = vsShaderName;
+	m_cgVsProfile = cgGLGetLatestProfile(CG_GL_VERTEX);
 
-	if (CreateCgProgram())
+    m_psShaderCode = psCodeAsciiString;
+    m_psShaderName = psShaderName;
+	m_cgPsProfile = cgGLGetLatestProfile(CG_GL_FRAGMENT);
+
+	m_shaderPairName = m_vsShaderName + "-" + m_psShaderName;
+
+	if (CreateCgProgram(&m_cgVsProgam, m_vsShaderCode, m_cgVsProfile, m_vsShaderName, m_vsEntry) &&
+		CreateCgProgram(&m_cgPsProgam, m_psShaderCode, m_cgPsProfile, m_psShaderName, m_psEntry))
 	{
 		m_video->InsertRecoverableResource(this);
 	}
@@ -186,39 +202,52 @@ bool GLCgShader::LoadShaderFromString(
 	return true;
 }
 
-bool GLCgShader::CreateCgProgram()
+bool GLCgShader::CreateCgProgram(
+	CGprogram* outProgram,
+	const std::string& shaderCode,
+	CGprofile profile,
+	const std::string& shaderName,
+	const std::string& entry)
 {
-	DestroyCgProgram();
-	m_cgProgam = cgCreateProgram(
+    cgGLSetOptimalOptions(profile);
+    if (CheckForError("Shader::LoadShader setting optimal options", shaderName))
+        return false;
+
+	DestroyCgProgram(outProgram);
+
+	*outProgram = cgCreateProgram(
 		m_cgContext,
 		CG_SOURCE,
-		m_shaderCode.c_str(),
-		m_cgProfile,
-		m_entry.empty() ? NULL : m_entry.c_str(),
+		shaderCode.c_str(),
+		profile,
+		entry.empty() ? NULL : entry.c_str(),
 		NULL);
 
-	if (CheckForError("Shader::LoadShader creating program from file", m_shaderName))
+	if (CheckForError("Shader::LoadShader creating program from file", shaderName))
 		return false;
 
 	// compile shader
-	cgGLLoadProgram(m_cgProgam);
-	if (CheckForError("GS_SHADER::CompileShader loading the program", m_shaderName))
+	cgGLLoadProgram(*outProgram);
+	if (CheckForError("GS_SHADER::CompileShader loading the program", shaderName))
 		return false;
 
-	FillParameters(CG_GLOBAL);
-	FillParameters(CG_PROGRAM);
+	FillParameters(CG_GLOBAL, *outProgram);
+	FillParameters(CG_PROGRAM, *outProgram);
 	return true;
 }
 
 void GLCgShader::Recover()
 {
-	CreateCgProgram();
-	ShowMessage("Shader recovered: " + Platform::GetFileName(m_shaderName), GSMT_INFO);
+	CreateCgProgram(&m_cgVsProgam, m_vsShaderCode, m_cgVsProfile, m_vsShaderName, m_vsEntry);
+	CreateCgProgram(&m_cgPsProgam, m_psShaderCode, m_cgPsProfile, m_psShaderName, m_psEntry);
+
+	ShowMessage("Shader recovered: " + Platform::GetFileName(m_shaderPairName), GSMT_INFO);
 }
 
-void GLCgShader::FillParameters(const CGenum domain)
+void GLCgShader::FillParameters(const CGenum domain, CGprogram program)
 {
-	CGparameter param = cgGetFirstParameter(m_cgProgam, domain);
+	CGparameter param = cgGetFirstParameter(program, domain);
+
 	while (param)
 	{
 		const char* name = cgGetParameterName(param);
@@ -246,10 +275,10 @@ bool GLCgShader::SetConstant(const str_type::string& name, const math::Vector4 &
 {
 	CGparameter param = SeekParameter(name, m_params);
 	if (!param)
-		return ShowInvalidParameterWarning(m_shaderName, name);
+		return ShowInvalidParameterWarning(m_shaderPairName, name);
 
-	cgSetParameter4fv(param, (float*)&v);
-	if (CheckForError("Shader::SetConstant4F setting parameter", m_shaderName))
+	cgGLSetParameter4fv(param, (float*)&v);
+	if (CheckForError("Shader::SetConstant4F setting parameter", m_shaderPairName))
 		return false;
 	return true;
 }
@@ -258,10 +287,10 @@ bool GLCgShader::SetConstant(const str_type::string& name, const math::Vector3 &
 {
 	CGparameter param = SeekParameter(name, m_params);
 	if (!param)
-		return ShowInvalidParameterWarning(m_shaderName, name);
+		return ShowInvalidParameterWarning(m_shaderPairName, name);
 
-	cgSetParameter3fv(param, (float*)&v);
-	if (CheckForError("Shader::SetConstant3F setting parameter", m_shaderName))
+	cgGLSetParameter3fv(param, (float*)&v);
+	if (CheckForError("Shader::SetConstant3F setting parameter", m_shaderPairName))
 		return false;
 	return true;
 }
@@ -270,10 +299,10 @@ bool GLCgShader::SetConstant(const str_type::string& name, const math::Vector2 &
 {
 	CGparameter param = SeekParameter(name, m_params);
 	if (!param)
-		return ShowInvalidParameterWarning(m_shaderName, name);
+		return ShowInvalidParameterWarning(m_shaderPairName, name);
 
-	cgSetParameter2fv(param, (float*)&v);
-	if (CheckForError("Shader::SetConstant2F setting parameter", m_shaderName))
+	cgGLSetParameter2fv(param, (float*)&v);
+	if (CheckForError("Shader::SetConstant2F setting parameter", m_shaderPairName))
 		return false;
 	return true;
 }
@@ -282,10 +311,10 @@ bool GLCgShader::SetConstant(const str_type::string& name, const float x)
 {
 	CGparameter param = SeekParameter(name, m_params);
 	if (!param)
-		return ShowInvalidParameterWarning(m_shaderName, name);
+		return ShowInvalidParameterWarning(m_shaderPairName, name);
 
-	cgSetParameter1f(param, x);
-	if (CheckForError("Shader::SetConstant1F setting parameter", m_shaderName))
+	cgGLSetParameter1f(param, x);
+	if (CheckForError("Shader::SetConstant1F setting parameter", m_shaderPairName))
 		return false;
 	return true;
 }
@@ -316,10 +345,10 @@ bool GLCgShader::SetConstant(const str_type::string& name, const int n)
 {
 	CGparameter param = SeekParameter(name, m_params);
 	if (!param)
-		return ShowInvalidParameterWarning(m_shaderName, name);
+		return ShowInvalidParameterWarning(m_shaderPairName, name);
 
 	cgSetParameter1i(param, n);
-	if (CheckForError("Shader::SetConstant1I setting parameter", m_shaderName))
+	if (CheckForError("Shader::SetConstant1I setting parameter", m_shaderPairName))
 		return false;
 	return true;
 }
@@ -328,10 +357,10 @@ bool GLCgShader::SetMatrixConstant(const str_type::string& name, const math::Mat
 {
 	CGparameter param = SeekParameter(name, m_params);
 	if (!param)
-		return ShowInvalidParameterWarning(m_shaderName, name);
+		return ShowInvalidParameterWarning(m_shaderPairName, name);
 
 	cgSetMatrixParameterfr(param, (float*)&matrix);
-	if (CheckForError("Shader::SetMatrixConstant setting parameter", m_shaderName))
+	if (CheckForError("Shader::SetMatrixConstant setting parameter", m_shaderPairName))
 		return false;
 	return true;
 }
@@ -340,37 +369,33 @@ bool GLCgShader::SetConstantArray(const str_type::string& name, unsigned int nEl
 {
 	CGparameter param = SeekParameter(name, m_params);
 	if (!param)
-		return ShowInvalidParameterWarning(m_shaderName, name);
+		return ShowInvalidParameterWarning(m_shaderPairName, name);
 
 	cgGLSetParameterArray2f(param, 0, (long)nElements, (float*)v.get());
-	if (CheckForError("Shader::SetConstantArrayF setting parameter", m_shaderName))
+	if (CheckForError("Shader::SetConstantArrayF setting parameter", m_shaderPairName))
 		return false;
 	return true;
 }
 
 bool GLCgShader::SetTexture(const str_type::string& name, TextureWeakPtr pTexture)
 {
-	if (m_focus != Shader::SF_PIXEL)
-	{
-		ShowMessage("Shader::SetTexture - textures can't be set as vertex shader parameter", GSMT_ERROR);
-		return false;
-	}
-
 	CGparameter param = SeekParameter(name, m_params);
 
 	if (!param)
-		return ShowInvalidParameterWarning(m_shaderName, name);
+	{
+		return ShowInvalidParameterWarning(m_shaderPairName, name);
+	}
 
 	DisableIfEnabled(param);
 
 	const GLTexture* textureObj = (GLTexture*)(pTexture.lock().get());
 	
 	cgGLSetTextureParameter(param, textureObj->GetTextureInfo().m_texture);
-	if (CheckForError("Shader::SetTexture", m_shaderName))
+	if (CheckForError("Shader::SetTexture", m_shaderPairName))
 		return false;
 
 	cgGLEnableTextureParameter(param);
-	if (CheckForError("Shader::SetTexture", m_shaderName))
+	if (CheckForError("Shader::SetTexture", m_shaderPairName))
 		return false;
 
 	// add this param to the enabled texture parameter list so we can disable it with DisableTetureParams

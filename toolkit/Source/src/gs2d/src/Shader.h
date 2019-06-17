@@ -29,25 +29,21 @@ typedef boost::shared_ptr<ShaderContext> ShaderContextPtr;
 class Shader
 {
 public:
-	enum SHADER_FOCUS
-	{
-		SF_PIXEL = 0,
-		SF_VERTEX = 1,
-		SF_NONE = 2
-	};
-
 	virtual bool LoadShaderFromFile(
 		ShaderContextPtr context,
-		const str_type::string& fileName,
-		const SHADER_FOCUS focus,
-		const char *entry = 0) = 0;
+        const std::string& vsFileName,
+        const std::string& vsEntry,
+        const std::string& psFileName,
+        const std::string& psEntry) = 0;
 
 	virtual bool LoadShaderFromString(
 		ShaderContextPtr context,
-		const str_type::string& shaderName,
-		const std::string& codeAsciiString,
-		const SHADER_FOCUS focus,
-		const char *entry = 0) = 0;
+        const std::string& vsShaderName,
+        const std::string& vsCodeAsciiString,
+        const std::string& vsEntry,
+        const std::string& psShaderName,
+        const std::string& psCodeAsciiString,
+        const std::string& psEntry) = 0;
 
 	virtual bool ConstantExist(const str_type::string& name) = 0;
 	virtual bool SetConstant(const str_type::string& name, const Color& dw) = 0;
@@ -62,10 +58,8 @@ public:
 	virtual bool SetConstantArray(const str_type::string& name, unsigned int nElements, const boost::shared_array<const math::Vector2>& v) = 0;
 	virtual bool SetMatrixConstant(const str_type::string& name, const math::Matrix4x4 &matrix) = 0;
 	virtual bool SetTexture(const str_type::string& name, TextureWeakPtr pTexture) = 0;
-
+	
 	virtual bool SetShader() = 0;
-	virtual SHADER_FOCUS GetShaderFocus() const = 0;
-	virtual void UnbindShader() = 0;
 };
 
 typedef boost::shared_ptr<Shader> ShaderPtr;

@@ -20,11 +20,6 @@ public:
 
 	boost::any GetContextPointer();
 	bool DisableTextureParams();
-
-    void DisableFragmentShader();
-    
-	CGprofile GetLatestVertexProfile() const;
-	CGprofile GetLatestFragmentProfile() const;
 };
 
 typedef boost::shared_ptr<GLCgShaderContext> GLCgShaderContextPtr;

@@ -32,7 +32,6 @@ class Video :
 	float m_lineWidth;
 	float m_depth;
 	float m_virtualScreenHeight;
-	bool m_roundUpPosition;
 
 public:
 	enum ALPHA_MODE
@@ -118,27 +117,32 @@ public:
 
 	/// Create a shader object and load/compile it.
 	virtual ShaderPtr LoadShaderFromFile(
-		const str_type::string& fileName,
-		const Shader::SHADER_FOCUS focus,
-		const char *entry = 0) = 0;
+        const std::string& vsFileName,
+        const std::string& vsEntry,
+        const std::string& psFileName,
+        const std::string& psEntry) = 0;
 
 	/// Create a shader object and load/compile it.
 	virtual ShaderPtr LoadShaderFromString(
-		const str_type::string& shaderName,
-		const std::string& codeAsciiString,
-		const Shader::SHADER_FOCUS focus,
-		const char *entry = 0) = 0;
+		const std::string& vsShaderName,
+		const std::string& vsCodeAsciiString,
+        const std::string& vsEntry,
+		const std::string& psShaderName,
+		const std::string& psCodeAsciiString,
+		const std::string& psEntry) = 0;
 
 	virtual boost::any GetVideoInfo() = 0;
 
-	virtual ShaderPtr GetFontShader() = 0;
-	virtual ShaderPtr GetOptimalVS() = 0;
-	virtual ShaderPtr GetDefaultVS() = 0;
-	virtual ShaderPtr GetVertexShader() = 0;
-	virtual ShaderPtr GetPixelShader() = 0;
+    virtual ShaderPtr GetDefaultShader() = 0;
+    virtual ShaderPtr GetRectShader() = 0;
+    virtual ShaderPtr GetFastShader() = 0;
+    virtual ShaderPtr GetModulateShader() = 0;
+    virtual ShaderPtr GetAddShader() = 0;
+    virtual ShaderPtr GetCurrentShader() = 0;
+
 	virtual ShaderContextPtr GetShaderContext() = 0;
-	virtual bool SetVertexShader(ShaderPtr pShader) = 0;
-	virtual bool SetPixelShader(ShaderPtr pShader) = 0;
+
+	virtual bool SetCurrentShader(ShaderPtr shader) = 0;
 
 	virtual boost::any GetGraphicContext() = 0;
 
@@ -245,8 +249,6 @@ public:
 	virtual float GetSpriteDepth() const;
 	virtual void SetLineWidth(const float width);
 	virtual float GetLineWidth() const;
-	virtual void RoundUpPosition(const bool roundUp);
-	virtual bool IsRoundingUpPosition() const;
 	virtual void SetVirtualScreenHeight(const float height);
 	virtual float GetVirtualScreenHeight() const;
 	virtual float GetScaleFactor() const;

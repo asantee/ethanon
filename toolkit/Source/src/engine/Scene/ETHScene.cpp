@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "ETHScene.h"
 
 #include "../Entity/ETHEntityArray.h"
@@ -531,7 +509,7 @@ void ETHScene::Update(
 	m_maxSceneHeight = maxHeight;
 }
 
-void ETHScene::RenderScene(const bool roundUp, const ETHBackBufferTargetManagerPtr& backBuffer)
+void ETHScene::RenderScene(const ETHBackBufferTargetManagerPtr& backBuffer)
 {
 	const VideoPtr& video = m_provider->GetVideo();
 
@@ -541,12 +519,9 @@ void ETHScene::RenderScene(const bool roundUp, const ETHBackBufferTargetManagerP
 	video->SetZBuffer(GetZBuffer());
 
 	// draw ambient pass
-	video->RoundUpPosition(roundUp);
-
-	DrawEntityMultimap(roundUp, backBuffer);
+	DrawEntityMultimap(backBuffer);
 
 	m_buckets.ResolveMoveRequests();
-	video->RoundUpPosition(false);
 }
 
 void ETHScene::FillCurrentlyVisibleBucketList(std::list<Vector2>& bucketList, const ETHBackBufferTargetManagerPtr& backBuffer)
@@ -624,12 +599,8 @@ void ETHScene::MapEntitiesToBeRendered(
 	m_nCurrentLights = static_cast<unsigned int>(m_renderingManager.GetNumLights());
 }
 
-void ETHScene::DrawEntityMultimap(const bool roundUp, const ETHBackBufferTargetManagerPtr& backBuffer)
+void ETHScene::DrawEntityMultimap(const ETHBackBufferTargetManagerPtr& backBuffer)
 {
-	const VideoPtr& video = m_provider->GetVideo();
-
-	video->RoundUpPosition(roundUp);
-
 	m_renderingManager.RenderPieces(m_sceneProps, m_minSceneHeight, m_maxSceneHeight);
 
 	// Show buckets outline in debug mode

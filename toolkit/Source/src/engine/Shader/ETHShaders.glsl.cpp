@@ -31,7 +31,7 @@ static const std::string emptyStr;
 
 const std::string& ETHShaders::DefaultPS()
 {
-	return emptyStr;
+	return to-do;
 }
 
 // ambient pass

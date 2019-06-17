@@ -7,6 +7,7 @@ void main()
 
 	const string[] ethanonShaders = {
 		"Cg/defaultVS.cg",
+		"Cg/defaultPS.cg",
 		"Cg/hAmbientVS.cg",
 		"Cg/hPixelLightDiff.cg",
 		"Cg/hPixelLightSpec.cg",

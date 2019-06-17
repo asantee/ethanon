@@ -18,14 +18,22 @@ class GLVideo;
 class GLCgShader : public Shader, RecoverableResource
 {
 	std::map<std::string, CGparameter> m_params;
-	CGprogram m_cgProgam;
-	CGprofile m_cgProfile;
+	CGprogram m_cgVsProgam;
+    CGprogram m_cgPsProgam;
 
-	SHADER_FOCUS m_focus;
-	
-	std::string m_shaderName;
-	std::string m_shaderCode;
-	std::string m_entry;
+	CGprofile m_cgVsProfile;
+    CGprofile m_cgPsProfile;
+
+	std::string m_vsShaderName;
+	std::string m_vsShaderCode;
+
+	std::string m_psShaderName;
+	std::string m_psShaderCode;
+
+    std::string m_shaderPairName;
+
+	std::string m_vsEntry;
+    std::string m_psEntry;
 
 	bool CheckForError(const std::string& situation, const std::string& additionalInfo);
 	void Recover();
@@ -35,12 +43,18 @@ class GLCgShader : public Shader, RecoverableResource
 	CGcontext m_cgContext;
 
 	CGcontext ExtractCgContext(ShaderContextPtr context);
-	void FillParameters(const CGenum domain);
+	void FillParameters(const CGenum domain, CGprogram program);
 
 	std::list<CGparameter> m_enabledTextures;
 
-	bool CreateCgProgram();
-	void DestroyCgProgram();
+	bool CreateCgProgram(
+		CGprogram* outProgram,
+        const std::string& shaderCode,
+        CGprofile profile,
+        const std::string& shaderName,
+        const std::string& entry);
+
+	void DestroyCgProgram(CGprogram* outProgram);
 
 	void DisableIfEnabled(CGparameter param);
 
@@ -50,16 +64,19 @@ public:
 
 	bool LoadShaderFromFile(
 		ShaderContextPtr context,
-		const str_type::string& fileName,
-		const SHADER_FOCUS focus,
-		const char *entry = 0);
+        const std::string& vsFileName,
+        const std::string& vsEntry,
+        const std::string& psFileName,
+        const std::string& psEntry);
 
 	bool LoadShaderFromString(
 		ShaderContextPtr context,
-		const str_type::string& shaderName,
-		const std::string& codeAsciiString,
-		const SHADER_FOCUS focus,
-		const char *entry = 0);
+        const std::string& vsShaderName,
+        const std::string& vsCodeAsciiString,
+        const std::string& vsEntry,
+        const std::string& psShaderName,
+        const std::string& psCodeAsciiString,
+        const std::string& psEntry);
 
 	bool ConstantExist(const str_type::string& name);
 	bool SetConstant(const str_type::string& name, const Color& dw);
@@ -76,7 +93,6 @@ public:
 	bool SetTexture(const str_type::string& name, TextureWeakPtr pTexture);
 
 	bool SetShader();
-	SHADER_FOCUS GetShaderFocus() const;
 	void UnbindShader();
 	void DisableTextures();
 };

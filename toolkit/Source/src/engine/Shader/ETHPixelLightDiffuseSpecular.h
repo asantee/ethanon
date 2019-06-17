@@ -24,9 +24,8 @@ private:
 	SpritePtr m_defaultNM;
 	ETHFakeEyePositionManagerPtr m_fakeEyeManager;
 	Video::ALPHA_MODE m_lastAM;
-	ShaderPtr m_hPixelLightPS;
-	ShaderPtr m_hPixelLightSpecularPS;
-	ShaderPtr m_hPixelLightVS;
+	ShaderPtr m_pixelLightShader;
+	ShaderPtr m_pixelLightSpecularShader;
 
 	static const float LIGHT_PRECISION_DOWNSCALE;
 };

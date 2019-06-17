@@ -72,12 +72,13 @@ bool GLSDLVideo::EndSpriteScene()
 }
 
 ShaderPtr GLSDLVideo::LoadShaderFromFile(
-	const str_type::string& fileName,
-	const Shader::SHADER_FOCUS focus,
-	const char *entry)
+	const std::string& vsFileName,
+	const std::string& vsEntry,
+	const std::string& psFileName,
+	const std::string& psEntry)
 {
 	ShaderPtr shader = ShaderPtr(new GLCgShader(this));
-	if (shader->LoadShaderFromFile(m_shaderContext, fileName, focus, entry))
+	if (shader->LoadShaderFromFile(m_shaderContext, vsFileName, vsEntry, psFileName, psEntry))
 	{
 		return shader;
 	}
@@ -85,13 +86,22 @@ ShaderPtr GLSDLVideo::LoadShaderFromFile(
 }
 
 ShaderPtr GLSDLVideo::LoadShaderFromString(
-	const str_type::string& shaderName,
-	const std::string& codeAsciiString,
-	const Shader::SHADER_FOCUS focus,
-	const char *entry)
+	const std::string& vsShaderName,
+	const std::string& vsCodeAsciiString,
+	const std::string& vsEntry,
+	const std::string& psShaderName,
+	const std::string& psCodeAsciiString,
+	const std::string& psEntry)
 {
 	ShaderPtr shader(new GLCgShader(this));
-	if (shader->LoadShaderFromString(m_shaderContext, shaderName, codeAsciiString, focus, entry))
+	if (shader->LoadShaderFromString(
+		m_shaderContext,
+		vsShaderName,
+		vsCodeAsciiString,
+		vsEntry,
+		psShaderName,
+		psCodeAsciiString,
+		psEntry))
 	{
 		return shader;
 	}

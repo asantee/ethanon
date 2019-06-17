@@ -55,20 +55,4 @@ bool GLCgShaderContext::DisableTextureParams()
 	return false;
 }
 
-void GLCgShaderContext::DisableFragmentShader()
-{
-    cgGLUnbindProgram(m_latestFragmentProfile);
-    cgGLDisableProfile(m_latestFragmentProfile);
-}
-    
-CGprofile GLCgShaderContext::GetLatestVertexProfile() const
-{
-	return m_latestVertexProfile;
-}
-
-CGprofile GLCgShaderContext::GetLatestFragmentProfile() const
-{
-	return m_latestFragmentProfile;
-}
-
 } // namespace gs2d

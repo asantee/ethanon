@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "Video.h"
 
 namespace gs2d {
@@ -27,7 +5,6 @@ namespace gs2d {
 Video::Video() :
 	m_depth(0.0f),
 	m_lineWidth(1.0f),
-	m_roundUpPosition(false),
 	m_virtualScreenHeight(720.0f)
 {
 }
@@ -115,14 +92,7 @@ bool Video::MoveCamera(const math::Vector2& dir)
 
 math::Vector2 Video::GetCameraPos() const
 {
-	if (IsRoundingUpPosition())
-	{
-		return math::Vector2(floor(m_cameraPos.x), floor(m_cameraPos.y));
-	}
-	else
-	{
-		return m_cameraPos;
-	}
+	return m_cameraPos;
 }
 
 void Video::SetLineWidth(const float width)
@@ -133,15 +103,6 @@ void Video::SetLineWidth(const float width)
 float Video::GetLineWidth() const
 {
 	return m_lineWidth;
-}
-
-void Video::RoundUpPosition(const bool roundUp)
-{
-	m_roundUpPosition = roundUp;
-}
-bool Video::IsRoundingUpPosition() const
-{
-	return m_roundUpPosition;
 }
 
 bool Video::SetSpriteDepth(const float depth)

@@ -10,9 +10,15 @@ ETHPixelLightDiffuseSpecular::ETHPixelLightDiffuseSpecular(
 	: m_fakeEyeManager(fakeEyeManager)
 {
 	m_video = video;
-	m_hPixelLightPS = m_video->LoadShaderFromString(GS_L("hPixelLightPS"), ETHShaders::PL_PS_Hor_Diff(), Shader::SF_PIXEL);
-	m_hPixelLightVS = m_video->LoadShaderFromString(GS_L("hPixelLightVS"), ETHShaders::PL_VS_Hor_Light(), Shader::SF_VERTEX);
-	m_hPixelLightSpecularPS = m_video->LoadShaderFromString(GS_L("hPixelLightSpecularPS"), ETHShaders::PL_PS_Hor_Spec(), Shader::SF_PIXEL);
+	
+	m_pixelLightShader = m_video->LoadShaderFromString(
+		"hPixelLightVS", ETHShaders::PL_VS_Hor_Light(), "",
+		"hPixelLightPS", ETHShaders::PL_PS_Hor_Diff(), "");
+
+	m_pixelLightSpecularShader = m_video->LoadShaderFromString(
+		"hPixelLightVS", ETHShaders::PL_VS_Hor_Light(), "",
+		"hPixelLightSpecularPS", ETHShaders::PL_PS_Hor_Spec(), "");
+
 	m_defaultNM = m_video->CreateSprite(ETHGlobal::GetDataResourceFullPath(shaderPath, GS_L("default_nm.png")));
 }
 
@@ -23,40 +29,38 @@ bool ETHPixelLightDiffuseSpecular::BeginLightPass(ETHSpriteEntity *pRender, Vect
 	const Vector3 &v3EntityPos = pRender->GetPosition();
 
 	// set the correct light shader
-	ShaderPtr pLightShader;
+	ShaderPtr lightShader;
 	const bool hasGloss = static_cast<bool>(pRender->GetGloss());
 	if (hasGloss)
 	{
-		pLightShader = m_hPixelLightSpecularPS;
+		lightShader = m_pixelLightSpecularShader;
 	}
 	else
 	{
-		pLightShader = m_hPixelLightPS;
+		lightShader = m_pixelLightShader;
 	}
 
 	// if it has a gloss map, send specular data to shader
 	if (hasGloss)
 	{
-		pLightShader->SetConstant(GS_L("specularPower"), pRender->GetSpecularPower());
-		pLightShader->SetConstant(GS_L("specularBrightness"), pRender->GetSpecularBrightness());
-		pLightShader->SetTexture(GS_L("glossMap"), pRender->GetGloss()->GetTexture());
-		pLightShader->SetConstant(GS_L("fakeEyePos"), m_fakeEyeManager->ComputeFakeEyePosition(m_video, pLightShader, drawToTarget, v3LightPos, pRender->GetAngle()));
+		lightShader->SetConstant(GS_L("specularPower"), pRender->GetSpecularPower());
+		lightShader->SetConstant(GS_L("specularBrightness"), pRender->GetSpecularBrightness());
+		lightShader->SetTexture(GS_L("glossMap"), pRender->GetGloss()->GetTexture());
+		lightShader->SetConstant(GS_L("fakeEyePos"), m_fakeEyeManager->ComputeFakeEyePosition(m_video, lightShader, drawToTarget, v3LightPos, pRender->GetAngle()));
 	}
 
 	// choose which normalmap to use
-	m_video->SetPixelShader(pLightShader);
 	if (pRender->GetNormal())
 	{
-		pLightShader->SetTexture(GS_L("normalMap"), pRender->GetNormal()->GetTexture());
+		lightShader->SetTexture(GS_L("normalMap"), pRender->GetNormal()->GetTexture());
 	}
 	else
 	{
-		pLightShader->SetTexture(GS_L("normalMap"), GetDefaultNormalMap()->GetTexture());
+		lightShader->SetTexture(GS_L("normalMap"), GetDefaultNormalMap()->GetTexture());
 	}
 
 	// sets spatial information to the shader
-	m_hPixelLightVS->SetConstant(GS_L("topLeft3DPos"), v3EntityPos-Vector3(v2Origin,0));
-	m_video->SetVertexShader(m_hPixelLightVS);
+	lightShader->SetConstant(GS_L("topLeft3DPos"), v3EntityPos-Vector3(v2Origin,0));
 
 	// TO-DO it looks like a mess around here...
 	if (pRender->GetAngle() != 0.0f)
@@ -79,19 +83,19 @@ bool ETHPixelLightDiffuseSpecular::BeginLightPass(ETHSpriteEntity *pRender, Vect
 	 	lightPrecisionDownScale = LIGHT_PRECISION_DOWNSCALE;
  	#endif
 
-	pLightShader->SetConstant(GS_L("lightPos"), v3LightPos * lightPrecisionDownScale);
+	lightShader->SetConstant(GS_L("lightPos"), v3LightPos * lightPrecisionDownScale);
 
 	const float scaledRange = (light->range * lightPrecisionDownScale);
-	pLightShader->SetConstant(GS_L("squaredRange"), scaledRange * scaledRange);
-	pLightShader->SetConstant(GS_L("lightColor"), Vector4(light->color, 1.0f) * lightIntensity);
+	lightShader->SetConstant(GS_L("squaredRange"), scaledRange * scaledRange);
+	lightShader->SetConstant(GS_L("lightColor"), Vector4(light->color, 1.0f) * lightIntensity);
+
+	m_video->SetCurrentShader(lightShader);
 
 	return true;
 }
 
 bool ETHPixelLightDiffuseSpecular::EndLightPass()
 {
-	m_video->SetPixelShader(ShaderPtr());
-	m_video->SetVertexShader(ShaderPtr());
 	m_video->SetAlphaMode(m_lastAM);
 	return true;
 }

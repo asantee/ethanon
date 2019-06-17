@@ -9,7 +9,7 @@ static const std::string emptyStr;
 
 const std::string& ETHShaders::DefaultPS()
 {
-	return emptyStr;
+	return ETHGlobal::Cg_defaultPS_cg;
 }
 
 // ambient pass
