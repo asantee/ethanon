@@ -11,12 +11,17 @@
 
 namespace gs2d {
 
-CGparameter SeekParameter(const std::string& name, std::map<std::string, CGparameter>& params)
+CGparameter SeekParameter(const std::string& name, CGprogram vs, CGprogram ps)
 {
-	std::map<std::string, CGparameter>::iterator iter = params.find(name);
-	if (iter != params.end())
-		return iter->second;
-	return NULL;
+	CGparameter param = cgGetNamedParameter(vs, name.c_str());
+	if (param)
+	{
+		return param;
+    }
+    else
+    {
+    	return cgGetNamedParameter(ps, name.c_str());
+    }
 }
 
 GLCgShader::GLCgShader(GLVideo* video) :
@@ -231,8 +236,6 @@ bool GLCgShader::CreateCgProgram(
 	if (CheckForError("GS_SHADER::CompileShader loading the program", shaderName))
 		return false;
 
-	FillParameters(CG_GLOBAL, *outProgram);
-	FillParameters(CG_PROGRAM, *outProgram);
 	return true;
 }
 
@@ -244,21 +247,9 @@ void GLCgShader::Recover()
 	ShowMessage("Shader recovered: " + Platform::GetFileName(m_shaderPairName), GSMT_INFO);
 }
 
-void GLCgShader::FillParameters(const CGenum domain, CGprogram program)
-{
-	CGparameter param = cgGetFirstParameter(program, domain);
-
-	while (param)
-	{
-		const char* name = cgGetParameterName(param);
-		m_params[name] = param;
-		param = cgGetNextParameter(param);
-	}
-}
-
 bool GLCgShader::ConstantExist(const str_type::string& name)
 {
-	return (SeekParameter(name, m_params));
+	return (SeekParameter(name, m_cgVsProgam, m_cgPsProgam));
 }
 
 static bool ShowInvalidParameterWarning(const str_type::string& shaderName, const str_type::string& name)
@@ -273,7 +264,7 @@ static bool ShowInvalidParameterWarning(const str_type::string& shaderName, cons
 
 bool GLCgShader::SetConstant(const str_type::string& name, const math::Vector4 &v)
 {
-	CGparameter param = SeekParameter(name, m_params);
+	CGparameter param = SeekParameter(name, m_cgVsProgam, m_cgPsProgam);
 	if (!param)
 		return ShowInvalidParameterWarning(m_shaderPairName, name);
 
@@ -285,7 +276,7 @@ bool GLCgShader::SetConstant(const str_type::string& name, const math::Vector4 &
 
 bool GLCgShader::SetConstant(const str_type::string& name, const math::Vector3 &v)
 {
-	CGparameter param = SeekParameter(name, m_params);
+	CGparameter param = SeekParameter(name, m_cgVsProgam, m_cgPsProgam);
 	if (!param)
 		return ShowInvalidParameterWarning(m_shaderPairName, name);
 
@@ -297,7 +288,7 @@ bool GLCgShader::SetConstant(const str_type::string& name, const math::Vector3 &
 
 bool GLCgShader::SetConstant(const str_type::string& name, const math::Vector2 &v)
 {
-	CGparameter param = SeekParameter(name, m_params);
+	CGparameter param = SeekParameter(name, m_cgVsProgam, m_cgPsProgam);
 	if (!param)
 		return ShowInvalidParameterWarning(m_shaderPairName, name);
 
@@ -309,7 +300,7 @@ bool GLCgShader::SetConstant(const str_type::string& name, const math::Vector2 &
 
 bool GLCgShader::SetConstant(const str_type::string& name, const float x)
 {
-	CGparameter param = SeekParameter(name, m_params);
+	CGparameter param = SeekParameter(name, m_cgVsProgam, m_cgPsProgam);
 	if (!param)
 		return ShowInvalidParameterWarning(m_shaderPairName, name);
 
@@ -343,7 +334,7 @@ bool GLCgShader::SetConstant(const str_type::string& name, const float x, const 
 
 bool GLCgShader::SetConstant(const str_type::string& name, const int n)
 {
-	CGparameter param = SeekParameter(name, m_params);
+	CGparameter param = SeekParameter(name, m_cgVsProgam, m_cgPsProgam);
 	if (!param)
 		return ShowInvalidParameterWarning(m_shaderPairName, name);
 
@@ -355,7 +346,7 @@ bool GLCgShader::SetConstant(const str_type::string& name, const int n)
 
 bool GLCgShader::SetMatrixConstant(const str_type::string& name, const math::Matrix4x4 &matrix)
 {
-	CGparameter param = SeekParameter(name, m_params);
+	CGparameter param = SeekParameter(name, m_cgVsProgam, m_cgPsProgam);
 	if (!param)
 		return ShowInvalidParameterWarning(m_shaderPairName, name);
 
@@ -367,7 +358,7 @@ bool GLCgShader::SetMatrixConstant(const str_type::string& name, const math::Mat
 
 bool GLCgShader::SetConstantArray(const str_type::string& name, unsigned int nElements, const boost::shared_array<const math::Vector2>& v)
 {
-	CGparameter param = SeekParameter(name, m_params);
+	CGparameter param = SeekParameter(name, m_cgVsProgam, m_cgPsProgam);
 	if (!param)
 		return ShowInvalidParameterWarning(m_shaderPairName, name);
 
@@ -379,7 +370,7 @@ bool GLCgShader::SetConstantArray(const str_type::string& name, unsigned int nEl
 
 bool GLCgShader::SetTexture(const str_type::string& name, TextureWeakPtr pTexture)
 {
-	CGparameter param = SeekParameter(name, m_params);
+	CGparameter param = SeekParameter(name, m_cgVsProgam, m_cgPsProgam);
 
 	if (!param)
 	{

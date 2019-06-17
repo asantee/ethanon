@@ -17,7 +17,6 @@ class GLVideo;
 
 class GLCgShader : public Shader, RecoverableResource
 {
-	std::map<std::string, CGparameter> m_params;
 	CGprogram m_cgVsProgam;
     CGprogram m_cgPsProgam;
 
@@ -43,7 +42,6 @@ class GLCgShader : public Shader, RecoverableResource
 	CGcontext m_cgContext;
 
 	CGcontext ExtractCgContext(ShaderContextPtr context);
-	void FillParameters(const CGenum domain, CGprogram program);
 
 	std::list<CGparameter> m_enabledTextures;
 
