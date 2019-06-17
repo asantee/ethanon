@@ -23,7 +23,6 @@ class GLVideo : public virtual Video, public RecoverableResourceManager
 	const float m_zNear, m_zFar;
 	Color m_backgroundColor;
 	bool m_rendering, m_clamp;
-	BLEND_MODE m_blendMode;
 	math::Rect2D m_scissor;
 	TextureWeakPtr m_currentTarget;
 
@@ -76,8 +75,6 @@ public:
 	bool SetRenderTarget(SpritePtr pTarget, const unsigned int target);
 	unsigned int GetMaxRenderTargets() const;
 	unsigned int GetMaxMultiTextures() const;
-	bool SetBlendMode(const unsigned int passIdx, const BLEND_MODE mode);
-	BLEND_MODE GetBlendMode(const unsigned int passIdx) const;
 	bool UnsetTexture(const unsigned int passIdx);
 	
 	void SetZBuffer(const bool enable);

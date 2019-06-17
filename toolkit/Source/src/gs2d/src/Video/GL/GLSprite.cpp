@@ -263,14 +263,7 @@ bool GLSprite::SaveBitmap(
 bool GLSprite::SetAsTexture(const unsigned int passIdx)
 {
 	GLVideoPtr video = m_video.lock();
-	if (passIdx == 1 && video->GetCurrentShader() == video->GetDefaultShader())
-	{
-		ShaderPtr defaultShader = (video->GetBlendMode(1) == Video::BM_MODULATE)
-								? video->GetModulateShader()
-								: video->GetAddShader();
-		video->SetCurrentShader(defaultShader);
-		defaultShader->SetTexture("pass1", m_texture);
-	}
+	video->GetCurrentShader()->SetTexture("pass1", m_texture);
 	return true;
 }
 

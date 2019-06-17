@@ -52,12 +52,6 @@ public:
 		TM_ALWAYS = 2
 	};
 
-	enum BLEND_MODE
-	{
-		BM_ADD = 0,
-		BM_MODULATE = 1,
-	};
-
 	struct VIDEO_MODE
 	{
 		bool operator == (const VIDEO_MODE& other) const;
@@ -162,8 +156,6 @@ public:
 	virtual bool SetRenderTarget(SpritePtr pTarget, const unsigned int target = 0) = 0;
 	virtual unsigned int GetMaxRenderTargets() const = 0;
 	virtual unsigned int GetMaxMultiTextures() const = 0;
-	virtual bool SetBlendMode(const unsigned int passIdx, const BLEND_MODE mode) = 0;
-	virtual BLEND_MODE GetBlendMode(const unsigned int passIdx) const = 0;
 	virtual bool UnsetTexture(const unsigned int passIdx) = 0;
 
 	virtual void SetZBuffer(const bool enable) = 0;

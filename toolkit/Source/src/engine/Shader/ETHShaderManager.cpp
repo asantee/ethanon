@@ -50,10 +50,12 @@ bool ETHShaderManager::BeginAmbientPass(const ETHSpriteEntity *pRender, const fl
 {
 	const bool shouldUseHighlightPS = pRender->ShouldUseHighlightPixelShader();
 	const bool shouldUseSolidColorPS = pRender->ShouldUseSolidColorPixelShader();
+	const bool shouldUsePass1PS = pRender->ShouldUsePass1AddPixelShader();
 
 	ShaderPtr shader = m_ambientShader;
 	if (shouldUseHighlightPS)  shader = m_highlightShader;
 	if (shouldUseSolidColorPS) shader = m_solidColorShader;
+	if (shouldUsePass1PS)      shader = m_ambientAddShader;
 
 	m_video->SetCurrentShader(shader);
 

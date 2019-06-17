@@ -25,7 +25,6 @@ GLVideo::GLVideo() :
 	m_backgroundColor(gs2d::constant::BLACK),
 	m_rendering(false),
 	m_clamp(true),
-	m_blendMode(BM_MODULATE),
 	m_scissor(math::Vector2i(0, 0), math::Vector2i(0, 0))
 {
 }
@@ -45,7 +44,6 @@ bool GLVideo::StartApplication(
 	SetZBuffer(false);
 	SetZWrite(false);
 	SetClamp(true);
-	SetBlendMode(1, Video::BM_MODULATE);
 
 	Enable2DStates();
 
@@ -454,28 +452,6 @@ boost::any GLVideo::GetVideoInfo()
 unsigned int GLVideo::GetMaxRenderTargets() const
 {
 	return 1;
-}
-
-bool GLVideo::SetBlendMode(const unsigned int passIdx, const BLEND_MODE mode)
-{
-	m_blendMode = mode;
-	switch (passIdx)
-	{
-	case 0:
-		glActiveTexture(GL_TEXTURE0);
-		break;
-	default:
-		glActiveTexture(GL_TEXTURE1);
-		break;
-	}
-	const GLfloat v = (mode == BM_MODULATE) ? GL_MODULATE : GL_ADD;
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, v);
-	return true;
-}
-
-Video::BLEND_MODE GLVideo::GetBlendMode(const unsigned int passIdx) const
-{
-	return m_blendMode;
 }
 
 bool GLVideo::SetScissor(const bool& enable)

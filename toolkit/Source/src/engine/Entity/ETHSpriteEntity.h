@@ -127,6 +127,7 @@ public:
 
 	bool ShouldUseHighlightPixelShader() const;
 	bool ShouldUseSolidColorPixelShader() const;
+	bool ShouldUsePass1AddPixelShader() const;
 
 	Vector2 GetSpriteCut() const;
 

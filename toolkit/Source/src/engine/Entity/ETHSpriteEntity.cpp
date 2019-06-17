@@ -163,6 +163,11 @@ bool ETHSpriteEntity::ShouldUseSolidColorPixelShader() const
 	return (m_v4SolidColor.w != 0.0f);
 }
 
+bool ETHSpriteEntity::ShouldUsePass1AddPixelShader() const
+{
+	return static_cast<bool>(m_pLightmap);
+}
+
 bool ETHSpriteEntity::SetSprite(const str_type::string &fileName)
 {
 	m_pSprite = m_provider->GetGraphicResourceManager()->GetPointer(

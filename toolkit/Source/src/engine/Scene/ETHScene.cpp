@@ -513,8 +513,6 @@ void ETHScene::RenderScene(const ETHBackBufferTargetManagerPtr& backBuffer)
 {
 	const VideoPtr& video = m_provider->GetVideo();
 
-	video->SetBlendMode(1, Video::BM_ADD);
-
 	video->SetZWrite(GetZBuffer());
 	video->SetZBuffer(GetZBuffer());
 

@@ -60,7 +60,6 @@ bool ETHRenderEntity::DrawAmbientPass(
 	const bool applyLightmap = (m_pLightmap && enableLightmaps && IsStatic());
 	if (applyLightmap)
 	{
-		video->SetBlendMode(1, Video::BM_ADD);
 		m_pLightmap->SetAsTexture(1);
 	}
 	else
