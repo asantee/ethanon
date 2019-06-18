@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "BitmapFont.h"
 #include "../Video.h"
 #include "../Unicode/utf8/utf8.h"
@@ -477,7 +455,7 @@ Vector2 BitmapFont::DrawBitmapText(const Vector2& pos, const str_type::string& t
 				if (GS2D_SSCANF(colorCodeValue.c_str(), GS_L("%lu"), &localColor.color) == 1)
 				{
 					const Vector4 currentColorV4(Vector4(color) * Vector4(localColor));
-					currentColor = math::ConvertToDW(currentColorV4);
+					currentColor = Color(currentColorV4);
 				}
 				t = (end) + COLOR_CODE_END_SEQUENCE.length() - 1;
 				continue;

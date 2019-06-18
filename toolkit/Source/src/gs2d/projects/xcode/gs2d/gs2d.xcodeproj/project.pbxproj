@@ -100,6 +100,14 @@
 		74F3A4FA1632E3870064C9A5 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F3A4F91632E3870064C9A5 /* Cocoa.framework */; };
 		74F3A5041632E3870064C9A5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 74F3A5021632E3870064C9A5 /* InfoPlist.strings */; };
 		74FF04E318046B23006D0F9F /* utf8 in Resources */ = {isa = PBXBuildFile; fileRef = 74FF04E218046B23006D0F9F /* utf8 */; };
+		AA18F5E522B87A3500F44DA6 /* Vector2.h in Headers */ = {isa = PBXBuildFile; fileRef = AA18F5E322B87A3400F44DA6 /* Vector2.h */; };
+		AA18F5E622B87A3500F44DA6 /* Vector2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA18F5E422B87A3400F44DA6 /* Vector2.cpp */; };
+		AA18F5E922B8804100F44DA6 /* Vector2i.h in Headers */ = {isa = PBXBuildFile; fileRef = AA18F5E722B8804100F44DA6 /* Vector2i.h */; };
+		AA18F5EA22B8804100F44DA6 /* Vector2i.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA18F5E822B8804100F44DA6 /* Vector2i.cpp */; };
+		AA18F5ED22B8846100F44DA6 /* Vector3.h in Headers */ = {isa = PBXBuildFile; fileRef = AA18F5EB22B8846100F44DA6 /* Vector3.h */; };
+		AA18F5EE22B8846100F44DA6 /* Vector3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA18F5EC22B8846100F44DA6 /* Vector3.cpp */; };
+		AA18F5F122B887BD00F44DA6 /* Vector4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA18F5EF22B887BD00F44DA6 /* Vector4.cpp */; };
+		AA18F5F222B887BD00F44DA6 /* Vector4.h in Headers */ = {isa = PBXBuildFile; fileRef = AA18F5F022B887BD00F44DA6 /* Vector4.h */; };
 		AA19C1241F8285BF0096696A /* FMAudioContext.macos.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA19C1231F8285BF0096696A /* FMAudioContext.macos.mm */; };
 		AA7BDF721F7EE1980057B06F /* libfmod.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA7BDF711F7EE1980057B06F /* libfmod.dylib */; };
 		AA7BDF801F7EE5750057B06F /* FMAudioContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA7BDF7C1F7EE5390057B06F /* FMAudioContext.mm */; };
@@ -222,6 +230,14 @@
 		74F3A5031632E3870064C9A5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		74F3A5051632E3870064C9A5 /* gs2d-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "gs2d-Prefix.pch"; sourceTree = "<group>"; };
 		74FF04E218046B23006D0F9F /* utf8 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = utf8; path = ../../../../src/Unicode/utf8; sourceTree = "<group>"; };
+		AA18F5E322B87A3400F44DA6 /* Vector2.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = Vector2.h; path = ../../../../src/Math/Vector2.h; sourceTree = "<group>"; usesTabs = 1; };
+		AA18F5E422B87A3400F44DA6 /* Vector2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Vector2.cpp; path = ../../../../src/Math/Vector2.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		AA18F5E722B8804100F44DA6 /* Vector2i.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vector2i.h; path = ../../../../src/Math/Vector2i.h; sourceTree = "<group>"; usesTabs = 1; };
+		AA18F5E822B8804100F44DA6 /* Vector2i.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Vector2i.cpp; path = ../../../../src/Math/Vector2i.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		AA18F5EB22B8846100F44DA6 /* Vector3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vector3.h; path = ../../../../src/Math/Vector3.h; sourceTree = "<group>"; };
+		AA18F5EC22B8846100F44DA6 /* Vector3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Vector3.cpp; path = ../../../../src/Math/Vector3.cpp; sourceTree = "<group>"; };
+		AA18F5EF22B887BD00F44DA6 /* Vector4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Vector4.cpp; path = ../../../../src/Math/Vector4.cpp; sourceTree = "<group>"; };
+		AA18F5F022B887BD00F44DA6 /* Vector4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vector4.h; path = ../../../../src/Math/Vector4.h; sourceTree = "<group>"; };
 		AA19C1231F8285BF0096696A /* FMAudioContext.macos.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = FMAudioContext.macos.mm; path = ../../../src/Audio/fmod/FMAudioContext.macos.mm; sourceTree = "<group>"; };
 		AA7BDF711F7EE1980057B06F /* libfmod.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfmod.dylib; path = ../../../vendors/fmod/lib/libfmod.dylib; sourceTree = "<group>"; };
 		AA7BDF7C1F7EE5390057B06F /* FMAudioContext.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = FMAudioContext.mm; path = ../../../src/Audio/fmod/FMAudioContext.mm; sourceTree = "<group>"; };
@@ -271,6 +287,14 @@
 		7473CA8716330318005DB920 /* Math */ = {
 			isa = PBXGroup;
 			children = (
+				AA18F5E422B87A3400F44DA6 /* Vector2.cpp */,
+				AA18F5E322B87A3400F44DA6 /* Vector2.h */,
+				AA18F5E822B8804100F44DA6 /* Vector2i.cpp */,
+				AA18F5E722B8804100F44DA6 /* Vector2i.h */,
+				AA18F5EC22B8846100F44DA6 /* Vector3.cpp */,
+				AA18F5EB22B8846100F44DA6 /* Vector3.h */,
+				AA18F5EF22B887BD00F44DA6 /* Vector4.cpp */,
+				AA18F5F022B887BD00F44DA6 /* Vector4.h */,
 				7473CA8A16330366005DB920 /* Color.cpp */,
 				7473CA8B16330366005DB920 /* Color.h */,
 				7473CA8C16330366005DB920 /* GameMath.cpp */,
@@ -552,6 +576,7 @@
 				7473CA8316330304005DB920 /* Types.h in Headers */,
 				7473CA8516330304005DB920 /* Video.h in Headers */,
 				7473CA8616330304005DB920 /* Window.h in Headers */,
+				AA18F5E922B8804100F44DA6 /* Vector2i.h in Headers */,
 				7473CA9416330366005DB920 /* Color.h in Headers */,
 				7473CA9616330366005DB920 /* GameMath.h in Headers */,
 				7473CA9716330366005DB920 /* MersenneTwister.h in Headers */,
@@ -562,6 +587,7 @@
 				7473CAA516330391005DB920 /* FileIOHub.h in Headers */,
 				7473CAA716330391005DB920 /* FileLogger.h in Headers */,
 				7473CAA916330391005DB920 /* FileManager.h in Headers */,
+				AA18F5ED22B8846100F44DA6 /* Vector3.h in Headers */,
 				7473CAAB16330391005DB920 /* Logger.h in Headers */,
 				7473CAB61633044E005DB920 /* BitmapFont.h in Headers */,
 				7473CAB81633044E005DB920 /* BitmapFontManager.h in Headers */,
@@ -584,10 +610,12 @@
 				74838D37163F25AB0027CFFC /* SDLInput.h in Headers */,
 				74838D3C1640730D0027CFFC /* KeyStateManager.h in Headers */,
 				74838D4116414F6A0027CFFC /* SDLJoystick.h in Headers */,
+				AA18F5F222B887BD00F44DA6 /* Vector4.h in Headers */,
 				7421F2E01648173000C55BAE /* StdFileManager.h in Headers */,
 				7423B69E165FF413008848EA /* SharedData.h in Headers */,
 				7423B6A0165FF413008848EA /* SharedDataManager.h in Headers */,
 				74D066E21A03CBF300D45F66 /* stbi_DDS_aug.h in Headers */,
+				AA18F5E522B87A3500F44DA6 /* Vector2.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -660,9 +688,11 @@
 				AA7BDF801F7EE5750057B06F /* FMAudioContext.mm in Sources */,
 				AA7BDF811F7EE5750057B06F /* FMAudioSample.mm in Sources */,
 				7473CA7916330304005DB920 /* Application.cpp in Sources */,
+				AA18F5EA22B8804100F44DA6 /* Vector2i.cpp in Sources */,
 				7473CA8016330304005DB920 /* Sprite.cpp in Sources */,
 				7473CA8416330304005DB920 /* Video.cpp in Sources */,
 				7473CA9316330366005DB920 /* Color.cpp in Sources */,
+				AA18F5F122B887BD00F44DA6 /* Vector4.cpp in Sources */,
 				7473CA9516330366005DB920 /* GameMath.cpp in Sources */,
 				7473CA9816330366005DB920 /* OrientedBoundingBox.cpp in Sources */,
 				7473CA9A16330366005DB920 /* Randomizer.cpp in Sources */,
@@ -682,12 +712,14 @@
 				7473CAE51635ABD9005DB920 /* GLSDLVideo.cpp in Sources */,
 				7458F0841636CFB200D48019 /* MacOSXFileIOHub.mm in Sources */,
 				7458F09016377D9000D48019 /* GLRectRenderer.cpp in Sources */,
+				AA18F5EE22B8846100F44DA6 /* Vector3.cpp in Sources */,
 				7486553E16382C000096D869 /* GLCgShaderContext.cpp in Sources */,
 				7486554316383A540096D869 /* GLCgShader.cpp in Sources */,
 				74D066DD1A03CBF300D45F66 /* SOIL.c in Sources */,
 				7486554716397C1D0096D869 /* GLTexture.cpp in Sources */,
 				748655621639E1600096D869 /* GLSprite.cpp in Sources */,
 				AA19C1241F8285BF0096696A /* FMAudioContext.macos.mm in Sources */,
+				AA18F5E622B87A3500F44DA6 /* Vector2.cpp in Sources */,
 				74838D2E163C13E30027CFFC /* RecoverableResourceManager.cpp in Sources */,
 				74838D36163F25AB0027CFFC /* SDLInput.cpp in Sources */,
 				74838D3B1640730D0027CFFC /* KeyStateManager.cpp in Sources */,
