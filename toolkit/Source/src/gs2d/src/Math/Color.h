@@ -1,50 +1,39 @@
 #ifndef GS2D_COLOR_H_
 #define GS2D_COLOR_H_
 
-#include "../Types.h"
+#include "Vector4.h"
+
+#include <cstdint>
 
 namespace gs2d {
 
-#pragma warning(push)
-#pragma warning(disable:4201)
-
-struct Color
+struct Color : public math::Vector4
 {
+	static uint32_t ARGB(
+		const unsigned char a,
+		const unsigned char r,
+		const unsigned char g,
+		const unsigned char b);
+
 	Color();
-	Color(const GS_DWORD color);
-	Color(const GS_BYTE na, const GS_BYTE nr, const GS_BYTE ng, const GS_BYTE nb);
-	void SetColor(const GS_BYTE na, const GS_BYTE nr, const GS_BYTE ng, const GS_BYTE nb);
-	void SetColor(const GS_DWORD color);
-	Color &operator = (GS_DWORD color);
-	operator GS_DWORD () const;
-	void SetAlpha(const GS_BYTE na);
-	void SetRed(const GS_BYTE nr);
-	void SetGreen(const GS_BYTE ng);
-	void SetBlue(const GS_BYTE nb);
-	union
-	{
-		struct
-		{
-			GS_BYTE b, g, r, a;
-		};
-		GS_DWORD color;
-	};
+	Color(const math::Vector4& v);
+	Color(const Color& v);
+	Color(const float fr, const float fg, const float fb, const float fa);
+	Color(const uint32_t color);
+
+	uint32_t To32BitARGB() const;
+	
+	float GetA() const;
+	float GetR() const;
+	float GetG() const;
+	float GetB() const;
 };
 
-#pragma warning( pop )
-
-unsigned long ARGB(const GS_BYTE a, const GS_BYTE r, const GS_BYTE g, const GS_BYTE b);
-
 namespace constant {
-	const Color ZERO(0x0);
-	const Color BLACK(0xFF000000);
-	const Color WHITE(0xFFFFFFFF);
-	const Color RED(0xFFFF0000);
-	const Color GREEN(0xFF00FF00);
-	const Color BLUE(0xFF0000FF);
-	const Color YELLOW(0xFFFFFF00);
-} // constant
+	const Color BLACK(0.0f, 0.0f, 0.0f, 1.0f);
+	const Color WHITE(1.0f, 1.0f, 1.0f, 1.0f);
+} // namespace constant
 
-} // gs2d
+} // namespace gs2d
 
 #endif

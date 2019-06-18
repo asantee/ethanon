@@ -26,7 +26,7 @@ class GLTexture : public Texture, public RecoverableResource
 	int m_channels;
 	static GLuint m_textureID;
 
-	GS_BYTE* m_bitmap;
+	unsigned char* m_bitmap;
 
 	struct TEXTURE_INFO
 	{
@@ -35,11 +35,11 @@ class GLTexture : public Texture, public RecoverableResource
 		GLenum glTargetFmt;
 		GLenum glPixelType;
 		TARGET_FORMAT gsTargetFmt;
-		boost::shared_array<GS_BYTE> renderTargetBackup;
+		boost::shared_array<unsigned char> renderTargetBackup;
 	} m_textureInfo;
 
 	void FreeBitmap();
-	void CreateTextureFromBitmap(GS_BYTE* data, const int width, const int height, const int channels, const bool pow2);
+	void CreateTextureFromBitmap(unsigned char* data, const int width, const int height, const int channels, const bool pow2);
 	void DeleteGLTexture();
 
 	GLTexture(VideoWeakPtr video, Platform::FileManagerPtr fileManager);

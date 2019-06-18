@@ -152,7 +152,7 @@ asDECLARE_FUNCTION_WRAPPERPR(__normalize2, Normalize, (const Vector2&), Vector2)
 
 asDECLARE_FUNCTION_WRAPPER(__radianToDegree, RadianToDegree);
 asDECLARE_FUNCTION_WRAPPER(__degreeToRadian, DegreeToRadian);
-asDECLARE_FUNCTION_WRAPPER(__ARGB,           ARGB);
+asDECLARE_FUNCTION_WRAPPER(__ARGB,           Color::ARGB);
 
 asDECLARE_FUNCTION_WRAPPER(__LoadSprite,       ETHScriptWrapper::LoadSprite);
 asDECLARE_FUNCTION_WRAPPER(__ReleaseSprite,    ETHScriptWrapper::ReleaseSprite);
@@ -160,8 +160,8 @@ asDECLARE_FUNCTION_WRAPPER(__GetSpriteSize,    ETHScriptWrapper::GetSpriteSize);
 asDECLARE_FUNCTION_WRAPPER(__DrawRectangle,    ETHScriptWrapper::DrawRectangle);
 asDECLARE_FUNCTION_WRAPPER(__DrawLine,         ETHScriptWrapper::DrawLine);
 
-asDECLARE_FUNCTION_WRAPPERPR(__DrawSprite,       ETHScriptWrapper::DrawSprite, (const str_type::string &name, const Vector2 &v2Pos, const GS_DWORD color, const float angle), void);
-asDECLARE_FUNCTION_WRAPPERPR(__DrawShapedSprite, ETHScriptWrapper::DrawShaped, (const str_type::string &name, const Vector2 &v2Pos, const Vector2 &v2Size, const GS_DWORD color, const float angle), void);
+asDECLARE_FUNCTION_WRAPPERPR(__DrawSprite,       ETHScriptWrapper::DrawSprite, (const str_type::string &name, const Vector2 &v2Pos, const uint32_t color, const float angle), void);
+asDECLARE_FUNCTION_WRAPPERPR(__DrawShapedSprite, ETHScriptWrapper::DrawShaped, (const str_type::string &name, const Vector2 &v2Pos, const Vector2 &v2Size, const uint32_t color, const float angle), void);
 
 asDECLARE_FUNCTION_WRAPPERPR(__DrawSpriteEx,       ETHScriptWrapper::DrawSprite, (const str_type::string &name, const Vector2 &v2Pos, const float alpha, const Vector3 &color, const float angle), void);
 asDECLARE_FUNCTION_WRAPPERPR(__DrawShapedSpriteEx, ETHScriptWrapper::DrawShaped, (const str_type::string &name, const Vector2 &v2Pos, const Vector2 &v2Size, const float alpha, const Vector3 &color, const float angle), void);

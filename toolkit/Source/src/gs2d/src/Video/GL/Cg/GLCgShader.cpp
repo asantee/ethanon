@@ -310,13 +310,6 @@ bool GLCgShader::SetConstant(const str_type::string& name, const float x)
 	return true;
 }
 
-bool GLCgShader::SetConstant(const str_type::string& name, const Color& dw)
-{
-	math::Vector4 v;
-	v.SetColor(dw);
-	return SetConstant(name, v);
-}
-
 bool GLCgShader::SetConstant(const str_type::string& name, const float x, const float y, const float z, const float w)
 {
 	return SetConstant(name, math::Vector4(x, y, z, w));

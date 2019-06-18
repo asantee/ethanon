@@ -77,7 +77,6 @@ public:
         const std::string& psEntry);
 
 	bool ConstantExist(const str_type::string& name);
-	bool SetConstant(const str_type::string& name, const Color& dw);
 	bool SetConstant(const str_type::string& name, const math::Vector4 &v);
 	bool SetConstant(const str_type::string& name, const math::Vector3 &v);
 	bool SetConstant(const str_type::string& name, const math::Vector2 &v);

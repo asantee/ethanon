@@ -7,116 +7,121 @@ namespace math {
 
 Vector3::Vector3()
 {
-    x = y = z = 0.0f;
+	x = y = z = 0.0f;
+}
+
+Vector3::Vector3(const float v)
+{
+	x = y = z = v;
 }
 
 Vector3::Vector3(const Vector3& v)
 {
-    x = v.x;
-    y = v.y;
-    z = v.z;
+	x = v.x;
+	y = v.y;
+	z = v.z;
 }
 
-Vector3::Vector3(const float& vx, const float& vy, const float& vz)
+Vector3::Vector3(const float vx, const float vy, const float vz)
 {
-    x = vx; y = vy; z = vz;
+	x = vx; y = vy; z = vz;
 }
 
-Vector3::Vector3(const Vector2& v2, const float& vz)
+Vector3::Vector3(const Vector2& v2, const float vz)
 {
-    x = v2.x; y = v2.y; z = vz;
+	x = v2.x; y = v2.y; z = vz;
 }
 
 float Vector3::Length() const
 {
-    return sqrtf(x * x + y * y + z * z);
+	return sqrtf(x * x + y * y + z * z);
 }
 
 float Vector3::SquaredLength() const
 {
-    return (x * x + y * y + z * z);
+	return (x * x + y * y + z * z);
 }
 
-Vector3 Vector3::operator * (const float& v) const
+Vector3 Vector3::operator * (const float v) const
 {
-    return Vector3(x * v, y * v, z * v);
+	return Vector3(x * v, y * v, z * v);
 }
 
 Vector3 Vector3::operator * (const Vector3& v) const
 {
-    return Vector3(x * v.x, y * v.y, z * v.z);
+	return Vector3(x * v.x, y * v.y, z * v.z);
 }
 
-Vector3 Vector3::operator / (const float& v) const
+Vector3 Vector3::operator / (const float v) const
 {
-    return Vector3(x / v, y / v, z / v);
+	return Vector3(x / v, y / v, z / v);
 }
 
 Vector3 Vector3::operator / (const Vector3& v) const
 {
-    return Vector3(x / v.x, y / v.y, z / v.z);
+	return Vector3(x / v.x, y / v.y, z / v.z);
 }
 
-Vector3 Vector3::operator - (const float& v) const
+Vector3 Vector3::operator - (const float v) const
 {
-    return Vector3(x - v, y - v, z - v);
+	return Vector3(x - v, y - v, z - v);
 }
 
 Vector3 Vector3::operator - (const Vector3& v) const
 {
-    return Vector3(x - v.x, y - v.y, z - v.z);
+	return Vector3(x - v.x, y - v.y, z - v.z);
 }
 
-Vector3 Vector3::operator + (const float& v) const
+Vector3 Vector3::operator + (const float v) const
 {
-    return Vector3(x + v, y + v, z + v);
+	return Vector3(x + v, y + v, z + v);
 }
 
 Vector3 Vector3::operator + (const Vector3& v) const
 {
-    return Vector3(x + v.x, y + v.y, z + v.z);
+	return Vector3(x + v.x, y + v.y, z + v.z);
 }
 
 bool Vector3::operator == (const Vector3& v) const
 {
-    return (x == v.x && y == v.y && z == v.z);
+	return (x == v.x && y == v.y && z == v.z);
 }
 
 bool Vector3::operator != (const Vector3& v) const
 {
-    return (x != v.x || y != v.y || z != v.z);
+	return (x != v.x || y != v.y || z != v.z);
 }
 
 Vector3& Vector3::operator += (const Vector3& v)
 {
-    x += v.x;
-    y += v.y;
-    z += v.z;
-    return *this;
+	x += v.x;
+	y += v.y;
+	z += v.z;
+	return *this;
 }
 
 Vector3& Vector3::operator -= (const Vector3& v)
 {
-    x -= v.x;
-    y -= v.y;
-    z -= v.z;
-    return *this;
+	x -= v.x;
+	y -= v.y;
+	z -= v.z;
+	return *this;
 }
 
-Vector3& Vector3::operator *= (const float& v)
+Vector3& Vector3::operator *= (const float v)
 {
-    x *= v;
-    y *= v;
-    z *= v;
-    return *this;
+	x *= v;
+	y *= v;
+	z *= v;
+	return *this;
 }
 
-Vector3& Vector3::operator /= (const float& v)
+Vector3& Vector3::operator /= (const float v)
 {
-    x /= v;
-    y /= v;
-    z /= v;
-    return *this;
+	x /= v;
+	y /= v;
+	z /= v;
+	return *this;
 }
 
 } // namespace math

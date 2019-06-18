@@ -234,7 +234,7 @@ bool ETHRenderEntity::DrawParticles(
 	}
 }
 
-void ETHRenderEntity::DrawCollisionBox(SpritePtr pOutline, const Color& dwColor, const Vector2 &zAxisDirection) const
+void ETHRenderEntity::DrawCollisionBox(SpritePtr pOutline, const Color& color, const Vector2 &zAxisDirection) const
 {
 	VideoPtr video = m_provider->GetVideo();
 	const bool collidable = static_cast<bool>(m_properties.collision);
@@ -255,12 +255,11 @@ void ETHRenderEntity::DrawCollisionBox(SpritePtr pOutline, const Color& dwColor,
 	ShaderPtr currentShader = video->GetCurrentShader();
 	video->SetCurrentShader(ShaderPtr());
 
-	const Color dwH = ARGB(150,dwColor.r,dwColor.g,dwColor.b);
 	const float depth = video->GetSpriteDepth();
 
 	// base
 	video->SetSpriteDepth(1.0f);
-	pOutline->DrawShaped(v2Pos, Vector2(v3Size.x, v3Size.y), dwH, dwH, dwH, dwH, GetAngle());
+	pOutline->DrawShaped(v2Pos, Vector2(v3Size.x, v3Size.y), color, color, color, color, GetAngle());
 
 	video->SetZBuffer(zBuffer);
 	video->SetZBuffer(zWrite);

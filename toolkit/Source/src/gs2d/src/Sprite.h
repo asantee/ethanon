@@ -76,16 +76,16 @@ public:
 
 	virtual bool LoadSprite(
 		VideoWeakPtr video,
-		GS_BYTE* pBuffer,
+		unsigned char* pBuffer,
 		const unsigned int bufferLength,
-		Color mask = constant::ZERO,
+		Color mask = math::constant::ZERO_VECTOR4,
 		const unsigned int width = 0,
 		const unsigned int height = 0) = 0;
 
 	virtual bool LoadSprite(
 		VideoWeakPtr video,
 		const str_type::string& fileName,
-		Color mask = constant::ZERO,
+		Color mask = math::constant::ZERO_VECTOR4,
 		const unsigned int width = 0,
 		const unsigned int height = 0) = 0;
 
@@ -180,8 +180,8 @@ public:
 		const math::Vector2 &a,
 		const math::Vector2 &b,
 		const float width,
-		const Color& color0 = constant::WHITE,
-		const Color& color1 = constant::WHITE);
+		const Color& color0 = math::constant::ONE_VECTOR4,
+		const Color& color1 = math::constant::ONE_VECTOR4);
 
 	virtual void SetOrigin(const ENTITY_ORIGIN origin);
 	virtual void SetOrigin(const math::Vector2& v2Custom);

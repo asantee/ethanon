@@ -6,6 +6,7 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <cstdint>
 
 #include "Application.h"
 #include "Shader.h"
@@ -58,7 +59,7 @@ public:
 		bool operator < (const VIDEO_MODE &other) const;
 		unsigned int width, height;
 		Texture::PIXEL_FORMAT pf;
-		GS_DWORD idx;
+		uint32_t idx;
 	};
 
 	Video();
@@ -90,16 +91,16 @@ public:
 
 	/// Creates a sprite from a texture in virtual memory
 	virtual SpritePtr CreateSprite(
-		GS_BYTE *pBuffer,
+		unsigned char *pBuffer,
 		const unsigned int bufferLength,
-		Color mask = constant::ZERO,
+		Color mask = math::constant::ZERO_VECTOR4,
 		const unsigned int width = 0,
 		const unsigned int height = 0) = 0;
 
 	/// Creates a sprite from a texture in a file
 	virtual SpritePtr CreateSprite(
 		const str_type::string& fileName,
-		Color mask = constant::ZERO,
+		Color mask = math::constant::ZERO_VECTOR4,
 		const unsigned int width = 0,
 		const unsigned int height = 0) = 0;
 
@@ -194,9 +195,9 @@ public:
 	virtual void SetBGColor(const Color& backgroundColor) = 0;
 	virtual Color GetBGColor() const = 0;
 
-	virtual bool BeginSpriteScene(const Color& dwBGColor = constant::ZERO) = 0;
+	virtual bool BeginSpriteScene(const Color& bgColor = math::constant::ZERO_VECTOR4) = 0;
 	virtual bool EndSpriteScene() = 0;
-	virtual bool BeginTargetScene(const Color& dwBGColor = constant::ZERO, const bool clear = true) = 0;
+	virtual bool BeginTargetScene(const Color& bgColor = math::constant::ZERO_VECTOR4, const bool clear = true) = 0;
 	virtual bool EndTargetScene() = 0;
 
 	virtual bool SetAlphaMode(const ALPHA_MODE mode) = 0;

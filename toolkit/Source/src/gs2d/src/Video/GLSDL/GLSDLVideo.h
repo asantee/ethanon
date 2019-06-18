@@ -68,15 +68,15 @@ public:
 		const Texture::TARGET_FORMAT fmt);
 	
 	SpritePtr CreateSprite(
-		GS_BYTE *pBuffer,
+		unsigned char *pBuffer,
 		const unsigned int bufferLength,
-		Color mask = constant::ZERO,
+		Color mask = math::constant::ZERO_VECTOR4,
 		const unsigned int width = 0,
 		const unsigned int height = 0);
 	
 	SpritePtr CreateSprite(
 		const str_type::string& fileName,
-		Color mask = constant::ZERO,
+		Color mask = math::constant::ZERO_VECTOR4,
 		const unsigned int width = 0,
 		const unsigned int height = 0);
 	

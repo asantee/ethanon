@@ -13,7 +13,7 @@ void ETHDefaultDynamicBackBuffer::BeginRendering()
 	{
 		video->SetRenderTarget(m_target);
 		video->SetAlphaMode(gs2d::Video::AM_PIXEL);
-		video->BeginTargetScene(gs2d::constant::ZERO, true);
+		video->BeginTargetScene(gs2d::math::constant::ZERO_VECTOR4, true);
 		video->SetCurrentShader(gs2d::ShaderPtr());
 	}
 }

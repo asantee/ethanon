@@ -5,7 +5,8 @@ The original source code for the vector3 binder comes with the AngelScript SDK.
 */
 
 #include <assert.h>
-//#include <string.h> // strstr
+#include <string.h> // strstr
+#include <stdio.h>
 #include <new> // new()
 #include <math.h>
 #include "scriptmath2d.h"

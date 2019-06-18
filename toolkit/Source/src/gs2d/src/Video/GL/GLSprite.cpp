@@ -6,7 +6,7 @@ namespace gs2d {
 
 bool GLSprite::LoadSprite(
 	VideoWeakPtr video,
-	GS_BYTE* pBuffer,
+	unsigned char* pBuffer,
 	const unsigned int bufferLength,
 	Color mask,
 	const unsigned int width,

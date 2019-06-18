@@ -11,9 +11,12 @@ Vector4::Vector4() :
 {
 }
 
-Vector4::Vector4(const Color& color)
+Vector4::Vector4(const float& v) :
+    x(v),
+    y(v),
+    z(v),
+    w(v)
 {
-    SetColor(color);
 }
 
 Vector4::Vector4(const Vector4& v) :
@@ -140,19 +143,6 @@ Vector4& Vector4::operator /= (const float& v)
     z /= v;
     w /= v;
     return *this;
-}
-
-void Vector4::SetColor(const Color& color)
-{
-    x = (static_cast<float>(color.r) / 255.0f);
-    y = (static_cast<float>(color.g) / 255.0f);
-    z = (static_cast<float>(color.b) / 255.0f);
-    w = (static_cast<float>(color.a) / 255.0f);
-}
-
-Color Vector4::GetColor() const
-{
-	return Co
 }
 
 } // namespace math

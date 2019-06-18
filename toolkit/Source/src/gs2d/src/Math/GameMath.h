@@ -459,15 +459,6 @@ inline float PlaneDotVector(const Plane& plane, const Vector2& vec)
 	return (plane.x * vec.x) + (plane.y * vec.y) + (plane.w);
 }
 
-inline Vector4 ConvertToV4(const Color& color)
-{
-	return Vector4(
-		(float)color.r / 255.0f,
-		(float)color.g / 255.0f,
-		(float)color.b / 255.0f,
-		(float)color.a / 255.0f);
-}
-
 } // namespace math
 } // namespace gs2d
 

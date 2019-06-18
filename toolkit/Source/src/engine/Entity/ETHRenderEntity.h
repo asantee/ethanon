@@ -50,7 +50,7 @@ public:
 
 	void DrawCollisionBox(
 		SpritePtr pOutline,
-		const Color& dwColor,
+		const Color& color,
 		const Vector2 &zAxisDirection) const;
 };
 

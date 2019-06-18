@@ -11,6 +11,7 @@ struct PODVector2 { float x, y; };
 struct Vector2 : public PODVector2
 {
 	Vector2();
+	Vector2(const float& v);
 	Vector2(const Vector2& v);
 	Vector2(const float& vx, const float& vy);
 	float Length() const;

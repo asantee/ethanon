@@ -51,6 +51,10 @@ typedef unsigned char ETH_BOOL;
 #define ETH_TRUE (1)
 #define ETH_FALSE (0)
 
+#include <boost/shared_ptr.hpp>
+
+#include <Types.h>
+
 class ETHResourceProvider;
 typedef boost::shared_ptr<ETHResourceProvider> ETHResourceProviderPtr;
 

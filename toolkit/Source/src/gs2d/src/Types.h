@@ -71,9 +71,6 @@ typedef boost::shared_ptr<Video> VideoPtr;
 typedef boost::shared_ptr<const Video> VideoConstPtr;
 typedef boost::weak_ptr<Video> VideoWeakPtr;
 
-typedef unsigned long GS_DWORD;
-typedef unsigned char GS_BYTE;
-
 enum GS_MESSAGE_TYPE
 {
 	GSMT_INFO = 0,

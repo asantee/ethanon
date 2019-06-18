@@ -18,16 +18,16 @@ class GLSprite : public Sprite
 public:
 	bool LoadSprite(
 		VideoWeakPtr video,
-		GS_BYTE* pBuffer,
+		unsigned char* pBuffer,
 		const unsigned int bufferLength,
-		Color mask = constant::ZERO,
+		Color mask = math::constant::ZERO_VECTOR4,
 		const unsigned int width = 0,
 		const unsigned int height = 0);
 
 	bool LoadSprite(
 		VideoWeakPtr video,
 		const str_type::string& fileName,
-		Color mask = constant::ZERO,
+		Color mask = math::constant::ZERO_VECTOR4,
 		const unsigned int width = 0,
 		const unsigned int height = 0);
 

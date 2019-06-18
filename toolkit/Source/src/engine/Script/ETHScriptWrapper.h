@@ -1,6 +1,8 @@
 #ifndef ETH_SCRIPT_WRAPPER_H_
 #define ETH_SCRIPT_WRAPPER_H_
 
+#include <cstdint>
+
 #include "../Scene/ETHScene.h"
 
 #include "../Util/ETHInput.h"
@@ -232,9 +234,9 @@ public:
 	static float GetFPSRate();
 	static Vector2 ComputeCarretPosition(const str_type::string &font, const str_type::string &text, const unsigned int pos);
 	static Vector2 ComputeTextBoxSize(const str_type::string &font, const str_type::string &text);
-	static void DrawText(const Vector2 &v2Pos, const str_type::string &text, const str_type::string &font, const GS_DWORD color, const float scale);
-	static str_type::string AssembleColorCode(const GS_DWORD color);
-	static void DrawFadingText(const Vector2 &v2Pos, const str_type::string &text, const str_type::string &font, const GS_DWORD color, unsigned long time, const float scale);
+	static void DrawText(const Vector2 &v2Pos, const str_type::string &text, const str_type::string &font, const uint32_t color, const float scale);
+	static str_type::string AssembleColorCode(const uint32_t color);
+	static void DrawFadingText(const Vector2 &v2Pos, const str_type::string &text, const str_type::string &font, const uint32_t color, unsigned long time, const float scale);
 	static void AddLight(const Vector3 &v3Pos, const Vector3 &v3Color, const float range, const bool castShadows);
 	static int AddEntity(const str_type::string &file, const Vector3 &v3Pos, const float angle, ETHEntity **ppOutEntity, const str_type::string &alternativeName, const float scale);
 	static int AddEntity(const str_type::string &file, const Vector3 &v3Pos, const float angle);
@@ -271,12 +273,12 @@ public:
 	static bool AddVector3Data(const str_type::string &entity, const str_type::string &name, const Vector3 &value);
 
 	static SpritePtr LoadAndGetSprite(const str_type::string &name);
-	static void DrawShapedFromPtr(const SpritePtr& sprite, const Vector2 &v2Pos, const Vector2 &v2Size, const GS_DWORD color, const float angle);
+	static void DrawShapedFromPtr(const SpritePtr& sprite, const Vector2 &v2Pos, const Vector2 &v2Size, const uint32_t color, const float angle);
 	static void DrawShapedFromPtr(const SpritePtr& sprite, const Vector2 &v2Pos, const Vector2 &v2Size, const Vector4 &color, const float angle);
 	static void LoadSprite(const str_type::string& name);
 	static bool ReleaseSprite(const str_type::string& name);
-	static void DrawSprite(const str_type::string &name, const Vector2 &v2Pos, const GS_DWORD color, const float angle);
-	static void DrawShaped(const str_type::string &name, const Vector2 &v2Pos, const Vector2 &v2Size, const GS_DWORD color, const float angle);
+	static void DrawSprite(const str_type::string &name, const Vector2 &v2Pos, const uint32_t color, const float angle);
+	static void DrawShaped(const str_type::string &name, const Vector2 &v2Pos, const Vector2 &v2Size, const uint32_t color, const float angle);
 	static void DrawSprite(const str_type::string &name, const Vector2 &v2Pos, const float alpha, const Vector3 &color, const float angle);
 	static void DrawShaped(const str_type::string &name, const Vector2 &v2Pos, const Vector2 &v2Size, const float alpha, const Vector3 &color, const float angle);
 	static void PlayParticleEffect(const str_type::string& fileName, const Vector2& pos, const float angle, const float scale);
@@ -296,13 +298,13 @@ public:
 	static void DrawRectangle(
 		const Vector2& v2Pos,
 		const Vector2& v2Size,
-		const GS_DWORD color0,
-		const GS_DWORD color1,
-		const GS_DWORD color2,
-		const GS_DWORD color3);
+		const uint32_t color0,
+		const uint32_t color1,
+		const uint32_t color2,
+		const uint32_t color3);
 
-	static GS_DWORD GetBackgroundColor();
-	static void SetBackgroundColor(const GS_DWORD color);
+	static uint32_t GetBackgroundColor();
+	static void SetBackgroundColor(const uint32_t color);
 	static Vector2 GetSystemScreenSize();
 	static bool SaveScreenShot(const str_type::string& filePath);
 	static void GetEntityArrayByName(const str_type::string &name, ETHEntityArray &outVector);

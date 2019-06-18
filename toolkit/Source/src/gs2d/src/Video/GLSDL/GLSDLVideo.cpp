@@ -206,7 +206,7 @@ bool GLSDLVideo::ResetVideoMode(
 }
 
 SpritePtr GLSDLVideo::CreateSprite(
-	GS_BYTE *pBuffer,
+	unsigned char *pBuffer,
 	const unsigned int bufferLength,
 	Color mask,
 	const unsigned int width,

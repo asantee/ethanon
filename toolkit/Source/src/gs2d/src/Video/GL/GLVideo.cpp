@@ -247,12 +247,10 @@ bool GLVideo::GetZWrite() const
 	return true;
 }
 
-bool GLVideo::BeginSpriteScene(const Color& dwBGColor)
+bool GLVideo::BeginSpriteScene(const Color& bgColor)
 {
-	const Color color(dwBGColor != constant::ZERO ? dwBGColor : m_backgroundColor);
-	math::Vector4 v;
-	v.SetColor(color);
-	glClearColor(v.x, v.y, v.z, v.w);
+	const Color color(bgColor != math::constant::ZERO_VECTOR4 ? bgColor : m_backgroundColor);
+	glClearColor(color.x, color.y, color.z, color.w);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	SetAlphaMode(Video::AM_PIXEL);
 	
@@ -534,7 +532,7 @@ math::Vector2 GLVideo::GetCurrentTargetSize() const
 	}
 }
 
-bool GLVideo::BeginTargetScene(const Color& dwBGColor, const bool clear)
+bool GLVideo::BeginTargetScene(const Color& bgColor, const bool clear)
 {
 	// explicit static cast for better performance
 	TexturePtr texturePtr = m_currentTarget.lock();
@@ -551,9 +549,7 @@ bool GLVideo::BeginTargetScene(const Color& dwBGColor, const bool clear)
 
 	if (clear)
 	{
-		math::Vector4 color;
-		color.SetColor(dwBGColor);
-		glClearColor(color.x, color.y, color.z, color.w);
+		glClearColor(bgColor.x, bgColor.y, bgColor.z, bgColor.w);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 

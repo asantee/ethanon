@@ -113,9 +113,9 @@ public:
 	void SetBGColor(const Color& backgroundColor);
 	Color GetBGColor() const;
 	
-	bool BeginSpriteScene(const Color& dwBGColor = constant::ZERO);
+	bool BeginSpriteScene(const Color& bgColor = math::constant::ZERO_VECTOR4);
 	bool EndSpriteScene();
-	bool BeginTargetScene(const Color& dwBGColor = constant::ZERO, const bool clear = true);
+	bool BeginTargetScene(const Color& bgColor = math::constant::ZERO_VECTOR4, const bool clear = true);
 	bool EndTargetScene();
 	
 	bool SetAlphaMode(const ALPHA_MODE mode);

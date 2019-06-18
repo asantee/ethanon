@@ -2,70 +2,77 @@
 
 namespace gs2d {
 
-Color::Color() : color(0)
+Color::Color() :
+	math::Vector4(1.0f)
 {
 }
 
-Color::Color(const GS_DWORD color)
+Color::Color(const Color& v) :
+	math::Vector4(v)
 {
-	this->color = color;
 }
 
-Color::Color(const GS_BYTE na, const GS_BYTE nr, const GS_BYTE ng, const GS_BYTE nb)
+Color::Color(const math::Vector4& v) :
+	math::Vector4(v)
 {
-	a = na;
-	r = nr;
-	g = ng;
-	b = nb;
 }
 
-void Color::SetColor(const GS_BYTE na, const GS_BYTE nr, const GS_BYTE ng, const GS_BYTE nb)
+Color::Color(const float fr, const float fg, const float fb, const float fa) :
+	math::Vector4(fr, fg, fb, fa)
 {
-	a = na;
-	r = nr;
-	g = ng;
-	b = nb;
 }
 
-void Color::SetColor(const GS_DWORD color)
+Color::Color(const uint32_t color)
 {
-	this->color = color;
+	uint32_t a, r, g, b;
+	a = (0xFF000000 & color) >> 24;
+	r = (0x00FF0000 & color) >> 16;
+	g = (0x0000FF00 & color) >> 8;
+	b = (0x000000FF & color) >> 0;
+	w = float(a) / 255.0f;
+	x = float(r) / 255.0f;
+	y = float(g) / 255.0f;
+	z = float(b) / 255.0f;
 }
 
-Color::operator GS_DWORD() const
+uint32_t Color::ARGB(
+	const unsigned char a,
+	const unsigned char r,
+	const unsigned char g,
+	const unsigned char b)
 {
-	return color;
+	return
+	(
+		(((a) & 0xff) << 24) |
+		(((r) & 0xff) << 16) |
+		(((g) & 0xff) <<  8) |
+		(((b) & 0xff) <<  0)
+	);
 }
 
-Color& Color::operator = (GS_DWORD color)
+uint32_t Color::To32BitARGB() const
 {
-	this->color = color;
-	return *this;
+	return ARGB((unsigned char)(w * 255.0f), (unsigned char)(x * 255.0f), (unsigned char)(y * 255.0f), (unsigned char)(z * 255.0f));
 }
 
-void Color::SetAlpha(const GS_BYTE na)
+float Color::GetA() const
 {
-	a = na;
+	return w;
 }
 
-void Color::SetRed(const GS_BYTE nr)
+float Color::GetR() const
 {
-	r = nr;
+	return x;
 }
 
-void Color::SetGreen(const GS_BYTE ng)
+float Color::GetG() const
 {
-	g = ng;
+	return y;
 }
 
-void Color::SetBlue(const GS_BYTE nb)
+float Color::GetB() const
 {
-	b = nb;
+	return z;
 }
 
-unsigned long ARGB(const GS_BYTE a, const GS_BYTE r, const GS_BYTE g, const GS_BYTE b)
-{
-	return ((((a)&0xff)<<24)|(((r)&0xff)<<16)|(((g)&0xff)<<8)|((b)&0xff));
-}
-
-} // namespace gs2d
+} // namespace sprite

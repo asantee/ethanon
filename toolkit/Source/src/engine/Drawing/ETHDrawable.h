@@ -19,7 +19,7 @@ public:
 		const Vector2& pos,
 		const str_type::string& text,
 		const str_type::string& font,
-		const GS_DWORD color,
+		const Color color,
 		const unsigned long time,
 		const float scale);
 
@@ -28,7 +28,7 @@ public:
 		const Vector2& pos,
 		const str_type::string& text,
 		const str_type::string& font,
-		const GS_DWORD color,
+		const Color color,
 		const float scale);
 
 	bool Draw(const unsigned long lastFrameElapsedTimeMS);
@@ -38,7 +38,7 @@ private:
 	Vector2 v2Pos;
 	str_type::string text;
 	str_type::string font;
-	GS_DWORD color;
+	Color color;
 	unsigned long timeMS;
 	unsigned long elapsedTimeMS;
 	float scale;

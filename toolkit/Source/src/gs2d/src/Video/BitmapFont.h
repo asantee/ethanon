@@ -1,7 +1,11 @@
 #ifndef GS2D_BITMAP_FONT_H_
 #define GS2D_BITMAP_FONT_H_
 
+#include "../Types.h"
+
 #include "../Math/GameMath.h"
+
+#include "../Math/Color.h"
 
 #include <vector>
 

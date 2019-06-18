@@ -14,6 +14,11 @@ Vector2::Vector2()
 	x = y = 0.0f;
 }
 
+Vector2::Vector2(const float& v)
+{
+	x = y = v;
+}
+
 Vector2::Vector2(const Vector2& v)
 {
 	*this = v;

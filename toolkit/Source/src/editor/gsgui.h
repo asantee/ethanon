@@ -42,10 +42,10 @@ class GSGUI_STRING_INPUT
 public:
 	GSGUI_STRING_INPUT();
 	void PlaceInput(const Vector2& pos, const str_type::string& font, const unsigned int nMaxChars,
-					const float size, const Color& dwColor, VideoPtr video,
+					const float size, const Color& color, VideoPtr video,
 					InputPtr input);
 	void Place(const Vector2& pos, const str_type::string& font,
-				const float size, const Color& dwColor, VideoPtr video);
+				const float size, const Color& color, VideoPtr video);
 	str_type::string GetString() const;
 	void SetString(const str_type::string &inS);
 	void NumbersOnly(const bool b);

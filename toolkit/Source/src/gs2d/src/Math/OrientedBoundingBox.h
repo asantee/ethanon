@@ -3,6 +3,8 @@
 
 #include "GameMath.h"
 
+#include <boost/shared_ptr.hpp>
+
 namespace gs2d {
 namespace math {
 

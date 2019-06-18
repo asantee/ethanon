@@ -396,14 +396,14 @@ bool ETHScriptWrapper::AddVector3Data(const str_type::string &entity, const str_
 	return m_pScene->AddVector3Data(entity, name, value);
 }
 
-GS_DWORD ETHScriptWrapper::GetBackgroundColor()
+uint32_t ETHScriptWrapper::GetBackgroundColor()
 {
-	return m_provider->GetVideo()->GetBGColor();
+	return m_provider->GetVideo()->GetBGColor().To32BitARGB();
 }
 
-void ETHScriptWrapper::SetBackgroundColor(const GS_DWORD color)
+void ETHScriptWrapper::SetBackgroundColor(const uint32_t color)
 {
-	m_provider->GetVideo()->SetBGColor(color);
+	m_provider->GetVideo()->SetBGColor(Color(color));
 }
 
 void ETHScriptWrapper::GetEntityArrayByName(const str_type::string &name, ETHEntityArray& outVector)

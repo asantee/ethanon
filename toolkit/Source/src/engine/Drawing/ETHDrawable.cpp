@@ -7,7 +7,7 @@ ETHTextDrawer::ETHTextDrawer(
 	const Vector2& pos, 
 	const str_type::string& text,
 	const str_type::string &font,
-	const GS_DWORD color,
+	const Color color,
 	const unsigned long time,
 	const float scale)
 {
@@ -26,7 +26,7 @@ ETHTextDrawer::ETHTextDrawer(
 	const Vector2& pos, 
 	const str_type::string& text,
 	const str_type::string& font,
-	const GS_DWORD color,
+	const Color color,
 	const float scale)
 {
 	this->v2Pos = pos;
@@ -47,7 +47,7 @@ bool ETHTextDrawer::Draw(const unsigned long lastFrameElapsedTimeMS)
 	if (timeMS > 0)
 	{
 		const float fade = 1.0f - Clamp((float)elapsedTimeMS / (float)this->timeMS, 0.0f, 1.0f);
-		color.a = (GS_BYTE)(fade * 255.0f);
+		color.w = fade;
 	}
 	return provider->GetVideo()->DrawBitmapText(v2Pos, text, font, color, scale);
 }

@@ -11,12 +11,12 @@ Vector2 ETHScriptWrapper::ComputeTextBoxSize(const str_type::string &font, const
 	return m_provider->GetVideo()->ComputeTextBoxSize(font, text);
 }
 
-void ETHScriptWrapper::DrawText(const Vector2 &v2Pos, const str_type::string &text, const str_type::string &font, const GS_DWORD color, const float scale)
+void ETHScriptWrapper::DrawText(const Vector2 &v2Pos, const str_type::string &text, const str_type::string &font, const uint32_t color, const float scale)
 {
 	m_drawableManager.Insert(boost::shared_ptr<ETHDrawable>(new ETHTextDrawer(m_provider, v2Pos, text, font, color, 0x0, scale)));
 }
 
-str_type::string ETHScriptWrapper::AssembleColorCode(const GS_DWORD color)
+str_type::string ETHScriptWrapper::AssembleColorCode(const uint32_t color)
 {
 	return gs2d::BitmapFont::AssembleColorCode(color);
 }
@@ -121,7 +121,7 @@ void ETHScriptWrapper::DrawShapedFromPtr(
 	const SpritePtr& sprite,
 	const Vector2 &v2Pos,
 	const Vector2 &v2Size,
-	const GS_DWORD color,
+	const uint32_t color,
 	const float angle)
 {
 	DrawShapedFromPtr(sprite, v2Pos, v2Size, Vector4(Color(color)), angle);
@@ -147,13 +147,13 @@ void ETHScriptWrapper::DrawShapedFromPtr(
 			sprite->GetFlipY())));
 }
 
-void ETHScriptWrapper::DrawSprite(const str_type::string &name, const Vector2 &v2Pos, const GS_DWORD color, const float angle)
+void ETHScriptWrapper::DrawSprite(const str_type::string &name, const Vector2 &v2Pos, const uint32_t color, const float angle)
 {
 	SpritePtr sprite = LoadAndGetSprite(name);
 	DrawShapedFromPtr(sprite, v2Pos, Vector2(-1,-1), color, angle);
 }
 
-void ETHScriptWrapper::DrawShaped(const str_type::string &name, const Vector2 &v2Pos, const Vector2 &v2Size, const GS_DWORD color, const float angle)
+void ETHScriptWrapper::DrawShaped(const str_type::string &name, const Vector2 &v2Pos, const Vector2 &v2Size, const uint32_t color, const float angle)
 {
 	SpritePtr sprite = LoadAndGetSprite(name);
 	DrawShapedFromPtr(sprite, v2Pos, v2Size, color, angle);
@@ -186,7 +186,7 @@ void ETHScriptWrapper::PlayParticleEffect(const str_type::string& fileName, cons
 				scale)));
 }
 
-void ETHScriptWrapper::DrawFadingText(const Vector2 &v2Pos, const str_type::string &text, const str_type::string &font, const GS_DWORD color, unsigned long time, const float scale)
+void ETHScriptWrapper::DrawFadingText(const Vector2 &v2Pos, const str_type::string &text, const str_type::string &font, const uint32_t color, unsigned long time, const float scale)
 {
 	m_drawableManager.Insert(boost::shared_ptr<ETHDrawable>(
 		new ETHTextDrawer(m_provider, v2Pos, text, font, color, time, scale)));
@@ -206,9 +206,13 @@ void ETHScriptWrapper::AddLight(const Vector3 &v3Pos, const Vector3 &v3Color, co
 	m_pScene->AddLight(light);
 }
 
-void ETHScriptWrapper::DrawRectangle(const Vector2 &v2Pos, const Vector2 &v2Size,
-									 const GS_DWORD color0, const GS_DWORD color1,
-									 const GS_DWORD color2, const GS_DWORD color3)
+void ETHScriptWrapper::DrawRectangle(
+	const Vector2 &v2Pos,
+	const Vector2 &v2Size,
+	const uint32_t color0,
+	const uint32_t color1,
+	const uint32_t color2,
+	const uint32_t color3)
 {
 	m_drawableManager.Insert(boost::shared_ptr<ETHDrawable>(new ETHRectangleDrawer(m_provider, v2Pos, v2Size, color0, color1, color2, color3)));
 }

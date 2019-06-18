@@ -1,9 +1,13 @@
 #ifndef GS2D_SHADER_H_
 #define GS2D_SHADER_H_
 
+#include "Types.h"
+
 #include "Math/GameMath.h"
 #include "Math/Color.h"
+
 #include <boost/shared_array.hpp>
+#include <boost/any.hpp>
 
 namespace gs2d {
 
@@ -46,7 +50,6 @@ public:
         const std::string& psEntry) = 0;
 
 	virtual bool ConstantExist(const str_type::string& name) = 0;
-	virtual bool SetConstant(const str_type::string& name, const Color& dw) = 0;
 	virtual bool SetConstant(const str_type::string& name, const math::Vector4 &v) = 0;
 	virtual bool SetConstant(const str_type::string& name, const math::Vector3 &v) = 0;
 	virtual bool SetConstant(const str_type::string& name, const math::Vector2 &v) = 0;

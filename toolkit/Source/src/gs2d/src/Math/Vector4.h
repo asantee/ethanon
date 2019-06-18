@@ -4,15 +4,13 @@
 #include "Vector2.h"
 #include "Vector3.h"
 
-#include "Color.h"
-
 namespace gs2d {
 namespace math {
 
 struct Vector4
 {
 	Vector4();
-	Vector4(const Color& color);
+	Vector4(const float& v);
 	Vector4(const Vector4& v);
 	Vector4(float vx, float vy, float vz, float vw);
 	Vector4(const Vector2& v2, float vz, float vw);
@@ -32,8 +30,6 @@ struct Vector4
 	Vector4& operator -= (const Vector4& v);
 	Vector4& operator *= (const float& v);
 	Vector4& operator /= (const float& v);
-	void SetColor(const Color& color);
-	Color GetColor() const;
 	float x,y,z,w;
 };
 

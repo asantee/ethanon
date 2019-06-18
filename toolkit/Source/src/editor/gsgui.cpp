@@ -38,7 +38,7 @@ GSGUI_STRING_INPUT::GSGUI_STRING_INPUT()
 }
 
 void GSGUI_STRING_INPUT::PlaceInput(const Vector2& pos, const str_type::string& font, const unsigned int nMaxChars, 
-				const float size, const Color& dwColor, VideoPtr video,
+				const float size, const Color& color, VideoPtr video,
 				InputPtr input)
 {
 	const unsigned long time = video->GetElapsedTime();
@@ -117,7 +117,7 @@ void GSGUI_STRING_INPUT::PlaceInput(const Vector2& pos, const str_type::string& 
 }
 
 void GSGUI_STRING_INPUT::Place(const Vector2& pos, const str_type::string& font,
-				const float size, const Color& dwColor, VideoPtr video)
+				const float size, const Color& color, VideoPtr video)
 {
 	str_type::string outputString = ss;
 	video->DrawBitmapText(pos, outputString, font, dwColor);

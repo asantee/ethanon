@@ -1,9 +1,14 @@
 #ifndef GS2D_TEXTURE_H_
 #define GS2D_TEXTURE_H_
 
+#include "Types.h"
+
 #include "Math/GameMath.h"
 
 #include "Math/Color.h"
+
+#include <boost/shared_ptr.hpp>
+#include <boost/any.hpp>
 
 namespace gs2d {
 

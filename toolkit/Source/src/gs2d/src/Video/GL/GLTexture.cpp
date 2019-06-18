@@ -38,7 +38,7 @@ boost::shared_ptr<GLTexture> GLTexture::Create(VideoWeakPtr video, Platform::Fil
     return texture;
 }
 
-static void ApplyPixelMask(unsigned char *ht_map, const Color mask, const int channels, const int width, const int height);
+static void ApplyPixelMask(unsigned char *ht_map, const Color& mask, const int channels, const int width, const int height);
 
 GLuint GLTexture::m_textureID(1000);
 
@@ -147,7 +147,7 @@ bool GLTexture::LoadTexture(
 	const unsigned int nMipMaps,
 	const unsigned int bufferLength)
 {
-	const bool maskingEnabled = (mask != 0x0);
+	const bool maskingEnabled = (mask != math::constant::ZERO_VECTOR4);
 	int iWidth, iHeight;
 	const int forceChannels = maskingEnabled ? SOIL_LOAD_RGBA : SOIL_LOAD_AUTO;
 	m_bitmap = SOIL_load_image_from_memory((unsigned char*)pBuffer, bufferLength, &iWidth, &iHeight, &m_channels, forceChannels);
@@ -248,7 +248,7 @@ bool GLTexture::CreateRenderTarget(
 	return true;
 }
 
-void GLTexture::CreateTextureFromBitmap(GS_BYTE* data, const int width, const int height, const int channels, const bool pow2)
+void GLTexture::CreateTextureFromBitmap(unsigned char* data, const int width, const int height, const int channels, const bool pow2)
 {
 	DeleteGLTexture();
 	if (data)
@@ -281,8 +281,8 @@ void GLTexture::Recover()
 
 bool GLTexture::IsAllBlack() const
 {
-	const GS_BYTE maxTolerance = 0xF;
-	const GS_BYTE* bitmap = (m_type == TT_RENDER_TARGET) ? m_textureInfo.renderTargetBackup.get() : m_bitmap;
+	const unsigned char maxTolerance = 0xF;
+	const unsigned char* bitmap = (m_type == TT_RENDER_TARGET) ? m_textureInfo.renderTargetBackup.get() : m_bitmap;
 	const size_t size = m_profile.originalWidth * m_profile.originalHeight * m_channels;
 	for (std::size_t t = 0; t < size; t++)
 	{
@@ -311,7 +311,7 @@ bool GLTexture::SaveTargetSurfaceBackup()
 	}
 	glBindTexture(GL_TEXTURE_2D, m_textureInfo.m_texture);
 	const unsigned int bytes = 4;
-	m_textureInfo.renderTargetBackup = boost::shared_array<GS_BYTE>(new GS_BYTE [m_profile.originalWidth * m_profile.originalHeight * bytes]);
+	m_textureInfo.renderTargetBackup = boost::shared_array<unsigned char>(new unsigned char [m_profile.originalWidth * m_profile.originalHeight * bytes]);
 	glGetTexImage(GL_TEXTURE_2D, 0, m_textureInfo.glTargetFmt, m_textureInfo.glPixelType, m_textureInfo.renderTargetBackup.get());
 	return true;
 }
@@ -384,7 +384,7 @@ void CheckFrameBufferStatus(const GLuint fbo, const GLuint tex, const bool showS
 	}
 }
 
-static void ApplyPixelMask(unsigned char *ht_map, const Color mask, const int channels, const int width, const int height)
+static void ApplyPixelMask(unsigned char *ht_map, const Color& mask, const int channels, const int width, const int height)
 {
 	if (channels == 4)
 	{
@@ -396,8 +396,7 @@ static void ApplyPixelMask(unsigned char *ht_map, const Color mask, const int ch
 			unsigned char& b = ht_map[i + 2];
 			unsigned char& a = ht_map[i + 3];
 
-			if ((r == mask.r && g == mask.g && b == mask.b && mask.a == 0xFF)
-				|| (a == 0x0))
+			if ((mask.To32BitARGB() == Color::ARGB(0xFF, r, g, b)) || (a == 0x0))
 			{
 				r = g = b = a = 0x0;
 			}

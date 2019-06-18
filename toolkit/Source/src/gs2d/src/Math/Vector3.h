@@ -11,25 +11,26 @@ struct PODVector3 { float x, y, z; };
 struct Vector3 : public PODVector3
 {
 	Vector3();
+	Vector3(const float v);
 	Vector3(const Vector3& v);
-	Vector3(const float& vx, const float& vy, const float& vz);
-	Vector3(const Vector2 &v2, const float& vz);
+	Vector3(const float vx, const float vy, const float vz);
+	Vector3(const Vector2 &v2, const float vz);
 	float Length() const;
 	float SquaredLength() const;
-	Vector3 operator * (const float& v) const;
+	Vector3 operator * (const float v) const;
 	Vector3 operator * (const Vector3& v) const;
-	Vector3 operator / (const float& v) const;
+	Vector3 operator / (const float v) const;
 	Vector3 operator / (const Vector3& v) const;
-	Vector3 operator - (const float& v) const;
+	Vector3 operator - (const float v) const;
 	Vector3 operator - (const Vector3& v) const;
-	Vector3 operator + (const float& v) const;
+	Vector3 operator + (const float v) const;
 	Vector3 operator + (const Vector3& v) const;
 	bool operator == (const Vector3& v) const;
 	bool operator != (const Vector3& v) const;
 	Vector3& operator += (const Vector3& v);
 	Vector3& operator -= (const Vector3& v);
-	Vector3& operator *= (const float& v);
-	Vector3& operator /= (const float& v);
+	Vector3& operator *= (const float v);
+	Vector3& operator /= (const float v);
 };
 
 namespace constant {

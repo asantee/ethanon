@@ -25,7 +25,7 @@ void BitmapFont::RemoveColorMarkup(str_type::string& str)
 str_type::string BitmapFont::AssembleColorCode(const Color& color)
 {
 	str_type::stringstream ss;
-	ss << COLOR_CODE_BEGIN_SEQUENCE << color.color << COLOR_CODE_END_SEQUENCE;
+	ss << COLOR_CODE_BEGIN_SEQUENCE << color.To32BitARGB() << COLOR_CODE_END_SEQUENCE;
 	return ss.str();
 }
 
@@ -81,7 +81,7 @@ BitmapFont::BitmapFont(Video* video, const str_type::string& fileName, const str
 			}
 
 			path += m_charSet.textureNames[t];
-			m_bitmaps[t] = video->CreateSprite(path, gs2d::constant::ZERO, 0, 0);
+			m_bitmaps[t] = video->CreateSprite(path, math::constant::ZERO_VECTOR4, 0, 0);
 			if (!m_bitmaps[t])
 			{
 				m_bitmaps.clear();
@@ -451,10 +451,10 @@ Vector2 BitmapFont::DrawBitmapText(const Vector2& pos, const str_type::string& t
 			{
 				const std::size_t codeStartPos = t + COLOR_CODE_BEGIN_SEQUENCE.length();
 				const str_type::string colorCodeValue = text.substr(codeStartPos, end);
-				Color localColor;
-				if (GS2D_SSCANF(colorCodeValue.c_str(), GS_L("%lu"), &localColor.color) == 1)
+				unsigned long localColor;
+				if (GS2D_SSCANF(colorCodeValue.c_str(), GS_L("%lu"), &localColor) == 1)
 				{
-					const Vector4 currentColorV4(Vector4(color) * Vector4(localColor));
+					const Vector4 currentColorV4(Color(color) * Color(static_cast<uint32_t>(localColor)));
 					currentColor = Color(currentColorV4);
 				}
 				t = (end) + COLOR_CODE_END_SEQUENCE.length() - 1;
