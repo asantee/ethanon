@@ -15,42 +15,9 @@ const float PI2 = PI * 2;
 const float PIb = 1.570796327f;
 } // namespace constant
 
-struct Rect2D
-{
-	Rect2D() : pos(0,0), size(0,0)
-	{
-	}
-
-	Rect2D(const Vector2i &pos, const Vector2i &size)
-	{
-		this->pos = pos;
-		this->size = size;
-	}
-
-	Rect2D(const int posX, const int posY, const int sizeX, const int sizeY)
-	{
-		this->pos.x = posX;
-		this->pos.y = posY;
-		this->size.x = sizeX;
-		this->size.y = sizeY;
-	}
-
-	inline bool operator == (const Rect2D& r) const
-	{
-		return (pos == r.pos && size == r.size);
-	}
-
-	inline bool operator != (const Rect2D& r) const
-	{
-		return !(*this == r);
-	}	
-
-	Vector2i pos, size;
-};
-
 struct Rect2Df
 {
-    Rect2Df() : pos(0,0), size(0,0), originalSize(0,0), offset(0,0)
+    Rect2Df() : pos(0, 0), size(0, 0), originalSize(0, 0), offset(0, 0)
 	{
 	}
 

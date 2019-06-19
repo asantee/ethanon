@@ -78,5 +78,5 @@ void ETHLight::SetLightScissor(const VideoPtr& video, const Vector2& zAxisDir) c
 	sum.y = Abs(sum.y);
 	const Vector2 squareSize(Vector2(squareEdgeSize, squareEdgeSize) + sum);
 	const Vector2 absPos(ETHGlobal::ToScreenPos(pos, zAxisDir) - video->GetCameraPos() - (squareSize * 0.5f));
-	video->SetScissor(Rect2D(absPos.ToVector2i(), squareSize.ToVector2i()));
+	video->SetScissor(Rect2Di(absPos.ToVector2i(), squareSize.ToVector2i()));
 }

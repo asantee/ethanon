@@ -168,9 +168,9 @@ public:
 	virtual bool SetClamp(const bool set) = 0;
 	virtual bool GetClamp() const = 0;
 
-	virtual bool SetScissor(const math::Rect2D &rect) = 0;
+	virtual bool SetScissor(const math::Rect2Di &rect) = 0;
 	virtual bool SetScissor(const bool &enable) = 0;
-	virtual math::Rect2D GetScissor() const = 0;
+	virtual math::Rect2Di GetScissor() const = 0;
 	virtual void UnsetScissor() = 0;
 
 	virtual bool DrawLine(const math::Vector2 &p1, const math::Vector2 &p2, const Color& color1, const Color& color2) = 0;
@@ -211,7 +211,7 @@ public:
 	virtual bool SaveScreenshot(
 		const str_type::char_t* fileName,
 		const Texture::BITMAP_FORMAT fmt = Texture::BF_BMP,
-		math::Rect2D rect = math::Rect2D(0,0,0,0)) = 0;
+		math::Rect2Di rect = math::Rect2Di(0,0,0,0)) = 0;
 
 	virtual math::Vector2 ComputeCarretPosition(
 		const str_type::string& font,

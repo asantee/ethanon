@@ -255,7 +255,7 @@ void GLSprite::EndFastRendering()
 bool GLSprite::SaveBitmap(
 	const str_type::char_t* name,
 	const Texture::BITMAP_FORMAT fmt,
-	math::Rect2D* pRect)
+	math::Rect2Di* pRect)
 {
 	return m_texture->SaveBitmap(name, fmt);
 }

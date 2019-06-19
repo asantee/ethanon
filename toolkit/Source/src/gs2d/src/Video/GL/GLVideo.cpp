@@ -465,7 +465,7 @@ bool GLVideo::SetScissor(const bool& enable)
 	return true;
 }
 
-bool GLVideo::SetScissor(const math::Rect2D& rect)
+bool GLVideo::SetScissor(const math::Rect2Di& rect)
 {
 	SetScissor(true);
 	GLint posY;
@@ -488,7 +488,7 @@ bool GLVideo::SetScissor(const math::Rect2D& rect)
 	return true;
 }
 
-math::Rect2D GLVideo::GetScissor() const
+math::Rect2Di GLVideo::GetScissor() const
 {
 	return m_scissor;
 }
@@ -572,7 +572,7 @@ bool GLVideo::EndTargetScene()
 bool GLVideo::SaveScreenshot(
 	const str_type::char_t* name,
 	const Texture::BITMAP_FORMAT fmt,
-	math::Rect2D rect)
+	math::Rect2Di rect)
 {
 	str_type::string fileName = name;
 	const str_type::string ext = ".tga";

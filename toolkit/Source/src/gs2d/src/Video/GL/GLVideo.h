@@ -23,7 +23,7 @@ class GLVideo : public virtual Video, public RecoverableResourceManager
 	const float m_zNear, m_zFar;
 	Color m_backgroundColor;
 	bool m_rendering, m_clamp;
-	math::Rect2D m_scissor;
+	math::Rect2Di m_scissor;
 	TextureWeakPtr m_currentTarget;
 
 	boost::shared_ptr<GLRectRenderer> m_rectRenderer;
@@ -86,9 +86,9 @@ public:
 	bool SetClamp(const bool set);
 	bool GetClamp() const;
 	
-	bool SetScissor(const math::Rect2D &rect);
+	bool SetScissor(const math::Rect2Di &rect);
 	bool SetScissor(const bool &enable);
-	math::Rect2D GetScissor() const;
+	math::Rect2Di GetScissor() const;
 	void UnsetScissor();
 
 	bool DrawLine(const math::Vector2 &p1, const math::Vector2 &p2, const Color& color1, const Color& color2);
@@ -129,7 +129,7 @@ public:
 	bool SaveScreenshot(
 		const str_type::char_t* wcsName,
 		const Texture::BITMAP_FORMAT fmt = Texture::BF_BMP,
-		math::Rect2D rect = math::Rect2D(0,0,0,0));
+		math::Rect2Di rect = math::Rect2Di(0,0,0,0));
 
 	const GLRectRenderer& GetRectRenderer() const;
 
