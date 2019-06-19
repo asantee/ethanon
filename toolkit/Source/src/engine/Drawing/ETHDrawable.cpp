@@ -172,11 +172,9 @@ bool ETHSpriteDrawer::Draw(const unsigned long lastFrameElapsedTimeMS)
 
 		const Vector2 frameSize(sprite->GetFrameSize());
 		const Vector2 size(v2Size == Vector2(-1,-1) ? frameSize : v2Size);
-		
+
 		if (size.x == 0.0f || size.y == 0.0f)
 			return true;
-
-		//const Vector2 spriteScale((size.x / frameSize.x), (size.y / frameSize.y));
 
 		const Rect2Df rect(sprite->GetRect());
 
