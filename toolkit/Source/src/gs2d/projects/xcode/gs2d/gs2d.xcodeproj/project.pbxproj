@@ -110,6 +110,8 @@
 		AA18F5F222B887BD00F44DA6 /* Vector4.h in Headers */ = {isa = PBXBuildFile; fileRef = AA18F5F022B887BD00F44DA6 /* Vector4.h */; };
 		AA18F5F922B9D15500F44DA6 /* Rect2Di.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA18F5F722B9D15400F44DA6 /* Rect2Di.cpp */; };
 		AA18F5FA22B9D15500F44DA6 /* Rect2Di.h in Headers */ = {isa = PBXBuildFile; fileRef = AA18F5F822B9D15400F44DA6 /* Rect2Di.h */; };
+		AA18F5FD22B9D64800F44DA6 /* Rect2D.h in Headers */ = {isa = PBXBuildFile; fileRef = AA18F5FB22B9D64800F44DA6 /* Rect2D.h */; };
+		AA18F5FE22B9D64800F44DA6 /* Rect2D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA18F5FC22B9D64800F44DA6 /* Rect2D.cpp */; };
 		AA19C1241F8285BF0096696A /* FMAudioContext.macos.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA19C1231F8285BF0096696A /* FMAudioContext.macos.mm */; };
 		AA7BDF721F7EE1980057B06F /* libfmod.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA7BDF711F7EE1980057B06F /* libfmod.dylib */; };
 		AA7BDF801F7EE5750057B06F /* FMAudioContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA7BDF7C1F7EE5390057B06F /* FMAudioContext.mm */; };
@@ -242,6 +244,8 @@
 		AA18F5F022B887BD00F44DA6 /* Vector4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vector4.h; path = ../../../../src/Math/Vector4.h; sourceTree = "<group>"; usesTabs = 1; };
 		AA18F5F722B9D15400F44DA6 /* Rect2Di.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Rect2Di.cpp; path = ../../../../src/Math/Rect2Di.cpp; sourceTree = "<group>"; usesTabs = 1; };
 		AA18F5F822B9D15400F44DA6 /* Rect2Di.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Rect2Di.h; path = ../../../../src/Math/Rect2Di.h; sourceTree = "<group>"; usesTabs = 1; };
+		AA18F5FB22B9D64800F44DA6 /* Rect2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Rect2D.h; path = ../../../../src/Math/Rect2D.h; sourceTree = "<group>"; usesTabs = 1; };
+		AA18F5FC22B9D64800F44DA6 /* Rect2D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Rect2D.cpp; path = ../../../../src/Math/Rect2D.cpp; sourceTree = "<group>"; usesTabs = 1; };
 		AA19C1231F8285BF0096696A /* FMAudioContext.macos.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = FMAudioContext.macos.mm; path = ../../../src/Audio/fmod/FMAudioContext.macos.mm; sourceTree = "<group>"; };
 		AA7BDF711F7EE1980057B06F /* libfmod.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfmod.dylib; path = ../../../vendors/fmod/lib/libfmod.dylib; sourceTree = "<group>"; };
 		AA7BDF7C1F7EE5390057B06F /* FMAudioContext.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = FMAudioContext.mm; path = ../../../src/Audio/fmod/FMAudioContext.mm; sourceTree = "<group>"; };
@@ -301,6 +305,8 @@
 				AA18F5F022B887BD00F44DA6 /* Vector4.h */,
 				7473CA8A16330366005DB920 /* Color.cpp */,
 				7473CA8B16330366005DB920 /* Color.h */,
+				AA18F5FC22B9D64800F44DA6 /* Rect2D.cpp */,
+				AA18F5FB22B9D64800F44DA6 /* Rect2D.h */,
 				AA18F5F722B9D15400F44DA6 /* Rect2Di.cpp */,
 				AA18F5F822B9D15400F44DA6 /* Rect2Di.h */,
 				7473CA8C16330366005DB920 /* GameMath.cpp */,
@@ -610,6 +616,7 @@
 				7486553F16382C000096D869 /* GLCgShaderContext.h in Headers */,
 				7486554416383A540096D869 /* GLCgShader.h in Headers */,
 				AA18F5FA22B9D15500F44DA6 /* Rect2Di.h in Headers */,
+				AA18F5FD22B9D64800F44DA6 /* Rect2D.h in Headers */,
 				7486554816397C1D0096D869 /* GLTexture.h in Headers */,
 				748655631639E1600096D869 /* GLSprite.h in Headers */,
 				74D066DC1A03CBF300D45F66 /* image_helper.h in Headers */,
@@ -735,6 +742,7 @@
 				7421F2DF1648173000C55BAE /* StdFileManager.cpp in Sources */,
 				7423B69D165FF413008848EA /* SharedData.cpp in Sources */,
 				7423B69F165FF413008848EA /* SharedDataManager.cpp in Sources */,
+				AA18F5FE22B9D64800F44DA6 /* Rect2D.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

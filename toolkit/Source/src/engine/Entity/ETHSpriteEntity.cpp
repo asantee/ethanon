@@ -373,7 +373,7 @@ void ETHSpriteEntity::SetOrigin()
 		m_pLightmap->SetOrigin(v2Origin);
 }
 
-Rect2Df ETHSpriteEntity::GetFrameRect() const
+Rect2D ETHSpriteEntity::GetFrameRect() const
 {
 	if (m_pSprite)
 	{
@@ -381,7 +381,7 @@ Rect2Df ETHSpriteEntity::GetFrameRect() const
 	}
 	else
 	{
-		return Rect2Df();
+		return Rect2D();
 	}
 }
 

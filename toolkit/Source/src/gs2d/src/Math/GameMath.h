@@ -15,47 +15,6 @@ const float PI2 = PI * 2;
 const float PIb = 1.570796327f;
 } // namespace constant
 
-struct Rect2Df
-{
-    Rect2Df() : pos(0, 0), size(0, 0), originalSize(0, 0), offset(0, 0)
-	{
-	}
-
-	Rect2Df(const Vector2 &pos, const Vector2 &size)
-	{
-		this->pos = pos;
-		this->size = this->originalSize = size;
-	}
-
-    Rect2Df(const Vector2 &pos, const Vector2 &size, const Vector2 &offset, const Vector2 &originalSize)
-    {
-        this->pos = pos;
-        this->size = size;
-        this->offset = offset;
-        this->originalSize = originalSize;
-    }
-    
-	Rect2Df(const float posX, const float posY, const float sizeX, const float sizeY)
-	{
-		this->pos.x = posX;
-		this->pos.y = posY;
-		this->size.x = sizeX;
-		this->size.y = sizeY;
-	}
-
-	inline bool operator == (const Rect2Df& r) const
-	{
-		return (pos == r.pos && size == r.size);
-	}
-	
-	inline bool operator != (const Rect2Df& r) const
-	{
-		return !(*this == r);
-	}	
-
-	Vector2 pos, size, offset, originalSize;
-};
-
 struct PODMatrix4x4
 {
 	struct Matrix

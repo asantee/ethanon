@@ -311,7 +311,7 @@ void ETHParticleManager::UpdateParticle(
 	}
 }
 
-Rect2Df ETHParticleManager::ComputeBoundingRectangle(const float angle) const
+Rect2D ETHParticleManager::ComputeBoundingRectangle(const float angle) const
 {
 	PARTICLE particle;
 	particle.id = 0;
@@ -350,7 +350,7 @@ Rect2Df ETHParticleManager::ComputeBoundingRectangle(const float angle) const
 	const Vector2 finalMin(Vector2Min(startMin, endMin));
 	const Vector2 finalMax(Vector2Max(startMax, endMax));
 
-	return Rect2Df((finalMin + finalMax) / 2.0f, finalMax - finalMin);
+	return Rect2D((finalMin + finalMax) / 2.0f, finalMax - finalMin);
 }
 
 bool ETHParticleManager::Finished() const

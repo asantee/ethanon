@@ -71,7 +71,7 @@ ETHGraphicResourceManager::SpriteResource::SpriteResource(
 							pSpriteIter->QueryIntAttribute(GS_L("oX"), &offsetX);
 							pSpriteIter->QueryIntAttribute(GS_L("oY"), &offsetY);
 							m_packedFrames->push_back(
-								gs2d::math::Rect2Df(
+								gs2d::math::Rect2D(
 									Vector2(x, y),
 									Vector2(width, height),
 									Vector2(offsetX, offsetY),

@@ -67,7 +67,7 @@ public:
 	int GetID() const;
 	Vector2 ComputeOrigin(const Vector2 &v2Size) const;
 	Vector2 ComputeAbsoluteOrigin(const Vector2 &v2Size) const;
-	virtual Rect2Df GetFrameRect() const = 0;
+	virtual Rect2D GetFrameRect() const = 0;
 	Vector3 GetLightRelativePosition() const;
 	ETHCollisionBox GetCollisionBox() const;
 	ETHCompoundShapePtr GetCompoundShape() const;

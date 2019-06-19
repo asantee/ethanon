@@ -1,5 +1,7 @@
 #include "ETHDrawable.h"
+
 #include "../Resource/ETHResourceProvider.h"
+
 #include <Platform/Platform.h>
 
 ETHTextDrawer::ETHTextDrawer(
@@ -176,7 +178,7 @@ bool ETHSpriteDrawer::Draw(const unsigned long lastFrameElapsedTimeMS)
 		if (size.x == 0.0f || size.y == 0.0f)
 			return true;
 
-		const Rect2Df rect(sprite->GetRect());
+		const Rect2D rect(sprite->GetRect());
 
 		const Vector2 bitmapSize = ((rect.size == rect.originalSize) ? frameSize : rect.size);
 		const Vector2 virtualSize = ((rect.size == rect.originalSize) ? frameSize : rect.originalSize);

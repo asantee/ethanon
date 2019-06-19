@@ -4,6 +4,7 @@
 #include "Texture.h"
 
 #include "Math/Rect2Di.h"
+#include "Math/Rect2D.h"
 
 #include <vector>
 
@@ -46,7 +47,7 @@ public:
 		RM_FOUR_TRIANGLES,
 	};
 
-    typedef std::vector<math::Rect2Df> Rects;
+    typedef std::vector<math::Rect2D> Rects;
     typedef boost::shared_ptr<Rects> RectsPtr;
     typedef boost::shared_ptr<const Rects> RectsConstPtr;
 
@@ -145,11 +146,11 @@ public:
     virtual RectsPtr GetRects();
 	virtual bool SetRect(const unsigned int column, const unsigned int row);
 	virtual bool SetRect(const unsigned int rect);
-	virtual void SetRect(const math::Rect2Df& rect);
+	virtual void SetRect(const math::Rect2D& rect);
 	virtual void UnsetRect();
 	virtual unsigned int GetNumRects() const;
-	virtual math::Rect2Df GetRect() const;
-	virtual math::Rect2Df GetRect(const unsigned int rect) const;
+	virtual math::Rect2D GetRect() const;
+	virtual math::Rect2D GetRect(const unsigned int rect) const;
 	virtual unsigned int GetRectIndex() const;
 	virtual unsigned int GetNumRows() const;
 	virtual unsigned int GetNumColumns() const;
@@ -171,7 +172,7 @@ protected:
 	unsigned int m_currentRect;
 	bool m_hasCustomRects;
 	RectsPtr m_rects;
-	math::Rect2Df m_rect;
+	math::Rect2D m_rect;
 	unsigned int m_nColumns, m_nRows;
 	RECT_MODE m_rectMode;
 	float m_densityValue;

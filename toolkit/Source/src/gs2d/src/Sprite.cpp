@@ -1,6 +1,8 @@
 #include "Sprite.h"
 #include "Application.h"
 
+#include "Math/Rect2D.h"
+
 namespace gs2d {
 using namespace gs2d::math;
 
@@ -9,7 +11,7 @@ Sprite::Sprite() :
 	m_nColumns(0),
 	m_nRows(0),
 	m_normalizedOrigin(Vector2(0.0f, 0.0f)),
-	m_rect(Rect2Df(0,0,0,0)),
+	m_rect(Rect2D(0,0,0,0)),
 	m_rectMode(RM_TWO_TRIANGLES),
 	m_currentRect(0),
 	m_flipX(false),
@@ -159,18 +161,18 @@ bool Sprite::SetRect(const unsigned int column, const unsigned int row)
 	return SetRect((row * m_nColumns) + column);
 }
 
-void Sprite::SetRect(const Rect2Df& rect)
+void Sprite::SetRect(const Rect2D& rect)
 {
 	m_rect = rect;
 }
 
 void Sprite::UnsetRect()
 {
-	m_rect = Rect2Df(0, 0, 0, 0);
+	m_rect = Rect2D(0, 0, 0, 0);
 	m_currentRect = 0;
 }
 
-Rect2Df Sprite::GetRect() const
+Rect2D Sprite::GetRect() const
 {
 	return m_rect;
 }
@@ -190,12 +192,12 @@ unsigned int Sprite::GetNumColumns() const
 	return m_nColumns;
 }
 
-Rect2Df Sprite::GetRect(const unsigned int rect) const
+Rect2D Sprite::GetRect(const unsigned int rect) const
 {
     if (m_rects)
 		return (*m_rects)[Min(GetNumRects() - 1, rect)];
     else
-        return Rect2Df(0, 0, 0, 0);
+        return Rect2D(0, 0, 0, 0);
 }
 
 Vector2 Sprite::GetOrigin() const

@@ -52,7 +52,7 @@ public:
 	bool SetDepth(const float maxHeight, const float minHeight);
 	void SetOrigin();
 
-	Rect2Df GetFrameRect() const;
+	Rect2D GetFrameRect() const;
 
 	SpritePtr GetSprite();
 	SpritePtr GetGloss();

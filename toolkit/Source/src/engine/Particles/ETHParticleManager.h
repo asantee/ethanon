@@ -64,7 +64,7 @@ public:
 		const float lastFrameElapsedTime);
 
 	// Compute maximum bounding rectangle for the system
-	Rect2Df ComputeBoundingRectangle(const float angle) const;
+	Rect2D ComputeBoundingRectangle(const float angle) const;
 
 	/// Draw all particles also considering it's ambient light color
 	bool DrawParticleSystem(
