@@ -236,7 +236,7 @@ bool ETHScene::AddEntitiesFromXMLFile(
 	const bool readSceneProperties,
 	const Vector3& offset,
 	ETHEntityArray &outVector,
-	const bool shouldGenerateNewID)
+	bool shouldGenerateNewID)
 {
 	str_type::stringstream ss;
 	const str_type::string sceneFileName = Platform::GetFileName(fileName.c_str());
@@ -261,6 +261,16 @@ bool ETHScene::AddEntitiesFromXMLFile(
 				{
 					do
 					{
+						if (shouldGenerateNewID)
+						{
+							int id = -1;
+							pEntityIter->QueryIntAttribute(GS_L("id"), &id);
+ 							if (m_buckets.SeekEntity(id) == 0)
+ 							{
+ 								shouldGenerateNewID = false;
+							}
+						}
+
 						ETHRenderEntity* entity = new ETHRenderEntity(pEntityIter, m_provider, entityCache, entityPath, shouldGenerateNewID);
 						entity->GetController()->AddToPos(offset);
 						const ETHEntityProperties* entityProperties = entity->GetProperties();
