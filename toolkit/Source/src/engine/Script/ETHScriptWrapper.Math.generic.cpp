@@ -1,5 +1,7 @@
 #include "ETHScriptWrapper.h"
 
+#include <Math/Matrix4x4.h>
+
 #include <math.h>
 
 #include "../addons/aswrappedcall.h"
@@ -13,8 +15,8 @@ asDECLARE_FUNCTION_WRAPPERPR(__signI, ETHScriptWrapper::Math::Sign, (const int),
 asDECLARE_FUNCTION_WRAPPERPR(__distance2, ETHScriptWrapper::Math::Distance, (const Vector2 &, const Vector2 &), float);
 asDECLARE_FUNCTION_WRAPPERPR(__distance3, ETHScriptWrapper::Math::Distance, (const Vector3 &, const Vector3 &), float);
 
-asDECLARE_FUNCTION_WRAPPERPR(__multiplyv2, gs2d::math::Multiply, (const Vector2&, const Matrix4x4&), Vector2);
-asDECLARE_FUNCTION_WRAPPERPR(__multiplyv3, gs2d::math::Multiply, (const Vector3&, const Matrix4x4&), Vector3);
+asDECLARE_FUNCTION_WRAPPERPR(__multiplyv2, Matrix4x4::Multiply, (const Vector2&, const Matrix4x4&), Vector2);
+asDECLARE_FUNCTION_WRAPPERPR(__multiplyv3, Matrix4x4::Multiply, (const Vector3&, const Matrix4x4&), Vector3);
 
 asDECLARE_FUNCTION_WRAPPER(__getHashFromString,     ETHScriptWrapper::Math::GetHashFromString);
 asDECLARE_FUNCTION_WRAPPER(__getMD5HashFromString,  ETHScriptWrapper::Math::GetMD5HashFromString);

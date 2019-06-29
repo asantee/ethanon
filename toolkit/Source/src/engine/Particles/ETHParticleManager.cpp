@@ -92,7 +92,7 @@ bool ETHParticleManager::CreateParticleSystem(
 
 	m_particles.resize(m_system.nParticles);
 
-	Matrix4x4 rot = RotateZ(DegreeToRadian(angle));
+	Matrix4x4 rot = Matrix4x4::RotateZ(DegreeToRadian(angle));
 	for (int t = 0; t < m_system.nParticles; t++)
 	{
 		m_particles[t].id = t;
@@ -164,7 +164,7 @@ void ETHParticleManager::UpdateParticleSystem(
 	bool anythingDrawn = false;
 	const float cappedLastFrameElapsedTime = Min(lastFrameElapsedTime, 250.0f);
 
-	Matrix4x4 rot = RotateZ(DegreeToRadian(angle));
+	Matrix4x4 rot = Matrix4x4::RotateZ(DegreeToRadian(angle));
 	m_nActiveParticles = 0;
 
 	m_worldSpaceBoundingMin = ETHGlobal::ToScreenPos(v3Pos + m_system.startPoint, zAxisDirection);
@@ -316,7 +316,7 @@ Rect2D ETHParticleManager::ComputeBoundingRectangle(const float angle) const
 	PARTICLE particle;
 	particle.id = 0;
 	particle.released = false;
-	Matrix4x4 rot = RotateZ(DegreeToRadian(angle));
+	Matrix4x4 rot = Matrix4x4::RotateZ(DegreeToRadian(angle));
 
 	ETHParticleSystem staticSystem = m_system;
 	staticSystem.size += (staticSystem.randomizeSize / 2.0f);
@@ -362,7 +362,7 @@ bool ETHParticleManager::Play(
 	const Vector3 &v3Pos,
 	const float angle)
 {
-	Matrix4x4 rot = RotateZ(DegreeToRadian(angle));
+	Matrix4x4 rot = Matrix4x4::RotateZ(DegreeToRadian(angle));
 	m_finished = false;
 	for (int t = 0; t < m_system.nParticles; t++)
 	{
@@ -583,7 +583,7 @@ void ETHParticleManager::ResetParticle(
 	particle.size = system.size + Randomizer::Float(-system.randomizeSize / 2, system.randomizeSize/2);
 	particle.dir.x = (system.directionVector.x + Randomizer::Float(-halfRandDir.x, halfRandDir.x));
 	particle.dir.y = (system.directionVector.y + Randomizer::Float(-halfRandDir.y, halfRandDir.y));
-	particle.dir = Multiply(particle.dir, rotMatrix);
+	particle.dir = Matrix4x4::Multiply(particle.dir, rotMatrix);
 	particle.color = system.color0;
 	PositionParticle(system, particle, angle, rotMatrix, v3Pos);
 
@@ -616,7 +616,7 @@ void ETHParticleManager::PositionParticle(
 	particle.angle = system.angleStart + Randomizer::Float(system.randAngleStart) + angle;
 	particle.pos.x = system.startPoint.x + Randomizer::Float(-halfRandStartPoint.x, halfRandStartPoint.x);
 	particle.pos.y = system.startPoint.y + Randomizer::Float(-halfRandStartPoint.y, halfRandStartPoint.y);
-	particle.pos = Multiply(particle.pos, rotMatrix);	
+	particle.pos = Matrix4x4::Multiply(particle.pos, rotMatrix);	
 	particle.pos = particle.pos + Vector2(v3Pos.x, v3Pos.y);
 	particle.startPoint = v3Pos + system.startPoint;
 }

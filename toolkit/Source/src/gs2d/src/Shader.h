@@ -3,7 +3,7 @@
 
 #include "Types.h"
 
-#include "Math/GameMath.h"
+#include "Math/Matrix4x4.h"
 #include "Math/Color.h"
 
 #include <boost/shared_array.hpp>

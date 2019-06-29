@@ -576,12 +576,12 @@ void RegisterCollisionMethods(asIScriptEngine *pASEngine)
 asDECLARE_FUNCTION_OBJ_WRAPPER(__Matrix4x4DefaultConstructor, Matrix4x4DefaultConstructor, false);
 asDECLARE_FUNCTION_OBJ_WRAPPER(__Matrix4x4CopyConstructor,    Matrix4x4CopyConstructor,    false);
 
-asDECLARE_FUNCTION_WRAPPER(__scale,      Scale);
-asDECLARE_FUNCTION_WRAPPER(__translate,  Translate);
-asDECLARE_FUNCTION_WRAPPER(__rotateX,    RotateX);
-asDECLARE_FUNCTION_WRAPPER(__rotateY,    RotateY);
-asDECLARE_FUNCTION_WRAPPER(__rotateZ,    RotateZ);
-asDECLARE_FUNCTION_WRAPPERPR(__multiply, Multiply, (const Matrix4x4&, const Matrix4x4&), Matrix4x4);
+asDECLARE_FUNCTION_WRAPPER(__scale,      Matrix4x4::Scale);
+asDECLARE_FUNCTION_WRAPPER(__translate,  Matrix4x4::Translate);
+asDECLARE_FUNCTION_WRAPPER(__rotateX,    Matrix4x4::RotateX);
+asDECLARE_FUNCTION_WRAPPER(__rotateY,    Matrix4x4::RotateY);
+asDECLARE_FUNCTION_WRAPPER(__rotateZ,    Matrix4x4::RotateZ);
+asDECLARE_FUNCTION_WRAPPERPR(__multiply, Matrix4x4::Multiply, (const Matrix4x4&, const Matrix4x4&), Matrix4x4);
 
 static void __Matrix4x4Getter(asIScriptGeneric *gen)
 {

@@ -31,8 +31,8 @@ Vector3 ETHFakeEyePositionManager::ComputeFakeEyePosition(
 	if (!drawToTarget)
 		v3RelativeEyePos.y -= v3LightPos.y - v2CamPos.y;
 
-	Matrix4x4 matRot = RotateZ(-DegreeToRadian(entityAngle));
-	v3RelativeEyePos = Multiply(v3RelativeEyePos, matRot);
+	Matrix4x4 matRot = Matrix4x4::RotateZ(-DegreeToRadian(entityAngle));
+	v3RelativeEyePos = Matrix4x4::Multiply(v3RelativeEyePos, matRot);
 
 	//pShader->SetConstant(GS_L("fakeEyePos"), v3RelativeEyePos+Vector3(0, v2CamPos.y, 0)+Vector3(v3LightPos.x,0,0));
 	return v3RelativeEyePos + Vector3(0, v2CamPos.y, 0) + Vector3(v3LightPos.x,0,0);

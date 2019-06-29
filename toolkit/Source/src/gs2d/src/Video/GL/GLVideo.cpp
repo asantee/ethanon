@@ -393,7 +393,10 @@ bool GLVideo::DrawRectangle(
 
 	math::Matrix4x4 mRot;
 	if (angle != 0.0f)
-		mRot = math::RotateZ(math::DegreeToRadian(angle));
+	{
+		mRot = math::Matrix4x4::RotateZ(math::DegreeToRadian(angle));
+	}
+
 	m_rectShader->SetMatrixConstant("rotationMatrix", mRot);
 	m_rectShader->SetConstant("size", v2Size);
 	m_rectShader->SetConstant("entityPos", v2Pos);
