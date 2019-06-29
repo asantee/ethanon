@@ -61,8 +61,8 @@ bool Sprite::Stretch(
 	}
 
 	const Vector2 v2Dir(a - b);
-	const float len = Distance(a, b);
-	const float angle = RadianToDegree(GetAngle(v2Dir));
+	const float len = Vector2::Distance(a, b);
+	const float angle = Util::RadianToDegree(Vector2::GetAngle(v2Dir));
 	const float lineWidth = (m_rect.size.x <= 0) ? (float)GetProfile().width : (float)m_rect.size.x;
 
 	Vector2 origin = GetOrigin();

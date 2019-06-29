@@ -180,7 +180,7 @@ math::Vector2i SDLInput::GetCursorPosition(WindowPtr pWindow) const
 math::Vector2 SDLInput::GetCursorPositionF(WindowPtr pWindow) const
 {
 	GS2D_UNUSED_ARGUMENT(pWindow);
-	return math::ToVector2(m_cursorPos);
+	return math::Vector2::ToVector2(m_cursorPos);
 }
 
 unsigned int SDLInput::GetMaxTouchCount() const
@@ -195,7 +195,7 @@ math::Vector2i SDLInput::GetMouseMove() const
 
 math::Vector2 SDLInput::GetMouseMoveF() const
 {
-	return math::ToVector2(GetMouseMove());
+	return math::Vector2::ToVector2(GetMouseMove());
 }
 
 math::Vector2 SDLInput::GetTouchMove(const unsigned int n) const

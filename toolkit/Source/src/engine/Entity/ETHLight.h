@@ -23,6 +23,8 @@
 #ifndef ETH_LIGHT_H_
 #define ETH_LIGHT_H_
 
+#include <Math/Vector3.h>
+
 #include "../ETHTypes.h"
 
 struct ETHLight

@@ -756,7 +756,7 @@ Vector2 ETHSpriteEntity::ComputeInScreenSpriteCenter(const ETHSceneProperties& s
 	{
 		const Vector2& pos = ComputeInScreenPosition(sceneProps);
 		const Vector2& pivotAdjust(m_properties.pivotAdjust * m_properties.scale);
-		const float radianAngle =-DegreeToRadian(GetAngle());
+		const float radianAngle =-Util::DegreeToRadian(GetAngle());
 		const float angleSin = sinf(radianAngle);
 		const float angleCos = cosf(radianAngle);
 		const Vector2 center(angleCos * pivotAdjust.x - angleSin * pivotAdjust.y,
@@ -840,7 +840,7 @@ bool ETHSpriteEntity::IsPointOnSprite(const ETHSceneProperties& sceneProps, cons
 	}
 	else
 	{
-		const float radianAngle = -DegreeToRadian(angle);
+		const float radianAngle = -Util::DegreeToRadian(angle);
 		const OrientedBoundingBox pointObb(absolutePointPos, math::constant::ONE_VECTOR2, 0.0f);
 		const OrientedBoundingBox entityObb(ComputeInScreenSpriteCenter(sceneProps), size, radianAngle);
 		return entityObb.Overlaps(pointObb);

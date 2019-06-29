@@ -31,6 +31,12 @@ struct Vector3 : public PODVector3
 	Vector3& operator -= (const Vector3& v);
 	Vector3& operator *= (const float v);
 	Vector3& operator /= (const float v);
+
+	static float DP3(const Vector3& a, const Vector3& b);
+	static Vector3 cross(const Vector3& a, const Vector3& b);
+	static Vector3 Normalize(const Vector3& v);
+	static float SquaredDistance(const Vector3& a, const Vector3& b);
+	static float Distance(const Vector3& a, const Vector3& b);
 };
 
 namespace constant {

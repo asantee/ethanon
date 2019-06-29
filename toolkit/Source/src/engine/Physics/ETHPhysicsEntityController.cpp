@@ -64,7 +64,7 @@ void ETHPhysicsEntityController::Update(const float lastFrameElapsedTime, ETHBuc
 		m_pos = Vector3(pos, GetPos().z);
 		buckets.RequestBucketMove(static_cast<ETHEntity*>(m_body->GetUserData()), oldPos, pos);
 	}
-	m_angle =-RadianToDegree(m_body->GetAngle());
+	m_angle =-Util::RadianToDegree(m_body->GetAngle());
 }
 
 void ETHPhysicsEntityController::SetPos(const Vector3& pos)
@@ -126,7 +126,7 @@ void ETHPhysicsEntityController::AddToAngle(const float angle)
 {
 	if (m_body)
 	{
-		m_body->SetTransform(m_body->GetPosition(),-DegreeToRadian(angle) + m_body->GetAngle());
+		m_body->SetTransform(m_body->GetPosition(),-Util::DegreeToRadian(angle) + m_body->GetAngle());
 		m_body->SetAwake(true);
 	}
 	m_angle += angle;
@@ -136,7 +136,7 @@ void ETHPhysicsEntityController::SetAngle(const float angle)
 {
 	if (m_body)
 	{
-		m_body->SetTransform(m_body->GetPosition(),-DegreeToRadian(angle));
+		m_body->SetTransform(m_body->GetPosition(),-Util::DegreeToRadian(angle));
 		m_body->SetAwake(true);
 	}
 	m_angle = angle;

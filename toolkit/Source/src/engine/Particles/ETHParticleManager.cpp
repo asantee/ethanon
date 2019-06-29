@@ -92,7 +92,7 @@ bool ETHParticleManager::CreateParticleSystem(
 
 	m_particles.resize(m_system.nParticles);
 
-	Matrix4x4 rot = Matrix4x4::RotateZ(DegreeToRadian(angle));
+	Matrix4x4 rot = Matrix4x4::RotateZ(Util::DegreeToRadian(angle));
 	for (int t = 0; t < m_system.nParticles; t++)
 	{
 		m_particles[t].id = t;
@@ -164,7 +164,7 @@ void ETHParticleManager::UpdateParticleSystem(
 	bool anythingDrawn = false;
 	const float cappedLastFrameElapsedTime = Min(lastFrameElapsedTime, 250.0f);
 
-	Matrix4x4 rot = Matrix4x4::RotateZ(DegreeToRadian(angle));
+	Matrix4x4 rot = Matrix4x4::RotateZ(Util::DegreeToRadian(angle));
 	m_nActiveParticles = 0;
 
 	m_worldSpaceBoundingMin = ETHGlobal::ToScreenPos(v3Pos + m_system.startPoint, zAxisDirection);
@@ -188,8 +188,8 @@ void ETHParticleManager::UpdateParticleSystem(
 		
 		const Vector2 worldSpacePos =
 			ETHGlobal::ToScreenPos(Vector3(particle.pos, m_system.startPoint.z), zAxisDirection) + parallaxOffset;
-		m_worldSpaceBoundingMin = Vector2Min(m_worldSpaceBoundingMin, worldSpacePos - (particle.size * 0.5f));
-		m_worldSpaceBoundingMax = Vector2Max(m_worldSpaceBoundingMax, worldSpacePos + (particle.size * 0.5f));
+		m_worldSpaceBoundingMin = Vector2::Vector2Min(m_worldSpaceBoundingMin, worldSpacePos - (particle.size * 0.5f));
+		m_worldSpaceBoundingMax = Vector2::Vector2Max(m_worldSpaceBoundingMax, worldSpacePos + (particle.size * 0.5f));
 	}
 	m_finished = !anythingDrawn;
 }
@@ -316,7 +316,7 @@ Rect2D ETHParticleManager::ComputeBoundingRectangle(const float angle) const
 	PARTICLE particle;
 	particle.id = 0;
 	particle.released = false;
-	Matrix4x4 rot = Matrix4x4::RotateZ(DegreeToRadian(angle));
+	Matrix4x4 rot = Matrix4x4::RotateZ(Util::DegreeToRadian(angle));
 
 	ETHParticleSystem staticSystem = m_system;
 	staticSystem.size += (staticSystem.randomizeSize / 2.0f);
@@ -347,8 +347,8 @@ Rect2D ETHParticleManager::ComputeBoundingRectangle(const float angle) const
 	const Vector2 endMin(particle.pos - (particle.size / 2.0f) - (m_system.randStartPoint * 0.5f));
 	const Vector2 endMax(particle.pos + (particle.size / 2.0f) + (m_system.randStartPoint * 0.5f));
 
-	const Vector2 finalMin(Vector2Min(startMin, endMin));
-	const Vector2 finalMax(Vector2Max(startMax, endMax));
+	const Vector2 finalMin(Vector2::Vector2Min(startMin, endMin));
+	const Vector2 finalMax(Vector2::Vector2Max(startMax, endMax));
 
 	return Rect2D((finalMin + finalMax) / 2.0f, finalMax - finalMin);
 }
@@ -362,7 +362,7 @@ bool ETHParticleManager::Play(
 	const Vector3 &v3Pos,
 	const float angle)
 {
-	Matrix4x4 rot = Matrix4x4::RotateZ(DegreeToRadian(angle));
+	Matrix4x4 rot = Matrix4x4::RotateZ(Util::DegreeToRadian(angle));
 	m_finished = false;
 	for (int t = 0; t < m_system.nParticles; t++)
 	{
@@ -616,7 +616,7 @@ void ETHParticleManager::PositionParticle(
 	particle.angle = system.angleStart + Randomizer::Float(system.randAngleStart) + angle;
 	particle.pos.x = system.startPoint.x + Randomizer::Float(-halfRandStartPoint.x, halfRandStartPoint.x);
 	particle.pos.y = system.startPoint.y + Randomizer::Float(-halfRandStartPoint.y, halfRandStartPoint.y);
-	particle.pos = Matrix4x4::Multiply(particle.pos, rotMatrix);	
+	particle.pos = Matrix4x4::Multiply(particle.pos, rotMatrix);
 	particle.pos = particle.pos + Vector2(v3Pos.x, v3Pos.y);
 	particle.startPoint = v3Pos + system.startPoint;
 }

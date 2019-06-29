@@ -1,8 +1,13 @@
 #ifndef ETH_DATA_MANAGER_H_
 #define ETH_DATA_MANAGER_H_
 
+#include <Math/Vector2.h>
+#include <Math/Vector3.h>
+
 #include "../ETHTypes.h"
+
 #include "../../tsl/hopscotch_map.h"
+
 #include <string>
 
 

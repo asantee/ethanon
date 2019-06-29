@@ -31,9 +31,16 @@ struct Vector2 : public PODVector2
 	Vector2& operator *= (const float f);
 	Vector2& operator /= (const float f);
 	Vector2i ToVector2i() const;
-};
 
-Vector2 ToVector2(const Vector2i& v);
+	static Vector2 ToVector2(const Vector2i& v);
+	static float Distance(const Vector2& a, const Vector2& b);
+	static float GetAngle(const Vector2& v);
+	static float DP2(const Vector2& a, const Vector2& b);
+	static Vector2 Normalize(const Vector2& v);
+	static Vector2 Vector2Min(const Vector2& a, const Vector2& b);
+	static Vector2 Vector2Max(const Vector2& a, const Vector2& b);
+	static float SquaredDistance(const Vector2& a, const Vector2& b);
+};
 
 namespace constant {
 const Vector2 HALF_VECTOR2(0.5f, 0.5f);

@@ -1,6 +1,8 @@
 #ifndef ETH_COMPOUND_SHAPE_H_
 #define ETH_COMPOUND_SHAPE_H_
 
+#include <Math/Vector2.h>
+
 #include <Box2D/Box2D.h>
 
 #include <Math/GameMath.h>

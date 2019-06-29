@@ -97,7 +97,7 @@ bool ETHShaderManager::BeginLightPass(ETHSpriteEntity *pRender, const ETHLight* 
 
 	const Vector2 &v2Size = pRender->GetSize();
 	const float size = Max(v2Size.x, v2Size.y);
-	const float distance = SquaredDistance(pRender->GetPosition(), v3LightPos);
+	const float distance = Vector3::SquaredDistance(pRender->GetPosition(), v3LightPos);
 	const float radius = (light->range + size);
 	if (distance > radius * radius)
 		return false;

@@ -1,6 +1,8 @@
 #ifndef ETH_COLLISION_BOX_H_
 #define ETH_COLLISION_BOX_H_
 
+#include <Math/Vector3.h>
+
 #include "../ETHTypes.h"
 
 struct ETHCollisionBox

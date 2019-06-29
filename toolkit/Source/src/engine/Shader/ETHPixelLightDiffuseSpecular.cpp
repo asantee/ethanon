@@ -66,7 +66,7 @@ bool ETHPixelLightDiffuseSpecular::BeginLightPass(ETHSpriteEntity *pRender, Vect
 	if (pRender->GetAngle() != 0.0f)
 	{
 		Vector3 newPos = v3LightPos-v3EntityPos;
-		Matrix4x4 matRot = Matrix4x4::RotateZ(-DegreeToRadian(pRender->GetAngle()));
+		Matrix4x4 matRot = Matrix4x4::RotateZ(-Util::DegreeToRadian(pRender->GetAngle()));
 		newPos = Matrix4x4::Multiply(newPos, matRot);
 		v3LightPos = newPos + v3EntityPos;
 	}

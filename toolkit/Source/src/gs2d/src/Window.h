@@ -3,7 +3,8 @@
 
 #include "Types.h"
 
-#include "Math/GameMath.h"
+#include "Math/Vector2.h"
+#include "Math/Vector2i.h"
 
 namespace gs2d {
 

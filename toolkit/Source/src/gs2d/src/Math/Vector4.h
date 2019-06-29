@@ -31,6 +31,15 @@ struct Vector4
 	Vector4& operator *= (const float& v);
 	Vector4& operator /= (const float& v);
 	float x,y,z,w;
+
+	static float DP4(const Vector4& a, const Vector4& b);
+
+	typedef Vector4 Plane;
+
+	static Plane ComputePlane(const Vector3& pos, const Vector3& normal);
+	static float PlaneDotVector(const Plane& plane, const Vector3& vec);
+	static Plane ComputePlane(const Vector2& pos, const Vector2& normal);
+	static float PlaneDotVector(const Plane& plane, const Vector2& vec);
 };
 
 namespace constant {

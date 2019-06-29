@@ -1,5 +1,7 @@
 #include "OrientedBoundingBox.h"
 
+#include <math.h>
+
 namespace gs2d {
 namespace math {
 
@@ -29,14 +31,14 @@ bool OrientedBoundingBox::Overlaps1Way(const OrientedBoundingBox& other) const
 	for (std::size_t a = 0; a < 2; ++a)
 	{
 
-		float t = DP2(other.corner[0], axis[a]);
+		float t = Vector2::DP2(other.corner[0], axis[a]);
 
 		float tMin = t;
 		float tMax = t;
 
 		for (std::size_t c = 1; c < 4; ++c)
 		{
-			t = DP2(other.corner[c], axis[a]);
+			t = Vector2::DP2(other.corner[c], axis[a]);
 
 			if (t < tMin)
 			{
@@ -64,7 +66,7 @@ void OrientedBoundingBox::ComputeAxes()
 	for (std::size_t a = 0; a < 2; ++a)
 	{
 		axis[a] /= axis[a].SquaredLength();
-		origin[a] = DP2(corner[0], axis[a]);
+		origin[a] = Vector2::DP2(corner[0], axis[a]);
 	}
 }
 

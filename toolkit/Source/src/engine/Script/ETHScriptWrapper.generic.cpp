@@ -126,11 +126,11 @@ asDECLARE_FUNCTION_WRAPPER(__AddVector3Data, ETHScriptWrapper::AddVector3Data);
 asDECLARE_FUNCTION_WRAPPER(__SetZAxisDirection, ETHScriptWrapper::SetZAxisDirection);
 asDECLARE_FUNCTION_WRAPPER(__GetZAxisDirection, ETHScriptWrapper::GetZAxisDirection);
 
-asDECLARE_FUNCTION_WRAPPERPR(__normalize3, Normalize, (const Vector3&), Vector3);
-asDECLARE_FUNCTION_WRAPPERPR(__normalize2, Normalize, (const Vector2&), Vector2);
+asDECLARE_FUNCTION_WRAPPERPR(__normalize3, Vector3::Normalize, (const Vector3&), Vector3);
+asDECLARE_FUNCTION_WRAPPERPR(__normalize2, Vector2::Normalize, (const Vector2&), Vector2);
 
-asDECLARE_FUNCTION_WRAPPER(__radianToDegree, RadianToDegree);
-asDECLARE_FUNCTION_WRAPPER(__degreeToRadian, DegreeToRadian);
+asDECLARE_FUNCTION_WRAPPER(__radianToDegree, Util::RadianToDegree);
+asDECLARE_FUNCTION_WRAPPER(__degreeToRadian, Util::DegreeToRadian);
 asDECLARE_FUNCTION_WRAPPER(__ARGB,           Color::ARGB);
 
 asDECLARE_FUNCTION_WRAPPER(__LoadSprite,       ETHScriptWrapper::LoadSprite);

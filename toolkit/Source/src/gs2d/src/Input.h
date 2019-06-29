@@ -1,7 +1,8 @@
 #ifndef GS2D_INPUT_H_
 #define GS2D_INPUT_H_
 
-#include "Math/GameMath.h"
+#include "Math/Vector3.h"
+
 #include "Window.h"
 
 #include "Input/KeyStateManager.h"

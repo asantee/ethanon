@@ -594,7 +594,7 @@ static void __Matrix4x4Getter(asIScriptGeneric *gen)
 
 asDECLARE_FUNCTION_OBJ_WRAPPERPR(__Matrix4x4Setter, Matrix4x4Setter, false, (const unsigned int i, const unsigned int j, const float value, Matrix4x4 *p), void);
 
-asDECLARE_FUNCTION_WRAPPER(__GetAngle, GetAngle);
+asDECLARE_FUNCTION_WRAPPER(__GetAngle, Vector2::GetAngle);
 
 void RegisterMathFunctionsAndMethods(asIScriptEngine *pASEngine)
 {

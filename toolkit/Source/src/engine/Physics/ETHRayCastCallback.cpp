@@ -45,7 +45,7 @@ float32 ETHRayCastCallback::ReportFixture(b2Fixture* fixture, const b2Vec2& poin
 	ETHEntity* entity = static_cast<ETHEntity*>(fixture->GetBody()->GetUserData());
 	if (m_chooser->Choose(entity))
 	{
-		m_contacts.insert(std::pair<float, Contact>(SquaredDistance(Vector2(m_a.x, m_a.y), v2Point), Contact(entity, ETHPhysicsSimulator::ScaleFromBox2D(point), v2Normal)));
+		m_contacts.insert(std::pair<float, Contact>(Vector2::SquaredDistance(Vector2(m_a.x, m_a.y), v2Point), Contact(entity, ETHPhysicsSimulator::ScaleFromBox2D(point), v2Normal)));
 	}
 	return 1.0f;
 }

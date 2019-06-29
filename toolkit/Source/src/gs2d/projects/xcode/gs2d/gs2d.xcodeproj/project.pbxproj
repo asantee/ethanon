@@ -36,8 +36,6 @@
 		7473CA8616330304005DB920 /* Window.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CA7816330304005DB920 /* Window.h */; };
 		7473CA9316330366005DB920 /* Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7473CA8A16330366005DB920 /* Color.cpp */; };
 		7473CA9416330366005DB920 /* Color.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CA8B16330366005DB920 /* Color.h */; };
-		7473CA9516330366005DB920 /* GameMath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7473CA8C16330366005DB920 /* GameMath.cpp */; };
-		7473CA9616330366005DB920 /* GameMath.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CA8D16330366005DB920 /* GameMath.h */; };
 		7473CA9716330366005DB920 /* MersenneTwister.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CA8E16330366005DB920 /* MersenneTwister.h */; };
 		7473CA9816330366005DB920 /* OrientedBoundingBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7473CA8F16330366005DB920 /* OrientedBoundingBox.cpp */; };
 		7473CA9916330366005DB920 /* OrientedBoundingBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CA9016330366005DB920 /* OrientedBoundingBox.h */; };
@@ -114,6 +112,8 @@
 		AA18F5FE22B9D64800F44DA6 /* Rect2D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA18F5FC22B9D64800F44DA6 /* Rect2D.cpp */; };
 		AA18F60122C7CAB600F44DA6 /* Matrix4x4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA18F5FF22C7CAB500F44DA6 /* Matrix4x4.cpp */; };
 		AA18F60222C7CAB600F44DA6 /* Matrix4x4.h in Headers */ = {isa = PBXBuildFile; fileRef = AA18F60022C7CAB600F44DA6 /* Matrix4x4.h */; };
+		AA18F60922C7D98800F44DA6 /* GameMath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA18F60722C7D98800F44DA6 /* GameMath.cpp */; };
+		AA18F60A22C7D98800F44DA6 /* GameMath.h in Headers */ = {isa = PBXBuildFile; fileRef = AA18F60822C7D98800F44DA6 /* GameMath.h */; };
 		AA19C1241F8285BF0096696A /* FMAudioContext.macos.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA19C1231F8285BF0096696A /* FMAudioContext.macos.mm */; };
 		AA7BDF721F7EE1980057B06F /* libfmod.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA7BDF711F7EE1980057B06F /* libfmod.dylib */; };
 		AA7BDF801F7EE5750057B06F /* FMAudioContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA7BDF7C1F7EE5390057B06F /* FMAudioContext.mm */; };
@@ -164,8 +164,6 @@
 		7473CA7816330304005DB920 /* Window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Window.h; path = ../../../../src/Window.h; sourceTree = "<group>"; };
 		7473CA8A16330366005DB920 /* Color.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Color.cpp; path = ../../../../src/Math/Color.cpp; sourceTree = "<group>"; usesTabs = 1; };
 		7473CA8B16330366005DB920 /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Color.h; path = ../../../../src/Math/Color.h; sourceTree = "<group>"; usesTabs = 1; };
-		7473CA8C16330366005DB920 /* GameMath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameMath.cpp; path = ../../../../src/Math/GameMath.cpp; sourceTree = "<group>"; };
-		7473CA8D16330366005DB920 /* GameMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameMath.h; path = ../../../../src/Math/GameMath.h; sourceTree = "<group>"; };
 		7473CA8E16330366005DB920 /* MersenneTwister.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MersenneTwister.h; path = ../../../../src/Math/MersenneTwister.h; sourceTree = "<group>"; };
 		7473CA8F16330366005DB920 /* OrientedBoundingBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OrientedBoundingBox.cpp; path = ../../../../src/Math/OrientedBoundingBox.cpp; sourceTree = "<group>"; };
 		7473CA9016330366005DB920 /* OrientedBoundingBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OrientedBoundingBox.h; path = ../../../../src/Math/OrientedBoundingBox.h; sourceTree = "<group>"; };
@@ -250,6 +248,8 @@
 		AA18F5FC22B9D64800F44DA6 /* Rect2D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Rect2D.cpp; path = ../../../../src/Math/Rect2D.cpp; sourceTree = "<group>"; usesTabs = 1; };
 		AA18F5FF22C7CAB500F44DA6 /* Matrix4x4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Matrix4x4.cpp; path = ../../../../src/Math/Matrix4x4.cpp; sourceTree = "<group>"; };
 		AA18F60022C7CAB600F44DA6 /* Matrix4x4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Matrix4x4.h; path = ../../../../src/Math/Matrix4x4.h; sourceTree = "<group>"; usesTabs = 1; };
+		AA18F60722C7D98800F44DA6 /* GameMath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameMath.cpp; path = ../../../../src/Math/GameMath.cpp; sourceTree = "<group>"; };
+		AA18F60822C7D98800F44DA6 /* GameMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameMath.h; path = ../../../../src/Math/GameMath.h; sourceTree = "<group>"; };
 		AA19C1231F8285BF0096696A /* FMAudioContext.macos.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = FMAudioContext.macos.mm; path = ../../../src/Audio/fmod/FMAudioContext.macos.mm; sourceTree = "<group>"; };
 		AA7BDF711F7EE1980057B06F /* libfmod.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfmod.dylib; path = ../../../vendors/fmod/lib/libfmod.dylib; sourceTree = "<group>"; };
 		AA7BDF7C1F7EE5390057B06F /* FMAudioContext.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = FMAudioContext.mm; path = ../../../src/Audio/fmod/FMAudioContext.mm; sourceTree = "<group>"; };
@@ -315,8 +315,8 @@
 				AA18F5F822B9D15400F44DA6 /* Rect2Di.h */,
 				AA18F5FF22C7CAB500F44DA6 /* Matrix4x4.cpp */,
 				AA18F60022C7CAB600F44DA6 /* Matrix4x4.h */,
-				7473CA8C16330366005DB920 /* GameMath.cpp */,
-				7473CA8D16330366005DB920 /* GameMath.h */,
+				AA18F60722C7D98800F44DA6 /* GameMath.cpp */,
+				AA18F60822C7D98800F44DA6 /* GameMath.h */,
 				7473CA8E16330366005DB920 /* MersenneTwister.h */,
 				7473CA8F16330366005DB920 /* OrientedBoundingBox.cpp */,
 				7473CA9016330366005DB920 /* OrientedBoundingBox.h */,
@@ -596,7 +596,6 @@
 				7473CA8616330304005DB920 /* Window.h in Headers */,
 				AA18F5E922B8804100F44DA6 /* Vector2i.h in Headers */,
 				7473CA9416330366005DB920 /* Color.h in Headers */,
-				7473CA9616330366005DB920 /* GameMath.h in Headers */,
 				7473CA9716330366005DB920 /* MersenneTwister.h in Headers */,
 				7473CA9916330366005DB920 /* OrientedBoundingBox.h in Headers */,
 				74D066E01A03CBF300D45F66 /* stb_image_aug.h in Headers */,
@@ -634,6 +633,7 @@
 				7421F2E01648173000C55BAE /* StdFileManager.h in Headers */,
 				AA18F60222C7CAB600F44DA6 /* Matrix4x4.h in Headers */,
 				7423B69E165FF413008848EA /* SharedData.h in Headers */,
+				AA18F60A22C7D98800F44DA6 /* GameMath.h in Headers */,
 				7423B6A0165FF413008848EA /* SharedDataManager.h in Headers */,
 				74D066E21A03CBF300D45F66 /* stbi_DDS_aug.h in Headers */,
 				AA18F5E522B87A3500F44DA6 /* Vector2.h in Headers */,
@@ -716,7 +716,6 @@
 				7473CA8416330304005DB920 /* Video.cpp in Sources */,
 				7473CA9316330366005DB920 /* Color.cpp in Sources */,
 				AA18F5F122B887BD00F44DA6 /* Vector4.cpp in Sources */,
-				7473CA9516330366005DB920 /* GameMath.cpp in Sources */,
 				7473CA9816330366005DB920 /* OrientedBoundingBox.cpp in Sources */,
 				7473CA9A16330366005DB920 /* Randomizer.cpp in Sources */,
 				7473CAA416330391005DB920 /* FileIOHub.cpp in Sources */,
@@ -738,6 +737,7 @@
 				AA18F5EE22B8846100F44DA6 /* Vector3.cpp in Sources */,
 				7486553E16382C000096D869 /* GLCgShaderContext.cpp in Sources */,
 				7486554316383A540096D869 /* GLCgShader.cpp in Sources */,
+				AA18F60922C7D98800F44DA6 /* GameMath.cpp in Sources */,
 				74D066DD1A03CBF300D45F66 /* SOIL.c in Sources */,
 				7486554716397C1D0096D869 /* GLTexture.cpp in Sources */,
 				748655621639E1600096D869 /* GLSprite.cpp in Sources */,

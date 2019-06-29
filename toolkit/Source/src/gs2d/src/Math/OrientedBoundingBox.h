@@ -1,7 +1,7 @@
 #ifndef GS2D_ORIENTED_BOUNDING_BOX_H_
 #define GS2D_ORIENTED_BOUNDING_BOX_H_
 
-#include "GameMath.h"
+#include "Vector2.h"
 
 #include <boost/shared_ptr.hpp>
 

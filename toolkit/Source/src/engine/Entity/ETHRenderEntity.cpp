@@ -168,7 +168,7 @@ bool ETHRenderEntity::IsSpriteVisible(
 		gs2d::math::OrientedBoundingBoxPtr backbufferObb(new gs2d::math::OrientedBoundingBox(bufferSize * 0.5f, bufferSize, 0.0f));
 
 		const Vector2 size = GetSize();
-		const float radianAngle = -DegreeToRadian(angle);
+		const float radianAngle = -Util::DegreeToRadian(angle);
 		const OrientedBoundingBox entityObb(ComputeInScreenSpriteCenter(sceneProps), size, radianAngle);
 		
 		return entityObb.Overlaps(*backbufferObb);

@@ -394,7 +394,7 @@ bool GLVideo::DrawRectangle(
 	math::Matrix4x4 mRot;
 	if (angle != 0.0f)
 	{
-		mRot = math::Matrix4x4::RotateZ(math::DegreeToRadian(angle));
+		mRot = math::Matrix4x4::RotateZ(math::Util::DegreeToRadian(angle));
 	}
 
 	m_rectShader->SetMatrixConstant("rotationMatrix", mRot);
@@ -431,7 +431,7 @@ bool GLVideo::DrawLine(const math::Vector2 &p1, const math::Vector2 &p2, const C
 	const math::Vector2 v2Dir = a - b;
 
 	const float length = v2Dir.Length() + 0.5f;
-	const float angle  = math::RadianToDegree(math::GetAngle(v2Dir));
+	const float angle  = math::Util::RadianToDegree(math::Vector2::GetAngle(v2Dir));
 
 	DrawRectangle(a, math::Vector2(GetLineWidth(), length),
 				  color2, color2, color1, color1,

@@ -24,7 +24,7 @@
 #define ETH_POLYGON_H_
 
 #include <Enml/Enml.h>
-#include <Math/GameMath.h>
+#include <Math/Vector2.h>
 #include <vector>
 
 class ETHPolygon

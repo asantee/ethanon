@@ -276,11 +276,11 @@ unsigned int BitmapFont::FindClosestCarretPosition(const str_type::string& text,
 		const Vector2 pos = ComputeCarretPosition(cleanText, t) + textPos;
 		if (distance == -1)
 		{
-			distance = Distance(reference, pos);
+			distance = Vector2::Distance(reference, pos);
 		}
 		else
 		{
-			const float tempDistance = Distance(reference, pos);
+			const float tempDistance = Vector2::Distance(reference, pos);
 			if (tempDistance < distance)
 			{
 				distance = tempDistance;
@@ -334,7 +334,7 @@ inline int ConvertCharacterToIndex(const TChar* character, std::size_t& t, const
 			index = 0;
 		}
 	}
-	return math::Min(index, static_cast<int>(GS2D_CHARSET_MAX_CHARS - 1));
+	return Min(index, static_cast<int>(GS2D_CHARSET_MAX_CHARS - 1));
 }
 
 Vector2 BitmapFont::ComputeCarretPosition(const str_type::string& text, const unsigned int pos)

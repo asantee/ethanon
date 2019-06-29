@@ -11,7 +11,8 @@ The original source code for the vector3 binder comes with the AngelScript SDK.
 #include <math.h>
 #include "scriptmath2d.h"
 
-#include <Math/GameMath.h>
+#include <Math/Vector2.h>
+
 using gs2d::math::Vector2;
 using gs2d::math::PODVector2;
 

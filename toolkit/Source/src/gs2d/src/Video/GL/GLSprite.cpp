@@ -116,7 +116,7 @@ bool GLSprite::DrawShaped(
 	math::Matrix4x4 mRot;
 	if (angle != 0.0f)
 	{
-		mRot = math::Matrix4x4::RotateZ(math::DegreeToRadian(angle));
+		mRot = math::Matrix4x4::RotateZ(math::Util::DegreeToRadian(angle));
 	}
 
 	currentShader->SetMatrixConstant("rotationMatrix", mRot);

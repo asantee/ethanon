@@ -145,5 +145,30 @@ Vector4& Vector4::operator /= (const float& v)
     return *this;
 }
 
+float Vector4::DP4(const Vector4& a, const Vector4& b)
+{
+    return ((a.x * b.x) + (a.y * b.y) + (a.z * b.z) + (a.w * b.w));
+}
+
+Vector4::Plane Vector4::ComputePlane(const Vector3& pos, const Vector3& normal)
+{
+    return (Plane(Vector3::Normalize(normal), -((normal.x * pos.x) + (normal.y * pos.y) + (normal.z * pos.z))));
+}
+
+float Vector4::PlaneDotVector(const Plane& plane, const Vector3& vec)
+{
+    return (plane.x * vec.x) + (plane.y * vec.y) + (plane.z * vec.z) + (plane.w);
+}
+
+Vector4::Plane Vector4::ComputePlane(const Vector2& pos, const Vector2& normal)
+{
+    return (Plane(Vector2::Normalize(normal), 0, -((normal.x * pos.x) + (normal.y * pos.y))));
+}
+
+float Vector4::PlaneDotVector(const Plane& plane, const Vector2& vec)
+{
+    return (plane.x * vec.x) + (plane.y * vec.y) + (plane.w);
+}
+
 } // namespace math
 } // namespace gs2d

@@ -73,7 +73,7 @@ b2Body* ETHPhysicsSimulator::CreateBody(ETHEntity *entity, const boost::shared_p
 	box.Scale(entity->GetScale());
 	const b2Vec2 pos = ScaleToBox2D(entity->GetPositionXY());
 	bodyDef.position.Set(pos.x, pos.y);
-	bodyDef.angle =-(DegreeToRadian(entity->GetAngle()));
+	bodyDef.angle =-(Util::DegreeToRadian(entity->GetAngle()));
 	bodyDef.bullet = entity->IsBullet();
 	bodyDef.gravityScale = entity->GetProperties()->gravityScale;
 
