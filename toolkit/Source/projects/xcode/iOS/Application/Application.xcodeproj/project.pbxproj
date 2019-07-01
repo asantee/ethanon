@@ -219,6 +219,13 @@
 		74E6E82D1A31EADB00E89172 /* ETHInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E8241A31EADB00E89172 /* ETHInput.cpp */; };
 		74E6E82E1A31EADB00E89172 /* ETHSpeedTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E8261A31EADB00E89172 /* ETHSpeedTimer.cpp */; };
 		74EAF2BD1A5C211900E2A6DB /* ToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 74EAF2BC1A5C211900E2A6DB /* ToastView.m */; };
+		AA18F61B22C9742700F44DA6 /* Vector2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA18F60E22C9742600F44DA6 /* Vector2.cpp */; };
+		AA18F61C22C9742700F44DA6 /* Vector3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA18F61022C9742600F44DA6 /* Vector3.cpp */; };
+		AA18F61D22C9742700F44DA6 /* Vector4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA18F61122C9742600F44DA6 /* Vector4.cpp */; };
+		AA18F61E22C9742700F44DA6 /* Rect2Di.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA18F61322C9742600F44DA6 /* Rect2Di.cpp */; };
+		AA18F61F22C9742700F44DA6 /* Vector2i.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA18F61422C9742700F44DA6 /* Vector2i.cpp */; };
+		AA18F62022C9742700F44DA6 /* Rect2D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA18F61622C9742700F44DA6 /* Rect2D.cpp */; };
+		AA18F62122C9742700F44DA6 /* Matrix4x4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA18F61822C9742700F44DA6 /* Matrix4x4.cpp */; };
 		AA19C1221F8281230096696A /* FMAudioContext.ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA19C1211F8281220096696A /* FMAudioContext.ios.mm */; };
 		AA24C1A61E74407E00ABDFA2 /* getRealTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA24C1A41E74407E00ABDFA2 /* getRealTime.cpp */; };
 		AA74563B1F3B63940053CF6A /* libfmodL_iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA7456391F3B63940053CF6A /* libfmodL_iphoneos.a */; };
@@ -699,6 +706,20 @@
 		74E6E8271A31EADB00E89172 /* ETHSpeedTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHSpeedTimer.h; path = ../../../../src/engine/Util/ETHSpeedTimer.h; sourceTree = "<group>"; };
 		74EAF2BB1A5C211900E2A6DB /* ToastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToastView.h; path = ../../../../src/gs2d/src/Platform/ios/ToastView.h; sourceTree = "<group>"; };
 		74EAF2BC1A5C211900E2A6DB /* ToastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToastView.m; path = ../../../../src/gs2d/src/Platform/ios/ToastView.m; sourceTree = "<group>"; };
+		AA18F60D22C9742600F44DA6 /* Vector2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vector2.h; path = ../../../../src/gs2d/src/Math/Vector2.h; sourceTree = "<group>"; };
+		AA18F60E22C9742600F44DA6 /* Vector2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Vector2.cpp; path = ../../../../src/gs2d/src/Math/Vector2.cpp; sourceTree = "<group>"; };
+		AA18F60F22C9742600F44DA6 /* Rect2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Rect2D.h; path = ../../../../src/gs2d/src/Math/Rect2D.h; sourceTree = "<group>"; };
+		AA18F61022C9742600F44DA6 /* Vector3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Vector3.cpp; path = ../../../../src/gs2d/src/Math/Vector3.cpp; sourceTree = "<group>"; };
+		AA18F61122C9742600F44DA6 /* Vector4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Vector4.cpp; path = ../../../../src/gs2d/src/Math/Vector4.cpp; sourceTree = "<group>"; };
+		AA18F61222C9742600F44DA6 /* Vector2i.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vector2i.h; path = ../../../../src/gs2d/src/Math/Vector2i.h; sourceTree = "<group>"; };
+		AA18F61322C9742600F44DA6 /* Rect2Di.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Rect2Di.cpp; path = ../../../../src/gs2d/src/Math/Rect2Di.cpp; sourceTree = "<group>"; };
+		AA18F61422C9742700F44DA6 /* Vector2i.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Vector2i.cpp; path = ../../../../src/gs2d/src/Math/Vector2i.cpp; sourceTree = "<group>"; };
+		AA18F61522C9742700F44DA6 /* Vector4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vector4.h; path = ../../../../src/gs2d/src/Math/Vector4.h; sourceTree = "<group>"; };
+		AA18F61622C9742700F44DA6 /* Rect2D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Rect2D.cpp; path = ../../../../src/gs2d/src/Math/Rect2D.cpp; sourceTree = "<group>"; };
+		AA18F61722C9742700F44DA6 /* Matrix4x4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Matrix4x4.h; path = ../../../../src/gs2d/src/Math/Matrix4x4.h; sourceTree = "<group>"; };
+		AA18F61822C9742700F44DA6 /* Matrix4x4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Matrix4x4.cpp; path = ../../../../src/gs2d/src/Math/Matrix4x4.cpp; sourceTree = "<group>"; };
+		AA18F61922C9742700F44DA6 /* Rect2Di.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Rect2Di.h; path = ../../../../src/gs2d/src/Math/Rect2Di.h; sourceTree = "<group>"; };
+		AA18F61A22C9742700F44DA6 /* Vector3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vector3.h; path = ../../../../src/gs2d/src/Math/Vector3.h; sourceTree = "<group>"; };
 		AA19C1211F8281220096696A /* FMAudioContext.ios.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = FMAudioContext.ios.mm; path = ../../../../src/gs2d/src/Audio/fmod/FMAudioContext.ios.mm; sourceTree = "<group>"; };
 		AA24C1A41E74407E00ABDFA2 /* getRealTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = getRealTime.cpp; path = ../../../../src/gs2d/src/Platform/getRealTime.cpp; sourceTree = "<group>"; };
 		AA24C1A51E74407E00ABDFA2 /* getRealTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = getRealTime.h; path = ../../../../src/gs2d/src/Platform/getRealTime.h; sourceTree = "<group>"; };
@@ -862,6 +883,20 @@
 				74E6E5141A30F06900E89172 /* OrientedBoundingBox.h */,
 				74E6E5151A30F06900E89172 /* Randomizer.cpp */,
 				74E6E5161A30F06900E89172 /* Randomizer.h */,
+				AA18F61822C9742700F44DA6 /* Matrix4x4.cpp */,
+				AA18F61722C9742700F44DA6 /* Matrix4x4.h */,
+				AA18F61622C9742700F44DA6 /* Rect2D.cpp */,
+				AA18F60F22C9742600F44DA6 /* Rect2D.h */,
+				AA18F61322C9742600F44DA6 /* Rect2Di.cpp */,
+				AA18F61922C9742700F44DA6 /* Rect2Di.h */,
+				AA18F60E22C9742600F44DA6 /* Vector2.cpp */,
+				AA18F60D22C9742600F44DA6 /* Vector2.h */,
+				AA18F61422C9742700F44DA6 /* Vector2i.cpp */,
+				AA18F61222C9742600F44DA6 /* Vector2i.h */,
+				AA18F61022C9742600F44DA6 /* Vector3.cpp */,
+				AA18F61A22C9742700F44DA6 /* Vector3.h */,
+				AA18F61122C9742600F44DA6 /* Vector4.cpp */,
+				AA18F61522C9742700F44DA6 /* Vector4.h */,
 			);
 			name = Math;
 			sourceTree = "<group>";
@@ -1649,6 +1684,7 @@
 				74E6E7871A31E9EA00E89172 /* ETHEntityProperties.cpp in Sources */,
 				74E6E6531A31DD9900E89172 /* as_compiler.cpp in Sources */,
 				74E6E6661A31DD9900E89172 /* as_string.cpp in Sources */,
+				AA18F61B22C9742700F44DA6 /* Vector2.cpp in Sources */,
 				7481CEB01A37928900E25DD3 /* hl_sha512wrapper.cpp in Sources */,
 				AA24C1A61E74407E00ABDFA2 /* getRealTime.cpp in Sources */,
 				74E6E7481A31E9AE00E89172 /* ETHDrawableManager.cpp in Sources */,
@@ -1665,9 +1701,11 @@
 				74E6E6EA1A31E4EE00E89172 /* b2ChainAndPolygonContact.cpp in Sources */,
 				74E6E5941A3101DC00E89172 /* GLES2RectRenderer.cpp in Sources */,
 				74E6E6E91A31E4EE00E89172 /* b2ChainAndCircleContact.cpp in Sources */,
+				AA18F61E22C9742700F44DA6 /* Rect2Di.cpp in Sources */,
 				74E6E7811A31E9EA00E89172 /* ETHCustomDataManager.cpp in Sources */,
 				74E6E78B1A31E9EA00E89172 /* ETHSpriteEntity.cpp in Sources */,
 				74E6E5A81A310C7300E89172 /* IOSInput.mm in Sources */,
+				AA18F62022C9742700F44DA6 /* Rect2D.cpp in Sources */,
 				74E6E65D1A31DD9900E89172 /* as_outputbuffer.cpp in Sources */,
 				74E6E53D1A30F1B300E89172 /* SharedDataManager.cpp in Sources */,
 				74E6E7201A31E67B00E89172 /* tinyxmlparser.cpp in Sources */,
@@ -1684,6 +1722,7 @@
 				74E6E5441A30F1C600E89172 /* IOSFileIOHub.cpp in Sources */,
 				74E6E5A31A310C6100E89172 /* KeyStateManager.cpp in Sources */,
 				AAFA2E322139CDA6006D67FB /* cJSON.c in Sources */,
+				AA18F61F22C9742700F44DA6 /* Vector2i.cpp in Sources */,
 				74E6E7101A31E4F800E89172 /* b2RopeJoint.cpp in Sources */,
 				74E6E5311A30F19900E89172 /* Logger.cpp in Sources */,
 				74E6E57D1A30FFB600E89172 /* Sprite.cpp in Sources */,
@@ -1746,6 +1785,7 @@
 				74E6E65F1A31DD9900E89172 /* as_restore.cpp in Sources */,
 				74E6E7F51A31EA9100E89172 /* ETHScriptWrapper.Scene.cpp in Sources */,
 				74E6E65A1A31DD9900E89172 /* as_memory.cpp in Sources */,
+				AA18F62122C9742700F44DA6 /* Matrix4x4.cpp in Sources */,
 				74E6E6C11A31E4C500E89172 /* b2Timer.cpp in Sources */,
 				7481CEAD1A37928900E25DD3 /* hl_sha256.cpp in Sources */,
 				7481CEAC1A37928900E25DD3 /* hl_sha2ext.cpp in Sources */,
@@ -1756,6 +1796,7 @@
 				74E6E6D51A31E4E500E89172 /* b2World.cpp in Sources */,
 				74E6E6BD1A31E4C500E89172 /* b2Draw.cpp in Sources */,
 				74E6E69D1A31E4A700E89172 /* b2CollidePolygon.cpp in Sources */,
+				AA18F61C22C9742700F44DA6 /* Vector3.cpp in Sources */,
 				74E6E7A91A31EA0200E89172 /* ETHCompoundShape.cpp in Sources */,
 				74E6E6841A31DE1C00E89172 /* scriptstdstring.cpp in Sources */,
 				74E6E6A11A31E4A700E89172 /* b2TimeOfImpact.cpp in Sources */,
@@ -1765,6 +1806,7 @@
 				74E6E7851A31E9EA00E89172 /* ETHEntityChooser.cpp in Sources */,
 				74E6E7091A31E4F800E89172 /* b2FrictionJoint.cpp in Sources */,
 				74E6E8101A31EAA500E89172 /* ETHDefaultDynamicBackBuffer.cpp in Sources */,
+				AA18F61D22C9742700F44DA6 /* Vector4.cpp in Sources */,
 				74E6E7AF1A31EA0200E89172 /* ETHPhysicsSimulator.cpp in Sources */,
 				74E6E7B51A31EA3E00E89172 /* ETHAppEnmlFile.cpp in Sources */,
 				74E6E5301A30F19900E89172 /* FileManager.cpp in Sources */,

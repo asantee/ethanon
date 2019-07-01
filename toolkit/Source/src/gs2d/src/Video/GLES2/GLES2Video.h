@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #ifndef GS2D_GLES2_H_
 #define GS2D_GLES2_H_
 
@@ -28,11 +6,11 @@
 #include "../../Platform/Platform.h"
 #include "../../Platform/FileLogger.h"
 
+#include "../../Math/Vector4.h"
+
 #include "GLES2Texture.h"
 
 #include "../../Platform/FileIOHub.h"
-
-#define _GS2D_GLES2_MAX_MULTI_TEXTURES 2
 
 namespace gs2d {
 
@@ -86,15 +64,15 @@ public:
 		const Texture::TARGET_FORMAT fmt);
 
 	SpritePtr CreateSprite(
-		GS_BYTE *pBuffer,
+		unsigned char *pBuffer,
 		const unsigned int bufferLength,
-		Color mask = gs2d::constant::ZERO,
+		Color mask = math::constant::ZERO_VECTOR4,
 		const unsigned int width = 0,
 		const unsigned int height = 0);
 
 	SpritePtr CreateSprite(
 		const str_type::string& fileName,
-		Color mask = gs2d::constant::ZERO,
+		Color mask = math::constant::ZERO_VECTOR4,
 		const unsigned int width = 0,
 		const unsigned int height = 0);
 
@@ -104,42 +82,46 @@ public:
 		const Texture::TARGET_FORMAT format = Texture::TF_DEFAULT);
 
 	ShaderPtr LoadShaderFromFile(
-		const str_type::string& fileName,
-			const Shader::SHADER_FOCUS focus,
-			const Shader::SHADER_PROFILE profile = Shader::SP_HIGHEST,
-			const char *entry = 0);
+		const std::string& vsFileName,
+		const std::string& vsEntry,
+		const std::string& psFileName,
+		const std::string& psEntry);
 
 	ShaderPtr LoadShaderFromString(
-		const str_type::string& shaderName,
-			const std::string& codeAsciiString,
-			const Shader::SHADER_FOCUS focus,
-			const Shader::SHADER_PROFILE profile = Shader::SP_HIGHEST,
-			const char *entry = 0);
+		const std::string& vsShaderName,
+		const std::string& vsCodeAsciiString,
+		const std::string& vsEntry,
+		const std::string& psShaderName,
+		const std::string& psCodeAsciiString,
+		const std::string& psEntry);
 
 	GLES2ShaderPtr LoadGLES2ShaderFromFile(
-		const str_type::string& fileName,
-		const Shader::SHADER_FOCUS focus);
+		const std::string& vsFileName,
+		const std::string& vsEntry,
+		const std::string& psFileName,
+		const std::string& psEntry);
 
 	GLES2ShaderPtr LoadGLES2ShaderFromString(
-		const str_type::string& shaderName,
-		const std::string& codeAsciiString,
-		const Shader::SHADER_FOCUS focus);
+		const std::string& vsShaderName,
+		const std::string& vsCodeAsciiString,
+		const std::string& vsEntry,
+		const std::string& psShaderName,
+		const std::string& psCodeAsciiString,
+		const std::string& psEntry);
 
 	boost::any GetVideoInfo();
 
-	ShaderPtr GetFontShader();
-	ShaderPtr GetDefaultVS();
-	ShaderPtr GetOptimalVS();
-	ShaderPtr GetVertexShader();
+	ShaderPtr GetDefaultShader();
+	ShaderPtr GetRectShader();
+	ShaderPtr GetFastShader();
+	ShaderPtr GetModulateShader();
+	ShaderPtr GetAddShader();
+	ShaderPtr GetCurrentShader();
 
 	GLES2ShaderPtr GetDefaultPS();
 
-	ShaderPtr GetPixelShader();
 	ShaderContextPtr GetShaderContext();
-	bool SetVertexShader(ShaderPtr pShader);
-	bool SetPixelShader(ShaderPtr pShader);
-	Shader::SHADER_PROFILE GetHighestVertexProfile() const;
-	Shader::SHADER_PROFILE GetHighestPixelProfile() const;
+	bool SetCurrentShader(ShaderPtr shader);
 
 	boost::any GetGraphicContext();
 
@@ -159,8 +141,6 @@ public:
 	bool SetRenderTarget(SpritePtr pTarget, const unsigned int target = 0);
 	unsigned int GetMaxRenderTargets() const;
 	unsigned int GetMaxMultiTextures() const;
-	bool SetBlendMode(const unsigned int passIdx, const Video::BLEND_MODE mode);
-	Video::BLEND_MODE GetBlendMode(const unsigned int passIdx) const;
 	bool UnsetTexture(const unsigned int passIdx);
 
 	void SetZBuffer(const bool enable);
@@ -176,8 +156,8 @@ public:
 	float GetSpriteDepth() const;
 
 	bool SetScissor(const bool& enable);
-	bool SetScissor(const math::Rect2D& rect);
-	math::Rect2D GetScissor() const;
+	bool SetScissor(const math::Rect2Di& rect);
+	math::Rect2Di GetScissor() const;
 	void UnsetScissor();
 
 	bool DrawLine(
@@ -206,9 +186,9 @@ public:
 	void SetBGColor(const Color& backgroundColor);
 	Color GetBGColor() const;
 
-	bool BeginSpriteScene(const Color& dwBGColor = gs2d::constant::ZERO);
+	bool BeginSpriteScene(const Color& color = math::constant::ZERO_VECTOR4);
 	bool EndSpriteScene();
-	bool BeginTargetScene(const Color& dwBGColor = gs2d::constant::ZERO, const bool clear = true);
+	bool BeginTargetScene(const Color& color = math::constant::ZERO_VECTOR4, const bool clear = true);
 	bool EndTargetScene();
 
 	bool SetAlphaMode(const Video::ALPHA_MODE mode);
@@ -222,7 +202,7 @@ public:
 	bool SaveScreenshot(
 		const str_type::char_t* name,
 		const Texture::BITMAP_FORMAT fmt = Texture::BF_BMP,
-		math::Rect2D rect = math::Rect2D(0, 0, 0, 0));
+		math::Rect2Di rect = math::Rect2Di(0, 0, 0, 0));
 	
 	math::Vector2i GetClientScreenSize() const;
 	APP_STATUS HandleEvents();
@@ -250,17 +230,10 @@ public:
 	void ForwardCommand(const str_type::string& cmd);
 	str_type::string PullCommands();
 
-	bool SetBlendTexture(const unsigned int passIdx, GLES2TexturePtr texture);
-	void SetupMultitextureShader();
-	void DisableMultitextureShader();
-
 	bool IsTrue(const GLboolean& enabled);
 	void SetBlend(const bool enable);
 
 protected:
-	Video::BLEND_MODE m_blendModes[_GS2D_GLES2_MAX_MULTI_TEXTURES];
-	GLES2TexturePtr m_blendTextures[_GS2D_GLES2_MAX_MULTI_TEXTURES];
-
 	math::Vector2 GetCurrentTargetSize() const;
 
 	Color m_backgroundColor;
@@ -270,7 +243,7 @@ protected:
 	str_type::string m_externalStoragePath;
 	str_type::string m_globalExternalStoragePath;
 	str_type::string m_windowTitle;
-	math::Rect2D m_scissor;
+	math::Rect2Di m_scissor;
 	bool m_quit;
 	bool m_rendering;
 	bool m_zWrite;
@@ -278,8 +251,17 @@ protected:
 	bool m_blend;
 	Platform::FileLogger m_logger;
 	GLES2ShaderContextPtr m_shaderContext;
-	GLES2ShaderPtr m_defaultVS, m_defaultPS,
-		m_fastRenderVS, m_optimalVS, m_modulate1, m_add1;
+
+	float m_spriteDepth;
+
+	GLES2ShaderPtr m_defaultShader;
+	GLES2ShaderPtr m_rectShader;
+	GLES2ShaderPtr m_fastShader;
+	GLES2ShaderPtr m_modulateShader;
+	GLES2ShaderPtr m_addShader;
+
+	ShaderPtr m_currentShader;
+
 	float m_fpsRate;
 
 	Video::TEXTUREFILTER_MODE m_textureFilterMode;

@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "GLES2Texture.h"
 #include "GLES2Video.h"
 #include "GLES2UniformParameter.h"
@@ -67,27 +45,6 @@ void CheckFrameBufferStatus(const Platform::FileLogger& logger, const GLuint fbo
 	default:
 		ss << GS_L(" unknown status");
 		logger.Log(ss.str(), Platform::FileLogger::ERROR);
-	}
-}
-
-void ApplyPixelMask(unsigned char *ht_map, const Color mask, const int channels, const int width, const int height)
-{
-	if (channels == 4)
-	{
-		const std::size_t numBytes = width * height * channels;
-		for (std::size_t i = 0; i < numBytes; i += channels)
-		{
-			unsigned char& r = ht_map[i + 0];
-			unsigned char& g = ht_map[i + 1];
-			unsigned char& b = ht_map[i + 2];
-			unsigned char& a = ht_map[i + 3];
-
-			if ((r == mask.r && g == mask.g && b == mask.b && mask.a == 0xFF)
-				|| (a == 0x0))
-			{
-				r = g = b = a = 0x0;
-			}
-		}
 	}
 }
 
@@ -299,18 +256,12 @@ bool GLES2Texture::LoadTexture(
 {
 	int iWidth, iHeight, channels;
 
-	const bool maskingEnabled = (mask != 0x0);
-	const int forceChannels = maskingEnabled ? SOIL_LOAD_RGBA : SOIL_LOAD_AUTO;
+	const int forceChannels = SOIL_LOAD_AUTO;
 
 	unsigned char *ht_map = SOIL_load_image_from_memory((unsigned char*)pBuffer, bufferLength, &iWidth, &iHeight, &channels, forceChannels);
 
 	if (ht_map)
 	{
-		if (maskingEnabled)
-		{
-			channels = 4;
-			ApplyPixelMask(ht_map, mask, channels, iWidth, iHeight);
-		}
 		m_textureInfo.m_texture = SOIL_create_OGL_texture(ht_map, iWidth, iHeight, channels, m_textureID++, SOIL_FLAG_POWER_OF_TWO);
 	}
 

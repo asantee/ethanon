@@ -1,11 +1,3 @@
-//
-//  Application.h
-//  Application
-//
-//  Created by Andre Santee on 4/12/14.
-//  Copyright (c) 2014 Asantee Games. All rights reserved.
-//
-
 #ifndef GS2D_IOS_APPLICATION_H_
 #define GS2D_IOS_APPLICATION_H_
 
@@ -17,7 +9,7 @@
 
 #import <GLKit/GLKit.h>
 
-#import "../../Math/GameMath.h"
+#import "../../Math/Vector2.h"
 
 #import "../NativeCommandManager.h"
 

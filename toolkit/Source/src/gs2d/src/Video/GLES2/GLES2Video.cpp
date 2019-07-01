@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "GLES2Video.h"
 
 #ifdef APPLE_IOS
@@ -62,23 +40,6 @@ void UnbindFrameBuffer()
 	glBindFramebuffer(GL_FRAMEBUFFER, idx);
 }
 
-GLES2ShaderPtr LoadInternalShader(GLES2Video* video,
-	const str_type::string& shaderName,
-	const str_type::string& str,
-	const Shader::SHADER_FOCUS focus)
-{
-	GLES2ShaderPtr shader = video->LoadGLES2ShaderFromString(shaderName, str, focus);
-	if (shader)
-	{
-		video->Message(shaderName + " default shader created successfully", GSMT_INFO);
-	}
-	else
-	{
-		video->Message(shaderName + " couldn't create default shader", GSMT_ERROR);
-	}
-	return shader;
-}
-
 GLES2Video::GLES2Video(
 	const unsigned int width,
 	const unsigned int height,
@@ -98,13 +59,9 @@ GLES2Video::GLES2Video(
 	m_zWrite(true),
 	m_fileIOHub(fileIOHub),
 	m_frameCount(0),
-	m_previousTime(0)
+	m_previousTime(0),
+	m_spriteDepth(0.0f)
 {
-	for (std::size_t t = 0; t < _GS2D_GLES2_MAX_MULTI_TEXTURES; t++)
-	{
-		m_blendModes[t] = Video::BM_MODULATE;
-	}
-
 	m_logger.Log("Creating shader context...", Platform::FileLogger::INFO);
 	m_shaderContext = GLES2ShaderContextPtr(new GLES2ShaderContext(this));
 	m_logger.Log("StartApplication...", Platform::FileLogger::INFO);
@@ -145,21 +102,11 @@ bool GLES2Video::StartApplication(
 		glDisable(GL_DITHER);
 
 	// create shaders
-	m_defaultVS =    LoadInternalShader(this, "default.vs",    gs2dshaders::GLSL_default_default_vs, Shader::SF_VERTEX);
-	m_defaultPS =    LoadInternalShader(this, "default.ps",    gs2dshaders::GLSL_default_default_ps, Shader::SF_PIXEL);
-	m_fastRenderVS = LoadInternalShader(this, "fastRender.vs", gs2dshaders::GLSL_default_fastRender_vs, Shader::SF_VERTEX);
-	m_optimalVS =    LoadInternalShader(this, "optimal.vs",    gs2dshaders::GLSL_default_optimal_vs, Shader::SF_VERTEX);
-	m_modulate1 =    LoadInternalShader(this, "modulate1.ps",  gs2dshaders::GLSL_default_modulate1_ps, Shader::SF_PIXEL);
-	m_add1 =         LoadInternalShader(this, "add1.ps",       gs2dshaders::GLSL_default_add1_ps, Shader::SF_PIXEL);
-
-	// forces shader pre-load to avoid runtime lag
-	m_shaderContext->SetShader(m_defaultVS,		m_defaultPS);
-	m_shaderContext->SetShader(m_defaultVS,		m_modulate1);
-	m_shaderContext->SetShader(m_defaultVS,		m_add1);
-	m_shaderContext->SetShader(m_fastRenderVS,	m_defaultPS);
-	m_shaderContext->SetShader(m_optimalVS,		m_modulate1);
-	m_shaderContext->SetShader(m_optimalVS,		m_add1);
-	m_shaderContext->SetShader(m_optimalVS,		m_defaultPS);
+	m_defaultShader  = LoadGLES2ShaderFromFile("default.vs",    gs2dshaders::GLSL_default_default_vs,    "default.ps", gs2dshaders::GLSL_default_default_ps);
+	m_rectShader     = LoadGLES2ShaderFromFile("default.vs",    gs2dshaders::GLSL_default_default_vs,    "default.ps", gs2dshaders::GLSL_default_default_ps);
+	m_fastShader     = LoadGLES2ShaderFromFile("fastRender.vs", gs2dshaders::GLSL_default_fastRender_vs, "default.ps", gs2dshaders::GLSL_default_default_ps);
+	m_modulateShader = LoadGLES2ShaderFromFile("default.vs",    gs2dshaders::GLSL_default_default_vs,    "modulate1",  gs2dshaders::GLSL_default_modulate1_ps);
+	m_addShader      = LoadGLES2ShaderFromFile("default.vs",    gs2dshaders::GLSL_default_default_vs,    "add1",       gs2dshaders::GLSL_default_add1_ps);
 
 	LogFragmentShaderMaximumPrecision(m_logger);
 
@@ -247,7 +194,7 @@ TexturePtr GLES2Video::CreateRenderTargetTexture(
 }
 
 SpritePtr GLES2Video::CreateSprite(
-	GS_BYTE *pBuffer,
+	unsigned char *pBuffer,
 	const unsigned int bufferLength,
 	Color mask,
 	const unsigned int width,
@@ -285,13 +232,13 @@ SpritePtr GLES2Video::CreateRenderTarget(
 }
 
 ShaderPtr GLES2Video::LoadShaderFromFile(
-	const str_type::string& fileName,
-	const Shader::SHADER_FOCUS focus,
-	const Shader::SHADER_PROFILE profile,
-	const char *entry)
+	const std::string& vsFileName,
+	const std::string& vsEntry,
+	const std::string& psFileName,
+	const std::string& psEntry)
 {
 	GLES2ShaderPtr shader(new GLES2Shader(m_fileIOHub->GetFileManager(), m_shaderContext));
-	if (shader->LoadShaderFromFile(m_shaderContext, fileName, focus, profile, entry))
+	if (shader->LoadShaderFromFile(m_shaderContext, vsFileName, vsEntry, psFileName, psEntry))
 	{
 		return shader;
 	}
@@ -299,24 +246,29 @@ ShaderPtr GLES2Video::LoadShaderFromFile(
 }
 
 ShaderPtr GLES2Video::LoadShaderFromString(
-	const str_type::string& shaderName,
-	const std::string& codeAsciiString,
-	const Shader::SHADER_FOCUS focus,
-	const Shader::SHADER_PROFILE profile,
-	const char *entry)
+    const std::string& vsShaderName,
+    const std::string& vsCodeAsciiString,
+    const std::string& vsEntry,
+    const std::string& psShaderName,
+    const std::string& psCodeAsciiString,
+    const std::string& psEntry)
 {
 	GLES2ShaderPtr shader(new GLES2Shader(m_fileIOHub->GetFileManager(), m_shaderContext));
-	if (shader->LoadShaderFromString(m_shaderContext, shaderName, codeAsciiString, focus, profile, entry))
+	if (shader->LoadShaderFromString(m_shaderContext, vsShaderName, vsCodeAsciiString, vsEntry, psShaderName, psCodeAsciiString, psEntry))
 	{
 		return shader;
 	}
 	return ShaderPtr();
 }
 
-GLES2ShaderPtr GLES2Video::LoadGLES2ShaderFromFile(const str_type::string& fileName, const Shader::SHADER_FOCUS focus)
+GLES2ShaderPtr GLES2Video::LoadGLES2ShaderFromFile(
+	const std::string& vsFileName,
+	const std::string& vsEntry,
+	const std::string& psFileName,
+	const std::string& psEntry)
 {
 	GLES2ShaderPtr shader(new GLES2Shader(m_fileIOHub->GetFileManager(), m_shaderContext));
-	if (shader->LoadShaderFromFile(m_shaderContext, fileName, focus))
+	if (shader->LoadShaderFromFile(m_shaderContext, vsFileName, vsEntry, psFileName, psEntry))
 	{
 		return shader;
 	}
@@ -324,12 +276,15 @@ GLES2ShaderPtr GLES2Video::LoadGLES2ShaderFromFile(const str_type::string& fileN
 }
 
 GLES2ShaderPtr GLES2Video::LoadGLES2ShaderFromString(
-	const str_type::string& shaderName,
-	const std::string& codeAsciiString,
-	const Shader::SHADER_FOCUS focus)
+    const std::string& vsShaderName,
+    const std::string& vsCodeAsciiString,
+    const std::string& vsEntry,
+    const std::string& psShaderName,
+    const std::string& psCodeAsciiString,
+    const std::string& psEntry)
 {
 	GLES2ShaderPtr shader(new GLES2Shader(m_fileIOHub->GetFileManager(), m_shaderContext));
-	if (shader->LoadShaderFromString(m_shaderContext, shaderName, codeAsciiString, focus))
+	if (shader->LoadShaderFromString(m_shaderContext, vsShaderName, vsCodeAsciiString, vsEntry, psShaderName, psCodeAsciiString, psEntry))
 	{
 		return shader;
 	}
@@ -342,34 +297,34 @@ boost::any GLES2Video::GetVideoInfo()
 	return 0;
 }
 
-ShaderPtr GLES2Video::GetFontShader()
+ShaderPtr GLES2Video::GetDefaultShader()
 {
-	return m_fastRenderVS;
+	return m_defaultShader;
 }
 
-ShaderPtr GLES2Video::GetOptimalVS()
+ShaderPtr GLES2Video::GetRectShader()
 {
-	return m_optimalVS;
+	return m_rectShader;
 }
 
-ShaderPtr GLES2Video::GetDefaultVS()
+ShaderPtr GLES2Video::GetFastShader()
 {
-	return m_defaultVS;
+	return m_fastShader;
 }
 
-ShaderPtr GLES2Video::GetVertexShader()
+ShaderPtr GLES2Video::GetModulateShader()
 {
-	return m_shaderContext->GetCurrentVS();
+	return m_modulateShader;
 }
 
-GLES2ShaderPtr GLES2Video::GetDefaultPS()
+ShaderPtr GLES2Video::GetAddShader()
 {
-	return m_defaultPS;
+	return m_addShader;
 }
 
-ShaderPtr GLES2Video::GetPixelShader()
+ShaderPtr GLES2Video::GetCurrentShader()
 {
-	return m_shaderContext->GetCurrentPS();
+	return m_currentShader;
 }
 
 ShaderContextPtr GLES2Video::GetShaderContext()
@@ -377,44 +332,10 @@ ShaderContextPtr GLES2Video::GetShaderContext()
 	return m_shaderContext;
 }
 
-bool GLES2Video::SetVertexShader(ShaderPtr pShader)
+bool GLES2Video::SetCurrentShader(ShaderPtr pShader)
 {
-	if (pShader)
-	{
-		m_shaderContext->SetShader(
-			boost::dynamic_pointer_cast<GLES2Shader>(pShader),
-			boost::dynamic_pointer_cast<GLES2Shader>(m_shaderContext->GetCurrentPS()));
-	}
-	else
-	{
-		m_shaderContext->SetShader(m_defaultVS, boost::dynamic_pointer_cast<GLES2Shader>(m_shaderContext->GetCurrentPS()));
-	}
+	m_currentShader = pShader;
 	return true;
-}
-
-bool GLES2Video::SetPixelShader(ShaderPtr pShader)
-{
-	if (pShader)
-	{
-		m_shaderContext->SetShader(
-			boost::dynamic_pointer_cast<GLES2Shader>(m_shaderContext->GetCurrentVS()),
-			boost::dynamic_pointer_cast<GLES2Shader>(pShader));
-	}
-	else
-	{
-		m_shaderContext->SetShader(boost::dynamic_pointer_cast<GLES2Shader>(m_shaderContext->GetCurrentVS()), m_defaultPS);
-	}
-	return true;
-}
-
-Shader::SHADER_PROFILE GLES2Video::GetHighestVertexProfile() const
-{
-	return Shader::SP_MODEL_2;
-}
-
-Shader::SHADER_PROFILE GLES2Video::GetHighestPixelProfile() const
-{
-	return Shader::SP_MODEL_2;
 }
 
 boost::any GLES2Video::GetGraphicContext()
@@ -489,73 +410,12 @@ unsigned int GLES2Video::GetMaxRenderTargets() const
 
 unsigned int GLES2Video::GetMaxMultiTextures() const
 {
-	return _GS2D_GLES2_MAX_MULTI_TEXTURES;
-}
-
-void GLES2Video::SetupMultitextureShader()
-{
-	if (m_blendTextures[1])
-	{
-		ShaderPtr pixelShader = m_blendModes[1] == Video::BM_ADD ? m_add1 : m_modulate1;
-		pixelShader->SetTexture("t1", m_blendTextures[1]);
-		SetPixelShader(pixelShader);
-	}
-}
-
-void GLES2Video::DisableMultitextureShader()
-{
-	if (GetPixelShader() == m_add1 || GetPixelShader() == m_modulate1)
-	{
-		SetPixelShader(m_defaultPS);
-	}
-}
-
-bool GLES2Video::SetBlendMode(const unsigned int passIdx, const Video::BLEND_MODE mode)
-{
-	if (passIdx == 0 || passIdx >= _GS2D_GLES2_MAX_MULTI_TEXTURES)
-	{
-		Message(GS_L("Invalid pass index set on SetBlendMode"), GSMT_ERROR);
-		return false;
-	}
-	else
-	{
-		m_blendModes[passIdx] = mode;
-		return true;
-	}
-}
-
-bool GLES2Video::SetBlendTexture(const unsigned int passIdx, GLES2TexturePtr texture)
-{
-	if (passIdx == 0 || passIdx >= _GS2D_GLES2_MAX_MULTI_TEXTURES)
-	{
-		Message(GS_L("Invalid pass index set on SetBlendTexture"), GSMT_ERROR);
-		return false;
-	}
-	else
-	{
-		m_blendTextures[passIdx] = texture;
-		return true;
-	}
-}
-
-Video::BLEND_MODE GLES2Video::GetBlendMode(const unsigned int passIdx) const
-{
-	return m_blendModes[passIdx];
+	return 2;
 }
 
 bool GLES2Video::UnsetTexture(const unsigned int passIdx)
 {
-	if (passIdx == 0 || passIdx >= _GS2D_GLES2_MAX_MULTI_TEXTURES)
-	{
-		Message(GS_L("Invalid pass index set on UnsetTexture"), GSMT_ERROR);
-		return false;
-	}
-	else
-	{
-		m_blendTextures[passIdx].reset();
-		DisableMultitextureShader();
-		return true;
-	}
+	return true;
 }
 
 void GLES2Video::SetZBuffer(const bool enable)
@@ -602,12 +462,13 @@ bool GLES2Video::GetClamp() const
 
 bool GLES2Video::SetSpriteDepth(const float depth)
 {
-	return m_shaderContext->SetSpriteDepth(depth);
+	m_spriteDepth = depth;
+	return true;
 }
 
 float GLES2Video::GetSpriteDepth() const
 {
-	return m_shaderContext->GetSpriteDepth();
+	return m_spriteDepth;
 }
 
 bool GLES2Video::SetScissor(const bool& enable)
@@ -623,7 +484,7 @@ bool GLES2Video::SetScissor(const bool& enable)
 	return true;
 }
 
-bool GLES2Video::SetScissor(const Rect2D& rect)
+bool GLES2Video::SetScissor(const Rect2Di& rect)
 {
 	SetScissor(true);
 	GLint posY;
@@ -646,7 +507,7 @@ bool GLES2Video::SetScissor(const Rect2D& rect)
 	return true;
 }
 
-Rect2D GLES2Video::GetScissor() const
+Rect2Di GLES2Video::GetScissor() const
 {
 	return m_scissor;
 }
@@ -698,16 +559,14 @@ Color GLES2Video::GetBGColor() const
 }
 
 
-bool GLES2Video::BeginSpriteScene(const Color& dwBGColor)
+bool GLES2Video::BeginSpriteScene(const Color& color)
 {
 	UnbindFrameBuffer();
-	if (dwBGColor != gs2d::constant::ZERO)
+	if (color != math::constant::ZERO_VECTOR4)
 	{
-		m_backgroundColor = dwBGColor;
+		m_backgroundColor = color;
 	}
-	Vector4 color;
-	color.SetColor(m_backgroundColor);
-	glClearColor(color.x, color.y, color.z, color.w);
+	glClearColor(m_backgroundColor.x, m_backgroundColor.y, m_backgroundColor.z, m_backgroundColor.w);
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 	SetAlphaMode(Video::AM_PIXEL);
 	m_rendering = true;
@@ -720,7 +579,7 @@ bool GLES2Video::EndSpriteScene()
 	return true;
 }
 
-bool GLES2Video::BeginTargetScene(const Color& dwBGColor, const bool clear)
+bool GLES2Video::BeginTargetScene(const Color& color, const bool clear)
 {
 	// explicit static cast for better performance
 	TexturePtr texturePtr = m_currentTarget.lock();
@@ -735,8 +594,6 @@ bool GLES2Video::BeginTargetScene(const Color& dwBGColor, const bool clear)
 
 		if (clear)
 		{
-			Vector4 color;
-			color.SetColor(dwBGColor);
 			glClearColor(color.x, color.y, color.z, color.w);
 			glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 		}
@@ -849,7 +706,7 @@ bool GLES2Video::Rendering() const
 bool GLES2Video::SaveScreenshot(
 	const str_type::char_t* name,
 	const Texture::BITMAP_FORMAT fmt,
-	Rect2D rect)
+	Rect2Di rect)
 {
 	// TODO
 	return false;

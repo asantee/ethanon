@@ -1,26 +1,6 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "GLES2Sprite.h"
+
+#include "GLES2Video.h"
 
 namespace gs2d {
 
@@ -39,7 +19,7 @@ GLES2Sprite::GLES2Sprite(GLES2ShaderContextPtr shaderContext) :
 
 bool GLES2Sprite::LoadSprite(
 	VideoWeakPtr video,
-	GS_BYTE* pBuffer,
+	unsigned char* pBuffer,
 	const unsigned int bufferLength,
 	Color mask,
 	const unsigned int width,
@@ -118,13 +98,15 @@ bool GLES2Sprite::Draw(
 	v2Size = v2Size * v2Scale;
 
 	ShaderPtr
-		optimal = m_video->GetOptimalVS(),
-		current = m_shaderContext->GetCurrentVS(),
-		defaultS = m_video->GetDefaultVS();
+		optimal = m_video->GetFastShader(),
+		current = m_video->GetCurrentShader(),
+		defaultS = m_video->GetDefaultShader();
 	if (current == optimal || current == defaultS)
 	{
 		if (current != optimal)
-			m_video->SetVertexShader(optimal);
+		{
+			m_video->SetCurrentShader(optimal);
+		}
 		DrawOptimal(v2Pos, color, angle, v2Size);
 		return true;
 	}
@@ -144,133 +126,89 @@ bool GLES2Sprite::DrawShaped(
 	const float angle)
 {
 	ShaderPtr
-		optimal = m_video->GetOptimalVS(),
-		current = m_shaderContext->GetCurrentVS(),
-		defaultS = m_video->GetDefaultVS();
+		optimal = m_video->GetFastShader(),
+		current = m_video->GetCurrentShader(),
+		defaultS = m_video->GetDefaultShader();
 	if (current == optimal || current == defaultS)
 	{
 		if (color0 == color1 && color0 == color2 && color0 == color3)
 		{
 			if (current != optimal)
-				m_video->SetVertexShader(optimal);
+			{
+				m_video->SetCurrentShader(optimal);
+			}
 			DrawOptimal(v2Pos, color0, angle, v2Size);
 			return true;
 		}
 	}
+
 	if (current == optimal)
 	{
-		m_video->SetVertexShader(defaultS);
+		m_video->SetCurrentShader(defaultS);
 	}
-	static_cast<GLES2Video*>(m_video)->SetupMultitextureShader();
 
 	#ifdef GS2D_WARN_SLOW_DRAWING
 	if (current == optimal)
 		m_logger.Log(m_texture->GetFileName() + ": slow drawing!", Platform::FileLogger::WARNING);
 	#endif
 
-	GLES2Shader* vs = m_shaderContext->GetCurrentVS().get();
-	GLES2Shader* ps = m_shaderContext->GetCurrentPS().get();
+	Shader* currentShader = m_video->GetCurrentShader().get();
 
 	Vector2 pos(v2Pos), camPos(m_video->GetCameraPos()), center(m_normalizedOrigin*v2Size);
-
-	// to-do/todo: make this more generic
-	if (m_video->IsRoundingUpPosition())
-	{
-		pos.x = floor(pos.x);
-		pos.y = floor(pos.y);
-		camPos.x = floor(camPos.x);
-		camPos.y = floor(camPos.y);
-		center.x = floor(center.x);
-		center.y = floor(center.y);
-	}
-
-	static const std::size_t ROTATION_MATRIX_HASH = fastHash("rotationMatrix");
-	static const std::size_t RECT_SIZE_HASH = fastHash("rectSize");
-	static const std::size_t RECT_POS_HASH = fastHash("rectPos");
-	static const std::size_t BITMAP_SIZE_HASH = fastHash("bitmapSize");
-	static const std::size_t ENTITY_POS_HASH = fastHash("entityPos");
-	static const std::size_t CENTER_HASH = fastHash("center");
-	static const std::size_t SIZE_HASH = fastHash("size");
-	static const std::size_t COLOR0_HASH = fastHash("color0");
-	static const std::size_t COLOR1_HASH = fastHash("color1");
-	static const std::size_t COLOR2_HASH = fastHash("color2");
-	static const std::size_t COLOR3_HASH = fastHash("color3");
-	static const std::size_t CAMERA_POS_HASH = fastHash("cameraPos");
-	static const std::size_t DEPTH_HASH = fastHash("depth");
-	static const std::size_t FLIP_MUL = fastHash("flipMul");
-	static const std::size_t FLIP_ADD = fastHash("flipAdd");
-	static const std::size_t SCREEN_SIZE = fastHash("screenSize");
 
 	Matrix4x4 mRot;
 	if (angle != 0.0f)
 	{
-		mRot = RotateZ(DegreeToRadian(-angle)); 
+		mRot = Matrix4x4::RotateZ(math::Util::DegreeToRadian(-angle));
 	}
-	vs->SetMatrixConstant(ROTATION_MATRIX_HASH, "rotationMatrix", mRot);
+	currentShader->SetMatrixConstant("rotationMatrix", mRot);
+	currentShader->SetTexture("diffuse", m_texture);
 
-	ps->SetTexture("diffuse", m_texture);
-	
 	if (m_rect.size.x == 0 || m_rect.size.y == 0)
 	{
-		vs->SetConstant(RECT_SIZE_HASH, "rectSize", GetBitmapSizeF());
-		vs->SetConstant(RECT_POS_HASH, "rectPos", Vector2(0, 0));
+		currentShader->SetConstant("rectSize", GetBitmapSizeF());
+		currentShader->SetConstant("rectPos", Vector2(0, 0));
 	}
 	else
 	{
-		vs->SetConstant(RECT_SIZE_HASH, "rectSize", m_rect.size);
-		vs->SetConstant(RECT_POS_HASH, "rectPos", m_rect.pos);
+		currentShader->SetConstant("rectSize", m_rect.size);
+		currentShader->SetConstant("rectPos", m_rect.pos);
 	}
 
 	Vector2 flipAdd, flipMul;
 	GetFlipShaderParameters(flipAdd, flipMul);
 
-	vs->SetConstant(SCREEN_SIZE, "screenSize", m_video->GetScreenSizeF());
-	vs->SetConstant(BITMAP_SIZE_HASH, "bitmapSize", m_bitmapSize);
-	vs->SetConstant(ENTITY_POS_HASH, "entityPos", pos);
-	vs->SetConstant(CENTER_HASH, "center", center);
-	vs->SetConstant(SIZE_HASH, "size", v2Size);
-	vs->SetConstant(COLOR0_HASH, "color0", color0);
-	vs->SetConstant(COLOR1_HASH, "color1", color1);
-	vs->SetConstant(COLOR2_HASH, "color2", color2);
-	vs->SetConstant(COLOR3_HASH, "color3", color3);
-	vs->SetConstant(FLIP_ADD, "flipAdd", flipAdd);
-	vs->SetConstant(FLIP_MUL, "flipMul", flipMul);
-	vs->SetConstant(CAMERA_POS_HASH, "cameraPos", camPos);
-	vs->SetConstant(DEPTH_HASH, "depth", m_video->GetSpriteDepth());
-	m_shaderContext->DrawRect(m_rectMode);
+	currentShader->SetConstant("screenSize", m_video->GetScreenSizeF());
+	currentShader->SetConstant("bitmapSize", m_bitmapSize);
+	currentShader->SetConstant("entityPos", pos);
+	currentShader->SetConstant("center", center);
+	currentShader->SetConstant("size", v2Size);
+	currentShader->SetConstant("color0", color0);
+	currentShader->SetConstant("color1", color1);
+	currentShader->SetConstant("color2", color2);
+	currentShader->SetConstant("color3", color3);
+	currentShader->SetConstant("flipAdd", flipAdd);
+	currentShader->SetConstant("flipMul", flipMul);
+	currentShader->SetConstant("cameraPos", camPos);
+	currentShader->SetConstant("depth", m_video->GetSpriteDepth());
+	m_shaderContext->DrawRect(m_video, m_rectMode);
 	return true;
 }
 
 bool GLES2Sprite::DrawOptimal(const math::Vector2 &v2Pos, const Vector4& color, const float angle, const Vector2 &v2Size)
 {
-	static_cast<GLES2Video*>(m_video)->SetupMultitextureShader();
-	GLES2Shader* vs = m_shaderContext->GetCurrentVS().get();
-	GLES2Shader* ps = m_shaderContext->GetCurrentPS().get();
+	Shader* currentShader = m_video->GetCurrentShader().get();
 
 	Vector2 size((v2Size != Vector2(-1, -1)) ? v2Size : m_bitmapSize);
 	Vector2 pos(v2Pos), camPos(m_video->GetCameraPos()), center(m_normalizedOrigin*size);
 
-	if (m_video->IsRoundingUpPosition())
-	{
-		// do it as fast as possible...
-		pos.x = floor(pos.x);
-		pos.y = floor(pos.y);
-		camPos.x = floor(camPos.x);
-		camPos.y = floor(camPos.y);
-		center.x = floor(center.x);
-		center.y = floor(center.y);
-	}
-
-	static const std::size_t ROTATION_MATRIX_HASH = fastHash("rotationMatrix");
-	static const std::size_t PARAMS_HASH = fastHash("params");
-
 	Matrix4x4 mRot;
 	if (angle != 0.0f)
 	{
-		mRot = RotateZ(DegreeToRadian(-angle)); 
+		mRot = Matrix4x4::RotateZ(Util::DegreeToRadian(-angle));
 	}
 
-	ps->SetTexture("diffuse", m_texture);
+	currentShader->SetTexture("diffuse", m_texture);
 
 	Vector2 rectPos, rectSize;
 	if (m_rect.size.x == 0 || m_rect.size.y == 0)
@@ -310,15 +248,14 @@ bool GLES2Sprite::DrawOptimal(const math::Vector2 &v2Pos, const Vector4& color, 
 		params[t + first] = m_attachedParameters[t];
 	}
 
-	vs->SetMatrixConstant(ROTATION_MATRIX_HASH, "rotationMatrix", mRot);
+	currentShader->SetMatrixConstant("rotationMatrix", mRot);
 
-	vs->SetConstantArray(
-		PARAMS_HASH,
+	currentShader->SetConstantArray(
 		"params",
 		static_cast<unsigned int>(numParams),
 		boost::shared_array<const math::Vector2>(params));
 
-	m_shaderContext->DrawRect(m_rectMode);
+	m_shaderContext->DrawRect(m_video, m_rectMode);
 
 	m_attachedParameters.clear();
 	return true;
@@ -329,7 +266,7 @@ void GLES2Sprite::AttachParametersToOptimalRenderer(const std::vector<math::Vect
 	m_attachedParameters = params;
 }
 
-bool GLES2Sprite::SaveBitmap(const str_type::char_t* wcsName, const Texture::BITMAP_FORMAT fmt, Rect2D *pRect)
+bool GLES2Sprite::SaveBitmap(const str_type::char_t* wcsName, const Texture::BITMAP_FORMAT fmt, Rect2Di *pRect)
 {
 	// TODO 
 	return false;
@@ -337,9 +274,7 @@ bool GLES2Sprite::SaveBitmap(const str_type::char_t* wcsName, const Texture::BIT
 
 bool GLES2Sprite::DrawShapedFast(const Vector2 &v2Pos, const Vector2 &v2Size, const math::Vector4& color)
 {
-	GLES2Shader* vs = m_shaderContext->GetCurrentVS().get();
-
-	static const std::size_t PARAMS_HASH = fastHash("params");
+	Shader* currentShader = m_video->GetCurrentShader().get();
 
 	Vector2 rectSize, rectPos;
 	if (m_rect.size.x == 0 || m_rect.size.y == 0)
@@ -364,24 +299,22 @@ bool GLES2Sprite::DrawShapedFast(const Vector2 &v2Pos, const Vector2 &v2Size, co
 	params[6] = Vector2(color.x, color.y);
 	params[7] = Vector2(color.z, color.w);
 
-	vs->SetConstantArray(PARAMS_HASH, "params", numParams, boost::shared_array<const math::Vector2>(params));
-	m_shaderContext->FastDraw();
+	currentShader->SetConstantArray("params", numParams, boost::shared_array<const math::Vector2>(params));
+	m_shaderContext->FastDraw(m_video);
 	return true;
 }
 
 void GLES2Sprite::BeginFastRendering()
 {
-	GLES2ShaderPtr ps = static_cast<GLES2Video*>(m_video)->GetDefaultPS();
-	ps->SetTexture("diffuse", m_texture);
-	m_video->SetVertexShader(m_video->GetFontShader());
-	m_video->SetPixelShader(ps);
-	m_shaderContext->BeginFastDraw();
+	ShaderPtr fastShader = static_cast<GLES2Video*>(m_video)->GetFastShader();
+	m_video->SetCurrentShader(fastShader);
+	fastShader->SetTexture("diffuse", m_texture);
+	m_shaderContext->BeginFastDraw(m_video);
 }
 
 void GLES2Sprite::EndFastRendering()
 {
-	m_shaderContext->EndFastDraw();
-	m_video->SetVertexShader(ShaderPtr());
+	m_shaderContext->EndFastDraw(m_video);
 }
 
 TextureWeakPtr GLES2Sprite::GetTexture()
@@ -421,7 +354,8 @@ void GLES2Sprite::GenerateBackup()
 
 bool GLES2Sprite::SetAsTexture(const unsigned int passIdx)
 {
-	return static_cast<GLES2Video*>(m_video)->SetBlendTexture(passIdx, m_texture);
+	m_video->GetCurrentShader()->SetTexture("t1", m_texture);
+	return true;
 }
 
 void GLES2Sprite::OnLostDevice()
