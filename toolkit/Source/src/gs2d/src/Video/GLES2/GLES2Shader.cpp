@@ -200,10 +200,9 @@ bool GLES2Shader::SetTexture(const str_type::string& name, TextureWeakPtr pTextu
 	return false;
 }
 
-bool SetShader()
+bool GLES2Shader::SetShader()
 {
 	return false;
 }
-
 
 } //namespace gs2d

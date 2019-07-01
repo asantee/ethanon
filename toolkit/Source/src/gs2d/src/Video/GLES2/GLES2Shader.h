@@ -82,7 +82,7 @@ public:
 	bool SetConstantArray(const str_type::string& name, unsigned int nElements, const boost::shared_array<const math::Vector2>& v);
 	bool SetMatrixConstant(const str_type::string& name, const math::Matrix4x4 &matrix);
 	bool SetTexture(const str_type::string& name, TextureWeakPtr pTexture);
-	
+
 	bool SetShader();
 };
 
