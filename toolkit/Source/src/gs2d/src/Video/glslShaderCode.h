@@ -42,7 +42,8 @@ const std::string GLSL_default_default_ps =
 "\n";
 
 const std::string GLSL_default_default_vs = 
-"attribute vec4 vPosition;\n" \
+"attribute vec3 vPosition;\n" \
+"attribute vec3 v1;\n" \
 "attribute vec2 vTexCoord;\n" \
 "\n" \
 "varying vec4 v_color;\n" \
@@ -95,7 +96,7 @@ const std::string GLSL_default_default_vs =
 "	return newCoord + (rectPos/bitmapSize);\n" \
 "}\n" \
 "\n" \
-"vec4 getVertexColor(vec4 position)\n" \
+"vec4 getVertexColor(vec3 position)\n" \
 "{\n" \
 "	vec4 vertex0 = color0 * (1.0-position.x) * (1.0-position.y);\n" \
 "	vec4 vertex1 = color1 * (position.x) * (1.0-position.y);\n" \
@@ -113,7 +114,8 @@ const std::string GLSL_default_default_vs =
 "\n";
 
 const std::string GLSL_default_fastRender_vs = 
-"attribute vec4 vPosition;\n" \
+"attribute vec3 vPosition;\n" \
+"attribute vec3 v1;\n" \
 "attribute vec2 vTexCoord;\n" \
 "\n" \
 "varying vec4 v_color;\n" \
@@ -166,7 +168,8 @@ const std::string GLSL_default_modulate1_ps =
 "\n";
 
 const std::string GLSL_default_optimal_vs = 
-"attribute vec4 vPosition;\n" \
+"attribute vec3 vPosition;\n" \
+"attribute vec3 v1;\n" \
 "attribute vec2 vTexCoord;\n" \
 "\n" \
 "varying vec4 v_color;\n" \

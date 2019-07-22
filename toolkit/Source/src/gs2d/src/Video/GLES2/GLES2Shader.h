@@ -3,7 +3,7 @@
 
 #include "../../Shader.h"
 
-#include "GLES2RectRenderer.h"
+#include "GLES2PolygonRenderer.h"
 
 #include "GLES2Video.h"
 
@@ -13,37 +13,15 @@ namespace gs2d {
 
 class GLES2ShaderContext : public ShaderContext
 {
-	GLES2RectRenderer m_rectRenderer;
-
-	Platform::FileLogger m_logger;
-
-	tsl::hopscotch_map<GLuint, int> m_vertexPosLocations;
-	tsl::hopscotch_map<GLuint, int> m_texCoordLocations;
-
-	static GLuint m_currentProgram;
-	mutable GLuint m_lastProgram;
-	mutable int m_lastPosLocation;
-	mutable int m_lastTexLocation;
-
-	void GetLocations(int& pos, int& tex) const;
-	bool FindLocations(const GLuint program);
-
 	bool CheckForError(const str_type::string& situation);
 
-	static const int INVALID_ATTRIB_LOCATION;
+	Platform::FileLogger m_logger;
 
 public:
 	GLES2ShaderContext(GLES2Video *pVideo);
 	~GLES2ShaderContext();
 
 	boost::any GetContextPointer();
-	bool DisableTextureParams();
-
-	void DrawRect(Video* video, const Sprite::RECT_MODE mode);
-
-	void BeginFastDraw(Video* video);
-	void FastDraw(Video* video);
-	void EndFastDraw(Video* video);
 };
 
 typedef boost::shared_ptr<GLES2ShaderContext> GLES2ShaderContextPtr;

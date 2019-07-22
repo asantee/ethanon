@@ -48,7 +48,6 @@
 		74E6E57E1A30FFB600E89172 /* Video.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E5791A30FFB600E89172 /* Video.cpp */; };
 		74E6E5851A31006700E89172 /* BitmapFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E5801A31006700E89172 /* BitmapFont.cpp */; };
 		74E6E5861A31006700E89172 /* BitmapFontManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E5821A31006700E89172 /* BitmapFontManager.cpp */; };
-		74E6E5941A3101DC00E89172 /* GLES2RectRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E5881A3101DC00E89172 /* GLES2RectRenderer.cpp */; };
 		74E6E5951A3101DC00E89172 /* GLES2Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E58A1A3101DC00E89172 /* GLES2Shader.cpp */; };
 		74E6E5961A3101DC00E89172 /* GLES2Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E58C1A3101DC00E89172 /* GLES2Sprite.cpp */; };
 		74E6E5971A3101DC00E89172 /* GLES2Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E58E1A3101DC00E89172 /* GLES2Texture.cpp */; };
@@ -219,6 +218,8 @@
 		74E6E82D1A31EADB00E89172 /* ETHInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E8241A31EADB00E89172 /* ETHInput.cpp */; };
 		74E6E82E1A31EADB00E89172 /* ETHSpeedTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E8261A31EADB00E89172 /* ETHSpeedTimer.cpp */; };
 		74EAF2BD1A5C211900E2A6DB /* ToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 74EAF2BC1A5C211900E2A6DB /* ToastView.m */; };
+		AA0980A222E64085006FF59F /* PolygonRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA0980A022E64085006FF59F /* PolygonRenderer.cpp */; };
+		AA0980A822E65B09006FF59F /* GLES2PolygonRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA0980A722E65B09006FF59F /* GLES2PolygonRenderer.cpp */; };
 		AA18F61B22C9742700F44DA6 /* Vector2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA18F60E22C9742600F44DA6 /* Vector2.cpp */; };
 		AA18F61C22C9742700F44DA6 /* Vector3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA18F61022C9742600F44DA6 /* Vector3.cpp */; };
 		AA18F61D22C9742700F44DA6 /* Vector4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA18F61122C9742600F44DA6 /* Vector4.cpp */; };
@@ -360,8 +361,6 @@
 		74E6E5821A31006700E89172 /* BitmapFontManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BitmapFontManager.cpp; path = ../../../../src/gs2d/src/Video/BitmapFontManager.cpp; sourceTree = "<group>"; };
 		74E6E5831A31006700E89172 /* BitmapFontManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BitmapFontManager.h; path = ../../../../src/gs2d/src/Video/BitmapFontManager.h; sourceTree = "<group>"; };
 		74E6E5841A31006700E89172 /* glslShaderCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = glslShaderCode.h; path = ../../../../src/gs2d/src/Video/glslShaderCode.h; sourceTree = "<group>"; };
-		74E6E5881A3101DC00E89172 /* GLES2RectRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLES2RectRenderer.cpp; path = ../../../../src/gs2d/src/Video/GLES2/GLES2RectRenderer.cpp; sourceTree = "<group>"; };
-		74E6E5891A3101DC00E89172 /* GLES2RectRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLES2RectRenderer.h; path = ../../../../src/gs2d/src/Video/GLES2/GLES2RectRenderer.h; sourceTree = "<group>"; };
 		74E6E58A1A3101DC00E89172 /* GLES2Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLES2Shader.cpp; path = ../../../../src/gs2d/src/Video/GLES2/GLES2Shader.cpp; sourceTree = "<group>"; };
 		74E6E58B1A3101DC00E89172 /* GLES2Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLES2Shader.h; path = ../../../../src/gs2d/src/Video/GLES2/GLES2Shader.h; sourceTree = "<group>"; };
 		74E6E58C1A3101DC00E89172 /* GLES2Sprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLES2Sprite.cpp; path = ../../../../src/gs2d/src/Video/GLES2/GLES2Sprite.cpp; sourceTree = "<group>"; };
@@ -706,6 +705,10 @@
 		74E6E8271A31EADB00E89172 /* ETHSpeedTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHSpeedTimer.h; path = ../../../../src/engine/Util/ETHSpeedTimer.h; sourceTree = "<group>"; };
 		74EAF2BB1A5C211900E2A6DB /* ToastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToastView.h; path = ../../../../src/gs2d/src/Platform/ios/ToastView.h; sourceTree = "<group>"; };
 		74EAF2BC1A5C211900E2A6DB /* ToastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToastView.m; path = ../../../../src/gs2d/src/Platform/ios/ToastView.m; sourceTree = "<group>"; };
+		AA0980A022E64085006FF59F /* PolygonRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PolygonRenderer.cpp; path = ../../../../src/gs2d/src/PolygonRenderer.cpp; sourceTree = "<group>"; };
+		AA0980A122E64085006FF59F /* PolygonRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PolygonRenderer.h; path = ../../../../src/gs2d/src/PolygonRenderer.h; sourceTree = "<group>"; };
+		AA0980A622E65B09006FF59F /* GLES2PolygonRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLES2PolygonRenderer.h; path = ../../../../src/gs2d/src/Video/GLES2/GLES2PolygonRenderer.h; sourceTree = "<group>"; };
+		AA0980A722E65B09006FF59F /* GLES2PolygonRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLES2PolygonRenderer.cpp; path = ../../../../src/gs2d/src/Video/GLES2/GLES2PolygonRenderer.cpp; sourceTree = "<group>"; };
 		AA18F60D22C9742600F44DA6 /* Vector2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vector2.h; path = ../../../../src/gs2d/src/Math/Vector2.h; sourceTree = "<group>"; };
 		AA18F60E22C9742600F44DA6 /* Vector2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Vector2.cpp; path = ../../../../src/gs2d/src/Math/Vector2.cpp; sourceTree = "<group>"; };
 		AA18F60F22C9742600F44DA6 /* Rect2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Rect2D.h; path = ../../../../src/gs2d/src/Math/Rect2D.h; sourceTree = "<group>"; };
@@ -853,6 +856,8 @@
 				74E6E5741A30FFB500E89172 /* Shader.h */,
 				74E6E5751A30FFB500E89172 /* Sprite.cpp */,
 				74E6E5761A30FFB600E89172 /* Sprite.h */,
+				AA0980A022E64085006FF59F /* PolygonRenderer.cpp */,
+				AA0980A122E64085006FF59F /* PolygonRenderer.h */,
 				74E6E5771A30FFB600E89172 /* Texture.h */,
 				74E6E5781A30FFB600E89172 /* Types.h */,
 				74E6E5791A30FFB600E89172 /* Video.cpp */,
@@ -981,10 +986,10 @@
 		74E6E5871A31007400E89172 /* GLES2 */ = {
 			isa = PBXGroup;
 			children = (
-				74E6E5881A3101DC00E89172 /* GLES2RectRenderer.cpp */,
-				74E6E5891A3101DC00E89172 /* GLES2RectRenderer.h */,
 				74E6E58A1A3101DC00E89172 /* GLES2Shader.cpp */,
 				74E6E58B1A3101DC00E89172 /* GLES2Shader.h */,
+				AA0980A722E65B09006FF59F /* GLES2PolygonRenderer.cpp */,
+				AA0980A622E65B09006FF59F /* GLES2PolygonRenderer.h */,
 				74E6E58C1A3101DC00E89172 /* GLES2Sprite.cpp */,
 				74E6E58D1A3101DC00E89172 /* GLES2Sprite.h */,
 				74E6E58E1A3101DC00E89172 /* GLES2Texture.cpp */,
@@ -1699,7 +1704,6 @@
 				74E6E7F11A31EA9100E89172 /* ETHScriptWrapper.Drawing.cpp in Sources */,
 				74E6E69B1A31E4A700E89172 /* b2CollideCircle.cpp in Sources */,
 				74E6E6EA1A31E4EE00E89172 /* b2ChainAndPolygonContact.cpp in Sources */,
-				74E6E5941A3101DC00E89172 /* GLES2RectRenderer.cpp in Sources */,
 				74E6E6E91A31E4EE00E89172 /* b2ChainAndCircleContact.cpp in Sources */,
 				AA18F61E22C9742700F44DA6 /* Rect2Di.cpp in Sources */,
 				74E6E7811A31E9EA00E89172 /* ETHCustomDataManager.cpp in Sources */,
@@ -1819,6 +1823,7 @@
 				74E6E7C01A31EA4B00E89172 /* ETHEntityHaloRenderer.cpp in Sources */,
 				74E6E70C1A31E4F800E89172 /* b2MouseJoint.cpp in Sources */,
 				74E6E69F1A31E4A700E89172 /* b2Distance.cpp in Sources */,
+				AA0980A222E64085006FF59F /* PolygonRenderer.cpp in Sources */,
 				74E6E6611A31DD9900E89172 /* as_scriptengine.cpp in Sources */,
 				74E6E7D91A31EA8300E89172 /* ETHActiveEntityHandler.cpp in Sources */,
 				74E6E7ED1A31EA9100E89172 /* ETHScriptObjRegister.cpp in Sources */,
@@ -1849,6 +1854,7 @@
 				74E6E6591A31DD9900E89172 /* as_globalproperty.cpp in Sources */,
 				74E6E5171A30F06900E89172 /* Color.cpp in Sources */,
 				74E6E7EF1A31EA9100E89172 /* ETHScriptWrapper.Audio.cpp in Sources */,
+				AA0980A822E65B09006FF59F /* GLES2PolygonRenderer.cpp in Sources */,
 				74E6E6ED1A31E4EE00E89172 /* b2ContactSolver.cpp in Sources */,
 				74E6E51A1A30F06900E89172 /* Randomizer.cpp in Sources */,
 				74E6E64A1A31DD9900E89172 /* as_builder.cpp in Sources */,
