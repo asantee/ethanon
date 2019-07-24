@@ -76,18 +76,14 @@ public:
         const std::string& psCodeAsciiString,
         const std::string& psEntry);
 
-	bool ConstantExist(const str_type::string& name);
-	bool SetConstant(const str_type::string& name, const math::Vector4 &v);
-	bool SetConstant(const str_type::string& name, const math::Vector3 &v);
-	bool SetConstant(const str_type::string& name, const math::Vector2 &v);
-	bool SetConstant(const str_type::string& name, const float x, const float y, const float z, const float w);
-	bool SetConstant(const str_type::string& name, const float x, const float y, const float z);
-	bool SetConstant(const str_type::string& name, const float x, const float y);
-	bool SetConstant(const str_type::string& name, const float x);
-	bool SetConstant(const str_type::string& name, const int n);
-	bool SetConstantArray(const str_type::string& name, unsigned int nElements, const boost::shared_array<const math::Vector2>& v);
-	bool SetMatrixConstant(const str_type::string& name, const math::Matrix4x4 &matrix);
-	bool SetTexture(const str_type::string& name, TextureWeakPtr pTexture);
+	void SetConstant(const str_type::string& name, const math::Vector4 &v);
+	void SetConstant(const str_type::string& name, const math::Vector3 &v);
+	void SetConstant(const str_type::string& name, const math::Vector2 &v);
+	void SetConstant(const str_type::string& name, const float x);
+	void SetConstant(const str_type::string& name, const int n);
+	void SetConstantArray(const str_type::string& name, unsigned int nElements, const boost::shared_array<const math::Vector2>& v);
+	void SetMatrixConstant(const str_type::string& name, const math::Matrix4x4 &matrix);
+	void SetTexture(const str_type::string& name, TextureWeakPtr pTexture, const unsigned int index);
 
 	bool SetShader();
 	void UnbindShader();

@@ -37,13 +37,13 @@ const std::string GLSL_default_default_ps =
 "varying vec2 v_texCoord;\n" \
 "void main()\n" \
 "{\n" \
-"	gl_FragColor = v_color * texture2D(diffuse, v_texCoord);\n" \
+"	vec4 cc = v_color * texture2D(diffuse, v_texCoord);\n" \
+"	gl_FragColor = vec4(1,0,0,1) * vec4(cc.x, cc.y, 1.0, 1.0);\n" \
 "}\n" \
 "\n";
 
 const std::string GLSL_default_default_vs = 
-"attribute vec3 vPosition;\n" \
-"attribute vec3 v1;\n" \
+"attribute vec4 vPosition;\n" \
 "attribute vec2 vTexCoord;\n" \
 "\n" \
 "varying vec4 v_color;\n" \
@@ -96,7 +96,7 @@ const std::string GLSL_default_default_vs =
 "	return newCoord + (rectPos/bitmapSize);\n" \
 "}\n" \
 "\n" \
-"vec4 getVertexColor(vec3 position)\n" \
+"vec4 getVertexColor(vec4 position)\n" \
 "{\n" \
 "	vec4 vertex0 = color0 * (1.0-position.x) * (1.0-position.y);\n" \
 "	vec4 vertex1 = color1 * (position.x) * (1.0-position.y);\n" \
@@ -114,8 +114,7 @@ const std::string GLSL_default_default_vs =
 "\n";
 
 const std::string GLSL_default_fastRender_vs = 
-"attribute vec3 vPosition;\n" \
-"attribute vec3 v1;\n" \
+"attribute vec4 vPosition;\n" \
 "attribute vec2 vTexCoord;\n" \
 "\n" \
 "varying vec4 v_color;\n" \
@@ -168,8 +167,7 @@ const std::string GLSL_default_modulate1_ps =
 "\n";
 
 const std::string GLSL_default_optimal_vs = 
-"attribute vec3 vPosition;\n" \
-"attribute vec3 v1;\n" \
+"attribute vec4 vPosition;\n" \
 "attribute vec2 vTexCoord;\n" \
 "\n" \
 "varying vec4 v_color;\n" \

@@ -10,6 +10,8 @@
 
 #include "GLES2Texture.h"
 
+#include "GLES2PolygonRenderer.h"
+
 #include "../../Platform/FileIOHub.h"
 
 namespace gs2d {
@@ -40,6 +42,8 @@ public:
 	static const float ZFAR;
 	static const str_type::string VIDEO_LOG_FILE;
 	static const unsigned long ALPHAREF;
+
+	static GLES2PolygonRendererPtr m_polygonRenderer;
 
 	static bool CheckGLError(const str_type::string& op, const Platform::FileLogger& logger);
 
@@ -97,21 +101,18 @@ public:
 
 	GLES2ShaderPtr LoadGLES2ShaderFromFile(
 		const std::string& vsFileName,
-		const std::string& vsEntry,
-		const std::string& psFileName,
-		const std::string& psEntry);
+		const std::string& psFileName);
 
 	GLES2ShaderPtr LoadGLES2ShaderFromString(
 		const std::string& vsShaderName,
 		const std::string& vsCodeAsciiString,
-		const std::string& vsEntry,
 		const std::string& psShaderName,
-		const std::string& psCodeAsciiString,
-		const std::string& psEntry);
+		const std::string& psCodeAsciiString);
 
 	boost::any GetVideoInfo();
 
 	ShaderPtr GetDefaultShader();
+	ShaderPtr GetOptimalShader();
 	ShaderPtr GetRectShader();
 	ShaderPtr GetFastShader();
 	ShaderPtr GetModulateShader();
@@ -255,6 +256,7 @@ protected:
 	float m_spriteDepth;
 
 	GLES2ShaderPtr m_defaultShader;
+	GLES2ShaderPtr m_optimalShader;
 	GLES2ShaderPtr m_rectShader;
 	GLES2ShaderPtr m_fastShader;
 	GLES2ShaderPtr m_modulateShader;

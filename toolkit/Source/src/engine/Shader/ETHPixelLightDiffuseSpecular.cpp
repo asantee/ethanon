@@ -45,18 +45,18 @@ bool ETHPixelLightDiffuseSpecular::BeginLightPass(ETHSpriteEntity *pRender, Vect
 	{
 		lightShader->SetConstant(GS_L("specularPower"), pRender->GetSpecularPower());
 		lightShader->SetConstant(GS_L("specularBrightness"), pRender->GetSpecularBrightness());
-		lightShader->SetTexture(GS_L("glossMap"), pRender->GetGloss()->GetTexture());
+		lightShader->SetTexture(GS_L("glossMap"), pRender->GetGloss()->GetTexture(), 2);
 		lightShader->SetConstant(GS_L("fakeEyePos"), m_fakeEyeManager->ComputeFakeEyePosition(m_video, lightShader, drawToTarget, v3LightPos, pRender->GetAngle()));
 	}
 
 	// choose which normalmap to use
 	if (pRender->GetNormal())
 	{
-		lightShader->SetTexture(GS_L("normalMap"), pRender->GetNormal()->GetTexture());
+		lightShader->SetTexture(GS_L("normalMap"), pRender->GetNormal()->GetTexture(), 1);
 	}
 	else
 	{
-		lightShader->SetTexture(GS_L("normalMap"), GetDefaultNormalMap()->GetTexture());
+		lightShader->SetTexture(GS_L("normalMap"), GetDefaultNormalMap()->GetTexture(), 1);
 	}
 
 	// sets spatial information to the shader

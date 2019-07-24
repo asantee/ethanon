@@ -30,7 +30,6 @@ public:
 
 	GLES2Texture(VideoWeakPtr video, const str_type::string& fileName, Platform::FileManagerPtr fileManager);
 	~GLES2Texture();
-	bool SetTexture(const unsigned int passIdx = 0);
 	PROFILE GetProfile() const;
 	TYPE GetTextureType() const;
 	boost::any GetTextureObject();

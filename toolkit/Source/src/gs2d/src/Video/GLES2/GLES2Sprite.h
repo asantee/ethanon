@@ -3,7 +3,6 @@
 
 #include "../../Video.h"
 
-#include "GLES2PolygonRenderer.h"
 #include "GLES2Shader.h"
 #include "GLES2Texture.h"
 
@@ -28,8 +27,6 @@ private:
 	static std::vector<math::Vector2> m_attachedParameters;
 	
 public:
-	static GLES2PolygonRenderer m_polygonRenderer;
-
 	GLES2Sprite(GLES2ShaderContextPtr shaderContext);
 
 	bool LoadSprite(

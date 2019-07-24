@@ -2,9 +2,9 @@
 
 namespace gs2d {
 
-PolygonRenderer::Vertex::Vertex(const math::Vector3& p, const math::Vector3& v, const math::Vector2& t) :
+PolygonRenderer::Vertex::Vertex(const math::Vector3& p, const math::Vector3& n, const math::Vector2& t) :
 	pos(p),
-	v1(v),
+	normal(n),
 	texCoord(t)
 {
 }

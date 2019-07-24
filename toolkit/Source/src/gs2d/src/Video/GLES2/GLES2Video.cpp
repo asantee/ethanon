@@ -40,6 +40,18 @@ void UnbindFrameBuffer()
 	glBindFramebuffer(GL_FRAMEBUFFER, idx);
 }
 
+const std::vector<PolygonRenderer::Vertex> g_vertices =
+{
+	PolygonRenderer::Vertex(math::Vector3( 0.0f, 1.0f, 0.0f), math::Vector3(1.0f), math::Vector2(0.0f, 1.0f)),
+	PolygonRenderer::Vertex(math::Vector3( 0.0f, 0.0f, 0.0f), math::Vector3(1.0f), math::Vector2(0.0f, 0.0f)),
+	PolygonRenderer::Vertex(math::Vector3( 1.0f, 0.0f, 0.0f), math::Vector3(1.0f), math::Vector2(1.0f, 0.0f)),
+	PolygonRenderer::Vertex(math::Vector3( 1.0f, 1.0f, 0.0f), math::Vector3(1.0f), math::Vector2(1.0f, 1.0f))
+};
+
+std::vector<uint32_t> g_indices = { 0, 1, 2, 3 };
+
+GLES2PolygonRendererPtr GLES2Video::m_polygonRenderer;
+
 GLES2Video::GLES2Video(
 	const unsigned int width,
 	const unsigned int height,
@@ -93,6 +105,11 @@ bool GLES2Video::StartApplication(
 	const Texture::PIXEL_FORMAT pfBB,
 	const bool maximizable)
 {
+	if (!m_polygonRenderer)
+	{
+		m_polygonRenderer = GLES2PolygonRendererPtr(new GLES2PolygonRenderer(g_vertices, g_indices, PolygonRenderer::TRIANGLE_FAN));
+	}
+
 	glHint(GL_GENERATE_MIPMAP_HINT, GL_FASTEST);
 
 	// toggle dither
@@ -102,11 +119,14 @@ bool GLES2Video::StartApplication(
 		glDisable(GL_DITHER);
 
 	// create shaders
-	m_defaultShader  = LoadGLES2ShaderFromFile("default.vs",    gs2dshaders::GLSL_default_default_vs,    "default.ps", gs2dshaders::GLSL_default_default_ps);
-	m_rectShader     = LoadGLES2ShaderFromFile("default.vs",    gs2dshaders::GLSL_default_default_vs,    "default.ps", gs2dshaders::GLSL_default_default_ps);
-	m_fastShader     = LoadGLES2ShaderFromFile("fastRender.vs", gs2dshaders::GLSL_default_fastRender_vs, "default.ps", gs2dshaders::GLSL_default_default_ps);
-	m_modulateShader = LoadGLES2ShaderFromFile("default.vs",    gs2dshaders::GLSL_default_default_vs,    "modulate1",  gs2dshaders::GLSL_default_modulate1_ps);
-	m_addShader      = LoadGLES2ShaderFromFile("default.vs",    gs2dshaders::GLSL_default_default_vs,    "add1",       gs2dshaders::GLSL_default_add1_ps);
+	m_defaultShader  = LoadGLES2ShaderFromString("default.vs",    gs2dshaders::GLSL_default_optimal_vs,    "default.ps",   gs2dshaders::GLSL_default_default_ps);
+	m_optimalShader  = LoadGLES2ShaderFromString("optimal.vs",    gs2dshaders::GLSL_default_optimal_vs,    "default.ps",   gs2dshaders::GLSL_default_default_ps);
+	m_rectShader     = LoadGLES2ShaderFromString("default.vs",    gs2dshaders::GLSL_default_default_vs,    "default.ps",   gs2dshaders::GLSL_default_default_ps);
+	m_fastShader     = LoadGLES2ShaderFromString("fastRender.vs", gs2dshaders::GLSL_default_fastRender_vs, "default.ps",   gs2dshaders::GLSL_default_default_ps);
+	m_modulateShader = LoadGLES2ShaderFromString("default.vs",    gs2dshaders::GLSL_default_optimal_vs,    "modulate1.ps", gs2dshaders::GLSL_default_modulate1_ps);
+	m_addShader      = LoadGLES2ShaderFromString("default.vs",    gs2dshaders::GLSL_default_optimal_vs,    "add1.ps",      gs2dshaders::GLSL_default_add1_ps);
+
+	m_currentShader = m_defaultShader;
 
 	LogFragmentShaderMaximumPrecision(m_logger);
 
@@ -263,12 +283,10 @@ ShaderPtr GLES2Video::LoadShaderFromString(
 
 GLES2ShaderPtr GLES2Video::LoadGLES2ShaderFromFile(
 	const std::string& vsFileName,
-	const std::string& vsEntry,
-	const std::string& psFileName,
-	const std::string& psEntry)
+	const std::string& psFileName)
 {
 	GLES2ShaderPtr shader(new GLES2Shader(m_fileIOHub->GetFileManager(), m_shaderContext));
-	if (shader->LoadShaderFromFile(m_shaderContext, vsFileName, vsEntry, psFileName, psEntry))
+	if (shader->LoadShaderFromFile(m_shaderContext, vsFileName, "main", psFileName, "main"))
 	{
 		return shader;
 	}
@@ -278,13 +296,11 @@ GLES2ShaderPtr GLES2Video::LoadGLES2ShaderFromFile(
 GLES2ShaderPtr GLES2Video::LoadGLES2ShaderFromString(
     const std::string& vsShaderName,
     const std::string& vsCodeAsciiString,
-    const std::string& vsEntry,
     const std::string& psShaderName,
-    const std::string& psCodeAsciiString,
-    const std::string& psEntry)
+    const std::string& psCodeAsciiString)
 {
 	GLES2ShaderPtr shader(new GLES2Shader(m_fileIOHub->GetFileManager(), m_shaderContext));
-	if (shader->LoadShaderFromString(m_shaderContext, vsShaderName, vsCodeAsciiString, vsEntry, psShaderName, psCodeAsciiString, psEntry))
+	if (shader->LoadShaderFromString(m_shaderContext, vsShaderName, vsCodeAsciiString, "main", psShaderName, psCodeAsciiString, "main"))
 	{
 		return shader;
 	}
@@ -300,6 +316,11 @@ boost::any GLES2Video::GetVideoInfo()
 ShaderPtr GLES2Video::GetDefaultShader()
 {
 	return m_defaultShader;
+}
+
+ShaderPtr GLES2Video::GetOptimalShader()
+{
+	return m_optimalShader;
 }
 
 ShaderPtr GLES2Video::GetRectShader()
@@ -335,6 +356,10 @@ ShaderContextPtr GLES2Video::GetShaderContext()
 bool GLES2Video::SetCurrentShader(ShaderPtr pShader)
 {
 	m_currentShader = pShader;
+	if (!m_currentShader)
+	{
+		m_currentShader = m_defaultShader;
+	}
 	return true;
 }
 

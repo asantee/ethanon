@@ -10,18 +10,6 @@ const str_type::string GLES2Sprite::SPRITE_LOG_FILE("GLES2Sprite.log.txt");
 Platform::FileLogger GLES2Sprite::m_logger(Platform::FileLogger::GetLogDirectory() + GLES2Sprite::SPRITE_LOG_FILE);
 std::vector<Vector2> GLES2Sprite::m_attachedParameters;
 
-const std::vector<PolygonRenderer::Vertex> g_vertices =
-{
-	PolygonRenderer::Vertex(math::Vector3( 0.0f, 0.0f, 0.0f), math::Vector3(1.0f), math::Vector2(0.0f, 0.0f)),
-	PolygonRenderer::Vertex(math::Vector3( 0.0f, 1.0f, 0.0f), math::Vector3(1.0f), math::Vector2(0.0f, 1.0f)),
-	PolygonRenderer::Vertex(math::Vector3( 1.0f, 0.0f, 0.0f), math::Vector3(1.0f), math::Vector2(1.0f, 0.0f)),
-	PolygonRenderer::Vertex(math::Vector3( 1.0f, 1.0f, 0.0f), math::Vector3(1.0f), math::Vector2(1.0f, 1.0f))
-};
-
-std::vector<unsigned int> g_indices = { 0, 1, 2, 3 };
-
-GLES2PolygonRenderer GLES2Sprite::m_polygonRenderer(g_vertices, g_indices, PolygonRenderer::TRIANGLE_STRIP);
-
 GLES2Sprite::GLES2Sprite(GLES2ShaderContextPtr shaderContext) :
 		m_type(T_NOT_LOADED),
 		m_densityValue(1.0f)
@@ -110,7 +98,7 @@ bool GLES2Sprite::Draw(
 	v2Size = v2Size * v2Scale;
 
 	ShaderPtr
-		optimal = m_video->GetFastShader(),
+		optimal = static_cast<GLES2Video*>(m_video)->GetOptimalShader(),
 		current = m_video->GetCurrentShader(),
 		defaultS = m_video->GetDefaultShader();
 	if (current == optimal || current == defaultS)
@@ -137,8 +125,10 @@ bool GLES2Sprite::DrawShaped(
 	const Vector4& color3,
 	const float angle)
 {
+	DrawOptimal(v2Pos, color0, angle, v2Size);
+	return true;
 	ShaderPtr
-		optimal = m_video->GetFastShader(),
+		optimal = static_cast<GLES2Video*>(m_video)->GetOptimalShader(),
 		current = m_video->GetCurrentShader(),
 		defaultS = m_video->GetDefaultShader();
 	if (current == optimal || current == defaultS)
@@ -175,7 +165,7 @@ bool GLES2Sprite::DrawShaped(
 		mRot = Matrix4x4::RotateZ(math::Util::DegreeToRadian(-angle));
 	}
 	currentShader->SetMatrixConstant("rotationMatrix", mRot);
-	currentShader->SetTexture("diffuse", m_texture);
+	currentShader->SetTexture("diffuse", m_texture, 0);
 
 	if (m_rect.size.x == 0 || m_rect.size.y == 0)
 	{
@@ -205,9 +195,9 @@ bool GLES2Sprite::DrawShaped(
 	currentShader->SetConstant("cameraPos", camPos);
 	currentShader->SetConstant("depth", m_video->GetSpriteDepth());
 
-	m_polygonRenderer.BeginRendering(currentShaderSmartPtr);
-	m_polygonRenderer.Render();
-	m_polygonRenderer.EndRendering();
+	GLES2Video::m_polygonRenderer->BeginRendering(currentShaderSmartPtr);
+	GLES2Video::m_polygonRenderer->Render();
+	GLES2Video::m_polygonRenderer->EndRendering();
 	return true;
 }
 
@@ -225,7 +215,7 @@ bool GLES2Sprite::DrawOptimal(const math::Vector2 &v2Pos, const Vector4& color, 
 		mRot = Matrix4x4::RotateZ(Util::DegreeToRadian(-angle));
 	}
 
-	currentShader->SetTexture("diffuse", m_texture);
+	currentShader->SetTexture("diffuse", m_texture, 0);
 
 	Vector2 rectPos, rectSize;
 	if (m_rect.size.x == 0 || m_rect.size.y == 0)
@@ -265,16 +255,16 @@ bool GLES2Sprite::DrawOptimal(const math::Vector2 &v2Pos, const Vector4& color, 
 		params[t + first] = m_attachedParameters[t];
 	}
 
-	currentShader->SetMatrixConstant("rotationMatrix", mRot);
+	//currentShader->SetMatrixConstant("rotationMatrix", mRot);
 
 	currentShader->SetConstantArray(
 		"params",
 		static_cast<unsigned int>(numParams),
 		boost::shared_array<const math::Vector2>(params));
 
-	m_polygonRenderer.BeginRendering(currentShaderSmartPtr);
-	m_polygonRenderer.Render();
-	m_polygonRenderer.EndRendering();
+	GLES2Video::m_polygonRenderer->BeginRendering(currentShaderSmartPtr);
+	GLES2Video::m_polygonRenderer->Render();
+	GLES2Video::m_polygonRenderer->EndRendering();
 
 	m_attachedParameters.clear();
 	return true;
@@ -320,7 +310,7 @@ bool GLES2Sprite::DrawShapedFast(const Vector2 &v2Pos, const Vector2 &v2Size, co
 
 	currentShader->SetConstantArray("params", numParams, boost::shared_array<const math::Vector2>(params));
 
-	m_polygonRenderer.Render();
+	GLES2Video::m_polygonRenderer->Render();
 	return true;
 }
 
@@ -328,13 +318,13 @@ void GLES2Sprite::BeginFastRendering()
 {
 	ShaderPtr fastShader = m_video->GetFastShader();
 	m_video->SetCurrentShader(fastShader);
-	fastShader->SetTexture("diffuse", m_texture);
-	m_polygonRenderer.BeginRendering(fastShader);
+	fastShader->SetTexture("diffuse", m_texture, 0);
+	GLES2Video::m_polygonRenderer->BeginRendering(fastShader);
 }
 
 void GLES2Sprite::EndFastRendering()
 {
-	m_polygonRenderer.EndRendering();
+	GLES2Video::m_polygonRenderer->EndRendering();
 }
 
 TextureWeakPtr GLES2Sprite::GetTexture()
@@ -374,7 +364,7 @@ void GLES2Sprite::GenerateBackup()
 
 bool GLES2Sprite::SetAsTexture(const unsigned int passIdx)
 {
-	m_video->GetCurrentShader()->SetTexture("t1", m_texture);
+	m_video->GetCurrentShader()->SetTexture("t1", m_texture, passIdx);
 	return true;
 }
 

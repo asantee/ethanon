@@ -25,15 +25,15 @@ public:
 
 	struct Vertex
 	{
-		Vertex(const math::Vector3& p, const math::Vector3& v, const math::Vector2& t);
+		Vertex(const math::Vector3& p, const math::Vector3& n, const math::Vector2& t);
 		math::Vector3 pos;
-		math::Vector3 v1;
 		math::Vector2 texCoord;
+		math::Vector3 normal;
 	};
 
 	static PolygonRendererPtr Create(
 		const std::vector<Vertex>& vertices,
-		const std::vector<unsigned int>& indices,
+		const std::vector<uint32_t>& indices,
 		const POLYGON_MODE mode);
 
 	virtual void BeginRendering(const ShaderPtr& shader) = 0;

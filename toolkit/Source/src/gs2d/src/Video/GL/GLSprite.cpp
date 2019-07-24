@@ -133,14 +133,12 @@ bool GLSprite::DrawShaped(
 	currentShader->SetConstant("scroll", GetScroll());
 	currentShader->SetConstant("multiply", GetMultiply());
 
-	const bool setCameraPos = currentShader->ConstantExist("cameraPos");
-	if (setCameraPos)
-		currentShader->SetConstant("cameraPos", video->GetCameraPos());
+	currentShader->SetConstant("cameraPos", video->GetCameraPos());
 
 	if (m_rect.size.x == 0 || m_rect.size.y == 0)
 	{
 		currentShader->SetConstant("rectSize", GetBitmapSizeF());
-		currentShader->SetConstant("rectPos", 0, 0);
+		currentShader->SetConstant("rectPos", math::Vector2(0));
 	}
 	else
 	{
@@ -153,10 +151,9 @@ bool GLSprite::DrawShaped(
 	currentShader->SetConstant("color2", color2);
 	currentShader->SetConstant("color3", color3);
 
-	if (currentShader->ConstantExist("depth"))
-		currentShader->SetConstant("depth", video->GetSpriteDepth());
+	currentShader->SetConstant("depth", video->GetSpriteDepth());
 
-	currentShader->SetTexture("diffuse", m_texture);
+	currentShader->SetTexture("diffuse", m_texture, 0);
 
 	currentShader->SetShader();
 
@@ -212,7 +209,7 @@ void GLSprite::BeginFastRendering()
 	video->SetCurrentShader(video->GetFastShader());
 	ShaderPtr current = video->GetCurrentShader();
 	current->SetConstant("bitmapSize", GetBitmapSizeF());
-	current->SetTexture("diffuse", m_texture);
+	current->SetTexture("diffuse", m_texture, 0);
 	current->SetShader();
 }
 
@@ -236,7 +233,7 @@ bool GLSprite::DrawShapedFast(const math::Vector2 &v2Pos, const math::Vector2 &v
 	if (m_rect.size.x == 0 || m_rect.size.y == 0)
 	{
 		current->SetConstant("rectSize", GetBitmapSizeF());
-		current->SetConstant("rectPos", 0, 0);
+		current->SetConstant("rectPos", math::Vector2(0));
 	}
 	else
 	{
@@ -266,7 +263,7 @@ bool GLSprite::SaveBitmap(
 bool GLSprite::SetAsTexture(const unsigned int passIdx)
 {
 	GLVideoPtr video = m_video.lock();
-	video->GetCurrentShader()->SetTexture("pass1", m_texture);
+	video->GetCurrentShader()->SetTexture("pass1", m_texture, 1);
 	return true;
 }
 

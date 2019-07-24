@@ -247,11 +247,6 @@ void GLCgShader::Recover()
 	ShowMessage("Shader recovered: " + Platform::GetFileName(m_shaderPairName), GSMT_INFO);
 }
 
-bool GLCgShader::ConstantExist(const str_type::string& name)
-{
-	return (SeekParameter(name, m_cgVsProgam, m_cgPsProgam));
-}
-
 static bool ShowInvalidParameterWarning(const str_type::string& shaderName, const str_type::string& name)
 {
 	std::string str = "Shader - invalid parameter set to ";
@@ -262,113 +257,113 @@ static bool ShowInvalidParameterWarning(const str_type::string& shaderName, cons
 	return false;
 }
 
-bool GLCgShader::SetConstant(const str_type::string& name, const math::Vector4 &v)
+void GLCgShader::SetConstant(const str_type::string& name, const math::Vector4 &v)
 {
 	CGparameter param = SeekParameter(name, m_cgVsProgam, m_cgPsProgam);
 	if (!param)
-		return ShowInvalidParameterWarning(m_shaderPairName, name);
+	{
+		ShowInvalidParameterWarning(m_shaderPairName, name);
+		return;
+  	}
 
 	cgGLSetParameter4fv(param, (float*)&v);
 	if (CheckForError("Shader::SetConstant4F setting parameter", m_shaderPairName))
-		return false;
-	return true;
+		return;
 }
 
-bool GLCgShader::SetConstant(const str_type::string& name, const math::Vector3 &v)
+void GLCgShader::SetConstant(const str_type::string& name, const math::Vector3 &v)
 {
 	CGparameter param = SeekParameter(name, m_cgVsProgam, m_cgPsProgam);
 	if (!param)
-		return ShowInvalidParameterWarning(m_shaderPairName, name);
+	{
+		ShowInvalidParameterWarning(m_shaderPairName, name);
+  		return;
+    }
 
 	cgGLSetParameter3fv(param, (float*)&v);
 	if (CheckForError("Shader::SetConstant3F setting parameter", m_shaderPairName))
-		return false;
-	return true;
+		return;
 }
 
-bool GLCgShader::SetConstant(const str_type::string& name, const math::Vector2 &v)
+void GLCgShader::SetConstant(const str_type::string& name, const math::Vector2 &v)
 {
 	CGparameter param = SeekParameter(name, m_cgVsProgam, m_cgPsProgam);
 	if (!param)
-		return ShowInvalidParameterWarning(m_shaderPairName, name);
+	{
+		ShowInvalidParameterWarning(m_shaderPairName, name);
+		return;
+  	}
 
 	cgGLSetParameter2fv(param, (float*)&v);
 	if (CheckForError("Shader::SetConstant2F setting parameter", m_shaderPairName))
-		return false;
-	return true;
+		return;
 }
 
-bool GLCgShader::SetConstant(const str_type::string& name, const float x)
+void GLCgShader::SetConstant(const str_type::string& name, const float x)
 {
 	CGparameter param = SeekParameter(name, m_cgVsProgam, m_cgPsProgam);
 	if (!param)
-		return ShowInvalidParameterWarning(m_shaderPairName, name);
+	{
+		ShowInvalidParameterWarning(m_shaderPairName, name);
+  		return;
+    }
 
 	cgGLSetParameter1f(param, x);
 	if (CheckForError("Shader::SetConstant1F setting parameter", m_shaderPairName))
-		return false;
-	return true;
+		return;
 }
 
-bool GLCgShader::SetConstant(const str_type::string& name, const float x, const float y, const float z, const float w)
-{
-	return SetConstant(name, math::Vector4(x, y, z, w));
-}
-
-bool GLCgShader::SetConstant(const str_type::string& name, const float x, const float y, const float z)
-{
-	return SetConstant(name, math::Vector3(x, y, z));
-}
-
-bool GLCgShader::SetConstant(const str_type::string& name, const float x, const float y)
-{
-	return SetConstant(name, math::Vector2(x, y));
-}
-
-bool GLCgShader::SetConstant(const str_type::string& name, const int n)
+void GLCgShader::SetConstant(const str_type::string& name, const int n)
 {
 	CGparameter param = SeekParameter(name, m_cgVsProgam, m_cgPsProgam);
 	if (!param)
-		return ShowInvalidParameterWarning(m_shaderPairName, name);
+    {
+        ShowInvalidParameterWarning(m_shaderPairName, name);
+          return;
+    }
 
 	cgSetParameter1i(param, n);
 	if (CheckForError("Shader::SetConstant1I setting parameter", m_shaderPairName))
-		return false;
-	return true;
+		return;
 }
 
-bool GLCgShader::SetMatrixConstant(const str_type::string& name, const math::Matrix4x4 &matrix)
+void GLCgShader::SetMatrixConstant(const str_type::string& name, const math::Matrix4x4 &matrix)
 {
 	CGparameter param = SeekParameter(name, m_cgVsProgam, m_cgPsProgam);
 	if (!param)
-		return ShowInvalidParameterWarning(m_shaderPairName, name);
+    {
+        ShowInvalidParameterWarning(m_shaderPairName, name);
+          return;
+    }
 
 	cgSetMatrixParameterfr(param, (float*)&matrix);
 	if (CheckForError("Shader::SetMatrixConstant setting parameter", m_shaderPairName))
-		return false;
-	return true;
+		return;
 }
 
-bool GLCgShader::SetConstantArray(const str_type::string& name, unsigned int nElements, const boost::shared_array<const math::Vector2>& v)
+void GLCgShader::SetConstantArray(const str_type::string& name, unsigned int nElements, const boost::shared_array<const math::Vector2>& v)
 {
 	CGparameter param = SeekParameter(name, m_cgVsProgam, m_cgPsProgam);
 	if (!param)
-		return ShowInvalidParameterWarning(m_shaderPairName, name);
+    {
+        ShowInvalidParameterWarning(m_shaderPairName, name);
+          return;
+    }
 
 	cgGLSetParameterArray2f(param, 0, (long)nElements, (float*)v.get());
 	if (CheckForError("Shader::SetConstantArrayF setting parameter", m_shaderPairName))
-		return false;
-	return true;
+		return;
 }
 
-bool GLCgShader::SetTexture(const str_type::string& name, TextureWeakPtr pTexture)
+void GLCgShader::SetTexture(const str_type::string& name, TextureWeakPtr pTexture, const unsigned int index)
 {
 	CGparameter param = SeekParameter(name, m_cgVsProgam, m_cgPsProgam);
 
 	if (!param)
-	{
-		return ShowInvalidParameterWarning(m_shaderPairName, name);
-	}
+    {
+        ShowInvalidParameterWarning(m_shaderPairName, name);
+          return;
+    }
 
 	DisableIfEnabled(param);
 
@@ -376,15 +371,14 @@ bool GLCgShader::SetTexture(const str_type::string& name, TextureWeakPtr pTextur
 	
 	cgGLSetTextureParameter(param, textureObj->GetTextureInfo().m_texture);
 	if (CheckForError("Shader::SetTexture", m_shaderPairName))
-		return false;
+		return;
 
 	cgGLEnableTextureParameter(param);
 	if (CheckForError("Shader::SetTexture", m_shaderPairName))
-		return false;
+		return;
 
 	// add this param to the enabled texture parameter list so we can disable it with DisableTetureParams
 	m_enabledTextures.push_back(param);
-	return true;
 }
 
 } // namespace gs2d

@@ -48,18 +48,14 @@ public:
         const std::string& psCodeAsciiString,
         const std::string& psEntry) = 0;
 
-	virtual bool ConstantExist(const str_type::string& name) = 0;
-	virtual bool SetConstant(const str_type::string& name, const math::Vector4 &v) = 0;
-	virtual bool SetConstant(const str_type::string& name, const math::Vector3 &v) = 0;
-	virtual bool SetConstant(const str_type::string& name, const math::Vector2 &v) = 0;
-	virtual bool SetConstant(const str_type::string& name, const float x, const float y, const float z, const float w) = 0;
-	virtual bool SetConstant(const str_type::string& name, const float x, const float y, const float z) = 0;
-	virtual bool SetConstant(const str_type::string& name, const float x, const float y) = 0;
-	virtual bool SetConstant(const str_type::string& name, const float x) = 0;
-	virtual bool SetConstant(const str_type::string& name, const int n) = 0;
-	virtual bool SetConstantArray(const str_type::string& name, unsigned int nElements, const boost::shared_array<const math::Vector2>& v) = 0;
-	virtual bool SetMatrixConstant(const str_type::string& name, const math::Matrix4x4 &matrix) = 0;
-	virtual bool SetTexture(const str_type::string& name, TextureWeakPtr pTexture) = 0;
+	virtual void SetConstant(const str_type::string& name, const math::Vector4 &v) = 0;
+	virtual void SetConstant(const str_type::string& name, const math::Vector3 &v) = 0;
+	virtual void SetConstant(const str_type::string& name, const math::Vector2 &v) = 0;
+	virtual void SetConstant(const str_type::string& name, const float x) = 0;
+	virtual void SetConstant(const str_type::string& name, const int n) = 0;
+	virtual void SetConstantArray(const str_type::string& name, unsigned int nElements, const boost::shared_array<const math::Vector2>& v) = 0;
+	virtual void SetMatrixConstant(const str_type::string& name, const math::Matrix4x4 &matrix) = 0;
+	virtual void SetTexture(const str_type::string& name, TextureWeakPtr pTexture, const unsigned int index) = 0;
 	
 	virtual bool SetShader() = 0;
 };

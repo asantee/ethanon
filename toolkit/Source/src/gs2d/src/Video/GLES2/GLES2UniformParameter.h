@@ -13,12 +13,7 @@
   #include <GLES2/gl2ext.h>
 #endif
 
-#include "../../../../tsl/hopscotch_map.h"
-
 namespace gs2d {
-
-typedef tsl::hopscotch_map<GLuint, int> LocationMap;
-typedef boost::shared_ptr<LocationMap> LocationMapPtr;
 
 enum PARAMETER_TYPE
 {
@@ -28,34 +23,20 @@ enum PARAMETER_TYPE
 	PT_VECTOR4,
 	PT_VECTOR2_ARRAY,
 	PT_M4X4,
-	PT_TEXTURE
+	PT_TEXTURE,
+	PT_INT
 };
 	
 class GLES2UniformParameter
 {
-	friend class GLES2ShaderContext;
-	friend class GLES2Texture;
-	LocationMapPtr m_locations;
-	str_type::string m_parameterName;
-	str_type::string m_shaderName;
-	static GLenum m_activatedTexture;
-	static GLenum m_boundTexture2D;
-
 protected:
-	static void ClearParams();
-	static tsl::hopscotch_map<GLuint, tsl::hopscotch_map<int, boost::shared_ptr<GLES2UniformParameter> > > m_params;
-	static bool IsEqualToAlreadyDefinedParam(const GLuint& program, const int& location, const GLES2UniformParameter* param, const Platform::FileLogger& logger);
-	static void AddParam(const GLuint& program, const int& location, const boost::shared_ptr<GLES2UniformParameter>& param);
-	static void BindTexture2D(const GLenum& texture);
-	static void ActiveTexture(const GLenum& texture);
+	str_type::string m_parameterName;
+	str_type::string m_programName;
+	int m_location;
+
 public:
-	const str_type::string& GetParameterName() const;
-	GLES2UniformParameter(const str_type::string& shaderName, const str_type::string& parameterName);
-	void SetLocations(const LocationMapPtr& locations);
-	LocationMapPtr GetLocations();
-	inline int GetLocation(const GLuint program, const Platform::FileLogger& logger);
-	virtual bool SetParameter(const GLuint program, const Platform::FileLogger& logger) = 0;
-	virtual bool IsEqual(const GLES2UniformParameter* other) const = 0;
+	GLES2UniformParameter(const str_type::string& programName, const str_type::string& parameterName);
+	virtual void SetParameter(const GLuint program);
 	virtual PARAMETER_TYPE GetType() const = 0;
 };
 
@@ -63,62 +44,64 @@ class GLES2UPVec1 : public GLES2UniformParameter
 {
 	GLfloat v;
 public:
-	GLES2UPVec1(const float v, const str_type::string& shaderName, const str_type::string& parameterName);
-	bool SetParameter(const GLuint program, const Platform::FileLogger& logger);
+	GLES2UPVec1(const float v1, const str_type::string& programName, const str_type::string& parameterName);
+	void SetParameter(const GLuint program);
 	PARAMETER_TYPE GetType() const;
-	bool IsEqual(const GLES2UniformParameter* other) const;
+};
+
+class GLES2UPInt : public GLES2UniformParameter
+{
+	GLint i;
+public:
+	GLES2UPInt(const GLint i1, const str_type::string& programName, const str_type::string& parameterName);
+	void SetParameter(const GLuint program);
+	PARAMETER_TYPE GetType() const;
 };
 
 class GLES2UPVec2 : public GLES2UniformParameter
 {
 	math::Vector2 v;
 public:
-	GLES2UPVec2(const math::Vector2& v, const str_type::string& shaderName, const str_type::string& parameterName);
-	bool SetParameter(const GLuint program, const Platform::FileLogger& logger);
+	GLES2UPVec2(const math::Vector2& v2, const str_type::string& programName, const str_type::string& parameterName);
+	void SetParameter(const GLuint program);
 	PARAMETER_TYPE GetType() const;
-	bool IsEqual(const GLES2UniformParameter* other) const;
 };
 
 class GLES2UPVec3 : public GLES2UniformParameter
 {
 	math::Vector3 v;
 public:
-	GLES2UPVec3(const math::Vector3& v, const str_type::string& shaderName, const str_type::string& parameterName);
-	bool SetParameter(const GLuint program, const Platform::FileLogger& logger);
+	GLES2UPVec3(const math::Vector3& v3, const str_type::string& programName, const str_type::string& parameterName);
+	void SetParameter(const GLuint program);
 	PARAMETER_TYPE GetType() const;
-	bool IsEqual(const GLES2UniformParameter* other) const;
 };
 
 class GLES2UPVec4 : public GLES2UniformParameter
 {
 	math::Vector4 v;
 public:
-	GLES2UPVec4(const math::Vector4& v, const str_type::string& shaderName, const str_type::string& parameterName);
-	bool SetParameter(const GLuint program, const Platform::FileLogger& logger);
+	GLES2UPVec4(const math::Vector4& v4, const str_type::string& programName, const str_type::string& parameterName);
+	void SetParameter(const GLuint program);
 	PARAMETER_TYPE GetType() const;
-	bool IsEqual(const GLES2UniformParameter* other) const;
 };
 
 class GLES2UPMat4x4 : public GLES2UniformParameter
 {
-	math::Matrix4x4 v;
+	math::Matrix4x4 m;
 public:
-	GLES2UPMat4x4(const math::Matrix4x4& v, const str_type::string& shaderName, const str_type::string& parameterName);
-	bool SetParameter(const GLuint program, const Platform::FileLogger& logger);
+	GLES2UPMat4x4(const math::Matrix4x4& m4x4, const str_type::string& programName, const str_type::string& parameterName);
+	void SetParameter(const GLuint program);
 	PARAMETER_TYPE GetType() const;
-	bool IsEqual(const GLES2UniformParameter* other) const;
 };
 
 class GLES2UPTexture : public GLES2UniformParameter
 {
-	GLenum texturePass;
 	GLuint texture;
-	GLint unit;
+	GLint i;
 public:
-	GLES2UPTexture(const GLenum texturePass, GLuint texture, const GLint unit, const str_type::string& shaderName, const str_type::string& parameterName);
-	bool SetParameter(const GLuint program, const Platform::FileLogger& logger);
+	GLES2UPTexture(const GLuint textureId, const GLint index, const str_type::string& programName, const str_type::string& parameterName);
+	void SetParameter(const GLuint program);
 	PARAMETER_TYPE GetType() const;
-	bool IsEqual(const GLES2UniformParameter* other) const;
 };
 
 class GLES2UPVec2Array : public GLES2UniformParameter
@@ -126,10 +109,13 @@ class GLES2UPVec2Array : public GLES2UniformParameter
 	boost::shared_array<const math::Vector2> va;
 	GLsizei count;
 public:
-	GLES2UPVec2Array(const boost::shared_array<const math::Vector2>& v, const unsigned int count, const str_type::string& shaderName, const str_type::string& parameterName);
-	bool SetParameter(const GLuint program, const Platform::FileLogger& logger);
+	GLES2UPVec2Array(
+		const boost::shared_array<const math::Vector2>& v,
+		const unsigned int count,
+		const str_type::string& programName,
+		const str_type::string& parameterName);
+	void SetParameter(const GLuint program);
 	PARAMETER_TYPE GetType() const;
-	bool IsEqual(const GLES2UniformParameter* other) const;
 };
 
 typedef boost::shared_ptr<GLES2UniformParameter> GLES2UniformParameterPtr;

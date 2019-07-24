@@ -2,8 +2,7 @@
 #define float3 vec3
 #define float2 vec2
 
-attribute vec3 vPosition;
-attribute vec3 v1;
+attribute vec4 vPosition;
 attribute vec2 vTexCoord;
 
 varying vec4 v_color;

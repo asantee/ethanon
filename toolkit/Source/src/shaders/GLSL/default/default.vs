@@ -1,5 +1,4 @@
-attribute vec3 vPosition;
-attribute vec3 v1;
+attribute vec4 vPosition;
 attribute vec2 vTexCoord;
 
 varying vec4 v_color;
@@ -52,7 +51,7 @@ vec2 transformCoord(vec2 texCoord)
 	return newCoord + (rectPos/bitmapSize);
 }
 
-vec4 getVertexColor(vec3 position)
+vec4 getVertexColor(vec4 position)
 {
 	vec4 vertex0 = color0 * (1.0-position.x) * (1.0-position.y);
 	vec4 vertex1 = color1 * (position.x) * (1.0-position.y);
