@@ -11,11 +11,8 @@ class ETHEntityRenderingManager
 {
 	std::multimap<float, ETHEntityPieceRendererPtr> m_piecesToRender;
 	ETHResourceProviderPtr m_provider;
-	std::list<ETHLight> m_lights;
 
 public:
-
-	static ETHLight BuildChildLight(const ETHLight &light, const Vector3& parentPos, const Vector2& scale);
 
 	ETHEntityRenderingManager(ETHResourceProviderPtr provider);
 
@@ -26,10 +23,6 @@ public:
 	void ReleaseMappedPieces();
 
 	float ComputeDrawHash(VideoPtr video, const float entityDepth, const ETHSpriteEntity* entity) const;
-
-	std::size_t GetNumLights() const;
-
-	void AddLight(const ETHLight &light, const ETHSceneProperties& props);
 
 	void AddDecomposedPieces(
 		ETHRenderEntity* entity,

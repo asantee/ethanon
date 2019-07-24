@@ -12,7 +12,6 @@ bool ETHSceneProperties::ReadFromXMLFile(TiXmlElement *pRoot)
 	if (pNode)
 	{
 		TiXmlElement *pElement = pNode->ToElement();
-		pElement->QueryFloatAttribute(GS_L("lightIntensity"), &lightIntensity);
 		pElement->QueryFloatAttribute(GS_L("parallaxIntensity"), &parallaxIntensity);
 
 		TiXmlElement *pIter;
@@ -58,7 +57,7 @@ bool ETHSceneProperties::WriteToXMLFile(TiXmlElement *pRoot) const
 	pElement->SetDoubleAttribute(GS_L("x"), zAxisDirection.x);
 	pElement->SetDoubleAttribute(GS_L("y"), zAxisDirection.y);
 	
-	pScenePropRoot->SetDoubleAttribute(GS_L("lightIntensity"), lightIntensity);
+	pScenePropRoot->SetDoubleAttribute(GS_L("lightIntensity"), 1.0);
 	pScenePropRoot->SetDoubleAttribute(GS_L("parallaxIntensity"), parallaxIntensity);
 	return true;
 }
@@ -66,7 +65,6 @@ bool ETHSceneProperties::WriteToXMLFile(TiXmlElement *pRoot) const
 void ETHSceneProperties::Reset()
 {
 	ambient = math::constant::ONE_VECTOR3; // Vector3(_ETH_DEFAULT_AMBIENT_LIGHT,_ETH_DEFAULT_AMBIENT_LIGHT,_ETH_DEFAULT_AMBIENT_LIGHT);
-	lightIntensity = _ETH_DEFAULT_LIGHT_INTENSITY;
 	zAxisDirection = Vector2(0,-1);
 	parallaxIntensity = 0;
 }

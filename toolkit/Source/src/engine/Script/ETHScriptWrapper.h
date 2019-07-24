@@ -237,7 +237,6 @@ public:
 	static void DrawText(const Vector2 &v2Pos, const str_type::string &text, const str_type::string &font, const uint32_t color, const float scale);
 	static str_type::string AssembleColorCode(const uint32_t color);
 	static void DrawFadingText(const Vector2 &v2Pos, const str_type::string &text, const str_type::string &font, const uint32_t color, unsigned long time, const float scale);
-	static void AddLight(const Vector3 &v3Pos, const Vector3 &v3Color, const float range, const bool castShadows);
 	static int AddEntity(const str_type::string &file, const Vector3 &v3Pos, const float angle, ETHEntity **ppOutEntity, const str_type::string &alternativeName, const float scale);
 	static int AddEntity(const str_type::string &file, const Vector3 &v3Pos, const float angle);
 	static int AddScaledEntity(const str_type::string &file, const Vector3 &v3Pos, const float scale);
@@ -245,7 +244,6 @@ public:
 	static int AddEntity(const str_type::string &file, const Vector3 &v3Pos, ETHEntity **ppOutEntity);
 	static int AddEntity(const str_type::string &file, const Vector3 &v3Pos, const str_type::string &alternativeName);
 	static ETHEntity *DeleteEntity(ETHEntity *pEntity);
-	static bool GenerateLightmaps();
 	static void ReadLightmapsFromBitmapFiles(const str_type::string& directory);
 	static void LoadLightmaps(const str_type::string& directory);
 	static ETHEntity *SeekEntity(const int id);

@@ -192,9 +192,9 @@ ETHEntity *ETHScriptWrapper::DeleteEntity(ETHEntity *pEntity)
 void ETHScriptWrapper::LoadLightmaps(const str_type::string& directory)
 {
 	if (m_usePreLoadedLightmapsFromFile)
+	{
 		ReadLightmapsFromBitmapFiles(directory);
-	else
-		GenerateLightmaps();
+	}
 }
 
 void ETHScriptWrapper::ReadLightmapsFromBitmapFiles(const str_type::string& directory)
@@ -211,19 +211,11 @@ void ETHScriptWrapper::ReadLightmapsFromBitmapFiles(const str_type::string& dire
 		{
 			fileIOHub->SetFileManager(m_expansionFileManager, resourceDirectory);
 		}
-		
+
 		m_pScene->LoadLightmapsFromBitmapFiles(resourceDirectory + lightmapDirectory);
 		
 		fileIOHub->SetFileManager(currentFileManager, currentResourceDirectory);
 	}
-}
-
-bool ETHScriptWrapper::GenerateLightmaps()
-{
-	if (!m_useLightmaps || !m_provider->IsRichLightingEnabled())
-		return false;
-	else
-		return m_pScene->GenerateLightmaps();
 }
 
 void ETHScriptWrapper::SetAmbientLight(const Vector3 &v3Color)

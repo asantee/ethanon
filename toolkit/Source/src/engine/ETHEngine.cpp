@@ -585,9 +585,5 @@ void ETHEngine::ExceptionCallback(asIScriptContext *ctx, void *param)
 
 void ETHEngine::Restore()
 {
-	if (m_provider->IsRichLightingEnabled() && m_useLightmaps && m_pScene)
-	{
-		m_pScene->GenerateLightmaps();
-	}
 	m_hasBeenResumed = true;
 }

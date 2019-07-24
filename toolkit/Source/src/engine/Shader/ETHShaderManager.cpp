@@ -1,12 +1,9 @@
 #include "ETHShaderManager.h"
 #include "../Scene/ETHScene.h"
-#include "ETHPixelLightDiffuseSpecular.h"
 #include "ETHShaders.h"
 
 ETHShaderManager::ETHShaderManager(VideoPtr video, const str_type::string& shaderPath, const bool richLighting) :
-	m_lastAM(Video::AM_PIXEL),
-	m_fakeEyeManager(new ETHFakeEyePositionManager),
-	m_richLighting(richLighting)
+	m_lastAM(Video::AM_PIXEL)
 {
 	m_video = video;
 
@@ -20,30 +17,6 @@ ETHShaderManager::ETHShaderManager(VideoPtr video, const str_type::string& shade
 
 	m_opaqueSprite = m_video->CreateSprite(ETHGlobal::GetDataResourceFullPath(shaderPath, GS_L("default_nm.png")));
 
-	if (m_richLighting)
-	{
-		ETHLightingProfilePtr profile(new ETHPixelLightDiffuseSpecular(m_video, shaderPath, m_fakeEyeManager));
-		m_lightingProfiles[PIXEL_LIGHTING_DIFFUSE_SPECULAR] = profile;
-	}
-
-	if (m_lightingProfiles.empty())
-	{
-		video->Message(GS_L("ETHShaderManager::ETHShaderManager: no lighting profile"), GSMT_INFO);
-	}
-	else
-	{
-		m_currentProfile = FindHighestLightingProfile();
-	}
-}
-
-ETHLightingProfilePtr ETHShaderManager::FindHighestLightingProfile()
-{
-	if (m_lightingProfiles.empty())
-	{
-		m_video->Message(GS_L("ETHShaderManager::FindHighestLightingProfile: no lighting profile"), GSMT_INFO);
-		return ETHLightingProfilePtr();
-	}
-	return m_lightingProfiles.rbegin()->second;
 }
 
 bool ETHShaderManager::BeginAmbientPass(const ETHSpriteEntity *pRender, const float maxHeight, const float minHeight)
@@ -82,40 +55,9 @@ bool ETHShaderManager::EndAmbientPass()
 	return true;
 }
 
-bool ETHShaderManager::BeginLightPass(ETHSpriteEntity *pRender, const ETHLight* light,
-									  const float maxHeight, const float minHeight, const float lightIntensity,
-									  const ETHSpriteEntity *pParent, const bool drawToTarget)
-{
-	if (!light || !pRender->IsApplyLight())
-		return false;
-
-	Vector3 v3LightPos;
-	if (pParent)
-		v3LightPos = pParent->GetPosition() + light->pos;
-	else
-		v3LightPos = light->pos;
-
-	const Vector2 &v2Size = pRender->GetSize();
-	const float size = Max(v2Size.x, v2Size.y);
-	const float distance = Vector3::SquaredDistance(pRender->GetPosition(), v3LightPos);
-	const float radius = (light->range + size);
-	if (distance > radius * radius)
-		return false;
-
-	m_currentProfile->BeginLightPass(pRender, v3LightPos, v2Size, light, maxHeight, minHeight, lightIntensity, drawToTarget);
-	m_parallaxManager.SetShaderParameters(m_video, m_video->GetCurrentShader(), pRender->GetPosition(), pRender->GetParallaxIntensity(), drawToTarget);
-	return true;
-}
-
 SpritePtr ETHShaderManager::GetOpaqueSprite()
 {
 	return m_opaqueSprite;
-}
-
-bool ETHShaderManager::EndLightPass()
-{
-	m_video->SetAlphaMode(m_lastAM);
-	return true;
 }
 
 bool ETHShaderManager::BeginHaloPass(const ETHLight* light)

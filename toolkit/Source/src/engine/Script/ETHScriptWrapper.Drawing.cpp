@@ -192,20 +192,6 @@ void ETHScriptWrapper::DrawFadingText(const Vector2 &v2Pos, const str_type::stri
 		new ETHTextDrawer(m_provider, v2Pos, text, font, color, time, scale)));
 }
 
-void ETHScriptWrapper::AddLight(const Vector3 &v3Pos, const Vector3 &v3Color, const float range, const bool castShadows)
-{
-	if (WarnIfRunsInMainFunction(GS_L("AddLight")))
-		return;
-
-	ETHLight light(true);
-	light.castShadows = castShadows;
-	light.color = v3Color;
-	light.pos = v3Pos;
-	light.range = range;
-	light.staticLight = false;
-	m_pScene->AddLight(light);
-}
-
 void ETHScriptWrapper::DrawRectangle(
 	const Vector2 &v2Pos,
 	const Vector2 &v2Size,

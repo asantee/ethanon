@@ -2,10 +2,10 @@
 #define ETH_SHADER_MANAGER_H_
 
 #include "../ETHTypes.h"
+
 #include "../Entity/ETHSpriteEntity.h"
+
 #include "ETHParallaxManager.h"
-#include "ETHLightingProfile.h"
-#include "ETHFakeEyePositionManager.h"
 
 class ETHShaderManager
 {
@@ -20,17 +20,6 @@ public:
 	bool BeginAmbientPass(const ETHSpriteEntity* pRender, const float maxHeight, const float minHeight);
 	bool EndAmbientPass();
 
-	bool BeginLightPass(
-		ETHSpriteEntity* pRender,
-		const ETHLight* light,
-		const float maxHeight,
-		const float minHeight,
-		const float lightIntensity,
-		const ETHSpriteEntity* pParent = 0,
-		const bool drawToTarget = false);
-
-	bool EndLightPass();
-
 	bool BeginHaloPass(const ETHLight* light);
 	bool EndHaloPass();
 
@@ -44,19 +33,13 @@ public:
 	inline Vector2 ComputeParallaxOffset(const VideoPtr& video, const Vector3& pos, const float& individualParallaxIntensity) const { return m_parallaxManager.ComputeOffset(video, pos, individualParallaxIntensity); }
 	inline void SetParallaxVerticalIntensity(const float intensity) { m_parallaxManager.SetVerticalIntensity(intensity); }
 	inline float GetParallaxVerticalIntensity() const { return m_parallaxManager.GetVerticalIntensity(); }
-	inline bool IsRichLightingEnabled() const { return m_richLighting; }
 
 	SpritePtr GetOpaqueSprite();
 
 private:
 
-	ETHLightingProfilePtr FindHighestLightingProfile();
-
 	ETHParallaxManager m_parallaxManager;
-	ETHFakeEyePositionManagerPtr m_fakeEyeManager;
 
-	std::map<PROFILE, ETHLightingProfilePtr> m_lightingProfiles;
-	ETHLightingProfilePtr m_currentProfile;
 	VideoPtr m_video;
 	Video::ALPHA_MODE m_lastAM;
 
@@ -69,8 +52,6 @@ private:
 	ShaderPtr m_particleHighlightShader;
 	ShaderPtr m_ambientShader;
 	ShaderPtr m_ambientAddShader;
-
-	bool m_richLighting;
 };
 
 typedef boost::shared_ptr<ETHShaderManager> ETHShaderManagerPtr;

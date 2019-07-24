@@ -49,9 +49,7 @@ public:
 	static int UpdateIDCounter(ETHEntity* pEntity);
 
 	str_type::string ConvertFileNameToLightmapDirectory(str_type::string filePath);
-	bool GenerateLightmaps(const int id = -1);
 	void LoadLightmapsFromBitmapFiles(const str_type::string& currentSceneFilePath);
-	void SaveLightmapsToFile(const str_type::string& directory);
 	bool AreLightmapsEnabled() const;
 
 	void Update(
@@ -64,8 +62,6 @@ public:
 	const ETHSceneProperties* GetSceneProperties() const;
 	ETHSceneProperties* GetEditableSceneProperties();
 
-	void AddLight(const ETHLight& light);
-
 	bool AddFloatData(const str_type::string &entity, const str_type::string &name, const float value);
 	bool AddIntData(const str_type::string &entity, const str_type::string &name, const int value);
 	bool AddUIntData(const str_type::string &entity, const str_type::string &name, const unsigned int value);
@@ -73,12 +69,6 @@ public:
 	bool AddVector2Data(const str_type::string &entity, const str_type::string &name, const Vector2 &value);
 	bool AddVector3Data(const str_type::string &entity, const str_type::string &name, const Vector3 &value);
 	bool AddCustomData(const str_type::string &entity, const str_type::string &name, const ETHCustomDataConstPtr &inData);
-
-	int GetNumLights();
-	int CountLights();
-
-	void SetLightIntensity(const float intensity);
-	float GetLightIntensity() const;
 
 	void SetBucketClearenceFactor(const float factor);
 	float GetBucketClearenceFactor() const;
@@ -107,7 +97,6 @@ public:
 	unsigned int GetNumEntities() const;
 
 	void RecoverResources(const Platform::FileManagerPtr& expansionFileManager);
-	void ClearLightmaps();
 
 	void SetZBuffer(const bool enable);
 	bool GetZBuffer() const;
@@ -187,7 +176,6 @@ private:
 	asIScriptContext *m_pContext;
 	float m_maxSceneHeight, m_minSceneHeight;
 	static int m_idCounter;
-	unsigned int m_nCurrentLights;
 	unsigned int m_nProcessedEntities;
 	unsigned int m_nRenderedPieces;
 	bool m_enableZBuffer;

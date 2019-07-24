@@ -1,8 +1,7 @@
 #ifndef ETH_SHADERS_H_
 #define ETH_SHADERS_H_
 
-#include <Types.h>
-#include "../../shaders/shaders.h"
+#include <string>
 
 class ETHShaders
 {
@@ -17,12 +16,6 @@ public:
 
 	// particles
 	static const std::string& Particle_VS();
-
-	// pixel light
-	static const std::string& PL_PS_Hor_Diff();
-	static const std::string& PL_PS_Hor_Spec();
-
-	static const std::string& PL_VS_Hor_Light();
 };
 
 #endif

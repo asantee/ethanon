@@ -9,9 +9,6 @@ void main()
 		"Cg/defaultVS.cg",
 		"Cg/defaultPS.cg",
 		"Cg/hAmbientVS.cg",
-		"Cg/hPixelLightDiff.cg",
-		"Cg/hPixelLightSpec.cg",
-		"Cg/hPixelLightVS.cg",
 		"Cg/particleVS.cg",
 		"Cg/highlightPS.cg",
 		"Cg/solidPS.cg",
@@ -20,8 +17,6 @@ void main()
 		"GLSL/solid.ps",
 		"GLSL/default.vs",
 		"GLSL/hAmbient.vs",
-		"GLSL/hPixelLight.vs",
-		"GLSL/hPixelLightDiff.ps",
 		"GLSL/optimal.vs",
 		"GLSL/particle.vs"
 	};

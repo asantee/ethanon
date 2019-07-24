@@ -17,7 +17,6 @@ void ETHEntityRenderingManager::RenderPieces(const ETHSceneProperties& props, co
 		iter->second->Render(props, maxHeight, minHeight);
 	}
 	ReleaseMappedPieces();
-	m_lights.clear();
 }
 
 void ETHEntityRenderingManager::AddDecomposedPieces(
@@ -40,10 +39,7 @@ void ETHEntityRenderingManager::AddDecomposedPieces(
 			new ETHEntitySpriteRenderer(
 				entity,
 				shaderManager,
-				video,
-				m_provider->AreLightmapsEnabled(),
-				m_provider->AreRealTimeShadowsEnabled(),
-				&m_lights));
+				video));
 
 		// add this entity to the multimap to sort it for an alpha-friendly rendering list
 		const float depth = entity->ComputeDepth(maxHeight, minHeight);
@@ -93,14 +89,6 @@ void ETHEntityRenderingManager::AddDecomposedPieces(
 		
 		piecesAddedThisTime++;
 	}
-
-	// fill the light list for this frame
-	if (entity->HasLightSource() && m_provider->IsRichLightingEnabled())
-	{
-		ETHLight light = *(entity->GetLight());
-		light.color *= entity->ComputeLightIntensity();
-		AddLight(BuildChildLight(light, entity->GetPosition(), entity->GetScale()), props);
-	}
 }
 
 float ETHEntityRenderingManager::ComputeDrawHash(VideoPtr video, const float entityDepth, const ETHSpriteEntity* entity) const
@@ -131,32 +119,3 @@ void ETHEntityRenderingManager::ReleaseMappedPieces()
 	m_piecesToRender.clear();
 }
 
-std::size_t ETHEntityRenderingManager::GetNumLights() const
-{
-	return m_lights.size();
-}
-
-void ETHEntityRenderingManager::AddLight(const ETHLight &light, const ETHSceneProperties& props)
-{
-	if (light.color == Vector3(0,0,0))
-		return;
-
-	// if the light isn't in screen, don't add it
-	if (!light.staticLight)
-		if (!ETHGlobal::IsSphereInScreen(light.pos, light.range, props.zAxisDirection, m_provider->GetVideo()))
-			return;
-
-	m_lights.push_back(light);
-}
-
-ETHLight ETHEntityRenderingManager::BuildChildLight(
-	const ETHLight &light,
-	const Vector3& parentPos,
-	const Vector2& scale)
-{
-	ETHLight childLight = light;
-	childLight.pos *= scale.y;
-	childLight.range *= scale.y;
-	childLight.pos += parentPos;
-	return childLight;
-}

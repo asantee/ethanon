@@ -38,7 +38,6 @@ public:
 	bool DrawAmbientPass(
 		const float maxHeight,
 		const float minHeight,
-		const bool enableLightmaps,
 		const ETHSceneProperties& sceneProps,
 		const float parallaxIntensity);
 

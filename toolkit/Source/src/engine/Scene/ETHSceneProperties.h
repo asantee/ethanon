@@ -13,7 +13,6 @@ struct ETHSceneProperties
 	void Reset();
 
 	Vector3 ambient;
-	float lightIntensity;
 	Vector2 zAxisDirection;
 	float parallaxIntensity;
 };

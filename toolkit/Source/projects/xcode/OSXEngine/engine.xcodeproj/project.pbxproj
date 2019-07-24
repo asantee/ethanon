@@ -104,17 +104,10 @@
 		7421F1251647266600C55BAE /* ETHDefaultDynamicBackBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F10E1647266600C55BAE /* ETHDefaultDynamicBackBuffer.cpp */; };
 		7421F1261647266600C55BAE /* ETHDefaultDynamicBackBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F10F1647266600C55BAE /* ETHDefaultDynamicBackBuffer.h */; };
 		7421F1271647266600C55BAE /* ETHDynamicBackBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F1101647266600C55BAE /* ETHDynamicBackBuffer.h */; };
-		7421F1281647266600C55BAE /* ETHFakeEyePositionManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F1111647266600C55BAE /* ETHFakeEyePositionManager.cpp */; };
-		7421F1291647266600C55BAE /* ETHFakeEyePositionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F1121647266600C55BAE /* ETHFakeEyePositionManager.h */; };
-		7421F12A1647266600C55BAE /* ETHLightingProfile.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F1131647266600C55BAE /* ETHLightingProfile.h */; };
-		7421F12B1647266600C55BAE /* ETHLightmapGen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F1141647266600C55BAE /* ETHLightmapGen.cpp */; };
-		7421F12C1647266600C55BAE /* ETHLightmapGen.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F1151647266600C55BAE /* ETHLightmapGen.h */; };
 		7421F12D1647266600C55BAE /* ETHNoDynamicBackBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F1161647266600C55BAE /* ETHNoDynamicBackBuffer.cpp */; };
 		7421F12E1647266600C55BAE /* ETHNoDynamicBackBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F1171647266600C55BAE /* ETHNoDynamicBackBuffer.h */; };
 		7421F12F1647266600C55BAE /* ETHParallaxManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F1181647266600C55BAE /* ETHParallaxManager.cpp */; };
 		7421F1301647266600C55BAE /* ETHParallaxManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F1191647266600C55BAE /* ETHParallaxManager.h */; };
-		7421F1311647266600C55BAE /* ETHPixelLightDiffuseSpecular.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F11A1647266600C55BAE /* ETHPixelLightDiffuseSpecular.cpp */; };
-		7421F1321647266600C55BAE /* ETHPixelLightDiffuseSpecular.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F11B1647266600C55BAE /* ETHPixelLightDiffuseSpecular.h */; };
 		7421F1331647266600C55BAE /* ETHShaderManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F11C1647266600C55BAE /* ETHShaderManager.cpp */; };
 		7421F1341647266600C55BAE /* ETHShaderManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F11D1647266600C55BAE /* ETHShaderManager.h */; };
 		7421F1351647266600C55BAE /* ETHShaders.cg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F11E1647266600C55BAE /* ETHShaders.cg.cpp */; };
@@ -365,17 +358,10 @@
 		7421F10E1647266600C55BAE /* ETHDefaultDynamicBackBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHDefaultDynamicBackBuffer.cpp; path = ../../../../src/engine/Shader/ETHDefaultDynamicBackBuffer.cpp; sourceTree = "<group>"; };
 		7421F10F1647266600C55BAE /* ETHDefaultDynamicBackBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHDefaultDynamicBackBuffer.h; path = ../../../../src/engine/Shader/ETHDefaultDynamicBackBuffer.h; sourceTree = "<group>"; };
 		7421F1101647266600C55BAE /* ETHDynamicBackBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHDynamicBackBuffer.h; path = ../../../../src/engine/Shader/ETHDynamicBackBuffer.h; sourceTree = "<group>"; };
-		7421F1111647266600C55BAE /* ETHFakeEyePositionManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHFakeEyePositionManager.cpp; path = ../../../../src/engine/Shader/ETHFakeEyePositionManager.cpp; sourceTree = "<group>"; };
-		7421F1121647266600C55BAE /* ETHFakeEyePositionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHFakeEyePositionManager.h; path = ../../../../src/engine/Shader/ETHFakeEyePositionManager.h; sourceTree = "<group>"; };
-		7421F1131647266600C55BAE /* ETHLightingProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHLightingProfile.h; path = ../../../../src/engine/Shader/ETHLightingProfile.h; sourceTree = "<group>"; };
-		7421F1141647266600C55BAE /* ETHLightmapGen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHLightmapGen.cpp; path = ../../../../src/engine/Shader/ETHLightmapGen.cpp; sourceTree = "<group>"; };
-		7421F1151647266600C55BAE /* ETHLightmapGen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHLightmapGen.h; path = ../../../../src/engine/Shader/ETHLightmapGen.h; sourceTree = "<group>"; };
 		7421F1161647266600C55BAE /* ETHNoDynamicBackBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHNoDynamicBackBuffer.cpp; path = ../../../../src/engine/Shader/ETHNoDynamicBackBuffer.cpp; sourceTree = "<group>"; };
 		7421F1171647266600C55BAE /* ETHNoDynamicBackBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHNoDynamicBackBuffer.h; path = ../../../../src/engine/Shader/ETHNoDynamicBackBuffer.h; sourceTree = "<group>"; };
 		7421F1181647266600C55BAE /* ETHParallaxManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHParallaxManager.cpp; path = ../../../../src/engine/Shader/ETHParallaxManager.cpp; sourceTree = "<group>"; };
 		7421F1191647266600C55BAE /* ETHParallaxManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHParallaxManager.h; path = ../../../../src/engine/Shader/ETHParallaxManager.h; sourceTree = "<group>"; };
-		7421F11A1647266600C55BAE /* ETHPixelLightDiffuseSpecular.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHPixelLightDiffuseSpecular.cpp; path = ../../../../src/engine/Shader/ETHPixelLightDiffuseSpecular.cpp; sourceTree = "<group>"; };
-		7421F11B1647266600C55BAE /* ETHPixelLightDiffuseSpecular.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHPixelLightDiffuseSpecular.h; path = ../../../../src/engine/Shader/ETHPixelLightDiffuseSpecular.h; sourceTree = "<group>"; };
 		7421F11C1647266600C55BAE /* ETHShaderManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHShaderManager.cpp; path = ../../../../src/engine/Shader/ETHShaderManager.cpp; sourceTree = "<group>"; };
 		7421F11D1647266600C55BAE /* ETHShaderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHShaderManager.h; path = ../../../../src/engine/Shader/ETHShaderManager.h; sourceTree = "<group>"; };
 		7421F11E1647266600C55BAE /* ETHShaders.cg.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHShaders.cg.cpp; path = ../../../../src/engine/Shader/ETHShaders.cg.cpp; sourceTree = "<group>"; };
@@ -535,17 +521,10 @@
 				7421F10E1647266600C55BAE /* ETHDefaultDynamicBackBuffer.cpp */,
 				7421F10F1647266600C55BAE /* ETHDefaultDynamicBackBuffer.h */,
 				7421F1101647266600C55BAE /* ETHDynamicBackBuffer.h */,
-				7421F1111647266600C55BAE /* ETHFakeEyePositionManager.cpp */,
-				7421F1121647266600C55BAE /* ETHFakeEyePositionManager.h */,
-				7421F1131647266600C55BAE /* ETHLightingProfile.h */,
-				7421F1141647266600C55BAE /* ETHLightmapGen.cpp */,
-				7421F1151647266600C55BAE /* ETHLightmapGen.h */,
 				7421F1161647266600C55BAE /* ETHNoDynamicBackBuffer.cpp */,
 				7421F1171647266600C55BAE /* ETHNoDynamicBackBuffer.h */,
 				7421F1181647266600C55BAE /* ETHParallaxManager.cpp */,
 				7421F1191647266600C55BAE /* ETHParallaxManager.h */,
-				7421F11A1647266600C55BAE /* ETHPixelLightDiffuseSpecular.cpp */,
-				7421F11B1647266600C55BAE /* ETHPixelLightDiffuseSpecular.h */,
 				7421F11C1647266600C55BAE /* ETHShaderManager.cpp */,
 				7421F11D1647266600C55BAE /* ETHShaderManager.h */,
 				7421F1201647266600C55BAE /* ETHShaders.h */,
@@ -940,13 +919,9 @@
 				7421F1241647266600C55BAE /* ETHBackBufferTargetManager.h in Headers */,
 				7421F1261647266600C55BAE /* ETHDefaultDynamicBackBuffer.h in Headers */,
 				7421F1271647266600C55BAE /* ETHDynamicBackBuffer.h in Headers */,
-				7421F1291647266600C55BAE /* ETHFakeEyePositionManager.h in Headers */,
-				7421F12A1647266600C55BAE /* ETHLightingProfile.h in Headers */,
 				74A21A86182BFA9D0000F783 /* hl_md5wrapper.h in Headers */,
-				7421F12C1647266600C55BAE /* ETHLightmapGen.h in Headers */,
 				7421F12E1647266600C55BAE /* ETHNoDynamicBackBuffer.h in Headers */,
 				7421F1301647266600C55BAE /* ETHParallaxManager.h in Headers */,
-				7421F1321647266600C55BAE /* ETHPixelLightDiffuseSpecular.h in Headers */,
 				7421F1341647266600C55BAE /* ETHShaderManager.h in Headers */,
 				7421F1371647266600C55BAE /* ETHShaders.h in Headers */,
 				74A21A88182BFA9D0000F783 /* hl_sha1.h in Headers */,
@@ -1152,12 +1127,9 @@
 				74A21A92182BFA9D0000F783 /* hl_sha384wrapper.cpp in Sources */,
 				7421F1231647266600C55BAE /* ETHBackBufferTargetManager.cpp in Sources */,
 				7421F1251647266600C55BAE /* ETHDefaultDynamicBackBuffer.cpp in Sources */,
-				7421F1281647266600C55BAE /* ETHFakeEyePositionManager.cpp in Sources */,
-				7421F12B1647266600C55BAE /* ETHLightmapGen.cpp in Sources */,
 				74A21A85182BFA9D0000F783 /* hl_md5wrapper.cpp in Sources */,
 				7421F12D1647266600C55BAE /* ETHNoDynamicBackBuffer.cpp in Sources */,
 				7421F12F1647266600C55BAE /* ETHParallaxManager.cpp in Sources */,
-				7421F1311647266600C55BAE /* ETHPixelLightDiffuseSpecular.cpp in Sources */,
 				7421F1331647266600C55BAE /* ETHShaderManager.cpp in Sources */,
 				7421F1351647266600C55BAE /* ETHShaders.cg.cpp in Sources */,
 				7421F1481647267300C55BAE /* ETHASUtil.cpp in Sources */,

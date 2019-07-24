@@ -62,10 +62,6 @@ asDECLARE_FUNCTION_WRAPPERPR(__AddEntityS, ETHScriptWrapper::AddScaledEntity, (c
 asDECLARE_FUNCTION_WRAPPERPR(__AddEntitySR,ETHScriptWrapper::AddScaledEntity, (const str_type::string&, const Vector3&, const float, ETHEntity**), int);
 asDECLARE_FUNCTION_WRAPPERPR(__AddEntityF, ETHScriptWrapper::AddEntity,       (const str_type::string&, const Vector3&, const float, ETHEntity**, const str_type::string&, const float), int);
 
-//asDECLARE_FUNCTION_WRAPPER(__DeleteEntity,      ETHScriptWrapper::DeleteEntity);
-asDECLARE_FUNCTION_WRAPPER(__GenerateLightmaps, ETHScriptWrapper::GenerateLightmaps);
-asDECLARE_FUNCTION_WRAPPER(__AddLight,   ETHScriptWrapper::AddLight);
-
 asDECLARE_FUNCTION_WRAPPERPR(__RandomizerInt,        Randomizer::Int,   (const int), int);
 asDECLARE_FUNCTION_WRAPPERPR(__RandomizerInt2Args,   Randomizer::Int,   (const int, const int), int);
 asDECLARE_FUNCTION_WRAPPERPR(__RandomizerFloat,      Randomizer::Float, (const float), float);
@@ -334,8 +330,6 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("int AddEntity(const string &in, const vector3 &in, const float, ETHEntity@ &out, const string &in, const float)", asFUNCTION(__AddEntityF), asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("ETHEntity@ DeleteEntity(ETHEntity@)",										  asFUNCTION(__DeleteEntity),      asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("bool GenerateLightmaps()",													  asFUNCTION(__GenerateLightmaps), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("void AddLight(const vector3 &in, const vector3 &in, const float, const bool)", asFUNCTION(__AddLight),          asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("int rand(const int)",                   asFUNCTION(__RandomizerInt),        asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("int rand(const int, const int)",        asFUNCTION(__RandomizerInt2Args),   asCALL_GENERIC); assert(r >= 0);

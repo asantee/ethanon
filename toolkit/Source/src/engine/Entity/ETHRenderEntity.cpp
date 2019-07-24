@@ -45,7 +45,6 @@ bool ETHRenderEntity::ShouldUseFourTriangles(const float parallaxIntensity) cons
 bool ETHRenderEntity::DrawAmbientPass(
 	const float maxHeight,
 	const float minHeight,
-	const bool enableLightmaps,
 	const ETHSceneProperties& sceneProps,
 	const float parallaxIntensity)
 {
@@ -57,14 +56,9 @@ bool ETHRenderEntity::DrawAmbientPass(
 	const VideoPtr& video = m_provider->GetVideo();
 
 	// apply lightmap textures
-	const bool applyLightmap = (m_pLightmap && enableLightmaps && IsStatic());
-	if (applyLightmap)
+	if (m_pLightmap)
 	{
 		m_pLightmap->SetAsTexture(1);
-	}
-	else
-	{
-		video->UnsetTexture(1);
 	}
 
 	// sets the alpha mode according to the entity's property
@@ -103,10 +97,6 @@ bool ETHRenderEntity::DrawAmbientPass(
 	m_pSprite->FlipX(false);
 	m_pSprite->FlipY(false);
 
-	if (applyLightmap)
-	{
-		video->UnsetTexture(1);
-	}
 	return true;
 }
 

@@ -10,7 +10,6 @@
 #endif
 
 #include "../../PolygonRenderer.h"
-#include "../../Platform/FileLogger.h"
 
 namespace gs2d {
 

@@ -1,5 +1,7 @@
 #include "ETHShaders.h"
 
+#include "../../shaders/shaders.h"
+
 const std::string& ETHShaders::DefaultVS()
 {
 	return ETHGlobal::Cg_defaultVS_cg;
@@ -34,18 +36,3 @@ const std::string& ETHShaders::Particle_VS()
 	return ETHGlobal::Cg_particleVS_cg;
 }
 
-// pixel light
-const std::string& ETHShaders::PL_PS_Hor_Diff()
-{
-	return ETHGlobal::Cg_hPixelLightDiff_cg;
-}
-
-const std::string& ETHShaders::PL_PS_Hor_Spec()
-{
-	return ETHGlobal::Cg_hPixelLightSpec_cg;
-}
-
-const std::string& ETHShaders::PL_VS_Hor_Light()
-{
-	return ETHGlobal::Cg_hPixelLightVS_cg;
-}
