@@ -1,6 +1,6 @@
 #include "GLES2Texture.h"
 #include "GLES2Video.h"
-#include "GLES2UniformParameter.h"
+
 #include <SOIL.h>
 #include <sstream>
 

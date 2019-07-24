@@ -97,23 +97,7 @@ bool GLES2Sprite::Draw(
 	}
 	v2Size = v2Size * v2Scale;
 
-	ShaderPtr
-		optimal = static_cast<GLES2Video*>(m_video)->GetOptimalShader(),
-		current = m_video->GetCurrentShader(),
-		defaultS = m_video->GetDefaultShader();
-	if (current == optimal || current == defaultS)
-	{
-		if (current != optimal)
-		{
-			m_video->SetCurrentShader(optimal);
-		}
-		DrawOptimal(v2Pos, color, angle, v2Size);
-		return true;
-	}
-	else
-	{
-		return DrawShaped(v2Pos, v2Size, color, color, color, color, angle);
-	}
+	return DrawShaped(v2Pos, v2Size, color, color, color, color, angle);
 }
 
 bool GLES2Sprite::DrawShaped(
@@ -206,6 +190,8 @@ bool GLES2Sprite::DrawOptimal(const math::Vector2 &v2Pos, const Vector4& color, 
 	ShaderPtr currentShaderSmartPtr = m_video->GetCurrentShader();
 	Shader* currentShader = currentShaderSmartPtr.get();
 
+	currentShaderSmartPtr->SetShader();
+
 	Vector2 size((v2Size != Vector2(-1, -1)) ? v2Size : m_bitmapSize);
 	Vector2 pos(v2Pos), camPos(m_video->GetCameraPos()), center(m_normalizedOrigin*size);
 
@@ -255,7 +241,7 @@ bool GLES2Sprite::DrawOptimal(const math::Vector2 &v2Pos, const Vector4& color, 
 		params[t + first] = m_attachedParameters[t];
 	}
 
-	//currentShader->SetMatrixConstant("rotationMatrix", mRot);
+	currentShader->SetMatrixConstant("rotationMatrix", mRot);
 
 	currentShader->SetConstantArray(
 		"params",

@@ -14,6 +14,16 @@
 
 #include "../../Platform/FileIOHub.h"
 
+#ifdef APPLE_IOS
+  #include <OpenGLES/ES2/gl.h>
+  #include <OpenGLES/ES2/glext.h>
+#endif
+
+#ifdef ANDROID
+  #include <GLES2/gl2.h>
+  #include <GLES2/gl2ext.h>
+#endif
+
 namespace gs2d {
 
 class GLES2Shader;

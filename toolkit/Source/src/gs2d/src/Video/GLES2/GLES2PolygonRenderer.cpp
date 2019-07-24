@@ -45,17 +45,6 @@ GLES2PolygonRenderer::GLES2PolygonRenderer(
 	for (unsigned int t = 0; t < indices.size(); ++t) { shortIndices.push_back(static_cast<GLushort>(indices[t])); }
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort) * shortIndices.size(), &shortIndices[0], GL_STATIC_DRAW);
 
-	/*const unsigned int size = sizeof(PolygonRenderer::Vertex);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, size, (void*)0);
-	glEnableVertexAttribArray(0);
-
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(math::Vector3)));
-	glEnableVertexAttribArray(1);
-
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(math::Vector3) + sizeof(math::Vector2)));
-	glEnableVertexAttribArray(2);*/
-
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
@@ -69,27 +58,27 @@ GLES2PolygonRenderer::~GLES2PolygonRenderer()
 void GLES2PolygonRenderer::BeginRendering(const ShaderPtr& shader)
 {
 	shader->SetShader();
+
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer);
-
 	GLES2Shader* gles2Shader = static_cast<GLES2Shader*>(shader.get());
-	const GLuint program = gles2Shader->GetProgram();
 
-	const GLint vPosition = glGetAttribLocation(program, "vPosition");
+	const GLint vPosition = gles2Shader->GetVPositionLocation();
 	glVertexAttribPointer(vPosition, 3, GL_FLOAT, GL_FALSE, sizeof(PolygonRenderer::Vertex), (void*)0);
 
-	const GLint vTexCoord = glGetAttribLocation(program, "vTexCoord");
+	const GLint vTexCoord = gles2Shader->GetVTexCoordLocation();
 	glVertexAttribPointer(vTexCoord, 2, GL_FLOAT, GL_FALSE, sizeof(PolygonRenderer::Vertex), (void*)(sizeof(math::Vector3)));
 
 	glEnableVertexAttribArray(vPosition);
 	glEnableVertexAttribArray(vTexCoord);
 
-	const GLint vNormal = glGetAttribLocation(program, "vNormal");
+	const GLint vNormal = gles2Shader->GetVNormalLocation();
 	if (vNormal != -1)
 	{
 		glVertexAttribPointer(vNormal, 3, GL_FLOAT, GL_FALSE, sizeof(PolygonRenderer::Vertex), (void*)(sizeof(math::Vector3) + sizeof(math::Vector2)));
 		glEnableVertexAttribArray(vNormal);
 	}
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer);
 }
 
 void GLES2PolygonRenderer::Render()

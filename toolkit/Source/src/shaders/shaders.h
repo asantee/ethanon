@@ -488,15 +488,14 @@ const std::string Cg_solidPS_cg =
 "\n";
 
 const std::string GLSL_default_ps = 
-"precision mediump float;\n" \
+"precision lowp float;\n" \
 "uniform sampler2D diffuse;\n" \
 "\n" \
 "varying vec4 v_color;\n" \
 "varying vec2 v_texCoord;\n" \
 "void main()\n" \
 "{\n" \
-"	vec4 cc = v_color * texture2D(diffuse, v_texCoord);\n" \
-"	gl_FragColor = vec4(1,0,0,1) * vec4(cc.x, cc.y, 1.0, 1.0);\n" \
+"	gl_FragColor = v_color * texture2D(diffuse, v_texCoord);\n" \
 "}\n" \
 "\n";
 

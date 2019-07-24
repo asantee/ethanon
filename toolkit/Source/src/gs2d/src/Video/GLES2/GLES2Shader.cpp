@@ -122,6 +122,7 @@ bool GLES2Shader::LoadShaderFromString(
 	GLES2ShaderContext::CheckForError(psShaderName + " glAttachShader (fragment)");
 
 	glLinkProgram(m_program);
+	GLES2ShaderContext::CheckForError(psShaderName + " glLinkProgram");
 
 	GLint linkStatus = GL_FALSE;
 	glGetProgramiv(m_program, GL_LINK_STATUS, &linkStatus);
@@ -145,45 +146,93 @@ bool GLES2Shader::LoadShaderFromString(
 		return false;
 	}
 	
+	m_vPositionLocation = glGetAttribLocation(m_program, "vPosition");
+	m_vTexCoordLocation = glGetAttribLocation(m_program, "vTexCoord");
+	m_vNormalLocation = glGetAttribLocation(m_program, "vNormal");
+	
 	glDeleteShader(vs);
 	glDeleteShader(ps);
 
 	return true;
 }
 
+GLint GLES2Shader::GetVPositionLocation() const
+{
+	return m_vPositionLocation;
+}
+
+GLint GLES2Shader::GetVTexCoordLocation() const
+{
+	return m_vTexCoordLocation;
+}
+
+GLint GLES2Shader::GetVNormalLocation() const
+{
+	return m_vNormalLocation;
+}
+
+GLint GLES2Shader::FindUniformLocation(const std::string& name)
+{
+	tsl::hopscotch_map<std::string, GLint>::iterator iter = m_parameters.find(name);
+	if (iter != m_parameters.end())
+	{
+		return iter->second;
+	}
+	else
+	{
+		const GLint location = glGetUniformLocation(m_program, name.c_str());
+		if (location >= 0)
+		{
+			m_parameters.insert(std::pair<std::string, GLint>(name, location));
+		}
+		else
+		{
+			std::cerr << "Error: couldn't find uniform parameter " << name << std::endl;
+		}
+		return location;
+	}
+}
+
 void GLES2Shader::SetConstant(const str_type::string& name, const math::Vector4 &v)
 {
-	m_parameters[name] = GLES2UniformParameterPtr(new GLES2UPVec4(v, m_programName, name));
+	const GLint location = FindUniformLocation(name);
+	glUniform4f(location, v.x, v.y, v.z, v.w);
 }
 
 void GLES2Shader::SetConstant(const str_type::string& name, const math::Vector3 &v)
 {
-	m_parameters[name] = GLES2UniformParameterPtr(new GLES2UPVec3(v, m_programName, name));
+	const GLint location = FindUniformLocation(name);
+	glUniform3f(location, v.x, v.y, v.z);
 }
 
 void GLES2Shader::SetConstant(const str_type::string& name, const math::Vector2 &v)
 {
-	m_parameters[name] = GLES2UniformParameterPtr(new GLES2UPVec2(v, m_programName, name));
+	const GLint location = FindUniformLocation(name);
+	glUniform2f(location, v.x, v.y);
 }
 
 void GLES2Shader::SetConstant(const str_type::string& name, const float x)
 {
-	m_parameters[name] = GLES2UniformParameterPtr(new GLES2UPVec1(x, m_programName, name));
+	const GLint location = FindUniformLocation(name);
+	glUniform1f(location, x);
 }
 
 void GLES2Shader::SetConstant(const str_type::string& name, const int n)
 {
-	m_parameters[name] = GLES2UniformParameterPtr(new GLES2UPInt(n, m_programName, name));
+	const GLint location = FindUniformLocation(name);
+	glUniform1i(location, n);
 }
 
 void GLES2Shader::SetConstantArray(const str_type::string& name, unsigned int nElements, const boost::shared_array<const math::Vector2>& v)
 {
-	m_parameters[name] = GLES2UniformParameterPtr(new GLES2UPVec2Array(v, nElements, m_programName, name));
+	const GLint location = FindUniformLocation(name);
+	glUniform2fv(location, nElements, &(v.get()[0].x));
 }
 
 void GLES2Shader::SetMatrixConstant(const str_type::string& name, const math::Matrix4x4 &matrix)
 {
-	m_parameters[name] = GLES2UniformParameterPtr(new GLES2UPMat4x4(matrix, m_programName, name));
+	const GLint location = FindUniformLocation(name);
+	glUniformMatrix4fv(location, 1, GL_FALSE, (GLfloat*)&matrix.m[0][0]);
 }
 
 void GLES2Shader::SetTexture(const str_type::string& name, TextureWeakPtr pTexture, const unsigned int index)
@@ -191,18 +240,16 @@ void GLES2Shader::SetTexture(const str_type::string& name, TextureWeakPtr pTextu
 	GLES2Texture* tex = static_cast<GLES2Texture*>(pTexture.lock().get());
 	if (tex)
 	{
-		m_parameters[name] = GLES2UniformParameterPtr(new GLES2UPTexture(tex->GetTextureID(), index, m_programName, name));
+		const GLint location = FindUniformLocation(name);
+		glActiveTexture(GL_TEXTURE0 + index);
+		glBindTexture(GL_TEXTURE_2D, tex->GetTextureID());
+		glUniform1i(location, index);
 	}
 }
 
 bool GLES2Shader::SetShader()
 {
 	glUseProgram(m_program);
-	for (tsl::hopscotch_map<std::string, GLES2UniformParameterPtr>::iterator iter = m_parameters.begin();
-		iter != m_parameters.end(); ++iter)
-	{
-		iter.value()->SetParameter(m_program);
-	}
 	return true;
 }
 

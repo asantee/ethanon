@@ -4,7 +4,6 @@
 #include "../../Shader.h"
 
 #include "GLES2PolygonRenderer.h"
-#include "GLES2UniformParameter.h"
 #include "GLES2Video.h"
 
 #include "../../../../tsl/hopscotch_map.h"
@@ -33,15 +32,25 @@ class GLES2Shader : public Shader
 
 	GLuint m_program;
 	
-	tsl::hopscotch_map<std::string, GLES2UniformParameterPtr> m_parameters;
-	
+	tsl::hopscotch_map<std::string, GLint> m_parameters;
+
 	Platform::FileManagerPtr m_fileManager;
+
+	GLint m_vPositionLocation;
+	GLint m_vTexCoordLocation;
+	GLint m_vNormalLocation;
+
+	GLint FindUniformLocation(const std::string& name);
 
 public:
 	GLES2Shader(Platform::FileManagerPtr fileManager, GLES2ShaderContextPtr context);
 	~GLES2Shader();
 	
 	GLuint GetProgram() const;
+	
+	GLint GetVPositionLocation() const;
+	GLint GetVTexCoordLocation() const;
+	GLint GetVNormalLocation() const;
 
 	bool LoadShaderFromFile(
 		ShaderContextPtr context,

@@ -37,8 +37,7 @@ const std::string GLSL_default_default_ps =
 "varying vec2 v_texCoord;\n" \
 "void main()\n" \
 "{\n" \
-"	vec4 cc = v_color * texture2D(diffuse, v_texCoord);\n" \
-"	gl_FragColor = vec4(1,0,0,1) * vec4(cc.x, cc.y, 1.0, 1.0);\n" \
+"	gl_FragColor = v_color * texture2D(diffuse, v_texCoord);\n" \
 "}\n" \
 "\n";
 
