@@ -49,15 +49,13 @@ void CheckFrameBufferStatus(const Platform::FileLogger& logger, const GLuint fbo
 }
 
 GLES2Texture::TEXTURE_INFO::TEXTURE_INFO() :
-	m_texture(0),
-	m_frameBuffer(0)
+	m_texture(0)
 {
 }
 
 GLES2Texture::GLES2Texture(VideoWeakPtr video, const str_type::string& fileName, Platform::FileManagerPtr fileManager) :
 		m_fileManager(fileManager),
-		m_fileName(fileName),
-		m_type(TT_NONE)
+		m_fileName(fileName)
 {
 }
 
@@ -72,14 +70,6 @@ GLES2Texture::~GLES2Texture()
 		m_logger.Log(ss.str(), Platform::FileLogger::INFO);
 		m_textureInfo.m_texture = 0;
 	}
-	if (m_textureInfo.m_frameBuffer != 0)
-	{
-		GLuint buffers[1] = { m_textureInfo.m_frameBuffer };
-		glDeleteFramebuffers(1, buffers);
-		std::stringstream ss;
-		ss << "Frame buffer deleted ID " << m_textureInfo.m_frameBuffer; 
-		m_logger.Log(ss.str(), Platform::FileLogger::INFO);
-	}
 }
 
 Texture::PROFILE GLES2Texture::GetProfile() const
@@ -87,64 +77,14 @@ Texture::PROFILE GLES2Texture::GetProfile() const
 	return m_profile;
 }
 
-Texture::TYPE GLES2Texture::GetTextureType() const
-{
-	return m_type;
-}
-
 boost::any GLES2Texture::GetTextureObject()
 {
 	return m_textureInfo.m_texture;
 }
 
-bool GLES2Texture::CreateRenderTarget(
-	VideoWeakPtr video,
-	const unsigned int width,
-	const unsigned int height,
-	const Texture::TARGET_FORMAT fmt)
-{
-	m_textureInfo.m_texture = m_textureID++;
-
-	const GLint glfmt = (fmt == Texture::TF_ARGB) ? GL_RGBA : GL_RGB;
-
-	glTexImage2D(GL_TEXTURE_2D, 0, glfmt,
-		static_cast<GLsizei>(width), static_cast<GLsizei>(height),
-		0, static_cast<GLenum>(glfmt), (fmt == Texture::TF_ARGB) ? GL_UNSIGNED_BYTE : GL_UNSIGNED_SHORT_5_6_5, NULL);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
-	// attach 2D texture
-	glGenFramebuffers(1, &m_textureInfo.m_frameBuffer);
-	glBindFramebuffer(GL_FRAMEBUFFER, m_textureInfo.m_frameBuffer);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_textureInfo.m_texture, 0);
-
-	// create depth buffer... removed for now... will be back whenever it's needed
-	/*GLuint depthRenderbuffer;
-	glGenRenderbuffers(1, &depthRenderbuffer);
-	glBindRenderbuffer(GL_RENDERBUFFER, depthRenderbuffer);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, static_cast<GLsizei>(width), static_cast<GLsizei>(height));
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderbuffer);*/
-
-	CheckFrameBufferStatus(m_logger, m_textureInfo.m_frameBuffer, m_textureInfo.m_texture, true);
-	UnbindFrameBuffer();
-
-	m_type = TT_RENDER_TARGET;
-	m_profile.width = width;
-	m_profile.height = height;
-	m_profile.originalWidth = m_profile.width;
-	m_profile.originalHeight = m_profile.height;
-
-	glBindTexture(GL_TEXTURE_2D, 0);
-	return true;
-}
-
 bool GLES2Texture::LoadTexture(
 	VideoWeakPtr video,
 	const str_type::string& fileName,
-	Color mask,
 	const unsigned int width,
 	const unsigned int height,
 	const unsigned int nMipMaps)
@@ -162,7 +102,6 @@ bool GLES2Texture::LoadTexture(
 	return LoadTexture(
 		video,
 		out->GetAddress(),
-		mask,
 		width,
 		height,
 		nMipMaps,
@@ -173,7 +112,6 @@ bool GLES2Texture::LoadTexture(
 bool GLES2Texture::LoadTexture(
 	VideoWeakPtr video,
 	const void* pBuffer,
-	Color mask,
 	const unsigned int width,
 	const unsigned int height,
 	const unsigned int nMipMaps,
@@ -182,14 +120,14 @@ bool GLES2Texture::LoadTexture(
 {
 	if (format == NO_COMPRESSION)
 	{
-		return LoadTexture(video, pBuffer, mask, width, height, nMipMaps, bufferLength);
+		return LoadTexture(video, pBuffer, width, height, nMipMaps, bufferLength);
 	}
 	else
 	{
 		if (format == PVRTC)
-			return LoadPVRTexture(video, pBuffer, mask, width, height, nMipMaps, bufferLength);
+			return LoadPVRTexture(video, pBuffer, width, height, nMipMaps, bufferLength);
 		else
-			return LoadETC1Texture(video, pBuffer, mask, width, height, nMipMaps, bufferLength);
+			return LoadETC1Texture(video, pBuffer, width, height, nMipMaps, bufferLength);
 	}
 }
 
@@ -238,7 +176,6 @@ bool GLES2Texture::MayUsePVRCompressedVersion(str_type::string& fileName)
 bool GLES2Texture::LoadTexture(
 	VideoWeakPtr video,
 	const void* pBuffer,
-	Color mask,
 	const unsigned int width,
 	const unsigned int height,
 	const unsigned int nMipMaps,
@@ -267,7 +204,6 @@ bool GLES2Texture::LoadTexture(
 		return false;
 	}
 
-	m_type = TT_STATIC;
 	m_profile.width = static_cast<unsigned int>(iWidth);
 	m_profile.height = static_cast<unsigned int>(iHeight);
 	m_profile.originalWidth = m_profile.width;
@@ -282,7 +218,6 @@ bool GLES2Texture::LoadTexture(
 bool GLES2Texture::LoadETC1Texture(
 	VideoWeakPtr video,
 	const void* pBuffer,
-	Color mask,
 	const unsigned int width,
 	const unsigned int height,
 	const unsigned int nMipMaps,
@@ -295,7 +230,6 @@ bool GLES2Texture::LoadETC1Texture(
 		return false;
 	}
 
-	m_type = TT_STATIC;
 	m_profile.width = static_cast<unsigned int>(Platform::ShortEndianSwap(header->texWidth));
 	m_profile.height = static_cast<unsigned int>(Platform::ShortEndianSwap(header->texHeight));
 	m_profile.originalWidth = static_cast<unsigned int>(Platform::ShortEndianSwap(header->origWidth));
@@ -355,7 +289,6 @@ static GLenum FindPVRTCFormatFromPVRHeaderData(const uint32_t* pixelFormat)
 bool GLES2Texture::LoadPVRTexture(
 	VideoWeakPtr video,
 	const void* pBuffer,
-	Color mask,
 	const unsigned int width,
 	const unsigned int height,
 	const unsigned int nMipMaps,
@@ -370,7 +303,6 @@ bool GLES2Texture::LoadPVRTexture(
 		return false;
 	}
 
-	m_type = TT_STATIC;
 	m_profile.width = static_cast<unsigned int>(header->width);
 	m_profile.height = static_cast<unsigned int>(header->height);
 	m_profile.originalWidth = static_cast<unsigned int>(m_profile.width);
@@ -410,12 +342,6 @@ bool GLES2Texture::LoadPVRTexture(
 	return true;
 }
 
-// not supported on GLES2 for now
-bool GLES2Texture::IsAllBlack() const
-{
-	return false;
-}
-
 math::Vector2 GLES2Texture::GetBitmapSize() const
 {
 	return math::Vector2(static_cast<float>(m_profile.width), static_cast<float>(m_profile.height));
@@ -429,11 +355,6 @@ const str_type::string& GLES2Texture::GetFileName() const
 GLuint GLES2Texture::GetTextureID() const
 {
 	return m_textureInfo.m_texture;
-}
-
-GLuint GLES2Texture::GetFrameBufferID() const
-{
-	return m_textureInfo.m_frameBuffer;
 }
 
 } // namespace gs2d

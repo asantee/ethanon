@@ -202,7 +202,6 @@
 		74E6E7F61A31EA9100E89172 /* ETHScriptWrapper.SharedData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E7EA1A31EA9100E89172 /* ETHScriptWrapper.SharedData.cpp */; };
 		74E6E7F71A31EA9100E89172 /* ETHScriptWrapper.System.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E7EB1A31EA9100E89172 /* ETHScriptWrapper.System.cpp */; };
 		74E6E80F1A31EAA500E89172 /* ETHBackBufferTargetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E7F81A31EAA500E89172 /* ETHBackBufferTargetManager.cpp */; };
-		74E6E8101A31EAA500E89172 /* ETHDefaultDynamicBackBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E7FA1A31EAA500E89172 /* ETHDefaultDynamicBackBuffer.cpp */; };
 		74E6E8131A31EAA500E89172 /* ETHNoDynamicBackBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E8021A31EAA500E89172 /* ETHNoDynamicBackBuffer.cpp */; };
 		74E6E8141A31EAA500E89172 /* ETHParallaxManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E8041A31EAA500E89172 /* ETHParallaxManager.cpp */; };
 		74E6E8161A31EAA500E89172 /* ETHShaderManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E8081A31EAA500E89172 /* ETHShaderManager.cpp */; };
@@ -666,8 +665,6 @@
 		74E6E7EB1A31EA9100E89172 /* ETHScriptWrapper.System.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptWrapper.System.cpp; path = ../../../../src/engine/Script/ETHScriptWrapper.System.cpp; sourceTree = "<group>"; };
 		74E6E7F81A31EAA500E89172 /* ETHBackBufferTargetManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHBackBufferTargetManager.cpp; path = ../../../../src/engine/Shader/ETHBackBufferTargetManager.cpp; sourceTree = "<group>"; };
 		74E6E7F91A31EAA500E89172 /* ETHBackBufferTargetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHBackBufferTargetManager.h; path = ../../../../src/engine/Shader/ETHBackBufferTargetManager.h; sourceTree = "<group>"; };
-		74E6E7FA1A31EAA500E89172 /* ETHDefaultDynamicBackBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHDefaultDynamicBackBuffer.cpp; path = ../../../../src/engine/Shader/ETHDefaultDynamicBackBuffer.cpp; sourceTree = "<group>"; };
-		74E6E7FB1A31EAA500E89172 /* ETHDefaultDynamicBackBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHDefaultDynamicBackBuffer.h; path = ../../../../src/engine/Shader/ETHDefaultDynamicBackBuffer.h; sourceTree = "<group>"; };
 		74E6E7FC1A31EAA500E89172 /* ETHDynamicBackBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHDynamicBackBuffer.h; path = ../../../../src/engine/Shader/ETHDynamicBackBuffer.h; sourceTree = "<group>"; };
 		74E6E8021A31EAA500E89172 /* ETHNoDynamicBackBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHNoDynamicBackBuffer.cpp; path = ../../../../src/engine/Shader/ETHNoDynamicBackBuffer.cpp; sourceTree = "<group>"; };
 		74E6E8031A31EAA500E89172 /* ETHNoDynamicBackBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHNoDynamicBackBuffer.h; path = ../../../../src/engine/Shader/ETHNoDynamicBackBuffer.h; sourceTree = "<group>"; };
@@ -1347,8 +1344,6 @@
 			children = (
 				74E6E7F81A31EAA500E89172 /* ETHBackBufferTargetManager.cpp */,
 				74E6E7F91A31EAA500E89172 /* ETHBackBufferTargetManager.h */,
-				74E6E7FA1A31EAA500E89172 /* ETHDefaultDynamicBackBuffer.cpp */,
-				74E6E7FB1A31EAA500E89172 /* ETHDefaultDynamicBackBuffer.h */,
 				74E6E7FC1A31EAA500E89172 /* ETHDynamicBackBuffer.h */,
 				74E6E8021A31EAA500E89172 /* ETHNoDynamicBackBuffer.cpp */,
 				74E6E8031A31EAA500E89172 /* ETHNoDynamicBackBuffer.h */,
@@ -1783,7 +1778,6 @@
 				74E6E7841A31E9EA00E89172 /* ETHEntityCache.cpp in Sources */,
 				74E6E7851A31E9EA00E89172 /* ETHEntityChooser.cpp in Sources */,
 				74E6E7091A31E4F800E89172 /* b2FrictionJoint.cpp in Sources */,
-				74E6E8101A31EAA500E89172 /* ETHDefaultDynamicBackBuffer.cpp in Sources */,
 				AA18F61D22C9742700F44DA6 /* Vector4.cpp in Sources */,
 				74E6E7AF1A31EA0200E89172 /* ETHPhysicsSimulator.cpp in Sources */,
 				74E6E7B51A31EA3E00E89172 /* ETHAppEnmlFile.cpp in Sources */,

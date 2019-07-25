@@ -90,8 +90,6 @@ public:
 	bool SetWindowTitle(const str_type::string& title);
 	str_type::string GetWindowTitle() const;
 
-	void EnableMediaPlaying(const bool enable);
-
 	bool IsWindowed() const;
 
 	math::Vector2i GetScreenSize() const;

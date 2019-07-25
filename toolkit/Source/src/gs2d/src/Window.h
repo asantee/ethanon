@@ -23,8 +23,6 @@ public:
 	virtual bool SetWindowTitle(const str_type::string& title) = 0;
 	virtual str_type::string GetWindowTitle() const = 0;
 
-	virtual void EnableMediaPlaying(const bool enable) = 0;
-
 	virtual bool IsWindowed() const = 0;
 
 	virtual math::Vector2i GetScreenSize() const = 0;

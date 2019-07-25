@@ -31,17 +31,12 @@ public:
 	GLES2Texture(VideoWeakPtr video, const str_type::string& fileName, Platform::FileManagerPtr fileManager);
 	~GLES2Texture();
 	PROFILE GetProfile() const;
-	TYPE GetTextureType() const;
 	boost::any GetTextureObject();
 	GLuint GetTextureID() const;
-	GLuint GetFrameBufferID() const;
-
-	bool CreateRenderTarget(VideoWeakPtr video, const unsigned int width, const unsigned int height, const Texture::TARGET_FORMAT fmt);
 
 	bool LoadTexture(
 		VideoWeakPtr video,
 		const str_type::string& fileName,
-		Color mask,
 		const unsigned int width = 0,
 		const unsigned int height = 0,
 		const unsigned int nMipMaps = 0);
@@ -49,13 +44,11 @@ public:
 	bool LoadTexture(
 		VideoWeakPtr video,
 		const void* pBuffer,
-		Color mask,
 		const unsigned int width,
 		const unsigned int height,
 		const unsigned int nMipMaps,
 		const unsigned int bufferLength);
 
-	bool IsAllBlack() const;
 	math::Vector2 GetBitmapSize() const;
 	const str_type::string& GetFileName() const;
 
@@ -105,7 +98,6 @@ private:
 	bool LoadTexture(
 		VideoWeakPtr video,
 		const void* pBuffer,
-		Color mask,
 		const unsigned int width,
 		const unsigned int height,
 		const unsigned int nMipMaps,
@@ -115,7 +107,6 @@ private:
 	bool LoadETC1Texture(
 		VideoWeakPtr video,
 		const void* pBuffer,
-		Color mask,
 		const unsigned int width,
 		const unsigned int height,
 		const unsigned int nMipMaps,
@@ -124,7 +115,6 @@ private:
 	bool LoadPVRTexture(
 		VideoWeakPtr video,
 		const void* pBuffer,
-		Color mask,
 		const unsigned int width,
 		const unsigned int height,
 		const unsigned int nMipMaps,
@@ -133,10 +123,9 @@ private:
 	struct TEXTURE_INFO
 	{
 		TEXTURE_INFO();
-		GLuint m_texture, m_frameBuffer;
+		GLuint m_texture;
 	} m_textureInfo;
 
-	TYPE m_type;
 	PROFILE m_profile;
 	str_type::string m_fileName;
 	Platform::FileManagerPtr m_fileManager;

@@ -60,40 +60,26 @@ public:
 	TexturePtr CreateTextureFromFileInMemory(
 		const void *pBuffer,
 		const unsigned int bufferLength,
-		Color mask,
 		const unsigned int width = 0,
 		const unsigned int height = 0,
 		const unsigned int nMipMaps = 0);
 
 	TexturePtr LoadTextureFromFile(
 		const str_type::string& fileName,
-		Color mask,
 		const unsigned int width = 0,
 		const unsigned int height = 0,
 		const unsigned int nMipMaps = 0);
 
-	TexturePtr CreateRenderTargetTexture(
-		const unsigned int width,
-		const unsigned int height,
-		const Texture::TARGET_FORMAT fmt);
-
 	SpritePtr CreateSprite(
 		unsigned char *pBuffer,
 		const unsigned int bufferLength,
-		Color mask = math::constant::ZERO_VECTOR4,
 		const unsigned int width = 0,
 		const unsigned int height = 0);
 
 	SpritePtr CreateSprite(
 		const str_type::string& fileName,
-		Color mask = math::constant::ZERO_VECTOR4,
 		const unsigned int width = 0,
 		const unsigned int height = 0);
-
-	SpritePtr CreateRenderTarget(
-		const unsigned int width,
-		const unsigned int height,
-		const Texture::TARGET_FORMAT format = Texture::TF_DEFAULT);
 
 	ShaderPtr LoadShaderFromFile(
 		const std::string& vsFileName,
@@ -149,71 +135,20 @@ public:
 		const Texture::PIXEL_FORMAT pfBB,
 		const bool toggleFullscreen = false);
 
-	bool SetRenderTarget(SpritePtr pTarget, const unsigned int target = 0);
-	unsigned int GetMaxRenderTargets() const;
-	unsigned int GetMaxMultiTextures() const;
-	bool UnsetTexture(const unsigned int passIdx);
-
 	void SetZBuffer(const bool enable);
 	bool GetZBuffer() const;
-
-	void SetZWrite(const bool enable);
-	bool GetZWrite() const;
-
-	bool SetClamp(const bool set);
-	bool GetClamp() const;
 
 	bool SetSpriteDepth(const float depth);
 	float GetSpriteDepth() const;
 
-	bool SetScissor(const bool& enable);
-	bool SetScissor(const math::Rect2Di& rect);
-	math::Rect2Di GetScissor() const;
-	void UnsetScissor();
-
-	bool DrawLine(
-		const math::Vector2& p1,
-		const math::Vector2& p2,
-		const Color& color1,
-		const Color& color2);
-
-	bool DrawRectangle(
-		const math::Vector2& v2Pos,
-		const math::Vector2& v2Size,
-		const Color& color,
-		const float angle = 0.0f,
-		const Sprite::ENTITY_ORIGIN origin = Sprite::EO_DEFAULT);
-
-	bool DrawRectangle(
-		const math::Vector2& v2Pos,
-		const math::Vector2& v2Size,
-		const Color& color0,
-		const Color& color1,
-		const Color& color2,
-		const Color& color3,
-		const float angle = 0.0f,
-		const Sprite::ENTITY_ORIGIN origin = Sprite::EO_DEFAULT);
-
 	void SetBGColor(const Color& backgroundColor);
 	Color GetBGColor() const;
 
-	bool BeginSpriteScene(const Color& color = math::constant::ZERO_VECTOR4);
-	bool EndSpriteScene();
-	bool BeginTargetScene(const Color& color = math::constant::ZERO_VECTOR4, const bool clear = true);
-	bool EndTargetScene();
+	bool BeginRendering(const Color& color = math::constant::ZERO_VECTOR4);
+	bool EndRendering();
 
 	bool SetAlphaMode(const Video::ALPHA_MODE mode);
 	ALPHA_MODE GetAlphaMode() const;
-
-	bool SetFilterMode(const Video::TEXTUREFILTER_MODE tfm);
-	Video::TEXTUREFILTER_MODE GetFilterMode() const;
-
-	bool Rendering() const;
-
-	bool SaveScreenshot(
-		const str_type::char_t* name,
-		const Texture::BITMAP_FORMAT fmt = Texture::BF_BMP,
-		math::Rect2Di rect = math::Rect2Di(0, 0, 0, 0));
 	
 	math::Vector2i GetClientScreenSize() const;
 	APP_STATUS HandleEvents();
@@ -224,7 +159,6 @@ public:
 	bool QuitShortcutsEnabled();
 	bool SetWindowTitle(const str_type::string& title);
 	str_type::string GetWindowTitle() const;
-	void EnableMediaPlaying(const bool enable);
 	bool IsWindowed() const;
 	math::Vector2i GetScreenSize() const;
 	math::Vector2 GetScreenSizeF() const;
@@ -245,7 +179,6 @@ public:
 	void SetBlend(const bool enable);
 
 protected:
-	math::Vector2 GetCurrentTargetSize() const;
 
 	Color m_backgroundColor;
 	Video::ALPHA_MODE m_alphaMode;
@@ -254,10 +187,7 @@ protected:
 	str_type::string m_externalStoragePath;
 	str_type::string m_globalExternalStoragePath;
 	str_type::string m_windowTitle;
-	math::Rect2Di m_scissor;
 	bool m_quit;
-	bool m_rendering;
-	bool m_zWrite;
 	bool m_zBuffer;
 	bool m_blend;
 	Platform::FileLogger m_logger;
@@ -279,8 +209,6 @@ protected:
 	Video::TEXTUREFILTER_MODE m_textureFilterMode;
 
 	Platform::FileIOHubPtr m_fileIOHub;
-
-	TextureWeakPtr m_currentTarget;
 
 	void ComputeFPSRate();
 

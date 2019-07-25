@@ -61,14 +61,11 @@ GLES2Video::GLES2Video(
 	m_screenSize(width, height),
 	m_windowTitle(winTitle),
 	m_quit(false),
-	m_rendering(false),
 	m_logger(Platform::FileLogger::GetLogDirectory() + VIDEO_LOG_FILE),
 	m_fpsRate(30.0f),
-	m_scissor(Vector2i(0, 0), Vector2i(0, 0)),
 	m_textureFilterMode(Video::TM_IFNEEDED),
 	m_blend(false),
 	m_zBuffer(true),
-	m_zWrite(true),
 	m_fileIOHub(fileIOHub),
 	m_frameCount(0),
 	m_previousTime(0),
@@ -131,9 +128,9 @@ bool GLES2Video::StartApplication(
 	LogFragmentShaderMaximumPrecision(m_logger);
 
 	SetZBuffer(false);
-	SetZWrite(false);
-	SetFilterMode(Video::TM_IFNEEDED);
-	UnsetScissor();
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
 	ResetVideoMode(width, height, pfBB, false);
 	m_logger.Log("Application started...", Platform::FileLogger::INFO);
@@ -165,7 +162,6 @@ bool GLES2Video::CheckGLError(const str_type::string& op, const Platform::FileLo
 TexturePtr GLES2Video::CreateTextureFromFileInMemory(
 	const void *pBuffer,
 	const unsigned int bufferLength,
-	Color mask,
 	const unsigned int width,
 	const unsigned int height,
 	const unsigned int nMipMaps)
@@ -174,7 +170,6 @@ TexturePtr GLES2Video::CreateTextureFromFileInMemory(
 	if (texture->LoadTexture(
 		weak_this,
 		pBuffer,
-		mask,
 		width,
 		height,
 		nMipMaps,
@@ -187,26 +182,12 @@ TexturePtr GLES2Video::CreateTextureFromFileInMemory(
 
 TexturePtr GLES2Video::LoadTextureFromFile(
 	const str_type::string& fileName,
-	Color mask,
 	const unsigned int width,
 	const unsigned int height,
 	const unsigned int nMipMaps)
 {
 	TexturePtr texture(new GLES2Texture(weak_this, fileName, m_fileIOHub->GetFileManager()));
-	if (texture->LoadTexture(weak_this, fileName, mask, width, height, nMipMaps))
-	{
-		return texture;
-	}
-	return TexturePtr();
-}
-
-TexturePtr GLES2Video::CreateRenderTargetTexture(
-	const unsigned int width,
-	const unsigned int height,
-	const Texture::TARGET_FORMAT fmt)
-{
-	TexturePtr texture(new GLES2Texture(weak_this, GS_L("render_target"), m_fileIOHub->GetFileManager()));
-	if (texture->CreateRenderTarget(weak_this, width, height, fmt))
+	if (texture->LoadTexture(weak_this, fileName, width, height, nMipMaps))
 	{
 		return texture;
 	}
@@ -216,7 +197,6 @@ TexturePtr GLES2Video::CreateRenderTargetTexture(
 SpritePtr GLES2Video::CreateSprite(
 	unsigned char *pBuffer,
 	const unsigned int bufferLength,
-	Color mask,
 	const unsigned int width,
 	const unsigned int height)
 {
@@ -226,25 +206,11 @@ SpritePtr GLES2Video::CreateSprite(
 
 SpritePtr GLES2Video::CreateSprite(
 	const str_type::string& fileName,
-	Color mask,
 	const unsigned int width,
 	const unsigned int height)
 {
 	SpritePtr sprite(new GLES2Sprite(m_shaderContext));
-	if (sprite->LoadSprite(weak_this, fileName, mask, width, height))
-	{
-		return sprite;
-	}
-	return SpritePtr();
-}
-
-SpritePtr GLES2Video::CreateRenderTarget(
-	const unsigned int width,
-	const unsigned int height,
-	const Texture::TARGET_FORMAT format)
-{
-	SpritePtr sprite(new GLES2Sprite(m_shaderContext));
-	if (sprite->CreateRenderTarget(weak_this, width, height, format))
+	if (sprite->LoadSprite(weak_this, fileName, width, height))
 	{
 		return sprite;
 	}
@@ -407,42 +373,6 @@ bool GLES2Video::ResetVideoMode(
 	return true;
 }
 
-bool GLES2Video::SetRenderTarget(SpritePtr pTarget, const unsigned int target)
-{
-	if (!pTarget)
-	{
-		m_currentTarget.reset();
-		UnbindFrameBuffer();
-	}
-	else
-	{
-		if (pTarget->GetType() == Sprite::T_TARGET)
-		{
-			m_currentTarget = pTarget->GetTexture();
-		}
-		else
-		{
-			Message(GS_L("The current sprite has no render target texture"), GSMT_ERROR);
-		}
-	}
-	return true;
-}
-
-unsigned int GLES2Video::GetMaxRenderTargets() const
-{
-	return 1;
-}
-
-unsigned int GLES2Video::GetMaxMultiTextures() const
-{
-	return 2;
-}
-
-bool GLES2Video::UnsetTexture(const unsigned int passIdx)
-{
-	return true;
-}
-
 void GLES2Video::SetZBuffer(const bool enable)
 {
 	if (m_zBuffer)
@@ -463,28 +393,6 @@ bool GLES2Video::GetZBuffer() const
 	return m_zBuffer;
 }
 
-void GLES2Video::SetZWrite(const bool enable)
-{
-	// dummy on opengl
-}
-
-bool GLES2Video::GetZWrite() const
-{
-	return true;
-}
-
-bool GLES2Video::SetClamp(const bool set)
-{
-	// TODO
-	return false;
-}
-
-bool GLES2Video::GetClamp() const
-{
-	// TODO
-	return false;
-}
-
 bool GLES2Video::SetSpriteDepth(const float depth)
 {
 	m_spriteDepth = depth;
@@ -494,83 +402,6 @@ bool GLES2Video::SetSpriteDepth(const float depth)
 float GLES2Video::GetSpriteDepth() const
 {
 	return m_spriteDepth;
-}
-
-bool GLES2Video::SetScissor(const bool& enable)
-{
-	if (enable)
-	{
-		glEnable(GL_SCISSOR_TEST);
-	}
-	else
-	{
-		glDisable(GL_SCISSOR_TEST);
-	}
-	return true;
-}
-
-bool GLES2Video::SetScissor(const Rect2Di& rect)
-{
-	SetScissor(true);
-	GLint posY;
-	TexturePtr target = m_currentTarget.lock();
-	if (target)
-	{
-		posY = static_cast<GLint>(rect.pos.y);
-	}
-	else
-	{
-		posY = static_cast<GLint>(m_screenSize.y) - static_cast<GLint>(rect.pos.y + rect.size.y);
-	}
-
-	if (m_scissor != rect)
-	{
-		m_scissor = rect;
-		glScissor(static_cast<GLint>(rect.pos.x), posY,
-				  static_cast<GLsizei>(rect.size.x), static_cast<GLsizei>(rect.size.y));
-	}
-	return true;
-}
-
-Rect2Di GLES2Video::GetScissor() const
-{
-	return m_scissor;
-}
-
-void GLES2Video::UnsetScissor()
-{
-	SetScissor(false);
-}
-
-bool GLES2Video::DrawLine(const Vector2& p1, const Vector2& p2, const Color& color1, const Color& color2)
-{
-	// TODO
-	return false;
-}
-
-bool GLES2Video::DrawRectangle(
-	const Vector2& v2Pos,
-	const Vector2& v2Size,
-	const Color& color,
-	const float angle,
-	const Sprite::ENTITY_ORIGIN origin)
-{
-	// TODO
-	return false;
-}
-
-bool GLES2Video::DrawRectangle(
-	const Vector2& v2Pos,
-	const Vector2& v2Size,
-	const Color& color0,
-	const Color& color1,
-	const Color& color2,
-	const Color& color3,
-	const float angle,
-	const Sprite::ENTITY_ORIGIN origin)
-{
-	// TODO
-	return false;
 }
 
 void GLES2Video::SetBGColor(const Color& backgroundColor)
@@ -584,7 +415,7 @@ Color GLES2Video::GetBGColor() const
 }
 
 
-bool GLES2Video::BeginSpriteScene(const Color& color)
+bool GLES2Video::BeginRendering(const Color& color)
 {
 	UnbindFrameBuffer();
 	if (color != math::constant::ZERO_VECTOR4)
@@ -598,48 +429,9 @@ bool GLES2Video::BeginSpriteScene(const Color& color)
 	return true;
 }
 
-bool GLES2Video::EndSpriteScene()
+bool GLES2Video::EndRendering()
 {
 	m_rendering = false;
-	return true;
-}
-
-bool GLES2Video::BeginTargetScene(const Color& color, const bool clear)
-{
-	// explicit static cast for better performance
-	TexturePtr texturePtr = m_currentTarget.lock();
-	if (texturePtr)
-	{
-		Texture *pTexture = texturePtr.get(); // safety compile-time error checking
-		GLES2Texture *pGLES2Texture = static_cast<GLES2Texture*>(pTexture); // safer direct cast
-		const GLuint target = pGLES2Texture->GetFrameBufferID();
-		glBindFramebuffer(GL_FRAMEBUFFER, target);
-
-		CheckFrameBufferStatus(m_logger, target, pGLES2Texture->GetTextureID(), false);
-
-		if (clear)
-		{
-			glClearColor(color.x, color.y, color.z, color.w);
-			glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-		}
-
-		const Texture::PROFILE& profile = pGLES2Texture->GetProfile();
-		Enable2D(static_cast<int>(profile.width), static_cast<int>(profile.height), true);
-	}
-	else
-	{
-		Message(GS_L("There's no render target"), GSMT_ERROR);
-	}
-	m_rendering = true;
-	return true;
-}
-
-bool GLES2Video::EndTargetScene()
-{
-	SetRenderTarget(SpritePtr());
-	m_rendering = false;
-	UnbindFrameBuffer();
-	Enable2D(m_screenSize.x, m_screenSize.y);
 	return true;
 }
 
@@ -692,49 +484,6 @@ bool GLES2Video::SetAlphaMode(const Video::ALPHA_MODE mode)
 Video::ALPHA_MODE GLES2Video::GetAlphaMode() const
 {
 	return m_alphaMode;
-}
-
-bool GLES2Video::SetFilterMode(const Video::TEXTUREFILTER_MODE tfm)
-{
-	// NOTE: it won't work on OpenGL ES exactly like in the D3D9 implementation since
-	// the texture has to be previously bound before we reset filter mode
-	m_textureFilterMode = tfm;
-	switch (tfm)
-	{
-	case Video::TM_IFNEEDED:
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		break;
-	case Video::TM_ALWAYS:
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		break;
-	case Video::TM_NEVER:
-	default:
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		break;
-	};
-	return true;
-}
-
-Video::TEXTUREFILTER_MODE GLES2Video::GetFilterMode() const
-{
-	return m_textureFilterMode;
-}
-
-bool GLES2Video::Rendering() const
-{
-	return m_rendering;
-}
-
-bool GLES2Video::SaveScreenshot(
-	const str_type::char_t* name,
-	const Texture::BITMAP_FORMAT fmt,
-	Rect2Di rect)
-{
-	// TODO
-	return false;
 }
 
 Vector2i GLES2Video::GetClientScreenSize() const
@@ -820,17 +569,6 @@ bool GLES2Video::SetWindowTitle(const str_type::string& title)
 str_type::string GLES2Video::GetWindowTitle() const
 {
 	return m_windowTitle;
-}
-
-void GLES2Video::EnableMediaPlaying(const bool enable)
-{
-	// TODO
-}
-
-Vector2 GLES2Video::GetCurrentTargetSize() const
-{
-	TexturePtr currentTarget = m_currentTarget.lock();
-	return (currentTarget) ? currentTarget->GetBitmapSize() : GetScreenSizeF();
 }
 
 bool GLES2Video::IsWindowed() const

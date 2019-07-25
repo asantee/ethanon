@@ -367,10 +367,6 @@ bool SDLWindow::WindowInFocus() const
 	return m_windowHasFocus;
 }
 
-void SDLWindow::EnableMediaPlaying(const bool enable)
-{
-}
-
 void SDLWindow::ForwardCommand(const str_type::string& cmd)
 {
 	// TODO yet to be implemented

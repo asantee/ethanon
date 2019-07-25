@@ -21,7 +21,6 @@ bool GLES2Sprite::LoadSprite(
 	VideoWeakPtr video,
 	unsigned char* pBuffer,
 	const unsigned int bufferLength,
-	Color mask,
 	const unsigned int width,
 	const unsigned int height)
 {
@@ -34,14 +33,13 @@ bool GLES2Sprite::LoadSprite(
 bool GLES2Sprite::LoadSprite(
 	VideoWeakPtr video,
 	const str_type::string& fileName,
-	Color mask,
 	const unsigned int width,
 	const unsigned int height)
 {
 	m_video = video.lock().get();
 	if (width == 0 || height == 0)
 	{
-		m_texture = boost::dynamic_pointer_cast<GLES2Texture>(m_video->LoadTextureFromFile(fileName, 0, width, height, 1));
+		m_texture = boost::dynamic_pointer_cast<GLES2Texture>(m_video->LoadTextureFromFile(fileName, width, height, 1));
 		if (!m_texture)
 		{
 			m_logger.Log(fileName + " could not load sprite", Platform::FileLogger::ERROR);
@@ -62,20 +60,6 @@ bool GLES2Sprite::LoadSprite(
 	}
 	m_type = T_BITMAP;
 
-	SetupSpriteRects(1, 1);
-	return true;
-}
-
-bool GLES2Sprite::CreateRenderTarget(
-	VideoWeakPtr video,
-	const unsigned int width,
-	const unsigned int height,
-	const Texture::TARGET_FORMAT format)
-{
-	m_video = video.lock().get();
-	m_texture = boost::dynamic_pointer_cast<GLES2Texture>(m_video->CreateRenderTargetTexture(width, height, format));
-	m_bitmapSize = Vector2(static_cast<float>(width), static_cast<float>(height));
-	m_type = T_TARGET;
 	SetupSpriteRects(1, 1);
 	return true;
 }
@@ -259,12 +243,6 @@ bool GLES2Sprite::DrawOptimal(const math::Vector2 &v2Pos, const Vector4& color, 
 void GLES2Sprite::AttachParametersToOptimalRenderer(const std::vector<math::Vector2>& params)
 {
 	m_attachedParameters = params;
-}
-
-bool GLES2Sprite::SaveBitmap(const str_type::char_t* wcsName, const Texture::BITMAP_FORMAT fmt, Rect2Di *pRect)
-{
-	// TODO 
-	return false;
 }
 
 bool GLES2Sprite::DrawShapedFast(const Vector2 &v2Pos, const Vector2 &v2Size, const math::Vector4& color)
