@@ -1,5 +1,4 @@
 #include "ETHBackBufferTargetManager.h"
-#include "ETHDefaultDynamicBackBuffer.h"
 #include "ETHNoDynamicBackBuffer.h"
 
 #include "../Util/ETHInput.h"
@@ -50,16 +49,9 @@ ETHBackBufferTargetManager::ETHBackBufferTargetManager(
 
 	gs2d::str_type::stringstream ss; ss << GS_L("Backbuffer created as ") << m_bufferSize.x << GS_L(", ") << m_bufferSize.y
 										<< GS_L(" on ");
-	if (m_bufferSize == screenSize)
-	{
-		m_backBuffer = ETHDynamicBackBufferPtr(new ETHNoDynamicBackBuffer(video, m_bufferSize));
-		ss << GS_L("default backbuffer mode");
-	}
-	else
-	{
-		m_backBuffer = ETHDynamicBackBufferPtr(new ETHDefaultDynamicBackBuffer(video, m_bufferSize));
-		ss << GS_L("dynamic framebuffer mode");
-	}
+
+	m_backBuffer = ETHDynamicBackBufferPtr(new ETHNoDynamicBackBuffer(video, m_bufferSize));
+
 	m_targetScale = m_bufferSize.x / screenSize.x;
 
 	CreateOBB();

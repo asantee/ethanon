@@ -191,19 +191,3 @@ void ETHScriptWrapper::DrawFadingText(const Vector2 &v2Pos, const str_type::stri
 	m_drawableManager.Insert(boost::shared_ptr<ETHDrawable>(
 		new ETHTextDrawer(m_provider, v2Pos, text, font, color, time, scale)));
 }
-
-void ETHScriptWrapper::DrawRectangle(
-	const Vector2 &v2Pos,
-	const Vector2 &v2Size,
-	const uint32_t color0,
-	const uint32_t color1,
-	const uint32_t color2,
-	const uint32_t color3)
-{
-	m_drawableManager.Insert(boost::shared_ptr<ETHDrawable>(new ETHRectangleDrawer(m_provider, v2Pos, v2Size, color0, color1, color2, color3)));
-}
-
-void ETHScriptWrapper::DrawLine(const Vector2 &v2A, const Vector2 &v2B, const Color a, const Color b, const float width) //-V801
-{
-	m_drawableManager.Insert(boost::shared_ptr<ETHDrawable>(new ETHLineDrawer(m_provider, v2A, v2B, a, b, width)));
-}

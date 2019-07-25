@@ -16,8 +16,6 @@ boost::shared_ptr<GLTexture> GLTexture::Create(VideoWeakPtr video, Platform::Fil
     return texture;
 }
 
-static void ApplyPixelMask(unsigned char *ht_map, const Color& mask, const int channels, const int width, const int height);
-
 GLuint GLTexture::m_textureID(1000);
 
 GLTexture::TEXTURE_INFO::TEXTURE_INFO() :
@@ -77,11 +75,6 @@ Texture::PROFILE GLTexture::GetProfile() const
 	return m_profile;
 }
 
-Texture::TYPE GLTexture::GetTextureType() const
-{
-	return m_type;
-}
-
 boost::any GLTexture::GetTextureObject()
 {
 	return m_textureInfo.m_texture;
@@ -100,7 +93,6 @@ math::Vector2 GLTexture::GetBitmapSize() const
 bool GLTexture::LoadTexture(
 	VideoWeakPtr video,
 	const str_type::string& fileName,
-	Color mask,
 	const unsigned int width,
 	const unsigned int height,
 	const unsigned int nMipMaps)
@@ -113,33 +105,24 @@ bool GLTexture::LoadTexture(
 		ShowMessage(fileName + " could not load buffer", GSMT_ERROR);
 		return false;
 	}
-	return LoadTexture(video, out->GetAddress(), mask, width, height, nMipMaps, static_cast<unsigned int>(out->GetBufferSize()));
+	return LoadTexture(video, out->GetAddress(), width, height, nMipMaps, static_cast<unsigned int>(out->GetBufferSize()));
 }
 
 bool GLTexture::LoadTexture(
 	VideoWeakPtr video,
 	const void* pBuffer,
-	Color mask,
 	const unsigned int width,
 	const unsigned int height,
 	const unsigned int nMipMaps,
 	const unsigned int bufferLength)
 {
-	const bool maskingEnabled = (mask != math::constant::ZERO_VECTOR4);
 	int iWidth, iHeight;
-	const int forceChannels = maskingEnabled ? SOIL_LOAD_RGBA : SOIL_LOAD_AUTO;
-	m_bitmap = SOIL_load_image_from_memory((unsigned char*)pBuffer, bufferLength, &iWidth, &iHeight, &m_channels, forceChannels);
+	m_bitmap = SOIL_load_image_from_memory((unsigned char*)pBuffer, bufferLength, &iWidth, &iHeight, &m_channels, SOIL_LOAD_AUTO);
 
 	if (!m_bitmap)
 	{
 		ShowMessage(m_fileName + " couldn't create texture from file", GSMT_ERROR);
 		return false;
-	}
-
-	if (maskingEnabled)
-	{
-		m_channels = 4;
-		ApplyPixelMask(m_bitmap, mask, m_channels, iWidth, iHeight);
 	}
 
 	CreateTextureFromBitmap(m_bitmap, iWidth, iHeight, m_channels, true);
@@ -152,76 +135,13 @@ bool GLTexture::LoadTexture(
 	}
 	else
 	{
-		m_type = TT_STATIC;
 		m_profile.width = static_cast<unsigned int>(iWidth);
 		m_profile.height = static_cast<unsigned int>(iHeight);
 		m_profile.originalWidth = m_profile.width;
 		m_profile.originalHeight = m_profile.height;
-		m_profile.mask = mask;
 		ShowMessage(Platform::GetFileName(m_fileName) + " texture loaded", GSMT_INFO);
 		m_video.lock()->InsertRecoverableResource(this);
 	}
-	glBindTexture(GL_TEXTURE_2D, 0);
-	return true;
-}
-
-bool GLTexture::CreateRenderTarget(
-	VideoWeakPtr video,
-	const unsigned int width,
-	const unsigned int height,
-	const TARGET_FORMAT fmt)
-{
-	m_textureInfo.m_texture = m_textureID++;
-
-	glGenTextures(1, &m_textureInfo.m_texture);
-	glBindTexture(GL_TEXTURE_2D, m_textureInfo.m_texture);
-
-	// we'll ignore the user format and force using ARGB format
-	GS2D_UNUSED_ARGUMENT(fmt);
-
-	m_channels = 4;
-	m_textureInfo.glTargetFmt = GL_RGBA;
-	m_textureInfo.glPixelType = GL_UNSIGNED_BYTE;
-	m_textureInfo.gsTargetFmt = TF_ARGB;
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
-	glTexImage2D(
-		GL_TEXTURE_2D,
-		0,
-		m_textureInfo.glTargetFmt,
-		static_cast<GLsizei>(width),
-		static_cast<GLsizei>(height),
-		0,
-		static_cast<GLenum>(m_textureInfo.glTargetFmt),
-		m_textureInfo.glPixelType,
-		NULL);
-
-	// attach 2D texture
-	glGenFramebuffers(1, &m_textureInfo.m_frameBuffer);
-	glBindFramebuffer(GL_FRAMEBUFFER, m_textureInfo.m_frameBuffer);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_textureInfo.m_texture, 0);
-
-	// create depth buffer
-	glGenRenderbuffers(1, &m_textureInfo.m_renderBuffer);
-	glBindRenderbuffer(GL_RENDERBUFFER, m_textureInfo.m_renderBuffer);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, static_cast<GLsizei>(width), static_cast<GLsizei>(height));
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_textureInfo.m_renderBuffer);
-
-	CheckFrameBufferStatus(m_textureInfo.m_frameBuffer, m_textureInfo.m_texture, true);
-	GLVideo::UnbindFrameBuffer();
-
-	m_type = TT_RENDER_TARGET;
-	m_profile.width = width;
-	m_profile.height = height;
-	m_profile.originalWidth = m_profile.width;
-	m_profile.originalHeight = m_profile.height;
-
-	m_video.lock()->InsertRecoverableResource(this);
-
 	glBindTexture(GL_TEXTURE_2D, 0);
 	return true;
 }
@@ -246,140 +166,8 @@ void GLTexture::FreeBitmap()
 
 void GLTexture::Recover()
 {
-	if (m_type == TT_STATIC)
-	{
-		CreateTextureFromBitmap(m_bitmap, m_profile.originalWidth, m_profile.originalHeight, m_channels, true);
-		ShowMessage("Texture recovered: " + Platform::GetFileName(m_fileName), GSMT_INFO);
-	}
-	else if (m_type == TT_RENDER_TARGET)
-	{
-		CreateTextureFromBitmap(m_textureInfo.renderTargetBackup.get(), m_profile.originalWidth, m_profile.originalHeight, m_channels, false);
-	}
-}
-
-bool GLTexture::IsAllBlack() const
-{
-	const unsigned char maxTolerance = 0xF;
-	const unsigned char* bitmap = (m_type == TT_RENDER_TARGET) ? m_textureInfo.renderTargetBackup.get() : m_bitmap;
-	const size_t size = m_profile.originalWidth * m_profile.originalHeight * m_channels;
-	for (std::size_t t = 0; t < size; t++)
-	{
-		if (m_channels == 4)
-		{
-			if (t % 4 == 3)
-			{
-				continue;
-			}
-		}
-
-		if (bitmap[t] > maxTolerance)
-		{
-			return false;
-		}
-	}
-	return true;
-}
-
-bool GLTexture::SaveTargetSurfaceBackup()
-{
-	if (m_type != Texture::TT_RENDER_TARGET)
-	{
-		ShowMessage("Failed while trying to save backup of a non target surface", GSMT_ERROR);
-		return false;
-	}
-	glBindTexture(GL_TEXTURE_2D, m_textureInfo.m_texture);
-	const unsigned int bytes = 4;
-	m_textureInfo.renderTargetBackup = boost::shared_array<unsigned char>(new unsigned char [m_profile.originalWidth * m_profile.originalHeight * bytes]);
-	glGetTexImage(GL_TEXTURE_2D, 0, m_textureInfo.glTargetFmt, m_textureInfo.glPixelType, m_textureInfo.renderTargetBackup.get());
-	return true;
-}
-
-bool GLTexture::SaveBitmap(const str_type::char_t* name, const Texture::BITMAP_FORMAT fmt)
-{
-	str_type::string fileName = name, ext;
-	const int type = GetSOILTexType(fmt, ext);
-	
-	if (!Platform::IsExtensionRight(fileName, ext))
-		fileName.append(ext);
-
-	unsigned char* data = 0;
-	if (m_bitmap)
-	{
-		data = m_bitmap;
-	}
-	else
-	{
-		if (!m_textureInfo.renderTargetBackup.get())
-			SaveTargetSurfaceBackup();
-		data = m_textureInfo.renderTargetBackup.get();
-	}
-
-	const bool r = (SOIL_save_image(
-		fileName.c_str(),
-		type,
-		m_profile.originalWidth,
-		m_profile.originalHeight,
-		m_channels,
-		data) != 0);
-
-	if (!r)
-		ShowMessage(str_type::string("Couldn't save texture ") + fileName, GSMT_ERROR);
-
-	return r;
-}
-
-void CheckFrameBufferStatus(const GLuint fbo, const GLuint tex, const bool showSuccessMessage)
-{
-	const GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-	str_type::stringstream ss;
-	ss << GS_L("fboID ") << fbo << GS_L(" (texture id") << tex << GS_L("): ");
-	switch (status)
-	{
-	case GL_FRAMEBUFFER_COMPLETE:
-		#ifdef DEBUG
-		 if (showSuccessMessage)
-		 {
-			 ss << GS_L(" render target texture created successfully");
-			 ShowMessage(ss.str(), GSMT_INFO);
-		 }
-		#endif
-		break;
-	case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
-		ss << GS_L(" incomplete attachment");
-		ShowMessage(ss.str(), GSMT_ERROR);
-		break;
-	case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
-		ss << GS_L(" incomplete missing attachment");
-		ShowMessage(ss.str(), GSMT_ERROR);
-		break;
-	case GL_FRAMEBUFFER_UNSUPPORTED:
-		ss << GS_L(" unsupported");
-		ShowMessage(ss.str(), GSMT_ERROR);
-		break;
-	default:
-		ss << GS_L(" unknown status");
-		ShowMessage(ss.str(), GSMT_ERROR);
-	}
-}
-
-static void ApplyPixelMask(unsigned char *ht_map, const Color& mask, const int channels, const int width, const int height)
-{
-	if (channels == 4)
-	{
-		const std::size_t numBytes = width * height * channels;
-		for (std::size_t i = 0; i < numBytes; i += channels)
-		{
-			unsigned char& r = ht_map[i + 0];
-			unsigned char& g = ht_map[i + 1];
-			unsigned char& b = ht_map[i + 2];
-			unsigned char& a = ht_map[i + 3];
-
-			if ((mask.To32BitARGB() == Color::ARGB(0xFF, r, g, b)) || (a == 0x0))
-			{
-				r = g = b = a = 0x0;
-			}
-		}
-	}
+	CreateTextureFromBitmap(m_bitmap, m_profile.originalWidth, m_profile.originalHeight, m_channels, true);
+	ShowMessage("Texture recovered: " + Platform::GetFileName(m_fileName), GSMT_INFO);
 }
 
 int GetSOILTexType(const Texture::BITMAP_FORMAT fmt, str_type::string& ext)

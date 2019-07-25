@@ -20,7 +20,6 @@ class GLTexture : public Texture, public RecoverableResource
 	Platform::FileManagerPtr m_fileManager;
 	boost::weak_ptr<GLVideo> m_video;
 
-	TYPE m_type;
 	PROFILE m_profile;
 	str_type::string m_fileName;
 	int m_channels;
@@ -34,8 +33,6 @@ class GLTexture : public Texture, public RecoverableResource
 		GLuint m_texture, m_frameBuffer, m_renderBuffer;
 		GLenum glTargetFmt;
 		GLenum glPixelType;
-		TARGET_FORMAT gsTargetFmt;
-		boost::shared_array<unsigned char> renderTargetBackup;
 	} m_textureInfo;
 
 	void FreeBitmap();
@@ -50,23 +47,14 @@ public:
 
 	~GLTexture();
 
-	bool IsAllBlack() const;
-
 	bool SetTexture(const unsigned int passIdx = 0);
 	PROFILE GetProfile() const;
-	TYPE GetTextureType() const;
 	boost::any GetTextureObject();
 	math::Vector2 GetBitmapSize() const;
-
-	bool CreateRenderTarget(
-		VideoWeakPtr video,
-		const unsigned int width,
-		const unsigned int height,const TARGET_FORMAT fmt);
 
 	bool LoadTexture(
 		VideoWeakPtr video,
 		const str_type::string& fileName,
-		Color mask,
 		const unsigned int width = 0,
 		const unsigned int height = 0,
 		const unsigned int nMipMaps = 0);
@@ -74,16 +62,12 @@ public:
 	bool LoadTexture(
 		VideoWeakPtr video,
 		const void* pBuffer,
-		Color mask,
 		const unsigned int width,
 		const unsigned int height,
 		const unsigned int nMipMaps,
 		const unsigned int bufferLength);
 
 	const TEXTURE_INFO& GetTextureInfo() const;
-
-	bool SaveBitmap(const str_type::char_t* name, const Texture::BITMAP_FORMAT fmt);
-	bool SaveTargetSurfaceBackup();
 
 	void Recover();
 };

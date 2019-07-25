@@ -4,8 +4,8 @@ namespace gs2d {
 
 Video::Video() :
 	m_depth(0.0f),
-	m_lineWidth(1.0f),
-	m_virtualScreenHeight(720.0f)
+	m_virtualScreenHeight(720.0f),
+	m_rendering(false)
 {
 }
 
@@ -61,8 +61,8 @@ bool Video::VIDEO_MODE::operator<(const VIDEO_MODE &other) const
 
 bool Video::ManageLoop()
 {
-	if (Rendering())
-		EndSpriteScene();
+	if (IsRendering())
+		EndRendering();
 
 	APP_STATUS status = APP_SKIP;
 	while (status == APP_SKIP)
@@ -72,8 +72,8 @@ bool Video::ManageLoop()
 			return false;
 	}
 
-	if (!Rendering())
-		BeginSpriteScene();
+	if (!IsRendering())
+		BeginRendering();
 
 	return true;
 }
@@ -95,14 +95,9 @@ math::Vector2 Video::GetCameraPos() const
 	return m_cameraPos;
 }
 
-void Video::SetLineWidth(const float width)
+bool Video::IsRendering() const
 {
-	m_lineWidth = (width < 1.0f) ? 1.0f : width;
-}
-
-float Video::GetLineWidth() const
-{
-	return m_lineWidth;
+	return m_rendering;
 }
 
 bool Video::SetSpriteDepth(const float depth)

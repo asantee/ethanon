@@ -45,7 +45,7 @@ protected:
 		const bool toggleFullscreen,
 		const bool forceWindowResize) = 0;
 
-	bool EndSpriteScene();
+	bool EndRendering();
 	Uint32 AssembleFlags(const bool windowed, const bool maximizable, const bool sync);
 
 	math::Vector2 m_screenSize;

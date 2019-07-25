@@ -30,9 +30,11 @@ class Video :
 {
 	math::Vector2 m_cameraPos;
 
-	float m_lineWidth;
 	float m_depth;
 	float m_virtualScreenHeight;
+
+protected:
+	bool m_rendering;
 
 public:
 	enum ALPHA_MODE
@@ -64,13 +66,14 @@ public:
 
 	Video();
 
+    bool IsRendering() const;
+
 	typedef std::list<VIDEO_MODE> VIDEO_MODE_LIST;
 
 	/// Loads the texture from a file in virtual memory
 	virtual TexturePtr CreateTextureFromFileInMemory(
 		const void *pBuffer,
 		const unsigned int bufferLength,
-		Color mask,
 		const unsigned int width = 0,
 		const unsigned int height = 0,
 		const unsigned int nMipMaps = 0) = 0;
@@ -78,37 +81,22 @@ public:
 	/// Loads the texture from a file in a hard disk
 	virtual TexturePtr LoadTextureFromFile(
 		const str_type::string& fileName,
-		Color mask,
 		const unsigned int width = 0,
 		const unsigned int height = 0,
 		const unsigned int nMipMaps = 0) = 0;
-
-	/// Creates a texture as render target.
-	virtual TexturePtr CreateRenderTargetTexture(
-		const unsigned int width,
-		const unsigned int height,
-		const Texture::TARGET_FORMAT fmt) = 0;
 
 	/// Creates a sprite from a texture in virtual memory
 	virtual SpritePtr CreateSprite(
 		unsigned char *pBuffer,
 		const unsigned int bufferLength,
-		Color mask = math::constant::ZERO_VECTOR4,
 		const unsigned int width = 0,
 		const unsigned int height = 0) = 0;
 
 	/// Creates a sprite from a texture in a file
 	virtual SpritePtr CreateSprite(
 		const str_type::string& fileName,
-		Color mask = math::constant::ZERO_VECTOR4,
 		const unsigned int width = 0,
 		const unsigned int height = 0) = 0;
-
-	/// Creates a sprite as render target
-	virtual SpritePtr CreateRenderTarget(
-		const unsigned int width,
-		const unsigned int height,
-		const Texture::TARGET_FORMAT format = Texture::TF_DEFAULT) = 0;
 
 	/// Create a shader object and load/compile it.
 	virtual ShaderPtr LoadShaderFromFile(
@@ -154,64 +142,17 @@ public:
 		const Texture::PIXEL_FORMAT pfBB,
 		const bool toggleFullscreen = false) = 0;
 
-	virtual bool SetRenderTarget(SpritePtr pTarget, const unsigned int target = 0) = 0;
-	virtual unsigned int GetMaxRenderTargets() const = 0;
-	virtual unsigned int GetMaxMultiTextures() const = 0;
-	virtual bool UnsetTexture(const unsigned int passIdx) = 0;
-
 	virtual void SetZBuffer(const bool enable) = 0;
 	virtual bool GetZBuffer() const = 0;
-
-	virtual void SetZWrite(const bool enable) = 0;
-	virtual bool GetZWrite() const = 0;
-
-	virtual bool SetClamp(const bool set) = 0;
-	virtual bool GetClamp() const = 0;
-
-	virtual bool SetScissor(const math::Rect2Di &rect) = 0;
-	virtual bool SetScissor(const bool &enable) = 0;
-	virtual math::Rect2Di GetScissor() const = 0;
-	virtual void UnsetScissor() = 0;
-
-	virtual bool DrawLine(const math::Vector2 &p1, const math::Vector2 &p2, const Color& color1, const Color& color2) = 0;
-
-	virtual bool DrawRectangle(
-		const math::Vector2 &v2Pos,
-		const math::Vector2 &v2Size,
-		const Color& color,
-		const float angle = 0.0f,
-		const Sprite::ENTITY_ORIGIN origin = Sprite::EO_DEFAULT) = 0;
-
-	virtual bool DrawRectangle(
-		const math::Vector2 &v2Pos,
-		const math::Vector2 &v2Size,
-		const Color& color0,
-		const Color& color1,
-		const Color& color2,
-		const Color& color3,
-		const float angle = 0.0f,
-		const Sprite::ENTITY_ORIGIN origin = Sprite::EO_DEFAULT) = 0;
 
 	virtual void SetBGColor(const Color& backgroundColor) = 0;
 	virtual Color GetBGColor() const = 0;
 
-	virtual bool BeginSpriteScene(const Color& bgColor = math::constant::ZERO_VECTOR4) = 0;
-	virtual bool EndSpriteScene() = 0;
-	virtual bool BeginTargetScene(const Color& bgColor = math::constant::ZERO_VECTOR4, const bool clear = true) = 0;
-	virtual bool EndTargetScene() = 0;
+	virtual bool BeginRendering(const Color& bgColor = math::constant::ZERO_VECTOR4) = 0;
+	virtual bool EndRendering() = 0;
 
 	virtual bool SetAlphaMode(const ALPHA_MODE mode) = 0;
 	virtual ALPHA_MODE GetAlphaMode() const = 0;
-
-	virtual bool SetFilterMode(const TEXTUREFILTER_MODE tfm) = 0;
-	virtual TEXTUREFILTER_MODE GetFilterMode() const = 0;
-
-	virtual bool Rendering() const = 0;
-
-	virtual bool SaveScreenshot(
-		const str_type::char_t* fileName,
-		const Texture::BITMAP_FORMAT fmt = Texture::BF_BMP,
-		math::Rect2Di rect = math::Rect2Di(0,0,0,0)) = 0;
 
 	virtual math::Vector2 ComputeCarretPosition(
 		const str_type::string& font,
@@ -240,8 +181,6 @@ public:
 	virtual math::Vector2 GetCameraPos() const;
 	virtual bool SetSpriteDepth(const float depth);
 	virtual float GetSpriteDepth() const;
-	virtual void SetLineWidth(const float width);
-	virtual float GetLineWidth() const;
 	virtual void SetVirtualScreenHeight(const float height);
 	virtual float GetVirtualScreenHeight() const;
 	virtual float GetScaleFactor() const;

@@ -287,24 +287,13 @@ public:
 	static void SetSpriteOrigin(const str_type::string& name, const Vector2& origin);
 	static void SetSpriteFlipX(const str_type::string& name, const bool flip);
 	static void SetSpriteFlipY(const str_type::string& name, const bool flip);
-	static void DrawLine(const Vector2 &v2A, const Vector2 &v2B, const Color a, const Color b, const float width);
-	// static void PlayCutscene(const str_type::string &fileName);
 	static bool Windowed();
 	static ETH_VIDEO_MODE GetVideoMode(const unsigned int mode);
 	static unsigned int GetVideoModeCount();
 
-	static void DrawRectangle(
-		const Vector2& v2Pos,
-		const Vector2& v2Size,
-		const uint32_t color0,
-		const uint32_t color1,
-		const uint32_t color2,
-		const uint32_t color3);
-
 	static uint32_t GetBackgroundColor();
 	static void SetBackgroundColor(const uint32_t color);
 	static Vector2 GetSystemScreenSize();
-	static bool SaveScreenShot(const str_type::string& filePath);
 	static void GetEntityArrayByName(const str_type::string &name, ETHEntityArray &outVector);
 	static void GetEntityArrayFromBucket(const Vector2 &v2Bucket, ETHEntityArray &outVector);
 	static void GetAllEntitiesInScene(ETHEntityArray &outVector);

@@ -20,22 +20,14 @@ public:
 		VideoWeakPtr video,
 		unsigned char* pBuffer,
 		const unsigned int bufferLength,
-		Color mask = math::constant::ZERO_VECTOR4,
 		const unsigned int width = 0,
 		const unsigned int height = 0);
 
 	bool LoadSprite(
 		VideoWeakPtr video,
 		const str_type::string& fileName,
-		Color mask = math::constant::ZERO_VECTOR4,
 		const unsigned int width = 0,
 		const unsigned int height = 0);
-
-	bool CreateRenderTarget(
-		VideoWeakPtr video,
-		const unsigned int width,
-		const unsigned int height,
-		const Texture::TARGET_FORMAT format = Texture::TF_DEFAULT);
 
 	bool Draw(
 		const math::Vector2& v2Pos,
@@ -51,11 +43,6 @@ public:
 		const math::Vector4& color2,
 		const math::Vector4& color3,
 		const float angle = 0.0f);
-
-	bool SaveBitmap(
-		const str_type::char_t* name,
-		const Texture::BITMAP_FORMAT fmt,
-		math::Rect2Di* pRect = 0);
 
 	bool DrawShapedFast(const math::Vector2 &v2Pos, const math::Vector2 &v2Size, const math::Vector4& color);
 

@@ -16,15 +16,11 @@ namespace gs2d {
 
 class GLVideo : public virtual Video, public RecoverableResourceManager
 {
-	TEXTUREFILTER_MODE m_filter;
 	ALPHA_MODE m_alphaMode;
 	GLenum m_textureExtension;
 	const double m_alphaRef;
 	const float m_zNear, m_zFar;
 	Color m_backgroundColor;
-	bool m_rendering, m_clamp;
-	math::Rect2Di m_scissor;
-	TextureWeakPtr m_currentTarget;
 
 	boost::shared_ptr<GLRectRenderer> m_rectRenderer;
 
@@ -72,59 +68,17 @@ public:
 
 	boost::any GetGraphicContext();
 		
-	bool SetRenderTarget(SpritePtr pTarget, const unsigned int target);
-	unsigned int GetMaxRenderTargets() const;
-	unsigned int GetMaxMultiTextures() const;
-	bool UnsetTexture(const unsigned int passIdx);
-	
 	void SetZBuffer(const bool enable);
 	bool GetZBuffer() const;
-	
-	void SetZWrite(const bool enable);
-	bool GetZWrite() const;
-	
-	bool SetClamp(const bool set);
-	bool GetClamp() const;
-	
-	bool SetScissor(const math::Rect2Di &rect);
-	bool SetScissor(const bool &enable);
-	math::Rect2Di GetScissor() const;
-	void UnsetScissor();
-
-	bool DrawLine(const math::Vector2 &p1, const math::Vector2 &p2, const Color& color1, const Color& color2);
-	
-	bool DrawRectangle(
-		const math::Vector2 &v2Pos,
-		const math::Vector2 &v2Size,
-		const Color& color,
-		const float angle = 0.0f,
-		const Sprite::ENTITY_ORIGIN origin = Sprite::EO_DEFAULT);
-	
-	bool DrawRectangle(
-		const math::Vector2 &v2Pos,
-		const math::Vector2 &v2Size,
-		const Color& color0,
-		const Color& color1,
-		const Color& color2,
-		const Color& color3,
-		const float angle = 0.0f,
-		const Sprite::ENTITY_ORIGIN origin = Sprite::EO_DEFAULT);
-	
+		
 	void SetBGColor(const Color& backgroundColor);
 	Color GetBGColor() const;
 	
-	bool BeginSpriteScene(const Color& bgColor = math::constant::ZERO_VECTOR4);
-	bool EndSpriteScene();
-	bool BeginTargetScene(const Color& bgColor = math::constant::ZERO_VECTOR4, const bool clear = true);
-	bool EndTargetScene();
+	bool BeginRendering(const Color& bgColor = math::constant::ZERO_VECTOR4);
+	bool EndRendering();
 	
 	bool SetAlphaMode(const ALPHA_MODE mode);
 	ALPHA_MODE GetAlphaMode() const;
-	
-	bool SetFilterMode(const TEXTUREFILTER_MODE tfm);
-	TEXTUREFILTER_MODE GetFilterMode() const;
-	
-	bool Rendering() const;
 	
 	bool SaveScreenshot(
 		const str_type::char_t* wcsName,
@@ -132,8 +86,6 @@ public:
 		math::Rect2Di rect = math::Rect2Di(0,0,0,0));
 
 	const GLRectRenderer& GetRectRenderer() const;
-
-	static void UnbindFrameBuffer();
 };
 
 typedef boost::shared_ptr<GLVideo> GLVideoPtr;

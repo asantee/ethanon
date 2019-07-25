@@ -145,7 +145,6 @@ private:
 		asIScriptFunction* callback,
 		asIScriptFunction* constructorCallback);
 
-	bool DrawBucketOutlines(const ETHBackBufferTargetManagerPtr& backBuffer);
 	bool AddEntitiesFromXMLFile(
 		const str_type::string& fileName,
 		TiXmlElement *pElement,

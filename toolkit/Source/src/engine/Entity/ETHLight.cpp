@@ -69,14 +69,3 @@ bool ETHLight::IsActive() const
 {
 	return ETHGlobal::ToBool(active);
 }
-
-void ETHLight::SetLightScissor(const VideoPtr& video, const Vector2& zAxisDir) const
-{
-	const float squareEdgeSize = range * 2.0f;
-	Vector2 sum((zAxisDir.SquaredLength() > 0.0f) ? (zAxisDir * pos.z * 4.0f) : math::constant::ZERO_VECTOR2);
-	sum.x = Abs(sum.x);
-	sum.y = Abs(sum.y);
-	const Vector2 squareSize(Vector2(squareEdgeSize, squareEdgeSize) + sum);
-	const Vector2 absPos(ETHGlobal::ToScreenPos(pos, zAxisDir) - video->GetCameraPos() - (squareSize * 0.5f));
-	video->SetScissor(Rect2Di(absPos.ToVector2i(), squareSize.ToVector2i()));
-}

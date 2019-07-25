@@ -132,8 +132,6 @@ asDECLARE_FUNCTION_WRAPPER(__ARGB,           Color::ARGB);
 asDECLARE_FUNCTION_WRAPPER(__LoadSprite,       ETHScriptWrapper::LoadSprite);
 asDECLARE_FUNCTION_WRAPPER(__ReleaseSprite,    ETHScriptWrapper::ReleaseSprite);
 asDECLARE_FUNCTION_WRAPPER(__GetSpriteSize,    ETHScriptWrapper::GetSpriteSize);
-asDECLARE_FUNCTION_WRAPPER(__DrawRectangle,    ETHScriptWrapper::DrawRectangle);
-asDECLARE_FUNCTION_WRAPPER(__DrawLine,         ETHScriptWrapper::DrawLine);
 
 asDECLARE_FUNCTION_WRAPPERPR(__DrawSprite,       ETHScriptWrapper::DrawSprite, (const str_type::string &name, const Vector2 &v2Pos, const uint32_t color, const float angle), void);
 asDECLARE_FUNCTION_WRAPPERPR(__DrawShapedSprite, ETHScriptWrapper::DrawShaped, (const str_type::string &name, const Vector2 &v2Pos, const Vector2 &v2Size, const uint32_t color, const float angle), void);
@@ -159,7 +157,6 @@ asDECLARE_FUNCTION_WRAPPER(__GetVideoMode,          ETHScriptWrapper::GetVideoMo
 asDECLARE_FUNCTION_WRAPPER(__GetBackgroundColor,    ETHScriptWrapper::GetBackgroundColor);
 asDECLARE_FUNCTION_WRAPPER(__SetBackgroundColor,    ETHScriptWrapper::SetBackgroundColor);
 asDECLARE_FUNCTION_WRAPPER(__GetSystemScreenSize,   ETHScriptWrapper::GetSystemScreenSize);
-asDECLARE_FUNCTION_WRAPPER(__SaveScreenShot,        ETHScriptWrapper::SaveScreenShot);
 
 asDECLARE_FUNCTION_WRAPPER(__GetEntityArray,          ETHScriptWrapper::GetEntityArrayByName);
 asDECLARE_FUNCTION_WRAPPER(__GetEntitiesFromBucket,   ETHScriptWrapper::GetEntityArrayFromBucket);
@@ -409,8 +406,6 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void DrawSprite(const string &in, const vector2 &in, const float, const vector3 &in, const float angle = 0.0f)",                      asFUNCTION(__DrawSpriteEx),       asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void DrawShapedSprite(const string &in, const vector2 &in, const vector2 &in, const float, const vector3 &in, const float angle = 0.0f)", asFUNCTION(__DrawShapedSpriteEx), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 GetSpriteSize(const string &in)",                                                                  asFUNCTION(__GetSpriteSize),    asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("void DrawRectangle(const vector2 &in, const vector2 &in, const uint, const uint, const uint, const uint)", asFUNCTION(__DrawRectangle),    asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("void DrawLine(const vector2 &in, const vector2 &in, const uint, const uint, const float)",                 asFUNCTION(__DrawLine),         asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("void PlayParticleEffect(const string &in, const vector2 &in, const float, const float)", asFUNCTION(__PlayParticleEffect), asCALL_GENERIC); assert(r >= 0);
 
@@ -431,7 +426,6 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("uint GetBackgroundColor()",             asFUNCTION(__GetBackgroundColor),    asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void SetBackgroundColor(const uint)",   asFUNCTION(__SetBackgroundColor),    asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 GetSystemScreenSize()",         asFUNCTION(__GetSystemScreenSize),   asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("bool SaveScreenShot(const string &in)", asFUNCTION(__SaveScreenShot),        asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("void GetEntityArray(const string &in, ETHEntityArray &)",                       asFUNCTION(__GetEntityArray),          asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void GetEntitiesFromBucket(const vector2 &in, ETHEntityArray &)",               asFUNCTION(__GetEntitiesFromBucket),   asCALL_GENERIC); assert(r >= 0);

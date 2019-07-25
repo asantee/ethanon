@@ -214,7 +214,7 @@ int main(int argc, char **argv)
 				continue;
 
 			input->Update();
-			video->BeginSpriteScene();
+			video->BeginRendering();
 
 			const Vector2 v2ScreenF = video->GetScreenSizeF();
 
@@ -345,7 +345,7 @@ int main(int argc, char **argv)
 			ss << video->GetFPSRate();
 			editor[0]->ShadowPrint(v2FPSPos, ss.str().c_str(), GS_L("Verdana24_shadow.fnt"), gs2d::constant::WHITE);
 
-			video->EndSpriteScene();
+			video->EndRendering();
 
 			// generate lightmaps if needed. It must be outside the drawing process
 			editor[SCENE]->UpdateInternalData();

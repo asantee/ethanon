@@ -474,18 +474,6 @@ str_type::string ETHSpriteEntity::AssembleLightmapFileName(const str_type::strin
 	return ss.str();
 }
 
-bool ETHSpriteEntity::SaveLightmapToFile(const str_type::string& directory)
-{
-	if (!m_pLightmap)
-	{
-		return false;
-	}
-	
-	if (!m_pLightmap->GetTexture().lock()->IsAllBlack())
-		m_pLightmap->SaveBitmap(AssembleLightmapFileName(directory, GS_L("bmp")).c_str(), Texture::BF_BMP);
-	return true;
-}
-
 void ETHSpriteEntity::Update(const float lastFrameElapsedTime, const Vector2& zAxisDir, ETHBucketManager& buckets)
 {
 	if (!IsStatic())

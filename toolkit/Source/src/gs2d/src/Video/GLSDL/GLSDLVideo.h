@@ -50,40 +50,26 @@ public:
 	TexturePtr CreateTextureFromFileInMemory(
 		const void *pBuffer,
 		const unsigned int bufferLength,
-		Color mask,
 		const unsigned int width,
 		const unsigned int height,
 		const unsigned int nMipMaps);
 	
 	TexturePtr LoadTextureFromFile(
 		const str_type::string& fileName,
-		Color mask,
 		const unsigned int width,
 		const unsigned int height,
 		const unsigned int nMipMaps);
-	
-	TexturePtr CreateRenderTargetTexture(
-		const unsigned int width,
-		const unsigned int height,
-		const Texture::TARGET_FORMAT fmt);
-	
+
 	SpritePtr CreateSprite(
 		unsigned char *pBuffer,
 		const unsigned int bufferLength,
-		Color mask = math::constant::ZERO_VECTOR4,
 		const unsigned int width = 0,
 		const unsigned int height = 0);
 	
 	SpritePtr CreateSprite(
 		const str_type::string& fileName,
-		Color mask = math::constant::ZERO_VECTOR4,
 		const unsigned int width = 0,
 		const unsigned int height = 0);
-	
-	SpritePtr CreateRenderTarget(
-		const unsigned int width,
-		const unsigned int height,
-		const Texture::TARGET_FORMAT format = Texture::TF_DEFAULT);
 
 	ShaderPtr LoadShaderFromFile(
 	    const std::string& vsFileName,
@@ -99,7 +85,7 @@ public:
         const std::string& psCodeAsciiString,
         const std::string& psEntry);
 
-	bool EndSpriteScene();
+	bool EndRendering();
 	
 	bool ResetVideoMode(
 		const VIDEO_MODE& mode,

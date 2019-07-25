@@ -422,7 +422,6 @@ void ETHScene::RenderScene(const ETHBackBufferTargetManagerPtr& backBuffer)
 {
 	const VideoPtr& video = m_provider->GetVideo();
 
-	video->SetZWrite(GetZBuffer());
 	video->SetZBuffer(GetZBuffer());
 
 	// draw ambient pass
@@ -513,14 +512,6 @@ void ETHScene::DrawEntityMultimap(const ETHBackBufferTargetManagerPtr& backBuffe
 	#if defined(_DEBUG) || defined(DEBUG)
 		debug = true;
 	#endif
-
-	if (m_provider->IsInEditor() || debug)
-	{
-		if (m_provider->GetInput()->IsKeyDown(GSK_PAUSE) || m_provider->GetInput()->IsKeyDown(GSK_F1))
-		{
-			DrawBucketOutlines(backBuffer);
-		}
-	}
 }
 
 void ETHScene::EnableLightmaps(const bool enable)
@@ -541,54 +532,6 @@ void ETHScene::EnableRealTimeShadows(const bool enable)
 bool ETHScene::AreRealTimeShadowsEnabled() const
 {
 	return m_provider->AreRealTimeShadowsEnabled();
-}
-
-bool ETHScene::DrawBucketOutlines(const ETHBackBufferTargetManagerPtr& backBuffer)
-{
-	const VideoPtr& video = m_provider->GetVideo();
-
-	// Gets the list of visible buckets
-	std::list<Vector2> bucketList;
-	FillCurrentlyVisibleBucketList(bucketList, backBuffer);
-
-	int nVisibleBuckets = 0;
-
-	// Loop through all visible Buckets
-	for (std::list<Vector2>::iterator bucketPositionIter = bucketList.begin(); bucketPositionIter != bucketList.end(); ++bucketPositionIter)
-	{
-		nVisibleBuckets++;
-
-		const float width = video->GetLineWidth();
-		video->SetLineWidth(2.0f);
-		const Vector2 v2BucketPos = *bucketPositionIter * GetBucketSize() - video->GetCameraPos();
-		video->DrawLine(v2BucketPos, v2BucketPos + Vector2(GetBucketSize().x, 0.0f), gs2d::constant::WHITE, gs2d::constant::WHITE);
-		video->DrawLine(v2BucketPos, v2BucketPos + Vector2(0.0f, GetBucketSize().y), gs2d::constant::WHITE, gs2d::constant::WHITE);
-		video->DrawLine(v2BucketPos + GetBucketSize(), v2BucketPos + Vector2(0.0f, GetBucketSize().y), gs2d::constant::WHITE, gs2d::constant::WHITE);
-		video->DrawLine(v2BucketPos + GetBucketSize(), v2BucketPos + Vector2(GetBucketSize().x, 0.0f), gs2d::constant::WHITE, gs2d::constant::WHITE);
-		video->SetLineWidth(width);
-		
-		// draw bucket key
-		str_type::stringstream ss;
-
-		if (m_buckets.Find(*bucketPositionIter) != m_buckets.GetLastBucket())
-		{
-			ss << GS_L("(") << bucketPositionIter->x << GS_L(",") << bucketPositionIter->y << GS_L(")")
-				<< GS_L(" - entities: ") << m_buckets.GetNumEntities(*bucketPositionIter);
-		}
-		else
-		{
-			ss << GS_L("(") << bucketPositionIter->x << GS_L(",") << bucketPositionIter->y << GS_L(")");
-		}
-
-		const Vector2 v2TextPos(*bucketPositionIter * GetBucketSize() - video->GetCameraPos());
-		video->DrawBitmapText(v2TextPos, ss.str(), ETH_DEFAULT_BITMAP_FONT, gs2d::constant::WHITE);
-	}
-
-	str_type::stringstream ss;
-	ss << GS_L("Visible buckets: ") << nVisibleBuckets;
-
-	video->DrawBitmapText(video->GetScreenSizeF()/2, ss.str(), ETH_DEFAULT_BITMAP_FONT, gs2d::constant::WHITE);
-	return true;
 }
 
 int ETHScene::GetNumProcessedEntities()

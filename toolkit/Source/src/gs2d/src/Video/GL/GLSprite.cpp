@@ -8,13 +8,12 @@ bool GLSprite::LoadSprite(
 	VideoWeakPtr video,
 	unsigned char* pBuffer,
 	const unsigned int bufferLength,
-	Color mask,
 	const unsigned int width,
 	const unsigned int height)
 {
 	m_video = boost::dynamic_pointer_cast<GLVideo>(video.lock());
 
-	TexturePtr tex = m_video.lock()->CreateTextureFromFileInMemory(pBuffer, bufferLength, mask, width, height, 0);
+	TexturePtr tex = m_video.lock()->CreateTextureFromFileInMemory(pBuffer, bufferLength, width, height, 0);
 	m_texture = boost::dynamic_pointer_cast<GLTexture>(tex);
 	if (!m_texture)
 		 return false;
@@ -30,13 +29,12 @@ bool GLSprite::LoadSprite(
 bool GLSprite::LoadSprite(
 	VideoWeakPtr video,
 	const str_type::string& fileName,
-	Color mask,
 	const unsigned int width,
 	const unsigned int height)
 {
 	m_video = boost::dynamic_pointer_cast<GLVideo>(video.lock());
 
-	TexturePtr tex = m_video.lock()->LoadTextureFromFile(fileName, mask, width, height, 0);
+	TexturePtr tex = m_video.lock()->LoadTextureFromFile(fileName, width, height, 0);
 	m_texture = boost::dynamic_pointer_cast<GLTexture>(tex);
 	if (!m_texture)
 		 return false;
@@ -45,21 +43,6 @@ bool GLSprite::LoadSprite(
 	Texture::PROFILE profile = m_texture->GetProfile();
 	m_bitmapSize = math::Vector2(static_cast<float>(profile.width), static_cast<float>(profile.height));
 
-	SetupSpriteRects(1, 1);
-	return true;
-}
-
-bool GLSprite::CreateRenderTarget(
-	VideoWeakPtr video,
-	const unsigned int width,
-	const unsigned int height,
-	const Texture::TARGET_FORMAT format)
-{
-	m_video = boost::dynamic_pointer_cast<GLVideo>(video.lock());
-
-	m_texture = boost::dynamic_pointer_cast<GLTexture>(m_video.lock()->CreateRenderTargetTexture(width, height, format));
-	m_bitmapSize = math::Vector2(static_cast<float>(width), static_cast<float>(height));
-	m_type = T_TARGET;
 	SetupSpriteRects(1, 1);
 	return true;
 }
@@ -252,14 +235,6 @@ void GLSprite::EndFastRendering()
 	m_video.lock()->SetCurrentShader(ShaderPtr());
 }
 
-bool GLSprite::SaveBitmap(
-	const str_type::char_t* name,
-	const Texture::BITMAP_FORMAT fmt,
-	math::Rect2Di* pRect)
-{
-	return m_texture->SaveBitmap(name, fmt);
-}
-
 bool GLSprite::SetAsTexture(const unsigned int passIdx)
 {
 	GLVideoPtr video = m_video.lock();
@@ -269,7 +244,6 @@ bool GLSprite::SetAsTexture(const unsigned int passIdx)
 
 void GLSprite::GenerateBackup()
 {
-	m_texture->SaveTargetSurfaceBackup();
 }
 
 void GLSprite::RecoverFromBackup()

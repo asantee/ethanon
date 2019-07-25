@@ -239,8 +239,6 @@ void ETHRenderEntity::DrawCollisionBox(SpritePtr pOutline, const Color& color, c
 
 	const bool zBuffer = video->GetZBuffer();
 	video->SetZBuffer(false);
-	const bool zWrite = video->GetZWrite();
-	video->SetZWrite(false);
 
 	ShaderPtr currentShader = video->GetCurrentShader();
 	video->SetCurrentShader(ShaderPtr());
@@ -252,7 +250,6 @@ void ETHRenderEntity::DrawCollisionBox(SpritePtr pOutline, const Color& color, c
 	pOutline->DrawShaped(v2Pos, Vector2(v3Size.x, v3Size.y), color, color, color, color, GetAngle());
 
 	video->SetZBuffer(zBuffer);
-	video->SetZBuffer(zWrite);
 	video->SetAlphaMode(alphaMode);
 	video->SetCurrentShader(currentShader);
 	video->SetSpriteDepth(depth);

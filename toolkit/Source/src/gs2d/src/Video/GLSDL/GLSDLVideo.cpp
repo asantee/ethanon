@@ -64,11 +64,11 @@ bool GLSDLVideo::StartApplication(
 	return (rW && rGL);
 }
 
-bool GLSDLVideo::EndSpriteScene()
+bool GLSDLVideo::EndRendering()
 {
 	ComputeFPSRate();
-	GLVideo::EndSpriteScene();
-	return SDLWindow::EndSpriteScene();
+	GLVideo::EndRendering();
+	return SDLWindow::EndRendering();
 }
 
 ShaderPtr GLSDLVideo::LoadShaderFromFile(
@@ -111,13 +111,12 @@ ShaderPtr GLSDLVideo::LoadShaderFromString(
 TexturePtr GLSDLVideo::CreateTextureFromFileInMemory(
 	const void *pBuffer,
 	const unsigned int bufferLength,
-	Color mask,
 	const unsigned int width,
 	const unsigned int height,
 	const unsigned int nMipMaps)
 {
 	TexturePtr texture(GLTexture::Create(weak_this, GetFileIOHub()->GetFileManager()));
-	if (texture->LoadTexture(weak_this, pBuffer, mask, width, height, nMipMaps, bufferLength))
+	if (texture->LoadTexture(weak_this, pBuffer, width, height, nMipMaps, bufferLength))
 	{
 		return texture;
 	}
@@ -126,26 +125,12 @@ TexturePtr GLSDLVideo::CreateTextureFromFileInMemory(
 
 TexturePtr GLSDLVideo::LoadTextureFromFile(
 	const str_type::string& fileName,
-	Color mask,
 	const unsigned int width,
 	const unsigned int height,
 	const unsigned int nMipMaps)
 {
 	TexturePtr texture(GLTexture::Create(weak_this, GetFileIOHub()->GetFileManager()));
-	if (texture->LoadTexture(weak_this, fileName, mask, width, height, nMipMaps))
-	{
-		return texture;
-	}
-	return TexturePtr();
-}
-
-TexturePtr GLSDLVideo::CreateRenderTargetTexture(
-	const unsigned int width,
-	const unsigned int height,
-	const Texture::TARGET_FORMAT fmt)
-{
-	TexturePtr texture(GLTexture::Create(weak_this, GetFileIOHub()->GetFileManager()));
-	if (texture->CreateRenderTarget(weak_this, width, height, fmt))
+	if (texture->LoadTexture(weak_this, fileName, width, height, nMipMaps))
 	{
 		return texture;
 	}
@@ -208,12 +193,11 @@ bool GLSDLVideo::ResetVideoMode(
 SpritePtr GLSDLVideo::CreateSprite(
 	unsigned char *pBuffer,
 	const unsigned int bufferLength,
-	Color mask,
 	const unsigned int width,
 	const unsigned int height)
 {
 	SpritePtr sprite(new GLSprite);
-	if (sprite->LoadSprite(weak_this, pBuffer, bufferLength, mask, width, height))
+	if (sprite->LoadSprite(weak_this, pBuffer, bufferLength, width, height))
 	{
 		return sprite;
 	}
@@ -222,25 +206,11 @@ SpritePtr GLSDLVideo::CreateSprite(
 
 SpritePtr GLSDLVideo::CreateSprite(
 	const str_type::string& fileName,
-	Color mask,
 	const unsigned int width,
 	const unsigned int height)
 {
 	SpritePtr sprite(new GLSprite);
-	if (sprite->LoadSprite(weak_this, fileName, mask, width, height))
-	{
-		return sprite;
-	}
-	return SpritePtr();
-}
-
-SpritePtr GLSDLVideo::CreateRenderTarget(
-	const unsigned int width,
-	const unsigned int height,
-	const Texture::TARGET_FORMAT format)
-{
-	SpritePtr sprite(new GLSprite);
-	if (sprite->CreateRenderTarget(weak_this, width, height, format))
+	if (sprite->LoadSprite(weak_this, fileName, width, height))
 	{
 		return sprite;
 	}

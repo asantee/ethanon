@@ -19,7 +19,6 @@ struct ETHLight
 	float haloBrightness;
 	ETH_BOOL castShadows;
 	str_type::string haloBitmap;
-	void SetLightScissor(const VideoPtr& video, const Vector2& zAxisDir) const;
 private:
 	ETH_BOOL active;
 };

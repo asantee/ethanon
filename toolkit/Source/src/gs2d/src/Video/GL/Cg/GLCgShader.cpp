@@ -121,10 +121,6 @@ void GLCgShader::DisableTextures()
 		cgGLDisableTextureParameter((*iter));
 	}
 	m_enabledTextures.clear();
-	m_video->UnsetTexture(0);
-	m_video->UnsetTexture(1);
-	m_video->UnsetTexture(2);
-	m_video->UnsetTexture(4);
 }
 
 bool GLCgShader::SetShader()

@@ -81,7 +81,7 @@ BitmapFont::BitmapFont(Video* video, const str_type::string& fileName, const str
 			}
 
 			path += m_charSet.textureNames[t];
-			m_bitmaps[t] = video->CreateSprite(path, math::constant::ZERO_VECTOR4, 0, 0);
+			m_bitmaps[t] = video->CreateSprite(path, 0, 0);
 			if (!m_bitmaps[t])
 			{
 				m_bitmaps.clear();

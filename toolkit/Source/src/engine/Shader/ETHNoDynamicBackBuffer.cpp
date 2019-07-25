@@ -10,14 +10,14 @@ void ETHNoDynamicBackBuffer::BeginRendering()
 {
 	gs2d::VideoPtr video = m_video.lock();
 	if (video)
-		video->BeginSpriteScene();
+		video->BeginRendering();
 }
 
 void ETHNoDynamicBackBuffer::EndRendering()
 {
 	gs2d::VideoPtr video = m_video.lock();
 	if (video)
-		video->EndSpriteScene();
+		video->EndRendering();
 }
 
 void ETHNoDynamicBackBuffer::Present()

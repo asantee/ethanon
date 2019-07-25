@@ -228,7 +228,7 @@ Application::APP_STATUS SDLWindow::HandleEvents()
 	return r;
 }
 
-bool SDLWindow::EndSpriteScene()
+bool SDLWindow::EndRendering()
 {
 	SDL_GL_SwapWindow(m_window);
 	return true;
