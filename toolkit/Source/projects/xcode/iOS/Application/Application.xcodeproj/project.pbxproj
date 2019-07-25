@@ -343,7 +343,6 @@
 		74E6E5701A30FFB500E89172 /* Audio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Audio.h; path = ../../../../src/gs2d/src/Audio.h; sourceTree = "<group>"; };
 		74E6E5711A30FFB500E89172 /* BaseApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseApplication.h; path = ../../../../src/gs2d/src/BaseApplication.h; sourceTree = "<group>"; };
 		74E6E5721A30FFB500E89172 /* Input.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Input.h; path = ../../../../src/gs2d/src/Input.h; sourceTree = "<group>"; };
-		74E6E5731A30FFB500E89172 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Player.h; path = ../../../../src/gs2d/src/Player.h; sourceTree = "<group>"; };
 		74E6E5741A30FFB500E89172 /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Shader.h; path = ../../../../src/gs2d/src/Shader.h; sourceTree = "<group>"; };
 		74E6E5751A30FFB500E89172 /* Sprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Sprite.cpp; path = ../../../../src/gs2d/src/Sprite.cpp; sourceTree = "<group>"; };
 		74E6E5761A30FFB600E89172 /* Sprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sprite.h; path = ../../../../src/gs2d/src/Sprite.h; sourceTree = "<group>"; };
@@ -839,7 +838,6 @@
 				74E6E5701A30FFB500E89172 /* Audio.h */,
 				74E6E5711A30FFB500E89172 /* BaseApplication.h */,
 				74E6E5721A30FFB500E89172 /* Input.h */,
-				74E6E5731A30FFB500E89172 /* Player.h */,
 				74E6E5741A30FFB500E89172 /* Shader.h */,
 				74E6E5751A30FFB500E89172 /* Sprite.cpp */,
 				74E6E5761A30FFB600E89172 /* Sprite.h */,
