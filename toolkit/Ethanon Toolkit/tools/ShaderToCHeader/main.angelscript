@@ -31,12 +31,14 @@ void main()
 		"ETHGlobal");
 
 	const string[] gs2dDefaultShaders = {
-		"GLSL/default/add1.ps",
-		"GLSL/default/default.ps",
-		"GLSL/default/default.vs",
-		"GLSL/default/fastRender.vs",
-		"GLSL/default/modulate1.ps",
-		"GLSL/default/optimal.vs"
+		"GL/default-sprite-add.fs",
+		"GL/default-sprite-fast.vs",
+		"GL/default-sprite-modulate.fs",
+		"GL/default-sprite-solid-color-add.fs",
+		"GL/default-sprite-solid-color-modulate.fs",
+		"GL/default-sprite-solid-color.fs",
+		"GL/default-sprite.fs",
+		"GL/default-sprite.vs"
 	};
 
 	const string gs2dSavePath = GetResourceDirectory() + "../../../Source/src/gs2d/src/Video/";
@@ -44,9 +46,9 @@ void main()
 		@gs2dDefaultShaders,
 		relativePath,
 		gs2dSavePath,
-		"glslShaderCode.h",
-		"GS2D_GLSL_DEFAULT_SHADER_H_",
-		"gs2dshaders");
+		"GLShaderCode.h",
+		"GL_SHADER_CODE_H_",
+		"gs2d_gl_shaders");
 	Exit();
 }
 
@@ -120,6 +122,7 @@ string extractStringDeclName(string fileName)
 	fileName = majorPieces[0];
 
 	fileName = replace(fileName, "\\", "/");
+	fileName = replace(fileName, "-", "_");
 
 	string[] pieces = split(fileName, "/");
 	for (uint t = 0; t < pieces.length(); t++)
