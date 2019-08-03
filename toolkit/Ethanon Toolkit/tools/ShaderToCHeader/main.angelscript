@@ -41,14 +41,14 @@ void main()
 		"GL/default-sprite.vs"
 	};
 
-	const string gs2dSavePath = GetResourceDirectory() + "../../../Source/src/gs2d/src/Video/";
+	const string gs2dSavePath = GetResourceDirectory() + "../../../Source/src/gs2d/src/Video/GL/";
 	convertShaderCodeToCHeader(
 		@gs2dDefaultShaders,
 		relativePath,
 		gs2dSavePath,
-		"GLShaderCode.h",
-		"GL_SHADER_CODE_H_",
-		"gs2d_gl_shaders");
+		"ShaderCode.h",
+		"SHADER_CODE_H_",
+		"gs2d_shaders");
 	Exit();
 }
 
@@ -88,7 +88,7 @@ string assembleFileHeader(
 	const string &in headerSafeWord,
 	const string &in namespaceWord)
 {
-	const int tabSize = 32;
+	const int tabSize = 42;
 	string shadersIncluded = commentBegin + " Shaders included in this file:\n";
 	for (uint t = 0; t < shaders.length(); t++)
 	{
@@ -125,13 +125,7 @@ string extractStringDeclName(string fileName)
 	fileName = replace(fileName, "-", "_");
 
 	string[] pieces = split(fileName, "/");
-	for (uint t = 0; t < pieces.length(); t++)
-	{
-		if (t != 0)
-			r += "_";
-		r += pieces[t];
-	}
-	r += "_" + majorPieces[1];
+	r += pieces[pieces.length() - 1] + "_" + majorPieces[1];
 	return r;
 }
 

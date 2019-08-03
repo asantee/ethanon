@@ -6,24 +6,24 @@
 #include <string>
 
 /* Shaders included in this file:
-Cg/defaultVS.cg                 ->     Cg_defaultVS_cg
-Cg/defaultPS.cg                 ->     Cg_defaultPS_cg
-Cg/hAmbientVS.cg                ->     Cg_hAmbientVS_cg
-Cg/particleVS.cg                ->     Cg_particleVS_cg
-Cg/highlightPS.cg               ->     Cg_highlightPS_cg
-Cg/solidPS.cg                   ->     Cg_solidPS_cg
-GLSL/default.ps                 ->     GLSL_default_ps
-GLSL/highlight.ps               ->     GLSL_highlight_ps
-GLSL/solid.ps                   ->     GLSL_solid_ps
-GLSL/default.vs                 ->     GLSL_default_vs
-GLSL/hAmbient.vs                ->     GLSL_hAmbient_vs
-GLSL/optimal.vs                 ->     GLSL_optimal_vs
-GLSL/particle.vs                ->     GLSL_particle_vs
+Cg/defaultVS.cg                           ->     defaultVS_cg
+Cg/defaultPS.cg                           ->     defaultPS_cg
+Cg/hAmbientVS.cg                          ->     hAmbientVS_cg
+Cg/particleVS.cg                          ->     particleVS_cg
+Cg/highlightPS.cg                         ->     highlightPS_cg
+Cg/solidPS.cg                             ->     solidPS_cg
+GLSL/default.ps                           ->     default_ps
+GLSL/highlight.ps                         ->     highlight_ps
+GLSL/solid.ps                             ->     solid_ps
+GLSL/default.vs                           ->     default_vs
+GLSL/hAmbient.vs                          ->     hAmbient_vs
+GLSL/optimal.vs                           ->     optimal_vs
+GLSL/particle.vs                          ->     particle_vs
 */
 
 namespace ETHGlobal {
 
-const std::string Cg_defaultVS_cg = 
+const std::string defaultVS_cg = 
 "// sprite and screen properties:\n" \
 "uniform float4x4 rotationMatrix; // sprite rotation matrix\n" \
 "uniform float2 screenSize;       // current screen size\n" \
@@ -95,7 +95,7 @@ const std::string Cg_defaultVS_cg =
 "\n" \
 "\n";
 
-const std::string Cg_defaultPS_cg = 
+const std::string defaultPS_cg = 
 "void minimal(\n" \
 "	float2 texCoord : TEXCOORD0,\n" \
 "	 float4 color0 : COLOR0,\n" \
@@ -132,7 +132,7 @@ const std::string Cg_defaultPS_cg =
 "\n" \
 "\n";
 
-const std::string Cg_hAmbientVS_cg = 
+const std::string hAmbientVS_cg = 
 "// sprite and screen properties:\n" \
 "uniform float4x4 rotationMatrix; // sprite rotation matrix\n" \
 "uniform float2 screenSize;       // current screen size\n" \
@@ -222,7 +222,7 @@ const std::string Cg_hAmbientVS_cg =
 "\n" \
 "\n";
 
-const std::string Cg_particleVS_cg = 
+const std::string particleVS_cg = 
 "// the following global uniform parameters are set automaticaly\n" \
 "// by the GameSpaceLib runtime\n" \
 "\n" \
@@ -293,7 +293,7 @@ const std::string Cg_particleVS_cg =
 "}\n" \
 "\n";
 
-const std::string Cg_highlightPS_cg = 
+const std::string highlightPS_cg = 
 "void main(float2 texCoord : TEXCOORD0,\n" \
 "			 float4 color0 : COLOR0,\n" \
 "			 out float4 oColor : COLOR,\n" \
@@ -306,7 +306,7 @@ const std::string Cg_highlightPS_cg =
 "\n" \
 "\n";
 
-const std::string Cg_solidPS_cg = 
+const std::string solidPS_cg = 
 "void main(float2 texCoord : TEXCOORD0,\n" \
 "			 float4 color0 : COLOR0,\n" \
 "			 out float4 oColor : COLOR,\n" \
@@ -319,7 +319,7 @@ const std::string Cg_solidPS_cg =
 "\n" \
 "\n";
 
-const std::string GLSL_default_ps = 
+const std::string default_ps = 
 "precision lowp float;\n" \
 "uniform sampler2D diffuse;\n" \
 "\n" \
@@ -331,7 +331,7 @@ const std::string GLSL_default_ps =
 "}\n" \
 "\n";
 
-const std::string GLSL_highlight_ps = 
+const std::string highlight_ps = 
 "precision mediump float;\n" \
 "uniform sampler2D diffuse;\n" \
 "\n" \
@@ -346,7 +346,7 @@ const std::string GLSL_highlight_ps =
 "}\n" \
 "\n";
 
-const std::string GLSL_solid_ps = 
+const std::string solid_ps = 
 "precision lowp float;\n" \
 "uniform sampler2D diffuse;\n" \
 "\n" \
@@ -363,7 +363,7 @@ const std::string GLSL_solid_ps =
 "\n" \
 "\n";
 
-const std::string GLSL_default_vs = 
+const std::string default_vs = 
 "attribute vec4 vPosition;\n" \
 "attribute vec2 vTexCoord;\n" \
 "\n" \
@@ -434,7 +434,7 @@ const std::string GLSL_default_vs =
 "}\n" \
 "\n";
 
-const std::string GLSL_hAmbient_vs = 
+const std::string hAmbient_vs = 
 "#define float4 vec4\n" \
 "#define float3 vec3\n" \
 "#define float2 vec2\n" \
@@ -517,7 +517,7 @@ const std::string GLSL_hAmbient_vs =
 "\n" \
 "\n";
 
-const std::string GLSL_optimal_vs = 
+const std::string optimal_vs = 
 "attribute vec4 vPosition;\n" \
 "attribute vec2 vTexCoord;\n" \
 "\n" \
@@ -574,7 +574,7 @@ const std::string GLSL_optimal_vs =
 "}\n" \
 "\n";
 
-const std::string GLSL_particle_vs = 
+const std::string particle_vs = 
 "attribute vec4 vPosition;\n" \
 "attribute vec2 vTexCoord;\n" \
 "\n" \
