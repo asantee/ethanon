@@ -223,10 +223,10 @@ void GLES2Shader::SetConstant(const str_type::string& name, const int n)
 	glUniform1i(location, n);
 }
 
-void GLES2Shader::SetConstantArray(const str_type::string& name, unsigned int nElements, const boost::shared_array<const math::Vector2>& v)
+void GLES2Shader::SetConstantArray(const str_type::string& name, unsigned int nElements, const math::Vector2* v)
 {
 	const GLint location = FindUniformLocation(name);
-	glUniform2fv(location, nElements, &(v.get()[0].x));
+	glUniform2fv(location, nElements, &(v[0].x));
 }
 
 void GLES2Shader::SetMatrixConstant(const str_type::string& name, const math::Matrix4x4 &matrix)

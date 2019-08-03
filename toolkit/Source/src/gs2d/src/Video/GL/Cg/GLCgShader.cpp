@@ -337,7 +337,7 @@ void GLCgShader::SetMatrixConstant(const str_type::string& name, const math::Mat
 		return;
 }
 
-void GLCgShader::SetConstantArray(const str_type::string& name, unsigned int nElements, const boost::shared_array<const math::Vector2>& v)
+void GLCgShader::SetConstantArray(const str_type::string& name, unsigned int nElements, const math::Vector2* v)
 {
 	CGparameter param = SeekParameter(name, m_cgVsProgam, m_cgPsProgam);
 	if (!param)
@@ -346,7 +346,7 @@ void GLCgShader::SetConstantArray(const str_type::string& name, unsigned int nEl
           return;
     }
 
-	cgGLSetParameterArray2f(param, 0, (long)nElements, (float*)v.get());
+	cgGLSetParameterArray2f(param, 0, (long)nElements, static_cast<const GLfloat*>(&v->x));
 	if (CheckForError("Shader::SetConstantArrayF setting parameter", m_shaderPairName))
 		return;
 }

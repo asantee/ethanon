@@ -230,7 +230,9 @@ bool GLES2Sprite::DrawOptimal(const math::Vector2 &v2Pos, const Vector4& color, 
 	currentShader->SetConstantArray(
 		"params",
 		static_cast<unsigned int>(numParams),
-		boost::shared_array<const math::Vector2>(params));
+		params);
+	
+	delete [] params;
 
 	GLES2Video::m_polygonRenderer->BeginRendering(currentShaderSmartPtr);
 	GLES2Video::m_polygonRenderer->Render();
@@ -272,7 +274,9 @@ bool GLES2Sprite::DrawShapedFast(const Vector2 &v2Pos, const Vector2 &v2Size, co
 	params[6] = Vector2(color.x, color.y);
 	params[7] = Vector2(color.z, color.w);
 
-	currentShader->SetConstantArray("params", numParams, boost::shared_array<const math::Vector2>(params));
+	currentShader->SetConstantArray("params", numParams, params);
+	
+	delete [] params;
 
 	GLES2Video::m_polygonRenderer->Render();
 	return true;

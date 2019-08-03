@@ -73,7 +73,7 @@ public:
 	void SetConstant(const str_type::string& name, const math::Vector2 &v);
 	void SetConstant(const str_type::string& name, const float x);
 	void SetConstant(const str_type::string& name, const int n);
-	void SetConstantArray(const str_type::string& name, unsigned int nElements, const boost::shared_array<const math::Vector2>& v);
+	void SetConstantArray(const str_type::string& name, unsigned int nElements, const math::Vector2* v);
 	void SetMatrixConstant(const str_type::string& name, const math::Matrix4x4 &matrix);
 	void SetTexture(const str_type::string& name, TextureWeakPtr pTexture, const unsigned int index);
 
