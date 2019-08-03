@@ -1,7 +1,7 @@
 #include "GLSDLVideo.h"
 
 #include "../GL/GLSprite.h"
-#include "../GL/Cg/GLCgShader.h"
+#include "../GL/GLShader.h"
 
 #include <SDL2/SDL.h>
 
@@ -77,8 +77,8 @@ ShaderPtr GLSDLVideo::LoadShaderFromFile(
 	const std::string& psFileName,
 	const std::string& psEntry)
 {
-	ShaderPtr shader = ShaderPtr(new GLCgShader(this));
-	if (shader->LoadShaderFromFile(m_shaderContext, vsFileName, vsEntry, psFileName, psEntry))
+	ShaderPtr shader = ShaderPtr(new GLShader(GetFileIOHub()->GetFileManager()));
+	if (shader->LoadShaderFromFile(ShaderContextPtr(), vsFileName, vsEntry, psFileName, psEntry))
 	{
 		return shader;
 	}
@@ -93,9 +93,9 @@ ShaderPtr GLSDLVideo::LoadShaderFromString(
 	const std::string& psCodeAsciiString,
 	const std::string& psEntry)
 {
-	ShaderPtr shader(new GLCgShader(this));
+	ShaderPtr shader(new GLShader(GetFileIOHub()->GetFileManager()));
 	if (shader->LoadShaderFromString(
-		m_shaderContext,
+		ShaderContextPtr(),
 		vsShaderName,
 		vsCodeAsciiString,
 		vsEntry,

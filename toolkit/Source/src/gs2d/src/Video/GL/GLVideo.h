@@ -6,7 +6,7 @@
 #include "GLInclude.h"
 #include "GLRectRenderer.h"
 
-#include "Cg/GLCgShaderContext.h"
+#include "GLShader.h"
 
 #include "../../Utilities/RecoverableResourceManager.h"
 
@@ -43,8 +43,6 @@ protected:
 		const bool sync,
 		const Texture::PIXEL_FORMAT pfBB = Texture::PF_UNKNOWN,
 		const bool maximizable = false);
-
-	GLCgShaderContextPtr m_shaderContext;
 
 	void UpdateInternalShadersViewData(const math::Vector2& screenSize, const bool invertY);
 	static void UpdateShaderViewData(const ShaderPtr& shader, const math::Vector2& screenSize);

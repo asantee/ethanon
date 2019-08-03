@@ -47,10 +47,6 @@ bool GLVideo::StartApplication(
 
 	Enable2DStates();
 
-	// don't reset cg context if it is an opengl context reset
-	if (!m_shaderContext)
-		m_shaderContext = GLCgShaderContextPtr(new GLCgShaderContext);
-
 	m_defaultShader  = LoadShaderFromString("defaultShaderVS", gs2dglobal::defaultVSCode,    "sprite",    "defaultShaderPS",  gs2dglobal::defaultFragmentShaders, "minimal");
 	m_rectShader     = LoadShaderFromString("rectShaderVS",    gs2dglobal::defaultVSCode,    "rectangle", "rectShaderPS",     gs2dglobal::defaultFragmentShaders, "minimal");
 	m_fastShader     = LoadShaderFromString("fastShaderVS",    gs2dglobal::fastSimpleVSCode, "fast",      "fastShaderPS",     gs2dglobal::defaultFragmentShaders, "minimal");
@@ -208,7 +204,7 @@ ShaderPtr GLVideo::GetCurrentShader()
 
 ShaderContextPtr GLVideo::GetShaderContext()
 {
-	return m_shaderContext;
+	return ShaderContextPtr();
 }
 
 bool GLVideo::SetCurrentShader(ShaderPtr shader)
@@ -229,7 +225,7 @@ bool GLVideo::SetCurrentShader(ShaderPtr shader)
 
 boost::any GLVideo::GetGraphicContext()
 {
-	return m_shaderContext;
+	return 0;
 }
 
 boost::any GLVideo::GetVideoInfo()

@@ -32,24 +32,25 @@ public:
 	GLShader(Platform::FileManagerPtr fileManager);
 	~GLShader();
 
-	virtual bool LoadShaderFromFile(
+	bool LoadShaderFromFile(
 		ShaderContextPtr context,
 		const std::string& vsFileName,
 		const std::string& vsEntry,
 		const std::string& psFileName,
-		const std::string& psEntry) = 0;
+		const std::string& psEntry);
 
-	virtual bool LoadShaderFromString(
+	bool LoadShaderFromString(
 		ShaderContextPtr context,
 		const std::string& vsShaderName,
 		const std::string& vsCodeAsciiString,
 		const std::string& vsEntry,
 		const std::string& psShaderName,
 		const std::string& psCodeAsciiString,
-		const std::string& psEntry) = 0;
+		const std::string& psEntry);
 
 	void SetShader();
 
+	void SetConstant(const str_type::string& name, const int n);
 	void SetConstant(const std::string& name, const float v);
 	void SetConstant(const std::string& name, const math::Vector2& v);
 	void SetConstant(const std::string& name, const math::Vector3& v);

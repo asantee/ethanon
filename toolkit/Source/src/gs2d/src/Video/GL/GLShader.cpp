@@ -18,6 +18,11 @@ GLShader::GLShader(Platform::FileManagerPtr fileManager) :
 {
 }
 
+GLShader::~GLShader()
+{
+	glDeleteProgram(m_program);
+}
+
 bool GLShader::LoadShaderFromFile(
 	ShaderContextPtr context,
 	const std::string& vsFileName,
@@ -114,6 +119,12 @@ GLint GLShader::FindUniformLocation(const std::string& name)
 void GLShader::SetShader()
 {
 	glUseProgram(m_program);
+}
+
+void GLShader::SetConstant(const std::string& name, const int n)
+{
+	const GLint location = FindUniformLocation(name);
+	glUniform1i(location, n);
 }
 
 void GLShader::SetConstant(const std::string& name, const float v)

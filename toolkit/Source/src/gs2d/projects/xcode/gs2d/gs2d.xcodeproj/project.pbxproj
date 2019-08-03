@@ -72,11 +72,6 @@
 		74838D3C1640730D0027CFFC /* KeyStateManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 74838D3A1640730C0027CFFC /* KeyStateManager.h */; };
 		74838D4016414F6A0027CFFC /* SDLJoystick.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74838D3E16414F690027CFFC /* SDLJoystick.cpp */; };
 		74838D4116414F6A0027CFFC /* SDLJoystick.h in Headers */ = {isa = PBXBuildFile; fileRef = 74838D3F16414F690027CFFC /* SDLJoystick.h */; };
-		7486553816382B6A0096D869 /* Cg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7486553716382B6A0096D869 /* Cg.framework */; };
-		7486553E16382C000096D869 /* GLCgShaderContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7486553C16382C000096D869 /* GLCgShaderContext.cpp */; };
-		7486553F16382C000096D869 /* GLCgShaderContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 7486553D16382C000096D869 /* GLCgShaderContext.h */; };
-		7486554316383A540096D869 /* GLCgShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7486554116383A540096D869 /* GLCgShader.cpp */; };
-		7486554416383A540096D869 /* GLCgShader.h in Headers */ = {isa = PBXBuildFile; fileRef = 7486554216383A540096D869 /* GLCgShader.h */; };
 		7486554716397C1D0096D869 /* GLTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7486554516397C1C0096D869 /* GLTexture.cpp */; };
 		7486554816397C1D0096D869 /* GLTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = 7486554616397C1D0096D869 /* GLTexture.h */; };
 		748655621639E1600096D869 /* GLSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 748655601639E15F0096D869 /* GLSprite.cpp */; };
@@ -209,10 +204,6 @@
 		74838D3F16414F690027CFFC /* SDLJoystick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLJoystick.h; path = ../../../../src/Input/SDL/SDLJoystick.h; sourceTree = "<group>"; };
 		7486553716382B6A0096D869 /* Cg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cg.framework; path = ../../../vendors/Cg.framework; sourceTree = "<group>"; };
 		7486553A16382B960096D869 /* Cg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cg.framework; path = ../../../vendors/Cg.framework; sourceTree = "<group>"; };
-		7486553C16382C000096D869 /* GLCgShaderContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLCgShaderContext.cpp; path = ../../../../src/Video/GL/Cg/GLCgShaderContext.cpp; sourceTree = "<group>"; };
-		7486553D16382C000096D869 /* GLCgShaderContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLCgShaderContext.h; path = ../../../../src/Video/GL/Cg/GLCgShaderContext.h; sourceTree = "<group>"; };
-		7486554116383A540096D869 /* GLCgShader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLCgShader.cpp; path = ../../../../src/Video/GL/Cg/GLCgShader.cpp; sourceTree = "<group>"; };
-		7486554216383A540096D869 /* GLCgShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLCgShader.h; path = ../../../../src/Video/GL/Cg/GLCgShader.h; sourceTree = "<group>"; };
 		7486554516397C1C0096D869 /* GLTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLTexture.cpp; path = ../../../../src/Video/GL/GLTexture.cpp; sourceTree = "<group>"; usesTabs = 1; };
 		7486554616397C1D0096D869 /* GLTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLTexture.h; path = ../../../../src/Video/GL/GLTexture.h; sourceTree = "<group>"; usesTabs = 1; };
 		748655601639E15F0096D869 /* GLSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLSprite.cpp; path = ../../../../src/Video/GL/GLSprite.cpp; sourceTree = "<group>"; usesTabs = 1; };
@@ -278,7 +269,6 @@
 				7490C8C8183529C300AC21C5 /* SDL2.framework in Frameworks */,
 				741E44B0181ADC5800E7ED3E /* AudioToolbox.framework in Frameworks */,
 				741E44AE181ADC5100E7ED3E /* OpenAL.framework in Frameworks */,
-				7486553816382B6A0096D869 /* Cg.framework in Frameworks */,
 				7458F0801635F18300D48019 /* OpenGL.framework in Frameworks */,
 				74F3A4FA1632E3870064C9A5 /* Cocoa.framework in Frameworks */,
 			);
@@ -479,10 +469,6 @@
 			children = (
 				AA92F34922F6112E00AECB30 /* GLShader.cpp */,
 				AA92F34822F6112E00AECB30 /* GLShader.h */,
-				7486554116383A540096D869 /* GLCgShader.cpp */,
-				7486554216383A540096D869 /* GLCgShader.h */,
-				7486553C16382C000096D869 /* GLCgShaderContext.cpp */,
-				7486553D16382C000096D869 /* GLCgShaderContext.h */,
 			);
 			name = Shaders;
 			sourceTree = "<group>";
@@ -633,8 +619,6 @@
 				7473CAE61635ABD9005DB920 /* GLSDLVideo.h in Headers */,
 				7458F0851636CFB200D48019 /* MacOSXFileIOHub.h in Headers */,
 				7458F09116377D9000D48019 /* GLRectRenderer.h in Headers */,
-				7486553F16382C000096D869 /* GLCgShaderContext.h in Headers */,
-				7486554416383A540096D869 /* GLCgShader.h in Headers */,
 				AA18F5FA22B9D15500F44DA6 /* Rect2Di.h in Headers */,
 				AA18F5FD22B9D64800F44DA6 /* Rect2D.h in Headers */,
 				7486554816397C1D0096D869 /* GLTexture.h in Headers */,
@@ -754,8 +738,6 @@
 				7458F09016377D9000D48019 /* GLRectRenderer.cpp in Sources */,
 				AA18F5EE22B8846100F44DA6 /* Vector3.cpp in Sources */,
 				AA92F34B22F6112E00AECB30 /* GLShader.cpp in Sources */,
-				7486553E16382C000096D869 /* GLCgShaderContext.cpp in Sources */,
-				7486554316383A540096D869 /* GLCgShader.cpp in Sources */,
 				AA18F60922C7D98800F44DA6 /* GameMath.cpp in Sources */,
 				74D066DD1A03CBF300D45F66 /* SOIL.c in Sources */,
 				7486554716397C1D0096D869 /* GLTexture.cpp in Sources */,
