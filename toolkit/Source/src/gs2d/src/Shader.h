@@ -54,10 +54,11 @@ public:
 	virtual void SetConstant(const str_type::string& name, const float x) = 0;
 	virtual void SetConstant(const str_type::string& name, const int n) = 0;
 	virtual void SetConstantArray(const str_type::string& name, unsigned int nElements, const math::Vector2* v) = 0;
+    virtual void SetConstantArray(const str_type::string& name, unsigned int nElements, const math::Vector4* v) = 0;
 	virtual void SetMatrixConstant(const str_type::string& name, const math::Matrix4x4 &matrix) = 0;
-	virtual void SetTexture(const str_type::string& name, TextureWeakPtr pTexture, const unsigned int index) = 0;
+	virtual void SetTexture(const str_type::string& name, TexturePtr pTexture, const unsigned int index) = 0;
 	
-	virtual bool SetShader() = 0;
+	virtual void SetShader() = 0;
 };
 
 typedef boost::shared_ptr<Shader> ShaderPtr;

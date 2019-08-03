@@ -123,36 +123,34 @@ void GLCgShader::DisableTextures()
 	m_enabledTextures.clear();
 }
 
-bool GLCgShader::SetShader()
+void GLCgShader::SetShader()
 {
 	{
         cgGLBindProgram(m_cgVsProgam);
         if (CheckForError("cgGLBindProgram", m_vsShaderName))
-            return false;
+            return;
 
         cgUpdateProgramParameters(m_cgVsProgam);
         if (CheckForError("cgUpdateProgramParameters", m_vsShaderName))
-            return false;
+            return;
 
         cgGLEnableProfile(m_cgVsProfile);
         if (CheckForError("cgGLEnableProfile", m_vsShaderName))
-            return false;
+            return;
     }
     {
         cgGLBindProgram(m_cgPsProgam);
         if (CheckForError("cgGLBindProgram", m_psShaderName))
-            return false;
+            return;
 
         cgUpdateProgramParameters(m_cgPsProgam);
         if (CheckForError("cgUpdateProgramParameters", m_psShaderName))
-            return false;
+            return;
 
         cgGLEnableProfile(m_cgPsProfile);
         if (CheckForError("cgGLEnableProfile", m_psShaderName))
-            return false;
+            return;
     }
-
-	return true;
 }
 
 bool GLCgShader::LoadShaderFromFile(
@@ -351,7 +349,12 @@ void GLCgShader::SetConstantArray(const str_type::string& name, unsigned int nEl
 		return;
 }
 
-void GLCgShader::SetTexture(const str_type::string& name, TextureWeakPtr pTexture, const unsigned int index)
+void GLCgShader::SetConstantArray(const str_type::string& name, unsigned int nElements, const math::Vector4* v)
+{
+	//
+}
+
+void GLCgShader::SetTexture(const str_type::string& name, TexturePtr pTexture, const unsigned int index)
 {
 	CGparameter param = SeekParameter(name, m_cgVsProgam, m_cgPsProgam);
 
@@ -363,7 +366,7 @@ void GLCgShader::SetTexture(const str_type::string& name, TextureWeakPtr pTextur
 
 	DisableIfEnabled(param);
 
-	const GLTexture* textureObj = (GLTexture*)(pTexture.lock().get());
+	const GLTexture* textureObj = (const GLTexture*)(pTexture.get());
 	
 	cgGLSetTextureParameter(param, textureObj->GetTextureInfo().m_texture);
 	if (CheckForError("Shader::SetTexture", m_shaderPairName))

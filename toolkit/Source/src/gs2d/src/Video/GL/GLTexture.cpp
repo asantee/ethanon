@@ -65,14 +65,14 @@ void GLTexture::DeleteGLTexture()
 	}
 }
 
-bool GLTexture::SetTexture(const unsigned int passIdx)
-{
-	return true;
-}
-
 Texture::PROFILE GLTexture::GetProfile() const
 {
 	return m_profile;
+}
+
+GLuint GLTexture::GetTexture() const
+{
+	return m_textureInfo.m_texture;
 }
 
 boost::any GLTexture::GetTextureObject()

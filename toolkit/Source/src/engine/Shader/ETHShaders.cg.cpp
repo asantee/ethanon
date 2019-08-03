@@ -4,35 +4,35 @@
 
 const std::string& ETHShaders::DefaultVS()
 {
-	return ETHGlobal::Cg_defaultVS_cg;
+	return ETHGlobal::defaultVS_cg;
 }
 
 static const std::string emptyStr;
 
 const std::string& ETHShaders::DefaultPS()
 {
-	return ETHGlobal::Cg_defaultPS_cg;
+	return ETHGlobal::defaultPS_cg;
 }
 
 // ambient pass
 const std::string& ETHShaders::Ambient_VS_Hor()
 {
-	return ETHGlobal::Cg_hAmbientVS_cg;
+	return ETHGlobal::hAmbientVS_cg;
 }
 
 const std::string& ETHShaders::Highlight_PS()
 {
-	return ETHGlobal::Cg_highlightPS_cg;
+	return ETHGlobal::highlightPS_cg;
 }
 
 const std::string& ETHShaders::SolidColor_PS()
 {
-	return ETHGlobal::Cg_solidPS_cg;
+	return ETHGlobal::solidPS_cg;
 }
 
 // particles
 const std::string& ETHShaders::Particle_VS()
 {
-	return ETHGlobal::Cg_particleVS_cg;
+	return ETHGlobal::particleVS_cg;
 }
 

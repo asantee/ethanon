@@ -47,9 +47,9 @@ public:
 
 	~GLTexture();
 
-	bool SetTexture(const unsigned int passIdx = 0);
 	PROFILE GetProfile() const;
 	boost::any GetTextureObject();
+	GLuint GetTexture() const;
 	math::Vector2 GetBitmapSize() const;
 
 	bool LoadTexture(

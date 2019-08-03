@@ -82,10 +82,11 @@ public:
 	void SetConstant(const str_type::string& name, const float x);
 	void SetConstant(const str_type::string& name, const int n);
 	void SetConstantArray(const str_type::string& name, unsigned int nElements, const math::Vector2* v);
+	void SetConstantArray(const str_type::string& name, unsigned int nElements, const math::Vector4* v);
 	void SetMatrixConstant(const str_type::string& name, const math::Matrix4x4 &matrix);
-	void SetTexture(const str_type::string& name, TextureWeakPtr pTexture, const unsigned int index);
+	void SetTexture(const str_type::string& name, TexturePtr pTexture, const unsigned int index);
 
-	bool SetShader();
+	void SetShader();
 	void UnbindShader();
 	void DisableTextures();
 };
