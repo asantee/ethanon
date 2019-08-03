@@ -46,8 +46,8 @@ void main()
 		@gs2dDefaultShaders,
 		relativePath,
 		gs2dSavePath,
-		"ShaderCode.h",
-		"SHADER_CODE_H_",
+		"GLShaderCode.h",
+		"GL_SHADER_CODE_H_",
 		"gs2d_shaders");
 	Exit();
 }
