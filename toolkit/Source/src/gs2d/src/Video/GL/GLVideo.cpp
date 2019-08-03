@@ -81,7 +81,6 @@ void GLVideo::Enable2DStates()
 {
 	const math::Vector2 screenSize(GetScreenSizeInPixels());
 	glViewport(0, 0, static_cast<GLsizei>(screenSize.x), static_cast<GLsizei>(screenSize.y));
-	glDisable(GL_LIGHTING);
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DITHER);
 	glDepthFunc(GL_LEQUAL);
@@ -98,37 +97,23 @@ void GLVideo::Enable2DStates()
 bool GLVideo::SetAlphaMode(const ALPHA_MODE mode)
 {
 	m_alphaMode = mode;
-
 	switch(mode)
 	{
-	case AM_PIXEL:
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glAlphaFunc(GL_GREATER, (GLclampf)m_alphaRef);
-		glEnable(GL_ALPHA_TEST);
-		break;
 	case AM_ADD:
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE);
-		glAlphaFunc(GL_GREATER, (GLclampf)m_alphaRef);
-		glEnable(GL_ALPHA_TEST);
 		break;
-	case AM_ALPHA_TEST:
-		glAlphaFunc(GL_GREATER, (GLclampf)m_alphaRef);
-		glEnable(GL_ALPHA_TEST);
-		glDisable(GL_BLEND);
-	break;
 	case AM_MODULATE:
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ZERO, GL_SRC_COLOR);
-		glAlphaFunc(GL_GREATER, (GLclampf)m_alphaRef);
-		glEnable(GL_ALPHA_TEST);
-	break;
+		break;
 	case AM_NONE:
-	default:
-		m_alphaMode = AM_NONE;
 		glDisable(GL_BLEND);
-		glDisable(GL_ALPHA_TEST);
+		break;
+	case AM_PIXEL:
+	default:
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		break;
 	};
 	return true;

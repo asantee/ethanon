@@ -5,13 +5,15 @@
 
 #include "Math/Vector3.h"
 
+#include <boost/shared_ptr.hpp>
+
 #include <vector>
 
 namespace gs2d {
 
 class PolygonRenderer;
 
-typedef std::shared_ptr<PolygonRenderer> PolygonRendererPtr;
+typedef boost::shared_ptr<PolygonRenderer> PolygonRendererPtr;
 
 class PolygonRenderer
 {

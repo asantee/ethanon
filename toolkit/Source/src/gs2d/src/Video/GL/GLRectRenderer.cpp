@@ -70,12 +70,12 @@ GLRectRenderer::GLRectRenderer()
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_vboId);
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(3, GL_FLOAT, sizeof(float) * floatsPerVertex, BUFFER_OFFSET(0));
+	//glEnableClientState(GL_VERTEX_ARRAY);
+	//glVertexPointer(3, GL_FLOAT, sizeof(float) * floatsPerVertex, BUFFER_OFFSET(0));
 
-	glClientActiveTexture(GL_TEXTURE0);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	glTexCoordPointer(2, GL_FLOAT, sizeof(float) * floatsPerVertex, BUFFER_OFFSET(12));
+	//glClientActiveTexture(GL_TEXTURE0);
+	//glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	//glTexCoordPointer(2, GL_FLOAT, sizeof(float) * floatsPerVertex, BUFFER_OFFSET(12));
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_iboId);
 }

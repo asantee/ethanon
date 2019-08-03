@@ -27,7 +27,7 @@
 		#include <OpenGLES/ES2/glext.h>
 		#define APIENTRY
 	#else
-		#include <OpenGL/gl.h>
+		#include <OpenGL/gl3.h>
 		#include <Carbon/Carbon.h>
 		#define APIENTRY
 	#endif
@@ -1187,10 +1187,10 @@ unsigned int
 		switch( channels )
 		{
 		case 1:
-			original_texture_format = GL_LUMINANCE;
+			original_texture_format = GL_ALPHA;
 			break;
 		case 2:
-			original_texture_format = GL_LUMINANCE_ALPHA;
+			// not supported
 			break;
 		case 3:
 			original_texture_format = GL_RGB;
