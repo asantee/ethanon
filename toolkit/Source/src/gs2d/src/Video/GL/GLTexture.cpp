@@ -16,8 +16,6 @@ boost::shared_ptr<GLTexture> GLTexture::Create(VideoWeakPtr video, Platform::Fil
     return texture;
 }
 
-GLuint GLTexture::m_textureID(1000);
-
 GLTexture::TEXTURE_INFO::TEXTURE_INFO() :
 	m_frameBuffer(0),
 	m_renderBuffer(0),
@@ -151,7 +149,7 @@ void GLTexture::CreateTextureFromBitmap(unsigned char* data, const int width, co
 	DeleteGLTexture();
 	if (data)
 	{
-		m_textureInfo.m_texture = SOIL_create_OGL_texture(data, width, height, channels, m_textureID++, pow2 ? SOIL_FLAG_POWER_OF_TWO : 0);
+		m_textureInfo.m_texture = SOIL_create_OGL_texture(data, width, height, channels, 0, pow2 ? SOIL_FLAG_POWER_OF_TWO : 0);
 	}
 }
 

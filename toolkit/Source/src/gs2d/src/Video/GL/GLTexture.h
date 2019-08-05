@@ -23,7 +23,6 @@ class GLTexture : public Texture, public RecoverableResource
 	PROFILE m_profile;
 	str_type::string m_fileName;
 	int m_channels;
-	static GLuint m_textureID;
 
 	unsigned char* m_bitmap;
 
