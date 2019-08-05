@@ -51,7 +51,7 @@ public:
 		const float minHeight,
 		const DEPTH_SORTING_MODE ownerType,
 		const Vector2& zAxisDirection,
-		const Vector2& parallaxOffset,
+		const float parallaxIntensity,
 		const float ownerDepth);
 
 	/// Return true if the particle system has finished it's execution
@@ -181,6 +181,7 @@ private:
 	std::vector<PARTICLE> m_particles;
 	ETHResourceProviderPtr m_provider;
 	SpritePtr m_pBMP;
+	SpriteRects m_rects;
 	bool m_finished, m_killed;
 	int m_nActiveParticles;
 	Vector2 m_worldSpaceBoundingMin, m_worldSpaceBoundingMax;

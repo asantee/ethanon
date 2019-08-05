@@ -1,7 +1,5 @@
 #include "GLVideo.h"
 
-#include "../cgShaderCode.h"
-
 #include "GLTexture.h"
 
 #include <SOIL.h>
@@ -46,31 +44,7 @@ bool GLVideo::StartApplication(
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 	Enable2DStates();
-
-	m_defaultShader  = LoadShaderFromString("defaultShaderVS", gs2dglobal::defaultVSCode,    "sprite",    "defaultShaderPS",  gs2dglobal::defaultFragmentShaders, "minimal");
-	m_rectShader     = LoadShaderFromString("rectShaderVS",    gs2dglobal::defaultVSCode,    "rectangle", "rectShaderPS",     gs2dglobal::defaultFragmentShaders, "minimal");
-	m_fastShader     = LoadShaderFromString("fastShaderVS",    gs2dglobal::fastSimpleVSCode, "fast",      "fastShaderPS",     gs2dglobal::defaultFragmentShaders, "minimal");
-	m_modulateShader = LoadShaderFromString("fastShaderVS",    gs2dglobal::defaultVSCode,    "sprite",    "modulateShaderPS", gs2dglobal::defaultFragmentShaders, "modulate");
-	m_addShader      = LoadShaderFromString("addShaderVS",     gs2dglobal::defaultVSCode,    "sprite",    "addShaderPS",      gs2dglobal::defaultFragmentShaders, "add");
-
-	m_currentShader = m_defaultShader;
-
-	UpdateInternalShadersViewData(GetScreenSizeF(), false);
-
-	m_rectRenderer = boost::shared_ptr<GLRectRenderer>(new GLRectRenderer());
 	return true;
-}
-
-void GLVideo::UpdateInternalShadersViewData(const math::Vector2& screenSize, const bool invertY)
-{
-	UpdateShaderViewData(m_defaultShader, screenSize);
-	UpdateShaderViewData(m_rectShader, screenSize);
-	UpdateShaderViewData(m_fastShader, screenSize);
-}
-
-void GLVideo::UpdateShaderViewData(const ShaderPtr& shader, const math::Vector2& screenSize)
-{
-	shader->SetConstant("screenSize", screenSize);
 }
 
 void GLVideo::Enable2DStates()
@@ -167,60 +141,9 @@ Color GLVideo::GetBGColor() const
 	return m_backgroundColor;
 }
 
-const GLRectRenderer& GLVideo::GetRectRenderer() const
-{
-	return *m_rectRenderer.get();
-}
-
-ShaderPtr GLVideo::GetDefaultShader()
-{
-	return m_defaultShader;
-}
-
-ShaderPtr GLVideo::GetRectShader()
-{
-	return m_rectShader;
-}
-
-ShaderPtr GLVideo::GetFastShader()
-{
-	return m_fastShader;
-}
-
-ShaderPtr GLVideo::GetModulateShader()
-{
-	return m_modulateShader;
-}
-
-ShaderPtr GLVideo::GetAddShader()
-{
-	return m_addShader;
-}
-
-ShaderPtr GLVideo::GetCurrentShader()
-{
-	return m_currentShader;
-}
-
 ShaderContextPtr GLVideo::GetShaderContext()
 {
 	return ShaderContextPtr();
-}
-
-bool GLVideo::SetCurrentShader(ShaderPtr shader)
-{
-	if (!shader)
-	{
-		m_currentShader = m_defaultShader;
-	}
-	else
-	{
-		m_currentShader = shader;
-	}
-
-	const math::Vector2 screenSize = GetScreenSizeF();
-	UpdateShaderViewData(m_currentShader, screenSize);
-	return true;
 }
 
 boost::any GLVideo::GetGraphicContext()

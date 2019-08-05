@@ -2,12 +2,11 @@
 #define ETH_RESOURCE_MANAGER_H_
 
 #include <Platform/FileIOHub.h>
+#include <SpriteRects.h>
+#include <Audio.h>
 
 #include "../ETHTypes.h"
-
 #include "ETHSpriteDensityManager.h"
-
-#include <Audio.h>
 
 class ETHGraphicResourceManager
 {
@@ -22,7 +21,6 @@ public:
 		SpritePtr m_sprite;
 		str_type::string m_fullOriginPath;
 		bool m_temporary;
-		Sprite::RectsPtr m_packedFrames;
 	public:
 		SpriteResource(
 			const Platform::FileManagerPtr& fileManager,
@@ -31,36 +29,47 @@ public:
 			const SpritePtr& sprite,
 			const bool temporary);
 		bool IsTemporary() const;
+		SpritePtr GetSprite() const;
+
+		bool flipX, flipY;
+		unsigned int frame;
+		SpriteRectsPtr packedFrames;
 	};
 
-	SpritePtr GetPointer(
+	const SpriteResource* GetPointer(
 		const Platform::FileManagerPtr& fileManager,
 		VideoPtr video,
 		const str_type::string& fileRelativePath,
 		const str_type::string& resourceDirectory,
 		const str_type::string &searchPath,
-		const bool cutOutBlackPixels,
 		const bool temporary = false);
 
-	Sprite::RectsPtr GetPackedFrames(const str_type::string& fileName);
-	SpriteResource GetSpriteResource(const str_type::string& fileName);
+	SpritePtr GetSprite(
+		const Platform::FileManagerPtr& fileManager,
+		VideoPtr video,
+		const str_type::string& fileRelativePath,
+		const str_type::string& resourceDirectory,
+		const str_type::string &searchPath,
+		const bool temporary = false);
+
+	SpriteRectsPtr GetPackedFrames(const str_type::string& fileName);
+	SpriteResource* GetSpriteResource(const str_type::string& fileName);
 
 	std::size_t GetNumResources();
 	void ReleaseResources();
 	void ReleaseTemporaryResources();
 
-	SpritePtr AddFile(
+	const SpriteResource* AddFile(
 		const Platform::FileManagerPtr& fileManager,
 		VideoPtr video,
 		const str_type::string& path,
 		const str_type::string& resourceDirectory,
-		const bool cutOutBlackPixels,
 		const bool temporary);
 
 	bool ReleaseResource(const str_type::string& file);
 
 private:
-	SpritePtr FindSprite(
+	const SpriteResource* FindSprite(
 		const str_type::string& fullFilePath,
 		const str_type::string& fileName,
 		const str_type::string& resourceDirectory);

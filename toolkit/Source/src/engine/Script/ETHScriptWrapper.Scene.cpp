@@ -228,49 +228,22 @@ void ETHScriptWrapper::SetAmbientLight(const Vector3 &v3Color)
 
 void ETHScriptWrapper::SetParallaxOrigin(const Vector2 &parallaxOrigin)
 {
-	if (WarnIfRunsInMainFunction(GS_L("SetParallaxOrigin")))
-		return;
-
-	m_provider->GetShaderManager()->SetParallaxNormalizedOrigin(parallaxOrigin);
+	// to-do
+	//m_provider->GetShaderManager()->SetParallaxNormalizedOrigin(parallaxOrigin);
 }
 
 Vector2 ETHScriptWrapper::GetParallaxOrigin()
 {
-	if (WarnIfRunsInMainFunction(GS_L("GetParallaxOrigin")))
-		return gs2d::math::constant::ZERO_VECTOR2;
-
-	return m_provider->GetShaderManager()->GetParallaxNormalizedOrigin();
+	return Vector2(0.5f); //m_provider->GetShaderManager()->GetParallaxNormalizedOrigin();
 }
 
 void ETHScriptWrapper::SetParallaxIntensity(const float intensity)
 {
-	if (WarnIfRunsInMainFunction(GS_L("SetParallaxIntensity")))
-		return;
-
 	m_provider->GetShaderManager()->SetParallaxIntensity(intensity);
 }
 
 float ETHScriptWrapper::GetParallaxIntensity()
 {
-	if (WarnIfRunsInMainFunction(GS_L("GetParallaxIntensity")))
-		return 0.0f;
-
-	return m_provider->GetShaderManager()->GetParallaxIntensity();
-}
-
-void ETHScriptWrapper::SetParallaxVerticalIntensity(const float intensity)
-{
-	if (WarnIfRunsInMainFunction(GS_L("SetParallaxVerticalIntensity")))
-		return;
-
-	m_provider->GetShaderManager()->SetParallaxVerticalIntensity(intensity);
-}
-
-float ETHScriptWrapper::GetParallaxVerticalIntensity()
-{
-	if (WarnIfRunsInMainFunction(GS_L("GetParallaxVerticalIntensity")))
-		return 0.0f;
-
 	return m_provider->GetShaderManager()->GetParallaxIntensity();
 }
 

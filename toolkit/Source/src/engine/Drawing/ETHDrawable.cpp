@@ -69,18 +69,17 @@ ETHSpriteDrawer::ETHSpriteDrawer(
 	const Vector2& size,
 	const Vector4& color,
 	const float angle,
+	SpriteRectsPtr rects,
 	const unsigned int frame,
 	const bool flipX,
 	const bool flipY)
 {
 	this->sprite = sprite;
-	this->color0 = color;
-	this->color1 = color;
-	this->color2 = color;
-	this->color3 = color;
+	this->color = color;
 	this->v2Pos = pos;
 	this->v2Size = size;
 	this->angle = angle;
+	this->rects = rects;
 	this->frame = frame;
 	this->provider = provider;
 	this->flipX = flipX;
@@ -95,17 +94,12 @@ bool ETHSpriteDrawer::Draw(const unsigned long lastFrameElapsedTimeMS)
 	GS2D_UNUSED_ARGUMENT(lastFrameElapsedTimeMS);
 	if (sprite)
 	{
-		provider->GetVideo()->SetCurrentShader(ShaderPtr());
-
-		sprite->SetRect(frame);
-
-		const Vector2 frameSize(sprite->GetFrameSize());
+		const Rect2D rect(rects ? rects->GetRect(frame) : Rect2D());
+		const Vector2 frameSize(sprite->GetSize(rect));
 		const Vector2 size(v2Size == Vector2(-1,-1) ? frameSize : v2Size);
 
 		if (size.x == 0.0f || size.y == 0.0f)
 			return true;
-
-		const Rect2D rect(sprite->GetRect());
 
 		const Vector2 bitmapSize = ((rect.size == rect.originalSize) ? frameSize : rect.size);
 		const Vector2 virtualSize = ((rect.size == rect.originalSize) ? frameSize : rect.originalSize);
@@ -113,9 +107,8 @@ bool ETHSpriteDrawer::Draw(const unsigned long lastFrameElapsedTimeMS)
 		const Vector2 relativeOrigin(absoluteOrigin.x / bitmapSize.x, absoluteOrigin.y / bitmapSize.y);
 
 		sprite->SetOrigin(relativeOrigin);
-		sprite->FlipX(flipX);
-		sprite->FlipY(flipY);
-		return sprite->DrawShaped(v2Pos, size, color0, color1, color2, color3, angle);
+		sprite->Draw(Vector3(v2Pos, 0.0f), size, color, angle, rect, flipX, flipY, Sprite::GetDefaultShader());
+		return true;
 	}
 	else
 	{

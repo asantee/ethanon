@@ -17,18 +17,9 @@ public:
 	void Reset();
 	Vector4 emissiveColor;
 	Vector4 diffuseColor;
-	ETH_BOOL castShadow;
-	ETH_BOOL applyLight;
-	str_type::string glossFile;
-	str_type::string normalFile;
 	str_type::string spriteFile;
-	float shadowOpacity;
-	float shadowScale;
-	float specularPower;
-	float specularBrightness;
 	float restitution;
 	boost::shared_ptr<ETHLight> light;
-	float shadowLengthScale;
 	Video::ALPHA_MODE blendMode;
 	ETH_BOOL sensor;
 	ETH_BOOL fixedRotation;

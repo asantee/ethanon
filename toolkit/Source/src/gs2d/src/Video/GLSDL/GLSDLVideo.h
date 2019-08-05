@@ -60,17 +60,6 @@ public:
 		const unsigned int height,
 		const unsigned int nMipMaps);
 
-	SpritePtr CreateSprite(
-		unsigned char *pBuffer,
-		const unsigned int bufferLength,
-		const unsigned int width = 0,
-		const unsigned int height = 0);
-	
-	SpritePtr CreateSprite(
-		const str_type::string& fileName,
-		const unsigned int width = 0,
-		const unsigned int height = 0);
-
 	ShaderPtr LoadShaderFromFile(
 	    const std::string& vsFileName,
         const std::string& vsEntry,

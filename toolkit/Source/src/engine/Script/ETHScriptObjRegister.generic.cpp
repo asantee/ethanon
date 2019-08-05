@@ -298,12 +298,8 @@ asDECLARE_METHOD_WRAPPERPR(__GetType,                ETHScriptEntity, GetType,  
 asDECLARE_METHOD_WRAPPERPR(__ComputeParallaxOffset,  ETHScriptEntity, ComputeParallaxOffset,  (void) const,                    Vector2);
 
 asDECLARE_METHOD_WRAPPERPR(__SetSprite,          ETHScriptEntity, SetSprite,           (const str_type::string&), bool);
-asDECLARE_METHOD_WRAPPERPR(__SetNormal,          ETHScriptEntity, SetNormal,           (const str_type::string&), bool);
-asDECLARE_METHOD_WRAPPERPR(__SetGloss,           ETHScriptEntity, SetGloss,            (const str_type::string&), bool);
 asDECLARE_METHOD_WRAPPERPR(__SetHalo,            ETHScriptEntity, SetHalo,             (const str_type::string&), bool);
 asDECLARE_METHOD_WRAPPERPR(__GetSpriteBitmap,    ETHScriptEntity, GetSpriteName,       (void) const, str_type::string);
-asDECLARE_METHOD_WRAPPERPR(__GetNormalBitmap,    ETHScriptEntity, GetNormalName,       (void) const, str_type::string);
-asDECLARE_METHOD_WRAPPERPR(__GetGlossBitmap,     ETHScriptEntity, GetGlossName,        (void) const, str_type::string);
 asDECLARE_METHOD_WRAPPERPR(__GetHaloBitmap,      ETHScriptEntity, GetHaloName,         (void) const, str_type::string);
 
 asDECLARE_METHOD_WRAPPERPR(__IsInvisible,        ETHScriptEntity, IsInvisible,         (void) const,              bool);
@@ -333,10 +329,7 @@ asDECLARE_METHOD_WRAPPERPR(__GetAlpha,           ETHScriptEntity, GetAlpha,     
 asDECLARE_METHOD_WRAPPERPR(__IsAlive,            ETHScriptEntity, IsAlive,            (void) const,               bool);
 asDECLARE_METHOD_WRAPPERPR(__IsHidden,           ETHScriptEntity, IsHidden,           (void) const,               bool);
 asDECLARE_METHOD_WRAPPERPR(__Hide,               ETHScriptEntity, Hide,               (const bool),               void);
-asDECLARE_METHOD_WRAPPERPR(__GetShadowZ,         ETHScriptEntity, GetShadowZ,         (void) const,               float);
-asDECLARE_METHOD_WRAPPERPR(__SetShadowZ,         ETHScriptEntity, SetShadowZ,         (const float),              void);
 asDECLARE_METHOD_WRAPPERPR(__AreParticlesOver,   ETHScriptEntity, AreParticlesOver,   (void) const,               bool);
-asDECLARE_METHOD_WRAPPERPR(__HasShadow,          ETHScriptEntity, HasShadow,          (void) const,               bool);
 asDECLARE_METHOD_WRAPPERPR(__HasHalo,            ETHScriptEntity, HasHalo,            (void) const,               bool);
 asDECLARE_METHOD_WRAPPERPR(__SetPivotAdjust,     ETHScriptEntity, SetPivotAdjust,     (const Vector2&),           void);
 asDECLARE_METHOD_WRAPPERPR(__GetPivotAdjust,     ETHScriptEntity, GetPivotAdjust,     (void) const,               Vector2);
@@ -453,12 +446,8 @@ void RegisterEntityMethods(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector2 ComputeParallaxOffset() const",             asFUNCTION(__ComputeParallaxOffset),  asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool SetSprite(const string &in)",         asFUNCTION(__SetSprite),          asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool SetNormal(const string &in)",         asFUNCTION(__SetNormal),          asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool SetGloss(const string &in)",          asFUNCTION(__SetGloss),           asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool SetHalo(const string &in)",           asFUNCTION(__SetHalo),            asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "string GetSprite() const",                 asFUNCTION(__GetSpriteBitmap),    asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "string GetNormal() const",                 asFUNCTION(__GetNormalBitmap),    asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "string GetGloss() const",                  asFUNCTION(__GetGlossBitmap),     asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "string GetHalo() const",                   asFUNCTION(__GetHaloBitmap),      asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool IsInvisible() const",                 asFUNCTION(__IsInvisible),          asCALL_GENERIC); assert(r >= 0);
@@ -492,10 +481,7 @@ void RegisterEntityMethods(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool IsAlive() const",                   asFUNCTION(__IsAlive),            asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool IsHidden() const",                  asFUNCTION(__IsHidden),           asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void Hide(const bool)",                  asFUNCTION(__Hide),               asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "float GetShadowZ() const",               asFUNCTION(__GetShadowZ),         asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetShadowZ(const float)",           asFUNCTION(__SetShadowZ),         asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool AreParticlesOver() const",          asFUNCTION(__AreParticlesOver),   asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool HasShadow() const",                 asFUNCTION(__HasShadow),          asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool HasHalo() const",                   asFUNCTION(__HasHalo),            asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetPivotAdjust(const vector2& in)", asFUNCTION(__SetPivotAdjust),     asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector2 GetPivotAdjust() const",         asFUNCTION(__GetPivotAdjust),     asCALL_GENERIC); assert(r >= 0);

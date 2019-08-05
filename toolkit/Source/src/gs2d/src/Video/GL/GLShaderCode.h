@@ -8,6 +8,7 @@
 /* Shaders included in this file:
 GL/default-sprite-add.fs                  ->     default_sprite_add_fs
 GL/default-sprite-fast.vs                 ->     default_sprite_fast_vs
+GL/default-sprite-highlight.fs            ->     default_sprite_highlight_fs
 GL/default-sprite-modulate.fs             ->     default_sprite_modulate_fs
 GL/default-sprite-solid-color-add.fs      ->     default_sprite_solid_color_add_fs
 GL/default-sprite-solid-color-modulate.fs ->     default_sprite_solid_color_modulate_fs
@@ -89,6 +90,23 @@ const std::string default_sprite_fast_vs =
 "\n" \
 "	gl_Position = vertexPos;\n" \
 "	outColor = u[COLOR];\n" \
+"}\n" \
+"\n" \
+"\n";
+
+const std::string default_sprite_highlight_fs = 
+"#version 330 core\n" \
+"out vec4 outFragColor;\n" \
+"\n" \
+"in vec4 outColor;\n" \
+"in vec2 outTexCoord;\n" \
+"\n" \
+"uniform sampler2D diffuse;\n" \
+"uniform vec4 highlight;\n" \
+"\n" \
+"void main()\n" \
+"{\n" \
+"	outFragColor = texture(diffuse, outTexCoord) * highlight;\n" \
 "}\n" \
 "\n" \
 "\n";

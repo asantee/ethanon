@@ -1,6 +1,8 @@
 #include "ETHPhysicsSimulator.h"
 #include "ETHRayCastCallback.h"
 
+#include <boost/shared_array.hpp>
+
 const b2Vec2 ETHPhysicsSimulator::DEFAULT_GRAVITY(0, 10);
 const float ETHPhysicsSimulator::DEFAULT_SCALE(50.0f);
 int32 ETHPhysicsSimulator::m_velocityIterations(5);

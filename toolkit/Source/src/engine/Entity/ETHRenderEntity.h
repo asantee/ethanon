@@ -9,10 +9,6 @@
 
 class ETHRenderEntity : public ETHSpriteEntity
 {
-	friend class ETHLightmapGen;
-
-	bool ShouldUseFourTriangles(const float parallaxIntensity) const;
-
 public:
 	ETHRenderEntity(const str_type::string& filePath, ETHResourceProviderPtr provider, const int nId =-1);
 	ETHRenderEntity(
@@ -28,8 +24,6 @@ public:
 	bool IsSpriteVisible(
 		const ETHSceneProperties& sceneProps,
 		const ETHBackBufferTargetManagerPtr& backBuffer) const;
-
-	bool DrawLightPass(const Vector2 &zAxisDirection, const float parallaxIntensity, const bool drawToTarget = false);
 
 	bool DrawHalo(
 		const Vector2& zAxisDirection,

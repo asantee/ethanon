@@ -1,6 +1,9 @@
 #include "ETHSpriteDensityManager.h"
+
 #include "../ETHTypes.h"
+
 #include "../Platform/ETHAppEnmlFile.h"
+
 #include <Platform/Platform.h>
 
 using gs2d::str_type::string;
@@ -118,7 +121,7 @@ gs2d::str_type::string ETHSpriteDensityManager::ChooseSpriteVersion(
 
 void ETHSpriteDensityManager::SetSpriteDensity(const gs2d::SpritePtr& sprite, const DENSITY_LEVEL& level) const
 {
-	sprite->SetSpriteDensityValue(GetDensityValue(level));
+	sprite->SetPixelDensity(GetDensityValue(level));
 }
 
 float ETHSpriteDensityManager::GetDensityValue(const DENSITY_LEVEL& level) const

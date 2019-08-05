@@ -33,6 +33,7 @@ void main()
 	const string[] gs2dDefaultShaders = {
 		"GL/default-sprite-add.fs",
 		"GL/default-sprite-fast.vs",
+		"GL/default-sprite-highlight.fs",
 		"GL/default-sprite-modulate.fs",
 		"GL/default-sprite-solid-color-add.fs",
 		"GL/default-sprite-solid-color-modulate.fs",
@@ -76,6 +77,10 @@ void convertShaderCodeToCHeader(
 				output += "\"" + lines[l] + "\\n" + "\" " + "\\" + "\n";
 			}
 			output += "\"\\n\";\n\n";
+		}
+		else
+		{
+			print("FILE NOT FOUND! " + filePath);
 		}
 	}
 

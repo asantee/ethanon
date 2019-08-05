@@ -31,17 +31,6 @@ ETHRenderEntity::ETHRenderEntity(ETHResourceProviderPtr provider) :
 {
 }
 
-bool ETHRenderEntity::ShouldUseFourTriangles(const float parallaxIntensity) const
-{
-	if (!m_pSprite)
-		return false;
-
-	if ((parallaxIntensity * GetParallaxIntensity()) == 0.0f)
-		return false;
-
-	return true;
-}
-
 bool ETHRenderEntity::DrawAmbientPass(
 	const float maxHeight,
 	const float minHeight,
@@ -55,29 +44,18 @@ bool ETHRenderEntity::DrawAmbientPass(
 
 	const VideoPtr& video = m_provider->GetVideo();
 
-	// apply lightmap textures
-	if (m_pLightmap)
-	{
-		m_pLightmap->SetAsTexture(1);
-	}
-
 	// sets the alpha mode according to the entity's property
 	const Video::ALPHA_MODE& am = GetBlendMode();
 
 	if (am != video->GetAlphaMode())
+	{
 		video->SetAlphaMode(am);
+	}
 
-	ValidateSpriteCut(m_pSprite);
-	m_pSprite->SetRect(m_spriteFrame);
 	SetOrigin();
 
-	const bool shouldUseFourTriangles = ShouldUseFourTriangles(parallaxIntensity);
 	const float angle = GetAngle();
 	const Vector2 pos = ETHGlobal::ToScreenPos(GetPosition(), sceneProps.zAxisDirection);
-
-	// Set sprite flip
-	m_pSprite->FlipX(GetFlipX());
-	m_pSprite->FlipY(GetFlipY());
 
 	// compute color
 	Vector4 diffuseColor = Vector4(sceneProps.ambient, 1.0f);
@@ -86,40 +64,40 @@ bool ETHRenderEntity::DrawAmbientPass(
 	diffuseColor.z = Min(1.0f, diffuseColor.z + m_properties.emissiveColor.z);
 	diffuseColor = diffuseColor * m_v4Color * m_properties.diffuseColor;
 
-	if (shouldUseFourTriangles)
-		m_pSprite->SetRectMode(Sprite::RM_FOUR_TRIANGLES);
+	const bool shouldUseHighlightPS = ShouldUseHighlightPixelShader();
+	const bool shouldUseSolidColorPS = ShouldUseSolidColorPixelShader();
+	const bool shouldUsePass1PS = ShouldUsePass1AddPixelShader();
 
-	m_pSprite->DrawOptimal(pos, diffuseColor, angle, GetSize());
+	ShaderPtr shader = Sprite::GetDefaultShader();
+	if (shouldUseHighlightPS)  shader = Sprite::GetHighlightShader();
+	if (shouldUseSolidColorPS) shader = Sprite::GetSolidColorShader();
+	if (shouldUsePass1PS)      shader = Sprite::GetAddShader();
 
-	if (shouldUseFourTriangles)
-		m_pSprite->SetRectMode(Sprite::RM_TWO_TRIANGLES);
+	ShaderParametersPtr customParams(new ShaderParameters);
 
-	m_pSprite->FlipX(false);
-	m_pSprite->FlipY(false);
+	if (shouldUseHighlightPS)
+	{
+		(*customParams)["highlight"] = boost::shared_ptr<Shader::ShaderParameter>(new Shader::Vector4ShaderParameter(GetColorARGB()));
+	}
 
-	return true;
-}
+	if (shouldUseSolidColorPS)
+	{
+		(*customParams)["solidColor"] = boost::shared_ptr<Shader::ShaderParameter>(new Shader::Vector4ShaderParameter(GetSolidColorARGB()));
+	}
+	
+	m_pSprite->SetParallaxIntensity(GetParallaxIntensity() * parallaxIntensity);
 
-bool ETHRenderEntity::DrawLightPass(const Vector2 &zAxisDirection, const float parallaxIntensity, const bool drawToTarget)
-{
-	if (!m_pSprite || IsHidden())
-		return false;
-
-	ValidateSpriteCut(m_pSprite);
-	m_pSprite->SetRect(m_spriteFrame);
-	SetOrigin();
-
-	const bool shouldUseFourTriangles = ShouldUseFourTriangles(parallaxIntensity);
-
-	if (shouldUseFourTriangles)
-		m_pSprite->SetRectMode(Sprite::RM_FOUR_TRIANGLES);
-
-	const float angle = (!IsRotatable() || drawToTarget) ? 0.0f : GetAngle();
-	m_pSprite->DrawOptimal(ETHGlobal::ToScreenPos(GetPosition(), zAxisDirection),
-		GetColorARGB(), angle, m_properties.scale * m_pSprite->GetFrameSize());
-
-	if (shouldUseFourTriangles)
-		m_pSprite->SetRectMode(Sprite::RM_TWO_TRIANGLES);
+	m_pSprite->Draw(
+		video->GetCameraPos(),
+		Vector3(pos, GetPositionZ()),
+		GetSize(),
+		diffuseColor,
+		angle,
+		m_packedFrames->GetRect(m_spriteFrame),
+		GetFlipX(),
+		GetFlipY(),
+		shader,
+		customParams);
 
 	return true;
 }
@@ -170,9 +148,10 @@ bool ETHRenderEntity::DrawHalo(
 	const float depth)
 {
 	if (!GetHalo() || !HasLightSource() || IsHidden())
+	{
 		return false;
+	}
 
-	m_pHalo->SetOrigin(Sprite::EO_CENTER);
 	const ETHLight* light = m_properties.light.get();
 
 	const Vector3 v3EntityPos = GetPosition();
@@ -194,10 +173,19 @@ bool ETHRenderEntity::DrawHalo(
 	const Vector4 color(Vector4(light->color, 1.0f) * light->haloBrightness * brightness);
 	Vector2 v2Size(light->haloSize, light->haloSize);
 
-	m_pHalo->DrawShaped(
-		ETHGlobal::ToScreenPos(v3HaloPos, zAxisDirection) + ComputeParallaxOffset(),
-		v2Size * m_properties.scale,
-		color, color, color, color, 0.0f);
+	m_pHalo->SetParallaxIntensity(GetParallaxIntensity() + m_provider->GetShaderManager()->GetParallaxIntensity());
+	m_pHalo->Draw(
+		m_provider->GetVideo()->GetCameraPos(),
+		Vector3(ETHGlobal::ToScreenPos(v3HaloPos, zAxisDirection), v3HaloPos.z),
+		GetSize(),
+		Vector2(0.5f),
+		color,
+		0.0f,
+		Rect2D(),
+		false,
+		false,
+		Sprite::GetDefaultShader());
+
 	return true;
 }
 
@@ -218,7 +206,7 @@ bool ETHRenderEntity::DrawParticles(
 			maxHeight, minHeight,
 			ETHEntityProperties::ResolveDepthSortingMode(GetType()),
 			sceneProps.zAxisDirection,
-			ComputeParallaxOffset(),
+			GetParallaxIntensity() * m_provider->GetShaderManager()->GetParallaxIntensity(),
 			ComputeDepth(maxHeight, minHeight));
 		return true;
 	}
@@ -231,26 +219,24 @@ void ETHRenderEntity::DrawCollisionBox(SpritePtr pOutline, const Color& color, c
 	const Vector3 v3Size = (collidable) ? m_properties.collision->size : Vector3(32,32,32);
 	const Vector3 v3Pos = (collidable) ? (m_properties.collision->pos + GetPosition()) : GetPosition();
 
-	const Vector2 v2Pos = ETHGlobal::ToScreenPos(v3Pos, zAxisDirection)/* + Vector2(0, v3Size.y/2)*/;
-	pOutline->SetOrigin(Sprite::EO_CENTER);
-
 	const Video::ALPHA_MODE alphaMode = video->GetAlphaMode();
 	video->SetAlphaMode(Video::AM_PIXEL);
 
 	const bool zBuffer = video->GetZBuffer();
 	video->SetZBuffer(false);
 
-	ShaderPtr currentShader = video->GetCurrentShader();
-	video->SetCurrentShader(ShaderPtr());
-
-	const float depth = video->GetSpriteDepth();
-
-	// base
-	video->SetSpriteDepth(1.0f);
-	pOutline->DrawShaped(v2Pos, Vector2(v3Size.x, v3Size.y), color, color, color, color, GetAngle());
+	pOutline->Draw(
+		m_provider->GetVideo()->GetCameraPos(),
+		Vector3(v3Pos),
+		Vector2(v3Size.x, v3Size.y),
+		Vector2(0.5f),
+		color,
+		0.0f,
+		Rect2D(),
+		false,
+		false,
+		Sprite::GetDefaultShader());
 
 	video->SetZBuffer(zBuffer);
 	video->SetAlphaMode(alphaMode);
-	video->SetCurrentShader(currentShader);
-	video->SetSpriteDepth(depth);
 }

@@ -20,7 +20,7 @@ SDLWindow::SDLWindow(Platform::FileIOHubPtr fileIOHub) :
 	m_window(NULL),
 	m_glcontext(NULL)
 {
-    clock_gettime(CLOCK_MONOTONIC, &m_startTime);
+	clock_gettime(CLOCK_MONOTONIC, &m_startTime);
 }
 
 SDLWindow::~SDLWindow()
@@ -62,11 +62,6 @@ bool SDLWindow::StartApplication(
 		m_screenSize = CatchBestScreenResolution();
 	}
 
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
-	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-
 	if ((m_window = SDL_CreateWindow(
 			winTitle.c_str(),
 			SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
@@ -74,6 +69,12 @@ bool SDLWindow::StartApplication(
 			static_cast<int>(m_screenSize.y),
 			AssembleFlags(windowed, IsMaximizable(), SyncEnabled()))) != NULL)
 	{
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+
 		m_glcontext = SDL_GL_CreateContext(m_window);
 	}
 	else
@@ -261,18 +262,18 @@ unsigned long SDLWindow::GetElapsedTime(const TIME_UNITY unity) const
 
 double SDLWindow::GetElapsedTimeD(const TIME_UNITY unity) const
 {
-    timespec current;
-    clock_gettime(CLOCK_MONOTONIC, &current);
-    
-    const double sec  = static_cast<double>(current.tv_sec);
-    const double nsec = static_cast<double>(current.tv_nsec) / 1000000000.0;
+	timespec current;
+	clock_gettime(CLOCK_MONOTONIC, &current);
+	
+	const double sec  = static_cast<double>(current.tv_sec);
+	const double nsec = static_cast<double>(current.tv_nsec) / 1000000000.0;
 
-    const double startSec  = static_cast<double>(m_startTime.tv_sec);
-    const double startNsec = static_cast<double>(m_startTime.tv_nsec) / 1000000000.0;
+	const double startSec  = static_cast<double>(m_startTime.tv_sec);
+	const double startNsec = static_cast<double>(m_startTime.tv_nsec) / 1000000000.0;
 
-    double elapsedTimeS = (sec + nsec) - (startSec + startNsec);
+	double elapsedTimeS = (sec + nsec) - (startSec + startNsec);
 
-    switch (unity)
+	switch (unity)
 	{
 	case TU_HOURS:
 		elapsedTimeS /= 60.0;

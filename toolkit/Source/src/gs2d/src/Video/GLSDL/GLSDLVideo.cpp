@@ -1,7 +1,7 @@
 #include "GLSDLVideo.h"
 
-#include "../GL/GLSprite.h"
 #include "../GL/GLShader.h"
+#include "../GL/GLTexture.h"
 
 #include <SDL2/SDL.h>
 
@@ -188,33 +188,6 @@ bool GLSDLVideo::ResetVideoMode(
 	}
 
 	return true;
-}
-
-SpritePtr GLSDLVideo::CreateSprite(
-	unsigned char *pBuffer,
-	const unsigned int bufferLength,
-	const unsigned int width,
-	const unsigned int height)
-{
-	SpritePtr sprite(new GLSprite);
-	if (sprite->LoadSprite(weak_this, pBuffer, bufferLength, width, height))
-	{
-		return sprite;
-	}
-	return SpritePtr();
-}
-
-SpritePtr GLSDLVideo::CreateSprite(
-	const str_type::string& fileName,
-	const unsigned int width,
-	const unsigned int height)
-{
-	SpritePtr sprite(new GLSprite);
-	if (sprite->LoadSprite(weak_this, fileName, width, height))
-	{
-		return sprite;
-	}
-	return SpritePtr();
 }
 
 } // namespace gs2d

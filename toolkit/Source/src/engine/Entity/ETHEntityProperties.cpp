@@ -65,19 +65,10 @@ void ETHEntityMaterial::Reset()
 {
 	emissiveColor = ETH_DEFAULT_EMISSIVE_COLOR;
 	diffuseColor = ETH_DEFAULT_DIFFUSE_COLOR;
-	castShadow = ETH_FALSE;
-	applyLight = ETH_FALSE;
 	sensor = ETH_FALSE;
 	fixedRotation = ETH_FALSE;
 	bullet = ETH_FALSE;
-	spriteFile = GS_L("");
-	normalFile = GS_L("");
-	glossFile = GS_L("");
-	shadowScale = 0.0f;
-	shadowOpacity = 1.0f;
-	specularPower = 50.0f;
-	specularBrightness = 1.0f;
-	shadowLengthScale = 1.0f;
+	spriteFile = "";
 	blendMode = Video::AM_PIXEL;
 	density = 1.0f;
 	friction = 1.0f;
@@ -205,27 +196,12 @@ bool ETHEntityProperties::ReadFromXMLFile(TiXmlElement *pElement)
 	pElement->QueryIntAttribute(GS_L("type"), (int*)&type);
 
 	staticEntity = ReadBooleanPropertyFromXmlElement(pElement, GS_L("static"), staticEntity);
-	applyLight = ReadBooleanPropertyFromXmlElement(pElement, GS_L("applyLight"), applyLight);
-	castShadow = ReadBooleanPropertyFromXmlElement(pElement, GS_L("castShadow"), castShadow);
 	hideFromSceneEditor = ReadBooleanPropertyFromXmlElement(pElement, GS_L("hideFromSceneEditor"), hideFromSceneEditor);
 
 	pElement->QueryIntAttribute(GS_L("shape"), (int*)&shape);
 	pElement->QueryIntAttribute(GS_L("blendMode"), (int*)&blendMode);
 	pElement->QueryFloatAttribute(GS_L("layerDepth"), &layerDepth);
 	pElement->QueryFloatAttribute(GS_L("parallaxIntensity"), &parallaxIntensity);
-
-	if (applyLight)
-	{
-		pElement->QueryFloatAttribute(GS_L("specularPower"), &specularPower);
-		pElement->QueryFloatAttribute(GS_L("specularBrightness"), &specularBrightness);
-	}
-
-	if (castShadow)
-	{
-		pElement->QueryFloatAttribute(GS_L("shadowScale"), &shadowScale);
-		pElement->QueryFloatAttribute(GS_L("shadowLengthScale"), &shadowLengthScale);
-		pElement->QueryFloatAttribute(GS_L("shadowOpacity"), &shadowOpacity);
-	}
 
 	if (shape != BS_NONE)
 	{
@@ -258,26 +234,6 @@ bool ETHEntityProperties::ReadFromXMLFile(TiXmlElement *pElement)
 		if (pIter)
 		{
 			spriteFile = pIter->GetText();
-		}
-	}
-
-	pNode = pElement->FirstChild(GS_L("Normal"));
-	if (pNode)
-	{
-		pIter = pNode->ToElement();
-		if (pIter)
-		{
-			normalFile = pIter->GetText();
-		}
-	}
-
-	pNode = pElement->FirstChild(GS_L("Gloss"));
-	if (pNode)
-	{
-		pIter = pNode->ToElement();
-		if (pIter)
-		{
-			glossFile = pIter->GetText();
 		}
 	}
 
@@ -434,20 +390,6 @@ bool ETHEntityProperties::WriteContentToXMLFile(TiXmlElement *pHeadRoot) const
 		pRoot->LinkEndChild(pElement);
 	}
 
-	if (normalFile != GS_L(""))
-	{
-		pElement = new TiXmlElement(GS_L("Normal"));
-		pElement->LinkEndChild(new TiXmlText(normalFile));
-		pRoot->LinkEndChild(pElement);
-	}
-
-	if (glossFile != GS_L(""))
-	{
-		pElement = new TiXmlElement(GS_L("Gloss"));
-		pElement->LinkEndChild(new TiXmlText(glossFile));
-		pRoot->LinkEndChild(pElement);
-	}
-
 	if (!particleSystems.empty())
 	{
 		TiXmlElement *pParticles = new TiXmlElement(GS_L("Particles"));
@@ -525,21 +467,6 @@ bool ETHEntityProperties::WriteContentToXMLFile(TiXmlElement *pHeadRoot) const
 		pRoot->SetDoubleAttribute(GS_L("density"), density);
 		pRoot->SetDoubleAttribute(GS_L("restitution"), restitution);
 		pRoot->SetDoubleAttribute(GS_L("gravityScale"), gravityScale);
-	}
-
-	pRoot->SetAttribute(GS_L("applyLight"), applyLight);
-	if (applyLight)
-	{
-		pRoot->SetDoubleAttribute(GS_L("specularPower"), specularPower);
-		pRoot->SetDoubleAttribute(GS_L("specularBrightness"), specularBrightness);
-	}
-
-	pRoot->SetAttribute(GS_L("castShadow"), castShadow);
-	if (castShadow)
-	{
-		pRoot->SetDoubleAttribute(GS_L("shadowScale"), shadowScale);
-		pRoot->SetDoubleAttribute(GS_L("shadowLengthScale"), shadowLengthScale);
-		pRoot->SetDoubleAttribute(GS_L("shadowOpacity"), shadowOpacity);
 	}
 
 	pRoot->SetAttribute(GS_L("type"), type);

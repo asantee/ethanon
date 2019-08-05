@@ -85,19 +85,6 @@ public:
 		const unsigned int height = 0,
 		const unsigned int nMipMaps = 0) = 0;
 
-	/// Creates a sprite from a texture in virtual memory
-	virtual SpritePtr CreateSprite(
-		unsigned char *pBuffer,
-		const unsigned int bufferLength,
-		const unsigned int width = 0,
-		const unsigned int height = 0) = 0;
-
-	/// Creates a sprite from a texture in a file
-	virtual SpritePtr CreateSprite(
-		const str_type::string& fileName,
-		const unsigned int width = 0,
-		const unsigned int height = 0) = 0;
-
 	/// Create a shader object and load/compile it.
 	virtual ShaderPtr LoadShaderFromFile(
         const std::string& vsFileName,
@@ -116,16 +103,7 @@ public:
 
 	virtual boost::any GetVideoInfo() = 0;
 
-    virtual ShaderPtr GetDefaultShader() = 0;
-    virtual ShaderPtr GetRectShader() = 0;
-    virtual ShaderPtr GetFastShader() = 0;
-    virtual ShaderPtr GetModulateShader() = 0;
-    virtual ShaderPtr GetAddShader() = 0;
-    virtual ShaderPtr GetCurrentShader() = 0;
-
 	virtual ShaderContextPtr GetShaderContext() = 0;
-
-	virtual bool SetCurrentShader(ShaderPtr shader) = 0;
 
 	virtual boost::any GetGraphicContext() = 0;
 

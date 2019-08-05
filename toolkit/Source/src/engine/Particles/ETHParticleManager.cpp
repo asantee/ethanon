@@ -78,8 +78,19 @@ bool ETHParticleManager::CreateParticleSystem(
 	const str_type::string& programPath  = fileIOHub->GetProgramDirectory();
 	const str_type::string currentPath = (resourcePath.empty() && !fileManager->IsPacked()) ? programPath : resourcePath;
 
-	m_pBMP = graphics->GetPointer(fileManager, m_provider->GetVideo(), m_system.bitmapFile, currentPath,
-		ETHDirectories::GetParticlesDirectory(), (m_system.alphaMode == Video::AM_ADD));
+	const ETHGraphicResourceManager::SpriteResource* resource = graphics->GetPointer(
+		fileManager,
+		m_provider->GetVideo(),
+		m_system.bitmapFile,
+		currentPath,
+		ETHDirectories::GetParticlesDirectory());
+
+	if (resource)
+	{
+		m_pBMP = resource->GetSprite();
+	}
+
+	m_rects.SetRects(partSystem.spriteCut.x, partSystem.spriteCut.y);
 
 	if (m_system.allAtOnce)
 	{
@@ -135,13 +146,19 @@ void ETHParticleManager::SetParticleBitmap(SpritePtr pBMP)
 void ETHParticleManager::SetParticleBitmap(const gs2d::str_type::string& bitmap)
 {
 	m_system.bitmapFile = bitmap;
-	SetParticleBitmap(m_provider->GetGraphicResourceManager()->GetPointer(
+
+	const ETHGraphicResourceManager::SpriteResource* sprite = m_provider->GetGraphicResourceManager()->GetPointer(
 		m_provider->GetFileManager(),
 		m_provider->GetVideo(),
 		bitmap,
 		m_provider->GetFileIOHub()->GetResourceDirectory(),
 		ETHDirectories::GetParticlesDirectory(),
-		false));
+		false);
+
+	if (sprite)
+	{
+		SetParticleBitmap(sprite->GetSprite());
+	}
 }
 
 SpritePtr ETHParticleManager::GetParticleBitmap()
@@ -429,7 +446,7 @@ bool ETHParticleManager::DrawParticleSystem(
 	const float minHeight,
 	const DEPTH_SORTING_MODE ownerType,
 	const Vector2& zAxisDirection,
-	const Vector2& parallaxOffset,
+	const float parallaxIntensity,
 	const float ownerDepth)
 {
 	if (!m_pBMP)
@@ -449,10 +466,6 @@ bool ETHParticleManager::DrawParticleSystem(
 		Sort(m_particles);
 	}
 
-	const bool shouldUseHighlightPS = m_system.ShouldUseHighlightPS();
-	const ShaderPtr& currentShader = m_provider->GetVideo()->GetCurrentShader();
-
-	m_pBMP->SetOrigin(Sprite::EO_CENTER);
 	for (int t = 0; t < m_system.nParticles; t++)
 	{
 		const PARTICLE& particle = m_particles[t];
@@ -479,26 +492,24 @@ bool ETHParticleManager::DrawParticleSystem(
 
 		SetParticleDepth(ComputeParticleDepth(ownerType, ownerDepth, particle, maxHeight, minHeight));
 
-		// draw
-		if (m_system.spriteCut.x > 1 || m_system.spriteCut.y > 1)
-		{
-			if ((int)m_pBMP->GetNumColumns() != m_system.spriteCut.x || (int)m_pBMP->GetNumRows() != m_system.spriteCut.y)
-				m_pBMP->SetupSpriteRects(m_system.spriteCut.x, m_system.spriteCut.y);
-			m_pBMP->SetRect(particle.currentFrame);
-		}
-		else
-		{
-			m_pBMP->UnsetRect();
-		}
-		
-		if (shouldUseHighlightPS)
-		{
-			currentShader->SetConstant(GS_L("highlight"), finalColor);
-		}
+		ShaderParametersPtr customParams(new ShaderParameters);
+		(*customParams)["highlight"] = boost::shared_ptr<Shader::ShaderParameter>(new Shader::Vector4ShaderParameter(finalColor));
 		
 		const Vector2 v2Pos =
-			ETHGlobal::ToScreenPos(Vector3(particle.pos, particle.startPoint.z), zAxisDirection) + parallaxOffset;
-		m_pBMP->DrawOptimal(v2Pos, finalColor, particle.angle, Vector2(particle.size, particle.size));
+			ETHGlobal::ToScreenPos(Vector3(particle.pos, particle.startPoint.z), zAxisDirection);
+
+		m_pBMP->SetParallaxIntensity(parallaxIntensity);
+		m_pBMP->Draw(
+			video->GetCameraPos(),
+			Vector3(v2Pos, particle.startPoint.z),
+			Vector2(particle.size),
+			finalColor,
+			particle.angle,
+			m_rects.GetRect(particle.currentFrame),
+			false,
+			false,
+			Sprite::GetHighlightShader(),
+			customParams);
 	}
 	video->SetAlphaMode(alpha);
 	return true;

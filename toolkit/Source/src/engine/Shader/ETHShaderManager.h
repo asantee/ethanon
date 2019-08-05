@@ -5,8 +5,6 @@
 
 #include "../Entity/ETHSpriteEntity.h"
 
-#include "ETHParallaxManager.h"
-
 class ETHShaderManager
 {
 public:
@@ -26,32 +24,20 @@ public:
 	bool BeginParticlePass(const ETHParticleSystem& system);
 	bool EndParticlePass();
 
-	inline void SetParallaxNormalizedOrigin(const Vector2& normalizedOrigin) { m_parallaxManager.SetNormalizedOrigin(normalizedOrigin); }
-	inline Vector2 GetParallaxNormalizedOrigin() const { return m_parallaxManager.GetNormalizedOrigin(); }
-	inline void SetParallaxIntensity(const float intensity) { m_parallaxManager.SetIntensity(intensity); }
-	inline float GetParallaxIntensity() const { return m_parallaxManager.GetIntensity(); }
-	inline Vector2 ComputeParallaxOffset(const VideoPtr& video, const Vector3& pos, const float& individualParallaxIntensity) const { return m_parallaxManager.ComputeOffset(video, pos, individualParallaxIntensity); }
-	inline void SetParallaxVerticalIntensity(const float intensity) { m_parallaxManager.SetVerticalIntensity(intensity); }
-	inline float GetParallaxVerticalIntensity() const { return m_parallaxManager.GetVerticalIntensity(); }
+	void SetParallaxIntensity(const float intensity);
+	float GetParallaxIntensity() const;
+	Vector2 ComputeParallaxOffset(const VideoPtr& video, const Vector3& pos, const float& individualParallaxIntensity) const;
 
 	SpritePtr GetOpaqueSprite();
 
 private:
 
-	ETHParallaxManager m_parallaxManager;
+	float m_parallaxIntensity;
 
 	VideoPtr m_video;
 	Video::ALPHA_MODE m_lastAM;
 
 	SpritePtr m_opaqueSprite;
-
-	ShaderPtr m_defaultShader;
-	ShaderPtr m_highlightShader;
-	ShaderPtr m_solidColorShader;
-	ShaderPtr m_particleShader;
-	ShaderPtr m_particleHighlightShader;
-	ShaderPtr m_ambientShader;
-	ShaderPtr m_ambientAddShader;
 };
 
 typedef boost::shared_ptr<ETHShaderManager> ETHShaderManagerPtr;

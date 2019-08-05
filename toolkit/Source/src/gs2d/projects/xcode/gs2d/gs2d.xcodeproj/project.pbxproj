@@ -18,16 +18,12 @@
 		7458F0801635F18300D48019 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7458F07F1635F18300D48019 /* OpenGL.framework */; };
 		7458F0841636CFB200D48019 /* MacOSXFileIOHub.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7458F0821636CFB200D48019 /* MacOSXFileIOHub.mm */; };
 		7458F0851636CFB200D48019 /* MacOSXFileIOHub.h in Headers */ = {isa = PBXBuildFile; fileRef = 7458F0831636CFB200D48019 /* MacOSXFileIOHub.h */; };
-		7458F09016377D9000D48019 /* GLRectRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7458F08E16377D9000D48019 /* GLRectRenderer.cpp */; };
-		7458F09116377D9000D48019 /* GLRectRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7458F08F16377D9000D48019 /* GLRectRenderer.h */; };
 		7473CA7916330304005DB920 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7473CA6B16330304005DB920 /* Application.cpp */; };
 		7473CA7A16330304005DB920 /* Application.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CA6C16330304005DB920 /* Application.h */; };
 		7473CA7B16330304005DB920 /* Audio.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CA6D16330304005DB920 /* Audio.h */; };
 		7473CA7C16330304005DB920 /* BaseApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CA6E16330304005DB920 /* BaseApplication.h */; };
 		7473CA7D16330304005DB920 /* Input.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CA6F16330304005DB920 /* Input.h */; };
 		7473CA7F16330304005DB920 /* Shader.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CA7116330304005DB920 /* Shader.h */; };
-		7473CA8016330304005DB920 /* Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7473CA7216330304005DB920 /* Sprite.cpp */; };
-		7473CA8116330304005DB920 /* Sprite.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CA7316330304005DB920 /* Sprite.h */; };
 		7473CA8216330304005DB920 /* Texture.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CA7416330304005DB920 /* Texture.h */; };
 		7473CA8316330304005DB920 /* Types.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CA7516330304005DB920 /* Types.h */; };
 		7473CA8416330304005DB920 /* Video.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7473CA7616330304005DB920 /* Video.cpp */; };
@@ -51,7 +47,6 @@
 		7473CAB61633044E005DB920 /* BitmapFont.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CAAE1633044E005DB920 /* BitmapFont.h */; };
 		7473CAB71633044E005DB920 /* BitmapFontManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7473CAAF1633044E005DB920 /* BitmapFontManager.cpp */; };
 		7473CAB81633044E005DB920 /* BitmapFontManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CAB01633044E005DB920 /* BitmapFontManager.h */; };
-		7473CAB91633044E005DB920 /* cgShaderCode.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CAB11633044E005DB920 /* cgShaderCode.h */; };
 		7473CABF1633045D005DB920 /* Enml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7473CABD1633045D005DB920 /* Enml.cpp */; };
 		7473CAC01633045D005DB920 /* Enml.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CABE1633045D005DB920 /* Enml.h */; };
 		7473CAC316330624005DB920 /* Platform.macosx.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CAC116330624005DB920 /* Platform.macosx.h */; };
@@ -74,8 +69,6 @@
 		74838D4116414F6A0027CFFC /* SDLJoystick.h in Headers */ = {isa = PBXBuildFile; fileRef = 74838D3F16414F690027CFFC /* SDLJoystick.h */; };
 		7486554716397C1D0096D869 /* GLTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7486554516397C1C0096D869 /* GLTexture.cpp */; };
 		7486554816397C1D0096D869 /* GLTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = 7486554616397C1D0096D869 /* GLTexture.h */; };
-		748655621639E1600096D869 /* GLSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 748655601639E15F0096D869 /* GLSprite.cpp */; };
-		748655631639E1600096D869 /* GLSprite.h in Headers */ = {isa = PBXBuildFile; fileRef = 748655611639E15F0096D869 /* GLSprite.h */; };
 		7490C8C8183529C300AC21C5 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7490C8C7183529C300AC21C5 /* SDL2.framework */; };
 		7490C8CA18352B4A00AC21C5 /* SDL2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7490C8C7183529C300AC21C5 /* SDL2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		7490C8D91835861000AC21C5 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7490C8D81835861000AC21C5 /* AVFoundation.framework */; };
@@ -118,6 +111,11 @@
 		AA92F34F22F61CEE00AECB30 /* PolygonRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA92F34D22F61CEE00AECB30 /* PolygonRenderer.cpp */; };
 		AA92F35222F61FA900AECB30 /* GLPolygonRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA92F35022F61FA900AECB30 /* GLPolygonRenderer.cpp */; };
 		AA92F35322F61FA900AECB30 /* GLPolygonRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = AA92F35122F61FA900AECB30 /* GLPolygonRenderer.h */; };
+		AA92F37222F62B1C00AECB30 /* Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA92F36E22F62B1B00AECB30 /* Sprite.cpp */; };
+		AA92F37322F62B1C00AECB30 /* Sprite.h in Headers */ = {isa = PBXBuildFile; fileRef = AA92F36F22F62B1C00AECB30 /* Sprite.h */; };
+		AA92F37422F62B1C00AECB30 /* SpriteRects.h in Headers */ = {isa = PBXBuildFile; fileRef = AA92F37022F62B1C00AECB30 /* SpriteRects.h */; };
+		AA92F37522F62B1C00AECB30 /* SpriteRects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA92F37122F62B1C00AECB30 /* SpriteRects.cpp */; };
+		AA92F37722F62E0900AECB30 /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA92F37622F62E0900AECB30 /* Shader.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -145,8 +143,6 @@
 		7458F07F1635F18300D48019 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		7458F0821636CFB200D48019 /* MacOSXFileIOHub.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MacOSXFileIOHub.mm; path = ../../../../src/Platform/macosx/MacOSXFileIOHub.mm; sourceTree = "<group>"; };
 		7458F0831636CFB200D48019 /* MacOSXFileIOHub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacOSXFileIOHub.h; path = ../../../../src/Platform/macosx/MacOSXFileIOHub.h; sourceTree = "<group>"; };
-		7458F08E16377D9000D48019 /* GLRectRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLRectRenderer.cpp; path = ../../../../src/Video/GL/GLRectRenderer.cpp; sourceTree = "<group>"; usesTabs = 1; };
-		7458F08F16377D9000D48019 /* GLRectRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLRectRenderer.h; path = ../../../../src/Video/GL/GLRectRenderer.h; sourceTree = "<group>"; };
 		7458F09216377E3A00D48019 /* GLInclude.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLInclude.h; path = ../../../../src/Video/GL/GLInclude.h; sourceTree = "<group>"; };
 		7473CA6B16330304005DB920 /* Application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Application.cpp; path = ../../../../src/Application.cpp; sourceTree = "<group>"; };
 		7473CA6C16330304005DB920 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Application.h; path = ../../../../src/Application.h; sourceTree = "<group>"; };
@@ -154,8 +150,6 @@
 		7473CA6E16330304005DB920 /* BaseApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseApplication.h; path = ../../../../src/BaseApplication.h; sourceTree = "<group>"; };
 		7473CA6F16330304005DB920 /* Input.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Input.h; path = ../../../../src/Input.h; sourceTree = "<group>"; };
 		7473CA7116330304005DB920 /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Shader.h; path = ../../../../src/Shader.h; sourceTree = "<group>"; };
-		7473CA7216330304005DB920 /* Sprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Sprite.cpp; path = ../../../../src/Sprite.cpp; sourceTree = "<group>"; };
-		7473CA7316330304005DB920 /* Sprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sprite.h; path = ../../../../src/Sprite.h; sourceTree = "<group>"; };
 		7473CA7416330304005DB920 /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Texture.h; path = ../../../../src/Texture.h; sourceTree = "<group>"; };
 		7473CA7516330304005DB920 /* Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Types.h; path = ../../../../src/Types.h; sourceTree = "<group>"; };
 		7473CA7616330304005DB920 /* Video.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Video.cpp; path = ../../../../src/Video.cpp; sourceTree = "<group>"; };
@@ -175,11 +169,10 @@
 		7473CAA016330391005DB920 /* FileManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FileManager.cpp; path = ../../../../src/Platform/FileManager.cpp; sourceTree = "<group>"; };
 		7473CAA116330391005DB920 /* FileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileManager.h; path = ../../../../src/Platform/FileManager.h; sourceTree = "<group>"; };
 		7473CAA316330391005DB920 /* Logger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Logger.h; path = ../../../../src/Platform/Logger.h; sourceTree = "<group>"; };
-		7473CAAD1633044E005DB920 /* BitmapFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BitmapFont.cpp; path = ../../../../src/Video/BitmapFont.cpp; sourceTree = "<group>"; };
+		7473CAAD1633044E005DB920 /* BitmapFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BitmapFont.cpp; path = ../../../../src/Video/BitmapFont.cpp; sourceTree = "<group>"; usesTabs = 1; };
 		7473CAAE1633044E005DB920 /* BitmapFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BitmapFont.h; path = ../../../../src/Video/BitmapFont.h; sourceTree = "<group>"; };
 		7473CAAF1633044E005DB920 /* BitmapFontManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BitmapFontManager.cpp; path = ../../../../src/Video/BitmapFontManager.cpp; sourceTree = "<group>"; };
 		7473CAB01633044E005DB920 /* BitmapFontManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BitmapFontManager.h; path = ../../../../src/Video/BitmapFontManager.h; sourceTree = "<group>"; };
-		7473CAB11633044E005DB920 /* cgShaderCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cgShaderCode.h; path = ../../../../src/Video/cgShaderCode.h; sourceTree = "<group>"; };
 		7473CAB41633044E005DB920 /* Window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Window.h; path = ../../../../src/Window.h; sourceTree = "<group>"; };
 		7473CABD1633045D005DB920 /* Enml.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Enml.cpp; path = ../../../../src/Enml/Enml.cpp; sourceTree = "<group>"; };
 		7473CABE1633045D005DB920 /* Enml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Enml.h; path = ../../../../src/Enml/Enml.h; sourceTree = "<group>"; };
@@ -187,7 +180,7 @@
 		7473CAC216330624005DB920 /* Platform.macosx.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Platform.macosx.mm; path = ../../../../src/Platform/macosx/Platform.macosx.mm; sourceTree = "<group>"; };
 		7473CAC516330E1C005DB920 /* Platform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Platform.cpp; path = ../../../../src/Platform/Platform.cpp; sourceTree = "<group>"; };
 		7473CAC616330E1C005DB920 /* Platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Platform.h; path = ../../../../src/Platform/Platform.h; sourceTree = "<group>"; };
-		7473CACA1633140B005DB920 /* SDLWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SDLWindow.cpp; path = ../../../../src/Platform/sdl/SDLWindow.cpp; sourceTree = "<group>"; };
+		7473CACA1633140B005DB920 /* SDLWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SDLWindow.cpp; path = ../../../../src/Platform/sdl/SDLWindow.cpp; sourceTree = "<group>"; usesTabs = 1; };
 		7473CACB1633140B005DB920 /* SDLWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLWindow.h; path = ../../../../src/Platform/sdl/SDLWindow.h; sourceTree = "<group>"; };
 		7473CADE16358AC6005DB920 /* GLVideo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLVideo.cpp; path = ../../../../src/Video/GL/GLVideo.cpp; sourceTree = "<group>"; usesTabs = 1; };
 		7473CADF16358AC6005DB920 /* GLVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLVideo.h; path = ../../../../src/Video/GL/GLVideo.h; sourceTree = "<group>"; };
@@ -206,8 +199,6 @@
 		7486553A16382B960096D869 /* Cg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cg.framework; path = ../../../vendors/Cg.framework; sourceTree = "<group>"; };
 		7486554516397C1C0096D869 /* GLTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLTexture.cpp; path = ../../../../src/Video/GL/GLTexture.cpp; sourceTree = "<group>"; usesTabs = 1; };
 		7486554616397C1D0096D869 /* GLTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLTexture.h; path = ../../../../src/Video/GL/GLTexture.h; sourceTree = "<group>"; usesTabs = 1; };
-		748655601639E15F0096D869 /* GLSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLSprite.cpp; path = ../../../../src/Video/GL/GLSprite.cpp; sourceTree = "<group>"; usesTabs = 1; };
-		748655611639E15F0096D869 /* GLSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLSprite.h; path = ../../../../src/Video/GL/GLSprite.h; sourceTree = "<group>"; };
 		7490C8C7183529C300AC21C5 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../vendors/SDL2.framework; sourceTree = "<group>"; };
 		7490C8D81835861000AC21C5 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		74D066CF1A03CBF300D45F66 /* image_DXT.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = image_DXT.c; path = ../../../../soil/image_DXT.c; sourceTree = "<group>"; };
@@ -257,6 +248,11 @@
 		AA92F34D22F61CEE00AECB30 /* PolygonRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PolygonRenderer.cpp; path = ../../../../src/PolygonRenderer.cpp; sourceTree = "<group>"; };
 		AA92F35022F61FA900AECB30 /* GLPolygonRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLPolygonRenderer.cpp; path = ../../../../src/Video/GL/GLPolygonRenderer.cpp; sourceTree = "<group>"; };
 		AA92F35122F61FA900AECB30 /* GLPolygonRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLPolygonRenderer.h; path = ../../../../src/Video/GL/GLPolygonRenderer.h; sourceTree = "<group>"; };
+		AA92F36E22F62B1B00AECB30 /* Sprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Sprite.cpp; path = ../../../../src/Sprite.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		AA92F36F22F62B1C00AECB30 /* Sprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sprite.h; path = ../../../../src/Sprite.h; sourceTree = "<group>"; usesTabs = 1; };
+		AA92F37022F62B1C00AECB30 /* SpriteRects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpriteRects.h; path = ../../../../src/SpriteRects.h; sourceTree = "<group>"; };
+		AA92F37122F62B1C00AECB30 /* SpriteRects.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SpriteRects.cpp; path = ../../../../src/SpriteRects.cpp; sourceTree = "<group>"; };
+		AA92F37622F62E0900AECB30 /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Shader.cpp; path = ../../../../src/Shader.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -365,7 +361,6 @@
 				7473CAAE1633044E005DB920 /* BitmapFont.h */,
 				7473CAAF1633044E005DB920 /* BitmapFontManager.cpp */,
 				7473CAB01633044E005DB920 /* BitmapFontManager.h */,
-				7473CAB11633044E005DB920 /* cgShaderCode.h */,
 				7473CAB41633044E005DB920 /* Window.h */,
 			);
 			name = Video;
@@ -395,8 +390,6 @@
 			isa = PBXGroup;
 			children = (
 				748655401638302E0096D869 /* Shaders */,
-				7458F08E16377D9000D48019 /* GLRectRenderer.cpp */,
-				7458F08F16377D9000D48019 /* GLRectRenderer.h */,
 				AA92F35022F61FA900AECB30 /* GLPolygonRenderer.cpp */,
 				AA92F35122F61FA900AECB30 /* GLPolygonRenderer.h */,
 				7473CADE16358AC6005DB920 /* GLVideo.cpp */,
@@ -404,8 +397,6 @@
 				7458F09216377E3A00D48019 /* GLInclude.h */,
 				7486554516397C1C0096D869 /* GLTexture.cpp */,
 				7486554616397C1D0096D869 /* GLTexture.h */,
-				748655601639E15F0096D869 /* GLSprite.cpp */,
-				748655611639E15F0096D869 /* GLSprite.h */,
 			);
 			name = GL;
 			sourceTree = "<group>";
@@ -551,13 +542,16 @@
 				7473CA6D16330304005DB920 /* Audio.h */,
 				7473CA6E16330304005DB920 /* BaseApplication.h */,
 				7473CA6F16330304005DB920 /* Input.h */,
+				AA92F37622F62E0900AECB30 /* Shader.cpp */,
 				7473CA7116330304005DB920 /* Shader.h */,
 				AA92F34D22F61CEE00AECB30 /* PolygonRenderer.cpp */,
 				AA92F34C22F61CEE00AECB30 /* PolygonRenderer.h */,
-				7473CA7216330304005DB920 /* Sprite.cpp */,
-				7473CA7316330304005DB920 /* Sprite.h */,
 				7473CA7416330304005DB920 /* Texture.h */,
 				7473CA7516330304005DB920 /* Types.h */,
+				AA92F36E22F62B1B00AECB30 /* Sprite.cpp */,
+				AA92F36F22F62B1C00AECB30 /* Sprite.h */,
+				AA92F37122F62B1C00AECB30 /* SpriteRects.cpp */,
+				AA92F37022F62B1C00AECB30 /* SpriteRects.h */,
 				7473CA7616330304005DB920 /* Video.cpp */,
 				7473CA7716330304005DB920 /* Video.h */,
 				7473CA7816330304005DB920 /* Window.h */,
@@ -590,7 +584,6 @@
 				7473CA7D16330304005DB920 /* Input.h in Headers */,
 				7473CA7F16330304005DB920 /* Shader.h in Headers */,
 				AA92F34A22F6112E00AECB30 /* GLShader.h in Headers */,
-				7473CA8116330304005DB920 /* Sprite.h in Headers */,
 				7473CA8216330304005DB920 /* Texture.h in Headers */,
 				7473CA8316330304005DB920 /* Types.h in Headers */,
 				7473CA8516330304005DB920 /* Video.h in Headers */,
@@ -609,7 +602,6 @@
 				7473CAAB16330391005DB920 /* Logger.h in Headers */,
 				7473CAB61633044E005DB920 /* BitmapFont.h in Headers */,
 				7473CAB81633044E005DB920 /* BitmapFontManager.h in Headers */,
-				7473CAB91633044E005DB920 /* cgShaderCode.h in Headers */,
 				7473CAC01633045D005DB920 /* Enml.h in Headers */,
 				7473CAC316330624005DB920 /* Platform.macosx.h in Headers */,
 				7473CAC816330E1C005DB920 /* Platform.h in Headers */,
@@ -618,11 +610,10 @@
 				74D066E11A03CBF300D45F66 /* stbi_DDS_aug_c.h in Headers */,
 				7473CAE61635ABD9005DB920 /* GLSDLVideo.h in Headers */,
 				7458F0851636CFB200D48019 /* MacOSXFileIOHub.h in Headers */,
-				7458F09116377D9000D48019 /* GLRectRenderer.h in Headers */,
+				AA92F37322F62B1C00AECB30 /* Sprite.h in Headers */,
 				AA18F5FA22B9D15500F44DA6 /* Rect2Di.h in Headers */,
 				AA18F5FD22B9D64800F44DA6 /* Rect2D.h in Headers */,
 				7486554816397C1D0096D869 /* GLTexture.h in Headers */,
-				748655631639E1600096D869 /* GLSprite.h in Headers */,
 				74D066DC1A03CBF300D45F66 /* image_helper.h in Headers */,
 				AA92F35322F61FA900AECB30 /* GLPolygonRenderer.h in Headers */,
 				74838D2F163C13E30027CFFC /* RecoverableResourceManager.h in Headers */,
@@ -634,6 +625,7 @@
 				AA18F60222C7CAB600F44DA6 /* Matrix4x4.h in Headers */,
 				7423B69E165FF413008848EA /* SharedData.h in Headers */,
 				AA18F60A22C7D98800F44DA6 /* GameMath.h in Headers */,
+				AA92F37422F62B1C00AECB30 /* SpriteRects.h in Headers */,
 				7423B6A0165FF413008848EA /* SharedDataManager.h in Headers */,
 				74D066E21A03CBF300D45F66 /* stbi_DDS_aug.h in Headers */,
 				AA92F34E22F61CEE00AECB30 /* PolygonRenderer.h in Headers */,
@@ -711,11 +703,11 @@
 				AA7BDF811F7EE5750057B06F /* FMAudioSample.mm in Sources */,
 				7473CA7916330304005DB920 /* Application.cpp in Sources */,
 				AA18F5EA22B8804100F44DA6 /* Vector2i.cpp in Sources */,
-				7473CA8016330304005DB920 /* Sprite.cpp in Sources */,
 				AA18F60122C7CAB600F44DA6 /* Matrix4x4.cpp in Sources */,
 				AA18F5F922B9D15500F44DA6 /* Rect2Di.cpp in Sources */,
 				7473CA8416330304005DB920 /* Video.cpp in Sources */,
 				AA92F35222F61FA900AECB30 /* GLPolygonRenderer.cpp in Sources */,
+				AA92F37522F62B1C00AECB30 /* SpriteRects.cpp in Sources */,
 				7473CA9316330366005DB920 /* Color.cpp in Sources */,
 				AA18F5F122B887BD00F44DA6 /* Vector4.cpp in Sources */,
 				7473CA9816330366005DB920 /* OrientedBoundingBox.cpp in Sources */,
@@ -734,14 +726,14 @@
 				7473CACC1633140B005DB920 /* SDLWindow.cpp in Sources */,
 				7473CAE016358AC6005DB920 /* GLVideo.cpp in Sources */,
 				7473CAE51635ABD9005DB920 /* GLSDLVideo.cpp in Sources */,
+				AA92F37222F62B1C00AECB30 /* Sprite.cpp in Sources */,
 				7458F0841636CFB200D48019 /* MacOSXFileIOHub.mm in Sources */,
-				7458F09016377D9000D48019 /* GLRectRenderer.cpp in Sources */,
 				AA18F5EE22B8846100F44DA6 /* Vector3.cpp in Sources */,
 				AA92F34B22F6112E00AECB30 /* GLShader.cpp in Sources */,
 				AA18F60922C7D98800F44DA6 /* GameMath.cpp in Sources */,
 				74D066DD1A03CBF300D45F66 /* SOIL.c in Sources */,
+				AA92F37722F62E0900AECB30 /* Shader.cpp in Sources */,
 				7486554716397C1D0096D869 /* GLTexture.cpp in Sources */,
-				748655621639E1600096D869 /* GLSprite.cpp in Sources */,
 				AA92F34F22F61CEE00AECB30 /* PolygonRenderer.cpp in Sources */,
 				AA19C1241F8285BF0096696A /* FMAudioContext.macos.mm in Sources */,
 				AA18F5E622B87A3500F44DA6 /* Vector2.cpp in Sources */,

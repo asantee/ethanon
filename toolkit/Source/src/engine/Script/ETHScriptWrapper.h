@@ -214,9 +214,7 @@ public:
 	static void SetParallaxOrigin(const Vector2 &parallaxOrigin);
 	static Vector2 GetParallaxOrigin();
 	static void SetParallaxIntensity(const float intensity);
-	static void SetParallaxVerticalIntensity(const float intensity);
 	static float GetParallaxIntensity();
-	static float GetParallaxVerticalIntensity();
 	static void SetBucketClearenceFactor(const float factor);
 	static float GetBucketClearenceFactor();
 	static Vector3 GetAmbientLight();
@@ -271,8 +269,8 @@ public:
 	static bool AddVector3Data(const str_type::string &entity, const str_type::string &name, const Vector3 &value);
 
 	static SpritePtr LoadAndGetSprite(const str_type::string &name);
-	static void DrawShapedFromPtr(const SpritePtr& sprite, const Vector2 &v2Pos, const Vector2 &v2Size, const uint32_t color, const float angle);
-	static void DrawShapedFromPtr(const SpritePtr& sprite, const Vector2 &v2Pos, const Vector2 &v2Size, const Vector4 &color, const float angle);
+	static const ETHGraphicResourceManager::SpriteResource* LoadAndGetResource(const str_type::string &name);
+	static void DrawShapedFromResource(const ETHGraphicResourceManager::SpriteResource* resource, const Vector2 &v2Pos, const Vector2 &v2Size, const Vector4 &color, const float angle);
 	static void LoadSprite(const str_type::string& name);
 	static bool ReleaseSprite(const str_type::string& name);
 	static void DrawSprite(const str_type::string &name, const Vector2 &v2Pos, const uint32_t color, const float angle);

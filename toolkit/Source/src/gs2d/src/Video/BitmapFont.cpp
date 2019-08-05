@@ -1,6 +1,9 @@
 #include "BitmapFont.h"
+
 #include "../Video.h"
 #include "../Unicode/utf8/utf8.h"
+
+#include "../Sprite.h"
 
 namespace gs2d {
 using namespace gs2d::math;
@@ -81,15 +84,12 @@ BitmapFont::BitmapFont(Video* video, const str_type::string& fileName, const str
 			}
 
 			path += m_charSet.textureNames[t];
-			m_bitmaps[t] = video->CreateSprite(path, 0, 0);
+			m_bitmaps[t] = SpritePtr(new Sprite(video, path, 1.0f));
+	
 			if (!m_bitmaps[t])
 			{
 				m_bitmaps.clear();
 				break;
-			}
-			else
-			{
-				m_bitmaps[t]->SetOrigin(Sprite::EO_DEFAULT);
 			}
 		}
 	}
@@ -308,7 +308,7 @@ inline int ConvertCharacterToIndex(const TChar* character, std::size_t& t, const
 	}
 	else
 	{
-        const std::size_t maxByteCount = math::Min(static_cast<std::size_t>(8), length - t);
+		const std::size_t maxByteCount = math::Min(static_cast<std::size_t>(8), length - t);
 		std::size_t charByteCount = 2;
 
 		// find how many bytes are in this character
@@ -320,8 +320,8 @@ inline int ConvertCharacterToIndex(const TChar* character, std::size_t& t, const
   		if (!utf8::is_valid(character, character + charByteCount))
 		{
 			index = 0;
-        }
-        else if (charByteCount <= maxByteCount)
+		}
+		else if (charByteCount <= maxByteCount)
 		{
 			std::vector<unsigned long> utf32line;
 			utf8::utf8to32(character, character + charByteCount, std::back_inserter(utf32line));
@@ -420,7 +420,7 @@ Vector2 BitmapFont::DrawBitmapText(const Vector2& pos, const str_type::string& t
 	}
 
 	const std::size_t length = text.size();
-    
+	
 	Vector2 cursor = pos;
 
 	std::vector<Sprite*> bitmapsPointers(m_bitmaps.size());
@@ -463,22 +463,23 @@ Vector2 BitmapFont::DrawBitmapText(const Vector2& pos, const str_type::string& t
 		}
 
 		// find mapped character
-        const bool isSpace = (text[t] == GS_L(' '));
+		const bool isSpace = (text[t] == GS_L(' '));
 		int charId = ConvertCharacterToIndex<str_type::char_t>(&text[t], t, length);
 
   		if (!m_charSet.chars[charId].available)
-    		charId = 63; // question mark
+			charId = 63; // question mark
 
 		const CHAR_DESCRIPTOR& currentChar = m_charSet.chars[charId];
 		if (currentChar.width > 0 && currentChar.height > 0 && !isSpace)
 		{
+			const int currentPage = currentChar.page;
+
 			Rect2D rect;
-			rect.pos = Vector2(currentChar.x, currentChar.y);
-			rect.size = Vector2(currentChar.width, currentChar.height);
+			const Vector2 bitmapSize = bitmapsPointers[currentPage]->GetSize(Rect2D());
+			rect.pos = Vector2(currentChar.x, currentChar.y) / bitmapSize;
+			rect.size = Vector2(currentChar.width, currentChar.height) / bitmapSize;
 
 			const Vector2 charPos =	cursor + Vector2(currentChar.xOffset, currentChar.yOffset) * scale;
-
-			const int currentPage = currentChar.page;
 
 			assert(currentPage >= 0);
 			assert(currentPage < m_charSet.pages);
@@ -488,13 +489,17 @@ Vector2 BitmapFont::DrawBitmapText(const Vector2& pos, const str_type::string& t
 			{
 				if (lastPageUsed >= 0)
 				{
-					bitmapsPointers[lastPageUsed]->EndFastRendering();
+					bitmapsPointers[lastPageUsed]->EndFastDraw();
 				}
-				bitmapsPointers[currentPage]->BeginFastRendering();
+				bitmapsPointers[currentPage]->BeginFastDraw();
 			}
 
-			bitmapsPointers[currentPage]->SetRect(rect);
-			bitmapsPointers[currentPage]->DrawShapedFast(charPos, Vector2(currentChar.width, currentChar.height) * scale, currentColor);
+   			bitmapsPointers[currentPage]->FastDraw(
+				Vector3(charPos, 0.0f),
+				Vector2(currentChar.width, currentChar.height) * scale,
+				Vector2(0.0f),
+				currentColor,
+				rect);
 
 			lastPageUsed = currentPage;
 		}
@@ -504,7 +509,7 @@ Vector2 BitmapFont::DrawBitmapText(const Vector2& pos, const str_type::string& t
 	// end the rendering for the last char drawn
 	if (lastPageUsed >= 0)
 	{
-		bitmapsPointers[lastPageUsed]->EndFastRendering();
+		bitmapsPointers[lastPageUsed]->EndFastDraw();
 	}
 
 	cursor.y += m_charSet.lineHeight;

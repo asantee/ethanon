@@ -4,19 +4,6 @@
 
 #include "../Scene/ETHScene.h"
 
-Sprite::ENTITY_ORIGIN ETHEntity::ConvertToGSSO(const ETHEntityProperties::ENTITY_TYPE type)
-{
-	switch (type)
-	{
-	case ETHEntityProperties::ET_LAYERABLE:
-	case ETHEntityProperties::ET_HORIZONTAL:
-		return Sprite::EO_CENTER;
-		break;
-	default:
-		return Sprite::EO_DEFAULT;
-	};
-}
-
 float ETHEntity::ComputeDepth(const float height, const float maxHeight, const float minHeight)
 {
 	return ((height - minHeight) / (maxHeight - minHeight));
@@ -75,7 +62,6 @@ void ETHEntity::Zero()
 	m_v4Color = ETH_DEFAULT_COLOR;
 	m_v4SolidColor = Vector4(0.0f, 0.0f, 0.0f, 0.0f);
 	m_spriteFrame = (0);
-	m_shadowZ = (0.0f);
 	m_hide = m_flipX = m_flipY = (ETH_FALSE);
 	m_gcDict = 0;
 }
@@ -131,9 +117,6 @@ bool ETHEntity::WriteToXMLFile(
 
 	if (m_spriteFrame > 0)
 		pEntity->SetDoubleAttribute(GS_L("spriteFrame"), m_spriteFrame);
-
-	if (m_properties.castShadow)
-		pEntity->SetDoubleAttribute(GS_L("shadowZ"), m_shadowZ);
 
 	ETHEntityProperties::SetBooleanPropertyToXmlElement(pEntity, GS_L("hide"),  m_hide,  ETH_FALSE);
 	ETHEntityProperties::SetBooleanPropertyToXmlElement(pEntity, GS_L("flipX"), m_flipX, ETH_FALSE);
@@ -194,7 +177,6 @@ void ETHEntity::ReadInSceneDataFromXMLFile(TiXmlElement *pElement, const bool sh
 	{
 		pElement->QueryIntAttribute(GS_L("id"), &m_id);
 	}
-	pElement->QueryFloatAttribute(GS_L("shadowZ"), &m_shadowZ);
 
 	m_hide = ETHEntityProperties::ReadBooleanPropertyFromXmlElement(pElement, GS_L("hide"), m_hide);
 	m_flipX = ETHEntityProperties::ReadBooleanPropertyFromXmlElement(pElement, GS_L("flipX"), m_flipX);
@@ -254,36 +236,13 @@ void ETHEntity::SetController(const ETHEntityControllerPtr& controller)
 Vector2 ETHEntity::ComputeAbsoluteOrigin(const Vector2 &v2Size) const
 {
 	const Rect2D rect(GetFrameRect());
-	const Vector2 virtualSize = (rect.size == rect.originalSize) ? v2Size : (rect.originalSize * m_properties.scale);
+	const Vector2 virtualSize = (v2Size == rect.originalSize) ? v2Size : (rect.originalSize * m_properties.scale);
 
-	Vector2 v2Center;
-	switch (ETHEntity::ConvertToGSSO(GetType()))
-	{
-	case Sprite::EO_RECT_CENTER:
-	case Sprite::EO_CENTER:
-		v2Center.x = virtualSize.x / 2.0f;
-		v2Center.y = virtualSize.y / 2.0f;
-		break;
-	case Sprite::EO_RECT_CENTER_BOTTOM:
-	case Sprite::EO_CENTER_BOTTOM:
-		v2Center.x = virtualSize.x / 2.0f;
-		v2Center.y = virtualSize.y;
-		break;
-	case Sprite::EO_RECT_CENTER_TOP:
-	case Sprite::EO_CENTER_TOP:
-		v2Center.x = virtualSize.x / 2.0f;
-		v2Center.y = 0.0f;
-		break;
-	default:
-	case Sprite::EO_DEFAULT:
-		v2Center.x = 0.0f;
-		v2Center.y = 0.0f;
-		break;
-	};
+	Vector2 v2Center(virtualSize / 2.0f);
 
 	Vector2 offset(rect.offset * m_properties.scale);
 	v2Center -= offset;
-
+	
 	if (GetFlipX()) v2Center.x = (rect.size.x * m_properties.scale.x) - v2Center.x;
 	if (GetFlipY()) v2Center.y = (rect.size.y * m_properties.scale.y) - v2Center.y;
 
@@ -543,21 +502,6 @@ Vector4 ETHEntity::GetSolidColorARGB() const
 	return m_v4SolidColor;
 }
 
-void ETHEntity::SetShadowZ(const float z)
-{
-	m_shadowZ = z;
-}
-
-float ETHEntity::GetShadowZ() const
-{
-	return m_shadowZ;
-}
-
-bool ETHEntity::HasShadow() const
-{
-	return (m_properties.castShadow == ETH_TRUE);
-}
-
 void ETHEntity::SetLayerDepth(const float depth)
 {
 	m_properties.type = ETHEntityProperties::ET_LAYERABLE;
@@ -708,11 +652,6 @@ bool ETHEntity::IsStatic() const
 	return ETHGlobal::ToBool(m_properties.staticEntity);
 }
 
-bool ETHEntity::IsApplyLight() const
-{
-	return ETHGlobal::ToBool(m_properties.applyLight);
-}
-
 void ETHEntity::Hide(const bool hide)
 {
 	m_hide = hide;
@@ -743,11 +682,6 @@ bool ETHEntity::IsTemporary() const
 	{
 		return false;
 	}
-}
-
-bool ETHEntity::IsCastShadow() const
-{
-	return !(m_properties.castShadow == ETH_FALSE);
 }
 
 bool ETHEntity::IsInvisible() const
@@ -811,16 +745,6 @@ bool ETHEntity::SetFrame(const unsigned int column, const unsigned int row)
 bool ETHEntity::RunCallbackScript()
 {
 	return m_controller->RunCallback(this);
-}
-
-float ETHEntity::GetSpecularPower() const
-{
-	return m_properties.specularPower;
-}
-
-float ETHEntity::GetSpecularBrightness() const
-{
-	return m_properties.specularBrightness;
 }
 
 void ETHEntity::TurnDynamic()

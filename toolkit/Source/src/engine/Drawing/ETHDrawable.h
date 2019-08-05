@@ -55,6 +55,7 @@ public:
 		const Vector2& size,
 		const Vector4& color,
 		const float angle,
+		SpriteRectsPtr rects,
 		const unsigned int frame,
 		const bool flipX,
 		const bool flipY);
@@ -68,7 +69,8 @@ private:
 	Vector2 v2Size;
 	Vector2 v2Origin;
 	SpritePtr sprite;
-	Vector4 color0, color1, color2, color3;
+	SpriteRectsPtr rects;
+	Vector4 color;
 	float angle;
 	unsigned int frame;
 	bool flipX, flipY;

@@ -73,7 +73,18 @@ void ETHScriptWrapper::DrawBlackCurtain()
 {
 	const SpritePtr sprite = m_provider->GetShaderManager()->GetOpaqueSprite();
 	const Vector2& screenSize(m_provider->GetVideo()->GetScreenSizeF());
-	DrawShapedFromPtr(sprite, gs2d::math::constant::ZERO_VECTOR2, screenSize, Vector4(gs2d::constant::BLACK), 0.0f);
+	m_drawableManager.Insert(boost::shared_ptr<ETHDrawable>(
+		new ETHSpriteDrawer(
+			m_provider,
+			sprite,
+			gs2d::math::constant::ZERO_VECTOR2,
+			screenSize,
+			Vector4(gs2d::constant::BLACK),
+			0.0f,
+			SpriteRectsPtr(),
+			0,
+			false,
+			false)));
 }
 
 Vector2 ETHScriptWrapper::GetCursorPos()

@@ -76,25 +76,22 @@ void ETHSpriteEntity::Create()
 	const Platform::FileManagerPtr& fileManager = m_provider->GetFileManager();
 
 	SetSprite(m_properties.spriteFile);
-	
-	if (m_provider->IsRichLightingEnabled())
-	{
-		m_pNormal = graphicResources->GetPointer(fileManager, video, m_properties.normalFile, resourceDirectory, ETHDirectories::GetNormalMapDirectory(), false);
-		m_pGloss  = graphicResources->GetPointer(fileManager, video, m_properties.glossFile,  resourceDirectory, ETHDirectories::GetEntityDirectory(), false);
-	}
 
 	if (m_properties.light)
-		m_pHalo = graphicResources->GetPointer(fileManager, video, m_properties.light->haloBitmap, resourceDirectory, ETHDirectories::GetHaloDirectory(), true);
+	{
+		 const ETHGraphicResourceManager::SpriteResource* haloResource =
+		 	graphicResources->GetPointer(fileManager, video, m_properties.light->haloBitmap, resourceDirectory, ETHDirectories::GetHaloDirectory(), true);
+
+		if (haloResource)
+		{
+			 m_pHalo = haloResource->GetSprite();
+		}
+	}
 
 	LoadParticleSystem();
 
 	if (m_pSprite)
 	{
-		//TODO/TO-DO: Remove duplicated code
-		m_properties.spriteCut.x = Max(1, m_properties.spriteCut.x);
-		m_properties.spriteCut.y = Max(1, m_properties.spriteCut.y);
-		ValidateSpriteCut(m_pSprite);
-		m_pSprite->SetRect(m_spriteFrame);
 		SetOrigin();
 	}
 }
@@ -133,14 +130,18 @@ bool ETHSpriteEntity::LoadLightmapFromFile(const str_type::string& filePath)
 
 	if (ETHGlobal::FileExists(filePath, m_provider->GetFileManager()))
 	{
-		m_pLightmap = graphicResources->GetPointer(
+		const ETHGraphicResourceManager::SpriteResource* lightmapResource = graphicResources->GetPointer(
 			m_provider->GetFileManager(),
 			video,
 			Platform::GetFileName(filePath),
 			GS_L(""),
 			Platform::GetFileDirectory(filePath.c_str()),
-			false,
 			true);
+
+		if (lightmapResource)
+		{
+			m_pLightmap = lightmapResource->GetSprite();
+		}
 
 		// store bitmap name to restore when necessary
 		m_preRenderedLightmapFilePath = filePath;
@@ -170,7 +171,7 @@ bool ETHSpriteEntity::ShouldUsePass1AddPixelShader() const
 
 bool ETHSpriteEntity::SetSprite(const str_type::string &fileName)
 {
-	m_pSprite = m_provider->GetGraphicResourceManager()->GetPointer(
+	m_pSprite = m_provider->GetGraphicResourceManager()->GetSprite(
 		m_provider->GetFileManager(),
 		m_provider->GetVideo(),
 		fileName,
@@ -183,8 +184,13 @@ bool ETHSpriteEntity::SetSprite(const str_type::string &fileName)
 		m_properties.spriteFile = fileName;
 
 		m_packedFrames = m_provider->GetGraphicResourceManager()->GetPackedFrames(m_properties.spriteFile);
-		ValidateSpriteCut(m_pSprite);
-		m_pSprite->SetRect(m_spriteFrame);
+		if (!m_packedFrames)
+		{
+			m_packedFrames = SpriteRectsPtr(new SpriteRects());
+			m_properties.spriteCut.x = Max(1, m_properties.originalSpriteCut.x);
+			m_properties.spriteCut.y = Max(1, m_properties.originalSpriteCut.y);
+			m_packedFrames->SetRects(m_properties.spriteCut.x, m_properties.spriteCut.y);
+		}
 		return true;
 	}
 	else
@@ -194,59 +200,18 @@ bool ETHSpriteEntity::SetSprite(const str_type::string &fileName)
 	}
 }
 
-bool ETHSpriteEntity::SetNormal(const str_type::string &fileName)
-{
-	m_pNormal = m_provider->GetGraphicResourceManager()->GetPointer(
-		m_provider->GetFileManager(),
-		m_provider->GetVideo(),
-		fileName,
-		m_provider->GetFileIOHub()->GetResourceDirectory(),
-		ETHDirectories::GetNormalMapDirectory(),
-		false);
-	if (m_pNormal)
-	{
-		m_properties.normalFile = fileName;
-		return true;
-	}
-	else
-	{
-		m_properties.normalFile = GS_L("");
-		return false;
-	}
-}
-
-bool ETHSpriteEntity::SetGloss(const str_type::string &fileName)
-{
-	m_pGloss = m_provider->GetGraphicResourceManager()->GetPointer(
-		m_provider->GetFileManager(),
-		m_provider->GetVideo(),
-		fileName,
-		m_provider->GetFileIOHub()->GetResourceDirectory(),
-		ETHDirectories::GetEntityDirectory(),
-		false);
-	if (m_pGloss)
-	{
-		m_properties.glossFile = fileName;
-		return true;
-	}
-	else
-	{
-		m_properties.glossFile = GS_L("");
-		return false;
-	}
-}
-
 bool ETHSpriteEntity::SetHalo(const str_type::string &fileName)
 {
 	if (m_properties.light)
 	{
-		m_pHalo = m_provider->GetGraphicResourceManager()->GetPointer(
+		m_pHalo = m_provider->GetGraphicResourceManager()->GetSprite(
 			m_provider->GetFileManager(),
 			m_provider->GetVideo(),
 			fileName,
 			m_provider->GetFileIOHub()->GetResourceDirectory(),
 			ETHDirectories::GetHaloDirectory(),
 			true);
+
 		if (m_pHalo)
 		{
 			m_properties.light->haloBitmap = fileName;
@@ -267,16 +232,6 @@ bool ETHSpriteEntity::SetHalo(const str_type::string &fileName)
 str_type::string ETHSpriteEntity::GetSpriteName() const
 {
 	return m_properties.spriteFile;
-}
-
-str_type::string ETHSpriteEntity::GetNormalName() const
-{
-	return m_properties.normalFile;
-}
-
-str_type::string ETHSpriteEntity::GetGlossName() const
-{
-	return m_properties.glossFile;
 }
 
 str_type::string ETHSpriteEntity::GetHaloName() const
@@ -307,8 +262,10 @@ void ETHSpriteEntity::LoadParticleSystem()
 			path += ETHDirectories::GetParticlesDirectory();
 			path += Platform::GetFileName(pSystem->GetActualBitmapFile());
 
-			if (!graphicResources->AddFile(m_provider->GetFileManager(), video, path, resourcePath, (pSystem->alphaMode == Video::AM_ADD), false))
+			if (!graphicResources->AddFile(m_provider->GetFileManager(), video, path, resourcePath, false))
+			{
 				continue;
+			}
 
 			const float particleScale = (GetScale().x + GetScale().y) / 2.0f;
 			m_particles[t] = ETHParticleManagerPtr(
@@ -338,7 +295,8 @@ bool ETHSpriteEntity::SetSpriteCut(const unsigned int col, const unsigned int ro
 
 	if (m_pSprite)
 	{
-		m_pSprite->SetupSpriteRects(col, row);
+		m_packedFrames = SpriteRectsPtr(new SpriteRects());
+		m_packedFrames->SetRects(col, row);
 	}
 
 	m_spriteFrame = 0;
@@ -370,43 +328,20 @@ void ETHSpriteEntity::SetOrigin()
 	const Vector2 v2Origin = ComputeOrigin(GetSize());
 	m_pSprite->SetOrigin(v2Origin);
 	if (m_pLightmap)
+	{
 		m_pLightmap->SetOrigin(v2Origin);
+	}
 }
 
 Rect2D ETHSpriteEntity::GetFrameRect() const
 {
-	if (m_pSprite)
+	if (m_packedFrames)
 	{
-		return m_pSprite->GetRect();
+		return m_packedFrames->GetRect(GetFrame());
 	}
 	else
 	{
 		return Rect2D();
-	}
-}
-
-void ETHSpriteEntity::ValidateSpriteCut(const SpritePtr& sprite) const
-{
-	if (m_packedFrames)
-	{
-		if (m_pSprite->GetRects() != m_packedFrames)
-		{
-			m_pSprite->SetRects(m_packedFrames);
-			m_properties.spriteCut.x = m_pSprite->GetNumColumns();
-			m_properties.spriteCut.y = m_pSprite->GetNumRows();
-		}
-	}
-	else
-	{
-		m_properties.spriteCut.x = Max(1, m_properties.originalSpriteCut.x);
-		m_properties.spriteCut.y = Max(1, m_properties.originalSpriteCut.y);
-
-		const Vector2i cut(sprite->GetNumColumns(), sprite->GetNumRows());
-		const Vector2i& entityCut = m_properties.spriteCut;
-		if (cut != entityCut)
-		{
-			sprite->SetupSpriteRects(entityCut.x, entityCut.y);
-		}
 	}
 }
 
@@ -429,16 +364,6 @@ ETHParticleManagerConstPtr ETHSpriteEntity::GetConstParticleManager(const std::s
 SpritePtr ETHSpriteEntity::GetSprite()
 {
 	return m_pSprite;
-}
-
-SpritePtr ETHSpriteEntity::GetGloss()
-{
-	return m_pGloss;
-}
-
-SpritePtr ETHSpriteEntity::GetNormal()
-{
-	return m_pNormal;
 }
 
 SpritePtr ETHSpriteEntity::GetLightmap()
@@ -715,12 +640,10 @@ Vector2 ETHSpriteEntity::GetSize() const
 		{
 			r = GetConstParticleManager(0)->ComputeBoundingRectangle(GetAngle()).size;
 		}
-		
 	}
 	else
 	{
-		ValidateSpriteCut(m_pSprite);
-		r = m_pSprite->GetFrameSize();
+		m_pSprite->GetSize(m_packedFrames->GetRect(GetFrame()));
 	}
 
 	return r * m_properties.scale;

@@ -15,7 +15,6 @@ class ETHEntity : public ETHScriptEntity
 {
 	friend class ETHScene;
 public:
-	static Sprite::ENTITY_ORIGIN ConvertToGSSO(const ETHEntityProperties::ENTITY_TYPE type);
 	static float ComputeDepth(const float height, const float maxHeight, const float minHeight);
 
 	ETHEntity(const str_type::string& filePath, const int nId, const Platform::FileManagerPtr& fileManager);
@@ -86,9 +85,6 @@ public:
 	Vector3 GetColor() const;
 	Vector4 GetColorARGB() const;
 	float GetAlpha() const;
-	void SetShadowZ(const float z);
-	float GetShadowZ() const;
-	bool HasShadow() const;
 	void SetLayerDepth(const float depth);
 	float GetLayerDepth() const;
 	float GetDensity(const unsigned int fixtureIdx) const;
@@ -111,10 +107,8 @@ public:
 
 	bool IsRotatable() const;
 	bool IsStatic() const;
-	bool IsApplyLight() const;
 	bool IsHidden() const;
 	bool IsTemporary() const;
-	bool IsCastShadow() const;
 	bool IsInvisible() const;
 	bool IsBody() const;
 
@@ -124,8 +118,6 @@ public:
 
 	bool RunCallbackScript();
 
-	float GetSpecularPower() const;
-	float GetSpecularBrightness() const;
 	void SetLightRange(const float range);
 	float GetLightRange() const;
 	void SetLightColor(const Vector3 &color);
@@ -244,7 +236,6 @@ protected:
 	Vector4 m_v4Color;
 	Vector4 m_v4SolidColor;
 	ETH_BOOL m_hide, m_flipX, m_flipY;
-	float m_shadowZ;
 };
 
 typedef ETHEntity* ETHEntityRawPtr;

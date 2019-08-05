@@ -882,21 +882,13 @@ void EntityEditor::ShowEntityResources(Vector2 v2Pos)
 		DrawEntityElementName(v2Pos, m_renderEntity->GetSprite(), m_pEditEntity->spriteFile + GS_L(" (sprite)"));
 		v2Pos.y += m_menuSize;
 	}
-	if (m_renderEntity->GetNormal())
-	{
-		DrawEntityElementName(v2Pos, m_renderEntity->GetNormal(), m_pEditEntity->normalFile + GS_L(" (normal)"));
-		v2Pos.y += m_menuSize;
-	}
-	if (m_renderEntity->GetGloss())
-	{
-		DrawEntityElementName(v2Pos, m_renderEntity->GetGloss(), m_pEditEntity->glossFile + GS_L(" (gloss)"));
-		v2Pos.y += m_menuSize;
-	}
+
 	if (m_renderEntity->GetHalo() && m_pEditEntity->light)
 	{
 		DrawEntityElementName(v2Pos, m_renderEntity->GetHalo(), m_pEditEntity->light->haloBitmap + GS_L(" (halo)"));
 		v2Pos.y += m_menuSize;
 	}
+
 	for (unsigned int t=0; t<ETH_MAX_PARTICLE_SYS_PER_ENTITY; t++)
 	{
 		if (!m_renderEntity->HasParticleSystem(t))
@@ -1402,14 +1394,14 @@ void EntityEditor::DrawEntity(const float lastFrameElapsedTime)
 	m_renderEntity->DrawAmbientPass(screenSize.y,-screenSize.y, false, m_sceneProps, 0.0f);
 	shaderManager->EndAmbientPass();
 
-	if (!m_renderEntity->HasLightSource())
+	/*if (!m_renderEntity->HasLightSource())
 	{
 		if (shaderManager->BeginLightPass(m_renderEntity.get(), &m_cursorLight, screenSize.y,-screenSize.y, 2.0f))
 		{
 			m_renderEntity->DrawLightPass(ETH_DEFAULT_ZDIRECTION, 0.0f);
 			shaderManager->EndLightPass();
 		}
-	}
+	}*/
 
 	if (m_pEditEntity->light)
 	{

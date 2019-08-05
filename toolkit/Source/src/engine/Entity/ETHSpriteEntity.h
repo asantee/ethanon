@@ -33,8 +33,6 @@ public:
 	Rect2D GetFrameRect() const;
 
 	SpritePtr GetSprite();
-	SpritePtr GetGloss();
-	SpritePtr GetNormal();
 	SpritePtr GetLightmap();
 	SpritePtr GetHalo();
 	SpritePtr GetParticleBMP(const unsigned int n);
@@ -66,7 +64,6 @@ public:
 	void SetSoundVolume(const float volume);
 	bool SetSpriteCut(const unsigned int col, const unsigned int row);
 
-	void ValidateSpriteCut(const SpritePtr& sprite) const;
 	Vector2 GetSize() const;
 	Vector2 ComputeParallaxOffset() const;
 	float ComputeDepth(const float maxHeight, const float minHeight) const;
@@ -81,13 +78,9 @@ public:
 	bool IsPointOnSprite(const ETHSceneProperties& sceneProps, const Vector2& absolutePointPos, const Vector2& size) const;
 
 	bool SetSprite(const str_type::string &fileName);
-	bool SetNormal(const str_type::string &fileName);
-	bool SetGloss(const str_type::string &fileName);
 	bool SetHalo(const str_type::string &fileName);
 
 	str_type::string GetSpriteName() const;
-	str_type::string GetNormalName() const;
-	str_type::string GetGlossName() const;
 	str_type::string GetHaloName() const;
 
 	void Update(const float lastFrameElapsedTime, const Vector2& zAxisDir, ETHBucketManager& buckets);
@@ -113,13 +106,11 @@ protected:
 
 	ETHResourceProviderPtr m_provider;
 	mutable SpritePtr m_pSprite;
-	SpritePtr m_pGloss;
-	SpritePtr m_pNormal;
 	SpritePtr m_pHalo;
 	SpritePtr m_pLightmap;
 	str_type::string m_preRenderedLightmapFilePath;
 
-	Sprite::RectsPtr m_packedFrames;
+	SpriteRectsPtr m_packedFrames;
 
 	static const float m_layrableMinimumDepth;
 

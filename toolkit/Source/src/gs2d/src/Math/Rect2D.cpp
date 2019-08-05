@@ -5,8 +5,8 @@ namespace math {
 
 Rect2D::Rect2D() :
 	pos(0.0f),
-	size(0.0f),
-	originalSize(0.0f),
+	size(1.0f),
+	originalSize(1.0f),
 	offset(0.0f)
 {
 }

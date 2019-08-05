@@ -6,16 +6,12 @@
 #include "Math/Matrix4x4.h"
 #include "Math/Color.h"
 
-#include <boost/shared_array.hpp>
 #include <boost/any.hpp>
+
+#include "../../tsl/hopscotch_map.h"
 
 namespace gs2d {
 
-class Video;
-
-/**
- * \brief Provides a render context to the shaders
- */
 class ShaderContext
 {
 public:
@@ -24,14 +20,61 @@ public:
 
 typedef boost::shared_ptr<ShaderContext> ShaderContextPtr;
 
-/**
- * \brief Abstracts a shader object
- *
- * Stores, manages and binds a fragment or vertex shader.
- */
+class Video;
+class Shader;
+
+typedef std::shared_ptr<Shader> ShaderPtr;
+
 class Shader
 {
 public:
+    class ShaderParameter
+    {
+    public:
+        virtual void SetConstant(const std::string& name, const ShaderPtr& shader) = 0;
+    };
+    
+    class TextureShaderParameter : public ShaderParameter
+    {
+        TexturePtr m_texture;
+        unsigned int m_index;
+    public:
+        TextureShaderParameter(const TexturePtr& texture, const unsigned int index);
+        void SetConstant(const std::string& name, const ShaderPtr& shader);
+    };
+
+    class FloatShaderParameter : public ShaderParameter
+    {
+        float m_f;
+    public:
+        FloatShaderParameter(const float f);
+        void SetConstant(const std::string& name, const ShaderPtr& shader);
+    };
+
+    class Vector2ShaderParameter : public ShaderParameter
+    {
+        math::Vector2 m_v;
+    public:
+        Vector2ShaderParameter(const math::Vector2& v);
+        void SetConstant(const std::string& name, const ShaderPtr& shader);
+    };
+
+    class Vector3ShaderParameter : public ShaderParameter
+    {
+        math::Vector3 m_v;
+    public:
+        Vector3ShaderParameter(const math::Vector3& v);
+        void SetConstant(const std::string& name, const ShaderPtr& shader);
+    };
+
+    class Vector4ShaderParameter : public ShaderParameter
+    {
+        math::Vector4 m_v;
+    public:
+        Vector4ShaderParameter(const math::Vector4& v);
+        void SetConstant(const std::string& name, const ShaderPtr& shader);
+    };
+
 	virtual bool LoadShaderFromFile(
 		ShaderContextPtr context,
         const std::string& vsFileName,
@@ -61,7 +104,9 @@ public:
 	virtual void SetShader() = 0;
 };
 
-typedef boost::shared_ptr<Shader> ShaderPtr;
+typedef boost::shared_ptr<Shader::ShaderParameter> ShaderParameterPtr;
+typedef tsl::hopscotch_map<std::string, ShaderParameterPtr> ShaderParameters;
+typedef boost::shared_ptr<ShaderParameters> ShaderParametersPtr;
 
 } // namespace gs2d
 

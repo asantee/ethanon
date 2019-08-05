@@ -73,8 +73,6 @@ asDECLARE_FUNCTION_WRAPPER(__SetParallaxOrigin, ETHScriptWrapper::SetParallaxOri
 asDECLARE_FUNCTION_WRAPPER(__GetParallaxOrigin, ETHScriptWrapper::GetParallaxOrigin);
 asDECLARE_FUNCTION_WRAPPER(__SetParallaxIntensity, ETHScriptWrapper::SetParallaxIntensity);
 asDECLARE_FUNCTION_WRAPPER(__GetParallaxIntensity, ETHScriptWrapper::GetParallaxIntensity);
-asDECLARE_FUNCTION_WRAPPER(__SetParallaxVerticalIntensity, ETHScriptWrapper::SetParallaxVerticalIntensity);
-asDECLARE_FUNCTION_WRAPPER(__GetParallaxVerticalIntensity, ETHScriptWrapper::GetParallaxVerticalIntensity);
 asDECLARE_FUNCTION_WRAPPER(__SetBucketClearenceFactor, ETHScriptWrapper::SetBucketClearenceFactor);
 asDECLARE_FUNCTION_WRAPPER(__GetBucketClearenceFactor, ETHScriptWrapper::GetBucketClearenceFactor);
 
@@ -339,9 +337,6 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void SetParallaxIntensity(const float)",    asFUNCTION(__SetParallaxIntensity), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 GetParallaxOrigin()",               asFUNCTION(__GetParallaxOrigin),    asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("float GetParallaxIntensity()",              asFUNCTION(__GetParallaxIntensity), asCALL_GENERIC); assert(r >= 0);
-
-	r = pASEngine->RegisterGlobalFunction("void SetParallaxVerticalIntensity(const float)", asFUNCTION(__SetParallaxVerticalIntensity), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("float GetParallaxVerticalIntensity()",           asFUNCTION(__GetParallaxVerticalIntensity), asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("void SetBucketClearenceFactor(const float)", asFUNCTION(__SetBucketClearenceFactor), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("float GetBucketClearenceFactor()",           asFUNCTION(__GetBucketClearenceFactor), asCALL_GENERIC); assert(r >= 0);

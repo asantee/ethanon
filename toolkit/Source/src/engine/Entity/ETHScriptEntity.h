@@ -57,9 +57,6 @@ public:
 	virtual ETHCollisionBox GetCollisionBox() const = 0;
 	virtual bool HasParticleSystems() const = 0;
 	virtual bool HasParticleSystem(const unsigned int n) const = 0;
-	virtual void SetShadowZ(const float z) = 0;
-	virtual float GetShadowZ() const = 0;
-	virtual bool HasShadow() const = 0;
 	virtual void AddToPosition(const Vector3& pos, ETHBucketManager& buckets) = 0;
 	virtual void AddToPositionXY(const Vector2& pos, ETHBucketManager& buckets) = 0;
 	virtual void AddToAngle(const float angle) = 0;
@@ -114,13 +111,9 @@ public:
 	virtual Vector2 GetScale() const = 0;
 
 	virtual bool SetSprite(const str_type::string &fileName) = 0;
-	virtual bool SetNormal(const str_type::string &fileName) = 0;
-	virtual bool SetGloss(const str_type::string &fileName) = 0;
 	virtual bool SetHalo(const str_type::string &fileName) = 0;
 
 	virtual str_type::string GetSpriteName() const = 0;
-	virtual str_type::string GetNormalName() const = 0;
-	virtual str_type::string GetGlossName() const = 0;
 	virtual str_type::string GetHaloName() const = 0;
 
 	virtual void SetFloat(const str_type::string &name, const float &value) = 0;
