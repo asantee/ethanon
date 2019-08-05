@@ -643,7 +643,7 @@ Vector2 ETHSpriteEntity::GetSize() const
 	}
 	else
 	{
-		m_pSprite->GetSize(m_packedFrames->GetRect(GetFrame()));
+		r = m_pSprite->GetSize(m_packedFrames->GetRect(GetFrame()));
 	}
 
 	return r * m_properties.scale;

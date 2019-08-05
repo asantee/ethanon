@@ -809,6 +809,7 @@ void ETHScriptWrapper::DisableContact()
 void ETHScriptWrapper::SetFixedHeight(const float height)
 {
 	m_provider->GetVideo()->SetVirtualScreenHeight(height);
+	Sprite::SetVirtualScreenHeight(m_provider->GetVideo()->GetScreenSizeF(), height);
 }
 
 float ETHScriptWrapper::GetDummyScale()

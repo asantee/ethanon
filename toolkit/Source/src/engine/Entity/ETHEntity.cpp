@@ -236,7 +236,7 @@ void ETHEntity::SetController(const ETHEntityControllerPtr& controller)
 Vector2 ETHEntity::ComputeAbsoluteOrigin(const Vector2 &v2Size) const
 {
 	const Rect2D rect(GetFrameRect());
-	const Vector2 virtualSize = (v2Size == rect.originalSize) ? v2Size : (rect.originalSize * m_properties.scale);
+	const Vector2 virtualSize = (rect.originalSize == Vector2(0.0f)) ? v2Size : (rect.originalSize * m_properties.scale);
 
 	Vector2 v2Center(virtualSize / 2.0f);
 

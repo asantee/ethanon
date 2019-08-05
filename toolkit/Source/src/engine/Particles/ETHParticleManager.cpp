@@ -503,6 +503,7 @@ bool ETHParticleManager::DrawParticleSystem(
 			video->GetCameraPos(),
 			Vector3(v2Pos, particle.startPoint.z),
 			Vector2(particle.size),
+			Vector2(0.5f),
 			finalColor,
 			particle.angle,
 			m_rects.GetRect(particle.currentFrame),

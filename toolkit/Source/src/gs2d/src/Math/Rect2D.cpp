@@ -6,7 +6,7 @@ namespace math {
 Rect2D::Rect2D() :
 	pos(0.0f),
 	size(1.0f),
-	originalSize(1.0f),
+	originalSize(0.0f),
 	offset(0.0f)
 {
 }
@@ -14,7 +14,7 @@ Rect2D::Rect2D() :
 Rect2D::Rect2D(const Vector2& p, const Vector2& s) :
 	pos(p),
 	size(s),
-	originalSize(s),
+	originalSize(0.0f),
 	offset(0.0f)
 {
 }
@@ -30,7 +30,7 @@ Rect2D::Rect2D(const Vector2& p, const Vector2& s, const Vector2& o, const Vecto
 Rect2D::Rect2D(const float posX, const float posY, const float sizeX, const float sizeY) :
 	pos(posX, posY),
 	size(sizeX, sizeY),
-	originalSize(sizeX, sizeY),
+	originalSize(0.0f),
 	offset(0.0f)
 {
 }
