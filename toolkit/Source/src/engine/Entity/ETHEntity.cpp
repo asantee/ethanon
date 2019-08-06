@@ -243,8 +243,8 @@ Vector2 ETHEntity::ComputeAbsoluteOrigin(const Vector2 &v2Size) const
 	Vector2 offset(rect.offset * m_properties.scale);
 	v2Center -= offset;
 	
-	if (GetFlipX()) v2Center.x = (rect.size.x * m_properties.scale.x) - v2Center.x;
-	if (GetFlipY()) v2Center.y = (rect.size.y * m_properties.scale.y) - v2Center.y;
+	if (GetFlipX()) v2Center.x = ((rect.size.x * virtualSize.x) * m_properties.scale.x) - v2Center.x;
+	if (GetFlipY()) v2Center.y = ((rect.size.y * virtualSize.y) * m_properties.scale.y) - v2Center.y;
 
 	return (v2Center + ((m_properties.pivotAdjust) * m_properties.scale));
 }
