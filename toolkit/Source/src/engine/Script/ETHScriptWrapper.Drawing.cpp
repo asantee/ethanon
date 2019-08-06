@@ -105,8 +105,8 @@ void ETHScriptWrapper::SetupSpriteRects(const str_type::string& name, const unsi
 		if (!resource->packedFrames)
 		{
 			resource->packedFrames = SpriteRectsPtr(new SpriteRects());
+			resource->packedFrames->SetRects(columns, rows);
 		}
-		resource->packedFrames->SetRects(columns, rows);
 	}
 }
 
