@@ -41,152 +41,148 @@ public:
 	void Kill();
 
 	// General methods
-	int GetID() const;
-	Vector2 ComputeOrigin(const Vector2 &v2Size) const;
-	Vector2 ComputeAbsoluteOrigin(const Vector2 &v2Size) const;
+	int GetID() const override;
+	virtual Vector2 ComputeOrigin(const Vector2 &v2Size) const = 0;
+	virtual Vector2 ComputeAbsoluteOrigin(const Vector2 &v2Size) const = 0;
 	virtual Rect2D GetFrameRect() const = 0;
 	Vector3 GetLightRelativePosition() const;
-	ETHCollisionBox GetCollisionBox() const;
+	ETHCollisionBox GetCollisionBox() const override;
 	ETHCompoundShapePtr GetCompoundShape() const;
 	void ChangeEntityName(const str_type::string& name);
-	str_type::string GetEntityName() const;
+	str_type::string GetEntityName() const override;
 	std::size_t GetNumParticleSystems() const;
-	ETHEntityProperties::ENTITY_TYPE GetType() const;
+	ETHEntityProperties::ENTITY_TYPE GetType() const override;
 	ETHEntityProperties::BODY_SHAPE GetShape() const;
-	Vector3 GetPosition() const;
-	Vector2 GetPositionXY() const;
-	void SetPosition(const Vector3& pos, ETHBucketManager& buckets);
-	void SetPositionXY(const Vector2& pos, ETHBucketManager& buckets);
-	void AddToPosition(const Vector3& pos, ETHBucketManager& buckets);
-	void AddToPositionXY(const Vector2& pos, ETHBucketManager& buckets);
-	void AddToAngle(const float angle);
+	Vector3 GetPosition() const override;
+	Vector2 GetPositionXY() const override;
+	void SetPosition(const Vector3& pos, ETHBucketManager& buckets) override;
+	void SetPositionXY(const Vector2& pos, ETHBucketManager& buckets) override;
+	void AddToPosition(const Vector3& pos, ETHBucketManager& buckets) override;
+	void AddToPositionXY(const Vector2& pos, ETHBucketManager& buckets) override;
+	void AddToAngle(const float angle) override;
 	void SetOrphanPosition(const Vector3& pos);
 	void SetOrphanPositionXY(const Vector2& pos);
-	float GetAngle() const;
-	void SetAngle(const float angle);
-	bool SetFrame(const unsigned int frame);
-	bool SetFrame(const unsigned int column, const unsigned int row);
-	unsigned int GetFrame() const;
-	bool IsCollidable() const;
+	float GetAngle() const override;
+	void SetAngle(const float angle) override;
+	bool IsCollidable() const override;
 	Video::ALPHA_MODE GetBlendMode() const;
-	unsigned int GetNumFrames() const;
 	bool HasAnyCallbackFunction() const;
 	const ETHLight* GetLight() const;
-	void TurnDynamic();
-	void TurnStatic();
-	void Hide(const bool hide);
+	void TurnDynamic() override;
+	void TurnStatic() override;
+	void Hide(const bool hide) override;
 	Vector2 GetCurrentBucket(const ETHBucketManager& buckets) const;
 
-	void SetEmissiveColor(const Vector3 &color);
-	Vector3 GetEmissiveColor() const;
-	void SetColor(const Vector3& color);
+	void SetEmissiveColor(const Vector3 &color) override;
+	Vector3 GetEmissiveColor() const override;
+	void SetColor(const Vector3& color) override;
 	void SetColor(const Vector4& color);
-	void SetAlpha(const float alpha);
-	Vector3 GetColor() const;
-	Vector4 GetColorARGB() const;
-	float GetAlpha() const;
-	void SetLayerDepth(const float depth);
-	float GetLayerDepth() const;
+	void SetAlpha(const float alpha) override;
+	Vector3 GetColor() const override;
+	Vector4 GetColorARGB() const override;
+	float GetAlpha() const override;
+	void SetLayerDepth(const float depth) override;
+	float GetLayerDepth() const override;
 	float GetDensity(const unsigned int fixtureIdx) const;
 	float GetFriction(const unsigned int fixtureIdx) const;
 	float GetRestitution(const unsigned int fixtureIdx) const;
 
-	Vector3 GetSolidColor() const;
-	void SetSolidColor(const Vector3& color);
-	void SetSolidColorAlpha(const float alpha);
-	float GetSolidColorAlpha() const;
-	Vector4 GetSolidColorARGB() const;
+	Vector3 GetSolidColor() const override;
+	void SetSolidColor(const Vector3& color) override;
+	void SetSolidColorAlpha(const float alpha) override;
+	float GetSolidColorAlpha() const override;
+	Vector4 GetSolidColorARGB() const override;
 
-	void Scale(const Vector2& scale);
-	void Scale(const float scale);
-	void SetScale(const Vector2& scale);
-	Vector2 GetScale() const;
+	void Scale(const Vector2& scale) override;
+	void Scale(const float scale) override;
+	void SetScale(const Vector2& scale) override;
+	Vector2 GetScale() const override;
 
 	/// Scale the particle systems property files
 	void ScaleParticleSystemOrigin(const unsigned int n, const float scale);
 
 	bool IsRotatable() const;
-	bool IsStatic() const;
-	bool IsHidden() const;
-	bool IsTemporary() const;
-	bool IsInvisible() const;
+	bool IsStatic() const override;
+	bool IsHidden() const override;
+	bool IsTemporary() const override;
+	bool IsInvisible() const override;
 	bool IsBody() const;
 
-	bool HasLightSource() const;
-	bool HasParticleSystems() const;
-	bool HasHalo() const;
+	bool HasLightSource() const override;
+	bool HasParticleSystems() const override;
+	bool HasHalo() const override;
 
 	bool RunCallbackScript();
 
-	void SetLightRange(const float range);
-	float GetLightRange() const;
-	void SetLightColor(const Vector3 &color);
-	Vector3 GetLightColor() const;
-	void SetLightPosition(const Vector3& pos);
-	Vector3 GetLightPosition() const;
-	void DisableLightSource();
+	void SetLightRange(const float range) override;
+	float GetLightRange() const override;
+	void SetLightColor(const Vector3 &color) override;
+	Vector3 GetLightColor() const override;
+	void SetLightPosition(const Vector3& pos) override;
+	Vector3 GetLightPosition() const override;
+	void DisableLightSource() override;
 
-	void SetFlipX(const bool flipX);
-	void SetFlipY(const bool flipY);
-	bool GetFlipX() const;
-	bool GetFlipY() const;
+	void SetFlipX(const bool flipX) override;
+	void SetFlipY(const bool flipY) override;
+	bool GetFlipX() const override;
+	bool GetFlipY() const override;
 
 	// Custom data related methods:
 	const ETHCustomDataManager *GetCustomDataManager() const;
-	void SetFloat(const str_type::string &name, const float &value);
-	void SetInt(const str_type::string &name, const int &value);
-	void SetUInt(const str_type::string &name, const unsigned int &value);
-	void SetString(const str_type::string &name, const str_type::string &value);
-	void SetVector2(const str_type::string &name, const Vector2 &value);
-	void SetVector3(const str_type::string &name, const Vector3 &value);
+	void SetFloat(const str_type::string &name, const float &value) override;
+	void SetInt(const str_type::string &name, const int &value) override;
+	void SetUInt(const str_type::string &name, const unsigned int &value) override;
+	void SetString(const str_type::string &name, const str_type::string &value) override;
+	void SetVector2(const str_type::string &name, const Vector2 &value) override;
+	void SetVector3(const str_type::string &name, const Vector3 &value) override;
 	void AddData(const str_type::string &name, const ETHCustomDataConstPtr &dataIn);
 
-	float GetFloat(const str_type::string &name, const float defaultValue) const;
-	int GetInt(const str_type::string &name, const int defaultValue) const;
-	unsigned int GetUInt(const str_type::string &name, const unsigned int defaultValue) const;
-	str_type::string GetString(const str_type::string &name, const str_type::string& defaultValue) const;
-	Vector2 GetVector2(const str_type::string &name, const Vector2& defaultValue) const;
-	Vector3 GetVector3(const str_type::string &name, const Vector3& defaultValue) const;
+	float GetFloat(const str_type::string &name, const float defaultValue) const override;
+	int GetInt(const str_type::string &name, const int defaultValue) const override;
+	unsigned int GetUInt(const str_type::string &name, const unsigned int defaultValue) const override;
+	str_type::string GetString(const str_type::string &name, const str_type::string& defaultValue) const override;
+	Vector2 GetVector2(const str_type::string &name, const Vector2& defaultValue) const override;
+	Vector3 GetVector3(const str_type::string &name, const Vector3& defaultValue) const override;
 
-	float GetFloat(const str_type::string &name) const;
-	int GetInt(const str_type::string &name) const;
-	unsigned int GetUInt(const str_type::string &name) const;
-	str_type::string GetString(const str_type::string &name) const;
-	Vector2 GetVector2(const str_type::string &name) const;
-	Vector3 GetVector3(const str_type::string &name) const;
+	float GetFloat(const str_type::string &name) const override;
+	int GetInt(const str_type::string &name) const override;
+	unsigned int GetUInt(const str_type::string &name) const override;
+	str_type::string GetString(const str_type::string &name) const override;
+	Vector2 GetVector2(const str_type::string &name) const override;
+	Vector3 GetVector3(const str_type::string &name) const override;
 
 	void SetObject(const str_type::string &name, void *value, int typeId);
 	void GetObject(const str_type::string &name, void *value, int typeId);
 
-	float AddToFloat(const str_type::string &name, const float &value);
-	int AddToInt(const str_type::string &name, const int &value);
-	unsigned int AddToUInt(const str_type::string &name, const unsigned int &value);
-	Vector2 AddToVector2(const str_type::string &name, const Vector2 &v);
-	Vector3 AddToVector3(const str_type::string &name, const Vector3 &v);
+	float AddToFloat(const str_type::string &name, const float &value) override;
+	int AddToInt(const str_type::string &name, const int &value) override;
+	unsigned int AddToUInt(const str_type::string &name, const unsigned int &value) override;
+	Vector2 AddToVector2(const str_type::string &name, const Vector2 &v) override;
+	Vector3 AddToVector3(const str_type::string &name, const Vector3 &v) override;
 
-	float MultiplyFloat(const str_type::string &name, const float &value);
-	int MultiplyInt(const str_type::string &name, const int &value);
-	unsigned int MultiplyUInt(const str_type::string &name, const unsigned int &value);
-	Vector2 MultiplyVector2(const str_type::string &name, const float &value);
-	Vector3 MultiplyVector3(const str_type::string &name, const float &value);
+	float MultiplyFloat(const str_type::string &name, const float &value) override;
+	int MultiplyInt(const str_type::string &name, const int &value) override;
+	unsigned int MultiplyUInt(const str_type::string &name, const unsigned int &value) override;
+	Vector2 MultiplyVector2(const str_type::string &name, const float &value) override;
+	Vector3 MultiplyVector3(const str_type::string &name, const float &value) override;
 
-	bool EraseData(const str_type::string &name);
-	ETHCustomData::DATA_TYPE CheckCustomData(const str_type::string &name) const;
-	bool HasCustomData() const;
-	void DebugPrintCustomData() const;
-	void ClearCustomData();
+	bool EraseData(const str_type::string &name) override;
+	ETHCustomData::DATA_TYPE CheckCustomData(const str_type::string &name) const override;
+	bool HasCustomData() const override;
+	void DebugPrintCustomData() const override;
+	void ClearCustomData() override;
 	void InsertData(const ETHCustomDataManager &dataIn);
 	void MoveData(ETHCustomDataManager &dataOut) const;
 
-	void SetPivotAdjust(const Vector2& p);
-	Vector2 GetPivotAdjust() const;
-	bool IsFixedRotation() const;
-	bool IsSensor() const;
-	bool HasSimulatedBody() const;
+	void SetPivotAdjust(const Vector2& p) override;
+	Vector2 GetPivotAdjust() const override;
+	bool IsFixedRotation() const override;
+	bool IsSensor() const override;
+	bool HasSimulatedBody() const override;
 	bool IsBullet();
 
-	void SetAngelScriptObject(const str_type::string &name, void *value, int typeId);
-	bool GetAngelScriptObject(const str_type::string &name, void *value, int typeId);
+	void SetAngelScriptObject(const str_type::string &name, void *value, int typeId) override;
+	bool GetAngelScriptObject(const str_type::string &name, void *value, int typeId) override;
 
 	#ifdef _ETHANON_EDITOR
 	inline ETHEntityProperties* GetEditableProperties() { return &m_properties; }
@@ -194,19 +190,19 @@ public:
 
 	virtual void ReleaseLightmap() = 0;
 	
-	float GetParallaxIntensity() const;
-	void SetParallaxIntensity(const float individualIntensity);
+	float GetParallaxIntensity() const override;
+	void SetParallaxIntensity(const float individualIntensity) override;
 	ETHPolygonPtr GetPolygon() const;
 
-	void SetPositionX(const float v, ETHBucketManager& buckets);
-	void SetPositionY(const float v, ETHBucketManager& buckets);
-	void SetPositionZ(const float v);
-	float GetPositionX() const;
-	float GetPositionY() const;
-	float GetPositionZ() const;
-	void AddToPositionX(const float v, ETHBucketManager& buckets);
-	void AddToPositionY(const float v, ETHBucketManager& buckets);
-	void AddToPositionZ(const float v);
+	void SetPositionX(const float v, ETHBucketManager& buckets) override;
+	void SetPositionY(const float v, ETHBucketManager& buckets) override;
+	void SetPositionZ(const float v) override;
+	float GetPositionX() const override;
+	float GetPositionY() const override;
+	float GetPositionZ() const override;
+	void AddToPositionX(const float v, ETHBucketManager& buckets) override;
+	void AddToPositionY(const float v, ETHBucketManager& buckets) override;
+	void AddToPositionZ(const float v) override;
 
 private:
 	void Zero();

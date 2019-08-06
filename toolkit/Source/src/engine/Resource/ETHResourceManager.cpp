@@ -60,6 +60,7 @@ ETHGraphicResourceManager::SpriteResource::SpriteResource(
 					TiXmlElement *pSpriteIter = pNode->ToElement();
 					if (pSpriteIter)
 					{
+						const Vector2 sheetSize(sprite->GetSize(Rect2D()));
 						packedFrames = SpriteRectsPtr(new SpriteRects());
 						do
 						{
@@ -72,10 +73,11 @@ ETHGraphicResourceManager::SpriteResource::SpriteResource(
 							pSpriteIter->QueryIntAttribute(GS_L("oH"), &originalHeight);
 							pSpriteIter->QueryIntAttribute(GS_L("oX"), &offsetX);
 							pSpriteIter->QueryIntAttribute(GS_L("oY"), &offsetY);
+
 							packedFrames->AddRect(
 								gs2d::math::Rect2D(
-									Vector2(float(x) / float(originalWidth), float(y) / float(originalHeight)),
-									Vector2(float(width) / float(originalWidth), float(height) / float(originalHeight)),
+									Vector2(float(x) / sheetSize.x, float(y) / sheetSize.x),
+									Vector2(float(width) / sheetSize.x, float(height) / sheetSize.y),
 									Vector2(offsetX, offsetY),
 									Vector2(originalWidth, originalHeight)));
 							pSpriteIter = pSpriteIter->NextSiblingElement();

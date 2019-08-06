@@ -22,15 +22,15 @@ public:
 		const float scale);
 	ETHSpriteEntity(ETHResourceProviderPtr provider);
 
-	void Refresh(const ETHEntityProperties& properties);
+	void Refresh(const ETHEntityProperties& properties) override;
 
-	void AddRef();
-	void Release();
+	void AddRef() override;
+	void Release() override;
 
 	bool SetDepth(const float maxHeight, const float minHeight);
 	void SetOrigin();
 
-	Rect2D GetFrameRect() const;
+	Rect2D GetFrameRect() const override;
 
 	SpritePtr GetSprite();
 	SpritePtr GetLightmap();
@@ -46,60 +46,67 @@ public:
 
 	void DestroyParticleSystem(const unsigned int n);
 	void SetParticleBitmap(const int unsigned n, SpritePtr bitmap);
-	void SetParticleBitmap(const unsigned int n, const str_type::string& bitmap);
-	void SetParticlePosition(const unsigned int n, const Vector3 &v3Pos);
-	void ScaleParticleSystem(const unsigned int n, const float scale);
-	bool MirrorParticleSystemX(const unsigned int n, const bool mirrorGravity);
-	bool MirrorParticleSystemY(const unsigned int n, const bool mirrorGravity);
-	void SetParticleColorA(const unsigned int n, const Vector3 &color, const float alpha);
-	void SetParticleColorB(const unsigned int n, const Vector3 &color, const float alpha);
-	bool HasParticleSystem(const unsigned int n) const;
+	void SetParticleBitmap(const unsigned int n, const str_type::string& bitmap) override;
+	void SetParticlePosition(const unsigned int n, const Vector3 &v3Pos) override;
+	void ScaleParticleSystem(const unsigned int n, const float scale) override;
+	bool MirrorParticleSystemX(const unsigned int n, const bool mirrorGravity) override;
+	bool MirrorParticleSystemY(const unsigned int n, const bool mirrorGravity) override;
+	void SetParticleColorA(const unsigned int n, const Vector3 &color, const float alpha) override;
+	void SetParticleColorB(const unsigned int n, const Vector3 &color, const float alpha) override;
+	bool HasParticleSystem(const unsigned int n) const override;
 
 	ETHParticleManagerPtr GetParticleManager(const std::size_t n);
 	ETHParticleManagerConstPtr GetConstParticleManager(const std::size_t n) const;
-	bool AreParticlesOver() const;
-	bool PlayParticleSystem(const unsigned int n, const Vector2& zAxisDirection);
-	void KillParticleSystem(const unsigned int n);
-	bool ParticlesKilled(const unsigned int n) const;
+	bool AreParticlesOver() const override;
+	bool PlayParticleSystem(const unsigned int n, const Vector2& zAxisDirection) override;
+	void KillParticleSystem(const unsigned int n) override;
+	bool ParticlesKilled(const unsigned int n) const override;
 	void SetSoundVolume(const float volume);
-	bool SetSpriteCut(const unsigned int col, const unsigned int row);
+	bool SetSpriteCut(const unsigned int col, const unsigned int row) override;
 
-	Vector2 GetSize() const;
-	Vector2 ComputeParallaxOffset() const;
+	Vector2 GetSize() const override;
+	Vector2 ComputeParallaxOffset() const override;
 	float ComputeDepth(const float maxHeight, const float minHeight) const;
-	void SetScale(const Vector2& scale);
+	void SetScale(const Vector2& scale) override;
 
-	ETHEntityProperties::VIEW_RECT GetScreenRect(const ETHSceneProperties& sceneProps) const;
-	Vector2 GetScreenRectMin(const ETHSceneProperties& sceneProps) const;
-	Vector2 GetScreenRectMax(const ETHSceneProperties& sceneProps) const;
+	ETHEntityProperties::VIEW_RECT GetScreenRect(const ETHSceneProperties& sceneProps) const override;
+	Vector2 GetScreenRectMin(const ETHSceneProperties& sceneProps) const override;
+	Vector2 GetScreenRectMax(const ETHSceneProperties& sceneProps) const override;
 	Vector2 ComputeInScreenPosition(const ETHSceneProperties& sceneProps) const;
 	Vector2 ComputePositionWithZAxisApplied(const ETHSceneProperties& sceneProps) const;
 	Vector2 ComputeInScreenSpriteCenter(const ETHSceneProperties& sceneProps) const;
 	bool IsPointOnSprite(const ETHSceneProperties& sceneProps, const Vector2& absolutePointPos, const Vector2& size) const;
 
-	bool SetSprite(const str_type::string &fileName);
-	bool SetHalo(const str_type::string &fileName);
+	bool SetSprite(const str_type::string &fileName) override;
+	bool SetHalo(const str_type::string &fileName) override;
 
-	str_type::string GetSpriteName() const;
-	str_type::string GetHaloName() const;
+	str_type::string GetSpriteName() const override;
+	str_type::string GetHaloName() const override;
 
 	void Update(const float lastFrameElapsedTime, const Vector2& zAxisDir, ETHBucketManager& buckets);
 	void UpdateParticleSystems(const Vector2& zAxisDirection, const float lastFrameElapsedTime);
 
 	float ComputeLightIntensity();
 
-	ETHPhysicsController* GetPhysicsController();
+	ETHPhysicsController* GetPhysicsController() override;
 
 	void LoadParticleSystem();
 
-	void RecoverResources(const Platform::FileManagerPtr& expansionFileManager);
-	void ReleaseLightmap();
+	unsigned int GetNumFrames() const override;
+	unsigned int GetFrame() const override;
+	bool SetFrame(const unsigned int frame) override;
+	bool SetFrame(const unsigned int column, const unsigned int row) override;
+	Vector2 ComputeOrigin(const Vector2 &v2Size) const override;
+	Vector2 ComputeAbsoluteOrigin(const Vector2 &v2Size) const override;
+
+	void RecoverResources(const Platform::FileManagerPtr& expansionFileManager) override;
+	void ReleaseLightmap() override;
 
 	bool ShouldUseHighlightPixelShader() const;
 	bool ShouldUseSolidColorPixelShader() const;
 	bool ShouldUsePass1AddPixelShader() const;
 
-	Vector2 GetSpriteCut() const;
+	Vector2 GetSpriteCut() const override;
 
 protected:
 	std::vector<ETHParticleManagerPtr> m_particles;

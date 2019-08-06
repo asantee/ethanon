@@ -233,27 +233,6 @@ void ETHEntity::SetController(const ETHEntityControllerPtr& controller)
 	m_controller = controller;
 }
 
-Vector2 ETHEntity::ComputeAbsoluteOrigin(const Vector2 &v2Size) const
-{
-	const Rect2D rect(GetFrameRect());
-	const Vector2 virtualSize = (rect.originalSize == Vector2(0.0f)) ? v2Size : (rect.originalSize * m_properties.scale);
-
-	Vector2 v2Center(virtualSize / 2.0f);
-
-	Vector2 offset(rect.offset * m_properties.scale);
-	v2Center -= offset;
-	
-	if (GetFlipX()) v2Center.x = ((rect.size.x * virtualSize.x) * m_properties.scale.x) - v2Center.x;
-	if (GetFlipY()) v2Center.y = ((rect.size.y * virtualSize.y) * m_properties.scale.y) - v2Center.y;
-
-	return (v2Center + ((m_properties.pivotAdjust) * m_properties.scale));
-}
-
-Vector2 ETHEntity::ComputeOrigin(const Vector2 &v2Size) const
-{
-	return (ComputeAbsoluteOrigin(v2Size) / v2Size);
-}
-
 void ETHEntity::ChangeEntityName(const str_type::string& name)
 {
 	m_properties.entityName = name;
@@ -637,11 +616,6 @@ Video::ALPHA_MODE ETHEntity::GetBlendMode() const
 	return m_properties.blendMode;
 }
 
-unsigned int ETHEntity::GetNumFrames() const
-{
-	return static_cast<unsigned int>(m_properties.spriteCut.x * m_properties.spriteCut.y);
-}
-
 bool ETHEntity::HasAnyCallbackFunction() const
 {
 	return m_controller->HasAnyCallbackFunction();
@@ -703,43 +677,6 @@ Vector2 ETHEntity::GetCurrentBucket(const ETHBucketManager& buckets) const
 const ETHLight* ETHEntity::GetLight() const
 {
 	return m_properties.light.get();
-}
-
-bool ETHEntity::SetFrame(const unsigned int frame)
-{
-	const Vector2i *pv2Cut = &m_properties.spriteCut;
-	if (frame > static_cast<unsigned int>(pv2Cut->x * pv2Cut->y))
-	{
-		m_spriteFrame = (0);
-		return false;
-	}
-	else
-	{
-		m_spriteFrame = (frame);
-		return true;
-	}
-}
-
-unsigned int ETHEntity::GetFrame() const
-{
-	return m_spriteFrame;
-}
-
-bool ETHEntity::SetFrame(const unsigned int column, const unsigned int row)
-{
-	const Vector2i *pv2Cut = &m_properties.spriteCut;
-	const unsigned int cutX = static_cast<unsigned int>(pv2Cut->x);
-	const unsigned int cutY = static_cast<unsigned int>(pv2Cut->y);
-	if (column >= cutX || row >= cutY)
-	{
-		m_spriteFrame = (0);
-		return false;
-	}
-	else
-	{
-		m_spriteFrame = ((row*cutX)+column);
-		return true;
-	}
 }
 
 bool ETHEntity::RunCallbackScript()

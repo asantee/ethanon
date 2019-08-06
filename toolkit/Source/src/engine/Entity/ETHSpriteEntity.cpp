@@ -293,13 +293,10 @@ bool ETHSpriteEntity::SetSpriteCut(const unsigned int col, const unsigned int ro
 		return false;
 	}
 
-	if (m_pSprite)
-	{
-		m_packedFrames = SpriteRectsPtr(new SpriteRects());
-		m_packedFrames->SetRects(col, row);
-	}
+	m_packedFrames = SpriteRectsPtr(new SpriteRects());
+	m_packedFrames->SetRects(col, row);
 
-	m_spriteFrame = 0;
+	m_spriteFrame = m_spriteFrame % m_packedFrames->GetNumRects();
 	return true;
 }
 
@@ -343,6 +340,66 @@ Rect2D ETHSpriteEntity::GetFrameRect() const
 	{
 		return Rect2D();
 	}
+}
+
+unsigned int ETHSpriteEntity::GetFrame() const
+{
+	return m_spriteFrame;
+}
+
+bool ETHSpriteEntity::SetFrame(const unsigned int frame)
+{
+	const unsigned int numFrames = GetNumFrames();
+	if (frame >= numFrames)
+	{
+		m_spriteFrame = frame % numFrames;
+		return false;
+	}
+	else
+	{
+		m_spriteFrame = (frame);
+		return true;
+	}
+}
+
+bool ETHSpriteEntity::SetFrame(const unsigned int column, const unsigned int row)
+{
+	const Vector2i *pv2Cut = &m_properties.spriteCut;
+	const unsigned int cutX = static_cast<unsigned int>(pv2Cut->x);
+	const unsigned int cutY = static_cast<unsigned int>(pv2Cut->y);
+	if (column >= cutX || row >= cutY)
+	{
+		m_spriteFrame = (0);
+		return false;
+	}
+	else
+	{
+		m_spriteFrame = ((row*cutX)+column);
+		return true;
+	}
+}
+
+Vector2 ETHSpriteEntity::ComputeAbsoluteOrigin(const Vector2 &v2Size) const
+{
+	const Rect2D rect(GetFrameRect());
+	const Vector2 virtualSize = (rect.originalSize == Vector2(0.0f)) ? v2Size : (rect.originalSize * m_properties.scale);
+
+	Vector2 virtualCenter((virtualSize / 2.0f) + ((m_properties.pivotAdjust) * m_properties.scale));
+
+	Vector2 offset(rect.offset * m_properties.scale);
+	virtualCenter -= offset;
+	
+	const Vector2 fillBitmapSize(m_pSprite ? m_pSprite->GetSize(Rect2D()) : v2Size);
+	
+	if (GetFlipX()) virtualCenter.x = ((rect.size.x * fillBitmapSize.x) * m_properties.scale.x) - virtualCenter.x;
+	if (GetFlipY()) virtualCenter.y = ((rect.size.y * fillBitmapSize.y) * m_properties.scale.y) - virtualCenter.y;
+
+	return (virtualCenter);
+}
+
+Vector2 ETHSpriteEntity::ComputeOrigin(const Vector2 &v2Size) const
+{
+	return (ComputeAbsoluteOrigin(v2Size) / v2Size);
 }
 
 ETHParticleManagerPtr ETHSpriteEntity::GetParticleManager(const std::size_t n)
@@ -611,6 +668,11 @@ ETHPhysicsController* ETHSpriteEntity::GetPhysicsController()
 	{
 		return 0;
 	}
+}
+
+unsigned int ETHSpriteEntity::GetNumFrames() const
+{
+	return (m_packedFrames) ? m_packedFrames->GetNumRects() : 1;
 }
 
 Vector2 ETHSpriteEntity::GetSize() const
