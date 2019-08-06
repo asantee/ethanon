@@ -183,7 +183,7 @@ void ETHScriptWrapper::DrawShaped(const str_type::string &name, const Vector2 &v
 {
 	ETHGraphicResourceManager::SpriteResource* resource =
 		m_provider->GetGraphicResourceManager()->GetSpriteResource(Platform::GetFileName(name));
-	DrawShapedFromResource(resource, v2Pos, v2Size, color, angle);
+	DrawShapedFromResource(resource, v2Pos, v2Size, Color(color), angle);
 }
 
 void ETHScriptWrapper::DrawSprite(const str_type::string &name, const Vector2 &v2Pos, const float alpha, const Vector3 &color, const float angle)

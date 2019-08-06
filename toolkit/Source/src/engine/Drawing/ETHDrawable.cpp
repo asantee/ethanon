@@ -103,7 +103,7 @@ bool ETHSpriteDrawer::Draw(const unsigned long lastFrameElapsedTimeMS)
 
 		const Vector2 virtualSize = ((rect.originalSize == Vector2(0.0f)) ? frameSize : rect.originalSize);
 		const Vector2 absoluteOrigin = (virtualSize * v2Origin) - (rect.offset);
-		const Vector2 relativeOrigin(absoluteOrigin.x / virtualSize.x, absoluteOrigin.y / virtualSize.y);
+		const Vector2 relativeOrigin(absoluteOrigin.x / frameSize.x, absoluteOrigin.y / frameSize.y);
 
 		sprite->Draw(Vector3(v2Pos, 0.0f), size, relativeOrigin, color, angle, rect, flipX, flipY, Sprite::GetDefaultShader());
 		return true;
