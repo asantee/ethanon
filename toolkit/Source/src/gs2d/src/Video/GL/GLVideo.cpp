@@ -31,18 +31,6 @@ bool GLVideo::StartApplication(
 
 	SetZBuffer(false);
 
-	for (unsigned int t = 0; t < 4; t++)
-	{
-		glActiveTexture(GL_TEXTURE0 + t);
-		glTexParameteri(GL_TEXTURE0 + t, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE0 + t, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	}
-
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
 	Enable2DStates();
 	return true;
 }

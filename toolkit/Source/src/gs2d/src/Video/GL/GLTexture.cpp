@@ -5,7 +5,13 @@
 
 #include "../../Platform/Platform.h"
 
-#include <SOIL.h>
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcomma"
+#define STB_IMAGE_IMPLEMENTATION
+#include "../../../vendors/stb/stb_image.h"
+#define STB_IMAGE_RESIZE_IMPLEMENTATION
+#include "../../../vendors/stb/stb_image_resize.h"
+#pragma clang diagnostic pop
 
 namespace gs2d {
 
@@ -16,83 +22,30 @@ boost::shared_ptr<GLTexture> GLTexture::Create(VideoWeakPtr video, Platform::Fil
     return texture;
 }
 
-GLTexture::TEXTURE_INFO::TEXTURE_INFO() :
-	m_frameBuffer(0),
-	m_renderBuffer(0),
-	m_texture(0)
+GLTexture::GLTexture(VideoWeakPtr video, Platform::FileManagerPtr fileManager) :
+	m_fileManager(fileManager)
 {
 }
 
-GLTexture::GLTexture(VideoWeakPtr video, Platform::FileManagerPtr fileManager) :
-	m_fileManager(fileManager),
-	m_bitmap(0),
-	m_channels(0)
-{
-	m_video = boost::dynamic_pointer_cast<GLVideo>(video.lock());
-}
 
 GLTexture::~GLTexture()
 {
-	GLVideoPtr video = m_video.lock();
-
-	if (video)
-		video->RemoveRecoverableResource(this);
-
-	FreeBitmap();
-	DeleteGLTexture();
-
-	if (m_textureInfo.m_frameBuffer != 0)
-	{
-		GLuint buffers[1] = { m_textureInfo.m_frameBuffer };
-		glDeleteFramebuffers(1, buffers);
-	}
-	if (m_textureInfo.m_renderBuffer != 0)
-	{
-		GLuint buffers[1] = { m_textureInfo.m_renderBuffer };
-		glDeleteRenderbuffers(1, buffers);
-	}
-}
-
-void GLTexture::DeleteGLTexture()
-{
-	if (m_textureInfo.m_texture != 0)
-	{
-		GLuint textures[1] = { m_textureInfo.m_texture };
-		glDeleteTextures(1, textures);
-		m_textureInfo.m_texture = 0;
-	}
-}
-
-Texture::PROFILE GLTexture::GetProfile() const
-{
-	return m_profile;
+	glDeleteTextures(1, &m_texture);
 }
 
 GLuint GLTexture::GetTexture() const
 {
-	return m_textureInfo.m_texture;
-}
-
-boost::any GLTexture::GetTextureObject()
-{
-	return m_textureInfo.m_texture;
-}
-
-const GLTexture::TEXTURE_INFO& GLTexture::GetTextureInfo() const
-{
-	return m_textureInfo;
+	return m_texture;
 }
 
 math::Vector2 GLTexture::GetBitmapSize() const
 {
-	return math::Vector2(static_cast<float>(m_profile.width), static_cast<float>(m_profile.height));
+	return m_resolution;
 }
 
 bool GLTexture::LoadTexture(
 	VideoWeakPtr video,
 	const str_type::string& fileName,
-	const unsigned int width,
-	const unsigned int height,
 	const unsigned int nMipMaps)
 {
 	m_fileName = fileName;
@@ -103,105 +56,95 @@ bool GLTexture::LoadTexture(
 		ShowMessage(fileName + " could not load buffer", GSMT_ERROR);
 		return false;
 	}
-	return LoadTexture(video, out->GetAddress(), width, height, nMipMaps, static_cast<unsigned int>(out->GetBufferSize()));
+	return LoadTexture(video, out->GetAddress(), nMipMaps, static_cast<unsigned int>(out->GetBufferSize()));
 }
 
 bool GLTexture::LoadTexture(
 	VideoWeakPtr video,
 	const void* pBuffer,
-	const unsigned int width,
-	const unsigned int height,
 	const unsigned int nMipMaps,
 	const unsigned int bufferLength)
 {
-	int iWidth, iHeight;
-	m_bitmap = SOIL_load_image_from_memory((unsigned char*)pBuffer, bufferLength, &iWidth, &iHeight, &m_channels, SOIL_LOAD_AUTO);
+	int width, height, nrChannels;
 
-	if (!m_bitmap)
+	stbi_uc* data = stbi_load_from_memory(
+		(stbi_uc*)pBuffer,
+		bufferLength,
+		&width,
+		&height,
+		&nrChannels,
+		0);
+
+	if (data == NULL)
 	{
-		ShowMessage(m_fileName + " couldn't create texture from file", GSMT_ERROR);
+		ShowMessage("GLTexture couldn't load file " + m_fileName, GSMT_ERROR);
 		return false;
 	}
 
-	CreateTextureFromBitmap(m_bitmap, iWidth, iHeight, m_channels, true);
+	glGenTextures(1, &m_texture);
+	glBindTexture(GL_TEXTURE_2D, m_texture);
 
-	if (!m_textureInfo.m_texture)
+	GLint format;
+	switch (nrChannels)
 	{
-		ShowMessage(m_fileName + " couldn't load texture", GSMT_ERROR);
-		FreeBitmap();
-		return false;
+		case 1:
+			format = GL_RED;
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_R, GL_RED);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_G, GL_RED);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_B, GL_RED);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_A, GL_ONE);
+			break;
+		case 2:
+			format = GL_RG;
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_R, GL_RED);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_G, GL_RED);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_B, GL_RED);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_A, GL_GREEN);
+			break;
+		case 3:
+			format = GL_RGB;
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_A, GL_ONE);
+			break;
+		case 4:
+			format = GL_RGBA;
+			break;
+		default:
+			stbi_image_free(data);
+			glDeleteTextures(1, &m_texture);
+			ShowMessage("GLTexture invalid format for file " + m_fileName, GSMT_ERROR);
+			return false;
+	}
+
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+
+	m_resolution.x = (float)width;
+	m_resolution.y = (float)height;
+
+	if (math::Util::IsPowerOfTwo(width) && math::Util::IsPowerOfTwo(height))
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 	}
 	else
 	{
-		m_profile.width = static_cast<unsigned int>(iWidth);
-		m_profile.height = static_cast<unsigned int>(iHeight);
-		m_profile.originalWidth = m_profile.width;
-		m_profile.originalHeight = m_profile.height;
-		ShowMessage(Platform::GetFileName(m_fileName) + " texture loaded", GSMT_INFO);
-		m_video.lock()->InsertRecoverableResource(this);
+		const int newWidth  = math::Util::FindNextPowerOfTwoValue(width);
+		const int newHeight = math::Util::FindNextPowerOfTwoValue(height);
+
+		unsigned char* output = new unsigned char [newWidth * newHeight * nrChannels];
+		stbir_resize_uint8(data, width, height, 0, output, newWidth, newHeight, 0, nrChannels);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, format, newWidth, newHeight, 0, format, GL_UNSIGNED_BYTE, output);
+
+		delete [] output;
 	}
-	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+	stbi_image_free(data);
 	return true;
-}
-
-void GLTexture::CreateTextureFromBitmap(unsigned char* data, const int width, const int height, const int channels, const bool pow2)
-{
-	DeleteGLTexture();
-	if (data)
-	{
-		m_textureInfo.m_texture = SOIL_create_OGL_texture(data, width, height, channels, 0, pow2 ? SOIL_FLAG_POWER_OF_TWO : 0);
-	}
-}
-
-void GLTexture::FreeBitmap()
-{
-	if (m_bitmap)
-	{
-		SOIL_free_image_data(m_bitmap);
-		m_bitmap = 0;
-	}
-}
-
-void GLTexture::Recover()
-{
-	CreateTextureFromBitmap(m_bitmap, m_profile.originalWidth, m_profile.originalHeight, m_channels, true);
-	ShowMessage("Texture recovered: " + Platform::GetFileName(m_fileName), GSMT_INFO);
-}
-
-int GetSOILTexType(const Texture::BITMAP_FORMAT fmt, str_type::string& ext)
-{
-	switch (fmt)
-	{
-	case Texture::BF_BMP:
-		ext = ".bmp";
-		return SOIL_SAVE_TYPE_BMP;
-		break;
-	case Texture::BF_JPG:
-		ext = ".bmp";
-		return SOIL_SAVE_TYPE_BMP;
-		break;
-	case Texture::BF_PNG:
-		ext = ".bmp";
-		return SOIL_SAVE_TYPE_BMP;
-		break;
-	case Texture::BF_TGA:
-		ext = ".tga";
-		return SOIL_SAVE_TYPE_TGA;
-		break;
-	case Texture::BF_DDS:
-		ext = ".dds";
-		return SOIL_SAVE_TYPE_DDS;
-		break;
-	case Texture::BF_HDR:
-		ext = ".bmp";
-		return SOIL_SAVE_TYPE_BMP;
-		break;
-	default:
-		ext = ".bmp";
-		return SOIL_SAVE_TYPE_BMP;
-		break;
-	}
-	return SOIL_SAVE_TYPE_BMP;
 }
 
 } // namespace gs2d

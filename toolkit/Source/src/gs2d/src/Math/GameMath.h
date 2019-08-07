@@ -15,6 +15,8 @@ class Util
 public:
 	static float RadianToDegree(const float angle);
 	static float DegreeToRadian(const float angle);
+    static bool IsPowerOfTwo(const unsigned int n);
+    static unsigned int FindNextPowerOfTwoValue(const unsigned int n);
 };
 
 template <class T>

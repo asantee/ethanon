@@ -33,35 +33,30 @@ protected:
 		const bool windowed,
 		const bool sync,
 		const Texture::PIXEL_FORMAT pfBB = Texture::PF_UNKNOWN,
-		const bool maximizable = false);
+		const bool maximizable = false) override;
 
 	math::Vector2 GetCurrentTargetSize() const;
 
 public:
 	GLVideo();
 	
-	boost::any GetVideoInfo();
+	boost::any GetVideoInfo() override;
 
-	ShaderContextPtr GetShaderContext();
+	ShaderContextPtr GetShaderContext() override;
 
-	boost::any GetGraphicContext();
+	boost::any GetGraphicContext() override;
 		
-	void SetZBuffer(const bool enable);
-	bool GetZBuffer() const;
+	void SetZBuffer(const bool enable) override;
+	bool GetZBuffer() const override;
 		
-	void SetBGColor(const Color& backgroundColor);
-	Color GetBGColor() const;
+	void SetBGColor(const Color& backgroundColor) override;
+	Color GetBGColor() const override;
 	
-	bool BeginRendering(const Color& bgColor = math::constant::ZERO_VECTOR4);
-	bool EndRendering();
+	bool BeginRendering(const Color& bgColor = math::constant::ZERO_VECTOR4) override;
+	bool EndRendering() override;
 	
-	bool SetAlphaMode(const ALPHA_MODE mode);
-	ALPHA_MODE GetAlphaMode() const;
-	
-	bool SaveScreenshot(
-		const str_type::char_t* wcsName,
-		const Texture::BITMAP_FORMAT fmt = Texture::BF_BMP,
-		math::Rect2Di rect = math::Rect2Di(0,0,0,0));
+	bool SetAlphaMode(const ALPHA_MODE mode) override;
+	ALPHA_MODE GetAlphaMode() const override;
 };
 
 typedef boost::shared_ptr<GLVideo> GLVideoPtr;

@@ -74,15 +74,11 @@ public:
 	virtual TexturePtr CreateTextureFromFileInMemory(
 		const void *pBuffer,
 		const unsigned int bufferLength,
-		const unsigned int width = 0,
-		const unsigned int height = 0,
 		const unsigned int nMipMaps = 0) = 0;
 
 	/// Loads the texture from a file in a hard disk
 	virtual TexturePtr LoadTextureFromFile(
 		const str_type::string& fileName,
-		const unsigned int width = 0,
-		const unsigned int height = 0,
 		const unsigned int nMipMaps = 0) = 0;
 
 	/// Create a shader object and load/compile it.

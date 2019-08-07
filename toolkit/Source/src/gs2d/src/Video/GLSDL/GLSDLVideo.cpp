@@ -111,12 +111,10 @@ ShaderPtr GLSDLVideo::LoadShaderFromString(
 TexturePtr GLSDLVideo::CreateTextureFromFileInMemory(
 	const void *pBuffer,
 	const unsigned int bufferLength,
-	const unsigned int width,
-	const unsigned int height,
 	const unsigned int nMipMaps)
 {
 	TexturePtr texture(GLTexture::Create(weak_this, GetFileIOHub()->GetFileManager()));
-	if (texture->LoadTexture(weak_this, pBuffer, width, height, nMipMaps, bufferLength))
+	if (texture->LoadTexture(weak_this, pBuffer, nMipMaps, bufferLength))
 	{
 		return texture;
 	}
@@ -125,12 +123,10 @@ TexturePtr GLSDLVideo::CreateTextureFromFileInMemory(
 
 TexturePtr GLSDLVideo::LoadTextureFromFile(
 	const str_type::string& fileName,
-	const unsigned int width,
-	const unsigned int height,
 	const unsigned int nMipMaps)
 {
 	TexturePtr texture(GLTexture::Create(weak_this, GetFileIOHub()->GetFileManager()));
-	if (texture->LoadTexture(weak_this, fileName, width, height, nMipMaps))
+	if (texture->LoadTexture(weak_this, fileName, nMipMaps))
 	{
 		return texture;
 	}

@@ -72,16 +72,6 @@
 		7490C8C8183529C300AC21C5 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7490C8C7183529C300AC21C5 /* SDL2.framework */; };
 		7490C8CA18352B4A00AC21C5 /* SDL2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7490C8C7183529C300AC21C5 /* SDL2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		7490C8D91835861000AC21C5 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7490C8D81835861000AC21C5 /* AVFoundation.framework */; };
-		74D066D91A03CBF300D45F66 /* image_DXT.c in Sources */ = {isa = PBXBuildFile; fileRef = 74D066CF1A03CBF300D45F66 /* image_DXT.c */; };
-		74D066DA1A03CBF300D45F66 /* image_DXT.h in Headers */ = {isa = PBXBuildFile; fileRef = 74D066D01A03CBF300D45F66 /* image_DXT.h */; };
-		74D066DB1A03CBF300D45F66 /* image_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = 74D066D11A03CBF300D45F66 /* image_helper.c */; };
-		74D066DC1A03CBF300D45F66 /* image_helper.h in Headers */ = {isa = PBXBuildFile; fileRef = 74D066D21A03CBF300D45F66 /* image_helper.h */; };
-		74D066DD1A03CBF300D45F66 /* SOIL.c in Sources */ = {isa = PBXBuildFile; fileRef = 74D066D31A03CBF300D45F66 /* SOIL.c */; };
-		74D066DE1A03CBF300D45F66 /* SOIL.h in Headers */ = {isa = PBXBuildFile; fileRef = 74D066D41A03CBF300D45F66 /* SOIL.h */; };
-		74D066DF1A03CBF300D45F66 /* stb_image_aug.c in Sources */ = {isa = PBXBuildFile; fileRef = 74D066D51A03CBF300D45F66 /* stb_image_aug.c */; };
-		74D066E01A03CBF300D45F66 /* stb_image_aug.h in Headers */ = {isa = PBXBuildFile; fileRef = 74D066D61A03CBF300D45F66 /* stb_image_aug.h */; };
-		74D066E11A03CBF300D45F66 /* stbi_DDS_aug_c.h in Headers */ = {isa = PBXBuildFile; fileRef = 74D066D71A03CBF300D45F66 /* stbi_DDS_aug_c.h */; };
-		74D066E21A03CBF300D45F66 /* stbi_DDS_aug.h in Headers */ = {isa = PBXBuildFile; fileRef = 74D066D81A03CBF300D45F66 /* stbi_DDS_aug.h */; };
 		74F3A4FA1632E3870064C9A5 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F3A4F91632E3870064C9A5 /* Cocoa.framework */; };
 		74F3A5041632E3870064C9A5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 74F3A5021632E3870064C9A5 /* InfoPlist.strings */; };
 		74FF04E318046B23006D0F9F /* utf8 in Resources */ = {isa = PBXBuildFile; fileRef = 74FF04E218046B23006D0F9F /* utf8 */; };
@@ -201,16 +191,6 @@
 		7486554616397C1D0096D869 /* GLTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLTexture.h; path = ../../../../src/Video/GL/GLTexture.h; sourceTree = "<group>"; usesTabs = 1; };
 		7490C8C7183529C300AC21C5 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../vendors/SDL2.framework; sourceTree = "<group>"; };
 		7490C8D81835861000AC21C5 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		74D066CF1A03CBF300D45F66 /* image_DXT.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = image_DXT.c; path = ../../../../soil/image_DXT.c; sourceTree = "<group>"; };
-		74D066D01A03CBF300D45F66 /* image_DXT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = image_DXT.h; path = ../../../../soil/image_DXT.h; sourceTree = "<group>"; };
-		74D066D11A03CBF300D45F66 /* image_helper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = image_helper.c; path = ../../../../soil/image_helper.c; sourceTree = "<group>"; };
-		74D066D21A03CBF300D45F66 /* image_helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = image_helper.h; path = ../../../../soil/image_helper.h; sourceTree = "<group>"; };
-		74D066D31A03CBF300D45F66 /* SOIL.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = SOIL.c; path = ../../../../soil/SOIL.c; sourceTree = "<group>"; };
-		74D066D41A03CBF300D45F66 /* SOIL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SOIL.h; path = ../../../../soil/SOIL.h; sourceTree = "<group>"; };
-		74D066D51A03CBF300D45F66 /* stb_image_aug.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = stb_image_aug.c; path = ../../../../soil/stb_image_aug.c; sourceTree = "<group>"; };
-		74D066D61A03CBF300D45F66 /* stb_image_aug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_image_aug.h; path = ../../../../soil/stb_image_aug.h; sourceTree = "<group>"; };
-		74D066D71A03CBF300D45F66 /* stbi_DDS_aug_c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stbi_DDS_aug_c.h; path = ../../../../soil/stbi_DDS_aug_c.h; sourceTree = "<group>"; };
-		74D066D81A03CBF300D45F66 /* stbi_DDS_aug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stbi_DDS_aug.h; path = ../../../../soil/stbi_DDS_aug.h; sourceTree = "<group>"; };
 		74F3A4F61632E3870064C9A5 /* gs2d.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = gs2d.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		74F3A4F91632E3870064C9A5 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		74F3A4FC1632E3870064C9A5 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -464,28 +444,10 @@
 			name = Shaders;
 			sourceTree = "<group>";
 		};
-		74865549163980EF0096D869 /* SOIL */ = {
-			isa = PBXGroup;
-			children = (
-				74D066CF1A03CBF300D45F66 /* image_DXT.c */,
-				74D066D01A03CBF300D45F66 /* image_DXT.h */,
-				74D066D11A03CBF300D45F66 /* image_helper.c */,
-				74D066D21A03CBF300D45F66 /* image_helper.h */,
-				74D066D31A03CBF300D45F66 /* SOIL.c */,
-				74D066D41A03CBF300D45F66 /* SOIL.h */,
-				74D066D51A03CBF300D45F66 /* stb_image_aug.c */,
-				74D066D61A03CBF300D45F66 /* stb_image_aug.h */,
-				74D066D71A03CBF300D45F66 /* stbi_DDS_aug_c.h */,
-				74D066D81A03CBF300D45F66 /* stbi_DDS_aug.h */,
-			);
-			name = SOIL;
-			sourceTree = "<group>";
-		};
 		74F3A4EA1632E3870064C9A5 = {
 			isa = PBXGroup;
 			children = (
 				74F3A4FF1632E3870064C9A5 /* gs2d */,
-				74865549163980EF0096D869 /* SOIL */,
 				74F3A4F81632E3870064C9A5 /* Frameworks */,
 				74F3A4F71632E3870064C9A5 /* Products */,
 			);
@@ -580,7 +542,6 @@
 				7473CA7A16330304005DB920 /* Application.h in Headers */,
 				7473CA7B16330304005DB920 /* Audio.h in Headers */,
 				7473CA7C16330304005DB920 /* BaseApplication.h in Headers */,
-				74D066DE1A03CBF300D45F66 /* SOIL.h in Headers */,
 				7473CA7D16330304005DB920 /* Input.h in Headers */,
 				7473CA7F16330304005DB920 /* Shader.h in Headers */,
 				AA92F34A22F6112E00AECB30 /* GLShader.h in Headers */,
@@ -592,8 +553,6 @@
 				7473CA9416330366005DB920 /* Color.h in Headers */,
 				7473CA9716330366005DB920 /* MersenneTwister.h in Headers */,
 				7473CA9916330366005DB920 /* OrientedBoundingBox.h in Headers */,
-				74D066E01A03CBF300D45F66 /* stb_image_aug.h in Headers */,
-				74D066DA1A03CBF300D45F66 /* image_DXT.h in Headers */,
 				7473CA9B16330366005DB920 /* Randomizer.h in Headers */,
 				7473CAA516330391005DB920 /* FileIOHub.h in Headers */,
 				7473CAA716330391005DB920 /* FileLogger.h in Headers */,
@@ -607,14 +566,12 @@
 				7473CAC816330E1C005DB920 /* Platform.h in Headers */,
 				7473CACD1633140B005DB920 /* SDLWindow.h in Headers */,
 				7473CAE116358AC6005DB920 /* GLVideo.h in Headers */,
-				74D066E11A03CBF300D45F66 /* stbi_DDS_aug_c.h in Headers */,
 				7473CAE61635ABD9005DB920 /* GLSDLVideo.h in Headers */,
 				7458F0851636CFB200D48019 /* MacOSXFileIOHub.h in Headers */,
 				AA92F37322F62B1C00AECB30 /* Sprite.h in Headers */,
 				AA18F5FA22B9D15500F44DA6 /* Rect2Di.h in Headers */,
 				AA18F5FD22B9D64800F44DA6 /* Rect2D.h in Headers */,
 				7486554816397C1D0096D869 /* GLTexture.h in Headers */,
-				74D066DC1A03CBF300D45F66 /* image_helper.h in Headers */,
 				AA92F35322F61FA900AECB30 /* GLPolygonRenderer.h in Headers */,
 				74838D2F163C13E30027CFFC /* RecoverableResourceManager.h in Headers */,
 				74838D37163F25AB0027CFFC /* SDLInput.h in Headers */,
@@ -627,7 +584,6 @@
 				AA18F60A22C7D98800F44DA6 /* GameMath.h in Headers */,
 				AA92F37422F62B1C00AECB30 /* SpriteRects.h in Headers */,
 				7423B6A0165FF413008848EA /* SharedDataManager.h in Headers */,
-				74D066E21A03CBF300D45F66 /* stbi_DDS_aug.h in Headers */,
 				AA92F34E22F61CEE00AECB30 /* PolygonRenderer.h in Headers */,
 				AA18F5E522B87A3500F44DA6 /* Vector2.h in Headers */,
 			);
@@ -714,15 +670,12 @@
 				7473CA9A16330366005DB920 /* Randomizer.cpp in Sources */,
 				7473CAA416330391005DB920 /* FileIOHub.cpp in Sources */,
 				7473CAA616330391005DB920 /* FileLogger.cpp in Sources */,
-				74D066DF1A03CBF300D45F66 /* stb_image_aug.c in Sources */,
 				7473CAA816330391005DB920 /* FileManager.cpp in Sources */,
 				7473CAB51633044E005DB920 /* BitmapFont.cpp in Sources */,
 				7473CAB71633044E005DB920 /* BitmapFontManager.cpp in Sources */,
 				7473CABF1633045D005DB920 /* Enml.cpp in Sources */,
-				74D066D91A03CBF300D45F66 /* image_DXT.c in Sources */,
 				7473CAC416330624005DB920 /* Platform.macosx.mm in Sources */,
 				7473CAC716330E1C005DB920 /* Platform.cpp in Sources */,
-				74D066DB1A03CBF300D45F66 /* image_helper.c in Sources */,
 				7473CACC1633140B005DB920 /* SDLWindow.cpp in Sources */,
 				7473CAE016358AC6005DB920 /* GLVideo.cpp in Sources */,
 				7473CAE51635ABD9005DB920 /* GLSDLVideo.cpp in Sources */,
@@ -731,7 +684,6 @@
 				AA18F5EE22B8846100F44DA6 /* Vector3.cpp in Sources */,
 				AA92F34B22F6112E00AECB30 /* GLShader.cpp in Sources */,
 				AA18F60922C7D98800F44DA6 /* GameMath.cpp in Sources */,
-				74D066DD1A03CBF300D45F66 /* SOIL.c in Sources */,
 				AA92F37722F62E0900AECB30 /* Shader.cpp in Sources */,
 				7486554716397C1D0096D869 /* GLTexture.cpp in Sources */,
 				AA92F34F22F61CEE00AECB30 /* PolygonRenderer.cpp in Sources */,
