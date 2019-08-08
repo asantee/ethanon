@@ -97,12 +97,6 @@ public:
 		const std::string& psCodeAsciiString,
 		const std::string& psEntry) = 0;
 
-	virtual boost::any GetVideoInfo() = 0;
-
-	virtual ShaderContextPtr GetShaderContext() = 0;
-
-	virtual boost::any GetGraphicContext() = 0;
-
 	virtual VIDEO_MODE GetVideoMode(const unsigned int modeIdx) const = 0;
 	virtual unsigned int GetVideoModeCount() const = 0;
 

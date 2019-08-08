@@ -1,5 +1,5 @@
 #include "SDLInput.h"
-#include "../../Platform/sdl/SDLWindow.h"
+#include "../../Video/GLSDL/GLSDLVideo.h"
 
 #include <SDL2/SDL.h>
 
@@ -256,14 +256,14 @@ GS_KEY_STATE SDLInput::GetTouchState(const unsigned int n, WindowPtr pWindow) co
 
 float SDLInput::GetWheelState() const
 {
-	return SDLWindow::m_mouseWheel;
+	return GLSDLVideo::m_mouseWheel;
 }
 
 str_type::string SDLInput::GetLastCharInput() const
 {
-	if (SDLWindow::m_lastCharInput.length() == 1)
+	if (GLSDLVideo::m_lastCharInput.length() == 1)
 	{
-		str_type::char_t c = SDLWindow::m_lastCharInput[0];
+		str_type::char_t c = GLSDLVideo::m_lastCharInput[0];
 		switch (c)
 		{
 		case 0x00:
@@ -293,7 +293,7 @@ str_type::string SDLInput::GetLastCharInput() const
 			return GS_L("");
 		}
 	}
-	return SDLWindow::m_lastCharInput;
+	return GLSDLVideo::m_lastCharInput;
 }
 
 } // namespace gs2d
