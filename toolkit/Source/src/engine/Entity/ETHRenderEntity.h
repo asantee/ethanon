@@ -32,8 +32,7 @@ public:
 	bool DrawAmbientPass(
 		const float maxHeight,
 		const float minHeight,
-		const ETHSceneProperties& sceneProps,
-		const float parallaxIntensity);
+		const ETHSceneProperties& sceneProps);
 
 	bool DrawParticles(
 		const std::size_t n,

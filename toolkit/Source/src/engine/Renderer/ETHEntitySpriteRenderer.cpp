@@ -22,8 +22,7 @@ void ETHEntitySpriteRenderer::RenderAmbientPass(const ETHSceneProperties& props,
 	m_entity->DrawAmbientPass(
 		maxHeight,
 		minHeight,
-		props,
-		m_shaderManager->GetParallaxIntensity());
+		props);
 
 	m_shaderManager->EndAmbientPass();
 }

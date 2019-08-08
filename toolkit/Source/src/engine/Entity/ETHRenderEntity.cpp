@@ -34,11 +34,12 @@ ETHRenderEntity::ETHRenderEntity(ETHResourceProviderPtr provider) :
 bool ETHRenderEntity::DrawAmbientPass(
 	const float maxHeight,
 	const float minHeight,
-	const ETHSceneProperties& sceneProps,
-	const float parallaxIntensity)
+	const ETHSceneProperties& sceneProps)
 {
 	if (!m_pSprite || IsHidden())
+	{
 		return false;
+	}
 
 	SetDepth(maxHeight, minHeight);
 
@@ -88,8 +89,7 @@ bool ETHRenderEntity::DrawAmbientPass(
 		(*customParams)["solidColor"] = boost::shared_ptr<Shader::ShaderParameter>(new Shader::Vector4ShaderParameter(GetSolidColorARGB()));
 	}
 
-	m_pSprite->SetParallaxIntensity(GetParallaxIntensity() * parallaxIntensity);
-
+	m_pSprite->SetParallaxIntensity(GetParallaxIntensity() * m_provider->GetShaderManager()->GetParallaxIntensity());
 	m_pSprite->Draw(
 		video->GetCameraPos(),
 		Vector3(pos, GetPositionZ()),
@@ -168,7 +168,7 @@ bool ETHRenderEntity::DrawHalo(
 	const ETHParticleManagerPtr paticleManager = GetParticleManager(0);
 	if (paticleManager)
 	{
-		brightness = static_cast<float>(paticleManager->GetNumActiveParticles())/static_cast<float>(paticleManager->GetNumParticles());
+		brightness = static_cast<float>(paticleManager->GetNumActiveParticles()) / static_cast<float>(paticleManager->GetNumParticles());
 	}
 
 	Vector3 v3HaloPos = (light->pos * Vector3(GetScale(), 1.0f)) + v3EntityPos;
@@ -176,10 +176,10 @@ bool ETHRenderEntity::DrawHalo(
 	const Vector4 color(Vector4(light->color, 1.0f) * light->haloBrightness * brightness);
 	Vector2 v2Size(light->haloSize, light->haloSize);
 
-	m_pHalo->SetParallaxIntensity(GetParallaxIntensity() + m_provider->GetShaderManager()->GetParallaxIntensity());
+	m_pHalo->SetParallaxIntensity(GetParallaxIntensity() * m_provider->GetShaderManager()->GetParallaxIntensity());
 	m_pHalo->Draw(
 		m_provider->GetVideo()->GetCameraPos(),
-		Vector3(ETHGlobal::ToScreenPos(v3HaloPos, zAxisDirection), v3HaloPos.z),
+		Vector3(ETHGlobal::ToScreenPos(v3HaloPos, zAxisDirection), v3EntityPos.z + 2.0f),
 		v2Size,
 		Vector2(0.5f),
 		color,
