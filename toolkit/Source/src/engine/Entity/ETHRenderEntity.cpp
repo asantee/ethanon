@@ -75,16 +75,19 @@ bool ETHRenderEntity::DrawAmbientPass(
 
 	ShaderParametersPtr customParams(new ShaderParameters);
 
-	if (shouldUseHighlightPS)
+	if (shouldUsePass1PS)
+	{
+		(*customParams)["secondary"] = boost::shared_ptr<Shader::ShaderParameter>(new Shader::TextureShaderParameter(m_pLightmap->GetTexture(), 1));
+	}
+	else if (shouldUseHighlightPS)
 	{
 		(*customParams)["highlight"] = boost::shared_ptr<Shader::ShaderParameter>(new Shader::Vector4ShaderParameter(GetColorARGB()));
 	}
-
-	if (shouldUseSolidColorPS)
+	else if (shouldUseSolidColorPS)
 	{
 		(*customParams)["solidColor"] = boost::shared_ptr<Shader::ShaderParameter>(new Shader::Vector4ShaderParameter(GetSolidColorARGB()));
 	}
-	
+
 	m_pSprite->SetParallaxIntensity(GetParallaxIntensity() * parallaxIntensity);
 
 	m_pSprite->Draw(
@@ -177,7 +180,7 @@ bool ETHRenderEntity::DrawHalo(
 	m_pHalo->Draw(
 		m_provider->GetVideo()->GetCameraPos(),
 		Vector3(ETHGlobal::ToScreenPos(v3HaloPos, zAxisDirection), v3HaloPos.z),
-		GetSize(),
+		v2Size,
 		Vector2(0.5f),
 		color,
 		0.0f,
