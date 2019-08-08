@@ -232,7 +232,7 @@ typedef boost::shared_ptr<Input> InputPtr;
 typedef boost::weak_ptr<Input> InputWeakPtr;
 
 /// Instantiates an Input object
-GS2D_API InputPtr CreateInput(boost::any data, const bool showJoystickWarnings);
+GS2D_API InputPtr CreateInput(const bool showJoystickWarnings);
 
 } // namespace gs2d
 

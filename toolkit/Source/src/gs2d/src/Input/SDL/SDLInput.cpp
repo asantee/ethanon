@@ -5,9 +5,8 @@
 
 namespace gs2d {
 
-GS2D_API InputPtr CreateInput(boost::any data, const bool showJoystickWarnings)
+GS2D_API InputPtr CreateInput(const bool showJoystickWarnings)
 {
-	GS2D_UNUSED_ARGUMENT(data);
 	return InputPtr(new SDLInput(showJoystickWarnings));
 }
 

@@ -8,11 +8,6 @@
 
 namespace gs2d {
 
-boost::any GLShaderContext::GetContextPointer()
-{
-	return 0;
-}
-
 GLShader::GLShader(Platform::FileManagerPtr fileManager) :
 	m_fileManager(fileManager)
 {

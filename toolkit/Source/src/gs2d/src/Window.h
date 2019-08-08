@@ -8,12 +8,6 @@
 
 namespace gs2d {
 
-/**
- * \brief Abstracts all window related methods
- *
- * This class contains methods that will handle window
- * tasks, such as positioning and title.
- */
 class Window
 {
 public:

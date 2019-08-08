@@ -20,33 +20,33 @@ class SDLInput : public SDLJoystick
 public:
 	SDLInput(const bool showJoystickWarnings);
 
-	bool IsKeyDown(const GS_KEY key) const;
-	GS_KEY_STATE GetKeyState(const GS_KEY key) const;
+	bool IsKeyDown(const GS_KEY key) const override;
+	GS_KEY_STATE GetKeyState(const GS_KEY key) const override;
 
-	GS_KEY_STATE GetLeftClickState() const;
-	GS_KEY_STATE GetRightClickState() const;
-	GS_KEY_STATE GetMiddleClickState() const;
+	GS_KEY_STATE GetLeftClickState() const override;
+	GS_KEY_STATE GetRightClickState() const override;
+	GS_KEY_STATE GetMiddleClickState() const override;
 
-	math::Vector2i GetMouseMove() const;
-	math::Vector2  GetMouseMoveF() const;
+	math::Vector2i GetMouseMove() const override;
+	math::Vector2  GetMouseMoveF() const override;
 
-	math::Vector2 GetTouchPos(const unsigned int n, WindowPtr pWindow = WindowPtr()) const;
-	GS_KEY_STATE  GetTouchState(const unsigned int n, WindowPtr pWindow = WindowPtr()) const;
-	unsigned int GetMaxTouchCount() const;
-	math::Vector2 GetTouchMove(const unsigned int n) const;
+	math::Vector2 GetTouchPos(const unsigned int n, WindowPtr pWindow = WindowPtr()) const override;
+	GS_KEY_STATE  GetTouchState(const unsigned int n, WindowPtr pWindow = WindowPtr()) const override;
+	unsigned int GetMaxTouchCount() const override;
+	math::Vector2 GetTouchMove(const unsigned int n) const override;
 
-	bool SetCursorPosition(math::Vector2i v2Pos);
-	bool SetCursorPositionF(math::Vector2 v2Pos);
-	math::Vector2i GetCursorPosition(WindowPtr pWindow) const;
-	math::Vector2  GetCursorPositionF(WindowPtr pWindow) const;
+	bool SetCursorPosition(math::Vector2i v2Pos) override;
+	bool SetCursorPositionF(math::Vector2 v2Pos) override;
+	math::Vector2i GetCursorPosition(WindowPtr pWindow) const override;
+	math::Vector2  GetCursorPositionF(WindowPtr pWindow) const override;
 
-	float GetWheelState() const;
+	float GetWheelState() const override;
 
-	bool Update();
+	bool Update() override;
 
-	str_type::string GetLastCharInput() const;
+	str_type::string GetLastCharInput() const override;
 
-	math::Vector3 GetAccelerometerData() const;
+	math::Vector3 GetAccelerometerData() const override;
 };
 
 } // namespace gs2d

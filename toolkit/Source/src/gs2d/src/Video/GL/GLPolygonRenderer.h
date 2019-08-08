@@ -27,9 +27,9 @@ public:
 	
 	~GLPolygonRenderer();
 
-	void BeginRendering(const ShaderPtr& shader);
-	void Render();
-	void EndRendering();
+	void BeginRendering(const ShaderPtr& shader) override;
+	void Render() override;
+	void EndRendering() override;
 };
 
 } // namespace sprite

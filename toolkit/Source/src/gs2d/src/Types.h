@@ -8,8 +8,7 @@
 #endif
 
 #include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp> 
-#include <boost/any.hpp>
+#include <boost/weak_ptr.hpp>
 
 #define GS2D_UNUSED_ARGUMENT(argument) ((void)(argument))
 

@@ -31,23 +31,23 @@ public:
 
 	SDLJoystick(const bool showJoystickWarnings);
 
-	bool Update();
+	bool Update() override;
 
-	void ShowJoystickWarnings(const bool enable);
-	bool IsShowingJoystickWarnings() const;
-	unsigned int GetMaxJoysticks() const;
+	void ShowJoystickWarnings(const bool enable) override;
+	bool IsShowingJoystickWarnings() const override;
+	unsigned int GetMaxJoysticks() const override;
 
-	GS_KEY_STATE GetJoystickButtonState(const unsigned int id, const GS_JOYSTICK_BUTTON key) const;
-	bool IsJoystickButtonDown(const unsigned int id, const GS_JOYSTICK_BUTTON key) const;
-	bool DetectJoysticks();
-	GS_JOYSTICK_STATUS GetJoystickStatus(const unsigned int id) const;
-	unsigned int GetNumJoyButtons(const unsigned int id) const;
-	math::Vector2 GetJoystickXY(const unsigned int id) const;
-	float GetJoystickZ(const unsigned int id) const;
-	float GetJoystickRudder(const unsigned int id) const;
-	math::Vector2 GetJoystickUV(const unsigned int id) const;
-	GS_JOYSTICK_BUTTON GetFirstButtonDown(const unsigned int id) const;
-	unsigned int GetNumJoysticks() const;
+	GS_KEY_STATE GetJoystickButtonState(const unsigned int id, const GS_JOYSTICK_BUTTON key) const override;
+	bool IsJoystickButtonDown(const unsigned int id, const GS_JOYSTICK_BUTTON key) const override;
+	bool DetectJoysticks() override;
+	GS_JOYSTICK_STATUS GetJoystickStatus(const unsigned int id) const override;
+	unsigned int GetNumJoyButtons(const unsigned int id) const override;
+	math::Vector2 GetJoystickXY(const unsigned int id) const override;
+	float GetJoystickZ(const unsigned int id) const override;
+	float GetJoystickRudder(const unsigned int id) const override;
+	math::Vector2 GetJoystickUV(const unsigned int id) const override;
+	GS_JOYSTICK_BUTTON GetFirstButtonDown(const unsigned int id) const override;
+	unsigned int GetNumJoysticks() const override;
 
 private:
 	std::vector<Joystick> m_joysticks;

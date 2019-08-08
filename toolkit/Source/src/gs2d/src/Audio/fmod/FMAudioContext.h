@@ -17,7 +17,7 @@ class FMAudioContext : public Audio
 
 	float m_globalVolume;
 
-	bool CreateAudioDevice(boost::any data);
+	bool CreateAudioDevice(boost::any data) override;
 	Platform::FileLogger m_logger;
 
 	boost::weak_ptr<FMAudioContext> weak_this;
@@ -36,19 +36,19 @@ public:
 	AudioSamplePtr LoadSampleFromFile(
 		const str_type::string& fileName,
 		const Platform::FileManagerPtr& fileManager,
-		const Audio::SAMPLE_TYPE type = Audio::UNKNOWN_TYPE);
+		const Audio::SAMPLE_TYPE type = Audio::UNKNOWN_TYPE) override;
 
 	AudioSamplePtr LoadSampleFromFileInMemory(
 		void *pBuffer,
 		const unsigned int bufferLength,
-		const Audio::SAMPLE_TYPE type = Audio::UNKNOWN_TYPE);
+		const Audio::SAMPLE_TYPE type = Audio::UNKNOWN_TYPE) override;
 
-	boost::any GetAudioContext();
+	boost::any GetAudioContext() override;
 
-	void SetGlobalVolume(const float volume);
-	float GetGlobalVolume() const;
+	void SetGlobalVolume(const float volume) override;
+	float GetGlobalVolume() const override;
 
-	void Update();
+	void Update() override;
 };
 
 typedef boost::shared_ptr<FMAudioContext> FMAudioContextPtr;

@@ -3,6 +3,8 @@
 
 #include "Platform/FileManager.h"
 
+#include <boost/any.hpp>
+
 namespace gs2d {
 
 class AudioSample;
@@ -13,12 +15,6 @@ class Audio;
 typedef boost::shared_ptr<Audio> AudioPtr;
 typedef boost::weak_ptr<Audio> AudioWeakPtr;
 
-/**
- * \brief Abstracts an audio device context
- *
- * This class controls all audio device operations.
- * It may also be used to instantiate audio samples.
- */
 class Audio
 {
 	friend GS2D_API AudioPtr CreateAudio(boost::any data);

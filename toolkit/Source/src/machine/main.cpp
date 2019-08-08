@@ -154,7 +154,7 @@ str_type::string FindResourceDir(const int argc, gs2d::str_type::char_t* argv[])
 			Texture::PF_UNKNOWN,
 			false)))
 		{
-			InputPtr input = CreateInput(0, false);
+			InputPtr input = CreateInput(false);
 			AudioPtr audio = CreateAudio(0);
 
 			application->Start(video, input, audio);

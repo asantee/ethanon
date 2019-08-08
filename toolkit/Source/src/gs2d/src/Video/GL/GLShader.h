@@ -15,7 +15,6 @@ namespace gs2d {
 class GLShaderContext : ShaderContext
 {
 public:
-	boost::any GetContextPointer();
 };
 
 class GLShader : public Shader
@@ -37,7 +36,7 @@ public:
 		const std::string& vsFileName,
 		const std::string& vsEntry,
 		const std::string& psFileName,
-		const std::string& psEntry);
+		const std::string& psEntry) override;
 
 	bool LoadShaderFromString(
 		ShaderContextPtr context,
@@ -46,19 +45,19 @@ public:
 		const std::string& vsEntry,
 		const std::string& psShaderName,
 		const std::string& psCodeAsciiString,
-		const std::string& psEntry);
+		const std::string& psEntry) override;
 
-	void SetShader();
+	void SetShader() override;
 
-	void SetConstant(const str_type::string& name, const int n);
-	void SetConstant(const std::string& name, const float v);
-	void SetConstant(const std::string& name, const math::Vector2& v);
-	void SetConstant(const std::string& name, const math::Vector3& v);
-	void SetConstant(const std::string& name, const math::Vector4& v);
-	void SetConstantArray(const std::string& name, unsigned int nElements, const math::Vector4* v);
-	void SetConstantArray(const std::string& name, unsigned int nElements, const math::Vector2* v);
-	void SetMatrixConstant(const std::string& name, const math::Matrix4x4& matrix);
-	void SetTexture(const str_type::string& name, TexturePtr pTexture, const unsigned int index);
+	void SetConstant(const str_type::string& name, const int n) override;
+	void SetConstant(const std::string& name, const float v) override;
+	void SetConstant(const std::string& name, const math::Vector2& v) override;
+	void SetConstant(const std::string& name, const math::Vector3& v) override;
+	void SetConstant(const std::string& name, const math::Vector4& v) override;
+	void SetConstantArray(const std::string& name, unsigned int nElements, const math::Vector4* v) override;
+	void SetConstantArray(const std::string& name, unsigned int nElements, const math::Vector2* v) override;
+	void SetMatrixConstant(const std::string& name, const math::Matrix4x4& matrix) override;
+	void SetTexture(const str_type::string& name, TexturePtr pTexture, const unsigned int index) override;
 };
 
 } // namespace sprite

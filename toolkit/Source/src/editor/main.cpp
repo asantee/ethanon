@@ -162,7 +162,7 @@ int main(int argc, char **argv)
 		#endif
 		#endif
 
-		input = CreateInput(0, false);
+		input = CreateInput(false);
 		audio = CreateAudio(0);
 
 		int current = PROJECT;

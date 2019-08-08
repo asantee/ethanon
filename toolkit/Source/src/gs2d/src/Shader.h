@@ -6,8 +6,6 @@
 #include "Math/Matrix4x4.h"
 #include "Math/Color.h"
 
-#include <boost/any.hpp>
-
 #include "../../tsl/hopscotch_map.h"
 
 namespace gs2d {
@@ -15,7 +13,6 @@ namespace gs2d {
 class ShaderContext
 {
 public:
-	virtual boost::any GetContextPointer() = 0;
 };
 
 typedef boost::shared_ptr<ShaderContext> ShaderContextPtr;
