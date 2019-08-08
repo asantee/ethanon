@@ -21,6 +21,7 @@ public:
 		SpritePtr m_sprite;
 		str_type::string m_fullOriginPath;
 		bool m_temporary;
+		bool m_customFramesXMLFound;
 	public:
 		SpriteResource(
 			const Platform::FileManagerPtr& fileManager,
@@ -29,6 +30,7 @@ public:
 			const SpritePtr& sprite,
 			const bool temporary);
 		bool IsTemporary() const;
+		bool IsCustomFramesXMLFound() const;
 		SpritePtr GetSprite() const;
 
 		bool flipX, flipY;

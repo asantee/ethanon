@@ -28,7 +28,8 @@ ETHGraphicResourceManager::SpriteResource::SpriteResource(
 	m_fullOriginPath(RemoveResourceDirectory(resourceDirectory, fullOriginPath)),
 	flipX(false),
 	flipY(false),
-	frame(0)
+	frame(0),
+	m_customFramesXMLFound(false)
 {
 	if (!fileManager)
 		return;
@@ -60,6 +61,7 @@ ETHGraphicResourceManager::SpriteResource::SpriteResource(
 					TiXmlElement *pSpriteIter = pNode->ToElement();
 					if (pSpriteIter)
 					{
+						m_customFramesXMLFound = true;
 						const Vector2 sheetSize(sprite->GetSize(Rect2D()));
 						packedFrames = SpriteRectsPtr(new SpriteRects());
 						do
@@ -92,6 +94,11 @@ ETHGraphicResourceManager::SpriteResource::SpriteResource(
 bool ETHGraphicResourceManager::SpriteResource::IsTemporary() const
 {
 	return m_temporary;
+}
+
+bool ETHGraphicResourceManager::SpriteResource::IsCustomFramesXMLFound() const
+{
+	return m_customFramesXMLFound;
 }
 
 SpritePtr ETHGraphicResourceManager::SpriteResource::GetSprite() const

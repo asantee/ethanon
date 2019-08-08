@@ -102,7 +102,7 @@ void ETHScriptWrapper::SetupSpriteRects(const str_type::string& name, const unsi
 		m_provider->GetGraphicResourceManager()->GetSpriteResource(Platform::GetFileName(name));
 	if (resource)
 	{
-		if (!resource->packedFrames)
+		if (!resource->packedFrames || !resource->IsCustomFramesXMLFound())
 		{
 			resource->packedFrames = SpriteRectsPtr(new SpriteRects());
 			resource->packedFrames->SetRects(columns, rows);
