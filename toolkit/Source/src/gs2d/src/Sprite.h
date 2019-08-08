@@ -37,6 +37,8 @@ class Sprite
 	math::Vector2 m_origin;
 
 public:
+	static const float PARALLAX_INTENSITY_FIX;
+
 	static void SetVirtualScreenResolution(const math::Vector2& resolution);
 	static math::Vector2 GetVirtualScreenResolution();
 	static void SetVirtualScreenHeight(const math::Vector2& currentScreenResolution, const float height);

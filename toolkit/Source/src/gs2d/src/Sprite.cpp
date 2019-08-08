@@ -25,6 +25,7 @@ ShaderPtr Sprite::m_solidColorAddShader;
 ShaderPtr Sprite::m_solidColorModulateShader;
 math::Vector2 Sprite::m_virtualScreenResolution(1280.0f, 720.0f);
 float Sprite::m_parallaxIntensity = 0.0f;
+const float Sprite::PARALLAX_INTENSITY_FIX = 0.55f;
 
 void Sprite::Initialize(Video* video)
 {
@@ -264,7 +265,7 @@ void Sprite::Draw(
 		u[SPRITEPOS_VIRTUALTARGETRESOLUTION] = Vector4(Vector2(pos.x, pos.y), m_virtualScreenResolution);
 		u[FLIPADD_FLIPMUL] = Vector4(flipAdd, flipMul);
 		u[RECTPOS_RECTSIZE] = Vector4(rect.pos, rect.size);
-		u[ANGLE_PARALLAXINTENSITY_ZPOS] = Vector4(Util::DegreeToRadian(angle), m_parallaxIntensity, pos.z, 0.0f);
+		u[ANGLE_PARALLAXINTENSITY_ZPOS] = Vector4(Util::DegreeToRadian(angle), m_parallaxIntensity * PARALLAX_INTENSITY_FIX, pos.z, 0.0f);
 		shader->SetConstantArray("u", uSize, u);
 		delete [] u;
 
