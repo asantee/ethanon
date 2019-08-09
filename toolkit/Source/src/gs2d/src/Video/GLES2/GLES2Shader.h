@@ -3,25 +3,13 @@
 
 #include "../../Shader.h"
 
-#include "GLES2PolygonRenderer.h"
-#include "GLES2Video.h"
+#include "../../Platform/FileManager.h"
 
 #include "../../../../tsl/hopscotch_map.h"
 
+#include "GLES2Include.h"
+
 namespace gs2d {
-
-class GLES2ShaderContext : public ShaderContext
-{
-public:
-	GLES2ShaderContext(GLES2Video *pVideo);
-	~GLES2ShaderContext();
-
-	boost::any GetContextPointer();
-
-	static bool CheckForError(const str_type::string& situation);
-};
-
-typedef boost::shared_ptr<GLES2ShaderContext> GLES2ShaderContextPtr;
 
 class GLES2Shader : public Shader
 {
@@ -43,7 +31,7 @@ class GLES2Shader : public Shader
 	GLint FindUniformLocation(const std::string& name);
 
 public:
-	GLES2Shader(Platform::FileManagerPtr fileManager, GLES2ShaderContextPtr context);
+	GLES2Shader(Platform::FileManagerPtr fileManager);
 	~GLES2Shader();
 	
 	GLuint GetProgram() const;
@@ -57,7 +45,7 @@ public:
 		const std::string& vsFileName,
 		const std::string& vsEntry,
 		const std::string& psFileName,
-		const std::string& psEntry);
+		const std::string& psEntry) override;
 
 	bool LoadShaderFromString(
 		ShaderContextPtr context,
@@ -66,19 +54,22 @@ public:
 		const std::string& vsEntry,
 		const std::string& psShaderName,
 		const std::string& psCodeAsciiString,
-		const std::string& psEntry);
+		const std::string& psEntry) override;
 
-	void SetConstant(const str_type::string& name, const math::Vector4 &v);
-	void SetConstant(const str_type::string& name, const math::Vector3 &v);
-	void SetConstant(const str_type::string& name, const math::Vector2 &v);
-	void SetConstant(const str_type::string& name, const float x);
-	void SetConstant(const str_type::string& name, const int n);
-	void SetConstantArray(const str_type::string& name, unsigned int nElements, const math::Vector2* v);
-	void SetMatrixConstant(const str_type::string& name, const math::Matrix4x4 &matrix);
-	void SetTexture(const str_type::string& name, TextureWeakPtr pTexture, const unsigned int index);
+	void SetConstant(const str_type::string& name, const math::Vector4 &v) override;
+	void SetConstant(const str_type::string& name, const math::Vector3 &v) override;
+	void SetConstant(const str_type::string& name, const math::Vector2 &v) override;
+	void SetConstant(const str_type::string& name, const float x) override;
+	void SetConstant(const str_type::string& name, const int n) override;
+	void SetConstantArray(const str_type::string& name, unsigned int nElements, const math::Vector2* v) override;
+	void SetConstantArray(const str_type::string& name, unsigned int nElements, const math::Vector4* v) override;
+	void SetMatrixConstant(const str_type::string& name, const math::Matrix4x4 &matrix) override;
+	void SetTexture(const str_type::string& name, TexturePtr pTexture, const unsigned int index) override;
 
-	bool SetShader();
+	void SetShader() override;
 };
+
+typedef boost::shared_ptr<GLES2Shader> GLES2ShaderPtr;
 
 } // namespace gs2d
 

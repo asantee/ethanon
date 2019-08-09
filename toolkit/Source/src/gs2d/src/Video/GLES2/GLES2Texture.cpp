@@ -1,92 +1,75 @@
 #include "GLES2Texture.h"
+
+#include "../../Platform/Platform.h"
+
 #include "GLES2Video.h"
 
-#include <SOIL.h>
-#include <sstream>
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcomma"
+#define STB_IMAGE_IMPLEMENTATION
+#include "../../../vendors/stb/stb_image.h"
+#define STB_IMAGE_RESIZE_IMPLEMENTATION
+#include "../../../vendors/stb/stb_image_resize.h"
+#pragma clang diagnostic pop
+
+#include <iostream>
 
 namespace gs2d {
 
 const str_type::string GLES2Texture::TEXTURE_LOG_FILE("GLES2Texture.log.txt");
 const str_type::string GLES2Texture::ETC1_FILE_FORMAT("pkm");
 const str_type::string GLES2Texture::PVR_FILE_FORMAT("pvr");
-GLuint GLES2Texture::m_textureID(1000);
-Platform::FileLogger GLES2Texture::m_logger(Platform::FileLogger::GetLogDirectory() + GLES2Texture::TEXTURE_LOG_FILE);
 	
-void CheckFrameBufferStatus(const Platform::FileLogger& logger, const GLuint fbo, const GLuint tex, const bool showSuccessMessage)
+void CheckFrameBufferStatus(const GLuint fbo, const GLuint tex, const bool showSuccessMessage)
 {
 	const GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-	str_type::stringstream ss;
-	ss << GS_L("fboID ") << fbo << GS_L(" (") << tex << GS_L("): ");
+	std::cerr << GS_L("fboID ") << fbo << GS_L(" (") << tex << GS_L("): ");
 	switch (status)
 	{
 	case GL_FRAMEBUFFER_COMPLETE:
 		if (showSuccessMessage)
 		{
-			ss << GS_L(" render target texture created successfully");
-			logger.Log(ss.str(), Platform::FileLogger::INFO);
+			std::cout << GS_L(" render target texture created successfully");
 		}
 		break;
 	case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
-		ss << GS_L(" incomplete attachment");
-		logger.Log(ss.str(), Platform::FileLogger::ERROR);
+		std::cout << GS_L(" incomplete attachment");
 		break;
 	case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS:
-		ss << GS_L(" incomplete dimensions");
-		logger.Log(ss.str(), Platform::FileLogger::ERROR);
+		std::cout << GS_L(" incomplete dimensions");
 		break;
 	case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
-		ss << GS_L(" incomplete missing attachment");
-		logger.Log(ss.str(), Platform::FileLogger::ERROR);
+		std::cout << GS_L(" incomplete missing attachment");
 		break;
 	case GL_FRAMEBUFFER_UNSUPPORTED:
-		ss << GS_L(" unsupported");
-		logger.Log(ss.str(), Platform::FileLogger::ERROR);
+		std::cout << GS_L(" unsupported");
 		break;
 	default:
-		ss << GS_L(" unknown status");
-		logger.Log(ss.str(), Platform::FileLogger::ERROR);
+		std::cout << GS_L(" unknown status");
 	}
-}
-
-GLES2Texture::TEXTURE_INFO::TEXTURE_INFO() :
-	m_texture(0)
-{
+	std::cout << std::endl;
 }
 
 GLES2Texture::GLES2Texture(VideoWeakPtr video, const str_type::string& fileName, Platform::FileManagerPtr fileManager) :
 		m_fileManager(fileManager),
-		m_fileName(fileName)
+		m_fileName(fileName),
+		m_texture(0)
 {
 }
 
 GLES2Texture::~GLES2Texture()
 {
-	if (m_textureInfo.m_texture != 0)
+	if (m_texture != 0)
 	{
-		GLuint textures[1] = { m_textureInfo.m_texture };
+		GLuint textures[1] = { m_texture };
 		glDeleteTextures(1, textures);
-		std::stringstream ss;
-		ss << m_fileName << ": texture deleted ID " << m_textureInfo.m_texture; 
-		m_logger.Log(ss.str(), Platform::FileLogger::INFO);
-		m_textureInfo.m_texture = 0;
+		std::cout << m_fileName << ": texture deleted ID " << m_texture << std::endl;
 	}
-}
-
-Texture::PROFILE GLES2Texture::GetProfile() const
-{
-	return m_profile;
-}
-
-boost::any GLES2Texture::GetTextureObject()
-{
-	return m_textureInfo.m_texture;
 }
 
 bool GLES2Texture::LoadTexture(
 	VideoWeakPtr video,
 	const str_type::string& fileName,
-	const unsigned int width,
-	const unsigned int height,
 	const unsigned int nMipMaps)
 {
 	m_fileName = fileName;
@@ -96,14 +79,12 @@ bool GLES2Texture::LoadTexture(
 	m_fileManager->GetFileBuffer(m_fileName, out);
 	if (!out)
 	{
-		m_logger.Log(m_fileName + " could not load buffer", Platform::FileLogger::ERROR);
+		std::cerr << m_fileName << " could not load buffer" << std::endl;
 		return false;
 	}
 	return LoadTexture(
 		video,
 		out->GetAddress(),
-		width,
-		height,
 		nMipMaps,
 		static_cast<unsigned int>(out->GetBufferSize()),
 		format);
@@ -112,22 +93,20 @@ bool GLES2Texture::LoadTexture(
 bool GLES2Texture::LoadTexture(
 	VideoWeakPtr video,
 	const void* pBuffer,
-	const unsigned int width,
-	const unsigned int height,
 	const unsigned int nMipMaps,
 	const unsigned int bufferLength,
 	const COMPRESSION_FORMAT format)
 {
 	if (format == NO_COMPRESSION)
 	{
-		return LoadTexture(video, pBuffer, width, height, nMipMaps, bufferLength);
+		return LoadTexture(video, pBuffer, nMipMaps, bufferLength);
 	}
 	else
 	{
 		if (format == PVRTC)
-			return LoadPVRTexture(video, pBuffer, width, height, nMipMaps, bufferLength);
+			return LoadPVRTexture(video, pBuffer, nMipMaps, bufferLength);
 		else
-			return LoadETC1Texture(video, pBuffer, width, height, nMipMaps, bufferLength);
+			return LoadETC1Texture(video, pBuffer, nMipMaps, bufferLength);
 	}
 }
 
@@ -176,67 +155,97 @@ bool GLES2Texture::MayUsePVRCompressedVersion(str_type::string& fileName)
 bool GLES2Texture::LoadTexture(
 	VideoWeakPtr video,
 	const void* pBuffer,
-	const unsigned int width,
-	const unsigned int height,
 	const unsigned int nMipMaps,
 	const unsigned int bufferLength)
 {
-	int iWidth, iHeight, channels;
+	int width, height, nrChannels;
 
-	const int forceChannels = SOIL_LOAD_AUTO;
+	stbi_uc* data = stbi_load_from_memory(
+		(stbi_uc*)pBuffer,
+		bufferLength,
+		&width,
+		&height,
+		&nrChannels,
+		0);
 
-	unsigned char *ht_map = SOIL_load_image_from_memory((unsigned char*)pBuffer, bufferLength, &iWidth, &iHeight, &channels, forceChannels);
-
-	if (ht_map)
+	if (data == NULL)
 	{
-		m_textureInfo.m_texture = SOIL_create_OGL_texture(ht_map, iWidth, iHeight, channels, m_textureID++, SOIL_FLAG_POWER_OF_TWO);
-	}
-
-	std::stringstream ss;
-	ss << m_fileName << " file ID " << m_textureInfo.m_texture;
-	m_logger.Log(ss.str(), Platform::FileLogger::INFO);
-
-	if (!m_textureInfo.m_texture)
-	{
-		m_logger.Log(m_fileName + " couldn't load texture", Platform::FileLogger::ERROR);
-		video.lock()->Message(m_fileName + " couldn't load texture", GSMT_ERROR);
-		SOIL_free_image_data(ht_map);
+		ShowMessage("GLTexture couldn't load file " + m_fileName, GSMT_ERROR);
 		return false;
 	}
 
-	m_profile.width = static_cast<unsigned int>(iWidth);
-	m_profile.height = static_cast<unsigned int>(iHeight);
-	m_profile.originalWidth = m_profile.width;
-	m_profile.originalHeight = m_profile.height;
-	m_logger.Log(m_fileName + " texture loaded", Platform::FileLogger::INFO);
-	SOIL_free_image_data(ht_map);
+	glGenTextures(1, &m_texture);
+	glBindTexture(GL_TEXTURE_2D, m_texture);
 
-	glBindTexture(GL_TEXTURE_2D, 0);
+	GLint format;
+	switch (nrChannels)
+	{
+		case 1: format = GL_LUMINANCE; break;
+		case 2: format = GL_LUMINANCE_ALPHA; break;
+		case 3: format = GL_RGB; break;
+		case 4: format = GL_RGBA; break;
+		default:
+			stbi_image_free(data);
+			glDeleteTextures(1, &m_texture);
+			ShowMessage("GLTexture invalid format for file " + m_fileName, GSMT_ERROR);
+			return false;
+	}
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	m_resolution.x = (float)width;
+	m_resolution.y = (float)height;
+
+	if (math::Util::IsPowerOfTwo(width) && math::Util::IsPowerOfTwo(height))
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+	}
+	else
+	{
+		const unsigned int newWidth  = math::Util::FindNextPowerOfTwoValue(width);
+		const unsigned int newHeight = math::Util::FindNextPowerOfTwoValue(height);
+
+		unsigned char* output = new unsigned char [newWidth * newHeight * nrChannels];
+		stbir_resize_uint8(data, width, height, 0, output, newWidth, newHeight, 0, nrChannels);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, format, newWidth, newHeight, 0, format, GL_UNSIGNED_BYTE, output);
+
+		delete [] output;
+	}
+
+	std::cout << m_fileName << " texture loaded" << std::endl;
+
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+	stbi_image_free(data);
 	return true;
 }
 
 bool GLES2Texture::LoadETC1Texture(
 	VideoWeakPtr video,
 	const void* pBuffer,
-	const unsigned int width,
-	const unsigned int height,
 	const unsigned int nMipMaps,
 	const unsigned int bufferLength)
 {
 	const ETC1Header* header = (ETC1Header*)pBuffer;
 	if (strstr(header->tag, "PKM") == 0)
 	{
-		m_logger.Log(m_fileName + " invalid header", Platform::FileLogger::ERROR);
+		std::cerr << m_fileName << " invalid header" << std::endl;
 		return false;
 	}
 
-	m_profile.width = static_cast<unsigned int>(Platform::ShortEndianSwap(header->texWidth));
-	m_profile.height = static_cast<unsigned int>(Platform::ShortEndianSwap(header->texHeight));
-	m_profile.originalWidth = static_cast<unsigned int>(Platform::ShortEndianSwap(header->origWidth));
-	m_profile.originalHeight = static_cast<unsigned int>(Platform::ShortEndianSwap(header->origHeight));
-	m_logger.Log(m_fileName + " texture loaded", Platform::FileLogger::INFO);
+	const short width  = Platform::ShortEndianSwap(header->texWidth);
+	const short height = Platform::ShortEndianSwap(header->texHeight);
+	m_resolution.x = static_cast<float>(width);
+	m_resolution.y = static_cast<float>(height);
+	//m_profile.originalWidth = static_cast<unsigned int>(Platform::ShortEndianSwap(header->origWidth));
+	//m_profile.originalHeight = static_cast<unsigned int>(Platform::ShortEndianSwap(header->origHeight));
+	std::cout << m_fileName << " texture loaded" ;
 
-	const std::size_t size = (m_profile.width / 4) * (m_profile.height / 4) * 8;
+	const std::size_t size = (width / 4) * (height / 4) * 8;
 
 	// not supported on iOS, so we'll only use the enum on non-ios devices
 	GLenum internalformat = 0;
@@ -244,17 +253,16 @@ bool GLES2Texture::LoadETC1Texture(
 		internalformat = GL_ETC1_RGB8_OES;
 	#endif
 
-	m_textureInfo.m_texture = m_textureID++;
-
-	glBindTexture(GL_TEXTURE_2D, m_textureInfo.m_texture);
+	glGenTextures(1, &m_texture);
+	glBindTexture(GL_TEXTURE_2D, m_texture);
 
 	unsigned char *data = (unsigned char*)pBuffer;
 	glCompressedTexImage2D(
 		GL_TEXTURE_2D,
 		0,
 		internalformat,
-		m_profile.width,
-		m_profile.height,
+		width,
+		height,
 		0,
 		static_cast<GLsizei>(size),
 		data + sizeof(ETC1Header));
@@ -289,8 +297,6 @@ static GLenum FindPVRTCFormatFromPVRHeaderData(const uint32_t* pixelFormat)
 bool GLES2Texture::LoadPVRTexture(
 	VideoWeakPtr video,
 	const void* pBuffer,
-	const unsigned int width,
-	const unsigned int height,
 	const unsigned int nMipMaps,
 	const unsigned int bufferLength)
 {
@@ -299,27 +305,24 @@ bool GLES2Texture::LoadPVRTexture(
 	const uint32_t bigEndianVersionId    = 0x50565203;
 	if (header->version != littleEndianVersionId && header->version != bigEndianVersionId)
 	{
-		m_logger.Log(m_fileName + " invalid header", Platform::FileLogger::ERROR);
+		std::cerr << m_fileName << " invalid header" << std::endl;
 		return false;
 	}
 
-	m_profile.width = static_cast<unsigned int>(header->width);
-	m_profile.height = static_cast<unsigned int>(header->height);
-	m_profile.originalWidth = static_cast<unsigned int>(m_profile.width);
-	m_profile.originalHeight = static_cast<unsigned int>(m_profile.height);
-	m_logger.Log(m_fileName + " texture loaded", Platform::FileLogger::INFO);
+	m_resolution.x = static_cast<float>(header->width);
+	m_resolution.y = static_cast<float>(header->height);
+	//m_profile.originalWidth = static_cast<unsigned int>(m_profile.width);
+	//m_profile.originalHeight = static_cast<unsigned int>(m_profile.height);
+	std::cout << m_fileName + " texture loaded" << std::endl;
 
-	m_textureInfo.m_texture = m_textureID++;
-
-	glBindTexture(GL_TEXTURE_2D, m_textureInfo.m_texture);
+	glGenTextures(1, &m_texture);
+	glBindTexture(GL_TEXTURE_2D, m_texture);
 
 	unsigned char *data = (unsigned char*)pBuffer;
 	data += sizeof(PVRHeader);
 	data += header->metaDataSize;
 
 	const std::size_t size = bufferLength - (sizeof(PVRHeader) + header->metaDataSize);
-	//std::size_t size = (header->width * header->height * bitsPerPixel) >> 3;
-	//size = (size < 32) ? 32 : size;
 
 	const GLenum format = FindPVRTCFormatFromPVRHeaderData(header->pixelFormat);
 	glCompressedTexImage2D(
@@ -334,7 +337,6 @@ bool GLES2Texture::LoadPVRTexture(
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
@@ -344,7 +346,7 @@ bool GLES2Texture::LoadPVRTexture(
 
 math::Vector2 GLES2Texture::GetBitmapSize() const
 {
-	return math::Vector2(static_cast<float>(m_profile.width), static_cast<float>(m_profile.height));
+	return m_resolution;
 }
 
 const str_type::string& GLES2Texture::GetFileName() const
@@ -352,9 +354,9 @@ const str_type::string& GLES2Texture::GetFileName() const
 	return m_fileName;
 }
 
-GLuint GLES2Texture::GetTextureID() const
+GLuint GLES2Texture::GetTexture() const
 {
-	return m_textureInfo.m_texture;
+	return m_texture;
 }
 
 } // namespace gs2d

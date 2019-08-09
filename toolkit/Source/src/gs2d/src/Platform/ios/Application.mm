@@ -49,7 +49,7 @@ ApplicationWrapper::ApplicationWrapper() : m_pixelDensity(1.0f)
 void ApplicationWrapper::Start(GLKView* view)
 {
 	g_audio = gs2d::CreateAudio(0);
-	g_input = gs2d::CreateInput(0, false);
+	g_input = gs2d::CreateInput(false);
 
 	Platform::FileIOHubPtr fileIOHub(new Platform::IOSFileIOHub(GS_L("data/")));
 

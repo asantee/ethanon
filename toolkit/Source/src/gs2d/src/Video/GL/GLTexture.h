@@ -19,7 +19,7 @@ class GLTexture : public Texture
 	str_type::string m_fileName;
 
 	GLuint m_texture;
-	
+
 	math::Vector2 m_resolution;
 
 	GLTexture(VideoWeakPtr video, Platform::FileManagerPtr fileManager);

@@ -1,6 +1,5 @@
 #include "ETHShaderManager.h"
 #include "../Scene/ETHScene.h"
-#include "ETHShaders.h"
 
 ETHShaderManager::ETHShaderManager(VideoPtr video, const str_type::string& shaderPath, const bool richLighting) :
 	m_lastAM(Video::AM_PIXEL)

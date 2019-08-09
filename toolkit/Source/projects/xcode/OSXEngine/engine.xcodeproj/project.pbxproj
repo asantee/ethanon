@@ -106,8 +106,6 @@
 		7421F12E1647266600C55BAE /* ETHNoDynamicBackBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F1171647266600C55BAE /* ETHNoDynamicBackBuffer.h */; };
 		7421F1331647266600C55BAE /* ETHShaderManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F11C1647266600C55BAE /* ETHShaderManager.cpp */; };
 		7421F1341647266600C55BAE /* ETHShaderManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F11D1647266600C55BAE /* ETHShaderManager.h */; };
-		7421F1351647266600C55BAE /* ETHShaders.cg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F11E1647266600C55BAE /* ETHShaders.cg.cpp */; };
-		7421F1371647266600C55BAE /* ETHShaders.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F1201647266600C55BAE /* ETHShaders.h */; };
 		7421F1481647267300C55BAE /* ETHASUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F13A1647267300C55BAE /* ETHASUtil.cpp */; };
 		7421F1491647267300C55BAE /* ETHASUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F13B1647267300C55BAE /* ETHASUtil.h */; };
 		7421F14A1647267300C55BAE /* ETHDateTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F13C1647267300C55BAE /* ETHDateTime.cpp */; };
@@ -147,7 +145,6 @@
 		7429A2AE16627E8000134A7E /* ETHEntityParticleRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7429A2AC16627E8000134A7E /* ETHEntityParticleRenderer.h */; };
 		7429A2B11663AF2200134A7E /* ETHEntityHaloRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7429A2AF1663AF2200134A7E /* ETHEntityHaloRenderer.cpp */; };
 		7429A2B21663AF2200134A7E /* ETHEntityHaloRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7429A2B01663AF2200134A7E /* ETHEntityHaloRenderer.h */; };
-		747D56C217329A9D00283563 /* shaders.h in Headers */ = {isa = PBXBuildFile; fileRef = 747D56C117329A9D00283563 /* shaders.h */; };
 		74A21A80182BFA9D0000F783 /* hashlibpp.h in Headers */ = {isa = PBXBuildFile; fileRef = 74A21A66182BFA9D0000F783 /* hashlibpp.h */; };
 		74A21A81182BFA9D0000F783 /* hl_exception.h in Headers */ = {isa = PBXBuildFile; fileRef = 74A21A67182BFA9D0000F783 /* hl_exception.h */; };
 		74A21A82182BFA9D0000F783 /* hl_hashwrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 74A21A68182BFA9D0000F783 /* hl_hashwrapper.h */; };
@@ -356,8 +353,6 @@
 		7421F1171647266600C55BAE /* ETHNoDynamicBackBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHNoDynamicBackBuffer.h; path = ../../../../src/engine/Shader/ETHNoDynamicBackBuffer.h; sourceTree = "<group>"; };
 		7421F11C1647266600C55BAE /* ETHShaderManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHShaderManager.cpp; path = ../../../../src/engine/Shader/ETHShaderManager.cpp; sourceTree = "<group>"; };
 		7421F11D1647266600C55BAE /* ETHShaderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHShaderManager.h; path = ../../../../src/engine/Shader/ETHShaderManager.h; sourceTree = "<group>"; };
-		7421F11E1647266600C55BAE /* ETHShaders.cg.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHShaders.cg.cpp; path = ../../../../src/engine/Shader/ETHShaders.cg.cpp; sourceTree = "<group>"; };
-		7421F1201647266600C55BAE /* ETHShaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHShaders.h; path = ../../../../src/engine/Shader/ETHShaders.h; sourceTree = "<group>"; };
 		7421F13A1647267300C55BAE /* ETHASUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHASUtil.cpp; path = ../../../../src/engine/Util/ETHASUtil.cpp; sourceTree = "<group>"; };
 		7421F13B1647267300C55BAE /* ETHASUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHASUtil.h; path = ../../../../src/engine/Util/ETHASUtil.h; sourceTree = "<group>"; };
 		7421F13C1647267300C55BAE /* ETHDateTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHDateTime.cpp; path = ../../../../src/engine/Util/ETHDateTime.cpp; sourceTree = "<group>"; };
@@ -397,7 +392,6 @@
 		7429A2AC16627E8000134A7E /* ETHEntityParticleRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityParticleRenderer.h; path = ../../../../src/engine/Renderer/ETHEntityParticleRenderer.h; sourceTree = "<group>"; };
 		7429A2AF1663AF2200134A7E /* ETHEntityHaloRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHEntityHaloRenderer.cpp; path = ../../../../src/engine/Renderer/ETHEntityHaloRenderer.cpp; sourceTree = "<group>"; };
 		7429A2B01663AF2200134A7E /* ETHEntityHaloRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHEntityHaloRenderer.h; path = ../../../../src/engine/Renderer/ETHEntityHaloRenderer.h; sourceTree = "<group>"; };
-		747D56C117329A9D00283563 /* shaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = shaders.h; path = ../../../../src/shaders/shaders.h; sourceTree = "<group>"; };
 		74A21A66182BFA9D0000F783 /* hashlibpp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hashlibpp.h; path = ../../../src/vendors/hashlib2plus/src/hashlibpp.h; sourceTree = "<group>"; };
 		74A21A67182BFA9D0000F783 /* hl_exception.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_exception.h; path = ../../../src/vendors/hashlib2plus/src/hl_exception.h; sourceTree = "<group>"; };
 		74A21A68182BFA9D0000F783 /* hl_hashwrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_hashwrapper.h; path = ../../../src/vendors/hashlib2plus/src/hl_hashwrapper.h; sourceTree = "<group>"; };
@@ -515,9 +509,6 @@
 				7421F1171647266600C55BAE /* ETHNoDynamicBackBuffer.h */,
 				7421F11C1647266600C55BAE /* ETHShaderManager.cpp */,
 				7421F11D1647266600C55BAE /* ETHShaderManager.h */,
-				7421F1201647266600C55BAE /* ETHShaders.h */,
-				7421F11E1647266600C55BAE /* ETHShaders.cg.cpp */,
-				747D56C117329A9D00283563 /* shaders.h */,
 			);
 			name = Shader;
 			sourceTree = "<group>";
@@ -909,7 +900,6 @@
 				74A21A86182BFA9D0000F783 /* hl_md5wrapper.h in Headers */,
 				7421F12E1647266600C55BAE /* ETHNoDynamicBackBuffer.h in Headers */,
 				7421F1341647266600C55BAE /* ETHShaderManager.h in Headers */,
-				7421F1371647266600C55BAE /* ETHShaders.h in Headers */,
 				74A21A88182BFA9D0000F783 /* hl_sha1.h in Headers */,
 				7421F1491647267300C55BAE /* ETHASUtil.h in Headers */,
 				7421F14B1647267300C55BAE /* ETHDateTime.h in Headers */,
@@ -933,7 +923,6 @@
 				7429A2AE16627E8000134A7E /* ETHEntityParticleRenderer.h in Headers */,
 				7429A2B21663AF2200134A7E /* ETHEntityHaloRenderer.h in Headers */,
 				74EB49AD16653D0A002DA2F0 /* ETHEntityRenderingManager.h in Headers */,
-				747D56C217329A9D00283563 /* shaders.h in Headers */,
 				74FF04E718046C4D006D0F9F /* scriptfile.h in Headers */,
 				74A21A91182BFA9D0000F783 /* hl_sha256wrapper.h in Headers */,
 				74FF04ED18046C5D006D0F9F /* scriptbuilder.h in Headers */,
@@ -1115,7 +1104,6 @@
 				74A21A85182BFA9D0000F783 /* hl_md5wrapper.cpp in Sources */,
 				7421F12D1647266600C55BAE /* ETHNoDynamicBackBuffer.cpp in Sources */,
 				7421F1331647266600C55BAE /* ETHShaderManager.cpp in Sources */,
-				7421F1351647266600C55BAE /* ETHShaders.cg.cpp in Sources */,
 				7421F1481647267300C55BAE /* ETHASUtil.cpp in Sources */,
 				7421F14A1647267300C55BAE /* ETHDateTime.cpp in Sources */,
 				7421F14C1647267300C55BAE /* ETHFileChangeDetector.cpp in Sources */,

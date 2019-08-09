@@ -121,11 +121,10 @@ bool GLTexture::LoadTexture(
 			return false;
 	}
 
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
 
 	m_resolution.x = (float)width;
 	m_resolution.y = (float)height;
@@ -136,8 +135,8 @@ bool GLTexture::LoadTexture(
 	}
 	else
 	{
-		const int newWidth  = math::Util::FindNextPowerOfTwoValue(width);
-		const int newHeight = math::Util::FindNextPowerOfTwoValue(height);
+		const unsigned int newWidth  = math::Util::FindNextPowerOfTwoValue(width);
+		const unsigned int newHeight = math::Util::FindNextPowerOfTwoValue(height);
 
 		unsigned char* output = new unsigned char [newWidth * newHeight * nrChannels];
 		stbir_resize_uint8(data, width, height, 0, output, newWidth, newHeight, 0, nrChannels);

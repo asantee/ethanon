@@ -506,12 +506,6 @@ void ETHScene::MapEntitiesToBeRendered(
 void ETHScene::DrawEntityMultimap(const ETHBackBufferTargetManagerPtr& backBuffer)
 {
 	m_renderingManager.RenderPieces(m_sceneProps, m_minSceneHeight, m_maxSceneHeight);
-
-	// Show buckets outline in debug mode
-	bool debug = false;
-	#if defined(_DEBUG) || defined(DEBUG)
-		debug = true;
-	#endif
 }
 
 void ETHScene::EnableLightmaps(const bool enable)

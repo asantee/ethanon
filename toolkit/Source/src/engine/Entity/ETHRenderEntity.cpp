@@ -159,9 +159,6 @@ bool ETHRenderEntity::DrawHalo(
 
 	const Vector3 v3EntityPos = GetPosition();
 
-	// will remain as 1.0 for a while
-	m_provider->GetVideo()->SetSpriteDepth(depth);
-
 	// if it has a particle system in the first slot, adjust the light
 	// brightness according to the number of active particles
 	float brightness = 1.0f;

@@ -1,56 +1,24 @@
 #include "GLES2Video.h"
 
-#ifdef APPLE_IOS
-  #include <OpenGLES/ES2/gl.h>
-  #include <OpenGLES/ES2/glext.h>
-  #include "../../Platform/ios/Platform.ios.h"
+#include "GLES2Include.h"
+
+#ifdef __APPLE__
+ #include "TargetConditionals.h"
 #endif
 
-#ifdef ANDROID
-  #include <GLES2/gl2.h>
-  #include <GLES2/gl2ext.h>
+#if defined(TARGET_OS_IPHONE)
+  #include "../../Platform/ios/Platform.ios.h"
+#elif defined(__ANDROID__)
   #include "../../Platform/android/Platform.android.h"
 #endif
 
-#include "../../Shader.h"
 #include "GLES2Shader.h"
-#include "GLES2Sprite.h"
 
 #include <sstream>
-
-#include "../glslShaderCode.h"
 
 namespace gs2d {
 
 using namespace math;
-
-const float GLES2Video::ZFAR = 5.0f;
-const float GLES2Video::ZNEAR = 0.0f;
-const str_type::string GLES2Video::VIDEO_LOG_FILE("GLES2Video.log.txt");
-const unsigned long GLES2Video::ALPHAREF = (0x01);
-
-void UnbindFrameBuffer()
-{
-	GLuint idx;
-#	ifdef APPLE_IOS
-		idx = 1;
-#	else
-		idx = 0;
-#	endif
-	glBindFramebuffer(GL_FRAMEBUFFER, idx);
-}
-
-const std::vector<PolygonRenderer::Vertex> g_vertices =
-{
-	PolygonRenderer::Vertex(math::Vector3( 0.0f, 1.0f, 0.0f), math::Vector3(1.0f), math::Vector2(0.0f, 1.0f)),
-	PolygonRenderer::Vertex(math::Vector3( 0.0f, 0.0f, 0.0f), math::Vector3(1.0f), math::Vector2(0.0f, 0.0f)),
-	PolygonRenderer::Vertex(math::Vector3( 1.0f, 0.0f, 0.0f), math::Vector3(1.0f), math::Vector2(1.0f, 0.0f)),
-	PolygonRenderer::Vertex(math::Vector3( 1.0f, 1.0f, 0.0f), math::Vector3(1.0f), math::Vector2(1.0f, 1.0f))
-};
-
-std::vector<uint32_t> g_indices = { 0, 1, 2, 3 };
-
-GLES2PolygonRendererPtr GLES2Video::m_polygonRenderer;
 
 GLES2Video::GLES2Video(
 	const unsigned int width,
@@ -61,19 +29,13 @@ GLES2Video::GLES2Video(
 	m_screenSize(width, height),
 	m_windowTitle(winTitle),
 	m_quit(false),
-	m_logger(Platform::FileLogger::GetLogDirectory() + VIDEO_LOG_FILE),
 	m_fpsRate(30.0f),
-	m_textureFilterMode(Video::TM_IFNEEDED),
 	m_blend(false),
 	m_zBuffer(true),
 	m_fileIOHub(fileIOHub),
 	m_frameCount(0),
-	m_previousTime(0),
-	m_spriteDepth(0.0f)
+	m_previousTime(0)
 {
-	m_logger.Log("Creating shader context...", Platform::FileLogger::INFO);
-	m_shaderContext = GLES2ShaderContextPtr(new GLES2ShaderContext(this));
-	m_logger.Log("StartApplication...", Platform::FileLogger::INFO);
 	StartApplication(width, height, winTitle, false, false, Texture::PF_DEFAULT, false);
 }
 
@@ -84,13 +46,13 @@ static bool HasFragmentShaderMaximumPrecision()
 	return (range[0] != 0 && range[1] != 0 && precision[0] != 0);
 }
 
-static void LogFragmentShaderMaximumPrecision(const Platform::FileLogger& logger)
+static void LogFragmentShaderMaximumPrecision()
 {
 	const bool precisionResult = HasFragmentShaderMaximumPrecision();
 	const str_type::string logStr = (precisionResult)
 		? GS_L("High floating point fragment shader precision supported")
 		: GS_L("High floating point fragment shader precision is not supported");
-	logger.Log(logStr, (precisionResult) ? Platform::FileLogger::INFO : Platform::FileLogger::WARNING);
+	std::cout << logStr << std::endl;
 }
 
 bool GLES2Video::StartApplication(
@@ -102,38 +64,24 @@ bool GLES2Video::StartApplication(
 	const Texture::PIXEL_FORMAT pfBB,
 	const bool maximizable)
 {
-	if (!m_polygonRenderer)
-	{
-		m_polygonRenderer = GLES2PolygonRendererPtr(new GLES2PolygonRenderer(g_vertices, g_indices, PolygonRenderer::TRIANGLE_FAN));
-	}
-
 	glHint(GL_GENERATE_MIPMAP_HINT, GL_FASTEST);
 
 	// toggle dither
 	if (gs2d::Application::SharedData.Get("ethanon.system.gles2dither") == "enable")
+	{
 		glEnable(GL_DITHER);
+	}
 	else
+	{
 		glDisable(GL_DITHER);
+	}
 
-	// create shaders
-	m_defaultShader  = LoadGLES2ShaderFromString("default.vs",    gs2dshaders::GLSL_default_optimal_vs,    "default.ps",   gs2dshaders::GLSL_default_default_ps);
-	m_optimalShader  = LoadGLES2ShaderFromString("optimal.vs",    gs2dshaders::GLSL_default_optimal_vs,    "default.ps",   gs2dshaders::GLSL_default_default_ps);
-	m_rectShader     = LoadGLES2ShaderFromString("default.vs",    gs2dshaders::GLSL_default_default_vs,    "default.ps",   gs2dshaders::GLSL_default_default_ps);
-	m_fastShader     = LoadGLES2ShaderFromString("fastRender.vs", gs2dshaders::GLSL_default_fastRender_vs, "default.ps",   gs2dshaders::GLSL_default_default_ps);
-	m_modulateShader = LoadGLES2ShaderFromString("default.vs",    gs2dshaders::GLSL_default_optimal_vs,    "modulate1.ps", gs2dshaders::GLSL_default_modulate1_ps);
-	m_addShader      = LoadGLES2ShaderFromString("default.vs",    gs2dshaders::GLSL_default_optimal_vs,    "add1.ps",      gs2dshaders::GLSL_default_add1_ps);
-
-	m_currentShader = m_defaultShader;
-
-	LogFragmentShaderMaximumPrecision(m_logger);
+	LogFragmentShaderMaximumPrecision();
 
 	SetZBuffer(false);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
 	ResetVideoMode(width, height, pfBB, false);
-	m_logger.Log("Application started...", Platform::FileLogger::INFO);
+	std::cout << "Application started..." << std::endl;
 	return true;
 }
 
@@ -146,14 +94,12 @@ void GLES2Video::Enable2D(const int width, const int height, const bool flipY)
 	glDepthRangef(0.0f, 1.0f);
 }
 
-bool GLES2Video::CheckGLError(const str_type::string& op, const Platform::FileLogger& logger)
+bool GLES2Video::CheckGLError(const str_type::string& op)
 {
 	bool r = false;
 	for (GLint error = glGetError(); error; error = glGetError())
 	{
-		std::stringstream ss;
-		ss << "ERROR: after " << op << ". Error code " << error;
-		logger.Log(ss.str(), Platform::FileLogger::ERROR);
+		std::cerr << "ERROR: after " << op << ". Error code " << error << std::endl;
 		r = true;
 	}
 	return r;
@@ -162,16 +108,12 @@ bool GLES2Video::CheckGLError(const str_type::string& op, const Platform::FileLo
 TexturePtr GLES2Video::CreateTextureFromFileInMemory(
 	const void *pBuffer,
 	const unsigned int bufferLength,
-	const unsigned int width,
-	const unsigned int height,
 	const unsigned int nMipMaps)
 {
 	TexturePtr texture(new GLES2Texture(weak_this, GS_L("from_memory"), m_fileIOHub->GetFileManager()));
 	if (texture->LoadTexture(
 		weak_this,
 		pBuffer,
-		width,
-		height,
 		nMipMaps,
 		bufferLength))
 	{
@@ -182,39 +124,14 @@ TexturePtr GLES2Video::CreateTextureFromFileInMemory(
 
 TexturePtr GLES2Video::LoadTextureFromFile(
 	const str_type::string& fileName,
-	const unsigned int width,
-	const unsigned int height,
 	const unsigned int nMipMaps)
 {
 	TexturePtr texture(new GLES2Texture(weak_this, fileName, m_fileIOHub->GetFileManager()));
-	if (texture->LoadTexture(weak_this, fileName, width, height, nMipMaps))
+	if (texture->LoadTexture(weak_this, fileName, nMipMaps))
 	{
 		return texture;
 	}
 	return TexturePtr();
-}
-
-SpritePtr GLES2Video::CreateSprite(
-	unsigned char *pBuffer,
-	const unsigned int bufferLength,
-	const unsigned int width,
-	const unsigned int height)
-{
-	// TODO
-	return SpritePtr();
-}
-
-SpritePtr GLES2Video::CreateSprite(
-	const str_type::string& fileName,
-	const unsigned int width,
-	const unsigned int height)
-{
-	SpritePtr sprite(new GLES2Sprite(m_shaderContext));
-	if (sprite->LoadSprite(weak_this, fileName, width, height))
-	{
-		return sprite;
-	}
-	return SpritePtr();
 }
 
 ShaderPtr GLES2Video::LoadShaderFromFile(
@@ -223,8 +140,8 @@ ShaderPtr GLES2Video::LoadShaderFromFile(
 	const std::string& psFileName,
 	const std::string& psEntry)
 {
-	GLES2ShaderPtr shader(new GLES2Shader(m_fileIOHub->GetFileManager(), m_shaderContext));
-	if (shader->LoadShaderFromFile(m_shaderContext, vsFileName, vsEntry, psFileName, psEntry))
+	ShaderPtr shader(new GLES2Shader(m_fileIOHub->GetFileManager()));
+	if (shader->LoadShaderFromFile(ShaderContextPtr(), vsFileName, vsEntry, psFileName, psEntry))
 	{
 		return shader;
 	}
@@ -239,100 +156,12 @@ ShaderPtr GLES2Video::LoadShaderFromString(
     const std::string& psCodeAsciiString,
     const std::string& psEntry)
 {
-	GLES2ShaderPtr shader(new GLES2Shader(m_fileIOHub->GetFileManager(), m_shaderContext));
-	if (shader->LoadShaderFromString(m_shaderContext, vsShaderName, vsCodeAsciiString, vsEntry, psShaderName, psCodeAsciiString, psEntry))
+	ShaderPtr shader(new GLES2Shader(m_fileIOHub->GetFileManager()));
+	if (shader->LoadShaderFromString(ShaderContextPtr(), vsShaderName, vsCodeAsciiString, vsEntry, psShaderName, psCodeAsciiString, psEntry))
 	{
 		return shader;
 	}
 	return ShaderPtr();
-}
-
-GLES2ShaderPtr GLES2Video::LoadGLES2ShaderFromFile(
-	const std::string& vsFileName,
-	const std::string& psFileName)
-{
-	GLES2ShaderPtr shader(new GLES2Shader(m_fileIOHub->GetFileManager(), m_shaderContext));
-	if (shader->LoadShaderFromFile(m_shaderContext, vsFileName, "main", psFileName, "main"))
-	{
-		return shader;
-	}
-	return GLES2ShaderPtr();
-}
-
-GLES2ShaderPtr GLES2Video::LoadGLES2ShaderFromString(
-    const std::string& vsShaderName,
-    const std::string& vsCodeAsciiString,
-    const std::string& psShaderName,
-    const std::string& psCodeAsciiString)
-{
-	GLES2ShaderPtr shader(new GLES2Shader(m_fileIOHub->GetFileManager(), m_shaderContext));
-	if (shader->LoadShaderFromString(m_shaderContext, vsShaderName, vsCodeAsciiString, "main", psShaderName, psCodeAsciiString, "main"))
-	{
-		return shader;
-	}
-	return GLES2ShaderPtr();
-}
-
-boost::any GLES2Video::GetVideoInfo()
-{
-	// TODO
-	return 0;
-}
-
-ShaderPtr GLES2Video::GetDefaultShader()
-{
-	return m_defaultShader;
-}
-
-ShaderPtr GLES2Video::GetOptimalShader()
-{
-	return m_optimalShader;
-}
-
-ShaderPtr GLES2Video::GetRectShader()
-{
-	return m_rectShader;
-}
-
-ShaderPtr GLES2Video::GetFastShader()
-{
-	return m_fastShader;
-}
-
-ShaderPtr GLES2Video::GetModulateShader()
-{
-	return m_modulateShader;
-}
-
-ShaderPtr GLES2Video::GetAddShader()
-{
-	return m_addShader;
-}
-
-ShaderPtr GLES2Video::GetCurrentShader()
-{
-	return m_currentShader;
-}
-
-ShaderContextPtr GLES2Video::GetShaderContext()
-{
-	return m_shaderContext;
-}
-
-bool GLES2Video::SetCurrentShader(ShaderPtr pShader)
-{
-	m_currentShader = pShader;
-	if (!m_currentShader)
-	{
-		m_currentShader = m_defaultShader;
-	}
-	return true;
-}
-
-boost::any GLES2Video::GetGraphicContext()
-{
-	// it has actually two command forwarders at the moment...
-	return PullCommands(); // TO-DO/TODO: use only one!
 }
 
 Video::VIDEO_MODE GLES2Video::GetVideoMode(const unsigned int modeIdx) const
@@ -393,17 +222,6 @@ bool GLES2Video::GetZBuffer() const
 	return m_zBuffer;
 }
 
-bool GLES2Video::SetSpriteDepth(const float depth)
-{
-	m_spriteDepth = depth;
-	return true;
-}
-
-float GLES2Video::GetSpriteDepth() const
-{
-	return m_spriteDepth;
-}
-
 void GLES2Video::SetBGColor(const Color& backgroundColor)
 {
 	m_backgroundColor = backgroundColor;
@@ -414,10 +232,8 @@ Color GLES2Video::GetBGColor() const
 	return m_backgroundColor;
 }
 
-
 bool GLES2Video::BeginRendering(const Color& color)
 {
-	UnbindFrameBuffer();
 	if (color != math::constant::ZERO_VECTOR4)
 	{
 		m_backgroundColor = color;
@@ -540,7 +356,15 @@ void GLES2Video::Message(const str_type::string& text, const GS_MESSAGE_TYPE typ
 		logType = Platform::FileLogger::ERROR;
 		break;
 	}
-	m_logger.Log(str + text, logType);
+	
+	if (logType == Platform::FileLogger::ERROR)
+	{
+		std::cerr << str << text << std::endl;
+	}
+	else
+	{
+		std::cout << str << text << std::endl;
+	}
 }
 
 void GLES2Video::Quit()
@@ -626,11 +450,6 @@ bool GLES2Video::HideCursor(const bool hide)
 bool GLES2Video::IsCursorHidden() const
 {
 	return true;
-}
-
-const Platform::FileLogger& GLES2Video::GetLogger() const
-{
-	return m_logger;
 }
 
 str_type::string GLES2Video::PullCommands()

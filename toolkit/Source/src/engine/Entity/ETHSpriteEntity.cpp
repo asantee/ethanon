@@ -314,9 +314,7 @@ Vector2 ETHSpriteEntity::ComputeParallaxOffset() const
 
 bool ETHSpriteEntity::SetDepth(const float maxHeight, const float minHeight)
 {
-	const float depth = ComputeDepth(maxHeight, minHeight);
-	// assert(depth >= 0.0f && depth <= 1.0f);
-	m_provider->GetVideo()->SetSpriteDepth(depth);
+	// feature no longer needed after eth-supersimple
 	return true;
 }
 

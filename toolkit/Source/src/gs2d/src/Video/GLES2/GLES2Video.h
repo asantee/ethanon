@@ -4,32 +4,15 @@
 #include "../../Video.h"
 
 #include "../../Platform/Platform.h"
-#include "../../Platform/FileLogger.h"
+#include "../../Platform/NativeCommandForwarder.h"
 
 #include "../../Math/Vector4.h"
 
 #include "GLES2Texture.h"
 
-#include "GLES2PolygonRenderer.h"
-
 #include "../../Platform/FileIOHub.h"
 
-#ifdef APPLE_IOS
-  #include <OpenGLES/ES2/gl.h>
-  #include <OpenGLES/ES2/glext.h>
-#endif
-
-#ifdef ANDROID
-  #include <GLES2/gl2.h>
-  #include <GLES2/gl2ext.h>
-#endif
-
 namespace gs2d {
-
-class GLES2Shader;
-typedef boost::shared_ptr<GLES2Shader> GLES2ShaderPtr;
-class GLES2ShaderContext;
-typedef boost::shared_ptr<GLES2ShaderContext> GLES2ShaderContextPtr;
 
 class GLES2Video : public Video, public Platform::NativeCommandForwarder
 {
@@ -48,44 +31,22 @@ class GLES2Video : public Video, public Platform::NativeCommandForwarder
 	unsigned long m_frameCount;
 
 public:
-	static const float ZNEAR;
-	static const float ZFAR;
-	static const str_type::string VIDEO_LOG_FILE;
-	static const unsigned long ALPHAREF;
-
-	static GLES2PolygonRendererPtr m_polygonRenderer;
-
-	static bool CheckGLError(const str_type::string& op, const Platform::FileLogger& logger);
+	static bool CheckGLError(const str_type::string& op);
 
 	TexturePtr CreateTextureFromFileInMemory(
 		const void *pBuffer,
 		const unsigned int bufferLength,
-		const unsigned int width = 0,
-		const unsigned int height = 0,
-		const unsigned int nMipMaps = 0);
+		const unsigned int nMipMaps = 0) override;
 
 	TexturePtr LoadTextureFromFile(
 		const str_type::string& fileName,
-		const unsigned int width = 0,
-		const unsigned int height = 0,
-		const unsigned int nMipMaps = 0);
-
-	SpritePtr CreateSprite(
-		unsigned char *pBuffer,
-		const unsigned int bufferLength,
-		const unsigned int width = 0,
-		const unsigned int height = 0);
-
-	SpritePtr CreateSprite(
-		const str_type::string& fileName,
-		const unsigned int width = 0,
-		const unsigned int height = 0);
+		const unsigned int nMipMaps = 0) override;
 
 	ShaderPtr LoadShaderFromFile(
 		const std::string& vsFileName,
 		const std::string& vsEntry,
 		const std::string& psFileName,
-		const std::string& psEntry);
+		const std::string& psEntry) override;
 
 	ShaderPtr LoadShaderFromString(
 		const std::string& vsShaderName,
@@ -93,87 +54,56 @@ public:
 		const std::string& vsEntry,
 		const std::string& psShaderName,
 		const std::string& psCodeAsciiString,
-		const std::string& psEntry);
+		const std::string& psEntry) override;
 
-	GLES2ShaderPtr LoadGLES2ShaderFromFile(
-		const std::string& vsFileName,
-		const std::string& psFileName);
-
-	GLES2ShaderPtr LoadGLES2ShaderFromString(
-		const std::string& vsShaderName,
-		const std::string& vsCodeAsciiString,
-		const std::string& psShaderName,
-		const std::string& psCodeAsciiString);
-
-	boost::any GetVideoInfo();
-
-	ShaderPtr GetDefaultShader();
-	ShaderPtr GetOptimalShader();
-	ShaderPtr GetRectShader();
-	ShaderPtr GetFastShader();
-	ShaderPtr GetModulateShader();
-	ShaderPtr GetAddShader();
-	ShaderPtr GetCurrentShader();
-
-	GLES2ShaderPtr GetDefaultPS();
-
-	ShaderContextPtr GetShaderContext();
-	bool SetCurrentShader(ShaderPtr shader);
-
-	boost::any GetGraphicContext();
-
-	VIDEO_MODE GetVideoMode(const unsigned int modeIdx) const;
-	unsigned int GetVideoModeCount() const;
+	VIDEO_MODE GetVideoMode(const unsigned int modeIdx) const override;
+	unsigned int GetVideoModeCount() const override;
 
 	bool ResetVideoMode(
 		const VIDEO_MODE& mode,
-		const bool toggleFullscreen = false);
+		const bool toggleFullscreen = false) override;
 
 	bool ResetVideoMode(
 		const unsigned int width,
 		const unsigned int height,
 		const Texture::PIXEL_FORMAT pfBB,
-		const bool toggleFullscreen = false);
+		const bool toggleFullscreen = false) override;
 
-	void SetZBuffer(const bool enable);
-	bool GetZBuffer() const;
+	void SetZBuffer(const bool enable) override;
+	bool GetZBuffer() const override;
 
-	bool SetSpriteDepth(const float depth);
-	float GetSpriteDepth() const;
+	void SetBGColor(const Color& backgroundColor) override;
+	Color GetBGColor() const override;
 
-	void SetBGColor(const Color& backgroundColor);
-	Color GetBGColor() const;
+	bool BeginRendering(const Color& color = math::constant::ZERO_VECTOR4) override;
+	bool EndRendering() override;
 
-	bool BeginRendering(const Color& color = math::constant::ZERO_VECTOR4);
-	bool EndRendering();
-
-	bool SetAlphaMode(const Video::ALPHA_MODE mode);
-	ALPHA_MODE GetAlphaMode() const;
+	bool SetAlphaMode(const Video::ALPHA_MODE mode) override;
+	ALPHA_MODE GetAlphaMode() const override;
 	
-	math::Vector2i GetClientScreenSize() const;
-	APP_STATUS HandleEvents();
-	float GetFPSRate() const;
-	void Message(const str_type::string& text, const GS_MESSAGE_TYPE type = GSMT_ERROR) const;
-	void Quit();
-	void EnableQuitShortcuts(const bool enable);
-	bool QuitShortcutsEnabled();
-	bool SetWindowTitle(const str_type::string& title);
-	str_type::string GetWindowTitle() const;
-	bool IsWindowed() const;
-	math::Vector2i GetScreenSize() const;
-	math::Vector2 GetScreenSizeF() const;
-	math::Vector2 GetScreenSizeInPixels() const;
-	math::Vector2i GetWindowPosition();
-	void SetWindowPosition(const math::Vector2i &v2);
-	math::Vector2i ScreenToWindow(const math::Vector2i &v2Point) const;
-	bool WindowVisible() const;
-	bool WindowInFocus() const;
-	bool HideCursor(const bool hide);
-	bool IsCursorHidden() const;
-	const Platform::FileLogger& GetLogger() const;
+	math::Vector2i GetClientScreenSize() const override;
+	APP_STATUS HandleEvents() override;
+	float GetFPSRate() const override;
+	void Message(const str_type::string& text, const GS_MESSAGE_TYPE type = GSMT_ERROR) const override;
+	void Quit() override;
+	void EnableQuitShortcuts(const bool enable) override;
+	bool QuitShortcutsEnabled() override;
+	bool SetWindowTitle(const str_type::string& title) override;
+	str_type::string GetWindowTitle() const override;
+	bool IsWindowed() const override;
+	math::Vector2i GetScreenSize() const override;
+	math::Vector2 GetScreenSizeF() const override;
+	math::Vector2 GetScreenSizeInPixels() const override;
+	math::Vector2i GetWindowPosition() override;
+	void SetWindowPosition(const math::Vector2i &v2) override;
+	math::Vector2i ScreenToWindow(const math::Vector2i &v2Point) const override;
+	bool WindowVisible() const override;
+	bool WindowInFocus() const override;
+	bool HideCursor(const bool hide) override;
+	bool IsCursorHidden() const override;
 
-	void ForwardCommand(const str_type::string& cmd);
-	str_type::string PullCommands();
+	void ForwardCommand(const str_type::string& cmd) override;
+	str_type::string PullCommands() override;
 
 	bool IsTrue(const GLboolean& enabled);
 	void SetBlend(const bool enable);
@@ -190,23 +120,8 @@ protected:
 	bool m_quit;
 	bool m_zBuffer;
 	bool m_blend;
-	Platform::FileLogger m_logger;
-	GLES2ShaderContextPtr m_shaderContext;
-
-	float m_spriteDepth;
-
-	GLES2ShaderPtr m_defaultShader;
-	GLES2ShaderPtr m_optimalShader;
-	GLES2ShaderPtr m_rectShader;
-	GLES2ShaderPtr m_fastShader;
-	GLES2ShaderPtr m_modulateShader;
-	GLES2ShaderPtr m_addShader;
-
-	ShaderPtr m_currentShader;
 
 	float m_fpsRate;
-
-	Video::TEXTUREFILTER_MODE m_textureFilterMode;
 
 	Platform::FileIOHubPtr m_fileIOHub;
 
@@ -221,12 +136,10 @@ protected:
 		const bool windowed,
 		const bool sync,
 		const Texture::PIXEL_FORMAT pfBB = Texture::PF_UNKNOWN,
-		const bool maximizable = false);
+		const bool maximizable = false) override;
 
-	Platform::FileIOHubPtr GetFileIOHub();
+	Platform::FileIOHubPtr GetFileIOHub() override;
 };
-	
-void UnbindFrameBuffer();
 
 } // namespace gs2d
 

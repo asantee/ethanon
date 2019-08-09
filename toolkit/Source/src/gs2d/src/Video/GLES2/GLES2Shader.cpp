@@ -1,21 +1,12 @@
 #include "GLES2Shader.h"
 
+#include "GLES2Texture.h"
+
+#include <iostream>
+
 namespace gs2d {
 
-GLES2ShaderContext::GLES2ShaderContext(GLES2Video *pVideo)
-{
-}
-
-GLES2ShaderContext::~GLES2ShaderContext()
-{
-}
-
-boost::any GLES2ShaderContext::GetContextPointer()
-{
-	return 0;
-}
-
-bool GLES2ShaderContext::CheckForError(const str_type::string& situation)
+static bool CheckForGLError(const str_type::string& situation)
 {
 	bool r = false;
 	for (GLint error = glGetError(); error; error = glGetError())
@@ -26,7 +17,7 @@ bool GLES2ShaderContext::CheckForError(const str_type::string& situation)
 	return r;
 }
 
-GLES2Shader::GLES2Shader(Platform::FileManagerPtr fileManager, GLES2ShaderContextPtr context) :
+GLES2Shader::GLES2Shader(Platform::FileManagerPtr fileManager) :
 	m_program(0),
 	m_fileManager(fileManager)
 {
@@ -116,13 +107,13 @@ bool GLES2Shader::LoadShaderFromString(
 
 	m_program = glCreateProgram();
 	glAttachShader(m_program, vs);
-	GLES2ShaderContext::CheckForError(vsShaderName + " glAttachShader (vertex)");
+	CheckForGLError(vsShaderName + " glAttachShader (vertex)");
 
 	glAttachShader(m_program, ps);
-	GLES2ShaderContext::CheckForError(psShaderName + " glAttachShader (fragment)");
+	CheckForGLError(psShaderName + " glAttachShader (fragment)");
 
 	glLinkProgram(m_program);
-	GLES2ShaderContext::CheckForError(psShaderName + " glLinkProgram");
+	CheckForGLError(psShaderName + " glLinkProgram");
 
 	GLint linkStatus = GL_FALSE;
 	glGetProgramiv(m_program, GL_LINK_STATUS, &linkStatus);
@@ -229,28 +220,33 @@ void GLES2Shader::SetConstantArray(const str_type::string& name, unsigned int nE
 	glUniform2fv(location, nElements, &(v[0].x));
 }
 
+void GLES2Shader::SetConstantArray(const str_type::string& name, unsigned int nElements, const math::Vector4* v)
+{
+	const GLint location = FindUniformLocation(name);
+	glUniform4fv(location, nElements, &(v[0].x));
+}
+
 void GLES2Shader::SetMatrixConstant(const str_type::string& name, const math::Matrix4x4 &matrix)
 {
 	const GLint location = FindUniformLocation(name);
 	glUniformMatrix4fv(location, 1, GL_FALSE, (GLfloat*)&matrix.m[0][0]);
 }
 
-void GLES2Shader::SetTexture(const str_type::string& name, TextureWeakPtr pTexture, const unsigned int index)
+void GLES2Shader::SetTexture(const str_type::string& name, TexturePtr pTexture, const unsigned int index)
 {
-	GLES2Texture* tex = static_cast<GLES2Texture*>(pTexture.lock().get());
+	GLES2Texture* tex = static_cast<GLES2Texture*>(pTexture.get());
 	if (tex)
 	{
 		const GLint location = FindUniformLocation(name);
 		glActiveTexture(GL_TEXTURE0 + index);
-		glBindTexture(GL_TEXTURE_2D, tex->GetTextureID());
+		glBindTexture(GL_TEXTURE_2D, tex->GetTexture());
 		glUniform1i(location, index);
 	}
 }
 
-bool GLES2Shader::SetShader()
+void GLES2Shader::SetShader()
 {
 	glUseProgram(m_program);
-	return true;
 }
 
 } //namespace gs2d

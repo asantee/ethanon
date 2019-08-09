@@ -3,7 +3,6 @@
 namespace gs2d {
 
 Video::Video() :
-	m_depth(0.0f),
 	m_virtualScreenHeight(720.0f),
 	m_rendering(false)
 {
@@ -98,17 +97,6 @@ math::Vector2 Video::GetCameraPos() const
 bool Video::IsRendering() const
 {
 	return m_rendering;
-}
-
-bool Video::SetSpriteDepth(const float depth)
-{
-	m_depth = math::Clamp(depth, 0.0f, 1.0f);
-	return true;
-}
-
-float Video::GetSpriteDepth() const
-{
-	return m_depth;
 }
 
 void Video::SetVirtualScreenHeight(const float height)

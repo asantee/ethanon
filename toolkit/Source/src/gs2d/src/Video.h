@@ -30,7 +30,6 @@ class Video :
 {
 	math::Vector2 m_cameraPos;
 
-	float m_depth;
 	float m_virtualScreenHeight;
 
 protected:
@@ -147,10 +146,10 @@ public:
 	virtual bool SetCameraPos(const math::Vector2& pos);
 	virtual bool MoveCamera(const math::Vector2& dir);
 	virtual math::Vector2 GetCameraPos() const;
-	virtual bool SetSpriteDepth(const float depth);
-	virtual float GetSpriteDepth() const;
+
 	virtual void SetVirtualScreenHeight(const float height);
 	virtual float GetVirtualScreenHeight() const;
+
 	virtual float GetScaleFactor() const;
 };
 

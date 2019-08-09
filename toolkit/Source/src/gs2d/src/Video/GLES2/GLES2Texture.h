@@ -2,25 +2,15 @@
 #define GS2D_GLES2_TEXTURE_H_
 
 #include "../../Video.h"
-#include "../../Platform/FileLogger.h"
 
-#ifdef APPLE_IOS
-  #include "../../Platform/ios/Platform.ios.h"
-  #include <OpenGLES/ES2/gl.h>
-#endif
-
-#ifdef ANDROID
-  #include "../../Platform/android/Platform.android.h"
-  #include <GLES2/gl2.h>
-#endif
+#include "GLES2Include.h"
 
 namespace gs2d {
 
-void CheckFrameBufferStatus(const Platform::FileLogger& logger, const GLuint fbo, const GLuint tex, const bool showSuccessMessage);
+void CheckFrameBufferStatus(const GLuint fbo, const GLuint tex, const bool showSuccessMessage);
 
 class GLES2Texture : public Texture
 {
-public:
 	enum COMPRESSION_FORMAT
 	{
 		NO_COMPRESSION = 0,
@@ -28,28 +18,58 @@ public:
 		PVRTC = 2
 	};
 
-	GLES2Texture(VideoWeakPtr video, const str_type::string& fileName, Platform::FileManagerPtr fileManager);
-	~GLES2Texture();
-	PROFILE GetProfile() const;
-	boost::any GetTextureObject();
-	GLuint GetTextureID() const;
+	static bool CheckTextureVersion(
+		str_type::string& fileName,
+		const str_type::string& format,
+		Platform::FileManagerPtr fileManager);
 
-	bool LoadTexture(
-		VideoWeakPtr video,
-		const str_type::string& fileName,
-		const unsigned int width = 0,
-		const unsigned int height = 0,
-		const unsigned int nMipMaps = 0);
+	COMPRESSION_FORMAT FindCompressionFormat(str_type::string& fileName);
+	bool MayUseETC1CompressedVersion(str_type::string& fileName);
+	bool MayUsePVRCompressedVersion(str_type::string& fileName);
 
 	bool LoadTexture(
 		VideoWeakPtr video,
 		const void* pBuffer,
-		const unsigned int width,
-		const unsigned int height,
+		const unsigned int nMipMaps,
+		const unsigned int bufferLength,
+		const COMPRESSION_FORMAT format);
+
+	bool LoadETC1Texture(
+		VideoWeakPtr video,
+		const void* pBuffer,
 		const unsigned int nMipMaps,
 		const unsigned int bufferLength);
 
-	math::Vector2 GetBitmapSize() const;
+	bool LoadPVRTexture(
+		VideoWeakPtr video,
+		const void* pBuffer,
+		const unsigned int nMipMaps,
+		const unsigned int bufferLength);
+
+	GLuint m_texture;
+
+	str_type::string m_fileName;
+	Platform::FileManagerPtr m_fileManager;
+	math::Vector2 m_resolution;
+
+public:
+	GLES2Texture(VideoWeakPtr video, const str_type::string& fileName, Platform::FileManagerPtr fileManager);
+	~GLES2Texture();
+
+	GLuint GetTexture() const;
+
+	bool LoadTexture(
+		VideoWeakPtr video,
+		const str_type::string& fileName,
+		const unsigned int nMipMaps = 0) override;
+
+	bool LoadTexture(
+		VideoWeakPtr video,
+		const void* pBuffer,
+		const unsigned int nMipMaps,
+		const unsigned int bufferLength) override;
+
+	math::Vector2 GetBitmapSize() const override;
 	const str_type::string& GetFileName() const;
 
 	static const str_type::string TEXTURE_LOG_FILE;
@@ -83,54 +103,6 @@ public:
 		uint32_t mipMapCount;
 		uint32_t metaDataSize;
 	};
-
-private:
-
-	static bool CheckTextureVersion(
-		str_type::string& fileName,
-		const str_type::string& format,
-		Platform::FileManagerPtr fileManager);
-
-	COMPRESSION_FORMAT FindCompressionFormat(str_type::string& fileName);
-	bool MayUseETC1CompressedVersion(str_type::string& fileName);
-	bool MayUsePVRCompressedVersion(str_type::string& fileName);
-
-	bool LoadTexture(
-		VideoWeakPtr video,
-		const void* pBuffer,
-		const unsigned int width,
-		const unsigned int height,
-		const unsigned int nMipMaps,
-		const unsigned int bufferLength,
-		const COMPRESSION_FORMAT format);
-
-	bool LoadETC1Texture(
-		VideoWeakPtr video,
-		const void* pBuffer,
-		const unsigned int width,
-		const unsigned int height,
-		const unsigned int nMipMaps,
-		const unsigned int bufferLength);
-
-	bool LoadPVRTexture(
-		VideoWeakPtr video,
-		const void* pBuffer,
-		const unsigned int width,
-		const unsigned int height,
-		const unsigned int nMipMaps,
-		const unsigned int bufferLength);
-
-	struct TEXTURE_INFO
-	{
-		TEXTURE_INFO();
-		GLuint m_texture;
-	} m_textureInfo;
-
-	PROFILE m_profile;
-	str_type::string m_fileName;
-	Platform::FileManagerPtr m_fileManager;
-	static Platform::FileLogger m_logger;
-	static GLuint m_textureID;
 };
 
 typedef boost::shared_ptr<GLES2Texture> GLES2TexturePtr;
