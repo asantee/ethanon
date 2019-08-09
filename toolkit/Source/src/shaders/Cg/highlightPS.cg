@@ -1,9 +1,0 @@
-void main(float2 texCoord : TEXCOORD0,
-			 float4 color0 : COLOR0,
-			 out float4 oColor : COLOR,
-			 uniform sampler2D diffuse,
-			 uniform float4 highlight)
-{
-	const float4 diffuseColor = tex2D(diffuse, texCoord);
-	oColor = diffuseColor * highlight;
-}

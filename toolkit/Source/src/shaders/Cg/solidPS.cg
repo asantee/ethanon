@@ -1,9 +1,0 @@
-void main(float2 texCoord : TEXCOORD0,
-			 float4 color0 : COLOR0,
-			 out float4 oColor : COLOR,
-			 uniform sampler2D diffuse,
-			 uniform float4 solidColor)
-{
-	const float4 diffuseColor = color0 * tex2D(diffuse, texCoord);
-	oColor = float4(lerp(diffuseColor.xyz, solidColor.xyz, solidColor.w), diffuseColor.w);
-}
