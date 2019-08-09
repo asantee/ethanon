@@ -137,9 +137,9 @@ bool GLES2Shader::LoadShaderFromString(
 		return false;
 	}
 
-	m_vPositionLocation = glGetAttribLocation(m_program, "vPosition");
-	m_vTexCoordLocation = glGetAttribLocation(m_program, "vTexCoord");
-	m_vNormalLocation = glGetAttribLocation(m_program, "vNormal");
+	m_vPositionLocation = glGetAttribLocation(m_program, "inPosition");
+	m_vTexCoordLocation = glGetAttribLocation(m_program, "inTexCoord");
+	m_vNormalLocation = glGetAttribLocation(m_program, "inNormal");
 	
 	glDeleteShader(vs);
 	glDeleteShader(ps);

@@ -5,32 +5,33 @@ void main()
 {
 	LoadScene("empty");
 
-	const string[] ethanonShaders = {
-		"Cg/defaultVS.cg",
-		"Cg/defaultPS.cg",
-		"Cg/hAmbientVS.cg",
-		"Cg/particleVS.cg",
-		"Cg/highlightPS.cg",
-		"Cg/solidPS.cg",
-		"GLSL/default.ps",
-		"GLSL/highlight.ps",
-		"GLSL/solid.ps",
-		"GLSL/default.vs",
-		"GLSL/hAmbient.vs",
-		"GLSL/optimal.vs",
-		"GLSL/particle.vs"
+	const string relativePath = GetResourceDirectory() + "../../../Source/src/shaders/";
+
+	// OpenGL ES 2.0
+	const string[] gles2Shaders = {
+		"GLES2/default-sprite-add.fs",
+		"GLES2/default-sprite-fast.vs",
+		"GLES2/default-sprite-highlight.fs",
+		"GLES2/default-sprite-modulate.fs",
+		"GLES2/default-sprite-solid-color-add.fs",
+		"GLES2/default-sprite-solid-color-modulate.fs",
+		"GLES2/default-sprite-solid-color.fs",
+		"GLES2/default-sprite.fs",
+		"GLES2/default-sprite.vs"
 	};
 
-	const string relativePath = GetResourceDirectory() + "../../../Source/src/shaders/";
+	const string gles2SavePath = GetResourceDirectory() + "../../../Source/src/gs2d/src/Video/GLES2/";
 	convertShaderCodeToCHeader(
-		@ethanonShaders,
+		@gles2Shaders,
 		relativePath,
-		relativePath,
-		"shaders.h",
-		"ETH_DEFAULT_SHADERS_H_",
-		"ETHGlobal");
+		gles2SavePath,
+		"GLES2ShaderCode.h",
+		"GLES2_SHADER_CODE_H_",
+		"gs2d_shaders");
 
-	const string[] gs2dDefaultShaders = {
+
+	// OpenGL
+	const string[] glShaders = {
 		"GL/default-sprite-add.fs",
 		"GL/default-sprite-fast.vs",
 		"GL/default-sprite-highlight.fs",
@@ -42,14 +43,15 @@ void main()
 		"GL/default-sprite.vs"
 	};
 
-	const string gs2dSavePath = GetResourceDirectory() + "../../../Source/src/gs2d/src/Video/GL/";
+	const string glSavePath = GetResourceDirectory() + "../../../Source/src/gs2d/src/Video/GL/";
 	convertShaderCodeToCHeader(
-		@gs2dDefaultShaders,
+		@glShaders,
 		relativePath,
-		gs2dSavePath,
+		glSavePath,
 		"GLShaderCode.h",
 		"GL_SHADER_CODE_H_",
 		"gs2d_shaders");
+
 	Exit();
 }
 

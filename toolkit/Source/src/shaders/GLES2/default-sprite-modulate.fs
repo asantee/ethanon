@@ -1,13 +1,13 @@
-#version 330 core
-out vec4 outFragColor;
+precision lowp float;
 
-in vec4 outColor;
-in vec2 outTexCoord;
+
+varying vec4 outColor;
+varying vec2 outTexCoord;
 
 uniform sampler2D diffuse;
 uniform sampler2D secondary;
 
 void main()
 {
-	outFragColor = texture(diffuse, outTexCoord) * texture(secondary, outTexCoord) * outColor;
+	gl_FragColor = texture2D(diffuse, outTexCoord) * texture2D(secondary, outTexCoord) * outColor;
 }

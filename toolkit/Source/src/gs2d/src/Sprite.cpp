@@ -7,7 +7,7 @@
 #endif
 
 #if TARGET_OS_IPHONE || defined(__ANDROID__)
- #include "Video/GL/GLES2ShaderCode.h"
+ #include "Video/GLES2/GLES2ShaderCode.h"
 #elif TARGET_OS_MAC || defined(_WIN32) || defined(_WIN64)
  #include "Video/GL/GLShaderCode.h"
 #endif
