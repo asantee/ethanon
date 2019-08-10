@@ -5,7 +5,7 @@
 
 namespace gs2d {
 
-GS2D_API InputPtr CreateInput(const bool showJoystickWarnings)
+GS2D_API InputPtr CreateInput(const bool showJoystickWarnings, std::string* inputSource)
 {
 	return InputPtr(new SDLInput(showJoystickWarnings));
 }

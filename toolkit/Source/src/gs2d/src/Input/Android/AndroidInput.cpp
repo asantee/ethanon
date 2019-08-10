@@ -98,18 +98,9 @@ const str_type::string AndroidInput::KEY_CODE_7 = "ethanon.system.keyboard.7";
 const str_type::string AndroidInput::KEY_CODE_8 = "ethanon.system.keyboard.8";
 const str_type::string AndroidInput::KEY_CODE_9 = "ethanon.system.keyboard.9";
 
-GS2D_API InputPtr CreateInput(boost::any data, const bool showJoystickWarnings)
+GS2D_API InputPtr CreateInput(const bool showJoystickWarnings, std::string* inputSource)
 {
-	std::string *str;
-	try
-	{
-		str = boost::any_cast<std::string*>(data);
-	}
-	catch(const boost::bad_any_cast &)
-	{
-		return InputPtr();
-	}
-	return InputPtr(new AndroidInput(5, str));
+	return InputPtr(new AndroidInput(5, inputSource));
 }
 
 const std::string AndroidInput::KEY_PRESSED_CMD = "key_pressed ";

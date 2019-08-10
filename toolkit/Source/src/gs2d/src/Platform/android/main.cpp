@@ -76,18 +76,18 @@ JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_start(
 	Platform::FileIOHubPtr fileIOHub(new Platform::AndroidFileIOHub(zip, strExt, strGlo, ETHDirectories::GetBitmapFontDirectory()));
 
 	video = CreateVideo(width, height, fileIOHub);
-	input = CreateInput(&g_inputStr, true);
+	input = CreateInput(true, &g_inputStr);
 	audio = CreateAudio(0);
 
 	video->SetCameraPos(lastCameraPos);
 
 	video->ResetVideoMode(width, height, Texture::PF_DEFAULT, false);
 
-	splashSprite = video->CreateSprite(GS_L("assets/data/splash.png"));
-	splashSprite->SetOrigin(gs2d::Sprite::EO_CENTER);
+	splashSprite = SpritePtr(new Sprite(video.get(), "assets/data/splash.png"));
+	splashSprite->SetOrigin(Vector2(0.5f));
 
-	cogSprite = video->CreateSprite(GS_L("assets/data/cog.png"));
-	cogSprite->SetOrigin(gs2d::Sprite::EO_CENTER);
+	cogSprite = SpritePtr(new Sprite(video.get(), "assets/data/cog.png"));
+	cogSprite->SetOrigin(Vector2(0.5f));
 
 	if (!application)
 	{
@@ -142,7 +142,6 @@ str_type::string AssembleCommands()
 	{
 		ss
 		<< boost::any_cast<str_type::string>(audio->GetAudioContext())
-		<< boost::any_cast<str_type::string>(video->GetGraphicContext())
 		<< boost::static_pointer_cast<AndroidInput>(input)->PullCommands();
 
 		return ss.str();
@@ -181,22 +180,22 @@ JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_mainLoop(JNIEnv* env, jo
 	else
 	{
 		// Draw SPLASH SCREEN
-		video->BeginSpriteScene(gs2d::constant::BLACK);
+		video->BeginRendering(gs2d::constant::BLACK);
 		if (splashSprite)
 		{
 			const Vector2 screenSize(video->GetScreenSizeF());
 			const float scale = (screenSize.y / 720.0f) * 0.8f;
 
-			splashSprite->Draw(screenSize * 0.5f, gs2d::constant::WHITE, 0.0f, Vector2(scale, scale));
+			splashSprite->Draw(Vector3(screenSize * 0.5f, 0.0f), scale, 0.0f, Rect2D());
 
 			const Vector2 cogMiddle(screenSize.x * 0.5f, screenSize.y * 0.8f);
 			static float angle = 0.0f;
-			cogSprite->Draw(cogMiddle - Vector2(32.0f, 0.0f), gs2d::Color(0xE0FFFFFF),-angle + 24.0f, Vector2(0.6f, 0.6f));
-			cogSprite->Draw(cogMiddle + Vector2(32.0f, 0.0f), gs2d::Color(0xE0FFFFFF),-angle - 24.0f, Vector2(0.6f, 0.6f));
-			cogSprite->Draw(cogMiddle, gs2d::Color(0xFFFFFFFF), angle, Vector2(0.6f, 0.6f));
+			cogSprite->Draw(Vector3(cogMiddle - Vector2(32.0f, 0.0f), 0.0f), 0.6f,-angle + 24.0f, Rect2D());
+			cogSprite->Draw(Vector3(cogMiddle + Vector2(32.0f, 0.0f), 0.0f), 0.6f,-angle - 24.0f, Rect2D());
+			cogSprite->Draw(Vector3(cogMiddle, 0.0f), 0.6f, angle, Rect2D());
 			angle -= 4.0f;
 		}
-		video->EndSpriteScene();
+		video->EndRendering();
 	}
 
 	return env->NewStringUTF(AssembleCommands().c_str());

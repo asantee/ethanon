@@ -340,24 +340,20 @@ void GLES2Video::ComputeFPSRate()
 void GLES2Video::Message(const str_type::string& text, const GS_MESSAGE_TYPE type) const
 {
 	str_type::string str;
-	Platform::FileLogger::TYPE logType = Platform::FileLogger::ERROR;
 	switch (type)
 	{
 	case GSMT_WARNING:
 		str = "WARNING: ";
-		logType = Platform::FileLogger::WARNING;
 		break;
 	case GSMT_INFO:
 		str = "Info: ";
-		logType = Platform::FileLogger::INFO;
 		break;
 	case GSMT_ERROR:
 		str = "ERROR: ";
-		logType = Platform::FileLogger::ERROR;
 		break;
 	}
 	
-	if (logType == Platform::FileLogger::ERROR)
+	if (type == GSMT_ERROR)
 	{
 		std::cerr << str << text << std::endl;
 	}
