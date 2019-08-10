@@ -1,11 +1,3 @@
-//
-//  AppDelegate.h
-//  iOSBase
-//
-//  Created by Andre Santee on 8/12/14.
-//  Copyright (c) 2014 Asantee Games. All rights reserved.
-//
-
 #ifndef GS2D_APPDELEGATE_H_
 #define GS2D_APPDELEGATE_H_
 
