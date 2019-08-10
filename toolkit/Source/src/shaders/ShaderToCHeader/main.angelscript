@@ -5,7 +5,7 @@ void main()
 {
 	LoadScene("empty");
 
-	const string relativePath = GetResourceDirectory() + "../../../Source/src/shaders/";
+	const string relativePath = GetResourceDirectory() + "../";
 
 	// OpenGL ES 2.0
 	const string[] gles2Shaders = {
@@ -20,7 +20,7 @@ void main()
 		"GLES2/default-sprite.vs"
 	};
 
-	const string gles2SavePath = GetResourceDirectory() + "../../../Source/src/gs2d/src/Video/GLES2/";
+	const string gles2SavePath = GetResourceDirectory() + "../../gs2d/src/Video/GLES2/";
 	convertShaderCodeToCHeader(
 		@gles2Shaders,
 		relativePath,
@@ -43,7 +43,7 @@ void main()
 		"GL/default-sprite.vs"
 	};
 
-	const string glSavePath = GetResourceDirectory() + "../../../Source/src/gs2d/src/Video/GL/";
+	const string glSavePath = GetResourceDirectory() + "../../gs2d/src/Video/GL/";
 	convertShaderCodeToCHeader(
 		@glShaders,
 		relativePath,
