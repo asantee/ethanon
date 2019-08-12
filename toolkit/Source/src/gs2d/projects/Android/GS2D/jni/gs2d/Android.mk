@@ -36,7 +36,6 @@ LOCAL_SRC_FILES := \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Math/Rect2D.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Math/Rect2Di.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Math/Randomizer.cpp \
-	$(GS2D_SOURCE_RELATIVE_PATH)/Math/Randomizer.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Math/Color.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Math/OrientedBoundingBox.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Video/BitmapFont.cpp \
