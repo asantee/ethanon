@@ -41,6 +41,22 @@ SpritePtr splashSprite, cogSprite;
 ETHEnginePtr engine;
 Vector2 lastCameraPos(0.0f, 0.0f);
 
+
+void ReleaseLoadingSprite(SpritePtr& sprite)
+{
+	if (sprite)
+	{
+		sprite->GetTexture()->Free();
+		sprite = SpritePtr();
+	}
+}
+
+void CreateLoadingSprite(VideoPtr video, SpritePtr& sprite, const std::string& filePath)
+{
+	sprite = SpritePtr(new Sprite(video.get(), filePath));
+	sprite->SetOrigin(Vector2(0.5f));
+}
+
 std::string g_inputStr;
 
 JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_start(
@@ -61,11 +77,8 @@ JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_start(
 
 	video->ResetVideoMode(width, height, Texture::PF_DEFAULT, false);
 
-	splashSprite = SpritePtr(new Sprite(video.get(), "assets/data/splash.png"));
-	splashSprite->SetOrigin(Vector2(0.5f));
-
-	cogSprite = SpritePtr(new Sprite(video.get(), "assets/data/cog.png"));
-	cogSprite->SetOrigin(Vector2(0.5f));
+	CreateLoadingSprite(video, splashSprite, "assets/data/splash.png");
+	CreateLoadingSprite(video, cogSprite, "assets/data/cog.png");
 
 	if (!application)
 	{
@@ -186,6 +199,10 @@ JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_destroy(JNIEnv* env, job
 	{
 		application->Destroy();
 	}
+
+	Sprite::Finish();
+	ReleaseLoadingSprite(splashSprite);
+	ReleaseLoadingSprite(cogSprite);
 
 	if (video && audio)
 	{

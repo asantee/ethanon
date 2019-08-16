@@ -101,6 +101,13 @@ void Sprite::Initialize(Video* video)
 	}
 }
 
+void Sprite::Finish()
+{
+	m_polygonRenderer = PolygonRendererPtr();
+	m_defaultShader = m_fastShader = m_solidColorShader = m_highlightShader = m_addShader = m_modulateShader
+		= m_solidColorAddShader = m_solidColorModulateShader = ShaderPtr();
+}
+
 void Sprite::SetParallaxIntensity(const float intensity)
 {
 	m_parallaxIntensity = intensity;

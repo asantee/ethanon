@@ -17,7 +17,6 @@ typedef boost::shared_ptr<Sprite> SpritePtr;
 
 class Sprite
 {
-	static void Initialize(Video* video);
 	static PolygonRendererPtr m_polygonRenderer;
 	static math::Vector2 m_virtualScreenResolution;
 	static float m_parallaxIntensity;
@@ -37,6 +36,9 @@ class Sprite
 	math::Vector2 m_origin;
 
 public:
+	static void Initialize(Video* video);
+	static void Finish();
+
 	static const float PARALLAX_INTENSITY_FIX;
 
 	static void SetVirtualScreenResolution(const math::Vector2& resolution);
