@@ -68,6 +68,8 @@ public:
 		const void* pBuffer,
 		const unsigned int nMipMaps,
 		const unsigned int bufferLength) override;
+	
+	void Free() override;
 
 	math::Vector2 GetBitmapSize() const override;
 	const str_type::string& GetFileName() const;

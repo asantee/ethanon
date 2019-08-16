@@ -59,10 +59,15 @@ GLES2Texture::GLES2Texture(VideoWeakPtr video, const str_type::string& fileName,
 
 GLES2Texture::~GLES2Texture()
 {
+	Free();
+}
+
+void GLES2Texture::Free()
+{
 	if (m_texture != 0)
 	{
-		GLuint textures[1] = { m_texture };
-		glDeleteTextures(1, textures);
+		glDeleteTextures(1, &m_texture);
+		m_texture = 0;
 		std::cout << m_fileName << ": texture deleted ID " << m_texture << std::endl;
 	}
 }

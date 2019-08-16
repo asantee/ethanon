@@ -22,6 +22,7 @@ boost::shared_ptr<GLTexture> GLTexture::Create(VideoWeakPtr video, Platform::Fil
 }
 
 GLTexture::GLTexture(VideoWeakPtr video, Platform::FileManagerPtr fileManager) :
+	m_texture(0),
 	m_fileManager(fileManager)
 {
 }
@@ -29,7 +30,16 @@ GLTexture::GLTexture(VideoWeakPtr video, Platform::FileManagerPtr fileManager) :
 
 GLTexture::~GLTexture()
 {
-	glDeleteTextures(1, &m_texture);
+	Free();
+}
+
+void GLTexture::Free()
+{
+	if (m_texture != 0)
+	{
+		glDeleteTextures(1, &m_texture);
+		m_texture = 0;
+	}
 }
 
 GLuint GLTexture::GetTexture() const

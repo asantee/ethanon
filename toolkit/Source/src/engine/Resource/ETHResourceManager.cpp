@@ -108,6 +108,10 @@ SpritePtr ETHGraphicResourceManager::SpriteResource::GetSprite() const
 
 void ETHGraphicResourceManager::ReleaseResources()
 {
+	for (tsl::hopscotch_map<str_type::string, SpriteResource>::iterator iter = m_resource.begin(); iter != m_resource.end(); ++iter)
+	{
+		iter->second.GetSprite()->GetTexture()->Free();
+	}
 	m_resource.clear();
 }
 

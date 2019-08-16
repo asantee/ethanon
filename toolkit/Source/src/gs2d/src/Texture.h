@@ -31,6 +31,8 @@ public:
 		const void* pBuffer,
 		const unsigned int nMipMaps,
 		const unsigned int bufferLength) = 0;
+	
+	virtual void Free() = 0;
 };
 
 } // namespace gs2d

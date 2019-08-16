@@ -43,6 +43,8 @@ public:
 		const void* pBuffer,
 		const unsigned int nMipMaps,
 		const unsigned int bufferLength) override;
+	
+	void Free() override;
 };
 
 typedef boost::shared_ptr<GLTexture> GLTexturePtr;
