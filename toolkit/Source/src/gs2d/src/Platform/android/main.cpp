@@ -41,7 +41,7 @@ SpritePtr splashSprite, cogSprite;
 ETHEnginePtr engine;
 Vector2 lastCameraPos(0.0f, 0.0f);
 
-std::string  g_inputStr;
+std::string g_inputStr;
 
 JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_start(
 	JNIEnv* env, jobject thiz, jstring apkPath, jstring externalPath, jstring globalPath, jint width, jint height)
