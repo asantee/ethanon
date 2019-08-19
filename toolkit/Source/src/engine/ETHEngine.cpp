@@ -28,20 +28,34 @@ gs2d::BaseApplicationPtr gs2d::CreateBaseApplication(const bool autoStartScriptE
 	return BaseApplicationPtr(new ETHEngine(false, true, autoStartScriptEngine));
 }
 
-#ifdef ANDROID
-#	ifdef __aarch64__
-#		define ETH_BYTECODE_FILE_NAME GS_L("android_game_64.bin")
-#	else
-#		define ETH_BYTECODE_FILE_NAME GS_L("android_game.bin")
+#if defined(ANDROID)
+#	if defined(__aarch64__)
+#		define ETH_BYTECODE_FILE_NAME GS_L("arm64_android_game.bin")
+#	elif defined(__arm__)
+#		define ETH_BYTECODE_FILE_NAME GS_L("arm_android_game.bin")
+#	elif defined(__x86_64__)
+#		define ETH_BYTECODE_FILE_NAME GS_L("x64_android_game.bin")
+#	elif defined(__i386__)
+#		define ETH_BYTECODE_FILE_NAME GS_L("x86_android_game.bin")
 #	endif
-#elif APPLE_IOS
-#	ifdef __LP64__
-#		define ETH_BYTECODE_FILE_NAME GS_L("ios_game_64.bin")
+#elif defined(APPLE_IOS)
+#	if defined (__LP64__)
+#		define ETH_BYTECODE_FILE_NAME GS_L("arm64_ios_game.bin")
 #	else
-#		define ETH_BYTECODE_FILE_NAME GS_L("ios_game.bin")
+#		define ETH_BYTECODE_FILE_NAME GS_L("arm_ios_game.bin")
 #	endif
-#else
-#	define ETH_BYTECODE_FILE_NAME GS_L("game.bin")
+#elif defined(MACOSX)
+#	if defined(__LP64__)
+#		define ETH_BYTECODE_FILE_NAME GS_L("x64_mac_game.bin")
+#	else
+#		define ETH_BYTECODE_FILE_NAME GS_L("x86_mac_game.bin")
+#	endif
+#elif defined(WIN32)
+#	ifdef defined(__x86_64__) || defined(_WIN64)
+#		define ETH_BYTECODE_FILE_NAME GS_L("x64_win_game.bin")
+#	else
+#		define ETH_BYTECODE_FILE_NAME GS_L("x86_win_game.bin")
+#	endif
 #endif
 
 ETHEngine::ETHEngine(const bool testing, const bool compileAndRun, const bool autoStartScriptEngine) :
