@@ -30,6 +30,8 @@ class GLES2Video : public Video, public Platform::NativeCommandForwarder
 	float m_previousTime;
 	unsigned long m_frameCount;
 
+	double m_startTime;
+
 public:
 	static bool CheckGLError(const str_type::string& op);
 
@@ -107,6 +109,9 @@ public:
 
 	bool IsTrue(const GLboolean& enabled);
 	void SetBlend(const bool enable);
+	
+	float GetElapsedTimeF(const TIME_UNITY unity) const override;
+	unsigned long GetElapsedTime(const TIME_UNITY unity) const override;
 
 protected:
 

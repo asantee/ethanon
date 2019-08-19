@@ -3,15 +3,10 @@
 
 #include "../GLES2Video.h"
 
-#include <time.h>
-#include <sys/time.h>
-
 namespace gs2d {
 
 class AndroidGLES2Video : public GLES2Video
 {
-	timespec m_startTime;
-
 public:
 	AndroidGLES2Video(
 		const unsigned int width,
@@ -24,10 +19,6 @@ public:
 		const unsigned int height,
 		const str_type::string& winTitle,
 		const Platform::FileIOHubPtr& fileIOHub);
-
-	unsigned long GetElapsedTime(const TIME_UNITY unity = TU_MILLISECONDS) const;
-	float GetElapsedTimeF(const TIME_UNITY unity = TU_MILLISECONDS) const;
-	double GetElapsedTimeD(const TIME_UNITY unity = TU_MILLISECONDS) const;
 };
 
 } // namespace gs2d

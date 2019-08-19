@@ -14,6 +14,8 @@
 
 #include "GLES2Shader.h"
 
+#include "../../Platform/getRealTime.h"
+
 #include <sstream>
 
 namespace gs2d {
@@ -34,9 +36,11 @@ GLES2Video::GLES2Video(
 	m_zBuffer(true),
 	m_fileIOHub(fileIOHub),
 	m_frameCount(0),
-	m_previousTime(0)
+	m_previousTime(0.0f),
+	m_startTime(0.0)
 {
 	StartApplication(width, height, winTitle, false, false, Texture::PF_DEFAULT, false);
+    m_startTime = getRealTime();
 
     gs2d::Application::SharedData.Create("com.ethanonengine.usingSuperSimple", "true", true /*constant*/);
 }
@@ -337,6 +341,34 @@ void GLES2Video::ComputeFPSRate()
 		m_previousTime = currentTime;
 		m_frameCount = 0;
 	}
+}
+
+// it will be implemented here for the boost timer is presenting strange behaviour
+float GLES2Video::GetElapsedTimeF(const TIME_UNITY unity) const
+{
+	double elapsedTimeS = getRealTime() - m_startTime;
+
+	switch (unity)
+	{
+	case TU_HOURS:
+		elapsedTimeS /= 60.0;
+		elapsedTimeS /= 60.0;
+		break;
+	case TU_MINUTES:
+		elapsedTimeS /= 60.0;
+		break;
+	case TU_MILLISECONDS:
+		elapsedTimeS *= 1000.0;
+	case TU_SECONDS:
+	default:
+		break;
+	};
+	return elapsedTimeS;
+}
+
+unsigned long GLES2Video::GetElapsedTime(const TIME_UNITY unity) const
+{
+	return static_cast<unsigned long>(GetElapsedTimeF(unity));
 }
 
 void GLES2Video::Message(const str_type::string& text, const GS_MESSAGE_TYPE type) const

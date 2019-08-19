@@ -73,15 +73,15 @@ double getRealTime( )
 #if defined(CLOCK_MONOTONIC_PRECISE)
 		/* BSD. --------------------------------------------- */
 		const clockid_t id = CLOCK_MONOTONIC_PRECISE;
+#elif defined(CLOCK_MONOTONIC)
+		/* AIX, BSD, Linux, POSIX, Solaris. ----------------- */
+		const clockid_t id = CLOCK_MONOTONIC;
 #elif defined(CLOCK_MONOTONIC_RAW)
 		/* Linux. ------------------------------------------- */
 		const clockid_t id = CLOCK_MONOTONIC_RAW;
 #elif defined(CLOCK_HIGHRES)
 		/* Solaris. ----------------------------------------- */
 		const clockid_t id = CLOCK_HIGHRES;
-#elif defined(CLOCK_MONOTONIC)
-		/* AIX, BSD, Linux, POSIX, Solaris. ----------------- */
-		const clockid_t id = CLOCK_MONOTONIC;
 #elif defined(CLOCK_REALTIME)
 		/* AIX, BSD, HP-UX, Linux, POSIX. ------------------- */
 		const clockid_t id = CLOCK_REALTIME;

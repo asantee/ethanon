@@ -7,8 +7,6 @@ namespace gs2d {
 
 class IOSGLES2Video : public GLES2Video
 {
-	double m_startTime;
-
 public:
 	IOSGLES2Video(
 		const unsigned int width,
@@ -21,9 +19,6 @@ public:
 		const unsigned int height,
 		const str_type::string& winTitle,
 		const Platform::FileIOHubPtr& fileIOHub);
-
-	float GetElapsedTimeF(const TIME_UNITY unity) const;
-	unsigned long GetElapsedTime(const TIME_UNITY unity) const;
 };
 
 } // namespace gs2d
