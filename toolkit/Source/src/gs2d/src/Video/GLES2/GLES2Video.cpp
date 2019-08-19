@@ -37,6 +37,8 @@ GLES2Video::GLES2Video(
 	m_previousTime(0)
 {
 	StartApplication(width, height, winTitle, false, false, Texture::PF_DEFAULT, false);
+
+    gs2d::Application::SharedData.Create("com.ethanonengine.usingSuperSimple", "true", true /*constant*/);
 }
 
 static bool HasFragmentShaderMaximumPrecision()

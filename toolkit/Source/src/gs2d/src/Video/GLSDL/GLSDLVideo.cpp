@@ -62,6 +62,8 @@ GLSDLVideo::GLSDLVideo(
 {
 	clock_gettime(CLOCK_MONOTONIC, &m_startTime);
 	StartApplication(width, height, winTitle, windowed, sync, Texture::PF_UNKNOWN, maximizable);
+	
+	gs2d::Application::SharedData.Create("com.ethanonengine.usingSuperSimple", "true", true /*constant*/);
 }
 
 GLSDLVideo::~GLSDLVideo()
@@ -311,13 +313,6 @@ void GLSDLVideo::ReadDisplayModes()
     }
     std::sort(m_videoModes.begin(), m_videoModes.end());
 }
-
-
-
-
-
-
-
 
 bool GLSDLVideo::BeginRendering(const Color& bgColor)
 {
