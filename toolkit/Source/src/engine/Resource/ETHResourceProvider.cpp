@@ -1,5 +1,8 @@
 #include "ETHResourceProvider.h"
+
 #include <Platform/Platform.h>
+
+#define UNUSED_ARGUMENT(argument) ((void)(argument))
 
 ETHGraphicResourceManagerPtr ETHResourceProvider::m_graphicResources;
 ETHAudioResourceManagerPtr ETHResourceProvider::m_audioResources;
@@ -15,7 +18,7 @@ SpritePtr ETHResourceProvider::m_outline;
 SpritePtr ETHResourceProvider::m_invisibleEntSymbol;
 
 Platform::FileLoggerPtr ETHResourceProvider::m_logger(
-	new Platform::FileLogger(Platform::FileLogger::GetLogDirectory() + GS_L("eth.log.txt")));
+	new Platform::FileLogger(Platform::FileLogger::GetLogDirectory() + ("eth.log.txt")));
 
 ETHResourceProvider::ETHResourceProvider(
 	ETHGraphicResourceManagerPtr graphicResources,
@@ -41,11 +44,11 @@ ETHResourceProvider::ETHResourceProvider(
 ETHResourceProvider& ETHResourceProvider::operator=(const ETHResourceProvider &tmp)
 {
 	// dummy... not allowed
-	GS2D_UNUSED_ARGUMENT(tmp);
+	UNUSED_ARGUMENT(tmp);
 	return *this;
 }
 
-void ETHResourceProvider::Log(const str_type::string& str, const Platform::Logger::TYPE& type)
+void ETHResourceProvider::Log(const std::string& str, const Platform::Logger::TYPE& type)
 {
 	m_logger->Log(str, type);
 }
@@ -85,7 +88,7 @@ const InputPtr& ETHResourceProvider::GetInput()
 	return m_input;
 }
 
-str_type::string ETHResourceProvider::GetByteCodeSaveDirectory()
+std::string ETHResourceProvider::GetByteCodeSaveDirectory()
 {
 	return m_fileIOHub->GetExternalStorageDirectory();
 }

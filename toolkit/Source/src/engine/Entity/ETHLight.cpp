@@ -11,24 +11,24 @@ ETHLight::ETHLight(const bool active) :
 	haloSize(64.0f),
 	haloBrightness(1.0f),
 	castShadows(false),
-	haloBitmap(GS_L(""))
+	haloBitmap((""))
 {
 }
 
 bool ETHLight::ReadFromXMLFile(TiXmlElement *pElement)
 {
-	active      = ETHEntityProperties::ReadBooleanPropertyFromXmlElement(pElement, GS_L("active"), active);
-	staticLight = ETHEntityProperties::ReadBooleanPropertyFromXmlElement(pElement, GS_L("static"), staticLight);
-	castShadows = ETHEntityProperties::ReadBooleanPropertyFromXmlElement(pElement, GS_L("castShadows"), castShadows);
+	active      = ETHEntityProperties::ReadBooleanPropertyFromXmlElement(pElement, ("active"), active);
+	staticLight = ETHEntityProperties::ReadBooleanPropertyFromXmlElement(pElement, ("static"), staticLight);
+	castShadows = ETHEntityProperties::ReadBooleanPropertyFromXmlElement(pElement, ("castShadows"), castShadows);
 
-	pElement->QueryFloatAttribute(GS_L("range"), &range);
-	pElement->QueryFloatAttribute(GS_L("haloBrightness"), &haloBrightness);
-	pElement->QueryFloatAttribute(GS_L("haloSize"), &haloSize);
+	pElement->QueryFloatAttribute(("range"), &range);
+	pElement->QueryFloatAttribute(("haloBrightness"), &haloBrightness);
+	pElement->QueryFloatAttribute(("haloSize"), &haloSize);
 
-	ETHEntityProperties::ReadVector3PropertyFromXmlElement(pElement, GS_L("Position"), pos);
-	ETHEntityProperties::ReadColorPropertyFromXmlElement(pElement, GS_L("Color"), color);
+	ETHEntityProperties::ReadVector3PropertyFromXmlElement(pElement, ("Position"), pos);
+	ETHEntityProperties::ReadColorPropertyFromXmlElement(pElement, ("Color"), color);
 
-	TiXmlNode *pNode = pElement->FirstChild(GS_L("HaloBitmap"));
+	TiXmlNode *pNode = pElement->FirstChild(("HaloBitmap"));
 	if (pNode)
 	{
 		TiXmlElement *pStringElement = pNode->ToElement();
@@ -42,26 +42,26 @@ bool ETHLight::ReadFromXMLFile(TiXmlElement *pElement)
 
 bool ETHLight::WriteToXMLFile(TiXmlElement *pRoot) const
 {
-	TiXmlElement *pLightRoot = new TiXmlElement(GS_L("Light"));
+	TiXmlElement *pLightRoot = new TiXmlElement(("Light"));
 	pRoot->LinkEndChild(pLightRoot); 
 
-	ETHEntityProperties::SetVector3PropertyToXmlElement(pLightRoot, GS_L("Position"), pos);
-	ETHEntityProperties::SetColorPropertyToXmlElement(pLightRoot, GS_L("Color"), color);
+	ETHEntityProperties::SetVector3PropertyToXmlElement(pLightRoot, ("Position"), pos);
+	ETHEntityProperties::SetColorPropertyToXmlElement(pLightRoot, ("Color"), color);
 
-	if (haloBitmap != GS_L(""))
+	if (haloBitmap != (""))
 	{
 		TiXmlElement *pElement;
-		pElement = new TiXmlElement(GS_L("HaloBitmap"));
+		pElement = new TiXmlElement(("HaloBitmap"));
 		pElement->LinkEndChild(new TiXmlText(haloBitmap));
 		pLightRoot->LinkEndChild(pElement);
 	}
 
-	pLightRoot->SetAttribute(GS_L("active"), active);
-	pLightRoot->SetAttribute(GS_L("static"), staticLight);
-	pLightRoot->SetAttribute(GS_L("castShadows"), castShadows);
-	pLightRoot->SetDoubleAttribute(GS_L("range"), range);
-	pLightRoot->SetDoubleAttribute(GS_L("haloBrightness"), haloBrightness);
-	pLightRoot->SetDoubleAttribute(GS_L("haloSize"), haloSize);
+	pLightRoot->SetAttribute(("active"), active);
+	pLightRoot->SetAttribute(("static"), staticLight);
+	pLightRoot->SetAttribute(("castShadows"), castShadows);
+	pLightRoot->SetDoubleAttribute(("range"), range);
+	pLightRoot->SetDoubleAttribute(("haloBrightness"), haloBrightness);
+	pLightRoot->SetDoubleAttribute(("haloSize"), haloSize);
 	return true;
 }
 

@@ -78,7 +78,7 @@ public:
 	ETHSpriteEntity *SeekEntity(const int id);
 
 	/// Seek the entity by it's original file name file name
-	ETHSpriteEntity *SeekEntity(const str_type::string& fileName);
+	ETHSpriteEntity *SeekEntity(const std::string& fileName);
 
 	/// Delete the entity by ID #
 	bool DeleteEntity(const int id, const Vector2 &searchBucket);
@@ -87,18 +87,18 @@ public:
 	bool DeleteEntity(const int id);
 
 	/// get an array of pointers with all entities named 'name' in scene
-	void GetEntityArrayByName(const str_type::string& name, ETHEntityArray &outVector);
+	void GetEntityArrayByName(const std::string& name, ETHEntityArray &outVector);
 
 	/// get an array of pointers with all entities in the bucket
 	void GetEntityArrayFromBucket(const Vector2 &bucket, ETHEntityArray &outVector);
 	void GetEntityArrayFromBucket(const Vector2 &bucket, ETHEntityArray &outVector, const ETHEntityChooser& chooser);
-	void GetWhiteListedEntityArrayFromBucket(const Vector2 &bucket, ETHEntityArray &outVector, const str_type::string& semicolonSeparatedNames);
+	void GetWhiteListedEntityArrayFromBucket(const Vector2 &bucket, ETHEntityArray &outVector, const std::string& semicolonSeparatedNames);
 
 	/// entities around the bucket
 	void GetEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray &outVector);
 	void GetEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray &outVector, const ETHEntityChooser& chooser);
-	void GetWhiteListedEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray &outVector, const str_type::string& semicolonSeparatedNames);
-	void GetEntitiesAroundBucketWithBlackList(const Vector2& bucket, ETHEntityArray &outVector, const str_type::string& semicolonSeparatedNames);
+	void GetWhiteListedEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray &outVector, const std::string& semicolonSeparatedNames);
+	void GetEntitiesAroundBucketWithBlackList(const Vector2& bucket, ETHEntityArray &outVector, const std::string& semicolonSeparatedNames);
 
 	/// get an array of visible entities
 	void GetVisibleEntities(ETHEntityArray &outVector);

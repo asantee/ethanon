@@ -8,7 +8,7 @@ namespace Platform {
 class IOSNativeCommmandListener : public NativeCommandListener
 {
 public:
-	bool ExecuteCommand(const gs2d::str_type::string& commandLine);
+	bool ExecuteCommand(const std::string& commandLine);
 };
 
 typedef boost::shared_ptr<IOSNativeCommmandListener> IOSNativeCommmandListenerPtr;

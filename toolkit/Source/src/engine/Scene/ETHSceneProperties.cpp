@@ -8,32 +8,32 @@ ETHSceneProperties::ETHSceneProperties()
 bool ETHSceneProperties::ReadFromXMLFile(TiXmlElement *pRoot)
 {
 	TiXmlNode *pNode;
-	pNode = pRoot->FirstChild(GS_L("SceneProperties"));
+	pNode = pRoot->FirstChild(("SceneProperties"));
 	if (pNode)
 	{
 		TiXmlElement *pElement = pNode->ToElement();
-		pElement->QueryFloatAttribute(GS_L("parallaxIntensity"), &parallaxIntensity);
+		pElement->QueryFloatAttribute(("parallaxIntensity"), &parallaxIntensity);
 
 		TiXmlElement *pIter;
-		pNode = pElement->FirstChild(GS_L("Ambient"));
+		pNode = pElement->FirstChild(("Ambient"));
 		if (pNode)
 		{
 			pIter = pNode->ToElement();
 			if (pIter)
 			{
-				pIter->QueryFloatAttribute(GS_L("r"), &ambient.x);
-				pIter->QueryFloatAttribute(GS_L("g"), &ambient.y);
-				pIter->QueryFloatAttribute(GS_L("b"), &ambient.z);
+				pIter->QueryFloatAttribute(("r"), &ambient.x);
+				pIter->QueryFloatAttribute(("g"), &ambient.y);
+				pIter->QueryFloatAttribute(("b"), &ambient.z);
 			}
 		}
-		pNode = pElement->FirstChild(GS_L("ZAxisDirection"));
+		pNode = pElement->FirstChild(("ZAxisDirection"));
 		if (pNode)
 		{
 			pIter = pNode->ToElement();
 			if (pIter)
 			{
-				pIter->QueryFloatAttribute(GS_L("x"), &zAxisDirection.x);
-				pIter->QueryFloatAttribute(GS_L("y"), &zAxisDirection.y);
+				pIter->QueryFloatAttribute(("x"), &zAxisDirection.x);
+				pIter->QueryFloatAttribute(("y"), &zAxisDirection.y);
 			}
 		}
 	}
@@ -42,23 +42,23 @@ bool ETHSceneProperties::ReadFromXMLFile(TiXmlElement *pRoot)
 
 bool ETHSceneProperties::WriteToXMLFile(TiXmlElement *pRoot) const
 {
-	TiXmlElement *pScenePropRoot = new TiXmlElement(GS_L("SceneProperties"));
+	TiXmlElement *pScenePropRoot = new TiXmlElement(("SceneProperties"));
 	pRoot->LinkEndChild(pScenePropRoot); 
 
 	TiXmlElement *pElement;
-	pElement = new TiXmlElement(GS_L("Ambient"));
+	pElement = new TiXmlElement(("Ambient"));
 	pScenePropRoot->LinkEndChild(pElement);
-	pElement->SetDoubleAttribute(GS_L("r"), ambient.x);
-	pElement->SetDoubleAttribute(GS_L("g"), ambient.y);
-	pElement->SetDoubleAttribute(GS_L("b"), ambient.z);
+	pElement->SetDoubleAttribute(("r"), ambient.x);
+	pElement->SetDoubleAttribute(("g"), ambient.y);
+	pElement->SetDoubleAttribute(("b"), ambient.z);
 
-	pElement = new TiXmlElement(GS_L("ZAxisDirection"));
+	pElement = new TiXmlElement(("ZAxisDirection"));
 	pScenePropRoot->LinkEndChild(pElement);
-	pElement->SetDoubleAttribute(GS_L("x"), zAxisDirection.x);
-	pElement->SetDoubleAttribute(GS_L("y"), zAxisDirection.y);
+	pElement->SetDoubleAttribute(("x"), zAxisDirection.x);
+	pElement->SetDoubleAttribute(("y"), zAxisDirection.y);
 	
-	pScenePropRoot->SetDoubleAttribute(GS_L("lightIntensity"), 1.0);
-	pScenePropRoot->SetDoubleAttribute(GS_L("parallaxIntensity"), parallaxIntensity);
+	pScenePropRoot->SetDoubleAttribute(("lightIntensity"), 1.0);
+	pScenePropRoot->SetDoubleAttribute(("parallaxIntensity"), parallaxIntensity);
 	return true;
 }
 

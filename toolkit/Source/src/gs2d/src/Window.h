@@ -1,10 +1,13 @@
 #ifndef GS2D_WINDOW_H_
 #define GS2D_WINDOW_H_
 
-#include "Types.h"
-
 #include "Math/Vector2.h"
 #include "Math/Vector2i.h"
+
+#include <string>
+
+#include <boost/shared_ptr.hpp>
+#include <boost/weak_ptr.hpp>
 
 namespace gs2d {
 
@@ -14,8 +17,8 @@ public:
 	virtual void EnableQuitShortcuts(const bool enable) = 0;
 	virtual bool QuitShortcutsEnabled() = 0;
 
-	virtual bool SetWindowTitle(const str_type::string& title) = 0;
-	virtual str_type::string GetWindowTitle() const = 0;
+	virtual bool SetWindowTitle(const std::string& title) = 0;
+	virtual std::string GetWindowTitle() const = 0;
 
 	virtual bool IsWindowed() const = 0;
 

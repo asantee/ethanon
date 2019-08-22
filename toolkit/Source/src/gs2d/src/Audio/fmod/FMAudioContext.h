@@ -6,6 +6,8 @@
 
 #include "fmod.hpp"
 
+#include <boost/weak_ptr.hpp>
+
 namespace gs2d {
 
 bool FMOD_ERRCHECK_fn(FMOD_RESULT result, const char *file, int line, Platform::FileLogger& logger);
@@ -34,7 +36,7 @@ public:
 	static void CommonInit(Platform::FileLogger& logger);
 
 	AudioSamplePtr LoadSampleFromFile(
-		const str_type::string& fileName,
+		const std::string& fileName,
 		const Platform::FileManagerPtr& fileManager,
 		const Audio::SAMPLE_TYPE type = Audio::UNKNOWN_TYPE) override;
 

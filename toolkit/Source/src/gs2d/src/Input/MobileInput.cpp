@@ -142,10 +142,10 @@ unsigned int MobileInput::GetMaxTouchCount() const
 	return m_maxTouchCount;
 }
 
-str_type::string MobileInput::GetLastCharInput() const
+std::string MobileInput::GetLastCharInput() const
 {
 	// TODO
-	return GS_L("");
+	return ("");
 }
 
 void MobileInput::ShowJoystickWarnings(const bool enable)

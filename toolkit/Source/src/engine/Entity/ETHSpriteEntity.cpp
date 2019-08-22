@@ -11,9 +11,11 @@
 
 #include <iostream>
 
+#define UNUSED_ARGUMENT(argument) ((void)(argument))
+
 const float ETHSpriteEntity::m_layrableMinimumDepth(0.001f);
 
-ETHSpriteEntity::ETHSpriteEntity(const str_type::string& filePath, ETHResourceProviderPtr provider, const int nId) :
+ETHSpriteEntity::ETHSpriteEntity(const std::string& filePath, ETHResourceProviderPtr provider, const int nId) :
 	m_provider(provider),
 	ETHEntity(filePath, nId, provider->GetFileManager())
 {
@@ -25,7 +27,7 @@ ETHSpriteEntity::ETHSpriteEntity(
 	TiXmlElement *pElement,
 	ETHResourceProviderPtr provider,
 	ETHEntityCache& entityCache,
-	const str_type::string& entityPath,
+	const std::string& entityPath,
 	const bool shouldGenerateNewID) :
 	ETHEntity(pElement, entityCache, entityPath, provider->GetFileManager(), shouldGenerateNewID),
 	m_provider(provider)
@@ -71,7 +73,7 @@ void ETHSpriteEntity::Create()
 	if (!video || !graphicResources)
 		return;
 
-	const str_type::string& resourceDirectory = m_provider->GetFileIOHub()->GetResourceDirectory();
+	const std::string& resourceDirectory = m_provider->GetFileIOHub()->GetResourceDirectory();
 	
 	const Platform::FileManagerPtr& fileManager = m_provider->GetFileManager();
 
@@ -105,12 +107,12 @@ void ETHSpriteEntity::RecoverResources(const Platform::FileManagerPtr& expansion
 	{
 		Platform::FileIOHubPtr fileIOHub = m_provider->GetFileIOHub();
 		Platform::FileManagerPtr currentFileManager     = fileIOHub->GetFileManager();
-		const str_type::string currentResourceDirectory = fileIOHub->GetResourceDirectory();
+		const std::string currentResourceDirectory = fileIOHub->GetResourceDirectory();
 
 		// gather from expansion file if it has one
 		if (expansionFileManager)
 		{
-			fileIOHub->SetFileManager(expansionFileManager, GS_L(""));
+			fileIOHub->SetFileManager(expansionFileManager, (""));
 		}
 
 		LoadLightmapFromFile(m_preRenderedLightmapFilePath);
@@ -119,7 +121,7 @@ void ETHSpriteEntity::RecoverResources(const Platform::FileManagerPtr& expansion
 	}
 }
 
-bool ETHSpriteEntity::LoadLightmapFromFile(const str_type::string& filePath)
+bool ETHSpriteEntity::LoadLightmapFromFile(const std::string& filePath)
 {
 	ETHGraphicResourceManagerPtr graphicResources = m_provider->GetGraphicResourceManager();
 	VideoPtr video = m_provider->GetVideo();
@@ -134,7 +136,7 @@ bool ETHSpriteEntity::LoadLightmapFromFile(const str_type::string& filePath)
 			m_provider->GetFileManager(),
 			video,
 			Platform::GetFileName(filePath),
-			GS_L(""),
+			(""),
 			Platform::GetFileDirectory(filePath.c_str()),
 			true);
 
@@ -169,7 +171,7 @@ bool ETHSpriteEntity::ShouldUsePass1AddPixelShader() const
 	return static_cast<bool>(m_pLightmap);
 }
 
-bool ETHSpriteEntity::SetSprite(const str_type::string &fileName)
+bool ETHSpriteEntity::SetSprite(const std::string &fileName)
 {
 	m_pSprite = m_provider->GetGraphicResourceManager()->GetSprite(
 		m_provider->GetFileManager(),
@@ -195,12 +197,12 @@ bool ETHSpriteEntity::SetSprite(const str_type::string &fileName)
 	}
 	else
 	{
-		m_properties.spriteFile = GS_L("");
+		m_properties.spriteFile = ("");
 		return false;
 	}
 }
 
-bool ETHSpriteEntity::SetHalo(const str_type::string &fileName)
+bool ETHSpriteEntity::SetHalo(const std::string &fileName)
 {
 	if (m_properties.light)
 	{
@@ -219,7 +221,7 @@ bool ETHSpriteEntity::SetHalo(const str_type::string &fileName)
 		}
 		else
 		{
-			m_properties.light->haloBitmap = GS_L("");
+			m_properties.light->haloBitmap = ("");
 			return false;
 		}
 	}
@@ -229,17 +231,17 @@ bool ETHSpriteEntity::SetHalo(const str_type::string &fileName)
 	}
 }
 
-str_type::string ETHSpriteEntity::GetSpriteName() const
+std::string ETHSpriteEntity::GetSpriteName() const
 {
 	return m_properties.spriteFile;
 }
 
-str_type::string ETHSpriteEntity::GetHaloName() const
+std::string ETHSpriteEntity::GetHaloName() const
 {
 	if (m_properties.light)
 		return m_properties.light->haloBitmap;
 	else
-		return GS_L("");
+		return ("");
 }
 
 void ETHSpriteEntity::LoadParticleSystem()
@@ -248,7 +250,7 @@ void ETHSpriteEntity::LoadParticleSystem()
 	ETHAudioResourceManagerPtr audioResources = m_provider->GetAudioResourceManager();
 	VideoPtr video = m_provider->GetVideo();
 	AudioPtr audio = m_provider->GetAudio();
-	const str_type::string& resourcePath = m_provider->GetFileIOHub()->GetResourceDirectory();
+	const std::string& resourcePath = m_provider->GetFileIOHub()->GetResourceDirectory();
 
 	m_particles.clear();
 	m_particles.resize(m_properties.particleSystems.size());
@@ -257,7 +259,7 @@ void ETHSpriteEntity::LoadParticleSystem()
 		const ETHParticleSystem *pSystem = m_properties.particleSystems[t].get();
 		if (pSystem->nParticles > 0)
 		{
-			str_type::string path = resourcePath;
+			std::string path = resourcePath;
 			// path += GS_L("/");
 			path += ETHDirectories::GetParticlesDirectory();
 			path += Platform::GetFileName(pSystem->GetActualBitmapFile());
@@ -288,7 +290,7 @@ bool ETHSpriteEntity::SetSpriteCut(const unsigned int col, const unsigned int ro
 	}
 	else
 	{
-		ETH_STREAM_DECL(ss) << GS_L("Invalid cut value");
+		ETH_STREAM_DECL(ss) << ("Invalid cut value");
 		m_provider->Log(ss.str(), Platform::Logger::ERROR);
 		return false;
 	}
@@ -447,10 +449,10 @@ void ETHSpriteEntity::DestroyParticleSystem(const unsigned int n)
 	}
 }
 
-str_type::string ETHSpriteEntity::AssembleLightmapFileName(const str_type::string& directory, const str_type::string& extension) const
+std::string ETHSpriteEntity::AssembleLightmapFileName(const std::string& directory, const std::string& extension) const
 {
-	str_type::stringstream ss;
-	ss << directory << GS_L("add") << GetID() << GS_L(".") << extension;
+	std::stringstream ss;
+	ss << directory << ("add") << GetID() << (".") << extension;
 	return ss.str();
 }
 
@@ -497,7 +499,7 @@ void ETHSpriteEntity::SetParticleBitmap(const unsigned int n, SpritePtr bitmap)
 		m_particles[n]->SetParticleBitmap(bitmap);
 }
 
-void ETHSpriteEntity::SetParticleBitmap(const unsigned int n, const str_type::string& bitmap)
+void ETHSpriteEntity::SetParticleBitmap(const unsigned int n, const std::string& bitmap)
 {
 	if (n < m_particles.size())
 	{
@@ -820,10 +822,10 @@ bool ETHSpriteEntity::IsPointOnSprite(const ETHSceneProperties& sceneProps, cons
 
 bool ETHSpriteEntity::PlayParticleSystem(const unsigned int n, const Vector2& zAxisDirection)
 {
-	GS2D_UNUSED_ARGUMENT(zAxisDirection);
+	UNUSED_ARGUMENT(zAxisDirection);
 	if (n >= m_particles.size())
 	{
-		ETH_STREAM_DECL(ss) << GS_L("ETHRenderEntity::PlayParticleSystem: n > m_particles.size()");
+		ETH_STREAM_DECL(ss) << ("ETHRenderEntity::PlayParticleSystem: n > m_particles.size()");
 		m_provider->Log(ss.str(), Platform::Logger::ERROR);
 		return false;
 	}

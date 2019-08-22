@@ -211,7 +211,7 @@ public:
 	virtual void ShowJoystickWarnings(const bool enable) = 0;
 	virtual bool IsShowingJoystickWarnings() const = 0;
 
-	virtual str_type::string GetLastCharInput() const = 0;
+	virtual std::string GetLastCharInput() const = 0;
 
 	virtual GS_KEY_STATE GetJoystickButtonState(const unsigned int id, const GS_JOYSTICK_BUTTON key) const = 0;
 	virtual bool IsJoystickButtonDown(const unsigned int id, const GS_JOYSTICK_BUTTON key) const = 0;
@@ -232,7 +232,7 @@ typedef boost::shared_ptr<Input> InputPtr;
 typedef boost::weak_ptr<Input> InputWeakPtr;
 
 /// Instantiates an Input object
-GS2D_API InputPtr CreateInput(const bool showJoystickWarnings, std::string* inputSource = 0);
+InputPtr CreateInput(const bool showJoystickWarnings, std::string* inputSource = 0);
 
 } // namespace gs2d
 

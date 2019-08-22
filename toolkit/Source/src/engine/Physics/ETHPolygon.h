@@ -3,19 +3,22 @@
 
 #include <Enml/Enml.h>
 #include <Math/Vector2.h>
+
 #include <vector>
+
+#include <boost/shared_ptr.hpp>
 
 class ETHPolygon
 {
 	std::vector<gs2d::math::Vector2> m_vertices;
-	gs2d::str_type::string GetEntityName(const unsigned int v) const;
+	std::string GetEntityName(const unsigned int v) const;
 
 public:
-	ETHPolygon(const gs2d::str_type::string& enmlString);
+	ETHPolygon(const std::string& enmlString);
 	bool IsValid() const;
 	std::size_t GetNumPolygons() const;
 	const std::vector<gs2d::math::Vector2>& GetVertices() const;
-	const gs2d::str_type::string GetENMLDeclaration() const;
+	const std::string GetENMLDeclaration() const;
 	std::size_t GetNumVertices() const;
 };
 

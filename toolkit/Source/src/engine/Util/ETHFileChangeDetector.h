@@ -8,8 +8,8 @@ class ETHFileChangeDetector
 {
 	gs2d::ApplicationPtr m_app;
 	Platform::FileManagerPtr m_fileManager;
-	gs2d::str_type::string m_filePath;
-	gs2d::str_type::string m_fileContent;
+	std::string m_filePath;
+	std::string m_fileContent;
 	bool m_fileChanged;
 	static const unsigned int m_timeStrideMS;
 	unsigned long m_lastTime;
@@ -23,7 +23,7 @@ public:
 		UTF16_WITH_BOM = 2
 	};
 
-	ETHFileChangeDetector(const gs2d::ApplicationPtr& app, const gs2d::str_type::string& filePath, const ENCODING encoding);
+	ETHFileChangeDetector(const gs2d::ApplicationPtr& app, const std::string& filePath, const ENCODING encoding);
 	bool IsValidFile() const;
 	bool CheckForChange();
 	void Update();

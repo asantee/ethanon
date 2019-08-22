@@ -3,11 +3,9 @@
 #include <fstream>
 #include <vector>
 
-using namespace gs2d;
-
 namespace Platform {
 
-static FILE* LoadFile(const str_type::string& fileName)
+static FILE* LoadFile(const std::string& fileName)
 {
 	FILE* file = 0;
 	#if _MSC_VER >= 1500
@@ -23,7 +21,7 @@ bool StdFileManager::IsLoaded() const
 	return true;
 }
 
-bool StdFileManager::GetFileBuffer(const str_type::string &fileName, FileBuffer &out)
+bool StdFileManager::GetFileBuffer(const std::string &fileName, FileBuffer &out)
 {
 	FILE* file = LoadFile(fileName);
 	if (!file)
@@ -41,7 +39,7 @@ bool StdFileManager::GetFileBuffer(const str_type::string &fileName, FileBuffer 
 	return true;
 }
 
-bool StdFileManager::FileExists(const gs2d::str_type::string& fileName) const
+bool StdFileManager::FileExists(const std::string& fileName) const
 {
 	FILE* file = LoadFile(fileName);
 	if (!file)

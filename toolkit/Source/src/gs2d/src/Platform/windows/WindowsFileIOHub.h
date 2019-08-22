@@ -8,9 +8,9 @@ namespace Platform {
 class WindowsFileIOHub : public FileIOHub
 {
 public:
-	WindowsFileIOHub(Platform::FileManagerPtr fileManager, const gs2d::str_type::string& bitmapFontSearchDirectory);
-	WindowsFileIOHub(Platform::FileManagerPtr fileManager, const gs2d::str_type::string& bitmapFontSearchDirectory, const gs2d::str_type::string& resourceDirectory);
-	void SetFileManager(Platform::FileManagerPtr fileManager, const gs2d::str_type::string& resourceDirectory);
+	WindowsFileIOHub(Platform::FileManagerPtr fileManager, const std::string& bitmapFontSearchDirectory);
+	WindowsFileIOHub(Platform::FileManagerPtr fileManager, const std::string& bitmapFontSearchDirectory, const std::string& resourceDirectory);
+	void SetFileManager(Platform::FileManagerPtr fileManager, const std::string& resourceDirectory);
 	bool IsResourcePackingSupported();
 };
 

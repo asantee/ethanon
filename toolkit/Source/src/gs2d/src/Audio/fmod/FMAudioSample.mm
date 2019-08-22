@@ -1,9 +1,11 @@
 #import "FMAudioSample.h"
 
+#include <sstream>
+
 namespace gs2d {
 
 AudioSamplePtr FMAudioContext::LoadSampleFromFile(
-	const str_type::string& fileName,
+	const std::string& fileName,
 	const Platform::FileManagerPtr& fileManager,
 	const Audio::SAMPLE_TYPE type)
 {
@@ -21,7 +23,7 @@ AudioSamplePtr FMAudioContext::LoadSampleFromFileInMemory(
 }
 
 Platform::FileLogger FMAudioSample::m_logger(Platform::FileLogger::GetLogDirectory() + "FMAudioSample.log.txt");
-str_type::string FMAudioSample::m_currentStreamableTrack;
+std::string FMAudioSample::m_currentStreamableTrack;
 
 FMAudioSample::FMAudioSample() :
 	m_sound(0),
@@ -46,7 +48,7 @@ FMAudioSample::~FMAudioSample()
 
 bool FMAudioSample::LoadSampleFromFile(
 	AudioWeakPtr audio,
-	const str_type::string& fileName,
+	const std::string& fileName,
 	const Platform::FileManagerPtr& fileManager,
 	const Audio::SAMPLE_TYPE type)
 {
@@ -58,8 +60,8 @@ bool FMAudioSample::LoadSampleFromFile(
 	}
 	catch (const boost::bad_any_cast &)
 	{
-		str_type::stringstream ss;
-		ss << GS_L("FMAudioSample::LoadSampleFromFile: Invalid fmod system");
+		std::stringstream ss;
+		ss << ("FMAudioSample::LoadSampleFromFile: Invalid fmod system");
 		m_logger.Log(ss.str(), Platform::FileLogger::ERROR);
 		return false;
 	}

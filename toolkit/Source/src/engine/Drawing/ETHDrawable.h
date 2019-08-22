@@ -17,8 +17,8 @@ public:
 	ETHTextDrawer(
 		const ETHResourceProviderPtr& provider,
 		const Vector2& pos,
-		const str_type::string& text,
-		const str_type::string& font,
+		const std::string& text,
+		const std::string& font,
 		const Color color,
 		const unsigned long time,
 		const float scale);
@@ -26,8 +26,8 @@ public:
 	ETHTextDrawer(
 		const ETHResourceProviderPtr& provider,
 		const Vector2& pos,
-		const str_type::string& text,
-		const str_type::string& font,
+		const std::string& text,
+		const std::string& font,
 		const Color color,
 		const float scale);
 
@@ -36,8 +36,8 @@ public:
 
 private:
 	Vector2 v2Pos;
-	str_type::string text;
-	str_type::string font;
+	std::string text;
+	std::string font;
 	Color color;
 	unsigned long timeMS;
 	unsigned long elapsedTimeMS;

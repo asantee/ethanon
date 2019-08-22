@@ -4,11 +4,13 @@
 
 #include <Platform/Platform.h>
 
+#define UNUSED_ARGUMENT(argument) ((void)(argument))
+
 ETHTextDrawer::ETHTextDrawer(
 	const ETHResourceProviderPtr& provider,
 	const Vector2& pos, 
-	const str_type::string& text,
-	const str_type::string &font,
+	const std::string& text,
+	const std::string &font,
 	const Color color,
 	const unsigned long time,
 	const float scale)
@@ -26,8 +28,8 @@ ETHTextDrawer::ETHTextDrawer(
 ETHTextDrawer::ETHTextDrawer(
 	const ETHResourceProviderPtr& provider,
 	const Vector2& pos, 
-	const str_type::string& text,
-	const str_type::string& font,
+	const std::string& text,
+	const std::string& font,
 	const Color color,
 	const float scale)
 {
@@ -91,7 +93,7 @@ ETHSpriteDrawer::ETHSpriteDrawer(
 
 bool ETHSpriteDrawer::Draw(const unsigned long lastFrameElapsedTimeMS)
 {
-	GS2D_UNUSED_ARGUMENT(lastFrameElapsedTimeMS);
+	UNUSED_ARGUMENT(lastFrameElapsedTimeMS);
 	if (sprite)
 	{
 		const Rect2D rect(rects ? rects->GetRect(frame) : Rect2D());

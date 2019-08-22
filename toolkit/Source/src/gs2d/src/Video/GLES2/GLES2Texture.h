@@ -19,13 +19,13 @@ class GLES2Texture : public Texture
 	};
 
 	static bool CheckTextureVersion(
-		str_type::string& fileName,
-		const str_type::string& format,
+		std::string& fileName,
+		const std::string& format,
 		Platform::FileManagerPtr fileManager);
 
-	COMPRESSION_FORMAT FindCompressionFormat(str_type::string& fileName);
-	bool MayUseETC1CompressedVersion(str_type::string& fileName);
-	bool MayUsePVRCompressedVersion(str_type::string& fileName);
+	COMPRESSION_FORMAT FindCompressionFormat(std::string& fileName);
+	bool MayUseETC1CompressedVersion(std::string& fileName);
+	bool MayUsePVRCompressedVersion(std::string& fileName);
 
 	bool LoadTexture(
 		VideoWeakPtr video,
@@ -48,19 +48,19 @@ class GLES2Texture : public Texture
 
 	GLuint m_texture;
 
-	str_type::string m_fileName;
+	std::string m_fileName;
 	Platform::FileManagerPtr m_fileManager;
 	math::Vector2 m_resolution;
 
 public:
-	GLES2Texture(VideoWeakPtr video, const str_type::string& fileName, Platform::FileManagerPtr fileManager);
+	GLES2Texture(VideoWeakPtr video, const std::string& fileName, Platform::FileManagerPtr fileManager);
 	~GLES2Texture();
 
 	GLuint GetTexture() const;
 
 	bool LoadTexture(
 		VideoWeakPtr video,
-		const str_type::string& fileName,
+		const std::string& fileName,
 		const unsigned int nMipMaps = 0) override;
 
 	bool LoadTexture(
@@ -72,11 +72,11 @@ public:
 	void Free() override;
 
 	math::Vector2 GetBitmapSize() const override;
-	const str_type::string& GetFileName() const;
+	const std::string& GetFileName() const;
 
-	static const str_type::string TEXTURE_LOG_FILE;
-	static const str_type::string ETC1_FILE_FORMAT;
-	static const str_type::string PVR_FILE_FORMAT;
+	static const std::string TEXTURE_LOG_FILE;
+	static const std::string ETC1_FILE_FORMAT;
+	static const std::string PVR_FILE_FORMAT;
 
 	// ETC1 compressed pkm texture file header
 	struct ETC1Header

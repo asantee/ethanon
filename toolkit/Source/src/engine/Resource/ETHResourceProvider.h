@@ -44,7 +44,7 @@ public:
 		Platform::FileIOHubPtr fileIOHub,
 		const bool isInEditor);
 
-	static void Log(const str_type::string& str, const Platform::Logger::TYPE& type);
+	static void Log(const std::string& str, const Platform::Logger::TYPE& type);
 
 	bool IsInEditor() const;
 
@@ -64,7 +64,7 @@ public:
 	const VideoPtr& GetVideo();
 	const AudioPtr& GetAudio();
 	const InputPtr& GetInput();
-	str_type::string GetByteCodeSaveDirectory();
+	std::string GetByteCodeSaveDirectory();
 	const Platform::FileManagerPtr& GetFileManager();
 	Platform::FileIOHubPtr GetFileIOHub();
 

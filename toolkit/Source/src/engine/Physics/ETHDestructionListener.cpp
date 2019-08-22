@@ -1,6 +1,10 @@
 #include "ETHDestructionListener.h"
+
 #include "../Entity/ETHRenderEntity.h"
+
 #include "ETHPhysicsEntityController.h"
+
+#define UNUSED_ARGUMENT(argument) ((void)(argument))
 
 void ETHDestructionListener::SayGoodbye(b2Joint* joint)
 {
@@ -16,6 +20,6 @@ void ETHDestructionListener::SayGoodbye(b2Joint* joint)
 
 void ETHDestructionListener::SayGoodbye(b2Fixture* fixture)
 {
-	GS2D_UNUSED_ARGUMENT(fixture);
+	UNUSED_ARGUMENT(fixture);
 	// Let's not say goodbye to these guys
 }

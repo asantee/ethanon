@@ -14,7 +14,7 @@ class GLSDLVideo : public Video
 	boost::weak_ptr<GLSDLVideo> weak_this;
 
 	static float m_mouseWheel;
-	static str_type::string m_lastCharInput;
+	static std::string m_lastCharInput;
 
     Platform::FileIOHubPtr m_fileIOHub;
 
@@ -41,7 +41,7 @@ public:
 	static boost::shared_ptr<GLSDLVideo> Create(
 		const unsigned int width,
 		const unsigned int height,
-		const str_type::string& winTitle,
+		const std::string& winTitle,
 		const bool windowed,
 		const bool sync,
 		const Platform::FileIOHubPtr& fileIOHub,
@@ -52,7 +52,7 @@ public:
 		Platform::FileIOHubPtr fileIOHub,
 		const unsigned int width,
 		const unsigned int height,
-		const str_type::string& winTitle,
+		const std::string& winTitle,
 		const bool windowed,
 		const bool sync,
 		const bool maximizable);
@@ -69,7 +69,7 @@ public:
     bool StartApplication(
         const unsigned int width,
         const unsigned int height,
-        const str_type::string& winTitle,
+        const std::string& winTitle,
         const bool windowed,
         const bool sync,
         const Texture::PIXEL_FORMAT pfBB = Texture::PF_UNKNOWN,
@@ -81,7 +81,7 @@ public:
 		const unsigned int nMipMaps) override;
 	
 	TexturePtr LoadTextureFromFile(
-		const str_type::string& fileName,
+		const std::string& fileName,
 		const unsigned int nMipMaps) override;
 
 	ShaderPtr LoadShaderFromFile(
@@ -128,18 +128,18 @@ public:
 	APP_STATUS HandleEvents() override;
 	float GetFPSRate() const override;
 	
-	void Message(const str_type::string& text, const GS_MESSAGE_TYPE type = GSMT_ERROR) const override;
+	void Message(const std::string& text, const GS_MESSAGE_TYPE type = GSMT_ERROR) const override;
 
 	unsigned long GetElapsedTime(const TIME_UNITY unity = TU_MILLISECONDS) const override;
 
 	float GetElapsedTimeF(const TIME_UNITY unity = TU_MILLISECONDS) const override;
 
-	void ForwardCommand(const str_type::string& cmd) override;
-	str_type::string PullCommands() override;
+	void ForwardCommand(const std::string& cmd) override;
+	std::string PullCommands() override;
 
 	void Quit() override;
 
-	str_type::string GetPlatformName() const;
+	std::string GetPlatformName() const;
 
 	Platform::FileIOHubPtr GetFileIOHub() override;
 	
@@ -147,8 +147,8 @@ public:
 	void EnableQuitShortcuts(const bool enable) override;
 	bool QuitShortcutsEnabled() override;
 
-	bool SetWindowTitle(const str_type::string& title) override;
-	str_type::string GetWindowTitle() const override;
+	bool SetWindowTitle(const std::string& title) override;
+	std::string GetWindowTitle() const override;
 
 	bool IsWindowed() const override;
 

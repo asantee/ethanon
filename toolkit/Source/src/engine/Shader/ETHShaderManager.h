@@ -8,12 +8,7 @@
 class ETHShaderManager
 {
 public:
-	enum PROFILE
-	{
-		PIXEL_LIGHTING_DIFFUSE_SPECULAR = 1
-	};
-
-	ETHShaderManager(VideoPtr video, const str_type::string& shaderPath, const bool richLighting);
+	ETHShaderManager(VideoPtr video, const std::string& shaderPath);
 
 	bool BeginAmbientPass(const ETHSpriteEntity* pRender, const float maxHeight, const float minHeight);
 	bool EndAmbientPass();

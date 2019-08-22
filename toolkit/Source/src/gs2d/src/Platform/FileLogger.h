@@ -8,15 +8,15 @@ namespace Platform {
 class FileLogger : public Logger
 {
 public:
-	FileLogger(const gs2d::str_type::string& fileName);
-	bool Log(const gs2d::str_type::string& str, const TYPE& type) const;
-	static gs2d::str_type::string GetLogDirectory();
+	FileLogger(const std::string& fileName);
+	bool Log(const std::string& str, const TYPE& type) const;
+	static std::string GetLogDirectory();
 private:
-	static gs2d::str_type::string GetWarningLogFileDirectory();
-	static gs2d::str_type::string GetErrorLogFileDirectory();
-	static void WriteToErrorLog(const gs2d::str_type::string& str);
-	static void WriteToWarningLog(const gs2d::str_type::string& str);
-	gs2d::str_type::string m_fileName;
+	static std::string GetWarningLogFileDirectory();
+	static std::string GetErrorLogFileDirectory();
+	static void WriteToErrorLog(const std::string& str);
+	static void WriteToWarningLog(const std::string& str);
+	std::string m_fileName;
 };
 
 typedef boost::shared_ptr<FileLogger> FileLoggerPtr;

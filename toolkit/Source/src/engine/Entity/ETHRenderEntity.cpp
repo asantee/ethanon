@@ -2,7 +2,7 @@
 
 #include "../Shader/ETHShaderManager.h"
 
-ETHRenderEntity::ETHRenderEntity(const str_type::string& filePath, ETHResourceProviderPtr provider, const int nId) :
+ETHRenderEntity::ETHRenderEntity(const std::string& filePath, ETHResourceProviderPtr provider, const int nId) :
 	ETHSpriteEntity(filePath, provider, nId)
 {
 }
@@ -11,7 +11,7 @@ ETHRenderEntity::ETHRenderEntity(
 	TiXmlElement *pElement,
 	ETHResourceProviderPtr provider,
 	ETHEntityCache& entityCache,
-	const str_type::string &entityPath,
+	const std::string &entityPath,
 	const bool shouldGenerateNewID) :
 	ETHSpriteEntity(pElement, provider, entityCache, entityPath, shouldGenerateNewID)
 {

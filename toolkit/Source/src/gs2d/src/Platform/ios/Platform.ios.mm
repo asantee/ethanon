@@ -6,12 +6,12 @@
 
 #import <Foundation/Foundation.h>
 
-gs2d::str_type::string gs2d::Application::GetPlatformName()
+std::string gs2d::Application::GetPlatformName()
 {
 	return "ios";
 }
 
-void gs2d::ShowMessage(str_type::stringstream& stream, const GS_MESSAGE_TYPE type)
+void gs2d::ShowMessage(std::stringstream& stream, const GS_MESSAGE_TYPE type)
 {
 	if (type == GSMT_ERROR)
 	{
@@ -25,18 +25,18 @@ void gs2d::ShowMessage(str_type::stringstream& stream, const GS_MESSAGE_TYPE typ
 
 namespace Platform {
 
-gs2d::str_type::string ResourceDirectory()
+std::string ResourceDirectory()
 {
 	@autoreleasepool {
 		NSString* resourceDir = [[NSBundle mainBundle] resourcePath];
 		resourceDir = [resourceDir stringByAppendingString:@"/assets/"];
 
-		const gs2d::str_type::string r = [resourceDir cStringUsingEncoding:1];
+		const std::string r = [resourceDir cStringUsingEncoding:1];
 		return r;
 	}
 }
 
-gs2d::str_type::string ExternalStorageDirectory()
+std::string ExternalStorageDirectory()
 {
 	@autoreleasepool {
 		NSString* externalStorageDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
@@ -46,17 +46,17 @@ gs2d::str_type::string ExternalStorageDirectory()
 		externalStorageDir = [externalStorageDir stringByAppendingPathComponent:[[NSProcessInfo processInfo] processName]];
 		externalStorageDir = [externalStorageDir stringByAppendingString:@"/"];
 
-		const gs2d::str_type::string r = [externalStorageDir cStringUsingEncoding:1];
+		const std::string r = [externalStorageDir cStringUsingEncoding:1];
 		return r;
 	}
 }
 
-gs2d::str_type::string GlobalExternalStorageDirectory()
+std::string GlobalExternalStorageDirectory()
 {
 	return ExternalStorageDirectory();
 }
 
-gs2d::str_type::string GetModuleDirectory()
+std::string GetModuleDirectory()
 {
 	/*NSString* bundleDir = [[NSBundle mainBundle] bundlePath];
 	bundleDir = [bundleDir stringByAppendingString:@"/"];
@@ -78,7 +78,7 @@ bool CreateDirectory(const std::string& path)
 	return CreateDirectoryNS([NSString stringWithUTF8String:path.c_str()]);
 }
 
-gs2d::str_type::string Platform::FileLogger::GetLogDirectory()
+std::string Platform::FileLogger::GetLogDirectory()
 {
 	std::string logPath(ExternalStorageDirectory());
 	logPath += "log/";

@@ -11,13 +11,13 @@ public:
 	IOSGLES2Video(
 		const unsigned int width,
 		const unsigned int height,
-		const str_type::string& winTitle,
+		const std::string& winTitle,
 		const Platform::FileIOHubPtr& fileIOHub);
 
 	static boost::shared_ptr<GLES2Video> Create(
 		const unsigned int width,
 		const unsigned int height,
-		const str_type::string& winTitle,
+		const std::string& winTitle,
 		const Platform::FileIOHubPtr& fileIOHub);
 };
 

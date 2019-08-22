@@ -51,33 +51,33 @@ JSONObject JSONObject::GetChild()
 	return JSONObject(NULL);
 }
 
-bool JSONObject::Parse(const gs2d::str_type::string& value)
+bool JSONObject::Parse(const std::string& value)
 {
 	m_cjson = cJSON_Parse(value.c_str());
 	m_isParent = true;
 	return (m_cjson != NULL);
 }
 
-gs2d::str_type::string JSONObject::GetError() const
+std::string JSONObject::GetError() const
 {
 	return cJSON_GetErrorPtr();
 }
 
-JSONObject JSONObject::GetObjectItem(const gs2d::str_type::string& name) const
+JSONObject JSONObject::GetObjectItem(const std::string& name) const
 {
 	return JSONObject(cJSON_GetObjectItem(m_cjson, name.c_str()));
 }
 
-gs2d::str_type::string JSONObject::GetStringValue() const
+std::string JSONObject::GetStringValue() const
 {
 	if (m_cjson != NULL)
 	{
 		if ((cJSON_IsRaw(m_cjson) || cJSON_IsString(m_cjson)) && (m_cjson->valuestring != NULL))
 		{
-			return gs2d::str_type::string(m_cjson->valuestring);
+			return std::string(m_cjson->valuestring);
 		}
 	}
-	return gs2d::str_type::string("");
+	return std::string("");
 }
 
 double JSONObject::GetDoubleValue() const

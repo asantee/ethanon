@@ -8,12 +8,13 @@ namespace Platform {
 class AndroidFileIOHub : public FileIOHub
 {
 public:
-	AndroidFileIOHub(Platform::FileManagerPtr fileManager, 
-					 const gs2d::str_type::string& externalStorageDirectory,
-					 const gs2d::str_type::string& globalExternalStorageDirectory,
-					 const gs2d::str_type::string& bitmapFontSearchDirectory);
+	AndroidFileIOHub(
+		Platform::FileManagerPtr fileManager, 
+		 const std::string& externalStorageDirectory,
+		 const std::string& globalExternalStorageDirectory,
+		 const std::string& bitmapFontSearchDirectory);
 
-	void SetFileManager(Platform::FileManagerPtr fileManager, const gs2d::str_type::string& resourceDirectory);
+	void SetFileManager(Platform::FileManagerPtr fileManager, const std::string& resourceDirectory);
 	bool IsResourcePackingSupported();
 };
 

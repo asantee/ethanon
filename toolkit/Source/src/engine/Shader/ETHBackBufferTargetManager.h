@@ -2,7 +2,6 @@
 #define ETH_BACK_BUFFER_TARGET_MANAGER_H_
 
 #include <Enml/Enml.h>
-#include <Types.h>
 #include <Platform/Logger.h>
 #include "ETHDynamicBackBuffer.h"
 #include "../Platform/ETHAppEnmlFile.h"
@@ -16,8 +15,8 @@ class ETHBackBufferTargetManager : public gs2d::Application::ScreenSizeChangeLis
 	gs2d::math::Vector2 m_bufferSize;
 	float m_targetScale;
 
-	static bool IsAuto(const gs2d::str_type::string& str);
-	bool ComputeLength(gs2d::VideoPtr video, const gs2d::str_type::string& thisSide, const gs2d::str_type::string& otherSide, const bool isWidth);
+	static bool IsAuto(const std::string& str);
+	bool ComputeLength(gs2d::VideoPtr video, const std::string& thisSide, const std::string& otherSide, const bool isWidth);
 
 	ETHDynamicBackBufferPtr m_backBuffer;
 	gs2d::math::OrientedBoundingBoxPtr m_obb;

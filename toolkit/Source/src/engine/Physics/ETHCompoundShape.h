@@ -9,22 +9,25 @@
 #include <Enml/Enml.h>
 
 #include <vector>
+#include <string>
+
+#include <boost/shared_ptr.hpp>
 
 class ETHCompoundShape
 {
 public:
-	ETHCompoundShape(const gs2d::str_type::string& enmlString);
+	ETHCompoundShape(const std::string& enmlString);
 	unsigned int GetNumShapes() const;
-	const gs2d::str_type::string& GetENMLDeclaration() const;
+	const std::string& GetENMLDeclaration() const;
 	std::vector<b2Shape*> GetShapes(const gs2d::math::Vector2& scale) const;
 	float GetIndividualFriction(const unsigned int idx, const float defaultFriction) const;
 	float GetIndividualDensity(const unsigned int idx, const float defaultDensity) const;
 	float GetIndividualRestitution(const unsigned int idx, const float defaultRestitution) const;
-	float GetIndividualProperty(const unsigned int idx, const float defaultValue, const gs2d::str_type::string& attribName) const;
+	float GetIndividualProperty(const unsigned int idx, const float defaultValue, const std::string& attribName) const;
 
 private:
 	b2Shape* GetShape(const unsigned int idx, const gs2d::math::Vector2& scale) const;
-	gs2d::str_type::string m_content;
+	std::string m_content;
 	std::vector<gs2d::enml::Entity> m_entities;
 };
 

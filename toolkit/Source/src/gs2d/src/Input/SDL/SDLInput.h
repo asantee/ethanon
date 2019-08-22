@@ -44,7 +44,7 @@ public:
 
 	bool Update() override;
 
-	str_type::string GetLastCharInput() const override;
+	std::string GetLastCharInput() const override;
 
 	math::Vector3 GetAccelerometerData() const override;
 };

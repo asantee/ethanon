@@ -65,16 +65,16 @@ std::string AddLastSlash(const std::string& path)
 	return r;
 }
 
-gs2d::str_type::string RemoveExtension(const gs2d::str_type::char_t* source)
+std::string RemoveExtension(const char* source)
 {
-	gs2d::str_type::string dest = source;
+	std::string dest = source;
 	const int max = static_cast<int>(dest.length()) - 1;
 	for (int t = max - 1; t >= 0; t--)
 	{
 		if (source[t] == Platform::GetDirectorySlashA())
 			return source;
 
-		if (source[t] == GS_L('.'))
+		if (source[t] == ('.'))
 		{
 			dest.resize(t);
 			break;
@@ -83,7 +83,7 @@ gs2d::str_type::string RemoveExtension(const gs2d::str_type::char_t* source)
 	return dest;
 }
 
-bool IsExtensionRight(const gs2d::str_type::string& fileName, const gs2d::str_type::string& ext)
+bool IsExtensionRight(const std::string& fileName, const std::string& ext)
 {
 	const std::size_t pos = fileName.rfind(ext);
 	if (fileName.size() - pos == ext.size())
@@ -104,14 +104,14 @@ short ShortEndianSwap(const short s)
 	return (b1 << 8) + b2;
 }
 
-std::vector<gs2d::str_type::string> SplitString(gs2d::str_type::string str, const gs2d::str_type::string& c)
+std::vector<std::string> SplitString(std::string str, const std::string& c)
 {
-	std::vector<gs2d::str_type::string> v;
+	std::vector<std::string> v;
 	std::size_t pos;
-	while ((pos = str.find(c)) != gs2d::str_type::string::npos)
+	while ((pos = str.find(c)) != std::string::npos)
 	{
 		v.push_back(str.substr(0, pos));
-		str = str.substr(pos + c.length(), gs2d::str_type::string::npos);
+		str = str.substr(pos + c.length(), std::string::npos);
 	}
 	v.push_back(str);
 	return v;

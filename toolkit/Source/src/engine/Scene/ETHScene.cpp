@@ -19,7 +19,7 @@
 int ETHScene::m_idCounter = 0;
 
 ETHScene::ETHScene(
-	const str_type::string& fileName,
+	const std::string& fileName,
 	ETHResourceProviderPtr provider,
 	const ETHSceneProperties& props,
 	asIScriptModule *pModule,
@@ -85,7 +85,7 @@ void ETHScene::Init(ETHResourceProviderPtr provider, const ETHSceneProperties& p
 	shaderManager->SetParallaxIntensity(m_sceneProps.parallaxIntensity);
 }
 
-str_type::string ETHScene::AssembleEntityPath() const
+std::string ETHScene::AssembleEntityPath() const
 {
 	return m_provider->GetFileIOHub()->GetResourceDirectory() + ETHDirectories::GetEntityDirectory();
 }
@@ -96,21 +96,21 @@ void ETHScene::ClearResources()
 	m_provider->GetAudioResourceManager()->ReleaseResources();
 }
 
-bool ETHScene::SaveToFile(const str_type::string& fileName, ETHEntityCache& entityCache)
+bool ETHScene::SaveToFile(const std::string& fileName, ETHEntityCache& entityCache)
 {
 	if (m_buckets.IsEmpty())
 	{
-		ETH_STREAM_DECL(ss) << GS_L("ETHScene::Save: there are no entities to save: ") << fileName;
+		ETH_STREAM_DECL(ss) << ("ETHScene::Save: there are no entities to save: ") << fileName;
 		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
 		return false;
 	}
 
 	// Write the header to the file
 	TiXmlDocument doc;
-	TiXmlDeclaration *pDecl = new TiXmlDeclaration(GS_L("1.0"), GS_L(""), GS_L(""));
+	TiXmlDeclaration *pDecl = new TiXmlDeclaration(("1.0"), (""), (""));
 	doc.LinkEndChild(pDecl);
 
-	TiXmlElement *pElement = new TiXmlElement(GS_L("Ethanon"));
+	TiXmlElement *pElement = new TiXmlElement(("Ethanon"));
 	doc.LinkEndChild(pElement);
 	TiXmlElement *pRoot = doc.RootElement();
 
@@ -118,7 +118,7 @@ bool ETHScene::SaveToFile(const str_type::string& fileName, ETHEntityCache& enti
 	m_sceneProps.WriteToXMLFile(pRoot);
 
 	// start writing entities
-	TiXmlElement *pEntities = new TiXmlElement(GS_L("EntitiesInScene"));
+	TiXmlElement *pEntities = new TiXmlElement(("EntitiesInScene"));
 	pRoot->LinkEndChild(pEntities);
 
 	// Write every entity as an ordered bucket map
@@ -135,7 +135,7 @@ bool ETHScene::SaveToFile(const str_type::string& fileName, ETHEntityCache& enti
 				m_provider->GetFileManager());
 
 			#if defined(_DEBUG) || defined(DEBUG)
-			ETH_STREAM_DECL(ss) << GS_L("Entity written to file: ") << (*iter)->GetEntityName();
+			ETH_STREAM_DECL(ss) << ("Entity written to file: ") << (*iter)->GetEntityName();
 			m_provider->Log(ss.str(), Platform::FileLogger::INFO);
 			#endif
 		}
@@ -146,9 +146,9 @@ bool ETHScene::SaveToFile(const str_type::string& fileName, ETHEntityCache& enti
 }
 
 bool ETHScene::AddSceneFromFile(
-	const str_type::string& fileName,
+	const std::string& fileName,
 	ETHEntityCache& entityCache,
-	const str_type::string &entityPath,
+	const std::string &entityPath,
 	const bool readSceneProperties,
 	const Vector3& offset,
 	ETHEntityArray &outVector,
@@ -158,23 +158,23 @@ bool ETHScene::AddSceneFromFile(
 
 	if (!fileManager->FileExists(fileName))
 	{
-		ETH_STREAM_DECL(ss) << GS_L("ETHScene::LoadFromFile: file not found (") << fileName << GS_L(")");
+		ETH_STREAM_DECL(ss) << ("ETHScene::LoadFromFile: file not found (") << fileName << (")");
 		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
 		return false;
 	}
 
 	// Read the header and check if the file is valid
 	TiXmlDocument doc(fileName);
-	str_type::string content;
+	std::string content;
 	fileManager->GetUTFFileString(fileName, content);
 	return AddSceneFromString(fileName, content, entityCache, entityPath, readSceneProperties, offset, outVector, shouldGenerateNewID);
 }
 
 bool ETHScene::AddSceneFromString(
-	const str_type::string& fileName,
-	const str_type::string& xmlContent,
+	const std::string& fileName,
+	const std::string& xmlContent,
 	ETHEntityCache& entityCache,
-	const str_type::string &entityPath,
+	const std::string &entityPath,
 	const bool readSceneProperties,
 	const Vector3& offset,
 	ETHEntityArray &outVector,
@@ -187,7 +187,7 @@ bool ETHScene::AddSceneFromString(
 	TiXmlDocument doc(fileName);
 	if (!doc.LoadFile(xmlContent, TIXML_ENCODING_LEGACY))
 	{
-		ETH_STREAM_DECL(ss) << GS_L("ETHScene::LoadFromFile: file found, but parsing failed (") << fileName << GS_L(")");
+		ETH_STREAM_DECL(ss) << ("ETHScene::LoadFromFile: file found, but parsing failed (") << fileName << (")");
 		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
 		return false;
 	}
@@ -197,7 +197,7 @@ bool ETHScene::AddSceneFromString(
 	TiXmlElement *pElement = hDoc.FirstChildElement().Element();
 	if (!pElement)
 	{
-		ETH_STREAM_DECL(ss) << GS_L("ETHScene::LoadFromFile: couldn't find root element (") << fileName << GS_L(")");
+		ETH_STREAM_DECL(ss) << ("ETHScene::LoadFromFile: couldn't find root element (") << fileName << (")");
 		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
 		return false;
 	}
@@ -205,31 +205,31 @@ bool ETHScene::AddSceneFromString(
 }
 
 bool ETHScene::AddEntitiesFromXMLFile(
-	const str_type::string& fileName,
+	const std::string& fileName,
 	TiXmlElement *pRoot,
 	ETHEntityCache& entityCache,
-	const str_type::string &entityPath,
+	const std::string &entityPath,
 	const bool readSceneProperties,
 	const Vector3& offset,
 	ETHEntityArray &outVector,
 	bool shouldGenerateNewID)
 {
-	str_type::stringstream ss;
-	const str_type::string sceneFileName = Platform::GetFileName(fileName.c_str());
+	std::stringstream ss;
+	const std::string sceneFileName = Platform::GetFileName(fileName.c_str());
 
 	if (readSceneProperties)
 	{
 		m_sceneProps.ReadFromXMLFile(pRoot);
 	}
 
-	TiXmlNode *pNode = pRoot->FirstChild(GS_L("EntitiesInScene"));
+	TiXmlNode *pNode = pRoot->FirstChild(("EntitiesInScene"));
 
 	if (pNode)
 	{
 		TiXmlElement *pEntities = pNode->ToElement();
 		if (pEntities)
 		{
-			pNode = pEntities->FirstChild(GS_L("Entity"));
+			pNode = pEntities->FirstChild(("Entity"));
 			if (pNode)
 			{
 				TiXmlElement *pEntityIter = pNode->ToElement();
@@ -240,7 +240,7 @@ bool ETHScene::AddEntitiesFromXMLFile(
 						if (shouldGenerateNewID)
 						{
 							int id = -1;
-							pEntityIter->QueryIntAttribute(GS_L("id"), &id);
+							pEntityIter->QueryIntAttribute(("id"), &id);
  							if (m_buckets.SeekEntity(id) == 0)
  							{
  								shouldGenerateNewID = false;
@@ -260,12 +260,12 @@ bool ETHScene::AddEntitiesFromXMLFile(
 						{
 							ss << std::endl
 								<< sceneFileName
-								<< GS_L(": couldn't load entity ")
+								<< (": couldn't load entity ")
 								<< entityProperties->entityName
-								<< GS_L("(")
+								<< ("(")
 								<< entityPath
 								<< entityProperties->entityName
-								<< GS_L(")")
+								<< (")")
 								<< std::endl;
 						}
 
@@ -284,7 +284,7 @@ bool ETHScene::AddEntitiesFromXMLFile(
 	return true;
 }
 
-int ETHScene::AddEntity(ETHRenderEntity* pEntity, const str_type::string& alternativeName)
+int ETHScene::AddEntity(ETHRenderEntity* pEntity, const std::string& alternativeName)
 {
 	// sets an alternative name if there is any
 	if (!alternativeName.empty())
@@ -319,7 +319,7 @@ int ETHScene::AddEntity(ETHRenderEntity* pEntity, const str_type::string& altern
 
 int ETHScene::AddEntity(ETHRenderEntity* pEntity)
 {
-	return AddEntity(pEntity, GS_L(""));	
+	return AddEntity(pEntity, (""));
 }
 
 int ETHScene::UpdateIDCounter(ETHEntity* pEntity)
@@ -343,7 +343,7 @@ void ETHScene::SetSceneProperties(const ETHSceneProperties &prop)
 	m_provider->GetShaderManager()->SetParallaxIntensity(m_sceneProps.parallaxIntensity);
 }
 
-void ETHScene::LoadLightmapsFromBitmapFiles(const str_type::string& currentSceneFilePath)
+void ETHScene::LoadLightmapsFromBitmapFiles(const std::string& currentSceneFilePath)
 {
 	for (ETHBucketMap::iterator bucketIter = m_buckets.GetFirstBucket(); bucketIter != m_buckets.GetLastBucket(); ++bucketIter)
 	{
@@ -353,30 +353,30 @@ void ETHScene::LoadLightmapsFromBitmapFiles(const str_type::string& currentScene
 		for (ETHEntityList::iterator iter = entityList.begin(); iter != iEnd; ++iter)
 		{
 			ETHRenderEntity* entity = (*iter);
-			const str_type::string fileDirectory = ConvertFileNameToLightmapDirectory(currentSceneFilePath);
+			const std::string fileDirectory = ConvertFileNameToLightmapDirectory(currentSceneFilePath);
 	
 			// PNG lightmaps have higher priority than BMP
-			const str_type::string filePathBmp = entity->AssembleLightmapFileName(fileDirectory, GS_L("bmp"));
-			const str_type::string filePathPng = entity->AssembleLightmapFileName(fileDirectory, GS_L("png"));
+			const std::string filePathBmp = entity->AssembleLightmapFileName(fileDirectory, ("bmp"));
+			const std::string filePathPng = entity->AssembleLightmapFileName(fileDirectory, ("png"));
 			const bool pngFileExists = (ETHGlobal::FileExists(filePathPng, m_provider->GetFileManager()));
 			entity->LoadLightmapFromFile(pngFileExists ? filePathPng : filePathBmp);
 		}
 	}
 }
 
-str_type::string ETHScene::ConvertFileNameToLightmapDirectory(str_type::string filePath)
+std::string ETHScene::ConvertFileNameToLightmapDirectory(std::string filePath)
 {
-	str_type::string fileName = Platform::GetFileName(filePath);
+	std::string fileName = Platform::GetFileName(filePath);
 	for (std::size_t t = 0; t < fileName.length(); t++)
 	{
-		if (fileName[t] == GS_L('.'))
+		if (fileName[t] == ('.'))
 		{
-			fileName[t] = GS_L('-');
+			fileName[t] = ('-');
 		}
 	}
 	
-	const str_type::string directory(fileName + GS_L("/"));
-	str_type::string r = str_type::string(Platform::GetFileDirectory(filePath.c_str())).append(directory);
+	const std::string directory(fileName + ("/"));
+	std::string r = std::string(Platform::GetFileDirectory(filePath.c_str())).append(directory);
 	return r;
 }
 
@@ -558,55 +558,55 @@ void ETHScene::AssignControllerToEntity(ETHEntity* entity, asIScriptFunction* ca
 	{
 		ETHEntityControllerPtr controller = m_physicsSimulator.CreatePhysicsController(entity, m_pModule, m_pContext);
 		#if defined(_DEBUG) || defined(DEBUG)
-			str_type::stringstream ss; Platform::Logger::TYPE logType;
+			std::stringstream ss; Platform::Logger::TYPE logType;
 			if (controller)
 			{
 				logType = Platform::Logger::INFO;
-				ss << GS_L("Physics controller successfuly created: ");
+				ss << ("Physics controller successfuly created: ");
 			}
 			else
 			{
 				logType = Platform::Logger::ERROR;
-				ss << GS_L("Couldn't create physics controller: ");
+				ss << ("Couldn't create physics controller: ");
 			}
-			ss << entity->GetEntityName() << GS_L(" (#") << entity->GetID() << GS_L(")");
+			ss << entity->GetEntityName() << (" (#") << entity->GetID() << (")");
 			m_provider->Log(ss.str(), logType);
 		#endif
 		entity->SetController(controller);
 	}
 }
 
-bool ETHScene::AddFloatData(const str_type::string &entity, const str_type::string &name, const float value)
+bool ETHScene::AddFloatData(const std::string &entity, const std::string &name, const float value)
 {
 	return AddCustomData(entity, name, ETHCustomDataPtr(new ETHFloatData(value)));
 }
 
-bool ETHScene::AddIntData(const str_type::string &entity, const str_type::string &name, const int value)
+bool ETHScene::AddIntData(const std::string &entity, const std::string &name, const int value)
 {
 	return AddCustomData(entity, name, ETHCustomDataPtr(new ETHIntData(value)));
 }
 
-bool ETHScene::AddUIntData(const str_type::string &entity, const str_type::string &name, const unsigned int value)
+bool ETHScene::AddUIntData(const std::string &entity, const std::string &name, const unsigned int value)
 {
 	return AddCustomData(entity, name, ETHCustomDataPtr(new ETHUIntData(value)));
 }
 
-bool ETHScene::AddStringData(const str_type::string &entity, const str_type::string &name, const str_type::string &value)
+bool ETHScene::AddStringData(const std::string &entity, const std::string &name, const std::string &value)
 {
 	return AddCustomData(entity, name, ETHCustomDataPtr(new ETHStringData(value)));
 }
 
-bool ETHScene::AddVector2Data(const str_type::string &entity, const str_type::string &name, const Vector2 &value)
+bool ETHScene::AddVector2Data(const std::string &entity, const std::string &name, const Vector2 &value)
 {
 	return AddCustomData(entity, name, ETHCustomDataPtr(new ETHVector2Data(value)));
 }
 
-bool ETHScene::AddVector3Data(const str_type::string &entity, const str_type::string &name, const Vector3 &value)
+bool ETHScene::AddVector3Data(const std::string &entity, const std::string &name, const Vector3 &value)
 {
 	return AddCustomData(entity, name, ETHCustomDataPtr(new ETHVector3Data(value)));
 }
 
-bool ETHScene::AddCustomData(const str_type::string &entity, const str_type::string &name, const ETHCustomDataConstPtr &inData)
+bool ETHScene::AddCustomData(const std::string &entity, const std::string &name, const ETHCustomDataConstPtr &inData)
 {
 	unsigned int count = 0;
 	for (ETHBucketMap::iterator bucketIter = m_buckets.GetFirstBucket(); bucketIter != m_buckets.GetLastBucket(); ++bucketIter)

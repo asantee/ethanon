@@ -18,7 +18,7 @@ struct ETHLight
 	float haloSize;
 	float haloBrightness;
 	ETH_BOOL castShadows;
-	str_type::string haloBitmap;
+	std::string haloBitmap;
 private:
 	ETH_BOOL active;
 };

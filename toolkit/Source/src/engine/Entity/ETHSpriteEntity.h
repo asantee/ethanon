@@ -8,12 +8,12 @@
 class ETHSpriteEntity : public ETHEntity
 {
 public:
-	ETHSpriteEntity(const str_type::string& filePath, ETHResourceProviderPtr provider, const int nId =-1);
+	ETHSpriteEntity(const std::string& filePath, ETHResourceProviderPtr provider, const int nId =-1);
 	ETHSpriteEntity(
 		TiXmlElement *pElement,
 		ETHResourceProviderPtr provider,
 		ETHEntityCache& entityCache,
-		const str_type::string& entityPath,
+		const std::string& entityPath,
 		const bool shouldGenerateNewID);
 	ETHSpriteEntity(
 		ETHResourceProviderPtr provider,
@@ -37,16 +37,16 @@ public:
 	SpritePtr GetHalo();
 	SpritePtr GetParticleBMP(const unsigned int n);
 
-	str_type::string AssembleLightmapFileName(const str_type::string& directory, const str_type::string& extension) const;
+	std::string AssembleLightmapFileName(const std::string& directory, const std::string& extension) const;
 
 	float GetMaxHeight();
 	float GetMinHeight();
 
-	bool LoadLightmapFromFile(const str_type::string& filePath);
+	bool LoadLightmapFromFile(const std::string& filePath);
 
 	void DestroyParticleSystem(const unsigned int n);
 	void SetParticleBitmap(const int unsigned n, SpritePtr bitmap);
-	void SetParticleBitmap(const unsigned int n, const str_type::string& bitmap) override;
+	void SetParticleBitmap(const unsigned int n, const std::string& bitmap) override;
 	void SetParticlePosition(const unsigned int n, const Vector3 &v3Pos) override;
 	void ScaleParticleSystem(const unsigned int n, const float scale) override;
 	bool MirrorParticleSystemX(const unsigned int n, const bool mirrorGravity) override;
@@ -77,11 +77,11 @@ public:
 	Vector2 ComputeInScreenSpriteCenter(const ETHSceneProperties& sceneProps) const;
 	bool IsPointOnSprite(const ETHSceneProperties& sceneProps, const Vector2& absolutePointPos, const Vector2& size) const;
 
-	bool SetSprite(const str_type::string &fileName) override;
-	bool SetHalo(const str_type::string &fileName) override;
+	bool SetSprite(const std::string &fileName) override;
+	bool SetHalo(const std::string &fileName) override;
 
-	str_type::string GetSpriteName() const override;
-	str_type::string GetHaloName() const override;
+	std::string GetSpriteName() const override;
+	std::string GetHaloName() const override;
 
 	void Update(const float lastFrameElapsedTime, const Vector2& zAxisDir, ETHBucketManager& buckets);
 	void UpdateParticleSystems(const Vector2& zAxisDirection, const float lastFrameElapsedTime);
@@ -115,7 +115,7 @@ protected:
 	mutable SpritePtr m_pSprite;
 	SpritePtr m_pHalo;
 	SpritePtr m_pLightmap;
-	str_type::string m_preRenderedLightmapFilePath;
+	std::string m_preRenderedLightmapFilePath;
 
 	SpriteRectsPtr m_packedFrames;
 

@@ -3,7 +3,7 @@
 
 #include "../../cjson/cJSON.h"
 
-#include "../ETHTypes.h"
+#include <string>
 
 class JSONObject
 {
@@ -15,16 +15,16 @@ public:
 	JSONObject(const JSONObject& cjson);
 	~JSONObject();
 
-	bool Parse(const gs2d::str_type::string& value);
-	gs2d::str_type::string GetError() const;
+	bool Parse(const std::string& value);
+	std::string GetError() const;
 
 	JSONObject GetNext();
 	JSONObject GetPrev();
 	JSONObject GetChild();
 
-	JSONObject GetObjectItem(const gs2d::str_type::string& name) const;
+	JSONObject GetObjectItem(const std::string& name) const;
 
-	gs2d::str_type::string GetStringValue() const;
+	std::string GetStringValue() const;
 	double GetDoubleValue() const;
 
 	bool IsInvalid() const;

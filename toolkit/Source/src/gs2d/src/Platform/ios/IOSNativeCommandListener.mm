@@ -6,7 +6,7 @@
 
 namespace Platform {
 
-bool IOSNativeCommmandListener::ExecuteCommand(const gs2d::str_type::string& commandLine)
+bool IOSNativeCommmandListener::ExecuteCommand(const std::string& commandLine)
 {
 	@autoreleasepool {
 		NSString* line = [NSString stringWithUTF8String:commandLine.c_str()];

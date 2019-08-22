@@ -56,15 +56,15 @@ public:
 		const std::string& psCodeAsciiString,
 		const std::string& psEntry) override;
 
-	void SetConstant(const str_type::string& name, const math::Vector4 &v) override;
-	void SetConstant(const str_type::string& name, const math::Vector3 &v) override;
-	void SetConstant(const str_type::string& name, const math::Vector2 &v) override;
-	void SetConstant(const str_type::string& name, const float x) override;
-	void SetConstant(const str_type::string& name, const int n) override;
-	void SetConstantArray(const str_type::string& name, unsigned int nElements, const math::Vector2* v) override;
-	void SetConstantArray(const str_type::string& name, unsigned int nElements, const math::Vector4* v) override;
-	void SetMatrixConstant(const str_type::string& name, const math::Matrix4x4 &matrix) override;
-	void SetTexture(const str_type::string& name, TexturePtr pTexture, const unsigned int index) override;
+	void SetConstant(const std::string& name, const math::Vector4 &v) override;
+	void SetConstant(const std::string& name, const math::Vector3 &v) override;
+	void SetConstant(const std::string& name, const math::Vector2 &v) override;
+	void SetConstant(const std::string& name, const float x) override;
+	void SetConstant(const std::string& name, const int n) override;
+	void SetConstantArray(const std::string& name, unsigned int nElements, const math::Vector2* v) override;
+	void SetConstantArray(const std::string& name, unsigned int nElements, const math::Vector4* v) override;
+	void SetMatrixConstant(const std::string& name, const math::Matrix4x4 &matrix) override;
+	void SetTexture(const std::string& name, TexturePtr pTexture, const unsigned int index) override;
 
 	void SetShader() override;
 };

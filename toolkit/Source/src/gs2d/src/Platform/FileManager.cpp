@@ -1,18 +1,17 @@
 #include "FileManager.h"
 
 #include <fstream>
+#include <sstream>
 
 #include "../Unicode/utf8/utf8.h"
-
-using namespace gs2d;
 
 namespace Platform {
 
 const unsigned short FileManager::UTF16LE_BOM = 0xFEFF;
 
-bool FileManager::GetUTF8FileString(const FileBuffer& buffer, gs2d::str_type::string &out)
+bool FileManager::GetUTF8FileString(const FileBuffer& buffer, std::string &out)
 {
-	str_type::stringstream ss;
+	std::stringstream ss;
 	unsigned char *adr = buffer->GetAddress();
 	const std::size_t bufferSize = buffer->GetBufferSize();
 	
@@ -30,7 +29,7 @@ bool FileManager::GetUTF8FileString(const FileBuffer& buffer, gs2d::str_type::st
 	return true;
 }
 
-bool FileManager::GetUTF16FileString(const FileBuffer& buffer, gs2d::str_type::string &out)
+bool FileManager::GetUTF16FileString(const FileBuffer& buffer, std::string &out)
 {
     if (!HasUTF16LEBOM(buffer))
         return false;
@@ -55,7 +54,7 @@ bool FileManager::HasUTF16LEBOM(const FileBuffer& buffer)
 	return (*firstTwoBytes == UTF16LE_BOM);
 }
 
-bool FileManager::GetUTF8FileString(const str_type::string &fileName, str_type::string &out)
+bool FileManager::GetUTF8FileString(const std::string &fileName, std::string &out)
 {
 	FileBuffer buffer;
 	if (GetFileBuffer(fileName, buffer))
@@ -68,7 +67,7 @@ bool FileManager::GetUTF8FileString(const str_type::string &fileName, str_type::
 	}
 }
 
-bool FileManager::GetUTF16FileString(const str_type::string &fileName, str_type::string &out)
+bool FileManager::GetUTF16FileString(const std::string &fileName, std::string &out)
 {
 	FileBuffer buffer;
 	if (GetFileBuffer(fileName, buffer))
@@ -81,7 +80,7 @@ bool FileManager::GetUTF16FileString(const str_type::string &fileName, str_type:
 	}
 }
 
-bool FileManager::GetUTFFileString(const str_type::string &fileName, str_type::string &out)
+bool FileManager::GetUTFFileString(const std::string &fileName, std::string &out)
 {
 	FileBuffer buffer;
 	if (GetFileBuffer(fileName, buffer))
@@ -97,12 +96,12 @@ bool FileManager::GetUTFFileString(const str_type::string &fileName, str_type::s
 	}
 }
 
-bool FileManager::GetAnsiFileString(const str_type::string &fileName, str_type::string &out)
+bool FileManager::GetAnsiFileString(const std::string &fileName, std::string &out)
 {
 	FileBuffer buffer;
 	if (GetFileBuffer(fileName, buffer))
 	{
-		str_type::stringstream ss;
+		std::stringstream ss;
 		unsigned char *adr = buffer->GetAddress();
 		for (unsigned long t = 0; t < buffer->GetBufferSize(); t++)
 		{

@@ -2,7 +2,7 @@
 
 const unsigned int ETHFileChangeDetector::m_timeStrideMS(2000);
 
-ETHFileChangeDetector::ETHFileChangeDetector(const gs2d::ApplicationPtr& app, const gs2d::str_type::string& filePath, const ENCODING encoding) :
+ETHFileChangeDetector::ETHFileChangeDetector(const gs2d::ApplicationPtr& app, const std::string& filePath, const ENCODING encoding) :
 	m_filePath(filePath),
 	m_fileChanged(false),
 	m_encoding(encoding),
@@ -30,7 +30,7 @@ void ETHFileChangeDetector::Update()
 {
 	if ((m_app->GetElapsedTime() - m_lastTime) > m_timeStrideMS)
 	{
-		gs2d::str_type::string newContent;
+		std::string newContent;
 		switch (m_encoding)
 		{
 		case ANSI:

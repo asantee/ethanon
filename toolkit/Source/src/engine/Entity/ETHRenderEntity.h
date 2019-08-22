@@ -10,12 +10,12 @@
 class ETHRenderEntity : public ETHSpriteEntity
 {
 public:
-	ETHRenderEntity(const str_type::string& filePath, ETHResourceProviderPtr provider, const int nId =-1);
+	ETHRenderEntity(const std::string& filePath, ETHResourceProviderPtr provider, const int nId =-1);
 	ETHRenderEntity(
 		TiXmlElement *pElement,
 		ETHResourceProviderPtr provider,
 		ETHEntityCache& entityCache,
-		const str_type::string &entityPath,
+		const std::string &entityPath,
 		const bool shouldGenerateNewID);
 	ETHRenderEntity(ETHResourceProviderPtr provider, const ETHEntityProperties& properties, const float angle, const float scale);
 	ETHRenderEntity(ETHResourceProviderPtr provider);

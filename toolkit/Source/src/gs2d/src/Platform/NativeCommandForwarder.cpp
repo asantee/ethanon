@@ -2,22 +2,20 @@
 
 namespace Platform {
 
-using namespace gs2d;
-
 NativeCommandForwarder::NativeCommandForwarder() :
-	m_commands(GS_L(""))
+	m_commands((""))
 {
 }
 
-void NativeCommandForwarder::ForwardCommands(str_type::string& out)
+void NativeCommandForwarder::ForwardCommands(std::string& out)
 {
 	out = m_commands;
-	m_commands = GS_L("");
+	m_commands = ("");
 }
 
-void NativeCommandForwarder::Command(const str_type::string& commandStr, const bool onTop)
+void NativeCommandForwarder::Command(const std::string& commandStr, const bool onTop)
 {
-	const str_type::string commandLine = (commandStr + GS_L("\n"));
+	const std::string commandLine = (commandStr + ("\n"));
 	if (!onTop)
 	{
 		m_commands += commandLine;

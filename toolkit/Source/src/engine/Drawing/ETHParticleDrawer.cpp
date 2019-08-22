@@ -6,8 +6,8 @@ ETHParticleDrawer::ETHParticleDrawer(
 	const ETHResourceProviderPtr& provider,
 	ETHGraphicResourceManagerPtr graphicResources,
 	ETHShaderManagerPtr shaderManager,
-	const str_type::string& resourceDirectory,
-	const str_type::string& fileName,
+	const std::string& resourceDirectory,
+	const std::string& fileName,
 	const Vector2& pos,
 	const float angle,
 	const float scale) :
@@ -52,7 +52,7 @@ bool ETHParticleDrawer::IsAlive() const
 {
 	if (m_particleManager->GetSystem()->repeat <= 0)
 	{
-		m_provider->Log(m_fileName + GS_L(" rendering failed. Only temporary particle effects are allowed"), Platform::Logger::ERROR);
+		m_provider->Log(m_fileName + (" rendering failed. Only temporary particle effects are allowed"), Platform::Logger::ERROR);
 		return false;
 	}
 	return !m_particleManager->Finished();

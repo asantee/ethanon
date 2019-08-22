@@ -1,41 +1,41 @@
 #include "ETHScriptWrapper.h"
 #include "../Drawing/ETHParticleDrawer.h"
 
-Vector2 ETHScriptWrapper::ComputeCarretPosition(const str_type::string &font, const str_type::string &text, const unsigned int pos)
+Vector2 ETHScriptWrapper::ComputeCarretPosition(const std::string &font, const std::string &text, const unsigned int pos)
 {
 	return m_provider->GetVideo()->ComputeCarretPosition(font, text, pos);
 }
 
-Vector2 ETHScriptWrapper::ComputeTextBoxSize(const str_type::string &font, const str_type::string &text)
+Vector2 ETHScriptWrapper::ComputeTextBoxSize(const std::string &font, const std::string &text)
 {
 	return m_provider->GetVideo()->ComputeTextBoxSize(font, text);
 }
 
-void ETHScriptWrapper::DrawText(const Vector2 &v2Pos, const str_type::string &text, const str_type::string &font, const uint32_t color, const float scale)
+void ETHScriptWrapper::DrawText(const Vector2 &v2Pos, const std::string &text, const std::string &font, const uint32_t color, const float scale)
 {
 	m_drawableManager.Insert(boost::shared_ptr<ETHDrawable>(new ETHTextDrawer(m_provider, v2Pos, text, font, color, 0x0, scale)));
 }
 
-str_type::string ETHScriptWrapper::AssembleColorCode(const uint32_t color)
+std::string ETHScriptWrapper::AssembleColorCode(const uint32_t color)
 {
 	return gs2d::BitmapFont::AssembleColorCode(color);
 }
 
-void ETHScriptWrapper::LoadSprite(const str_type::string& name)
+void ETHScriptWrapper::LoadSprite(const std::string& name)
 {
-	if (WarnIfRunsInMainFunction(GS_L("LoadSprite")))
+	if (WarnIfRunsInMainFunction(("LoadSprite")))
 		return;
 	LoadAndGetSprite(name);
 }
 
-bool ETHScriptWrapper::ReleaseSprite(const str_type::string& name)
+bool ETHScriptWrapper::ReleaseSprite(const std::string& name)
 {
-	if (WarnIfRunsInMainFunction(GS_L("ReleaseSprite")))
+	if (WarnIfRunsInMainFunction(("ReleaseSprite")))
 		return false;
 	return m_provider->GetGraphicResourceManager()->ReleaseResource(name);
 }
 
-SpritePtr ETHScriptWrapper::LoadAndGetSprite(const str_type::string &name)
+SpritePtr ETHScriptWrapper::LoadAndGetSprite(const std::string &name)
 {
 	const ETHGraphicResourceManager::SpriteResource* resource = LoadAndGetResource(name);
 	if (resource)
@@ -48,10 +48,10 @@ SpritePtr ETHScriptWrapper::LoadAndGetSprite(const str_type::string &name)
 	}
 }
 
-const ETHGraphicResourceManager::SpriteResource* ETHScriptWrapper::LoadAndGetResource(const str_type::string &name)
+const ETHGraphicResourceManager::SpriteResource* ETHScriptWrapper::LoadAndGetResource(const std::string &name)
 {
-	str_type::string resourceDirectory = m_provider->GetFileIOHub()->GetResourceDirectory();
-	str_type::string path = resourceDirectory + name;
+	std::string resourceDirectory = m_provider->GetFileIOHub()->GetResourceDirectory();
+	std::string path = resourceDirectory + name;
 
 	return m_provider->GetGraphicResourceManager()->AddFile(
 		m_provider->GetFileManager(),
@@ -61,7 +61,7 @@ const ETHGraphicResourceManager::SpriteResource* ETHScriptWrapper::LoadAndGetRes
 		false);
 }
 
-Vector2 ETHScriptWrapper::GetSpriteSize(const str_type::string &name)
+Vector2 ETHScriptWrapper::GetSpriteSize(const std::string &name)
 {
 	const ETHGraphicResourceManager::SpriteResource* resource = LoadAndGetResource(name);
 	if (resource)
@@ -75,7 +75,7 @@ Vector2 ETHScriptWrapper::GetSpriteSize(const str_type::string &name)
 	}
 }
 
-Vector2 ETHScriptWrapper::GetSpriteFrameSize(const str_type::string& name)
+Vector2 ETHScriptWrapper::GetSpriteFrameSize(const std::string& name)
 {
 	const ETHGraphicResourceManager::SpriteResource* resource = LoadAndGetResource(name);
 	if (resource)
@@ -96,7 +96,7 @@ Vector2 ETHScriptWrapper::GetSpriteFrameSize(const str_type::string& name)
 	}
 }
 
-void ETHScriptWrapper::SetupSpriteRects(const str_type::string& name, const unsigned int columns, const unsigned int rows)
+void ETHScriptWrapper::SetupSpriteRects(const std::string& name, const unsigned int columns, const unsigned int rows)
 {
 	ETHGraphicResourceManager::SpriteResource* resource =
 		m_provider->GetGraphicResourceManager()->GetSpriteResource(Platform::GetFileName(name));
@@ -110,7 +110,7 @@ void ETHScriptWrapper::SetupSpriteRects(const str_type::string& name, const unsi
 	}
 }
 
-void ETHScriptWrapper::SetSpriteRect(const str_type::string& name, const unsigned int frame)
+void ETHScriptWrapper::SetSpriteRect(const std::string& name, const unsigned int frame)
 {
 	ETHGraphicResourceManager::SpriteResource* resource =
 		m_provider->GetGraphicResourceManager()->GetSpriteResource(Platform::GetFileName(name));
@@ -120,7 +120,7 @@ void ETHScriptWrapper::SetSpriteRect(const str_type::string& name, const unsigne
 	}
 }
 
-void ETHScriptWrapper::SetSpriteOrigin(const str_type::string& name, const Vector2& origin)
+void ETHScriptWrapper::SetSpriteOrigin(const std::string& name, const Vector2& origin)
 {
 	SpritePtr pSprite = LoadAndGetSprite(name);
 	if (pSprite)
@@ -129,7 +129,7 @@ void ETHScriptWrapper::SetSpriteOrigin(const str_type::string& name, const Vecto
 	}
 }
 
-void ETHScriptWrapper::SetSpriteFlipX(const str_type::string &name, const bool flip)
+void ETHScriptWrapper::SetSpriteFlipX(const std::string &name, const bool flip)
 {
 	ETHGraphicResourceManager::SpriteResource* resource =
 		m_provider->GetGraphicResourceManager()->GetSpriteResource(Platform::GetFileName(name));
@@ -140,7 +140,7 @@ void ETHScriptWrapper::SetSpriteFlipX(const str_type::string &name, const bool f
 	}
 }
 
-void ETHScriptWrapper::SetSpriteFlipY(const str_type::string &name, const bool flip)
+void ETHScriptWrapper::SetSpriteFlipY(const std::string &name, const bool flip)
 {
 	ETHGraphicResourceManager::SpriteResource* resource =
 		m_provider->GetGraphicResourceManager()->GetSpriteResource(Platform::GetFileName(name));
@@ -172,35 +172,35 @@ void ETHScriptWrapper::DrawShapedFromResource(
 			resource->flipY)));
 }
 
-void ETHScriptWrapper::DrawSprite(const str_type::string &name, const Vector2 &v2Pos, const uint32_t color, const float angle)
+void ETHScriptWrapper::DrawSprite(const std::string &name, const Vector2 &v2Pos, const uint32_t color, const float angle)
 {
 	ETHGraphicResourceManager::SpriteResource* resource =
 		m_provider->GetGraphicResourceManager()->GetSpriteResource(Platform::GetFileName(name));
 	DrawShapedFromResource(resource, v2Pos, Vector2(-1,-1), color, angle);
 }
 
-void ETHScriptWrapper::DrawShaped(const str_type::string &name, const Vector2 &v2Pos, const Vector2 &v2Size, const uint32_t color, const float angle)
+void ETHScriptWrapper::DrawShaped(const std::string &name, const Vector2 &v2Pos, const Vector2 &v2Size, const uint32_t color, const float angle)
 {
 	ETHGraphicResourceManager::SpriteResource* resource =
 		m_provider->GetGraphicResourceManager()->GetSpriteResource(Platform::GetFileName(name));
 	DrawShapedFromResource(resource, v2Pos, v2Size, Color(color), angle);
 }
 
-void ETHScriptWrapper::DrawSprite(const str_type::string &name, const Vector2 &v2Pos, const float alpha, const Vector3 &color, const float angle)
+void ETHScriptWrapper::DrawSprite(const std::string &name, const Vector2 &v2Pos, const float alpha, const Vector3 &color, const float angle)
 {
 	ETHGraphicResourceManager::SpriteResource* resource =
 		m_provider->GetGraphicResourceManager()->GetSpriteResource(Platform::GetFileName(name));
 	DrawShapedFromResource(resource, v2Pos, Vector2(-1,-1), Vector4(color, alpha), angle);
 }
 
-void ETHScriptWrapper::DrawShaped(const str_type::string &name, const Vector2 &v2Pos, const Vector2 &v2Size, const float alpha, const Vector3 &color, const float angle)
+void ETHScriptWrapper::DrawShaped(const std::string &name, const Vector2 &v2Pos, const Vector2 &v2Size, const float alpha, const Vector3 &color, const float angle)
 {
 	ETHGraphicResourceManager::SpriteResource* resource =
 		m_provider->GetGraphicResourceManager()->GetSpriteResource(Platform::GetFileName(name));
 	DrawShapedFromResource(resource, v2Pos, v2Size, Vector4(color, alpha), angle);
 }
 
-void ETHScriptWrapper::PlayParticleEffect(const str_type::string& fileName, const Vector2& pos, const float angle, const float scale)
+void ETHScriptWrapper::PlayParticleEffect(const std::string& fileName, const Vector2& pos, const float angle, const float scale)
 {
 	m_drawableManager.Insert(
 		boost::shared_ptr<ETHDrawable>(
@@ -215,7 +215,7 @@ void ETHScriptWrapper::PlayParticleEffect(const str_type::string& fileName, cons
 				scale)));
 }
 
-void ETHScriptWrapper::DrawFadingText(const Vector2 &v2Pos, const str_type::string &text, const str_type::string &font, const uint32_t color, unsigned long time, const float scale)
+void ETHScriptWrapper::DrawFadingText(const Vector2 &v2Pos, const std::string &text, const std::string &font, const uint32_t color, unsigned long time, const float scale)
 {
 	m_drawableManager.Insert(boost::shared_ptr<ETHDrawable>(
 		new ETHTextDrawer(m_provider, v2Pos, text, font, color, time, scale)));

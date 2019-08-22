@@ -1,9 +1,11 @@
 #include "ETHNoDynamicBackBuffer.h"
 
+#define UNUSED_ARGUMENT(argument) ((void)(argument))
+
 ETHNoDynamicBackBuffer::ETHNoDynamicBackBuffer(const gs2d::VideoPtr& video, const gs2d::math::Vector2& size) :
 	m_video(video)
 {
-	GS2D_UNUSED_ARGUMENT(size);
+	UNUSED_ARGUMENT(size);
 }
 
 void ETHNoDynamicBackBuffer::BeginRendering()

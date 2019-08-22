@@ -1,11 +1,14 @@
 #include "SDLInput.h"
+
 #include "../../Video/GLSDL/GLSDLVideo.h"
 
 #include <SDL2/SDL.h>
 
+#define GS2D_UNUSED_ARGUMENT(argument) ((void)(argument))
+
 namespace gs2d {
 
-GS2D_API InputPtr CreateInput(const bool showJoystickWarnings, std::string* inputSource)
+InputPtr CreateInput(const bool showJoystickWarnings, std::string* inputSource)
 {
 	return InputPtr(new SDLInput(showJoystickWarnings));
 }
@@ -258,11 +261,11 @@ float SDLInput::GetWheelState() const
 	return GLSDLVideo::m_mouseWheel;
 }
 
-str_type::string SDLInput::GetLastCharInput() const
+std::string SDLInput::GetLastCharInput() const
 {
 	if (GLSDLVideo::m_lastCharInput.length() == 1)
 	{
-		str_type::char_t c = GLSDLVideo::m_lastCharInput[0];
+		char c = GLSDLVideo::m_lastCharInput[0];
 		switch (c)
 		{
 		case 0x00:
@@ -289,7 +292,7 @@ str_type::string SDLInput::GetLastCharInput() const
 		case 0x1A:
 		case 0x1B:
 		case 0x7F:
-			return GS_L("");
+			return ("");
 		}
 	}
 	return GLSDLVideo::m_lastCharInput;

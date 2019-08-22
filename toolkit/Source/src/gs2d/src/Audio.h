@@ -17,7 +17,7 @@ typedef boost::weak_ptr<Audio> AudioWeakPtr;
 
 class Audio
 {
-	friend GS2D_API AudioPtr CreateAudio(boost::any data);
+	friend AudioPtr CreateAudio(boost::any data);
 
 	virtual bool CreateAudioDevice(boost::any data) = 0;
 
@@ -41,7 +41,7 @@ public:
 	};
 
 	virtual AudioSamplePtr LoadSampleFromFile(
-		const str_type::string& fileName,
+		const std::string& fileName,
 		const Platform::FileManagerPtr& fileManager,
 		const SAMPLE_TYPE type = UNKNOWN_TYPE) = 0;
 
@@ -67,7 +67,7 @@ class AudioSample
 public:
 	virtual bool LoadSampleFromFile(
 		AudioWeakPtr audio,
-		const str_type::string& fileName,
+		const std::string& fileName,
 		const Platform::FileManagerPtr& fileManager,
 		const Audio::SAMPLE_TYPE type = Audio::UNKNOWN_TYPE) = 0;
 
@@ -101,7 +101,7 @@ public:
 };
 
 /// Instantiates an Input object
-GS2D_API AudioPtr CreateAudio(boost::any data);
+AudioPtr CreateAudio(boost::any data);
 
 } // namespace gs2d
 

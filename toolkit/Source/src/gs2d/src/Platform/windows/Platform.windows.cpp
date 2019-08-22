@@ -8,7 +8,7 @@
 #include <windows.h>
 #include <direct.h>
 
-gs2d::str_type::string gs2d::Application::GetPlatformName()
+std::string gs2d::Application::GetPlatformName()
 {
 	return GS_L("windows");
 }
@@ -16,7 +16,7 @@ gs2d::str_type::string gs2d::Application::GetPlatformName()
 namespace Platform {
 
 #ifdef _DEBUG
-gs2d::str_type::string GetModuleDirectory()
+std::string GetModuleDirectory()
 {
 	gs2d::str_type::char_t currentDirectoryBuffer[65536];
 
@@ -29,7 +29,7 @@ gs2d::str_type::string GetModuleDirectory()
 	return AddLastSlash(currentDirectoryBuffer);
 }
 #else
-gs2d::str_type::string GetModuleDirectory()
+std::string GetModuleDirectory()
 {
 	gs2d::str_type::char_t moduleFileName[65536];
 
@@ -145,7 +145,7 @@ std::string ConvertUnicodeToAscii(const wchar_t* unicodeString)
 	return result;
 }
 
-gs2d::str_type::string FileLogger::GetLogDirectory()
+std::string FileLogger::GetLogDirectory()
 {
 	return GetModuleDirectory();
 }

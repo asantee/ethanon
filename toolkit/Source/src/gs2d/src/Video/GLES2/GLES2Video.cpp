@@ -25,7 +25,7 @@ using namespace math;
 GLES2Video::GLES2Video(
 	const unsigned int width,
 	const unsigned int height,
-	const str_type::string& winTitle,
+	const std::string& winTitle,
 	const Platform::FileIOHubPtr& fileIOHub) :
 	m_backgroundColor(gs2d::constant::BLACK),
 	m_screenSize(width, height),
@@ -55,16 +55,16 @@ static bool HasFragmentShaderMaximumPrecision()
 static void LogFragmentShaderMaximumPrecision()
 {
 	const bool precisionResult = HasFragmentShaderMaximumPrecision();
-	const str_type::string logStr = (precisionResult)
-		? GS_L("High floating point fragment shader precision supported")
-		: GS_L("High floating point fragment shader precision is not supported");
+	const std::string logStr = (precisionResult)
+		? ("High floating point fragment shader precision supported")
+		: ("High floating point fragment shader precision is not supported");
 	std::cout << logStr << std::endl;
 }
 
 bool GLES2Video::StartApplication(
 	const unsigned int width,
 	const unsigned int height,
-	const str_type::string& winTitle,
+	const std::string& winTitle,
 	const bool windowed,
 	const bool sync,
 	const Texture::PIXEL_FORMAT pfBB,
@@ -100,7 +100,7 @@ void GLES2Video::Enable2D(const int width, const int height, const bool flipY)
 	glDepthRangef(0.0f, 1.0f);
 }
 
-bool GLES2Video::CheckGLError(const str_type::string& op)
+bool GLES2Video::CheckGLError(const std::string& op)
 {
 	bool r = false;
 	for (GLint error = glGetError(); error; error = glGetError())
@@ -116,7 +116,7 @@ TexturePtr GLES2Video::CreateTextureFromFileInMemory(
 	const unsigned int bufferLength,
 	const unsigned int nMipMaps)
 {
-	TexturePtr texture(new GLES2Texture(weak_this, GS_L("from_memory"), m_fileIOHub->GetFileManager()));
+	TexturePtr texture(new GLES2Texture(weak_this, "from_memory", m_fileIOHub->GetFileManager()));
 	if (texture->LoadTexture(
 		weak_this,
 		pBuffer,
@@ -129,7 +129,7 @@ TexturePtr GLES2Video::CreateTextureFromFileInMemory(
 }
 
 TexturePtr GLES2Video::LoadTextureFromFile(
-	const str_type::string& fileName,
+	const std::string& fileName,
 	const unsigned int nMipMaps)
 {
 	TexturePtr texture(new GLES2Texture(weak_this, fileName, m_fileIOHub->GetFileManager()));
@@ -371,9 +371,9 @@ unsigned long GLES2Video::GetElapsedTime(const TIME_UNITY unity) const
 	return static_cast<unsigned long>(GetElapsedTimeF(unity));
 }
 
-void GLES2Video::Message(const str_type::string& text, const GS_MESSAGE_TYPE type) const
+void GLES2Video::Message(const std::string& text, const GS_MESSAGE_TYPE type) const
 {
-	str_type::string str;
+	std::string str;
 	switch (type)
 	{
 	case GSMT_WARNING:
@@ -414,13 +414,13 @@ bool GLES2Video::QuitShortcutsEnabled()
 	return false;
 }
 
-bool GLES2Video::SetWindowTitle(const str_type::string& title)
+bool GLES2Video::SetWindowTitle(const std::string& title)
 {
 	m_windowTitle = title;
 	return true;
 }
 
-str_type::string GLES2Video::GetWindowTitle() const
+std::string GLES2Video::GetWindowTitle() const
 {
 	return m_windowTitle;
 }
@@ -482,14 +482,14 @@ bool GLES2Video::IsCursorHidden() const
 	return true;
 }
 
-str_type::string GLES2Video::PullCommands()
+std::string GLES2Video::PullCommands()
 {
-	str_type::string out;
+	std::string out;
 	ForwardCommands(out);
 	return out;
 }
 
-void GLES2Video::ForwardCommand(const str_type::string& cmd)
+void GLES2Video::ForwardCommand(const std::string& cmd)
 {
 #	ifdef DEBUG
 	std::cout << cmd << std::endl;

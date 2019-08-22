@@ -6,12 +6,12 @@
 
 namespace gs2d {
 
-str_type::string Application::GetPlatformName()
+std::string Application::GetPlatformName()
 {
 	return "android";
 }
 
-void ShowMessage(str_type::stringstream& stream, const GS_MESSAGE_TYPE type)
+void ShowMessage(std::stringstream& stream, const GS_MESSAGE_TYPE type)
 {
 	if (type == GSMT_INFO)
 	{
@@ -31,14 +31,14 @@ void ShowMessage(str_type::stringstream& stream, const GS_MESSAGE_TYPE type)
 
 namespace Platform {
 
-gs2d::str_type::string FileLogger::GetLogDirectory()
+std::string FileLogger::GetLogDirectory()
 {
-	return GS_L("/sdcard/.ethanon/gs2dlog/");
+	return ("/sdcard/.ethanon/gs2dlog/");
 }
 
-gs2d::str_type::string GetModuleDirectory()
+std::string GetModuleDirectory()
 {
-	return GS_L("");
+	return ("");
 }
 
 char GetDirectorySlashA()

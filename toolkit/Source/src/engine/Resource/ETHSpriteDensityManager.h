@@ -9,10 +9,10 @@ class ETHAppEnmlFile;
 class ETHSpriteDensityManager
 {
 public:
-	static const gs2d::str_type::string HD_VERSION_PATH_NAME;
-	static const gs2d::str_type::string FULL_HD_VERSION_PATH_NAME;
-	static const gs2d::str_type::string LD_VERSION_PATH_NAME;
-	static const gs2d::str_type::string XLD_VERSION_PATH_NAME;
+	static const std::string HD_VERSION_PATH_NAME;
+	static const std::string FULL_HD_VERSION_PATH_NAME;
+	static const std::string LD_VERSION_PATH_NAME;
+	static const std::string XLD_VERSION_PATH_NAME;
 
 	enum DENSITY_LEVEL
 	{
@@ -32,7 +32,7 @@ public:
 	bool ShouldUseLdResources(const gs2d::VideoPtr& video) const;
 	bool ShouldUseXLdResources(const gs2d::VideoPtr& video) const;
 
-	gs2d::str_type::string ChooseSpriteVersion(const gs2d::str_type::string& fullFilePath,
+	std::string ChooseSpriteVersion(const std::string& fullFilePath,
 		const gs2d::VideoPtr& video, ETHSpriteDensityManager::DENSITY_LEVEL& densityLevel);
 	void SetSpriteDensity(const gs2d::SpritePtr& sprite, const DENSITY_LEVEL& level) const;
 	float GetDensityValue(const DENSITY_LEVEL& level) const;

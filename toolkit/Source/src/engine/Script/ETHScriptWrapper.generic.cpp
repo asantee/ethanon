@@ -27,7 +27,7 @@ asDECLARE_FUNCTION_OBJ_WRAPPER(__AddToPositionZ,      ETHScriptWrapper::AddToPos
 asDECLARE_FUNCTION_OBJ_WRAPPER(__PlayParticleSystem,  ETHScriptWrapper::PlayParticleSystem, true);
 asDECLARE_FUNCTION_OBJ_WRAPPER(__ResolveEntityJoints, ETHScriptWrapper::ResolveEntityJoints, true);
 
-asDECLARE_FUNCTION_WRAPPERPR(__SeekEntityStr,   ETHScriptWrapper::SeekEntity, (const str_type::string&), ETHEntity *);
+asDECLARE_FUNCTION_WRAPPERPR(__SeekEntityStr,   ETHScriptWrapper::SeekEntity, (const std::string&), ETHEntity *);
 asDECLARE_FUNCTION_WRAPPERPR(__SeekEntityInt,   ETHScriptWrapper::SeekEntity, (const int), ETHEntity *);
 
 asDECLARE_FUNCTION_WRAPPER(__Print,      ETHScriptWrapper::Print);
@@ -35,13 +35,13 @@ asDECLARE_FUNCTION_WRAPPER(__PrintFloat, ETHScriptWrapper::PrintFloat);
 asDECLARE_FUNCTION_WRAPPER(__PrintInt,   ETHScriptWrapper::PrintInt);
 asDECLARE_FUNCTION_WRAPPER(__PrintUInt,  ETHScriptWrapper::PrintUInt);
 
-asDECLARE_FUNCTION_WRAPPERPR(__LoadLightmaps,      ETHScriptWrapper::LoadLightmaps,     (const str_type::string&), void);
-asDECLARE_FUNCTION_WRAPPERPR(__LoadScene1Arg,      ETHScriptWrapper::LoadSceneInScript, (const str_type::string&), void);
-asDECLARE_FUNCTION_WRAPPERPR(__LoadSceneSSSArgs,   ETHScriptWrapper::LoadSceneInScript, (const str_type::string&, const str_type::string&, const str_type::string&), void);
-asDECLARE_FUNCTION_WRAPPERPR(__LoadSceneSSSSArgs,  ETHScriptWrapper::LoadSceneInScript, (const str_type::string&, const str_type::string&, const str_type::string&, const str_type::string&), void);
-asDECLARE_FUNCTION_WRAPPERPR(__LoadSceneSSSVArgs,  ETHScriptWrapper::LoadSceneInScript, (const str_type::string&, const str_type::string&, const str_type::string&, const Vector2&), void);
-asDECLARE_FUNCTION_WRAPPERPR(__LoadSceneSSSSVArgs, ETHScriptWrapper::LoadSceneInScript, (const str_type::string&, const str_type::string&, const str_type::string&, const str_type::string&, const Vector2&), void);
-asDECLARE_FUNCTION_WRAPPERPR(__LoadSceneSSSSSVArgs, ETHScriptWrapper::LoadSceneInScript, (const str_type::string&, const str_type::string&, const str_type::string&, const str_type::string&, const str_type::string&, const Vector2&), void);
+asDECLARE_FUNCTION_WRAPPERPR(__LoadLightmaps,      ETHScriptWrapper::LoadLightmaps,     (const std::string&), void);
+asDECLARE_FUNCTION_WRAPPERPR(__LoadScene1Arg,      ETHScriptWrapper::LoadSceneInScript, (const std::string&), void);
+asDECLARE_FUNCTION_WRAPPERPR(__LoadSceneSSSArgs,   ETHScriptWrapper::LoadSceneInScript, (const std::string&, const std::string&, const std::string&), void);
+asDECLARE_FUNCTION_WRAPPERPR(__LoadSceneSSSSArgs,  ETHScriptWrapper::LoadSceneInScript, (const std::string&, const std::string&, const std::string&, const std::string&), void);
+asDECLARE_FUNCTION_WRAPPERPR(__LoadSceneSSSVArgs,  ETHScriptWrapper::LoadSceneInScript, (const std::string&, const std::string&, const std::string&, const Vector2&), void);
+asDECLARE_FUNCTION_WRAPPERPR(__LoadSceneSSSSVArgs, ETHScriptWrapper::LoadSceneInScript, (const std::string&, const std::string&, const std::string&, const std::string&, const Vector2&), void);
+asDECLARE_FUNCTION_WRAPPERPR(__LoadSceneSSSSSVArgs, ETHScriptWrapper::LoadSceneInScript, (const std::string&, const std::string&, const std::string&, const std::string&, const std::string&, const Vector2&), void);
 
 asDECLARE_FUNCTION_WRAPPER(__AddScene, ETHScriptWrapper::AddSceneInScript);
 asDECLARE_FUNCTION_WRAPPER(__AddSceneFromString, ETHScriptWrapper::AddSceneFromString);
@@ -55,12 +55,12 @@ asDECLARE_FUNCTION_WRAPPER(__Exit,           ETHScriptWrapper::Exit);
 asDECLARE_FUNCTION_WRAPPER(__GetLastFrameElapsedTime,  ETHScriptWrapper::GetLastFrameElapsedTime);
 asDECLARE_FUNCTION_WRAPPER(__GetLastFrameElapsedTimeF, ETHScriptWrapper::GetLastFrameElapsedTimeF);
 
-asDECLARE_FUNCTION_WRAPPERPR(__AddEntityA, ETHScriptWrapper::AddEntity,       (const str_type::string&, const Vector3&, const float), int);
-asDECLARE_FUNCTION_WRAPPERPR(__AddEntityR, ETHScriptWrapper::AddEntity,       (const str_type::string&, const Vector3&, ETHEntity**), int);
-asDECLARE_FUNCTION_WRAPPERPR(__AddEntityN, ETHScriptWrapper::AddEntity,       (const str_type::string&, const Vector3&, const str_type::string&), int);
-asDECLARE_FUNCTION_WRAPPERPR(__AddEntityS, ETHScriptWrapper::AddScaledEntity, (const str_type::string&, const Vector3&, const float), int);
-asDECLARE_FUNCTION_WRAPPERPR(__AddEntitySR,ETHScriptWrapper::AddScaledEntity, (const str_type::string&, const Vector3&, const float, ETHEntity**), int);
-asDECLARE_FUNCTION_WRAPPERPR(__AddEntityF, ETHScriptWrapper::AddEntity,       (const str_type::string&, const Vector3&, const float, ETHEntity**, const str_type::string&, const float), int);
+asDECLARE_FUNCTION_WRAPPERPR(__AddEntityA, ETHScriptWrapper::AddEntity,       (const std::string&, const Vector3&, const float), int);
+asDECLARE_FUNCTION_WRAPPERPR(__AddEntityR, ETHScriptWrapper::AddEntity,       (const std::string&, const Vector3&, ETHEntity**), int);
+asDECLARE_FUNCTION_WRAPPERPR(__AddEntityN, ETHScriptWrapper::AddEntity,       (const std::string&, const Vector3&, const std::string&), int);
+asDECLARE_FUNCTION_WRAPPERPR(__AddEntityS, ETHScriptWrapper::AddScaledEntity, (const std::string&, const Vector3&, const float), int);
+asDECLARE_FUNCTION_WRAPPERPR(__AddEntitySR,ETHScriptWrapper::AddScaledEntity, (const std::string&, const Vector3&, const float, ETHEntity**), int);
+asDECLARE_FUNCTION_WRAPPERPR(__AddEntityF, ETHScriptWrapper::AddEntity,       (const std::string&, const Vector3&, const float, ETHEntity**, const std::string&, const float), int);
 
 asDECLARE_FUNCTION_WRAPPERPR(__RandomizerInt,        Randomizer::Int,   (const int), int);
 asDECLARE_FUNCTION_WRAPPERPR(__RandomizerInt2Args,   Randomizer::Int,   (const int, const int), int);
@@ -131,11 +131,11 @@ asDECLARE_FUNCTION_WRAPPER(__LoadSprite,       ETHScriptWrapper::LoadSprite);
 asDECLARE_FUNCTION_WRAPPER(__ReleaseSprite,    ETHScriptWrapper::ReleaseSprite);
 asDECLARE_FUNCTION_WRAPPER(__GetSpriteSize,    ETHScriptWrapper::GetSpriteSize);
 
-asDECLARE_FUNCTION_WRAPPERPR(__DrawSprite,       ETHScriptWrapper::DrawSprite, (const str_type::string &name, const Vector2 &v2Pos, const uint32_t color, const float angle), void);
-asDECLARE_FUNCTION_WRAPPERPR(__DrawShapedSprite, ETHScriptWrapper::DrawShaped, (const str_type::string &name, const Vector2 &v2Pos, const Vector2 &v2Size, const uint32_t color, const float angle), void);
+asDECLARE_FUNCTION_WRAPPERPR(__DrawSprite,       ETHScriptWrapper::DrawSprite, (const std::string &name, const Vector2 &v2Pos, const uint32_t color, const float angle), void);
+asDECLARE_FUNCTION_WRAPPERPR(__DrawShapedSprite, ETHScriptWrapper::DrawShaped, (const std::string &name, const Vector2 &v2Pos, const Vector2 &v2Size, const uint32_t color, const float angle), void);
 
-asDECLARE_FUNCTION_WRAPPERPR(__DrawSpriteEx,       ETHScriptWrapper::DrawSprite, (const str_type::string &name, const Vector2 &v2Pos, const float alpha, const Vector3 &color, const float angle), void);
-asDECLARE_FUNCTION_WRAPPERPR(__DrawShapedSpriteEx, ETHScriptWrapper::DrawShaped, (const str_type::string &name, const Vector2 &v2Pos, const Vector2 &v2Size, const float alpha, const Vector3 &color, const float angle), void);
+asDECLARE_FUNCTION_WRAPPERPR(__DrawSpriteEx,       ETHScriptWrapper::DrawSprite, (const std::string &name, const Vector2 &v2Pos, const float alpha, const Vector3 &color, const float angle), void);
+asDECLARE_FUNCTION_WRAPPERPR(__DrawShapedSpriteEx, ETHScriptWrapper::DrawShaped, (const std::string &name, const Vector2 &v2Pos, const Vector2 &v2Size, const float alpha, const Vector3 &color, const float angle), void);
 
 asDECLARE_FUNCTION_WRAPPER(__PlayParticleEffect, ETHScriptWrapper::PlayParticleEffect);
 
@@ -226,7 +226,7 @@ asDECLARE_FUNCTION_WRAPPER(__SetTimeStepScale, ETHScriptWrapper::SetTimeStepScal
 asDECLARE_FUNCTION_WRAPPER(__GetTimeStepScale, ETHScriptWrapper::GetTimeStepScale);
 
 asDECLARE_FUNCTION_WRAPPERPR(__GetClosestContact,   ETHScriptWrapper::GetClosestContact, (const Vector2&, const Vector2&, Vector2&, Vector2&),                          ETHEntity*);
-asDECLARE_FUNCTION_WRAPPERPR(__GetClosestContactEx, ETHScriptWrapper::GetClosestContact, (const Vector2&, const Vector2&, Vector2&, Vector2&, const str_type::string&), ETHEntity*);
+asDECLARE_FUNCTION_WRAPPERPR(__GetClosestContactEx, ETHScriptWrapper::GetClosestContact, (const Vector2&, const Vector2&, Vector2&, Vector2&, const std::string&), ETHEntity*);
 asDECLARE_FUNCTION_WRAPPER(__GetContactEntities, ETHScriptWrapper::GetContactEntities);
 asDECLARE_FUNCTION_WRAPPER(__DisableContact,     ETHScriptWrapper::DisableContact);
 

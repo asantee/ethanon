@@ -1,6 +1,7 @@
 #import <AppKit/AppKit.h>
 
 #include <iostream>
+#include <sstream>
 
 #include "Platform.macosx.h"
 
@@ -8,7 +9,7 @@
 
 #include "../../Application.h"
 
-void gs2d::ShowMessage(str_type::stringstream& stream, const GS_MESSAGE_TYPE type)
+void gs2d::ShowMessage(std::stringstream& stream, const GS_MESSAGE_TYPE type)
 {
 	if (type == GSMT_ERROR)
 	{
@@ -26,7 +27,7 @@ void gs2d::ShowMessage(str_type::stringstream& stream, const GS_MESSAGE_TYPE typ
 	}
 }
 
-gs2d::str_type::string gs2d::Application::GetPlatformName()
+std::string gs2d::Application::GetPlatformName()
 {
 	return "macos";
 }
@@ -41,19 +42,19 @@ NSString* AppNameFromBundle()
 	return appName;
 }
 
-gs2d::str_type::string ResourceDirectory()
+std::string ResourceDirectory()
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
 	NSString* resourceDir = [[NSBundle mainBundle] resourcePath];
 	resourceDir = [resourceDir stringByAppendingString:@"/assets/"];
 
-	const gs2d::str_type::string r = [resourceDir cStringUsingEncoding:1];
+	const std::string r = [resourceDir cStringUsingEncoding:1];
     [pool release];
 	return r;
 }
 
-gs2d::str_type::string GlobalExternalStorageDirectory()
+std::string GlobalExternalStorageDirectory()
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
@@ -63,12 +64,12 @@ gs2d::str_type::string GlobalExternalStorageDirectory()
 	globalExternalStorageDir = [globalExternalStorageDir stringByAppendingPathComponent:AppNameFromBundle()];
 	globalExternalStorageDir = [globalExternalStorageDir stringByAppendingString:@"/"];
 
-	const gs2d::str_type::string r = [globalExternalStorageDir cStringUsingEncoding:1];
+	const std::string r = [globalExternalStorageDir cStringUsingEncoding:1];
     [pool release];
 	return r;
 }
 
-gs2d::str_type::string ExternalStorageDirectory()
+std::string ExternalStorageDirectory()
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	NSString* externalStorageDir = [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) objectAtIndex:0];
@@ -77,12 +78,12 @@ gs2d::str_type::string ExternalStorageDirectory()
 	externalStorageDir = [externalStorageDir stringByAppendingPathComponent:AppNameFromBundle()];
 	externalStorageDir = [externalStorageDir stringByAppendingString:@"/"];
 
-	const gs2d::str_type::string r = [externalStorageDir cStringUsingEncoding:1];
+	const std::string r = [externalStorageDir cStringUsingEncoding:1];
     [pool release];
 	return r;
 }
 
-gs2d::str_type::string GetModuleDirectory()
+std::string GetModuleDirectory()
 {
 	/*NSString* bundleDir = [[NSBundle mainBundle] bundlePath];
 	bundleDir = [bundleDir stringByAppendingString:@"/"];

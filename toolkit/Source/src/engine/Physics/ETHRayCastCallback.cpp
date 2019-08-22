@@ -1,6 +1,8 @@
 #include "ETHRayCastCallback.h"
 #include "ETHPhysicsSimulator.h"
 
+#define GS2D_UNUSED_ARGUMENT(argument) ((void)(argument))
+
 ETHRayCastCallback::Contact::Contact(ETHEntity* ent, const Vector2& con, const Vector2& nor)
 {
 	entity  = (ent);
@@ -17,7 +19,7 @@ ETHRayCastCallback::ETHRayCastCallback(const Vector2& a, const Vector2& b, const
 
 float32 ETHRayCastCallback::ReportFixture(b2Fixture* fixture, const b2Vec2& point, const b2Vec2& normal, float32 fraction)
 {
-	GS2D_UNUSED_ARGUMENT(fraction);
+	UNUSED_ARGUMENT(fraction);
 	const Vector2 v2Point(point.x, point.y);
 	const Vector2 v2Normal(normal.x, normal.y);
 	ETHEntity* entity = static_cast<ETHEntity*>(fixture->GetBody()->GetUserData());

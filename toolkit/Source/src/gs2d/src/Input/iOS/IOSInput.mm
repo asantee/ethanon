@@ -13,7 +13,7 @@ IOSInput::Joystick::Joystick(GCController* _controller) :
 {
 }
 
-GS2D_API InputPtr CreateInput(const bool showJoystickWarnings, std::string* inputSource)
+InputPtr CreateInput(const bool showJoystickWarnings, std::string* inputSource)
 {
 	return InputPtr(new IOSInput(5));
 }

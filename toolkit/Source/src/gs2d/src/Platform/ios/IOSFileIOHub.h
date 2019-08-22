@@ -8,9 +8,9 @@ namespace Platform {
 class IOSFileIOHub : public FileIOHub
 {
 public:
-	IOSFileIOHub(const gs2d::str_type::string& bitmapFontSearchDirectory);
+	IOSFileIOHub(const std::string& bitmapFontSearchDirectory);
 
-	void SetFileManager(Platform::FileManagerPtr fileManager, const gs2d::str_type::string& resourceDirectory);
+	void SetFileManager(Platform::FileManagerPtr fileManager, const std::string& resourceDirectory);
 	bool IsResourcePackingSupported();
 };
 

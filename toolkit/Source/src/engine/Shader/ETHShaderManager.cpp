@@ -1,7 +1,7 @@
 #include "ETHShaderManager.h"
 #include "../Scene/ETHScene.h"
 
-ETHShaderManager::ETHShaderManager(VideoPtr video, const str_type::string& shaderPath, const bool richLighting) :
+ETHShaderManager::ETHShaderManager(VideoPtr video, const std::string& shaderPath) :
 	m_lastAM(Video::AM_PIXEL)
 {
 	m_video = video;
@@ -50,7 +50,7 @@ SpritePtr ETHShaderManager::GetOpaqueSprite()
 
 bool ETHShaderManager::BeginHaloPass(const ETHLight* light)
 {
-	if (!light || light->haloBitmap == GS_L(""))
+	if (!light || light->haloBitmap == (""))
 		return false;
 
 	m_lastAM = m_video->GetAlphaMode();

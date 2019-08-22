@@ -80,7 +80,7 @@ void ETHActiveEntityHandler::TestEntityLists() const
 			ETHRenderEntity* entityB = (*b);
 			if (entityA == entityB)
 			{
-				ETH_STREAM_DECL(ss) << GS_L("Equal entities found on both lists: ") << entityA->GetEntityName();
+				ETH_STREAM_DECL(ss) << ("Equal entities found on both lists: ") << entityA->GetEntityName();
 				m_provider->Log(ss.str(), Platform::Logger::WARNING);
 			}
 			assert(entityA != entityB);
@@ -101,7 +101,7 @@ void ETHActiveEntityHandler::UpdateAlwaysActiveEntities(const Vector2& zAxisDir,
 		if (!(entity->IsAlive()) || RemoveFinishedTemporaryEntity(entity, buckets))
 		{
 			#if defined(_DEBUG) || defined(DEBUG)
-			 ETH_STREAM_DECL(ss) << GS_L("Entity removed from dynamic entity list: ") << entity->GetEntityName();
+			 ETH_STREAM_DECL(ss) << ("Entity removed from dynamic entity list: ") << entity->GetEntityName();
 			 m_provider->Log(ss.str(), Platform::Logger::INFO);
 			#endif
 			entity->Release();
@@ -157,7 +157,7 @@ bool ETHActiveEntityHandler::RemoveFinishedTemporaryEntity(ETHRenderEntity* enti
 		buckets.DeleteEntity(entity->GetID(), v2Bucket);
 
 		#if defined(_DEBUG) || defined(DEBUG)
-		 ETH_STREAM_DECL(ss) << GS_L("Entity ") << entity->GetEntityName() << GS_L(" (ID#") << entity->GetID() << GS_L(") removed from dynamic entity list (particle effects over)");
+		 ETH_STREAM_DECL(ss) << ("Entity ") << entity->GetEntityName() << (" (ID#") << entity->GetID() << (") removed from dynamic entity list (particle effects over)");
 		 m_provider->Log(ss.str(), Platform::Logger::INFO);
 		#endif
 		return true;

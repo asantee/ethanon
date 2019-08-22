@@ -31,7 +31,7 @@ public:
 	static std::vector<b2Shape*> GetBoxShape(const ETHCollisionBox& box, const float angle = 0.0f);
 	static std::vector<b2Shape*> GetCircleShape(const ETHCollisionBox& box);
 	static std::vector<b2Shape*> GetPolygonShape(const ETHCollisionBox& box, const ETHPolygonPtr& polygon);
-	static ETHEntityProperties::BODY_SHAPE StringToShape(const gs2d::str_type::string& str);
+	static ETHEntityProperties::BODY_SHAPE StringToShape(const std::string& str);
 
 	ETHPhysicsEntityControllerPtr CreatePhysicsController(ETHEntity *entity, asIScriptModule* module, asIScriptContext* context);
 	static b2Body* CreateBody(ETHEntity *entity, const boost::shared_ptr<b2World>& world);
@@ -57,7 +57,7 @@ public:
 	void SetFixedTimeStepValue(const float value);
 	float GetTimeStepScale() const;
 	ETHEntity* GetClosestContact(const Vector2& a, const Vector2& b, Vector2& point, Vector2& normal);
-	ETHEntity* GetClosestContact(const Vector2& a, const Vector2& b, Vector2& point, Vector2& normal, const str_type::string& semicolonSeparatedIgnoreList);
+	ETHEntity* GetClosestContact(const Vector2& a, const Vector2& b, Vector2& point, Vector2& normal, const std::string& semicolonSeparatedIgnoreList);
 	bool GetContactEntities(const Vector2& a, const Vector2& b, ETHEntityArray& entities);
 	void ResolveJoints(ETHEntityArray& entities);
 	b2Joint* CreateJoint(b2JointDef& jointDef);

@@ -6,12 +6,12 @@
 
 #include <Platform/Platform.h>
 
-using gs2d::str_type::string;
+using std::string;
 
-const gs2d::str_type::string ETHSpriteDensityManager::HD_VERSION_PATH_NAME = GS_L("hd/");
-const gs2d::str_type::string ETHSpriteDensityManager::FULL_HD_VERSION_PATH_NAME = GS_L("fullhd/");
-const gs2d::str_type::string ETHSpriteDensityManager::LD_VERSION_PATH_NAME = GS_L("ld/");
-const gs2d::str_type::string ETHSpriteDensityManager::XLD_VERSION_PATH_NAME = GS_L("xld/");
+const std::string ETHSpriteDensityManager::HD_VERSION_PATH_NAME = ("hd/");
+const std::string ETHSpriteDensityManager::FULL_HD_VERSION_PATH_NAME = ("fullhd/");
+const std::string ETHSpriteDensityManager::LD_VERSION_PATH_NAME = ("ld/");
+const std::string ETHSpriteDensityManager::XLD_VERSION_PATH_NAME = ("xld/");
 
 ETHSpriteDensityManager::ETHSpriteDensityManager() :
 	hdDensityValue(2.0f),
@@ -59,15 +59,15 @@ bool ETHSpriteDensityManager::ShouldUseXLdResources(const gs2d::VideoPtr& video)
 	return (video->GetScreenSizeInPixels().y <= static_cast<int>(maxScreenHeightBeforeLdVersion));
 }
 
-static gs2d::str_type::string AssembleResourceName(const string& fullFilePath, const string& versionPathName)
+static std::string AssembleResourceName(const string& fullFilePath, const string& versionPathName)
 {
 	const string folder(Platform::GetFileDirectory(fullFilePath.c_str()));
 	const string file(Platform::GetFileName(fullFilePath));
 	return (folder + versionPathName + file);
 }
 
-gs2d::str_type::string ETHSpriteDensityManager::ChooseSpriteVersion(
-	const gs2d::str_type::string& fullFilePath,
+std::string ETHSpriteDensityManager::ChooseSpriteVersion(
+	const std::string& fullFilePath,
 	const gs2d::VideoPtr& video,
 	ETHSpriteDensityManager::DENSITY_LEVEL& densityLevel)
 {

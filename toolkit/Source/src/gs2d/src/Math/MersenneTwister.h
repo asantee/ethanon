@@ -318,7 +318,8 @@ inline void MTRand::reload()
 		*p = twist( p[M-N], p[0], p[1] );
 	*p = twist( p[M-N], p[0], state[0] );
 
-	left = N, pNext = state;
+	left = N;
+	pNext = state;
 }
 
 

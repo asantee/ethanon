@@ -1,11 +1,14 @@
 #ifndef GS2D_TEXTURE_H_
 #define GS2D_TEXTURE_H_
 
-#include "Types.h"
-
 #include "Math/Vector2.h"
 
+#include <boost/shared_ptr.hpp>
+
 namespace gs2d {
+
+class Video;
+typedef boost::weak_ptr<Video> VideoWeakPtr;
 
 class Texture
 {
@@ -34,6 +37,8 @@ public:
 	
 	virtual void Free() = 0;
 };
+
+typedef boost::shared_ptr<Texture> TexturePtr;
 
 } // namespace gs2d
 

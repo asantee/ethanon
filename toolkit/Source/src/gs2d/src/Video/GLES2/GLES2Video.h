@@ -22,7 +22,7 @@ class GLES2Video : public Video, public Platform::NativeCommandForwarder
 	GLES2Video(
 		const unsigned int width,
 		const unsigned int height,
-		const str_type::string& winTitle,
+		const std::string& winTitle,
 		const Platform::FileIOHubPtr& fileIOHub);
 
 	boost::weak_ptr<GLES2Video> weak_this;
@@ -33,7 +33,7 @@ class GLES2Video : public Video, public Platform::NativeCommandForwarder
 	double m_startTime;
 
 public:
-	static bool CheckGLError(const str_type::string& op);
+	static bool CheckGLError(const std::string& op);
 
 	TexturePtr CreateTextureFromFileInMemory(
 		const void *pBuffer,
@@ -41,7 +41,7 @@ public:
 		const unsigned int nMipMaps = 0) override;
 
 	TexturePtr LoadTextureFromFile(
-		const str_type::string& fileName,
+		const std::string& fileName,
 		const unsigned int nMipMaps = 0) override;
 
 	ShaderPtr LoadShaderFromFile(
@@ -86,12 +86,12 @@ public:
 	math::Vector2i GetClientScreenSize() const override;
 	APP_STATUS HandleEvents() override;
 	float GetFPSRate() const override;
-	void Message(const str_type::string& text, const GS_MESSAGE_TYPE type = GSMT_ERROR) const override;
+	void Message(const std::string& text, const GS_MESSAGE_TYPE type = GSMT_ERROR) const override;
 	void Quit() override;
 	void EnableQuitShortcuts(const bool enable) override;
 	bool QuitShortcutsEnabled() override;
-	bool SetWindowTitle(const str_type::string& title) override;
-	str_type::string GetWindowTitle() const override;
+	bool SetWindowTitle(const std::string& title) override;
+	std::string GetWindowTitle() const override;
 	bool IsWindowed() const override;
 	math::Vector2i GetScreenSize() const override;
 	math::Vector2 GetScreenSizeF() const override;
@@ -104,8 +104,8 @@ public:
 	bool HideCursor(const bool hide) override;
 	bool IsCursorHidden() const override;
 
-	void ForwardCommand(const str_type::string& cmd) override;
-	str_type::string PullCommands() override;
+	void ForwardCommand(const std::string& cmd) override;
+	std::string PullCommands() override;
 
 	bool IsTrue(const GLboolean& enabled);
 	void SetBlend(const bool enable);
@@ -119,9 +119,9 @@ protected:
 	Video::ALPHA_MODE m_alphaMode;
 
 	math::Vector2i m_screenSize;
-	str_type::string m_externalStoragePath;
-	str_type::string m_globalExternalStoragePath;
-	str_type::string m_windowTitle;
+	std::string m_externalStoragePath;
+	std::string m_globalExternalStoragePath;
+	std::string m_windowTitle;
 	bool m_quit;
 	bool m_zBuffer;
 	bool m_blend;
@@ -137,7 +137,7 @@ protected:
 	bool StartApplication(
 		const unsigned int width,
 		const unsigned int height,
-		const str_type::string& winTitle,
+		const std::string& winTitle,
 		const bool windowed,
 		const bool sync,
 		const Texture::PIXEL_FORMAT pfBB = Texture::PF_UNKNOWN,

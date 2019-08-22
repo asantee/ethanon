@@ -1,20 +1,29 @@
 #ifndef GS2D_APPLICATION_H_
 #define GS2D_APPLICATION_H_
 
-#include "Types.h"
 #include "Texture.h"
 #include "Math/GameMath.h"
 
 #include "Platform/FileIOHub.h"
 #include "Platform/SharedData/SharedDataManager.h"
 
+#include <boost/shared_ptr.hpp>
+#include <boost/weak_ptr.hpp>
+
 namespace gs2d {
 
-/// Shows an error, warning or info message to the user
-void ShowMessage(str_type::stringstream& stream, const GS_MESSAGE_TYPE type = GSMT_ERROR);
+enum GS_MESSAGE_TYPE
+{
+    GSMT_INFO = 0,
+    GSMT_WARNING = 1,
+    GSMT_ERROR = 2
+};
 
 /// Shows an error, warning or info message to the user
-void ShowMessage(const str_type::string& str, const GS_MESSAGE_TYPE type = GSMT_ERROR);
+void ShowMessage(std::stringstream& stream, const GS_MESSAGE_TYPE type = GSMT_ERROR);
+
+/// Shows an error, warning or info message to the user
+void ShowMessage(const std::string& str, const GS_MESSAGE_TYPE type = GSMT_ERROR);
 
 /**
  * \brief Abstracts all application related methods
@@ -43,7 +52,7 @@ public:
 	class FileOpenListener
 	{
 	public:
-		virtual bool OnFileOpen(const str_type::string& fullFilePath) = 0;
+		virtual bool OnFileOpen(const std::string& fullFilePath) = 0;
 	};
 	typedef boost::shared_ptr<FileOpenListener> FileOpenListenerPtr;
 
@@ -75,7 +84,7 @@ public:
 	 * \param text Zero terminated string of the message.
 	 * \param type Type of the message.
 	 */
-	virtual void Message(const str_type::string& text, const GS_MESSAGE_TYPE type = GSMT_ERROR) const = 0;
+	virtual void Message(const std::string& text, const GS_MESSAGE_TYPE type = GSMT_ERROR) const = 0;
 
 	/** \brief Returns the current application elapsed time.
 	 * \param unity Time unity.
@@ -87,13 +96,13 @@ public:
 	 */
 	virtual float GetElapsedTimeF(const TIME_UNITY unity = TU_MILLISECONDS) const = 0;
 
-	virtual void ForwardCommand(const str_type::string& cmd) = 0;
-	virtual str_type::string PullCommands() = 0;
+	virtual void ForwardCommand(const std::string& cmd) = 0;
+	virtual std::string PullCommands() = 0;
 
 	/// Posts a quit message
 	virtual void Quit() = 0;
 
-	static str_type::string GetPlatformName();
+	static std::string GetPlatformName();
 
 	virtual Platform::FileIOHubPtr GetFileIOHub() = 0;
 
@@ -104,7 +113,7 @@ protected:
 	virtual bool StartApplication(
 		const unsigned int width,
 		const unsigned int height,
-		const str_type::string& winTitle,
+		const std::string& winTitle,
 		const bool windowed,
 		const bool sync,
 		const Texture::PIXEL_FORMAT pfBB = Texture::PF_UNKNOWN,
@@ -115,8 +124,8 @@ typedef boost::shared_ptr<Application> ApplicationPtr;
 typedef boost::weak_ptr<Application> ApplicationWeakPtr;
 
 /// When called once per frame, returns the last frame time delta
-GS2D_API unsigned long ComputeElapsedTime(ApplicationPtr app);
-GS2D_API float ComputeElapsedTimeF(ApplicationPtr app);
+unsigned long ComputeElapsedTime(ApplicationPtr app);
+float ComputeElapsedTimeF(ApplicationPtr app);
 
 } // namespace gs2d
 

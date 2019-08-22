@@ -8,10 +8,10 @@ namespace gs2d {
 
 class BitmapFontManager
 {
-	BitmapFontPtr SeekBitmapFont(Video* video, const str_type::string& font);
-	BitmapFontPtr LoadBitmapFont(Video* video, const str_type::string& fullFilePath);
+	BitmapFontPtr SeekBitmapFont(Video* video, const std::string& font);
+	BitmapFontPtr LoadBitmapFont(Video* video, const std::string& fullFilePath);
 
-	tsl::hopscotch_map<str_type::string, BitmapFontPtr> m_fonts;
+	tsl::hopscotch_map<std::string, BitmapFontPtr> m_fonts;
 
 public:
 
@@ -19,27 +19,27 @@ public:
 
 	math::Vector2 ComputeCarretPosition(
 		Video* video,
-		const str_type::string& font,
-		const str_type::string& text,
+		const std::string& font,
+		const std::string& text,
 		const unsigned int pos);
 
 	math::Vector2 ComputeTextBoxSize(
 		Video* video,
-		const str_type::string& font,
-		const str_type::string& text);
+		const std::string& font,
+		const std::string& text);
 
 	unsigned int FindClosestCarretPosition(
 		Video* video,
-		const str_type::string& font,
-		const str_type::string &text,
+		const std::string& font,
+		const std::string &text,
 		const math::Vector2 &textPos,
 		const math::Vector2 &reference);
 
 	bool DrawBitmapText(
 		Video* video,
 		const math::Vector2 &v2Pos,
-		const str_type::string& text,
-		const str_type::string& font,
+		const std::string& text,
+		const std::string& font,
 		const Color& color,
 		const float scale = 1.0f);
 };

@@ -65,7 +65,7 @@ void EnmlEntityCopyConstructor(const enml::Entity &other, enml::Entity *self)
 	new(self) enml::Entity(other);
 }
 
-void EnmlFileConstructor(const str_type::string &str, enml::File *self)
+void EnmlFileConstructor(const std::string &str, enml::File *self)
 {
 	new(self) enml::File(str);
 }
@@ -496,17 +496,17 @@ void RegisterGlobalProperties(asIScriptEngine *pASEngine)
 	int r;
 	static float pi = gs2d::math::constant::PI;
 	static float pib = gs2d::math::constant::PIb;
-	static std::size_t stdNpos = str_type::string::npos;
+	static std::size_t stdNpos = std::string::npos;
 	r = pASEngine->RegisterGlobalProperty("const float PI", &pi); assert( r >= 0 );
 	r = pASEngine->RegisterGlobalProperty("const float PIb", &pib); assert( r >= 0 );
 
-	gs2d::str_type::string nposDecl;
-	gs2d::str_type::string sizeTypeDecl;
+	std::string nposDecl;
+	std::string sizeTypeDecl;
 	
 	#pragma warning( push )
 	#pragma warning( disable : 4127 )
 	// Register the object methods
-	if( sizeof(str_type::string::npos) == 4 )
+	if( sizeof(std::string::npos) == 4 )
 	#pragma warning( pop )
 	{
 		nposDecl = "const uint NPOS";

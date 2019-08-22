@@ -9,12 +9,12 @@ void NativeCommandManager::InsertCommandListener(const NativeCommandListenerPtr&
 	m_listeners.push_back(listener);
 }
 
-void NativeCommandManager::RunCommands(const gs2d::str_type::string& commands)
+void NativeCommandManager::RunCommands(const std::string& commands)
 {
 	if (commands == "")
 		return;
 
-	std::vector<gs2d::str_type::string> commandLines = Platform::SplitString(commands, GS_L("\n"));
+	std::vector<std::string> commandLines = Platform::SplitString(commands, ("\n"));
 	for (std::size_t t = 0; t < commandLines.size(); t++)
 	{
 		for (std::size_t c = 0; c < m_listeners.size(); c++)

@@ -25,7 +25,6 @@
 		7473CA7D16330304005DB920 /* Input.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CA6F16330304005DB920 /* Input.h */; };
 		7473CA7F16330304005DB920 /* Shader.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CA7116330304005DB920 /* Shader.h */; };
 		7473CA8216330304005DB920 /* Texture.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CA7416330304005DB920 /* Texture.h */; };
-		7473CA8316330304005DB920 /* Types.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CA7516330304005DB920 /* Types.h */; };
 		7473CA8416330304005DB920 /* Video.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7473CA7616330304005DB920 /* Video.cpp */; };
 		7473CA8516330304005DB920 /* Video.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CA7716330304005DB920 /* Video.h */; };
 		7473CA8616330304005DB920 /* Window.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CA7816330304005DB920 /* Window.h */; };
@@ -137,7 +136,6 @@
 		7473CA6F16330304005DB920 /* Input.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Input.h; path = ../../../../src/Input.h; sourceTree = "<group>"; };
 		7473CA7116330304005DB920 /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Shader.h; path = ../../../../src/Shader.h; sourceTree = "<group>"; };
 		7473CA7416330304005DB920 /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Texture.h; path = ../../../../src/Texture.h; sourceTree = "<group>"; };
-		7473CA7516330304005DB920 /* Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Types.h; path = ../../../../src/Types.h; sourceTree = "<group>"; };
 		7473CA7616330304005DB920 /* Video.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Video.cpp; path = ../../../../src/Video.cpp; sourceTree = "<group>"; };
 		7473CA7716330304005DB920 /* Video.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Video.h; path = ../../../../src/Video.h; sourceTree = "<group>"; };
 		7473CA7816330304005DB920 /* Window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Window.h; path = ../../../../src/Window.h; sourceTree = "<group>"; };
@@ -489,7 +487,6 @@
 				AA92F34D22F61CEE00AECB30 /* PolygonRenderer.cpp */,
 				AA92F34C22F61CEE00AECB30 /* PolygonRenderer.h */,
 				7473CA7416330304005DB920 /* Texture.h */,
-				7473CA7516330304005DB920 /* Types.h */,
 				AA92F36E22F62B1B00AECB30 /* Sprite.cpp */,
 				AA92F36F22F62B1C00AECB30 /* Sprite.h */,
 				AA92F37122F62B1C00AECB30 /* SpriteRects.cpp */,
@@ -526,7 +523,6 @@
 				7473CA7F16330304005DB920 /* Shader.h in Headers */,
 				AA92F34A22F6112E00AECB30 /* GLShader.h in Headers */,
 				7473CA8216330304005DB920 /* Texture.h in Headers */,
-				7473CA8316330304005DB920 /* Types.h in Headers */,
 				7473CA8516330304005DB920 /* Video.h in Headers */,
 				7473CA8616330304005DB920 /* Window.h in Headers */,
 				AA18F5E922B8804100F44DA6 /* Vector2i.h in Headers */,

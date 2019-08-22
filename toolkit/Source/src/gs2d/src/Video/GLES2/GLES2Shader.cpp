@@ -6,7 +6,7 @@
 
 namespace gs2d {
 
-static bool CheckForGLError(const str_type::string& situation)
+static bool CheckForGLError(const std::string& situation)
 {
 	bool r = false;
 	for (GLint error = glGetError(); error; error = glGetError())
@@ -43,7 +43,7 @@ bool GLES2Shader::LoadShaderFromFile(
 	const std::string& psFileName,
 	const std::string& psEntry)
 {
-	str_type::string vsCode, psCode;
+	std::string vsCode, psCode;
 	if (!m_fileManager->GetAnsiFileString(vsFileName, vsCode))
 	{
 		std::cerr << "Couldn't open " << vsFileName << std::endl;
@@ -184,55 +184,55 @@ GLint GLES2Shader::FindUniformLocation(const std::string& name)
 	}
 }
 
-void GLES2Shader::SetConstant(const str_type::string& name, const math::Vector4 &v)
+void GLES2Shader::SetConstant(const std::string& name, const math::Vector4 &v)
 {
 	const GLint location = FindUniformLocation(name);
 	glUniform4f(location, v.x, v.y, v.z, v.w);
 }
 
-void GLES2Shader::SetConstant(const str_type::string& name, const math::Vector3 &v)
+void GLES2Shader::SetConstant(const std::string& name, const math::Vector3 &v)
 {
 	const GLint location = FindUniformLocation(name);
 	glUniform3f(location, v.x, v.y, v.z);
 }
 
-void GLES2Shader::SetConstant(const str_type::string& name, const math::Vector2 &v)
+void GLES2Shader::SetConstant(const std::string& name, const math::Vector2 &v)
 {
 	const GLint location = FindUniformLocation(name);
 	glUniform2f(location, v.x, v.y);
 }
 
-void GLES2Shader::SetConstant(const str_type::string& name, const float x)
+void GLES2Shader::SetConstant(const std::string& name, const float x)
 {
 	const GLint location = FindUniformLocation(name);
 	glUniform1f(location, x);
 }
 
-void GLES2Shader::SetConstant(const str_type::string& name, const int n)
+void GLES2Shader::SetConstant(const std::string& name, const int n)
 {
 	const GLint location = FindUniformLocation(name);
 	glUniform1i(location, n);
 }
 
-void GLES2Shader::SetConstantArray(const str_type::string& name, unsigned int nElements, const math::Vector2* v)
+void GLES2Shader::SetConstantArray(const std::string& name, unsigned int nElements, const math::Vector2* v)
 {
 	const GLint location = FindUniformLocation(name);
 	glUniform2fv(location, nElements, &(v[0].x));
 }
 
-void GLES2Shader::SetConstantArray(const str_type::string& name, unsigned int nElements, const math::Vector4* v)
+void GLES2Shader::SetConstantArray(const std::string& name, unsigned int nElements, const math::Vector4* v)
 {
 	const GLint location = FindUniformLocation(name);
 	glUniform4fv(location, nElements, &(v[0].x));
 }
 
-void GLES2Shader::SetMatrixConstant(const str_type::string& name, const math::Matrix4x4 &matrix)
+void GLES2Shader::SetMatrixConstant(const std::string& name, const math::Matrix4x4 &matrix)
 {
 	const GLint location = FindUniformLocation(name);
 	glUniformMatrix4fv(location, 1, GL_FALSE, (GLfloat*)&matrix.m[0][0]);
 }
 
-void GLES2Shader::SetTexture(const str_type::string& name, TexturePtr pTexture, const unsigned int index)
+void GLES2Shader::SetTexture(const std::string& name, TexturePtr pTexture, const unsigned int index)
 {
 	GLES2Texture* tex = static_cast<GLES2Texture*>(pTexture.get());
 	if (tex)
