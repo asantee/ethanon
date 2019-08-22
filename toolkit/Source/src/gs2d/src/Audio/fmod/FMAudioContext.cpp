@@ -1,6 +1,6 @@
-#import "FMAudioContext.h"
+#include "FMAudioContext.h"
 
-#import "fmod_errors.h"
+#include "fmod_errors.h"
 
 #include <sstream>
 
