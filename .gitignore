@@ -60,6 +60,9 @@ testbed/GeneralTests/scenes/TestEntity-esc/
 # Misc garbage
 *.DS_Store
 
+# Visual Studio 2015+ cache/options directory
+.vs/
+
 # Visual Studio files
 *.ncb
 *.suo
