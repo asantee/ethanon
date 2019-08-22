@@ -1,9 +1,10 @@
-#include "Enml.h"
-
+#include <string>
 #include <sstream>
 #include <fstream>
 #include <assert.h>
 #include <stdio.h>
+
+#include "Enml.h"
 
 #ifdef _MSC_VER
   #define GS2D_SSCANF sscanf_s
