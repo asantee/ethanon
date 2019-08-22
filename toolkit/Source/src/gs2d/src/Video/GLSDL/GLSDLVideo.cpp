@@ -1,10 +1,11 @@
-#include <time.h>
-#include <direct.h>
 #include "GLSDLVideo.h"
 
 #include "../GL/GLShader.h"
 #include "../GL/GLTexture.h"
 #include "../../Platform/getRealTime.h"
+
+#include <time.h>
+#include <direct.h>
 
 namespace gs2d {
 
