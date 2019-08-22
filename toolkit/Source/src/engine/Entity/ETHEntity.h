@@ -17,10 +17,10 @@ class ETHEntity : public ETHScriptEntity
 public:
 	static float ComputeDepth(const float height, const float maxHeight, const float minHeight);
 
-	ETHEntity(const str_type::string& filePath, const int nId, const Platform::FileManagerPtr& fileManager);
+	ETHEntity(const std::string& filePath, const int nId, const Platform::FileManagerPtr& fileManager);
 	ETHEntity(TiXmlElement *pElement,
 		ETHEntityCache& entityCache,
-		const str_type::string &entityPath,
+		const std::string &entityPath,
 		Platform::FileManagerPtr fileManager,
 		const bool shouldGenerateNewID);
 	ETHEntity();
@@ -31,10 +31,10 @@ public:
 	bool WriteToXMLFile(
 		TiXmlElement *pHeadRoot,
 		ETHEntityCache& entityCache,
-		const str_type::string &entityPath,
+		const std::string &entityPath,
 		Platform::FileManagerPtr fileManager) const;
 
-	ETH_INLINE const ETHEntityProperties* GetProperties() const { return &m_properties; };
+	inline const ETHEntityProperties* GetProperties() const { return &m_properties; };
 	ETHEntityControllerPtr GetController();
 	void SetController(const ETHEntityControllerPtr& controller);
 
@@ -48,8 +48,8 @@ public:
 	Vector3 GetLightRelativePosition() const;
 	ETHCollisionBox GetCollisionBox() const override;
 	ETHCompoundShapePtr GetCompoundShape() const;
-	void ChangeEntityName(const str_type::string& name);
-	str_type::string GetEntityName() const override;
+	void ChangeEntityName(const std::string& name);
+	std::string GetEntityName() const override;
 	std::size_t GetNumParticleSystems() const;
 	ETHEntityProperties::ENTITY_TYPE GetType() const override;
 	ETHEntityProperties::BODY_SHAPE GetShape() const;
@@ -129,45 +129,45 @@ public:
 
 	// Custom data related methods:
 	const ETHCustomDataManager *GetCustomDataManager() const;
-	void SetFloat(const str_type::string &name, const float &value) override;
-	void SetInt(const str_type::string &name, const int &value) override;
-	void SetUInt(const str_type::string &name, const unsigned int &value) override;
-	void SetString(const str_type::string &name, const str_type::string &value) override;
-	void SetVector2(const str_type::string &name, const Vector2 &value) override;
-	void SetVector3(const str_type::string &name, const Vector3 &value) override;
-	void AddData(const str_type::string &name, const ETHCustomDataConstPtr &dataIn);
+	void SetFloat(const std::string &name, const float &value) override;
+	void SetInt(const std::string &name, const int &value) override;
+	void SetUInt(const std::string &name, const unsigned int &value) override;
+	void SetString(const std::string &name, const std::string &value) override;
+	void SetVector2(const std::string &name, const Vector2 &value) override;
+	void SetVector3(const std::string &name, const Vector3 &value) override;
+	void AddData(const std::string &name, const ETHCustomDataConstPtr &dataIn);
 
-	float GetFloat(const str_type::string &name, const float defaultValue) const override;
-	int GetInt(const str_type::string &name, const int defaultValue) const override;
-	unsigned int GetUInt(const str_type::string &name, const unsigned int defaultValue) const override;
-	str_type::string GetString(const str_type::string &name, const str_type::string& defaultValue) const override;
-	Vector2 GetVector2(const str_type::string &name, const Vector2& defaultValue) const override;
-	Vector3 GetVector3(const str_type::string &name, const Vector3& defaultValue) const override;
+	float GetFloat(const std::string &name, const float defaultValue) const override;
+	int GetInt(const std::string &name, const int defaultValue) const override;
+	unsigned int GetUInt(const std::string &name, const unsigned int defaultValue) const override;
+	std::string GetString(const std::string &name, const std::string& defaultValue) const override;
+	Vector2 GetVector2(const std::string &name, const Vector2& defaultValue) const override;
+	Vector3 GetVector3(const std::string &name, const Vector3& defaultValue) const override;
 
-	float GetFloat(const str_type::string &name) const override;
-	int GetInt(const str_type::string &name) const override;
-	unsigned int GetUInt(const str_type::string &name) const override;
-	str_type::string GetString(const str_type::string &name) const override;
-	Vector2 GetVector2(const str_type::string &name) const override;
-	Vector3 GetVector3(const str_type::string &name) const override;
+	float GetFloat(const std::string &name) const override;
+	int GetInt(const std::string &name) const override;
+	unsigned int GetUInt(const std::string &name) const override;
+	std::string GetString(const std::string &name) const override;
+	Vector2 GetVector2(const std::string &name) const override;
+	Vector3 GetVector3(const std::string &name) const override;
 
-	void SetObject(const str_type::string &name, void *value, int typeId);
-	void GetObject(const str_type::string &name, void *value, int typeId);
+	void SetObject(const std::string &name, void *value, int typeId);
+	void GetObject(const std::string &name, void *value, int typeId);
 
-	float AddToFloat(const str_type::string &name, const float &value) override;
-	int AddToInt(const str_type::string &name, const int &value) override;
-	unsigned int AddToUInt(const str_type::string &name, const unsigned int &value) override;
-	Vector2 AddToVector2(const str_type::string &name, const Vector2 &v) override;
-	Vector3 AddToVector3(const str_type::string &name, const Vector3 &v) override;
+	float AddToFloat(const std::string &name, const float &value) override;
+	int AddToInt(const std::string &name, const int &value) override;
+	unsigned int AddToUInt(const std::string &name, const unsigned int &value) override;
+	Vector2 AddToVector2(const std::string &name, const Vector2 &v) override;
+	Vector3 AddToVector3(const std::string &name, const Vector3 &v) override;
 
-	float MultiplyFloat(const str_type::string &name, const float &value) override;
-	int MultiplyInt(const str_type::string &name, const int &value) override;
-	unsigned int MultiplyUInt(const str_type::string &name, const unsigned int &value) override;
-	Vector2 MultiplyVector2(const str_type::string &name, const float &value) override;
-	Vector3 MultiplyVector3(const str_type::string &name, const float &value) override;
+	float MultiplyFloat(const std::string &name, const float &value) override;
+	int MultiplyInt(const std::string &name, const int &value) override;
+	unsigned int MultiplyUInt(const std::string &name, const unsigned int &value) override;
+	Vector2 MultiplyVector2(const std::string &name, const float &value) override;
+	Vector3 MultiplyVector3(const std::string &name, const float &value) override;
 
-	bool EraseData(const str_type::string &name) override;
-	ETHCustomData::DATA_TYPE CheckCustomData(const str_type::string &name) const override;
+	bool EraseData(const std::string &name) override;
+	ETHCustomData::DATA_TYPE CheckCustomData(const std::string &name) const override;
 	bool HasCustomData() const override;
 	void DebugPrintCustomData() const override;
 	void ClearCustomData() override;
@@ -181,8 +181,8 @@ public:
 	bool HasSimulatedBody() const override;
 	bool IsBullet();
 
-	void SetAngelScriptObject(const str_type::string &name, void *value, int typeId) override;
-	bool GetAngelScriptObject(const str_type::string &name, void *value, int typeId) override;
+	void SetAngelScriptObject(const std::string &name, void *value, int typeId) override;
+	bool GetAngelScriptObject(const std::string &name, void *value, int typeId) override;
 
 	#ifdef _ETHANON_EDITOR
 	inline ETHEntityProperties* GetEditableProperties() { return &m_properties; }
@@ -212,7 +212,7 @@ private:
 	bool ReadFromXMLFile(
 		TiXmlElement *pElement,
 		ETHEntityCache& entityCache,
-		const str_type::string &entityPath,
+		const std::string &entityPath,
 		Platform::FileManagerPtr fileManager,
 		const bool shouldGenerateNewID);
 	bool ReadFromXMLFile(TiXmlElement *pElement, const bool shouldGenerateNewID);

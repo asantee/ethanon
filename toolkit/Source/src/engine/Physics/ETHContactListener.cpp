@@ -2,6 +2,8 @@
 
 #include "ETHPhysicsSimulator.h"
 
+#define UNUSED_ARGUMENT(argument) ((void)(argument))
+
 ETHContactListener::ETHContactListener() :
 	m_disableNextContact(false),
 	m_runningPreSolveContactCallback(false)
@@ -86,7 +88,7 @@ void ETHContactListener::BeginContact(b2Contact* contact)
 void ETHContactListener::PreSolve(b2Contact* contact, const b2Manifold* oldManifold)
 {
 	m_runningPreSolveContactCallback = true;
-	GS2D_UNUSED_ARGUMENT(oldManifold);
+	UNUSED_ARGUMENT(oldManifold);
 	Vector2 point0, point1, normal;
 	ETHEntity *entityA = 0, *entityB = 0;
 	ETHPhysicsEntityController* controllerA = 0, *controllerB = 0;

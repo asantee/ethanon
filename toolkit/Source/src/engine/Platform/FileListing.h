@@ -14,15 +14,15 @@ class FileListing
 public:
 	struct FILE_NAME
 	{
-		inline void GetFullFileName(gs2d::str_type::string &sOut)
+		inline void GetFullFileName(std::string &sOut)
 		{
 			sOut = dir + file;
 		}
-		gs2d::str_type::string dir;
-		gs2d::str_type::string file;
+		std::string dir;
+		std::string file;
 	};
 
-	bool ListDirectoryFiles(const gs2d::str_type::char_t* directory, const gs2d::str_type::char_t* extension);
+	bool ListDirectoryFiles(const char* directory, const char* extension);
 
 	inline unsigned int GetNumFiles()
 	{
@@ -33,7 +33,7 @@ public:
 	{
 		if (index >= GetNumFiles())
 		{
-			GS2D_CERR << GS_L("FileListing::GetFileName - index >= m_fileName.size().\n");
+			std::cerr << ("FileListing::GetFileName - index >= m_fileName.size().\n");
 			return false;
 		}
 		fileName = m_fileName[index];

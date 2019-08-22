@@ -9,12 +9,12 @@
 namespace gs2d {
 
 float GLSDLVideo::m_mouseWheel(0.0f);
-str_type::string GLSDLVideo::m_lastCharInput("");
+std::string GLSDLVideo::m_lastCharInput("");
 
 VideoPtr CreateVideo(
 	const unsigned int width,
 	const unsigned int height,
-	const str_type::string& winTitle,
+	const std::string& winTitle,
 	const bool windowed,
 	const bool sync,
 	const Platform::FileIOHubPtr& fileIOHub,
@@ -27,7 +27,7 @@ VideoPtr CreateVideo(
 boost::shared_ptr<GLSDLVideo> GLSDLVideo::Create(
 	const unsigned int width,
 	const unsigned int height,
-	const str_type::string& winTitle,
+	const std::string& winTitle,
 	const bool windowed,
 	const bool sync,
 	const Platform::FileIOHubPtr& fileIOHub,
@@ -44,7 +44,7 @@ GLSDLVideo::GLSDLVideo(
 	Platform::FileIOHubPtr fileIOHub,
 	const unsigned int width,
 	const unsigned int height,
-	const str_type::string& winTitle,
+	const std::string& winTitle,
 	const bool windowed,
 	const bool sync,
 	const bool maximizable) :
@@ -127,7 +127,7 @@ TexturePtr GLSDLVideo::CreateTextureFromFileInMemory(
 }
 
 TexturePtr GLSDLVideo::LoadTextureFromFile(
-	const str_type::string& fileName,
+	const std::string& fileName,
 	const unsigned int nMipMaps)
 {
 	TexturePtr texture(GLTexture::Create(weak_this, GetFileIOHub()->GetFileManager()));
@@ -141,7 +141,7 @@ TexturePtr GLSDLVideo::LoadTextureFromFile(
 bool GLSDLVideo::StartApplication(
 	const unsigned int width,
 	const unsigned int height,
-	const str_type::string& winTitle,
+	const std::string& winTitle,
 	const bool windowed,
 	const bool sync,
 	const Texture::PIXEL_FORMAT pfBB,
@@ -437,7 +437,7 @@ Platform::FileIOHubPtr GLSDLVideo::GetFileIOHub()
 	return m_fileIOHub;
 }
 
-void GLSDLVideo::Message(const str_type::string& text, const GS_MESSAGE_TYPE type) const
+void GLSDLVideo::Message(const std::string& text, const GS_MESSAGE_TYPE type) const
 {
 	ShowMessage(text, type);
 }
@@ -485,7 +485,7 @@ Application::APP_STATUS GLSDLVideo::HandleEvents()
 		case SDL_DROPFILE:
 			if (m_fileOpenListener)
 			{
-				const str_type::string file = event.drop.file;
+				const std::string file = event.drop.file;
 				m_fileOpenListener->OnFileOpen(file);
 			}
 			break;
@@ -571,12 +571,12 @@ float GLSDLVideo::GetFPSRate() const
 	return math::Max(1.0f, m_fpsRate);
 }
 
-str_type::string GLSDLVideo::GetWindowTitle() const
+std::string GLSDLVideo::GetWindowTitle() const
 {
 	return SDL_GetWindowTitle(m_window);
 }
 
-bool GLSDLVideo::SetWindowTitle(const str_type::string& title)
+bool GLSDLVideo::SetWindowTitle(const std::string& title)
 {
 	SDL_SetWindowTitle(m_window, title.c_str());
 	return true;
@@ -624,12 +624,12 @@ bool GLSDLVideo::WindowInFocus() const
 	return m_windowHasFocus;
 }
 
-void GLSDLVideo::ForwardCommand(const str_type::string& cmd)
+void GLSDLVideo::ForwardCommand(const std::string& cmd)
 {
 	// TODO yet to be implemented
 }
 
-str_type::string GLSDLVideo::PullCommands()
+std::string GLSDLVideo::PullCommands()
 {
 	// TODO yet to be implemented
 	return "";

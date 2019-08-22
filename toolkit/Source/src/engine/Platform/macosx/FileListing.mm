@@ -2,7 +2,7 @@
 
 namespace Platform {
 
-bool FileListing::ListDirectoryFiles(const gs2d::str_type::char_t* directory, const gs2d::str_type::char_t* extension)
+bool FileListing::ListDirectoryFiles(const char* directory, const char* extension)
 {
 	m_fileName.clear();
 

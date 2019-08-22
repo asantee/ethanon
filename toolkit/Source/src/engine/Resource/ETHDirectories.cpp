@@ -1,56 +1,56 @@
 #include "ETHDirectories.h"
 
-#define ETH_SHADER_DIRECTORY		GS_L("data/")
-#define ETH_BITMAP_FONT_DIRECTORY	GS_L("data/")
-#define ETH_SCENES_DIRECTORY		GS_L("scenes/")
-#define ETH_ENTITY_DIRECTORY		GS_L("entities/")
-#define ETH_NORMAL_DIRECTORY		GS_L("entities/normalmaps/")
-#define ETH_HALOS_DIRECTORY			GS_L("entities/")
-#define ETH_PARTICLES_DIRECTORY		GS_L("particles/")
-#define ETH_EFFECTS_DIRECTORY		GS_L("effects/")
-#define ETH_SOUNDFX_DIRECTORY		GS_L("soundfx/")
+#define ETH_SHADER_DIRECTORY		("data/")
+#define ETH_BITMAP_FONT_DIRECTORY	("data/")
+#define ETH_SCENES_DIRECTORY		("scenes/")
+#define ETH_ENTITY_DIRECTORY		("entities/")
+#define ETH_NORMAL_DIRECTORY		("entities/normalmaps/")
+#define ETH_HALOS_DIRECTORY			("entities/")
+#define ETH_PARTICLES_DIRECTORY		("particles/")
+#define ETH_EFFECTS_DIRECTORY		("effects/")
+#define ETH_SOUNDFX_DIRECTORY		("soundfx/")
 
-gs2d::str_type::string ETHDirectories::GetShaderDirectory()
+std::string ETHDirectories::GetShaderDirectory()
 {
 	return ETH_SHADER_DIRECTORY;
 }
 
-gs2d::str_type::string ETHDirectories::GetBitmapFontDirectory()
+std::string ETHDirectories::GetBitmapFontDirectory()
 {
 	return ETH_BITMAP_FONT_DIRECTORY;
 }
 
-gs2d::str_type::string ETHDirectories::GetSceneDirectory()
+std::string ETHDirectories::GetSceneDirectory()
 {
 	return ETH_SCENES_DIRECTORY;
 }
 
-gs2d::str_type::string ETHDirectories::GetEntityDirectory()
+std::string ETHDirectories::GetEntityDirectory()
 {
 	return ETH_ENTITY_DIRECTORY;
 }
 
-gs2d::str_type::string ETHDirectories::GetNormalMapDirectory()
+std::string ETHDirectories::GetNormalMapDirectory()
 {
 	return ETH_NORMAL_DIRECTORY;
 }
 
-gs2d::str_type::string ETHDirectories::GetHaloDirectory()
+std::string ETHDirectories::GetHaloDirectory()
 {
 	return ETH_HALOS_DIRECTORY;
 }
 
-gs2d::str_type::string ETHDirectories::GetParticlesDirectory()
+std::string ETHDirectories::GetParticlesDirectory()
 {
 	return ETH_PARTICLES_DIRECTORY;
 }
 
-gs2d::str_type::string ETHDirectories::GetEffectsDirectory()
+std::string ETHDirectories::GetEffectsDirectory()
 {
 	return ETH_EFFECTS_DIRECTORY;
 }
 
-gs2d::str_type::string ETHDirectories::GetSoundFXDirectory()
+std::string ETHDirectories::GetSoundFXDirectory()
 {
 	return ETH_SOUNDFX_DIRECTORY;
 }

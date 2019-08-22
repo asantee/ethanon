@@ -1,12 +1,13 @@
 #ifndef GS2D_SHADER_H_
 #define GS2D_SHADER_H_
 
-#include "Types.h"
-
 #include "Math/Matrix4x4.h"
 #include "Math/Color.h"
+#include "Texture.h"
 
 #include "../../tsl/hopscotch_map.h"
+
+#include <boost/shared_ptr.hpp>
 
 namespace gs2d {
 
@@ -88,15 +89,15 @@ public:
         const std::string& psCodeAsciiString,
         const std::string& psEntry) = 0;
 
-	virtual void SetConstant(const str_type::string& name, const math::Vector4 &v) = 0;
-	virtual void SetConstant(const str_type::string& name, const math::Vector3 &v) = 0;
-	virtual void SetConstant(const str_type::string& name, const math::Vector2 &v) = 0;
-	virtual void SetConstant(const str_type::string& name, const float x) = 0;
-	virtual void SetConstant(const str_type::string& name, const int n) = 0;
-	virtual void SetConstantArray(const str_type::string& name, unsigned int nElements, const math::Vector2* v) = 0;
-    virtual void SetConstantArray(const str_type::string& name, unsigned int nElements, const math::Vector4* v) = 0;
-	virtual void SetMatrixConstant(const str_type::string& name, const math::Matrix4x4 &matrix) = 0;
-	virtual void SetTexture(const str_type::string& name, TexturePtr pTexture, const unsigned int index) = 0;
+	virtual void SetConstant(const std::string& name, const math::Vector4 &v) = 0;
+	virtual void SetConstant(const std::string& name, const math::Vector3 &v) = 0;
+	virtual void SetConstant(const std::string& name, const math::Vector2 &v) = 0;
+	virtual void SetConstant(const std::string& name, const float x) = 0;
+	virtual void SetConstant(const std::string& name, const int n) = 0;
+	virtual void SetConstantArray(const std::string& name, unsigned int nElements, const math::Vector2* v) = 0;
+    virtual void SetConstantArray(const std::string& name, unsigned int nElements, const math::Vector4* v) = 0;
+	virtual void SetMatrixConstant(const std::string& name, const math::Matrix4x4 &matrix) = 0;
+	virtual void SetTexture(const std::string& name, TexturePtr pTexture, const unsigned int index) = 0;
 	
 	virtual void SetShader() = 0;
 };

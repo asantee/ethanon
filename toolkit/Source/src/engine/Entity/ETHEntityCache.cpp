@@ -3,11 +3,11 @@
 #include "ETHEntityProperties.h"
 
 const ETHEntityProperties* ETHEntityCache::Get(
-	const str_type::string& fileName,
-	const str_type::string& filePath,
+	const std::string& fileName,
+	const std::string& filePath,
 	const Platform::FileManagerPtr& fileManager)
 {
-	std::map<str_type::string, ETHEntityProperties>::iterator iter = m_props.find(fileName);
+	std::map<std::string, ETHEntityProperties>::iterator iter = m_props.find(fileName);
 	if (iter != m_props.end())
 	{
 		// instantiates a new light source so changes won't be global
@@ -22,7 +22,7 @@ const ETHEntityProperties* ETHEntityCache::Get(
 	}
 	else
 	{
-		const str_type::string fullFilePath = filePath + fileName;
+		const std::string fullFilePath = filePath + fileName;
 		
 		if (fileManager->FileExists(fullFilePath))
 		{

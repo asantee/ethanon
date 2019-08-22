@@ -12,8 +12,8 @@ public:
 		const ETHResourceProviderPtr& provider,
 		ETHGraphicResourceManagerPtr graphicResources,
 		ETHShaderManagerPtr shaderManager,
-		const str_type::string& resourceDirectory,
-		const str_type::string& fileName,
+		const std::string& resourceDirectory,
+		const std::string& fileName,
 		const Vector2& pos,
 		const float angle,
 		const float scale);
@@ -27,7 +27,7 @@ private:
 	ETHShaderManagerPtr m_shaderManager;
 	Vector2 m_pos;
 	float m_angle;
-	str_type::string m_fileName;
+	std::string m_fileName;
 };
 
 #endif

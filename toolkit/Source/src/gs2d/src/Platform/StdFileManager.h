@@ -9,8 +9,8 @@ class StdFileManager : public FileManager
 {
 public:
 	bool IsLoaded() const;
-	bool GetFileBuffer(const gs2d::str_type::string &fileName, FileBuffer &out);
-	bool FileExists(const gs2d::str_type::string& fileName) const;
+	bool GetFileBuffer(const std::string& fileName, FileBuffer &out);
+	bool FileExists(const std::string& fileName) const;
 	bool IsPacked() const;
 };
 

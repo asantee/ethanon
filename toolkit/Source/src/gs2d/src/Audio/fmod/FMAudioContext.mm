@@ -2,13 +2,15 @@
 
 #import "fmod_errors.h"
 
+#include <sstream>
+
 namespace gs2d {
 
 bool FMOD_ERRCHECK_fn(FMOD_RESULT result, const char *file, int line, Platform::FileLogger& logger)
 {
 	if (result != FMOD_OK)
 	{
-		gs2d::str_type::stringstream ss;
+		std::stringstream ss;
 		ss << file << "(" << line << "): FMOD Error " << result << " - " << FMOD_ErrorString(result);
 		logger.Log(ss.str(), Platform::FileLogger::ERROR);
 		return true;
@@ -18,7 +20,7 @@ bool FMOD_ERRCHECK_fn(FMOD_RESULT result, const char *file, int line, Platform::
 
 FMOD::System* FMAudioContext::m_system = 0;
 
-GS2D_API AudioPtr CreateAudio(boost::any data)
+AudioPtr CreateAudio(boost::any data)
 {
 	AudioPtr audio = FMAudioContext::Create(data);
 	if (audio)

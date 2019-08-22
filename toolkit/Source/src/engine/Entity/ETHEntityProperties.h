@@ -17,7 +17,7 @@ public:
 	void Reset();
 	Vector4 emissiveColor;
 	Vector4 diffuseColor;
-	str_type::string spriteFile;
+	std::string spriteFile;
 	float restitution;
 	boost::shared_ptr<ETHLight> light;
 	Video::ALPHA_MODE blendMode;
@@ -27,7 +27,7 @@ public:
 	float density, friction, gravityScale;
 	ETHPolygonPtr polygon;
 	ETHCompoundShapePtr compoundShape;
-	str_type::string enmlJointDefinitions;
+	std::string enmlJointDefinitions;
 };
 
 class ETHEntitySpriteProperties : public ETHEntityMaterial
@@ -70,17 +70,17 @@ public:
 		Vector2 min, max;
 	};
 
-	ETHEntityProperties(const str_type::string& filePath, const Platform::FileManagerPtr& fileManager);
+	ETHEntityProperties(const std::string& filePath, const Platform::FileManagerPtr& fileManager);
 	ETHEntityProperties(TiXmlElement *pElement);
 	ETHEntityProperties();
 	bool IsCollidable() const;
 	void Reset();
-	bool SaveToFile(const str_type::string& filePath);
+	bool SaveToFile(const std::string& filePath);
 
 	bool ReadFromXMLFile(
 		TiXmlElement *pElement,
 		ETHEntityCache& entityCache,
-		const str_type::string &entityPath,
+		const std::string &entityPath,
 		Platform::FileManagerPtr fileManager);
 	bool ReadFromXMLFile(TiXmlElement *pElement);
 	bool IsSuccessfullyLoaded() const;
@@ -92,72 +92,72 @@ public:
 
 	static void SetBooleanPropertyToXmlElement(
 		TiXmlElement *pEntity,
-		const str_type::string& name,
+		const std::string& name,
 		const ETH_BOOL value);
 
 	static void SetBooleanPropertyToXmlElement(
 		TiXmlElement *pEntity,
-		const str_type::string& name,
+		const std::string& name,
 		const ETH_BOOL value,
 		const ETH_BOOL defaultValue);
 
 	static ETH_BOOL ReadBooleanPropertyFromXmlElement(
 		TiXmlElement *pEntity,
-		const str_type::string& name,
+		const std::string& name,
 		const ETH_BOOL defaultValue);
 
 	static void ReadVector2PropertyFromXmlElement(
 		TiXmlElement *pElement,
-		const str_type::string& name,
+		const std::string& name,
 		Vector2& value);
 
 	static void ReadVector2iPropertyFromXmlElement(
 		TiXmlElement *pElement,
-		const str_type::string& name,
+		const std::string& name,
 		Vector2i& value);
 
 	static void ReadVector3PropertyFromXmlElement(
 		TiXmlElement *pElement,
-		const str_type::string& name,
+		const std::string& name,
 		Vector3& value);
 
 	static void ReadColorPropertyFromXmlElement(
 		TiXmlElement *pElement,
-		const str_type::string& name,
+		const std::string& name,
 		Vector4& value);
 
 	static void ReadColorPropertyFromXmlElement(
 		TiXmlElement *pElement,
-		const str_type::string& name,
+		const std::string& name,
 		Vector3& value);
 
 	static void SetVector2PropertyToXmlElement(
 		TiXmlElement *pRoot,
-		const str_type::string& name,
+		const std::string& name,
 		const Vector2& value);
 
 	static void SetVector2iPropertyToXmlElement(
 		TiXmlElement *pRoot,
-		const str_type::string& name,
+		const std::string& name,
 		const Vector2i& value);
 
 	static void SetVector3PropertyToXmlElement(
 		TiXmlElement *pRoot,
-		const str_type::string& name,
+		const std::string& name,
 		const Vector3& value);
 
 	static void SetColorPropertyToXmlElement(
 		TiXmlElement *pRoot,
-		const str_type::string& name,
+		const std::string& name,
 		const Vector3& value);
 
 	static void SetColorPropertyToXmlElement(
 		TiXmlElement *pRoot,
-		const str_type::string& name,
+		const std::string& name,
 		const Vector4& value);
 
 	BODY_SHAPE shape;
-	str_type::string entityName;
+	std::string entityName;
 	ETH_BOOL staticEntity;
 	ETH_BOOL hideFromSceneEditor;
 	ENTITY_TYPE type;

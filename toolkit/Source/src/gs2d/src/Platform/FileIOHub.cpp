@@ -2,12 +2,13 @@
 
 namespace Platform {
 
-FileIOHub::FileIOHub(Platform::FileManagerPtr fileManager,
-					 const gs2d::str_type::string& resourceDirectory,
-					 const gs2d::str_type::string& programDirectory,
-					 const gs2d::str_type::string& externalStorageDirectory,
-					 const gs2d::str_type::string& globalExternalStorageDirectory,
-					 const gs2d::str_type::string& bitmapFontSearchDirectory) :
+FileIOHub::FileIOHub(
+	Platform::FileManagerPtr fileManager,
+    const std::string& resourceDirectory,
+    const std::string& programDirectory,
+    const std::string& externalStorageDirectory,
+    const std::string& globalExternalStorageDirectory,
+    const std::string& bitmapFontSearchDirectory) :
 	m_resourceDirectory(resourceDirectory),
 	m_programDirectory(programDirectory),
 	m_externalStorageDirectory(externalStorageDirectory),
@@ -20,32 +21,32 @@ FileIOHub::FileIOHub(Platform::FileManagerPtr fileManager,
 {
 }
 
-gs2d::str_type::string FileIOHub::GetResourceDirectory() const
+std::string FileIOHub::GetResourceDirectory() const
 {
 	return m_resourceDirectory;
 }
 
-gs2d::str_type::string FileIOHub::GetStartResourceDirectory() const
+std::string FileIOHub::GetStartResourceDirectory() const
 {
 	return m_startResourceDirectory;
 }
 
-gs2d::str_type::string FileIOHub::GetProgramDirectory() const
+std::string FileIOHub::GetProgramDirectory() const
 {
 	return m_programDirectory;
 }
 
-gs2d::str_type::string FileIOHub::GetExternalStorageDirectory() const
+std::string FileIOHub::GetExternalStorageDirectory() const
 {
 	return m_externalStorageDirectory;
 }
 
-gs2d::str_type::string FileIOHub::GetGlobalExternalStorageDirectory() const
+std::string FileIOHub::GetGlobalExternalStorageDirectory() const
 {
 	return m_globalExternalStorageDirectory;
 }
 
-void FileIOHub::SetResourceDirectory(const gs2d::str_type::string& directory)
+void FileIOHub::SetResourceDirectory(const std::string& directory)
 {
 	m_resourceDirectory = directory;
 }
@@ -61,7 +62,7 @@ const FileManagerPtr& FileIOHub::GetFileManager()
 	return m_fileManager;
 }
 
-gs2d::str_type::string FileIOHub::GetBitmapFontSearchDirectory() const
+std::string FileIOHub::GetBitmapFontSearchDirectory() const
 {
 	return m_bitmapFontSearchDirectory;
 }
@@ -71,7 +72,7 @@ const FileManagerPtr& FileIOHub::GetStartFileManager()
 	return m_startFileManager;
 }
 
-gs2d::str_type::string FileIOHub::GenerateBitmapFontFilePath(const gs2d::str_type::string& fntFile) const
+std::string FileIOHub::GenerateBitmapFontFilePath(const std::string& fntFile) const
 {
 	return (m_seekFontFromProgramPath ? GetProgramDirectory() : GetResourceDirectory()) + GetBitmapFontSearchDirectory() + fntFile;
 }

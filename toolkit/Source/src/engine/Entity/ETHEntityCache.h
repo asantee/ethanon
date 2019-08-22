@@ -8,9 +8,9 @@
 class ETHEntityCache
 {
 public:
-	const ETHEntityProperties* Get(const str_type::string& fileName, const str_type::string& filePath, const Platform::FileManagerPtr& fileManager);
+	const ETHEntityProperties* Get(const std::string& fileName, const std::string& filePath, const Platform::FileManagerPtr& fileManager);
 private:
-	std::map<str_type::string, ETHEntityProperties> m_props;
+	std::map<std::string, ETHEntityProperties> m_props;
 };
 
 #endif

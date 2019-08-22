@@ -16,41 +16,41 @@
 
 namespace gs2d {
 
-const str_type::string GLES2Texture::TEXTURE_LOG_FILE("GLES2Texture.log.txt");
-const str_type::string GLES2Texture::ETC1_FILE_FORMAT("pkm");
-const str_type::string GLES2Texture::PVR_FILE_FORMAT("pvr");
+const std::string GLES2Texture::TEXTURE_LOG_FILE("GLES2Texture.log.txt");
+const std::string GLES2Texture::ETC1_FILE_FORMAT("pkm");
+const std::string GLES2Texture::PVR_FILE_FORMAT("pvr");
 	
 void CheckFrameBufferStatus(const GLuint fbo, const GLuint tex, const bool showSuccessMessage)
 {
 	const GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-	std::cerr << GS_L("fboID ") << fbo << GS_L(" (") << tex << GS_L("): ");
+	std::cerr << ("fboID ") << fbo << (" (") << tex << ("): ");
 	switch (status)
 	{
 	case GL_FRAMEBUFFER_COMPLETE:
 		if (showSuccessMessage)
 		{
-			std::cout << GS_L(" render target texture created successfully");
+			std::cout << (" render target texture created successfully");
 		}
 		break;
 	case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
-		std::cout << GS_L(" incomplete attachment");
+		std::cout << (" incomplete attachment");
 		break;
 	case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS:
-		std::cout << GS_L(" incomplete dimensions");
+		std::cout << (" incomplete dimensions");
 		break;
 	case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
-		std::cout << GS_L(" incomplete missing attachment");
+		std::cout << (" incomplete missing attachment");
 		break;
 	case GL_FRAMEBUFFER_UNSUPPORTED:
-		std::cout << GS_L(" unsupported");
+		std::cout << (" unsupported");
 		break;
 	default:
-		std::cout << GS_L(" unknown status");
+		std::cout << (" unknown status");
 	}
 	std::cout << std::endl;
 }
 
-GLES2Texture::GLES2Texture(VideoWeakPtr video, const str_type::string& fileName, Platform::FileManagerPtr fileManager) :
+GLES2Texture::GLES2Texture(VideoWeakPtr video, const std::string& fileName, Platform::FileManagerPtr fileManager) :
 		m_fileManager(fileManager),
 		m_fileName(fileName),
 		m_texture(0)
@@ -74,7 +74,7 @@ void GLES2Texture::Free()
 
 bool GLES2Texture::LoadTexture(
 	VideoWeakPtr video,
-	const str_type::string& fileName,
+	const std::string& fileName,
 	const unsigned int nMipMaps)
 {
 	m_fileName = fileName;
@@ -115,7 +115,7 @@ bool GLES2Texture::LoadTexture(
 	}
 }
 
-GLES2Texture::COMPRESSION_FORMAT GLES2Texture::FindCompressionFormat(str_type::string& fileName)
+GLES2Texture::COMPRESSION_FORMAT GLES2Texture::FindCompressionFormat(std::string& fileName)
 {
 	if (MayUsePVRCompressedVersion(fileName))
 		return PVRTC;
@@ -126,18 +126,18 @@ GLES2Texture::COMPRESSION_FORMAT GLES2Texture::FindCompressionFormat(str_type::s
 }
 
 bool GLES2Texture::CheckTextureVersion(
-	str_type::string& fileName,
-	const str_type::string& format,
+	std::string& fileName,
+	const std::string& format,
 	Platform::FileManagerPtr fileManager)
 {
-	const str_type::string alternativeFileName = Platform::RemoveExtension(fileName.c_str()).append(".").append(format);
+	const std::string alternativeFileName = Platform::RemoveExtension(fileName.c_str()).append(".").append(format);
 	const bool versionExists = (fileManager->FileExists(alternativeFileName));
 	if (versionExists)
 		fileName = alternativeFileName;
 	return versionExists;
 }
 
-bool GLES2Texture::MayUseETC1CompressedVersion(str_type::string& fileName)
+bool GLES2Texture::MayUseETC1CompressedVersion(std::string& fileName)
 {
 	// not supported on iOS
 	if (Application::GetPlatformName() == "ios")
@@ -147,7 +147,7 @@ bool GLES2Texture::MayUseETC1CompressedVersion(str_type::string& fileName)
 	return etc1VersionExists;
 }
 
-bool GLES2Texture::MayUsePVRCompressedVersion(str_type::string& fileName)
+bool GLES2Texture::MayUsePVRCompressedVersion(std::string& fileName)
 {
 	const GLubyte* extensions = glGetString(GL_EXTENSIONS);
 	if (strstr((char*)extensions, "GL_IMG_texture_compression_pvrtc") == 0)
@@ -354,7 +354,7 @@ math::Vector2 GLES2Texture::GetBitmapSize() const
 	return m_resolution;
 }
 
-const str_type::string& GLES2Texture::GetFileName() const
+const std::string& GLES2Texture::GetFileName() const
 {
 	return m_fileName;
 }

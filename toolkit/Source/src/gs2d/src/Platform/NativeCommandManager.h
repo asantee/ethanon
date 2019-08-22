@@ -14,7 +14,7 @@ class NativeCommandManager
 public:
 
 	void InsertCommandListener(const NativeCommandListenerPtr& listener);
-	void RunCommands(const gs2d::str_type::string& commands);
+	void RunCommands(const std::string& commands);
 };
 
 } // namespace Platform

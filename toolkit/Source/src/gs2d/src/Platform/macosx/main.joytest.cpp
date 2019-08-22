@@ -27,7 +27,7 @@ int SDL_main (int argc, char **argv)
 		float fZAngle = 0.0f;
 
 		gs2d::Video::APP_STATUS status;
-		str_type::stringstream inputStr;
+		std::stringstream inputStr;
 		while ((status = video->HandleEvents()) != gs2d::Video::APP_QUIT)
 		{
 			if (status == gs2d::Video::APP_SKIP)
@@ -57,7 +57,7 @@ int SDL_main (int argc, char **argv)
 
 			skull->Draw(v2BallPos, 0xFFFFFFFF, fZAngle);
 
-			str_type::stringstream text; text << "Pressed buttons: ";
+			std::stringstream text; text << "Pressed buttons: ";
 			bool bNone = true;
 			for (unsigned int t = 0; t < GSB_NUM_BUTTONS; t++)
 			{

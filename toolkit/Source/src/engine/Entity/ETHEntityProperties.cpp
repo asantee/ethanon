@@ -6,28 +6,28 @@
 
 #include <iostream>
 
-static const str_type::string COMPOUND_SHAPE_ENML_SAMPLE(
-	GS_L("\n\n// this is a compound shape sample\n")
-	GS_L("// shape sizes and pos must be normalized (-1 to 1)\n")
-	GS_L("// the final shape actual size is defined by our collision box\n")
-	GS_L("\n// Lollipop sample\n")
-	GS_L("\ncandy\n")
-	GS_L("{\n")
-	GS_L("	shape = circle;\n")
-	GS_L("	posX = 0.0;\n")
-	GS_L("	posY =-0.5;\n")
-	GS_L("	radius = 1.0;\n")
-	GS_L("	angle = 0;\n")
-	GS_L("}\n\n")
-	GS_L("stick\n")
-	GS_L("{\n")
-	GS_L("	shape = box;\n")
-	GS_L("	sizeX = 0.1;\n")
-	GS_L("	sizeY = 2.0;\n")
-	GS_L("	posX = 0.0;\n")
-	GS_L("	posY = 0.0;\n")
-	GS_L("	angle = 0;\n")
-	GS_L("}\n\n"));
+static const std::string COMPOUND_SHAPE_ENML_SAMPLE(
+	"\n\n// this is a compound shape sample\n"
+	"// shape sizes and pos must be normalized (-1 to 1)\n"
+	"// the final shape actual size is defined by our collision box\n"
+	"\n// Lollipop sample\n"
+	"\ncandy\n"
+	"{\n"
+	"	shape = circle;\n"
+	"	posX = 0.0;\n"
+	"	posY =-0.5;\n"
+	"	radius = 1.0;\n"
+	"	angle = 0;\n"
+	"}\n\n"
+	"stick\n"
+	"{\n"
+	"	shape = box;\n"
+	"	sizeX = 0.1;\n"
+	"	sizeY = 2.0;\n"
+	"	posX = 0.0;\n"
+	"	posY = 0.0;\n"
+	"	angle = 0;\n"
+	"}\n\n");
 
 
 unsigned int ETHEntitySpriteProperties::GetNumFrames() const
@@ -35,24 +35,24 @@ unsigned int ETHEntitySpriteProperties::GetNumFrames() const
 	return static_cast<unsigned int>(spriteCut.x * spriteCut.y);
 }
 
-static const str_type::string POLYGON_ENML_SAMPLE(
-	GS_L("\n\n// this is a basic triangle sample\n")
-	GS_L("// polygons must be convex and ordered clockwise")
-	GS_L("\nv0\n")
-	GS_L("{\n")
-	GS_L("	x=1;\n")
-	GS_L("	y=-1;\n")
-	GS_L("}\n")
-	GS_L("v1\n")
-	GS_L("{\n")
-	GS_L("	x=1;\n")
-	GS_L("	y=1;\n")
-	GS_L("}\n")
-	GS_L("v2\n")
-	GS_L("{\n")
-	GS_L("	x=-1;\n")
-	GS_L("	y=1;\n")
-	GS_L("}\n"));
+static const std::string POLYGON_ENML_SAMPLE(
+	"\n\n// this is a basic triangle sample\n"
+	"// polygons must be convex and ordered clockwise"
+	"\nv0\n"
+	"{\n"
+	"	x=1;\n"
+	"	y=-1;\n"
+	"}\n"
+	"v1\n"
+	"{\n"
+	"	x=1;\n"
+	"	y=1;\n"
+	"}\n"
+	"v2\n"
+	"{\n"
+	"	x=-1;\n"
+	"	y=1;\n"
+	"}\n");
 
 #define ETH_DEFAULT_EMISSIVE_COLOR	Vector4(0, 0, 0, 0)
 #define ETH_DEFAULT_DIFFUSE_COLOR	Vector4(1, 1, 1, 1)
@@ -101,17 +101,17 @@ ETHEntityProperties::ETHEntityProperties(TiXmlElement *pElement)
 	ReadFromXMLFile(pElement);
 }
 
-ETHEntityProperties::ETHEntityProperties(const str_type::string& filePath, const Platform::FileManagerPtr& fileManager)
+ETHEntityProperties::ETHEntityProperties(const std::string& filePath, const Platform::FileManagerPtr& fileManager)
 {
 	ETHEntityMaterial::Reset();
 	Reset();
 
 	TiXmlDocument doc(filePath);
-	str_type::string content;
+	std::string content;
 	fileManager->GetUTFFileString(filePath, content);
 	if (!doc.LoadFile(content, TIXML_ENCODING_LEGACY))
 	{
-		ETH_STREAM_DECL(ss) << GS_L("Couldn't load file: ") << filePath;
+		ETH_STREAM_DECL(ss) << ("Couldn't load file: ") << filePath;
 		ETHResourceProvider::Log(ss.str(), Platform::Logger::ERROR);
 		return;
 	}
@@ -122,7 +122,7 @@ ETHEntityProperties::ETHEntityProperties(const str_type::string& filePath, const
 	TiXmlElement *pElem = hDoc.FirstChildElement().Element();
 	if (!pElem)
 	{
-		ETH_STREAM_DECL(ss) << GS_L("The current file seems to be invalid: ") << filePath;
+		ETH_STREAM_DECL(ss) << ("The current file seems to be invalid: ") << filePath;
 		ETHResourceProvider::Log(ss.str(), Platform::Logger::ERROR);
 		return;
 	}
@@ -135,7 +135,7 @@ ETHEntityProperties::ETHEntityProperties(const str_type::string& filePath, const
 void ETHEntityProperties::Reset()
 {
 	ETHEntityMaterial::Reset();
-	entityName = GS_L("");
+	entityName = ("");
 	spriteCut = ETH_DEFAULT_SPRITE_CUT;
 	pivotAdjust = ETH_DEFAULT_PIVOT_ADJUST;
 	scale = ETH_DEFAULT_SCALE;
@@ -153,13 +153,13 @@ bool ETHEntityProperties::IsSuccessfullyLoaded() const
 	return successfullyLoaded;
 }
 
-bool ETHEntityProperties::SaveToFile(const str_type::string& filePath)
+bool ETHEntityProperties::SaveToFile(const std::string& filePath)
 {
 	TiXmlDocument doc;
-	TiXmlDeclaration *pDecl = new TiXmlDeclaration(GS_L("1.0"), GS_L(""), GS_L(""));
+	TiXmlDeclaration *pDecl = new TiXmlDeclaration(("1.0"), (""), (""));
 	doc.LinkEndChild(pDecl);
 
-	TiXmlElement *pElement = new TiXmlElement(GS_L("Ethanon"));
+	TiXmlElement *pElement = new TiXmlElement(("Ethanon"));
 	doc.LinkEndChild(pElement);
 
 	WriteContentToXMLFile(doc.RootElement());
@@ -170,10 +170,10 @@ bool ETHEntityProperties::SaveToFile(const str_type::string& filePath)
 bool ETHEntityProperties::ReadFromXMLFile(
 	TiXmlElement *pElement,
 	ETHEntityCache& entityCache,
-	const str_type::string &entityPath,
+	const std::string &entityPath,
 	Platform::FileManagerPtr fileManager)
 {
-	TiXmlNode *pNode = pElement->FirstChild(GS_L("FileName"));
+	TiXmlNode *pNode = pElement->FirstChild(("FileName"));
 	if (pNode)
 	{
 		const ETHEntityProperties* props = entityCache.Get(entityName, entityPath, fileManager);
@@ -193,41 +193,41 @@ bool ETHEntityProperties::ReadFromXMLFile(
 
 bool ETHEntityProperties::ReadFromXMLFile(TiXmlElement *pElement)
 {
-	pElement->QueryIntAttribute(GS_L("type"), (int*)&type);
+	pElement->QueryIntAttribute(("type"), (int*)&type);
 
-	staticEntity = ReadBooleanPropertyFromXmlElement(pElement, GS_L("static"), staticEntity);
-	hideFromSceneEditor = ReadBooleanPropertyFromXmlElement(pElement, GS_L("hideFromSceneEditor"), hideFromSceneEditor);
+	staticEntity = ReadBooleanPropertyFromXmlElement(pElement, ("static"), staticEntity);
+	hideFromSceneEditor = ReadBooleanPropertyFromXmlElement(pElement, ("hideFromSceneEditor"), hideFromSceneEditor);
 
-	pElement->QueryIntAttribute(GS_L("shape"), (int*)&shape);
-	pElement->QueryIntAttribute(GS_L("blendMode"), (int*)&blendMode);
-	pElement->QueryFloatAttribute(GS_L("layerDepth"), &layerDepth);
-	pElement->QueryFloatAttribute(GS_L("parallaxIntensity"), &parallaxIntensity);
+	pElement->QueryIntAttribute(("shape"), (int*)&shape);
+	pElement->QueryIntAttribute(("blendMode"), (int*)&blendMode);
+	pElement->QueryFloatAttribute(("layerDepth"), &layerDepth);
+	pElement->QueryFloatAttribute(("parallaxIntensity"), &parallaxIntensity);
 
 	if (shape != BS_NONE)
 	{
-		sensor = ReadBooleanPropertyFromXmlElement(pElement, GS_L("sensor"), sensor);
-		fixedRotation = ReadBooleanPropertyFromXmlElement(pElement, GS_L("fixedRotation"), fixedRotation);
-		bullet = ReadBooleanPropertyFromXmlElement(pElement, GS_L("bullet"), bullet);
+		sensor = ReadBooleanPropertyFromXmlElement(pElement, ("sensor"), sensor);
+		fixedRotation = ReadBooleanPropertyFromXmlElement(pElement, ("fixedRotation"), fixedRotation);
+		bullet = ReadBooleanPropertyFromXmlElement(pElement, ("bullet"), bullet);
 
-		pElement->QueryFloatAttribute(GS_L("friction"), &friction);
-		pElement->QueryFloatAttribute(GS_L("density"), &density);
-		pElement->QueryFloatAttribute(GS_L("gravityScale"), &gravityScale);
-		pElement->QueryFloatAttribute(GS_L("restitution"), &restitution);
+		pElement->QueryFloatAttribute(("friction"), &friction);
+		pElement->QueryFloatAttribute(("density"), &density);
+		pElement->QueryFloatAttribute(("gravityScale"), &gravityScale);
+		pElement->QueryFloatAttribute(("restitution"), &restitution);
 	}
 
-	ETHEntityProperties::ReadColorPropertyFromXmlElement(pElement, GS_L("EmissiveColor"), emissiveColor);
-	ETHEntityProperties::ReadColorPropertyFromXmlElement(pElement, GS_L("DiffuseColor"), diffuseColor);
+	ETHEntityProperties::ReadColorPropertyFromXmlElement(pElement, ("EmissiveColor"), emissiveColor);
+	ETHEntityProperties::ReadColorPropertyFromXmlElement(pElement, ("DiffuseColor"), diffuseColor);
 
-	ReadVector2iPropertyFromXmlElement(pElement, GS_L("SpriteCut"), spriteCut);
-	ReadVector2PropertyFromXmlElement(pElement, GS_L("Scale"), scale);
-	ReadVector2PropertyFromXmlElement(pElement, GS_L("PivotAdjust"), pivotAdjust);
+	ReadVector2iPropertyFromXmlElement(pElement, ("SpriteCut"), spriteCut);
+	ReadVector2PropertyFromXmlElement(pElement, ("Scale"), scale);
+	ReadVector2PropertyFromXmlElement(pElement, ("PivotAdjust"), pivotAdjust);
 	
 	originalSpriteCut = spriteCut;
 
 	TiXmlElement *pIter;
 	TiXmlNode *pNode;
 
-	pNode = pElement->FirstChild(GS_L("Sprite"));
+	pNode = pElement->FirstChild(("Sprite"));
 	if (pNode)
 	{
 		pIter = pNode->ToElement();
@@ -237,13 +237,13 @@ bool ETHEntityProperties::ReadFromXMLFile(TiXmlElement *pElement)
 		}
 	}
 
-	pNode = pElement->FirstChild(GS_L("Particles"));
+	pNode = pElement->FirstChild(("Particles"));
 	if (pNode)
 	{
 		TiXmlElement *pParticles = pNode->ToElement();
 		if (pParticles)
 		{
-			pNode = pParticles->FirstChild(GS_L("ParticleSystem"));
+			pNode = pParticles->FirstChild(("ParticleSystem"));
 			if (pNode)
 			{
 				TiXmlElement *pParticleIter = pNode->ToElement();
@@ -268,7 +268,7 @@ bool ETHEntityProperties::ReadFromXMLFile(TiXmlElement *pElement)
 		}
 	}
 
-	pNode = pElement->FirstChild(GS_L("Light"));
+	pNode = pElement->FirstChild(("Light"));
 	if (pNode)
 	{
 		TiXmlElement *pLight = pNode->ToElement();
@@ -287,10 +287,10 @@ bool ETHEntityProperties::ReadFromXMLFile(TiXmlElement *pElement)
 
 	{
 		int nCollidable = 1;
-		const int r = pElement->QueryIntAttribute(GS_L("collidable"), &nCollidable);
+		const int r = pElement->QueryIntAttribute(("collidable"), &nCollidable);
 		if (nCollidable || r == TIXML_NO_ATTRIBUTE)
 		{
-			pNode = pElement->FirstChild(GS_L("Collision"));
+			pNode = pElement->FirstChild(("Collision"));
 			if (pNode)
 			{
 				collision = boost::shared_ptr<ETHCollisionBox>(new ETHCollisionBox);
@@ -307,7 +307,7 @@ bool ETHEntityProperties::ReadFromXMLFile(TiXmlElement *pElement)
 				}
 				
 				{
-					TiXmlNode *pPolygonNode = pNode->FirstChild(GS_L("Polygon"));
+					TiXmlNode *pPolygonNode = pNode->FirstChild(("Polygon"));
 					if (pPolygonNode)
 					{
 						pIter = pPolygonNode->ToElement();
@@ -318,7 +318,7 @@ bool ETHEntityProperties::ReadFromXMLFile(TiXmlElement *pElement)
 					}
 					else
 					{
-						TiXmlNode *pCompoundNode = pNode->FirstChild(GS_L("Compound"));
+						TiXmlNode *pCompoundNode = pNode->FirstChild(("Compound"));
 						if (pCompoundNode)
 						{
 							pIter = pCompoundNode->ToElement();
@@ -330,7 +330,7 @@ bool ETHEntityProperties::ReadFromXMLFile(TiXmlElement *pElement)
 					}
 				}
 				{
-					TiXmlNode *pJointsNode = pNode->FirstChild(GS_L("Joints"));
+					TiXmlNode *pJointsNode = pNode->FirstChild(("Joints"));
 					if (pJointsNode)
 					{
 						pIter = pJointsNode->ToElement();
@@ -350,10 +350,10 @@ bool ETHEntityProperties::ReadFromXMLFile(TiXmlElement *pElement)
 
 bool ETHEntityProperties::WriteEntityNameToXMLFile(TiXmlElement *pHeadRoot) const
 {
-	TiXmlElement *pRoot = new TiXmlElement(GS_L("Entity"));
+	TiXmlElement *pRoot = new TiXmlElement(("Entity"));
 	pHeadRoot->LinkEndChild(pRoot);
 	
-	TiXmlElement *pElement = new TiXmlElement(GS_L("FileName"));
+	TiXmlElement *pElement = new TiXmlElement(("FileName"));
 	pElement->LinkEndChild(new TiXmlText(entityName));
 	pRoot->LinkEndChild(pElement);
 	
@@ -363,36 +363,36 @@ bool ETHEntityProperties::WriteEntityNameToXMLFile(TiXmlElement *pHeadRoot) cons
 
 bool ETHEntityProperties::WriteContentToXMLFile(TiXmlElement *pHeadRoot) const
 {
-	TiXmlElement *pRoot = new TiXmlElement(GS_L("Entity"));
+	TiXmlElement *pRoot = new TiXmlElement(("Entity"));
 	pHeadRoot->LinkEndChild(pRoot); 
 
 	TiXmlElement *pElement;
 
 	if (emissiveColor != ETH_DEFAULT_EMISSIVE_COLOR)
-		ETHEntityProperties::SetColorPropertyToXmlElement(pRoot, GS_L("EmissiveColor"), emissiveColor);
+		ETHEntityProperties::SetColorPropertyToXmlElement(pRoot, ("EmissiveColor"), emissiveColor);
 
 	if (diffuseColor != ETH_DEFAULT_DIFFUSE_COLOR)
-		ETHEntityProperties::SetColorPropertyToXmlElement(pRoot, GS_L("DiffuseColor"), diffuseColor);
+		ETHEntityProperties::SetColorPropertyToXmlElement(pRoot, ("DiffuseColor"), diffuseColor);
 
 	if (spriteCut != ETH_DEFAULT_SPRITE_CUT)
-		ETHEntityProperties::SetVector2iPropertyToXmlElement(pRoot, GS_L("SpriteCut"), spriteCut);
+		ETHEntityProperties::SetVector2iPropertyToXmlElement(pRoot, ("SpriteCut"), spriteCut);
 
 	if (scale != ETH_DEFAULT_SCALE)
-		ETHEntityProperties::SetVector2PropertyToXmlElement(pRoot, GS_L("Scale"), scale);
+		ETHEntityProperties::SetVector2PropertyToXmlElement(pRoot, ("Scale"), scale);
 
 	if (pivotAdjust != ETH_DEFAULT_PIVOT_ADJUST)
-		ETHEntityProperties::SetVector2PropertyToXmlElement(pRoot, GS_L("PivotAdjust"), pivotAdjust);
+		ETHEntityProperties::SetVector2PropertyToXmlElement(pRoot, ("PivotAdjust"), pivotAdjust);
 
-	if (spriteFile != GS_L(""))
+	if (spriteFile != (""))
 	{
-		pElement = new TiXmlElement(GS_L("Sprite"));
+		pElement = new TiXmlElement(("Sprite"));
 		pElement->LinkEndChild(new TiXmlText(spriteFile));
 		pRoot->LinkEndChild(pElement);
 	}
 
 	if (!particleSystems.empty())
 	{
-		TiXmlElement *pParticles = new TiXmlElement(GS_L("Particles"));
+		TiXmlElement *pParticles = new TiXmlElement(("Particles"));
 		pRoot->LinkEndChild(pParticles);
 		for (unsigned int t=0; t<particleSystems.size(); t++)
 		{
@@ -414,7 +414,7 @@ bool ETHEntityProperties::WriteContentToXMLFile(TiXmlElement *pHeadRoot) const
 			// Write polygon data
 			if (polygon)
 			{
-				pElement = new TiXmlElement(GS_L("Polygon"));
+				pElement = new TiXmlElement(("Polygon"));
 				TiXmlText* text = new TiXmlText(polygon->GetENMLDeclaration());
 				text->SetCDATA(true);
 				pElement->LinkEndChild(text);
@@ -422,7 +422,7 @@ bool ETHEntityProperties::WriteContentToXMLFile(TiXmlElement *pHeadRoot) const
 			}
 			else if (shape == BS_POLYGON) // if the polygon data is empty, write sample data into it
 			{
-				pElement = new TiXmlElement(GS_L("Polygon"));
+				pElement = new TiXmlElement(("Polygon"));
 				TiXmlText* text = new TiXmlText(POLYGON_ENML_SAMPLE);
 				text->SetCDATA(true);
 				pElement->LinkEndChild(text);
@@ -432,7 +432,7 @@ bool ETHEntityProperties::WriteContentToXMLFile(TiXmlElement *pHeadRoot) const
 			// Write compound shape data
 			if (compoundShape)
 			{
-				pElement = new TiXmlElement(GS_L("Compound"));
+				pElement = new TiXmlElement(("Compound"));
 				TiXmlText* text = new TiXmlText(compoundShape->GetENMLDeclaration());
 				text->SetCDATA(true);
 				pElement->LinkEndChild(text);
@@ -440,7 +440,7 @@ bool ETHEntityProperties::WriteContentToXMLFile(TiXmlElement *pHeadRoot) const
 			}
 			else if (shape == BS_COMPOUND) // it the compound data is empty, write sample data into it
 			{
-				pElement = new TiXmlElement(GS_L("Compound"));
+				pElement = new TiXmlElement(("Compound"));
 				TiXmlText* text = new TiXmlText(COMPOUND_SHAPE_ENML_SAMPLE);
 				text->SetCDATA(true);
 				pElement->LinkEndChild(text);
@@ -448,52 +448,52 @@ bool ETHEntityProperties::WriteContentToXMLFile(TiXmlElement *pHeadRoot) const
 			}
 
 			// Write joint data
-			if (enmlJointDefinitions != GS_L(""))
+			if (enmlJointDefinitions != (""))
 			{
-				pElement = new TiXmlElement(GS_L("Joints"));
+				pElement = new TiXmlElement(("Joints"));
 				pElement->LinkEndChild(new TiXmlText(enmlJointDefinitions));
 				pCollisionRoot->LinkEndChild(pElement);
 			}
 		}
 	}
 
-	pRoot->SetAttribute(GS_L("shape"), shape);
+	pRoot->SetAttribute(("shape"), shape);
 	if (shape != BS_NONE)
 	{
-		pRoot->SetAttribute(GS_L("sensor"), sensor);
-		pRoot->SetAttribute(GS_L("bullet"), bullet);
-		pRoot->SetAttribute(GS_L("fixedRotation"), fixedRotation);
-		pRoot->SetDoubleAttribute(GS_L("friction"), friction);
-		pRoot->SetDoubleAttribute(GS_L("density"), density);
-		pRoot->SetDoubleAttribute(GS_L("restitution"), restitution);
-		pRoot->SetDoubleAttribute(GS_L("gravityScale"), gravityScale);
+		pRoot->SetAttribute(("sensor"), sensor);
+		pRoot->SetAttribute(("bullet"), bullet);
+		pRoot->SetAttribute(("fixedRotation"), fixedRotation);
+		pRoot->SetDoubleAttribute(("friction"), friction);
+		pRoot->SetDoubleAttribute(("density"), density);
+		pRoot->SetDoubleAttribute(("restitution"), restitution);
+		pRoot->SetDoubleAttribute(("gravityScale"), gravityScale);
 	}
 
-	pRoot->SetAttribute(GS_L("type"), type);
+	pRoot->SetAttribute(("type"), type);
 	if (type == ET_LAYERABLE)
-		pRoot->SetDoubleAttribute(GS_L("layerDepth"), layerDepth);
+		pRoot->SetDoubleAttribute(("layerDepth"), layerDepth);
 
 	if (parallaxIntensity != ETH_DEFAULT_PARALLAX_INTENS)
-		pRoot->SetDoubleAttribute(GS_L("parallaxIntensity"), parallaxIntensity);
+		pRoot->SetDoubleAttribute(("parallaxIntensity"), parallaxIntensity);
 
 	if (hideFromSceneEditor != ETH_FALSE)
-		pRoot->SetAttribute(GS_L("hideFromSceneEditor"), hideFromSceneEditor);
+		pRoot->SetAttribute(("hideFromSceneEditor"), hideFromSceneEditor);
 
-	pRoot->SetAttribute(GS_L("static"), staticEntity);
-	pRoot->SetAttribute(GS_L("blendMode"), blendMode);
+	pRoot->SetAttribute(("static"), staticEntity);
+	pRoot->SetAttribute(("blendMode"), blendMode);
 
 	WriteDataToFile(pRoot);
 	return true;
 }
 
-void ETHEntityProperties::SetBooleanPropertyToXmlElement(TiXmlElement *pEntity, const str_type::string& name, const ETH_BOOL value)
+void ETHEntityProperties::SetBooleanPropertyToXmlElement(TiXmlElement *pEntity, const std::string& name, const ETH_BOOL value)
 {
 	pEntity->SetAttribute(name, value);
 }
 
 void ETHEntityProperties::SetBooleanPropertyToXmlElement(
 	TiXmlElement *pEntity,
-	const str_type::string& name,
+	const std::string& name,
 	const ETH_BOOL value,
 	const ETH_BOOL defaultValue)
 {
@@ -503,7 +503,7 @@ void ETHEntityProperties::SetBooleanPropertyToXmlElement(
 
 ETH_BOOL ETHEntityProperties::ReadBooleanPropertyFromXmlElement(
 	TiXmlElement *pEntity,
-	const str_type::string& name,
+	const std::string& name,
 	const ETH_BOOL defaultValue)
 {
 	int value = 0;
@@ -515,7 +515,7 @@ ETH_BOOL ETHEntityProperties::ReadBooleanPropertyFromXmlElement(
 
 void ETHEntityProperties::ReadVector2PropertyFromXmlElement(
 	TiXmlElement *pElement,
-	const str_type::string& name,
+	const std::string& name,
 	Vector2& value)
 {
 	TiXmlNode *pNode = pElement->FirstChild(name);
@@ -524,15 +524,15 @@ void ETHEntityProperties::ReadVector2PropertyFromXmlElement(
 		TiXmlElement *pIter = pNode->ToElement();
 		if (pIter)
 		{
-			pIter->QueryFloatAttribute(GS_L("x"), &value.x);
-			pIter->QueryFloatAttribute(GS_L("y"), &value.y);
+			pIter->QueryFloatAttribute(("x"), &value.x);
+			pIter->QueryFloatAttribute(("y"), &value.y);
 		}
 	}
 }
 
 void ETHEntityProperties::ReadVector2iPropertyFromXmlElement(
 	TiXmlElement *pElement,
-	const str_type::string& name,
+	const std::string& name,
 	Vector2i& value)
 {
 	TiXmlNode *pNode = pElement->FirstChild(name);
@@ -541,15 +541,15 @@ void ETHEntityProperties::ReadVector2iPropertyFromXmlElement(
 		TiXmlElement *pIter = pNode->ToElement();
 		if (pIter)
 		{
-			pIter->QueryIntAttribute(GS_L("x"), &value.x);
-			pIter->QueryIntAttribute(GS_L("y"), &value.y);
+			pIter->QueryIntAttribute(("x"), &value.x);
+			pIter->QueryIntAttribute(("y"), &value.y);
 		}
 	}
 }
 
 void ETHEntityProperties::ReadVector3PropertyFromXmlElement(
 	TiXmlElement *pElement,
-	const str_type::string& name,
+	const std::string& name,
 	Vector3& value)
 {
 	TiXmlNode *pNode = pElement->FirstChild(name);
@@ -558,16 +558,16 @@ void ETHEntityProperties::ReadVector3PropertyFromXmlElement(
 		TiXmlElement *pIter = pNode->ToElement();
 		if (pIter)
 		{
-			pIter->QueryFloatAttribute(GS_L("x"), &value.x);
-			pIter->QueryFloatAttribute(GS_L("y"), &value.y);
-			pIter->QueryFloatAttribute(GS_L("z"), &value.z);
+			pIter->QueryFloatAttribute(("x"), &value.x);
+			pIter->QueryFloatAttribute(("y"), &value.y);
+			pIter->QueryFloatAttribute(("z"), &value.z);
 		}
 	}
 }
 
 void ETHEntityProperties::ReadColorPropertyFromXmlElement(
 	TiXmlElement *pElement,
-	const str_type::string& name,
+	const std::string& name,
 	Vector4& value)
 {
 	TiXmlNode *pNode = pElement->FirstChild(name);
@@ -576,17 +576,17 @@ void ETHEntityProperties::ReadColorPropertyFromXmlElement(
 		TiXmlElement *pIter = pNode->ToElement();
 		if (pIter)
 		{
-			pIter->QueryFloatAttribute(GS_L("r"), &value.x);
-			pIter->QueryFloatAttribute(GS_L("g"), &value.y);
-			pIter->QueryFloatAttribute(GS_L("b"), &value.z);
-			pIter->QueryFloatAttribute(GS_L("a"), &value.w);
+			pIter->QueryFloatAttribute(("r"), &value.x);
+			pIter->QueryFloatAttribute(("g"), &value.y);
+			pIter->QueryFloatAttribute(("b"), &value.z);
+			pIter->QueryFloatAttribute(("a"), &value.w);
 		}
 	}
 }
 
 void ETHEntityProperties::ReadColorPropertyFromXmlElement(
 	TiXmlElement *pElement,
-	const str_type::string& name,
+	const std::string& name,
 	Vector3& value)
 {
 	TiXmlNode *pNode = pElement->FirstChild(name);
@@ -595,70 +595,70 @@ void ETHEntityProperties::ReadColorPropertyFromXmlElement(
 		TiXmlElement *pIter = pNode->ToElement();
 		if (pIter)
 		{
-			pIter->QueryFloatAttribute(GS_L("r"), &value.x);
-			pIter->QueryFloatAttribute(GS_L("g"), &value.y);
-			pIter->QueryFloatAttribute(GS_L("b"), &value.z);
+			pIter->QueryFloatAttribute(("r"), &value.x);
+			pIter->QueryFloatAttribute(("g"), &value.y);
+			pIter->QueryFloatAttribute(("b"), &value.z);
 		}
 	}
 }
 
 void ETHEntityProperties::SetVector2PropertyToXmlElement(
 	TiXmlElement *pRoot,
-	const str_type::string& name,
+	const std::string& name,
 	const Vector2& value)
 {
 	TiXmlElement* pElement = new TiXmlElement(name);
 	pRoot->LinkEndChild(pElement);
-	pElement->SetDoubleAttribute(GS_L("x"), value.x);
-	pElement->SetDoubleAttribute(GS_L("y"), value.y);
+	pElement->SetDoubleAttribute(("x"), value.x);
+	pElement->SetDoubleAttribute(("y"), value.y);
 }
 
 void ETHEntityProperties::SetVector2iPropertyToXmlElement(
 	TiXmlElement *pRoot,
-	const str_type::string& name,
+	const std::string& name,
 	const Vector2i& value)
 {
 	TiXmlElement* pElement = new TiXmlElement(name);
 	pRoot->LinkEndChild(pElement);
-	pElement->SetAttribute(GS_L("x"), value.x);
-	pElement->SetAttribute(GS_L("y"), value.y);
+	pElement->SetAttribute(("x"), value.x);
+	pElement->SetAttribute(("y"), value.y);
 }
 
 void ETHEntityProperties::SetVector3PropertyToXmlElement(
 	TiXmlElement *pRoot,
-	const str_type::string& name,
+	const std::string& name,
 	const Vector3& value)
 {
 	TiXmlElement* pElement = new TiXmlElement(name);
 	pRoot->LinkEndChild(pElement);
-	pElement->SetDoubleAttribute(GS_L("x"), value.x);
-	pElement->SetDoubleAttribute(GS_L("y"), value.y);
-	pElement->SetDoubleAttribute(GS_L("z"), value.z);
+	pElement->SetDoubleAttribute(("x"), value.x);
+	pElement->SetDoubleAttribute(("y"), value.y);
+	pElement->SetDoubleAttribute(("z"), value.z);
 }
 
 void ETHEntityProperties::SetColorPropertyToXmlElement(
 	TiXmlElement *pRoot,
-	const str_type::string& name,
+	const std::string& name,
 	const Vector3& value)
 {
 	TiXmlElement* pElement = new TiXmlElement(name);
 	pRoot->LinkEndChild(pElement);
-	pElement->SetDoubleAttribute(GS_L("r"), value.x);
-	pElement->SetDoubleAttribute(GS_L("g"), value.y);
-	pElement->SetDoubleAttribute(GS_L("b"), value.z);
+	pElement->SetDoubleAttribute(("r"), value.x);
+	pElement->SetDoubleAttribute(("g"), value.y);
+	pElement->SetDoubleAttribute(("b"), value.z);
 }
 
 void ETHEntityProperties::SetColorPropertyToXmlElement(
 	TiXmlElement *pRoot,
-	const str_type::string& name,
+	const std::string& name,
 	const Vector4& value)
 {
 	TiXmlElement* pElement = new TiXmlElement(name);
 	pRoot->LinkEndChild(pElement);
-	pElement->SetDoubleAttribute(GS_L("r"), value.x);
-	pElement->SetDoubleAttribute(GS_L("g"), value.y);
-	pElement->SetDoubleAttribute(GS_L("b"), value.z);
-	pElement->SetDoubleAttribute(GS_L("a"), value.w);
+	pElement->SetDoubleAttribute(("r"), value.x);
+	pElement->SetDoubleAttribute(("g"), value.y);
+	pElement->SetDoubleAttribute(("b"), value.z);
+	pElement->SetDoubleAttribute(("a"), value.w);
 }
 
 bool ETHEntityProperties::operator < (const ETHEntityProperties& other) const

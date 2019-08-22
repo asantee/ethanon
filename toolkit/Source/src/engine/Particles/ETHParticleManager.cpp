@@ -15,7 +15,7 @@
 
 ETHParticleManager::ETHParticleManager(
 	ETHResourceProviderPtr provider,
-	const str_type::string& file,
+	const std::string& file,
 	const Vector3& v3Pos,
 	const float angle) :
 	m_provider(provider)
@@ -27,7 +27,7 @@ ETHParticleManager::ETHParticleManager(
 	}
 	else
 	{
-		ETH_STREAM_DECL(ss) << GS_L("ETHParticleManager: file not found: ") << file;
+		ETH_STREAM_DECL(ss) << ("ETHParticleManager: file not found: ") << file;
 		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
 	}
 }
@@ -51,7 +51,7 @@ bool ETHParticleManager::CreateParticleSystem(
 {
 	if (partSystem.nParticles <= 0)
 	{
-		ETH_STREAM_DECL(ss) << GS_L("ETHParticleManager::CreateParticleSystem: The number of particles must be greater than 0.");
+		ETH_STREAM_DECL(ss) << ("ETHParticleManager::CreateParticleSystem: The number of particles must be greater than 0.");
 		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
 		return false;
 	}
@@ -74,9 +74,9 @@ bool ETHParticleManager::CreateParticleSystem(
 	Platform::FileManagerPtr fileManager = m_provider->GetFileManager();
 
 	// if there's no resource path, search the current module's path
-	const str_type::string& resourcePath = fileIOHub->GetResourceDirectory();
-	const str_type::string& programPath  = fileIOHub->GetProgramDirectory();
-	const str_type::string currentPath = (resourcePath.empty() && !fileManager->IsPacked()) ? programPath : resourcePath;
+	const std::string& resourcePath = fileIOHub->GetResourceDirectory();
+	const std::string& programPath  = fileIOHub->GetProgramDirectory();
+	const std::string currentPath = (resourcePath.empty() && !fileManager->IsPacked()) ? programPath : resourcePath;
 
 	const ETHGraphicResourceManager::SpriteResource* resource = graphics->GetPointer(
 		fileManager,
@@ -123,7 +123,7 @@ void ETHParticleManager::SetStartPos(const Vector3& v3Pos)
 	m_system.startPoint = v3Pos;
 }
 
-str_type::string ETHParticleManager::GetBitmapName() const
+std::string ETHParticleManager::GetBitmapName() const
 {
 	return m_system.bitmapFile;
 }
@@ -143,7 +143,7 @@ void ETHParticleManager::SetParticleBitmap(SpritePtr pBMP)
 	m_pBMP = pBMP;
 }
 
-void ETHParticleManager::SetParticleBitmap(const gs2d::str_type::string& bitmap)
+void ETHParticleManager::SetParticleBitmap(const std::string& bitmap)
 {
 	m_system.bitmapFile = bitmap;
 
@@ -451,7 +451,7 @@ bool ETHParticleManager::DrawParticleSystem(
 {
 	if (!m_pBMP)
 	{
-		ETH_STREAM_DECL(ss) << GS_L("ETHParticleManager::DrawParticleSystem: Invalid particle system bitmap");
+		ETH_STREAM_DECL(ss) << ("ETHParticleManager::DrawParticleSystem: Invalid particle system bitmap");
 		m_provider->Log(ss.str(), Platform::FileLogger::WARNING);
 		return false;
 	}

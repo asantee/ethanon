@@ -30,17 +30,17 @@ int ETHBinaryStream::Write(const void *ptr, asUINT size)
 	return 1;
 }
 
-str_type::string ETHBinaryStream::GetFileName() const
+std::string ETHBinaryStream::GetFileName() const
 {
 	return m_fileName;
 }
 
-void ETHBinaryStream::SetFileName(const str_type::string& fileName)
+void ETHBinaryStream::SetFileName(const std::string& fileName)
 {
 	m_fileName = fileName;
 }
 
-bool ETHBinaryStream::OpenW(const str_type::string& fileName)
+bool ETHBinaryStream::OpenW(const std::string& fileName)
 {
 	CloseW();
 	SetFileName(fileName);
@@ -70,7 +70,7 @@ bool ETHBinaryStream::CloseW()
 	return true;
 }
 
-bool ETHBinaryStream::OpenR(const str_type::string& fileName)
+bool ETHBinaryStream::OpenR(const std::string& fileName)
 {
 	SetFileName(fileName);
 	return m_fileManager->GetFileBuffer(fileName, m_buffer);

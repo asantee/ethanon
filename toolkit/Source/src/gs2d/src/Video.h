@@ -77,7 +77,7 @@ public:
 
 	/// Loads the texture from a file in a hard disk
 	virtual TexturePtr LoadTextureFromFile(
-		const str_type::string& fileName,
+		const std::string& fileName,
 		const unsigned int nMipMaps = 0) = 0;
 
 	/// Create a shader object and load/compile it.
@@ -122,22 +122,22 @@ public:
 	virtual ALPHA_MODE GetAlphaMode() const = 0;
 
 	virtual math::Vector2 ComputeCarretPosition(
-		const str_type::string& font,
-		const str_type::string& text,
+		const std::string& font,
+		const std::string& text,
 		const unsigned int pos);
 	
-	virtual math::Vector2 ComputeTextBoxSize(const str_type::string& font, const str_type::string& text);
+	virtual math::Vector2 ComputeTextBoxSize(const std::string& font, const std::string& text);
 	
 	virtual unsigned int FindClosestCarretPosition(
-		const str_type::string& font,
-		const str_type::string &text,
+		const std::string& font,
+		const std::string &text,
 		const math::Vector2 &textPos,
 		const math::Vector2 &reference);
 	
 	virtual bool DrawBitmapText(
 		const math::Vector2 &v2Pos,
-		const str_type::string& text,
-		const str_type::string& font,
+		const std::string& text,
+		const std::string& font,
 		const Color& color,
 		const float scale = 1.0f);
 
@@ -153,11 +153,13 @@ public:
 	virtual float GetScaleFactor() const;
 };
 
+typedef boost::shared_ptr<Video> VideoPtr;
+
 /// Instantiate a Video object (must be defined in the API specific code)
-GS2D_API VideoPtr CreateVideo(
+VideoPtr CreateVideo(
 	const unsigned int width,
 	const unsigned int height,
-	const str_type::string& winTitle,
+	const std::string& winTitle,
 	const bool windowed,
 	const bool sync,
 	const Platform::FileIOHubPtr& fileIOHub,
@@ -166,7 +168,7 @@ GS2D_API VideoPtr CreateVideo(
 
 #if defined(ANDROID) || defined(APPLE_IOS)
 /// Instantiate a Video object (must be defined in the API specific code)
-GS2D_API VideoPtr CreateVideo(const unsigned int width, const unsigned int height, const Platform::FileIOHubPtr& fileIOHub);
+VideoPtr CreateVideo(const unsigned int width, const unsigned int height, const Platform::FileIOHubPtr& fileIOHub);
 #endif
 
 } // namespace gs2d

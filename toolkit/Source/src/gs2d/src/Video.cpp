@@ -9,21 +9,21 @@ Video::Video() :
 }
 
 math::Vector2 Video::ComputeCarretPosition(
-	const str_type::string& font,
-	const str_type::string& text,
+	const std::string& font,
+	const std::string& text,
 	const unsigned int pos)
 {
 	return BitmapFontManager::ComputeCarretPosition(this, font, text, pos);
 }
 
-math::Vector2 Video::ComputeTextBoxSize(const str_type::string& font, const str_type::string& text)
+math::Vector2 Video::ComputeTextBoxSize(const std::string& font, const std::string& text)
 {
 	return BitmapFontManager::ComputeTextBoxSize(this, font, text);
 }
 
 unsigned int Video::FindClosestCarretPosition(
-	const str_type::string& font,
-	const str_type::string& text,
+	const std::string& font,
+	const std::string& text,
 	const math::Vector2 &textPos,
 	const math::Vector2 &reference)
 {
@@ -32,8 +32,8 @@ unsigned int Video::FindClosestCarretPosition(
 
 bool Video::DrawBitmapText(
 	const math::Vector2& v2Pos,
-	const str_type::string& text,
-	const str_type::string& font,
+	const std::string& text,
+	const std::string& font,
 	const Color& color,
 	const float scale)
 {

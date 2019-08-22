@@ -126,13 +126,13 @@ bool IsScriptEngineLoaded()
 	}
 }
 
-str_type::string AssembleCommands()
+std::string AssembleCommands()
 {
-	str_type::stringstream ss;
+	std::stringstream ss;
 	try
 	{
 		ss
-		<< boost::any_cast<str_type::string>(audio->GetAudioContext())
+		<< boost::any_cast<std::string>(audio->GetAudioContext())
 		<< video->PullCommands()
 		<< boost::static_pointer_cast<AndroidInput>(input)->PullCommands();
 
@@ -140,8 +140,8 @@ str_type::string AssembleCommands()
 	}
 	catch (const boost::bad_any_cast& e)
 	{
-		video->Message(GS_L("Invalid type for command assembling"), GSMT_ERROR);
-		return GS_L("");
+		video->Message("Invalid type for command assembling", GSMT_ERROR);
+		return ("");
 	}
 }
 
@@ -206,9 +206,9 @@ JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_destroy(JNIEnv* env, job
 
 	if (video && audio)
 	{
-		video->Message(GS_L("Application resources destroyed"), GSMT_INFO);
+		video->Message("Application resources destroyed", GSMT_INFO);
 	}
-	return env->NewStringUTF(GS_L(""));
+	return env->NewStringUTF("");
 }
 
 JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_runOnUIThread(JNIEnv* env, jobject thiz, jstring inputStr)

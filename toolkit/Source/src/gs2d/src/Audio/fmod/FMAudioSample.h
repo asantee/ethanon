@@ -15,8 +15,8 @@ class FMAudioSample : public AudioSample
 	FMOD::Sound* m_sound;
 	FMOD::Channel* m_channel;
 
-	str_type::string m_fileName;
-	static str_type::string m_currentStreamableTrack;
+	std::string m_fileName;
+	static std::string m_currentStreamableTrack;
 	float m_volume, m_speed, m_pan;
 	bool m_loop;
 	Audio::SAMPLE_TYPE m_type;
@@ -28,7 +28,7 @@ public:
 
 	bool LoadSampleFromFile(
 		AudioWeakPtr audio,
-		const str_type::string& fileName,
+		const std::string& fileName,
 		const Platform::FileManagerPtr& fileManager,
 		const Audio::SAMPLE_TYPE type = Audio::UNKNOWN_TYPE);
 

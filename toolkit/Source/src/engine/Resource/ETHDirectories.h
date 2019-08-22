@@ -1,20 +1,20 @@
 #ifndef ETH_DIRECTORIES_H_
 #define ETH_DIRECTORIES_H_
 
-#include <Types.h>
+#include <string>
 
 class ETHDirectories
 {
 public:
-	static gs2d::str_type::string GetShaderDirectory();
-	static gs2d::str_type::string GetBitmapFontDirectory();
-	static gs2d::str_type::string GetSceneDirectory();
-	static gs2d::str_type::string GetEntityDirectory();
-	static gs2d::str_type::string GetNormalMapDirectory();
-	static gs2d::str_type::string GetHaloDirectory();
-	static gs2d::str_type::string GetParticlesDirectory();
-	static gs2d::str_type::string GetEffectsDirectory();
-	static gs2d::str_type::string GetSoundFXDirectory();
+	static std::string GetShaderDirectory();
+	static std::string GetBitmapFontDirectory();
+	static std::string GetSceneDirectory();
+	static std::string GetEntityDirectory();
+	static std::string GetNormalMapDirectory();
+	static std::string GetHaloDirectory();
+	static std::string GetParticlesDirectory();
+	static std::string GetEffectsDirectory();
+	static std::string GetSoundFXDirectory();
 };
 
 #endif

@@ -1,7 +1,9 @@
 #ifndef FILE_MANAGER_H_
 #define FILE_MANAGER_H_
 
-#include "../Types.h"
+#include <string>
+
+#include <boost/shared_ptr.hpp>
 
 namespace Platform {
 
@@ -51,20 +53,20 @@ T *_FileBuffer<T>::GetAddress()
 
 class FileManager
 {
-	virtual bool GetUTF8FileString(const FileBuffer& buffer, gs2d::str_type::string &out);
-	virtual bool GetUTF16FileString(const FileBuffer& buffer, gs2d::str_type::string &out);
+	virtual bool GetUTF8FileString(const FileBuffer& buffer, std::string &out);
+	virtual bool GetUTF16FileString(const FileBuffer& buffer, std::string &out);
 	virtual bool HasUTF16LEBOM(const FileBuffer& buffer);
 
 public:
 	virtual bool IsLoaded() const = 0;
-	virtual bool GetFileBuffer(const gs2d::str_type::string& fileName, FileBuffer &out) = 0;
+	virtual bool GetFileBuffer(const std::string& fileName, FileBuffer &out) = 0;
 
-	virtual bool GetAnsiFileString(const gs2d::str_type::string& fileName, gs2d::str_type::string &out);
-	virtual bool GetUTF8FileString(const gs2d::str_type::string& fileName, gs2d::str_type::string &out);
-	virtual bool GetUTF16FileString(const gs2d::str_type::string& fileName, gs2d::str_type::string &out);
-	virtual bool GetUTFFileString(const gs2d::str_type::string& fileName, gs2d::str_type::string &out);
+	virtual bool GetAnsiFileString(const std::string& fileName, std::string &out);
+	virtual bool GetUTF8FileString(const std::string& fileName, std::string &out);
+	virtual bool GetUTF16FileString(const std::string& fileName, std::string &out);
+	virtual bool GetUTFFileString(const std::string& fileName, std::string &out);
 
-	virtual bool FileExists(const gs2d::str_type::string& fileName) const = 0;
+	virtual bool FileExists(const std::string& fileName) const = 0;
 	virtual bool IsPacked() const = 0;
     
 	static const unsigned short UTF16LE_BOM;

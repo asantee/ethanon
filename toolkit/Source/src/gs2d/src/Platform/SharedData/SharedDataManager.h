@@ -9,18 +9,18 @@ namespace Platform {
 
 class SharedDataManager
 {
-	tsl::hopscotch_map<gs2d::str_type::string, SharedDataPtr> m_data;
+	tsl::hopscotch_map<std::string, SharedDataPtr> m_data;
 
-	bool Set(const gs2d::str_type::string& key, const gs2d::str_type::string& data, const bool forceValue);
+	bool Set(const std::string& key, const std::string& data, const bool forceValue);
 
 public:
-	void Create(const gs2d::str_type::string& key, const gs2d::str_type::string& data, const bool constant);
-	void Force(const gs2d::str_type::string& key, const gs2d::str_type::string& data);
-	bool Set(const gs2d::str_type::string& key, const gs2d::str_type::string& data);
-	bool IsConstant(const gs2d::str_type::string& key) const;
-	gs2d::str_type::string Get(const gs2d::str_type::string& key) const;
-	bool Exists(const gs2d::str_type::string& key) const;
-	bool Remove(const gs2d::str_type::string& key);
+	void Create(const std::string& key, const std::string& data, const bool constant);
+	void Force(const std::string& key, const std::string& data);
+	bool Set(const std::string& key, const std::string& data);
+	bool IsConstant(const std::string& key) const;
+	std::string Get(const std::string& key) const;
+	bool Exists(const std::string& key) const;
+	bool Remove(const std::string& key);
 };
 
 } // namespace Platform

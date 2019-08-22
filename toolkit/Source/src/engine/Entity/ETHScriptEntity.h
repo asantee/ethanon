@@ -24,7 +24,7 @@ protected:
 
 public:
 	virtual ETHEntityProperties::ENTITY_TYPE GetType() const = 0;
-	virtual str_type::string GetEntityName() const = 0;
+	virtual std::string GetEntityName() const = 0;
 	virtual Vector3 GetPosition() const = 0;
 	virtual Vector2 GetPositionXY() const = 0;
 	virtual float GetAngle() const = 0;
@@ -62,7 +62,7 @@ public:
 	virtual void AddToAngle(const float angle) = 0;
 	virtual bool SetSpriteCut(const unsigned int columns, const unsigned int rows) = 0;
 	virtual void SetParticlePosition(const unsigned int n, const Vector3 &v3Pos) = 0;
-	virtual void SetParticleBitmap(const unsigned int n, const str_type::string& bitmap) = 0;
+	virtual void SetParticleBitmap(const unsigned int n, const std::string& bitmap) = 0;
 	virtual void ScaleParticleSystem(const unsigned int n, const float scale) = 0;
 	virtual bool MirrorParticleSystemX(const unsigned int n, const bool mirrorGravity) = 0;
 	virtual bool MirrorParticleSystemY(const unsigned int n, const bool mirrorGravity) = 0;
@@ -110,50 +110,50 @@ public:
 	virtual void SetScale(const Vector2& scale) = 0;
 	virtual Vector2 GetScale() const = 0;
 
-	virtual bool SetSprite(const str_type::string &fileName) = 0;
-	virtual bool SetHalo(const str_type::string &fileName) = 0;
+	virtual bool SetSprite(const std::string &fileName) = 0;
+	virtual bool SetHalo(const std::string &fileName) = 0;
 
-	virtual str_type::string GetSpriteName() const = 0;
-	virtual str_type::string GetHaloName() const = 0;
+	virtual std::string GetSpriteName() const = 0;
+	virtual std::string GetHaloName() const = 0;
 
-	virtual void SetFloat(const str_type::string &name, const float &value) = 0;
-	virtual void SetInt(const str_type::string &name, const int &value) = 0;
-	virtual void SetUInt(const str_type::string &name, const unsigned int &value) = 0;
-	virtual void SetString(const str_type::string &name, const str_type::string &value) = 0;
-	virtual void SetVector2(const str_type::string &name, const Vector2 &value) = 0;
-	virtual void SetVector3(const str_type::string &name, const Vector3 &value) = 0;
+	virtual void SetFloat(const std::string &name, const float &value) = 0;
+	virtual void SetInt(const std::string &name, const int &value) = 0;
+	virtual void SetUInt(const std::string &name, const unsigned int &value) = 0;
+	virtual void SetString(const std::string &name, const std::string &value) = 0;
+	virtual void SetVector2(const std::string &name, const Vector2 &value) = 0;
+	virtual void SetVector3(const std::string &name, const Vector3 &value) = 0;
 
-	virtual float GetFloat(const str_type::string &name, const float defaultValue) const = 0;
-	virtual int GetInt(const str_type::string &name, const int defaultValue) const = 0;
-	virtual unsigned int GetUInt(const str_type::string &name, const unsigned int defaultValue) const = 0;
-	virtual str_type::string GetString(const str_type::string &name, const str_type::string& defaultValue) const = 0;
-	virtual Vector2 GetVector2(const str_type::string &name, const Vector2& defaultValue) const = 0;
-	virtual Vector3 GetVector3(const str_type::string &name, const Vector3& defaultValue) const = 0;
+	virtual float GetFloat(const std::string &name, const float defaultValue) const = 0;
+	virtual int GetInt(const std::string &name, const int defaultValue) const = 0;
+	virtual unsigned int GetUInt(const std::string &name, const unsigned int defaultValue) const = 0;
+	virtual std::string GetString(const std::string &name, const std::string& defaultValue) const = 0;
+	virtual Vector2 GetVector2(const std::string &name, const Vector2& defaultValue) const = 0;
+	virtual Vector3 GetVector3(const std::string &name, const Vector3& defaultValue) const = 0;
 
-	virtual float GetFloat(const str_type::string &name) const = 0;
-	virtual int GetInt(const str_type::string &name) const = 0;
-	virtual unsigned int GetUInt(const str_type::string &name) const = 0;
-	virtual str_type::string GetString(const str_type::string &name) const = 0;
-	virtual Vector2 GetVector2(const str_type::string &name) const = 0;
-	virtual Vector3 GetVector3(const str_type::string &name) const = 0;
+	virtual float GetFloat(const std::string &name) const = 0;
+	virtual int GetInt(const std::string &name) const = 0;
+	virtual unsigned int GetUInt(const std::string &name) const = 0;
+	virtual std::string GetString(const std::string &name) const = 0;
+	virtual Vector2 GetVector2(const std::string &name) const = 0;
+	virtual Vector3 GetVector3(const std::string &name) const = 0;
 
-	virtual void SetAngelScriptObject(const str_type::string &name, void *value, int typeId) = 0;
-	virtual bool GetAngelScriptObject(const str_type::string &name, void *value, int typeId) = 0;
+	virtual void SetAngelScriptObject(const std::string &name, void *value, int typeId) = 0;
+	virtual bool GetAngelScriptObject(const std::string &name, void *value, int typeId) = 0;
 
-	virtual float AddToFloat(const str_type::string &name, const float &value) = 0;
-	virtual int AddToInt(const str_type::string &name, const int &value) = 0;
-	virtual unsigned int AddToUInt(const str_type::string &name, const unsigned int &value) = 0;
-	virtual Vector2 AddToVector2(const str_type::string &name, const Vector2 &v) = 0;
-	virtual Vector3 AddToVector3(const str_type::string &name, const Vector3 &v) = 0;
+	virtual float AddToFloat(const std::string &name, const float &value) = 0;
+	virtual int AddToInt(const std::string &name, const int &value) = 0;
+	virtual unsigned int AddToUInt(const std::string &name, const unsigned int &value) = 0;
+	virtual Vector2 AddToVector2(const std::string &name, const Vector2 &v) = 0;
+	virtual Vector3 AddToVector3(const std::string &name, const Vector3 &v) = 0;
 
-	virtual float MultiplyFloat(const str_type::string &name, const float &value) = 0;
-	virtual int MultiplyInt(const str_type::string &name, const int &value) = 0;
-	virtual unsigned int MultiplyUInt(const str_type::string &name, const unsigned int &value) = 0;
-	virtual Vector2 MultiplyVector2(const str_type::string &name, const float &value) = 0;
-	virtual Vector3 MultiplyVector3(const str_type::string &name, const float &value) = 0;
+	virtual float MultiplyFloat(const std::string &name, const float &value) = 0;
+	virtual int MultiplyInt(const std::string &name, const int &value) = 0;
+	virtual unsigned int MultiplyUInt(const std::string &name, const unsigned int &value) = 0;
+	virtual Vector2 MultiplyVector2(const std::string &name, const float &value) = 0;
+	virtual Vector3 MultiplyVector3(const std::string &name, const float &value) = 0;
 
-	virtual bool EraseData(const str_type::string &name) = 0;
-	virtual ETHCustomData::DATA_TYPE CheckCustomData(const str_type::string &name) const = 0;
+	virtual bool EraseData(const std::string &name) = 0;
+	virtual ETHCustomData::DATA_TYPE CheckCustomData(const std::string &name) const = 0;
 	virtual void DebugPrintCustomData() const = 0;
 	virtual bool HasCustomData() const = 0;
 	virtual void ClearCustomData() = 0;

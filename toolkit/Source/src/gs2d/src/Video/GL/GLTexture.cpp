@@ -54,7 +54,7 @@ math::Vector2 GLTexture::GetBitmapSize() const
 
 bool GLTexture::LoadTexture(
 	VideoWeakPtr video,
-	const str_type::string& fileName,
+	const std::string& fileName,
 	const unsigned int nMipMaps)
 {
 	m_fileName = fileName;

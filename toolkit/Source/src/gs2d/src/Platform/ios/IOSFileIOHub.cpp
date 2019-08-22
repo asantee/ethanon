@@ -7,7 +7,7 @@
 
 namespace Platform {
 
-IOSFileIOHub::IOSFileIOHub(const gs2d::str_type::string& bitmapFontSearchDirectory) :
+IOSFileIOHub::IOSFileIOHub(const std::string& bitmapFontSearchDirectory) :
 	FileIOHub(
 		Platform::StdFileManagerPtr(new Platform::StdFileManager()),
 		ResourceDirectory(),
@@ -20,7 +20,7 @@ IOSFileIOHub::IOSFileIOHub(const gs2d::str_type::string& bitmapFontSearchDirecto
 	CreateDirectory(FileLogger::GetLogDirectory());
 }
 
-void IOSFileIOHub::SetFileManager(Platform::FileManagerPtr fileManager, const gs2d::str_type::string& resourceDirectory)
+void IOSFileIOHub::SetFileManager(Platform::FileManagerPtr fileManager, const std::string& resourceDirectory)
 {
     // not supported
 }

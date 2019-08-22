@@ -8,7 +8,7 @@
 class ETHRevoluteJoint : public ETHJoint
 {
 public:
-	ETHRevoluteJoint(const gs2d::str_type::string& jointName, const enml::File& file, ETHPhysicsSimulator& simulator, ETHEntity* entityA, ETHEntity* entityB);
+	ETHRevoluteJoint(const std::string& jointName, const enml::File& file, ETHPhysicsSimulator& simulator, ETHEntity* entityA, ETHEntity* entityB);
 	~ETHRevoluteJoint();
 	void KillJoint();
 

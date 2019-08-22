@@ -35,7 +35,7 @@ ApplicationWrapper::ApplicationWrapper() : m_pixelDensity(1.0f)
 	NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
 	NSRange designatorRange = NSMakeRange(0, 2);
 	language = [language substringWithRange:designatorRange];
-	gs2d::Application::SharedData.Create(GS_L("ethanon.system.language"), [language cStringUsingEncoding:1], true);
+	gs2d::Application::SharedData.Create("ethanon.system.language", [language cStringUsingEncoding:1], true);
 }
 
 void ApplicationWrapper::Start(GLKView* view)
@@ -43,7 +43,7 @@ void ApplicationWrapper::Start(GLKView* view)
 	g_audio = gs2d::CreateAudio(0);
 	g_input = gs2d::CreateInput(false);
 
-	Platform::FileIOHubPtr fileIOHub(new Platform::IOSFileIOHub(GS_L("data/")));
+	Platform::FileIOHubPtr fileIOHub(new Platform::IOSFileIOHub("data/"));
 
 	const gs2d::math::Vector2 size = GetScreenSize(view);
 	g_video = gs2d::CreateVideo(static_cast<unsigned int>(size.x), static_cast<unsigned int>(size.y), fileIOHub);

@@ -19,9 +19,9 @@ ETHSpeedTimer ETHScriptWrapper::m_timer;
 Platform::FileManagerPtr ETHScriptWrapper::m_expansionFileManager;
 bool ETHScriptWrapper::m_roundUpPosition = true;
 int ETHScriptWrapper::m_argc = 0;
-str_type::char_t **ETHScriptWrapper::m_argv = 0;
+char **ETHScriptWrapper::m_argv = 0;
 ETHScriptWrapper::ETH_NEXT_SCENE ETHScriptWrapper::m_nextScene;
-str_type::string ETHScriptWrapper::m_sceneFileName = GS_L("");
+std::string ETHScriptWrapper::m_sceneFileName = ("");
 ETHInput ETHScriptWrapper::m_ethInput;
 asIScriptModule *ETHScriptWrapper::m_pASModule = 0;
 Vector2 ETHScriptWrapper::m_v2LastCamPos(0,0);
@@ -46,13 +46,13 @@ bool ETHScriptWrapper::RunMainFunction(asIScriptFunction* mainFunc)
 	return true;
 }
 
-bool ETHScriptWrapper::WarnIfRunsInMainFunction(const str_type::string &functionName)
+bool ETHScriptWrapper::WarnIfRunsInMainFunction(const std::string &functionName)
 {
 	if (IsRunningMainFunction())
 	{
-		ETH_STREAM_DECL(ss) << std::endl << GS_L("WARNING: do not load resources or do scene-related operations inside the main() function.") << std::endl
-			<< GS_L("Use onSceneLoaded or onSceneUpdate functions instead.") << std::endl
-			<< GS_L("Function used: ") << functionName << std::endl;
+		ETH_STREAM_DECL(ss) << std::endl << ("WARNING: do not load resources or do scene-related operations inside the main() function.") << std::endl
+			<< ("Use onSceneLoaded or onSceneUpdate functions instead.") << std::endl
+			<< ("Function used: ") << functionName << std::endl;
 		m_provider->Log(ss.str(), Platform::Logger::ERROR);
 		return true;
 	}
@@ -104,16 +104,16 @@ bool ETHScriptWrapper::SetCursorPos(const Vector2 &v2Pos)
 	return (m_provider->GetInput()->SetCursorPositionF(v2Pos / m_backBuffer->GetTargetScale())) * scale;
 }
 
-str_type::string ETHScriptWrapper::GetLastCharInput()
+std::string ETHScriptWrapper::GetLastCharInput()
 {
-	str_type::stringstream ss;
-	str_type::string lastChar = m_provider->GetInput()->GetLastCharInput();
+	std::stringstream ss;
+	std::string lastChar = m_provider->GetInput()->GetLastCharInput();
 	if (!lastChar.empty())
 	{
 		ss << lastChar;
 		return ss.str();
 	}
-	return GS_L("");
+	return ("");
 }
 
 void ETHScriptWrapper::PlayParticleSystem(ETHEntity *pEntity, const unsigned int n)
@@ -255,7 +255,7 @@ void ETHScriptWrapper::SetArgc(const int argc)
 	m_argc = argc;
 }
 
-void ETHScriptWrapper::SetArgv(str_type::char_t **argv)
+void ETHScriptWrapper::SetArgv(char **argv)
 {
 	m_argv = argv;
 }

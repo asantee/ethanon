@@ -5,6 +5,12 @@
 
 #include <Video.h>
 
+#ifdef _MSC_VER
+  #define GS2D_SSCANF sscanf_s
+#else
+  #define GS2D_SSCANF sscanf
+#endif
+
 ETHBackBufferTargetManagerPtr ETHBackBufferTargetManager::Create(
 	gs2d::VideoPtr video,
 	const ETHAppEnmlFile& file,
@@ -37,8 +43,8 @@ ETHBackBufferTargetManager::ETHBackBufferTargetManager(
 	const ETHAppEnmlFile& file,
 	const Platform::Logger& logger)
 {
-	const gs2d::str_type::string fixedWidth  = file.GetFixedWidth();
-	const gs2d::str_type::string fixedHeight = file.GetFixedHeight();
+	const std::string fixedWidth  = file.GetFixedWidth();
+	const std::string fixedHeight = file.GetFixedHeight();
 	if (!ComputeLength(video, fixedWidth, fixedHeight, true))
 	{
 		ComputeLength(video, fixedHeight, fixedWidth, false);
@@ -47,8 +53,8 @@ ETHBackBufferTargetManager::ETHBackBufferTargetManager(
 	m_bufferSize.x = gs2d::math::Min(screenSize.x, m_bufferSize.x);
 	m_bufferSize.y = gs2d::math::Min(screenSize.y, m_bufferSize.y);
 
-	gs2d::str_type::stringstream ss; ss << GS_L("Backbuffer created as ") << m_bufferSize.x << GS_L(", ") << m_bufferSize.y
-										<< GS_L(" on ");
+	std::stringstream ss; ss << ("Backbuffer created as ") << m_bufferSize.x << (", ") << m_bufferSize.y
+										<< (" on ");
 
 	m_backBuffer = ETHDynamicBackBufferPtr(new ETHNoDynamicBackBuffer(video, m_bufferSize));
 
@@ -73,7 +79,7 @@ void ETHBackBufferTargetManager::ScreenSizeChanged(const gs2d::math::Vector2& ne
 	}
 }
 
-bool ETHBackBufferTargetManager::ComputeLength(gs2d::VideoPtr video, const gs2d::str_type::string& thisSide, const gs2d::str_type::string& otherSide, const bool isWidth)
+bool ETHBackBufferTargetManager::ComputeLength(gs2d::VideoPtr video, const std::string& thisSide, const std::string& otherSide, const bool isWidth)
 {
 	if (IsAuto(thisSide))
 	{
@@ -86,7 +92,7 @@ bool ETHBackBufferTargetManager::ComputeLength(gs2d::VideoPtr video, const gs2d:
 		else
 		{
 			float otherValue = -1.0f;
-			GS2D_SSCANF(otherSide.c_str(), GS_L("%f"), &otherValue);
+			GS2D_SSCANF(otherSide.c_str(), ("%f"), &otherValue);
 			if (isWidth)
 				m_bufferSize.x = ceilf(otherValue * (screenSize.x / screenSize.y));
 			else
@@ -97,7 +103,7 @@ bool ETHBackBufferTargetManager::ComputeLength(gs2d::VideoPtr video, const gs2d:
 	else
 	{
 		int value = -1;
-		GS2D_SSCANF(thisSide.c_str(), GS_L("%i"), &value);
+		GS2D_SSCANF(thisSide.c_str(), ("%i"), &value);
 		if (isWidth)
 			m_bufferSize.x = static_cast<float>(value);
 		else
@@ -106,9 +112,9 @@ bool ETHBackBufferTargetManager::ComputeLength(gs2d::VideoPtr video, const gs2d:
 	}
 }
 
-bool ETHBackBufferTargetManager::IsAuto(const gs2d::str_type::string& str)
+bool ETHBackBufferTargetManager::IsAuto(const std::string& str)
 {
-	return (str == GS_L("auto") || str.empty());
+	return (str == ("auto") || str.empty());
 }
 
 gs2d::math::Vector2 ETHBackBufferTargetManager::GetBufferSize() const

@@ -1,36 +1,5 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #if defined(MACOSX) || defined(LINUX)
  #define GS2D_USE_SDL
- #include <SDL2/SDL.h>
-#endif
-
-#ifdef WIN32
- #if defined(_DEBUG) || defined(DEBUG)
-  #define _CRTDBG_MAP_ALLOC
-  #include <stdlib.h>
-  #include <crtdbg.h>
- #endif
 #endif
 
 #include "../engine/ETHTypes.h"
@@ -46,74 +15,51 @@
 using namespace gs2d;
 using namespace gs2d::math;
 
-void ProcParams(const int argc, gs2d::str_type::char_t* argv[], bool& compileAndRun, bool& testing, bool& wait)
+void ProcParams(const int argc, char* argv[], bool& compileAndRun, bool& testing, bool& wait)
 {
 	compileAndRun = true;
 	testing = false;
 
-	wait = Application::GetPlatformName() == GS_L("macos") ? false : true;
+	wait = Application::GetPlatformName() == ("macos") ? false : true;
 
 	for (int t = 0; t < argc; t++)
 	{
-		const gs2d::str_type::string arg = argv[t];
-		if (arg == GS_L("-nowait"))
+		const std::string arg = argv[t];
+		if (arg == ("-nowait"))
 		{
 			wait = false;
 		}
-		if (arg == GS_L("-testing"))
+		if (arg == ("-testing"))
 		{
 			testing = true;
 		}
-		if (arg == GS_L("-norun"))
+		if (arg ==("-norun"))
 		{
 			compileAndRun = false;
 		}
 	}
 }
 
-str_type::string FindResourceDir(const int argc, gs2d::str_type::char_t* argv[])
+std::string FindResourceDir(const int argc, char* argv[])
 {
 	for (int t = 0; t < argc; t++)
 	{
-		const str_type::string argStr = (argv[t]);
-		if (argStr.substr(0, 4) == GS_L("dir="))
+		const std::string argStr = (argv[t]);
+		if (argStr.substr(0, 4) == ("dir="))
 		{
-			const std::vector<str_type::string> pieces = Platform::SplitString(argStr, GS_L("="));
+			const std::vector<std::string> pieces = Platform::SplitString(argStr, ("="));
 			if (pieces.size() >= 2)
 			{
-				str_type::string dir = Platform::AddLastSlash(pieces[1]);
+				std::string dir = Platform::AddLastSlash(pieces[1]);
 				return Platform::FixSlashes(dir);
 			}
 		}
 	}
-	return GS_L("");
+	return ("");
 }
 
-#if WIN32
- #include <windows.h>
- int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR lpCmdLine, int nCmdShow)
-#else
  int main(int argc, char** argv)
-#endif
 {
-	// convert args to multibyte char
-	#ifdef WIN32
-		GS2D_UNUSED_ARGUMENT(hInstance);
-		GS2D_UNUSED_ARGUMENT(nCmdShow);
-		int argc = 0;
-		LPWSTR* wargv = CommandLineToArgvW(lpCmdLine, &argc);
-
-		LPSTR* argv = new LPSTR [argc];
-
-		for (int t = 0; t < argc; t++)
-		{
-			std::size_t convertCount = 0;
-			const std::size_t bufferSize = 4096;
-			argv[t] = new CHAR [bufferSize];
-			wcstombs_s(&convertCount, argv[t], bufferSize, wargv[t], wcslen(wargv[t]) + 1);
-		}
-	#endif
-
 	// start engine runtime
 	bool compileAndRun, testing, wait;
 	ProcParams(argc, argv, compileAndRun, testing, wait);
@@ -124,11 +70,11 @@ str_type::string FindResourceDir(const int argc, gs2d::str_type::char_t* argv[])
 
 	Platform::FileIOHubPtr fileIOHub = Platform::CreateFileIOHub(fileManager, ETHDirectories::GetBitmapFontDirectory());
 	{
-		const str_type::string resourceDirectory = FindResourceDir(argc, argv);
+		const std::string resourceDirectory = FindResourceDir(argc, argv);
 		if (!resourceDirectory.empty())
 			fileIOHub->SetResourceDirectory(resourceDirectory);
 	}
-	const str_type::string resourceDirectory = fileIOHub->GetResourceDirectory(); 
+	const std::string resourceDirectory = fileIOHub->GetResourceDirectory();
 
 	const ETHAppEnmlFile app(
 		resourceDirectory + ETH_APP_PROPERTIES_FILE,
@@ -136,7 +82,7 @@ str_type::string FindResourceDir(const int argc, gs2d::str_type::char_t* argv[])
 		Application::GetPlatformName(),
 		fileIOHub->GetExternalStorageDirectory());
 
-	const str_type::string bitmapFontPath = resourceDirectory + ETHDirectories::GetBitmapFontDirectory();
+	const std::string bitmapFontPath = resourceDirectory + ETHDirectories::GetBitmapFontDirectory();
 
 	bool aborted;
 	{
@@ -183,32 +129,20 @@ str_type::string FindResourceDir(const int argc, gs2d::str_type::char_t* argv[])
 
 	if (aborted)
 	{
-		ETH_STREAM_DECL(ss) << std::endl << GS_L("The program executed an ilegal operation and was aborted");
-		GS2D_CERR << ss.str() << std::endl;
+		ETH_STREAM_DECL(ss) << std::endl << ("The program executed an ilegal operation and was aborted");
+		std::cerr << ss.str() << std::endl;
 	}
 
 	if (!compileAndRun && !aborted)
 	{
-		ETH_STREAM_DECL(ss) << std::endl << GS_L("Compilation successful: 0 errors");
-		GS2D_CERR << ss.str() << std::endl;
+		ETH_STREAM_DECL(ss) << std::endl << ("Compilation successful: 0 errors");
+		std::cerr << ss.str() << std::endl;
 	}
 
 	if (aborted && wait)
 	{
-		GS2D_COUT << GS_L("Press any key to continue...") << GS_L("\n");
+		std::cout << ("Press any key to continue...") << ("\n");
 		std::cin.get();
 	}
-
-	#if defined(_DEBUG) || defined(DEBUG)
-	 #ifdef WIN32
-	  _CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
-	  LocalFree(wargv);
-	  for (int t = 0; t < argc; t++)
-	  {
-		  delete [] argv[t];
-	  }
-	  delete [] argv;
-	  #endif
-	#endif
 	return 0;
 }

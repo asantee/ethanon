@@ -17,10 +17,10 @@ class ETHPhysicsEntityController : public ETHRawEntityController
 
 public:
 
-	static const str_type::string BEGIN_CONTACT_CALLBACK_PREFIX;
-	static const str_type::string END_CONTACT_CALLBACK_PREFIX;
-	static const str_type::string PRESOLVE_CONTACT_CALLBACK_PREFIX;
-	static const str_type::string CONTACT_CALLBACK_ARGS;
+	static const std::string BEGIN_CONTACT_CALLBACK_PREFIX;
+	static const std::string END_CONTACT_CALLBACK_PREFIX;
+	static const std::string PRESOLVE_CONTACT_CALLBACK_PREFIX;
+	static const std::string CONTACT_CALLBACK_ARGS;
 
 	struct CONTACT_CALLBACKS
 	{
@@ -73,7 +73,7 @@ protected:
 	boost::shared_ptr<b2World> m_world;
 	CONTACT_CALLBACKS m_contactCallbacks;
 	std::vector<ETHJointPtr> m_joints;
-	asIScriptFunction* GetContactCallback(const str_type::string& prefix, asIScriptModule* module);
+	asIScriptFunction* GetContactCallback(const std::string& prefix, asIScriptModule* module);
 	bool IsValidFunction(asIScriptFunction* func) const;
 };
 

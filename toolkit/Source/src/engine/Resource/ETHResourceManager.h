@@ -11,7 +11,7 @@
 class ETHGraphicResourceManager
 {
 public:
-    static const gs2d::str_type::string SD_EXPANSION_FILE_PATH;
+    static const std::string SD_EXPANSION_FILE_PATH;
 
 	ETHGraphicResourceManager(const ETHSpriteDensityManager& densityManager);
 
@@ -19,14 +19,14 @@ public:
 	{
 		friend class ETHGraphicResourceManager;
 		SpritePtr m_sprite;
-		str_type::string m_fullOriginPath;
+		std::string m_fullOriginPath;
 		bool m_temporary;
 		bool m_customFramesXMLFound;
 	public:
 		SpriteResource(
 			const Platform::FileManagerPtr& fileManager,
-			const str_type::string& resourceDirectory,
-			const str_type::string& fullOriginPath,
+			const std::string& resourceDirectory,
+			const std::string& fullOriginPath,
 			const SpritePtr& sprite,
 			const bool temporary);
 		bool IsTemporary() const;
@@ -41,21 +41,21 @@ public:
 	const SpriteResource* GetPointer(
 		const Platform::FileManagerPtr& fileManager,
 		VideoPtr video,
-		const str_type::string& fileRelativePath,
-		const str_type::string& resourceDirectory,
-		const str_type::string &searchPath,
+		const std::string& fileRelativePath,
+		const std::string& resourceDirectory,
+		const std::string &searchPath,
 		const bool temporary = false);
 
 	SpritePtr GetSprite(
 		const Platform::FileManagerPtr& fileManager,
 		VideoPtr video,
-		const str_type::string& fileRelativePath,
-		const str_type::string& resourceDirectory,
-		const str_type::string &searchPath,
+		const std::string& fileRelativePath,
+		const std::string& resourceDirectory,
+		const std::string &searchPath,
 		const bool temporary = false);
 
-	SpriteRectsPtr GetPackedFrames(const str_type::string& fileName);
-	SpriteResource* GetSpriteResource(const str_type::string& fileName);
+	SpriteRectsPtr GetPackedFrames(const std::string& fileName);
+	SpriteResource* GetSpriteResource(const std::string& fileName);
 
 	std::size_t GetNumResources();
 	void ReleaseResources();
@@ -64,24 +64,24 @@ public:
 	const SpriteResource* AddFile(
 		const Platform::FileManagerPtr& fileManager,
 		VideoPtr video,
-		const str_type::string& path,
-		const str_type::string& resourceDirectory,
+		const std::string& path,
+		const std::string& resourceDirectory,
 		const bool temporary);
 
-	bool ReleaseResource(const str_type::string& file);
+	bool ReleaseResource(const std::string& file);
 
 private:
 	const SpriteResource* FindSprite(
-		const str_type::string& fullFilePath,
-		const str_type::string& fileName,
-		const str_type::string& resourceDirectory);
+		const std::string& fullFilePath,
+		const std::string& fileName,
+		const std::string& resourceDirectory);
 
-	str_type::string AssembleResourceFullPath(
-		const str_type::string& programPath,
-		const str_type::string& searchPath,
-		const str_type::string& fileName);
+	std::string AssembleResourceFullPath(
+		const std::string& programPath,
+		const std::string& searchPath,
+		const std::string& fileName);
 
-	tsl::hopscotch_map<str_type::string, SpriteResource> m_resource;
+	tsl::hopscotch_map<std::string, SpriteResource> m_resource;
 	ETHSpriteDensityManager m_densityManager;
 };
 
@@ -93,14 +93,14 @@ public:
 	AudioSamplePtr GetPointer(
 		AudioPtr audio,
 		const Platform::FileIOHubPtr& fileIOHub,
-		const str_type::string &fileRelativePath,
-		const str_type::string &alternative,
+		const std::string &fileRelativePath,
+		const std::string &alternative,
 		const Audio::SAMPLE_TYPE type);
 
 	AudioSamplePtr AddFile(
 		AudioPtr audio,
 		const Platform::FileIOHubPtr& fileIOHub,
-		const str_type::string& path,
+		const std::string& path,
 		const Audio::SAMPLE_TYPE type);
 
 	std::size_t GetNumResources();
@@ -108,7 +108,7 @@ public:
 	void ReleaseResources();
 
 private:
-	tsl::hopscotch_map<str_type::string, AudioSamplePtr> m_resource;
+	tsl::hopscotch_map<std::string, AudioSamplePtr> m_resource;
 	void ReleaseAllButMusic();
 };
 

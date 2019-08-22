@@ -15,7 +15,7 @@ GSGUI_STRING_INPUT::GSGUI_STRING_INPUT()
 	numbersOnly = false;
 }
 
-void GSGUI_STRING_INPUT::PlaceInput(const Vector2& pos, const str_type::string& font, const unsigned int nMaxChars, 
+void GSGUI_STRING_INPUT::PlaceInput(const Vector2& pos, const std::string& font, const unsigned int nMaxChars, 
 				const float size, const Color& color, VideoPtr video,
 				InputPtr input)
 {
@@ -35,7 +35,7 @@ void GSGUI_STRING_INPUT::PlaceInput(const Vector2& pos, const str_type::string& 
 	// don't let the cursor exceed the text range
 	cursor = Min(cursor, static_cast<std::size_t>(ss.length()));
 
-	str_type::string lastInput = input->GetLastCharInput();
+	std::string lastInput = input->GetLastCharInput();
 	if (!lastInput.empty() && ss.length() < nMaxChars)
 	{
 		if (numbersOnly)
@@ -94,20 +94,20 @@ void GSGUI_STRING_INPUT::PlaceInput(const Vector2& pos, const str_type::string& 
 		video->DrawRectangle(cursorPosition+pos-Vector2(2,0), Vector2(2,size), gs2d::constant::BLACK, gs2d::constant::BLACK, gs2d::constant::BLACK, gs2d::constant::BLACK, 0.0f);
 }
 
-void GSGUI_STRING_INPUT::Place(const Vector2& pos, const str_type::string& font,
+void GSGUI_STRING_INPUT::Place(const Vector2& pos, const std::string& font,
 				const float size, const Color& color, VideoPtr video)
 {
-	str_type::string outputString = ss;
+	std::string outputString = ss;
 	video->DrawBitmapText(pos, outputString, font, dwColor);
 	SendCursorToEnd();
 }
 
-str_type::string GSGUI_STRING_INPUT::GetString() const
+std::string GSGUI_STRING_INPUT::GetString() const
 {
 	return ss;
 }
 
-void GSGUI_STRING_INPUT::SetString(const str_type::string &inS)
+void GSGUI_STRING_INPUT::SetString(const std::string &inS)
 {
 	ss = inS;
 }
@@ -171,12 +171,12 @@ void GS_GUI::Reset()
 	m_desc.clear();
 }
 
-str_type::string GS_GUI::GetDescription()
+std::string GS_GUI::GetDescription()
 {
 	return m_desc;
 }
 
-void GS_GUI::SetDescription(const str_type::string &desc)
+void GS_GUI::SetDescription(const std::string &desc)
 {
 	m_desc = desc;
 }
@@ -283,7 +283,7 @@ GSGUI_BUTTON GSGUI_SWAPBUTTON::PlaceMenu(Vector2 v2Pos)
 	return r;
 }
 
-GSGUI_SWAPBUTTON::GSGUI_SWAPSPRITE_PTR_LIST::iterator GSGUI_SWAPBUTTON::Find(const str_type::string &fileName)
+GSGUI_SWAPBUTTON::GSGUI_SWAPSPRITE_PTR_LIST::iterator GSGUI_SWAPBUTTON::Find(const std::string &fileName)
 {
 	for (GSGUI_SWAPSPRITE_PTR_LIST::iterator iter = m_sprites.begin();
 		iter != m_sprites.end(); ++iter)
@@ -294,7 +294,7 @@ GSGUI_SWAPBUTTON::GSGUI_SWAPSPRITE_PTR_LIST::iterator GSGUI_SWAPBUTTON::Find(con
 	return m_sprites.end();
 }
 
-bool GSGUI_SWAPBUTTON::AddButton(const str_type::string &fileName)
+bool GSGUI_SWAPBUTTON::AddButton(const std::string &fileName)
 {
 	GSGUI_SWAPBUTTON::GSGUI_SWAPSPRITE_PTR pSprite = GSGUI_SWAPBUTTON::GSGUI_SWAPSPRITE_PTR(new GSGUI_SWAPSPRITE);
 	if ((pSprite->sprite = m_video->CreateSprite(fileName)))
@@ -312,7 +312,7 @@ bool GSGUI_SWAPBUTTON::AddButton(const str_type::string &fileName)
 	return false;
 }
 
-bool GSGUI_SWAPBUTTON::SetButton(const str_type::string &fileName)
+bool GSGUI_SWAPBUTTON::SetButton(const std::string &fileName)
 {
 	GSGUI_SWAPSPRITE_PTR_LIST::iterator iter = Find(fileName);
 	if (iter == m_sprites.end())
@@ -363,7 +363,7 @@ void GSGUI_DROPDOWN::SetActive(const bool b)
 	m_active = b;
 }
 
-void GSGUI_DROPDOWN::SetupMenu(VideoPtr video, InputPtr input, const str_type::string &mainText,
+void GSGUI_DROPDOWN::SetupMenu(VideoPtr video, InputPtr input, const std::string &mainText,
 			   const float size, const float width, const bool onclick)
 {
 	m_video = video;
@@ -469,14 +469,14 @@ GSGUI_BUTTON GSGUI_DROPDOWN::PlaceMenu(Vector2 v2Pos)
 	return r;
 }
 
-void GSGUI_DROPDOWN::AddButton(const str_type::string &text)
+void GSGUI_DROPDOWN::AddButton(const std::string &text)
 {
 	GSGUI_BUTTON button;
 	button.text = text;
 	m_buttons.push_back(button);
 }
 
-void GSGUI_DROPDOWN::DelButton(const str_type::string &text)
+void GSGUI_DROPDOWN::DelButton(const std::string &text)
 {
 	if (!m_buttons.empty())
 	{
@@ -636,7 +636,7 @@ GSGUI_BUTTON GSGUI_BUTTONLIST::PlaceMenu(Vector2 v2Pos)
 
 			m_video->DrawRectangle(v2ButtonPos, v2ButtonSize,
 				top, top, bottom, bottom);
-			str_type::stringstream ss;
+			std::stringstream ss;
 			ss << iter->text << iter->extText;
 			m_video->DrawBitmapText(
 				v2ButtonPos + v2TextAdd, 
@@ -677,7 +677,7 @@ GSGUI_BUTTON GSGUI_BUTTONLIST::PlaceMenu(Vector2 v2Pos)
 	return r;
 }
 
-void GSGUI_BUTTONLIST::AddButton(const str_type::string &text, const bool active, const str_type::string &extText)
+void GSGUI_BUTTONLIST::AddButton(const std::string &text, const bool active, const std::string &extText)
 {
 	GSGUI_BUTTON button;
 	button.active = active;
@@ -686,7 +686,7 @@ void GSGUI_BUTTONLIST::AddButton(const str_type::string &text, const bool active
 	m_buttons.push_back(button);
 }
 
-bool GSGUI_BUTTONLIST::GetButtonStatus(const str_type::string &text) const
+bool GSGUI_BUTTONLIST::GetButtonStatus(const std::string &text) const
 {
 	if (!m_buttons.empty())
 	{
@@ -702,7 +702,7 @@ bool GSGUI_BUTTONLIST::GetButtonStatus(const str_type::string &text) const
 	return false;
 }
 
-bool GSGUI_BUTTONLIST::ActivateButton(const str_type::string &text)
+bool GSGUI_BUTTONLIST::ActivateButton(const std::string &text)
 {
 	if (!m_buttons.empty())
 	{
@@ -719,7 +719,7 @@ bool GSGUI_BUTTONLIST::ActivateButton(const str_type::string &text)
 }
 
 
-bool GSGUI_BUTTONLIST::DeactivateButton(const str_type::string &text)
+bool GSGUI_BUTTONLIST::DeactivateButton(const std::string &text)
 {
 	if (!m_buttons.empty())
 	{
@@ -735,7 +735,7 @@ bool GSGUI_BUTTONLIST::DeactivateButton(const str_type::string &text)
 	return true;
 }
 
-void GSGUI_BUTTONLIST::DelButton(const str_type::string &text)
+void GSGUI_BUTTONLIST::DelButton(const std::string &text)
 {
 	if (!m_buttons.empty())
 	{
@@ -751,7 +751,7 @@ void GSGUI_BUTTONLIST::DelButton(const str_type::string &text)
 	}
 }
 
-void GSGUI_BUTTONLIST::HideButton(const str_type::string &text, const bool hide)
+void GSGUI_BUTTONLIST::HideButton(const std::string &text, const bool hide)
 {
 	if (!m_buttons.empty())
 	{
@@ -907,7 +907,7 @@ int GSGUI_INT_INPUT::PlaceInput(Vector2 v2Pos)
 							top, top,
 							bottom, bottom);
 
-	str_type::stringstream ss;
+	std::stringstream ss;
 	ss << m_strInput.GetString();
 	if (ss.str().length() > 0) //-V807
 	{
@@ -965,14 +965,14 @@ void GSGUI_INT_INPUT::SetClamp(const bool clamp, const int min, const int max)
 	m_max = (max>min) ? max : min;
 }
 
-void GSGUI_INT_INPUT::SetText(const str_type::string &text)
+void GSGUI_INT_INPUT::SetText(const std::string &text)
 {
 	m_text = text;
 }
 
 void GSGUI_INT_INPUT::SetConstant(const int n)
 {
-	str_type::stringstream ss;
+	std::stringstream ss;
 	ss << n;
 	m_strInput.SetString(ss.str());
 }
@@ -1099,7 +1099,7 @@ float GSGUI_FLOAT_INPUT::PlaceInput(Vector2 v2Pos)
 	m_video->DrawRectangle(v2Pos+Vector2(m_width, 0.0f), Vector2(m_width, m_size),
 							top, top, bottom, bottom);
 
-	str_type::stringstream ss;
+	std::stringstream ss;
 	ss.str(m_strInput.GetString());
 
 	// if there are no chars, go back to the min value
@@ -1151,7 +1151,7 @@ float GSGUI_FLOAT_INPUT::PlaceInput(Vector2 v2Pos)
 	return m_lastValue;
 }
 
-str_type::string GSGUI_FLOAT_INPUT::GetDescription()
+std::string GSGUI_FLOAT_INPUT::GetDescription()
 {
 	if (!IsMouseOver())
 		return GS_L("");
@@ -1163,7 +1163,7 @@ float GSGUI_FLOAT_INPUT::GetLastValue() const
 	return m_lastValue;
 }
 
-void GSGUI_FLOAT_INPUT::SetText(const str_type::string &text)
+void GSGUI_FLOAT_INPUT::SetText(const std::string &text)
 {
 	m_text = text;
 }
@@ -1177,7 +1177,7 @@ void GSGUI_FLOAT_INPUT::SetClamp(const bool clamp, const float min, const float 
 
 void GSGUI_FLOAT_INPUT::SetConstant(const float f)
 {
-	str_type::stringstream ss;
+	std::stringstream ss;
 	ss << f;
 	m_strInput.SetString(ss.str());
 	m_lastValue = f;
@@ -1200,19 +1200,19 @@ GSGUI_STRING_LINE_INPUT::GSGUI_STRING_LINE_INPUT()
 	m_nMaxChars = 8;
 }
 
-void GSGUI_STRING_LINE_INPUT::SetValue(const str_type::string &str)
+void GSGUI_STRING_LINE_INPUT::SetValue(const std::string &str)
 {
 	m_strInput.SetString(str);
 }
 
-str_type::string GSGUI_STRING_LINE_INPUT::GetValue() const
+std::string GSGUI_STRING_LINE_INPUT::GetValue() const
 {
 	return m_strInput.GetString();
 }
 
 void GSGUI_STRING_LINE_INPUT::SetupMenu(VideoPtr video, InputPtr input,
 										const float size, const float width, const int maxC, const bool active,
-										const str_type::string& sValue)
+										const std::string& sValue)
 {
 	m_video = video;
 	m_input = input;
@@ -1223,7 +1223,7 @@ void GSGUI_STRING_LINE_INPUT::SetupMenu(VideoPtr video, InputPtr input,
 	m_strInput.SetString(sValue);
 }
 
-str_type::string GSGUI_STRING_LINE_INPUT::PlaceInput(Vector2 v2Pos)
+std::string GSGUI_STRING_LINE_INPUT::PlaceInput(Vector2 v2Pos)
 {
 	m_video->SetZBuffer(false);
 	m_video->SetZWrite(false);
@@ -1273,7 +1273,7 @@ str_type::string GSGUI_STRING_LINE_INPUT::PlaceInput(Vector2 v2Pos)
 							top, top,
 							bottom, bottom);
 
-	str_type::stringstream ss;
+	std::stringstream ss;
 	ss << m_strInput.GetString();
 
 	if (m_active)
@@ -1307,7 +1307,7 @@ void GSGUI_STRING_LINE_INPUT::SetActive(const bool b)
 	m_active = b;
 }
 
-void GSGUI_STRING_LINE_INPUT::SetText(const str_type::string &text)
+void GSGUI_STRING_LINE_INPUT::SetText(const std::string &text)
 {
     m_text = text;
 }

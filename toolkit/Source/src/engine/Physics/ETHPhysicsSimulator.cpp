@@ -227,7 +227,7 @@ ETHEntity* ETHPhysicsSimulator::GetClosestContact(const Vector2& a, const Vector
 	return rayCastCallback.GetClosestContact(point, normal);
 }
 
-ETHEntity* ETHPhysicsSimulator::GetClosestContact(const Vector2& a, const Vector2& b, Vector2& point, Vector2& normal, const str_type::string& semicolonSeparatedIgnoreList)
+ETHEntity* ETHPhysicsSimulator::GetClosestContact(const Vector2& a, const Vector2& b, Vector2& point, Vector2& normal, const std::string& semicolonSeparatedIgnoreList)
 {
 	if (a == b)
 		return 0;
@@ -285,15 +285,15 @@ void ETHPhysicsSimulator::SetFixedTimeStepValue(const float value)
 	m_fixedTimeStepValue = value;
 }
 
-ETHEntityProperties::BODY_SHAPE ETHPhysicsSimulator::StringToShape(const gs2d::str_type::string& str)
+ETHEntityProperties::BODY_SHAPE ETHPhysicsSimulator::StringToShape(const std::string& str)
 {
-	if (str == GS_L("box"))
+	if (str == ("box"))
 		return ETHEntityProperties::BS_BOX;
-	else if (str == GS_L("circle"))
+	else if (str == ("circle"))
 		return ETHEntityProperties::BS_CIRCLE;
-	else if (str == GS_L("polygon"))
+	else if (str == ("polygon"))
 		return ETHEntityProperties::BS_POLYGON;
-	else if (str == GS_L("compound"))
+	else if (str == ("compound"))
 		return ETHEntityProperties::BS_COMPOUND;
 	else
 		return ETHEntityProperties::BS_NONE;

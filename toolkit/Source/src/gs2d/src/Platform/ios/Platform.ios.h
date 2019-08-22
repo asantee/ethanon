@@ -7,9 +7,9 @@
 #include "../FileLogger.h"
 
 namespace Platform {
-	gs2d::str_type::string ResourceDirectory();
-	gs2d::str_type::string ExternalStorageDirectory();
-	gs2d::str_type::string GlobalExternalStorageDirectory();
+	std::string ResourceDirectory();
+	std::string ExternalStorageDirectory();
+	std::string GlobalExternalStorageDirectory();
 	bool CreateDirectory(const std::string& path);
 } // namespace
 

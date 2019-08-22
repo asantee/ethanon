@@ -23,15 +23,15 @@ public:
 
 	bool ReadFromXMLFile(TiXmlElement *pElement);
 
-	bool ReadFromFile(const str_type::string& fileName, const Platform::FileManagerPtr& fileManager);
+	bool ReadFromFile(const std::string& fileName, const Platform::FileManagerPtr& fileManager);
 	bool WriteToXMLFile(TiXmlElement *pRoot) const;
 	int GetNumFrames() const;
 	
 	bool ShouldUseHighlightPS() const;
 
-	str_type::string GetActualBitmapFile() const;
+	std::string GetActualBitmapFile() const;
 
-	str_type::string bitmapFile;
+	std::string bitmapFile;
 	ETH_BOOL allAtOnce;
 	Video::ALPHA_MODE alphaMode;
 	int nParticles;

@@ -11,10 +11,10 @@ class ETHAppEnmlFile
 {
 public:
 	ETHAppEnmlFile(
-		const gs2d::str_type::string& fileName,
+		const std::string& fileName,
 		const Platform::FileManagerPtr& fileManager,
-		const gs2d::str_type::string& platformName,
-		const gs2d::str_type::string& externalStorageDirectory);
+		const std::string& platformName,
+		const std::string& externalStorageDirectory);
 
 	unsigned int GetWidth() const;
 	unsigned int GetHeight() const;
@@ -30,25 +30,24 @@ public:
 
 	bool IsWindowed() const;
 	bool IsVsyncEnabled() const;
-	bool IsRichLightingEnabled() const;
-	gs2d::str_type::string GetTitle() const;
-	gs2d::str_type::string GetFixedWidth() const;
-	gs2d::str_type::string GetFixedHeight() const;
+	std::string GetTitle() const;
+	std::string GetFixedWidth() const;
+	std::string GetFixedHeight() const;
 
 	const ETHSpriteDensityManager& GetDensityManager() const;
-	const std::vector<gs2d::str_type::string>& GetDefinedWords() const;
+	const std::vector<std::string>& GetDefinedWords() const;
 
 	static void SetAppDefaultVideoMode(
 		const gs2d::math::Vector2& size,
 		const bool windowed,
-		const gs2d::str_type::string& externalStorageDirectory);
+		const std::string& externalStorageDirectory);
 	static gs2d::math::Vector2 GetAppDefaultVideoMode(
 		bool& windowed,
-		const gs2d::str_type::string& externalStorageDirectory);
+		const std::string& externalStorageDirectory);
 
 private:
 	void LoadProperties(
-		const gs2d::str_type::string& platformName,
+		const std::string& platformName,
 		const gs2d::enml::File& file);
 
 	ETHSpriteDensityManager densityManager;
@@ -67,10 +66,10 @@ private:
 
 	bool windowed, vsync;
 	bool richLighting;
-	gs2d::str_type::string title;
-	gs2d::str_type::string fixedWidth, fixedHeight;
+	std::string title;
+	std::string fixedWidth, fixedHeight;
 
-	std::vector<gs2d::str_type::string> definedWords;
+	std::vector<std::string> definedWords;
 };
 
 #endif

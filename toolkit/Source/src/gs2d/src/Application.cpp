@@ -1,17 +1,19 @@
 #include "Application.h"
 
+#include <sstream>
+
 namespace gs2d {
 
 using namespace math;
 
 Platform::SharedDataManager Application::SharedData;
 
-GS2D_API unsigned long ComputeElapsedTime(ApplicationPtr app)
+unsigned long ComputeElapsedTime(ApplicationPtr app)
 {
 	return static_cast<unsigned long>(ComputeElapsedTimeF(app));
 }
 
-GS2D_API float ComputeElapsedTimeF(ApplicationPtr app)
+float ComputeElapsedTimeF(ApplicationPtr app)
 {
 	static float lastTime = 0;
 	const float currentTime = app->GetElapsedTimeF(Application::TU_SECONDS);
@@ -28,9 +30,9 @@ GS2D_API float ComputeElapsedTimeF(ApplicationPtr app)
 	return elapsedTime * 1000.0f;
 }
 
-void ShowMessage(const str_type::string& str, const GS_MESSAGE_TYPE type)
+void ShowMessage(const std::string& str, const GS_MESSAGE_TYPE type)
 {
-	str_type::stringstream ss;
+	std::stringstream ss;
 	ss << str;
 	ShowMessage(ss, type);
 }

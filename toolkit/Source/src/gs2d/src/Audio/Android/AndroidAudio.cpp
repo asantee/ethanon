@@ -1,32 +1,10 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "AndroidAudio.h"
-#include <exception>
+
 #include "../../Platform/android/Platform.android.h"
 
 namespace gs2d {
 
-GS2D_API AudioPtr CreateAudio(boost::any data)
+AudioPtr CreateAudio(boost::any data)
 {
 	AudioPtr audio = AndroidAudioContext::Create(data);
 	if (audio)
@@ -66,7 +44,7 @@ bool AndroidAudioContext::CreateAudioDevice(boost::any data)
 }
 
 AudioSamplePtr AndroidAudioContext::LoadSampleFromFile(
-	const str_type::string& fileName,
+	const std::string& fileName,
 	const Platform::FileManagerPtr& fileManager,
 	const Audio::SAMPLE_TYPE type)
 {
@@ -85,7 +63,7 @@ AudioSamplePtr AndroidAudioContext::LoadSampleFromFileInMemory(
 
 boost::any AndroidAudioContext::GetAudioContext()
 {
-	str_type::string out;
+	std::string out;
 	ForwardCommands(out);
 	return out;
 }
@@ -138,7 +116,7 @@ AndroidAudioSample::~AndroidAudioSample()
 {
 	if (!AndroidAudioContext::IsStreamable(m_type))
 	{
-		const str_type::string cmd = Platform::NativeCommandAssembler::DeleteSound(m_fileName);
+		const std::string cmd = Platform::NativeCommandAssembler::DeleteSound(m_fileName);
 		m_audio->Command(cmd, true);
 		m_logger.Log(cmd, Platform::FileLogger::INFO);
 	}
@@ -146,7 +124,7 @@ AndroidAudioSample::~AndroidAudioSample()
 
 bool AndroidAudioSample::LoadSampleFromFile(
 	AudioWeakPtr audio,
-	const str_type::string& fileName,
+	const std::string& fileName,
 	const Platform::FileManagerPtr& fileManager,
 	const Audio::SAMPLE_TYPE type)
 {
@@ -154,7 +132,7 @@ bool AndroidAudioSample::LoadSampleFromFile(
 	m_fileName = fileName;
 	m_type = type;
 
-	str_type::string cmd;
+	std::string cmd;
 	if (!AndroidAudioContext::IsStreamable(m_type))
 	{
 		cmd = Platform::NativeCommandAssembler::LoadSound(m_fileName);

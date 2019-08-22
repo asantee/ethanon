@@ -10,11 +10,11 @@ class MacOSXFileIOHub : public FileIOHub
 public:
 	MacOSXFileIOHub(
 		Platform::FileManagerPtr fileManager,
-		const gs2d::str_type::string& bitmapFontSearchDirectory);
+		const std::string& bitmapFontSearchDirectory);
 
-	void SetFileManager(Platform::FileManagerPtr fileManager, const gs2d::str_type::string& resourceDirectory);
+	void SetFileManager(Platform::FileManagerPtr fileManager, const std::string& resourceDirectory);
 	bool IsResourcePackingSupported();
-	gs2d::str_type::string GetGlobalExternalStorageDirectory() const;
+	std::string GetGlobalExternalStorageDirectory() const;
 };
 
 typedef boost::shared_ptr<MacOSXFileIOHub> MacOSXFileIOHubPtr;

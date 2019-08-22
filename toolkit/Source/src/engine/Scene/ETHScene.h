@@ -17,7 +17,7 @@ class ETHScene
 {
 public:
 	ETHScene(
-		const str_type::string& fileName,
+		const std::string& fileName,
 		ETHResourceProviderPtr provider,
 		const ETHSceneProperties& props,
 		asIScriptModule *pModule,
@@ -38,9 +38,9 @@ public:
 
 	void RenderScene(const ETHBackBufferTargetManagerPtr& backBuffer);
 
-	bool SaveToFile(const str_type::string& fileName, ETHEntityCache& entityCache);
+	bool SaveToFile(const std::string& fileName, ETHEntityCache& entityCache);
 	int AddEntity(ETHRenderEntity* pEntity);
-	int AddEntity(ETHRenderEntity* pEntity, const str_type::string& alternativeName);
+	int AddEntity(ETHRenderEntity* pEntity, const std::string& alternativeName);
 	void SetSceneProperties(const ETHSceneProperties &prop);
 	void EnableLightmaps(const bool enable);
 	void EnableRealTimeShadows(const bool enable);
@@ -48,8 +48,8 @@ public:
 	
 	static int UpdateIDCounter(ETHEntity* pEntity);
 
-	str_type::string ConvertFileNameToLightmapDirectory(str_type::string filePath);
-	void LoadLightmapsFromBitmapFiles(const str_type::string& currentSceneFilePath);
+	std::string ConvertFileNameToLightmapDirectory(std::string filePath);
+	void LoadLightmapsFromBitmapFiles(const std::string& currentSceneFilePath);
 	bool AreLightmapsEnabled() const;
 
 	void Update(
@@ -62,13 +62,13 @@ public:
 	const ETHSceneProperties* GetSceneProperties() const;
 	ETHSceneProperties* GetEditableSceneProperties();
 
-	bool AddFloatData(const str_type::string &entity, const str_type::string &name, const float value);
-	bool AddIntData(const str_type::string &entity, const str_type::string &name, const int value);
-	bool AddUIntData(const str_type::string &entity, const str_type::string &name, const unsigned int value);
-	bool AddStringData(const str_type::string &entity, const str_type::string &name, const str_type::string &value);
-	bool AddVector2Data(const str_type::string &entity, const str_type::string &name, const Vector2 &value);
-	bool AddVector3Data(const str_type::string &entity, const str_type::string &name, const Vector3 &value);
-	bool AddCustomData(const str_type::string &entity, const str_type::string &name, const ETHCustomDataConstPtr &inData);
+	bool AddFloatData(const std::string &entity, const std::string &name, const float value);
+	bool AddIntData(const std::string &entity, const std::string &name, const int value);
+	bool AddUIntData(const std::string &entity, const std::string &name, const unsigned int value);
+	bool AddStringData(const std::string &entity, const std::string &name, const std::string &value);
+	bool AddVector2Data(const std::string &entity, const std::string &name, const Vector2 &value);
+	bool AddVector3Data(const std::string &entity, const std::string &name, const Vector3 &value);
+	bool AddCustomData(const std::string &entity, const std::string &name, const ETHCustomDataConstPtr &inData);
 
 	void SetBucketClearenceFactor(const float factor);
 	float GetBucketClearenceFactor() const;
@@ -108,25 +108,25 @@ public:
 	void AddEntityToPersistentList(ETHRenderEntity* entity);
 
 	bool AddSceneFromFile(
-		const str_type::string& fileName,
+		const std::string& fileName,
 		ETHEntityCache& entityCache,
-		const str_type::string &entityPath,
+		const std::string &entityPath,
 		const bool readSceneProperties,
 		const Vector3& offset,
 		ETHEntityArray &outVector,
 		const bool shouldGenerateNewID);
 
 	bool AddSceneFromString(
-		const str_type::string& fileName,
-		const str_type::string& xmlContent,
+		const std::string& fileName,
+		const std::string& xmlContent,
 		ETHEntityCache& entityCache,
-		const str_type::string &entityPath,
+		const std::string &entityPath,
 		const bool readSceneProperties,
 		const Vector3& offset,
 		ETHEntityArray &outVector,
 		const bool shouldGenerateNewID);
 
-	str_type::string AssembleEntityPath() const;
+	std::string AssembleEntityPath() const;
 
 private:
 	void Init(ETHResourceProviderPtr provider, const ETHSceneProperties& props, asIScriptModule *pModule, asIScriptContext *pContext);
@@ -146,10 +146,10 @@ private:
 		asIScriptFunction* constructorCallback);
 
 	bool AddEntitiesFromXMLFile(
-		const str_type::string& fileName,
+		const std::string& fileName,
 		TiXmlElement *pElement,
 		ETHEntityCache& entityCache,
-		const str_type::string &entityPath,
+		const std::string &entityPath,
 		const bool readSceneProperties,
 		const Vector3& offset,
 		ETHEntityArray &outVector,

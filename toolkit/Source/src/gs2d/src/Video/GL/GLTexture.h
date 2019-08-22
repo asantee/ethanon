@@ -6,6 +6,8 @@
 
 #include "../GL/GLInclude.h"
 
+#include <boost/weak_ptr.hpp>
+
 namespace gs2d {
 
 class GLVideo;
@@ -16,7 +18,7 @@ class GLTexture : public Texture
 
 	Platform::FileManagerPtr m_fileManager;
 
-	str_type::string m_fileName;
+	std::string m_fileName;
 
 	GLuint m_texture;
 
@@ -35,7 +37,7 @@ public:
 
 	bool LoadTexture(
 		VideoWeakPtr video,
-		const str_type::string& fileName,
+		const std::string& fileName,
 		const unsigned int nMipMaps = 0) override;
 
 	bool LoadTexture(

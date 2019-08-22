@@ -5,7 +5,7 @@ static ETHPhysicsEntityControllerPtr GetPhysicsController(ETHEntity* entity)
 	return boost::dynamic_pointer_cast<ETHPhysicsEntityController>(entity->GetController());
 }
 
-ETHRevoluteJoint::ETHRevoluteJoint(const gs2d::str_type::string& jointName, const enml::File& file, ETHPhysicsSimulator& simulator, ETHEntity* entityA, ETHEntity* entityB) :
+ETHRevoluteJoint::ETHRevoluteJoint(const std::string& jointName, const enml::File& file, ETHPhysicsSimulator& simulator, ETHEntity* entityA, ETHEntity* entityB) :
 	m_joint(NULL)
 {
 	b2Body* bodyA = GetPhysicsController(entityA)->GetBody();

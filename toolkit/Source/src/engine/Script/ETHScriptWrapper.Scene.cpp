@@ -14,39 +14,39 @@ ETHScriptWrapper::ETH_NEXT_SCENE::ETH_NEXT_SCENE()
 
 void ETHScriptWrapper::ETH_NEXT_SCENE::Reset()
 {
-	sceneName = GS_L("");
-	onSceneUpdateFunc = GS_L("");
-	onSceneLoadedFunc = GS_L("");
-	onResumeFunc = GS_L("");
+	sceneName = ("");
+	onSceneUpdateFunc = ("");
+	onSceneLoadedFunc = ("");
+	onResumeFunc = ("");
 	bucketSize = Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE);
 }
 
 bool ETHScriptWrapper::ETH_NEXT_SCENE::HasNextScene() const
 {
-	return (sceneName != GS_L(""));
+	return (sceneName != (""));
 }
 
-str_type::string ETHScriptWrapper::ETH_NEXT_SCENE::GetSceneName() const
+std::string ETHScriptWrapper::ETH_NEXT_SCENE::GetSceneName() const
 {
 	return sceneName;
 }
 
-str_type::string ETHScriptWrapper::ETH_NEXT_SCENE::GetOnSceneLoadedFunc() const
+std::string ETHScriptWrapper::ETH_NEXT_SCENE::GetOnSceneLoadedFunc() const
 {
 	return onSceneLoadedFunc;
 }
 
-str_type::string ETHScriptWrapper::ETH_NEXT_SCENE::GetOnSceneUpdateFunc() const
+std::string ETHScriptWrapper::ETH_NEXT_SCENE::GetOnSceneUpdateFunc() const
 {
 	return onSceneUpdateFunc;
 }
 
-str_type::string ETHScriptWrapper::ETH_NEXT_SCENE::GetOnResumeFunc() const
+std::string ETHScriptWrapper::ETH_NEXT_SCENE::GetOnResumeFunc() const
 {
 	return onResumeFunc;
 }
 
-str_type::string ETHScriptWrapper::ETH_NEXT_SCENE::GetLightmapDirectory() const
+std::string ETHScriptWrapper::ETH_NEXT_SCENE::GetLightmapDirectory() const
 {
 	return lightmapDirectory;
 }
@@ -57,11 +57,11 @@ Vector2 ETHScriptWrapper::ETH_NEXT_SCENE::GetBucketSize() const
 }
 
 void ETHScriptWrapper::ETH_NEXT_SCENE::SetNextScene(
-	const str_type::string &sceneName,
-	const str_type::string &onSceneLoadedFunc,
-	const str_type::string &onSceneUpdateFunc,
-	const str_type::string& onResumeFunc,
-	const str_type::string& lightmapDirectory,
+	const std::string &sceneName,
+	const std::string &onSceneLoadedFunc,
+	const std::string &onSceneUpdateFunc,
+	const std::string& onResumeFunc,
+	const std::string& lightmapDirectory,
 	const Vector2 &bucketSize)
 {
 	this->sceneName = sceneName;
@@ -74,7 +74,7 @@ void ETHScriptWrapper::ETH_NEXT_SCENE::SetNextScene(
 
 ETHEntity *ETHScriptWrapper::SeekEntity(const int id)
 {
-	if (WarnIfRunsInMainFunction(GS_L("SeekEntity")))
+	if (WarnIfRunsInMainFunction(("SeekEntity")))
 		return 0;
 
 	ETHEntity *pEntity = m_pScene->GetBucketManager().SeekEntity(id);
@@ -94,9 +94,9 @@ ETHEntity *ETHScriptWrapper::SeekEntity(const int id)
 	return 0;
 }
 
-ETHEntity *ETHScriptWrapper::SeekEntity(const str_type::string &name)
+ETHEntity *ETHScriptWrapper::SeekEntity(const std::string &name)
 {
-	if (WarnIfRunsInMainFunction(GS_L("SeekEntity")))
+	if (WarnIfRunsInMainFunction(("SeekEntity")))
 		return 0;
 
 	ETHEntity *pEntity = m_pScene->GetBucketManager().SeekEntity(name);
@@ -117,17 +117,17 @@ ETHEntity *ETHScriptWrapper::SeekEntity(const str_type::string &name)
 }
 
 int ETHScriptWrapper::AddEntity(
-	const str_type::string &file,
+	const std::string &file,
 	const Vector3 &v3Pos,
 	const float angle,
 	ETHEntity **ppOutEntity,
-	const str_type::string &alternativeName,
+	const std::string &alternativeName,
 	const float scale)
 {
-	if (WarnIfRunsInMainFunction(GS_L("AddEntity")))
+	if (WarnIfRunsInMainFunction(("AddEntity")))
 		return -1;
 
-	const str_type::string resourceDirectory = m_provider->GetFileIOHub()->GetResourceDirectory();
+	const std::string resourceDirectory = m_provider->GetFileIOHub()->GetResourceDirectory();
 
 	const ETHEntityProperties* props = m_entityCache.Get(
 		file,
@@ -152,34 +152,34 @@ int ETHScriptWrapper::AddEntity(
 	return m_pScene->AddEntity(entity, alternativeName);
 }
 
-int ETHScriptWrapper::AddEntity(const str_type::string &file, const Vector3 &v3Pos, const str_type::string &alternativeName)
+int ETHScriptWrapper::AddEntity(const std::string &file, const Vector3 &v3Pos, const std::string &alternativeName)
 {
 	return AddEntity(file, v3Pos, 0.0f, 0, alternativeName, 1.0f);
 }
 
-int ETHScriptWrapper::AddEntity(const str_type::string &file, const Vector3 &v3Pos, ETHEntity **ppOutEntity)
+int ETHScriptWrapper::AddEntity(const std::string &file, const Vector3 &v3Pos, ETHEntity **ppOutEntity)
 {
-	return AddEntity(file, v3Pos, 0.0f, ppOutEntity, GS_L(""), 1.0f);
+	return AddEntity(file, v3Pos, 0.0f, ppOutEntity, (""), 1.0f);
 }
 
-int ETHScriptWrapper::AddEntity(const str_type::string &file, const Vector3 &v3Pos, const float angle)
+int ETHScriptWrapper::AddEntity(const std::string &file, const Vector3 &v3Pos, const float angle)
 {
-	return AddEntity(file, v3Pos, angle, 0, GS_L(""), 1.0f);
+	return AddEntity(file, v3Pos, angle, 0, (""), 1.0f);
 }
 
-int ETHScriptWrapper::AddScaledEntity(const str_type::string &file, const Vector3 &v3Pos, const float scale)
+int ETHScriptWrapper::AddScaledEntity(const std::string &file, const Vector3 &v3Pos, const float scale)
 {
-	return AddEntity(file, v3Pos, 0.0f, 0, GS_L(""), scale);
+	return AddEntity(file, v3Pos, 0.0f, 0, (""), scale);
 }
 
-int ETHScriptWrapper::AddScaledEntity(const str_type::string &file, const Vector3 &v3Pos, const float scale, ETHEntity **ppOutEntity)
+int ETHScriptWrapper::AddScaledEntity(const std::string &file, const Vector3 &v3Pos, const float scale, ETHEntity **ppOutEntity)
 {
-	return AddEntity(file, v3Pos, 0.0f, ppOutEntity, GS_L(""), scale);
+	return AddEntity(file, v3Pos, 0.0f, ppOutEntity, (""), scale);
 }
 
 ETHEntity *ETHScriptWrapper::DeleteEntity(ETHEntity *pEntity)
 {
-	if (WarnIfRunsInMainFunction(GS_L("DeleteEntity")) || !pEntity)
+	if (WarnIfRunsInMainFunction(("DeleteEntity")) || !pEntity)
 		return 0;
 
 	if (m_pScene->DeleteEntity(pEntity))
@@ -189,7 +189,7 @@ ETHEntity *ETHScriptWrapper::DeleteEntity(ETHEntity *pEntity)
 	return 0;
 }
 
-void ETHScriptWrapper::LoadLightmaps(const str_type::string& directory)
+void ETHScriptWrapper::LoadLightmaps(const std::string& directory)
 {
 	if (m_usePreLoadedLightmapsFromFile)
 	{
@@ -197,16 +197,16 @@ void ETHScriptWrapper::LoadLightmaps(const str_type::string& directory)
 	}
 }
 
-void ETHScriptWrapper::ReadLightmapsFromBitmapFiles(const str_type::string& directory)
+void ETHScriptWrapper::ReadLightmapsFromBitmapFiles(const std::string& directory)
 {
 	if (m_pScene)
 	{
-		const str_type::string resourceDirectory = (m_expansionFileManager) ? GS_L("") : GetResourceDirectory();
-		const str_type::string lightmapDirectory = (directory.empty()) ? GetSceneFileName() : directory;
+		const std::string resourceDirectory = (m_expansionFileManager) ? ("") : GetResourceDirectory();
+		const std::string lightmapDirectory = (directory.empty()) ? GetSceneFileName() : directory;
 		
 		Platform::FileIOHubPtr fileIOHub = m_provider->GetFileIOHub();
 		Platform::FileManagerPtr currentFileManager     = fileIOHub->GetFileManager();
-		const str_type::string currentResourceDirectory = fileIOHub->GetResourceDirectory();
+		const std::string currentResourceDirectory = fileIOHub->GetResourceDirectory();
 		if (m_expansionFileManager)
 		{
 			fileIOHub->SetFileManager(m_expansionFileManager, resourceDirectory);
@@ -220,7 +220,7 @@ void ETHScriptWrapper::ReadLightmapsFromBitmapFiles(const str_type::string& dire
 
 void ETHScriptWrapper::SetAmbientLight(const Vector3 &v3Color)
 {
-	if (WarnIfRunsInMainFunction(GS_L("SetAmbientLight")))
+	if (WarnIfRunsInMainFunction(("SetAmbientLight")))
 		return;
 
 	m_pScene->SetAmbientLight(v3Color);
@@ -249,21 +249,21 @@ float ETHScriptWrapper::GetParallaxIntensity()
 
 void ETHScriptWrapper::SetBucketClearenceFactor(const float factor)
 {
-	if (WarnIfRunsInMainFunction(GS_L("SetBucketClearenceFactor")))
+	if (WarnIfRunsInMainFunction(("SetBucketClearenceFactor")))
 		return;
 	m_pScene->SetBucketClearenceFactor(factor);
 }
 
 float ETHScriptWrapper::GetBucketClearenceFactor()
 {
-	if (WarnIfRunsInMainFunction(GS_L("GetBucketClearenceFactor")))
+	if (WarnIfRunsInMainFunction(("GetBucketClearenceFactor")))
 		return 0.0f;
 	return m_pScene->GetBucketClearenceFactor();
 }
 
 Vector3 ETHScriptWrapper::GetAmbientLight()
 {
-	if (WarnIfRunsInMainFunction(GS_L("GetAmbientLight")))
+	if (WarnIfRunsInMainFunction(("GetAmbientLight")))
 		return Vector3(0,0,0);
 
 	return m_pScene->GetAmbientLight();
@@ -271,7 +271,7 @@ Vector3 ETHScriptWrapper::GetAmbientLight()
 
 void ETHScriptWrapper::SetCameraPos(const Vector2 &v2Pos)
 {
-	if (WarnIfRunsInMainFunction(GS_L("SetCameraPos")))
+	if (WarnIfRunsInMainFunction(("SetCameraPos")))
 		return;
 
 	// rounds up camera final position
@@ -281,7 +281,7 @@ void ETHScriptWrapper::SetCameraPos(const Vector2 &v2Pos)
 
 void ETHScriptWrapper::AddToCameraPos(const Vector2 &v2Add)
 {
-	if (WarnIfRunsInMainFunction(GS_L("AddToCameraPos")))
+	if (WarnIfRunsInMainFunction(("AddToCameraPos")))
 		return;
 
 	// rounds up camera final position
@@ -291,7 +291,7 @@ void ETHScriptWrapper::AddToCameraPos(const Vector2 &v2Add)
 
 void ETHScriptWrapper::EnableLightmaps(const bool enable)
 {
-	if (WarnIfRunsInMainFunction(GS_L("EnableLightmaps")))
+	if (WarnIfRunsInMainFunction(("EnableLightmaps")))
 		return;
 
 	m_useLightmaps = enable;
@@ -305,7 +305,7 @@ void ETHScriptWrapper::EnablePreLoadedLightmapsFromFile(const bool enable)
 
 Vector2 ETHScriptWrapper::GetCameraPos()
 {
-	if (WarnIfRunsInMainFunction(GS_L("GetCameraPos")))
+	if (WarnIfRunsInMainFunction(("GetCameraPos")))
 		return Vector2(0,0);
 
 	return m_provider->GetVideo()->GetCameraPos();
@@ -313,50 +313,50 @@ Vector2 ETHScriptWrapper::GetCameraPos()
 
 unsigned int ETHScriptWrapper::GetNumEntities()
 {
-	if (WarnIfRunsInMainFunction(GS_L("GetNumEntities")))
+	if (WarnIfRunsInMainFunction(("GetNumEntities")))
 		return 0;
 
 	return m_pScene->GetNumEntities();
 }
 
-bool ETHScriptWrapper::AddFloatData(const str_type::string &entity, const str_type::string &name, const float value)
+bool ETHScriptWrapper::AddFloatData(const std::string &entity, const std::string &name, const float value)
 {
-	if (WarnIfRunsInMainFunction(GS_L("AddFloatData")))
+	if (WarnIfRunsInMainFunction(("AddFloatData")))
 		return false;
 	return m_pScene->AddFloatData(entity, name, value);
 }
 
-bool ETHScriptWrapper::AddIntData(const str_type::string &entity, const str_type::string &name, const int value)
+bool ETHScriptWrapper::AddIntData(const std::string &entity, const std::string &name, const int value)
 {
-	if (WarnIfRunsInMainFunction(GS_L("AddIntData")))
+	if (WarnIfRunsInMainFunction(("AddIntData")))
 		return false;
 	return m_pScene->AddIntData(entity, name, value);
 }
 
-bool ETHScriptWrapper::AddUIntData(const str_type::string &entity, const str_type::string &name, const unsigned int value)
+bool ETHScriptWrapper::AddUIntData(const std::string &entity, const std::string &name, const unsigned int value)
 {
-	if (WarnIfRunsInMainFunction(GS_L("AddUIntData")))
+	if (WarnIfRunsInMainFunction(("AddUIntData")))
 		return false;
 	return m_pScene->AddUIntData(entity, name, value);
 }
 
-bool ETHScriptWrapper::AddStringData(const str_type::string &entity, const str_type::string &name, const str_type::string &value)
+bool ETHScriptWrapper::AddStringData(const std::string &entity, const std::string &name, const std::string &value)
 {
-	if (WarnIfRunsInMainFunction(GS_L("AddStringData")))
+	if (WarnIfRunsInMainFunction(("AddStringData")))
 		return false;
 	return m_pScene->AddStringData(entity, name, value);
 }
 
-bool ETHScriptWrapper::AddVector2Data(const str_type::string &entity, const str_type::string &name, const Vector2 &value)
+bool ETHScriptWrapper::AddVector2Data(const std::string &entity, const std::string &name, const Vector2 &value)
 {
-	if (WarnIfRunsInMainFunction(GS_L("AddVector2Data")))
+	if (WarnIfRunsInMainFunction(("AddVector2Data")))
 		return false;
 	return m_pScene->AddVector2Data(entity, name, value);
 }
 
-bool ETHScriptWrapper::AddVector3Data(const str_type::string &entity, const str_type::string &name, const Vector3 &value)
+bool ETHScriptWrapper::AddVector3Data(const std::string &entity, const std::string &name, const Vector3 &value)
 {
-	if (WarnIfRunsInMainFunction(GS_L("AddVector3Data")))
+	if (WarnIfRunsInMainFunction(("AddVector3Data")))
 		return false;
 	return m_pScene->AddVector3Data(entity, name, value);
 }
@@ -371,9 +371,9 @@ void ETHScriptWrapper::SetBackgroundColor(const uint32_t color)
 	m_provider->GetVideo()->SetBGColor(Color(color));
 }
 
-void ETHScriptWrapper::GetEntityArrayByName(const str_type::string &name, ETHEntityArray& outVector)
+void ETHScriptWrapper::GetEntityArrayByName(const std::string &name, ETHEntityArray& outVector)
 {
-	if (WarnIfRunsInMainFunction(GS_L("GetEntityArrayByName")))
+	if (WarnIfRunsInMainFunction(("GetEntityArrayByName")))
 		return;
 
 	m_pScene->GetBucketManager().GetEntityArrayByName(name, outVector);
@@ -381,7 +381,7 @@ void ETHScriptWrapper::GetEntityArrayByName(const str_type::string &name, ETHEnt
 
 void ETHScriptWrapper::GetEntityArrayFromBucket(const Vector2 &v2Bucket, ETHEntityArray& outVector)
 {
-	if (WarnIfRunsInMainFunction(GS_L("GetEntityArrayFromBucket")))
+	if (WarnIfRunsInMainFunction(("GetEntityArrayFromBucket")))
 		return;
 
 	m_pScene->GetBucketManager().GetEntityArrayFromBucket(v2Bucket, outVector);
@@ -389,21 +389,21 @@ void ETHScriptWrapper::GetEntityArrayFromBucket(const Vector2 &v2Bucket, ETHEnti
 
 void ETHScriptWrapper::GetAllEntitiesInScene(ETHEntityArray& outVector)
 {
-	if (WarnIfRunsInMainFunction(GS_L("GetAllEntitiesInScene")))
+	if (WarnIfRunsInMainFunction(("GetAllEntitiesInScene")))
 		return;
 	m_pScene->GetBucketManager().GetEntityArray(outVector);
 }
 
 void ETHScriptWrapper::GetEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray& outVector)
 {
-	if (WarnIfRunsInMainFunction(GS_L("GetEntitiesAroundBucket")))
+	if (WarnIfRunsInMainFunction(("GetEntitiesAroundBucket")))
 		return;
 	m_pScene->GetBucketManager().GetEntitiesAroundBucket(bucket, outVector);
 }
 
 void ETHScriptWrapper::GetEntitiesAroundEntity(ETHEntity* entity, ETHEntityArray& outVector)
 {
-	if (WarnIfRunsInMainFunction(GS_L("GetEntitiesAroundEntity")))
+	if (WarnIfRunsInMainFunction(("GetEntitiesAroundEntity")))
 		return;
 	ETHBucketManager& bucketManager = m_pScene->GetBucketManager();
 	bucketManager.GetEntitiesAroundBucket(
@@ -412,16 +412,16 @@ void ETHScriptWrapper::GetEntitiesAroundEntity(ETHEntity* entity, ETHEntityArray
 		ETHEntitySingleExceptionChooser(entity->GetID()));
 }
 
-void ETHScriptWrapper::GetWhiteListedEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray& outVector, const str_type::string& semicolonSeparatedNames)
+void ETHScriptWrapper::GetWhiteListedEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray& outVector, const std::string& semicolonSeparatedNames)
 {
-	if (WarnIfRunsInMainFunction(GS_L("GetEntitiesAroundBucket")))
+	if (WarnIfRunsInMainFunction(("GetEntitiesAroundBucket")))
 		return;
 	m_pScene->GetBucketManager().GetWhiteListedEntitiesAroundBucket(bucket, outVector, semicolonSeparatedNames);
 }
 
-void ETHScriptWrapper::GetEntitiesAroundBucketWithBlackList(const Vector2& bucket, ETHEntityArray& outVector, const str_type::string& semicolonSeparatedNames)
+void ETHScriptWrapper::GetEntitiesAroundBucketWithBlackList(const Vector2& bucket, ETHEntityArray& outVector, const std::string& semicolonSeparatedNames)
 {
-	if (WarnIfRunsInMainFunction(GS_L("GetEntitiesAroundBucketWithBlackList")))
+	if (WarnIfRunsInMainFunction(("GetEntitiesAroundBucketWithBlackList")))
 		return;
 	m_pScene->GetBucketManager().GetEntitiesAroundBucketWithBlackList(bucket, outVector, semicolonSeparatedNames);
 }
@@ -433,14 +433,14 @@ Vector2 ETHScriptWrapper::GetCurrentBucket(ETHEntity *pEntity)
 
 void ETHScriptWrapper::SetBorderBucketsDrawing(const bool enable)
 {
-	if (WarnIfRunsInMainFunction(GS_L("SetBucketBorderDrawing")))
+	if (WarnIfRunsInMainFunction(("SetBucketBorderDrawing")))
 		return;
 	m_pScene->SetBorderBucketsDrawing(enable);
 }
 
 bool ETHScriptWrapper::IsDrawingBorderBuckets()
 {
-	if (WarnIfRunsInMainFunction(GS_L("IsDrawingBorderBuckets")))
+	if (WarnIfRunsInMainFunction(("IsDrawingBorderBuckets")))
 		return false;
 	return m_pScene->IsDrawingBorderBuckets();
 }
@@ -457,60 +457,60 @@ bool ETHScriptWrapper::GetPositionRoundUp()
 
 void ETHScriptWrapper::SetZBuffer(const bool enable)
 {
-	if (WarnIfRunsInMainFunction(GS_L("SetZBuffer")))
+	if (WarnIfRunsInMainFunction(("SetZBuffer")))
 		return;
 	m_pScene->SetZBuffer(enable);
 }
 
 bool ETHScriptWrapper::GetZBuffer()
 {
-	if (WarnIfRunsInMainFunction(GS_L("GetZBuffer")))
+	if (WarnIfRunsInMainFunction(("GetZBuffer")))
 		return false;
 	return m_pScene->GetZBuffer();
 }
 
 void ETHScriptWrapper::EnableRealTimeShadows(const bool enable)
 {
-	if (WarnIfRunsInMainFunction(GS_L("EnableRealTimeShadows")))
+	if (WarnIfRunsInMainFunction(("EnableRealTimeShadows")))
 		return;
 	m_pScene->EnableRealTimeShadows(enable);
 }
 
 void ETHScriptWrapper::GetVisibleEntities(ETHEntityArray &entityArray)
 {
-	if (WarnIfRunsInMainFunction(GS_L("GetVisibleEntities")))
+	if (WarnIfRunsInMainFunction(("GetVisibleEntities")))
 		return;
 	m_pScene->GetBucketManager().GetVisibleEntities(entityArray);
 }
 
 void ETHScriptWrapper::GetIntersectingEntities(const Vector2 &v2Here, ETHEntityArray& outVector, const bool screenSpace)
 {
-	if (WarnIfRunsInMainFunction(GS_L("GetIntersectingEntities")))
+	if (WarnIfRunsInMainFunction(("GetIntersectingEntities")))
 		return;
 	m_pScene->GetIntersectingEntities(v2Here, outVector, screenSpace);
 }
 
 int ETHScriptWrapper::GetNumProcessedEntities()
 {
-	if (WarnIfRunsInMainFunction(GS_L("GetNumProcessedEntities")))
+	if (WarnIfRunsInMainFunction(("GetNumProcessedEntities")))
 		return 0;
 	return m_pScene->GetNumProcessedEntities();
 }
 
 int ETHScriptWrapper::GetNumRenderedPieces()
 {
-	if (WarnIfRunsInMainFunction(GS_L("GetNumRenderedPieces")))
+	if (WarnIfRunsInMainFunction(("GetNumRenderedPieces")))
 		return 0;
 	return m_pScene->GetNumRenderedPieces();
 }
 
-bool ETHScriptWrapper::SaveScene(const str_type::string &escFile)
+bool ETHScriptWrapper::SaveScene(const std::string &escFile)
 {
-	if (WarnIfRunsInMainFunction(GS_L("SaveScene")))
+	if (WarnIfRunsInMainFunction(("SaveScene")))
 		return false;
 
 	// loads a new scene from file
-	str_type::string fileName = m_provider->GetFileIOHub()->GetResourceDirectory();
+	std::string fileName = m_provider->GetFileIOHub()->GetResourceDirectory();
 	fileName += escFile;
 
 	return m_pScene->SaveToFile(fileName, m_entityCache);
@@ -524,13 +524,13 @@ void ETHScriptWrapper::ReleaseResources()
 
 void ETHScriptWrapper::ResolveJoints()
 {
-	if (WarnIfRunsInMainFunction(GS_L("ResolveJoints")))
+	if (WarnIfRunsInMainFunction(("ResolveJoints")))
 		return;
 	if (m_pScene)
 		m_pScene->ResolveJoints();
 }
 
-bool ETHScriptWrapper::LoadScene(const str_type::string &escFile, const str_type::string& lightmapDirectory, const Vector2& bucketSize)
+bool ETHScriptWrapper::LoadScene(const std::string &escFile, const std::string& lightmapDirectory, const Vector2& bucketSize)
 {
 	if (!ArePersistentResourcesEnabled())
 	{
@@ -542,7 +542,7 @@ bool ETHScriptWrapper::LoadScene(const str_type::string &escFile, const str_type
 
 	m_provider->GetGraphicResourceManager()->ReleaseTemporaryResources();
 
-	str_type::string fileName = m_provider->GetFileIOHub()->GetResourceDirectory();
+	std::string fileName = m_provider->GetFileIOHub()->GetResourceDirectory();
 	fileName += escFile;
 
 	// if the name is set to _ETH_EMPTY_SCENE_STRING, don't load anything
@@ -576,34 +576,34 @@ bool ETHScriptWrapper::LoadScene(const str_type::string &escFile, const str_type
 	return true;
 }
 
-void ETHScriptWrapper::AddSceneInScript(const str_type::string& escFile, const Vector3& offset, ETHEntityArray &outVector)
+void ETHScriptWrapper::AddSceneInScript(const std::string& escFile, const Vector3& offset, ETHEntityArray &outVector)
 {
 	if (!m_pScene) return;
-	const str_type::string fileName = m_provider->GetFileIOHub()->GetResourceDirectory() + escFile;
+	const std::string fileName = m_provider->GetFileIOHub()->GetResourceDirectory() + escFile;
 	m_pScene->AddSceneFromFile(fileName, m_entityCache, m_pScene->AssembleEntityPath(), false /*readSceneProperties*/, offset, outVector, true);
 }
 
-void ETHScriptWrapper::AddSceneFromString(const str_type::string& content, const Vector3& offset, ETHEntityArray &outVector)
+void ETHScriptWrapper::AddSceneFromString(const std::string& content, const Vector3& offset, ETHEntityArray &outVector)
 {
 	if (!m_pScene) return;
 	m_pScene->AddSceneFromString("xmlContent", content, m_entityCache, m_pScene->AssembleEntityPath(), false /*readSceneProperties*/, offset, outVector, true);
 }
 
-void ETHScriptWrapper::LoadSceneInScript(const str_type::string &escFile)
+void ETHScriptWrapper::LoadSceneInScript(const std::string &escFile)
 {
 	LoadSceneInScript(
 		escFile,
-		GS_L(""),
-		GS_L(""),
-		GS_L(""),
+		(""),
+		(""),
+		(""),
 		Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
 }
 
 void ETHScriptWrapper::LoadSceneInScript(
-	const str_type::string &escFile,
-	const str_type::string &onSceneLoadedFunc,
-	const str_type::string &onSceneUpdateFunc,
-	const str_type::string &onResumeFunc)
+	const std::string &escFile,
+	const std::string &onSceneLoadedFunc,
+	const std::string &onSceneUpdateFunc,
+	const std::string &onResumeFunc)
 {
 	LoadSceneInScript(
 		escFile,
@@ -613,35 +613,35 @@ void ETHScriptWrapper::LoadSceneInScript(
 		Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
 }
 
-void ETHScriptWrapper::LoadSceneInScript(const str_type::string &escFile, const str_type::string &onSceneLoadedFunc, const str_type::string &onSceneUpdateFunc)
+void ETHScriptWrapper::LoadSceneInScript(const std::string &escFile, const std::string &onSceneLoadedFunc, const std::string &onSceneUpdateFunc)
 {
 	LoadSceneInScript(
 		escFile,
 		onSceneLoadedFunc,
 		onSceneUpdateFunc,
-		GS_L(""),
+		(""),
 		Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
 }
 
 void ETHScriptWrapper::LoadSceneInScript(
-	const str_type::string &escFile,
-	const str_type::string &onSceneLoadedFunc,
-	const str_type::string &onSceneUpdateFunc,
+	const std::string &escFile,
+	const std::string &onSceneLoadedFunc,
+	const std::string &onSceneUpdateFunc,
 	const Vector2 &v2BucketSize)
 {
 	LoadSceneInScript(
 		escFile,
 		onSceneLoadedFunc,
 		onSceneUpdateFunc,
-		GS_L(""),
+		(""),
 		v2BucketSize);
 }
 
 void ETHScriptWrapper::LoadSceneInScript(
-	const str_type::string &escFile,
-	const str_type::string &onSceneLoadedFunc,
-	const str_type::string &onSceneUpdateFunc,
-	const str_type::string &onResumeFunc,
+	const std::string &escFile,
+	const std::string &onSceneLoadedFunc,
+	const std::string &onSceneUpdateFunc,
+	const std::string &onResumeFunc,
 	const Vector2 &v2BucketSize)
 {
 	LoadSceneInScript(
@@ -649,19 +649,19 @@ void ETHScriptWrapper::LoadSceneInScript(
 		onSceneLoadedFunc,
 		onSceneUpdateFunc,
 		onResumeFunc,
-		GS_L(""),
+		(""),
 		v2BucketSize);
 }
 
 void ETHScriptWrapper::LoadSceneInScript(
-	const str_type::string &escFile,
-	const str_type::string &onSceneLoadedFunc,
-	const str_type::string &onSceneUpdateFunc,
-	const str_type::string &onResumeFunc,
-	const str_type::string &lightmapDirectory,
+	const std::string &escFile,
+	const std::string &onSceneLoadedFunc,
+	const std::string &onSceneUpdateFunc,
+	const std::string &onResumeFunc,
+	const std::string &lightmapDirectory,
 	const Vector2 &v2BucketSize)
 {
-	const str_type::string& sceneName((escFile == GS_L("")) ? _ETH_EMPTY_SCENE_STRING : escFile);
+	const std::string& sceneName((escFile == ("")) ? _ETH_EMPTY_SCENE_STRING : escFile);
 	
 	m_nextScene.SetNextScene(
 		sceneName,
@@ -672,10 +672,10 @@ void ETHScriptWrapper::LoadSceneInScript(
 		v2BucketSize);
 }
 
-str_type::string ETHScriptWrapper::GetSceneFileName()
+std::string ETHScriptWrapper::GetSceneFileName()
 {
-	if (WarnIfRunsInMainFunction(GS_L("GetSceneFileName")))
-		return GS_L("");
+	if (WarnIfRunsInMainFunction(("GetSceneFileName")))
+		return ("");
 
 	return m_sceneFileName;
 }
@@ -699,110 +699,110 @@ void ETHScriptWrapper::LoadSceneScripts()
 
 void ETHScriptWrapper::SetGravity(const Vector2& gravity)
 {
-	if (WarnIfRunsInMainFunction(GS_L("SetGravity")))
+	if (WarnIfRunsInMainFunction(("SetGravity")))
 		return;
 	m_pScene->GetSimulator().SetGravity(gravity);
 }
 
 Vector2 ETHScriptWrapper::GetGravity()
 {
-	if (WarnIfRunsInMainFunction(GS_L("GetGravity")))
+	if (WarnIfRunsInMainFunction(("GetGravity")))
 		return Vector2(0,0);
 	return m_pScene->GetSimulator().GetGravity();
 }
 
 void ETHScriptWrapper::SetNumIterations(const int velocityIterations, const int positionIterations)
 {
-	if (WarnIfRunsInMainFunction(GS_L("SetNumIterations")))
+	if (WarnIfRunsInMainFunction(("SetNumIterations")))
 		return;
 	m_pScene->GetSimulator().SetNumIterations(velocityIterations, positionIterations);
 }
 
 void ETHScriptWrapper::GetNumIterations(int& velocityIterations, int& positionIterations)
 {
-	if (WarnIfRunsInMainFunction(GS_L("GetNumIterations")))
+	if (WarnIfRunsInMainFunction(("GetNumIterations")))
 		return;
 	m_pScene->GetSimulator().GetNumIterations(velocityIterations, positionIterations);
 }
 
 void ETHScriptWrapper::SetTimeStepScale(const float scale)
 {
-	if (WarnIfRunsInMainFunction(GS_L("SetTimeStepScale")))
+	if (WarnIfRunsInMainFunction(("SetTimeStepScale")))
 		return;
 	m_pScene->GetSimulator().SetTimeStepScale(scale);
 }
 
 float ETHScriptWrapper::GetTimeStepScale()
 {
-	if (WarnIfRunsInMainFunction(GS_L("GetTimeStepScale")))
+	if (WarnIfRunsInMainFunction(("GetTimeStepScale")))
 		return 0.0f;
 	return m_pScene->GetSimulator().GetTimeStepScale();
 }
 
 ETHEntity* ETHScriptWrapper::GetClosestContact(const Vector2& a, const Vector2& b, Vector2& point, Vector2& normal)
 {
-	if (WarnIfRunsInMainFunction(GS_L("GetClosestContact")))
+	if (WarnIfRunsInMainFunction(("GetClosestContact")))
 		return 0;
 	return m_pScene->GetSimulator().GetClosestContact(a, b, point, normal);
 }
 
 ETHEntity* ETHScriptWrapper::GetClosestContact(const Vector2& a, const Vector2& b, Vector2& point,
-											   Vector2& normal, const str_type::string& semicolonSeparatedIgnoreList)
+											   Vector2& normal, const std::string& semicolonSeparatedIgnoreList)
 {
-	if (WarnIfRunsInMainFunction(GS_L("GetClosestContact")))
+	if (WarnIfRunsInMainFunction(("GetClosestContact")))
 		return 0;
 	return m_pScene->GetSimulator().GetClosestContact(a, b, point, normal, semicolonSeparatedIgnoreList);
 }
 
 bool ETHScriptWrapper::GetContactEntities(const Vector2& a, const Vector2& b, ETHEntityArray& entities)
 {
-	if (WarnIfRunsInMainFunction(GS_L("GetContactEntities")))
+	if (WarnIfRunsInMainFunction(("GetContactEntities")))
 		return false;
 	return m_pScene->GetSimulator().GetContactEntities(a, b, entities);
 }
 
 bool ETHScriptWrapper::IsFixedTimeStep()
 {
-	if (WarnIfRunsInMainFunction(GS_L("IsFixedTimeStep")))
+	if (WarnIfRunsInMainFunction(("IsFixedTimeStep")))
 		return false;
 	return m_pScene->GetSimulator().IsFixedTimeStep();
 }
 
 float ETHScriptWrapper::GetFixedTimeStepValue()
 {
-	if (WarnIfRunsInMainFunction(GS_L("GetFixedTimeStepValue")))
+	if (WarnIfRunsInMainFunction(("GetFixedTimeStepValue")))
 		return 0.0f;
 	return m_pScene->GetSimulator().GetFixedTimeStepValue();
 }
 
 void ETHScriptWrapper::SetFixedTimeStep(const bool enable)
 {
-	if (WarnIfRunsInMainFunction(GS_L("SetFixedTimeStep")))
+	if (WarnIfRunsInMainFunction(("SetFixedTimeStep")))
 		return;
 	m_pScene->GetSimulator().SetFixedTimeStep(enable);
 }
 
 void ETHScriptWrapper::SetFixedTimeStepValue(const float value)
 {
-	if (WarnIfRunsInMainFunction(GS_L("SetFixedTimeStepValue")))
+	if (WarnIfRunsInMainFunction(("SetFixedTimeStepValue")))
 		return;
 	m_pScene->GetSimulator().SetFixedTimeStepValue(value);
 }
 
 float ETHScriptWrapper::GetCurrentPhysicsTimeStepMS()
 {
-	if (WarnIfRunsInMainFunction(GS_L("GetCurrentPhysicsTimeStepMS")))
+	if (WarnIfRunsInMainFunction(("GetCurrentPhysicsTimeStepMS")))
 		return 0.0f;
 	return m_pScene->GetSimulator().GetCurrentDynamicTimeStepMS();
 }
 
 void ETHScriptWrapper::DisableContact()
 {
-	if (WarnIfRunsInMainFunction(GS_L("DisableContact")))
+	if (WarnIfRunsInMainFunction(("DisableContact")))
 		return;
 	ETHPhysicsSimulator& simulator = m_pScene->GetSimulator();
 	if (!simulator.IsRunningPreSolveContactCallback())
-		m_provider->Log(GS_L("DisableContact function must be called inside " + ETHPhysicsEntityController::PRESOLVE_CONTACT_CALLBACK_PREFIX), Platform::Logger::ERROR);
+		m_provider->Log(("DisableContact function must be called inside " + ETHPhysicsEntityController::PRESOLVE_CONTACT_CALLBACK_PREFIX), Platform::Logger::ERROR);
 	simulator.DisableNextContact();	
 }
 
@@ -834,21 +834,21 @@ Vector3 ETHScriptWrapper::DummyScale(const Vector3& v)
 
 void ETHScriptWrapper::SetZAxisDirection(const Vector2& dir)
 {
-	if (WarnIfRunsInMainFunction(GS_L("SetZAxisDirection")) || !m_pScene)
+	if (WarnIfRunsInMainFunction(("SetZAxisDirection")) || !m_pScene)
 		return;
 	m_pScene->SetZAxisDirection(dir);
 }
 
 Vector2 ETHScriptWrapper::GetZAxisDirection()
 {
-	if (WarnIfRunsInMainFunction(GS_L("GetZAxisDirection")) || !m_pScene)
+	if (WarnIfRunsInMainFunction(("GetZAxisDirection")) || !m_pScene)
 		return gs2d::math::constant::ZERO_VECTOR2;
 	return m_pScene->GetZAxisDirection();
 }
 
 void ETHScriptWrapper::ForceEntityRendering(ETHEntity* entity)
 {
-	if (WarnIfRunsInMainFunction(GS_L("ForceEntityRendering")) || !m_pScene)
+	if (WarnIfRunsInMainFunction(("ForceEntityRendering")) || !m_pScene)
 		return;
 	m_pScene->AddEntityToPersistentList(static_cast<ETHRenderEntity*>(entity));
 }

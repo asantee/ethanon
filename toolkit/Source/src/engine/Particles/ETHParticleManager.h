@@ -20,7 +20,7 @@ public:
 	/// Load a particle system from a file in memory
 	ETHParticleManager(
 		ETHResourceProviderPtr provider,
-		const str_type::string& file,
+		const std::string& file,
 		const Vector3& v3Pos,
 		const float angle);
 
@@ -66,7 +66,7 @@ public:
 
 	/// Set another particle bitmap  (it can be used during the animation)
 	void SetParticleBitmap(SpritePtr pBMP);
-	void SetParticleBitmap(const gs2d::str_type::string& bitmap);
+	void SetParticleBitmap(const std::string& bitmap);
 
 	/// Return a handle to the current particle bitmap
 	SpritePtr GetParticleBitmap();
@@ -87,7 +87,7 @@ public:
 	const ETHParticleSystem *GetSystem() const;
 	
 	/// Return particle bitmap name
-	str_type::string GetBitmapName() const;
+	std::string GetBitmapName() const;
 
 	/// Set a tilebased Z position for the tile
 	void SetZPosition(const float z);

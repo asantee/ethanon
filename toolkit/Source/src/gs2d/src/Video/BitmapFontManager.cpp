@@ -12,23 +12,23 @@ void BitmapFontManager::ClearFonts()
 	m_fonts.clear();
 }
 
-BitmapFontPtr BitmapFontManager::LoadBitmapFont(Video* video, const str_type::string& fullFilePath)
+BitmapFontPtr BitmapFontManager::LoadBitmapFont(Video* video, const std::string& fullFilePath)
 {
-	str_type::string out;
+	std::string out;
 	video->GetFileIOHub()->GetFileManager()->GetAnsiFileString(fullFilePath, out);
 	if (!out.empty())
 	{
 		BitmapFontPtr newFont = BitmapFontPtr(new BitmapFont(video, fullFilePath, out));
 		if (newFont->IsLoaded())
 		{
-			const str_type::string fileName(Platform::GetFileName(fullFilePath));
+			const std::string fileName(Platform::GetFileName(fullFilePath));
 			m_fonts[fileName] = newFont;
-			video->Message(fileName + GS_L(" bitmap font created."), GSMT_INFO);
+			video->Message(fileName + (" bitmap font created."), GSMT_INFO);
 			return newFont;
 		}
 		else
 		{
-			str_type::string errorMsg = GS_L("Invalid font file ");
+			std::string errorMsg = ("Invalid font file ");
 			errorMsg += fullFilePath;
 			video->Message(errorMsg, GSMT_WARNING);
 			return BitmapFontPtr();
@@ -36,23 +36,23 @@ BitmapFontPtr BitmapFontManager::LoadBitmapFont(Video* video, const str_type::st
 	}
 	else
 	{
-		str_type::string errorMsg = GS_L("Font file not found ");
+		std::string errorMsg = ("Font file not found ");
 		errorMsg += fullFilePath;
 		video->Message(errorMsg, GSMT_WARNING);
 		return BitmapFontPtr();
 	}
 }
 
-BitmapFontPtr BitmapFontManager::SeekBitmapFont(Video* video, const str_type::string& font)
+BitmapFontPtr BitmapFontManager::SeekBitmapFont(Video* video, const std::string& font)
 {
-	tsl::hopscotch_map<str_type::string, BitmapFontPtr>::iterator iter = m_fonts.find(font);
+	tsl::hopscotch_map<std::string, BitmapFontPtr>::iterator iter = m_fonts.find(font);
 	BitmapFontPtr bitmapFont;
 	if (iter == m_fonts.end())
 	{
 		bitmapFont = LoadBitmapFont(video, video->GetFileIOHub()->GenerateBitmapFontFilePath(font));
 		if (!bitmapFont)
 		{
-			video->Message(font + GS_L(": couldn't create bitmap font"), GSMT_ERROR);
+			video->Message(font + (": couldn't create bitmap font"), GSMT_ERROR);
 		}
 	}
 	else
@@ -64,8 +64,8 @@ BitmapFontPtr BitmapFontManager::SeekBitmapFont(Video* video, const str_type::st
 
 Vector2 BitmapFontManager::ComputeCarretPosition(
 	Video* video,
-	const str_type::string& font,
-	const str_type::string& text,
+	const std::string& font,
+	const std::string& text,
 	const unsigned int pos)
 {
 	BitmapFontPtr bitmapFont = SeekBitmapFont(video, font);
@@ -77,8 +77,8 @@ Vector2 BitmapFontManager::ComputeCarretPosition(
 
 Vector2 BitmapFontManager::ComputeTextBoxSize(
 	Video* video,
-	const str_type::string& font,
-	const str_type::string& text)
+	const std::string& font,
+	const std::string& text)
 {
 	BitmapFontPtr bitmapFont = SeekBitmapFont(video, font);
 	if (bitmapFont)
@@ -89,8 +89,8 @@ Vector2 BitmapFontManager::ComputeTextBoxSize(
 
 unsigned int BitmapFontManager::FindClosestCarretPosition(
 	Video* video,
-	const str_type::string& font,
-	const str_type::string& text,
+	const std::string& font,
+	const std::string& text,
 	const Vector2& textPos,
 	const Vector2& reference)
 {
@@ -104,8 +104,8 @@ unsigned int BitmapFontManager::FindClosestCarretPosition(
 bool BitmapFontManager::DrawBitmapText(
 	Video* video,
 	const Vector2& v2Pos,
-	const str_type::string& text,
-	const str_type::string& font,
+	const std::string& text,
+	const std::string& font,
 	const Color& color,
 	const float scale)
 {

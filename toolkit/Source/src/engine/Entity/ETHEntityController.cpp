@@ -1,6 +1,8 @@
 #include "ETHEntityController.h"
 #include <iostream>
 
+#define UNUSED_ARGUMENT(argument) ((void)(argument))
+
 ETHRawEntityController::ETHRawEntityController(const Vector3& pos, const float angle) :
 	m_pos(pos),
 	m_angle(angle),
@@ -29,8 +31,8 @@ ETHRawEntityController::~ETHRawEntityController() {}
 
 void ETHRawEntityController::Update(const float lastFrameElapsedTime, ETHBucketManager& buckets)
 {
-	GS2D_UNUSED_ARGUMENT(lastFrameElapsedTime);
-	GS2D_UNUSED_ARGUMENT(buckets);
+	UNUSED_ARGUMENT(lastFrameElapsedTime);
+	UNUSED_ARGUMENT(buckets);
 }
 
 Vector3 ETHRawEntityController::GetPos() const
@@ -160,6 +162,6 @@ void ETHRawEntityController::Destroy()
 
 void ETHRawEntityController::Scale(const Vector2& scale, ETHEntity* entity)
 {
-	GS2D_UNUSED_ARGUMENT(scale);
-	GS2D_UNUSED_ARGUMENT(entity);
+	UNUSED_ARGUMENT(scale);
+	UNUSED_ARGUMENT(entity);
 }

@@ -14,18 +14,18 @@ ETHCollisionBox::ETHCollisionBox(const Vector3 &v3Pos, const Vector3 &v3Size)
 
 bool ETHCollisionBox::ReadFromXMLFile(TiXmlElement *pElement)
 {
-	ETHEntityProperties::ReadVector3PropertyFromXmlElement(pElement, GS_L("Position"), pos);
-	ETHEntityProperties::ReadVector3PropertyFromXmlElement(pElement, GS_L("Size"), size);
+	ETHEntityProperties::ReadVector3PropertyFromXmlElement(pElement, ("Position"), pos);
+	ETHEntityProperties::ReadVector3PropertyFromXmlElement(pElement, ("Size"), size);
 	return true;
 }
 
 TiXmlElement* ETHCollisionBox::WriteToXMLFile(TiXmlElement *pRoot) const
 {
-	TiXmlElement *pCollisionRoot = new TiXmlElement(GS_L("Collision"));
+	TiXmlElement *pCollisionRoot = new TiXmlElement(("Collision"));
 	pRoot->LinkEndChild(pCollisionRoot); 
 
-	ETHEntityProperties::SetVector3PropertyToXmlElement(pCollisionRoot, GS_L("Position"), pos);
-	ETHEntityProperties::SetVector3PropertyToXmlElement(pCollisionRoot, GS_L("Size"), size);
+	ETHEntityProperties::SetVector3PropertyToXmlElement(pCollisionRoot, ("Position"), pos);
+	ETHEntityProperties::SetVector3PropertyToXmlElement(pCollisionRoot, ("Size"), size);
 	return pCollisionRoot;
 }
 
