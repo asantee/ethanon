@@ -1,4 +1,4 @@
-#import "FMAudioSample.h"
+#include "FMAudioSample.h"
 
 #include <sstream>
 
