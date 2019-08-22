@@ -7,6 +7,7 @@
 
 #if defined(_WIN32)
 #include <Windows.h>
+#include <time.h>
 
 #elif defined(__unix__) || defined(__unix) || defined(unix) || (defined(__APPLE__) && defined(__MACH__))
 #include <unistd.h>	/* POSIX flags */
@@ -21,9 +22,6 @@
 #else
 #error "Unable to define getRealTime( ) for an unknown OS."
 #endif
-
-
-
 
 
 /**
