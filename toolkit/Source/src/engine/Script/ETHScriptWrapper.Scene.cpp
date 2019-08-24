@@ -812,6 +812,13 @@ void ETHScriptWrapper::SetFixedHeight(const float height)
 	Sprite::SetVirtualScreenHeight(m_provider->GetVideo()->GetScreenSizeF(), height);
 }
 
+void ETHScriptWrapper::UpdateFixedHeight()
+{
+	Sprite::SetVirtualScreenHeight(
+		m_provider->GetVideo()->GetScreenSizeF(),
+		m_provider->GetVideo()->GetVirtualScreenHeight());
+}
+
 float ETHScriptWrapper::GetDummyScale()
 {
 	return 1.0f;
