@@ -341,7 +341,6 @@
 		74E6E5751A30FFB500E89172 /* Sprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Sprite.cpp; path = ../../../../src/gs2d/src/Sprite.cpp; sourceTree = "<group>"; };
 		74E6E5761A30FFB600E89172 /* Sprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sprite.h; path = ../../../../src/gs2d/src/Sprite.h; sourceTree = "<group>"; };
 		74E6E5771A30FFB600E89172 /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Texture.h; path = ../../../../src/gs2d/src/Texture.h; sourceTree = "<group>"; };
-		74E6E5781A30FFB600E89172 /* Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Types.h; path = ../../../../src/gs2d/src/Types.h; sourceTree = "<group>"; };
 		74E6E5791A30FFB600E89172 /* Video.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Video.cpp; path = ../../../../src/gs2d/src/Video.cpp; sourceTree = "<group>"; };
 		74E6E57A1A30FFB600E89172 /* Video.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Video.h; path = ../../../../src/gs2d/src/Video.h; sourceTree = "<group>"; };
 		74E6E57B1A30FFB600E89172 /* Window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Window.h; path = ../../../../src/gs2d/src/Window.h; sourceTree = "<group>"; };
@@ -349,7 +348,6 @@
 		74E6E5811A31006700E89172 /* BitmapFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BitmapFont.h; path = ../../../../src/gs2d/src/Video/BitmapFont.h; sourceTree = "<group>"; };
 		74E6E5821A31006700E89172 /* BitmapFontManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BitmapFontManager.cpp; path = ../../../../src/gs2d/src/Video/BitmapFontManager.cpp; sourceTree = "<group>"; };
 		74E6E5831A31006700E89172 /* BitmapFontManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BitmapFontManager.h; path = ../../../../src/gs2d/src/Video/BitmapFontManager.h; sourceTree = "<group>"; };
-		74E6E5841A31006700E89172 /* glslShaderCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = glslShaderCode.h; path = ../../../../src/gs2d/src/Video/glslShaderCode.h; sourceTree = "<group>"; };
 		74E6E58A1A3101DC00E89172 /* GLES2Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLES2Shader.cpp; path = ../../../../src/gs2d/src/Video/GLES2/GLES2Shader.cpp; sourceTree = "<group>"; };
 		74E6E58B1A3101DC00E89172 /* GLES2Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLES2Shader.h; path = ../../../../src/gs2d/src/Video/GLES2/GLES2Shader.h; sourceTree = "<group>"; };
 		74E6E58E1A3101DC00E89172 /* GLES2Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLES2Texture.cpp; path = ../../../../src/gs2d/src/Video/GLES2/GLES2Texture.cpp; sourceTree = "<group>"; };
@@ -826,7 +824,6 @@
 				AA0980A022E64085006FF59F /* PolygonRenderer.cpp */,
 				AA0980A122E64085006FF59F /* PolygonRenderer.h */,
 				74E6E5771A30FFB600E89172 /* Texture.h */,
-				74E6E5781A30FFB600E89172 /* Types.h */,
 				74E6E5791A30FFB600E89172 /* Video.cpp */,
 				74E6E57A1A30FFB600E89172 /* Video.h */,
 				74E6E57B1A30FFB600E89172 /* Window.h */,
@@ -945,7 +942,6 @@
 				74E6E5811A31006700E89172 /* BitmapFont.h */,
 				74E6E5821A31006700E89172 /* BitmapFontManager.cpp */,
 				74E6E5831A31006700E89172 /* BitmapFontManager.h */,
-				74E6E5841A31006700E89172 /* glslShaderCode.h */,
 			);
 			name = Video;
 			sourceTree = "<group>";
