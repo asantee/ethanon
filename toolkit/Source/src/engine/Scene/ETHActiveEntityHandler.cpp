@@ -88,7 +88,7 @@ void ETHActiveEntityHandler::TestEntityLists() const
 	}
 }
 
-void ETHActiveEntityHandler::UpdateAlwaysActiveEntities(const Vector2& zAxisDir, ETHBucketManager& buckets, const float lastFrameElapsedTime)
+void ETHActiveEntityHandler::UpdateAlwaysActiveEntities(const Vector2& zAxisDir, const float sceneParallaxIntensity, ETHBucketManager& buckets, const float lastFrameElapsedTime)
 {
 	#if defined(_DEBUG) || defined(DEBUG)
 	TestEntityLists();
@@ -109,7 +109,7 @@ void ETHActiveEntityHandler::UpdateAlwaysActiveEntities(const Vector2& zAxisDir,
 			continue;
 		}
 
-		entity->Update(lastFrameElapsedTime, zAxisDir, buckets);
+		entity->Update(lastFrameElapsedTime, zAxisDir, sceneParallaxIntensity, buckets);
 
 		if (entity->HasAnyCallbackFunction())
 		{
@@ -120,7 +120,7 @@ void ETHActiveEntityHandler::UpdateAlwaysActiveEntities(const Vector2& zAxisDir,
 	}
 }
 
-void ETHActiveEntityHandler::UpdateCurrentFrameEntities(const Vector2& zAxisDir, ETHBucketManager& buckets, const float lastFrameElapsedTime)
+void ETHActiveEntityHandler::UpdateCurrentFrameEntities(const Vector2& zAxisDir, const float sceneParallaxIntensity, ETHBucketManager& buckets, const float lastFrameElapsedTime)
 {
 	#if defined(_DEBUG) || defined(DEBUG)
 	TestEntityLists();
@@ -132,7 +132,7 @@ void ETHActiveEntityHandler::UpdateCurrentFrameEntities(const Vector2& zAxisDir,
 
 		if (entity->IsAlive())
 		{
-			entity->Update(lastFrameElapsedTime, zAxisDir, buckets);
+			entity->Update(lastFrameElapsedTime, zAxisDir, sceneParallaxIntensity, buckets);
 
 			if (entity->HasAnyCallbackFunction())
 			{

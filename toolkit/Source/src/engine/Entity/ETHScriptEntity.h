@@ -68,7 +68,7 @@ public:
 	virtual bool MirrorParticleSystemY(const unsigned int n, const bool mirrorGravity) = 0;
 	virtual void SetParticleColorA(const unsigned int n, const Vector3 &color, const float alpha) = 0;
 	virtual void SetParticleColorB(const unsigned int n, const Vector3 &color, const float alpha) = 0;
-	virtual Vector2 ComputeParallaxOffset() const = 0;
+	virtual Vector2 ComputeParallaxOffset(const float sceneParallaxIntensity) const = 0;
 	virtual float GetParallaxIntensity() const = 0;
 	virtual void SetParallaxIntensity(const float individualIntensity) = 0;
 

@@ -65,7 +65,7 @@ public:
 	bool SetSpriteCut(const unsigned int col, const unsigned int row) override;
 
 	Vector2 GetSize() const override;
-	Vector2 ComputeParallaxOffset() const override;
+	Vector2 ComputeParallaxOffset(const float sceneParallaxIntensity) const override;
 	float ComputeDepth(const float maxHeight, const float minHeight) const;
 	void SetScale(const Vector2& scale) override;
 
@@ -83,8 +83,8 @@ public:
 	std::string GetSpriteName() const override;
 	std::string GetHaloName() const override;
 
-	void Update(const float lastFrameElapsedTime, const Vector2& zAxisDir, ETHBucketManager& buckets);
-	void UpdateParticleSystems(const Vector2& zAxisDirection, const float lastFrameElapsedTime);
+	void Update(const float lastFrameElapsedTime, const Vector2& zAxisDir, const float sceneParallaxIntensity, ETHBucketManager& buckets);
+	void UpdateParticleSystems(const Vector2& zAxisDirection, const float sceneParallaxIntensity, const float lastFrameElapsedTime);
 
 	float ComputeLightIntensity();
 

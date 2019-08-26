@@ -19,15 +19,9 @@ public:
 	bool BeginParticlePass(const ETHParticleSystem& system);
 	bool EndParticlePass();
 
-	void SetParallaxIntensity(const float intensity);
-	float GetParallaxIntensity() const;
-	Vector2 ComputeParallaxOffset(const VideoPtr& video, const Vector3& pos, const float& individualParallaxIntensity) const;
-
 	SpritePtr GetOpaqueSprite();
 
 private:
-
-	float m_parallaxIntensity;
 
 	VideoPtr m_video;
 	Video::ALPHA_MODE m_lastAM;

@@ -89,7 +89,7 @@ bool ETHRenderEntity::DrawAmbientPass(
 		(*customParams)["solidColor"] = boost::shared_ptr<Shader::ShaderParameter>(new Shader::Vector4ShaderParameter(GetSolidColorARGB()));
 	}
 
-	m_pSprite->SetParallaxIntensity(GetParallaxIntensity() * m_provider->GetShaderManager()->GetParallaxIntensity());
+	Sprite::SetParallaxIntensity(GetParallaxIntensity() * sceneProps.parallaxIntensity);
 	m_pSprite->Draw(
 		video->GetCameraPos(),
 		Vector3(pos, GetPositionZ()),
@@ -148,7 +148,8 @@ bool ETHRenderEntity::IsSpriteVisible(
 
 bool ETHRenderEntity::DrawHalo(
 	const Vector2 &zAxisDirection,
-	const float depth)
+	const float depth,
+	const ETHSceneProperties& sceneProps)
 {
 	if (!GetHalo() || !HasLightSource() || IsHidden())
 	{
@@ -173,7 +174,7 @@ bool ETHRenderEntity::DrawHalo(
 	const Vector4 color(Vector4(light->color, 1.0f) * light->haloBrightness * brightness);
 	Vector2 v2Size(light->haloSize, light->haloSize);
 
-	m_pHalo->SetParallaxIntensity(GetParallaxIntensity() * m_provider->GetShaderManager()->GetParallaxIntensity());
+	Sprite::SetParallaxIntensity(GetParallaxIntensity() * sceneProps.parallaxIntensity);
 	m_pHalo->Draw(
 		m_provider->GetVideo()->GetCameraPos(),
 		Vector3(ETHGlobal::ToScreenPos(v3HaloPos, zAxisDirection), v3EntityPos.z + 2.0f),
@@ -206,13 +207,13 @@ bool ETHRenderEntity::DrawParticles(
 			maxHeight, minHeight,
 			ETHEntityProperties::ResolveDepthSortingMode(GetType()),
 			sceneProps.zAxisDirection,
-			GetParallaxIntensity() * m_provider->GetShaderManager()->GetParallaxIntensity(),
+			GetParallaxIntensity() * sceneProps.parallaxIntensity,
 			ComputeDepth(maxHeight, minHeight));
 		return true;
 	}
 }
 
-void ETHRenderEntity::DrawCollisionBox(SpritePtr pOutline, const Color& color, const Vector2 &zAxisDirection) const
+void ETHRenderEntity::DrawCollisionBox(const ETHSceneProperties& sceneProps, SpritePtr pOutline, const Color& color, const Vector2 &zAxisDirection) const
 {
 	VideoPtr video = m_provider->GetVideo();
 	const bool collidable = static_cast<bool>(m_properties.collision);

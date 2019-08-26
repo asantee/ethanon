@@ -2,8 +2,12 @@
 #define ETH_AS_UTIL_H_
 
 #include "../../angelscript/include/angelscript.h"
+
 #include "../ETHTypes.h"
+
 #include "../Entity/ETHScriptEntity.h"
+
+#include "../../gs2d/src/Platform/Logger.h"
 
 namespace ETHGlobal {
 	void CheckFunctionSeekError(const int id, const std::string& function);

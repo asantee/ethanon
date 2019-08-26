@@ -82,6 +82,9 @@ public:
 	void SetZAxisDirection(const Vector2 &v2);
 	Vector2 GetZAxisDirection() const;
 
+	void SetParallaxIntensity(const float intensity);
+	float GetParallaxIntensity() const;
+
 	int GetLastID() const;
 	float GetMaxHeight() const;
 	float GetMinHeight() const;
