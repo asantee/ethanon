@@ -49,13 +49,13 @@
     <Filter Include="Entity">
       <UniqueIdentifier>{21075c26-75df-4a49-ab3e-b4b57e788352}</UniqueIdentifier>
     </Filter>
-    <Filter Include="vendor">
+    <Filter Include="vendors">
       <UniqueIdentifier>{353541db-a36f-4cbf-80f7-85c25fce1ca6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="vendor\tinyxml">
+    <Filter Include="vendors\tinyxml">
       <UniqueIdentifier>{017096a1-4f59-476d-96f4-15b7fffe7576}</UniqueIdentifier>
     </Filter>
-    <Filter Include="vendor\cJSON">
+    <Filter Include="vendors\cJSON">
       <UniqueIdentifier>{b5712394-ce14-415e-947e-bb295f1918ac}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -88,16 +88,16 @@
       <Filter>Angelscript-addons</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\vendors\tinyxml_ansi\tinyxmlparser.cpp">
-      <Filter>vendor\tinyxml</Filter>
+      <Filter>vendors\tinyxml</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\vendors\tinyxml_ansi\tinystr.cpp">
-      <Filter>vendor\tinyxml</Filter>
+      <Filter>vendors\tinyxml</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\vendors\tinyxml_ansi\tinyxml.cpp">
-      <Filter>vendor\tinyxml</Filter>
+      <Filter>vendors\tinyxml</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\vendors\tinyxml_ansi\tinyxmlerror.cpp">
-      <Filter>vendor\tinyxml</Filter>
+      <Filter>vendors\tinyxml</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\engine\Drawing\ETHDrawable.cpp">
       <Filter>Drawing</Filter>
@@ -289,7 +289,7 @@
       <Filter>Renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\cjson\cJSON.c">
-      <Filter>vendor\cJSON</Filter>
+      <Filter>vendors\cJSON</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -333,10 +333,10 @@
       <Filter>Angelscript-addons</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\src\vendors\tinyxml_ansi\tinystr.h">
-      <Filter>vendor\tinyxml</Filter>
+      <Filter>vendors\tinyxml</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\src\vendors\tinyxml_ansi\tinyxml.h">
-      <Filter>vendor\tinyxml</Filter>
+      <Filter>vendors\tinyxml</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\src\engine\Drawing\ETHDrawable.h">
       <Filter>Drawing</Filter>
@@ -507,7 +507,7 @@
       <Filter>Renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\src\cjson\cJSON.h">
-      <Filter>vendor\cJSON</Filter>
+      <Filter>vendors\cJSON</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
