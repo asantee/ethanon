@@ -16,204 +16,51 @@
     <Filter Include="Angelscript-addons">
       <UniqueIdentifier>{b8077454-a106-41cd-8200-42f43b10010d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="tinyxml">
+    <Filter Include="Drawing">
+      <UniqueIdentifier>{d3506819-0e63-4c0c-94cc-b9d281c65769}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Particles">
+      <UniqueIdentifier>{f4862c82-4846-48ba-90ea-65a8383ec55c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics">
+      <UniqueIdentifier>{cc5f5f28-e19f-4e75-a257-786b3b25d19f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform">
+      <UniqueIdentifier>{c7ea55e0-52e1-463b-b91d-268a607ed05a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer">
+      <UniqueIdentifier>{7d6e0dc5-1d3d-4bd8-9290-e8a4d21ebeae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{ee2df990-4b04-419b-81fe-a5c351aa4f0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{99581b4d-b2e8-4143-932d-a2d77af01e06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script">
+      <UniqueIdentifier>{96e5c45f-7a07-42da-8dd0-a52eea6a5fe1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{e6e8515d-c524-44bf-9406-a28f5b887c84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util">
+      <UniqueIdentifier>{5f0ab051-f248-414d-ac39-c7fc45ea547c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity">
+      <UniqueIdentifier>{21075c26-75df-4a49-ab3e-b4b57e788352}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor">
+      <UniqueIdentifier>{353541db-a36f-4cbf-80f7-85c25fce1ca6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\tinyxml">
       <UniqueIdentifier>{017096a1-4f59-476d-96f4-15b7fffe7576}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\cJSON">
+      <UniqueIdentifier>{b5712394-ce14-415e-947e-bb295f1918ac}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\src\engine\Physics\ETHCollisionBox.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Physics\ETHCompoundShape.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Physics\ETHContactListener.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Physics\ETHDestructionListener.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Physics\ETHJoint.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Physics\ETHPhysicsController.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Physics\ETHPhysicsEntityController.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Physics\ETHPhysicsSimulator.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Physics\ETHPolygon.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Physics\ETHRayCastCallback.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Physics\ETHRevoluteJoint.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Platform\ETHAppEnmlFile.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Renderer\ETHEntityHaloRenderer.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Renderer\ETHEntityParticleRenderer.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Renderer\ETHEntityPieceRenderer.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Renderer\ETHEntityRenderingManager.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Renderer\ETHEntitySpriteRenderer.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Resource\ETHDirectories.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Resource\ETHResourceManager.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Resource\ETHResourceProvider.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Resource\ETHSpriteDensityManager.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Scene\ETHActiveEntityHandler.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Scene\ETHBucketManager.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Scene\ETHScene.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Scene\ETHSceneProperties.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Script\ETHBinaryStream.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptObjRegister.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptObjRegister.generic.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptWrapper.Audio.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptWrapper.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptWrapper.Drawing.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptWrapper.generic.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptWrapper.Math.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptWrapper.Math.generic.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptWrapper.Scene.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptWrapper.SharedData.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptWrapper.System.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Shader\ETHBackBufferTargetManager.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Shader\ETHNoDynamicBackBuffer.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Shader\ETHShaderManager.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Util\ETHASUtil.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Util\ETHDateTime.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Util\ETHFileChangeDetector.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Util\ETHFrameTimer.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Util\ETHInput.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Util\ETHSpeedTimer.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Util\JSONObject.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\src\engine\ETHEngine.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Drawing\ETHDrawable.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Drawing\ETHDrawableManager.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Drawing\ETHParticleDrawer.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Entity\ETHCustomDataManager.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Entity\ETHEntity.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Entity\ETHEntityArray.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Entity\ETHEntityCache.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Entity\ETHEntityChooser.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Entity\ETHEntityController.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Entity\ETHEntityProperties.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Entity\ETHLight.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Entity\ETHRenderEntity.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Entity\ETHScriptEntity.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Entity\ETHSpriteEntity.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Particles\ETHParticleManager.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Particles\ETHParticleSystem.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\cjson\cJSON.c">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\addons\scriptmath2d.cpp">
@@ -241,200 +88,221 @@
       <Filter>Angelscript-addons</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\vendors\tinyxml_ansi\tinyxmlparser.cpp">
-      <Filter>tinyxml</Filter>
+      <Filter>vendor\tinyxml</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\vendors\tinyxml_ansi\tinystr.cpp">
-      <Filter>tinyxml</Filter>
+      <Filter>vendor\tinyxml</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\vendors\tinyxml_ansi\tinyxml.cpp">
-      <Filter>tinyxml</Filter>
+      <Filter>vendor\tinyxml</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\vendors\tinyxml_ansi\tinyxmlerror.cpp">
-      <Filter>tinyxml</Filter>
+      <Filter>vendor\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Drawing\ETHDrawable.cpp">
+      <Filter>Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Drawing\ETHDrawableManager.cpp">
+      <Filter>Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Drawing\ETHParticleDrawer.cpp">
+      <Filter>Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Entity\ETHCustomDataManager.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Entity\ETHEntity.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Entity\ETHEntityArray.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Entity\ETHEntityCache.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Entity\ETHEntityChooser.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Entity\ETHEntityController.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Entity\ETHEntityProperties.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Entity\ETHLight.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Entity\ETHRenderEntity.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Entity\ETHScriptEntity.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Entity\ETHSpriteEntity.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Particles\ETHParticleManager.cpp">
+      <Filter>Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Particles\ETHParticleSystem.cpp">
+      <Filter>Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Util\JSONObject.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Util\ETHInput.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Util\ETHSpeedTimer.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Util\ETHFrameTimer.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Util\ETHFileChangeDetector.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Util\ETHDateTime.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Util\ETHASUtil.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Shader\ETHShaderManager.cpp">
+      <Filter>Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Shader\ETHNoDynamicBackBuffer.cpp">
+      <Filter>Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Shader\ETHBackBufferTargetManager.cpp">
+      <Filter>Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptObjRegister.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptObjRegister.generic.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptWrapper.Audio.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptWrapper.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptWrapper.Drawing.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptWrapper.generic.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptWrapper.Math.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptWrapper.Math.generic.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptWrapper.Scene.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptWrapper.SharedData.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptWrapper.System.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Script\ETHBinaryStream.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Scene\ETHActiveEntityHandler.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Scene\ETHBucketManager.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Scene\ETHScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Scene\ETHSceneProperties.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Resource\ETHResourceManager.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Resource\ETHResourceProvider.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Resource\ETHDirectories.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Resource\ETHSpriteDensityManager.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Physics\ETHCollisionBox.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Physics\ETHCompoundShape.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Physics\ETHContactListener.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Physics\ETHDestructionListener.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Physics\ETHJoint.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Physics\ETHPhysicsController.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Physics\ETHPhysicsEntityController.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Physics\ETHPhysicsSimulator.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Physics\ETHPolygon.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Physics\ETHRayCastCallback.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Physics\ETHRevoluteJoint.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Platform\ETHAppEnmlFile.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Renderer\ETHEntityHaloRenderer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Renderer\ETHEntityParticleRenderer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Renderer\ETHEntityPieceRenderer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Renderer\ETHEntityRenderingManager.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Renderer\ETHEntitySpriteRenderer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\cjson\cJSON.c">
+      <Filter>vendor\cJSON</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\src\engine\Scene\ETHActiveEntityHandler.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Platform\ETHAppEnmlFile.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Util\ETHASUtil.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Shader\ETHBackBufferTargetManager.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Script\ETHBinaryStream.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Scene\ETHBucketManager.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Physics\ETHCollisionBox.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Physics\ETHCompoundShape.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Util\JSONObject.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Platform\FileListing.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\src\engine\ETHTypes.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Entity\ETHSpriteEntity.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Util\ETHSpeedTimer.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\src\engine\Shader\ETHShaders.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Shader\ETHShaderManager.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Script\ETHScriptWrapper.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Script\ETHScriptObjRegister.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Entity\ETHScriptEntity.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Scene\ETHSceneProperties.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Scene\ETHScene.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Physics\ETHRevoluteJoint.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Resource\ETHResourceProvider.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Resource\ETHResourceManager.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Entity\ETHRenderEntity.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Physics\ETHRayCastCallback.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Physics\ETHPolygon.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Physics\ETHPhysicsSimulator.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Physics\ETHPhysicsEntityController.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Physics\ETHPhysicsController.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Particles\ETHParticleSystem.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Particles\ETHParticleManager.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Drawing\ETHParticleDrawer.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\src\engine\Shader\ETHParallaxManager.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Shader\ETHNoDynamicBackBuffer.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Entity\ETHLight.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Physics\ETHJoint.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Util\ETHInput.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Util\ETHFrameTimer.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Util\ETHFileChangeDetector.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Renderer\ETHEntitySpriteRenderer.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Renderer\ETHEntityRenderingManager.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Entity\ETHEntityProperties.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Renderer\ETHEntityPieceRenderer.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Renderer\ETHEntityParticleRenderer.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Renderer\ETHEntityHaloRenderer.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Entity\ETHEntityController.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Entity\ETHEntityChooser.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Entity\ETHEntityCache.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Entity\ETHEntityArray.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Entity\ETHEntity.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\src\engine\ETHEngine.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Shader\ETHDynamicBackBuffer.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Drawing\ETHDrawableManager.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Drawing\ETHDrawable.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Resource\ETHDirectories.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Physics\ETHDestructionListener.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Util\ETHDateTime.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Entity\ETHCustomDataManager.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Physics\ETHContactListener.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\cjson\cJSON.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Resource\ETHSpriteDensityManager.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\src\addons\scriptmath2d.h">
@@ -465,10 +333,181 @@
       <Filter>Angelscript-addons</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\src\vendors\tinyxml_ansi\tinystr.h">
-      <Filter>tinyxml</Filter>
+      <Filter>vendor\tinyxml</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\src\vendors\tinyxml_ansi\tinyxml.h">
-      <Filter>tinyxml</Filter>
+      <Filter>vendor\tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Drawing\ETHDrawable.h">
+      <Filter>Drawing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Drawing\ETHDrawableManager.h">
+      <Filter>Drawing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Drawing\ETHParticleDrawer.h">
+      <Filter>Drawing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Entity\ETHCustomDataManager.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Entity\ETHEntity.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Entity\ETHEntityArray.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Entity\ETHEntityCache.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Entity\ETHEntityChooser.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Entity\ETHEntityController.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Entity\ETHEntityProperties.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Entity\ETHSpriteEntity.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Entity\ETHLight.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Entity\ETHRenderEntity.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Entity\ETHScriptEntity.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Particles\ETHParticleManager.h">
+      <Filter>Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Particles\ETHParticleSystem.h">
+      <Filter>Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Util\JSONObject.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Util\ETHSpeedTimer.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Util\ETHInput.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Util\ETHFrameTimer.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Util\ETHFileChangeDetector.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Util\ETHDateTime.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Util\ETHASUtil.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Shader\ETHShaderManager.h">
+      <Filter>Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Shader\ETHDynamicBackBuffer.h">
+      <Filter>Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Shader\ETHNoDynamicBackBuffer.h">
+      <Filter>Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Shader\ETHBackBufferTargetManager.h">
+      <Filter>Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Script\ETHBinaryStream.h">
+      <Filter>Script</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Script\ETHScriptObjRegister.h">
+      <Filter>Script</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Script\ETHScriptWrapper.h">
+      <Filter>Script</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Scene\ETHActiveEntityHandler.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Scene\ETHBucketManager.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Scene\ETHScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Scene\ETHSceneProperties.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Resource\ETHResourceProvider.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Resource\ETHResourceManager.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Resource\ETHDirectories.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Resource\ETHSpriteDensityManager.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Physics\ETHRevoluteJoint.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Physics\ETHRayCastCallback.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Physics\ETHPolygon.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Physics\ETHPhysicsSimulator.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Physics\ETHPhysicsEntityController.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Physics\ETHPhysicsController.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Physics\ETHJoint.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Physics\ETHDestructionListener.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Physics\ETHContactListener.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Physics\ETHCompoundShape.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Physics\ETHCollisionBox.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Platform\ETHAppEnmlFile.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Platform\FileListing.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Renderer\ETHEntityHaloRenderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Renderer\ETHEntityParticleRenderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Renderer\ETHEntityPieceRenderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Renderer\ETHEntityRenderingManager.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Renderer\ETHEntitySpriteRenderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\cjson\cJSON.h">
+      <Filter>vendor\cJSON</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
