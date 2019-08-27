@@ -239,12 +239,22 @@ Vector2 ETHScriptWrapper::GetParallaxOrigin()
 
 void ETHScriptWrapper::SetParallaxIntensity(const float intensity)
 {
-	m_provider->GetShaderManager()->SetParallaxIntensity(intensity);
+	if (m_pScene)
+	{
+		m_pScene->SetParallaxIntensity(intensity);
+	}
 }
 
 float ETHScriptWrapper::GetParallaxIntensity()
 {
-	return m_provider->GetShaderManager()->GetParallaxIntensity();
+	if (m_pScene)
+	{
+		return m_pScene->GetParallaxIntensity();
+	}
+	else
+	{
+		return 0.0f;
+	}
 }
 
 void ETHScriptWrapper::SetBucketClearenceFactor(const float factor)
@@ -810,6 +820,13 @@ void ETHScriptWrapper::SetFixedHeight(const float height)
 {
 	m_provider->GetVideo()->SetVirtualScreenHeight(height);
 	Sprite::SetVirtualScreenHeight(m_provider->GetVideo()->GetScreenSizeF(), height);
+}
+
+void ETHScriptWrapper::UpdateFixedHeight()
+{
+	Sprite::SetVirtualScreenHeight(
+		m_provider->GetVideo()->GetScreenSizeF(),
+		m_provider->GetVideo()->GetVirtualScreenHeight());
 }
 
 float ETHScriptWrapper::GetDummyScale()

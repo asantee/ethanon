@@ -309,9 +309,10 @@ Vector2 ETHSpriteEntity::GetSpriteCut() const
 		static_cast<float>(m_properties.spriteCut.y));
 }
 
-Vector2 ETHSpriteEntity::ComputeParallaxOffset() const
+Vector2 ETHSpriteEntity::ComputeParallaxOffset(const float sceneParallaxIntensity) const
 {
-	return m_provider->GetShaderManager()->ComputeParallaxOffset(m_provider->GetVideo(), GetPosition(), GetParallaxIntensity());
+	Sprite::SetParallaxIntensity(sceneParallaxIntensity * GetParallaxIntensity());
+	return Sprite::ComputeParallaxOffset(m_provider->GetVideo()->GetCameraPos(), GetPosition());
 }
 
 bool ETHSpriteEntity::SetDepth(const float maxHeight, const float minHeight)
@@ -456,13 +457,13 @@ std::string ETHSpriteEntity::AssembleLightmapFileName(const std::string& directo
 	return ss.str();
 }
 
-void ETHSpriteEntity::Update(const float lastFrameElapsedTime, const Vector2& zAxisDir, ETHBucketManager& buckets)
+void ETHSpriteEntity::Update(const float lastFrameElapsedTime, const Vector2& zAxisDir, const float sceneParallaxIntensity, ETHBucketManager& buckets)
 {
 	if (!IsStatic())
 	{
 		m_controller->Update(lastFrameElapsedTime, buckets);
 	}
-	UpdateParticleSystems(zAxisDir, lastFrameElapsedTime);
+	UpdateParticleSystems(zAxisDir, sceneParallaxIntensity, lastFrameElapsedTime);
 }
 
 float ETHSpriteEntity::GetMaxHeight()
@@ -590,7 +591,7 @@ bool ETHSpriteEntity::AreParticlesOver() const
 	}
 }
 
-void ETHSpriteEntity::UpdateParticleSystems(const Vector2& zAxisDirection, const float lastFrameElapsedTime)
+void ETHSpriteEntity::UpdateParticleSystems(const Vector2& zAxisDirection, const float sceneParallaxIntensity, const float lastFrameElapsedTime)
 {
 	for (std::size_t t=0; t<m_particles.size(); t++)
 	{
@@ -599,7 +600,7 @@ void ETHSpriteEntity::UpdateParticleSystems(const Vector2& zAxisDirection, const
 			m_particles[t]->UpdateParticleSystem(
 				GetPosition(),
 				zAxisDirection,
-				ComputeParallaxOffset(),
+				ComputeParallaxOffset(sceneParallaxIntensity),
 				GetAngle(),
 				lastFrameElapsedTime);
 		}
@@ -713,7 +714,7 @@ Vector2 ETHSpriteEntity::GetSize() const
 
 Vector2 ETHSpriteEntity::ComputeInScreenPosition(const ETHSceneProperties& sceneProps) const
 {
-	const Vector2 offset(ComputeParallaxOffset() - m_provider->GetVideo()->GetCameraPos());
+	const Vector2 offset(ComputeParallaxOffset(sceneProps.parallaxIntensity) - m_provider->GetVideo()->GetCameraPos());
 	return (ComputePositionWithZAxisApplied(sceneProps) + offset);
 }
 

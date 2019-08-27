@@ -498,7 +498,7 @@ bool ETHParticleManager::DrawParticleSystem(
 		const Vector2 v2Pos =
 			ETHGlobal::ToScreenPos(Vector3(particle.pos, particle.startPoint.z), zAxisDirection);
 
-		m_pBMP->SetParallaxIntensity(parallaxIntensity);
+		Sprite::SetParallaxIntensity(parallaxIntensity);
 		m_pBMP->Draw(
 			video->GetCameraPos(),
 			Vector3(v2Pos, particle.startPoint.z),

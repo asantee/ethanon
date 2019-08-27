@@ -386,6 +386,7 @@ public:
 	static bool GetContactEntities(const Vector2& a, const Vector2& b, ETHEntityArray& entities);
 
 	static void SetFixedHeight(const float height);
+	static void UpdateFixedHeight();
 	static float GetDummyScale();
 	static float DummyScale(const float v);
 	static Vector2 DummyScale(const Vector2& v);

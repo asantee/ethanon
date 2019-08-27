@@ -27,7 +27,8 @@ public:
 
 	bool DrawHalo(
 		const Vector2& zAxisDirection,
-		const float depth);
+		const float depth,
+		const ETHSceneProperties& sceneProps);
 
 	bool DrawAmbientPass(
 		const float maxHeight,
@@ -41,6 +42,7 @@ public:
 		const ETHSceneProperties& sceneProps);
 
 	void DrawCollisionBox(
+		const ETHSceneProperties& sceneProps,
 		SpritePtr pOutline,
 		const Color& color,
 		const Vector2 &zAxisDirection) const;

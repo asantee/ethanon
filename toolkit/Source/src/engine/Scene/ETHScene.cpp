@@ -81,8 +81,6 @@ void ETHScene::Init(ETHResourceProviderPtr provider, const ETHSceneProperties& p
 	m_bucketClearenceFactor = 0.0f;
 	m_enableZBuffer = true;
 	m_maxSceneHeight = m_provider->GetVideo()->GetScreenSizeF().y;
-	const ETHShaderManagerPtr& shaderManager = m_provider->GetShaderManager();
-	shaderManager->SetParallaxIntensity(m_sceneProps.parallaxIntensity);
 }
 
 std::string ETHScene::AssembleEntityPath() const
@@ -275,7 +273,6 @@ bool ETHScene::AddEntitiesFromXMLFile(
 			}
 		}
 	}
-	m_provider->GetShaderManager()->SetParallaxIntensity(m_sceneProps.parallaxIntensity);
 
 	if (!ss.str().empty())
 	{
@@ -340,7 +337,6 @@ ETHSceneProperties* ETHScene::GetEditableSceneProperties()
 void ETHScene::SetSceneProperties(const ETHSceneProperties &prop)
 {
 	m_sceneProps = prop;
-	m_provider->GetShaderManager()->SetParallaxIntensity(m_sceneProps.parallaxIntensity);
 }
 
 void ETHScene::LoadLightmapsFromBitmapFiles(const std::string& currentSceneFilePath)
@@ -390,6 +386,7 @@ void ETHScene::Update(
 	// update entities that are always active (dynamic entities with callback or physics and temporary entities)
 	m_activeEntityHandler.UpdateAlwaysActiveEntities(
 		GetZAxisDirection(),
+		m_sceneProps.parallaxIntensity,
 		m_buckets,
 		lastFrameElapsedTime * m_physicsSimulator.GetTimeStepScale());
 
@@ -411,6 +408,7 @@ void ETHScene::Update(
 	// update static mapped entities that weren't called in UpdateAlwaysActiveEntities
 	m_activeEntityHandler.UpdateCurrentFrameEntities(
 		GetZAxisDirection(),
+		m_sceneProps.parallaxIntensity,
 		m_buckets,
 		lastFrameElapsedTime * m_physicsSimulator.GetTimeStepScale());
 
@@ -668,6 +666,16 @@ void ETHScene::SetZAxisDirection(const Vector2 &v2)
 Vector2 ETHScene::GetZAxisDirection() const
 {
 	return m_sceneProps.zAxisDirection;
+}
+
+void ETHScene::SetParallaxIntensity(const float intensity)
+{
+	m_sceneProps.parallaxIntensity = intensity;
+}
+
+float ETHScene::GetParallaxIntensity() const
+{
+	return m_sceneProps.parallaxIntensity;
 }
 
 int ETHScene::GetLastID() const

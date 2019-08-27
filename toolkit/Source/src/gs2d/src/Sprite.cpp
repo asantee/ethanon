@@ -118,6 +118,14 @@ float Sprite::GetParallaxIntensity()
 	return m_parallaxIntensity;
 }
 
+math::Vector2 Sprite::ComputeParallaxOffset(const math::Vector2& cameraPos, const math::Vector3& pos)
+{
+	const math::Vector2 halfScreenSize(m_virtualScreenResolution * 0.5f);
+	const math::Vector2 screenSpacePos(math::Vector2(pos.x, pos.y) - cameraPos);
+	const float intensity = pos.z * m_parallaxIntensity * Sprite::PARALLAX_INTENSITY_FIX;
+	return ((screenSpacePos - halfScreenSize) / m_virtualScreenResolution.y) * intensity;
+}
+
 void Sprite::SetVirtualScreenResolution(const math::Vector2& resolution)
 {
 	m_virtualScreenResolution = resolution;

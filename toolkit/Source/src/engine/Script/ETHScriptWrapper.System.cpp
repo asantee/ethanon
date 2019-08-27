@@ -278,6 +278,8 @@ void ETHScriptWrapper::ResetVideoMode(
 			video->GetPlatformName(),
 			m_provider->GetFileIOHub()->GetExternalStorageDirectory());
 
+		UpdateFixedHeight();
+
 		CreateDynamicBackBuffer(file);
 	}
 }

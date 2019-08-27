@@ -88,8 +88,8 @@
 		AA18F60A22C7D98800F44DA6 /* GameMath.h in Headers */ = {isa = PBXBuildFile; fileRef = AA18F60822C7D98800F44DA6 /* GameMath.h */; };
 		AA19C1241F8285BF0096696A /* FMAudioContext.macos.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA19C1231F8285BF0096696A /* FMAudioContext.macos.mm */; };
 		AA7BDF721F7EE1980057B06F /* libfmod.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA7BDF711F7EE1980057B06F /* libfmod.dylib */; };
-		AA7BDF801F7EE5750057B06F /* FMAudioContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA7BDF7C1F7EE5390057B06F /* FMAudioContext.mm */; };
-		AA7BDF811F7EE5750057B06F /* FMAudioSample.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA7BDF7F1F7EE53A0057B06F /* FMAudioSample.mm */; };
+		AA7BDF801F7EE5750057B06F /* FMAudioContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA7BDF7C1F7EE5390057B06F /* FMAudioContext.cpp */; };
+		AA7BDF811F7EE5750057B06F /* FMAudioSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA7BDF7F1F7EE53A0057B06F /* FMAudioSample.cpp */; };
 		AA92F34A22F6112E00AECB30 /* GLShader.h in Headers */ = {isa = PBXBuildFile; fileRef = AA92F34822F6112E00AECB30 /* GLShader.h */; };
 		AA92F34B22F6112E00AECB30 /* GLShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA92F34922F6112E00AECB30 /* GLShader.cpp */; };
 		AA92F34E22F61CEE00AECB30 /* PolygonRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = AA92F34C22F61CEE00AECB30 /* PolygonRenderer.h */; };
@@ -208,10 +208,10 @@
 		AA18F60822C7D98800F44DA6 /* GameMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameMath.h; path = ../../../../src/Math/GameMath.h; sourceTree = "<group>"; };
 		AA19C1231F8285BF0096696A /* FMAudioContext.macos.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = FMAudioContext.macos.mm; path = ../../../src/Audio/fmod/FMAudioContext.macos.mm; sourceTree = "<group>"; };
 		AA7BDF711F7EE1980057B06F /* libfmod.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfmod.dylib; path = ../../../vendors/fmod/lib/libfmod.dylib; sourceTree = "<group>"; };
-		AA7BDF7C1F7EE5390057B06F /* FMAudioContext.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = FMAudioContext.mm; path = ../../../src/Audio/fmod/FMAudioContext.mm; sourceTree = "<group>"; };
+		AA7BDF7C1F7EE5390057B06F /* FMAudioContext.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = FMAudioContext.cpp; path = ../../../src/Audio/fmod/FMAudioContext.cpp; sourceTree = "<group>"; };
 		AA7BDF7D1F7EE5390057B06F /* FMAudioContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FMAudioContext.h; path = ../../../src/Audio/fmod/FMAudioContext.h; sourceTree = "<group>"; };
 		AA7BDF7E1F7EE5390057B06F /* FMAudioSample.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FMAudioSample.h; path = ../../../src/Audio/fmod/FMAudioSample.h; sourceTree = "<group>"; };
-		AA7BDF7F1F7EE53A0057B06F /* FMAudioSample.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = FMAudioSample.mm; path = ../../../src/Audio/fmod/FMAudioSample.mm; sourceTree = "<group>"; };
+		AA7BDF7F1F7EE53A0057B06F /* FMAudioSample.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = FMAudioSample.cpp; path = ../../../src/Audio/fmod/FMAudioSample.cpp; sourceTree = "<group>"; };
 		AA92F34822F6112E00AECB30 /* GLShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLShader.h; path = ../../../../src/Video/GL/GLShader.h; sourceTree = "<group>"; usesTabs = 1; };
 		AA92F34922F6112E00AECB30 /* GLShader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLShader.cpp; path = ../../../../src/Video/GL/GLShader.cpp; sourceTree = "<group>"; usesTabs = 1; };
 		AA92F34C22F61CEE00AECB30 /* PolygonRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PolygonRenderer.h; path = ../../../../src/PolygonRenderer.h; sourceTree = "<group>"; };
@@ -404,10 +404,10 @@
 			isa = PBXGroup;
 			children = (
 				AA7BDF7D1F7EE5390057B06F /* FMAudioContext.h */,
-				AA7BDF7C1F7EE5390057B06F /* FMAudioContext.mm */,
+				AA7BDF7C1F7EE5390057B06F /* FMAudioContext.cpp */,
 				AA19C1231F8285BF0096696A /* FMAudioContext.macos.mm */,
 				AA7BDF7E1F7EE5390057B06F /* FMAudioSample.h */,
-				AA7BDF7F1F7EE53A0057B06F /* FMAudioSample.mm */,
+				AA7BDF7F1F7EE53A0057B06F /* FMAudioSample.cpp */,
 			);
 			name = Audio;
 			path = ..;
@@ -629,8 +629,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA7BDF801F7EE5750057B06F /* FMAudioContext.mm in Sources */,
-				AA7BDF811F7EE5750057B06F /* FMAudioSample.mm in Sources */,
+				AA7BDF801F7EE5750057B06F /* FMAudioContext.cpp in Sources */,
+				AA7BDF811F7EE5750057B06F /* FMAudioSample.cpp in Sources */,
 				7473CA7916330304005DB920 /* Application.cpp in Sources */,
 				AA18F5EA22B8804100F44DA6 /* Vector2i.cpp in Sources */,
 				AA18F60122C7CAB600F44DA6 /* Matrix4x4.cpp in Sources */,

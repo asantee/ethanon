@@ -103,6 +103,11 @@ JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_resize(JNIEnv* env, jobject
 	if (video)
 	{
 		video->ResetVideoMode(width, height, Texture::PF_DEFAULT, false);
+
+		if (engine)
+		{
+			engine->UpdateFixedHeight();
+		}
 	}
 }
 

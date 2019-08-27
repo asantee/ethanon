@@ -18,7 +18,7 @@ void ETHEntityHaloRenderer::Render(const ETHSceneProperties& props, const float 
 	UNUSED_ARGUMENT(maxHeight);
 	if (m_shaderManager->BeginHaloPass(m_entity->GetLight()))
 	{
-		m_entity->DrawHalo(props.zAxisDirection, m_depth);
+		m_entity->DrawHalo(props.zAxisDirection, m_depth, props);
 		m_shaderManager->EndHaloPass();
 	}
 }
