@@ -3,18 +3,24 @@
 *.lo
 *.o
 *.o.d
+*.obj
+
 toolkit/Installer/Output/
 
 # Compiled Dynamic libraries
 *.so
+*.dll
 
 # Compiled Static libraries
+*.lib
 *.lai
 *.la
 *.a
 
 # Unpacked vendor paths
 toolkit/Source/src/gs2d/vendors/BoostSDK/
+toolkit/Source/src/gs2d/vendors/boost/
+toolkit/Source/src/vendors/boost/
 toolkit/Source/src/gs2d/vendors/CgSDK/
 toolkit/Source/src/gs2d/vendors/DX9SDK/
 toolkit/Source/src/gs2d/vendors/libpng/
@@ -60,6 +66,10 @@ testbed/GeneralTests/scenes/TestEntity-esc/
 # Misc garbage
 *.DS_Store
 
+# AngelScript tlogs
+*.tlog
+*.tlog*
+
 # Visual Studio 2015+ cache/options directory
 .vs/
 
@@ -68,6 +78,8 @@ testbed/GeneralTests/scenes/TestEntity-esc/
 *.suo
 *.user
 *.bin
+*.pdb
+*.log
 file_version.aps
 
 # Xcode output files
@@ -146,6 +158,9 @@ toolkit/Source/src/gs2d/src/Audio/Audiere/audiere/msvc9/audiere/Debug/
 toolkit/Source/src/gs2d/projects/msvc9/Testbed/Debug/
 toolkit/Source/src/vendors/hashlib2plus/project/msvc9/hashlib/Debug/
 toolkit/Source/src/vendors/hashlib2plus/project/msvc9/hashlib/Release/
+toolkit/Source/src/angelscript/projects/cmake/out/
+**/Debug/*
+**/Release/*
 
 # Cygwin binary output paths
 toolkit/Source/src/gs2d/projects/Android/Ethanon/obj/
@@ -174,3 +189,6 @@ toolkit/Source/src/gs2d/vendors/fmod/lib/readme.txt
 toolkit/Source/src/gs2d/vendors/fmod/lib/libfmod.dylib
 toolkit/Source/src/gs2d/vendors/fmod/lib/libfmodL.dylib
 toolkit/Source/projects/xcode/OSXMachine/machine.xcodeproj/xcshareddata/xcschemes/machine.xcscheme
+
+toolkit/Source/src/gs2d/vendors/SDL2-2.0.10/
+toolkit/Source/src/gs2d/vendors/glext/

@@ -8,11 +8,11 @@ namespace Platform {
 static FILE* LoadFile(const std::string& fileName)
 {
 	FILE* file = 0;
-	#if _MSC_VER >= 1500
-		fopen_s(&file, fileName.c_str(), "rb");
-	#else
-		file = fopen(fileName.c_str(), "rb");
-	#endif
+#if (__STDC_VERSION__ >= 201112L) || ( _MSC_VER >= 1500 )
+	fopen_s(&file, fileName.c_str(), "rb");
+#else
+	file = fopen(fileName.c_str(), "rb");
+#endif
 	return file;
 }
 

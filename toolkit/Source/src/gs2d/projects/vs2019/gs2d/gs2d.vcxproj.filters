@@ -1,0 +1,745 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Arquivos de Origem">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Arquivos de Cabeçalho">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Arquivos de Recurso">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Audio">
+      <UniqueIdentifier>{3aa82229-2cc1-4d28-8103-7768cf21dcd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Audio\fmod">
+      <UniqueIdentifier>{ca7af790-cfbd-4099-8088-e1a34947e802}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Audio\fmod\include">
+      <UniqueIdentifier>{8767d199-4649-4790-a675-eb1fc49274bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enml">
+      <UniqueIdentifier>{6707c421-777b-48ea-938b-2bec16a4b7e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{41412c0c-98b5-4451-acc3-5056e7636438}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform">
+      <UniqueIdentifier>{73699a5d-9fc8-469f-b966-b7c8a2ddf3fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{4f6b7198-cc7e-48fe-ab30-b96c11269b4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unicode">
+      <UniqueIdentifier>{8311b81f-a8cc-4d23-b257-8afd5decb4fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities">
+      <UniqueIdentifier>{0c6e568b-d4bc-429e-8340-8657b91e9638}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Video">
+      <UniqueIdentifier>{b10c086d-3e2e-48e8-a23e-fec5ee87d065}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\windows">
+      <UniqueIdentifier>{ddca345b-8f0f-4044-985e-130976edb827}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\SharedData">
+      <UniqueIdentifier>{fc1a5d95-2d6b-468e-a6ab-a731e58834a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unicode\utf8">
+      <UniqueIdentifier>{69dcca1d-a267-4f17-b5cf-29b3ca727551}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Video\GL">
+      <UniqueIdentifier>{e7c5c13b-40de-4d6f-8a39-b203c032bb8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input\SDL">
+      <UniqueIdentifier>{372bd2c9-180a-4c63-bd10-984b2cdacb2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Video\GLSDL">
+      <UniqueIdentifier>{643ca9cc-0e0e-4831-8bd2-2c83e76eac2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libzip">
+      <UniqueIdentifier>{54061842-208a-4dbc-8d35-d1ead7d2a795}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="zlib">
+      <UniqueIdentifier>{3722449c-32e2-4040-84e3-909d6481d0d0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="gs2d.rc">
+      <Filter>Arquivos de Recurso</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\Audio\fmod\FMAudioSample.cpp">
+      <Filter>Audio\fmod</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Audio\fmod\FMAudioContext.cpp">
+      <Filter>Audio\fmod</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Enml\Enml.cpp">
+      <Filter>Enml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Input\MobileInput.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Input\KeyStateManager.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Platform\NativeCommandAssembler.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Platform\NativeCommandForwarder.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Platform\NativeCommandManager.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Platform\Platform.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Platform\StdFileManager.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Platform\StreamLogger.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Platform\ZipFileManager.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Platform\FileIOHub.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Platform\FileLogger.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Platform\FileManager.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Platform\getRealTime.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Platform\Logger.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Platform\windows\WindowsFileIOHub.cpp">
+      <Filter>Platform\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Platform\SharedData\SharedDataManager.cpp">
+      <Filter>Platform\SharedData</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Platform\SharedData\SharedData.cpp">
+      <Filter>Platform\SharedData</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Utilities\RecoverableResource.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Utilities\RecoverableResourceManager.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Video\BitmapFont.cpp">
+      <Filter>Video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Video\BitmapFontManager.cpp">
+      <Filter>Video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Video\GL\GLTexture.cpp">
+      <Filter>Video\GL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Input\SDL\SDLJoystick.cpp">
+      <Filter>Input\SDL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Input\SDL\SDLInput.cpp">
+      <Filter>Input\SDL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Application.cpp">
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\PolygonRenderer.cpp">
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Sprite.cpp">
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Video.cpp">
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Video\GLSDL\GLSDLVideo.cpp">
+      <Filter>Video\GLSDL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Math\Vector2.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Math\Vector2i.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Math\Vector3.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Math\Vector4.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Math\Color.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Math\GameMath.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Math\Matrix4x4.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Math\OrientedBoundingBox.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Math\Randomizer.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Math\Rect2D.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Math\Rect2Di.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Platform\windows\Platform.windows.cpp">
+      <Filter>Platform\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Video\GL\GLPolygonRenderer.cpp">
+      <Filter>Video\GL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Video\GL\GLShader.cpp">
+      <Filter>Video\GL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\zlib_msvc\zutil.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\zlib_msvc\adler32.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\zlib_msvc\compress.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\zlib_msvc\crc32.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\zlib_msvc\deflate.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\zlib_msvc\infback.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\zlib_msvc\inffast.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\zlib_msvc\inflate.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\zlib_msvc\inftrees.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\zlib_msvc\trees.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\zlib_msvc\uncompr.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_entry_free.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_entry_new.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_err_str.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_error.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_error_clear.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_error_get.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_error_get_sys_type.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_error_strerror.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_error_to_str.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_fclose.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_fdopen.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_file_error_clear.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_file_error_get.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_file_get_offset.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_file_strerror.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_filerange_crc.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_fopen.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_fopen_encrypted.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_fopen_index.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_fopen_index_encrypted.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_fread.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_free.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_get_archive_comment.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_get_archive_flag.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_get_compression_implementation.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_get_encryption_implementation.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_get_file_comment.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_get_file_extra.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_get_name.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_get_num_entries.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_get_num_files.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_memdup.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_name_locate.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_new.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_open.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_rename.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_replace.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_set_archive_comment.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_set_archive_flag.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_set_default_password.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_set_file_comment.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_set_file_extra.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_set_name.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_buffer.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_close.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_crc.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_deflate.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_error.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_file.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_filep.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_free.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_function.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_layered.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_open.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_pkware.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_pop.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_read.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_stat.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_zip.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_stat.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_stat_index.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_stat_init.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_strerror.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_unchange.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_unchange_all.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_unchange_archive.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_unchange_data.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\mkstemp.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_add.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_add_dir.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_close.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_delete.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_dirent.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Audio\fmod\FMAudioContext.windows.cpp">
+      <Filter>Audio\fmod</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\SpriteRects.cpp">
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Shader.cpp">
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\Audio\fmod\FMAudioSample.h">
+      <Filter>Audio\fmod</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Audio\fmod\FMAudioContext.h">
+      <Filter>Audio\fmod</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Audio\fmod\inc\fmod.h">
+      <Filter>Audio\fmod\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Audio\fmod\inc\fmod.hpp">
+      <Filter>Audio\fmod\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Audio\fmod\inc\fmod_codec.h">
+      <Filter>Audio\fmod\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Audio\fmod\inc\fmod_common.h">
+      <Filter>Audio\fmod\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Audio\fmod\inc\fmod_dsp.h">
+      <Filter>Audio\fmod\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Audio\fmod\inc\fmod_dsp_effects.h">
+      <Filter>Audio\fmod\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Audio\fmod\inc\fmod_errors.h">
+      <Filter>Audio\fmod\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Audio\fmod\inc\fmod_ios.h">
+      <Filter>Audio\fmod\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Audio\fmod\inc\fmod_output.h">
+      <Filter>Audio\fmod\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Enml\Enml.h">
+      <Filter>Enml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Input\MobileInput.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Input\KeyStateManager.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Platform\MainSharedHeader.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Platform\NativeCommandAssembler.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Platform\NativeCommandForwarder.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Platform\NativeCommandListener.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Platform\NativeCommandManager.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Platform\Platform.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Platform\StdFileManager.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Platform\StreamLogger.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Platform\ZipFileManager.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Platform\FileIOHub.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Platform\FileLogger.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Platform\FileManager.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Platform\getRealTime.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Platform\Logger.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Platform\windows\WindowsFileIOHub.h">
+      <Filter>Platform\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Platform\SharedData\SharedDataManager.h">
+      <Filter>Platform\SharedData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Platform\SharedData\SharedData.h">
+      <Filter>Platform\SharedData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Utilities\RecoverableResourceManager.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Utilities\RecoverableResource.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Unicode\utf8\utf8\checked.h">
+      <Filter>Unicode\utf8</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Unicode\utf8\utf8\core.h">
+      <Filter>Unicode\utf8</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Unicode\utf8\utf8\unchecked.h">
+      <Filter>Unicode\utf8</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Unicode\utf8\utf8.h">
+      <Filter>Unicode\utf8</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Video\glslShaderCode.h">
+      <Filter>Video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Video\BitmapFont.h">
+      <Filter>Video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Video\BitmapFontManager.h">
+      <Filter>Video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Video\GL\GLInclude.h">
+      <Filter>Video\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Video\GL\GLTexture.h">
+      <Filter>Video\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Input\SDL\SDLInput.h">
+      <Filter>Input\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Input\SDL\SDLJoystick.h">
+      <Filter>Input\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\PolygonRenderer.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Shader.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Sprite.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Texture.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Video.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Window.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Application.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Audio.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\BaseApplication.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Input.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Video\GLSDL\GLSDLVideo.h">
+      <Filter>Video\GLSDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Math\Rect2Di.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Math\Vector2.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Math\Vector2i.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Math\Vector3.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Math\Vector4.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Math\Color.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Math\GameMath.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Math\Matrix4x4.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Math\MersenneTwister.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Math\OrientedBoundingBox.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Math\Randomizer.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Math\Rect2D.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Video\GL\GLShader.h">
+      <Filter>Video\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Video\GL\GLShaderCode.h">
+      <Filter>Video\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Video\GL\GLPolygonRenderer.h">
+      <Filter>Video\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\vendors\zlib_msvc\zlib.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\vendors\zlib_msvc\zutil.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\vendors\zlib_msvc\crc32.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\vendors\zlib_msvc\deflate.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\vendors\zlib_msvc\inffast.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\vendors\zlib_msvc\inffixed.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\vendors\zlib_msvc\inflate.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\vendors\zlib_msvc\inftrees.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\vendors\zlib_msvc\trees.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\vendors\zlib_msvc\zconf.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\vendors\libzip_msvc\zipconf.h">
+      <Filter>libzip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\vendors\libzip_msvc\zipint.h">
+      <Filter>libzip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\vendors\libzip_msvc\config.h">
+      <Filter>libzip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\vendors\libzip_msvc\inttypes.h">
+      <Filter>libzip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\vendors\libzip_msvc\stdint.h">
+      <Filter>libzip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\vendors\libzip_msvc\zip.h">
+      <Filter>libzip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\SpriteRects.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\..\src\Audio\fmod\inc\readme.txt">
+      <Filter>Audio\fmod\include</Filter>
+    </Text>
+  </ItemGroup>
+</Project>

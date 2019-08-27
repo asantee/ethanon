@@ -1,7 +1,5 @@
 #include "Application.h"
 
-#include <sstream>
-
 namespace gs2d {
 
 using namespace math;

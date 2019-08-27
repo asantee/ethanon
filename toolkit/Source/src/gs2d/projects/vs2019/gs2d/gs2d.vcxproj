@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="gs2d.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\Application.cpp" />
+    <ClCompile Include="..\..\..\src\Audio\fmod\FMAudioContext.cpp" />
+    <ClCompile Include="..\..\..\src\Audio\fmod\FMAudioContext.windows.cpp" />
+    <ClCompile Include="..\..\..\src\Audio\fmod\FMAudioSample.cpp" />
+    <ClCompile Include="..\..\..\src\Enml\Enml.cpp" />
+    <ClCompile Include="..\..\..\src\Input\KeyStateManager.cpp" />
+    <ClCompile Include="..\..\..\src\Input\MobileInput.cpp" />
+    <ClCompile Include="..\..\..\src\Input\SDL\SDLInput.cpp" />
+    <ClCompile Include="..\..\..\src\Input\SDL\SDLJoystick.cpp" />
+    <ClCompile Include="..\..\..\src\Math\Color.cpp" />
+    <ClCompile Include="..\..\..\src\Math\GameMath.cpp" />
+    <ClCompile Include="..\..\..\src\Math\Matrix4x4.cpp" />
+    <ClCompile Include="..\..\..\src\Math\OrientedBoundingBox.cpp" />
+    <ClCompile Include="..\..\..\src\Math\Randomizer.cpp" />
+    <ClCompile Include="..\..\..\src\Math\Rect2D.cpp" />
+    <ClCompile Include="..\..\..\src\Math\Rect2Di.cpp" />
+    <ClCompile Include="..\..\..\src\Math\Vector2.cpp" />
+    <ClCompile Include="..\..\..\src\Math\Vector2i.cpp" />
+    <ClCompile Include="..\..\..\src\Math\Vector3.cpp" />
+    <ClCompile Include="..\..\..\src\Math\Vector4.cpp" />
+    <ClCompile Include="..\..\..\src\Platform\FileIOHub.cpp" />
+    <ClCompile Include="..\..\..\src\Platform\FileLogger.cpp" />
+    <ClCompile Include="..\..\..\src\Platform\FileManager.cpp" />
+    <ClCompile Include="..\..\..\src\Platform\getRealTime.cpp" />
+    <ClCompile Include="..\..\..\src\Platform\Logger.cpp" />
+    <ClCompile Include="..\..\..\src\Platform\NativeCommandAssembler.cpp" />
+    <ClCompile Include="..\..\..\src\Platform\NativeCommandForwarder.cpp" />
+    <ClCompile Include="..\..\..\src\Platform\NativeCommandManager.cpp" />
+    <ClCompile Include="..\..\..\src\Platform\Platform.cpp" />
+    <ClCompile Include="..\..\..\src\Platform\SharedData\SharedData.cpp" />
+    <ClCompile Include="..\..\..\src\Platform\SharedData\SharedDataManager.cpp" />
+    <ClCompile Include="..\..\..\src\Platform\StdFileManager.cpp" />
+    <ClCompile Include="..\..\..\src\Platform\StreamLogger.cpp" />
+    <ClCompile Include="..\..\..\src\Platform\windows\Platform.windows.cpp" />
+    <ClCompile Include="..\..\..\src\Platform\windows\WindowsFileIOHub.cpp" />
+    <ClCompile Include="..\..\..\src\Platform\ZipFileManager.cpp" />
+    <ClCompile Include="..\..\..\src\PolygonRenderer.cpp" />
+    <ClCompile Include="..\..\..\src\Shader.cpp" />
+    <ClCompile Include="..\..\..\src\Sprite.cpp" />
+    <ClCompile Include="..\..\..\src\SpriteRects.cpp" />
+    <ClCompile Include="..\..\..\src\Utilities\RecoverableResource.cpp" />
+    <ClCompile Include="..\..\..\src\Utilities\RecoverableResourceManager.cpp" />
+    <ClCompile Include="..\..\..\src\Video.cpp" />
+    <ClCompile Include="..\..\..\src\Video\BitmapFont.cpp" />
+    <ClCompile Include="..\..\..\src\Video\BitmapFontManager.cpp" />
+    <ClCompile Include="..\..\..\src\Video\GLSDL\GLSDLVideo.cpp" />
+    <ClCompile Include="..\..\..\src\Video\GL\GLPolygonRenderer.cpp" />
+    <ClCompile Include="..\..\..\src\Video\GL\GLShader.cpp" />
+    <ClCompile Include="..\..\..\src\Video\GL\GLTexture.cpp" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\mkstemp.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_add.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_add_dir.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_close.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_delete.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_dirent.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_entry_free.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_entry_new.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_error.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_error_clear.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_error_get.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_error_get_sys_type.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_error_strerror.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_error_to_str.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_err_str.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_fclose.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_fdopen.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_filerange_crc.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_file_error_clear.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_file_error_get.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_file_get_offset.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_file_strerror.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_fopen.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_fopen_encrypted.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_fopen_index.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_fopen_index_encrypted.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_fread.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_free.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_get_archive_comment.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_get_archive_flag.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_get_compression_implementation.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_get_encryption_implementation.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_get_file_comment.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_get_file_extra.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_get_name.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_get_num_entries.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_get_num_files.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_memdup.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_name_locate.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_new.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_open.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_rename.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_replace.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_set_archive_comment.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_set_archive_flag.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_set_default_password.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_set_file_comment.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_set_file_extra.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_set_name.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_buffer.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_close.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_crc.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_deflate.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_error.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_file.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_filep.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_free.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_function.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_layered.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_open.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_pkware.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_pop.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_read.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_stat.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_zip.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_stat.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_stat_index.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_stat_init.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_strerror.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_unchange.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_unchange_all.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_unchange_archive.c" />
+    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_unchange_data.c" />
+    <ClCompile Include="..\..\..\vendors\zlib_msvc\adler32.c" />
+    <ClCompile Include="..\..\..\vendors\zlib_msvc\compress.c" />
+    <ClCompile Include="..\..\..\vendors\zlib_msvc\crc32.c" />
+    <ClCompile Include="..\..\..\vendors\zlib_msvc\deflate.c" />
+    <ClCompile Include="..\..\..\vendors\zlib_msvc\infback.c" />
+    <ClCompile Include="..\..\..\vendors\zlib_msvc\inffast.c" />
+    <ClCompile Include="..\..\..\vendors\zlib_msvc\inflate.c" />
+    <ClCompile Include="..\..\..\vendors\zlib_msvc\inftrees.c" />
+    <ClCompile Include="..\..\..\vendors\zlib_msvc\trees.c" />
+    <ClCompile Include="..\..\..\vendors\zlib_msvc\uncompr.c" />
+    <ClCompile Include="..\..\..\vendors\zlib_msvc\zutil.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\Application.h" />
+    <ClInclude Include="..\..\..\src\Audio.h" />
+    <ClInclude Include="..\..\..\src\Audio\fmod\FMAudioContext.h" />
+    <ClInclude Include="..\..\..\src\Audio\fmod\FMAudioSample.h" />
+    <ClInclude Include="..\..\..\src\Audio\fmod\inc\fmod.h" />
+    <ClInclude Include="..\..\..\src\Audio\fmod\inc\fmod.hpp" />
+    <ClInclude Include="..\..\..\src\Audio\fmod\inc\fmod_codec.h" />
+    <ClInclude Include="..\..\..\src\Audio\fmod\inc\fmod_common.h" />
+    <ClInclude Include="..\..\..\src\Audio\fmod\inc\fmod_dsp.h" />
+    <ClInclude Include="..\..\..\src\Audio\fmod\inc\fmod_dsp_effects.h" />
+    <ClInclude Include="..\..\..\src\Audio\fmod\inc\fmod_errors.h" />
+    <ClInclude Include="..\..\..\src\Audio\fmod\inc\fmod_ios.h" />
+    <ClInclude Include="..\..\..\src\Audio\fmod\inc\fmod_output.h" />
+    <ClInclude Include="..\..\..\src\BaseApplication.h" />
+    <ClInclude Include="..\..\..\src\Enml\Enml.h" />
+    <ClInclude Include="..\..\..\src\Input.h" />
+    <ClInclude Include="..\..\..\src\Input\KeyStateManager.h" />
+    <ClInclude Include="..\..\..\src\Input\MobileInput.h" />
+    <ClInclude Include="..\..\..\src\Input\SDL\SDLInput.h" />
+    <ClInclude Include="..\..\..\src\Input\SDL\SDLJoystick.h" />
+    <ClInclude Include="..\..\..\src\Math\Color.h" />
+    <ClInclude Include="..\..\..\src\Math\GameMath.h" />
+    <ClInclude Include="..\..\..\src\Math\Matrix4x4.h" />
+    <ClInclude Include="..\..\..\src\Math\MersenneTwister.h" />
+    <ClInclude Include="..\..\..\src\Math\OrientedBoundingBox.h" />
+    <ClInclude Include="..\..\..\src\Math\Randomizer.h" />
+    <ClInclude Include="..\..\..\src\Math\Rect2D.h" />
+    <ClInclude Include="..\..\..\src\Math\Rect2Di.h" />
+    <ClInclude Include="..\..\..\src\Math\Vector2.h" />
+    <ClInclude Include="..\..\..\src\Math\Vector2i.h" />
+    <ClInclude Include="..\..\..\src\Math\Vector3.h" />
+    <ClInclude Include="..\..\..\src\Math\Vector4.h" />
+    <ClInclude Include="..\..\..\src\Platform\FileIOHub.h" />
+    <ClInclude Include="..\..\..\src\Platform\FileLogger.h" />
+    <ClInclude Include="..\..\..\src\Platform\FileManager.h" />
+    <ClInclude Include="..\..\..\src\Platform\getRealTime.h" />
+    <ClInclude Include="..\..\..\src\Platform\Logger.h" />
+    <ClInclude Include="..\..\..\src\Platform\MainSharedHeader.h" />
+    <ClInclude Include="..\..\..\src\Platform\NativeCommandAssembler.h" />
+    <ClInclude Include="..\..\..\src\Platform\NativeCommandForwarder.h" />
+    <ClInclude Include="..\..\..\src\Platform\NativeCommandListener.h" />
+    <ClInclude Include="..\..\..\src\Platform\NativeCommandManager.h" />
+    <ClInclude Include="..\..\..\src\Platform\Platform.h" />
+    <ClInclude Include="..\..\..\src\Platform\SharedData\SharedData.h" />
+    <ClInclude Include="..\..\..\src\Platform\SharedData\SharedDataManager.h" />
+    <ClInclude Include="..\..\..\src\Platform\StdFileManager.h" />
+    <ClInclude Include="..\..\..\src\Platform\StreamLogger.h" />
+    <ClInclude Include="..\..\..\src\Platform\windows\WindowsFileIOHub.h" />
+    <ClInclude Include="..\..\..\src\Platform\ZipFileManager.h" />
+    <ClInclude Include="..\..\..\src\PolygonRenderer.h" />
+    <ClInclude Include="..\..\..\src\Shader.h" />
+    <ClInclude Include="..\..\..\src\Sprite.h" />
+    <ClInclude Include="..\..\..\src\SpriteRects.h" />
+    <ClInclude Include="..\..\..\src\Texture.h" />
+    <ClInclude Include="..\..\..\src\Unicode\utf8\utf8.h" />
+    <ClInclude Include="..\..\..\src\Unicode\utf8\utf8\checked.h" />
+    <ClInclude Include="..\..\..\src\Unicode\utf8\utf8\core.h" />
+    <ClInclude Include="..\..\..\src\Unicode\utf8\utf8\unchecked.h" />
+    <ClInclude Include="..\..\..\src\Utilities\RecoverableResource.h" />
+    <ClInclude Include="..\..\..\src\Utilities\RecoverableResourceManager.h" />
+    <ClInclude Include="..\..\..\src\Video.h" />
+    <ClInclude Include="..\..\..\src\Video\BitmapFont.h" />
+    <ClInclude Include="..\..\..\src\Video\BitmapFontManager.h" />
+    <ClInclude Include="..\..\..\src\Video\GLSDL\GLSDLVideo.h" />
+    <ClInclude Include="..\..\..\src\Video\glslShaderCode.h" />
+    <ClInclude Include="..\..\..\src\Video\GL\GLInclude.h" />
+    <ClInclude Include="..\..\..\src\Video\GL\GLPolygonRenderer.h" />
+    <ClInclude Include="..\..\..\src\Video\GL\GLShader.h" />
+    <ClInclude Include="..\..\..\src\Video\GL\GLShaderCode.h" />
+    <ClInclude Include="..\..\..\src\Video\GL\GLTexture.h" />
+    <ClInclude Include="..\..\..\src\Window.h" />
+    <ClInclude Include="..\..\..\vendors\libzip_msvc\config.h" />
+    <ClInclude Include="..\..\..\vendors\libzip_msvc\inttypes.h" />
+    <ClInclude Include="..\..\..\vendors\libzip_msvc\stdint.h" />
+    <ClInclude Include="..\..\..\vendors\libzip_msvc\zip.h" />
+    <ClInclude Include="..\..\..\vendors\libzip_msvc\zipconf.h" />
+    <ClInclude Include="..\..\..\vendors\libzip_msvc\zipint.h" />
+    <ClInclude Include="..\..\..\vendors\zlib_msvc\crc32.h" />
+    <ClInclude Include="..\..\..\vendors\zlib_msvc\deflate.h" />
+    <ClInclude Include="..\..\..\vendors\zlib_msvc\inffast.h" />
+    <ClInclude Include="..\..\..\vendors\zlib_msvc\inffixed.h" />
+    <ClInclude Include="..\..\..\vendors\zlib_msvc\inflate.h" />
+    <ClInclude Include="..\..\..\vendors\zlib_msvc\inftrees.h" />
+    <ClInclude Include="..\..\..\vendors\zlib_msvc\trees.h" />
+    <ClInclude Include="..\..\..\vendors\zlib_msvc\zconf.h" />
+    <ClInclude Include="..\..\..\vendors\zlib_msvc\zlib.h" />
+    <ClInclude Include="..\..\..\vendors\zlib_msvc\zutil.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\..\src\Audio\fmod\inc\readme.txt" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{56B000F0-98F9-4E81-B6E4-786C3C004383}</ProjectGuid>
+    <RootNamespace>gs2d</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LibraryPath>C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\vendors\boost\lib;C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\vendors\CgSDK\lib;C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LibraryPath>C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\vendors\boost\lib;C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\vendors\CgSDK\lib;C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\vendors\boost\include\boost-1_70;..\..\..\vendors\CgSDK\Include;..\..\..\vendors\libzip_msvc;..\..\..\vendors\SDL2-2.0.10;..\..\..\vendors\soil;..\..\..\..\vendors\tsl;C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_MBCS;_STDC_CONSTANT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>-D__STDC_CONSTANT_MACROS -D__STDC_LIMIT_MACROS %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\vendors\boost\include\boost-1_70;..\..\..\vendors\CgSDK\Include;..\..\..\vendors\libzip;..\..\..\vendors\SDL2-2.0.10;..\..\..\vendors\soil;..\..\..\..\vendors\tsl</AdditionalIncludeDirectories>
+      <AdditionalOptions>-D__STDC_CONSTANT_MACROS -D__STDC_LIMIT_MACROS %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\vendors\zlib_msvc;C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\vendors\libzip_msvc;C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\vendors\boost\include\boost-1_70;..\..\..\vendors\SDL2-2.0.10;..\..\..\vendors\soil;..\..\..\..\vendors\tsl;C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc;C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\vendors\CgSDK\include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_MBCS;_STDC_CONSTANT_MACROS;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>-D__STDC_CONSTANT_MACROS -D__STDC_LIMIT_MACROS %(AdditionalOptions)</AdditionalOptions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\vendors\CgSDK\lib;C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\vendors\SDL2-2.0.10\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+    <ResourceCompile>
+      <PreprocessorDefinitions>
+      </PreprocessorDefinitions>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\vendors\boost\include\boost-1_70;..\..\..\vendors\CgSDK\Include;..\..\..\vendors\libzip;..\..\..\vendors\SDL2-2.0.10;..\..\..\vendors\soil;..\..\..\..\vendors\tsl</AdditionalIncludeDirectories>
+      <AdditionalOptions>-D__STDC_CONSTANT_MACROS -D__STDC_LIMIT_MACROS %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

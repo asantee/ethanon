@@ -11,7 +11,7 @@ bool FileListing::ListDirectoryFiles(const str_type::char_t* directory, const st
 	m_fileName.clear();
 	std::string dirExt;
 	dirExt = directory;
-	dirExt += GS_L("*.");
+	dirExt += "*.";
 	dirExt += extension;
 
 	WIN32_FIND_DATAA findFileData;

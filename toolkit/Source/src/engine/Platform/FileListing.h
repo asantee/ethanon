@@ -22,7 +22,8 @@ public:
 		std::string file;
 	};
 
-	bool ListDirectoryFiles(const char* directory, const char* extension);
+	//TODO: Needs to be implemented
+	bool ListDirectoryFiles(const char* directory, const char* extension) { return false; };
 
 	inline unsigned int GetNumFiles()
 	{
