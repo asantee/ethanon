@@ -121,7 +121,7 @@ void FMAudioContext::CommonInit(Platform::FileLogger &logger)
         NSLog(@"Output route has changed from %dch %@ to %dch %@ due to '%s'", (int)[[oldOutput channels] count], [oldOutput portName], (int)[[newOutput channels] count], [newOutput portName], reasonString);
     }];
 
-    if (&AVAudioSessionMediaServicesWereLostNotification)
+    /*if (&AVAudioSessionMediaServicesWereLostNotification)
     {
         [[NSNotificationCenter defaultCenter] addObserverForName:AVAudioSessionMediaServicesWereLostNotification object:nil queue:nil usingBlock:^(NSNotification *notification)
         {
@@ -148,7 +148,7 @@ void FMAudioContext::CommonInit(Platform::FileLogger &logger)
     [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillEnterForegroundNotification object:nil queue:nil usingBlock:^(NSNotification *notification)
     {
         NSLog(@"Application will enter foreground");
-    }];
+    }];*/
 
     /*
         Activate the audio session

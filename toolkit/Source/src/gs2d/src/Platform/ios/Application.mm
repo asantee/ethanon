@@ -60,10 +60,11 @@ void ApplicationWrapper::Update()
 {
 	if (!g_engine) return;
 
-	if (g_video->HandleEvents() == gs2d::Application::APP_QUIT)
+	// iOS Apps should not force quit
+	/*if (g_video->HandleEvents() == gs2d::Application::APP_QUIT)
 	{
 		exit(0);
-	}
+	}*/
 	
 	g_input->Update();
 	g_audio->Update();
