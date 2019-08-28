@@ -31,33 +31,33 @@ gs2d::BaseApplicationPtr gs2d::CreateBaseApplication(const bool autoStartScriptE
 #define UNUSED_ARGUMENT(argument) ((void)(argument))
 
 #if defined(ANDROID)
-#	if defined(__aarch64__)
-#		define ETH_BYTECODE_FILE_NAME ("arm64_android_game.bin")
-#	elif defined(__arm__)
-#		define ETH_BYTECODE_FILE_NAME ("arm_android_game.bin")
-#	elif defined(__x86_64__)
-#		define ETH_BYTECODE_FILE_NAME ("x64_android_game.bin")
-#	elif defined(__i386__)
-#		define ETH_BYTECODE_FILE_NAME ("x86_android_game.bin")
-#	endif
+ #if defined(__aarch64__)
+  #define ETH_BYTECODE_FILE_NAME ("arm64_android_game.bin")
+ #elif defined(__arm__)
+  #define ETH_BYTECODE_FILE_NAME ("arm_android_game.bin")
+ #elif defined(__x86_64__)
+  #define ETH_BYTECODE_FILE_NAME ("x64_android_game.bin")
+ #elif defined(__i386__)
+  #define ETH_BYTECODE_FILE_NAME ("x86_android_game.bin")
+ #endif
 #elif defined(APPLE_IOS)
-#	if defined (__LP64__)
-#		define ETH_BYTECODE_FILE_NAME ("arm64_ios_game.bin")
-#	else
-#		define ETH_BYTECODE_FILE_NAME ("arm_ios_game.bin")
-#	endif
+ #if defined (__LP64__)
+  #define ETH_BYTECODE_FILE_NAME ("arm64_ios_game.bin")
+ #else
+  #define ETH_BYTECODE_FILE_NAME ("arm_ios_game.bin")
+ #endif
 #elif defined(MACOSX)
-#	if defined(__LP64__)
-#		define ETH_BYTECODE_FILE_NAME ("x64_mac_game.bin")
-#	else
-#		define ETH_BYTECODE_FILE_NAME ("x86_mac_game.bin")
-#	endif
-#elif defined(WIN32)
-#	ifdef defined(__x86_64__) || defined(_WIN64)
-#		define ETH_BYTECODE_FILE_NAME ("x64_win_game.bin")
-#	else
-#		define ETH_BYTECODE_FILE_NAME ("x86_win_game.bin")
-#	endif
+ #if defined(__LP64__)
+  #define ETH_BYTECODE_FILE_NAME ("x64_mac_game.bin")
+ #else
+  #define ETH_BYTECODE_FILE_NAME ("x86_mac_game.bin")
+ #endif
+#elif defined(_WIN32)
+ #if defined(__x86_64__) || defined(_WIN64)
+  #define ETH_BYTECODE_FILE_NAME ("x64_win_game.bin")
+ #else
+  #define ETH_BYTECODE_FILE_NAME ("x86_win_game.bin")
+ #endif
 #endif
 
 ETHEngine::ETHEngine(const bool testing, const bool compileAndRun, const bool autoStartScriptEngine) :

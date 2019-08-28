@@ -1,14 +1,14 @@
 #include "ETHDirectories.h"
 
-#define ETH_SHADER_DIRECTORY		("data/")
-#define ETH_BITMAP_FONT_DIRECTORY	("data/")
-#define ETH_SCENES_DIRECTORY		("scenes/")
-#define ETH_ENTITY_DIRECTORY		("entities/")
-#define ETH_NORMAL_DIRECTORY		("entities/normalmaps/")
-#define ETH_HALOS_DIRECTORY			("entities/")
-#define ETH_PARTICLES_DIRECTORY		("particles/")
-#define ETH_EFFECTS_DIRECTORY		("effects/")
-#define ETH_SOUNDFX_DIRECTORY		("soundfx/")
+#define ETH_SHADER_DIRECTORY		"data/"
+#define ETH_BITMAP_FONT_DIRECTORY	"data/"
+#define ETH_SCENES_DIRECTORY		"scenes/"
+#define ETH_ENTITY_DIRECTORY		"entities/"
+#define ETH_NORMAL_DIRECTORY		"entities/normalmaps/"
+#define ETH_HALOS_DIRECTORY			"entities/"
+#define ETH_PARTICLES_DIRECTORY		"particles/"
+#define ETH_EFFECTS_DIRECTORY		"effects/"
+#define ETH_SOUNDFX_DIRECTORY		"soundfx/"
 
 std::string ETHDirectories::GetShaderDirectory()
 {

@@ -44,11 +44,12 @@ bool ETHBinaryStream::OpenW(const std::string& fileName)
 {
 	CloseW();
 	SetFileName(fileName);
-	#ifdef WIN32
-		errno_t error = fopen_s(&m_out, GetFileName().c_str(), GS_L("wb"));
-	#else
-		int error = 0; m_out = fopen(GetFileName().c_str(), "wb");
-	#endif
+#if (__STDC_VERSION__ >= 201112L) || ( _MSC_VER >= 1500 )
+	errno_t error = fopen_s(&m_out, GetFileName().c_str(), "wb");
+#else
+	int error = 0;
+	m_out = fopen(GetFileName().c_str(), "wb");
+#endif
 	if (!error && m_out)
 	{
 		return true;

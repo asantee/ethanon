@@ -2,6 +2,10 @@
 
 #include "../GL/GLShader.h"
 #include "../GL/GLTexture.h"
+#include "../../Platform/getRealTime.h"
+
+#include <time.h>
+#include <direct.h>
 
 namespace gs2d {
 
@@ -60,7 +64,7 @@ GLSDLVideo::GLSDLVideo(
 	m_window(NULL),
 	m_glcontext(NULL)
 {
-	clock_gettime(CLOCK_MONOTONIC, &m_startTime);
+	m_startTime = getRealTime();
 	StartApplication(width, height, winTitle, windowed, sync, Texture::PF_UNKNOWN, maximizable);
 	
 	gs2d::Application::SharedData.Create("com.ethanonengine.usingSuperSimple", "true", true /*constant*/);
@@ -192,8 +196,12 @@ bool GLSDLVideo::StartApplication(
     {
         SDL_GL_SetSwapInterval(1);
     }
+#ifdef _WIN32
+	_chdir(m_fileIOHub->GetProgramDirectory().c_str());
 
+#else
     chdir(m_fileIOHub->GetProgramDirectory().c_str());
+#endif
 
 	// initialize OpenGL
     SetAlphaMode(Video::AM_PIXEL);
@@ -521,17 +529,7 @@ unsigned long GLSDLVideo::GetElapsedTime(const TIME_UNITY unity) const
 
 double GLSDLVideo::GetElapsedTimeD(const TIME_UNITY unity) const
 {
-	timespec current;
-	clock_gettime(CLOCK_MONOTONIC, &current);
-	
-	const double sec  = static_cast<double>(current.tv_sec);
-	const double nsec = static_cast<double>(current.tv_nsec) / 1000000000.0;
-
-	const double startSec  = static_cast<double>(m_startTime.tv_sec);
-	const double startNsec = static_cast<double>(m_startTime.tv_nsec) / 1000000000.0;
-
-	double elapsedTimeS = (sec + nsec) - (startSec + startNsec);
-
+	double elapsedTimeS = getRealTime() - m_startTime;
 	switch (unity)
 	{
 	case TU_HOURS:

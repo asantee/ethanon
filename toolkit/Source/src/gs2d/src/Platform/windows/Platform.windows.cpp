@@ -7,40 +7,61 @@
 
 #include <windows.h>
 #include <direct.h>
+#include <iostream>
+#include <sstream>
 
 std::string gs2d::Application::GetPlatformName()
 {
-	return GS_L("windows");
+	return "windows";
+}
+
+/// Platform specific user message function implementation
+void gs2d::ShowMessage(std::stringstream& stream, const gs2d::GS_MESSAGE_TYPE type)
+{
+	if (type == gs2d::GSMT_INFO)
+	{
+		std::cout << "GS2D INFO: " << stream.str() << std::endl;
+	}
+	else if (type == gs2d::GSMT_WARNING)
+	{
+
+		std::cout << "GS2D WARNING: " << stream.str() << std::endl;
+	}
+	else if (type == gs2d::GSMT_ERROR)
+	{
+		std::cerr << "GS2D ERROR: " << stream.str() << std::endl;
+		MessageBoxA(NULL, stream.str().c_str(), "GS2D ERROR", MB_OK | MB_ICONERROR);
+	}
 }
 
 namespace Platform {
 
 #ifdef _DEBUG
-std::string GetModuleDirectory()
-{
-	gs2d::str_type::char_t currentDirectoryBuffer[65536];
+	std::string GetModuleDirectory()
+	{
+		char currentDirectoryBuffer[65536];
 
-	#ifdef GS2D_STR_TYPE_WCHAR
+#ifdef GS2D_STR_TYPE_WCHAR
 		GetCurrentDirectoryW(65535, currentDirectoryBuffer);
-	#else
-		GetCurrentDirectoryA(65535, currentDirectoryBuffer);
-	#endif
-
-	return AddLastSlash(currentDirectoryBuffer);
-}
 #else
-std::string GetModuleDirectory()
-{
-	gs2d::str_type::char_t moduleFileName[65536];
+		GetCurrentDirectoryA(65535, currentDirectoryBuffer);
+#endif
 
-	#ifdef GS2D_STR_TYPE_WCHAR
+		return AddLastSlash(currentDirectoryBuffer);
+	}
+#else
+	std::string GetModuleDirectory()
+	{
+		char moduleFileName[65536];
+
+#ifdef GS2D_STR_TYPE_WCHAR
 		GetModuleFileNameW(NULL, moduleFileName, 65535);
-	#else
+#else
 		GetModuleFileNameA(NULL, moduleFileName, 65535);
-	#endif
+#endif
 
-	return AddLastSlash(GetFileDirectory(moduleFileName));
-}
+		return AddLastSlash(GetFileDirectory(moduleFileName));
+	}
 #endif
 
 const int kilobyteSize = 1024;

@@ -1,5 +1,13 @@
-#if defined(MACOSX) || defined(LINUX)
- #define GS2D_USE_SDL
+#if defined(MACOSX) || defined(LINUX) || defined (_WIN32)
+#define GS2D_USE_SDL
+#endif
+
+#ifdef _WIN32
+#if defined(_DEBUG) || defined(DEBUG)
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+#endif
 #endif
 
 #include "../engine/ETHTypes.h"
@@ -20,20 +28,20 @@ void ProcParams(const int argc, char* argv[], bool& compileAndRun, bool& testing
 	compileAndRun = true;
 	testing = false;
 
-	wait = Application::GetPlatformName() == ("macos") ? false : true;
+	wait = Application::GetPlatformName() == "macos" ? false : true;
 
 	for (int t = 0; t < argc; t++)
 	{
 		const std::string arg = argv[t];
-		if (arg == ("-nowait"))
+		if (arg == "-nowait")
 		{
 			wait = false;
 		}
-		if (arg == ("-testing"))
+		if (arg == "-testing")
 		{
 			testing = true;
 		}
-		if (arg ==("-norun"))
+		if (arg == "-norun")
 		{
 			compileAndRun = false;
 		}
@@ -45,9 +53,9 @@ std::string FindResourceDir(const int argc, char* argv[])
 	for (int t = 0; t < argc; t++)
 	{
 		const std::string argStr = (argv[t]);
-		if (argStr.substr(0, 4) == ("dir="))
+		if (argStr.substr(0, 4) == "dir=")
 		{
-			const std::vector<std::string> pieces = Platform::SplitString(argStr, ("="));
+			const std::vector<std::string> pieces = Platform::SplitString(argStr, "=");
 			if (pieces.size() >= 2)
 			{
 				std::string dir = Platform::AddLastSlash(pieces[1]);
@@ -55,11 +63,17 @@ std::string FindResourceDir(const int argc, char* argv[])
 			}
 		}
 	}
-	return ("");
+	return "";
 }
 
- int main(int argc, char** argv)
+#if _WIN32
+#define NOMINMAX
+#include <windows.h>
+#endif
+
+int main(int argc, char* argv[])
 {
+
 	// start engine runtime
 	bool compileAndRun, testing, wait;
 	ProcParams(argc, argv, compileAndRun, testing, wait);
@@ -123,26 +137,27 @@ std::string FindResourceDir(const int argc, char* argv[])
 				}
 			}
 		}
-		application->Destroy();	
+		application->Destroy();
 		aborted = application->Aborted();
 	}
 
 	if (aborted)
 	{
-		ETH_STREAM_DECL(ss) << std::endl << ("The program executed an ilegal operation and was aborted");
+		ETH_STREAM_DECL(ss) << std::endl << "The program executed an ilegal operation and was aborted";
 		std::cerr << ss.str() << std::endl;
 	}
 
 	if (!compileAndRun && !aborted)
 	{
-		ETH_STREAM_DECL(ss) << std::endl << ("Compilation successful: 0 errors");
+		ETH_STREAM_DECL(ss) << std::endl << "Compilation successful: 0 errors";
 		std::cerr << ss.str() << std::endl;
 	}
 
 	if (aborted && wait)
 	{
-		std::cout << ("Press any key to continue...") << ("\n");
+		std::cout << "Press any key to continue..." << "\n";
 		std::cin.get();
 	}
+
 	return 0;
 }

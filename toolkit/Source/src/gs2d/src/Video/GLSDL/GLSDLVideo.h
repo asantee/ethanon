@@ -2,7 +2,6 @@
 #define GS2D_GL_SDL_VIDEO_H_
 
 #include "../../Video.h"
-
 #include <SDL2/SDL.h>
 
 namespace gs2d {
@@ -26,8 +25,7 @@ class GLSDLVideo : public Video
     bool m_windowHasFocus, m_windowIsVisible;
     std::vector<VIDEO_MODE> m_videoModes;
     float m_fpsRate;
-    timespec m_startTime;
-    
+    double m_startTime;
     ALPHA_MODE m_alphaMode;
     const double m_alphaRef;
     const float m_zNear, m_zFar;

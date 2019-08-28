@@ -1,6 +1,7 @@
 #ifndef ENML_H_
 #define ENML_H_
 
+#include <string>
 #include <map>
 #include <list>
 
