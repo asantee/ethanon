@@ -5,7 +5,11 @@
 #include "../../Platform/getRealTime.h"
 
 #include <time.h>
-#include <direct.h>
+
+// TO DO: move (@Murta)
+#ifdef _WIN32
+ #include <direct.h>
+#endif
 
 namespace gs2d {
 

@@ -101,6 +101,8 @@
 		AA92F37422F62B1C00AECB30 /* SpriteRects.h in Headers */ = {isa = PBXBuildFile; fileRef = AA92F37022F62B1C00AECB30 /* SpriteRects.h */; };
 		AA92F37522F62B1C00AECB30 /* SpriteRects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA92F37122F62B1C00AECB30 /* SpriteRects.cpp */; };
 		AA92F37722F62E0900AECB30 /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA92F37622F62E0900AECB30 /* Shader.cpp */; };
+		AADD118323173B8300A5541C /* getRealTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AADD118123173B8200A5541C /* getRealTime.cpp */; };
+		AADD118423173B8300A5541C /* getRealTime.h in Headers */ = {isa = PBXBuildFile; fileRef = AADD118223173B8300A5541C /* getRealTime.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -223,6 +225,8 @@
 		AA92F37022F62B1C00AECB30 /* SpriteRects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpriteRects.h; path = ../../../../src/SpriteRects.h; sourceTree = "<group>"; };
 		AA92F37122F62B1C00AECB30 /* SpriteRects.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SpriteRects.cpp; path = ../../../../src/SpriteRects.cpp; sourceTree = "<group>"; };
 		AA92F37622F62E0900AECB30 /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Shader.cpp; path = ../../../../src/Shader.cpp; sourceTree = "<group>"; };
+		AADD118123173B8200A5541C /* getRealTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = getRealTime.cpp; path = ../../../../src/Platform/getRealTime.cpp; sourceTree = "<group>"; };
+		AADD118223173B8300A5541C /* getRealTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = getRealTime.h; path = ../../../../src/Platform/getRealTime.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -308,6 +312,8 @@
 				7473CAA316330391005DB920 /* Logger.h */,
 				7421F2DD1648173000C55BAE /* StdFileManager.cpp */,
 				7421F2DE1648173000C55BAE /* StdFileManager.h */,
+				AADD118123173B8200A5541C /* getRealTime.cpp */,
+				AADD118223173B8300A5541C /* getRealTime.h */,
 			);
 			name = Platform;
 			sourceTree = "<group>";
@@ -524,6 +530,7 @@
 				AA92F34A22F6112E00AECB30 /* GLShader.h in Headers */,
 				7473CA8216330304005DB920 /* Texture.h in Headers */,
 				7473CA8516330304005DB920 /* Video.h in Headers */,
+				AADD118423173B8300A5541C /* getRealTime.h in Headers */,
 				7473CA8616330304005DB920 /* Window.h in Headers */,
 				AA18F5E922B8804100F44DA6 /* Vector2i.h in Headers */,
 				7473CA9416330366005DB920 /* Color.h in Headers */,
@@ -645,6 +652,7 @@
 				7473CAA416330391005DB920 /* FileIOHub.cpp in Sources */,
 				7473CAA616330391005DB920 /* FileLogger.cpp in Sources */,
 				7473CAA816330391005DB920 /* FileManager.cpp in Sources */,
+				AADD118323173B8300A5541C /* getRealTime.cpp in Sources */,
 				7473CAB51633044E005DB920 /* BitmapFont.cpp in Sources */,
 				7473CAB71633044E005DB920 /* BitmapFontManager.cpp in Sources */,
 				7473CABF1633045D005DB920 /* Enml.cpp in Sources */,

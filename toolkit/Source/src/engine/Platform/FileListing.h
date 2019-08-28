@@ -22,8 +22,8 @@ public:
 		std::string file;
 	};
 
-	//TODO: Needs to be implemented
-	bool ListDirectoryFiles(const char* directory, const char* extension) { return false; };
+	// Should be implemented in file FileListing.{platform}.cpp
+	bool ListDirectoryFiles(const char* directory, const char* extension);
 
 	inline unsigned int GetNumFiles()
 	{
