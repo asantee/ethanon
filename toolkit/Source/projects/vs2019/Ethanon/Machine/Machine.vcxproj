@@ -110,7 +110,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\vendors\tsl;C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\vendors\boost\include\boost-1_70;C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\angelscript\include;..\..\..\..\src\box2d\;..\..\..\..\src\gs2d\src\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\vendors\boost\include\boost-1_70;C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\angelscript\include;..\..\..\..\src\box2d\;..\..\..\..\src\gs2d\src\;..\..\..\..\src\gs2d\vendors\tsl</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>

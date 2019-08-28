@@ -2,8 +2,7 @@
 #define SHARED_DATA_MANAGER_H_
 
 #include "SharedData.h"
-
-#include "../../../../tsl/hopscotch_map.h"
+#include "hopscotch_map.h"
 
 namespace Platform {
 
