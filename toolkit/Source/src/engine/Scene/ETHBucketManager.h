@@ -10,7 +10,7 @@ class ETHEntityArray;
 
 #include "../Resource/ETHResourceProvider.h"
 
-#include "hopscotch_map.h"
+#include <hopscotch_map.h>
 
 #include <cstdint>
 

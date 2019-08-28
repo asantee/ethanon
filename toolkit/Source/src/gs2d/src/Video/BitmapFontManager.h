@@ -2,7 +2,8 @@
 #define GS2D_BITMAP_FONT_MANAGER_H_
 
 #include "BitmapFont.h"
-#include "hopscotch_map.h"
+
+#include <hopscotch_map.h>
 
 namespace gs2d {
 

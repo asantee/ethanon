@@ -5,7 +5,7 @@
 #include "Math/Color.h"
 #include "Texture.h"
 
-#include "hopscotch_map.h"
+#include <hopscotch_map.h>
 
 #include <boost/shared_ptr.hpp>
 
