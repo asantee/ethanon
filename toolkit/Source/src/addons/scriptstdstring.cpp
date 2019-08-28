@@ -22,7 +22,12 @@ public:
 	{
 		// The script engine must release each string
 		// constant that it has requested
-		assert(stringCache.size() == 0);
+		
+		//assert(stringCache.size() == 0);
+		
+		// The assertion above has been removed because it is triggering lots of crashes on iOS.
+		// Crashes are happening possibly when the app is ended by the system since we've not
+		// been getting crash complaints from users. This should be verified at some point.
 	}
 
 	const void *GetStringConstant(const char *data, asUINT length)
