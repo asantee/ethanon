@@ -801,6 +801,7 @@
 				);
 				GCC_WARN_UNUSED_PARAMETER = NO;
 				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../../../vendors/tsl\"",
 					"\"$(SRCROOT)/../../../vendors/BoostSDK\"",
 					"\"$(SRCROOT)/../../../../soil\"",
 					"\"$(SRCROOT)/../../../src/Audio/fmod/inc\"",
@@ -842,6 +843,7 @@
 				);
 				GCC_WARN_UNUSED_PARAMETER = NO;
 				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../../../vendors/tsl\"",
 					"\"$(SRCROOT)/../../../vendors/BoostSDK\"",
 					"\"$(SRCROOT)/../../../../soil\"",
 					"\"$(SRCROOT)/../../../src/Audio/fmod/inc\"",

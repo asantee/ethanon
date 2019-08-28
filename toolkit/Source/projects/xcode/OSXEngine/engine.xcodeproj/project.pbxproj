@@ -1289,6 +1289,7 @@
 					"\"$(SRCROOT)/../../../src/vendors/hashlib2plus/src\"",
 					"\"$(SRCROOT)/../../../src/gs2d/src\"",
 					"\"$(SRCROOT)/../../../src/box2d\"",
+					"\"$(SRCROOT)/../../../src/gs2d/vendors/tsl\"",
 				);
 				INFOPLIST_FILE = "engine/engine-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -1328,6 +1329,7 @@
 					"\"$(SRCROOT)/../../../src/vendors/hashlib2plus/src\"",
 					"\"$(SRCROOT)/../../../src/gs2d/src\"",
 					"\"$(SRCROOT)/../../../src/box2d\"",
+					"\"$(SRCROOT)/../../../src/gs2d/vendors/tsl\"",
 				);
 				INFOPLIST_FILE = "engine/engine-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";

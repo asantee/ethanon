@@ -5,7 +5,7 @@
 
 #include "../../Platform/FileManager.h"
 
-#include "../../../../tsl/hopscotch_map.h"
+#include <hopscotch_map.h>
 
 #include "GLES2Include.h"
 
