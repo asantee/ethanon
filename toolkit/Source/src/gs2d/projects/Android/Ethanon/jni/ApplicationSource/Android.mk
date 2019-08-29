@@ -11,6 +11,7 @@ ENGINE_VENDORS_PATH = ../../../../../../vendors
 
 LOCAL_C_INCLUDES = \
 	$(VENDORS_PATH)/BoostSDK/ \
+	$(VENDORS_PATH)/tsl/ \
 	$(VENDORS_PATH)/libzip/ \
 	$(SOURCE_PATH)/gs2d/src/ \
 	$(SOURCE_PATH)/vendors/hashlib2plus/src/ \

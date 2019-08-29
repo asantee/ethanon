@@ -9,6 +9,7 @@ VENDORS_PATH = $(LOCAL_PATH)/../../../../../vendors
 SOURCE_PATH = $(LOCAL_PATH)/../../../../../..
 
 LOCAL_C_INCLUDES = \
+	$(VENDORS_PATH)/tsl/ \
 	$(VENDORS_PATH)/BoostSDK/ \
 	$(VENDORS_PATH)/libzip/
 
