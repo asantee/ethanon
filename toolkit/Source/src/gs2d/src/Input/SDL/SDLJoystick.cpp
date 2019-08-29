@@ -92,7 +92,7 @@ bool SDLJoystick::Update()
 	if (m_nDetectedJoysticks != SDL_NumJoysticks())
 		DetectJoysticks();
 
-	for (int j = 0; j < m_nDetectedJoysticks; j++)
+	for (unsigned int j = 0; j < m_nDetectedJoysticks; j++)
 	{
 		if (m_joysticks[j].status == GSJS_DETECTED)
 		{

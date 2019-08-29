@@ -26,7 +26,7 @@ public:
 		float rudder;
 		math::Vector2 uv;
 		KeyStateManager state[GSB_NUM_BUTTONS];
-		int nButtons;
+		unsigned int nButtons;
 	};
 
 	SDLJoystick(const bool showJoystickWarnings);

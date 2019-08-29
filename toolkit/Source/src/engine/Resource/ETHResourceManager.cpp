@@ -80,8 +80,8 @@ ETHGraphicResourceManager::SpriteResource::SpriteResource(
 								gs2d::math::Rect2D(
 									Vector2(float(x) / sheetSize.x, float(y) / sheetSize.y),
 									Vector2(float(width) / sheetSize.x, float(height) / sheetSize.y),
-									Vector2(offsetX, offsetY),
-									Vector2(originalWidth, originalHeight)));
+									Vector2((float)offsetX, (float)offsetY),
+									Vector2((float)originalWidth, (float)originalHeight)));
 							pSpriteIter = pSpriteIter->NextSiblingElement();
 						} while (pSpriteIter);
 					}

@@ -2,11 +2,9 @@
 
 #include <windows.h>
 
-using namespace gs2d;
-
 namespace Platform {
 
-bool FileListing::ListDirectoryFiles(const str_type::char_t* directory, const str_type::char_t* extension)
+bool FileListing::ListDirectoryFiles(const char* directory, const char* extension)
 {
 	m_fileName.clear();
 	std::string dirExt;

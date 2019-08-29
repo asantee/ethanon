@@ -24,7 +24,7 @@
  #include <GL/glu.h>
  #include <GL/glext.h>
 
- #ifdef GL_EXT_texture_swizzle
+ #ifndef GL_EXT_texture_swizzle
   #define GL_TEXTURE_SWIZZLE_R GL_TEXTURE_SWIZZLE_R_EXT
   #define GL_TEXTURE_SWIZZLE_G GL_TEXTURE_SWIZZLE_G_EXT
   #define GL_TEXTURE_SWIZZLE_B GL_TEXTURE_SWIZZLE_B_EXT
