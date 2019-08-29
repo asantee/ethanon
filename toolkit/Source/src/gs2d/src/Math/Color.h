@@ -18,6 +18,7 @@ struct Color : public math::Vector4
 	Color();
 	Color(const math::Vector4& v);
 	Color(const Color& v);
+	Color(const math::Vector3& v, const float alpha);
 	Color(const float fr, const float fg, const float fb, const float fa);
 	Color(const uint32_t color);
 

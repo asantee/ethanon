@@ -42,32 +42,32 @@ void ETHDateTime::Update()
 	m_seconds = duration.seconds();
 }
 
-unsigned int ETHDateTime::GetDay() const
+int64_t ETHDateTime::GetDay() const
 {
 	return m_day;
 }
 
-unsigned int ETHDateTime::GetMonth() const
+int64_t ETHDateTime::GetMonth() const
 {
 	return m_month;
 }
 
-unsigned int ETHDateTime::GetYear() const
+int64_t ETHDateTime::GetYear() const
 {
 	return m_year;
 }
 
-unsigned int ETHDateTime::GetHours() const
+int64_t ETHDateTime::GetHours() const
 {
 	return m_hours;
 }
 
-unsigned int ETHDateTime::GetMinutes() const
+int64_t ETHDateTime::GetMinutes() const
 {
 	return m_minutes;
 }
 
-unsigned int ETHDateTime::GetSeconds() const
+int64_t ETHDateTime::GetSeconds() const
 {
 	return m_seconds;
 }

@@ -1,5 +1,6 @@
 #ifndef ETH_DATE_TIME_H_
 #define ETH_DATE_TIME_H_
+#include <cstdint>
 
 class ETHDateTime
 {
@@ -10,21 +11,21 @@ public:
 	ETHDateTime();
 	void Update();
 
-	unsigned int GetDay() const;
-	unsigned int GetMonth() const;
-	unsigned int GetYear() const;
-	unsigned int GetHours() const;
-	unsigned int GetMinutes() const;
-	unsigned int GetSeconds() const;
+	int64_t GetDay() const;
+	int64_t GetMonth() const;
+	int64_t GetYear() const;
+	int64_t GetHours() const;
+	int64_t GetMinutes() const;
+	int64_t GetSeconds() const;
 
 private:
-	unsigned int m_day;
-	unsigned int m_month;
-	unsigned int m_year;
-	unsigned int m_hours;
-	unsigned int m_minutes;
-	unsigned int m_seconds;
-	int m_ref;
+	int64_t m_day;
+	int64_t m_month;
+	int64_t m_year;
+	int64_t m_hours;
+	int64_t m_minutes;
+	int64_t m_seconds;
+	int32_t m_ref;
 };
 
 #endif

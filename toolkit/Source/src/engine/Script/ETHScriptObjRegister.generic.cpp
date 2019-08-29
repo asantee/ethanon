@@ -609,13 +609,13 @@ asDECLARE_FUNCTION_WRAPPER(__DateTimeFactory, DateTimeFactory);
 asDECLARE_METHOD_WRAPPERPR(__addRefDateTime,  ETHDateTime, AddRef,  (void), void);
 asDECLARE_METHOD_WRAPPERPR(__releaseDateTime, ETHDateTime, Release, (void), void);
 
-asDECLARE_METHOD_WRAPPERPR(__update,     ETHDateTime, Update,     (void),       unsigned int);
-asDECLARE_METHOD_WRAPPERPR(__getDay,     ETHDateTime, GetDay,     (void) const, unsigned int);
-asDECLARE_METHOD_WRAPPERPR(__getMonth,   ETHDateTime, GetMonth,   (void) const, unsigned int);
-asDECLARE_METHOD_WRAPPERPR(__getYear,    ETHDateTime, GetYear,    (void) const, unsigned int);
-asDECLARE_METHOD_WRAPPERPR(__getHours,   ETHDateTime, GetHours,   (void) const, unsigned int);
-asDECLARE_METHOD_WRAPPERPR(__getMinutes, ETHDateTime, GetMinutes, (void) const, unsigned int);
-asDECLARE_METHOD_WRAPPERPR(__getSeconds, ETHDateTime, GetSeconds, (void) const, unsigned int);
+asDECLARE_METHOD_WRAPPERPR(__update,     ETHDateTime, Update,     (void),       void);
+asDECLARE_METHOD_WRAPPERPR(__getDay,     ETHDateTime, GetDay,     (void) const, int64_t);
+asDECLARE_METHOD_WRAPPERPR(__getMonth,   ETHDateTime, GetMonth,   (void) const, int64_t);
+asDECLARE_METHOD_WRAPPERPR(__getYear,    ETHDateTime, GetYear,    (void) const, int64_t);
+asDECLARE_METHOD_WRAPPERPR(__getHours,   ETHDateTime, GetHours,   (void) const, int64_t);
+asDECLARE_METHOD_WRAPPERPR(__getMinutes, ETHDateTime, GetMinutes, (void) const, int64_t);
+asDECLARE_METHOD_WRAPPERPR(__getSeconds, ETHDateTime, GetSeconds, (void) const, int64_t);
 
 void RegisterDateTimeMethods(asIScriptEngine *pASEngine)
 {
@@ -624,13 +624,13 @@ void RegisterDateTimeMethods(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterObjectBehaviour("dateTime", asBEHAVE_ADDREF,  "void f()",      asFUNCTION(__addRefDateTime),  asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectBehaviour("dateTime", asBEHAVE_RELEASE, "void f()",      asFUNCTION(__releaseDateTime), asCALL_GENERIC); assert(r >= 0);
  
-	r = pASEngine->RegisterObjectMethod("dateTime", "uint update()",           asFUNCTION(__update),     asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("dateTime", "uint getDay() const",     asFUNCTION(__getDay),     asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("dateTime", "uint getMonth() const",   asFUNCTION(__getMonth),   asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("dateTime", "uint getYear() const",    asFUNCTION(__getYear),    asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("dateTime", "uint getHours() const",   asFUNCTION(__getHours),   asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("dateTime", "uint getMinutes() const", asFUNCTION(__getMinutes), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("dateTime", "uint getSeconds() const", asFUNCTION(__getSeconds), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("dateTime", "void update()",           asFUNCTION(__update),     asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("dateTime", "int64 getDay() const",     asFUNCTION(__getDay),     asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("dateTime", "int64 getMonth() const",   asFUNCTION(__getMonth),   asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("dateTime", "int64 getYear() const",    asFUNCTION(__getYear),    asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("dateTime", "int64 getHours() const",   asFUNCTION(__getHours),   asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("dateTime", "int64 getMinutes() const", asFUNCTION(__getMinutes), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("dateTime", "int64 getSeconds() const", asFUNCTION(__getSeconds), asCALL_GENERIC); assert(r >= 0);
 }
 
 asDECLARE_METHOD_WRAPPERPR(__AddRefPC,  ETHPhysicsController, AddRef,  (void), void);

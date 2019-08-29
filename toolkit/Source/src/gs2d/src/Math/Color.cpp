@@ -17,6 +17,11 @@ Color::Color(const math::Vector4& v) :
 {
 }
 
+Color::Color(const math::Vector3& v, const float alpha) :
+	math::Vector4(v, alpha)
+{
+}
+
 Color::Color(const float fr, const float fg, const float fb, const float fa) :
 	math::Vector4(fr, fg, fb, fa)
 {
