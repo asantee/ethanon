@@ -80,6 +80,7 @@ testbed/GeneralTests/scenes/TestEntity-esc/
 *.bin
 *.pdb
 *.log
+*.TMP
 file_version.aps
 
 # Xcode output files
