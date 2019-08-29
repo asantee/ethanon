@@ -104,7 +104,7 @@ xcuserdata/*
 # Android generated files
 toolkit/Source/src/gs2d/projects/Android/Ethanon/bin/
 toolkit/Source/src/gs2d/projects/Android/Ethanon/gen/
-toolkit/Source/src/gs2d/projects/Android/Ethanon/libs/acra-4.4.0.jar
+toolkit/Source/src/gs2d/projects/Android/GS2D/libs/
 
 # Frequently used binaries
 audiere.dll
