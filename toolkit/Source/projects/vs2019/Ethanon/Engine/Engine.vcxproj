@@ -190,6 +190,7 @@
     <ClCompile Include="..\..\..\..\src\engine\Physics\ETHRayCastCallback.cpp" />
     <ClCompile Include="..\..\..\..\src\engine\Physics\ETHRevoluteJoint.cpp" />
     <ClCompile Include="..\..\..\..\src\engine\Platform\ETHAppEnmlFile.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Platform\windows\FileListing.windows.cpp" />
     <ClCompile Include="..\..\..\..\src\engine\Renderer\ETHEntityHaloRenderer.cpp" />
     <ClCompile Include="..\..\..\..\src\engine\Renderer\ETHEntityParticleRenderer.cpp" />
     <ClCompile Include="..\..\..\..\src\engine\Renderer\ETHEntityPieceRenderer.cpp" />

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Arquivos de Origem">
@@ -57,6 +57,9 @@
     </Filter>
     <Filter Include="vendors\cJSON">
       <UniqueIdentifier>{b5712394-ce14-415e-947e-bb295f1918ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\windows">
+      <UniqueIdentifier>{d3befecf-4c6f-4992-8da0-a1d2e71e8302}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -290,6 +293,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\cjson\cJSON.c">
       <Filter>vendors\cJSON</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Platform\windows\FileListing.windows.cpp">
+      <Filter>Platform\windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
