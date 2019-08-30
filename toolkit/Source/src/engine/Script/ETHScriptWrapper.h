@@ -36,8 +36,6 @@ protected:
 
 	static GARBAGE_COLLECT_MODE m_gcMode;
 
-	static void DrawBlackCurtain();
-
 public:
 	struct ETH_VIDEO_MODE_POD
 	{

@@ -8,7 +8,7 @@
 class ETHShaderManager
 {
 public:
-	ETHShaderManager(VideoPtr video, const std::string& shaderPath);
+	ETHShaderManager(VideoPtr video);
 
 	bool BeginAmbientPass(const ETHSpriteEntity* pRender, const float maxHeight, const float minHeight);
 	bool EndAmbientPass();
@@ -19,14 +19,10 @@ public:
 	bool BeginParticlePass(const ETHParticleSystem& system);
 	bool EndParticlePass();
 
-	SpritePtr GetOpaqueSprite();
-
 private:
 
 	VideoPtr m_video;
 	Video::ALPHA_MODE m_lastAM;
-
-	SpritePtr m_opaqueSprite;
 };
 
 typedef boost::shared_ptr<ETHShaderManager> ETHShaderManagerPtr;
