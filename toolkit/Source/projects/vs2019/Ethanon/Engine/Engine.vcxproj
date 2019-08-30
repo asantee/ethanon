@@ -82,8 +82,9 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\vendors\boost\include\boost-1_70;C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\angelscript\include;..\..\..\..\src\box2d\;..\..\..\..\src\gs2d\src\;..\..\..\..\src\vendors\hashlib2plus\src\;C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\vendors\tsl</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\..\src\vendors\boost\include\boost-1_70;..\..\..\..\src\addons\;..\..\..\..\src\angelscript\include;..\..\..\..\src\box2d\;..\..\..\..\src\gs2d\src\;..\..\..\..\src\vendors\hashlib2plus\src\;..\..\..\..\src\gs2d\vendors\tsl</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_MBCS;_STDC_CONSTANT_MACROS;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -117,7 +118,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\vendors\boost\include\boost-1_70;C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\addons\;C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\angelscript\include;..\..\..\..\src\box2d\;..\..\..\..\src\gs2d\src\;..\..\..\..\src\vendors\hashlib2plus\src\;..\..\..\..\src\gs2d\vendors\tsl</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\src\vendors\boost\include\boost-1_70;..\..\..\..\src\addons\;..\..\..\..\src\angelscript\include;..\..\..\..\src\box2d\;..\..\..\..\src\gs2d\src\;..\..\..\..\src\vendors\hashlib2plus\src\;..\..\..\..\src\gs2d\vendors\tsl</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PreprocessorDefinitions>_MBCS;_STDC_CONSTANT_MACROS;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>

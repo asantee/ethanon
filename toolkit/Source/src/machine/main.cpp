@@ -53,14 +53,12 @@ std::string FindResourceDir(const int argc, char* argv[])
 	for (int t = 0; t < argc; t++)
 	{
 		const std::string argStr = (argv[t]);
-		std::cout << argStr << std::endl;
 		if (argStr.substr(0, 4) == "dir=")
 		{
 			const std::vector<std::string> pieces = Platform::SplitString(argStr, "=");
 			if (pieces.size() >= 2)
 			{
 				std::string dir = Platform::AddLastSlash(pieces[1]);
-				std::cout << dir << std::endl;
 				return Platform::FixSlashes(dir);
 			}
 		}
