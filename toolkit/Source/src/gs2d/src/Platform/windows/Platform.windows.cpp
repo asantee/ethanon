@@ -39,12 +39,12 @@ namespace Platform {
 #ifdef _DEBUG
 	std::string GetModuleDirectory()
 	{
-		char currentDirectoryBuffer[65536];
+		char currentDirectoryBuffer[16380];
 
 #ifdef GS2D_STR_TYPE_WCHAR
-		GetCurrentDirectoryW(65535, currentDirectoryBuffer);
+		GetCurrentDirectoryW(16380, currentDirectoryBuffer);
 #else
-		GetCurrentDirectoryA(65535, currentDirectoryBuffer);
+		GetCurrentDirectoryA(16380, currentDirectoryBuffer);
 #endif
 
 		return AddLastSlash(currentDirectoryBuffer);
@@ -52,12 +52,12 @@ namespace Platform {
 #else
 	std::string GetModuleDirectory()
 	{
-		char moduleFileName[65536];
+		char moduleFileName[16380];
 
 #ifdef GS2D_STR_TYPE_WCHAR
-		GetModuleFileNameW(NULL, moduleFileName, 65535);
+		GetModuleFileNameW(NULL, moduleFileName, 16380);
 #else
-		GetModuleFileNameA(NULL, moduleFileName, 65535);
+		GetModuleFileNameA(NULL, moduleFileName, 16380);
 #endif
 
 		return AddLastSlash(GetFileDirectory(moduleFileName));
