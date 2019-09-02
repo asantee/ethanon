@@ -24,6 +24,8 @@ public:
 	virtual std::string GetGlobalExternalStorageDirectory() const;
 
 	virtual void SetResourceDirectory(const std::string& directory);
+	virtual void SetExternalStorageDirectory(const std::string& directory);
+	virtual void SetGlobalExternalStorageDirectory(const std::string& directory);
 	virtual void SetFileManager(Platform::FileManagerPtr fileManager, const std::string& resourceDirectory) = 0;
 	virtual const FileManagerPtr& GetFileManager();
 	virtual const FileManagerPtr& GetStartFileManager();

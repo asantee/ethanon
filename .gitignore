@@ -81,6 +81,7 @@ testbed/GeneralTests/scenes/TestEntity-esc/
 *.pdb
 *.log
 *.TMP
+*.lastcodeanalysissucceeded
 file_version.aps
 
 # Xcode output files

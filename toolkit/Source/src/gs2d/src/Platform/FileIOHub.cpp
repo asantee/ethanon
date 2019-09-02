@@ -51,6 +51,16 @@ void FileIOHub::SetResourceDirectory(const std::string& directory)
 	m_resourceDirectory = directory;
 }
 
+void FileIOHub::SetExternalStorageDirectory(const std::string& directory)
+{
+	m_externalStorageDirectory = directory;
+}
+
+void FileIOHub::SetGlobalExternalStorageDirectory(const std::string& directory)
+{
+	m_globalExternalStorageDirectory = directory;
+}
+
 void FileIOHub::RestoreStartFileManager()
 {
 	m_fileManager = m_startFileManager;

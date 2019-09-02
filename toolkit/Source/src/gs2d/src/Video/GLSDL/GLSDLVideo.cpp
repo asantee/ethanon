@@ -6,11 +6,6 @@
 
 #include <time.h>
 
-// TO DO: move (@Murta)
-#ifdef _WIN32
- #include <direct.h>
-#endif
-
 namespace gs2d {
 
 float GLSDLVideo::m_mouseWheel(0.0f);
@@ -200,12 +195,6 @@ bool GLSDLVideo::StartApplication(
     {
         SDL_GL_SetSwapInterval(1);
     }
-#ifdef _WIN32
-	_chdir(m_fileIOHub->GetProgramDirectory().c_str());
-
-#else
-    chdir(m_fileIOHub->GetProgramDirectory().c_str());
-#endif
 
 	// initialize OpenGL
     SetAlphaMode(Video::AM_PIXEL);

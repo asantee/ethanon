@@ -10,7 +10,7 @@ FileIOHubPtr CreateFileIOHub(
 	const std::string* resourceDirectory)
 {
 	if (resourceDirectory == 0)
-	{
+	{	
 		return FileIOHubPtr(new WindowsFileIOHub(fileManager, fontDirectory));
 	}
 	else

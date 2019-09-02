@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <crtdbg.h>
 #endif
+#include <direct.h>
 #endif
 
 #include "../engine/ETHTypes.h"
@@ -63,7 +64,7 @@ std::string FindResourceDir(const int argc, char* argv[])
 			}
 		}
 	}
-	return "";
+	return GetModuleDirectory();
 }
 
 #if _WIN32
@@ -86,8 +87,18 @@ int main(int argc, char* argv[])
 	{
 		const std::string resourceDirectory = FindResourceDir(argc, argv);
 		if (!resourceDirectory.empty())
+		{
 			fileIOHub->SetResourceDirectory(resourceDirectory);
+			fileIOHub->SetExternalStorageDirectory(resourceDirectory);
+			fileIOHub->SetGlobalExternalStorageDirectory(resourceDirectory);
+		}
+		else
+		{
+			std::cout << "Could not find resources directory parameter. Exiting...";
+			return 22; //EINVAL, invalid argument
+		}
 	}
+
 	const std::string resourceDirectory = fileIOHub->GetResourceDirectory();
 
 	const ETHAppEnmlFile app(
@@ -98,7 +109,7 @@ int main(int argc, char* argv[])
 
 	const std::string bitmapFontPath = resourceDirectory + ETHDirectories::GetBitmapFontDirectory();
 
-	bool aborted;
+	bool aborted = false;
 	{
 		ETHEnginePtr application = ETHEnginePtr(new ETHEngine(testing, compileAndRun, true /*autoStartScriptEngine*/));
 		application->SetHighEndDevice(true);
@@ -155,9 +166,9 @@ int main(int argc, char* argv[])
 
 	if (aborted && wait)
 	{
-		std::cout << "Press any key to continue..." << "\n";
+		std::cerr << "Press any key to continue..." << "\n";
 		std::cin.get();
 	}
 
-	return 0;
+	return aborted;
 }
