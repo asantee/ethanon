@@ -1,0 +1,22 @@
+{
+    "name": "Ethanon AngelScript",
+    "version": "1.0.1",
+    "engines": {
+        "vscode": "^1.13.0"
+    },
+    "publisher": "Asantee Games",
+    "contributes": {
+        "languages": [{
+            "id": "ethanon",
+            "aliases": ["Ethanon", "ethanon", "angelscript", "AngelScript"],
+            "extensions": [".as",".angelscript"],
+            "configuration": "./language-configuration.json"
+
+        }],
+        "grammars": [{
+            "language": "ethanon",
+            "scopeName": "source.ethanon",
+            "path": "./ethanon.tmLanguage"
+        }]
+    }
+}
