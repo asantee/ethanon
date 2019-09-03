@@ -2,15 +2,6 @@
 #define GS2D_USE_SDL
 #endif
 
-#ifdef _WIN32
-#if defined(_DEBUG) || defined(DEBUG)
-#define _CRTDBG_MAP_ALLOC
-#include <stdlib.h>
-#include <crtdbg.h>
-#endif
-#include <direct.h>
-#endif
-
 #include "../engine/ETHTypes.h"
 #include "../engine/Resource/ETHDirectories.h"
 #include <BaseApplication.h>
@@ -20,6 +11,17 @@
 #include <Platform/FileIOHub.h>
 #include "../engine/ETHEngine.h"
 #include "../engine/Platform/ETHAppEnmlFile.h"
+
+#ifdef _WIN32
+#if defined(_DEBUG) || defined(DEBUG)
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+#endif
+#define NOMINMAX
+#include <windows.h>
+#include <direct.h>
+#endif
 
 using namespace gs2d;
 using namespace gs2d::math;
@@ -66,11 +68,6 @@ std::string FindResourceDir(const int argc, char* argv[])
 	}
 	return GetModuleDirectory();
 }
-
-#if _WIN32
-#define NOMINMAX
-#include <windows.h>
-#endif
 
 int main(int argc, char* argv[])
 {
