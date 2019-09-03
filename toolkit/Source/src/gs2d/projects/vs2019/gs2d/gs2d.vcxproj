@@ -42,7 +42,9 @@
     <ClCompile Include="..\..\..\src\Math\Vector2i.cpp" />
     <ClCompile Include="..\..\..\src\Math\Vector3.cpp" />
     <ClCompile Include="..\..\..\src\Math\Vector4.cpp" />
-    <ClCompile Include="..\..\..\src\Platform\FileIOHub.cpp" />
+    <ClCompile Include="..\..\..\src\Platform\FileIOHub.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AS_NO_COMPILER;_MBCS;_STDC_CONSTANT_MACROS;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\Platform\FileLogger.cpp" />
     <ClCompile Include="..\..\..\src\Platform\FileManager.cpp" />
     <ClCompile Include="..\..\..\src\Platform\getRealTime.cpp" />

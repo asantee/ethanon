@@ -58,5 +58,4 @@ FileIOHubPtr CreateFileIOHub(
 	const std::string* resourceDirectory = 0);
 
 }
-
 #endif
