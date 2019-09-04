@@ -545,6 +545,7 @@
 					"\"$(SRCROOT)/../../../src/gs2d/vendors/BoostSDK\"",
 					"\"$(SRCROOT)/../../../src/box2d\"",
 					"\"$(SRCROOT)/../../../src/gs2d/vendors/tsl\"",
+					"\"$(SRCROOT)/../../../src/engine\"",
 				);
 				INFOPLIST_FILE = "machine/machine-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
@@ -584,6 +585,7 @@
 					"\"$(SRCROOT)/../../../src/gs2d/vendors/BoostSDK\"",
 					"\"$(SRCROOT)/../../../src/box2d\"",
 					"\"$(SRCROOT)/../../../src/gs2d/vendors/tsl\"",
+					"\"$(SRCROOT)/../../../src/engine\"",
 				);
 				INFOPLIST_FILE = "machine/machine-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
