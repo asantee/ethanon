@@ -2,7 +2,6 @@
 #define GS2D_USE_SDL
 #endif
 
-#include <ETHTypes.h>
 #include <Resource/ETHDirectories.h>
 #include <BaseApplication.h>
 
