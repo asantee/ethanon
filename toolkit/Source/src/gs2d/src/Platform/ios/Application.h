@@ -3,45 +3,31 @@
 
 #import <Foundation/Foundation.h>
 
-#import <UIKit/UIKit.h>
-
 #import <CoreMotion/CoreMotion.h>
 
 #import <GLKit/GLKit.h>
 
-#import "../../Math/Vector2.h"
+#import <Platform/ios/IOSNativeCommandListener.h>
 
-#import "../NativeCommandManager.h"
+@interface ApplicationWrapper : NSObject
 
-class ApplicationWrapper
-{
-	float m_pixelDensity;
-	
-	NSMutableArray* m_touches;
-	NSLock* m_arrayLock;
+- (id)init;
 
-public:
-	ApplicationWrapper();
+- (void)detectJoysticks;
+- (void)forceGamepadPause;
+- (void)renderFrame:(GLKView*) view;
+- (void)update;
+- (void)destroy;
 
-	void Start(GLKView *view);
-	void Update();
-	void RenderFrame(GLKView *view);
-	void Destroy();
-	static void Restore();
+- (void)touchesBegan:(UIView*) thisView withTouches:(NSSet*) touches withEvent:(UIEvent*) event;
+- (void)touchesMoved:(UIView*) thisView withTouches:(NSSet*) touches withEvent:(UIEvent*) event;
+- (void)touchesEnded:(UIView*) thisView withTouches:(NSSet*) touches withEvent:(UIEvent*) event;
+- (void)touchesCancelled:(UIView*) thisView withTouches:(NSSet*) touches withEvent:(UIEvent*) event;
 
-	void DetectJoysticks();
-	void ForceGamepadPause();
+- (void)insertCommandListener:(const Platform::NativeCommandListenerPtr) listener;
 
-	static gs2d::math::Vector2 GetScreenSize(GLKView* view);
+- (void)updateAccelerometer:(CMAccelerometerData*) accelerometerData;
 
-	void TouchesBegan(UIView* thisView, NSSet* touches, UIEvent* event);
-	void TouchesMoved(UIView* thisView, NSSet* touches, UIEvent* event);
-	void TouchesEnded(UIView* thisView, NSSet* touches, UIEvent* event);
-	void TouchesCancelled(UIView* thisView, NSSet* touches, UIEvent* event);
-	
-	void UpdateAccelerometer(CMAccelerometerData *accelerometerData);
-
-	static Platform::NativeCommandManager m_commandManager;
-};
+@end
 
 #endif
