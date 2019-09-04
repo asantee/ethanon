@@ -1,5 +1,4 @@
-﻿Ethanon engine
-==============
+﻿# Ethanon engine
 
 - [About the engine] [1]
 - [Sample code] [2]
@@ -7,8 +6,7 @@
   [1]: http://doc.ethanonengine.com/manual/6
   [2]: https://github.com/asantee/ethanon-samples
 
-License
--------
+### License
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this
 software and associated documentation files (the "Software"), to deal in the
@@ -27,23 +25,56 @@ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTIO
 CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
 OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-How to build
-============
+## Preresquisites
 
-Things that can't be missed in order to compile successfully are listed below:
+- Git
+### Windows notes
 
-Windows
--------
+At Windows, most libraries suggest installing it's headers/binaries at `%ProgramFiles%`, just
+like any other application, but for building permission simplicity we convention to install
+all libraries at `%UserProfile%\Libraries\`.
 
-- Use Visual Studio 2008 (9.0)
-- Unpack the following files located at **toolkit/Source/src/gs2d/vendors**:
-  - vendors.zip
+Example:
+during libboost install on Windows, use:
+`b2 install --prefix=%UserProfile%\Libraries\`
 
-Mac OS X
---------
+## Dependencies
 
-- Use Xcode
+- [libboost ^1.69](https://boost.org)
+  - git clone --recursive https://github.com/boostorg/boost.git
+  - [or download archive](https://www.boost.org/users/download/)
+  - [Getting Started](https://github.com/boostorg/boost/wiki/Getting-Started%3A-Overview)
+- [tsl/hopscotch](https://github.com/Tessil/hopscotch-map)
+- [glext](https://sourceforge.net/projects/glextwin32/)
+- [SDL2](https://www.libsdl.org/download-2.0.php)
+- OpenGL
+- [fmod](https://www.fmod.com/)
+- [Angelscript ^2.32](https://angelcode.com)
+
+## Build Tools
+
+### Windows
+- MSVC 16
+
+## Currently used IDEs
+
+### Windows
+- Visual Studio 2019
+
+### Mac OS X
+
+- Xcode
+
+## How to build
+
 - Unpack the following files located at **toolkit/Source/src/gs2d/vendors**:
   - vendors.zip
   - Cg.framework.zip
   - SDL2.framework.zip
+
+
+
+- Use Visual Studio 2019 (16.0)
+- Unpack the following files located at **toolkit/Source/src/gs2d/vendors**:
+  - vendors.zip
+

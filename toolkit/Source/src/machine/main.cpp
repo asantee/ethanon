@@ -2,15 +2,15 @@
 #define GS2D_USE_SDL
 #endif
 
-#include "../engine/ETHTypes.h"
-#include "../engine/Resource/ETHDirectories.h"
+#include <ETHTypes.h>
+#include <Resource/ETHDirectories.h>
 #include <BaseApplication.h>
 
 #include <Platform/Platform.h>
 #include <Platform/StdFileManager.h>
 #include <Platform/FileIOHub.h>
-#include "../engine/ETHEngine.h"
-#include "../engine/Platform/ETHAppEnmlFile.h"
+#include <ETHEngine.h>
+#include <Platform/ETHAppEnmlFile.h>
 
 #ifdef _WIN32
 #if defined(_DEBUG) || defined(DEBUG)
