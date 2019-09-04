@@ -19,11 +19,6 @@
 #endif
 #define NOMINMAX
 #include <windows.h>
-<<<<<<< HEAD
-//TODO: remove #include <direct.h>
-=======
-#include <direct.h>
->>>>>>> 66f34a5e86c8613a01669c37e7fac608f58eb49d
 #endif
 
 using namespace gs2d;
