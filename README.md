@@ -32,18 +32,20 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 At Windows, most libraries suggest installing it's headers/binaries at `%ProgramFiles%`, just
 like any other application, but for building permission simplicity we convention to install
-all libraries at `%UserProfile%\Libraries\`.
+all libraries at `%UserProfile%\.usr\`.
+For creating this directory, use mkdir ".usr" at windows console.
 
 Example:
 during libboost install on Windows, use:
-`b2 install --prefix=%UserProfile%\Libraries\`
+`b2 install --prefix=%UserProfile%\.usr\`
 
 ## Dependencies
 
 - [libboost ^1.69](https://boost.org)
-  - git clone --recursive https://github.com/boostorg/boost.git
+  - `git clone --recursive https://github.com/boostorg/boost.git`
   - [or download archive](https://www.boost.org/users/download/)
   - [Getting Started](https://github.com/boostorg/boost/wiki/Getting-Started%3A-Overview)
+- [libzip]()
 - [tsl/hopscotch](https://github.com/Tessil/hopscotch-map)
 - [glext](https://sourceforge.net/projects/glextwin32/)
 - [SDL2](https://www.libsdl.org/download-2.0.php)

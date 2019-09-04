@@ -21,12 +21,12 @@
     <ClCompile Include="..\..\..\..\src\machine\main.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\src\machine\Steam\steam.cpp">
+    <ClCompile Include="..\..\..\..\src\machine\Steam\Steam.cpp">
       <Filter>Steam</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\src\machine\Steam\steam.hpp">
+    <ClInclude Include="..\..\..\..\src\machine\Steam\Steam.hpp">
       <Filter>Steam</Filter>
     </ClInclude>
   </ItemGroup>

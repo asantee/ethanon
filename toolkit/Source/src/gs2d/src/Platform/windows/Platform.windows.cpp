@@ -10,6 +10,12 @@
 #include <iostream>
 #include <sstream>
 
+#ifdef UNICODE
+#define GetCurrentDirectory GetCurrentDirectoryW
+#else
+#define GetCurrentDirectory GetCurrentDirectoryA
+#endif
+
 std::string gs2d::Application::GetPlatformName()
 {
 	return "windows";
@@ -40,29 +46,24 @@ namespace Platform {
 	std::string GetModuleDirectory()
 	{
 		char currentDirectoryBuffer[16380];
-
-#ifdef GS2D_STR_TYPE_WCHAR
-		GetCurrentDirectoryW(16380, currentDirectoryBuffer);
-#else
-		GetCurrentDirectoryA(16380, currentDirectoryBuffer);
-#endif
-
+		GetCurrentDirectory(16380, currentDirectoryBuffer);
 		return AddLastSlash(currentDirectoryBuffer);
 	}
 #else
 	std::string GetModuleDirectory()
 	{
 		char moduleFileName[16380];
-
-#ifdef GS2D_STR_TYPE_WCHAR
-		GetModuleFileNameW(NULL, moduleFileName, 16380);
-#else
-		GetModuleFileNameA(NULL, moduleFileName, 16380);
-#endif
-
+		GetModuleFileName(NULL, moduleFileName, 16380);
 		return AddLastSlash(GetFileDirectory(moduleFileName));
 	}
 #endif
+
+std::string GetModuleName()
+{
+	char moduleFileName[16380];
+	GetModuleFileName(NULL, moduleFileName, 16380);
+	return RemoveExtension(GetFileName(moduleFileName));
+}
 
 const int kilobyteSize = 1024;
 const int maximumAllowedStackAllocation = 4 * kilobyteSize;
@@ -171,6 +172,13 @@ std::string FileLogger::GetLogDirectory()
 	return GetModuleDirectory();
 }
 
+bool IsDirectory(const std::string& path)
+{
+	DWORD attr = GetFileAttributes(path.c_str());
+	return ((attr != INVALID_FILE_ATTRIBUTES) &&
+			(attr & FILE_ATTRIBUTE_DIRECTORY));
+}
+
 char GetDirectorySlashA()
 {
 	return '\\';
@@ -179,14 +187,6 @@ char GetDirectorySlashA()
 wchar_t GetDirectorySlashW()
 {
 	return L'\\';
-}
-
-// undefines window's Create directory original
-#undef CreateDirectory
-
-bool CreateDirectory(const std::string& path)
-{
-	return (_mkdir(path.c_str()) == 0);
 }
 
 } // namespace Platform
