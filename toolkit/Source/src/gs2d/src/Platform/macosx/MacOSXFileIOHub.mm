@@ -28,8 +28,8 @@ MacOSXFileIOHub::MacOSXFileIOHub(
 		GlobalExternalStorageDirectory(),
 		bitmapFontSearchDirectory)
 {
-	CreateDirectoryNS([NSString stringWithCString:ExternalStorageDirectory().c_str() encoding:NSUTF8StringEncoding]);
-	CreateDirectoryNS([NSString stringWithCString:ResourceDirectory().c_str() encoding:NSUTF8StringEncoding]);
+	CreateDirectoryNS([NSString stringWithCString:GetExternalStorageDirectory().c_str() encoding:NSUTF8StringEncoding]);
+	CreateDirectoryNS([NSString stringWithCString:GetResourceDirectory().c_str() encoding:NSUTF8StringEncoding]);
 	CreateDirectoryNS([NSString stringWithCString:Platform::FileLogger::GetLogDirectory().c_str() encoding:NSUTF8StringEncoding]);
 
 	gs2d::ShowMessage(std::string("Resources: ") + GetResourceDirectory(), gs2d::GSMT_INFO);
