@@ -13,13 +13,15 @@ std::string& FixSlashes(std::string& path);
 std::string& FixSlashes(std::string& path, const char slash);
 std::string& FixSlashesForUnix(std::string& path);
 
-bool CreateDirectory(const std::string& path);
 std::vector<std::string> SplitString(std::string str, const std::string& c);
 
 char GetDirectorySlashA();
 std::string GetModuleDirectory();
+std::string GetModuleName();
+std::string RemoveExtension(const std::string& source);
 std::string RemoveExtension(const char* source);
 bool IsExtensionRight(const std::string& fileName, const std::string& ext);
+bool IsDirectory(const std::string& path);
 
 short ShortEndianSwap(const short s);
 

@@ -65,35 +65,35 @@ std::string AddLastSlash(const std::string& path)
 	return r;
 }
 
-std::string RemoveExtension(const char* source)
+std::string RemoveExtension(const std::string& source)
 {
-	std::string dest = source;
-	const int max = static_cast<int>(dest.length()) - 1;
+	std::string result = source;
+	const int max = static_cast<int>(result.length()) - 1;
 	for (int t = max - 1; t >= 0; t--)
 	{
 		if (source[t] == Platform::GetDirectorySlashA())
+		{
 			return source;
+		}
 
 		if (source[t] == ('.'))
 		{
-			dest.resize(t);
+			result.resize(t);
 			break;
 		}
 	}
-	return dest;
+	return result;
+}
+
+std::string RemoveExtension(const char* source)
+{
+	return RemoveExtension(std::string(source));
 }
 
 bool IsExtensionRight(const std::string& fileName, const std::string& ext)
 {
 	const std::size_t pos = fileName.rfind(ext);
-	if (fileName.size() - pos == ext.size())
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return (fileName.size() - pos == ext.size());
 }
 
 short ShortEndianSwap(const short s)

@@ -19,7 +19,6 @@
 #endif
 #define NOMINMAX
 #include <windows.h>
-#include <direct.h>
 #endif
 
 using namespace gs2d;
@@ -85,12 +84,6 @@ int main(int argc, char* argv[])
 		if (!resourceDirectory.empty())
 		{
 			fileIOHub->SetResourceDirectory(resourceDirectory);
-
-			// TODO: set external directories individually thorugh args
-			#ifdef _WIN32
-			  fileIOHub->SetExternalStorageDirectory(resourceDirectory);
-			  fileIOHub->SetGlobalExternalStorageDirectory(resourceDirectory);
-			#endif
 		}
 		else
 		{

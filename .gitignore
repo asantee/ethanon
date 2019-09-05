@@ -151,6 +151,7 @@ toolkit/Source/src/angelscript/lib/angelscript64.lib
 toolkit/Source/src/angelscript/lib/angelscript64d.lib
 toolkit/Source/src/angelscript/projects/msvc9/Release/
 toolkit/Source/src/angelscript/projects/msvc9/x64/
+toolkit/Source/src/box2d/Box2D/out/
 toolkit/Source/src/box2d/Build/msvc/Release/
 toolkit/Source/src/gs2d/lib/Platform.lib
 toolkit/Source/src/gs2d/lib/gs2d.lib

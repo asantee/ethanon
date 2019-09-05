@@ -24,6 +24,9 @@ WindowsFileIOHub::WindowsFileIOHub(Platform::FileManagerPtr fileManager, const s
 			  GetModuleDirectory(), GetModuleDirectory(),
 			  GetModuleDirectory(), GetModuleDirectory(), bitmapFontSearchDirectory)
 {
+	m_externalStorageDirectory = AddLastSlash(AddLastSlash((std::string)getenv("AppData")) + GetModuleName());
+	m_globalExternalStorageDirectory = m_externalStorageDirectory;
+	CreateDirectory(m_externalStorageDirectory.c_str(), NULL);
 }
 
 WindowsFileIOHub::WindowsFileIOHub(Platform::FileManagerPtr fileManager, const std::string& bitmapFontSearchDirectory,
@@ -32,6 +35,18 @@ WindowsFileIOHub::WindowsFileIOHub(Platform::FileManagerPtr fileManager, const s
 			  resourceDirectory, GetModuleDirectory(),
 			  GetModuleDirectory(), GetModuleDirectory(), bitmapFontSearchDirectory)
 {
+}
+
+void WindowsFileIOHub::SetExternalStorageDirectory(const std::string& directory)
+{
+	m_externalStorageDirectory = directory;
+	CreateDirectory(directory.c_str(), NULL);
+}
+
+void WindowsFileIOHub::SetGlobalExternalStorageDirectory(const std::string& directory)
+{
+	m_globalExternalStorageDirectory = directory;
+	CreateDirectory(directory.c_str(), NULL);
 }
 
 void WindowsFileIOHub::SetFileManager(Platform::FileManagerPtr fileManager, const std::string& resourceDirectory)

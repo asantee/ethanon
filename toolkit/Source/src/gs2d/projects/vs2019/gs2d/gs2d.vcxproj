@@ -303,10 +303,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LibraryPath>C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\vendors\boost\lib;C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\vendors\CgSDK\lib;C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LibraryPath>C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\vendors\boost\lib;C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\vendors\CgSDK\lib;C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
