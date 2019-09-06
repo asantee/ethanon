@@ -73,90 +73,6 @@
     <ClCompile Include="..\..\..\src\Video\GL\GLPolygonRenderer.cpp" />
     <ClCompile Include="..\..\..\src\Video\GL\GLShader.cpp" />
     <ClCompile Include="..\..\..\src\Video\GL\GLTexture.cpp" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\mkstemp.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_add.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_add_dir.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_close.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_delete.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_dirent.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_entry_free.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_entry_new.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_error.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_error_clear.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_error_get.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_error_get_sys_type.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_error_strerror.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_error_to_str.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_err_str.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_fclose.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_fdopen.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_filerange_crc.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_file_error_clear.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_file_error_get.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_file_get_offset.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_file_strerror.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_fopen.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_fopen_encrypted.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_fopen_index.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_fopen_index_encrypted.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_fread.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_free.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_get_archive_comment.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_get_archive_flag.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_get_compression_implementation.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_get_encryption_implementation.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_get_file_comment.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_get_file_extra.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_get_name.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_get_num_entries.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_get_num_files.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_memdup.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_name_locate.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_new.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_open.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_rename.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_replace.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_set_archive_comment.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_set_archive_flag.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_set_default_password.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_set_file_comment.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_set_file_extra.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_set_name.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_buffer.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_close.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_crc.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_deflate.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_error.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_file.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_filep.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_free.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_function.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_layered.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_open.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_pkware.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_pop.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_read.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_stat.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_source_zip.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_stat.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_stat_index.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_stat_init.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_strerror.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_unchange.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_unchange_all.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_unchange_archive.c" />
-    <ClCompile Include="..\..\..\vendors\libzip_msvc\zip_unchange_data.c" />
-    <ClCompile Include="..\..\..\vendors\zlib_msvc\adler32.c" />
-    <ClCompile Include="..\..\..\vendors\zlib_msvc\compress.c" />
-    <ClCompile Include="..\..\..\vendors\zlib_msvc\crc32.c" />
-    <ClCompile Include="..\..\..\vendors\zlib_msvc\deflate.c" />
-    <ClCompile Include="..\..\..\vendors\zlib_msvc\infback.c" />
-    <ClCompile Include="..\..\..\vendors\zlib_msvc\inffast.c" />
-    <ClCompile Include="..\..\..\vendors\zlib_msvc\inflate.c" />
-    <ClCompile Include="..\..\..\vendors\zlib_msvc\inftrees.c" />
-    <ClCompile Include="..\..\..\vendors\zlib_msvc\trees.c" />
-    <ClCompile Include="..\..\..\vendors\zlib_msvc\uncompr.c" />
-    <ClCompile Include="..\..\..\vendors\zlib_msvc\zutil.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\Application.h" />
@@ -230,22 +146,6 @@
     <ClInclude Include="..\..\..\src\Video\GL\GLShaderCode.h" />
     <ClInclude Include="..\..\..\src\Video\GL\GLTexture.h" />
     <ClInclude Include="..\..\..\src\Window.h" />
-    <ClInclude Include="..\..\..\vendors\libzip_msvc\config.h" />
-    <ClInclude Include="..\..\..\vendors\libzip_msvc\inttypes.h" />
-    <ClInclude Include="..\..\..\vendors\libzip_msvc\stdint.h" />
-    <ClInclude Include="..\..\..\vendors\libzip_msvc\zip.h" />
-    <ClInclude Include="..\..\..\vendors\libzip_msvc\zipconf.h" />
-    <ClInclude Include="..\..\..\vendors\libzip_msvc\zipint.h" />
-    <ClInclude Include="..\..\..\vendors\zlib_msvc\crc32.h" />
-    <ClInclude Include="..\..\..\vendors\zlib_msvc\deflate.h" />
-    <ClInclude Include="..\..\..\vendors\zlib_msvc\inffast.h" />
-    <ClInclude Include="..\..\..\vendors\zlib_msvc\inffixed.h" />
-    <ClInclude Include="..\..\..\vendors\zlib_msvc\inflate.h" />
-    <ClInclude Include="..\..\..\vendors\zlib_msvc\inftrees.h" />
-    <ClInclude Include="..\..\..\vendors\zlib_msvc\trees.h" />
-    <ClInclude Include="..\..\..\vendors\zlib_msvc\zconf.h" />
-    <ClInclude Include="..\..\..\vendors\zlib_msvc\zlib.h" />
-    <ClInclude Include="..\..\..\vendors\zlib_msvc\zutil.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\..\src\Audio\fmod\inc\readme.txt" />
@@ -304,10 +204,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LibraryPath>C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\vendors\boost\lib;C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\vendors\CgSDK\lib;C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
+    <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LibraryPath>C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\vendors\boost\lib;C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\vendors\CgSDK\lib;C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
+    <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -315,7 +217,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\vendors\glext\include;..\..\..\vendors\zlib_msvc;..\..\..\vendors\libzip_msvc;C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\vendors\boost\include\boost-1_70;..\..\..\vendors\SDL2-2.0.10;..\..\..\vendors\tsl;C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(UserProfile)\.usr\include;..\..\..\vendors\glext\include;C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\vendors\boost\include\boost-1_70;..\..\..\vendors\SDL2-2.0.10;..\..\..\vendors\tsl;C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_MBCS;_STDC_CONSTANT_MACROS;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>-D__STDC_CONSTANT_MACROS -D__STDC_LIMIT_MACROS %(AdditionalOptions)</AdditionalOptions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -348,7 +250,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\vendors\glext\include;..\..\..\vendors\zlib_msvc;..\..\..\vendors\libzip_msvc;C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\vendors\boost\include\boost-1_70;..\..\..\vendors\SDL2-2.0.10;..\..\..\vendors\tsl;C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(UserProfile)\.usr\include;..\..\..\vendors\glext\include;C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\vendors\boost\include\boost-1_70;..\..\..\vendors\SDL2-2.0.10;..\..\..\vendors\tsl;C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_MBCS;_STDC_CONSTANT_MACROS;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>-D__STDC_CONSTANT_MACROS -D__STDC_LIMIT_MACROS %(AdditionalOptions)</AdditionalOptions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -384,6 +286,5 @@
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>

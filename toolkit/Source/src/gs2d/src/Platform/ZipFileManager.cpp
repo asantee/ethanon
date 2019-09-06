@@ -33,7 +33,7 @@ ZipFileManager::ZipFileManager(const char* filePath, const char* password)
 			if (std::string(password) == "")
 				return;
 
-			zip_set_default_password(m_archive, password);
+			//zip_set_default_password(m_archive, password);
 		#endif
 	}
 }

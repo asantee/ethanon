@@ -35,9 +35,25 @@ like any other application, but for building permission simplicity we convention
 all libraries at `%UserProfile%\.usr\`.
 For creating this directory, use mkdir ".usr" at windows console.
 
-Example:
-during libboost install on Windows, use:
+Example, during libboost install on Windows, use:
+
 `b2 install --prefix=%UserProfile%\.usr\`
+
+Example 2, cloning building and installing zlib library (which defaults to `%ProgramFiles%\zlib`),
+ using cmake and msvc-buildtools:
+
+```
+git clone git@github.com:madler/zlib.git
+cd zlib
+git checkout master
+mkdir build
+cd build
+cmake -DCMAKE_INSTALL_PREFIX=%UserProfile%\.usr\ ..
+cmake --build . --config Release
+cmake --build . --target install
+```
+
+  ps: the process above is valid to libzip
 
 ## Dependencies
 
@@ -45,7 +61,9 @@ during libboost install on Windows, use:
   - `git clone --recursive https://github.com/boostorg/boost.git`
   - [or download archive](https://www.boost.org/users/download/)
   - [Getting Started](https://github.com/boostorg/boost/wiki/Getting-Started%3A-Overview)
-- [libzip]()
+- [libzip](https://libzip.org/download/)
+  - [zlib](http://www.zlib.net/)
+    - `git clone git@github.com:madler/zlib.git`
 - [tsl/hopscotch](https://github.com/Tessil/hopscotch-map)
 - [glext](https://sourceforge.net/projects/glextwin32/)
 - [SDL2](https://www.libsdl.org/download-2.0.php)
@@ -69,7 +87,7 @@ during libboost install on Windows, use:
 
 ## How to build
 
-- Unpack the following files located at **toolkit/Source/src/gs2d/vendors**:
+1. Unpack the following files located at **toolkit/Source/src/gs2d/vendors**:
   - vendors.zip
   - Cg.framework.zip
   - SDL2.framework.zip

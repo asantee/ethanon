@@ -71,6 +71,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
+    <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
@@ -128,11 +129,16 @@
       <AdditionalLibraryDirectories>C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\vendors\SDL2-2.0.10\lib\x86;C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\vendors\glext\lib;$(UserProfile)\.usr\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ShowProgress>NotSet</ShowProgress>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
-      <AdditionalDependencies>steam_api.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glext.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>steam_api.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glext.lib;fmod_vc.lib;libzip-static.lib;zlibstatic.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ProjectReference>
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
+    <PostBuildEvent>
+      <Command>copy "C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib\fmod.dll" $(OutputPath)
+copy "C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\vendors\SDL2-2.0.10\lib\x86\sdl2.dll" $(OutputPath)
+copy "C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\vendors\glext\lib\glext.dll" $(OutputPath)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -172,6 +178,5 @@
     <ClInclude Include="..\..\..\..\src\machine\Steam\Steam.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>
