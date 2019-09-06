@@ -21,6 +21,10 @@
 #include <windows.h>
 #endif
 
+#ifdef STEAM_API
+#include <steam_api.h>
+#endif 
+
 using namespace gs2d;
 using namespace gs2d::math;
 
@@ -120,6 +124,14 @@ int main(int argc, char* argv[])
 		{
 			InputPtr input = CreateInput(false);
 			AudioPtr audio = CreateAudio(0);
+
+#ifdef STEAM_API
+			if (!SteamAPI_Init())
+			{
+				std::cout << "Failed loading Steam API. Steam will not be available." << std::endl << "Is Steam client running?" << std::endl;
+			}
+
+#endif 
 
 			application->Start(video, input, audio);
 

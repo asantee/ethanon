@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -72,11 +72,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
     <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    <CustomBuildAfterTargets>BuildLink</CustomBuildAfterTargets>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
     <LinkIncremental>
     </LinkIncremental>
+    <CustomBuildAfterTargets>BuildLink</CustomBuildAfterTargets>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -92,11 +94,21 @@
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\vendors\SDL2-2.0.10\lib\x86;C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\vendors\glext\lib;$(UserProfile)\.usr\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ShowProgress>LinkVerboseLib</ShowProgress>
-      <AdditionalDependencies>sdl2.lib;sdl2main.lib;opengl32.lib;glext.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>steam_api.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glext.lib;fmod_vc.lib;libzip-static.lib;zlibstatic.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ProjectReference>
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
+    <PostBuildEvent>
+      <Command>copy "C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib\fmod.dll" $(OutputPath)
+copy "C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\vendors\SDL2-2.0.10\lib\x86\sdl2.dll" $(OutputPath)
+copy "C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\vendors\glext\lib\glext.dll" $(OutputPath)</Command>
+      <Message>Copying dlls to output directory</Message>
+    </PostBuildEvent>
+    <CustomBuildStep>
+      <Command>echo 704920 &gt;$(OutputPath)steam_appid.txt</Command>
+      <Message>Generating steam_appid.txt</Message>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -138,7 +150,14 @@
       <Command>copy "C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib\fmod.dll" $(OutputPath)
 copy "C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\vendors\SDL2-2.0.10\lib\x86\sdl2.dll" $(OutputPath)
 copy "C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\vendors\glext\lib\glext.dll" $(OutputPath)</Command>
+      <Message>Copying dlls to output directory</Message>
     </PostBuildEvent>
+    <CustomBuildStep>
+      <Command>echo 704920 &gt;$(OutputPath)steam_appid.txt</Command>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Message>Generating steam_appid.txt</Message>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
