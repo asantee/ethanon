@@ -7,8 +7,8 @@ ETHSpeedTimer::ETHSpeedTimer()
 
 double ETHSpeedTimer::CalcLastFrame()
 {
-	m_elapsed = elapsed();
-	restart();
+	m_elapsed = elapsed().user;
+	start();
 	return m_elapsed;
 }
 

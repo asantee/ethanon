@@ -1,9 +1,9 @@
 #ifndef ETH_SPEED_TIMER_H_
 #define ETH_SPEED_TIMER_H_
 
-#include <boost/timer.hpp>
+#include <boost/timer/timer.hpp>
 
-class ETHSpeedTimer : public boost::timer
+class ETHSpeedTimer : public boost::timer::auto_cpu_timer
 {
 public:
 	ETHSpeedTimer();

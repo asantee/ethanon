@@ -149,7 +149,8 @@ copy "C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\vendors\glext\li
     <PostBuildEvent>
       <Command>copy "C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib\fmod.dll" $(OutputPath)
 copy "C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\vendors\SDL2-2.0.10\lib\x86\sdl2.dll" $(OutputPath)
-copy "C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\vendors\glext\lib\glext.dll" $(OutputPath)</Command>
+copy "C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\vendors\glext\lib\glext.dll" $(OutputPath)
+copy $(UserProfile)\.usr\lib\steam_api.dll $(OutputPath)</Command>
       <Message>Copying dlls to output directory</Message>
     </PostBuildEvent>
     <CustomBuildStep>

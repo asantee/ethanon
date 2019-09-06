@@ -1,9 +1,9 @@
 #ifndef ETH_FRAME_TIMER_H_
 #define ETH_FRAME_TIMER_H_
 
-#include <boost/timer.hpp>
+#include <boost/timer/timer.hpp>
 
-class ETHFrameTimer : private boost::timer
+class ETHFrameTimer : private boost::timer::cpu_timer
 {
 public:
 	ETHFrameTimer();
