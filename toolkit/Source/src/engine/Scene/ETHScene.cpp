@@ -341,6 +341,8 @@ void ETHScene::SetSceneProperties(const ETHSceneProperties &prop)
 
 void ETHScene::LoadLightmapsFromBitmapFiles(const std::string& currentSceneFilePath)
 {
+	const std::vector<std::string> formats = { "png", "webp", "bmp" };
+
 	for (ETHBucketMap::iterator bucketIter = m_buckets.GetFirstBucket(); bucketIter != m_buckets.GetLastBucket(); ++bucketIter)
 	{
 		// iterate over all entities in this bucket
@@ -350,12 +352,17 @@ void ETHScene::LoadLightmapsFromBitmapFiles(const std::string& currentSceneFileP
 		{
 			ETHRenderEntity* entity = (*iter);
 			const std::string fileDirectory = ConvertFileNameToLightmapDirectory(currentSceneFilePath);
-	
-			// PNG lightmaps have higher priority than BMP
-			const std::string filePathBmp = entity->AssembleLightmapFileName(fileDirectory, ("bmp"));
-			const std::string filePathPng = entity->AssembleLightmapFileName(fileDirectory, ("png"));
-			const bool pngFileExists = (ETHGlobal::FileExists(filePathPng, m_provider->GetFileManager()));
-			entity->LoadLightmapFromFile(pngFileExists ? filePathPng : filePathBmp);
+
+			// check for each format
+			for (std::size_t t = 0; t < formats.size(); t++)
+			{
+				const std::string filePath = entity->AssembleLightmapFileName(fileDirectory, formats[t]);
+				if (ETHGlobal::FileExists(filePath, m_provider->GetFileManager()))
+				{
+					entity->LoadLightmapFromFile(filePath);
+					break;
+				}
+			}
 		}
 	}
 }
