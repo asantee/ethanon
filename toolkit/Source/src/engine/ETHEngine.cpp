@@ -181,9 +181,6 @@ Application::APP_STATUS ETHEngine::Update(
 		m_hasBeenResumed = false;
 	}
 
-	//update timer
-	m_timer.CalcLastFrame();
-
 	if (m_pScene)
 		m_pScene->Update(lastFrameDeltaTimeMS, m_backBuffer, m_onSceneUpdateFunction);
 

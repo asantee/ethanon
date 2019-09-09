@@ -6,7 +6,6 @@
 #include "../Scene/ETHScene.h"
 
 #include "../Util/ETHInput.h"
-#include "../Util/ETHSpeedTimer.h"
 
 #include "../Entity/ETHEntityCache.h"
 
@@ -58,7 +57,6 @@ public:
 	static bool IsRunningMainFunction() { return m_runningMainFunction; }
 
 	static std::string GetSceneFileName();
-	static ETHSpeedTimer m_timer;
 	static ETHDrawableManager m_drawableManager;
 	static ETHScenePtr m_pScene;
 	static bool m_abort;

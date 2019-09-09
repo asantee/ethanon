@@ -202,9 +202,7 @@
 		74E6E8281A31EADB00E89172 /* ETHASUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E81A1A31EADB00E89172 /* ETHASUtil.cpp */; };
 		74E6E8291A31EADB00E89172 /* ETHDateTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E81C1A31EADB00E89172 /* ETHDateTime.cpp */; };
 		74E6E82A1A31EADB00E89172 /* ETHFileChangeDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E81E1A31EADB00E89172 /* ETHFileChangeDetector.cpp */; };
-		74E6E82B1A31EADB00E89172 /* ETHFrameTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E8201A31EADB00E89172 /* ETHFrameTimer.cpp */; };
 		74E6E82D1A31EADB00E89172 /* ETHInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E8241A31EADB00E89172 /* ETHInput.cpp */; };
-		74E6E82E1A31EADB00E89172 /* ETHSpeedTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74E6E8261A31EADB00E89172 /* ETHSpeedTimer.cpp */; };
 		74EAF2BD1A5C211900E2A6DB /* ToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 74EAF2BC1A5C211900E2A6DB /* ToastView.m */; };
 		AA0980A222E64085006FF59F /* PolygonRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA0980A022E64085006FF59F /* PolygonRenderer.cpp */; };
 		AA0980A822E65B09006FF59F /* GLES2PolygonRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA0980A722E65B09006FF59F /* GLES2PolygonRenderer.cpp */; };
@@ -657,12 +655,8 @@
 		74E6E81D1A31EADB00E89172 /* ETHDateTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHDateTime.h; path = ../../../../src/engine/Util/ETHDateTime.h; sourceTree = "<group>"; };
 		74E6E81E1A31EADB00E89172 /* ETHFileChangeDetector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHFileChangeDetector.cpp; path = ../../../../src/engine/Util/ETHFileChangeDetector.cpp; sourceTree = "<group>"; };
 		74E6E81F1A31EADB00E89172 /* ETHFileChangeDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHFileChangeDetector.h; path = ../../../../src/engine/Util/ETHFileChangeDetector.h; sourceTree = "<group>"; };
-		74E6E8201A31EADB00E89172 /* ETHFrameTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHFrameTimer.cpp; path = ../../../../src/engine/Util/ETHFrameTimer.cpp; sourceTree = "<group>"; };
-		74E6E8211A31EADB00E89172 /* ETHFrameTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHFrameTimer.h; path = ../../../../src/engine/Util/ETHFrameTimer.h; sourceTree = "<group>"; };
 		74E6E8241A31EADB00E89172 /* ETHInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHInput.cpp; path = ../../../../src/engine/Util/ETHInput.cpp; sourceTree = "<group>"; };
 		74E6E8251A31EADB00E89172 /* ETHInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHInput.h; path = ../../../../src/engine/Util/ETHInput.h; sourceTree = "<group>"; };
-		74E6E8261A31EADB00E89172 /* ETHSpeedTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHSpeedTimer.cpp; path = ../../../../src/engine/Util/ETHSpeedTimer.cpp; sourceTree = "<group>"; };
-		74E6E8271A31EADB00E89172 /* ETHSpeedTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHSpeedTimer.h; path = ../../../../src/engine/Util/ETHSpeedTimer.h; sourceTree = "<group>"; };
 		74EAF2BB1A5C211900E2A6DB /* ToastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToastView.h; path = ../../../../src/gs2d/src/Platform/ios/ToastView.h; sourceTree = "<group>"; };
 		74EAF2BC1A5C211900E2A6DB /* ToastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToastView.m; path = ../../../../src/gs2d/src/Platform/ios/ToastView.m; sourceTree = "<group>"; };
 		AA0980A022E64085006FF59F /* PolygonRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PolygonRenderer.cpp; path = ../../../../src/gs2d/src/PolygonRenderer.cpp; sourceTree = "<group>"; };
@@ -1290,12 +1284,8 @@
 				74E6E81D1A31EADB00E89172 /* ETHDateTime.h */,
 				74E6E81E1A31EADB00E89172 /* ETHFileChangeDetector.cpp */,
 				74E6E81F1A31EADB00E89172 /* ETHFileChangeDetector.h */,
-				74E6E8201A31EADB00E89172 /* ETHFrameTimer.cpp */,
-				74E6E8211A31EADB00E89172 /* ETHFrameTimer.h */,
 				74E6E8241A31EADB00E89172 /* ETHInput.cpp */,
 				74E6E8251A31EADB00E89172 /* ETHInput.h */,
-				74E6E8261A31EADB00E89172 /* ETHSpeedTimer.cpp */,
-				74E6E8271A31EADB00E89172 /* ETHSpeedTimer.h */,
 				AAFA2E332139D1C3006D67FB /* JSONObject.cpp */,
 				AAFA2E342139D1C3006D67FB /* JSONObject.h */,
 			);
@@ -1794,9 +1784,7 @@
 				74E6E7F71A31EA9100E89172 /* ETHScriptWrapper.System.cpp in Sources */,
 				74E6E67E1A31DE1C00E89172 /* scriptbuilder.cpp in Sources */,
 				74E6E7F21A31EA9100E89172 /* ETHScriptWrapper.generic.cpp in Sources */,
-				74E6E82E1A31EADB00E89172 /* ETHSpeedTimer.cpp in Sources */,
 				74E6E7AA1A31EA0200E89172 /* ETHContactListener.cpp in Sources */,
-				74E6E82B1A31EADB00E89172 /* ETHFrameTimer.cpp in Sources */,
 				74E6E64E1A31DD9900E89172 /* as_callfunc_arm.cpp in Sources */,
 				74E6E6571A31DD9900E89172 /* as_gc.cpp in Sources */,
 				AA65A38622FDFACC0026BE60 /* Shader.cpp in Sources */,

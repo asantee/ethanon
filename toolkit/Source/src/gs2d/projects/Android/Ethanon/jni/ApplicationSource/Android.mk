@@ -58,7 +58,6 @@ LOCAL_SRC_FILES := \
 	$(ENGINE_PATH)/Resource/ETHResourceManager.cpp \
 	$(ENGINE_PATH)/Resource/ETHResourceProvider.cpp \
 	$(ENGINE_PATH)/Resource/ETHSpriteDensityManager.cpp \
-	$(ENGINE_PATH)/Util/ETHSpeedTimer.cpp \
 	$(ENGINE_PATH)/Util/ETHASUtil.cpp \
 	$(ENGINE_PATH)/Util/ETHDateTime.cpp \
 	$(ENGINE_PATH)/Util/ETHInput.cpp \

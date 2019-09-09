@@ -582,7 +582,6 @@ bool ETHScriptWrapper::LoadScene(const std::string &escFile, const std::string& 
 	LoadLightmaps(lightmapDirectory);
 	m_provider->GetVideo()->SetCameraPos(Vector2(0,0));
 	LoadSceneScripts();
-	m_timer.CalcLastFrame();
 	return true;
 }
 
