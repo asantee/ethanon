@@ -10,7 +10,7 @@ void ETHFrameTimer::Reset()
 	m_interpolator = 0.0f;
 	m_currentFrame = 0;
 	m_currentFirstFrame = m_currentLastFrame = 0;
-	restart();
+	start();
 }
 
 unsigned int ETHFrameTimer::Get()
@@ -24,19 +24,19 @@ unsigned int ETHFrameTimer::Update(const unsigned int firstFrame, const unsigned
 	{
 		m_currentFrame = m_currentFirstFrame = firstFrame;
 		m_currentLastFrame = lastFrame;
-		restart();
+		start();
 		return m_currentFrame;
 	}
 
-	if (elapsed() > static_cast<double>(stride)/1000.0)
+	if (elapsed().user > static_cast<double>(stride)/1000.0)
 	{
-		restart();
+		start();
 		m_currentFrame++;
 		if (m_currentFrame > lastFrame)
 			m_currentFrame = firstFrame;
 	}
 
-	m_interpolator = (static_cast<float>(elapsed())*1000.0f)/static_cast<float>(stride);
+	m_interpolator = (static_cast<float>(elapsed().user)*1000.0f)/static_cast<float>(stride);
 	return m_currentFrame;
 }
 

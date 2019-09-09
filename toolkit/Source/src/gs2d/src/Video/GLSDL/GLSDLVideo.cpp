@@ -373,9 +373,8 @@ bool GLSDLVideo::ResetVideoMode(
 		SDL_SetWindowSize(m_window, static_cast<int>(width), static_cast<int>(height));
 	}
 
-	// perform OpenGL context cleanup
-	SDL_GL_DeleteContext(m_glcontext);
-	m_glcontext = SDL_GL_CreateContext(m_window);
+	// Re-assign OpenGL context to new window
+	SDL_GL_MakeCurrent(m_window, m_glcontext);
 
 	m_screenSize.x = static_cast<float>(width);
 	m_screenSize.y = static_cast<float>(height);
