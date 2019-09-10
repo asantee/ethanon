@@ -247,10 +247,8 @@ const ETHGraphicResourceManager::SpriteResource* ETHGraphicResourceManager::AddF
 
 	m_densityManager.SetSpriteDensity(pBitmap, densityLevel);
 
-	//#if defined(_DEBUG) || defined(DEBUG)
 	ETH_STREAM_DECL(ss) << ("(Loaded) ") << fileName;
 	ETHResourceProvider::Log(ss.str(), Platform::Logger::INFO);
-	//#endif
 	m_resource.insert(std::pair<std::string, SpriteResource>(fileName, SpriteResource(fileManager, resourceDirectory, fixedName, pBitmap, temporary)));
 	return FindSprite(path, fileName, resourceDirectory);
 }
@@ -384,11 +382,9 @@ AudioSamplePtr ETHAudioResourceManager::AddFile(
 		ETHResourceProvider::Log(ss.str(), Platform::Logger::ERROR);
 		return AudioSamplePtr();
 	}
-	//#if defined(_DEBUG) || defined(DEBUG)
 	std::string fileName = Platform::GetFileName(path);
 	ETH_STREAM_DECL(ss) << ("(Loaded) ") << fileName;
 	ETHResourceProvider::Log(ss.str(), Platform::Logger::INFO);
-	//#endif
 	m_resource[fileName] = pSample;
 	return pSample;
 }
