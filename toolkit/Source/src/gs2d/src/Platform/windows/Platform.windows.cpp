@@ -42,21 +42,12 @@ void gs2d::ShowMessage(std::stringstream& stream, const gs2d::GS_MESSAGE_TYPE ty
 
 namespace Platform {
 
-#ifdef _DEBUG
-	std::string GetModuleDirectory()
-	{
-		char currentDirectoryBuffer[16380];
-		GetCurrentDirectory(16380, currentDirectoryBuffer);
-		return AddLastSlash(currentDirectoryBuffer);
-	}
-#else
-	std::string GetModuleDirectory()
-	{
-		char moduleFileName[16380];
-		GetModuleFileName(NULL, moduleFileName, 16380);
-		return AddLastSlash(GetFileDirectory(moduleFileName));
-	}
-#endif
+std::string GetModuleDirectory()
+{
+	char moduleFileName[16380];
+	GetModuleFileName(NULL, moduleFileName, 16380);
+	return AddLastSlash(GetFileDirectory(moduleFileName));
+}
 
 std::string GetModuleName()
 {
