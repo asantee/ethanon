@@ -265,7 +265,7 @@ bool GLSDLVideo::GetZBuffer() const
 {
 	GLboolean enabled;
 	glGetBooleanv(GL_DEPTH_TEST, &enabled);
-	return (enabled == GL_TRUE) ? true : false;
+	return (enabled == GL_TRUE);
 }
 
 void GLSDLVideo::SetBGColor(const Color& backgroundColor)
