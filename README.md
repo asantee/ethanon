@@ -75,9 +75,15 @@ cmake --build . --target install
 - [OpenGL](https://www.mesa3d.org/intro.html)
 - [fmod](https://www.fmod.com/)
 - [Angelscript ^2.32](https://angelcode.com)
+  - For better binary compatibility on compiled script, please enable 
+    AS_MAX_PORTABILITY;AS_NO_THREADS preprocessor macros when compiling angelscript
+### (Debian/Ubuntu)
 
+```
+apt install libstb-dev libsdl2-dev libboost-dev libwebp-dev libpng-dev \
+  zlib1g-dev
+```
 ## Build Tools
-
 ### Windows
 - MSVC 16
 
