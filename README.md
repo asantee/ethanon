@@ -48,7 +48,7 @@ cd zlib
 git checkout master
 mkdir build
 cd build
-cmake -DCMAKE_INSTALL_PREFIX=%UserProfile%\.usr\ ..
+cmake -DMSVC_RUNTIME_LIBRARY=MultiThreaded -DCMAKE_INSTALL_PREFIX=%UserProfile%\.usr\ ..
 cmake --build . --config Release
 cmake --build . --target install
 ```
@@ -64,10 +64,15 @@ cmake --build . --target install
 - [libzip](https://libzip.org/download/)
   - [zlib](http://www.zlib.net/)
     - `git clone git@github.com:madler/zlib.git`
+	or `https://github.com/kiyolee/libzip-win-build`
+- [libpng Sourceforge Official](git://git.code.sf.net/p/libpng/code)
+  - [libpng GitHub](https://github.com/glennrp/libpng)
+- [libWebP](https://github.com/webmproject/libwebp)
+- [stb](https://github.com/nothings/stb)
 - [tsl/hopscotch](https://github.com/Tessil/hopscotch-map)
 - [glext](https://sourceforge.net/projects/glextwin32/)
 - [SDL2](https://www.libsdl.org/download-2.0.php)
-- OpenGL
+- [OpenGL](https://www.mesa3d.org/intro.html)
 - [fmod](https://www.fmod.com/)
 - [Angelscript ^2.32](https://angelcode.com)
 

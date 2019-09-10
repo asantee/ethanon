@@ -12,6 +12,11 @@
 #include "../../../vendors/stb/stb_image_resize.h"
 #pragma clang diagnostic pop
 
+#ifdef WEBP
+#include <webp/decode.h>
+#endif
+#include<iostream>
+
 namespace gs2d {
 
 boost::shared_ptr<GLTexture> GLTexture::Create(VideoWeakPtr video, Platform::FileManagerPtr fileManager)
@@ -58,8 +63,26 @@ bool GLTexture::LoadTexture(
 	const unsigned int nMipMaps)
 {
 	m_fileName = fileName;
+
 	Platform::FileBuffer out;
+	// try loading from WebP
+#ifdef WEBP
+	std::string webPFileName = Platform::RemoveExtension(fileName) + ".webp";
+
+	if(m_fileManager->FileExists(webPFileName))
+	{
+		std::cout << "Loading texture: " << webPFileName << std::endl;
+		m_fileManager->GetFileBuffer(webPFileName, out);
+	}
+	// if not, try original image with STB
+	else
+	{
+		std::cout << "Loading texture: " << fileName << std::endl;
+		m_fileManager->GetFileBuffer(fileName, out);
+	}
+#else
 	m_fileManager->GetFileBuffer(fileName, out);
+#endif
 	if (!out)
 	{
 		ShowMessage(fileName + " could not load buffer", GSMT_ERROR);
@@ -74,15 +97,30 @@ bool GLTexture::LoadTexture(
 	const unsigned int nMipMaps,
 	const unsigned int bufferLength)
 {
-	int width, height, nrChannels;
-
-	stbi_uc* data = stbi_load_from_memory(
-		(stbi_uc*)pBuffer,
-		bufferLength,
-		&width,
-		&height,
-		&nrChannels,
-		0);
+	int width, height;
+	int nrChannels = 4;
+	uint8_t* data = NULL;
+	bool isWebP = false;
+	/* Try to load webp using libwebp
+	*/
+#ifdef WEBP
+	if (isWebP = WebPGetInfo((uint8_t*)pBuffer, bufferLength, &width, &height))
+	{
+		data = WebPDecodeRGBA((uint8_t*)pBuffer, bufferLength, &width, &height);
+	}
+#endif
+	/* Try to load png using STB_image
+	*/
+	if (data == NULL)
+	{
+		data = (stbi_uc*)stbi_load_from_memory(
+			(stbi_uc*)pBuffer,
+			bufferLength,
+			&width,
+			&height,
+			&nrChannels,
+			0);
+	}
 
 	if (data == NULL)
 	{
@@ -158,7 +196,14 @@ bool GLTexture::LoadTexture(
 
 	glGenerateMipmap(GL_TEXTURE_2D);
 
-	stbi_image_free(data);
+	if(isWebP)
+	{
+		WebPFree(data);
+	}
+	else 
+	{
+		stbi_image_free(data);
+	}
 	return true;
 }
 

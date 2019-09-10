@@ -156,12 +156,6 @@
     <ClCompile Include="..\..\..\..\src\engine\Util\ETHInput.cpp">
       <Filter>Util</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Util\ETHSpeedTimer.cpp">
-      <Filter>Util</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\src\engine\Util\ETHFrameTimer.cpp">
-      <Filter>Util</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\src\engine\Util\ETHFileChangeDetector.cpp">
       <Filter>Util</Filter>
     </ClCompile>
@@ -395,13 +389,7 @@
     <ClInclude Include="..\..\..\..\src\engine\Util\JSONObject.h">
       <Filter>Util</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Util\ETHSpeedTimer.h">
-      <Filter>Util</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\src\engine\Util\ETHInput.h">
-      <Filter>Util</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\src\engine\Util\ETHFrameTimer.h">
       <Filter>Util</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\src\engine\Util\ETHFileChangeDetector.h">
