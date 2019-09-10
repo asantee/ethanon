@@ -404,7 +404,7 @@ Uint32 GLSDLVideo::AssembleFlags(const bool windowed, const bool maximizable, co
 	Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
 
 	if (!windowed)
-		flags |= SDL_WINDOW_FULLSCREEN | SDL_WINDOW_BORDERLESS;
+		flags |= SDL_WINDOW_FULLSCREEN;
 	else if (maximizable && windowed)
 		flags |= SDL_WINDOW_RESIZABLE;
 
