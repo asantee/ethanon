@@ -67,6 +67,11 @@ asIScriptFunction* FindCallbackFunction(asIScriptModule* pModule, const ETHScrip
 	return func;
 }
 
+void PrintException(asIScriptContext* pContext) {
+	std::cout  << "Function " << pContext->GetExceptionFunction() << "at line " << pContext->GetLineNumber() << ": " << pContext->GetExceptionString() << std::endl;
+	return;
+}
+
 bool RunEntityCallback(asIScriptContext* pContext, ETHScriptEntity* entity, asIScriptFunction* func)
 {
 	if (!func)
