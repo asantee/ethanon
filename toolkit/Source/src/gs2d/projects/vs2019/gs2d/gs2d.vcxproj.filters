@@ -1,18 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Arquivos de Origem">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Arquivos de Cabeçalho">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Arquivos de Recurso">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Audio">
       <UniqueIdentifier>{3aa82229-2cc1-4d28-8103-7768cf21dcd7}</UniqueIdentifier>
     </Filter>
@@ -61,10 +49,22 @@
     <Filter Include="Video\GLSDL">
       <UniqueIdentifier>{643ca9cc-0e0e-4831-8bd2-2c83e76eac2a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="gs2d.rc">
-      <Filter>Arquivos de Recurso</Filter>
+      <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
@@ -150,16 +150,16 @@
       <Filter>Input\SDL</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\Application.cpp">
-      <Filter>Arquivos de Origem</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\PolygonRenderer.cpp">
-      <Filter>Arquivos de Origem</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\Sprite.cpp">
-      <Filter>Arquivos de Origem</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\Video.cpp">
-      <Filter>Arquivos de Origem</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\Video\GLSDL\GLSDLVideo.cpp">
       <Filter>Video\GLSDL</Filter>
@@ -210,10 +210,10 @@
       <Filter>Audio\fmod</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\SpriteRects.cpp">
-      <Filter>Arquivos de Origem</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\Shader.cpp">
-      <Filter>Arquivos de Origem</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -350,34 +350,34 @@
       <Filter>Input\SDL</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\PolygonRenderer.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\Shader.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\Sprite.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\Texture.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\Video.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\Window.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\Application.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\Audio.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\BaseApplication.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\Input.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\Video\GLSDL\GLSDLVideo.h">
       <Filter>Video\GLSDL</Filter>
@@ -428,7 +428,7 @@
       <Filter>Video\GL</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\SpriteRects.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
