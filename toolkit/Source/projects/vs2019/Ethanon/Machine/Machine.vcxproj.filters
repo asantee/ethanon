@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Steam">
-      <UniqueIdentifier>{c27135f0-9f45-4afd-8a0e-418f69761d68}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
@@ -21,13 +18,5 @@
     <ClCompile Include="..\..\..\..\src\machine\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\src\machine\Steam\Login.cpp">
-      <Filter>Steam</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\..\src\machine\Steam\Login.hpp">
-      <Filter>Steam</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

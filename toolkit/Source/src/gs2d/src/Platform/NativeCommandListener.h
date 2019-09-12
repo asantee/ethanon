@@ -2,7 +2,6 @@
 #define PLATFORM_NATIVE_COMMAND_LISTENR_H_
 
 #include <string>
-
 #include <boost/shared_ptr.hpp>
 
 namespace Platform {

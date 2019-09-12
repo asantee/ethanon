@@ -3,7 +3,8 @@
 #include "../GL/GLShader.h"
 #include "../GL/GLTexture.h"
 #include "../../Platform/getRealTime.h"
-
+#include "../../Platform/NativeCommandAssembler.h"
+#include "../../Platform/NativeCommandForwarder.h"
 #include <time.h>
 
 namespace gs2d {
@@ -619,13 +620,18 @@ bool GLSDLVideo::WindowInFocus() const
 
 void GLSDLVideo::ForwardCommand(const std::string& cmd)
 {
-	// TODO yet to be implemented
+#	ifdef _DEBUG
+	std::cout << cmd << std::endl;
+#	endif
+	Command(cmd);
 }
+
 
 std::string GLSDLVideo::PullCommands()
 {
-	// TODO yet to be implemented
-	return "";
+	std::string out;
+	ForwardCommands(out);
+	return out;
 }
 
 bool GLSDLVideo::HideCursor(const bool hide)

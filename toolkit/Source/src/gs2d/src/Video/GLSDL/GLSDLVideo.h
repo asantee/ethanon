@@ -2,11 +2,14 @@
 #define GS2D_GL_SDL_VIDEO_H_
 
 #include "../../Video.h"
+#include "../../Platform/Platform.h"
+#include "../../Platform/NativeCommandForwarder.h"
+
 #include <SDL2/SDL.h>
 
 namespace gs2d {
 
-class GLSDLVideo : public Video
+class GLSDLVideo : public Video, public Platform::NativeCommandForwarder
 {
 	friend class SDLInput;
 
@@ -136,8 +139,6 @@ public:
 	std::string PullCommands() override;
 
 	void Quit() override;
-
-	std::string GetPlatformName() const;
 
 	Platform::FileIOHubPtr GetFileIOHub() override;
 	

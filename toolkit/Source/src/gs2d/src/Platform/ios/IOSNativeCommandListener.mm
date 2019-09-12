@@ -24,7 +24,7 @@ bool IOSNativeCommmandListener::ExecuteCommand(const std::string& commandLine)
 		{
 			NSString* word1 = [words objectAtIndex:1];
 			const double vibrateTime = [word1 doubleValue];
-			// if the vibrate time requested is to low, let's not even trigger the
+			// if vibrate time requested is too low, let's not even trigger the
 			// event since iOS doesn't allow specific vibration intervals
 			if (vibrateTime > 60)
 			{

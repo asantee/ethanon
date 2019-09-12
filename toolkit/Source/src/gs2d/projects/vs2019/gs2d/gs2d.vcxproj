@@ -219,7 +219,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(UserProfile)\.usr\include;..\..\..\vendors\glext\include;C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\vendors\boost\include\boost-1_70;..\..\..\vendors\SDL2-2.0.10;..\..\..\vendors\tsl;C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WEBP;_MBCS;_STDC_CONSTANT_MACROS;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WEBP;_DEBUG;_MBCS;_STDC_CONSTANT_MACROS;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>-D__STDC_CONSTANT_MACROS -D__STDC_LIMIT_MACROS %(AdditionalOptions)</AdditionalOptions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>

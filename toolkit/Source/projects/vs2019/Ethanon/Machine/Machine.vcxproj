@@ -73,11 +73,11 @@
     <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
     <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     <CustomBuildAfterTargets>BuildLinkTraverse</CustomBuildAfterTargets>
+    <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
-    <LinkIncremental>
-    </LinkIncremental>
+    <LinkIncremental>false</LinkIncremental>
     <CustomBuildAfterTargets>
     </CustomBuildAfterTargets>
   </PropertyGroup>
@@ -89,7 +89,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(UserProfile)\.usr\include\boost-1_70;$(UserProfile)\.usr\include\steam;..\..\..\..\src\angelscript\include;..\..\..\..\src\box2d\;..\..\..\..\src\engine\;..\..\..\..\src\gs2d\src\;..\..\..\..\src\gs2d\vendors\tsl</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <PreprocessorDefinitions>STEAM_API;_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>STEAM_API;_DEBUG;_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -145,6 +145,7 @@ echo 704920 /a &gt; $(OutputPath)steam_appid.txt</Command>
       <ShowProgress>NotSet</ShowProgress>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
       <AdditionalDependencies>webp.lib;webpdecoder.lib;webpmux.lib;webpdemux.lib;steam_api.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glext.lib;fmod_vc.lib;libzip-static.lib;zlibstatic.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
     <ProjectReference>
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
@@ -184,7 +185,6 @@ echo 704920 /a &gt; $(OutputPath)steam_appid.txt</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\src\machine\main.cpp" />
-    <ClCompile Include="..\..\..\..\src\machine\Steam\Login.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\src\angelscript\projects\vs2019\angelscript.vcxproj">
@@ -199,9 +199,6 @@ echo 704920 /a &gt; $(OutputPath)steam_appid.txt</Command>
     <ProjectReference Include="..\Engine\Engine.vcxproj">
       <Project>{df7bb07c-8458-46e9-8284-c6d798968fe3}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\..\src\machine\Steam\Login.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

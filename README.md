@@ -69,20 +69,21 @@ cmake --build . --target install
   - [libpng GitHub](https://github.com/glennrp/libpng)
 - [libWebP](https://github.com/webmproject/libwebp)
 - [stb](https://github.com/nothings/stb)
-- [tsl/hopscotch](https://github.com/Tessil/hopscotch-map)
+- [tsl/hopscotch](https://github.com/Tessil/hopscotch-map) (versioned in project)
 - [glext](https://sourceforge.net/projects/glextwin32/)
 - [SDL2](https://www.libsdl.org/download-2.0.php)
 - [OpenGL](https://www.mesa3d.org/intro.html)
-- [fmod](https://www.fmod.com/)
-- [Angelscript ^2.32](https://angelcode.com)
+- [fmod](https://www.fmod.com/) *Proprietary*, (must login on site)
+- [Angelscript ^2.32](https://angelcode.com) (versioned in project)
   - For better binary compatibility on compiled script, please enable 
     AS_MAX_PORTABILITY;AS_NO_THREADS preprocessor macros when compiling angelscript
 ### (Debian/Ubuntu)
 
 ```
-apt install libstb-dev libsdl2-dev libboost-dev libwebp-dev libpng-dev \
-  zlib1g-dev
+apt install cmake build-essential libstb-dev libsdl2-dev libboost-dev libwebp-dev libpng-dev \
+  zlib1g-dev mesa-common-dev
 ```
+
 ## Build Tools
 ### Windows
 - MSVC 16
