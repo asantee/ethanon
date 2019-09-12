@@ -5,6 +5,7 @@
 
 namespace gs2d {
 
+// TODO remove this class
 class IOSGLES2Video : public GLES2Video
 {
 public:
