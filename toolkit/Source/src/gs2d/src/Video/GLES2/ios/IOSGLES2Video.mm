@@ -1,5 +1,3 @@
-#import <Foundation/Foundation.h>
-
 #include "IOSGLES2Video.h"
 
 namespace gs2d {

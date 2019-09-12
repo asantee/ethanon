@@ -5,6 +5,7 @@
 
 namespace gs2d {
 
+// TODO remove this class
 class AndroidGLES2Video : public GLES2Video
 {
 public:
