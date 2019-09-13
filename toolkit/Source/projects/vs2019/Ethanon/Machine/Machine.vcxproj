@@ -74,12 +74,16 @@
     <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     <CustomBuildAfterTargets>BuildLinkTraverse</CustomBuildAfterTargets>
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(UserProfile)\.usr\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>$(UserProfile)\.usr\lib;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
     <LinkIncremental>false</LinkIncremental>
     <CustomBuildAfterTargets>
     </CustomBuildAfterTargets>
+    <IncludePath>$(UserProfile)\.usr\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>$(UserProfile)\.usr\lib;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -87,13 +91,13 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(UserProfile)\.usr\include\boost-1_70;$(UserProfile)\.usr\include\steam;..\..\..\..\src\angelscript\include;..\..\..\..\src\box2d\;..\..\..\..\src\engine\;..\..\..\..\src\gs2d\src\;..\..\..\..\src\gs2d\vendors\tsl</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\src\angelscript\include;..\..\..\..\src\box2d\;..\..\..\..\src\engine\;..\..\..\..\src\gs2d\src\;..\..\..\..\src\gs2d\vendors\tsl</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <PreprocessorDefinitions>STEAM_API;_DEBUG;_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\vendors\SDL2-2.0.10\lib\x86;C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\vendors\glext\lib;$(UserProfile)\.usr\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ShowProgress>LinkVerboseLib</ShowProgress>
       <AdditionalDependencies>webp.lib;webpdecoder.lib;webpmux.lib;webpdemux.lib;steam_api.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glext.lib;fmod_vc.lib;libzip-static.lib;zlibstatic.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
@@ -133,7 +137,7 @@ echo 704920 /a &gt; $(OutputPath)steam_appid.txt</Command>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(UserProfile)\.usr\include\boost-1_70;$(UserProfile)\.usr\include\steam;..\..\..\..\src\angelscript\include;..\..\..\..\src\box2d\;..\..\..\..\src\engine\;..\..\..\..\src\gs2d\src\;..\..\..\..\src\gs2d\vendors\tsl</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\src\angelscript\include;..\..\..\..\src\box2d\;..\..\..\..\src\engine\;..\..\..\..\src\gs2d\src\;..\..\..\..\src\gs2d\vendors\tsl</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PreprocessorDefinitions>STEAM_API;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
@@ -141,7 +145,7 @@ echo 704920 /a &gt; $(OutputPath)steam_appid.txt</Command>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\vendors\SDL2-2.0.10\lib\x86;C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\vendors\glext\lib;$(UserProfile)\.usr\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ShowProgress>NotSet</ShowProgress>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
       <AdditionalDependencies>webp.lib;webpdecoder.lib;webpmux.lib;webpdemux.lib;steam_api.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glext.lib;fmod_vc.lib;libzip-static.lib;zlibstatic.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -184,7 +188,10 @@ echo 704920 /a &gt; $(OutputPath)steam_appid.txt</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\src\machine\main.cpp" />
+    <ClCompile Include="..\..\..\..\src\machine\main.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">_DEBUG;_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\src\angelscript\projects\vs2019\angelscript.vcxproj">

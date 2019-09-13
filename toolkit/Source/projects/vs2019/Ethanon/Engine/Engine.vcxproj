@@ -70,12 +70,14 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\vendors\boost\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(UserProfile)\.usr\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
+    <IncludePath>$(UserProfile)\.usr\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LibraryPath>C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\vendors\boost\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(UserProfile)\.usr\lib\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
+    <IncludePath>$(UserProfile)\.usr\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -83,7 +85,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\..\src\vendors\boost\include\boost-1_70;..\..\..\..\src\addons\;..\..\..\..\src\angelscript\include;..\..\..\..\src\box2d\;..\..\..\..\src\gs2d\src\;..\..\..\..\src\vendors\hashlib2plus\src\;..\..\..\..\src\gs2d\vendors\tsl</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\src\addons\;..\..\..\..\src\angelscript\include;..\..\..\..\src\box2d\;..\..\..\..\src\gs2d\src\;..\..\..\..\src\vendors\hashlib2plus\src\;..\..\..\..\src\gs2d\vendors\tsl</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_MBCS;_STDC_CONSTANT_MACROS;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
@@ -92,7 +94,7 @@
       <AdditionalLibraryDirectories>$(VCToolsInstallDir)\lib\x86</AdditionalLibraryDirectories>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\angelscript\lib;C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\vendors\boost\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\angelscript\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -119,7 +121,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\..\src\vendors\boost\include\boost-1_70;..\..\..\..\src\addons\;..\..\..\..\src\angelscript\include;..\..\..\..\src\box2d\;..\..\..\..\src\gs2d\src\;..\..\..\..\src\vendors\hashlib2plus\src\;..\..\..\..\src\gs2d\vendors\tsl</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\src\addons\;..\..\..\..\src\angelscript\include;..\..\..\..\src\box2d\;..\..\..\..\src\gs2d\src\;..\..\..\..\src\vendors\hashlib2plus\src\;..\..\..\..\src\gs2d\vendors\tsl</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PreprocessorDefinitions>_MBCS;_STDC_CONSTANT_MACROS;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
@@ -130,7 +132,7 @@
       <AdditionalLibraryDirectories>$(VCToolsInstallDir)\lib\x86</AdditionalLibraryDirectories>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\lib;C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\angelscript\lib;C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\vendors\boost\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\lib;C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\angelscript\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <LinkTimeCodeGeneration>false</LinkTimeCodeGeneration>
     </Lib>
   </ItemDefinitionGroup>
