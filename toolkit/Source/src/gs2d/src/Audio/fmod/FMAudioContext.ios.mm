@@ -99,7 +99,7 @@ void FMAudioContext::CommonInit(Platform::FileLogger &logger)
         }];
     }
 
-    [[NSNotificationCenter defaultCenter] addObserverForName:AVAudioSessionRouteChangeNotification object:nil queue:nil usingBlock:^(NSNotification *notification)
+    /*[[NSNotificationCenter defaultCenter] addObserverForName:AVAudioSessionRouteChangeNotification object:nil queue:nil usingBlock:^(NSNotification *notification)
     {
         NSNumber *reason = [[notification userInfo] valueForKey:AVAudioSessionRouteChangeReasonKey];
         AVAudioSessionPortDescription *oldOutput = [[[notification userInfo] valueForKey:AVAudioSessionRouteChangePreviousRouteKey] outputs][0];
@@ -119,7 +119,7 @@ void FMAudioContext::CommonInit(Platform::FileLogger &logger)
         }
 
         NSLog(@"Output route has changed from %dch %@ to %dch %@ due to '%s'", (int)[[oldOutput channels] count], [oldOutput portName], (int)[[newOutput channels] count], [newOutput portName], reasonString);
-    }];
+    }];*/
 
     /*if (&AVAudioSessionMediaServicesWereLostNotification)
     {
