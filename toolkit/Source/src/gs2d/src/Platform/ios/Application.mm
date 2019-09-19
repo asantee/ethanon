@@ -45,17 +45,16 @@
 	self.arrayLock = [[NSLock alloc] init];
 
 	// setup default subplatform
-	const bool constant = false;
-	gs2d::Application::SharedData.Create("com.ethanonengine.subplatform", "apple", constant);
+	gs2d::Application::SharedData.Create("com.ethanonengine.subplatform", "apple", true  /*constant*/);
 
 	NSString* appVersionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-	gs2d::Application::SharedData.Create("com.ethanonengine.versionName", [appVersionString UTF8String], constant);
+	gs2d::Application::SharedData.Create("com.ethanonengine.versionName", [appVersionString UTF8String], true  /*constant*/);
 
 	// setup language code
 	NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
 	NSRange designatorRange = NSMakeRange(0, 2);
 	language = [language substringWithRange:designatorRange];
-	gs2d::Application::SharedData.Create("ethanon.system.language", [language cStringUsingEncoding:1], true);
+	gs2d::Application::SharedData.Create("ethanon.system.language", [language cStringUsingEncoding:1], false /*constant*/);
 	
 	return self;
 }
