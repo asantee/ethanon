@@ -61,7 +61,7 @@ void FMAudioContext::CommonInit(Platform::FileLogger &logger)
 			if (m_system)
 			{
 				FMOD_RESULT result = m_system->mixerSuspend();
-				FMOD_ERRCHECK(result, logger);
+				FMOD_ERRCHECK_fn(result, __FILE__, __LINE__, logger);
 			}
 		}
 		else
@@ -85,7 +85,7 @@ void FMAudioContext::CommonInit(Platform::FileLogger &logger)
 			if (m_system)
 			{
 				FMOD_RESULT result = m_system->mixerResume();
-				FMOD_ERRCHECK(result, logger);
+				FMOD_ERRCHECK_fn(result, __FILE__, __LINE__, logger);
 			}
 		}
     }];
