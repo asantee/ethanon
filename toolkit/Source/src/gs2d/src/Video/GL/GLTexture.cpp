@@ -71,13 +71,13 @@ bool GLTexture::LoadTexture(
 
 	if(m_fileManager->FileExists(webPFileName))
 	{
-		std::cout << "Loading texture: " << webPFileName << std::endl;
+		//std::cout << "Loading texture: " << webPFileName << std::endl;
 		m_fileManager->GetFileBuffer(webPFileName, out);
 	}
 	// if not, try original image with STB
 	else
 	{
-		std::cout << "Loading texture: " << fileName << std::endl;
+		//std::cout << "Loading texture: " << fileName << std::endl;
 		m_fileManager->GetFileBuffer(fileName, out);
 	}
 #else
