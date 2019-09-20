@@ -69,7 +69,6 @@ std::string FindResourceDir(const int argc, char* argv[])
 
 int main(int argc, char* argv[])
 {
-
 	// start engine runtime
 	bool compileAndRun, testing, wait;
 	ProcParams(argc, argv, compileAndRun, testing, wait);
