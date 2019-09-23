@@ -87,6 +87,8 @@
 		AA18F60922C7D98800F44DA6 /* GameMath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA18F60722C7D98800F44DA6 /* GameMath.cpp */; };
 		AA18F60A22C7D98800F44DA6 /* GameMath.h in Headers */ = {isa = PBXBuildFile; fileRef = AA18F60822C7D98800F44DA6 /* GameMath.h */; };
 		AA19C1241F8285BF0096696A /* FMAudioContext.macos.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA19C1231F8285BF0096696A /* FMAudioContext.macos.mm */; };
+		AA4AABE323396130009ABDAE /* NativeCommandForwarder.h in Headers */ = {isa = PBXBuildFile; fileRef = AA4AABE12339612F009ABDAE /* NativeCommandForwarder.h */; };
+		AA4AABE423396130009ABDAE /* NativeCommandForwarder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA4AABE223396130009ABDAE /* NativeCommandForwarder.cpp */; };
 		AA7BDF721F7EE1980057B06F /* libfmod.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA7BDF711F7EE1980057B06F /* libfmod.dylib */; };
 		AA7BDF801F7EE5750057B06F /* FMAudioContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA7BDF7C1F7EE5390057B06F /* FMAudioContext.cpp */; };
 		AA7BDF811F7EE5750057B06F /* FMAudioSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA7BDF7F1F7EE53A0057B06F /* FMAudioSample.cpp */; };
@@ -209,6 +211,8 @@
 		AA18F60722C7D98800F44DA6 /* GameMath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameMath.cpp; path = ../../../../src/Math/GameMath.cpp; sourceTree = "<group>"; };
 		AA18F60822C7D98800F44DA6 /* GameMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameMath.h; path = ../../../../src/Math/GameMath.h; sourceTree = "<group>"; };
 		AA19C1231F8285BF0096696A /* FMAudioContext.macos.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = FMAudioContext.macos.mm; path = ../../../src/Audio/fmod/FMAudioContext.macos.mm; sourceTree = "<group>"; };
+		AA4AABE12339612F009ABDAE /* NativeCommandForwarder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NativeCommandForwarder.h; path = ../../../../src/Platform/NativeCommandForwarder.h; sourceTree = "<group>"; };
+		AA4AABE223396130009ABDAE /* NativeCommandForwarder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NativeCommandForwarder.cpp; path = ../../../../src/Platform/NativeCommandForwarder.cpp; sourceTree = "<group>"; };
 		AA7BDF711F7EE1980057B06F /* libfmod.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfmod.dylib; path = ../../../vendors/fmod/lib/libfmod.dylib; sourceTree = "<group>"; };
 		AA7BDF7C1F7EE5390057B06F /* FMAudioContext.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = FMAudioContext.cpp; path = ../../../src/Audio/fmod/FMAudioContext.cpp; sourceTree = "<group>"; };
 		AA7BDF7D1F7EE5390057B06F /* FMAudioContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FMAudioContext.h; path = ../../../src/Audio/fmod/FMAudioContext.h; sourceTree = "<group>"; };
@@ -303,6 +307,8 @@
 				7473CACE16331548005DB920 /* macosx */,
 				7473CAC516330E1C005DB920 /* Platform.cpp */,
 				7473CAC616330E1C005DB920 /* Platform.h */,
+				AA4AABE223396130009ABDAE /* NativeCommandForwarder.cpp */,
+				AA4AABE12339612F009ABDAE /* NativeCommandForwarder.h */,
 				7473CA9C16330391005DB920 /* FileIOHub.cpp */,
 				7473CA9D16330391005DB920 /* FileIOHub.h */,
 				7473CA9E16330391005DB920 /* FileLogger.cpp */,
@@ -532,6 +538,7 @@
 				7473CA8516330304005DB920 /* Video.h in Headers */,
 				AADD118423173B8300A5541C /* getRealTime.h in Headers */,
 				7473CA8616330304005DB920 /* Window.h in Headers */,
+				AA4AABE323396130009ABDAE /* NativeCommandForwarder.h in Headers */,
 				AA18F5E922B8804100F44DA6 /* Vector2i.h in Headers */,
 				7473CA9416330366005DB920 /* Color.h in Headers */,
 				7473CA9716330366005DB920 /* MersenneTwister.h in Headers */,
@@ -673,6 +680,7 @@
 				74838D36163F25AB0027CFFC /* SDLInput.cpp in Sources */,
 				74838D3B1640730D0027CFFC /* KeyStateManager.cpp in Sources */,
 				74838D4016414F6A0027CFFC /* SDLJoystick.cpp in Sources */,
+				AA4AABE423396130009ABDAE /* NativeCommandForwarder.cpp in Sources */,
 				7421F2DF1648173000C55BAE /* StdFileManager.cpp in Sources */,
 				7423B69D165FF413008848EA /* SharedData.cpp in Sources */,
 				7423B69F165FF413008848EA /* SharedDataManager.cpp in Sources */,

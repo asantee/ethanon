@@ -112,12 +112,8 @@
 		7421F14B1647267300C55BAE /* ETHDateTime.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F13D1647267300C55BAE /* ETHDateTime.h */; };
 		7421F14C1647267300C55BAE /* ETHFileChangeDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F13E1647267300C55BAE /* ETHFileChangeDetector.cpp */; };
 		7421F14D1647267300C55BAE /* ETHFileChangeDetector.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F13F1647267300C55BAE /* ETHFileChangeDetector.h */; };
-		7421F14E1647267300C55BAE /* ETHFrameTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F1401647267300C55BAE /* ETHFrameTimer.cpp */; };
-		7421F14F1647267300C55BAE /* ETHFrameTimer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F1411647267300C55BAE /* ETHFrameTimer.h */; };
 		7421F1521647267300C55BAE /* ETHInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F1441647267300C55BAE /* ETHInput.cpp */; };
 		7421F1531647267300C55BAE /* ETHInput.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F1451647267300C55BAE /* ETHInput.h */; };
-		7421F1541647267300C55BAE /* ETHSpeedTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F1461647267300C55BAE /* ETHSpeedTimer.cpp */; };
-		7421F1551647267300C55BAE /* ETHSpeedTimer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F1471647267300C55BAE /* ETHSpeedTimer.h */; };
 		7421F2981647415E00C55BAE /* aswrappedcall.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F28D1647415E00C55BAE /* aswrappedcall.h */; };
 		7421F2991647415E00C55BAE /* scriptarray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7421F28E1647415E00C55BAE /* scriptarray.cpp */; };
 		7421F29A1647415E00C55BAE /* scriptarray.h in Headers */ = {isa = PBXBuildFile; fileRef = 7421F28F1647415E00C55BAE /* scriptarray.h */; };
@@ -359,12 +355,8 @@
 		7421F13D1647267300C55BAE /* ETHDateTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHDateTime.h; path = ../../../../src/engine/Util/ETHDateTime.h; sourceTree = "<group>"; };
 		7421F13E1647267300C55BAE /* ETHFileChangeDetector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHFileChangeDetector.cpp; path = ../../../../src/engine/Util/ETHFileChangeDetector.cpp; sourceTree = "<group>"; };
 		7421F13F1647267300C55BAE /* ETHFileChangeDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHFileChangeDetector.h; path = ../../../../src/engine/Util/ETHFileChangeDetector.h; sourceTree = "<group>"; };
-		7421F1401647267300C55BAE /* ETHFrameTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHFrameTimer.cpp; path = ../../../../src/engine/Util/ETHFrameTimer.cpp; sourceTree = "<group>"; };
-		7421F1411647267300C55BAE /* ETHFrameTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHFrameTimer.h; path = ../../../../src/engine/Util/ETHFrameTimer.h; sourceTree = "<group>"; };
 		7421F1441647267300C55BAE /* ETHInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHInput.cpp; path = ../../../../src/engine/Util/ETHInput.cpp; sourceTree = "<group>"; };
 		7421F1451647267300C55BAE /* ETHInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHInput.h; path = ../../../../src/engine/Util/ETHInput.h; sourceTree = "<group>"; };
-		7421F1461647267300C55BAE /* ETHSpeedTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHSpeedTimer.cpp; path = ../../../../src/engine/Util/ETHSpeedTimer.cpp; sourceTree = "<group>"; };
-		7421F1471647267300C55BAE /* ETHSpeedTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHSpeedTimer.h; path = ../../../../src/engine/Util/ETHSpeedTimer.h; sourceTree = "<group>"; };
 		7421F28D1647415E00C55BAE /* aswrappedcall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = aswrappedcall.h; path = ../../../src/addons/aswrappedcall.h; sourceTree = "<group>"; };
 		7421F28E1647415E00C55BAE /* scriptarray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scriptarray.cpp; path = ../../../src/addons/scriptarray.cpp; sourceTree = "<group>"; };
 		7421F28F1647415E00C55BAE /* scriptarray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scriptarray.h; path = ../../../src/addons/scriptarray.h; sourceTree = "<group>"; };
@@ -475,8 +467,14 @@
 			children = (
 				7421F04A1647258E00C55BAE /* ETHCustomDataManager.cpp */,
 				7421F04B1647258E00C55BAE /* ETHCustomDataManager.h */,
+				7421F05C1647258E00C55BAE /* ETHScriptEntity.cpp */,
+				7421F05D1647258E00C55BAE /* ETHScriptEntity.h */,
 				7421F04C1647258E00C55BAE /* ETHEntity.cpp */,
 				7421F04D1647258E00C55BAE /* ETHEntity.h */,
+				7421F05A1647258E00C55BAE /* ETHRenderEntity.cpp */,
+				7421F05B1647258E00C55BAE /* ETHRenderEntity.h */,
+				7421F05E1647258E00C55BAE /* ETHSpriteEntity.cpp */,
+				7421F05F1647258E00C55BAE /* ETHSpriteEntity.h */,
 				7421F04E1647258E00C55BAE /* ETHEntityArray.cpp */,
 				7421F04F1647258E00C55BAE /* ETHEntityArray.h */,
 				7421F0501647258E00C55BAE /* ETHEntityCache.cpp */,
@@ -489,12 +487,6 @@
 				7421F0571647258E00C55BAE /* ETHEntityProperties.h */,
 				7421F0581647258E00C55BAE /* ETHLight.cpp */,
 				7421F0591647258E00C55BAE /* ETHLight.h */,
-				7421F05A1647258E00C55BAE /* ETHRenderEntity.cpp */,
-				7421F05B1647258E00C55BAE /* ETHRenderEntity.h */,
-				7421F05E1647258E00C55BAE /* ETHSpriteEntity.cpp */,
-				7421F05F1647258E00C55BAE /* ETHSpriteEntity.h */,
-				7421F05C1647258E00C55BAE /* ETHScriptEntity.cpp */,
-				7421F05D1647258E00C55BAE /* ETHScriptEntity.h */,
 			);
 			name = Entity;
 			sourceTree = "<group>";
@@ -682,12 +674,8 @@
 				7421F13D1647267300C55BAE /* ETHDateTime.h */,
 				7421F13E1647267300C55BAE /* ETHFileChangeDetector.cpp */,
 				7421F13F1647267300C55BAE /* ETHFileChangeDetector.h */,
-				7421F1401647267300C55BAE /* ETHFrameTimer.cpp */,
-				7421F1411647267300C55BAE /* ETHFrameTimer.h */,
 				7421F1441647267300C55BAE /* ETHInput.cpp */,
 				7421F1451647267300C55BAE /* ETHInput.h */,
-				7421F1461647267300C55BAE /* ETHSpeedTimer.cpp */,
-				7421F1471647267300C55BAE /* ETHSpeedTimer.h */,
 				AAFA2E4421419F4F006D67FB /* JSONObject.cpp */,
 				AAFA2E4621419F50006D67FB /* JSONObject.h */,
 			);
@@ -905,9 +893,7 @@
 				7421F14B1647267300C55BAE /* ETHDateTime.h in Headers */,
 				7421F14D1647267300C55BAE /* ETHFileChangeDetector.h in Headers */,
 				74A21A96182BFA9D0000F783 /* hl_types.h in Headers */,
-				7421F14F1647267300C55BAE /* ETHFrameTimer.h in Headers */,
 				7421F1531647267300C55BAE /* ETHInput.h in Headers */,
-				7421F1551647267300C55BAE /* ETHSpeedTimer.h in Headers */,
 				7421F2981647415E00C55BAE /* aswrappedcall.h in Headers */,
 				7421F29A1647415E00C55BAE /* scriptarray.h in Headers */,
 				7421F29C1647415E00C55BAE /* scriptdictionary.h in Headers */,
@@ -1107,10 +1093,8 @@
 				7421F1481647267300C55BAE /* ETHASUtil.cpp in Sources */,
 				7421F14A1647267300C55BAE /* ETHDateTime.cpp in Sources */,
 				7421F14C1647267300C55BAE /* ETHFileChangeDetector.cpp in Sources */,
-				7421F14E1647267300C55BAE /* ETHFrameTimer.cpp in Sources */,
 				74A21A8B182BFA9D0000F783 /* hl_sha2ext.cpp in Sources */,
 				7421F1521647267300C55BAE /* ETHInput.cpp in Sources */,
-				7421F1541647267300C55BAE /* ETHSpeedTimer.cpp in Sources */,
 				7421F2991647415E00C55BAE /* scriptarray.cpp in Sources */,
 				7421F29B1647415E00C55BAE /* scriptdictionary.cpp in Sources */,
 				7421F29D1647415E00C55BAE /* scriptmath.cpp in Sources */,

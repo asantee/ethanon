@@ -198,7 +198,9 @@ bool GLTexture::LoadTexture(
 
 	if(isWebP)
 	{
+#ifdef WEBP
 		WebPFree(data);
+#endif
 	}
 	else 
 	{
