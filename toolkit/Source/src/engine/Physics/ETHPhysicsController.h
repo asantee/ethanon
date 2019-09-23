@@ -5,7 +5,7 @@
 
 class ETHPhysicsController
 {
-	int m_ref;
+	int32_t m_ref;
 	ETHPhysicsEntityControllerPtr m_controller;
 
 public:
@@ -38,8 +38,8 @@ public:
 	float GetRestitution() const;
 	void SetRestitution(const float res);
 	ETHPhysicsEntityControllerPtr GetEntityController();
-	unsigned int GetNumJoints() const;
-	b2RevoluteJoint* GetRevoluteJoint(const unsigned int idx);
+	uint32_t GetNumJoints() const;
+	b2RevoluteJoint* GetRevoluteJoint(const uint32_t idx);
 };
 
 #endif

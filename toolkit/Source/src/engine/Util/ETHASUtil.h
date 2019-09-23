@@ -26,21 +26,21 @@ namespace ETHGlobal {
 	bool IsSphereInScreen(const Vector3& v3Pos, const float radius, const Vector2& zAxisDir, const VideoPtr& video);
 
 	bool IsValidUTF8(const std::string& str);
-	unsigned int DistanceUTF8(const std::string& str);
+	uint32_t DistanceUTF8(const std::string& str);
 
 	float ParseFloat(const char* str);
 	double ParseDouble(const char* str);
-	int ParseInt(const char* str);
-	unsigned int ParseUInt(const char* str);
-	long long ParseInt64(const char* str);
-	unsigned long long ParseUInt64(const char* str);
+	int32_t ParseInt(const char* str);
+	uint32_t ParseUInt(const char* str);
+	int64_t ParseInt64(const char* str);
+	uint64_t ParseUInt64(const char* str);
 
 	float ParseFloatStd(const std::string &str);
 	double ParseDoubleStd(const std::string &str);
-	int ParseIntStd(const std::string &str);
-	unsigned int ParseUIntStd(const std::string &str);
-	long long ParseInt64Std(const std::string &str);
-	unsigned long long ParseUInt64Std(const std::string &str);
+	int32_t ParseIntStd(const std::string &str);
+	uint32_t ParseUIntStd(const std::string &str);
+	int64_t ParseInt64Std(const std::string &str);
+	uint64_t ParseUInt64Std(const std::string &str);
 } // namespace ETHGlobal
 
 #endif

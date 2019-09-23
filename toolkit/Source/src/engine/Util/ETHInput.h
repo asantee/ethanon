@@ -25,22 +25,22 @@ public:
 	GS_KEY_STATE GetKeyState(const GS_KEY);
 	bool KeyDown(const GS_KEY);
 
-	GS_KEY_STATE JoyButtonState(const unsigned int, const GS_JOYSTICK_BUTTON) const;
-	bool JoyButtonDown(const unsigned int, const GS_JOYSTICK_BUTTON) const;
+	GS_KEY_STATE JoyButtonState(const uint32_t, const GS_JOYSTICK_BUTTON) const;
+	bool JoyButtonDown(const uint32_t, const GS_JOYSTICK_BUTTON) const;
 	bool DetectJoysticks() const;
-	GS_JOYSTICK_STATUS GetJoystickStatus(const unsigned int) const;
-	unsigned int GetNumJoyButtons(const unsigned int) const;
-	Vector2 GetJoystickXY(const unsigned int) const;
-	float GetJoystickZ(const unsigned int) const;
-	float GetJoystickRudder(const unsigned int) const;
-	Vector2 GetJoystickUV(const unsigned int) const;
-	GS_JOYSTICK_BUTTON GetFirstButtonDown(const unsigned int) const;
-	unsigned int GetMaxJoysticks() const;
+	GS_JOYSTICK_STATUS GetJoystickStatus(const uint32_t) const;
+	uint32_t GetNumJoyButtons(const uint32_t) const;
+	Vector2 GetJoystickXY(const uint32_t) const;
+	float GetJoystickZ(const uint32_t) const;
+	float GetJoystickRudder(const uint32_t) const;
+	Vector2 GetJoystickUV(const uint32_t) const;
+	GS_JOYSTICK_BUTTON GetFirstButtonDown(const uint32_t) const;
+	uint32_t GetMaxJoysticks() const;
 
-	Vector2 GetTouchPos(const unsigned int n) const;
-	GS_KEY_STATE  GetTouchState(const unsigned int n) const;
-	unsigned int GetMaxTouchCount() const;
-	Vector2 GetTouchMove(const unsigned int n) const;
+	Vector2 GetTouchPos(const uint32_t n) const;
+	GS_KEY_STATE  GetTouchState(const uint32_t n) const;
+	uint32_t GetMaxTouchCount() const;
+	Vector2 GetTouchMove(const uint32_t n) const;
 	Vector3 GetAccelerometerData() const;
 };
 #endif

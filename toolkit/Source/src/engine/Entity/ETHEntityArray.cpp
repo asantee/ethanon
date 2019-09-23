@@ -45,14 +45,14 @@ const ETHEntityRawPtr &ETHEntityArray::operator[] (const unsigned int index) con
 	return m_vector[index];
 }
 
-ETHEntityRawPtr &ETHEntityArray::operator[] (const unsigned long index)
+ETHEntityRawPtr &ETHEntityArray::operator[] (const uint64_t index)
 {
-	return (*this)[static_cast<unsigned int>(index)];
+	return (*this)[static_cast<uint32_t>(index)];
 }
 
-const ETHEntityRawPtr &ETHEntityArray::operator[] (const unsigned long index) const
+const ETHEntityRawPtr &ETHEntityArray::operator[] (const uint64_t index) const
 {
-	return (*this)[static_cast<unsigned int>(index)];
+	return (*this)[static_cast<uint32_t>(index)];
 }
 
 ETHEntityArray &ETHEntityArray::operator+=(const ETHEntityArray &other)

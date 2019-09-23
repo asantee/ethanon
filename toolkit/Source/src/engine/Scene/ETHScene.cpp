@@ -721,7 +721,7 @@ void ETHScene::RecoverResources(const Platform::FileManagerPtr& expansionFileMan
 	m_buckets.GetEntityArray(entities);
 	for (std::size_t t = 0; t < entities.size(); t++)
 	{
-		entities[t]->RecoverResources(expansionFileManager);
+		entities[static_cast<uint64_t>(t)]->RecoverResources(expansionFileManager);
 	}
 }
 

@@ -8,6 +8,8 @@
 
 #include "../../gs2d/src/Unicode/utf8/utf8.h"
 
+#include <inttypes.h>
+
 #ifdef _MSC_VER
   #define GS2D_SSCANF sscanf_s
 #else
@@ -148,31 +150,31 @@ double ParseDouble(const char* str)
 	return d;
 }
 
-int ParseInt(const char* str)
+int32_t ParseInt(const char* str)
 {
-	int n = 0;
-	GS2D_SSCANF(str, ("%d"), &n);
+	int32_t n = 0;
+	GS2D_SSCANF(str, "%" SCNd32, &n);
 	return n;
 }
 
-unsigned int ParseUInt(const char* str)
+uint32_t ParseUInt(const char* str)
 {
-	unsigned int n = 0;
-	GS2D_SSCANF(str, ("%u"), &n);
+	uint32_t n = 0;
+	GS2D_SSCANF(str, "%" SCNu32, &n);
 	return n;
 }
 
-long long ParseInt64(const char* str)
+int64_t ParseInt64(const char* str)
 {
-	long long n = 0;
-	GS2D_SSCANF(str, ("%lld"), &n);
+	int64_t n = 0; SCNd64;
+	GS2D_SSCANF(str, "%" SCNd64, &n);
 	return n;
 }
 
-unsigned long long ParseUInt64(const char* str)
+uint64_t ParseUInt64(const char* str)
 {
-	unsigned long long n = 0;
-	GS2D_SSCANF(str, ("%llu"), &n);
+	uint64_t n = 0;
+	GS2D_SSCANF(str, "%" SCNu64, &n);
 	return n;
 }
 	
@@ -185,23 +187,23 @@ double ParseDoubleStd(const std::string& str)
 {
 	return ParseDouble(str.c_str());
 }
-	
-int ParseIntStd(const std::string& str)
+
+int32_t ParseIntStd(const std::string& str)
 {
 	return ParseInt(str.c_str());
 }
 
-unsigned int ParseUIntStd(const std::string& str)
+uint32_t ParseUIntStd(const std::string& str)
 {
 	return ParseUInt(str.c_str());
 }
 
-long long ParseInt64Std(const std::string& str)
+int64_t ParseInt64Std(const std::string& str)
 {
 	return ParseInt64(str.c_str());
 }
 
-unsigned long long ParseUInt64Std(const std::string& str)
+uint64_t ParseUInt64Std(const std::string& str)
 {
 	return ParseUInt64(str.c_str());
 }
@@ -211,9 +213,9 @@ bool IsValidUTF8(const std::string& str)
 	return utf8::is_valid(&str[0], &str[0] + str.length());
 }
 
-unsigned int DistanceUTF8(const std::string& str)
+uint32_t DistanceUTF8(const std::string& str)
 {
-	return static_cast<unsigned int>(utf8::distance(&str[0], &str[0] + str.length()));
+	return static_cast<uint32_t>(utf8::distance(&str[0], &str[0] + str.length()));
 }
 
 bool IsSphereInScreen(const Vector3& pos, const float radius, const Vector2& zAxisDir, const VideoPtr& video)

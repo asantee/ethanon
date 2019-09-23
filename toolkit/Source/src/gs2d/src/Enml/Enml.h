@@ -83,7 +83,7 @@ public:
 
 private:
 	std::map<std::string, std::string> m_map;
-	int m_ref; // reference counter
+	int32_t m_ref; // reference counter
 };
 
 /// File class that holds many entities and writes all its content to string or parses a string to Entity objects.
@@ -136,7 +136,7 @@ public:
 	void AddValue(const std::string& entity, const std::string& attrib, const std::string& value);
 
 	/// Parses a string to a map of Entity objects. If an error occurs, it returns the line of the error.
-	unsigned int ParseString(const std::string &str);
+	uint32_t ParseString(const std::string &str);
 
 	/// Returns the ID of the last parsing error.
 	ERROR_VALUE GetError() const;
@@ -154,10 +154,10 @@ public:
 	bool GetDouble(const std::string &entity, const std::string &attrib,  double *p) const;
 
 	/// Returns the value of the attribute named 'attrib' from the entity 'entity'. Returns an false if there's no attribute or entity with that name.
-	bool GetInt(const std::string &entity, const std::string &attrib,  int *p) const;
+	bool GetInt(const std::string &entity, const std::string &attrib,  int32_t *p) const;
 
 	/// Returns the value of the attribute named 'attrib' from the entity 'entity'. Returns an false if there's no attribute or entity with that name.
-	bool GetUInt(const std::string &entity, const std::string &attrib, unsigned int *p) const;
+	bool GetUInt(const std::string &entity, const std::string &attrib, uint32_t *p) const;
 
 	/// Returns the value of the attribute named 'attrib' from the entity 'entity'. Returns an false if there's no attribute or entity with that name.
 	bool GetFloat(const std::string &entity, const std::string &attrib,  float *p) const;
@@ -180,7 +180,7 @@ public:
 	/// Adds an attribute to an entity.
 	void Add(const std::string &entity, const std::string &attrib, const std::string &value);
 
-	unsigned int GetNumEntities() const;
+	uint32_t GetNumEntities() const;
 
 	const std::map<std::string, Entity>& GetEntities() const;
 
@@ -193,7 +193,7 @@ private:
 	std::string ReadValue(std::string str, std::size_t *pCursor);
 
 	std::map<std::string, Entity> m_entities;
-	int m_ref; // reference counter
+	int32_t m_ref; // reference counter
 	ERROR_VALUE m_error; // last parsing error
 };
 

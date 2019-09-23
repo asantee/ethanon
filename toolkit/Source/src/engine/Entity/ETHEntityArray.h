@@ -16,11 +16,11 @@ public:
 	ETHEntityArray& operator=(const ETHEntityArray& other);
 	void push_back(ETHEntityRawPtr p);
 	unsigned int size() const;
-	ETHEntityRawPtr& operator[] (const unsigned int index);
-	const ETHEntityRawPtr& operator[] (const unsigned int index) const;
+	ETHEntityRawPtr& operator[] (const uint32_t index);
+	const ETHEntityRawPtr& operator[] (const uint32_t index) const;
 
-	ETHEntityRawPtr& operator[] (const unsigned long index);
-	const ETHEntityRawPtr& operator[] (const unsigned long index) const;
+	ETHEntityRawPtr& operator[] (const uint64_t index);
+	const ETHEntityRawPtr& operator[] (const uint64_t index) const;
 
 	void clear();
 	ETHEntityArray& operator+=(const ETHEntityArray& other);

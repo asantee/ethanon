@@ -10,7 +10,7 @@ asDECLARE_FUNCTION_WRAPPERPR(__length2, ETHScriptWrapper::Math::Length, (const V
 asDECLARE_FUNCTION_WRAPPERPR(__length3, ETHScriptWrapper::Math::Length, (const Vector3&), float);
 
 asDECLARE_FUNCTION_WRAPPERPR(__signF, ETHScriptWrapper::Math::Sign, (const float), float);
-asDECLARE_FUNCTION_WRAPPERPR(__signI, ETHScriptWrapper::Math::Sign, (const int),   int);
+asDECLARE_FUNCTION_WRAPPERPR(__signI, ETHScriptWrapper::Math::Sign, (const int32_t), int32_t);
 
 asDECLARE_FUNCTION_WRAPPERPR(__distance2, ETHScriptWrapper::Math::Distance, (const Vector2 &, const Vector2 &), float);
 asDECLARE_FUNCTION_WRAPPERPR(__distance3, ETHScriptWrapper::Math::Distance, (const Vector3 &, const Vector3 &), float);

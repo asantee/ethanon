@@ -38,7 +38,7 @@ protected:
 public:
 	struct ETH_VIDEO_MODE_POD
 	{
-		unsigned int width, height;
+		uint32_t width, height;
 		Texture::PIXEL_FORMAT pf;
 	};
 
@@ -63,7 +63,7 @@ public:
 	static bool m_useLightmaps;
 	static bool m_usePreLoadedLightmapsFromFile;
 	static bool m_highEndDevice;
-	static int m_argc;
+	static int32_t m_argc;
 	static char **m_argv;
 	static ETHInput m_ethInput;
 	static asIScriptModule *m_pASModule;
@@ -117,7 +117,7 @@ public:
 		static float Length(const Vector3 &v);
 		static float Length(const Vector2 &v);
 		static float Sign(const float v);
-		static int Sign(const int v);
+		static int32_t Sign(const int32_t v);
 		static float Distance(const Vector2 &a, const Vector2 &b);
 		static float Distance(const Vector3 &a, const Vector3 &b);
 
@@ -185,7 +185,7 @@ public:
 	static void AddToPosition(ETHEntity *pEntity, const Vector3 &v3Pos);
 	static void AddToPositionXY(ETHEntity *pEntity, const Vector2 &v2Pos);
 	static Vector2 GetCurrentBucket(ETHEntity *pEntity);
-	static void PlayParticleSystem(ETHEntity *pEntity, const unsigned int n);
+	static void PlayParticleSystem(ETHEntity *pEntity, const uint32_t n);
 
 	static void SetPositionX(ETHEntity *pEntity, const float v);
 	static void SetPositionY(ETHEntity *pEntity, const float v);
@@ -214,8 +214,8 @@ public:
 	static void SetBucketClearenceFactor(const float factor);
 	static float GetBucketClearenceFactor();
 	static Vector3 GetAmbientLight();
-	static unsigned int GetScreenWidth();
-	static unsigned int GetScreenHeight();
+	static uint32_t GetScreenWidth();
+	static uint32_t GetScreenHeight();
 	static Vector2 GetScreenSize();
 	static Vector2 GetScreenSizeInPixels();
 	static void SetCameraPos(const Vector2 &v2Pos);
@@ -226,21 +226,21 @@ public:
 
 	static Vector2 GetCameraPos();
 	static float GetFPSRate();
-	static Vector2 ComputeCarretPosition(const std::string &font, const std::string &text, const unsigned int pos);
+	static Vector2 ComputeCarretPosition(const std::string &font, const std::string &text, const uint32_t pos);
 	static Vector2 ComputeTextBoxSize(const std::string &font, const std::string &text);
 	static void DrawText(const Vector2 &v2Pos, const std::string &text, const std::string &font, const uint32_t color, const float scale);
 	static std::string AssembleColorCode(const uint32_t color);
 	static void DrawFadingText(const Vector2 &v2Pos, const std::string &text, const std::string &font, const uint32_t color, unsigned long time, const float scale);
-	static int AddEntity(const std::string &file, const Vector3 &v3Pos, const float angle, ETHEntity **ppOutEntity, const std::string &alternativeName, const float scale);
-	static int AddEntity(const std::string &file, const Vector3 &v3Pos, const float angle);
-	static int AddScaledEntity(const std::string &file, const Vector3 &v3Pos, const float scale);
-	static int AddScaledEntity(const std::string &file, const Vector3 &v3Pos, const float scale, ETHEntity **ppOutEntity);
-	static int AddEntity(const std::string &file, const Vector3 &v3Pos, ETHEntity **ppOutEntity);
-	static int AddEntity(const std::string &file, const Vector3 &v3Pos, const std::string &alternativeName);
+	static int32_t AddEntity(const std::string &file, const Vector3 &v3Pos, const float angle, ETHEntity **ppOutEntity, const std::string &alternativeName, const float scale);
+	static int32_t AddEntity(const std::string &file, const Vector3 &v3Pos, const float angle);
+	static int32_t AddScaledEntity(const std::string &file, const Vector3 &v3Pos, const float scale);
+	static int32_t AddScaledEntity(const std::string &file, const Vector3 &v3Pos, const float scale, ETHEntity **ppOutEntity);
+	static int32_t AddEntity(const std::string &file, const Vector3 &v3Pos, ETHEntity **ppOutEntity);
+	static int32_t AddEntity(const std::string &file, const Vector3 &v3Pos, const std::string &alternativeName);
 	static ETHEntity *DeleteEntity(ETHEntity *pEntity);
 	static void ReadLightmapsFromBitmapFiles(const std::string& directory);
 	static void LoadLightmaps(const std::string& directory);
-	static ETHEntity *SeekEntity(const int id);
+	static ETHEntity *SeekEntity(const int32_t id);
 	static ETHEntity *SeekEntity(const std::string &name);
 	static bool LoadMusic(const std::string &file);
 	static bool LoadSoundEffect(const std::string &file);
@@ -255,11 +255,11 @@ public:
 	static bool IsSamplePlaying(const std::string &file);
 	static void SetGlobalVolume(const float volume);
 	static float GetGlobalVolume();
-	static unsigned int GetNumEntities();
+	static uint32_t GetNumEntities();
 
 	static bool AddFloatData(const std::string &entity, const std::string &name, const float value);
-	static bool AddIntData(const std::string &entity, const std::string &name, const int value);
-	static bool AddUIntData(const std::string &entity, const std::string &name, const unsigned int value);
+	static bool AddIntData(const std::string &entity, const std::string &name, const int32_t value);
+	static bool AddUIntData(const std::string &entity, const std::string &name, const uint32_t value);
 	static bool AddStringData(const std::string &entity, const std::string &name, const std::string &value);
 	static bool AddVector2Data(const std::string &entity, const std::string &name, const Vector2 &value);
 	static bool AddVector3Data(const std::string &entity, const std::string &name, const Vector3 &value);
@@ -276,14 +276,14 @@ public:
 	static void PlayParticleEffect(const std::string& fileName, const Vector2& pos, const float angle, const float scale);
 	static Vector2 GetSpriteSize(const std::string &name);
 	static Vector2 GetSpriteFrameSize(const std::string& name);
-	static void SetupSpriteRects(const std::string& name, const unsigned int columns, const unsigned int rows);
-	static void SetSpriteRect(const std::string& name, const unsigned int frame);
+	static void SetupSpriteRects(const std::string& name, const uint32_t columns, const uint32_t rows);
+	static void SetSpriteRect(const std::string& name, const uint32_t frame);
 	static void SetSpriteOrigin(const std::string& name, const Vector2& origin);
 	static void SetSpriteFlipX(const std::string& name, const bool flip);
 	static void SetSpriteFlipY(const std::string& name, const bool flip);
 	static bool Windowed();
-	static ETH_VIDEO_MODE GetVideoMode(const unsigned int mode);
-	static unsigned int GetVideoModeCount();
+	static ETH_VIDEO_MODE GetVideoMode(const uint32_t mode);
+	static uint32_t GetVideoModeCount();
 
 	static uint32_t GetBackgroundColor();
 	static void SetBackgroundColor(const uint32_t color);
@@ -304,12 +304,12 @@ public:
 	static void EnableRealTimeShadows(const bool enable);
 	static void GetVisibleEntities(ETHEntityArray &entityArray);
 	static void GetIntersectingEntities(const Vector2 &v2Here, ETHEntityArray &outVector, const bool screenSpace);
-	static int GetNumProcessedEntities();
-	static int GetNumRenderedPieces();
+	static int32_t GetNumProcessedEntities();
+	static int32_t GetNumRenderedPieces();
 	static void SetBorderBucketsDrawing(const bool enable);
 	static bool IsDrawingBorderBuckets();
-	static int GetArgc();
-	static std::string GetArgv(const int n);
+	static int32_t GetArgc();
+	static std::string GetArgv(const int32_t n);
 	static Vector2 GetWorldSpaceCursorPos2();
 	static void SetPersistentResources(const bool enable);
 	static bool ArePersistentResourcesEnabled();
@@ -345,8 +345,8 @@ public:
 
 	static void ResetVideoMode(
 		const std::string& winTitle,
-		const unsigned int width,
-		const unsigned int height,
+		const uint32_t width,
+		const uint32_t height,
 		const bool windowed,
 		const bool sync,
 		const Texture::PIXEL_FORMAT gsPF);
@@ -356,8 +356,8 @@ public:
 
 	static void Print(const std::string &str);
 	static void PrintFloat(const float f);
-	static void PrintInt(const int n);
-	static void PrintUInt(const unsigned int n);
+	static void PrintInt(const int32_t n);
+	static void PrintUInt(const uint32_t n);
 	static unsigned long GetLastFrameElapsedTime();
 	static float GetLastFrameElapsedTimeF();
 	static std::string GetStringFromFileInPackage(const std::string& fileName);
@@ -366,8 +366,8 @@ public:
 
 	static void SetGravity(const Vector2& gravity);
 	static Vector2 GetGravity();
-	static void SetNumIterations(const int velocityIterations, const int positionIterations);
-	static void GetNumIterations(int& velocityIterations, int& positionIterations);
+	static void SetNumIterations(const int32_t velocityIterations, const int32_t positionIterations);
+	static void GetNumIterations(int32_t& velocityIterations, int32_t& positionIterations);
 	static void SetTimeStepScale(const float scale);
 	static float GetTimeStepScale();
 	static bool IsFixedTimeStep();
@@ -400,7 +400,7 @@ public:
 	static ETHResourceProviderPtr GetProvider();
 	static void CreateDynamicBackBuffer(const ETHAppEnmlFile& file);
 
-	static void SetArgc(const int argc);
+	static void SetArgc(const int32_t argc);
 	static void SetArgv(char **argv);
 };
 

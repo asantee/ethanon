@@ -20,7 +20,7 @@ class ETHScriptEntity
 
 protected:
 	ETHScriptEntity();
-	mutable int m_ref;
+	mutable int32_t m_ref;
 
 public:
 	virtual ETHEntityProperties::ENTITY_TYPE GetType() const = 0;
@@ -31,14 +31,14 @@ public:
 	virtual void SetAngle(const float angle) = 0;
 	virtual void SetPosition(const Vector3& pos, ETHBucketManager& buckets) = 0;
 	virtual void SetPositionXY(const Vector2& pos, ETHBucketManager& buckets) = 0;
-	virtual bool SetFrame(const unsigned int frame) = 0;
-	virtual bool SetFrame(const unsigned int column, const unsigned int row) = 0;
-	virtual unsigned int GetFrame() const = 0;
+	virtual bool SetFrame(const uint32_t frame) = 0;
+	virtual bool SetFrame(const uint32_t column, const uint32_t row) = 0;
+	virtual uint32_t GetFrame() const = 0;
 	virtual Vector2 GetSize() const = 0;
 	virtual bool HasLightSource() const = 0;
 	virtual bool HasHalo() const = 0;
 	virtual bool IsCollidable() const = 0;
-	virtual unsigned int GetNumFrames() const = 0;
+	virtual uint32_t GetNumFrames() const = 0;
 	virtual bool IsStatic() const = 0;
 	virtual bool IsTemporary() const = 0;
 	virtual bool IsInvisible() const = 0;
@@ -47,27 +47,27 @@ public:
 	virtual ETHEntityProperties::VIEW_RECT GetScreenRect(const ETHSceneProperties& sceneProps) const = 0;
 	virtual Vector2 GetScreenRectMin(const ETHSceneProperties& sceneProps) const = 0;
 	virtual Vector2 GetScreenRectMax(const ETHSceneProperties& sceneProps) const = 0;
-	virtual int GetID() const = 0;
+	virtual int32_t GetID() const = 0;
 	virtual void TurnDynamic() = 0;
 	virtual void TurnStatic() = 0;
-	virtual void KillParticleSystem(const unsigned int n) = 0;
-	virtual bool ParticlesKilled(const unsigned int n) const = 0;
-	virtual bool PlayParticleSystem(const unsigned int n, const Vector2& zAxisDirection) = 0;
+	virtual void KillParticleSystem(const uint32_t n) = 0;
+	virtual bool ParticlesKilled(const uint32_t n) const = 0;
+	virtual bool PlayParticleSystem(const uint32_t n, const Vector2& zAxisDirection) = 0;
 	virtual bool AreParticlesOver() const = 0;
 	virtual ETHCollisionBox GetCollisionBox() const = 0;
 	virtual bool HasParticleSystems() const = 0;
-	virtual bool HasParticleSystem(const unsigned int n) const = 0;
+	virtual bool HasParticleSystem(const uint32_t n) const = 0;
 	virtual void AddToPosition(const Vector3& pos, ETHBucketManager& buckets) = 0;
 	virtual void AddToPositionXY(const Vector2& pos, ETHBucketManager& buckets) = 0;
 	virtual void AddToAngle(const float angle) = 0;
-	virtual bool SetSpriteCut(const unsigned int columns, const unsigned int rows) = 0;
-	virtual void SetParticlePosition(const unsigned int n, const Vector3 &v3Pos) = 0;
-	virtual void SetParticleBitmap(const unsigned int n, const std::string& bitmap) = 0;
-	virtual void ScaleParticleSystem(const unsigned int n, const float scale) = 0;
-	virtual bool MirrorParticleSystemX(const unsigned int n, const bool mirrorGravity) = 0;
-	virtual bool MirrorParticleSystemY(const unsigned int n, const bool mirrorGravity) = 0;
-	virtual void SetParticleColorA(const unsigned int n, const Vector3 &color, const float alpha) = 0;
-	virtual void SetParticleColorB(const unsigned int n, const Vector3 &color, const float alpha) = 0;
+	virtual bool SetSpriteCut(const uint32_t columns, const uint32_t rows) = 0;
+	virtual void SetParticlePosition(const uint32_t n, const Vector3 &v3Pos) = 0;
+	virtual void SetParticleBitmap(const uint32_t n, const std::string& bitmap) = 0;
+	virtual void ScaleParticleSystem(const uint32_t n, const float scale) = 0;
+	virtual bool MirrorParticleSystemX(const uint32_t n, const bool mirrorGravity) = 0;
+	virtual bool MirrorParticleSystemY(const uint32_t n, const bool mirrorGravity) = 0;
+	virtual void SetParticleColorA(const uint32_t n, const Vector3 &color, const float alpha) = 0;
+	virtual void SetParticleColorB(const uint32_t n, const Vector3 &color, const float alpha) = 0;
 	virtual Vector2 ComputeParallaxOffset(const float sceneParallaxIntensity) const = 0;
 	virtual float GetParallaxIntensity() const = 0;
 	virtual void SetParallaxIntensity(const float individualIntensity) = 0;
@@ -117,38 +117,38 @@ public:
 	virtual std::string GetHaloName() const = 0;
 
 	virtual void SetFloat(const std::string &name, const float &value) = 0;
-	virtual void SetInt(const std::string &name, const int &value) = 0;
-	virtual void SetUInt(const std::string &name, const unsigned int &value) = 0;
+	virtual void SetInt(const std::string &name, const int32_t &value) = 0;
+	virtual void SetUInt(const std::string &name, const uint32_t &value) = 0;
 	virtual void SetString(const std::string &name, const std::string &value) = 0;
 	virtual void SetVector2(const std::string &name, const Vector2 &value) = 0;
 	virtual void SetVector3(const std::string &name, const Vector3 &value) = 0;
 
 	virtual float GetFloat(const std::string &name, const float defaultValue) const = 0;
-	virtual int GetInt(const std::string &name, const int defaultValue) const = 0;
-	virtual unsigned int GetUInt(const std::string &name, const unsigned int defaultValue) const = 0;
+	virtual int32_t GetInt(const std::string &name, const int32_t defaultValue) const = 0;
+	virtual uint32_t GetUInt(const std::string &name, const uint32_t defaultValue) const = 0;
 	virtual std::string GetString(const std::string &name, const std::string& defaultValue) const = 0;
 	virtual Vector2 GetVector2(const std::string &name, const Vector2& defaultValue) const = 0;
 	virtual Vector3 GetVector3(const std::string &name, const Vector3& defaultValue) const = 0;
 
 	virtual float GetFloat(const std::string &name) const = 0;
-	virtual int GetInt(const std::string &name) const = 0;
-	virtual unsigned int GetUInt(const std::string &name) const = 0;
+	virtual int32_t GetInt(const std::string &name) const = 0;
+	virtual uint32_t GetUInt(const std::string &name) const = 0;
 	virtual std::string GetString(const std::string &name) const = 0;
 	virtual Vector2 GetVector2(const std::string &name) const = 0;
 	virtual Vector3 GetVector3(const std::string &name) const = 0;
 
-	virtual void SetAngelScriptObject(const std::string &name, void *value, int typeId) = 0;
-	virtual bool GetAngelScriptObject(const std::string &name, void *value, int typeId) = 0;
+	virtual void SetAngelScriptObject(const std::string &name, void *value, int32_t typeId) = 0;
+	virtual bool GetAngelScriptObject(const std::string &name, void *value, int32_t typeId) = 0;
 
 	virtual float AddToFloat(const std::string &name, const float &value) = 0;
-	virtual int AddToInt(const std::string &name, const int &value) = 0;
-	virtual unsigned int AddToUInt(const std::string &name, const unsigned int &value) = 0;
+	virtual int32_t AddToInt(const std::string &name, const int32_t &value) = 0;
+	virtual uint32_t AddToUInt(const std::string &name, const uint32_t &value) = 0;
 	virtual Vector2 AddToVector2(const std::string &name, const Vector2 &v) = 0;
 	virtual Vector3 AddToVector3(const std::string &name, const Vector3 &v) = 0;
 
 	virtual float MultiplyFloat(const std::string &name, const float &value) = 0;
-	virtual int MultiplyInt(const std::string &name, const int &value) = 0;
-	virtual unsigned int MultiplyUInt(const std::string &name, const unsigned int &value) = 0;
+	virtual int32_t MultiplyInt(const std::string &name, const int32_t &value) = 0;
+	virtual uint32_t MultiplyUInt(const std::string &name, const uint32_t &value) = 0;
 	virtual Vector2 MultiplyVector2(const std::string &name, const float &value) = 0;
 	virtual Vector3 MultiplyVector3(const std::string &name, const float &value) = 0;
 
