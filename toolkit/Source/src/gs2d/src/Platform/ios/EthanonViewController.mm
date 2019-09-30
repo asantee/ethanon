@@ -192,7 +192,17 @@
 
 - (void)update
 {
-	[self.ethanonApplication update];
+	@try
+	{
+		if (self.ethanonApplication != nil)
+		{
+			[self.ethanonApplication update];
+		}
+	}
+	@catch (NSException *exception)
+	{
+		NSLog([exception reason]);
+	}
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
