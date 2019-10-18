@@ -4,6 +4,7 @@
 #include "Math/Vector2.h"
 
 #include <boost/shared_ptr.hpp>
+#include <string>
 
 namespace gs2d {
 

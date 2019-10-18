@@ -87,7 +87,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\..\..\..\src\addons\;..\..\..\..\src\angelscript\include;..\..\..\..\src\box2d\;..\..\..\..\src\gs2d\src\;..\..\..\..\src\vendors\hashlib2plus\src\;..\..\..\..\src\gs2d\vendors\tsl</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_MBCS;_STDC_CONSTANT_MACROS;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -122,7 +122,6 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\..\..\..\src\addons\;..\..\..\..\src\angelscript\include;..\..\..\..\src\box2d\;..\..\..\..\src\gs2d\src\;..\..\..\..\src\vendors\hashlib2plus\src\;..\..\..\..\src\gs2d\vendors\tsl</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PreprocessorDefinitions>_MBCS;_STDC_CONSTANT_MACROS;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>

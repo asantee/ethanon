@@ -92,7 +92,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\..\..\..\src\angelscript\include;..\..\..\..\src\box2d\;..\..\..\..\src\engine\;..\..\..\..\src\gs2d\src\;..\..\..\..\src\gs2d\vendors\tsl</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PreprocessorDefinitions>_DEBUG;_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild />
     </ClCompile>
@@ -100,7 +100,7 @@
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ShowProgress>LinkVerboseLib</ShowProgress>
-      <AdditionalDependencies>webp.lib;webpdecoder.lib;webpdemux.lib;steam_api.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glext.lib;fmod_vc.lib;libzip-static.lib;zlibstatic.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glext.lib;opengl32.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ProjectReference>
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
@@ -139,7 +139,6 @@ echo 704920 /a &gt; $(OutputPath)steam_appid.txt</Command>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\..\..\..\src\angelscript\include;..\..\..\..\src\box2d\;..\..\..\..\src\engine\;..\..\..\..\src\gs2d\src\;..\..\..\..\src\gs2d\vendors\tsl</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PreprocessorDefinitions>STEAM_API;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -149,7 +148,7 @@ echo 704920 /a &gt; $(OutputPath)steam_appid.txt</Command>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ShowProgress>NotSet</ShowProgress>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
-      <AdditionalDependencies>webp.lib;webpdecoder.lib;webpdemux.lib;steam_api.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glext.lib;fmod_vc.lib;libzip-static.lib;zlibstatic.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glext.lib;opengl32.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
     <ProjectReference>

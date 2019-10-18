@@ -19,12 +19,12 @@
 * GL_GLEXT_PROTOTYPES must be defined before glext.h include (anywhere before).
 */
 
- #define GL_GLEXT_PROTOTYPES
- #include <GL/gl.h>
- #include <GL/glu.h>
- #include <GL/glext.h>
+#define GL_GLEXT_PROTOTYPES
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <GL/glext.h>
 
- #ifndef GL_EXT_texture_swizzle
+#ifndef GL_EXT_texture_swizzle
   #define GL_TEXTURE_SWIZZLE_R GL_TEXTURE_SWIZZLE_R_EXT
   #define GL_TEXTURE_SWIZZLE_G GL_TEXTURE_SWIZZLE_G_EXT
   #define GL_TEXTURE_SWIZZLE_B GL_TEXTURE_SWIZZLE_B_EXT
