@@ -69,7 +69,7 @@ void FileLogger::WriteToWarningLog(const std::string& str)
 
 bool FileLogger::Log(const std::string& str, const TYPE& type) const
 {
-	#if defined(WIN32) || defined(APPLE_IOS) || defined(MACOSX)
+	#if defined(_WIN32) || defined(APPLE_IOS) || defined(MACOSX)
 		std::cout << str << std::endl;
 	#endif
 
