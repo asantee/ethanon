@@ -139,7 +139,6 @@
     <ClInclude Include="..\..\..\src\Video\BitmapFont.h" />
     <ClInclude Include="..\..\..\src\Video\BitmapFontManager.h" />
     <ClInclude Include="..\..\..\src\Video\GLSDL\GLSDLVideo.h" />
-    <ClInclude Include="..\..\..\src\Video\glslShaderCode.h" />
     <ClInclude Include="..\..\..\src\Video\GL\GLInclude.h" />
     <ClInclude Include="..\..\..\src\Video\GL\GLPolygonRenderer.h" />
     <ClInclude Include="..\..\..\src\Video\GL\GLShader.h" />

@@ -328,9 +328,6 @@
     <ClInclude Include="..\..\..\src\Unicode\utf8\utf8.h">
       <Filter>Unicode\utf8</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\Video\glslShaderCode.h">
-      <Filter>Video</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\Video\BitmapFont.h">
       <Filter>Video</Filter>
     </ClInclude>
