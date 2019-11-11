@@ -66,7 +66,7 @@ cmake --build . --target install
     - `git clone git@github.com:madler/zlib.git`
 	or `https://github.com/kiyolee/libzip-win-build`
 - [libpng Sourceforge Official](git://git.code.sf.net/p/libpng/code)
-  - [libpng GitHub](https://github.com/glennrp/libpng)
+  - [libpng GitHub](https://github.com/glennrp/libpng)  
 - [libWebP](https://github.com/webmproject/libwebp)
 - [stb](https://github.com/nothings/stb)
 - [tsl/hopscotch](https://github.com/Tessil/hopscotch-map) (versioned in project)

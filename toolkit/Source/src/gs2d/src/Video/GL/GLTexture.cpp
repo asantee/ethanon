@@ -131,36 +131,21 @@ bool GLTexture::LoadTexture(
 	glGenTextures(1, &m_texture);
 	glBindTexture(GL_TEXTURE_2D, m_texture);
 
-	GLint format;
+	GLint format = GL_RGBA;
+	
 	switch (nrChannels)
 	{
 		case 1:
-			format = GL_RED;
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_R, GL_RED);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_G, GL_RED);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_B, GL_RED);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_A, GL_ONE);
+			format = GL_LUMINANCE;
 			break;
 		case 2:
-			format = GL_RG;
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_R, GL_RED);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_G, GL_RED);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_B, GL_RED);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_A, GL_GREEN);
+			format = GL_LUMINANCE_ALPHA;
 			break;
 		case 3:
 			format = GL_RGB;
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_R, GL_RED);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_G, GL_GREEN);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_B, GL_BLUE);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_A, GL_ONE);
 			break;
 		case 4:
 			format = GL_RGBA;
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_R, GL_RED);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_G, GL_GREEN);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_B, GL_BLUE);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_A, GL_ALPHA);
 			break;
 		default:
 			stbi_image_free(data);
@@ -168,7 +153,7 @@ bool GLTexture::LoadTexture(
 			ShowMessage("GLTexture invalid format for file " + m_fileName, GSMT_ERROR);
 			return false;
 	}
-
+	
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -189,7 +174,7 @@ bool GLTexture::LoadTexture(
 		unsigned char* output = new unsigned char [newWidth * newHeight * nrChannels];
 		stbir_resize_uint8(data, width, height, 0, output, newWidth, newHeight, 0, nrChannels);
 
-		glTexImage2D(GL_TEXTURE_2D, 0, format, newWidth, newHeight, 0, format, GL_UNSIGNED_BYTE, output);
+		glTexImage2D(GL_TEXTURE_2D, 0, nrChannels, newWidth, newHeight, 0, format, GL_UNSIGNED_BYTE, output);
 
 		delete [] output;
 	}
