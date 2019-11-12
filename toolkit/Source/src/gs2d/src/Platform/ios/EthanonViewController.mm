@@ -2,6 +2,8 @@
 
 #import "Application.h"
 
+#import "AppDelegate.h"
+
 #import <GameController/GameController.h>
 
 @interface EthanonViewController ()
@@ -198,6 +200,12 @@
 		if (self.ethanonApplication != nil)
 		{
 			[self.ethanonApplication update];
+			
+			if ([AppDelegate isJustResumed])
+			{
+				[self.ethanonApplication forceGamepadPause];
+				[AppDelegate setJustResumed:NO];
+			}
 		}
 	}
 	@catch (NSException *exception)

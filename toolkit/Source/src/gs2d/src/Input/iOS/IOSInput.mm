@@ -67,10 +67,17 @@ bool IOSInput::IsKeyDown(const GS_KEY key) const
 
 GS_KEY_STATE IOSInput::GetKeyState(const GS_KEY key) const
 {
-	return GSKS_UP;
+	if (key == GSK_PAUSE)
+	{
+		return m_pauseState.GetCurrentState();
+	}
+	else
+	{
+		return GSKS_UP;
+	}
 }
 
-void IOSInput::ForceGamepadPause()
+void IOSInput::ForcePause()
 {
 	m_forcePause = true;
 }
@@ -116,7 +123,10 @@ bool IOSInput::Update()
 		joystick.state[GSB_UP   ].Update(leftThumbstick.y >  0.8f || dpad.y >  0.05f);
 		joystick.state[GSB_DOWN ].Update(leftThumbstick.y < -0.8f || dpad.y < -0.05f);
 	}
-	m_forcePause =  false;
+
+	m_pauseState.Update(m_forcePause);
+
+	m_forcePause = false;
 	return MobileInput::Update();
 }
 
