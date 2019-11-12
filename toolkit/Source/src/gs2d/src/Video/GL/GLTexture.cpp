@@ -177,7 +177,7 @@ bool GLTexture::LoadTexture(
 		unsigned char* output = new unsigned char [newWidth * newHeight * nrChannels];
 		stbir_resize_uint8(data, width, height, 0, output, newWidth, newHeight, 0, nrChannels);
 
-		glTexImage2D(GL_TEXTURE_2D, 0, nrChannels, newWidth, newHeight, 0, format, GL_UNSIGNED_BYTE, output);
+		glTexImage2D(GL_TEXTURE_2D, 0, format, newWidth, newHeight, 0, format, GL_UNSIGNED_BYTE, output);
 
 		delete [] output;
 	}
