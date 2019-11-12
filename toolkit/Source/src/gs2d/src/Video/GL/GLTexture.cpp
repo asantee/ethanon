@@ -132,14 +132,17 @@ bool GLTexture::LoadTexture(
 	glBindTexture(GL_TEXTURE_2D, m_texture);
 
 	GLint format = GL_RGBA;
-	
+	GLint swizzleMask[] = { GL_RED, GL_RED, GL_RED, GL_GREEN };
 	switch (nrChannels)
 	{
 		case 1:
-			format = GL_LUMINANCE;
+			format = GL_RED;
+			swizzleMask[3] = GL_ONE;
+			glTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_RGBA, swizzleMask);
 			break;
 		case 2:
-			format = GL_LUMINANCE_ALPHA;
+			format = GL_RG;
+			glTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_RGBA, swizzleMask);
 			break;
 		case 3:
 			format = GL_RGB;
