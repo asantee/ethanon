@@ -50,11 +50,11 @@ GLSDLVideo::GLSDLVideo(
 	const bool sync,
 	const bool maximizable) :
 	m_fileIOHub(fileIOHub),
-    m_alphaMode(AM_UNKNOWN),
-    m_alphaRef(0.004),
-    m_zFar(1.0f),
-    m_zNear(0.0f),
-    m_backgroundColor(gs2d::constant::BLACK),
+	m_alphaMode(AM_UNKNOWN),
+	m_alphaRef(0.004),
+	m_zFar(1.0f),
+	m_zNear(0.0f),
+	m_backgroundColor(gs2d::constant::BLACK),
 	m_maximizable(false),
 	m_sync(true),
 	m_quit(false),
@@ -149,62 +149,62 @@ bool GLSDLVideo::StartApplication(
 	const bool maximizable)
 {
 	// initialize SDL
-    m_screenSize.x = static_cast<float>(width);
-    m_screenSize.y = static_cast<float>(height);
+	m_screenSize.x = static_cast<float>(width);
+	m_screenSize.y = static_cast<float>(height);
 
-    m_maximizable = maximizable;
-    m_sync = sync;
+	m_maximizable = maximizable;
+	m_sync = sync;
 
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) < 0)
-    {
-        Message("SDL initialization failed", GSMT_ERROR);
-        return false;
-    }
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) < 0)
+	{
+		Message("SDL initialization failed", GSMT_ERROR);
+		return false;
+	}
 
-    SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
+	SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
 
-    // enumerates m_videoModes
-    ReadDisplayModes();
+	// enumerates m_videoModes
+	ReadDisplayModes();
 
-    // if screen size was set to 0, find the best one instead
-    if (m_screenSize.x == 0 || m_screenSize.y == 0)
-    {
-        m_screenSize = CatchBestScreenResolution();
-    }
+	// if screen size was set to 0, find the best one instead
+	if (m_screenSize.x == 0 || m_screenSize.y == 0)
+	{
+		m_screenSize = CatchBestScreenResolution();
+	}
 
-    if ((m_window = SDL_CreateWindow(
-            winTitle.c_str(),
-            SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-            static_cast<int>(m_screenSize.x),
-            static_cast<int>(m_screenSize.y),
-            AssembleFlags(windowed, IsMaximizable(), SyncEnabled()))) != NULL)
-    {
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-        SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-        SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+	if ((m_window = SDL_CreateWindow(
+			winTitle.c_str(),
+			SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+			static_cast<int>(m_screenSize.x),
+			static_cast<int>(m_screenSize.y),
+			AssembleFlags(windowed, IsMaximizable(), SyncEnabled()))) != NULL)
+	{
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
-        m_glcontext = SDL_GL_CreateContext(m_window);
-    }
-    else
-    {
-        return false;
-    }
+		m_glcontext = SDL_GL_CreateContext(m_window);
+	}
+	else
+	{
+		return false;
+	}
 
-    if (sync)
-    {
-        SDL_GL_SetSwapInterval(1);
-    }
+	if (sync)
+	{
+		SDL_GL_SetSwapInterval(1);
+	}
 
 	// initialize OpenGL
-    SetAlphaMode(Video::AM_PIXEL);
+	SetAlphaMode(Video::AM_PIXEL);
 
-    SetZBuffer(false);
+	SetZBuffer(false);
 
-    Enable2DStates();
+	Enable2DStates();
 
-    return true;
+	return true;
 }
 
 void GLSDLVideo::Enable2DStates()
@@ -281,39 +281,39 @@ Color GLSDLVideo::GetBGColor() const
 
 void GLSDLVideo::ReadDisplayModes()
 {
-    const int PRIMARY_DISPLAY = 0;
+	const int PRIMARY_DISPLAY = 0;
 
-    const int numDisplayModes = SDL_GetNumDisplayModes(PRIMARY_DISPLAY);
+	const int numDisplayModes = SDL_GetNumDisplayModes(PRIMARY_DISPLAY);
 
-    for (int t = 0; t < numDisplayModes; t++)
-    {
-        SDL_DisplayMode mode;
-        if (SDL_GetDisplayMode(PRIMARY_DISPLAY, t, &mode) == 0)
-        {
-            VIDEO_MODE videoMode;
-            videoMode.width  = mode.w;
-            videoMode.height = mode.h;
-            videoMode.idx = mode.format;
+	for (int t = 0; t < numDisplayModes; t++)
+	{
+		SDL_DisplayMode mode;
+		if (SDL_GetDisplayMode(PRIMARY_DISPLAY, t, &mode) == 0)
+		{
+			VIDEO_MODE videoMode;
+			videoMode.width  = mode.w;
+			videoMode.height = mode.h;
+			videoMode.idx = mode.format;
 
-            switch (SDL_BYTESPERPIXEL(mode.format))
-            {
-            case 4:
-                videoMode.pf = Texture::PF_32BIT;
-                break;
-            case 3:
-                videoMode.pf = Texture::PF_24BIT;
-                break;
-            case 2:
-                videoMode.pf = Texture::PF_16BIT;
-                break;
-            default:
-                videoMode.pf = Texture::PF_DEFAULT;
-                break;
-            }
-            m_videoModes.push_back(videoMode);
-        }
-    }
-    std::sort(m_videoModes.begin(), m_videoModes.end());
+			switch (SDL_BYTESPERPIXEL(mode.format))
+			{
+			case 4:
+				videoMode.pf = Texture::PF_32BIT;
+				break;
+			case 3:
+				videoMode.pf = Texture::PF_24BIT;
+				break;
+			case 2:
+				videoMode.pf = Texture::PF_16BIT;
+				break;
+			default:
+				videoMode.pf = Texture::PF_DEFAULT;
+				break;
+			}
+			m_videoModes.push_back(videoMode);
+		}
+	}
+	std::sort(m_videoModes.begin(), m_videoModes.end());
 }
 
 bool GLSDLVideo::BeginRendering(const Color& bgColor)
