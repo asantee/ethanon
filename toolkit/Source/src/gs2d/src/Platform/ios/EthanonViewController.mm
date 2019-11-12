@@ -74,6 +74,7 @@
 {
 	[super viewDidAppear:animated];
 
+	[self.ethanonApplication detectJoysticks];
 
 	[GCController startWirelessControllerDiscoveryWithCompletionHandler:^{
 		[self.ethanonApplication detectJoysticks];
