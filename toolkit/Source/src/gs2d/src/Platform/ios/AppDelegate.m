@@ -1,9 +1,6 @@
 #import "AppDelegate.h"
 
 @interface AppDelegate ()
-{
-	BOOL wasBackgroundMusicPlaying;
-}
 
 @end
 
@@ -12,10 +9,6 @@
 - (id)init 
 {
 	self = [super init];
-	if (self) 
-	{
-		wasBackgroundMusicPlaying = FALSE;
-	}
 	return self;
 }
 
