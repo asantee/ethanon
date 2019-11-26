@@ -440,7 +440,7 @@ void ETHScene::FillCurrentlyVisibleBucketList(std::list<Vector2>& bucketList, co
 	const VideoPtr& video = m_provider->GetVideo();
 	const Vector2 clearence(GetBucketSize() * m_bucketClearenceFactor);
 	const Vector2 min(video->GetCameraPos() - clearence);
-	const Vector2 max(backBuffer->GetBufferSize() + (clearence * 2.0f));
+	const Vector2 max(video->GetScreenSizeF() + (clearence * 2.0f));
 	m_buckets.GetIntersectingBuckets(bucketList, min, max, IsDrawingBorderBuckets(), IsDrawingBorderBuckets());
 }
 

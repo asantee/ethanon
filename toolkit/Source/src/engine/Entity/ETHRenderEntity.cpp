@@ -113,7 +113,7 @@ bool ETHRenderEntity::IsSpriteVisible(
 		return false;
 
 	const float angle = GetAngle();
-	const Vector2& bufferSize = backBuffer->GetBufferSize();
+	const Vector2& bufferSize = m_provider->GetVideo()->GetScreenSizeF();
 	if (angle == 0.0f)
 	{
 		const ETHEntityProperties::VIEW_RECT& rect = GetScreenRect(sceneProps);

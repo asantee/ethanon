@@ -71,7 +71,7 @@ bool ETHScriptWrapper::Aborted()
 Vector2 ETHScriptWrapper::GetCursorPos()
 {
 	const float scale = m_provider->GetVideo()->GetScaleFactor();
-	return (m_provider->GetInput()->GetCursorPositionF(m_provider->GetVideo()) * m_backBuffer->GetTargetScale()) * scale;
+	return m_provider->GetInput()->GetCursorPositionF(m_provider->GetVideo()) * scale;
 }
 
 Vector2 ETHScriptWrapper::GetCursorAbsolutePos()
@@ -82,7 +82,7 @@ Vector2 ETHScriptWrapper::GetCursorAbsolutePos()
 bool ETHScriptWrapper::SetCursorPos(const Vector2 &v2Pos)
 {
 	const float scale = m_provider->GetVideo()->GetScaleFactor();
-	return (m_provider->GetInput()->SetCursorPositionF(v2Pos / m_backBuffer->GetTargetScale())) * scale;
+	return m_provider->GetInput()->SetCursorPositionF(v2Pos) * scale;
 }
 
 std::string ETHScriptWrapper::GetLastCharInput()

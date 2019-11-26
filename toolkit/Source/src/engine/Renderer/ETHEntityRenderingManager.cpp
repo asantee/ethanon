@@ -69,7 +69,7 @@ void ETHEntityRenderingManager::AddDecomposedPieces(
 	{
 		ETHParticleManagerPtr particle = entity->GetParticleManager(t);
 
-		if (!particle->IsVisible(video->GetCameraPos(), video->GetCameraPos() + backBuffer->GetBufferSize()))
+		if (!particle->IsVisible(video->GetCameraPos(), video->GetCameraPos() + video->GetScreenSizeF()))
 		{
 			continue;
 		}
