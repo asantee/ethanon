@@ -129,7 +129,7 @@ unsigned int ETHScriptWrapper::GetScreenHeight()
 
 Vector2 ETHScriptWrapper::GetScreenSize()
 {
-	return m_backBuffer->GetBufferSize();
+	return m_provider->GetVideo()->GetScreenSizeF();
 }
 
 Vector2 ETHScriptWrapper::GetScreenSizeInPixels()
