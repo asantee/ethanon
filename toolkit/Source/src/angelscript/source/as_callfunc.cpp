@@ -1,6 +1,6 @@
 /*
    AngelCode Scripting Library
-   Copyright (c) 2003-2017 Andreas Jonsson
+   Copyright (c) 2003-2019 Andreas Jonsson
 
    This software is provided 'as-is', without any express or implied
    warranty. In no event will the authors be held liable for any
@@ -187,23 +187,35 @@ int PrepareSystemFunctionGeneric(asCScriptFunction *func, asSSystemFunctionInter
 		{
 			if (dt.IsFuncdef())
 			{
-				asSSystemFunctionInterface::SClean clean;
-				clean.op = 0; // call release
-				clean.ot = &engine->functionBehaviours;
-				clean.off = short(offset);
-				internal->cleanArgs.PushLast(clean);
+				// If the generic call mode is set to old behaviour then always release handles
+				// else only release the handle if the function is declared with auto handles
+				if (engine->ep.genericCallMode == 0 || (internal->paramAutoHandles.GetLength() > n && internal->paramAutoHandles[n]))
+				{
+					asSSystemFunctionInterface::SClean clean;
+					clean.op = 0; // call release
+					clean.ot = &engine->functionBehaviours;
+					clean.off = short(offset);
+					internal->cleanArgs.PushLast(clean);
+				}
 			}
 			else if( dt.GetTypeInfo()->flags & asOBJ_REF )
 			{
-				asSTypeBehaviour *beh = &CastToObjectType(dt.GetTypeInfo())->beh;
-				asASSERT( (dt.GetTypeInfo()->flags & asOBJ_NOCOUNT) || beh->release );
-				if( beh->release )
+				// If the generic call mode is set to old behaviour then always release handles
+				// else only release the handle if the function is declared with auto handles
+				if (!dt.IsObjectHandle() ||
+					engine->ep.genericCallMode == 0 || 
+					(internal->paramAutoHandles.GetLength() > n && internal->paramAutoHandles[n]) )
 				{
-					asSSystemFunctionInterface::SClean clean;
-					clean.op  = 0; // call release
-					clean.ot  = CastToObjectType(dt.GetTypeInfo());
-					clean.off = short(offset);
-					internal->cleanArgs.PushLast(clean);
+					asSTypeBehaviour *beh = &CastToObjectType(dt.GetTypeInfo())->beh;
+					asASSERT((dt.GetTypeInfo()->flags & asOBJ_NOCOUNT) || beh->release);
+					if (beh->release)
+					{
+						asSSystemFunctionInterface::SClean clean;
+						clean.op = 0; // call release
+						clean.ot = CastToObjectType(dt.GetTypeInfo());
+						clean.off = short(offset);
+						internal->cleanArgs.PushLast(clean);
+					}
 				}
 			}
 			else
@@ -582,7 +594,6 @@ int CallSystemFunction(int id, asCContext *context)
 	void *secondObj = 0;
 
 #ifdef AS_NO_THISCALL_FUNCTOR_METHOD
-
 	if( callConv >= ICC_THISCALL )
 	{
 		if(sysFunc->auxiliary)
@@ -603,22 +614,22 @@ int CallSystemFunction(int id, asCContext *context)
 				return 0;
 			}
 
-			// Add the base offset for multiple inheritance
-#if (defined(__GNUC__) && (defined(AS_ARM) || defined(AS_MIPS))) || defined(AS_PSVITA)
-			// On GNUC + ARM the lsb of the offset is used to indicate a virtual function
-			// and the whole offset is thus shifted one bit left to keep the original
-			// offset resolution
-			// MIPS also work like ARM in this regard
-			obj = (void*)(asPWORD(obj) + (sysFunc->baseOffset>>1));
-#else
-			obj = (void*)(asPWORD(obj) + sysFunc->baseOffset);
-#endif
-
 			// Skip the object pointer
 			args += AS_PTR_SIZE;
 		}
-	}
+		
+		// Add the base offset for multiple inheritance
+#if (defined(__GNUC__) && (defined(AS_ARM) || defined(AS_MIPS))) || defined(AS_PSVITA)
+		// On GNUC + ARM the lsb of the offset is used to indicate a virtual function
+		// and the whole offset is thus shifted one bit left to keep the original
+		// offset resolution
+		// MIPS also work like ARM in this regard
+		obj = (void*)(asPWORD(obj) + (sysFunc->baseOffset>>1));
 #else
+		obj = (void*)(asPWORD(obj) + sysFunc->baseOffset);
+#endif		
+	}
+#else // !defined(AS_NO_THISCALL_FUNCTOR_METHOD)
 
 	if( callConv >= ICC_THISCALL )
 	{
@@ -637,6 +648,20 @@ int CallSystemFunction(int id, asCContext *context)
 			// This class method is being called as if it is a global function
 			obj = sysFunc->auxiliary;
 			continueCheck = false;
+		}
+		
+		if( obj )
+		{
+			// Add the base offset for multiple inheritance
+#if (defined(__GNUC__) && (defined(AS_ARM) || defined(AS_MIPS))) || defined(AS_PSVITA)
+			// On GNUC + ARM the lsb of the offset is used to indicate a virtual function
+			// and the whole offset is thus shifted one bit left to keep the original
+			// offset resolution
+			// MIPS also work like ARM in this regard
+			obj = (void*)(asPWORD(obj) + (sysFunc->baseOffset>>1));
+#else
+			obj = (void*)(asPWORD(obj) + sysFunc->baseOffset);
+#endif		
 		}
 
 		if( continueCheck )
@@ -723,7 +748,7 @@ int CallSystemFunction(int id, asCContext *context)
 
 		// Convert the exception to a script exception so the VM can
 		// properly report the error to the application and then clean up
-		context->SetException(TXT_EXCEPTION_CAUGHT);
+		context->HandleAppException();
 	}
 #endif
 	context->m_callingSystemFunction = 0;
