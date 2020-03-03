@@ -546,6 +546,8 @@ void RegisterAllObjects(asIScriptEngine *pASEngine)
 	RegisterScriptFile(pASEngine);
 	RegisterScriptDictionary(pASEngine);
 
+	RegisterWebSocketClient(pASEngine);
+
 	ETHGlobal::RegisterCollisionObject(pASEngine);
 	ETHGlobal::RegisterVideoModeObject(pASEngine);
 	ETHGlobal::RegisterMathObjectsAndFunctions(pASEngine);

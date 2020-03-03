@@ -35,7 +35,10 @@ namespace ETHGlobal
 	bool RegisterVideoModeObject(asIScriptEngine *pASEngine);
 	bool RegisterDateTimeObject(asIScriptEngine *pASEngine);
 
+
 	void RegisterAllObjects(asIScriptEngine *pASEngine);
 }
 
+// TODO: this should be in another header
+void RegisterWebSocketClient(asIScriptEngine* pASEngine);
 #endif

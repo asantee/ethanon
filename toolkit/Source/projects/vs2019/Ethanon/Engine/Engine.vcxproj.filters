@@ -291,6 +291,15 @@
     <ClCompile Include="..\..\..\..\src\engine\Platform\windows\FileListing.windows.cpp">
       <Filter>Platform\windows</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptMsgpackRegister.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptWebsocketRegister.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Util\wsclient.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\src\engine\ETHTypes.h">
@@ -502,6 +511,15 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\src\cjson\cJSON.h">
       <Filter>vendors\cJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Util\wsclient.hpp">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Util\moving_average.hpp">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Script\ETHScriptWebsocketRegister.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -86,7 +86,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\..\..\..\src\addons\;..\..\..\..\src\angelscript\include;..\..\..\..\src\box2d\;..\..\..\..\src\gs2d\src\;..\..\..\..\src\vendors\hashlib2plus\src\;..\..\..\..\src\gs2d\vendors\tsl</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;_MBCS;_STDC_CONSTANT_MACROS;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32_WINNT=0x0601;_DEBUG;_MBCS;_STDC_CONSTANT_MACROS;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -94,7 +94,7 @@
       <AdditionalLibraryDirectories>$(VCToolsInstallDir)\lib\x86</AdditionalLibraryDirectories>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\angelscript\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\src\angelscript\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -122,7 +122,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\..\..\..\src\addons\;..\..\..\..\src\angelscript\include;..\..\..\..\src\box2d\;..\..\..\..\src\gs2d\src\;..\..\..\..\src\vendors\hashlib2plus\src\;..\..\..\..\src\gs2d\vendors\tsl</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_MBCS;_STDC_CONSTANT_MACROS;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32_WINNT=0x0601;_MBCS;_STDC_CONSTANT_MACROS;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -131,7 +131,7 @@
       <AdditionalLibraryDirectories>$(VCToolsInstallDir)\lib\x86</AdditionalLibraryDirectories>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\lib;C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\angelscript\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\src\gs2d\lib;..\..\src\angelscript\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <LinkTimeCodeGeneration>false</LinkTimeCodeGeneration>
     </Lib>
   </ItemDefinitionGroup>
@@ -208,8 +208,10 @@
     <ClCompile Include="..\..\..\..\src\engine\Scene\ETHScene.cpp" />
     <ClCompile Include="..\..\..\..\src\engine\Scene\ETHSceneProperties.cpp" />
     <ClCompile Include="..\..\..\..\src\engine\Script\ETHBinaryStream.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptMsgpackRegister.cpp" />
     <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptObjRegister.cpp" />
     <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptObjRegister.generic.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptWebsocketRegister.cpp" />
     <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptWrapper.Audio.cpp" />
     <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptWrapper.cpp" />
     <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptWrapper.Drawing.cpp" />
@@ -227,6 +229,7 @@
     <ClCompile Include="..\..\..\..\src\engine\Util\ETHFileChangeDetector.cpp" />
     <ClCompile Include="..\..\..\..\src\engine\Util\ETHInput.cpp" />
     <ClCompile Include="..\..\..\..\src\engine\Util\JSONObject.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Util\wsclient.cpp" />
     <ClCompile Include="..\..\..\..\src\vendors\tinyxml_ansi\tinystr.cpp" />
     <ClCompile Include="..\..\..\..\src\vendors\tinyxml_ansi\tinyxml.cpp" />
     <ClCompile Include="..\..\..\..\src\vendors\tinyxml_ansi\tinyxmlerror.cpp" />
@@ -289,6 +292,7 @@
     <ClInclude Include="..\..\..\..\src\engine\Scene\ETHSceneProperties.h" />
     <ClInclude Include="..\..\..\..\src\engine\Script\ETHBinaryStream.h" />
     <ClInclude Include="..\..\..\..\src\engine\Script\ETHScriptObjRegister.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Script\ETHScriptWebsocketRegister.hpp" />
     <ClInclude Include="..\..\..\..\src\engine\Script\ETHScriptWrapper.h" />
     <ClInclude Include="..\..\..\..\src\engine\Shader\ETHBackBufferTargetManager.h" />
     <ClInclude Include="..\..\..\..\src\engine\Shader\ETHDynamicBackBuffer.h" />
@@ -301,11 +305,13 @@
     <ClInclude Include="..\..\..\..\src\engine\Util\ETHFileChangeDetector.h" />
     <ClInclude Include="..\..\..\..\src\engine\Util\ETHInput.h" />
     <ClInclude Include="..\..\..\..\src\engine\Util\JSONObject.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Util\moving_average.hpp" />
+    <ClInclude Include="..\..\..\..\src\engine\Util\wsclient.hpp" />
     <ClInclude Include="..\..\..\..\src\vendors\tinyxml_ansi\tinystr.h" />
     <ClInclude Include="..\..\..\..\src\vendors\tinyxml_ansi\tinyxml.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\src\angelscript\projects\vs2019\angelscript.vcxproj">
+    <ProjectReference Include="..\..\..\..\src\angelscript\projects\msvc2017\angelscript.vcxproj">
       <Project>{39e6af97-6ba3-4a72-8c61-bcebf214ebfd}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\src\box2d\Build\msvc\Box2D.vcxproj">
