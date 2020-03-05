@@ -325,6 +325,14 @@ void ETHAudioResourceManager::ReleaseAllButMusic()
 	m_resource = musicTracks;
 }
 
+void ETHAudioResourceManager::SetMusicVolume(const float volume)
+{
+	m_default_music_volume = volume;
+	for (tsl::hopscotch_map<std::string, AudioSamplePtr>::iterator iter = m_resource.begin(); iter != m_resource.end(); ++iter)
+		if ((iter->second)->GetType() == Audio::MUSIC)
+			iter.value()->SetVolume(m_default_music_volume);
+}
+
 AudioSamplePtr ETHAudioResourceManager::GetPointer(
 	AudioPtr audio,
 	const Platform::FileIOHubPtr& fileIOHub,
@@ -382,6 +390,9 @@ AudioSamplePtr ETHAudioResourceManager::AddFile(
 		ETHResourceProvider::Log(ss.str(), Platform::Logger::ERROR);
 		return AudioSamplePtr();
 	}
+	if (type == Audio::MUSIC)
+		pSample->SetVolume(m_default_music_volume);
+
 	std::string fileName = Platform::GetFileName(path);
 	ETH_STREAM_DECL(ss) << ("(Loaded) ") << fileName;
 	ETHResourceProvider::Log(ss.str(), Platform::Logger::INFO);
