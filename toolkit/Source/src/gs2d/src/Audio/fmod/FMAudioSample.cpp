@@ -52,6 +52,7 @@ bool FMAudioSample::LoadSampleFromFile(
 	const Platform::FileManagerPtr& fileManager,
 	const Audio::SAMPLE_TYPE type)
 {
+	m_type = type;
 	m_fileName = fileName;
 	try
 	{

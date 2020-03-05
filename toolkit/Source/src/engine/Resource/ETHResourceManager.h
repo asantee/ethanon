@@ -90,6 +90,7 @@ typedef boost::shared_ptr<ETHGraphicResourceManager> ETHGraphicResourceManagerPt
 class ETHAudioResourceManager
 {
 public:
+
 	AudioSamplePtr GetPointer(
 		AudioPtr audio,
 		const Platform::FileIOHubPtr& fileIOHub,
@@ -104,12 +105,15 @@ public:
 		const Audio::SAMPLE_TYPE type);
 
 	std::size_t GetNumResources();
+	
+	void SetMusicVolume(const float volume);
 
 	void ReleaseResources();
 
 private:
 	tsl::hopscotch_map<std::string, AudioSamplePtr> m_resource;
 	void ReleaseAllButMusic();
+	float m_default_music_volume;
 };
 
 typedef boost::shared_ptr<ETHAudioResourceManager> ETHAudioResourceManagerPtr;
