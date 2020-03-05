@@ -556,7 +556,7 @@ void WebsocketClient::Pack(const CScriptDictionary& dictionary)
 			Pack(*(bool*)value);
 			break;
 
-			// if it is not a const value (type_id defined at AS engine runtime)
+		// if it is not a const value, use cached type_id (type_id defined at AS engine runtime)
 		default:
 			if (type_id == m_string_type_id)
 				Pack(*(std::string*)value);
@@ -564,6 +564,7 @@ void WebsocketClient::Pack(const CScriptDictionary& dictionary)
 				Pack(*(Vector2*)value);
 			else if (type_id == m_vector3_type_id)
 				Pack(*(Vector3*)value);
+			// check if type_id match with any of the template specialization
 			else if (isCScriptArray(type_id))
 				Pack(*(CScriptArray*)value);
 			else if (type_id == m_dictionary_type_id)
