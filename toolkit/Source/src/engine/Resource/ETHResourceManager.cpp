@@ -308,6 +308,9 @@ bool ETHGraphicResourceManager::ReleaseResource(const std::string &file)
 	}
 }
 
+ETHAudioResourceManager::ETHAudioResourceManager() : m_default_music_volume(1.0f)
+{};
+
 void ETHAudioResourceManager::ReleaseResources()
 {
 	ReleaseAllButMusic();
