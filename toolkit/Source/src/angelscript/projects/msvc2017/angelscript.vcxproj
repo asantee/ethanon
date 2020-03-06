@@ -276,7 +276,7 @@
       <PreprocessorDefinitions>ANGELSCRIPT_EXPORT;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <WarningLevel>Level3</WarningLevel>
