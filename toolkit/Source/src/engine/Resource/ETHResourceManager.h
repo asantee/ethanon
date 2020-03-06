@@ -90,6 +90,7 @@ typedef boost::shared_ptr<ETHGraphicResourceManager> ETHGraphicResourceManagerPt
 class ETHAudioResourceManager
 {
 public:
+	ETHAudioResourceManager();
 
 	AudioSamplePtr GetPointer(
 		AudioPtr audio,
