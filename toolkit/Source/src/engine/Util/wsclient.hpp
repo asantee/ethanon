@@ -135,7 +135,7 @@ public:
 	void Pack(float value);
 	void Pack(double value);
 	void Pack(const std::string& value);
-	void Pack(const CScriptDictionary& dictionary);
+	void Pack(CScriptDictionary* dictionary);
 	void Pack(const CScriptArray& array);
 	void Pack(const gs2d::math::Vector2& vector);
 	void Pack(const gs2d::math::Vector2i& vector);

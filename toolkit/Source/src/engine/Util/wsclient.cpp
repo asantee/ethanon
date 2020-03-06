@@ -503,72 +503,72 @@ void WebsocketClient::Pack(const std::string& value)
 	m_msg_out.pack(value);
 }
 
-void WebsocketClient::Pack(const CScriptDictionary& dictionary)
+void WebsocketClient::Pack(CScriptDictionary* dictionary)
 {
-	if (dictionary.IsEmpty())
+	if (dictionary->IsEmpty())
 		return;
-	CScriptArray* keys = dictionary.GetKeys();
-	asUINT size = dictionary.GetSize();
 
+	asUINT size = dictionary->GetSize();
 	PackMap(size);
-	for (asUINT i = 0; i < size; i++)
+	
+	for (CScriptDictionary::CIterator it : *dictionary)
 	{
-		dictKey_t key(*(dictKey_t*)keys->At(i));
-		int type_id = dictionary[key]->GetTypeId();
-		const void* value = dictionary[key]->GetAddressOfValue();
-		if (!value)
+		dictKey_t key = it.GetKey();
+		int type_id = it.GetTypeId();
+		const void* value_address = it.GetAddressOfValue();
+		if (!value_address)
 			PackNil();
 
 		Pack(key);
 		switch (type_id)
 		{
 		case asTYPEID_DOUBLE:
-			Pack(*(double*)value);
+			Pack(*(double*)value_address);
 			break;
 		case asTYPEID_FLOAT:
-			Pack(*(float*)value);
+			Pack(*(float*)value_address);
 			break;
 		case asTYPEID_INT64:
-			Pack(*(int64_t*)value);
+			Pack(*(int64_t*)value_address);
 			break;
 		case asTYPEID_INT32:
-			Pack(*(int32_t*)value);
+			Pack(*(int32_t*)value_address);
 			break;
 		case asTYPEID_INT16:
-			Pack(*(int16_t*)value);
+			Pack(*(int16_t*)value_address);
 			break;
 		case asTYPEID_INT8:
-			Pack(*(int8_t*)value);
+			Pack(*(int8_t*)value_address);
 			break;
 		case asTYPEID_UINT64:
-			Pack(*(uint64_t*)value);
+			Pack(*(uint64_t*)value_address);
 			break;
 		case asTYPEID_UINT32:
-			Pack(*(uint32_t*)value);
+			Pack(*(uint32_t*)value_address);
 			break;
 		case asTYPEID_UINT16:
-			Pack(*(uint16_t*)value);
+			Pack(*(uint16_t*)value_address);
 			break;
 		case asTYPEID_UINT8:
-			Pack(*(uint8_t*)value);
+			Pack(*(uint8_t*)value_address);
 			break;
 		case asTYPEID_BOOL:
-			Pack(*(bool*)value);
+			Pack(*(bool*)value_address);
 			break;
 
 		// if it is not a const value, use cached type_id (type_id defined at AS engine runtime)
 		default:
 			if (type_id == m_string_type_id)
-				Pack(*(std::string*)value);
+				Pack(*(std::string*)value_address);
 			else if (type_id == m_vector2_type_id)
-				Pack(*(Vector2*)value);
+				Pack(*(Vector2*)value_address);
 			else if (type_id == m_vector3_type_id)
-				Pack(*(Vector3*)value);
+				Pack(*(Vector3*)value_address);
 			// check if type_id match with any of the template specialization
 			else if (isCScriptArray(type_id))
-				Pack(*(CScriptArray*)value);
+				Pack(*(CScriptArray*)value_address);
 			else if (type_id == m_dictionary_type_id)
-				Pack(*(CScriptDictionary*)value);
+				Pack((CScriptDictionary*)value_address);
 		}
 	}
 }
@@ -666,7 +666,7 @@ void WebsocketClient::Pack(const CScriptArray& array)
 	{
 		PackArray(array_size);
 		for (asUINT i = 0; i < array_size; i++)
-			Pack(*(CScriptDictionary*)array.At(i));
+			Pack((CScriptDictionary*)array.At(i));
 	}
 }
 
