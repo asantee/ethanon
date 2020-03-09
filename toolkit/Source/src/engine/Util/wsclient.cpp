@@ -631,7 +631,7 @@ void WebsocketClient::Pack(CScriptDictionary* dictionary)
 
 void WebsocketClient::Pack(const CScriptAny& any)
 {
-	void* address;
+	void* address = nullptr;
 	any.Retrieve(address, asTYPEID_VOID);
 	Pack(address, any.GetTypeId());
 }
