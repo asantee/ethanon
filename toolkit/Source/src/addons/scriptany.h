@@ -34,6 +34,9 @@ public:
 	bool Retrieve(asINT64 &value) const;
 	bool Retrieve(double &value) const;
 
+	// Get address of stored value
+	const void* GetAddressOfValue() const;
+
 	// Get the type id of the stored value
 	int  GetTypeId() const;
 

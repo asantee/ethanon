@@ -395,6 +395,14 @@ bool CScriptAny::Retrieve(double &outValue) const
 	return Retrieve(&outValue, asTYPEID_DOUBLE);
 }
 
+const void* CScriptAny::GetAddressOfValue() const
+{
+	if (value.typeId == asTYPEID_BOOL || value.typeId == asTYPEID_INT64 || value.typeId == asTYPEID_DOUBLE)
+		return &value.valueObj;
+	else
+		return value.valueObj;
+}
+
 int CScriptAny::GetTypeId() const
 {
 	return value.typeId;

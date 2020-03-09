@@ -142,7 +142,7 @@ public:
 	void Pack(double value);
 	void Pack(const std::string& value);
 	void Pack(CScriptDictionary* dictionary);
-	void Pack(const CScriptAny& any);
+	void Pack(const CScriptAny* any);
 	void Pack(const CScriptArray& array);
 	void Pack(const void* address, int type_id);
 	void Pack(const gs2d::math::Vector2& vector);

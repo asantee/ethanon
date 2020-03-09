@@ -92,7 +92,7 @@ asDECLARE_METHOD_WRAPPERPR(WebsocketClient__Pack_float, WebsocketClient, Pack, (
 asDECLARE_METHOD_WRAPPERPR(WebsocketClient__Pack_double, WebsocketClient, Pack, (double), void);
 asDECLARE_METHOD_WRAPPERPR(WebsocketClient__Pack_string, WebsocketClient, Pack, (const std::string&), void);
 asDECLARE_METHOD_WRAPPERPR(WebsocketClient__Pack_dictionary, WebsocketClient, Pack, (CScriptDictionary*), void);
-asDECLARE_METHOD_WRAPPERPR(WebsocketClient__Pack_any, WebsocketClient, Pack, (const CScriptAny&), void);
+asDECLARE_METHOD_WRAPPERPR(WebsocketClient__Pack_any, WebsocketClient, Pack, (const CScriptAny*), void);
 asDECLARE_METHOD_WRAPPERPR(WebsocketClient__Pack_array, WebsocketClient, Pack, (const CScriptArray&), void);
 asDECLARE_METHOD_WRAPPERPR(WebsocketClient__PackArray, WebsocketClient, PackArray, (int32_t), void);
 asDECLARE_METHOD_WRAPPERPR(WebsocketClient__PackMap, WebsocketClient, PackMap, (int32_t), void);
