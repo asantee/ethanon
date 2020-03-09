@@ -300,6 +300,9 @@
     <ClCompile Include="..\..\..\..\src\engine\Util\wsclient.cpp">
       <Filter>Util</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\src\addons\scriptany.cpp">
+      <Filter>Angelscript-addons</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\src\engine\ETHTypes.h">
@@ -520,6 +523,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\src\engine\Script\ETHScriptWebsocketRegister.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\addons\scriptany.h">
+      <Filter>Angelscript-addons</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -31,6 +31,7 @@ TODO:
 #include <angelscript.h>
 #include "../addons/scriptarray.h"
 #include "../addons/scriptdictionary.h"
+#include "../addons/scriptany.h"
 
 #include "moving_average.hpp"
 
@@ -63,9 +64,13 @@ class WebsocketClient : public std::enable_shared_from_this<WebsocketClient>
 	asITypeInfo* m_on_connect_callbackObjectType;
 	void* m_on_connect_callbackObject;
 
+	asIScriptFunction* m_on_message_callback;
+	asITypeInfo* m_on_message_callbackObjectType;
+	void* m_on_message_callbackObject;
 
 	asIScriptFunction* m_on_disconnect_callback;
-	asIScriptFunction* m_on_message_callback;
+	asITypeInfo* m_on_disconnect_callbackObjectType;
+	void* m_on_disconnect_callbackObject;
 
 	MovingAverage<double> m_latency;
 	uint32_t m_keepalive_timeout;
@@ -84,13 +89,14 @@ class WebsocketClient : public std::enable_shared_from_this<WebsocketClient>
 	int m_vector3_type_id;
 	int m_string_type_id;
 	int m_dictionary_type_id;
+	int m_any_type_id;
 
-	// all the array<T> specializations
-	int m_array_type_ids[14];
+	// Cache for all the array<T> specializations
+	int m_array_type_ids[15];
 	// and a helper for testing if it is an array
 	bool isCScriptArray(int type_id)
 	{
-		for (int8 i = 0; i < 14; i++)
+		for (int8 i = 0; i < 15; i++)
 			if (m_array_type_ids[i] == type_id)
 				return true;
 		return false;
@@ -136,11 +142,28 @@ public:
 	void Pack(double value);
 	void Pack(const std::string& value);
 	void Pack(CScriptDictionary* dictionary);
+	void Pack(const CScriptAny& any);
 	void Pack(const CScriptArray& array);
+	void Pack(const void* address, int type_id);
 	void Pack(const gs2d::math::Vector2& vector);
 	void Pack(const gs2d::math::Vector2i& vector);
 	void Pack(const gs2d::math::Vector3& vector);
 	void PackNil();
+
+	void Unpack(bool& value)
+	{
+
+	}
+
+	void Unpack(uint32_t& value)
+	{
+	
+	}
+
+	void Unpack(CScriptDictionary* dictionary)
+	{
+
+	}
 
 	// Create the array header on message pack, informing array size
 	void PackArray(uint32_t length);
@@ -156,7 +179,7 @@ public:
 	bool IsConnected();
 
 	void SetOnConnectCallback(asIScriptFunction* cb);
+	void SetOnMessageCallback(asIScriptFunction* cb);
 
 	void SetOnDisconnectCallback(asIScriptFunction* cb) {};
-	void SetOnMessageCallback(asIScriptFunction* cb) {};
 };

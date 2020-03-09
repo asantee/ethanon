@@ -13,16 +13,20 @@ void fail(beast::error_code ec, char const* what)
 }
 
 WebsocketClient::WebsocketClient() : m_resolver(net::make_strand(m_ioc))
-									, m_ws(net::make_strand(m_ioc))
-									, m_keepalive_timeout(30)
-									, m_ref(1)
-									, m_gc_flag(false)
-									, m_msg_out(&m_output_pd)
-									, m_on_connect_callback(0)
-									, m_on_disconnect_callback(0)
-									, m_on_message_callback(0)
-									, m_on_connect_callbackObject(0)
-									, m_on_connect_callbackObjectType(0)
+, m_ws(net::make_strand(m_ioc))
+, m_keepalive_timeout(30)
+, m_ref(1)
+, m_gc_flag(false)
+, m_msg_out(&m_output_pd)
+, m_on_connect_callback(0)
+, m_on_connect_callbackObject(0)
+, m_on_connect_callbackObjectType(0)
+, m_on_message_callback(0)
+, m_on_message_callbackObject(0)
+, m_on_message_callbackObjectType(0)
+, m_on_disconnect_callback(0)
+, m_on_disconnect_callbackObject(0)
+, m_on_disconnect_callbackObjectType(0)
 {
 	// Create a new context for execution
 	m_as_ctx = ETHScriptWrapper::m_pASEngine->CreateContext();
@@ -32,6 +36,7 @@ WebsocketClient::WebsocketClient() : m_resolver(net::make_strand(m_ioc))
 	m_vector3_type_id = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("vector3");
 	m_string_type_id = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("string");
 	m_dictionary_type_id = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("dictionary");
+	m_any_type_id = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("any");
 
 	// get all the array type ids.
 	m_array_type_ids[0] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<int>");
@@ -48,6 +53,7 @@ WebsocketClient::WebsocketClient() : m_resolver(net::make_strand(m_ioc))
 	m_array_type_ids[11] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<dictionary>");
 	m_array_type_ids[12] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<vector2>");
 	m_array_type_ids[13] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<vector3>");
+	m_array_type_ids[14] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<any>");
 }
 
 //////
@@ -149,6 +155,42 @@ void WebsocketClient::SetOnConnectCallback(asIScriptFunction* cb)
 	{
 		// Store the received handle for later use
 		m_on_connect_callback = cb;
+
+		// Do not release the received script function 
+		// until it won't be used any more
+	}
+}
+
+void WebsocketClient::SetOnMessageCallback(asIScriptFunction* cb)
+{
+	// Release the previous callback, if any
+	if (m_on_message_callback)
+		m_on_message_callback->Release();
+	if (m_on_message_callbackObject)
+		ETHScriptWrapper::m_pASEngine->ReleaseScriptObject(m_on_message_callbackObject, m_on_message_callbackObjectType);
+	m_on_message_callback = 0;
+	m_on_message_callbackObject = 0;
+	m_on_message_callbackObjectType = 0;
+
+	if (cb && cb->GetFuncType() == asFUNC_DELEGATE)
+	{
+		m_on_message_callbackObject = cb->GetDelegateObject();
+		m_on_message_callbackObjectType = cb->GetDelegateObjectType();
+		m_on_message_callback = cb->GetDelegateFunction();
+
+		// Hold on to the object and method
+		ETHScriptWrapper::m_pASEngine->AddRefScriptObject(m_on_message_callbackObject, m_on_message_callbackObjectType);
+		m_on_message_callback->AddRef();
+
+		// Release the delegate, since it won't be used anymore
+		ETHScriptWrapper::m_pASEngine->ReleaseScriptObject(cb->GetDelegateObject(), cb->GetDelegateObjectType());
+		cb->Release();
+
+	}
+	else
+	{
+		// Store the received handle for later use
+		m_on_message_callback = cb;
 
 		// Do not release the received script function 
 		// until it won't be used any more
@@ -307,8 +349,8 @@ void WebsocketClient::OnRead(beast::error_code ec, std::size_t bytes_transferred
 	{
 		tipo = "binario";
 	}
-	msgpack::unpacker pac;
 
+	msgpack::unpacker pac;
 	pac.reserve_buffer(m_input_buffer.size());
 	memcpy(pac.buffer(), net::buffer_cast<char const *>(m_input_buffer.data()), m_input_buffer.size());
 	pac.buffer_consumed(m_input_buffer.size());
@@ -320,7 +362,8 @@ void WebsocketClient::OnRead(beast::error_code ec, std::size_t bytes_transferred
 	while(pac.next(inputOH))
 	{
 		msgpack::object inputObj = inputOH.get();
-		std::cout << "<<< " << tipo << ": " << inputObj << std::endl;
+
+		std::cout << "<<< " << tipo << " " << inputObj.type << ": " << inputObj << std::endl;
 	}
 
 	// Close the WebSocket connection... nooooooo! not now.
@@ -503,6 +546,72 @@ void WebsocketClient::Pack(const std::string& value)
 	m_msg_out.pack(value);
 }
 
+void WebsocketClient::Pack(const void* address, int type_id)
+{
+	if (!address)
+	{
+		PackNil();
+		return;
+	}
+
+	switch (type_id)
+	{
+	case asTYPEID_DOUBLE:
+		Pack(*(double*)address);
+		break;
+	case asTYPEID_FLOAT:
+		Pack(*(float*)address);
+		break;
+	case asTYPEID_INT64:
+		Pack(*(int64_t*)address);
+		break;
+	case asTYPEID_INT32:
+		Pack(*(int32_t*)address);
+		break;
+	case asTYPEID_INT16:
+		Pack(*(int16_t*)address);
+		break;
+	case asTYPEID_INT8:
+		Pack(*(int8_t*)address);
+		break;
+	case asTYPEID_UINT64:
+		Pack(*(uint64_t*)address);
+		break;
+	case asTYPEID_UINT32:
+		Pack(*(uint32_t*)address);
+		break;
+	case asTYPEID_UINT16:
+		Pack(*(uint16_t*)address);
+		break;
+	case asTYPEID_UINT8:
+		Pack(*(uint8_t*)address);
+		break;
+	case asTYPEID_BOOL:
+		Pack(*(bool*)address);
+		break;
+	// Can not pack unknown type, so pack nil.
+	case asTYPEID_VOID:
+		PackNil();
+		break;
+
+	// If it is not a const value, use cached type_id (type_id defined at AS engine runtime)
+	default:
+		if (type_id == m_string_type_id)
+			Pack(*(std::string*)address);
+		else if (type_id == m_vector2_type_id)
+			Pack(*(Vector2*)address);
+		else if (type_id == m_vector3_type_id)
+			Pack(*(Vector3*)address);
+		// check if type_id match with any of the template specialization
+		else if (isCScriptArray(type_id))
+			Pack(*(CScriptArray*)address);
+		else if (type_id == m_dictionary_type_id)
+			Pack((CScriptDictionary*)address);
+		else if (type_id == m_any_type_id)
+			Pack((CScriptAny*)address);
+	}
+}
+
 void WebsocketClient::Pack(CScriptDictionary* dictionary)
 {
 	if (dictionary->IsEmpty())
@@ -514,160 +623,26 @@ void WebsocketClient::Pack(CScriptDictionary* dictionary)
 	for (CScriptDictionary::CIterator it : *dictionary)
 	{
 		dictKey_t key = it.GetKey();
-		int type_id = it.GetTypeId();
 		const void* value_address = it.GetAddressOfValue();
-		if (!value_address)
-			PackNil();
-
 		Pack(key);
-		switch (type_id)
-		{
-		case asTYPEID_DOUBLE:
-			Pack(*(double*)value_address);
-			break;
-		case asTYPEID_FLOAT:
-			Pack(*(float*)value_address);
-			break;
-		case asTYPEID_INT64:
-			Pack(*(int64_t*)value_address);
-			break;
-		case asTYPEID_INT32:
-			Pack(*(int32_t*)value_address);
-			break;
-		case asTYPEID_INT16:
-			Pack(*(int16_t*)value_address);
-			break;
-		case asTYPEID_INT8:
-			Pack(*(int8_t*)value_address);
-			break;
-		case asTYPEID_UINT64:
-			Pack(*(uint64_t*)value_address);
-			break;
-		case asTYPEID_UINT32:
-			Pack(*(uint32_t*)value_address);
-			break;
-		case asTYPEID_UINT16:
-			Pack(*(uint16_t*)value_address);
-			break;
-		case asTYPEID_UINT8:
-			Pack(*(uint8_t*)value_address);
-			break;
-		case asTYPEID_BOOL:
-			Pack(*(bool*)value_address);
-			break;
-
-		// if it is not a const value, use cached type_id (type_id defined at AS engine runtime)
-		default:
-			if (type_id == m_string_type_id)
-				Pack(*(std::string*)value_address);
-			else if (type_id == m_vector2_type_id)
-				Pack(*(Vector2*)value_address);
-			else if (type_id == m_vector3_type_id)
-				Pack(*(Vector3*)value_address);
-			// check if type_id match with any of the template specialization
-			else if (isCScriptArray(type_id))
-				Pack(*(CScriptArray*)value_address);
-			else if (type_id == m_dictionary_type_id)
-				Pack((CScriptDictionary*)value_address);
-		}
+		Pack(value_address, it.GetTypeId());
 	}
+}
+
+void WebsocketClient::Pack(const CScriptAny& any)
+{
+	void* address;
+	any.Retrieve(address, asTYPEID_VOID);
+	Pack(address, any.GetTypeId());
 }
 
 void WebsocketClient::Pack(const CScriptArray& array)
 {
 	array.GetSize();
 	asUINT array_size = array.GetSize();
-	int element_type = array.GetElementTypeId();
-	if (element_type == asTYPEID_BOOL)
-	{
-		PackArray(array_size);
-		for (asUINT i = 0; i < array_size; i++)
-			Pack(*(bool*)array.At(i));
-	}
-	else if (element_type == asTYPEID_DOUBLE)
-	{
-		PackArray(array_size);
-		for (asUINT i = 0; i < array_size; i++)
-			Pack(*(double*)array.At(i));
-	}
-	else if (element_type == asTYPEID_FLOAT)
-	{
-		PackArray(array_size);
-		for (asUINT i = 0; i < array_size; i++)
-			Pack(*(float*)array.At(i));
-	}
-	else if (element_type == asTYPEID_INT64)
-	{
-		PackArray(array_size);
-		for (asUINT i = 0; i < array_size; i++)
-			Pack(*(int64_t*)array.At(i));
-	}
-	else if (element_type == asTYPEID_INT32)
-	{
-		PackArray(array_size);
-		for (asUINT i = 0; i < array_size; i++)
-			Pack(*(int32_t*)array.At(i));
-	}
-	else if (element_type == asTYPEID_INT16)
-	{
-		PackArray(array_size);
-		for (asUINT i = 0; i < array_size; i++)
-			Pack(*(int16_t*)array.At(i));
-	}
-	else if (element_type == asTYPEID_INT8)
-	{
-		PackArray(array_size);
-		for (asUINT i = 0; i < array_size; i++)
-			Pack(*(int8_t*)array.At(i));
-	}
-	else if (element_type == asTYPEID_UINT64)
-	{
-		PackArray(array_size);
-		for (asUINT i = 0; i < array_size; i++)
-			Pack(*(uint64_t*)array.At(i));
-	}
-	else if (element_type == asTYPEID_UINT32)
-	{
-		PackArray(array_size);
-		for (asUINT i = 0; i < array_size; i++)
-			Pack(*(uint32_t*)array.At(i));
-	}
-	else if (element_type == asTYPEID_UINT16)
-	{
-		PackArray(array_size);
-		for (asUINT i = 0; i < array_size; i++)
-			Pack(*(uint16_t*)array.At(i));
-	}
-	else if (element_type == asTYPEID_UINT8)
-	{
-		PackArray(array_size);
-		for (asUINT i = 0; i < array_size; i++)
-			Pack(*(uint8_t*)array.At(i));
-	}
-	else if (element_type == m_string_type_id)
-	{
-		PackArray(array_size);
-		for (asUINT i = 0; i < array_size; i++)
-			Pack(*(std::string*)array.At(i));
-	}
-	else if (element_type == m_vector2_type_id)
-	{
-		PackArray(array_size);
-		for (asUINT i = 0; i < array_size; i++)
-			Pack(*(Vector2*)array.At(i));
-	}
-	else if (element_type == m_vector3_type_id)
-	{
-		PackArray(array_size);
-		for (asUINT i = 0; i < array_size; i++)
-			Pack(*(Vector3*)array.At(i));
-	}
-	else if (element_type == m_dictionary_type_id)
-	{
-		PackArray(array_size);
-		for (asUINT i = 0; i < array_size; i++)
-			Pack((CScriptDictionary*)array.At(i));
-	}
+	PackArray(array_size);
+	for (asUINT i = 0; i < array_size; i++)
+		Pack(array.At(i), array.GetElementTypeId());
 }
 
 void WebsocketClient::Pack(const gs2d::math::Vector2& vector)

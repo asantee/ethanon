@@ -92,6 +92,7 @@ asDECLARE_METHOD_WRAPPERPR(WebsocketClient__Pack_float, WebsocketClient, Pack, (
 asDECLARE_METHOD_WRAPPERPR(WebsocketClient__Pack_double, WebsocketClient, Pack, (double), void);
 asDECLARE_METHOD_WRAPPERPR(WebsocketClient__Pack_string, WebsocketClient, Pack, (const std::string&), void);
 asDECLARE_METHOD_WRAPPERPR(WebsocketClient__Pack_dictionary, WebsocketClient, Pack, (CScriptDictionary*), void);
+asDECLARE_METHOD_WRAPPERPR(WebsocketClient__Pack_any, WebsocketClient, Pack, (const CScriptAny&), void);
 asDECLARE_METHOD_WRAPPERPR(WebsocketClient__Pack_array, WebsocketClient, Pack, (const CScriptArray&), void);
 asDECLARE_METHOD_WRAPPERPR(WebsocketClient__PackArray, WebsocketClient, PackArray, (int32_t), void);
 asDECLARE_METHOD_WRAPPERPR(WebsocketClient__PackMap, WebsocketClient, PackMap, (int32_t), void);
@@ -151,6 +152,7 @@ void RegisterWebSocketClient(asIScriptEngine* pASEngine)
 	r = pASEngine->RegisterObjectMethod("WebsocketClient", "void Pack(int64)", asFUNCTION(WebsocketClient__Pack_int64), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("WebsocketClient", "void Pack(const string &in)", asFUNCTION(WebsocketClient__Pack_string), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("WebsocketClient", "void Pack(const dictionary &in)", asFUNCTION(WebsocketClient__Pack_dictionary), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("WebsocketClient", "void Pack(const any &in)", asFUNCTION(WebsocketClient__Pack_any), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("WebsocketClient", "void Pack(const vector2 &in)", asFUNCTION(WebsocketClient__Pack_vector2), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("WebsocketClient", "void Pack(const vector3 &in)", asFUNCTION(WebsocketClient__Pack_vector3), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("WebsocketClient", "void PackArray(uint32)", asFUNCTION(WebsocketClient__PackArray), asCALL_GENERIC); assert(r >= 0);
@@ -170,6 +172,8 @@ void RegisterWebSocketClient(asIScriptEngine* pASEngine)
 	r = pASEngine->RegisterObjectMethod("WebsocketClient", "void Pack(const array<vector3> &in)", asFUNCTION(WebsocketClient__Pack_array), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("WebsocketClient", "void Pack(const array<string> &in)", asFUNCTION(WebsocketClient__Pack_array), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("WebsocketClient", "void Pack(const array<dictionary> &in)", asFUNCTION(WebsocketClient__Pack_array), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("WebsocketClient", "void Pack(const array<any> &in)", asFUNCTION(WebsocketClient__Pack_array), asCALL_GENERIC); assert(r >= 0);
+
 	//TODO: The above for Vector2, Vector3 and other Ethanon types
 
 	// Callbacks

@@ -13,6 +13,7 @@
 #include "../../addons/scriptarray.h"
 #include "../../addons/scriptmath.h"
 #include "../../addons/scriptdictionary.h"
+#include "../../addons/scriptany.h"
 
 #include "../../addons/scriptfile.h"
 #include "../../addons/scriptstdstring.h"
@@ -545,6 +546,7 @@ void RegisterAllObjects(asIScriptEngine *pASEngine)
 	RegisterScriptMath(pASEngine);
 	RegisterScriptFile(pASEngine);
 	RegisterScriptDictionary(pASEngine);
+	RegisterScriptAny(pASEngine);
 
 	RegisterWebSocketClient(pASEngine);
 
