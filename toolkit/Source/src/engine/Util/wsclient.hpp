@@ -150,20 +150,7 @@ public:
 	void Pack(const gs2d::math::Vector3& vector);
 	void PackNil();
 
-	void Unpack(bool& value)
-	{
-
-	}
-
-	void Unpack(uint32_t& value)
-	{
-	
-	}
-
-	void Unpack(CScriptDictionary* dictionary)
-	{
-
-	}
+	CScriptArray* Unpack();
 
 	// Create the array header on message pack, informing array size
 	void PackArray(uint32_t length);

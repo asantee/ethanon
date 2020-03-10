@@ -12,6 +12,115 @@ void fail(beast::error_code ec, char const* what)
 	std::cerr << what << ": " << ec.message() << "\n";
 }
 
+struct as_array_visitor : msgpack::v2::null_visitor {
+	as_array_visitor(CScriptArray* ref_array) : m_array(ref_array), m_current_array(ref_array), m_parent_array(ref_array),
+										m_current_dictionary(NULL), m_parent_dictionary(NULL),
+										m_current_is_dictionary(false), m_parent_is_dictionary(false), m_is_key(false)
+	{
+		m_ti_any = ETHScriptWrapper::m_pASEngine->GetTypeInfoByDecl("any");
+		m_ti_string = ETHScriptWrapper::m_pASEngine->GetTypeInfoByDecl("string");
+		m_ti_dictionary = ETHScriptWrapper::m_pASEngine->GetTypeInfoByDecl("dictionary");
+	}
+	bool insert_value(void* ref, int refTypeId)
+	{
+		if (m_current_is_dictionary)
+		{
+			if (m_is_key)
+			{
+				if (refTypeId == m_ti_string->GetTypeId())
+					m_current_key = *(dictKey_t*)ref;
+				else
+					return false;
+			}
+			else if (m_current_dictionary)
+				m_current_dictionary->Set(m_current_key, ref, refTypeId);
+			else
+				return false;
+		}
+		else
+		{
+			m_any->Store(ref, refTypeId);
+			m_current_array->InsertLast(m_any);
+		}
+		return true;
+	}
+	bool visit_nil() {
+		return insert_value(0, asTYPEID_VOID);
+	}
+	bool visit_boolean(bool value) {
+		return insert_value(&value, asTYPEID_BOOL);
+	}
+	bool visit_positive_integer(uint64_t value) {
+		return insert_value(&value, asTYPEID_UINT64);
+	}
+	bool visit_negative_integer(int64_t value) {
+		return insert_value(&value, asTYPEID_INT64);
+	}
+	bool visit_str(const char* value, uint32_t size) {
+		return insert_value(&std::string(value), m_ti_string->GetTypeId());
+	}
+	bool start_array(uint32_t /*num_elements*/) {
+		m_parent_is_dictionary = m_current_is_dictionary;
+		m_current_is_dictionary = false;
+		m_parent_array = m_current_array;
+		return (m_current_array = CScriptArray::Create(m_ti_any));
+	}
+
+	bool end_array() {
+		CScriptArray* temp = m_current_array;
+		m_current_is_dictionary = m_parent_is_dictionary;
+		m_current_array = m_parent_array;
+		return insert_value(temp, m_ti_array->GetTypeId());
+	}
+
+	bool start_map(uint32_t /*num_kv_pairs*/) {
+		m_parent_is_dictionary = m_current_is_dictionary;
+		m_current_is_dictionary = true;
+		m_parent_dictionary = m_current_dictionary;
+		return (m_current_dictionary = CScriptDictionary::Create(ETHScriptWrapper::m_pASEngine));
+	}
+	bool start_map_key() {
+		m_is_key = true;
+		return true;
+	}	
+	bool end_map_key() {
+		m_is_key = false;
+		return true;
+	}
+	bool end_map_value() {
+		return true;
+	}
+	bool end_map() {
+		CScriptDictionary* temp = m_current_dictionary;
+		m_current_is_dictionary = m_parent_is_dictionary;
+		m_current_dictionary = m_parent_dictionary;
+		return insert_value(temp, m_ti_dictionary->GetTypeId());
+	}
+	void parse_error(size_t /*parsed_offset*/, size_t error_offset) {
+		// report error.
+		std::cout << "\n ### \n MsgPack Parse error -> error_offset: " << error_offset << "\n ### \n";
+	}
+	void insufficient_bytes(size_t /*parsed_offset*/, size_t error_offset) {
+		std::cout << "\n ### \n MsgPack Insufficient Bytes -> error_offset: " << error_offset << "\n ### \n";
+	}
+
+	bool m_is_key;
+	bool m_parent_is_dictionary;
+	bool m_current_is_dictionary;
+	dictKey_t m_current_key;
+	CScriptDictionary* m_parent_dictionary;
+	CScriptDictionary* m_current_dictionary;
+	CScriptAny* m_any;
+	asITypeInfo* m_ti_any;
+	asITypeInfo* m_ti_string;
+	asITypeInfo* m_ti_array;
+	asITypeInfo* m_ti_dictionary;
+	CScriptArray* m_parent_array;
+	CScriptArray* m_current_array;
+	CScriptArray* const m_array ;
+};
+
+
 WebsocketClient::WebsocketClient() : m_resolver(net::make_strand(m_ioc))
 , m_ws(net::make_strand(m_ioc))
 , m_keepalive_timeout(30)
@@ -289,7 +398,7 @@ void WebsocketClient::OnHandshake(beast::error_code ec)
 	
 	std::cerr << "Websocket handshake completed!\n";
 
-	// call AS OnConnect method
+	// call AS OnConnect callback
 	if(m_on_connect_callback)
 	{
 		m_as_ctx->Prepare(m_on_connect_callback);
@@ -302,7 +411,7 @@ void WebsocketClient::OnHandshake(beast::error_code ec)
 		{
 			// The return value is only valid if the execution finished successfully
 			//asDWORD ret = m_as_ctx->GetReturnDWord();
-			std::cout << ">>> Execution finished!!!\n";
+			std::cout << ">>> OnConnect callback execution finished!!!\n";
 		}
 	}
 
@@ -315,7 +424,7 @@ void WebsocketClient::OnWrite(beast::error_code ec, std::size_t bytes_transferre
 	if(ec)
 		return fail(ec, "write");
 	
-	// msg sent, so -"the queue walks"- consume buffer.
+	// msg sent, consume output buffer.
 	m_output_buffer.consume(bytes_transferred);
 
 	if( m_output_buffer.size() <= 0 )
@@ -349,22 +458,43 @@ void WebsocketClient::OnRead(beast::error_code ec, std::size_t bytes_transferred
 	{
 		tipo = "binario";
 	}
+	////// PAREI AQUI
+	////  Esta parte deveficar no Unpack? como pegar o tamanho do array? como consumir?
 
 	msgpack::unpacker pac;
 	pac.reserve_buffer(m_input_buffer.size());
 	memcpy(pac.buffer(), net::buffer_cast<char const *>(m_input_buffer.data()), m_input_buffer.size());
 	pac.buffer_consumed(m_input_buffer.size());
-
+	
 	m_input_buffer.consume(m_input_buffer.size());
 	m_ws.async_read(m_input_buffer, beast::bind_front_handler(&WebsocketClient::OnRead, shared_from_this()));
-
 	msgpack::object_handle inputOH;
-	while(pac.next(inputOH))
+	while (pac.next(inputOH))
 	{
 		msgpack::object inputObj = inputOH.get();
-
+		inputOH.zone();
 		std::cout << "<<< " << tipo << " " << inputObj.type << ": " << inputObj << std::endl;
 	}
+
+	// call AS OnMessage Callback
+	/////////////////////////////////////
+	if (m_on_message_callback)
+	{
+		m_as_ctx->Prepare(m_on_message_callback);
+		m_as_ctx->SetObject(m_on_message_callbackObject);
+
+		// Set the function arguments
+		//m_pScriptContext->SetArgDWord(...);
+		int r = m_as_ctx->Execute();
+		if (r == asEXECUTION_FINISHED)
+		{
+			// The return value is only valid if the execution finished successfully
+			//asDWORD ret = m_as_ctx->GetReturnDWord();
+			std::cout << ">>> OnMessage callback execution finished!!!\n";
+		}
+	}
+	///////////////////////////////////////
+
 
 	// Close the WebSocket connection... nooooooo! not now.
 	//m_ws.async_close(websocket::close_code::normal, beast::bind_front_handler(&WebsocketClient::on_close, shared_from_this()));
@@ -427,20 +557,6 @@ void WebsocketClient::SendRaw(char* data, size_t size)
 	// reserve space and copy data to output buffer
 	net::buffer_copy(m_output_buffer.prepare(size),net::buffer(data,size));
 	m_output_buffer.commit(size);
-
-	/// Print package content as test ///
-	msgpack::unpacker pac;
-
-	pac.reserve_buffer(size);
-	memcpy(pac.buffer(), data, size);
-	pac.buffer_consumed(size);
-
-	msgpack::object_handle inputOH;
-	while(pac.next(inputOH)) {
-		msgpack::object inputObj = inputOH.get();
-		std::cout << ">>>" << " : " << inputObj << std::endl;
-	}
-	/// End print test ///
 
 	if( m_ws.is_open() && m_output_buffer.size() > 0 )
 	{
@@ -679,4 +795,30 @@ void WebsocketClient::PackArray(uint32_t length)
 void WebsocketClient::PackMap(uint32_t length)
 {
 	m_msg_out.pack_map(length);
+}
+
+CScriptArray* WebsocketClient::Unpack() {
+
+	/// Print package content as test ///
+	/*
+	msgpack::unpacker pac;
+
+	pac.reserve_buffer(size);
+	memcpy(pac.buffer(), data, size);
+	pac.buffer_consumed(size);
+
+	msgpack::object_handle inputOH;
+	while (pac.next(inputOH)) {
+		msgpack::object inputObj = inputOH.get();
+		std::cout << ">>>" << " : " << inputObj << std::endl;
+	}
+	*/
+	/// End print test ///
+
+	// Create an array with the initial size of 3 elements
+	CScriptArray* arr = CScriptArray::Create(ETHScriptWrapper::m_pASEngine->GetTypeInfoById(m_any_type_id));
+	//arr->InsertLast()
+		;
+	// The ref count for the returned handle was already set in the array's constructor
+	return arr;
 }
