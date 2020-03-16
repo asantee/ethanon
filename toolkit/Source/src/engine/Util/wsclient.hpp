@@ -90,6 +90,7 @@ class WebsocketClient : public std::enable_shared_from_this<WebsocketClient>
 	int m_string_type_id;
 	int m_dictionary_type_id;
 	int m_any_type_id;
+	asITypeInfo* m_any_array_type_info;
 
 	// Cache for all the array<T> specializations
 	int m_array_type_ids[15];
@@ -150,7 +151,7 @@ public:
 	void Pack(const gs2d::math::Vector3& vector);
 	void PackNil();
 
-	CScriptArray* Unpack();
+	bool ParseMsgPack(CScriptArray* arr);
 
 	// Create the array header on message pack, informing array size
 	void PackArray(uint32_t length);
