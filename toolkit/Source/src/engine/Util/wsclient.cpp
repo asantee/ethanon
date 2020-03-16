@@ -12,147 +12,6 @@ void fail(beast::error_code ec, char const* what)
 	std::cerr << what << ": " << ec.message() << "\n";
 }
 
-struct as_array_visitor : msgpack::v2::null_visitor {
-	as_array_visitor(CScriptArray* ref_array) : m_array(ref_array), m_current_array(ref_array),
-										m_current_dictionary(NULL), m_current_is_dictionary(false),
-										m_is_key(false)
-	{
-		m_ti_any = ETHScriptWrapper::m_pASEngine->GetTypeInfoByDecl("any");
-		m_ti_any_array = ETHScriptWrapper::m_pASEngine->GetTypeInfoByDecl("array<any>");
-		m_ti_string = ETHScriptWrapper::m_pASEngine->GetTypeInfoByDecl("string");
-		m_ti_dictionary = ETHScriptWrapper::m_pASEngine->GetTypeInfoByDecl("dictionary");
-	}
-
-	bool insert_value(void* ref, int refTypeId)
-	{
-		if (m_current_is_dictionary)
-		{
-			if (m_is_key)
-			{
-				if (refTypeId == m_ti_string->GetTypeId())
-					m_current_key.push_back(*(dictKey_t*)ref);
-				else
-					return false;
-			}
-			else if (m_current_dictionary)
-			{
-				m_current_dictionary->Set(m_current_key.back(), ref, refTypeId);
-				m_current_key.pop_back();
-			}
-			else
-				return false;
-		}
-		else
-		{
-			CScriptAny* value = new CScriptAny(ETHScriptWrapper::m_pASEngine);
-			switch (refTypeId)
-			{
-				case asTYPEID_FLOAT:
-				// this context is needed because Store() accepts double as fp
-				{
-					double val = *(float*)ref;
-					value->Store(val);
-				}
-					break;
-				case asTYPEID_UINT64:
-					value->Store(ref, asTYPEID_INT64);
-					break;
-				default:
-					if (refTypeId > asTYPEID_DOUBLE || refTypeId == asTYPEID_VOID || refTypeId == asTYPEID_BOOL || refTypeId == asTYPEID_INT64 || refTypeId == asTYPEID_DOUBLE)
-						value->Store(ref, refTypeId);
-			}
-			m_current_array->InsertLast(value);
-		}
-		return true;
-	}
-
-	bool visit_nil() {
-		return insert_value(0, asTYPEID_VOID);
-	}
-
-	bool visit_boolean(bool value) {
-		return insert_value(&value, asTYPEID_BOOL);
-	}
-	bool visit_positive_integer(uint64_t value) {
-		return insert_value(&value, asTYPEID_INT64);
-	}
-	bool visit_negative_integer(int64_t value) {
-		return insert_value(&value, asTYPEID_INT64);
-	}
-	bool visit_str(const char* value, uint32_t size) {
-		return insert_value((void*)&std::string(value, size), m_ti_string->GetTypeId());
-	}
-	bool visit_float32(float value) {
-		return insert_value(&value, asTYPEID_FLOAT);
-	}
-	bool visit_float64(double value) {
-		return insert_value(&value, asTYPEID_DOUBLE);
-	}
-	bool start_array(uint32_t /*num_elements*/) {
-		m_parent_is_dictionary.push_back(m_current_is_dictionary);
-		m_current_is_dictionary = false;
-		m_parent_array.push_back(m_current_array);
-		return (m_current_array = CScriptArray::Create(m_ti_any_array));
-	}
-
-	bool end_array() {
-		CScriptArray* temp = m_current_array;
-		m_current_is_dictionary = m_parent_is_dictionary.back();
-		m_parent_is_dictionary.pop_back();
-		m_current_array = m_parent_array.back();
-		m_parent_array.pop_back();
-		return insert_value(temp, m_ti_any_array->GetTypeId());
-	}
-
-	bool start_map(uint32_t /*num_kv_pairs*/) {
-		m_parent_is_dictionary.push_back(m_current_is_dictionary);
-		m_current_is_dictionary = true;
-		m_parent_dictionary.push_back(m_current_dictionary);
-		return (m_current_dictionary = CScriptDictionary::Create(ETHScriptWrapper::m_pASEngine));
-	}
-	bool start_map_key() {
-		m_is_key = true;
-		return true;
-	}	
-	bool end_map_key() {
-		m_is_key = false;
-		return true;
-	}
-	bool end_map_value() {
-		return true;
-	}
-	bool end_map() {
-		CScriptDictionary* temp = m_current_dictionary;
-		m_current_is_dictionary = m_parent_is_dictionary.back();
-		m_parent_is_dictionary.pop_back();
-		m_current_dictionary = m_parent_dictionary.back();
-		m_parent_dictionary.pop_back();
-		return insert_value(temp, m_ti_dictionary->GetTypeId());
-	}
-	void parse_error(size_t /*parsed_offset*/, size_t error_offset) {
-		// report error.
-		std::cout << "\n ### \n MsgPack Parse error -> error_offset: " << error_offset << "\n ### \n";
-	}
-	void insufficient_bytes(size_t /*parsed_offset*/, size_t error_offset) {
-		std::cout << "\n ### \n MsgPack Insufficient Bytes -> error_offset: " << error_offset << "\n ### \n";
-	}
-
-	bool m_is_key;
-	std::vector<bool> m_parent_is_dictionary;
-	bool m_current_is_dictionary;
-	asITypeInfo* m_ti_any;
-	asITypeInfo* m_ti_string;
-	asITypeInfo* m_ti_any_array;
-	asITypeInfo* m_ti_dictionary;
-	std::vector<CScriptArray*> m_parent_array;
-	CScriptArray* m_current_array;
-	CScriptArray* const m_array;
-	std::vector<dictKey_t> m_current_key;
-	std::vector<CScriptDictionary*>  m_parent_dictionary;
-	CScriptDictionary* m_current_dictionary;
-};
-
-
 WebsocketClient::WebsocketClient() : m_resolver(net::make_strand(m_ioc))
 , m_ws(net::make_strand(m_ioc))
 , m_keepalive_timeout(30)
@@ -631,6 +490,148 @@ double WebsocketClient::GetUptime()
 //
 ///////////////
 
+// Visitor for desserializer
+struct as_array_visitor : msgpack::v2::null_visitor {
+	as_array_visitor(CScriptArray* ref_array) : m_array(ref_array), m_current_array(ref_array),
+		m_current_dictionary(NULL), m_current_is_dictionary(false),
+		m_is_key(false)
+	{
+		m_ti_any = ETHScriptWrapper::m_pASEngine->GetTypeInfoByDecl("any");
+		m_ti_any_array = ETHScriptWrapper::m_pASEngine->GetTypeInfoByDecl("array<any>");
+		m_ti_string = ETHScriptWrapper::m_pASEngine->GetTypeInfoByDecl("string");
+		m_ti_dictionary = ETHScriptWrapper::m_pASEngine->GetTypeInfoByDecl("dictionary");
+	}
+
+	bool insert_value(void* ref, int refTypeId)
+	{
+		if (m_current_is_dictionary)
+		{
+			if (m_is_key)
+			{
+				if (refTypeId == m_ti_string->GetTypeId())
+					m_current_key.push_back(*(dictKey_t*)ref);
+				else
+					return false;
+			}
+			else if (m_current_dictionary)
+			{
+				m_current_dictionary->Set(m_current_key.back(), ref, refTypeId);
+				m_current_key.pop_back();
+			}
+			else
+				return false;
+		}
+		else
+		{
+			CScriptAny* value = new CScriptAny(ETHScriptWrapper::m_pASEngine);
+			switch (refTypeId)
+			{
+			case asTYPEID_FLOAT:
+				// this context is needed because Store() accepts double as fp
+			{
+				double val = *(float*)ref;
+				value->Store(val);
+			}
+			break;
+			case asTYPEID_UINT64:
+				value->Store(ref, asTYPEID_INT64);
+				break;
+			default:
+				if (refTypeId > asTYPEID_DOUBLE || refTypeId == asTYPEID_VOID || refTypeId == asTYPEID_BOOL || refTypeId == asTYPEID_INT64 || refTypeId == asTYPEID_DOUBLE)
+					value->Store(ref, refTypeId);
+			}
+			m_current_array->InsertLast(value);
+		}
+		return true;
+	}
+
+	bool visit_nil() {
+		return insert_value(0, asTYPEID_VOID);
+	}
+
+	bool visit_boolean(bool value) {
+		return insert_value(&value, asTYPEID_BOOL);
+	}
+	bool visit_positive_integer(uint64_t value) {
+		return insert_value(&value, asTYPEID_INT64);
+	}
+	bool visit_negative_integer(int64_t value) {
+		return insert_value(&value, asTYPEID_INT64);
+	}
+	bool visit_str(const char* value, uint32_t size) {
+		return insert_value((void*)&std::string(value, size), m_ti_string->GetTypeId());
+	}
+	bool visit_float32(float value) {
+		return insert_value(&value, asTYPEID_FLOAT);
+	}
+	bool visit_float64(double value) {
+		return insert_value(&value, asTYPEID_DOUBLE);
+	}
+	bool start_array(uint32_t /*num_elements*/) {
+		m_parent_is_dictionary.push_back(m_current_is_dictionary);
+		m_current_is_dictionary = false;
+		m_parent_array.push_back(m_current_array);
+		return (m_current_array = CScriptArray::Create(m_ti_any_array));
+	}
+
+	bool end_array() {
+		CScriptArray* temp = m_current_array;
+		m_current_is_dictionary = m_parent_is_dictionary.back();
+		m_parent_is_dictionary.pop_back();
+		m_current_array = m_parent_array.back();
+		m_parent_array.pop_back();
+		return insert_value(temp, m_ti_any_array->GetTypeId());
+	}
+
+	bool start_map(uint32_t /*num_kv_pairs*/) {
+		m_parent_is_dictionary.push_back(m_current_is_dictionary);
+		m_current_is_dictionary = true;
+		m_parent_dictionary.push_back(m_current_dictionary);
+		return (m_current_dictionary = CScriptDictionary::Create(ETHScriptWrapper::m_pASEngine));
+	}
+	bool start_map_key() {
+		m_is_key = true;
+		return true;
+	}
+	bool end_map_key() {
+		m_is_key = false;
+		return true;
+	}
+	bool end_map_value() {
+		return true;
+	}
+	bool end_map() {
+		CScriptDictionary* temp = m_current_dictionary;
+		m_current_is_dictionary = m_parent_is_dictionary.back();
+		m_parent_is_dictionary.pop_back();
+		m_current_dictionary = m_parent_dictionary.back();
+		m_parent_dictionary.pop_back();
+		return insert_value(temp, m_ti_dictionary->GetTypeId());
+	}
+	void parse_error(size_t /*parsed_offset*/, size_t error_offset) {
+		// report error.
+		std::cout << "\n ### \n MsgPack Parse error -> error_offset: " << error_offset << "\n ### \n";
+	}
+	void insufficient_bytes(size_t /*parsed_offset*/, size_t error_offset) {
+		std::cout << "\n ### \n MsgPack Insufficient Bytes -> error_offset: " << error_offset << "\n ### \n";
+	}
+
+	bool m_is_key;
+	std::vector<bool> m_parent_is_dictionary;
+	bool m_current_is_dictionary;
+	asITypeInfo* m_ti_any;
+	asITypeInfo* m_ti_string;
+	asITypeInfo* m_ti_any_array;
+	asITypeInfo* m_ti_dictionary;
+	std::vector<CScriptArray*> m_parent_array;
+	CScriptArray* m_current_array;
+	CScriptArray* const m_array;
+	std::vector<dictKey_t> m_current_key;
+	std::vector<CScriptDictionary*>  m_parent_dictionary;
+	CScriptDictionary* m_current_dictionary;
+};
+
+// Serializer methods
 void WebsocketClient::Pack(bool value)
 {
 	m_msg_out.pack(value);
