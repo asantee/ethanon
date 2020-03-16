@@ -492,27 +492,10 @@ void WebsocketClient::OnRead(beast::error_code ec, std::size_t bytes_transferred
 	{
 		tipo = "binario";
 	}
-	////// PAREI AQUI
-	////  Esta parte deveficar no Unpack? como pegar o tamanho do array? como consumir?
 
-/*	msgpack::unpacker pac;
-	pac.reserve_buffer(m_input_buffer.size());
-	memcpy(pac.buffer(), net::buffer_cast<char const *>(m_input_buffer.data()), m_input_buffer.size());
-	pac.buffer_consumed(m_input_buffer.size());
-	
-	m_input_buffer.consume(m_input_buffer.size());
-	m_ws.async_read(m_input_buffer, beast::bind_front_handler(&WebsocketClient::OnRead, shared_from_this()));
-	msgpack::object_handle inputOH;
-	while (pac.next(inputOH))
-	{
-		msgpack::object inputObj = inputOH.get();
-		inputOH.zone();
-		std::cout << "<<< " << tipo << " " << inputObj.type << ": " << inputObj << std::endl;
-	}
-*/
 	CScriptArray* parsed_data = CScriptArray::Create(m_any_array_type_info);
-
-	if(ParseMsgPack(parsed_data))
+	size_t size = m_input_buffer.size();
+	if (ParseMsgPack(parsed_data, net::buffer_cast<char const*>(m_input_buffer.data()), size))
 	{
 		// call AS OnMessage Callback
 		if (m_on_message_callback)
@@ -521,8 +504,6 @@ void WebsocketClient::OnRead(beast::error_code ec, std::size_t bytes_transferred
 			m_as_ctx->SetObject(m_on_message_callbackObject);
 
 			// Set the function arguments
-			//m_pScriptContext->SetArgDWord(...);
-			//m_as_ctx->SetArg(0, parsed_data);
 			m_as_ctx->SetArgObject(0, parsed_data);
 			int r = m_as_ctx->Execute();
 			if (r == asEXECUTION_FINISHED)
@@ -532,6 +513,7 @@ void WebsocketClient::OnRead(beast::error_code ec, std::size_t bytes_transferred
 				std::cout << ">>> OnMessage callback execution finished!!!\n";
 			}
 		}
+		m_input_buffer.consume(size);
 	}
 	else
 	{
@@ -844,14 +826,12 @@ void WebsocketClient::PackMap(uint32_t length)
 	m_msg_out.pack_map(length);
 }
 
-bool WebsocketClient::ParseMsgPack(CScriptArray* arr)
+bool WebsocketClient::ParseMsgPack(CScriptArray* arr, const char * data, const size_t size)
 {
 	as_array_visitor visitor(arr);
-	size_t msg_size = m_input_buffer.size();
-	if (msgpack::v2::parse(net::buffer_cast<char const*>(m_input_buffer.data()), msg_size, visitor))
-	{
-		m_input_buffer.consume(msg_size);
+
+	if (msgpack::v2::parse(data, size, visitor))
 		return true;
-	}
+	
 	return false;
 }

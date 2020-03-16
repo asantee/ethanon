@@ -151,7 +151,7 @@ public:
 	void Pack(const gs2d::math::Vector3& vector);
 	void PackNil();
 
-	bool ParseMsgPack(CScriptArray* arr);
+	bool ParseMsgPack(CScriptArray* arr, const char* data, const size_t size);
 
 	// Create the array header on message pack, informing array size
 	void PackArray(uint32_t length);
