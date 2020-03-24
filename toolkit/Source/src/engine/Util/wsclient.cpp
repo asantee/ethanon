@@ -163,6 +163,44 @@ void WebsocketClient::SetOnConnectCallback(asIScriptFunction* cb)
 	}
 }
 
+void WebsocketClient::SetOnDisconnectCallback(asIScriptFunction* cb)
+{
+
+	// Release the previous callback, if any
+	if (m_on_disconnect_callback)
+		m_on_disconnect_callback->Release();
+	if (m_on_disconnect_callbackObject)
+		ETHScriptWrapper::m_pASEngine->ReleaseScriptObject(m_on_disconnect_callbackObject, m_on_disconnect_callbackObjectType);
+	m_on_disconnect_callback = 0;
+	m_on_disconnect_callbackObject = 0;
+	m_on_disconnect_callbackObjectType = 0;
+
+	if (cb && cb->GetFuncType() == asFUNC_DELEGATE)
+	{
+		m_on_disconnect_callbackObject = cb->GetDelegateObject();
+		m_on_disconnect_callbackObjectType = cb->GetDelegateObjectType();
+		m_on_disconnect_callback = cb->GetDelegateFunction();
+
+		// Hold on to the object and method
+
+		ETHScriptWrapper::m_pASEngine->AddRefScriptObject(m_on_disconnect_callbackObject, m_on_disconnect_callbackObjectType);
+		m_on_disconnect_callback->AddRef();
+
+		// Release the delegate, since it won't be used anymore
+		ETHScriptWrapper::m_pASEngine->ReleaseScriptObject(cb->GetDelegateObject(), cb->GetDelegateObjectType());
+		cb->Release();
+
+	}
+	else
+	{
+		// Store the received handle for later use
+		m_on_disconnect_callback = cb;
+
+		// Do not release the received script function 
+		// until it won't be used any more
+	}
+}
+
 void WebsocketClient::SetOnMessageCallback(asIScriptFunction* cb)
 {
 	// Release the previous callback, if any
@@ -300,12 +338,11 @@ void WebsocketClient::OnHandshake(beast::error_code ec)
 		// Set the function arguments
 		//m_pScriptContext->SetArgDWord(...);
 		int r = m_as_ctx->Execute();
-		if (r == asEXECUTION_FINISHED)
+		/*if (r == asEXECUTION_FINISHED)
 		{
 			// The return value is only valid if the execution finished successfully
 			//asDWORD ret = m_as_ctx->GetReturnDWord();
-			std::cout << ">>> OnConnect callback execution finished!!!\n";
-		}
+		}*/
 	}
 
 	// Start reading incomming messages
@@ -337,13 +374,13 @@ void WebsocketClient::OnRead(beast::error_code ec, std::size_t bytes_transferred
 {
 	if(ec)
 	{
-		return fail(ec, "read");
+		OnClose(ec);
+		//return fail(ec, "read");
 	}
 
-	// if( !m_ws.is_open() ){
-	// 	std::cerr << "Connection closed!" <<  std::endl;
-	// 	return;
-	// }
+	if( !m_ws.is_open() ){
+		return;
+	}
 
 	std::string tipo("texto");
 	// do something with it
@@ -365,12 +402,11 @@ void WebsocketClient::OnRead(beast::error_code ec, std::size_t bytes_transferred
 			// Set the function arguments
 			m_as_ctx->SetArgObject(0, parsed_data);
 			int r = m_as_ctx->Execute();
-			if (r == asEXECUTION_FINISHED)
+			/*if (r == asEXECUTION_FINISHED)
 			{
 				// The return value is only valid if the execution finished successfully
 				//asDWORD ret = m_as_ctx->GetReturnDWord();
-				std::cout << ">>> OnMessage callback execution finished!!!\n";
-			}
+			}*/
 		}
 		m_input_buffer.consume(size);
 	}
@@ -382,6 +418,7 @@ void WebsocketClient::OnRead(beast::error_code ec, std::size_t bytes_transferred
 			to a raw data callback.
 		*/
 	}
+	// Read again, and again...
 	m_ws.async_read(m_input_buffer, beast::bind_front_handler(&WebsocketClient::OnRead, shared_from_this()));
 
 	// Close the WebSocket connection... nooooooo! not now.
@@ -390,10 +427,21 @@ void WebsocketClient::OnRead(beast::error_code ec, std::size_t bytes_transferred
 
 void WebsocketClient::OnClose(beast::error_code ec)
 {
-	if(ec)
-		return fail(ec, "close");
+	// call AS OnDisconnect callback
+	if (m_on_disconnect_callback)
+	{
+		m_as_ctx->Prepare(m_on_disconnect_callback);
+		m_as_ctx->SetObject(m_on_disconnect_callbackObject);
 
-	// If we get here then the connection is closed gracefully
+		// Set the function arguments
+		//m_pScriptContext->SetArgDWord(...);
+		int r = m_as_ctx->Execute();
+		/*if (r == asEXECUTION_FINISHED)
+		{
+			// The return value is only valid if the execution finished successfully
+			//asDWORD ret = m_as_ctx->GetReturnDWord();
+		}*/
+	}
 
 	// The make_printable() function helps print a ConstBufferSequence
 	if( m_input_buffer.size() > 0 )
@@ -405,6 +453,11 @@ void WebsocketClient::OnClose(beast::error_code ec)
 
 		std::cout << "Last input message: " << inputObj << std::endl;
 	}
+
+	if (ec)
+		return fail(ec, "close");
+
+	// If we get here then the connection is closed gracefully
 }
 
 void WebsocketClient::Ping()
@@ -490,11 +543,11 @@ double WebsocketClient::GetUptime()
 //
 ///////////////
 
-// Visitor for desserializer
-struct as_array_visitor : msgpack::v2::null_visitor {
-	as_array_visitor(CScriptArray* ref_array) : m_array(ref_array), m_current_array(ref_array),
+// Visitor for de-serializer
+struct as_any_visitor : msgpack::v2::null_visitor {
+	as_any_visitor(CScriptAny* ref_any) : m_any(ref_any), m_current_array(NULL),
 		m_current_dictionary(NULL), m_current_is_dictionary(false),
-		m_is_key(false)
+		m_is_key(false), m_ref(false)
 	{
 		m_ti_any = ETHScriptWrapper::m_pASEngine->GetTypeInfoByDecl("any");
 		m_ti_any_array = ETHScriptWrapper::m_pASEngine->GetTypeInfoByDecl("array<any>");
@@ -523,11 +576,20 @@ struct as_array_visitor : msgpack::v2::null_visitor {
 		}
 		else
 		{
-			CScriptAny* value = new CScriptAny(ETHScriptWrapper::m_pASEngine);
+			CScriptAny* value;
+			// If m_current_array is null, then return the any object
+			if (m_current_array == nullptr)
+				value = m_any;
+			// else, we have a current array and will store a new Any object
+			else
+				value = new CScriptAny(ETHScriptWrapper::m_pASEngine);
+
+			// that was needed because of this switch that handle non double/int64
+			// primitives, Any's weirdness.
 			switch (refTypeId)
 			{
 			case asTYPEID_FLOAT:
-				// this context is needed because Store() accepts double as fp
+			// this context is needed because Store() accepts only double as floating point
 			{
 				double val = *(float*)ref;
 				value->Store(val);
@@ -540,7 +602,11 @@ struct as_array_visitor : msgpack::v2::null_visitor {
 				if (refTypeId > asTYPEID_DOUBLE || refTypeId == asTYPEID_VOID || refTypeId == asTYPEID_BOOL || refTypeId == asTYPEID_INT64 || refTypeId == asTYPEID_DOUBLE)
 					value->Store(ref, refTypeId);
 			}
-			m_current_array->InsertLast(value);
+			// at this point m_current_array may be null, check that again.
+			if (m_current_array != nullptr)
+				m_current_array->InsertLast(value);
+			// All that could be done with 'm_any->CopyFrom(value);'
+			// but that copies a lot of things, and why not mess with pointers?
 		}
 		return true;
 	}
@@ -616,6 +682,10 @@ struct as_array_visitor : msgpack::v2::null_visitor {
 		std::cout << "\n ### \n MsgPack Insufficient Bytes -> error_offset: " << error_offset << "\n ### \n";
 	}
 
+	void set_referenced(bool ref) { m_ref = ref; }
+	bool referenced() const { return m_ref; }
+	bool m_ref;
+
 	bool m_is_key;
 	std::vector<bool> m_parent_is_dictionary;
 	bool m_current_is_dictionary;
@@ -625,11 +695,44 @@ struct as_array_visitor : msgpack::v2::null_visitor {
 	asITypeInfo* m_ti_dictionary;
 	std::vector<CScriptArray*> m_parent_array;
 	CScriptArray* m_current_array;
-	CScriptArray* const m_array;
+	CScriptAny* const m_any;
 	std::vector<dictKey_t> m_current_key;
 	std::vector<CScriptDictionary*>  m_parent_dictionary;
 	CScriptDictionary* m_current_dictionary;
 };
+
+//////////////////////////////
+
+struct do_nothing {
+	void operator()(char* /*buffer*/) {
+	}
+};
+
+class as_array_builder : public msgpack::parser<as_array_builder, do_nothing>,
+	public as_any_visitor
+{
+	typedef parser<as_array_builder, do_nothing> parser_t;
+public:
+	as_array_builder(std::size_t initial_buffer_size = MSGPACK_UNPACKER_INIT_BUFFER_SIZE)
+		:	parser_t(do_nothing_, initial_buffer_size),
+			as_any_visitor(m_any)
+	{
+	}
+
+	as_any_visitor& visitor() { return *this; }
+	void print()
+	{ 
+		std::cout << /*json_str_ << */std::endl;
+	//	json_str_.clear();
+	}
+private:
+	CScriptAny* m_any;
+	do_nothing do_nothing_;
+//	std::string json_str_;
+};
+
+
+//////////////////////////////
 
 // Serializer methods
 void WebsocketClient::Pack(bool value)
@@ -827,12 +930,19 @@ void WebsocketClient::PackMap(uint32_t length)
 	m_msg_out.pack_map(length);
 }
 
+// TODO: Use parse object to call message callback for each any object in stream
+// Or to populate the array
 bool WebsocketClient::ParseMsgPack(CScriptArray* arr, const char * data, const size_t size)
 {
-	as_array_visitor visitor(arr);
+	CScriptAny* any = new CScriptAny(ETHScriptWrapper::m_pASEngine);
+	as_any_visitor visitor(any);
+	std::cout << "\nMessage size: " << size << "\n";
 
 	if (msgpack::v2::parse(data, size, visitor))
+	{
+		arr->InsertLast(any);
 		return true;
+	}
 	
 	return false;
 }

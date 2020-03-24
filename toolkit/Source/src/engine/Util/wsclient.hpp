@@ -169,5 +169,5 @@ public:
 	void SetOnConnectCallback(asIScriptFunction* cb);
 	void SetOnMessageCallback(asIScriptFunction* cb);
 
-	void SetOnDisconnectCallback(asIScriptFunction* cb) {};
+	void SetOnDisconnectCallback(asIScriptFunction* cb);
 };
