@@ -308,32 +308,20 @@ bool ETHGraphicResourceManager::ReleaseResource(const std::string &file)
 	}
 }
 
-ETHAudioResourceManager::ETHAudioResourceManager() : m_default_music_volume(1.0f)
+ETHAudioResourceManager::ETHAudioResourceManager() : m_defaultMusicVolume(1.0f)
 {};
 
 void ETHAudioResourceManager::ReleaseResources()
 {
-	ReleaseAllButMusic();
-}
-
-void ETHAudioResourceManager::ReleaseAllButMusic()
-{
-	tsl::hopscotch_map<std::string, AudioSamplePtr> musicTracks;
-	for (tsl::hopscotch_map<std::string, AudioSamplePtr>::iterator iter = m_resource.begin(); iter != m_resource.end(); ++iter)
-	{
-		if ((iter->second)->GetType() == Audio::MUSIC)
-			musicTracks[iter.key()] = iter.value();
-	}
-	m_resource.clear(); // probably just paranoia
-	m_resource = musicTracks;
+	m_resource.clear();
 }
 
 void ETHAudioResourceManager::SetMusicVolume(const float volume)
 {
-	m_default_music_volume = volume;
+	m_defaultMusicVolume = volume;
 	for (tsl::hopscotch_map<std::string, AudioSamplePtr>::iterator iter = m_resource.begin(); iter != m_resource.end(); ++iter)
 		if ((iter->second)->GetType() == Audio::MUSIC)
-			iter.value()->SetVolume(m_default_music_volume);
+			iter.value()->SetVolume(m_defaultMusicVolume);
 }
 
 AudioSamplePtr ETHAudioResourceManager::GetPointer(
@@ -394,7 +382,7 @@ AudioSamplePtr ETHAudioResourceManager::AddFile(
 		return AudioSamplePtr();
 	}
 	if (type == Audio::MUSIC)
-		pSample->SetVolume(m_default_music_volume);
+		pSample->SetVolume(m_defaultMusicVolume);
 
 	std::string fileName = Platform::GetFileName(path);
 	ETH_STREAM_DECL(ss) << ("(Loaded) ") << fileName;

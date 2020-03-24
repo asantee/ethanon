@@ -113,8 +113,7 @@ public:
 
 private:
 	tsl::hopscotch_map<std::string, AudioSamplePtr> m_resource;
-	void ReleaseAllButMusic();
-	float m_default_music_volume;
+	float m_defaultMusicVolume;
 };
 
 typedef boost::shared_ptr<ETHAudioResourceManager> ETHAudioResourceManagerPtr;
