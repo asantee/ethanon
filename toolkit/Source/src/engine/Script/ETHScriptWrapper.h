@@ -237,7 +237,7 @@ public:
 	static int32_t AddScaledEntity(const std::string &file, const Vector3 &v3Pos, const float scale, ETHEntity **ppOutEntity);
 	static int32_t AddEntity(const std::string &file, const Vector3 &v3Pos, ETHEntity **ppOutEntity);
 	static int32_t AddEntity(const std::string &file, const Vector3 &v3Pos, const std::string &alternativeName);
-	static ETHEntity *DeleteEntity(ETHEntity *pEntity);
+	static void DeleteEntity(ETHEntity *pEntity);
 	static void ReadLightmapsFromBitmapFiles(const std::string& directory);
 	static void LoadLightmaps(const std::string& directory);
 	static ETHEntity *SeekEntity(const int32_t id);

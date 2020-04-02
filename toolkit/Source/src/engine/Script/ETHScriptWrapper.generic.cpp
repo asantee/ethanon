@@ -258,9 +258,7 @@ static void __GetCurrentBucket(asIScriptGeneric *gen)
 static void __DeleteEntity(asIScriptGeneric *gen)
 {
 	ETHRenderEntity *s = (ETHRenderEntity*)gen->GetArgObject(0);
-	s->AddRef();
-	ETHEntity *r = ETHScriptWrapper::DeleteEntity(s);
-	gen->SetReturnObject(r);
+	ETHScriptWrapper::DeleteEntity(s);
 }
 
 void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
@@ -324,7 +322,7 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("int AddScaledEntity(const string &in, const vector3 &in, const float, ETHEntity@ &out)", asFUNCTION(__AddEntitySR), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("int AddEntity(const string &in, const vector3 &in, const float, ETHEntity@ &out, const string &in, const float)", asFUNCTION(__AddEntityF), asCALL_GENERIC); assert(r >= 0);
 
-	r = pASEngine->RegisterGlobalFunction("ETHEntity@ DeleteEntity(ETHEntity@)",										  asFUNCTION(__DeleteEntity),      asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void DeleteEntity(ETHEntity@)",         asFUNCTION(__DeleteEntity),      asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("int rand(const int)",                   asFUNCTION(__RandomizerInt),        asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("int rand(const int, const int)",        asFUNCTION(__RandomizerInt2Args),   asCALL_GENERIC); assert(r >= 0);
@@ -507,7 +505,7 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 
 	r = pASEngine->RegisterGlobalFunction("ETHEntity@ GetClosestContact(const vector2 &in, const vector2 &in, vector2 &out, vector2 &out)", asFUNCTION(__GetClosestContact),  asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("ETHEntity@ GetClosestContact(const vector2 &in, const vector2 &in, vector2 &out, vector2 &out, const string &in)", asFUNCTION(__GetClosestContactEx),  asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("bool GetContactEntities(const vector2 &in, const vector2 &in, ETHEntityArray@)",                 asFUNCTION(__GetContactEntities), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("bool GetContactEntities(const vector2 &in, const vector2 &in, ETHEntityArray &)",                 asFUNCTION(__GetContactEntities), asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("bool IsFixedTimeStep()",					 asFUNCTION(__IsFixedTimeStep),			    asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("float GetFixedTimeStepValue()",			 asFUNCTION(__GetFixedTimeStepValue),	    asCALL_GENERIC); assert(r >= 0);
