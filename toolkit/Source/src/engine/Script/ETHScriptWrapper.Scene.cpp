@@ -177,16 +177,13 @@ int ETHScriptWrapper::AddScaledEntity(const std::string &file, const Vector3 &v3
 	return AddEntity(file, v3Pos, 0.0f, ppOutEntity, (""), scale);
 }
 
-ETHEntity *ETHScriptWrapper::DeleteEntity(ETHEntity *pEntity)
+void ETHScriptWrapper::DeleteEntity(ETHEntity *pEntity)
 {
 	if (WarnIfRunsInMainFunction(("DeleteEntity")) || !pEntity)
-		return 0;
+		return;
 
-	if (m_pScene->DeleteEntity(pEntity))
-	{
-		pEntity->Release();
-	}
-	return 0;
+	m_pScene->DeleteEntity(pEntity);
+	pEntity->Release();
 }
 
 void ETHScriptWrapper::LoadLightmaps(const std::string& directory)
@@ -420,6 +417,8 @@ void ETHScriptWrapper::GetEntitiesAroundEntity(ETHEntity* entity, ETHEntityArray
 		entity->GetCurrentBucket(bucketManager),
 		outVector,
 		ETHEntitySingleExceptionChooser(entity->GetID()));
+
+	entity->Release();
 }
 
 void ETHScriptWrapper::GetWhiteListedEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray& outVector, const std::string& semicolonSeparatedNames)
