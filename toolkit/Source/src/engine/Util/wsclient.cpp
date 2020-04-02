@@ -389,7 +389,7 @@ void WebsocketClient::OnRead(beast::error_code ec, std::size_t bytes_transferred
 		tipo = "binario";
 	}
 
-	CScriptArray* parsed_data = CScriptArray::Create(m_any_array_type_info);
+	CScriptAny* parsed_data = new CScriptAny(ETHScriptWrapper::m_pASEngine);
 	size_t size = m_input_buffer.size();
 	if (ParseMsgPack(parsed_data, net::buffer_cast<char const*>(m_input_buffer.data()), size))
 	{
@@ -708,15 +708,23 @@ struct do_nothing {
 	}
 };
 
-class as_array_builder : public msgpack::parser<as_array_builder, do_nothing>,
+class as_any_parser : public msgpack::parser<as_any_parser, do_nothing>,
 	public as_any_visitor
 {
-	typedef parser<as_array_builder, do_nothing> parser_t;
+	typedef parser<as_any_parser, do_nothing> parser_t;
 public:
-	as_array_builder(std::size_t initial_buffer_size = MSGPACK_UNPACKER_INIT_BUFFER_SIZE)
+	as_any_parser(std::size_t initial_buffer_size = MSGPACK_UNPACKER_INIT_BUFFER_SIZE)
 		:	parser_t(do_nothing_, initial_buffer_size),
 			as_any_visitor(m_any)
 	{
+	}
+
+	void write(char const* ptr, std::size_t len) {
+		if (len > this->buffer_capacity()) {
+			this->reserve_buffer(len - this->buffer_capacity());
+		}
+		std::memcpy(this->buffer(), ptr, len);
+		this->buffer_consumed(len);
 	}
 
 	as_any_visitor& visitor() { return *this; }
@@ -932,15 +940,15 @@ void WebsocketClient::PackMap(uint32_t length)
 
 // TODO: Use parse object to call message callback for each any object in stream
 // Or to populate the array
-bool WebsocketClient::ParseMsgPack(CScriptArray* arr, const char * data, const size_t size)
+bool WebsocketClient::ParseMsgPack(CScriptAny* any, const char * data, const size_t size)
 {
-	CScriptAny* any = new CScriptAny(ETHScriptWrapper::m_pASEngine);
+	as_any_parser p(110);
+
 	as_any_visitor visitor(any);
 	std::cout << "\nMessage size: " << size << "\n";
 
 	if (msgpack::v2::parse(data, size, visitor))
 	{
-		arr->InsertLast(any);
 		return true;
 	}
 	

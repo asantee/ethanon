@@ -55,7 +55,7 @@ class WebsocketClient : public std::enable_shared_from_this<WebsocketClient>
 	std::string m_port;
 
 	msgpack::sbuffer m_output_pd;
-	msgpack::sbuffer m_input_pd;
+	////msgpack::sbuffer m_input_pd;
 	msgpack::packer<msgpack::sbuffer> m_msg_out;
 	
 	asIScriptContext* m_as_ctx;
@@ -151,7 +151,7 @@ public:
 	void Pack(const gs2d::math::Vector3& vector);
 	void PackNil();
 
-	bool ParseMsgPack(CScriptArray* arr, const char* data, const size_t size);
+	bool ParseMsgPack(CScriptAny* any, const char* data, const size_t size);
 
 	// Create the array header on message pack, informing array size
 	void PackArray(uint32_t length);

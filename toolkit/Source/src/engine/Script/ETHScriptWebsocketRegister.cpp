@@ -178,8 +178,8 @@ void RegisterWebSocketClient(asIScriptEngine* pASEngine)
 
 	// Callbacks
 	r = pASEngine->RegisterFuncdef("void CALLBACK_void()"); assert(r >= 0);
-	r = pASEngine->RegisterFuncdef("void CALLBACK_array(any[]&in)"); assert(r >= 0);
+	r = pASEngine->RegisterFuncdef("void CALLBACK_any(any&in)"); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("WebsocketClient", "void SetOnConnect(CALLBACK_void @)", asFUNCTION(WebsocketClient__SetOnConnectCallback), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("WebsocketClient", "void SetOnDisconnect(CALLBACK_void @)", asFUNCTION(WebsocketClient__SetOnDisconnectCallback), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("WebsocketClient", "void SetOnMessage(CALLBACK_array @)", asFUNCTION(WebsocketClient__SetOnMessageCallback), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("WebsocketClient", "void SetOnMessage(CALLBACK_any @)", asFUNCTION(WebsocketClient__SetOnMessageCallback), asCALL_GENERIC); assert(r >= 0);
 }
