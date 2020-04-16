@@ -391,15 +391,15 @@ AudioSamplePtr ETHAudioResourceManager::AddFile(
 	return pSample;
 }
 
-void ETHAudioResourceManager::ReleaseResource(const str_type::string& file)
+void ETHAudioResourceManager::ReleaseResource(const std::string& file)
 {
 	if (!m_resource.empty())
 	{
-		str_type::string fileName = Platform::GetFileName(file);
-		tsl::hopscotch_map<str_type::string, AudioSamplePtr>::iterator iter = m_resource.find(fileName);
+		std::string fileName = Platform::GetFileName(file);
+		tsl::hopscotch_map<std::string, AudioSamplePtr>::iterator iter = m_resource.find(fileName);
 		if (iter != m_resource.end())
 		{
-			ETH_STREAM_DECL(ss) << GS_L("(Released) ") << fileName;
+			ETH_STREAM_DECL(ss) << "(Released) " << fileName;
 			ETHResourceProvider::Log(ss.str(), Platform::Logger::INFO);
 
 			m_resource.erase(iter);
