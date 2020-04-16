@@ -1,115 +1,86 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "AndroidInput.h"
 
 #include "../../Application.h"
 
-#include <string.h>
+#include <string>
+#include <sstream>
+
 #include <stdio.h>
 
 namespace gs2d {
 
 using namespace math;
 
-const str_type::string AndroidInput::KEY_STATE_DOWN = "down";
-const str_type::string AndroidInput::KEY_STATE_UP = "up";
+const std::string AndroidInput::KEY_STATE_DOWN = "down";
+const std::string AndroidInput::KEY_STATE_UP = "up";
 
-const str_type::string AndroidInput::KEY_CODE_UP = "ethanon.system.keyboard.up";
-const str_type::string AndroidInput::KEY_CODE_DOWN = "ethanon.system.keyboard.down";
-const str_type::string AndroidInput::KEY_CODE_LEFT = "ethanon.system.keyboard.left";
-const str_type::string AndroidInput::KEY_CODE_RIGHT = "ethanon.system.keyboard.right";
-const str_type::string AndroidInput::KEY_CODE_PAGE_UP = "ethanon.system.keyboard.pageUp";
-const str_type::string AndroidInput::KEY_CODE_PAGE_DOWN = "ethanon.system.keyboard.pageDown";
-const str_type::string AndroidInput::KEY_CODE_SPACE = "ethanon.system.keyboard.space";
-const str_type::string AndroidInput::KEY_CODE_ENTER = "ethanon.system.keyboard.enter";
-const str_type::string AndroidInput::KEY_CODE_HOME = "ethanon.system.keyboard.home";
-const str_type::string AndroidInput::KEY_CODE_INSERT = "ethanon.system.keyboard.insert";
-const str_type::string AndroidInput::KEY_CODE_ESCAPE = "ethanon.system.keyboard.esc";
-const str_type::string AndroidInput::KEY_CODE_TAB = "ethanon.system.keyboard.tab";
-const str_type::string AndroidInput::KEY_CODE_SHIFT = "ethanon.system.keyboard.shift";
-const str_type::string AndroidInput::KEY_CODE_ALT = "ethanon.system.keyboard.alt";
-const str_type::string AndroidInput::KEY_CODE_CTRL = "ethanon.system.keyboard.ctrl";
-const str_type::string AndroidInput::KEY_CODE_F1 = "ethanon.system.keyboard.f1";
-const str_type::string AndroidInput::KEY_CODE_F2 = "ethanon.system.keyboard.f2";
-const str_type::string AndroidInput::KEY_CODE_F3 = "ethanon.system.keyboard.f3";
-const str_type::string AndroidInput::KEY_CODE_F4 = "ethanon.system.keyboard.f4";
-const str_type::string AndroidInput::KEY_CODE_F5 = "ethanon.system.keyboard.f5";
-const str_type::string AndroidInput::KEY_CODE_F6 = "ethanon.system.keyboard.f6";
-const str_type::string AndroidInput::KEY_CODE_F7 = "ethanon.system.keyboard.f7";
-const str_type::string AndroidInput::KEY_CODE_F8 = "ethanon.system.keyboard.f8";
-const str_type::string AndroidInput::KEY_CODE_F9 = "ethanon.system.keyboard.f9";
-const str_type::string AndroidInput::KEY_CODE_F10 = "ethanon.system.keyboard.f10";
-const str_type::string AndroidInput::KEY_CODE_F11 = "ethanon.system.keyboard.f11";
-const str_type::string AndroidInput::KEY_CODE_F12 = "ethanon.system.keyboard.f12";
-const str_type::string AndroidInput::KEY_CODE_A = "ethanon.system.keyboard.a";
-const str_type::string AndroidInput::KEY_CODE_B = "ethanon.system.keyboard.b";
-const str_type::string AndroidInput::KEY_CODE_C = "ethanon.system.keyboard.c";
-const str_type::string AndroidInput::KEY_CODE_D = "ethanon.system.keyboard.d";
-const str_type::string AndroidInput::KEY_CODE_E = "ethanon.system.keyboard.e";
-const str_type::string AndroidInput::KEY_CODE_F = "ethanon.system.keyboard.f";
-const str_type::string AndroidInput::KEY_CODE_G = "ethanon.system.keyboard.g";
-const str_type::string AndroidInput::KEY_CODE_H = "ethanon.system.keyboard.h";
-const str_type::string AndroidInput::KEY_CODE_I = "ethanon.system.keyboard.i";
-const str_type::string AndroidInput::KEY_CODE_J = "ethanon.system.keyboard.j";
-const str_type::string AndroidInput::KEY_CODE_K = "ethanon.system.keyboard.k";
-const str_type::string AndroidInput::KEY_CODE_L = "ethanon.system.keyboard.l";
-const str_type::string AndroidInput::KEY_CODE_M = "ethanon.system.keyboard.m";
-const str_type::string AndroidInput::KEY_CODE_N = "ethanon.system.keyboard.n";
-const str_type::string AndroidInput::KEY_CODE_O = "ethanon.system.keyboard.o";
-const str_type::string AndroidInput::KEY_CODE_P = "ethanon.system.keyboard.p";
-const str_type::string AndroidInput::KEY_CODE_Q = "ethanon.system.keyboard.q";
-const str_type::string AndroidInput::KEY_CODE_R = "ethanon.system.keyboard.r";
-const str_type::string AndroidInput::KEY_CODE_S = "ethanon.system.keyboard.s";
-const str_type::string AndroidInput::KEY_CODE_T = "ethanon.system.keyboard.t";
-const str_type::string AndroidInput::KEY_CODE_U = "ethanon.system.keyboard.u";
-const str_type::string AndroidInput::KEY_CODE_V = "ethanon.system.keyboard.v";
-const str_type::string AndroidInput::KEY_CODE_X = "ethanon.system.keyboard.x";
-const str_type::string AndroidInput::KEY_CODE_Y = "ethanon.system.keyboard.y";
-const str_type::string AndroidInput::KEY_CODE_Z = "ethanon.system.keyboard.z";
-const str_type::string AndroidInput::KEY_CODE_W = "ethanon.system.keyboard.w";
-const str_type::string AndroidInput::KEY_CODE_0 = "ethanon.system.keyboard.0";
-const str_type::string AndroidInput::KEY_CODE_1 = "ethanon.system.keyboard.1";
-const str_type::string AndroidInput::KEY_CODE_2 = "ethanon.system.keyboard.2";
-const str_type::string AndroidInput::KEY_CODE_3 = "ethanon.system.keyboard.3";
-const str_type::string AndroidInput::KEY_CODE_4 = "ethanon.system.keyboard.4";
-const str_type::string AndroidInput::KEY_CODE_5 = "ethanon.system.keyboard.5";
-const str_type::string AndroidInput::KEY_CODE_6 = "ethanon.system.keyboard.6";
-const str_type::string AndroidInput::KEY_CODE_7 = "ethanon.system.keyboard.7";
-const str_type::string AndroidInput::KEY_CODE_8 = "ethanon.system.keyboard.8";
-const str_type::string AndroidInput::KEY_CODE_9 = "ethanon.system.keyboard.9";
+const std::string AndroidInput::KEY_CODE_UP = "ethanon.system.keyboard.up";
+const std::string AndroidInput::KEY_CODE_DOWN = "ethanon.system.keyboard.down";
+const std::string AndroidInput::KEY_CODE_LEFT = "ethanon.system.keyboard.left";
+const std::string AndroidInput::KEY_CODE_RIGHT = "ethanon.system.keyboard.right";
+const std::string AndroidInput::KEY_CODE_PAGE_UP = "ethanon.system.keyboard.pageUp";
+const std::string AndroidInput::KEY_CODE_PAGE_DOWN = "ethanon.system.keyboard.pageDown";
+const std::string AndroidInput::KEY_CODE_SPACE = "ethanon.system.keyboard.space";
+const std::string AndroidInput::KEY_CODE_ENTER = "ethanon.system.keyboard.enter";
+const std::string AndroidInput::KEY_CODE_HOME = "ethanon.system.keyboard.home";
+const std::string AndroidInput::KEY_CODE_INSERT = "ethanon.system.keyboard.insert";
+const std::string AndroidInput::KEY_CODE_ESCAPE = "ethanon.system.keyboard.esc";
+const std::string AndroidInput::KEY_CODE_TAB = "ethanon.system.keyboard.tab";
+const std::string AndroidInput::KEY_CODE_SHIFT = "ethanon.system.keyboard.shift";
+const std::string AndroidInput::KEY_CODE_ALT = "ethanon.system.keyboard.alt";
+const std::string AndroidInput::KEY_CODE_CTRL = "ethanon.system.keyboard.ctrl";
+const std::string AndroidInput::KEY_CODE_F1 = "ethanon.system.keyboard.f1";
+const std::string AndroidInput::KEY_CODE_F2 = "ethanon.system.keyboard.f2";
+const std::string AndroidInput::KEY_CODE_F3 = "ethanon.system.keyboard.f3";
+const std::string AndroidInput::KEY_CODE_F4 = "ethanon.system.keyboard.f4";
+const std::string AndroidInput::KEY_CODE_F5 = "ethanon.system.keyboard.f5";
+const std::string AndroidInput::KEY_CODE_F6 = "ethanon.system.keyboard.f6";
+const std::string AndroidInput::KEY_CODE_F7 = "ethanon.system.keyboard.f7";
+const std::string AndroidInput::KEY_CODE_F8 = "ethanon.system.keyboard.f8";
+const std::string AndroidInput::KEY_CODE_F9 = "ethanon.system.keyboard.f9";
+const std::string AndroidInput::KEY_CODE_F10 = "ethanon.system.keyboard.f10";
+const std::string AndroidInput::KEY_CODE_F11 = "ethanon.system.keyboard.f11";
+const std::string AndroidInput::KEY_CODE_F12 = "ethanon.system.keyboard.f12";
+const std::string AndroidInput::KEY_CODE_A = "ethanon.system.keyboard.a";
+const std::string AndroidInput::KEY_CODE_B = "ethanon.system.keyboard.b";
+const std::string AndroidInput::KEY_CODE_C = "ethanon.system.keyboard.c";
+const std::string AndroidInput::KEY_CODE_D = "ethanon.system.keyboard.d";
+const std::string AndroidInput::KEY_CODE_E = "ethanon.system.keyboard.e";
+const std::string AndroidInput::KEY_CODE_F = "ethanon.system.keyboard.f";
+const std::string AndroidInput::KEY_CODE_G = "ethanon.system.keyboard.g";
+const std::string AndroidInput::KEY_CODE_H = "ethanon.system.keyboard.h";
+const std::string AndroidInput::KEY_CODE_I = "ethanon.system.keyboard.i";
+const std::string AndroidInput::KEY_CODE_J = "ethanon.system.keyboard.j";
+const std::string AndroidInput::KEY_CODE_K = "ethanon.system.keyboard.k";
+const std::string AndroidInput::KEY_CODE_L = "ethanon.system.keyboard.l";
+const std::string AndroidInput::KEY_CODE_M = "ethanon.system.keyboard.m";
+const std::string AndroidInput::KEY_CODE_N = "ethanon.system.keyboard.n";
+const std::string AndroidInput::KEY_CODE_O = "ethanon.system.keyboard.o";
+const std::string AndroidInput::KEY_CODE_P = "ethanon.system.keyboard.p";
+const std::string AndroidInput::KEY_CODE_Q = "ethanon.system.keyboard.q";
+const std::string AndroidInput::KEY_CODE_R = "ethanon.system.keyboard.r";
+const std::string AndroidInput::KEY_CODE_S = "ethanon.system.keyboard.s";
+const std::string AndroidInput::KEY_CODE_T = "ethanon.system.keyboard.t";
+const std::string AndroidInput::KEY_CODE_U = "ethanon.system.keyboard.u";
+const std::string AndroidInput::KEY_CODE_V = "ethanon.system.keyboard.v";
+const std::string AndroidInput::KEY_CODE_X = "ethanon.system.keyboard.x";
+const std::string AndroidInput::KEY_CODE_Y = "ethanon.system.keyboard.y";
+const std::string AndroidInput::KEY_CODE_Z = "ethanon.system.keyboard.z";
+const std::string AndroidInput::KEY_CODE_W = "ethanon.system.keyboard.w";
+const std::string AndroidInput::KEY_CODE_0 = "ethanon.system.keyboard.0";
+const std::string AndroidInput::KEY_CODE_1 = "ethanon.system.keyboard.1";
+const std::string AndroidInput::KEY_CODE_2 = "ethanon.system.keyboard.2";
+const std::string AndroidInput::KEY_CODE_3 = "ethanon.system.keyboard.3";
+const std::string AndroidInput::KEY_CODE_4 = "ethanon.system.keyboard.4";
+const std::string AndroidInput::KEY_CODE_5 = "ethanon.system.keyboard.5";
+const std::string AndroidInput::KEY_CODE_6 = "ethanon.system.keyboard.6";
+const std::string AndroidInput::KEY_CODE_7 = "ethanon.system.keyboard.7";
+const std::string AndroidInput::KEY_CODE_8 = "ethanon.system.keyboard.8";
+const std::string AndroidInput::KEY_CODE_9 = "ethanon.system.keyboard.9";
 
-GS2D_API InputPtr CreateInput(boost::any data, const bool showJoystickWarnings)
+InputPtr CreateInput(const bool showJoystickWarnings, std::string* inputSource)
 {
-	std::string *str;
-	try
-	{
-		str = boost::any_cast<std::string*>(data);
-	}
-	catch(const boost::bad_any_cast &)
-	{
-		return InputPtr();
-	}
-	return InputPtr(new AndroidInput(5, str));
+	return InputPtr(new AndroidInput(5, inputSource));
 }
 
 const std::string AndroidInput::KEY_PRESSED_CMD = "key_pressed ";
@@ -135,9 +106,9 @@ AndroidInput::AndroidInput(const unsigned int maxTouchCount, const std::string *
 	m_keyName[GSK_PAUSE] = "pause";
 }
 
-str_type::string AndroidInput::PullCommands()
+std::string AndroidInput::PullCommands()
 {
-	str_type::string inputCommands;
+	std::string inputCommands;
 	ForwardCommands(inputCommands);
 	return inputCommands;
 }
@@ -326,7 +297,7 @@ void AndroidInput::UpdateJoysticks()
 		const char* joyButtonPressedList = m_joyButtonsPressedList[j].c_str();
 		for (std::size_t b = 0; b < m_joyNumButtons[j]; b++)
 		{
-			str_type::stringstream ss; ss << "b" << b << ";";
+			std::stringstream ss; ss << "b" << b << ";";
 
 			// TO-DO/TODO: optimize it... it's not the fastest way to do it
 			m_joyKeyStates[j][b].Update(strstr(joyButtonPressedList, ss.str().c_str()) != NULL);

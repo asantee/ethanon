@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "ETHScriptObjRegister.h"
 
 #include "../Util/ETHInput.h"
@@ -106,26 +84,26 @@ asDECLARE_METHOD_WRAPPERPR(__addRefFile,  enml::File, AddRef,  (void), void);
 asDECLARE_METHOD_WRAPPERPR(__releaseFile, enml::File, Release, (void), void);
 
 asDECLARE_METHOD_WRAPPERPR(__clearEntity,        enml::Entity, Clear,             (void),                                      void);
-asDECLARE_METHOD_WRAPPERPR(__add,                enml::Entity, Add,               (const str_type::string&, str_type::string), void);
-asDECLARE_METHOD_WRAPPERPR(__getEntity,          enml::Entity, Get,               (const str_type::string&),                   str_type::string);
-asDECLARE_METHOD_WRAPPERPR(__getAttributeNamesE, enml::Entity, GetAttributeNames, (void) const,                                str_type::string);
+asDECLARE_METHOD_WRAPPERPR(__add,                enml::Entity, Add,               (const std::string&, std::string), void);
+asDECLARE_METHOD_WRAPPERPR(__getEntity,          enml::Entity, Get,               (const std::string&),                   std::string);
+asDECLARE_METHOD_WRAPPERPR(__getAttributeNamesE, enml::Entity, GetAttributeNames, (void) const,                                std::string);
 
 asDECLARE_METHOD_WRAPPERPR(__clearFile,         enml::File, Clear,             (void),																	void);
-asDECLARE_METHOD_WRAPPERPR(__addEntity,         enml::File, AddEntity,         (const str_type::string&, const enml::Entity&),							void);
-asDECLARE_METHOD_WRAPPERPR(__generateString,    enml::File, GenerateString,    (void) const,															str_type::string);
-asDECLARE_METHOD_WRAPPERPR(__parseString,       enml::File, ParseString,       (const str_type::string&),												unsigned int);
-asDECLARE_METHOD_WRAPPERPR(__exists,            enml::File, Exists,            (const str_type::string&) const,											bool);
-asDECLARE_METHOD_WRAPPERPR(__getFile,           enml::File, Get,               (const str_type::string&, const str_type::string&) const,				str_type::string);
-asDECLARE_METHOD_WRAPPERPR(__getDouble,         enml::File, GetDouble,         (const str_type::string&, const str_type::string&, double&) const,		bool);
-asDECLARE_METHOD_WRAPPERPR(__getInt,            enml::File, GetInt,            (const str_type::string&, const str_type::string&, int&) const,			bool);
-asDECLARE_METHOD_WRAPPERPR(__getUInt,           enml::File, GetUInt,           (const str_type::string&, const str_type::string&, unsigned int&) const,	bool);
-asDECLARE_METHOD_WRAPPERPR(__getFloat,          enml::File, GetFloat,          (const str_type::string&, const str_type::string&, float&) const,		bool);
-asDECLARE_METHOD_WRAPPERPR(__getErrorString,    enml::File, GetErrorString,    (void) const,															str_type::string);
-asDECLARE_METHOD_WRAPPERPR(__getEntityNames,    enml::File, GetEntityNames,    (void) const,															str_type::string);
-asDECLARE_METHOD_WRAPPERPR(__getAttributeNamesF,enml::File, GetAttributeNames, (const str_type::string&) const,											str_type::string);
-asDECLARE_METHOD_WRAPPERPR(__writeToFile,       enml::File, WriteToFile,       (const str_type::string&) const,											bool);
-asDECLARE_METHOD_WRAPPERPR(__parseFromFile,     enml::File, ParseFromFile,     (const str_type::string&),												bool);
-asDECLARE_METHOD_WRAPPERPR(__addValue,          enml::File, AddValue,          (const str_type::string&, const str_type::string&, const str_type::string&), void);
+asDECLARE_METHOD_WRAPPERPR(__addEntity,         enml::File, AddEntity,         (const std::string&, const enml::Entity&),							void);
+asDECLARE_METHOD_WRAPPERPR(__generateString,    enml::File, GenerateString,    (void) const,															std::string);
+asDECLARE_METHOD_WRAPPERPR(__parseString,       enml::File, ParseString,       (const std::string&),												unsigned int);
+asDECLARE_METHOD_WRAPPERPR(__exists,            enml::File, Exists,            (const std::string&) const,											bool);
+asDECLARE_METHOD_WRAPPERPR(__getFile,           enml::File, Get,               (const std::string&, const std::string&) const,				std::string);
+asDECLARE_METHOD_WRAPPERPR(__getDouble,         enml::File, GetDouble,         (const std::string&, const std::string&, double&) const,		bool);
+asDECLARE_METHOD_WRAPPERPR(__getInt,            enml::File, GetInt,            (const std::string&, const std::string&, int&) const,			bool);
+asDECLARE_METHOD_WRAPPERPR(__getUInt,           enml::File, GetUInt,           (const std::string&, const std::string&, unsigned int&) const,	bool);
+asDECLARE_METHOD_WRAPPERPR(__getFloat,          enml::File, GetFloat,          (const std::string&, const std::string&, float&) const,		bool);
+asDECLARE_METHOD_WRAPPERPR(__getErrorString,    enml::File, GetErrorString,    (void) const,															std::string);
+asDECLARE_METHOD_WRAPPERPR(__getEntityNames,    enml::File, GetEntityNames,    (void) const,															std::string);
+asDECLARE_METHOD_WRAPPERPR(__getAttributeNamesF,enml::File, GetAttributeNames, (const std::string&) const,											std::string);
+asDECLARE_METHOD_WRAPPERPR(__writeToFile,       enml::File, WriteToFile,       (const std::string&) const,											bool);
+asDECLARE_METHOD_WRAPPERPR(__parseFromFile,     enml::File, ParseFromFile,     (const std::string&),												bool);
+asDECLARE_METHOD_WRAPPERPR(__addValue,          enml::File, AddValue,          (const std::string&, const std::string&, const std::string&), void);
 
 asDECLARE_FUNCTION_WRAPPER(__GetStringFromFile, enml::GetStringFromAnsiFile);
 asDECLARE_FUNCTION_WRAPPER(__SaveStringToFile,  enml::SaveStringToAnsiFile);
@@ -196,15 +174,15 @@ static void JSONObjectCopyConstructor_Generic(asIScriptGeneric *gen)
 	JSONObjectCopyConstructor(*other, self);
 }
 
-asDECLARE_METHOD_WRAPPERPR(__ParseJSON,        JSONObject, Parse,             (const str_type::string&),                   bool);
-asDECLARE_METHOD_WRAPPERPR(__GetErrorJSON,     JSONObject, GetError,          (void) const,                                str_type::string);
+asDECLARE_METHOD_WRAPPERPR(__ParseJSON,        JSONObject, Parse,             (const std::string&),                   bool);
+asDECLARE_METHOD_WRAPPERPR(__GetErrorJSON,     JSONObject, GetError,          (void) const,                                std::string);
 asDECLARE_METHOD_WRAPPERPR(__GetNext,          JSONObject, GetNext,           (void),                                      JSONObject);
 asDECLARE_METHOD_WRAPPERPR(__GetPrev,          JSONObject, GetPrev,           (void),                                      JSONObject);
 asDECLARE_METHOD_WRAPPERPR(__GetChild,         JSONObject, GetChild,          (void),                                      JSONObject);
 
-asDECLARE_METHOD_WRAPPERPR(__GetObjectItem,    JSONObject, GetObjectItem,     (const str_type::string&) const,             JSONObject);
+asDECLARE_METHOD_WRAPPERPR(__GetObjectItem,    JSONObject, GetObjectItem,     (const std::string&) const,             JSONObject);
 
-asDECLARE_METHOD_WRAPPERPR(__GetStringValue,   JSONObject, GetStringValue,    (void) const,                                str_type::string);
+asDECLARE_METHOD_WRAPPERPR(__GetStringValue,   JSONObject, GetStringValue,    (void) const,                                std::string);
 asDECLARE_METHOD_WRAPPERPR(__GetDoubleValue,   JSONObject, GetDoubleValue,    (void) const,                                double);
 
 asDECLARE_METHOD_WRAPPERPR(__IsInvalid,        JSONObject, IsInvalid,         (void) const,                                bool)
@@ -310,23 +288,19 @@ asDECLARE_METHOD_WRAPPERPR(__SetAngle,         ETHScriptEntity, SetAngle,       
 asDECLARE_METHOD_WRAPPERPR(__IsStatic,         ETHScriptEntity, IsStatic,         (void) const,  bool);
 
 asDECLARE_METHOD_WRAPPERPR(__GetCollisionBox,        ETHScriptEntity, GetCollisionBox,        (void) const,                    ETHCollisionBox);
-asDECLARE_METHOD_WRAPPERPR(__GetEntityName,          ETHScriptEntity, GetEntityName,          (void) const,                    str_type::string);
+asDECLARE_METHOD_WRAPPERPR(__GetEntityName,          ETHScriptEntity, GetEntityName,          (void) const,                    std::string);
 asDECLARE_METHOD_WRAPPERPR(__Collidable,             ETHScriptEntity, IsCollidable,           (void) const,                    bool);
-asDECLARE_METHOD_WRAPPERPR(__CheckCustomData,        ETHScriptEntity, CheckCustomData,        (const str_type::string&) const, ETHCustomData::DATA_TYPE);
+asDECLARE_METHOD_WRAPPERPR(__CheckCustomData,        ETHScriptEntity, CheckCustomData,        (const std::string&) const, ETHCustomData::DATA_TYPE);
 asDECLARE_METHOD_WRAPPERPR(__HasCustomData,          ETHScriptEntity, HasCustomData,          (void) const,                    bool);
 asDECLARE_METHOD_WRAPPERPR(__DebugPrintCustomData,   ETHScriptEntity, DebugPrintCustomData,   (void) const,                    void);
 asDECLARE_METHOD_WRAPPERPR(__GetNumFrames,           ETHScriptEntity, GetNumFrames,           (void) const,                    unsigned int);
 asDECLARE_METHOD_WRAPPERPR(__GetType,                ETHScriptEntity, GetType,                (void) const,                    ETHEntityProperties::ENTITY_TYPE);
 asDECLARE_METHOD_WRAPPERPR(__ComputeParallaxOffset,  ETHScriptEntity, ComputeParallaxOffset,  (void) const,                    Vector2);
 
-asDECLARE_METHOD_WRAPPERPR(__SetSprite,          ETHScriptEntity, SetSprite,           (const str_type::string&), bool);
-asDECLARE_METHOD_WRAPPERPR(__SetNormal,          ETHScriptEntity, SetNormal,           (const str_type::string&), bool);
-asDECLARE_METHOD_WRAPPERPR(__SetGloss,           ETHScriptEntity, SetGloss,            (const str_type::string&), bool);
-asDECLARE_METHOD_WRAPPERPR(__SetHalo,            ETHScriptEntity, SetHalo,             (const str_type::string&), bool);
-asDECLARE_METHOD_WRAPPERPR(__GetSpriteBitmap,    ETHScriptEntity, GetSpriteName,       (void) const, str_type::string);
-asDECLARE_METHOD_WRAPPERPR(__GetNormalBitmap,    ETHScriptEntity, GetNormalName,       (void) const, str_type::string);
-asDECLARE_METHOD_WRAPPERPR(__GetGlossBitmap,     ETHScriptEntity, GetGlossName,        (void) const, str_type::string);
-asDECLARE_METHOD_WRAPPERPR(__GetHaloBitmap,      ETHScriptEntity, GetHaloName,         (void) const, str_type::string);
+asDECLARE_METHOD_WRAPPERPR(__SetSprite,          ETHScriptEntity, SetSprite,           (const std::string&), bool);
+asDECLARE_METHOD_WRAPPERPR(__SetHalo,            ETHScriptEntity, SetHalo,             (const std::string&), bool);
+asDECLARE_METHOD_WRAPPERPR(__GetSpriteBitmap,    ETHScriptEntity, GetSpriteName,       (void) const, std::string);
+asDECLARE_METHOD_WRAPPERPR(__GetHaloBitmap,      ETHScriptEntity, GetHaloName,         (void) const, std::string);
 
 asDECLARE_METHOD_WRAPPERPR(__IsInvisible,        ETHScriptEntity, IsInvisible,         (void) const,              bool);
 asDECLARE_METHOD_WRAPPERPR(__HasParticleSystem0, ETHScriptEntity, HasParticleSystem,   (void) const,              bool);
@@ -347,7 +321,7 @@ asDECLARE_METHOD_WRAPPERPR(__GetParallaxIntensity, ETHScriptEntity, GetParallaxI
 
 asDECLARE_METHOD_WRAPPERPR(__KillParticleSystem, ETHScriptEntity, KillParticleSystem, (const unsigned int),       void);
 asDECLARE_METHOD_WRAPPERPR(__ParticlesKilled,    ETHScriptEntity, ParticlesKilled,    (const unsigned int) const, bool);
-asDECLARE_METHOD_WRAPPERPR(__EraseData,          ETHScriptEntity, EraseData,          (const str_type::string&),  bool);
+asDECLARE_METHOD_WRAPPERPR(__EraseData,          ETHScriptEntity, EraseData,          (const std::string&),  bool);
 asDECLARE_METHOD_WRAPPERPR(__SetColor,           ETHScriptEntity, SetColor,           (const Vector3&),           void);
 asDECLARE_METHOD_WRAPPERPR(__SetAlpha,           ETHScriptEntity, SetAlpha,           (const float),              void);
 asDECLARE_METHOD_WRAPPERPR(__GetColor,           ETHScriptEntity, GetColor,           (void) const,               Vector3);
@@ -355,10 +329,7 @@ asDECLARE_METHOD_WRAPPERPR(__GetAlpha,           ETHScriptEntity, GetAlpha,     
 asDECLARE_METHOD_WRAPPERPR(__IsAlive,            ETHScriptEntity, IsAlive,            (void) const,               bool);
 asDECLARE_METHOD_WRAPPERPR(__IsHidden,           ETHScriptEntity, IsHidden,           (void) const,               bool);
 asDECLARE_METHOD_WRAPPERPR(__Hide,               ETHScriptEntity, Hide,               (const bool),               void);
-asDECLARE_METHOD_WRAPPERPR(__GetShadowZ,         ETHScriptEntity, GetShadowZ,         (void) const,               float);
-asDECLARE_METHOD_WRAPPERPR(__SetShadowZ,         ETHScriptEntity, SetShadowZ,         (const float),              void);
 asDECLARE_METHOD_WRAPPERPR(__AreParticlesOver,   ETHScriptEntity, AreParticlesOver,   (void) const,               bool);
-asDECLARE_METHOD_WRAPPERPR(__HasShadow,          ETHScriptEntity, HasShadow,          (void) const,               bool);
 asDECLARE_METHOD_WRAPPERPR(__HasHalo,            ETHScriptEntity, HasHalo,            (void) const,               bool);
 asDECLARE_METHOD_WRAPPERPR(__SetPivotAdjust,     ETHScriptEntity, SetPivotAdjust,     (const Vector2&),           void);
 asDECLARE_METHOD_WRAPPERPR(__GetPivotAdjust,     ETHScriptEntity, GetPivotAdjust,     (void) const,               Vector2);
@@ -374,32 +345,32 @@ asDECLARE_METHOD_WRAPPERPR(__AddToAngle,            ETHScriptEntity, AddToAngle,
 asDECLARE_METHOD_WRAPPERPR(__SetSpriteCut,          ETHScriptEntity, SetSpriteCut,          (const unsigned int col, const unsigned int row), bool);
 asDECLARE_METHOD_WRAPPERPR(__GetSpriteCut,          ETHScriptEntity, GetSpriteCut,          (void) const,                                     Vector2);
 asDECLARE_METHOD_WRAPPERPR(__SetParticlePosition,   ETHScriptEntity, SetParticlePosition,   (const unsigned int n, const Vector3&),           void);
-asDECLARE_METHOD_WRAPPERPR(__SetParticleBitmap,     ETHScriptEntity, SetParticleBitmap,     (const unsigned int n, const str_type::string&),  void);
+asDECLARE_METHOD_WRAPPERPR(__SetParticleBitmap,     ETHScriptEntity, SetParticleBitmap,     (const unsigned int n, const std::string&),  void);
 asDECLARE_METHOD_WRAPPERPR(__ScaleParticleSystem,   ETHScriptEntity, ScaleParticleSystem,   (const unsigned int n, const float),              void);
 asDECLARE_METHOD_WRAPPERPR(__MirrorParticleSystemX, ETHScriptEntity, MirrorParticleSystemX, (const unsigned int n, const bool),               bool);
 asDECLARE_METHOD_WRAPPERPR(__MirrorParticleSystemY, ETHScriptEntity, MirrorParticleSystemY, (const unsigned int n, const bool),               bool);
 asDECLARE_METHOD_WRAPPERPR(__SetParticleColorA,     ETHScriptEntity, SetParticleColorA,     (const unsigned int n, const Vector3&, const float),               void);
 asDECLARE_METHOD_WRAPPERPR(__SetParticleColorB,     ETHScriptEntity, SetParticleColorB,     (const unsigned int n, const Vector3&, const float),               void);
 
-asDECLARE_METHOD_WRAPPERPR(__SetFloat,   ETHScriptEntity, SetFloat,   (const str_type::string&, const float&),            bool);
-asDECLARE_METHOD_WRAPPERPR(__SetInt,     ETHScriptEntity, SetInt,     (const str_type::string&, const int&),              bool);
-asDECLARE_METHOD_WRAPPERPR(__SetUInt,    ETHScriptEntity, SetUInt,    (const str_type::string&, const unsigned int&),     bool);
-asDECLARE_METHOD_WRAPPERPR(__SetString,  ETHScriptEntity, SetString,  (const str_type::string&, const str_type::string&), bool);
-asDECLARE_METHOD_WRAPPERPR(__SetVector2, ETHScriptEntity, SetVector2, (const str_type::string&, const Vector2&),          bool);
-asDECLARE_METHOD_WRAPPERPR(__SetVector3, ETHScriptEntity, SetVector3, (const str_type::string&, const Vector3&),          bool);
-asDECLARE_METHOD_WRAPPERPR(__GetFloat,   ETHScriptEntity, GetFloat,   (const str_type::string&) const,                    float);
-asDECLARE_METHOD_WRAPPERPR(__GetInt,     ETHScriptEntity, GetInt,     (const str_type::string&) const,                    int);
-asDECLARE_METHOD_WRAPPERPR(__GetUInt,    ETHScriptEntity, GetUInt,    (const str_type::string&) const,                    unsigned int);
-asDECLARE_METHOD_WRAPPERPR(__GetString,  ETHScriptEntity, GetString,  (const str_type::string&) const,                    str_type::string);
-asDECLARE_METHOD_WRAPPERPR(__GetVector2, ETHScriptEntity, GetVector2, (const str_type::string&) const,                    Vector2);
-asDECLARE_METHOD_WRAPPERPR(__GetVector3, ETHScriptEntity, GetVector3, (const str_type::string&) const,                    Vector3);
+asDECLARE_METHOD_WRAPPERPR(__SetFloat,   ETHScriptEntity, SetFloat,   (const std::string&, const float&),            bool);
+asDECLARE_METHOD_WRAPPERPR(__SetInt,     ETHScriptEntity, SetInt,     (const std::string&, const int&),              bool);
+asDECLARE_METHOD_WRAPPERPR(__SetUInt,    ETHScriptEntity, SetUInt,    (const std::string&, const unsigned int&),     bool);
+asDECLARE_METHOD_WRAPPERPR(__SetString,  ETHScriptEntity, SetString,  (const std::string&, const std::string&), bool);
+asDECLARE_METHOD_WRAPPERPR(__SetVector2, ETHScriptEntity, SetVector2, (const std::string&, const Vector2&),          bool);
+asDECLARE_METHOD_WRAPPERPR(__SetVector3, ETHScriptEntity, SetVector3, (const std::string&, const Vector3&),          bool);
+asDECLARE_METHOD_WRAPPERPR(__GetFloat,   ETHScriptEntity, GetFloat,   (const std::string&) const,                    float);
+asDECLARE_METHOD_WRAPPERPR(__GetInt,     ETHScriptEntity, GetInt,     (const std::string&) const,                    int);
+asDECLARE_METHOD_WRAPPERPR(__GetUInt,    ETHScriptEntity, GetUInt,    (const std::string&) const,                    unsigned int);
+asDECLARE_METHOD_WRAPPERPR(__GetString,  ETHScriptEntity, GetString,  (const std::string&) const,                    std::string);
+asDECLARE_METHOD_WRAPPERPR(__GetVector2, ETHScriptEntity, GetVector2, (const std::string&) const,                    Vector2);
+asDECLARE_METHOD_WRAPPERPR(__GetVector3, ETHScriptEntity, GetVector3, (const std::string&) const,                    Vector3);
 
-asDECLARE_METHOD_WRAPPERPR(__GetFloatEx,   ETHScriptEntity, GetFloat,   (const str_type::string&, const float)             const,                    float);
-asDECLARE_METHOD_WRAPPERPR(__GetIntEx,     ETHScriptEntity, GetInt,     (const str_type::string&, const int)               const,                    int);
-asDECLARE_METHOD_WRAPPERPR(__GetUIntEx,    ETHScriptEntity, GetUInt,    (const str_type::string&, const unsigned int)      const,                    unsigned int);
-asDECLARE_METHOD_WRAPPERPR(__GetStringEx,  ETHScriptEntity, GetString,  (const str_type::string&, const str_type::string&) const,                    str_type::string);
-asDECLARE_METHOD_WRAPPERPR(__GetVector2Ex, ETHScriptEntity, GetVector2, (const str_type::string&, const Vector2&)          const,                    Vector2);
-asDECLARE_METHOD_WRAPPERPR(__GetVector3Ex, ETHScriptEntity, GetVector3, (const str_type::string&, const Vector3&)          const,                    Vector3);
+asDECLARE_METHOD_WRAPPERPR(__GetFloatEx,   ETHScriptEntity, GetFloat,   (const std::string&, const float)             const,                    float);
+asDECLARE_METHOD_WRAPPERPR(__GetIntEx,     ETHScriptEntity, GetInt,     (const std::string&, const int)               const,                    int);
+asDECLARE_METHOD_WRAPPERPR(__GetUIntEx,    ETHScriptEntity, GetUInt,    (const std::string&, const unsigned int)      const,                    unsigned int);
+asDECLARE_METHOD_WRAPPERPR(__GetStringEx,  ETHScriptEntity, GetString,  (const std::string&, const std::string&) const,                    std::string);
+asDECLARE_METHOD_WRAPPERPR(__GetVector2Ex, ETHScriptEntity, GetVector2, (const std::string&, const Vector2&)          const,                    Vector2);
+asDECLARE_METHOD_WRAPPERPR(__GetVector3Ex, ETHScriptEntity, GetVector3, (const std::string&, const Vector3&)          const,                    Vector3);
 
 asDECLARE_METHOD_WRAPPERPR(__GetFlipX, ETHScriptEntity, GetFlipX, (void) const, bool);
 asDECLARE_METHOD_WRAPPERPR(__GetFlipY, ETHScriptEntity, GetFlipY, (void) const, bool);
@@ -409,7 +380,7 @@ asDECLARE_METHOD_WRAPPERPR(__SetFlipY, ETHScriptEntity, SetFlipY, (const bool), 
 void __SetObject(asIScriptGeneric *gen)
 {
 	ETHScriptEntity *entity = (ETHScriptEntity*)gen->GetObject();
-	str_type::string *key = *(str_type::string**)gen->GetAddressOfArg(0);
+	std::string *key = *(std::string**)gen->GetAddressOfArg(0);
 	void *ref = *(void**)gen->GetAddressOfArg(1);
 	int typeId = gen->GetArgTypeId(1);
 	entity->SetAngelScriptObject(*key, ref, typeId);
@@ -418,22 +389,22 @@ void __SetObject(asIScriptGeneric *gen)
 void __GetObject(asIScriptGeneric *gen)
 {
 	ETHScriptEntity *entity = (ETHScriptEntity*)gen->GetObject();
-	str_type::string *key = *(str_type::string**)gen->GetAddressOfArg(0);
+	std::string *key = *(std::string**)gen->GetAddressOfArg(0);
 	void *ref = *(void**)gen->GetAddressOfArg(1);
 	int typeId = gen->GetArgTypeId(1);
 	*(bool*)gen->GetAddressOfReturnLocation() = entity->GetAngelScriptObject(*key, ref, typeId);
 }
 
-asDECLARE_METHOD_WRAPPERPR(__AddToFloat,      ETHScriptEntity, AddToFloat,      (const str_type::string&, const float&),        float);
-asDECLARE_METHOD_WRAPPERPR(__AddToInt,        ETHScriptEntity, AddToInt,        (const str_type::string&, const int&),          int);
-asDECLARE_METHOD_WRAPPERPR(__AddToUInt,       ETHScriptEntity, AddToUInt,       (const str_type::string&, const unsigned int&), unsigned int);
-asDECLARE_METHOD_WRAPPERPR(__AddToVector2,    ETHScriptEntity, AddToVector2,    (const str_type::string&, const Vector2&),      Vector2);
-asDECLARE_METHOD_WRAPPERPR(__AddToVector3,    ETHScriptEntity, AddToVector3,    (const str_type::string&, const Vector3&),      Vector3);
-asDECLARE_METHOD_WRAPPERPR(__MultiplyFloat,   ETHScriptEntity, MultiplyFloat,   (const str_type::string&, const float&),        float);
-asDECLARE_METHOD_WRAPPERPR(__MultiplyInt,     ETHScriptEntity, MultiplyInt,     (const str_type::string&, const int&),          int);
-asDECLARE_METHOD_WRAPPERPR(__MultiplyUInt,    ETHScriptEntity, MultiplyUInt,    (const str_type::string&, const unsigned int&), unsigned int);
-asDECLARE_METHOD_WRAPPERPR(__MultiplyVector2, ETHScriptEntity, MultiplyVector2, (const str_type::string&, const float&),        Vector2);
-asDECLARE_METHOD_WRAPPERPR(__MultiplyVector3, ETHScriptEntity, MultiplyVector3, (const str_type::string&, const float&),        Vector3);
+asDECLARE_METHOD_WRAPPERPR(__AddToFloat,      ETHScriptEntity, AddToFloat,      (const std::string&, const float&),        float);
+asDECLARE_METHOD_WRAPPERPR(__AddToInt,        ETHScriptEntity, AddToInt,        (const std::string&, const int&),          int);
+asDECLARE_METHOD_WRAPPERPR(__AddToUInt,       ETHScriptEntity, AddToUInt,       (const std::string&, const unsigned int&), unsigned int);
+asDECLARE_METHOD_WRAPPERPR(__AddToVector2,    ETHScriptEntity, AddToVector2,    (const std::string&, const Vector2&),      Vector2);
+asDECLARE_METHOD_WRAPPERPR(__AddToVector3,    ETHScriptEntity, AddToVector3,    (const std::string&, const Vector3&),      Vector3);
+asDECLARE_METHOD_WRAPPERPR(__MultiplyFloat,   ETHScriptEntity, MultiplyFloat,   (const std::string&, const float&),        float);
+asDECLARE_METHOD_WRAPPERPR(__MultiplyInt,     ETHScriptEntity, MultiplyInt,     (const std::string&, const int&),          int);
+asDECLARE_METHOD_WRAPPERPR(__MultiplyUInt,    ETHScriptEntity, MultiplyUInt,    (const std::string&, const unsigned int&), unsigned int);
+asDECLARE_METHOD_WRAPPERPR(__MultiplyVector2, ETHScriptEntity, MultiplyVector2, (const std::string&, const float&),        Vector2);
+asDECLARE_METHOD_WRAPPERPR(__MultiplyVector3, ETHScriptEntity, MultiplyVector3, (const std::string&, const float&),        Vector3);
 
 asDECLARE_METHOD_WRAPPERPR(__SetScale, ETHScriptEntity, SetScale, (const Vector2&), void);
 asDECLARE_METHOD_WRAPPERPR(__ScaleV2,  ETHScriptEntity, Scale,    (const Vector2&), void);
@@ -475,12 +446,8 @@ void RegisterEntityMethods(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector2 ComputeParallaxOffset() const",             asFUNCTION(__ComputeParallaxOffset),  asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool SetSprite(const string &in)",         asFUNCTION(__SetSprite),          asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool SetNormal(const string &in)",         asFUNCTION(__SetNormal),          asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool SetGloss(const string &in)",          asFUNCTION(__SetGloss),           asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool SetHalo(const string &in)",           asFUNCTION(__SetHalo),            asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "string GetSprite() const",                 asFUNCTION(__GetSpriteBitmap),    asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "string GetNormal() const",                 asFUNCTION(__GetNormalBitmap),    asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "string GetGloss() const",                  asFUNCTION(__GetGlossBitmap),     asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "string GetHalo() const",                   asFUNCTION(__GetHaloBitmap),      asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool IsInvisible() const",                 asFUNCTION(__IsInvisible),          asCALL_GENERIC); assert(r >= 0);
@@ -514,10 +481,7 @@ void RegisterEntityMethods(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool IsAlive() const",                   asFUNCTION(__IsAlive),            asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool IsHidden() const",                  asFUNCTION(__IsHidden),           asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void Hide(const bool)",                  asFUNCTION(__Hide),               asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "float GetShadowZ() const",               asFUNCTION(__GetShadowZ),         asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetShadowZ(const float)",           asFUNCTION(__SetShadowZ),         asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool AreParticlesOver() const",          asFUNCTION(__AreParticlesOver),   asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool HasShadow() const",                 asFUNCTION(__HasShadow),          asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "bool HasHalo() const",                   asFUNCTION(__HasHalo),            asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetPivotAdjust(const vector2& in)", asFUNCTION(__SetPivotAdjust),     asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector2 GetPivotAdjust() const",         asFUNCTION(__GetPivotAdjust),     asCALL_GENERIC); assert(r >= 0);
@@ -598,12 +562,12 @@ void RegisterCollisionMethods(asIScriptEngine *pASEngine)
 asDECLARE_FUNCTION_OBJ_WRAPPER(__Matrix4x4DefaultConstructor, Matrix4x4DefaultConstructor, false);
 asDECLARE_FUNCTION_OBJ_WRAPPER(__Matrix4x4CopyConstructor,    Matrix4x4CopyConstructor,    false);
 
-asDECLARE_FUNCTION_WRAPPER(__scale,      Scale);
-asDECLARE_FUNCTION_WRAPPER(__translate,  Translate);
-asDECLARE_FUNCTION_WRAPPER(__rotateX,    RotateX);
-asDECLARE_FUNCTION_WRAPPER(__rotateY,    RotateY);
-asDECLARE_FUNCTION_WRAPPER(__rotateZ,    RotateZ);
-asDECLARE_FUNCTION_WRAPPERPR(__multiply, Multiply, (const Matrix4x4&, const Matrix4x4&), Matrix4x4);
+asDECLARE_FUNCTION_WRAPPER(__scale,      Matrix4x4::Scale);
+asDECLARE_FUNCTION_WRAPPER(__translate,  Matrix4x4::Translate);
+asDECLARE_FUNCTION_WRAPPER(__rotateX,    Matrix4x4::RotateX);
+asDECLARE_FUNCTION_WRAPPER(__rotateY,    Matrix4x4::RotateY);
+asDECLARE_FUNCTION_WRAPPER(__rotateZ,    Matrix4x4::RotateZ);
+asDECLARE_FUNCTION_WRAPPERPR(__multiply, Matrix4x4::Multiply, (const Matrix4x4&, const Matrix4x4&), Matrix4x4);
 
 static void __Matrix4x4Getter(asIScriptGeneric *gen)
 {
@@ -616,7 +580,7 @@ static void __Matrix4x4Getter(asIScriptGeneric *gen)
 
 asDECLARE_FUNCTION_OBJ_WRAPPERPR(__Matrix4x4Setter, Matrix4x4Setter, false, (const unsigned int i, const unsigned int j, const float value, Matrix4x4 *p), void);
 
-asDECLARE_FUNCTION_WRAPPER(__GetAngle, GetAngle);
+asDECLARE_FUNCTION_WRAPPER(__GetAngle, Vector2::GetAngle);
 
 void RegisterMathFunctionsAndMethods(asIScriptEngine *pASEngine)
 {
@@ -645,13 +609,13 @@ asDECLARE_FUNCTION_WRAPPER(__DateTimeFactory, DateTimeFactory);
 asDECLARE_METHOD_WRAPPERPR(__addRefDateTime,  ETHDateTime, AddRef,  (void), void);
 asDECLARE_METHOD_WRAPPERPR(__releaseDateTime, ETHDateTime, Release, (void), void);
 
-asDECLARE_METHOD_WRAPPERPR(__update,     ETHDateTime, Update,     (void),       unsigned int);
-asDECLARE_METHOD_WRAPPERPR(__getDay,     ETHDateTime, GetDay,     (void) const, unsigned int);
-asDECLARE_METHOD_WRAPPERPR(__getMonth,   ETHDateTime, GetMonth,   (void) const, unsigned int);
-asDECLARE_METHOD_WRAPPERPR(__getYear,    ETHDateTime, GetYear,    (void) const, unsigned int);
-asDECLARE_METHOD_WRAPPERPR(__getHours,   ETHDateTime, GetHours,   (void) const, unsigned int);
-asDECLARE_METHOD_WRAPPERPR(__getMinutes, ETHDateTime, GetMinutes, (void) const, unsigned int);
-asDECLARE_METHOD_WRAPPERPR(__getSeconds, ETHDateTime, GetSeconds, (void) const, unsigned int);
+asDECLARE_METHOD_WRAPPERPR(__update,     ETHDateTime, Update,     (void),       void);
+asDECLARE_METHOD_WRAPPERPR(__getDay,     ETHDateTime, GetDay,     (void) const, int64_t);
+asDECLARE_METHOD_WRAPPERPR(__getMonth,   ETHDateTime, GetMonth,   (void) const, int64_t);
+asDECLARE_METHOD_WRAPPERPR(__getYear,    ETHDateTime, GetYear,    (void) const, int64_t);
+asDECLARE_METHOD_WRAPPERPR(__getHours,   ETHDateTime, GetHours,   (void) const, int64_t);
+asDECLARE_METHOD_WRAPPERPR(__getMinutes, ETHDateTime, GetMinutes, (void) const, int64_t);
+asDECLARE_METHOD_WRAPPERPR(__getSeconds, ETHDateTime, GetSeconds, (void) const, int64_t);
 
 void RegisterDateTimeMethods(asIScriptEngine *pASEngine)
 {
@@ -660,13 +624,13 @@ void RegisterDateTimeMethods(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterObjectBehaviour("dateTime", asBEHAVE_ADDREF,  "void f()",      asFUNCTION(__addRefDateTime),  asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectBehaviour("dateTime", asBEHAVE_RELEASE, "void f()",      asFUNCTION(__releaseDateTime), asCALL_GENERIC); assert(r >= 0);
  
-	r = pASEngine->RegisterObjectMethod("dateTime", "uint update()",           asFUNCTION(__update),     asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("dateTime", "uint getDay() const",     asFUNCTION(__getDay),     asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("dateTime", "uint getMonth() const",   asFUNCTION(__getMonth),   asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("dateTime", "uint getYear() const",    asFUNCTION(__getYear),    asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("dateTime", "uint getHours() const",   asFUNCTION(__getHours),   asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("dateTime", "uint getMinutes() const", asFUNCTION(__getMinutes), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterObjectMethod("dateTime", "uint getSeconds() const", asFUNCTION(__getSeconds), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("dateTime", "void update()",           asFUNCTION(__update),     asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("dateTime", "int64 getDay() const",     asFUNCTION(__getDay),     asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("dateTime", "int64 getMonth() const",   asFUNCTION(__getMonth),   asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("dateTime", "int64 getYear() const",    asFUNCTION(__getYear),    asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("dateTime", "int64 getHours() const",   asFUNCTION(__getHours),   asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("dateTime", "int64 getMinutes() const", asFUNCTION(__getMinutes), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("dateTime", "int64 getSeconds() const", asFUNCTION(__getSeconds), asCALL_GENERIC); assert(r >= 0);
 }
 
 asDECLARE_METHOD_WRAPPERPR(__AddRefPC,  ETHPhysicsController, AddRef,  (void), void);

@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "ETHScriptWrapper.h"
 #include "../../addons/aswrappedcall.h"
 #include "../Entity/ETHRenderEntity.h"
@@ -49,7 +27,7 @@ asDECLARE_FUNCTION_OBJ_WRAPPER(__AddToPositionZ,      ETHScriptWrapper::AddToPos
 asDECLARE_FUNCTION_OBJ_WRAPPER(__PlayParticleSystem,  ETHScriptWrapper::PlayParticleSystem, true);
 asDECLARE_FUNCTION_OBJ_WRAPPER(__ResolveEntityJoints, ETHScriptWrapper::ResolveEntityJoints, true);
 
-asDECLARE_FUNCTION_WRAPPERPR(__SeekEntityStr,   ETHScriptWrapper::SeekEntity, (const str_type::string&), ETHEntity *);
+asDECLARE_FUNCTION_WRAPPERPR(__SeekEntityStr,   ETHScriptWrapper::SeekEntity, (const std::string&), ETHEntity *);
 asDECLARE_FUNCTION_WRAPPERPR(__SeekEntityInt,   ETHScriptWrapper::SeekEntity, (const int), ETHEntity *);
 
 asDECLARE_FUNCTION_WRAPPER(__Print,      ETHScriptWrapper::Print);
@@ -57,14 +35,16 @@ asDECLARE_FUNCTION_WRAPPER(__PrintFloat, ETHScriptWrapper::PrintFloat);
 asDECLARE_FUNCTION_WRAPPER(__PrintInt,   ETHScriptWrapper::PrintInt);
 asDECLARE_FUNCTION_WRAPPER(__PrintUInt,  ETHScriptWrapper::PrintUInt);
 
-asDECLARE_FUNCTION_WRAPPERPR(__LoadScene1Arg,      ETHScriptWrapper::LoadSceneInScript, (const str_type::string&), void);
-asDECLARE_FUNCTION_WRAPPERPR(__LoadSceneSSSArgs,   ETHScriptWrapper::LoadSceneInScript, (const str_type::string&, const str_type::string&, const str_type::string&), void);
-asDECLARE_FUNCTION_WRAPPERPR(__LoadSceneSSSSArgs,  ETHScriptWrapper::LoadSceneInScript, (const str_type::string&, const str_type::string&, const str_type::string&, const str_type::string&), void);
-asDECLARE_FUNCTION_WRAPPERPR(__LoadSceneSSSVArgs,  ETHScriptWrapper::LoadSceneInScript, (const str_type::string&, const str_type::string&, const str_type::string&, const Vector2&), void);
-asDECLARE_FUNCTION_WRAPPERPR(__LoadSceneSSSSVArgs, ETHScriptWrapper::LoadSceneInScript, (const str_type::string&, const str_type::string&, const str_type::string&, const str_type::string&, const Vector2&), void);
-asDECLARE_FUNCTION_WRAPPERPR(__LoadSceneSSSSSVArgs, ETHScriptWrapper::LoadSceneInScript, (const str_type::string&, const str_type::string&, const str_type::string&, const str_type::string&, const str_type::string&, const Vector2&), void);
+asDECLARE_FUNCTION_WRAPPERPR(__LoadLightmaps,      ETHScriptWrapper::LoadLightmaps,     (const std::string&), void);
+asDECLARE_FUNCTION_WRAPPERPR(__LoadScene1Arg,      ETHScriptWrapper::LoadSceneInScript, (const std::string&), void);
+asDECLARE_FUNCTION_WRAPPERPR(__LoadSceneSSSArgs,   ETHScriptWrapper::LoadSceneInScript, (const std::string&, const std::string&, const std::string&), void);
+asDECLARE_FUNCTION_WRAPPERPR(__LoadSceneSSSSArgs,  ETHScriptWrapper::LoadSceneInScript, (const std::string&, const std::string&, const std::string&, const std::string&), void);
+asDECLARE_FUNCTION_WRAPPERPR(__LoadSceneSSSVArgs,  ETHScriptWrapper::LoadSceneInScript, (const std::string&, const std::string&, const std::string&, const Vector2&), void);
+asDECLARE_FUNCTION_WRAPPERPR(__LoadSceneSSSSVArgs, ETHScriptWrapper::LoadSceneInScript, (const std::string&, const std::string&, const std::string&, const std::string&, const Vector2&), void);
+asDECLARE_FUNCTION_WRAPPERPR(__LoadSceneSSSSSVArgs, ETHScriptWrapper::LoadSceneInScript, (const std::string&, const std::string&, const std::string&, const std::string&, const std::string&, const Vector2&), void);
 
 asDECLARE_FUNCTION_WRAPPER(__AddScene, ETHScriptWrapper::AddSceneInScript);
+asDECLARE_FUNCTION_WRAPPER(__AddSceneFromString, ETHScriptWrapper::AddSceneFromString);
 
 asDECLARE_FUNCTION_WRAPPER(__SaveScene, ETHScriptWrapper::SaveScene);
 
@@ -75,16 +55,12 @@ asDECLARE_FUNCTION_WRAPPER(__Exit,           ETHScriptWrapper::Exit);
 asDECLARE_FUNCTION_WRAPPER(__GetLastFrameElapsedTime,  ETHScriptWrapper::GetLastFrameElapsedTime);
 asDECLARE_FUNCTION_WRAPPER(__GetLastFrameElapsedTimeF, ETHScriptWrapper::GetLastFrameElapsedTimeF);
 
-asDECLARE_FUNCTION_WRAPPERPR(__AddEntityA, ETHScriptWrapper::AddEntity,       (const str_type::string&, const Vector3&, const float), int);
-asDECLARE_FUNCTION_WRAPPERPR(__AddEntityR, ETHScriptWrapper::AddEntity,       (const str_type::string&, const Vector3&, ETHEntity**), int);
-asDECLARE_FUNCTION_WRAPPERPR(__AddEntityN, ETHScriptWrapper::AddEntity,       (const str_type::string&, const Vector3&, const str_type::string&), int);
-asDECLARE_FUNCTION_WRAPPERPR(__AddEntityS, ETHScriptWrapper::AddScaledEntity, (const str_type::string&, const Vector3&, const float), int);
-asDECLARE_FUNCTION_WRAPPERPR(__AddEntitySR,ETHScriptWrapper::AddScaledEntity, (const str_type::string&, const Vector3&, const float, ETHEntity**), int);
-asDECLARE_FUNCTION_WRAPPERPR(__AddEntityF, ETHScriptWrapper::AddEntity,       (const str_type::string&, const Vector3&, const float, ETHEntity**, const str_type::string&, const float), int);
-
-//asDECLARE_FUNCTION_WRAPPER(__DeleteEntity,      ETHScriptWrapper::DeleteEntity);
-asDECLARE_FUNCTION_WRAPPER(__GenerateLightmaps, ETHScriptWrapper::GenerateLightmaps);
-asDECLARE_FUNCTION_WRAPPER(__AddLight,   ETHScriptWrapper::AddLight);
+asDECLARE_FUNCTION_WRAPPERPR(__AddEntityA, ETHScriptWrapper::AddEntity,       (const std::string&, const Vector3&, const float), int);
+asDECLARE_FUNCTION_WRAPPERPR(__AddEntityR, ETHScriptWrapper::AddEntity,       (const std::string&, const Vector3&, ETHEntity**), int);
+asDECLARE_FUNCTION_WRAPPERPR(__AddEntityN, ETHScriptWrapper::AddEntity,       (const std::string&, const Vector3&, const std::string&), int);
+asDECLARE_FUNCTION_WRAPPERPR(__AddEntityS, ETHScriptWrapper::AddScaledEntity, (const std::string&, const Vector3&, const float), int);
+asDECLARE_FUNCTION_WRAPPERPR(__AddEntitySR,ETHScriptWrapper::AddScaledEntity, (const std::string&, const Vector3&, const float, ETHEntity**), int);
+asDECLARE_FUNCTION_WRAPPERPR(__AddEntityF, ETHScriptWrapper::AddEntity,       (const std::string&, const Vector3&, const float, ETHEntity**, const std::string&, const float), int);
 
 asDECLARE_FUNCTION_WRAPPERPR(__RandomizerInt,        Randomizer::Int,   (const int), int);
 asDECLARE_FUNCTION_WRAPPERPR(__RandomizerInt2Args,   Randomizer::Int,   (const int, const int), int);
@@ -97,8 +73,6 @@ asDECLARE_FUNCTION_WRAPPER(__SetParallaxOrigin, ETHScriptWrapper::SetParallaxOri
 asDECLARE_FUNCTION_WRAPPER(__GetParallaxOrigin, ETHScriptWrapper::GetParallaxOrigin);
 asDECLARE_FUNCTION_WRAPPER(__SetParallaxIntensity, ETHScriptWrapper::SetParallaxIntensity);
 asDECLARE_FUNCTION_WRAPPER(__GetParallaxIntensity, ETHScriptWrapper::GetParallaxIntensity);
-asDECLARE_FUNCTION_WRAPPER(__SetParallaxVerticalIntensity, ETHScriptWrapper::SetParallaxVerticalIntensity);
-asDECLARE_FUNCTION_WRAPPER(__GetParallaxVerticalIntensity, ETHScriptWrapper::GetParallaxVerticalIntensity);
 asDECLARE_FUNCTION_WRAPPER(__SetBucketClearenceFactor, ETHScriptWrapper::SetBucketClearenceFactor);
 asDECLARE_FUNCTION_WRAPPER(__GetBucketClearenceFactor, ETHScriptWrapper::GetBucketClearenceFactor);
 
@@ -147,24 +121,22 @@ asDECLARE_FUNCTION_WRAPPER(__AddVector3Data, ETHScriptWrapper::AddVector3Data);
 asDECLARE_FUNCTION_WRAPPER(__SetZAxisDirection, ETHScriptWrapper::SetZAxisDirection);
 asDECLARE_FUNCTION_WRAPPER(__GetZAxisDirection, ETHScriptWrapper::GetZAxisDirection);
 
-asDECLARE_FUNCTION_WRAPPERPR(__normalize3, Normalize, (const Vector3&), Vector3);
-asDECLARE_FUNCTION_WRAPPERPR(__normalize2, Normalize, (const Vector2&), Vector2);
+asDECLARE_FUNCTION_WRAPPERPR(__normalize3, Vector3::Normalize, (const Vector3&), Vector3);
+asDECLARE_FUNCTION_WRAPPERPR(__normalize2, Vector2::Normalize, (const Vector2&), Vector2);
 
-asDECLARE_FUNCTION_WRAPPER(__radianToDegree, RadianToDegree);
-asDECLARE_FUNCTION_WRAPPER(__degreeToRadian, DegreeToRadian);
-asDECLARE_FUNCTION_WRAPPER(__ARGB,           ARGB);
+asDECLARE_FUNCTION_WRAPPER(__radianToDegree, Util::RadianToDegree);
+asDECLARE_FUNCTION_WRAPPER(__degreeToRadian, Util::DegreeToRadian);
+asDECLARE_FUNCTION_WRAPPER(__ARGB,           Color::ARGB);
 
 asDECLARE_FUNCTION_WRAPPER(__LoadSprite,       ETHScriptWrapper::LoadSprite);
 asDECLARE_FUNCTION_WRAPPER(__ReleaseSprite,    ETHScriptWrapper::ReleaseSprite);
 asDECLARE_FUNCTION_WRAPPER(__GetSpriteSize,    ETHScriptWrapper::GetSpriteSize);
-asDECLARE_FUNCTION_WRAPPER(__DrawRectangle,    ETHScriptWrapper::DrawRectangle);
-asDECLARE_FUNCTION_WRAPPER(__DrawLine,         ETHScriptWrapper::DrawLine);
 
-asDECLARE_FUNCTION_WRAPPERPR(__DrawSprite,       ETHScriptWrapper::DrawSprite, (const str_type::string &name, const Vector2 &v2Pos, const GS_DWORD color, const float angle), void);
-asDECLARE_FUNCTION_WRAPPERPR(__DrawShapedSprite, ETHScriptWrapper::DrawShaped, (const str_type::string &name, const Vector2 &v2Pos, const Vector2 &v2Size, const GS_DWORD color, const float angle), void);
+asDECLARE_FUNCTION_WRAPPERPR(__DrawSprite,       ETHScriptWrapper::DrawSprite, (const std::string &name, const Vector2 &v2Pos, const uint32_t color, const float angle), void);
+asDECLARE_FUNCTION_WRAPPERPR(__DrawShapedSprite, ETHScriptWrapper::DrawShaped, (const std::string &name, const Vector2 &v2Pos, const Vector2 &v2Size, const uint32_t color, const float angle), void);
 
-asDECLARE_FUNCTION_WRAPPERPR(__DrawSpriteEx,       ETHScriptWrapper::DrawSprite, (const str_type::string &name, const Vector2 &v2Pos, const float alpha, const Vector3 &color, const float angle), void);
-asDECLARE_FUNCTION_WRAPPERPR(__DrawShapedSpriteEx, ETHScriptWrapper::DrawShaped, (const str_type::string &name, const Vector2 &v2Pos, const Vector2 &v2Size, const float alpha, const Vector3 &color, const float angle), void);
+asDECLARE_FUNCTION_WRAPPERPR(__DrawSpriteEx,       ETHScriptWrapper::DrawSprite, (const std::string &name, const Vector2 &v2Pos, const float alpha, const Vector3 &color, const float angle), void);
+asDECLARE_FUNCTION_WRAPPERPR(__DrawShapedSpriteEx, ETHScriptWrapper::DrawShaped, (const std::string &name, const Vector2 &v2Pos, const Vector2 &v2Size, const float alpha, const Vector3 &color, const float angle), void);
 
 asDECLARE_FUNCTION_WRAPPER(__PlayParticleEffect, ETHScriptWrapper::PlayParticleEffect);
 
@@ -184,7 +156,6 @@ asDECLARE_FUNCTION_WRAPPER(__GetVideoMode,          ETHScriptWrapper::GetVideoMo
 asDECLARE_FUNCTION_WRAPPER(__GetBackgroundColor,    ETHScriptWrapper::GetBackgroundColor);
 asDECLARE_FUNCTION_WRAPPER(__SetBackgroundColor,    ETHScriptWrapper::SetBackgroundColor);
 asDECLARE_FUNCTION_WRAPPER(__GetSystemScreenSize,   ETHScriptWrapper::GetSystemScreenSize);
-asDECLARE_FUNCTION_WRAPPER(__SaveScreenShot,        ETHScriptWrapper::SaveScreenShot);
 
 asDECLARE_FUNCTION_WRAPPER(__GetEntityArray,          ETHScriptWrapper::GetEntityArrayByName);
 asDECLARE_FUNCTION_WRAPPER(__GetEntitiesFromBucket,   ETHScriptWrapper::GetEntityArrayFromBucket);
@@ -256,7 +227,7 @@ asDECLARE_FUNCTION_WRAPPER(__SetTimeStepScale, ETHScriptWrapper::SetTimeStepScal
 asDECLARE_FUNCTION_WRAPPER(__GetTimeStepScale, ETHScriptWrapper::GetTimeStepScale);
 
 asDECLARE_FUNCTION_WRAPPERPR(__GetClosestContact,   ETHScriptWrapper::GetClosestContact, (const Vector2&, const Vector2&, Vector2&, Vector2&),                          ETHEntity*);
-asDECLARE_FUNCTION_WRAPPERPR(__GetClosestContactEx, ETHScriptWrapper::GetClosestContact, (const Vector2&, const Vector2&, Vector2&, Vector2&, const str_type::string&), ETHEntity*);
+asDECLARE_FUNCTION_WRAPPERPR(__GetClosestContactEx, ETHScriptWrapper::GetClosestContact, (const Vector2&, const Vector2&, Vector2&, Vector2&, const std::string&), ETHEntity*);
 asDECLARE_FUNCTION_WRAPPER(__GetContactEntities, ETHScriptWrapper::GetContactEntities);
 asDECLARE_FUNCTION_WRAPPER(__DisableContact,     ETHScriptWrapper::DisableContact);
 
@@ -288,9 +259,7 @@ static void __GetCurrentBucket(asIScriptGeneric *gen)
 static void __DeleteEntity(asIScriptGeneric *gen)
 {
 	ETHRenderEntity *s = (ETHRenderEntity*)gen->GetArgObject(0);
-	s->AddRef();
-	ETHEntity *r = ETHScriptWrapper::DeleteEntity(s);
-	gen->SetReturnObject(r);
+	ETHScriptWrapper::DeleteEntity(s);
 }
 
 void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
@@ -328,7 +297,9 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void print(const int)",        asFUNCTION(__PrintInt),   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void print(const uint)",       asFUNCTION(__PrintUInt),  asCALL_GENERIC); assert(r >= 0);
 
-	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in)", asFUNCTION(__LoadScene1Arg), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void LoadLightmaps(const string &in)", asFUNCTION(__LoadLightmaps), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in)",     asFUNCTION(__LoadScene1Arg), asCALL_GENERIC); assert(r >= 0);
+
 	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in, const string &in, const string &in onSceneUpdate = \"\")",                                   asFUNCTION(__LoadSceneSSSArgs), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in, const string &in, const string &in, const string &in)",                                      asFUNCTION(__LoadSceneSSSSArgs), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in, const string &in, const string &in, const vector2 &in)",                                     asFUNCTION(__LoadSceneSSSVArgs), asCALL_GENERIC); assert(r >= 0);
@@ -336,6 +307,7 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void LoadScene(const string &in, const string &in, const string &in, const string &in, const string &in, const vector2 &in)", asFUNCTION(__LoadSceneSSSSSVArgs), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool SaveScene(const string &in)",														                   asFUNCTION(__SaveScene),      asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void AddScene(const string &in, const vector3 &in, ETHEntityArray &)",                                      asFUNCTION(__AddScene), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void AddSceneFromString(const string &in, const vector3 &in, ETHEntityArray &)",                            asFUNCTION(__AddSceneFromString), asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("float GetTimeF()",                  asFUNCTION(__GetTimeF),       asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("uint GetTime()",                    asFUNCTION(__GetTime),        asCALL_GENERIC); assert(r >= 0);
@@ -351,9 +323,7 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("int AddScaledEntity(const string &in, const vector3 &in, const float, ETHEntity@ &out)", asFUNCTION(__AddEntitySR), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("int AddEntity(const string &in, const vector3 &in, const float, ETHEntity@ &out, const string &in, const float)", asFUNCTION(__AddEntityF), asCALL_GENERIC); assert(r >= 0);
 
-	r = pASEngine->RegisterGlobalFunction("ETHEntity@ DeleteEntity(ETHEntity@)",										  asFUNCTION(__DeleteEntity),      asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("bool GenerateLightmaps()",													  asFUNCTION(__GenerateLightmaps), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("void AddLight(const vector3 &in, const vector3 &in, const float, const bool)", asFUNCTION(__AddLight),          asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void DeleteEntity(ETHEntity@)",         asFUNCTION(__DeleteEntity),      asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("int rand(const int)",                   asFUNCTION(__RandomizerInt),        asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("int rand(const int, const int)",        asFUNCTION(__RandomizerInt2Args),   asCALL_GENERIC); assert(r >= 0);
@@ -366,9 +336,6 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void SetParallaxIntensity(const float)",    asFUNCTION(__SetParallaxIntensity), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 GetParallaxOrigin()",               asFUNCTION(__GetParallaxOrigin),    asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("float GetParallaxIntensity()",              asFUNCTION(__GetParallaxIntensity), asCALL_GENERIC); assert(r >= 0);
-
-	r = pASEngine->RegisterGlobalFunction("void SetParallaxVerticalIntensity(const float)", asFUNCTION(__SetParallaxVerticalIntensity), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("float GetParallaxVerticalIntensity()",           asFUNCTION(__GetParallaxVerticalIntensity), asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("void SetBucketClearenceFactor(const float)", asFUNCTION(__SetBucketClearenceFactor), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("float GetBucketClearenceFactor()",           asFUNCTION(__GetBucketClearenceFactor), asCALL_GENERIC); assert(r >= 0);
@@ -434,8 +401,6 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void DrawSprite(const string &in, const vector2 &in, const float, const vector3 &in, const float angle = 0.0f)",                      asFUNCTION(__DrawSpriteEx),       asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void DrawShapedSprite(const string &in, const vector2 &in, const vector2 &in, const float, const vector3 &in, const float angle = 0.0f)", asFUNCTION(__DrawShapedSpriteEx), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 GetSpriteSize(const string &in)",                                                                  asFUNCTION(__GetSpriteSize),    asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("void DrawRectangle(const vector2 &in, const vector2 &in, const uint, const uint, const uint, const uint)", asFUNCTION(__DrawRectangle),    asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("void DrawLine(const vector2 &in, const vector2 &in, const uint, const uint, const float)",                 asFUNCTION(__DrawLine),         asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("void PlayParticleEffect(const string &in, const vector2 &in, const float, const float)", asFUNCTION(__PlayParticleEffect), asCALL_GENERIC); assert(r >= 0);
 
@@ -456,7 +421,6 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("uint GetBackgroundColor()",             asFUNCTION(__GetBackgroundColor),    asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void SetBackgroundColor(const uint)",   asFUNCTION(__SetBackgroundColor),    asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 GetSystemScreenSize()",         asFUNCTION(__GetSystemScreenSize),   asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("bool SaveScreenShot(const string &in)", asFUNCTION(__SaveScreenShot),        asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("void GetEntityArray(const string &in, ETHEntityArray &)",                       asFUNCTION(__GetEntityArray),          asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void GetEntitiesFromBucket(const vector2 &in, ETHEntityArray &)",               asFUNCTION(__GetEntitiesFromBucket),   asCALL_GENERIC); assert(r >= 0);
@@ -543,7 +507,7 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 
 	r = pASEngine->RegisterGlobalFunction("ETHEntity@ GetClosestContact(const vector2 &in, const vector2 &in, vector2 &out, vector2 &out)", asFUNCTION(__GetClosestContact),  asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("ETHEntity@ GetClosestContact(const vector2 &in, const vector2 &in, vector2 &out, vector2 &out, const string &in)", asFUNCTION(__GetClosestContactEx),  asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("bool GetContactEntities(const vector2 &in, const vector2 &in, ETHEntityArray@)",                 asFUNCTION(__GetContactEntities), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("bool GetContactEntities(const vector2 &in, const vector2 &in, ETHEntityArray &)",                 asFUNCTION(__GetContactEntities), asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("bool IsFixedTimeStep()",					 asFUNCTION(__IsFixedTimeStep),			    asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("float GetFixedTimeStepValue()",			 asFUNCTION(__GetFixedTimeStepValue),	    asCALL_GENERIC); assert(r >= 0);

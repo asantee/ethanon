@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "EntityEditor.h"
 
 #include "../engine/Entity/ETHRenderEntity.h"
@@ -103,7 +81,7 @@ EntityEditor::~EntityEditor()
 		UnloadParticle(t);
 }
 
-void EntityEditor::InstantiateEntity(const str_type::string& fileName)
+void EntityEditor::InstantiateEntity(const std::string& fileName)
 {
 	if (fileName == GS_L(""))
 	{
@@ -813,7 +791,7 @@ void EntityEditor::DoMainMenu()
 void EntityEditor::ShowWarnings()
 {
 	// collect warnings
-	std::list<str_type::string> warnings;
+	std::list<std::string> warnings;
 	/*if (m_pEditEntity->castShadow && m_pEditEntity->type != ETH_VERTICAL)
 	{
 		warnings.push_back("The entity must be 'vertical' to cast shadow");
@@ -828,21 +806,21 @@ void EntityEditor::ShowWarnings()
 		if (m_pEditEntity->entityName.empty())
 			warnings.push_back(GS_L("Please save this entity, then setup compound shape data inside XML <Compound> tags in its file"));
 		else
-			warnings.push_back(str_type::string(GS_L("Please setup compound shape data inside XML <Compound> tags in file ")) + m_pEditEntity->entityName);
+			warnings.push_back(std::string(GS_L("Please setup compound shape data inside XML <Compound> tags in file ")) + m_pEditEntity->entityName);
 	}
 	if (m_pEditEntity->collision && m_pEditEntity->shape == ETHEntityProperties::BS_POLYGON)
 	{
 		if (m_pEditEntity->entityName.empty())
 			warnings.push_back(GS_L("Please save this entity, then setup polygon shape data inside XML <Polygon> tags in its file"));
 		else
-			warnings.push_back(str_type::string(GS_L("Please setup polygon shape data inside XML <Polygon> tags in file ")) + m_pEditEntity->entityName);
+			warnings.push_back(std::string(GS_L("Please setup polygon shape data inside XML <Polygon> tags in file ")) + m_pEditEntity->entityName);
 	}
 
 	// draw warnings
 	if (!warnings.empty())
 	{
-		std::list<str_type::string>::iterator iter;
-		str_type::stringstream ss;
+		std::list<std::string>::iterator iter;
+		std::stringstream ss;
 		ss << GS_L("Warnings") << std::endl;
 		for (iter = warnings.begin(); iter != warnings.end(); ++iter)
 		{
@@ -882,21 +860,13 @@ void EntityEditor::ShowEntityResources(Vector2 v2Pos)
 		DrawEntityElementName(v2Pos, m_renderEntity->GetSprite(), m_pEditEntity->spriteFile + GS_L(" (sprite)"));
 		v2Pos.y += m_menuSize;
 	}
-	if (m_renderEntity->GetNormal())
-	{
-		DrawEntityElementName(v2Pos, m_renderEntity->GetNormal(), m_pEditEntity->normalFile + GS_L(" (normal)"));
-		v2Pos.y += m_menuSize;
-	}
-	if (m_renderEntity->GetGloss())
-	{
-		DrawEntityElementName(v2Pos, m_renderEntity->GetGloss(), m_pEditEntity->glossFile + GS_L(" (gloss)"));
-		v2Pos.y += m_menuSize;
-	}
+
 	if (m_renderEntity->GetHalo() && m_pEditEntity->light)
 	{
 		DrawEntityElementName(v2Pos, m_renderEntity->GetHalo(), m_pEditEntity->light->haloBitmap + GS_L(" (halo)"));
 		v2Pos.y += m_menuSize;
 	}
+
 	for (unsigned int t=0; t<ETH_MAX_PARTICLE_SYS_PER_ENTITY; t++)
 	{
 		if (!m_renderEntity->HasParticleSystem(t))
@@ -1261,7 +1231,7 @@ bool EntityEditor::CheckForFileUpdate()
 	}
 }
 
-void EntityEditor::CreateFileUpdateDetector(const str_type::string& fullFilePath)
+void EntityEditor::CreateFileUpdateDetector(const std::string& fullFilePath)
 {
 	m_fileChangeDetector = ETHFileChangeDetectorPtr(
 		new ETHFileChangeDetector(m_provider->GetVideo(), fullFilePath, ETHFileChangeDetector::UTF16_WITH_BOM));
@@ -1402,14 +1372,14 @@ void EntityEditor::DrawEntity(const float lastFrameElapsedTime)
 	m_renderEntity->DrawAmbientPass(screenSize.y,-screenSize.y, false, m_sceneProps, 0.0f);
 	shaderManager->EndAmbientPass();
 
-	if (!m_renderEntity->HasLightSource())
+	/*if (!m_renderEntity->HasLightSource())
 	{
 		if (shaderManager->BeginLightPass(m_renderEntity.get(), &m_cursorLight, screenSize.y,-screenSize.y, 2.0f))
 		{
 			m_renderEntity->DrawLightPass(ETH_DEFAULT_ZDIRECTION, 0.0f);
 			shaderManager->EndLightPass();
 		}
-	}
+	}*/
 
 	if (m_pEditEntity->light)
 	{

@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "../../Application.h"
 
 #include "../Platform.h"
@@ -29,41 +7,54 @@
 
 #include <windows.h>
 #include <direct.h>
+#include <iostream>
+#include <sstream>
 
-gs2d::str_type::string gs2d::Application::GetPlatformName()
+#ifdef UNICODE
+#define GetCurrentDirectory GetCurrentDirectoryW
+#else
+#define GetCurrentDirectory GetCurrentDirectoryA
+#endif
+
+std::string gs2d::Application::GetPlatformName()
 {
-	return GS_L("windows");
+	return "windows";
+}
+
+/// Platform specific user message function implementation
+void gs2d::ShowMessage(std::stringstream& stream, const gs2d::GS_MESSAGE_TYPE type)
+{
+	if (type == gs2d::GSMT_INFO)
+	{
+		std::cout << "GS2D INFO: " << stream.str() << std::endl;
+	}
+	else if (type == gs2d::GSMT_WARNING)
+	{
+
+		std::cout << "GS2D WARNING: " << stream.str() << std::endl;
+	}
+	else if (type == gs2d::GSMT_ERROR)
+	{
+		std::cerr << "GS2D ERROR: " << stream.str() << std::endl;
+		MessageBoxA(NULL, stream.str().c_str(), "GS2D ERROR", MB_OK | MB_ICONERROR);
+	}
 }
 
 namespace Platform {
 
-#ifdef _DEBUG
-gs2d::str_type::string GetModuleDirectory()
+std::string GetModuleDirectory()
 {
-	gs2d::str_type::char_t currentDirectoryBuffer[65536];
-
-	#ifdef GS2D_STR_TYPE_WCHAR
-		GetCurrentDirectoryW(65535, currentDirectoryBuffer);
-	#else
-		GetCurrentDirectoryA(65535, currentDirectoryBuffer);
-	#endif
-
-	return AddLastSlash(currentDirectoryBuffer);
-}
-#else
-gs2d::str_type::string GetModuleDirectory()
-{
-	gs2d::str_type::char_t moduleFileName[65536];
-
-	#ifdef GS2D_STR_TYPE_WCHAR
-		GetModuleFileNameW(NULL, moduleFileName, 65535);
-	#else
-		GetModuleFileNameA(NULL, moduleFileName, 65535);
-	#endif
-
+	char moduleFileName[16380];
+	GetModuleFileName(NULL, moduleFileName, 16380);
 	return AddLastSlash(GetFileDirectory(moduleFileName));
 }
-#endif
+
+std::string GetModuleName()
+{
+	char moduleFileName[16380];
+	GetModuleFileName(NULL, moduleFileName, 16380);
+	return RemoveExtension(GetFileName(moduleFileName));
+}
 
 const int kilobyteSize = 1024;
 const int maximumAllowedStackAllocation = 4 * kilobyteSize;
@@ -167,9 +158,16 @@ std::string ConvertUnicodeToAscii(const wchar_t* unicodeString)
 	return result;
 }
 
-gs2d::str_type::string FileLogger::GetLogDirectory()
+std::string FileLogger::GetLogDirectory()
 {
 	return GetModuleDirectory();
+}
+
+bool IsDirectory(const std::string& path)
+{
+	DWORD attr = GetFileAttributes(path.c_str());
+	return ((attr != INVALID_FILE_ATTRIBUTES) &&
+			(attr & FILE_ATTRIBUTE_DIRECTORY));
 }
 
 char GetDirectorySlashA()
@@ -180,14 +178,6 @@ char GetDirectorySlashA()
 wchar_t GetDirectorySlashW()
 {
 	return L'\\';
-}
-
-// undefines window's Create directory original
-#undef CreateDirectory
-
-bool CreateDirectory(const std::string& path)
-{
-	return (_mkdir(path.c_str()) == 0);
 }
 
 } // namespace Platform

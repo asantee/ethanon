@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #ifndef ETH_PARTICLE_MANAGER_H_
 #define ETH_PARTICLE_MANAGER_H_
 
@@ -42,7 +20,7 @@ public:
 	/// Load a particle system from a file in memory
 	ETHParticleManager(
 		ETHResourceProviderPtr provider,
-		const str_type::string& file,
+		const std::string& file,
 		const Vector3& v3Pos,
 		const float angle);
 
@@ -64,7 +42,7 @@ public:
 		const float lastFrameElapsedTime);
 
 	// Compute maximum bounding rectangle for the system
-	Rect2Df ComputeBoundingRectangle(const float angle) const;
+	Rect2D ComputeBoundingRectangle(const float angle) const;
 
 	/// Draw all particles also considering it's ambient light color
 	bool DrawParticleSystem(
@@ -73,7 +51,7 @@ public:
 		const float minHeight,
 		const DEPTH_SORTING_MODE ownerType,
 		const Vector2& zAxisDirection,
-		const Vector2& parallaxOffset,
+		const float parallaxIntensity,
 		const float ownerDepth);
 
 	/// Return true if the particle system has finished it's execution
@@ -88,7 +66,7 @@ public:
 
 	/// Set another particle bitmap  (it can be used during the animation)
 	void SetParticleBitmap(SpritePtr pBMP);
-	void SetParticleBitmap(const gs2d::str_type::string& bitmap);
+	void SetParticleBitmap(const std::string& bitmap);
 
 	/// Return a handle to the current particle bitmap
 	SpritePtr GetParticleBitmap();
@@ -109,7 +87,7 @@ public:
 	const ETHParticleSystem *GetSystem() const;
 	
 	/// Return particle bitmap name
-	str_type::string GetBitmapName() const;
+	std::string GetBitmapName() const;
 
 	/// Set a tilebased Z position for the tile
 	void SetZPosition(const float z);
@@ -203,6 +181,7 @@ private:
 	std::vector<PARTICLE> m_particles;
 	ETHResourceProviderPtr m_provider;
 	SpritePtr m_pBMP;
+	SpriteRects m_rects;
 	bool m_finished, m_killed;
 	int m_nActiveParticles;
 	Vector2 m_worldSpaceBoundingMin, m_worldSpaceBoundingMax;

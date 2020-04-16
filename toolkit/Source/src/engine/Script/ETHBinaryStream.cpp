@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "ETHBinaryStream.h"
 #include <assert.h>
 
@@ -52,25 +30,26 @@ int ETHBinaryStream::Write(const void *ptr, asUINT size)
 	return 1;
 }
 
-str_type::string ETHBinaryStream::GetFileName() const
+std::string ETHBinaryStream::GetFileName() const
 {
 	return m_fileName;
 }
 
-void ETHBinaryStream::SetFileName(const str_type::string& fileName)
+void ETHBinaryStream::SetFileName(const std::string& fileName)
 {
 	m_fileName = fileName;
 }
 
-bool ETHBinaryStream::OpenW(const str_type::string& fileName)
+bool ETHBinaryStream::OpenW(const std::string& fileName)
 {
 	CloseW();
 	SetFileName(fileName);
-	#ifdef WIN32
-		errno_t error = fopen_s(&m_out, GetFileName().c_str(), GS_L("wb"));
-	#else
-		int error = 0; m_out = fopen(GetFileName().c_str(), "wb");
-	#endif
+#if (__STDC_VERSION__ >= 201112L) || ( _MSC_VER >= 1500 )
+	errno_t error = fopen_s(&m_out, GetFileName().c_str(), "wb");
+#else
+	int error = 0;
+	m_out = fopen(GetFileName().c_str(), "wb");
+#endif
 	if (!error && m_out)
 	{
 		return true;
@@ -92,7 +71,7 @@ bool ETHBinaryStream::CloseW()
 	return true;
 }
 
-bool ETHBinaryStream::OpenR(const str_type::string& fileName)
+bool ETHBinaryStream::OpenR(const std::string& fileName)
 {
 	SetFileName(fileName);
 	return m_fileManager->GetFileBuffer(fileName, m_buffer);

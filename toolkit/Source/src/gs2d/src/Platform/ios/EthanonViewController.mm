@@ -1,21 +1,12 @@
-//
-//  EthanonViewController.m
-//  iOSBase
-//
-//  Created by Andre Santee on 11/12/14.
-//  Copyright (c) 2014 Asantee Games. All rights reserved.
-//
-
 #import "EthanonViewController.h"
 
 #import "Application.h"
 
+#import "AppDelegate.h"
+
 #import <GameController/GameController.h>
 
 @interface EthanonViewController ()
-{
-	ApplicationWrapper m_ethanonApplication;
-}
 
 @property (nonatomic, strong) id connectObserver;
 @property (nonatomic, strong) id disconnectObserver;
@@ -35,6 +26,8 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
+	
+	self.ethanonApplication = [[ApplicationWrapper alloc] init];
 	
 	self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
 
@@ -83,9 +76,10 @@
 {
 	[super viewDidAppear:animated];
 
+	[self.ethanonApplication detectJoysticks];
 
 	[GCController startWirelessControllerDiscoveryWithCompletionHandler:^{
-		self->m_ethanonApplication.DetectJoysticks();
+		[self.ethanonApplication detectJoysticks];
 	}];
 
 	// register gamepad listeners
@@ -99,7 +93,7 @@
 			{
 				__strong typeof(self) strongSelf = weakself;
 				if (strongSelf)
-					strongSelf->m_ethanonApplication.DetectJoysticks();
+					[strongSelf.ethanonApplication detectJoysticks];
 			}
 		];
 
@@ -112,7 +106,7 @@
 			{
 				__strong typeof(self) strongSelf = weakself;
 				if (strongSelf)
-					strongSelf->m_ethanonApplication.DetectJoysticks();
+					[strongSelf.ethanonApplication detectJoysticks];
 			}
 		];
 
@@ -125,7 +119,7 @@
 			{
 				__strong typeof(self) strongSelf = weakself;
 				if (strongSelf)
-					strongSelf->m_ethanonApplication.ForceGamepadPause();
+					[strongSelf.ethanonApplication forceGamepadPause];
 			}
 		];
 }
@@ -152,7 +146,7 @@
 			}
 			else
 			{
-				self->m_ethanonApplication.UpdateAccelerometer(accelerometerData);
+				[self.ethanonApplication updateAccelerometer:accelerometerData];
 			}
 		 }
 	];
@@ -193,7 +187,7 @@
 
 - (void)shutDownEngine
 {
-	m_ethanonApplication.Destroy();
+	[self.ethanonApplication destroy];
 	[EAGLContext setCurrentContext:self.context];
 }
 
@@ -201,32 +195,48 @@
 
 - (void)update
 {
-	m_ethanonApplication.Update();
+	@try
+	{
+		if (self.ethanonApplication != nil)
+		{
+			[self.ethanonApplication update];
+			
+			if ([AppDelegate isJustResumed])
+			{
+				[self.ethanonApplication forceGamepadPause];
+				[AppDelegate setJustResumed:NO];
+			}
+		}
+	}
+	@catch (NSException *exception)
+	{
+		NSLog(@"%@", [exception reason]);
+	}
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
-	m_ethanonApplication.RenderFrame(view);
+	[self.ethanonApplication renderFrame:view];
 }
 
 - (void)touchesBegan: (NSSet*) touches withEvent: (UIEvent*) event
 {
-	m_ethanonApplication.TouchesBegan(self.view, touches, event);
+	[self.ethanonApplication touchesBegan:self.view withTouches:touches withEvent:event];
 }
 
 - (void)touchesMoved: (NSSet*) touches withEvent: (UIEvent*) event
 {
-	m_ethanonApplication.TouchesMoved(self.view, touches, event);
+	[self.ethanonApplication touchesMoved:self.view withTouches:touches withEvent:event];
 }
 
 - (void)touchesEnded: (NSSet*) touches withEvent: (UIEvent*) event
 {
-	m_ethanonApplication.TouchesEnded(self.view, touches, event);
+	[self.ethanonApplication touchesEnded:self.view withTouches:touches withEvent:event];
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	m_ethanonApplication.TouchesCancelled(self.view, touches, event);
+	[self.ethanonApplication touchesCancelled:self.view withTouches:touches withEvent:event];
 }
 
 @end

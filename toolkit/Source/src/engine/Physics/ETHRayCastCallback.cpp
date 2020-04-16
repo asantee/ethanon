@@ -1,27 +1,7 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "ETHRayCastCallback.h"
 #include "ETHPhysicsSimulator.h"
+
+#define GS2D_UNUSED_ARGUMENT(argument) ((void)(argument))
 
 ETHRayCastCallback::Contact::Contact(ETHEntity* ent, const Vector2& con, const Vector2& nor)
 {
@@ -39,13 +19,13 @@ ETHRayCastCallback::ETHRayCastCallback(const Vector2& a, const Vector2& b, const
 
 float32 ETHRayCastCallback::ReportFixture(b2Fixture* fixture, const b2Vec2& point, const b2Vec2& normal, float32 fraction)
 {
-	GS2D_UNUSED_ARGUMENT(fraction);
+	UNUSED_ARGUMENT(fraction);
 	const Vector2 v2Point(point.x, point.y);
 	const Vector2 v2Normal(normal.x, normal.y);
 	ETHEntity* entity = static_cast<ETHEntity*>(fixture->GetBody()->GetUserData());
 	if (m_chooser->Choose(entity))
 	{
-		m_contacts.insert(std::pair<float, Contact>(SquaredDistance(Vector2(m_a.x, m_a.y), v2Point), Contact(entity, ETHPhysicsSimulator::ScaleFromBox2D(point), v2Normal)));
+		m_contacts.insert(std::pair<float, Contact>(Vector2::SquaredDistance(Vector2(m_a.x, m_a.y), v2Point), Contact(entity, ETHPhysicsSimulator::ScaleFromBox2D(point), v2Normal)));
 	}
 	return 1.0f;
 }

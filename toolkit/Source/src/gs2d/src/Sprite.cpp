@@ -1,329 +1,415 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "Sprite.h"
-#include "Application.h"
+
+#include "Video.h"
+
+#ifdef __APPLE__
+ #include "TargetConditionals.h"
+#endif
+
+#if TARGET_OS_IPHONE || defined(__ANDROID__)
+ #include "Video/GLES2/GLES2ShaderCode.h"
+#elif TARGET_OS_MAC || defined(_WIN32) || defined(_WIN64)
+ #include "Video/GL/GLShaderCode.h"
+#endif
 
 namespace gs2d {
-using namespace gs2d::math;
 
+PolygonRendererPtr Sprite::m_polygonRenderer;
+ShaderPtr Sprite::m_defaultShader;
+ShaderPtr Sprite::m_fastShader;
+ShaderPtr Sprite::m_solidColorShader;
+ShaderPtr Sprite::m_highlightShader;
+ShaderPtr Sprite::m_addShader;
+ShaderPtr Sprite::m_modulateShader;
+ShaderPtr Sprite::m_solidColorAddShader;
+ShaderPtr Sprite::m_solidColorModulateShader;
+math::Vector2 Sprite::m_virtualScreenResolution(1280.0f, 720.0f);
+float Sprite::m_parallaxIntensity = 0.0f;
+const float Sprite::PARALLAX_INTENSITY_FIX = 0.55f;
 
-Sprite::Sprite() :
-	m_nColumns(0),
-	m_nRows(0),
-	m_normalizedOrigin(Vector2(0.0f, 0.0f)),
-	m_rect(Rect2Df(0,0,0,0)),
-	m_rectMode(RM_TWO_TRIANGLES),
-	m_currentRect(0),
-	m_flipX(false),
-	m_flipY(false),
-	m_multiply(1.0f, 1.0f),
-	m_scroll(0.0f, 0.0f),
-    m_hasCustomRects(false)
+void Sprite::Initialize(Video* video)
 {
-}
-
-void Sprite::GetFlipShaderParameters(Vector2& flipAdd, Vector2& flipMul) const
-{
-	flipMul = Vector2(1,1);
-	flipAdd = Vector2(0,0);
-	if (m_flipX)
+	if (!m_polygonRenderer)
 	{
-		flipMul.x =-1;
-		flipAdd.x = 1;
-	}
-	if (m_flipY)
-	{
-		flipMul.y =-1;
-		flipAdd.y = 1;
-	}
-}
-
-void Sprite::SetRectMode(const RECT_MODE mode)
-{
-	m_rectMode = mode;
-}
-
-Sprite::RECT_MODE Sprite::GetRectMode() const
-{
-	return m_rectMode;
-}
-
-bool Sprite::Stretch(
-	const Vector2& a,
-	const Vector2& b,
-	const float width,
-	const Color& color0,
-	const Color& color1)
-{
-	if (a == b || width <= 0.0f)
-	{
-		return true;
-	}
-
-	const Vector2 v2Dir(a - b);
-	const float len = Distance(a, b);
-	const float angle = RadianToDegree(GetAngle(v2Dir));
-	const float lineWidth = (m_rect.size.x <= 0) ? (float)GetProfile().width : (float)m_rect.size.x;
-
-	Vector2 origin = GetOrigin();
-	SetOrigin(EO_CENTER_BOTTOM);
-
-	const bool r =
-		DrawShaped(
-			a,
-			Vector2((width >= 0.0f) ? width : lineWidth, len),
-			color1,
-			color1,
-			color0,
-			color0,
-			angle);
-
-	SetOrigin(origin);
-	return r;
-}
-
-bool Sprite::SetRects(const RectsPtr& rects)
-{
-	m_rects = rects;
-    SetRect(0);
-	if (rects)
-	{
-        m_nRows = 1;
-        m_nColumns = static_cast<unsigned int>(rects->size());
-        m_hasCustomRects = true;
-        return (m_nColumns > 0);
-    }
-    else
-    {
-        m_nRows = m_nColumns = 0;
-        m_hasCustomRects = false;
-        return false;
-	}
-}
-
-Sprite::RectsPtr Sprite::GetRects()
-{
-	return m_rects;
-}
-
-bool Sprite::SetupSpriteRects(const unsigned int columns, const unsigned int rows)
-{
-	if (columns <= 0 || rows <=0)
-	{
-		ShowMessage(GS_L("The number of rows or columns set can't be 0 or less - Sprite::SetupSpriteRects"), GSMT_ERROR);
-		return false;
-	}
-
-    m_hasCustomRects = false;
-	m_nColumns = columns;
-	m_nRows = rows;
-	const unsigned int nRects = columns * rows;
-
-    m_rects = boost::shared_ptr<Rects>(new Rects());
-	m_rects->resize(nRects);
-
-	const Vector2i size(GetBitmapSize());
-	const unsigned int strideX = static_cast<unsigned int>(size.x) / columns, strideY = static_cast<unsigned int>(size.y) / rows;
-	unsigned int index = 0;
-	for (unsigned int y = 0; y < rows; y++)
-	{
-		for (unsigned int x = 0; x < columns; x++)
+		std::vector<PolygonRenderer::Vertex> vertices =
 		{
-			(*m_rects)[index].pos.x = static_cast<float>(x * strideX);
-			(*m_rects)[index].pos.y = static_cast<float>(y * strideY);
-			(*m_rects)[index].size.x = (*m_rects)[index].originalSize.x = static_cast<float>(strideX);
-			(*m_rects)[index].size.y = (*m_rects)[index].originalSize.y = static_cast<float>(strideY);
-			index++;
-		}
+			PolygonRenderer::Vertex(math::Vector3( 0.0f, 0.0f, 0.0f), math::Vector3(1.0f), math::Vector2(0.0f, 0.0f)),
+			PolygonRenderer::Vertex(math::Vector3( 0.0f, 1.0f, 0.0f), math::Vector3(1.0f), math::Vector2(0.0f, 1.0f)),
+			PolygonRenderer::Vertex(math::Vector3( 1.0f, 0.0f, 0.0f), math::Vector3(1.0f), math::Vector2(1.0f, 0.0f)),
+			PolygonRenderer::Vertex(math::Vector3( 1.0f, 1.0f, 0.0f), math::Vector3(1.0f), math::Vector2(1.0f, 1.0f))
+		};
+
+		std::vector<uint32_t> indices = { 0, 1, 2, 3 };
+
+		m_polygonRenderer = PolygonRenderer::Create(vertices, indices, PolygonRenderer::TRIANGLE_STRIP);
+	}
+	
+	if (!m_defaultShader)
+	{
+		m_defaultShader = video->LoadShaderFromString(
+			"default_sprite_vs", gs2d_shaders::default_sprite_vs, "",
+			"default_sprite_fs", gs2d_shaders::default_sprite_fs, "");
 	}
 
-	SetRect(0);
-	return true;
-}
-
-unsigned int Sprite::GetRectIndex() const
-{
-	return m_currentRect;
-}
-
-bool Sprite::SetRect(const unsigned int rect)
-{
-    if (!m_rects)
-        return false;
-
-    m_currentRect = gs2d::math::Min(rect, GetNumRects() - 1);
-	m_rect = (*m_rects)[m_currentRect];
-	return (m_currentRect == rect);
-}
-
-bool Sprite::SetRect(const unsigned int column, const unsigned int row)
-{
-	return SetRect((row * m_nColumns) + column);
-}
-
-void Sprite::SetRect(const Rect2Df& rect)
-{
-	m_rect = rect;
-}
-
-void Sprite::UnsetRect()
-{
-	m_rect = Rect2Df(0, 0, 0, 0);
-	m_currentRect = 0;
-}
-
-Rect2Df Sprite::GetRect() const
-{
-	return m_rect;
-}
-
-unsigned int Sprite::GetNumRects() const
-{
-	return m_nColumns * m_nRows;
-}
-
-unsigned int Sprite::GetNumRows() const
-{
-	return m_nRows;
-}
-
-unsigned int Sprite::GetNumColumns() const
-{
-	return m_nColumns;
-}
-
-Rect2Df Sprite::GetRect(const unsigned int rect) const
-{
-    if (m_rects)
-		return (*m_rects)[Min(GetNumRects() - 1, rect)];
-    else
-        return Rect2Df(0, 0, 0, 0);
-}
-
-Vector2 Sprite::GetOrigin() const
-{
-	return m_normalizedOrigin;
-}
-
-void Sprite::SetOrigin(const Vector2& origin)
-{
-	m_normalizedOrigin = origin;
-}
-
-void Sprite::SetOrigin(const ENTITY_ORIGIN origin)
-{
-	switch (origin)
+	if (!m_fastShader)
 	{
-	case EO_RECT_CENTER:
-	case EO_CENTER:
-		m_normalizedOrigin.x = 1.0f / 2.0f;
-		m_normalizedOrigin.y = 1.0f / 2.0f;
-		break;
-	case EO_RECT_CENTER_BOTTOM:
-	case EO_CENTER_BOTTOM:
-		m_normalizedOrigin.x = 1.0f / 2.0f;
-		m_normalizedOrigin.y = 1.0f;
-		break;
-	case EO_RECT_CENTER_TOP:
-	case EO_CENTER_TOP:
-		m_normalizedOrigin.x = 1.0f / 2.0f;
-		m_normalizedOrigin.y = 0.0f;
-		break;
-	default:
-		m_normalizedOrigin.x = 0.0f;
-		m_normalizedOrigin.y = 0.0f;
-		break;
-	};
+		m_fastShader = video->LoadShaderFromString(
+			"default_sprite_fast_vs", gs2d_shaders::default_sprite_fast_vs, "",
+			"default_sprite_fs", gs2d_shaders::default_sprite_fs, "");
+	}
+
+	if (!m_solidColorShader)
+	{
+		m_solidColorShader = video->LoadShaderFromString(
+			"default_sprite_vs", gs2d_shaders::default_sprite_vs, "",
+			"default_sprite_solid_color_fs", gs2d_shaders::default_sprite_solid_color_fs, "");
+	}
+
+	if (!m_highlightShader)
+	{
+		m_highlightShader = video->LoadShaderFromString(
+			"default_sprite_vs", gs2d_shaders::default_sprite_vs, "",
+			"default_sprite_highlight_fs", gs2d_shaders::default_sprite_highlight_fs, "");
+	}
+
+	if (!m_addShader)
+	{
+		m_addShader = video->LoadShaderFromString(
+			"default_sprite_vs", gs2d_shaders::default_sprite_vs, "",
+			"default_sprite_add_fs", gs2d_shaders::default_sprite_add_fs, "");
+	}
+
+	if (!m_modulateShader)
+	{
+		m_modulateShader = video->LoadShaderFromString(
+			"default_sprite_vs", gs2d_shaders::default_sprite_vs, "",
+			"default_sprite_modulate_fs", gs2d_shaders::default_sprite_modulate_fs, "");
+	}
+
+	if (!m_solidColorAddShader)
+	{
+		m_solidColorAddShader = video->LoadShaderFromString(
+			"default_sprite_vs", gs2d_shaders::default_sprite_vs, "",
+			"default_sprite_solid_color_add_fs", gs2d_shaders::default_sprite_solid_color_add_fs, "");
+	}
+
+	if (!m_solidColorModulateShader)
+	{
+		m_solidColorModulateShader = video->LoadShaderFromString(
+			"default_sprite_vs", gs2d_shaders::default_sprite_vs, "",
+			"default_sprite_solid_color_modulate_fs", gs2d_shaders::default_sprite_solid_color_modulate_fs, "");
+	}
 }
 
-math::Vector2 Sprite::GetFrameSize() const
+void Sprite::Finish()
 {
-	return (m_rect.size == Vector2(0, 0)) ? GetBitmapSizeF() : m_rect.size;
-}
-    
-bool Sprite::HasCustomRects() const
-{
-    return m_hasCustomRects;
+	m_polygonRenderer = PolygonRendererPtr();
+	m_defaultShader = m_fastShader = m_solidColorShader = m_highlightShader = m_addShader = m_modulateShader
+		= m_solidColorAddShader = m_solidColorModulateShader = ShaderPtr();
 }
 
-void Sprite::FlipX(const bool flip)
+void Sprite::SetParallaxIntensity(const float intensity)
 {
-	m_flipX = flip;
+	m_parallaxIntensity = intensity;
 }
 
-void Sprite::FlipY(const bool flip)
+float Sprite::GetParallaxIntensity()
 {
-	m_flipY = flip;
+	return m_parallaxIntensity;
 }
 
-void Sprite::FlipX()
+math::Vector2 Sprite::ComputeParallaxOffset(const math::Vector2& cameraPos, const math::Vector3& pos)
 {
-	m_flipX = !(m_flipX);
+	const math::Vector2 halfScreenSize(m_virtualScreenResolution * 0.5f);
+	const math::Vector2 screenSpacePos(math::Vector2(pos.x, pos.y) - cameraPos);
+	const float intensity = pos.z * m_parallaxIntensity * Sprite::PARALLAX_INTENSITY_FIX;
+	return ((screenSpacePos - halfScreenSize) / m_virtualScreenResolution.y) * intensity;
 }
 
-void Sprite::FlipY()
+void Sprite::SetVirtualScreenResolution(const math::Vector2& resolution)
 {
-	m_flipY = !(m_flipY);
+	m_virtualScreenResolution = resolution;
 }
 
-bool Sprite::GetFlipX() const
+math::Vector2 Sprite::GetVirtualScreenResolution()
 {
-	return m_flipX;
+	return m_virtualScreenResolution;
 }
 
-bool Sprite::GetFlipY() const
+void Sprite::SetVirtualScreenHeight(const math::Vector2& currentScreenResolution, const float height)
 {
-	return m_flipY;
+	m_virtualScreenResolution.x = currentScreenResolution.x * (height / currentScreenResolution.y);
+	m_virtualScreenResolution.y = height;
 }
 
-void Sprite::SetMultiply(const Vector2 &v2Multiply)
+Sprite::Sprite(
+	Video* video,
+	const std::string& fileName,
+	const float pixelDensity) :
+	m_pixelDensity(pixelDensity)
 {
-	m_multiply = Vector2(Abs(v2Multiply.x), Abs(v2Multiply.y));
+	Initialize(video);
+	m_texture = video->LoadTextureFromFile(fileName);
 }
 
-Vector2 Sprite::GetMultiply() const
+ShaderPtr Sprite::GetDefaultShader()
 {
-	return m_multiply;
+	return m_defaultShader;
 }
 
-#define GS_MAX_SCROLL (1024.0f*4.0f)
-void Sprite::SetScroll(const Vector2 &v2Scroll)
+ShaderPtr Sprite::GetFastShader()
 {
-	m_scroll = v2Scroll;
-	if (m_scroll.x > GS_MAX_SCROLL)
-		m_scroll.x -= GS_MAX_SCROLL;
-	else if (m_scroll.x < -GS_MAX_SCROLL)
-		m_scroll.x += GS_MAX_SCROLL;
-
-	if (m_scroll.y > GS_MAX_SCROLL)
-		m_scroll.y -= GS_MAX_SCROLL;
-	else if (m_scroll.y < -GS_MAX_SCROLL)
-		m_scroll.y += GS_MAX_SCROLL;
+	return m_fastShader;
 }
 
-Vector2 Sprite::GetScroll() const
+ShaderPtr Sprite::GetSolidColorShader()
 {
-	return m_scroll;
+	return m_solidColorShader;
+}
+
+ShaderPtr Sprite::GetHighlightShader()
+{
+	return m_highlightShader;
+}
+
+ShaderPtr Sprite::GetAddShader()
+{
+	return m_addShader;
+}
+
+ShaderPtr Sprite::GetModulateShader()
+{
+	return m_modulateShader;
+}
+
+ShaderPtr Sprite::GetSolidColorAddShader()
+{
+	return m_solidColorAddShader;
+}
+
+ShaderPtr Sprite::GetSolidColorModulateShader()
+{
+	return m_solidColorModulateShader;
+}
+
+math::Vector2 Sprite::GetSize(const math::Rect2D& rect) const
+{
+	return (m_texture)
+		? ((m_texture->GetBitmapSize() / m_pixelDensity) * rect.size)
+		: (math::Vector2(0.0f));
+}
+
+TexturePtr Sprite::GetTexture()
+{
+	return m_texture;
+}
+
+void Sprite::Draw(
+	const math::Vector3& pos,
+	const math::Vector2& origin,
+	const float scale,
+	const float angle,
+	const math::Rect2D& rect) const
+{
+	Draw(
+		pos,
+		GetSize(rect) * scale,
+		origin,
+		Color(1.0f, 1.0f, 1.0f, 1.0f),
+		angle,
+		rect,
+		false,
+		false,
+		m_defaultShader,
+		nullptr);
+}
+
+void Sprite::Draw(
+	const math::Vector3& pos,
+	const math::Vector2& size,
+	const math::Vector2& origin,
+	const Color& color,
+	const float angle,
+	const math::Rect2D& rect,
+	const bool flipX,
+	const bool flipY,
+	ShaderPtr shader,
+	ShaderParametersPtr shaderParameters) const
+{
+	using namespace math;
+
+	Vector2 flipMul = Vector2(1.0f);
+	Vector2 flipAdd = Vector2(0.0f);
+	if (flipX)
+	{
+		flipMul.x =-1.0f;
+		flipAdd.x = 1.0f;
+	}
+	if (flipY)
+	{
+		flipMul.y =-1.0f;
+		flipAdd.y = 1.0f;
+	}
+
+	if (!shader)
+	{
+		shader = m_defaultShader;
+	}
+
+	m_polygonRenderer->BeginRendering(shader);
+	{
+		if (shaderParameters)
+		{
+			for (ShaderParameters::iterator it = shaderParameters->begin(); it != shaderParameters->end(); ++it)
+			{
+				it.value()->SetConstant(it.key(), shader);
+			}
+		}
+
+		#define SIZE_ORIGIN 0
+		#define SPRITEPOS_VIRTUALTARGETRESOLUTION 1
+		#define COLOR 2
+		#define FLIPADD_FLIPMUL 3
+		#define RECTPOS_RECTSIZE 4
+		#define ANGLE_PARALLAXINTENSITY_ZPOS 5
+
+		const unsigned int uSize = 6;
+		Vector4* u = new Vector4[uSize];
+		u[COLOR] = color;
+		u[SIZE_ORIGIN] = Vector4(size, origin);
+		u[SPRITEPOS_VIRTUALTARGETRESOLUTION] = Vector4(Vector2(pos.x, pos.y), m_virtualScreenResolution);
+		u[FLIPADD_FLIPMUL] = Vector4(flipAdd, flipMul);
+		u[RECTPOS_RECTSIZE] = Vector4(rect.pos, rect.size);
+		u[ANGLE_PARALLAXINTENSITY_ZPOS] = Vector4(Util::DegreeToRadian(angle), m_parallaxIntensity * PARALLAX_INTENSITY_FIX, pos.z, 0.0f);
+		shader->SetConstantArray("u", uSize, u);
+		delete [] u;
+
+		shader->SetTexture("diffuse", m_texture, 0);
+
+		m_polygonRenderer->Render();
+	}
+	m_polygonRenderer->EndRendering();
+}
+
+void Sprite::Draw(
+	const math::Vector2& cameraPos,
+	const math::Vector3& pos,
+	const math::Vector2& size,
+	const math::Vector2& origin,
+	const Color& color,
+	const float angle,
+	const math::Rect2D& rect,
+	const bool flipX,
+	const bool flipY,
+	ShaderPtr shader,
+	ShaderParametersPtr shaderParameters) const
+{
+	Draw(
+		math::Vector3(pos.x - cameraPos.x, pos.y - cameraPos.y, pos.z),
+		size,
+		origin,
+		color,
+		angle,
+		rect,
+		flipX,
+		flipY,
+		shader,
+		shaderParameters);
+}
+
+void Sprite::Draw(
+	const math::Vector3& pos,
+	const float scale,
+	const float angle,
+	const math::Rect2D& rect) const
+{
+	Draw(pos, m_origin, scale, angle, rect);
+}
+
+void Sprite::Draw(
+	const math::Vector3& pos,
+	const math::Vector2& size,
+	const Color& color,
+	const float angle,
+	const math::Rect2D& rect,
+	const bool flipX,
+	const bool flipY,
+	ShaderPtr shader,
+	ShaderParametersPtr shaderParameters) const
+{
+	Draw(pos, size, m_origin, color, angle, rect, flipX, flipY, shader, shaderParameters);
+}
+
+void Sprite::Draw(
+	const math::Vector2& cameraPos,
+	const math::Vector3& pos,
+	const math::Vector2& size,
+	const Color& color,
+	const float angle,
+	const math::Rect2D& rect,
+	const bool flipX,
+	const bool flipY,
+	ShaderPtr shader,
+	ShaderParametersPtr shaderParameters) const
+{
+	Draw(cameraPos, pos, size, m_origin, color, angle, rect, flipX, flipY, shader, shaderParameters);
+}
+
+void Sprite::BeginFastDraw() const
+{
+	m_polygonRenderer->BeginRendering(m_fastShader);
+	m_fastShader->SetTexture("diffuse", m_texture, 0);
+}
+
+void Sprite::FastDraw(
+	const math::Vector3& pos,
+	const math::Vector2& size,
+	const math::Vector2& origin,
+	const Color& color,
+	const math::Rect2D& rect) const
+{
+	using namespace math;
+
+	#define FAST_SIZE_ORIGIN 0
+	#define FAST_SPRITEPOS_VIRTUALTARGETRESOLUTION 1
+	#define FAST_COLOR 2
+	#define FAST_RECTPOS_RECTSIZE 3
+
+	const unsigned int uSize = 4;
+	Vector4* u = new Vector4[uSize];
+	u[FAST_SIZE_ORIGIN] = Vector4(size, origin);
+	u[FAST_SPRITEPOS_VIRTUALTARGETRESOLUTION] = Vector4(Vector2(pos.x, pos.y), m_virtualScreenResolution);
+	u[FAST_COLOR] = color;
+	u[FAST_RECTPOS_RECTSIZE] = Vector4(rect.pos, rect.size);
+	m_fastShader->SetConstantArray("u", uSize, u);
+	delete [] u;
+
+	m_polygonRenderer->Render();
+}
+
+void Sprite::EndFastDraw() const
+{
+	m_polygonRenderer->EndRendering();
+}
+
+void Sprite::SetPixelDensity(const float density)
+{
+	m_pixelDensity = density;
+}
+
+float Sprite::GetPixelDensity() const
+{
+	return m_pixelDensity;
+}
+
+void Sprite::SetOrigin(const math::Vector2& origin)
+{
+	m_origin = origin;
+}
+
+math::Vector2 Sprite::GetOrigin() const
+{
+	return m_origin;
 }
 
 } // namespace gs2d

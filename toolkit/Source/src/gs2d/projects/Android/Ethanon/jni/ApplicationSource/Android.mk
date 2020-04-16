@@ -11,15 +11,15 @@ ENGINE_VENDORS_PATH = ../../../../../../vendors
 
 LOCAL_C_INCLUDES = \
 	$(VENDORS_PATH)/BoostSDK/ \
+	$(VENDORS_PATH)/tsl/ \
 	$(VENDORS_PATH)/libzip/ \
-	$(SOURCE_PATH)/soil/ \
 	$(SOURCE_PATH)/gs2d/src/ \
 	$(SOURCE_PATH)/vendors/hashlib2plus/src/ \
 	$(SOURCE_PATH)/box2d/
 
 LOCAL_MODULE    := Application
 
-LOCAL_STATIC_LIBRARIES := libzip libsoil libgs2d libangelscript libbox2d
+LOCAL_STATIC_LIBRARIES := libzip libgs2d libangelscript libbox2d
 
 LOCAL_CFLAGS    := -Wno-null-conversion -DANDROID=1 -DGLES2=1 -DAS_MAX_PORTABILITY -DAS_NO_THREADS -DETH_DEFINE_DEPRECATED_SIGNATURES_FROM_0_9_5
 
@@ -31,7 +31,6 @@ LOCAL_SRC_FILES := \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/Platform.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/android/Platform.android.cpp \
 	$(GS2D_SOURCE_RELATIVE_PATH)/Platform/ZipFileManager.cpp \
-	$(GS2D_SOURCE_RELATIVE_PATH)/../../soil/SOIL.c \
 	$(ENGINE_VENDORS_PATH)/tinyxml_ansi/tinyxml.cpp \
 	$(ENGINE_VENDORS_PATH)/tinyxml_ansi/tinystr.cpp \
 	$(ENGINE_VENDORS_PATH)/tinyxml_ansi/tinyxmlerror.cpp \
@@ -59,7 +58,6 @@ LOCAL_SRC_FILES := \
 	$(ENGINE_PATH)/Resource/ETHResourceManager.cpp \
 	$(ENGINE_PATH)/Resource/ETHResourceProvider.cpp \
 	$(ENGINE_PATH)/Resource/ETHSpriteDensityManager.cpp \
-	$(ENGINE_PATH)/Util/ETHSpeedTimer.cpp \
 	$(ENGINE_PATH)/Util/ETHASUtil.cpp \
 	$(ENGINE_PATH)/Util/ETHDateTime.cpp \
 	$(ENGINE_PATH)/Util/ETHInput.cpp \
@@ -75,14 +73,8 @@ LOCAL_SRC_FILES := \
 	$(ENGINE_PATH)/Entity/ETHCustomDataManager.cpp \
 	$(ENGINE_PATH)/Entity/ETHLight.cpp \
 	$(ENGINE_PATH)/Entity/ETHEntityChooser.cpp \
-	$(ENGINE_PATH)/Shader/ETHShaders.glsl.cpp \
-	$(ENGINE_PATH)/Shader/ETHParallaxManager.cpp \
 	$(ENGINE_PATH)/Shader/ETHShaderManager.cpp \
-	$(ENGINE_PATH)/Shader/ETHPixelLightDiffuseSpecular.cpp \
-	$(ENGINE_PATH)/Shader/ETHFakeEyePositionManager.cpp \
-	$(ENGINE_PATH)/Shader/ETHLightmapGen.cpp \
 	$(ENGINE_PATH)/Shader/ETHBackBufferTargetManager.cpp \
-	$(ENGINE_PATH)/Shader/ETHDefaultDynamicBackBuffer.cpp \
 	$(ENGINE_PATH)/Shader/ETHNoDynamicBackBuffer.cpp \
 	$(ENGINE_PATH)/Scene/ETHBucketManager.cpp \
 	$(ENGINE_PATH)/Scene/ETHScene.cpp \

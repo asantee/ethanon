@@ -1,35 +1,15 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
- 
- Permission is hereby granted, free of charge, to any person obtaining a copy of this
- software and associated documentation files (the "Software"), to deal in the
- Software without restriction, including without limitation the rights to use, copy,
- modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
- and to permit persons to whom the Software is furnished to do so, subject to the
- following conditions:
- 
- The above copyright notice and this permission notice shall be included in all
- copies or substantial portions of the Software.
- 
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
- INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
- PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
- CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
- OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- --------------------------------------------------------------------------------------*/
-
 #include "SDLInput.h"
-#include "../../Platform/sdl/SDLWindow.h"
+
+#include "../../Video/GLSDL/GLSDLVideo.h"
 
 #include <SDL2/SDL.h>
 
+#define GS2D_UNUSED_ARGUMENT(argument) ((void)(argument))
+
 namespace gs2d {
 
-GS2D_API InputPtr CreateInput(boost::any data, const bool showJoystickWarnings)
+InputPtr CreateInput(const bool showJoystickWarnings, std::string* inputSource)
 {
-	GS2D_UNUSED_ARGUMENT(data);
 	return InputPtr(new SDLInput(showJoystickWarnings));
 }
 
@@ -202,7 +182,7 @@ math::Vector2i SDLInput::GetCursorPosition(WindowPtr pWindow) const
 math::Vector2 SDLInput::GetCursorPositionF(WindowPtr pWindow) const
 {
 	GS2D_UNUSED_ARGUMENT(pWindow);
-	return math::ToVector2(m_cursorPos);
+	return math::Vector2::ToVector2(m_cursorPos);
 }
 
 unsigned int SDLInput::GetMaxTouchCount() const
@@ -217,7 +197,7 @@ math::Vector2i SDLInput::GetMouseMove() const
 
 math::Vector2 SDLInput::GetMouseMoveF() const
 {
-	return math::ToVector2(GetMouseMove());
+	return math::Vector2::ToVector2(GetMouseMove());
 }
 
 math::Vector2 SDLInput::GetTouchMove(const unsigned int n) const
@@ -278,14 +258,14 @@ GS_KEY_STATE SDLInput::GetTouchState(const unsigned int n, WindowPtr pWindow) co
 
 float SDLInput::GetWheelState() const
 {
-	return SDLWindow::m_mouseWheel;
+	return GLSDLVideo::m_mouseWheel;
 }
 
-str_type::string SDLInput::GetLastCharInput() const
+std::string SDLInput::GetLastCharInput() const
 {
-	if (SDLWindow::m_lastCharInput.length() == 1)
+	if (GLSDLVideo::m_lastCharInput.length() == 1)
 	{
-		str_type::char_t c = SDLWindow::m_lastCharInput[0];
+		char c = GLSDLVideo::m_lastCharInput[0];
 		switch (c)
 		{
 		case 0x00:
@@ -312,10 +292,10 @@ str_type::string SDLInput::GetLastCharInput() const
 		case 0x1A:
 		case 0x1B:
 		case 0x7F:
-			return GS_L("");
+			return ("");
 		}
 	}
-	return SDLWindow::m_lastCharInput;
+	return GLSDLVideo::m_lastCharInput;
 }
 
 } // namespace gs2d

@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "CustomDataEditor.h"
 
 #include <string>
@@ -118,7 +96,7 @@ void CustomDataEditor::InputVariableName(ETHEntity* pEntity, EditorBase *pEditor
 		DrawInputFieldRect(v2Pos, &m_inVariableName, pEditor, GS_L("Enter variable name"));
 		m_inVariableName.PlaceInput(v2Pos);
 
-		str_type::stringstream ss;
+		std::stringstream ss;
 		ss << ETHCustomDataManager::GetDataName(m_cdesState);
 		pEditor->ShadowPrint(v2Pos-Vector2(0.0f,m_inVariableName.GetSize()), ss.str().c_str(),
 			GS_L("Verdana14_shadow.fnt"), gs2d::constant::BLACK);
@@ -154,7 +132,7 @@ void CustomDataEditor::InputVariableName(ETHEntity* pEntity, EditorBase *pEditor
 
 void CustomDataEditor::ShowInScreenCustomData(const ETHEntity* pEntity, EditorBase *pEditor) const
 {
-	tsl::hopscotch_map<str_type::string, ETHCustomDataPtr> dataMap;
+	tsl::hopscotch_map<std::string, ETHCustomDataPtr> dataMap;
 	pEntity->GetCustomDataManager()->CopyMap(dataMap);
 
 	const Vector2 v2Pos(pEntity->GetPositionXY()-Vector2(0,pEntity->GetPosition().z)
@@ -207,15 +185,15 @@ void CustomDataEditor::Rebuild(const ETHEntity* pEntity, EditorBase *pEditor)
 	m_customDataButtonList.SetupMenu(pEditor->GetVideoHandler(), pEditor->GetInputHandler(),
 		pEditor->GetMenuSize(), pEditor->GetMenuWidth()*2, true, true, false);
 
-	tsl::hopscotch_map<str_type::string, ETHCustomDataPtr> dataMap;
+	tsl::hopscotch_map<std::string, ETHCustomDataPtr> dataMap;
 	pEntity->GetCustomDataManager()->CopyMap(dataMap);
 
-	for (tsl::hopscotch_map<str_type::string, ETHCustomDataPtr>::const_iterator iter = dataMap.begin();
+	for (tsl::hopscotch_map<std::string, ETHCustomDataPtr>::const_iterator iter = dataMap.begin();
 		 iter != dataMap.end(); ++iter)
 	{
 		const ETHCustomDataPtr& data = iter->second;
-		const str_type::string& name = iter->first;
-		str_type::stringstream ss;
+		const std::string& name = iter->first;
+		std::stringstream ss;
 		ss << GS_L(" = ");
 		bool editable = true;
 		switch (data->GetType())
@@ -286,7 +264,7 @@ void CustomDataEditor::EditVariable(ETHEntity* pEntity, EditorBase *pEditor)
 		default:
 			break;
 		};
-		str_type::stringstream ss;
+		std::stringstream ss;
 		ss << ETHCustomDataManager::GetDataName(type) << GS_L(" ") << r.text << GS_L(":");
 		pEditor->ShadowPrint(v2Pos-Vector2(0.0f,m_inValueInput.GetSize()), ss.str().c_str(),
 			GS_L("Verdana14_shadow.fnt"), gs2d::constant::BLACK);

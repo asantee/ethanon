@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "ETHBucketManager.h"
 
 #include "../Entity/ETHEntityArray.h"
@@ -192,8 +170,8 @@ void ETHBucketManager::Add(ETHRenderEntity* entity, const SIDE side)
 	}
 
 	#if defined(_DEBUG) || defined(DEBUG)
-	ETH_STREAM_DECL(ss) << GS_L("Entity ") << entity->GetEntityName() << GS_L(" (ID#") << entity->GetID()
-						<< GS_L(") added to bucket ") << GS_L("(") << bucket.x << GS_L(", ") << bucket.y << GS_L(")");
+	ETH_STREAM_DECL(ss) << ("Entity ") << entity->GetEntityName() << (" (ID#") << entity->GetID()
+						<< (") added to bucket ") << ("(") << bucket.x << (", ") << bucket.y << (")");
 	m_provider->Log(ss.str(), Platform::Logger::INFO);
 	#endif
 }
@@ -211,9 +189,9 @@ bool ETHBucketManager::MoveEntity(ETHEntity* entity, const Vector2 &currentBucke
 	if (bucketIter == GetLastBucket())
 	{
 		ETH_STREAM_DECL(ss)
-			<< GS_L("The current bucket doesn't exist: (")
-			<< currentBucket.x << GS_L(",") << currentBucket.y << GS_L(")")
-			<< GS_L(" -> ") << entity->GetEntityName();
+			<< ("The current bucket doesn't exist: (")
+			<< currentBucket.x << (",") << currentBucket.y << (")")
+			<< (" -> ") << entity->GetEntityName();
 		m_provider->Log(ss.str(), Platform::Logger::ERROR);
 		return false;
 	}
@@ -240,9 +218,9 @@ bool ETHBucketManager::MoveEntity(ETHEntity* entity, const Vector2 &currentBucke
 
 	#if defined(_DEBUG) || defined(DEBUG)
 	ETH_STREAM_DECL(ss)
-		<< entity->GetEntityName() << GS_L("(") << entity->GetID() << GS_L(")")
-		<< GS_L(" moved from bucket (") << currentBucket.x << GS_L(",") << currentBucket.y << GS_L(") to bucket (")
-		<< destBucket.x << GS_L(",") << destBucket.y << GS_L(")");
+		<< entity->GetEntityName() << ("(") << entity->GetID() << (")")
+		<< (" moved from bucket (") << currentBucket.x << (",") << currentBucket.y << (") to bucket (")
+		<< destBucket.x << (",") << destBucket.y << (")");
 	m_provider->Log(ss.str(), Platform::Logger::INFO);
 	#endif
 	return true;
@@ -378,7 +356,7 @@ ETHSpriteEntity* ETHBucketManager::SeekEntity(const int id)
 	return 0;
 }
 
-ETHSpriteEntity* ETHBucketManager::SeekEntity(const str_type::string& fileName)
+ETHSpriteEntity* ETHBucketManager::SeekEntity(const std::string& fileName)
 {
 	for (ETHBucketMap::iterator bucketIter = GetFirstBucket(); bucketIter != GetLastBucket(); ++bucketIter)
 	{
@@ -404,7 +382,7 @@ bool ETHBucketManager::DeleteEntity(const int id)
 			if ((*iter)->GetID() == id)
 			{
 				#if defined(_DEBUG) || defined(DEBUG)
-					ETH_STREAM_DECL(ss) << GS_L("Entity ") << (*iter)->GetEntityName() << GS_L(" (ID#") << (*iter)->GetID() << GS_L(") removed (DeleteEntity method)");
+					ETH_STREAM_DECL(ss) << ("Entity ") << (*iter)->GetEntityName() << (" (ID#") << (*iter)->GetID() << (") removed (DeleteEntity method)");
 					m_provider->Log(ss.str(), Platform::Logger::INFO);
 				#endif
 
@@ -432,7 +410,7 @@ bool ETHBucketManager::DeleteEntity(const int id, const Vector2 &searchBucket)
 			if ((*iter)->GetID() == id)
 			{
 				#if defined(_DEBUG) || defined(DEBUG)
-				ETH_STREAM_DECL(ss) << GS_L("Entity ") << (*iter)->GetEntityName() << GS_L(" (ID#") << (*iter)->GetID() << GS_L(") removed (DeleteEntity method)");
+				ETH_STREAM_DECL(ss) << ("Entity ") << (*iter)->GetEntityName() << (" (ID#") << (*iter)->GetID() << (") removed (DeleteEntity method)");
 				m_provider->Log(ss.str(), Platform::Logger::INFO);
 				#endif
 
@@ -457,7 +435,7 @@ bool ETHBucketManager::DeleteEntity(const int id, const Vector2 &searchBucket)
 			if ((*iter)->GetID() == id)
 			{
 				#if defined(_DEBUG) || defined(DEBUG)
-					ETH_STREAM_DECL(ss) << GS_L("Entity ") << (*iter)->GetEntityName() << GS_L(" (ID#") << (*iter)->GetID() << GS_L(") removed (DeleteEntity method)");
+					ETH_STREAM_DECL(ss) << ("Entity ") << (*iter)->GetEntityName() << (" (ID#") << (*iter)->GetID() << (") removed (DeleteEntity method)");
 					m_provider->Log(ss.str(), Platform::Logger::INFO);
 				#endif
 
@@ -467,12 +445,12 @@ bool ETHBucketManager::DeleteEntity(const int id, const Vector2 &searchBucket)
 		}
 	}
 
-	ETH_STREAM_DECL(ss) << GS_L("Couldn't find the entity to delete: ID") << id;
+	ETH_STREAM_DECL(ss) << ("Couldn't find the entity to delete: ID") << id;
 	m_provider->Log(ss.str(), Platform::Logger::ERROR);
 	return false;
 }
 
-void ETHBucketManager::GetEntityArrayByName(const str_type::string& name, ETHEntityArray &outVector)
+void ETHBucketManager::GetEntityArrayByName(const std::string& name, ETHEntityArray &outVector)
 {
 	for (ETHBucketMap::iterator bucketIter = GetFirstBucket(); bucketIter != GetLastBucket(); ++bucketIter)
 	{
@@ -510,7 +488,7 @@ void ETHBucketManager::GetEntityArrayFromBucket(const Vector2 &bucket, ETHEntity
 }
 
 void ETHBucketManager::GetWhiteListedEntityArrayFromBucket(const Vector2 &bucket, ETHEntityArray &outVector,
-														   const str_type::string& semicolonSeparatedNames)
+														   const std::string& semicolonSeparatedNames)
 {
 	GetEntityArrayFromBucket(bucket, outVector, ETHEntityNameArrayChooser(semicolonSeparatedNames, false));
 }
@@ -533,12 +511,12 @@ void ETHBucketManager::GetEntitiesAroundBucket(const Vector2& bucket, ETHEntityA
 	GetEntitiesAroundBucket(bucket, outVector, ETHEntityDefaultChooser());
 }
 
-void ETHBucketManager::GetWhiteListedEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray &outVector, const str_type::string& semicolonSeparatedNames)
+void ETHBucketManager::GetWhiteListedEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray &outVector, const std::string& semicolonSeparatedNames)
 {
 	GetEntitiesAroundBucket(bucket, outVector, ETHEntityNameArrayChooser(semicolonSeparatedNames, false));
 }
 
-void ETHBucketManager::GetEntitiesAroundBucketWithBlackList(const Vector2& bucket, ETHEntityArray &outVector, const str_type::string& semicolonSeparatedNames)
+void ETHBucketManager::GetEntitiesAroundBucketWithBlackList(const Vector2& bucket, ETHEntityArray &outVector, const std::string& semicolonSeparatedNames)
 {
 	GetEntitiesAroundBucket(bucket, outVector, ETHEntityNameArrayChooser(semicolonSeparatedNames, true));
 }

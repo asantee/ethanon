@@ -1,35 +1,17 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "ETHDrawable.h"
+
 #include "../Resource/ETHResourceProvider.h"
+
 #include <Platform/Platform.h>
+
+#define UNUSED_ARGUMENT(argument) ((void)(argument))
 
 ETHTextDrawer::ETHTextDrawer(
 	const ETHResourceProviderPtr& provider,
 	const Vector2& pos, 
-	const str_type::string& text,
-	const str_type::string &font,
-	const GS_DWORD color,
+	const std::string& text,
+	const std::string &font,
+	const Color color,
 	const unsigned long time,
 	const float scale)
 {
@@ -46,9 +28,9 @@ ETHTextDrawer::ETHTextDrawer(
 ETHTextDrawer::ETHTextDrawer(
 	const ETHResourceProviderPtr& provider,
 	const Vector2& pos, 
-	const str_type::string& text,
-	const str_type::string& font,
-	const GS_DWORD color,
+	const std::string& text,
+	const std::string& font,
+	const Color color,
 	const float scale)
 {
 	this->v2Pos = pos;
@@ -69,7 +51,7 @@ bool ETHTextDrawer::Draw(const unsigned long lastFrameElapsedTimeMS)
 	if (timeMS > 0)
 	{
 		const float fade = 1.0f - Clamp((float)elapsedTimeMS / (float)this->timeMS, 0.0f, 1.0f);
-		color.a = (GS_BYTE)(fade * 255.0f);
+		color.w = fade;
 	}
 	return provider->GetVideo()->DrawBitmapText(v2Pos, text, font, color, scale);
 }
@@ -82,79 +64,6 @@ bool ETHTextDrawer::IsAlive() const
 		return true;
 }
 
-ETHRectangleDrawer::ETHRectangleDrawer(
-	const ETHResourceProviderPtr& provider,
-	const Vector2& pos,
-	const Vector2& size,
-	const Color& color)
-{
-	this->v2Pos = pos;
-	this->v2Size = size;
-	this->color0 = color;
-	this->color1 = color;
-	this->color2 = color;
-	this->color3 = color;
-	this->provider = provider;
-}
-
-ETHRectangleDrawer::ETHRectangleDrawer(
-	const ETHResourceProviderPtr& provider,
-	const Vector2& pos,
-	const Vector2& size,
-	const Color& color0,
-	const Color& color1,
-	const Color& color2,
-	const Color& color3)
-{
-	this->v2Pos = pos;
-	this->v2Size = size;
-	this->color0 = color0;
-	this->color1 = color1;
-	this->color2 = color2;
-	this->color3 = color3;
-	this->provider = provider;
-}
-
-bool ETHRectangleDrawer::Draw(const unsigned long lastFrameElapsedTimeMS)
-{
-	GS2D_UNUSED_ARGUMENT(lastFrameElapsedTimeMS);
-	return provider->GetVideo()->DrawRectangle(v2Pos, v2Size, color0, color1, color2, color3, 0.0f);
-}
-
-bool ETHRectangleDrawer::IsAlive() const
-{
-	return false;
-}
-
-ETHLineDrawer::ETHLineDrawer(
-	const ETHResourceProviderPtr& provider,
-	const Vector2& a,
-	const Vector2& b,
-	const Color& color0,
-	const Color& color1,
-	const float width)
-{
-	this->a = a;
-	this->b = b;
-	this->colorA = color0;
-	this->colorB = color1;
-	this->width = width;
-	this->provider = provider;
-}
-
-bool ETHLineDrawer::Draw(const unsigned long lastFrameElapsedTimeMS)
-{
-	GS2D_UNUSED_ARGUMENT(lastFrameElapsedTimeMS);
-	VideoPtr video = provider->GetVideo();
-	video->SetLineWidth(width);
-	return video->DrawLine(a, b, colorA, colorB);
-}
-
-bool ETHLineDrawer::IsAlive() const
-{
-	return false;
-}
-
 ETHSpriteDrawer::ETHSpriteDrawer(
 	const ETHResourceProviderPtr& provider,
 	const SpritePtr& sprite,
@@ -162,18 +71,17 @@ ETHSpriteDrawer::ETHSpriteDrawer(
 	const Vector2& size,
 	const Vector4& color,
 	const float angle,
+	SpriteRectsPtr rects,
 	const unsigned int frame,
 	const bool flipX,
 	const bool flipY)
 {
 	this->sprite = sprite;
-	this->color0 = color;
-	this->color1 = color;
-	this->color2 = color;
-	this->color3 = color;
+	this->color = color;
 	this->v2Pos = pos;
 	this->v2Size = size;
 	this->angle = angle;
+	this->rects = rects;
 	this->frame = frame;
 	this->provider = provider;
 	this->flipX = flipX;
@@ -185,33 +93,22 @@ ETHSpriteDrawer::ETHSpriteDrawer(
 
 bool ETHSpriteDrawer::Draw(const unsigned long lastFrameElapsedTimeMS)
 {
-	GS2D_UNUSED_ARGUMENT(lastFrameElapsedTimeMS);
+	UNUSED_ARGUMENT(lastFrameElapsedTimeMS);
 	if (sprite)
 	{
-		provider->GetVideo()->SetVertexShader(ShaderPtr());
-		provider->GetVideo()->SetPixelShader(ShaderPtr());
-
-		sprite->SetRect(frame);
-
-		const Vector2 frameSize(sprite->GetFrameSize());
+		const Rect2D rect(rects ? rects->GetRect(frame) : Rect2D());
+		const Vector2 frameSize(sprite->GetSize(rect));
 		const Vector2 size(v2Size == Vector2(-1,-1) ? frameSize : v2Size);
-		
+
 		if (size.x == 0.0f || size.y == 0.0f)
 			return true;
 
-		//const Vector2 spriteScale((size.x / frameSize.x), (size.y / frameSize.y));
-
-		const Rect2Df rect(sprite->GetRect());
-
-		const Vector2 bitmapSize = ((rect.size == rect.originalSize) ? frameSize : rect.size);
-		const Vector2 virtualSize = ((rect.size == rect.originalSize) ? frameSize : rect.originalSize);
+		const Vector2 virtualSize = ((rect.originalSize == Vector2(0.0f)) ? frameSize : rect.originalSize);
 		const Vector2 absoluteOrigin = (virtualSize * v2Origin) - (rect.offset);
-		const Vector2 relativeOrigin(absoluteOrigin.x / bitmapSize.x, absoluteOrigin.y / bitmapSize.y);
+		const Vector2 relativeOrigin(absoluteOrigin.x / frameSize.x, absoluteOrigin.y / frameSize.y);
 
-		sprite->SetOrigin(relativeOrigin);
-		sprite->FlipX(flipX);
-		sprite->FlipY(flipY);
-		return sprite->DrawShaped(v2Pos, size, color0, color1, color2, color3, angle);
+		sprite->Draw(Vector3(v2Pos, 0.0f), size, relativeOrigin, color, angle, rect, flipX, flipY, Sprite::GetDefaultShader());
+		return true;
 	}
 	else
 	{

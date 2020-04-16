@@ -1,53 +1,29 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "Video.h"
 
 namespace gs2d {
 
 Video::Video() :
-	m_depth(0.0f),
-	m_lineWidth(1.0f),
-	m_roundUpPosition(false),
-	m_virtualScreenHeight(720.0f)
+	m_virtualScreenHeight(720.0f),
+	m_rendering(false)
 {
 }
 
 math::Vector2 Video::ComputeCarretPosition(
-	const str_type::string& font,
-	const str_type::string& text,
+	const std::string& font,
+	const std::string& text,
 	const unsigned int pos)
 {
 	return BitmapFontManager::ComputeCarretPosition(this, font, text, pos);
 }
 
-math::Vector2 Video::ComputeTextBoxSize(const str_type::string& font, const str_type::string& text)
+math::Vector2 Video::ComputeTextBoxSize(const std::string& font, const std::string& text)
 {
 	return BitmapFontManager::ComputeTextBoxSize(this, font, text);
 }
 
 unsigned int Video::FindClosestCarretPosition(
-	const str_type::string& font,
-	const str_type::string& text,
+	const std::string& font,
+	const std::string& text,
 	const math::Vector2 &textPos,
 	const math::Vector2 &reference)
 {
@@ -56,8 +32,8 @@ unsigned int Video::FindClosestCarretPosition(
 
 bool Video::DrawBitmapText(
 	const math::Vector2& v2Pos,
-	const str_type::string& text,
-	const str_type::string& font,
+	const std::string& text,
+	const std::string& font,
 	const Color& color,
 	const float scale)
 {
@@ -84,8 +60,8 @@ bool Video::VIDEO_MODE::operator<(const VIDEO_MODE &other) const
 
 bool Video::ManageLoop()
 {
-	if (Rendering())
-		EndSpriteScene();
+	if (IsRendering())
+		EndRendering();
 
 	APP_STATUS status = APP_SKIP;
 	while (status == APP_SKIP)
@@ -95,8 +71,8 @@ bool Video::ManageLoop()
 			return false;
 	}
 
-	if (!Rendering())
-		BeginSpriteScene();
+	if (!IsRendering())
+		BeginRendering();
 
 	return true;
 }
@@ -115,44 +91,12 @@ bool Video::MoveCamera(const math::Vector2& dir)
 
 math::Vector2 Video::GetCameraPos() const
 {
-	if (IsRoundingUpPosition())
-	{
-		return math::Vector2(floor(m_cameraPos.x), floor(m_cameraPos.y));
-	}
-	else
-	{
-		return m_cameraPos;
-	}
+	return m_cameraPos;
 }
 
-void Video::SetLineWidth(const float width)
+bool Video::IsRendering() const
 {
-	m_lineWidth = (width < 1.0f) ? 1.0f : width;
-}
-
-float Video::GetLineWidth() const
-{
-	return m_lineWidth;
-}
-
-void Video::RoundUpPosition(const bool roundUp)
-{
-	m_roundUpPosition = roundUp;
-}
-bool Video::IsRoundingUpPosition() const
-{
-	return m_roundUpPosition;
-}
-
-bool Video::SetSpriteDepth(const float depth)
-{
-	m_depth = math::Clamp(depth, 0.0f, 1.0f);
-	return true;
-}
-
-float Video::GetSpriteDepth() const
-{
-	return m_depth;
+	return m_rendering;
 }
 
 void Video::SetVirtualScreenHeight(const float height)

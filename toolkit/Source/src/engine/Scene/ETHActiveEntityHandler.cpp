@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "ETHActiveEntityHandler.h"
 
 #include "../Entity/ETHRenderEntity.h"
@@ -102,7 +80,7 @@ void ETHActiveEntityHandler::TestEntityLists() const
 			ETHRenderEntity* entityB = (*b);
 			if (entityA == entityB)
 			{
-				ETH_STREAM_DECL(ss) << GS_L("Equal entities found on both lists: ") << entityA->GetEntityName();
+				ETH_STREAM_DECL(ss) << ("Equal entities found on both lists: ") << entityA->GetEntityName();
 				m_provider->Log(ss.str(), Platform::Logger::WARNING);
 			}
 			assert(entityA != entityB);
@@ -110,7 +88,7 @@ void ETHActiveEntityHandler::TestEntityLists() const
 	}
 }
 
-void ETHActiveEntityHandler::UpdateAlwaysActiveEntities(const Vector2& zAxisDir, ETHBucketManager& buckets, const float lastFrameElapsedTime)
+void ETHActiveEntityHandler::UpdateAlwaysActiveEntities(const Vector2& zAxisDir, const float sceneParallaxIntensity, ETHBucketManager& buckets, const float lastFrameElapsedTime)
 {
 	#if defined(_DEBUG) || defined(DEBUG)
 	TestEntityLists();
@@ -123,7 +101,7 @@ void ETHActiveEntityHandler::UpdateAlwaysActiveEntities(const Vector2& zAxisDir,
 		if (!(entity->IsAlive()) || RemoveFinishedTemporaryEntity(entity, buckets))
 		{
 			#if defined(_DEBUG) || defined(DEBUG)
-			 ETH_STREAM_DECL(ss) << GS_L("Entity removed from dynamic entity list: ") << entity->GetEntityName();
+			 ETH_STREAM_DECL(ss) << ("Entity removed from dynamic entity list: ") << entity->GetEntityName();
 			 m_provider->Log(ss.str(), Platform::Logger::INFO);
 			#endif
 			entity->Release();
@@ -131,7 +109,7 @@ void ETHActiveEntityHandler::UpdateAlwaysActiveEntities(const Vector2& zAxisDir,
 			continue;
 		}
 
-		entity->Update(lastFrameElapsedTime, zAxisDir, buckets);
+		entity->Update(lastFrameElapsedTime, zAxisDir, sceneParallaxIntensity, buckets);
 
 		if (entity->HasAnyCallbackFunction())
 		{
@@ -142,7 +120,7 @@ void ETHActiveEntityHandler::UpdateAlwaysActiveEntities(const Vector2& zAxisDir,
 	}
 }
 
-void ETHActiveEntityHandler::UpdateCurrentFrameEntities(const Vector2& zAxisDir, ETHBucketManager& buckets, const float lastFrameElapsedTime)
+void ETHActiveEntityHandler::UpdateCurrentFrameEntities(const Vector2& zAxisDir, const float sceneParallaxIntensity, ETHBucketManager& buckets, const float lastFrameElapsedTime)
 {
 	#if defined(_DEBUG) || defined(DEBUG)
 	TestEntityLists();
@@ -154,7 +132,7 @@ void ETHActiveEntityHandler::UpdateCurrentFrameEntities(const Vector2& zAxisDir,
 
 		if (entity->IsAlive())
 		{
-			entity->Update(lastFrameElapsedTime, zAxisDir, buckets);
+			entity->Update(lastFrameElapsedTime, zAxisDir, sceneParallaxIntensity, buckets);
 
 			if (entity->HasAnyCallbackFunction())
 			{
@@ -179,7 +157,7 @@ bool ETHActiveEntityHandler::RemoveFinishedTemporaryEntity(ETHRenderEntity* enti
 		buckets.DeleteEntity(entity->GetID(), v2Bucket);
 
 		#if defined(_DEBUG) || defined(DEBUG)
-		 ETH_STREAM_DECL(ss) << GS_L("Entity ") << entity->GetEntityName() << GS_L(" (ID#") << entity->GetID() << GS_L(") removed from dynamic entity list (particle effects over)");
+		 ETH_STREAM_DECL(ss) << ("Entity ") << entity->GetEntityName() << (" (ID#") << entity->GetID() << (") removed from dynamic entity list (particle effects over)");
 		 m_provider->Log(ss.str(), Platform::Logger::INFO);
 		#endif
 		return true;

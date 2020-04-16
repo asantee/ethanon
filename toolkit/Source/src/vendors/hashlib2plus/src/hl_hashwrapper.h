@@ -260,25 +260,31 @@ class hashwrapper
 			/*
 			 * open the specified file
 			 */
+#if (__STDC_VERSION__ >= 201112L ) || ( _MSC_VER >= 1500 )
+			if(fopen_s(&file, filename.c_str(), "rb") != EINVAL)
+#else
 			if((file = fopen(filename.c_str(), "rb")) == NULL)
+#endif
 			{
 				throw hlException(HL_FILE_READ_ERROR,
 						  "Cannot read file \"" + 
 						  filename + 
 						  "\".");
 			}
-
-			/*
-			 * read the file in 1024b blocks and
-			 * update the context for every block
-			 */
-			while( (len = fread(buffer,1,1024,file)) )
+			else
 			{
-				updateContext(buffer, len);
-			}
+				/*
+					* read the file in 1024b blocks and
+					* update the context for every block
+					*/
+				while( len = fread(buffer,1,1024,file) )
+				{
+					updateContext(buffer, len);
+				}
 
-			//close the file and create the hash
-			fclose(file);
+				//close the file and create the hash
+				fclose(file);
+			}
 			return(hashIt());
 		}
 }; 

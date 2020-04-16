@@ -1,10 +1,11 @@
 #include <assert.h>
-// #include <string.h> // strstr
+#include <string.h> // strstr
+#include <stdio.h>
 #include <new> // new()
 #include <math.h>
 #include "scriptmath3d.h"
 
-#include <Math/GameMath.h>
+#include <Math/Vector3.h>
 
 using gs2d::math::Vector3;
 using gs2d::math::PODVector3;
@@ -202,15 +203,15 @@ void RegisterScriptMath3D_Native(asIScriptEngine *engine)
 	// Register the operator overloads
 	r = engine->RegisterObjectMethod("vector3", "vector3 &opAddAssign(const vector3 &in)", asMETHODPR(Vector3, operator+=, (const Vector3 &), Vector3&), asCALL_THISCALL); assert( r >= 0 );
 	r = engine->RegisterObjectMethod("vector3", "vector3 &opSubAssign(const vector3 &in)", asMETHODPR(Vector3, operator-=, (const Vector3 &), Vector3&), asCALL_THISCALL); assert( r >= 0 );
-	r = engine->RegisterObjectMethod("vector3", "vector3 &opMulAssign(float)", asMETHODPR(Vector3, operator*=, (float), Vector3&), asCALL_THISCALL); assert( r >= 0 );
-	r = engine->RegisterObjectMethod("vector3", "vector3 &opDivAssign(float)", asMETHODPR(Vector3, operator/=, (float), Vector3&), asCALL_THISCALL); assert( r >= 0 );
+	r = engine->RegisterObjectMethod("vector3", "vector3 &opMulAssign(const float)", asMETHODPR(Vector3, operator*=, (const float), Vector3&), asCALL_THISCALL); assert( r >= 0 );
+	r = engine->RegisterObjectMethod("vector3", "vector3 &opDivAssign(const float)", asMETHODPR(Vector3, operator/=, (const float), Vector3&), asCALL_THISCALL); assert( r >= 0 );
 	r = engine->RegisterObjectMethod("vector3", "bool opEquals(const vector3 &in) const", asMETHODPR(Vector3, operator==, (const Vector3&) const, bool), asCALL_THISCALL); assert( r >= 0 );
 	r = engine->RegisterObjectMethod("vector3", "vector3 opAdd(const vector3 &in) const", asMETHODPR(Vector3, operator+, (const Vector3&) const, Vector3), asCALL_THISCALL); assert( r >= 0 );
 	r = engine->RegisterObjectMethod("vector3", "vector3 opSub(const vector3 &in) const", asMETHODPR(Vector3, operator-, (const Vector3&) const, Vector3), asCALL_THISCALL); assert( r >= 0 );
-	r = engine->RegisterObjectMethod("vector3", "vector3 opMul(float) const", asMETHODPR(Vector3, operator*, (float) const, Vector3), asCALL_THISCALL); assert( r >= 0 );
+	r = engine->RegisterObjectMethod("vector3", "vector3 opMul(const float) const", asMETHODPR(Vector3, operator*, (float) const, Vector3), asCALL_THISCALL); assert( r >= 0 );
 	r = engine->RegisterObjectMethod("vector3", "vector3 opMul_r(float) const", asMETHODPR(Vector3, operator*, (float) const, Vector3), asCALL_THISCALL); assert( r >= 0 );
 	r = engine->RegisterObjectMethod("vector3", "vector3 opMul(const vector3 &in) const", asMETHODPR(Vector3, operator*, (const Vector3&) const, Vector3), asCALL_THISCALL); assert( r >= 0 );
-	r = engine->RegisterObjectMethod("vector3", "vector3 opDiv(float) const", asMETHODPR(Vector3, operator/, (float) const, Vector3), asCALL_THISCALL); assert( r >= 0 );
+	r = engine->RegisterObjectMethod("vector3", "vector3 opDiv(const float) const", asMETHODPR(Vector3, operator/, (float) const, Vector3), asCALL_THISCALL); assert( r >= 0 );
 
 	// Register the object methods
 	r = engine->RegisterObjectMethod("vector3", "float length() const", asMETHOD(Vector3,Length), asCALL_THISCALL); assert( r >= 0 );

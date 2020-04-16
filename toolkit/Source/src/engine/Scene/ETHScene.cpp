@@ -1,30 +1,7 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "ETHScene.h"
 
 #include "../Entity/ETHEntityArray.h"
 
-#include "../Shader/ETHLightmapGen.h"
 #include "../Shader/ETHShaderManager.h"
 
 #include "../Resource/ETHResourceProvider.h"
@@ -42,7 +19,7 @@
 int ETHScene::m_idCounter = 0;
 
 ETHScene::ETHScene(
-	const str_type::string& fileName,
+	const std::string& fileName,
 	ETHResourceProviderPtr provider,
 	const ETHSceneProperties& props,
 	asIScriptModule *pModule,
@@ -100,16 +77,13 @@ void ETHScene::Init(ETHResourceProviderPtr provider, const ETHSceneProperties& p
 	m_pContext = pContext;
 	m_idCounter = 0;
 	m_minSceneHeight = 0.0f;
-	m_nCurrentLights = 0;
 	m_nProcessedEntities = m_nRenderedPieces = 0;
 	m_bucketClearenceFactor = 0.0f;
 	m_enableZBuffer = true;
 	m_maxSceneHeight = m_provider->GetVideo()->GetScreenSizeF().y;
-	const ETHShaderManagerPtr& shaderManager = m_provider->GetShaderManager();
-	shaderManager->SetParallaxIntensity(m_sceneProps.parallaxIntensity);
 }
 
-str_type::string ETHScene::AssembleEntityPath() const
+std::string ETHScene::AssembleEntityPath() const
 {
 	return m_provider->GetFileIOHub()->GetResourceDirectory() + ETHDirectories::GetEntityDirectory();
 }
@@ -120,21 +94,21 @@ void ETHScene::ClearResources()
 	m_provider->GetAudioResourceManager()->ReleaseResources();
 }
 
-bool ETHScene::SaveToFile(const str_type::string& fileName, ETHEntityCache& entityCache)
+bool ETHScene::SaveToFile(const std::string& fileName, ETHEntityCache& entityCache)
 {
 	if (m_buckets.IsEmpty())
 	{
-		ETH_STREAM_DECL(ss) << GS_L("ETHScene::Save: there are no entities to save: ") << fileName;
+		ETH_STREAM_DECL(ss) << ("ETHScene::Save: there are no entities to save: ") << fileName;
 		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
 		return false;
 	}
 
 	// Write the header to the file
 	TiXmlDocument doc;
-	TiXmlDeclaration *pDecl = new TiXmlDeclaration(GS_L("1.0"), GS_L(""), GS_L(""));
+	TiXmlDeclaration *pDecl = new TiXmlDeclaration(("1.0"), (""), (""));
 	doc.LinkEndChild(pDecl);
 
-	TiXmlElement *pElement = new TiXmlElement(GS_L("Ethanon"));
+	TiXmlElement *pElement = new TiXmlElement(("Ethanon"));
 	doc.LinkEndChild(pElement);
 	TiXmlElement *pRoot = doc.RootElement();
 
@@ -142,7 +116,7 @@ bool ETHScene::SaveToFile(const str_type::string& fileName, ETHEntityCache& enti
 	m_sceneProps.WriteToXMLFile(pRoot);
 
 	// start writing entities
-	TiXmlElement *pEntities = new TiXmlElement(GS_L("EntitiesInScene"));
+	TiXmlElement *pEntities = new TiXmlElement(("EntitiesInScene"));
 	pRoot->LinkEndChild(pEntities);
 
 	// Write every entity as an ordered bucket map
@@ -159,7 +133,7 @@ bool ETHScene::SaveToFile(const str_type::string& fileName, ETHEntityCache& enti
 				m_provider->GetFileManager());
 
 			#if defined(_DEBUG) || defined(DEBUG)
-			ETH_STREAM_DECL(ss) << GS_L("Entity written to file: ") << (*iter)->GetEntityName();
+			ETH_STREAM_DECL(ss) << ("Entity written to file: ") << (*iter)->GetEntityName();
 			m_provider->Log(ss.str(), Platform::FileLogger::INFO);
 			#endif
 		}
@@ -170,9 +144,9 @@ bool ETHScene::SaveToFile(const str_type::string& fileName, ETHEntityCache& enti
 }
 
 bool ETHScene::AddSceneFromFile(
-	const str_type::string& fileName,
+	const std::string& fileName,
 	ETHEntityCache& entityCache,
-	const str_type::string &entityPath,
+	const std::string &entityPath,
 	const bool readSceneProperties,
 	const Vector3& offset,
 	ETHEntityArray &outVector,
@@ -182,20 +156,36 @@ bool ETHScene::AddSceneFromFile(
 
 	if (!fileManager->FileExists(fileName))
 	{
-		ETH_STREAM_DECL(ss) << GS_L("ETHScene::LoadFromFile: file not found (") << fileName << GS_L(")");
+		ETH_STREAM_DECL(ss) << ("ETHScene::LoadFromFile: file not found (") << fileName << (")");
 		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
 		return false;
 	}
+
+	// Read the header and check if the file is valid
+	TiXmlDocument doc(fileName);
+	std::string content;
+	fileManager->GetUTFFileString(fileName, content);
+	return AddSceneFromString(fileName, content, entityCache, entityPath, readSceneProperties, offset, outVector, shouldGenerateNewID);
+}
+
+bool ETHScene::AddSceneFromString(
+	const std::string& fileName,
+	const std::string& xmlContent,
+	ETHEntityCache& entityCache,
+	const std::string &entityPath,
+	const bool readSceneProperties,
+	const Vector3& offset,
+	ETHEntityArray &outVector,
+	const bool shouldGenerateNewID)
+{
 	m_minSceneHeight = 0.0f;
 	m_maxSceneHeight = m_provider->GetVideo()->GetScreenSizeF().y;
 
 	// Read the header and check if the file is valid
 	TiXmlDocument doc(fileName);
-	str_type::string content;
-	fileManager->GetUTFFileString(fileName, content);
-	if (!doc.LoadFile(content, TIXML_ENCODING_LEGACY))
+	if (!doc.LoadFile(xmlContent, TIXML_ENCODING_LEGACY))
 	{
-		ETH_STREAM_DECL(ss) << GS_L("ETHScene::LoadFromFile: file found, but parsing failed (") << fileName << GS_L(")");
+		ETH_STREAM_DECL(ss) << ("ETHScene::LoadFromFile: file found, but parsing failed (") << fileName << (")");
 		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
 		return false;
 	}
@@ -205,7 +195,7 @@ bool ETHScene::AddSceneFromFile(
 	TiXmlElement *pElement = hDoc.FirstChildElement().Element();
 	if (!pElement)
 	{
-		ETH_STREAM_DECL(ss) << GS_L("ETHScene::LoadFromFile: couldn't find root element (") << fileName << GS_L(")");
+		ETH_STREAM_DECL(ss) << ("ETHScene::LoadFromFile: couldn't find root element (") << fileName << (")");
 		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
 		return false;
 	}
@@ -213,31 +203,31 @@ bool ETHScene::AddSceneFromFile(
 }
 
 bool ETHScene::AddEntitiesFromXMLFile(
-	const str_type::string& fileName,
+	const std::string& fileName,
 	TiXmlElement *pRoot,
 	ETHEntityCache& entityCache,
-	const str_type::string &entityPath,
+	const std::string &entityPath,
 	const bool readSceneProperties,
 	const Vector3& offset,
 	ETHEntityArray &outVector,
-	const bool shouldGenerateNewID)
+	bool shouldGenerateNewID)
 {
-	str_type::stringstream ss;
-	const str_type::string sceneFileName = Platform::GetFileName(fileName.c_str());
+	std::stringstream ss;
+	const std::string sceneFileName = Platform::GetFileName(fileName.c_str());
 
 	if (readSceneProperties)
 	{
 		m_sceneProps.ReadFromXMLFile(pRoot);
 	}
 
-	TiXmlNode *pNode = pRoot->FirstChild(GS_L("EntitiesInScene"));
+	TiXmlNode *pNode = pRoot->FirstChild(("EntitiesInScene"));
 
 	if (pNode)
 	{
 		TiXmlElement *pEntities = pNode->ToElement();
 		if (pEntities)
 		{
-			pNode = pEntities->FirstChild(GS_L("Entity"));
+			pNode = pEntities->FirstChild(("Entity"));
 			if (pNode)
 			{
 				TiXmlElement *pEntityIter = pNode->ToElement();
@@ -245,6 +235,16 @@ bool ETHScene::AddEntitiesFromXMLFile(
 				{
 					do
 					{
+						if (shouldGenerateNewID)
+						{
+							int id = -1;
+							pEntityIter->QueryIntAttribute(("id"), &id);
+ 							if (m_buckets.SeekEntity(id) == 0)
+ 							{
+ 								shouldGenerateNewID = false;
+							}
+						}
+
 						ETHRenderEntity* entity = new ETHRenderEntity(pEntityIter, m_provider, entityCache, entityPath, shouldGenerateNewID);
 						entity->GetController()->AddToPos(offset);
 						const ETHEntityProperties* entityProperties = entity->GetProperties();
@@ -258,12 +258,12 @@ bool ETHScene::AddEntitiesFromXMLFile(
 						{
 							ss << std::endl
 								<< sceneFileName
-								<< GS_L(": couldn't load entity ")
+								<< (": couldn't load entity ")
 								<< entityProperties->entityName
-								<< GS_L("(")
+								<< ("(")
 								<< entityPath
 								<< entityProperties->entityName
-								<< GS_L(")")
+								<< (")")
 								<< std::endl;
 						}
 
@@ -273,7 +273,6 @@ bool ETHScene::AddEntitiesFromXMLFile(
 			}
 		}
 	}
-	m_provider->GetShaderManager()->SetParallaxIntensity(m_sceneProps.parallaxIntensity);
 
 	if (!ss.str().empty())
 	{
@@ -282,7 +281,7 @@ bool ETHScene::AddEntitiesFromXMLFile(
 	return true;
 }
 
-int ETHScene::AddEntity(ETHRenderEntity* pEntity, const str_type::string& alternativeName)
+int ETHScene::AddEntity(ETHRenderEntity* pEntity, const std::string& alternativeName)
 {
 	// sets an alternative name if there is any
 	if (!alternativeName.empty())
@@ -317,7 +316,7 @@ int ETHScene::AddEntity(ETHRenderEntity* pEntity, const str_type::string& altern
 
 int ETHScene::AddEntity(ETHRenderEntity* pEntity)
 {
-	return AddEntity(pEntity, GS_L(""));	
+	return AddEntity(pEntity, (""));
 }
 
 int ETHScene::UpdateIDCounter(ETHEntity* pEntity)
@@ -338,11 +337,12 @@ ETHSceneProperties* ETHScene::GetEditableSceneProperties()
 void ETHScene::SetSceneProperties(const ETHSceneProperties &prop)
 {
 	m_sceneProps = prop;
-	m_provider->GetShaderManager()->SetParallaxIntensity(m_sceneProps.parallaxIntensity);
 }
 
-void ETHScene::LoadLightmapsFromBitmapFiles(const str_type::string& currentSceneFilePath)
+void ETHScene::LoadLightmapsFromBitmapFiles(const std::string& currentSceneFilePath)
 {
+	const std::vector<std::string> formats = { "png", "webp", "bmp" };
+
 	for (ETHBucketMap::iterator bucketIter = m_buckets.GetFirstBucket(); bucketIter != m_buckets.GetLastBucket(); ++bucketIter)
 	{
 		// iterate over all entities in this bucket
@@ -351,130 +351,36 @@ void ETHScene::LoadLightmapsFromBitmapFiles(const str_type::string& currentScene
 		for (ETHEntityList::iterator iter = entityList.begin(); iter != iEnd; ++iter)
 		{
 			ETHRenderEntity* entity = (*iter);
-			const str_type::string fileDirectory = ConvertFileNameToLightmapDirectory(currentSceneFilePath);
-	
-			// PNG lightmaps have higher priority than BMP
-			const str_type::string filePathBmp = entity->AssembleLightmapFileName(fileDirectory, GS_L("bmp"));
-			const str_type::string filePathPng = entity->AssembleLightmapFileName(fileDirectory, GS_L("png"));
-			const bool pngFileExists = (ETHGlobal::FileExists(filePathPng, m_provider->GetFileManager()));
-			entity->LoadLightmapFromFile(pngFileExists ? filePathPng : filePathBmp);
-		}
-	}
-}
+			const std::string fileDirectory = ConvertFileNameToLightmapDirectory(currentSceneFilePath);
 
-bool ETHScene::GenerateLightmaps(const int id)
-{
-	if (!m_provider->IsRichLightingEnabled())
-	{
-		return false;
-	}
-
-	const ETHSpriteEntity *pRender = (id >= 0) ? m_buckets.SeekEntity(id) : 0;
-	const Vector2 v2Bucket = (pRender) ? ETHBucketManager::GetBucket(pRender->GetPositionXY(), GetBucketSize()) : Vector2(0,0);
-
-	for (ETHBucketMap::iterator bucketIter = m_buckets.GetFirstBucket(); bucketIter != m_buckets.GetLastBucket(); ++bucketIter)
-	{
-		// if we're lighting only one entity and it is not in this bucket, skip it.
-		// I know we could have used the find method to go directly to that bucket
-		// but this function os not that critical to make the effort worth it.
-		if (id >= 0) 
-			if (ETHBucketManager::Hash(v2Bucket) != bucketIter.key())
-				continue;
-
-		// iterate over all entities in this bucket
-		ETHEntityList& entityList = bucketIter.value();
-		ETHEntityList::const_iterator iEnd = entityList.end();
-		for (ETHEntityList::iterator iter = entityList.begin(); iter != iEnd; ++iter)
-		{
-			ETHRenderEntity* entity = (*iter);
-			// if nID is valid, let's try to generate the lightmap for this one and only entity
-			if (id >= 0)
-				if (id != entity->GetID())
-					continue;
-
-			Vector2 v2Size(1,1);
-			Vector2 v2AbsoluteOrigin(0,0);
-			if (entity->GetSprite())
+			// check for each format
+			for (std::size_t t = 0; t < formats.size(); t++)
 			{
-				v2Size = entity->GetSize();
-				v2AbsoluteOrigin = entity->ComputeAbsoluteOrigin(v2Size);
-			}
-
-			// Place the current entity at the top-left corner to align
-			// it to the render target
-			const Vector3 oldPos = entity->GetPosition();
-			const Vector3 newPos = Vector3(v2AbsoluteOrigin.x, v2AbsoluteOrigin.y, 0);
-
-			std::list<ETHLight> lights;
-
-			// fill the light list
-			for (ETHBucketMap::iterator lbucketIter = m_buckets.GetFirstBucket(); lbucketIter != m_buckets.GetLastBucket(); ++lbucketIter)
-			{
-				ETHEntityList& lEntityList = lbucketIter.value();
-				ETHEntityList::const_iterator liEnd = lEntityList.end();
-				for (ETHEntityList::iterator liter = lEntityList.begin(); liter != liEnd; ++liter)
+				const std::string filePath = entity->AssembleLightmapFileName(fileDirectory, formats[t]);
+				if (ETHGlobal::FileExists(filePath, m_provider->GetFileManager()))
 				{
-					ETHRenderEntity* lightEntity = (*liter);
-					if (lightEntity->IsStatic() && lightEntity->HasLightSource())
-					{
-						lights.push_back(
-							ETHEntityRenderingManager::BuildChildLight(
-								*(lightEntity->GetLight()),
-								newPos - oldPos + lightEntity->GetPosition(),
-								lightEntity->GetScale()));
-					}
+					entity->LoadLightmapFromFile(filePath);
+					break;
 				}
 			}
-
-			if (lights.size() > 0)
-			{
-				ETHLightmapGen((*iter), m_provider->GetShaderManager(), lights.begin(), lights.end(),
-					m_buckets, oldPos, newPos, m_minSceneHeight, m_maxSceneHeight, m_sceneProps);
-			}
-			else
-			{
-				entity->ReleaseLightmap();
-			}
-
-			entity->SetOrphanPosition(oldPos);
-			lights.clear();
 		}
 	}
-	#if defined(_DEBUG) || defined(DEBUG)
-	ETH_STREAM_DECL(ss) << GS_L("Lightmaps created... ");
-	m_provider->Log(ss.str(), Platform::FileLogger::INFO);
-	#endif
-	return true;
 }
 
-str_type::string ETHScene::ConvertFileNameToLightmapDirectory(str_type::string filePath)
+std::string ETHScene::ConvertFileNameToLightmapDirectory(std::string filePath)
 {
-	str_type::string fileName = Platform::GetFileName(filePath);
+	std::string fileName = Platform::GetFileName(filePath);
 	for (std::size_t t = 0; t < fileName.length(); t++)
 	{
-		if (fileName[t] == GS_L('.'))
+		if (fileName[t] == ('.'))
 		{
-			fileName[t] = GS_L('-');
+			fileName[t] = ('-');
 		}
 	}
 	
-	const str_type::string directory(fileName + GS_L("/"));
-	str_type::string r = str_type::string(Platform::GetFileDirectory(filePath.c_str())).append(directory);
+	const std::string directory(fileName + ("/"));
+	std::string r = std::string(Platform::GetFileDirectory(filePath.c_str())).append(directory);
 	return r;
-}
-
-void ETHScene::SaveLightmapsToFile(const str_type::string& directory)
-{
-	for (ETHBucketMap::iterator bucketIter = m_buckets.GetFirstBucket(); bucketIter != m_buckets.GetLastBucket(); ++bucketIter)
-	{
-		ETHEntityList& entityList = bucketIter.value();
-		ETHEntityList::const_iterator iEnd = entityList.end();
-		for (ETHEntityList::iterator iter = entityList.begin(); iter != iEnd; ++iter)
-		{
-			ETHSpriteEntity* entity = (*iter);
-			entity->SaveLightmapToFile(directory);
-		}
-	}
 }
 
 void ETHScene::Update(
@@ -487,6 +393,7 @@ void ETHScene::Update(
 	// update entities that are always active (dynamic entities with callback or physics and temporary entities)
 	m_activeEntityHandler.UpdateAlwaysActiveEntities(
 		GetZAxisDirection(),
+		m_sceneProps.parallaxIntensity,
 		m_buckets,
 		lastFrameElapsedTime * m_physicsSimulator.GetTimeStepScale());
 
@@ -508,6 +415,7 @@ void ETHScene::Update(
 	// update static mapped entities that weren't called in UpdateAlwaysActiveEntities
 	m_activeEntityHandler.UpdateCurrentFrameEntities(
 		GetZAxisDirection(),
+		m_sceneProps.parallaxIntensity,
 		m_buckets,
 		lastFrameElapsedTime * m_physicsSimulator.GetTimeStepScale());
 
@@ -515,22 +423,16 @@ void ETHScene::Update(
 	m_maxSceneHeight = maxHeight;
 }
 
-void ETHScene::RenderScene(const bool roundUp, const ETHBackBufferTargetManagerPtr& backBuffer)
+void ETHScene::RenderScene(const ETHBackBufferTargetManagerPtr& backBuffer)
 {
 	const VideoPtr& video = m_provider->GetVideo();
 
-	video->SetBlendMode(1, Video::BM_ADD);
-
-	video->SetZWrite(GetZBuffer());
 	video->SetZBuffer(GetZBuffer());
 
 	// draw ambient pass
-	video->RoundUpPosition(roundUp);
-
-	DrawEntityMultimap(roundUp, backBuffer);
+	DrawEntityMultimap(backBuffer);
 
 	m_buckets.ResolveMoveRequests();
-	video->RoundUpPosition(false);
 }
 
 void ETHScene::FillCurrentlyVisibleBucketList(std::list<Vector2>& bucketList, const ETHBackBufferTargetManagerPtr& backBuffer)
@@ -538,7 +440,7 @@ void ETHScene::FillCurrentlyVisibleBucketList(std::list<Vector2>& bucketList, co
 	const VideoPtr& video = m_provider->GetVideo();
 	const Vector2 clearence(GetBucketSize() * m_bucketClearenceFactor);
 	const Vector2 min(video->GetCameraPos() - clearence);
-	const Vector2 max(backBuffer->GetBufferSize() + (clearence * 2.0f));
+	const Vector2 max(video->GetScreenSizeF() + (clearence * 2.0f));
 	m_buckets.GetIntersectingBuckets(bucketList, min, max, IsDrawingBorderBuckets(), IsDrawingBorderBuckets());
 }
 
@@ -604,31 +506,11 @@ void ETHScene::MapEntitiesToBeRendered(
 
 	// Add persistent entities (the ones the user wants to force to render)
 	FillMultimapAndClearPersistentList(bucketList, backBuffer);
-
-	m_nCurrentLights = static_cast<unsigned int>(m_renderingManager.GetNumLights());
 }
 
-void ETHScene::DrawEntityMultimap(const bool roundUp, const ETHBackBufferTargetManagerPtr& backBuffer)
+void ETHScene::DrawEntityMultimap(const ETHBackBufferTargetManagerPtr& backBuffer)
 {
-	const VideoPtr& video = m_provider->GetVideo();
-
-	video->RoundUpPosition(roundUp);
-
 	m_renderingManager.RenderPieces(m_sceneProps, m_minSceneHeight, m_maxSceneHeight);
-
-	// Show buckets outline in debug mode
-	bool debug = false;
-	#if defined(_DEBUG) || defined(DEBUG)
-		debug = true;
-	#endif
-
-	if (m_provider->IsInEditor() || debug)
-	{
-		if (m_provider->GetInput()->IsKeyDown(GSK_PAUSE) || m_provider->GetInput()->IsKeyDown(GSK_F1))
-		{
-			DrawBucketOutlines(backBuffer);
-		}
-	}
 }
 
 void ETHScene::EnableLightmaps(const bool enable)
@@ -649,77 +531,6 @@ void ETHScene::EnableRealTimeShadows(const bool enable)
 bool ETHScene::AreRealTimeShadowsEnabled() const
 {
 	return m_provider->AreRealTimeShadowsEnabled();
-}
-
-// number of lights last-time-drawn
-int ETHScene::GetNumLights()
-{
-	return m_nCurrentLights;
-}
-
-// number of actual lights (slower)
-int ETHScene::CountLights()
-{
-	m_nCurrentLights = 0;
-	for (ETHBucketMap::iterator bucketIter = m_buckets.GetFirstBucket(); bucketIter != m_buckets.GetLastBucket(); ++bucketIter)
-	{
-		ETHEntityList& entityList = bucketIter.value();
-		ETHEntityList::const_iterator iEnd = entityList.end();
-		for (ETHEntityList::iterator iter = entityList.begin(); iter != iEnd; ++iter)
-		{
-			if ((*iter)->HasLightSource())
-				m_nCurrentLights++;
-		}
-	}
-	return m_nCurrentLights;
-}
-
-bool ETHScene::DrawBucketOutlines(const ETHBackBufferTargetManagerPtr& backBuffer)
-{
-	const VideoPtr& video = m_provider->GetVideo();
-
-	// Gets the list of visible buckets
-	std::list<Vector2> bucketList;
-	FillCurrentlyVisibleBucketList(bucketList, backBuffer);
-
-	int nVisibleBuckets = 0;
-
-	// Loop through all visible Buckets
-	for (std::list<Vector2>::iterator bucketPositionIter = bucketList.begin(); bucketPositionIter != bucketList.end(); ++bucketPositionIter)
-	{
-		nVisibleBuckets++;
-
-		const float width = video->GetLineWidth();
-		video->SetLineWidth(2.0f);
-		const Vector2 v2BucketPos = *bucketPositionIter * GetBucketSize() - video->GetCameraPos();
-		video->DrawLine(v2BucketPos, v2BucketPos + Vector2(GetBucketSize().x, 0.0f), gs2d::constant::WHITE, gs2d::constant::WHITE);
-		video->DrawLine(v2BucketPos, v2BucketPos + Vector2(0.0f, GetBucketSize().y), gs2d::constant::WHITE, gs2d::constant::WHITE);
-		video->DrawLine(v2BucketPos + GetBucketSize(), v2BucketPos + Vector2(0.0f, GetBucketSize().y), gs2d::constant::WHITE, gs2d::constant::WHITE);
-		video->DrawLine(v2BucketPos + GetBucketSize(), v2BucketPos + Vector2(GetBucketSize().x, 0.0f), gs2d::constant::WHITE, gs2d::constant::WHITE);
-		video->SetLineWidth(width);
-		
-		// draw bucket key
-		str_type::stringstream ss;
-
-		if (m_buckets.Find(*bucketPositionIter) != m_buckets.GetLastBucket())
-		{
-			ss << GS_L("(") << bucketPositionIter->x << GS_L(",") << bucketPositionIter->y << GS_L(")")
-				<< GS_L(" - entities: ") << m_buckets.GetNumEntities(*bucketPositionIter);
-		}
-		else
-		{
-			ss << GS_L("(") << bucketPositionIter->x << GS_L(",") << bucketPositionIter->y << GS_L(")");
-		}
-
-		const Vector2 v2TextPos(*bucketPositionIter * GetBucketSize() - video->GetCameraPos());
-		video->DrawBitmapText(v2TextPos, ss.str(), ETH_DEFAULT_BITMAP_FONT, gs2d::constant::WHITE);
-	}
-
-	str_type::stringstream ss;
-	ss << GS_L("Visible buckets: ") << nVisibleBuckets;
-
-	video->DrawBitmapText(video->GetScreenSizeF()/2, ss.str(), ETH_DEFAULT_BITMAP_FONT, gs2d::constant::WHITE);
-	return true;
 }
 
 int ETHScene::GetNumProcessedEntities()
@@ -752,55 +563,55 @@ void ETHScene::AssignControllerToEntity(ETHEntity* entity, asIScriptFunction* ca
 	{
 		ETHEntityControllerPtr controller = m_physicsSimulator.CreatePhysicsController(entity, m_pModule, m_pContext);
 		#if defined(_DEBUG) || defined(DEBUG)
-			str_type::stringstream ss; Platform::Logger::TYPE logType;
+			std::stringstream ss; Platform::Logger::TYPE logType;
 			if (controller)
 			{
 				logType = Platform::Logger::INFO;
-				ss << GS_L("Physics controller successfuly created: ");
+				ss << ("Physics controller successfuly created: ");
 			}
 			else
 			{
 				logType = Platform::Logger::ERROR;
-				ss << GS_L("Couldn't create physics controller: ");
+				ss << ("Couldn't create physics controller: ");
 			}
-			ss << entity->GetEntityName() << GS_L(" (#") << entity->GetID() << GS_L(")");
+			ss << entity->GetEntityName() << (" (#") << entity->GetID() << (")");
 			m_provider->Log(ss.str(), logType);
 		#endif
 		entity->SetController(controller);
 	}
 }
 
-bool ETHScene::AddFloatData(const str_type::string &entity, const str_type::string &name, const float value)
+bool ETHScene::AddFloatData(const std::string &entity, const std::string &name, const float value)
 {
 	return AddCustomData(entity, name, ETHCustomDataPtr(new ETHFloatData(value)));
 }
 
-bool ETHScene::AddIntData(const str_type::string &entity, const str_type::string &name, const int value)
+bool ETHScene::AddIntData(const std::string &entity, const std::string &name, const int value)
 {
 	return AddCustomData(entity, name, ETHCustomDataPtr(new ETHIntData(value)));
 }
 
-bool ETHScene::AddUIntData(const str_type::string &entity, const str_type::string &name, const unsigned int value)
+bool ETHScene::AddUIntData(const std::string &entity, const std::string &name, const unsigned int value)
 {
 	return AddCustomData(entity, name, ETHCustomDataPtr(new ETHUIntData(value)));
 }
 
-bool ETHScene::AddStringData(const str_type::string &entity, const str_type::string &name, const str_type::string &value)
+bool ETHScene::AddStringData(const std::string &entity, const std::string &name, const std::string &value)
 {
 	return AddCustomData(entity, name, ETHCustomDataPtr(new ETHStringData(value)));
 }
 
-bool ETHScene::AddVector2Data(const str_type::string &entity, const str_type::string &name, const Vector2 &value)
+bool ETHScene::AddVector2Data(const std::string &entity, const std::string &name, const Vector2 &value)
 {
 	return AddCustomData(entity, name, ETHCustomDataPtr(new ETHVector2Data(value)));
 }
 
-bool ETHScene::AddVector3Data(const str_type::string &entity, const str_type::string &name, const Vector3 &value)
+bool ETHScene::AddVector3Data(const std::string &entity, const std::string &name, const Vector3 &value)
 {
 	return AddCustomData(entity, name, ETHCustomDataPtr(new ETHVector3Data(value)));
 }
 
-bool ETHScene::AddCustomData(const str_type::string &entity, const str_type::string &name, const ETHCustomDataConstPtr &inData)
+bool ETHScene::AddCustomData(const std::string &entity, const std::string &name, const ETHCustomDataConstPtr &inData)
 {
 	unsigned int count = 0;
 	for (ETHBucketMap::iterator bucketIter = m_buckets.GetFirstBucket(); bucketIter != m_buckets.GetLastBucket(); ++bucketIter)
@@ -819,24 +630,9 @@ bool ETHScene::AddCustomData(const str_type::string &entity, const str_type::str
 	return (count > 0);
 }
 
-void ETHScene::AddLight(const ETHLight& light)
-{
-	m_renderingManager.AddLight(light, m_sceneProps);
-}
-
 void ETHScene::GetIntersectingEntities(const Vector2 &v2Here, ETHEntityArray &outVector, const bool screenSpace)
 {
 	m_buckets.GetIntersectingEntities(v2Here, outVector, screenSpace, m_sceneProps);
-}
-
-void ETHScene::SetLightIntensity(const float intensity)
-{
-	m_sceneProps.lightIntensity = intensity;
-}
-
-float ETHScene::GetLightIntensity() const
-{
-	return m_sceneProps.lightIntensity;
 }
 
 void ETHScene::SetBucketClearenceFactor(const float factor)
@@ -879,6 +675,16 @@ Vector2 ETHScene::GetZAxisDirection() const
 	return m_sceneProps.zAxisDirection;
 }
 
+void ETHScene::SetParallaxIntensity(const float intensity)
+{
+	m_sceneProps.parallaxIntensity = intensity;
+}
+
+float ETHScene::GetParallaxIntensity() const
+{
+	return m_sceneProps.parallaxIntensity;
+}
+
 int ETHScene::GetLastID() const
 {
 	return m_idCounter;
@@ -915,7 +721,7 @@ void ETHScene::RecoverResources(const Platform::FileManagerPtr& expansionFileMan
 	m_buckets.GetEntityArray(entities);
 	for (std::size_t t = 0; t < entities.size(); t++)
 	{
-		entities[t]->RecoverResources(expansionFileManager);
+		entities[static_cast<uint64_t>(t)]->RecoverResources(expansionFileManager);
 	}
 }
 
@@ -927,16 +733,6 @@ void ETHScene::SetZBuffer(const bool enable)
 bool ETHScene::GetZBuffer() const
 {
 	return m_enableZBuffer;
-}
-
-void ETHScene::ClearLightmaps()
-{
-	ETHEntityArray entities;
-	m_buckets.GetEntityArray(entities);
-	for (unsigned int t = 0; t < entities.size(); t++)
-	{
-		entities[t]->ReleaseLightmap();
-	}
 }
 
 ETHPhysicsSimulator& ETHScene::GetSimulator()

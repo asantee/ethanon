@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include <string>
 #include <sstream>
 #include <jni.h>
@@ -63,7 +41,23 @@ SpritePtr splashSprite, cogSprite;
 ETHEnginePtr engine;
 Vector2 lastCameraPos(0.0f, 0.0f);
 
-std::string  g_inputStr;
+
+void ReleaseLoadingSprite(SpritePtr& sprite)
+{
+	if (sprite)
+	{
+		sprite->GetTexture()->Free();
+		sprite = SpritePtr();
+	}
+}
+
+void CreateLoadingSprite(VideoPtr video, SpritePtr& sprite, const std::string& filePath)
+{
+	sprite = SpritePtr(new Sprite(video.get(), filePath));
+	sprite->SetOrigin(Vector2(0.5f));
+}
+
+std::string g_inputStr;
 
 JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_start(
 	JNIEnv* env, jobject thiz, jstring apkPath, jstring externalPath, jstring globalPath, jint width, jint height)
@@ -76,18 +70,15 @@ JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_start(
 	Platform::FileIOHubPtr fileIOHub(new Platform::AndroidFileIOHub(zip, strExt, strGlo, ETHDirectories::GetBitmapFontDirectory()));
 
 	video = CreateVideo(width, height, fileIOHub);
-	input = CreateInput(&g_inputStr, true);
+	input = CreateInput(true, &g_inputStr);
 	audio = CreateAudio(0);
 
 	video->SetCameraPos(lastCameraPos);
 
 	video->ResetVideoMode(width, height, Texture::PF_DEFAULT, false);
 
-	splashSprite = video->CreateSprite(GS_L("assets/data/splash.png"));
-	splashSprite->SetOrigin(gs2d::Sprite::EO_CENTER);
-
-	cogSprite = video->CreateSprite(GS_L("assets/data/cog.png"));
-	cogSprite->SetOrigin(gs2d::Sprite::EO_CENTER);
+	CreateLoadingSprite(video, splashSprite, "assets/data/splash.png");
+	CreateLoadingSprite(video, cogSprite, "assets/data/cog.png");
 
 	if (!application)
 	{
@@ -112,6 +103,11 @@ JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_resize(JNIEnv* env, jobject
 	if (video)
 	{
 		video->ResetVideoMode(width, height, Texture::PF_DEFAULT, false);
+
+		if (engine)
+		{
+			engine->UpdateFixedHeight();
+		}
 	}
 }
 
@@ -135,21 +131,22 @@ bool IsScriptEngineLoaded()
 	}
 }
 
-str_type::string AssembleCommands()
+std::string AssembleCommands()
 {
-	str_type::stringstream ss;
+	std::stringstream ss;
 	try
 	{
 		ss
-		<< boost::any_cast<str_type::string>(video->GetGraphicContext())
+		<< boost::any_cast<std::string>(audio->GetAudioContext())
+		<< video->PullCommands()
 		<< boost::static_pointer_cast<AndroidInput>(input)->PullCommands();
 
 		return ss.str();
 	}
 	catch (const boost::bad_any_cast& e)
 	{
-		video->Message(GS_L("Invalid type for command assembling"), GSMT_ERROR);
-		return GS_L("");
+		video->Message("Invalid type for command assembling", GSMT_ERROR);
+		return ("");
 	}
 }
 
@@ -181,22 +178,22 @@ JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_mainLoop(JNIEnv* env, jo
 	else
 	{
 		// Draw SPLASH SCREEN
-		video->BeginSpriteScene(gs2d::constant::BLACK);
+		video->BeginRendering(gs2d::constant::BLACK);
 		if (splashSprite)
 		{
 			const Vector2 screenSize(video->GetScreenSizeF());
 			const float scale = (screenSize.y / 720.0f) * 0.8f;
 
-			splashSprite->Draw(screenSize * 0.5f, gs2d::constant::WHITE, 0.0f, Vector2(scale, scale));
+			splashSprite->Draw(Vector3(screenSize * 0.5f, 0.0f), scale, 0.0f, Rect2D());
 
 			const Vector2 cogMiddle(screenSize.x * 0.5f, screenSize.y * 0.8f);
 			static float angle = 0.0f;
-			cogSprite->Draw(cogMiddle - Vector2(32.0f, 0.0f), gs2d::Color(0xE0FFFFFF),-angle + 24.0f, Vector2(0.6f, 0.6f));
-			cogSprite->Draw(cogMiddle + Vector2(32.0f, 0.0f), gs2d::Color(0xE0FFFFFF),-angle - 24.0f, Vector2(0.6f, 0.6f));
-			cogSprite->Draw(cogMiddle, gs2d::Color(0xFFFFFFFF), angle, Vector2(0.6f, 0.6f));
+			cogSprite->Draw(Vector3(cogMiddle - Vector2(32.0f, 0.0f), 0.0f), 0.6f,-angle + 24.0f, Rect2D());
+			cogSprite->Draw(Vector3(cogMiddle + Vector2(32.0f, 0.0f), 0.0f), 0.6f,-angle - 24.0f, Rect2D());
+			cogSprite->Draw(Vector3(cogMiddle, 0.0f), 0.6f, angle, Rect2D());
 			angle -= 4.0f;
 		}
-		video->EndSpriteScene();
+		video->EndRendering();
 	}
 
 	return env->NewStringUTF(AssembleCommands().c_str());
@@ -209,11 +206,15 @@ JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_destroy(JNIEnv* env, job
 		application->Destroy();
 	}
 
+	Sprite::Finish();
+	ReleaseLoadingSprite(splashSprite);
+	ReleaseLoadingSprite(cogSprite);
+
 	if (video && audio)
 	{
-		video->Message(GS_L("Application resources destroyed"), GSMT_INFO);
+		video->Message("Application resources destroyed", GSMT_INFO);
 	}
-	return env->NewStringUTF(GS_L(""));
+	return env->NewStringUTF("");
 }
 
 JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_runOnUIThread(JNIEnv* env, jobject thiz, jstring inputStr)

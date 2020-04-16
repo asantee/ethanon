@@ -7,6 +7,7 @@
 
 #if defined(_WIN32)
 #include <Windows.h>
+#include <time.h>
 
 #elif defined(__unix__) || defined(__unix) || defined(unix) || (defined(__APPLE__) && defined(__MACH__))
 #include <unistd.h>	/* POSIX flags */
@@ -21,9 +22,6 @@
 #else
 #error "Unable to define getRealTime( ) for an unknown OS."
 #endif
-
-
-
 
 
 /**
@@ -73,15 +71,15 @@ double getRealTime( )
 #if defined(CLOCK_MONOTONIC_PRECISE)
 		/* BSD. --------------------------------------------- */
 		const clockid_t id = CLOCK_MONOTONIC_PRECISE;
+#elif defined(CLOCK_MONOTONIC)
+		/* AIX, BSD, Linux, POSIX, Solaris. ----------------- */
+		const clockid_t id = CLOCK_MONOTONIC;
 #elif defined(CLOCK_MONOTONIC_RAW)
 		/* Linux. ------------------------------------------- */
 		const clockid_t id = CLOCK_MONOTONIC_RAW;
 #elif defined(CLOCK_HIGHRES)
 		/* Solaris. ----------------------------------------- */
 		const clockid_t id = CLOCK_HIGHRES;
-#elif defined(CLOCK_MONOTONIC)
-		/* AIX, BSD, Linux, POSIX, Solaris. ----------------- */
-		const clockid_t id = CLOCK_MONOTONIC;
 #elif defined(CLOCK_REALTIME)
 		/* AIX, BSD, HP-UX, Linux, POSIX. ------------------- */
 		const clockid_t id = CLOCK_REALTIME;

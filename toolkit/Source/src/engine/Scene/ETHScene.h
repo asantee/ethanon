@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #ifndef ETH_SCENE_H_
 #define ETH_SCENE_H_
 
@@ -39,7 +17,7 @@ class ETHScene
 {
 public:
 	ETHScene(
-		const str_type::string& fileName,
+		const std::string& fileName,
 		ETHResourceProviderPtr provider,
 		const ETHSceneProperties& props,
 		asIScriptModule *pModule,
@@ -58,11 +36,11 @@ public:
 
 	void ClearResources();
 
-	void RenderScene(const bool roundUp, const ETHBackBufferTargetManagerPtr& backBuffer);
+	void RenderScene(const ETHBackBufferTargetManagerPtr& backBuffer);
 
-	bool SaveToFile(const str_type::string& fileName, ETHEntityCache& entityCache);
+	bool SaveToFile(const std::string& fileName, ETHEntityCache& entityCache);
 	int AddEntity(ETHRenderEntity* pEntity);
-	int AddEntity(ETHRenderEntity* pEntity, const str_type::string& alternativeName);
+	int AddEntity(ETHRenderEntity* pEntity, const std::string& alternativeName);
 	void SetSceneProperties(const ETHSceneProperties &prop);
 	void EnableLightmaps(const bool enable);
 	void EnableRealTimeShadows(const bool enable);
@@ -70,10 +48,8 @@ public:
 	
 	static int UpdateIDCounter(ETHEntity* pEntity);
 
-	str_type::string ConvertFileNameToLightmapDirectory(str_type::string filePath);
-	bool GenerateLightmaps(const int id = -1);
-	void LoadLightmapsFromBitmapFiles(const str_type::string& currentSceneFilePath);
-	void SaveLightmapsToFile(const str_type::string& directory);
+	std::string ConvertFileNameToLightmapDirectory(std::string filePath);
+	void LoadLightmapsFromBitmapFiles(const std::string& currentSceneFilePath);
 	bool AreLightmapsEnabled() const;
 
 	void Update(
@@ -86,21 +62,13 @@ public:
 	const ETHSceneProperties* GetSceneProperties() const;
 	ETHSceneProperties* GetEditableSceneProperties();
 
-	void AddLight(const ETHLight& light);
-
-	bool AddFloatData(const str_type::string &entity, const str_type::string &name, const float value);
-	bool AddIntData(const str_type::string &entity, const str_type::string &name, const int value);
-	bool AddUIntData(const str_type::string &entity, const str_type::string &name, const unsigned int value);
-	bool AddStringData(const str_type::string &entity, const str_type::string &name, const str_type::string &value);
-	bool AddVector2Data(const str_type::string &entity, const str_type::string &name, const Vector2 &value);
-	bool AddVector3Data(const str_type::string &entity, const str_type::string &name, const Vector3 &value);
-	bool AddCustomData(const str_type::string &entity, const str_type::string &name, const ETHCustomDataConstPtr &inData);
-
-	int GetNumLights();
-	int CountLights();
-
-	void SetLightIntensity(const float intensity);
-	float GetLightIntensity() const;
+	bool AddFloatData(const std::string &entity, const std::string &name, const float value);
+	bool AddIntData(const std::string &entity, const std::string &name, const int value);
+	bool AddUIntData(const std::string &entity, const std::string &name, const unsigned int value);
+	bool AddStringData(const std::string &entity, const std::string &name, const std::string &value);
+	bool AddVector2Data(const std::string &entity, const std::string &name, const Vector2 &value);
+	bool AddVector3Data(const std::string &entity, const std::string &name, const Vector3 &value);
+	bool AddCustomData(const std::string &entity, const std::string &name, const ETHCustomDataConstPtr &inData);
 
 	void SetBucketClearenceFactor(const float factor);
 	float GetBucketClearenceFactor() const;
@@ -113,6 +81,9 @@ public:
 
 	void SetZAxisDirection(const Vector2 &v2);
 	Vector2 GetZAxisDirection() const;
+
+	void SetParallaxIntensity(const float intensity);
+	float GetParallaxIntensity() const;
 
 	int GetLastID() const;
 	float GetMaxHeight() const;
@@ -129,7 +100,6 @@ public:
 	unsigned int GetNumEntities() const;
 
 	void RecoverResources(const Platform::FileManagerPtr& expansionFileManager);
-	void ClearLightmaps();
 
 	void SetZBuffer(const bool enable);
 	bool GetZBuffer() const;
@@ -141,15 +111,25 @@ public:
 	void AddEntityToPersistentList(ETHRenderEntity* entity);
 
 	bool AddSceneFromFile(
-		const str_type::string& fileName,
+		const std::string& fileName,
 		ETHEntityCache& entityCache,
-		const str_type::string &entityPath,
+		const std::string &entityPath,
 		const bool readSceneProperties,
 		const Vector3& offset,
 		ETHEntityArray &outVector,
 		const bool shouldGenerateNewID);
 
-	str_type::string AssembleEntityPath() const;
+	bool AddSceneFromString(
+		const std::string& fileName,
+		const std::string& xmlContent,
+		ETHEntityCache& entityCache,
+		const std::string &entityPath,
+		const bool readSceneProperties,
+		const Vector3& offset,
+		ETHEntityArray &outVector,
+		const bool shouldGenerateNewID);
+
+	std::string AssembleEntityPath() const;
 
 private:
 	void Init(ETHResourceProviderPtr provider, const ETHSceneProperties& props, asIScriptModule *pModule, asIScriptContext *pContext);
@@ -159,7 +139,7 @@ private:
 		float &minHeight,
 		const ETHBackBufferTargetManagerPtr& backBuffer);
 
-	void DrawEntityMultimap(const bool roundUp, const ETHBackBufferTargetManagerPtr& backBuffer);
+	void DrawEntityMultimap(const ETHBackBufferTargetManagerPtr& backBuffer);
 
 	bool AssignCallbackScript(ETHSpriteEntity* entity);
 
@@ -168,16 +148,15 @@ private:
 		asIScriptFunction* callback,
 		asIScriptFunction* constructorCallback);
 
-	bool DrawBucketOutlines(const ETHBackBufferTargetManagerPtr& backBuffer);
 	bool AddEntitiesFromXMLFile(
-		const str_type::string& fileName,
+		const std::string& fileName,
 		TiXmlElement *pElement,
 		ETHEntityCache& entityCache,
-		const str_type::string &entityPath,
+		const std::string &entityPath,
 		const bool readSceneProperties,
 		const Vector3& offset,
 		ETHEntityArray &outVector,
-		const bool shouldGenerateNewID);
+		bool shouldGenerateNewID);
 
 	void FillCurrentlyVisibleBucketList(std::list<Vector2>& bucketList, const ETHBackBufferTargetManagerPtr& backBuffer);
 
@@ -199,7 +178,6 @@ private:
 	asIScriptContext *m_pContext;
 	float m_maxSceneHeight, m_minSceneHeight;
 	static int m_idCounter;
-	unsigned int m_nCurrentLights;
 	unsigned int m_nProcessedEntities;
 	unsigned int m_nRenderedPieces;
 	bool m_enableZBuffer;

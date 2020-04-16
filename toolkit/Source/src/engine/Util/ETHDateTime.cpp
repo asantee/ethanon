@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "ETHDateTime.h"
 
 #define _SCL_SECURE_NO_WARNINGS
@@ -64,32 +42,32 @@ void ETHDateTime::Update()
 	m_seconds = duration.seconds();
 }
 
-unsigned int ETHDateTime::GetDay() const
+int64_t ETHDateTime::GetDay() const
 {
 	return m_day;
 }
 
-unsigned int ETHDateTime::GetMonth() const
+int64_t ETHDateTime::GetMonth() const
 {
 	return m_month;
 }
 
-unsigned int ETHDateTime::GetYear() const
+int64_t ETHDateTime::GetYear() const
 {
 	return m_year;
 }
 
-unsigned int ETHDateTime::GetHours() const
+int64_t ETHDateTime::GetHours() const
 {
 	return m_hours;
 }
 
-unsigned int ETHDateTime::GetMinutes() const
+int64_t ETHDateTime::GetMinutes() const
 {
 	return m_minutes;
 }
 
-unsigned int ETHDateTime::GetSeconds() const
+int64_t ETHDateTime::GetSeconds() const
 {
 	return m_seconds;
 }

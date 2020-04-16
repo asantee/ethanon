@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="gs2d.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\Application.cpp" />
+    <ClCompile Include="..\..\..\src\Audio\fmod\FMAudioContext.cpp" />
+    <ClCompile Include="..\..\..\src\Audio\fmod\FMAudioContext.windows.cpp" />
+    <ClCompile Include="..\..\..\src\Audio\fmod\FMAudioSample.cpp" />
+    <ClCompile Include="..\..\..\src\Enml\Enml.cpp" />
+    <ClCompile Include="..\..\..\src\Input\KeyStateManager.cpp" />
+    <ClCompile Include="..\..\..\src\Input\MobileInput.cpp" />
+    <ClCompile Include="..\..\..\src\Input\SDL\SDLInput.cpp" />
+    <ClCompile Include="..\..\..\src\Input\SDL\SDLJoystick.cpp" />
+    <ClCompile Include="..\..\..\src\Math\Color.cpp" />
+    <ClCompile Include="..\..\..\src\Math\GameMath.cpp" />
+    <ClCompile Include="..\..\..\src\Math\Matrix4x4.cpp" />
+    <ClCompile Include="..\..\..\src\Math\OrientedBoundingBox.cpp" />
+    <ClCompile Include="..\..\..\src\Math\Randomizer.cpp" />
+    <ClCompile Include="..\..\..\src\Math\Rect2D.cpp" />
+    <ClCompile Include="..\..\..\src\Math\Rect2Di.cpp" />
+    <ClCompile Include="..\..\..\src\Math\Vector2.cpp" />
+    <ClCompile Include="..\..\..\src\Math\Vector2i.cpp" />
+    <ClCompile Include="..\..\..\src\Math\Vector3.cpp" />
+    <ClCompile Include="..\..\..\src\Math\Vector4.cpp" />
+    <ClCompile Include="..\..\..\src\Platform\FileIOHub.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AS_NO_COMPILER;_MBCS;_STDC_CONSTANT_MACROS;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Platform\FileLogger.cpp" />
+    <ClCompile Include="..\..\..\src\Platform\FileManager.cpp" />
+    <ClCompile Include="..\..\..\src\Platform\getRealTime.cpp" />
+    <ClCompile Include="..\..\..\src\Platform\Logger.cpp" />
+    <ClCompile Include="..\..\..\src\Platform\NativeCommandAssembler.cpp" />
+    <ClCompile Include="..\..\..\src\Platform\NativeCommandForwarder.cpp" />
+    <ClCompile Include="..\..\..\src\Platform\NativeCommandManager.cpp" />
+    <ClCompile Include="..\..\..\src\Platform\Platform.cpp" />
+    <ClCompile Include="..\..\..\src\Platform\SharedData\SharedData.cpp" />
+    <ClCompile Include="..\..\..\src\Platform\SharedData\SharedDataManager.cpp" />
+    <ClCompile Include="..\..\..\src\Platform\StdFileManager.cpp" />
+    <ClCompile Include="..\..\..\src\Platform\StreamLogger.cpp" />
+    <ClCompile Include="..\..\..\src\Platform\windows\Platform.windows.cpp" />
+    <ClCompile Include="..\..\..\src\Platform\windows\WindowsFileIOHub.cpp" />
+    <ClCompile Include="..\..\..\src\Platform\ZipFileManager.cpp" />
+    <ClCompile Include="..\..\..\src\PolygonRenderer.cpp" />
+    <ClCompile Include="..\..\..\src\Shader.cpp" />
+    <ClCompile Include="..\..\..\src\Sprite.cpp" />
+    <ClCompile Include="..\..\..\src\SpriteRects.cpp" />
+    <ClCompile Include="..\..\..\src\Utilities\RecoverableResource.cpp" />
+    <ClCompile Include="..\..\..\src\Utilities\RecoverableResourceManager.cpp" />
+    <ClCompile Include="..\..\..\src\Video.cpp" />
+    <ClCompile Include="..\..\..\src\Video\BitmapFont.cpp" />
+    <ClCompile Include="..\..\..\src\Video\BitmapFontManager.cpp" />
+    <ClCompile Include="..\..\..\src\Video\GLSDL\GLSDLVideo.cpp" />
+    <ClCompile Include="..\..\..\src\Video\GL\GLPolygonRenderer.cpp" />
+    <ClCompile Include="..\..\..\src\Video\GL\GLShader.cpp" />
+    <ClCompile Include="..\..\..\src\Video\GL\GLTexture.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\Application.h" />
+    <ClInclude Include="..\..\..\src\Audio.h" />
+    <ClInclude Include="..\..\..\src\Audio\fmod\FMAudioContext.h" />
+    <ClInclude Include="..\..\..\src\Audio\fmod\FMAudioSample.h" />
+    <ClInclude Include="..\..\..\src\Audio\fmod\inc\fmod.h" />
+    <ClInclude Include="..\..\..\src\Audio\fmod\inc\fmod.hpp" />
+    <ClInclude Include="..\..\..\src\Audio\fmod\inc\fmod_codec.h" />
+    <ClInclude Include="..\..\..\src\Audio\fmod\inc\fmod_common.h" />
+    <ClInclude Include="..\..\..\src\Audio\fmod\inc\fmod_dsp.h" />
+    <ClInclude Include="..\..\..\src\Audio\fmod\inc\fmod_dsp_effects.h" />
+    <ClInclude Include="..\..\..\src\Audio\fmod\inc\fmod_errors.h" />
+    <ClInclude Include="..\..\..\src\Audio\fmod\inc\fmod_ios.h" />
+    <ClInclude Include="..\..\..\src\Audio\fmod\inc\fmod_output.h" />
+    <ClInclude Include="..\..\..\src\BaseApplication.h" />
+    <ClInclude Include="..\..\..\src\Enml\Enml.h" />
+    <ClInclude Include="..\..\..\src\Input.h" />
+    <ClInclude Include="..\..\..\src\Input\KeyStateManager.h" />
+    <ClInclude Include="..\..\..\src\Input\MobileInput.h" />
+    <ClInclude Include="..\..\..\src\Input\SDL\SDLInput.h" />
+    <ClInclude Include="..\..\..\src\Input\SDL\SDLJoystick.h" />
+    <ClInclude Include="..\..\..\src\Math\Color.h" />
+    <ClInclude Include="..\..\..\src\Math\GameMath.h" />
+    <ClInclude Include="..\..\..\src\Math\Matrix4x4.h" />
+    <ClInclude Include="..\..\..\src\Math\MersenneTwister.h" />
+    <ClInclude Include="..\..\..\src\Math\OrientedBoundingBox.h" />
+    <ClInclude Include="..\..\..\src\Math\Randomizer.h" />
+    <ClInclude Include="..\..\..\src\Math\Rect2D.h" />
+    <ClInclude Include="..\..\..\src\Math\Rect2Di.h" />
+    <ClInclude Include="..\..\..\src\Math\Vector2.h" />
+    <ClInclude Include="..\..\..\src\Math\Vector2i.h" />
+    <ClInclude Include="..\..\..\src\Math\Vector3.h" />
+    <ClInclude Include="..\..\..\src\Math\Vector4.h" />
+    <ClInclude Include="..\..\..\src\Platform\FileIOHub.h" />
+    <ClInclude Include="..\..\..\src\Platform\FileLogger.h" />
+    <ClInclude Include="..\..\..\src\Platform\FileManager.h" />
+    <ClInclude Include="..\..\..\src\Platform\getRealTime.h" />
+    <ClInclude Include="..\..\..\src\Platform\Logger.h" />
+    <ClInclude Include="..\..\..\src\Platform\MainSharedHeader.h" />
+    <ClInclude Include="..\..\..\src\Platform\NativeCommandAssembler.h" />
+    <ClInclude Include="..\..\..\src\Platform\NativeCommandForwarder.h" />
+    <ClInclude Include="..\..\..\src\Platform\NativeCommandListener.h" />
+    <ClInclude Include="..\..\..\src\Platform\NativeCommandManager.h" />
+    <ClInclude Include="..\..\..\src\Platform\Platform.h" />
+    <ClInclude Include="..\..\..\src\Platform\SharedData\SharedData.h" />
+    <ClInclude Include="..\..\..\src\Platform\SharedData\SharedDataManager.h" />
+    <ClInclude Include="..\..\..\src\Platform\StdFileManager.h" />
+    <ClInclude Include="..\..\..\src\Platform\StreamLogger.h" />
+    <ClInclude Include="..\..\..\src\Platform\windows\WindowsFileIOHub.h" />
+    <ClInclude Include="..\..\..\src\Platform\ZipFileManager.h" />
+    <ClInclude Include="..\..\..\src\PolygonRenderer.h" />
+    <ClInclude Include="..\..\..\src\Shader.h" />
+    <ClInclude Include="..\..\..\src\Sprite.h" />
+    <ClInclude Include="..\..\..\src\SpriteRects.h" />
+    <ClInclude Include="..\..\..\src\Texture.h" />
+    <ClInclude Include="..\..\..\src\Unicode\utf8\utf8.h" />
+    <ClInclude Include="..\..\..\src\Unicode\utf8\utf8\checked.h" />
+    <ClInclude Include="..\..\..\src\Unicode\utf8\utf8\core.h" />
+    <ClInclude Include="..\..\..\src\Unicode\utf8\utf8\unchecked.h" />
+    <ClInclude Include="..\..\..\src\Utilities\RecoverableResource.h" />
+    <ClInclude Include="..\..\..\src\Utilities\RecoverableResourceManager.h" />
+    <ClInclude Include="..\..\..\src\Video.h" />
+    <ClInclude Include="..\..\..\src\Video\BitmapFont.h" />
+    <ClInclude Include="..\..\..\src\Video\BitmapFontManager.h" />
+    <ClInclude Include="..\..\..\src\Video\GLSDL\GLSDLVideo.h" />
+    <ClInclude Include="..\..\..\src\Video\GL\GLInclude.h" />
+    <ClInclude Include="..\..\..\src\Video\GL\GLPolygonRenderer.h" />
+    <ClInclude Include="..\..\..\src\Video\GL\GLShader.h" />
+    <ClInclude Include="..\..\..\src\Video\GL\GLShaderCode.h" />
+    <ClInclude Include="..\..\..\src\Video\GL\GLTexture.h" />
+    <ClInclude Include="..\..\..\src\Window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\..\src\Audio\fmod\inc\readme.txt" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{56B000F0-98F9-4E81-B6E4-786C3C004383}</ProjectGuid>
+    <RootNamespace>gs2d</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LibraryPath>$(UserProfile)\.usr\lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
+    <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    <IncludePath>$(UserProfile)\.usr\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LibraryPath>$(UserProfile)\.usr\lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
+    <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    <IncludePath>$(UserProfile)\.usr\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>..\..\..\vendors\glext\include;..\..\..\vendors\tsl;C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WEBP;_DEBUG;_MBCS;_STDC_CONSTANT_MACROS;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>-D__STDC_CONSTANT_MACROS -D__STDC_LIMIT_MACROS %(AdditionalOptions)</AdditionalOptions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>..\..\..\vendors\glext\lib;C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\vendors\boost\include\boost-1_70;..\..\..\vendors\CgSDK\Include;..\..\..\vendors\libzip;..\..\..\vendors\SDL2-2.0.10;..\..\..\vendors\soil;..\..\..\..\vendors\tsl</AdditionalIncludeDirectories>
+      <AdditionalOptions>-D__STDC_CONSTANT_MACROS -D__STDC_LIMIT_MACROS %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>..\..\..\vendors\glext\include;..\..\..\vendors\tsl;C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WEBP;_MBCS;_STDC_CONSTANT_MACROS;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>-D__STDC_CONSTANT_MACROS -D__STDC_LIMIT_MACROS %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+    <ResourceCompile>
+      <PreprocessorDefinitions>
+      </PreprocessorDefinitions>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\vendors\boost\include\boost-1_70;..\..\..\vendors\CgSDK\Include;..\..\..\vendors\libzip;..\..\..\vendors\SDL2-2.0.10;..\..\..\vendors\soil;..\..\..\..\vendors\tsl</AdditionalIncludeDirectories>
+      <AdditionalOptions>-D__STDC_CONSTANT_MACROS -D__STDC_LIMIT_MACROS %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>

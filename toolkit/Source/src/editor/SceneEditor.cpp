@@ -707,7 +707,7 @@ void SceneEditor::SetEditablePositionPos(const Vector3 &pos, const float angle)
 	m_entityAngle.SetConstant(angle);
 }
 
-str_type::string SceneEditor::DrawEntityString(ETHEntity *pEntity, const Color& dwColor, const bool drawName)
+str_type::string SceneEditor::DrawEntityString(ETHEntity *pEntity, const Color& color, const bool drawName)
 {
 	ETHEntityProperties::VIEW_RECT box = pEntity->GetScreenRect(*m_pScene->GetSceneProperties());
 	box.min -= Vector2(0,m_menuSize);

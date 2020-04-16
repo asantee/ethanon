@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "ETHParticleManager.h"
 
 #include "../Resource/ETHResourceProvider.h"
@@ -37,7 +15,7 @@
 
 ETHParticleManager::ETHParticleManager(
 	ETHResourceProviderPtr provider,
-	const str_type::string& file,
+	const std::string& file,
 	const Vector3& v3Pos,
 	const float angle) :
 	m_provider(provider)
@@ -49,7 +27,7 @@ ETHParticleManager::ETHParticleManager(
 	}
 	else
 	{
-		ETH_STREAM_DECL(ss) << GS_L("ETHParticleManager: file not found: ") << file;
+		ETH_STREAM_DECL(ss) << ("ETHParticleManager: file not found: ") << file;
 		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
 	}
 }
@@ -73,7 +51,7 @@ bool ETHParticleManager::CreateParticleSystem(
 {
 	if (partSystem.nParticles <= 0)
 	{
-		ETH_STREAM_DECL(ss) << GS_L("ETHParticleManager::CreateParticleSystem: The number of particles must be greater than 0.");
+		ETH_STREAM_DECL(ss) << ("ETHParticleManager::CreateParticleSystem: The number of particles must be greater than 0.");
 		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
 		return false;
 	}
@@ -96,12 +74,23 @@ bool ETHParticleManager::CreateParticleSystem(
 	Platform::FileManagerPtr fileManager = m_provider->GetFileManager();
 
 	// if there's no resource path, search the current module's path
-	const str_type::string& resourcePath = fileIOHub->GetResourceDirectory();
-	const str_type::string& programPath  = fileIOHub->GetProgramDirectory();
-	const str_type::string currentPath = (resourcePath.empty() && !fileManager->IsPacked()) ? programPath : resourcePath;
+	const std::string& resourcePath = fileIOHub->GetResourceDirectory();
+	const std::string& programPath  = fileIOHub->GetProgramDirectory();
+	const std::string currentPath = (resourcePath.empty() && !fileManager->IsPacked()) ? programPath : resourcePath;
 
-	m_pBMP = graphics->GetPointer(fileManager, m_provider->GetVideo(), m_system.bitmapFile, currentPath,
-		ETHDirectories::GetParticlesDirectory(), (m_system.alphaMode == Video::AM_ADD));
+	const ETHGraphicResourceManager::SpriteResource* resource = graphics->GetPointer(
+		fileManager,
+		m_provider->GetVideo(),
+		m_system.bitmapFile,
+		currentPath,
+		ETHDirectories::GetParticlesDirectory());
+
+	if (resource)
+	{
+		m_pBMP = resource->GetSprite();
+	}
+
+	m_rects.SetRects(partSystem.spriteCut.x, partSystem.spriteCut.y);
 
 	if (m_system.allAtOnce)
 	{
@@ -114,7 +103,7 @@ bool ETHParticleManager::CreateParticleSystem(
 
 	m_particles.resize(m_system.nParticles);
 
-	Matrix4x4 rot = RotateZ(DegreeToRadian(angle));
+	Matrix4x4 rot = Matrix4x4::RotateZ(Util::DegreeToRadian(angle));
 	for (int t = 0; t < m_system.nParticles; t++)
 	{
 		m_particles[t].id = t;
@@ -134,7 +123,7 @@ void ETHParticleManager::SetStartPos(const Vector3& v3Pos)
 	m_system.startPoint = v3Pos;
 }
 
-str_type::string ETHParticleManager::GetBitmapName() const
+std::string ETHParticleManager::GetBitmapName() const
 {
 	return m_system.bitmapFile;
 }
@@ -154,16 +143,22 @@ void ETHParticleManager::SetParticleBitmap(SpritePtr pBMP)
 	m_pBMP = pBMP;
 }
 
-void ETHParticleManager::SetParticleBitmap(const gs2d::str_type::string& bitmap)
+void ETHParticleManager::SetParticleBitmap(const std::string& bitmap)
 {
 	m_system.bitmapFile = bitmap;
-	SetParticleBitmap(m_provider->GetGraphicResourceManager()->GetPointer(
+
+	const ETHGraphicResourceManager::SpriteResource* sprite = m_provider->GetGraphicResourceManager()->GetPointer(
 		m_provider->GetFileManager(),
 		m_provider->GetVideo(),
 		bitmap,
 		m_provider->GetFileIOHub()->GetResourceDirectory(),
 		ETHDirectories::GetParticlesDirectory(),
-		false));
+		false);
+
+	if (sprite)
+	{
+		SetParticleBitmap(sprite->GetSprite());
+	}
 }
 
 SpritePtr ETHParticleManager::GetParticleBitmap()
@@ -186,7 +181,7 @@ void ETHParticleManager::UpdateParticleSystem(
 	bool anythingDrawn = false;
 	const float cappedLastFrameElapsedTime = Min(lastFrameElapsedTime, 250.0f);
 
-	Matrix4x4 rot = RotateZ(DegreeToRadian(angle));
+	Matrix4x4 rot = Matrix4x4::RotateZ(Util::DegreeToRadian(angle));
 	m_nActiveParticles = 0;
 
 	m_worldSpaceBoundingMin = ETHGlobal::ToScreenPos(v3Pos + m_system.startPoint, zAxisDirection);
@@ -210,8 +205,8 @@ void ETHParticleManager::UpdateParticleSystem(
 		
 		const Vector2 worldSpacePos =
 			ETHGlobal::ToScreenPos(Vector3(particle.pos, m_system.startPoint.z), zAxisDirection) + parallaxOffset;
-		m_worldSpaceBoundingMin = Vector2Min(m_worldSpaceBoundingMin, worldSpacePos - (particle.size * 0.5f));
-		m_worldSpaceBoundingMax = Vector2Max(m_worldSpaceBoundingMax, worldSpacePos + (particle.size * 0.5f));
+		m_worldSpaceBoundingMin = Vector2::Vector2Min(m_worldSpaceBoundingMin, worldSpacePos - (particle.size * 0.5f));
+		m_worldSpaceBoundingMax = Vector2::Vector2Max(m_worldSpaceBoundingMax, worldSpacePos + (particle.size * 0.5f));
 	}
 	m_finished = !anythingDrawn;
 }
@@ -333,12 +328,12 @@ void ETHParticleManager::UpdateParticle(
 	}
 }
 
-Rect2Df ETHParticleManager::ComputeBoundingRectangle(const float angle) const
+Rect2D ETHParticleManager::ComputeBoundingRectangle(const float angle) const
 {
 	PARTICLE particle;
 	particle.id = 0;
 	particle.released = false;
-	Matrix4x4 rot = RotateZ(DegreeToRadian(angle));
+	Matrix4x4 rot = Matrix4x4::RotateZ(Util::DegreeToRadian(angle));
 
 	ETHParticleSystem staticSystem = m_system;
 	staticSystem.size += (staticSystem.randomizeSize / 2.0f);
@@ -369,10 +364,10 @@ Rect2Df ETHParticleManager::ComputeBoundingRectangle(const float angle) const
 	const Vector2 endMin(particle.pos - (particle.size / 2.0f) - (m_system.randStartPoint * 0.5f));
 	const Vector2 endMax(particle.pos + (particle.size / 2.0f) + (m_system.randStartPoint * 0.5f));
 
-	const Vector2 finalMin(Vector2Min(startMin, endMin));
-	const Vector2 finalMax(Vector2Max(startMax, endMax));
+	const Vector2 finalMin(Vector2::Vector2Min(startMin, endMin));
+	const Vector2 finalMax(Vector2::Vector2Max(startMax, endMax));
 
-	return Rect2Df((finalMin + finalMax) / 2.0f, finalMax - finalMin);
+	return Rect2D((finalMin + finalMax) / 2.0f, finalMax - finalMin);
 }
 
 bool ETHParticleManager::Finished() const
@@ -384,7 +379,7 @@ bool ETHParticleManager::Play(
 	const Vector3 &v3Pos,
 	const float angle)
 {
-	Matrix4x4 rot = RotateZ(DegreeToRadian(angle));
+	Matrix4x4 rot = Matrix4x4::RotateZ(Util::DegreeToRadian(angle));
 	m_finished = false;
 	for (int t = 0; t < m_system.nParticles; t++)
 	{
@@ -451,12 +446,12 @@ bool ETHParticleManager::DrawParticleSystem(
 	const float minHeight,
 	const DEPTH_SORTING_MODE ownerType,
 	const Vector2& zAxisDirection,
-	const Vector2& parallaxOffset,
+	const float parallaxIntensity,
 	const float ownerDepth)
 {
 	if (!m_pBMP)
 	{
-		ETH_STREAM_DECL(ss) << GS_L("ETHParticleManager::DrawParticleSystem: Invalid particle system bitmap");
+		ETH_STREAM_DECL(ss) << ("ETHParticleManager::DrawParticleSystem: Invalid particle system bitmap");
 		m_provider->Log(ss.str(), Platform::FileLogger::WARNING);
 		return false;
 	}
@@ -471,10 +466,6 @@ bool ETHParticleManager::DrawParticleSystem(
 		Sort(m_particles);
 	}
 
-	const bool shouldUseHighlightPS = m_system.ShouldUseHighlightPS();
-	const ShaderPtr& currentPS = m_provider->GetVideo()->GetPixelShader();
-
-	m_pBMP->SetOrigin(Sprite::EO_CENTER);
 	for (int t = 0; t < m_system.nParticles; t++)
 	{
 		const PARTICLE& particle = m_particles[t];
@@ -501,26 +492,25 @@ bool ETHParticleManager::DrawParticleSystem(
 
 		SetParticleDepth(ComputeParticleDepth(ownerType, ownerDepth, particle, maxHeight, minHeight));
 
-		// draw
-		if (m_system.spriteCut.x > 1 || m_system.spriteCut.y > 1)
-		{
-			if ((int)m_pBMP->GetNumColumns() != m_system.spriteCut.x || (int)m_pBMP->GetNumRows() != m_system.spriteCut.y)
-				m_pBMP->SetupSpriteRects(m_system.spriteCut.x, m_system.spriteCut.y);
-			m_pBMP->SetRect(particle.currentFrame);
-		}
-		else
-		{
-			m_pBMP->UnsetRect();
-		}
-		
-		if (shouldUseHighlightPS)
-		{
-			currentPS->SetConstant(GS_L("highlight"), finalColor);
-		}
+		ShaderParametersPtr customParams(new ShaderParameters);
+		(*customParams)["highlight"] = boost::shared_ptr<Shader::ShaderParameter>(new Shader::Vector4ShaderParameter(finalColor));
 		
 		const Vector2 v2Pos =
-			ETHGlobal::ToScreenPos(Vector3(particle.pos, particle.startPoint.z), zAxisDirection) + parallaxOffset;
-		m_pBMP->DrawOptimal(v2Pos, finalColor, particle.angle, Vector2(particle.size, particle.size));
+			ETHGlobal::ToScreenPos(Vector3(particle.pos, particle.startPoint.z), zAxisDirection);
+
+		Sprite::SetParallaxIntensity(parallaxIntensity);
+		m_pBMP->Draw(
+			video->GetCameraPos(),
+			Vector3(v2Pos, particle.startPoint.z),
+			Vector2(particle.size),
+			Vector2(0.5f),
+			finalColor,
+			particle.angle,
+			m_rects.GetRect(particle.currentFrame),
+			false,
+			false,
+			Sprite::GetHighlightShader(),
+			customParams);
 	}
 	video->SetAlphaMode(alpha);
 	return true;
@@ -605,7 +595,7 @@ void ETHParticleManager::ResetParticle(
 	particle.size = system.size + Randomizer::Float(-system.randomizeSize / 2, system.randomizeSize/2);
 	particle.dir.x = (system.directionVector.x + Randomizer::Float(-halfRandDir.x, halfRandDir.x));
 	particle.dir.y = (system.directionVector.y + Randomizer::Float(-halfRandDir.y, halfRandDir.y));
-	particle.dir = Multiply(particle.dir, rotMatrix);
+	particle.dir = Matrix4x4::Multiply(particle.dir, rotMatrix);
 	particle.color = system.color0;
 	PositionParticle(system, particle, angle, rotMatrix, v3Pos);
 
@@ -638,14 +628,14 @@ void ETHParticleManager::PositionParticle(
 	particle.angle = system.angleStart + Randomizer::Float(system.randAngleStart) + angle;
 	particle.pos.x = system.startPoint.x + Randomizer::Float(-halfRandStartPoint.x, halfRandStartPoint.x);
 	particle.pos.y = system.startPoint.y + Randomizer::Float(-halfRandStartPoint.y, halfRandStartPoint.y);
-	particle.pos = Multiply(particle.pos, rotMatrix);	
+	particle.pos = Matrix4x4::Multiply(particle.pos, rotMatrix);
 	particle.pos = particle.pos + Vector2(v3Pos.x, v3Pos.y);
 	particle.startPoint = v3Pos + system.startPoint;
 }
 
 void ETHParticleManager::SetParticleDepth(const float depth)
 {
-	m_provider->GetVideo()->SetSpriteDepth(depth);
+	// feature no longer necessary on eth-supersimple
 }
 
 bool ETHParticleManager::Killed() const

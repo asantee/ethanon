@@ -1,4 +1,4 @@
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
+ Ethanon Engine (C) Copyright 2008-2019 Andre Santee
  http://ethanonengine.com/
 
     Permission is hereby granted, free of charge, to any person obtaining a copy of this

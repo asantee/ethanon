@@ -1,48 +1,26 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-    Permission is hereby granted, free of charge, to any person obtaining a copy of this
-    software and associated documentation files (the "Software"), to deal in the
-    Software without restriction, including without limitation the rights to use, copy,
-    modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-    and to permit persons to whom the Software is furnished to do so, subject to the
-    following conditions:
-
-    The above copyright notice and this permission notice shall be included in all
-    copies or substantial portions of the Software.
-
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-    INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-    PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-    HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-    CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-    OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #ifndef SHARED_DATA_MANAGER_H_
 #define SHARED_DATA_MANAGER_H_
 
 #include "SharedData.h"
 
-#include "../../../../tsl/hopscotch_map.h"
+#include <hopscotch_map.h>
 
 namespace Platform {
 
 class SharedDataManager
 {
-	tsl::hopscotch_map<gs2d::str_type::string, SharedDataPtr> m_data;
+	tsl::hopscotch_map<std::string, SharedDataPtr> m_data;
 
-	bool Set(const gs2d::str_type::string& key, const gs2d::str_type::string& data, const bool forceValue);
+	bool Set(const std::string& key, const std::string& data, const bool forceValue);
 
 public:
-	void Create(const gs2d::str_type::string& key, const gs2d::str_type::string& data, const bool constant);
-	void Force(const gs2d::str_type::string& key, const gs2d::str_type::string& data);
-	bool Set(const gs2d::str_type::string& key, const gs2d::str_type::string& data);
-	bool IsConstant(const gs2d::str_type::string& key) const;
-	gs2d::str_type::string Get(const gs2d::str_type::string& key) const;
-	bool Exists(const gs2d::str_type::string& key) const;
-	bool Remove(const gs2d::str_type::string& key);
+	void Create(const std::string& key, const std::string& data, const bool constant);
+	void Force(const std::string& key, const std::string& data);
+	bool Set(const std::string& key, const std::string& data);
+	bool IsConstant(const std::string& key) const;
+	std::string Get(const std::string& key) const;
+	bool Exists(const std::string& key) const;
+	bool Remove(const std::string& key);
 };
 
 } // namespace Platform

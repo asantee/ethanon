@@ -1,62 +1,44 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "ETHResourceManager.h"
 
 #include <Platform/Platform.h>
 
 #include "ETHResourceProvider.h"
 
-const gs2d::str_type::string ETHGraphicResourceManager::SD_EXPANSION_FILE_PATH = "com.ethanonengine.expansionFile.path";
+const std::string ETHGraphicResourceManager::SD_EXPANSION_FILE_PATH = "com.ethanonengine.expansionFile.path";
 
-static str_type::string RemoveResourceDirectory(
-	const str_type::string& resourceDirectory,
-	const str_type::string& fullOriginPath)
+static std::string RemoveResourceDirectory(
+	const std::string& resourceDirectory,
+	const std::string& fullOriginPath)
 {
-	str_type::string r = fullOriginPath, fixedResourceDirectory = resourceDirectory;
+	std::string r = fullOriginPath, fixedResourceDirectory = resourceDirectory;
 	Platform::FixSlashes(fixedResourceDirectory);
 	if (r.find(fixedResourceDirectory) == 0)
-		r = r.substr(fixedResourceDirectory.length(), str_type::string::npos);
+		r = r.substr(fixedResourceDirectory.length(), std::string::npos);
 	return r;
 }
 
 ETHGraphicResourceManager::SpriteResource::SpriteResource(
 	const Platform::FileManagerPtr& fileManager,
-	const str_type::string& resourceDirectory,
-	const str_type::string& fullOriginPath,
+	const std::string& resourceDirectory,
+	const std::string& fullOriginPath,
 	const SpritePtr& sprite,
 	const bool temporary) :
 	m_sprite(sprite),
 	m_temporary(temporary),
-	m_fullOriginPath(RemoveResourceDirectory(resourceDirectory, fullOriginPath))
+	m_fullOriginPath(RemoveResourceDirectory(resourceDirectory, fullOriginPath)),
+	flipX(false),
+	flipY(false),
+	frame(0),
+	m_customFramesXMLFound(false)
 {
 	if (!fileManager)
 		return;
 
-	const str_type::string frameXmlFileName = Platform::RemoveExtension(fullOriginPath.c_str()) + ".xml";
+	const std::string frameXmlFileName = Platform::RemoveExtension(fullOriginPath.c_str()) + ".xml";
 	if (fileManager->FileExists(frameXmlFileName))
 	{
 		TiXmlDocument doc(frameXmlFileName);
-		str_type::string content;
+		std::string content;
 		fileManager->GetUTFFileString(frameXmlFileName, content);
 
 		if (!doc.LoadFile(content, TIXML_ENCODING_LEGACY))
@@ -73,31 +55,33 @@ ETHGraphicResourceManager::SpriteResource::SpriteResource(
 			TiXmlElement *pSprites = pRoot->ToElement();
 			if (pSprites)
 			{
-				TiXmlNode* pNode = pSprites->FirstChild(GS_L("sprite"));
+				TiXmlNode* pNode = pSprites->FirstChild(("sprite"));
 				if (pNode)
 				{
 					TiXmlElement *pSpriteIter = pNode->ToElement();
 					if (pSpriteIter)
 					{
-						m_packedFrames = Sprite::RectsPtr(new Sprite::Rects());
-						m_packedFrames->resize(0);
+						m_customFramesXMLFound = true;
+						const Vector2 sheetSize(sprite->GetSize(Rect2D()));
+						packedFrames = SpriteRectsPtr(new SpriteRects());
 						do
 						{
 							int x, y, width, height, offsetX, offsetY, originalWidth, originalHeight;
-							pSpriteIter->QueryIntAttribute(GS_L("x"), &x);
-							pSpriteIter->QueryIntAttribute(GS_L("y"), &y);
-							pSpriteIter->QueryIntAttribute(GS_L("w"), &width);
-							pSpriteIter->QueryIntAttribute(GS_L("h"), &height);
-							pSpriteIter->QueryIntAttribute(GS_L("oW"), &originalWidth);
-							pSpriteIter->QueryIntAttribute(GS_L("oH"), &originalHeight);
-							pSpriteIter->QueryIntAttribute(GS_L("oX"), &offsetX);
-							pSpriteIter->QueryIntAttribute(GS_L("oY"), &offsetY);
-							m_packedFrames->push_back(
-								gs2d::math::Rect2Df(
-									Vector2(x, y),
-									Vector2(width, height),
-									Vector2(offsetX, offsetY),
-									Vector2(originalWidth, originalHeight)));
+							pSpriteIter->QueryIntAttribute(("x"), &x);
+							pSpriteIter->QueryIntAttribute(("y"), &y);
+							pSpriteIter->QueryIntAttribute(("w"), &width);
+							pSpriteIter->QueryIntAttribute(("h"), &height);
+							pSpriteIter->QueryIntAttribute(("oW"), &originalWidth);
+							pSpriteIter->QueryIntAttribute(("oH"), &originalHeight);
+							pSpriteIter->QueryIntAttribute(("oX"), &offsetX);
+							pSpriteIter->QueryIntAttribute(("oY"), &offsetY);
+
+							packedFrames->AddRect(
+								gs2d::math::Rect2D(
+									Vector2(float(x) / sheetSize.x, float(y) / sheetSize.y),
+									Vector2(float(width) / sheetSize.x, float(height) / sheetSize.y),
+									Vector2((float)offsetX, (float)offsetY),
+									Vector2((float)originalWidth, (float)originalHeight)));
 							pSpriteIter = pSpriteIter->NextSiblingElement();
 						} while (pSpriteIter);
 					}
@@ -112,20 +96,34 @@ bool ETHGraphicResourceManager::SpriteResource::IsTemporary() const
 	return m_temporary;
 }
 
+bool ETHGraphicResourceManager::SpriteResource::IsCustomFramesXMLFound() const
+{
+	return m_customFramesXMLFound;
+}
+
+SpritePtr ETHGraphicResourceManager::SpriteResource::GetSprite() const
+{
+	return m_sprite;
+}
+
 void ETHGraphicResourceManager::ReleaseResources()
 {
+	for (tsl::hopscotch_map<std::string, SpriteResource>::iterator iter = m_resource.begin(); iter != m_resource.end(); ++iter)
+	{
+		iter->second.GetSprite()->GetTexture()->Free();
+	}
 	m_resource.clear();
 }
 
 void ETHGraphicResourceManager::ReleaseTemporaryResources()
 {
-	std::list<str_type::string> deleteList;
-	for (tsl::hopscotch_map<str_type::string, SpriteResource>::iterator iter = m_resource.begin(); iter != m_resource.end(); ++iter)
+	std::list<std::string> deleteList;
+	for (tsl::hopscotch_map<std::string, SpriteResource>::iterator iter = m_resource.begin(); iter != m_resource.end(); ++iter)
 	{
 		if (iter->second.IsTemporary())
 			deleteList.push_back(iter->first);
 	}
-	for (std::list<str_type::string>::iterator iter = deleteList.begin(); iter != deleteList.end(); ++iter)
+	for (std::list<std::string>::iterator iter = deleteList.begin(); iter != deleteList.end(); ++iter)
 	{
 		m_resource.erase(*iter);
 	}
@@ -136,104 +134,123 @@ ETHGraphicResourceManager::ETHGraphicResourceManager(const ETHSpriteDensityManag
 {
 }
 
-SpritePtr ETHGraphicResourceManager::GetPointer(
+const ETHGraphicResourceManager::SpriteResource* ETHGraphicResourceManager::GetPointer(
 	const Platform::FileManagerPtr& fileManager,
 	VideoPtr video,
-	const str_type::string &fileRelativePath,
-	const str_type::string &resourceDirectory,
-	const str_type::string &searchPath,
-	const bool cutOutBlackPixels,
+	const std::string &fileRelativePath,
+	const std::string &resourceDirectory,
+	const std::string &searchPath,
 	const bool temporary)
 {
-	if (fileRelativePath == GS_L(""))
-		return SpritePtr();
+	if (fileRelativePath == "")
+	{
+		return 0;
+	}
 
-	str_type::string fileName = Platform::GetFileName(fileRelativePath);
-	str_type::string resourceFullPath = AssembleResourceFullPath(resourceDirectory, searchPath, fileName);
+	std::string fileName = Platform::GetFileName(fileRelativePath);
+	std::string resourceFullPath = AssembleResourceFullPath(resourceDirectory, searchPath, fileName);
 
 	if (!m_resource.empty())
 	{
-		SpritePtr sprite = FindSprite(resourceFullPath, fileName, resourceDirectory);
-		if (sprite)
+		const SpriteResource* resource = FindSprite(resourceFullPath, fileName, resourceDirectory);
+		if (resource)
 		{
-			return sprite;
+			return resource;
 		}
 	}
 
 	// we can set a search path to search the file in case
 	// it hasn't been loaded yet
-	if (searchPath != GS_L(""))
+	if (searchPath != (""))
 	{
-		AddFile(fileManager, video, resourceFullPath, resourceDirectory, cutOutBlackPixels, temporary);
+		AddFile(fileManager, video, resourceFullPath, resourceDirectory, temporary);
 		return FindSprite(resourceFullPath, fileName, resourceDirectory);
 	}
-	return SpritePtr();
+	return 0;
 }
 
-Sprite::RectsPtr ETHGraphicResourceManager::GetPackedFrames(const str_type::string& fileName)
-{
-	tsl::hopscotch_map<str_type::string, SpriteResource>::iterator iter = m_resource.find(fileName);
-	if (iter != m_resource.end())
-	{
-		return iter->second.m_packedFrames;
-	}
-	else
-	{
-		return Sprite::RectsPtr();
-	}
-}
-
-ETHGraphicResourceManager::SpriteResource ETHGraphicResourceManager::GetSpriteResource(const str_type::string& fileName)
-{
-	tsl::hopscotch_map<str_type::string, SpriteResource>::iterator iter = m_resource.find(fileName);
-	if (iter != m_resource.end())
-	{
-		return iter->second;
-	}
-	else
-	{
-		return SpriteResource(Platform::FileManagerPtr(), GS_L(""), GS_L(""), SpritePtr(), false);
-	}
-}
-
-SpritePtr ETHGraphicResourceManager::AddFile(
+SpritePtr ETHGraphicResourceManager::GetSprite(
 	const Platform::FileManagerPtr& fileManager,
 	VideoPtr video,
-	const str_type::string &path,
-	const str_type::string& resourceDirectory,
-	const bool cutOutBlackPixels,
+	const std::string &fileRelativePath,
+	const std::string &resourceDirectory,
+	const std::string &searchPath,
 	const bool temporary)
 {
-	str_type::string fileName = Platform::GetFileName(path);
+	const SpriteResource* resource = GetPointer(fileManager, video, fileRelativePath, resourceDirectory, searchPath, temporary);
+	if (resource)
 	{
-		SpritePtr sprite = FindSprite(path, fileName, resourceDirectory);
-		if (sprite)
-			return sprite;
+		return resource->GetSprite();
+	}
+	else
+	{
+		return SpritePtr();
+	}
+}
+
+SpriteRectsPtr ETHGraphicResourceManager::GetPackedFrames(const std::string& fileName)
+{
+	tsl::hopscotch_map<std::string, SpriteResource>::iterator iter = m_resource.find(fileName);
+	if (iter != m_resource.end())
+	{
+		return (iter->second.packedFrames);
+	}
+	else
+	{
+		return SpriteRectsPtr();
+	}
+}
+
+ETHGraphicResourceManager::SpriteResource* ETHGraphicResourceManager::GetSpriteResource(const std::string& fileName)
+{
+	tsl::hopscotch_map<std::string, SpriteResource>::iterator iter = m_resource.find(fileName);
+	if (iter != m_resource.end())
+	{
+		return &iter.value();
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+const ETHGraphicResourceManager::SpriteResource* ETHGraphicResourceManager::AddFile(
+	const Platform::FileManagerPtr& fileManager,
+	VideoPtr video,
+	const std::string &path,
+	const std::string& resourceDirectory,
+	const bool temporary)
+{
+	std::string fileName = Platform::GetFileName(path);
+	{
+		const SpriteResource* resource = FindSprite(path, fileName, resourceDirectory);
+		if (resource)
+		{
+			return resource;
+		}
 	}
 
 	SpritePtr pBitmap;
-	str_type::string fixedName(path);
+	std::string fixedName(path);
 	Platform::FixSlashes(fixedName);
 
 	ETHSpriteDensityManager::DENSITY_LEVEL densityLevel;
-	const str_type::string finalFileName(m_densityManager.ChooseSpriteVersion(fixedName, video, densityLevel));
+	const std::string finalFileName(m_densityManager.ChooseSpriteVersion(fixedName, video, densityLevel));
 
-	if (!(pBitmap = video->CreateSprite(finalFileName, (cutOutBlackPixels)? 0xFF000000 : 0xFFFF00FF)))
+	if (!(pBitmap = SpritePtr(new Sprite(video.get(), finalFileName))))
 	{
 		pBitmap.reset();
-		ETH_STREAM_DECL(ss) << GS_L("(Not loaded) ") << path;
+		ETH_STREAM_DECL(ss) << ("(Not loaded) ") << path;
 		ETHResourceProvider::Log(ss.str(), Platform::Logger::ERROR);
-		return SpritePtr();
+		return 0;
 	}
 
 	m_densityManager.SetSpriteDensity(pBitmap, densityLevel);
 
-	//#if defined(_DEBUG) || defined(DEBUG)
-	ETH_STREAM_DECL(ss) << GS_L("(Loaded) ") << fileName;
+	ETH_STREAM_DECL(ss) << ("(Loaded) ") << fileName;
 	ETHResourceProvider::Log(ss.str(), Platform::Logger::INFO);
-	//#endif
-	m_resource.insert(std::pair<str_type::string, SpriteResource>(fileName, SpriteResource(fileManager, resourceDirectory, fixedName, pBitmap, temporary)));
-	return pBitmap;
+	m_resource.insert(std::pair<std::string, SpriteResource>(fileName, SpriteResource(fileManager, resourceDirectory, fixedName, pBitmap, temporary)));
+	return FindSprite(path, fileName, resourceDirectory);
 }
 
 std::size_t ETHGraphicResourceManager::GetNumResources()
@@ -241,46 +258,46 @@ std::size_t ETHGraphicResourceManager::GetNumResources()
 	return m_resource.size();
 }
 
-gs2d::SpritePtr ETHGraphicResourceManager::FindSprite(
-	const str_type::string& fullFilePath,
-	const str_type::string& fileName,
-	const str_type::string& resourceDirectory)
+const ETHGraphicResourceManager::SpriteResource* ETHGraphicResourceManager::FindSprite(
+	const std::string& fullFilePath,
+	const std::string& fileName,
+	const std::string& resourceDirectory)
 {
-	tsl::hopscotch_map<str_type::string, SpriteResource>::iterator iter = m_resource.find(fileName);
+	tsl::hopscotch_map<std::string, SpriteResource>::iterator iter = m_resource.find(fileName);
 	if (iter != m_resource.end())
 	{
-		str_type::string fixedPath(fullFilePath);
+		std::string fixedPath(fullFilePath);
 		Platform::FixSlashes(fixedPath);
 		const SpriteResource& resource = iter->second;
 		if (RemoveResourceDirectory(resourceDirectory, fixedPath) != resource.m_fullOriginPath)
 		{
-			str_type::stringstream ss; ss << GS_L("Duplicate resource name found: ") << fixedPath
-				<< GS_L(" <-> ") << resource.m_fullOriginPath;
+			std::stringstream ss; ss << ("Duplicate resource name found: ") << fixedPath
+				<< (" <-> ") << resource.m_fullOriginPath;
 			ETHResourceProvider::Log(ss.str(), Platform::Logger::ERROR);
 		}
-		return resource.m_sprite;
+		return &resource;
 	}
 	else
 	{
-		return SpritePtr();
+		return 0;
 	}
 }
 
-str_type::string ETHGraphicResourceManager::AssembleResourceFullPath(
-	const str_type::string& programPath,
-	const str_type::string& searchPath,
-	const str_type::string& fileName )
+std::string ETHGraphicResourceManager::AssembleResourceFullPath(
+	const std::string& programPath,
+	const std::string& searchPath,
+	const std::string& fileName )
 {
 	return programPath + searchPath + fileName;
 }
 
-bool ETHGraphicResourceManager::ReleaseResource(const str_type::string &file)
+bool ETHGraphicResourceManager::ReleaseResource(const std::string &file)
 {
-	tsl::hopscotch_map<str_type::string, SpriteResource>::iterator iter = m_resource.find(Platform::GetFileName(file));
+	tsl::hopscotch_map<std::string, SpriteResource>::iterator iter = m_resource.find(Platform::GetFileName(file));
 	if (iter != m_resource.end())
 	{
-		str_type::string fileName = Platform::GetFileName(file);
-		ETH_STREAM_DECL(ss) << GS_L("(Released) ") << fileName;
+		std::string fileName = Platform::GetFileName(file);
+		ETH_STREAM_DECL(ss) << ("(Released) ") << fileName;
 		ETHResourceProvider::Log(ss.str(), Platform::Logger::INFO);
 		m_resource.erase(iter);
 		return true;
@@ -291,52 +308,51 @@ bool ETHGraphicResourceManager::ReleaseResource(const str_type::string &file)
 	}
 }
 
+ETHAudioResourceManager::ETHAudioResourceManager() : m_defaultMusicVolume(1.0f)
+{};
+
 void ETHAudioResourceManager::ReleaseResources()
 {
-	ReleaseAllButMusic();
+	m_resource.clear();
 }
 
-void ETHAudioResourceManager::ReleaseAllButMusic()
+void ETHAudioResourceManager::SetMusicVolume(const float volume)
 {
-	tsl::hopscotch_map<str_type::string, AudioSamplePtr> musicTracks;
-	for (tsl::hopscotch_map<str_type::string, AudioSamplePtr>::iterator iter = m_resource.begin(); iter != m_resource.end(); ++iter)
-	{
+	m_defaultMusicVolume = volume;
+	for (tsl::hopscotch_map<std::string, AudioSamplePtr>::iterator iter = m_resource.begin(); iter != m_resource.end(); ++iter)
 		if ((iter->second)->GetType() == Audio::MUSIC)
-			musicTracks[iter.key()] = iter.value();
-	}
-	m_resource.clear(); // probably just paranoia
-	m_resource = musicTracks;
+			iter.value()->SetVolume(m_defaultMusicVolume);
 }
 
 AudioSamplePtr ETHAudioResourceManager::GetPointer(
 	AudioPtr audio,
 	const Platform::FileIOHubPtr& fileIOHub,
-	const str_type::string &fileRelativePath,
-	const str_type::string &searchPath,
+	const std::string &fileRelativePath,
+	const std::string &searchPath,
 	const Audio::SAMPLE_TYPE type)
 {
-	if (fileRelativePath == GS_L(""))
+	if (fileRelativePath == (""))
 		return AudioSamplePtr();
 
 	if (!m_resource.empty())
 	{
-		str_type::string fileName = Platform::GetFileName(fileRelativePath);
-		tsl::hopscotch_map<str_type::string, AudioSamplePtr>::iterator iter = m_resource.find(fileName);
+		std::string fileName = Platform::GetFileName(fileRelativePath);
+		tsl::hopscotch_map<std::string, AudioSamplePtr>::iterator iter = m_resource.find(fileName);
 		if (iter != m_resource.end())
 			return iter.value();
 	}
 
 	// we can set a search path to search the file in case
 	// it hasn't been loaded yet
-	if (searchPath != GS_L(""))
+	if (searchPath != (""))
 	{
-		str_type::string fileName = Platform::GetFileName(fileRelativePath);
+		std::string fileName = Platform::GetFileName(fileRelativePath);
 
-		str_type::string path = fileIOHub->GetResourceDirectory();
+		std::string path = fileIOHub->GetResourceDirectory();
 		path += searchPath;
 		path += fileName;
 		AddFile(audio, fileIOHub, path, type);
-		return GetPointer(audio, fileIOHub, fileName, GS_L(""), type);
+		return GetPointer(audio, fileIOHub, fileName, (""), type);
 	}
 	return AudioSamplePtr();
 }
@@ -344,32 +360,33 @@ AudioSamplePtr ETHAudioResourceManager::GetPointer(
 AudioSamplePtr ETHAudioResourceManager::AddFile(
 	AudioPtr audio,
 	const Platform::FileIOHubPtr& fileIOHub,
-	const str_type::string& path,
+	const std::string& path,
 	const Audio::SAMPLE_TYPE type)
 {
 	if (!m_resource.empty())
 	{
-		str_type::string fileName = Platform::GetFileName(path);
-		tsl::hopscotch_map<str_type::string, AudioSamplePtr>::iterator iter = m_resource.find(fileName);
+		std::string fileName = Platform::GetFileName(path);
+		tsl::hopscotch_map<std::string, AudioSamplePtr>::iterator iter = m_resource.find(fileName);
 		if (iter != m_resource.end())
 			return iter.value();
 	}
 
 	AudioSamplePtr pSample;
-	str_type::string fixedName(path);
+	std::string fixedName(path);
 	Platform::FixSlashes(fixedName);
 	if (!(pSample = audio->LoadSampleFromFile(fixedName, fileIOHub->GetFileManager(), type)))
 	{
 		pSample.reset();
-		ETH_STREAM_DECL(ss) << GS_L("(Not loaded) \"") << fixedName << GS_L("\"");
+		ETH_STREAM_DECL(ss) << ("(Not loaded) \"") << fixedName << ("\"");
 		ETHResourceProvider::Log(ss.str(), Platform::Logger::ERROR);
 		return AudioSamplePtr();
 	}
-	//#if defined(_DEBUG) || defined(DEBUG)
-	str_type::string fileName = Platform::GetFileName(path);
-	ETH_STREAM_DECL(ss) << GS_L("(Loaded) ") << fileName;
+	if (type == Audio::MUSIC)
+		pSample->SetVolume(m_defaultMusicVolume);
+
+	std::string fileName = Platform::GetFileName(path);
+	ETH_STREAM_DECL(ss) << ("(Loaded) ") << fileName;
 	ETHResourceProvider::Log(ss.str(), Platform::Logger::INFO);
-	//#endif
 	m_resource[fileName] = pSample;
 	return pSample;
 }

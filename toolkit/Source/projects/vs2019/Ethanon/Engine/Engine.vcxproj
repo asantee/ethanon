@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{DF7BB07C-8458-46E9-8284-C6D798968FE3}</ProjectGuid>
+    <RootNamespace>Engine</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LibraryPath>$(UserProfile)\.usr\lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
+    <IncludePath>$(UserProfile)\.usr\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LibraryPath>$(UserProfile)\.usr\lib\;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
+    <IncludePath>$(UserProfile)\.usr\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>..\..\..\..\src\addons\;..\..\..\..\src\angelscript\include;..\..\..\..\src\box2d\;..\..\..\..\src\gs2d\src\;..\..\..\..\src\vendors\hashlib2plus\src\;..\..\..\..\src\gs2d\vendors\tsl</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;_MBCS;_STDC_CONSTANT_MACROS;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>$(VCToolsInstallDir)\lib\x86</AdditionalLibraryDirectories>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\angelscript\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\..\src\gs2d\vendors\boost\;..\..\..\..\src\box2d\;..\..\..\..\src\gs2d\src\;..\..\..\..\src\vendors\hashlib2plus\src\</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>../../../../boost/lib</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>..\..\..\..\src\addons\;..\..\..\..\src\angelscript\include;..\..\..\..\src\box2d\;..\..\..\..\src\gs2d\src\;..\..\..\..\src\vendors\hashlib2plus\src\;..\..\..\..\src\gs2d\vendors\tsl</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_MBCS;_STDC_CONSTANT_MACROS;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(VCToolsInstallDir)\lib\x86</AdditionalLibraryDirectories>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\lib;C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\angelscript\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <LinkTimeCodeGeneration>false</LinkTimeCodeGeneration>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>..\..\..\..\src\gs2d\vendors\boost\;..\..\..\..\src\box2d\;..\..\..\..\src\gs2d\src\;..\..\..\..\src\vendors\hashlib2plus\src\</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>../../../../boost/lib</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\src\addons\scriptarray.cpp" />
+    <ClCompile Include="..\..\..\..\src\addons\scriptbuilder.cpp" />
+    <ClCompile Include="..\..\..\..\src\addons\scriptdictionary.cpp" />
+    <ClCompile Include="..\..\..\..\src\addons\scriptfile.cpp" />
+    <ClCompile Include="..\..\..\..\src\addons\scriptmath.cpp" />
+    <ClCompile Include="..\..\..\..\src\addons\scriptmath2d.cpp" />
+    <ClCompile Include="..\..\..\..\src\addons\scriptmath3d.cpp" />
+    <ClCompile Include="..\..\..\..\src\addons\scriptstdstring.cpp" />
+    <ClCompile Include="..\..\..\..\src\cjson\cJSON.c" />
+    <ClCompile Include="..\..\..\..\src\engine\Drawing\ETHDrawable.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Drawing\ETHDrawableManager.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Drawing\ETHParticleDrawer.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Entity\ETHCustomDataManager.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Entity\ETHEntity.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Entity\ETHEntityArray.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Entity\ETHEntityCache.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Entity\ETHEntityChooser.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Entity\ETHEntityController.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Entity\ETHEntityProperties.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Entity\ETHLight.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Entity\ETHRenderEntity.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Entity\ETHScriptEntity.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Entity\ETHSpriteEntity.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\ETHEngine.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Particles\ETHParticleManager.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Particles\ETHParticleSystem.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Physics\ETHCollisionBox.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Physics\ETHCompoundShape.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Physics\ETHContactListener.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Physics\ETHDestructionListener.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Physics\ETHJoint.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Physics\ETHPhysicsController.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Physics\ETHPhysicsEntityController.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Physics\ETHPhysicsSimulator.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Physics\ETHPolygon.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Physics\ETHRayCastCallback.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Physics\ETHRevoluteJoint.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Platform\ETHAppEnmlFile.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Platform\windows\FileListing.windows.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Renderer\ETHEntityHaloRenderer.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Renderer\ETHEntityParticleRenderer.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Renderer\ETHEntityPieceRenderer.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Renderer\ETHEntityRenderingManager.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Renderer\ETHEntitySpriteRenderer.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Resource\ETHDirectories.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Resource\ETHResourceManager.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Resource\ETHResourceProvider.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Resource\ETHSpriteDensityManager.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Scene\ETHActiveEntityHandler.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Scene\ETHBucketManager.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Scene\ETHScene.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Scene\ETHSceneProperties.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Script\ETHBinaryStream.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptObjRegister.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptObjRegister.generic.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptWrapper.Audio.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptWrapper.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptWrapper.Drawing.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptWrapper.generic.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptWrapper.Math.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptWrapper.Math.generic.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptWrapper.Scene.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptWrapper.SharedData.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Script\ETHScriptWrapper.System.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Shader\ETHBackBufferTargetManager.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Shader\ETHNoDynamicBackBuffer.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Shader\ETHShaderManager.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Util\ETHASUtil.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Util\ETHDateTime.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Util\ETHFileChangeDetector.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Util\ETHInput.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Util\JSONObject.cpp" />
+    <ClCompile Include="..\..\..\..\src\vendors\tinyxml_ansi\tinystr.cpp" />
+    <ClCompile Include="..\..\..\..\src\vendors\tinyxml_ansi\tinyxml.cpp" />
+    <ClCompile Include="..\..\..\..\src\vendors\tinyxml_ansi\tinyxmlerror.cpp" />
+    <ClCompile Include="..\..\..\..\src\vendors\tinyxml_ansi\tinyxmlparser.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\src\addons\aswrappedcall.h" />
+    <ClInclude Include="..\..\..\..\src\addons\scriptarray.h" />
+    <ClInclude Include="..\..\..\..\src\addons\scriptbuilder.h" />
+    <ClInclude Include="..\..\..\..\src\addons\scriptdictionary.h" />
+    <ClInclude Include="..\..\..\..\src\addons\scriptfile.h" />
+    <ClInclude Include="..\..\..\..\src\addons\scriptmath.h" />
+    <ClInclude Include="..\..\..\..\src\addons\scriptmath2d.h" />
+    <ClInclude Include="..\..\..\..\src\addons\scriptmath3d.h" />
+    <ClInclude Include="..\..\..\..\src\addons\scriptstdstring.h" />
+    <ClInclude Include="..\..\..\..\src\cjson\cJSON.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Drawing\ETHDrawable.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Drawing\ETHDrawableManager.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Drawing\ETHParticleDrawer.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Entity\ETHCustomDataManager.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Entity\ETHEntity.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Entity\ETHEntityArray.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Entity\ETHEntityCache.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Entity\ETHEntityChooser.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Entity\ETHEntityController.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Entity\ETHEntityProperties.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Entity\ETHLight.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Entity\ETHRenderEntity.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Entity\ETHScriptEntity.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Entity\ETHSpriteEntity.h" />
+    <ClInclude Include="..\..\..\..\src\engine\ETHEngine.h" />
+    <ClInclude Include="..\..\..\..\src\engine\ETHTypes.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Particles\ETHParticleManager.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Particles\ETHParticleSystem.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Physics\ETHCollisionBox.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Physics\ETHCompoundShape.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Physics\ETHContactListener.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Physics\ETHDestructionListener.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Physics\ETHJoint.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Physics\ETHPhysicsController.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Physics\ETHPhysicsEntityController.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Physics\ETHPhysicsSimulator.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Physics\ETHPolygon.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Physics\ETHRayCastCallback.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Physics\ETHRevoluteJoint.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Platform\ETHAppEnmlFile.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Platform\FileListing.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Renderer\ETHEntityHaloRenderer.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Renderer\ETHEntityParticleRenderer.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Renderer\ETHEntityPieceRenderer.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Renderer\ETHEntityRenderingManager.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Renderer\ETHEntitySpriteRenderer.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Resource\ETHDirectories.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Resource\ETHResourceManager.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Resource\ETHResourceProvider.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Resource\ETHSpriteDensityManager.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Scene\ETHActiveEntityHandler.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Scene\ETHBucketManager.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Scene\ETHScene.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Scene\ETHSceneProperties.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Script\ETHBinaryStream.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Script\ETHScriptObjRegister.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Script\ETHScriptWrapper.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Shader\ETHBackBufferTargetManager.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Shader\ETHDynamicBackBuffer.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Shader\ETHNoDynamicBackBuffer.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Shader\ETHParallaxManager.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Shader\ETHShaderManager.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Shader\ETHShaders.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Util\ETHASUtil.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Util\ETHDateTime.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Util\ETHFileChangeDetector.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Util\ETHInput.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Util\JSONObject.h" />
+    <ClInclude Include="..\..\..\..\src\vendors\tinyxml_ansi\tinystr.h" />
+    <ClInclude Include="..\..\..\..\src\vendors\tinyxml_ansi\tinyxml.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\src\angelscript\projects\vs2019\angelscript.vcxproj">
+      <Project>{39e6af97-6ba3-4a72-8c61-bcebf214ebfd}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\src\box2d\Build\msvc\Box2D.vcxproj">
+      <Project>{32128a8e-b145-4ae6-a31a-c18fcbac5f8c}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\src\gs2d\projects\vs2019\gs2d\gs2d.vcxproj">
+      <Project>{56b000f0-98f9-4e81-b6e4-786c3c004383}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\src\vendors\hashlib2plus\project\vs2019\hashlib\hashlib.vcxproj">
+      <Project>{04bff516-87da-44d2-8c96-6532e8cea6be}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

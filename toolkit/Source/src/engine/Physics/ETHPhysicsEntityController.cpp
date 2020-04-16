@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "ETHPhysicsEntityController.h"
 
 #include "../../addons/scriptbuilder.h"
@@ -28,10 +6,12 @@
 
 #include "ETHPhysicsController.h"
 
-const str_type::string ETHPhysicsEntityController::BEGIN_CONTACT_CALLBACK_PREFIX    = GS_L("ETHBeginContactCallback_");
-const str_type::string ETHPhysicsEntityController::END_CONTACT_CALLBACK_PREFIX      = GS_L("ETHEndContactCallback_");
-const str_type::string ETHPhysicsEntityController::PRESOLVE_CONTACT_CALLBACK_PREFIX = GS_L("ETHPreSolveContactCallback_");
-const str_type::string ETHPhysicsEntityController::CONTACT_CALLBACK_ARGS            = GS_L("ETHEntity@, ETHEntity@, const vector2 &in");
+#define UNUSED_ARGUMENT(argument) ((void)(argument))
+
+const std::string ETHPhysicsEntityController::BEGIN_CONTACT_CALLBACK_PREFIX    = ("ETHBeginContactCallback_");
+const std::string ETHPhysicsEntityController::END_CONTACT_CALLBACK_PREFIX      = ("ETHEndContactCallback_");
+const std::string ETHPhysicsEntityController::PRESOLVE_CONTACT_CALLBACK_PREFIX = ("ETHPreSolveContactCallback_");
+const std::string ETHPhysicsEntityController::CONTACT_CALLBACK_ARGS            = ("ETHEntity@, ETHEntity@, const vector2 &in");
 
 ETHPhysicsEntityController::CONTACT_CALLBACKS::CONTACT_CALLBACKS() :
 	beginContact(0),
@@ -62,10 +42,10 @@ ETHPhysicsEntityController::ETHPhysicsEntityController(
 	}
 }
 
-asIScriptFunction* ETHPhysicsEntityController::GetContactCallback(const str_type::string& prefix, asIScriptModule* module)
+asIScriptFunction* ETHPhysicsEntityController::GetContactCallback(const std::string& prefix, asIScriptModule* module)
 {
 	ETHEntity* entity = static_cast<ETHEntity*>(m_body->GetUserData());
-	str_type::stringstream ss;
+	std::stringstream ss;
 	ss << prefix << Platform::RemoveExtension(entity->GetEntityName().c_str());
 	return module->GetFunctionByName(ss.str().c_str());
 }
@@ -78,7 +58,7 @@ void ETHPhysicsEntityController::Update(const float lastFrameElapsedTime, ETHBuc
 	if (!m_body->IsActive())
 		return;
 
-	GS2D_UNUSED_ARGUMENT(lastFrameElapsedTime);
+	UNUSED_ARGUMENT(lastFrameElapsedTime);
 	const Vector2 pos = ETHPhysicsSimulator::ScaleFromBox2D(m_body->GetPosition());
 	const Vector2 oldPos = Vector2(m_pos.x, m_pos.y);
 	if (oldPos != pos)
@@ -86,7 +66,7 @@ void ETHPhysicsEntityController::Update(const float lastFrameElapsedTime, ETHBuc
 		m_pos = Vector3(pos, GetPos().z);
 		buckets.RequestBucketMove(static_cast<ETHEntity*>(m_body->GetUserData()), oldPos, pos);
 	}
-	m_angle =-RadianToDegree(m_body->GetAngle());
+	m_angle =-Util::RadianToDegree(m_body->GetAngle());
 }
 
 void ETHPhysicsEntityController::SetPos(const Vector3& pos)
@@ -148,7 +128,7 @@ void ETHPhysicsEntityController::AddToAngle(const float angle)
 {
 	if (m_body)
 	{
-		m_body->SetTransform(m_body->GetPosition(),-DegreeToRadian(angle) + m_body->GetAngle());
+		m_body->SetTransform(m_body->GetPosition(),-Util::DegreeToRadian(angle) + m_body->GetAngle());
 		m_body->SetAwake(true);
 	}
 	m_angle += angle;
@@ -158,7 +138,7 @@ void ETHPhysicsEntityController::SetAngle(const float angle)
 {
 	if (m_body)
 	{
-		m_body->SetTransform(m_body->GetPosition(),-DegreeToRadian(angle));
+		m_body->SetTransform(m_body->GetPosition(),-Util::DegreeToRadian(angle));
 		m_body->SetAwake(true);
 	}
 	m_angle = angle;
@@ -187,7 +167,7 @@ void ETHPhysicsEntityController::Scale(const Vector2& scale, ETHEntity* entity)
 {
 	if (!m_body)
 		return;
-	GS2D_UNUSED_ARGUMENT(scale);
+	UNUSED_ARGUMENT(scale);
 	Destroy();
 	m_body = ETHPhysicsSimulator::CreateBody(entity, m_world);
 }
@@ -251,23 +231,23 @@ b2Body* ETHPhysicsEntityController::GetBody()
 
 bool ETHPhysicsEntityController::ResolveJoints(ETHEntityArray& entities, const ETHEntityProperties& properties, ETHPhysicsSimulator& simulator)
 {
-	if (properties.enmlJointDefinitions == GS_L(""))
+	if (properties.enmlJointDefinitions == (""))
 		return false;
 
 	const std::size_t numEntities = entities.size();
 	const enml::File file(properties.enmlJointDefinitions);
-	std::list<str_type::string> jointNames;
+	std::list<std::string> jointNames;
 	file.GetEntityNameList(jointNames);
-	for (std::list<str_type::string>::const_iterator iter = jointNames.begin(); iter != jointNames.end(); ++iter)
+	for (std::list<std::string>::const_iterator iter = jointNames.begin(); iter != jointNames.end(); ++iter)
 	{
-		const str_type::string& jointName = *iter;
+		const std::string& jointName = *iter;
 
 		// get the other entity name from the joint definition
-		str_type::string otherEntityName = ETHJoint::GetOtherEntityName(jointName, file);
+		std::string otherEntityName = ETHJoint::GetOtherEntityName(jointName, file);
 		int otherEntityID = -1;
 
 		// if the other entity name is not declared in the joint definition, look for it into the custom data
-		if (otherEntityName == GS_L(""))
+		if (otherEntityName == (""))
 		{
 			if (properties.Check(jointName) == ETHCustomData::DT_STRING)
 			{

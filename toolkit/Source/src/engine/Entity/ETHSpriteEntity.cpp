@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "ETHSpriteEntity.h"
 #include "ETHEntityCache.h"
 
@@ -33,9 +11,11 @@
 
 #include <iostream>
 
+#define UNUSED_ARGUMENT(argument) ((void)(argument))
+
 const float ETHSpriteEntity::m_layrableMinimumDepth(0.001f);
 
-ETHSpriteEntity::ETHSpriteEntity(const str_type::string& filePath, ETHResourceProviderPtr provider, const int nId) :
+ETHSpriteEntity::ETHSpriteEntity(const std::string& filePath, ETHResourceProviderPtr provider, const int nId) :
 	m_provider(provider),
 	ETHEntity(filePath, nId, provider->GetFileManager())
 {
@@ -47,7 +27,7 @@ ETHSpriteEntity::ETHSpriteEntity(
 	TiXmlElement *pElement,
 	ETHResourceProviderPtr provider,
 	ETHEntityCache& entityCache,
-	const str_type::string& entityPath,
+	const std::string& entityPath,
 	const bool shouldGenerateNewID) :
 	ETHEntity(pElement, entityCache, entityPath, provider->GetFileManager(), shouldGenerateNewID),
 	m_provider(provider)
@@ -93,30 +73,27 @@ void ETHSpriteEntity::Create()
 	if (!video || !graphicResources)
 		return;
 
-	const str_type::string& resourceDirectory = m_provider->GetFileIOHub()->GetResourceDirectory();
+	const std::string& resourceDirectory = m_provider->GetFileIOHub()->GetResourceDirectory();
 	
 	const Platform::FileManagerPtr& fileManager = m_provider->GetFileManager();
 
 	SetSprite(m_properties.spriteFile);
-	
-	if (m_provider->IsRichLightingEnabled())
-	{
-		m_pNormal = graphicResources->GetPointer(fileManager, video, m_properties.normalFile, resourceDirectory, ETHDirectories::GetNormalMapDirectory(), false);
-		m_pGloss  = graphicResources->GetPointer(fileManager, video, m_properties.glossFile,  resourceDirectory, ETHDirectories::GetEntityDirectory(), false);
-	}
 
 	if (m_properties.light)
-		m_pHalo = graphicResources->GetPointer(fileManager, video, m_properties.light->haloBitmap, resourceDirectory, ETHDirectories::GetHaloDirectory(), true);
+	{
+		 const ETHGraphicResourceManager::SpriteResource* haloResource =
+		 	graphicResources->GetPointer(fileManager, video, m_properties.light->haloBitmap, resourceDirectory, ETHDirectories::GetHaloDirectory(), true);
+
+		if (haloResource)
+		{
+			 m_pHalo = haloResource->GetSprite();
+		}
+	}
 
 	LoadParticleSystem();
 
 	if (m_pSprite)
 	{
-		//TODO/TO-DO: Remove duplicated code
-		m_properties.spriteCut.x = Max(1, m_properties.spriteCut.x);
-		m_properties.spriteCut.y = Max(1, m_properties.spriteCut.y);
-		ValidateSpriteCut(m_pSprite);
-		m_pSprite->SetRect(m_spriteFrame);
 		SetOrigin();
 	}
 }
@@ -130,12 +107,12 @@ void ETHSpriteEntity::RecoverResources(const Platform::FileManagerPtr& expansion
 	{
 		Platform::FileIOHubPtr fileIOHub = m_provider->GetFileIOHub();
 		Platform::FileManagerPtr currentFileManager     = fileIOHub->GetFileManager();
-		const str_type::string currentResourceDirectory = fileIOHub->GetResourceDirectory();
+		const std::string currentResourceDirectory = fileIOHub->GetResourceDirectory();
 
 		// gather from expansion file if it has one
 		if (expansionFileManager)
 		{
-			fileIOHub->SetFileManager(expansionFileManager, GS_L(""));
+			fileIOHub->SetFileManager(expansionFileManager, (""));
 		}
 
 		LoadLightmapFromFile(m_preRenderedLightmapFilePath);
@@ -144,7 +121,7 @@ void ETHSpriteEntity::RecoverResources(const Platform::FileManagerPtr& expansion
 	}
 }
 
-bool ETHSpriteEntity::LoadLightmapFromFile(const str_type::string& filePath)
+bool ETHSpriteEntity::LoadLightmapFromFile(const std::string& filePath)
 {
 	ETHGraphicResourceManagerPtr graphicResources = m_provider->GetGraphicResourceManager();
 	VideoPtr video = m_provider->GetVideo();
@@ -155,14 +132,18 @@ bool ETHSpriteEntity::LoadLightmapFromFile(const str_type::string& filePath)
 
 	if (ETHGlobal::FileExists(filePath, m_provider->GetFileManager()))
 	{
-		m_pLightmap = graphicResources->GetPointer(
+		const ETHGraphicResourceManager::SpriteResource* lightmapResource = graphicResources->GetPointer(
 			m_provider->GetFileManager(),
 			video,
 			Platform::GetFileName(filePath),
-			GS_L(""),
+			(""),
 			Platform::GetFileDirectory(filePath.c_str()),
-			false,
 			true);
+
+		if (lightmapResource)
+		{
+			m_pLightmap = lightmapResource->GetSprite();
+		}
 
 		// store bitmap name to restore when necessary
 		m_preRenderedLightmapFilePath = filePath;
@@ -185,9 +166,14 @@ bool ETHSpriteEntity::ShouldUseSolidColorPixelShader() const
 	return (m_v4SolidColor.w != 0.0f);
 }
 
-bool ETHSpriteEntity::SetSprite(const str_type::string &fileName)
+bool ETHSpriteEntity::ShouldUsePass1AddPixelShader() const
 {
-	m_pSprite = m_provider->GetGraphicResourceManager()->GetPointer(
+	return static_cast<bool>(m_pLightmap);
+}
+
+bool ETHSpriteEntity::SetSprite(const std::string &fileName)
+{
+	m_pSprite = m_provider->GetGraphicResourceManager()->GetSprite(
 		m_provider->GetFileManager(),
 		m_provider->GetVideo(),
 		fileName,
@@ -200,70 +186,34 @@ bool ETHSpriteEntity::SetSprite(const str_type::string &fileName)
 		m_properties.spriteFile = fileName;
 
 		m_packedFrames = m_provider->GetGraphicResourceManager()->GetPackedFrames(m_properties.spriteFile);
-		ValidateSpriteCut(m_pSprite);
-		m_pSprite->SetRect(m_spriteFrame);
+		if (!m_packedFrames)
+		{
+			m_packedFrames = SpriteRectsPtr(new SpriteRects());
+			m_properties.spriteCut.x = Max(1, m_properties.originalSpriteCut.x);
+			m_properties.spriteCut.y = Max(1, m_properties.originalSpriteCut.y);
+			m_packedFrames->SetRects(m_properties.spriteCut.x, m_properties.spriteCut.y);
+		}
 		return true;
 	}
 	else
 	{
-		m_properties.spriteFile = GS_L("");
+		m_properties.spriteFile = ("");
 		return false;
 	}
 }
 
-bool ETHSpriteEntity::SetNormal(const str_type::string &fileName)
-{
-	m_pNormal = m_provider->GetGraphicResourceManager()->GetPointer(
-		m_provider->GetFileManager(),
-		m_provider->GetVideo(),
-		fileName,
-		m_provider->GetFileIOHub()->GetResourceDirectory(),
-		ETHDirectories::GetNormalMapDirectory(),
-		false);
-	if (m_pNormal)
-	{
-		m_properties.normalFile = fileName;
-		return true;
-	}
-	else
-	{
-		m_properties.normalFile = GS_L("");
-		return false;
-	}
-}
-
-bool ETHSpriteEntity::SetGloss(const str_type::string &fileName)
-{
-	m_pGloss = m_provider->GetGraphicResourceManager()->GetPointer(
-		m_provider->GetFileManager(),
-		m_provider->GetVideo(),
-		fileName,
-		m_provider->GetFileIOHub()->GetResourceDirectory(),
-		ETHDirectories::GetEntityDirectory(),
-		false);
-	if (m_pGloss)
-	{
-		m_properties.glossFile = fileName;
-		return true;
-	}
-	else
-	{
-		m_properties.glossFile = GS_L("");
-		return false;
-	}
-}
-
-bool ETHSpriteEntity::SetHalo(const str_type::string &fileName)
+bool ETHSpriteEntity::SetHalo(const std::string &fileName)
 {
 	if (m_properties.light)
 	{
-		m_pHalo = m_provider->GetGraphicResourceManager()->GetPointer(
+		m_pHalo = m_provider->GetGraphicResourceManager()->GetSprite(
 			m_provider->GetFileManager(),
 			m_provider->GetVideo(),
 			fileName,
 			m_provider->GetFileIOHub()->GetResourceDirectory(),
 			ETHDirectories::GetHaloDirectory(),
 			true);
+
 		if (m_pHalo)
 		{
 			m_properties.light->haloBitmap = fileName;
@@ -271,7 +221,7 @@ bool ETHSpriteEntity::SetHalo(const str_type::string &fileName)
 		}
 		else
 		{
-			m_properties.light->haloBitmap = GS_L("");
+			m_properties.light->haloBitmap = ("");
 			return false;
 		}
 	}
@@ -281,27 +231,17 @@ bool ETHSpriteEntity::SetHalo(const str_type::string &fileName)
 	}
 }
 
-str_type::string ETHSpriteEntity::GetSpriteName() const
+std::string ETHSpriteEntity::GetSpriteName() const
 {
 	return m_properties.spriteFile;
 }
 
-str_type::string ETHSpriteEntity::GetNormalName() const
-{
-	return m_properties.normalFile;
-}
-
-str_type::string ETHSpriteEntity::GetGlossName() const
-{
-	return m_properties.glossFile;
-}
-
-str_type::string ETHSpriteEntity::GetHaloName() const
+std::string ETHSpriteEntity::GetHaloName() const
 {
 	if (m_properties.light)
 		return m_properties.light->haloBitmap;
 	else
-		return GS_L("");
+		return ("");
 }
 
 void ETHSpriteEntity::LoadParticleSystem()
@@ -310,7 +250,7 @@ void ETHSpriteEntity::LoadParticleSystem()
 	ETHAudioResourceManagerPtr audioResources = m_provider->GetAudioResourceManager();
 	VideoPtr video = m_provider->GetVideo();
 	AudioPtr audio = m_provider->GetAudio();
-	const str_type::string& resourcePath = m_provider->GetFileIOHub()->GetResourceDirectory();
+	const std::string& resourcePath = m_provider->GetFileIOHub()->GetResourceDirectory();
 
 	m_particles.clear();
 	m_particles.resize(m_properties.particleSystems.size());
@@ -319,13 +259,15 @@ void ETHSpriteEntity::LoadParticleSystem()
 		const ETHParticleSystem *pSystem = m_properties.particleSystems[t].get();
 		if (pSystem->nParticles > 0)
 		{
-			str_type::string path = resourcePath;
+			std::string path = resourcePath;
 			// path += GS_L("/");
 			path += ETHDirectories::GetParticlesDirectory();
 			path += Platform::GetFileName(pSystem->GetActualBitmapFile());
 
-			if (!graphicResources->AddFile(m_provider->GetFileManager(), video, path, resourcePath, (pSystem->alphaMode == Video::AM_ADD), false))
+			if (!graphicResources->AddFile(m_provider->GetFileManager(), video, path, resourcePath, false))
+			{
 				continue;
+			}
 
 			const float particleScale = (GetScale().x + GetScale().y) / 2.0f;
 			m_particles[t] = ETHParticleManagerPtr(
@@ -348,17 +290,15 @@ bool ETHSpriteEntity::SetSpriteCut(const unsigned int col, const unsigned int ro
 	}
 	else
 	{
-		ETH_STREAM_DECL(ss) << GS_L("Invalid cut value");
+		ETH_STREAM_DECL(ss) << ("Invalid cut value");
 		m_provider->Log(ss.str(), Platform::Logger::ERROR);
 		return false;
 	}
 
-	if (m_pSprite)
-	{
-		m_pSprite->SetupSpriteRects(col, row);
-	}
+	m_packedFrames = SpriteRectsPtr(new SpriteRects());
+	m_packedFrames->SetRects(col, row);
 
-	m_spriteFrame = 0;
+	m_spriteFrame = m_spriteFrame % m_packedFrames->GetNumRects();
 	return true;
 }
 
@@ -369,16 +309,15 @@ Vector2 ETHSpriteEntity::GetSpriteCut() const
 		static_cast<float>(m_properties.spriteCut.y));
 }
 
-Vector2 ETHSpriteEntity::ComputeParallaxOffset() const
+Vector2 ETHSpriteEntity::ComputeParallaxOffset(const float sceneParallaxIntensity) const
 {
-	return m_provider->GetShaderManager()->ComputeParallaxOffset(m_provider->GetVideo(), GetPosition(), GetParallaxIntensity());
+	Sprite::SetParallaxIntensity(sceneParallaxIntensity * GetParallaxIntensity());
+	return Sprite::ComputeParallaxOffset(m_provider->GetVideo()->GetCameraPos(), GetPosition());
 }
 
 bool ETHSpriteEntity::SetDepth(const float maxHeight, const float minHeight)
 {
-	const float depth = ComputeDepth(maxHeight, minHeight);
-	// assert(depth >= 0.0f && depth <= 1.0f);
-	m_provider->GetVideo()->SetSpriteDepth(depth);
+	// feature no longer needed after eth-supersimple
 	return true;
 }
 
@@ -387,44 +326,81 @@ void ETHSpriteEntity::SetOrigin()
 	const Vector2 v2Origin = ComputeOrigin(GetSize());
 	m_pSprite->SetOrigin(v2Origin);
 	if (m_pLightmap)
+	{
 		m_pLightmap->SetOrigin(v2Origin);
-}
-
-Rect2Df ETHSpriteEntity::GetFrameRect() const
-{
-	if (m_pSprite)
-	{
-		return m_pSprite->GetRect();
-	}
-	else
-	{
-		return Rect2Df();
 	}
 }
 
-void ETHSpriteEntity::ValidateSpriteCut(const SpritePtr& sprite) const
+Rect2D ETHSpriteEntity::GetFrameRect() const
 {
 	if (m_packedFrames)
 	{
-		if (m_pSprite->GetRects() != m_packedFrames)
-		{
-			m_pSprite->SetRects(m_packedFrames);
-			m_properties.spriteCut.x = m_pSprite->GetNumColumns();
-			m_properties.spriteCut.y = m_pSprite->GetNumRows();
-		}
+		return m_packedFrames->GetRect(GetFrame());
 	}
 	else
 	{
-		m_properties.spriteCut.x = Max(1, m_properties.originalSpriteCut.x);
-		m_properties.spriteCut.y = Max(1, m_properties.originalSpriteCut.y);
-
-		const Vector2i cut(sprite->GetNumColumns(), sprite->GetNumRows());
-		const Vector2i& entityCut = m_properties.spriteCut;
-		if (cut != entityCut)
-		{
-			sprite->SetupSpriteRects(entityCut.x, entityCut.y);
-		}
+		return Rect2D();
 	}
+}
+
+unsigned int ETHSpriteEntity::GetFrame() const
+{
+	return m_spriteFrame;
+}
+
+bool ETHSpriteEntity::SetFrame(const unsigned int frame)
+{
+	const unsigned int numFrames = GetNumFrames();
+	if (frame >= numFrames)
+	{
+		m_spriteFrame = frame % numFrames;
+		return false;
+	}
+	else
+	{
+		m_spriteFrame = (frame);
+		return true;
+	}
+}
+
+bool ETHSpriteEntity::SetFrame(const unsigned int column, const unsigned int row)
+{
+	const Vector2i *pv2Cut = &m_properties.spriteCut;
+	const unsigned int cutX = static_cast<unsigned int>(pv2Cut->x);
+	const unsigned int cutY = static_cast<unsigned int>(pv2Cut->y);
+	if (column >= cutX || row >= cutY)
+	{
+		m_spriteFrame = (0);
+		return false;
+	}
+	else
+	{
+		m_spriteFrame = ((row*cutX)+column);
+		return true;
+	}
+}
+
+Vector2 ETHSpriteEntity::ComputeAbsoluteOrigin(const Vector2 &v2Size) const
+{
+	const Rect2D rect(GetFrameRect());
+	const Vector2 virtualSize = (rect.originalSize == Vector2(0.0f)) ? v2Size : (rect.originalSize * m_properties.scale);
+
+	Vector2 virtualCenter((virtualSize / 2.0f) + ((m_properties.pivotAdjust) * m_properties.scale));
+
+	Vector2 offset(rect.offset * m_properties.scale);
+	virtualCenter -= offset;
+	
+	const Vector2 fillBitmapSize(m_pSprite ? m_pSprite->GetSize(Rect2D()) : v2Size);
+	
+	if (GetFlipX()) virtualCenter.x = ((rect.size.x * fillBitmapSize.x) * m_properties.scale.x) - virtualCenter.x;
+	if (GetFlipY()) virtualCenter.y = ((rect.size.y * fillBitmapSize.y) * m_properties.scale.y) - virtualCenter.y;
+
+	return (virtualCenter);
+}
+
+Vector2 ETHSpriteEntity::ComputeOrigin(const Vector2 &v2Size) const
+{
+	return (ComputeAbsoluteOrigin(v2Size) / v2Size);
 }
 
 ETHParticleManagerPtr ETHSpriteEntity::GetParticleManager(const std::size_t n)
@@ -446,16 +422,6 @@ ETHParticleManagerConstPtr ETHSpriteEntity::GetConstParticleManager(const std::s
 SpritePtr ETHSpriteEntity::GetSprite()
 {
 	return m_pSprite;
-}
-
-SpritePtr ETHSpriteEntity::GetGloss()
-{
-	return m_pGloss;
-}
-
-SpritePtr ETHSpriteEntity::GetNormal()
-{
-	return m_pNormal;
 }
 
 SpritePtr ETHSpriteEntity::GetLightmap()
@@ -484,32 +450,20 @@ void ETHSpriteEntity::DestroyParticleSystem(const unsigned int n)
 	}
 }
 
-str_type::string ETHSpriteEntity::AssembleLightmapFileName(const str_type::string& directory, const str_type::string& extension) const
+std::string ETHSpriteEntity::AssembleLightmapFileName(const std::string& directory, const std::string& extension) const
 {
-	str_type::stringstream ss;
-	ss << directory << GS_L("add") << GetID() << GS_L(".") << extension;
+	std::stringstream ss;
+	ss << directory << ("add") << GetID() << (".") << extension;
 	return ss.str();
 }
 
-bool ETHSpriteEntity::SaveLightmapToFile(const str_type::string& directory)
-{
-	if (!m_pLightmap)
-	{
-		return false;
-	}
-	
-	if (!m_pLightmap->GetTexture().lock()->IsAllBlack())
-		m_pLightmap->SaveBitmap(AssembleLightmapFileName(directory, GS_L("bmp")).c_str(), Texture::BF_BMP);
-	return true;
-}
-
-void ETHSpriteEntity::Update(const float lastFrameElapsedTime, const Vector2& zAxisDir, ETHBucketManager& buckets)
+void ETHSpriteEntity::Update(const float lastFrameElapsedTime, const Vector2& zAxisDir, const float sceneParallaxIntensity, ETHBucketManager& buckets)
 {
 	if (!IsStatic())
 	{
 		m_controller->Update(lastFrameElapsedTime, buckets);
 	}
-	UpdateParticleSystems(zAxisDir, lastFrameElapsedTime);
+	UpdateParticleSystems(zAxisDir, sceneParallaxIntensity, lastFrameElapsedTime);
 }
 
 float ETHSpriteEntity::GetMaxHeight()
@@ -546,7 +500,7 @@ void ETHSpriteEntity::SetParticleBitmap(const unsigned int n, SpritePtr bitmap)
 		m_particles[n]->SetParticleBitmap(bitmap);
 }
 
-void ETHSpriteEntity::SetParticleBitmap(const unsigned int n, const str_type::string& bitmap)
+void ETHSpriteEntity::SetParticleBitmap(const unsigned int n, const std::string& bitmap)
 {
 	if (n < m_particles.size())
 	{
@@ -637,7 +591,7 @@ bool ETHSpriteEntity::AreParticlesOver() const
 	}
 }
 
-void ETHSpriteEntity::UpdateParticleSystems(const Vector2& zAxisDirection, const float lastFrameElapsedTime)
+void ETHSpriteEntity::UpdateParticleSystems(const Vector2& zAxisDirection, const float sceneParallaxIntensity, const float lastFrameElapsedTime)
 {
 	for (std::size_t t=0; t<m_particles.size(); t++)
 	{
@@ -646,7 +600,7 @@ void ETHSpriteEntity::UpdateParticleSystems(const Vector2& zAxisDirection, const
 			m_particles[t]->UpdateParticleSystem(
 				GetPosition(),
 				zAxisDirection,
-				ComputeParallaxOffset(),
+				ComputeParallaxOffset(sceneParallaxIntensity),
 				GetAngle(),
 				lastFrameElapsedTime);
 		}
@@ -689,16 +643,8 @@ float ETHSpriteEntity::ComputeDepth(const float maxHeight, const float minHeight
 	float r = 0.f;
 	switch (GetType())
 	{
-	case ETHEntityProperties::ET_VERTICAL:
 	case ETHEntityProperties::ET_HORIZONTAL:
 		r = ETHEntity::ComputeDepth(GetPositionZ(), maxHeight, minHeight);
-		break;
-	case ETHEntityProperties::ET_OPAQUE_DECAL:
-	case ETHEntityProperties::ET_GROUND_DECAL:
-		r = ETHEntity::ComputeDepth(GetPositionZ() + ETH_SMALL_NUMBER, maxHeight, minHeight);
-		break;
-	case ETHEntityProperties::ET_OVERALL:
-		r = (1.0f);
 		break;
 	case ETHEntityProperties::ET_LAYERABLE:
 		r = Max(m_layrableMinimumDepth, m_properties.layerDepth);
@@ -723,6 +669,11 @@ ETHPhysicsController* ETHSpriteEntity::GetPhysicsController()
 	{
 		return 0;
 	}
+}
+
+unsigned int ETHSpriteEntity::GetNumFrames() const
+{
+	return (m_packedFrames) ? m_packedFrames->GetNumRects() : 1;
 }
 
 Vector2 ETHSpriteEntity::GetSize() const
@@ -752,12 +703,10 @@ Vector2 ETHSpriteEntity::GetSize() const
 		{
 			r = GetConstParticleManager(0)->ComputeBoundingRectangle(GetAngle()).size;
 		}
-		
 	}
 	else
 	{
-		ValidateSpriteCut(m_pSprite);
-		r = m_pSprite->GetFrameSize();
+		r = m_pSprite->GetSize(m_packedFrames->GetRect(GetFrame()));
 	}
 
 	return r * m_properties.scale;
@@ -765,14 +714,14 @@ Vector2 ETHSpriteEntity::GetSize() const
 
 Vector2 ETHSpriteEntity::ComputeInScreenPosition(const ETHSceneProperties& sceneProps) const
 {
-	const Vector2 offset(ComputeParallaxOffset() - m_provider->GetVideo()->GetCameraPos());
+	const Vector2 offset(ComputeParallaxOffset(sceneProps.parallaxIntensity) - m_provider->GetVideo()->GetCameraPos());
 	return (ComputePositionWithZAxisApplied(sceneProps) + offset);
 }
 
 Vector2 ETHSpriteEntity::ComputeInScreenSpriteCenter(const ETHSceneProperties& sceneProps) const
 {
 	const float angle = GetAngle();
-	if (GetType() == ETHEntityProperties::ET_VERTICAL || angle == 0.0f)
+	if (angle == 0.0f)
 	{
 		const ETHEntityProperties::VIEW_RECT& rect = GetScreenRect(sceneProps);
 		return ((rect.max + rect.min) * 0.5f);
@@ -781,7 +730,7 @@ Vector2 ETHSpriteEntity::ComputeInScreenSpriteCenter(const ETHSceneProperties& s
 	{
 		const Vector2& pos = ComputeInScreenPosition(sceneProps);
 		const Vector2& pivotAdjust(m_properties.pivotAdjust * m_properties.scale);
-		const float radianAngle =-DegreeToRadian(GetAngle());
+		const float radianAngle =-Util::DegreeToRadian(GetAngle());
 		const float angleSin = sinf(radianAngle);
 		const float angleCos = cosf(radianAngle);
 		const Vector2 center(angleCos * pivotAdjust.x - angleSin * pivotAdjust.y,
@@ -845,7 +794,7 @@ Vector2 ETHSpriteEntity::GetScreenRectMax(const ETHSceneProperties& sceneProps) 
 bool ETHSpriteEntity::IsPointOnSprite(const ETHSceneProperties& sceneProps, const Vector2& absolutePointPos, const Vector2& size) const
 {
 	const float angle = GetAngle();
-	if (GetType() == ETHEntityProperties::ET_VERTICAL || angle == 0.0f)
+	if (angle == 0.0f)
 	{
 		const ETHEntityProperties::VIEW_RECT& rect = GetScreenRect(sceneProps);
 		const Vector2& min = rect.min;
@@ -865,8 +814,7 @@ bool ETHSpriteEntity::IsPointOnSprite(const ETHSceneProperties& sceneProps, cons
 	}
 	else
 	{
-		// TODO/TO-DO perform this in the OrientedBoundingBox class
-		const float radianAngle = -DegreeToRadian(angle);
+		const float radianAngle = -Util::DegreeToRadian(angle);
 		const OrientedBoundingBox pointObb(absolutePointPos, math::constant::ONE_VECTOR2, 0.0f);
 		const OrientedBoundingBox entityObb(ComputeInScreenSpriteCenter(sceneProps), size, radianAngle);
 		return entityObb.Overlaps(pointObb);
@@ -875,10 +823,10 @@ bool ETHSpriteEntity::IsPointOnSprite(const ETHSceneProperties& sceneProps, cons
 
 bool ETHSpriteEntity::PlayParticleSystem(const unsigned int n, const Vector2& zAxisDirection)
 {
-	GS2D_UNUSED_ARGUMENT(zAxisDirection);
+	UNUSED_ARGUMENT(zAxisDirection);
 	if (n >= m_particles.size())
 	{
-		ETH_STREAM_DECL(ss) << GS_L("ETHRenderEntity::PlayParticleSystem: n > m_particles.size()");
+		ETH_STREAM_DECL(ss) << ("ETHRenderEntity::PlayParticleSystem: n > m_particles.size()");
 		m_provider->Log(ss.str(), Platform::Logger::ERROR);
 		return false;
 	}

@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "ETHEntityRenderingManager.h"
 
 #include "../Renderer/ETHEntitySpriteRenderer.h"
@@ -39,7 +17,6 @@ void ETHEntityRenderingManager::RenderPieces(const ETHSceneProperties& props, co
 		iter->second->Render(props, maxHeight, minHeight);
 	}
 	ReleaseMappedPieces();
-	m_lights.clear();
 }
 
 void ETHEntityRenderingManager::AddDecomposedPieces(
@@ -62,10 +39,7 @@ void ETHEntityRenderingManager::AddDecomposedPieces(
 			new ETHEntitySpriteRenderer(
 				entity,
 				shaderManager,
-				video,
-				m_provider->AreLightmapsEnabled(),
-				m_provider->AreRealTimeShadowsEnabled(),
-				&m_lights));
+				video));
 
 		// add this entity to the multimap to sort it for an alpha-friendly rendering list
 		const float depth = entity->ComputeDepth(maxHeight, minHeight);
@@ -80,7 +54,7 @@ void ETHEntityRenderingManager::AddDecomposedPieces(
 	// decompose halo
 	if (entity->HasLightSource() && entity->GetHalo())
 	{
-		const float haloZ = entity->GetPositionZ() + ((entity->GetType() == ETHEntityProperties::ET_VERTICAL) ? entity->GetSize().y : 0.0f);
+		const float haloZ = entity->GetPositionZ();
 		const float depth = ETHEntity::ComputeDepth(haloZ, maxHeight, minHeight);
 		const float drawHash = ComputeDrawHash(video, depth, entity);
 
@@ -95,7 +69,7 @@ void ETHEntityRenderingManager::AddDecomposedPieces(
 	{
 		ETHParticleManagerPtr particle = entity->GetParticleManager(t);
 
-		if (!particle->IsVisible(video->GetCameraPos(), video->GetCameraPos() + backBuffer->GetBufferSize()))
+		if (!particle->IsVisible(video->GetCameraPos(), video->GetCameraPos() + video->GetScreenSizeF()))
 		{
 			continue;
 		}
@@ -115,21 +89,12 @@ void ETHEntityRenderingManager::AddDecomposedPieces(
 		
 		piecesAddedThisTime++;
 	}
-
-	// fill the light list for this frame
-	if (entity->HasLightSource() && m_provider->IsRichLightingEnabled())
-	{
-		ETHLight light = *(entity->GetLight());
-		light.color *= entity->ComputeLightIntensity();
-		AddLight(BuildChildLight(light, entity->GetPosition(), entity->GetScale()), props);
-	}
 }
 
 float ETHEntityRenderingManager::ComputeDrawHash(VideoPtr video, const float entityDepth, const ETHSpriteEntity* entity) const
 {
 	static const float precisionScale = 100.0f;
 	float drawHash;
-	float verticalHashShift;
 	const float screenHeight = video->GetScreenSize().y * precisionScale;
 	const float hashDepth = entityDepth * screenHeight;
 
@@ -137,14 +102,6 @@ float ETHEntityRenderingManager::ComputeDrawHash(VideoPtr video, const float ent
 	{
 	case ETHEntityProperties::ET_HORIZONTAL:
 		drawHash = hashDepth;
-		break;
-	case ETHEntityProperties::ET_VERTICAL:
-		verticalHashShift = ((entity->GetPositionY() - video->GetCameraPos().y) * precisionScale) / screenHeight;
-		drawHash = hashDepth + verticalHashShift + 0.1f;
-		break;
-	case ETHEntityProperties::ET_GROUND_DECAL:
-	case ETHEntityProperties::ET_OPAQUE_DECAL:
-		drawHash = hashDepth + 0.1f;
 		break;
 	default:
 		drawHash = hashDepth;
@@ -162,32 +119,3 @@ void ETHEntityRenderingManager::ReleaseMappedPieces()
 	m_piecesToRender.clear();
 }
 
-std::size_t ETHEntityRenderingManager::GetNumLights() const
-{
-	return m_lights.size();
-}
-
-void ETHEntityRenderingManager::AddLight(const ETHLight &light, const ETHSceneProperties& props)
-{
-	if (light.color == Vector3(0,0,0))
-		return;
-
-	// if the light isn't in screen, don't add it
-	if (!light.staticLight)
-		if (!ETHGlobal::IsSphereInScreen(light.pos, light.range, props.zAxisDirection, m_provider->GetVideo()))
-			return;
-
-	m_lights.push_back(light);
-}
-
-ETHLight ETHEntityRenderingManager::BuildChildLight(
-	const ETHLight &light,
-	const Vector3& parentPos,
-	const Vector2& scale)
-{
-	ETHLight childLight = light;
-	childLight.pos *= scale.y;
-	childLight.range *= scale.y;
-	childLight.pos += parentPos;
-	return childLight;
-}

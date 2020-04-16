@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "ETHInput.h"
 
 void ETHInput::SetProvider(ETHResourceProviderPtr provider)
@@ -50,7 +28,7 @@ GS_KEY_STATE ETHInput::GetMiddleClickState()
 Vector2 ETHInput::GetMouseMove()
 {
 	const float scale = m_provider->GetVideo()->GetScaleFactor();
-	return ((m_provider->GetInput()->GetMouseMoveF() * m_targetManager.lock()->GetTargetScale()) / m_provider->GetVideo()->GetScaleFactor()) * scale;
+	return (m_provider->GetInput()->GetMouseMoveF() * scale);
 }
 
 float ETHInput::GetWheelState()
@@ -126,7 +104,7 @@ unsigned int ETHInput::GetMaxJoysticks() const
 Vector2 ETHInput::GetTouchPos(const unsigned int n) const
 {
 	const float scale = m_provider->GetVideo()->GetScaleFactor();
-	return (m_provider->GetInput()->GetTouchPos(n, m_provider->GetVideo()) * m_targetManager.lock()->GetTargetScale()) * scale;
+	return m_provider->GetInput()->GetTouchPos(n, m_provider->GetVideo()) * scale;
 }
 
 GS_KEY_STATE  ETHInput::GetTouchState(const unsigned int n) const
@@ -141,7 +119,7 @@ unsigned int ETHInput::GetMaxTouchCount() const
 
 Vector2 ETHInput::GetTouchMove(const unsigned int n) const
 {
-	return (m_provider->GetInput()->GetTouchMove(n) * m_targetManager.lock()->GetTargetScale()) * m_provider->GetVideo()->GetScaleFactor();
+	return m_provider->GetInput()->GetTouchMove(n) * m_provider->GetVideo()->GetScaleFactor();
 }
 
 Vector3 ETHInput::GetAccelerometerData() const

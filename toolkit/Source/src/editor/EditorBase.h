@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #ifndef __EDITOR_INTERFACE_OBJECT_49383025432
 #define __EDITOR_INTERFACE_OBJECT_49383025432
 
@@ -78,7 +56,7 @@ public:
 	float GetMenuWidth() const;
 	Color GetBGColor() const;
 
-	bool DrawTab(VideoPtr video, InputPtr input, const Vector2 &v2Pos, const float width, const str_type::string &text, Color color);
+	bool DrawTab(VideoPtr video, InputPtr input, const Vector2 &v2Pos, const float width, const std::string &text, Color color);
 
 	void SaveAttributeToInfoFile(const std::string &entity, const std::string &attrib, const std::string &value);
 	std::string GetAttributeFromInfoFile(const std::string &entity, const std::string &attrib);
@@ -115,10 +93,10 @@ private:
 
 namespace ETHGlobal 
 {
-	bool CopyFileToProject(const str_type::string &currentPath, const str_type::string &filePath, const str_type::string &destPath, const Platform::FileManagerPtr& fileManager);
-	bool _MoveFile(const str_type::string &source, const str_type::string &dest, const bool overwrite);
+	bool CopyFileToProject(const std::string &currentPath, const std::string &filePath, const std::string &destPath, const Platform::FileManagerPtr& fileManager);
+	bool _MoveFile(const std::string &source, const std::string &dest, const bool overwrite);
 	bool PointInRect(const Vector2 &p, const Vector2 &pos0, const Vector2 &size0);
-	str_type::string Vector3ToString(const Vector3 &v3);
+	std::string Vector3ToString(const Vector3 &v3);
 }
 
 #endif

@@ -1,45 +1,18 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #ifndef GS2D_GLES2_H_
 #define GS2D_GLES2_H_
 
 #include "../../Video.h"
 
 #include "../../Platform/Platform.h"
-#include "../../Platform/FileLogger.h"
+#include "../../Platform/NativeCommandForwarder.h"
+
+#include "../../Math/Vector4.h"
 
 #include "GLES2Texture.h"
 
 #include "../../Platform/FileIOHub.h"
 
-#define _GS2D_GLES2_MAX_MULTI_TEXTURES 2
-
 namespace gs2d {
-
-class GLES2Shader;
-typedef boost::shared_ptr<GLES2Shader> GLES2ShaderPtr;
-class GLES2ShaderContext;
-typedef boost::shared_ptr<GLES2ShaderContext> GLES2ShaderContextPtr;
 
 class GLES2Video : public Video, public Platform::NativeCommandForwarder
 {
@@ -49,7 +22,7 @@ class GLES2Video : public Video, public Platform::NativeCommandForwarder
 	GLES2Video(
 		const unsigned int width,
 		const unsigned int height,
-		const str_type::string& winTitle,
+		const std::string& winTitle,
 		const Platform::FileIOHubPtr& fileIOHub);
 
 	boost::weak_ptr<GLES2Video> weak_this;
@@ -57,236 +30,105 @@ class GLES2Video : public Video, public Platform::NativeCommandForwarder
 	float m_previousTime;
 	unsigned long m_frameCount;
 
-public:
-	static const float ZNEAR;
-	static const float ZFAR;
-	static const str_type::string VIDEO_LOG_FILE;
-	static const unsigned long ALPHAREF;
+	double m_startTime;
 
-	static bool CheckGLError(const str_type::string& op, const Platform::FileLogger& logger);
+public:
+	static bool CheckGLError(const std::string& op);
 
 	TexturePtr CreateTextureFromFileInMemory(
 		const void *pBuffer,
 		const unsigned int bufferLength,
-		Color mask,
-		const unsigned int width = 0,
-		const unsigned int height = 0,
-		const unsigned int nMipMaps = 0);
+		const unsigned int nMipMaps = 0) override;
 
 	TexturePtr LoadTextureFromFile(
-		const str_type::string& fileName,
-		Color mask,
-		const unsigned int width = 0,
-		const unsigned int height = 0,
-		const unsigned int nMipMaps = 0);
-
-	TexturePtr CreateRenderTargetTexture(
-		const unsigned int width,
-		const unsigned int height,
-		const Texture::TARGET_FORMAT fmt);
-
-	SpritePtr CreateSprite(
-		GS_BYTE *pBuffer,
-		const unsigned int bufferLength,
-		Color mask = gs2d::constant::ZERO,
-		const unsigned int width = 0,
-		const unsigned int height = 0);
-
-	SpritePtr CreateSprite(
-		const str_type::string& fileName,
-		Color mask = gs2d::constant::ZERO,
-		const unsigned int width = 0,
-		const unsigned int height = 0);
-
-	SpritePtr CreateRenderTarget(
-		const unsigned int width,
-		const unsigned int height,
-		const Texture::TARGET_FORMAT format = Texture::TF_DEFAULT);
+		const std::string& fileName,
+		const unsigned int nMipMaps = 0) override;
 
 	ShaderPtr LoadShaderFromFile(
-		const str_type::string& fileName,
-			const Shader::SHADER_FOCUS focus,
-			const Shader::SHADER_PROFILE profile = Shader::SP_HIGHEST,
-			const char *entry = 0);
+		const std::string& vsFileName,
+		const std::string& vsEntry,
+		const std::string& psFileName,
+		const std::string& psEntry) override;
 
 	ShaderPtr LoadShaderFromString(
-		const str_type::string& shaderName,
-			const std::string& codeAsciiString,
-			const Shader::SHADER_FOCUS focus,
-			const Shader::SHADER_PROFILE profile = Shader::SP_HIGHEST,
-			const char *entry = 0);
+		const std::string& vsShaderName,
+		const std::string& vsCodeAsciiString,
+		const std::string& vsEntry,
+		const std::string& psShaderName,
+		const std::string& psCodeAsciiString,
+		const std::string& psEntry) override;
 
-	GLES2ShaderPtr LoadGLES2ShaderFromFile(
-		const str_type::string& fileName,
-		const Shader::SHADER_FOCUS focus);
-
-	GLES2ShaderPtr LoadGLES2ShaderFromString(
-		const str_type::string& shaderName,
-		const std::string& codeAsciiString,
-		const Shader::SHADER_FOCUS focus);
-
-	boost::any GetVideoInfo();
-
-	ShaderPtr GetFontShader();
-	ShaderPtr GetDefaultVS();
-	ShaderPtr GetOptimalVS();
-	ShaderPtr GetVertexShader();
-
-	GLES2ShaderPtr GetDefaultPS();
-
-	ShaderPtr GetPixelShader();
-	ShaderContextPtr GetShaderContext();
-	bool SetVertexShader(ShaderPtr pShader);
-	bool SetPixelShader(ShaderPtr pShader);
-	Shader::SHADER_PROFILE GetHighestVertexProfile() const;
-	Shader::SHADER_PROFILE GetHighestPixelProfile() const;
-
-	boost::any GetGraphicContext();
-
-	VIDEO_MODE GetVideoMode(const unsigned int modeIdx) const;
-	unsigned int GetVideoModeCount() const;
+	VIDEO_MODE GetVideoMode(const unsigned int modeIdx) const override;
+	unsigned int GetVideoModeCount() const override;
 
 	bool ResetVideoMode(
 		const VIDEO_MODE& mode,
-		const bool toggleFullscreen = false);
+		const bool toggleFullscreen = false) override;
 
 	bool ResetVideoMode(
 		const unsigned int width,
 		const unsigned int height,
 		const Texture::PIXEL_FORMAT pfBB,
-		const bool toggleFullscreen = false);
+		const bool toggleFullscreen = false) override;
 
-	bool SetRenderTarget(SpritePtr pTarget, const unsigned int target = 0);
-	unsigned int GetMaxRenderTargets() const;
-	unsigned int GetMaxMultiTextures() const;
-	bool SetBlendMode(const unsigned int passIdx, const Video::BLEND_MODE mode);
-	Video::BLEND_MODE GetBlendMode(const unsigned int passIdx) const;
-	bool UnsetTexture(const unsigned int passIdx);
+	void SetZBuffer(const bool enable) override;
+	bool GetZBuffer() const override;
 
-	void SetZBuffer(const bool enable);
-	bool GetZBuffer() const;
+	void SetBGColor(const Color& backgroundColor) override;
+	Color GetBGColor() const override;
 
-	void SetZWrite(const bool enable);
-	bool GetZWrite() const;
+	bool BeginRendering(const Color& color = math::constant::ZERO_VECTOR4) override;
+	bool EndRendering() override;
 
-	bool SetClamp(const bool set);
-	bool GetClamp() const;
-
-	bool SetSpriteDepth(const float depth);
-	float GetSpriteDepth() const;
-
-	bool SetScissor(const bool& enable);
-	bool SetScissor(const math::Rect2D& rect);
-	math::Rect2D GetScissor() const;
-	void UnsetScissor();
-
-	bool DrawLine(
-		const math::Vector2& p1,
-		const math::Vector2& p2,
-		const Color& color1,
-		const Color& color2);
-
-	bool DrawRectangle(
-		const math::Vector2& v2Pos,
-		const math::Vector2& v2Size,
-		const Color& color,
-		const float angle = 0.0f,
-		const Sprite::ENTITY_ORIGIN origin = Sprite::EO_DEFAULT);
-
-	bool DrawRectangle(
-		const math::Vector2& v2Pos,
-		const math::Vector2& v2Size,
-		const Color& color0,
-		const Color& color1,
-		const Color& color2,
-		const Color& color3,
-		const float angle = 0.0f,
-		const Sprite::ENTITY_ORIGIN origin = Sprite::EO_DEFAULT);
-
-	void SetBGColor(const Color& backgroundColor);
-	Color GetBGColor() const;
-
-	bool BeginSpriteScene(const Color& dwBGColor = gs2d::constant::ZERO);
-	bool EndSpriteScene();
-	bool BeginTargetScene(const Color& dwBGColor = gs2d::constant::ZERO, const bool clear = true);
-	bool EndTargetScene();
-
-	bool SetAlphaMode(const Video::ALPHA_MODE mode);
-	ALPHA_MODE GetAlphaMode() const;
-
-	bool SetFilterMode(const Video::TEXTUREFILTER_MODE tfm);
-	Video::TEXTUREFILTER_MODE GetFilterMode() const;
-
-	bool Rendering() const;
-
-	bool SaveScreenshot(
-		const str_type::char_t* name,
-		const Texture::BITMAP_FORMAT fmt = Texture::BF_BMP,
-		math::Rect2D rect = math::Rect2D(0, 0, 0, 0));
+	bool SetAlphaMode(const Video::ALPHA_MODE mode) override;
+	ALPHA_MODE GetAlphaMode() const override;
 	
-	math::Vector2i GetClientScreenSize() const;
-	APP_STATUS HandleEvents();
-	float GetFPSRate() const;
-	void Message(const str_type::string& text, const GS_MESSAGE_TYPE type = GSMT_ERROR) const;
-	void Quit();
-	void EnableQuitShortcuts(const bool enable);
-	bool QuitShortcutsEnabled();
-	bool SetWindowTitle(const str_type::string& title);
-	str_type::string GetWindowTitle() const;
-	void EnableMediaPlaying(const bool enable);
-	bool IsWindowed() const;
-	math::Vector2i GetScreenSize() const;
-	math::Vector2 GetScreenSizeF() const;
-	math::Vector2 GetScreenSizeInPixels() const;
-	math::Vector2i GetWindowPosition();
-	void SetWindowPosition(const math::Vector2i &v2);
-	math::Vector2i ScreenToWindow(const math::Vector2i &v2Point) const;
-	bool WindowVisible() const;
-	bool WindowInFocus() const;
-	bool HideCursor(const bool hide);
-	bool IsCursorHidden() const;
-	const Platform::FileLogger& GetLogger() const;
+	math::Vector2i GetClientScreenSize() const override;
+	APP_STATUS HandleEvents() override;
+	float GetFPSRate() const override;
+	void Message(const std::string& text, const GS_MESSAGE_TYPE type = GSMT_ERROR) const override;
+	void Quit() override;
+	void EnableQuitShortcuts(const bool enable) override;
+	bool QuitShortcutsEnabled() override;
+	bool SetWindowTitle(const std::string& title) override;
+	std::string GetWindowTitle() const override;
+	bool IsWindowed() const override;
+	math::Vector2i GetScreenSize() const override;
+	math::Vector2 GetScreenSizeF() const override;
+	math::Vector2 GetScreenSizeInPixels() const override;
+	math::Vector2i GetWindowPosition() override;
+	void SetWindowPosition(const math::Vector2i &v2) override;
+	math::Vector2i ScreenToWindow(const math::Vector2i &v2Point) const override;
+	bool WindowVisible() const override;
+	bool WindowInFocus() const override;
+	bool HideCursor(const bool hide) override;
+	bool IsCursorHidden() const override;
 
-	void ForwardCommand(const str_type::string& cmd);
-	str_type::string PullCommands();
-
-	bool SetBlendTexture(const unsigned int passIdx, GLES2TexturePtr texture);
-	void SetupMultitextureShader();
-	void DisableMultitextureShader();
+	void ForwardCommand(const std::string& cmd) override;
+	std::string PullCommands() override;
 
 	bool IsTrue(const GLboolean& enabled);
 	void SetBlend(const bool enable);
+	
+	float GetElapsedTimeF(const TIME_UNITY unity) const override;
+	unsigned long GetElapsedTime(const TIME_UNITY unity) const override;
 
 protected:
-	Video::BLEND_MODE m_blendModes[_GS2D_GLES2_MAX_MULTI_TEXTURES];
-	GLES2TexturePtr m_blendTextures[_GS2D_GLES2_MAX_MULTI_TEXTURES];
-
-	math::Vector2 GetCurrentTargetSize() const;
 
 	Color m_backgroundColor;
 	Video::ALPHA_MODE m_alphaMode;
 
 	math::Vector2i m_screenSize;
-	str_type::string m_externalStoragePath;
-	str_type::string m_globalExternalStoragePath;
-	str_type::string m_windowTitle;
-	math::Rect2D m_scissor;
+	std::string m_externalStoragePath;
+	std::string m_globalExternalStoragePath;
+	std::string m_windowTitle;
 	bool m_quit;
-	bool m_rendering;
-	bool m_zWrite;
 	bool m_zBuffer;
 	bool m_blend;
-	Platform::FileLogger m_logger;
-	GLES2ShaderContextPtr m_shaderContext;
-	GLES2ShaderPtr m_defaultVS, m_defaultPS,
-		m_fastRenderVS, m_optimalVS, m_modulate1, m_add1;
+
 	float m_fpsRate;
 
-	Video::TEXTUREFILTER_MODE m_textureFilterMode;
-
 	Platform::FileIOHubPtr m_fileIOHub;
-
-	TextureWeakPtr m_currentTarget;
 
 	void ComputeFPSRate();
 
@@ -295,16 +137,14 @@ protected:
 	bool StartApplication(
 		const unsigned int width,
 		const unsigned int height,
-		const str_type::string& winTitle,
+		const std::string& winTitle,
 		const bool windowed,
 		const bool sync,
 		const Texture::PIXEL_FORMAT pfBB = Texture::PF_UNKNOWN,
-		const bool maximizable = false);
+		const bool maximizable = false) override;
 
-	Platform::FileIOHubPtr GetFileIOHub();
+	Platform::FileIOHubPtr GetFileIOHub() override;
 };
-	
-void UnbindFrameBuffer();
 
 } // namespace gs2d
 

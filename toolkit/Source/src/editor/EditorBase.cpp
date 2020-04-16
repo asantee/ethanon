@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "../engine/Platform/FileListing.h"
 #include "../engine/Util/ETHASUtil.h"
 #include "../engine/Resource/ETHDirectories.h"
@@ -82,7 +60,7 @@ void ShadowPrint(VideoPtr video, Vector2 v2Pos, const str_type::char_t *text, co
 {
 	video->DrawBitmapText(v2Pos, text, font, color);
 }
-bool EditorBase::DrawTab(VideoPtr video, InputPtr input, const Vector2 &v2Pos, const float width, const str_type::string &text, Color color)
+bool EditorBase::DrawTab(VideoPtr video, InputPtr input, const Vector2 &v2Pos, const float width, const std::string &text, Color color)
 {
 	video->SetAlphaMode(Video::AM_PIXEL);
 	video->SetVertexShader(ShaderPtr());
@@ -120,7 +98,7 @@ void EditorBase::SaveAttributeToInfoFile(
 	const std::string &attrib,
 	const std::string &value)
 {
-	str_type::string file = m_provider->GetFileIOHub()->GetExternalStorageDirectory() + _ENML_EDITOR_GENERAL_INFO;
+	std::string file = m_provider->GetFileIOHub()->GetExternalStorageDirectory() + _ENML_EDITOR_GENERAL_INFO;
 	enml::File parseFile(enml::GetStringFromAnsiFile(file));
 	parseFile.Add(entity, attrib, value);
 	parseFile.WriteToFile(file);
@@ -130,7 +108,7 @@ std::string EditorBase::GetAttributeFromInfoFile(
 	const std::string &entity,
 	const std::string &attrib)
 {
-	str_type::string file = m_provider->GetFileIOHub()->GetExternalStorageDirectory() + _ENML_EDITOR_GENERAL_INFO;
+	std::string file = m_provider->GetFileIOHub()->GetExternalStorageDirectory() + _ENML_EDITOR_GENERAL_INFO;
 	if (!m_provider->GetFileIOHub()->GetFileManager()->FileExists(file))
 	{
 		file = m_provider->GetFileIOHub()->GetProgramDirectory() + GS_L("editor.enml");
@@ -157,7 +135,7 @@ GSGUI_BUTTON EditorBase::PlaceFileMenu()
 
 void EditorBase::SetFileNameToTitle(VideoPtr video, const str_type::char_t *wszTitle)
 {
-	str_type::string newTitle, file;
+	std::string newTitle, file;
 	file = GetCurrentFile(false);
 	newTitle = wszTitle;
 	newTitle += GS_L(" - ");
@@ -238,13 +216,13 @@ AudioPtr EditorBase::GetAudioHandler()
 namespace ETHGlobal 
 {
 bool CopyFileToProject(
-	const str_type::string &currentPath,
-	const str_type::string &filePath,
-	const str_type::string &destPath,
+	const std::string &currentPath,
+	const std::string &filePath,
+	const std::string &destPath,
 	const Platform::FileManagerPtr& fileManager)
 {
-	str_type::stringstream slash; slash << Platform::GetDirectorySlashA();
-	const str_type::string fileName = Platform::GetFileName(filePath);
+	std::stringstream slash; slash << Platform::GetDirectorySlashA();
+	const std::string fileName = Platform::GetFileName(filePath);
 	if (ETHGlobal::FileExists(currentPath + slash.str() + destPath + fileName, fileManager))
 	{
 		return true;
@@ -256,7 +234,7 @@ bool CopyFileToProject(
 	return true;
 }
 
-bool _MoveFile(const str_type::string &source, const str_type::string &dest, const bool overwrite)
+bool _MoveFile(const std::string &source, const std::string &dest, const bool overwrite)
 {
 	std::ifstream ifs(source.c_str(), std::ios::binary);
 	if (!ifs.is_open())
@@ -309,9 +287,9 @@ bool PointInRect(const Vector2 &p, const Vector2 &pos0, const Vector2 &size0)
 	return true;
 }
 
-str_type::string Vector3ToString(const Vector3 &v3)
+std::string Vector3ToString(const Vector3 &v3)
 {
-	str_type::stringstream ss;
+	std::stringstream ss;
 	ss << GS_L("(") << v3.x << GS_L(", ") << v3.y << GS_L(", ") << v3.z << GS_L(")");
 	return ss.str();
 }

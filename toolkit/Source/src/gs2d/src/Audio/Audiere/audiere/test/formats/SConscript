@@ -1,2 +1,0 @@
-Import('env')
-env.Program('formats', 'formats.cpp')

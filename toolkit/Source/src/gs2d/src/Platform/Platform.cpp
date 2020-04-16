@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "Platform.h"
 #include <iostream>
 
@@ -87,35 +65,35 @@ std::string AddLastSlash(const std::string& path)
 	return r;
 }
 
-gs2d::str_type::string RemoveExtension(const gs2d::str_type::char_t* source)
+std::string RemoveExtension(const std::string& source)
 {
-	gs2d::str_type::string dest = source;
-	const int max = static_cast<int>(dest.length()) - 1;
+	std::string result = source;
+	const int max = static_cast<int>(result.length()) - 1;
 	for (int t = max - 1; t >= 0; t--)
 	{
 		if (source[t] == Platform::GetDirectorySlashA())
-			return source;
-
-		if (source[t] == GS_L('.'))
 		{
-			dest.resize(t);
+			return source;
+		}
+
+		if (source[t] == ('.'))
+		{
+			result.resize(t);
 			break;
 		}
 	}
-	return dest;
+	return result;
 }
 
-bool IsExtensionRight(const gs2d::str_type::string& fileName, const gs2d::str_type::string& ext)
+std::string RemoveExtension(const char* source)
+{
+	return RemoveExtension(std::string(source));
+}
+
+bool IsExtensionRight(const std::string& fileName, const std::string& ext)
 {
 	const std::size_t pos = fileName.rfind(ext);
-	if (fileName.size() - pos == ext.size())
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return (fileName.size() - pos == ext.size());
 }
 
 short ShortEndianSwap(const short s)
@@ -126,14 +104,14 @@ short ShortEndianSwap(const short s)
 	return (b1 << 8) + b2;
 }
 
-std::vector<gs2d::str_type::string> SplitString(gs2d::str_type::string str, const gs2d::str_type::string& c)
+std::vector<std::string> SplitString(std::string str, const std::string& c)
 {
-	std::vector<gs2d::str_type::string> v;
+	std::vector<std::string> v;
 	std::size_t pos;
-	while ((pos = str.find(c)) != gs2d::str_type::string::npos)
+	while ((pos = str.find(c)) != std::string::npos)
 	{
 		v.push_back(str.substr(0, pos));
-		str = str.substr(pos + c.length(), gs2d::str_type::string::npos);
+		str = str.substr(pos + c.length(), std::string::npos);
 	}
 	v.push_back(str);
 	return v;

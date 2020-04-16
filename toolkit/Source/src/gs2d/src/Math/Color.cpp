@@ -1,93 +1,83 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "Color.h"
 
 namespace gs2d {
 
-Color::Color() : color(0)
+Color::Color() :
+	math::Vector4(1.0f)
 {
 }
 
-Color::Color(const GS_DWORD color)
+Color::Color(const Color& v) :
+	math::Vector4(v)
 {
-	this->color = color;
 }
 
-Color::Color(const GS_BYTE na, const GS_BYTE nr, const GS_BYTE ng, const GS_BYTE nb)
+Color::Color(const math::Vector4& v) :
+	math::Vector4(v)
 {
-	a = na;
-	r = nr;
-	g = ng;
-	b = nb;
 }
 
-void Color::SetColor(const GS_BYTE na, const GS_BYTE nr, const GS_BYTE ng, const GS_BYTE nb)
+Color::Color(const math::Vector3& v, const float alpha) :
+	math::Vector4(v, alpha)
 {
-	a = na;
-	r = nr;
-	g = ng;
-	b = nb;
 }
 
-void Color::SetColor(const GS_DWORD color)
+Color::Color(const float fr, const float fg, const float fb, const float fa) :
+	math::Vector4(fr, fg, fb, fa)
 {
-	this->color = color;
 }
 
-Color::operator GS_DWORD() const
+Color::Color(const uint32_t color)
 {
-	return color;
+	uint32_t a, r, g, b;
+	a = (0xFF000000 & color) >> 24;
+	r = (0x00FF0000 & color) >> 16;
+	g = (0x0000FF00 & color) >> 8;
+	b = (0x000000FF & color) >> 0;
+	w = float(a) / 255.0f;
+	x = float(r) / 255.0f;
+	y = float(g) / 255.0f;
+	z = float(b) / 255.0f;
 }
 
-Color& Color::operator = (GS_DWORD color)
+uint32_t Color::ARGB(
+	const unsigned char a,
+	const unsigned char r,
+	const unsigned char g,
+	const unsigned char b)
 {
-	this->color = color;
-	return *this;
+	return
+	(
+		(((a) & 0xff) << 24) |
+		(((r) & 0xff) << 16) |
+		(((g) & 0xff) <<  8) |
+		(((b) & 0xff) <<  0)
+	);
 }
 
-void Color::SetAlpha(const GS_BYTE na)
+uint32_t Color::To32BitARGB() const
 {
-	a = na;
+	return ARGB((unsigned char)(w * 255.0f), (unsigned char)(x * 255.0f), (unsigned char)(y * 255.0f), (unsigned char)(z * 255.0f));
 }
 
-void Color::SetRed(const GS_BYTE nr)
+float Color::GetA() const
 {
-	r = nr;
+	return w;
 }
 
-void Color::SetGreen(const GS_BYTE ng)
+float Color::GetR() const
 {
-	g = ng;
+	return x;
 }
 
-void Color::SetBlue(const GS_BYTE nb)
+float Color::GetG() const
 {
-	b = nb;
+	return y;
 }
 
-unsigned long ARGB(const GS_BYTE a, const GS_BYTE r, const GS_BYTE g, const GS_BYTE b)
+float Color::GetB() const
 {
-	return ((((a)&0xff)<<24)|(((r)&0xff)<<16)|(((g)&0xff)<<8)|((b)&0xff));
+	return z;
 }
 
-} // namespace gs2d
+} // namespace sprite

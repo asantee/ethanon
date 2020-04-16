@@ -1,8 +1,3 @@
-//
-//	Code originally written by Scarmysun user @ Stackoverflow
-//	http://stackoverflow.com/questions/3522866/what-is-the-android-widget-toast-equivalent-for-ios-applications
-//
-
 #import <UIKit/UIKit.h>
 
 @interface ToastView : UIView

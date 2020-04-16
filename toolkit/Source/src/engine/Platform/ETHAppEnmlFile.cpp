@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "ETHAppEnmlFile.h"
 
 #include "../ETHTypes.h"
@@ -32,11 +10,13 @@
 
 using namespace gs2d;
 
+#define UNUSED_ARGUMENT(argument) ((void)(argument))
+
 ETHAppEnmlFile::ETHAppEnmlFile(
-	const str_type::string& fileName,
+	const std::string& fileName,
 	const Platform::FileManagerPtr& fileManager,
-	const gs2d::str_type::string& platformName,
-	const gs2d::str_type::string& externalStorageDirectory) :
+	const std::string& platformName,
+	const std::string& externalStorageDirectory) :
 	hdDensityValue(2.0f),
 	fullHdDensityValue(4.0f),
 	ldDensityValue(0.5f),
@@ -45,7 +25,7 @@ ETHAppEnmlFile::ETHAppEnmlFile(
 	height(480),
 	windowed(true),
 	vsync(true),
-	title(GS_L("Ethanon Engine")),
+	title(("Ethanon Engine")),
 	richLighting(true),
 	minScreenHeightForHdVersion(720),
 	minScreenHeightForFullHdVersion(1080),
@@ -55,7 +35,7 @@ ETHAppEnmlFile::ETHAppEnmlFile(
 {
 	appDefaultVideoMode = GetAppDefaultVideoMode(appDefaultWindowedMode, externalStorageDirectory);
 
-	str_type::string out;
+	std::string out;
 	fileManager->GetAnsiFileString(fileName, out);
 
 	enml::File file(out);
@@ -68,45 +48,45 @@ ETHAppEnmlFile::ETHAppEnmlFile(
 		LoadProperties(ETH_OLDER_DEFAULT_PROPERTY_APP_ENML_ENTITY, file);
 
 		// now read platform specific properties
-		if (platformName != GS_L(""))
+		if (platformName != (""))
 			LoadProperties(platformName, file);
 
 		densityManager.FillParametersFromFile(*this);
 	}
 	else
 	{
-		GS2D_CERR << file.GetErrorString() << std::endl;
+		std::cerr << file.GetErrorString() << std::endl;
 	}
 }
 
 // get a string value from enml and fill the variable only if it exists
-static void GetString(const gs2d::enml::File& file, const str_type::string& platformName, const str_type::string& attrib, str_type::string& param)
+static void GetString(const gs2d::enml::File& file, const std::string& platformName, const std::string& attrib, std::string& param)
 {
-	const str_type::string value = file.Get(platformName, attrib);
-	if (value != GS_L(""))
+	const std::string value = file.Get(platformName, attrib);
+	if (value != (""))
 		param = file.Get(platformName, attrib);
 }
 
 // get a boolean value from enml and fill the variable only if it exists
-static void GetBoolean(const gs2d::enml::File& file, const str_type::string& platformName, const str_type::string& attrib, bool& param)
+static void GetBoolean(const gs2d::enml::File& file, const std::string& platformName, const std::string& attrib, bool& param)
 {
-	const str_type::string value = file.Get(platformName, attrib);
-	if (value != GS_L(""))
+	const std::string value = file.Get(platformName, attrib);
+	if (value != (""))
 		param = ETHGlobal::IsTrue(file.Get(platformName, attrib));
 }
 
 void ETHAppEnmlFile::SetAppDefaultVideoMode(
 	const Vector2& size,
 	const bool windowed,
-	const gs2d::str_type::string& externalStorageDirectory)
+	const std::string& externalStorageDirectory)
 {
 	enml::File file;
 	{
-		str_type::stringstream ss; ss << static_cast<unsigned int>(size.x);
+		std::stringstream ss; ss << static_cast<unsigned int>(size.x);
 		file.Add("default", "width", ss.str());
 	}
 	{
-		str_type::stringstream ss; ss << static_cast<unsigned int>(size.y);
+		std::stringstream ss; ss << static_cast<unsigned int>(size.y);
 		file.Add("default", "height", ss.str());
 	}
 
@@ -119,9 +99,9 @@ void ETHAppEnmlFile::SetAppDefaultVideoMode(
 
 Vector2 ETHAppEnmlFile::GetAppDefaultVideoMode(
 	bool& windowed,
-	const gs2d::str_type::string& externalStorageDirectory)
+	const std::string& externalStorageDirectory)
 {
-	const str_type::string content = enml::GetStringFromAnsiFile(externalStorageDirectory + "videoMode.enml");
+	const std::string content = enml::GetStringFromAnsiFile(externalStorageDirectory + "videoMode.enml");
 	if (content.empty())
 	{
 		return Vector2(0.0f, 0.0f);
@@ -145,11 +125,11 @@ Vector2 ETHAppEnmlFile::GetAppDefaultVideoMode(
 static void GetScreenDimension(
 	const unsigned int defaultLength,
 	const gs2d::enml::File& file,
-	const str_type::string& platformName,
-	const str_type::string& attrib,
+	const std::string& platformName,
+	const std::string& attrib,
 	unsigned int& param)
 {
-	const str_type::string value = file.Get(platformName, attrib);
+	const std::string value = file.Get(platformName, attrib);
 
 	// if there's no value, we'll keep the default value
 	if (value.empty())
@@ -157,7 +137,7 @@ static void GetScreenDimension(
 		return;
 	}
 
-	if (value == GS_L("default"))
+	if (value == ("default"))
 	{
 		param = defaultLength;
 		return;
@@ -169,57 +149,57 @@ static void GetScreenDimension(
 	}
 	catch (boost::bad_lexical_cast& exception)
 	{
-		GS2D_UNUSED_ARGUMENT(exception);
+		UNUSED_ARGUMENT(exception);
 		param = 0;
 	}
 }
 
 void ETHAppEnmlFile::LoadProperties(
-	const str_type::string& platformName,
+	const std::string& platformName,
 	const gs2d::enml::File& file)
 {
 	if (!file.Exists(platformName))
 		return;
 
-	GetScreenDimension(static_cast<unsigned int>(appDefaultVideoMode.x), file, platformName, GS_L("width"),  width);
-	GetScreenDimension(static_cast<unsigned int>(appDefaultVideoMode.y), file, platformName, GS_L("height"), height);
+	GetScreenDimension(static_cast<unsigned int>(appDefaultVideoMode.x), file, platformName, ("width"),  width);
+	GetScreenDimension(static_cast<unsigned int>(appDefaultVideoMode.y), file, platformName, ("height"), height);
 
-	if (file.Get(platformName, GS_L("windowed")) == GS_L("default"))
+	if (file.Get(platformName, ("windowed")) == ("default"))
 		windowed = appDefaultWindowedMode;
 	else
-		GetBoolean(file, platformName, GS_L("windowed"), windowed);
+		GetBoolean(file, platformName, ("windowed"), windowed);
 
-	GetBoolean(file, platformName, GS_L("vsync"), vsync);
-	GetBoolean(file, platformName, GS_L("richLighting"), richLighting);
+	GetBoolean(file, platformName, ("vsync"), vsync);
+	GetBoolean(file, platformName, ("richLighting"), richLighting);
 
-	GetString(file, platformName, GS_L("fixedWidth"), fixedWidth);
-	GetString(file, platformName, GS_L("fixedHeight"), fixedHeight);
+	GetString(file, platformName, ("fixedWidth"), fixedWidth);
+	GetString(file, platformName, ("fixedHeight"), fixedHeight);
 
-	file.GetFloat(platformName, GS_L("hdDensityValue"), &hdDensityValue);
-	file.GetFloat(platformName, GS_L("fullHdDensityValue"), &fullHdDensityValue);
+	file.GetFloat(platformName, ("hdDensityValue"), &hdDensityValue);
+	file.GetFloat(platformName, ("fullHdDensityValue"), &fullHdDensityValue);
 	
-	file.GetFloat(platformName, GS_L("ldDensityValue"), &ldDensityValue);
-	file.GetFloat(platformName, GS_L("xldDensityValue"), &xldDensityValue);
+	file.GetFloat(platformName, ("ldDensityValue"), &ldDensityValue);
+	file.GetFloat(platformName, ("xldDensityValue"), &xldDensityValue);
 
-	file.GetUInt(platformName, GS_L("minScreenHeightForHdVersion"), &minScreenHeightForHdVersion);
-	file.GetUInt(platformName, GS_L("minScreenHeightForFullHdVersion"), &minScreenHeightForFullHdVersion);
+	file.GetUInt(platformName, ("minScreenHeightForHdVersion"), &minScreenHeightForHdVersion);
+	file.GetUInt(platformName, ("minScreenHeightForFullHdVersion"), &minScreenHeightForFullHdVersion);
 	
-	file.GetUInt(platformName, GS_L("maxScreenHeightBeforeNdVersion"), &maxScreenHeightBeforeNdVersion);
-	file.GetUInt(platformName, GS_L("maxScreenHeightBeforeLdVersion"), &maxScreenHeightBeforeLdVersion);
+	file.GetUInt(platformName, ("maxScreenHeightBeforeNdVersion"), &maxScreenHeightBeforeNdVersion);
+	file.GetUInt(platformName, ("maxScreenHeightBeforeLdVersion"), &maxScreenHeightBeforeLdVersion);
 
-	const str_type::string newTitle = file.Get(platformName, GS_L("title"));
+	const std::string newTitle = file.Get(platformName, ("title"));
 	if (!newTitle.empty())
 		title = newTitle;
 
-	std::vector<gs2d::str_type::string> words = Platform::SplitString(file.Get(platformName, GS_L("definedWords")), GS_L(","));
+	std::vector<std::string> words = Platform::SplitString(file.Get(platformName, ("definedWords")), (","));
 	definedWords.insert(definedWords.end(), words.begin(), words.end());
 	std::sort(definedWords.begin(), definedWords.end());
 
-	std::vector<gs2d::str_type::string>::iterator it = std::unique(definedWords.begin(), definedWords.end());
+	std::vector<std::string>::iterator it = std::unique(definedWords.begin(), definedWords.end());
 	definedWords.resize(it - definedWords.begin());
 }
 
-const std::vector<gs2d::str_type::string>& ETHAppEnmlFile::GetDefinedWords() const
+const std::vector<std::string>& ETHAppEnmlFile::GetDefinedWords() const
 {
 	return definedWords;
 }
@@ -289,22 +269,17 @@ bool ETHAppEnmlFile::IsVsyncEnabled() const
 	return vsync;
 }
 
-bool ETHAppEnmlFile::IsRichLightingEnabled() const
-{
-	return richLighting;
-}
-
-str_type::string ETHAppEnmlFile::GetTitle() const
+std::string ETHAppEnmlFile::GetTitle() const
 {
 	return title;
 }
 
-str_type::string ETHAppEnmlFile::GetFixedWidth() const
+std::string ETHAppEnmlFile::GetFixedWidth() const
 {
 	return fixedWidth;
 }
 
-str_type::string ETHAppEnmlFile::GetFixedHeight() const
+std::string ETHAppEnmlFile::GetFixedHeight() const
 {
 	return fixedHeight;
 }

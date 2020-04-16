@@ -1,27 +1,7 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "ETHPhysicsSimulator.h"
 #include "ETHRayCastCallback.h"
+
+#include <boost/shared_array.hpp>
 
 const b2Vec2 ETHPhysicsSimulator::DEFAULT_GRAVITY(0, 10);
 const float ETHPhysicsSimulator::DEFAULT_SCALE(50.0f);
@@ -73,7 +53,7 @@ b2Body* ETHPhysicsSimulator::CreateBody(ETHEntity *entity, const boost::shared_p
 	box.Scale(entity->GetScale());
 	const b2Vec2 pos = ScaleToBox2D(entity->GetPositionXY());
 	bodyDef.position.Set(pos.x, pos.y);
-	bodyDef.angle =-(DegreeToRadian(entity->GetAngle()));
+	bodyDef.angle =-(Util::DegreeToRadian(entity->GetAngle()));
 	bodyDef.bullet = entity->IsBullet();
 	bodyDef.gravityScale = entity->GetProperties()->gravityScale;
 
@@ -247,7 +227,7 @@ ETHEntity* ETHPhysicsSimulator::GetClosestContact(const Vector2& a, const Vector
 	return rayCastCallback.GetClosestContact(point, normal);
 }
 
-ETHEntity* ETHPhysicsSimulator::GetClosestContact(const Vector2& a, const Vector2& b, Vector2& point, Vector2& normal, const str_type::string& semicolonSeparatedIgnoreList)
+ETHEntity* ETHPhysicsSimulator::GetClosestContact(const Vector2& a, const Vector2& b, Vector2& point, Vector2& normal, const std::string& semicolonSeparatedIgnoreList)
 {
 	if (a == b)
 		return 0;
@@ -305,15 +285,15 @@ void ETHPhysicsSimulator::SetFixedTimeStepValue(const float value)
 	m_fixedTimeStepValue = value;
 }
 
-ETHEntityProperties::BODY_SHAPE ETHPhysicsSimulator::StringToShape(const gs2d::str_type::string& str)
+ETHEntityProperties::BODY_SHAPE ETHPhysicsSimulator::StringToShape(const std::string& str)
 {
-	if (str == GS_L("box"))
+	if (str == ("box"))
 		return ETHEntityProperties::BS_BOX;
-	else if (str == GS_L("circle"))
+	else if (str == ("circle"))
 		return ETHEntityProperties::BS_CIRCLE;
-	else if (str == GS_L("polygon"))
+	else if (str == ("polygon"))
 		return ETHEntityProperties::BS_POLYGON;
-	else if (str == GS_L("compound"))
+	else if (str == ("compound"))
 		return ETHEntityProperties::BS_COMPOUND;
 	else
 		return ETHEntityProperties::BS_NONE;

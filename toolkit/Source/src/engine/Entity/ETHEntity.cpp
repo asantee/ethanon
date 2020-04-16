@@ -1,56 +1,15 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "ETHEntity.h"
 
 #include "../Physics/ETHPhysicsSimulator.h"
 
 #include "../Scene/ETHScene.h"
 
-Sprite::ENTITY_ORIGIN ETHEntity::ConvertToGSSO(const ETHEntityProperties::ENTITY_TYPE type)
-{
-	switch (type)
-	{
-	case ETHEntityProperties::ET_GROUND_DECAL:
-	case ETHEntityProperties::ET_OPAQUE_DECAL:
-	case ETHEntityProperties::ET_OVERALL:
-	case ETHEntityProperties::ET_LAYERABLE:
-	case ETHEntityProperties::ET_HORIZONTAL:
-		return Sprite::EO_CENTER;
-		break;
-	case ETHEntityProperties::ET_VERTICAL:
-		return Sprite::EO_CENTER_BOTTOM;
-		break;
-	default:
-		return Sprite::EO_DEFAULT;
-	};
-}
-
 float ETHEntity::ComputeDepth(const float height, const float maxHeight, const float minHeight)
 {
 	return ((height - minHeight) / (maxHeight - minHeight));
 }
 
-ETHEntity::ETHEntity(const str_type::string& filePath, const int nId, const Platform::FileManagerPtr& fileManager) :
+ETHEntity::ETHEntity(const std::string& filePath, const int nId, const Platform::FileManagerPtr& fileManager) :
 	ETHScriptEntity(),
 	m_properties(filePath, fileManager),
 	m_id(nId),
@@ -62,7 +21,7 @@ ETHEntity::ETHEntity(const str_type::string& filePath, const int nId, const Plat
 ETHEntity::ETHEntity(
 	TiXmlElement *pElement,
 	ETHEntityCache& entityCache,
-	const str_type::string &entityPath,
+	const std::string &entityPath,
 	Platform::FileManagerPtr fileManager,
 	const bool shouldGenerateNewID) :
 	ETHScriptEntity(),
@@ -103,19 +62,18 @@ void ETHEntity::Zero()
 	m_v4Color = ETH_DEFAULT_COLOR;
 	m_v4SolidColor = Vector4(0.0f, 0.0f, 0.0f, 0.0f);
 	m_spriteFrame = (0);
-	m_shadowZ = (0.0f);
 	m_hide = m_flipX = m_flipY = (ETH_FALSE);
 	m_gcDict = 0;
 }
 
-void ETHEntity::SetAngelScriptObject(const str_type::string &name, void *value, int typeId)
+void ETHEntity::SetAngelScriptObject(const std::string &name, void *value, int typeId)
 {
 	if (!m_gcDict)
 		InstantiateDictionary();
 	m_gcDict->Set(name, value, typeId);
 }
 
-bool ETHEntity::GetAngelScriptObject(const str_type::string &name, void *value, int typeId)
+bool ETHEntity::GetAngelScriptObject(const std::string &name, void *value, int typeId)
 {
 	if (!m_gcDict)
 		return false;
@@ -125,47 +83,44 @@ bool ETHEntity::GetAngelScriptObject(const str_type::string &name, void *value, 
 bool ETHEntity::WriteToXMLFile(
 	TiXmlElement *pHeadRoot,
 	ETHEntityCache& entityCache,
-	const str_type::string &entityPath,
+	const std::string &entityPath,
 	Platform::FileManagerPtr fileManager) const
 {
-	TiXmlElement *pEntity = new TiXmlElement(GS_L("Entity"));
+	TiXmlElement *pEntity = new TiXmlElement(("Entity"));
 	pHeadRoot->LinkEndChild(pEntity);
 
 	TiXmlElement *pElement;
 
 	// if it has a specific name, save it
-	if (m_properties.entityName != GS_L(""))
+	if (m_properties.entityName != (""))
 	{
-		pElement = new TiXmlElement(GS_L("EntityName"));
+		pElement = new TiXmlElement(("EntityName"));
 		pElement->LinkEndChild(new TiXmlText(m_properties.entityName));
 		pEntity->LinkEndChild(pElement);
 	}
 
 	if (m_v4Color != ETH_DEFAULT_COLOR)
-		ETHEntityProperties::SetColorPropertyToXmlElement(pEntity, GS_L("Color"), m_v4Color);
+		ETHEntityProperties::SetColorPropertyToXmlElement(pEntity, ("Color"), m_v4Color);
 
-	pElement = new TiXmlElement(GS_L("Position"));
+	pElement = new TiXmlElement(("Position"));
 	pEntity->LinkEndChild(pElement);
 	{
 		const Vector3 pos(m_controller->GetPos());
-		pElement->SetDoubleAttribute(GS_L("x"), pos.x);
-		pElement->SetDoubleAttribute(GS_L("y"), pos.y);
-		pElement->SetDoubleAttribute(GS_L("z"), pos.z);
-		pElement->SetDoubleAttribute(GS_L("angle"), m_controller->GetAngle());
+		pElement->SetDoubleAttribute(("x"), pos.x);
+		pElement->SetDoubleAttribute(("y"), pos.y);
+		pElement->SetDoubleAttribute(("z"), pos.z);
+		pElement->SetDoubleAttribute(("angle"), m_controller->GetAngle());
 		
 	}
-	pEntity->SetAttribute(GS_L("id"), m_id);
-	pEntity->SetAttribute(GS_L("spriteFrame"), m_spriteFrame);
+	pEntity->SetAttribute(("id"), m_id);
+	pEntity->SetAttribute(("spriteFrame"), m_spriteFrame);
 
 	if (m_spriteFrame > 0)
-		pEntity->SetDoubleAttribute(GS_L("spriteFrame"), m_spriteFrame);
+		pEntity->SetDoubleAttribute(("spriteFrame"), m_spriteFrame);
 
-	if (m_properties.castShadow)
-		pEntity->SetDoubleAttribute(GS_L("shadowZ"), m_shadowZ);
-
-	ETHEntityProperties::SetBooleanPropertyToXmlElement(pEntity, GS_L("hide"),  m_hide,  ETH_FALSE);
-	ETHEntityProperties::SetBooleanPropertyToXmlElement(pEntity, GS_L("flipX"), m_flipX, ETH_FALSE);
-	ETHEntityProperties::SetBooleanPropertyToXmlElement(pEntity, GS_L("flipY"), m_flipY, ETH_FALSE);
+	ETHEntityProperties::SetBooleanPropertyToXmlElement(pEntity, ("hide"),  m_hide,  ETH_FALSE);
+	ETHEntityProperties::SetBooleanPropertyToXmlElement(pEntity, ("flipX"), m_flipX, ETH_FALSE);
+	ETHEntityProperties::SetBooleanPropertyToXmlElement(pEntity, ("flipY"), m_flipY, ETH_FALSE);
 
 	// write entity data as file reference or inline data (if the entity source file doesn't exist)
 	if (entityCache.Get(m_properties.entityName, entityPath, fileManager))
@@ -182,7 +137,7 @@ bool ETHEntity::WriteToXMLFile(
 bool ETHEntity::ReadFromXMLFile(TiXmlElement *pElement, const bool shouldGenerateNewID)
 {
 	ReadInSceneDataFromXMLFile(pElement, shouldGenerateNewID);
-	TiXmlNode *pNode = pElement->FirstChild(GS_L("Entity"));
+	TiXmlNode *pNode = pElement->FirstChild(("Entity"));
 	if (pNode)
 	{
 		return m_properties.ReadFromXMLFile(pNode->ToElement());
@@ -196,12 +151,12 @@ bool ETHEntity::ReadFromXMLFile(TiXmlElement *pElement, const bool shouldGenerat
 bool ETHEntity::ReadFromXMLFile(
 	TiXmlElement *pElement,
 	ETHEntityCache& entityCache,
-	const str_type::string &entityPath,
+	const std::string &entityPath,
 	Platform::FileManagerPtr fileManager,
 	const bool shouldGenerateNewID)
 {
 	ReadInSceneDataFromXMLFile(pElement, shouldGenerateNewID);
-	TiXmlNode *pNode = pElement->FirstChild(GS_L("Entity"));
+	TiXmlNode *pNode = pElement->FirstChild(("Entity"));
 	if (pNode)
 	{
 		return m_properties.ReadFromXMLFile(pNode->ToElement(), entityCache, entityPath, fileManager);
@@ -220,22 +175,21 @@ void ETHEntity::ReadInSceneDataFromXMLFile(TiXmlElement *pElement, const bool sh
 	}
 	else
 	{
-		pElement->QueryIntAttribute(GS_L("id"), &m_id);
+		pElement->QueryIntAttribute(("id"), &m_id);
 	}
-	pElement->QueryFloatAttribute(GS_L("shadowZ"), &m_shadowZ);
 
-	m_hide = ETHEntityProperties::ReadBooleanPropertyFromXmlElement(pElement, GS_L("hide"), m_hide);
-	m_flipX = ETHEntityProperties::ReadBooleanPropertyFromXmlElement(pElement, GS_L("flipX"), m_flipX);
-	m_flipY = ETHEntityProperties::ReadBooleanPropertyFromXmlElement(pElement, GS_L("flipY"), m_flipY);
+	m_hide = ETHEntityProperties::ReadBooleanPropertyFromXmlElement(pElement, ("hide"), m_hide);
+	m_flipX = ETHEntityProperties::ReadBooleanPropertyFromXmlElement(pElement, ("flipX"), m_flipX);
+	m_flipY = ETHEntityProperties::ReadBooleanPropertyFromXmlElement(pElement, ("flipY"), m_flipY);
 
 	int signedSpriteFrame = 0;
-	pElement->QueryIntAttribute(GS_L("spriteFrame"), &signedSpriteFrame);
+	pElement->QueryIntAttribute(("spriteFrame"), &signedSpriteFrame);
 	m_spriteFrame = static_cast<unsigned int>(signedSpriteFrame);
 
 	TiXmlNode *pNode;
 	TiXmlElement *pStringElement;
 
-	pNode = pElement->FirstChild(GS_L("EntityName"));
+	pNode = pElement->FirstChild(("EntityName"));
 	if (pNode)
 	{
 		pStringElement = pNode->ToElement();
@@ -245,19 +199,19 @@ void ETHEntity::ReadInSceneDataFromXMLFile(TiXmlElement *pElement, const bool sh
 		}
 	}
 
-	ETHEntityProperties::ReadColorPropertyFromXmlElement(pElement, GS_L("Color"), m_v4Color);
+	ETHEntityProperties::ReadColorPropertyFromXmlElement(pElement, ("Color"), m_v4Color);
 
-	pNode = pElement->FirstChild(GS_L("Position"));
+	pNode = pElement->FirstChild(("Position"));
 	if (pNode)
 	{
 		TiXmlElement *pIter = pNode->ToElement();
 		if (pIter)
 		{
 			Vector3 pos; float angle = 0.0f;
-			pIter->QueryFloatAttribute(GS_L("x"), &pos.x);
-			pIter->QueryFloatAttribute(GS_L("y"), &pos.y);
-			pIter->QueryFloatAttribute(GS_L("z"), &pos.z);
-			pIter->QueryFloatAttribute(GS_L("angle"), &angle);
+			pIter->QueryFloatAttribute(("x"), &pos.x);
+			pIter->QueryFloatAttribute(("y"), &pos.y);
+			pIter->QueryFloatAttribute(("z"), &pos.z);
+			pIter->QueryFloatAttribute(("angle"), &angle);
 			m_controller->SetPos(pos);
 			m_controller->SetAngle(angle);
 		}
@@ -279,56 +233,12 @@ void ETHEntity::SetController(const ETHEntityControllerPtr& controller)
 	m_controller = controller;
 }
 
-Vector2 ETHEntity::ComputeAbsoluteOrigin(const Vector2 &v2Size) const
-{
-	const Rect2Df rect(GetFrameRect());
-	const Vector2 virtualSize = (rect.size == rect.originalSize) ? v2Size : (rect.originalSize * m_properties.scale);
-
-	Vector2 v2Center;
-	switch (ETHEntity::ConvertToGSSO(GetType()))
-	{
-	case Sprite::EO_RECT_CENTER:
-	case Sprite::EO_CENTER:
-		v2Center.x = virtualSize.x / 2.0f;
-		v2Center.y = virtualSize.y / 2.0f;
-		break;
-	case Sprite::EO_RECT_CENTER_BOTTOM:
-	case Sprite::EO_CENTER_BOTTOM:
-		v2Center.x = virtualSize.x / 2.0f;
-		v2Center.y = virtualSize.y;
-		break;
-	case Sprite::EO_RECT_CENTER_TOP:
-	case Sprite::EO_CENTER_TOP:
-		v2Center.x = virtualSize.x / 2.0f;
-		v2Center.y = 0.0f;
-		break;
-	default:
-	case Sprite::EO_DEFAULT:
-		v2Center.x = 0.0f;
-		v2Center.y = 0.0f;
-		break;
-	};
-
-	Vector2 offset(rect.offset * m_properties.scale);
-	v2Center -= offset;
-
-	if (GetFlipX()) v2Center.x = (rect.size.x * m_properties.scale.x) - v2Center.x;
-	if (GetFlipY()) v2Center.y = (rect.size.y * m_properties.scale.y) - v2Center.y;
-
-	return (v2Center + ((m_properties.pivotAdjust) * m_properties.scale));
-}
-
-Vector2 ETHEntity::ComputeOrigin(const Vector2 &v2Size) const
-{
-	return (ComputeAbsoluteOrigin(v2Size) / v2Size);
-}
-
-void ETHEntity::ChangeEntityName(const str_type::string& name)
+void ETHEntity::ChangeEntityName(const std::string& name)
 {
 	m_properties.entityName = name;
 }
 
-str_type::string ETHEntity::GetEntityName() const
+std::string ETHEntity::GetEntityName() const
 {
 	return m_properties.entityName;
 }
@@ -571,21 +481,6 @@ Vector4 ETHEntity::GetSolidColorARGB() const
 	return m_v4SolidColor;
 }
 
-void ETHEntity::SetShadowZ(const float z)
-{
-	m_shadowZ = z;
-}
-
-float ETHEntity::GetShadowZ() const
-{
-	return m_shadowZ;
-}
-
-bool ETHEntity::HasShadow() const
-{
-	return (m_properties.castShadow == ETH_TRUE);
-}
-
 void ETHEntity::SetLayerDepth(const float depth)
 {
 	m_properties.type = ETHEntityProperties::ET_LAYERABLE;
@@ -669,7 +564,7 @@ void ETHEntity::ScaleParticleSystemOrigin(const unsigned int n, const float scal
 
 bool ETHEntity::IsRotatable() const
 {
-	return GetType() != ETHEntityProperties::ET_VERTICAL;
+	return true;
 }
 
 bool ETHEntity::HasLightSource() const
@@ -721,11 +616,6 @@ Video::ALPHA_MODE ETHEntity::GetBlendMode() const
 	return m_properties.blendMode;
 }
 
-unsigned int ETHEntity::GetNumFrames() const
-{
-	return static_cast<unsigned int>(m_properties.spriteCut.x * m_properties.spriteCut.y);
-}
-
 bool ETHEntity::HasAnyCallbackFunction() const
 {
 	return m_controller->HasAnyCallbackFunction();
@@ -734,11 +624,6 @@ bool ETHEntity::HasAnyCallbackFunction() const
 bool ETHEntity::IsStatic() const
 {
 	return ETHGlobal::ToBool(m_properties.staticEntity);
-}
-
-bool ETHEntity::IsApplyLight() const
-{
-	return ETHGlobal::ToBool(m_properties.applyLight);
 }
 
 void ETHEntity::Hide(const bool hide)
@@ -763,7 +648,7 @@ bool ETHEntity::IsTemporary() const
 			existent++;
 		}
 	}
-	if (existent && temporary == existent && m_properties.spriteFile == GS_L(""))
+	if (existent && temporary == existent && m_properties.spriteFile == (""))
 	{
 		return true;
 	}
@@ -773,14 +658,9 @@ bool ETHEntity::IsTemporary() const
 	}
 }
 
-bool ETHEntity::IsCastShadow() const
-{
-	return !(m_properties.castShadow == ETH_FALSE);
-}
-
 bool ETHEntity::IsInvisible() const
 {
-	return (m_properties.spriteFile == GS_L("") && !HasParticleSystems());
+	return (m_properties.spriteFile == ("") && !HasParticleSystems());
 }
 
 bool ETHEntity::IsBody() const
@@ -799,56 +679,9 @@ const ETHLight* ETHEntity::GetLight() const
 	return m_properties.light.get();
 }
 
-bool ETHEntity::SetFrame(const unsigned int frame)
-{
-	const Vector2i *pv2Cut = &m_properties.spriteCut;
-	if (frame > static_cast<unsigned int>(pv2Cut->x * pv2Cut->y))
-	{
-		m_spriteFrame = (0);
-		return false;
-	}
-	else
-	{
-		m_spriteFrame = (frame);
-		return true;
-	}
-}
-
-unsigned int ETHEntity::GetFrame() const
-{
-	return m_spriteFrame;
-}
-
-bool ETHEntity::SetFrame(const unsigned int column, const unsigned int row)
-{
-	const Vector2i *pv2Cut = &m_properties.spriteCut;
-	const unsigned int cutX = static_cast<unsigned int>(pv2Cut->x);
-	const unsigned int cutY = static_cast<unsigned int>(pv2Cut->y);
-	if (column >= cutX || row >= cutY)
-	{
-		m_spriteFrame = (0);
-		return false;
-	}
-	else
-	{
-		m_spriteFrame = ((row*cutX)+column);
-		return true;
-	}
-}
-
 bool ETHEntity::RunCallbackScript()
 {
 	return m_controller->RunCallback(this);
-}
-
-float ETHEntity::GetSpecularPower() const
-{
-	return m_properties.specularPower;
-}
-
-float ETHEntity::GetSpecularBrightness() const
-{
-	return m_properties.specularBrightness;
 }
 
 void ETHEntity::TurnDynamic()
@@ -870,159 +703,159 @@ const ETHCustomDataManager *ETHEntity::GetCustomDataManager() const
 	return &m_properties;
 }
 
-void ETHEntity::AddData(const str_type::string &name, const ETHCustomDataConstPtr &dataIn)
+void ETHEntity::AddData(const std::string &name, const ETHCustomDataConstPtr &dataIn)
 {
 	m_properties.AddData(name, dataIn);
 }
 
-void ETHEntity::SetFloat(const str_type::string &name, const float &value)
+void ETHEntity::SetFloat(const std::string &name, const float &value)
 {
 	m_properties.SetFloat(name, value);
 }
 
-void ETHEntity::SetInt(const str_type::string &name, const int &value)
+void ETHEntity::SetInt(const std::string &name, const int &value)
 {
 	m_properties.SetInt(name, value);
 }
 
-void ETHEntity::SetUInt(const str_type::string &name, const unsigned int &value)
+void ETHEntity::SetUInt(const std::string &name, const unsigned int &value)
 {
 	m_properties.SetUInt(name, value);
 }
 
-void ETHEntity::SetString(const str_type::string &name, const str_type::string &value)
+void ETHEntity::SetString(const std::string &name, const std::string &value)
 {
 	m_properties.SetString(name, value);
 }
 
-void ETHEntity::SetVector2(const str_type::string &name, const Vector2 &value)
+void ETHEntity::SetVector2(const std::string &name, const Vector2 &value)
 {
 	m_properties.SetVector2(name, value);
 }
 
-void ETHEntity::SetVector3(const str_type::string &name, const Vector3 &value)
+void ETHEntity::SetVector3(const std::string &name, const Vector3 &value)
 {
 	m_properties.SetVector3(name, value);
 }
 
-float ETHEntity::GetFloat(const str_type::string &name, const float defaultValue) const
+float ETHEntity::GetFloat(const std::string &name, const float defaultValue) const
 {
 	float fOut = defaultValue;
 	m_properties.GetFloat(name, fOut);
 	return fOut;
 }
 
-int ETHEntity::GetInt(const str_type::string &name, const int defaultValue) const
+int ETHEntity::GetInt(const std::string &name, const int defaultValue) const
 {
 	int nOut = defaultValue;
 	m_properties.GetInt(name, nOut);
 	return nOut;
 }
 
-unsigned int ETHEntity::GetUInt(const str_type::string &name, const unsigned int defaultValue) const
+unsigned int ETHEntity::GetUInt(const std::string &name, const unsigned int defaultValue) const
 {
 	unsigned int nOut = defaultValue;
 	m_properties.GetUInt(name, nOut);
 	return nOut;
 }
 
-str_type::string ETHEntity::GetString(const str_type::string &name, const str_type::string& defaultValue) const
+std::string ETHEntity::GetString(const std::string &name, const std::string& defaultValue) const
 {
-	str_type::string sOut = defaultValue;
+	std::string sOut = defaultValue;
 	m_properties.GetString(name, sOut);
 	return sOut;
 }
 
-Vector2 ETHEntity::GetVector2(const str_type::string &name, const Vector2& defaultValue) const
+Vector2 ETHEntity::GetVector2(const std::string &name, const Vector2& defaultValue) const
 {
 	Vector2 vOut(defaultValue);
 	m_properties.GetVector2(name, vOut);
 	return vOut;
 }
 
-Vector3 ETHEntity::GetVector3(const str_type::string &name, const Vector3& defaultValue) const
+Vector3 ETHEntity::GetVector3(const std::string &name, const Vector3& defaultValue) const
 {
 	Vector3 vOut(defaultValue);
 	m_properties.GetVector3(name, vOut);
 	return vOut;
 }
 
-float ETHEntity::GetFloat(const str_type::string &name) const
+float ETHEntity::GetFloat(const std::string &name) const
 {
 	return GetFloat(name, 0.0f);
 }
 
-int ETHEntity::GetInt(const str_type::string &name) const
+int ETHEntity::GetInt(const std::string &name) const
 {
 	return GetInt(name, 0);
 }
 
-unsigned int ETHEntity::GetUInt(const str_type::string &name) const
+unsigned int ETHEntity::GetUInt(const std::string &name) const
 {
 	return GetUInt(name, 0);
 }
 
-str_type::string ETHEntity::GetString(const str_type::string &name) const
+std::string ETHEntity::GetString(const std::string &name) const
 {
-	return GetString(name, GS_L(""));
+	return GetString(name, (""));
 }
 
-Vector2 ETHEntity::GetVector2(const str_type::string &name) const
+Vector2 ETHEntity::GetVector2(const std::string &name) const
 {
 	return GetVector2(name, Vector2());
 }
 
-Vector3 ETHEntity::GetVector3(const str_type::string &name) const
+Vector3 ETHEntity::GetVector3(const std::string &name) const
 {
 	return GetVector3(name, Vector3());
 }
 
-float ETHEntity::AddToFloat(const str_type::string &name, const float &value)
+float ETHEntity::AddToFloat(const std::string &name, const float &value)
 {
 	return m_properties.AddToFloat(name, value);
 }
 
-int ETHEntity::AddToInt(const str_type::string &name, const int &value)
+int ETHEntity::AddToInt(const std::string &name, const int &value)
 {
 	return m_properties.AddToInt(name, value);
 }
 
-unsigned int ETHEntity::AddToUInt(const str_type::string &name, const unsigned int &value)
+unsigned int ETHEntity::AddToUInt(const std::string &name, const unsigned int &value)
 {
 	return m_properties.AddToUInt(name, value);
 }
 
-Vector2 ETHEntity::AddToVector2(const str_type::string &name, const Vector2 &v)
+Vector2 ETHEntity::AddToVector2(const std::string &name, const Vector2 &v)
 {
 	return m_properties.AddToVector2(name, v);
 }
 
-Vector3 ETHEntity::AddToVector3(const str_type::string &name, const Vector3 &v)
+Vector3 ETHEntity::AddToVector3(const std::string &name, const Vector3 &v)
 {
 	return m_properties.AddToVector3(name, v);
 }
 
-float ETHEntity::MultiplyFloat(const str_type::string &name, const float &value)
+float ETHEntity::MultiplyFloat(const std::string &name, const float &value)
 {
 	return m_properties.MultiplyFloat(name, value);
 }
 
-int ETHEntity::MultiplyInt(const str_type::string &name, const int &value)
+int ETHEntity::MultiplyInt(const std::string &name, const int &value)
 {
 	return m_properties.MultiplyInt(name, value);
 }
 
-unsigned int ETHEntity::MultiplyUInt(const str_type::string &name, const unsigned int &value)
+unsigned int ETHEntity::MultiplyUInt(const std::string &name, const unsigned int &value)
 {
 	return m_properties.MultiplyUInt(name, value);
 }
 
-Vector2 ETHEntity::MultiplyVector2(const str_type::string &name, const float &value)
+Vector2 ETHEntity::MultiplyVector2(const std::string &name, const float &value)
 {
 	return m_properties.MultiplyVector2(name, value);
 }
 
-Vector3 ETHEntity::MultiplyVector3(const str_type::string &name, const float &value)
+Vector3 ETHEntity::MultiplyVector3(const std::string &name, const float &value)
 {
 	return m_properties.MultiplyVector3(name, value);
 }
@@ -1037,12 +870,12 @@ void ETHEntity::MoveData(ETHCustomDataManager &dataOut) const
 	m_properties.MoveData(dataOut);
 }
 
-bool ETHEntity::EraseData(const str_type::string &name)
+bool ETHEntity::EraseData(const std::string &name)
 {
 	return m_properties.EraseData(name);
 }
 
-ETHCustomData::DATA_TYPE ETHEntity::CheckCustomData(const str_type::string &name) const
+ETHCustomData::DATA_TYPE ETHEntity::CheckCustomData(const std::string &name) const
 {
 	return m_properties.Check(name);
 }
@@ -1054,7 +887,7 @@ bool ETHEntity::HasCustomData() const
 
 void ETHEntity::DebugPrintCustomData() const
 {
-	GS2D_COUT << m_properties.GetDebugStringData();
+	std::cout << m_properties.GetDebugStringData();
 }
 
 void ETHEntity::ClearCustomData()

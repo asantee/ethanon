@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "ETHScriptWrapper.h"
 
 #include "../Shader/ETHShaderManager.h"
@@ -37,13 +15,12 @@ bool ETHScriptWrapper::m_abort = false;
 bool ETHScriptWrapper::m_highEndDevice = false;
 bool ETHScriptWrapper::m_useLightmaps = true;
 bool ETHScriptWrapper::m_usePreLoadedLightmapsFromFile = false;
-ETHSpeedTimer ETHScriptWrapper::m_timer;
 Platform::FileManagerPtr ETHScriptWrapper::m_expansionFileManager;
 bool ETHScriptWrapper::m_roundUpPosition = true;
 int ETHScriptWrapper::m_argc = 0;
-str_type::char_t **ETHScriptWrapper::m_argv = 0;
+char **ETHScriptWrapper::m_argv = 0;
 ETHScriptWrapper::ETH_NEXT_SCENE ETHScriptWrapper::m_nextScene;
-str_type::string ETHScriptWrapper::m_sceneFileName = GS_L("");
+std::string ETHScriptWrapper::m_sceneFileName = ("");
 ETHInput ETHScriptWrapper::m_ethInput;
 asIScriptModule *ETHScriptWrapper::m_pASModule = 0;
 Vector2 ETHScriptWrapper::m_v2LastCamPos(0,0);
@@ -68,13 +45,13 @@ bool ETHScriptWrapper::RunMainFunction(asIScriptFunction* mainFunc)
 	return true;
 }
 
-bool ETHScriptWrapper::WarnIfRunsInMainFunction(const str_type::string &functionName)
+bool ETHScriptWrapper::WarnIfRunsInMainFunction(const std::string &functionName)
 {
 	if (IsRunningMainFunction())
 	{
-		ETH_STREAM_DECL(ss) << std::endl << GS_L("WARNING: do not load resources or do scene-related operations inside the main() function.") << std::endl
-			<< GS_L("Use onSceneLoaded or onSceneUpdate functions instead.") << std::endl
-			<< GS_L("Function used: ") << functionName << std::endl;
+		ETH_STREAM_DECL(ss) << std::endl << ("WARNING: do not load resources or do scene-related operations inside the main() function.") << std::endl
+			<< ("Use onSceneLoaded or onSceneUpdate functions instead.") << std::endl
+			<< ("Function used: ") << functionName << std::endl;
 		m_provider->Log(ss.str(), Platform::Logger::ERROR);
 		return true;
 	}
@@ -91,17 +68,10 @@ bool ETHScriptWrapper::Aborted()
 	return m_abort;
 }
 
-void ETHScriptWrapper::DrawBlackCurtain()
-{
-	const SpritePtr sprite = m_provider->GetShaderManager()->GetOpaqueSprite();
-	const Vector2& screenSize(m_provider->GetVideo()->GetScreenSizeF());
-	DrawShapedFromPtr(sprite, gs2d::math::constant::ZERO_VECTOR2, screenSize, Vector4(gs2d::constant::BLACK), 0.0f);
-}
-
 Vector2 ETHScriptWrapper::GetCursorPos()
 {
 	const float scale = m_provider->GetVideo()->GetScaleFactor();
-	return (m_provider->GetInput()->GetCursorPositionF(m_provider->GetVideo()) * m_backBuffer->GetTargetScale()) * scale;
+	return m_provider->GetInput()->GetCursorPositionF(m_provider->GetVideo()) * scale;
 }
 
 Vector2 ETHScriptWrapper::GetCursorAbsolutePos()
@@ -112,19 +82,19 @@ Vector2 ETHScriptWrapper::GetCursorAbsolutePos()
 bool ETHScriptWrapper::SetCursorPos(const Vector2 &v2Pos)
 {
 	const float scale = m_provider->GetVideo()->GetScaleFactor();
-	return (m_provider->GetInput()->SetCursorPositionF(v2Pos / m_backBuffer->GetTargetScale())) * scale;
+	return m_provider->GetInput()->SetCursorPositionF(v2Pos) * scale;
 }
 
-str_type::string ETHScriptWrapper::GetLastCharInput()
+std::string ETHScriptWrapper::GetLastCharInput()
 {
-	str_type::stringstream ss;
-	str_type::string lastChar = m_provider->GetInput()->GetLastCharInput();
+	std::stringstream ss;
+	std::string lastChar = m_provider->GetInput()->GetLastCharInput();
 	if (!lastChar.empty())
 	{
 		ss << lastChar;
 		return ss.str();
 	}
-	return GS_L("");
+	return ("");
 }
 
 void ETHScriptWrapper::PlayParticleSystem(ETHEntity *pEntity, const unsigned int n)
@@ -266,7 +236,7 @@ void ETHScriptWrapper::SetArgc(const int argc)
 	m_argc = argc;
 }
 
-void ETHScriptWrapper::SetArgv(str_type::char_t **argv)
+void ETHScriptWrapper::SetArgv(char **argv)
 {
 	m_argv = argv;
 }

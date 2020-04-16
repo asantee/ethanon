@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-    Permission is hereby granted, free of charge, to any person obtaining a copy of this
-    software and associated documentation files (the "Software"), to deal in the
-    Software without restriction, including without limitation the rights to use, copy,
-    modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-    and to permit persons to whom the Software is furnished to do so, subject to the
-    following conditions:
-
-    The above copyright notice and this permission notice shall be included in all
-    copies or substantial portions of the Software.
-
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-    INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-    PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-    HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-    CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-    OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "ETHScriptWrapper.h"
 
 #include "../Entity/ETHRenderEntity.h"
@@ -32,14 +10,16 @@
  #include <Platform/ZipFileManager.h>
 #endif
 
-void ETHScriptWrapper::ShowMessage(str_type::string sMsg, const ETH_MESSAGE type, const bool abort)
+#define UNUSED_ARGUMENT(argument) ((void)(argument))
+
+void ETHScriptWrapper::ShowMessage(std::string sMsg, const ETH_MESSAGE type, const bool abort)
 {
-	str_type::stringstream ss;
+	std::stringstream ss;
 	Platform::Logger::TYPE logType;
 	switch (type)
 	{
 	case ETH_ERROR:
-		ss << GS_L("ERROR - ");
+		ss << ("ERROR - ");
 		logType = Platform::Logger::ERROR;
 		if (abort)
 		{
@@ -47,7 +27,7 @@ void ETHScriptWrapper::ShowMessage(str_type::string sMsg, const ETH_MESSAGE type
 		}
 		break;
 	case ETH_WARNING:
-		ss << GS_L("Warning - ");
+		ss << ("Warning - ");
 		logType = Platform::Logger::WARNING;
 		break;
 	default:
@@ -57,7 +37,7 @@ void ETHScriptWrapper::ShowMessage(str_type::string sMsg, const ETH_MESSAGE type
 	m_provider->Log(ss.str(), logType);
 }
 
-void ETHScriptWrapper::ForwardCommand(const str_type::string& cmd)
+void ETHScriptWrapper::ForwardCommand(const std::string& cmd)
 {
 	m_provider->GetVideo()->ForwardCommand(cmd);
 }
@@ -80,7 +60,7 @@ void ETHScriptWrapper::PrintUInt(const unsigned int n)
 	m_provider->Log(ss.str(), Platform::FileLogger::INFO);
 }
 
-void ETHScriptWrapper::Print(const str_type::string &str)
+void ETHScriptWrapper::Print(const std::string &str)
 {
 	ETH_STREAM_DECL(ss) << str;
 	m_provider->Log(ss.str(), Platform::FileLogger::INFO);
@@ -121,17 +101,17 @@ void ETHScriptWrapper::Exit()
 	m_provider->GetVideo()->Quit();
 }
 
-str_type::string ETHScriptWrapper::GetCurrentCallstack()
+std::string ETHScriptWrapper::GetCurrentCallstack()
 {
-	str_type::stringstream ss;
+	std::stringstream ss;
 	for (std::size_t n = 0; n < m_pScriptContext->GetCallstackSize(); n++)
 	{
 		asIScriptFunction* stackedFunction = m_pScriptContext->GetFunction(static_cast<asUINT>(n));
 		if (stackedFunction != NULL)
 		{
-			const str_type::string section = (stackedFunction->GetScriptSectionName());
-			ss << GS_L("    ") << stackedFunction->GetDeclaration()
-			   << GS_L(" (") << section << GS_L(", ") << m_pScriptContext->GetLineNumber(static_cast<asUINT>(n)) << GS_L(")") << std::endl;
+			const std::string section = (stackedFunction->GetScriptSectionName());
+			ss << ("    ") << stackedFunction->GetDeclaration()
+			   << (" (") << section << (", ") << m_pScriptContext->GetLineNumber(static_cast<asUINT>(n)) << (")") << std::endl;
 		}
 	}
 	return ss.str();
@@ -149,7 +129,7 @@ unsigned int ETHScriptWrapper::GetScreenHeight()
 
 Vector2 ETHScriptWrapper::GetScreenSize()
 {
-	return m_backBuffer->GetBufferSize();
+	return m_provider->GetVideo()->GetScreenSizeF();
 }
 
 Vector2 ETHScriptWrapper::GetScreenSizeInPixels()
@@ -196,24 +176,19 @@ Vector2 ETHScriptWrapper::GetSystemScreenSize()
 	return Vector2((float)v2.x, (float)v2.y);
 }
 
-bool ETHScriptWrapper::SaveScreenShot(const str_type::string& filePath)
-{
-	return m_provider->GetVideo()->SaveScreenshot(filePath.c_str(), Texture::BF_TGA);
-}
-
 int ETHScriptWrapper::GetArgc()
 {
 	return m_argc;
 }
 
-str_type::string ETHScriptWrapper::GetStringFromFileInPackage(const str_type::string& fileName)
+std::string ETHScriptWrapper::GetStringFromFileInPackage(const std::string& fileName)
 {
-	str_type::string out;
+	std::string out;
 	m_provider->GetFileManager()->GetAnsiFileString(fileName, out);
 	return out;
 }
 
-bool ETHScriptWrapper::FileInPackageExists(const str_type::string& fileName)
+bool ETHScriptWrapper::FileInPackageExists(const std::string& fileName)
 {
 	return m_provider->GetFileManager()->FileExists(fileName);
 }
@@ -228,9 +203,9 @@ Vector2 ETHScriptWrapper::GetAppDefaultVideoMode(bool& windowed)
 	return ETHAppEnmlFile::GetAppDefaultVideoMode(windowed, GetProvider()->GetFileIOHub()->GetExternalStorageDirectory());
 }
 
-bool ETHScriptWrapper::FileExists(const str_type::string& fileName)
+bool ETHScriptWrapper::FileExists(const std::string& fileName)
 {
-	str_type::ifstream ifs(fileName.c_str());
+	std::ifstream ifs(fileName.c_str());
 	if (ifs.is_open())
 	{
 		ifs.close();
@@ -242,31 +217,31 @@ bool ETHScriptWrapper::FileExists(const str_type::string& fileName)
 	}
 }
 
-str_type::string ETHScriptWrapper::GetArgv(const int n)
+std::string ETHScriptWrapper::GetArgv(const int n)
 {
 	if (n >= m_argc || n < 0)
 	{
-		return GS_L("");
+		return ("");
 	}
 	return m_argv[n];
 }
 
-str_type::string ETHScriptWrapper::GetResourceDirectory()
+std::string ETHScriptWrapper::GetResourceDirectory()
 {
 	return m_provider->GetFileIOHub()->GetResourceDirectory();
 }
 
-str_type::string ETHScriptWrapper::GetAbsolutePath(const str_type::string &fileName)
+std::string ETHScriptWrapper::GetAbsolutePath(const std::string &fileName)
 {
 	return GetResourceDirectory() + fileName;
 }
 
-str_type::string ETHScriptWrapper::GetExternalStorageDirectory()
+std::string ETHScriptWrapper::GetExternalStorageDirectory()
 {
 	return m_provider->GetFileIOHub()->GetExternalStorageDirectory();
 }
 
-str_type::string ETHScriptWrapper::GetGlobalExternalStorageDirectory()
+std::string ETHScriptWrapper::GetGlobalExternalStorageDirectory()
 {
 	return m_provider->GetFileIOHub()->GetGlobalExternalStorageDirectory();
 }
@@ -277,14 +252,14 @@ void ETHScriptWrapper::EnableQuitKeys(const bool enable)
 }
 
 void ETHScriptWrapper::ResetVideoMode(
-	const str_type::string& winTitle,
+	const std::string& winTitle,
 	const unsigned int width,
 	const unsigned int height,
 	const bool windowed,
 	const bool sync,
 	const Texture::PIXEL_FORMAT gsPF)
 {
-	GS2D_UNUSED_ARGUMENT(sync);
+	UNUSED_ARGUMENT(sync);
 	const VideoPtr& video = m_provider->GetVideo();
 	if (video)
 	{
@@ -303,28 +278,30 @@ void ETHScriptWrapper::ResetVideoMode(
 			video->GetPlatformName(),
 			m_provider->GetFileIOHub()->GetExternalStorageDirectory());
 
+		UpdateFixedHeight();
+
 		CreateDynamicBackBuffer(file);
 	}
 }
 
-str_type::string ETHScriptWrapper::GetPlatformName()
+std::string ETHScriptWrapper::GetPlatformName()
 {
 	return m_provider->GetVideo()->GetPlatformName();
 }
 
-bool ETHScriptWrapper::EnablePackLoading(const str_type::string& packFileName, const str_type::string& password)
+bool ETHScriptWrapper::EnablePackLoading(const std::string& packFileName, const std::string& password)
 {
 // TO-DO/TODO: make it safer
 #ifdef _MSC_VER
 	if (IsResourcePackingSupported())
 	{
 		Platform::FileIOHubPtr fileIOHub = m_provider->GetFileIOHub();
-		const str_type::string packagePath = fileIOHub->GetStartResourceDirectory() + packFileName;
+		const std::string packagePath = fileIOHub->GetStartResourceDirectory() + packFileName;
 		Platform::FileManagerPtr fileManager(new Platform::ZipFileManager(packagePath.c_str(), password.c_str()));
 		const bool isLoaded = fileManager->IsLoaded();
 		if (isLoaded)
 		{
-			fileIOHub->SetFileManager(fileManager, GS_L(""));
+			fileIOHub->SetFileManager(fileManager, (""));
 		}
 		return isLoaded;
 	}
@@ -343,21 +320,21 @@ bool ETHScriptWrapper::EnableLightmapsFromExpansionPack(const bool enable)
 	if (enable)
 	{
 	#ifdef ANDROID
-		const str_type::string expansionFilePath = GetSharedData(ETHGraphicResourceManager::SD_EXPANSION_FILE_PATH);
+		const std::string expansionFilePath = GetSharedData(ETHGraphicResourceManager::SD_EXPANSION_FILE_PATH);
 		Platform::FileManagerPtr expansionFileManager = Platform::FileManagerPtr(new Platform::ZipFileManager(expansionFilePath.c_str()));
 		if (expansionFileManager->IsLoaded())
 		{
 			m_expansionFileManager = expansionFileManager;
-			m_provider->Log(expansionFilePath + GS_L(" expansion file loaded"), Platform::Logger::INFO);
+			m_provider->Log(expansionFilePath + (" expansion file loaded"), Platform::Logger::INFO);
 			return true;
 		}
 		else
 		{
-			m_provider->Log(expansionFilePath + GS_L(" ERROR: file not found"), Platform::Logger::ERROR);
+			m_provider->Log(expansionFilePath + (" ERROR: file not found"), Platform::Logger::ERROR);
 			return false;
 		}
 	#else
-		m_provider->Log(GS_L("ERROR: This platform doesn't support Expansion packages"), Platform::Logger::ERROR);
+		m_provider->Log(("ERROR: This platform doesn't support Expansion packages"), Platform::Logger::ERROR);
 		return false;
 	#endif
 	}

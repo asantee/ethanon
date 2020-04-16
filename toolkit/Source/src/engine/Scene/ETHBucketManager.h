@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #ifndef ETH_BUCKET_MANAGER_H_
 #define ETH_BUCKET_MANAGER_H_
 
@@ -32,7 +10,7 @@ class ETHEntityArray;
 
 #include "../Resource/ETHResourceProvider.h"
 
-#include "../../tsl/hopscotch_map.h"
+#include <hopscotch_map.h>
 
 #include <cstdint>
 
@@ -100,7 +78,7 @@ public:
 	ETHSpriteEntity *SeekEntity(const int id);
 
 	/// Seek the entity by it's original file name file name
-	ETHSpriteEntity *SeekEntity(const str_type::string& fileName);
+	ETHSpriteEntity *SeekEntity(const std::string& fileName);
 
 	/// Delete the entity by ID #
 	bool DeleteEntity(const int id, const Vector2 &searchBucket);
@@ -109,18 +87,18 @@ public:
 	bool DeleteEntity(const int id);
 
 	/// get an array of pointers with all entities named 'name' in scene
-	void GetEntityArrayByName(const str_type::string& name, ETHEntityArray &outVector);
+	void GetEntityArrayByName(const std::string& name, ETHEntityArray &outVector);
 
 	/// get an array of pointers with all entities in the bucket
 	void GetEntityArrayFromBucket(const Vector2 &bucket, ETHEntityArray &outVector);
 	void GetEntityArrayFromBucket(const Vector2 &bucket, ETHEntityArray &outVector, const ETHEntityChooser& chooser);
-	void GetWhiteListedEntityArrayFromBucket(const Vector2 &bucket, ETHEntityArray &outVector, const str_type::string& semicolonSeparatedNames);
+	void GetWhiteListedEntityArrayFromBucket(const Vector2 &bucket, ETHEntityArray &outVector, const std::string& semicolonSeparatedNames);
 
 	/// entities around the bucket
 	void GetEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray &outVector);
 	void GetEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray &outVector, const ETHEntityChooser& chooser);
-	void GetWhiteListedEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray &outVector, const str_type::string& semicolonSeparatedNames);
-	void GetEntitiesAroundBucketWithBlackList(const Vector2& bucket, ETHEntityArray &outVector, const str_type::string& semicolonSeparatedNames);
+	void GetWhiteListedEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray &outVector, const std::string& semicolonSeparatedNames);
+	void GetEntitiesAroundBucketWithBlackList(const Vector2& bucket, ETHEntityArray &outVector, const std::string& semicolonSeparatedNames);
 
 	/// get an array of visible entities
 	void GetVisibleEntities(ETHEntityArray &outVector);

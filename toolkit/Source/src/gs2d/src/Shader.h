@@ -1,109 +1,110 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #ifndef GS2D_SHADER_H_
 #define GS2D_SHADER_H_
 
-#include "Math/GameMath.h"
+#include "Math/Matrix4x4.h"
 #include "Math/Color.h"
-#include <boost/shared_array.hpp>
+#include "Texture.h"
+
+#include <hopscotch_map.h>
+
+#include <boost/shared_ptr.hpp>
 
 namespace gs2d {
 
-class Video;
-
-/**
- * \brief Provides a render context to the shaders
- */
 class ShaderContext
 {
 public:
-	virtual boost::any GetContextPointer() = 0;
-	virtual bool DisableTextureParams() = 0;
 };
 
 typedef boost::shared_ptr<ShaderContext> ShaderContextPtr;
 
-/**
- * \brief Abstracts a shader object
- *
- * Stores, manages and binds a fragment or vertex shader.
- */
+class Video;
+class Shader;
+
+typedef std::shared_ptr<Shader> ShaderPtr;
+
 class Shader
 {
 public:
-	enum SHADER_PROFILE
-	{
-		SP_NONE =-1,
-		SP_MODEL_1 = 0,
-		SP_MODEL_2 = 1,
-		SP_MODEL_3 = 2,
-		SP_HIGHEST = 3,
-	};
+    class ShaderParameter
+    {
+    public:
+        virtual void SetConstant(const std::string& name, const ShaderPtr& shader) = 0;
+    };
+    
+    class TextureShaderParameter : public ShaderParameter
+    {
+        TexturePtr m_texture;
+        unsigned int m_index;
+    public:
+        TextureShaderParameter(const TexturePtr& texture, const unsigned int index);
+        void SetConstant(const std::string& name, const ShaderPtr& shader);
+    };
 
-	enum SHADER_FOCUS
-	{
-		SF_PIXEL = 0,
-		SF_VERTEX = 1,
-		SF_NONE = 2
-	};
+    class FloatShaderParameter : public ShaderParameter
+    {
+        float m_f;
+    public:
+        FloatShaderParameter(const float f);
+        void SetConstant(const std::string& name, const ShaderPtr& shader);
+    };
+
+    class Vector2ShaderParameter : public ShaderParameter
+    {
+        math::Vector2 m_v;
+    public:
+        Vector2ShaderParameter(const math::Vector2& v);
+        void SetConstant(const std::string& name, const ShaderPtr& shader);
+    };
+
+    class Vector3ShaderParameter : public ShaderParameter
+    {
+        math::Vector3 m_v;
+    public:
+        Vector3ShaderParameter(const math::Vector3& v);
+        void SetConstant(const std::string& name, const ShaderPtr& shader);
+    };
+
+    class Vector4ShaderParameter : public ShaderParameter
+    {
+        math::Vector4 m_v;
+    public:
+        Vector4ShaderParameter(const math::Vector4& v);
+        void SetConstant(const std::string& name, const ShaderPtr& shader);
+    };
 
 	virtual bool LoadShaderFromFile(
 		ShaderContextPtr context,
-		const str_type::string& fileName,
-		const SHADER_FOCUS focus,
-		const SHADER_PROFILE profile = SP_HIGHEST,
-		const char *entry = 0) = 0;
+        const std::string& vsFileName,
+        const std::string& vsEntry,
+        const std::string& psFileName,
+        const std::string& psEntry) = 0;
 
 	virtual bool LoadShaderFromString(
 		ShaderContextPtr context,
-		const str_type::string& shaderName,
-		const std::string& codeAsciiString,
-		const SHADER_FOCUS focus,
-		const SHADER_PROFILE profile = SP_HIGHEST,
-		const char *entry = 0) = 0;
+        const std::string& vsShaderName,
+        const std::string& vsCodeAsciiString,
+        const std::string& vsEntry,
+        const std::string& psShaderName,
+        const std::string& psCodeAsciiString,
+        const std::string& psEntry) = 0;
 
-	virtual bool ConstantExist(const str_type::string& name) = 0;
-	virtual bool SetConstant(const str_type::string& name, const Color& dw) = 0;
-	virtual bool SetConstant(const str_type::string& name, const math::Vector4 &v) = 0;
-	virtual bool SetConstant(const str_type::string& name, const math::Vector3 &v) = 0;
-	virtual bool SetConstant(const str_type::string& name, const math::Vector2 &v) = 0;
-	virtual bool SetConstant(const str_type::string& name, const float x, const float y, const float z, const float w) = 0;
-	virtual bool SetConstant(const str_type::string& name, const float x, const float y, const float z) = 0;
-	virtual bool SetConstant(const str_type::string& name, const float x, const float y) = 0;
-	virtual bool SetConstant(const str_type::string& name, const float x) = 0;
-	virtual bool SetConstant(const str_type::string& name, const int n) = 0;
-	virtual bool SetConstantArray(const str_type::string& name, unsigned int nElements, const boost::shared_array<const math::Vector2>& v) = 0;
-	virtual bool SetMatrixConstant(const str_type::string& name, const math::Matrix4x4 &matrix) = 0;
-	virtual bool SetTexture(const str_type::string& name, TextureWeakPtr pTexture) = 0;
-
-	virtual bool SetShader() = 0;
-	virtual SHADER_FOCUS GetShaderFocus() const = 0;
-	virtual SHADER_PROFILE GetShaderProfile() const = 0;
-	virtual void UnbindShader() = 0;
-
+	virtual void SetConstant(const std::string& name, const math::Vector4 &v) = 0;
+	virtual void SetConstant(const std::string& name, const math::Vector3 &v) = 0;
+	virtual void SetConstant(const std::string& name, const math::Vector2 &v) = 0;
+	virtual void SetConstant(const std::string& name, const float x) = 0;
+	virtual void SetConstant(const std::string& name, const int n) = 0;
+	virtual void SetConstantArray(const std::string& name, unsigned int nElements, const math::Vector2* v) = 0;
+    virtual void SetConstantArray(const std::string& name, unsigned int nElements, const math::Vector4* v) = 0;
+	virtual void SetMatrixConstant(const std::string& name, const math::Matrix4x4 &matrix) = 0;
+	virtual void SetTexture(const std::string& name, TexturePtr pTexture, const unsigned int index) = 0;
+	
+	virtual void SetShader() = 0;
 };
 
-typedef boost::shared_ptr<Shader> ShaderPtr;
+typedef boost::shared_ptr<Shader::ShaderParameter> ShaderParameterPtr;
+typedef tsl::hopscotch_map<std::string, ShaderParameterPtr> ShaderParameters;
+typedef boost::shared_ptr<ShaderParameters> ShaderParametersPtr;
 
 } // namespace gs2d
 

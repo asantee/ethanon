@@ -1,29 +1,9 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #ifndef FILE_MANAGER_H_
 #define FILE_MANAGER_H_
 
-#include "../Types.h"
+#include <string>
+
+#include <boost/shared_ptr.hpp>
 
 namespace Platform {
 
@@ -73,20 +53,20 @@ T *_FileBuffer<T>::GetAddress()
 
 class FileManager
 {
-	virtual bool GetUTF8FileString(const FileBuffer& buffer, gs2d::str_type::string &out);
-	virtual bool GetUTF16FileString(const FileBuffer& buffer, gs2d::str_type::string &out);
+	virtual bool GetUTF8FileString(const FileBuffer& buffer, std::string &out);
+	virtual bool GetUTF16FileString(const FileBuffer& buffer, std::string &out);
 	virtual bool HasUTF16LEBOM(const FileBuffer& buffer);
 
 public:
 	virtual bool IsLoaded() const = 0;
-	virtual bool GetFileBuffer(const gs2d::str_type::string& fileName, FileBuffer &out) = 0;
+	virtual bool GetFileBuffer(const std::string& fileName, FileBuffer &out) = 0;
 
-	virtual bool GetAnsiFileString(const gs2d::str_type::string& fileName, gs2d::str_type::string &out);
-	virtual bool GetUTF8FileString(const gs2d::str_type::string& fileName, gs2d::str_type::string &out);
-	virtual bool GetUTF16FileString(const gs2d::str_type::string& fileName, gs2d::str_type::string &out);
-	virtual bool GetUTFFileString(const gs2d::str_type::string& fileName, gs2d::str_type::string &out);
+	virtual bool GetAnsiFileString(const std::string& fileName, std::string &out);
+	virtual bool GetUTF8FileString(const std::string& fileName, std::string &out);
+	virtual bool GetUTF16FileString(const std::string& fileName, std::string &out);
+	virtual bool GetUTFFileString(const std::string& fileName, std::string &out);
 
-	virtual bool FileExists(const gs2d::str_type::string& fileName) const = 0;
+	virtual bool FileExists(const std::string& fileName) const = 0;
 	virtual bool IsPacked() const = 0;
     
 	static const unsigned short UTF16LE_BOM;

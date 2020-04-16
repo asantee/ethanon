@@ -1,32 +1,15 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "ETHBackBufferTargetManager.h"
-#include "ETHDefaultDynamicBackBuffer.h"
 #include "ETHNoDynamicBackBuffer.h"
 
 #include "../Util/ETHInput.h"
 
 #include <Video.h>
+
+#ifdef _MSC_VER
+  #define GS2D_SSCANF sscanf_s
+#else
+  #define GS2D_SSCANF sscanf
+#endif
 
 ETHBackBufferTargetManagerPtr ETHBackBufferTargetManager::Create(
 	gs2d::VideoPtr video,
@@ -49,10 +32,7 @@ ETHBackBufferTargetManagerPtr ETHBackBufferTargetManager::Create(gs2d::VideoPtr 
 
 ETHBackBufferTargetManager::ETHBackBufferTargetManager(gs2d::VideoPtr video)
 {
-	m_bufferSize = video->GetScreenSizeF();
-	m_backBuffer = ETHDynamicBackBufferPtr(new ETHNoDynamicBackBuffer(video, m_bufferSize));
-	m_targetScale = 1.0f;
-	CreateOBB();
+	m_backBuffer = ETHDynamicBackBufferPtr(new ETHNoDynamicBackBuffer(video, video->GetScreenSizeInPixels()));
 }
 
 ETHBackBufferTargetManager::ETHBackBufferTargetManager(
@@ -60,90 +40,12 @@ ETHBackBufferTargetManager::ETHBackBufferTargetManager(
 	const ETHAppEnmlFile& file,
 	const Platform::Logger& logger)
 {
-	const gs2d::str_type::string fixedWidth  = file.GetFixedWidth();
-	const gs2d::str_type::string fixedHeight = file.GetFixedHeight();
-	if (!ComputeLength(video, fixedWidth, fixedHeight, true))
-	{
-		ComputeLength(video, fixedHeight, fixedWidth, false);
-	}
-	const gs2d::math::Vector2 screenSize(video->GetScreenSizeF());
-	m_bufferSize.x = gs2d::math::Min(screenSize.x, m_bufferSize.x);
-	m_bufferSize.y = gs2d::math::Min(screenSize.y, m_bufferSize.y);
+	const gs2d::math::Vector2 screenSize(video->GetScreenSizeInPixels());
+	std::stringstream ss; ss << ("Actual size is ") << screenSize.x << (", ") << screenSize.y;
 
-	gs2d::str_type::stringstream ss; ss << GS_L("Backbuffer created as ") << m_bufferSize.x << GS_L(", ") << m_bufferSize.y
-										<< GS_L(" on ");
-	if (m_bufferSize == screenSize)
-	{
-		m_backBuffer = ETHDynamicBackBufferPtr(new ETHNoDynamicBackBuffer(video, m_bufferSize));
-		ss << GS_L("default backbuffer mode");
-	}
-	else
-	{
-		m_backBuffer = ETHDynamicBackBufferPtr(new ETHDefaultDynamicBackBuffer(video, m_bufferSize));
-		ss << GS_L("dynamic framebuffer mode");
-	}
-	m_targetScale = m_bufferSize.x / screenSize.x;
-
-	CreateOBB();
+	m_backBuffer = ETHDynamicBackBufferPtr(new ETHNoDynamicBackBuffer(video, screenSize));
 
 	logger.Log(ss.str(), Platform::Logger::INFO);
-}
-
-void ETHBackBufferTargetManager::CreateOBB()
-{
-	m_obb = gs2d::math::OrientedBoundingBoxPtr(new gs2d::math::OrientedBoundingBox(m_bufferSize * 0.5f, m_bufferSize, 0.0f));
-}
-
-void ETHBackBufferTargetManager::ScreenSizeChanged(const gs2d::math::Vector2& newScreenSize)
-{
-	if (m_backBuffer->MatchesScreenSize())
-	{
-		m_bufferSize = newScreenSize;
-		CreateOBB();
-	}
-}
-
-bool ETHBackBufferTargetManager::ComputeLength(gs2d::VideoPtr video, const gs2d::str_type::string& thisSide, const gs2d::str_type::string& otherSide, const bool isWidth)
-{
-	if (IsAuto(thisSide))
-	{
-		const gs2d::math::Vector2 screenSize(video->GetScreenSizeF());
-		if (IsAuto(otherSide))
-		{
-			m_bufferSize = screenSize;
-			return true;
-		}
-		else
-		{
-			float otherValue = -1.0f;
-			GS2D_SSCANF(otherSide.c_str(), GS_L("%f"), &otherValue);
-			if (isWidth)
-				m_bufferSize.x = ceilf(otherValue * (screenSize.x / screenSize.y));
-			else
-				m_bufferSize.y = ceilf(otherValue * (screenSize.y / screenSize.x));
-			return false;
-		}
-	}
-	else
-	{
-		int value = -1;
-		GS2D_SSCANF(thisSide.c_str(), GS_L("%i"), &value);
-		if (isWidth)
-			m_bufferSize.x = static_cast<float>(value);
-		else
-			m_bufferSize.y = static_cast<float>(value);
-		return false;
-	}
-}
-
-bool ETHBackBufferTargetManager::IsAuto(const gs2d::str_type::string& str)
-{
-	return (str == GS_L("auto") || str.empty());
-}
-
-gs2d::math::Vector2 ETHBackBufferTargetManager::GetBufferSize() const
-{
-	return m_bufferSize;
 }
 
 void ETHBackBufferTargetManager::BeginRendering()
@@ -161,12 +63,6 @@ void ETHBackBufferTargetManager::Present()
 	m_backBuffer->Present();
 }
 
-float ETHBackBufferTargetManager::GetTargetScale() const
+void ETHBackBufferTargetManager::ScreenSizeChanged(const math::Vector2& newScreenSize)
 {
-	return m_targetScale;
-}
-
-gs2d::math::OrientedBoundingBoxPtr ETHBackBufferTargetManager::GetOBB() const
-{
-	return m_obb;
 }

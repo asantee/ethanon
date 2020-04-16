@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-    Permission is hereby granted, free of charge, to any person obtaining a copy of this
-    software and associated documentation files (the "Software"), to deal in the
-    Software without restriction, including without limitation the rights to use, copy,
-    modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-    and to permit persons to whom the Software is furnished to do so, subject to the
-    following conditions:
-
-    The above copyright notice and this permission notice shall be included in all
-    copies or substantial portions of the Software.
-
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-    INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-    PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-    HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-    CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-    OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "ZipFileManager.h"
 #include "Platform.h"
 
@@ -31,11 +9,9 @@
 
 #include <zip.h>
 
-using namespace gs2d;
-
 namespace Platform {
 
-ZipFileManager::ZipFileManager(const str_type::char_t *filePath, const gs2d::str_type::char_t* password)
+ZipFileManager::ZipFileManager(const char* filePath, const char* password)
 {
 	m_archive = zip_open(filePath, 0, NULL);
 	if (m_archive == NULL)
@@ -54,10 +30,10 @@ ZipFileManager::ZipFileManager(const str_type::char_t *filePath, const gs2d::str
 			if (password == 0)
 				return;
 
-			if (str_type::string(password) == GS_L(""))
+			if (std::string(password) == "")
 				return;
 
-			zip_set_default_password(m_archive, password);
+			//zip_set_default_password(m_archive, password);
 		#endif
 	}
 }
@@ -72,12 +48,12 @@ bool ZipFileManager::IsLoaded() const
 	return m_archive != NULL;
 }
 
-bool ZipFileManager::GetFileBuffer(const str_type::string &fileName, FileBuffer &out)
+bool ZipFileManager::GetFileBuffer(const std::string &fileName, FileBuffer &out)
 {
 	if (!IsLoaded())
 		return false;
 
-	str_type::string fixedPath = fileName;
+	std::string fixedPath = fileName;
 	FixSlashesForUnix(fixedPath);
 
 	zip_file *file = zip_fopen(m_archive, fixedPath.c_str(), 0);
@@ -95,12 +71,12 @@ bool ZipFileManager::GetFileBuffer(const str_type::string &fileName, FileBuffer 
 	return true;
 }
 
-bool ZipFileManager::FileExists(const gs2d::str_type::string& fileName) const
+bool ZipFileManager::FileExists(const std::string& fileName) const
 {
 	if (!IsLoaded())
 		return false;
 
-	str_type::string fixedPath = fileName;
+	std::string fixedPath = fileName;
 	FixSlashesForUnix(fixedPath);
 
 	zip_file *file = zip_fopen(m_archive, fixedPath.c_str(), 0);

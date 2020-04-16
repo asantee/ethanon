@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "ETHEngine.h"
 
 #include "Script/ETHScriptObjRegister.h"
@@ -42,34 +20,26 @@
 using namespace gs2d;
 using namespace gs2d::math;
 
-const str_type::string ETHEngine::ETH_SCRIPT_MODULE(GS_L("EthanonModule"));
-const str_type::string ETHEngine::SCRIPT_EXCEPTION_LOG_SHARED_DATA_KEY(GS_L("com.ethanonengine.scriptExceptions"));
+const std::string ETHEngine::ETH_SCRIPT_MODULE(("EthanonModule"));
+const std::string ETHEngine::SCRIPT_EXCEPTION_LOG_SHARED_DATA_KEY(("com.ethanonengine.scriptExceptions"));
 
 gs2d::BaseApplicationPtr gs2d::CreateBaseApplication(const bool autoStartScriptEngine)
 {
 	return BaseApplicationPtr(new ETHEngine(false, true, autoStartScriptEngine));
 }
 
-#ifdef ANDROID
-#	ifdef __aarch64__
-#		define ETH_BYTECODE_FILE_NAME GS_L("android_game_64.bin")
-#	else
-#		define ETH_BYTECODE_FILE_NAME GS_L("android_game.bin")
-#	endif
-#elif APPLE_IOS
-#	ifdef __LP64__
-#		define ETH_BYTECODE_FILE_NAME GS_L("ios_game_64.bin")
-#	else
-#		define ETH_BYTECODE_FILE_NAME GS_L("ios_game.bin")
-#	endif
+#define UNUSED_ARGUMENT(argument) ((void)(argument))
+
+#if defined(__aarch64__) || defined(__x86_64__) || defined(_WIN64) || defined (__LP64__)
+ #define ETH_BYTECODE_FILE_NAME ("game_64.bin")
 #else
-#	define ETH_BYTECODE_FILE_NAME GS_L("game.bin")
+ #define ETH_BYTECODE_FILE_NAME ("game_32.bin")
 #endif
 
 ETHEngine::ETHEngine(const bool testing, const bool compileAndRun, const bool autoStartScriptEngine) :
 	ETH_DEFAULT_MAIN_SCRIPT_FILE(_ETH_DEFAULT_MAIN_SCRIPT_FILE),
 	ETH_DEFAULT_MAIN_BYTECODE_FILE(ETH_BYTECODE_FILE_NAME),
-	ETH_MAIN_FUNCTION(GS_L("main")),
+	ETH_MAIN_FUNCTION(("main")),
 	m_testing(testing),
 	m_compileAndRun(compileAndRun),
 	m_lastBGColor(0x0),
@@ -78,7 +48,7 @@ ETHEngine::ETHEngine(const bool testing, const bool compileAndRun, const bool au
 	m_mainFunctionRunned(false),
 	m_autoStartScriptEngine(autoStartScriptEngine)
 {
-	Application::SharedData.Create(SCRIPT_EXCEPTION_LOG_SHARED_DATA_KEY, GS_L(""), false);
+	Application::SharedData.Create(SCRIPT_EXCEPTION_LOG_SHARED_DATA_KEY, (""), false);
 }
 
 ETHEngine::~ETHEngine()
@@ -111,7 +81,7 @@ bool ETHEngine::StartScriptEngine()
 	VideoPtr video = m_provider->GetVideo();
 	video->SetBGColor(gs2d::constant::BLACK);
 
-	GS2D_COUT << GS_L("AngelScript v") << asGetLibraryVersion() << GS_L(" options: ") << asGetLibraryOptions() << std::endl;
+	std::cout << ("AngelScript v") << asGetLibraryVersion() << (" options: ") << asGetLibraryOptions() << std::endl;
 	if (!PrepareScriptingEngine(m_definedWords))
 	{
 		Abort();
@@ -137,24 +107,18 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 		video->GetPlatformName(),
 		fileIOHub->GetExternalStorageDirectory());
 
-	const bool richLighting = file.IsRichLightingEnabled();
 	m_definedWords = file.GetDefinedWords();
 
 	m_provider = ETHResourceProviderPtr(new ETHResourceProvider(
 		ETHGraphicResourceManagerPtr(new ETHGraphicResourceManager(file.GetDensityManager())),
 		ETHAudioResourceManagerPtr(new ETHAudioResourceManager()),
-		ETHShaderManagerPtr(
-			new ETHShaderManager(
-				video,
-				fileIOHub->GetStartResourceDirectory() + ETHDirectories::GetShaderDirectory(),
-				richLighting)),
+		ETHShaderManagerPtr(new ETHShaderManager(video)),
 		video,
 		audio,
 		input,
 		fileIOHub,
 		false));
 
-	m_provider->SetRichLighting(richLighting);
 	m_ethInput.SetProvider(m_provider);
 
 	CreateDynamicBackBuffer(file);
@@ -191,12 +155,12 @@ Application::APP_STATUS ETHEngine::Update(
 {
 	if (!m_mainFunctionRunned)
 	{
-		m_provider->Log(GS_L("Starting main function"), Platform::Logger::INFO);
+		m_provider->Log(("Starting main function"), Platform::Logger::INFO);
 		RunMainFunction(GetMainFunction());
 		m_provider->GetVideo()->EnableQuitShortcuts(true);
 		m_v2LastCamPos = m_provider->GetVideo()->GetCameraPos();
 		m_mainFunctionRunned = true;
-		m_provider->Log(GS_L("Ended main function"), Platform::Logger::INFO);
+		m_provider->Log(("Ended main function"), Platform::Logger::INFO);
 	}
 
 	// removes dead elements on top layer to fill the list once again
@@ -216,9 +180,6 @@ Application::APP_STATUS ETHEngine::Update(
 		RunOnResumeFunction();
 		m_hasBeenResumed = false;
 	}
-
-	//update timer
-	m_timer.CalcLastFrame();
 
 	if (m_pScene)
 		m_pScene->Update(lastFrameDeltaTimeMS, m_backBuffer, m_onSceneUpdateFunction);
@@ -241,7 +202,7 @@ bool ETHEngine::LoadNextSceneIfRequested()
 	{
 		if (!m_pScene)
 		{
-			ShowMessage(GS_L("ETHEngine::StartEngine: no scene has been loaded."), ETH_ERROR);
+			ShowMessage(("ETHEngine::StartEngine: no scene has been loaded."), ETH_ERROR);
 			return false;
 		}
 	}
@@ -253,9 +214,10 @@ void ETHEngine::RenderFrame()
 	m_backBuffer->BeginRendering();
 
 	// draw scene (if there's any)
-	
 	if (m_pScene)
-		m_pScene->RenderScene(IsRoundingUpPosition(), m_backBuffer);
+	{
+		m_pScene->RenderScene(m_backBuffer);
+	}
 
 	m_v2LastCamPos = GetCameraPos();
 
@@ -293,26 +255,26 @@ void ETHEngine::Destroy()
 	m_backBuffer.reset();
 }
 
-bool ETHEngine::PrepareScriptingEngine(const std::vector<gs2d::str_type::string>& definedWords)
+bool ETHEngine::PrepareScriptingEngine(const std::vector<std::string>& definedWords)
 {
 	m_pASEngine = asCreateScriptEngine(ANGELSCRIPT_VERSION);
 	if (!m_pASEngine)
 	{
-		ShowMessage(GS_L("Failed to create AngelScript engine."), ETH_ERROR);
+		ShowMessage(("Failed to create AngelScript engine."), ETH_ERROR);
 		return false;
 	}
 
 	// Set UTF-8 encoding
 	int r = m_pASEngine->SetEngineProperty(asEP_SCRIPT_SCANNER, 1);
-	if (!CheckAngelScriptError((r < 0), GS_L("Failed setting up script scanner.")))
+	if (!CheckAngelScriptError((r < 0), ("Failed setting up script scanner.")))
 		return false;
 
-	if (!CheckAngelScriptError((r < 0), GS_L("Failed while setting up string encoding")))
+	if (!CheckAngelScriptError((r < 0), ("Failed while setting up string encoding")))
 		return false;
 
 	// Message callback
 	r = m_pASEngine->SetMessageCallback(asFUNCTION(MessageCallback), 0, asCALL_CDECL);
-	if (!CheckAngelScriptError((r < 0), GS_L("Failed while setting message callback.")))
+	if (!CheckAngelScriptError((r < 0), ("Failed while setting message callback.")))
 		return false;
 
 	ETHGlobal::RegisterEnumTypes(m_pASEngine);
@@ -324,7 +286,7 @@ bool ETHEngine::PrepareScriptingEngine(const std::vector<gs2d::str_type::string>
 
 	// Exception callback
 	r = m_pScriptContext->SetExceptionCallback(asFUNCTION(ExceptionCallback), 0, asCALL_CDECL);
-	if (!CheckAngelScriptError((r < 0), GS_L("Failed while setting exception callback.")))
+	if (!CheckAngelScriptError((r < 0), ("Failed while setting exception callback.")))
 		return false;
 
 	if (!BuildModule(definedWords))
@@ -336,7 +298,7 @@ bool ETHEngine::PrepareScriptingEngine(const std::vector<gs2d::str_type::string>
 	return true;
 }
 
-static void RegisterDefinedWords(const std::vector<gs2d::str_type::string>& definedWords, CScriptBuilder& builder, const bool isTesting)
+static void RegisterDefinedWords(const std::vector<std::string>& definedWords, CScriptBuilder& builder, const bool isTesting)
 {
 	#if defined(_DEBUG) || defined(DEBUG)
 		builder.DefineWord("DEBUG");
@@ -379,20 +341,20 @@ static void RegisterDefinedWords(const std::vector<gs2d::str_type::string>& defi
 	}
 }
 
-bool ETHEngine::BuildModule(const std::vector<gs2d::str_type::string>& definedWords)
+bool ETHEngine::BuildModule(const std::vector<std::string>& definedWords)
 {
-	const str_type::string resourcePath = m_provider->GetFileIOHub()->GetResourceDirectory();
-	const str_type::string mainScript = resourcePath + ETH_DEFAULT_MAIN_SCRIPT_FILE;
-	const str_type::string byteCodeWriteFile = m_provider->GetByteCodeSaveDirectory() + ETH_DEFAULT_MAIN_BYTECODE_FILE;
-	const str_type::string byteCodeReadFile  = resourcePath + ETH_DEFAULT_MAIN_BYTECODE_FILE;
+	const std::string resourcePath = m_provider->GetFileIOHub()->GetResourceDirectory();
+	const std::string mainScript = resourcePath + ETH_DEFAULT_MAIN_SCRIPT_FILE;
+	const std::string byteCodeWriteFile = m_provider->GetByteCodeSaveDirectory() + ETH_DEFAULT_MAIN_BYTECODE_FILE;
+	const std::string byteCodeReadFile  = resourcePath + ETH_DEFAULT_MAIN_BYTECODE_FILE;
 
 	// line separator to ease script output reading
-	m_provider->Log(GS_L("____________________________\n"), Platform::Logger::INFO);
+	m_provider->Log(("____________________________\n"), Platform::Logger::INFO);
 
 	// if there's a main script file, load the source from text code and compile it
 	if (ETHGlobal::FileExists(mainScript, m_provider->GetFileManager()))
 	{
-		ETH_STREAM_DECL(ssi) << GS_L("Loading game script from source-code: ") << ETH_DEFAULT_MAIN_SCRIPT_FILE << std::endl;
+		ETH_STREAM_DECL(ssi) << ("Loading game script from source-code: ") << ETH_DEFAULT_MAIN_SCRIPT_FILE << std::endl;
 		m_provider->Log(ssi.str(), Platform::Logger::INFO);
 
 		// Load the main script
@@ -402,12 +364,12 @@ bool ETHEngine::BuildModule(const std::vector<gs2d::str_type::string>& definedWo
 
 		int r;
 		r = builder.StartNewModule(m_pASEngine, ETH_SCRIPT_MODULE.c_str());
-		if (!CheckAngelScriptError(r < 0, GS_L("Failed while starting the new module.")))
+		if (!CheckAngelScriptError(r < 0, ("Failed while starting the new module.")))
 			return false;
 
 		r = builder.AddSectionFromFile(mainScript.c_str(), m_provider->GetFileIOHub()->GetResourceDirectory().c_str());
-		str_type::stringstream ss;
-		ss << GS_L("Failed while loading the main script. Verify the ") << mainScript << GS_L(" file");
+		std::stringstream ss;
+		ss << ("Failed while loading the main script. Verify the ") << mainScript << (" file");
 		if (!CheckAngelScriptError(r < 0, ss.str()))
 			return false;
 
@@ -415,9 +377,9 @@ bool ETHEngine::BuildModule(const std::vector<gs2d::str_type::string>& definedWo
 		const VideoPtr& video = m_provider->GetVideo();
 		const unsigned long buildTime = video->GetElapsedTime();
 		r = builder.BuildModule();
-		str_type::stringstream timeStringStream; timeStringStream << GS_L("\nCompile time: ") << video->GetElapsedTime() - buildTime << GS_L(" milliseconds");
+		std::stringstream timeStringStream; timeStringStream << ("\nCompile time: ") << video->GetElapsedTime() - buildTime << (" milliseconds");
 		m_provider->Log(timeStringStream.str(), Platform::Logger::INFO);
-		if (!CheckAngelScriptError(r < 0, GS_L("Failed while building module.")))
+		if (!CheckAngelScriptError(r < 0, ("Failed while building module.")))
 			return false;
 
 		// Gets the recently built module
@@ -430,12 +392,12 @@ bool ETHEngine::BuildModule(const std::vector<gs2d::str_type::string>& definedWo
 			{
 				m_pASModule->SaveByteCode(&stream);
 				stream.CloseW();
-				ETH_STREAM_DECL(ss) << GS_L("ByteCode saved: ") << byteCodeWriteFile;
+				ETH_STREAM_DECL(ss) << ("ByteCode saved: ") << byteCodeWriteFile;
 				m_provider->Log(ss.str(), Platform::Logger::INFO);
 			}
 			else
 			{
-				ETH_STREAM_DECL(ss) << GS_L("Failed while writing the byte code file ") << byteCodeWriteFile;
+				ETH_STREAM_DECL(ss) << ("Failed while writing the byte code file ") << byteCodeWriteFile;
 				m_provider->Log(ss.str(), Platform::Logger::ERROR);
 			}
 		}
@@ -443,18 +405,18 @@ bool ETHEngine::BuildModule(const std::vector<gs2d::str_type::string>& definedWo
 		// write bytecode also on globar external storage place on android 
 		#if ANDROID
 		{
-			const str_type::string globalExternalByteCodeWriteFile = m_provider->GetFileIOHub()->GetGlobalExternalStorageDirectory() + ETH_DEFAULT_MAIN_BYTECODE_FILE;
+			const std::string globalExternalByteCodeWriteFile = m_provider->GetFileIOHub()->GetGlobalExternalStorageDirectory() + ETH_DEFAULT_MAIN_BYTECODE_FILE;
 			ETHBinaryStream stream(m_provider->GetFileManager());
 			if (stream.OpenW(globalExternalByteCodeWriteFile))
 			{
 				m_pASModule->SaveByteCode(&stream);
 				stream.CloseW();
-				ETH_STREAM_DECL(ss) << GS_L("ByteCode saved on global external: ") << globalExternalByteCodeWriteFile;
+				ETH_STREAM_DECL(ss) << ("ByteCode saved on global external: ") << globalExternalByteCodeWriteFile;
 				m_provider->Log(ss.str(), Platform::Logger::INFO);
 			}
 			else
 			{
-				ETH_STREAM_DECL(ss) << GS_L("Failed while writing the byte code file ") << globalExternalByteCodeWriteFile;
+				ETH_STREAM_DECL(ss) << ("Failed while writing the byte code file ") << globalExternalByteCodeWriteFile;
 				m_provider->Log(ss.str(), Platform::Logger::ERROR);
 			}
 		}
@@ -462,7 +424,7 @@ bool ETHEngine::BuildModule(const std::vector<gs2d::str_type::string>& definedWo
 	}
 	else // otherwise, try to load the bytecode
 	{
-		ETH_STREAM_DECL(ss) << GS_L("Loading game script from pre-compiled byte code: ") << ETH_DEFAULT_MAIN_BYTECODE_FILE << std::endl;
+		ETH_STREAM_DECL(ss) << ("Loading game script from pre-compiled byte code: ") << ETH_DEFAULT_MAIN_BYTECODE_FILE << std::endl;
 		m_provider->Log(ss.str(), Platform::Logger::INFO);
 	
 		m_pASModule = m_pASEngine->GetModule(ETH_SCRIPT_MODULE.c_str(), asGM_ALWAYS_CREATE);
@@ -471,7 +433,7 @@ bool ETHEngine::BuildModule(const std::vector<gs2d::str_type::string>& definedWo
 		{
 			if (m_pASModule->LoadByteCode(&stream) < 0)
 			{
-				ETH_STREAM_DECL(ss) << GS_L("Couldn't load game script from pre-compiled byte code: ") << ETH_DEFAULT_MAIN_BYTECODE_FILE;
+				ETH_STREAM_DECL(ss) << ("Couldn't load game script from pre-compiled byte code: ") << ETH_DEFAULT_MAIN_BYTECODE_FILE;
 				m_provider->Log(ss.str(), Platform::Logger::ERROR);
 				stream.CloseR();
 				return false;
@@ -480,12 +442,12 @@ bool ETHEngine::BuildModule(const std::vector<gs2d::str_type::string>& definedWo
 		}
 		else
 		{
-			ETH_STREAM_DECL(ss) << GS_L("Failed while reading the byte code file ") << byteCodeReadFile;
+			ETH_STREAM_DECL(ss) << ("Failed while reading the byte code file ") << byteCodeReadFile;
 			m_provider->Log(ss.str(), Platform::Logger::ERROR);
 			Abort();
 			return false;
 		}
-		m_provider->Log(GS_L("Finished loading bytecode"), Platform::Logger::INFO);
+		m_provider->Log(("Finished loading bytecode"), Platform::Logger::INFO);
 	}
 
 	return true;
@@ -496,17 +458,17 @@ asIScriptFunction* ETHEngine::GetMainFunction() const
 	// finds the main function
 	if (!m_pASModule)
 	{
-		CheckAngelScriptError(true /*error*/, GS_L("Couldn't build scripting module."));
+		CheckAngelScriptError(true /*error*/, ("Couldn't build scripting module."));
 		return 0;
 	}
 
 	asIScriptFunction* mainFunc = m_pASModule->GetFunctionByName(ETH_MAIN_FUNCTION.c_str());
-	ETH_STREAM_DECL(ss) << GS_L("Function not found: ") << ETH_MAIN_FUNCTION;
+	ETH_STREAM_DECL(ss) << ("Function not found: ") << ETH_MAIN_FUNCTION;
 	CheckAngelScriptError((!mainFunc), ss.str());
 	return mainFunc;
 }
 
-bool ETHEngine::CheckAngelScriptError(const bool error, const str_type::string &description)
+bool ETHEngine::CheckAngelScriptError(const bool error, const std::string &description)
 {
 	if (error)
 	{
@@ -524,12 +486,12 @@ void ETHEngine::DrawTopLayer(const unsigned long lastFrameElapsedTimeMS)
 	m_drawableManager.DrawTopLayer(lastFrameElapsedTimeMS, m_provider->GetVideo());
 }
 
-str_type::string ETHEngine::RemoveResourceDirectoryFromSectionString(const str_type::string& section)
+std::string ETHEngine::RemoveResourceDirectoryFromSectionString(const std::string& section)
 {
-	const str_type::string resourceDirectory = m_provider->GetFileIOHub()->GetResourceDirectory();
+	const std::string resourceDirectory = m_provider->GetFileIOHub()->GetResourceDirectory();
 	if (section.find(resourceDirectory) == 0)
 	{
-		return section.substr(resourceDirectory.length(), str_type::string::npos);
+		return section.substr(resourceDirectory.length(), std::string::npos);
 	}
 	else
 	{
@@ -544,32 +506,32 @@ void ETHEngine::MessageCallback(const asSMessageInfo *msg)
 	const bool differentRow = (msg->row != lastRow);
 	lastRow = msg->row;
 
-	str_type::string typeStr = GS_L("");
+	std::string typeStr = ("");
 	Platform::Logger::TYPE type;
 	switch (msg->type)
 	{
 	case asMSGTYPE_WARNING:
 		type = Platform::Logger::WARNING;
-		typeStr = GS_L("WARN ");
+		typeStr = ("WARN ");
 		break;
 	case asMSGTYPE_ERROR:
 		type = Platform::Logger::ERROR;
-		typeStr = GS_L("ERROR");
+		typeStr = ("ERROR");
 		break;
 	default:
-		typeStr = GS_L("INFO ");
+		typeStr = ("INFO ");
 		type = Platform::Logger::INFO;
 	}
 
-	const str_type::string section = RemoveResourceDirectoryFromSectionString(msg->section);
+	const std::string section = RemoveResourceDirectoryFromSectionString(msg->section);
 
-	str_type::stringstream ss;
+	std::stringstream ss;
 
 	if (differentRow)
 		ss << std::endl;
 
-	ss << GS_L("[") << typeStr << GS_L("] ");
-	ss << section << GS_L(", line ") << msg->row << GS_L(": ");
+	ss << ("[") << typeStr << ("] ");
+	ss << section << (", line ") << msg->row << (": ");
 	ss << msg->message;
 
 	m_provider->Log(ss.str(), type);
@@ -577,22 +539,22 @@ void ETHEngine::MessageCallback(const asSMessageInfo *msg)
 
 void ETHEngine::ExceptionCallback(asIScriptContext *ctx, void *param)
 {
-	GS2D_UNUSED_ARGUMENT(param);
+	UNUSED_ARGUMENT(param);
 
 	asIScriptFunction* function = ctx->GetExceptionFunction();
 
-	const str_type::string section = RemoveResourceDirectoryFromSectionString(function->GetScriptSectionName());
-	str_type::stringstream ss;
-	ss << GS_L("Exception: ") << ctx->GetExceptionString() << std::endl << GS_L("  Callstack:") << std::endl;
+	const std::string section = RemoveResourceDirectoryFromSectionString(function->GetScriptSectionName());
+	std::stringstream ss;
+	ss << ("Exception: ") << ctx->GetExceptionString() << std::endl << ("  Callstack:") << std::endl;
 
 	for (std::size_t n = 0; n < ctx->GetCallstackSize(); n++)
 	{
 		asIScriptFunction* stackedFunction = ctx->GetFunction(static_cast<asUINT>(n));
 		if (stackedFunction != NULL)
 		{
-			const str_type::string section = RemoveResourceDirectoryFromSectionString(stackedFunction->GetScriptSectionName());
-			ss << GS_L("    ") << stackedFunction->GetDeclaration()
-			   << GS_L(" (") << section << GS_L(", ") << ctx->GetLineNumber(static_cast<asUINT>(n)) << GS_L(")") << std::endl;
+			const std::string section = RemoveResourceDirectoryFromSectionString(stackedFunction->GetScriptSectionName());
+			ss << ("    ") << stackedFunction->GetDeclaration()
+			   << (" (") << section << (", ") << ctx->GetLineNumber(static_cast<asUINT>(n)) << (")") << std::endl;
 		}
 	}
 	ss << std::endl;
@@ -606,9 +568,5 @@ void ETHEngine::ExceptionCallback(asIScriptContext *ctx, void *param)
 
 void ETHEngine::Restore()
 {
-	if (m_provider->IsRichLightingEnabled() && m_useLightmaps && m_pScene)
-	{
-		m_pScene->GenerateLightmaps();
-	}
 	m_hasBeenResumed = true;
 }

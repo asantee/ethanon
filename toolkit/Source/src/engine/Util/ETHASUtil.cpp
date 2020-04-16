@@ -1,25 +1,3 @@
-/*--------------------------------------------------------------------------------------
- Ethanon Engine (C) Copyright 2008-2013 Andre Santee
- http://ethanonengine.com/
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this
-	software and associated documentation files (the "Software"), to deal in the
-	Software without restriction, including without limitation the rights to use, copy,
-	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-	and to permit persons to whom the Software is furnished to do so, subject to the
-	following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-	PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-	CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-	OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
---------------------------------------------------------------------------------------*/
-
 #include "ETHASUtil.h"
 
 #include <iostream>
@@ -30,14 +8,25 @@
 
 #include "../../gs2d/src/Unicode/utf8/utf8.h"
 
+#include <inttypes.h>
+
+#ifdef _MSC_VER
+  #define GS2D_SSCANF sscanf_s
+#else
+  #define GS2D_SSCANF sscanf
+#endif
+
+#define UNUSED_ARGUMENT(argument) ((void)(argument))
+
 namespace ETHGlobal {
+
 void ExecuteContext(asIScriptContext *pContext, asIScriptFunction* func, const bool prepare)
 {
 	if (prepare)
 	{
 		if (pContext->Prepare(func) < 0)
 		{
-			ETH_STREAM_DECL(ss) << GS_L("(ExecuteContext) Couldn't prepare context for function  ID ") << func->GetId();
+			ETH_STREAM_DECL(ss) << ("(ExecuteContext) Couldn't prepare context for function  ID ") << func->GetId();
 			ETHResourceProvider::Log(ss.str(), Platform::Logger::ERROR);
 			return;
 		}
@@ -46,38 +35,43 @@ void ExecuteContext(asIScriptContext *pContext, asIScriptFunction* func, const b
 	pContext->Execute();
 }
 
-void CheckFunctionSeekError(const int id, const str_type::string& function)
+void CheckFunctionSeekError(const int id, const std::string& function)
 {
-	str_type::stringstream ss;
+	std::stringstream ss;
 	switch (id)
 	{
 	case asERROR:
-		ss << GS_L("Callback function seeking error - Invalid module (") << function << GS_L(").");
+		ss << ("Callback function seeking error - Invalid module (") << function << (").");
 		ETHResourceProvider::Log(ss.str(), Platform::Logger::ERROR);
 		break;
 	case asMULTIPLE_FUNCTIONS:
-		ss << GS_L("\n*Script error:\nCallback function seeking error - there are multiple functions with this name (") << function << GS_L(").");
+		ss << ("\n*Script error:\nCallback function seeking error - there are multiple functions with this name (") << function << (").");
 		ETHResourceProvider::Log(ss.str(), Platform::Logger::ERROR);
 		break;
 	};
 }
 
-asIScriptFunction* FindCallbackFunction(asIScriptModule* pModule, const ETHScriptEntity* entity, const str_type::string& prefix, const Platform::Logger& logger)
+asIScriptFunction* FindCallbackFunction(asIScriptModule* pModule, const ETHScriptEntity* entity, const std::string& prefix, const Platform::Logger& logger)
 {
-	const str_type::string entityName = Platform::RemoveExtension(entity->GetEntityName().c_str());
-	str_type::stringstream funcName;
+	const std::string entityName = Platform::RemoveExtension(entity->GetEntityName().c_str());
+	std::stringstream funcName;
 	funcName << prefix << entityName;
 	asIScriptFunction* func = pModule->GetFunctionByName(funcName.str().c_str());
 
 	// TODO/TO-DO: handle function overload ambiguity
-	GS2D_UNUSED_ARGUMENT(logger);
+	UNUSED_ARGUMENT(logger);
 	/*if (id == asMULTIPLE_FUNCTIONS)
 	{
-		str_type::stringstream ss;
-		ss << GS_L("ETHScene::FindCallbackFunction: found multiple functions named (") << funcName.str() << GS_L(").");
+		std::stringstream ss;
+		ss << ("ETHScene::FindCallbackFunction: found multiple functions named (") << funcName.str() << (").");
 		logger.Log(ss.str(), Platform::FileLogger::ERROR);
 	}*/
 	return func;
+}
+
+void PrintException(asIScriptContext* pContext) {
+	std::cout  << "Function " << pContext->GetExceptionFunction() << "at line " << pContext->GetLineNumber() << ": " << pContext->GetExceptionString() << std::endl;
+	return;
 }
 
 bool RunEntityCallback(asIScriptContext* pContext, ETHScriptEntity* entity, asIScriptFunction* func)
@@ -103,7 +97,7 @@ bool IsTrue(const std::string& source)
 		return false;
 }
 
-bool FileExists(const str_type::string& file, const Platform::FileManagerPtr& fileManager)
+bool FileExists(const std::string& file, const Platform::FileManagerPtr& fileManager)
 {
 	return fileManager->FileExists(file);
 }
@@ -117,7 +111,7 @@ std::string AppendExtensionIfNeeded(std::string source, const std::string& ext)
 	return source;
 }
 
-str_type::string GetDataResourceFullPath(const str_type::string& path, const str_type::string& file)
+std::string GetDataResourceFullPath(const std::string& path, const std::string& file)
 {
 	return path + file;
 }
@@ -142,86 +136,86 @@ bool ToBool(const ETH_BOOL b)
 	return (b == ETH_TRUE);
 }
 
-float ParseFloat(const str_type::char_t* str)
+float ParseFloat(const char* str)
 {
 	float f = 0.0f;
-	GS2D_SSCANF(str, GS_L("%f"), &f);
+	GS2D_SSCANF(str, ("%f"), &f);
 	return f;
 }
 
-double ParseDouble(const str_type::char_t* str)
+double ParseDouble(const char* str)
 {
 	double d = 0.0;
-	GS2D_SSCANF(str, GS_L("%lf"), &d);
+	GS2D_SSCANF(str, ("%lf"), &d);
 	return d;
 }
 
-int ParseInt(const str_type::char_t* str)
+int32_t ParseInt(const char* str)
 {
-	int n = 0;
-	GS2D_SSCANF(str, GS_L("%d"), &n);
+	int32_t n = 0;
+	GS2D_SSCANF(str, "%" SCNd32, &n);
 	return n;
 }
 
-unsigned int ParseUInt(const str_type::char_t* str)
+uint32_t ParseUInt(const char* str)
 {
-	unsigned int n = 0;
-	GS2D_SSCANF(str, GS_L("%u"), &n);
+	uint32_t n = 0;
+	GS2D_SSCANF(str, "%" SCNu32, &n);
 	return n;
 }
 
-long long ParseInt64(const str_type::char_t* str)
+int64_t ParseInt64(const char* str)
 {
-	long long n = 0;
-	GS2D_SSCANF(str, GS_L("%lld"), &n);
+	int64_t n = 0; SCNd64;
+	GS2D_SSCANF(str, "%" SCNd64, &n);
 	return n;
 }
 
-unsigned long long ParseUInt64(const str_type::char_t* str)
+uint64_t ParseUInt64(const char* str)
 {
-	unsigned long long n = 0;
-	GS2D_SSCANF(str, GS_L("%llu"), &n);
+	uint64_t n = 0;
+	GS2D_SSCANF(str, "%" SCNu64, &n);
 	return n;
 }
 	
-float ParseFloatStd(const str_type::string& str)
+float ParseFloatStd(const std::string& str)
 {
 	return ParseFloat(str.c_str());
 }
 
-double ParseDoubleStd(const str_type::string& str)
+double ParseDoubleStd(const std::string& str)
 {
 	return ParseDouble(str.c_str());
 }
-	
-int ParseIntStd(const str_type::string& str)
+
+int32_t ParseIntStd(const std::string& str)
 {
 	return ParseInt(str.c_str());
 }
 
-unsigned int ParseUIntStd(const str_type::string& str)
+uint32_t ParseUIntStd(const std::string& str)
 {
 	return ParseUInt(str.c_str());
 }
 
-long long ParseInt64Std(const str_type::string& str)
+int64_t ParseInt64Std(const std::string& str)
 {
 	return ParseInt64(str.c_str());
 }
 
-unsigned long long ParseUInt64Std(const str_type::string& str)
+uint64_t ParseUInt64Std(const std::string& str)
 {
 	return ParseUInt64(str.c_str());
 }
 	
-bool IsValidUTF8(const str_type::string& str)
+bool IsValidUTF8(const std::string& str)
 {
 	return utf8::is_valid(&str[0], &str[0] + str.length());
 }
 
-unsigned int DistanceUTF8(const str_type::string& str)
+uint32_t DistanceUTF8(const std::string& str)
 {
-	return static_cast<unsigned int>(utf8::distance(&str[0], &str[0] + str.length()));
+	return static_cast<uint32_t>(utf8::distance(&str[0], &str[0] + str.length()));
 }
 
 bool IsSphereInScreen(const Vector3& pos, const float radius, const Vector2& zAxisDir, const VideoPtr& video)

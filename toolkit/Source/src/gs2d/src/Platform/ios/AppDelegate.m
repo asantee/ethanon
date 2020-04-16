@@ -1,29 +1,24 @@
-//
-//  AppDelegate.m
-//  iOSBase
-//
-//  Created by Andre Santee on 8/12/14.
-//  Copyright (c) 2014 Asantee Games. All rights reserved.
-//
-
 #import "AppDelegate.h"
 
 @interface AppDelegate ()
-{
-	BOOL wasBackgroundMusicPlaying;
-}
 
 @end
 
 @implementation AppDelegate
 
+BOOL justResumed = NO;
+
++ (BOOL)isJustResumed {
+	return justResumed;
+}
+
++ (void)setJustResumed:(const bool) resumed {
+	justResumed = resumed;
+}
+
 - (id)init 
 {
 	self = [super init];
-	if (self) 
-	{
-		wasBackgroundMusicPlaying = FALSE;
-	}
 	return self;
 }
 
@@ -49,6 +44,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
 	// Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+	justResumed = YES;
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
