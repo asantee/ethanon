@@ -155,7 +155,7 @@ bool GLSDLVideo::StartApplication(
     m_maximizable = maximizable;
     m_sync = sync;
 
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) < 0)
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER) < 0)
     {
         Message("SDL initialization failed", GSMT_ERROR);
         return false;
