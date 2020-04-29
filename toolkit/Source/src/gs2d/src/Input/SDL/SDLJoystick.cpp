@@ -8,12 +8,13 @@ namespace gs2d {
 #define GS_SDL_MAX_JAXIS (32767)
 #define GS_JOYSTICK_MIN_ARROW_VALUE (0.8f)
 
-SDLJoystick::Joystick::Joystick() :
-	sdlJoystick(0),
-	status(GSJS_INVALID),
-	z(0.0f),
-	rudder(0.0f),
-	nButtons(0)
+	SDLJoystick::Joystick::Joystick() :
+		sdlJoystick(0),
+		sdlGameController(0),
+		status(GSJS_INVALID),
+		z(0.0f),
+		rudder(0.0f),
+		nButtons(0)
 {
 }
 
@@ -25,15 +26,24 @@ SDLJoystick::SDLJoystick(const bool showJoystickWarnings) :
 
 static bool IsArrowPressed(SDLJoystick::Joystick& joy, const GS_JOYSTICK_BUTTON button, float axisValue)
 {
-	if (((button == GSB_DOWN || button == GSB_RIGHT) && axisValue >= GS_JOYSTICK_MIN_ARROW_VALUE) ||
-		((button == GSB_UP   || button == GSB_LEFT ) && axisValue <=-GS_JOYSTICK_MIN_ARROW_VALUE))
-	{
-		return true;
+	bool pressed = false;
+
+	switch (button) {
+	case GSB_DOWN:
+		pressed = SDL_GameControllerGetButton(joy.sdlGameController, SDL_CONTROLLER_BUTTON_DPAD_DOWN) || (axisValue >= GS_JOYSTICK_MIN_ARROW_VALUE);
+		break;
+	case GSB_RIGHT:
+		pressed = SDL_GameControllerGetButton(joy.sdlGameController, SDL_CONTROLLER_BUTTON_DPAD_RIGHT) || (axisValue >= GS_JOYSTICK_MIN_ARROW_VALUE);
+		break;
+
+	case GSB_UP:
+		pressed = SDL_GameControllerGetButton(joy.sdlGameController, SDL_CONTROLLER_BUTTON_DPAD_UP) || (axisValue <= -GS_JOYSTICK_MIN_ARROW_VALUE);
+		break;
+	case GSB_LEFT:
+		pressed = SDL_GameControllerGetButton(joy.sdlGameController, SDL_CONTROLLER_BUTTON_DPAD_LEFT) || (axisValue <= -GS_JOYSTICK_MIN_ARROW_VALUE);
+		break;
 	}
-	else
-	{
-		return false;
-	}
+	return pressed;
 }
 
 static void UpdateJoystickAxes(SDLJoystick::Joystick& joy)
@@ -102,10 +112,23 @@ bool SDLJoystick::Update()
 			{
 				continue;
 			}
-
-			for (unsigned int t = 0; t < GSB_MAX_BUTTONS; t++)
+			if (m_joysticks[j].sdlGameController)
 			{
-				if (t < m_joysticks[j].nButtons)
+				m_joysticks[j].state[GSB_A].Update((bool)SDL_GameControllerGetButton(m_joysticks[j].sdlGameController, SDL_CONTROLLER_BUTTON_A));
+				m_joysticks[j].state[GSB_B].Update((bool)SDL_GameControllerGetButton(m_joysticks[j].sdlGameController, SDL_CONTROLLER_BUTTON_B));
+				m_joysticks[j].state[GSB_X].Update((bool)SDL_GameControllerGetButton(m_joysticks[j].sdlGameController, SDL_CONTROLLER_BUTTON_X));
+				m_joysticks[j].state[GSB_Y].Update((bool)SDL_GameControllerGetButton(m_joysticks[j].sdlGameController, SDL_CONTROLLER_BUTTON_Y));
+				m_joysticks[j].state[GSB_LEFT_SHOULDER].Update((bool)SDL_GameControllerGetButton(m_joysticks[j].sdlGameController, SDL_CONTROLLER_BUTTON_LEFTSHOULDER));
+				m_joysticks[j].state[GSB_RIGHT_SHOULDER].Update((bool)SDL_GameControllerGetButton(m_joysticks[j].sdlGameController, SDL_CONTROLLER_BUTTON_RIGHTSHOULDER));
+				m_joysticks[j].state[GSB_LEFT_STICK].Update((bool)SDL_GameControllerGetButton(m_joysticks[j].sdlGameController, SDL_CONTROLLER_BUTTON_LEFTSTICK));
+				m_joysticks[j].state[GSB_RIGHT_STICK].Update((bool)SDL_GameControllerGetButton(m_joysticks[j].sdlGameController, SDL_CONTROLLER_BUTTON_RIGHTSTICK));
+				m_joysticks[j].state[GSB_START].Update((bool)SDL_GameControllerGetButton(m_joysticks[j].sdlGameController, SDL_CONTROLLER_BUTTON_START));
+				m_joysticks[j].state[GSB_SELECT].Update((bool)SDL_GameControllerGetButton(m_joysticks[j].sdlGameController, SDL_CONTROLLER_BUTTON_BACK));
+			}
+			// Fallback generic joystick
+			else
+			{
+				for (unsigned int t = 0; (t < m_joysticks[j].nButtons) &&  (t < GSB_MAX_BUTTONS); t++)
 				{
 					const bool isPressed = SDL_JoystickGetButton(m_joysticks[j].sdlJoystick, static_cast<int>(t));
 					m_joysticks[j].state[t].Update(isPressed);
@@ -137,21 +160,37 @@ bool SDLJoystick::DetectJoysticks()
 			ShowMessage("No joysticks were detected", GSMT_INFO);
 		return false;
 	}
-
 	m_joysticks.clear();
 	m_joysticks.resize(m_nDetectedJoysticks);
 	for (unsigned int t = 0; t < m_nDetectedJoysticks; t++)
 	{
-		m_joysticks[t].sdlJoystick = SDL_JoystickOpen(t);
-		if (m_joysticks[t].sdlJoystick && SDL_JoystickGetAttached(m_joysticks[t].sdlJoystick))
-		{
+		if (SDL_IsGameController(t)) {
+			char* mapping;
+			SDL_Log("Index \'%i\' is a compatible controller, named \'%s\'", t, SDL_GameControllerNameForIndex(t));
+			m_joysticks[t].sdlGameController = SDL_GameControllerOpen(t);
+			m_joysticks[t].sdlJoystick = SDL_GameControllerGetJoystick(m_joysticks[t].sdlGameController);
+			mapping = SDL_GameControllerMapping(m_joysticks[t].sdlGameController);
+			SDL_Log("Controller %i is mapped as \"%s\".", t, mapping);
+			SDL_free(mapping);
 			m_joysticks[t].status = GSJS_DETECTED;
 			m_joysticks[t].nButtons = SDL_JoystickNumButtons(m_joysticks[t].sdlJoystick);
 		}
 		else
 		{
-			m_joysticks[t].nButtons = 0;
-			m_joysticks[t].status = GSJS_INVALID;
+			// Fallback to generic
+			m_joysticks[t].sdlJoystick = SDL_JoystickOpen(t);
+			if (m_joysticks[t].sdlJoystick && SDL_JoystickGetAttached(m_joysticks[t].sdlJoystick))
+			{
+				m_joysticks[t].status = GSJS_DETECTED;
+				m_joysticks[t].nButtons = SDL_JoystickNumButtons(m_joysticks[t].sdlJoystick);
+			}
+			else
+			{
+				m_joysticks[t].nButtons = 0;
+				m_joysticks[t].status = GSJS_INVALID;
+				SDL_Log("Index \'%i\' is not a compatible controller.", t);
+			}
+
 		}
 	}
 	return true;

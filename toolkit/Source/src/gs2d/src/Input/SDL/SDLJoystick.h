@@ -19,6 +19,7 @@ public:
 	{
 	public:
 		Joystick();
+		SDL_GameController* sdlGameController;
 		SDL_Joystick* sdlJoystick;
 		GS_JOYSTICK_STATUS status;
 		math::Vector2 xy;
