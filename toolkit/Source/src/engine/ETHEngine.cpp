@@ -22,6 +22,7 @@ using namespace gs2d::math;
 
 const std::string ETHEngine::ETH_SCRIPT_MODULE(("EthanonModule"));
 const std::string ETHEngine::SCRIPT_EXCEPTION_LOG_SHARED_DATA_KEY(("com.ethanonengine.scriptExceptions"));
+const std::string ETHEngine::SD_CURRENT_TIME_MILLIS("com.ethanonengine.data.currentTimeMillis");
 
 gs2d::BaseApplicationPtr gs2d::CreateBaseApplication(const bool autoStartScriptEngine)
 {
@@ -49,6 +50,7 @@ ETHEngine::ETHEngine(const bool testing, const bool compileAndRun, const bool au
 	m_autoStartScriptEngine(autoStartScriptEngine)
 {
 	Application::SharedData.Create(SCRIPT_EXCEPTION_LOG_SHARED_DATA_KEY, (""), false);
+	Application::SharedData.Create(SD_CURRENT_TIME_MILLIS, "0", false);
 }
 
 ETHEngine::~ETHEngine()
@@ -161,6 +163,14 @@ Application::APP_STATUS ETHEngine::Update(
 		m_v2LastCamPos = m_provider->GetVideo()->GetCameraPos();
 		m_mainFunctionExecuted = true;
 		m_provider->Log(("Ended main function"), Platform::Logger::INFO);
+	}
+
+	// updates system clock shared data
+	{
+		time_t seconds = time(NULL);
+		const uint64_t timeMS = static_cast<uint64_t>(seconds) * 1000;
+		std::ostringstream o; o << timeMS;
+		Application::SharedData.Set(SD_CURRENT_TIME_MILLIS, o.str());
 	}
 
 	// removes dead elements on top layer to fill the list once again

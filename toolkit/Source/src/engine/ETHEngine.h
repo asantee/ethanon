@@ -23,6 +23,8 @@ class ETHEngine : public gs2d::BaseApplication, public ETHScriptWrapper
 	const bool m_testing, m_compileAndRun, m_autoStartScriptEngine;
 	bool m_hasBeenResumed, m_scriptEngineReady, m_mainFunctionExecuted;
 
+	static const std::string SD_CURRENT_TIME_MILLIS;
+
 	static const std::string SCRIPT_EXCEPTION_LOG_SHARED_DATA_KEY;
 	static void MessageCallback(const asSMessageInfo* msg);
 	static void ExceptionCallback(asIScriptContext* ctx, void* param);
