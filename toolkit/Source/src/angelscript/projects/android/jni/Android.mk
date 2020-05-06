@@ -38,6 +38,7 @@ LOCAL_MODULE := libangelscript
 LOCAL_CPP_FEATURES += rtti exceptions
 LOCAL_SRC_FILES := $(wildcard $(SDK_BASE_PATH)/angelscript/source/*.S)
 LOCAL_SRC_FILES += $(wildcard $(SDK_BASE_PATH)/angelscript/source/*.cpp)
+LOCAL_CFLAGS    := -DANDROID=1 -DAS_MAX_PORTABILITY -DAS_NO_THREADS
 LOCAL_PATH := .
 LOCAL_ARM_MODE := arm
 include $(BUILD_STATIC_LIBRARY)
