@@ -396,8 +396,21 @@ bool GLSDLVideo::ResetVideoMode(
 
 math::Vector2 GLSDLVideo::CatchBestScreenResolution() const
 {
-	const VIDEO_MODE& highest = m_videoModes[m_videoModes.size() - 1];
-	return math::Vector2(static_cast<float>(highest.width), static_cast<float>(highest.height));
+	SDL_DisplayMode current_dm;
+	math::Vector2 screen;
+	if (SDL_GetDesktopDisplayMode(0, &current_dm) == 0)
+	{
+		screen.x = static_cast<float>(current_dm.w);
+		screen.y = static_cast<float>(current_dm.h);
+	}
+	else
+	{
+		const VIDEO_MODE& highest = m_videoModes[m_videoModes.size() - 1];
+		screen.x = static_cast<float>(highest.width);
+		screen.y = static_cast<float>(highest.height);
+	}
+	return screen;
+
 }
 
 // Window and application implementations
