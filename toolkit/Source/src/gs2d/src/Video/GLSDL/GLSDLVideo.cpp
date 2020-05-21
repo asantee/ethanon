@@ -209,8 +209,10 @@ bool GLSDLVideo::StartApplication(
 
 void GLSDLVideo::Enable2DStates()
 {
-	const math::Vector2 screenSize(GetScreenSizeInPixels());
-	glViewport(0, 0, static_cast<GLsizei>(screenSize.x), static_cast<GLsizei>(screenSize.y));
+	int w, h;
+	SDL_GL_GetDrawableSize(m_window, &w, &h);
+	glViewport(0, 0, static_cast<GLsizei>(w), static_cast<GLsizei>(h));
+
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DITHER);
 	glDepthFunc(GL_LEQUAL);
@@ -394,15 +396,28 @@ bool GLSDLVideo::ResetVideoMode(
 
 math::Vector2 GLSDLVideo::CatchBestScreenResolution() const
 {
-	const VIDEO_MODE& highest = m_videoModes[m_videoModes.size() - 1];
-	return math::Vector2(static_cast<float>(highest.width), static_cast<float>(highest.height));
+	SDL_DisplayMode current_dm;
+	math::Vector2 screen;
+	if (SDL_GetDesktopDisplayMode(0, &current_dm) == 0)
+	{
+		screen.x = static_cast<float>(current_dm.w);
+		screen.y = static_cast<float>(current_dm.h);
+	}
+	else
+	{
+		const VIDEO_MODE& highest = m_videoModes[m_videoModes.size() - 1];
+		screen.x = static_cast<float>(highest.width);
+		screen.y = static_cast<float>(highest.height);
+	}
+	return screen;
+
 }
 
 // Window and application implementations
 
 Uint32 GLSDLVideo::AssembleFlags(const bool windowed, const bool maximizable, const bool sync)
 {
-	Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
+	Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI;
 
 	if (!windowed)
 		flags |= SDL_WINDOW_FULLSCREEN;
@@ -411,7 +426,6 @@ Uint32 GLSDLVideo::AssembleFlags(const bool windowed, const bool maximizable, co
 
 	return flags;
 }
-
 
 Video::VIDEO_MODE GLSDLVideo::GetVideoMode(const unsigned int modeIdx) const
 {

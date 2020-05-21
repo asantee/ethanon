@@ -170,6 +170,9 @@ echo 704920 /a &gt; $(OutputPath)steam_appid.txt</Command>
       <Message>
       </Message>
     </CustomBuildStep>
+    <Manifest>
+      <EnableDpiAwareness>PerMonitorHighDPIAware</EnableDpiAwareness>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
