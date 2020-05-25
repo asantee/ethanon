@@ -1958,8 +1958,7 @@
 				LIBRARY_SEARCH_PATHS = ../../../../src/gs2d/vendors/fmod/lib;
 				OTHER_LDFLAGS = (
 					"-ObjC",
-					"-lfmodL_iphoneos",
-					"-lfmodL_iphonesimulator",
+					"-lfmodL_$PLATFORM_NAME",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1993,8 +1992,7 @@
 				LIBRARY_SEARCH_PATHS = ../../../../src/gs2d/vendors/fmod/lib;
 				OTHER_LDFLAGS = (
 					"-ObjC",
-					"-lfmod_iphoneos",
-					"-lfmod_iphonesimulator",
+					"-lfmod_$PLATFORM_NAME",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
