@@ -10,7 +10,10 @@ AudioSamplePtr FMAudioContext::LoadSampleFromFile(
 	const Audio::SAMPLE_TYPE type)
 {
 	AudioSamplePtr sample = AudioSamplePtr(new FMAudioSample);
-	sample->LoadSampleFromFile(weak_this, fileName, fileManager, type);
+	if (!sample->LoadSampleFromFile(weak_this, fileName, fileManager, type))
+	{
+		sample = nullptr;
+	}
 	return sample;
 }
 
@@ -32,7 +35,8 @@ FMAudioSample::FMAudioSample() :
 	m_speed(1.0f),
 	m_loop(false),
 	m_pan(0.0f),
-	m_type(Audio::UNKNOWN_TYPE)
+	m_type(Audio::UNKNOWN_TYPE),
+	m_fileName("")
 {
 }
 
@@ -46,6 +50,37 @@ FMAudioSample::~FMAudioSample()
 	m_logger.Log(m_fileName + " file deleted", Platform::FileLogger::INFO);
 }
 
+/// <summary>
+/// Load sample audio from file to memory, through the FileManager handler, then creates FMod Audio Sample from memory.
+/// </summary>
+/// <param name="audio">Pointer to audio object</param>
+/// <param name="fileName">File name to open</param>
+/// <param name="fileManager">File manager instance</param>
+/// <param name="type">Type of audio sample</param>
+/// <returns>True on success, False on fail</returns>
+
+bool FMAudioSample::LoadSampleFromFile(
+	AudioWeakPtr audio,
+	const std::string& fileName,
+	const Platform::FileManagerPtr& fileManager,
+	const Audio::SAMPLE_TYPE type)
+{
+	m_fileName = fileName;
+	m_type = type;
+	Platform::FileBuffer out;
+	fileManager->GetFileBuffer(m_fileName, out);
+	if (!out)
+	{
+		m_logger.Log(m_fileName + " could not load buffer", Platform::FileLogger::ERROR);
+		return false;
+	}
+
+	return LoadSampleFromFileInMemory(audio, out->GetAddress(), out->GetBufferSize(), m_type);
+}
+
+////////////////////////////////////////////////////////
+// current old, limited, broken, sample from file ///////////////
+/*
 bool FMAudioSample::LoadSampleFromFile(
 	AudioWeakPtr audio,
 	const std::string& fileName,
@@ -54,6 +89,7 @@ bool FMAudioSample::LoadSampleFromFile(
 {
 	m_type = type;
 	m_fileName = fileName;
+
 	try
 	{
 		Audio *pAudio = audio.lock().get();
@@ -67,31 +103,76 @@ bool FMAudioSample::LoadSampleFromFile(
 		return false;
 	}
 
-	if (FMAudioContext::IsStreamable(type))
+	if (FMAudioContext::IsStreamable(m_type))
 	{
-		const FMOD_RESULT result = m_system->createStream(fileName.c_str(), FMOD_DEFAULT, 0, &m_sound);
+		const FMOD_RESULT result = m_system->createStream(m_fileName.c_str(), FMOD_DEFAULT, 0, &m_sound);
 		if (FMOD_ERRCHECK(result, m_logger))
 			return false;
 	}
 	else
 	{
-		const FMOD_RESULT result = m_system->createSound(fileName.c_str(), FMOD_DEFAULT, 0, &m_sound);
+		const FMOD_RESULT result = m_system->createSound(m_fileName.c_str(), FMOD_DEFAULT, 0, &m_sound);
 		if (FMOD_ERRCHECK(result, m_logger))
 			return false;
 	}
 
 	m_logger.Log(m_fileName + " file loaded", Platform::FileLogger::INFO);
 	return true;
-}
+}*/
+/*/////////////////////////////////////////*/
 
+/// <summary>
+/// Create FMod sample audio from buffer in memory
+/// </summary>
+/// <param name="audio">Pointer to audio object</param>
+/// <param name="pBuffer">Buffer pointer to sample data</param>
+/// <param name="bufferLength">Size of sample data</param>
+/// <param name="type">Type of audio sample</param>
+/// <returns>True on success, False on fail</returns>
 bool FMAudioSample::LoadSampleFromFileInMemory(
 	AudioWeakPtr audio,
-	void *pBuffer,
+	void* pBuffer,
 	const unsigned int bufferLength,
 	const Audio::SAMPLE_TYPE type)
 {
-	// TODO
-	return false;
+	try
+	{
+		Audio* pAudio = audio.lock().get();
+		m_system = boost::any_cast<FMOD::System*>(pAudio->GetAudioContext());
+	}
+	catch (const boost::bad_any_cast&)
+	{
+		std::stringstream ss;
+		ss << "FMAudioSample::LoadSampleFromFileInMemory: Invalid fmod system";
+		m_logger.Log(ss.str(), Platform::FileLogger::ERROR);
+		return false;
+	}
+
+	FMOD_CREATESOUNDEXINFO audioInfo;
+	memset(&audioInfo, 0, sizeof(FMOD_CREATESOUNDEXINFO));
+	
+	audioInfo.cbsize = sizeof(FMOD_CREATESOUNDEXINFO);
+	audioInfo.length = static_cast<unsigned int>(bufferLength);
+	
+	// Open file from memory and create uncompressed sample, doing it on the fly will cause
+	// some delay.
+	FMOD_MODE mode = FMOD_OPENMEMORY | FMOD_CREATESAMPLE;
+
+	// if is streamable type, use CREATECOMPRESSEDSAMPLE and add FMOD_CREATESTREAM flag to mode
+	// 'cause it is music and uncompress it in memory will use a lot of resources
+	// avoids a big if brach calling createStream function, wich by the docs, do the same.
+	// we cant use FMOD_OPENMEMORY_POINT and need to let fmod duplicate it because it allocates
+	// extra bytes on the buffer on compressed files, for mixing and other stuff.
+	if (FMAudioContext::IsStreamable(type))
+		FMOD_MODE mode = FMOD_OPENMEMORY | FMOD_CREATECOMPRESSEDSAMPLE | FMOD_CREATESTREAM;
+
+	const FMOD_RESULT result = m_system->createSound(static_cast<char*>(pBuffer), mode, &audioInfo, &m_sound);
+
+	if (FMOD_ERRCHECK(result, m_logger))
+		return false;
+
+	m_logger.Log(m_fileName + " file loaded", Platform::FileLogger::INFO);
+	return true;
 }
 
 bool FMAudioSample::Play()
