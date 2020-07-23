@@ -149,6 +149,8 @@ bool FMAudioSample::LoadSampleFromFileInMemory(
 	}
 
 	FMOD_CREATESOUNDEXINFO audioInfo;
+	// Clear the structure to avoid thrash
+	// it could have a constructor
 	memset(&audioInfo, 0, sizeof(FMOD_CREATESOUNDEXINFO));
 	
 	audioInfo.cbsize = sizeof(FMOD_CREATESOUNDEXINFO);
@@ -160,7 +162,7 @@ bool FMAudioSample::LoadSampleFromFileInMemory(
 
 	// if is streamable type, use CREATECOMPRESSEDSAMPLE and add FMOD_CREATESTREAM flag to mode
 	// 'cause it is music and uncompress it in memory will use a lot of resources
-	// avoids a big if brach calling createStream function, wich by the docs, do the same.
+	// avoids a big if to call createStream function, wich by the docs, do the same.
 	// we cant use FMOD_OPENMEMORY_POINT and need to let fmod duplicate it because it allocates
 	// extra bytes on the buffer on compressed files, for mixing and other stuff.
 	if (FMAudioContext::IsStreamable(type))

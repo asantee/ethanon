@@ -4,7 +4,7 @@
 #include "../../Audio.h"
 #include "../../Platform/FileLogger.h"
 
-#include <fmod.hpp>
+#include "inc/fmod.hpp"
 
 #include <boost/weak_ptr.hpp>
 

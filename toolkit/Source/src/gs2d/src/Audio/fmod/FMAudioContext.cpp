@@ -1,6 +1,6 @@
 #include "FMAudioContext.h"
 
-#include <fmod_errors.h>
+#include "inc/fmod_errors.h"
 
 #include <sstream>
 
@@ -79,7 +79,10 @@ bool FMAudioContext::CreateAudioDevice(boost::any data)
 
 	if (version < FMOD_VERSION)
 	{
-		m_logger.Log("FMOD lib version doesn't match header version.", Platform::FileLogger::ERROR);
+		std::stringstream error_string;
+		error_string << "FMOD lib version doesn't match header version: ";
+		error_string << std::hex << version;
+		m_logger.Log(error_string.str(), Platform::FileLogger::ERROR);
 	}
 
 	result = m_system->init(32, FMOD_INIT_NORMAL, 0);

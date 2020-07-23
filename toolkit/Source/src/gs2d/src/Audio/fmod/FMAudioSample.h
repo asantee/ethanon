@@ -5,7 +5,7 @@
 
 #include "FMAudioContext.h"
 
-#include "fmod.hpp"
+#include "inc/fmod.hpp"
 
 namespace gs2d {
 
