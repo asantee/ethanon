@@ -50,6 +50,15 @@ FMAudioSample::~FMAudioSample()
 	m_logger.Log(m_fileName + " file deleted", Platform::FileLogger::INFO);
 }
 
+bool FMAudioSample::LoadSampleFromFile(
+	AudioWeakPtr audio,
+	const std::string& fileName,
+	const Platform::FileManagerPtr& fileManager,
+	const Audio::SAMPLE_TYPE type)
+{
+	return LoadSampleFromFmodFile(audio, fileName, fileManager, type);
+}
+
 /// <summary>
 /// Load sample audio from file to memory, through the FileManager handler, then creates FMod Audio Sample from memory.
 /// </summary>
@@ -58,8 +67,7 @@ FMAudioSample::~FMAudioSample()
 /// <param name="fileManager">File manager instance</param>
 /// <param name="type">Type of audio sample</param>
 /// <returns>True on success, False on fail</returns>
-
-bool FMAudioSample::LoadSampleFromFile(
+bool FMAudioSample::LoadSampleFromEthanonFile(
 	AudioWeakPtr audio,
 	const std::string& fileName,
 	const Platform::FileManagerPtr& fileManager,
@@ -78,17 +86,27 @@ bool FMAudioSample::LoadSampleFromFile(
 	return LoadSampleFromFileInMemory(audio, out->GetAddress(), out->GetBufferSize(), m_type);
 }
 
-////////////////////////////////////////////////////////
-// current old, limited, broken, sample from file ///////////////
-/*
-bool FMAudioSample::LoadSampleFromFile(
+/// <summary>
+/// Load sample audio from file using FMod facilities, should use less memory.
+/// </summary>
+/// <param name="audio">Pointer to audio object</param>
+/// <param name="fileName">File name to open</param>
+/// <param name="fileManager">File manager instance</param>
+/// <param name="type">Type of audio sample</param>
+/// <returns>True on success, False on fail</returns>
+bool FMAudioSample::LoadSampleFromFmodFile(
 	AudioWeakPtr audio,
+
 	const std::string& fileName,
 	const Platform::FileManagerPtr& fileManager,
 	const Audio::SAMPLE_TYPE type)
 {
 	m_type = type;
+
 	m_fileName = fileName;
+#if defined(ANDROID)
+	m_fileName.replace(0,7, "file:///android_asset/");
+#endif
 
 	try
 	{
@@ -103,22 +121,21 @@ bool FMAudioSample::LoadSampleFromFile(
 		return false;
 	}
 
+	FMOD_RESULT result;
+	FMOD_MODE mode = FMOD_DEFAULT;
+
 	if (FMAudioContext::IsStreamable(m_type))
 	{
-		const FMOD_RESULT result = m_system->createStream(m_fileName.c_str(), FMOD_DEFAULT, 0, &m_sound);
-		if (FMOD_ERRCHECK(result, m_logger))
-			return false;
-	}
-	else
-	{
-		const FMOD_RESULT result = m_system->createSound(m_fileName.c_str(), FMOD_DEFAULT, 0, &m_sound);
-		if (FMOD_ERRCHECK(result, m_logger))
-			return false;
+		mode |= FMOD_CREATESTREAM;
 	}
 
-	m_logger.Log(m_fileName + " file loaded", Platform::FileLogger::INFO);
+	result = m_system->createSound(m_fileName.c_str(), mode, 0, &m_sound);
+	if (FMOD_ERRCHECK(result, m_logger))
+		return false;
+
+	//m_logger.Log(m_fileName + " file loaded", Platform::FileLogger::INFO);
 	return true;
-}*/
+}
 /*/////////////////////////////////////////*/
 
 /// <summary>
@@ -155,7 +172,8 @@ bool FMAudioSample::LoadSampleFromFileInMemory(
 	
 	audioInfo.cbsize = sizeof(FMOD_CREATESOUNDEXINFO);
 	audioInfo.length = static_cast<unsigned int>(bufferLength);
-	
+	audioInfo.suggestedsoundtype = FMOD_SOUND_TYPE_MPEG;
+
 	// Open file from memory and create uncompressed sample, doing it on the fly will cause
 	// some delay.
 	FMOD_MODE mode = FMOD_OPENMEMORY | FMOD_CREATESAMPLE;

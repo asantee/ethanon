@@ -137,7 +137,7 @@ std::string AssembleCommands()
 	try
 	{
 		ss
-//(fmod)		<< boost::any_cast<std::string>(audio->GetAudioContext())
+		<< boost::any_cast<std::string>(audio->GetAudioContext())
 		<< video->PullCommands()
 		<< boost::static_pointer_cast<AndroidInput>(input)->PullCommands();
 
@@ -161,6 +161,7 @@ JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_mainLoop(JNIEnv* env, jo
 	g_inputStr = env->GetStringUTFChars(inputStr, &isCopy);
 
 	video->HandleEvents();
+	audio->Update();
 	input->Update();
 
 	if (IsScriptEngineLoaded())
