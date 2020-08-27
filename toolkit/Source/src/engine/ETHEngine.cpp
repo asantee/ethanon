@@ -251,7 +251,7 @@ void ETHEngine::Destroy()
 {
 	m_lastBGColor = m_provider->GetVideo()->GetBGColor();
 	m_provider->GetGraphicResourceManager()->ReleaseResources();
-	m_provider->GetAudioResourceManager()->ReleaseResources();
+	//m_provider->GetAudioResourceManager()->ReleaseResources();
 	m_backBuffer.reset();
 }
 

@@ -20,6 +20,8 @@ extern "C" {
 	JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_mainLoop(JNIEnv* env, jobject thiz, jstring inputStr);
 	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_resize(JNIEnv* env, jobject thiz, jint width, jint height);
 	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_restore(JNIEnv* env, jobject thiz);
+	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_audioSuspend(JNIEnv* env, jobject thiz);
+	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_audioResume(JNIEnv* env, jobject thiz);
 	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_start(JNIEnv* env, jobject thiz, jstring apkPath, jstring externalPath, jstring globalPath, jint width, jint height);
 	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_engineStartup(JNIEnv* env, jobject thiz);
 	JNIEXPORT jboolean JNICALL Java_net_asantee_gs2d_GS2DJNI_isLoading(JNIEnv* env, jobject thiz);
@@ -35,7 +37,7 @@ BaseApplicationPtr application;
 
 VideoPtr video;
 InputPtr input;
-AudioPtr audio;
+AudioPtr audio = 0;
 boost::shared_ptr<Platform::ZipFileManager> zip;
 SpritePtr splashSprite, cogSprite;
 ETHEnginePtr engine;
@@ -57,6 +59,18 @@ void CreateLoadingSprite(VideoPtr video, SpritePtr& sprite, const std::string& f
 	sprite->SetOrigin(Vector2(0.5f));
 }
 
+JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_audioSuspend(JNIEnv* env, jobject thiz)
+{
+	if (audio)
+		audio->Suspend();
+}
+
+JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_audioResume(JNIEnv* env, jobject thiz)
+{
+	if(audio)
+		audio->Resume();
+}
+
 std::string g_inputStr;
 
 JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_start(
@@ -71,7 +85,8 @@ JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_start(
 
 	video = CreateVideo(width, height, fileIOHub);
 	input = CreateInput(true, &g_inputStr);
-	audio = CreateAudio(0);
+	if(!audio)
+		audio = CreateAudio(0);
 
 	video->SetCameraPos(lastCameraPos);
 
@@ -89,6 +104,7 @@ JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_start(
 	}
 	else
 	{
+		//audio->Resume();
 		application->Start(video, input, audio);
 	}
 }
@@ -213,6 +229,7 @@ JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_destroy(JNIEnv* env, job
 	if (video && audio)
 	{
 		video->Message("Application resources destroyed", GSMT_INFO);
+//		audio->Suspend();
 	}
 	return env->NewStringUTF("");
 }
