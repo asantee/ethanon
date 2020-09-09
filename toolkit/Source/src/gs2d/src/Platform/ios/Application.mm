@@ -47,8 +47,11 @@
 	// setup default subplatform
 	gs2d::Application::SharedData.Create("com.ethanonengine.subplatform", "apple", true  /*constant*/);
 
-	NSString* appVersionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-	gs2d::Application::SharedData.Create("com.ethanonengine.versionName", [appVersionString UTF8String], true  /*constant*/);
+	NSString* appVersionNameString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+	NSString* appBuildNumberString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+
+	if (appVersionNameString != nil) gs2d::Application::SharedData.Create("com.ethanonengine.versionName", [appVersionNameString UTF8String], true /*constant*/);
+	if (appBuildNumberString != nil) gs2d::Application::SharedData.Create("com.ethanonengine.buildNumber", [appBuildNumberString UTF8String], true /*constant*/);
 
 	// setup language code
 	NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
