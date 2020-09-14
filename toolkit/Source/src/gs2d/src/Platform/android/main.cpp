@@ -104,7 +104,6 @@ JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_start(
 	}
 	else
 	{
-		//audio->Resume();
 		application->Start(video, input, audio);
 	}
 }
@@ -228,7 +227,6 @@ JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_destroy(JNIEnv* env, job
 	if (video && audio)
 	{
 		video->Message("Application resources destroyed", GSMT_INFO);
-//		audio->Suspend();
 	}
 	return env->NewStringUTF("");
 }

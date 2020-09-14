@@ -85,13 +85,15 @@ bool FMAudioContext::CreateAudioDevice(boost::any data)
 	}
 
 	// Attemps to fix audio latency on Android
-//#if defined(ANDROID)
-	//result = m_system->setOutput(FMOD_OUTPUTTYPE_AUDIOTRACK);
-	//FMOD_ERRCHECK(result, m_logger);
+#if defined(ANDROID)
+	result = m_system->setOutput(FMOD_OUTPUTTYPE_OPENSL);
+	if (FMOD_ERRCHECK(result, m_logger))
+		result = m_system->setOutput(FMOD_OUTPUTTYPE_AUDIOTRACK);
+	FMOD_ERRCHECK(result, m_logger);
 
-	//result = m_system->setDSPBufferSize(512, 2);
-	//FMOD_ERRCHECK(result, m_logger);
-//#endif
+	result = m_system->setDSPBufferSize(512, 2);
+	FMOD_ERRCHECK(result, m_logger);
+#endif
 
 	result = m_system->init(32, FMOD_INIT_NORMAL, 0);
 	if (FMOD_ERRCHECK(result, m_logger))
