@@ -108,10 +108,14 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 		fileIOHub->GetExternalStorageDirectory());
 
 	m_definedWords = file.GetDefinedWords();
+	// if does not exist audio resource manager create one, else re-use it.
+	ETHAudioResourceManagerPtr audioResourceManager;
+	if (!(audioResourceManager = m_provider->GetAudioResourceManager()))
+		audioResourceManager = ETHAudioResourceManagerPtr(new ETHAudioResourceManager());
 
 	m_provider = ETHResourceProviderPtr(new ETHResourceProvider(
 		ETHGraphicResourceManagerPtr(new ETHGraphicResourceManager(file.GetDensityManager())),
-		ETHAudioResourceManagerPtr(new ETHAudioResourceManager()),
+		audioResourceManager,
 		ETHShaderManagerPtr(new ETHShaderManager(video)),
 		video,
 		audio,
@@ -251,7 +255,7 @@ void ETHEngine::Destroy()
 {
 	m_lastBGColor = m_provider->GetVideo()->GetBGColor();
 	m_provider->GetGraphicResourceManager()->ReleaseResources();
-	//m_provider->GetAudioResourceManager()->ReleaseResources();
+	//FMmod// m_provider->GetAudioResourceManager()->ReleaseResources(); // não pode destruir.
 	m_backBuffer.reset();
 }
 
