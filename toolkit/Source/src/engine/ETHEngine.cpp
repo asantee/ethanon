@@ -110,7 +110,7 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 	m_definedWords = file.GetDefinedWords();
 	// if does not exist audio resource manager create one, else re-use it.
 	ETHAudioResourceManagerPtr audioResourceManager;
-	if (!(audioResourceManager = m_provider->GetAudioResourceManager()))
+	if (m_provider == NULL || !(audioResourceManager = m_provider->GetAudioResourceManager()))
 		audioResourceManager = ETHAudioResourceManagerPtr(new ETHAudioResourceManager());
 
 	m_provider = ETHResourceProviderPtr(new ETHResourceProvider(
