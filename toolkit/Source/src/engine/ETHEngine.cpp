@@ -113,6 +113,11 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 	if (m_provider == NULL || !(audioResourceManager = m_provider->GetAudioResourceManager()))
 		audioResourceManager = ETHAudioResourceManagerPtr(new ETHAudioResourceManager());
 
+	// doing the same as above, but for whole m_provider, avoiding destroying when restoring
+	// from suspend on Android (when calling Start() at jni main). May turn above code unnecessary
+	//if (m_provider == NULL)
+	//{
+	///old code///
 	m_provider = ETHResourceProviderPtr(new ETHResourceProvider(
 		ETHGraphicResourceManagerPtr(new ETHGraphicResourceManager(file.GetDensityManager())),
 		audioResourceManager,
@@ -150,7 +155,9 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 			}
 		}
 	}
-	
+	///end old code///
+	//}
+
 	Randomizer::Seed(static_cast<unsigned int>(m_provider->GetVideo()->GetElapsedTime()));
 }
 
@@ -255,7 +262,10 @@ void ETHEngine::Destroy()
 {
 	m_lastBGColor = m_provider->GetVideo()->GetBGColor();
 	m_provider->GetGraphicResourceManager()->ReleaseResources();
-	//FMmod// m_provider->GetAudioResourceManager()->ReleaseResources(); // não pode destruir.
+	//FMmod//
+	// até entender isso melhor esse release fica no main.cpp
+	//m_provider->GetAudioResourceManager()->ReleaseResources(); // não pode destruir.
+	///////
 	m_backBuffer.reset();
 }
 
