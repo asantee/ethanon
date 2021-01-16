@@ -28,10 +28,12 @@ static bool IsArrowPressed(SDLJoystick::Joystick& joy, const GS_JOYSTICK_BUTTON 
 {
 	bool pressed = false;
 
-	switch (button) {
+	switch (button)
+	{
 	case GSB_DOWN:
 		pressed = SDL_GameControllerGetButton(joy.sdlGameController, SDL_CONTROLLER_BUTTON_DPAD_DOWN) || (axisValue >= GS_JOYSTICK_MIN_ARROW_VALUE);
 		break;
+
 	case GSB_RIGHT:
 		pressed = SDL_GameControllerGetButton(joy.sdlGameController, SDL_CONTROLLER_BUTTON_DPAD_RIGHT) || (axisValue >= GS_JOYSTICK_MIN_ARROW_VALUE);
 		break;
@@ -39,8 +41,13 @@ static bool IsArrowPressed(SDLJoystick::Joystick& joy, const GS_JOYSTICK_BUTTON 
 	case GSB_UP:
 		pressed = SDL_GameControllerGetButton(joy.sdlGameController, SDL_CONTROLLER_BUTTON_DPAD_UP) || (axisValue <= -GS_JOYSTICK_MIN_ARROW_VALUE);
 		break;
+
 	case GSB_LEFT:
 		pressed = SDL_GameControllerGetButton(joy.sdlGameController, SDL_CONTROLLER_BUTTON_DPAD_LEFT) || (axisValue <= -GS_JOYSTICK_MIN_ARROW_VALUE);
+		break;
+
+	default:
+		pressed = false;
 		break;
 	}
 	return pressed;

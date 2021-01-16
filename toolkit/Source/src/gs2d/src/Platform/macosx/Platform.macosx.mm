@@ -16,7 +16,7 @@ void gs2d::ShowMessage(std::stringstream& stream, const GS_MESSAGE_TYPE type)
 		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 		[alert addButtonWithTitle:@"OK"];
 		[alert setMessageText:[NSString stringWithCString:stream.str().c_str() encoding:NSUTF8StringEncoding]];
-		[alert setAlertStyle:NSCriticalAlertStyle];
+		[alert setAlertStyle:NSAlertStyleWarning];
 		[alert runModal];
 
 		std::cerr << "Error: " << stream.str() << std::endl;
