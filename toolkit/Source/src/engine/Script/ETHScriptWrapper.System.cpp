@@ -276,7 +276,8 @@ void ETHScriptWrapper::ResetVideoMode(
 			m_provider->GetFileIOHub()->GetResourceDirectory() + ETH_APP_PROPERTIES_FILE,
 			m_provider->GetFileManager(),
 			video->GetPlatformName(),
-			m_provider->GetFileIOHub()->GetExternalStorageDirectory());
+			m_provider->GetFileIOHub()->GetExternalStorageDirectory(),
+			GetSharedData("ethanon.system.isLowRamDevice") == "true");
 
 		UpdateFixedHeight();
 

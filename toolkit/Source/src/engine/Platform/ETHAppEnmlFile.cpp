@@ -16,7 +16,9 @@ ETHAppEnmlFile::ETHAppEnmlFile(
 	const std::string& fileName,
 	const Platform::FileManagerPtr& fileManager,
 	const std::string& platformName,
-	const std::string& externalStorageDirectory) :
+	const std::string& externalStorageDirectory,
+	const bool lowRamDevice) :
+	densityManager(lowRamDevice),
 	hdDensityValue(2.0f),
 	fullHdDensityValue(4.0f),
 	ldDensityValue(0.5f),

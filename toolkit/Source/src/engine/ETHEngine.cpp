@@ -101,11 +101,14 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 {
 	Platform::FileIOHubPtr fileIOHub = video->GetFileIOHub();
 
+	const bool lowRamDevice = Application::SharedData.Get("ethanon.system.isLowRamDevice") == "true";
+
 	ETHAppEnmlFile file(
 		fileIOHub->GetResourceDirectory() + ETH_APP_PROPERTIES_FILE,
 		fileIOHub->GetFileManager(),
 		video->GetPlatformName(),
-		fileIOHub->GetExternalStorageDirectory());
+		fileIOHub->GetExternalStorageDirectory(),
+		lowRamDevice);
 
 	m_definedWords = file.GetDefinedWords();
 
@@ -119,6 +122,12 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 		fileIOHub,
 		false));
 
+	if (lowRamDevice)
+	{
+		m_provider->Log(("Ethanon is running low ram device mode."), Platform::Logger::INFO);
+
+	}
+	
 	m_ethInput.SetProvider(m_provider);
 
 	CreateDynamicBackBuffer(file);
@@ -401,26 +410,6 @@ bool ETHEngine::BuildModule(const std::vector<std::string>& definedWords)
 				m_provider->Log(ss.str(), Platform::Logger::ERROR);
 			}
 		}
-
-		// write bytecode also on globar external storage place on android 
-		#if ANDROID
-		{
-			const std::string globalExternalByteCodeWriteFile = m_provider->GetFileIOHub()->GetGlobalExternalStorageDirectory() + ETH_DEFAULT_MAIN_BYTECODE_FILE;
-			ETHBinaryStream stream(m_provider->GetFileManager());
-			if (stream.OpenW(globalExternalByteCodeWriteFile))
-			{
-				m_pASModule->SaveByteCode(&stream);
-				stream.CloseW();
-				ETH_STREAM_DECL(ss) << ("ByteCode saved on global external: ") << globalExternalByteCodeWriteFile;
-				m_provider->Log(ss.str(), Platform::Logger::INFO);
-			}
-			else
-			{
-				ETH_STREAM_DECL(ss) << ("Failed while writing the byte code file ") << globalExternalByteCodeWriteFile;
-				m_provider->Log(ss.str(), Platform::Logger::ERROR);
-			}
-		}
-		#endif
 	}
 	else // otherwise, try to load the bytecode
 	{

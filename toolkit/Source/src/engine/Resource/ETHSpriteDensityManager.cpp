@@ -13,7 +13,7 @@ const std::string ETHSpriteDensityManager::FULL_HD_VERSION_PATH_NAME = ("fullhd/
 const std::string ETHSpriteDensityManager::LD_VERSION_PATH_NAME = ("ld/");
 const std::string ETHSpriteDensityManager::XLD_VERSION_PATH_NAME = ("xld/");
 
-ETHSpriteDensityManager::ETHSpriteDensityManager() :
+ETHSpriteDensityManager::ETHSpriteDensityManager(const bool lowRam) :
 	hdDensityValue(2.0f),
 	fullHdDensityValue(4.0f),
 	ldDensityValue(0.5f),
@@ -21,7 +21,8 @@ ETHSpriteDensityManager::ETHSpriteDensityManager() :
 	minScreenHeightForHdResources(720),
 	minScreenHeightForFullHdResources(1080),
 	maxScreenHeightBeforeNdVersion(480),
-	maxScreenHeightBeforeLdVersion(320)
+	maxScreenHeightBeforeLdVersion(320),
+	lowRamDevice(lowRam)
 {
 }
 
@@ -41,17 +42,17 @@ void ETHSpriteDensityManager::FillParametersFromFile(const ETHAppEnmlFile& file)
 
 bool ETHSpriteDensityManager::ShouldUseHdResources(const gs2d::VideoPtr& video) const
 {
-	return (video->GetScreenSizeInPixels().y >= static_cast<int>(minScreenHeightForHdResources)) && !ShouldUseFullHdResources(video);
+	return (video->GetScreenSizeInPixels().y >= static_cast<int>(minScreenHeightForHdResources)) && !ShouldUseFullHdResources(video) && !lowRamDevice;
 }
 
 bool ETHSpriteDensityManager::ShouldUseFullHdResources(const gs2d::VideoPtr& video) const
 {
-	return (video->GetScreenSizeInPixels().y >= static_cast<int>(minScreenHeightForFullHdResources));
+	return (video->GetScreenSizeInPixels().y >= static_cast<int>(minScreenHeightForFullHdResources)) && !lowRamDevice;
 }
 
 bool ETHSpriteDensityManager::ShouldUseLdResources(const gs2d::VideoPtr& video) const
 {
-	return (video->GetScreenSizeInPixels().y <= static_cast<int>(maxScreenHeightBeforeNdVersion)) && !ShouldUseXLdResources(video);
+	return ((video->GetScreenSizeInPixels().y <= static_cast<int>(maxScreenHeightBeforeNdVersion)) || lowRamDevice) && !ShouldUseXLdResources(video);
 }
 
 bool ETHSpriteDensityManager::ShouldUseXLdResources(const gs2d::VideoPtr& video) const
