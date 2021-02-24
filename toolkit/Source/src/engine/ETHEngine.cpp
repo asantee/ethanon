@@ -45,7 +45,7 @@ ETHEngine::ETHEngine(const bool testing, const bool compileAndRun, const bool au
 	m_lastBGColor(0x0),
 	m_hasBeenResumed(false),
 	m_scriptEngineReady(false),
-	m_mainFunctionRunned(false),
+	m_mainFunctionExecuted(false),
 	m_autoStartScriptEngine(autoStartScriptEngine)
 {
 	Application::SharedData.Create(SCRIPT_EXCEPTION_LOG_SHARED_DATA_KEY, (""), false);
@@ -153,13 +153,13 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 Application::APP_STATUS ETHEngine::Update(
 	const float lastFrameDeltaTimeMS)
 {
-	if (!m_mainFunctionRunned)
+	if (!m_mainFunctionExecuted)
 	{
 		m_provider->Log(("Starting main function"), Platform::Logger::INFO);
 		RunMainFunction(GetMainFunction());
 		m_provider->GetVideo()->EnableQuitShortcuts(true);
 		m_v2LastCamPos = m_provider->GetVideo()->GetCameraPos();
-		m_mainFunctionRunned = true;
+		m_mainFunctionExecuted = true;
 		m_provider->Log(("Ended main function"), Platform::Logger::INFO);
 	}
 
