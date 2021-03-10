@@ -6,6 +6,8 @@
 #import <Audio.h>
 #import <Input.h>
 
+#import <Audio/AudioDummy.h>
+
 #import <BaseApplication.h>
 
 #import <Platform/ios/IOSFileIOHub.h>
@@ -66,6 +68,13 @@
 {
 	m_audio = gs2d::CreateAudio(0);
 	m_input = gs2d::CreateInput(false);
+	
+	// in case the fmod Audio object creationg should fail for reasons yet to be investigated,
+	// try using dummy audio objects to prevent app crashes
+	if (!m_audio)
+	{
+		m_audio = gs2d::AudioDummyPtr(new gs2d::AudioDummy());
+	}
 
 	Platform::FileIOHubPtr fileIOHub(new Platform::IOSFileIOHub("data/"));
 
@@ -82,22 +91,15 @@
 
 - (void)update
 {
-	@try
-	{
-		if (!m_engine) return;
+	if (!m_engine) return;
 
-		m_input->Update();
-		m_audio->Update();
+	m_input->Update();
+	m_audio->Update();
 
-		const float elapsedTime = (gs2d::ComputeElapsedTimeF(m_video));
-		m_engine->Update(gs2d::math::Min(400.0f, elapsedTime));
-		
-		m_commandManager.RunCommands(m_video->PullCommands());
-	}
-	@catch (NSException *exception)
-	{
-		NSLog(@"%@", [exception reason]);
-	}
+	const float elapsedTime = (gs2d::ComputeElapsedTimeF(m_video));
+	m_engine->Update(gs2d::math::Min(400.0f, elapsedTime));
+	
+	m_commandManager.RunCommands(m_video->PullCommands());
 }
 
 - (void)renderFrame:(GLKView*) view;

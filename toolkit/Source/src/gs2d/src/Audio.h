@@ -4,6 +4,7 @@
 #include "Platform/FileManager.h"
 
 #include <boost/any.hpp>
+#include <boost/weak_ptr.hpp>
 
 namespace gs2d {
 
