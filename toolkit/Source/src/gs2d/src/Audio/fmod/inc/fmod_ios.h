@@ -13,7 +13,7 @@
     [SEE_ALSO]
 ]
 */
-typedef enum
+typedef enum FMOD_AUDIOQUEUE_CODECPOLICY
 {
     FMOD_AUDIOQUEUE_CODECPOLICY_DEFAULT,            /* Try hardware first, if it's in use or prohibited by audio session, try software. */
     FMOD_AUDIOQUEUE_CODECPOLICY_SOFTWAREONLY,       /* kAudioQueueHardwareCodecPolicy_UseSoftwareOnly ~ try software, if not available fail. */
@@ -21,5 +21,5 @@ typedef enum
     
     FMOD_AUDIOQUEUE_CODECPOLICY_FORCEINT = 65536    /* Makes sure this enum is signed 32bit */
 } FMOD_AUDIOQUEUE_CODECPOLICY;
-    
+
 #endif /* _FMOD_IOS_H */
