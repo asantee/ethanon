@@ -697,6 +697,8 @@
 		AAFA2E312139CDA6006D67FB /* cJSON.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = cJSON.c; path = ../../../../src/cjson/cJSON.c; sourceTree = "<group>"; };
 		AAFA2E332139D1C3006D67FB /* JSONObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JSONObject.cpp; path = ../../../../src/engine/Util/JSONObject.cpp; sourceTree = "<group>"; };
 		AAFA2E342139D1C3006D67FB /* JSONObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONObject.h; path = ../../../../src/engine/Util/JSONObject.h; sourceTree = "<group>"; };
+		FC4ABB4A25F93858009B47DA /* AudioDummy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AudioDummy.cpp; path = ../../../../src/gs2d/src/Audio/AudioDummy.cpp; sourceTree = "<group>"; };
+		FC4ABB4B25F93858009B47DA /* AudioDummy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioDummy.h; path = ../../../../src/gs2d/src/Audio/AudioDummy.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
