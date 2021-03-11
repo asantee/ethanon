@@ -211,7 +211,7 @@ bool ETHEngine::LoadNextSceneIfRequested()
 	{
 		if (!m_pScene)
 		{
-			ShowMessage(("ETHEngine::StartEngine: no scene has been loaded."), ETH_ERROR);
+			ShowMessage(("ETHEngine::LoadNextSceneIfRequested: no scene has been loaded."), ETH_ERROR);
 			return false;
 		}
 	}
