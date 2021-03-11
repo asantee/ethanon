@@ -225,6 +225,7 @@
 		AAC440691F39157000F1B194 /* libfmod_iphonesimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAC440671F39157000F1B194 /* libfmod_iphonesimulator.a */; };
 		AAFA2E322139CDA6006D67FB /* cJSON.c in Sources */ = {isa = PBXBuildFile; fileRef = AAFA2E312139CDA6006D67FB /* cJSON.c */; };
 		AAFA2E352139D1C4006D67FB /* JSONObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAFA2E332139D1C3006D67FB /* JSONObject.cpp */; };
+		FC4ABB4C25F93858009B47DA /* AudioDummy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC4ABB4A25F93858009B47DA /* AudioDummy.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1469,6 +1470,8 @@
 		AAC4401A1F38DE9600F1B194 /* Audio */ = {
 			isa = PBXGroup;
 			children = (
+				FC4ABB4B25F93858009B47DA /* AudioDummy.h */,
+				FC4ABB4A25F93858009B47DA /* AudioDummy.cpp */,
 				AAC4401B1F38DEBE00F1B194 /* FMAudioContext.h */,
 				AAC4401C1F38DEBE00F1B194 /* FMAudioContext.cpp */,
 				AA19C1211F8281220096696A /* FMAudioContext.ios.mm */,
@@ -1754,6 +1757,7 @@
 				AA65A38322FDF7430026BE60 /* SpriteRects.cpp in Sources */,
 				74E6E7911A31E9F500E89172 /* ETHParticleSystem.cpp in Sources */,
 				74E6E6D21A31E4E500E89172 /* b2ContactManager.cpp in Sources */,
+				FC4ABB4C25F93858009B47DA /* AudioDummy.cpp in Sources */,
 				74A781EA1A3A13DE00EB3E76 /* EthanonViewController.mm in Sources */,
 				74E6E7891A31E9EA00E89172 /* ETHRenderEntity.cpp in Sources */,
 				74E6E6AE1A31E4B300E89172 /* b2PolygonShape.cpp in Sources */,

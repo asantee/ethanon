@@ -23,7 +23,8 @@ public:
 		XLD = 4 // very low-def
 	};
 
-	ETHSpriteDensityManager();
+	ETHSpriteDensityManager(const bool lowRam);
+
 	void FillParametersFromFile(const ETHAppEnmlFile& file);
 
 	bool ShouldUseHdResources(const gs2d::VideoPtr& video) const;
@@ -43,6 +44,7 @@ public:
 	float xldDensityValue;
 	unsigned int minScreenHeightForHdResources, minScreenHeightForFullHdResources;
 	unsigned int maxScreenHeightBeforeNdVersion, maxScreenHeightBeforeLdVersion;
+	bool lowRamDevice;
 };
 
 #endif
