@@ -195,22 +195,15 @@
 
 - (void)update
 {
-	@try
+	if (self.ethanonApplication != nil)
 	{
-		if (self.ethanonApplication != nil)
+		[self.ethanonApplication update];
+		
+		if ([AppDelegate isJustResumed])
 		{
-			[self.ethanonApplication update];
-			
-			if ([AppDelegate isJustResumed])
-			{
-				[self.ethanonApplication forceGamepadPause];
-				[AppDelegate setJustResumed:NO];
-			}
+			[self.ethanonApplication forceGamepadPause];
+			[AppDelegate setJustResumed:NO];
 		}
-	}
-	@catch (NSException *exception)
-	{
-		NSLog(@"%@", [exception reason]);
 	}
 }
 

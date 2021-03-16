@@ -221,7 +221,7 @@ bool ETHEngine::LoadNextSceneIfRequested()
 	{
 		if (!m_pScene)
 		{
-			ShowMessage(("ETHEngine::StartEngine: no scene has been loaded."), ETH_ERROR);
+			ShowMessage(("ETHEngine::LoadNextSceneIfRequested: no scene has been loaded."), ETH_ERROR);
 			return false;
 		}
 	}
@@ -271,7 +271,6 @@ void ETHEngine::Destroy()
 	m_lastBGColor = m_provider->GetVideo()->GetBGColor();
 	m_provider->GetGraphicResourceManager()->ReleaseResources();
 	m_provider->GetAudioResourceManager()->ReleaseResources();
-	m_backBuffer.reset();
 }
 
 bool ETHEngine::PrepareScriptingEngine(const std::vector<std::string>& definedWords)
