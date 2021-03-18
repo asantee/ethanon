@@ -103,6 +103,11 @@ void ETHScriptWrapper::Exit()
 
 std::string ETHScriptWrapper::GetCurrentCallstack()
 {
+	if (!m_pScriptContext)
+	{
+		return "";
+	}
+
 	std::stringstream ss;
 	for (std::size_t n = 0; n < m_pScriptContext->GetCallstackSize(); n++)
 	{
