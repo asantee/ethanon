@@ -105,7 +105,7 @@ std::string ETHScriptWrapper::GetCurrentCallstack()
 {
 	if (!m_pScriptContext)
 	{
-		return "Can't retrieve callstack: m_pScriptContext is null";
+		return "";
 	}
 
 	std::stringstream ss;
