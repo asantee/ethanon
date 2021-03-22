@@ -12,6 +12,7 @@ public:
 	{
 	public:
 		virtual void RecordError(const std::string& description) = 0;
+		virtual void Log(const std::string& description) = 0;
 	};
 	typedef boost::shared_ptr<ErrorRecorder> ErrorRecorderPtr;
 

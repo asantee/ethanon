@@ -87,6 +87,11 @@ bool FileLogger::Log(const std::string& str, const TYPE& type) const
 	else if (type == WARNING)
 	{
 		WriteToWarningLog(str);
+
+		if (m_errorRecorder)
+		{
+			m_errorRecorder->Log(str);
+		}
 	}
 
 	#ifdef ANDROID
