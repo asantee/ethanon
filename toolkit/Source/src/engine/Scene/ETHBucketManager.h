@@ -81,7 +81,7 @@ public:
 	ETHSpriteEntity *SeekEntity(const std::string& fileName);
 
 	/// Delete the entity by ID #
-	bool DeleteEntity(const int id, const Vector2 &searchBucket);
+	bool DeleteEntity(ETHEntity* pEntity, const Vector2 &searchBucket);
 
 	/// Delete the entity by ID #
 	bool DeleteEntity(const int id);

@@ -749,7 +749,7 @@ void ETHScene::ResolveJoints()
 
 bool ETHScene::DeleteEntity(ETHEntity *pEntity)
 {
-	return m_buckets.DeleteEntity(pEntity->GetID(), ETHBucketManager::GetBucket(pEntity->GetPositionXY(), GetBucketSize()));
+	return m_buckets.DeleteEntity(pEntity, ETHBucketManager::GetBucket(pEntity->GetPositionXY(), GetBucketSize()));
 }
 
 void ETHScene::ScaleEntities(const ETHEntityArray& entities, ETHBucketManager& buckets, const float scale, const bool scalePosition)
