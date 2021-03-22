@@ -396,9 +396,9 @@ bool ETHBucketManager::DeleteEntity(const int id)
 	return false;
 }
 
-bool ETHBucketManager::DeleteEntity(const int id, const Vector2 &searchBucket)
+bool ETHBucketManager::DeleteEntity(ETHEntity* pEntity, const Vector2 &searchBucket)
 {
-	ETHBucketMap::iterator bucketIter = Find(searchBucket);
+	const int id = pEntity->GetID(); ETHBucketMap::iterator bucketIter = Find(searchBucket);
 
 	// try getting it from bucket (faster)
 	if (bucketIter != GetLastBucket())
@@ -445,8 +445,8 @@ bool ETHBucketManager::DeleteEntity(const int id, const Vector2 &searchBucket)
 		}
 	}
 
-	ETH_STREAM_DECL(ss) << ("Couldn't find the entity to delete: ID") << id;
-	m_provider->Log(ss.str(), Platform::Logger::ERROR);
+	ETH_STREAM_DECL(ss) << ("Couldn't find the entity to delete: ") << pEntity->GetEntityName() << " (" << id << ")";
+	m_provider->Log(ss.str(), Platform::Logger::WARNING);
 	return false;
 }
 
