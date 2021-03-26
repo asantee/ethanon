@@ -15,7 +15,7 @@ public:
 		const Platform::FileManagerPtr& fileManager,
 		const std::string& platformName,
 		const std::string& externalStorageDirectory,
-		const bool lowRamDevice);
+		const bool lowRamDevice = false);
 
 	unsigned int GetWidth() const;
 	unsigned int GetHeight() const;
