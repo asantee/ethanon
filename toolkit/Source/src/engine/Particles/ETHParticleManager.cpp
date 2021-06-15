@@ -390,56 +390,6 @@ bool ETHParticleManager::Play(
 	return true;
 }
 
-void ETHParticleManager::Sort(std::vector<PARTICLE> &v)
-{
-	const int len = static_cast<int>(v.size());
-	for (int j = len - 1; j > 0; j--)
-	{
-		bool leave = true;
-		for (int i = 0; i < j; i++)
-		{
-			if (v[i + 1] < v[i])
-			{
-				leave = false;
-				std::swap(v[i + 1], v[i]);
-			}
-		}
-		if (leave)
-			return;
-	}
-}
-
-float ETHParticleManager::ComputeParticleDepth(
-	const DEPTH_SORTING_MODE& ownerType,
-	const float& ownerDepth,
-	const PARTICLE& particle,
-	const float& maxHeight,
-	const float& minHeight)
-{
-	float r = 0.0f;
-
-	// compute depth
-	if (ownerType == LAYERABLE)
-	{
-		r = (ownerDepth);
-	}
-	else
-	{
-		float offsetYZ = particle.startPoint.z;
-		if (ownerType == INDIVIDUAL_OFFSET)
-		{
-			offsetYZ += particle.GetOffset() + GetParticleDepthShift(ownerType);
-		}
-		r = (ETHEntity::ComputeDepth(offsetYZ, maxHeight, minHeight));
-	}
-	return r;
-}
-
-float ETHParticleManager::GetParticleDepthShift(const DEPTH_SORTING_MODE& ownerType)
-{
-	return (ownerType == INDIVIDUAL_OFFSET) ? _ETH_PARTICLE_DEPTH_SHIFT : 0.0f;
-}
-
 bool ETHParticleManager::DrawParticleSystem(
 	Vector3 ambient,
 	const float maxHeight,
@@ -459,12 +409,6 @@ bool ETHParticleManager::DrawParticleSystem(
 	const VideoPtr& video = m_provider->GetVideo();
 	Video::ALPHA_MODE alpha = video->GetAlphaMode();
 	video->SetAlphaMode(m_system.alphaMode);
-
-	// if the alpha blending is not additive, we'll have to sort it
-	if (alpha == Video::AM_PIXEL)
-	{
-		Sort(m_particles);
-	}
 
 	for (int t = 0; t < m_system.nParticles; t++)
 	{
@@ -489,8 +433,6 @@ bool ETHParticleManager::DrawParticleSystem(
 		}
 
 		Vector4 finalColor = particle.color * Vector4(finalAmbient, 1.0f);
-
-		SetParticleDepth(ComputeParticleDepth(ownerType, ownerDepth, particle, maxHeight, minHeight));
 
 		ShaderParametersPtr customParams(new ShaderParameters);
 		(*customParams)["highlight"] = boost::shared_ptr<Shader::ShaderParameter>(new Shader::Vector4ShaderParameter(finalColor));
@@ -631,11 +573,6 @@ void ETHParticleManager::PositionParticle(
 	particle.pos = Matrix4x4::Multiply(particle.pos, rotMatrix);
 	particle.pos = particle.pos + Vector2(v3Pos.x, v3Pos.y);
 	particle.startPoint = v3Pos + system.startPoint;
-}
-
-void ETHParticleManager::SetParticleDepth(const float depth)
-{
-	// feature no longer necessary on eth-supersimple
 }
 
 bool ETHParticleManager::Killed() const
