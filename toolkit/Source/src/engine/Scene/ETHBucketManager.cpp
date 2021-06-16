@@ -29,8 +29,6 @@ void ETHBucketManager::GetIntersectingBuckets(
 	const bool includeUpperSeams,
 	const bool includeLowerSeams)
 {
-	const static std::size_t ETH_MAX_BUCKETS = 512;
-	
 	const Vector2 &min = pos;
 	const Vector2 max(pos + size);
 
@@ -56,10 +54,6 @@ void ETHBucketManager::GetIntersectingBuckets(
 		for (float x = minBucket.x; x <= maxBucket.x; x += 1.0f)
 		{
 			outList.push_back(Vector2(x, y));
-			if (outList.size() > ETH_MAX_BUCKETS)
-			{
-				return;
-			}
 		}
 	}
 }
