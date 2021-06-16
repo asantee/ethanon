@@ -424,13 +424,6 @@ bool ETHScriptWrapper::GetZBuffer()
 	return m_pScene->GetZBuffer();
 }
 
-void ETHScriptWrapper::EnableRealTimeShadows(const bool enable)
-{
-	if (WarnIfRunsInMainFunction(("EnableRealTimeShadows")))
-		return;
-	m_pScene->EnableRealTimeShadows(enable);
-}
-
 void ETHScriptWrapper::GetVisibleEntities(ETHEntityArray &entityArray)
 {
 	if (WarnIfRunsInMainFunction(("GetVisibleEntities")))

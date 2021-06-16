@@ -523,16 +523,6 @@ bool ETHScene::AreLightmapsEnabled() const
 	return m_provider->AreLightmapsEnabled();
 }
 
-void ETHScene::EnableRealTimeShadows(const bool enable)
-{
-	m_provider->EnableRealTimeShadows(enable);
-}
-
-bool ETHScene::AreRealTimeShadowsEnabled() const
-{
-	return m_provider->AreRealTimeShadowsEnabled();
-}
-
 int ETHScene::GetNumProcessedEntities()
 {
 	return static_cast<int>(m_nProcessedEntities);

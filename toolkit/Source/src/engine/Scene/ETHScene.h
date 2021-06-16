@@ -43,8 +43,6 @@ public:
 	int AddEntity(ETHRenderEntity* pEntity, const std::string& alternativeName);
 	void SetSceneProperties(const ETHSceneProperties &prop);
 	void EnableLightmaps(const bool enable);
-	void EnableRealTimeShadows(const bool enable);
-	bool AreRealTimeShadowsEnabled() const;
 	
 	static int UpdateIDCounter(ETHEntity* pEntity);
 

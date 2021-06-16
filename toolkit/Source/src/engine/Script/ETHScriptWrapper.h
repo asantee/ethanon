@@ -302,7 +302,6 @@ public:
 	static void SetZBuffer(const bool enable);
 	static bool GetZBuffer();
 	static void EnableQuitKeys(const bool enable);
-	static void EnableRealTimeShadows(const bool enable);
 	static void GetVisibleEntities(ETHEntityArray &entityArray);
 	static void GetIntersectingEntities(const Vector2 &v2Here, ETHEntityArray &outVector, const bool screenSpace);
 	static int32_t GetNumProcessedEntities();
