@@ -394,6 +394,14 @@ void ETHScriptWrapper::GetEntityArrayFromBucket(const Vector2 &v2Bucket, ETHEnti
 	m_pScene->GetBucketManager().GetEntityArrayFromBucket(v2Bucket, outVector);
 }
 
+void ETHScriptWrapper::GetEntitiesFromBucket(const Vector2 &v2Bucket, ETHEntityArray& outVector, const std::string& semicolonSeparatedNames)
+{
+	if (WarnIfRunsInMainFunction(("GetEntityArrayFromBucket")))
+		return;
+
+	m_pScene->GetBucketManager().GetWhiteListedEntityArrayFromBucket(v2Bucket, outVector, semicolonSeparatedNames);
+}
+
 void ETHScriptWrapper::GetAllEntitiesInScene(ETHEntityArray& outVector)
 {
 	if (WarnIfRunsInMainFunction(("GetAllEntitiesInScene")))

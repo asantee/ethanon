@@ -290,6 +290,7 @@ public:
 	static Vector2 GetSystemScreenSize();
 	static void GetEntityArrayByName(const std::string &name, ETHEntityArray &outVector);
 	static void GetEntityArrayFromBucket(const Vector2 &v2Bucket, ETHEntityArray &outVector);
+	static void GetEntitiesFromBucket(const Vector2 &v2Bucket, ETHEntityArray& outVector, const std::string& semicolonSeparatedNames);
 	static void GetAllEntitiesInScene(ETHEntityArray &outVector);
 	static void GetEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray &outVector);
 	static void GetEntitiesAroundEntity(ETHEntity* entity, ETHEntityArray &outVector);

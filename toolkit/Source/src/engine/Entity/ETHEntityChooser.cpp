@@ -14,14 +14,12 @@ bool ETHEntityNameChooser::Choose(ETHEntity* entity) const
 	return (entity->GetEntityName() == m_name);
 }
 
-ETHEntityNameArrayChooser::ETHEntityNameArrayChooser(const std::vector<std::string>& names, const bool isIgnoreList) :
-	m_names(names),
-	m_isIgnoreList(isIgnoreList)
+ETHEntityNameArrayChooser::ETHEntityNameArrayChooser(const std::vector<std::string>& names) :
+	m_names(names)
 {
 }
 
-ETHEntityNameArrayChooser::ETHEntityNameArrayChooser(const std::string& semicolonSeparatedNames, const bool isIgnoreList) :
-	m_isIgnoreList(isIgnoreList)
+ETHEntityNameArrayChooser::ETHEntityNameArrayChooser(const std::string& semicolonSeparatedNames)
 {
 	m_names = Platform::SplitString(semicolonSeparatedNames, (";"));
 }
@@ -33,13 +31,33 @@ bool ETHEntityNameArrayChooser::Choose(ETHEntity* entity) const
 	{
 		if (m_names[t] == entityName)
 		{
-			if (!m_isIgnoreList)
-				return true;
-			else
-				return false;
+			return true;
 		}
 	}
-	return m_isIgnoreList;
+	return false;
+}
+
+ETHEntityNameArrayIgnoreListChooser::ETHEntityNameArrayIgnoreListChooser(const std::vector<std::string>& names) :
+	m_names(names)
+{
+}
+
+ETHEntityNameArrayIgnoreListChooser::ETHEntityNameArrayIgnoreListChooser(const std::string& semicolonSeparatedNames)
+{
+	m_names = Platform::SplitString(semicolonSeparatedNames, (";"));
+}
+
+bool ETHEntityNameArrayIgnoreListChooser::Choose(ETHEntity* entity) const
+{
+	const std::string& entityName = entity->GetEntityName();
+	for (std::size_t t = 0; t < m_names.size(); t++)
+	{
+		if (m_names[t] == entityName)
+		{
+			return false;
+		}
+	}
+	return true;
 }
 
 bool ETHEntityDefaultChooser::Choose(ETHEntity* entity) const

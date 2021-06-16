@@ -158,6 +158,7 @@ asDECLARE_FUNCTION_WRAPPER(__GetSystemScreenSize,   ETHScriptWrapper::GetSystemS
 
 asDECLARE_FUNCTION_WRAPPER(__GetEntityArray,          ETHScriptWrapper::GetEntityArrayByName);
 asDECLARE_FUNCTION_WRAPPER(__GetEntitiesFromBucket,   ETHScriptWrapper::GetEntityArrayFromBucket);
+asDECLARE_FUNCTION_WRAPPER(__GetEntitiesFromBucketByName, ETHScriptWrapper::GetEntitiesFromBucket);
 asDECLARE_FUNCTION_WRAPPER(__GetVisibleEntities,      ETHScriptWrapper::GetVisibleEntities);
 asDECLARE_FUNCTION_WRAPPER(__GetIntersectingEntities, ETHScriptWrapper::GetIntersectingEntities);
 asDECLARE_FUNCTION_WRAPPER(__GetEntitiesAroundBucket, ETHScriptWrapper::GetEntitiesAroundBucket)
@@ -422,6 +423,7 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 
 	r = pASEngine->RegisterGlobalFunction("void GetEntityArray(const string &in, ETHEntityArray &)",                       asFUNCTION(__GetEntityArray),          asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void GetEntitiesFromBucket(const vector2 &in, ETHEntityArray &)",               asFUNCTION(__GetEntitiesFromBucket),   asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void GetEntitiesFromBucket(const vector2 &in, ETHEntityArray &, const string &in)",asFUNCTION(__GetEntitiesFromBucketByName),   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void GetVisibleEntities(ETHEntityArray &)",                                     asFUNCTION(__GetVisibleEntities),      asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void GetEntitiesAroundBucket(const vector2 &in, ETHEntityArray &)",             asFUNCTION(__GetEntitiesAroundBucket), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void GetIntersectingEntities(const vector2 &in, ETHEntityArray &, const bool)", asFUNCTION(__GetIntersectingEntities), asCALL_GENERIC); assert(r >= 0);

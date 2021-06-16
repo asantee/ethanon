@@ -231,7 +231,7 @@ ETHEntity* ETHPhysicsSimulator::GetClosestContact(const Vector2& a, const Vector
 {
 	if (a == b)
 		return 0;
-	ETHEntityNameArrayChooser chooser(semicolonSeparatedIgnoreList, true);
+	ETHEntityNameArrayIgnoreListChooser chooser(semicolonSeparatedIgnoreList);
 	ETHRayCastCallback rayCastCallback(a, b, &chooser);
 	
 	const b2Vec2& p1 = rayCastCallback.GetScaledA();

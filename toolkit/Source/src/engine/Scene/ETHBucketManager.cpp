@@ -490,7 +490,7 @@ void ETHBucketManager::GetEntityArrayFromBucket(const Vector2 &bucket, ETHEntity
 void ETHBucketManager::GetWhiteListedEntityArrayFromBucket(const Vector2 &bucket, ETHEntityArray &outVector,
 														   const std::string& semicolonSeparatedNames)
 {
-	GetEntityArrayFromBucket(bucket, outVector, ETHEntityNameArrayChooser(semicolonSeparatedNames, false));
+	GetEntityArrayFromBucket(bucket, outVector, ETHEntityNameArrayChooser(semicolonSeparatedNames));
 }
 
 void ETHBucketManager::GetEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray &outVector, const ETHEntityChooser& chooser)
@@ -513,12 +513,12 @@ void ETHBucketManager::GetEntitiesAroundBucket(const Vector2& bucket, ETHEntityA
 
 void ETHBucketManager::GetWhiteListedEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray &outVector, const std::string& semicolonSeparatedNames)
 {
-	GetEntitiesAroundBucket(bucket, outVector, ETHEntityNameArrayChooser(semicolonSeparatedNames, false));
+	GetEntitiesAroundBucket(bucket, outVector, ETHEntityNameArrayChooser(semicolonSeparatedNames));
 }
 
 void ETHBucketManager::GetEntitiesAroundBucketWithBlackList(const Vector2& bucket, ETHEntityArray &outVector, const std::string& semicolonSeparatedNames)
 {
-	GetEntitiesAroundBucket(bucket, outVector, ETHEntityNameArrayChooser(semicolonSeparatedNames, true));
+	GetEntitiesAroundBucket(bucket, outVector, ETHEntityNameArrayIgnoreListChooser(semicolonSeparatedNames));
 }
 
 void ETHBucketManager::GetIntersectingBuckets(

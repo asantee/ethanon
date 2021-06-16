@@ -27,10 +27,18 @@ public:
 class ETHEntityNameArrayChooser : public ETHEntityChooser
 {
 	std::vector<std::string> m_names;
-	bool m_isIgnoreList;
 public:
-	ETHEntityNameArrayChooser(const std::vector<std::string>& names, const bool isIgnoreList);
-	ETHEntityNameArrayChooser(const std::string& semicolonSeparatedNames, const bool isIgnoreList);
+	ETHEntityNameArrayChooser(const std::vector<std::string>& names);
+	ETHEntityNameArrayChooser(const std::string& semicolonSeparatedNames);
+	bool Choose(ETHEntity* entity) const;
+};
+
+class ETHEntityNameArrayIgnoreListChooser : public ETHEntityChooser
+{
+	std::vector<std::string> m_names;
+public:
+	ETHEntityNameArrayIgnoreListChooser(const std::vector<std::string>& names);
+	ETHEntityNameArrayIgnoreListChooser(const std::string& semicolonSeparatedNames);
 	bool Choose(ETHEntity* entity) const;
 };
 
