@@ -30,7 +30,7 @@
 		74C111E91697224100AEDCE1 /* engine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F0D18B1697037C009A3C78 /* engine.framework */; };
 		74F00B1E1646C12200B8B51B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F00B1D1646C12200B8B51B /* Cocoa.framework */; };
 		74F00B281646C12200B8B51B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 74F00B261646C12200B8B51B /* InfoPlist.strings */; };
-		AA7BDF761F7EE3E10057B06F /* libfmod.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7BDF751F7EE3E00057B06F /* libfmod.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		AA7BDF761F7EE3E10057B06F /* libfmod.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7BDF751F7EE3E00057B06F /* libfmod.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -143,6 +143,7 @@
 		74F00B2B1646C12200B8B51B /* machine-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "machine-Prefix.pch"; sourceTree = "<group>"; };
 		74F0D1B016970677009A3C78 /* box2d.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = box2d.xcodeproj; path = ../../../src/box2d/Build/xcode/box2d.xcodeproj; sourceTree = "<group>"; };
 		AA7BDF751F7EE3E00057B06F /* libfmod.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfmod.dylib; path = ../../../src/gs2d/vendors/fmod/lib/libfmod.dylib; sourceTree = "<group>"; };
+		AAE9B09926C16F6D0040B57A /* machine.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = machine.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -241,6 +242,7 @@
 		74F00B231646C12200B8B51B /* machine */ = {
 			isa = PBXGroup;
 			children = (
+				AAE9B09926C16F6D0040B57A /* machine.entitlements */,
 				7421F2DA164805C000C55BAE /* main.cpp */,
 				74F00B241646C12200B8B51B /* Supporting Files */,
 			);
@@ -300,6 +302,11 @@
 				CLASSPREFIX = ETH;
 				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Asantee Games";
+				TargetAttributes = {
+					74F00B181646C12200B8B51B = {
+						ProvisioningStyle = Manual;
+					};
+				};
 			};
 			buildConfigurationList = 74F00B131646C12200B8B51B /* Build configuration list for PBXProject "machine" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -526,8 +533,12 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = machine/machine.entitlements;
 				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = NO;
 				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -558,7 +569,9 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.asanteegames.machine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
 			};
@@ -570,9 +583,13 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = machine/machine.entitlements;
 				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = NO;
 				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -600,7 +617,9 @@
 					"\"$(SRCROOT)/../../../src/gs2d/vendors/fmod/lib\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = com.asanteegames.machine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
 			};
