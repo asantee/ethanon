@@ -6,6 +6,8 @@
 
 #import <GameController/GameController.h>
 
+#import "../../Input/iOS/IOSInput.h"
+
 @interface EthanonViewController ()
 
 @property (nonatomic, strong) id connectObserver;
@@ -128,6 +130,155 @@
 {
 	GLKView *view = (GLKView *)self.view;
 	return view.contentScaleFactor;
+}
+
+- (void)pressesBegan:(NSSet<UIPress *> *)presses withEvent:(UIPressesEvent *)event
+{
+	BOOL didHandleEvent = false;
+
+	for (UIPress* press in presses)
+	{
+		if (!press.key)
+		{
+			continue;
+		}
+		didHandleEvent = [self process:press withState:TRUE];
+	}
+	if (didHandleEvent == false)
+	{
+		[super pressesBegan:presses withEvent:event];
+	}
+}
+
+- (void)pressesEnded:(NSSet<UIPress *> *)presses withEvent:(UIPressesEvent *)event
+{
+	BOOL didHandleEvent = false;
+
+	for (UIPress* press in presses)
+	{
+		if (!press.key)
+		{
+			continue;
+		}
+		didHandleEvent = [self process:press withState:FALSE];
+	}
+	if (didHandleEvent == false)
+	{
+		[super pressesEnded:presses withEvent:event];
+	}
+}
+
+- (BOOL)process:(UIPress*) press withState:(BOOL)pressed
+{
+	BOOL didHandleEvent = false;
+	gs2d::IOSInput* pInput = (gs2d::IOSInput*)([self.ethanonApplication input]);
+	
+	if (press.key.charactersIgnoringModifiers == UIKeyInputLeftArrow)
+	{
+		pInput->SetBooleanKeyState(gs2d::GSK_LEFT, pressed);
+		didHandleEvent = true;
+	}
+	else if (press.key.charactersIgnoringModifiers == UIKeyInputRightArrow)
+	{
+		pInput->SetBooleanKeyState(gs2d::GSK_RIGHT, pressed);
+		didHandleEvent = true;
+	}
+	else if (press.key.charactersIgnoringModifiers == UIKeyInputUpArrow)
+	{
+		pInput->SetBooleanKeyState(gs2d::GSK_UP, pressed);
+		didHandleEvent = true;
+	}
+	else if (press.key.charactersIgnoringModifiers == UIKeyInputDownArrow)
+	{
+		pInput->SetBooleanKeyState(gs2d::GSK_DOWN, pressed);
+		didHandleEvent = true;
+	}
+	/*else if (press.key.charactersIgnoringModifiers == UIKeyInputHome)
+	{
+		pInput->SetBooleanKeyState(gs2d::GSK_HOME, pressed);
+		didHandleEvent = true;
+	}
+	else if (press.key.charactersIgnoringModifiers == UIKeyInputEnd)
+	{
+		pInput->SetBooleanKeyState(gs2d::GSK_END, pressed);
+		didHandleEvent = true;
+	}*/
+	else if (press.key.charactersIgnoringModifiers == UIKeyInputPageUp)
+	{
+		pInput->SetBooleanKeyState(gs2d::GSK_PAGEUP, pressed);
+		didHandleEvent = true;
+	}
+	else if (press.key.charactersIgnoringModifiers == UIKeyInputPageDown)
+	{
+		pInput->SetBooleanKeyState(gs2d::GSK_PAGEDOWN, pressed);
+		didHandleEvent = true;
+	}
+	else if (press.key.charactersIgnoringModifiers == UIKeyInputEscape)
+	{
+		pInput->SetBooleanKeyState(gs2d::GSK_ESC, pressed);
+		didHandleEvent = true;
+	}
+	/*else if (press.key.charactersIgnoringModifiers == UIKeyInputF1)
+	{
+		pInput->SetBooleanKeyState(gs2d::GSK_F1, pressed);
+		didHandleEvent = true;
+	}
+	else if (press.key.charactersIgnoringModifiers == UIKeyInputF2)
+	{
+		pInput->SetBooleanKeyState(gs2d::GSK_F2, pressed);
+		didHandleEvent = true;
+	}
+	else if (press.key.charactersIgnoringModifiers == UIKeyInputF3)
+	{
+		pInput->SetBooleanKeyState(gs2d::GSK_F3, pressed);
+		didHandleEvent = true;
+	}
+	else if (press.key.charactersIgnoringModifiers == UIKeyInputF4)
+	{
+		pInput->SetBooleanKeyState(gs2d::GSK_F4, pressed);
+		didHandleEvent = true;
+	}
+	else if (press.key.charactersIgnoringModifiers == UIKeyInputF5)
+	{
+		pInput->SetBooleanKeyState(gs2d::GSK_F5, pressed);
+		didHandleEvent = true;
+	}
+	else if (press.key.charactersIgnoringModifiers == UIKeyInputF6)
+	{
+		pInput->SetBooleanKeyState(gs2d::GSK_F6, pressed);
+		didHandleEvent = true;
+	}
+	else if (press.key.charactersIgnoringModifiers == UIKeyInputF7)
+	{
+		pInput->SetBooleanKeyState(gs2d::GSK_F7, pressed);
+		didHandleEvent = true;
+	}
+	else if (press.key.charactersIgnoringModifiers == UIKeyInputF8)
+	{
+		pInput->SetBooleanKeyState(gs2d::GSK_F8, pressed);
+		didHandleEvent = true;
+	}
+	else if (press.key.charactersIgnoringModifiers == UIKeyInputF9)
+	{
+		pInput->SetBooleanKeyState(gs2d::GSK_F9, pressed);
+		didHandleEvent = true;
+	}
+	else if (press.key.charactersIgnoringModifiers == UIKeyInputF10)
+	{
+		pInput->SetBooleanKeyState(gs2d::GSK_F10, pressed);
+		didHandleEvent = true;
+	}
+	else if (press.key.charactersIgnoringModifiers == UIKeyInputF11)
+	{
+		pInput->SetBooleanKeyState(gs2d::GSK_F11, pressed);
+		didHandleEvent = true;
+	}
+	else if (press.key.charactersIgnoringModifiers == UIKeyInput)
+	{
+		pInput->SetBooleanKeyState(gs2d::GSK_, pressed);
+		didHandleEvent = true;
+	}*/
+	return didHandleEvent;
 }
 
 - (void)setupAccelerometer

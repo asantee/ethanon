@@ -9,6 +9,8 @@
 
 #import <Platform/ios/IOSNativeCommandListener.h>
 
+#include <Input.h>
+
 @interface ApplicationWrapper : NSObject
 
 - (id)init;
@@ -18,6 +20,8 @@
 - (void)renderFrame:(GLKView*) view;
 - (void)update;
 - (void)destroy;
+
+- (gs2d::Input*)input;
 
 - (void)touchesBegan:(UIView*) thisView withTouches:(NSSet*) touches withEvent:(UIEvent*) event;
 - (void)touchesMoved:(UIView*) thisView withTouches:(NSSet*) touches withEvent:(UIEvent*) event;

@@ -22,6 +22,10 @@ IOSInput::IOSInput(const unsigned int maxTouchCount) :
 	MobileInput(maxTouchCount),
 	m_forcePause(false)
 {
+	for (unsigned int t = 0; t < GS_NUM_KEYS; t++)
+	{
+		m_keyBooleanStates[t] = false;
+	}
 }
 
 bool IOSInput::DetectJoysticks()
@@ -62,24 +66,29 @@ void IOSInput::SetCurrentTouchPos(const unsigned int n, const gs2d::math::Vector
 
 bool IOSInput::IsKeyDown(const GS_KEY key) const
 {
-	return false;
+	return GetKeyState(key) == GSKS_DOWN;
 }
 
 GS_KEY_STATE IOSInput::GetKeyState(const GS_KEY key) const
 {
 	if (key == GSK_PAUSE)
 	{
-		return m_pauseState.GetCurrentState();
+		return SumKeyStates(m_pauseState.GetCurrentState(), m_keyStates[GSK_PAUSE].GetCurrentState());
 	}
 	else
 	{
-		return GSKS_UP;
+		return m_keyStates[key].GetCurrentState();
 	}
 }
 
 void IOSInput::ForcePause()
 {
 	m_forcePause = true;
+}
+
+void IOSInput::SetBooleanKeyState(const GS_KEY key, const bool pressed)
+{
+	m_keyBooleanStates[key] = pressed;
 }
 
 bool IOSInput::Update()
@@ -122,6 +131,11 @@ bool IOSInput::Update()
 		joystick.state[GSB_RIGHT].Update(leftThumbstick.x >  0.8f || dpad.x >  0.05f);
 		joystick.state[GSB_UP   ].Update(leftThumbstick.y >  0.8f || dpad.y >  0.05f);
 		joystick.state[GSB_DOWN ].Update(leftThumbstick.y < -0.8f || dpad.y < -0.05f);
+	}
+
+	for (unsigned int t = 0; t < GS_NUM_KEYS; t++)
+	{
+		m_keyStates[t].Update(m_keyBooleanStates[t]);
 	}
 
 	m_pauseState.Update(m_forcePause);

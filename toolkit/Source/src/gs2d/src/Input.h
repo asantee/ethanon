@@ -242,6 +242,9 @@ public:
 	virtual unsigned int GetNumJoysticks() const = 0;
 
 	virtual math::Vector3 GetAccelerometerData() const = 0;
+
+	static int GetKeyStateMultiplicationValue(const GS_KEY_STATE state);
+	static GS_KEY_STATE SumKeyStates(const GS_KEY_STATE a, const GS_KEY_STATE b);
 };
 
 typedef boost::shared_ptr<Input> InputPtr;

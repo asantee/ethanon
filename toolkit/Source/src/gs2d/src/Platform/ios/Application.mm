@@ -137,6 +137,11 @@
 	}
 }
 
+- (gs2d::Input*)input
+{
+	return m_input.get();
+}
+
 - (void)forceGamepadPause
 {
 	gs2d::IOSInput* input = static_cast<gs2d::IOSInput*>(m_input.get());

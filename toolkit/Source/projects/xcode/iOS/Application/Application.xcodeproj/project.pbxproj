@@ -226,6 +226,7 @@
 		AAFA2E322139CDA6006D67FB /* cJSON.c in Sources */ = {isa = PBXBuildFile; fileRef = AAFA2E312139CDA6006D67FB /* cJSON.c */; };
 		AAFA2E352139D1C4006D67FB /* JSONObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAFA2E332139D1C3006D67FB /* JSONObject.cpp */; };
 		FC4ABB4C25F93858009B47DA /* AudioDummy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC4ABB4A25F93858009B47DA /* AudioDummy.cpp */; };
+		FC6C677D26CFFF2A00A39C6F /* Input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC6C677C26CFFE4D00A39C6F /* Input.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -699,6 +700,7 @@
 		AAFA2E342139D1C3006D67FB /* JSONObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONObject.h; path = ../../../../src/engine/Util/JSONObject.h; sourceTree = "<group>"; };
 		FC4ABB4A25F93858009B47DA /* AudioDummy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AudioDummy.cpp; path = ../../../../src/gs2d/src/Audio/AudioDummy.cpp; sourceTree = "<group>"; };
 		FC4ABB4B25F93858009B47DA /* AudioDummy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioDummy.h; path = ../../../../src/gs2d/src/Audio/AudioDummy.h; sourceTree = "<group>"; };
+		FC6C677C26CFFE4D00A39C6F /* Input.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Input.cpp; path = ../../../../src/gs2d/src/Input.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -812,6 +814,7 @@
 				74E6E5701A30FFB500E89172 /* Audio.h */,
 				74E6E5711A30FFB500E89172 /* BaseApplication.h */,
 				74E6E5721A30FFB500E89172 /* Input.h */,
+				FC6C677C26CFFE4D00A39C6F /* Input.cpp */,
 				AA65A38522FDFACC0026BE60 /* Shader.cpp */,
 				74E6E5741A30FFB500E89172 /* Shader.h */,
 				74E6E5751A30FFB500E89172 /* Sprite.cpp */,
@@ -1592,6 +1595,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC6C677D26CFFF2A00A39C6F /* Input.cpp in Sources */,
 				74E6E7C21A31EA4B00E89172 /* ETHEntityPieceRenderer.cpp in Sources */,
 				74E6E7111A31E4F800E89172 /* b2WeldJoint.cpp in Sources */,
 				74E6E71E1A31E67B00E89172 /* tinyxml.cpp in Sources */,
