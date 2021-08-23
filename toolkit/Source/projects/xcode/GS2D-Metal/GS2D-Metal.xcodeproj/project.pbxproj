@@ -1,0 +1,648 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		AA88D35826D4491D006E1B63 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA88D35726D4491D006E1B63 /* AppDelegate.m */; };
+		AA88D35B26D4491D006E1B63 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA88D35A26D4491D006E1B63 /* GameViewController.m */; };
+		AA88D35E26D4491D006E1B63 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA88D35C26D4491D006E1B63 /* Main.storyboard */; };
+		AA88D36126D4491D006E1B63 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA88D35F26D4491D006E1B63 /* LaunchScreen.storyboard */; };
+		AA88D36426D4491D006E1B63 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AA88D36326D4491D006E1B63 /* main.m */; };
+		AA88D36D26D4491D006E1B63 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA88D36C26D4491D006E1B63 /* AppDelegate.m */; };
+		AA88D37026D4491D006E1B63 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA88D36F26D4491D006E1B63 /* GameViewController.m */; };
+		AA88D37326D4491D006E1B63 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA88D37126D4491D006E1B63 /* Main.storyboard */; };
+		AA88D37626D4491D006E1B63 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA88D37426D4491D006E1B63 /* LaunchScreen.storyboard */; };
+		AA88D37926D4491D006E1B63 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AA88D37826D4491D006E1B63 /* main.m */; };
+		AA88D38226D4491D006E1B63 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA88D38126D4491D006E1B63 /* AppDelegate.m */; };
+		AA88D38526D4491D006E1B63 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA88D38426D4491D006E1B63 /* GameViewController.m */; };
+		AA88D38826D4491D006E1B63 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA88D38626D4491D006E1B63 /* Main.storyboard */; };
+		AA88D38B26D4491D006E1B63 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AA88D38A26D4491D006E1B63 /* main.m */; };
+		AA88D38D26D4491D006E1B63 /* Renderer.m in Sources */ = {isa = PBXBuildFile; fileRef = AA88D34B26D4491C006E1B63 /* Renderer.m */; };
+		AA88D38E26D4491D006E1B63 /* Renderer.m in Sources */ = {isa = PBXBuildFile; fileRef = AA88D34B26D4491C006E1B63 /* Renderer.m */; };
+		AA88D38F26D4491D006E1B63 /* Renderer.m in Sources */ = {isa = PBXBuildFile; fileRef = AA88D34B26D4491C006E1B63 /* Renderer.m */; };
+		AA88D39026D4491D006E1B63 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA88D34D26D4491C006E1B63 /* Shaders.metal */; };
+		AA88D39126D4491D006E1B63 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA88D34D26D4491C006E1B63 /* Shaders.metal */; };
+		AA88D39226D4491D006E1B63 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA88D34D26D4491C006E1B63 /* Shaders.metal */; };
+		AA88D39326D4491D006E1B63 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA88D34E26D4491D006E1B63 /* Assets.xcassets */; };
+		AA88D39426D4491D006E1B63 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA88D34E26D4491D006E1B63 /* Assets.xcassets */; };
+		AA88D39526D4491D006E1B63 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA88D34E26D4491D006E1B63 /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		AA88D34A26D4491C006E1B63 /* Renderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Renderer.h; sourceTree = "<group>"; };
+		AA88D34B26D4491C006E1B63 /* Renderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Renderer.m; sourceTree = "<group>"; };
+		AA88D34C26D4491C006E1B63 /* ShaderTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShaderTypes.h; sourceTree = "<group>"; };
+		AA88D34D26D4491C006E1B63 /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
+		AA88D34E26D4491D006E1B63 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AA88D35326D4491D006E1B63 /* GS2D-Metal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GS2D-Metal.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA88D35626D4491D006E1B63 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		AA88D35726D4491D006E1B63 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		AA88D35926D4491D006E1B63 /* GameViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
+		AA88D35A26D4491D006E1B63 /* GameViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
+		AA88D35D26D4491D006E1B63 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		AA88D36026D4491D006E1B63 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		AA88D36226D4491D006E1B63 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AA88D36326D4491D006E1B63 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		AA88D36926D4491D006E1B63 /* GS2D-Metal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GS2D-Metal.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA88D36B26D4491D006E1B63 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		AA88D36C26D4491D006E1B63 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		AA88D36E26D4491D006E1B63 /* GameViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
+		AA88D36F26D4491D006E1B63 /* GameViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
+		AA88D37226D4491D006E1B63 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		AA88D37526D4491D006E1B63 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		AA88D37726D4491D006E1B63 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AA88D37826D4491D006E1B63 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		AA88D37E26D4491D006E1B63 /* GS2D-Metal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GS2D-Metal.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA88D38026D4491D006E1B63 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		AA88D38126D4491D006E1B63 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		AA88D38326D4491D006E1B63 /* GameViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
+		AA88D38426D4491D006E1B63 /* GameViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
+		AA88D38726D4491D006E1B63 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		AA88D38926D4491D006E1B63 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AA88D38A26D4491D006E1B63 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		AA88D38C26D4491D006E1B63 /* GS2D_Metal_macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GS2D_Metal_macOS.entitlements; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AA88D35026D4491D006E1B63 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA88D36626D4491D006E1B63 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA88D37B26D4491D006E1B63 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AA88D34426D4491B006E1B63 = {
+			isa = PBXGroup;
+			children = (
+				AA88D34926D4491C006E1B63 /* GS2D-Metal Shared */,
+				AA88D35526D4491D006E1B63 /* GS2D-Metal iOS */,
+				AA88D36A26D4491D006E1B63 /* GS2D-Metal tvOS */,
+				AA88D37F26D4491D006E1B63 /* GS2D-Metal macOS */,
+				AA88D35426D4491D006E1B63 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		AA88D34926D4491C006E1B63 /* GS2D-Metal Shared */ = {
+			isa = PBXGroup;
+			children = (
+				AA88D34A26D4491C006E1B63 /* Renderer.h */,
+				AA88D34B26D4491C006E1B63 /* Renderer.m */,
+				AA88D34C26D4491C006E1B63 /* ShaderTypes.h */,
+				AA88D34D26D4491C006E1B63 /* Shaders.metal */,
+				AA88D34E26D4491D006E1B63 /* Assets.xcassets */,
+			);
+			path = "GS2D-Metal Shared";
+			sourceTree = "<group>";
+		};
+		AA88D35426D4491D006E1B63 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AA88D35326D4491D006E1B63 /* GS2D-Metal.app */,
+				AA88D36926D4491D006E1B63 /* GS2D-Metal.app */,
+				AA88D37E26D4491D006E1B63 /* GS2D-Metal.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AA88D35526D4491D006E1B63 /* GS2D-Metal iOS */ = {
+			isa = PBXGroup;
+			children = (
+				AA88D35626D4491D006E1B63 /* AppDelegate.h */,
+				AA88D35726D4491D006E1B63 /* AppDelegate.m */,
+				AA88D35926D4491D006E1B63 /* GameViewController.h */,
+				AA88D35A26D4491D006E1B63 /* GameViewController.m */,
+				AA88D35C26D4491D006E1B63 /* Main.storyboard */,
+				AA88D35F26D4491D006E1B63 /* LaunchScreen.storyboard */,
+				AA88D36226D4491D006E1B63 /* Info.plist */,
+				AA88D36326D4491D006E1B63 /* main.m */,
+			);
+			path = "GS2D-Metal iOS";
+			sourceTree = "<group>";
+		};
+		AA88D36A26D4491D006E1B63 /* GS2D-Metal tvOS */ = {
+			isa = PBXGroup;
+			children = (
+				AA88D36B26D4491D006E1B63 /* AppDelegate.h */,
+				AA88D36C26D4491D006E1B63 /* AppDelegate.m */,
+				AA88D36E26D4491D006E1B63 /* GameViewController.h */,
+				AA88D36F26D4491D006E1B63 /* GameViewController.m */,
+				AA88D37126D4491D006E1B63 /* Main.storyboard */,
+				AA88D37426D4491D006E1B63 /* LaunchScreen.storyboard */,
+				AA88D37726D4491D006E1B63 /* Info.plist */,
+				AA88D37826D4491D006E1B63 /* main.m */,
+			);
+			path = "GS2D-Metal tvOS";
+			sourceTree = "<group>";
+		};
+		AA88D37F26D4491D006E1B63 /* GS2D-Metal macOS */ = {
+			isa = PBXGroup;
+			children = (
+				AA88D38026D4491D006E1B63 /* AppDelegate.h */,
+				AA88D38126D4491D006E1B63 /* AppDelegate.m */,
+				AA88D38326D4491D006E1B63 /* GameViewController.h */,
+				AA88D38426D4491D006E1B63 /* GameViewController.m */,
+				AA88D38626D4491D006E1B63 /* Main.storyboard */,
+				AA88D38926D4491D006E1B63 /* Info.plist */,
+				AA88D38A26D4491D006E1B63 /* main.m */,
+				AA88D38C26D4491D006E1B63 /* GS2D_Metal_macOS.entitlements */,
+			);
+			path = "GS2D-Metal macOS";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AA88D35226D4491D006E1B63 /* GS2D-Metal iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA88D39826D4491D006E1B63 /* Build configuration list for PBXNativeTarget "GS2D-Metal iOS" */;
+			buildPhases = (
+				AA88D34F26D4491D006E1B63 /* Sources */,
+				AA88D35026D4491D006E1B63 /* Frameworks */,
+				AA88D35126D4491D006E1B63 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "GS2D-Metal iOS";
+			productName = "GS2D-Metal iOS";
+			productReference = AA88D35326D4491D006E1B63 /* GS2D-Metal.app */;
+			productType = "com.apple.product-type.application";
+		};
+		AA88D36826D4491D006E1B63 /* GS2D-Metal tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA88D39B26D4491D006E1B63 /* Build configuration list for PBXNativeTarget "GS2D-Metal tvOS" */;
+			buildPhases = (
+				AA88D36526D4491D006E1B63 /* Sources */,
+				AA88D36626D4491D006E1B63 /* Frameworks */,
+				AA88D36726D4491D006E1B63 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "GS2D-Metal tvOS";
+			productName = "GS2D-Metal tvOS";
+			productReference = AA88D36926D4491D006E1B63 /* GS2D-Metal.app */;
+			productType = "com.apple.product-type.application";
+		};
+		AA88D37D26D4491D006E1B63 /* GS2D-Metal macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA88D39E26D4491D006E1B63 /* Build configuration list for PBXNativeTarget "GS2D-Metal macOS" */;
+			buildPhases = (
+				AA88D37A26D4491D006E1B63 /* Sources */,
+				AA88D37B26D4491D006E1B63 /* Frameworks */,
+				AA88D37C26D4491D006E1B63 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "GS2D-Metal macOS";
+			productName = "GS2D-Metal macOS";
+			productReference = AA88D37E26D4491D006E1B63 /* GS2D-Metal.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AA88D34526D4491B006E1B63 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1250;
+				TargetAttributes = {
+					AA88D35226D4491D006E1B63 = {
+						CreatedOnToolsVersion = 12.5.1;
+					};
+					AA88D36826D4491D006E1B63 = {
+						CreatedOnToolsVersion = 12.5.1;
+					};
+					AA88D37D26D4491D006E1B63 = {
+						CreatedOnToolsVersion = 12.5.1;
+					};
+				};
+			};
+			buildConfigurationList = AA88D34826D4491B006E1B63 /* Build configuration list for PBXProject "GS2D-Metal" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = AA88D34426D4491B006E1B63;
+			productRefGroup = AA88D35426D4491D006E1B63 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AA88D35226D4491D006E1B63 /* GS2D-Metal iOS */,
+				AA88D36826D4491D006E1B63 /* GS2D-Metal tvOS */,
+				AA88D37D26D4491D006E1B63 /* GS2D-Metal macOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AA88D35126D4491D006E1B63 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA88D35E26D4491D006E1B63 /* Main.storyboard in Resources */,
+				AA88D39326D4491D006E1B63 /* Assets.xcassets in Resources */,
+				AA88D36126D4491D006E1B63 /* LaunchScreen.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA88D36726D4491D006E1B63 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA88D37326D4491D006E1B63 /* Main.storyboard in Resources */,
+				AA88D39426D4491D006E1B63 /* Assets.xcassets in Resources */,
+				AA88D37626D4491D006E1B63 /* LaunchScreen.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA88D37C26D4491D006E1B63 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA88D39526D4491D006E1B63 /* Assets.xcassets in Resources */,
+				AA88D38826D4491D006E1B63 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AA88D34F26D4491D006E1B63 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA88D38D26D4491D006E1B63 /* Renderer.m in Sources */,
+				AA88D35B26D4491D006E1B63 /* GameViewController.m in Sources */,
+				AA88D36426D4491D006E1B63 /* main.m in Sources */,
+				AA88D35826D4491D006E1B63 /* AppDelegate.m in Sources */,
+				AA88D39026D4491D006E1B63 /* Shaders.metal in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA88D36526D4491D006E1B63 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA88D38E26D4491D006E1B63 /* Renderer.m in Sources */,
+				AA88D37026D4491D006E1B63 /* GameViewController.m in Sources */,
+				AA88D37926D4491D006E1B63 /* main.m in Sources */,
+				AA88D36D26D4491D006E1B63 /* AppDelegate.m in Sources */,
+				AA88D39126D4491D006E1B63 /* Shaders.metal in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA88D37A26D4491D006E1B63 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA88D38F26D4491D006E1B63 /* Renderer.m in Sources */,
+				AA88D38526D4491D006E1B63 /* GameViewController.m in Sources */,
+				AA88D38B26D4491D006E1B63 /* main.m in Sources */,
+				AA88D38226D4491D006E1B63 /* AppDelegate.m in Sources */,
+				AA88D39226D4491D006E1B63 /* Shaders.metal in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		AA88D35C26D4491D006E1B63 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AA88D35D26D4491D006E1B63 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		AA88D35F26D4491D006E1B63 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AA88D36026D4491D006E1B63 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		AA88D37126D4491D006E1B63 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AA88D37226D4491D006E1B63 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		AA88D37426D4491D006E1B63 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AA88D37526D4491D006E1B63 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		AA88D38626D4491D006E1B63 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AA88D38726D4491D006E1B63 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		AA88D39626D4491D006E1B63 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+			};
+			name = Debug;
+		};
+		AA88D39726D4491D006E1B63 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+			};
+			name = Release;
+		};
+		AA88D39926D4491D006E1B63 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = "GS2D-Metal iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.asanteegames.gs2d.GS2D-Metal";
+				PRODUCT_NAME = "GS2D-Metal";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AA88D39A26D4491D006E1B63 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = "GS2D-Metal iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.asanteegames.gs2d.GS2D-Metal";
+				PRODUCT_NAME = "GS2D-Metal";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AA88D39C26D4491D006E1B63 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "tvOS App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = "GS2D-Metal tvOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.asanteegames.gs2d.GS2D-Metal";
+				PRODUCT_NAME = "GS2D-Metal";
+				SDKROOT = appletvos;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 14.5;
+			};
+			name = Debug;
+		};
+		AA88D39D26D4491D006E1B63 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "tvOS App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = "GS2D-Metal tvOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.asanteegames.gs2d.GS2D-Metal";
+				PRODUCT_NAME = "GS2D-Metal";
+				SDKROOT = appletvos;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 14.5;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AA88D39F26D4491D006E1B63 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "GS2D-Metal macOS/GS2D_Metal_macOS.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "GS2D-Metal macOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.asanteegames.gs2d.GS2D-Metal";
+				PRODUCT_NAME = "GS2D-Metal";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		AA88D3A026D4491D006E1B63 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "GS2D-Metal macOS/GS2D_Metal_macOS.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "GS2D-Metal macOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.asanteegames.gs2d.GS2D-Metal";
+				PRODUCT_NAME = "GS2D-Metal";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AA88D34826D4491B006E1B63 /* Build configuration list for PBXProject "GS2D-Metal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA88D39626D4491D006E1B63 /* Debug */,
+				AA88D39726D4491D006E1B63 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA88D39826D4491D006E1B63 /* Build configuration list for PBXNativeTarget "GS2D-Metal iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA88D39926D4491D006E1B63 /* Debug */,
+				AA88D39A26D4491D006E1B63 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA88D39B26D4491D006E1B63 /* Build configuration list for PBXNativeTarget "GS2D-Metal tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA88D39C26D4491D006E1B63 /* Debug */,
+				AA88D39D26D4491D006E1B63 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA88D39E26D4491D006E1B63 /* Build configuration list for PBXNativeTarget "GS2D-Metal macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA88D39F26D4491D006E1B63 /* Debug */,
+				AA88D3A026D4491D006E1B63 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = AA88D34526D4491B006E1B63 /* Project object */;
+}
