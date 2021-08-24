@@ -9,11 +9,6 @@
 
 namespace gs2d {
 
-void ShowMessage(std::stringstream& stream, const GS_MESSAGE_TYPE type)
-{
-	std::cout << stream.str() << std::endl;
-}
-
 PolygonRendererPtr PolygonRenderer::Create(
 	const std::vector<PolygonRenderer::Vertex>& vertices,
 	const std::vector<uint32_t>& indices,
@@ -26,15 +21,5 @@ PolygonRendererPtr PolygonRenderer::Create(
 } // namespace gs2d
 
 namespace Platform {
-
-std::string FileLogger::GetLogDirectory()
-{
-	return "";
-}
-
-char GetDirectorySlashA()
-{
-	return '/';
-}
 
 } // namespace Platform

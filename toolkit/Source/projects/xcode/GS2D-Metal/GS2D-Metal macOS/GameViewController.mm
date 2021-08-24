@@ -1,15 +1,15 @@
-//
-//  GameViewController.m
-//  GS2D-Metal macOS
-//
-//  Created by Andre Santee on 23/08/21.
-//
-
 #import "GameViewController.h"
 #import "Renderer.h"
 
+#include <Platform/FileIOHub.h>
+#include <Platform/StdFileManager.h>
+
+#include <Video/Metal/MetalVideo.h>
+
 @implementation GameViewController
 {
+	boost::shared_ptr<gs2d::Video> m_video;
+
     MTKView *_view;
 
     Renderer *_renderer;
@@ -19,9 +19,16 @@
 {
     [super viewDidLoad];
 
-    _view = (MTKView *)self.view;
+	_view = (MTKView *)self.view;
 
-    _view.device = MTLCreateSystemDefaultDevice();
+	Platform::FileManagerPtr fileManager(new Platform::StdFileManager());
+	Platform::FileIOHubPtr fileIOHub = Platform::CreateFileIOHub(fileManager, "fonts/");
+
+	m_video = gs2d::CreateVideo(fileIOHub, _view);
+
+	gs2d::MetalVideo* metalVideo = (gs2d::MetalVideo*)m_video.get();
+
+	_view.device = metalVideo->GetDevice();
 
     if(!_view.device)
     {

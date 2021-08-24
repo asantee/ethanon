@@ -13,7 +13,7 @@ void gs2d::ShowMessage(std::stringstream& stream, const GS_MESSAGE_TYPE type)
 {
 	if (type == GSMT_ERROR)
 	{
-		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+		NSAlert *alert = [[NSAlert alloc] init];
 		[alert addButtonWithTitle:@"OK"];
 		[alert setMessageText:[NSString stringWithCString:stream.str().c_str() encoding:NSUTF8StringEncoding]];
 		[alert setAlertStyle:NSAlertStyleWarning];
@@ -44,20 +44,15 @@ NSString* AppNameFromBundle()
 
 std::string ResourceDirectory()
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
 	NSString* resourceDir = [[NSBundle mainBundle] resourcePath];
 	resourceDir = [resourceDir stringByAppendingString:@"/assets/"];
 
 	const std::string r = [resourceDir cStringUsingEncoding:1];
-    [pool release];
 	return r;
 }
 
 std::string GlobalExternalStorageDirectory()
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
 	NSString* globalExternalStorageDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 
 	// apprend proc name plus slash
@@ -65,13 +60,11 @@ std::string GlobalExternalStorageDirectory()
 	globalExternalStorageDir = [globalExternalStorageDir stringByAppendingString:@"/"];
 
 	const std::string r = [globalExternalStorageDir cStringUsingEncoding:1];
-    [pool release];
 	return r;
 }
 
 std::string ExternalStorageDirectory()
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	NSString* externalStorageDir = [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 
 	// apprend proc name plus slash
@@ -79,7 +72,6 @@ std::string ExternalStorageDirectory()
 	externalStorageDir = [externalStorageDir stringByAppendingString:@"/"];
 
 	const std::string r = [externalStorageDir cStringUsingEncoding:1];
-    [pool release];
 	return r;
 }
 
@@ -93,10 +85,8 @@ std::string GetModuleDirectory()
 
 bool CreateDirectoryNS(NSString* dir)
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	NSFileManager* fileManager = [NSFileManager defaultManager];
 	const bool r = ([fileManager createDirectoryAtPath:dir withIntermediateDirectories:YES attributes:nil error:nil] == YES);
-    [pool release];
 	return r;
 }
 

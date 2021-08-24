@@ -5,17 +5,23 @@
 #include "../../Platform/Platform.h"
 #include "../../Platform/NativeCommandForwarder.h"
 
+#import <Metal/Metal.h>
+#import <MetalKit/MetalKit.h>
+
 namespace gs2d {
 
 class MetalVideo : public Video, public Platform::NativeCommandForwarder
 {
 	boost::weak_ptr<MetalVideo> weak_this;
 
+	id<MTLDevice> m_device;
+	MTKView* m_view;
+	
 	Platform::FileIOHubPtr m_fileIOHub;
 	bool m_quit;
 	double m_startTime;
 	float m_fpsRate;
-	math::Vector2 m_screenSize;
+	math::Vector2 m_screenSizeInPixels;
 
 	void ComputeFPSRate();
 
@@ -28,7 +34,6 @@ class MetalVideo : public Video, public Platform::NativeCommandForwarder
 		const Texture::PIXEL_FORMAT pfBB = Texture::PF_UNKNOWN,
 		const bool maximizable = false) override;
 
-public:
 	static boost::shared_ptr<MetalVideo> Create(
 		const unsigned int width,
 		const unsigned int height,
@@ -39,14 +44,13 @@ public:
 		const Texture::PIXEL_FORMAT pfBB,
 		const bool maximizable);
 
-	MetalVideo(
-		Platform::FileIOHubPtr fileIOHub,
-		const unsigned int width,
-		const unsigned int height,
-		const std::string& winTitle,
-		const bool windowed,
-		const bool sync,
-		const bool maximizable);
+public:
+	
+	id<MTLDevice> GetDevice();
+
+	static boost::shared_ptr<MetalVideo> Create(const Platform::FileIOHubPtr& fileIOHub, MTKView* view);
+
+	MetalVideo(Platform::FileIOHubPtr fileIOHub, MTKView* view);
 
 	TexturePtr CreateTextureFromFileInMemory(
 		const void *pBuffer,
@@ -143,6 +147,8 @@ public:
 	
 	double GetElapsedTimeD(const TIME_UNITY unity = TU_MILLISECONDS) const;
 };
+
+VideoPtr CreateVideo(const Platform::FileIOHubPtr& fileIOHub, MTKView* view);
 
 } // namespace gs2d
 

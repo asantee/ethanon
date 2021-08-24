@@ -4,6 +4,7 @@
 
 namespace gs2d {
 
+// Unused dummy
 VideoPtr CreateVideo(
 	const unsigned int width,
 	const unsigned int height,
@@ -14,7 +15,12 @@ VideoPtr CreateVideo(
 	const Texture::PIXEL_FORMAT pfBB,
 	const bool maximizable)
 {
-	return MetalVideo::Create(width, height, winTitle, windowed, sync, fileIOHub, pfBB, maximizable);
+	return VideoPtr();
+}
+
+VideoPtr CreateVideo(const Platform::FileIOHubPtr& fileIOHub, MTKView* view)
+{
+	return MetalVideo::Create(fileIOHub, view);
 }
 
 boost::shared_ptr<MetalVideo> MetalVideo::Create(
@@ -27,28 +33,32 @@ boost::shared_ptr<MetalVideo> MetalVideo::Create(
 	const Texture::PIXEL_FORMAT pfBB,
 	const bool maximizable)
 {
-	boost::shared_ptr<MetalVideo> p(
-		new MetalVideo(fileIOHub, width, height, winTitle, windowed, sync, maximizable));
+	return boost::shared_ptr<MetalVideo>();
+}
+
+boost::shared_ptr<MetalVideo> MetalVideo::Create(const Platform::FileIOHubPtr& fileIOHub, MTKView* view)
+{
+	boost::shared_ptr<MetalVideo> p(new MetalVideo(fileIOHub, view));
 	p->weak_this = p;
 	return p;
 }
 
 MetalVideo::MetalVideo(
 	Platform::FileIOHubPtr fileIOHub,
-	const unsigned int width,
-	const unsigned int height,
-	const std::string& winTitle,
-	const bool windowed,
-	const bool sync,
-	const bool maximizable) :
+	MTKView *view) :
 	m_fileIOHub(fileIOHub),
+	m_view(view),
 	m_quit(false),
 	m_fpsRate(60.0f)
 {
 	m_startTime = getRealTime();
 
-	StartApplication(width, height, winTitle, windowed, sync, Texture::PF_UNKNOWN, maximizable);
+	view.depthStencilPixelFormat = MTLPixelFormatDepth32Float;
+	view.colorPixelFormat = MTLPixelFormatBGRA8Unorm_sRGB;
+	view.sampleCount = 1;
 	
+	StartApplication(400, 400, "", false /*windowed*/, true /*sync*/, Texture::PF_UNKNOWN, false /*maximizable*/);
+
 	gs2d::Application::SharedData.Create("com.ethanonengine.usingSuperSimple", "true", true /*constant*/);
 }
 
@@ -114,6 +124,11 @@ TexturePtr MetalVideo::LoadTextureFromFile(
 	return TexturePtr();
 }
 
+id<MTLDevice> MetalVideo::GetDevice()
+{
+	return m_device;
+}
+
 bool MetalVideo::StartApplication(
 	const unsigned int width,
 	const unsigned int height,
@@ -123,8 +138,10 @@ bool MetalVideo::StartApplication(
 	const Texture::PIXEL_FORMAT pfBB,
 	const bool maximizable)
 {
-	m_screenSize.x = static_cast<float>(width);
-	m_screenSize.y = static_cast<float>(height);
+	m_device = MTLCreateSystemDefaultDevice();
+
+	m_screenSizeInPixels.x = static_cast<float>(width);
+	m_screenSizeInPixels.y = static_cast<float>(height);
 
     return true;
 }
@@ -159,11 +176,13 @@ Color MetalVideo::GetBGColor() const
 
 bool MetalVideo::BeginRendering(const Color& bgColor)
 {
+	m_rendering = true;
 	return true;
 }
 
 bool MetalVideo::EndRendering()
 {
+	m_rendering = false;
 	return true;
 }
 
@@ -180,8 +199,8 @@ bool MetalVideo::ResetVideoMode(
 	const Texture::PIXEL_FORMAT pfBB,
 	const bool toggleFullscreen)
 {
-	m_screenSize.x = static_cast<float>(width);
-	m_screenSize.y = static_cast<float>(height);
+	m_screenSizeInPixels.x = static_cast<float>(width);
+	m_screenSizeInPixels.y = static_cast<float>(height);
 
 	// call listener if there's any
 	ScreenSizeChangeListenerPtr listener = m_screenSizeChangeListener.lock();
@@ -302,13 +321,13 @@ math::Vector2i MetalVideo::GetScreenSize() const
 math::Vector2 MetalVideo::GetScreenSizeF() const
 {
 	const float virtualScreenHeight = GetVirtualScreenHeight();
-	const float virtualWidth = m_screenSize.x * (virtualScreenHeight / m_screenSize.y);
+	const float virtualWidth = m_screenSizeInPixels.x * (virtualScreenHeight / m_screenSizeInPixels.y);
 	return math::Vector2(virtualWidth, virtualScreenHeight);
 }
 
 math::Vector2 MetalVideo::GetScreenSizeInPixels() const
 {
-	return GetScreenSizeF();
+	return m_screenSizeInPixels;
 }
 
 void MetalVideo::EnableQuitShortcuts(const bool enable)
