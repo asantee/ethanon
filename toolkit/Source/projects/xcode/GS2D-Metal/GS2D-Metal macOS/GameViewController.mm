@@ -27,8 +27,8 @@
 	Platform::FileManagerPtr fileManager(new Platform::StdFileManager());
 	Platform::FileIOHubPtr fileIOHub = Platform::CreateFileIOHub(fileManager, "fonts/");
 
-	m_video = gs2d::CreateVideo(fileIOHub, _view);
-	m_video->SetBGColor(gs2d::Color(0xFF003366));
+	m_video = gs2d::MetalVideo::Create(fileIOHub, _view);
+	m_video->SetBackgroundColor(gs2d::Color(0xFF003366));
 
 	gs2d::MetalVideo* metalVideo = (gs2d::MetalVideo*)m_video.get();
 

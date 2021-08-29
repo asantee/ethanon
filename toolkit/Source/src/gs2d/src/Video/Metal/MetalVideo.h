@@ -31,24 +31,7 @@ class MetalVideo : public Video, public Platform::NativeCommandForwarder
 
 	void ComputeFPSRate();
 
-	bool StartApplication(
-		const unsigned int width,
-		const unsigned int height,
-		const std::string& winTitle,
-		const bool windowed,
-		const bool sync,
-		const Texture::PIXEL_FORMAT pfBB = Texture::PF_UNKNOWN,
-		const bool maximizable = false) override;
-
-	static boost::shared_ptr<MetalVideo> Create(
-		const unsigned int width,
-		const unsigned int height,
-		const std::string& winTitle,
-		const bool windowed,
-		const bool sync,
-		const Platform::FileIOHubPtr& fileIOHub,
-		const Texture::PIXEL_FORMAT pfBB,
-		const bool maximizable);
+	MetalVideo(Platform::FileIOHubPtr fileIOHub, MTKView* view);
 
 public:
 	
@@ -56,8 +39,6 @@ public:
 	MTKView* GetView();
 
 	static boost::shared_ptr<MetalVideo> Create(const Platform::FileIOHubPtr& fileIOHub, MTKView* view);
-
-	MetalVideo(Platform::FileIOHubPtr fileIOHub, MTKView* view);
 
 	TexturePtr CreateTextureFromFileInMemory(
 		const void *pBuffer,
@@ -103,8 +84,8 @@ public:
 	void SetZBuffer(const bool enable) override;
 	bool GetZBuffer() const override;
 	
-	void SetBGColor(const Color& backgroundColor) override;
-	Color GetBGColor() const override;
+	void SetBackgroundColor(const Color& backgroundColor) override;
+	Color GetBackgroundColor() const override;
 
 	// Application implementations
 	math::Vector2i GetClientScreenSize() const override;
@@ -154,8 +135,6 @@ public:
 	
 	double GetElapsedTimeD(const TIME_UNITY unity = TU_MILLISECONDS) const;
 };
-
-VideoPtr CreateVideo(const Platform::FileIOHubPtr& fileIOHub, MTKView* view);
 
 } // namespace gs2d
 

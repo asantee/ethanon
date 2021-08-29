@@ -8,38 +8,6 @@
 
 namespace gs2d {
 
-// Unused dummy
-VideoPtr CreateVideo(
-	const unsigned int width,
-	const unsigned int height,
-	const std::string& winTitle,
-	const bool windowed,
-	const bool sync,
-	const Platform::FileIOHubPtr& fileIOHub,
-	const Texture::PIXEL_FORMAT pfBB,
-	const bool maximizable)
-{
-	return VideoPtr();
-}
-
-VideoPtr CreateVideo(const Platform::FileIOHubPtr& fileIOHub, MTKView* view)
-{
-	return MetalVideo::Create(fileIOHub, view);
-}
-
-boost::shared_ptr<MetalVideo> MetalVideo::Create(
-	const unsigned int width,
-	const unsigned int height,
-	const std::string& winTitle,
-	const bool windowed,
-	const bool sync,
-	const Platform::FileIOHubPtr& fileIOHub,
-	const Texture::PIXEL_FORMAT pfBB,
-	const bool maximizable)
-{
-	return boost::shared_ptr<MetalVideo>();
-}
-
 boost::shared_ptr<MetalVideo> MetalVideo::Create(const Platform::FileIOHubPtr& fileIOHub, MTKView* view)
 {
 	boost::shared_ptr<MetalVideo> p(new MetalVideo(fileIOHub, view));
@@ -58,29 +26,8 @@ MetalVideo::MetalVideo(
 {
 	m_startTime = getRealTime();
 
-	StartApplication(
-		static_cast<unsigned int>(view.bounds.size.width),
-		static_cast<unsigned int>(view.bounds.size.height),
-		"GS2D",
-		false /*windowed*/,
-		true /*sync*/,
-		Texture::PF_UNKNOWN,
-		false /*maximizable*/);
-
-	gs2d::Application::SharedData.Create("com.ethanonengine.usingSuperSimple", "true", true /*constant*/);
-}
-
-bool MetalVideo::StartApplication(
-	const unsigned int width,
-	const unsigned int height,
-	const std::string& winTitle,
-	const bool windowed,
-	const bool sync,
-	const Texture::PIXEL_FORMAT pfBB,
-	const bool maximizable)
-{
-	m_screenSizeInPixels.x = static_cast<float>(width);
-	m_screenSizeInPixels.y = static_cast<float>(height);
+	m_screenSizeInPixels.x = view.bounds.size.width;
+	m_screenSizeInPixels.y = view.bounds.size.height;
 
 	m_device = MTLCreateSystemDefaultDevice();
 	
@@ -90,7 +37,7 @@ bool MetalVideo::StartApplication(
 	m_view.colorPixelFormat = MTLPixelFormatBGRA8Unorm;
 	m_view.sampleCount = 1;
 	
-	return true;
+	gs2d::Application::SharedData.Create("com.ethanonengine.usingSuperSimple", "true", true /*constant*/);
 }
 
 bool MetalVideo::BeginRendering(const Color& bgColor)
@@ -214,12 +161,12 @@ bool MetalVideo::GetZBuffer() const
 	return false;
 }
 
-void MetalVideo::SetBGColor(const Color& backgroundColor)
+void MetalVideo::SetBackgroundColor(const Color& backgroundColor)
 {
 	m_backgroundColor = backgroundColor;
 }
 
-Color MetalVideo::GetBGColor() const
+Color MetalVideo::GetBackgroundColor() const
 {
 	return m_backgroundColor;
 }

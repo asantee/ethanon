@@ -111,15 +111,6 @@ public:
 protected:
 	ScreenSizeChangeListenerWeakPtr m_screenSizeChangeListener;
 	FileOpenListenerPtr m_fileOpenListener;
-
-	virtual bool StartApplication(
-		const unsigned int width,
-		const unsigned int height,
-		const std::string& winTitle,
-		const bool windowed,
-		const bool sync,
-		const Texture::PIXEL_FORMAT pfBB = Texture::PF_UNKNOWN,
-		const bool maximizable = false) = 0;
 };
 
 typedef boost::shared_ptr<Application> ApplicationPtr;
