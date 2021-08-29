@@ -2,6 +2,10 @@
 
 #include "../../Platform/getRealTime.h"
 
+@interface Renderer : NSObject <MTKViewDelegate>
+-(nonnull instancetype)initWithMetalKitView:(nonnull MTKView *)view;
+@end
+
 namespace gs2d {
 
 // Unused dummy
@@ -49,17 +53,74 @@ MetalVideo::MetalVideo(
 	m_fileIOHub(fileIOHub),
 	m_view(view),
 	m_quit(false),
-	m_fpsRate(60.0f)
+	m_fpsRate(60.0f),
+	m_renderPassDescriptor(nil)
 {
 	m_startTime = getRealTime();
 
-	view.depthStencilPixelFormat = MTLPixelFormatDepth32Float;
-	view.colorPixelFormat = MTLPixelFormatBGRA8Unorm_sRGB;
-	view.sampleCount = 1;
-	
-	StartApplication(400, 400, "", false /*windowed*/, true /*sync*/, Texture::PF_UNKNOWN, false /*maximizable*/);
+	StartApplication(
+		static_cast<unsigned int>(view.bounds.size.width),
+		static_cast<unsigned int>(view.bounds.size.height),
+		"GS2D",
+		false /*windowed*/,
+		true /*sync*/,
+		Texture::PF_UNKNOWN,
+		false /*maximizable*/);
 
 	gs2d::Application::SharedData.Create("com.ethanonengine.usingSuperSimple", "true", true /*constant*/);
+}
+
+bool MetalVideo::StartApplication(
+	const unsigned int width,
+	const unsigned int height,
+	const std::string& winTitle,
+	const bool windowed,
+	const bool sync,
+	const Texture::PIXEL_FORMAT pfBB,
+	const bool maximizable)
+{
+	m_screenSizeInPixels.x = static_cast<float>(width);
+	m_screenSizeInPixels.y = static_cast<float>(height);
+
+	m_device = MTLCreateSystemDefaultDevice();
+	
+	m_commandQueue = [m_device newCommandQueue];
+
+	m_view.depthStencilPixelFormat = MTLPixelFormatDepth32Float;
+	m_view.colorPixelFormat = MTLPixelFormatBGRA8Unorm;
+	m_view.sampleCount = 1;
+	
+	return true;
+}
+
+bool MetalVideo::BeginRendering(const Color& bgColor)
+{
+	m_rendering = true;
+	m_commandBuffer = [m_commandQueue commandBuffer];
+	
+	m_renderPassDescriptor = m_view.currentRenderPassDescriptor;
+	if (m_renderPassDescriptor != nil)
+	{
+		m_renderPassDescriptor.colorAttachments[0].clearColor =
+			MTLClearColorMake(m_backgroundColor.GetR(), m_backgroundColor.GetG(), m_backgroundColor.GetB(), m_backgroundColor.GetA());
+	}
+	return true;
+}
+
+bool MetalVideo::EndRendering()
+{
+	if (m_renderPassDescriptor != nil)
+	{
+		m_commandEncoder = [m_commandBuffer renderCommandEncoderWithDescriptor:m_renderPassDescriptor];
+		[m_commandEncoder endEncoding];
+		
+		[m_commandBuffer presentDrawable:m_view.currentDrawable];
+	}
+
+	[m_commandBuffer commit];
+	
+	m_rendering = false;
+	return true;
 }
 
 ShaderPtr MetalVideo::LoadShaderFromFile(
@@ -129,21 +190,9 @@ id<MTLDevice> MetalVideo::GetDevice()
 	return m_device;
 }
 
-bool MetalVideo::StartApplication(
-	const unsigned int width,
-	const unsigned int height,
-	const std::string& winTitle,
-	const bool windowed,
-	const bool sync,
-	const Texture::PIXEL_FORMAT pfBB,
-	const bool maximizable)
+MTKView* MetalVideo::GetView()
 {
-	m_device = MTLCreateSystemDefaultDevice();
-
-	m_screenSizeInPixels.x = static_cast<float>(width);
-	m_screenSizeInPixels.y = static_cast<float>(height);
-
-    return true;
+	return m_view;
 }
 
 bool MetalVideo::SetAlphaMode(const ALPHA_MODE mode)
@@ -167,23 +216,12 @@ bool MetalVideo::GetZBuffer() const
 
 void MetalVideo::SetBGColor(const Color& backgroundColor)
 {
+	m_backgroundColor = backgroundColor;
 }
 
 Color MetalVideo::GetBGColor() const
 {
-	return Color(0x0);
-}
-
-bool MetalVideo::BeginRendering(const Color& bgColor)
-{
-	m_rendering = true;
-	return true;
-}
-
-bool MetalVideo::EndRendering()
-{
-	m_rendering = false;
-	return true;
+	return m_backgroundColor;
 }
 
 bool MetalVideo::ResetVideoMode(
@@ -384,7 +422,7 @@ bool MetalVideo::IsCursorHidden() const
 
 math::Vector2i MetalVideo::GetClientScreenSize() const
 {
-	return math::Vector2i(1280, 720);
+	return math::Vector2i(static_cast<int>(m_screenSizeInPixels.x), static_cast<int>(m_screenSizeInPixels.y));
 }
 
 math::Vector2i MetalVideo::GetWindowPosition()

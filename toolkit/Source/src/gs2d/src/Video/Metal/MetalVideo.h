@@ -2,6 +2,7 @@
 #define GS2D_METAL_VIDEO_H_
 
 #include "../../Video.h"
+#include "../../Math/Color.h"
 #include "../../Platform/Platform.h"
 #include "../../Platform/NativeCommandForwarder.h"
 
@@ -15,6 +16,10 @@ class MetalVideo : public Video, public Platform::NativeCommandForwarder
 	boost::weak_ptr<MetalVideo> weak_this;
 
 	id<MTLDevice> m_device;
+	id<MTLCommandQueue> m_commandQueue;
+	id<MTLCommandBuffer> m_commandBuffer;
+	id<MTLRenderCommandEncoder> m_commandEncoder;
+	MTLRenderPassDescriptor* m_renderPassDescriptor;
 	MTKView* m_view;
 	
 	Platform::FileIOHubPtr m_fileIOHub;
@@ -22,6 +27,7 @@ class MetalVideo : public Video, public Platform::NativeCommandForwarder
 	double m_startTime;
 	float m_fpsRate;
 	math::Vector2 m_screenSizeInPixels;
+	gs2d::Color m_backgroundColor;
 
 	void ComputeFPSRate();
 
@@ -47,6 +53,7 @@ class MetalVideo : public Video, public Platform::NativeCommandForwarder
 public:
 	
 	id<MTLDevice> GetDevice();
+	MTKView* GetView();
 
 	static boost::shared_ptr<MetalVideo> Create(const Platform::FileIOHubPtr& fileIOHub, MTKView* view);
 
