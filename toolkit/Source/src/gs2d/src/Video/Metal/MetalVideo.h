@@ -31,15 +31,18 @@ class MetalVideo : public Video, public Platform::NativeCommandForwarder
 
 	void ComputeFPSRate();
 
+public:
 	MetalVideo(Platform::FileIOHubPtr fileIOHub, MTKView* view);
 
-public:
-	
 	id<MTLDevice> GetDevice();
 	MTKView* GetView();
+	id<MTLRenderCommandEncoder> GetRenderCommandEncoder();
 
-	static boost::shared_ptr<MetalVideo> Create(const Platform::FileIOHubPtr& fileIOHub, MTKView* view);
-
+	PolygonRendererPtr CreatePolygonRenderer(
+			const std::vector<PolygonRenderer::Vertex>& vertices,
+			const std::vector<uint32_t>& indices,
+			const PolygonRenderer::POLYGON_MODE mode) override;
+	
 	TexturePtr CreateTextureFromFileInMemory(
 		const void *pBuffer,
 		const unsigned int bufferLength,

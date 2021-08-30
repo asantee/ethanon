@@ -1,19 +1,11 @@
 #include "MetalVideo.h"
 
+#include "MetalPolygonRenderer.h"
+#include "MetalShader.h"
+
 #include "../../Platform/getRealTime.h"
 
-@interface Renderer : NSObject <MTKViewDelegate>
--(nonnull instancetype)initWithMetalKitView:(nonnull MTKView *)view;
-@end
-
 namespace gs2d {
-
-boost::shared_ptr<MetalVideo> MetalVideo::Create(const Platform::FileIOHubPtr& fileIOHub, MTKView* view)
-{
-	boost::shared_ptr<MetalVideo> p(new MetalVideo(fileIOHub, view));
-	p->weak_this = p;
-	return p;
-}
 
 MetalVideo::MetalVideo(
 	Platform::FileIOHubPtr fileIOHub,
@@ -33,7 +25,7 @@ MetalVideo::MetalVideo(
 	
 	m_commandQueue = [m_device newCommandQueue];
 
-	m_view.depthStencilPixelFormat = MTLPixelFormatDepth32Float;
+	m_view.depthStencilPixelFormat = MTLPixelFormatDepth32Float_Stencil8;
 	m_view.colorPixelFormat = MTLPixelFormatBGRA8Unorm;
 	m_view.sampleCount = 1;
 	
@@ -50,6 +42,12 @@ bool MetalVideo::BeginRendering(const Color& bgColor)
 	{
 		m_renderPassDescriptor.colorAttachments[0].clearColor =
 			MTLClearColorMake(m_backgroundColor.GetR(), m_backgroundColor.GetG(), m_backgroundColor.GetB(), m_backgroundColor.GetA());
+
+		m_commandEncoder = [m_commandBuffer renderCommandEncoderWithDescriptor:m_renderPassDescriptor];
+		m_commandEncoder.label = @"GS2DRenderEncoder";
+
+		[m_commandEncoder pushDebugGroup:@"DrawAll"];
+
 	}
 	return true;
 }
@@ -58,9 +56,8 @@ bool MetalVideo::EndRendering()
 {
 	if (m_renderPassDescriptor != nil)
 	{
-		m_commandEncoder = [m_commandBuffer renderCommandEncoderWithDescriptor:m_renderPassDescriptor];
+		[m_commandEncoder popDebugGroup];
 		[m_commandEncoder endEncoding];
-		
 		[m_commandBuffer presentDrawable:m_view.currentDrawable];
 	}
 
@@ -70,18 +67,29 @@ bool MetalVideo::EndRendering()
 	return true;
 }
 
+PolygonRendererPtr MetalVideo::CreatePolygonRenderer(
+		const std::vector<PolygonRenderer::Vertex>& vertices,
+		const std::vector<uint32_t>& indices,
+		const PolygonRenderer::POLYGON_MODE mode)
+{
+	return PolygonRendererPtr(new MetalPolygonRenderer(this, vertices, indices, mode));
+}
+
 ShaderPtr MetalVideo::LoadShaderFromFile(
 	const std::string& vsFileName,
 	const std::string& vsEntry,
 	const std::string& psFileName,
 	const std::string& psEntry)
 {
-	/*ShaderPtr shader = ShaderPtr(new GLShader(GetFileIOHub()->GetFileManager()));
+	ShaderPtr shader = ShaderPtr(new MetalShader(this, GetFileIOHub()->GetFileManager()));
 	if (shader->LoadShaderFromFile(ShaderContextPtr(), vsFileName, vsEntry, psFileName, psEntry))
 	{
 		return shader;
-	}*/
-	return ShaderPtr();
+	}
+	else
+	{
+		return ShaderPtr();
+	}
 }
 
 ShaderPtr MetalVideo::LoadShaderFromString(
@@ -92,7 +100,7 @@ ShaderPtr MetalVideo::LoadShaderFromString(
 	const std::string& psCodeAsciiString,
 	const std::string& psEntry)
 {
-	/*ShaderPtr shader(new GLShader(GetFileIOHub()->GetFileManager()));
+	ShaderPtr shader(new MetalShader(this, GetFileIOHub()->GetFileManager()));
 	if (shader->LoadShaderFromString(
 		ShaderContextPtr(),
 		vsShaderName,
@@ -103,8 +111,11 @@ ShaderPtr MetalVideo::LoadShaderFromString(
 		psEntry))
 	{
 		return shader;
-	}*/
-	return ShaderPtr();
+	}
+	else
+	{
+		return ShaderPtr();
+	}
 }
 
 TexturePtr MetalVideo::CreateTextureFromFileInMemory(
@@ -140,6 +151,11 @@ id<MTLDevice> MetalVideo::GetDevice()
 MTKView* MetalVideo::GetView()
 {
 	return m_view;
+}
+
+id<MTLRenderCommandEncoder> MetalVideo::GetRenderCommandEncoder()
+{
+	return m_commandEncoder;
 }
 
 bool MetalVideo::SetAlphaMode(const ALPHA_MODE mode)

@@ -211,8 +211,7 @@ static const NSUInteger MaxBuffersInFlight = 3;
     {
         /// Final pass rendering code here
 
-        id <MTLRenderCommandEncoder> renderEncoder =
-        [commandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
+        id <MTLRenderCommandEncoder> renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
         renderEncoder.label = @"MyRenderEncoder";
 
         [renderEncoder pushDebugGroup:@"DrawBox"];

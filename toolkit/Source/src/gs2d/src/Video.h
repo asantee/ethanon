@@ -10,6 +10,7 @@
 
 #include "Application.h"
 #include "Shader.h"
+#include "PolygonRenderer.h"
 #include "Sprite.h"
 #include "Window.h"
 #include "Video/BitmapFontManager.h"
@@ -69,6 +70,11 @@ public:
 
 	typedef std::list<VIDEO_MODE> VIDEO_MODE_LIST;
 
+	virtual PolygonRendererPtr CreatePolygonRenderer(
+			const std::vector<PolygonRenderer::Vertex>& vertices,
+			const std::vector<uint32_t>& indices,
+			const PolygonRenderer::POLYGON_MODE mode) = 0;
+	
 	/// Loads the texture from a file in virtual memory
 	virtual TexturePtr CreateTextureFromFileInMemory(
 		const void *pBuffer,

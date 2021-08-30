@@ -3,12 +3,24 @@
 
 #include "../../PolygonRenderer.h"
 
+#import <Metal/Metal.h>
+#import <simd/simd.h>
+
 namespace gs2d {
+
+class MetalVideo;
 
 class MetalPolygonRenderer : public PolygonRenderer
 {
 public:
+	struct MetalVertex
+	{
+		simd_float4 position;
+		simd_float4 color;
+	};
+
 	MetalPolygonRenderer(
+		MetalVideo* metalVideo,
 		const std::vector<PolygonRenderer::Vertex>& vertices,
 		const std::vector<uint32_t>& indices,
 		const PolygonRenderer::POLYGON_MODE mode);
@@ -17,6 +29,12 @@ public:
 	void BeginRendering(const ShaderPtr& shader) override;
 	void Render() override;
 	void EndRendering() override;
+	
+private:
+	MetalVideo* m_metalVideo;
+	id<MTLDevice> m_device;
+	id<MTLBuffer> m_vertexBuffer;
+	std::vector<MetalVertex> m_vertices;
 };
 
 typedef std::shared_ptr<MetalPolygonRenderer> MetalPolygonRendererPtr;

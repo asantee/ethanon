@@ -132,12 +132,18 @@
 		AA88D4A326D473B2006E1B63 /* MacOSXFileIOHub.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA88D49F26D473B2006E1B63 /* MacOSXFileIOHub.mm */; };
 		AA88D4A426D473B2006E1B63 /* MacOSXFileIOHub.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA88D49F26D473B2006E1B63 /* MacOSXFileIOHub.mm */; };
 		AA88D4A526D473B2006E1B63 /* MacOSXFileIOHub.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA88D49F26D473B2006E1B63 /* MacOSXFileIOHub.mm */; };
-		AAEF373626DBB2FA002F17ED /* MetalPolygonRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAEF373526DBB2FA002F17ED /* MetalPolygonRenderer.cpp */; };
-		AAEF373726DBB2FA002F17ED /* MetalPolygonRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAEF373526DBB2FA002F17ED /* MetalPolygonRenderer.cpp */; };
-		AAEF373826DBB2FA002F17ED /* MetalPolygonRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAEF373526DBB2FA002F17ED /* MetalPolygonRenderer.cpp */; };
+		AAEF373626DBB2FA002F17ED /* MetalPolygonRenderer.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAEF373526DBB2FA002F17ED /* MetalPolygonRenderer.mm */; };
+		AAEF373726DBB2FA002F17ED /* MetalPolygonRenderer.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAEF373526DBB2FA002F17ED /* MetalPolygonRenderer.mm */; };
+		AAEF373826DBB2FA002F17ED /* MetalPolygonRenderer.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAEF373526DBB2FA002F17ED /* MetalPolygonRenderer.mm */; };
 		AAEF373B26DBB3B9002F17ED /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAEF373926DBB3B9002F17ED /* Shader.cpp */; };
 		AAEF373C26DBB3B9002F17ED /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAEF373926DBB3B9002F17ED /* Shader.cpp */; };
 		AAEF373D26DBB3B9002F17ED /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAEF373926DBB3B9002F17ED /* Shader.cpp */; };
+		AAEF373F26DBD73E002F17ED /* SampleShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAEF373E26DBD73E002F17ED /* SampleShader.metal */; };
+		AAEF374026DBD73E002F17ED /* SampleShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAEF373E26DBD73E002F17ED /* SampleShader.metal */; };
+		AAEF374126DBD73E002F17ED /* SampleShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAEF373E26DBD73E002F17ED /* SampleShader.metal */; };
+		AAEF374426DBDD2C002F17ED /* MetalShader.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAEF374326DBDD2C002F17ED /* MetalShader.mm */; };
+		AAEF374526DBDD2C002F17ED /* MetalShader.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAEF374326DBDD2C002F17ED /* MetalShader.mm */; };
+		AAEF374626DBDD2C002F17ED /* MetalShader.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAEF374326DBDD2C002F17ED /* MetalShader.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -244,9 +250,12 @@
 		AA88D49E26D473B2006E1B63 /* MacOSXFileIOHub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacOSXFileIOHub.h; path = ../../../../src/gs2d/src/Platform/macosx/MacOSXFileIOHub.h; sourceTree = "<group>"; };
 		AA88D49F26D473B2006E1B63 /* MacOSXFileIOHub.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MacOSXFileIOHub.mm; path = ../../../../src/gs2d/src/Platform/macosx/MacOSXFileIOHub.mm; sourceTree = "<group>"; };
 		AAEF373426DBB2FA002F17ED /* MetalPolygonRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalPolygonRenderer.h; path = ../../../../src/gs2d/src/Video/Metal/MetalPolygonRenderer.h; sourceTree = "<group>"; };
-		AAEF373526DBB2FA002F17ED /* MetalPolygonRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MetalPolygonRenderer.cpp; path = ../../../../src/gs2d/src/Video/Metal/MetalPolygonRenderer.cpp; sourceTree = "<group>"; };
+		AAEF373526DBB2FA002F17ED /* MetalPolygonRenderer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MetalPolygonRenderer.mm; path = ../../../../src/gs2d/src/Video/Metal/MetalPolygonRenderer.mm; sourceTree = "<group>"; };
 		AAEF373926DBB3B9002F17ED /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Shader.cpp; path = ../../../../src/gs2d/src/Shader.cpp; sourceTree = "<group>"; };
 		AAEF373A26DBB3B9002F17ED /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Shader.h; path = ../../../../src/gs2d/src/Shader.h; sourceTree = "<group>"; };
+		AAEF373E26DBD73E002F17ED /* SampleShader.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = SampleShader.metal; sourceTree = "<group>"; };
+		AAEF374226DBDD2C002F17ED /* MetalShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalShader.h; path = ../../../../src/gs2d/src/Video/Metal/MetalShader.h; sourceTree = "<group>"; };
+		AAEF374326DBDD2C002F17ED /* MetalShader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MetalShader.mm; path = ../../../../src/gs2d/src/Video/Metal/MetalShader.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -298,6 +307,7 @@
 				AA88D34E26D4491D006E1B63 /* Assets.xcassets */,
 				AA88D3EF26D45555006E1B63 /* ApplePlatform.cpp */,
 				AA88D3F026D45555006E1B63 /* ApplePlatform.h */,
+				AAEF373E26DBD73E002F17ED /* SampleShader.metal */,
 			);
 			path = "GS2D-Metal Shared";
 			sourceTree = "<group>";
@@ -360,7 +370,9 @@
 		AA88D3F926D4578E006E1B63 /* Video */ = {
 			isa = PBXGroup;
 			children = (
-				AAEF373526DBB2FA002F17ED /* MetalPolygonRenderer.cpp */,
+				AAEF374326DBDD2C002F17ED /* MetalShader.mm */,
+				AAEF374226DBDD2C002F17ED /* MetalShader.h */,
+				AAEF373526DBB2FA002F17ED /* MetalPolygonRenderer.mm */,
 				AAEF373426DBB2FA002F17ED /* MetalPolygonRenderer.h */,
 				AA88D48D26D46847006E1B63 /* MetalVideo.h */,
 				AA88D48E26D46847006E1B63 /* MetalVideo.mm */,
@@ -581,6 +593,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA88D43326D4584B006E1B63 /* FileIOHub.cpp in Sources */,
+				AAEF374426DBDD2C002F17ED /* MetalShader.mm in Sources */,
 				AAEF373B26DBB3B9002F17ED /* Shader.cpp in Sources */,
 				AA88D44526D4584B006E1B63 /* Logger.cpp in Sources */,
 				AA88D38D26D4491D006E1B63 /* Renderer.m in Sources */,
@@ -594,6 +607,7 @@
 				AA88D40726D457C4006E1B63 /* PolygonRenderer.cpp in Sources */,
 				AA88D47926D458C6006E1B63 /* Vector2.cpp in Sources */,
 				AA88D42A26D4584B006E1B63 /* StdFileManager.cpp in Sources */,
+				AAEF373F26DBD73E002F17ED /* SampleShader.metal in Sources */,
 				AA88D40D26D457C4006E1B63 /* SpriteRects.cpp in Sources */,
 				AA88D48F26D46847006E1B63 /* MetalVideo.mm in Sources */,
 				AA88D43C26D4584B006E1B63 /* NativeCommandManager.cpp in Sources */,
@@ -608,7 +622,7 @@
 				AA88D35826D4491D006E1B63 /* AppDelegate.m in Sources */,
 				AA88D43926D4584B006E1B63 /* NativeCommandAssembler.cpp in Sources */,
 				AA88D44C26D45893006E1B63 /* BitmapFontManager.cpp in Sources */,
-				AAEF373626DBB2FA002F17ED /* MetalPolygonRenderer.cpp in Sources */,
+				AAEF373626DBB2FA002F17ED /* MetalPolygonRenderer.mm in Sources */,
 				AA88D44226D4584B006E1B63 /* Platform.cpp in Sources */,
 				AA88D47C26D458C6006E1B63 /* Vector2i.cpp in Sources */,
 				AA88D49926D4686E006E1B63 /* SharedDataManager.cpp in Sources */,
@@ -629,6 +643,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA88D43426D4584B006E1B63 /* FileIOHub.cpp in Sources */,
+				AAEF374526DBDD2C002F17ED /* MetalShader.mm in Sources */,
 				AAEF373C26DBB3B9002F17ED /* Shader.cpp in Sources */,
 				AA88D44626D4584C006E1B63 /* Logger.cpp in Sources */,
 				AA88D38E26D4491D006E1B63 /* Renderer.m in Sources */,
@@ -642,6 +657,7 @@
 				AA88D40826D457C4006E1B63 /* PolygonRenderer.cpp in Sources */,
 				AA88D47A26D458C6006E1B63 /* Vector2.cpp in Sources */,
 				AA88D42B26D4584B006E1B63 /* StdFileManager.cpp in Sources */,
+				AAEF374026DBD73E002F17ED /* SampleShader.metal in Sources */,
 				AA88D40E26D457C4006E1B63 /* SpriteRects.cpp in Sources */,
 				AA88D49026D46847006E1B63 /* MetalVideo.mm in Sources */,
 				AA88D43D26D4584B006E1B63 /* NativeCommandManager.cpp in Sources */,
@@ -656,7 +672,7 @@
 				AA88D36D26D4491D006E1B63 /* AppDelegate.m in Sources */,
 				AA88D43A26D4584B006E1B63 /* NativeCommandAssembler.cpp in Sources */,
 				AA88D44D26D45893006E1B63 /* BitmapFontManager.cpp in Sources */,
-				AAEF373726DBB2FA002F17ED /* MetalPolygonRenderer.cpp in Sources */,
+				AAEF373726DBB2FA002F17ED /* MetalPolygonRenderer.mm in Sources */,
 				AA88D44326D4584B006E1B63 /* Platform.cpp in Sources */,
 				AA88D47D26D458C6006E1B63 /* Vector2i.cpp in Sources */,
 				AA88D49A26D4686E006E1B63 /* SharedDataManager.cpp in Sources */,
@@ -677,6 +693,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA88D43526D4584B006E1B63 /* FileIOHub.cpp in Sources */,
+				AAEF374626DBDD2C002F17ED /* MetalShader.mm in Sources */,
 				AAEF373D26DBB3B9002F17ED /* Shader.cpp in Sources */,
 				AA88D44726D4584C006E1B63 /* Logger.cpp in Sources */,
 				AA88D38F26D4491D006E1B63 /* Renderer.m in Sources */,
@@ -690,6 +707,7 @@
 				AA88D40926D457C4006E1B63 /* PolygonRenderer.cpp in Sources */,
 				AA88D47B26D458C6006E1B63 /* Vector2.cpp in Sources */,
 				AA88D42C26D4584B006E1B63 /* StdFileManager.cpp in Sources */,
+				AAEF374126DBD73E002F17ED /* SampleShader.metal in Sources */,
 				AA88D40F26D457C4006E1B63 /* SpriteRects.cpp in Sources */,
 				AA88D49126D46847006E1B63 /* MetalVideo.mm in Sources */,
 				AA88D43E26D4584B006E1B63 /* NativeCommandManager.cpp in Sources */,
@@ -704,7 +722,7 @@
 				AA88D38226D4491D006E1B63 /* AppDelegate.m in Sources */,
 				AA88D43B26D4584B006E1B63 /* NativeCommandAssembler.cpp in Sources */,
 				AA88D44E26D45893006E1B63 /* BitmapFontManager.cpp in Sources */,
-				AAEF373826DBB2FA002F17ED /* MetalPolygonRenderer.cpp in Sources */,
+				AAEF373826DBB2FA002F17ED /* MetalPolygonRenderer.mm in Sources */,
 				AA88D44426D4584B006E1B63 /* Platform.cpp in Sources */,
 				AA88D47E26D458C6006E1B63 /* Vector2i.cpp in Sources */,
 				AA88D49B26D4686E006E1B63 /* SharedDataManager.cpp in Sources */,

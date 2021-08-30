@@ -27,7 +27,7 @@
 	Platform::FileManagerPtr fileManager(new Platform::StdFileManager());
 	Platform::FileIOHubPtr fileIOHub = Platform::CreateFileIOHub(fileManager, "fonts/");
 
-	m_video = gs2d::MetalVideo::Create(fileIOHub, _view);
+	m_video = gs2d::VideoPtr(new gs2d::MetalVideo(fileIOHub, _view));
 	m_video->SetBackgroundColor(gs2d::Color(0xFF003366));
 
 	gs2d::MetalVideo* metalVideo = (gs2d::MetalVideo*)m_video.get();
@@ -53,6 +53,8 @@
 @implementation MetalRenderer
 {
 	gs2d::MetalVideo* m_video;
+	gs2d::PolygonRendererPtr m_polygonRenderer;
+	gs2d::ShaderPtr m_shader;
 
 	id <MTLDevice> _device;
 }
@@ -64,6 +66,20 @@
 	{
 		m_video = video;
 		_device = video->GetView().device;
+		
+		using namespace gs2d;
+		std::vector<PolygonRenderer::Vertex> vertices =
+		{
+			PolygonRenderer::Vertex(math::Vector3( 0.0f, 0.0f, 0.0f), math::Vector3(1.0f), math::Vector2(0.0f, 0.0f)),
+			PolygonRenderer::Vertex(math::Vector3( 0.0f, 1.0f, 0.0f), math::Vector3(1.0f), math::Vector2(0.0f, 1.0f)),
+			PolygonRenderer::Vertex(math::Vector3( 1.0f, 0.0f, 0.0f), math::Vector3(1.0f), math::Vector2(1.0f, 0.0f)),
+			PolygonRenderer::Vertex(math::Vector3( 1.0f, 1.0f, 0.0f), math::Vector3(1.0f), math::Vector2(1.0f, 1.0f))
+		};
+
+		std::vector<uint32_t> indices = { 0, 1, 2, 3 };
+
+		m_polygonRenderer = m_video->CreatePolygonRenderer(vertices, indices, PolygonRenderer::TRIANGLE_STRIP);
+		m_shader = m_video->LoadShaderFromString("vertexShader.metal", "", "vertex_main", "fragmentShader.metal", "", "fragment_main");
 	}
 	return self;
 }
@@ -71,6 +87,11 @@
 - (void)drawInMTKView:(nonnull MTKView *)view
 {
 	m_video->BeginRendering();
+	
+	m_polygonRenderer->BeginRendering(m_shader);
+	m_polygonRenderer->Render();
+	m_polygonRenderer->EndRendering();
+	
 	m_video->EndRendering();
 }
 

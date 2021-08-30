@@ -41,7 +41,7 @@ void Sprite::Initialize(Video* video)
 
 		std::vector<uint32_t> indices = { 0, 1, 2, 3 };
 
-		m_polygonRenderer = PolygonRenderer::Create(vertices, indices, PolygonRenderer::TRIANGLE_STRIP);
+		m_polygonRenderer = video->CreatePolygonRenderer(vertices, indices, PolygonRenderer::TRIANGLE_STRIP);
 	}
 	
 	if (!m_defaultShader)
