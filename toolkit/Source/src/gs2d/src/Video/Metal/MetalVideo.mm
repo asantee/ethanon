@@ -44,10 +44,6 @@ bool MetalVideo::BeginRendering(const Color& bgColor)
 			MTLClearColorMake(m_backgroundColor.GetR(), m_backgroundColor.GetG(), m_backgroundColor.GetB(), m_backgroundColor.GetA());
 
 		m_commandEncoder = [m_commandBuffer renderCommandEncoderWithDescriptor:m_renderPassDescriptor];
-		m_commandEncoder.label = @"GS2DRenderEncoder";
-
-		[m_commandEncoder pushDebugGroup:@"DrawAll"];
-
 	}
 	return true;
 }
@@ -56,7 +52,6 @@ bool MetalVideo::EndRendering()
 {
 	if (m_renderPassDescriptor != nil)
 	{
-		[m_commandEncoder popDebugGroup];
 		[m_commandEncoder endEncoding];
 		[m_commandBuffer presentDrawable:m_view.currentDrawable];
 	}

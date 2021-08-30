@@ -28,7 +28,7 @@ class MetalShader : public Shader
 	id<MTLFunction> m_vertexFunction;
 	id<MTLFunction> m_fragmentFunction;
 	id<MTLRenderPipelineState> m_renderPipelineState;
-	id<MTLDepthStencilState> m_depthState;
+	//id<MTLDepthStencilState> m_depthState;
 	MTLRenderPipelineDescriptor* m_pipelineDescriptor;
 
 public:

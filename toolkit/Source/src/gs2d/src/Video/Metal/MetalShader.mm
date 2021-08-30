@@ -71,10 +71,10 @@ bool MetalShader::LoadShaderFromString(
 
 	m_renderPipelineState = [m_device newRenderPipelineStateWithDescriptor:m_pipelineDescriptor error:nil];
 
-	MTLDepthStencilDescriptor *depthStateDesc = [[MTLDepthStencilDescriptor alloc] init];
+	/*MTLDepthStencilDescriptor *depthStateDesc = [[MTLDepthStencilDescriptor alloc] init];
 	depthStateDesc.depthCompareFunction = MTLCompareFunctionLess;
 	depthStateDesc.depthWriteEnabled = YES;
-	m_depthState = [m_device newDepthStencilStateWithDescriptor:depthStateDesc];
+	m_depthState = [m_device newDepthStencilStateWithDescriptor:depthStateDesc];*/
 
 	return true;
 }
@@ -82,7 +82,7 @@ bool MetalShader::LoadShaderFromString(
 void MetalShader::SetShader()
 {
 	[m_metalVideo->GetRenderCommandEncoder() setRenderPipelineState:m_renderPipelineState];
-	[m_metalVideo->GetRenderCommandEncoder() setDepthStencilState:m_depthState];
+	//[m_metalVideo->GetRenderCommandEncoder() setDepthStencilState:m_depthState];
 }
 
 void MetalShader::SetConstant(const std::string& name, const math::Vector4 &v)
