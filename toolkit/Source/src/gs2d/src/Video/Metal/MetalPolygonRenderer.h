@@ -32,9 +32,11 @@ public:
 	void EndRendering() override;
 	
 private:
+	MTLPrimitiveType m_primitiveType;
 	MetalVideo* m_metalVideo;
 	id<MTLDevice> m_device;
 	id<MTLBuffer> m_vertexBuffer;
+	id<MTLBuffer> m_indexBuffer;
 	std::vector<MetalVertex> m_vertices;
 };
 
