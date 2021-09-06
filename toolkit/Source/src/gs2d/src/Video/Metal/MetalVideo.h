@@ -30,13 +30,19 @@ class MetalVideo : public Video, public Platform::NativeCommandForwarder
 	gs2d::Color m_backgroundColor;
 
 	void ComputeFPSRate();
+	
+	dispatch_semaphore_t m_inFlightSemaphore;
+	uint8_t m_uniformBufferIndex;
 
 public:
+	static const uint8_t MAX_BUFFERS_IN_FLIGHT;
+
 	MetalVideo(Platform::FileIOHubPtr fileIOHub, MTKView* view);
 
 	id<MTLDevice> GetDevice();
 	MTKView* GetView();
 	id<MTLRenderCommandEncoder> GetRenderCommandEncoder();
+	uint8_t GetUniformBufferIndex() const;
 
 	PolygonRendererPtr CreatePolygonRenderer(
 			const std::vector<PolygonRenderer::Vertex>& vertices,

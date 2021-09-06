@@ -7,6 +7,8 @@
 
 namespace gs2d {
 
+const uint8_t MetalVideo::MAX_BUFFERS_IN_FLIGHT = 3;
+
 MetalVideo::MetalVideo(
 	Platform::FileIOHubPtr fileIOHub,
 	MTKView *view) :
@@ -14,7 +16,8 @@ MetalVideo::MetalVideo(
 	m_view(view),
 	m_quit(false),
 	m_fpsRate(60.0f),
-	m_renderPassDescriptor(nil)
+	m_renderPassDescriptor(nil),
+	m_uniformBufferIndex(0)
 {
 	m_startTime = getRealTime();
 
@@ -28,15 +31,27 @@ MetalVideo::MetalVideo(
 	m_view.depthStencilPixelFormat = MTLPixelFormatDepth32Float_Stencil8;
 	m_view.colorPixelFormat = MTLPixelFormatBGRA8Unorm;
 	m_view.sampleCount = 1;
+
+	m_inFlightSemaphore = dispatch_semaphore_create(MAX_BUFFERS_IN_FLIGHT);
 	
 	gs2d::Application::SharedData.Create("com.ethanonengine.usingSuperSimple", "true", true /*constant*/);
 }
 
 bool MetalVideo::BeginRendering(const Color& bgColor)
 {
+	dispatch_semaphore_wait(m_inFlightSemaphore, DISPATCH_TIME_FOREVER);
+
+	m_uniformBufferIndex = (m_uniformBufferIndex + 1) % MAX_BUFFERS_IN_FLIGHT;
+
 	m_rendering = true;
 	m_commandBuffer = [m_commandQueue commandBuffer];
-	
+
+	__block dispatch_semaphore_t block_sema = m_inFlightSemaphore;
+	[m_commandBuffer addCompletedHandler:^(id<MTLCommandBuffer> buffer)
+	{
+		dispatch_semaphore_signal(block_sema);
+	}];
+
 	m_renderPassDescriptor = m_view.currentRenderPassDescriptor;
 	if (m_renderPassDescriptor != nil)
 	{
@@ -146,6 +161,11 @@ id<MTLDevice> MetalVideo::GetDevice()
 MTKView* MetalVideo::GetView()
 {
 	return m_view;
+}
+
+uint8_t MetalVideo::GetUniformBufferIndex() const
+{
+	return m_uniformBufferIndex;
 }
 
 id<MTLRenderCommandEncoder> MetalVideo::GetRenderCommandEncoder()
