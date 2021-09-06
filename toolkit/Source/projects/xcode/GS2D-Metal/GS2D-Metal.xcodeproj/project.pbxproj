@@ -132,6 +132,7 @@
 		AA88D4A326D473B2006E1B63 /* MacOSXFileIOHub.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA88D49F26D473B2006E1B63 /* MacOSXFileIOHub.mm */; };
 		AA88D4A426D473B2006E1B63 /* MacOSXFileIOHub.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA88D49F26D473B2006E1B63 /* MacOSXFileIOHub.mm */; };
 		AA88D4A526D473B2006E1B63 /* MacOSXFileIOHub.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA88D49F26D473B2006E1B63 /* MacOSXFileIOHub.mm */; };
+		AAC15FAC26E6490100544665 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = AAC15FAB26E6490100544665 /* assets */; };
 		AAEF373626DBB2FA002F17ED /* MetalPolygonRenderer.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAEF373526DBB2FA002F17ED /* MetalPolygonRenderer.mm */; };
 		AAEF373726DBB2FA002F17ED /* MetalPolygonRenderer.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAEF373526DBB2FA002F17ED /* MetalPolygonRenderer.mm */; };
 		AAEF373826DBB2FA002F17ED /* MetalPolygonRenderer.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAEF373526DBB2FA002F17ED /* MetalPolygonRenderer.mm */; };
@@ -249,6 +250,7 @@
 		AA88D49D26D473B2006E1B63 /* Platform.macosx.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Platform.macosx.mm; path = ../../../../src/gs2d/src/Platform/macosx/Platform.macosx.mm; sourceTree = "<group>"; };
 		AA88D49E26D473B2006E1B63 /* MacOSXFileIOHub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacOSXFileIOHub.h; path = ../../../../src/gs2d/src/Platform/macosx/MacOSXFileIOHub.h; sourceTree = "<group>"; };
 		AA88D49F26D473B2006E1B63 /* MacOSXFileIOHub.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MacOSXFileIOHub.mm; path = ../../../../src/gs2d/src/Platform/macosx/MacOSXFileIOHub.mm; sourceTree = "<group>"; };
+		AAC15FAB26E6490100544665 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
 		AAEF373426DBB2FA002F17ED /* MetalPolygonRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalPolygonRenderer.h; path = ../../../../src/gs2d/src/Video/Metal/MetalPolygonRenderer.h; sourceTree = "<group>"; };
 		AAEF373526DBB2FA002F17ED /* MetalPolygonRenderer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MetalPolygonRenderer.mm; path = ../../../../src/gs2d/src/Video/Metal/MetalPolygonRenderer.mm; sourceTree = "<group>"; };
 		AAEF373926DBB3B9002F17ED /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Shader.cpp; path = ../../../../src/gs2d/src/Shader.cpp; sourceTree = "<group>"; };
@@ -286,6 +288,7 @@
 		AA88D34426D4491B006E1B63 = {
 			isa = PBXGroup;
 			children = (
+				AAC15FAB26E6490100544665 /* assets */,
 				AA88D34926D4491C006E1B63 /* GS2D-Metal Shared */,
 				AA88D35526D4491D006E1B63 /* GS2D-Metal iOS */,
 				AA88D36A26D4491D006E1B63 /* GS2D-Metal tvOS */,
@@ -580,6 +583,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AAC15FAC26E6490100544665 /* assets in Resources */,
 				AA88D39526D4491D006E1B63 /* Assets.xcassets in Resources */,
 				AA88D38826D4491D006E1B63 /* Main.storyboard in Resources */,
 			);

@@ -54,12 +54,41 @@ bool MetalShader::LoadShaderFromString(
 
 	m_programName = vsShaderName + "/" + psShaderName;
 
-	/* TODO: read actual shaders from files*/
+	NSString* vertexCode   = [NSString stringWithUTF8String:vsCodeAsciiString.c_str()];
+	NSString* fragmentCode = [NSString stringWithUTF8String:psCodeAsciiString.c_str()];
+	NSString* fullSourceCode = [NSString stringWithFormat:@"// vertex shader\n%@\n\n// fragment shader\n%@", vertexCode, fragmentCode];
 
-	m_library = [m_device newDefaultLibrary];
+	MTLCompileOptions* options = [[MTLCompileOptions alloc] init];
 
-	m_vertexFunction = [m_library newFunctionWithName:@"vertex_main"];
-	m_fragmentFunction = [m_library newFunctionWithName:@"fragment_main"];
+	// Runtime checks for the iOS version independently of minimum target iOS.
+	if (@available(macOS 10.14, iOS 12.0, tvOS 12.0, *))
+	{
+		[options setLanguageVersion:MTLLanguageVersion2_1];
+	}
+	else if (@available(macOS 10.13, iOS 11.0, tvOS 11.0, *))
+	{
+		[options setLanguageVersion:MTLLanguageVersion2_0];
+	}
+	else if (@available(macOS 10.12, iOS 10.0, tvOS 10.0, *))
+	{
+		[options setLanguageVersion:MTLLanguageVersion1_2];
+	}
+	else if (@available(macOS 10.11, iOS 9.0, tvOS 9.0, *))
+	{
+		[options setLanguageVersion:MTLLanguageVersion1_1];
+	}
+	[options setFastMathEnabled:YES];
+
+	NSError* error;
+	m_library = [m_device newLibraryWithSource:fullSourceCode options:options error:&error];
+	
+	if (error != nil)
+	{
+		NSLog(@"%@", [error description]);
+	}
+
+	m_vertexFunction = [m_library newFunctionWithName:[NSString stringWithUTF8String:vsEntry.c_str()]];
+	m_fragmentFunction = [m_library newFunctionWithName:[NSString stringWithUTF8String:psEntry.c_str()]];
 
 	m_pipelineDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
 	m_pipelineDescriptor.vertexFunction = m_vertexFunction;

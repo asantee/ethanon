@@ -6,7 +6,7 @@
 #include <Video/Metal/MetalVideo.h>
 
 @interface MetalRenderer : NSObject <MTKViewDelegate>
--(nonnull instancetype)initWithMetalVideo:(gs2d::MetalVideo*)video;
+-(nonnull instancetype)initWithMetalVideo:(gs2d::MetalVideo*)video fileIOHub:(Platform::FileIOHubPtr)fileIOHub;
 @end
 
 @implementation GameViewController
@@ -41,7 +41,7 @@
 		return;
 	}
 
-	_renderer = [[MetalRenderer alloc] initWithMetalVideo:metalVideo];
+	_renderer = [[MetalRenderer alloc] initWithMetalVideo:metalVideo fileIOHub:fileIOHub];
 
 	[_renderer mtkView:_view drawableSizeWillChange:_view.bounds.size];
 
@@ -56,15 +56,18 @@
 	gs2d::PolygonRendererPtr m_polygonRenderer;
 	gs2d::ShaderPtr m_shader;
 
+	Platform::FileIOHubPtr m_fileIOHub;
+
 	id <MTLDevice> _device;
 }
 
--(nonnull instancetype)initWithMetalVideo:(gs2d::MetalVideo*)video;
+-(nonnull instancetype)initWithMetalVideo:(gs2d::MetalVideo*)video fileIOHub:(Platform::FileIOHubPtr)fileIOHub;
 {
 	self = [super init];
 	if(self)
 	{
 		m_video = video;
+		m_fileIOHub = fileIOHub;
 		_device = video->GetView().device;
 		
 		using namespace gs2d;
@@ -79,7 +82,11 @@
 		std::vector<uint32_t> indices = { 0, 1, 2, 3 };
 
 		m_polygonRenderer = m_video->CreatePolygonRenderer(vertices, indices, PolygonRenderer::TRIANGLE_STRIP);
-		m_shader = m_video->LoadShaderFromString("vertexShader.metal", "", "vertex_main", "fragmentShader.metal", "", "fragment_main");
+		m_shader = m_video->LoadShaderFromFile(
+			m_fileIOHub->GetResourceDirectory() + "simpleVertex.metal",
+			"vertex_main",
+			m_fileIOHub->GetResourceDirectory() + "simpleFragment.metal",
+			"fragment_main");
 	}
 	return self;
 }
