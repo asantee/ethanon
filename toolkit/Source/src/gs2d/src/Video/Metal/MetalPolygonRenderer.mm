@@ -19,10 +19,14 @@ MetalPolygonRenderer::MetalPolygonRenderer(
 		m_vertices[t].position.y = vertices[t].pos.y;
 		m_vertices[t].position.z = vertices[t].pos.z;
 		m_vertices[t].position.w = 1.0f;
-		m_vertices[t].color.x = vertices[t].texCoord.x;
-		m_vertices[t].color.y = vertices[t].texCoord.y;
-		m_vertices[t].color.z = vertices[t].texCoord.y;
-		m_vertices[t].color.w = 1.0f;
+		m_vertices[t].texCoord.x = vertices[t].texCoord.x;
+		m_vertices[t].texCoord.y = vertices[t].texCoord.y;
+		m_vertices[t].texCoord.z = vertices[t].texCoord.x;
+		m_vertices[t].texCoord.w = vertices[t].texCoord.y;
+		m_vertices[t].normal.x = vertices[t].normal.x;
+		m_vertices[t].normal.y = vertices[t].normal.y;
+		m_vertices[t].normal.z = vertices[t].normal.z;
+		m_vertices[t].normal.w = 1.0f;
 	}
 
 	m_vertexBuffer = [m_device newBufferWithBytes:&m_vertices[0] length:(sizeof(MetalVertex) * m_vertices.size()) options:MTLResourceOptionCPUCacheModeDefault];

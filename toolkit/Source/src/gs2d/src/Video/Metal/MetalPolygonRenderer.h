@@ -16,7 +16,8 @@ public:
 	struct MetalVertex
 	{
 		simd_float4 position;
-		simd_float4 color;
+		simd_float4 texCoord;
+		simd_float4 normal;
 	};
 
 	MetalPolygonRenderer(
