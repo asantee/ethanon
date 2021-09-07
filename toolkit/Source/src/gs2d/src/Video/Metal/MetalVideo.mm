@@ -7,8 +7,6 @@
 
 namespace gs2d {
 
-const uint8_t MetalVideo::MAX_BUFFERS_IN_FLIGHT = 3;
-
 MetalVideo::MetalVideo(
 	Platform::FileIOHubPtr fileIOHub,
 	MTKView *view) :
@@ -32,7 +30,7 @@ MetalVideo::MetalVideo(
 	m_view.colorPixelFormat = MTLPixelFormatBGRA8Unorm;
 	m_view.sampleCount = 1;
 
-	m_inFlightSemaphore = dispatch_semaphore_create(MAX_BUFFERS_IN_FLIGHT);
+	m_inFlightSemaphore = dispatch_semaphore_create(MetalShader::MAX_BUFFERS_IN_FLIGHT);
 	
 	gs2d::Application::SharedData.Create("com.ethanonengine.usingSuperSimple", "true", true /*constant*/);
 }
@@ -41,7 +39,7 @@ bool MetalVideo::BeginRendering(const Color& bgColor)
 {
 	dispatch_semaphore_wait(m_inFlightSemaphore, DISPATCH_TIME_FOREVER);
 
-	m_uniformBufferIndex = (m_uniformBufferIndex + 1) % MAX_BUFFERS_IN_FLIGHT;
+	m_uniformBufferIndex = (m_uniformBufferIndex + 1) % MetalShader::MAX_BUFFERS_IN_FLIGHT;
 
 	m_rendering = true;
 	m_commandBuffer = [m_commandQueue commandBuffer];

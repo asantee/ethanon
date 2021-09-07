@@ -6,6 +6,8 @@
 
 namespace gs2d {
 
+const uint8_t MetalShader::MAX_BUFFERS_IN_FLIGHT = 3;
+
 MetalShader::MetalShader(MetalVideo* metalVideo, Platform::FileManagerPtr fileManager) :
 	m_metalVideo(metalVideo),
 	m_fileManager(fileManager),
@@ -98,7 +100,29 @@ bool MetalShader::LoadShaderFromString(
 	m_pipelineDescriptor.depthAttachmentPixelFormat = m_view.depthStencilPixelFormat;
 	m_pipelineDescriptor.stencilAttachmentPixelFormat = m_view.depthStencilPixelFormat;
 
-	m_renderPipelineState = [m_device newRenderPipelineStateWithDescriptor:m_pipelineDescriptor error:nil];
+	// create uniform buffers
+	MTLRenderPipelineReflection* reflectionObj;
+	MTLPipelineOption option = MTLPipelineOptionBufferTypeInfo | MTLPipelineOptionArgumentInfo;
+	m_renderPipelineState = [m_device newRenderPipelineStateWithDescriptor:m_pipelineDescriptor options:option reflection:&reflectionObj error:&error];
+	
+	for (MTLArgument *arg in reflectionObj.vertexArguments)
+	{
+		NSLog(@"Found arg: %@ size: %lu type: %lu\n", arg.name, arg.bufferDataSize, arg.type);
+
+		if (arg.bufferDataType == MTLDataTypeStruct && [arg.name isEqualToString:@"uniforms"])
+		{
+			m_shaderBytes.resize(arg.bufferDataSize, '\0');
+
+			for (MTLStructMember* uniform in arg.bufferStructType.members)
+			{
+				NSLog(@"uniform: %@ type:%lu, location: %lu", uniform.name, (unsigned long)uniform.dataType, (unsigned long)uniform.offset);
+				UniformBufferMember member;
+				member.type = uniform.dataType;
+				member.offset = uniform.offset;
+				m_uniformMembers[std::string([uniform.name UTF8String])] = member;
+			}
+		}
+	}
 
 	/*MTLDepthStencilDescriptor *depthStateDesc = [[MTLDepthStencilDescriptor alloc] init];
 	depthStateDesc.depthCompareFunction = MTLCompareFunctionLess;
@@ -111,39 +135,96 @@ bool MetalShader::LoadShaderFromString(
 void MetalShader::SetShader()
 {
 	[m_metalVideo->GetRenderCommandEncoder() setRenderPipelineState:m_renderPipelineState];
+	[m_metalVideo->GetRenderCommandEncoder()
+		setVertexBytes:&m_shaderBytes[0]
+		length:m_shaderBytes.size()
+		atIndex:1];
+
+	[m_metalVideo->GetRenderCommandEncoder()
+		setFragmentBytes:&m_shaderBytes[0]
+		length:m_shaderBytes.size()
+		atIndex:1];
 	//[m_metalVideo->GetRenderCommandEncoder() setDepthStencilState:m_depthState];
 }
 
 void MetalShader::SetConstant(const std::string& name, const math::Vector4 &v)
 {
+	tsl::hopscotch_map<std::string, UniformBufferMember>::iterator iter = m_uniformMembers.find(name);
+	if (iter != m_uniformMembers.end())
+	{
+		math::Vector4* p = (math::Vector4*)(&m_shaderBytes[0] + iter.value().offset);
+		*p = v;
+	}
 }
 
 void MetalShader::SetConstant(const std::string& name, const math::Vector3 &v)
 {
+	tsl::hopscotch_map<std::string, UniformBufferMember>::iterator iter = m_uniformMembers.find(name);
+	if (iter != m_uniformMembers.end())
+	{
+		math::Vector3* p = (math::Vector3*)(&m_shaderBytes[0] + iter.value().offset);
+		*p = v;
+	}
 }
 
 void MetalShader::SetConstant(const std::string& name, const math::Vector2 &v)
 {
+	tsl::hopscotch_map<std::string, UniformBufferMember>::iterator iter = m_uniformMembers.find(name);
+	if (iter != m_uniformMembers.end())
+	{
+		math::Vector2* p = (math::Vector2*)(&m_shaderBytes[0] + iter.value().offset);
+		*p = v;
+	}
 }
 
 void MetalShader::SetConstant(const std::string& name, const float x)
 {
+	tsl::hopscotch_map<std::string, UniformBufferMember>::iterator iter = m_uniformMembers.find(name);
+	if (iter != m_uniformMembers.end())
+	{
+		float* p = (float*)(&m_shaderBytes[0] + iter.value().offset);
+		*p = x;
+	}
 }
 
-void MetalShader::SetConstant(const std::string& name, const int n)
+void MetalShader::SetConstant(const std::string& name, const uint32_t n)
 {
+	tsl::hopscotch_map<std::string, UniformBufferMember>::iterator iter = m_uniformMembers.find(name);
+	if (iter != m_uniformMembers.end())
+	{
+		uint32_t* p = (uint32_t*)(&m_shaderBytes[0] + iter.value().offset);
+		*p = n;
+	}
 }
 
 void MetalShader::SetConstantArray(const std::string& name, unsigned int nElements, const math::Vector2* v)
 {
+	tsl::hopscotch_map<std::string, UniformBufferMember>::iterator iter = m_uniformMembers.find(name);
+	if (iter != m_uniformMembers.end())
+	{
+		math::Vector2* p = (math::Vector2*)(&m_shaderBytes[0] + iter.value().offset);
+		memcpy(p, v, sizeof(math::Vector2) * nElements);
+	}
 }
 
 void MetalShader::SetConstantArray(const std::string& name, unsigned int nElements, const math::Vector4* v)
 {
+	tsl::hopscotch_map<std::string, UniformBufferMember>::iterator iter = m_uniformMembers.find(name);
+	if (iter != m_uniformMembers.end())
+	{
+		math::Vector4* p = (math::Vector4*)(&m_shaderBytes[0] + iter.value().offset);
+		memcpy(p, v, sizeof(math::Vector4) * nElements);
+	}
 }
 
 void MetalShader::SetMatrixConstant(const std::string& name, const math::Matrix4x4 &matrix)
 {
+	tsl::hopscotch_map<std::string, UniformBufferMember>::iterator iter = m_uniformMembers.find(name);
+	if (iter != m_uniformMembers.end())
+	{
+		math::Matrix4x4* p = (math::Matrix4x4*)(&m_shaderBytes[0] + iter.value().offset);
+		*p = matrix;
+	}
 }
 
 void MetalShader::SetTexture(const std::string& name, TexturePtr pTexture, const unsigned int index)

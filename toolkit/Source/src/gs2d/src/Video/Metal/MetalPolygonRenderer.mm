@@ -35,13 +35,13 @@ MetalPolygonRenderer::MetalPolygonRenderer(
 
 	switch (mode)
 	{
-	case PolygonRenderer::TRIANGLE_LIST:
-		m_primitiveType = MTLPrimitiveTypeTriangle;
-		break;
 	case PolygonRenderer::TRIANGLE_FAN: // fan not supported by Metal. Default to strip
 	case PolygonRenderer::TRIANGLE_STRIP:
-	default:
 		m_primitiveType = MTLPrimitiveTypeTriangleStrip;
+		break;
+	case PolygonRenderer::TRIANGLE_LIST:
+	default:
+		m_primitiveType = MTLPrimitiveTypeTriangle;
 		break;
 	}
 }
@@ -52,12 +52,13 @@ MetalPolygonRenderer::~MetalPolygonRenderer()
 
 void MetalPolygonRenderer::BeginRendering(const ShaderPtr& shader)
 {
-	shader->SetShader();
+	m_currentShader = shader;
 	[m_metalVideo->GetRenderCommandEncoder() setVertexBuffer:m_vertexBuffer offset:0 atIndex:0];
 }
 
 void MetalPolygonRenderer::Render()
 {
+	m_currentShader->SetShader();
 	[m_metalVideo->GetRenderCommandEncoder()
 		drawIndexedPrimitives:m_primitiveType
 		indexCount:[m_indexBuffer length] / sizeof(uint32_t)

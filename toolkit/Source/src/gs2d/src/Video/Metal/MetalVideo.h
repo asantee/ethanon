@@ -35,8 +35,6 @@ class MetalVideo : public Video, public Platform::NativeCommandForwarder
 	uint8_t m_uniformBufferIndex;
 
 public:
-	static const uint8_t MAX_BUFFERS_IN_FLIGHT;
-
 	MetalVideo(Platform::FileIOHubPtr fileIOHub, MTKView* view);
 
 	id<MTLDevice> GetDevice();

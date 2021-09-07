@@ -32,6 +32,7 @@ public:
 	void EndRendering() override;
 	
 private:
+	ShaderPtr m_currentShader;
 	MTLPrimitiveType m_primitiveType;
 	MetalVideo* m_metalVideo;
 	id<MTLDevice> m_device;
