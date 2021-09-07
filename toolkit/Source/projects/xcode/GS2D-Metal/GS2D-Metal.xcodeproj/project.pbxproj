@@ -133,6 +133,9 @@
 		AA88D4A426D473B2006E1B63 /* MacOSXFileIOHub.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA88D49F26D473B2006E1B63 /* MacOSXFileIOHub.mm */; };
 		AA88D4A526D473B2006E1B63 /* MacOSXFileIOHub.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA88D49F26D473B2006E1B63 /* MacOSXFileIOHub.mm */; };
 		AAC15FAC26E6490100544665 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = AAC15FAB26E6490100544665 /* assets */; };
+		AAC15FAF26E7A21D00544665 /* MetalTexture.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAC15FAD26E7A21D00544665 /* MetalTexture.mm */; };
+		AAC15FB026E7A21D00544665 /* MetalTexture.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAC15FAD26E7A21D00544665 /* MetalTexture.mm */; };
+		AAC15FB126E7A21D00544665 /* MetalTexture.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAC15FAD26E7A21D00544665 /* MetalTexture.mm */; };
 		AAEF373626DBB2FA002F17ED /* MetalPolygonRenderer.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAEF373526DBB2FA002F17ED /* MetalPolygonRenderer.mm */; };
 		AAEF373726DBB2FA002F17ED /* MetalPolygonRenderer.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAEF373526DBB2FA002F17ED /* MetalPolygonRenderer.mm */; };
 		AAEF373826DBB2FA002F17ED /* MetalPolygonRenderer.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAEF373526DBB2FA002F17ED /* MetalPolygonRenderer.mm */; };
@@ -251,6 +254,9 @@
 		AA88D49E26D473B2006E1B63 /* MacOSXFileIOHub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacOSXFileIOHub.h; path = ../../../../src/gs2d/src/Platform/macosx/MacOSXFileIOHub.h; sourceTree = "<group>"; };
 		AA88D49F26D473B2006E1B63 /* MacOSXFileIOHub.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MacOSXFileIOHub.mm; path = ../../../../src/gs2d/src/Platform/macosx/MacOSXFileIOHub.mm; sourceTree = "<group>"; };
 		AAC15FAB26E6490100544665 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
+		AAC15FAD26E7A21D00544665 /* MetalTexture.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MetalTexture.mm; path = ../../../../src/gs2d/src/Video/Metal/MetalTexture.mm; sourceTree = "<group>"; };
+		AAC15FAE26E7A21D00544665 /* MetalTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalTexture.h; path = ../../../../src/gs2d/src/Video/Metal/MetalTexture.h; sourceTree = "<group>"; };
+		AAC15FB226E7A31400544665 /* Texture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Texture.h; path = ../../../../src/gs2d/src/Texture.h; sourceTree = "<group>"; };
 		AAEF373426DBB2FA002F17ED /* MetalPolygonRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalPolygonRenderer.h; path = ../../../../src/gs2d/src/Video/Metal/MetalPolygonRenderer.h; sourceTree = "<group>"; };
 		AAEF373526DBB2FA002F17ED /* MetalPolygonRenderer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MetalPolygonRenderer.mm; path = ../../../../src/gs2d/src/Video/Metal/MetalPolygonRenderer.mm; sourceTree = "<group>"; };
 		AAEF373926DBB3B9002F17ED /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Shader.cpp; path = ../../../../src/gs2d/src/Shader.cpp; sourceTree = "<group>"; };
@@ -373,6 +379,8 @@
 		AA88D3F926D4578E006E1B63 /* Video */ = {
 			isa = PBXGroup;
 			children = (
+				AAC15FAE26E7A21D00544665 /* MetalTexture.h */,
+				AAC15FAD26E7A21D00544665 /* MetalTexture.mm */,
 				AAEF374326DBDD2C002F17ED /* MetalShader.mm */,
 				AAEF374226DBDD2C002F17ED /* MetalShader.h */,
 				AAEF373526DBB2FA002F17ED /* MetalPolygonRenderer.mm */,
@@ -391,6 +399,7 @@
 				AA88D3FC26D457C4006E1B63 /* PolygonRenderer.h */,
 				AA88D3FD26D457C4006E1B63 /* Sprite.cpp */,
 				AA88D3FF26D457C4006E1B63 /* Sprite.h */,
+				AAC15FB226E7A31400544665 /* Texture.h */,
 				AA88D40126D457C4006E1B63 /* SpriteRects.cpp */,
 				AA88D3FE26D457C4006E1B63 /* SpriteRects.h */,
 				AA88D40226D457C4006E1B63 /* Video.cpp */,
@@ -631,6 +640,7 @@
 				AA88D47C26D458C6006E1B63 /* Vector2i.cpp in Sources */,
 				AA88D49926D4686E006E1B63 /* SharedDataManager.cpp in Sources */,
 				AA88D39026D4491D006E1B63 /* Shaders.metal in Sources */,
+				AAC15FAF26E7A21D00544665 /* MetalTexture.mm in Sources */,
 				AA88D48226D458C6006E1B63 /* Randomizer.cpp in Sources */,
 				AA88D43F26D4584B006E1B63 /* FileManager.cpp in Sources */,
 				AA88D40426D457C4006E1B63 /* Application.cpp in Sources */,
@@ -681,6 +691,7 @@
 				AA88D47D26D458C6006E1B63 /* Vector2i.cpp in Sources */,
 				AA88D49A26D4686E006E1B63 /* SharedDataManager.cpp in Sources */,
 				AA88D39126D4491D006E1B63 /* Shaders.metal in Sources */,
+				AAC15FB026E7A21D00544665 /* MetalTexture.mm in Sources */,
 				AA88D48326D458C6006E1B63 /* Randomizer.cpp in Sources */,
 				AA88D44026D4584B006E1B63 /* FileManager.cpp in Sources */,
 				AA88D40526D457C4006E1B63 /* Application.cpp in Sources */,
@@ -731,6 +742,7 @@
 				AA88D47E26D458C6006E1B63 /* Vector2i.cpp in Sources */,
 				AA88D49B26D4686E006E1B63 /* SharedDataManager.cpp in Sources */,
 				AA88D39226D4491D006E1B63 /* Shaders.metal in Sources */,
+				AAC15FB126E7A21D00544665 /* MetalTexture.mm in Sources */,
 				AA88D48426D458C6006E1B63 /* Randomizer.cpp in Sources */,
 				AA88D44126D4584B006E1B63 /* FileManager.cpp in Sources */,
 				AA88D40626D457C4006E1B63 /* Application.cpp in Sources */,

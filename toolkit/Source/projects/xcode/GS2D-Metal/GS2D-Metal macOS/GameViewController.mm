@@ -55,6 +55,8 @@
 	gs2d::MetalVideo* m_video;
 	gs2d::PolygonRendererPtr m_polygonRenderer;
 	gs2d::ShaderPtr m_shader;
+	gs2d::TexturePtr m_textureA;
+	gs2d::TexturePtr m_textureB;
 	//gs2d::ShaderPtr m_shader2;
 
 	Platform::FileIOHubPtr m_fileIOHub;
@@ -89,6 +91,9 @@
 			m_fileIOHub->GetResourceDirectory() + "simpleFragment.metal",
 			"fragment_main");
 
+		m_textureA = m_video->LoadTextureFromFile(m_fileIOHub->GetResourceDirectory() + "asantee-small.png", 0);
+		m_textureB = m_video->LoadTextureFromFile(m_fileIOHub->GetResourceDirectory() + "catarina.png", 0);
+
 		/*m_shader2 = m_video->LoadShaderFromFile(
 			m_fileIOHub->GetResourceDirectory() + "simpleVertex.metal",
 			"vertex_main",
@@ -105,18 +110,21 @@
 	m_polygonRenderer->BeginRendering(m_shader);
 	m_shader->SetConstant("posOffset", gs2d::math::Vector2(0.0f, 0.0f));
 	m_shader->SetConstant("color", gs2d::math::Vector4(1.0f, 0.0f, 0.0f, 1.0f));
+	m_shader->SetTexture("diffuse", m_textureA, 0);
 	m_polygonRenderer->Render();
 	m_polygonRenderer->EndRendering();
 
 	m_polygonRenderer->BeginRendering(m_shader);
-	m_shader->SetConstant("posOffset", gs2d::math::Vector2(-0.5f, -1.0f));
-	m_shader->SetConstant("color", gs2d::math::Vector4(0.0f, 1.0f, 0.0f, 1.0f));
+	m_shader->SetConstant("posOffset", gs2d::math::Vector2(-0.5f, 1.0f));
+	m_shader->SetConstant("color", gs2d::math::Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+	m_shader->SetTexture("diffuse", m_textureB, 0);
 	m_polygonRenderer->Render();
 	m_polygonRenderer->EndRendering();
 
 	m_polygonRenderer->BeginRendering(m_shader);
-	m_shader->SetConstant("posOffset", gs2d::math::Vector2(-1.0f, -0.5f));
+	m_shader->SetConstant("posOffset", gs2d::math::Vector2(-1.0f, 0.0f));
 	m_shader->SetConstant("color", gs2d::math::Vector4(0.0f, 0.0f, 1.0f, 0.5f));
+	m_shader->SetTexture("diffuse", m_textureA, 0);
 	m_polygonRenderer->Render();
 	m_polygonRenderer->EndRendering();
 	m_video->EndRendering();

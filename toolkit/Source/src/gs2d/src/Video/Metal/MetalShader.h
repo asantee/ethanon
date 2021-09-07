@@ -40,8 +40,14 @@ class MetalShader : public Shader
 		NSUInteger offset;
 	};
 	
-	tsl::hopscotch_map<std::string, UniformBufferMember> m_uniformMembers;
+	struct TextureArgument
+	{
+		NSUInteger index;
+	};
 	
+	tsl::hopscotch_map<std::string, UniformBufferMember> m_uniformMembers;
+	tsl::hopscotch_map<std::string, TextureArgument> m_textureArguments;
+
 public:
 	static const uint8_t MAX_BUFFERS_IN_FLIGHT;
 

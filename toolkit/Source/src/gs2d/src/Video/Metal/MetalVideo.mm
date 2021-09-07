@@ -2,6 +2,7 @@
 
 #include "MetalPolygonRenderer.h"
 #include "MetalShader.h"
+#include "MetalTexture.h"
 
 #include "../../Platform/getRealTime.h"
 
@@ -131,24 +132,30 @@ TexturePtr MetalVideo::CreateTextureFromFileInMemory(
 	const unsigned int bufferLength,
 	const unsigned int nMipMaps)
 {
-	/*TexturePtr texture(GLTexture::Create(weak_this, GetFileIOHub()->GetFileManager()));
-	if (texture->LoadTexture(weak_this, pBuffer, nMipMaps, bufferLength))
+	TexturePtr texture(new MetalTexture(this, GetFileIOHub()->GetFileManager()));
+	if (texture->LoadTexture(pBuffer, nMipMaps, bufferLength))
 	{
 		return texture;
-	}*/
-	return TexturePtr();
+	}
+	else
+	{
+		return TexturePtr();
+	}
 }
 
 TexturePtr MetalVideo::LoadTextureFromFile(
 	const std::string& fileName,
 	const unsigned int nMipMaps)
 {
-	/*TexturePtr texture(GLTexture::Create(weak_this, GetFileIOHub()->GetFileManager()));
-	if (texture->LoadTexture(weak_this, fileName, nMipMaps))
+	TexturePtr texture(new MetalTexture(this, GetFileIOHub()->GetFileManager()));
+	if (texture->LoadTexture(fileName, nMipMaps))
 	{
 		return texture;
-	}*/
-	return TexturePtr();
+	}
+	else
+	{
+		return TexturePtr();
+	}
 }
 
 id<MTLDevice> MetalVideo::GetDevice()

@@ -27,6 +27,7 @@ vertex Vertex vertex_main(
 	uint vid [[vertex_id]])
 {
 	Vertex vout = vertices[vid];
+	vout.position.y *= -1.0f;
 	vout.position += float4(uniforms.posOffset.x, uniforms.posOffset.y, 0.0f, 0.0f);
 	return vout;
 }

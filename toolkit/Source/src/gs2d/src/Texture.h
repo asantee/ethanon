@@ -26,12 +26,10 @@ public:
 	virtual math::Vector2 GetBitmapSize() const = 0;
 
 	virtual bool LoadTexture(
-		VideoWeakPtr video,
 		const std::string& fileName,
 		const unsigned int nMipMaps = 0) = 0;
 
 	virtual bool LoadTexture(
-		VideoWeakPtr video,
 		const void* pBuffer,
 		const unsigned int nMipMaps,
 		const unsigned int bufferLength) = 0;

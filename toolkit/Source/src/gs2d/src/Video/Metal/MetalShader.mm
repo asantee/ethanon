@@ -1,6 +1,7 @@
 #include "MetalShader.h"
 
 #include "MetalVideo.h"
+#include "MetalTexture.h"
 
 #include <iostream>
 
@@ -107,7 +108,7 @@ bool MetalShader::LoadShaderFromString(
 	
 	for (MTLArgument *arg in reflectionObj.vertexArguments)
 	{
-		NSLog(@"Found arg: %@ size: %lu type: %lu\n", arg.name, arg.bufferDataSize, arg.type);
+		NSLog(@"Found vertex arg: %@ size: %lu type: %lu\n", arg.name, arg.bufferDataSize, arg.type);
 
 		if (arg.bufferDataType == MTLDataTypeStruct && [arg.name isEqualToString:@"uniforms"])
 		{
@@ -124,6 +125,17 @@ bool MetalShader::LoadShaderFromString(
 		}
 	}
 
+	for (MTLArgument *arg in reflectionObj.fragmentArguments)
+	{
+		NSLog(@"Found fragment arg: %@ type: %lu index: %lu\n", arg.name, arg.type, arg.index);
+		if (arg.type == MTLArgumentTypeTexture)
+		{
+			TextureArgument argument;
+			argument.index = arg.index;
+			m_textureArguments[std::string([arg.name UTF8String])] = argument;
+		}
+	}
+	
 	/*MTLDepthStencilDescriptor *depthStateDesc = [[MTLDepthStencilDescriptor alloc] init];
 	depthStateDesc.depthCompareFunction = MTLCompareFunctionLess;
 	depthStateDesc.depthWriteEnabled = YES;
@@ -229,6 +241,19 @@ void MetalShader::SetMatrixConstant(const std::string& name, const math::Matrix4
 
 void MetalShader::SetTexture(const std::string& name, TexturePtr pTexture, const unsigned int index)
 {
+	if (pTexture)
+	{
+		tsl::hopscotch_map<std::string, TextureArgument>::iterator iter = m_textureArguments.find(name);
+		if (iter != m_textureArguments.end())
+		{
+			MetalTexture* metalTexture = (MetalTexture*)pTexture.get();
+			[m_metalVideo->GetRenderCommandEncoder() setFragmentTexture:metalTexture->GetTexture() atIndex:iter.value().index];
+		}
+	}
+	else
+	{
+		[m_metalVideo->GetRenderCommandEncoder() setFragmentTexture:nil atIndex:index];
+	}
 }
 
 } //namespace gs2d
