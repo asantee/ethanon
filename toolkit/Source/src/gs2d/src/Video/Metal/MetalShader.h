@@ -2,6 +2,7 @@
 #define GS2D_METAL_SHADER_H_
 
 #include "../../Shader.h"
+#include "../../Video.h"
 
 #include "../../Platform/FileManager.h"
 
@@ -30,9 +31,8 @@ class MetalShader : public Shader
 	id<MTLFunction> m_vertexFunction;
 	id<MTLFunction> m_fragmentFunction;
 	std::vector<uint8_t> m_shaderBytes;
-	id<MTLRenderPipelineState> m_renderPipelineState;
+	tsl::hopscotch_map<Video::ALPHA_MODE, id<MTLRenderPipelineState> > m_renderPipelineStates;
 	//id<MTLDepthStencilState> m_depthState;
-	MTLRenderPipelineDescriptor* m_pipelineDescriptor;
 
 	struct UniformBufferMember
 	{

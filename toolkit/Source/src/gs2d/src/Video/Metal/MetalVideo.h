@@ -34,6 +34,8 @@ class MetalVideo : public Video, public Platform::NativeCommandForwarder
 	dispatch_semaphore_t m_inFlightSemaphore;
 	uint8_t m_uniformBufferIndex;
 
+	ALPHA_MODE m_alphaMode;
+	
 public:
 	MetalVideo(Platform::FileIOHubPtr fileIOHub, MTKView* view);
 

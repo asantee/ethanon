@@ -9,10 +9,47 @@ namespace gs2d {
 
 const uint8_t MetalShader::MAX_BUFFERS_IN_FLIGHT = 3;
 
+void SetupPipelineDescriptorBlending(MTLRenderPipelineDescriptor* descriptor, const Video::ALPHA_MODE mode)
+{
+	MTLRenderPipelineColorAttachmentDescriptor* colorAttachments = descriptor.colorAttachments[0];
+	switch (mode)
+	{
+	case Video::AM_ADD:
+		colorAttachments.blendingEnabled = YES;
+		colorAttachments.rgbBlendOperation = MTLBlendOperationAdd;
+		colorAttachments.alphaBlendOperation = MTLBlendOperationAdd;
+		colorAttachments.sourceRGBBlendFactor = MTLBlendFactorOne;
+		colorAttachments.sourceAlphaBlendFactor = MTLBlendFactorOne;
+		colorAttachments.destinationRGBBlendFactor = MTLBlendFactorOne;
+		colorAttachments.destinationAlphaBlendFactor = MTLBlendFactorOne;
+		break;
+	case Video::AM_MODULATE:
+		colorAttachments.blendingEnabled = YES;
+		colorAttachments.rgbBlendOperation = MTLBlendOperationAdd;
+		colorAttachments.alphaBlendOperation = MTLBlendOperationAdd;
+		colorAttachments.sourceRGBBlendFactor = MTLBlendFactorZero;
+		colorAttachments.sourceAlphaBlendFactor = MTLBlendFactorOne;
+		colorAttachments.destinationRGBBlendFactor = MTLBlendFactorSourceColor;
+		colorAttachments.destinationAlphaBlendFactor = MTLBlendFactorSourceColor;
+		break;
+	case Video::AM_NONE:
+		colorAttachments.blendingEnabled = NO;
+		break;
+	default:
+		colorAttachments.blendingEnabled = YES;
+		colorAttachments.rgbBlendOperation = MTLBlendOperationAdd;
+		colorAttachments.alphaBlendOperation = MTLBlendOperationAdd;
+		colorAttachments.sourceRGBBlendFactor = MTLBlendFactorSourceAlpha;
+		colorAttachments.sourceAlphaBlendFactor = MTLBlendFactorSourceAlpha;
+		colorAttachments.destinationRGBBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
+		colorAttachments.destinationAlphaBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
+		break;
+	}
+}
+
 MetalShader::MetalShader(MetalVideo* metalVideo, Platform::FileManagerPtr fileManager) :
 	m_metalVideo(metalVideo),
-	m_fileManager(fileManager),
-	m_pipelineDescriptor(nil)
+	m_fileManager(fileManager)
 {
 	m_view = metalVideo->GetView();
 	m_device = m_view.device;
@@ -93,19 +130,27 @@ bool MetalShader::LoadShaderFromString(
 	m_vertexFunction = [m_library newFunctionWithName:[NSString stringWithUTF8String:vsEntry.c_str()]];
 	m_fragmentFunction = [m_library newFunctionWithName:[NSString stringWithUTF8String:psEntry.c_str()]];
 
-	m_pipelineDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
-	m_pipelineDescriptor.vertexFunction = m_vertexFunction;
-	m_pipelineDescriptor.fragmentFunction = m_fragmentFunction;
-	m_pipelineDescriptor.sampleCount = m_view.sampleCount;
-	m_pipelineDescriptor.colorAttachments[0].pixelFormat = m_view.colorPixelFormat;
-	m_pipelineDescriptor.depthAttachmentPixelFormat = m_view.depthStencilPixelFormat;
-	m_pipelineDescriptor.stencilAttachmentPixelFormat = m_view.depthStencilPixelFormat;
+	const std::vector<Video::ALPHA_MODE> modes = { Video::AM_PIXEL, Video::AM_ADD, Video::AM_ALPHA_TEST, Video::AM_NONE, Video::AM_MODULATE };
 
-	// create uniform buffers
 	MTLRenderPipelineReflection* reflectionObj;
-	MTLPipelineOption option = MTLPipelineOptionBufferTypeInfo | MTLPipelineOptionArgumentInfo;
-	m_renderPipelineState = [m_device newRenderPipelineStateWithDescriptor:m_pipelineDescriptor options:option reflection:&reflectionObj error:&error];
-	
+
+	for (uint32_t t = 0; t < modes.size(); t++)
+	{
+		MTLRenderPipelineDescriptor* pipelineDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
+		pipelineDescriptor.vertexFunction = m_vertexFunction;
+		pipelineDescriptor.fragmentFunction = m_fragmentFunction;
+		pipelineDescriptor.sampleCount = m_view.sampleCount;
+		pipelineDescriptor.colorAttachments[0].pixelFormat = m_view.colorPixelFormat;
+		pipelineDescriptor.depthAttachmentPixelFormat = m_view.depthStencilPixelFormat;
+		pipelineDescriptor.stencilAttachmentPixelFormat = m_view.depthStencilPixelFormat;
+
+		SetupPipelineDescriptorBlending(pipelineDescriptor, modes[t]);
+
+		// create uniform buffers
+		MTLPipelineOption option = MTLPipelineOptionBufferTypeInfo | MTLPipelineOptionArgumentInfo;
+		m_renderPipelineStates[modes[t]] = [m_device newRenderPipelineStateWithDescriptor:pipelineDescriptor options:option reflection:&reflectionObj error:&error];
+	}
+
 	for (MTLArgument *arg in reflectionObj.vertexArguments)
 	{
 		NSLog(@"Found vertex arg: %@ size: %lu type: %lu\n", arg.name, arg.bufferDataSize, arg.type);
@@ -146,7 +191,7 @@ bool MetalShader::LoadShaderFromString(
 
 void MetalShader::SetShader()
 {
-	[m_metalVideo->GetRenderCommandEncoder() setRenderPipelineState:m_renderPipelineState];
+	[m_metalVideo->GetRenderCommandEncoder() setRenderPipelineState:m_renderPipelineStates[m_metalVideo->GetAlphaMode()]];
 	[m_metalVideo->GetRenderCommandEncoder()
 		setVertexBytes:&m_shaderBytes[0]
 		length:m_shaderBytes.size()

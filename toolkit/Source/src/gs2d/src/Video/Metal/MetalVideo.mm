@@ -16,7 +16,8 @@ MetalVideo::MetalVideo(
 	m_quit(false),
 	m_fpsRate(60.0f),
 	m_renderPassDescriptor(nil),
-	m_uniformBufferIndex(0)
+	m_uniformBufferIndex(0),
+	m_alphaMode(Video::AM_PIXEL)
 {
 	m_startTime = getRealTime();
 
@@ -180,12 +181,13 @@ id<MTLRenderCommandEncoder> MetalVideo::GetRenderCommandEncoder()
 
 bool MetalVideo::SetAlphaMode(const ALPHA_MODE mode)
 {
+	m_alphaMode = mode;
 	return true;
 }
 
 Video::ALPHA_MODE MetalVideo::GetAlphaMode() const
 {
-	return Video::AM_UNKNOWN;
+	return m_alphaMode;
 }
 
 void MetalVideo::SetZBuffer(const bool enable)

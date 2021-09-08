@@ -107,26 +107,38 @@
 {
 	m_video->BeginRendering();
 	
+	m_video->SetAlphaMode(gs2d::Video::AM_MODULATE);
 	m_polygonRenderer->BeginRendering(m_shader);
-	m_shader->SetConstant("posOffset", gs2d::math::Vector2(0.0f, 0.0f));
-	m_shader->SetConstant("color", gs2d::math::Vector4(1.0f, 0.0f, 0.0f, 1.0f));
-	m_shader->SetTexture("diffuse", m_textureA, 0);
-	m_polygonRenderer->Render();
-	m_polygonRenderer->EndRendering();
-
-	m_polygonRenderer->BeginRendering(m_shader);
-	m_shader->SetConstant("posOffset", gs2d::math::Vector2(-0.5f, 1.0f));
+	m_shader->SetConstant("posOffset", gs2d::math::Vector2(-1.0f, 1.0f));
 	m_shader->SetConstant("color", gs2d::math::Vector4(1.0f, 1.0f, 1.0f, 1.0f));
 	m_shader->SetTexture("diffuse", m_textureB, 0);
 	m_polygonRenderer->Render();
 	m_polygonRenderer->EndRendering();
 
+	m_video->SetAlphaMode(gs2d::Video::AM_NONE);
+	m_polygonRenderer->BeginRendering(m_shader);
+	m_shader->SetConstant("posOffset", gs2d::math::Vector2(0.0f, 1.0f));
+	m_shader->SetConstant("color", gs2d::math::Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+	m_shader->SetTexture("diffuse", m_textureB, 0);
+	m_polygonRenderer->Render();
+	m_polygonRenderer->EndRendering();
+
+	m_video->SetAlphaMode(gs2d::Video::AM_PIXEL);
 	m_polygonRenderer->BeginRendering(m_shader);
 	m_shader->SetConstant("posOffset", gs2d::math::Vector2(-1.0f, 0.0f));
-	m_shader->SetConstant("color", gs2d::math::Vector4(0.0f, 0.0f, 1.0f, 0.5f));
+	m_shader->SetConstant("color", gs2d::math::Vector4(1.0f, 1.0f, 1.0f, 0.1f));
 	m_shader->SetTexture("diffuse", m_textureA, 0);
 	m_polygonRenderer->Render();
 	m_polygonRenderer->EndRendering();
+
+	m_video->SetAlphaMode(gs2d::Video::AM_ADD);
+	m_polygonRenderer->BeginRendering(m_shader);
+	m_shader->SetConstant("posOffset", gs2d::math::Vector2(0.0f, 0.0f));
+	m_shader->SetConstant("color", gs2d::math::Vector4(1.0f, 1.0f, 1.0f, 0.5f));
+	m_shader->SetTexture("diffuse", m_textureA, 0);
+	m_polygonRenderer->Render();
+	m_polygonRenderer->EndRendering();
+
 	m_video->EndRendering();
 }
 
