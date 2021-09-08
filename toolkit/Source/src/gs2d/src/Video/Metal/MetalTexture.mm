@@ -29,6 +29,7 @@ MetalTexture::~MetalTexture()
 
 void MetalTexture::Free()
 {
+	m_texture = nil;
 }
 
 bool MetalTexture::LoadTexture(
@@ -134,6 +135,7 @@ bool MetalTexture::LoadTexture(
 	const NSUInteger bytesPerRow = 4 * (NSUInteger)width;
 	[m_texture replaceRegion:region mipmapLevel:0 withBytes:destData bytesPerRow:bytesPerRow];
 
+	stbi_image_free(data);
 	delete [] destData;
 
 	return true;

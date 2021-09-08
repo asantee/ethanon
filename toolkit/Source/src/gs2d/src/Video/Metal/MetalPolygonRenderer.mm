@@ -48,6 +48,8 @@ MetalPolygonRenderer::MetalPolygonRenderer(
 
 MetalPolygonRenderer::~MetalPolygonRenderer()
 {
+	m_vertexBuffer = nil;
+	m_indexBuffer = nil;
 }
 
 void MetalPolygonRenderer::BeginRendering(const ShaderPtr& shader)

@@ -57,6 +57,9 @@ MetalShader::MetalShader(MetalVideo* metalVideo, Platform::FileManagerPtr fileMa
 
 MetalShader::~MetalShader()
 {
+	m_library = nil;
+	m_vertexFunction = nil;
+	m_fragmentFunction = nil;
 }
 
 bool MetalShader::LoadShaderFromFile(
