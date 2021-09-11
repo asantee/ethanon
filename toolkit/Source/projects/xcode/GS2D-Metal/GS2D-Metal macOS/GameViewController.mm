@@ -55,8 +55,10 @@
 	gs2d::MetalVideo* m_video;
 	gs2d::PolygonRendererPtr m_polygonRenderer;
 	gs2d::ShaderPtr m_shader;
+	gs2d::ShaderPtr m_spriteShader;
 	gs2d::TexturePtr m_textureA;
 	gs2d::TexturePtr m_textureB;
+	gs2d::TexturePtr m_spaceship;
 	//gs2d::ShaderPtr m_shader2;
 
 	Platform::FileIOHubPtr m_fileIOHub;
@@ -91,8 +93,15 @@
 			m_fileIOHub->GetResourceDirectory() + "simpleFragment.metal",
 			"fragment_main");
 
+		m_spriteShader = m_video->LoadShaderFromFile(
+			m_fileIOHub->GetResourceDirectory() + "default-sprite.vs",
+			"vertex_main",
+			m_fileIOHub->GetResourceDirectory() + "default-sprite.fs",
+			"fragment_main");
+
 		m_textureA = m_video->LoadTextureFromFile(m_fileIOHub->GetResourceDirectory() + "asantee-small.png", 0);
 		m_textureB = m_video->LoadTextureFromFile(m_fileIOHub->GetResourceDirectory() + "catarina.png", 0);
+		m_spaceship = m_video->LoadTextureFromFile(m_fileIOHub->GetResourceDirectory() + "spaceship.png", 0);
 
 		/*m_shader2 = m_video->LoadShaderFromFile(
 			m_fileIOHub->GetResourceDirectory() + "simpleVertex.metal",
@@ -105,6 +114,9 @@
 
 - (void)drawInMTKView:(nonnull MTKView *)view
 {
+	using namespace gs2d;
+	using namespace gs2d::math;
+
 	m_video->BeginRendering();
 	
 	m_video->SetAlphaMode(gs2d::Video::AM_MODULATE);
@@ -138,6 +150,30 @@
 	m_shader->SetTexture("diffuse", m_textureA, 0);
 	m_polygonRenderer->Render();
 	m_polygonRenderer->EndRendering();
+	
+	#define U_SIZE 6
+	
+	#define SIZE_ORIGIN 0
+	#define SPRITEPOS_VIRTUALTARGETRESOLUTION 1
+	#define COLOR 2
+	#define FLIPADD_FLIPMUL 3
+	#define RECTPOS_RECTSIZE 4
+	#define ANGLE_PARALLAXINTENSITY_ZPOS 5
+
+	m_video->SetAlphaMode(gs2d::Video::AM_PIXEL);
+	m_polygonRenderer->BeginRendering(m_spriteShader);
+	static Vector4 u[U_SIZE];
+	u[COLOR] = Vector4(1.0f, 0.0f, 0.0f, 0.3f);
+	u[SIZE_ORIGIN] = Vector4(m_spaceship->GetBitmapSize(), Vector2(0.5f, 0.5f));
+	u[SPRITEPOS_VIRTUALTARGETRESOLUTION] = Vector4(Vector2(100.0f, 100.0f), m_video->GetScreenSizeF());
+	u[FLIPADD_FLIPMUL] = Vector4(0.0f, 0.0f, 1.0f, 1.0f);
+	u[RECTPOS_RECTSIZE] = Vector4(Vector2(0.0f, 0.0f), Vector2(1.0f, 1.0f));
+	u[ANGLE_PARALLAXINTENSITY_ZPOS] = Vector4(Util::DegreeToRadian(0.0f), 0.0f /*parallaxIntensity*/, 0.0f /*zPos*/, 0.0f);
+	m_spriteShader->SetConstantArray("u", U_SIZE, u);
+	m_spriteShader->SetTexture("diffuse", m_spaceship, 0);
+	m_polygonRenderer->Render();
+	m_polygonRenderer->EndRendering();
+
 
 	m_video->EndRendering();
 }
