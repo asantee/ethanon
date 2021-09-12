@@ -23,6 +23,8 @@ typedef float4 vec4;
 struct Uniforms
 {
 	vec4 u[6];
+	vec4 highlight;
+	vec4 solidColor;
 };
 
 vertex Vertex vertex_main(
