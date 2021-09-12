@@ -62,6 +62,7 @@
 	gs2d::ShaderPtr m_spriteShaderModulate;
 	gs2d::ShaderPtr m_spriteShaderSolidColor;
 	gs2d::ShaderPtr m_spriteShaderSolidColorAdd;
+	gs2d::ShaderPtr m_spriteShaderSolidColorModulate;
 
 	gs2d::TexturePtr m_textureA;
 	gs2d::TexturePtr m_textureB;
@@ -134,6 +135,12 @@
 			m_fileIOHub->GetResourceDirectory() + "default-sprite.vs",
 			"vertex_main",
 			m_fileIOHub->GetResourceDirectory() + "default-sprite-solid-color-add.fs",
+			"fragment_main");
+
+		m_spriteShaderSolidColorModulate = m_video->LoadShaderFromFile(
+			m_fileIOHub->GetResourceDirectory() + "default-sprite.vs",
+			"vertex_main",
+			m_fileIOHub->GetResourceDirectory() + "default-sprite-solid-color-modulate.fs",
 			"fragment_main");
 
 		m_textureA = m_video->LoadTextureFromFile(m_fileIOHub->GetResourceDirectory() + "asantee-small.png", 0);
