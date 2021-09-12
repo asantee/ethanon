@@ -60,6 +60,7 @@
 	gs2d::ShaderPtr m_spriteShaderHighlight;
 	gs2d::ShaderPtr m_spriteShaderAdd;
 	gs2d::ShaderPtr m_spriteShaderModulate;
+	gs2d::ShaderPtr m_spriteShaderSolidColor;
 
 	gs2d::TexturePtr m_textureA;
 	gs2d::TexturePtr m_textureB;
@@ -120,6 +121,12 @@
 			m_fileIOHub->GetResourceDirectory() + "default-sprite.vs",
 			"vertex_main",
 			m_fileIOHub->GetResourceDirectory() + "default-sprite-modulate.fs",
+			"fragment_main");
+
+		m_spriteShaderSolidColor = m_video->LoadShaderFromFile(
+			m_fileIOHub->GetResourceDirectory() + "default-sprite.vs",
+			"vertex_main",
+			m_fileIOHub->GetResourceDirectory() + "default-sprite-solid-color.fs",
 			"fragment_main");
 
 		m_textureA = m_video->LoadTextureFromFile(m_fileIOHub->GetResourceDirectory() + "asantee-small.png", 0);
@@ -240,6 +247,20 @@
 	m_polygonRenderer->Render();
 	m_polygonRenderer->EndRendering();
 
+	m_video->SetAlphaMode(gs2d::Video::AM_PIXEL);
+	m_polygonRenderer->BeginRendering(m_spriteShaderSolidColor);
+	u[COLOR] = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	u[SIZE_ORIGIN] = Vector4(m_spaceship->GetBitmapSize() * Vector2(2.0f, 2.0f), Vector2(0.0f, 1.0f));
+	u[SPRITEPOS_VIRTUALTARGETRESOLUTION] = Vector4(m_video->GetScreenSizeF() * Vector2(0.0f, 1.0f), m_video->GetScreenSizeF());
+	u[FLIPADD_FLIPMUL] = Vector4(0.0f, 0.0f, 1.0f, 1.0f);
+	u[RECTPOS_RECTSIZE] = Vector4(Vector2(0.0f, 0.0f), Vector2(1.0f, 1.0f));
+	u[ANGLE_PARALLAXINTENSITY_ZPOS] = Vector4(Util::DegreeToRadian(0.0f), 0.0f /*parallaxIntensity*/, 0.0f /*zPos*/, 0.0f);
+	m_spriteShaderSolidColor->SetConstantArray("u", U_SIZE, u);
+	m_spriteShaderSolidColor->SetConstant("solidColor", Vector4(1.0f, 1.0f, 0.0f, abs(sin(m_video->GetElapsedTimeF() / 100.0f))));
+	m_spriteShaderSolidColor->SetTexture("diffuse", m_spaceship, 0);
+	m_polygonRenderer->Render();
+	m_polygonRenderer->EndRendering();
+	
 	m_video->EndRendering();
 }
 
