@@ -8,5 +8,5 @@ fragment float4 fragment_main(
 	half4 colorSample = diffuse.sample(colorSampler, inVertex.texCoord.xy);
 	half4 addSample = secondary.sample(colorSampler, inVertex.texCoord.xy);
 
-    return (float4(colorSample) * uniforms.u[COLOR]) + float4(addSample.x, addSample.y, addSample.z, 0.0f);
+	return (float4(colorSample) * uniforms.u[COLOR]) + float4(addSample.x, addSample.y, addSample.z, 0.0f);
 }

@@ -7,5 +7,5 @@ fragment float4 fragment_main(
 	half4 colorSample = diffuse.sample(colorSampler, inVertex.texCoord.xy);
 
 	vec4 blendedColor = vec4(colorSample) * uniforms.u[COLOR];
-    return mix(blendedColor, vec4(uniforms.solidColor.x, uniforms.solidColor.y, uniforms.solidColor.z, blendedColor.w), uniforms.solidColor.w);
+	return mix(blendedColor, vec4(uniforms.solidColor.x, uniforms.solidColor.y, uniforms.solidColor.z, blendedColor.w), uniforms.solidColor.w);
 }
