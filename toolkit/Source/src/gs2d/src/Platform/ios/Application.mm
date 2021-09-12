@@ -95,6 +95,7 @@
 
 	m_input->Update();
 	m_audio->Update();
+	m_video->HandleEvents();
 
 	const float elapsedTime = (gs2d::ComputeElapsedTimeF(m_video));
 	m_engine->Update(gs2d::math::Min(400.0f, elapsedTime));
