@@ -54,10 +54,13 @@
 {
 	gs2d::MetalVideo* m_video;
 	gs2d::PolygonRendererPtr m_polygonRenderer;
+
 	gs2d::ShaderPtr m_shader;
 	gs2d::ShaderPtr m_spriteShader;
 	gs2d::ShaderPtr m_spriteShaderHighlight;
 	gs2d::ShaderPtr m_spriteShaderAdd;
+	gs2d::ShaderPtr m_spriteShaderModulate;
+
 	gs2d::TexturePtr m_textureA;
 	gs2d::TexturePtr m_textureB;
 	gs2d::TexturePtr m_spaceship;
@@ -111,6 +114,12 @@
 			m_fileIOHub->GetResourceDirectory() + "default-sprite.vs",
 			"vertex_main",
 			m_fileIOHub->GetResourceDirectory() + "default-sprite-add.fs",
+			"fragment_main");
+
+		m_spriteShaderModulate = m_video->LoadShaderFromFile(
+			m_fileIOHub->GetResourceDirectory() + "default-sprite.vs",
+			"vertex_main",
+			m_fileIOHub->GetResourceDirectory() + "default-sprite-modulate.fs",
 			"fragment_main");
 
 		m_textureA = m_video->LoadTextureFromFile(m_fileIOHub->GetResourceDirectory() + "asantee-small.png", 0);
@@ -214,6 +223,20 @@
 	m_spriteShaderAdd->SetConstantArray("u", U_SIZE, u);
 	m_spriteShaderAdd->SetTexture("secondary", m_spaceshipAdd, 1);
 	m_spriteShaderAdd->SetTexture("diffuse", m_spaceship, 0);
+	m_polygonRenderer->Render();
+	m_polygonRenderer->EndRendering();
+
+	m_video->SetAlphaMode(gs2d::Video::AM_PIXEL);
+	m_polygonRenderer->BeginRendering(m_spriteShaderModulate);
+	u[COLOR] = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	u[SIZE_ORIGIN] = Vector4(m_spaceship->GetBitmapSize() * Vector2(5.0f, 5.0f), Vector2(0.5f, 1.0f));
+	u[SPRITEPOS_VIRTUALTARGETRESOLUTION] = Vector4(m_video->GetScreenSizeF() * Vector2(0.5f, 0.5f), m_video->GetScreenSizeF());
+	u[FLIPADD_FLIPMUL] = Vector4(1.0f, 0.0f, -1.0f, 1.0f);
+	u[RECTPOS_RECTSIZE] = Vector4(Vector2(0.0f, 0.0f), Vector2(1.0f, 1.0f));
+	u[ANGLE_PARALLAXINTENSITY_ZPOS] = Vector4(Util::DegreeToRadian(0.0f), 0.0f /*parallaxIntensity*/, 0.0f /*zPos*/, 0.0f);
+	m_spriteShaderModulate->SetConstantArray("u", U_SIZE, u);
+	m_spriteShaderModulate->SetTexture("secondary", m_textureB, 1);
+	m_spriteShaderModulate->SetTexture("diffuse", m_spaceship, 0);
 	m_polygonRenderer->Render();
 	m_polygonRenderer->EndRendering();
 
