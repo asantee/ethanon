@@ -4,6 +4,7 @@
 #include <Platform/StdFileManager.h>
 
 #include <Video/Metal/MetalVideo.h>
+#include <Video/Metal/MetalShaderCode.h>
 
 @interface MetalRenderer : NSObject <MTKViewDelegate>
 -(nonnull instancetype)initWithMetalVideo:(gs2d::MetalVideo*)video fileIOHub:(Platform::FileIOHubPtr)fileIOHub;
@@ -103,52 +104,68 @@
 			m_fileIOHub->GetResourceDirectory() + "simpleFragment.metal",
 			"fragment_main");
 
-		m_spriteShader = m_video->LoadShaderFromFile(
-			m_fileIOHub->GetResourceDirectory() + "default-sprite.vs",
+		m_spriteShader = m_video->LoadShaderFromString(
+			"default-sprite.vs",
+			gs2d_shaders::default_sprite_vs,
 			"vertex_main",
-			m_fileIOHub->GetResourceDirectory() + "default-sprite.fs",
+			"default-sprite.fs",
+			gs2d_shaders::default_sprite_fs,
 			"fragment_main");
 
-		m_spriteShaderFast = m_video->LoadShaderFromFile(
-			m_fileIOHub->GetResourceDirectory() + "default-sprite-fast.vs",
+		m_spriteShaderFast = m_video->LoadShaderFromString(
+			"default-sprite-fast.vs",
+			gs2d_shaders::default_sprite_fast_vs,
 			"vertex_main",
-			m_fileIOHub->GetResourceDirectory() + "default-sprite.fs",
+			"default-sprite.fs",
+			gs2d_shaders::default_sprite_fs,
 			"fragment_main");
 
-		m_spriteShaderHighlight = m_video->LoadShaderFromFile(
-			m_fileIOHub->GetResourceDirectory() + "default-sprite.vs",
+		m_spriteShaderHighlight = m_video->LoadShaderFromString(
+			"default-sprite.vs",
+			gs2d_shaders::default_sprite_vs,
 			"vertex_main",
-			m_fileIOHub->GetResourceDirectory() + "default-sprite-highlight.fs",
+			"default-sprite-highlight.fs",
+			gs2d_shaders::default_sprite_highlight_fs,
 			"fragment_main");
 
-		m_spriteShaderAdd = m_video->LoadShaderFromFile(
-			m_fileIOHub->GetResourceDirectory() + "default-sprite.vs",
+		m_spriteShaderAdd = m_video->LoadShaderFromString(
+			"default-sprite.vs",
+			gs2d_shaders::default_sprite_vs,
 			"vertex_main",
-			m_fileIOHub->GetResourceDirectory() + "default-sprite-add.fs",
+			"default-sprite-add.fs",
+			gs2d_shaders::default_sprite_add_fs,
 			"fragment_main");
 
-		m_spriteShaderModulate = m_video->LoadShaderFromFile(
-			m_fileIOHub->GetResourceDirectory() + "default-sprite.vs",
+		m_spriteShaderModulate = m_video->LoadShaderFromString(
+			"default-sprite.vs",
+			gs2d_shaders::default_sprite_vs,
 			"vertex_main",
-			m_fileIOHub->GetResourceDirectory() + "default-sprite-modulate.fs",
+			"default-sprite-modulate.fs",
+			gs2d_shaders::default_sprite_modulate_fs,
 			"fragment_main");
 
-		m_spriteShaderSolidColor = m_video->LoadShaderFromFile(
-			m_fileIOHub->GetResourceDirectory() + "default-sprite.vs",
+		m_spriteShaderSolidColor = m_video->LoadShaderFromString(
+			"default-sprite.vs",
+			gs2d_shaders::default_sprite_vs,
 			"vertex_main",
-			m_fileIOHub->GetResourceDirectory() + "default-sprite-solid-color.fs",
+			"default-sprite-solid-color.fs",
+			gs2d_shaders::default_sprite_solid_color_fs,
 			"fragment_main");
 
-		m_spriteShaderSolidColorAdd = m_video->LoadShaderFromFile(
-			m_fileIOHub->GetResourceDirectory() + "default-sprite.vs",
+		m_spriteShaderSolidColorAdd = m_video->LoadShaderFromString(
+			"default-sprite.vs",
+			gs2d_shaders::default_sprite_vs,
 			"vertex_main",
-			m_fileIOHub->GetResourceDirectory() + "default-sprite-solid-color-add.fs",
+			"default-sprite-solid-color-add.fs",
+			gs2d_shaders::default_sprite_solid_color_add_fs,
 			"fragment_main");
 
-		m_spriteShaderSolidColorModulate = m_video->LoadShaderFromFile(
-			m_fileIOHub->GetResourceDirectory() + "default-sprite.vs",
+		m_spriteShaderSolidColorModulate = m_video->LoadShaderFromString(
+			"default-sprite.vs",
+			gs2d_shaders::default_sprite_vs,
 			"vertex_main",
-			m_fileIOHub->GetResourceDirectory() + "default-sprite-solid-color-modulate.fs",
+			"default-sprite-solid-color-modulate.fs",
+			gs2d_shaders::default_sprite_solid_color_modulate_fs,
 			"fragment_main");
 
 		m_textureA = m_video->LoadTextureFromFile(m_fileIOHub->GetResourceDirectory() + "asantee-small.png", 0);
