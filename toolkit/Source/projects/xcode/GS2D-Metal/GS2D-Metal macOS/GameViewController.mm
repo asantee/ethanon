@@ -57,6 +57,7 @@
 
 	gs2d::ShaderPtr m_shader;
 	gs2d::ShaderPtr m_spriteShader;
+	gs2d::ShaderPtr m_spriteShaderFast;
 	gs2d::ShaderPtr m_spriteShaderHighlight;
 	gs2d::ShaderPtr m_spriteShaderAdd;
 	gs2d::ShaderPtr m_spriteShaderModulate;
@@ -68,6 +69,7 @@
 	gs2d::TexturePtr m_textureB;
 	gs2d::TexturePtr m_spaceship;
 	gs2d::TexturePtr m_spaceshipAdd;
+	gs2d::TexturePtr m_asteroid;
 
 	Platform::FileIOHubPtr m_fileIOHub;
 
@@ -103,6 +105,12 @@
 
 		m_spriteShader = m_video->LoadShaderFromFile(
 			m_fileIOHub->GetResourceDirectory() + "default-sprite.vs",
+			"vertex_main",
+			m_fileIOHub->GetResourceDirectory() + "default-sprite.fs",
+			"fragment_main");
+
+		m_spriteShaderFast = m_video->LoadShaderFromFile(
+			m_fileIOHub->GetResourceDirectory() + "default-sprite-fast.vs",
 			"vertex_main",
 			m_fileIOHub->GetResourceDirectory() + "default-sprite.fs",
 			"fragment_main");
@@ -147,6 +155,7 @@
 		m_textureB = m_video->LoadTextureFromFile(m_fileIOHub->GetResourceDirectory() + "catarina.png", 0);
 		m_spaceship = m_video->LoadTextureFromFile(m_fileIOHub->GetResourceDirectory() + "spaceship.png", 0);
 		m_spaceshipAdd = m_video->LoadTextureFromFile(m_fileIOHub->GetResourceDirectory() + "spaceship_add.png", 0);
+		m_asteroid = m_video->LoadTextureFromFile(m_fileIOHub->GetResourceDirectory() + "asteroid64.png", 0);
 
 		/*m_shader2 = m_video->LoadShaderFromFile(
 			m_fileIOHub->GetResourceDirectory() + "simpleVertex.metal",
@@ -272,6 +281,25 @@
 	m_spriteShaderSolidColor->SetConstantArray("u", U_SIZE, u);
 	m_spriteShaderSolidColor->SetConstant("solidColor", Vector4(1.0f, 1.0f, 0.0f, abs(sin(m_video->GetElapsedTimeF() / 100.0f))));
 	m_spriteShaderSolidColor->SetTexture("diffuse", m_spaceship, 0);
+	m_polygonRenderer->Render();
+	m_polygonRenderer->EndRendering();
+
+	#define FAST_U_SIZE 4
+
+	#define FAST_SIZE_ORIGIN 0
+	#define FAST_SPRITEPOS_VIRTUALTARGETRESOLUTION 1
+	#define FAST_COLOR 2
+	#define FAST_RECTPOS_RECTSIZE 3
+
+	m_video->SetAlphaMode(gs2d::Video::AM_PIXEL);
+	m_polygonRenderer->BeginRendering(m_spriteShaderFast);
+	static Vector4 fast_u[FAST_U_SIZE];
+	fast_u[FAST_COLOR] = Vector4(0.5f, 1.0f, 0.5f, 1.0f);
+	fast_u[FAST_SIZE_ORIGIN] = Vector4(m_asteroid->GetBitmapSize() * Vector2(1.0f, 1.0f), Vector2(0.0f, 0.5f));
+	fast_u[FAST_SPRITEPOS_VIRTUALTARGETRESOLUTION] = Vector4(m_video->GetScreenSizeF() * Vector2(0.0f, 0.5f), m_video->GetScreenSizeF());
+	fast_u[FAST_RECTPOS_RECTSIZE] = Vector4(Vector2(0.0f, 0.0f), Vector2(1.0f, 1.0f));
+	m_spriteShaderFast->SetConstantArray("u", FAST_U_SIZE, fast_u);
+	m_spriteShaderFast->SetTexture("diffuse", m_asteroid, 0);
 	m_polygonRenderer->Render();
 	m_polygonRenderer->EndRendering();
 	
