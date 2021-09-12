@@ -6,5 +6,5 @@ fragment float4 fragment_main(
 	constexpr sampler colorSampler(mip_filter::linear, mag_filter::linear, min_filter::linear, address::clamp_to_edge);
 	half4 colorSample = diffuse.sample(colorSampler, inVertex.texCoord.xy);
 
-    return float4(colorSample) * uniforms.u[COLOR];
+	return float4(colorSample) * uniforms.u[COLOR];
 }
