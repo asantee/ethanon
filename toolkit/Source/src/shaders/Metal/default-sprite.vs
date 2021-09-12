@@ -83,12 +83,8 @@ vertex Vertex vertex_main(
 	vertexPos.x /= halfScreenSize.x;
 	vertexPos.y /= halfScreenSize.y;
 
-	// map sprite rect
-	vec2 texCoord = vout.texCoord.xy * rectSize;
-	texCoord = texCoord + rectPos;
-
 	vout.position = vertexPos;
-	vout.texCoord = vec4(texCoord, 1.0f, 1.0f);
+	vout.texCoord = vec4((vout.texCoord.xy * rectSize) + rectPos, 1.0f, 1.0f);
 
 	return vout;
 }
