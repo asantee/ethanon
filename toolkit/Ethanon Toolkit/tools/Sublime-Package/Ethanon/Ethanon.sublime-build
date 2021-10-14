@@ -21,7 +21,7 @@
 			"name": "Run",
 			"windows":
 			{
-				"cmd": ["machine.exe","-nowait","-testing"]
+				"shell_cmd": "start cmd /c \"machine.exe -nowait -testing & pause\""
 			},
 			"osx":
 			{
