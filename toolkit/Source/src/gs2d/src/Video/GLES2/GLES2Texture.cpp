@@ -223,7 +223,7 @@ bool GLES2Texture::LoadTexture(
 
 	std::cout << m_fileName << " texture loaded" << std::endl;
 
-	glGenerateMipmap(GL_TEXTURE_2D);
+	//glGenerateMipmap(GL_TEXTURE_2D);
 
 	stbi_image_free(data);
 	return true;
