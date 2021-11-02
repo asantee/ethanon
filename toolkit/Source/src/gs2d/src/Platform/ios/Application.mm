@@ -14,6 +14,8 @@
 
 #import <Input/iOS/IOSInput.h>
 
+#import <Video/GLES2/ios/IOSGLES2Video.h>
+
 @interface ApplicationWrapper ()
 {
 	gs2d::VideoPtr m_video;
@@ -79,7 +81,7 @@
 	Platform::FileIOHubPtr fileIOHub(new Platform::IOSFileIOHub("data/"));
 
 	const gs2d::math::Vector2 size = gs2d::math::Vector2(view.drawableWidth, view.drawableHeight);
-	m_video = gs2d::CreateVideo(static_cast<unsigned int>(size.x), static_cast<unsigned int>(size.y), fileIOHub);
+	m_video = gs2d::VideoPtr(new gs2d::IOSGLES2Video(static_cast<unsigned int>(size.x), static_cast<unsigned int>(size.y), "Magic Rampage", fileIOHub));
 
 	m_engine = gs2d::CreateBaseApplication();
 	m_engine->Start(m_video, m_input, m_audio);
