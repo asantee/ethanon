@@ -62,7 +62,8 @@ GLSDLVideo::GLSDLVideo(
 	m_windowHasFocus(false),
 	m_windowIsVisible(false),
 	m_window(NULL),
-	m_glcontext(NULL)
+	m_glcontext(NULL),
+	m_lastUpdateTime(0)
 {
 	m_startTime = getRealTime();
 	StartApplication(width, height, winTitle, windowed, sync, Texture::PF_UNKNOWN, maximizable);
@@ -505,6 +506,20 @@ Application::APP_STATUS GLSDLVideo::HandleEvents()
 
 	if (m_quit)
 		r = APP_QUIT;
+
+	SDL_DisplayMode dm;
+	SDL_GetWindowDisplayMode(m_window, &dm);
+
+	const int32_t tickInterval = 1000 / dm.refresh_rate;
+
+	const int32_t deltaTime = SDL_GetTicks() - m_lastUpdateTime;
+	const int32_t timeToSleep = tickInterval - deltaTime;
+	if (timeToSleep > 0)
+	{
+		SDL_Delay(timeToSleep);
+	}
+	
+	m_lastUpdateTime = SDL_GetTicks();
 
 	return r;
 }
