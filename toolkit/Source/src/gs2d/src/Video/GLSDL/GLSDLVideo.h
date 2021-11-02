@@ -39,6 +39,7 @@ class GLSDLVideo : public Video, public Platform::NativeCommandForwarder
 	Uint32 AssembleFlags(const bool windowed, const bool maximizable, const bool sync);
 
 	uint32_t m_lastUpdateTime;
+	SDL_DisplayMode m_defaultDisplayMode;
 	
 public:
 	static boost::shared_ptr<GLSDLVideo> Create(

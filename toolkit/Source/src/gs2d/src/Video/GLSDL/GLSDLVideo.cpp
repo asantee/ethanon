@@ -198,6 +198,9 @@ bool GLSDLVideo::StartApplication(
         SDL_GL_SetSwapInterval(1);
     }
 
+	SDL_GetWindowDisplayMode(m_window, &m_defaultDisplayMode);
+	std::cout << "Default screen refresh rate: " << m_defaultDisplayMode.refresh_rate << std::endl;
+	
 	// initialize OpenGL
     SetAlphaMode(Video::AM_PIXEL);
 
@@ -507,10 +510,7 @@ Application::APP_STATUS GLSDLVideo::HandleEvents()
 	if (m_quit)
 		r = APP_QUIT;
 
-	SDL_DisplayMode dm;
-	SDL_GetWindowDisplayMode(m_window, &dm);
-
-	const int32_t tickInterval = 1000 / dm.refresh_rate;
+	const int32_t tickInterval = 1000 / m_defaultDisplayMode.refresh_rate;
 
 	const int32_t deltaTime = SDL_GetTicks() - m_lastUpdateTime;
 	const int32_t timeToSleep = tickInterval - deltaTime;
