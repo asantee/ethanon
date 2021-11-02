@@ -49,7 +49,7 @@ public:
 
 	void SetShader() override;
 
-	void SetConstant(const std::string& name, const int n) override;
+	void SetConstant(const std::string& name, const uint32_t n) override;
 	void SetConstant(const std::string& name, const float v) override;
 	void SetConstant(const std::string& name, const math::Vector2& v) override;
 	void SetConstant(const std::string& name, const math::Vector3& v) override;

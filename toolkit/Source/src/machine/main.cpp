@@ -11,6 +11,8 @@
 #include <ETHEngine.h>
 #include <Platform/ETHAppEnmlFile.h>
 
+#include <Video/GLSDL/GLSDLVideo.h>
+
 #ifdef _WIN32
 #if defined(_DEBUG) || defined(DEBUG)
 #define _CRTDBG_MAP_ALLOC
@@ -107,15 +109,13 @@ int main(int argc, char* argv[])
 		application->SetHighEndDevice(true);
 
 		VideoPtr video;
-		if ((video = CreateVideo(
+		if ((video = VideoPtr(new GLSDLVideo(
+			fileIOHub,
 			app.GetWidth(),
 			app.GetHeight(),
 			app.GetTitle(),
 			app.IsWindowed(),
-			app.IsVsyncEnabled(),
-			fileIOHub,
-			Texture::PF_UNKNOWN,
-			false)))
+			false /*maximizable*/))))
 		{
 			InputPtr input = CreateInput(false);
 			AudioPtr audio = CreateAudio(0);

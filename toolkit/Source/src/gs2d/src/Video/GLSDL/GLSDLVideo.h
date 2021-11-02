@@ -42,23 +42,12 @@ class GLSDLVideo : public Video, public Platform::NativeCommandForwarder
 	SDL_DisplayMode m_defaultDisplayMode;
 	
 public:
-	static boost::shared_ptr<GLSDLVideo> Create(
-		const unsigned int width,
-		const unsigned int height,
-		const std::string& winTitle,
-		const bool windowed,
-		const bool sync,
-		const Platform::FileIOHubPtr& fileIOHub,
-		const Texture::PIXEL_FORMAT pfBB,
-		const bool maximizable);
-
 	GLSDLVideo(
 		Platform::FileIOHubPtr fileIOHub,
 		const unsigned int width,
 		const unsigned int height,
 		const std::string& winTitle,
 		const bool windowed,
-		const bool sync,
 		const bool maximizable);
 	
 	~GLSDLVideo();
@@ -70,15 +59,11 @@ public:
         const bool toggleFullscreen,
         const bool forceWindowResize);
 
-    bool StartApplication(
-        const unsigned int width,
-        const unsigned int height,
-        const std::string& winTitle,
-        const bool windowed,
-        const bool sync,
-        const Texture::PIXEL_FORMAT pfBB = Texture::PF_UNKNOWN,
-        const bool maximizable = false) override;
-
+	PolygonRendererPtr CreatePolygonRenderer(
+			const std::vector<PolygonRenderer::Vertex>& vertices,
+			const std::vector<uint32_t>& indices,
+			const PolygonRenderer::POLYGON_MODE mode) override;
+	
 	TexturePtr CreateTextureFromFileInMemory(
 		const void *pBuffer,
 		const unsigned int bufferLength,
@@ -123,8 +108,8 @@ public:
 	void SetZBuffer(const bool enable) override;
 	bool GetZBuffer() const override;
 	
-	void SetBGColor(const Color& backgroundColor) override;
-	Color GetBGColor() const override;
+	void SetBackgroundColor(const Color& backgroundColor) override;
+	Color GetBackgroundColor() const override;
 
 	// Application implementations
 	math::Vector2i GetClientScreenSize() const override;

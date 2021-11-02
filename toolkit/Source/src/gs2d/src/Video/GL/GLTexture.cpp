@@ -19,13 +19,6 @@
 
 namespace gs2d {
 
-boost::shared_ptr<GLTexture> GLTexture::Create(VideoWeakPtr video, Platform::FileManagerPtr fileManager)
-{
-    GLTexturePtr texture = GLTexturePtr(new GLTexture(video, fileManager));
-    texture->weak_this = texture;
-    return texture;
-}
-
 GLTexture::GLTexture(VideoWeakPtr video, Platform::FileManagerPtr fileManager) :
 	m_texture(0),
 	m_fileManager(fileManager)
@@ -58,7 +51,6 @@ math::Vector2 GLTexture::GetBitmapSize() const
 }
 
 bool GLTexture::LoadTexture(
-	VideoWeakPtr video,
 	const std::string& fileName,
 	const unsigned int nMipMaps)
 {
@@ -88,11 +80,10 @@ bool GLTexture::LoadTexture(
 		ShowMessage(fileName + " could not load buffer", GSMT_ERROR);
 		return false;
 	}
-	return LoadTexture(video, out->GetAddress(), nMipMaps, static_cast<unsigned int>(out->GetBufferSize()));
+	return LoadTexture(out->GetAddress(), nMipMaps, static_cast<unsigned int>(out->GetBufferSize()));
 }
 
 bool GLTexture::LoadTexture(
-	VideoWeakPtr video,
 	const void* pBuffer,
 	const unsigned int nMipMaps,
 	const unsigned int bufferLength)

@@ -81,7 +81,7 @@ bool ETHEngine::StartScriptEngine()
 		return true;
 
 	VideoPtr video = m_provider->GetVideo();
-	video->SetBGColor(gs2d::constant::BLACK);
+	video->SetBackgroundColor(gs2d::constant::BLACK);
 
 	std::cout << ("AngelScript v") << asGetLibraryVersion() << (" options: ") << asGetLibraryOptions() << std::endl;
 	if (!PrepareScriptingEngine(m_definedWords))
@@ -148,7 +148,7 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 	}
 	else
 	{
-		video->SetBGColor(m_lastBGColor);
+		video->SetBackgroundColor(m_lastBGColor);
 		if (IsScriptEngineLoaded())
 		{
 			if (m_pScene)
@@ -268,7 +268,7 @@ bool ETHEngine::RunFunction(asIScriptFunction* func) const
 
 void ETHEngine::Destroy()
 {
-	m_lastBGColor = m_provider->GetVideo()->GetBGColor();
+	m_lastBGColor = m_provider->GetVideo()->GetBackgroundColor();
 	m_provider->GetGraphicResourceManager()->ReleaseResources();
 	m_provider->GetAudioResourceManager()->ReleaseResources();
 }

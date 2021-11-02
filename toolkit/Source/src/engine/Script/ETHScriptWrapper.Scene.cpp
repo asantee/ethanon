@@ -331,12 +331,12 @@ bool ETHScriptWrapper::AddVector3Data(const std::string &entity, const std::stri
 
 uint32_t ETHScriptWrapper::GetBackgroundColor()
 {
-	return m_provider->GetVideo()->GetBGColor().To32BitARGB();
+	return m_provider->GetVideo()->GetBackgroundColor().To32BitARGB();
 }
 
 void ETHScriptWrapper::SetBackgroundColor(const uint32_t color)
 {
-	m_provider->GetVideo()->SetBGColor(Color(color));
+	m_provider->GetVideo()->SetBackgroundColor(Color(color));
 }
 
 void ETHScriptWrapper::GetEntityArrayByName(const std::string &name, ETHEntityArray& outVector)

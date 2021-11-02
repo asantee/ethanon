@@ -116,7 +116,7 @@ void GLShader::SetShader()
 	glUseProgram(m_program);
 }
 
-void GLShader::SetConstant(const std::string& name, const int n)
+void GLShader::SetConstant(const std::string& name, const uint32_t n)
 {
 	const GLint location = FindUniformLocation(name);
 	glUniform1i(location, n);

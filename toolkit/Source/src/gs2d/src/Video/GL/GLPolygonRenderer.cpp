@@ -4,14 +4,6 @@
 
 namespace gs2d {
 
-PolygonRendererPtr PolygonRenderer::Create(
-    const std::vector<PolygonRenderer::Vertex>& vertices,
-    const std::vector<uint32_t>& indices,
-    const PolygonRenderer::POLYGON_MODE mode)
-{
-    return boost::shared_ptr<PolygonRenderer>(new GLPolygonRenderer(vertices, indices, mode));
-}
-
 GLPolygonRenderer::GLPolygonRenderer(
 	const std::vector<PolygonRenderer::Vertex>& vertices,
 	const std::vector<uint32_t>& indices,
