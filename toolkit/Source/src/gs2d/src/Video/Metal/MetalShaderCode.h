@@ -176,7 +176,7 @@ const std::string default_sprite_solid_color_fs =
 "	constexpr sampler colorSampler(mip_filter::linear, mag_filter::linear, min_filter::linear, address::clamp_to_edge);\n" \
 "	half4 colorSample = diffuse.sample(colorSampler, inVertex.texCoord.xy);\n" \
 "\n" \
-"	vec4 blendedColor = vec4(colorSample) * uniforms.u[COLOR];\n" \
+"	vec4 blendedColor = vec4(colorSample) * uniforms.highlight;\n" \
 "	return mix(blendedColor, vec4(uniforms.solidColor.x, uniforms.solidColor.y, uniforms.solidColor.z, blendedColor.w), uniforms.solidColor.w);\n" \
 "}\n" \
 "\n" \

@@ -175,10 +175,11 @@ const std::string default_sprite_solid_color_fs =
 "\n" \
 "uniform sampler2D diffuse;\n" \
 "uniform vec4 solidColor;\n" \
+"uniform vec4 highlight;\n" \
 "\n" \
 "void main()\n" \
 "{\n" \
-"	vec4 blendedColor = texture2D(diffuse, outTexCoord) * outColor;\n" \
+"	vec4 blendedColor = texture2D(diffuse, outTexCoord) * highlight;\n" \
 "	gl_FragColor = mix(blendedColor, vec4(solidColor.xyz, blendedColor.w), solidColor.w);\n" \
 "}\n" \
 "\n" \
