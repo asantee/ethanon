@@ -566,5 +566,7 @@ void ETHEngine::ExceptionCallback(asIScriptContext *ctx, void *param)
 
 void ETHEngine::Restore()
 {
+	Sprite::Finish();
+	Sprite::Initialize(m_provider->GetVideo().get());
 	m_hasBeenResumed = true;
 }
