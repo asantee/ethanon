@@ -10,6 +10,8 @@
 
 #include <Input/Android/AndroidInput.h>
 
+#include <Video/GLES2/android/AndroidGLES2Video.h>
+
 #include "../../../../engine/ETHEngine.h"
 #include "../../../../engine/Resource/ETHDirectories.h"
 
@@ -69,7 +71,7 @@ JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_start(
 	zip = boost::shared_ptr<Platform::ZipFileManager>(new Platform::ZipFileManager(strApk));
 	Platform::FileIOHubPtr fileIOHub(new Platform::AndroidFileIOHub(zip, strExt, strGlo, ETHDirectories::GetBitmapFontDirectory()));
 
-	video = CreateVideo(width, height, fileIOHub);
+	video = VideoPtr(new AndroidGLES2Video(width, height, "Ethanon Engine", fileIOHub));
 	input = CreateInput(true, &g_inputStr);
 	audio = CreateAudio(0);
 
