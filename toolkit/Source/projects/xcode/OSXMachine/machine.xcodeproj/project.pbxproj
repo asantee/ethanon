@@ -30,7 +30,7 @@
 		74C111E91697224100AEDCE1 /* engine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F0D18B1697037C009A3C78 /* engine.framework */; };
 		74F00B1E1646C12200B8B51B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F00B1D1646C12200B8B51B /* Cocoa.framework */; };
 		74F00B281646C12200B8B51B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 74F00B261646C12200B8B51B /* InfoPlist.strings */; };
-		AA7BDF761F7EE3E10057B06F /* libfmod.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7BDF751F7EE3E00057B06F /* libfmod.dylib */; };
+		AA7BDF761F7EE3E10057B06F /* libfmod.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7BDF751F7EE3E00057B06F /* libfmod.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -538,7 +538,7 @@
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
-				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
 				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -569,6 +569,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CODE_SIGN_FLAGS = "--deep";
 				PRODUCT_BUNDLE_IDENTIFIER = com.asanteegames.machine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -589,7 +590,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = "";
-				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
 				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -617,6 +618,7 @@
 					"\"$(SRCROOT)/../../../src/gs2d/vendors/fmod/lib\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				OTHER_CODE_SIGN_FLAGS = "--deep";
 				PRODUCT_BUNDLE_IDENTIFIER = com.asanteegames.machine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
