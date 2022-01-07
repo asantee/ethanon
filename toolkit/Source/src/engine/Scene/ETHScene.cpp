@@ -210,7 +210,7 @@ bool ETHScene::AddEntitiesFromXMLFile(
 	const bool readSceneProperties,
 	const Vector3& offset,
 	ETHEntityArray &outVector,
-	bool shouldGenerateNewID)
+	const bool shouldGenerateNewIDs)
 {
 	std::stringstream ss;
 	const std::string sceneFileName = Platform::GetFileName(fileName.c_str());
@@ -235,6 +235,7 @@ bool ETHScene::AddEntitiesFromXMLFile(
 				{
 					do
 					{
+						bool shouldGenerateNewID = shouldGenerateNewIDs;
 						if (shouldGenerateNewID)
 						{
 							int id = -1;

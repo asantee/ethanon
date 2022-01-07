@@ -154,7 +154,7 @@ private:
 		const bool readSceneProperties,
 		const Vector3& offset,
 		ETHEntityArray &outVector,
-		bool shouldGenerateNewID);
+		const bool shouldGenerateNewIDs);
 
 	void FillCurrentlyVisibleBucketList(std::list<Vector2>& bucketList, const ETHBackBufferTargetManagerPtr& backBuffer);
 
