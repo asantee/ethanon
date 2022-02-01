@@ -109,13 +109,14 @@ int main(int argc, char* argv[])
 		application->SetHighEndDevice(true);
 
 		VideoPtr video;
+
 		if ((video = VideoPtr(new GLSDLVideo(
-			fileIOHub,
-			app.GetWidth(),
-			app.GetHeight(),
-			app.GetTitle(),
-			app.IsWindowed(),
-			false /*maximizable*/))))
+				fileIOHub,
+				app.GetWidth(),
+				app.GetHeight(),
+				app.GetTitle(),
+				app.IsWindowed(),
+				false /*maximizable*/))))
 		{
 			InputPtr input = CreateInput(false);
 			AudioPtr audio = CreateAudio(0);
