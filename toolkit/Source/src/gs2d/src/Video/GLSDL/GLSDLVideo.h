@@ -6,6 +6,19 @@
 #include "../../Platform/NativeCommandForwarder.h"
 
 #include <SDL2/SDL.h>
+/* SDL_main.h is included automatically from SDL.h, so you always get the nasty #define.
+
+@ViktorSehr: The rationale is that you can use the same code (int main() {...})
+ in a normal system (Linux, MacOS...) and in Windows. In Windows, to get a program without
+ the console window you have to write WinMain() instead of main() so SDL replaces your
+ main() with SDL_main() with that nasty macro and then provides a WinMain() in a static
+ library that calls your SDL_main() and it just works... except when it doesn't. – 
+rodrigo
+Jun 10 '15 at 9:31
+
+We use main() instead of WinMain(). :/
+*/
+#undef main
 
 namespace gs2d {
 
