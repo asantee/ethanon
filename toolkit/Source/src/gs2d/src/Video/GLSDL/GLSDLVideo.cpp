@@ -83,9 +83,6 @@ GLSDLVideo::GLSDLVideo(
 
 	SDL_GL_SetSwapInterval(1);
 
-	SDL_GetWindowDisplayMode(m_window, &m_defaultDisplayMode);
-	std::cout << "Default screen refresh rate: " << m_defaultDisplayMode.refresh_rate << std::endl;
-	
 	// initialize OpenGL
 	SetAlphaMode(Video::AM_PIXEL);
 
