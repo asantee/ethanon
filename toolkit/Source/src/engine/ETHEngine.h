@@ -59,6 +59,7 @@ public:
 	void RenderFrame();
 	void Destroy();
 	void Restore();
+	void Resume();
 
 	ETHResourceProviderPtr GetProvider();
 };

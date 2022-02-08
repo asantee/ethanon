@@ -568,5 +568,9 @@ void ETHEngine::Restore()
 {
 	Sprite::Finish();
 	Sprite::Initialize(m_provider->GetVideo().get());
+}
+
+void ETHEngine::Resume()
+{
 	m_hasBeenResumed = true;
 }
