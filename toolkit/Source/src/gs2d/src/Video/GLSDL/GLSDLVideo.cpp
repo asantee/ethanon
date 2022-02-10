@@ -75,12 +75,14 @@ GLSDLVideo::GLSDLVideo(
 		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
 		m_glcontext = SDL_GL_CreateContext(m_window);
+#ifdef __GLEW_H__
 		GLenum err = glewInit();
 		if (GLEW_OK != err)
 		{
 			/* Problem: glewInit failed, something is seriously wrong. */
 			fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
 		}
+#endif
 	}
 	else
 	{
