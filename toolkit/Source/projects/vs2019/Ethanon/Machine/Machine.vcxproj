@@ -106,11 +106,9 @@
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
     <PostBuildEvent>
-      <Command>copy "C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib\fmod.dll" $(OutputPath)
-copy "C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\vendors\SDL2-2.0.10\lib\x86\sdl2.dll" $(OutputPath)
-copy "C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\vendors\glext\lib\glext.dll" $(OutputPath)
-copy $(UserProfile)\.usr\lib\steam_api.dll $(OutputPath)
-echo 704920 /a &gt; $(OutputPath)steam_appid.txt</Command>
+      <Command>copy "$(VcpkgRoot)\packages\sdl2_x64-windows\bin\SDL2.dll" $(OutputPath)
+copy "C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\core\lib\x86\fmod.dll" $(OutputPath)
+</Command>
       <Message>Copying dlls to output directory</Message>
     </PostBuildEvent>
     <CustomBuildStep>
@@ -155,11 +153,8 @@ echo 704920 /a &gt; $(OutputPath)steam_appid.txt</Command>
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
     <PostBuildEvent>
-      <Command>copy "C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib\fmod.dll" $(OutputPath)
-copy "C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\vendors\SDL2-2.0.10\lib\x86\sdl2.dll" $(OutputPath)
-copy "C:\Users\roberto\trabalho\ethanon\toolkit\Source\src\gs2d\vendors\glext\lib\glext.dll" $(OutputPath)
-copy $(UserProfile)\.usr\lib\steam_api.dll $(OutputPath)
-echo 704920 /a &gt; $(OutputPath)steam_appid.txt</Command>
+      <Command>copy "$(VcpkgRoot)\packages\sdl2_x64-windows\bin\SDL2.dll" $(OutputPath)
+copy "C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\core\lib\x86\fmod.dll" $(OutputPath)</Command>
       <Message>Copying dlls to output directory</Message>
     </PostBuildEvent>
     <CustomBuildStep>
