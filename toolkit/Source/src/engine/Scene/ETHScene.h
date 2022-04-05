@@ -43,8 +43,6 @@ public:
 	int AddEntity(ETHRenderEntity* pEntity, const std::string& alternativeName);
 	void SetSceneProperties(const ETHSceneProperties &prop);
 	void EnableLightmaps(const bool enable);
-	void EnableRealTimeShadows(const bool enable);
-	bool AreRealTimeShadowsEnabled() const;
 	
 	static int UpdateIDCounter(ETHEntity* pEntity);
 
@@ -156,7 +154,7 @@ private:
 		const bool readSceneProperties,
 		const Vector3& offset,
 		ETHEntityArray &outVector,
-		bool shouldGenerateNewID);
+		const bool shouldGenerateNewIDs);
 
 	void FillCurrentlyVisibleBucketList(std::list<Vector2>& bucketList, const ETHBackBufferTargetManagerPtr& backBuffer);
 

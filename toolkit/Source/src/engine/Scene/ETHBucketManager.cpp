@@ -29,8 +29,6 @@ void ETHBucketManager::GetIntersectingBuckets(
 	const bool includeUpperSeams,
 	const bool includeLowerSeams)
 {
-	const static std::size_t ETH_MAX_BUCKETS = 512;
-	
 	const Vector2 &min = pos;
 	const Vector2 max(pos + size);
 
@@ -56,10 +54,6 @@ void ETHBucketManager::GetIntersectingBuckets(
 		for (float x = minBucket.x; x <= maxBucket.x; x += 1.0f)
 		{
 			outList.push_back(Vector2(x, y));
-			if (outList.size() > ETH_MAX_BUCKETS)
-			{
-				return;
-			}
 		}
 	}
 }
@@ -396,9 +390,9 @@ bool ETHBucketManager::DeleteEntity(const int id)
 	return false;
 }
 
-bool ETHBucketManager::DeleteEntity(const int id, const Vector2 &searchBucket)
+bool ETHBucketManager::DeleteEntity(ETHEntity* pEntity, const Vector2 &searchBucket)
 {
-	ETHBucketMap::iterator bucketIter = Find(searchBucket);
+	const int id = pEntity->GetID(); ETHBucketMap::iterator bucketIter = Find(searchBucket);
 
 	// try getting it from bucket (faster)
 	if (bucketIter != GetLastBucket())
@@ -445,8 +439,8 @@ bool ETHBucketManager::DeleteEntity(const int id, const Vector2 &searchBucket)
 		}
 	}
 
-	ETH_STREAM_DECL(ss) << ("Couldn't find the entity to delete: ID") << id;
-	m_provider->Log(ss.str(), Platform::Logger::ERROR);
+	ETH_STREAM_DECL(ss) << ("Couldn't find the entity to delete: ") << pEntity->GetEntityName() << " (" << id << ")";
+	m_provider->Log(ss.str(), Platform::Logger::WARNING);
 	return false;
 }
 
@@ -490,7 +484,7 @@ void ETHBucketManager::GetEntityArrayFromBucket(const Vector2 &bucket, ETHEntity
 void ETHBucketManager::GetWhiteListedEntityArrayFromBucket(const Vector2 &bucket, ETHEntityArray &outVector,
 														   const std::string& semicolonSeparatedNames)
 {
-	GetEntityArrayFromBucket(bucket, outVector, ETHEntityNameArrayChooser(semicolonSeparatedNames, false));
+	GetEntityArrayFromBucket(bucket, outVector, ETHEntityNameArrayChooser(semicolonSeparatedNames));
 }
 
 void ETHBucketManager::GetEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray &outVector, const ETHEntityChooser& chooser)
@@ -513,12 +507,12 @@ void ETHBucketManager::GetEntitiesAroundBucket(const Vector2& bucket, ETHEntityA
 
 void ETHBucketManager::GetWhiteListedEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray &outVector, const std::string& semicolonSeparatedNames)
 {
-	GetEntitiesAroundBucket(bucket, outVector, ETHEntityNameArrayChooser(semicolonSeparatedNames, false));
+	GetEntitiesAroundBucket(bucket, outVector, ETHEntityNameArrayChooser(semicolonSeparatedNames));
 }
 
 void ETHBucketManager::GetEntitiesAroundBucketWithBlackList(const Vector2& bucket, ETHEntityArray &outVector, const std::string& semicolonSeparatedNames)
 {
-	GetEntitiesAroundBucket(bucket, outVector, ETHEntityNameArrayChooser(semicolonSeparatedNames, true));
+	GetEntitiesAroundBucket(bucket, outVector, ETHEntityNameArrayIgnoreListChooser(semicolonSeparatedNames));
 }
 
 void ETHBucketManager::GetIntersectingBuckets(

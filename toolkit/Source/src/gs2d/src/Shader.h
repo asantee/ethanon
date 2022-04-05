@@ -93,7 +93,7 @@ public:
 	virtual void SetConstant(const std::string& name, const math::Vector3 &v) = 0;
 	virtual void SetConstant(const std::string& name, const math::Vector2 &v) = 0;
 	virtual void SetConstant(const std::string& name, const float x) = 0;
-	virtual void SetConstant(const std::string& name, const int n) = 0;
+	virtual void SetConstant(const std::string& name, const uint32_t n) = 0;
 	virtual void SetConstantArray(const std::string& name, unsigned int nElements, const math::Vector2* v) = 0;
     virtual void SetConstantArray(const std::string& name, unsigned int nElements, const math::Vector4* v) = 0;
 	virtual void SetMatrixConstant(const std::string& name, const math::Matrix4x4 &matrix) = 0;

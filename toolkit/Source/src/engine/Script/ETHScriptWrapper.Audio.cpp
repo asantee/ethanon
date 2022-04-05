@@ -41,7 +41,7 @@ bool ETHScriptWrapper::PlaySample(const std::string &file)
 
 	if (!pSample)
 	{
-		ShowMessage(("File not found: ") + file, ETH_ERROR, false);
+		ShowMessage(("File not found: ") + file, ETH_WARNING, false);
 		return false;
 	}
 	pSample->Play();
@@ -57,7 +57,7 @@ bool ETHScriptWrapper::LoopSample(const std::string &file, const bool loop)
 
 	if (!pSample)
 	{
-		ShowMessage(("File not found: ") + file, ETH_ERROR, false);
+		ShowMessage(("File not found: ") + file, ETH_WARNING, false);
 		return false;
 	}
 	pSample->SetLoop(loop);
@@ -73,7 +73,7 @@ bool ETHScriptWrapper::StopSample(const std::string &file)
 
 	if (!pSample)
 	{
-		ShowMessage(("File not found: ") + file, ETH_ERROR, false);
+		ShowMessage(("File not found: ") + file, ETH_WARNING, false);
 		return false;
 	}
 	pSample->Stop();
@@ -89,7 +89,7 @@ bool ETHScriptWrapper::PauseSample(const std::string &file)
 
 	if (!pSample)
 	{
-		ShowMessage(("File not found: ") + file, ETH_ERROR, false);
+		ShowMessage(("File not found: ") + file, ETH_WARNING, false);
 		return false;
 	}
 	pSample->Pause();
@@ -105,7 +105,7 @@ bool ETHScriptWrapper::SetSampleVolume(const std::string &file, const float volu
 
 	if (!pSample)
 	{
-		ShowMessage(("File not found: ") + file, ETH_ERROR, false);
+		ShowMessage(("File not found: ") + file, ETH_WARNING, false);
 		return false;
 	}
 	const float volumeFix = Max(Min(volume, 1.0f), 0.0f);
@@ -122,7 +122,7 @@ bool ETHScriptWrapper::SetSamplePan(const std::string &file, const float pan)
 
 	if (!pSample)
 	{
-		ShowMessage(("File not found: ") + file, ETH_ERROR, false);
+		ShowMessage(("File not found: ") + file, ETH_WARNING, false);
 		return false;
 	}
 	pSample->SetPan(pan);
@@ -138,7 +138,7 @@ bool ETHScriptWrapper::SetSampleSpeed(const std::string &file, const float speed
 
 	if (!pSample)
 	{
-		ShowMessage(("File not found: ") + file, ETH_ERROR, false);
+		ShowMessage(("File not found: ") + file, ETH_WARNING, false);
 		return false;
 	}
 	pSample->SetSpeed(speed);
@@ -166,7 +166,7 @@ bool ETHScriptWrapper::IsSamplePlaying(const std::string &file)
 
 	if (!pSample)
 	{
-		ShowMessage(("File not found: ") + file, ETH_ERROR, false);
+		ShowMessage(("File not found: ") + file, ETH_WARNING, false);
 		return false;
 	}
 	return pSample->IsPlaying();

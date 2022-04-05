@@ -19,12 +19,6 @@ class GLES2Video : public Video, public Platform::NativeCommandForwarder
 	friend class IOSGLES2Video;
 	friend class AndroidGLES2Video;
 
-	GLES2Video(
-		const unsigned int width,
-		const unsigned int height,
-		const std::string& winTitle,
-		const Platform::FileIOHubPtr& fileIOHub);
-
 	boost::weak_ptr<GLES2Video> weak_this;
 
 	float m_previousTime;
@@ -35,6 +29,17 @@ class GLES2Video : public Video, public Platform::NativeCommandForwarder
 public:
 	static bool CheckGLError(const std::string& op);
 
+	GLES2Video(
+		const unsigned int width,
+		const unsigned int height,
+		const std::string& winTitle,
+		const Platform::FileIOHubPtr& fileIOHub);
+
+	PolygonRendererPtr CreatePolygonRenderer(
+			const std::vector<PolygonRenderer::Vertex>& vertices,
+			const std::vector<uint32_t>& indices,
+			const PolygonRenderer::POLYGON_MODE mode) override;
+	
 	TexturePtr CreateTextureFromFileInMemory(
 		const void *pBuffer,
 		const unsigned int bufferLength,
@@ -74,8 +79,8 @@ public:
 	void SetZBuffer(const bool enable) override;
 	bool GetZBuffer() const override;
 
-	void SetBGColor(const Color& backgroundColor) override;
-	Color GetBGColor() const override;
+	void SetBackgroundColor(const Color& backgroundColor) override;
+	Color GetBackgroundColor() const override;
 
 	bool BeginRendering(const Color& color = math::constant::ZERO_VECTOR4) override;
 	bool EndRendering() override;
@@ -133,15 +138,6 @@ protected:
 	void ComputeFPSRate();
 
 	void Enable2D(const int width, const int height, const bool flipY = false);
-
-	bool StartApplication(
-		const unsigned int width,
-		const unsigned int height,
-		const std::string& winTitle,
-		const bool windowed,
-		const bool sync,
-		const Texture::PIXEL_FORMAT pfBB = Texture::PF_UNKNOWN,
-		const bool maximizable = false) override;
 
 	Platform::FileIOHubPtr GetFileIOHub() override;
 };

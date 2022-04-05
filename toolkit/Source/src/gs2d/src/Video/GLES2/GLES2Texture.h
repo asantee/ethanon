@@ -28,20 +28,17 @@ class GLES2Texture : public Texture
 	bool MayUsePVRCompressedVersion(std::string& fileName);
 
 	bool LoadTexture(
-		VideoWeakPtr video,
 		const void* pBuffer,
 		const unsigned int nMipMaps,
 		const unsigned int bufferLength,
 		const COMPRESSION_FORMAT format);
 
 	bool LoadETC1Texture(
-		VideoWeakPtr video,
 		const void* pBuffer,
 		const unsigned int nMipMaps,
 		const unsigned int bufferLength);
 
 	bool LoadPVRTexture(
-		VideoWeakPtr video,
 		const void* pBuffer,
 		const unsigned int nMipMaps,
 		const unsigned int bufferLength);
@@ -59,12 +56,10 @@ public:
 	GLuint GetTexture() const;
 
 	bool LoadTexture(
-		VideoWeakPtr video,
 		const std::string& fileName,
 		const unsigned int nMipMaps = 0) override;
 
 	bool LoadTexture(
-		VideoWeakPtr video,
 		const void* pBuffer,
 		const unsigned int nMipMaps,
 		const unsigned int bufferLength) override;

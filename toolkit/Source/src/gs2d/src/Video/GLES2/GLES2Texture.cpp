@@ -73,7 +73,6 @@ void GLES2Texture::Free()
 }
 
 bool GLES2Texture::LoadTexture(
-	VideoWeakPtr video,
 	const std::string& fileName,
 	const unsigned int nMipMaps)
 {
@@ -88,7 +87,6 @@ bool GLES2Texture::LoadTexture(
 		return false;
 	}
 	return LoadTexture(
-		video,
 		out->GetAddress(),
 		nMipMaps,
 		static_cast<unsigned int>(out->GetBufferSize()),
@@ -96,7 +94,6 @@ bool GLES2Texture::LoadTexture(
 }
 
 bool GLES2Texture::LoadTexture(
-	VideoWeakPtr video,
 	const void* pBuffer,
 	const unsigned int nMipMaps,
 	const unsigned int bufferLength,
@@ -104,14 +101,14 @@ bool GLES2Texture::LoadTexture(
 {
 	if (format == NO_COMPRESSION)
 	{
-		return LoadTexture(video, pBuffer, nMipMaps, bufferLength);
+		return LoadTexture(pBuffer, nMipMaps, bufferLength);
 	}
 	else
 	{
 		if (format == PVRTC)
-			return LoadPVRTexture(video, pBuffer, nMipMaps, bufferLength);
+			return LoadPVRTexture(pBuffer, nMipMaps, bufferLength);
 		else
-			return LoadETC1Texture(video, pBuffer, nMipMaps, bufferLength);
+			return LoadETC1Texture(pBuffer, nMipMaps, bufferLength);
 	}
 }
 
@@ -158,7 +155,6 @@ bool GLES2Texture::MayUsePVRCompressedVersion(std::string& fileName)
 }
 
 bool GLES2Texture::LoadTexture(
-	VideoWeakPtr video,
 	const void* pBuffer,
 	const unsigned int nMipMaps,
 	const unsigned int bufferLength)
@@ -223,14 +219,13 @@ bool GLES2Texture::LoadTexture(
 
 	std::cout << m_fileName << " texture loaded" << std::endl;
 
-	glGenerateMipmap(GL_TEXTURE_2D);
+	//glGenerateMipmap(GL_TEXTURE_2D);
 
 	stbi_image_free(data);
 	return true;
 }
 
 bool GLES2Texture::LoadETC1Texture(
-	VideoWeakPtr video,
 	const void* pBuffer,
 	const unsigned int nMipMaps,
 	const unsigned int bufferLength)
@@ -300,7 +295,6 @@ static GLenum FindPVRTCFormatFromPVRHeaderData(const uint32_t* pixelFormat)
 }
 
 bool GLES2Texture::LoadPVRTexture(
-	VideoWeakPtr video,
 	const void* pBuffer,
 	const unsigned int nMipMaps,
 	const unsigned int bufferLength)

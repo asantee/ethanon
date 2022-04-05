@@ -225,6 +225,8 @@
 		AAC440691F39157000F1B194 /* libfmod_iphonesimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAC440671F39157000F1B194 /* libfmod_iphonesimulator.a */; };
 		AAFA2E322139CDA6006D67FB /* cJSON.c in Sources */ = {isa = PBXBuildFile; fileRef = AAFA2E312139CDA6006D67FB /* cJSON.c */; };
 		AAFA2E352139D1C4006D67FB /* JSONObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAFA2E332139D1C3006D67FB /* JSONObject.cpp */; };
+		FC4ABB4C25F93858009B47DA /* AudioDummy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC4ABB4A25F93858009B47DA /* AudioDummy.cpp */; };
+		FC6C677D26CFFF2A00A39C6F /* Input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC6C677C26CFFE4D00A39C6F /* Input.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -696,6 +698,9 @@
 		AAFA2E312139CDA6006D67FB /* cJSON.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = cJSON.c; path = ../../../../src/cjson/cJSON.c; sourceTree = "<group>"; };
 		AAFA2E332139D1C3006D67FB /* JSONObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JSONObject.cpp; path = ../../../../src/engine/Util/JSONObject.cpp; sourceTree = "<group>"; };
 		AAFA2E342139D1C3006D67FB /* JSONObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONObject.h; path = ../../../../src/engine/Util/JSONObject.h; sourceTree = "<group>"; };
+		FC4ABB4A25F93858009B47DA /* AudioDummy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AudioDummy.cpp; path = ../../../../src/gs2d/src/Audio/AudioDummy.cpp; sourceTree = "<group>"; };
+		FC4ABB4B25F93858009B47DA /* AudioDummy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioDummy.h; path = ../../../../src/gs2d/src/Audio/AudioDummy.h; sourceTree = "<group>"; };
+		FC6C677C26CFFE4D00A39C6F /* Input.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Input.cpp; path = ../../../../src/gs2d/src/Input.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -809,6 +814,7 @@
 				74E6E5701A30FFB500E89172 /* Audio.h */,
 				74E6E5711A30FFB500E89172 /* BaseApplication.h */,
 				74E6E5721A30FFB500E89172 /* Input.h */,
+				FC6C677C26CFFE4D00A39C6F /* Input.cpp */,
 				AA65A38522FDFACC0026BE60 /* Shader.cpp */,
 				74E6E5741A30FFB500E89172 /* Shader.h */,
 				74E6E5751A30FFB500E89172 /* Sprite.cpp */,
@@ -1469,6 +1475,8 @@
 		AAC4401A1F38DE9600F1B194 /* Audio */ = {
 			isa = PBXGroup;
 			children = (
+				FC4ABB4B25F93858009B47DA /* AudioDummy.h */,
+				FC4ABB4A25F93858009B47DA /* AudioDummy.cpp */,
 				AAC4401B1F38DEBE00F1B194 /* FMAudioContext.h */,
 				AAC4401C1F38DEBE00F1B194 /* FMAudioContext.cpp */,
 				AA19C1211F8281220096696A /* FMAudioContext.ios.mm */,
@@ -1587,6 +1595,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC6C677D26CFFF2A00A39C6F /* Input.cpp in Sources */,
 				74E6E7C21A31EA4B00E89172 /* ETHEntityPieceRenderer.cpp in Sources */,
 				74E6E7111A31E4F800E89172 /* b2WeldJoint.cpp in Sources */,
 				74E6E71E1A31E67B00E89172 /* tinyxml.cpp in Sources */,
@@ -1754,6 +1763,7 @@
 				AA65A38322FDF7430026BE60 /* SpriteRects.cpp in Sources */,
 				74E6E7911A31E9F500E89172 /* ETHParticleSystem.cpp in Sources */,
 				74E6E6D21A31E4E500E89172 /* b2ContactManager.cpp in Sources */,
+				FC4ABB4C25F93858009B47DA /* AudioDummy.cpp in Sources */,
 				74A781EA1A3A13DE00EB3E76 /* EthanonViewController.mm in Sources */,
 				74E6E7891A31E9EA00E89172 /* ETHRenderEntity.cpp in Sources */,
 				74E6E6AE1A31E4B300E89172 /* b2PolygonShape.cpp in Sources */,
@@ -1933,6 +1943,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 arm64e armv7";
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					GS2D_FORCE_HANDHELD_LANDSCAPE,
@@ -1969,6 +1980,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 arm64e armv7";
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					GS2D_FORCE_HANDHELD_LANDSCAPE,

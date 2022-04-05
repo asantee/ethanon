@@ -5,17 +5,10 @@
 
 namespace gs2d {
 
-// TODO remove this class
 class AndroidGLES2Video : public GLES2Video
 {
 public:
 	AndroidGLES2Video(
-		const unsigned int width,
-		const unsigned int height,
-		const std::string& winTitle,
-		const Platform::FileIOHubPtr& fileIOHub);
-
-	static boost::shared_ptr<GLES2Video> Create(
 		const unsigned int width,
 		const unsigned int height,
 		const std::string& winTitle,

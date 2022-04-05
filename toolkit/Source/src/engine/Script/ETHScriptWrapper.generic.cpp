@@ -158,6 +158,7 @@ asDECLARE_FUNCTION_WRAPPER(__GetSystemScreenSize,   ETHScriptWrapper::GetSystemS
 
 asDECLARE_FUNCTION_WRAPPER(__GetEntityArray,          ETHScriptWrapper::GetEntityArrayByName);
 asDECLARE_FUNCTION_WRAPPER(__GetEntitiesFromBucket,   ETHScriptWrapper::GetEntityArrayFromBucket);
+asDECLARE_FUNCTION_WRAPPER(__GetEntitiesFromBucketByName, ETHScriptWrapper::GetEntitiesFromBucket);
 asDECLARE_FUNCTION_WRAPPER(__GetVisibleEntities,      ETHScriptWrapper::GetVisibleEntities);
 asDECLARE_FUNCTION_WRAPPER(__GetIntersectingEntities, ETHScriptWrapper::GetIntersectingEntities);
 asDECLARE_FUNCTION_WRAPPER(__GetEntitiesAroundBucket, ETHScriptWrapper::GetEntitiesAroundBucket)
@@ -171,7 +172,6 @@ asDECLARE_FUNCTION_WRAPPER(__GetEntitiesAroundBucketWithBlackList, ETHScriptWrap
 asDECLARE_FUNCTION_WRAPPER(__SetPositionRoundUp,      ETHScriptWrapper::SetPositionRoundUp);
 asDECLARE_FUNCTION_WRAPPER(__GetPositionRoundUp,      ETHScriptWrapper::GetPositionRoundUp);
 asDECLARE_FUNCTION_WRAPPER(__EnableQuitKeys,          ETHScriptWrapper::EnableQuitKeys);
-asDECLARE_FUNCTION_WRAPPER(__EnableRealTimeShadows,   ETHScriptWrapper::EnableRealTimeShadows);
 asDECLARE_FUNCTION_WRAPPER(__SetBorderBucketsDrawing, ETHScriptWrapper::SetBorderBucketsDrawing);
 asDECLARE_FUNCTION_WRAPPER(__IsDrawingBorderBuckets,  ETHScriptWrapper::IsDrawingBorderBuckets);
 
@@ -422,6 +422,7 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 
 	r = pASEngine->RegisterGlobalFunction("void GetEntityArray(const string &in, ETHEntityArray &)",                       asFUNCTION(__GetEntityArray),          asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void GetEntitiesFromBucket(const vector2 &in, ETHEntityArray &)",               asFUNCTION(__GetEntitiesFromBucket),   asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void GetEntitiesFromBucket(const vector2 &in, ETHEntityArray &, const string &in)",asFUNCTION(__GetEntitiesFromBucketByName),   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void GetVisibleEntities(ETHEntityArray &)",                                     asFUNCTION(__GetVisibleEntities),      asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void GetEntitiesAroundBucket(const vector2 &in, ETHEntityArray &)",             asFUNCTION(__GetEntitiesAroundBucket), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void GetIntersectingEntities(const vector2 &in, ETHEntityArray &, const bool)", asFUNCTION(__GetIntersectingEntities), asCALL_GENERIC); assert(r >= 0);
@@ -435,7 +436,6 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void SetPositionRoundUp(const bool)",      asFUNCTION(__SetPositionRoundUp),      asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool GetPositionRoundUp()",                asFUNCTION(__GetPositionRoundUp),      asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void EnableQuitKeys(const bool)",          asFUNCTION(__EnableQuitKeys),          asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("void EnableRealTimeShadows(const bool)",   asFUNCTION(__EnableRealTimeShadows),   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void SetBorderBucketsDrawing(const bool)", asFUNCTION(__SetBorderBucketsDrawing), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool IsDrawingBorderBuckets()",            asFUNCTION(__IsDrawingBorderBuckets),  asCALL_GENERIC); assert(r >= 0);
 

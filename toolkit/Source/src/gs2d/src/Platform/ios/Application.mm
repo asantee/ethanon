@@ -6,11 +6,15 @@
 #import <Audio.h>
 #import <Input.h>
 
+#import <Audio/AudioDummy.h>
+
 #import <BaseApplication.h>
 
 #import <Platform/ios/IOSFileIOHub.h>
 
 #import <Input/iOS/IOSInput.h>
+
+#import <Video/GLES2/ios/IOSGLES2Video.h>
 
 @interface ApplicationWrapper ()
 {
@@ -47,8 +51,11 @@
 	// setup default subplatform
 	gs2d::Application::SharedData.Create("com.ethanonengine.subplatform", "apple", true  /*constant*/);
 
-	NSString* appVersionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-	gs2d::Application::SharedData.Create("com.ethanonengine.versionName", [appVersionString UTF8String], true  /*constant*/);
+	NSString* appVersionNameString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+	NSString* appBuildNumberString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+
+	if (appVersionNameString != nil) gs2d::Application::SharedData.Create("com.ethanonengine.versionName", [appVersionNameString UTF8String], true /*constant*/);
+	if (appBuildNumberString != nil) gs2d::Application::SharedData.Create("com.ethanonengine.buildNumber", [appBuildNumberString UTF8String], true /*constant*/);
 
 	// setup language code
 	NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
@@ -63,11 +70,18 @@
 {
 	m_audio = gs2d::CreateAudio(0);
 	m_input = gs2d::CreateInput(false);
+	
+	// in case the fmod Audio object creationg should fail for reasons yet to be investigated,
+	// try using dummy audio objects to prevent app crashes
+	if (!m_audio)
+	{
+		m_audio = gs2d::AudioDummyPtr(new gs2d::AudioDummy());
+	}
 
 	Platform::FileIOHubPtr fileIOHub(new Platform::IOSFileIOHub("data/"));
 
 	const gs2d::math::Vector2 size = gs2d::math::Vector2(view.drawableWidth, view.drawableHeight);
-	m_video = gs2d::CreateVideo(static_cast<unsigned int>(size.x), static_cast<unsigned int>(size.y), fileIOHub);
+	m_video = gs2d::VideoPtr(new gs2d::IOSGLES2Video(static_cast<unsigned int>(size.x), static_cast<unsigned int>(size.y), "Magic Rampage", fileIOHub));
 
 	m_engine = gs2d::CreateBaseApplication();
 	m_engine->Start(m_video, m_input, m_audio);
@@ -79,22 +93,16 @@
 
 - (void)update
 {
-	@try
-	{
-		if (!m_engine) return;
+	if (!m_engine) return;
 
-		m_input->Update();
-		m_audio->Update();
+	m_input->Update();
+	m_audio->Update();
+	m_video->HandleEvents();
 
-		const float elapsedTime = (gs2d::ComputeElapsedTimeF(m_video));
-		m_engine->Update(gs2d::math::Min(400.0f, elapsedTime));
-		
-		m_commandManager.RunCommands(m_video->PullCommands());
-	}
-	@catch (NSException *exception)
-	{
-		NSLog(@"%@", [exception reason]);
-	}
+	const float elapsedTime = (gs2d::ComputeElapsedTimeF(m_video));
+	m_engine->Update(gs2d::math::Min(400.0f, elapsedTime));
+	
+	m_commandManager.RunCommands(m_video->PullCommands());
 }
 
 - (void)renderFrame:(GLKView*) view;
@@ -130,6 +138,11 @@
 	{
 		m_input->DetectJoysticks();
 	}
+}
+
+- (gs2d::Input*)input
+{
+	return m_input.get();
 }
 
 - (void)forceGamepadPause

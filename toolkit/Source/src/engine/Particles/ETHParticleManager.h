@@ -3,10 +3,6 @@
 
 #include "ETHParticleSystem.h"
 
-#include <Audio.h>
-
-#define _ETH_PARTICLE_DEPTH_SHIFT (10.0f)
-
 class ETHParticleManager
 {
 public:
@@ -186,8 +182,6 @@ private:
 	int m_nActiveParticles;
 	Vector2 m_worldSpaceBoundingMin, m_worldSpaceBoundingMax;
 
-	static void Sort(std::vector<PARTICLE> &v);
-
 	/// Create a particle system
 	bool CreateParticleSystem(
 		const ETHParticleSystem& partSystem,
@@ -209,17 +203,7 @@ private:
 		const Matrix4x4& rotMatrix,
 		const Vector3& v3Pos);
 
-	void SetParticleDepth(const float depth);
-
 public:
-	static float ComputeParticleDepth(
-		const DEPTH_SORTING_MODE& ownerType,
-		const float& ownerDepth,
-		const PARTICLE& particle,
-		const float& maxHeight,
-		const float& minHeight);
-
-	static float GetParticleDepthShift(const DEPTH_SORTING_MODE& ownerType);
 };
 
 typedef boost::shared_ptr<ETHParticleManager> ETHParticleManagerPtr;

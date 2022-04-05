@@ -1,0 +1,4 @@
+#ifndef GS2D_APPLE_PLATFORM_H_
+#define GS2D_APPLE_PLATFORM_H_
+
+#endif

@@ -1,6 +1,7 @@
 #include "GLES2Video.h"
 
 #include "GLES2Include.h"
+#include "GLES2PolygonRenderer.h"
 
 #ifdef __APPLE__
  #include "TargetConditionals.h"
@@ -22,6 +23,22 @@ namespace gs2d {
 
 using namespace math;
 
+static bool HasFragmentShaderMaximumPrecision()
+{
+	GLint range[2], precision[1];
+	glGetShaderPrecisionFormat(GL_FRAGMENT_SHADER, GL_HIGH_FLOAT, range, precision);
+	return (range[0] != 0 && range[1] != 0 && precision[0] != 0);
+}
+
+static void LogFragmentShaderMaximumPrecision()
+{
+	const bool precisionResult = HasFragmentShaderMaximumPrecision();
+	const std::string logStr = (precisionResult)
+		? ("High floating point fragment shader precision supported")
+		: ("High floating point fragment shader precision is not supported");
+	std::cout << logStr << std::endl;
+}
+
 GLES2Video::GLES2Video(
 	const unsigned int width,
 	const unsigned int height,
@@ -39,37 +56,6 @@ GLES2Video::GLES2Video(
 	m_previousTime(0.0f),
 	m_startTime(0.0)
 {
-	StartApplication(width, height, winTitle, false, false, Texture::PF_DEFAULT, false);
-    m_startTime = getRealTime();
-
-    gs2d::Application::SharedData.Create("com.ethanonengine.usingSuperSimple", "true", true /*constant*/);
-}
-
-static bool HasFragmentShaderMaximumPrecision()
-{
-	GLint range[2], precision[1];
-	glGetShaderPrecisionFormat(GL_FRAGMENT_SHADER, GL_HIGH_FLOAT, range, precision);
-	return (range[0] != 0 && range[1] != 0 && precision[0] != 0);
-}
-
-static void LogFragmentShaderMaximumPrecision()
-{
-	const bool precisionResult = HasFragmentShaderMaximumPrecision();
-	const std::string logStr = (precisionResult)
-		? ("High floating point fragment shader precision supported")
-		: ("High floating point fragment shader precision is not supported");
-	std::cout << logStr << std::endl;
-}
-
-bool GLES2Video::StartApplication(
-	const unsigned int width,
-	const unsigned int height,
-	const std::string& winTitle,
-	const bool windowed,
-	const bool sync,
-	const Texture::PIXEL_FORMAT pfBB,
-	const bool maximizable)
-{
 	glHint(GL_GENERATE_MIPMAP_HINT, GL_FASTEST);
 
 	// toggle dither
@@ -86,9 +72,12 @@ bool GLES2Video::StartApplication(
 
 	SetZBuffer(false);
 
-	ResetVideoMode(width, height, pfBB, false);
+	ResetVideoMode(width, height, Texture::PF_DEFAULT, false);
 	std::cout << "Application started..." << std::endl;
-	return true;
+
+	m_startTime = getRealTime();
+
+    gs2d::Application::SharedData.Create("com.ethanonengine.usingSuperSimple", "true", true /*constant*/);
 }
 
 void GLES2Video::Enable2D(const int width, const int height, const bool flipY)
@@ -111,6 +100,16 @@ bool GLES2Video::CheckGLError(const std::string& op)
 	return r;
 }
 
+
+PolygonRendererPtr GLES2Video::CreatePolygonRenderer(
+		const std::vector<PolygonRenderer::Vertex>& vertices,
+		const std::vector<uint32_t>& indices,
+		const PolygonRenderer::POLYGON_MODE mode)
+{
+	return PolygonRendererPtr(new GLES2PolygonRenderer(vertices, indices, mode));
+}
+
+
 TexturePtr GLES2Video::CreateTextureFromFileInMemory(
 	const void *pBuffer,
 	const unsigned int bufferLength,
@@ -118,7 +117,6 @@ TexturePtr GLES2Video::CreateTextureFromFileInMemory(
 {
 	TexturePtr texture(new GLES2Texture(weak_this, "from_memory", m_fileIOHub->GetFileManager()));
 	if (texture->LoadTexture(
-		weak_this,
 		pBuffer,
 		nMipMaps,
 		bufferLength))
@@ -133,7 +131,7 @@ TexturePtr GLES2Video::LoadTextureFromFile(
 	const unsigned int nMipMaps)
 {
 	TexturePtr texture(new GLES2Texture(weak_this, fileName, m_fileIOHub->GetFileManager()));
-	if (texture->LoadTexture(weak_this, fileName, nMipMaps))
+	if (texture->LoadTexture(fileName, nMipMaps))
 	{
 		return texture;
 	}
@@ -228,12 +226,12 @@ bool GLES2Video::GetZBuffer() const
 	return m_zBuffer;
 }
 
-void GLES2Video::SetBGColor(const Color& backgroundColor)
+void GLES2Video::SetBackgroundColor(const Color& backgroundColor)
 {
 	m_backgroundColor = backgroundColor;
 }
 
-Color GLES2Video::GetBGColor() const
+Color GLES2Video::GetBackgroundColor() const
 {
 	return m_backgroundColor;
 }

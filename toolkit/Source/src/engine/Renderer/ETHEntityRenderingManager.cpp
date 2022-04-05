@@ -77,9 +77,8 @@ void ETHEntityRenderingManager::AddDecomposedPieces(
 		ETHEntityPieceRendererPtr particlePiece(
 			new ETHEntityParticleRenderer(entity, shaderManager, t));
 
-		const float shift = ETHParticleManager::GetParticleDepthShift(ETHEntityProperties::ResolveDepthSortingMode(entity->GetType()));
 		const float depth = ETHEntity::ComputeDepth(
-			particle->GetZPosition() + entity->GetPositionZ() + shift,
+			particle->GetZPosition() + entity->GetPositionZ(),
 			maxHeight,
 			minHeight);
 

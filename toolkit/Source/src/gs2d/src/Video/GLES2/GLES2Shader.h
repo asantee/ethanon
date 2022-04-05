@@ -60,7 +60,7 @@ public:
 	void SetConstant(const std::string& name, const math::Vector3 &v) override;
 	void SetConstant(const std::string& name, const math::Vector2 &v) override;
 	void SetConstant(const std::string& name, const float x) override;
-	void SetConstant(const std::string& name, const int n) override;
+	void SetConstant(const std::string& name, const uint32_t n) override;
 	void SetConstantArray(const std::string& name, unsigned int nElements, const math::Vector2* v) override;
 	void SetConstantArray(const std::string& name, unsigned int nElements, const math::Vector4* v) override;
 	void SetMatrixConstant(const std::string& name, const math::Matrix4x4 &matrix) override;

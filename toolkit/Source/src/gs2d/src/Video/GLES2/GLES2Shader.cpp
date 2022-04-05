@@ -208,7 +208,7 @@ void GLES2Shader::SetConstant(const std::string& name, const float x)
 	glUniform1f(location, x);
 }
 
-void GLES2Shader::SetConstant(const std::string& name, const int n)
+void GLES2Shader::SetConstant(const std::string& name, const uint32_t n)
 {
 	const GLint location = FindUniformLocation(name);
 	glUniform1i(location, n);

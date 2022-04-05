@@ -2,6 +2,7 @@
 
 #include "../GL/GLShader.h"
 #include "../GL/GLTexture.h"
+#include "../GL/GLPolygonRenderer.h"
 #include "../../Platform/getRealTime.h"
 #include "../../Platform/NativeCommandAssembler.h"
 #include "../../Platform/NativeCommandForwarder.h"
@@ -12,43 +13,14 @@ namespace gs2d {
 float GLSDLVideo::m_mouseWheel(0.0f);
 std::string GLSDLVideo::m_lastCharInput("");
 
-VideoPtr CreateVideo(
-	const unsigned int width,
-	const unsigned int height,
-	const std::string& winTitle,
-	const bool windowed,
-	const bool sync,
-	const Platform::FileIOHubPtr& fileIOHub,
-	const Texture::PIXEL_FORMAT pfBB,
-	const bool maximizable)
-{
-	return GLSDLVideo::Create(width, height, winTitle, windowed, sync, fileIOHub, pfBB, maximizable);
-}
-
-boost::shared_ptr<GLSDLVideo> GLSDLVideo::Create(
-	const unsigned int width,
-	const unsigned int height,
-	const std::string& winTitle,
-	const bool windowed,
-	const bool sync,
-	const Platform::FileIOHubPtr& fileIOHub,
-	const Texture::PIXEL_FORMAT pfBB,
-	const bool maximizable)
-{
-	boost::shared_ptr<GLSDLVideo> p(
-		new GLSDLVideo(fileIOHub, width, height, winTitle, windowed, sync, maximizable));
-	p->weak_this = p;
-	return p;
-}
-
 GLSDLVideo::GLSDLVideo(
 	Platform::FileIOHubPtr fileIOHub,
 	const unsigned int width,
 	const unsigned int height,
 	const std::string& winTitle,
 	const bool windowed,
-	const bool sync,
 	const bool maximizable) :
+	Video(),
 	m_fileIOHub(fileIOHub),
     m_alphaMode(AM_UNKNOWN),
     m_alphaRef(0.004),
@@ -65,7 +37,66 @@ GLSDLVideo::GLSDLVideo(
 	m_glcontext(NULL)
 {
 	m_startTime = getRealTime();
-	StartApplication(width, height, winTitle, windowed, sync, Texture::PF_UNKNOWN, maximizable);
+
+	// initialize SDL
+	m_screenSize.x = static_cast<float>(width);
+	m_screenSize.y = static_cast<float>(height);
+
+	m_maximizable = maximizable;
+
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER) < 0)
+	{
+		Message("SDL initialization failed", GSMT_ERROR);
+		return;
+	}
+
+	SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
+
+	// enumerates m_videoModes
+	ReadDisplayModes();
+
+	// if screen size was set to 0, find the best one instead
+	if (m_screenSize.x == 0 || m_screenSize.y == 0)
+	{
+		m_screenSize = CatchBestScreenResolution();
+	}
+
+	if ((m_window = SDL_CreateWindow(
+			winTitle.c_str(),
+			SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+			static_cast<int>(m_screenSize.x),
+			static_cast<int>(m_screenSize.y),
+			AssembleFlags(windowed, IsMaximizable(), SyncEnabled()))) != NULL)
+	{
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+
+		m_glcontext = SDL_GL_CreateContext(m_window);
+#ifdef __GLEW_H__
+		GLenum err = glewInit();
+		if (GLEW_OK != err)
+		{
+			/* Problem: glewInit failed, something is seriously wrong. */
+			fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
+		}
+#endif
+	}
+	else
+	{
+		return;
+	}
+
+	SDL_GL_SetSwapInterval(1);
+
+	// initialize OpenGL
+	SetAlphaMode(Video::AM_PIXEL);
+
+	SetZBuffer(false);
+
+	Enable2DStates();
 	
 	gs2d::Application::SharedData.Create("com.ethanonengine.usingSuperSimple", "true", true /*constant*/);
 }
@@ -75,6 +106,14 @@ GLSDLVideo::~GLSDLVideo()
 	SDL_GL_DeleteContext(m_glcontext);
 	SDL_DestroyWindow(m_window);
 	SDL_Quit();
+}
+
+PolygonRendererPtr GLSDLVideo::CreatePolygonRenderer(
+		const std::vector<PolygonRenderer::Vertex>& vertices,
+		const std::vector<uint32_t>& indices,
+		const PolygonRenderer::POLYGON_MODE mode)
+{
+	return PolygonRendererPtr(new GLPolygonRenderer(vertices, indices, mode));
 }
 
 ShaderPtr GLSDLVideo::LoadShaderFromFile(
@@ -119,8 +158,8 @@ TexturePtr GLSDLVideo::CreateTextureFromFileInMemory(
 	const unsigned int bufferLength,
 	const unsigned int nMipMaps)
 {
-	TexturePtr texture(GLTexture::Create(weak_this, GetFileIOHub()->GetFileManager()));
-	if (texture->LoadTexture(weak_this, pBuffer, nMipMaps, bufferLength))
+	TexturePtr texture(new GLTexture(weak_this, GetFileIOHub()->GetFileManager()));
+	if (texture->LoadTexture(pBuffer, nMipMaps, bufferLength))
 	{
 		return texture;
 	}
@@ -131,80 +170,12 @@ TexturePtr GLSDLVideo::LoadTextureFromFile(
 	const std::string& fileName,
 	const unsigned int nMipMaps)
 {
-	TexturePtr texture(GLTexture::Create(weak_this, GetFileIOHub()->GetFileManager()));
-	if (texture->LoadTexture(weak_this, fileName, nMipMaps))
+	TexturePtr texture(new GLTexture(weak_this, GetFileIOHub()->GetFileManager()));
+	if (texture->LoadTexture(fileName, nMipMaps))
 	{
 		return texture;
 	}
 	return TexturePtr();
-}
-
-bool GLSDLVideo::StartApplication(
-	const unsigned int width,
-	const unsigned int height,
-	const std::string& winTitle,
-	const bool windowed,
-	const bool sync,
-	const Texture::PIXEL_FORMAT pfBB,
-	const bool maximizable)
-{
-	// initialize SDL
-    m_screenSize.x = static_cast<float>(width);
-    m_screenSize.y = static_cast<float>(height);
-
-    m_maximizable = maximizable;
-    m_sync = sync;
-
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER) < 0)
-    {
-        Message("SDL initialization failed", GSMT_ERROR);
-        return false;
-    }
-
-    SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
-
-    // enumerates m_videoModes
-    ReadDisplayModes();
-
-    // if screen size was set to 0, find the best one instead
-    if (m_screenSize.x == 0 || m_screenSize.y == 0)
-    {
-        m_screenSize = CatchBestScreenResolution();
-    }
-
-    if ((m_window = SDL_CreateWindow(
-            winTitle.c_str(),
-            SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-            static_cast<int>(m_screenSize.x),
-            static_cast<int>(m_screenSize.y),
-            AssembleFlags(windowed, IsMaximizable(), SyncEnabled()))) != NULL)
-    {
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-        SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-        SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-
-        m_glcontext = SDL_GL_CreateContext(m_window);
-    }
-    else
-    {
-        return false;
-    }
-
-    if (sync)
-    {
-        SDL_GL_SetSwapInterval(1);
-    }
-
-	// initialize OpenGL
-    SetAlphaMode(Video::AM_PIXEL);
-
-    SetZBuffer(false);
-
-    Enable2DStates();
-
-    return true;
 }
 
 void GLSDLVideo::Enable2DStates()
@@ -271,12 +242,12 @@ bool GLSDLVideo::GetZBuffer() const
 	return (enabled == GL_TRUE);
 }
 
-void GLSDLVideo::SetBGColor(const Color& backgroundColor)
+void GLSDLVideo::SetBackgroundColor(const Color& backgroundColor)
 {
 	m_backgroundColor = backgroundColor;
 }
 
-Color GLSDLVideo::GetBGColor() const
+Color GLSDLVideo::GetBackgroundColor() const
 {
 	return m_backgroundColor;
 }

@@ -70,23 +70,24 @@ bool ETHRenderEntity::DrawAmbientPass(
 	const bool shouldUsePass1PS = ShouldUsePass1AddPixelShader();
 
 	ShaderPtr shader = Sprite::GetDefaultShader();
-	if (shouldUseHighlightPS)  shader = Sprite::GetHighlightShader();
-	if (shouldUseSolidColorPS) shader = Sprite::GetSolidColorShader();
-	if (shouldUsePass1PS)      shader = Sprite::GetAddShader();
 
 	ShaderParametersPtr customParams(new ShaderParameters);
 
 	if (shouldUsePass1PS)
 	{
+		shader = Sprite::GetAddShader();
 		(*customParams)["secondary"] = boost::shared_ptr<Shader::ShaderParameter>(new Shader::TextureShaderParameter(m_pLightmap->GetTexture(), 1));
-	}
-	else if (shouldUseHighlightPS)
-	{
-		(*customParams)["highlight"] = boost::shared_ptr<Shader::ShaderParameter>(new Shader::Vector4ShaderParameter(GetColorARGB()));
 	}
 	else if (shouldUseSolidColorPS)
 	{
+		shader = Sprite::GetSolidColorShader();
 		(*customParams)["solidColor"] = boost::shared_ptr<Shader::ShaderParameter>(new Shader::Vector4ShaderParameter(GetSolidColorARGB()));
+		(*customParams)["highlight"] = boost::shared_ptr<Shader::ShaderParameter>(new Shader::Vector4ShaderParameter(GetColorARGB()));
+	}
+	else if (shouldUseHighlightPS)
+	{
+		shader = Sprite::GetHighlightShader();
+		(*customParams)["highlight"] = boost::shared_ptr<Shader::ShaderParameter>(new Shader::Vector4ShaderParameter(GetColorARGB()));
 	}
 
 	Sprite::SetParallaxIntensity(GetParallaxIntensity() * sceneProps.parallaxIntensity);

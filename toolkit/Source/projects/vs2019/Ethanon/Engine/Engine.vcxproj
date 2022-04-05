@@ -313,9 +313,6 @@
     <ClInclude Include="..\..\..\..\src\vendors\tinyxml_ansi\tinyxml.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\src\angelscript\projects\msvc2017\angelscript.vcxproj">
-      <Project>{39e6af97-6ba3-4a72-8c61-bcebf214ebfd}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\src\box2d\Build\msvc\Box2D.vcxproj">
       <Project>{32128a8e-b145-4ae6-a31a-c18fcbac5f8c}</Project>
     </ProjectReference>

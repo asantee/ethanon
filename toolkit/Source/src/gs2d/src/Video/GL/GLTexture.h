@@ -24,24 +24,19 @@ class GLTexture : public Texture
 
 	math::Vector2 m_resolution;
 
-	GLTexture(VideoWeakPtr video, Platform::FileManagerPtr fileManager);
-
 public:
 
-    static boost::shared_ptr<GLTexture> Create(VideoWeakPtr video, Platform::FileManagerPtr fileManager);
-
+	GLTexture(VideoWeakPtr video, Platform::FileManagerPtr fileManager);
 	~GLTexture();
 
 	math::Vector2 GetBitmapSize() const override;
 	GLuint GetTexture() const;
 
 	bool LoadTexture(
-		VideoWeakPtr video,
 		const std::string& fileName,
 		const unsigned int nMipMaps = 0) override;
 
 	bool LoadTexture(
-		VideoWeakPtr video,
 		const void* pBuffer,
 		const unsigned int nMipMaps,
 		const unsigned int bufferLength) override;

@@ -25,6 +25,8 @@ bool AppendToFile(const std::string& fileName, const std::string& str)
 	}
 }
 
+FileLogger::ErrorRecorderPtr FileLogger::m_errorRecorder;
+
 FileLogger::FileLogger(const std::string& fileName) : m_fileName(fileName)
 {
 	std::ofstream ofs(fileName.c_str());
@@ -74,9 +76,23 @@ bool FileLogger::Log(const std::string& str, const TYPE& type) const
 	#endif
 
 	if (type == ERROR)
+	{
 		WriteToErrorLog(str);
+
+		if (m_errorRecorder)
+		{
+			m_errorRecorder->RecordError(str);
+		}
+	}
 	else if (type == WARNING)
+	{
 		WriteToWarningLog(str);
+
+		if (m_errorRecorder)
+		{
+			m_errorRecorder->Log(str);
+		}
+	}
 
 	#ifdef ANDROID
 		switch (type)
@@ -90,6 +106,11 @@ bool FileLogger::Log(const std::string& str, const TYPE& type) const
 		}
 	#endif
 	return AppendToFile(m_fileName, str);
+}
+
+void FileLogger::SetErrorRecorder(const ErrorRecorderPtr &errorRecorder)
+{
+	m_errorRecorder = errorRecorder;
 }
 
 std::string FileLogger::GetErrorLogFileDirectory()

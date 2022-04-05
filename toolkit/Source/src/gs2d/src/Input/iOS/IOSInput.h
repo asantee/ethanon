@@ -27,11 +27,16 @@ class IOSInput : public MobileInput
 
 	KeyStateManager m_pauseState;
 
+	bool m_keyBooleanStates[GS_NUM_KEYS];
+	KeyStateManager m_keyStates[GS_NUM_KEYS];
+
 	bool m_forcePause;
 
 public:
 	IOSInput(const unsigned int maxTouchCount);
 
+	void SetBooleanKeyState(const GS_KEY key, const bool pressed);
+	
 	void ForcePause();
 
 	void SetCurrentTouchPos(const unsigned int n, const gs2d::math::Vector2& pos);

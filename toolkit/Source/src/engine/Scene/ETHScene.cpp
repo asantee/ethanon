@@ -210,7 +210,7 @@ bool ETHScene::AddEntitiesFromXMLFile(
 	const bool readSceneProperties,
 	const Vector3& offset,
 	ETHEntityArray &outVector,
-	bool shouldGenerateNewID)
+	const bool shouldGenerateNewIDs)
 {
 	std::stringstream ss;
 	const std::string sceneFileName = Platform::GetFileName(fileName.c_str());
@@ -235,6 +235,7 @@ bool ETHScene::AddEntitiesFromXMLFile(
 				{
 					do
 					{
+						bool shouldGenerateNewID = shouldGenerateNewIDs;
 						if (shouldGenerateNewID)
 						{
 							int id = -1;
@@ -523,16 +524,6 @@ bool ETHScene::AreLightmapsEnabled() const
 	return m_provider->AreLightmapsEnabled();
 }
 
-void ETHScene::EnableRealTimeShadows(const bool enable)
-{
-	m_provider->EnableRealTimeShadows(enable);
-}
-
-bool ETHScene::AreRealTimeShadowsEnabled() const
-{
-	return m_provider->AreRealTimeShadowsEnabled();
-}
-
 int ETHScene::GetNumProcessedEntities()
 {
 	return static_cast<int>(m_nProcessedEntities);
@@ -749,7 +740,7 @@ void ETHScene::ResolveJoints()
 
 bool ETHScene::DeleteEntity(ETHEntity *pEntity)
 {
-	return m_buckets.DeleteEntity(pEntity->GetID(), ETHBucketManager::GetBucket(pEntity->GetPositionXY(), GetBucketSize()));
+	return m_buckets.DeleteEntity(pEntity, ETHBucketManager::GetBucket(pEntity->GetPositionXY(), GetBucketSize()));
 }
 
 void ETHScene::ScaleEntities(const ETHEntityArray& entities, ETHBucketManager& buckets, const float scale, const bool scalePosition)

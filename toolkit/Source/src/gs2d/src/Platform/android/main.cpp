@@ -10,6 +10,8 @@
 
 #include <Input/Android/AndroidInput.h>
 
+#include <Video/GLES2/android/AndroidGLES2Video.h>
+
 #include "../../../../engine/ETHEngine.h"
 #include "../../../../engine/Resource/ETHDirectories.h"
 
@@ -20,6 +22,7 @@ extern "C" {
 	JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_mainLoop(JNIEnv* env, jobject thiz, jstring inputStr);
 	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_resize(JNIEnv* env, jobject thiz, jint width, jint height);
 	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_restore(JNIEnv* env, jobject thiz);
+	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_resume(JNIEnv* env, jobject thiz);
 	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_start(JNIEnv* env, jobject thiz, jstring apkPath, jstring externalPath, jstring globalPath, jint width, jint height);
 	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_engineStartup(JNIEnv* env, jobject thiz);
 	JNIEXPORT jboolean JNICALL Java_net_asantee_gs2d_GS2DJNI_isLoading(JNIEnv* env, jobject thiz);
@@ -69,7 +72,7 @@ JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_start(
 	zip = boost::shared_ptr<Platform::ZipFileManager>(new Platform::ZipFileManager(strApk));
 	Platform::FileIOHubPtr fileIOHub(new Platform::AndroidFileIOHub(zip, strExt, strGlo, ETHDirectories::GetBitmapFontDirectory()));
 
-	video = CreateVideo(width, height, fileIOHub);
+	video = VideoPtr(new AndroidGLES2Video(width, height, "Ethanon Engine", fileIOHub));
 	input = CreateInput(true, &g_inputStr);
 	audio = CreateAudio(0);
 
@@ -116,6 +119,14 @@ JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_restore(JNIEnv* env, jobjec
 	if (application)
 	{
 		application->Restore();
+	}
+}
+
+JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_resume(JNIEnv* env, jobject thiz)
+{
+	if (engine)
+	{
+		engine->Resume();
 	}
 }
 

@@ -33,11 +33,6 @@ public:
 		math::Vector3 normal;
 	};
 
-	static PolygonRendererPtr Create(
-		const std::vector<Vertex>& vertices,
-		const std::vector<uint32_t>& indices,
-		const POLYGON_MODE mode);
-
 	virtual void BeginRendering(const ShaderPtr& shader) = 0;
 	virtual void Render() = 0;
 	virtual void EndRendering() = 0;

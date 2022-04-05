@@ -10,6 +10,7 @@
 
 #include "Application.h"
 #include "Shader.h"
+#include "PolygonRenderer.h"
 #include "Sprite.h"
 #include "Window.h"
 #include "Video/BitmapFontManager.h"
@@ -69,6 +70,11 @@ public:
 
 	typedef std::list<VIDEO_MODE> VIDEO_MODE_LIST;
 
+	virtual PolygonRendererPtr CreatePolygonRenderer(
+			const std::vector<PolygonRenderer::Vertex>& vertices,
+			const std::vector<uint32_t>& indices,
+			const PolygonRenderer::POLYGON_MODE mode) = 0;
+	
 	/// Loads the texture from a file in virtual memory
 	virtual TexturePtr CreateTextureFromFileInMemory(
 		const void *pBuffer,
@@ -112,8 +118,8 @@ public:
 	virtual void SetZBuffer(const bool enable) = 0;
 	virtual bool GetZBuffer() const = 0;
 
-	virtual void SetBGColor(const Color& backgroundColor) = 0;
-	virtual Color GetBGColor() const = 0;
+	virtual void SetBackgroundColor(const Color& backgroundColor) = 0;
+	virtual Color GetBackgroundColor() const = 0;
 
 	virtual bool BeginRendering(const Color& bgColor = math::constant::ZERO_VECTOR4) = 0;
 	virtual bool EndRendering() = 0;
@@ -154,22 +160,6 @@ public:
 };
 
 typedef boost::shared_ptr<Video> VideoPtr;
-
-/// Instantiate a Video object (must be defined in the API specific code)
-VideoPtr CreateVideo(
-	const unsigned int width,
-	const unsigned int height,
-	const std::string& winTitle,
-	const bool windowed,
-	const bool sync,
-	const Platform::FileIOHubPtr& fileIOHub,
-	const Texture::PIXEL_FORMAT pfBB = Texture::PF_UNKNOWN,
-	const bool maximizable = false);
-
-#if defined(ANDROID) || defined(APPLE_IOS)
-/// Instantiate a Video object (must be defined in the API specific code)
-VideoPtr CreateVideo(const unsigned int width, const unsigned int height, const Platform::FileIOHubPtr& fileIOHub);
-#endif
 
 } // namespace gs2d
 

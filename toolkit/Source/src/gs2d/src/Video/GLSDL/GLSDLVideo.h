@@ -6,6 +6,19 @@
 #include "../../Platform/NativeCommandForwarder.h"
 
 #include <SDL2/SDL.h>
+/* SDL_main.h is included automatically from SDL.h, so you always get the nasty #define.
+
+@ViktorSehr: The rationale is that you can use the same code (int main() {...})
+ in a normal system (Linux, MacOS...) and in Windows. In Windows, to get a program without
+ the console window you have to write WinMain() instead of main() so SDL replaces your
+ main() with SDL_main() with that nasty macro and then provides a WinMain() in a static
+ library that calls your SDL_main() and it just works... except when it doesn't. – 
+rodrigo
+Jun 10 '15 at 9:31
+
+We use main() instead of WinMain(). :/
+*/
+#undef main
 
 namespace gs2d {
 
@@ -39,23 +52,12 @@ class GLSDLVideo : public Video, public Platform::NativeCommandForwarder
 	Uint32 AssembleFlags(const bool windowed, const bool maximizable, const bool sync);
 
 public:
-	static boost::shared_ptr<GLSDLVideo> Create(
-		const unsigned int width,
-		const unsigned int height,
-		const std::string& winTitle,
-		const bool windowed,
-		const bool sync,
-		const Platform::FileIOHubPtr& fileIOHub,
-		const Texture::PIXEL_FORMAT pfBB,
-		const bool maximizable);
-
 	GLSDLVideo(
 		Platform::FileIOHubPtr fileIOHub,
 		const unsigned int width,
 		const unsigned int height,
 		const std::string& winTitle,
 		const bool windowed,
-		const bool sync,
 		const bool maximizable);
 	
 	~GLSDLVideo();
@@ -67,15 +69,11 @@ public:
         const bool toggleFullscreen,
         const bool forceWindowResize);
 
-    bool StartApplication(
-        const unsigned int width,
-        const unsigned int height,
-        const std::string& winTitle,
-        const bool windowed,
-        const bool sync,
-        const Texture::PIXEL_FORMAT pfBB = Texture::PF_UNKNOWN,
-        const bool maximizable = false) override;
-
+	PolygonRendererPtr CreatePolygonRenderer(
+			const std::vector<PolygonRenderer::Vertex>& vertices,
+			const std::vector<uint32_t>& indices,
+			const PolygonRenderer::POLYGON_MODE mode) override;
+	
 	TexturePtr CreateTextureFromFileInMemory(
 		const void *pBuffer,
 		const unsigned int bufferLength,
@@ -120,8 +118,8 @@ public:
 	void SetZBuffer(const bool enable) override;
 	bool GetZBuffer() const override;
 	
-	void SetBGColor(const Color& backgroundColor) override;
-	Color GetBGColor() const override;
+	void SetBackgroundColor(const Color& backgroundColor) override;
+	Color GetBackgroundColor() const override;
 
 	// Application implementations
 	math::Vector2i GetClientScreenSize() const override;

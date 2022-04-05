@@ -110,7 +110,15 @@ void ETHGraphicResourceManager::ReleaseResources()
 {
 	for (tsl::hopscotch_map<std::string, SpriteResource>::iterator iter = m_resource.begin(); iter != m_resource.end(); ++iter)
 	{
-		iter->second.GetSprite()->GetTexture()->Free();
+		SpritePtr sprite = iter->second.GetSprite();
+		if (sprite)
+		{
+			TexturePtr texture = sprite->GetTexture();
+			if (texture)
+			{
+				texture->Free();
+			}
+		}
 	}
 	m_resource.clear();
 }

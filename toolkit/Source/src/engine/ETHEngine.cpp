@@ -22,6 +22,7 @@ using namespace gs2d::math;
 
 const std::string ETHEngine::ETH_SCRIPT_MODULE(("EthanonModule"));
 const std::string ETHEngine::SCRIPT_EXCEPTION_LOG_SHARED_DATA_KEY(("com.ethanonengine.scriptExceptions"));
+const std::string ETHEngine::SD_CURRENT_TIME_MILLIS("com.ethanonengine.data.currentTimeMillis");
 
 gs2d::BaseApplicationPtr gs2d::CreateBaseApplication(const bool autoStartScriptEngine)
 {
@@ -45,10 +46,11 @@ ETHEngine::ETHEngine(const bool testing, const bool compileAndRun, const bool au
 	m_lastBGColor(0x0),
 	m_hasBeenResumed(false),
 	m_scriptEngineReady(false),
-	m_mainFunctionRunned(false),
+	m_mainFunctionExecuted(false),
 	m_autoStartScriptEngine(autoStartScriptEngine)
 {
 	Application::SharedData.Create(SCRIPT_EXCEPTION_LOG_SHARED_DATA_KEY, (""), false);
+	Application::SharedData.Create(SD_CURRENT_TIME_MILLIS, "0", false);
 }
 
 ETHEngine::~ETHEngine()
@@ -79,7 +81,7 @@ bool ETHEngine::StartScriptEngine()
 		return true;
 
 	VideoPtr video = m_provider->GetVideo();
-	video->SetBGColor(gs2d::constant::BLACK);
+	video->SetBackgroundColor(gs2d::constant::BLACK);
 
 	std::cout << ("AngelScript v") << asGetLibraryVersion() << (" options: ") << asGetLibraryOptions() << std::endl;
 	if (!PrepareScriptingEngine(m_definedWords))
@@ -101,11 +103,14 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 {
 	Platform::FileIOHubPtr fileIOHub = video->GetFileIOHub();
 
+	const bool lowRamDevice = Application::SharedData.Get("ethanon.system.isLowRamDevice") == "true";
+
 	ETHAppEnmlFile file(
 		fileIOHub->GetResourceDirectory() + ETH_APP_PROPERTIES_FILE,
 		fileIOHub->GetFileManager(),
 		video->GetPlatformName(),
-		fileIOHub->GetExternalStorageDirectory());
+		fileIOHub->GetExternalStorageDirectory(),
+		lowRamDevice);
 
 	m_definedWords = file.GetDefinedWords();
 
@@ -119,6 +124,12 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 		fileIOHub,
 		false));
 
+	if (lowRamDevice)
+	{
+		m_provider->Log(("Ethanon is running low ram device mode."), Platform::Logger::INFO);
+
+	}
+	
 	m_ethInput.SetProvider(m_provider);
 
 	CreateDynamicBackBuffer(file);
@@ -137,7 +148,7 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 	}
 	else
 	{
-		video->SetBGColor(m_lastBGColor);
+		video->SetBackgroundColor(m_lastBGColor);
 		if (IsScriptEngineLoaded())
 		{
 			if (m_pScene)
@@ -153,14 +164,22 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 Application::APP_STATUS ETHEngine::Update(
 	const float lastFrameDeltaTimeMS)
 {
-	if (!m_mainFunctionRunned)
+	if (!m_mainFunctionExecuted)
 	{
 		m_provider->Log(("Starting main function"), Platform::Logger::INFO);
 		RunMainFunction(GetMainFunction());
 		m_provider->GetVideo()->EnableQuitShortcuts(true);
 		m_v2LastCamPos = m_provider->GetVideo()->GetCameraPos();
-		m_mainFunctionRunned = true;
+		m_mainFunctionExecuted = true;
 		m_provider->Log(("Ended main function"), Platform::Logger::INFO);
+	}
+
+	// updates system clock shared data
+	{
+		time_t seconds = time(NULL);
+		const uint64_t timeMS = static_cast<uint64_t>(seconds) * 1000;
+		std::ostringstream o; o << timeMS;
+		Application::SharedData.Set(SD_CURRENT_TIME_MILLIS, o.str());
 	}
 
 	// removes dead elements on top layer to fill the list once again
@@ -202,7 +221,7 @@ bool ETHEngine::LoadNextSceneIfRequested()
 	{
 		if (!m_pScene)
 		{
-			ShowMessage(("ETHEngine::StartEngine: no scene has been loaded."), ETH_ERROR);
+			ShowMessage(("ETHEngine::LoadNextSceneIfRequested: no scene has been loaded."), ETH_ERROR);
 			return false;
 		}
 	}
@@ -249,10 +268,9 @@ bool ETHEngine::RunFunction(asIScriptFunction* func) const
 
 void ETHEngine::Destroy()
 {
-	m_lastBGColor = m_provider->GetVideo()->GetBGColor();
+	m_lastBGColor = m_provider->GetVideo()->GetBackgroundColor();
 	m_provider->GetGraphicResourceManager()->ReleaseResources();
 	m_provider->GetAudioResourceManager()->ReleaseResources();
-	m_backBuffer.reset();
 }
 
 bool ETHEngine::PrepareScriptingEngine(const std::vector<std::string>& definedWords)
@@ -401,26 +419,6 @@ bool ETHEngine::BuildModule(const std::vector<std::string>& definedWords)
 				m_provider->Log(ss.str(), Platform::Logger::ERROR);
 			}
 		}
-
-		// write bytecode also on globar external storage place on android 
-		#if ANDROID
-		{
-			const std::string globalExternalByteCodeWriteFile = m_provider->GetFileIOHub()->GetGlobalExternalStorageDirectory() + ETH_DEFAULT_MAIN_BYTECODE_FILE;
-			ETHBinaryStream stream(m_provider->GetFileManager());
-			if (stream.OpenW(globalExternalByteCodeWriteFile))
-			{
-				m_pASModule->SaveByteCode(&stream);
-				stream.CloseW();
-				ETH_STREAM_DECL(ss) << ("ByteCode saved on global external: ") << globalExternalByteCodeWriteFile;
-				m_provider->Log(ss.str(), Platform::Logger::INFO);
-			}
-			else
-			{
-				ETH_STREAM_DECL(ss) << ("Failed while writing the byte code file ") << globalExternalByteCodeWriteFile;
-				m_provider->Log(ss.str(), Platform::Logger::ERROR);
-			}
-		}
-		#endif
 	}
 	else // otherwise, try to load the bytecode
 	{
@@ -567,6 +565,12 @@ void ETHEngine::ExceptionCallback(asIScriptContext *ctx, void *param)
 }
 
 void ETHEngine::Restore()
+{
+	Sprite::Finish();
+	Sprite::Initialize(m_provider->GetVideo().get());
+}
+
+void ETHEngine::Resume()
 {
 	m_hasBeenResumed = true;
 }

@@ -52,6 +52,28 @@ void main()
 		"GL_SHADER_CODE_H_",
 		"gs2d_shaders");
 
+	// Metal
+	const string[] metalShaders = {
+		"Metal/default-sprite-add.fs",
+		"Metal/default-sprite-fast.vs",
+		"Metal/default-sprite-highlight.fs",
+		"Metal/default-sprite-modulate.fs",
+		"Metal/default-sprite-solid-color-add.fs",
+		"Metal/default-sprite-solid-color-modulate.fs",
+		"Metal/default-sprite-solid-color.fs",
+		"Metal/default-sprite.fs",
+		"Metal/default-sprite.vs"
+	};
+
+	const string metalSavePath = GetResourceDirectory() + "../../gs2d/src/Video/Metal/";
+	convertShaderCodeToCHeader(
+		@metalShaders,
+		relativePath,
+		metalSavePath,
+		"MetalShaderCode.h",
+		"METAL_SHADER_CODE_H_",
+		"gs2d_shaders");
+
 	Exit();
 }
 
