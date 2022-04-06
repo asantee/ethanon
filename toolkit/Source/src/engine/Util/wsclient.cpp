@@ -625,7 +625,8 @@ struct as_any_visitor : msgpack::v2::null_visitor {
 		return insert_value(&value, asTYPEID_INT64);
 	}
 	bool visit_str(const char* value, uint32_t size) {
-		return insert_value((void*)&std::string(value, size), m_ti_string->GetTypeId());
+		std::string string_value(value, size);
+		return insert_value((void*)&string_value, m_ti_string->GetTypeId());
 	}
 	bool visit_float32(float value) {
 		return insert_value(&value, asTYPEID_FLOAT);
