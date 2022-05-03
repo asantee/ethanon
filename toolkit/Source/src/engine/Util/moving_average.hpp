@@ -1,23 +1,25 @@
 #pragma once
+#include <assert.h>
 #include <vector>
 
 template <typename T = float>
 class MovingAverage
 {
 	std::vector<T> m_values;
-	int32_t m_window_size;
-	int32_t m_current_index = -1;
+	int m_window_size;
+	int m_current_index = -1;
 	T m_sum = 0;
+	T m_average = 0;
 
 public:
-	MovingAverage(int32_t window = 5);
+	MovingAverage(int window = 5);
 	void update(T value);
 	T get_average();
 	T get_value();
 };
 
 template <typename T>
-MovingAverage<T>::MovingAverage(int32_t window) : m_window_size(window)
+MovingAverage<T>::MovingAverage(int window) : m_window_size(window)
 {
 	assert(m_window_size > 0);
 }
@@ -28,7 +30,7 @@ void MovingAverage<T>::update(T value)
 	if(++m_current_index >= m_window_size)
 		m_current_index = 0;
 
-	if((int32_t)m_values.size() < m_window_size)
+	if((int)m_values.size() < m_window_size)
 	{
 		m_values.push_back(value);
 		m_sum += value;
@@ -39,12 +41,13 @@ void MovingAverage<T>::update(T value)
 		m_values[m_current_index] = value;
 		m_sum += value;
 	}
+	m_average = m_sum / m_values.size();
 }
 
 template <typename T>
 T MovingAverage<T>::get_average()
 {
-	return m_sum / m_values.size();
+	return m_average;
 }
 
 template <typename T>
