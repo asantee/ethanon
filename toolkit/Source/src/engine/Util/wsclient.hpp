@@ -73,10 +73,11 @@ class WebsocketClient : public std::enable_shared_from_this<WebsocketClient>
 	void* m_on_disconnect_callbackObject;
 
 	MovingAverage<double> m_latency;
-	uint32_t m_keepalive_timeout;
-	boost::chrono::steady_clock::time_point m_connected_at;
 	bool m_waiting_pong = false;
 	boost::chrono::steady_clock::time_point m_ping_time;
+
+	uint32_t m_keepalive_timeout;
+	boost::chrono::steady_clock::time_point m_connected_at;
 
 	void OnResolve(beast::error_code ec,tcp::resolver::results_type results);
 	void OnConnect(beast::error_code ec, tcp::resolver::results_type::endpoint_type);

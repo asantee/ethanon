@@ -295,20 +295,20 @@ void WebsocketClient::OnConnect(beast::error_code ec, tcp::resolver::results_typ
 		}));
 
 	// Set up what-to-do's on control packets
+	//m_ws.control_callback([sp = shared_from_this()](websocket::frame_type kind, beast::string_view data)
 	m_ws.control_callback([this](websocket::frame_type kind, beast::string_view data)
-		{
+	{
 			if(kind == websocket::frame_type::ping)
 			{
 				std::cout << "<<< received a ping: "<< data << std::endl;
 			}
 			else if(kind == websocket::frame_type::pong)
 			{
-				std::cout << "<<< received a pong: "<< data << std::endl;
 				if(m_waiting_pong)
 				{
 					boost::chrono::duration<double> elapsed;
 					elapsed = boost::chrono::steady_clock::now() - m_ping_time;
-					m_latency.update(elapsed.count());
+					m_latency.update((double)elapsed.count());
 					m_waiting_pong = false;
 				}
 			}
@@ -382,12 +382,14 @@ void WebsocketClient::OnRead(beast::error_code ec, std::size_t bytes_transferred
 		return;
 	}
 
+	// TODO: Remove:
 	std::string tipo("texto");
 	// do something with it
 	if(m_ws.got_binary())
 	{
 		tipo = "binario";
 	}
+	///
 
 	CScriptAny* parsed_data = new CScriptAny(ETHScriptWrapper::m_pASEngine);
 	size_t size = m_input_buffer.size();
@@ -467,17 +469,14 @@ void WebsocketClient::Ping()
 		return;
 	}
 
-	if(m_waiting_pong)
+	if (!m_waiting_pong)
 	{
-		boost::chrono::duration<double> elapsed;
-		elapsed = boost::chrono::steady_clock::now() - m_ping_time;
-		m_latency.update(elapsed.count());
+		m_ws.async_ping("ping", [this](beast::error_code ec){
+				std::cout << "ping sent!\n";
+			m_waiting_pong = true;
+			m_ping_time = boost::chrono::steady_clock::now();
+		});
 	}
-	m_ping_time = boost::chrono::steady_clock::now();
-	m_ws.async_ping("ping",[sp = shared_from_this()](beast::error_code ec){
-		std::cout << "ping sent!\n";
-		sp->m_waiting_pong = true;
-	});
 }
 
 void WebsocketClient::ClearBuffer()
