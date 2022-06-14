@@ -138,9 +138,9 @@ SDLInput::SDLInput(const bool showJoystickWarnings) :
 	m_sdlKeyID[GSK_APOSTROPHE] = SDL_SCANCODE_APOSTROPHE;
 
 	// not used:
-	m_sdlKeyID[GSK_RMOUSE] = SDL_NUM_SCANCODES;
-	m_sdlKeyID[GSK_LMOUSE] = SDL_NUM_SCANCODES;
-	m_sdlKeyID[GSK_MMOUSE] = SDL_NUM_SCANCODES;
+	m_sdlKeyID[GSK_RMOUSE] = SDL_SCANCODE_UNKNOWN;
+	m_sdlKeyID[GSK_LMOUSE] = SDL_SCANCODE_UNKNOWN;
+	m_sdlKeyID[GSK_MMOUSE] = SDL_SCANCODE_UNKNOWN;
 
 	UpdateCursorPos();
 	m_lastCursorPos = m_cursorPos;
@@ -160,18 +160,6 @@ bool SDLInput::Update()
 
 bool SDLInput::IsKeyPressed(const GS_KEY key, const Uint8* keystate)
 {
-	switch (key)
-	{
-	case GSK_LMOUSE:
-		return (m_mouseBits & SDL_BUTTON(1));
-	case GSK_MMOUSE:
-		return (m_mouseBits & SDL_BUTTON(2));
-	case GSK_RMOUSE:
-		return (m_mouseBits & SDL_BUTTON(3));
-	default:
-		// just preventing the warning
-		break;
-	};
 	return (keystate[m_sdlKeyID[key]] != 0);
 }
 
@@ -179,6 +167,14 @@ void SDLInput::UpdateCursorPos()
 {
 	m_lastCursorPos = m_cursorPos;
 	m_mouseBits = SDL_GetMouseState(&m_cursorPos.x, &m_cursorPos.y);
+
+    m_mouseClickStates[0].Update(m_mouseBits & SDL_BUTTON(1));
+    m_mouseClickStates[1].Update(m_mouseBits & SDL_BUTTON(2));
+    m_mouseClickStates[2].Update(m_mouseBits & SDL_BUTTON(3));
+
+    m_keyStates[GSK_LMOUSE] = m_mouseClickStates[0];
+    m_keyStates[GSK_MMOUSE] = m_mouseClickStates[1];
+    m_keyStates[GSK_RMOUSE] = m_mouseClickStates[2];
 }
 
 bool SDLInput::SetCursorPosition(math::Vector2i v2Pos)
@@ -256,17 +252,17 @@ GS_KEY_STATE SDLInput::GetKeyState(const GS_KEY key) const
 
 GS_KEY_STATE SDLInput::GetLeftClickState() const
 {
-	return m_keyStates[GSK_LMOUSE].GetCurrentState();
+	return m_mouseClickStates[0].GetCurrentState();
 }
 
 GS_KEY_STATE SDLInput::GetRightClickState() const
 {
-	return m_keyStates[GSK_RMOUSE].GetCurrentState();
+	return m_mouseClickStates[2].GetCurrentState();
 }
 
 GS_KEY_STATE SDLInput::GetMiddleClickState() const
 {
-	return m_keyStates[GSK_MMOUSE].GetCurrentState();
+	return m_mouseClickStates[0].GetCurrentState();
 }
 
 GS_KEY_STATE SDLInput::GetTouchState(const unsigned int n, WindowPtr pWindow) const
