@@ -13,10 +13,10 @@ bool StreamLogger::Log(const std::string& str, const TYPE& type) const
 {
 	switch (type)
 	{
-	case ERROR:
+	case LT_ERROR:
 		std::cerr << "ERROR: " << str << std::endl;
 		break;
-	case WARNING:
+	case LT_WARNING:
 		std::cout << "WARNING: " << str << std::endl;
 		break;
 	default:
