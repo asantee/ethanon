@@ -80,7 +80,7 @@ void FMAudioContext::CommonInit(Platform::FileLogger &logger)
 				}
 				[NSThread sleepForTimeInterval:0.1f];
 			}
-			logger.Log("AVAudioSession setActive failed!", Platform::Logger::ERROR);
+			logger.Log("AVAudioSession setActive failed!", Platform::Logger::LT_ERROR);
 
 			if (m_system)
 			{

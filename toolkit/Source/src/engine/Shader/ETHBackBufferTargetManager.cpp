@@ -45,7 +45,7 @@ ETHBackBufferTargetManager::ETHBackBufferTargetManager(
 
 	m_backBuffer = ETHDynamicBackBufferPtr(new ETHNoDynamicBackBuffer(video, screenSize));
 
-	logger.Log(ss.str(), Platform::Logger::INFO);
+	logger.Log(ss.str(), Platform::Logger::LT_INFO);
 }
 
 void ETHBackBufferTargetManager::BeginRendering()

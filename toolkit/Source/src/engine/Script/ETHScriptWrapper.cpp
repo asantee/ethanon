@@ -52,7 +52,7 @@ bool ETHScriptWrapper::WarnIfRunsInMainFunction(const std::string &functionName)
 		ETH_STREAM_DECL(ss) << std::endl << ("WARNING: do not load resources or do scene-related operations inside the main() function.") << std::endl
 			<< ("Use onSceneLoaded or onSceneUpdate functions instead.") << std::endl
 			<< ("Function used: ") << functionName << std::endl;
-		m_provider->Log(ss.str(), Platform::Logger::ERROR);
+		m_provider->Log(ss.str(), Platform::Logger::LT_ERROR);
 		return true;
 	}
 	return false;

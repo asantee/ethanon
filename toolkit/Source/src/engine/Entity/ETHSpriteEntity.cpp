@@ -291,7 +291,7 @@ bool ETHSpriteEntity::SetSpriteCut(const unsigned int col, const unsigned int ro
 	else
 	{
 		ETH_STREAM_DECL(ss) << ("Invalid cut value");
-		m_provider->Log(ss.str(), Platform::Logger::ERROR);
+		m_provider->Log(ss.str(), Platform::Logger::LT_ERROR);
 		return false;
 	}
 
@@ -827,7 +827,7 @@ bool ETHSpriteEntity::PlayParticleSystem(const unsigned int n, const Vector2& zA
 	if (n >= m_particles.size())
 	{
 		ETH_STREAM_DECL(ss) << ("ETHRenderEntity::PlayParticleSystem: n > m_particles.size()");
-		m_provider->Log(ss.str(), Platform::Logger::ERROR);
+		m_provider->Log(ss.str(), Platform::Logger::LT_ERROR);
 		return false;
 	}
 	else

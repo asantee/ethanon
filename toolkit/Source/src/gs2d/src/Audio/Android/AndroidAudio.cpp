@@ -39,7 +39,7 @@ AndroidAudioContext::AndroidAudioContext() :
 
 bool AndroidAudioContext::CreateAudioDevice(boost::any data)
 {
-	m_logger.Log("Audio device initialized", Platform::FileLogger::INFO);
+	m_logger.Log("Audio device initialized", Platform::FileLogger::LT_INFO);
 	return true;
 }
 
@@ -118,7 +118,7 @@ AndroidAudioSample::~AndroidAudioSample()
 	{
 		const std::string cmd = Platform::NativeCommandAssembler::DeleteSound(m_fileName);
 		m_audio->Command(cmd, true);
-		m_logger.Log(cmd, Platform::FileLogger::INFO);
+		m_logger.Log(cmd, Platform::FileLogger::LT_INFO);
 	}
 }
 
@@ -142,7 +142,7 @@ bool AndroidAudioSample::LoadSampleFromFile(
 		cmd = Platform::NativeCommandAssembler::LoadMusic(m_fileName);
 	}
 	m_audio->Command(cmd);
-	m_logger.Log(cmd, Platform::FileLogger::INFO);
+	m_logger.Log(cmd, Platform::FileLogger::LT_INFO);
 	return true;
 }
 

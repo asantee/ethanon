@@ -20,7 +20,7 @@ void ETHScriptWrapper::ShowMessage(std::string sMsg, const ETH_MESSAGE type, con
 	{
 	case ETH_ERROR:
 		ss << ("ERROR - ");
-		logType = Platform::Logger::ERROR;
+		logType = Platform::Logger::LT_ERROR;
 		if (abort)
 		{
 			Abort();
@@ -28,10 +28,10 @@ void ETHScriptWrapper::ShowMessage(std::string sMsg, const ETH_MESSAGE type, con
 		break;
 	case ETH_WARNING:
 		ss << ("Warning - ");
-		logType = Platform::Logger::WARNING;
+		logType = Platform::Logger::LT_WARNING;
 		break;
 	default:
-		logType = Platform::Logger::INFO;
+		logType = Platform::Logger::LT_INFO;
 	};
 	ss << sMsg;
 	m_provider->Log(ss.str(), logType);
@@ -45,25 +45,25 @@ void ETHScriptWrapper::ForwardCommand(const std::string& cmd)
 void ETHScriptWrapper::PrintFloat(const float f)
 {
 	ETH_STREAM_DECL(ss) << f;
-	m_provider->Log(ss.str(), Platform::FileLogger::INFO);
+	m_provider->Log(ss.str(), Platform::FileLogger::LT_INFO);
 }
 
 void ETHScriptWrapper::PrintInt(const int n)
 {
 	ETH_STREAM_DECL(ss) << n;
-	m_provider->Log(ss.str(), Platform::FileLogger::INFO);
+	m_provider->Log(ss.str(), Platform::FileLogger::LT_INFO);
 }
 
 void ETHScriptWrapper::PrintUInt(const unsigned int n)
 {
 	ETH_STREAM_DECL(ss) << n;
-	m_provider->Log(ss.str(), Platform::FileLogger::INFO);
+	m_provider->Log(ss.str(), Platform::FileLogger::LT_INFO);
 }
 
 void ETHScriptWrapper::Print(const std::string &str)
 {
 	ETH_STREAM_DECL(ss) << str;
-	m_provider->Log(ss.str(), Platform::FileLogger::INFO);
+	m_provider->Log(ss.str(), Platform::FileLogger::LT_INFO);
 }
 
 float ETHScriptWrapper::GetTimeF()
@@ -331,16 +331,16 @@ bool ETHScriptWrapper::EnableLightmapsFromExpansionPack(const bool enable)
 		if (expansionFileManager->IsLoaded())
 		{
 			m_expansionFileManager = expansionFileManager;
-			m_provider->Log(expansionFilePath + (" expansion file loaded"), Platform::Logger::INFO);
+			m_provider->Log(expansionFilePath + (" expansion file loaded"), Platform::Logger::LT_INFO);
 			return true;
 		}
 		else
 		{
-			m_provider->Log(expansionFilePath + (" ERROR: file not found"), Platform::Logger::ERROR);
+			m_provider->Log(expansionFilePath + (" ERROR: file not found"), Platform::Logger::LT_ERROR);
 			return false;
 		}
 	#else
-		m_provider->Log(("ERROR: This platform doesn't support Expansion packages"), Platform::Logger::ERROR);
+		m_provider->Log(("ERROR: This platform doesn't support Expansion packages"), Platform::Logger::LT_ERROR);
 		return false;
 	#endif
 	}

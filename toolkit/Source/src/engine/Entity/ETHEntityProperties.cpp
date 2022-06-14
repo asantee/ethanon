@@ -112,7 +112,7 @@ ETHEntityProperties::ETHEntityProperties(const std::string& filePath, const Plat
 	if (!doc.LoadFile(content, TIXML_ENCODING_LEGACY))
 	{
 		ETH_STREAM_DECL(ss) << ("Couldn't load file: ") << filePath;
-		ETHResourceProvider::Log(ss.str(), Platform::Logger::ERROR);
+		ETHResourceProvider::Log(ss.str(), Platform::Logger::LT_ERROR);
 		return;
 	}
 
@@ -123,7 +123,7 @@ ETHEntityProperties::ETHEntityProperties(const std::string& filePath, const Plat
 	if (!pElem)
 	{
 		ETH_STREAM_DECL(ss) << ("The current file seems to be invalid: ") << filePath;
-		ETHResourceProvider::Log(ss.str(), Platform::Logger::ERROR);
+		ETHResourceProvider::Log(ss.str(), Platform::Logger::LT_ERROR);
 		return;
 	}
 

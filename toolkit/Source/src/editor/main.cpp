@@ -123,7 +123,7 @@ std::string FindStartupProject(const int argc, char **argv, const Platform::File
 {
 	for (int t = 0; t < argc; t++)
 	{
-		logger.Log(argv[t], Platform::Logger::INFO);
+		logger.Log(argv[t], Platform::Logger::LT_INFO);
 		if (Platform::IsExtensionRight(argv[t], GS_L(".ethproj")) && ETHGlobal::FileExists(argv[t], fileManager))
 		{
 			return argv[t];

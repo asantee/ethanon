@@ -166,7 +166,7 @@ void ETHBucketManager::Add(ETHRenderEntity* entity, const SIDE side)
 	#if defined(_DEBUG) || defined(DEBUG)
 	ETH_STREAM_DECL(ss) << ("Entity ") << entity->GetEntityName() << (" (ID#") << entity->GetID()
 						<< (") added to bucket ") << ("(") << bucket.x << (", ") << bucket.y << (")");
-	m_provider->Log(ss.str(), Platform::Logger::INFO);
+	m_provider->Log(ss.str(), Platform::Logger::LT_INFO);
 	#endif
 }
 
@@ -186,7 +186,7 @@ bool ETHBucketManager::MoveEntity(ETHEntity* entity, const Vector2 &currentBucke
 			<< ("The current bucket doesn't exist: (")
 			<< currentBucket.x << (",") << currentBucket.y << (")")
 			<< (" -> ") << entity->GetEntityName();
-		m_provider->Log(ss.str(), Platform::Logger::ERROR);
+		m_provider->Log(ss.str(), Platform::Logger::LT_ERROR);
 		return false;
 	}
 
@@ -215,7 +215,7 @@ bool ETHBucketManager::MoveEntity(ETHEntity* entity, const Vector2 &currentBucke
 		<< entity->GetEntityName() << ("(") << entity->GetID() << (")")
 		<< (" moved from bucket (") << currentBucket.x << (",") << currentBucket.y << (") to bucket (")
 		<< destBucket.x << (",") << destBucket.y << (")");
-	m_provider->Log(ss.str(), Platform::Logger::INFO);
+	m_provider->Log(ss.str(), Platform::Logger::LT_INFO);
 	#endif
 	return true;
 }
@@ -377,7 +377,7 @@ bool ETHBucketManager::DeleteEntity(const int id)
 			{
 				#if defined(_DEBUG) || defined(DEBUG)
 					ETH_STREAM_DECL(ss) << ("Entity ") << (*iter)->GetEntityName() << (" (ID#") << (*iter)->GetID() << (") removed (DeleteEntity method)");
-					m_provider->Log(ss.str(), Platform::Logger::INFO);
+					m_provider->Log(ss.str(), Platform::Logger::LT_INFO);
 				#endif
 
 				(*iter)->Kill();
@@ -405,7 +405,7 @@ bool ETHBucketManager::DeleteEntity(ETHEntity* pEntity, const Vector2 &searchBuc
 			{
 				#if defined(_DEBUG) || defined(DEBUG)
 				ETH_STREAM_DECL(ss) << ("Entity ") << (*iter)->GetEntityName() << (" (ID#") << (*iter)->GetID() << (") removed (DeleteEntity method)");
-				m_provider->Log(ss.str(), Platform::Logger::INFO);
+				m_provider->Log(ss.str(), Platform::Logger::LT_INFO);
 				#endif
 
 				(*iter)->Kill();
@@ -430,7 +430,7 @@ bool ETHBucketManager::DeleteEntity(ETHEntity* pEntity, const Vector2 &searchBuc
 			{
 				#if defined(_DEBUG) || defined(DEBUG)
 					ETH_STREAM_DECL(ss) << ("Entity ") << (*iter)->GetEntityName() << (" (ID#") << (*iter)->GetID() << (") removed (DeleteEntity method)");
-					m_provider->Log(ss.str(), Platform::Logger::INFO);
+					m_provider->Log(ss.str(), Platform::Logger::LT_INFO);
 				#endif
 
 				(*iter)->Kill();
@@ -440,7 +440,7 @@ bool ETHBucketManager::DeleteEntity(ETHEntity* pEntity, const Vector2 &searchBuc
 	}
 
 	ETH_STREAM_DECL(ss) << ("Couldn't find the entity to delete: ") << pEntity->GetEntityName() << " (" << id << ")";
-	m_provider->Log(ss.str(), Platform::Logger::WARNING);
+	m_provider->Log(ss.str(), Platform::Logger::LT_WARNING);
 	return false;
 }
 
