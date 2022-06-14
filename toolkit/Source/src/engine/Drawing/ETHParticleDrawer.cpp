@@ -52,7 +52,7 @@ bool ETHParticleDrawer::IsAlive() const
 {
 	if (m_particleManager->GetSystem()->repeat <= 0)
 	{
-		m_provider->Log(m_fileName + (" rendering failed. Only temporary particle effects are allowed"), Platform::Logger::ERROR);
+		m_provider->Log(m_fileName + (" rendering failed. Only temporary particle effects are allowed"), Platform::Logger::LT_ERROR);
 		return false;
 	}
 	return !m_particleManager->Finished();

@@ -27,7 +27,7 @@ void ExecuteContext(asIScriptContext *pContext, asIScriptFunction* func, const b
 		if (pContext->Prepare(func) < 0)
 		{
 			ETH_STREAM_DECL(ss) << ("(ExecuteContext) Couldn't prepare context for function  ID ") << func->GetId();
-			ETHResourceProvider::Log(ss.str(), Platform::Logger::ERROR);
+			ETHResourceProvider::Log(ss.str(), Platform::Logger::LT_ERROR);
 			return;
 		}
 	}
@@ -42,11 +42,11 @@ void CheckFunctionSeekError(const int id, const std::string& function)
 	{
 	case asERROR:
 		ss << ("Callback function seeking error - Invalid module (") << function << (").");
-		ETHResourceProvider::Log(ss.str(), Platform::Logger::ERROR);
+		ETHResourceProvider::Log(ss.str(), Platform::Logger::LT_ERROR);
 		break;
 	case asMULTIPLE_FUNCTIONS:
 		ss << ("\n*Script error:\nCallback function seeking error - there are multiple functions with this name (") << function << (").");
-		ETHResourceProvider::Log(ss.str(), Platform::Logger::ERROR);
+		ETHResourceProvider::Log(ss.str(), Platform::Logger::LT_ERROR);
 		break;
 	};
 }
@@ -64,7 +64,7 @@ asIScriptFunction* FindCallbackFunction(asIScriptModule* pModule, const ETHScrip
 	{
 		std::stringstream ss;
 		ss << ("ETHScene::FindCallbackFunction: found multiple functions named (") << funcName.str() << (").");
-		logger.Log(ss.str(), Platform::FileLogger::ERROR);
+		logger.Log(ss.str(), Platform::FileLogger::LT_ERROR);
 	}*/
 	return func;
 }

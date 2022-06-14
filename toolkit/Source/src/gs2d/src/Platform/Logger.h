@@ -12,9 +12,9 @@ class Logger
 public:
 	enum TYPE
 	{
-		ERROR = 0,
-		WARNING = 1,
-		INFO = 2
+		LT_ERROR = 0,
+		LT_WARNING = 1,
+		LT_INFO = 2
 	};
 	virtual bool Log(const std::string& str, const TYPE& type) const = 0;
 };

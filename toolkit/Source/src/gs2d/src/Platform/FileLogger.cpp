@@ -75,7 +75,7 @@ bool FileLogger::Log(const std::string& str, const TYPE& type) const
 		std::cout << str << std::endl;
 	#endif
 
-	if (type == ERROR)
+	if (type == LT_ERROR)
 	{
 		WriteToErrorLog(str);
 
@@ -84,7 +84,7 @@ bool FileLogger::Log(const std::string& str, const TYPE& type) const
 			m_errorRecorder->RecordError(str);
 		}
 	}
-	else if (type == WARNING)
+	else if (type == LT_WARNING)
 	{
 		WriteToWarningLog(str);
 
@@ -97,8 +97,8 @@ bool FileLogger::Log(const std::string& str, const TYPE& type) const
 	#ifdef ANDROID
 		switch (type)
 		{
-		case ERROR:
-		case WARNING:
+		case LT_ERROR:
+		case LT_WARNING:
 			LOGE("%s", str.c_str());
 			break;
 		default:

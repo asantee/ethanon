@@ -126,7 +126,7 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 
 	if (lowRamDevice)
 	{
-		m_provider->Log(("Ethanon is running low ram device mode."), Platform::Logger::INFO);
+		m_provider->Log(("Ethanon is running low ram device mode."), Platform::Logger::LT_INFO);
 
 	}
 	
@@ -166,12 +166,12 @@ Application::APP_STATUS ETHEngine::Update(
 {
 	if (!m_mainFunctionExecuted)
 	{
-		m_provider->Log(("Starting main function"), Platform::Logger::INFO);
+		m_provider->Log(("Starting main function"), Platform::Logger::LT_INFO);
 		RunMainFunction(GetMainFunction());
 		m_provider->GetVideo()->EnableQuitShortcuts(true);
 		m_v2LastCamPos = m_provider->GetVideo()->GetCameraPos();
 		m_mainFunctionExecuted = true;
-		m_provider->Log(("Ended main function"), Platform::Logger::INFO);
+		m_provider->Log(("Ended main function"), Platform::Logger::LT_INFO);
 	}
 
 	// updates system clock shared data
@@ -367,13 +367,13 @@ bool ETHEngine::BuildModule(const std::vector<std::string>& definedWords)
 	const std::string byteCodeReadFile  = resourcePath + ETH_DEFAULT_MAIN_BYTECODE_FILE;
 
 	// line separator to ease script output reading
-	m_provider->Log(("____________________________\n"), Platform::Logger::INFO);
+	m_provider->Log(("____________________________\n"), Platform::Logger::LT_INFO);
 
 	// if there's a main script file, load the source from text code and compile it
 	if (ETHGlobal::FileExists(mainScript, m_provider->GetFileManager()))
 	{
 		ETH_STREAM_DECL(ssi) << ("Loading game script from source-code: ") << ETH_DEFAULT_MAIN_SCRIPT_FILE << std::endl;
-		m_provider->Log(ssi.str(), Platform::Logger::INFO);
+		m_provider->Log(ssi.str(), Platform::Logger::LT_INFO);
 
 		// Load the main script
 		CScriptBuilder builder(m_provider);
@@ -396,7 +396,7 @@ bool ETHEngine::BuildModule(const std::vector<std::string>& definedWords)
 		const unsigned long buildTime = video->GetElapsedTime();
 		r = builder.BuildModule();
 		std::stringstream timeStringStream; timeStringStream << ("\nCompile time: ") << video->GetElapsedTime() - buildTime << (" milliseconds");
-		m_provider->Log(timeStringStream.str(), Platform::Logger::INFO);
+		m_provider->Log(timeStringStream.str(), Platform::Logger::LT_INFO);
 		if (!CheckAngelScriptError(r < 0, ("Failed while building module.")))
 			return false;
 
@@ -411,19 +411,19 @@ bool ETHEngine::BuildModule(const std::vector<std::string>& definedWords)
 				m_pASModule->SaveByteCode(&stream);
 				stream.CloseW();
 				ETH_STREAM_DECL(ss) << ("ByteCode saved: ") << byteCodeWriteFile;
-				m_provider->Log(ss.str(), Platform::Logger::INFO);
+				m_provider->Log(ss.str(), Platform::Logger::LT_INFO);
 			}
 			else
 			{
 				ETH_STREAM_DECL(ss) << ("Failed while writing the byte code file ") << byteCodeWriteFile;
-				m_provider->Log(ss.str(), Platform::Logger::ERROR);
+				m_provider->Log(ss.str(), Platform::Logger::LT_ERROR);
 			}
 		}
 	}
 	else // otherwise, try to load the bytecode
 	{
 		ETH_STREAM_DECL(ss) << ("Loading game script from pre-compiled byte code: ") << ETH_DEFAULT_MAIN_BYTECODE_FILE << std::endl;
-		m_provider->Log(ss.str(), Platform::Logger::INFO);
+		m_provider->Log(ss.str(), Platform::Logger::LT_INFO);
 	
 		m_pASModule = m_pASEngine->GetModule(ETH_SCRIPT_MODULE.c_str(), asGM_ALWAYS_CREATE);
 		ETHBinaryStream stream(m_provider->GetFileManager());
@@ -432,7 +432,7 @@ bool ETHEngine::BuildModule(const std::vector<std::string>& definedWords)
 			if (m_pASModule->LoadByteCode(&stream) < 0)
 			{
 				ETH_STREAM_DECL(ss) << ("Couldn't load game script from pre-compiled byte code: ") << ETH_DEFAULT_MAIN_BYTECODE_FILE;
-				m_provider->Log(ss.str(), Platform::Logger::ERROR);
+				m_provider->Log(ss.str(), Platform::Logger::LT_ERROR);
 				stream.CloseR();
 				return false;
 			}
@@ -441,11 +441,11 @@ bool ETHEngine::BuildModule(const std::vector<std::string>& definedWords)
 		else
 		{
 			ETH_STREAM_DECL(ss) << ("Failed while reading the byte code file ") << byteCodeReadFile;
-			m_provider->Log(ss.str(), Platform::Logger::ERROR);
+			m_provider->Log(ss.str(), Platform::Logger::LT_ERROR);
 			Abort();
 			return false;
 		}
-		m_provider->Log(("Finished loading bytecode"), Platform::Logger::INFO);
+		m_provider->Log(("Finished loading bytecode"), Platform::Logger::LT_INFO);
 	}
 
 	return true;
@@ -509,16 +509,16 @@ void ETHEngine::MessageCallback(const asSMessageInfo *msg)
 	switch (msg->type)
 	{
 	case asMSGTYPE_WARNING:
-		type = Platform::Logger::WARNING;
+		type = Platform::Logger::LT_WARNING;
 		typeStr = ("WARN ");
 		break;
 	case asMSGTYPE_ERROR:
-		type = Platform::Logger::ERROR;
+		type = Platform::Logger::LT_ERROR;
 		typeStr = ("ERROR");
 		break;
 	default:
 		typeStr = ("INFO ");
-		type = Platform::Logger::INFO;
+		type = Platform::Logger::LT_INFO;
 	}
 
 	const std::string section = RemoveResourceDirectoryFromSectionString(msg->section);
@@ -561,7 +561,7 @@ void ETHEngine::ExceptionCallback(asIScriptContext *ctx, void *param)
 		SCRIPT_EXCEPTION_LOG_SHARED_DATA_KEY,
 		Application::SharedData.Get(SCRIPT_EXCEPTION_LOG_SHARED_DATA_KEY) + ss.str());
 
-	m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
+	m_provider->Log(ss.str(), Platform::FileLogger::LT_ERROR);
 }
 
 void ETHEngine::Restore()

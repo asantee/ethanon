@@ -43,7 +43,7 @@ FMAudioSample::~FMAudioSample()
 		const FMOD_RESULT result = m_sound->release();
 		FMOD_ERRCHECK(result, m_logger);
 	}
-	m_logger.Log(m_fileName + " file deleted", Platform::FileLogger::INFO);
+	m_logger.Log(m_fileName + " file deleted", Platform::FileLogger::LT_INFO);
 }
 
 bool FMAudioSample::LoadSampleFromFile(
@@ -63,7 +63,7 @@ bool FMAudioSample::LoadSampleFromFile(
 	{
 		std::stringstream ss;
 		ss << ("FMAudioSample::LoadSampleFromFile: Invalid fmod system");
-		m_logger.Log(ss.str(), Platform::FileLogger::ERROR);
+		m_logger.Log(ss.str(), Platform::FileLogger::LT_ERROR);
 		return false;
 	}
 
@@ -80,7 +80,7 @@ bool FMAudioSample::LoadSampleFromFile(
 			return false;
 	}
 
-	m_logger.Log(m_fileName + " file loaded", Platform::FileLogger::INFO);
+	m_logger.Log(m_fileName + " file loaded", Platform::FileLogger::LT_INFO);
 	return true;
 }
 

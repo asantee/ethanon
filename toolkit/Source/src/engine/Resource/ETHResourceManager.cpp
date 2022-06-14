@@ -249,14 +249,14 @@ const ETHGraphicResourceManager::SpriteResource* ETHGraphicResourceManager::AddF
 	{
 		pBitmap.reset();
 		ETH_STREAM_DECL(ss) << ("(Not loaded) ") << path;
-		ETHResourceProvider::Log(ss.str(), Platform::Logger::ERROR);
+		ETHResourceProvider::Log(ss.str(), Platform::Logger::LT_ERROR);
 		return 0;
 	}
 
 	m_densityManager.SetSpriteDensity(pBitmap, densityLevel);
 
 	ETH_STREAM_DECL(ss) << ("(Loaded) ") << fileName;
-	ETHResourceProvider::Log(ss.str(), Platform::Logger::INFO);
+	ETHResourceProvider::Log(ss.str(), Platform::Logger::LT_INFO);
 	m_resource.insert(std::pair<std::string, SpriteResource>(fileName, SpriteResource(fileManager, resourceDirectory, fixedName, pBitmap, temporary)));
 	return FindSprite(path, fileName, resourceDirectory);
 }
@@ -281,7 +281,7 @@ const ETHGraphicResourceManager::SpriteResource* ETHGraphicResourceManager::Find
 		{
 			std::stringstream ss; ss << ("Duplicate resource name found: ") << fixedPath
 				<< (" <-> ") << resource.m_fullOriginPath;
-			ETHResourceProvider::Log(ss.str(), Platform::Logger::ERROR);
+			ETHResourceProvider::Log(ss.str(), Platform::Logger::LT_ERROR);
 		}
 		return &resource;
 	}
@@ -306,7 +306,7 @@ bool ETHGraphicResourceManager::ReleaseResource(const std::string &file)
 	{
 		std::string fileName = Platform::GetFileName(file);
 		ETH_STREAM_DECL(ss) << ("(Released) ") << fileName;
-		ETHResourceProvider::Log(ss.str(), Platform::Logger::INFO);
+		ETHResourceProvider::Log(ss.str(), Platform::Logger::LT_INFO);
 		m_resource.erase(iter);
 		return true;
 	}
@@ -386,7 +386,7 @@ AudioSamplePtr ETHAudioResourceManager::AddFile(
 	{
 		pSample.reset();
 		ETH_STREAM_DECL(ss) << ("(Not loaded) \"") << fixedName << ("\"");
-		ETHResourceProvider::Log(ss.str(), Platform::Logger::ERROR);
+		ETHResourceProvider::Log(ss.str(), Platform::Logger::LT_ERROR);
 		return AudioSamplePtr();
 	}
 	if (type == Audio::MUSIC)
@@ -394,7 +394,7 @@ AudioSamplePtr ETHAudioResourceManager::AddFile(
 
 	std::string fileName = Platform::GetFileName(path);
 	ETH_STREAM_DECL(ss) << ("(Loaded) ") << fileName;
-	ETHResourceProvider::Log(ss.str(), Platform::Logger::INFO);
+	ETHResourceProvider::Log(ss.str(), Platform::Logger::LT_INFO);
 	m_resource[fileName] = pSample;
 	return pSample;
 }

@@ -28,7 +28,7 @@ ETHParticleManager::ETHParticleManager(
 	else
 	{
 		ETH_STREAM_DECL(ss) << ("ETHParticleManager: file not found: ") << file;
-		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
+		m_provider->Log(ss.str(), Platform::FileLogger::LT_ERROR);
 	}
 }
 
@@ -52,7 +52,7 @@ bool ETHParticleManager::CreateParticleSystem(
 	if (partSystem.nParticles <= 0)
 	{
 		ETH_STREAM_DECL(ss) << ("ETHParticleManager::CreateParticleSystem: The number of particles must be greater than 0.");
-		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
+		m_provider->Log(ss.str(), Platform::FileLogger::LT_ERROR);
 		return false;
 	}
 
@@ -402,7 +402,7 @@ bool ETHParticleManager::DrawParticleSystem(
 	if (!m_pBMP)
 	{
 		ETH_STREAM_DECL(ss) << ("ETHParticleManager::DrawParticleSystem: Invalid particle system bitmap");
-		m_provider->Log(ss.str(), Platform::FileLogger::WARNING);
+		m_provider->Log(ss.str(), Platform::FileLogger::LT_WARNING);
 		return false;
 	}
 

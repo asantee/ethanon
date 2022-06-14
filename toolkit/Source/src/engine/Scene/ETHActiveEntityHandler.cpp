@@ -81,7 +81,7 @@ void ETHActiveEntityHandler::TestEntityLists() const
 			if (entityA == entityB)
 			{
 				ETH_STREAM_DECL(ss) << ("Equal entities found on both lists: ") << entityA->GetEntityName();
-				m_provider->Log(ss.str(), Platform::Logger::WARNING);
+				m_provider->Log(ss.str(), Platform::Logger::LT_WARNING);
 			}
 			assert(entityA != entityB);
 		}
@@ -102,7 +102,7 @@ void ETHActiveEntityHandler::UpdateAlwaysActiveEntities(const Vector2& zAxisDir,
 		{
 			#if defined(_DEBUG) || defined(DEBUG)
 			 ETH_STREAM_DECL(ss) << ("Entity removed from dynamic entity list: ") << entity->GetEntityName();
-			 m_provider->Log(ss.str(), Platform::Logger::INFO);
+			 m_provider->Log(ss.str(), Platform::Logger::LT_INFO);
 			#endif
 			entity->Release();
 			iter = m_dynamicOrTempEntities.erase(iter);
@@ -158,7 +158,7 @@ bool ETHActiveEntityHandler::RemoveFinishedTemporaryEntity(ETHRenderEntity* enti
 
 		#if defined(_DEBUG) || defined(DEBUG)
 		 ETH_STREAM_DECL(ss) << ("Entity ") << entity->GetEntityName() << (" (ID#") << entity->GetID() << (") removed from dynamic entity list (particle effects over)");
-		 m_provider->Log(ss.str(), Platform::Logger::INFO);
+		 m_provider->Log(ss.str(), Platform::Logger::LT_INFO);
 		#endif
 		return true;
 	}

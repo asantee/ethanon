@@ -12,7 +12,7 @@ bool FMOD_ERRCHECK_fn(FMOD_RESULT result, const char *file, int line, Platform::
 	{
 		std::stringstream ss;
 		ss << file << "(" << line << "): FMOD Error " << result << " - " << FMOD_ErrorString(result);
-		logger.Log(ss.str(), Platform::FileLogger::ERROR);
+		logger.Log(ss.str(), Platform::FileLogger::LT_ERROR);
 		return true;
 	}
 	return false;
@@ -79,14 +79,14 @@ bool FMAudioContext::CreateAudioDevice(boost::any data)
 
 	if (version < FMOD_VERSION)
 	{
-		m_logger.Log("FMOD lib version doesn't match header version.", Platform::FileLogger::ERROR);
+		m_logger.Log("FMOD lib version doesn't match header version.", Platform::FileLogger::LT_ERROR);
 	}
 
 	result = m_system->init(32, FMOD_INIT_NORMAL, 0);
 	if (FMOD_ERRCHECK(result, m_logger))
 		return false;
 
-	m_logger.Log("Audio device initialized", Platform::FileLogger::INFO);
+	m_logger.Log("Audio device initialized", Platform::FileLogger::LT_INFO);
 	return true;
 }
 

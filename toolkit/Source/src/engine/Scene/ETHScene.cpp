@@ -99,7 +99,7 @@ bool ETHScene::SaveToFile(const std::string& fileName, ETHEntityCache& entityCac
 	if (m_buckets.IsEmpty())
 	{
 		ETH_STREAM_DECL(ss) << ("ETHScene::Save: there are no entities to save: ") << fileName;
-		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
+		m_provider->Log(ss.str(), Platform::FileLogger::LT_ERROR);
 		return false;
 	}
 
@@ -134,7 +134,7 @@ bool ETHScene::SaveToFile(const std::string& fileName, ETHEntityCache& entityCac
 
 			#if defined(_DEBUG) || defined(DEBUG)
 			ETH_STREAM_DECL(ss) << ("Entity written to file: ") << (*iter)->GetEntityName();
-			m_provider->Log(ss.str(), Platform::FileLogger::INFO);
+			m_provider->Log(ss.str(), Platform::FileLogger::LT_INFO);
 			#endif
 		}
 	}
@@ -157,7 +157,7 @@ bool ETHScene::AddSceneFromFile(
 	if (!fileManager->FileExists(fileName))
 	{
 		ETH_STREAM_DECL(ss) << ("ETHScene::LoadFromFile: file not found (") << fileName << (")");
-		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
+		m_provider->Log(ss.str(), Platform::FileLogger::LT_ERROR);
 		return false;
 	}
 
@@ -186,7 +186,7 @@ bool ETHScene::AddSceneFromString(
 	if (!doc.LoadFile(xmlContent, TIXML_ENCODING_LEGACY))
 	{
 		ETH_STREAM_DECL(ss) << ("ETHScene::LoadFromFile: file found, but parsing failed (") << fileName << (")");
-		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
+		m_provider->Log(ss.str(), Platform::FileLogger::LT_ERROR);
 		return false;
 	}
 
@@ -196,7 +196,7 @@ bool ETHScene::AddSceneFromString(
 	if (!pElement)
 	{
 		ETH_STREAM_DECL(ss) << ("ETHScene::LoadFromFile: couldn't find root element (") << fileName << (")");
-		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
+		m_provider->Log(ss.str(), Platform::FileLogger::LT_ERROR);
 		return false;
 	}
 	return AddEntitiesFromXMLFile(fileName, pElement, entityCache, entityPath, readSceneProperties, offset, outVector, shouldGenerateNewID);
@@ -277,7 +277,7 @@ bool ETHScene::AddEntitiesFromXMLFile(
 
 	if (!ss.str().empty())
 	{
-		m_provider->Log(ss.str(), Platform::FileLogger::ERROR);
+		m_provider->Log(ss.str(), Platform::FileLogger::LT_ERROR);
 	}
 	return true;
 }
@@ -557,12 +557,12 @@ void ETHScene::AssignControllerToEntity(ETHEntity* entity, asIScriptFunction* ca
 			std::stringstream ss; Platform::Logger::TYPE logType;
 			if (controller)
 			{
-				logType = Platform::Logger::INFO;
+				logType = Platform::Logger::LT_INFO;
 				ss << ("Physics controller successfuly created: ");
 			}
 			else
 			{
-				logType = Platform::Logger::ERROR;
+				logType = Platform::Logger::LT_ERROR;
 				ss << ("Couldn't create physics controller: ");
 			}
 			ss << entity->GetEntityName() << (" (#") << entity->GetID() << (")");
