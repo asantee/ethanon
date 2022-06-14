@@ -40,7 +40,7 @@ SDLInput::SDLInput(const bool showJoystickWarnings) :
 	m_sdlKeyID[GSK_TAB] = SDL_SCANCODE_TAB;
 	m_sdlKeyID[GSK_PRINTSCREEN] = SDL_SCANCODE_PRINTSCREEN;
 	m_sdlKeyID[GSK_SUBTRACT] = SDL_SCANCODE_MINUS;
-	m_sdlKeyID[GSK_ADD] = SDL_SCANCODE_KP_PLUS; // this is messed up
+	m_sdlKeyID[GSK_ADD] = SDL_SCANCODE_KP_MEMADD;
 	m_sdlKeyID[GSK_F1] = SDL_SCANCODE_F1;
 	m_sdlKeyID[GSK_F2] = SDL_SCANCODE_F2;
 	m_sdlKeyID[GSK_F3] = SDL_SCANCODE_F3;
@@ -111,16 +111,36 @@ SDLInput::SDLInput(const bool showJoystickWarnings) :
 	m_sdlKeyID[GSK_NUMPAD7] = SDL_SCANCODE_KP_7;
 	m_sdlKeyID[GSK_NUMPAD8] = SDL_SCANCODE_KP_8;
 	m_sdlKeyID[GSK_NUMPAD9] = SDL_SCANCODE_KP_9;
-	m_sdlKeyID[GSK_MINUS] = SDL_SCANCODE_KP_MINUS;
+	m_sdlKeyID[GSK_MINUS] = SDL_SCANCODE_MINUS;
 	m_sdlKeyID[GSK_PLUS] = SDL_SCANCODE_KP_PLUS;
 	m_sdlKeyID[GSK_COMMA] = SDL_SCANCODE_COMMA;
 	m_sdlKeyID[GSK_DOT] = SDL_SCANCODE_PERIOD;
 	m_sdlKeyID[GSK_META] = SDL_SCANCODE_LGUI;
+	m_sdlKeyID[GSK_BACKSLASH] = SDL_SCANCODE_BACKSLASH;
+	m_sdlKeyID[GSK_CAPSLOCK] = SDL_SCANCODE_CAPSLOCK;
+	m_sdlKeyID[GSK_GRAVE] = SDL_SCANCODE_GRAVE;
+	m_sdlKeyID[GSK_HELP] = SDL_SCANCODE_HELP;
+	m_sdlKeyID[GSK_NUMPAD_BACKSPACE] = SDL_SCANCODE_KP_BACKSPACE;
+	m_sdlKeyID[GSK_L_ALT] = SDL_SCANCODE_LALT;
+	m_sdlKeyID[GSK_R_ALT] = SDL_SCANCODE_RALT;
+	m_sdlKeyID[GSK_L_SHIFT] = SDL_SCANCODE_LSHIFT;
+	m_sdlKeyID[GSK_R_SHIFT] = SDL_SCANCODE_RSHIFT;
+	m_sdlKeyID[GSK_L_CTRL] = SDL_SCANCODE_LCTRL;
+	m_sdlKeyID[GSK_R_CTRL] = SDL_SCANCODE_RCTRL;
+	m_sdlKeyID[GSK_L_META] = SDL_SCANCODE_LGUI;
+	m_sdlKeyID[GSK_R_META] = SDL_SCANCODE_RGUI;
+	m_sdlKeyID[GSK_SEMICOLON] = SDL_SCANCODE_SEMICOLON;
+	m_sdlKeyID[GSK_SLASH] = SDL_SCANCODE_SLASH;
+	m_sdlKeyID[GSK_LEFTBRACKET] = SDL_SCANCODE_LEFTBRACKET;
+	m_sdlKeyID[GSK_RIGHTBRACKET] = SDL_SCANCODE_RIGHTBRACKET;
+	m_sdlKeyID[GSK_EQUALS] = SDL_SCANCODE_EQUALS;
+	m_sdlKeyID[GSK_PERIOD] = SDL_SCANCODE_PERIOD;
+	m_sdlKeyID[GSK_APOSTROPHE] = SDL_SCANCODE_APOSTROPHE;
 
 	// not used:
-	m_sdlKeyID[GSK_RMOUSE] = SDL_NUM_SCANCODES;
-	m_sdlKeyID[GSK_LMOUSE] = SDL_NUM_SCANCODES;
-	m_sdlKeyID[GSK_MMOUSE] = SDL_NUM_SCANCODES;
+	m_sdlKeyID[GSK_RMOUSE] = SDL_SCANCODE_UNKNOWN;
+	m_sdlKeyID[GSK_LMOUSE] = SDL_SCANCODE_UNKNOWN;
+	m_sdlKeyID[GSK_MMOUSE] = SDL_SCANCODE_UNKNOWN;
 
 	UpdateCursorPos();
 	m_lastCursorPos = m_cursorPos;
@@ -140,18 +160,6 @@ bool SDLInput::Update()
 
 bool SDLInput::IsKeyPressed(const GS_KEY key, const Uint8* keystate)
 {
-	switch (key)
-	{
-	case GSK_LMOUSE:
-		return (m_mouseBits & SDL_BUTTON(1));
-	case GSK_MMOUSE:
-		return (m_mouseBits & SDL_BUTTON(2));
-	case GSK_RMOUSE:
-		return (m_mouseBits & SDL_BUTTON(3));
-	default:
-		// just preventing the warning
-		break;
-	};
 	return (keystate[m_sdlKeyID[key]] != 0);
 }
 
@@ -159,6 +167,14 @@ void SDLInput::UpdateCursorPos()
 {
 	m_lastCursorPos = m_cursorPos;
 	m_mouseBits = SDL_GetMouseState(&m_cursorPos.x, &m_cursorPos.y);
+
+    m_mouseClickStates[0].Update(m_mouseBits & SDL_BUTTON(1));
+    m_mouseClickStates[1].Update(m_mouseBits & SDL_BUTTON(2));
+    m_mouseClickStates[2].Update(m_mouseBits & SDL_BUTTON(3));
+
+    m_keyStates[GSK_LMOUSE] = m_mouseClickStates[0];
+    m_keyStates[GSK_MMOUSE] = m_mouseClickStates[1];
+    m_keyStates[GSK_RMOUSE] = m_mouseClickStates[2];
 }
 
 bool SDLInput::SetCursorPosition(math::Vector2i v2Pos)
@@ -236,17 +252,17 @@ GS_KEY_STATE SDLInput::GetKeyState(const GS_KEY key) const
 
 GS_KEY_STATE SDLInput::GetLeftClickState() const
 {
-	return m_keyStates[GSK_LMOUSE].GetCurrentState();
+	return m_mouseClickStates[0].GetCurrentState();
 }
 
 GS_KEY_STATE SDLInput::GetRightClickState() const
 {
-	return m_keyStates[GSK_RMOUSE].GetCurrentState();
+	return m_mouseClickStates[2].GetCurrentState();
 }
 
 GS_KEY_STATE SDLInput::GetMiddleClickState() const
 {
-	return m_keyStates[GSK_MMOUSE].GetCurrentState();
+	return m_mouseClickStates[0].GetCurrentState();
 }
 
 GS_KEY_STATE SDLInput::GetTouchState(const unsigned int n, WindowPtr pWindow) const

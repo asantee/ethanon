@@ -11,6 +11,7 @@ class SDLInput : public SDLJoystick
 	math::Vector2i m_lastCursorPos;
 
 	KeyStateManager m_keyStates[GS_NUM_KEYS];
+    KeyStateManager m_mouseClickStates[3];
 	SDL_Scancode m_sdlKeyID[GS_NUM_KEYS];
 	Uint8 m_mouseBits;
 
