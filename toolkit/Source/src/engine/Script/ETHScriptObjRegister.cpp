@@ -489,6 +489,27 @@ void RegisterEnumTypes(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterEnumValue("KEY", "K_NUMPAD7", GSK_NUMPAD7); assert(r >= 0);
 	r = pASEngine->RegisterEnumValue("KEY", "K_NUMPAD8", GSK_NUMPAD8); assert(r >= 0);
 	r = pASEngine->RegisterEnumValue("KEY", "K_NUMPAD9", GSK_NUMPAD9); assert(r >= 0);
+
+	r = pASEngine->RegisterEnumValue("KEY", "K_BACKSLASH", GSK_BACKSLASH); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("KEY", "K_CAPSLOCK", GSK_CAPSLOCK); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("KEY", "K_GRAVE", GSK_GRAVE); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("KEY", "K_HELP", GSK_HELP); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("KEY", "K_NUMPAD_BACKSPACE", GSK_NUMPAD_BACKSPACE); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("KEY", "K_L_ALT", GSK_L_ALT); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("KEY", "K_R_ALT", GSK_R_ALT); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("KEY", "K_L_SHIFT", GSK_L_SHIFT); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("KEY", "K_R_SHIFT", GSK_R_SHIFT); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("KEY", "K_L_CTRL", GSK_L_CTRL); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("KEY", "K_R_CTRL", GSK_R_CTRL); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("KEY", "K_L_META", GSK_L_META); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("KEY", "K_R_META", GSK_R_META); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("KEY", "K_SEMICOLON", GSK_SEMICOLON); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("KEY", "K_SLASH", GSK_SLASH); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("KEY", "K_LEFTBRACKET", GSK_LEFTBRACKET); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("KEY", "K_RIGHTBRACKET", GSK_RIGHTBRACKET); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("KEY", "K_EQUALS", GSK_EQUALS); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("KEY", "K_PERIOD", GSK_PERIOD); assert(r >= 0);
+	r = pASEngine->RegisterEnumValue("KEY", "K_APOSTROPHE", GSK_APOSTROPHE); assert(r >= 0);
 }
 
 void RegisterGlobalProperties(asIScriptEngine *pASEngine)
