@@ -152,7 +152,7 @@ public:
 	void Pack(const gs2d::math::Vector3& vector);
 	void PackNil();
 
-	bool ParseMsgPack(CScriptAny* any, const char* data, const size_t size);
+	bool ParseMsgPack(CScriptAny* any, const char* data, const size_t size, std::size_t& offset);
 
 	// Create the array header on message pack, informing array size
 	void PackArray(uint32_t length);

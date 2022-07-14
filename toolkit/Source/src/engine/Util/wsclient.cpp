@@ -393,33 +393,39 @@ void WebsocketClient::OnRead(beast::error_code ec, std::size_t bytes_transferred
 
 	CScriptAny* parsed_data = new CScriptAny(ETHScriptWrapper::m_pASEngine);
 	size_t size = m_input_buffer.size();
-	if (ParseMsgPack(parsed_data, net::buffer_cast<char const*>(m_input_buffer.data()), size))
+	size_t offset = 0;
+	
+	while(offset < size)
 	{
-		// call AS OnMessage Callback
-		if (m_on_message_callback)
+		if (ParseMsgPack(parsed_data, net::buffer_cast<char const*>(m_input_buffer.data()), size, offset))
 		{
-			m_as_ctx->Prepare(m_on_message_callback);
-			m_as_ctx->SetObject(m_on_message_callbackObject);
-
-			// Set the function arguments
-			m_as_ctx->SetArgObject(0, parsed_data);
-			int r = m_as_ctx->Execute();
-			/*if (r == asEXECUTION_FINISHED)
+			// call AS OnMessage Callback
+			if (m_on_message_callback)
 			{
-				// The return value is only valid if the execution finished successfully
-				//asDWORD ret = m_as_ctx->GetReturnDWord();
-			}*/
+				m_as_ctx->Prepare(m_on_message_callback);
+				m_as_ctx->SetObject(m_on_message_callbackObject);
+
+				// Set the function arguments
+				m_as_ctx->SetArgObject(0, parsed_data);
+				int r = m_as_ctx->Execute();
+				/*if (r == asEXECUTION_FINISHED)
+				{
+					// The return value is only valid if the execution finished successfully
+					//asDWORD ret = m_as_ctx->GetReturnDWord();
+				}*/
+			}
 		}
-		m_input_buffer.consume(size);
+		else
+		{
+			std::cout << "\n\nParseMsgPack Failed.\n\n";
+			/*
+				If parse failed, m_input_buffer may need to be consumed, or before that, can be send
+				to a raw data callback.
+			*/
+		}
 	}
-	else
-	{
-		std::cout << "\n\nParseMsgPack Failed.\n\n";
-		/*
-			If parse failed, m_input_buffer may need to be consumed, or before that, can be send
-			to a raw data callback.
-		*/
-	}
+	m_input_buffer.consume(size);
+
 	// Read again, and again...
 	m_ws.async_read(m_input_buffer, beast::bind_front_handler(&WebsocketClient::OnRead, shared_from_this()));
 
@@ -940,14 +946,14 @@ void WebsocketClient::PackMap(uint32_t length)
 
 // TODO: Use parse object to call message callback for each any object in stream
 // Or to populate the array
-bool WebsocketClient::ParseMsgPack(CScriptAny* any, const char * data, const size_t size)
+bool WebsocketClient::ParseMsgPack(CScriptAny* any, const char * data, const size_t size, std::size_t& offset)
 {
 	as_any_parser p(110);
 
 	as_any_visitor visitor(any);
 	std::cout << "\nMessage size: " << size << "\n";
 
-	if (msgpack::v2::parse(data, size, visitor))
+	if (msgpack::v2::parse(data, size, offset, visitor))
 	{
 		return true;
 	}
