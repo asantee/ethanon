@@ -18,13 +18,12 @@ toolkit/Installer/Output/
 *.a
 
 # Unpacked vendor paths
-toolkit/Source/src/gs2d/vendors/BoostSDK/
-toolkit/Source/src/gs2d/vendors/boost/
-toolkit/Source/src/vendors/boost/
+toolkit/Source/src/gs2d/vendors/BoostSDK/*
+!toolkit/Source/src/gs2d/vendors/BoostSDK/extract-boost-here.txt
 toolkit/Source/src/gs2d/vendors/CgSDK/
 toolkit/Source/src/gs2d/vendors/DX9SDK/
-toolkit/Source/src/gs2d/vendors/libpng/
-toolkit/Source/src/gs2d/vendors/libzip/
+toolkit/Source/src/gs2d/vendors/libzip/.deps
+toolkit/Source/src/gs2d/vendors/libzip/.libs
 toolkit/Source/src/gs2d/vendors/SDL.framework/
 toolkit/Source/src/gs2d/vendors/Cg.framework/
 toolkit/Source/src/gs2d/vendors/irrKlang/
@@ -188,9 +187,7 @@ toolkit/Source/projects/xcode/iOS/iOSBase/iOSBase.xcodeproj/project.xcworkspace/
 egg.textClipping
 
 *.xcscmblueprint
-toolkit/Source/src/gs2d/vendors/fmod/lib/readme.txt
-toolkit/Source/src/gs2d/vendors/fmod/lib/libfmod.dylib
-toolkit/Source/src/gs2d/vendors/fmod/lib/libfmodL.dylib
+toolkit/Source/src/gs2d/vendors/fmod/lib/
 toolkit/Source/projects/xcode/OSXMachine/machine.xcodeproj/xcshareddata/xcschemes/machine.xcscheme
 
 toolkit/Source/src/gs2d/vendors/SDL2-2.0.10/
