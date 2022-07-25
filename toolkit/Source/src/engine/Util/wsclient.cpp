@@ -382,15 +382,6 @@ void WebsocketClient::OnRead(beast::error_code ec, std::size_t bytes_transferred
 		return;
 	}
 
-	// TODO: Remove:
-	std::string tipo("texto");
-	// do something with it
-	if(m_ws.got_binary())
-	{
-		tipo = "binario";
-	}
-	///
-
 	CScriptAny* parsed_data = new CScriptAny(ETHScriptWrapper::m_pASEngine);
 	size_t size = m_input_buffer.size();
 	size_t offset = 0;
@@ -623,22 +614,28 @@ struct as_any_visitor : msgpack::v2::null_visitor {
 	bool visit_boolean(bool value) {
 		return insert_value(&value, asTYPEID_BOOL);
 	}
+	
 	bool visit_positive_integer(uint64_t value) {
 		return insert_value(&value, asTYPEID_INT64);
 	}
+	
 	bool visit_negative_integer(int64_t value) {
 		return insert_value(&value, asTYPEID_INT64);
 	}
+	
 	bool visit_str(const char* value, uint32_t size) {
 		std::string string_value(value, size);
 		return insert_value((void*)&string_value, m_ti_string->GetTypeId());
 	}
+
 	bool visit_float32(float value) {
 		return insert_value(&value, asTYPEID_FLOAT);
 	}
+
 	bool visit_float64(double value) {
 		return insert_value(&value, asTYPEID_DOUBLE);
 	}
+
 	bool start_array(uint32_t /*num_elements*/) {
 		m_parent_is_dictionary.push_back(m_current_is_dictionary);
 		m_current_is_dictionary = false;
@@ -661,17 +658,21 @@ struct as_any_visitor : msgpack::v2::null_visitor {
 		m_parent_dictionary.push_back(m_current_dictionary);
 		return (m_current_dictionary = CScriptDictionary::Create(ETHScriptWrapper::m_pASEngine));
 	}
+
 	bool start_map_key() {
 		m_is_key = true;
 		return true;
 	}
+
 	bool end_map_key() {
 		m_is_key = false;
 		return true;
 	}
+
 	bool end_map_value() {
 		return true;
 	}
+
 	bool end_map() {
 		CScriptDictionary* temp = m_current_dictionary;
 		m_current_is_dictionary = m_parent_is_dictionary.back();
@@ -680,10 +681,12 @@ struct as_any_visitor : msgpack::v2::null_visitor {
 		m_parent_dictionary.pop_back();
 		return insert_value(temp, m_ti_dictionary->GetTypeId());
 	}
+
 	void parse_error(size_t /*parsed_offset*/, size_t error_offset) {
 		// report error.
 		std::cout << "\n ### \n MsgPack Parse error -> error_offset: " << error_offset << "\n ### \n";
 	}
+
 	void insufficient_bytes(size_t /*parsed_offset*/, size_t error_offset) {
 		std::cout << "\n ### \n MsgPack Insufficient Bytes -> error_offset: " << error_offset << "\n ### \n";
 	}
@@ -707,46 +710,10 @@ struct as_any_visitor : msgpack::v2::null_visitor {
 	CScriptDictionary* m_current_dictionary;
 };
 
-//////////////////////////////
-
 struct do_nothing {
 	void operator()(char* /*buffer*/) {
 	}
 };
-
-class as_any_parser : public msgpack::parser<as_any_parser, do_nothing>,
-	public as_any_visitor
-{
-	typedef parser<as_any_parser, do_nothing> parser_t;
-public:
-	as_any_parser(std::size_t initial_buffer_size = MSGPACK_UNPACKER_INIT_BUFFER_SIZE)
-		:	parser_t(do_nothing_, initial_buffer_size),
-			as_any_visitor(m_any)
-	{
-	}
-
-	void write(char const* ptr, std::size_t len) {
-		if (len > this->buffer_capacity()) {
-			this->reserve_buffer(len - this->buffer_capacity());
-		}
-		std::memcpy(this->buffer(), ptr, len);
-		this->buffer_consumed(len);
-	}
-
-	as_any_visitor& visitor() { return *this; }
-	void print()
-	{ 
-		std::cout << /*json_str_ << */std::endl;
-	//	json_str_.clear();
-	}
-private:
-	CScriptAny* m_any;
-	do_nothing do_nothing_;
-//	std::string json_str_;
-};
-
-
-//////////////////////////////
 
 // Serializer methods
 void WebsocketClient::Pack(bool value)
@@ -944,12 +911,9 @@ void WebsocketClient::PackMap(uint32_t length)
 	m_msg_out.pack_map(length);
 }
 
-// TODO: Use parse object to call message callback for each any object in stream
-// Or to populate the array
+// Use parse object to call message callback for each any object in stream
 bool WebsocketClient::ParseMsgPack(CScriptAny* any, const char * data, const size_t size, std::size_t& offset)
 {
-	as_any_parser p(110);
-
 	as_any_visitor visitor(any);
 	std::cout << "\nMessage size: " << size << "\n";
 

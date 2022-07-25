@@ -7,9 +7,9 @@ TODO:
  - Keep connection =>Done
  - Disconnect =>Done
  - ping/pong (latency test) =>Done
- - Serialization format Pack =>Done
- - Serialization format Unpack
- - Event handling
+ - Serialization format Pack| =>Done
+ - Serialization format Unpack =>Done
+ - Event handling =>Done
  - Bonus: Separate msgpack from websocket.
 */
 
