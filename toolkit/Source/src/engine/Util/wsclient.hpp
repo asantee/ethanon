@@ -3,6 +3,7 @@
 /*
 TODO: 
  - Setup connection =>Done
+ - onConnectionFailed
  - Connect =>Done
  - Keep connection =>Done
  - Disconnect =>Done
@@ -72,6 +73,10 @@ class WebsocketClient : public std::enable_shared_from_this<WebsocketClient>
 	asITypeInfo* m_on_disconnect_callbackObjectType;
 	void* m_on_disconnect_callbackObject;
 
+	asIScriptFunction* m_on_connection_failed_callback;
+	asITypeInfo* m_on_connection_failed_callbackObjectType;
+	void* m_on_connection_failed_callbackObject;
+
 	MovingAverage<double> m_latency;
 	bool m_waiting_pong = false;
 	boost::chrono::steady_clock::time_point m_ping_time;
@@ -112,7 +117,7 @@ public:
 	{
 		Disconnect();
 	}
-	
+	void fail(beast::error_code ec, char const* what);
 	void SetGCFlag();
 	bool GetGCFlag();
 	int  GetRefCount();
@@ -171,4 +176,5 @@ public:
 	void SetOnMessageCallback(asIScriptFunction* cb);
 
 	void SetOnDisconnectCallback(asIScriptFunction* cb);
+	void SetOnConnectionFailedCallback(asIScriptFunction* cb);
 };

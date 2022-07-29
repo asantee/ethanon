@@ -6,12 +6,6 @@ namespace websocket = beast::websocket; // from <boost/beast/websocket.hpp>
 namespace net = boost::asio;            // from <boost/asio.hpp>
 using tcp = boost::asio::ip::tcp;       // from <boost/asio/ip/tcp.hpp>
 
-// Report a failure
-void fail(beast::error_code ec, char const* what)
-{
-	std::cerr << what << ": " << ec.message() << "\n";
-}
-
 WebsocketClient::WebsocketClient() : m_resolver(net::make_strand(m_ioc))
 , m_ws(net::make_strand(m_ioc))
 , m_keepalive_timeout(30)
@@ -27,6 +21,9 @@ WebsocketClient::WebsocketClient() : m_resolver(net::make_strand(m_ioc))
 , m_on_disconnect_callback(0)
 , m_on_disconnect_callbackObject(0)
 , m_on_disconnect_callbackObjectType(0)
+, m_on_connection_failed_callback(0)
+, m_on_connection_failed_callbackObject(0)
+, m_on_connection_failed_callbackObjectType(0)
 {
 	// Create a new context for execution
 	m_as_ctx = ETHScriptWrapper::m_pASEngine->CreateContext();
@@ -56,6 +53,23 @@ WebsocketClient::WebsocketClient() : m_resolver(net::make_strand(m_ioc))
 	m_array_type_ids[14] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<any>");
 
 	m_any_array_type_info = ETHScriptWrapper::m_pASEngine->GetTypeInfoByDecl("array<any>");
+}
+
+// Report a failure
+void WebsocketClient::fail(beast::error_code ec, char const* what)
+{
+	std::cerr << what << ": " << ec.message() << "\n";
+	std::string reason(ec.message());
+
+	if (m_on_connection_failed_callback)
+	{
+		m_as_ctx->Prepare(m_on_connection_failed_callback);
+		m_as_ctx->SetObject(m_on_connection_failed_callbackObject);
+
+		// Set the function arguments (reason string)
+		m_as_ctx->SetArgObject(0, &reason);
+		int r = m_as_ctx->Execute();
+	}
 }
 
 //////
@@ -195,6 +209,44 @@ void WebsocketClient::SetOnDisconnectCallback(asIScriptFunction* cb)
 	{
 		// Store the received handle for later use
 		m_on_disconnect_callback = cb;
+
+		// Do not release the received script function 
+		// until it won't be used any more
+	}
+}
+
+void WebsocketClient::SetOnConnectionFailedCallback(asIScriptFunction* cb)
+{
+
+	// Release the previous callback, if any
+	if (m_on_connection_failed_callback)
+		m_on_connection_failed_callback->Release();
+	if (m_on_connection_failed_callbackObject)
+		ETHScriptWrapper::m_pASEngine->ReleaseScriptObject(m_on_connection_failed_callbackObject, m_on_connection_failed_callbackObjectType);
+	m_on_connection_failed_callback = 0;
+	m_on_connection_failed_callbackObject = 0;
+	m_on_connection_failed_callbackObjectType = 0;
+
+	if (cb && cb->GetFuncType() == asFUNC_DELEGATE)
+	{
+		m_on_connection_failed_callbackObject = cb->GetDelegateObject();
+		m_on_connection_failed_callbackObjectType = cb->GetDelegateObjectType();
+		m_on_connection_failed_callback = cb->GetDelegateFunction();
+
+		// Hold on to the object and method
+
+		ETHScriptWrapper::m_pASEngine->AddRefScriptObject(m_on_connection_failed_callbackObject, m_on_connection_failed_callbackObjectType);
+		m_on_connection_failed_callback->AddRef();
+
+		// Release the delegate, since it won't be used anymore
+		ETHScriptWrapper::m_pASEngine->ReleaseScriptObject(cb->GetDelegateObject(), cb->GetDelegateObjectType());
+		cb->Release();
+
+	}
+	else
+	{
+		// Store the received handle for later use
+		m_on_connection_failed_callback = cb;
 
 		// Do not release the received script function 
 		// until it won't be used any more

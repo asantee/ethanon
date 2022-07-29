@@ -104,6 +104,7 @@ asDECLARE_METHOD_WRAPPERPR(WebsocketClient__Pack_vector3, WebsocketClient, Pack,
 asDECLARE_METHOD_WRAPPERPR(WebsocketClient__SetOnConnectCallback, WebsocketClient, SetOnConnectCallback, (asIScriptFunction* cb), void);
 asDECLARE_METHOD_WRAPPERPR(WebsocketClient__SetOnDisconnectCallback, WebsocketClient, SetOnDisconnectCallback, (asIScriptFunction* cb), void);
 asDECLARE_METHOD_WRAPPERPR(WebsocketClient__SetOnMessageCallback, WebsocketClient, SetOnMessageCallback, (asIScriptFunction* cb), void);
+asDECLARE_METHOD_WRAPPERPR(WebsocketClient__SetOnConnectionFailedCallback, WebsocketClient, SetOnConnectionFailedCallback, (asIScriptFunction* cb), void);
 
 
 void RegisterWebSocketClient(asIScriptEngine* pASEngine)
@@ -179,7 +180,9 @@ void RegisterWebSocketClient(asIScriptEngine* pASEngine)
 	// Callbacks
 	r = pASEngine->RegisterFuncdef("void CALLBACK_void()"); assert(r >= 0);
 	r = pASEngine->RegisterFuncdef("void CALLBACK_any(any&in)"); assert(r >= 0);
+	r = pASEngine->RegisterFuncdef("void CALLBACK_string(const string&in)"); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("WebsocketClient", "void SetOnConnect(CALLBACK_void @)", asFUNCTION(WebsocketClient__SetOnConnectCallback), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("WebsocketClient", "void SetOnDisconnect(CALLBACK_void @)", asFUNCTION(WebsocketClient__SetOnDisconnectCallback), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("WebsocketClient", "void SetOnMessage(CALLBACK_any @)", asFUNCTION(WebsocketClient__SetOnMessageCallback), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterObjectMethod("WebsocketClient", "void SetOnConnectionFailed(CALLBACK_string @)", asFUNCTION(WebsocketClient__SetOnConnectionFailedCallback), asCALL_GENERIC); assert(r >= 0);
 }
