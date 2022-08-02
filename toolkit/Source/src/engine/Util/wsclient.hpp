@@ -3,7 +3,7 @@
 /*
 TODO: 
  - Setup connection =>Done
- - onConnectionFailed
+ - onWebsocketFail
  - Connect =>Done
  - Keep connection =>Done
  - Disconnect =>Done
@@ -73,9 +73,9 @@ class WebsocketClient : public std::enable_shared_from_this<WebsocketClient>
 	asITypeInfo* m_on_disconnect_callbackObjectType;
 	void* m_on_disconnect_callbackObject;
 
-	asIScriptFunction* m_on_connection_failed_callback;
-	asITypeInfo* m_on_connection_failed_callbackObjectType;
-	void* m_on_connection_failed_callbackObject;
+	asIScriptFunction* m_on_websocket_fail_callback;
+	asITypeInfo* m_on_websocket_fail_callbackObjectType;
+	void* m_on_websocket_fail_callbackObject;
 
 	MovingAverage<double> m_latency;
 	bool m_waiting_pong = false;
@@ -176,5 +176,5 @@ public:
 	void SetOnMessageCallback(asIScriptFunction* cb);
 
 	void SetOnDisconnectCallback(asIScriptFunction* cb);
-	void SetOnConnectionFailedCallback(asIScriptFunction* cb);
+	void SetOnWebsocketFailCallback(asIScriptFunction* cb);
 };

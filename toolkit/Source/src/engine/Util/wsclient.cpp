@@ -21,9 +21,9 @@ WebsocketClient::WebsocketClient() : m_resolver(net::make_strand(m_ioc))
 , m_on_disconnect_callback(0)
 , m_on_disconnect_callbackObject(0)
 , m_on_disconnect_callbackObjectType(0)
-, m_on_connection_failed_callback(0)
-, m_on_connection_failed_callbackObject(0)
-, m_on_connection_failed_callbackObjectType(0)
+, m_on_websocket_fail_callback(0)
+, m_on_websocket_fail_callbackObject(0)
+, m_on_websocket_fail_callbackObjectType(0)
 {
 	// Create a new context for execution
 	m_as_ctx = ETHScriptWrapper::m_pASEngine->CreateContext();
@@ -60,14 +60,15 @@ void WebsocketClient::fail(beast::error_code ec, char const* what)
 {
 	std::cerr << what << ": " << ec.message() << "\n";
 	std::string reason(ec.message());
-
-	if (m_on_connection_failed_callback)
+	std::string what_str(what);
+	if (m_on_websocket_fail_callback)
 	{
-		m_as_ctx->Prepare(m_on_connection_failed_callback);
-		m_as_ctx->SetObject(m_on_connection_failed_callbackObject);
+		m_as_ctx->Prepare(m_on_websocket_fail_callback);
+		m_as_ctx->SetObject(m_on_websocket_fail_callbackObject);
 
 		// Set the function arguments (reason string)
-		m_as_ctx->SetArgObject(0, &reason);
+		m_as_ctx->SetArgObject(0, &what_str);
+		m_as_ctx->SetArgObject(1, &reason);
 		int r = m_as_ctx->Execute();
 	}
 }
@@ -215,28 +216,28 @@ void WebsocketClient::SetOnDisconnectCallback(asIScriptFunction* cb)
 	}
 }
 
-void WebsocketClient::SetOnConnectionFailedCallback(asIScriptFunction* cb)
+void WebsocketClient::SetOnWebsocketFailCallback(asIScriptFunction* cb)
 {
 
 	// Release the previous callback, if any
-	if (m_on_connection_failed_callback)
-		m_on_connection_failed_callback->Release();
-	if (m_on_connection_failed_callbackObject)
-		ETHScriptWrapper::m_pASEngine->ReleaseScriptObject(m_on_connection_failed_callbackObject, m_on_connection_failed_callbackObjectType);
-	m_on_connection_failed_callback = 0;
-	m_on_connection_failed_callbackObject = 0;
-	m_on_connection_failed_callbackObjectType = 0;
+	if (m_on_websocket_fail_callback)
+		m_on_websocket_fail_callback->Release();
+	if (m_on_websocket_fail_callbackObject)
+		ETHScriptWrapper::m_pASEngine->ReleaseScriptObject(m_on_websocket_fail_callbackObject, m_on_websocket_fail_callbackObjectType);
+	m_on_websocket_fail_callback = 0;
+	m_on_websocket_fail_callbackObject = 0;
+	m_on_websocket_fail_callbackObjectType = 0;
 
 	if (cb && cb->GetFuncType() == asFUNC_DELEGATE)
 	{
-		m_on_connection_failed_callbackObject = cb->GetDelegateObject();
-		m_on_connection_failed_callbackObjectType = cb->GetDelegateObjectType();
-		m_on_connection_failed_callback = cb->GetDelegateFunction();
+		m_on_websocket_fail_callbackObject = cb->GetDelegateObject();
+		m_on_websocket_fail_callbackObjectType = cb->GetDelegateObjectType();
+		m_on_websocket_fail_callback = cb->GetDelegateFunction();
 
 		// Hold on to the object and method
 
-		ETHScriptWrapper::m_pASEngine->AddRefScriptObject(m_on_connection_failed_callbackObject, m_on_connection_failed_callbackObjectType);
-		m_on_connection_failed_callback->AddRef();
+		ETHScriptWrapper::m_pASEngine->AddRefScriptObject(m_on_websocket_fail_callbackObject, m_on_websocket_fail_callbackObjectType);
+		m_on_websocket_fail_callback->AddRef();
 
 		// Release the delegate, since it won't be used anymore
 		ETHScriptWrapper::m_pASEngine->ReleaseScriptObject(cb->GetDelegateObject(), cb->GetDelegateObjectType());
@@ -246,7 +247,7 @@ void WebsocketClient::SetOnConnectionFailedCallback(asIScriptFunction* cb)
 	else
 	{
 		// Store the received handle for later use
-		m_on_connection_failed_callback = cb;
+		m_on_websocket_fail_callback = cb;
 
 		// Do not release the received script function 
 		// until it won't be used any more
@@ -404,7 +405,7 @@ void WebsocketClient::OnHandshake(beast::error_code ec)
 void WebsocketClient::OnWrite(beast::error_code ec, std::size_t bytes_transferred)
 {
 	if(ec)
-		return fail(ec, "write");
+		return	fail(ec, "write");
 	
 	// msg sent, consume output buffer.
 	m_output_buffer.consume(bytes_transferred);
@@ -426,8 +427,10 @@ void WebsocketClient::OnRead(beast::error_code ec, std::size_t bytes_transferred
 {
 	if(ec)
 	{
+		// If error on reading, close conection
 		OnClose(ec);
-		//return fail(ec, "read");
+		//fail(ec, "read");
+		return;
 	}
 
 	if( !m_ws.is_open() ){
