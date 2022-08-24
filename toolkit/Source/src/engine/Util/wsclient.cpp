@@ -437,12 +437,13 @@ void WebsocketClient::OnRead(beast::error_code ec, std::size_t bytes_transferred
 		return;
 	}
 
-	CScriptAny* parsed_data = new CScriptAny(ETHScriptWrapper::m_pASEngine);
 	size_t size = m_input_buffer.size();
 	size_t offset = 0;
-	
+	CScriptAny* parsed_data;
+
 	while(offset < size)
 	{
+		parsed_data = new CScriptAny(ETHScriptWrapper::m_pASEngine);
 		if (ParseMsgPack(parsed_data, net::buffer_cast<char const*>(m_input_buffer.data()), size, offset))
 		{
 			// call AS OnMessage Callback
@@ -469,6 +470,7 @@ void WebsocketClient::OnRead(beast::error_code ec, std::size_t bytes_transferred
 				to a raw data callback.
 			*/
 		}
+		parsed_data->Release();
 	}
 	m_input_buffer.consume(size);
 
@@ -639,25 +641,39 @@ struct as_any_visitor : msgpack::v2::null_visitor {
 			// primitives, Any's weirdness.
 			switch (refTypeId)
 			{
-			case asTYPEID_FLOAT:
-			// this context is needed because Store() accepts only double as floating point
-			{
-				double val = *(float*)ref;
-				value->Store(val);
-			}
-			break;
-			case asTYPEID_UINT64:
-				value->Store(ref, asTYPEID_INT64);
+				case asTYPEID_FLOAT:
+				// this context is needed because Store() accepts only double as floating point
+				{
+					double val = *(float*)ref;
+					value->Store(val);
+				}
 				break;
-			default:
-				if (refTypeId > asTYPEID_DOUBLE || refTypeId == asTYPEID_VOID || refTypeId == asTYPEID_BOOL || refTypeId == asTYPEID_INT64 || refTypeId == asTYPEID_DOUBLE)
-					value->Store(ref, refTypeId);
+				case asTYPEID_UINT64:
+					value->Store(ref, asTYPEID_INT64);
+					break;
+				default:
+					if (refTypeId > asTYPEID_DOUBLE || refTypeId == asTYPEID_VOID || refTypeId == asTYPEID_BOOL || refTypeId == asTYPEID_INT64 || refTypeId == asTYPEID_DOUBLE)
+						value->Store(ref, refTypeId);
+					// release if dictionary
+					if (refTypeId == m_ti_dictionary->GetTypeId())
+						((CScriptDictionary*)ref)->Release();
+
+					// release if array
+					if (refTypeId == m_ti_any_array->GetTypeId())
+						((CScriptArray*)ref)->Release();
+
+					// release if any
+					if (refTypeId == m_ti_any->GetTypeId())
+						((CScriptAny*)ref)->Release();
+
 			}
 			// at this point m_current_array may be null, check that again.
 			if (m_current_array != nullptr)
+			{
+				// All that could be done with 'm_any->CopyFrom(value);' !?!?!?1
 				m_current_array->InsertLast(value);
-			// All that could be done with 'm_any->CopyFrom(value);'
-			// but that copies a lot of things, and why not mess with pointers?
+				value->Release();
+			}
 		}
 		return true;
 	}
@@ -699,12 +715,15 @@ struct as_any_visitor : msgpack::v2::null_visitor {
 	}
 
 	bool end_array() {
+		bool r;
 		CScriptArray* temp = m_current_array;
 		m_current_is_dictionary = m_parent_is_dictionary.back();
 		m_parent_is_dictionary.pop_back();
 		m_current_array = m_parent_array.back();
 		m_parent_array.pop_back();
-		return insert_value(temp, m_ti_any_array->GetTypeId());
+		r = insert_value(temp, m_ti_any_array->GetTypeId());
+		temp->Release();
+		return r;
 	}
 
 	bool start_map(uint32_t /*num_kv_pairs*/) {
