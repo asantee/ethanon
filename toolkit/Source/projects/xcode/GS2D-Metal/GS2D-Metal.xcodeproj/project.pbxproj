@@ -129,9 +129,9 @@
 		AA88D4A026D473B2006E1B63 /* Platform.macosx.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA88D49D26D473B2006E1B63 /* Platform.macosx.mm */; };
 		AA88D4A126D473B2006E1B63 /* Platform.macosx.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA88D49D26D473B2006E1B63 /* Platform.macosx.mm */; };
 		AA88D4A226D473B2006E1B63 /* Platform.macosx.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA88D49D26D473B2006E1B63 /* Platform.macosx.mm */; };
-		AA88D4A326D473B2006E1B63 /* MacOSXFileIOHub.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA88D49F26D473B2006E1B63 /* MacOSXFileIOHub.mm */; };
-		AA88D4A426D473B2006E1B63 /* MacOSXFileIOHub.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA88D49F26D473B2006E1B63 /* MacOSXFileIOHub.mm */; };
-		AA88D4A526D473B2006E1B63 /* MacOSXFileIOHub.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA88D49F26D473B2006E1B63 /* MacOSXFileIOHub.mm */; };
+		AA9849B828F4863B00A16BE3 /* MacOSFileIOHub.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA9849B628F4863B00A16BE3 /* MacOSFileIOHub.mm */; };
+		AA9849B928F4863B00A16BE3 /* MacOSFileIOHub.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA9849B628F4863B00A16BE3 /* MacOSFileIOHub.mm */; };
+		AA9849BA28F4863B00A16BE3 /* MacOSFileIOHub.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA9849B628F4863B00A16BE3 /* MacOSFileIOHub.mm */; };
 		AAC15FAC26E6490100544665 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = AAC15FAB26E6490100544665 /* assets */; };
 		AAC15FAF26E7A21D00544665 /* MetalTexture.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAC15FAD26E7A21D00544665 /* MetalTexture.mm */; };
 		AAC15FB026E7A21D00544665 /* MetalTexture.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAC15FAD26E7A21D00544665 /* MetalTexture.mm */; };
@@ -251,8 +251,8 @@
 		AA88D49526D4686E006E1B63 /* SharedDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SharedDataManager.cpp; path = ../../../../src/gs2d/src/Platform/SharedData/SharedDataManager.cpp; sourceTree = "<group>"; };
 		AA88D49C26D473B2006E1B63 /* Platform.macosx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Platform.macosx.h; path = ../../../../src/gs2d/src/Platform/macosx/Platform.macosx.h; sourceTree = "<group>"; };
 		AA88D49D26D473B2006E1B63 /* Platform.macosx.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Platform.macosx.mm; path = ../../../../src/gs2d/src/Platform/macosx/Platform.macosx.mm; sourceTree = "<group>"; };
-		AA88D49E26D473B2006E1B63 /* MacOSXFileIOHub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacOSXFileIOHub.h; path = ../../../../src/gs2d/src/Platform/macosx/MacOSXFileIOHub.h; sourceTree = "<group>"; };
-		AA88D49F26D473B2006E1B63 /* MacOSXFileIOHub.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MacOSXFileIOHub.mm; path = ../../../../src/gs2d/src/Platform/macosx/MacOSXFileIOHub.mm; sourceTree = "<group>"; };
+		AA9849B628F4863B00A16BE3 /* MacOSFileIOHub.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MacOSFileIOHub.mm; path = ../../../../src/gs2d/src/Platform/macosx/MacOSFileIOHub.mm; sourceTree = "<group>"; };
+		AA9849B728F4863B00A16BE3 /* MacOSFileIOHub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacOSFileIOHub.h; path = ../../../../src/gs2d/src/Platform/macosx/MacOSFileIOHub.h; sourceTree = "<group>"; };
 		AAC15FAB26E6490100544665 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
 		AAC15FAD26E7A21D00544665 /* MetalTexture.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MetalTexture.mm; path = ../../../../src/gs2d/src/Video/Metal/MetalTexture.mm; sourceTree = "<group>"; };
 		AAC15FAE26E7A21D00544665 /* MetalTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalTexture.h; path = ../../../../src/gs2d/src/Video/Metal/MetalTexture.h; sourceTree = "<group>"; };
@@ -411,8 +411,8 @@
 		AA88D41426D45802006E1B63 /* Platform */ = {
 			isa = PBXGroup;
 			children = (
-				AA88D49E26D473B2006E1B63 /* MacOSXFileIOHub.h */,
-				AA88D49F26D473B2006E1B63 /* MacOSXFileIOHub.mm */,
+				AA9849B728F4863B00A16BE3 /* MacOSFileIOHub.h */,
+				AA9849B628F4863B00A16BE3 /* MacOSFileIOHub.mm */,
 				AA88D49C26D473B2006E1B63 /* Platform.macosx.h */,
 				AA88D49D26D473B2006E1B63 /* Platform.macosx.mm */,
 				AA88D49326D4686E006E1B63 /* SharedData.cpp */,
@@ -612,6 +612,7 @@
 				AA88D38D26D4491D006E1B63 /* Renderer.m in Sources */,
 				AA88D35B26D4491D006E1B63 /* GameViewController.m in Sources */,
 				AA88D4A026D473B2006E1B63 /* Platform.macosx.mm in Sources */,
+				AA9849B828F4863B00A16BE3 /* MacOSFileIOHub.mm in Sources */,
 				AA88D3F126D45555006E1B63 /* ApplePlatform.cpp in Sources */,
 				AA88D47026D458C6006E1B63 /* Rect2D.cpp in Sources */,
 				AA88D47326D458C6006E1B63 /* OrientedBoundingBox.cpp in Sources */,
@@ -625,7 +626,6 @@
 				AA88D48F26D46847006E1B63 /* MetalVideo.mm in Sources */,
 				AA88D43C26D4584B006E1B63 /* NativeCommandManager.cpp in Sources */,
 				AA88D36426D4491D006E1B63 /* main.m in Sources */,
-				AA88D4A326D473B2006E1B63 /* MacOSXFileIOHub.mm in Sources */,
 				AA88D47626D458C6006E1B63 /* GameMath.cpp in Sources */,
 				AA88D46A26D458C6006E1B63 /* Matrix4x4.cpp in Sources */,
 				AA88D42D26D4584B006E1B63 /* getRealTime.cpp in Sources */,
@@ -663,6 +663,7 @@
 				AA88D38E26D4491D006E1B63 /* Renderer.m in Sources */,
 				AA88D37026D4491D006E1B63 /* GameViewController.m in Sources */,
 				AA88D4A126D473B2006E1B63 /* Platform.macosx.mm in Sources */,
+				AA9849B928F4863B00A16BE3 /* MacOSFileIOHub.mm in Sources */,
 				AA88D3F226D45555006E1B63 /* ApplePlatform.cpp in Sources */,
 				AA88D47126D458C6006E1B63 /* Rect2D.cpp in Sources */,
 				AA88D47426D458C6006E1B63 /* OrientedBoundingBox.cpp in Sources */,
@@ -676,7 +677,6 @@
 				AA88D49026D46847006E1B63 /* MetalVideo.mm in Sources */,
 				AA88D43D26D4584B006E1B63 /* NativeCommandManager.cpp in Sources */,
 				AA88D37926D4491D006E1B63 /* main.m in Sources */,
-				AA88D4A426D473B2006E1B63 /* MacOSXFileIOHub.mm in Sources */,
 				AA88D47726D458C6006E1B63 /* GameMath.cpp in Sources */,
 				AA88D46B26D458C6006E1B63 /* Matrix4x4.cpp in Sources */,
 				AA88D42E26D4584B006E1B63 /* getRealTime.cpp in Sources */,
@@ -714,6 +714,7 @@
 				AA88D38F26D4491D006E1B63 /* Renderer.m in Sources */,
 				AA88D38526D4491D006E1B63 /* GameViewController.mm in Sources */,
 				AA88D4A226D473B2006E1B63 /* Platform.macosx.mm in Sources */,
+				AA9849BA28F4863B00A16BE3 /* MacOSFileIOHub.mm in Sources */,
 				AA88D3F326D45555006E1B63 /* ApplePlatform.cpp in Sources */,
 				AA88D47226D458C6006E1B63 /* Rect2D.cpp in Sources */,
 				AA88D47526D458C6006E1B63 /* OrientedBoundingBox.cpp in Sources */,
@@ -727,7 +728,6 @@
 				AA88D49126D46847006E1B63 /* MetalVideo.mm in Sources */,
 				AA88D43E26D4584B006E1B63 /* NativeCommandManager.cpp in Sources */,
 				AA88D38B26D4491D006E1B63 /* main.m in Sources */,
-				AA88D4A526D473B2006E1B63 /* MacOSXFileIOHub.mm in Sources */,
 				AA88D47826D458C6006E1B63 /* GameMath.cpp in Sources */,
 				AA88D46C26D458C6006E1B63 /* Matrix4x4.cpp in Sources */,
 				AA88D42F26D4584B006E1B63 /* getRealTime.cpp in Sources */,

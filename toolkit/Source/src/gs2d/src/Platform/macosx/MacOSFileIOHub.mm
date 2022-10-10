@@ -1,4 +1,4 @@
-#include "MacOSXFileIOHub.h"
+#include "MacOSFileIOHub.h"
 #include "../Platform.h"
 #include "../FileLogger.h"
 #include "../../Application.h"
@@ -12,13 +12,13 @@ FileIOHubPtr CreateFileIOHub(
 	const std::string& fontDirectory,
 	const std::string* resourceDirectory)
 {
-	Platform::FileIOHubPtr r = FileIOHubPtr(new MacOSXFileIOHub(fileManager, fontDirectory));
+	Platform::FileIOHubPtr r = FileIOHubPtr(new MacOSFileIOHub(fileManager, fontDirectory));
 	if (resourceDirectory != 0)
 		r->SetResourceDirectory(*resourceDirectory);
 	return r;
 }
 
-MacOSXFileIOHub::MacOSXFileIOHub(
+MacOSFileIOHub::MacOSFileIOHub(
 	Platform::FileManagerPtr fileManager,
 	const std::string& bitmapFontSearchDirectory) :
 	FileIOHub(
@@ -38,7 +38,7 @@ MacOSXFileIOHub::MacOSXFileIOHub(
 	gs2d::ShowMessage(std::string("GExternal: ") + GetGlobalExternalStorageDirectory(), gs2d::GSMT_INFO);
 }
 
-std::string MacOSXFileIOHub::GetGlobalExternalStorageDirectory() const
+std::string MacOSFileIOHub::GetGlobalExternalStorageDirectory() const
 {
 	// create directory before informing it to the user
 	// it forces your application to create the directory only if the user will need it
@@ -46,12 +46,12 @@ std::string MacOSXFileIOHub::GetGlobalExternalStorageDirectory() const
 	return FileIOHub::GetGlobalExternalStorageDirectory();
 }
 
-void MacOSXFileIOHub::SetFileManager(Platform::FileManagerPtr fileManager, const std::string& resourceDirectory)
+void MacOSFileIOHub::SetFileManager(Platform::FileManagerPtr fileManager, const std::string& resourceDirectory)
 {
     // not supported
 }
 
-bool MacOSXFileIOHub::IsResourcePackingSupported()
+bool MacOSFileIOHub::IsResourcePackingSupported()
 {
 	return false;
 }

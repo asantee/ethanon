@@ -1,14 +1,14 @@
-#ifndef MACOSX_FILE_IO_HUB_H_
-#define MACOSX_FILE_IO_HUB_H_
+#ifndef MACOS_FILE_IO_HUB_H_
+#define MACOS_FILE_IO_HUB_H_
 
 #include "../FileIOHub.h"
 
 namespace Platform {
 
-class MacOSXFileIOHub : public FileIOHub
+class MacOSFileIOHub : public FileIOHub
 {
 public:
-	MacOSXFileIOHub(
+	MacOSFileIOHub(
 		Platform::FileManagerPtr fileManager,
 		const std::string& bitmapFontSearchDirectory);
 
@@ -17,7 +17,7 @@ public:
 	std::string GetGlobalExternalStorageDirectory() const;
 };
 
-typedef boost::shared_ptr<MacOSXFileIOHub> MacOSXFileIOHubPtr;
+typedef boost::shared_ptr<MacOSFileIOHub> MacOSFileIOHubPtr;
 
 }
 
