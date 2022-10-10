@@ -8,4 +8,11 @@
 
 @property (strong, nonatomic) AppleApplication *ethanonApplication;
 
+@property (nonatomic, strong) id connectObserver;
+@property (nonatomic, strong) id disconnectObserver;
+@property (nonatomic, strong) id pauseToggleObserver;
+
+@property (strong, nonatomic) NSMutableArray* touches;
+@property (strong, nonatomic) NSLock* arrayLock;
+
 @end
