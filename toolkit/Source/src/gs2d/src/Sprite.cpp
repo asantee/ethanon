@@ -7,11 +7,15 @@
 #endif
 
 #if defined(__ANDROID__)
- #include "Video/GLES2/GLES2ShaderCode.h"
+	#include "Video/GLES2/GLES2ShaderCode.h"
 #elif TARGET_OS_IPHONE
- #include "Video/Metal/MetalShaderCode.h"
+	#if GLES2
+		#include "Video/GLES2/GLES2ShaderCode.h"
+	#else
+		#include "Video/Metal/MetalShaderCode.h"
+	#endif
 #elif TARGET_OS_MAC || defined(_WIN32) || defined(_WIN64)
- #include "Video/GL/GLShaderCode.h"
+	#include "Video/GL/GLShaderCode.h"
 #endif
 
 namespace gs2d {
