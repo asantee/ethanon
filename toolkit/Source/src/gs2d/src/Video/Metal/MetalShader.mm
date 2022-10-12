@@ -40,9 +40,9 @@ void SetupPipelineDescriptorBlending(MTLRenderPipelineDescriptor* descriptor, co
 		colorAttachments.rgbBlendOperation = MTLBlendOperationAdd;
 		colorAttachments.alphaBlendOperation = MTLBlendOperationAdd;
 		colorAttachments.sourceRGBBlendFactor = MTLBlendFactorSourceAlpha;
-		colorAttachments.sourceAlphaBlendFactor = MTLBlendFactorSourceAlpha;
+		colorAttachments.sourceAlphaBlendFactor = MTLBlendFactorDestinationAlpha;
 		colorAttachments.destinationRGBBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
-		colorAttachments.destinationAlphaBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
+		colorAttachments.destinationAlphaBlendFactor = MTLBlendFactorOneMinusBlendAlpha;
 		break;
 	}
 }
