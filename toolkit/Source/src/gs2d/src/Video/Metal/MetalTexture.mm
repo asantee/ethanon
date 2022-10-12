@@ -119,7 +119,7 @@ bool MetalTexture::LoadTexture(
 
 	MTLTextureDescriptor *textureDescriptor = [[MTLTextureDescriptor alloc] init];
 
-	textureDescriptor.pixelFormat = MTLPixelFormatBGRA8Unorm;
+	textureDescriptor.pixelFormat = m_video->GetPixelFormat();
 
 	textureDescriptor.width = width;
 	textureDescriptor.height = height;
