@@ -20,7 +20,7 @@
 	
 	MTKView *_view;
 	
-	MetalViewDelegate *_renderer;
+	MetalViewDelegate *m_viewDelegate;
 
 	float m_pixelDensity;
 }
@@ -72,11 +72,11 @@
 	self.ethanonApplication = [[AppleApplication alloc] initWithVideo:m_video audio:m_audio input:m_input];
 
 	// setup renderer
-	_renderer = [[MetalViewDelegate alloc] initWithMetalVideo:metalVideo fileIOHub:fileIOHub application:self.ethanonApplication];
+	m_viewDelegate = [[MetalViewDelegate alloc] initWithMetalVideo:metalVideo fileIOHub:fileIOHub application:self.ethanonApplication];
 
-	[_renderer mtkView:_view drawableSizeWillChange:_view.bounds.size];
+	[m_viewDelegate mtkView:_view drawableSizeWillChange:_view.drawableSize];
 
-	_view.delegate = _renderer;
+	_view.delegate = m_viewDelegate;
 }
 
 - (void)viewDidAppear:(BOOL)animated
