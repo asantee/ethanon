@@ -58,6 +58,7 @@ public:
 	gs2d::Application::APP_STATUS Update(const float lastFrameDeltaTimeMS); 
 	void RenderFrame();
 	void Destroy();
+	void ReleaseSpriteResources();
 	void Restore();
 	void Resume();
 

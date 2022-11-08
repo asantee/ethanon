@@ -43,7 +43,7 @@ boost::shared_ptr<Platform::ZipFileManager> zip;
 SpritePtr splashSprite, cogSprite;
 ETHEnginePtr engine;
 Vector2 lastCameraPos(0.0f, 0.0f);
-
+Color lastBackgroundColor(0xFFFFFFFF);
 
 void ReleaseLoadingSprite(SpritePtr& sprite)
 {
@@ -76,6 +76,7 @@ JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_start(
 	input = CreateInput(true, &g_inputStr);
 	audio = CreateAudio(0);
 
+	video->SetBackgroundColor(lastBackgroundColor);
 	video->SetCameraPos(lastCameraPos);
 
 	video->ResetVideoMode(width, height, Texture::PF_DEFAULT, false);
@@ -92,7 +93,8 @@ JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_start(
 	}
 	else
 	{
-		application->Start(video, input, audio);
+		engine->ReleaseSpriteResources();
+		engine->Start(video, input, audio);
 	}
 }
 
@@ -181,6 +183,7 @@ JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_mainLoop(JNIEnv* env, jo
 		application->Update(Min(1000.0f, lastFrameElapsedTime));
 
 		lastCameraPos = video->GetCameraPos();
+		lastBackgroundColor = video->GetBackgroundColor();
 
 		application->RenderFrame();
 
