@@ -273,6 +273,11 @@ void ETHEngine::Destroy()
 	m_provider->GetAudioResourceManager()->ReleaseResources();
 }
 
+void ETHEngine::ReleaseSpriteResources()
+{
+	m_provider->GetGraphicResourceManager()->ReleaseResources();
+}
+
 bool ETHEngine::PrepareScriptingEngine(const std::vector<std::string>& definedWords)
 {
 	m_pASEngine = asCreateScriptEngine(ANGELSCRIPT_VERSION);
