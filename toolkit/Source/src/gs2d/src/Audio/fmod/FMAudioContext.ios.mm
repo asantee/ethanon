@@ -10,6 +10,8 @@
 
 namespace gs2d {
 
+static bool g_suspended = false;
+
 void FMAudioContext::CommonInit(Platform::FileLogger &logger)
 {
     /*
@@ -52,7 +54,90 @@ void FMAudioContext::CommonInit(Platform::FileLogger &logger)
     /*
         Set up some observers for various notifications
     */
-    [[NSNotificationCenter defaultCenter] addObserverForName:AVAudioSessionInterruptionNotification object:nil queue:nil usingBlock:^(NSNotification *notification)
+	[[NSNotificationCenter defaultCenter] addObserverForName:AVAudioSessionInterruptionNotification object:nil queue:nil usingBlock:^(NSNotification *notification)
+	{
+		const bool began = [[notification.userInfo valueForKey:AVAudioSessionInterruptionTypeKey] intValue] == AVAudioSessionInterruptionTypeBegan;
+
+		if (began == g_suspended)
+		{
+			return;
+		}
+		
+		if (began)
+		{
+			NSLog(@"Interruption started");
+			if (m_system)
+			{
+				FMOD_RESULT result = m_system->mixerSuspend();
+				FMOD_ERRCHECK_fn(result, __FILE__, __LINE__, logger);
+			}
+		}
+		else
+		{
+			NSLog(@"Interruption ended");
+			NSError* error;
+			BOOL success;
+			const unsigned int maxTries = 40;
+			unsigned int tryCount = 0;
+			while (!(success = [[AVAudioSession sharedInstance] setActive:TRUE error:&error]) && tryCount < maxTries)
+			{
+				++tryCount;
+				if (error != nil)
+				{
+					NSLog(@"%@", [error description]);
+				}
+				[NSThread sleepForTimeInterval:0.1f];
+			}
+			logger.Log("AVAudioSession setActive failed!", Platform::Logger::LT_ERROR);
+
+			if (m_system)
+			{
+				FMOD_RESULT result = m_system->mixerResume();
+				FMOD_ERRCHECK_fn(result, __FILE__, __LINE__, logger);
+			}
+		}
+
+		if (began && [[notification.userInfo valueForKey:AVAudioSessionInterruptionWasSuspendedKey] boolValue])
+		{
+			return;
+		}
+
+		g_suspended = began;
+		if (!began)
+		{
+			[[AVAudioSession sharedInstance] setActive:TRUE error:nil];
+		}
+
+		/*if (gSuspendCallback)
+		{
+			gSuspendCallback(began);
+		}*/
+	}];
+
+	[[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidBecomeActiveNotification object:nil queue:nil usingBlock:^(NSNotification *notification)
+	{
+		#ifndef TARGET_OS_TV
+			if (!g_suspended)
+			{
+				return;
+			}
+		#else
+			/*if (gSuspendCallback)
+			{
+				gSuspendCallback(true);
+			}*/
+		#endif
+
+		[[AVAudioSession sharedInstance] setActive:TRUE error:nil];
+		/*if (gSuspendCallback)
+		{
+			gSuspendCallback(false);
+		}*/
+		g_suspended = false;
+	}];
+
+	
+	/* [[NSNotificationCenter defaultCenter] addObserverForName:AVAudioSessionInterruptionNotification object:nil queue:nil usingBlock:^(NSNotification *notification)
     {
 		NSLog(@"Start Interruption");
 		if ([[notification.userInfo valueForKey:AVAudioSessionInterruptionTypeKey] intValue] == AVAudioSessionInterruptionTypeBegan)
@@ -97,58 +182,7 @@ void FMAudioContext::CommonInit(Platform::FileLogger &logger)
             bool began = [[notification.userInfo valueForKey:AVAudioSessionSilenceSecondaryAudioHintTypeKey] intValue] == AVAudioSessionSilenceSecondaryAudioHintTypeBegin;
             NSLog(@"Silence secondary audio %@", began ? @"Began" : @"Ended");
         }];
-    }
-
-    /*[[NSNotificationCenter defaultCenter] addObserverForName:AVAudioSessionRouteChangeNotification object:nil queue:nil usingBlock:^(NSNotification *notification)
-    {
-        NSNumber *reason = [[notification userInfo] valueForKey:AVAudioSessionRouteChangeReasonKey];
-        AVAudioSessionPortDescription *oldOutput = [[[notification userInfo] valueForKey:AVAudioSessionRouteChangePreviousRouteKey] outputs][0];
-        AVAudioSessionPortDescription *newOutput = [[[AVAudioSession sharedInstance] currentRoute] outputs][0];
-
-        const char *reasonString = NULL;
-        switch ([reason intValue])
-        {
-            case AVAudioSessionRouteChangeReasonNewDeviceAvailable:         reasonString = "New Device Available";              break;
-            case AVAudioSessionRouteChangeReasonOldDeviceUnavailable:       reasonString = "Old Device Unavailable";            break;
-            case AVAudioSessionRouteChangeReasonCategoryChange:             reasonString = "Category Change";                   break;
-            case AVAudioSessionRouteChangeReasonOverride:                   reasonString = "Override";                          break;
-            case AVAudioSessionRouteChangeReasonWakeFromSleep:              reasonString = "Wake From Sleep";                   break;
-            case AVAudioSessionRouteChangeReasonNoSuitableRouteForCategory: reasonString = "No Suitable Route For Category";    break;
-            case AVAudioSessionRouteChangeReasonRouteConfigurationChange:   reasonString = "Configuration Change";              break;
-            default:                                                        reasonString = "Unknown";
-        }
-
-        NSLog(@"Output route has changed from %dch %@ to %dch %@ due to '%s'", (int)[[oldOutput channels] count], [oldOutput portName], (int)[[newOutput channels] count], [newOutput portName], reasonString);
-    }];*/
-
-    /*if (&AVAudioSessionMediaServicesWereLostNotification)
-    {
-        [[NSNotificationCenter defaultCenter] addObserverForName:AVAudioSessionMediaServicesWereLostNotification object:nil queue:nil usingBlock:^(NSNotification *notification)
-        {
-            NSLog(@"Media services were lost");
-        }];
-    }
-    [[NSNotificationCenter defaultCenter] addObserverForName:AVAudioSessionMediaServicesWereResetNotification object:nil queue:nil usingBlock:^(NSNotification *notification)
-    {
-        NSLog(@"Media services were reset");
-    }];
-
-    [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidBecomeActiveNotification object:nil queue:nil usingBlock:^(NSNotification *notification)
-    {
-        NSLog(@"Application did become active");
-    }];
-    [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillResignActiveNotification object:nil queue:nil usingBlock:^(NSNotification *notification)
-    {
-        NSLog(@"Application will resign active");
-    }];
-    [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidEnterBackgroundNotification object:nil queue:nil usingBlock:^(NSNotification *notification)
-    {
-        NSLog(@"Application did enter background");
-    }];
-    [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillEnterForegroundNotification object:nil queue:nil usingBlock:^(NSNotification *notification)
-    {
-        NSLog(@"Application will enter foreground");
-    }];*/
+    }*/
 
     /*
         Activate the audio session

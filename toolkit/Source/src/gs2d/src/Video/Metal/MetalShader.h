@@ -24,7 +24,6 @@ class MetalShader : public Shader
 	Platform::FileManagerPtr m_fileManager;
 
 	MetalVideo* m_metalVideo;
-	MTKView* m_view;
 	id<MTLDevice> m_device;
 
 	id<MTLLibrary> m_library;
@@ -33,6 +32,8 @@ class MetalShader : public Shader
 	std::vector<uint8_t> m_shaderBytes;
 	tsl::hopscotch_map<Video::ALPHA_MODE, id<MTLRenderPipelineState> > m_renderPipelineStates;
 	//id<MTLDepthStencilState> m_depthState;
+
+	MTLPixelFormat m_pixelFormat;
 
 	struct UniformBufferMember
 	{
@@ -51,7 +52,7 @@ class MetalShader : public Shader
 public:
 	static const uint8_t MAX_BUFFERS_IN_FLIGHT;
 
-	MetalShader(MetalVideo* metalVideo, Platform::FileManagerPtr fileManager);
+	MetalShader(MetalVideo* metalVideo, const MTLPixelFormat pixelFormat, Platform::FileManagerPtr fileManager);
 	~MetalShader();
 
 	bool LoadShaderFromFile(
