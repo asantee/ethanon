@@ -1,7 +1,5 @@
 #import "AppleApplication.h"
 
-#import "../NativeCommandManager.h"
-
 #import "../../Video.h"
 #import "../../Audio.h"
 #import "../../Input.h"
@@ -11,6 +9,8 @@
 #import "../../BaseApplication.h"
 
 #import "../../Platform/ios/IOSFileIOHub.h"
+
+#import "../../Platform/ios/IOSNativeCommandListener.h"
 
 #import "../../Input/iOS/IOSInput.h"
 
@@ -54,6 +54,8 @@
 	m_engine = gs2d::CreateBaseApplication();
 	m_engine->Start(m_video, m_input, m_audio);
 	
+	m_commandManager.InsertCommandListener(Platform::IOSNativeCommmandListenerPtr(new Platform::IOSNativeCommmandListener));
+
 	return self;
 }
 
@@ -112,6 +114,11 @@
 	{
 		input->ForcePause();
 	}
+}
+
+- (void)insertCommandListener:(const Platform::NativeCommandListenerPtr) listener
+{
+	m_commandManager.InsertCommandListener(listener);
 }
 
 @end
