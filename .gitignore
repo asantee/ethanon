@@ -192,3 +192,5 @@ toolkit/Source/projects/xcode/OSXMachine/machine.xcodeproj/xcshareddata/xcscheme
 
 toolkit/Source/src/gs2d/vendors/SDL2-2.0.10/
 toolkit/Source/src/gs2d/vendors/glext/
+
+toolkit/Source/src/vendors/openssl-xcode/*
