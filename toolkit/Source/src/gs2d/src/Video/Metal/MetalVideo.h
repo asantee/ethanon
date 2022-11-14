@@ -20,8 +20,11 @@ class MetalVideo : public Video, public Platform::NativeCommandForwarder
 	id<MTLCommandBuffer> m_commandBuffer;
 	id<MTLRenderCommandEncoder> m_commandEncoder;
 	MTLRenderPassDescriptor* m_renderPassDescriptor;
-	MTKView* m_view;
-	
+
+	id<CAMetalDrawable> m_currentDrawable;
+	MTLPixelFormat m_drawablePixelFormat;
+	CAMetalLayer* m_currentMetalLayer;
+
 	Platform::FileIOHubPtr m_fileIOHub;
 	bool m_quit;
 	double m_startTime;
@@ -37,10 +40,12 @@ class MetalVideo : public Video, public Platform::NativeCommandForwarder
 	ALPHA_MODE m_alphaMode;
 	
 public:
-	MetalVideo(Platform::FileIOHubPtr fileIOHub, MTKView* view);
+	MetalVideo(Platform::FileIOHubPtr fileIOHub, const MTLPixelFormat drawablePixelFormat);
 
+	MTLPixelFormat GetPixelFormat() const;
+	void SetCurrentMetalLayer(CAMetalLayer* currentMetalLayer);
+	CAMetalLayer* GetCurrentMetalLayer();
 	id<MTLDevice> GetDevice();
-	MTKView* GetView();
 	id<MTLRenderCommandEncoder> GetRenderCommandEncoder();
 	uint8_t GetUniformBufferIndex() const;
 

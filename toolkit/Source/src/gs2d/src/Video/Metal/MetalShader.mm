@@ -40,19 +40,19 @@ void SetupPipelineDescriptorBlending(MTLRenderPipelineDescriptor* descriptor, co
 		colorAttachments.rgbBlendOperation = MTLBlendOperationAdd;
 		colorAttachments.alphaBlendOperation = MTLBlendOperationAdd;
 		colorAttachments.sourceRGBBlendFactor = MTLBlendFactorSourceAlpha;
-		colorAttachments.sourceAlphaBlendFactor = MTLBlendFactorSourceAlpha;
+		colorAttachments.sourceAlphaBlendFactor = MTLBlendFactorDestinationAlpha;
 		colorAttachments.destinationRGBBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
-		colorAttachments.destinationAlphaBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
+		colorAttachments.destinationAlphaBlendFactor = MTLBlendFactorOneMinusBlendAlpha;
 		break;
 	}
 }
 
-MetalShader::MetalShader(MetalVideo* metalVideo, Platform::FileManagerPtr fileManager) :
+MetalShader::MetalShader(MetalVideo* metalVideo, const MTLPixelFormat pixelFormat, Platform::FileManagerPtr fileManager) :
 	m_metalVideo(metalVideo),
-	m_fileManager(fileManager)
+	m_fileManager(fileManager),
+	m_pixelFormat(pixelFormat)
 {
-	m_view = metalVideo->GetView();
-	m_device = m_view.device;
+	m_device = metalVideo->GetDevice();
 }
 
 MetalShader::~MetalShader()
@@ -142,11 +142,16 @@ bool MetalShader::LoadShaderFromString(
 		MTLRenderPipelineDescriptor* pipelineDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
 		pipelineDescriptor.vertexFunction = m_vertexFunction;
 		pipelineDescriptor.fragmentFunction = m_fragmentFunction;
-		pipelineDescriptor.sampleCount = m_view.sampleCount;
-		pipelineDescriptor.colorAttachments[0].pixelFormat = m_view.colorPixelFormat;
-		pipelineDescriptor.depthAttachmentPixelFormat = m_view.depthStencilPixelFormat;
-		pipelineDescriptor.stencilAttachmentPixelFormat = m_view.depthStencilPixelFormat;
 
+		//pipelineDescriptor.sampleCount = m_view.sampleCount;
+		pipelineDescriptor.colorAttachments[0].pixelFormat = m_pixelFormat;
+		//pipelineDescriptor.colorAttachments[0].pixelFormat = m_view.colorPixelFormat;
+		//pipelineDescriptor.depthAttachmentPixelFormat = m_view.depthStencilPixelFormat;
+		//pipelineDescriptor.stencilAttachmentPixelFormat = m_view.depthStencilPixelFormat;
+
+		// depth
+		//pipelineDescriptor.depthAttachmentPixelFormat      = AAPLDepthPixelFormat;
+		
 		SetupPipelineDescriptorBlending(pipelineDescriptor, modes[t]);
 
 		// create uniform buffers

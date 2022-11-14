@@ -9,28 +9,29 @@
 namespace gs2d {
 
 MetalVideo::MetalVideo(
-	Platform::FileIOHubPtr fileIOHub,
-	MTKView *view) :
+	Platform::FileIOHubPtr fileIOHub, const MTLPixelFormat drawablePixelFormat) :
 	m_fileIOHub(fileIOHub),
-	m_view(view),
+	m_drawablePixelFormat(drawablePixelFormat),
 	m_quit(false),
 	m_fpsRate(60.0f),
+	m_currentMetalLayer(nil),
+	m_currentDrawable(nil),
 	m_renderPassDescriptor(nil),
 	m_uniformBufferIndex(0),
 	m_alphaMode(Video::AM_PIXEL)
 {
 	m_startTime = getRealTime();
 
-	m_screenSizeInPixels.x = view.bounds.size.width;
-	m_screenSizeInPixels.y = view.bounds.size.height;
+	m_screenSizeInPixels.x = 1280;
+	m_screenSizeInPixels.y = 720;
 
 	m_device = MTLCreateSystemDefaultDevice();
 	
 	m_commandQueue = [m_device newCommandQueue];
 
-	m_view.depthStencilPixelFormat = MTLPixelFormatDepth32Float_Stencil8;
-	m_view.colorPixelFormat = MTLPixelFormatBGRA8Unorm;
-	m_view.sampleCount = 1;
+	//m_view.depthStencilPixelFormat = MTLPixelFormatDepth32Float_Stencil8;
+	//m_view.colorPixelFormat = MTLPixelFormatBGRA8Unorm;
+	//m_view.sampleCount = 1;
 
 	m_inFlightSemaphore = dispatch_semaphore_create(MetalShader::MAX_BUFFERS_IN_FLIGHT);
 	
@@ -52,7 +53,20 @@ bool MetalVideo::BeginRendering(const Color& bgColor)
 		dispatch_semaphore_signal(block_sema);
 	}];
 
-	m_renderPassDescriptor = m_view.currentRenderPassDescriptor;
+	m_currentDrawable = [m_currentMetalLayer nextDrawable];
+	
+	//m_renderPassDescriptor = m_view.currentRenderPassDescriptor;
+	m_renderPassDescriptor = [MTLRenderPassDescriptor new];
+	m_renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
+	m_renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
+
+	m_renderPassDescriptor.colorAttachments[0].texture = m_currentDrawable.texture;
+
+	// create depth buffer
+	//m_renderPassDescriptor.depthAttachment.loadAction = MTLLoadActionClear;
+	//m_renderPassDescriptor.depthAttachment.storeAction = MTLStoreActionDontCare;
+	//m_renderPassDescriptor.depthAttachment.clearDepth = 1.0;
+	
 	if (m_renderPassDescriptor != nil)
 	{
 		m_renderPassDescriptor.colorAttachments[0].clearColor =
@@ -68,7 +82,7 @@ bool MetalVideo::EndRendering()
 	if (m_renderPassDescriptor != nil)
 	{
 		[m_commandEncoder endEncoding];
-		[m_commandBuffer presentDrawable:m_view.currentDrawable];
+		[m_commandBuffer presentDrawable:m_currentDrawable];
 	}
 
 	[m_commandBuffer commit];
@@ -91,7 +105,7 @@ ShaderPtr MetalVideo::LoadShaderFromFile(
 	const std::string& psFileName,
 	const std::string& psEntry)
 {
-	ShaderPtr shader = ShaderPtr(new MetalShader(this, GetFileIOHub()->GetFileManager()));
+	ShaderPtr shader = ShaderPtr(new MetalShader(this, GetPixelFormat(), GetFileIOHub()->GetFileManager()));
 	if (shader->LoadShaderFromFile(ShaderContextPtr(), vsFileName, vsEntry, psFileName, psEntry))
 	{
 		return shader;
@@ -110,7 +124,7 @@ ShaderPtr MetalVideo::LoadShaderFromString(
 	const std::string& psCodeAsciiString,
 	const std::string& psEntry)
 {
-	ShaderPtr shader(new MetalShader(this, GetFileIOHub()->GetFileManager()));
+	ShaderPtr shader(new MetalShader(this, GetPixelFormat(), GetFileIOHub()->GetFileManager()));
 	if (shader->LoadShaderFromString(
 		ShaderContextPtr(),
 		vsShaderName,
@@ -159,14 +173,24 @@ TexturePtr MetalVideo::LoadTextureFromFile(
 	}
 }
 
+void MetalVideo::SetCurrentMetalLayer(CAMetalLayer* currentMetalLayer)
+{
+	m_currentMetalLayer = currentMetalLayer;
+}
+
+CAMetalLayer* MetalVideo::GetCurrentMetalLayer()
+{
+	return m_currentMetalLayer;
+}
+
+MTLPixelFormat MetalVideo::GetPixelFormat() const
+{
+	return m_drawablePixelFormat;
+}
+
 id<MTLDevice> MetalVideo::GetDevice()
 {
 	return m_device;
-}
-
-MTKView* MetalVideo::GetView()
-{
-	return m_view;
 }
 
 uint8_t MetalVideo::GetUniformBufferIndex() const

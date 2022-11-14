@@ -7,6 +7,17 @@
 
 namespace Platform {
 
+FileIOHubPtr CreateFileIOHub(
+	const Platform::FileManagerPtr& fileManager,
+	const std::string& fontDirectory,
+	const std::string* resourceDirectory)
+{
+	Platform::FileIOHubPtr r = FileIOHubPtr(new IOSFileIOHub(fontDirectory));
+	if (resourceDirectory != 0)
+		r->SetResourceDirectory(*resourceDirectory);
+	return r;
+}
+
 IOSFileIOHub::IOSFileIOHub(const std::string& bitmapFontSearchDirectory) :
 	FileIOHub(
 		Platform::StdFileManagerPtr(new Platform::StdFileManager()),

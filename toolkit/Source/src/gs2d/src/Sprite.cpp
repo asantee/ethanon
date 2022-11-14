@@ -6,10 +6,16 @@
  #include "TargetConditionals.h"
 #endif
 
-#if TARGET_OS_IPHONE || defined(__ANDROID__)
- #include "Video/GLES2/GLES2ShaderCode.h"
+#if defined(__ANDROID__)
+	#include "Video/GLES2/GLES2ShaderCode.h"
+#elif TARGET_OS_IPHONE
+	#if GLES2
+		#include "Video/GLES2/GLES2ShaderCode.h"
+	#else
+		#include "Video/Metal/MetalShaderCode.h"
+	#endif
 #elif TARGET_OS_MAC || defined(_WIN32) || defined(_WIN64)
- #include "Video/GL/GLShaderCode.h"
+	#include "Video/GL/GLShaderCode.h"
 #endif
 
 namespace gs2d {
@@ -47,57 +53,57 @@ void Sprite::Initialize(Video* video)
 	if (!m_defaultShader)
 	{
 		m_defaultShader = video->LoadShaderFromString(
-			"default_sprite_vs", gs2d_shaders::default_sprite_vs, "",
-			"default_sprite_fs", gs2d_shaders::default_sprite_fs, "");
+			"default_sprite_vs", gs2d_shaders::default_sprite_vs, "vertex_main",
+			"default_sprite_fs", gs2d_shaders::default_sprite_fs, "fragment_main");
 	}
 
 	if (!m_fastShader)
 	{
 		m_fastShader = video->LoadShaderFromString(
-			"default_sprite_fast_vs", gs2d_shaders::default_sprite_fast_vs, "",
-			"default_sprite_fs", gs2d_shaders::default_sprite_fs, "");
+			"default_sprite_fast_vs", gs2d_shaders::default_sprite_fast_vs, "vertex_main",
+			"default_sprite_fs", gs2d_shaders::default_sprite_fs, "fragment_main");
 	}
 
 	if (!m_solidColorShader)
 	{
 		m_solidColorShader = video->LoadShaderFromString(
-			"default_sprite_vs", gs2d_shaders::default_sprite_vs, "",
-			"default_sprite_solid_color_fs", gs2d_shaders::default_sprite_solid_color_fs, "");
+			"default_sprite_vs", gs2d_shaders::default_sprite_vs, "vertex_main",
+			"default_sprite_solid_color_fs", gs2d_shaders::default_sprite_solid_color_fs, "fragment_main");
 	}
 
 	if (!m_highlightShader)
 	{
 		m_highlightShader = video->LoadShaderFromString(
-			"default_sprite_vs", gs2d_shaders::default_sprite_vs, "",
-			"default_sprite_highlight_fs", gs2d_shaders::default_sprite_highlight_fs, "");
+			"default_sprite_vs", gs2d_shaders::default_sprite_vs, "vertex_main",
+			"default_sprite_highlight_fs", gs2d_shaders::default_sprite_highlight_fs, "fragment_main");
 	}
 
 	if (!m_addShader)
 	{
 		m_addShader = video->LoadShaderFromString(
-			"default_sprite_vs", gs2d_shaders::default_sprite_vs, "",
-			"default_sprite_add_fs", gs2d_shaders::default_sprite_add_fs, "");
+			"default_sprite_vs", gs2d_shaders::default_sprite_vs, "vertex_main",
+			"default_sprite_add_fs", gs2d_shaders::default_sprite_add_fs, "fragment_main");
 	}
 
 	if (!m_modulateShader)
 	{
 		m_modulateShader = video->LoadShaderFromString(
-			"default_sprite_vs", gs2d_shaders::default_sprite_vs, "",
-			"default_sprite_modulate_fs", gs2d_shaders::default_sprite_modulate_fs, "");
+			"default_sprite_vs", gs2d_shaders::default_sprite_vs, "vertex_main",
+			"default_sprite_modulate_fs", gs2d_shaders::default_sprite_modulate_fs, "fragment_main");
 	}
 
 	if (!m_solidColorAddShader)
 	{
 		m_solidColorAddShader = video->LoadShaderFromString(
-			"default_sprite_vs", gs2d_shaders::default_sprite_vs, "",
-			"default_sprite_solid_color_add_fs", gs2d_shaders::default_sprite_solid_color_add_fs, "");
+			"default_sprite_vs", gs2d_shaders::default_sprite_vs, "vertex_main",
+			"default_sprite_solid_color_add_fs", gs2d_shaders::default_sprite_solid_color_add_fs, "fragment_main");
 	}
 
 	if (!m_solidColorModulateShader)
 	{
 		m_solidColorModulateShader = video->LoadShaderFromString(
-			"default_sprite_vs", gs2d_shaders::default_sprite_vs, "",
-			"default_sprite_solid_color_modulate_fs", gs2d_shaders::default_sprite_solid_color_modulate_fs, "");
+			"default_sprite_vs", gs2d_shaders::default_sprite_vs, "vertex_main",
+			"default_sprite_solid_color_modulate_fs", gs2d_shaders::default_sprite_solid_color_modulate_fs, "fragment_main");
 	}
 }
 
