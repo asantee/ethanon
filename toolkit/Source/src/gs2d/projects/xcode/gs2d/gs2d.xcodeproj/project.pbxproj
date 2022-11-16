@@ -16,8 +16,6 @@
 		7423B69F165FF413008848EA /* SharedDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7423B69B165FF413008848EA /* SharedDataManager.cpp */; };
 		7423B6A0165FF413008848EA /* SharedDataManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7423B69C165FF413008848EA /* SharedDataManager.h */; };
 		7458F0801635F18300D48019 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7458F07F1635F18300D48019 /* OpenGL.framework */; };
-		7458F0841636CFB200D48019 /* MacOSXFileIOHub.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7458F0821636CFB200D48019 /* MacOSXFileIOHub.mm */; };
-		7458F0851636CFB200D48019 /* MacOSXFileIOHub.h in Headers */ = {isa = PBXBuildFile; fileRef = 7458F0831636CFB200D48019 /* MacOSXFileIOHub.h */; };
 		7473CA7916330304005DB920 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7473CA6B16330304005DB920 /* Application.cpp */; };
 		7473CA7A16330304005DB920 /* Application.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CA6C16330304005DB920 /* Application.h */; };
 		7473CA7B16330304005DB920 /* Audio.h in Headers */ = {isa = PBXBuildFile; fileRef = 7473CA6D16330304005DB920 /* Audio.h */; };
@@ -70,6 +68,11 @@
 		74F3A4FA1632E3870064C9A5 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F3A4F91632E3870064C9A5 /* Cocoa.framework */; };
 		74F3A5041632E3870064C9A5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 74F3A5021632E3870064C9A5 /* InfoPlist.strings */; };
 		74FF04E318046B23006D0F9F /* utf8 in Resources */ = {isa = PBXBuildFile; fileRef = 74FF04E218046B23006D0F9F /* utf8 */; };
+		AA0E39F4292529E70012CD03 /* MacOSFileIOHub.h in Headers */ = {isa = PBXBuildFile; fileRef = AA0E39F2292529E60012CD03 /* MacOSFileIOHub.h */; };
+		AA0E39F5292529E70012CD03 /* MacOSFileIOHub.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA0E39F3292529E70012CD03 /* MacOSFileIOHub.mm */; };
+		AA0E3A1129252D310012CD03 /* process_cpu_clocks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA0E3A0E29252D310012CD03 /* process_cpu_clocks.cpp */; };
+		AA0E3A1229252D310012CD03 /* chrono.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA0E3A0F29252D310012CD03 /* chrono.cpp */; };
+		AA0E3A1329252D310012CD03 /* thread_clock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA0E3A1029252D310012CD03 /* thread_clock.cpp */; };
 		AA18F5E522B87A3500F44DA6 /* Vector2.h in Headers */ = {isa = PBXBuildFile; fileRef = AA18F5E322B87A3400F44DA6 /* Vector2.h */; };
 		AA18F5E622B87A3500F44DA6 /* Vector2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA18F5E422B87A3400F44DA6 /* Vector2.cpp */; };
 		AA18F5E922B8804100F44DA6 /* Vector2i.h in Headers */ = {isa = PBXBuildFile; fileRef = AA18F5E722B8804100F44DA6 /* Vector2i.h */; };
@@ -130,8 +133,6 @@
 		7423B69B165FF413008848EA /* SharedDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SharedDataManager.cpp; path = ../../../../src/Platform/SharedData/SharedDataManager.cpp; sourceTree = "<group>"; };
 		7423B69C165FF413008848EA /* SharedDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SharedDataManager.h; path = ../../../../src/Platform/SharedData/SharedDataManager.h; sourceTree = "<group>"; };
 		7458F07F1635F18300D48019 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
-		7458F0821636CFB200D48019 /* MacOSXFileIOHub.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MacOSXFileIOHub.mm; path = ../../../../src/Platform/macosx/MacOSXFileIOHub.mm; sourceTree = "<group>"; };
-		7458F0831636CFB200D48019 /* MacOSXFileIOHub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacOSXFileIOHub.h; path = ../../../../src/Platform/macosx/MacOSXFileIOHub.h; sourceTree = "<group>"; };
 		7458F09216377E3A00D48019 /* GLInclude.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLInclude.h; path = ../../../../src/Video/GL/GLInclude.h; sourceTree = "<group>"; };
 		7473CA6B16330304005DB920 /* Application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Application.cpp; path = ../../../../src/Application.cpp; sourceTree = "<group>"; };
 		7473CA6C16330304005DB920 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Application.h; path = ../../../../src/Application.h; sourceTree = "<group>"; };
@@ -194,6 +195,11 @@
 		74F3A5031632E3870064C9A5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		74F3A5051632E3870064C9A5 /* gs2d-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "gs2d-Prefix.pch"; sourceTree = "<group>"; };
 		74FF04E218046B23006D0F9F /* utf8 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = utf8; path = ../../../../src/Unicode/utf8; sourceTree = "<group>"; };
+		AA0E39F2292529E60012CD03 /* MacOSFileIOHub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacOSFileIOHub.h; path = ../../../../src/Platform/macosx/MacOSFileIOHub.h; sourceTree = "<group>"; };
+		AA0E39F3292529E70012CD03 /* MacOSFileIOHub.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MacOSFileIOHub.mm; path = ../../../../src/Platform/macosx/MacOSFileIOHub.mm; sourceTree = "<group>"; };
+		AA0E3A0E29252D310012CD03 /* process_cpu_clocks.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = process_cpu_clocks.cpp; path = ../../../../vendors/BoostSDK/libs/chrono/src/process_cpu_clocks.cpp; sourceTree = "<group>"; };
+		AA0E3A0F29252D310012CD03 /* chrono.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = chrono.cpp; path = ../../../../vendors/BoostSDK/libs/chrono/src/chrono.cpp; sourceTree = "<group>"; };
+		AA0E3A1029252D310012CD03 /* thread_clock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = thread_clock.cpp; path = ../../../../vendors/BoostSDK/libs/chrono/src/thread_clock.cpp; sourceTree = "<group>"; };
 		AA18F5E322B87A3400F44DA6 /* Vector2.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = Vector2.h; path = ../../../../src/Math/Vector2.h; sourceTree = "<group>"; usesTabs = 1; };
 		AA18F5E422B87A3400F44DA6 /* Vector2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Vector2.cpp; path = ../../../../src/Math/Vector2.cpp; sourceTree = "<group>"; usesTabs = 1; };
 		AA18F5E722B8804100F44DA6 /* Vector2i.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vector2i.h; path = ../../../../src/Math/Vector2i.h; sourceTree = "<group>"; usesTabs = 1; };
@@ -350,10 +356,10 @@
 		7473CACE16331548005DB920 /* macosx */ = {
 			isa = PBXGroup;
 			children = (
+				AA0E39F2292529E60012CD03 /* MacOSFileIOHub.h */,
+				AA0E39F3292529E70012CD03 /* MacOSFileIOHub.mm */,
 				7473CAC116330624005DB920 /* Platform.macosx.h */,
 				7473CAC216330624005DB920 /* Platform.macosx.mm */,
-				7458F0821636CFB200D48019 /* MacOSXFileIOHub.mm */,
-				7458F0831636CFB200D48019 /* MacOSXFileIOHub.h */,
 			);
 			name = macosx;
 			sourceTree = "<group>";
@@ -489,6 +495,7 @@
 				7473CA8816330323005DB920 /* Platform */,
 				7473CA8716330318005DB920 /* Math */,
 				7458968C167650D10012C1EF /* Unicode */,
+				AA0E3A0C29252D0E0012CD03 /* Vendors */,
 				7473CA6B16330304005DB920 /* Application.cpp */,
 				7473CA6C16330304005DB920 /* Application.h */,
 				7473CA6D16330304005DB920 /* Audio.h */,
@@ -521,6 +528,24 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		AA0E3A0C29252D0E0012CD03 /* Vendors */ = {
+			isa = PBXGroup;
+			children = (
+				AA0E3A0D29252D1A0012CD03 /* boost */,
+			);
+			name = Vendors;
+			sourceTree = "<group>";
+		};
+		AA0E3A0D29252D1A0012CD03 /* boost */ = {
+			isa = PBXGroup;
+			children = (
+				AA0E3A0F29252D310012CD03 /* chrono.cpp */,
+				AA0E3A0E29252D310012CD03 /* process_cpu_clocks.cpp */,
+				AA0E3A1029252D310012CD03 /* thread_clock.cpp */,
+			);
+			name = boost;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -540,6 +565,7 @@
 				7473CA8616330304005DB920 /* Window.h in Headers */,
 				AA4AABE323396130009ABDAE /* NativeCommandForwarder.h in Headers */,
 				AA18F5E922B8804100F44DA6 /* Vector2i.h in Headers */,
+				AA0E39F4292529E70012CD03 /* MacOSFileIOHub.h in Headers */,
 				7473CA9416330366005DB920 /* Color.h in Headers */,
 				7473CA9716330366005DB920 /* MersenneTwister.h in Headers */,
 				7473CA9916330366005DB920 /* OrientedBoundingBox.h in Headers */,
@@ -555,7 +581,6 @@
 				7473CAC316330624005DB920 /* Platform.macosx.h in Headers */,
 				7473CAC816330E1C005DB920 /* Platform.h in Headers */,
 				7473CAE61635ABD9005DB920 /* GLSDLVideo.h in Headers */,
-				7458F0851636CFB200D48019 /* MacOSXFileIOHub.h in Headers */,
 				AA92F37322F62B1C00AECB30 /* Sprite.h in Headers */,
 				AA18F5FA22B9D15500F44DA6 /* Rect2Di.h in Headers */,
 				AA18F5FD22B9D64800F44DA6 /* Rect2D.h in Headers */,
@@ -663,11 +688,12 @@
 				7473CAB51633044E005DB920 /* BitmapFont.cpp in Sources */,
 				7473CAB71633044E005DB920 /* BitmapFontManager.cpp in Sources */,
 				7473CABF1633045D005DB920 /* Enml.cpp in Sources */,
+				AA0E3A1229252D310012CD03 /* chrono.cpp in Sources */,
+				AA0E3A1329252D310012CD03 /* thread_clock.cpp in Sources */,
 				7473CAC416330624005DB920 /* Platform.macosx.mm in Sources */,
 				7473CAC716330E1C005DB920 /* Platform.cpp in Sources */,
 				7473CAE51635ABD9005DB920 /* GLSDLVideo.cpp in Sources */,
 				AA92F37222F62B1C00AECB30 /* Sprite.cpp in Sources */,
-				7458F0841636CFB200D48019 /* MacOSXFileIOHub.mm in Sources */,
 				AA18F5EE22B8846100F44DA6 /* Vector3.cpp in Sources */,
 				AA92F34B22F6112E00AECB30 /* GLShader.cpp in Sources */,
 				AA18F60922C7D98800F44DA6 /* GameMath.cpp in Sources */,
@@ -683,7 +709,9 @@
 				AA4AABE423396130009ABDAE /* NativeCommandForwarder.cpp in Sources */,
 				7421F2DF1648173000C55BAE /* StdFileManager.cpp in Sources */,
 				7423B69D165FF413008848EA /* SharedData.cpp in Sources */,
+				AA0E39F5292529E70012CD03 /* MacOSFileIOHub.mm in Sources */,
 				7423B69F165FF413008848EA /* SharedDataManager.cpp in Sources */,
+				AA0E3A1129252D310012CD03 /* process_cpu_clocks.cpp in Sources */,
 				AA18F5FE22B9D64800F44DA6 /* Rect2D.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

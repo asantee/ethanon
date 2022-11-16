@@ -179,10 +179,38 @@
 		74FF04ED18046C5D006D0F9F /* scriptbuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 74FF04E918046C5D006D0F9F /* scriptbuilder.h */; };
 		74FF04EE18046C5D006D0F9F /* scriptstdstring.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74FF04EA18046C5D006D0F9F /* scriptstdstring.cpp */; };
 		74FF04EF18046C5D006D0F9F /* scriptstdstring.h in Headers */ = {isa = PBXBuildFile; fileRef = 74FF04EB18046C5D006D0F9F /* scriptstdstring.h */; };
+		AA0E39FD29252A490012CD03 /* moving_average.hpp in Headers */ = {isa = PBXBuildFile; fileRef = AA0E39F629252A490012CD03 /* moving_average.hpp */; };
+		AA0E39FE29252A490012CD03 /* wsclient.hpp in Headers */ = {isa = PBXBuildFile; fileRef = AA0E39FB29252A490012CD03 /* wsclient.hpp */; };
+		AA0E39FF29252A490012CD03 /* wsclient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA0E39FC29252A490012CD03 /* wsclient.cpp */; };
+		AA0E3A0529252C5F0012CD03 /* cJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = AA0E3A0329252C5F0012CD03 /* cJSON.h */; };
+		AA0E3A0629252C5F0012CD03 /* cJSON.c in Sources */ = {isa = PBXBuildFile; fileRef = AA0E3A0429252C5F0012CD03 /* cJSON.c */; };
+		AA0E3A0929252C9E0012CD03 /* scriptany.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA0E3A0729252C9E0012CD03 /* scriptany.cpp */; };
+		AA0E3A0A29252C9E0012CD03 /* scriptany.h in Headers */ = {isa = PBXBuildFile; fileRef = AA0E3A0829252C9E0012CD03 /* scriptany.h */; };
+		AA0E3A1629252D6D0012CD03 /* ETHScriptWebsocketRegister.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA0E3A1429252D6D0012CD03 /* ETHScriptWebsocketRegister.cpp */; };
+		AA0E3A1729252D6D0012CD03 /* ETHScriptMsgpackRegister.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA0E3A1529252D6D0012CD03 /* ETHScriptMsgpackRegister.cpp */; };
+		AA34CA5D29254F0F0068E1D2 /* crc32.h in Headers */ = {isa = PBXBuildFile; fileRef = AA34CA4329254F0F0068E1D2 /* crc32.h */; };
+		AA34CA5E29254F0F0068E1D2 /* crc32.c in Sources */ = {isa = PBXBuildFile; fileRef = AA34CA4429254F0F0068E1D2 /* crc32.c */; };
+		AA34CA5F29254F0F0068E1D2 /* inffast.h in Headers */ = {isa = PBXBuildFile; fileRef = AA34CA4529254F0F0068E1D2 /* inffast.h */; };
+		AA34CA6029254F0F0068E1D2 /* zconf.h in Headers */ = {isa = PBXBuildFile; fileRef = AA34CA4629254F0F0068E1D2 /* zconf.h */; };
+		AA34CA6129254F0F0068E1D2 /* deflate.c in Sources */ = {isa = PBXBuildFile; fileRef = AA34CA4729254F0F0068E1D2 /* deflate.c */; };
+		AA34CA6229254F100068E1D2 /* inffixed.h in Headers */ = {isa = PBXBuildFile; fileRef = AA34CA4829254F0F0068E1D2 /* inffixed.h */; };
+		AA34CA6329254F100068E1D2 /* uncompr.c in Sources */ = {isa = PBXBuildFile; fileRef = AA34CA4929254F0F0068E1D2 /* uncompr.c */; };
+		AA34CA6629254F100068E1D2 /* inflate.c in Sources */ = {isa = PBXBuildFile; fileRef = AA34CA4C29254F0F0068E1D2 /* inflate.c */; };
+		AA34CA6729254F100068E1D2 /* inflate.h in Headers */ = {isa = PBXBuildFile; fileRef = AA34CA4D29254F0F0068E1D2 /* inflate.h */; };
+		AA34CA6A29254F100068E1D2 /* zlib.h in Headers */ = {isa = PBXBuildFile; fileRef = AA34CA5029254F0F0068E1D2 /* zlib.h */; };
+		AA34CA6B29254F100068E1D2 /* zutil.h in Headers */ = {isa = PBXBuildFile; fileRef = AA34CA5129254F0F0068E1D2 /* zutil.h */; };
+		AA34CA6C29254F100068E1D2 /* trees.h in Headers */ = {isa = PBXBuildFile; fileRef = AA34CA5229254F0F0068E1D2 /* trees.h */; };
+		AA34CA6D29254F100068E1D2 /* deflate.h in Headers */ = {isa = PBXBuildFile; fileRef = AA34CA5329254F0F0068E1D2 /* deflate.h */; };
+		AA34CA6F29254F100068E1D2 /* zutil.c in Sources */ = {isa = PBXBuildFile; fileRef = AA34CA5529254F0F0068E1D2 /* zutil.c */; };
+		AA34CA7029254F100068E1D2 /* infback.c in Sources */ = {isa = PBXBuildFile; fileRef = AA34CA5629254F0F0068E1D2 /* infback.c */; };
+		AA34CA7129254F100068E1D2 /* inffast.c in Sources */ = {isa = PBXBuildFile; fileRef = AA34CA5729254F0F0068E1D2 /* inffast.c */; };
+		AA34CA7229254F100068E1D2 /* inftrees.h in Headers */ = {isa = PBXBuildFile; fileRef = AA34CA5829254F0F0068E1D2 /* inftrees.h */; };
+		AA34CA7329254F100068E1D2 /* inftrees.c in Sources */ = {isa = PBXBuildFile; fileRef = AA34CA5929254F0F0068E1D2 /* inftrees.c */; };
+		AA34CA7429254F100068E1D2 /* compress.c in Sources */ = {isa = PBXBuildFile; fileRef = AA34CA5A29254F0F0068E1D2 /* compress.c */; };
+		AA34CA7529254F100068E1D2 /* adler32.c in Sources */ = {isa = PBXBuildFile; fileRef = AA34CA5B29254F0F0068E1D2 /* adler32.c */; };
+		AA34CA7629254F100068E1D2 /* trees.c in Sources */ = {isa = PBXBuildFile; fileRef = AA34CA5C29254F0F0068E1D2 /* trees.c */; };
 		AAFA2E4721419F50006D67FB /* JSONObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAFA2E4421419F4F006D67FB /* JSONObject.cpp */; };
 		AAFA2E4821419F50006D67FB /* JSONObject.h in Headers */ = {isa = PBXBuildFile; fileRef = AAFA2E4621419F50006D67FB /* JSONObject.h */; };
-		AAFA2E4C21419F90006D67FB /* cJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = AAFA2E4A21419F90006D67FB /* cJSON.h */; };
-		AAFA2E4D21419F90006D67FB /* cJSON.c in Sources */ = {isa = PBXBuildFile; fileRef = AAFA2E4B21419F90006D67FB /* cJSON.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -234,6 +262,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = D2AAC07D0554694100DB518D;
 			remoteInfo = "angelscript OSX";
+		};
+		AA0E39F929252A490012CD03 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 74E8F172191546820091A778 /* angelscript.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AA3F4CAD28FAF90C00FBB2FE;
+			remoteInfo = "angelscript tvOS";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -428,10 +463,40 @@
 		74FF04E918046C5D006D0F9F /* scriptbuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scriptbuilder.h; path = ../../../src/addons/scriptbuilder.h; sourceTree = "<group>"; };
 		74FF04EA18046C5D006D0F9F /* scriptstdstring.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scriptstdstring.cpp; path = ../../../src/addons/scriptstdstring.cpp; sourceTree = "<group>"; };
 		74FF04EB18046C5D006D0F9F /* scriptstdstring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scriptstdstring.h; path = ../../../src/addons/scriptstdstring.h; sourceTree = "<group>"; };
+		AA0E39F629252A490012CD03 /* moving_average.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = moving_average.hpp; path = ../../../../src/engine/Util/moving_average.hpp; sourceTree = "<group>"; };
+		AA0E39FB29252A490012CD03 /* wsclient.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = wsclient.hpp; path = ../../../../src/engine/Util/wsclient.hpp; sourceTree = "<group>"; };
+		AA0E39FC29252A490012CD03 /* wsclient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = wsclient.cpp; path = ../../../../src/engine/Util/wsclient.cpp; sourceTree = "<group>"; };
+		AA0E3A0329252C5F0012CD03 /* cJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cJSON.h; path = ../../../../src/cjson/cJSON.h; sourceTree = "<group>"; };
+		AA0E3A0429252C5F0012CD03 /* cJSON.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = cJSON.c; path = ../../../../src/cjson/cJSON.c; sourceTree = "<group>"; };
+		AA0E3A0729252C9E0012CD03 /* scriptany.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scriptany.cpp; path = ../../../src/addons/scriptany.cpp; sourceTree = "<group>"; };
+		AA0E3A0829252C9E0012CD03 /* scriptany.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scriptany.h; path = ../../../src/addons/scriptany.h; sourceTree = "<group>"; };
+		AA0E3A1429252D6D0012CD03 /* ETHScriptWebsocketRegister.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptWebsocketRegister.cpp; path = ../../../../src/engine/Script/ETHScriptWebsocketRegister.cpp; sourceTree = "<group>"; };
+		AA0E3A1529252D6D0012CD03 /* ETHScriptMsgpackRegister.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHScriptMsgpackRegister.cpp; path = ../../../../src/engine/Script/ETHScriptMsgpackRegister.cpp; sourceTree = "<group>"; };
+		AA0E3A1829252F7D0012CD03 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "../../../src/vendors/openssl-xcode/OSX/lib/libcrypto.a"; sourceTree = "<group>"; };
+		AA0E3A1929252F7D0012CD03 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = "../../../src/vendors/openssl-xcode/OSX/lib/libssl.a"; sourceTree = "<group>"; };
+		AA34CA4329254F0F0068E1D2 /* crc32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = crc32.h; path = "../../../../src/vendors/openssl-xcode/OSX/zlib/crc32.h"; sourceTree = "<group>"; };
+		AA34CA4429254F0F0068E1D2 /* crc32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = crc32.c; path = "../../../../src/vendors/openssl-xcode/OSX/zlib/crc32.c"; sourceTree = "<group>"; };
+		AA34CA4529254F0F0068E1D2 /* inffast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = inffast.h; path = "../../../../src/vendors/openssl-xcode/OSX/zlib/inffast.h"; sourceTree = "<group>"; };
+		AA34CA4629254F0F0068E1D2 /* zconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = zconf.h; path = "../../../../src/vendors/openssl-xcode/OSX/zlib/zconf.h"; sourceTree = "<group>"; };
+		AA34CA4729254F0F0068E1D2 /* deflate.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = deflate.c; path = "../../../../src/vendors/openssl-xcode/OSX/zlib/deflate.c"; sourceTree = "<group>"; };
+		AA34CA4829254F0F0068E1D2 /* inffixed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = inffixed.h; path = "../../../../src/vendors/openssl-xcode/OSX/zlib/inffixed.h"; sourceTree = "<group>"; };
+		AA34CA4929254F0F0068E1D2 /* uncompr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = uncompr.c; path = "../../../../src/vendors/openssl-xcode/OSX/zlib/uncompr.c"; sourceTree = "<group>"; };
+		AA34CA4C29254F0F0068E1D2 /* inflate.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = inflate.c; path = "../../../../src/vendors/openssl-xcode/OSX/zlib/inflate.c"; sourceTree = "<group>"; };
+		AA34CA4D29254F0F0068E1D2 /* inflate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = inflate.h; path = "../../../../src/vendors/openssl-xcode/OSX/zlib/inflate.h"; sourceTree = "<group>"; };
+		AA34CA5029254F0F0068E1D2 /* zlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = zlib.h; path = "../../../../src/vendors/openssl-xcode/OSX/zlib/zlib.h"; sourceTree = "<group>"; };
+		AA34CA5129254F0F0068E1D2 /* zutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = zutil.h; path = "../../../../src/vendors/openssl-xcode/OSX/zlib/zutil.h"; sourceTree = "<group>"; };
+		AA34CA5229254F0F0068E1D2 /* trees.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = trees.h; path = "../../../../src/vendors/openssl-xcode/OSX/zlib/trees.h"; sourceTree = "<group>"; };
+		AA34CA5329254F0F0068E1D2 /* deflate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = deflate.h; path = "../../../../src/vendors/openssl-xcode/OSX/zlib/deflate.h"; sourceTree = "<group>"; };
+		AA34CA5529254F0F0068E1D2 /* zutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = zutil.c; path = "../../../../src/vendors/openssl-xcode/OSX/zlib/zutil.c"; sourceTree = "<group>"; };
+		AA34CA5629254F0F0068E1D2 /* infback.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = infback.c; path = "../../../../src/vendors/openssl-xcode/OSX/zlib/infback.c"; sourceTree = "<group>"; };
+		AA34CA5729254F0F0068E1D2 /* inffast.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = inffast.c; path = "../../../../src/vendors/openssl-xcode/OSX/zlib/inffast.c"; sourceTree = "<group>"; };
+		AA34CA5829254F0F0068E1D2 /* inftrees.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = inftrees.h; path = "../../../../src/vendors/openssl-xcode/OSX/zlib/inftrees.h"; sourceTree = "<group>"; };
+		AA34CA5929254F0F0068E1D2 /* inftrees.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = inftrees.c; path = "../../../../src/vendors/openssl-xcode/OSX/zlib/inftrees.c"; sourceTree = "<group>"; };
+		AA34CA5A29254F0F0068E1D2 /* compress.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = compress.c; path = "../../../../src/vendors/openssl-xcode/OSX/zlib/compress.c"; sourceTree = "<group>"; };
+		AA34CA5B29254F0F0068E1D2 /* adler32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = adler32.c; path = "../../../../src/vendors/openssl-xcode/OSX/zlib/adler32.c"; sourceTree = "<group>"; };
+		AA34CA5C29254F0F0068E1D2 /* trees.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = trees.c; path = "../../../../src/vendors/openssl-xcode/OSX/zlib/trees.c"; sourceTree = "<group>"; };
 		AAFA2E4421419F4F006D67FB /* JSONObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JSONObject.cpp; path = ../../../../src/engine/Util/JSONObject.cpp; sourceTree = "<group>"; };
 		AAFA2E4621419F50006D67FB /* JSONObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONObject.h; path = ../../../../src/engine/Util/JSONObject.h; sourceTree = "<group>"; };
-		AAFA2E4A21419F90006D67FB /* cJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cJSON.h; path = ../../../../../src/cjson/cJSON.h; sourceTree = "<group>"; };
-		AAFA2E4B21419F90006D67FB /* cJSON.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = cJSON.c; path = ../../../../../src/cjson/cJSON.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -508,6 +573,8 @@
 		7421F038164724B400C55BAE /* Script */ = {
 			isa = PBXGroup;
 			children = (
+				AA0E3A1529252D6D0012CD03 /* ETHScriptMsgpackRegister.cpp */,
+				AA0E3A1429252D6D0012CD03 /* ETHScriptWebsocketRegister.cpp */,
 				7421F0E21647263700C55BAE /* ETHBinaryStream.cpp */,
 				7421F0E31647263700C55BAE /* ETHBinaryStream.h */,
 				7421F0E81647263700C55BAE /* ETHScriptObjRegister.cpp */,
@@ -613,6 +680,8 @@
 		7421F28C1647413C00C55BAE /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				AA0E3A0729252C9E0012CD03 /* scriptany.cpp */,
+				AA0E3A0829252C9E0012CD03 /* scriptany.h */,
 				74FF04E818046C5D006D0F9F /* scriptbuilder.cpp */,
 				74FF04E918046C5D006D0F9F /* scriptbuilder.h */,
 				74FF04EA18046C5D006D0F9F /* scriptstdstring.cpp */,
@@ -667,7 +736,9 @@
 		7487A51F1646DD24002DD331 /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				AAFA2E4921419F67006D67FB /* cjson */,
+				AA0E39F629252A490012CD03 /* moving_average.hpp */,
+				AA0E39FC29252A490012CD03 /* wsclient.cpp */,
+				AA0E39FB29252A490012CD03 /* wsclient.hpp */,
 				7421F13A1647267300C55BAE /* ETHASUtil.cpp */,
 				7421F13B1647267300C55BAE /* ETHASUtil.h */,
 				7421F13C1647267300C55BAE /* ETHDateTime.cpp */,
@@ -735,6 +806,7 @@
 			children = (
 				74E8F178191546820091A778 /* libangelscript.a */,
 				74E8F17A191546820091A778 /* libangelscript.a */,
+				AA0E39FA29252A490012CD03 /* libangelscript tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -765,6 +837,8 @@
 		74F00AD51646B9EB00B8B51B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AA0E3A1829252F7D0012CD03 /* libcrypto.a */,
+				AA0E3A1929252F7D0012CD03 /* libssl.a */,
 				74F00AD61646B9EB00B8B51B /* Cocoa.framework */,
 				74F00AD81646B9EB00B8B51B /* Other Frameworks */,
 			);
@@ -798,6 +872,7 @@
 				7421F038164724B400C55BAE /* Script */,
 				7421F037164724B200C55BAE /* Shader */,
 				7487A51F1646DD24002DD331 /* Util */,
+				AA0E3A0129252A7F0012CD03 /* Vendors */,
 				74F00ADD1646B9EB00B8B51B /* Supporting Files */,
 			);
 			path = engine;
@@ -813,13 +888,58 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		AAFA2E4921419F67006D67FB /* cjson */ = {
+		AA0E3A0029252A6E0012CD03 /* cJSON */ = {
 			isa = PBXGroup;
 			children = (
-				AAFA2E4B21419F90006D67FB /* cJSON.c */,
-				AAFA2E4A21419F90006D67FB /* cJSON.h */,
+				AA0E3A0429252C5F0012CD03 /* cJSON.c */,
+				AA0E3A0329252C5F0012CD03 /* cJSON.h */,
 			);
-			path = cjson;
+			name = cJSON;
+			sourceTree = "<group>";
+		};
+		AA0E3A0129252A7F0012CD03 /* Vendors */ = {
+			isa = PBXGroup;
+			children = (
+				AA34CA4229254EDD0068E1D2 /* zlib */,
+				AA0E3A0229252A9B0012CD03 /* msgpack */,
+				AA0E3A0029252A6E0012CD03 /* cJSON */,
+			);
+			name = Vendors;
+			sourceTree = "<group>";
+		};
+		AA0E3A0229252A9B0012CD03 /* msgpack */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = msgpack;
+			sourceTree = "<group>";
+		};
+		AA34CA4229254EDD0068E1D2 /* zlib */ = {
+			isa = PBXGroup;
+			children = (
+				AA34CA5B29254F0F0068E1D2 /* adler32.c */,
+				AA34CA5A29254F0F0068E1D2 /* compress.c */,
+				AA34CA4429254F0F0068E1D2 /* crc32.c */,
+				AA34CA4329254F0F0068E1D2 /* crc32.h */,
+				AA34CA4729254F0F0068E1D2 /* deflate.c */,
+				AA34CA5329254F0F0068E1D2 /* deflate.h */,
+				AA34CA5629254F0F0068E1D2 /* infback.c */,
+				AA34CA5729254F0F0068E1D2 /* inffast.c */,
+				AA34CA4529254F0F0068E1D2 /* inffast.h */,
+				AA34CA4829254F0F0068E1D2 /* inffixed.h */,
+				AA34CA4C29254F0F0068E1D2 /* inflate.c */,
+				AA34CA4D29254F0F0068E1D2 /* inflate.h */,
+				AA34CA5929254F0F0068E1D2 /* inftrees.c */,
+				AA34CA5829254F0F0068E1D2 /* inftrees.h */,
+				AA34CA5C29254F0F0068E1D2 /* trees.c */,
+				AA34CA5229254F0F0068E1D2 /* trees.h */,
+				AA34CA4929254F0F0068E1D2 /* uncompr.c */,
+				AA34CA4629254F0F0068E1D2 /* zconf.h */,
+				AA34CA5029254F0F0068E1D2 /* zlib.h */,
+				AA34CA5529254F0F0068E1D2 /* zutil.c */,
+				AA34CA5129254F0F0068E1D2 /* zutil.h */,
+			);
+			name = zlib;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -829,7 +949,10 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA34CA6C29254F100068E1D2 /* trees.h in Headers */,
+				AA0E3A0529252C5F0012CD03 /* cJSON.h in Headers */,
 				7421F0451647257B00C55BAE /* ETHDrawable.h in Headers */,
+				AA34CA5D29254F0F0068E1D2 /* crc32.h in Headers */,
 				7421F0471647257B00C55BAE /* ETHDrawableManager.h in Headers */,
 				7421F0491647257B00C55BAE /* ETHParticleDrawer.h in Headers */,
 				AAFA2E4821419F50006D67FB /* JSONObject.h in Headers */,
@@ -846,6 +969,7 @@
 				7421F06F1647258E00C55BAE /* ETHLight.h in Headers */,
 				7421F0711647258E00C55BAE /* ETHRenderEntity.h in Headers */,
 				74A21A80182BFA9D0000F783 /* hashlibpp.h in Headers */,
+				AA0E39FE29252A490012CD03 /* wsclient.hpp in Headers */,
 				7421F0731647258E00C55BAE /* ETHScriptEntity.h in Headers */,
 				7421F0751647258E00C55BAE /* ETHSpriteEntity.h in Headers */,
 				7421F07A1647259E00C55BAE /* ETHEngine.h in Headers */,
@@ -862,11 +986,13 @@
 				7421F0A1164725C100C55BAE /* ETHDestructionListener.h in Headers */,
 				7421F0A3164725C100C55BAE /* ETHJoint.h in Headers */,
 				7421F0A5164725C100C55BAE /* ETHPhysicsController.h in Headers */,
-				AAFA2E4C21419F90006D67FB /* cJSON.h in Headers */,
 				7421F0A7164725C100C55BAE /* ETHPhysicsEntityController.h in Headers */,
 				7421F0A9164725C100C55BAE /* ETHPhysicsSimulator.h in Headers */,
 				7421F0AD164725C100C55BAE /* ETHRayCastCallback.h in Headers */,
+				AA34CA6229254F100068E1D2 /* inffixed.h in Headers */,
+				AA34CA6029254F0F0068E1D2 /* zconf.h in Headers */,
 				7421F0AF164725C100C55BAE /* ETHRevoluteJoint.h in Headers */,
+				AA0E3A0A29252C9E0012CD03 /* scriptany.h in Headers */,
 				7421F0B3164725E100C55BAE /* ETHPolygon.h in Headers */,
 				7421F0BB164725F800C55BAE /* ETHAppEnmlFile.h in Headers */,
 				7421F0BD164725F800C55BAE /* ETHPlatform.h in Headers */,
@@ -882,10 +1008,13 @@
 				7421F0F81647263700C55BAE /* ETHBinaryStream.h in Headers */,
 				74A21A95182BFA9D0000F783 /* hl_sha512wrapper.h in Headers */,
 				7421F0FF1647263700C55BAE /* ETHScriptObjRegister.h in Headers */,
+				AA34CA7229254F100068E1D2 /* inftrees.h in Headers */,
 				7421F1051647263700C55BAE /* ETHScriptWrapper.h in Headers */,
+				AA34CA5F29254F0F0068E1D2 /* inffast.h in Headers */,
 				7421F1241647266600C55BAE /* ETHBackBufferTargetManager.h in Headers */,
 				7421F1271647266600C55BAE /* ETHDynamicBackBuffer.h in Headers */,
 				74A21A86182BFA9D0000F783 /* hl_md5wrapper.h in Headers */,
+				AA34CA6B29254F100068E1D2 /* zutil.h in Headers */,
 				7421F12E1647266600C55BAE /* ETHNoDynamicBackBuffer.h in Headers */,
 				7421F1341647266600C55BAE /* ETHShaderManager.h in Headers */,
 				74A21A88182BFA9D0000F783 /* hl_sha1.h in Headers */,
@@ -894,6 +1023,7 @@
 				7421F14D1647267300C55BAE /* ETHFileChangeDetector.h in Headers */,
 				74A21A96182BFA9D0000F783 /* hl_types.h in Headers */,
 				7421F1531647267300C55BAE /* ETHInput.h in Headers */,
+				AA0E39FD29252A490012CD03 /* moving_average.hpp in Headers */,
 				7421F2981647415E00C55BAE /* aswrappedcall.h in Headers */,
 				7421F29A1647415E00C55BAE /* scriptarray.h in Headers */,
 				7421F29C1647415E00C55BAE /* scriptdictionary.h in Headers */,
@@ -904,7 +1034,10 @@
 				7421F2BA164741F300C55BAE /* tinyxml.h in Headers */,
 				74A21A81182BFA9D0000F783 /* hl_exception.h in Headers */,
 				7429A2A21662600E00134A7E /* ETHEntityPieceRenderer.h in Headers */,
+				AA34CA6729254F100068E1D2 /* inflate.h in Headers */,
+				AA34CA6D29254F100068E1D2 /* deflate.h in Headers */,
 				7429A2AA1662620E00134A7E /* ETHEntitySpriteRenderer.h in Headers */,
+				AA34CA6A29254F100068E1D2 /* zlib.h in Headers */,
 				74A21A8C182BFA9D0000F783 /* hl_sha2ext.h in Headers */,
 				7429A2AE16627E8000134A7E /* ETHEntityParticleRenderer.h in Headers */,
 				7429A2B21663AF2200134A7E /* ETHEntityHaloRenderer.h in Headers */,
@@ -1011,6 +1144,13 @@
 			remoteRef = 74E8F179191546820091A778 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		AA0E39FA29252A490012CD03 /* libangelscript tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libangelscript tvOS.a";
+			remoteRef = AA0E39F929252A490012CD03 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -1038,19 +1178,22 @@
 				7421F0661647258E00C55BAE /* ETHEntityCache.cpp in Sources */,
 				7421F0681647258E00C55BAE /* ETHEntityChooser.cpp in Sources */,
 				7421F06A1647258E00C55BAE /* ETHEntityController.cpp in Sources */,
+				AA0E3A0929252C9E0012CD03 /* scriptany.cpp in Sources */,
 				74A21A94182BFA9D0000F783 /* hl_sha512wrapper.cpp in Sources */,
 				74A21A89182BFA9D0000F783 /* hl_sha1wrapper.cpp in Sources */,
 				7421F06C1647258E00C55BAE /* ETHEntityProperties.cpp in Sources */,
 				7421F06E1647258E00C55BAE /* ETHLight.cpp in Sources */,
 				7421F0701647258E00C55BAE /* ETHRenderEntity.cpp in Sources */,
 				7421F0721647258E00C55BAE /* ETHScriptEntity.cpp in Sources */,
+				AA34CA7129254F100068E1D2 /* inffast.c in Sources */,
 				7421F0741647258E00C55BAE /* ETHSpriteEntity.cpp in Sources */,
+				AA34CA5E29254F0F0068E1D2 /* crc32.c in Sources */,
 				7421F0791647259E00C55BAE /* ETHEngine.cpp in Sources */,
+				AA34CA6129254F0F0068E1D2 /* deflate.c in Sources */,
 				7421F080164725AD00C55BAE /* ETHParticleManager.cpp in Sources */,
 				7421F082164725AD00C55BAE /* ETHParticleSystem.cpp in Sources */,
 				7421F09A164725C100C55BAE /* ETHCollisionBox.cpp in Sources */,
 				7421F09C164725C100C55BAE /* ETHCompoundShape.cpp in Sources */,
-				AAFA2E4D21419F90006D67FB /* cJSON.c in Sources */,
 				7421F09E164725C100C55BAE /* ETHContactListener.cpp in Sources */,
 				7421F0A0164725C100C55BAE /* ETHDestructionListener.cpp in Sources */,
 				7421F0A2164725C100C55BAE /* ETHJoint.cpp in Sources */,
@@ -1059,6 +1202,7 @@
 				7421F0A6164725C100C55BAE /* ETHPhysicsEntityController.cpp in Sources */,
 				7421F0A8164725C100C55BAE /* ETHPhysicsSimulator.cpp in Sources */,
 				7421F0AC164725C100C55BAE /* ETHRayCastCallback.cpp in Sources */,
+				AA0E3A0629252C5F0012CD03 /* cJSON.c in Sources */,
 				7421F0AE164725C100C55BAE /* ETHRevoluteJoint.cpp in Sources */,
 				7421F0B2164725E100C55BAE /* ETHPolygon.cpp in Sources */,
 				74A21A87182BFA9D0000F783 /* hl_sha1.cpp in Sources */,
@@ -1077,6 +1221,8 @@
 				7421F0FD1647263700C55BAE /* ETHScriptObjRegister.cpp in Sources */,
 				7421F0FE1647263700C55BAE /* ETHScriptObjRegister.generic.cpp in Sources */,
 				7421F1011647263700C55BAE /* ETHScriptWrapper.Audio.cpp in Sources */,
+				AA34CA7429254F100068E1D2 /* compress.c in Sources */,
+				AA0E3A1729252D6D0012CD03 /* ETHScriptMsgpackRegister.cpp in Sources */,
 				7421F1021647263700C55BAE /* ETHScriptWrapper.cpp in Sources */,
 				7421F1031647263700C55BAE /* ETHScriptWrapper.Drawing.cpp in Sources */,
 				7421F1041647263700C55BAE /* ETHScriptWrapper.generic.cpp in Sources */,
@@ -1091,8 +1237,10 @@
 				7421F12D1647266600C55BAE /* ETHNoDynamicBackBuffer.cpp in Sources */,
 				7421F1331647266600C55BAE /* ETHShaderManager.cpp in Sources */,
 				7421F1481647267300C55BAE /* ETHASUtil.cpp in Sources */,
+				AA0E39FF29252A490012CD03 /* wsclient.cpp in Sources */,
 				7421F14A1647267300C55BAE /* ETHDateTime.cpp in Sources */,
 				7421F14C1647267300C55BAE /* ETHFileChangeDetector.cpp in Sources */,
+				AA34CA7529254F100068E1D2 /* adler32.c in Sources */,
 				74A21A8B182BFA9D0000F783 /* hl_sha2ext.cpp in Sources */,
 				7421F1521647267300C55BAE /* ETHInput.cpp in Sources */,
 				7421F2991647415E00C55BAE /* scriptarray.cpp in Sources */,
@@ -1102,17 +1250,24 @@
 				7421F2A11647415E00C55BAE /* scriptmath3d.cpp in Sources */,
 				7421F2B7164741F300C55BAE /* tinystr.cpp in Sources */,
 				7421F2B9164741F300C55BAE /* tinyxml.cpp in Sources */,
+				AA34CA6329254F100068E1D2 /* uncompr.c in Sources */,
 				7421F2BB164741F300C55BAE /* tinyxmlerror.cpp in Sources */,
 				7421F2BC164741F300C55BAE /* tinyxmlparser.cpp in Sources */,
+				AA34CA6F29254F100068E1D2 /* zutil.c in Sources */,
 				7421F436164D8E4000C55BAE /* FileListing.mm in Sources */,
 				7423B6A5166005CF008848EA /* ETHScriptWrapper.SharedData.cpp in Sources */,
 				7429A2A11662600E00134A7E /* ETHEntityPieceRenderer.cpp in Sources */,
+				AA34CA7629254F100068E1D2 /* trees.c in Sources */,
+				AA34CA7029254F100068E1D2 /* infback.c in Sources */,
 				7429A2A91662620E00134A7E /* ETHEntitySpriteRenderer.cpp in Sources */,
+				AA0E3A1629252D6D0012CD03 /* ETHScriptWebsocketRegister.cpp in Sources */,
 				7429A2AD16627E8000134A7E /* ETHEntityParticleRenderer.cpp in Sources */,
 				74A21A90182BFA9D0000F783 /* hl_sha256wrapper.cpp in Sources */,
 				7429A2B11663AF2200134A7E /* ETHEntityHaloRenderer.cpp in Sources */,
 				74EB49AC16653D0A002DA2F0 /* ETHEntityRenderingManager.cpp in Sources */,
+				AA34CA7329254F100068E1D2 /* inftrees.c in Sources */,
 				AAFA2E4721419F50006D67FB /* JSONObject.cpp in Sources */,
+				AA34CA6629254F100068E1D2 /* inflate.c in Sources */,
 				74FF04E618046C4D006D0F9F /* scriptfile.cpp in Sources */,
 				74FF04EC18046C5D006D0F9F /* scriptbuilder.cpp in Sources */,
 				74FF04EE18046C5D006D0F9F /* scriptstdstring.cpp in Sources */,
@@ -1274,6 +1429,9 @@
 					"\"$(SRCROOT)/../../../src/gs2d/src\"",
 					"\"$(SRCROOT)/../../../src/box2d\"",
 					"\"$(SRCROOT)/../../../src/gs2d/vendors/tsl\"",
+					"\"$(SRCROOT)/../../../src/vendors/openssl-xcode/OSX/include\"",
+					"\"$(SRCROOT)/../../../src/vendors/msgpack/include\"",
+					"\"$(SRCROOT)/../../../src/angelscript/include\"",
 				);
 				INFOPLIST_FILE = "engine/engine-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -1281,6 +1439,10 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = (
+					"../../../src/vendors/openssl-xcode/OSX/lib/libssl.a",
+					"../../../src/vendors/openssl-xcode/OSX/lib/libcrypto.a",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = framework;
@@ -1316,12 +1478,19 @@
 					"\"$(SRCROOT)/../../../src/gs2d/src\"",
 					"\"$(SRCROOT)/../../../src/box2d\"",
 					"\"$(SRCROOT)/../../../src/gs2d/vendors/tsl\"",
+					"\"$(SRCROOT)/../../../src/vendors/openssl-xcode/OSX/include\"",
+					"\"$(SRCROOT)/../../../src/vendors/msgpack/include\"",
+					"\"$(SRCROOT)/../../../src/angelscript/include\"",
 				);
 				INFOPLIST_FILE = "engine/engine-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				OTHER_LDFLAGS = (
+					"../../../src/vendors/openssl-xcode/OSX/lib/libssl.a",
+					"../../../src/vendors/openssl-xcode/OSX/lib/libcrypto.a",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = framework;
