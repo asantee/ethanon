@@ -91,6 +91,14 @@ public:
 	const static std::string KEY_CODE_SHIFT;
 	const static std::string KEY_CODE_ALT;
 	const static std::string KEY_CODE_CTRL;
+
+	const static std::string KEY_CODE_SHIFT_LEFT;
+	const static std::string KEY_CODE_SHIFT_RIGHT;
+	const static std::string KEY_CODE_ALT_LEFT;
+	const static std::string KEY_CODE_ALT_RIGHT;
+	const static std::string KEY_CODE_CTRL_LEFT;
+	const static std::string KEY_CODE_CTRL_RIGHT;
+
 	const static std::string KEY_CODE_F1;
 	const static std::string KEY_CODE_F2;
 	const static std::string KEY_CODE_F3;
@@ -139,6 +147,41 @@ public:
 	const static std::string KEY_CODE_7;
 	const static std::string KEY_CODE_8;
 	const static std::string KEY_CODE_9;
+
+	const static std::string KEY_CODE_NUMPAD_0;
+	const static std::string KEY_CODE_NUMPAD_1;
+	const static std::string KEY_CODE_NUMPAD_2;
+	const static std::string KEY_CODE_NUMPAD_3;
+	const static std::string KEY_CODE_NUMPAD_4;
+	const static std::string KEY_CODE_NUMPAD_5;
+	const static std::string KEY_CODE_NUMPAD_6;
+	const static std::string KEY_CODE_NUMPAD_7;
+	const static std::string KEY_CODE_NUMPAD_8;
+	const static std::string KEY_CODE_NUMPAD_9;
+
+	const static std::string KEY_CODE_NUMPAD_ADD;
+	const static std::string KEY_CODE_NUMPAD_MULTIPLY;
+	const static std::string KEY_CODE_NUMPAD_SUBTRACT;
+	const static std::string KEY_CODE_NUMPAD_DIVIDE;
+	const static std::string KEY_CODE_NUMPAD_ENTER;
+	const static std::string KEY_CODE_NUMPAD_DOT;
+	const static std::string KEY_CODE_NUMPAD_COMMA;
+
+	const static std::string KEY_CODE_PLUS;
+	const static std::string KEY_CODE_MINUS;
+	const static std::string KEY_CODE_BACKSLASH;
+	const static std::string KEY_CODE_COMMA;
+	const static std::string KEY_CODE_PERIOD;
+	const static std::string KEY_CODE_SEMICOLON;
+	const static std::string KEY_CODE_META_LEFT;
+	const static std::string KEY_CODE_META_RIGHT;
+	const static std::string KEY_CODE_GRAVE;
+	const static std::string KEY_CODE_SLASH;
+	const static std::string KEY_CODE_LEFT_BRACKET;
+	const static std::string KEY_CODE_RIGHT_BRACKET;
+	const static std::string KEY_CODE_EQUALS;
+	const static std::string KEY_CODE_APOSTROPHE;
+	const static std::string KEY_CODE_STAR;
 };
 
 typedef boost::shared_ptr<AndroidInput> AndroidInputPtr;
