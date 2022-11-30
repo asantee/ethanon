@@ -396,7 +396,6 @@ void RegisterEnumTypes(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterEnumValue("KEY", "K_PAGEUP", GSK_PAGEUP); assert(r >= 0);
 	r = pASEngine->RegisterEnumValue("KEY", "K_SPACE", GSK_SPACE); assert(r >= 0);
 	r = pASEngine->RegisterEnumValue("KEY", "K_ENTER", GSK_ENTER); assert(r >= 0);
-	r = pASEngine->RegisterEnumValue("KEY", "K_RETURN", GSK_ENTER); assert(r >= 0);
 	r = pASEngine->RegisterEnumValue("KEY", "K_DELETE", GSK_DELETE); assert(r >= 0);
 	r = pASEngine->RegisterEnumValue("KEY", "K_HOME", GSK_HOME); assert(r >= 0);
 	r = pASEngine->RegisterEnumValue("KEY", "K_END", GSK_END); assert(r >= 0);
