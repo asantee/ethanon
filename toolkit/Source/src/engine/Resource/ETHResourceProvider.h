@@ -23,14 +23,6 @@ class ETHResourceProvider
 	static Platform::FileLoggerPtr m_logger;
 	static Platform::FileIOHubPtr m_fileIOHub;
 
-	static SpritePtr m_outline;
-	static SpritePtr m_invisibleEntSymbol;
-	static bool m_enableLightmaps;
-	static bool m_usingRTShadows;
-	static bool m_richLighting;
-
-	const bool m_isInEditor;
-
 	ETHResourceProvider& operator=(const ETHResourceProvider &tmp);
 
 public:
@@ -41,8 +33,7 @@ public:
 		VideoPtr video,
 		AudioPtr audio,
 		InputPtr input,
-		Platform::FileIOHubPtr fileIOHub,
-		const bool isInEditor);
+		Platform::FileIOHubPtr fileIOHub);
 
 	static void Log(const std::string& str, const Platform::Logger::TYPE& type);
 
@@ -67,10 +58,6 @@ public:
 	std::string GetByteCodeSaveDirectory();
 	const Platform::FileManagerPtr& GetFileManager();
 	Platform::FileIOHubPtr GetFileIOHub();
-
-	void SetEditorSprites(SpritePtr outline, SpritePtr invisibleEntSymbol);
-	SpritePtr GetOutlineSprite();
-	SpritePtr GetInvisibleEntSymbol();
 };
 
 #endif

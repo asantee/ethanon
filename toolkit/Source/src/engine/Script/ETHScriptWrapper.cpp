@@ -13,8 +13,6 @@ ETHScenePtr ETHScriptWrapper::m_pScene;
 ETHBackBufferTargetManagerPtr ETHScriptWrapper::m_backBuffer;
 bool ETHScriptWrapper::m_abort = false;
 bool ETHScriptWrapper::m_highEndDevice = false;
-bool ETHScriptWrapper::m_useLightmaps = true;
-bool ETHScriptWrapper::m_usePreLoadedLightmapsFromFile = false;
 Platform::FileManagerPtr ETHScriptWrapper::m_expansionFileManager;
 bool ETHScriptWrapper::m_roundUpPosition = true;
 int ETHScriptWrapper::m_argc = 0;

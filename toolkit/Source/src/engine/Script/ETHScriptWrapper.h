@@ -60,8 +60,6 @@ public:
 	static ETHDrawableManager m_drawableManager;
 	static ETHScenePtr m_pScene;
 	static bool m_abort;
-	static bool m_useLightmaps;
-	static bool m_usePreLoadedLightmapsFromFile;
 	static bool m_highEndDevice;
 	static int32_t m_argc;
 	static char **m_argv;
@@ -221,9 +219,6 @@ public:
 	static void SetCameraPos(const Vector2 &v2Pos);
 	static void AddToCameraPos(const Vector2 &v2Add);
 
-	static void EnableLightmaps(const bool enable);
-	static void EnablePreLoadedLightmapsFromFile(const bool enable);
-
 	static Vector2 GetCameraPos();
 	static float GetFPSRate();
 	static Vector2 ComputeCarretPosition(const std::string &font, const std::string &text, const uint32_t pos);
@@ -238,7 +233,6 @@ public:
 	static int32_t AddEntity(const std::string &file, const Vector3 &v3Pos, ETHEntity **ppOutEntity);
 	static int32_t AddEntity(const std::string &file, const Vector3 &v3Pos, const std::string &alternativeName);
 	static void DeleteEntity(ETHEntity *pEntity);
-	static void ReadLightmapsFromBitmapFiles(const std::string& directory);
 	static void LoadLightmaps(const std::string& directory);
 	static ETHEntity *SeekEntity(const int32_t id);
 	static ETHEntity *SeekEntity(const std::string &name);

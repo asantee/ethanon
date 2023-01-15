@@ -90,9 +90,7 @@ asDECLARE_FUNCTION_WRAPPER(__ComputeCarretPosition, ETHScriptWrapper::ComputeCar
 asDECLARE_FUNCTION_WRAPPER(__ComputeTextBoxSize,    ETHScriptWrapper::ComputeTextBoxSize);
 asDECLARE_FUNCTION_WRAPPER(__AssembleColorCode,     ETHScriptWrapper::AssembleColorCode);
 
-asDECLARE_FUNCTION_WRAPPER(__EnableLightmaps, ETHScriptWrapper::EnableLightmaps);
 asDECLARE_FUNCTION_WRAPPER(__GetFPSRate,      ETHScriptWrapper::GetFPSRate);
-asDECLARE_FUNCTION_WRAPPER(__EnablePreLoadedLightmapsFromFile, ETHScriptWrapper::EnablePreLoadedLightmapsFromFile);
 
 asDECLARE_FUNCTION_WRAPPER(__LoadMusic,       ETHScriptWrapper::LoadMusic);
 asDECLARE_FUNCTION_WRAPPER(__LoadSoundEffect, ETHScriptWrapper::LoadSoundEffect);
@@ -357,9 +355,7 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("vector2 ComputeTextBoxSize(const string &in, const string &in)",						asFUNCTION(__ComputeTextBoxSize),	asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("string AssembleColorCode(const uint)",												asFUNCTION(__AssembleColorCode),	asCALL_GENERIC); assert(r >= 0);
 
-	r = pASEngine->RegisterGlobalFunction("void EnableLightmaps(const bool)", asFUNCTION(__EnableLightmaps), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("float GetFPSRate()",               asFUNCTION(__GetFPSRate),      asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("void EnablePreLoadedLightmapsFromFile(const bool)", asFUNCTION(__EnablePreLoadedLightmapsFromFile), asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("bool LoadMusic(const string &in)",                    asFUNCTION(__LoadMusic),       asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool LoadSoundEffect(const string &in)",              asFUNCTION(__LoadSoundEffect), asCALL_GENERIC); assert(r >= 0);

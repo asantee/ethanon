@@ -121,8 +121,7 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 		video,
 		audio,
 		input,
-		fileIOHub,
-		false));
+		fileIOHub));
 
 	if (lowRamDevice)
 	{

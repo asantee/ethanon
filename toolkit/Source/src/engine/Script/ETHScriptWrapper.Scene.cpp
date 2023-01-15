@@ -176,14 +176,6 @@ void ETHScriptWrapper::DeleteEntity(ETHEntity *pEntity)
 
 void ETHScriptWrapper::LoadLightmaps(const std::string& directory)
 {
-	if (m_usePreLoadedLightmapsFromFile)
-	{
-		ReadLightmapsFromBitmapFiles(directory);
-	}
-}
-
-void ETHScriptWrapper::ReadLightmapsFromBitmapFiles(const std::string& directory)
-{
 	if (m_pScene)
 	{
 		const std::string resourceDirectory = (m_expansionFileManager) ? ("") : GetResourceDirectory();
@@ -270,20 +262,6 @@ void ETHScriptWrapper::AddToCameraPos(const Vector2 &v2Add)
 	// rounds up camera final position
 	VideoPtr video = m_provider->GetVideo();
 	video->MoveCamera(v2Add);
-}
-
-void ETHScriptWrapper::EnableLightmaps(const bool enable)
-{
-	if (WarnIfRunsInMainFunction(("EnableLightmaps")))
-		return;
-
-	m_useLightmaps = enable;
-	m_pScene->EnableLightmaps(enable);
-}
-
-void ETHScriptWrapper::EnablePreLoadedLightmapsFromFile(const bool enable)
-{
-	m_usePreLoadedLightmapsFromFile = enable;
 }
 
 Vector2 ETHScriptWrapper::GetCameraPos()
@@ -514,7 +492,6 @@ bool ETHScriptWrapper::LoadScene(const std::string &escFile, const std::string& 
 	m_pScene->ResolveJoints();
 	m_drawableManager.Clear();
 	m_sceneFileName = escFile;
-	m_pScene->EnableLightmaps(m_useLightmaps);
 	LoadLightmaps(lightmapDirectory);
 	m_provider->GetVideo()->SetCameraPos(Vector2(0,0));
 	LoadSceneScripts();

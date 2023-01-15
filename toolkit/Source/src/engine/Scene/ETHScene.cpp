@@ -514,16 +514,6 @@ void ETHScene::DrawEntityMultimap(const ETHBackBufferTargetManagerPtr& backBuffe
 	m_renderingManager.RenderPieces(m_sceneProps, m_minSceneHeight, m_maxSceneHeight);
 }
 
-void ETHScene::EnableLightmaps(const bool enable)
-{
-	m_provider->EnableLightmaps(enable);
-}
-
-bool ETHScene::AreLightmapsEnabled() const
-{
-	return m_provider->AreLightmapsEnabled();
-}
-
 int ETHScene::GetNumProcessedEntities()
 {
 	return static_cast<int>(m_nProcessedEntities);

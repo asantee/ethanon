@@ -42,7 +42,6 @@ public:
 	int AddEntity(ETHRenderEntity* pEntity);
 	int AddEntity(ETHRenderEntity* pEntity, const std::string& alternativeName);
 	void SetSceneProperties(const ETHSceneProperties &prop);
-	void EnableLightmaps(const bool enable);
 	
 	static int UpdateIDCounter(ETHEntity* pEntity);
 
