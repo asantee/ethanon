@@ -96,10 +96,7 @@ public:
 
 	unsigned int GetNumEntities() const;
 
-	void RecoverResources(const Platform::FileManagerPtr& expansionFileManager);
-
-	void SetZBuffer(const bool enable);
-	bool GetZBuffer() const;
+	void RecoverResources();
 
 	ETHPhysicsSimulator& GetSimulator();
 
@@ -177,7 +174,6 @@ private:
 	static int m_idCounter;
 	unsigned int m_nProcessedEntities;
 	unsigned int m_nRenderedPieces;
-	bool m_enableZBuffer;
 	float m_bucketClearenceFactor;
 };
 

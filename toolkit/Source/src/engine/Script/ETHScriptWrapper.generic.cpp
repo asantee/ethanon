@@ -167,9 +167,6 @@ asDECLARE_FUNCTION_WRAPPER(__ForceEntityRendering,    ETHScriptWrapper::ForceEnt
 asDECLARE_FUNCTION_WRAPPER(__GetWhiteListedEntitiesAroundBucket,  ETHScriptWrapper::GetWhiteListedEntitiesAroundBucket);
 asDECLARE_FUNCTION_WRAPPER(__GetEntitiesAroundBucketWithBlackList, ETHScriptWrapper::GetEntitiesAroundBucketWithBlackList);
 
-asDECLARE_FUNCTION_WRAPPER(__SetPositionRoundUp,      ETHScriptWrapper::SetPositionRoundUp);
-asDECLARE_FUNCTION_WRAPPER(__GetPositionRoundUp,      ETHScriptWrapper::GetPositionRoundUp);
-asDECLARE_FUNCTION_WRAPPER(__EnableQuitKeys,          ETHScriptWrapper::EnableQuitKeys);
 asDECLARE_FUNCTION_WRAPPER(__SetBorderBucketsDrawing, ETHScriptWrapper::SetBorderBucketsDrawing);
 asDECLARE_FUNCTION_WRAPPER(__IsDrawingBorderBuckets,  ETHScriptWrapper::IsDrawingBorderBuckets);
 
@@ -193,9 +190,6 @@ asDECLARE_FUNCTION_WRAPPER(__GetArgv,                      ETHScriptWrapper::Get
 asDECLARE_FUNCTION_WRAPPER(__GetWorldSpaceCursorPos2,      ETHScriptWrapper::GetWorldSpaceCursorPos2);
 asDECLARE_FUNCTION_WRAPPER(__ForwardCommand,               ETHScriptWrapper::ForwardCommand);
 
-asDECLARE_FUNCTION_WRAPPER(__SetZBuffer, ETHScriptWrapper::SetZBuffer);
-asDECLARE_FUNCTION_WRAPPER(__GetZBuffer, ETHScriptWrapper::GetZBuffer);
-
 asDECLARE_FUNCTION_WRAPPER(__SetPersistentResources,        ETHScriptWrapper::SetPersistentResources);
 asDECLARE_FUNCTION_WRAPPER(__ArePersistentResourcesEnabled, ETHScriptWrapper::ArePersistentResourcesEnabled);
 asDECLARE_FUNCTION_WRAPPER(__ReleaseResources,              ETHScriptWrapper::ReleaseResources);
@@ -207,12 +201,6 @@ asDECLARE_FUNCTION_WRAPPER(__FileExists,                    ETHScriptWrapper::Fi
 asDECLARE_FUNCTION_WRAPPER(__IsHighEndDevice,               ETHScriptWrapper::IsHighEndDevice);
 asDECLARE_FUNCTION_WRAPPER(__GetPlatformName,               ETHScriptWrapper::GetPlatformName);
 asDECLARE_FUNCTION_WRAPPER(__GetCurrentCallstack,           ETHScriptWrapper::GetCurrentCallstack);
-
-asDECLARE_FUNCTION_WRAPPER(__EnablePackLoading,                ETHScriptWrapper::EnablePackLoading);
-asDECLARE_FUNCTION_WRAPPER(__DisablePackLoading,               ETHScriptWrapper::DisablePackLoading);
-asDECLARE_FUNCTION_WRAPPER(__IsResourcePackingSupported,       ETHScriptWrapper::IsResourcePackingSupported);
-asDECLARE_FUNCTION_WRAPPER(__IsPackLoadingEnabled,             ETHScriptWrapper::IsPackLoadingEnabled);
-asDECLARE_FUNCTION_WRAPPER(__EnableLightmapsFromExpansionPack, ETHScriptWrapper::EnableLightmapsFromExpansionPack);
 
 asDECLARE_FUNCTION_WRAPPER(__SetGravity, ETHScriptWrapper::SetGravity);
 asDECLARE_FUNCTION_WRAPPER(__GetGravity, ETHScriptWrapper::GetGravity);
@@ -429,9 +417,6 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void GetEntitiesAroundBucketWithBlackList(const vector2 &in, ETHEntityArray &, const string &in)", asFUNCTION(__GetEntitiesAroundBucketWithBlackList), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void GetEntitiesAroundEntity(ETHEntity@, ETHEntityArray &)",                    asFUNCTION(__GetEntitiesAroundEntity), asCALL_GENERIC); assert(r >= 0);
 
-	r = pASEngine->RegisterGlobalFunction("void SetPositionRoundUp(const bool)",      asFUNCTION(__SetPositionRoundUp),      asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("bool GetPositionRoundUp()",                asFUNCTION(__GetPositionRoundUp),      asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("void EnableQuitKeys(const bool)",          asFUNCTION(__EnableQuitKeys),          asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void SetBorderBucketsDrawing(const bool)", asFUNCTION(__SetBorderBucketsDrawing), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool IsDrawingBorderBuckets()",            asFUNCTION(__IsDrawingBorderBuckets),  asCALL_GENERIC); assert(r >= 0);
 
@@ -467,9 +452,6 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	}
 	#endif
 
-	r = pASEngine->RegisterGlobalFunction("void SetZBuffer(const bool)", asFUNCTION(__SetZBuffer), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("bool GetZBuffer()",           asFUNCTION(__GetZBuffer), asCALL_GENERIC); assert(r >= 0);
-
 	r = pASEngine->RegisterGlobalFunction("void SetPersistentResources(const bool)",  asFUNCTION(__SetPersistentResources),        asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool ArePersistentResourcesEnabled()",     asFUNCTION(__ArePersistentResourcesEnabled), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void ReleaseResources()",                  asFUNCTION(__ReleaseResources),              asCALL_GENERIC); assert(r >= 0);
@@ -478,12 +460,6 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("bool IsHighEndDevice()",                   asFUNCTION(__IsHighEndDevice),               asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("string GetPlatformName()",                 asFUNCTION(__GetPlatformName),               asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("string GetCurrentCallstack()",             asFUNCTION(__GetCurrentCallstack),           asCALL_GENERIC); assert(r >= 0);
-
-	r = pASEngine->RegisterGlobalFunction("bool EnablePackLoading(const string &in, const string &in password = \"\")", asFUNCTION(__EnablePackLoading),  asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("void DisablePackLoading()",         asFUNCTION(__DisablePackLoading),         asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("bool IsResourcePackingSupported()", asFUNCTION(__IsResourcePackingSupported), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("bool IsPackLoadingEnabled()",       asFUNCTION(__IsPackLoadingEnabled),       asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("bool EnableLightmapsFromExpansionPack(const bool)", asFUNCTION(__EnableLightmapsFromExpansionPack), asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("string GetStringFromFileInPackage(const string &in)", asFUNCTION(__GetStringFromFileInPackage), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool FileInPackageExists(const string &in)",          asFUNCTION(__FileInPackageExists),        asCALL_GENERIC); assert(r >= 0);

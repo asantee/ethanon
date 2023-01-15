@@ -178,20 +178,14 @@ void ETHScriptWrapper::LoadLightmaps(const std::string& directory)
 {
 	if (m_pScene)
 	{
-		const std::string resourceDirectory = (m_expansionFileManager) ? ("") : GetResourceDirectory();
+		const std::string resourceDirectory = GetResourceDirectory();
 		const std::string lightmapDirectory = (directory.empty()) ? GetSceneFileName() : directory;
 		
 		Platform::FileIOHubPtr fileIOHub = m_provider->GetFileIOHub();
-		Platform::FileManagerPtr currentFileManager     = fileIOHub->GetFileManager();
+		Platform::FileManagerPtr currentFileManager = fileIOHub->GetFileManager();
 		const std::string currentResourceDirectory = fileIOHub->GetResourceDirectory();
-		if (m_expansionFileManager)
-		{
-			fileIOHub->SetFileManager(m_expansionFileManager, resourceDirectory);
-		}
 
 		m_pScene->LoadLightmapsFromBitmapFiles(resourceDirectory + lightmapDirectory);
-		
-		fileIOHub->SetFileManager(currentFileManager, currentResourceDirectory);
 	}
 }
 
@@ -380,26 +374,6 @@ bool ETHScriptWrapper::IsDrawingBorderBuckets()
 	if (WarnIfRunsInMainFunction(("IsDrawingBorderBuckets")))
 		return false;
 	return m_pScene->IsDrawingBorderBuckets();
-}
-
-void ETHScriptWrapper::SetPositionRoundUp(const bool roundUp)
-{
-	m_roundUpPosition = roundUp;
-}
-
-bool ETHScriptWrapper::GetPositionRoundUp()
-{
-	return m_roundUpPosition;
-}
-
-void ETHScriptWrapper::SetZBuffer(const bool enable)
-{
-	m_pScene->SetZBuffer(enable);
-}
-
-bool ETHScriptWrapper::GetZBuffer()
-{
-	return m_pScene->GetZBuffer();
 }
 
 void ETHScriptWrapper::GetVisibleEntities(ETHEntityArray &entityArray)

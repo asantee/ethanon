@@ -97,7 +97,7 @@ public:
 	virtual float GetLayerDepth() const = 0;
 	virtual void SetPivotAdjust(const Vector2& p) = 0;
 	virtual Vector2 GetPivotAdjust() const = 0;
-	virtual void RecoverResources(const Platform::FileManagerPtr& expansionFileManager) = 0;
+	virtual void RecoverResources() = 0;
 	virtual void DisableLightSource() = 0;
 
 	virtual void SetFlipX(const bool flipX) = 0;

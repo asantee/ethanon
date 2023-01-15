@@ -126,7 +126,6 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 	if (lowRamDevice)
 	{
 		m_provider->Log(("Ethanon is running low ram device mode."), Platform::Logger::LT_INFO);
-
 	}
 	
 	m_ethInput.SetProvider(m_provider);
@@ -152,7 +151,7 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 		{
 			if (m_pScene)
 			{
-				m_pScene->RecoverResources(m_expansionFileManager);
+				m_pScene->RecoverResources();
 			}
 		}
 	}
@@ -160,8 +159,7 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 	Randomizer::Seed(static_cast<unsigned int>(m_provider->GetVideo()->GetElapsedTime()));
 }
 
-Application::APP_STATUS ETHEngine::Update(
-	const float lastFrameDeltaTimeMS)
+Application::APP_STATUS ETHEngine::Update(const float lastFrameDeltaTimeMS)
 {
 	if (!m_mainFunctionExecuted)
 	{

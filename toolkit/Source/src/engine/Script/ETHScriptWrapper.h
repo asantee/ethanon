@@ -18,14 +18,11 @@
 class ETHScriptWrapper
 {
 	static std::string m_sceneFileName;
-	static bool m_roundUpPosition;
 	static bool m_runningMainFunction;
 	static bool m_persistentResources;
 	static float m_lastFrameElapsedTime;
 	
 protected:
-	static Platform::FileManagerPtr m_expansionFileManager;
-
 	static void SetLastFrameElapsedTime(const float lastFrameElapsedTime);
 
 	enum GARBAGE_COLLECT_MODE
@@ -53,7 +50,6 @@ public:
 
 	static ETHResourceProviderPtr m_provider;
 
-	static bool IsRoundingUpPosition() { return m_roundUpPosition; }
 	static bool IsRunningMainFunction() { return m_runningMainFunction; }
 
 	static std::string GetSceneFileName();
@@ -291,11 +287,6 @@ public:
 	static void GetWhiteListedEntitiesAroundBucket(const Vector2& bucket, ETHEntityArray &outVector, const std::string& semicolonSeparatedNames);
 	static void GetEntitiesAroundBucketWithBlackList(const Vector2& bucket, ETHEntityArray &outVector, const std::string& semicolonSeparatedNames);
 	static Vector2 GetBucket(const Vector2 &v2);
-	static void SetPositionRoundUp(const bool roundUp);
-	static bool GetPositionRoundUp();
-	static void SetZBuffer(const bool enable);
-	static bool GetZBuffer();
-	static void EnableQuitKeys(const bool enable);
 	static void GetVisibleEntities(ETHEntityArray &entityArray);
 	static void GetIntersectingEntities(const Vector2 &v2Here, ETHEntityArray &outVector, const bool screenSpace);
 	static int32_t GetNumProcessedEntities();
@@ -317,12 +308,6 @@ public:
 	static void GarbageCollect(const GARBAGE_COLLECT_MODE mode, asIScriptEngine* engine);
 	static void SetFastGarbageCollector(const bool enable);
 	static std::string GetCurrentCallstack();
-
-	static bool EnablePackLoading(const std::string& packFileName, const std::string& password);
-	static bool IsPackLoadingEnabled();
-	static void DisablePackLoading();
-	static bool IsResourcePackingSupported();
-	static bool EnableLightmapsFromExpansionPack(const bool enable);
 
 	static void SetHighEndDevice(const bool highEnd);
 	static bool IsHighEndDevice();

@@ -79,7 +79,6 @@ void ETHScene::Init(ETHResourceProviderPtr provider, const ETHSceneProperties& p
 	m_minSceneHeight = 0.0f;
 	m_nProcessedEntities = m_nRenderedPieces = 0;
 	m_bucketClearenceFactor = 0.0f;
-	m_enableZBuffer = true;
 	m_maxSceneHeight = m_provider->GetVideo()->GetScreenSizeF().y;
 }
 
@@ -428,8 +427,6 @@ void ETHScene::RenderScene(const ETHBackBufferTargetManagerPtr& backBuffer)
 {
 	const VideoPtr& video = m_provider->GetVideo();
 
-	video->SetZBuffer(GetZBuffer());
-
 	// draw ambient pass
 	DrawEntityMultimap(backBuffer);
 
@@ -696,24 +693,14 @@ unsigned int ETHScene::GetNumEntities() const
 	return m_buckets.GetNumEntities();
 }
 
-void ETHScene::RecoverResources(const Platform::FileManagerPtr& expansionFileManager)
+void ETHScene::RecoverResources()
 {
 	ETHEntityArray entities;
 	m_buckets.GetEntityArray(entities);
 	for (std::size_t t = 0; t < entities.size(); t++)
 	{
-		entities[static_cast<uint64_t>(t)]->RecoverResources(expansionFileManager);
+		entities[static_cast<uint64_t>(t)]->RecoverResources();
 	}
-}
-
-void ETHScene::SetZBuffer(const bool enable)
-{
-	m_enableZBuffer = enable;
-}
-
-bool ETHScene::GetZBuffer() const
-{
-	return m_enableZBuffer;
 }
 
 ETHPhysicsSimulator& ETHScene::GetSimulator()

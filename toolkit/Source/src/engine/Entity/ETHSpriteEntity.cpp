@@ -102,7 +102,7 @@ void ETHSpriteEntity::LoadResources()
 	}
 }
 
-void ETHSpriteEntity::RecoverResources(const Platform::FileManagerPtr& expansionFileManager)
+void ETHSpriteEntity::RecoverResources()
 {
 	LoadResources();
 
@@ -113,15 +113,7 @@ void ETHSpriteEntity::RecoverResources(const Platform::FileManagerPtr& expansion
 		Platform::FileManagerPtr currentFileManager     = fileIOHub->GetFileManager();
 		const std::string currentResourceDirectory = fileIOHub->GetResourceDirectory();
 
-		// gather from expansion file if it has one
-		if (expansionFileManager)
-		{
-			fileIOHub->SetFileManager(expansionFileManager, (""));
-		}
-
 		LoadLightmapFromFile(m_preRenderedLightmapFilePath);
-
-		fileIOHub->SetFileManager(currentFileManager, currentResourceDirectory);
 	}
 }
 

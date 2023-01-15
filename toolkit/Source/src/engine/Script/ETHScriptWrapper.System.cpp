@@ -251,11 +251,6 @@ std::string ETHScriptWrapper::GetGlobalExternalStorageDirectory()
 	return m_provider->GetFileIOHub()->GetGlobalExternalStorageDirectory();
 }
 
-void ETHScriptWrapper::EnableQuitKeys(const bool enable)
-{
-	m_provider->GetVideo()->EnableQuitShortcuts(enable);
-}
-
 void ETHScriptWrapper::ResetVideoMode(
 	const std::string& winTitle,
 	const unsigned int width,
@@ -293,74 +288,4 @@ void ETHScriptWrapper::ResetVideoMode(
 std::string ETHScriptWrapper::GetPlatformName()
 {
 	return m_provider->GetVideo()->GetPlatformName();
-}
-
-bool ETHScriptWrapper::EnablePackLoading(const std::string& packFileName, const std::string& password)
-{
-// TO-DO/TODO: make it safer
-#ifdef _MSC_VER
-	if (IsResourcePackingSupported())
-	{
-		Platform::FileIOHubPtr fileIOHub = m_provider->GetFileIOHub();
-		const std::string packagePath = fileIOHub->GetStartResourceDirectory() + packFileName;
-		Platform::FileManagerPtr fileManager(new Platform::ZipFileManager(packagePath.c_str(), password.c_str()));
-		const bool isLoaded = fileManager->IsLoaded();
-		if (isLoaded)
-		{
-			fileIOHub->SetFileManager(fileManager, (""));
-		}
-		return isLoaded;
-	}
-	else
-	{
-		return false;
-	}
-#else
-	return false;
-#endif
-}
-
-bool ETHScriptWrapper::EnableLightmapsFromExpansionPack(const bool enable)
-{
-	m_expansionFileManager = Platform::FileManagerPtr();
-	if (enable)
-	{
-	#ifdef ANDROID
-		const std::string expansionFilePath = GetSharedData(ETHGraphicResourceManager::SD_EXPANSION_FILE_PATH);
-		Platform::FileManagerPtr expansionFileManager = Platform::FileManagerPtr(new Platform::ZipFileManager(expansionFilePath.c_str()));
-		if (expansionFileManager->IsLoaded())
-		{
-			m_expansionFileManager = expansionFileManager;
-			m_provider->Log(expansionFilePath + (" expansion file loaded"), Platform::Logger::LT_INFO);
-			return true;
-		}
-		else
-		{
-			m_provider->Log(expansionFilePath + (" ERROR: file not found"), Platform::Logger::LT_ERROR);
-			return false;
-		}
-	#else
-		m_provider->Log(("ERROR: This platform doesn't support Expansion packages"), Platform::Logger::LT_ERROR);
-		return false;
-	#endif
-	}
-	else
-	{
-		return true;
-	}
-}
-
-void ETHScriptWrapper::DisablePackLoading()
-{
-	m_provider->GetFileIOHub()->RestoreStartFileManager();
-}
-
-bool ETHScriptWrapper::IsResourcePackingSupported()
-{
-	return m_provider->GetFileIOHub()->IsResourcePackingSupported();
-}
-
-bool ETHScriptWrapper::IsPackLoadingEnabled()
-{
-	return (m_provider->GetFileManager()->IsPacked() && IsResourcePackingSupported());
 }

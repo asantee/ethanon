@@ -97,7 +97,7 @@ public:
 	Vector2 ComputeOrigin(const Vector2 &v2Size) const override;
 	Vector2 ComputeAbsoluteOrigin(const Vector2 &v2Size) const override;
 
-	void RecoverResources(const Platform::FileManagerPtr& expansionFileManager) override;
+	void RecoverResources() override;
 	void ReleaseLightmap() override;
 
 	bool ShouldUseHighlightPixelShader() const;
