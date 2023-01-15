@@ -54,17 +54,17 @@ ETHSpriteEntity::ETHSpriteEntity(ETHResourceProviderPtr provider) :
 	Zero();
 }
 
-void ETHSpriteEntity::Refresh(const ETHEntityProperties& properties)
-{
-	m_properties = properties;
-	Create();
-}
-
 void ETHSpriteEntity::Zero()
 {
 }
 
 void ETHSpriteEntity::Create()
+{
+	CreateParticleSystem();
+	LoadResources();
+}
+
+void ETHSpriteEntity::LoadResources()
 {
 	ETHGraphicResourceManagerPtr graphicResources = m_provider->GetGraphicResourceManager();
 	VideoPtr video = m_provider->GetVideo();
@@ -82,7 +82,7 @@ void ETHSpriteEntity::Create()
 	if (m_properties.light)
 	{
 		 const ETHGraphicResourceManager::SpriteResource* haloResource =
-		 	graphicResources->GetPointer(fileManager, video, m_properties.light->haloBitmap, resourceDirectory, ETHDirectories::GetHaloDirectory(), true);
+			graphicResources->GetPointer(fileManager, video, m_properties.light->haloBitmap, resourceDirectory, ETHDirectories::GetHaloDirectory(), true);
 
 		if (haloResource)
 		{
@@ -90,17 +90,21 @@ void ETHSpriteEntity::Create()
 		}
 	}
 
-	LoadParticleSystem();
-
 	if (m_pSprite)
 	{
 		SetOrigin();
+	}
+	
+	// Load particle sprites
+	for (unsigned int t = 0; t < m_particles.size(); t++)
+	{
+		m_particles[t]->LoadGraphicResources();
 	}
 }
 
 void ETHSpriteEntity::RecoverResources(const Platform::FileManagerPtr& expansionFileManager)
 {
-	Create();
+	LoadResources();
 
 	// if it has had a pre-rendered lightmap, reload it
 	if (!m_preRenderedLightmapFilePath.empty())
@@ -244,31 +248,19 @@ std::string ETHSpriteEntity::GetHaloName() const
 		return ("");
 }
 
-void ETHSpriteEntity::LoadParticleSystem()
+void ETHSpriteEntity::CreateParticleSystem()
 {
-	ETHGraphicResourceManagerPtr graphicResources = m_provider->GetGraphicResourceManager();
 	ETHAudioResourceManagerPtr audioResources = m_provider->GetAudioResourceManager();
 	VideoPtr video = m_provider->GetVideo();
 	AudioPtr audio = m_provider->GetAudio();
-	const std::string& resourcePath = m_provider->GetFileIOHub()->GetResourceDirectory();
 
 	m_particles.clear();
 	m_particles.resize(m_properties.particleSystems.size());
-	for (std::size_t t=0; t<m_properties.particleSystems.size(); t++)
+	for (std::size_t t = 0; t < m_properties.particleSystems.size(); t++)
 	{
 		const ETHParticleSystem *pSystem = m_properties.particleSystems[t].get();
 		if (pSystem->nParticles > 0)
 		{
-			std::string path = resourcePath;
-			// path += GS_L("/");
-			path += ETHDirectories::GetParticlesDirectory();
-			path += Platform::GetFileName(pSystem->GetActualBitmapFile());
-
-			if (!graphicResources->AddFile(m_provider->GetFileManager(), video, path, resourcePath, false))
-			{
-				continue;
-			}
-
 			const float particleScale = (GetScale().x + GetScale().y) / 2.0f;
 			m_particles[t] = ETHParticleManagerPtr(
 				new ETHParticleManager(
@@ -873,4 +865,9 @@ void ETHSpriteEntity::Release()
 void ETHSpriteEntity::ReleaseLightmap()
 {
 	m_pLightmap.reset();
+}
+
+std::size_t ETHSpriteEntity::GetNumParticleSystems() const
+{
+	return m_particles.size();
 }

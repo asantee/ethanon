@@ -22,8 +22,6 @@ public:
 		const float scale);
 	ETHSpriteEntity(ETHResourceProviderPtr provider);
 
-	void Refresh(const ETHEntityProperties& properties) override;
-
 	void AddRef() override;
 	void Release() override;
 
@@ -90,7 +88,7 @@ public:
 
 	ETHPhysicsController* GetPhysicsController() override;
 
-	void LoadParticleSystem();
+	void CreateParticleSystem();
 
 	unsigned int GetNumFrames() const override;
 	unsigned int GetFrame() const override;
@@ -108,6 +106,10 @@ public:
 
 	Vector2 GetSpriteCut() const override;
 
+	std::size_t GetNumParticleSystems() const override;
+	
+	void LoadResources();
+	
 protected:
 	std::vector<ETHParticleManagerPtr> m_particles;
 

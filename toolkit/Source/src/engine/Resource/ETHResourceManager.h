@@ -15,11 +15,18 @@ public:
 
 	ETHGraphicResourceManager(const ETHSpriteDensityManager& densityManager);
 
-	class SpriteResource
+	class SpriteResourceDescriptor
+	{
+	protected:
+		std::string m_fullOriginPath;
+	public:
+		SpriteResourceDescriptor(const std::string& fullOriginPath);
+	};
+	
+	class SpriteResource : SpriteResourceDescriptor
 	{
 		friend class ETHGraphicResourceManager;
 		SpritePtr m_sprite;
-		std::string m_fullOriginPath;
 		bool m_temporary;
 		bool m_customFramesXMLFound;
 	public:

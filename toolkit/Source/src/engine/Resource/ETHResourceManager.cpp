@@ -17,15 +17,20 @@ static std::string RemoveResourceDirectory(
 	return r;
 }
 
+ETHGraphicResourceManager::SpriteResourceDescriptor::SpriteResourceDescriptor(const std::string& fullOriginPath) :
+	m_fullOriginPath(fullOriginPath)
+{
+}
+
 ETHGraphicResourceManager::SpriteResource::SpriteResource(
 	const Platform::FileManagerPtr& fileManager,
 	const std::string& resourceDirectory,
 	const std::string& fullOriginPath,
 	const SpritePtr& sprite,
 	const bool temporary) :
+	SpriteResourceDescriptor(RemoveResourceDirectory(resourceDirectory, fullOriginPath)),
 	m_sprite(sprite),
 	m_temporary(temporary),
-	m_fullOriginPath(RemoveResourceDirectory(resourceDirectory, fullOriginPath)),
 	flipX(false),
 	flipY(false),
 	frame(0),

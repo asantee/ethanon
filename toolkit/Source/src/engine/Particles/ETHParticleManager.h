@@ -117,6 +117,8 @@ public:
 	void SetParticleColorA(const Vector3 &color, const float alpha);
 	void SetParticleColorB(const Vector3 &color, const float alpha);
 
+	bool LoadGraphicResources();
+	
 private:
 
 	struct PARTICLE

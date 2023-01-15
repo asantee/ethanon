@@ -26,8 +26,6 @@ public:
 	ETHEntity();
 	~ETHEntity();
 
-	virtual void Refresh(const ETHEntityProperties& properties) = 0;
-
 	bool WriteToXMLFile(
 		TiXmlElement *pHeadRoot,
 		ETHEntityCache& entityCache,
@@ -50,7 +48,7 @@ public:
 	ETHCompoundShapePtr GetCompoundShape() const;
 	void ChangeEntityName(const std::string& name);
 	std::string GetEntityName() const override;
-	std::size_t GetNumParticleSystems() const;
+	virtual std::size_t GetNumParticleSystems() const;
 	ETHEntityProperties::ENTITY_TYPE GetType() const override;
 	ETHEntityProperties::BODY_SHAPE GetShape() const;
 	Vector3 GetPosition() const override;

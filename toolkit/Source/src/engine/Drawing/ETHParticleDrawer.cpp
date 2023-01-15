@@ -20,8 +20,8 @@ ETHParticleDrawer::ETHParticleDrawer(
 	ETHParticleSystem particleSystem;
 	particleSystem.ReadFromFile(resourceDirectory + ETHDirectories::GetEffectsDirectory() + fileName, provider->GetFileManager());
 	const Vector3 startPos(Vector3(m_pos + provider->GetVideo()->GetCameraPos(), 0.0f));
-	m_particleManager = ETHParticleManagerPtr(
-		new ETHParticleManager(provider, particleSystem, startPos, angle, scale));
+	m_particleManager = ETHParticleManagerPtr(new ETHParticleManager(provider, particleSystem, startPos, angle, scale));
+	m_particleManager->LoadGraphicResources();
 }
 
 bool ETHParticleDrawer::Draw(const unsigned long lastFrameElapsedTimeMS)

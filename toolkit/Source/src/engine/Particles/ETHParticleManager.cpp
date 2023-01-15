@@ -68,28 +68,6 @@ bool ETHParticleManager::CreateParticleSystem(
 		m_system.bitmapFile = ETH_DEFAULT_PARTICLE_BITMAP;
 	}
 
-	ETHGraphicResourceManagerPtr graphics = m_provider->GetGraphicResourceManager();
-	ETHAudioResourceManagerPtr samples = m_provider->GetAudioResourceManager();
-	Platform::FileIOHubPtr fileIOHub = m_provider->GetFileIOHub();
-	Platform::FileManagerPtr fileManager = m_provider->GetFileManager();
-
-	// if there's no resource path, search the current module's path
-	const std::string& resourcePath = fileIOHub->GetResourceDirectory();
-	const std::string& programPath  = fileIOHub->GetProgramDirectory();
-	const std::string currentPath = (resourcePath.empty() && !fileManager->IsPacked()) ? programPath : resourcePath;
-
-	const ETHGraphicResourceManager::SpriteResource* resource = graphics->GetPointer(
-		fileManager,
-		m_provider->GetVideo(),
-		m_system.bitmapFile,
-		currentPath,
-		ETHDirectories::GetParticlesDirectory());
-
-	if (resource)
-	{
-		m_pBMP = resource->GetSprite();
-	}
-
 	m_rects.SetRects(partSystem.spriteCut.x, partSystem.spriteCut.y);
 
 	if (m_system.allAtOnce)
@@ -111,6 +89,36 @@ bool ETHParticleManager::CreateParticleSystem(
 		ResetParticle(m_system, m_particles[t], v3Pos, angle, rot);
 	}
 	return true;
+}
+
+bool ETHParticleManager::LoadGraphicResources()
+{
+	ETHGraphicResourceManagerPtr graphics = m_provider->GetGraphicResourceManager();
+	ETHAudioResourceManagerPtr samples = m_provider->GetAudioResourceManager();
+	Platform::FileIOHubPtr fileIOHub = m_provider->GetFileIOHub();
+	Platform::FileManagerPtr fileManager = m_provider->GetFileManager();
+
+	// if there's no resource path, search the current module's path
+	const std::string& resourcePath = fileIOHub->GetResourceDirectory();
+	const std::string& programPath  = fileIOHub->GetProgramDirectory();
+	const std::string currentPath = (resourcePath.empty() && !fileManager->IsPacked()) ? programPath : resourcePath;
+
+	const ETHGraphicResourceManager::SpriteResource* resource = graphics->GetPointer(
+		fileManager,
+		m_provider->GetVideo(),
+		m_system.bitmapFile,
+		currentPath,
+		ETHDirectories::GetParticlesDirectory());
+
+	if (resource)
+	{
+		m_pBMP = resource->GetSprite();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 Vector3 ETHParticleManager::GetStartPos() const
