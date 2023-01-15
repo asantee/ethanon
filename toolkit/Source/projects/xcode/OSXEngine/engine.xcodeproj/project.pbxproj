@@ -168,7 +168,6 @@
 		74A21A98182BFA9D0000F783 /* hl_wrapperfactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 74A21A7E182BFA9D0000F783 /* hl_wrapperfactory.h */; };
 		74C111DF16971F1F00AEDCE1 /* box2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C111CD16971EAB00AEDCE1 /* box2d.framework */; };
 		74C111E016971F2300AEDCE1 /* gs2d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C111D316971EAB00AEDCE1 /* gs2d.framework */; };
-		74E8F17E1915485E0091A778 /* libangelscript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74E8F178191546820091A778 /* libangelscript.a */; };
 		74EB49AC16653D0A002DA2F0 /* ETHEntityRenderingManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74EB49AA16653D0A002DA2F0 /* ETHEntityRenderingManager.cpp */; };
 		74EB49AD16653D0A002DA2F0 /* ETHEntityRenderingManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 74EB49AB16653D0A002DA2F0 /* ETHEntityRenderingManager.h */; };
 		74F00AD71646B9EB00B8B51B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F00AD61646B9EB00B8B51B /* Cocoa.framework */; };
@@ -209,6 +208,7 @@
 		AA34CA7429254F100068E1D2 /* compress.c in Sources */ = {isa = PBXBuildFile; fileRef = AA34CA5A29254F0F0068E1D2 /* compress.c */; };
 		AA34CA7529254F100068E1D2 /* adler32.c in Sources */ = {isa = PBXBuildFile; fileRef = AA34CA5B29254F0F0068E1D2 /* adler32.c */; };
 		AA34CA7629254F100068E1D2 /* trees.c in Sources */ = {isa = PBXBuildFile; fileRef = AA34CA5C29254F0F0068E1D2 /* trees.c */; };
+		AAC380AF29743429000662E1 /* libangelscript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74E8F178191546820091A778 /* libangelscript.a */; };
 		AAFA2E4721419F50006D67FB /* JSONObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAFA2E4421419F4F006D67FB /* JSONObject.cpp */; };
 		AAFA2E4821419F50006D67FB /* JSONObject.h in Headers */ = {isa = PBXBuildFile; fileRef = AAFA2E4621419F50006D67FB /* JSONObject.h */; };
 /* End PBXBuildFile section */
@@ -504,7 +504,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				74E8F17E1915485E0091A778 /* libangelscript.a in Frameworks */,
+				AAC380AF29743429000662E1 /* libangelscript.a in Frameworks */,
 				74C111E016971F2300AEDCE1 /* gs2d.framework in Frameworks */,
 				74C111DF16971F1F00AEDCE1 /* box2d.framework in Frameworks */,
 				74F00AD71646B9EB00B8B51B /* Cocoa.framework in Frameworks */,
