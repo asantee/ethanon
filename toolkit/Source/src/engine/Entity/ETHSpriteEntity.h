@@ -7,6 +7,8 @@
 
 class ETHSpriteEntity : public ETHEntity
 {
+	mutable int32_t m_ref;
+
 public:
 	ETHSpriteEntity(const std::string& filePath, const std::string& lightmapDirectory, ETHResourceProviderPtr provider, const bool immediatelyLoadSprites, const int nId =-1);
 

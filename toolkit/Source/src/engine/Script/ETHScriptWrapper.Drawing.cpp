@@ -1,5 +1,8 @@
 #include "ETHScriptWrapper.h"
+
 #include "../Drawing/ETHParticleDrawer.h"
+
+#include "../Resource/ETHResourceLoader.h"
 
 Vector2 ETHScriptWrapper::ComputeCarretPosition(const std::string &font, const std::string &text, const unsigned int pos)
 {
@@ -23,15 +26,18 @@ std::string ETHScriptWrapper::AssembleColorCode(const uint32_t color)
 
 void ETHScriptWrapper::LoadSprite(const std::string& name)
 {
-	if (WarnIfRunsInMainFunction(("LoadSprite")))
-		return;
 	LoadAndGetSprite(name);
+}
+
+void ETHScriptWrapper::LoadSpriteASync(const std::string& name)
+{
+	ETHResourceContainer* container = new ETHSpriteContainer(m_provider, name);
+	ETHResourceLoader::EnqueueResource(container);
+	container->Release();
 }
 
 bool ETHScriptWrapper::ReleaseSprite(const std::string& name)
 {
-	if (WarnIfRunsInMainFunction(("ReleaseSprite")))
-		return false;
 	return m_provider->GetGraphicResourceManager()->ReleaseResource(name);
 }
 

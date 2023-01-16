@@ -18,6 +18,7 @@ const float ETHSpriteEntity::m_layrableMinimumDepth(0.001f);
 
 ETHSpriteEntity::ETHSpriteEntity(const std::string& filePath, const std::string& lightmapDirectory, ETHResourceProviderPtr provider, const bool immediatelyLoadSprites, const int nId) :
 	ETHEntity(filePath, nId, provider->GetFileManager()),
+	m_ref(1),
 	m_provider(provider),
 	m_lightmapDirectory(lightmapDirectory)
 {
@@ -34,6 +35,7 @@ ETHSpriteEntity::ETHSpriteEntity(
 	const bool shouldGenerateNewID,
 	const bool immediatelyLoadSprites) :
 	ETHEntity(pElement, entityCache, entityPath, provider->GetFileManager(), shouldGenerateNewID),
+	m_ref(1),
 	m_provider(provider),
 	m_lightmapDirectory(lightmapDirectory)
 {
@@ -49,6 +51,7 @@ ETHSpriteEntity::ETHSpriteEntity(
 	const float scale,
 	const bool immediatelyLoadSprites) :
 	ETHEntity(),
+	m_ref(1),
 	m_provider(provider),
 	m_lightmapDirectory(lightmapDirectory)
 {
@@ -61,6 +64,7 @@ ETHSpriteEntity::ETHSpriteEntity(
 
 ETHSpriteEntity::ETHSpriteEntity(ETHResourceProviderPtr provider) :
 	ETHEntity(),
+	m_ref(1),
 	m_provider(provider)
 {
 	Zero();

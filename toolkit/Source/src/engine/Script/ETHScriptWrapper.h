@@ -258,6 +258,7 @@ public:
 	static const ETHGraphicResourceManager::SpriteResource* LoadAndGetResource(const std::string &name);
 	static void DrawShapedFromResource(const ETHGraphicResourceManager::SpriteResource* resource, const Vector2 &v2Pos, const Vector2 &v2Size, const Vector4 &color, const float angle);
 	static void LoadSprite(const std::string& name);
+	static void LoadSpriteASync(const std::string& name);
 	static bool ReleaseSprite(const std::string& name);
 	static void DrawSprite(const std::string &name, const Vector2 &v2Pos, const uint32_t color, const float angle);
 	static void DrawShaped(const std::string &name, const Vector2 &v2Pos, const Vector2 &v2Size, const uint32_t color, const float angle);

@@ -1,7 +1,6 @@
 #include "ETHScriptEntity.h"
 
 ETHScriptEntity::ETHScriptEntity() : 
-	m_ref(1),
 	m_isAlive(true)
 {
 }

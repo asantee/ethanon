@@ -37,9 +37,14 @@ bool ETHResourceLoader::DoResourceRecoverStep(const ETHResourceProviderPtr& prov
 	}
 
 	provider->Log("-------------------------------- ENDED DoResourceRecoverStep", Platform::Logger::LT_INFO);
-	provider->Log("-------------------------------- EMPTY DoResourceRecoverStep", Platform::Logger::LT_INFO);
 
-	return m_containers.empty();
+	const bool emptied = m_containers.empty();
+	if (emptied)
+	{
+		provider->Log("-------------------------------- EMPTY DoResourceRecoverStep", Platform::Logger::LT_INFO);
+	}
+
+	return emptied;
 }
 
 bool ETHResourceLoader::HasContainerEnqueued()

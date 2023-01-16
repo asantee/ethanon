@@ -22,7 +22,6 @@ class ETHScriptEntity : public ETHResourceContainer
 
 protected:
 	ETHScriptEntity();
-	mutable int32_t m_ref;
 
 public:
 	virtual ETHEntityProperties::ENTITY_TYPE GetType() const = 0;

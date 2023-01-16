@@ -126,6 +126,7 @@ asDECLARE_FUNCTION_WRAPPER(__degreeToRadian, Util::DegreeToRadian);
 asDECLARE_FUNCTION_WRAPPER(__ARGB,           Color::ARGB);
 
 asDECLARE_FUNCTION_WRAPPER(__LoadSprite,       ETHScriptWrapper::LoadSprite);
+asDECLARE_FUNCTION_WRAPPER(__LoadSpriteASync,  ETHScriptWrapper::LoadSpriteASync);
 asDECLARE_FUNCTION_WRAPPER(__ReleaseSprite,    ETHScriptWrapper::ReleaseSprite);
 asDECLARE_FUNCTION_WRAPPER(__GetSpriteSize,    ETHScriptWrapper::GetSpriteSize);
 
@@ -375,8 +376,9 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("float degreeToRadian(const float)",                             asFUNCTION(__degreeToRadian), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("uint ARGB(const uint8, const uint8, const uint8, const uint8)", asFUNCTION(__ARGB),           asCALL_GENERIC); assert(r >= 0);
 
-	r = pASEngine->RegisterGlobalFunction("void LoadSprite(const string &in)",    asFUNCTION(__LoadSprite),    asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("bool ReleaseSprite(const string &in)", asFUNCTION(__ReleaseSprite), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void LoadSprite(const string &in)",      asFUNCTION(__LoadSprite),      asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void LoadSpriteASync(const string &in)", asFUNCTION(__LoadSpriteASync), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("bool ReleaseSprite(const string &in)",   asFUNCTION(__ReleaseSprite), asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("void DrawSprite(const string &in, const vector2 &in, const uint color = 0xFFFFFFFF, const float angle = 0.0f)",                      asFUNCTION(__DrawSprite),       asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void DrawShapedSprite(const string &in, const vector2 &in, const vector2 &in, const uint color = 0xFFFFFFFF, const float angle = 0.0f)", asFUNCTION(__DrawShapedSprite), asCALL_GENERIC); assert(r >= 0);
