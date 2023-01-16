@@ -414,8 +414,6 @@ void ETHScene::Update(
 
 void ETHScene::RenderScene(const ETHBackBufferTargetManagerPtr& backBuffer)
 {
-	const VideoPtr& video = m_provider->GetVideo();
-
 	// draw ambient pass
 	DrawEntityMultimap(backBuffer);
 
