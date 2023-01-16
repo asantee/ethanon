@@ -199,13 +199,22 @@ bool ETHSpriteEntity::ShouldUsePass1AddPixelShader() const
 
 bool ETHSpriteEntity::SetSprite(const std::string &fileName)
 {
-	m_pSprite = m_provider->GetGraphicResourceManager()->GetSprite(
-		m_provider->GetFileManager(),
-		m_provider->GetVideo(),
-		fileName,
-		m_provider->GetFileIOHub()->GetResourceDirectory(),
-		ETHDirectories::GetEntityDirectory(),
-		false);
+	if (fileName != "")
+	{
+		m_pSprite = m_provider->GetGraphicResourceManager()->GetSprite(
+			m_provider->GetFileManager(),
+			m_provider->GetVideo(),
+			fileName,
+			m_provider->GetFileIOHub()->GetResourceDirectory(),
+			ETHDirectories::GetEntityDirectory(),
+			false);
+	}
+	else
+	{
+		m_properties.spriteFile = "";
+		m_pSprite.reset();
+		return true;
+	}
 
 	if (m_pSprite)
 	{
@@ -223,7 +232,7 @@ bool ETHSpriteEntity::SetSprite(const std::string &fileName)
 	}
 	else
 	{
-		m_properties.spriteFile = ("");
+		m_properties.spriteFile = "";
 		return false;
 	}
 }
@@ -247,7 +256,7 @@ bool ETHSpriteEntity::SetHalo(const std::string &fileName)
 		}
 		else
 		{
-			m_properties.light->haloBitmap = ("");
+			m_properties.light->haloBitmap = "";
 			return false;
 		}
 	}
