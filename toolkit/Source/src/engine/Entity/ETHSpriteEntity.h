@@ -105,6 +105,8 @@ public:
 	Vector2 ComputeAbsoluteOrigin(const Vector2 &v2Size) const override;
 
 	void RecoverResources() override;
+	bool RecoverLightmap();
+
 	void ReleaseLightmap() override;
 
 	bool ShouldUseHighlightPixelShader() const;
@@ -115,13 +117,12 @@ public:
 
 	std::size_t GetNumParticleSystems() const override;
 	
-	void LoadResources(const std::string& lightmapDirectory);
-	
 protected:
 	std::vector<ETHParticleManagerPtr> m_particles;
 
 	std::string m_lightmapDirectory;
-	
+	std::string m_lightmapFullFilePath;
+
 	ETHResourceProviderPtr m_provider;
 	mutable SpritePtr m_pSprite;
 	SpritePtr m_pHalo;
@@ -134,7 +135,8 @@ protected:
 	std::string ConvertFileNameToLightmapDirectory(std::string filePath);
 
 private:
-	void Create(const bool immediatelyLoadSprites, const std::string& lightmapDirectory);
+	bool FindLightmapFullFilePath(const std::string& lightmapDirectory);
+	void Create(const bool immediatelyLoadSprites);
 	void Zero();
 };
 

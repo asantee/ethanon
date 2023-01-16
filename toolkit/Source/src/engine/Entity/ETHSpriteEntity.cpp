@@ -21,7 +21,7 @@ ETHSpriteEntity::ETHSpriteEntity(const std::string& filePath, const std::string&
 	m_lightmapDirectory(lightmapDirectory)
 {
 	Zero();
-	Create(immediatelyLoadSprites, lightmapDirectory);
+	Create(immediatelyLoadSprites);
 }
 
 ETHSpriteEntity::ETHSpriteEntity(
@@ -37,7 +37,7 @@ ETHSpriteEntity::ETHSpriteEntity(
 	m_lightmapDirectory(lightmapDirectory)
 {
 	Zero();
-	Create(immediatelyLoadSprites, lightmapDirectory);
+	Create(immediatelyLoadSprites);
 }
 
 ETHSpriteEntity::ETHSpriteEntity(
@@ -55,7 +55,7 @@ ETHSpriteEntity::ETHSpriteEntity(
 	m_properties.scale *= scale;
 	Zero();
 	SetAngle(angle); // sets angle before Create() to start particles correctly
-	Create(immediatelyLoadSprites, lightmapDirectory);
+	Create(immediatelyLoadSprites);
 }
 
 ETHSpriteEntity::ETHSpriteEntity(ETHResourceProviderPtr provider) :
@@ -69,17 +69,19 @@ void ETHSpriteEntity::Zero()
 {
 }
 
-void ETHSpriteEntity::Create(const bool immediatelyLoadSprites, const std::string& lightmapDirectory)
+void ETHSpriteEntity::Create(const bool immediatelyLoadSprites)
 {
 	CreateParticleSystem();
+
+	FindLightmapFullFilePath(m_lightmapDirectory);
 	
 	//if (immediatelyLoadSprites)
 	{
-		LoadResources(lightmapDirectory);
+		RecoverResources();
 	}
 }
 
-void ETHSpriteEntity::LoadResources(const std::string& lightmapDirectory)
+void ETHSpriteEntity::RecoverResources()
 {
 	ETHGraphicResourceManagerPtr graphicResources = m_provider->GetGraphicResourceManager();
 	VideoPtr video = m_provider->GetVideo();
@@ -101,7 +103,7 @@ void ETHSpriteEntity::LoadResources(const std::string& lightmapDirectory)
 		}
 	}
 
-	LoadLightmapFromFile(lightmapDirectory);
+	RecoverLightmap();
 
 	// Load particle sprites
 	for (unsigned int t = 0; t < m_particles.size(); t++)
@@ -110,30 +112,10 @@ void ETHSpriteEntity::LoadResources(const std::string& lightmapDirectory)
 	}
 }
 
-void ETHSpriteEntity::RecoverResources()
-{
-	LoadResources(m_lightmapDirectory);
-}
-
-std::string ETHSpriteEntity::ConvertFileNameToLightmapDirectory(std::string filePath)
-{
-	std::string fileName = Platform::GetFileName(filePath);
-	for (std::size_t t = 0; t < fileName.length(); t++)
-	{
-		if (fileName[t] == ('.'))
-		{
-			fileName[t] = ('-');
-		}
-	}
-	
-	const std::string directory(fileName + ("/"));
-	std::string r = std::string(Platform::GetFileDirectory(filePath.c_str())).append(directory);
-	return r;
-}
-
-bool ETHSpriteEntity::LoadLightmapFromFile(const std::string& lightmapDirectory)
+bool ETHSpriteEntity::FindLightmapFullFilePath(const std::string& lightmapDirectory)
 {
 	m_lightmapDirectory = lightmapDirectory;
+	m_lightmapFullFilePath = "";
 	
 	if (m_properties.applyLight != ETH_TRUE)
 		return false;
@@ -156,7 +138,20 @@ bool ETHSpriteEntity::LoadLightmapFromFile(const std::string& lightmapDirectory)
 		}
 	}
 	
-	if (!fileFound)
+	if (fileFound)
+	{
+		m_lightmapFullFilePath = fullFilePath;
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+bool ETHSpriteEntity::RecoverLightmap()
+{
+	if (m_properties.applyLight != ETH_TRUE)
 		return false;
 	
 	ETHGraphicResourceManagerPtr graphicResources = m_provider->GetGraphicResourceManager();
@@ -165,9 +160,9 @@ bool ETHSpriteEntity::LoadLightmapFromFile(const std::string& lightmapDirectory)
 	const ETHGraphicResourceManager::SpriteResource* lightmapResource = graphicResources->GetPointer(
 		m_provider->GetFileManager(),
 		video,
-		Platform::GetFileName(fullFilePath),
+		Platform::GetFileName(m_lightmapFullFilePath),
 		(""),
-		Platform::GetFileDirectory(fullFilePath.c_str()),
+		Platform::GetFileDirectory(m_lightmapFullFilePath.c_str()),
 		true);
 
 	if (lightmapResource)
@@ -176,6 +171,31 @@ bool ETHSpriteEntity::LoadLightmapFromFile(const std::string& lightmapDirectory)
 	}
 
 	return static_cast<bool>(m_pLightmap);
+}
+
+bool ETHSpriteEntity::LoadLightmapFromFile(const std::string& lightmapDirectory)
+{
+	if (FindLightmapFullFilePath(lightmapDirectory))
+	{
+		return RecoverLightmap();
+	}
+	return false;
+}
+
+std::string ETHSpriteEntity::ConvertFileNameToLightmapDirectory(std::string filePath)
+{
+	std::string fileName = Platform::GetFileName(filePath);
+	for (std::size_t t = 0; t < fileName.length(); t++)
+	{
+		if (fileName[t] == ('.'))
+		{
+			fileName[t] = ('-');
+		}
+	}
+	
+	const std::string directory(fileName + ("/"));
+	std::string r = std::string(Platform::GetFileDirectory(filePath.c_str())).append(directory);
+	return r;
 }
 
 bool ETHSpriteEntity::ShouldUseHighlightPixelShader() const
