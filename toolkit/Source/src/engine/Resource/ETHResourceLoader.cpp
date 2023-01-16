@@ -1,6 +1,7 @@
 #include "ETHResourceLoader.h"
 
 std::list<ETHResourceContainer*> ETHResourceLoader::m_containers;
+unsigned long ETHResourceLoader::m_desiredFPSWhileLoading = 20;
 
 void ETHResourceLoader::EnqueueResource(ETHResourceContainer* container)
 {
@@ -8,13 +9,40 @@ void ETHResourceLoader::EnqueueResource(ETHResourceContainer* container)
 	m_containers.push_back(container);
 }
 
-void ETHResourceLoader::RecoverAll()
+bool ETHResourceLoader::DoResourceRecoverStep(const ETHResourceProviderPtr& provider)
 {
-	for (std::list<ETHResourceContainer*>::iterator iter = m_containers.begin(); iter != m_containers.end(); ++iter)
-	{
-		(*iter)->RecoverResources();
-		(*iter)->Release();
-	}
+	if (m_containers.empty())
+		return false;
 	
-	m_containers.clear();
+	provider->Log("STARTING DoResourceRecoverStep -----------------------------------------------------", Platform::Logger::LT_INFO);
+
+	const unsigned long maxTimeToWork = 1000 / m_desiredFPSWhileLoading;
+
+	VideoPtr video = provider->GetVideo();
+
+	const unsigned long startTime = video->GetElapsedTime();
+	while ((video->GetElapsedTime() - startTime) < maxTimeToWork)
+	{
+		std::list<ETHResourceContainer*>::iterator iter = m_containers.begin();
+		if (iter != m_containers.end())
+		{
+			(*iter)->RecoverResources();
+			(*iter)->Release();
+			m_containers.pop_front();
+		}
+		else
+		{
+			break;
+		}
+	}
+
+	provider->Log("-------------------------------- ENDED DoResourceRecoverStep", Platform::Logger::LT_INFO);
+	provider->Log("-------------------------------- EMPTY DoResourceRecoverStep", Platform::Logger::LT_INFO);
+
+	return m_containers.empty();
+}
+
+bool ETHResourceLoader::HasContainerEnqueued()
+{
+	return !m_containers.empty();
 }

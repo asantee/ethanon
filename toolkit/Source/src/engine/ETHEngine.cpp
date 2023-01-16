@@ -7,6 +7,7 @@
 
 #include "Platform/ETHAppEnmlFile.h"
 
+#include "Resource/ETHResourceLoader.h"
 #include "Resource/ETHDirectories.h"
 
 #include "../addons/scriptbuilder.h"
@@ -161,6 +162,9 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 
 Application::APP_STATUS ETHEngine::Update(const float lastFrameDeltaTimeMS)
 {
+	if (ETHResourceLoader::HasContainerEnqueued())
+		return Application::APP_OK;
+	
 	if (!m_mainFunctionExecuted)
 	{
 		m_provider->Log(("Starting main function"), Platform::Logger::LT_INFO);
@@ -229,17 +233,27 @@ void ETHEngine::RenderFrame()
 {
 	m_backBuffer->BeginRendering();
 
-	// draw scene (if there's any)
-	if (m_pScene)
+	if (!ETHResourceLoader::DoResourceRecoverStep(m_provider))
 	{
-		m_pScene->RenderScene(m_backBuffer);
+		// draw scene (if there's any)
+		if (m_pScene)
+		{
+			m_pScene->RenderScene(m_backBuffer);
+		}
+
+		m_v2LastCamPos = GetCameraPos();
+
+		// draw sprites, rects, lines and texts
+		DrawTopLayer(GetLastFrameElapsedTime());
 	}
-
-	m_v2LastCamPos = GetCameraPos();
-
-	// draw sprites, rects, lines and texts
-	DrawTopLayer(GetLastFrameElapsedTime());
-
+	else
+	{
+		if (m_pScene)
+		{
+			m_pScene->EmptyRenderingQueue();
+		}
+	}
+	
 	m_backBuffer->EndRendering();
 
 	m_backBuffer->Present();

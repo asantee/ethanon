@@ -76,11 +76,13 @@ void ETHSpriteEntity::Create(const bool immediatelyLoadSprites)
 
 	FindLightmapFullFilePath(m_lightmapDirectory);
 
-	ETHResourceLoader::EnqueueResource(this);
-
-	//if (immediatelyLoadSprites)
+	if (immediatelyLoadSprites)
 	{
-		ETHResourceLoader::RecoverAll();
+		RecoverResources();
+	}
+	else
+	{
+		ETHResourceLoader::EnqueueResource(this);
 	}
 }
 

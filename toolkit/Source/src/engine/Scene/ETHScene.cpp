@@ -420,6 +420,11 @@ void ETHScene::RenderScene(const ETHBackBufferTargetManagerPtr& backBuffer)
 	m_buckets.ResolveMoveRequests();
 }
 
+void ETHScene::EmptyRenderingQueue()
+{
+	m_renderingManager.ReleaseMappedPieces();
+}
+
 void ETHScene::FillCurrentlyVisibleBucketList(std::list<Vector2>& bucketList, const ETHBackBufferTargetManagerPtr& backBuffer)
 {
 	const VideoPtr& video = m_provider->GetVideo();

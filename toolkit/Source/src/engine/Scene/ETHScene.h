@@ -128,6 +128,8 @@ public:
 	std::string AssembleEntityPath() const;
 	
 	std::string GetLightmapDirectory() const;
+	
+	void EmptyRenderingQueue();
 
 private:
 	void Init(ETHResourceProviderPtr provider, const ETHSceneProperties& props, asIScriptModule *pModule, asIScriptContext *pContext);
