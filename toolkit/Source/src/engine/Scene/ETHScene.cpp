@@ -763,3 +763,19 @@ void ETHScene::FillMultimapAndClearPersistentList(
 	}
 	m_persistentEntities.clear();
 }
+
+std::string ETHScene::ConvertSceneFileNameToLightmapDirectory(std::string filePath)
+{
+	std::string fileName = Platform::GetFileName(filePath);
+	for (std::size_t t = 0; t < fileName.length(); t++)
+	{
+		if (fileName[t] == ('.'))
+		{
+			fileName[t] = ('-');
+		}
+	}
+	
+	const std::string directory(fileName + ("/"));
+	std::string r = std::string(Platform::GetFileDirectory(filePath.c_str())).append(directory);
+	return r;
+}

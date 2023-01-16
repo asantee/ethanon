@@ -130,6 +130,8 @@ public:
 	std::string GetLightmapDirectory() const;
 	
 	void EmptyRenderingQueue();
+	
+	static std::string ConvertSceneFileNameToLightmapDirectory(std::string filePath);
 
 private:
 	void Init(ETHResourceProviderPtr provider, const ETHSceneProperties& props, asIScriptModule *pModule, asIScriptContext *pContext);

@@ -134,8 +134,6 @@ protected:
 
 	static const float m_layrableMinimumDepth;
 
-	std::string ConvertFileNameToLightmapDirectory(std::string filePath);
-
 private:
 	bool FindLightmapFullFilePath(const std::string& lightmapDirectory);
 	void Create(const bool immediatelyLoadSprites);

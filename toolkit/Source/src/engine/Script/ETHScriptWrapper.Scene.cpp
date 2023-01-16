@@ -435,8 +435,21 @@ bool ETHScriptWrapper::LoadScene(const std::string &escFile, const std::string& 
 
 	m_provider->GetGraphicResourceManager()->ReleaseTemporaryResources();
 
-	std::string fileName = m_provider->GetFileIOHub()->GetResourceDirectory();
-	fileName += escFile;
+	const std::string resourceDirectory = m_provider->GetFileIOHub()->GetResourceDirectory();
+
+	std::string lightmapDirectoryFinal;
+	if (lightmapDirectory == "")
+	{
+		lightmapDirectoryFinal = ETHScene::ConvertSceneFileNameToLightmapDirectory(escFile);
+	}
+	else
+	{
+		lightmapDirectoryFinal = ETHScene::ConvertSceneFileNameToLightmapDirectory(lightmapDirectory);
+	}
+
+	lightmapDirectoryFinal = resourceDirectory + lightmapDirectoryFinal;
+	
+	std::string fileName = resourceDirectory + escFile;
 
 	// if the name is set to _ETH_EMPTY_SCENE_STRING, don't load anything
 	if (escFile != _ETH_EMPTY_SCENE_STRING && escFile.size() > 0)
@@ -444,7 +457,7 @@ bool ETHScriptWrapper::LoadScene(const std::string &escFile, const std::string& 
 		m_pScene = ETHScenePtr(
 			new ETHScene(
 				fileName,
-				lightmapDirectory,
+				lightmapDirectoryFinal,
 				m_provider,
 				ETHSceneProperties(),
 				m_pASModule,

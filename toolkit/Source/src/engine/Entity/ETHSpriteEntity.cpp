@@ -129,8 +129,6 @@ bool ETHSpriteEntity::FindLightmapFullFilePath(const std::string& lightmapDirect
 	if (m_properties.applyLight != ETH_TRUE)
 		return false;
 	
-	const std::string fileDirectory = ConvertFileNameToLightmapDirectory(lightmapDirectory);
-
 	std::string fullFilePath;
 	
 	bool fileFound = false;
@@ -139,7 +137,7 @@ bool ETHSpriteEntity::FindLightmapFullFilePath(const std::string& lightmapDirect
 	const std::vector<std::string> formats = { "png", "webp", "bmp" };
 	for (std::size_t t = 0; t < formats.size(); t++)
 	{
-		fullFilePath = AssembleLightmapFileName(fileDirectory, formats[t]);
+		fullFilePath = AssembleLightmapFileName(m_lightmapDirectory, formats[t]);
 		if (ETHGlobal::FileExists(fullFilePath, m_provider->GetFileManager()))
 		{
 			fileFound = true;
@@ -189,22 +187,6 @@ bool ETHSpriteEntity::LoadLightmapFromFile(const std::string& lightmapDirectory)
 		return RecoverLightmap();
 	}
 	return false;
-}
-
-std::string ETHSpriteEntity::ConvertFileNameToLightmapDirectory(std::string filePath)
-{
-	std::string fileName = Platform::GetFileName(filePath);
-	for (std::size_t t = 0; t < fileName.length(); t++)
-	{
-		if (fileName[t] == ('.'))
-		{
-			fileName[t] = ('-');
-		}
-	}
-	
-	const std::string directory(fileName + ("/"));
-	std::string r = std::string(Platform::GetFileDirectory(filePath.c_str())).append(directory);
-	return r;
 }
 
 bool ETHSpriteEntity::ShouldUseHighlightPixelShader() const
