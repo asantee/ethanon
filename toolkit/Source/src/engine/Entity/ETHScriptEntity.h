@@ -10,11 +10,13 @@
 
 #include "../Entity/ETHEntityProperties.h"
 
+#include "../Resource/ETHResourceContainer.h"
+
 #include "../../angelscript/include/angelscript.h"
 
 class ETHPhysicsController;
 
-class ETHScriptEntity
+class ETHScriptEntity : public ETHResourceContainer
 {
 	bool m_isAlive;
 
@@ -97,7 +99,6 @@ public:
 	virtual float GetLayerDepth() const = 0;
 	virtual void SetPivotAdjust(const Vector2& p) = 0;
 	virtual Vector2 GetPivotAdjust() const = 0;
-	virtual void RecoverResources() = 0;
 	virtual void DisableLightSource() = 0;
 
 	virtual void SetFlipX(const bool flipX) = 0;
@@ -164,8 +165,6 @@ public:
 	virtual bool IsSensor() const = 0;
 	virtual bool HasSimulatedBody() const = 0;
 
-	virtual void AddRef() = 0;
-	virtual void Release() = 0;
 	void Kill();
 	bool IsAlive() const;
 

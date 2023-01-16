@@ -209,6 +209,10 @@
 		AA34CA7529254F100068E1D2 /* adler32.c in Sources */ = {isa = PBXBuildFile; fileRef = AA34CA5B29254F0F0068E1D2 /* adler32.c */; };
 		AA34CA7629254F100068E1D2 /* trees.c in Sources */ = {isa = PBXBuildFile; fileRef = AA34CA5C29254F0F0068E1D2 /* trees.c */; };
 		AAC380AF29743429000662E1 /* libangelscript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74E8F178191546820091A778 /* libangelscript.a */; };
+		AAC380B229743669000662E1 /* ETHResourceLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAC380B029743669000662E1 /* ETHResourceLoader.cpp */; };
+		AAC380B329743669000662E1 /* ETHResourceLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC380B129743669000662E1 /* ETHResourceLoader.h */; };
+		AAC380B629757FE6000662E1 /* ETHResourceContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAC380B429757FE6000662E1 /* ETHResourceContainer.cpp */; };
+		AAC380B729757FE6000662E1 /* ETHResourceContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC380B529757FE6000662E1 /* ETHResourceContainer.h */; };
 		AAFA2E4721419F50006D67FB /* JSONObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAFA2E4421419F4F006D67FB /* JSONObject.cpp */; };
 		AAFA2E4821419F50006D67FB /* JSONObject.h in Headers */ = {isa = PBXBuildFile; fileRef = AAFA2E4621419F50006D67FB /* JSONObject.h */; };
 /* End PBXBuildFile section */
@@ -495,6 +499,10 @@
 		AA34CA5A29254F0F0068E1D2 /* compress.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = compress.c; path = "../../../../src/vendors/openssl-xcode/OSX/zlib/compress.c"; sourceTree = "<group>"; };
 		AA34CA5B29254F0F0068E1D2 /* adler32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = adler32.c; path = "../../../../src/vendors/openssl-xcode/OSX/zlib/adler32.c"; sourceTree = "<group>"; };
 		AA34CA5C29254F0F0068E1D2 /* trees.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = trees.c; path = "../../../../src/vendors/openssl-xcode/OSX/zlib/trees.c"; sourceTree = "<group>"; };
+		AAC380B029743669000662E1 /* ETHResourceLoader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ETHResourceLoader.cpp; path = ../../../../src/engine/Resource/ETHResourceLoader.cpp; sourceTree = "<group>"; };
+		AAC380B129743669000662E1 /* ETHResourceLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ETHResourceLoader.h; path = ../../../../src/engine/Resource/ETHResourceLoader.h; sourceTree = "<group>"; };
+		AAC380B429757FE6000662E1 /* ETHResourceContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHResourceContainer.cpp; path = ../../../../src/engine/Resource/ETHResourceContainer.cpp; sourceTree = "<group>"; };
+		AAC380B529757FE6000662E1 /* ETHResourceContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETHResourceContainer.h; path = ../../../../src/engine/Resource/ETHResourceContainer.h; sourceTree = "<group>"; };
 		AAFA2E4421419F4F006D67FB /* JSONObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JSONObject.cpp; path = ../../../../src/engine/Util/JSONObject.cpp; sourceTree = "<group>"; };
 		AAFA2E4621419F50006D67FB /* JSONObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONObject.h; path = ../../../../src/engine/Util/JSONObject.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -620,6 +628,10 @@
 				7421F0C51647260900C55BAE /* ETHResourceProvider.h */,
 				7421F0C61647260900C55BAE /* ETHSpriteDensityManager.cpp */,
 				7421F0C71647260900C55BAE /* ETHSpriteDensityManager.h */,
+				AAC380B029743669000662E1 /* ETHResourceLoader.cpp */,
+				AAC380B129743669000662E1 /* ETHResourceLoader.h */,
+				AAC380B429757FE6000662E1 /* ETHResourceContainer.cpp */,
+				AAC380B529757FE6000662E1 /* ETHResourceContainer.h */,
 			);
 			name = Resource;
 			sourceTree = "<group>";
@@ -966,8 +978,10 @@
 				7421F0691647258E00C55BAE /* ETHEntityChooser.h in Headers */,
 				7421F06B1647258E00C55BAE /* ETHEntityController.h in Headers */,
 				7421F06D1647258E00C55BAE /* ETHEntityProperties.h in Headers */,
+				AAC380B729757FE6000662E1 /* ETHResourceContainer.h in Headers */,
 				7421F06F1647258E00C55BAE /* ETHLight.h in Headers */,
 				7421F0711647258E00C55BAE /* ETHRenderEntity.h in Headers */,
+				AAC380B329743669000662E1 /* ETHResourceLoader.h in Headers */,
 				74A21A80182BFA9D0000F783 /* hashlibpp.h in Headers */,
 				AA0E39FE29252A490012CD03 /* wsclient.hpp in Headers */,
 				7421F0731647258E00C55BAE /* ETHScriptEntity.h in Headers */,
@@ -1182,12 +1196,14 @@
 				74A21A94182BFA9D0000F783 /* hl_sha512wrapper.cpp in Sources */,
 				74A21A89182BFA9D0000F783 /* hl_sha1wrapper.cpp in Sources */,
 				7421F06C1647258E00C55BAE /* ETHEntityProperties.cpp in Sources */,
+				AAC380B629757FE6000662E1 /* ETHResourceContainer.cpp in Sources */,
 				7421F06E1647258E00C55BAE /* ETHLight.cpp in Sources */,
 				7421F0701647258E00C55BAE /* ETHRenderEntity.cpp in Sources */,
 				7421F0721647258E00C55BAE /* ETHScriptEntity.cpp in Sources */,
 				AA34CA7129254F100068E1D2 /* inffast.c in Sources */,
 				7421F0741647258E00C55BAE /* ETHSpriteEntity.cpp in Sources */,
 				AA34CA5E29254F0F0068E1D2 /* crc32.c in Sources */,
+				AAC380B229743669000662E1 /* ETHResourceLoader.cpp in Sources */,
 				7421F0791647259E00C55BAE /* ETHEngine.cpp in Sources */,
 				AA34CA6129254F0F0068E1D2 /* deflate.c in Sources */,
 				7421F080164725AD00C55BAE /* ETHParticleManager.cpp in Sources */,

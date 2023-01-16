@@ -5,6 +5,7 @@
 
 #include "../Physics/ETHPhysicsController.h"
 
+#include "../Resource/ETHResourceLoader.h"
 #include "../Resource/ETHDirectories.h"
 
 #include <Math/OrientedBoundingBox.h>
@@ -74,10 +75,12 @@ void ETHSpriteEntity::Create(const bool immediatelyLoadSprites)
 	CreateParticleSystem();
 
 	FindLightmapFullFilePath(m_lightmapDirectory);
-	
+
+	ETHResourceLoader::EnqueueResource(this);
+
 	//if (immediatelyLoadSprites)
 	{
-		RecoverResources();
+		ETHResourceLoader::RecoverAll();
 	}
 }
 
