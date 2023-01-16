@@ -15,12 +15,13 @@
 
 const float ETHSpriteEntity::m_layrableMinimumDepth(0.001f);
 
-ETHSpriteEntity::ETHSpriteEntity(const std::string& filePath, ETHResourceProviderPtr provider, const int nId) :
+ETHSpriteEntity::ETHSpriteEntity(const std::string& filePath, const std::string& lightmapDirectory, ETHResourceProviderPtr provider, const bool immediatelyLoadSprites, const int nId) :
+	ETHEntity(filePath, nId, provider->GetFileManager()),
 	m_provider(provider),
-	ETHEntity(filePath, nId, provider->GetFileManager())
+	m_lightmapDirectory(lightmapDirectory)
 {
 	Zero();
-	Create();
+	Create(immediatelyLoadSprites, lightmapDirectory);
 }
 
 ETHSpriteEntity::ETHSpriteEntity(
@@ -28,23 +29,33 @@ ETHSpriteEntity::ETHSpriteEntity(
 	ETHResourceProviderPtr provider,
 	ETHEntityCache& entityCache,
 	const std::string& entityPath,
-	const bool shouldGenerateNewID) :
+	const std::string& lightmapDirectory,
+	const bool shouldGenerateNewID,
+	const bool immediatelyLoadSprites) :
 	ETHEntity(pElement, entityCache, entityPath, provider->GetFileManager(), shouldGenerateNewID),
-	m_provider(provider)
+	m_provider(provider),
+	m_lightmapDirectory(lightmapDirectory)
 {
 	Zero();
-	Create();
+	Create(immediatelyLoadSprites, lightmapDirectory);
 }
 
-ETHSpriteEntity::ETHSpriteEntity(ETHResourceProviderPtr provider, const ETHEntityProperties& properties, const float angle, const float scale) :
+ETHSpriteEntity::ETHSpriteEntity(
+	ETHResourceProviderPtr provider,
+	const ETHEntityProperties& properties,
+	const std::string& lightmapDirectory,
+	const float angle,
+	const float scale,
+	const bool immediatelyLoadSprites) :
 	ETHEntity(),
-	m_provider(provider)
+	m_provider(provider),
+	m_lightmapDirectory(lightmapDirectory)
 {
 	m_properties = properties;
 	m_properties.scale *= scale;
 	Zero();
 	SetAngle(angle); // sets angle before Create() to start particles correctly
-	Create();
+	Create(immediatelyLoadSprites, lightmapDirectory);
 }
 
 ETHSpriteEntity::ETHSpriteEntity(ETHResourceProviderPtr provider) :
@@ -58,20 +69,20 @@ void ETHSpriteEntity::Zero()
 {
 }
 
-void ETHSpriteEntity::Create()
+void ETHSpriteEntity::Create(const bool immediatelyLoadSprites, const std::string& lightmapDirectory)
 {
 	CreateParticleSystem();
-	LoadResources();
+	
+	//if (immediatelyLoadSprites)
+	{
+		LoadResources(lightmapDirectory);
+	}
 }
 
-void ETHSpriteEntity::LoadResources()
+void ETHSpriteEntity::LoadResources(const std::string& lightmapDirectory)
 {
 	ETHGraphicResourceManagerPtr graphicResources = m_provider->GetGraphicResourceManager();
 	VideoPtr video = m_provider->GetVideo();
-
-	// don't go further if it doesn't have any context
-	if (!video || !graphicResources)
-		return;
 
 	const std::string& resourceDirectory = m_provider->GetFileIOHub()->GetResourceDirectory();
 	
@@ -90,11 +101,8 @@ void ETHSpriteEntity::LoadResources()
 		}
 	}
 
-	if (m_pSprite)
-	{
-		SetOrigin();
-	}
-	
+	LoadLightmapFromFile(lightmapDirectory);
+
 	// Load particle sprites
 	for (unsigned int t = 0; t < m_particles.size(); t++)
 	{
@@ -104,45 +112,67 @@ void ETHSpriteEntity::LoadResources()
 
 void ETHSpriteEntity::RecoverResources()
 {
-	LoadResources();
-
-	// if it has had a pre-rendered lightmap, reload it
-	if (!m_preRenderedLightmapFilePath.empty())
-	{
-		Platform::FileIOHubPtr fileIOHub = m_provider->GetFileIOHub();
-		Platform::FileManagerPtr currentFileManager     = fileIOHub->GetFileManager();
-		const std::string currentResourceDirectory = fileIOHub->GetResourceDirectory();
-
-		LoadLightmapFromFile(m_preRenderedLightmapFilePath);
-	}
+	LoadResources(m_lightmapDirectory);
 }
 
-bool ETHSpriteEntity::LoadLightmapFromFile(const std::string& filePath)
+std::string ETHSpriteEntity::ConvertFileNameToLightmapDirectory(std::string filePath)
 {
+	std::string fileName = Platform::GetFileName(filePath);
+	for (std::size_t t = 0; t < fileName.length(); t++)
+	{
+		if (fileName[t] == ('.'))
+		{
+			fileName[t] = ('-');
+		}
+	}
+	
+	const std::string directory(fileName + ("/"));
+	std::string r = std::string(Platform::GetFileDirectory(filePath.c_str())).append(directory);
+	return r;
+}
+
+bool ETHSpriteEntity::LoadLightmapFromFile(const std::string& lightmapDirectory)
+{
+	m_lightmapDirectory = lightmapDirectory;
+	
+	if (m_properties.applyLight != ETH_TRUE)
+		return false;
+	
+	const std::string fileDirectory = ConvertFileNameToLightmapDirectory(lightmapDirectory);
+
+	std::string fullFilePath;
+	
+	bool fileFound = false;
+
+	// check for each format
+	const std::vector<std::string> formats = { "png", "webp", "bmp" };
+	for (std::size_t t = 0; t < formats.size(); t++)
+	{
+		fullFilePath = AssembleLightmapFileName(fileDirectory, formats[t]);
+		if (ETHGlobal::FileExists(fullFilePath, m_provider->GetFileManager()))
+		{
+			fileFound = true;
+			break;
+		}
+	}
+	
+	if (!fileFound)
+		return false;
+	
 	ETHGraphicResourceManagerPtr graphicResources = m_provider->GetGraphicResourceManager();
 	VideoPtr video = m_provider->GetVideo();
 
-	// don't go further if it doesn't have any context
-	if (!video || !graphicResources)
-		return false;
+	const ETHGraphicResourceManager::SpriteResource* lightmapResource = graphicResources->GetPointer(
+		m_provider->GetFileManager(),
+		video,
+		Platform::GetFileName(fullFilePath),
+		(""),
+		Platform::GetFileDirectory(fullFilePath.c_str()),
+		true);
 
-	if (ETHGlobal::FileExists(filePath, m_provider->GetFileManager()))
+	if (lightmapResource)
 	{
-		const ETHGraphicResourceManager::SpriteResource* lightmapResource = graphicResources->GetPointer(
-			m_provider->GetFileManager(),
-			video,
-			Platform::GetFileName(filePath),
-			(""),
-			Platform::GetFileDirectory(filePath.c_str()),
-			true);
-
-		if (lightmapResource)
-		{
-			m_pLightmap = lightmapResource->GetSprite();
-		}
-
-		// store bitmap name to restore when necessary
-		m_preRenderedLightmapFilePath = filePath;
+		m_pLightmap = lightmapResource->GetSprite();
 	}
 
 	return static_cast<bool>(m_pLightmap);

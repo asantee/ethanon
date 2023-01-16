@@ -47,7 +47,6 @@ class ETHEntityProperties : public ETHEntitySpriteProperties, public ETHCustomDa
 	friend class ETHSpriteEntity;
 	friend class ETHRenderEntity;
 	friend class ETHScene;
-	friend class ETHLightmapGen;
 
 public:
 	enum ENTITY_TYPE
@@ -158,6 +157,7 @@ public:
 
 	BODY_SHAPE shape;
 	std::string entityName;
+	ETH_BOOL applyLight;
 	ETH_BOOL staticEntity;
 	ETH_BOOL hideFromSceneEditor;
 	ENTITY_TYPE type;

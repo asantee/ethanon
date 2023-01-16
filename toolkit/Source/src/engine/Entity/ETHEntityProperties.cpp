@@ -197,6 +197,7 @@ bool ETHEntityProperties::ReadFromXMLFile(TiXmlElement *pElement)
 
 	staticEntity = ReadBooleanPropertyFromXmlElement(pElement, ("static"), staticEntity);
 	hideFromSceneEditor = ReadBooleanPropertyFromXmlElement(pElement, ("hideFromSceneEditor"), hideFromSceneEditor);
+	applyLight = ReadBooleanPropertyFromXmlElement(pElement, ("applyLight"), applyLight);
 
 	pElement->QueryIntAttribute(("shape"), (int*)&shape);
 	pElement->QueryIntAttribute(("blendMode"), (int*)&blendMode);

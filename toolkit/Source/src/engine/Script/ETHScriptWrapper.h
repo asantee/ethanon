@@ -159,8 +159,8 @@ public:
 		const std::string &lightmapDirectory,
 		const Vector2& v2BucketSize);
 
-	static void AddSceneInScript(const std::string& escFile, const Vector3& offset, ETHEntityArray &outVector);
-	static void AddSceneFromString(const std::string& content, const Vector3& offset, ETHEntityArray &outVector);
+	static void AddSceneInScript(const std::string& escFile, const Vector3& offset, ETHEntityArray &outVector, const bool immediatelyLoadSprites);
+	static void AddSceneFromString(const std::string& content, const Vector3& offset, ETHEntityArray &outVector, const bool immediatelyLoadSprites);
 
 	static bool SaveScene(const std::string &escFile);
 	static bool LoadScene(const std::string &escFile, const std::string& lightmapDirectory, const Vector2& bucketSize);

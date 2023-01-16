@@ -2,8 +2,12 @@
 
 #include "../Shader/ETHShaderManager.h"
 
-ETHRenderEntity::ETHRenderEntity(const std::string& filePath, ETHResourceProviderPtr provider, const int nId) :
-	ETHSpriteEntity(filePath, provider, nId)
+ETHRenderEntity::ETHRenderEntity(
+	const std::string& filePath,
+	const std::string& lightmapDirectory,
+	ETHResourceProviderPtr provider,
+	const int nId) :
+	ETHSpriteEntity(filePath, lightmapDirectory, provider, nId)
 {
 }
 
@@ -12,17 +16,21 @@ ETHRenderEntity::ETHRenderEntity(
 	ETHResourceProviderPtr provider,
 	ETHEntityCache& entityCache,
 	const std::string &entityPath,
-	const bool shouldGenerateNewID) :
-	ETHSpriteEntity(pElement, provider, entityCache, entityPath, shouldGenerateNewID)
+	const std::string& lightmapDirectory,
+	const bool shouldGenerateNewID,
+	const bool immediatelyLoadSprites) :
+	ETHSpriteEntity(pElement, provider, entityCache, entityPath, lightmapDirectory, shouldGenerateNewID, immediatelyLoadSprites)
 {
 }
 
 ETHRenderEntity::ETHRenderEntity(
 	ETHResourceProviderPtr provider,
 	const ETHEntityProperties& properties,
+	const std::string& lightmapDirectory,
 	const float angle,
-	const float scale) :
-	ETHSpriteEntity(provider, properties, angle, scale)
+	const float scale,
+	const bool immediatelyLoadSprites) :
+	ETHSpriteEntity(provider, properties, lightmapDirectory, angle, scale, immediatelyLoadSprites)
 {
 }
 

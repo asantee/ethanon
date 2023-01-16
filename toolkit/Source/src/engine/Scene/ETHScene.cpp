@@ -20,6 +20,7 @@ int ETHScene::m_idCounter = 0;
 
 ETHScene::ETHScene(
 	const std::string& fileName,
+	const std::string& lightmapDirectory,
 	ETHResourceProviderPtr provider,
 	const ETHSceneProperties& props,
 	asIScriptModule *pModule,
@@ -29,8 +30,12 @@ ETHScene::ETHScene(
 	m_renderingManager(provider),
 	m_buckets(provider, v2BucketSize, true),
 	m_activeEntityHandler(provider),
-	m_physicsSimulator(provider->GetVideo()->GetFPSRate())
+	m_physicsSimulator(provider->GetVideo()->GetFPSRate()),
+	m_lightmapDirectory(lightmapDirectory)
 {
+	if (m_lightmapDirectory == "")
+		m_lightmapDirectory = fileName;
+
 	Init(provider, props, pModule, pContext);
 	ETHEntityArray out;
 	AddSceneFromFile(
@@ -40,7 +45,10 @@ ETHScene::ETHScene(
 		true /*readSceneProperties*/,
 		Vector3(0.0f, 0.0f, 0.0f),
 		out,
-		false);
+		false /*shouldGenerateNewID*/,
+		false /*immediatelyLoadSprites*/);
+	
+	// TO-DO
 }
 
 ETHScene::ETHScene(
@@ -52,7 +60,8 @@ ETHScene::ETHScene(
 	m_renderingManager(provider),
 	m_buckets(provider, v2BucketSize, true),
 	m_activeEntityHandler(provider),
-	m_physicsSimulator(provider->GetVideo()->GetFPSRate())
+	m_physicsSimulator(provider->GetVideo()->GetFPSRate()),
+	m_lightmapDirectory("")
 {
 	Init(provider, props, pModule, pContext);
 }
@@ -85,6 +94,11 @@ void ETHScene::Init(ETHResourceProviderPtr provider, const ETHSceneProperties& p
 std::string ETHScene::AssembleEntityPath() const
 {
 	return m_provider->GetFileIOHub()->GetResourceDirectory() + ETHDirectories::GetEntityDirectory();
+}
+
+std::string ETHScene::GetLightmapDirectory() const
+{
+	return m_lightmapDirectory;
 }
 
 void ETHScene::ClearResources()
@@ -149,7 +163,8 @@ bool ETHScene::AddSceneFromFile(
 	const bool readSceneProperties,
 	const Vector3& offset,
 	ETHEntityArray &outVector,
-	const bool shouldGenerateNewID)
+	const bool shouldGenerateNewID,
+	const bool immediatelyLoadSprites)
 {
 	Platform::FileManagerPtr fileManager = m_provider->GetFileManager();
 
@@ -164,7 +179,7 @@ bool ETHScene::AddSceneFromFile(
 	TiXmlDocument doc(fileName);
 	std::string content;
 	fileManager->GetUTFFileString(fileName, content);
-	return AddSceneFromString(fileName, content, entityCache, entityPath, readSceneProperties, offset, outVector, shouldGenerateNewID);
+	return AddSceneFromString(fileName, content, entityCache, entityPath, readSceneProperties, offset, outVector, shouldGenerateNewID, immediatelyLoadSprites);
 }
 
 bool ETHScene::AddSceneFromString(
@@ -175,7 +190,8 @@ bool ETHScene::AddSceneFromString(
 	const bool readSceneProperties,
 	const Vector3& offset,
 	ETHEntityArray &outVector,
-	const bool shouldGenerateNewID)
+	const bool shouldGenerateNewID,
+	const bool immediatelyLoadSprites)
 {
 	m_minSceneHeight = 0.0f;
 	m_maxSceneHeight = m_provider->GetVideo()->GetScreenSizeF().y;
@@ -198,7 +214,7 @@ bool ETHScene::AddSceneFromString(
 		m_provider->Log(ss.str(), Platform::FileLogger::LT_ERROR);
 		return false;
 	}
-	return AddEntitiesFromXMLFile(fileName, pElement, entityCache, entityPath, readSceneProperties, offset, outVector, shouldGenerateNewID);
+	return AddEntitiesFromXMLFile(fileName, pElement, entityCache, entityPath, readSceneProperties, offset, outVector, shouldGenerateNewID, immediatelyLoadSprites);
 }
 
 bool ETHScene::AddEntitiesFromXMLFile(
@@ -209,7 +225,8 @@ bool ETHScene::AddEntitiesFromXMLFile(
 	const bool readSceneProperties,
 	const Vector3& offset,
 	ETHEntityArray &outVector,
-	const bool shouldGenerateNewIDs)
+	const bool shouldGenerateNewIDs,
+	const bool immediatelyLoadSprites)
 {
 	std::stringstream ss;
 	const std::string sceneFileName = Platform::GetFileName(fileName.c_str());
@@ -245,7 +262,7 @@ bool ETHScene::AddEntitiesFromXMLFile(
 							}
 						}
 
-						ETHRenderEntity* entity = new ETHRenderEntity(pEntityIter, m_provider, entityCache, entityPath, shouldGenerateNewID);
+						ETHRenderEntity* entity = new ETHRenderEntity(pEntityIter, m_provider, entityCache, entityPath, m_lightmapDirectory, shouldGenerateNewID, immediatelyLoadSprites);
 						entity->GetController()->AddToPos(offset);
 						const ETHEntityProperties* entityProperties = entity->GetProperties();
 
@@ -339,10 +356,9 @@ void ETHScene::SetSceneProperties(const ETHSceneProperties &prop)
 	m_sceneProps = prop;
 }
 
-void ETHScene::LoadLightmapsFromBitmapFiles(const std::string& currentSceneFilePath)
+void ETHScene::LoadLightmapsFromBitmapFiles(const std::string& lightmapDirectory)
 {
-	const std::vector<std::string> formats = { "png", "webp", "bmp" };
-
+	m_lightmapDirectory = lightmapDirectory;
 	for (ETHBucketMap::iterator bucketIter = m_buckets.GetFirstBucket(); bucketIter != m_buckets.GetLastBucket(); ++bucketIter)
 	{
 		// iterate over all entities in this bucket
@@ -351,36 +367,9 @@ void ETHScene::LoadLightmapsFromBitmapFiles(const std::string& currentSceneFileP
 		for (ETHEntityList::iterator iter = entityList.begin(); iter != iEnd; ++iter)
 		{
 			ETHRenderEntity* entity = (*iter);
-			const std::string fileDirectory = ConvertFileNameToLightmapDirectory(currentSceneFilePath);
-
-			// check for each format
-			for (std::size_t t = 0; t < formats.size(); t++)
-			{
-				const std::string filePath = entity->AssembleLightmapFileName(fileDirectory, formats[t]);
-				if (ETHGlobal::FileExists(filePath, m_provider->GetFileManager()))
-				{
-					entity->LoadLightmapFromFile(filePath);
-					break;
-				}
-			}
+			entity->LoadLightmapFromFile(lightmapDirectory);
 		}
 	}
-}
-
-std::string ETHScene::ConvertFileNameToLightmapDirectory(std::string filePath)
-{
-	std::string fileName = Platform::GetFileName(filePath);
-	for (std::size_t t = 0; t < fileName.length(); t++)
-	{
-		if (fileName[t] == ('.'))
-		{
-			fileName[t] = ('-');
-		}
-	}
-	
-	const std::string directory(fileName + ("/"));
-	std::string r = std::string(Platform::GetFileDirectory(filePath.c_str())).append(directory);
-	return r;
 }
 
 void ETHScene::Update(

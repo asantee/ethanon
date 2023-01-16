@@ -8,18 +8,25 @@
 class ETHSpriteEntity : public ETHEntity
 {
 public:
-	ETHSpriteEntity(const std::string& filePath, ETHResourceProviderPtr provider, const int nId =-1);
+	ETHSpriteEntity(const std::string& filePath, const std::string& lightmapDirectory, ETHResourceProviderPtr provider, const bool immediatelyLoadSprites, const int nId =-1);
+
 	ETHSpriteEntity(
 		TiXmlElement *pElement,
 		ETHResourceProviderPtr provider,
 		ETHEntityCache& entityCache,
 		const std::string& entityPath,
-		const bool shouldGenerateNewID);
+		const std::string& lightmapDirectory,
+		const bool shouldGenerateNewID,
+		const bool immediatelyLoadSprites);
+
 	ETHSpriteEntity(
 		ETHResourceProviderPtr provider,
 		const ETHEntityProperties& properties,
+		const std::string& lightmapDirectory,
 		const float angle,
-		const float scale);
+		const float scale,
+		const bool immediatelyLoadSprites);
+
 	ETHSpriteEntity(ETHResourceProviderPtr provider);
 
 	void AddRef() override;
@@ -40,7 +47,7 @@ public:
 	float GetMaxHeight();
 	float GetMinHeight();
 
-	bool LoadLightmapFromFile(const std::string& filePath);
+	bool LoadLightmapFromFile(const std::string& lightmapDirectory);
 
 	void DestroyParticleSystem(const unsigned int n);
 	void SetParticleBitmap(const int unsigned n, SpritePtr bitmap);
@@ -108,23 +115,26 @@ public:
 
 	std::size_t GetNumParticleSystems() const override;
 	
-	void LoadResources();
+	void LoadResources(const std::string& lightmapDirectory);
 	
 protected:
 	std::vector<ETHParticleManagerPtr> m_particles;
 
+	std::string m_lightmapDirectory;
+	
 	ETHResourceProviderPtr m_provider;
 	mutable SpritePtr m_pSprite;
 	SpritePtr m_pHalo;
 	SpritePtr m_pLightmap;
-	std::string m_preRenderedLightmapFilePath;
 
 	SpriteRectsPtr m_packedFrames;
 
 	static const float m_layrableMinimumDepth;
 
+	std::string ConvertFileNameToLightmapDirectory(std::string filePath);
+
 private:
-	void Create();
+	void Create(const bool immediatelyLoadSprites, const std::string& lightmapDirectory);
 	void Zero();
 };
 

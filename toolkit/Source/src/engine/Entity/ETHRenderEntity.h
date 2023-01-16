@@ -10,14 +10,25 @@
 class ETHRenderEntity : public ETHSpriteEntity
 {
 public:
-	ETHRenderEntity(const std::string& filePath, ETHResourceProviderPtr provider, const int nId =-1);
+	ETHRenderEntity(const std::string& filePath, const std::string& lightmapDirectory, ETHResourceProviderPtr provider, const int nId =-1);
+
 	ETHRenderEntity(
 		TiXmlElement *pElement,
 		ETHResourceProviderPtr provider,
 		ETHEntityCache& entityCache,
 		const std::string &entityPath,
-		const bool shouldGenerateNewID);
-	ETHRenderEntity(ETHResourceProviderPtr provider, const ETHEntityProperties& properties, const float angle, const float scale);
+		const std::string& lightmapDirectory,
+		const bool shouldGenerateNewID,
+		const bool immediatelyLoadSprites);
+
+	ETHRenderEntity(
+		ETHResourceProviderPtr provider,
+		const ETHEntityProperties& properties,
+		const std::string& lightmapDirectory,
+		const float angle,
+		const float scale,
+		const bool immediatelyLoadSprites);
+
 	ETHRenderEntity(ETHResourceProviderPtr provider);
 
 	// rendering methods

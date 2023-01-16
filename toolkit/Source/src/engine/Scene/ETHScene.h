@@ -18,6 +18,7 @@ class ETHScene
 public:
 	ETHScene(
 		const std::string& fileName,
+		const std::string& lightmapDirectory,
 		ETHResourceProviderPtr provider,
 		const ETHSceneProperties& props,
 		asIScriptModule *pModule,
@@ -45,8 +46,7 @@ public:
 	
 	static int UpdateIDCounter(ETHEntity* pEntity);
 
-	std::string ConvertFileNameToLightmapDirectory(std::string filePath);
-	void LoadLightmapsFromBitmapFiles(const std::string& currentSceneFilePath);
+	void LoadLightmapsFromBitmapFiles(const std::string& lightmapDirectory);
 	bool AreLightmapsEnabled() const;
 
 	void Update(
@@ -111,7 +111,8 @@ public:
 		const bool readSceneProperties,
 		const Vector3& offset,
 		ETHEntityArray &outVector,
-		const bool shouldGenerateNewID);
+		const bool shouldGenerateNewID,
+		const bool immediatelyLoadSprites);
 
 	bool AddSceneFromString(
 		const std::string& fileName,
@@ -121,9 +122,12 @@ public:
 		const bool readSceneProperties,
 		const Vector3& offset,
 		ETHEntityArray &outVector,
-		const bool shouldGenerateNewID);
+		const bool shouldGenerateNewID,
+		const bool immediatelyLoadSprites);
 
 	std::string AssembleEntityPath() const;
+	
+	std::string GetLightmapDirectory() const;
 
 private:
 	void Init(ETHResourceProviderPtr provider, const ETHSceneProperties& props, asIScriptModule *pModule, asIScriptContext *pContext);
@@ -150,7 +154,8 @@ private:
 		const bool readSceneProperties,
 		const Vector3& offset,
 		ETHEntityArray &outVector,
-		const bool shouldGenerateNewIDs);
+		const bool shouldGenerateNewIDs,
+		const bool immediatelyLoadSprites);
 
 	void FillCurrentlyVisibleBucketList(std::list<Vector2>& bucketList, const ETHBackBufferTargetManagerPtr& backBuffer);
 
@@ -175,6 +180,7 @@ private:
 	unsigned int m_nProcessedEntities;
 	unsigned int m_nRenderedPieces;
 	float m_bucketClearenceFactor;
+	std::string m_lightmapDirectory;
 };
 
 typedef boost::shared_ptr<ETHScene> ETHScenePtr;

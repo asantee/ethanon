@@ -130,7 +130,7 @@ int ETHScriptWrapper::AddEntity(
 		return -1;
 	}
 
-	ETHRenderEntity* entity = new ETHRenderEntity(m_provider, *props, angle, scale);
+	ETHRenderEntity* entity = new ETHRenderEntity(m_provider, *props, m_pScene->GetLightmapDirectory(), angle, scale, true /*immediatelyLoadSprites*/);
 	entity->SetOrphanPosition(v3Pos);
 	entity->SetAngle(angle);
 
@@ -179,12 +179,7 @@ void ETHScriptWrapper::LoadLightmaps(const std::string& directory)
 	if (m_pScene)
 	{
 		const std::string resourceDirectory = GetResourceDirectory();
-		const std::string lightmapDirectory = (directory.empty()) ? GetSceneFileName() : directory;
-		
-		Platform::FileIOHubPtr fileIOHub = m_provider->GetFileIOHub();
-		Platform::FileManagerPtr currentFileManager = fileIOHub->GetFileManager();
-		const std::string currentResourceDirectory = fileIOHub->GetResourceDirectory();
-
+		const std::string lightmapDirectory = (directory.empty()) ? GetSceneFileName() : directory;		
 		m_pScene->LoadLightmapsFromBitmapFiles(resourceDirectory + lightmapDirectory);
 	}
 }
@@ -449,6 +444,7 @@ bool ETHScriptWrapper::LoadScene(const std::string &escFile, const std::string& 
 		m_pScene = ETHScenePtr(
 			new ETHScene(
 				fileName,
+				lightmapDirectory,
 				m_provider,
 				ETHSceneProperties(),
 				m_pASModule,
@@ -466,23 +462,23 @@ bool ETHScriptWrapper::LoadScene(const std::string &escFile, const std::string& 
 	m_pScene->ResolveJoints();
 	m_drawableManager.Clear();
 	m_sceneFileName = escFile;
-	LoadLightmaps(lightmapDirectory);
+
 	m_provider->GetVideo()->SetCameraPos(Vector2(0,0));
 	LoadSceneScripts();
 	return true;
 }
 
-void ETHScriptWrapper::AddSceneInScript(const std::string& escFile, const Vector3& offset, ETHEntityArray &outVector)
+void ETHScriptWrapper::AddSceneInScript(const std::string& escFile, const Vector3& offset, ETHEntityArray &outVector, const bool immediatelyLoadSprites)
 {
 	if (!m_pScene) return;
 	const std::string fileName = m_provider->GetFileIOHub()->GetResourceDirectory() + escFile;
-	m_pScene->AddSceneFromFile(fileName, m_entityCache, m_pScene->AssembleEntityPath(), false /*readSceneProperties*/, offset, outVector, true);
+	m_pScene->AddSceneFromFile(fileName, m_entityCache, m_pScene->AssembleEntityPath(), false /*readSceneProperties*/, offset, outVector, true /*shouldGenerateNewIDs*/, immediatelyLoadSprites);
 }
 
-void ETHScriptWrapper::AddSceneFromString(const std::string& content, const Vector3& offset, ETHEntityArray &outVector)
+void ETHScriptWrapper::AddSceneFromString(const std::string& content, const Vector3& offset, ETHEntityArray &outVector, const bool immediatelyLoadSprites)
 {
 	if (!m_pScene) return;
-	m_pScene->AddSceneFromString("xmlContent", content, m_entityCache, m_pScene->AssembleEntityPath(), false /*readSceneProperties*/, offset, outVector, true);
+	m_pScene->AddSceneFromString("xmlContent", content, m_entityCache, m_pScene->AssembleEntityPath(), false /*readSceneProperties*/, offset, outVector, true /*shouldGenerateNewIDs*/, immediatelyLoadSprites);
 }
 
 void ETHScriptWrapper::LoadSceneInScript(const std::string &escFile)
