@@ -129,6 +129,13 @@ void ETHRawEntityController::AddToAngle(const float angle)
 
 bool ETHRawEntityController::RunCallback(ETHScriptEntity* entity)
 {
+	/*if (!entity->IsInitialized())
+	{
+		entity->RecoverResources();
+	}*/
+
+	assert(entity->IsInitialized());
+
 	if (HasConstructorCallback() && !m_hadRunConstructor)
 	{
 		ETHGlobal::RunEntityCallback(m_pContext, entity, m_constructorCallback);

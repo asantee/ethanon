@@ -68,6 +68,7 @@ public:
 	static ETHBackBufferTargetManagerPtr m_backBuffer;
 
 	static asIScriptContext *m_pScriptContext;
+	static asIScriptFunction* m_onSceneCreatedFunction;
 	static asIScriptFunction* m_onSceneUpdateFunction;
 	static asIScriptFunction* m_onResumeFunction;
 
@@ -77,7 +78,7 @@ public:
 	{
 		std::string sceneName;
 		std::string onSceneUpdateFunc;
-		std::string onSceneLoadedFunc;
+		std::string onSceneCreatedFunc;
 		std::string onResumeFunc;
 		std::string lightmapDirectory;
 		Vector2 bucketSize;
@@ -85,7 +86,7 @@ public:
 	public:
 		ETH_NEXT_SCENE();
 		std::string GetSceneName() const;
-		std::string GetOnSceneLoadedFunc() const;
+		std::string GetOnSceneCreatedFunc() const;
 		std::string GetOnSceneUpdateFunc() const;
 		std::string GetOnResumeFunc() const;
 		std::string GetLightmapDirectory() const;
@@ -93,7 +94,7 @@ public:
 
 		void SetNextScene(
 			const std::string& sceneName,
-			const std::string& onSceneLoadedFunc,
+			const std::string& onSceneCreatedFunc,
 			const std::string& onSceneUpdateFunc,
 			const std::string& onResumeFunc,
 			const std::string& lightmapDirectory,
@@ -129,31 +130,31 @@ public:
 
 	static void LoadSceneInScript(
 		const std::string &escFile,
-		const std::string &onSceneLoadedFunc,
+		const std::string &onSceneCreatedFunc,
 		const std::string &onSceneUpdateFunc);
 
 	static void LoadSceneInScript(
 		const std::string &escFile,
-		const std::string &onSceneLoadedFunc,
+		const std::string &onSceneCreatedFunc,
 		const std::string &onSceneUpdateFunc,
 		const Vector2& v2BucketSize);
 
 	static void LoadSceneInScript(
 		const std::string& escFile,
-		const std::string& onSceneLoadedFunc,
+		const std::string& onSceneCreatedFunc,
 		const std::string& onSceneUpdateFunc,
 		const std::string& onResumeFunc);
 
 	static void LoadSceneInScript(
 		const std::string& escFile,
-		const std::string& onSceneLoadedFunc,
+		const std::string& onSceneCreatedFunc,
 		const std::string& onSceneUpdateFunc,
 		const std::string& onResumeFunc,
 		const Vector2& v2BucketSize);
 
 	static void LoadSceneInScript(
 		const std::string& escFile,
-		const std::string& onSceneLoadedFunc,
+		const std::string& onSceneCreatedFunc,
 		const std::string& onSceneUpdateFunc,
 		const std::string& onResumeFunc,
 		const std::string &lightmapDirectory,

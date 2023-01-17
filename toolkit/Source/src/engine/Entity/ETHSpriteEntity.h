@@ -119,6 +119,8 @@ public:
 
 	std::size_t GetNumParticleSystems() const override;
 	
+	bool IsInitialized() const override;
+	
 protected:
 	std::vector<ETHParticleManagerPtr> m_particles;
 
@@ -138,6 +140,8 @@ private:
 	bool FindLightmapFullFilePath(const std::string& lightmapDirectory);
 	void Create(const bool immediatelyLoadSprites);
 	void Zero();
+	
+	bool m_initialized;
 };
 
 #endif

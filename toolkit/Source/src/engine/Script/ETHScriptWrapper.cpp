@@ -20,6 +20,7 @@ std::string ETHScriptWrapper::m_sceneFileName = ("");
 ETHInput ETHScriptWrapper::m_ethInput;
 asIScriptModule *ETHScriptWrapper::m_pASModule = 0;
 Vector2 ETHScriptWrapper::m_v2LastCamPos(0,0);
+asIScriptFunction* ETHScriptWrapper::m_onSceneCreatedFunction = 0;
 asIScriptFunction* ETHScriptWrapper::m_onSceneUpdateFunction = 0;
 asIScriptFunction* ETHScriptWrapper::m_onResumeFunction = 0;
 asIScriptContext *ETHScriptWrapper::m_pScriptContext = 0;

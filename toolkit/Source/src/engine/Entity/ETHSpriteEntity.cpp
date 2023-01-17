@@ -72,6 +72,7 @@ ETHSpriteEntity::ETHSpriteEntity(ETHResourceProviderPtr provider) :
 
 void ETHSpriteEntity::Zero()
 {
+	m_initialized = false;
 }
 
 void ETHSpriteEntity::Create(const bool immediatelyLoadSprites)
@@ -119,6 +120,8 @@ void ETHSpriteEntity::RecoverResources()
 	{
 		m_particles[t]->LoadGraphicResources();
 	}
+	
+	m_initialized = true;
 }
 
 bool ETHSpriteEntity::FindLightmapFullFilePath(const std::string& lightmapDirectory)
@@ -912,4 +915,9 @@ void ETHSpriteEntity::ReleaseLightmap()
 std::size_t ETHSpriteEntity::GetNumParticleSystems() const
 {
 	return m_particles.size();
+}
+
+bool ETHSpriteEntity::IsInitialized() const
+{
+	return m_initialized;
 }

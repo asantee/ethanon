@@ -16,7 +16,7 @@ void ETHScriptWrapper::ETH_NEXT_SCENE::Reset()
 {
 	sceneName = ("");
 	onSceneUpdateFunc = ("");
-	onSceneLoadedFunc = ("");
+	onSceneCreatedFunc = ("");
 	onResumeFunc = ("");
 	bucketSize = Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE);
 }
@@ -31,9 +31,9 @@ std::string ETHScriptWrapper::ETH_NEXT_SCENE::GetSceneName() const
 	return sceneName;
 }
 
-std::string ETHScriptWrapper::ETH_NEXT_SCENE::GetOnSceneLoadedFunc() const
+std::string ETHScriptWrapper::ETH_NEXT_SCENE::GetOnSceneCreatedFunc() const
 {
-	return onSceneLoadedFunc;
+	return onSceneCreatedFunc;
 }
 
 std::string ETHScriptWrapper::ETH_NEXT_SCENE::GetOnSceneUpdateFunc() const
@@ -58,14 +58,14 @@ Vector2 ETHScriptWrapper::ETH_NEXT_SCENE::GetBucketSize() const
 
 void ETHScriptWrapper::ETH_NEXT_SCENE::SetNextScene(
 	const std::string &sceneName,
-	const std::string &onSceneLoadedFunc,
+	const std::string &onSceneCreatedFunc,
 	const std::string &onSceneUpdateFunc,
 	const std::string& onResumeFunc,
 	const std::string& lightmapDirectory,
 	const Vector2 &bucketSize)
 {
 	this->sceneName = sceneName;
-	this->onSceneLoadedFunc = onSceneLoadedFunc;
+	this->onSceneCreatedFunc = onSceneCreatedFunc;
 	this->onSceneUpdateFunc = onSceneUpdateFunc;
 	this->onResumeFunc = onResumeFunc;
 	this->bucketSize = bucketSize;
@@ -506,23 +506,23 @@ void ETHScriptWrapper::LoadSceneInScript(const std::string &escFile)
 
 void ETHScriptWrapper::LoadSceneInScript(
 	const std::string &escFile,
-	const std::string &onSceneLoadedFunc,
+	const std::string &onSceneCreatedFunc,
 	const std::string &onSceneUpdateFunc,
 	const std::string &onResumeFunc)
 {
 	LoadSceneInScript(
 		escFile,
-		onSceneLoadedFunc,
+		onSceneCreatedFunc,
 		onSceneUpdateFunc,
 		onResumeFunc,
 		Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
 }
 
-void ETHScriptWrapper::LoadSceneInScript(const std::string &escFile, const std::string &onSceneLoadedFunc, const std::string &onSceneUpdateFunc)
+void ETHScriptWrapper::LoadSceneInScript(const std::string &escFile, const std::string &onSceneCreatedFunc, const std::string &onSceneUpdateFunc)
 {
 	LoadSceneInScript(
 		escFile,
-		onSceneLoadedFunc,
+		onSceneCreatedFunc,
 		onSceneUpdateFunc,
 		(""),
 		Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
@@ -530,13 +530,13 @@ void ETHScriptWrapper::LoadSceneInScript(const std::string &escFile, const std::
 
 void ETHScriptWrapper::LoadSceneInScript(
 	const std::string &escFile,
-	const std::string &onSceneLoadedFunc,
+	const std::string &onSceneCreatedFunc,
 	const std::string &onSceneUpdateFunc,
 	const Vector2 &v2BucketSize)
 {
 	LoadSceneInScript(
 		escFile,
-		onSceneLoadedFunc,
+		onSceneCreatedFunc,
 		onSceneUpdateFunc,
 		(""),
 		v2BucketSize);
@@ -544,14 +544,14 @@ void ETHScriptWrapper::LoadSceneInScript(
 
 void ETHScriptWrapper::LoadSceneInScript(
 	const std::string &escFile,
-	const std::string &onSceneLoadedFunc,
+	const std::string &onSceneCreatedFunc,
 	const std::string &onSceneUpdateFunc,
 	const std::string &onResumeFunc,
 	const Vector2 &v2BucketSize)
 {
 	LoadSceneInScript(
 		escFile,
-		onSceneLoadedFunc,
+		onSceneCreatedFunc,
 		onSceneUpdateFunc,
 		onResumeFunc,
 		(""),
@@ -560,7 +560,7 @@ void ETHScriptWrapper::LoadSceneInScript(
 
 void ETHScriptWrapper::LoadSceneInScript(
 	const std::string &escFile,
-	const std::string &onSceneLoadedFunc,
+	const std::string &onSceneCreatedFunc,
 	const std::string &onSceneUpdateFunc,
 	const std::string &onResumeFunc,
 	const std::string &lightmapDirectory,
@@ -570,7 +570,7 @@ void ETHScriptWrapper::LoadSceneInScript(
 	
 	m_nextScene.SetNextScene(
 		sceneName,
-		onSceneLoadedFunc,
+		onSceneCreatedFunc,
 		onSceneUpdateFunc,
 		onResumeFunc,
 		lightmapDirectory,
@@ -592,14 +592,9 @@ Vector2 ETHScriptWrapper::GetLastCameraPos()
 
 void ETHScriptWrapper::LoadSceneScripts()
 {
-	asIScriptFunction* onSceneLoadedFunc = m_pASModule->GetFunctionByName(m_nextScene.GetOnSceneLoadedFunc().c_str());
-	if (onSceneLoadedFunc)
-	{
-		ETHGlobal::ExecuteContext(m_pScriptContext, onSceneLoadedFunc);
-	}
-
-	m_onSceneUpdateFunction = m_pASModule->GetFunctionByName(m_nextScene.GetOnSceneUpdateFunc().c_str());
-	m_onResumeFunction      = m_pASModule->GetFunctionByName(m_nextScene.GetOnResumeFunc().c_str());
+	m_onSceneCreatedFunction = m_pASModule->GetFunctionByName(m_nextScene.GetOnSceneCreatedFunc().c_str());
+	m_onSceneUpdateFunction  = m_pASModule->GetFunctionByName(m_nextScene.GetOnSceneUpdateFunc().c_str());
+	m_onResumeFunction       = m_pASModule->GetFunctionByName(m_nextScene.GetOnResumeFunc().c_str());
 }
 
 void ETHScriptWrapper::SetGravity(const Vector2& gravity)

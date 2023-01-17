@@ -178,6 +178,8 @@ public:
 	virtual void AddToPositionZ(const float v) = 0;
 
 	virtual Vector2 GetSpriteCut() const = 0;
+	
+	virtual bool IsInitialized() const = 0;
 };
 
 #endif

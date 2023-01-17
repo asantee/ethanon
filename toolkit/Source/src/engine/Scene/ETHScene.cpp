@@ -89,6 +89,7 @@ void ETHScene::Init(ETHResourceProviderPtr provider, const ETHSceneProperties& p
 	m_nProcessedEntities = m_nRenderedPieces = 0;
 	m_bucketClearenceFactor = 0.0f;
 	m_maxSceneHeight = m_provider->GetVideo()->GetScreenSizeF().y;
+	m_onCreatedFunctionExecuted = false;
 }
 
 std::string ETHScene::AssembleEntityPath() const
@@ -375,6 +376,7 @@ void ETHScene::LoadLightmapsFromBitmapFiles(const std::string& lightmapDirectory
 void ETHScene::Update(
 	const float lastFrameElapsedTime,
 	const ETHBackBufferTargetManagerPtr& backBuffer,
+	asIScriptFunction* onCreateCallbackFunction,
 	asIScriptFunction* onUpdateCallbackFunction)
 {
 	m_physicsSimulator.Update(lastFrameElapsedTime);
@@ -386,9 +388,18 @@ void ETHScene::Update(
 		m_buckets,
 		lastFrameElapsedTime * m_physicsSimulator.GetTimeStepScale());
 
+	// Run onSceneLoaded function
+	if (onCreateCallbackFunction && !m_onCreatedFunctionExecuted)
+	{
+		ETHGlobal::ExecuteContext(m_pContext, onCreateCallbackFunction);
+		m_onCreatedFunctionExecuted = true;
+	}
+	
 	// Run onSceneUpdate functon
 	if (onUpdateCallbackFunction)
+	{
 		ETHGlobal::ExecuteContext(m_pContext, onUpdateCallbackFunction);
+	}
 
 	// start mapping process
 	float minHeight, maxHeight;

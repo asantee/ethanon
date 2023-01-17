@@ -52,6 +52,7 @@ public:
 	void Update(
 		const float lastFrameElapsedTime,
 		const ETHBackBufferTargetManagerPtr& backBuffer,
+		asIScriptFunction* onCreateCallbackFunction,
 		asIScriptFunction* onUpdateCallbackFunction);
 
 	bool DeleteEntity(ETHEntity *pEntity);
@@ -185,6 +186,7 @@ private:
 	unsigned int m_nRenderedPieces;
 	float m_bucketClearenceFactor;
 	std::string m_lightmapDirectory;
+	bool m_onCreatedFunctionExecuted;
 };
 
 typedef boost::shared_ptr<ETHScene> ETHScenePtr;

@@ -191,10 +191,6 @@ Application::APP_STATUS ETHEngine::Update(const float lastFrameDeltaTimeMS)
 	// run garbage collector
 	GarbageCollect(m_gcMode, m_pASEngine);
 
-	// process scene load request
-	if (!LoadNextSceneIfRequested())
-		Abort();
-
 	if (m_hasBeenResumed) // I know I know...
 	{
 		RunOnResumeFunction();
@@ -202,7 +198,11 @@ Application::APP_STATUS ETHEngine::Update(const float lastFrameDeltaTimeMS)
 	}
 
 	if (m_pScene)
-		m_pScene->Update(lastFrameDeltaTimeMS, m_backBuffer, m_onSceneUpdateFunction);
+		m_pScene->Update(lastFrameDeltaTimeMS, m_backBuffer, m_onSceneCreatedFunction, m_onSceneUpdateFunction);
+
+	// process scene load request
+	if (!LoadNextSceneIfRequested())
+		Abort();
 
 	if (Aborted())
 		return Application::APP_QUIT;
