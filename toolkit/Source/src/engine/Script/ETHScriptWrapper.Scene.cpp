@@ -178,9 +178,8 @@ void ETHScriptWrapper::LoadLightmaps(const std::string& directory)
 {
 	if (m_pScene)
 	{
-		const std::string resourceDirectory = GetResourceDirectory();
-		const std::string lightmapDirectory = (directory.empty()) ? GetSceneFileName() : directory;		
-		m_pScene->LoadLightmapsFromBitmapFiles(resourceDirectory + lightmapDirectory);
+		const std::string lightmapDirectory = ETHScene::ConvertSceneFileNameToLightmapDirectory((directory.empty()) ? GetSceneFileName() : directory);
+		m_pScene->LoadLightmapsFromBitmapFiles(GetResourceDirectory() + lightmapDirectory);
 	}
 }
 
