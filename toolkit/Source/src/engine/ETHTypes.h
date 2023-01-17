@@ -8,7 +8,6 @@
 using namespace gs2d::math;
 using namespace gs2d;
 
-#define ETH_MAX_PARTICLE_SYS_PER_ENTITY 2
 #define ETH_DEFAULT_PARTICLE_BITMAP	("particle.png")
 #define ETH_APP_PROPERTIES_FILE ("app.enml")
 #define ETH_DEFAULT_BITMAP_FONT ("Verdana14_shadow.fnt")

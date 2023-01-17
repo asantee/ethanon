@@ -250,19 +250,15 @@ bool ETHEntityProperties::ReadFromXMLFile(TiXmlElement *pElement)
 				TiXmlElement *pParticleIter = pNode->ToElement();
 				if (pParticleIter)
 				{
-					// TODO: use unlimited amount of systems 
-					for (std::size_t t = 0; t < ETH_MAX_PARTICLE_SYS_PER_ENTITY; t++)
+					while (pParticleIter)
 					{
-						if (pParticleIter)
+						boost::shared_ptr<ETHParticleSystem> newSystem = boost::shared_ptr<ETHParticleSystem>(new ETHParticleSystem);
+						newSystem->ReadFromXMLFile(pParticleIter);
+						if (newSystem->nParticles > 0)
 						{
-							boost::shared_ptr<ETHParticleSystem> newSystem = boost::shared_ptr<ETHParticleSystem>(new ETHParticleSystem);
-							newSystem->ReadFromXMLFile(pParticleIter);
-							if (newSystem->nParticles > 0)
-							{
-								particleSystems.push_back(newSystem);
-							}
-							pParticleIter = pParticleIter->NextSiblingElement();
+							particleSystems.push_back(newSystem);
 						}
+						pParticleIter = pParticleIter->NextSiblingElement();
 					}
 				}
 			}
