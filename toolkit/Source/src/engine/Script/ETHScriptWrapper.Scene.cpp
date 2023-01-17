@@ -18,7 +18,7 @@ void ETHScriptWrapper::ETH_NEXT_SCENE::Reset()
 	onSceneUpdateFunc = ("");
 	onSceneCreatedFunc = ("");
 	onResumeFunc = ("");
-	bucketSize = Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE);
+	bucketSize = Vector2(ETH_DEFAULT_BUCKET_SIZE, ETH_DEFAULT_BUCKET_SIZE);
 }
 
 bool ETHScriptWrapper::ETH_NEXT_SCENE::HasNextScene() const
@@ -452,7 +452,7 @@ bool ETHScriptWrapper::LoadScene(const std::string &escFile, const std::string& 
 	std::string fileName = resourceDirectory + escFile;
 
 	// if the name is set to _ETH_EMPTY_SCENE_STRING, don't load anything
-	if (escFile != _ETH_EMPTY_SCENE_STRING && escFile.size() > 0)
+	if (escFile != ETH_EMPTY_SCENE_STRING && escFile.size() > 0)
 	{
 		m_pScene = ETHScenePtr(
 			new ETHScene(
@@ -506,7 +506,7 @@ void ETHScriptWrapper::LoadSceneInScript(const std::string &escFile)
 		(""),
 		(""),
 		(""),
-		Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
+		Vector2(ETH_DEFAULT_BUCKET_SIZE, ETH_DEFAULT_BUCKET_SIZE));
 }
 
 void ETHScriptWrapper::LoadSceneInScript(
@@ -520,7 +520,7 @@ void ETHScriptWrapper::LoadSceneInScript(
 		onSceneCreatedFunc,
 		onSceneUpdateFunc,
 		onResumeFunc,
-		Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
+		Vector2(ETH_DEFAULT_BUCKET_SIZE, ETH_DEFAULT_BUCKET_SIZE));
 }
 
 void ETHScriptWrapper::LoadSceneInScript(const std::string &escFile, const std::string &onSceneCreatedFunc, const std::string &onSceneUpdateFunc)
@@ -530,7 +530,7 @@ void ETHScriptWrapper::LoadSceneInScript(const std::string &escFile, const std::
 		onSceneCreatedFunc,
 		onSceneUpdateFunc,
 		(""),
-		Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
+		Vector2(ETH_DEFAULT_BUCKET_SIZE, ETH_DEFAULT_BUCKET_SIZE));
 }
 
 void ETHScriptWrapper::LoadSceneInScript(
@@ -571,7 +571,7 @@ void ETHScriptWrapper::LoadSceneInScript(
 	const std::string &lightmapDirectory,
 	const Vector2 &v2BucketSize)
 {
-	const std::string& sceneName((escFile == ("")) ? _ETH_EMPTY_SCENE_STRING : escFile);
+	const std::string& sceneName((escFile == ("")) ? ETH_EMPTY_SCENE_STRING : escFile);
 	
 	m_nextScene.SetNextScene(
 		sceneName,

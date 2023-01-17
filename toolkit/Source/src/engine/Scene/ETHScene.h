@@ -24,14 +24,14 @@ public:
 		asIScriptModule *pModule,
 		asIScriptContext *pContext,
 		ETHEntityCache& entityCache,
-		const Vector2 &v2BucketSize = Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
+		const Vector2 &v2BucketSize = Vector2(ETH_DEFAULT_BUCKET_SIZE, ETH_DEFAULT_BUCKET_SIZE));
 
 	ETHScene(
 		ETHResourceProviderPtr provider,
 		const ETHSceneProperties& props,
 		asIScriptModule *pModule,
 		asIScriptContext *pContext,
-		const Vector2 &v2BucketSize = Vector2(_ETH_DEFAULT_BUCKET_SIZE,_ETH_DEFAULT_BUCKET_SIZE));
+		const Vector2 &v2BucketSize = Vector2(ETH_DEFAULT_BUCKET_SIZE, ETH_DEFAULT_BUCKET_SIZE));
 
 	~ETHScene();
 
