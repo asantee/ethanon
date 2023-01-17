@@ -250,7 +250,7 @@ const ETHGraphicResourceManager::SpriteResource* ETHGraphicResourceManager::AddF
 	ETHSpriteDensityManager::DENSITY_LEVEL densityLevel;
 	const std::string finalFileName(m_densityManager.ChooseSpriteVersion(fixedName, video, densityLevel));
 
-	if (!(pBitmap = SpritePtr(new Sprite(video.get(), finalFileName))))
+	if (!(pBitmap = SpritePtr(new Sprite(video.get(), finalFileName)))->GetTexture())
 	{
 		pBitmap.reset();
 		ETH_STREAM_DECL(ss) << ("(Not loaded) ") << path;
