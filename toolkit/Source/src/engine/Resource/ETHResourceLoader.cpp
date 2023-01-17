@@ -1,7 +1,7 @@
 #include "ETHResourceLoader.h"
 
 std::list<ETHResourceContainer*> ETHResourceLoader::m_containers;
-unsigned long ETHResourceLoader::m_desiredFPSWhileLoading = 20;
+unsigned long ETHResourceLoader::m_desiredFPSWhileLoading = 30;
 
 void ETHResourceLoader::EnqueueResource(ETHResourceContainer* container)
 {
