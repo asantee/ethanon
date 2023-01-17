@@ -37,7 +37,6 @@ class ETHEngine : public gs2d::BaseApplication, public ETHScriptWrapper
 	bool BuildModule(const std::vector<std::string>& definedWords);
 	asIScriptFunction* GetMainFunction() const;
 	bool RunOnResumeFunction() const;
-	bool RunFunction(asIScriptFunction* func) const;
 	bool LoadNextSceneIfRequested();
 
 	void DrawTopLayer(const unsigned long lastFrameElapsedTimeMS);

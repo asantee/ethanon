@@ -261,14 +261,9 @@ void ETHEngine::RenderFrame()
 
 bool ETHEngine::RunOnResumeFunction() const
 {
-	return RunFunction(m_onResumeFunction);
-}
-
-bool ETHEngine::RunFunction(asIScriptFunction* func) const
-{
-	if (func)
+	if (m_onResumeFunction)
 	{
-		ETHGlobal::ExecuteContext(m_pScriptContext, func);
+		ETHGlobal::ExecuteContext(m_pScriptContext, m_onResumeFunction);
 		return true;
 	}
 	else
