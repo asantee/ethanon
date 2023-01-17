@@ -477,7 +477,12 @@ bool ETHScriptWrapper::LoadScene(const std::string &escFile, const std::string& 
 	m_sceneFileName = escFile;
 
 	m_provider->GetVideo()->SetCameraPos(Vector2(0,0));
-	LoadSceneScripts();
+
+	// load scripts
+	m_onSceneCreatedFunction = m_pASModule->GetFunctionByName(m_nextScene.GetOnSceneCreatedFunc().c_str());
+	m_onSceneUpdateFunction  = m_pASModule->GetFunctionByName(m_nextScene.GetOnSceneUpdateFunc().c_str());
+	m_onResumeFunction       = m_pASModule->GetFunctionByName(m_nextScene.GetOnResumeFunc().c_str());
+
 	return true;
 }
 
@@ -588,13 +593,6 @@ std::string ETHScriptWrapper::GetSceneFileName()
 Vector2 ETHScriptWrapper::GetLastCameraPos()
 {
 	return m_v2LastCamPos;
-}
-
-void ETHScriptWrapper::LoadSceneScripts()
-{
-	m_onSceneCreatedFunction = m_pASModule->GetFunctionByName(m_nextScene.GetOnSceneCreatedFunc().c_str());
-	m_onSceneUpdateFunction  = m_pASModule->GetFunctionByName(m_nextScene.GetOnSceneUpdateFunc().c_str());
-	m_onResumeFunction       = m_pASModule->GetFunctionByName(m_nextScene.GetOnResumeFunc().c_str());
 }
 
 void ETHScriptWrapper::SetGravity(const Vector2& gravity)

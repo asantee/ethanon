@@ -63,7 +63,6 @@ public:
 	static asIScriptModule *m_pASModule;
 	static asIScriptEngine *m_pASEngine;
 	static Vector2 m_v2LastCamPos;
-	static void LoadSceneScripts();
 	static Vector2 GetLastCameraPos();
 	static ETHBackBufferTargetManagerPtr m_backBuffer;
 
