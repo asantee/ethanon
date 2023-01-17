@@ -42,6 +42,8 @@ class ETHEngine : public gs2d::BaseApplication, public ETHScriptWrapper
 	void DrawTopLayer(const unsigned long lastFrameElapsedTimeMS);
 
 	std::vector<std::string> m_definedWords;
+	
+	SpritePtr m_loadingScreenSymbol;
 
 public:
 

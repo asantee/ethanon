@@ -249,8 +249,30 @@ void ETHEngine::RenderFrame()
 	else
 	{
 		if (m_pScene)
-		{
 			m_pScene->EmptyRenderingQueue();
+
+		// Draw loading wheel
+		VideoPtr video = m_provider->GetVideo();
+		if (!m_loadingScreenSymbol)
+			m_loadingScreenSymbol = SpritePtr(new Sprite(video.get(), m_provider->GetFileIOHub()->GetResourceDirectory() + "data/loading.png"));
+
+		if (m_loadingScreenSymbol->GetTexture())
+		{
+			static const math::Rect2D defaultRect;
+			static float loadingSymbolAngle = 0.0f;
+
+			loadingSymbolAngle += 2.0f;
+
+			m_loadingScreenSymbol->Draw(
+				math::Vector3(32.0f, 32.0f, 0.0f),
+				m_loadingScreenSymbol->GetSize(defaultRect) * 0.6f,
+				math::Vector2(0.5f),
+				Color(0x33FFFFFF),
+				loadingSymbolAngle,
+				defaultRect,
+				false /*flipX*/,
+				false /*flipY*/,
+				Sprite::GetDefaultShader());
 		}
 	}
 	
@@ -277,11 +299,13 @@ void ETHEngine::Destroy()
 	m_lastBGColor = m_provider->GetVideo()->GetBackgroundColor();
 	m_provider->GetGraphicResourceManager()->ReleaseResources();
 	m_provider->GetAudioResourceManager()->ReleaseResources();
+	m_loadingScreenSymbol.reset();
 }
 
 void ETHEngine::ReleaseSpriteResources()
 {
 	m_provider->GetGraphicResourceManager()->ReleaseResources();
+	m_loadingScreenSymbol.reset();
 }
 
 bool ETHEngine::PrepareScriptingEngine(const std::vector<std::string>& definedWords)
