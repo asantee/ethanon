@@ -194,6 +194,13 @@ bool ETHPhysicsEntityController::RunContactCallback(asIScriptFunction* func, ETH
 
 	ETHEntity* entity = static_cast<ETHEntity*>(m_body->GetUserData());
 
+	if (!entity->IsInitialized())
+	{
+		entity->RecoverResources();
+	}
+
+	assert(entity->IsInitialized());
+	
 	if (m_pContext->Prepare(func) < 0) return false;
 	if (m_pContext->SetArgObject(0, entity) < 0) return false;
 	if (m_pContext->SetArgObject(1, other) < 0) return false;

@@ -129,10 +129,10 @@ void ETHRawEntityController::AddToAngle(const float angle)
 
 bool ETHRawEntityController::RunCallback(ETHScriptEntity* entity)
 {
-	/*if (!entity->IsInitialized())
+	if (!entity->IsInitialized())
 	{
 		entity->RecoverResources();
-	}*/
+	}
 
 	assert(entity->IsInitialized());
 
