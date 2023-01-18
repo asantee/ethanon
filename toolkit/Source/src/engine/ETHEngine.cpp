@@ -228,9 +228,9 @@ void ETHEngine::RenderFrame()
 {
 	m_backBuffer->BeginRendering();
 
-	if (!ETHResourceLoader::DoResourceRecoverStep(m_provider))
+	const bool loadingNewAssets = ETHResourceLoader::DoResourceRecoverStep(m_provider);
+	if (!loadingNewAssets)
 	{
-		// draw scene (if there's any)
 		if (m_pScene)
 		{
 			m_pScene->RenderScene(m_backBuffer);
@@ -245,8 +245,13 @@ void ETHEngine::RenderFrame()
 	{
 		if (m_pScene)
 			m_pScene->EmptyRenderingQueue();
+	}
 
-		// Draw loading wheel
+	// Draw loading wheel
+	static float loadingAlpha = 0.0f;
+	loadingAlpha = math::AsymptoticMove(loadingAlpha, loadingNewAssets ? 0.5f : 0.0f, 0.05f);
+	if (loadingAlpha > 0.005f)
+	{
 		VideoPtr video = m_provider->GetVideo();
 		if (!m_loadingScreenSymbol)
 			m_loadingScreenSymbol = SpritePtr(new Sprite(video.get(), m_provider->GetFileIOHub()->GetResourceDirectory() + "data/loading.png"));
@@ -255,14 +260,13 @@ void ETHEngine::RenderFrame()
 		{
 			static const math::Rect2D defaultRect;
 			static float loadingSymbolAngle = 0.0f;
-
-			loadingSymbolAngle += 2.0f;
+			loadingSymbolAngle -= 2.0f;
 
 			m_loadingScreenSymbol->Draw(
 				math::Vector3(32.0f, 32.0f, 0.0f),
 				m_loadingScreenSymbol->GetSize(defaultRect) * 0.6f,
 				math::Vector2(0.5f),
-				Color(0x33FFFFFF),
+				Color(Vector3(1.0f), loadingAlpha),
 				loadingSymbolAngle,
 				defaultRect,
 				false /*flipX*/,
@@ -270,9 +274,9 @@ void ETHEngine::RenderFrame()
 				Sprite::GetDefaultShader());
 		}
 	}
-	
-	m_backBuffer->EndRendering();
 
+	// finish frame
+	m_backBuffer->EndRendering();
 	m_backBuffer->Present();
 }
 

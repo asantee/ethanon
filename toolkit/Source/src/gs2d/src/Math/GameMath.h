@@ -56,6 +56,13 @@ T Sign(const T &n)
 	return (n < static_cast<T>(0)) ? static_cast<T>(-1) : (n > static_cast<T>(0)) ? static_cast<T>(1) : static_cast<T>(0);
 }
 
+template <class T>
+T AsymptoticMove(const T &current, const T &dest, const float bias)
+{
+	const T delta = (dest - current);
+	return current + (delta * bias);
+}
+
 } // namespace math
 } // namespace gs2d
 
