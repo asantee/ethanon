@@ -379,6 +379,13 @@ void ETHScene::Update(
 	asIScriptFunction* onCreateCallbackFunction,
 	asIScriptFunction* onUpdateCallbackFunction)
 {
+	// Run onSceneCreated function
+	if (onCreateCallbackFunction && !m_onCreatedFunctionExecuted)
+	{
+		ETHGlobal::ExecuteContext(m_pContext, onCreateCallbackFunction);
+		m_onCreatedFunctionExecuted = true;
+	}
+
 	m_physicsSimulator.Update(lastFrameElapsedTime);
 
 	// update entities that are always active (dynamic entities with callback or physics and temporary entities)
@@ -388,13 +395,6 @@ void ETHScene::Update(
 		m_buckets,
 		lastFrameElapsedTime * m_physicsSimulator.GetTimeStepScale());
 
-	// Run onSceneLoaded function
-	if (onCreateCallbackFunction && !m_onCreatedFunctionExecuted)
-	{
-		ETHGlobal::ExecuteContext(m_pContext, onCreateCallbackFunction);
-		m_onCreatedFunctionExecuted = true;
-	}
-	
 	// Run onSceneUpdate functon
 	if (onUpdateCallbackFunction)
 	{
