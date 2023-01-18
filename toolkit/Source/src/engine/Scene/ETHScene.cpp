@@ -757,6 +757,8 @@ void ETHScene::FillMultimapAndClearPersistentList(
 	{
 		ETHRenderEntity* entity = *iter;
 		const Vector2& currentBucket = entity->GetCurrentBucket(m_buckets);
+
+		// only add decomposed pieces if bucket has not already been processed
 		const bool bucketNotProcessed = std::find(currentBucketList.begin(), currentBucketList.end(), currentBucket) == currentBucketList.end();
 		if (bucketNotProcessed)
 		{

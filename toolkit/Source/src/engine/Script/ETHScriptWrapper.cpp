@@ -42,17 +42,15 @@ bool ETHScriptWrapper::RunMainFunction(asIScriptFunction* mainFunc)
 	return true;
 }
 
-bool ETHScriptWrapper::WarnIfRunsInMainFunction(const std::string &functionName)
+void ETHScriptWrapper::WarnIfRunsInMainFunction(const std::string& functionName)
 {
 	if (IsRunningMainFunction())
 	{
 		ETH_STREAM_DECL(ss) << std::endl << ("WARNING: do not load resources or do scene-related operations inside the main() function.") << std::endl
 			<< ("Use onSceneLoaded or onSceneUpdate functions instead.") << std::endl
-			<< ("Function used: ") << functionName << std::endl;
+			<< ("Function used: ") << functionName << std::endl << GetCurrentCallstack() << std::endl;
 		m_provider->Log(ss.str(), Platform::Logger::LT_ERROR);
-		return true;
 	}
-	return false;
 }
 
 void ETHScriptWrapper::Abort()

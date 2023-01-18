@@ -47,7 +47,6 @@ ETHEngine::ETHEngine(const bool testing, const bool compileAndRun, const bool au
 	m_lastBGColor(0x0),
 	m_hasBeenResumed(false),
 	m_scriptEngineReady(false),
-	m_mainFunctionExecuted(false),
 	m_autoStartScriptEngine(autoStartScriptEngine)
 {
 	Application::SharedData.Create(SCRIPT_EXCEPTION_LOG_SHARED_DATA_KEY, (""), false);
@@ -91,6 +90,12 @@ bool ETHEngine::StartScriptEngine()
 		return false;
 	}
 
+	// run main function
+	m_provider->Log(("Starting main function"), Platform::Logger::LT_INFO);
+	RunMainFunction(GetMainFunction());
+	m_v2LastCamPos = video->GetCameraPos();
+	m_provider->Log(("Ended main function"), Platform::Logger::LT_INFO);
+	
 	m_scriptEngineReady = true;
 	return true;
 }
@@ -164,16 +169,6 @@ Application::APP_STATUS ETHEngine::Update(const float lastFrameDeltaTimeMS)
 {
 	if (ETHResourceLoader::HasContainerEnqueued())
 		return Application::APP_OK;
-	
-	if (!m_mainFunctionExecuted)
-	{
-		m_provider->Log(("Starting main function"), Platform::Logger::LT_INFO);
-		RunMainFunction(GetMainFunction());
-		m_provider->GetVideo()->EnableQuitShortcuts(true);
-		m_v2LastCamPos = m_provider->GetVideo()->GetCameraPos();
-		m_mainFunctionExecuted = true;
-		m_provider->Log(("Ended main function"), Platform::Logger::LT_INFO);
-	}
 
 	// updates system clock shared data
 	{

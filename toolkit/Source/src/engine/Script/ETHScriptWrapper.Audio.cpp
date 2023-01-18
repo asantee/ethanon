@@ -2,12 +2,12 @@
 
 bool ETHScriptWrapper::LoadMusic(const std::string &file)
 {
-	if (WarnIfRunsInMainFunction(("LoadMusic")))
-		return false;
+	WarnIfRunsInMainFunction("LoadMusic");
 
 	std::stringstream ss;
 	Platform::FileIOHubPtr fileIOHub = m_provider->GetFileIOHub();
 	ss << fileIOHub->GetResourceDirectory() << file;
+
 	if (!m_provider->GetAudioResourceManager()->AddFile(m_provider->GetAudio(), fileIOHub, ss.str(), Audio::MUSIC))
 	{
 		ShowMessage(("Could not load the file: ") + file, ETH_ERROR, false);
@@ -18,8 +18,7 @@ bool ETHScriptWrapper::LoadMusic(const std::string &file)
 
 bool ETHScriptWrapper::LoadSoundEffect(const std::string &file)
 {
-	if (WarnIfRunsInMainFunction(("LoadSoundEffect")))
-		return false;
+	WarnIfRunsInMainFunction("LoadSoundEffect");
 
 	std::stringstream ss;
 	Platform::FileIOHubPtr fileIOHub = m_provider->GetFileIOHub();

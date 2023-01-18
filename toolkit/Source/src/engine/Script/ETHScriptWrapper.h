@@ -123,7 +123,7 @@ public:
 
 	void RegisterGlobalFunctions(asIScriptEngine *pASEngine);
 	static bool RunMainFunction(asIScriptFunction* mainFunc);
-	static bool WarnIfRunsInMainFunction(const std::string &functionName);
+	static void WarnIfRunsInMainFunction(const std::string &functionName);
 
 	static void LoadSceneInScript(const std::string &escFile);
 

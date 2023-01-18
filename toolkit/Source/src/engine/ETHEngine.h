@@ -21,7 +21,7 @@ class ETHEngine : public gs2d::BaseApplication, public ETHScriptWrapper
 	Platform::FileIOHubPtr m_fileIOHub;
 
 	const bool m_testing, m_compileAndRun, m_autoStartScriptEngine;
-	bool m_hasBeenResumed, m_scriptEngineReady, m_mainFunctionExecuted;
+	bool m_hasBeenResumed, m_scriptEngineReady;
 
 	static const std::string SD_CURRENT_TIME_MILLIS;
 

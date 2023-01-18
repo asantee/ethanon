@@ -221,15 +221,13 @@ float ETHScriptWrapper::GetParallaxIntensity()
 
 void ETHScriptWrapper::SetBucketClearenceFactor(const float factor)
 {
-	if (WarnIfRunsInMainFunction(("SetBucketClearenceFactor")))
-		return;
+	WarnIfRunsInMainFunction("SetBucketClearenceFactor");
 	m_pScene->SetBucketClearenceFactor(factor);
 }
 
 float ETHScriptWrapper::GetBucketClearenceFactor()
 {
-	if (WarnIfRunsInMainFunction(("GetBucketClearenceFactor")))
-		return 0.0f;
+	WarnIfRunsInMainFunction("GetBucketClearenceFactor");
 	return m_pScene->GetBucketClearenceFactor();
 }
 
@@ -259,9 +257,7 @@ Vector2 ETHScriptWrapper::GetCameraPos()
 
 unsigned int ETHScriptWrapper::GetNumEntities()
 {
-	if (WarnIfRunsInMainFunction(("GetNumEntities")))
-		return 0;
-
+	WarnIfRunsInMainFunction(("GetNumEntities"));
 	return m_pScene->GetNumEntities();
 }
 
@@ -358,22 +354,19 @@ Vector2 ETHScriptWrapper::GetCurrentBucket(ETHEntity *pEntity)
 
 void ETHScriptWrapper::SetBorderBucketsDrawing(const bool enable)
 {
-	if (WarnIfRunsInMainFunction(("SetBucketBorderDrawing")))
-		return;
+	WarnIfRunsInMainFunction("SetBucketBorderDrawing");
 	m_pScene->SetBorderBucketsDrawing(enable);
 }
 
 bool ETHScriptWrapper::IsDrawingBorderBuckets()
 {
-	if (WarnIfRunsInMainFunction(("IsDrawingBorderBuckets")))
-		return false;
+	WarnIfRunsInMainFunction("IsDrawingBorderBuckets");
 	return m_pScene->IsDrawingBorderBuckets();
 }
 
 void ETHScriptWrapper::GetVisibleEntities(ETHEntityArray &entityArray)
 {
-	if (WarnIfRunsInMainFunction(("GetVisibleEntities")))
-		return;
+	WarnIfRunsInMainFunction("GetVisibleEntities");
 	m_pScene->GetBucketManager().GetVisibleEntities(entityArray);
 }
 
@@ -384,22 +377,19 @@ void ETHScriptWrapper::GetIntersectingEntities(const Vector2 &v2Here, ETHEntityA
 
 int ETHScriptWrapper::GetNumProcessedEntities()
 {
-	if (WarnIfRunsInMainFunction(("GetNumProcessedEntities")))
-		return 0;
+	WarnIfRunsInMainFunction("GetNumProcessedEntities");
 	return m_pScene->GetNumProcessedEntities();
 }
 
 int ETHScriptWrapper::GetNumRenderedPieces()
 {
-	if (WarnIfRunsInMainFunction(("GetNumRenderedPieces")))
-		return 0;
+	WarnIfRunsInMainFunction("GetNumRenderedPieces");
 	return m_pScene->GetNumRenderedPieces();
 }
 
 bool ETHScriptWrapper::SaveScene(const std::string &escFile)
 {
-	if (WarnIfRunsInMainFunction(("SaveScene")))
-		return false;
+	WarnIfRunsInMainFunction("SaveScene");
 
 	// loads a new scene from file
 	std::string fileName = m_provider->GetFileIOHub()->GetResourceDirectory();
@@ -416,8 +406,8 @@ void ETHScriptWrapper::ReleaseResources()
 
 void ETHScriptWrapper::ResolveJoints()
 {
-	if (WarnIfRunsInMainFunction(("ResolveJoints")))
-		return;
+	WarnIfRunsInMainFunction("ResolveJoints");
+
 	if (m_pScene)
 		m_pScene->ResolveJoints();
 }
@@ -583,8 +573,7 @@ void ETHScriptWrapper::LoadSceneInScript(
 
 std::string ETHScriptWrapper::GetSceneFileName()
 {
-	if (WarnIfRunsInMainFunction(("GetSceneFileName")))
-		return ("");
+	WarnIfRunsInMainFunction("GetSceneFileName");
 
 	return m_sceneFileName;
 }
@@ -718,7 +707,5 @@ Vector2 ETHScriptWrapper::GetZAxisDirection()
 
 void ETHScriptWrapper::ForceEntityRendering(ETHEntity* entity)
 {
-	if (WarnIfRunsInMainFunction(("ForceEntityRendering")) || !m_pScene)
-		return;
 	m_pScene->AddEntityToPersistentList(static_cast<ETHRenderEntity*>(entity));
 }
