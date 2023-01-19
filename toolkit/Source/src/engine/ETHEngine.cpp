@@ -91,10 +91,13 @@ bool ETHEngine::StartScriptEngine()
 	}
 
 	// run main function
-	m_provider->Log(("Starting main function"), Platform::Logger::LT_INFO);
-	RunMainFunction(GetMainFunction());
-	m_v2LastCamPos = video->GetCameraPos();
-	m_provider->Log(("Ended main function"), Platform::Logger::LT_INFO);
+	if (m_compileAndRun)
+	{
+		m_provider->Log(("Starting main function"), Platform::Logger::LT_INFO);
+		RunMainFunction(GetMainFunction());
+		m_v2LastCamPos = video->GetCameraPos();
+		m_provider->Log(("Ended main function"), Platform::Logger::LT_INFO);
+	}
 	
 	m_scriptEngineReady = true;
 	return true;
