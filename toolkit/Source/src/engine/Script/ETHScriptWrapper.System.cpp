@@ -12,6 +12,12 @@
 
 #define UNUSED_ARGUMENT(argument) ((void)(argument))
 
+void ETHScriptWrapper::TestCrash()
+{
+	int* crashMePlease = nullptr;
+	*crashMePlease = 42;
+}
+
 void ETHScriptWrapper::ShowMessage(std::string sMsg, const ETH_MESSAGE type, const bool abort)
 {
 	std::stringstream ss;

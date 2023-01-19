@@ -4,6 +4,8 @@
 
 #include <Math/Randomizer.h>
 
+asDECLARE_FUNCTION_WRAPPER(__TestCrash,         ETHScriptWrapper::TestCrash);
+
 asDECLARE_FUNCTION_WRAPPER(__GetCursorPos,         ETHScriptWrapper::GetCursorPos);
 asDECLARE_FUNCTION_WRAPPER(__GetCursorAbsolutePos, ETHScriptWrapper::GetCursorAbsolutePos);
 asDECLARE_FUNCTION_WRAPPER(__SetCursorPos,         ETHScriptWrapper::SetCursorPos);
@@ -274,6 +276,8 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector2 GetCurrentBucket() const",        asFUNCTION(__GetCurrentBucket),   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void PlayParticleSystem(const uint)",     asFUNCTION(__PlayParticleSystem), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void ResolveJoints()",                    asFUNCTION(__ResolveEntityJoints), asCALL_GENERIC); assert(r >= 0);
+
+	r = pASEngine->RegisterGlobalFunction("void TestCrash()", asFUNCTION(__TestCrash), asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("ETHEntity @SeekEntity(const string &in)", asFUNCTION(__SeekEntityStr), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("ETHEntity @SeekEntity(const int)",        asFUNCTION(__SeekEntityInt), asCALL_GENERIC); assert(r >= 0);

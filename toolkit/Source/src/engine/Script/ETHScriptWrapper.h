@@ -50,6 +50,8 @@ public:
 
 	static ETHResourceProviderPtr m_provider;
 
+	void TestCrash();
+
 	static bool IsRunningMainFunction() { return m_runningMainFunction; }
 
 	static std::string GetSceneFileName();
@@ -190,7 +192,7 @@ public:
 
 	static void ResolveEntityJoints(ETHEntity* pEntity);
 
-	// global wraps 
+	// global wraps
 	static void HideCursor(const bool hide);
 	static Vector2 GetCursorPos();
 	static Vector2 GetCursorAbsolutePos();
@@ -306,12 +308,9 @@ public:
 	static void SetZAxisDirection(const Vector2& dir);
 	static Vector2 GetZAxisDirection();
 
-	static void GarbageCollect(const GARBAGE_COLLECT_MODE mode, asIScriptEngine* engine);
 	static void SetFastGarbageCollector(const bool enable);
 	static std::string GetCurrentCallstack();
 
-	static void SetHighEndDevice(const bool highEnd);
-	static bool IsHighEndDevice();
 	static std::string GetPlatformName();
 
 	static void Abort();
@@ -382,6 +381,10 @@ public:
 
 	static void SetArgc(const int32_t argc);
 	static void SetArgv(char **argv);
+
+	static void GarbageCollect(const GARBAGE_COLLECT_MODE mode, asIScriptEngine* engine);
+	static void SetHighEndDevice(const bool highEnd);
+	static bool IsHighEndDevice();
 };
 
 #endif
