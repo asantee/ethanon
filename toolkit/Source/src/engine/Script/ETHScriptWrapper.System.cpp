@@ -14,8 +14,8 @@
 
 void ETHScriptWrapper::TestCrash()
 {
-	int* crashMePlease = nullptr;
-	*crashMePlease = 42;
+	ETHRenderEntity* entity = nullptr;
+	entity->GetID();
 }
 
 void ETHScriptWrapper::ShowMessage(std::string sMsg, const ETH_MESSAGE type, const bool abort)
