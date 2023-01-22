@@ -56,6 +56,9 @@ bool ETHParticleManager::CreateParticleSystem(
 		return false;
 	}
 
+	m_worldSpaceBoundingMin = ETHGlobal::ToScreenPos(v3Pos + m_system.startPoint, Vector2(0.0f));
+	m_worldSpaceBoundingMax = m_worldSpaceBoundingMin;
+
 	m_finished = false;
 	m_killed = false;
 	m_nActiveParticles = 0;
@@ -265,7 +268,7 @@ void ETHParticleManager::UpdateParticle(
 	{
 		if (!hasJustBeenReset)
 			if (!killed || (killed && particle.elapsed < particle.lifeTime))
-				activeParticles++;
+				++activeParticles;
 	}
 
 	anythingDrawn = true;
@@ -280,6 +283,7 @@ void ETHParticleManager::UpdateParticle(
 
 		if (particle.elapsed > releaseTime || system.allAtOnce)
 		{
+			++activeParticles;
 			particle.elapsed = 0.0f;
 			particle.released = true;
 			PositionParticle(system, particle, angle, rot, v3Pos);

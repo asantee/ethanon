@@ -25,6 +25,7 @@ public:
 		ETHResourceProviderPtr provider,
 		const ETHEntityProperties& properties,
 		const std::string& lightmapDirectory,
+		const Vector3& pos,
 		const float angle,
 		const float scale,
 		const bool immediatelyLoadSprites);

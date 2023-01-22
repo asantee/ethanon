@@ -27,10 +27,11 @@ ETHRenderEntity::ETHRenderEntity(
 	ETHResourceProviderPtr provider,
 	const ETHEntityProperties& properties,
 	const std::string& lightmapDirectory,
+	const Vector3& pos,
 	const float angle,
 	const float scale,
 	const bool immediatelyLoadSprites) :
-	ETHSpriteEntity(provider, properties, lightmapDirectory, angle, scale, immediatelyLoadSprites)
+	ETHSpriteEntity(provider, properties, lightmapDirectory, pos, angle, scale, immediatelyLoadSprites)
 {
 }
 

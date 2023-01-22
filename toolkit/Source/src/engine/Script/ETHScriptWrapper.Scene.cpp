@@ -130,9 +130,7 @@ int ETHScriptWrapper::AddEntity(
 		return -1;
 	}
 
-	ETHRenderEntity* entity = new ETHRenderEntity(m_provider, *props, m_pScene->GetLightmapDirectory(), angle, scale, true /*immediatelyLoadSprites*/);
-	entity->SetOrphanPosition(v3Pos);
-	entity->SetAngle(angle);
+	ETHRenderEntity* entity = new ETHRenderEntity(m_provider, *props, m_pScene->GetLightmapDirectory(), v3Pos, angle, scale, true /*immediatelyLoadSprites*/);
 
 	if (ppOutEntity)
 	{

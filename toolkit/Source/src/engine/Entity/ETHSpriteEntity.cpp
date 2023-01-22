@@ -47,6 +47,7 @@ ETHSpriteEntity::ETHSpriteEntity(
 	ETHResourceProviderPtr provider,
 	const ETHEntityProperties& properties,
 	const std::string& lightmapDirectory,
+	const Vector3& pos,
 	const float angle,
 	const float scale,
 	const bool immediatelyLoadSprites) :
@@ -58,6 +59,7 @@ ETHSpriteEntity::ETHSpriteEntity(
 	m_properties = properties;
 	m_properties.scale *= scale;
 	Zero();
+	SetOrphanPosition(pos);
 	SetAngle(angle); // sets angle before Create() to start particles correctly
 	Create(immediatelyLoadSprites);
 }
