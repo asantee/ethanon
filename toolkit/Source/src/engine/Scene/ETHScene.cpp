@@ -52,16 +52,17 @@ ETHScene::ETHScene(
 }
 
 ETHScene::ETHScene(
+	const std::string& lightmapDirectory,
 	ETHResourceProviderPtr provider,
 	const ETHSceneProperties& props,
 	asIScriptModule *pModule,
 	asIScriptContext *pContext,
 	const Vector2 &v2BucketSize) :
+	m_lightmapDirectory(lightmapDirectory),
 	m_renderingManager(provider),
 	m_buckets(provider, v2BucketSize, true),
 	m_activeEntityHandler(provider),
-	m_physicsSimulator(provider->GetVideo()->GetFPSRate()),
-	m_lightmapDirectory("")
+	m_physicsSimulator(provider->GetVideo()->GetFPSRate())
 {
 	Init(provider, props, pModule, pContext);
 }

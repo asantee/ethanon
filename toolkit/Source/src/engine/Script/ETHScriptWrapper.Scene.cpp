@@ -454,7 +454,7 @@ bool ETHScriptWrapper::LoadScene(const std::string &escFile, const std::string& 
 	}
 	else
 	{
-		m_pScene = ETHScenePtr(new ETHScene(m_provider, ETHSceneProperties(), m_pASModule, m_pScriptContext, bucketSize));
+		m_pScene = ETHScenePtr(new ETHScene(lightmapDirectoryFinal, m_provider, ETHSceneProperties(), m_pASModule, m_pScriptContext, bucketSize));
 	}
 
 	ETHEntityArray entities;

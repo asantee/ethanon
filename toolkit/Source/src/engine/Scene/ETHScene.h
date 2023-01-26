@@ -27,6 +27,7 @@ public:
 		const Vector2 &v2BucketSize = Vector2(ETH_DEFAULT_BUCKET_SIZE, ETH_DEFAULT_BUCKET_SIZE));
 
 	ETHScene(
+		 const std::string& lightmapDirectory,
 		ETHResourceProviderPtr provider,
 		const ETHSceneProperties& props,
 		asIScriptModule *pModule,
