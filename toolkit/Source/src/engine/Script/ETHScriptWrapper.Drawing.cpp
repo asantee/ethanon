@@ -33,7 +33,7 @@ void ETHScriptWrapper::LoadSprite(const std::string& name)
 	LoadAndGetSprite(name);
 }
 
-void ETHScriptWrapper::LoadSpriteASync(const std::string& name)
+void ETHScriptWrapper::LoadSpriteAsync(const std::string& name)
 {
 	ETHResourceContainer* container = new ETHSpriteContainer(m_provider, name);
 	ETHResourceLoader::EnqueueResource(container);
