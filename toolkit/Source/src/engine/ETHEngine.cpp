@@ -98,7 +98,7 @@ bool ETHEngine::StartScriptEngine()
 		m_v2LastCamPos = video->GetCameraPos();
 		m_provider->Log(("Ended main function"), Platform::Logger::LT_INFO);
 	}
-	
+
 	m_scriptEngineReady = true;
 	return true;
 }
@@ -241,8 +241,7 @@ void ETHEngine::RenderFrame()
 
 		m_v2LastCamPos = GetCameraPos();
 
-		// draw sprites, rects, lines and texts
-		DrawTopLayer(GetLastFrameElapsedTime());
+		m_drawableManager.DrawTopLayer(GetLastFrameElapsedTime(), m_provider->GetVideo());
 	}
 	else
 	{
@@ -514,11 +513,6 @@ bool ETHEngine::CheckAngelScriptError(const bool error, const std::string &descr
 	{
 		return true;
 	}
-}
-
-void ETHEngine::DrawTopLayer(const unsigned long lastFrameElapsedTimeMS)
-{
-	m_drawableManager.DrawTopLayer(lastFrameElapsedTimeMS, m_provider->GetVideo());
 }
 
 std::string ETHEngine::RemoveResourceDirectoryFromSectionString(const std::string& section)

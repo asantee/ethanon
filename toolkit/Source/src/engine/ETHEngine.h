@@ -39,8 +39,6 @@ class ETHEngine : public gs2d::BaseApplication, public ETHScriptWrapper
 	bool RunOnResumeFunction() const;
 	bool LoadNextSceneIfRequested();
 
-	void DrawTopLayer(const unsigned long lastFrameElapsedTimeMS);
-
 	std::vector<std::string> m_definedWords;
 	
 	SpritePtr m_loadingScreenSymbol;
