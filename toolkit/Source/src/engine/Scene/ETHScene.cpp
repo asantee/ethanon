@@ -512,7 +512,7 @@ void ETHScene::MapEntitiesToBeRendered(
 
 void ETHScene::DrawEntityMultimap(const ETHBackBufferTargetManagerPtr& backBuffer)
 {
-	m_renderingManager.RenderPieces(m_sceneProps, m_minSceneHeight, m_maxSceneHeight);
+	m_renderingManager.RenderAndReleasePieces(m_sceneProps, m_minSceneHeight, m_maxSceneHeight);
 }
 
 int ETHScene::GetNumProcessedEntities()

@@ -16,7 +16,7 @@ public:
 
 	ETHEntityRenderingManager(ETHResourceProviderPtr provider);
 
-	void RenderPieces(const ETHSceneProperties& props, const float minHeight, const float maxHeight);
+	void RenderAndReleasePieces(const ETHSceneProperties& props, const float minHeight, const float maxHeight);
 
 	bool IsEmpty() const;
 

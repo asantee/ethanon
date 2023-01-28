@@ -9,7 +9,7 @@ ETHEntityRenderingManager::ETHEntityRenderingManager(ETHResourceProviderPtr prov
 {
 }
 
-void ETHEntityRenderingManager::RenderPieces(const ETHSceneProperties& props, const float minHeight, const float maxHeight)
+void ETHEntityRenderingManager::RenderAndReleasePieces(const ETHSceneProperties& props, const float minHeight, const float maxHeight)
 {
 	// Draw visible entities ordered in an alpha-friendly map
 	for (std::multimap<float, ETHEntityPieceRendererPtr>::iterator iter = m_piecesToRender.begin(); iter != m_piecesToRender.end(); ++iter)
