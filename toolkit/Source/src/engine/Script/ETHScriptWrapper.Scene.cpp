@@ -470,6 +470,8 @@ bool ETHScriptWrapper::LoadScene(const std::string &escFile, const std::string& 
 	m_onSceneUpdateFunction  = m_pASModule->GetFunctionByName(m_nextScene.GetOnSceneUpdateFunc().c_str());
 	m_onResumeFunction       = m_pASModule->GetFunctionByName(m_nextScene.GetOnResumeFunc().c_str());
 
+	UpdateFixedHeight();
+	
 	return true;
 }
 
