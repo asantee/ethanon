@@ -16,20 +16,11 @@ bool IOSNativeCommmandListener::ExecuteCommand(const std::string& commandLine)
 		if ([word0 isEqual:@"open_url"])
 		{
 			NSString* word1 = [words objectAtIndex:1];
-			[[UIApplication sharedApplication] openURL:[NSURL URLWithString: word1]];
+			UIApplication *application = [UIApplication sharedApplication];
+			NSURL *URL = [NSURL URLWithString:word1];
+			[application openURL:URL options:@{} completionHandler:nil];
+
 			
-			return true;
-		}
-		else if ([word0 isEqual:@"vibrate"])
-		{
-			NSString* word1 = [words objectAtIndex:1];
-			const double vibrateTime = [word1 doubleValue];
-			// if vibrate time requested is too low, let's not even trigger the
-			// event since iOS doesn't allow specific vibration intervals
-			if (vibrateTime > 60)
-			{
-				AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-			}
 			return true;
 		}
 	}
