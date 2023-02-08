@@ -11,7 +11,10 @@
 
 @interface AppleApplication : NSObject
 
-- (id)initWithVideo:(gs2d::VideoPtr)video audio:(gs2d::AudioPtr)audio input:(gs2d::InputPtr)input;
+- (id)initWithVideo:(gs2d::VideoPtr)video
+			  audio:(gs2d::AudioPtr)audio
+			  input:(gs2d::InputPtr)input
+   commandListeners:(const std::vector<Platform::NativeCommandListenerPtr>&) commandListeners;
 
 - (void)detectJoysticks;
 - (void)forceGamepadPause;

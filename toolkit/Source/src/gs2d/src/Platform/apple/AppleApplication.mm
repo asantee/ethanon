@@ -28,13 +28,23 @@
 
 @implementation AppleApplication
 
-- (id)initWithVideo:(gs2d::VideoPtr)video audio:(gs2d::AudioPtr)audio input:(gs2d::InputPtr)input;
+- (id)initWithVideo:(gs2d::VideoPtr)video
+			  audio:(gs2d::AudioPtr)audio
+			  input:(gs2d::InputPtr)input
+   commandListeners:(const std::vector<Platform::NativeCommandListenerPtr>&) commandListeners;
 {
 	self = [super init];
 	
 	m_video = video;
 	m_audio = audio;
 	m_input = input;
+
+	for (unsigned int t = 0; t < commandListeners.size(); t++)
+	{
+		m_commandManager.InsertCommandListener(commandListeners[t]);
+	}
+
+	m_commandManager.InsertCommandListener(Platform::IOSNativeCommmandListenerPtr(new Platform::IOSNativeCommmandListener));
 
 	// setup default subplatform
 	gs2d::Application::SharedData.Create("com.ethanonengine.subplatform", "apple", true  /*constant*/);
@@ -54,8 +64,6 @@
 	m_engine = gs2d::CreateBaseApplication();
 	m_engine->Start(m_video, m_input, m_audio);
 	
-	m_commandManager.InsertCommandListener(Platform::IOSNativeCommmandListenerPtr(new Platform::IOSNativeCommmandListener));
-
 	return self;
 }
 
