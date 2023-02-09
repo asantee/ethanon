@@ -201,6 +201,8 @@
     <ClCompile Include="..\..\..\..\src\engine\Renderer\ETHEntityRenderingManager.cpp" />
     <ClCompile Include="..\..\..\..\src\engine\Renderer\ETHEntitySpriteRenderer.cpp" />
     <ClCompile Include="..\..\..\..\src\engine\Resource\ETHDirectories.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Resource\ETHResourceContainer.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Resource\ETHResourceLoader.cpp" />
     <ClCompile Include="..\..\..\..\src\engine\Resource\ETHResourceManager.cpp" />
     <ClCompile Include="..\..\..\..\src\engine\Resource\ETHResourceProvider.cpp" />
     <ClCompile Include="..\..\..\..\src\engine\Resource\ETHSpriteDensityManager.cpp" />
@@ -285,6 +287,8 @@
     <ClInclude Include="..\..\..\..\src\engine\Renderer\ETHEntityRenderingManager.h" />
     <ClInclude Include="..\..\..\..\src\engine\Renderer\ETHEntitySpriteRenderer.h" />
     <ClInclude Include="..\..\..\..\src\engine\Resource\ETHDirectories.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Resource\ETHResourceContainer.h" />
+    <ClInclude Include="..\..\..\..\src\engine\Resource\ETHResourceLoader.h" />
     <ClInclude Include="..\..\..\..\src\engine\Resource\ETHResourceManager.h" />
     <ClInclude Include="..\..\..\..\src\engine\Resource\ETHResourceProvider.h" />
     <ClInclude Include="..\..\..\..\src\engine\Resource\ETHSpriteDensityManager.h" />

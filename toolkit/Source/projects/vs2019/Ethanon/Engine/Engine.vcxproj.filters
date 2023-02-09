@@ -303,6 +303,12 @@
     <ClCompile Include="..\..\..\..\src\addons\scriptany.cpp">
       <Filter>Angelscript-addons</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Resource\ETHResourceLoader.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\engine\Resource\ETHResourceContainer.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\src\engine\ETHTypes.h">
@@ -526,6 +532,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\src\addons\scriptany.h">
       <Filter>Angelscript-addons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Resource\ETHResourceContainer.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\engine\Resource\ETHResourceLoader.h">
+      <Filter>Resource</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
