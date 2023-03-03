@@ -658,7 +658,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1400;
+				LastUpgradeCheck = 1420;
 			};
 			buildConfigurationList = 1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "angelscript" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -838,6 +838,7 @@
 					MACOSX,
 					"DEBUG=1",
 				);
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				PRODUCT_NAME = angelscript;
 				SDKROOT = macosx;
 			};
@@ -860,6 +861,7 @@
 					"$(inherited)",
 					MACOSX,
 				);
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				PRODUCT_NAME = angelscript;
 				SDKROOT = macosx;
 			};
@@ -908,7 +910,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				SKIP_INSTALL = YES;
 				TVOS_DEPLOYMENT_TARGET = 14.0;
@@ -981,6 +983,7 @@
 				);
 				INSTALL_PATH = /usr/local/lib/iOS/arm64/Debug;
 				"INSTALL_PATH[sdk=iphonesimulator*]" = /usr/local/lib/iOS/x86_64/Debug;
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				PRODUCT_NAME = angelscript;
 				SDKROOT = iphoneos;
 			};
@@ -1001,6 +1004,7 @@
 				);
 				INSTALL_PATH = /usr/local/lib/iOS/arm64/Release;
 				"INSTALL_PATH[sdk=iphonesimulator*]" = /usr/local/lib/iOS/x86_64/Release;
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				PRODUCT_NAME = angelscript;
 				SDKROOT = iphoneos;
 			};
@@ -1025,6 +1029,7 @@
 				);
 				INSTALL_PATH = /usr/local/lib/iOS/arm64/Debug;
 				"INSTALL_PATH[sdk=iphonesimulator*]" = /usr/local/lib/iOS/x86_64/Debug;
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 			};
@@ -1045,6 +1050,7 @@
 				);
 				INSTALL_PATH = /usr/local/lib/iOS/arm64/Release;
 				"INSTALL_PATH[sdk=iphonesimulator*]" = /usr/local/lib/iOS/x86_64/Release;
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 			};
