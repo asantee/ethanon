@@ -351,25 +351,25 @@ void WebsocketClient::OnConnect(beast::error_code ec, tcp::resolver::results_typ
 	//m_ws.control_callback([sp = shared_from_this()](websocket::frame_type kind, beast::string_view data)
 	m_ws.control_callback([this](websocket::frame_type kind, beast::string_view data)
 	{
-			if(kind == websocket::frame_type::ping)
+		if(kind == websocket::frame_type::ping)
+		{
+			std::cout << "<<< received a ping: "<< data << std::endl;
+		}
+		else if(kind == websocket::frame_type::pong)
+		{
+			if(m_waiting_pong)
 			{
-				std::cout << "<<< received a ping: "<< data << std::endl;
+				boost::chrono::duration<double> elapsed;
+				elapsed = boost::chrono::steady_clock::now() - m_ping_time;
+				m_latency.update((double)elapsed.count());
+				m_waiting_pong = false;
 			}
-			else if(kind == websocket::frame_type::pong)
-			{
-				if(m_waiting_pong)
-				{
-					boost::chrono::duration<double> elapsed;
-					elapsed = boost::chrono::steady_clock::now() - m_ping_time;
-					m_latency.update((double)elapsed.count());
-					m_waiting_pong = false;
-				}
-			}
-			else if(kind == websocket::frame_type::close)
-			{
-				std::cout << "<<< received a close request: " << data << std::endl;
-			}
-		});
+		}
+		else if(kind == websocket::frame_type::close)
+		{
+			std::cout << "<<< received a close request: " << data << std::endl;
+		}
+	});
 
 	// Perform the websocket handshake
 	m_ws.async_handshake(m_host, "/", beast::bind_front_handler(&WebsocketClient::OnHandshake, shared_from_this()));
@@ -405,18 +405,22 @@ void WebsocketClient::OnHandshake(beast::error_code ec)
 void WebsocketClient::OnWrite(beast::error_code ec, std::size_t bytes_transferred)
 {
 	if(ec)
-		return	fail(ec, "write");
-	
+		return fail(ec, "write");
+
 	// msg sent, consume output buffer.
 	m_output_buffer.consume(bytes_transferred);
-
-	if( m_output_buffer.size() <= 0 )
+	if (m_output_buffer.size() <= 0)
+	{
+		// reset writing state when transfer finishes
+		writing_state = false;
 		return;
+	}
 
 	// send message while buffer not empty
 	if( m_ws.is_open() )
 	{
 		m_ws.binary(true);
+		writing_state = true;
 		m_ws.async_write(m_output_buffer.cdata(), [sp = shared_from_this()](beast::error_code ec, std::size_t bytes){
 			sp->OnWrite(ec, bytes);
 		});
@@ -541,12 +545,18 @@ void WebsocketClient::ClearBuffer()
 // function to send a messages
 void WebsocketClient::Send()
 {
+	// don't try to send when there is a writing in progress
+	if (writing_state)
+		return;
 	SendRaw(m_output_pd.data(), m_output_pd.size());
 	ClearBuffer();
 }
 
 void WebsocketClient::SendRaw(char* data, size_t size)
 {
+	// don't try to send when there is a writing in progress (check just in case)
+	if (writing_state)
+		return;
 
 	// reserve space and copy data to output buffer
 	net::buffer_copy(m_output_buffer.prepare(size),net::buffer(data,size));
@@ -556,6 +566,7 @@ void WebsocketClient::SendRaw(char* data, size_t size)
 	{
 		m_ws.binary(true);
 		// send (write) output buffer
+		writing_state = true;
 		m_ws.async_write(m_output_buffer.cdata(), [sp = shared_from_this()](beast::error_code ec, std::size_t bytes){
 			sp->OnWrite(ec, bytes);
 		});

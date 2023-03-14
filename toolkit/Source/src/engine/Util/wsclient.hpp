@@ -96,6 +96,8 @@ class WebsocketClient : public std::enable_shared_from_this<WebsocketClient>
 	int m_string_type_id;
 	int m_dictionary_type_id;
 	int m_any_type_id;
+
+	bool writing_state = false;
 	asITypeInfo* m_any_array_type_info;
 
 	// Cache for all the array<T> specializations
