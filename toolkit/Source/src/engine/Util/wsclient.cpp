@@ -1,4 +1,4 @@
-﻿#include "wsclient.hpp"
+#include "wsclient.hpp"
 
 namespace beast = boost::beast;         // from <boost/beast.hpp>
 namespace http = beast::http;           // from <boost/beast/http.hpp>
@@ -989,7 +989,9 @@ void WebsocketClient::PackMap(uint32_t length)
 bool WebsocketClient::ParseMsgPack(CScriptAny* any, const char * data, const size_t size, std::size_t& offset)
 {
 	as_any_visitor visitor(any);
+#ifdef _DEBUG
 	std::cout << "\nMessage size: " << size << "\n";
+#endif
 
 	if (msgpack::v2::parse(data, size, offset, visitor))
 	{
