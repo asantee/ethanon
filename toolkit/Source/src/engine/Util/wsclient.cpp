@@ -530,7 +530,9 @@ void WebsocketClient::Ping()
 	if (!m_waiting_pong)
 	{
 		m_ws.async_ping("ping", [this](beast::error_code ec){
+			#ifdef _DEBUG
 				std::cout << "ping sent!\n";
+			#endif
 			m_waiting_pong = true;
 			m_ping_time = boost::chrono::steady_clock::now();
 		});
