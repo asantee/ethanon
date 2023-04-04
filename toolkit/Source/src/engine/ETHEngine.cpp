@@ -336,6 +336,9 @@ bool ETHEngine::PrepareScriptingEngine(const std::vector<std::string>& definedWo
 	ETHGlobal::RegisterAllObjects(m_pASEngine);
 	RegisterGlobalFunctions(m_pASEngine);
 
+	// Exception translation (fom C++ to AS)
+	r = m_pASEngine->SetTranslateAppExceptionCallback(asFUNCTION(TranslateException), 0, asCALL_CDECL); assert(r >= 0);
+
 	m_pScriptContext = m_pASEngine->CreateContext();
 
 	// Exception callback
@@ -566,6 +569,25 @@ void ETHEngine::MessageCallback(const asSMessageInfo *msg)
 	m_provider->Log(ss.str(), type);
 }
 
+void ETHEngine::TranslateException(asIScriptContext* ctx, void* /*userParam*/)
+{
+	try
+	{
+		// Retrow the original exception so we can catch it again
+		throw;
+	}
+	catch (std::exception& e)
+	{
+		// Tell the VM the type of exception that occurred
+		ctx->SetException(e.what());
+	}
+	catch (...)
+	{
+		// The callback must not allow any exception to be thrown, but it is not necessary 
+		// to explicitly set an exception string if the default exception string is sufficient
+	}
+}
+
 void ETHEngine::ExceptionCallback(asIScriptContext *ctx, void *param)
 {
 	UNUSED_ARGUMENT(param);
@@ -587,7 +609,7 @@ void ETHEngine::ExceptionCallback(asIScriptContext *ctx, void *param)
 		}
 	}
 	ss << std::endl;
-	
+
 	Application::SharedData.Set(
 		SCRIPT_EXCEPTION_LOG_SHARED_DATA_KEY,
 		Application::SharedData.Get(SCRIPT_EXCEPTION_LOG_SHARED_DATA_KEY) + ss.str());

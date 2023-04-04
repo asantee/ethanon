@@ -27,6 +27,7 @@ class ETHEngine : public gs2d::BaseApplication, public ETHScriptWrapper
 
 	static const std::string SCRIPT_EXCEPTION_LOG_SHARED_DATA_KEY;
 	static void MessageCallback(const asSMessageInfo* msg);
+	static void TranslateException(asIScriptContext* ctx, void*);
 	static void ExceptionCallback(asIScriptContext* ctx, void* param);
 	static bool CheckAngelScriptError(const bool error, const std::string& description);
 	static std::string RemoveResourceDirectoryFromSectionString(const std::string& section);
