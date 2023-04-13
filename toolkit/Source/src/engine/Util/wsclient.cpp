@@ -58,9 +58,10 @@ WebsocketClient::WebsocketClient() : m_resolver(net::make_strand(m_ioc))
 // Report a failure
 void WebsocketClient::fail(beast::error_code ec, char const* what)
 {
-	std::cerr << what << ": " << ec.message() << "\n";
 	std::string reason(ec.message());
 	std::string what_str(what);
+	std::string log_message(what_str + ": " + reason + "\n");
+	ETHResourceProvider::Log(log_message, Platform::Logger::LT_ERROR);
 	if (m_on_websocket_fail_callback)
 	{
 		m_as_ctx->Prepare(m_on_websocket_fail_callback);
@@ -348,7 +349,6 @@ void WebsocketClient::OnConnect(beast::error_code ec, tcp::resolver::results_typ
 		}));
 
 	// Set up what-to-do's on control packets
-	//m_ws.control_callback([sp = shared_from_this()](websocket::frame_type kind, beast::string_view data)
 	m_ws.control_callback([this](websocket::frame_type kind, beast::string_view data)
 	{
 		if(kind == websocket::frame_type::ping)
@@ -380,7 +380,7 @@ void WebsocketClient::OnHandshake(beast::error_code ec)
 	if(ec)
 		return fail(ec, "handshake");
 	
-	std::cerr << "Websocket handshake completed!\n";
+	ETHResourceProvider::Log("Websocket handshake completed!\n", Platform::Logger::LT_INFO);
 
 	// call AS OnConnect callback
 	if(m_on_connect_callback)
