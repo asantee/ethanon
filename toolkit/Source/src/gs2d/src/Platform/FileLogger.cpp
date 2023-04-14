@@ -1,6 +1,8 @@
 #include "FileLogger.h"
 #include "Platform.h"
 
+#include "../Application.h"
+
 #include <fstream>
 #include <iostream>
 
@@ -9,6 +11,8 @@
 #endif
 
 namespace Platform {
+
+const std::string FileLogger::CONCATENATED_ERROR_LOGS_SDKEY = "com.ethanonengine.concatenatedErrorLogs";
 
 bool AppendToFile(const std::string& fileName, const std::string& str)
 {
@@ -83,6 +87,10 @@ bool FileLogger::Log(const std::string& str, const TYPE& type) const
 		{
 			m_errorRecorder->RecordError(str);
 		}
+
+		gs2d::Application::SharedData.Set(
+            FileLogger::CONCATENATED_ERROR_LOGS_SDKEY,
+            gs2d::Application::SharedData.Get(FileLogger::CONCATENATED_ERROR_LOGS_SDKEY) + str + "\n");
 	}
 	else if (type == LT_WARNING)
 	{
