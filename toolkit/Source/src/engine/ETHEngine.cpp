@@ -336,10 +336,7 @@ bool ETHEngine::PrepareScriptingEngine(const std::vector<std::string>& definedWo
 	ETHGlobal::RegisterAllObjects(m_pASEngine);
 	RegisterGlobalFunctions(m_pASEngine);
 
-	// Exception translation (fom C++ to AS) - not supported on Android
-	#ifndef ANDROID
-		r = m_pASEngine->SetTranslateAppExceptionCallback(asFUNCTION(TranslateException), 0, asCALL_CDECL); assert(r >= 0);
-	#endif
+	r = m_pASEngine->SetTranslateAppExceptionCallback(asFUNCTION(TranslateException), 0, asCALL_GENERIC); assert(r >= 0);
 
 	m_pScriptContext = m_pASEngine->CreateContext();
 
