@@ -336,7 +336,12 @@ bool ETHEngine::PrepareScriptingEngine(const std::vector<std::string>& definedWo
 	ETHGlobal::RegisterAllObjects(m_pASEngine);
 	RegisterGlobalFunctions(m_pASEngine);
 
-	r = m_pASEngine->SetTranslateAppExceptionCallback(asFUNCTION(TranslateException), 0, asCALL_GENERIC); assert(r >= 0);
+	// Translate app exception callback callback
+	r = m_pASEngine->SetTranslateAppExceptionCallback(asFUNCTION(TranslateException), 0, asCALL_CDECL);
+	if (r < 0)
+	{
+		ShowMessage("Failed while setting TranslateAppException callback.", ETH_WARNING);
+	}
 
 	m_pScriptContext = m_pASEngine->CreateContext();
 
