@@ -43,7 +43,7 @@ boost::shared_ptr<Platform::ZipFileManager> zip;
 SpritePtr splashSprite, cogSprite;
 ETHEnginePtr engine;
 Vector2 lastCameraPos(0.0f, 0.0f);
-Color lastBackgroundColor(0xFFFFFFFF);
+Color lastBackgroundColor(0xFF000000);
 
 void ReleaseLoadingSprite(SpritePtr& sprite)
 {
