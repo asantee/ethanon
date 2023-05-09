@@ -48,7 +48,6 @@ public:
 	ETHCompoundShapePtr GetCompoundShape() const;
 	void ChangeEntityName(const std::string& name);
 	std::string GetEntityName() const override;
-	virtual std::size_t GetNumParticleSystems() const;
 	ETHEntityProperties::ENTITY_TYPE GetType() const override;
 	ETHEntityProperties::BODY_SHAPE GetShape() const;
 	Vector3 GetPosition() const override;

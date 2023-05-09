@@ -555,6 +555,19 @@ void ETHSpriteEntity::SetParticlePosition(const unsigned int n, const Vector3 &v
 		m_particles[n]->SetStartPos(v3Pos);
 }
 
+Vector3 ETHSpriteEntity::GetParticlePosition(const uint32_t n) const
+{
+	if (n < m_particles.size())
+		return m_particles[n]->GetStartPos();
+	else
+		return Vector3(0.0f);
+}
+
+uint32_t ETHSpriteEntity::GetNumParticleSystems() const
+{
+	return static_cast<uint32_t>(m_particles.size());
+}
+
 void ETHSpriteEntity::ScaleParticleSystem(const unsigned int n, const float scale)
 {
 	if (n < m_particles.size())
@@ -912,11 +925,6 @@ void ETHSpriteEntity::Release()
 void ETHSpriteEntity::ReleaseLightmap()
 {
 	m_pLightmap.reset();
-}
-
-std::size_t ETHSpriteEntity::GetNumParticleSystems() const
-{
-	return m_particles.size();
 }
 
 bool ETHSpriteEntity::IsInitialized() const

@@ -63,6 +63,8 @@ public:
 	virtual void AddToAngle(const float angle) = 0;
 	virtual bool SetSpriteCut(const uint32_t columns, const uint32_t rows) = 0;
 	virtual void SetParticlePosition(const uint32_t n, const Vector3 &v3Pos) = 0;
+	virtual Vector3 GetParticlePosition(const uint32_t n) const = 0;
+	virtual uint32_t GetNumParticleSystems() const = 0;
 	virtual void SetParticleBitmap(const uint32_t n, const std::string& bitmap) = 0;
 	virtual void ScaleParticleSystem(const uint32_t n, const float scale) = 0;
 	virtual bool MirrorParticleSystemX(const uint32_t n, const bool mirrorGravity) = 0;

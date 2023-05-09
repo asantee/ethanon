@@ -56,6 +56,8 @@ public:
 	void SetParticleBitmap(const int unsigned n, SpritePtr bitmap);
 	void SetParticleBitmap(const unsigned int n, const std::string& bitmap) override;
 	void SetParticlePosition(const unsigned int n, const Vector3 &v3Pos) override;
+	Vector3 GetParticlePosition(const uint32_t n) const override;
+	uint32_t GetNumParticleSystems() const override;
 	void ScaleParticleSystem(const unsigned int n, const float scale) override;
 	bool MirrorParticleSystemX(const unsigned int n, const bool mirrorGravity) override;
 	bool MirrorParticleSystemY(const unsigned int n, const bool mirrorGravity) override;
@@ -118,8 +120,6 @@ public:
 
 	Vector2 GetSpriteCut() const override;
 
-	std::size_t GetNumParticleSystems() const override;
-	
 	bool IsInitialized() const override;
 	
 protected:

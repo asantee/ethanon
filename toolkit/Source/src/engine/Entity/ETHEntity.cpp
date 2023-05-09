@@ -252,11 +252,6 @@ ETHCollisionBox ETHEntity::GetCollisionBox() const
 	return ETHCollisionBox(Vector3(0,0,0), Vector3(0,0,0));
 }
 
-std::size_t ETHEntity::GetNumParticleSystems() const
-{
-	return m_properties.particleSystems.size();
-}
-
 ETHEntityProperties::ENTITY_TYPE ETHEntity::GetType() const
 {
 	return m_properties.type;
