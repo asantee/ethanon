@@ -1369,6 +1369,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = macosx;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Debug;
 		};
@@ -1411,6 +1412,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				SDKROOT = macosx;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -1454,13 +1456,13 @@
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"../../../src/vendors/openssl-xcode/OSX/lib/libssl.a",
 					"../../../src/vendors/openssl-xcode/OSX/lib/libcrypto.a",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -1509,6 +1511,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
