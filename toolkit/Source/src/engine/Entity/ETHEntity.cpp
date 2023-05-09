@@ -575,7 +575,7 @@ bool ETHEntity::HasParticleSystems() const
 Vector3 ETHEntity::GetLightPosition() const
 {
 	if (HasLightSource())
-		return GetPosition() + m_properties.light->pos;
+		return m_properties.light->pos;
 	else
 		return Vector3(0,0,0);
 }
