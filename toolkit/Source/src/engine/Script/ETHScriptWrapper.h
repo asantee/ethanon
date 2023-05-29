@@ -368,8 +368,7 @@ public:
 	static Vector3 DummyScale(const Vector3& v);
 
 	// SharedData
-	static bool SetSharedData(const std::string& key, const std::string& data);
-	static bool IsSharedDataConstant(const std::string& key);
+	static void SetSharedData(const std::string& key, const std::string& data);
 	static std::string GetSharedData(const std::string& key);
 	static bool SharedDataExists(const std::string& key);
 	static bool RemoveSharedData(const std::string& key);

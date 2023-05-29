@@ -90,7 +90,7 @@ bool FileLogger::Log(const std::string& str, const TYPE& type) const
 
 		gs2d::Application::SharedData.Set(
             FileLogger::CONCATENATED_ERROR_LOGS_SDKEY,
-            gs2d::Application::SharedData.Get(FileLogger::CONCATENATED_ERROR_LOGS_SDKEY) + str + "\n");
+            gs2d::Application::SharedData.Get(FileLogger::CONCATENATED_ERROR_LOGS_SDKEY, "") + str + "\n");
 	}
 	else if (type == LT_WARNING)
 	{

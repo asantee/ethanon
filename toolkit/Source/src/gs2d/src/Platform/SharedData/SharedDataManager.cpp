@@ -2,53 +2,52 @@
 
 namespace Platform {
 
-void SharedDataManager::Create(const std::string& key, const std::string& data, const bool constant)
-{
-	SharedDataPtr newData(new SharedData(constant));
-	newData->Set(data, true);
-	m_data[key] = newData;
-}
-
-void SharedDataManager::Force(const std::string& key, const std::string& data)
-{
-	Set(key, data, true);
-}
-
-bool SharedDataManager::Set(const std::string& key, const std::string& data)
-{
-	return Set(key, data, false);
-}
-
-bool SharedDataManager::Set(const std::string& key, const std::string& data, const bool forceValue)
+void SharedDataManager::Set(const std::string& key, const std::string& data)
 {
 	tsl::hopscotch_map<std::string, SharedDataPtr>::const_iterator iter = m_data.find(key);
 	if (iter != m_data.end())
 	{
-		return iter->second->Set(data, forceValue);
+		iter->second->Set(data);
 	}
 	else
 	{
-		Create(key, data, false);
-		return true;
+		SharedDataPtr newData(new SharedData());
+		newData->Set(data);
+		m_data[key] = newData;
 	}
 }
 
-bool SharedDataManager::IsConstant(const std::string& key) const
+void SharedDataManager::SetSecured(const std::string& key, const std::string& data)
 {
 	tsl::hopscotch_map<std::string, SharedDataPtr>::const_iterator iter = m_data.find(key);
 	if (iter != m_data.end())
-		return iter->second->IsConstant();
+	{
+		iter->second->Set(data);
+	}
 	else
-		return false;
+	{
+		SharedDataPtr newData(new SharedDataSecured());
+		newData->Set(data);
+		m_data[key] = newData;
+	}
 }
 
-std::string SharedDataManager::Get(const std::string& key) const
+std::string SharedDataManager::Get(const std::string& key, const std::string& defaultValue) const
 {
 	tsl::hopscotch_map<std::string, SharedDataPtr>::const_iterator iter = m_data.find(key);
 	if (iter != m_data.end())
 		return iter->second->Get();
 	else
-		return "";
+		return defaultValue;
+}
+
+bool SharedDataManager::IsValid(const std::string& key) const
+{
+	tsl::hopscotch_map<std::string, SharedDataPtr>::const_iterator iter = m_data.find(key);
+	if (iter != m_data.end())
+		return iter->second->IsValid();
+	else
+		return false;
 }
 
 bool SharedDataManager::Exists(const std::string& key) const
@@ -61,11 +60,8 @@ bool SharedDataManager::Remove(const std::string& key)
 	tsl::hopscotch_map<std::string, SharedDataPtr>::iterator iter = m_data.find(key);
 	if (iter != m_data.end())
 	{
-		if (!iter->second->IsConstant())
-		{
-			m_data.erase(iter);
-			return true;
-		}
+		m_data.erase(iter);
+		return true;
 	}
 	return false;
 }

@@ -11,15 +11,12 @@ class SharedDataManager
 {
 	tsl::hopscotch_map<std::string, SharedDataPtr> m_data;
 
-	bool Set(const std::string& key, const std::string& data, const bool forceValue);
-
 public:
-	void Create(const std::string& key, const std::string& data, const bool constant);
-	void Force(const std::string& key, const std::string& data);
-	bool Set(const std::string& key, const std::string& data);
-	bool IsConstant(const std::string& key) const;
-	std::string Get(const std::string& key) const;
+	void Set(const std::string& key, const std::string& data);
+	void SetSecured(const std::string& key, const std::string& data);
+	std::string Get(const std::string& key, const std::string& defaultValue) const;
 	bool Exists(const std::string& key) const;
+	bool IsValid(const std::string& key) const;
 	bool Remove(const std::string& key);
 };
 

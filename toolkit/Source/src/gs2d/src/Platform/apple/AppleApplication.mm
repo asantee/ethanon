@@ -47,19 +47,19 @@
 	m_commandManager.InsertCommandListener(Platform::IOSNativeCommmandListenerPtr(new Platform::IOSNativeCommmandListener));
 
 	// setup default subplatform
-	gs2d::Application::SharedData.Create("com.ethanonengine.subplatform", "apple", true  /*constant*/);
+	gs2d::Application::SharedData.SetSecured("com.ethanonengine.subplatform", "apple");
 
 	NSString* appVersionNameString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
 	NSString* appBuildNumberString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
 
-	if (appVersionNameString != nil) gs2d::Application::SharedData.Create("com.ethanonengine.versionName", [appVersionNameString UTF8String], true /*constant*/);
-	if (appBuildNumberString != nil) gs2d::Application::SharedData.Create("com.ethanonengine.buildNumber", [appBuildNumberString UTF8String], true /*constant*/);
+	if (appVersionNameString != nil) gs2d::Application::SharedData.SetSecured("com.ethanonengine.versionName", [appVersionNameString UTF8String]);
+	if (appBuildNumberString != nil) gs2d::Application::SharedData.SetSecured("com.ethanonengine.buildNumber", [appBuildNumberString UTF8String]);
 
 	// setup language code
 	NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
 	NSRange designatorRange = NSMakeRange(0, 2);
 	language = [language substringWithRange:designatorRange];
-	gs2d::Application::SharedData.Create("ethanon.system.language", [language cStringUsingEncoding:1], false /*constant*/);
+	gs2d::Application::SharedData.SetSecured("ethanon.system.language", [language cStringUsingEncoding:1]);
 	
 	m_engine = gs2d::CreateBaseApplication();
 	m_engine->Start(m_video, m_input, m_audio);

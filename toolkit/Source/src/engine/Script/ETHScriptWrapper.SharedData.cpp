@@ -1,18 +1,13 @@
 #include "ETHScriptWrapper.h"
 
-bool ETHScriptWrapper::SetSharedData(const std::string& key, const std::string& data)
+void ETHScriptWrapper::SetSharedData(const std::string& key, const std::string& data)
 {
-	return Application::SharedData.Set(key, data);
-}
-
-bool ETHScriptWrapper::IsSharedDataConstant(const std::string& key)
-{
-	return Application::SharedData.IsConstant(key);
+	Application::SharedData.Set(key, data);
 }
 
 std::string ETHScriptWrapper::GetSharedData(const std::string& key)
 {
-	return Application::SharedData.Get(key);
+	return Application::SharedData.Get(key, "");
 }
 
 bool ETHScriptWrapper::SharedDataExists(const std::string& key)

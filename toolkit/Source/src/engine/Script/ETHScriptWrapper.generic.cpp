@@ -232,7 +232,6 @@ asDECLARE_FUNCTION_WRAPPERPR(__Scale2, ETHScriptWrapper::DummyScale, (const Vect
 asDECLARE_FUNCTION_WRAPPERPR(__Scale3, ETHScriptWrapper::DummyScale, (const Vector3&), Vector3);
 
 asDECLARE_FUNCTION_WRAPPER(__SetSharedData, ETHScriptWrapper::SetSharedData);
-asDECLARE_FUNCTION_WRAPPER(__IsSharedDataConstant, ETHScriptWrapper::IsSharedDataConstant);
 asDECLARE_FUNCTION_WRAPPER(__GetSharedData, ETHScriptWrapper::GetSharedData);
 asDECLARE_FUNCTION_WRAPPER(__SharedDataExists, ETHScriptWrapper::SharedDataExists);
 asDECLARE_FUNCTION_WRAPPER(__RemoveSharedData, ETHScriptWrapper::RemoveSharedData);
@@ -497,8 +496,7 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("vector2 Scale(const vector2 &in)", asFUNCTION(__Scale2),         asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector3 Scale(const vector3 &in)", asFUNCTION(__Scale3),         asCALL_GENERIC); assert(r >= 0);
 
-	r = pASEngine->RegisterGlobalFunction("bool SetSharedData(const string &in, const string &in)", asFUNCTION(__SetSharedData),        asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("bool IsSharedDataConstant(const string &in)",            asFUNCTION(__IsSharedDataConstant), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void SetSharedData(const string &in, const string &in)", asFUNCTION(__SetSharedData),        asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("string GetSharedData(const string &in)",                 asFUNCTION(__GetSharedData),        asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool SharedDataExists(const string &in)",                asFUNCTION(__SharedDataExists),     asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool RemoveSharedData(const string &in)",                asFUNCTION(__RemoveSharedData),     asCALL_GENERIC); assert(r >= 0);

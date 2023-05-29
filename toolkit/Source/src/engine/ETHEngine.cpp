@@ -49,8 +49,8 @@ ETHEngine::ETHEngine(const bool testing, const bool compileAndRun, const bool au
 	m_scriptEngineReady(false),
 	m_autoStartScriptEngine(autoStartScriptEngine)
 {
-	Application::SharedData.Create(SCRIPT_EXCEPTION_LOG_SHARED_DATA_KEY, (""), false);
-	Application::SharedData.Create(SD_CURRENT_TIME_MILLIS, "0", false);
+	Application::SharedData.Set(SCRIPT_EXCEPTION_LOG_SHARED_DATA_KEY, "");
+	Application::SharedData.Set(SD_CURRENT_TIME_MILLIS, "0");
 }
 
 ETHEngine::~ETHEngine()
@@ -112,7 +112,7 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 {
 	Platform::FileIOHubPtr fileIOHub = video->GetFileIOHub();
 
-	const bool lowRamDevice = Application::SharedData.Get("ethanon.system.isLowRamDevice") == "true";
+	const bool lowRamDevice = Application::SharedData.Get("ethanon.system.isLowRamDevice", "") == "true";
 
 	ETHAppEnmlFile file(
 		fileIOHub->GetResourceDirectory() + ETH_APP_PROPERTIES_FILE,
@@ -616,7 +616,7 @@ void ETHEngine::ExceptionCallback(asIScriptContext *ctx, void *param)
 
 	Application::SharedData.Set(
 		SCRIPT_EXCEPTION_LOG_SHARED_DATA_KEY,
-		Application::SharedData.Get(SCRIPT_EXCEPTION_LOG_SHARED_DATA_KEY) + ss.str());
+		Application::SharedData.Get(SCRIPT_EXCEPTION_LOG_SHARED_DATA_KEY, "") + ss.str());
 
 	m_provider->Log(ss.str(), Platform::FileLogger::LT_ERROR);
 }

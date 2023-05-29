@@ -34,8 +34,6 @@ MetalVideo::MetalVideo(
 	//m_view.sampleCount = 1;
 
 	m_inFlightSemaphore = dispatch_semaphore_create(MetalShader::MAX_BUFFERS_IN_FLIGHT);
-	
-	gs2d::Application::SharedData.Create("com.ethanonengine.usingSuperSimple", "true", true /*constant*/);
 }
 
 bool MetalVideo::BeginRendering(const Color& bgColor)
