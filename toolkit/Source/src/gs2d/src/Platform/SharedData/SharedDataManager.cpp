@@ -47,7 +47,7 @@ bool SharedDataManager::IsValid(const std::string& key) const
 	if (iter != m_data.end())
 		return iter->second->IsValid();
 	else
-		return false;
+		return true; // doesn't exist. Should default to true since it hasn't been compromised
 }
 
 bool SharedDataManager::Exists(const std::string& key) const
