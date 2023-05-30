@@ -1,5 +1,6 @@
 #include "SharedData.h"
 
+#include "../Platform.h"
 #include "../KeyProvider.h"
 
 namespace Platform {
@@ -25,10 +26,9 @@ std::string SharedData::Get() const
 //
 //  SharedDataSecured
 //////////////////////////////////////////////////////////////////////////////////////////
-SharedDataSecured::SharedDataSecured()
+SharedDataSecured::SharedDataSecured(const std::string& data)
 {
-	wrapperfactory factory;
-	m_wrapper = boost::shared_ptr<hashwrapper>(factory.create(HL_SHA1));
+	Set(data);
 }
 
 void SharedDataSecured::Set(const std::string& data)
@@ -39,7 +39,7 @@ void SharedDataSecured::Set(const std::string& data)
 
 std::string SharedDataSecured::GenerateHash() const
 {
-	return m_wrapper->getHashFromString(m_data + KeyProvider::ProvideKey());
+	return Platform::GetMD5HashFromString(m_data + KeyProvider::ProvideKey());
 }
 
 bool SharedDataSecured::IsValid() const

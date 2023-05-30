@@ -4,7 +4,6 @@
 #include <string>
 
 #include <boost/shared_ptr.hpp>
-#include <hashlibpp.h>
 
 namespace Platform {
 
@@ -22,12 +21,11 @@ public:
 class SharedDataSecured : public SharedData
 {
 	std::string m_hash;
-	boost::shared_ptr<hashwrapper> m_wrapper;
 	
 	std::string GenerateHash() const;
 
 public:
-	SharedDataSecured();
+	SharedDataSecured(const std::string& data);
 
 	bool IsValid() const override;
 	void Set(const std::string& data) override;
