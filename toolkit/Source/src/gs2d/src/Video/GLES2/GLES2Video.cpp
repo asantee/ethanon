@@ -59,7 +59,7 @@ GLES2Video::GLES2Video(
 	glHint(GL_GENERATE_MIPMAP_HINT, GL_FASTEST);
 
 	// toggle dither
-	if (gs2d::Application::SharedData.Get("ethanon.system.gles2dither") == "enable")
+	if (gs2d::Application::SharedData.Get("ethanon.system.gles2dither", "") == "enable")
 	{
 		glEnable(GL_DITHER);
 	}
@@ -76,8 +76,6 @@ GLES2Video::GLES2Video(
 	std::cout << "Application started..." << std::endl;
 
 	m_startTime = getRealTime();
-
-    gs2d::Application::SharedData.Create("com.ethanonengine.usingSuperSimple", "true", true /*constant*/);
 }
 
 void GLES2Video::Enable2D(const int width, const int height, const bool flipY)

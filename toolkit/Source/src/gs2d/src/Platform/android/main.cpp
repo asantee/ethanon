@@ -29,9 +29,10 @@ extern "C" {
 	JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_destroy(JNIEnv* env, jobject thiz);
 	JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_runOnUIThread(JNIEnv* env, jobject thiz, jstring inputStr);
 
-	JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_getSharedData(JNIEnv* env, jobject thiz, jstring key);
+	JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_getSharedData(JNIEnv* env, jobject thiz, jstring key, jstring defaultValue);
 	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_setSharedData(JNIEnv* env, jobject thiz, jstring key, jstring value);
-	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_createConstSharedData(JNIEnv* env, jobject thiz, jstring key, jstring value);
+	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_setSecuredSharedData(JNIEnv* env, jobject thiz, jstring key, jstring value);
+	JNIEXPORT jboolean JNICALL Java_net_asantee_gs2d_GS2DJNI_isSharedDataValid(JNIEnv* env, jobject thiz, jstring key);
 };
 
 BaseApplicationPtr application;
@@ -238,11 +239,12 @@ JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_runOnUIThread(JNIEnv* en
 	return env->NewStringUTF(outStr.c_str());
 }
 
-JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_getSharedData(JNIEnv* env, jobject thiz, jstring key)
+JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_getSharedData(JNIEnv* env, jobject thiz, jstring key, jstring defaultValue)
 {
 	jboolean isCopy;
 	const char* cstrKey = env->GetStringUTFChars(key, &isCopy);
-	return env->NewStringUTF(Application::SharedData.Get(cstrKey).c_str());
+	const char* cstrDef = env->GetStringUTFChars(defaultValue,&isCopy);
+	return env->NewStringUTF(Application::SharedData.Get(cstrKey, cstrDef).c_str());
 }
 
 JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_setSharedData(JNIEnv* env, jobject thiz, jstring key, jstring value)
@@ -253,10 +255,17 @@ JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_setSharedData(JNIEnv* env, 
 	Application::SharedData.Set(cstrKey, cstrValue);
 }
 
-JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_createConstSharedData(JNIEnv* env, jobject thiz, jstring key, jstring value)
+JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_setSecuredSharedData(JNIEnv* env, jobject thiz, jstring key, jstring value)
 {
 	jboolean isCopy;
 	const char* cstrKey   = env->GetStringUTFChars(key, &isCopy);
 	const char* cstrValue = env->GetStringUTFChars(value, &isCopy);
-	Application::SharedData.Create(cstrKey, cstrValue, true);
+	Application::SharedData.SetSecured(cstrKey, cstrValue);
+}
+
+JNIEXPORT jboolean JNICALL Java_net_asantee_gs2d_GS2DJNI_isSharedDataValid(JNIEnv* env, jobject thiz, jstring key)
+{
+	jboolean isCopy;
+	const char* cstrKey   = env->GetStringUTFChars(key, &isCopy);
+	return Application::SharedData.IsValid(cstrKey);
 }

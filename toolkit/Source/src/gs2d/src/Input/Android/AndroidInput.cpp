@@ -176,7 +176,7 @@ double ReadValue(std::stringstream& ss)
 
 double ReadJoystickValue(const std::string& key)
 {
-	std::stringstream ss; ss << gs2d::Application::SharedData.Get(key);
+	std::stringstream ss; ss << gs2d::Application::SharedData.Get(key, "");
 	double r = 0;
 	if (!ss.str().empty())
 	{
@@ -317,7 +317,7 @@ void AndroidInput::UpdateKey(const std::string& str, const std::string& keyName,
 
 void AndroidInput::UpdateKey(const std::string& keyName, const GS_KEY key)
 {
-	m_keyStates[key].Update(gs2d::Application::SharedData.Get(keyName) == KEY_STATE_DOWN);
+	m_keyStates[key].Update(gs2d::Application::SharedData.Get(keyName, "") == KEY_STATE_DOWN);
 }
 
 bool AndroidInput::Update()
@@ -367,7 +367,7 @@ void AndroidInput::UpdateJoysticks()
 	for (std::size_t j = 0; j < m_numJoysticks; j++)
 	{
 		m_joyNumButtons[j]         = ReadJoystickValue(AssembleJoystickSharedDataPath(j, "numButtons"));
-		m_joyButtonsPressedList[j] = gs2d::Application::SharedData.Get(AssembleJoystickSharedDataPath(j, "buttonPressedList"));
+		m_joyButtonsPressedList[j] = gs2d::Application::SharedData.Get(AssembleJoystickSharedDataPath(j, "buttonPressedList"), "");
 
 		if (m_joyNumButtons[j] != m_joyKeyStates[j].size())
 		{
