@@ -276,14 +276,14 @@ void ETHScriptWrapper::ResetVideoMode(
 		{
 			Vector2i v2Backbuffer(static_cast<int>(width), static_cast<int>(height));
 			Vector2i v2Screen = video->GetClientScreenSize();
-			video->SetWindowPosition(v2Screen/2-v2Backbuffer/2);
+			video->SetWindowPosition(v2Screen / 2 - v2Backbuffer / 2);
 		}
 		ETHAppEnmlFile file(
 			m_provider->GetFileIOHub()->GetResourceDirectory() + ETH_APP_PROPERTIES_FILE,
 			m_provider->GetFileManager(),
 			video->GetPlatformName(),
 			m_provider->GetFileIOHub()->GetExternalStorageDirectory(),
-			GetSharedData("ethanon.system.isLowRamDevice") == "true");
+			GetSharedData("ethanon.system.isLowRamDevice", "") == "true");
 
 		UpdateFixedHeight();
 
