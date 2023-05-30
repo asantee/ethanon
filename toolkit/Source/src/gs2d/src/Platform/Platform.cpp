@@ -1,5 +1,10 @@
 #include "Platform.h"
+
+#include <boost/shared_ptr.hpp>
+
 #include <iostream>
+
+#include <hashlibpp.h>
 
 namespace Platform {
 
@@ -115,6 +120,20 @@ std::vector<std::string> SplitString(std::string str, const std::string& c)
 	}
 	v.push_back(str);
 	return v;
+}
+
+static wrapperfactory g_factory;
+static const boost::shared_ptr<hashwrapper> g_wrapperSHA1(boost::shared_ptr<hashwrapper>(g_factory.create(HL_SHA1)));
+static const boost::shared_ptr<hashwrapper> g_wrapperMD5 (boost::shared_ptr<hashwrapper>(g_factory.create(HL_MD5)));
+
+std::string GetMD5HashFromString(const std::string& str)
+{
+	return g_wrapperMD5->getHashFromString(str);
+}
+
+std::string GetSHA1HashFromString(const std::string& str)
+{
+	return g_wrapperSHA1->getHashFromString(str);
 }
 
 } // namespace Platform

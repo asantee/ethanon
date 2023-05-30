@@ -25,6 +25,9 @@ bool IsDirectory(const std::string& path);
 
 short ShortEndianSwap(const short s);
 
+std::string GetMD5HashFromString(const std::string& str);
+std::string GetSHA1HashFromString(const std::string& str);
+
 } 
 // namespace Platform
 

@@ -1,5 +1,7 @@
 #include "ETHScriptWrapper.h"
 
+#include <Platform/Platform.h>
+
 #include <boost/shared_ptr.hpp>
 
 #include <math.h>
@@ -10,21 +12,14 @@
 
 #include <hashlibpp.h>
 
-std::string ETHScriptWrapper::Math::GetHashFromString(const std::string& type, const std::string& str)
-{
-	wrapperfactory factory;
-	boost::shared_ptr<hashwrapper> wrapper(factory.create(type));
-	return wrapper->getHashFromString(str);
-}
-
 std::string ETHScriptWrapper::Math::GetMD5HashFromString(const std::string& str)
 {
-	return GetHashFromString(("MD5"), str);
+	return Platform::GetMD5HashFromString(str);
 }
 
 std::string ETHScriptWrapper::Math::GetSHA1HashFromString(const std::string& str)
 {
-	return GetHashFromString(("SHA1"), str);
+	return Platform::GetSHA1HashFromString(str);
 }
 
 float ETHScriptWrapper::Math::Length(const Vector3& v)

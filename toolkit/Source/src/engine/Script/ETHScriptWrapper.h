@@ -117,8 +117,7 @@ public:
 		static float Distance(const Vector2 &a, const Vector2 &b);
 		static float Distance(const Vector3 &a, const Vector3 &b);
 
-		// Encryption‎ functions
-		static std::string GetHashFromString(const std::string& type, const std::string& str);
+		// Hashing functions
 		static std::string GetMD5HashFromString(const std::string& str);
 		static std::string GetSHA1HashFromString(const std::string& str);
 	} m_math;
