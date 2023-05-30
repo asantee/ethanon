@@ -97,8 +97,6 @@ GLSDLVideo::GLSDLVideo(
 	SetZBuffer(false);
 
 	Enable2DStates();
-	
-	gs2d::Application::SharedData.Create("com.ethanonengine.usingSuperSimple", "true", true /*constant*/);
 }
 
 GLSDLVideo::~GLSDLVideo()

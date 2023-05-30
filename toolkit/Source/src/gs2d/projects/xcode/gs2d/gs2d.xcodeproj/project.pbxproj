@@ -106,6 +106,33 @@
 		AA92F37422F62B1C00AECB30 /* SpriteRects.h in Headers */ = {isa = PBXBuildFile; fileRef = AA92F37022F62B1C00AECB30 /* SpriteRects.h */; };
 		AA92F37522F62B1C00AECB30 /* SpriteRects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA92F37122F62B1C00AECB30 /* SpriteRects.cpp */; };
 		AA92F37722F62E0900AECB30 /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA92F37622F62E0900AECB30 /* Shader.cpp */; };
+		AAA6FB3E2A26880C00511C79 /* hl_sha1.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA6FB252A26880C00511C79 /* hl_sha1.h */; };
+		AAA6FB3F2A26880C00511C79 /* hl_sha1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAA6FB262A26880C00511C79 /* hl_sha1.cpp */; };
+		AAA6FB402A26880C00511C79 /* hl_md5wrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA6FB272A26880C00511C79 /* hl_md5wrapper.h */; };
+		AAA6FB412A26880C00511C79 /* hl_md5wrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAA6FB282A26880C00511C79 /* hl_md5wrapper.cpp */; };
+		AAA6FB422A26880C00511C79 /* hl_sha1wrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAA6FB292A26880C00511C79 /* hl_sha1wrapper.cpp */; };
+		AAA6FB432A26880C00511C79 /* hl_wrapperfactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAA6FB2A2A26880C00511C79 /* hl_wrapperfactory.cpp */; };
+		AAA6FB442A26880C00511C79 /* hl_sha1wrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA6FB2B2A26880C00511C79 /* hl_sha1wrapper.h */; };
+		AAA6FB452A26880C00511C79 /* hl_exception.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA6FB2C2A26880C00511C79 /* hl_exception.h */; };
+		AAA6FB462A26880C00511C79 /* hl_sha512wrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAA6FB2D2A26880C00511C79 /* hl_sha512wrapper.cpp */; };
+		AAA6FB472A26880C00511C79 /* hl_sha384wrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAA6FB2E2A26880C00511C79 /* hl_sha384wrapper.cpp */; };
+		AAA6FB482A26880C00511C79 /* hl_wrapperfactory.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA6FB2F2A26880C00511C79 /* hl_wrapperfactory.h */; };
+		AAA6FB492A26880C00511C79 /* hl_hashwrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA6FB302A26880C00511C79 /* hl_hashwrapper.h */; };
+		AAA6FB4A2A26880C00511C79 /* hl_sha256wrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAA6FB312A26880C00511C79 /* hl_sha256wrapper.cpp */; };
+		AAA6FB4B2A26880C00511C79 /* hl_sha2ext.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA6FB322A26880C00511C79 /* hl_sha2ext.h */; };
+		AAA6FB4C2A26880C00511C79 /* hl_md5.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA6FB332A26880C00511C79 /* hl_md5.h */; };
+		AAA6FB4D2A26880C00511C79 /* hl_types.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA6FB342A26880C00511C79 /* hl_types.h */; };
+		AAA6FB4E2A26880C00511C79 /* hl_sha256.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAA6FB352A26880C00511C79 /* hl_sha256.cpp */; };
+		AAA6FB4F2A26880C00511C79 /* hl_sha256wrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA6FB362A26880C00511C79 /* hl_sha256wrapper.h */; };
+		AAA6FB502A26880C00511C79 /* hl_sha256.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA6FB372A26880C00511C79 /* hl_sha256.h */; };
+		AAA6FB512A26880C00511C79 /* hl_sha2ext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAA6FB382A26880C00511C79 /* hl_sha2ext.cpp */; };
+		AAA6FB522A26880C00511C79 /* hl_md5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAA6FB392A26880C00511C79 /* hl_md5.cpp */; };
+		AAA6FB532A26880C00511C79 /* hl_sha512wrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA6FB3A2A26880C00511C79 /* hl_sha512wrapper.h */; };
+		AAA6FB542A26880C00511C79 /* hl_sha2mac.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA6FB3B2A26880C00511C79 /* hl_sha2mac.h */; };
+		AAA6FB552A26880C00511C79 /* hl_sha384wrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA6FB3C2A26880C00511C79 /* hl_sha384wrapper.h */; };
+		AAA6FB562A26880C00511C79 /* hashlibpp.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA6FB3D2A26880C00511C79 /* hashlibpp.h */; };
+		AAA6FB592A26883D00511C79 /* KeyProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAA6FB572A26883D00511C79 /* KeyProvider.cpp */; };
+		AAA6FB5A2A26883D00511C79 /* KeyProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA6FB582A26883D00511C79 /* KeyProvider.h */; };
 		AADD118323173B8300A5541C /* getRealTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AADD118123173B8200A5541C /* getRealTime.cpp */; };
 		AADD118423173B8300A5541C /* getRealTime.h in Headers */ = {isa = PBXBuildFile; fileRef = AADD118223173B8300A5541C /* getRealTime.h */; };
 /* End PBXBuildFile section */
@@ -235,6 +262,33 @@
 		AA92F37022F62B1C00AECB30 /* SpriteRects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpriteRects.h; path = ../../../../src/SpriteRects.h; sourceTree = "<group>"; };
 		AA92F37122F62B1C00AECB30 /* SpriteRects.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SpriteRects.cpp; path = ../../../../src/SpriteRects.cpp; sourceTree = "<group>"; };
 		AA92F37622F62E0900AECB30 /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Shader.cpp; path = ../../../../src/Shader.cpp; sourceTree = "<group>"; };
+		AAA6FB252A26880C00511C79 /* hl_sha1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_sha1.h; path = ../../../../../vendors/hashlib2plus/src/hl_sha1.h; sourceTree = "<group>"; };
+		AAA6FB262A26880C00511C79 /* hl_sha1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = hl_sha1.cpp; path = ../../../../../vendors/hashlib2plus/src/hl_sha1.cpp; sourceTree = "<group>"; };
+		AAA6FB272A26880C00511C79 /* hl_md5wrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_md5wrapper.h; path = ../../../../../vendors/hashlib2plus/src/hl_md5wrapper.h; sourceTree = "<group>"; };
+		AAA6FB282A26880C00511C79 /* hl_md5wrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = hl_md5wrapper.cpp; path = ../../../../../vendors/hashlib2plus/src/hl_md5wrapper.cpp; sourceTree = "<group>"; };
+		AAA6FB292A26880C00511C79 /* hl_sha1wrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = hl_sha1wrapper.cpp; path = ../../../../../vendors/hashlib2plus/src/hl_sha1wrapper.cpp; sourceTree = "<group>"; };
+		AAA6FB2A2A26880C00511C79 /* hl_wrapperfactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = hl_wrapperfactory.cpp; path = ../../../../../vendors/hashlib2plus/src/hl_wrapperfactory.cpp; sourceTree = "<group>"; };
+		AAA6FB2B2A26880C00511C79 /* hl_sha1wrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_sha1wrapper.h; path = ../../../../../vendors/hashlib2plus/src/hl_sha1wrapper.h; sourceTree = "<group>"; };
+		AAA6FB2C2A26880C00511C79 /* hl_exception.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_exception.h; path = ../../../../../vendors/hashlib2plus/src/hl_exception.h; sourceTree = "<group>"; };
+		AAA6FB2D2A26880C00511C79 /* hl_sha512wrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = hl_sha512wrapper.cpp; path = ../../../../../vendors/hashlib2plus/src/hl_sha512wrapper.cpp; sourceTree = "<group>"; };
+		AAA6FB2E2A26880C00511C79 /* hl_sha384wrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = hl_sha384wrapper.cpp; path = ../../../../../vendors/hashlib2plus/src/hl_sha384wrapper.cpp; sourceTree = "<group>"; };
+		AAA6FB2F2A26880C00511C79 /* hl_wrapperfactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_wrapperfactory.h; path = ../../../../../vendors/hashlib2plus/src/hl_wrapperfactory.h; sourceTree = "<group>"; };
+		AAA6FB302A26880C00511C79 /* hl_hashwrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_hashwrapper.h; path = ../../../../../vendors/hashlib2plus/src/hl_hashwrapper.h; sourceTree = "<group>"; };
+		AAA6FB312A26880C00511C79 /* hl_sha256wrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = hl_sha256wrapper.cpp; path = ../../../../../vendors/hashlib2plus/src/hl_sha256wrapper.cpp; sourceTree = "<group>"; };
+		AAA6FB322A26880C00511C79 /* hl_sha2ext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_sha2ext.h; path = ../../../../../vendors/hashlib2plus/src/hl_sha2ext.h; sourceTree = "<group>"; };
+		AAA6FB332A26880C00511C79 /* hl_md5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_md5.h; path = ../../../../../vendors/hashlib2plus/src/hl_md5.h; sourceTree = "<group>"; };
+		AAA6FB342A26880C00511C79 /* hl_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_types.h; path = ../../../../../vendors/hashlib2plus/src/hl_types.h; sourceTree = "<group>"; };
+		AAA6FB352A26880C00511C79 /* hl_sha256.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = hl_sha256.cpp; path = ../../../../../vendors/hashlib2plus/src/hl_sha256.cpp; sourceTree = "<group>"; };
+		AAA6FB362A26880C00511C79 /* hl_sha256wrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_sha256wrapper.h; path = ../../../../../vendors/hashlib2plus/src/hl_sha256wrapper.h; sourceTree = "<group>"; };
+		AAA6FB372A26880C00511C79 /* hl_sha256.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_sha256.h; path = ../../../../../vendors/hashlib2plus/src/hl_sha256.h; sourceTree = "<group>"; };
+		AAA6FB382A26880C00511C79 /* hl_sha2ext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = hl_sha2ext.cpp; path = ../../../../../vendors/hashlib2plus/src/hl_sha2ext.cpp; sourceTree = "<group>"; };
+		AAA6FB392A26880C00511C79 /* hl_md5.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = hl_md5.cpp; path = ../../../../../vendors/hashlib2plus/src/hl_md5.cpp; sourceTree = "<group>"; };
+		AAA6FB3A2A26880C00511C79 /* hl_sha512wrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_sha512wrapper.h; path = ../../../../../vendors/hashlib2plus/src/hl_sha512wrapper.h; sourceTree = "<group>"; };
+		AAA6FB3B2A26880C00511C79 /* hl_sha2mac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_sha2mac.h; path = ../../../../../vendors/hashlib2plus/src/hl_sha2mac.h; sourceTree = "<group>"; };
+		AAA6FB3C2A26880C00511C79 /* hl_sha384wrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_sha384wrapper.h; path = ../../../../../vendors/hashlib2plus/src/hl_sha384wrapper.h; sourceTree = "<group>"; };
+		AAA6FB3D2A26880C00511C79 /* hashlibpp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hashlibpp.h; path = ../../../../../vendors/hashlib2plus/src/hashlibpp.h; sourceTree = "<group>"; };
+		AAA6FB572A26883D00511C79 /* KeyProvider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = KeyProvider.cpp; path = ../../../../src/Platform/KeyProvider.cpp; sourceTree = "<group>"; };
+		AAA6FB582A26883D00511C79 /* KeyProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KeyProvider.h; path = ../../../../src/Platform/KeyProvider.h; sourceTree = "<group>"; };
 		AADD118123173B8200A5541C /* getRealTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = getRealTime.cpp; path = ../../../../src/Platform/getRealTime.cpp; sourceTree = "<group>"; };
 		AADD118223173B8300A5541C /* getRealTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = getRealTime.h; path = ../../../../src/Platform/getRealTime.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -326,6 +380,8 @@
 				7421F2DE1648173000C55BAE /* StdFileManager.h */,
 				AADD118123173B8200A5541C /* getRealTime.cpp */,
 				AADD118223173B8300A5541C /* getRealTime.h */,
+				AAA6FB572A26883D00511C79 /* KeyProvider.cpp */,
+				AAA6FB582A26883D00511C79 /* KeyProvider.h */,
 			);
 			name = Platform;
 			sourceTree = "<group>";
@@ -531,6 +587,7 @@
 		AA0E3A0C29252D0E0012CD03 /* Vendors */ = {
 			isa = PBXGroup;
 			children = (
+				AAA6FB242A2687F400511C79 /* hashlib2plus */,
 				AA0E3A0D29252D1A0012CD03 /* boost */,
 			);
 			name = Vendors;
@@ -546,6 +603,38 @@
 			name = boost;
 			sourceTree = "<group>";
 		};
+		AAA6FB242A2687F400511C79 /* hashlib2plus */ = {
+			isa = PBXGroup;
+			children = (
+				AAA6FB3D2A26880C00511C79 /* hashlibpp.h */,
+				AAA6FB2C2A26880C00511C79 /* hl_exception.h */,
+				AAA6FB302A26880C00511C79 /* hl_hashwrapper.h */,
+				AAA6FB392A26880C00511C79 /* hl_md5.cpp */,
+				AAA6FB332A26880C00511C79 /* hl_md5.h */,
+				AAA6FB282A26880C00511C79 /* hl_md5wrapper.cpp */,
+				AAA6FB272A26880C00511C79 /* hl_md5wrapper.h */,
+				AAA6FB262A26880C00511C79 /* hl_sha1.cpp */,
+				AAA6FB252A26880C00511C79 /* hl_sha1.h */,
+				AAA6FB292A26880C00511C79 /* hl_sha1wrapper.cpp */,
+				AAA6FB2B2A26880C00511C79 /* hl_sha1wrapper.h */,
+				AAA6FB382A26880C00511C79 /* hl_sha2ext.cpp */,
+				AAA6FB322A26880C00511C79 /* hl_sha2ext.h */,
+				AAA6FB3B2A26880C00511C79 /* hl_sha2mac.h */,
+				AAA6FB352A26880C00511C79 /* hl_sha256.cpp */,
+				AAA6FB372A26880C00511C79 /* hl_sha256.h */,
+				AAA6FB312A26880C00511C79 /* hl_sha256wrapper.cpp */,
+				AAA6FB362A26880C00511C79 /* hl_sha256wrapper.h */,
+				AAA6FB2E2A26880C00511C79 /* hl_sha384wrapper.cpp */,
+				AAA6FB3C2A26880C00511C79 /* hl_sha384wrapper.h */,
+				AAA6FB2D2A26880C00511C79 /* hl_sha512wrapper.cpp */,
+				AAA6FB3A2A26880C00511C79 /* hl_sha512wrapper.h */,
+				AAA6FB342A26880C00511C79 /* hl_types.h */,
+				AAA6FB2A2A26880C00511C79 /* hl_wrapperfactory.cpp */,
+				AAA6FB2F2A26880C00511C79 /* hl_wrapperfactory.h */,
+			);
+			name = hashlib2plus;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -554,9 +643,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				7473CA7A16330304005DB920 /* Application.h in Headers */,
+				AAA6FB5A2A26883D00511C79 /* KeyProvider.h in Headers */,
 				7473CA7B16330304005DB920 /* Audio.h in Headers */,
 				7473CA7C16330304005DB920 /* BaseApplication.h in Headers */,
 				7473CA7D16330304005DB920 /* Input.h in Headers */,
+				AAA6FB562A26880C00511C79 /* hashlibpp.h in Headers */,
 				7473CA7F16330304005DB920 /* Shader.h in Headers */,
 				AA92F34A22F6112E00AECB30 /* GLShader.h in Headers */,
 				7473CA8216330304005DB920 /* Texture.h in Headers */,
@@ -566,19 +657,27 @@
 				AA4AABE323396130009ABDAE /* NativeCommandForwarder.h in Headers */,
 				AA18F5E922B8804100F44DA6 /* Vector2i.h in Headers */,
 				AA0E39F4292529E70012CD03 /* MacOSFileIOHub.h in Headers */,
+				AAA6FB4F2A26880C00511C79 /* hl_sha256wrapper.h in Headers */,
 				7473CA9416330366005DB920 /* Color.h in Headers */,
 				7473CA9716330366005DB920 /* MersenneTwister.h in Headers */,
+				AAA6FB402A26880C00511C79 /* hl_md5wrapper.h in Headers */,
 				7473CA9916330366005DB920 /* OrientedBoundingBox.h in Headers */,
 				7473CA9B16330366005DB920 /* Randomizer.h in Headers */,
 				7473CAA516330391005DB920 /* FileIOHub.h in Headers */,
+				AAA6FB482A26880C00511C79 /* hl_wrapperfactory.h in Headers */,
 				7473CAA716330391005DB920 /* FileLogger.h in Headers */,
 				7473CAA916330391005DB920 /* FileManager.h in Headers */,
 				AA18F5ED22B8846100F44DA6 /* Vector3.h in Headers */,
+				AAA6FB4D2A26880C00511C79 /* hl_types.h in Headers */,
+				AAA6FB4C2A26880C00511C79 /* hl_md5.h in Headers */,
 				7473CAAB16330391005DB920 /* Logger.h in Headers */,
 				7473CAB61633044E005DB920 /* BitmapFont.h in Headers */,
+				AAA6FB4B2A26880C00511C79 /* hl_sha2ext.h in Headers */,
 				7473CAB81633044E005DB920 /* BitmapFontManager.h in Headers */,
 				7473CAC01633045D005DB920 /* Enml.h in Headers */,
+				AAA6FB552A26880C00511C79 /* hl_sha384wrapper.h in Headers */,
 				7473CAC316330624005DB920 /* Platform.macosx.h in Headers */,
+				AAA6FB542A26880C00511C79 /* hl_sha2mac.h in Headers */,
 				7473CAC816330E1C005DB920 /* Platform.h in Headers */,
 				7473CAE61635ABD9005DB920 /* GLSDLVideo.h in Headers */,
 				AA92F37322F62B1C00AECB30 /* Sprite.h in Headers */,
@@ -588,11 +687,17 @@
 				AA92F35322F61FA900AECB30 /* GLPolygonRenderer.h in Headers */,
 				74838D2F163C13E30027CFFC /* RecoverableResourceManager.h in Headers */,
 				74838D37163F25AB0027CFFC /* SDLInput.h in Headers */,
+				AAA6FB452A26880C00511C79 /* hl_exception.h in Headers */,
 				74838D3C1640730D0027CFFC /* KeyStateManager.h in Headers */,
 				74838D4116414F6A0027CFFC /* SDLJoystick.h in Headers */,
 				AA18F5F222B887BD00F44DA6 /* Vector4.h in Headers */,
+				AAA6FB442A26880C00511C79 /* hl_sha1wrapper.h in Headers */,
+				AAA6FB492A26880C00511C79 /* hl_hashwrapper.h in Headers */,
 				7421F2E01648173000C55BAE /* StdFileManager.h in Headers */,
+				AAA6FB532A26880C00511C79 /* hl_sha512wrapper.h in Headers */,
+				AAA6FB502A26880C00511C79 /* hl_sha256.h in Headers */,
 				AA18F60222C7CAB600F44DA6 /* Matrix4x4.h in Headers */,
+				AAA6FB3E2A26880C00511C79 /* hl_sha1.h in Headers */,
 				7423B69E165FF413008848EA /* SharedData.h in Headers */,
 				AA18F60A22C7D98800F44DA6 /* GameMath.h in Headers */,
 				AA92F37422F62B1C00AECB30 /* SpriteRects.h in Headers */,
@@ -671,7 +776,9 @@
 				AA7BDF801F7EE5750057B06F /* FMAudioContext.cpp in Sources */,
 				AA7BDF811F7EE5750057B06F /* FMAudioSample.cpp in Sources */,
 				7473CA7916330304005DB920 /* Application.cpp in Sources */,
+				AAA6FB462A26880C00511C79 /* hl_sha512wrapper.cpp in Sources */,
 				AA18F5EA22B8804100F44DA6 /* Vector2i.cpp in Sources */,
+				AAA6FB422A26880C00511C79 /* hl_sha1wrapper.cpp in Sources */,
 				AA18F60122C7CAB600F44DA6 /* Matrix4x4.cpp in Sources */,
 				AA18F5F922B9D15500F44DA6 /* Rect2Di.cpp in Sources */,
 				7473CA8416330304005DB920 /* Video.cpp in Sources */,
@@ -690,28 +797,37 @@
 				7473CABF1633045D005DB920 /* Enml.cpp in Sources */,
 				AA0E3A1229252D310012CD03 /* chrono.cpp in Sources */,
 				AA0E3A1329252D310012CD03 /* thread_clock.cpp in Sources */,
+				AAA6FB432A26880C00511C79 /* hl_wrapperfactory.cpp in Sources */,
 				7473CAC416330624005DB920 /* Platform.macosx.mm in Sources */,
 				7473CAC716330E1C005DB920 /* Platform.cpp in Sources */,
 				7473CAE51635ABD9005DB920 /* GLSDLVideo.cpp in Sources */,
 				AA92F37222F62B1C00AECB30 /* Sprite.cpp in Sources */,
 				AA18F5EE22B8846100F44DA6 /* Vector3.cpp in Sources */,
+				AAA6FB412A26880C00511C79 /* hl_md5wrapper.cpp in Sources */,
 				AA92F34B22F6112E00AECB30 /* GLShader.cpp in Sources */,
+				AAA6FB472A26880C00511C79 /* hl_sha384wrapper.cpp in Sources */,
 				AA18F60922C7D98800F44DA6 /* GameMath.cpp in Sources */,
 				AA92F37722F62E0900AECB30 /* Shader.cpp in Sources */,
 				7486554716397C1D0096D869 /* GLTexture.cpp in Sources */,
 				AA92F34F22F61CEE00AECB30 /* PolygonRenderer.cpp in Sources */,
 				AA19C1241F8285BF0096696A /* FMAudioContext.macos.mm in Sources */,
+				AAA6FB4A2A26880C00511C79 /* hl_sha256wrapper.cpp in Sources */,
 				AA18F5E622B87A3500F44DA6 /* Vector2.cpp in Sources */,
 				74838D2E163C13E30027CFFC /* RecoverableResourceManager.cpp in Sources */,
+				AAA6FB4E2A26880C00511C79 /* hl_sha256.cpp in Sources */,
 				74838D36163F25AB0027CFFC /* SDLInput.cpp in Sources */,
 				74838D3B1640730D0027CFFC /* KeyStateManager.cpp in Sources */,
+				AAA6FB592A26883D00511C79 /* KeyProvider.cpp in Sources */,
 				74838D4016414F6A0027CFFC /* SDLJoystick.cpp in Sources */,
 				AA4AABE423396130009ABDAE /* NativeCommandForwarder.cpp in Sources */,
 				7421F2DF1648173000C55BAE /* StdFileManager.cpp in Sources */,
 				7423B69D165FF413008848EA /* SharedData.cpp in Sources */,
+				AAA6FB522A26880C00511C79 /* hl_md5.cpp in Sources */,
 				AA0E39F5292529E70012CD03 /* MacOSFileIOHub.mm in Sources */,
+				AAA6FB512A26880C00511C79 /* hl_sha2ext.cpp in Sources */,
 				7423B69F165FF413008848EA /* SharedDataManager.cpp in Sources */,
 				AA0E3A1129252D310012CD03 /* process_cpu_clocks.cpp in Sources */,
+				AAA6FB3F2A26880C00511C79 /* hl_sha1.cpp in Sources */,
 				AA18F5FE22B9D64800F44DA6 /* Rect2D.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -850,6 +966,7 @@
 					"\"$(SRCROOT)/../../../vendors/BoostSDK\"",
 					"\"$(SRCROOT)/../../../../soil\"",
 					"\"$(SRCROOT)/../../../src/Audio/fmod/inc\"",
+					"\"$(SRCROOT)/../../../../vendors/hashlib2plus/src",
 				);
 				INFOPLIST_FILE = "gs2d/gs2d-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -893,6 +1010,7 @@
 					"\"$(SRCROOT)/../../../vendors/BoostSDK\"",
 					"\"$(SRCROOT)/../../../../soil\"",
 					"\"$(SRCROOT)/../../../src/Audio/fmod/inc\"",
+					"\"$(SRCROOT)/../../../../vendors/hashlib2plus/src",
 				);
 				INFOPLIST_FILE = "gs2d/gs2d-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";

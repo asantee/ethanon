@@ -2,10 +2,9 @@
 
 namespace Platform {
 
-// Should be implemented in application's exclusive file
-
-//std::string KeyProvider::ProvideKey()
-//{
-//}
+std::string KeyProvider::ProvideKey()
+{
+    return "";
+}
 
 } // namespace Platform
