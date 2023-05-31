@@ -28,9 +28,13 @@ std::string SharedDataManager::Get(const std::string& key, const std::string& de
 {
 	tsl::hopscotch_map<std::string, SharedDataPtr>::const_iterator iter = m_data.find(key);
 	if (iter != m_data.end())
-		return iter->second->Get();
-	else
-		return defaultValue;
+	{
+		if (iter->second->IsValid())
+		{
+			return iter->second->Get();
+		}
+	}
+	return defaultValue;
 }
 
 bool SharedDataManager::IsValid(const std::string& key) const
