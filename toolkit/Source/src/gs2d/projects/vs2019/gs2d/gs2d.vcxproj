@@ -57,6 +57,7 @@
     <ClCompile Include="..\..\..\src\Platform\FileLogger.cpp" />
     <ClCompile Include="..\..\..\src\Platform\FileManager.cpp" />
     <ClCompile Include="..\..\..\src\Platform\getRealTime.cpp" />
+    <ClCompile Include="..\..\..\src\Platform\KeyProvider.cpp" />
     <ClCompile Include="..\..\..\src\Platform\Logger.cpp" />
     <ClCompile Include="..\..\..\src\Platform\NativeCommandAssembler.cpp" />
     <ClCompile Include="..\..\..\src\Platform\NativeCommandForwarder.cpp" />
@@ -120,6 +121,7 @@
     <ClInclude Include="..\..\..\src\Platform\FileLogger.h" />
     <ClInclude Include="..\..\..\src\Platform\FileManager.h" />
     <ClInclude Include="..\..\..\src\Platform\getRealTime.h" />
+    <ClInclude Include="..\..\..\src\Platform\KeyProvider.h" />
     <ClInclude Include="..\..\..\src\Platform\Logger.h" />
     <ClInclude Include="..\..\..\src\Platform\MainSharedHeader.h" />
     <ClInclude Include="..\..\..\src\Platform\NativeCommandAssembler.h" />
@@ -253,7 +255,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\vendors\tsl;C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\core\inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\vendors\hashlib2plus\src\;..\..\..\vendors\tsl;C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\core\inc</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WEBP;_DEBUG;_MBCS;_STDC_CONSTANT_MACROS;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>-D__STDC_CONSTANT_MACROS -D__STDC_LIMIT_MACROS %(AdditionalOptions)</AdditionalOptions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -286,7 +288,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\vendors\tsl;C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\core\inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\vendors\hashlib2plus\src\;..\..\..\vendors\tsl;C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\core\inc</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WEBP;_MBCS;_STDC_CONSTANT_MACROS;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>-D__STDC_CONSTANT_MACROS -D__STDC_LIMIT_MACROS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
@@ -311,7 +313,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\vendors\tsl;C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\core\inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\vendors\hashlib2plus\src\;..\..\..\vendors\tsl;C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\core\inc</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WEBP;_MBCS;_STDC_CONSTANT_MACROS;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>-D__STDC_CONSTANT_MACROS -D__STDC_LIMIT_MACROS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
