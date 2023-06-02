@@ -122,18 +122,38 @@ std::vector<std::string> SplitString(std::string str, const std::string& c)
 	return v;
 }
 
-static wrapperfactory g_factory;
-static const boost::shared_ptr<hashwrapper> g_wrapperSHA1(boost::shared_ptr<hashwrapper>(g_factory.create(HL_SHA1)));
-static const boost::shared_ptr<hashwrapper> g_wrapperMD5 (boost::shared_ptr<hashwrapper>(g_factory.create(HL_MD5)));
-
 std::string GetMD5HashFromString(const std::string& str)
 {
-	return g_wrapperMD5->getHashFromString(str);
+	hashwrapper *wrapper = new md5wrapper();
+	std::string r;
+	try
+	{
+		r = wrapper->getHashFromString(str);
+	}
+	catch (hlException &e)
+	{
+		std::cerr << "hashlib++ Error: ("  << e.error_number() << "): " << e.error_message() << std::endl;
+	}
+
+	delete wrapper;
+	return r;
 }
 
 std::string GetSHA1HashFromString(const std::string& str)
 {
-	return g_wrapperSHA1->getHashFromString(str);
+    hashwrapper *wrapper = new sha1wrapper();
+    std::string r;
+    try
+    {
+        r = wrapper->getHashFromString(str);
+    }
+    catch (hlException &e)
+    {
+        std::cerr << "hashlib++ Error: ("  << e.error_number() << "): " << e.error_message() << std::endl;
+    }
+
+    delete wrapper;
+    return r;
 }
 
 } // namespace Platform
