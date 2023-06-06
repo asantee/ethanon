@@ -10,8 +10,12 @@ namespace Platform {
 class SharedDataManager
 {
 	tsl::hopscotch_map<std::string, SharedDataPtr> m_data;
+private:
+	std::string (*m_key_function)();
 
 public:
+	SharedDataManager();
+	void SetKeyFunction(std::string (*key_function)());
 	void Set(const std::string& key, const std::string& data);
 	void SetSecured(const std::string& key, const std::string& data);
 	std::string Get(const std::string& key, const std::string& defaultValue) const;

@@ -215,9 +215,6 @@
     <ClCompile Include="..\..\..\src\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\Platform\KeyProvider.cpp">
-      <Filter>Platform</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\Audio\fmod\FMAudioSample.h">
@@ -429,9 +426,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\SpriteRects.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\Platform\KeyProvider.h">
-      <Filter>Platform</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

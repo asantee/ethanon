@@ -2,6 +2,9 @@
 
 namespace Platform {
 
+SharedDataManager::SharedDataManager() : m_key_function(NULL)
+{};
+
 void SharedDataManager::Set(const std::string& key, const std::string& data)
 {
 	tsl::hopscotch_map<std::string, SharedDataPtr>::const_iterator iter = m_data.find(key);
@@ -17,10 +20,14 @@ void SharedDataManager::Set(const std::string& key, const std::string& data)
 	}
 }
 
+void SharedDataManager::SetKeyFunction(std::string (*function)()) {
+	m_key_function = function;
+};
+
 void SharedDataManager::SetSecured(const std::string& key, const std::string& data)
 {
 	// always overwrite secured data
-	SharedDataPtr newData(new SharedDataSecured(data));
+	SharedDataPtr newData(new SharedDataSecured(data, m_key_function));
 	m_data[key] = newData;
 }
 

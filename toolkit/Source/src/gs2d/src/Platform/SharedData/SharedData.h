@@ -20,13 +20,13 @@ public:
 
 class SharedDataSecured : public SharedData
 {
+	std::string (*m_key_function)();
 	std::string m_hash;
 	
 	std::string GenerateHash() const;
 
 public:
-	SharedDataSecured(const std::string& data);
-
+	SharedDataSecured(const std::string& data, std::string(*key_function)());
 	bool IsValid() const override;
 	void Set(const std::string& data) override;
 	std::string Get() const override;

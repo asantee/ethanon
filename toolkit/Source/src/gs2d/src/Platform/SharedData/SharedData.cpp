@@ -1,7 +1,6 @@
 #include "SharedData.h"
 
 #include "../Platform.h"
-#include "../KeyProvider.h"
 
 namespace Platform {
 
@@ -26,8 +25,9 @@ std::string SharedData::Get() const
 //
 //  SharedDataSecured
 //////////////////////////////////////////////////////////////////////////////////////////
-SharedDataSecured::SharedDataSecured(const std::string& data)
+SharedDataSecured::SharedDataSecured(const std::string& data, std::string(*key_function)())
 {
+	m_key_function = key_function;
 	Set(data);
 }
 
@@ -37,9 +37,11 @@ void SharedDataSecured::Set(const std::string& data)
 	m_hash = GenerateHash();
 }
 
+
 std::string SharedDataSecured::GenerateHash() const
 {
-	return Platform::GetMD5HashFromString(m_data + KeyProvider::ProvideKey());
+	std::string key(m_key_function ? (*m_key_function)() : "");
+	return Platform::GetMD5HashFromString(m_data + key);
 }
 
 bool SharedDataSecured::IsValid() const

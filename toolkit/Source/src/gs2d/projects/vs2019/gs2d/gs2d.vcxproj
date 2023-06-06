@@ -57,7 +57,6 @@
     <ClCompile Include="..\..\..\src\Platform\FileLogger.cpp" />
     <ClCompile Include="..\..\..\src\Platform\FileManager.cpp" />
     <ClCompile Include="..\..\..\src\Platform\getRealTime.cpp" />
-    <ClCompile Include="..\..\..\src\Platform\KeyProvider.cpp" />
     <ClCompile Include="..\..\..\src\Platform\Logger.cpp" />
     <ClCompile Include="..\..\..\src\Platform\NativeCommandAssembler.cpp" />
     <ClCompile Include="..\..\..\src\Platform\NativeCommandForwarder.cpp" />
@@ -121,7 +120,6 @@
     <ClInclude Include="..\..\..\src\Platform\FileLogger.h" />
     <ClInclude Include="..\..\..\src\Platform\FileManager.h" />
     <ClInclude Include="..\..\..\src\Platform\getRealTime.h" />
-    <ClInclude Include="..\..\..\src\Platform\KeyProvider.h" />
     <ClInclude Include="..\..\..\src\Platform\Logger.h" />
     <ClInclude Include="..\..\..\src\Platform\MainSharedHeader.h" />
     <ClInclude Include="..\..\..\src\Platform\NativeCommandAssembler.h" />
