@@ -21,9 +21,11 @@ class GLES2Video : public Video, public Platform::NativeCommandForwarder
 
 	boost::weak_ptr<GLES2Video> weak_this;
 
+	// TO-DO protect this
 	float m_previousTime;
 	unsigned long m_frameCount;
 
+	// TO-DO protect this
 	double m_startTime;
 
 public:
