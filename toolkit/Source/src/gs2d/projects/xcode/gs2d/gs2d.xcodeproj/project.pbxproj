@@ -131,8 +131,6 @@
 		AAA6FB542A26880C00511C79 /* hl_sha2mac.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA6FB3B2A26880C00511C79 /* hl_sha2mac.h */; };
 		AAA6FB552A26880C00511C79 /* hl_sha384wrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA6FB3C2A26880C00511C79 /* hl_sha384wrapper.h */; };
 		AAA6FB562A26880C00511C79 /* hashlibpp.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA6FB3D2A26880C00511C79 /* hashlibpp.h */; };
-		AAA6FB592A26883D00511C79 /* KeyProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAA6FB572A26883D00511C79 /* KeyProvider.cpp */; };
-		AAA6FB5A2A26883D00511C79 /* KeyProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA6FB582A26883D00511C79 /* KeyProvider.h */; };
 		AADD118323173B8300A5541C /* getRealTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AADD118123173B8200A5541C /* getRealTime.cpp */; };
 		AADD118423173B8300A5541C /* getRealTime.h in Headers */ = {isa = PBXBuildFile; fileRef = AADD118223173B8300A5541C /* getRealTime.h */; };
 /* End PBXBuildFile section */
@@ -287,8 +285,6 @@
 		AAA6FB3B2A26880C00511C79 /* hl_sha2mac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_sha2mac.h; path = ../../../../../vendors/hashlib2plus/src/hl_sha2mac.h; sourceTree = "<group>"; };
 		AAA6FB3C2A26880C00511C79 /* hl_sha384wrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hl_sha384wrapper.h; path = ../../../../../vendors/hashlib2plus/src/hl_sha384wrapper.h; sourceTree = "<group>"; };
 		AAA6FB3D2A26880C00511C79 /* hashlibpp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hashlibpp.h; path = ../../../../../vendors/hashlib2plus/src/hashlibpp.h; sourceTree = "<group>"; };
-		AAA6FB572A26883D00511C79 /* KeyProvider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = KeyProvider.cpp; path = ../../../../src/Platform/KeyProvider.cpp; sourceTree = "<group>"; };
-		AAA6FB582A26883D00511C79 /* KeyProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KeyProvider.h; path = ../../../../src/Platform/KeyProvider.h; sourceTree = "<group>"; };
 		AADD118123173B8200A5541C /* getRealTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = getRealTime.cpp; path = ../../../../src/Platform/getRealTime.cpp; sourceTree = "<group>"; };
 		AADD118223173B8300A5541C /* getRealTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = getRealTime.h; path = ../../../../src/Platform/getRealTime.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -380,8 +376,6 @@
 				7421F2DE1648173000C55BAE /* StdFileManager.h */,
 				AADD118123173B8200A5541C /* getRealTime.cpp */,
 				AADD118223173B8300A5541C /* getRealTime.h */,
-				AAA6FB572A26883D00511C79 /* KeyProvider.cpp */,
-				AAA6FB582A26883D00511C79 /* KeyProvider.h */,
 			);
 			name = Platform;
 			sourceTree = "<group>";
@@ -643,7 +637,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7473CA7A16330304005DB920 /* Application.h in Headers */,
-				AAA6FB5A2A26883D00511C79 /* KeyProvider.h in Headers */,
 				7473CA7B16330304005DB920 /* Audio.h in Headers */,
 				7473CA7C16330304005DB920 /* BaseApplication.h in Headers */,
 				7473CA7D16330304005DB920 /* Input.h in Headers */,
@@ -817,7 +810,6 @@
 				AAA6FB4E2A26880C00511C79 /* hl_sha256.cpp in Sources */,
 				74838D36163F25AB0027CFFC /* SDLInput.cpp in Sources */,
 				74838D3B1640730D0027CFFC /* KeyStateManager.cpp in Sources */,
-				AAA6FB592A26883D00511C79 /* KeyProvider.cpp in Sources */,
 				74838D4016414F6A0027CFFC /* SDLJoystick.cpp in Sources */,
 				AA4AABE423396130009ABDAE /* NativeCommandForwarder.cpp in Sources */,
 				7421F2DF1648173000C55BAE /* StdFileManager.cpp in Sources */,
