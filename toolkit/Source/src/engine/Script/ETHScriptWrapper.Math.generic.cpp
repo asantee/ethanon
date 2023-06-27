@@ -18,8 +18,11 @@ asDECLARE_FUNCTION_WRAPPERPR(__distance3, ETHScriptWrapper::Math::Distance, (con
 asDECLARE_FUNCTION_WRAPPERPR(__multiplyv2, Matrix4x4::Multiply, (const Vector2&, const Matrix4x4&), Vector2);
 asDECLARE_FUNCTION_WRAPPERPR(__multiplyv3, Matrix4x4::Multiply, (const Vector3&, const Matrix4x4&), Vector3);
 
-asDECLARE_FUNCTION_WRAPPER(__getMD5HashFromString,  ETHScriptWrapper::Math::GetMD5HashFromString);
-asDECLARE_FUNCTION_WRAPPER(__getSHA1HashFromString, ETHScriptWrapper::Math::GetSHA1HashFromString);
+asDECLARE_FUNCTION_WRAPPER(__getMD5HashFromString,  Platform::GetMD5HashFromString);
+asDECLARE_FUNCTION_WRAPPER(__getSHA1HashFromString, Platform::GetSHA1HashFromString);
+asDECLARE_FUNCTION_WRAPPER(__getFastHashFromString, Platform::GetFastHashFromString);
+asDECLARE_FUNCTION_WRAPPER(__getFastHashFromFloat,  Platform::GetFastHashFromFloat);
+
 
 void ETHScriptWrapper::Math::RegisterGlobals(asIScriptEngine *pASEngine)
 {
@@ -34,6 +37,8 @@ void ETHScriptWrapper::Math::RegisterGlobals(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("vector3 multiply(const vector3 &in, const matrix4x4 &in)", asFUNCTION(__multiplyv3), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 multiply(const vector2 &in, const matrix4x4 &in)", asFUNCTION(__multiplyv2), asCALL_GENERIC); assert(r >= 0);
 
-	r = pASEngine->RegisterGlobalFunction("string getMD5HashFromString(const string &in)",                asFUNCTION(__getMD5HashFromString), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("string getSHA1HashFromString(const string &in)",               asFUNCTION(__getSHA1HashFromString), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("string getMD5HashFromString(const string &in)",            asFUNCTION(__getMD5HashFromString),  asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("string getSHA1HashFromString(const string &in)",           asFUNCTION(__getSHA1HashFromString), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("uint getFastHashFromString(const string &in)",             asFUNCTION(__getFastHashFromString), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("uint getFastHashFromFloat(const float)",                   asFUNCTION(__getFastHashFromFloat),  asCALL_GENERIC); assert(r >= 0);
 }

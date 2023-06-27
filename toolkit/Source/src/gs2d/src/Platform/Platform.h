@@ -27,6 +27,8 @@ short ShortEndianSwap(const short s);
 
 std::string GetMD5HashFromString(const std::string& str);
 std::string GetSHA1HashFromString(const std::string& str);
+uint32_t GetFastHashFromString(const std::string& str);
+uint32_t GetFastHashFromFloat(const float v);
 
 } 
 // namespace Platform

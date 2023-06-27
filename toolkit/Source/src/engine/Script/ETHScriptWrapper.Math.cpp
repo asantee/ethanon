@@ -12,16 +12,6 @@
 
 #include <hashlibpp.h>
 
-std::string ETHScriptWrapper::Math::GetMD5HashFromString(const std::string& str)
-{
-	return Platform::GetMD5HashFromString(str);
-}
-
-std::string ETHScriptWrapper::Math::GetSHA1HashFromString(const std::string& str)
-{
-	return Platform::GetSHA1HashFromString(str);
-}
-
 float ETHScriptWrapper::Math::Length(const Vector3& v)
 {
 	return v.Length();

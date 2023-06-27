@@ -116,10 +116,6 @@ public:
 		static int32_t Sign(const int32_t v);
 		static float Distance(const Vector2 &a, const Vector2 &b);
 		static float Distance(const Vector3 &a, const Vector3 &b);
-
-		// Hashing functions
-		static std::string GetMD5HashFromString(const std::string& str);
-		static std::string GetSHA1HashFromString(const std::string& str);
 	} m_math;
 
 	void RegisterGlobalFunctions(asIScriptEngine *pASEngine);

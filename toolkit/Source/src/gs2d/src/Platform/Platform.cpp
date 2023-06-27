@@ -141,19 +141,72 @@ std::string GetMD5HashFromString(const std::string& str)
 
 std::string GetSHA1HashFromString(const std::string& str)
 {
-    hashwrapper *wrapper = new sha1wrapper();
-    std::string r;
-    try
-    {
-        r = wrapper->getHashFromString(str);
-    }
-    catch (hlException &e)
-    {
-        std::cerr << "hashlib++ Error: ("  << e.error_number() << "): " << e.error_message() << std::endl;
-    }
+	hashwrapper *wrapper = new sha1wrapper();
+	std::string r;
+	try
+	{
+		r = wrapper->getHashFromString(str);
+	}
+	catch (hlException &e)
+	{
+		std::cerr << "hashlib++ Error: ("  << e.error_number() << "): " << e.error_message() << std::endl;
+	}
 
-    delete wrapper;
-    return r;
+	delete wrapper;
+	return r;
+}
+
+class CRCTable
+{
+	uint32_t m_crcTable[256];
+
+public:
+	CRCTable()
+	{
+		for (uint32_t i = 0; i < 256; ++i)
+		{
+			uint32_t crcValue = i;
+			for (int j = 0; j < 8; ++j)
+			{
+				crcValue = (crcValue & 1) ? (crcValue >> 1) ^ 0xEDB88320 : crcValue >> 1;
+			}
+			m_crcTable[i] = crcValue;
+		}
+	}
+	
+	const uint32_t* Get() const
+	{
+		return m_crcTable;
+	}
+};
+
+CRCTable g_crcTable;
+
+uint32_t GetFastHashFromBuffer(const uint8_t* data, const size_t size)
+{
+	uint32_t crc = 0xFFFFFFFF;
+
+	// Compute CRC using lookup table
+	for (size_t i = 0; i < size; ++i)
+	{
+		crc = (crc >> 8) ^ g_crcTable.Get()[(crc ^ data[i]) & 0xFF];
+	}
+
+	return crc ^ 0xFFFFFFFF;
+}
+
+uint32_t GetFastHashFromString(const std::string& str)
+{
+	const uint8_t* data = reinterpret_cast<const uint8_t*>(str.data());
+	const size_t size = str.length();
+	return GetFastHashFromBuffer(data, size);
+}
+
+uint32_t GetFastHashFromFloat(const float v)
+{
+	const uint8_t* data = reinterpret_cast<const uint8_t*>(&v);
+	const size_t size = sizeof(float);
+	return GetFastHashFromBuffer(data, size);
 }
 
 } // namespace Platform
