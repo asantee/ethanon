@@ -50,7 +50,7 @@ ETHEngine::ETHEngine(const bool testing, const bool compileAndRun, const bool au
 	m_autoStartScriptEngine(autoStartScriptEngine)
 {
 	Application::SharedData.Set(SCRIPT_EXCEPTION_LOG_SHARED_DATA_KEY, "");
-	Application::SharedData.SetSecured(SD_CURRENT_TIME_MILLIS, "0");
+	Application::SharedData.Set(SD_CURRENT_TIME_MILLIS, "0");
 }
 
 ETHEngine::~ETHEngine()
@@ -178,7 +178,7 @@ Application::APP_STATUS ETHEngine::Update(const float lastFrameDeltaTimeMS)
 		time_t seconds = time(NULL);
 		const uint64_t timeMS = static_cast<uint64_t>(seconds) * 1000;
 		std::ostringstream o; o << timeMS;
-		Application::SharedData.SetSecured(SD_CURRENT_TIME_MILLIS, o.str());
+		Application::SharedData.Set(SD_CURRENT_TIME_MILLIS, o.str());
 	}
 
 	// removes dead elements on top layer to fill the list once again
