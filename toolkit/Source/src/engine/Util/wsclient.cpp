@@ -1,5 +1,7 @@
 #include "wsclient.hpp"
 
+#include <boost/exception/diagnostic_information.hpp>
+
 namespace beast = boost::beast;         // from <boost/beast.hpp>
 namespace http = beast::http;           // from <boost/beast/http.hpp>
 namespace websocket = beast::websocket; // from <boost/beast/websocket.hpp>
@@ -133,7 +135,13 @@ void WebsocketClient::Release()
 }
 
 void WebsocketClient::Update() {
-	m_ioc.poll();
+	try {
+		m_ioc.poll();
+	} catch (boost::exception const& ex) {
+		ETHResourceProvider::Log(boost::diagnostic_information(ex), Platform::Logger::LT_ERROR);
+	} catch (std::exception const&  ex) {
+		ETHResourceProvider::Log(ex.what(), Platform::Logger::LT_ERROR);
+	}
 };
 
 void WebsocketClient::Connect(const std::string& host, const std::string& port)
