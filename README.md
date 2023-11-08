@@ -25,73 +25,100 @@ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTIO
 CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
 OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-## Preresquisites
+Dependencies
+------------
+- Some git tool for cloning codes
+- [MSVC 10 BuildTools][5] ou [VS2022][6]
+- [VSCODE][6] (opcional, mas recomendado)
+- [Ethanon Engine Libraries][1]
+  - The sourcetree for Ethanon must be at same directory as the sourcetree for projectx (MagicRampage), or an environment variable ETHANON should be set to ethanon's sourcetree root.
+  - Ethanon must be compiled for target configuration in use (Release, Debug or RelWithDebInfo), using VS2022
 
-- Git
-### Windows notes
+- [Angelscript library][1] (the one inside of Ethanon Engine)
+- VCPkg for installing libraries:
+  - boost-smart-ptr
+  - boost-any
+  - boost-asio
+  - boost-beast
+  - boost-chrono
+  - boost-convert
+  - boost-date-time
+  - boost-regex
+  - glew
+  - sdl2
+  - libzip
+  - libwebp
+  - msgpack
+  - openssl
+- [Fmod][3]
+  
+It is recommended to use [VCPkg][4] to download most of these libraries. (except Ethanon with Angelscript, Steam SDK and Fmod)
 
-At Windows, most libraries suggest installing it's headers/binaries at `%ProgramFiles%`, just
-like any other application, but for building permission simplicity we convention to install
-all libraries at `%UserProfile%\.usr\`.
-For creating this directory, use mkdir ".usr" at windows console.
+Instructions to install VCPkg and required libraries
+----------------------------------------------------
+#### [Instructions according official docs](https://learn.microsoft.com/en/vcpkg/get_started/get-started-msbuild?pivots=shell-cmd)
 
-Example, during libboost install on Windows, use:
-
-`b2 install --prefix=%UserProfile%\.usr\`
-
-Example 2, cloning building and installing zlib library (which defaults to `%ProgramFiles%\zlib`),
- using cmake and msvc-buildtools:
-
-```
-git clone git@github.com:madler/zlib.git
-cd zlib
-git checkout master
-mkdir build
-cd build
-cmake -DMSVC_RUNTIME_LIBRARY=MultiThreaded -DCMAKE_INSTALL_PREFIX=%UserProfile%\.usr\ ..
-cmake --build . --config Release
-cmake --build . --target install
-```
-
-  ps: the process above is valid to libzip
-
-## Dependencies
-
-- [libboost ^1.69](https://boost.org)
-  - `git clone --recursive https://github.com/boostorg/boost.git`
-  - [or download archive](https://www.boost.org/users/download/)
-  - [Getting Started](https://github.com/boostorg/boost/wiki/Getting-Started%3A-Overview)
-- [libzip](https://libzip.org/download/)
-  - [zlib](http://www.zlib.net/)
-    - `git clone git@github.com:madler/zlib.git`
-	or `https://github.com/kiyolee/libzip-win-build`
-- [libpng Sourceforge Official](git://git.code.sf.net/p/libpng/code)
-  - [libpng GitHub](https://github.com/glennrp/libpng)
-- [libWebP](https://github.com/webmproject/libwebp)
-- [stb](https://github.com/nothings/stb)
-- [tsl/hopscotch](https://github.com/Tessil/hopscotch-map) (versioned in project)
-- [glext](https://sourceforge.net/projects/glextwin32/)
-- [SDL2](https://www.libsdl.org/download-2.0.php)
-- [OpenGL](https://www.mesa3d.org/intro.html)
-- [fmod](https://www.fmod.com/) *Proprietary*, (must login on site)
-- [Angelscript ^2.32](https://angelcode.com) (versioned in project)
-  - For better binary compatibility on compiled script, please enable 
-    AS_MAX_PORTABILITY;AS_NO_THREADS preprocessor macros when compiling angelscript
-### (Debian/Ubuntu)
+### 1. Clone the repository
 
 ```
-apt install cmake build-essential libstb-dev libsdl2-dev libboost-dev libwebp-dev libpng-dev \
-  zlib1g-dev mesa-common-dev
+git clone https://github.com/microsoft/vcpkg.git
 ```
+
+### 2. Run the bootstrap script
+
+Navigate to the vcpkg directory and execute the bootstrap script:
+```
+cd vcpkg && bootstrap-vcpkg.bat
+```
+The bootstrap script performs prerequisite checks and downloads the vcpkg executable.
+
+### 3. Integrate with Visual Studio MSBuild
+
+The next step is to set the user-wide instance of vcpkg so that MSBuild will be able to find it:
+
+```
+.\vcpkg.exe integrate install
+```
+
+This outputs:
+
+```
+All MSBuild C++ projects can now #include any installed libraries. Linking will be handled automatically. Installing new libraries will make them instantly available.
+```
+
+### 4. Set environment variables
+
+Open the `Developer command prompt in Visual Studio` and run the commands
+```
+set VCPKG_ROOT="C:\path\to\vcpkg"
+set PATH=%VCPKG_ROOT%;%PATH%
+```
+Also edit on System > Environment Variables
+
+Add the variables above in order to make them permanent.
+
+### 5. Install the libraries
+On `Developer command prompt in Visual Studio` run the command
+```
+vcpkg install boost-smart-ptr boost-any boost-asio boost-beast boost-chrono boost-convert boost-date-time boost-regex glew sdl2 libzip libwebp msgpack openssl --triplet=x86-windows
+```
+
+Instructions to install FMod
+----------------------------
+1. Create a fmod.com account
+2. Go to [Download](https://fmod.com/download) section
+3. Download latest FMod Engine for windows (not UWP)
+4. Install it on default directory (c:\Program Files (x86)\FMOD SoundSystem)
 
 ## Build Tools
 ### Windows
-- MSVC 16
+
+- MSVC 19
 
 ## Currently used IDEs
 
 ### Windows
-- Visual Studio 2019
+- Visual Studio 2022
 
 ### Mac OS X
 
@@ -104,9 +131,9 @@ apt install cmake build-essential libstb-dev libsdl2-dev libboost-dev libwebp-de
   - Cg.framework.zip
   - SDL2.framework.zip
 
-
-
-- Use Visual Studio 2019 (16.0)
+- Use Visual Studio 2022 (19.0)
 - Unpack the following files located at **toolkit/Source/src/gs2d/vendors**:
   - vendors.zip
-
+  
+2. The project file for Visual Studio is located at
+   `ethanon\toolkit\Source\projects\vs2019`
