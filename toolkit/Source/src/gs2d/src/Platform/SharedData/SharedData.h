@@ -5,12 +5,14 @@
 
 #include <boost/shared_ptr.hpp>
 
+#include "../AtomicString.h"
+
 namespace Platform {
 
 class SharedData
 {
 protected:
-	std::string m_data;
+	AtomicString m_data;
 
 public:
 	virtual bool IsValid() const;
