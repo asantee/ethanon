@@ -22,10 +22,13 @@ public:
 
 class SharedDataSecured : public SharedData
 {
+	mutable std::mutex m_mtx;
 	std::string (*m_key_function)();
 	std::string m_hash;
-	
+
 	std::string GenerateHash() const;
+
+	bool NonAtomicIsValid() const;
 
 public:
 	SharedDataSecured(const std::string& data, std::string(*key_function)());

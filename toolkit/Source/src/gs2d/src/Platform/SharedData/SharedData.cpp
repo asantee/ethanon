@@ -33,6 +33,7 @@ SharedDataSecured::SharedDataSecured(const std::string& data, std::string(*key_f
 
 void SharedDataSecured::Set(const std::string& data)
 {
+	std::lock_guard<std::mutex> lock(m_mtx);
 	SharedData::Set(data);
 	m_hash = GenerateHash();
 }
@@ -43,14 +44,21 @@ std::string SharedDataSecured::GenerateHash() const
 	return Platform::GetMD5HashFromString(m_data.get() + key);
 }
 
-bool SharedDataSecured::IsValid() const
+bool SharedDataSecured::NonAtomicIsValid() const
 {
 	return (m_hash == GenerateHash());
 }
 
+bool SharedDataSecured::IsValid() const
+{
+	std::lock_guard<std::mutex> lock(m_mtx);
+	return NonAtomicIsValid();
+}
+
 std::string SharedDataSecured::Get() const
 {
-	if (IsValid())
+	std::lock_guard<std::mutex> lock(m_mtx);
+	if (NonAtomicIsValid())
 		return SharedData::Get();
 	else
 		return "";
