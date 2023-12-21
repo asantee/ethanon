@@ -27,6 +27,8 @@
 
 - (gs2d::Input*)input;
 
++ (void) terminate;
+
 @end
 
 #endif

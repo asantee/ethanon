@@ -14,6 +14,8 @@
 
 #import "../../Input/iOS/IOSInput.h"
 
+BOOL g_terminated = FALSE;
+
 @interface AppleApplication ()
 {
 	gs2d::VideoPtr m_video;
@@ -69,7 +71,7 @@
 
 - (void)update
 {
-	if (!m_engine) return;
+	if (!m_engine || g_terminated) return;
 
 	m_input->Update();
 	m_audio->Update();
@@ -83,10 +85,10 @@
 
 - (void)renderFrame
 {
-	if (m_engine)
-	{
-		m_engine->RenderFrame();
-	}
+	if (!m_engine || g_terminated)
+		return;
+
+	m_engine->RenderFrame();
 }
 
 - (void)destroy
@@ -127,6 +129,11 @@
 - (void)insertCommandListener:(const Platform::NativeCommandListenerPtr) listener
 {
 	m_commandManager.InsertCommandListener(listener);
+}
+
++ (void) terminate
+{
+	g_terminated = TRUE;
 }
 
 @end
