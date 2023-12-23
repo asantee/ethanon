@@ -205,7 +205,7 @@ void RegisterJSONObjectMethods(asIScriptEngine *pASEngine);
 bool RegisterJSONObject(asIScriptEngine *pASEngine)
 {
 	int r;
-	r = pASEngine->RegisterObjectType("JSONObject", sizeof(JSONObject), asOBJ_VALUE | asOBJ_POD | asOBJ_APP_CLASS_CA); assert(r >= 0);
+	r = pASEngine->RegisterObjectType("JSONObject", sizeof(JSONObject), asOBJ_VALUE | asOBJ_APP_CLASS_CDAK); assert(r >= 0);
 	RegisterJSONObjectMethods(pASEngine);
 	return true;
 }

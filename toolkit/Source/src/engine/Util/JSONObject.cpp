@@ -14,6 +14,11 @@ JSONObject::JSONObject(const JSONObject& cjson) :
 
 JSONObject::~JSONObject()
 {
+	Destroy();
+}
+
+void JSONObject::Destroy()
+{
 	if (m_cjson != NULL)
 	{
 		if (m_isParent)
@@ -53,6 +58,7 @@ JSONObject JSONObject::GetChild()
 
 bool JSONObject::Parse(const std::string& value)
 {
+	Destroy();
 	m_cjson = cJSON_Parse(value.c_str());
 	m_isParent = true;
 	return (m_cjson != NULL);

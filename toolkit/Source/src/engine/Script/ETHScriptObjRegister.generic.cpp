@@ -158,20 +158,27 @@ void RegisterENMLMethods(asIScriptEngine *pASEngine)
 
 static void JSONObjectDefaultConstructor_Generic(asIScriptGeneric *gen)
 {
-	JSONObject *self = (JSONObject*)gen->GetObject();
-	new(self) JSONObject(NULL);
-}
-
-static void JSONObjectCopyConstructor(const JSONObject &other, JSONObject *self)
-{
-	new(self) JSONObject(other);
+	new (gen->GetObject()) JSONObject(NULL);
 }
 
 static void JSONObjectCopyConstructor_Generic(asIScriptGeneric *gen)
 {
-	JSONObject *other = (JSONObject*)gen->GetArgObject(0);
-	JSONObject *self = (JSONObject*)gen->GetObject();
-	JSONObjectCopyConstructor(*other, self);
+	JSONObject* a = static_cast<JSONObject*>(gen->GetArgObject(0));
+	new (gen->GetObject()) JSONObject(*a);
+}
+
+static void JSONObjectDefaultDestructor_Generic(asIScriptGeneric * gen)
+{
+	JSONObject* ptr = static_cast<JSONObject*>(gen->GetObject());
+	ptr->~JSONObject();
+}
+
+static void JSONObjectAssign_Generic(asIScriptGeneric *gen)
+{
+	JSONObject* a = static_cast<JSONObject*>(gen->GetArgObject(0));
+	JSONObject* self = static_cast<JSONObject*>(gen->GetObject());
+	*self = *a;
+	gen->SetReturnAddress(self);
 }
 
 asDECLARE_METHOD_WRAPPERPR(__ParseJSON,        JSONObject, Parse,             (const std::string&),                   bool);
@@ -200,8 +207,11 @@ void RegisterJSONObjectMethods(asIScriptEngine *pASEngine)
 {
 	int r;
 
-	r = pASEngine->RegisterObjectBehaviour("JSONObject", asBEHAVE_CONSTRUCT, "void f()",                  asFUNCTION(JSONObjectDefaultConstructor_Generic), asCALL_GENERIC); assert( r >= 0 );
+	r = pASEngine->RegisterObjectBehaviour("JSONObject", asBEHAVE_CONSTRUCT, "void f()",                     asFUNCTION(JSONObjectDefaultConstructor_Generic), asCALL_GENERIC); assert( r >= 0 );
 	r = pASEngine->RegisterObjectBehaviour("JSONObject", asBEHAVE_CONSTRUCT, "void f(const JSONObject &in)", asFUNCTION(JSONObjectCopyConstructor_Generic), asCALL_GENERIC); assert( r >= 0 );
+	r = pASEngine->RegisterObjectBehaviour("JSONObject", asBEHAVE_DESTRUCT,  "void f()",                     asFUNCTION(JSONObjectDefaultDestructor_Generic),  asCALL_GENERIC); assert( r >= 0 );
+
+	r = pASEngine->RegisterObjectMethod("JSONObject", "JSONObject &opAssign(const JSONObject &in)", asFUNCTION(JSONObjectAssign_Generic), asCALL_GENERIC); assert( r >= 0 );
 
 	// methods
 	r = pASEngine->RegisterObjectMethod("JSONObject", "bool Parse(const string& in)",                     asFUNCTION(__ParseJSON),       asCALL_GENERIC); assert(r >= 0);

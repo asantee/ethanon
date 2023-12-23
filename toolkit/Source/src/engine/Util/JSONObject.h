@@ -10,6 +10,8 @@ class JSONObject
 	cJSON* m_cjson;
 	bool m_isParent;
 
+	void Destroy();
+	
 public:
 	JSONObject(cJSON* cjson);
 	JSONObject(const JSONObject& cjson);
