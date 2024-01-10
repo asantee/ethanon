@@ -14,12 +14,12 @@ bool SharedData::IsValid() const
 
 void SharedData::Set(const std::string& data)
 {
-	m_data.set(data);
+	m_data = data;
 }
 
 std::string SharedData::Get() const
 {
-	return m_data.get();
+	return m_data;
 }
 
 //
@@ -38,10 +38,10 @@ void SharedDataSecured::Set(const std::string& data)
 	m_hash = GenerateHash();
 }
 
-std::string SharedDataSecured::GenerateHash() const
+uint32_t SharedDataSecured::GenerateHash() const
 {
 	std::string key(m_key_function ? (*m_key_function)() : "");
-	return Platform::GetMD5HashFromString(m_data.get() + key);
+	return Platform::GetFastHashFromString(m_data + key);
 }
 
 bool SharedDataSecured::NonAtomicIsValid() const

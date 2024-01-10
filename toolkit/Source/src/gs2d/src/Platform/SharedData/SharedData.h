@@ -12,7 +12,7 @@ namespace Platform {
 class SharedData
 {
 protected:
-	AtomicString m_data;
+	std::string m_data;
 
 public:
 	virtual bool IsValid() const;
@@ -24,9 +24,9 @@ class SharedDataSecured : public SharedData
 {
 	mutable std::mutex m_mtx;
 	std::string (*m_key_function)();
-	std::string m_hash;
+	uint32_t m_hash;
 
-	std::string GenerateHash() const;
+	uint32_t GenerateHash() const;
 
 	bool NonAtomicIsValid() const;
 
