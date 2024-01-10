@@ -14,11 +14,13 @@ bool SharedData::IsValid() const
 
 void SharedData::Set(const std::string& data)
 {
+	std::lock_guard<std::mutex> lock(m_mtx);
 	m_data = data;
 }
 
 std::string SharedData::Get() const
 {
+	std::lock_guard<std::mutex> lock(m_mtx);
 	return m_data;
 }
 
@@ -34,7 +36,7 @@ SharedDataSecured::SharedDataSecured(const std::string& data, std::string(*key_f
 void SharedDataSecured::Set(const std::string& data)
 {
 	std::lock_guard<std::mutex> lock(m_mtx);
-	SharedData::Set(data);
+	m_data = data;
 	m_hash = GenerateHash();
 }
 
@@ -59,7 +61,7 @@ std::string SharedDataSecured::Get() const
 {
 	std::lock_guard<std::mutex> lock(m_mtx);
 	if (NonAtomicIsValid())
-		return SharedData::Get();
+		return m_data;
 	else
 		return "";
 }
