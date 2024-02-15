@@ -19,7 +19,7 @@ public:
 	bool IsPacked() const;
 	zip* GetZip();
 
-private:
+protected:
 	zip* m_archive;
 };
 

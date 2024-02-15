@@ -1,8 +1,8 @@
 #include "FMAudioContext.h"
 
-#include "inc/fmod_errors.h"
-
 #include <sstream>
+
+#include <fmod_errors.h>
 
 namespace gs2d {
 
@@ -81,7 +81,7 @@ bool FMAudioContext::CreateAudioDevice(boost::any data)
 		std::stringstream errorString;
 		errorString << "FMOD lib version doesn't match header version: ";
 		errorString << std::hex << version;
-		m_logger.Log(errorString.str(), Platform::FileLogger::ERROR);
+		m_logger.Log(errorString.str(), Platform::Logger::LT_ERROR);
 	}
 
 	// Attemps to fix audio latency on Android

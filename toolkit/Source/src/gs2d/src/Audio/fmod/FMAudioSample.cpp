@@ -58,31 +58,69 @@ bool FMAudioSample::LoadSampleFromFile(
 {
 	m_fileName = fileName;
 	m_type = type;
-	Platform::FileBuffer out;
-	fileManager->GetFileBuffer(m_fileName, out);
-	if (!out)
-	{
-		m_logger.Log(m_fileName + " could not load buffer", Platform::FileLogger::ERROR);
-		return false;
-	}
 
-	return LoadSampleFromFileInMemory(audio, out->GetAddress(), out->GetBufferSize(), m_type);
+    if (!FMAudioContext::IsStreamable(type))
+	{
+		Platform::FileBuffer out;
+		fileManager->GetFileBuffer(m_fileName, out);
+		if (!out)
+		{
+			m_logger.Log(m_fileName + " could not load buffer", Platform::Logger::LT_ERROR);
+			return false;
+		}
+
+		return LoadSampleFromFileInMemory(audio, out->GetAddress(), out->GetBufferSize(), m_type);
+	}
+	else
+	{
+		try
+		{
+			Audio* pAudio = audio.lock().get();
+			m_system = boost::any_cast<FMOD::System*>(pAudio->GetAudioContext());
+		}
+		catch (const boost::bad_any_cast&)
+		{
+			std::stringstream ss;
+			ss << "FMAudioSample::LoadSampleFromFile: Invalid fmod system";
+			m_logger.Log(ss.str(), Platform::Logger::LT_ERROR);
+			return false;
+		}
+
+#if defined(ANDROID)
+		if (fileManager->IsPacked())
+		{
+            const std::string prefix = "assets/";
+            if (m_fileName.substr(0, prefix.size()) == prefix)
+            {
+                m_fileName.replace(0,prefix.size(), "file:///android_asset/");
+            }
+		}
+#endif
+
+		const FMOD_RESULT result = m_system->createSound(m_fileName.c_str(), FMOD_CREATESTREAM, 0, &m_sound);
+
+		if (FMOD_ERRCHECK(result, m_logger))
+			return false;
+
+		m_logger.Log(m_fileName + " file loaded", Platform::Logger::LT_INFO);
+        return true;
+	}
 }
 
-/// <summary>
-/// Create FMod sample audio from buffer in memory
-/// </summary>
-/// <param name="audio">Pointer to audio object</param>
-/// <param name="pBuffer">Buffer pointer to sample data</param>
-/// <param name="bufferLength">Size of sample data</param>
-/// <param name="type">Type of audio sample</param>
-/// <returns>True on success, False on fail</returns>
 bool FMAudioSample::LoadSampleFromFileInMemory(
 	AudioWeakPtr audio,
 	void* pBuffer,
 	const unsigned int bufferLength,
 	const Audio::SAMPLE_TYPE type)
 {
+	if (FMAudioContext::IsStreamable(type))
+	{
+		std::stringstream ss;
+		ss << "FMAudioSample::LoadSampleFromFileInMemory: streaming music samples from virtual memory is not supported";
+		m_logger.Log(ss.str(), Platform::Logger::LT_ERROR);
+		return false;
+	}
+
 	try
 	{
 		Audio* pAudio = audio.lock().get();
@@ -92,37 +130,26 @@ bool FMAudioSample::LoadSampleFromFileInMemory(
 	{
 		std::stringstream ss;
 		ss << "FMAudioSample::LoadSampleFromFileInMemory: Invalid fmod system";
-		m_logger.Log(ss.str(), Platform::FileLogger::ERROR);
+		m_logger.Log(ss.str(), Platform::Logger::LT_ERROR);
 		return false;
 	}
 
-	FMOD_CREATESOUNDEXINFO audioInfo;
-	// Clear the structure to avoid thrash
-	// it could have a constructor
-	memset(&audioInfo, 0, sizeof(FMOD_CREATESOUNDEXINFO));
-	
-	audioInfo.cbsize = sizeof(FMOD_CREATESOUNDEXINFO);
-	audioInfo.length = static_cast<unsigned int>(bufferLength);
-	audioInfo.suggestedsoundtype = FMOD_SOUND_TYPE_MPEG;
+	const FMOD_MODE mode = (FMOD_OPENMEMORY | FMOD_CREATESAMPLE);
 
-	// Open file from memory and create uncompressed sample, doing it on the fly will cause
-	// some delay.
-	FMOD_MODE mode = FMOD_OPENMEMORY | FMOD_CREATESAMPLE;
+	FMOD_CREATESOUNDEXINFO info;
+	memset(&info, 0, sizeof(FMOD_CREATESOUNDEXINFO));
 
-	// if is streamable type, use CREATECOMPRESSEDSAMPLE and add FMOD_CREATESTREAM flag to mode
-	// 'cause it is music and uncompress it in memory will use a lot of resources
-	// avoids a big if to call createStream function, wich by the docs, do the same.
-	// we cant use FMOD_OPENMEMORY_POINT and need to let fmod duplicate it because it allocates
-	// extra bytes on the buffer on compressed files, for mixing and other stuff.
-	if (FMAudioContext::IsStreamable(type))
-		mode = FMOD_OPENMEMORY | FMOD_CREATECOMPRESSEDSAMPLE | FMOD_CREATESTREAM;
+	info.cbsize = sizeof(FMOD_CREATESOUNDEXINFO);
+	info.length = static_cast<unsigned int>(bufferLength);
+	info.suggestedsoundtype = FMOD_SOUND_TYPE_MPEG;
 
-	const FMOD_RESULT result = m_system->createSound(static_cast<char*>(pBuffer), mode, &audioInfo, &m_sound);
+	const FMOD_RESULT result = m_system->createSound(static_cast<char*>(pBuffer), mode, &info, &m_sound);
 
-	if (FMOD_ERRCHECK(result, m_logger))
-		return false;
+    if (FMOD_ERRCHECK(result, m_logger))
+        return false;
 
-	m_logger.Log(m_fileName + " file loaded", Platform::FileLogger::INFO);
+    m_logger.Log(m_fileName + " file loaded", Platform::Logger::LT_INFO);
+
 	return true;
 }
 

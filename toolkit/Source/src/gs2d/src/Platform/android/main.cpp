@@ -7,6 +7,7 @@
 
 #include <Platform/android/Platform.android.h>
 #include <Platform/android/AndroidFileIOHub.h>
+#include <Platform/android/AndroidZipFileManager.h>
 
 #include <Input/Android/AndroidInput.h>
 
@@ -42,7 +43,7 @@ BaseApplicationPtr application;
 VideoPtr video;
 InputPtr input;
 AudioPtr audio = 0;
-boost::shared_ptr<Platform::ZipFileManager> zip;
+boost::shared_ptr<Platform::AndroidZipFileManager> zip;
 SpritePtr splashSprite, cogSprite;
 ETHEnginePtr engine;
 Vector2 lastCameraPos(0.0f, 0.0f);
@@ -63,15 +64,15 @@ void CreateLoadingSprite(VideoPtr video, SpritePtr& sprite, const std::string& f
 	sprite->SetOrigin(Vector2(0.5f));
 }
 
-JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_audioSuspend(JNIEnv* env, jobject thiz)
+JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_audioSuspend(JNIEnv* env, jobject thiz)
 {
 	if (audio)
 		audio->Suspend();
 }
 
-JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_audioResume(JNIEnv* env, jobject thiz)
+JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_audioResume(JNIEnv* env, jobject thiz)
 {
-	if(audio)
+	if (audio)
 		audio->Resume();
 }
 
@@ -84,7 +85,7 @@ JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_start(
 	const char* strApk = env->GetStringUTFChars(apkPath, &isCopy);
 	const char* strExt = env->GetStringUTFChars(externalPath, &isCopy);
 	const char* strGlo = env->GetStringUTFChars(globalPath, &isCopy);
-	zip = boost::shared_ptr<Platform::ZipFileManager>(new Platform::ZipFileManager(strApk));
+	zip = boost::shared_ptr<Platform::AndroidZipFileManager>(new Platform::AndroidZipFileManager(strApk));
 	Platform::FileIOHubPtr fileIOHub(new Platform::AndroidFileIOHub(zip, strExt, strGlo, ETHDirectories::GetBitmapFontDirectory()));
 
 	video = VideoPtr(new AndroidGLES2Video(width, height, "Ethanon Engine", fileIOHub));
