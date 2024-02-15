@@ -141,6 +141,10 @@ int main(int argc, char* argv[])
 				}
 			}
 		}
+		// a linha abaixo não deveria ficar aqui, deveria fica no destroy...
+		//mas ela não deve rodar se estiver no android
+		application->m_provider->GetAudioResourceManager()->ReleaseResources();
+		//
 		application->Destroy();
 		aborted = application->Aborted();
 	}

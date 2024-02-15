@@ -122,10 +122,19 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 		lowRamDevice);
 
 	m_definedWords = file.GetDefinedWords();
+	// if does not exist audio resource manager create one, else re-use it.
+	ETHAudioResourceManagerPtr audioResourceManager;
+	if (m_provider == NULL || !(audioResourceManager = m_provider->GetAudioResourceManager()))
+		audioResourceManager = ETHAudioResourceManagerPtr(new ETHAudioResourceManager());
 
+	// doing the same as above, but for whole m_provider, avoiding destroying when restoring
+	// from suspend on Android (when calling Start() at jni main). May turn above code unnecessary
+	//if (m_provider == NULL)
+	//{
+	///old code///
 	m_provider = ETHResourceProviderPtr(new ETHResourceProvider(
 		ETHGraphicResourceManagerPtr(new ETHGraphicResourceManager(file.GetDensityManager())),
-		ETHAudioResourceManagerPtr(new ETHAudioResourceManager()),
+		audioResourceManager,
 		ETHShaderManagerPtr(new ETHShaderManager(video)),
 		video,
 		audio,
@@ -164,7 +173,9 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 			}
 		}
 	}
-	
+	///end old code///
+	//}
+
 	Randomizer::Seed(static_cast<unsigned int>(m_provider->GetVideo()->GetElapsedTime()));
 }
 

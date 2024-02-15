@@ -56,6 +56,8 @@ public:
 	virtual float GetGlobalVolume() const = 0;
 
 	virtual void Update() = 0;
+	virtual void Suspend() = 0;
+	virtual void Resume() = 0;
 };
 
 /**

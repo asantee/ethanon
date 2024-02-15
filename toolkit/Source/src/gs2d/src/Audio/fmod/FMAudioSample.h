@@ -5,7 +5,7 @@
 
 #include "FMAudioContext.h"
 
-#include "fmod.hpp"
+#include "inc/fmod.hpp"
 
 namespace gs2d {
 
@@ -21,6 +21,18 @@ class FMAudioSample : public AudioSample
 	bool m_loop;
 	Audio::SAMPLE_TYPE m_type;
 	static Platform::FileLogger m_logger;
+
+	bool LoadSampleFromFmodFile(
+		AudioWeakPtr audio,
+		const std::string& fileName,
+		const Platform::FileManagerPtr& fileManager,
+		const Audio::SAMPLE_TYPE type = Audio::UNKNOWN_TYPE);
+
+	bool LoadSampleFromEthanonFile(
+		AudioWeakPtr audio,
+		const std::string& fileName,
+		const Platform::FileManagerPtr& fileManager,
+		const Audio::SAMPLE_TYPE type = Audio::UNKNOWN_TYPE);
 
 public:
 	FMAudioSample();

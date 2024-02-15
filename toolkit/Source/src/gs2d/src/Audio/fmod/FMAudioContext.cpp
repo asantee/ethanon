@@ -1,6 +1,6 @@
 #include "FMAudioContext.h"
 
-#include "fmod_errors.h"
+#include "inc/fmod_errors.h"
 
 #include <sstream>
 
@@ -65,7 +65,6 @@ FMAudioContext::~FMAudioContext()
 bool FMAudioContext::CreateAudioDevice(boost::any data)
 {
 	CommonInit(m_logger);
-
 	FMOD_RESULT result;
 	unsigned int version;
 
@@ -79,8 +78,22 @@ bool FMAudioContext::CreateAudioDevice(boost::any data)
 
 	if (version < FMOD_VERSION)
 	{
-		m_logger.Log("FMOD lib version doesn't match header version.", Platform::FileLogger::LT_ERROR);
+		std::stringstream errorString;
+		errorString << "FMOD lib version doesn't match header version: ";
+		errorString << std::hex << version;
+		m_logger.Log(errorString.str(), Platform::FileLogger::ERROR);
 	}
+
+	// Attemps to fix audio latency on Android
+#if defined(ANDROID)
+	result = m_system->setOutput(FMOD_OUTPUTTYPE_OPENSL);
+	if (FMOD_ERRCHECK(result, m_logger))
+		result = m_system->setOutput(FMOD_OUTPUTTYPE_AUDIOTRACK);
+	FMOD_ERRCHECK(result, m_logger);
+
+	result = m_system->setDSPBufferSize(512, 2);
+	FMOD_ERRCHECK(result, m_logger);
+#endif
 
 	result = m_system->init(32, FMOD_INIT_NORMAL, 0);
 	if (FMOD_ERRCHECK(result, m_logger))
@@ -145,4 +158,21 @@ void FMAudioContext::Update()
 	}
 }
 
+void FMAudioContext::Suspend()
+{
+	if (m_system)
+	{
+		const FMOD_RESULT result = m_system->mixerSuspend();
+		FMOD_ERRCHECK(result, m_logger);
+	}
+}
+
+void FMAudioContext::Resume()
+{
+	if (m_system)
+	{
+		const FMOD_RESULT result = m_system->mixerResume();
+		FMOD_ERRCHECK(result, m_logger);
+	}
+}
 } // namespace gs2d

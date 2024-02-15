@@ -7,7 +7,7 @@
 #include "../../addons/scriptbuilder.h"
 
 asIScriptEngine *ETHScriptWrapper::m_pASEngine = 0;
-ETHResourceProviderPtr ETHScriptWrapper::m_provider;
+ETHResourceProviderPtr ETHScriptWrapper::m_provider = 0;
 ETHDrawableManager ETHScriptWrapper::m_drawableManager;
 ETHScenePtr ETHScriptWrapper::m_pScene;
 ETHBackBufferTargetManagerPtr ETHScriptWrapper::m_backBuffer;

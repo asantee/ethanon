@@ -15,6 +15,7 @@ public:
 	virtual Application::APP_STATUS Update(const float lastFrameDeltaTimeMS) = 0;
 	virtual void RenderFrame() = 0;
 	virtual void Destroy() = 0;
+//	virtual void Suspend() = 0;
 	virtual void Restore() = 0;
 	virtual std::string RunOnUIThread(const std::string& input) { return (input); }
 };
