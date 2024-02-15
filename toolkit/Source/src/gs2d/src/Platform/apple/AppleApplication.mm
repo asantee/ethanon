@@ -14,16 +14,27 @@
 
 #import "../../Input/iOS/IOSInput.h"
 
+#import "../../../../engine/ETHEngine.h"
+
 BOOL g_terminated = FALSE;
+
+void CreateLoadingSprite(gs2d::VideoPtr video, gs2d::SpritePtr& sprite, const std::string& filePath)
+{
+	sprite = gs2d::SpritePtr(new gs2d::Sprite(video.get(), filePath));
+	sprite->SetOrigin(Vector2(0.5f));
+}
 
 @interface AppleApplication ()
 {
 	gs2d::VideoPtr m_video;
 	gs2d::InputPtr m_input;
 	gs2d::AudioPtr m_audio;
-	gs2d::BaseApplicationPtr m_engine;
+	gs2d::BaseApplicationPtr m_application;
+	gs2d::ETHEnginePtr m_engine;
 	float m_pixelDensity;
 	Platform::NativeCommandManager m_commandManager;
+
+	gs2d::SpritePtr /*m_splashSprite, */m_cogSprite;
 }
 
 @end
@@ -62,9 +73,24 @@ BOOL g_terminated = FALSE;
 	NSRange designatorRange = NSMakeRange(0, 2);
 	language = [language substringWithRange:designatorRange];
 	gs2d::Application::SharedData.SetSecured("ethanon.system.language", [language cStringUsingEncoding:1]);
-	
-	m_engine = gs2d::CreateBaseApplication();
+
+	// Here
+	m_application = gs2d::CreateBaseApplication(false /*autoStartScriptEngine*/);
+	m_engine = ETHEngine::Cast(m_application);
 	m_engine->Start(m_video, m_input, m_audio);
+
+	gs2d::FileIOHubPtr fileIOHub = m_engine->ETHScriptWrapper::GetProvider()->GetFileIOHub();
+	
+	//CreateLoadingSprite(video, m_splashSprite, fileIOHub->GetResourceDirectory() + "data/splash.png");
+	CreateLoadingSprite(video, m_cogSprite,    fileIOHub->GetResourceDirectory() + "data/cog.png");
+
+	// Dispatch a task to a background queue
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		self->m_engine->StartScriptEngine();
+		dispatch_async(dispatch_get_main_queue(), ^{
+			// Update UI or perform any main thread tasks
+		});
+	});
 	
 	return self;
 }
@@ -78,8 +104,11 @@ BOOL g_terminated = FALSE;
 	m_video->HandleEvents();
 
 	const float elapsedTime = (gs2d::ComputeElapsedTimeF(m_video));
-	m_engine->Update(gs2d::math::Min(400.0f, elapsedTime));
-	
+
+	if (m_engine->IsScriptEngineLoaded())
+	{
+		m_engine->Update(gs2d::math::Min(400.0f, elapsedTime));
+	}
 	m_commandManager.RunCommands(m_video->PullCommands());
 }
 
@@ -88,17 +117,42 @@ BOOL g_terminated = FALSE;
 	if (!m_engine || g_terminated)
 		return;
 
-	m_engine->RenderFrame();
+	if (m_engine->IsScriptEngineLoaded())
+	{
+		m_engine->RenderFrame();
+	}
+	else
+	{
+		m_video->SetBackgroundColor(gs2d::constant::WHITE);
+		m_video->BeginRendering(gs2d::constant::WHITE);
+		if (m_cogSprite)
+		{
+			const Vector2 screenSize(m_video->GetScreenSizeF());
+			//const float scale = (screenSize.y / 720.0f) * 0.8f;
+			//m_splashSprite->Draw(Vector3(screenSize * 0.5f, 0.0f), scale, 0.0f, Rect2D());
+
+			const Vector2 cogMiddle(screenSize.x * 0.5f, screenSize.y * 0.618f);
+			static float angle = 0.0f;
+			m_cogSprite->Draw(Vector3(cogMiddle - Vector2(32.0f, 0.0f), 0.0f), 0.6f,-angle + 24.0f, Rect2D());
+			m_cogSprite->Draw(Vector3(cogMiddle + Vector2(32.0f, 0.0f), 0.0f), 0.6f,-angle - 24.0f, Rect2D());
+			m_cogSprite->Draw(Vector3(cogMiddle, 0.0f), 0.6f, angle, Rect2D());
+			angle -= 2.0f;
+		}
+		m_video->EndRendering();
+	}
 }
 
 - (void)destroy
 {
+	if (!m_engine->IsScriptEngineLoaded())
+		return;
+
 	m_engine->Destroy();
 }
 
 - (void)restore
 {
-	if (m_engine)
+	if (m_engine && m_engine->IsScriptEngineLoaded())
 	{
 		m_engine->Restore();
 	}
