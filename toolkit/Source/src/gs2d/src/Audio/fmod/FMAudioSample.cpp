@@ -92,7 +92,7 @@ bool FMAudioSample::LoadSampleFromFile(
             const std::string prefix = "assets/";
             if (m_fileName.substr(0, prefix.size()) == prefix)
             {
-                m_fileName.replace(0,prefix.size(), "file:///android_asset/");
+                m_fileName.replace(0, prefix.size(), "file:///android_asset/");
             }
 		}
 #endif
