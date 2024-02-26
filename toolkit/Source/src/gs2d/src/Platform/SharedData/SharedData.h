@@ -2,10 +2,9 @@
 #define SHARED_DATA_H_
 
 #include <string>
+#include <mutex>
 
 #include <boost/shared_ptr.hpp>
-
-#include "../AtomicString.h"
 
 namespace Platform {
 
