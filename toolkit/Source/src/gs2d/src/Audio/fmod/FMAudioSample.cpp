@@ -69,7 +69,7 @@ bool FMAudioSample::LoadSampleFromFile(
 			return false;
 		}
 
-		return LoadSampleFromFileInMemory(audio, out->GetAddress(), out->GetBufferSize(), m_type);
+		return LoadSampleFromFileInMemory(audio, out->GetAddress(), static_cast<unsigned int>(out->GetBufferSize()), m_type);
 	}
 	else
 	{
