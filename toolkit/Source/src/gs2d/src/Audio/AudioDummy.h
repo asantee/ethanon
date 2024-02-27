@@ -28,6 +28,8 @@ public:
 	float GetGlobalVolume() const override;
 
 	void Update() override;
+	void Suspend() override;
+	void Resume() override;
 };
 
 typedef boost::shared_ptr<AudioDummy> AudioDummyPtr;

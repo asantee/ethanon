@@ -41,6 +41,14 @@ void AudioDummy::Update()
 {
 }
 
+void AudioDummy::Suspend()
+{
+}
+
+void AudioDummy::Resume()
+{
+}
+
 bool AudioSampleDummy::LoadSampleFromFile(
 	AudioWeakPtr audio,
 	const std::string& fileName,
