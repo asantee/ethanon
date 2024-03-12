@@ -1262,6 +1262,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = macosx;
 				VALIDATE_PRODUCT = YES;
+				WARNING_CFLAGS = "-Wno-error=enum-constexpr-conversion";
 			};
 			name = Debug;
 		};
@@ -1305,6 +1306,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				SDKROOT = macosx;
 				VALIDATE_PRODUCT = YES;
+				WARNING_CFLAGS = "-Wno-error=enum-constexpr-conversion";
 			};
 			name = Release;
 		};
