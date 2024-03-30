@@ -2,7 +2,7 @@
 #define SHARED_DATA_H_
 
 #include <string>
-#include <mutex>
+#include <boost/thread/shared_mutex.hpp>
 
 #include <boost/shared_ptr.hpp>
 
@@ -12,7 +12,6 @@ class SharedData
 {
 protected:
 	std::string m_data;
-	mutable std::mutex m_mtx;
 
 public:
 	virtual bool IsValid() const;
@@ -22,6 +21,8 @@ public:
 
 class SharedDataSecured : public SharedData
 {
+	mutable boost::shared_mutex m_mtx;
+
 	std::string (*m_key_function)();
 	uint32_t m_hash;
 
