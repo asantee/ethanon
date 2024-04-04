@@ -14,6 +14,8 @@ protected:
 	std::string m_data;
 
 public:
+	virtual ~SharedData() = default;
+
 	virtual bool IsValid() const;
 	virtual void Set(const std::string& data);
 	virtual std::string Get() const;
