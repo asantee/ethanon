@@ -25,9 +25,10 @@ std::string SharedData::Get() const
 //
 //  SharedDataSecured
 //////////////////////////////////////////////////////////////////////////////////////////
-SharedDataSecured::SharedDataSecured(const std::string& data, std::string(*key_function)())
+SharedDataSecured::SharedDataSecured(const std::string& data, std::string(*key_function)()) :
+	SharedData(),
+	m_key_function(key_function)
 {
-	m_key_function = key_function;
 	Set(data);
 }
 
