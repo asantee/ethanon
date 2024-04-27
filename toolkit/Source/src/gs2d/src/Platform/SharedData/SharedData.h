@@ -2,7 +2,10 @@
 #define SHARED_DATA_H_
 
 #include <string>
-#include <boost/thread/shared_mutex.hpp>
+
+#if defined(USE_MUTEX_ON_SHARED_DATA)
+	#include <boost/thread/shared_mutex.hpp>
+#endif
 
 #include <boost/shared_ptr.hpp>
 
@@ -23,7 +26,9 @@ public:
 
 class SharedDataSecured : public SharedData
 {
+#if defined(USE_MUTEX_ON_SHARED_DATA)
 	mutable boost::shared_mutex m_mtx;
+#endif
 
 	std::string (*m_key_function)();
 	uint32_t m_hash;

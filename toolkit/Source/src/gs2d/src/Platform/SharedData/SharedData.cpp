@@ -34,7 +34,9 @@ SharedDataSecured::SharedDataSecured(const std::string& data, std::string(*key_f
 
 void SharedDataSecured::Set(const std::string& data)
 {
+#if defined(USE_MUTEX_ON_SHARED_DATA)
 	boost::unique_lock<boost::shared_mutex> lock(m_mtx);
+#endif
 	m_data = data;
 	m_hash = GenerateHash();
 }
@@ -52,13 +54,17 @@ bool SharedDataSecured::NonAtomicIsValid() const
 
 bool SharedDataSecured::IsValid() const
 {
+#if defined(USE_MUTEX_ON_SHARED_DATA)
 	boost::shared_lock<boost::shared_mutex> lock(m_mtx);
+#endif
 	return NonAtomicIsValid();
 }
 
 std::string SharedDataSecured::Get() const
 {
+#if defined(USE_MUTEX_ON_SHARED_DATA)
 	boost::shared_lock<boost::shared_mutex> lock(m_mtx);
+#endif
 	if (NonAtomicIsValid())
 		return m_data;
 	else
