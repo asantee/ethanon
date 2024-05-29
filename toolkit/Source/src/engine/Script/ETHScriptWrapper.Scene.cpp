@@ -709,3 +709,13 @@ void ETHScriptWrapper::ForceEntityRendering(ETHEntity* entity)
 {
 	m_pScene->AddEntityToPersistentList(static_cast<ETHRenderEntity*>(entity));
 }
+
+void ETHScriptWrapper::SetSceneRenderingEnabled(const bool enabled)
+{
+	m_sceneRenderingEnabled = enabled;
+}
+
+bool ETHScriptWrapper::IsSceneRenderingEnabled()
+{
+	return m_sceneRenderingEnabled;
+}

@@ -30,6 +30,7 @@ ETHScriptWrapper::Math ETHScriptWrapper::m_math;
 float ETHScriptWrapper::m_lastFrameElapsedTime = 1.0f;
 ETHEntityCache ETHScriptWrapper::m_entityCache;
 ETHScriptWrapper::GARBAGE_COLLECT_MODE ETHScriptWrapper::m_gcMode = ETHScriptWrapper::ONE_STEP;
+bool ETHScriptWrapper::m_sceneRenderingEnabled(true);
 
 bool ETHScriptWrapper::RunMainFunction(asIScriptFunction* mainFunc)
 {

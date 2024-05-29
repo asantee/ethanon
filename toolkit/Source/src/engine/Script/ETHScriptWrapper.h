@@ -21,7 +21,8 @@ class ETHScriptWrapper
 	static bool m_runningMainFunction;
 	static bool m_persistentResources;
 	static float m_lastFrameElapsedTime;
-	
+	static bool m_sceneRenderingEnabled;
+
 protected:
 	static void SetLastFrameElapsedTime(const float lastFrameElapsedTime);
 
@@ -381,6 +382,9 @@ public:
 	static void GarbageCollect(const GARBAGE_COLLECT_MODE mode, asIScriptEngine* engine);
 	static void SetHighEndDevice(const bool highEnd);
 	static bool IsHighEndDevice();
+	
+	static void SetSceneRenderingEnabled(const bool enabled);
+	static bool IsSceneRenderingEnabled();
 };
 
 #endif

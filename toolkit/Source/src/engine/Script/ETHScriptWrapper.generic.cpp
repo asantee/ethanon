@@ -49,6 +49,8 @@ asDECLARE_FUNCTION_WRAPPER(__AddScene, ETHScriptWrapper::AddSceneInScript);
 asDECLARE_FUNCTION_WRAPPER(__AddSceneFromString, ETHScriptWrapper::AddSceneFromString);
 
 asDECLARE_FUNCTION_WRAPPER(__SaveScene, ETHScriptWrapper::SaveScene);
+asDECLARE_FUNCTION_WRAPPER(__SetSceneRenderingEnabled, ETHScriptWrapper::SetSceneRenderingEnabled);
+asDECLARE_FUNCTION_WRAPPER(__IsSceneRenderingEnabled, ETHScriptWrapper::IsSceneRenderingEnabled);
 
 asDECLARE_FUNCTION_WRAPPER(__GetTimeF,       ETHScriptWrapper::GetTimeF);
 asDECLARE_FUNCTION_WRAPPER(__GetTime,        ETHScriptWrapper::GetTime);
@@ -300,6 +302,9 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("void AddScene(const string &in, const vector3 &in, ETHEntityArray &, const bool immediatelyLoadSprites = false)",           asFUNCTION(__AddScene),           asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void AddSceneFromString(const string &in, const vector3 &in, ETHEntityArray &, const bool immediatelyLoadSprites = false)", asFUNCTION(__AddSceneFromString), asCALL_GENERIC); assert(r >= 0);
 
+	r = pASEngine->RegisterGlobalFunction("void SetSceneRenderingEnabled(const bool)", asFUNCTION(__SetSceneRenderingEnabled), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("bool IsSceneRenderingEnabled()",            asFUNCTION(__IsSceneRenderingEnabled),  asCALL_GENERIC); assert(r >= 0);
+	
 	r = pASEngine->RegisterGlobalFunction("float GetTimeF()",                  asFUNCTION(__GetTimeF),       asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("uint GetTime()",                    asFUNCTION(__GetTime),        asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("float UnitsPerSecond(const float)", asFUNCTION(__UnitsPerSecond), asCALL_GENERIC); assert(r >= 0);
