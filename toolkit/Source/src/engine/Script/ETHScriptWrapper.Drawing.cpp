@@ -178,6 +178,9 @@ void ETHScriptWrapper::DrawShapedFromResource(
 	const Vector4 &color,
 	const float angle)
 {
+	if (!resource)
+		return;
+	
 	WarnIfRunsInMainFunction("DrawShapedFromResource");
 	m_drawableManager.Insert(boost::shared_ptr<ETHDrawable>(
 		new ETHSpriteDrawer(

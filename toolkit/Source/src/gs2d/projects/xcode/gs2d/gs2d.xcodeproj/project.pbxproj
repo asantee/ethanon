@@ -92,6 +92,10 @@
 		AA19C1241F8285BF0096696A /* FMAudioContext.macos.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA19C1231F8285BF0096696A /* FMAudioContext.macos.mm */; };
 		AA4AABE323396130009ABDAE /* NativeCommandForwarder.h in Headers */ = {isa = PBXBuildFile; fileRef = AA4AABE12339612F009ABDAE /* NativeCommandForwarder.h */; };
 		AA4AABE423396130009ABDAE /* NativeCommandForwarder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA4AABE223396130009ABDAE /* NativeCommandForwarder.cpp */; };
+		AA5709822BD1DB5E00C7E489 /* tss_null.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA5709802BD1DB5E00C7E489 /* tss_null.cpp */; };
+		AA5709832BD1DB5E00C7E489 /* future.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA5709812BD1DB5E00C7E489 /* future.cpp */; };
+		AA5709862BD1DB6600C7E489 /* once.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA5709842BD1DB6600C7E489 /* once.cpp */; };
+		AA5709872BD1DB6600C7E489 /* thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA5709852BD1DB6600C7E489 /* thread.cpp */; };
 		AA7BDF721F7EE1980057B06F /* libfmod.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA7BDF711F7EE1980057B06F /* libfmod.dylib */; };
 		AA7BDF801F7EE5750057B06F /* FMAudioContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA7BDF7C1F7EE5390057B06F /* FMAudioContext.cpp */; };
 		AA7BDF811F7EE5750057B06F /* FMAudioSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA7BDF7F1F7EE53A0057B06F /* FMAudioSample.cpp */; };
@@ -244,6 +248,10 @@
 		AA19C1231F8285BF0096696A /* FMAudioContext.macos.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = FMAudioContext.macos.mm; path = ../../../src/Audio/fmod/FMAudioContext.macos.mm; sourceTree = "<group>"; };
 		AA4AABE12339612F009ABDAE /* NativeCommandForwarder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NativeCommandForwarder.h; path = ../../../../src/Platform/NativeCommandForwarder.h; sourceTree = "<group>"; };
 		AA4AABE223396130009ABDAE /* NativeCommandForwarder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NativeCommandForwarder.cpp; path = ../../../../src/Platform/NativeCommandForwarder.cpp; sourceTree = "<group>"; };
+		AA5709802BD1DB5E00C7E489 /* tss_null.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tss_null.cpp; path = ../../../../vendors/BoostSDK/libs/thread/src/tss_null.cpp; sourceTree = "<group>"; };
+		AA5709812BD1DB5E00C7E489 /* future.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = future.cpp; path = ../../../../vendors/BoostSDK/libs/thread/src/future.cpp; sourceTree = "<group>"; };
+		AA5709842BD1DB6600C7E489 /* once.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = once.cpp; path = ../../../../vendors/BoostSDK/libs/thread/src/pthread/once.cpp; sourceTree = "<group>"; };
+		AA5709852BD1DB6600C7E489 /* thread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = thread.cpp; path = ../../../../vendors/BoostSDK/libs/thread/src/pthread/thread.cpp; sourceTree = "<group>"; };
 		AA7BDF711F7EE1980057B06F /* libfmod.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfmod.dylib; path = ../../../vendors/fmod/lib/libfmod.dylib; sourceTree = "<group>"; };
 		AA7BDF7C1F7EE5390057B06F /* FMAudioContext.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = FMAudioContext.cpp; path = ../../../src/Audio/fmod/FMAudioContext.cpp; sourceTree = "<group>"; };
 		AA7BDF7D1F7EE5390057B06F /* FMAudioContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FMAudioContext.h; path = ../../../src/Audio/fmod/FMAudioContext.h; sourceTree = "<group>"; };
@@ -590,6 +598,10 @@
 		AA0E3A0D29252D1A0012CD03 /* boost */ = {
 			isa = PBXGroup;
 			children = (
+				AA5709842BD1DB6600C7E489 /* once.cpp */,
+				AA5709852BD1DB6600C7E489 /* thread.cpp */,
+				AA5709812BD1DB5E00C7E489 /* future.cpp */,
+				AA5709802BD1DB5E00C7E489 /* tss_null.cpp */,
 				AA0E3A0F29252D310012CD03 /* chrono.cpp */,
 				AA0E3A0E29252D310012CD03 /* process_cpu_clocks.cpp */,
 				AA0E3A1029252D310012CD03 /* thread_clock.cpp */,
@@ -766,7 +778,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA5709862BD1DB6600C7E489 /* once.cpp in Sources */,
 				AA7BDF801F7EE5750057B06F /* FMAudioContext.cpp in Sources */,
+				AA5709822BD1DB5E00C7E489 /* tss_null.cpp in Sources */,
 				AA7BDF811F7EE5750057B06F /* FMAudioSample.cpp in Sources */,
 				7473CA7916330304005DB920 /* Application.cpp in Sources */,
 				AAA6FB462A26880C00511C79 /* hl_sha512wrapper.cpp in Sources */,
@@ -784,6 +798,7 @@
 				7473CAA416330391005DB920 /* FileIOHub.cpp in Sources */,
 				7473CAA616330391005DB920 /* FileLogger.cpp in Sources */,
 				7473CAA816330391005DB920 /* FileManager.cpp in Sources */,
+				AA5709832BD1DB5E00C7E489 /* future.cpp in Sources */,
 				AADD118323173B8300A5541C /* getRealTime.cpp in Sources */,
 				7473CAB51633044E005DB920 /* BitmapFont.cpp in Sources */,
 				7473CAB71633044E005DB920 /* BitmapFontManager.cpp in Sources */,
@@ -798,6 +813,7 @@
 				AA18F5EE22B8846100F44DA6 /* Vector3.cpp in Sources */,
 				AAA6FB412A26880C00511C79 /* hl_md5wrapper.cpp in Sources */,
 				AA92F34B22F6112E00AECB30 /* GLShader.cpp in Sources */,
+				AA5709872BD1DB6600C7E489 /* thread.cpp in Sources */,
 				AAA6FB472A26880C00511C79 /* hl_sha384wrapper.cpp in Sources */,
 				AA18F60922C7D98800F44DA6 /* GameMath.cpp in Sources */,
 				AA92F37722F62E0900AECB30 /* Shader.cpp in Sources */,
@@ -970,6 +986,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				WARNING_CFLAGS = "-Wno-error=enum-constexpr-conversion";
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -1013,6 +1030,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				WARNING_CFLAGS = "-Wno-error=enum-constexpr-conversion";
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;

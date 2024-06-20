@@ -234,7 +234,7 @@ void ETHEngine::RenderFrame()
 	const bool loadingNewAssets = ETHResourceLoader::DoResourceRecoverStep(m_provider);
 	if (!loadingNewAssets)
 	{
-		if (m_pScene)
+		if (m_pScene && IsSceneRenderingEnabled())
 		{
 			m_pScene->RenderScene(m_backBuffer);
 		}

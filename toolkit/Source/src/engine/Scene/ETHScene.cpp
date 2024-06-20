@@ -405,7 +405,7 @@ void ETHScene::Update(
 	// start mapping process
 	float minHeight, maxHeight;
 
-	assert(m_renderingManager.IsEmpty());
+	EmptyRenderingQueue();
 
 	// fill a map containing all entities we should render
 	MapEntitiesToBeRendered(

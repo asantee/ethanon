@@ -8,6 +8,8 @@
 class ETHResourceContainer
 {
 public:
+	virtual ~ETHResourceContainer() = default;
+
 	virtual void AddRef() = 0;
 	virtual void Release() = 0;
 	
@@ -22,7 +24,7 @@ class ETHSpriteContainer : public ETHResourceContainer
 	
 public:
 	ETHSpriteContainer(const ETHResourceProviderPtr& provider, const std::string& name);
-	
+
 	void AddRef() override;
 	void Release() override;
 	void RecoverResources() override;

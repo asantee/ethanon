@@ -2,7 +2,10 @@
 #define SHARED_DATA_H_
 
 #include <string>
-#include <mutex>
+
+#if defined(USE_MUTEX_ON_SHARED_DATA)
+	#include <boost/thread/shared_mutex.hpp>
+#endif
 
 #include <boost/shared_ptr.hpp>
 
@@ -12,9 +15,10 @@ class SharedData
 {
 protected:
 	std::string m_data;
-	mutable std::mutex m_mtx;
 
 public:
+	virtual ~SharedData() = default;
+
 	virtual bool IsValid() const;
 	virtual void Set(const std::string& data);
 	virtual std::string Get() const;
@@ -22,6 +26,10 @@ public:
 
 class SharedDataSecured : public SharedData
 {
+#if defined(USE_MUTEX_ON_SHARED_DATA)
+	mutable boost::shared_mutex m_mtx;
+#endif
+
 	std::string (*m_key_function)();
 	uint32_t m_hash;
 

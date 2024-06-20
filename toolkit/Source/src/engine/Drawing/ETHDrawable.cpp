@@ -8,7 +8,7 @@
 
 ETHTextDrawer::ETHTextDrawer(
 	const ETHResourceProviderPtr& provider,
-	const Vector2& pos, 
+	const Vector2& pos,
 	const std::string& text,
 	const std::string &font,
 	const Color color,
@@ -27,7 +27,7 @@ ETHTextDrawer::ETHTextDrawer(
 
 ETHTextDrawer::ETHTextDrawer(
 	const ETHResourceProviderPtr& provider,
-	const Vector2& pos, 
+	const Vector2& pos,
 	const std::string& text,
 	const std::string& font,
 	const Color color,
@@ -94,26 +94,29 @@ ETHSpriteDrawer::ETHSpriteDrawer(
 bool ETHSpriteDrawer::Draw(const unsigned long lastFrameElapsedTimeMS)
 {
 	UNUSED_ARGUMENT(lastFrameElapsedTimeMS);
-	if (sprite)
-	{
-		const Rect2D rect(rects ? rects->GetRect(frame) : Rect2D());
-		const Vector2 frameSize(sprite->GetSize(rect));
-		const Vector2 size(v2Size == Vector2(-1,-1) ? frameSize : v2Size);
-
-		if (size.x == 0.0f || size.y == 0.0f)
-			return true;
-
-		const Vector2 virtualSize = ((rect.originalSize == Vector2(0.0f)) ? frameSize : rect.originalSize);
-		const Vector2 absoluteOrigin = (virtualSize * v2Origin) - (rect.offset);
-		const Vector2 relativeOrigin(absoluteOrigin.x / frameSize.x, absoluteOrigin.y / frameSize.y);
-
-		sprite->Draw(Vector3(v2Pos, 0.0f), size, relativeOrigin, color, angle, rect, flipX, flipY, Sprite::GetDefaultShader());
-		return true;
-	}
-	else
-	{
+	if (!sprite)
 		return false;
-	}
+
+	const Rect2D rect(rects ? rects->GetRect(frame) : Rect2D());
+	const Vector2 frameSize(sprite->GetSize(rect));
+	const Vector2 finalSize(v2Size == Vector2(-1,-1) ? frameSize : v2Size);
+
+	if (finalSize.x == 0.0f || finalSize.y == 0.0f)
+		return true;
+
+	const Vector2 virtualRectSize = ((rect.originalSize == Vector2(0.0f)) ? frameSize : rect.originalSize);
+	
+	Vector2 offset(rect.offset);
+
+	if (flipX) offset.x = virtualRectSize.x - frameSize.x - offset.x;
+	if (flipY) offset.y = virtualRectSize.y - frameSize.y - offset.y;
+
+	const Vector2 absoluteOrigin = (virtualRectSize * v2Origin) - (offset);
+	const Vector2 relativeOrigin(absoluteOrigin.x / frameSize.x, absoluteOrigin.y / frameSize.y);
+
+	sprite->Draw(Vector3(v2Pos, 0.0f), finalSize, relativeOrigin, color, angle, rect, flipX, flipY, Sprite::GetDefaultShader());
+
+	return true;
 }
 
 bool ETHSpriteDrawer::IsAlive() const
