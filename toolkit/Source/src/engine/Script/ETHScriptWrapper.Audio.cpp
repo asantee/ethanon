@@ -10,7 +10,6 @@ bool ETHScriptWrapper::LoadMusic(const std::string &file)
 
 	if (!m_provider->GetAudioResourceManager()->AddFile(m_provider->GetAudio(), fileIOHub, ss.str(), Audio::MUSIC))
 	{
-		// add stack trace
 		ShowMessage(("Could not load music file: ") + file, ETH_ERROR, false);
 		return false;
 	}
@@ -26,7 +25,6 @@ bool ETHScriptWrapper::LoadSoundEffect(const std::string &file)
 	ss << fileIOHub->GetResourceDirectory() << file;
 	if (!m_provider->GetAudioResourceManager()->AddFile(m_provider->GetAudio(), fileIOHub, ss.str(), Audio::SOUND_EFFECT))
 	{
-		// add stack trace
 		ShowMessage(("Could not load sound effect file: ") + file, ETH_ERROR, false);
 		return false;
 	}
