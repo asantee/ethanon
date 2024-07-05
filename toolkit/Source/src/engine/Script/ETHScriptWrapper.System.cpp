@@ -31,6 +31,7 @@ void ETHScriptWrapper::ShowMessage(std::string sMsg, const ETH_MESSAGE type, con
 		{
 			Abort();
 		}
+		ss << std::endl << GetCurrentCallstack();
 		break;
 	case ETH_WARNING:
 		ss << ("Warning - ");
@@ -41,7 +42,6 @@ void ETHScriptWrapper::ShowMessage(std::string sMsg, const ETH_MESSAGE type, con
 	};
 	ss << sMsg;
 	m_provider->Log(ss.str(), logType);
-	m_provider->Log(GetCurrentCallstack(), logType);
 }
 
 void ETHScriptWrapper::ForwardCommand(const std::string& cmd)
