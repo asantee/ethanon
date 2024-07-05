@@ -41,6 +41,7 @@ void ETHScriptWrapper::ShowMessage(std::string sMsg, const ETH_MESSAGE type, con
 	};
 	ss << sMsg;
 	m_provider->Log(ss.str(), logType);
+	m_provider->Log(GetCurrentCallstack(), logType);
 }
 
 void ETHScriptWrapper::ForwardCommand(const std::string& cmd)
