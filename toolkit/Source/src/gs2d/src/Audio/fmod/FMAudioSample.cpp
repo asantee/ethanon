@@ -155,16 +155,6 @@ bool FMAudioSample::LoadSampleFromFileInMemory(
 
 bool FMAudioSample::Play()
 {
-	float volumeMultiplier = 1.0f;
-	if (GetType() == Audio::SOUND_EFFECT)
-	{
-		volumeMultiplier = FMAudioContext::GetStaticSoundEffectVolume();
-		if (volumeMultiplier <= 0.0f)
-		{
-			return true;
-		}
-	}
-
 	m_channel = 0;
 
 	FMOD_RESULT result;
@@ -177,9 +167,19 @@ bool FMAudioSample::Play()
 
 	if (m_channel)
 	{
+		float volumeMultiplier = 1.0f;
+		if (!FMAudioContext::IsStreamable(GetType()))
+		{
+			volumeMultiplier = FMAudioContext::GetStaticSoundEffectVolume();
+		}
+
+		result = m_channel->setVolume(m_volume * volumeMultiplier);
+
+		if (FMOD_ERRCHECK(result, m_logger))
+			return false;
+
 		SetLoop(m_loop);
 		SetSpeed(m_speed);
-		SetVolume(m_volume * volumeMultiplier);
 		SetPan(m_pan);
 	}
 	return true;
@@ -324,7 +324,9 @@ float FMAudioSample::GetSpeed() const
 bool FMAudioSample::SetVolume(const float volume)
 {
 	m_volume = volume;
-	if (m_channel)
+
+	// adjust volume in real-time of streamable samples (e.g. musics)
+	if (m_channel && FMAudioContext::IsStreamable(GetType()))
 	{
 		const FMOD_RESULT result = m_channel->setVolume(m_volume);
 
