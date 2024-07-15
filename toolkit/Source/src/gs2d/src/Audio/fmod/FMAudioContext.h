@@ -10,14 +10,13 @@
 
 namespace gs2d {
 
-bool FMOD_ERRCHECK_fn(FMOD_RESULT result, const char *file, int line, Platform::FileLogger& logger);
+bool FMOD_ERRCHECK_fn(FMOD_RESULT result, const char *file, int line, const Platform::FileLogger& logger);
 #define FMOD_ERRCHECK(_result, _logger) FMOD_ERRCHECK_fn(_result, __FILE__, __LINE__, _logger)
 
 class FMAudioContext : public Audio
 {
 	static FMOD::System* m_system;
-
-	float m_globalVolume;
+	static float m_soundEffectVolume;
 
 	bool CreateAudioDevice(boost::any data) override;
 	Platform::FileLogger m_logger;
@@ -30,6 +29,8 @@ public:
 	~FMAudioContext();
 
 	static boost::shared_ptr<FMAudioContext> Create(boost::any data);
+
+	static float GetStaticSoundEffectVolume();
 
 	static bool IsStreamable(const Audio::SAMPLE_TYPE type);
 
@@ -49,6 +50,11 @@ public:
 
 	void SetGlobalVolume(const float volume) override;
 	float GetGlobalVolume() const override;
+	void SetSoundEffectVolume(const float volume) override;
+	float GetSoundEffectVolume() const override;
+
+	void SetMute(const bool mute) override;
+	bool IsMute() const override;
 
 	void Update() override;
 	void Suspend() override;

@@ -26,6 +26,9 @@ extern "C" {
 	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_resume(JNIEnv* env, jobject thiz);
 	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_audioSuspend(JNIEnv* env, jobject thiz);
 	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_audioResume(JNIEnv* env, jobject thiz);
+	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_audioMute(JNIEnv* env, jobject thiz);
+	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_audioUnmute(JNIEnv* env, jobject thiz);
+	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_audioSetSoundEffectVolume(JNIEnv* env, jobject thiz, jfloat volume);
 	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_start(JNIEnv* env, jobject thiz, jstring apkPath, jstring externalPath, jstring globalPath, jint width, jint height);
 	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_engineStartup(JNIEnv* env, jobject thiz);
 	JNIEXPORT jboolean JNICALL Java_net_asantee_gs2d_GS2DJNI_isLoading(JNIEnv* env, jobject thiz);
@@ -74,6 +77,24 @@ JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_audioResume(JNIEnv* env, jo
 {
 	if (audio)
 		audio->Resume();
+}
+
+JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_audioMute(JNIEnv* env, jobject thiz)
+{
+	if (audio)
+		audio->SetMute(true);
+}
+
+JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_audioUnmute(JNIEnv* env, jobject thiz)
+{
+	if (audio)
+		audio->SetMute(false);
+}
+
+JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_audioSetSoundEffectVolume(JNIEnv* env, jobject thiz, jfloat volume)
+{
+	if (audio)
+		audio->SetSoundEffectVolume(volume);
 }
 
 std::string g_inputStr;

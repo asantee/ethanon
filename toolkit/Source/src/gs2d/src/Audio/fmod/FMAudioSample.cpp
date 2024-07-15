@@ -155,6 +155,16 @@ bool FMAudioSample::LoadSampleFromFileInMemory(
 
 bool FMAudioSample::Play()
 {
+	float volumeMultiplier = 1.0f;
+	if (GetType() == Audio::SOUND_EFFECT)
+	{
+		volumeMultiplier = FMAudioContext::GetStaticSoundEffectVolume();
+		if (volumeMultiplier <= 0.0f)
+		{
+			return true;
+		}
+	}
+
 	m_channel = 0;
 
 	FMOD_RESULT result;
@@ -169,7 +179,7 @@ bool FMAudioSample::Play()
 	{
 		SetLoop(m_loop);
 		SetSpeed(m_speed);
-		SetVolume(m_volume);
+		SetVolume(m_volume * volumeMultiplier);
 		SetPan(m_pan);
 	}
 	return true;

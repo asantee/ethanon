@@ -54,6 +54,11 @@ public:
 	virtual boost::any GetAudioContext() = 0;
 	virtual void SetGlobalVolume(const float volume) = 0;
 	virtual float GetGlobalVolume() const = 0;
+	virtual void SetSoundEffectVolume(const float volume) = 0;
+	virtual float GetSoundEffectVolume() const = 0;
+
+	virtual void SetMute(const bool mute) = 0;
+	virtual bool IsMute() const = 0;
 
 	virtual void Update() = 0;
 	virtual void Suspend() = 0;

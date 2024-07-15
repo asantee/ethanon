@@ -4,9 +4,11 @@
 
 #include <fmod_errors.h>
 
+#include <math.h>
+
 namespace gs2d {
 
-bool FMOD_ERRCHECK_fn(FMOD_RESULT result, const char *file, int line, Platform::FileLogger& logger)
+bool FMOD_ERRCHECK_fn(FMOD_RESULT result, const char *file, int line, const Platform::FileLogger& logger)
 {
 	if (result != FMOD_OK)
 	{
@@ -19,6 +21,7 @@ bool FMOD_ERRCHECK_fn(FMOD_RESULT result, const char *file, int line, Platform::
 }
 
 FMOD::System* FMAudioContext::m_system = 0;
+float FMAudioContext::m_soundEffectVolume = 1.0f;
 
 AudioPtr CreateAudio(boost::any data)
 {
@@ -48,7 +51,6 @@ boost::shared_ptr<FMAudioContext> FMAudioContext::Create(boost::any data)
 }
 
 FMAudioContext::FMAudioContext() :
-	m_globalVolume(1.0f),
 	m_logger(Platform::FileLogger::GetLogDirectory() + "FMAudioContext.log.txt")
 {
 }
@@ -108,6 +110,11 @@ boost::any FMAudioContext::GetAudioContext()
 	return m_system;
 }
 
+float FMAudioContext::GetStaticSoundEffectVolume()
+{
+	return m_soundEffectVolume;
+}
+
 bool FMAudioContext::IsStreamable(const Audio::SAMPLE_TYPE type)
 {
 	switch (type)
@@ -128,8 +135,6 @@ bool FMAudioContext::IsStreamable(const Audio::SAMPLE_TYPE type)
 
 void FMAudioContext::SetGlobalVolume(const float volume)
 {
-	m_globalVolume = ((volume > 1.0f ? 1.0f : volume) < 0.0f) ? 0.0f : volume;
-
 	FMOD::ChannelGroup* channelGroup = 0;
 
 	FMOD_RESULT result;
@@ -140,13 +145,84 @@ void FMAudioContext::SetGlobalVolume(const float volume)
 	
 	if (channelGroup)
 	{
-		channelGroup->setVolume(m_globalVolume);
+		const float normalizedVolume = fmin(fmax(volume, 0.0f), 1.0f);
+		result = channelGroup->setVolume(normalizedVolume);
+
+		if (FMOD_ERRCHECK(result, m_logger))
+			return;
 	}
 }
 
 float FMAudioContext::GetGlobalVolume() const
 {
-	return m_globalVolume;
+	FMOD::ChannelGroup* channelGroup = 0;
+
+	FMOD_RESULT result;
+	result = m_system->getMasterChannelGroup(&channelGroup);
+
+	if (FMOD_ERRCHECK(result, m_logger))
+		return 0.0f;
+
+	float volume = 0.0f;
+	if (channelGroup)
+	{
+		result = channelGroup->getVolume(&volume);
+
+		if (FMOD_ERRCHECK(result, m_logger))
+			return 0.0f;
+	}
+	return volume;
+}
+
+void FMAudioContext::SetSoundEffectVolume(const float volume)
+{
+	m_soundEffectVolume = fmin(fmax(volume, 0.0f), 1.0f);
+}
+
+float FMAudioContext::GetSoundEffectVolume() const
+{
+	return m_soundEffectVolume;
+}
+
+void FMAudioContext::SetMute(const bool mute)
+{
+	FMOD::ChannelGroup* channelGroup = 0;
+
+	FMOD_RESULT result;
+	result = m_system->getMasterChannelGroup(&channelGroup);
+
+	if (FMOD_ERRCHECK(result, m_logger))
+		return;
+
+	if (channelGroup)
+	{
+		result = channelGroup->setMute(mute);
+
+		if (FMOD_ERRCHECK(result, m_logger))
+			return;
+	}
+}
+
+bool FMAudioContext::IsMute() const
+{
+	FMOD::ChannelGroup* channelGroup = 0;
+
+	FMOD_RESULT result;
+	result = m_system->getMasterChannelGroup(&channelGroup);
+
+	if (FMOD_ERRCHECK(result, m_logger))
+		return false;
+
+	bool r = false;
+	if (channelGroup)
+	{
+		result = channelGroup->getMute(&r);
+
+		if (FMOD_ERRCHECK(result, m_logger))
+			return false;
+	}
+	return r;
+
 }
 
 void FMAudioContext::Update()
