@@ -27,6 +27,12 @@ public:
 	void SetGlobalVolume(const float volume) override;
 	float GetGlobalVolume() const override;
 
+	void SetSoundEffectVolume(const float volume) override;
+	float GetSoundEffectVolume() const override;
+
+	void SetMute(const bool mute) override;
+	bool IsMute() const override;
+
 	void Update() override;
 	void Suspend() override;
 	void Resume() override;

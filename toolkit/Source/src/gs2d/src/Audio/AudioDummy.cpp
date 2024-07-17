@@ -37,6 +37,24 @@ float AudioDummy::GetGlobalVolume() const
 	return 0.0f;
 }
 
+void AudioDummy::SetSoundEffectVolume(const float volume)
+{
+}
+
+float AudioDummy::GetSoundEffectVolume() const
+{
+	return 0.0f;
+}
+
+void AudioDummy::SetMute(const bool mute)
+{
+}
+
+bool AudioDummy::IsMute() const
+{
+	return true;
+}
+
 void AudioDummy::Update()
 {
 }
