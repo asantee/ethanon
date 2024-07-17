@@ -3,8 +3,8 @@
 
 #include <string>
 
-#if defined(USE_MUTEX_ON_SHARED_DATA)
-	#include <boost/thread/shared_mutex.hpp>
+#ifdef USE_MUTEX_ON_SHARED_DATA
+	#include <mutex>
 #endif
 
 #include <boost/shared_ptr.hpp>
@@ -26,8 +26,8 @@ public:
 
 class SharedDataSecured : public SharedData
 {
-#if defined(USE_MUTEX_ON_SHARED_DATA)
-	mutable boost::shared_mutex m_mtx;
+#ifdef USE_MUTEX_ON_SHARED_DATA
+	mutable std::mutex m_mtx;
 #endif
 
 	std::string (*m_key_function)();
@@ -44,7 +44,7 @@ public:
 	std::string Get() const override;
 };
 
-typedef boost::shared_ptr<SharedData> SharedDataPtr;
+typedef std::shared_ptr<SharedData> SharedDataPtr;
 
 } // namespace Platform
 
