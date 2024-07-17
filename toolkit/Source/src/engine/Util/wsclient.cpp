@@ -63,7 +63,7 @@ void WebsocketClient::fail(beast::error_code ec, char const* what)
 	std::string reason(ec.message());
 	std::string what_str(what);
 	std::string log_message(what_str + ": " + reason + "\n");
-	ETHResourceProvider::Log(log_message, Platform::Logger::LT_ERROR);
+	ETHResourceProvider::Log(log_message, Platform::Logger::LT_WARNING);
 	if (m_on_websocket_fail_callback)
 	{
 		m_as_ctx->Prepare(m_on_websocket_fail_callback);
@@ -138,9 +138,9 @@ void WebsocketClient::Update() {
 	try {
 		m_ioc.poll();
 	} catch (boost::exception const& ex) {
-		ETHResourceProvider::Log(boost::diagnostic_information(ex), Platform::Logger::LT_ERROR);
+		ETHResourceProvider::Log(boost::diagnostic_information(ex), Platform::Logger::LT_WARNING);
 	} catch (std::exception const&  ex) {
-		ETHResourceProvider::Log(ex.what(), Platform::Logger::LT_ERROR);
+		ETHResourceProvider::Log(ex.what(), Platform::Logger::LT_WARNING);
 	}
 };
 
