@@ -32,6 +32,7 @@ private:
 	static ErrorRecorderPtr m_errorRecorder;
 
 	const static std::string CONCATENATED_ERROR_LOGS_SDKEY;
+	const static std::string CONCATENATED_WARNING_LOGS_SDKEY;
 };
 
 typedef boost::shared_ptr<FileLogger> FileLoggerPtr;

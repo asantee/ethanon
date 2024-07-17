@@ -13,6 +13,7 @@
 namespace Platform {
 
 const std::string FileLogger::CONCATENATED_ERROR_LOGS_SDKEY = "com.ethanonengine.concatenatedErrorLogs";
+const std::string FileLogger::CONCATENATED_WARNING_LOGS_SDKEY = "com.ethanonengine.concatenatedWarningLogs";
 
 bool AppendToFile(const std::string& fileName, const std::string& str)
 {
@@ -89,8 +90,8 @@ bool FileLogger::Log(const std::string& str, const TYPE& type) const
 		}
 
 		gs2d::Application::SharedData.Set(
-            FileLogger::CONCATENATED_ERROR_LOGS_SDKEY,
-            gs2d::Application::SharedData.Get(FileLogger::CONCATENATED_ERROR_LOGS_SDKEY, "") + str + "\n");
+			FileLogger::CONCATENATED_ERROR_LOGS_SDKEY,
+			gs2d::Application::SharedData.Get(FileLogger::CONCATENATED_ERROR_LOGS_SDKEY, "") + str + "\n");
 	}
 	else if (type == LT_WARNING)
 	{
@@ -100,6 +101,10 @@ bool FileLogger::Log(const std::string& str, const TYPE& type) const
 		{
 			m_errorRecorder->Log(str);
 		}
+
+		gs2d::Application::SharedData.Set(
+			FileLogger::CONCATENATED_WARNING_LOGS_SDKEY,
+			gs2d::Application::SharedData.Get(FileLogger::CONCATENATED_WARNING_LOGS_SDKEY, "") + str + "\n");
 	}
 
 	#ifdef ANDROID
