@@ -51,7 +51,10 @@ Dependencies
   - msgpack
   - openssl
 - [Fmod][3]
-  
+
+#### Vcpkg command 
+ vcpkg install boost-smart-ptr boost-any boost-asio boost-beast boost-chrono boost-convert boost-date-time boost-regex glew sdl2 libzip libwebp msgpack openssl --triplet x86-windows
+
 It is recommended to use [VCPkg][4] to download most of these libraries. (except Ethanon with Angelscript, Steam SDK and Fmod)
 
 Instructions to install VCPkg and required libraries
