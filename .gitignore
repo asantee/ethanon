@@ -195,3 +195,7 @@ toolkit/Source/src/gs2d/vendors/glext/
 
 toolkit/Source/src/vendors/openssl-xcode/*
 toolkit/Source/src/vendors/-openssl-xcode/*
+toolkit/Source/projects/vs2019/Ethanon/Machine/RelWithDebInfo/Machine.exe.recipe
+toolkit/Source/projects/vs2019/Ethanon/Machine/RelWithDebInfo/Machine.iobj
+toolkit/Source/projects/vs2019/Ethanon/Machine/RelWithDebInfo/Machine.vcxproj.FileListAbsolute.txt
+toolkit/Source/projects/vs2019/Ethanon/RelWithDebInfo/Win32/Machine.exp
