@@ -35,6 +35,9 @@ void ETHScriptWrapper::LoadSprite(const std::string& name)
 
 void ETHScriptWrapper::LoadSpriteAsync(const std::string& name)
 {
+	if (name == "")
+		return;
+	
 	ETHResourceContainer* container = new ETHSpriteContainer(m_provider, name);
 	ETHResourceLoader::EnqueueResource(container);
 	container->Release();
@@ -66,12 +69,19 @@ const ETHGraphicResourceManager::SpriteResource* ETHScriptWrapper::LoadAndGetRes
 	std::string resourceDirectory = m_provider->GetFileIOHub()->GetResourceDirectory();
 	std::string path = resourceDirectory + name;
 
-	return m_provider->GetGraphicResourceManager()->AddFile(
+	const ETHGraphicResourceManager::SpriteResource* r = m_provider->GetGraphicResourceManager()->AddFile(
 		m_provider->GetFileManager(),
 		m_provider->GetVideo(),
 		path,
 		resourceDirectory,
 		false);
+
+	if (!r)
+	{
+		ShowMessage("(LoadAndGetResource) resource not found: " + name, ETH_ERROR);
+	}
+	
+	return r;
 }
 
 Vector2 ETHScriptWrapper::GetSpriteSize(const std::string &name)
@@ -114,8 +124,7 @@ Vector2 ETHScriptWrapper::GetSpriteFrameSize(const std::string& name)
 void ETHScriptWrapper::SetupSpriteRects(const std::string& name, const unsigned int columns, const unsigned int rows)
 {
 	WarnIfRunsInMainFunction("SetupSpriteRects");
-	ETHGraphicResourceManager::SpriteResource* resource =
-		m_provider->GetGraphicResourceManager()->GetSpriteResource(Platform::GetFileName(name));
+	ETHGraphicResourceManager::SpriteResource* resource = GetSpriteResource(Platform::GetFileName(name));
 	if (resource)
 	{
 		if (!resource->packedFrames || !resource->IsCustomFramesXMLFound())
@@ -129,8 +138,7 @@ void ETHScriptWrapper::SetupSpriteRects(const std::string& name, const unsigned 
 void ETHScriptWrapper::SetSpriteRect(const std::string& name, const unsigned int frame)
 {
 	WarnIfRunsInMainFunction("SetSpriteRect");
-	ETHGraphicResourceManager::SpriteResource* resource =
-		m_provider->GetGraphicResourceManager()->GetSpriteResource(Platform::GetFileName(name));
+	ETHGraphicResourceManager::SpriteResource* resource = GetSpriteResource(Platform::GetFileName(name));
 	if (resource)
 	{
 		resource->frame = frame;
@@ -150,8 +158,7 @@ void ETHScriptWrapper::SetSpriteOrigin(const std::string& name, const Vector2& o
 void ETHScriptWrapper::SetSpriteFlipX(const std::string &name, const bool flip)
 {
 	WarnIfRunsInMainFunction("SetSpriteFlipX");
-	ETHGraphicResourceManager::SpriteResource* resource =
-		m_provider->GetGraphicResourceManager()->GetSpriteResource(Platform::GetFileName(name));
+	ETHGraphicResourceManager::SpriteResource* resource = GetSpriteResource(Platform::GetFileName(name));
 
 	if (resource)
 	{
@@ -162,8 +169,7 @@ void ETHScriptWrapper::SetSpriteFlipX(const std::string &name, const bool flip)
 void ETHScriptWrapper::SetSpriteFlipY(const std::string &name, const bool flip)
 {
 	WarnIfRunsInMainFunction("SetSpriteFlipY");
-	ETHGraphicResourceManager::SpriteResource* resource =
-		m_provider->GetGraphicResourceManager()->GetSpriteResource(Platform::GetFileName(name));
+	ETHGraphicResourceManager::SpriteResource* resource = GetSpriteResource(Platform::GetFileName(name));
 
 	if (resource)
 	{
@@ -196,35 +202,36 @@ void ETHScriptWrapper::DrawShapedFromResource(
 			resource->flipY)));
 }
 
+ETHGraphicResourceManager::SpriteResource* ETHScriptWrapper::GetSpriteResource(const std::string& fileName)
+{
+	return m_provider->GetGraphicResourceManager()->GetSpriteResource(fileName);
+}
+
 void ETHScriptWrapper::DrawSprite(const std::string &name, const Vector2 &v2Pos, const uint32_t color, const float angle)
 {
 	WarnIfRunsInMainFunction("DrawSprite");
-	ETHGraphicResourceManager::SpriteResource* resource =
-		m_provider->GetGraphicResourceManager()->GetSpriteResource(Platform::GetFileName(name));
+	ETHGraphicResourceManager::SpriteResource* resource = GetSpriteResource(Platform::GetFileName(name));
 	DrawShapedFromResource(resource, v2Pos, Vector2(-1,-1), Color(color), angle);
 }
 
 void ETHScriptWrapper::DrawShaped(const std::string &name, const Vector2 &v2Pos, const Vector2 &v2Size, const uint32_t color, const float angle)
 {
 	WarnIfRunsInMainFunction("DrawShaped");
-	ETHGraphicResourceManager::SpriteResource* resource =
-		m_provider->GetGraphicResourceManager()->GetSpriteResource(Platform::GetFileName(name));
+	ETHGraphicResourceManager::SpriteResource* resource = GetSpriteResource(Platform::GetFileName(name));
 	DrawShapedFromResource(resource, v2Pos, v2Size, Color(color), angle);
 }
 
 void ETHScriptWrapper::DrawSprite(const std::string &name, const Vector2 &v2Pos, const float alpha, const Vector3 &color, const float angle)
 {
 	WarnIfRunsInMainFunction("DrawSprite");
-	ETHGraphicResourceManager::SpriteResource* resource =
-		m_provider->GetGraphicResourceManager()->GetSpriteResource(Platform::GetFileName(name));
+	ETHGraphicResourceManager::SpriteResource* resource = GetSpriteResource(Platform::GetFileName(name));
 	DrawShapedFromResource(resource, v2Pos, Vector2(-1,-1), Color(color, alpha), angle);
 }
 
 void ETHScriptWrapper::DrawShaped(const std::string &name, const Vector2 &v2Pos, const Vector2 &v2Size, const float alpha, const Vector3 &color, const float angle)
 {
 	WarnIfRunsInMainFunction("DrawShaped");
-	ETHGraphicResourceManager::SpriteResource* resource =
-		m_provider->GetGraphicResourceManager()->GetSpriteResource(Platform::GetFileName(name));
+	ETHGraphicResourceManager::SpriteResource* resource = GetSpriteResource(Platform::GetFileName(name));
 	DrawShapedFromResource(resource, v2Pos, v2Size, Vector4(color, alpha), angle);
 }
 
@@ -247,6 +254,5 @@ void ETHScriptWrapper::PlayParticleEffect(const std::string& fileName, const Vec
 void ETHScriptWrapper::DrawFadingText(const Vector2 &v2Pos, const std::string &text, const std::string &font, const uint32_t color, unsigned long time, const float scale)
 {
 	WarnIfRunsInMainFunction("DrawFadingText");
-	m_drawableManager.Insert(boost::shared_ptr<ETHDrawable>(
-		new ETHTextDrawer(m_provider, v2Pos, text, font, color, time, scale)));
+	m_drawableManager.Insert(boost::shared_ptr<ETHDrawable>(new ETHTextDrawer(m_provider, v2Pos, text, font, color, time, scale)));
 }

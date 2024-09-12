@@ -253,7 +253,7 @@ const ETHGraphicResourceManager::SpriteResource* ETHGraphicResourceManager::AddF
 	if (!(pBitmap = SpritePtr(new Sprite(video.get(), finalFileName)))->GetTexture())
 	{
 		pBitmap.reset();
-		ETH_STREAM_DECL(ss) << ("(Not loaded) ") << path;
+		ETH_STREAM_DECL(ss) << ("(Texture not loaded) \"") << path << ("\"");
 		ETHResourceProvider::Log(ss.str(), Platform::Logger::LT_ERROR);
 		return 0;
 	}
@@ -390,7 +390,7 @@ AudioSamplePtr ETHAudioResourceManager::AddFile(
 	if (!(pSample = audio->LoadSampleFromFile(fixedName, fileIOHub->GetFileManager(), type)))
 	{
 		pSample.reset();
-		ETH_STREAM_DECL(ss) << ("(Not loaded) \"") << fixedName << ("\"");
+		ETH_STREAM_DECL(ss) << ("(Sample not loaded) \"") << fixedName << ("\"");
 		ETHResourceProvider::Log(ss.str(), Platform::Logger::LT_ERROR);
 		return AudioSamplePtr();
 	}

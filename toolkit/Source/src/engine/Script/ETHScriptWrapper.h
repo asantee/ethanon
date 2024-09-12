@@ -253,6 +253,7 @@ public:
 	static bool AddVector3Data(const std::string &entity, const std::string &name, const Vector3 &value);
 
 	static SpritePtr LoadAndGetSprite(const std::string &name);
+	static ETHGraphicResourceManager::SpriteResource* GetSpriteResource(const std::string& fileName);
 	static const ETHGraphicResourceManager::SpriteResource* LoadAndGetResource(const std::string &name);
 	static void DrawShapedFromResource(const ETHGraphicResourceManager::SpriteResource* resource, const Vector2 &v2Pos, const Vector2 &v2Size, const Vector4 &color, const float angle);
 	static void LoadSprite(const std::string& name);
