@@ -9,7 +9,9 @@ ETHJoint::~ETHJoint() {}
 boost::shared_ptr<ETHJoint> ETHJoint::CreateJoint(const std::string& jointName, const gs2d::enml::File& file, ETHPhysicsSimulator& simulator,
 												  ETHEntity* entityA, ETHEntity* entityB)
 {
-	if (IsRevoluteJoint(jointName))
+	if (IsRevoluteJoint(jointName) &&
+		(boost::dynamic_pointer_cast<ETHPhysicsEntityController>(entityA->GetController())) &&
+		(boost::dynamic_pointer_cast<ETHPhysicsEntityController>(entityB->GetController())))
 	{
 		return ETHJointPtr(new ETHRevoluteJoint(jointName, file, simulator, entityA, entityB));
 	}

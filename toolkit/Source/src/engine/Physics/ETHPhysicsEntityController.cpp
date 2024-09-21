@@ -278,8 +278,12 @@ bool ETHPhysicsEntityController::ResolveJoints(ETHEntityArray& entities, const E
 			{
 				boost::shared_ptr<ETHJoint> joint =
 					ETHJoint::CreateJoint(jointName, file, simulator, static_cast<ETHEntity*>(m_body->GetUserData()), (entities[idx]));
+
 				if (joint)
+				{
 					m_joints.push_back(joint);
+				}
+
 				break;
 			}
 		}
