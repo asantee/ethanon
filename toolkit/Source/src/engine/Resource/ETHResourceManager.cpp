@@ -286,7 +286,7 @@ const ETHGraphicResourceManager::SpriteResource* ETHGraphicResourceManager::Find
 		{
 			std::stringstream ss; ss << ("Duplicate resource name found: ") << fixedPath
 				<< (" <-> ") << resource.m_fullOriginPath;
-			ETHResourceProvider::Log(ss.str(), Platform::Logger::LT_ERROR);
+			ETHResourceProvider::Log(ss.str(), Platform::Logger::LT_WARNING);
 		}
 		return &resource;
 	}
