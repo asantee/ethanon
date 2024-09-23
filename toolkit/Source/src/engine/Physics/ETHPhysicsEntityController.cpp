@@ -118,10 +118,15 @@ void ETHPhysicsEntityController::AddToPosXY(const Vector2& pos)
 	{
 		m_body->SetTransform(ETHPhysicsSimulator::ScaleToBox2D(pos) + m_body->GetPosition(), m_body->GetAngle());
 		m_body->SetAwake(true);
+		const Vector2 currentPos(ETHPhysicsSimulator::ScaleFromBox2D(m_body->GetPosition()));
+		m_pos.x = currentPos.x;
+		m_pos.y = currentPos.y;
 	}
-	const Vector2 currentPos(ETHPhysicsSimulator::ScaleFromBox2D(m_body->GetPosition()));
-	m_pos.x = currentPos.x;
-	m_pos.y = currentPos.y;
+	else
+	{
+		m_pos.x = pos.x;
+		m_pos.y = pos.y;
+	}
 }
 
 void ETHPhysicsEntityController::AddToAngle(const float angle)
