@@ -7,7 +7,7 @@ ETHShaderManager::ETHShaderManager(VideoPtr video) :
 	m_video = video;
 }
 
-bool ETHShaderManager::BeginAmbientPass(const ETHSpriteEntity *pRender, const float maxHeight, const float minHeight)
+bool ETHShaderManager::BeginAmbientPass(const ETHSpriteEntity *pRender)
 {
 	m_lastAM = m_video->GetAlphaMode();
 	return true;

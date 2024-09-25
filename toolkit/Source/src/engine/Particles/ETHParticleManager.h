@@ -43,12 +43,9 @@ public:
 	/// Draw all particles also considering it's ambient light color
 	bool DrawParticleSystem(
 		Vector3 v3Ambient,
-		const float maxHeight,
-		const float minHeight,
 		const DEPTH_SORTING_MODE ownerType,
 		const Vector2& zAxisDirection,
-		const float parallaxIntensity,
-		const float ownerDepth);
+		const float parallaxIntensity);
 
 	/// Return true if the particle system has finished it's execution
 	/// A particle system is finished when its repeat count reaches the end

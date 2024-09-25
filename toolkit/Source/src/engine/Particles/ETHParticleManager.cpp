@@ -404,12 +404,9 @@ bool ETHParticleManager::Play(
 
 bool ETHParticleManager::DrawParticleSystem(
 	Vector3 ambient,
-	const float maxHeight,
-	const float minHeight,
 	const DEPTH_SORTING_MODE ownerType,
 	const Vector2& zAxisDirection,
-	const float parallaxIntensity,
-	const float ownerDepth)
+	const float parallaxIntensity)
 {
 	if (!m_pBMP)
 	{

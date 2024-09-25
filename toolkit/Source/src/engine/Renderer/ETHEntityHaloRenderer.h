@@ -16,7 +16,7 @@ public:
 		const ETHShaderManagerPtr& shaderManager,
 		const float depth);
 
-	void Render(const ETHSceneProperties& props, const float maxHeight, const float minHeight);
+	void Render(const ETHSceneProperties& props);
 };
 
 #endif

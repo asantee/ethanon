@@ -354,12 +354,6 @@ Vector2 ETHSpriteEntity::ComputeParallaxOffset(const float sceneParallaxIntensit
 	return Sprite::ComputeParallaxOffset(m_provider->GetVideo()->GetCameraPos(), GetPosition());
 }
 
-bool ETHSpriteEntity::SetDepth(const float maxHeight, const float minHeight)
-{
-	// feature no longer needed after eth-supersimple
-	return true;
-}
-
 void ETHSpriteEntity::SetOrigin()
 {
 	const Vector2 v2Origin = ComputeOrigin(GetSize());
@@ -503,34 +497,6 @@ void ETHSpriteEntity::Update(const float lastFrameElapsedTime, const Vector2& zA
 		m_controller->Update(lastFrameElapsedTime, buckets);
 	}
 	UpdateParticleSystems(zAxisDir, sceneParallaxIntensity, lastFrameElapsedTime);
-}
-
-float ETHSpriteEntity::GetMaxHeight()
-{
-	float maxHeight = GetPosition().z + GetSize().y;
-	for(std::size_t t = 0; t < m_particles.size(); t++)
-	{
-		boost::shared_ptr<ETHParticleSystem> system = m_properties.particleSystems[t];
-		if (system->nParticles > 0)
-			maxHeight = Max(maxHeight, GetPosition().z + system->startPoint.z);
-	}
-	if (HasLightSource() && HasHalo())
-		maxHeight = Max(maxHeight, m_properties.light->pos.z);
-	return maxHeight;
-}
-
-float ETHSpriteEntity::GetMinHeight()
-{
-	float minHeight = GetPosition().z - GetSize().y;
-	for(std::size_t t = 0; t < m_particles.size(); t++)
-	{
-		boost::shared_ptr<ETHParticleSystem> system = m_properties.particleSystems[t];
-		if (system->nParticles > 0)
-			minHeight = Min(minHeight, GetPosition().z + system->startPoint.z);
-	}
-	if (HasLightSource() && HasHalo())
-		minHeight = Min(minHeight, m_properties.light->pos.z);
-	return minHeight;
 }
 
 void ETHSpriteEntity::SetParticleBitmap(const unsigned int n, SpritePtr bitmap)
@@ -690,13 +656,13 @@ float ETHSpriteEntity::ComputeLightIntensity()
 	}
 }
 
-float ETHSpriteEntity::ComputeDepth(const float maxHeight, const float minHeight) const
+float ETHSpriteEntity::ComputeDepth() const
 {
 	float r = 0.f;
 	switch (GetType())
 	{
 	case ETHEntityProperties::ET_HORIZONTAL:
-		r = ETHEntity::ComputeDepth(GetPositionZ(), maxHeight, minHeight);
+		r = GetPositionZ();
 		break;
 	case ETHEntityProperties::ET_LAYERABLE:
 		r = Max(m_layrableMinimumDepth, m_properties.layerDepth);

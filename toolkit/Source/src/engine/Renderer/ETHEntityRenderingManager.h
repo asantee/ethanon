@@ -16,18 +16,14 @@ public:
 
 	ETHEntityRenderingManager(ETHResourceProviderPtr provider);
 
-	void RenderAndReleasePieces(const ETHSceneProperties& props, const float minHeight, const float maxHeight);
+	void RenderAndReleasePieces(const ETHSceneProperties& props);
 
 	bool IsEmpty() const;
 
 	void ReleaseMappedPieces();
 
-	float ComputeDrawHash(VideoPtr video, const float entityDepth, const ETHSpriteEntity* entity) const;
-
 	void AddDecomposedPieces(
 		ETHRenderEntity* entity,
-		const float minHeight,
-		const float maxHeight,
 		const ETHBackBufferTargetManagerPtr& backBuffer,
 		const ETHSceneProperties& props,
 		unsigned int& piecesAddedThisTime);

@@ -13,7 +13,7 @@ protected:
 public:
 	ETHEntityPieceRenderer(ETHRenderEntity* entity);
 	~ETHEntityPieceRenderer();
-	virtual void Render(const ETHSceneProperties& props, const float maxHeight, const float minHeight) = 0;
+	virtual void Render(const ETHSceneProperties& props) = 0;
 	ETHRenderEntity* GetEntity();
 };
 

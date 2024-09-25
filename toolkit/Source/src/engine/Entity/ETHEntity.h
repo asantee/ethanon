@@ -15,8 +15,6 @@ class ETHEntity : public ETHScriptEntity
 {
 	friend class ETHScene;
 public:
-	static float ComputeDepth(const float height, const float maxHeight, const float minHeight);
-
 	ETHEntity(const std::string& filePath, const int nId, const Platform::FileManagerPtr& fileManager);
 	ETHEntity(TiXmlElement *pElement,
 		ETHEntityCache& entityCache,

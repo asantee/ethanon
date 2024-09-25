@@ -42,16 +42,9 @@ public:
 		const float depth,
 		const ETHSceneProperties& sceneProps);
 
-	bool DrawAmbientPass(
-		const float maxHeight,
-		const float minHeight,
-		const ETHSceneProperties& sceneProps);
+	bool DrawAmbientPass(const ETHSceneProperties& sceneProps);
 
-	bool DrawParticles(
-		const std::size_t n,
-		const float maxHeight,
-		const float minHeight,
-		const ETHSceneProperties& sceneProps);
+	bool DrawParticles(const std::size_t n, const ETHSceneProperties& sceneProps);
 
 	void DrawCollisionBox(
 		const ETHSceneProperties& sceneProps,

@@ -35,7 +35,6 @@ public:
 	void AddRef() override;
 	void Release() override;
 
-	bool SetDepth(const float maxHeight, const float minHeight);
 	void SetOrigin();
 
 	Rect2D GetFrameRect() const override;
@@ -46,9 +45,6 @@ public:
 	SpritePtr GetParticleBMP(const unsigned int n);
 
 	std::string AssembleLightmapFileName(const std::string& directory, const std::string& extension) const;
-
-	float GetMaxHeight();
-	float GetMinHeight();
 
 	bool LoadLightmapFromFile(const std::string& lightmapDirectory);
 
@@ -76,7 +72,7 @@ public:
 
 	Vector2 GetSize() const override;
 	Vector2 ComputeParallaxOffset(const float sceneParallaxIntensity) const override;
-	float ComputeDepth(const float maxHeight, const float minHeight) const;
+	float ComputeDepth() const;
 	void SetScale(const Vector2& scale) override;
 
 	ETHEntityProperties::VIEW_RECT GetScreenRect(const ETHSceneProperties& sceneProps) const override;

@@ -10,7 +10,7 @@ class ETHShaderManager
 public:
 	ETHShaderManager(VideoPtr video);
 
-	bool BeginAmbientPass(const ETHSpriteEntity* pRender, const float maxHeight, const float minHeight);
+	bool BeginAmbientPass(const ETHSpriteEntity* pRender);
 	bool EndAmbientPass();
 
 	bool BeginHaloPass(const ETHLight* light);

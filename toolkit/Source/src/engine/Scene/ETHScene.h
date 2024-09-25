@@ -85,8 +85,6 @@ public:
 	float GetParallaxIntensity() const;
 
 	int GetLastID() const;
-	float GetMaxHeight() const;
-	float GetMinHeight() const;
 	Vector2 GetBucketSize() const;
 	int GetNumProcessedEntities();
 	int GetNumRenderedPieces();
@@ -138,10 +136,7 @@ public:
 private:
 	void Init(ETHResourceProviderPtr provider, const ETHSceneProperties& props, asIScriptModule *pModule, asIScriptContext *pContext);
 
-	void MapEntitiesToBeRendered(
-		float &maxHeight,
-		float &minHeight,
-		const ETHBackBufferTargetManagerPtr& backBuffer);
+	void MapEntitiesToBeRendered(const ETHBackBufferTargetManagerPtr& backBuffer);
 
 	void DrawEntityMultimap(const ETHBackBufferTargetManagerPtr& backBuffer);
 
@@ -181,7 +176,6 @@ private:
 	ETHPhysicsSimulator m_physicsSimulator;
 	asIScriptModule *m_pModule;
 	asIScriptContext *m_pContext;
-	float m_maxSceneHeight, m_minSceneHeight;
 	static int m_idCounter;
 	unsigned int m_nProcessedEntities;
 	unsigned int m_nRenderedPieces;

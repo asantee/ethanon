@@ -10,7 +10,7 @@ class ETHEntitySpriteRenderer : public ETHEntityPieceRenderer
 	ETHShaderManagerPtr m_shaderManager;
 	VideoPtr m_video;
 
-	void RenderAmbientPass(const ETHSceneProperties& props, const float maxHeight, const float minHeight);
+	void RenderAmbientPass(const ETHSceneProperties& props);
 
 public:
 	ETHEntitySpriteRenderer(
@@ -18,7 +18,7 @@ public:
 		const ETHShaderManagerPtr& shaderManager,
 		const VideoPtr& video);
 
-	void Render(const ETHSceneProperties& props, const float maxHeight, const float minHeight);
+	void Render(const ETHSceneProperties& props);
 };
 
 #endif

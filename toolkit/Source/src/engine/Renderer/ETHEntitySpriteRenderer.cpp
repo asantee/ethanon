@@ -10,19 +10,16 @@ ETHEntitySpriteRenderer::ETHEntitySpriteRenderer(
 {
 }
 
-void ETHEntitySpriteRenderer::Render(const ETHSceneProperties& props, const float maxHeight, const float minHeight)
+void ETHEntitySpriteRenderer::Render(const ETHSceneProperties& props)
 {
-	RenderAmbientPass(props, maxHeight, minHeight);
+	RenderAmbientPass(props);
 }
 
-void ETHEntitySpriteRenderer::RenderAmbientPass(const ETHSceneProperties& props, const float maxHeight, const float minHeight)
+void ETHEntitySpriteRenderer::RenderAmbientPass(const ETHSceneProperties& props)
 {
-	m_shaderManager->BeginAmbientPass(m_entity, maxHeight, minHeight);
+	m_shaderManager->BeginAmbientPass(m_entity);
 
-	m_entity->DrawAmbientPass(
-		maxHeight,
-		minHeight,
-		props);
+	m_entity->DrawAmbientPass(props);
 
 	m_shaderManager->EndAmbientPass();
 }

@@ -40,17 +40,12 @@ ETHRenderEntity::ETHRenderEntity(ETHResourceProviderPtr provider) :
 {
 }
 
-bool ETHRenderEntity::DrawAmbientPass(
-	const float maxHeight,
-	const float minHeight,
-	const ETHSceneProperties& sceneProps)
+bool ETHRenderEntity::DrawAmbientPass(const ETHSceneProperties& sceneProps)
 {
 	if (!m_pSprite || IsHidden())
 	{
 		return false;
 	}
-
-	SetDepth(maxHeight, minHeight);
 
 	const VideoPtr& video = m_provider->GetVideo();
 
@@ -200,11 +195,7 @@ bool ETHRenderEntity::DrawHalo(
 	return true;
 }
 
-bool ETHRenderEntity::DrawParticles(
-	const std::size_t n,
-	const float maxHeight,
-	const float minHeight,
-	const ETHSceneProperties& sceneProps)
+bool ETHRenderEntity::DrawParticles(const std::size_t n, const ETHSceneProperties& sceneProps)
 {
 	if (n >= m_particles.size() || IsHidden())
 	{
@@ -214,11 +205,9 @@ bool ETHRenderEntity::DrawParticles(
 	{
 		m_particles[n]->DrawParticleSystem(
 			sceneProps.ambient,
-			maxHeight, minHeight,
 			ETHEntityProperties::ResolveDepthSortingMode(GetType()),
 			sceneProps.zAxisDirection,
-			GetParallaxIntensity() * sceneProps.parallaxIntensity,
-			ComputeDepth(maxHeight, minHeight));
+			GetParallaxIntensity() * sceneProps.parallaxIntensity);
 		return true;
 	}
 }

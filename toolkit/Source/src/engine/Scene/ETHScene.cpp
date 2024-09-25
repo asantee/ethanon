@@ -86,10 +86,8 @@ void ETHScene::Init(ETHResourceProviderPtr provider, const ETHSceneProperties& p
 	m_pModule = pModule;
 	m_pContext = pContext;
 	m_idCounter = 0;
-	m_minSceneHeight = 0.0f;
 	m_nProcessedEntities = m_nRenderedPieces = 0;
 	m_bucketClearenceFactor = 0.0f;
-	m_maxSceneHeight = m_provider->GetVideo()->GetScreenSizeF().y;
 	m_onCreatedFunctionExecuted = false;
 }
 
@@ -195,9 +193,6 @@ bool ETHScene::AddSceneFromString(
 	const bool shouldGenerateNewID,
 	const bool immediatelyLoadSprites)
 {
-	m_minSceneHeight = 0.0f;
-	m_maxSceneHeight = m_provider->GetVideo()->GetScreenSizeF().y;
-
 	// Read the header and check if the file is valid
 	TiXmlDocument doc(fileName);
 	if (!doc.LoadFile(xmlContent, TIXML_ENCODING_LEGACY))
@@ -318,9 +313,6 @@ int ETHScene::AddEntity(ETHRenderEntity* pEntity, const std::string& alternative
 
 	m_buckets.Add(pEntity, ETHBucketManager::BACK);
 
-	m_maxSceneHeight = Max(m_maxSceneHeight, pEntity->GetMaxHeight());
-	m_minSceneHeight = Min(m_minSceneHeight, pEntity->GetMinHeight());
-
 	// find a callback function for this one
 	if (m_pContext && m_pModule)
 	{
@@ -402,16 +394,10 @@ void ETHScene::Update(
 		ETHGlobal::ExecuteContext(m_pContext, onUpdateCallbackFunction);
 	}
 
-	// start mapping process
-	float minHeight, maxHeight;
-
 	EmptyRenderingQueue();
 
 	// fill a map containing all entities we should render
-	MapEntitiesToBeRendered(
-		minHeight,
-		maxHeight,
-		backBuffer);
+	MapEntitiesToBeRendered(backBuffer);
 
 	// update static mapped entities that weren't called in UpdateAlwaysActiveEntities
 	m_activeEntityHandler.UpdateCurrentFrameEntities(
@@ -419,9 +405,6 @@ void ETHScene::Update(
 		m_sceneProps.parallaxIntensity,
 		m_buckets,
 		lastFrameElapsedTime * m_physicsSimulator.GetTimeStepScale());
-
-	m_minSceneHeight = minHeight;
-	m_maxSceneHeight = maxHeight;
 }
 
 void ETHScene::RenderScene(const ETHBackBufferTargetManagerPtr& backBuffer)
@@ -446,15 +429,8 @@ void ETHScene::FillCurrentlyVisibleBucketList(std::list<Vector2>& bucketList, co
 	m_buckets.GetIntersectingBuckets(bucketList, min, max, IsDrawingBorderBuckets(), IsDrawingBorderBuckets());
 }
 
-void ETHScene::MapEntitiesToBeRendered(
-	float &minHeight,
-	float &maxHeight,
-	const ETHBackBufferTargetManagerPtr& backBuffer)
+void ETHScene::MapEntitiesToBeRendered(const ETHBackBufferTargetManagerPtr& backBuffer)
 {
-	// store the max and min height to assign when everything is drawn
-	maxHeight = m_maxSceneHeight;
-	minHeight = m_minSceneHeight;
-
 	m_nProcessedEntities = m_nRenderedPieces = 0;
 
 	// don't let bucket size equal to 0
@@ -484,10 +460,6 @@ void ETHScene::MapEntitiesToBeRendered(
 		{
 			ETHRenderEntity *entity = (*iter);
 
-			// update scene bounding for depth buffer
-			maxHeight = Max(maxHeight, entity->GetMaxHeight());
-			minHeight = Min(minHeight, entity->GetMinHeight());
-
 			if (entity->IsHidden())
 				continue;
 
@@ -496,8 +468,6 @@ void ETHScene::MapEntitiesToBeRendered(
 
 			m_renderingManager.AddDecomposedPieces(
 				entity,
-				minHeight,
-				maxHeight,
 				backBuffer,
 				m_sceneProps,
 				m_nRenderedPieces);
@@ -512,7 +482,7 @@ void ETHScene::MapEntitiesToBeRendered(
 
 void ETHScene::DrawEntityMultimap(const ETHBackBufferTargetManagerPtr& backBuffer)
 {
-	m_renderingManager.RenderAndReleasePieces(m_sceneProps, m_minSceneHeight, m_maxSceneHeight);
+	m_renderingManager.RenderAndReleasePieces(m_sceneProps);
 }
 
 int ETHScene::GetNumProcessedEntities()
@@ -672,16 +642,6 @@ int ETHScene::GetLastID() const
 	return m_idCounter;
 }
 
-float ETHScene::GetMaxHeight() const
-{
-	return m_maxSceneHeight;
-}
-
-float ETHScene::GetMinHeight() const
-{
-	return m_minSceneHeight;
-}
-
 Vector2 ETHScene::GetBucketSize() const
 {
 	return m_buckets.GetBucketSize();
@@ -765,8 +725,6 @@ void ETHScene::FillMultimapAndClearPersistentList(
 		{
 			m_renderingManager.AddDecomposedPieces(
 				entity,
-				m_minSceneHeight,
-				m_maxSceneHeight,
 				backBuffer,
 				m_sceneProps,
 				m_nRenderedPieces);

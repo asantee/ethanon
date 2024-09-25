@@ -4,11 +4,6 @@
 
 #include "../Scene/ETHScene.h"
 
-float ETHEntity::ComputeDepth(const float height, const float maxHeight, const float minHeight)
-{
-	return ((height - minHeight) / (maxHeight - minHeight));
-}
-
 ETHEntity::ETHEntity(const std::string& filePath, const int nId, const Platform::FileManagerPtr& fileManager) :
 	ETHScriptEntity(),
 	m_properties(filePath, fileManager),

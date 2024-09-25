@@ -9,20 +9,18 @@ ETHEntityRenderingManager::ETHEntityRenderingManager(ETHResourceProviderPtr prov
 {
 }
 
-void ETHEntityRenderingManager::RenderAndReleasePieces(const ETHSceneProperties& props, const float minHeight, const float maxHeight)
+void ETHEntityRenderingManager::RenderAndReleasePieces(const ETHSceneProperties& props)
 {
 	// Draw visible entities ordered in an alpha-friendly map
 	for (std::multimap<float, ETHEntityPieceRendererPtr>::iterator iter = m_piecesToRender.begin(); iter != m_piecesToRender.end(); ++iter)
 	{
-		iter->second->Render(props, maxHeight, minHeight);
+		iter->second->Render(props);
 	}
 	ReleaseMappedPieces();
 }
 
 void ETHEntityRenderingManager::AddDecomposedPieces(
 	ETHRenderEntity* entity,
-	const float minHeight,
-	const float maxHeight,
 	const ETHBackBufferTargetManagerPtr& backBuffer,
 	const ETHSceneProperties& props,
 	unsigned int& piecesAddedThisTime)
@@ -42,11 +40,10 @@ void ETHEntityRenderingManager::AddDecomposedPieces(
 				video));
 
 		// add this entity to the multimap to sort it for an alpha-friendly rendering list
-		const float depth = entity->ComputeDepth(maxHeight, minHeight);
-		const float drawHash = ComputeDrawHash(video, depth, entity);
+		const float depth = entity->ComputeDepth();
 
 		// add the entity to the render map
-		m_piecesToRender.insert(std::pair<float, ETHEntityPieceRendererPtr>(drawHash, spritePiece));
+		m_piecesToRender.insert(std::pair<float, ETHEntityPieceRendererPtr>(depth, spritePiece));
 		
 		piecesAddedThisTime++;
 	}
@@ -54,12 +51,10 @@ void ETHEntityRenderingManager::AddDecomposedPieces(
 	// decompose halo
 	if (entity->HasLightSource() && entity->GetHalo())
 	{
-		const float haloZ = entity->GetPositionZ();
-		const float depth = ETHEntity::ComputeDepth(haloZ, maxHeight, minHeight);
-		const float drawHash = ComputeDrawHash(video, depth, entity);
+		const float depth = entity->GetPositionZ();
 
 		ETHEntityPieceRendererPtr haloPiece(new ETHEntityHaloRenderer(entity, shaderManager, depth));
-		m_piecesToRender.insert(std::pair<float, ETHEntityPieceRendererPtr>(drawHash, haloPiece));
+		m_piecesToRender.insert(std::pair<float, ETHEntityPieceRendererPtr>(depth, haloPiece));
 		
 		piecesAddedThisTime++;
 	}
@@ -77,35 +72,12 @@ void ETHEntityRenderingManager::AddDecomposedPieces(
 		ETHEntityPieceRendererPtr particlePiece(
 			new ETHEntityParticleRenderer(entity, shaderManager, t));
 
-		const float depth = ETHEntity::ComputeDepth(
-			particle->GetZPosition() + entity->GetPositionZ(),
-			maxHeight,
-			minHeight);
+		const float depth = particle->GetZPosition() + entity->GetPositionZ();
 
-		const float drawHash = ComputeDrawHash(video, depth, entity);
-
-		m_piecesToRender.insert(std::pair<float, ETHEntityPieceRendererPtr>(drawHash, particlePiece));
+		m_piecesToRender.insert(std::pair<float, ETHEntityPieceRendererPtr>(depth, particlePiece));
 		
 		piecesAddedThisTime++;
 	}
-}
-
-float ETHEntityRenderingManager::ComputeDrawHash(VideoPtr video, const float entityDepth, const ETHSpriteEntity* entity) const
-{
-	static const float precisionScale = 100.0f;
-	float drawHash;
-	const float screenHeight = video->GetScreenSize().y * precisionScale;
-	const float hashDepth = entityDepth * screenHeight;
-
-	switch (entity->GetType())
-	{
-	case ETHEntityProperties::ET_HORIZONTAL:
-		drawHash = hashDepth;
-		break;
-	default:
-		drawHash = hashDepth;
-	}
-	return drawHash;
 }
 
 bool ETHEntityRenderingManager::IsEmpty() const

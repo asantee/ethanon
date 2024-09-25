@@ -37,11 +37,8 @@ bool ETHParticleDrawer::Draw(const unsigned long lastFrameElapsedTimeMS)
 	{
 		m_particleManager->DrawParticleSystem(
 			Vector3(1.0f, 1.0f, 1.0f),
-			1.0f,
-			0.0f,
 			ETHParticleManager::LAYERABLE,
 			Vector2(0.0f, 0.0f),
-			0.0f,
 			0.0f);
 		m_shaderManager->EndParticlePass();
 	}

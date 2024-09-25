@@ -16,7 +16,7 @@ public:
 		const ETHShaderManagerPtr& shaderManager,
 		std::size_t particleIndex);
 
-	void Render(const ETHSceneProperties& props, const float maxHeight, const float minHeight);
+	void Render(const ETHSceneProperties& props);
 };
 
 #endif
