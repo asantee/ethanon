@@ -15,7 +15,8 @@ class ETHEngine : public gs2d::BaseApplication, public ETHScriptWrapper
 	Color m_lastBGColor;
 
 	const std::string ETH_DEFAULT_MAIN_SCRIPT_FILE;
-	const std::string ETH_DEFAULT_MAIN_BYTECODE_FILE;
+	const std::string ETH_DEFAULT_MAIN_BYTECODE_FILE_DEBUG;
+	const std::string ETH_DEFAULT_MAIN_BYTECODE_FILE_RELEASE;
 	const std::string ETH_MAIN_FUNCTION;
 
 	Platform::FileIOHubPtr m_fileIOHub;

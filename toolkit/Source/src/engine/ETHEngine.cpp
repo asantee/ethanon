@@ -33,14 +33,17 @@ gs2d::BaseApplicationPtr gs2d::CreateBaseApplication(const bool autoStartScriptE
 #define UNUSED_ARGUMENT(argument) ((void)(argument))
 
 #if defined(__aarch64__) || defined(__x86_64__) || defined(_WIN64) || defined (__LP64__)
- #define ETH_BYTECODE_FILE_NAME ("game_64.bin")
+ #define ETH_BYTECODE_FILE_NAME_DEBUG   ("game_64.bin")
+ #define ETH_BYTECODE_FILE_NAME_RELEASE ("game_64.release.bin")
 #else
- #define ETH_BYTECODE_FILE_NAME ("game_32.bin")
+ #define ETH_BYTECODE_FILE_NAME_DEBUG   ("game_32.bin")
+ #define ETH_BYTECODE_FILE_NAME_RELEASE ("game_32.release.bin")
 #endif
 
 ETHEngine::ETHEngine(const bool testing, const bool compileAndRun, const bool autoStartScriptEngine) :
 	ETH_DEFAULT_MAIN_SCRIPT_FILE(_ETH_DEFAULT_MAIN_SCRIPT_FILE),
-	ETH_DEFAULT_MAIN_BYTECODE_FILE(ETH_BYTECODE_FILE_NAME),
+	ETH_DEFAULT_MAIN_BYTECODE_FILE_DEBUG(ETH_BYTECODE_FILE_NAME_DEBUG),
+	ETH_DEFAULT_MAIN_BYTECODE_FILE_RELEASE(ETH_BYTECODE_FILE_NAME_RELEASE),
 	ETH_MAIN_FUNCTION(("main")),
 	m_testing(testing),
 	m_compileAndRun(compileAndRun),
@@ -93,10 +96,10 @@ bool ETHEngine::StartScriptEngine()
 	// run main function
 	if (m_compileAndRun)
 	{
-		m_provider->Log(("Starting main function"), Platform::Logger::LT_INFO);
+		m_provider->Log(("[engineStarter] Starting main function"), Platform::Logger::LT_INFO);
 		RunMainFunction(GetMainFunction());
 		m_v2LastCamPos = video->GetCameraPos();
-		m_provider->Log(("Ended main function"), Platform::Logger::LT_INFO);
+		m_provider->Log(("[engineStarter] Ended main function"), Platform::Logger::LT_INFO);
 	}
 
 	m_scriptEngineReady = true;
@@ -406,16 +409,28 @@ bool ETHEngine::BuildModule(const std::vector<std::string>& definedWords)
 {
 	const std::string resourcePath = m_provider->GetFileIOHub()->GetResourceDirectory();
 	const std::string mainScript = resourcePath + ETH_DEFAULT_MAIN_SCRIPT_FILE;
-	const std::string byteCodeWriteFile = m_provider->GetByteCodeSaveDirectory() + ETH_DEFAULT_MAIN_BYTECODE_FILE;
-	const std::string byteCodeReadFile  = resourcePath + ETH_DEFAULT_MAIN_BYTECODE_FILE;
+
+	const std::string byteCodeWriteFileDebug = m_provider->GetByteCodeSaveDirectory() + ETH_DEFAULT_MAIN_BYTECODE_FILE_DEBUG;
+	const std::string byteCodeReadFileDebug  = resourcePath + ETH_DEFAULT_MAIN_BYTECODE_FILE_DEBUG;
+
+	const std::string byteCodeWriteFileRelease = m_provider->GetByteCodeSaveDirectory() + ETH_DEFAULT_MAIN_BYTECODE_FILE_RELEASE;
+	const std::string byteCodeReadFileRelease  = resourcePath + ETH_DEFAULT_MAIN_BYTECODE_FILE_RELEASE;
+
+	const bool shouldUseStrippedDebugInfoBinaries = (Application::SharedData.Get("ethanon.system.shouldUseStrippedDebugInfoBinaries", "false") == "true");
+	//const bool shouldUseStrippedDebugInfoBinaries = true;
+	const std::string byteCodeWriteFile = shouldUseStrippedDebugInfoBinaries ? byteCodeWriteFileRelease : byteCodeWriteFileDebug;
+	const std::string byteCodeReadFile  = shouldUseStrippedDebugInfoBinaries ? byteCodeReadFileRelease  : byteCodeReadFileDebug;
 
 	// line separator to ease script output reading
 	m_provider->Log(("____________________________\n"), Platform::Logger::LT_INFO);
 
+	ETH_STREAM_DECL(sss) << ("[engineStarter] shouldUseStrippedDebugInfoBinaries = ") << shouldUseStrippedDebugInfoBinaries;
+	m_provider->Log(sss.str(), Platform::Logger::LT_INFO);
+
 	// if there's a main script file, load the source from text code and compile it
 	if (ETHGlobal::FileExists(mainScript, m_provider->GetFileManager()))
 	{
-		ETH_STREAM_DECL(ssi) << ("Loading game script from source-code: ") << ETH_DEFAULT_MAIN_SCRIPT_FILE << std::endl;
+		ETH_STREAM_DECL(ssi) << ("[engineStarter] Loading game script from source-code: ") << ETH_DEFAULT_MAIN_SCRIPT_FILE << std::endl;
 		m_provider->Log(ssi.str(), Platform::Logger::LT_INFO);
 
 		// Load the main script
@@ -430,7 +445,7 @@ bool ETHEngine::BuildModule(const std::vector<std::string>& definedWords)
 
 		r = builder.AddSectionFromFile(mainScript.c_str(), m_provider->GetFileIOHub()->GetResourceDirectory().c_str());
 		std::stringstream ss;
-		ss << ("Failed while loading the main script. Verify the ") << mainScript << (" file");
+		ss << ("[engineStarter] Failed while loading the main script. Verify the ") << mainScript << (" file");
 		if (!CheckAngelScriptError(r < 0, ss.str()))
 			return false;
 
@@ -440,32 +455,48 @@ bool ETHEngine::BuildModule(const std::vector<std::string>& definedWords)
 		r = builder.BuildModule();
 		std::stringstream timeStringStream; timeStringStream << ("\nCompile time: ") << video->GetElapsedTime() - buildTime << (" milliseconds");
 		m_provider->Log(timeStringStream.str(), Platform::Logger::LT_INFO);
-		if (!CheckAngelScriptError(r < 0, ("Failed while building module.")))
+		if (!CheckAngelScriptError(r < 0, ("[engineStarter] Failed while building module.")))
 			return false;
 
 		// Gets the recently built module
 		m_pASModule = builder.GetModule();
 
-		// Writes the compiled byte code to file
+		// Writes the debug compiled byte code to file
 		{
 			ETHBinaryStream stream(m_provider->GetFileManager());
-			if (stream.OpenW(byteCodeWriteFile))
+			if (stream.OpenW(byteCodeWriteFileDebug))
 			{
-				m_pASModule->SaveByteCode(&stream);
+				m_pASModule->SaveByteCode(&stream, false /*stripDebugInfo*/);
 				stream.CloseW();
-				ETH_STREAM_DECL(ss) << ("ByteCode saved: ") << byteCodeWriteFile;
+				ETH_STREAM_DECL(ss) << ("[engineStarter] ByteCode saved: ") << byteCodeWriteFileDebug;
 				m_provider->Log(ss.str(), Platform::Logger::LT_INFO);
 			}
 			else
 			{
-				ETH_STREAM_DECL(ss) << ("Failed while writing the byte code file ") << byteCodeWriteFile;
+				ETH_STREAM_DECL(ss) << ("[engineStarter] Failed while writing the byte code file ") << byteCodeWriteFileDebug;
+				m_provider->Log(ss.str(), Platform::Logger::LT_ERROR);
+			}
+		}
+		// Writes the release compiled byte code to file
+		{
+			ETHBinaryStream stream(m_provider->GetFileManager());
+			if (stream.OpenW(byteCodeWriteFileRelease))
+			{
+				m_pASModule->SaveByteCode(&stream, true /*stripDebugInfo*/);
+				stream.CloseW();
+				ETH_STREAM_DECL(ss) << ("[engineStarter] ByteCode saved: ") << byteCodeWriteFileRelease;
+				m_provider->Log(ss.str(), Platform::Logger::LT_INFO);
+			}
+			else
+			{
+				ETH_STREAM_DECL(ss) << ("[engineStarter] Failed while writing the byte code file ") << byteCodeWriteFileRelease;
 				m_provider->Log(ss.str(), Platform::Logger::LT_ERROR);
 			}
 		}
 	}
 	else // otherwise, try to load the bytecode
 	{
-		ETH_STREAM_DECL(ss) << ("Loading game script from pre-compiled byte code: ") << ETH_DEFAULT_MAIN_BYTECODE_FILE << std::endl;
+		ETH_STREAM_DECL(ss) << ("[engineStarter] Loading game script from pre-compiled byte code: ") << ETH_DEFAULT_MAIN_BYTECODE_FILE_DEBUG << std::endl;
 		m_provider->Log(ss.str(), Platform::Logger::LT_INFO);
 	
 		m_pASModule = m_pASEngine->GetModule(ETH_SCRIPT_MODULE.c_str(), asGM_ALWAYS_CREATE);
@@ -474,7 +505,7 @@ bool ETHEngine::BuildModule(const std::vector<std::string>& definedWords)
 		{
 			if (m_pASModule->LoadByteCode(&stream) < 0)
 			{
-				ETH_STREAM_DECL(ss) << ("Couldn't load game script from pre-compiled byte code: ") << ETH_DEFAULT_MAIN_BYTECODE_FILE;
+				ETH_STREAM_DECL(ss) << ("[engineStarter] Couldn't load game script from pre-compiled byte code: ") << ETH_DEFAULT_MAIN_BYTECODE_FILE_DEBUG;
 				m_provider->Log(ss.str(), Platform::Logger::LT_ERROR);
 				stream.CloseR();
 				return false;
@@ -596,24 +627,30 @@ void ETHEngine::ExceptionCallback(asIScriptContext *ctx, void *param)
 {
 	UNUSED_ARGUMENT(param);
 
-	asIScriptFunction* function = ctx->GetExceptionFunction();
-
-	const std::string section = RemoveResourceDirectoryFromSectionString(function->GetScriptSectionName());
 	std::stringstream ss;
 	ss << ("Exception: ") << ctx->GetExceptionString() << std::endl << ("  Callstack:") << std::endl;
 
-	for (std::size_t n = 0; n < ctx->GetCallstackSize(); n++)
-	{
-		asIScriptFunction* stackedFunction = ctx->GetFunction(static_cast<asUINT>(n));
-		if (stackedFunction != NULL)
-		{
-			const std::string section = RemoveResourceDirectoryFromSectionString(stackedFunction->GetScriptSectionName());
-			ss << ("    ") << stackedFunction->GetDeclaration()
-			   << (" (") << section << (", ") << ctx->GetLineNumber(static_cast<asUINT>(n)) << (")") << std::endl;
-		}
-	}
-	ss << std::endl;
+	asIScriptFunction* function = ctx->GetExceptionFunction();
 
+	if (function->GetScriptSectionName() != 0)
+	{
+		for (std::size_t n = 0; n < ctx->GetCallstackSize(); n++)
+		{
+			asIScriptFunction* stackedFunction = ctx->GetFunction(static_cast<asUINT>(n));
+			if (stackedFunction != NULL)
+			{
+				const std::string section = RemoveResourceDirectoryFromSectionString(stackedFunction->GetScriptSectionName());
+				ss << ("    ") << stackedFunction->GetDeclaration()
+				   << (" (") << section << (", ") << ctx->GetLineNumber(static_cast<asUINT>(n)) << (")") << std::endl;
+			}
+		}
+		ss << std::endl;
+	}
+	else
+	{
+		ss << "    Can't generate callstack from release binary." << std::endl;
+	}
+	
 	Application::SharedData.Set(
 		SCRIPT_EXCEPTION_LOG_SHARED_DATA_KEY,
 		Application::SharedData.Get(SCRIPT_EXCEPTION_LOG_SHARED_DATA_KEY, "") + ss.str());
