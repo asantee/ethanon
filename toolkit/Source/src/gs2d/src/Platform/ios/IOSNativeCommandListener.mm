@@ -19,9 +19,15 @@ bool IOSNativeCommmandListener::ExecuteCommand(const std::string& commandLine)
 			UIApplication *application = [UIApplication sharedApplication];
 			NSURL *URL = [NSURL URLWithString:word1];
 			[application openURL:URL options:@{} completionHandler:nil];
-
-			
 			return true;
+		}
+		else if ([word0 isEqual:@"clipboard"])
+		{
+			if ([words count] >= 3)
+			{
+				UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+				pasteboard.string = [words objectAtIndex:2];
+			}
 		}
 	}
 	return false;
