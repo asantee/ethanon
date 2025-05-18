@@ -270,6 +270,7 @@ public class GL2JNIView extends GLSurfaceView {
 			}
 			break;
 		}
+		case MotionEvent.ACTION_CANCEL:
 		case MotionEvent.ACTION_UP: {
 			int id = event.getPointerId(0);
 			if (id < MAXIMUM_TOUCHES) {
