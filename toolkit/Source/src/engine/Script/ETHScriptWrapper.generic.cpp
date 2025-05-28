@@ -109,6 +109,8 @@ asDECLARE_FUNCTION_WRAPPER(__SampleExists,    ETHScriptWrapper::SampleExists);
 asDECLARE_FUNCTION_WRAPPER(__IsSamplePlaying, ETHScriptWrapper::IsSamplePlaying);
 asDECLARE_FUNCTION_WRAPPER(__SetGlobalVolume, ETHScriptWrapper::SetGlobalVolume);
 asDECLARE_FUNCTION_WRAPPER(__GetGlobalVolume, ETHScriptWrapper::GetGlobalVolume);
+asDECLARE_FUNCTION_WRAPPER(__SetSoundEffectVolume, ETHScriptWrapper::SetSoundEffectVolume);
+asDECLARE_FUNCTION_WRAPPER(__GetSoundEffectVolume, ETHScriptWrapper::GetSoundEffectVolume);
 
 asDECLARE_FUNCTION_WRAPPER(__GetNumEntities, ETHScriptWrapper::GetNumEntities);
 
@@ -368,7 +370,9 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("bool SampleExists(const string &in)",                 asFUNCTION(__SampleExists),    asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool IsSamplePlaying(const string &in)",              asFUNCTION(__IsSamplePlaying), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void SetGlobalVolume(const float)",                   asFUNCTION(__SetGlobalVolume), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("float GetGlobalVolume()",							 asFUNCTION(__GetGlobalVolume), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("float GetGlobalVolume()",                             asFUNCTION(__GetGlobalVolume), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void SetSoundEffectVolume(const float)",              asFUNCTION(__SetSoundEffectVolume), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("float GetSoundEffectVolume()",                        asFUNCTION(__GetSoundEffectVolume), asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("uint GetNumEntities()", asFUNCTION(__GetNumEntities), asCALL_GENERIC); assert(r >= 0);
 

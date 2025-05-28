@@ -243,6 +243,8 @@ public:
 	static bool IsSamplePlaying(const std::string &file);
 	static void SetGlobalVolume(const float volume);
 	static float GetGlobalVolume();
+	static void SetSoundEffectVolume(const float volume);
+	static float GetSoundEffectVolume();
 	static uint32_t GetNumEntities();
 
 	static bool AddFloatData(const std::string &entity, const std::string &name, const float value);

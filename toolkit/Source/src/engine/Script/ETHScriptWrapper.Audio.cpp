@@ -181,3 +181,12 @@ float ETHScriptWrapper::GetGlobalVolume()
 	return m_provider->GetAudio()->GetGlobalVolume();
 }
 
+void ETHScriptWrapper::SetSoundEffectVolume(const float volume)
+{
+	m_provider->GetAudio()->SetSoundEffectVolume(volume);
+}
+
+float ETHScriptWrapper::GetSoundEffectVolume()
+{
+	return m_provider->GetAudio()->GetSoundEffectVolume();
+}
