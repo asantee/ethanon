@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 /*
 TODO: 
@@ -46,6 +46,7 @@ class WebsocketClient : public std::enable_shared_from_this<WebsocketClient>
 {
 	int m_ref;
 	bool m_gc_flag;
+	bool m_closing;
 	net::io_context m_ioc;
 	tcp::resolver m_resolver;
 	websocket::stream<beast::tcp_stream, true> m_ws;

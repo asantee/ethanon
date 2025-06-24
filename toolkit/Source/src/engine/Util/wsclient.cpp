@@ -10,6 +10,7 @@ using tcp = boost::asio::ip::tcp;       // from <boost/asio/ip/tcp.hpp>
 
 WebsocketClient::WebsocketClient() : m_resolver(net::make_strand(m_ioc))
 , m_ws(net::make_strand(m_ioc))
+, m_closing(false)
 , m_keepalive_timeout(30)
 , m_ref(1)
 , m_gc_flag(false)
@@ -315,6 +316,8 @@ void WebsocketClient::Connect()
 	if (m_ws.is_open())
 		return;
 
+	m_closing = false;
+	
 	// Look up the domain name
 	m_resolver.async_resolve( m_host, m_port,
 		beast::bind_front_handler(&WebsocketClient::OnResolve, shared_from_this()));
@@ -522,6 +525,8 @@ void WebsocketClient::OnClose(beast::error_code ec)
 		std::cout << "Last input message: " << inputObj << std::endl;
 	}
 
+	m_closing = true;
+	
 	if (ec)
 		return fail(ec, "close");
 
@@ -590,14 +595,20 @@ bool WebsocketClient::IsConnected()
 
 void WebsocketClient::Disconnect()
 {
-
-	if( !m_ws.is_open() )
+	if (!m_ws.is_open() || m_closing)
 		return;
 
-	m_ws.async_close(beast::websocket::close_code::normal,[sp = shared_from_this()](beast::error_code ec){
-		sp->OnClose(ec);
-	});	
+	m_closing = true;
 
+	//m_ws.async_close(beast::websocket::close_code::normal,[sp = shared_from_this()](beast::error_code ec){
+	//	sp->OnClose(ec);
+	//});
+	
+	auto self = shared_from_this();
+	m_ws.async_close(beast::websocket::close_code::normal,
+		[self](beast::error_code ec) {
+			self->OnClose(ec);
+		});
 }
 
 double WebsocketClient::GetLatency()
