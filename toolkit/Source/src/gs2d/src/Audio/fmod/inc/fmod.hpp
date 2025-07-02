@@ -1,12 +1,12 @@
 /* ======================================================================================== */
 /* FMOD Core API - C++ header file.                                                         */
-/* Copyright (c), Firelight Technologies Pty, Ltd. 2004-2023.                               */
+/* Copyright (c), Firelight Technologies Pty, Ltd. 2004-2025.                               */
 /*                                                                                          */
 /* Use this header in conjunction with fmod_common.h (which contains all the constants /    */
 /* callbacks) to develop using the C++ language.                                            */
 /*                                                                                          */
 /* For more detail visit:                                                                   */
-/* https://fmod.com/docs/2.02/api/core-api.html                                             */
+/* https://fmod.com/docs/2.03/api/core-api.html                                             */
 /* ======================================================================================== */
 #ifndef _FMOD_HPP
 #define _FMOD_HPP
@@ -120,7 +120,7 @@ namespace FMOD
         FMOD_RESULT F_API getSpeakerModeChannels  (FMOD_SPEAKERMODE mode, int *channels);
 
         // System information functions.
-        FMOD_RESULT F_API getVersion              (unsigned int *version);
+        FMOD_RESULT F_API getVersion              (unsigned int *version, unsigned int *buildnumber = 0);
         FMOD_RESULT F_API getOutputHandle         (void **handle);
         FMOD_RESULT F_API getChannelsPlaying      (int *channels, int *realchannels = 0);
         FMOD_RESULT F_API getCPUUsage             (FMOD_CPU_USAGE *usage);
