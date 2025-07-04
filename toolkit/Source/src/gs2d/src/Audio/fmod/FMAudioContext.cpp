@@ -50,6 +50,8 @@ boost::shared_ptr<FMAudioContext> FMAudioContext::Create(boost::any data)
 	}
 }
 
+bool FMAudioContext::m_suspended(false);
+
 FMAudioContext::FMAudioContext() :
 	m_logger(Platform::FileLogger::GetLogDirectory() + "FMAudioContext.log.txt")
 {
@@ -227,28 +229,36 @@ bool FMAudioContext::IsMute() const
 
 void FMAudioContext::Update()
 {
-	if (m_system)
-	{
-		const FMOD_RESULT result = m_system->update();
-		FMOD_ERRCHECK(result, m_logger);
-	}
+	if (!m_system)
+		return;
+
+	const FMOD_RESULT result = m_system->update();
+	FMOD_ERRCHECK(result, m_logger);
 }
 
 void FMAudioContext::Suspend()
 {
-	if (m_system)
-	{
-		const FMOD_RESULT result = m_system->mixerSuspend();
-		FMOD_ERRCHECK(result, m_logger);
-	}
+	if (!m_system)
+		return;
+
+	const FMOD_RESULT result = m_system->mixerSuspend();
+	FMOD_ERRCHECK(result, m_logger);
+	m_suspended = true;
 }
 
 void FMAudioContext::Resume()
 {
-	if (m_system)
-	{
-		const FMOD_RESULT result = m_system->mixerResume();
-		FMOD_ERRCHECK(result, m_logger);
-	}
+	if (!m_system)
+		return;
+
+	const FMOD_RESULT result = m_system->mixerResume();
+	FMOD_ERRCHECK(result, m_logger);
+	m_suspended = false;
 }
+
+bool FMAudioContext::IsSuspended()
+{
+	return m_suspended;
+}
+
 } // namespace gs2d

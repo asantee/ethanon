@@ -18,6 +18,8 @@ class FMAudioContext : public Audio
 	static FMOD::System* m_system;
 	static float m_soundEffectVolume;
 
+	static bool m_suspended;
+
 	bool CreateAudioDevice(boost::any data) override;
 	Platform::FileLogger m_logger;
 
@@ -33,6 +35,8 @@ public:
 	static float GetStaticSoundEffectVolume();
 
 	static bool IsStreamable(const Audio::SAMPLE_TYPE type);
+
+	static bool IsSuspended();
 
 	static void CommonInit(Platform::FileLogger& logger);
 

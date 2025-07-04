@@ -30,35 +30,35 @@ public:
 		AudioWeakPtr audio,
 		const std::string& fileName,
 		const Platform::FileManagerPtr& fileManager,
-		const Audio::SAMPLE_TYPE type = Audio::UNKNOWN_TYPE);
+		const Audio::SAMPLE_TYPE type) override;
 
 	bool LoadSampleFromFileInMemory(
 		AudioWeakPtr audio,
 		void *pBuffer,
 		const unsigned int bufferLength,
-		const Audio::SAMPLE_TYPE type = Audio::UNKNOWN_TYPE);
+		const Audio::SAMPLE_TYPE type) override;
 
-	bool SetLoop(const bool enable);
-	bool GetLoop() const;
+	bool SetLoop(const bool enable) override;
+	bool GetLoop() const override;
 
-	bool Play();
-	Audio::SAMPLE_STATUS GetStatus();
+	bool Play() override;
+	Audio::SAMPLE_STATUS GetStatus() override;
 
-	bool IsPlaying();
+	bool IsPlaying() override;
 
-	bool Pause();
-	bool Stop();
+	bool Pause() override;
+	bool Stop() override;
 
-	Audio::SAMPLE_TYPE GetType() const;
+	Audio::SAMPLE_TYPE GetType() const override;
 
-	bool SetSpeed(const float speed);
-	float GetSpeed() const;
+	bool SetSpeed(const float speed) override;
+	float GetSpeed() const override;
 
-	bool SetVolume(const float volume);
-	float GetVolume() const;
+	bool SetVolume(const float volume) override;
+	float GetVolume() const override;
 
-	bool SetPan(const float pan);
-	float GetPan() const;
+	bool SetPan(const float pan) override;
+	float GetPan() const override;
 };
 
 } // namespace gs2d
