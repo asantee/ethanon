@@ -155,6 +155,9 @@ bool FMAudioSample::LoadSampleFromFileInMemory(
 
 bool FMAudioSample::Play()
 {
+	if (FMAudioContext::IsSuspended())
+		return false;
+
 	m_channel = 0;
 
 	FMOD_RESULT result;
@@ -188,6 +191,10 @@ bool FMAudioSample::Play()
 bool FMAudioSample::SetLoop(const bool enable)
 {
 	m_loop = enable;
+
+	if (FMAudioContext::IsSuspended())
+		return false;
+
 	if (m_channel)
 	{
 		const FMOD_RESULT result = m_channel->setMode(m_loop ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF);
@@ -211,6 +218,9 @@ bool FMAudioSample::GetLoop() const
 
 bool FMAudioSample::Stop()
 {
+	if (FMAudioContext::IsSuspended())
+		return false;
+
 	if (m_channel)
 	{
 		const FMOD_RESULT result = m_channel->stop();
@@ -229,6 +239,9 @@ bool FMAudioSample::Stop()
 
 bool FMAudioSample::IsPlaying()
 {
+	if (FMAudioContext::IsSuspended())
+		return false;
+
 	bool playing = false;
 	if (m_channel)
 	{
@@ -248,6 +261,9 @@ bool FMAudioSample::IsPlaying()
 
 Audio::SAMPLE_STATUS FMAudioSample::GetStatus()
 {
+	if (FMAudioContext::IsSuspended())
+		return Audio::UNKNOWN_STATUS;
+
 	if (m_channel)
 	{
 		FMOD_RESULT result;
@@ -276,6 +292,9 @@ Audio::SAMPLE_STATUS FMAudioSample::GetStatus()
 
 bool FMAudioSample::Pause()
 {
+	if (FMAudioContext::IsSuspended())
+		return false;
+
 	if (m_channel)
 	{
 		const FMOD_RESULT result = m_channel->setPaused(true);
@@ -300,6 +319,10 @@ Audio::SAMPLE_TYPE FMAudioSample::GetType() const
 bool FMAudioSample::SetSpeed(const float speed)
 {
 	m_speed = speed;
+
+	if (FMAudioContext::IsSuspended())
+		return false;
+
 	if (m_channel)
 	{
 		FMOD_RESULT result = m_channel->setPitch(speed);
@@ -324,6 +347,9 @@ float FMAudioSample::GetSpeed() const
 bool FMAudioSample::SetVolume(const float volume)
 {
 	m_volume = volume;
+
+	if (FMAudioContext::IsSuspended())
+		return false;
 
 	// adjust volume in real-time of streamable samples (e.g. musics)
 	if (m_channel && FMAudioContext::IsStreamable(GetType()))
@@ -350,6 +376,10 @@ float FMAudioSample::GetVolume() const
 bool FMAudioSample::SetPan(const float pan)
 {
 	m_pan = pan;
+
+	if (FMAudioContext::IsSuspended())
+		return false;
+
 	if (m_channel)
 	{
 		const FMOD_RESULT result = m_channel->setPan(m_pan);
