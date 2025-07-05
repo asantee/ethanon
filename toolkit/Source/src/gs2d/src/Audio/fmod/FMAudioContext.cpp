@@ -241,9 +241,10 @@ void FMAudioContext::Suspend()
 	if (!m_system)
 		return;
 
+	m_suspended = true;
+
 	const FMOD_RESULT result = m_system->mixerSuspend();
 	FMOD_ERRCHECK(result, m_logger);
-	m_suspended = true;
 }
 
 void FMAudioContext::Resume()
