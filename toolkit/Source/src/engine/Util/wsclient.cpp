@@ -135,7 +135,8 @@ void WebsocketClient::Release()
 		delete this;
 }
 
-void WebsocketClient::Update() {
+void WebsocketClient::Update()
+{
 	try {
 		m_ioc.poll();
 	} catch (boost::exception const& ex) {
@@ -152,7 +153,6 @@ void WebsocketClient::Connect(const std::string& host, const std::string& port)
 
 void WebsocketClient::SetOnConnectCallback(asIScriptFunction* cb)
 {
-
 	// Release the previous callback, if any
 	if (m_on_connect_callback)
 		m_on_connect_callback->Release();
@@ -190,7 +190,6 @@ void WebsocketClient::SetOnConnectCallback(asIScriptFunction* cb)
 
 void WebsocketClient::SetOnDisconnectCallback(asIScriptFunction* cb)
 {
-
 	// Release the previous callback, if any
 	if (m_on_disconnect_callback)
 		m_on_disconnect_callback->Release();
@@ -228,7 +227,6 @@ void WebsocketClient::SetOnDisconnectCallback(asIScriptFunction* cb)
 
 void WebsocketClient::SetOnWebsocketFailCallback(asIScriptFunction* cb)
 {
-
 	// Release the previous callback, if any
 	if (m_on_websocket_fail_callback)
 		m_on_websocket_fail_callback->Release();
@@ -252,7 +250,6 @@ void WebsocketClient::SetOnWebsocketFailCallback(asIScriptFunction* cb)
 		// Release the delegate, since it won't be used anymore
 		ETHScriptWrapper::m_pASEngine->ReleaseScriptObject(cb->GetDelegateObject(), cb->GetDelegateObjectType());
 		cb->Release();
-
 	}
 	else
 	{
@@ -526,7 +523,7 @@ void WebsocketClient::OnClose(beast::error_code ec)
 	}
 
 	m_closing = true;
-	
+
 	if (ec)
 		return fail(ec, "close");
 
@@ -535,7 +532,8 @@ void WebsocketClient::OnClose(beast::error_code ec)
 
 void WebsocketClient::Ping()
 {
-	if(!m_ws.is_open()){
+	if (!m_ws.is_open())
+	{
 		m_waiting_pong = false;
 		return;
 	}
