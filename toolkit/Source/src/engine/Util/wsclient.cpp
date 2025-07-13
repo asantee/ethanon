@@ -213,7 +213,6 @@ void WebsocketClient::SetOnDisconnectCallback(asIScriptFunction* cb)
 		// Release the delegate, since it won't be used anymore
 		ETHScriptWrapper::m_pASEngine->ReleaseScriptObject(cb->GetDelegateObject(), cb->GetDelegateObjectType());
 		cb->Release();
-
 	}
 	else
 	{
@@ -285,7 +284,6 @@ void WebsocketClient::SetOnMessageCallback(asIScriptFunction* cb)
 		// Release the delegate, since it won't be used anymore
 		ETHScriptWrapper::m_pASEngine->ReleaseScriptObject(cb->GetDelegateObject(), cb->GetDelegateObjectType());
 		cb->Release();
-
 	}
 	else
 	{
