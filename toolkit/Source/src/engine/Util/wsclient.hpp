@@ -90,7 +90,7 @@ class WebsocketClient : public std::enable_shared_from_this<WebsocketClient>
 	void OnHandshake(beast::error_code ec);
 	void OnWrite(beast::error_code ec, std::size_t bytes_transferred);
 	void OnRead(beast::error_code ec, std::size_t bytes_transferred);
-	void OnClose(beast::error_code ec);
+	void OnClose(beast::error_code ec, const std::string& origin);
 	// Cache extra asITypeId for types used in ehtanon engine
 	int m_vector2_type_id;
 	int m_vector3_type_id;
@@ -120,7 +120,7 @@ public:
 	{
 		Disconnect();
 	}
-	void fail(beast::error_code ec, char const* what);
+	void fail(beast::error_code ec, const char* what, const char *origin);
 	void SetGCFlag();
 	bool GetGCFlag();
 	int  GetRefCount();
