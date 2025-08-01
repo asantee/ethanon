@@ -1,4 +1,4 @@
-#include "wsclient.hpp"
+#include "WebsocketClient.h"
 
 #include <boost/exception/diagnostic_information.hpp>
 

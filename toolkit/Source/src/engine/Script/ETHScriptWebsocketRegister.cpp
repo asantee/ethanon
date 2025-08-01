@@ -1,5 +1,5 @@
 #include "../../addons/aswrappedcall.h"
-#include "../Util/wsclient.hpp"
+#include "../Util/WebsocketClient.h"
 #undef GetObject
 // std::shared_ptr<WebsocketClient> ws = std::make_shared<WebsocketClient>(ioc);
 
