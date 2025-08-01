@@ -2,20 +2,10 @@
 
 /*
 TODO: 
- - Setup connection =>Done
  - onWebsocketFail
- - Connect =>Done
- - Keep connection =>Done
- - Disconnect =>Done
- - ping/pong (latency test) =>Done
- - Serialization format Pack| =>Done
- - Serialization format Unpack =>Done
- - Event handling =>Done
  - Bonus: Separate msgpack from websocket.
 */
 
-// wsclient.hpp : Include file for standard system include files,
-// or project specific include files.
 #include "../Script/ETHScriptWrapper.h"
 
 #include <boost/beast/core.hpp>
@@ -25,11 +15,15 @@ TODO:
 #include <boost/asio.hpp>
 #include <boost/asio/ssl.hpp>
 #include <boost/chrono.hpp>
+
 #include <msgpack.hpp>
+
 #include <iostream>
 #include <thread>
 #include <chrono>
+
 #include <angelscript.h>
+
 #include "../addons/scriptarray.h"
 #include "../addons/scriptdictionary.h"
 #include "../addons/scriptany.h"
@@ -44,46 +38,48 @@ using tcp = boost::asio::ip::tcp;       // from <boost/asio/ip/tcp.hpp>
 
 class WebsocketClient : public std::enable_shared_from_this<WebsocketClient>
 {
+	int m_destructCount;
 	int m_ref;
-	bool m_gc_flag;
+	bool m_gcFlag;
 	bool m_closing;
+	int m_reconnectCount;
 	net::io_context m_ioc;
 	tcp::resolver m_resolver;
 	websocket::stream<beast::tcp_stream, true> m_ws;
-	// net::ssl::context ctx(net::ssl::context::tlsv12);
-	beast::flat_buffer m_input_buffer;
-	beast::flat_buffer m_output_buffer;
+	//net::ssl::context ctx(net::ssl::context::tlsv12);
+	beast::flat_buffer m_inputBuffer;
+	beast::flat_buffer m_outputBuffer;
 	std::string m_host;
 	std::string m_port;
 
-	msgpack::sbuffer m_output_pd;
-	////msgpack::sbuffer m_input_pd;
-	msgpack::packer<msgpack::sbuffer> m_msg_out;
+	msgpack::sbuffer m_outputPd;
+	//msgpack::sbuffer m_input_pd;
+	msgpack::packer<msgpack::sbuffer> m_msgOut;
 	
-	asIScriptContext* m_as_ctx;
+	asIScriptContext* m_asContext;
 
-	asIScriptFunction* m_on_connect_callback;
-	asITypeInfo* m_on_connect_callbackObjectType;
-	void* m_on_connect_callbackObject;
+	asIScriptFunction* m_onConnectCallback;
+	asITypeInfo* m_onConnectCallbackObjectType;
+	void* m_onConnectCallbackObject;
 
-	asIScriptFunction* m_on_message_callback;
-	asITypeInfo* m_on_message_callbackObjectType;
-	void* m_on_message_callbackObject;
+	asIScriptFunction* m_onMessageCallback;
+	asITypeInfo* m_onMessageCallbackObjectType;
+	void* m_onMessageCallbackObject;
 
-	asIScriptFunction* m_on_disconnect_callback;
-	asITypeInfo* m_on_disconnect_callbackObjectType;
-	void* m_on_disconnect_callbackObject;
+	asIScriptFunction* m_onDisconnectCallback;
+	asITypeInfo* m_onDisconnectCallbackObjectType;
+	void* m_onDisconnectCallbackObject;
 
-	asIScriptFunction* m_on_websocket_fail_callback;
-	asITypeInfo* m_on_websocket_fail_callbackObjectType;
-	void* m_on_websocket_fail_callbackObject;
+	asIScriptFunction* m_onWebsocketFailCallback;
+	asITypeInfo* m_onWebsocketFailCallbackObjectType;
+	void* m_onWebsocketFailCallbackObject;
 
 	MovingAverage<double> m_latency;
-	bool m_waiting_pong = false;
-	boost::chrono::steady_clock::time_point m_ping_time;
+	bool m_waitingPong = false;
+	boost::chrono::steady_clock::time_point m_pingTime;
 
-	uint32_t m_keepalive_timeout;
-	boost::chrono::steady_clock::time_point m_connected_at;
+	uint32_t m_keepaliveTimeout;
+	boost::chrono::steady_clock::time_point m_connectedAt;
 
 	void OnResolve(beast::error_code ec,tcp::resolver::results_type results);
 	void OnConnect(beast::error_code ec, tcp::resolver::results_type::endpoint_type);
@@ -91,36 +87,28 @@ class WebsocketClient : public std::enable_shared_from_this<WebsocketClient>
 	void OnWrite(beast::error_code ec, std::size_t bytes_transferred);
 	void OnRead(beast::error_code ec, std::size_t bytes_transferred);
 	void OnClose(beast::error_code ec, const std::string& origin);
-	// Cache extra asITypeId for types used in ehtanon engine
-	int m_vector2_type_id;
-	int m_vector3_type_id;
-	int m_string_type_id;
-	int m_dictionary_type_id;
-	int m_any_type_id;
 
-	bool writing_state = false;
-	asITypeInfo* m_any_array_type_info;
+	// Cache extra asITypeId for types used in ehtanon engine
+	int m_vector2TypeId;
+	int m_vector3TypeId;
+	int m_stringTypeId;
+	int m_dictionaryTypeId;
+	int m_anyTypeId;
+
+	bool m_writingState = false;
+	asITypeInfo* m_anyArrayTypeInfo;
 
 	// Cache for all the array<T> specializations
-	int m_array_type_ids[15];
+	int m_arraytypeIds[15];
+
 	// and a helper for testing if it is an array
-	bool isCScriptArray(int type_id)
-	{
-		for (int8 i = 0; i < 15; i++)
-			if (m_array_type_ids[i] == type_id)
-				return true;
-		return false;
-	}
+	bool IsCScriptArray(const int typeId);
 
 public:
 
 	explicit WebsocketClient();
-
-	~WebsocketClient()
-	{
-		Disconnect();
-	}
-	void fail(beast::error_code ec, const char* what, const char *origin);
+	~WebsocketClient();
+	void Fail(beast::error_code ec, const char* what, const char *origin);
 	void SetGCFlag();
 	bool GetGCFlag();
 	int  GetRefCount();

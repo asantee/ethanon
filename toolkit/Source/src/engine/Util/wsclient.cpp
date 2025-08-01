@@ -8,107 +8,103 @@ namespace websocket = beast::websocket; // from <boost/beast/websocket.hpp>
 namespace net = boost::asio;            // from <boost/asio.hpp>
 using tcp = boost::asio::ip::tcp;       // from <boost/asio/ip/tcp.hpp>
 
-WebsocketClient::WebsocketClient() : m_resolver(net::make_strand(m_ioc))
-, m_ws(net::make_strand(m_ioc))
-, m_closing(false)
-, m_keepalive_timeout(30)
-, m_ref(1)
-, m_gc_flag(false)
-, m_msg_out(&m_output_pd)
-, m_on_connect_callback(0)
-, m_on_connect_callbackObject(0)
-, m_on_connect_callbackObjectType(0)
-, m_on_message_callback(0)
-, m_on_message_callbackObject(0)
-, m_on_message_callbackObjectType(0)
-, m_on_disconnect_callback(0)
-, m_on_disconnect_callbackObject(0)
-, m_on_disconnect_callbackObjectType(0)
-, m_on_websocket_fail_callback(0)
-, m_on_websocket_fail_callbackObject(0)
-, m_on_websocket_fail_callbackObjectType(0)
+WebsocketClient::WebsocketClient() :
+	m_resolver(net::make_strand(m_ioc)),
+	m_ws(net::make_strand(m_ioc)),
+	m_closing(false),
+	m_keepaliveTimeout(30),
+	m_ref(1),
+	m_destructCount(0),
+	m_reconnectCount(0),
+	m_gcFlag(false),
+	m_msgOut(&m_outputPd),
+	m_onConnectCallback(0),
+	m_onConnectCallbackObject(0),
+	m_onConnectCallbackObjectType(0),
+	m_onMessageCallback(0),
+	m_onMessageCallbackObject(0),
+	m_onMessageCallbackObjectType(0),
+	m_onDisconnectCallback(0),
+	m_onDisconnectCallbackObject(0),
+	m_onDisconnectCallbackObjectType(0),
+	m_onWebsocketFailCallback(0),
+	m_onWebsocketFailCallbackObject(0),
+	m_onWebsocketFailCallbackObjectType(0)
 {
 	// Create a new context for execution
-	m_as_ctx = ETHScriptWrapper::m_pASEngine->CreateContext();
+	m_asContext = ETHScriptWrapper::m_pASEngine->CreateContext();
 
 	// Cache extra asITypeInfo for types used in ehtanon engine
-	m_vector2_type_id = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("vector2");
-	m_vector3_type_id = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("vector3");
-	m_string_type_id = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("string");
-	m_dictionary_type_id = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("dictionary");
-	m_any_type_id = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("any");
+	m_vector2TypeId = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("vector2");
+	m_vector3TypeId = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("vector3");
+	m_stringTypeId = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("string");
+	m_dictionaryTypeId = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("dictionary");
+	m_anyTypeId = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("any");
 
 	// get all the array type ids.
-	m_array_type_ids[0] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<int>");
-	m_array_type_ids[1] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<int8>");
-	m_array_type_ids[2] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<int16>");
-	m_array_type_ids[3] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<int64>");
-	m_array_type_ids[4] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<uint>");
-	m_array_type_ids[5] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<uint8>");
-	m_array_type_ids[6] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<uint16>");
-	m_array_type_ids[7] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<uint64>");
-	m_array_type_ids[8] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<float>");
-	m_array_type_ids[9] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<double>");
-	m_array_type_ids[10] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<string>");
-	m_array_type_ids[11] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<dictionary>");
-	m_array_type_ids[12] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<vector2>");
-	m_array_type_ids[13] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<vector3>");
-	m_array_type_ids[14] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<any>");
+	m_arraytypeIds[0] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<int>");
+	m_arraytypeIds[1] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<int8>");
+	m_arraytypeIds[2] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<int16>");
+	m_arraytypeIds[3] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<int64>");
+	m_arraytypeIds[4] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<uint>");
+	m_arraytypeIds[5] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<uint8>");
+	m_arraytypeIds[6] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<uint16>");
+	m_arraytypeIds[7] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<uint64>");
+	m_arraytypeIds[8] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<float>");
+	m_arraytypeIds[9] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<double>");
+	m_arraytypeIds[10] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<string>");
+	m_arraytypeIds[11] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<dictionary>");
+	m_arraytypeIds[12] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<vector2>");
+	m_arraytypeIds[13] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<vector3>");
+	m_arraytypeIds[14] = ETHScriptWrapper::m_pASEngine->GetTypeIdByDecl("array<any>");
 
-	m_any_array_type_info = ETHScriptWrapper::m_pASEngine->GetTypeInfoByDecl("array<any>");
+	m_anyArrayTypeInfo = ETHScriptWrapper::m_pASEngine->GetTypeInfoByDecl("array<any>");
+}
+
+WebsocketClient::~WebsocketClient()
+{
+	Disconnect();
 }
 
 // Report a failure
-void WebsocketClient::fail(beast::error_code ec, const char* what, const char *origin)
+void WebsocketClient::Fail(beast::error_code ec, const char* what, const char *origin)
 {
-	// operation_aborted usually means you intentionally cancelled an operation.
-	// This is common during a clean shutdown and is not usually a true "error".
-	/*if (ec == net::error::operation_aborted || ec == websocket::error::closed)
-	{
-		return;
-	}*/
-
 	std::string reason = ec.message();
 	const std::string category = ec.category().name();
-	const int value = ec.value();
-	std::string what_str(what);
 
-	// Use a stringstream to build a more detailed log message
-	std::stringstream log_stream;
-	log_stream << "Failure in '" << what_str
+	std::stringstream logStream;
+	logStream << "Failure in '" << what
 			   << "': Category: " << category
-			   << ", Value: " << value
+			   << ", Value: " << ec.value()
 			   << ", Reason: " << reason
 			   << " — [" << origin << "]";
 
-	ETHResourceProvider::Log(log_stream.str(), Platform::Logger::LT_ERROR);
+	ETHResourceProvider::Log(logStream.str(), Platform::Logger::LT_WARNING);
 
-	if (m_on_websocket_fail_callback)
+	if (m_onWebsocketFailCallback)
 	{
-		m_as_ctx->Prepare(m_on_websocket_fail_callback);
-		m_as_ctx->SetObject(m_on_websocket_fail_callbackObject);
+		m_asContext->Prepare(m_onWebsocketFailCallback);
+		m_asContext->SetObject(m_onWebsocketFailCallbackObject);
 
-		m_as_ctx->SetArgObject(0, &what_str);
-		m_as_ctx->SetArgObject(1, &reason);
-		m_as_ctx->Execute();
+		m_asContext->SetArgObject(0, &what);
+		m_asContext->SetArgObject(1, &reason);
+		m_asContext->Execute();
 	}
 }
 
-///
 //  Garbage Collect extra support behaviors
-
 void WebsocketClient::SetGCFlag()
 {
 	// Set the gc flag as the high bit in the reference counter
 	//m_ref |= 0x80000000;
-	m_gc_flag = true;
+	m_gcFlag = true;
 }
 
 bool WebsocketClient::GetGCFlag()
 {
 	// Return the gc flag
 	//return (m_ref & 0x80000000) ? true : false;
-	return m_gc_flag;
+	return m_gcFlag;
 }
 
 int WebsocketClient::GetRefCount()
@@ -121,8 +117,8 @@ int WebsocketClient::GetRefCount()
 void WebsocketClient::EnumReferences(asIScriptEngine* engine)
 {
 	// Call the engine::GCEnumCallback for all references to other objects held
-	engine->GCEnumCallback(m_on_connect_callback);
-	engine->GCEnumCallback(m_on_connect_callbackObject);
+	engine->GCEnumCallback(m_onConnectCallback);
+	engine->GCEnumCallback(m_onConnectCallbackObject);
 }
 
 void WebsocketClient::ReleaseAllReferences(asIScriptEngine* engine)
@@ -132,13 +128,13 @@ void WebsocketClient::ReleaseAllReferences(asIScriptEngine* engine)
 	// cannot just delete ourself yet. Just free all references to other
 	// objects that we hold
 
-	if (m_on_connect_callback)
-		m_on_connect_callback->Release();
-	if (m_on_connect_callbackObject)
-		engine->ReleaseScriptObject(m_on_connect_callbackObject, m_on_connect_callbackObjectType);
-	m_on_connect_callback = 0;
-	m_on_connect_callbackObject = 0;
-	m_on_connect_callbackObjectType = 0;
+	if (m_onConnectCallback)
+		m_onConnectCallback->Release();
+	if (m_onConnectCallbackObject)
+		engine->ReleaseScriptObject(m_onConnectCallbackObject, m_onConnectCallbackObjectType);
+	m_onConnectCallback = 0;
+	m_onConnectCallbackObject = 0;
+	m_onConnectCallbackObjectType = 0;
 }
 
 void WebsocketClient::AddRef()
@@ -171,24 +167,24 @@ void WebsocketClient::Connect(const std::string& host, const std::string& port)
 void WebsocketClient::SetOnConnectCallback(asIScriptFunction* cb)
 {
 	// Release the previous callback, if any
-	if (m_on_connect_callback)
-		m_on_connect_callback->Release();
-	if (m_on_connect_callbackObject)
-		ETHScriptWrapper::m_pASEngine->ReleaseScriptObject(m_on_connect_callbackObject, m_on_connect_callbackObjectType);
-	m_on_connect_callback = 0;
-	m_on_connect_callbackObject = 0;
-	m_on_connect_callbackObjectType = 0;
+	if (m_onConnectCallback)
+		m_onConnectCallback->Release();
+	if (m_onConnectCallbackObject)
+		ETHScriptWrapper::m_pASEngine->ReleaseScriptObject(m_onConnectCallbackObject, m_onConnectCallbackObjectType);
+	m_onConnectCallback = 0;
+	m_onConnectCallbackObject = 0;
+	m_onConnectCallbackObjectType = 0;
 
 	if (cb && cb->GetFuncType() == asFUNC_DELEGATE)
 	{
-		m_on_connect_callbackObject = cb->GetDelegateObject();
-		m_on_connect_callbackObjectType = cb->GetDelegateObjectType();
-		m_on_connect_callback = cb->GetDelegateFunction();
+		m_onConnectCallbackObject = cb->GetDelegateObject();
+		m_onConnectCallbackObjectType = cb->GetDelegateObjectType();
+		m_onConnectCallback = cb->GetDelegateFunction();
 
 		// Hold on to the object and method
 
-		ETHScriptWrapper::m_pASEngine->AddRefScriptObject(m_on_connect_callbackObject, m_on_connect_callbackObjectType);
-		m_on_connect_callback->AddRef();
+		ETHScriptWrapper::m_pASEngine->AddRefScriptObject(m_onConnectCallbackObject, m_onConnectCallbackObjectType);
+		m_onConnectCallback->AddRef();
 
 		// Release the delegate, since it won't be used anymore
 		ETHScriptWrapper::m_pASEngine->ReleaseScriptObject(cb->GetDelegateObject(), cb->GetDelegateObjectType());
@@ -198,7 +194,7 @@ void WebsocketClient::SetOnConnectCallback(asIScriptFunction* cb)
 	else
 	{
 		// Store the received handle for later use
-		m_on_connect_callback = cb;
+		m_onConnectCallback = cb;
 
 		// Do not release the received script function 
 		// until it won't be used any more
@@ -208,24 +204,24 @@ void WebsocketClient::SetOnConnectCallback(asIScriptFunction* cb)
 void WebsocketClient::SetOnDisconnectCallback(asIScriptFunction* cb)
 {
 	// Release the previous callback, if any
-	if (m_on_disconnect_callback)
-		m_on_disconnect_callback->Release();
-	if (m_on_disconnect_callbackObject)
-		ETHScriptWrapper::m_pASEngine->ReleaseScriptObject(m_on_disconnect_callbackObject, m_on_disconnect_callbackObjectType);
-	m_on_disconnect_callback = 0;
-	m_on_disconnect_callbackObject = 0;
-	m_on_disconnect_callbackObjectType = 0;
+	if (m_onDisconnectCallback)
+		m_onDisconnectCallback->Release();
+	if (m_onDisconnectCallbackObject)
+		ETHScriptWrapper::m_pASEngine->ReleaseScriptObject(m_onDisconnectCallbackObject, m_onDisconnectCallbackObjectType);
+	m_onDisconnectCallback = 0;
+	m_onDisconnectCallbackObject = 0;
+	m_onDisconnectCallbackObjectType = 0;
 
 	if (cb && cb->GetFuncType() == asFUNC_DELEGATE)
 	{
-		m_on_disconnect_callbackObject = cb->GetDelegateObject();
-		m_on_disconnect_callbackObjectType = cb->GetDelegateObjectType();
-		m_on_disconnect_callback = cb->GetDelegateFunction();
+		m_onDisconnectCallbackObject = cb->GetDelegateObject();
+		m_onDisconnectCallbackObjectType = cb->GetDelegateObjectType();
+		m_onDisconnectCallback = cb->GetDelegateFunction();
 
 		// Hold on to the object and method
 
-		ETHScriptWrapper::m_pASEngine->AddRefScriptObject(m_on_disconnect_callbackObject, m_on_disconnect_callbackObjectType);
-		m_on_disconnect_callback->AddRef();
+		ETHScriptWrapper::m_pASEngine->AddRefScriptObject(m_onDisconnectCallbackObject, m_onDisconnectCallbackObjectType);
+		m_onDisconnectCallback->AddRef();
 
 		// Release the delegate, since it won't be used anymore
 		ETHScriptWrapper::m_pASEngine->ReleaseScriptObject(cb->GetDelegateObject(), cb->GetDelegateObjectType());
@@ -234,7 +230,7 @@ void WebsocketClient::SetOnDisconnectCallback(asIScriptFunction* cb)
 	else
 	{
 		// Store the received handle for later use
-		m_on_disconnect_callback = cb;
+		m_onDisconnectCallback = cb;
 
 		// Do not release the received script function 
 		// until it won't be used any more
@@ -244,24 +240,24 @@ void WebsocketClient::SetOnDisconnectCallback(asIScriptFunction* cb)
 void WebsocketClient::SetOnWebsocketFailCallback(asIScriptFunction* cb)
 {
 	// Release the previous callback, if any
-	if (m_on_websocket_fail_callback)
-		m_on_websocket_fail_callback->Release();
-	if (m_on_websocket_fail_callbackObject)
-		ETHScriptWrapper::m_pASEngine->ReleaseScriptObject(m_on_websocket_fail_callbackObject, m_on_websocket_fail_callbackObjectType);
-	m_on_websocket_fail_callback = 0;
-	m_on_websocket_fail_callbackObject = 0;
-	m_on_websocket_fail_callbackObjectType = 0;
+	if (m_onWebsocketFailCallback)
+		m_onWebsocketFailCallback->Release();
+	if (m_onWebsocketFailCallbackObject)
+		ETHScriptWrapper::m_pASEngine->ReleaseScriptObject(m_onWebsocketFailCallbackObject, m_onWebsocketFailCallbackObjectType);
+	m_onWebsocketFailCallback = 0;
+	m_onWebsocketFailCallbackObject = 0;
+	m_onWebsocketFailCallbackObjectType = 0;
 
 	if (cb && cb->GetFuncType() == asFUNC_DELEGATE)
 	{
-		m_on_websocket_fail_callbackObject = cb->GetDelegateObject();
-		m_on_websocket_fail_callbackObjectType = cb->GetDelegateObjectType();
-		m_on_websocket_fail_callback = cb->GetDelegateFunction();
+		m_onWebsocketFailCallbackObject = cb->GetDelegateObject();
+		m_onWebsocketFailCallbackObjectType = cb->GetDelegateObjectType();
+		m_onWebsocketFailCallback = cb->GetDelegateFunction();
 
 		// Hold on to the object and method
 
-		ETHScriptWrapper::m_pASEngine->AddRefScriptObject(m_on_websocket_fail_callbackObject, m_on_websocket_fail_callbackObjectType);
-		m_on_websocket_fail_callback->AddRef();
+		ETHScriptWrapper::m_pASEngine->AddRefScriptObject(m_onWebsocketFailCallbackObject, m_onWebsocketFailCallbackObjectType);
+		m_onWebsocketFailCallback->AddRef();
 
 		// Release the delegate, since it won't be used anymore
 		ETHScriptWrapper::m_pASEngine->ReleaseScriptObject(cb->GetDelegateObject(), cb->GetDelegateObjectType());
@@ -270,7 +266,7 @@ void WebsocketClient::SetOnWebsocketFailCallback(asIScriptFunction* cb)
 	else
 	{
 		// Store the received handle for later use
-		m_on_websocket_fail_callback = cb;
+		m_onWebsocketFailCallback = cb;
 
 		// Do not release the received script function 
 		// until it won't be used any more
@@ -280,23 +276,23 @@ void WebsocketClient::SetOnWebsocketFailCallback(asIScriptFunction* cb)
 void WebsocketClient::SetOnMessageCallback(asIScriptFunction* cb)
 {
 	// Release the previous callback, if any
-	if (m_on_message_callback)
-		m_on_message_callback->Release();
-	if (m_on_message_callbackObject)
-		ETHScriptWrapper::m_pASEngine->ReleaseScriptObject(m_on_message_callbackObject, m_on_message_callbackObjectType);
-	m_on_message_callback = 0;
-	m_on_message_callbackObject = 0;
-	m_on_message_callbackObjectType = 0;
+	if (m_onMessageCallback)
+		m_onMessageCallback->Release();
+	if (m_onMessageCallbackObject)
+		ETHScriptWrapper::m_pASEngine->ReleaseScriptObject(m_onMessageCallbackObject, m_onMessageCallbackObjectType);
+	m_onMessageCallback = 0;
+	m_onMessageCallbackObject = 0;
+	m_onMessageCallbackObjectType = 0;
 
 	if (cb && cb->GetFuncType() == asFUNC_DELEGATE)
 	{
-		m_on_message_callbackObject = cb->GetDelegateObject();
-		m_on_message_callbackObjectType = cb->GetDelegateObjectType();
-		m_on_message_callback = cb->GetDelegateFunction();
+		m_onMessageCallbackObject = cb->GetDelegateObject();
+		m_onMessageCallbackObjectType = cb->GetDelegateObjectType();
+		m_onMessageCallback = cb->GetDelegateFunction();
 
 		// Hold on to the object and method
-		ETHScriptWrapper::m_pASEngine->AddRefScriptObject(m_on_message_callbackObject, m_on_message_callbackObjectType);
-		m_on_message_callback->AddRef();
+		ETHScriptWrapper::m_pASEngine->AddRefScriptObject(m_onMessageCallbackObject, m_onMessageCallbackObjectType);
+		m_onMessageCallback->AddRef();
 
 		// Release the delegate, since it won't be used anymore
 		ETHScriptWrapper::m_pASEngine->ReleaseScriptObject(cb->GetDelegateObject(), cb->GetDelegateObjectType());
@@ -305,7 +301,7 @@ void WebsocketClient::SetOnMessageCallback(asIScriptFunction* cb)
 	else
 	{
 		// Store the received handle for later use
-		m_on_message_callback = cb;
+		m_onMessageCallback = cb;
 
 		// Do not release the received script function 
 		// until it won't be used any more
@@ -331,29 +327,27 @@ void WebsocketClient::Connect()
 	m_closing = false;
 	
 	// Look up the domain name
-	m_resolver.async_resolve( m_host, m_port,
-		beast::bind_front_handler(&WebsocketClient::OnResolve, shared_from_this()));
+	m_resolver.async_resolve(m_host, m_port, beast::bind_front_handler(&WebsocketClient::OnResolve, shared_from_this()));
 }
 
 void WebsocketClient::OnResolve(beast::error_code ec, tcp::resolver::results_type results)
 {
 	if (ec)
-		return fail(ec, "resolve", "OnResolve callback");
+		return Fail(ec, "resolve", "OnResolve callback");
 
 	// Set the timeout for the operation
 	beast::get_lowest_layer(m_ws).expires_after(std::chrono::seconds(30));
 
 	// Make the connection on the IP address we get from a lookup
-	beast::get_lowest_layer(m_ws).async_connect(
-		results, beast::bind_front_handler(&WebsocketClient::OnConnect,shared_from_this()));
+	beast::get_lowest_layer(m_ws).async_connect(results, beast::bind_front_handler(&WebsocketClient::OnConnect,shared_from_this()));
 }
 
 void WebsocketClient::OnConnect(beast::error_code ec, tcp::resolver::results_type::endpoint_type)
 {
 	if (ec)
-		return fail(ec, "connect", "OnConnect callback");
+		return Fail(ec, "connect", "OnConnect callback");
 
-	m_connected_at = boost::chrono::steady_clock::now();
+	m_connectedAt = boost::chrono::steady_clock::now();
 
 	// Turn off the timeout on the tcp_stream, because
 	// the websocket stream has its own timeout system.
@@ -374,21 +368,21 @@ void WebsocketClient::OnConnect(beast::error_code ec, tcp::resolver::results_typ
 	// Set up what-to-do's on control packets
 	m_ws.control_callback([this](websocket::frame_type kind, beast::string_view data)
 	{
-		if(kind == websocket::frame_type::ping)
+		if (kind == websocket::frame_type::ping)
 		{
 			std::cout << "<<< received a ping: "<< data << std::endl;
 		}
-		else if(kind == websocket::frame_type::pong)
+		else if (kind == websocket::frame_type::pong)
 		{
-			if(m_waiting_pong)
+			if (m_waitingPong)
 			{
 				boost::chrono::duration<double> elapsed;
-				elapsed = boost::chrono::steady_clock::now() - m_ping_time;
+				elapsed = boost::chrono::steady_clock::now() - m_pingTime;
 				m_latency.update((double)elapsed.count());
-				m_waiting_pong = false;
+				m_waitingPong = false;
 			}
 		}
-		else if(kind == websocket::frame_type::close)
+		else if (kind == websocket::frame_type::close)
 		{
 			std::stringstream ss; ss << "<<< received a close request: " << data;
 			ETHResourceProvider::Log(ss.str(), Platform::Logger::LT_WARNING);
@@ -401,20 +395,20 @@ void WebsocketClient::OnConnect(beast::error_code ec, tcp::resolver::results_typ
 
 void WebsocketClient::OnHandshake(beast::error_code ec)
 {
-	if(ec)
-		return fail(ec, "handshake", "OnHandshake callback");
+	if (ec)
+		return Fail(ec, "handshake", "OnHandshake callback");
 	
 	ETHResourceProvider::Log("Websocket handshake completed!\n", Platform::Logger::LT_INFO);
 
 	// call AS OnConnect callback
-	if(m_on_connect_callback)
+	if (m_onConnectCallback)
 	{
-		m_as_ctx->Prepare(m_on_connect_callback);
-		m_as_ctx->SetObject(m_on_connect_callbackObject);
+		m_asContext->Prepare(m_onConnectCallback);
+		m_asContext->SetObject(m_onConnectCallbackObject);
 
 		// Set the function arguments
 		//m_pScriptContext->SetArgDWord(...);
-		/*int r = */m_as_ctx->Execute();
+		/*int r = */m_asContext->Execute();
 		/*if (r == asEXECUTION_FINISHED)
 		{
 			// The return value is only valid if the execution finished successfully
@@ -423,29 +417,29 @@ void WebsocketClient::OnHandshake(beast::error_code ec)
 	}
 
 	// Start reading incomming messages
-	m_ws.async_read(m_input_buffer, beast::bind_front_handler(&WebsocketClient::OnRead, shared_from_this()));
+	m_ws.async_read(m_inputBuffer, beast::bind_front_handler(&WebsocketClient::OnRead, shared_from_this()));
 }
 
 void WebsocketClient::OnWrite(beast::error_code ec, std::size_t bytes_transferred)
 {
-	if(ec)
-		return fail(ec, "write", "OnWrite callback");
+	if (ec)
+		return Fail(ec, "write", "OnWrite callback");
 
 	// msg sent, consume output buffer.
-	m_output_buffer.consume(bytes_transferred);
-	if (m_output_buffer.size() <= 0)
+	m_outputBuffer.consume(bytes_transferred);
+	if (m_outputBuffer.size() <= 0)
 	{
 		// reset writing state when transfer finishes
-		writing_state = false;
+		m_writingState = false;
 		return;
 	}
 
 	// send message while buffer not empty
-	if( m_ws.is_open() )
+	if (m_ws.is_open())
 	{
 		m_ws.binary(true);
-		writing_state = true;
-		m_ws.async_write(m_output_buffer.cdata(), [sp = shared_from_this()](beast::error_code ec, std::size_t bytes){
+		m_writingState = true;
+		m_ws.async_write(m_outputBuffer.cdata(), [sp = shared_from_this()](beast::error_code ec, std::size_t bytes) {
 			sp->OnWrite(ec, bytes);
 		});
 	}
@@ -453,7 +447,7 @@ void WebsocketClient::OnWrite(beast::error_code ec, std::size_t bytes_transferre
 
 void WebsocketClient::OnRead(beast::error_code ec, std::size_t bytes_transferred)
 {
-	if(ec)
+	if (ec)
 	{
 		// If error on reading, close conection
 		OnClose(ec, "read");
@@ -461,28 +455,27 @@ void WebsocketClient::OnRead(beast::error_code ec, std::size_t bytes_transferred
 		return;
 	}
 
-	if( !m_ws.is_open() ){
+	if (!m_ws.is_open())
 		return;
-	}
 
-	size_t size = m_input_buffer.size();
+	size_t size = m_inputBuffer.size();
 	size_t offset = 0;
 	CScriptAny* parsed_data;
 
 	while(offset < size)
 	{
 		parsed_data = new CScriptAny(ETHScriptWrapper::m_pASEngine);
-		if (ParseMsgPack(parsed_data, net::buffer_cast<char const*>(m_input_buffer.data()), size, offset))
+		if (ParseMsgPack(parsed_data, net::buffer_cast<char const*>(m_inputBuffer.data()), size, offset))
 		{
 			// call AS OnMessage Callback
-			if (m_on_message_callback)
+			if (m_onMessageCallback)
 			{
-				m_as_ctx->Prepare(m_on_message_callback);
-				m_as_ctx->SetObject(m_on_message_callbackObject);
+				m_asContext->Prepare(m_onMessageCallback);
+				m_asContext->SetObject(m_onMessageCallbackObject);
 
 				// Set the function arguments
-				m_as_ctx->SetArgObject(0, parsed_data);
-				/*int r = */m_as_ctx->Execute();
+				m_asContext->SetArgObject(0, parsed_data);
+				/*int r = */m_asContext->Execute();
 				/*if (r == asEXECUTION_FINISHED)
 				{
 					// The return value is only valid if the execution finished successfully
@@ -501,10 +494,10 @@ void WebsocketClient::OnRead(beast::error_code ec, std::size_t bytes_transferred
 		}
 		parsed_data->Release();
 	}
-	m_input_buffer.consume(size);
+	m_inputBuffer.consume(size);
 
 	// Read again, and again...
-	m_ws.async_read(m_input_buffer, beast::bind_front_handler(&WebsocketClient::OnRead, shared_from_this()));
+	m_ws.async_read(m_inputBuffer, beast::bind_front_handler(&WebsocketClient::OnRead, shared_from_this()));
 
 	// Close the WebSocket connection... nooooooo! not now.
 	//m_ws.async_close(websocket::close_code::normal, beast::bind_front_handler(&WebsocketClient::on_close, shared_from_this()));
@@ -513,14 +506,14 @@ void WebsocketClient::OnRead(beast::error_code ec, std::size_t bytes_transferred
 void WebsocketClient::OnClose(beast::error_code ec, const std::string& origin)
 {
 	// call AS OnDisconnect callback
-	if (m_on_disconnect_callback)
+	if (m_onDisconnectCallback)
 	{
-		m_as_ctx->Prepare(m_on_disconnect_callback);
-		m_as_ctx->SetObject(m_on_disconnect_callbackObject);
+		m_asContext->Prepare(m_onDisconnectCallback);
+		m_asContext->SetObject(m_onDisconnectCallbackObject);
 
 		// Set the function arguments
 		//m_pScriptContext->SetArgDWord(...);
-		/*int r = */m_as_ctx->Execute();
+		/*int r = */m_asContext->Execute();
 		/*if (r == asEXECUTION_FINISHED)
 		{
 			// The return value is only valid if the execution finished successfully
@@ -529,12 +522,12 @@ void WebsocketClient::OnClose(beast::error_code ec, const std::string& origin)
 	}
 
 	// The make_printable() function helps print a ConstBufferSequence
-	if( m_input_buffer.size() > 0 )
+	if (m_inputBuffer.size() > 0)
 	{
 		msgpack::object_handle inputOH;
-		msgpack::unpack(inputOH, net::buffer_cast<char const *>(m_input_buffer.data()), m_input_buffer.size());
+		msgpack::unpack(inputOH, net::buffer_cast<char const *>(m_inputBuffer.data()), m_inputBuffer.size());
 		msgpack::object inputObj = inputOH.get();
-		m_input_buffer.consume(m_input_buffer.size());
+		m_inputBuffer.consume(m_inputBuffer.size());
 
 		std::stringstream ss; ss << "Last input message: " << inputObj;
 		ETHResourceProvider::Log(ss.str(), Platform::Logger::LT_WARNING);
@@ -544,7 +537,7 @@ void WebsocketClient::OnClose(beast::error_code ec, const std::string& origin)
 
 	if (ec)
 	{
-		return fail(ec, "close", origin.c_str());
+		return Fail(ec, "close", origin.c_str());
 	}
 
 	// If we get here then the connection is closed gracefully
@@ -554,53 +547,53 @@ void WebsocketClient::Ping()
 {
 	if (!m_ws.is_open())
 	{
-		m_waiting_pong = false;
+		m_waitingPong = false;
 		return;
 	}
 
-	if (!m_waiting_pong)
+	if (!m_waitingPong)
 	{
 		m_ws.async_ping("ping", [this](beast::error_code ec){
 			#ifdef _DEBUG
 				std::cout << "ping sent!\n";
 			#endif
-			m_waiting_pong = true;
-			m_ping_time = boost::chrono::steady_clock::now();
+			m_waitingPong = true;
+			m_pingTime = boost::chrono::steady_clock::now();
 		});
 	}
 }
 
 void WebsocketClient::ClearBuffer()
 {
-	m_output_pd.clear();
+	m_outputPd.clear();
 }
 
 // function to send a messages
 void WebsocketClient::Send()
 {
 	// don't try to send when there is a writing in progress
-	if (writing_state)
+	if (m_writingState)
 		return;
-	SendRaw(m_output_pd.data(), m_output_pd.size());
+	SendRaw(m_outputPd.data(), m_outputPd.size());
 	ClearBuffer();
 }
 
 void WebsocketClient::SendRaw(char* data, size_t size)
 {
 	// don't try to send when there is a writing in progress (check just in case)
-	if (writing_state)
+	if (m_writingState)
 		return;
 
 	// reserve space and copy data to output buffer
-	net::buffer_copy(m_output_buffer.prepare(size),net::buffer(data,size));
-	m_output_buffer.commit(size);
+	net::buffer_copy(m_outputBuffer.prepare(size),net::buffer(data,size));
+	m_outputBuffer.commit(size);
 
-	if( m_ws.is_open() && m_output_buffer.size() > 0 )
+	if (m_ws.is_open() && m_outputBuffer.size() > 0)
 	{
 		m_ws.binary(true);
 		// send (write) output buffer
-		writing_state = true;
-		m_ws.async_write(m_output_buffer.cdata(), [sp = shared_from_this()](beast::error_code ec, std::size_t bytes){
+		m_writingState = true;
+		m_ws.async_write(m_outputBuffer.cdata(), [sp = shared_from_this()](beast::error_code ec, std::size_t bytes) {
 			sp->OnWrite(ec, bytes);
 		});
 	}
@@ -618,15 +611,14 @@ void WebsocketClient::Disconnect()
 
 	m_closing = true;
 
-	//m_ws.async_close(beast::websocket::close_code::normal,[sp = shared_from_this()](beast::error_code ec){
+	//m_ws.async_close(beast::websocket::close_code::normal,[sp = shared_from_this()](beast::error_code ec) {
 	//	sp->OnClose(ec);
 	//});
 	
 	auto self = shared_from_this();
-	m_ws.async_close(beast::websocket::close_code::normal,
-		[self](beast::error_code ec) {
-			self->OnClose(ec, "disconnect");
-		});
+	m_ws.async_close(beast::websocket::close_code::normal, [self](beast::error_code ec) {
+		self->OnClose(ec, "disconnect");
+	});
 }
 
 double WebsocketClient::GetLatency()
@@ -636,8 +628,18 @@ double WebsocketClient::GetLatency()
 
 double WebsocketClient::GetUptime()
 {
-	boost::chrono::duration<double> ets = boost::chrono::steady_clock::now() - m_connected_at;
+	boost::chrono::duration<double> ets = boost::chrono::steady_clock::now() - m_connectedAt;
 	return ets.count();
+}
+
+bool WebsocketClient::IsCScriptArray(const int typeId)
+{
+	for (int8 i = 0; i < 15; i++)
+	{
+		if (m_arraytypeIds[i] == typeId)
+			return true;
+	}
+	return false;
 }
 
 ////////////////
@@ -845,62 +847,62 @@ struct do_nothing {
 // Serializer methods
 void WebsocketClient::Pack(bool value)
 {
-	m_msg_out.pack(value);
+	m_msgOut.pack(value);
 }
 
 void WebsocketClient::Pack(uint8_t value)
 {
-	m_msg_out.pack(value);
+	m_msgOut.pack(value);
 }
 
 void WebsocketClient::Pack(uint16_t value)
 {
-	m_msg_out.pack(value);
+	m_msgOut.pack(value);
 }
 
 void WebsocketClient::Pack(uint32_t value)
 {
-	m_msg_out.pack(value);
+	m_msgOut.pack(value);
 }
 
 void WebsocketClient::Pack(uint64_t value)
 {
-	m_msg_out.pack(value);
+	m_msgOut.pack(value);
 }
 
 void WebsocketClient::Pack(int8_t value)
 {
-	m_msg_out.pack(value);
+	m_msgOut.pack(value);
 }
 
 void WebsocketClient::Pack(int16_t value)
 {
-	m_msg_out.pack(value);
+	m_msgOut.pack(value);
 }
 
 void WebsocketClient::Pack(int32_t value)
 {
-	m_msg_out.pack(value);
+	m_msgOut.pack(value);
 }
 
 void WebsocketClient::Pack(int64_t value)
 {
-	m_msg_out.pack(value);
+	m_msgOut.pack(value);
 }
 
 void WebsocketClient::Pack(float value)
 {
-	m_msg_out.pack(value);
+	m_msgOut.pack(value);
 }
 
 void WebsocketClient::Pack(double value)
 {
-	m_msg_out.pack(value);
+	m_msgOut.pack(value);
 }
 
 void WebsocketClient::Pack(const std::string& value)
 {
-	m_msg_out.pack(value);
+	m_msgOut.pack(value);
 }
 
 void WebsocketClient::Pack(const void* address, int type_id)
@@ -953,18 +955,18 @@ void WebsocketClient::Pack(const void* address, int type_id)
 
 	// If it is not a const value, use cached type_id (type_id defined at AS engine runtime)
 	default:
-		if (type_id == m_string_type_id)
+		if (type_id == m_stringTypeId)
 			Pack(*(std::string*)address);
-		else if (type_id == m_vector2_type_id)
+		else if (type_id == m_vector2TypeId)
 			Pack(*(Vector2*)address);
-		else if (type_id == m_vector3_type_id)
+		else if (type_id == m_vector3TypeId)
 			Pack(*(Vector3*)address);
 		// check if type_id match with any of the template specialization
-		else if (isCScriptArray(type_id))
+		else if (IsCScriptArray(type_id))
 			Pack(*(CScriptArray*)address);
-		else if (type_id == m_dictionary_type_id)
+		else if (type_id == m_dictionaryTypeId)
 			Pack((CScriptDictionary*)address);
-		else if (type_id == m_any_type_id)
+		else if (type_id == m_anyTypeId)
 			Pack((CScriptAny*)address);
 	}
 }
@@ -1023,19 +1025,19 @@ void WebsocketClient::Pack(const gs2d::math::Vector3& vector)
 
 void WebsocketClient::PackNil()
 {
-	m_msg_out.pack_nil();
+	m_msgOut.pack_nil();
 }
 
 // Create the array header on message pack, informing array size
 void WebsocketClient::PackArray(uint32_t length)
 {
-	m_msg_out.pack_array(length);
+	m_msgOut.pack_array(length);
 }
 
 // Create the map header on message pack, informing map size
 void WebsocketClient::PackMap(uint32_t length)
 {
-	m_msg_out.pack_map(length);
+	m_msgOut.pack_map(length);
 }
 
 // Use parse object to call message callback for each any object in stream
