@@ -71,6 +71,7 @@ void WebsocketClient::Fail(beast::error_code ec, const char* what, const char *o
 {
 	std::string reason = ec.message();
 	const std::string category = ec.category().name();
+	std::string stdWhat(what);
 
 	std::stringstream logStream;
 	logStream << "Failure in '" << what
@@ -86,7 +87,7 @@ void WebsocketClient::Fail(beast::error_code ec, const char* what, const char *o
 		m_asContext->Prepare(m_onWebsocketFailCallback);
 		m_asContext->SetObject(m_onWebsocketFailCallbackObject);
 
-		m_asContext->SetArgObject(0, &what);
+		m_asContext->SetArgObject(0, &stdWhat);
 		m_asContext->SetArgObject(1, &reason);
 		m_asContext->Execute();
 	}
