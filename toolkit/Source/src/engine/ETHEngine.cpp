@@ -324,11 +324,12 @@ bool ETHEngine::PrepareScriptingEngine(const std::vector<std::string>& definedWo
 		ShowMessage("Failed setting unsafe references property.", ETH_ERROR);
 	}
 
-	r = m_pASEngine->SetEngineProperty(asEP_ALWAYS_IMPL_DEFAULT_CONSTRUCT, 1);
+	// removed until tested again on play for pc
+	/*r = m_pASEngine->SetEngineProperty(asEP_ALWAYS_IMPL_DEFAULT_CONSTRUCT, 1);
 	if (r < 0)
 	{
 		ShowMessage("Failed setting default construct property.", ETH_ERROR);
-	}
+	}*
 
 	// Set UTF-8 encoding
 	r = m_pASEngine->SetEngineProperty(asEP_SCRIPT_SCANNER, 1);
