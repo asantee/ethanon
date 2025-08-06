@@ -259,36 +259,6 @@ unsigned int ETHScriptWrapper::GetNumEntities()
 	return m_pScene->GetNumEntities();
 }
 
-bool ETHScriptWrapper::AddFloatData(const std::string &entity, const std::string &name, const float value)
-{
-	return m_pScene->AddFloatData(entity, name, value);
-}
-
-bool ETHScriptWrapper::AddIntData(const std::string &entity, const std::string &name, const int value)
-{
-	return m_pScene->AddIntData(entity, name, value);
-}
-
-bool ETHScriptWrapper::AddUIntData(const std::string &entity, const std::string &name, const unsigned int value)
-{
-	return m_pScene->AddUIntData(entity, name, value);
-}
-
-bool ETHScriptWrapper::AddStringData(const std::string &entity, const std::string &name, const std::string &value)
-{
-	return m_pScene->AddStringData(entity, name, value);
-}
-
-bool ETHScriptWrapper::AddVector2Data(const std::string &entity, const std::string &name, const Vector2 &value)
-{
-	return m_pScene->AddVector2Data(entity, name, value);
-}
-
-bool ETHScriptWrapper::AddVector3Data(const std::string &entity, const std::string &name, const Vector3 &value)
-{
-	return m_pScene->AddVector3Data(entity, name, value);
-}
-
 uint32_t ETHScriptWrapper::GetBackgroundColor()
 {
 	return m_provider->GetVideo()->GetBackgroundColor().To32BitARGB();

@@ -136,7 +136,7 @@ void ETHEngine::Start(VideoPtr video, InputPtr input, AudioPtr audio)
 	{
 		m_provider->Log(("Ethanon is running low ram device mode."), Platform::Logger::LT_INFO);
 	}
-	
+
 	m_ethInput.SetProvider(m_provider);
 
 	CreateDynamicBackBuffer(file);
@@ -318,8 +318,20 @@ bool ETHEngine::PrepareScriptingEngine(const std::vector<std::string>& definedWo
 		return false;
 	}
 
+	int r = m_pASEngine->SetEngineProperty(asEP_ALLOW_UNSAFE_REFERENCES, 0);
+	if (r < 0)
+	{
+		ShowMessage("Failed setting unsafe references property.", ETH_ERROR);
+	}
+
+	r = m_pASEngine->SetEngineProperty(asEP_ALWAYS_IMPL_DEFAULT_CONSTRUCT, 1);
+	if (r < 0)
+	{
+		ShowMessage("Failed setting default construct property.", ETH_ERROR);
+	}
+
 	// Set UTF-8 encoding
-	int r = m_pASEngine->SetEngineProperty(asEP_SCRIPT_SCANNER, 1);
+	r = m_pASEngine->SetEngineProperty(asEP_SCRIPT_SCANNER, 1);
 	if (!CheckAngelScriptError((r < 0), ("Failed setting up script scanner.")))
 		return false;
 
@@ -331,16 +343,39 @@ bool ETHEngine::PrepareScriptingEngine(const std::vector<std::string>& definedWo
 	if (!CheckAngelScriptError((r < 0), ("Failed while setting message callback.")))
 		return false;
 
-	ETHGlobal::RegisterEnumTypes(m_pASEngine);
-	ETHGlobal::RegisterGlobalProperties(m_pASEngine);
-	ETHGlobal::RegisterAllObjects(m_pASEngine);
-	RegisterGlobalFunctions(m_pASEngine);
-
 	// Translate app exception callback callback
 	r = m_pASEngine->SetTranslateAppExceptionCallback(asFUNCTION(TranslateException), 0, asCALL_CDECL);
 	if (r < 0)
 	{
-		ShowMessage("Failed while setting TranslateAppException callback.", ETH_WARNING);
+		ShowMessage("Failed while setting TranslateAppException callback.", ETH_ERROR);
+	}
+
+	try {
+		ETHGlobal::RegisterEnumTypes(m_pASEngine);
+	} catch (...) {
+		ShowMessage("Exception during RegisterEnumTypes registration", ETH_ERROR);
+		throw;
+	}
+
+	try {
+		ETHGlobal::RegisterGlobalProperties(m_pASEngine);
+	} catch (...) {
+		ShowMessage("Exception during RegisterGlobalProperties registration", ETH_ERROR);
+		throw;
+	}
+
+	try {
+		ETHGlobal::RegisterAllObjects(m_pASEngine);
+	} catch (...) {
+		ShowMessage("Exception during RegisterAllObjects registration", ETH_ERROR);
+		throw;
+	}
+
+	try {
+		RegisterGlobalFunctions(m_pASEngine);
+	} catch (...) {
+		ShowMessage("Exception during RegisterGlobalFunctions registration", ETH_ERROR);
+		throw;
 	}
 
 	m_pScriptContext = m_pASEngine->CreateContext();
@@ -355,7 +390,7 @@ bool ETHEngine::PrepareScriptingEngine(const std::vector<std::string>& definedWo
 
 	// Always collect all garbage by default
 	SetFastGarbageCollector(false);
-	
+
 	return true;
 }
 
@@ -467,7 +502,7 @@ bool ETHEngine::BuildModule(const std::vector<std::string>& definedWords)
 	{
 		ETH_STREAM_DECL(ss) << ("Loading game script from pre-compiled byte code: ") << ETH_DEFAULT_MAIN_BYTECODE_FILE << std::endl;
 		m_provider->Log(ss.str(), Platform::Logger::LT_INFO);
-	
+
 		m_pASModule = m_pASEngine->GetModule(ETH_SCRIPT_MODULE.c_str(), asGM_ALWAYS_CREATE);
 		ETHBinaryStream stream(m_provider->GetFileManager());
 		if (stream.OpenR(byteCodeReadFile))

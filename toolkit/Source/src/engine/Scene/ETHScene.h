@@ -61,14 +61,6 @@ public:
 	const ETHSceneProperties* GetSceneProperties() const;
 	ETHSceneProperties* GetEditableSceneProperties();
 
-	bool AddFloatData(const std::string &entity, const std::string &name, const float value);
-	bool AddIntData(const std::string &entity, const std::string &name, const int value);
-	bool AddUIntData(const std::string &entity, const std::string &name, const unsigned int value);
-	bool AddStringData(const std::string &entity, const std::string &name, const std::string &value);
-	bool AddVector2Data(const std::string &entity, const std::string &name, const Vector2 &value);
-	bool AddVector3Data(const std::string &entity, const std::string &name, const Vector3 &value);
-	bool AddCustomData(const std::string &entity, const std::string &name, const ETHCustomDataConstPtr &inData);
-
 	void SetBucketClearenceFactor(const float factor);
 	float GetBucketClearenceFactor() const;
 

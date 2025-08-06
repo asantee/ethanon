@@ -533,55 +533,6 @@ void ETHScene::AssignControllerToEntity(ETHEntity* entity, asIScriptFunction* ca
 	}
 }
 
-bool ETHScene::AddFloatData(const std::string &entity, const std::string &name, const float value)
-{
-	return AddCustomData(entity, name, ETHCustomDataPtr(new ETHFloatData(value)));
-}
-
-bool ETHScene::AddIntData(const std::string &entity, const std::string &name, const int value)
-{
-	return AddCustomData(entity, name, ETHCustomDataPtr(new ETHIntData(value)));
-}
-
-bool ETHScene::AddUIntData(const std::string &entity, const std::string &name, const unsigned int value)
-{
-	return AddCustomData(entity, name, ETHCustomDataPtr(new ETHUIntData(value)));
-}
-
-bool ETHScene::AddStringData(const std::string &entity, const std::string &name, const std::string &value)
-{
-	return AddCustomData(entity, name, ETHCustomDataPtr(new ETHStringData(value)));
-}
-
-bool ETHScene::AddVector2Data(const std::string &entity, const std::string &name, const Vector2 &value)
-{
-	return AddCustomData(entity, name, ETHCustomDataPtr(new ETHVector2Data(value)));
-}
-
-bool ETHScene::AddVector3Data(const std::string &entity, const std::string &name, const Vector3 &value)
-{
-	return AddCustomData(entity, name, ETHCustomDataPtr(new ETHVector3Data(value)));
-}
-
-bool ETHScene::AddCustomData(const std::string &entity, const std::string &name, const ETHCustomDataConstPtr &inData)
-{
-	unsigned int count = 0;
-	for (ETHBucketMap::iterator bucketIter = m_buckets.GetFirstBucket(); bucketIter != m_buckets.GetLastBucket(); ++bucketIter)
-	{
-		ETHEntityList::const_iterator iEnd = bucketIter->second.end();
-		for (ETHEntityList::iterator iter = bucketIter.value().begin(); iter != iEnd; ++iter)
-		{
-			ETHSpriteEntity *pEntity = (*iter);
-			if (entity == pEntity->GetEntityName())
-			{
-				pEntity->AddData(name, inData);
-				count++;
-			}
-		}
-	}
-	return (count > 0);
-}
-
 void ETHScene::GetIntersectingEntities(const Vector2 &v2Here, ETHEntityArray &outVector, const bool screenSpace)
 {
 	m_buckets.GetIntersectingEntities(v2Here, outVector, screenSpace, m_sceneProps);

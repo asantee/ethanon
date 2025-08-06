@@ -114,13 +114,6 @@ asDECLARE_FUNCTION_WRAPPER(__GetSoundEffectVolume, ETHScriptWrapper::GetSoundEff
 
 asDECLARE_FUNCTION_WRAPPER(__GetNumEntities, ETHScriptWrapper::GetNumEntities);
 
-asDECLARE_FUNCTION_WRAPPER(__AddFloatData,   ETHScriptWrapper::AddFloatData);
-asDECLARE_FUNCTION_WRAPPER(__AddIntData,     ETHScriptWrapper::AddIntData);
-asDECLARE_FUNCTION_WRAPPER(__AddUIntData,    ETHScriptWrapper::AddUIntData);
-asDECLARE_FUNCTION_WRAPPER(__AddStringData,  ETHScriptWrapper::AddStringData);
-asDECLARE_FUNCTION_WRAPPER(__AddVector2Data, ETHScriptWrapper::AddVector2Data);
-asDECLARE_FUNCTION_WRAPPER(__AddVector3Data, ETHScriptWrapper::AddVector3Data);
-
 asDECLARE_FUNCTION_WRAPPER(__SetZAxisDirection, ETHScriptWrapper::SetZAxisDirection);
 asDECLARE_FUNCTION_WRAPPER(__GetZAxisDirection, ETHScriptWrapper::GetZAxisDirection);
 
@@ -268,6 +261,8 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("ETHInput @GetInputHandle()",  asFUNCTION(__GetInputHandle), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void HideCursor(const bool)", asFUNCTION(__HideCursor),     asCALL_GENERIC); assert(r >= 0);
 
+	r = pASEngine->RegisterGlobalFunction("void TestCrash()", asFUNCTION(__TestCrash), asCALL_GENERIC); assert(r >= 0);
+
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetPosition(const vector3 &in)",     asFUNCTION(__SetPosition),        asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetPositionXY(const vector2 &in)",   asFUNCTION(__SetPositionXY),      asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void SetPositionX(const float)",          asFUNCTION(__SetPositionX),       asCALL_GENERIC); assert(r >= 0);
@@ -281,8 +276,6 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "vector2 GetCurrentBucket() const",        asFUNCTION(__GetCurrentBucket),   asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void PlayParticleSystem(const uint)",     asFUNCTION(__PlayParticleSystem), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterObjectMethod("ETHEntity", "void ResolveJoints()",                    asFUNCTION(__ResolveEntityJoints), asCALL_GENERIC); assert(r >= 0);
-
-	r = pASEngine->RegisterGlobalFunction("void TestCrash()", asFUNCTION(__TestCrash), asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("ETHEntity @SeekEntity(const string &in)", asFUNCTION(__SeekEntityStr), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("ETHEntity @SeekEntity(const int)",        asFUNCTION(__SeekEntityInt), asCALL_GENERIC); assert(r >= 0);
@@ -306,7 +299,7 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 
 	r = pASEngine->RegisterGlobalFunction("void SetSceneRenderingEnabled(const bool)", asFUNCTION(__SetSceneRenderingEnabled), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool IsSceneRenderingEnabled()",            asFUNCTION(__IsSceneRenderingEnabled),  asCALL_GENERIC); assert(r >= 0);
-	
+
 	r = pASEngine->RegisterGlobalFunction("float GetTimeF()",                  asFUNCTION(__GetTimeF),       asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("uint GetTime()",                    asFUNCTION(__GetTime),        asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("float UnitsPerSecond(const float)", asFUNCTION(__UnitsPerSecond), asCALL_GENERIC); assert(r >= 0);
@@ -376,13 +369,6 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 
 	r = pASEngine->RegisterGlobalFunction("uint GetNumEntities()", asFUNCTION(__GetNumEntities), asCALL_GENERIC); assert(r >= 0);
 
-	r = pASEngine->RegisterGlobalFunction("bool AddFloatData(const string &in, const string &in, const float)",         asFUNCTION(__AddFloatData),   asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("bool AddIntData(const string &in, const string &in, const int)",             asFUNCTION(__AddIntData),     asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("bool AddUIntData(const string &in, const string &in, const uint)",           asFUNCTION(__AddUIntData),    asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("bool AddStringData(const string &in, const string &in, const string &in)",   asFUNCTION(__AddStringData),  asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("bool AddVector2Data(const string &in, const string &in, const vector2 &in)", asFUNCTION(__AddVector2Data), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("bool AddVector3Data(const string &in, const string &in, const vector3 &in)", asFUNCTION(__AddVector3Data), asCALL_GENERIC); assert(r >= 0);
-
 	r = pASEngine->RegisterGlobalFunction("vector3 normalize(const vector3 &in)", asFUNCTION(__normalize3), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 normalize(const vector2 &in)", asFUNCTION(__normalize2), asCALL_GENERIC); assert(r >= 0);
 
@@ -390,6 +376,9 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("float degreeToRadian(const float)",                             asFUNCTION(__degreeToRadian), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("uint ARGB(const uint8, const uint8, const uint8, const uint8)", asFUNCTION(__ARGB),           asCALL_GENERIC); assert(r >= 0);
 
+	r = pASEngine->RegisterGlobalFunction("void SetPersistentResources(const bool)",  asFUNCTION(__SetPersistentResources),        asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("bool ArePersistentResourcesEnabled()",     asFUNCTION(__ArePersistentResourcesEnabled), asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void ReleaseResources()",                  asFUNCTION(__ReleaseResources),              asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void LoadSprite(const string &in)",      asFUNCTION(__LoadSprite),      asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void LoadSpriteAsync(const string &in)", asFUNCTION(__LoadSpriteAsync), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool ReleaseSprite(const string &in)",   asFUNCTION(__ReleaseSprite), asCALL_GENERIC); assert(r >= 0);
@@ -419,6 +408,7 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("uint GetBackgroundColor()",             asFUNCTION(__GetBackgroundColor),    asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void SetBackgroundColor(const uint)",   asFUNCTION(__SetBackgroundColor),    asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("vector2 GetSystemScreenSize()",         asFUNCTION(__GetSystemScreenSize),   asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("void SetFastGarbageCollector(const bool)", asFUNCTION(__SetFastGarbageCollector),       asCALL_GENERIC); assert(r >= 0);
 
 	r = pASEngine->RegisterGlobalFunction("void GetEntityArray(const string &in, ETHEntityArray &)",                       asFUNCTION(__GetEntityArray),          asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void GetEntitiesFromBucket(const vector2 &in, ETHEntityArray &)",               asFUNCTION(__GetEntitiesFromBucket),   asCALL_GENERIC); assert(r >= 0);
@@ -459,6 +449,7 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 
 	#ifdef ETH_DEFINE_DEPRECATED_SIGNATURES_FROM_0_9_5
 	{
+		ShowMessage("Registering deprecated functions...", ETH_WARNING);
 		r = pASEngine->RegisterGlobalFunction("string GetExternalStoragePath()",          asFUNCTION(__GetExternalStoragePath),        asCALL_GENERIC); assert(r >= 0);
 		r = pASEngine->RegisterGlobalFunction("string GetGlobalExternalStoragePath()",    asFUNCTION(__GetGlobalExternalStoragePath),  asCALL_GENERIC); assert(r >= 0);
 		r = pASEngine->RegisterGlobalFunction("string GetProgramPath()",                  asFUNCTION(__GetResourceDirectory),          asCALL_GENERIC); assert(r >= 0);
@@ -468,11 +459,7 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	}
 	#endif
 
-	r = pASEngine->RegisterGlobalFunction("void SetPersistentResources(const bool)",  asFUNCTION(__SetPersistentResources),        asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("bool ArePersistentResourcesEnabled()",     asFUNCTION(__ArePersistentResourcesEnabled), asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("void ReleaseResources()",                  asFUNCTION(__ReleaseResources),              asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("void ResolveJoints()",                     asFUNCTION(__ResolveJoints),                 asCALL_GENERIC); assert(r >= 0);
-	r = pASEngine->RegisterGlobalFunction("void SetFastGarbageCollector(const bool)", asFUNCTION(__SetFastGarbageCollector),       asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool IsHighEndDevice()",                   asFUNCTION(__IsHighEndDevice),               asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("string GetPlatformName()",                 asFUNCTION(__GetPlatformName),               asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("string GetCurrentCallstack()",             asFUNCTION(__GetCurrentCallstack),           asCALL_GENERIC); assert(r >= 0);

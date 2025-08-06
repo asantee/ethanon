@@ -247,13 +247,6 @@ public:
 	static float GetSoundEffectVolume();
 	static uint32_t GetNumEntities();
 
-	static bool AddFloatData(const std::string &entity, const std::string &name, const float value);
-	static bool AddIntData(const std::string &entity, const std::string &name, const int32_t value);
-	static bool AddUIntData(const std::string &entity, const std::string &name, const uint32_t value);
-	static bool AddStringData(const std::string &entity, const std::string &name, const std::string &value);
-	static bool AddVector2Data(const std::string &entity, const std::string &name, const Vector2 &value);
-	static bool AddVector3Data(const std::string &entity, const std::string &name, const Vector3 &value);
-
 	static SpritePtr LoadAndGetSprite(const std::string &name);
 	static ETHGraphicResourceManager::SpriteResource* GetSpriteResource(const std::string& fileName);
 	static const ETHGraphicResourceManager::SpriteResource* LoadAndGetResource(const std::string &name);
