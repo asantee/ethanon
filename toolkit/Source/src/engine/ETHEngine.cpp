@@ -329,7 +329,7 @@ bool ETHEngine::PrepareScriptingEngine(const std::vector<std::string>& definedWo
 	if (r < 0)
 	{
 		ShowMessage("Failed setting default construct property.", ETH_ERROR);
-	}*
+	}*/
 
 	// Set UTF-8 encoding
 	r = m_pASEngine->SetEngineProperty(asEP_SCRIPT_SCANNER, 1);
