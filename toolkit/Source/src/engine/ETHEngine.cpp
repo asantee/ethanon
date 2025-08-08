@@ -348,7 +348,19 @@ bool ETHEngine::PrepareScriptingEngine(const std::vector<std::string>& definedWo
 	r = m_pASEngine->SetTranslateAppExceptionCallback(asFUNCTION(TranslateException), 0, asCALL_CDECL);
 	if (r < 0)
 	{
-		ShowMessage("Failed while setting TranslateAppException callback.", ETH_ERROR);
+		std::stringstream ss;
+		const char* ver = asGetLibraryVersion();        // e.g. "2.38.1"
+		const char* opts = asGetLibraryOptions();       // e.g. "AS_MAX_PORTABILITY, AS_64BIT_PTR"
+		
+		ss << "SetTranslateAppExceptionCallback failed: r=" << r << "| AS ver=" << ver << " | opts=" << opts << " | exceptions=" <<
+		#ifdef __EXCEPTIONS
+			"on"
+		#else
+			"off"
+		#endif
+		;
+
+		ShowMessage(ss.str(), ETH_ERROR);
 	}
 
 	try {
@@ -383,8 +395,11 @@ bool ETHEngine::PrepareScriptingEngine(const std::vector<std::string>& definedWo
 
 	// Exception callback
 	r = m_pScriptContext->SetExceptionCallback(asFUNCTION(ExceptionCallback), 0, asCALL_CDECL);
-	if (!CheckAngelScriptError((r < 0), ("Failed while setting exception callback.")))
+	if (r < 0)
+	{
+		ShowMessage("Failed while setting exception callback.", ETH_ERROR);
 		return false;
+	}
 
 	if (!BuildModule(definedWords))
 		return false;
