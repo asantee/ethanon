@@ -360,7 +360,7 @@ bool ETHEngine::PrepareScriptingEngine(const std::vector<std::string>& definedWo
 		#endif
 		;
 
-		ShowMessage(ss.str(), ETH_ERROR);
+		ShowMessage(ss.str(), ETH_WARNING);
 	}
 
 	try {
