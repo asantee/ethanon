@@ -154,8 +154,6 @@
 		74FF04EE18046C5D006D0F9F /* scriptstdstring.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74FF04EA18046C5D006D0F9F /* scriptstdstring.cpp */; };
 		74FF04EF18046C5D006D0F9F /* scriptstdstring.h in Headers */ = {isa = PBXBuildFile; fileRef = 74FF04EB18046C5D006D0F9F /* scriptstdstring.h */; };
 		AA0E39FD29252A490012CD03 /* moving_average.hpp in Headers */ = {isa = PBXBuildFile; fileRef = AA0E39F629252A490012CD03 /* moving_average.hpp */; };
-		AA0E39FE29252A490012CD03 /* wsclient.hpp in Headers */ = {isa = PBXBuildFile; fileRef = AA0E39FB29252A490012CD03 /* wsclient.hpp */; };
-		AA0E39FF29252A490012CD03 /* wsclient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA0E39FC29252A490012CD03 /* wsclient.cpp */; };
 		AA0E3A0529252C5F0012CD03 /* cJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = AA0E3A0329252C5F0012CD03 /* cJSON.h */; };
 		AA0E3A0629252C5F0012CD03 /* cJSON.c in Sources */ = {isa = PBXBuildFile; fileRef = AA0E3A0429252C5F0012CD03 /* cJSON.c */; };
 		AA0E3A0929252C9E0012CD03 /* scriptany.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA0E3A0729252C9E0012CD03 /* scriptany.cpp */; };
@@ -183,6 +181,8 @@
 		AA34CA7429254F100068E1D2 /* compress.c in Sources */ = {isa = PBXBuildFile; fileRef = AA34CA5A29254F0F0068E1D2 /* compress.c */; };
 		AA34CA7529254F100068E1D2 /* adler32.c in Sources */ = {isa = PBXBuildFile; fileRef = AA34CA5B29254F0F0068E1D2 /* adler32.c */; };
 		AA34CA7629254F100068E1D2 /* trees.c in Sources */ = {isa = PBXBuildFile; fileRef = AA34CA5C29254F0F0068E1D2 /* trees.c */; };
+		AAB7B1FA2E54E41A00B96A52 /* WebsocketClient.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB7B1F82E54E41A00B96A52 /* WebsocketClient.h */; };
+		AAB7B1FB2E54E41A00B96A52 /* WebsocketClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAB7B1F92E54E41A00B96A52 /* WebsocketClient.cpp */; };
 		AAC380AF29743429000662E1 /* libangelscript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74E8F178191546820091A778 /* libangelscript.a */; };
 		AAC380B229743669000662E1 /* ETHResourceLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAC380B029743669000662E1 /* ETHResourceLoader.cpp */; };
 		AAC380B329743669000662E1 /* ETHResourceLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC380B129743669000662E1 /* ETHResourceLoader.h */; };
@@ -418,8 +418,6 @@
 		74FF04EA18046C5D006D0F9F /* scriptstdstring.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scriptstdstring.cpp; path = ../../../src/addons/scriptstdstring.cpp; sourceTree = "<group>"; };
 		74FF04EB18046C5D006D0F9F /* scriptstdstring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scriptstdstring.h; path = ../../../src/addons/scriptstdstring.h; sourceTree = "<group>"; };
 		AA0E39F629252A490012CD03 /* moving_average.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = moving_average.hpp; path = ../../../../src/engine/Util/moving_average.hpp; sourceTree = "<group>"; };
-		AA0E39FB29252A490012CD03 /* wsclient.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = wsclient.hpp; path = ../../../../src/engine/Util/wsclient.hpp; sourceTree = "<group>"; };
-		AA0E39FC29252A490012CD03 /* wsclient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = wsclient.cpp; path = ../../../../src/engine/Util/wsclient.cpp; sourceTree = "<group>"; };
 		AA0E3A0329252C5F0012CD03 /* cJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cJSON.h; path = ../../../../src/cjson/cJSON.h; sourceTree = "<group>"; };
 		AA0E3A0429252C5F0012CD03 /* cJSON.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = cJSON.c; path = ../../../../src/cjson/cJSON.c; sourceTree = "<group>"; };
 		AA0E3A0729252C9E0012CD03 /* scriptany.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scriptany.cpp; path = ../../../src/addons/scriptany.cpp; sourceTree = "<group>"; };
@@ -449,6 +447,8 @@
 		AA34CA5A29254F0F0068E1D2 /* compress.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = compress.c; path = "../../../../src/vendors/openssl-xcode/OSX/zlib/compress.c"; sourceTree = "<group>"; };
 		AA34CA5B29254F0F0068E1D2 /* adler32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = adler32.c; path = "../../../../src/vendors/openssl-xcode/OSX/zlib/adler32.c"; sourceTree = "<group>"; };
 		AA34CA5C29254F0F0068E1D2 /* trees.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = trees.c; path = "../../../../src/vendors/openssl-xcode/OSX/zlib/trees.c"; sourceTree = "<group>"; };
+		AAB7B1F82E54E41A00B96A52 /* WebsocketClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = WebsocketClient.h; path = /Users/andresantee/Documents/GitHub/ethanon/toolkit/Source/src/engine/Util/WebsocketClient.h; sourceTree = "<absolute>"; };
+		AAB7B1F92E54E41A00B96A52 /* WebsocketClient.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = WebsocketClient.cpp; path = /Users/andresantee/Documents/GitHub/ethanon/toolkit/Source/src/engine/Util/WebsocketClient.cpp; sourceTree = "<absolute>"; };
 		AAC380B029743669000662E1 /* ETHResourceLoader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ETHResourceLoader.cpp; path = ../../../../src/engine/Resource/ETHResourceLoader.cpp; sourceTree = "<group>"; };
 		AAC380B129743669000662E1 /* ETHResourceLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ETHResourceLoader.h; path = ../../../../src/engine/Resource/ETHResourceLoader.h; sourceTree = "<group>"; };
 		AAC380B429757FE6000662E1 /* ETHResourceContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ETHResourceContainer.cpp; path = ../../../../src/engine/Resource/ETHResourceContainer.cpp; sourceTree = "<group>"; };
@@ -699,8 +699,6 @@
 			isa = PBXGroup;
 			children = (
 				AA0E39F629252A490012CD03 /* moving_average.hpp */,
-				AA0E39FC29252A490012CD03 /* wsclient.cpp */,
-				AA0E39FB29252A490012CD03 /* wsclient.hpp */,
 				7421F13A1647267300C55BAE /* ETHASUtil.cpp */,
 				7421F13B1647267300C55BAE /* ETHASUtil.h */,
 				7421F13C1647267300C55BAE /* ETHDateTime.cpp */,
@@ -711,6 +709,8 @@
 				7421F1451647267300C55BAE /* ETHInput.h */,
 				AAFA2E4421419F4F006D67FB /* JSONObject.cpp */,
 				AAFA2E4621419F50006D67FB /* JSONObject.h */,
+				AAB7B1F82E54E41A00B96A52 /* WebsocketClient.h */,
+				AAB7B1F92E54E41A00B96A52 /* WebsocketClient.cpp */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -896,7 +896,6 @@
 				7421F06F1647258E00C55BAE /* ETHLight.h in Headers */,
 				7421F0711647258E00C55BAE /* ETHRenderEntity.h in Headers */,
 				AAC380B329743669000662E1 /* ETHResourceLoader.h in Headers */,
-				AA0E39FE29252A490012CD03 /* wsclient.hpp in Headers */,
 				7421F0731647258E00C55BAE /* ETHScriptEntity.h in Headers */,
 				7421F0751647258E00C55BAE /* ETHSpriteEntity.h in Headers */,
 				7421F07A1647259E00C55BAE /* ETHEngine.h in Headers */,
@@ -952,6 +951,7 @@
 				7421F2B8164741F300C55BAE /* tinystr.h in Headers */,
 				7421F2BA164741F300C55BAE /* tinyxml.h in Headers */,
 				7429A2A21662600E00134A7E /* ETHEntityPieceRenderer.h in Headers */,
+				AAB7B1FA2E54E41A00B96A52 /* WebsocketClient.h in Headers */,
 				AA34CA6729254F100068E1D2 /* inflate.h in Headers */,
 				AA34CA6D29254F100068E1D2 /* deflate.h in Headers */,
 				7429A2AA1662620E00134A7E /* ETHEntitySpriteRenderer.h in Headers */,
@@ -1119,6 +1119,7 @@
 				7421F0AC164725C100C55BAE /* ETHRayCastCallback.cpp in Sources */,
 				AA0E3A0629252C5F0012CD03 /* cJSON.c in Sources */,
 				7421F0AE164725C100C55BAE /* ETHRevoluteJoint.cpp in Sources */,
+				AAB7B1FB2E54E41A00B96A52 /* WebsocketClient.cpp in Sources */,
 				7421F0B2164725E100C55BAE /* ETHPolygon.cpp in Sources */,
 				7421F0BA164725F800C55BAE /* ETHAppEnmlFile.cpp in Sources */,
 				7421F0BC164725F800C55BAE /* ETHPlatform.abstract.cpp in Sources */,
@@ -1147,7 +1148,6 @@
 				7421F12D1647266600C55BAE /* ETHNoDynamicBackBuffer.cpp in Sources */,
 				7421F1331647266600C55BAE /* ETHShaderManager.cpp in Sources */,
 				7421F1481647267300C55BAE /* ETHASUtil.cpp in Sources */,
-				AA0E39FF29252A490012CD03 /* wsclient.cpp in Sources */,
 				7421F14A1647267300C55BAE /* ETHDateTime.cpp in Sources */,
 				7421F14C1647267300C55BAE /* ETHFileChangeDetector.cpp in Sources */,
 				AA34CA7529254F100068E1D2 /* adler32.c in Sources */,
