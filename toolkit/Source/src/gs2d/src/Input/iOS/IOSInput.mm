@@ -97,42 +97,90 @@ bool IOSInput::Update()
 	const std::size_t count = [controllers count];
 	for (std::size_t t = 0; t < count; t++)
 	{
-		GCController* controller = [[GCController controllers] objectAtIndex:t];
-		GCGamepad* gamepad = [controller gamepad];
+		GCController* controller = [GCController controllers][t];
+		GCExtendedGamepad *extentedGamepad = controller.extendedGamepad;
+		GCMicroGamepad    *microGamepad = controller.microGamepad;
 
-		if (!gamepad || t >= m_joysticks.size())
+		if ((!extentedGamepad && !microGamepad) || t >= m_joysticks.size())
 			continue;
 
 		Joystick& joystick = m_joysticks[t];
 
-		joystick.state[GSB_01].Update([[gamepad buttonY] isPressed] || [[gamepad buttonY] value] > 0.01f);
-		joystick.state[GSB_02].Update([[gamepad buttonB] isPressed] || [[gamepad buttonB] value] > 0.01f);
-		joystick.state[GSB_03].Update([[gamepad buttonA] isPressed] || [[gamepad buttonA] value] > 0.01f);
-		joystick.state[GSB_04].Update([[gamepad buttonX] isPressed] || [[gamepad buttonX] value] > 0.01f);
-
-		joystick.state[GSB_05].Update([[gamepad  leftShoulder] isPressed] || [[gamepad  leftShoulder] value] > 0.0f);
-		joystick.state[GSB_06].Update([[gamepad rightShoulder] isPressed] || [[gamepad rightShoulder] value] > 0.0f);
-
-		joystick.state[GSB_10].Update(m_forcePause);
-
-		const Vector2 dpad([[gamepad dpad] xAxis].value, [[gamepad dpad] yAxis].value);
-
-		Vector2 leftThumbstick(0.0f, 0.0f);
- 
-		if ([controller extendedGamepad])
+		if (extentedGamepad)
 		{
-			GCExtendedGamepad* exGamepad = [controller extendedGamepad];
-			leftThumbstick.x = [[exGamepad leftThumbstick] xAxis].value;
-			leftThumbstick.y = [[exGamepad leftThumbstick] yAxis].value;
+			joystick.state[GSB_01].Update([[extentedGamepad buttonY] isPressed] || [[extentedGamepad buttonY] value] > 0.01f);
+			joystick.state[GSB_02].Update([[extentedGamepad buttonB] isPressed] || [[extentedGamepad buttonB] value] > 0.01f);
+			joystick.state[GSB_03].Update([[extentedGamepad buttonA] isPressed] || [[extentedGamepad buttonA] value] > 0.01f);
+			joystick.state[GSB_04].Update([[extentedGamepad buttonX] isPressed] || [[extentedGamepad buttonX] value] > 0.01f);
+
+			joystick.state[GSB_05].Update([[extentedGamepad  leftShoulder] isPressed] || [[extentedGamepad leftShoulder] value] > 0.0f);
+			joystick.state[GSB_06].Update([[extentedGamepad rightShoulder] isPressed] || [[extentedGamepad rightShoulder] value] > 0.0f);
+			joystick.state[GSB_07].Update([[extentedGamepad  leftShoulder] isPressed] || [[extentedGamepad leftTrigger] value] > 0.0f);
+			joystick.state[GSB_08].Update([[extentedGamepad rightShoulder] isPressed] || [[extentedGamepad rightTrigger] value] > 0.0f);
+
+			if (@available(iOS 13.0, *))
+			{
+				if (extentedGamepad.buttonMenu)
+				{
+					m_forcePause |= extentedGamepad.buttonMenu.isPressed;
+				}
+			}
+			else
+			{
+				controller.controllerPausedHandler = ^(GCController *c)
+				{
+					m_forcePause |= true;
+				};
+			}
+
+			const Vector2 dpad([[extentedGamepad dpad] xAxis].value, [[extentedGamepad dpad] yAxis].value);
+
+			Vector2 leftThumbstick(0.0f, 0.0f);
+	 
+			leftThumbstick.x = [[extentedGamepad leftThumbstick] xAxis].value;
+			leftThumbstick.y = [[extentedGamepad leftThumbstick] yAxis].value;
 			joystick.xy = leftThumbstick;
+
+			joystick.state[GSB_LEFT ].Update(leftThumbstick.x < -0.8f || dpad.x < -0.05f);
+			joystick.state[GSB_RIGHT].Update(leftThumbstick.x >  0.8f || dpad.x >  0.05f);
+			joystick.state[GSB_UP   ].Update(leftThumbstick.y >  0.8f || dpad.y >  0.05f);
+			joystick.state[GSB_DOWN ].Update(leftThumbstick.y < -0.8f || dpad.y < -0.05f);
+		}
+		else
+		{
+			// Micro profile: A, X, D-pad only
+			joystick.state[GSB_03].Update(microGamepad.buttonA.isPressed || microGamepad.buttonA.value > 0.01f);
+			joystick.state[GSB_04].Update(microGamepad.buttonX.isPressed || microGamepad.buttonX.value > 0.01f);
+
+			Vector2 dpad(microGamepad.dpad.xAxis.value, microGamepad.dpad.yAxis.value);
+			Vector2 leftThumb(0.0f, 0.0f); // no sticks on micro
+			joystick.xy = leftThumb;
+
+			joystick.state[GSB_LEFT ].Update(dpad.x < -0.05f);
+			joystick.state[GSB_RIGHT].Update(dpad.x >  0.05f);
+			joystick.state[GSB_UP   ].Update(dpad.y >  0.05f);
+			joystick.state[GSB_DOWN ].Update(dpad.y < -0.05f);
+
+			if (@available(iOS 13.0, *))
+			{
+				if (microGamepad.buttonMenu)
+				{
+					m_forcePause |= microGamepad.buttonMenu.isPressed;
+				}
+			}
+			else
+			{
+				controller.controllerPausedHandler = ^(GCController *c)
+				{
+					m_forcePause |= true;
+				};
+			}
 		}
 
-		joystick.state[GSB_LEFT ].Update(leftThumbstick.x < -0.8f || dpad.x < -0.05f);
-		joystick.state[GSB_RIGHT].Update(leftThumbstick.x >  0.8f || dpad.x >  0.05f);
-		joystick.state[GSB_UP   ].Update(leftThumbstick.y >  0.8f || dpad.y >  0.05f);
-		joystick.state[GSB_DOWN ].Update(leftThumbstick.y < -0.8f || dpad.y < -0.05f);
+		joystick.state[GSB_10].Update(m_forcePause);
 	}
 
+	// Update keyboard states
 	for (unsigned int t = 0; t < GS_NUM_KEYS; t++)
 	{
 		m_keyStates[t].Update(m_keyBooleanStates[t]);
