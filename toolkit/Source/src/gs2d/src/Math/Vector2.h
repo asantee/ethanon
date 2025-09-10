@@ -13,9 +13,9 @@ struct PODVector2
 	constexpr PODVector2(const float vx, const float vy) noexcept : x(vx), y(vy) {}
 
 	constexpr PODVector2(const PODVector2&) noexcept = default;
-	constexpr PODVector2& operator = (const PODVector2&) noexcept = default;
-	constexpr PODVector2(PODVector2&&) noexcept = default;
-	constexpr PODVector2& operator = (PODVector2&&) noexcept = default;
+	PODVector2& operator = (const PODVector2&) noexcept = default;
+	PODVector2(PODVector2&&) noexcept = default;
+	PODVector2& operator = (PODVector2&&) noexcept = default;
 
 	float x, y;
 };
