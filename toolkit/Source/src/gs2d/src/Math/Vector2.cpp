@@ -2,7 +2,7 @@
 
 #include "GameMath.h"
 
-#if defined(__ARM_NEON__)
+#if defined(__ARM_NEON) || defined(__ARM_NEON__)
 #include <arm_neon.h>
 #endif
 
@@ -11,7 +11,7 @@
 namespace gs2d {
 namespace math {
 
-#if defined(__ARM_NEON__)
+#if defined(__ARM_NEON) || defined(__ARM_NEON__)
 	float sqrtest(float a)
 	{
 		// need to "transfer" or "convert" the scalar input
@@ -41,39 +41,14 @@ namespace math {
 	}
 #endif
 
-Vector2::Vector2()
+float Vector2::Length() const noexcept
 {
-	x = y = 0.0f;
+	return sqrtf(SquaredLength());
 }
 
-Vector2::Vector2(const float& v)
+float Vector2::SquaredLength() const noexcept
 {
-	x = y = v;
-}
-
-Vector2::Vector2(const Vector2& v)
-{
-	*this = v;
-}
-
-Vector2::Vector2(const float& vx, const float& vy)
-{
-	x = vx;
-	y = vy;
-}
-
-float Vector2::Length() const
-{
-	#if defined(__ARM_NEON__)
-		return sqrtest(SquaredLength());
-	#else
-		return sqrtf(SquaredLength());
-	#endif
-}
-
-float Vector2::SquaredLength() const
-{
-	#if defined(__ARM_NEON__)
+	#if defined(__ARM_NEON) || defined(__ARM_NEON__)
 		float32x2_t v = vmul_f32(*(float32x2_t*)&x, *(float32x2_t *)&x);
 		v = vpadd_f32(v, v);
 		return (vget_lane_f32(v, 0));
@@ -82,9 +57,9 @@ float Vector2::SquaredLength() const
 	#endif
 }
 
-Vector2 Vector2::operator * (const float v) const
+Vector2 Vector2::operator * (const float v) const noexcept
 {
-	#if defined(__ARM_NEON__)
+	#if defined(__ARM_NEON) || defined(__ARM_NEON__)
 		float32x2_t r = vmul_f32(*(float32x2_t*)&x, vdup_n_f32((float32_t)v));
 		return *(Vector2*)&r;
 	#else
@@ -92,9 +67,9 @@ Vector2 Vector2::operator * (const float v) const
 	#endif
 }
 
-Vector2 Vector2::operator * (const Vector2& v) const
+Vector2 Vector2::operator * (const Vector2& v) const noexcept
 {
-	#if defined(__ARM_NEON__)
+	#if defined(__ARM_NEON) || defined(__ARM_NEON__)
 		float32x2_t r = vmul_f32(*(float32x2_t*)&x, *(float32x2_t*)&v);
 		return *(Vector2*)&r;
 	#else
@@ -102,9 +77,9 @@ Vector2 Vector2::operator * (const Vector2& v) const
 	#endif
 }
 
-Vector2 Vector2::operator / (const float v) const
+Vector2 Vector2::operator / (const float v) const noexcept
 {
-	#if defined(__ARM_NEON__)
+	#if defined(__ARM_NEON) || defined(__ARM_NEON__)
 		float32x2_t values = vdup_n_f32((float32_t)v);
 		float32x2_t estimate = vrecpe_f32(values);
 		estimate = vmul_f32(vrecps_f32(values, estimate), estimate);
@@ -116,9 +91,9 @@ Vector2 Vector2::operator / (const float v) const
 	#endif
 }
 
-Vector2 Vector2::operator / (const Vector2& v) const
+Vector2 Vector2::operator / (const Vector2& v) const noexcept
 {
-	#if defined(__ARM_NEON__)
+	#if defined(__ARM_NEON) || defined(__ARM_NEON__)
 		float32x2_t *vLeft = (float32x2_t *)&x;
 		float32x2_t *vRight = (float32x2_t *)&v;
 		float32x2_t estimate = vrecpe_f32(*vRight);
@@ -131,9 +106,9 @@ Vector2 Vector2::operator / (const Vector2& v) const
 	#endif
 }
 
-Vector2 Vector2::operator - (const float v) const
+Vector2 Vector2::operator - (const float v) const noexcept
 {
-	#if defined(__ARM_NEON__)
+	#if defined(__ARM_NEON) || defined(__ARM_NEON__)
 		float32x2_t r = vsub_f32(*(float32x2_t *)&x, vdup_n_f32((float32_t)v));
 		return *(Vector2*)&r;
 	#else
@@ -141,9 +116,9 @@ Vector2 Vector2::operator - (const float v) const
 	#endif
 }
 
-Vector2 Vector2::operator - (const Vector2& v) const
+Vector2 Vector2::operator - (const Vector2& v) const noexcept
 {
-	#if defined(__ARM_NEON__)
+	#if defined(__ARM_NEON) || defined(__ARM_NEON__)
 		float32x2_t r = vsub_f32(*(float32x2_t*)&x, *(float32x2_t*)&v);
 		return *(Vector2*)&r;
 	#else
@@ -151,9 +126,9 @@ Vector2 Vector2::operator - (const Vector2& v) const
 	#endif
 }
 
-Vector2 Vector2::operator + (const float v) const
+Vector2 Vector2::operator + (const float v) const noexcept
 {
-	#if defined(__ARM_NEON__)
+	#if defined(__ARM_NEON) || defined(__ARM_NEON__)
 		float32x2_t r = vadd_f32(*(float32x2_t *)&x, vdup_n_f32((float32_t)v));
 		return *(Vector2*)&r;
 	#else
@@ -161,9 +136,9 @@ Vector2 Vector2::operator + (const float v) const
 	#endif
 }
 
-Vector2 Vector2::operator + (const Vector2& v) const
+Vector2 Vector2::operator + (const Vector2& v) const noexcept
 {
-	#if defined(__ARM_NEON__)
+	#if defined(__ARM_NEON) || defined(__ARM_NEON__)
 		float32x2_t r = vadd_f32(*(float32x2_t*)&x, *(float32x2_t*)&v);
 		return *(Vector2*)&r;
 	#else
@@ -171,9 +146,9 @@ Vector2 Vector2::operator + (const Vector2& v) const
 	#endif
 }
 
-bool Vector2::operator == (const Vector2& v) const
+bool Vector2::operator == (const Vector2& v) const noexcept
 {
-	#if defined(__ARM_NEON_)
+	#if defined(__ARM_NEON) || defined(__ARM_NEON__)
 		float32x2_t v1 = *(float32x2_t *)&x;
 		float32x2_t v2 = *(float32x2_t *)&v;
 		uint32x2_t vCmp = vceq_f32(v1, v2);
@@ -185,14 +160,14 @@ bool Vector2::operator == (const Vector2& v) const
 	#endif
 }
 
-bool Vector2::operator != (const Vector2& v) const
+bool Vector2::operator != (const Vector2& v) const noexcept
 {
 	return !(*this == v);
 }
 
-Vector2& Vector2::operator += (const Vector2& v)
+Vector2& Vector2::operator += (const Vector2& v) noexcept
 {
-	#if defined(__ARM_NEON__)
+	#if defined(__ARM_NEON) || defined(__ARM_NEON__)
 		*(float32x2_t*)this = vadd_f32(*(float32x2_t*)&x, *(float32x2_t*)&v);
 		return *this;
 	#else
@@ -201,9 +176,9 @@ Vector2& Vector2::operator += (const Vector2& v)
 	#endif
 }
 
-Vector2& Vector2::operator -= (const Vector2& v)
+Vector2& Vector2::operator -= (const Vector2& v) noexcept
 {
-	#if defined(__ARM_NEON__)
+	#if defined(__ARM_NEON) || defined(__ARM_NEON__)
 		*(float32x2_t*)this = vsub_f32(*(float32x2_t*)&x, *(float32x2_t*)&v);
 		return *this;
 	#else
@@ -212,9 +187,9 @@ Vector2& Vector2::operator -= (const Vector2& v)
 	#endif
 }
 
-Vector2& Vector2::operator *= (const float f)
+Vector2& Vector2::operator *= (const float f) noexcept
 {
-	#if defined(__ARM_NEON__)
+	#if defined(__ARM_NEON) || defined(__ARM_NEON__)
 		*(float32x2_t*)this = vmul_f32(*(float32x2_t*)&x, vdup_n_f32((float32_t)f));
 		return *this;
 	#else
@@ -223,9 +198,15 @@ Vector2& Vector2::operator *= (const float f)
 	#endif
 }
 
-Vector2& Vector2::operator /= (const float f)
+Vector2& Vector2::operator /= (const float f) noexcept
 {
-	#if defined(__ARM_NEON__)
+	#if defined(__aarch64__)
+		// AArch64: 1 scalar divide + muls is typically optimal
+		const float inv = 1.0f / f;
+		x *= inv;
+		y *= inv;
+		return *this;
+	#elif defined(__ARM_NEON) || defined(__ARM_NEON__)
 		float32x2_t values = vdup_n_f32((float32_t)f);
 		float32x2_t estimate = vrecpe_f32(values);
 		estimate = vmul_f32(vrecps_f32(values, estimate), estimate);
@@ -238,31 +219,31 @@ Vector2& Vector2::operator /= (const float f)
 	#endif
 }
 
-Vector2i Vector2::ToVector2i() const
+Vector2i Vector2::ToVector2i() const noexcept
 {
 	return Vector2i(static_cast<int>(x), static_cast<int>(y));
 }
 
-Vector2 Vector2::ToVector2(const Vector2i& v)
+Vector2 Vector2::ToVector2(const Vector2i& v) noexcept
 {
 	return Vector2(static_cast<float>(v.x), static_cast<float>(v.y));
 }
 
-float Vector2::Distance(const Vector2& a, const Vector2& b)
+float Vector2::Distance(const Vector2& a, const Vector2& b) noexcept
 {
 	const Vector2 diff = b - a;
 	return diff.Length();
 }
 
-float Vector2::GetAngle(const Vector2& v2)
+float Vector2::GetAngle(const Vector2& v2) noexcept
 {
 	const float r = atan2f(v2.x, v2.y);
 	return (r < 0) ? r + (2 * constant::PI) : r;
 }
 
-float Vector2::DP2(const Vector2& a, const Vector2& b)
+float Vector2::DP2(const Vector2& a, const Vector2& b) noexcept
 {
-	#if defined(__ARM_NEON__)
+	#if defined(__ARM_NEON) || defined(__ARM_NEON__)
 		float32x2_t v = vmul_f32(*(float32x2_t*)&a, *(float32x2_t *)&b);
 		v = vpadd_f32(v, v);
 		return (vget_lane_f32(v, 0));
@@ -271,25 +252,26 @@ float Vector2::DP2(const Vector2& a, const Vector2& b)
 	#endif
 }
 
-Vector2 Vector2::Normalize(const Vector2& v)
+Vector2 Vector2::Normalize(const Vector2& v) noexcept
 {
-    const float a = v.Length();
-    if (a <= 0.0f)
-        return Vector2(0, 0);
-    return (v / a);
+	const float a = v.Length();
+	if (a <= 0.0f)
+		return Vector2(0.0f, 0.0f);
+	const float inv = 1.0f / a;
+	return Vector2(v.x * inv, v.y * inv);
 }
 
-Vector2 Vector2::Vector2Min(const Vector2& a, const Vector2& b)
+Vector2 Vector2::Vector2Min(const Vector2& a, const Vector2& b) noexcept
 {
     return Vector2(Min(a.x, b.x), Min(a.y, b.y));
 }
 
-Vector2 Vector2::Vector2Max(const Vector2& a, const Vector2& b)
+Vector2 Vector2::Vector2Max(const Vector2& a, const Vector2& b) noexcept
 {
     return Vector2(Max(a.x, b.x), Max(a.y, b.y));
 }
 
-float Vector2::SquaredDistance(const Vector2& a, const Vector2& b)
+float Vector2::SquaredDistance(const Vector2& a, const Vector2& b) noexcept
 {
     const Vector2 diff = b - a;
     return DP2(diff, diff);
