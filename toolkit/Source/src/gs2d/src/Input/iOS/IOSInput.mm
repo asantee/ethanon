@@ -37,16 +37,19 @@ bool IOSInput::DetectJoysticks()
 	for (std::size_t t = 0; t < count; t++)
 	{
 		GCController* controller = [[GCController controllers] objectAtIndex:t];
-		if ([controller gamepad])
-		{
-			[controller setPlayerIndex:static_cast<GCControllerPlayerIndex>(m_joysticks.size())];
-			m_joysticks.push_back(Joystick(controller));
+		GCExtendedGamepad *extentedGamepad = controller.extendedGamepad;
+		GCMicroGamepad    *microGamepad = controller.microGamepad;
 
-			[controller setControllerPausedHandler:^(GCController *controller)
-			{
-				[[NSNotificationCenter defaultCenter] postNotificationName:@"GameTogglePauseNotification" object:nil];
-			}];
-		}
+		if (!extentedGamepad && !microGamepad)
+			continue;
+
+		[controller setPlayerIndex:static_cast<GCControllerPlayerIndex>(m_joysticks.size())];
+		m_joysticks.push_back(Joystick(controller));
+
+		[controller setControllerPausedHandler:^(GCController *controller)
+		{
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"GameTogglePauseNotification" object:nil];
+		}];
 	}
 	return MobileInput::DetectJoysticks();
 }
@@ -97,7 +100,7 @@ bool IOSInput::Update()
 	const std::size_t count = [controllers count];
 	for (std::size_t t = 0; t < count; t++)
 	{
-		GCController* controller = [GCController controllers][t];
+		GCController* controller = [[GCController controllers] objectAtIndex:t];
 		GCExtendedGamepad *extentedGamepad = controller.extendedGamepad;
 		GCMicroGamepad    *microGamepad = controller.microGamepad;
 
