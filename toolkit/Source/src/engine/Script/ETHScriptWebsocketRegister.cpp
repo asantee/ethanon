@@ -77,7 +77,7 @@ asDECLARE_METHOD_WRAPPERPR(WebsocketClient__GetLatency, WebsocketClient, GetLate
 asDECLARE_METHOD_WRAPPERPR(WebsocketClient__GetUptime, WebsocketClient, GetUptime, (void) const, double);
 asDECLARE_METHOD_WRAPPERPR(WebsocketClient__IsConnected, WebsocketClient, IsConnected, (void), bool);
 
-asDECLARE_METHOD_WRAPPERPR(WebsocketClient__ClearBuffer, WebsocketClient, ClearBuffer, (void), void);
+//asDECLARE_METHOD_WRAPPERPR(WebsocketClient__ClearBuffer, WebsocketClient, ClearBuffer, (void), void);
 
 asDECLARE_METHOD_WRAPPERPR(WebsocketClient__Pack_bool, WebsocketClient, Pack, (bool), void);
 asDECLARE_METHOD_WRAPPERPR(WebsocketClient__Pack_uint8, WebsocketClient, Pack, (uint8_t), void);
