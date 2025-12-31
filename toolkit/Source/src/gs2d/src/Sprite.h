@@ -72,6 +72,14 @@ public:
 		const math::Rect2D& rect) const;
 
 	void Draw(
+			const math::Vector3& pos,
+			const math::Vector2& origin,
+			const float scale,
+			const float angle,
+			const Color& color,
+			const math::Rect2D& rect) const;
+
+	void Draw(
 		const math::Vector3& pos,
 		const math::Vector2& size,
 		const math::Vector2& origin,
@@ -100,6 +108,13 @@ public:
 		const math::Vector3& pos,
 		const float scale,
 		const float angle,
+		const math::Rect2D& rect) const;
+
+	void Draw(
+		const math::Vector3& pos,
+		const float scale,
+		const float angle,
+		const Color& color,
 		const math::Rect2D& rect) const;
 
 	void Draw(

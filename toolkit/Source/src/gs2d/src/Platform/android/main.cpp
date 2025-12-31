@@ -2,6 +2,7 @@
 #include <sstream>
 #include <jni.h>
 #include <signal.h>
+#include <algorithm>
 
 #include <BaseApplication.h>
 
@@ -47,8 +48,11 @@ VideoPtr video;
 InputPtr input;
 AudioPtr audio = 0;
 boost::shared_ptr<Platform::AndroidZipFileManager> zip;
-SpritePtr splashSprite, cogSprite;
+SpritePtr splashSprite, cogSprite, barSprite;
 ETHEnginePtr engine;
+float predictedLoadingTimeMs = 10000.0f;
+float startLoadingTimeMs = 0.0f;
+bool engineLoaded = false;
 Vector2 lastCameraPos(0.0f, 0.0f);
 Color lastBackgroundColor(0xFF000000);
 
@@ -121,6 +125,7 @@ JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_start(
 
 	CreateLoadingSprite(video, splashSprite, "assets/data/splash.png");
 	CreateLoadingSprite(video, cogSprite, "assets/data/cog.png");
+	CreateLoadingSprite(video, barSprite, "assets/data/white_16.png");
 
 	if (!application)
 	{
@@ -128,6 +133,20 @@ JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_start(
 		newApplication->Start(video, input, audio);
 		application = newApplication;
 		engine = ETHEngine::Cast(application);
+
+		startLoadingTimeMs = video->GetElapsedTimeF(gs2d::Application::TU_MILLISECONDS);
+
+		// load lastLoading time if there is any
+		const std::string lastLoadingTimeFileContent = enml::GetStringFromAnsiFile(ETHEngine::GetExternalStorageDirectory() + "lastLoadingTime");
+		if (!lastLoadingTimeFileContent.empty())
+		{
+			predictedLoadingTimeMs = ETHGlobal::ParseFloat(lastLoadingTimeFileContent.c_str());
+		}
+
+		// sanity check
+		predictedLoadingTimeMs = std::max(100.0f, predictedLoadingTimeMs);
+
+		ETHResourceProvider::Log("predictedLoadingTimeMs = " + std::to_string(predictedLoadingTimeMs), Platform::Logger::LT_INFO);
 	}
 	else
 	{
@@ -216,6 +235,15 @@ JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_mainLoop(JNIEnv* env, jo
 
 	if (IsScriptEngineLoaded())
 	{
+		// compute and save loading time
+		if (!engineLoaded)
+		{
+			const float loadingTime = video->GetElapsedTimeF(gs2d::Application::TU_MILLISECONDS) - startLoadingTimeMs;
+			enml::SaveStringToAnsiFile(ETHEngine::GetExternalStorageDirectory() + "lastLoadingTime", std::to_string(loadingTime));
+			ETHResourceProvider::Log("lastLoadingTime saved as " + std::to_string(loadingTime), Platform::Logger::LT_INFO);
+		}
+		engineLoaded = true;
+
 		// Do default main loop
 		const float lastFrameElapsedTime = ComputeElapsedTimeF(video);
 		application->Update(Min(1000.0f, lastFrameElapsedTime));
@@ -239,10 +267,36 @@ JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_mainLoop(JNIEnv* env, jo
 
 			const Vector2 cogMiddle(screenSize.x * 0.5f, screenSize.y * 0.8f);
 			static float angle = 0.0f;
-			cogSprite->Draw(Vector3(cogMiddle - Vector2(32.0f, 0.0f), 0.0f), 0.6f,-angle + 24.0f, Rect2D());
-			cogSprite->Draw(Vector3(cogMiddle + Vector2(32.0f, 0.0f), 0.0f), 0.6f,-angle - 24.0f, Rect2D());
-			cogSprite->Draw(Vector3(cogMiddle, 0.0f), 0.6f, angle, Rect2D());
+			cogSprite->Draw(Vector3(cogMiddle - Vector2(32.0f, 0.0f), 0.0f), 0.6f,-angle + 24.0f, Color(0xFFCCCCCC), Rect2D());
+			cogSprite->Draw(Vector3(cogMiddle + Vector2(32.0f, 0.0f), 0.0f), 0.6f,-angle - 24.0f, Color(0xFFCCCCCC), Rect2D());
+			cogSprite->Draw(Vector3(cogMiddle, 0.0f), 0.6f, angle, Color(0xFFDDDDDD), Rect2D());
 			angle -= 4.0f;
+
+			const float maxBarWidth = 96.0f;
+			const float barHeight = 4.0f;
+			const float barNormPosY = 0.855f;
+			const float barBias = std::min((video->GetElapsedTimeF(gs2d::Application::TU_MILLISECONDS) - startLoadingTimeMs) / predictedLoadingTimeMs, 1.0f);
+			barSprite->Draw(
+				Vector3(screenSize * Vector2(0.5f, barNormPosY), 0.0f),
+				Vector2(maxBarWidth, barHeight),
+				Vector2(0.5f),
+				Color(0xFF333333),
+				0.0f /*angle*/,
+				Rect2D(),
+				false /*flipX*/,
+				false /*flipY*/,
+				Sprite::GetDefaultShader());
+
+			barSprite->Draw(
+				Vector3(screenSize * Vector2(0.5f, barNormPosY), 0.0f),
+				Vector2(barBias * maxBarWidth, barHeight),
+				Vector2(0.5f),
+				Color(0xFF777777),
+				0.0f /*angle*/,
+				Rect2D(),
+				false /*flipX*/,
+				false /*flipY*/,
+				Sprite::GetDefaultShader());
 		}
 		video->EndRendering();
 	}
@@ -260,6 +314,7 @@ JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_destroy(JNIEnv* env, job
 	Sprite::Finish();
 	ReleaseLoadingSprite(splashSprite);
 	ReleaseLoadingSprite(cogSprite);
+	ReleaseLoadingSprite(barSprite);
 
 	if (video && audio)
 	{

@@ -230,7 +230,28 @@ void Sprite::Draw(
 		nullptr);
 }
 
-void Sprite::Draw(
+	void Sprite::Draw(
+		const math::Vector3& pos,
+		const math::Vector2& origin,
+		const float scale,
+		const float angle,
+		const Color& color,
+		const math::Rect2D& rect) const
+	{
+		Draw(
+			pos,
+			GetSize(rect) * scale,
+			origin,
+			color,
+			angle,
+			rect,
+			false,
+			false,
+			m_defaultShader,
+			nullptr);
+	}
+
+	void Sprite::Draw(
 	const math::Vector3& pos,
 	const math::Vector2& size,
 	const math::Vector2& origin,
@@ -332,7 +353,17 @@ void Sprite::Draw(
 	Draw(pos, m_origin, scale, angle, rect);
 }
 
-void Sprite::Draw(
+	void Sprite::Draw(
+		const math::Vector3& pos,
+		const float scale,
+		const float angle,
+		const Color& color,
+		const math::Rect2D& rect) const
+	{
+		Draw(pos, m_origin, scale, angle, color, rect);
+	}
+
+	void Sprite::Draw(
 	const math::Vector3& pos,
 	const math::Vector2& size,
 	const Color& color,
