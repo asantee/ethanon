@@ -88,16 +88,22 @@ bool FMAudioContext::CreateAudioDevice(boost::any data)
 		m_logger.Log(errorString.str(), Platform::Logger::LT_ERROR);
 	}
 
-	// Attemps to fix audio latency on Android
+	// Attempts to fix audio latency and improve capture compatibility on Android
 #if defined(ANDROID)
-	result = m_system->setOutput(FMOD_OUTPUTTYPE_OPENSL);
+	result = m_system->setOutput(FMOD_OUTPUTTYPE_AAUDIO);
+	if (FMOD_ERRCHECK(result, m_logger))
+		result = m_system->setOutput(FMOD_OUTPUTTYPE_OPENSL);
 	if (FMOD_ERRCHECK(result, m_logger))
 		result = m_system->setOutput(FMOD_OUTPUTTYPE_AUDIOTRACK);
 	FMOD_ERRCHECK(result, m_logger);
-#endif
 
+	// Try to match the native block size for low latency
+	result = m_system->setDSPBufferSize(256, 4);
+	FMOD_ERRCHECK(result, m_logger);
+#else
 	result = m_system->setDSPBufferSize(512, 2);
 	FMOD_ERRCHECK(result, m_logger);
+#endif
 
 	result = m_system->init(32, FMOD_INIT_NORMAL, 0);
 	if (FMOD_ERRCHECK(result, m_logger))
