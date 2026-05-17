@@ -6,6 +6,10 @@
 
 #include <math.h>
 
+#if defined(ANDROID)
+#include <android/api-level.h>
+#endif
+
 namespace gs2d {
 
 bool FMOD_ERRCHECK_fn(FMOD_RESULT result, const char *file, int line, const Platform::FileLogger& logger)
@@ -90,11 +94,17 @@ bool FMAudioContext::CreateAudioDevice(boost::any data)
 
 	// Attempts to fix audio latency and improve capture compatibility on Android
 #if defined(ANDROID)
-	result = m_system->setOutput(FMOD_OUTPUTTYPE_AAUDIO);
+	if (android_get_device_api_level() >= 27)
+		result = m_system->setOutput(FMOD_OUTPUTTYPE_AAUDIO);
+	else
+		result = m_system->setOutput(FMOD_OUTPUTTYPE_OPENSL);
+
 	if (FMOD_ERRCHECK(result, m_logger))
 		result = m_system->setOutput(FMOD_OUTPUTTYPE_OPENSL);
+
 	if (FMOD_ERRCHECK(result, m_logger))
 		result = m_system->setOutput(FMOD_OUTPUTTYPE_AUDIOTRACK);
+
 	FMOD_ERRCHECK(result, m_logger);
 
 	// Try to match the native block size for low latency
