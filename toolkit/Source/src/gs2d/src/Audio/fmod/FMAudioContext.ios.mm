@@ -33,6 +33,16 @@ void CommonDefaultSuspendCallback(bool suspend, Platform::FileLogger &logger, FM
 void FMAudioContext::CommonInit(Platform::FileLogger &logger)
 {
 	AVAudioSession *session = [AVAudioSession sharedInstance];
+
+    // Allow other apps' audio (e.g., Spotify) to continue playing by using the Ambient category,
+    // which mixes with other audio and respects the Silent switch.
+    NSError *categoryError = nil;
+    if (![session setCategory:AVAudioSessionCategoryAmbient withOptions:0 error:&categoryError])
+    {
+        NSString *message = [NSString stringWithFormat:@"AVAudioSession.setCategory(Ambient) failed: %@", categoryError];
+        logger.Log([message cStringUsingEncoding:1], Platform::Logger::LT_WARNING);
+    }
+
 	double rate = 24000.0; // This should match System::setSoftwareFormat 'samplerate' which defaults to 24000
 	int blockSize = 512; // This should match System::setDSPBufferSize 'bufferlength' which defaults to 512
 
@@ -156,6 +166,16 @@ void FMAudioContext::CommonInit(Platform::FileLogger &logger)
 	[[NSNotificationCenter defaultCenter] addObserverForName:AVAudioSessionMediaServicesWereResetNotification object:nil queue:nil usingBlock:^(NSNotification *notification)
 	{
 		logger.Log("Media services were reset", Platform::Logger::LT_INFO);
+
+        // Re-apply audio session category to continue mixing with other audio after a media services reset.
+        AVAudioSession *resetSession = [AVAudioSession sharedInstance];
+        NSError *resetCategoryError = nil;
+        if (![resetSession setCategory:AVAudioSessionCategoryAmbient withOptions:0 error:&resetCategoryError])
+        {
+            NSString *message = [NSString stringWithFormat:@"MediaServicesReset: AVAudioSession.setCategory(Ambient) failed: %@", resetCategoryError];
+            logger.Log([message cStringUsingEncoding:1], Platform::Logger::LT_WARNING);
+        }
+
 		if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground || g_suspended)
 		{
 			// Received the reset notification while in the background, need to reset the AudioUnit when we come back to foreground.
