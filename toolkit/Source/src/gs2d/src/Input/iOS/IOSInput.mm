@@ -45,11 +45,6 @@ bool IOSInput::DetectJoysticks()
 
 		[controller setPlayerIndex:static_cast<GCControllerPlayerIndex>(m_joysticks.size())];
 		m_joysticks.push_back(Joystick(controller));
-
-		[controller setControllerPausedHandler:^(GCController *controller)
-		{
-			[[NSNotificationCenter defaultCenter] postNotificationName:@"GameTogglePauseNotification" object:nil];
-		}];
 	}
 	return MobileInput::DetectJoysticks();
 }
@@ -121,19 +116,9 @@ bool IOSInput::Update()
 			joystick.state[GSB_07].Update([[extentedGamepad  leftShoulder] isPressed] || [[extentedGamepad leftTrigger] value] > 0.0f);
 			joystick.state[GSB_08].Update([[extentedGamepad rightShoulder] isPressed] || [[extentedGamepad rightTrigger] value] > 0.0f);
 
-			if (@available(iOS 13.0, *))
+			if (extentedGamepad.buttonMenu)
 			{
-				if (extentedGamepad.buttonMenu)
-				{
-					m_forcePause |= extentedGamepad.buttonMenu.isPressed;
-				}
-			}
-			else
-			{
-				controller.controllerPausedHandler = ^(GCController *c)
-				{
-					m_forcePause |= true;
-				};
+				m_forcePause |= extentedGamepad.buttonMenu.isPressed;
 			}
 
 			const Vector2 dpad([[extentedGamepad dpad] xAxis].value, [[extentedGamepad dpad] yAxis].value);
@@ -164,19 +149,9 @@ bool IOSInput::Update()
 			joystick.state[GSB_UP   ].Update(dpad.y >  0.05f);
 			joystick.state[GSB_DOWN ].Update(dpad.y < -0.05f);
 
-			if (@available(iOS 13.0, *))
+			if (microGamepad.buttonMenu)
 			{
-				if (microGamepad.buttonMenu)
-				{
-					m_forcePause |= microGamepad.buttonMenu.isPressed;
-				}
-			}
-			else
-			{
-				controller.controllerPausedHandler = ^(GCController *c)
-				{
-					m_forcePause |= true;
-				};
+				m_forcePause |= microGamepad.buttonMenu.isPressed;
 			}
 		}
 
