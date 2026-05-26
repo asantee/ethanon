@@ -11,184 +11,164 @@
 namespace gs2d {
 
 static bool g_suspended = false;
+static bool g_needsReset = false;
+
+void CommonDefaultSuspendCallback(bool suspend, Platform::FileLogger &logger, FMOD::System* system)
+{
+	if (!system)
+		return;
+
+	if (suspend)
+	{
+		FMOD_RESULT result = system->mixerSuspend();
+		FMOD_ERRCHECK_fn(result, __FILE__, __LINE__, logger);
+	}
+	else
+	{
+		FMOD_RESULT result = system->mixerResume();
+		FMOD_ERRCHECK_fn(result, __FILE__, __LINE__, logger);
+	}
+}
 
 void FMAudioContext::CommonInit(Platform::FileLogger &logger)
 {
-    /*
-        Optimize audio session for FMOD defaults
-    */
-    double rate = 24000.0;
-    int blockSize = 512;
-    long channels = 2;
-    //BOOL success = false;
-    AVAudioSession *session = [AVAudioSession sharedInstance];
+	AVAudioSession *session = [AVAudioSession sharedInstance];
+	double rate = 24000.0; // This should match System::setSoftwareFormat 'samplerate' which defaults to 24000
+	int blockSize = 512; // This should match System::setDSPBufferSize 'bufferlength' which defaults to 512
 
-    // Make our category 'solo' for the best chance at getting our desired settings
-    // Use AVAudioSessionCategoryPlayAndRecord if you need microphone input
-    /*success = */[session setCategory:AVAudioSessionCategoryAmbient withOptions:AVAudioSessionCategoryOptionMixWithOthers error:nil];
-    //assert(success);
+	/*BOOL success = */[session setPreferredSampleRate:rate error:nil];
+	//assert(success);
 
-    // Set our preferred rate and activate the session to test it
-    /*success = */[session setPreferredSampleRate:rate error:nil];
-    //assert(success);
-    /*success = */[session setActive:TRUE error:nil];
-    //assert(success);
+	/*success = */[session setPreferredIOBufferDuration:blockSize / rate error:nil];
+	//assert(success);
+
+	//long maxChannels = [session maximumOutputNumberOfChannels];
+	///*BOOL success = */[session setPreferredOutputNumberOfChannels:maxChannels error:nil];
+	//assert(success);
 	
-    // Query the actual supported rate and max channels
-    rate = [session sampleRate];
-    channels = [session respondsToSelector:@selector(maximumOutputNumberOfChannels)] ? [session maximumOutputNumberOfChannels] : 2;
-	
-    // Deactivate the session so we can change parameters without route changes each time
-    /*success = */[session setActive:FALSE error:nil];
-    //assert(success);
-	
-    // Set the duration and channels based on known supported values
-    /*success = */[session setPreferredIOBufferDuration:blockSize / rate error:nil];
-    //assert(success);
-    if ([session respondsToSelector:@selector(setPreferredOutputNumberOfChannels:error:)])
-    {
-        /*success = */[session setPreferredOutputNumberOfChannels:channels error:nil];
-        //assert(success);
-    }
-	
-    /*
-        Set up some observers for various notifications
-    */
+	/*success = */[session setActive:TRUE error:nil];
+	//assert(success);
+
+	//
+	//
+	// add observers
+	//
+	//
 	[[NSNotificationCenter defaultCenter] addObserverForName:AVAudioSessionInterruptionNotification object:nil queue:nil usingBlock:^(NSNotification *notification)
 	{
-		const bool began = [[notification.userInfo valueForKey:AVAudioSessionInterruptionTypeKey] intValue] == AVAudioSessionInterruptionTypeBegan;
+		AVAudioSessionInterruptionType type = (AVAudioSessionInterruptionType)[[notification.userInfo valueForKey:AVAudioSessionInterruptionTypeKey] unsignedIntegerValue];
+		if (type == AVAudioSessionInterruptionTypeBegan)
+		{
+			logger.Log("Interruption Began", Platform::Logger::LT_INFO);
+			// Ignore deprecated warnings regarding AVAudioSessionInterruptionReasonAppWasSuspended and
+			// AVAudioSessionInterruptionWasSuspendedKey, we protect usage for the versions where they are available
+			#pragma clang diagnostic push
+			#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
-		if (began == g_suspended)
-		{
-			return;
-		}
-		
-		if (began)
-		{
-			NSLog(@"Interruption started");
-			if (m_system)
+			// If the audio session was deactivated while the app was in the background, the app receives the
+			// notification when relaunched. Identify this reason for interruption and ignore it.
+			if (@available(iOS 16.0, tvOS 14.5, *))
 			{
-				FMOD_RESULT result = m_system->mixerSuspend();
-				FMOD_ERRCHECK_fn(result, __FILE__, __LINE__, logger);
+				// Delayed suspend-in-background notifications no longer exist, this must be a real interruption
 			}
-		}
-		else
-		{
-			NSLog(@"Interruption ended");
-			NSError* error;
-			BOOL success;
-			const unsigned int maxTries = 40;
-			unsigned int tryCount = 0;
-			while (!(success = [[AVAudioSession sharedInstance] setActive:TRUE error:&error]) && tryCount < maxTries)
+			#if !TARGET_OS_TV // tvOS never supported "AVAudioSessionInterruptionReasonAppWasSuspended"
+			else if (@available(iOS 14.5, *))
 			{
-				++tryCount;
-				if (error != nil)
+				if ([[notification.userInfo valueForKey:AVAudioSessionInterruptionReasonKey] intValue] == AVAudioSessionInterruptionReasonAppWasSuspended)
 				{
-					NSLog(@"%@", [error description]);
+					logger.Log("Ignoring delayed AVAudioSessionInterruptionNotification", Platform::Logger::LT_INFO);
+					return; // Ignore delayed suspend-in-background notification
 				}
-				[NSThread sleepForTimeInterval:0.1f];
 			}
-			logger.Log("AVAudioSession setActive failed!", Platform::Logger::LT_ERROR);
-
-			if (m_system)
+			#endif // !TARGET_OS_TV
+			else
 			{
-				FMOD_RESULT result = m_system->mixerResume();
-				FMOD_ERRCHECK_fn(result, __FILE__, __LINE__, logger);
+				if ([[notification.userInfo valueForKey:AVAudioSessionInterruptionWasSuspendedKey] boolValue])
+				{
+					logger.Log("Ignoring delayed AVAudioSessionInterruptionNotification", Platform::Logger::LT_INFO);
+					return; // Ignore delayed suspend-in-background notification
+				}
 			}
-		}
 
-		if (began && [[notification.userInfo valueForKey:AVAudioSessionInterruptionWasSuspendedKey] boolValue])
-		{
-			return;
-		}
+			CommonDefaultSuspendCallback(true, logger, m_system);
+			g_suspended = true;
 
-		g_suspended = began;
-		if (!began)
-		{
-			[[AVAudioSession sharedInstance] setActive:TRUE error:nil];
+			#pragma clang diagnostic pop
 		}
-
-		/*if (gSuspendCallback)
+		else if (type == AVAudioSessionInterruptionTypeEnded)
 		{
-			gSuspendCallback(began);
-		}*/
+			logger.Log("Interruption Ended", Platform::Logger::LT_INFO);
+			NSError *errorMessage = nullptr;
+			if (![[AVAudioSession sharedInstance] setActive:TRUE error:&errorMessage])
+			{
+				// Interruption like Siri can prevent session activation, wait for did-become-active notification
+				NSString *message = [NSString stringWithFormat:@"AVAudioSessionInterruptionNotification: AVAudioSession.setActive() failed: %@", errorMessage];
+				logger.Log([message cStringUsingEncoding:1], Platform::Logger::LT_WARNING);
+				return;
+			}
+
+			CommonDefaultSuspendCallback(false, logger, m_system);
+			g_suspended = false;
+		}
 	}];
 
 	[[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidBecomeActiveNotification object:nil queue:nil usingBlock:^(NSNotification *notification)
 	{
-		#ifndef TARGET_OS_TV
-			if (!g_suspended)
+		logger.Log("Application did become active", Platform::Logger::LT_INFO);
+
+		if (g_needsReset)
+		{
+			CommonDefaultSuspendCallback(true, logger, m_system);
+			g_suspended = true;
+		}
+
+		NSError *errorMessage = nullptr;
+		if (![[AVAudioSession sharedInstance] setActive:TRUE error:&errorMessage])
+		{
+			if ([errorMessage code] == AVAudioSessionErrorCodeCannotStartPlaying)
 			{
+				// Interruption like Screen Time can prevent session activation, but will not trigger an interruption-ended notification.
+				// There is no other callback or trigger to hook into after this point, we are not in the background and there is no other audio playing.
+				// Our only option is to have a sleep loop until the Audio Session can be activated again.
+				while (![[AVAudioSession sharedInstance] setActive:TRUE error:nil])
+				{
+					usleep(20000);
+				}
+			}
+			else
+			{
+				// Interruption like Siri can prevent session activation, wait for interruption-ended notification.
+				NSString *message = [NSString stringWithFormat:@"UIApplicationDidBecomeActiveNotification: AVAudioSession.setActive() failed: %@", errorMessage];
+				logger.Log([message cStringUsingEncoding:1], Platform::Logger::LT_WARNING);
 				return;
 			}
-		#else
-			/*if (gSuspendCallback)
-			{
-				gSuspendCallback(true);
-			}*/
-		#endif
+		}
 
-		[[AVAudioSession sharedInstance] setActive:TRUE error:nil];
-		/*if (gSuspendCallback)
+		// It's possible the system missed sending us an interruption end, so recover here
+		if (g_suspended)
 		{
-			gSuspendCallback(false);
-		}*/
-		g_suspended = false;
+			CommonDefaultSuspendCallback(false, logger, m_system);
+			g_needsReset = false;
+			g_suspended = false;
+		}
 	}];
 
-	
-	/* [[NSNotificationCenter defaultCenter] addObserverForName:AVAudioSessionInterruptionNotification object:nil queue:nil usingBlock:^(NSNotification *notification)
-    {
-		NSLog(@"Start Interruption");
-		if ([[notification.userInfo valueForKey:AVAudioSessionInterruptionTypeKey] intValue] == AVAudioSessionInterruptionTypeBegan)
+	[[NSNotificationCenter defaultCenter] addObserverForName:AVAudioSessionMediaServicesWereResetNotification object:nil queue:nil usingBlock:^(NSNotification *notification)
+	{
+		logger.Log("Media services were reset", Platform::Logger::LT_INFO);
+		if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground || g_suspended)
 		{
-			NSLog(@"Interruption started");
-			if (m_system)
-			{
-				FMOD_RESULT result = m_system->mixerSuspend();
-				FMOD_ERRCHECK_fn(result, __FILE__, __LINE__, logger);
-			}
+			// Received the reset notification while in the background, need to reset the AudioUnit when we come back to foreground.
+			g_needsReset = true;
 		}
 		else
 		{
-			NSLog(@"Interruption ended");
-			NSError* error;
-			BOOL success;
-			const unsigned int maxTries = 40;
-			unsigned int tryCount = 0;
-			while (!(success = [[AVAudioSession sharedInstance] setActive:TRUE error:&error]) && tryCount < maxTries)
-			{
-				++tryCount;
-				if (error != nil)
-				{
-					NSLog(@"%@", [error description]);
-				}
-				[NSThread sleepForTimeInterval:0.1f];
-			}
-			logger.Log("AVAudioSession setActive failed!", Platform::Logger::LT_ERROR);
-
-			if (m_system)
-			{
-				FMOD_RESULT result = m_system->mixerResume();
-				FMOD_ERRCHECK_fn(result, __FILE__, __LINE__, logger);
-			}
+			// In the foregound but something chopped the media services, need to do a reset.
+			CommonDefaultSuspendCallback(true, logger, m_system);
+			CommonDefaultSuspendCallback(false, logger, m_system);
 		}
-    }];
-
-    if (&AVAudioSessionSilenceSecondaryAudioHintNotification)
-    {
-        [[NSNotificationCenter defaultCenter] addObserverForName:AVAudioSessionSilenceSecondaryAudioHintNotification object:nil queue:nil usingBlock:^(NSNotification *notification)
-        {
-            bool began = [[notification.userInfo valueForKey:AVAudioSessionSilenceSecondaryAudioHintTypeKey] intValue] == AVAudioSessionSilenceSecondaryAudioHintTypeBegin;
-            NSLog(@"Silence secondary audio %@", began ? @"Began" : @"Ended");
-        }];
-    }*/
-
-    /*
-        Activate the audio session
-    */
-    /*success = */[session setActive:TRUE error:nil];
-    //assert(success);
+	}];
 }
 
 } // namespace gs2d
+
