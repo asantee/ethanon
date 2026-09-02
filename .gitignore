@@ -203,3 +203,7 @@ toolkit/Source/projects/vs2019/Ethanon/RelWithDebInfo/Win32/Machine.exp
 toolkit/Source/src/angelscript/projects/xcode/build/XCBuildData/*
 /toolkit/Source/src/vendors/openssl-3.5.1
 /toolkit/Source/src/vendors/openssl-3.5.1_
+
+# Magic Rampage master-project build artifacts (static-CRT object dirs and the CRT variant marker)
+obj-static-crt/
+.crt-variant

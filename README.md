@@ -25,17 +25,21 @@ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTIO
 CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
 OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-Dependencies
-------------
+Dependencies (Windows)
+----------------------
 - Some git tool for cloning codes
-- [MSVC 10 BuildTools][5] ou [VS2022][6]
+- [Visual Studio 2022][6] with the "Desktop development with C++" workload (MSVC v143 toolset,
+  Windows 10/11 SDK). The VS2019 folder name of the project files is historical; the projects
+  target `v143`.
 - [VSCODE][6] (opcional, mas recomendado)
 - [Ethanon Engine Libraries][1]
   - The sourcetree for Ethanon must be at same directory as the sourcetree for projectx (MagicRampage), or an environment variable ETHANON should be set to ethanon's sourcetree root.
   - Ethanon must be compiled for target configuration in use (Release, Debug or RelWithDebInfo), using VS2022
 
-- [Angelscript library][1] (the one inside of Ethanon Engine)
-- VCPkg for installing libraries:
+- [Angelscript library][1] (the one inside of Ethanon Engine; built by the solution)
+- VCPkg for installing libraries. **The Win32 project configurations do not list these include
+  paths themselves: they rely on vcpkg's user-wide MSBuild integration (`vcpkg integrate install`)
+  to add `<vcpkg>/installed/x86-windows[-static]/include` automatically.**
   - boost-smart-ptr
   - boost-any
   - boost-asio
@@ -129,14 +133,45 @@ Instructions to install FMod
 
 ## How to build
 
-1. Unpack the following files located at **toolkit/Source/src/gs2d/vendors**:
-  - vendors.zip
-  - Cg.framework.zip
-  - SDL2.framework.zip
+### Windows (what the Magic Rampage Steam build needs)
 
-- Use Visual Studio 2022 (19.0)
-- Unpack the following files located at **toolkit/Source/src/gs2d/vendors**:
-  - vendors.zip
-  
-2. The project file for Visual Studio is located at
-   `ethanon\toolkit\Source\projects\vs2019`
+Nothing has to be unpacked in `toolkit/Source/src/gs2d/vendors` for Windows: the old
+`vendors.zip` / `Cg.framework.zip` no longer exist, `SDL2.framework.zip` is for macOS and
+`fmod/extract-fmod-*.zip` only holds the Android/iOS FMOD binaries. Boost, SDL2, GLEW, libzip,
+libwebp and OpenSSL come from vcpkg (see above); FMOD comes from its default install path
+`C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\core`.
+
+1. Install vcpkg, run `vcpkg integrate install` and install the packages listed above for the
+   triplet you are going to link against (`x86-windows` for a DLL-runtime game build,
+   `x86-windows-static` for a static-runtime game build).
+2. Build the **Engine** target of `toolkit\Source\projects\vs2019\Ethanon\Ethanon.sln` for
+   `RelWithDebInfo|x86` (solution platform `x86` = project platform `Win32`). It pulls in
+   angelscript, Box2D, hashlib and gs2d through the solution dependencies:
+
+   ```
+   MSBuild.exe toolkit\Source\projects\vs2019\Ethanon\Ethanon.sln -t:Engine -p:Configuration=RelWithDebInfo -p:Platform=x86 -m
+   ```
+
+   Outputs: `projects\vs2019\Ethanon\RelWithDebInfo\Win32\{Engine,gs2d,Box2D,hashlib}.lib` and
+   `src\angelscript\lib\angelscript.lib`.
+3. The `Machine` project (the stand-alone engine runner) is not needed for the game and its
+   post-build step references a `sdl2_x64-windows` vcpkg package that is normally not installed;
+   leave it out of the build.
+
+Notes:
+- Only the `Win32` configurations are maintained. The `x64` configurations still point at a
+  non-existent `src/gs2d/vendors/boost` folder.
+- The Release/RelWithDebInfo projects compile with `/GL` (whole program optimisation), so
+  consumers must link with `/LTCG` and the libraries must be rebuilt after every Visual Studio
+  toolset update.
+- The projects use the DLL runtime (`/MD`) by default. Magic Rampage's master build project
+  injects a `.props` file (MSBuild `-p:ForceImportBeforeCppTargets=...`) to switch them to `/MT`
+  and to define `_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR`; nothing in this repo needs to change
+  for that.
+- `toolkit\Source\Ethanon Engine.sln` at the toolkit root is the ancient msvc9 solution
+  (editor, audiere, etc.) and is not used.
+
+### macOS / iOS
+Unpack `toolkit/Source/src/gs2d/vendors/SDL2.framework.zip` and the FMOD archive in
+`toolkit/Source/src/gs2d/vendors/fmod/`, then use the Xcode projects under
+`toolkit/Source/projects/xcode`.
