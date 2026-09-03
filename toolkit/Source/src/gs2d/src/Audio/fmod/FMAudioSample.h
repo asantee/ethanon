@@ -5,7 +5,11 @@
 
 #include "FMAudioContext.h"
 
-#include "inc/fmod.hpp"
+// fmod.hpp is already included by FMAudioContext.h as <fmod.hpp>. Do not include the checked-in
+// copy (inc/fmod.hpp) by relative path here: on Windows that copy (2.03.x) differs from the FMOD
+// SDK installed under Program Files that the DLL is copied from, and mixing the two header versions
+// in one build would only be masked by the include guard. Each platform puts exactly one FMOD
+// header directory on its include path (Windows: the SDK install, Android/iOS: Audio/fmod/inc).
 
 namespace gs2d {
 

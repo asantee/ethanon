@@ -84,11 +84,13 @@ bool FMAudioContext::CreateAudioDevice(boost::any data)
 	if (FMOD_ERRCHECK(result, m_logger))
 		return false;
 
-	if (version < FMOD_VERSION)
+	// FMOD refuses to run when the library is older than the headers (FMOD_ERR_HEADER_MISMATCH above);
+	// a newer library still works but is worth knowing about, so report any difference.
+	if (version != FMOD_VERSION)
 	{
 		std::stringstream errorString;
-		errorString << "FMOD lib version doesn't match header version: ";
-		errorString << std::hex << version;
+		errorString << "FMOD library version 0x" << std::hex << version;
+		errorString << " does not match header version 0x" << std::hex << FMOD_VERSION;
 		m_logger.Log(errorString.str(), Platform::Logger::LT_ERROR);
 	}
 

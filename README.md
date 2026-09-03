@@ -1,4 +1,4 @@
-﻿# Ethanon engine
+# Ethanon engine
 
 - [About the engine] [1]
 - [Sample code] [2]
@@ -140,6 +140,11 @@ Nothing has to be unpacked in `toolkit/Source/src/gs2d/vendors` for Windows: the
 `fmod/extract-fmod-*.zip` only holds the Android/iOS FMOD binaries. Boost, SDL2, GLEW, libzip,
 libwebp and OpenSSL come from vcpkg (see above); FMOD comes from its default install path
 `C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\core`.
+FMOD headers: on Windows the gs2d project takes them from that SDK install (`api\core\inc`), and the
+game copies `fmod.dll` from the same install, so header and library always match as long as the
+engine is rebuilt after an FMOD upgrade. The copy under `src/gs2d/src/Audio/fmod/inc` (2.03.x) is
+only for Android/iOS, whose projects add it to their include path; it must not be included by
+relative path from the sources.
 
 1. Install vcpkg, run `vcpkg integrate install` and install the packages listed above for the
    triplet you are going to link against (`x86-windows` for a DLL-runtime game build,
