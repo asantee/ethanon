@@ -1,1 +1,27 @@
 Latest tested version: 1.79.0
+
+LOCAL PATCH REQUIRED FOR 1.79.0 (not tracked by git -- this folder is gitignored)
+==================================================================================
+
+Xcode 26 (Apple clang 17, based on LLVM 20) rejects Boost 1.79's MPL with:
+
+  boost/mpl/aux_/integral_wrapper.hpp:73:31: Non-type template argument is not a constant expression
+
+Newer clang no longer accepts the in-class static member `value +/- 1` as a
+template argument. Boost fixed this upstream in 1.86.0 by computing next/prior
+from the template parameter N on any C++11+ compiler.
+
+Fix (already applied to the extracted copy on the dev Mac, 2026-09-08). After
+re-extracting 1.79.0, or on a fresh clone, apply it again by hand:
+
+  File: boost/mpl/aux_/integral_wrapper.hpp  (the #if just above " private:")
+
+  -#if BOOST_WORKAROUND(__EDG_VERSION__, <= 243)
+  +#if BOOST_WORKAROUND(__EDG_VERSION__, <= 243) \
+  +    || __cplusplus >= 201103L
+    private:
+       BOOST_STATIC_CONSTANT(AUX_WRAPPER_VALUE_TYPE, next_value = ...
+
+TODO: upgrade this extraction to Boost >= 1.86.0, which carries the fix and
+makes the manual patch unnecessary. Not done yet; 1.79.0 + patch is what the
+current Apple builds use.
