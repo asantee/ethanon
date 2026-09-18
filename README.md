@@ -176,7 +176,27 @@ Notes:
 - `toolkit\Source\Ethanon Engine.sln` at the toolkit root is the ancient msvc9 solution
   (editor, audiere, etc.) and is not used.
 
+### Android (what the Magic Rampage Gradle project needs)
+There is no engine-side Android project to build: `projectx/android-studio-project/mr-base/CMakeLists.txt`
+compiles the engine sources of this repo directly (found by the relative path `../../../ethanon/toolkit/Source`,
+i.e. the two repos side by side) into `libmachine.so`. Two git-ignored folders must be filled first:
+
+- `toolkit/Source/src/gs2d/vendors/BoostSDK/` — unpack Boost **1.79.0** so that `BoostSDK/boost/*.hpp`
+  and `BoostSDK/libs/{chrono,thread}/src/*.cpp` exist (the Android CMake and the Xcode project compile
+  `libs/chrono/src/{chrono,thread_clock,process_cpu_clocks}.cpp` and `libs/thread/src/{future,tss_null}.cpp`;
+  the pthread `once`/`thread` sources are only used by Xcode). Headers plus those two `libs/` subtrees are
+  enough; the full archive is not needed.
+- `toolkit/Source/src/vendors/openssl-3.5.1/` — unpack the committed `openssl-3.5.1.zip` next to it (headers
+  only, `include/openssl` with pre-generated `configuration.h`). The Android `libssl.so`/`libcrypto.so` per ABI
+  live in the game repo (`mr-base/src/main/jniLibs`), the Apple ones in `openssl-xcode.zip`.
+
+FMOD needs nothing on Android: the headers in `src/gs2d/src/Audio/fmod/inc` are 2.03.13 and the matching
+`libfmod.so`/`fmod.jar` are committed in the game repo (identical to `lib-android/` in
+`vendors/fmod/extract-fmod-2.03.13-here.zip`). The Magic Rampage master build project automates the two
+unpacking steps (`tools\prepare-android-deps.ps1`).
+
 ### macOS / iOS
 Unpack `toolkit/Source/src/gs2d/vendors/SDL2.framework.zip` and the FMOD archive in
-`toolkit/Source/src/gs2d/vendors/fmod/`, then use the Xcode projects under
+`toolkit/Source/src/gs2d/vendors/fmod/`, unpack Boost 1.79.0 into `gs2d/vendors/BoostSDK` and
+`openssl-xcode.zip` in `src/vendors/` (see the Android section), then use the Xcode projects under
 `toolkit/Source/projects/xcode`.
