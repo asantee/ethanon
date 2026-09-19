@@ -437,8 +437,12 @@ int CScriptBuilder::ProcessScriptSection(const char *script, unsigned int length
 	engine->SetEngineProperty(asEP_COPY_SCRIPT_SECTIONS, true);
 
 	// remove resource directory from section name
-	const std::string resourceDirectory = resourcedirectory;
-	std::string shortSectionName = sectionname;
+	// Both sides are normalised the way AddSectionFromFile normalised the section name (backslashes to
+	// forward slashes): on Windows the resource directory arrives with backslashes, so without this the
+	// prefix never matched and every section kept its absolute path (machine-specific names in the
+	// saved byte code, ~44 KB bigger game_32.bin than the one compiled on macOS/Android).
+	const std::string resourceDirectory = GetAbsolutePath(resourcedirectory);
+	std::string shortSectionName = GetAbsolutePath(sectionname);
 	if (shortSectionName.find(resourceDirectory) == 0)
 	{
 		shortSectionName = shortSectionName.substr(resourceDirectory.length(), std::string::npos);
