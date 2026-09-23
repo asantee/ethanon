@@ -96,6 +96,10 @@ public:
 	virtual bool Pause() = 0;
 	virtual bool Stop() = 0;
 
+	// Fades the current playback down to silence over 'seconds' and stops it there.
+	// Zero or negative stops immediately
+	virtual bool FadeOut(const float seconds) = 0;
+
 	virtual Audio::SAMPLE_TYPE GetType() const = 0;
 
 	virtual bool SetSpeed(const float speed) = 0;

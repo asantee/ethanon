@@ -120,6 +120,11 @@ bool AudioSampleDummy::Stop()
 	return true;
 }
 
+bool AudioSampleDummy::FadeOut(const float seconds)
+{
+	return true;
+}
+
 Audio::SAMPLE_TYPE AudioSampleDummy::GetType() const
 {
 	return Audio::UNKNOWN_TYPE;

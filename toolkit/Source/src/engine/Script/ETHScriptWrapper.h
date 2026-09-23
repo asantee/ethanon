@@ -236,6 +236,7 @@ public:
 	static bool LoopSample(const std::string &file, const bool loop);
 	static bool StopSample(const std::string &file);
 	static bool PauseSample(const std::string &file);
+	static bool FadeOutSample(const std::string &file, const float milliseconds);
 	static bool SetSampleVolume(const std::string &file, const float volume);
 	static bool SetSamplePan(const std::string &file, const float pan);
 	static bool SetSampleSpeed(const std::string &file, const float speed);

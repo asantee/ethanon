@@ -1,6 +1,8 @@
 #include "FMAudioSample.h"
 
+#include <climits>
 #include <sstream>
+#include <vector>
 
 namespace gs2d {
 
@@ -235,6 +237,96 @@ bool FMAudioSample::Stop()
 			return false;
 	}
 	return false;
+}
+
+// the fade level the mixer applies at 'clock', interpolated from the channel's fade points
+static float GetFadeLevel(FMOD::Channel* channel, const unsigned long long clock)
+{
+	unsigned int numPoints = 0;
+	if (channel->getFadePoints(&numPoints, 0, 0) != FMOD_OK || numPoints == 0)
+		return 1.0f;
+
+	std::vector<unsigned long long> clocks(numPoints);
+	std::vector<float> volumes(numPoints);
+	if (channel->getFadePoints(&numPoints, &clocks[0], &volumes[0]) != FMOD_OK || numPoints == 0)
+		return 1.0f;
+
+	if (clock <= clocks[0])
+		return volumes[0];
+
+	for (unsigned int t = 1; t < numPoints; t++)
+	{
+		if (clock <= clocks[t])
+		{
+			const float bias = static_cast<float>(clock - clocks[t - 1]) / static_cast<float>(clocks[t] - clocks[t - 1]);
+			return volumes[t - 1] + ((volumes[t] - volumes[t - 1]) * bias);
+		}
+	}
+	return volumes[numPoints - 1];
+}
+
+bool FMAudioSample::FadeOut(const float seconds)
+{
+	if (FMAudioContext::IsSuspended())
+		return false;
+
+	if (seconds <= 0.0f)
+		return Stop();
+
+	if (m_channel)
+	{
+		// a paused channel is already silent, there is nothing to fade
+		bool paused = false;
+		FMOD_RESULT result = m_channel->getPaused(&paused);
+
+		if ((result == FMOD_ERR_INVALID_HANDLE) || (result == FMOD_ERR_CHANNEL_STOLEN))
+		{
+			m_channel = 0;
+			return true;
+		}
+
+		if (FMOD_ERRCHECK(result, m_logger))
+			return false;
+
+		if (paused)
+			return Stop();
+
+		// fade points and delays are scheduled on the parent channel group's DSP clock,
+		// which advances by the mixer's sample rate every second
+		int sampleRate = 0;
+		result = m_system->getSoftwareFormat(&sampleRate, 0, 0);
+		if (FMOD_ERRCHECK(result, m_logger))
+			return false;
+
+		unsigned long long parentClock = 0;
+		result = m_channel->getDSPClock(0, &parentClock);
+		if (FMOD_ERRCHECK(result, m_logger))
+			return false;
+
+		const unsigned long long fadeEnd = parentClock + static_cast<unsigned long long>(static_cast<double>(seconds) * sampleRate);
+
+		// the mixer interpolates linearly between fade points, so the fade stays smooth even when
+		// the main thread stalls. Not setFadePointRamp: it holds the level and only ramps right before
+		// 'fadeEnd'. Start from the level an earlier fade may have reached (1 when there is none),
+		// then drop that fade's remaining points; this order never lets the level jump
+		result = m_channel->addFadePoint(parentClock, GetFadeLevel(m_channel, parentClock));
+		if (FMOD_ERRCHECK(result, m_logger))
+			return false;
+
+		result = m_channel->removeFadePoints(parentClock + 1, ULLONG_MAX);
+		if (FMOD_ERRCHECK(result, m_logger))
+			return false;
+
+		result = m_channel->addFadePoint(fadeEnd, 0.0f);
+		if (FMOD_ERRCHECK(result, m_logger))
+			return false;
+
+		// and stops the channel at the sample where the fade reaches silence
+		result = m_channel->setDelay(0, fadeEnd, true);
+		if (FMOD_ERRCHECK(result, m_logger))
+			return false;
+	}
+	return true;
 }
 
 bool FMAudioSample::IsPlaying()

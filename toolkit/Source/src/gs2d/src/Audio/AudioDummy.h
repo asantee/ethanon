@@ -65,6 +65,7 @@ public:
 
 	bool Pause() override;
 	bool Stop() override;
+	bool FadeOut(const float seconds) override;
 
 	Audio::SAMPLE_TYPE GetType() const override;
 

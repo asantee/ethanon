@@ -211,6 +211,12 @@ bool AndroidAudioSample::Stop()
 	}
 }
 
+bool AndroidAudioSample::FadeOut(const float seconds)
+{
+	// no fade support in the native Android player
+	return Stop();
+}
+
 Audio::SAMPLE_TYPE AndroidAudioSample::GetType() const
 {
 	return m_type;

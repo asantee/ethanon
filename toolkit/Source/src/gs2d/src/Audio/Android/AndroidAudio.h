@@ -82,6 +82,7 @@ public:
 
 	bool Pause();
 	bool Stop();
+	bool FadeOut(const float seconds);
 
 	Audio::SAMPLE_TYPE GetType() const;
 
