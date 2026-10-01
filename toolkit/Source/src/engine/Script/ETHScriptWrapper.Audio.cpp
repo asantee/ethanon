@@ -47,6 +47,22 @@ bool ETHScriptWrapper::PlaySample(const std::string &file)
 	return true;
 }
 
+bool ETHScriptWrapper::FadeInSample(const std::string &file, const float milliseconds)
+{
+	Platform::FileIOHubPtr fileIOHub = m_provider->GetFileIOHub();
+
+	AudioSamplePtr pSample =
+		m_provider->GetAudioResourceManager()->GetPointer(m_provider->GetAudio(), fileIOHub, file, (""), Audio::UNKNOWN_TYPE);
+
+	if (!pSample)
+	{
+		ShowMessage(("File not found: ") + file, ETH_WARNING, false);
+		return false;
+	}
+	pSample->FadeIn(milliseconds / 1000.0f);
+	return true;
+}
+
 bool ETHScriptWrapper::LoopSample(const std::string &file, const bool loop)
 {
 	Platform::FileIOHubPtr fileIOHub = m_provider->GetFileIOHub();

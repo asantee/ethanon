@@ -76,6 +76,7 @@ public:
 	bool GetLoop() const;
 
 	bool Play();
+	bool FadeIn(const float seconds);
 	Audio::SAMPLE_STATUS GetStatus();
 
 	bool IsPlaying();

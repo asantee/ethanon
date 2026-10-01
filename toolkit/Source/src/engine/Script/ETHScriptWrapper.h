@@ -233,6 +233,7 @@ public:
 	static bool LoadMusic(const std::string &file);
 	static bool LoadSoundEffect(const std::string &file);
 	static bool PlaySample(const std::string &file);
+	static bool FadeInSample(const std::string &file, const float milliseconds);
 	static bool LoopSample(const std::string &file, const bool loop);
 	static bool StopSample(const std::string &file);
 	static bool PauseSample(const std::string &file);

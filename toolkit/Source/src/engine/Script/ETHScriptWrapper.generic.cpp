@@ -99,6 +99,7 @@ asDECLARE_FUNCTION_WRAPPER(__GetFPSRate,      ETHScriptWrapper::GetFPSRate);
 asDECLARE_FUNCTION_WRAPPER(__LoadMusic,       ETHScriptWrapper::LoadMusic);
 asDECLARE_FUNCTION_WRAPPER(__LoadSoundEffect, ETHScriptWrapper::LoadSoundEffect);
 asDECLARE_FUNCTION_WRAPPER(__PlaySample,      ETHScriptWrapper::PlaySample);
+asDECLARE_FUNCTION_WRAPPER(__FadeInSample,    ETHScriptWrapper::FadeInSample);
 asDECLARE_FUNCTION_WRAPPER(__LoopSample,      ETHScriptWrapper::LoopSample);
 asDECLARE_FUNCTION_WRAPPER(__StopSample,      ETHScriptWrapper::StopSample);
 asDECLARE_FUNCTION_WRAPPER(__PauseSample,     ETHScriptWrapper::PauseSample);
@@ -355,6 +356,7 @@ void ETHScriptWrapper::RegisterGlobalFunctions(asIScriptEngine *pASEngine)
 	r = pASEngine->RegisterGlobalFunction("bool LoadMusic(const string &in)",                    asFUNCTION(__LoadMusic),       asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool LoadSoundEffect(const string &in)",              asFUNCTION(__LoadSoundEffect), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool PlaySample(const string &in)",                   asFUNCTION(__PlaySample),      asCALL_GENERIC); assert(r >= 0);
+	r = pASEngine->RegisterGlobalFunction("bool PlaySample(const string &in, const float fadeInMilliseconds)", asFUNCTION(__FadeInSample), asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool LoopSample(const string &in, const bool)",       asFUNCTION(__LoopSample),      asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool StopSample(const string &in)",                   asFUNCTION(__StopSample),      asCALL_GENERIC); assert(r >= 0);
 	r = pASEngine->RegisterGlobalFunction("bool PauseSample(const string &in)",                  asFUNCTION(__PauseSample),     asCALL_GENERIC); assert(r >= 0);

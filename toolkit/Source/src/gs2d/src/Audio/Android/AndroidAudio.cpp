@@ -180,6 +180,12 @@ bool AndroidAudioSample::Play()
 	return true;
 }
 
+bool AndroidAudioSample::FadeIn(const float seconds)
+{
+	// no fade support in the native Android player
+	return Play();
+}
+
 Audio::SAMPLE_STATUS AndroidAudioSample::GetStatus()
 {
 	return Audio::UNKNOWN_STATUS;

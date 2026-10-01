@@ -26,6 +26,8 @@ class FMAudioSample : public AudioSample
 	Audio::SAMPLE_TYPE m_type;
 	static Platform::FileLogger m_logger;
 
+	bool StartPlayback(const float fadeInSeconds);
+
 public:
 	FMAudioSample();
 	~FMAudioSample();
@@ -46,6 +48,7 @@ public:
 	bool GetLoop() const override;
 
 	bool Play() override;
+	bool FadeIn(const float seconds) override;
 	Audio::SAMPLE_STATUS GetStatus() override;
 
 	bool IsPlaying() override;

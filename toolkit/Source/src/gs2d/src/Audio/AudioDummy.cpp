@@ -100,6 +100,11 @@ bool AudioSampleDummy::Play()
 	return true;
 }
 
+bool AudioSampleDummy::FadeIn(const float seconds)
+{
+	return true;
+}
+
 Audio::SAMPLE_STATUS AudioSampleDummy::GetStatus()
 {
 	return Audio::UNKNOWN_STATUS;

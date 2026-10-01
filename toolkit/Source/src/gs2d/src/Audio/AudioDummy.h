@@ -59,6 +59,7 @@ public:
 	bool GetLoop() const override;
 
 	bool Play() override;
+	bool FadeIn(const float seconds) override;
 	Audio::SAMPLE_STATUS GetStatus() override;
 
 	bool IsPlaying() override;

@@ -89,6 +89,11 @@ public:
 	virtual bool GetLoop() const = 0;
 
 	virtual bool Play() = 0;
+
+	// Starts playback from silence and fades it up to the sample volume over 'seconds'.
+	// Zero or negative plays at full volume right away, like Play()
+	virtual bool FadeIn(const float seconds) = 0;
+
 	virtual Audio::SAMPLE_STATUS GetStatus() = 0;
 
 	virtual bool IsPlaying() = 0;
