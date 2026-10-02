@@ -103,14 +103,29 @@ JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_audioSetSoundEffectVolume(J
 
 std::string g_inputStr;
 
+// Copies a Java string and releases the JNI buffer. ART's GetStringUTFChars always allocates a new
+// copy, so every call that is not paired with ReleaseStringUTFChars leaks it (mainLoop did, every frame).
+static std::string JStringToStdString(JNIEnv* env, jstring str)
+{
+	if (str == NULL)
+		return std::string();
+
+	const char* chars = env->GetStringUTFChars(str, NULL);
+	if (chars == NULL)
+		return std::string(); // OutOfMemoryError pending in the JVM
+
+	const std::string r(chars);
+	env->ReleaseStringUTFChars(str, chars);
+	return r;
+}
+
 JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_start(
 	JNIEnv* env, jobject thiz, jstring apkPath, jstring externalPath, jstring globalPath, jint width, jint height)
 {
-	jboolean isCopy;
-	const char* strApk = env->GetStringUTFChars(apkPath, &isCopy);
-	const char* strExt = env->GetStringUTFChars(externalPath, &isCopy);
-	const char* strGlo = env->GetStringUTFChars(globalPath, &isCopy);
-	zip = boost::shared_ptr<Platform::AndroidZipFileManager>(new Platform::AndroidZipFileManager(strApk));
+	const std::string strApk = JStringToStdString(env, apkPath);
+	const std::string strExt = JStringToStdString(env, externalPath);
+	const std::string strGlo = JStringToStdString(env, globalPath);
+	zip = boost::shared_ptr<Platform::AndroidZipFileManager>(new Platform::AndroidZipFileManager(strApk.c_str()));
 	Platform::FileIOHubPtr fileIOHub(new Platform::AndroidFileIOHub(zip, strExt, strGlo, ETHDirectories::GetBitmapFontDirectory()));
 
 	video = VideoPtr(new AndroidGLES2Video(width, height, "Ethanon Engine", fileIOHub));
@@ -226,8 +241,7 @@ JNIEXPORT jboolean JNICALL Java_net_asantee_gs2d_GS2DJNI_isLoading(JNIEnv* env, 
 
 JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_mainLoop(JNIEnv* env, jobject thiz, jstring inputStr)
 {
-	jboolean isCopy;
-	g_inputStr = env->GetStringUTFChars(inputStr, &isCopy);
+	g_inputStr = JStringToStdString(env, inputStr);
 
 	video->HandleEvents();
 	audio->Update();
@@ -325,39 +339,27 @@ JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_destroy(JNIEnv* env, job
 
 JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_runOnUIThread(JNIEnv* env, jobject thiz, jstring inputStr)
 {
-	jboolean isCopy;
-	const std::string str = env->GetStringUTFChars(inputStr, &isCopy);
+	const std::string str = JStringToStdString(env, inputStr);
 	const std::string outStr = application->RunOnUIThread(str);
 	return env->NewStringUTF(outStr.c_str());
 }
 
 JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_getSharedData(JNIEnv* env, jobject thiz, jstring key, jstring defaultValue)
 {
-	jboolean isCopy;
-	const char* cstrKey = env->GetStringUTFChars(key, &isCopy);
-	const char* cstrDef = env->GetStringUTFChars(defaultValue,&isCopy);
-	return env->NewStringUTF(Application::SharedData.Get(cstrKey, cstrDef).c_str());
+	return env->NewStringUTF(Application::SharedData.Get(JStringToStdString(env, key), JStringToStdString(env, defaultValue)).c_str());
 }
 
 JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_setSharedData(JNIEnv* env, jobject thiz, jstring key, jstring value)
 {
-	jboolean isCopy;
-	const char* cstrKey   = env->GetStringUTFChars(key, &isCopy);
-	const char* cstrValue = env->GetStringUTFChars(value, &isCopy);
-	Application::SharedData.Set(cstrKey, cstrValue);
+	Application::SharedData.Set(JStringToStdString(env, key), JStringToStdString(env, value));
 }
 
 JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_setSecuredSharedData(JNIEnv* env, jobject thiz, jstring key, jstring value)
 {
-	jboolean isCopy;
-	const char* cstrKey   = env->GetStringUTFChars(key, &isCopy);
-	const char* cstrValue = env->GetStringUTFChars(value, &isCopy);
-	Application::SharedData.SetSecured(cstrKey, cstrValue);
+	Application::SharedData.SetSecured(JStringToStdString(env, key), JStringToStdString(env, value));
 }
 
 JNIEXPORT jboolean JNICALL Java_net_asantee_gs2d_GS2DJNI_isSharedDataValid(JNIEnv* env, jobject thiz, jstring key)
 {
-	jboolean isCopy;
-	const char* cstrKey   = env->GetStringUTFChars(key, &isCopy);
-	return Application::SharedData.IsValid(cstrKey);
+	return Application::SharedData.IsValid(JStringToStdString(env, key));
 }
