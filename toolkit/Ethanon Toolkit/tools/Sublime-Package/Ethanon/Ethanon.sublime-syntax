@@ -1,0 +1,452 @@
+%YAML 1.2
+---
+# AngelScript as used by the Ethanon engine (*.angelscript).
+# The engine API lists (ethanon_functions, ethanon_types, ethanon_constants) are generated from the engine's
+# Register* calls by ../update-api-lists.pl; run it after binding something new instead of editing them by hand.
+name: Ethanon
+scope: source.ethanon
+version: 2
+
+file_extensions:
+  - angelscript
+
+variables:
+  ident: '[A-Za-z_][A-Za-z0-9_]*'
+  primitive_types: '(?:void|bool|int|int8|int16|int32|int64|uint|uint8|uint16|uint32|uint64|float|double|auto)'
+  modifier_words: '(?:const|private|protected|shared|external|abstract|final|override|explicit|property|mixin)'
+  # Words that can never start a type, so "return foo(x)" or "else if (x)" is not read as a declaration.
+  non_type_words: '(?:and|break|case|cast|catch|class|continue|default|do|else|enum|false|for|from|funcdef|function|if|import|interface|is|namespace|not|null|or|return|super|switch|this|true|try|typedef|while|xor|get|set)\b'
+  type_name: '(?:::)?(?:{{ident}}\s*::\s*)*{{ident}}(?:\s*<[^;(){}=]*>)?(?:\s*(?:@|&|\[\s*\]))*'
+  decl_modifiers: '(?:{{modifier_words}}\s+)*'
+  # Number literals: 0x.. 0b.. 0o.. 0d.., decimals with optional exponent and f suffix.
+  dec_number: '(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][-+]?\d+)?[fF]?'
+
+  # BEGIN GENERATED API LISTS (update-api-lists.pl)
+  ethanon_functions: '(?:ARGB|AddEntity|AddScaledEntity|AddScene|AddSceneFromString|AddToCameraPos|ArePersistentResourcesEnabled|AssembleColorCode|ComputeCarretPosition|ComputeTextBoxSize|DeleteEntity|DisableContact|DrawFadingText|DrawShapedSprite|DrawSprite|DrawText|Exit|FadeOutSample|FileExists|FileInPackageExists|ForceEntityRendering|ForwardCommand|GetAbsolutePath|GetAllEntitiesInScene|GetAmbientLight|GetAppDefaultVideoMode|GetArgc|GetArgv|GetBackgroundColor|GetBucket|GetBucketClearenceFactor|GetCameraPos|GetClosestContact|GetContactEntities|GetCurrentCallstack|GetCurrentPhysicsTimeStepMS|GetEntitiesAroundBucket|GetEntitiesAroundBucketWithBlackList|GetEntitiesAroundEntity|GetEntitiesFromBucket|GetEntityArray|GetExternalStorageDirectory|GetFPSRate|GetFixedTimeStepValue|GetGlobalExternalStorageDirectory|GetGlobalVolume|GetGravity|GetInputHandle|GetIntersectingEntities|GetLastCameraPos|GetLastFrameElapsedTime|GetLastFrameElapsedTimeF|GetNumEntities|GetNumIterations|GetNumProcessedEntities|GetNumRenderedEntities|GetNumRenderedPieces|GetParallaxIntensity|GetParallaxOrigin|GetPlatformName|GetResourceDirectory|GetScale|GetSceneFileName|GetScreenSize|GetScreenSizeInPixels|GetSharedData|GetSoundEffectVolume|GetSpriteFrameSize|GetSpriteSize|GetStringFromFile|GetStringFromFileInPackage|GetSystemScreenSize|GetTime|GetTimeF|GetTimeStepScale|GetVideoMode|GetVideoModeCount|GetVisibleEntities|GetWorldSpaceCursorPos2|GetZAxisDirection|HideCursor|IsDrawingBorderBuckets|IsFixedTimeStep|IsHighEndDevice|IsSamplePlaying|IsSceneRenderingEnabled|IsSharedDataValid|LoadLightmaps|LoadMusic|LoadScene|LoadSoundEffect|LoadSprite|LoadSpriteAsync|LoopSample|PauseSample|PlayParticleEffect|PlaySample|ReleaseResources|ReleaseSprite|RemoveSharedData|ResetVideoMode|ResolveJoints|SampleExists|SaveScene|SaveStringToFile|Scale|SeekEntity|SetAmbientLight|SetAppDefaultVideoMode|SetBackgroundColor|SetBorderBucketsDrawing|SetBucketClearenceFactor|SetCameraPos|SetFastGarbageCollector|SetFixedHeight|SetFixedTimeStep|SetFixedTimeStepValue|SetGlobalVolume|SetGravity|SetNumIterations|SetParallaxIntensity|SetParallaxOrigin|SetPersistentResources|SetSamplePan|SetSampleSpeed|SetSampleVolume|SetSceneRenderingEnabled|SetSecuredSharedData|SetSharedData|SetSoundEffectVolume|SetSpriteFlipX|SetSpriteFlipY|SetSpriteOrigin|SetSpriteRect|SetTimeStepScale|SetWindowProperties|SetZAxisDirection|SetupSpriteRects|SharedDataExists|StopSample|TestCrash|UnitsPerSecond|Windowed|abs|acos|asin|atan|atan2|ceil|cos|cosh|degreeToRadian|distance|distanceUTF8|floor|fraction|getAngle|getFastHashFromFloat|getFastHashFromString|getMD5HashFromString|getSHA1HashFromString|isValidUTF8|length|log|log10|max|min|multiply|normalize|parseDouble|parseFloat|parseInt|parseInt64|parseUInt|parseUInt64|pow|print|radianToDegree|rand|randF|rotateX|rotateY|rotateZ|scale|sign|sin|sinh|sqrt|tan|tanh|translate)'
+  ethanon_types: '(?:BODY_SHAPE|DATA_TYPE|ENTITY_TYPE|ETHEntity|ETHEntityArray|ETHInput|ETHPhysicsController|ETHRevoluteJoint|JSONObject|J_KEY|J_STATUS|KEY|KEY_STATE|PIXEL_FORMAT|SimpleBuffer|WebsocketClient|any|array|collisionBox|dateTime|dictionary|dictionaryValue|enmlEntity|enmlFile|file|matrix4x4|string|vector2|vector3|videoMode)'
+  ethanon_constants: '(?:BS_BOX|BS_CIRCLE|BS_COMPOUND|BS_NONE|BS_POLYGON|DT_FLOAT|DT_INT|DT_NODATA|DT_STRING|DT_UINT|DT_VECTOR2|DT_VECTOR3|ET_HORIZONTAL|ET_LAYERABLE|JK_01|JK_02|JK_03|JK_04|JK_05|JK_06|JK_07|JK_08|JK_09|JK_10|JK_11|JK_12|JK_13|JK_14|JK_15|JK_16|JK_17|JK_18|JK_19|JK_20|JK_21|JK_22|JK_23|JK_24|JK_25|JK_26|JK_27|JK_28|JK_29|JK_30|JK_31|JK_32|JK_DOWN|JK_LEFT|JK_NONE|JK_RIGHT|JK_UP|JS_DETECTED|JS_INVALID|JS_NOTDETECTED|KS_DOWN|KS_HIT|KS_RELEASE|KS_UP|K_0|K_1|K_2|K_3|K_4|K_5|K_6|K_7|K_8|K_9|K_A|K_ADD|K_ALT|K_APOSTROPHE|K_B|K_BACK|K_BACKSLASH|K_BACKSPACE|K_C|K_CAPSLOCK|K_COMMA|K_CTRL|K_D|K_DELETE|K_DOT|K_DOWN|K_E|K_END|K_ENTER|K_EQUALS|K_ESC|K_F|K_F1|K_F10|K_F11|K_F12|K_F13|K_F14|K_F15|K_F16|K_F17|K_F18|K_F19|K_F2|K_F20|K_F21|K_F22|K_F23|K_F24|K_F3|K_F4|K_F5|K_F6|K_F7|K_F8|K_F9|K_G|K_GRAVE|K_H|K_HELP|K_HOME|K_I|K_INSERT|K_J|K_K|K_L|K_LEFT|K_LEFTBRACKET|K_LMOUSE|K_L_ALT|K_L_CTRL|K_L_META|K_L_SHIFT|K_M|K_META|K_MINUS|K_MMOUSE|K_N|K_NUMPAD0|K_NUMPAD1|K_NUMPAD2|K_NUMPAD3|K_NUMPAD4|K_NUMPAD5|K_NUMPAD6|K_NUMPAD7|K_NUMPAD8|K_NUMPAD9|K_NUMPAD_BACKSPACE|K_O|K_P|K_PAGEDOWN|K_PAGEUP|K_PAUSE|K_PERIOD|K_PLUS|K_PRINTSCREEN|K_Q|K_R|K_RIGHT|K_RIGHTBRACKET|K_RMOUSE|K_R_ALT|K_R_CTRL|K_R_META|K_R_SHIFT|K_S|K_SEMICOLON|K_SHIFT|K_SLASH|K_SPACE|K_SUBTRACT|K_T|K_TAB|K_U|K_UP|K_V|K_W|K_X|K_Y|K_Z|PF16BIT|PF24BIT|PF32BIT|PFUNKNOWN|PI|PIb)'
+  # END GENERATED API LISTS
+
+  engine_defined_words: '(?:ANDROID|APPLE_IOS|DEBUG|DESKTOP|HANDHELD|HANDHELD_DEVICE|LINUX|MACOS|MACOSX|MOBILE|MOBILE_DEVICE|TESTING|WINDOWS)'
+
+contexts:
+  prototype:
+    - include: comments
+    - include: preprocessor
+
+  main:
+    - include: global-items
+
+  ###[ COMMENTS AND PREPROCESSOR ]#############################################
+
+  comments:
+    - match: '/\*'
+      scope: punctuation.definition.comment.begin.ethanon
+      push:
+        - meta_include_prototype: false
+        - meta_scope: comment.block.ethanon
+        - match: '\*/'
+          scope: punctuation.definition.comment.end.ethanon
+          pop: 1
+    - match: '//'
+      scope: punctuation.definition.comment.ethanon
+      push:
+        - meta_include_prototype: false
+        - meta_scope: comment.line.double-slash.ethanon
+        - match: '$\n?'
+          pop: 1
+
+  # scriptbuilder.cpp: #include "file", #if WORD / #else / #endif; the words come from RegisterDefinedWords
+  # (ETHEngine.cpp), -testing, debug builds and definedWords in app.enml.
+  preprocessor:
+    - match: '^\s*(#)\s*(include)\b'
+      captures:
+        1: punctuation.definition.preprocessor.ethanon
+        2: keyword.control.import.include.ethanon
+      push:
+        - meta_include_prototype: false
+        - meta_scope: meta.preprocessor.include.ethanon
+        - include: comments
+        - match: '"'
+          scope: punctuation.definition.string.begin.ethanon
+          push:
+            - meta_include_prototype: false
+            - meta_scope: string.quoted.double.include.ethanon
+            - match: '"'
+              scope: punctuation.definition.string.end.ethanon
+              pop: 1
+            - match: '\n'
+              scope: invalid.illegal.unclosed-string.ethanon
+              pop: 1
+        - match: '$'
+          pop: 1
+    - match: '^\s*(#)\s*(if|ifdef|ifndef|elif|else|endif|define|undef|pragma)\b'
+      captures:
+        1: punctuation.definition.preprocessor.ethanon
+        2: keyword.control.preprocessor.ethanon
+      push:
+        - meta_include_prototype: false
+        - meta_scope: meta.preprocessor.ethanon
+        - include: comments
+        - match: '\b{{engine_defined_words}}\b'
+          scope: support.constant.preprocessor.ethanon
+        - match: '!|&&|\|\|'
+          scope: keyword.operator.logical.ethanon
+        - match: '$'
+          pop: 1
+
+  ###[ DECLARATIONS ]##########################################################
+
+  global-items:
+    - include: namespace-declaration
+    - include: class-declaration
+    - include: enum-declaration
+    - include: funcdef-declaration
+    - include: import-declaration
+    # "type name(" at the start of a line, unless the line ends with ';' (a variable built with a constructor).
+    - match: '^\s*(?={{decl_modifiers}}(?!{{non_type_words}}){{type_name}}\s+(?:{{ident}}\s*::\s*)*{{ident}}\s*\((?!.*;\s*(?://.*)?$))'
+      push: function-declaration
+    - include: statements
+
+  namespace-declaration:
+    - match: '\b(namespace)\s+({{ident}})'
+      captures:
+        1: keyword.declaration.namespace.ethanon
+        2: entity.name.namespace.ethanon
+      push:
+        - match: '\{'
+          scope: punctuation.section.block.begin.ethanon
+          set: namespace-body
+        - match: '(?=\S)'
+          pop: 1
+
+  namespace-body:
+    - meta_scope: meta.namespace.ethanon
+    - match: '\}'
+      scope: punctuation.section.block.end.ethanon
+      pop: 1
+    - include: global-items
+
+  class-declaration:
+    - match: '\b(class|interface)\s+({{ident}})'
+      captures:
+        1: keyword.declaration.class.ethanon
+        2: entity.name.class.ethanon
+      push: class-header
+
+  class-header:
+    - meta_scope: meta.class.ethanon
+    - match: ':'
+      scope: punctuation.separator.inheritance.ethanon
+    - match: ','
+      scope: punctuation.separator.comma.ethanon
+    - match: '::'
+      scope: punctuation.accessor.double-colon.ethanon
+    - match: '{{ident}}(?=\s*::)'
+      scope: variable.namespace.ethanon
+    - match: '{{ident}}'
+      scope: entity.other.inherited-class.ethanon
+    - match: '\{'
+      scope: punctuation.section.block.begin.ethanon
+      set: class-body
+    - match: ';'
+      scope: punctuation.terminator.ethanon
+      pop: 1
+    - match: '(?=\S)'
+      pop: 1
+
+  class-body:
+    - meta_scope: meta.class.body.ethanon
+    - match: '\}'
+      scope: punctuation.section.block.end.ethanon
+      pop: 1
+    - include: funcdef-declaration
+    - include: enum-declaration
+    # Methods (a ';' at the end is an interface or abstract method) and constructors / destructors.
+    - match: '^\s*(?={{decl_modifiers}}(?!{{non_type_words}}){{type_name}}\s+{{ident}}\s*\()'
+      push: function-declaration
+    - match: '^\s*(?={{decl_modifiers}}~?{{ident}}\s*\()'
+      push: function-declaration
+    - include: statements
+
+  function-declaration:
+    - meta_scope: meta.function.ethanon
+    - match: '~?{{ident}}(?=\s*\()'
+      scope: entity.name.function.ethanon
+      set: function-parameters
+    - include: types
+    - include: modifiers
+    - include: namespace-qualifiers
+    - include: handle-operators
+    - match: '{{ident}}'
+      scope: meta.type-name.ethanon
+    - match: '(?=\S)'
+      pop: 1
+
+  function-parameters:
+    - meta_content_scope: meta.function.ethanon
+    - match: '\('
+      scope: punctuation.section.parameters.begin.ethanon
+      set: [function-after-parameters, function-parameter-list]
+    - match: '(?=\S)'
+      pop: 1
+
+  function-parameter-list:
+    - meta_scope: meta.function.parameters.ethanon
+    - match: '\)'
+      scope: punctuation.section.parameters.end.ethanon
+      pop: 1
+    - include: expressions
+
+  function-after-parameters:
+    - meta_content_scope: meta.function.ethanon
+    - include: modifiers
+    - match: '\{'
+      scope: punctuation.section.block.begin.ethanon
+      set: function-body
+    - match: ';'
+      scope: punctuation.terminator.ethanon
+      pop: 1
+    - match: '(?=\S)'
+      pop: 1
+
+  function-body:
+    - meta_scope: meta.function.body.ethanon meta.block.ethanon
+    - match: '\}'
+      scope: punctuation.section.block.end.ethanon
+      pop: 1
+    - include: statements
+
+  enum-declaration:
+    - match: '\b(enum)\s+({{ident}})'
+      captures:
+        1: keyword.declaration.enum.ethanon
+        2: entity.name.enum.ethanon
+      push:
+        - match: '\{'
+          scope: punctuation.section.block.begin.ethanon
+          set: enum-body
+        - match: ';'
+          scope: punctuation.terminator.ethanon
+          pop: 1
+        - match: '(?=\S)'
+          pop: 1
+
+  enum-body:
+    - meta_scope: meta.enum.ethanon
+    - match: '\}'
+      scope: punctuation.section.block.end.ethanon
+      pop: 1
+    - match: ','
+      scope: punctuation.separator.comma.ethanon
+    - match: '='
+      scope: keyword.operator.assignment.ethanon
+      push:
+        - match: '(?=[,}])'
+          pop: 1
+        - include: expressions
+    - match: '{{ident}}'
+      scope: entity.name.constant.enum.ethanon
+
+  funcdef-declaration:
+    - match: '\bfuncdef\b'
+      scope: keyword.declaration.funcdef.ethanon
+      push:
+        - meta_scope: meta.funcdef.ethanon
+        - match: '{{ident}}(?=\s*\()'
+          scope: entity.name.type.funcdef.ethanon
+          set:
+            - meta_scope: meta.funcdef.ethanon
+            - match: ';'
+              scope: punctuation.terminator.ethanon
+              pop: 1
+            - include: expressions
+        - include: types
+        - include: modifiers
+        - include: namespace-qualifiers
+        - include: handle-operators
+        - match: '{{ident}}'
+          scope: meta.type-name.ethanon
+        - match: '(?=\S)'
+          pop: 1
+
+  # import void f(int) from "module";
+  import-declaration:
+    - match: '\bimport\b'
+      scope: keyword.control.import.ethanon
+      push:
+        - match: '\bfrom\b'
+          scope: keyword.control.import.ethanon
+        - match: ';'
+          scope: punctuation.terminator.ethanon
+          pop: 1
+        - include: expressions
+
+  ###[ STATEMENTS AND EXPRESSIONS ]############################################
+
+  statements:
+    - match: '\b(?:if|else|for|while|do|switch|case|default|break|continue|return|try|catch)\b'
+      scope: keyword.control.ethanon
+    - include: expressions
+
+  block:
+    - meta_scope: meta.block.ethanon
+    - match: '\}'
+      scope: punctuation.section.block.end.ethanon
+      pop: 1
+    # Property accessors: int value { get const { ... } set { ... } }
+    - match: '\b(?:get|set)\b(?=\s*(?:const\b|override\b|final\b|\{|;|$))'
+      scope: keyword.declaration.function.accessor.ethanon
+    - include: statements
+
+  expressions:
+    - include: strings
+    - include: numbers
+    - match: '\{'
+      scope: punctuation.section.block.begin.ethanon
+      push: block
+    - match: '\bfunction\b'
+      scope: keyword.declaration.function.anonymous.ethanon
+    - match: '\bcast\b'
+      scope: keyword.operator.word.cast.ethanon
+    - match: '!is\b|\b(?:is|and|or|xor|not)\b'
+      scope: keyword.operator.word.ethanon
+    - match: '\b(?:true|false)\b'
+      scope: constant.language.boolean.ethanon
+    - match: '\bnull\b'
+      scope: constant.language.null.ethanon
+    - match: '\b(?:this|super)\b'
+      scope: variable.language.ethanon
+    - match: '\b(?:class|interface|enum|namespace|funcdef|typedef)\b'
+      scope: keyword.declaration.ethanon
+    - include: types
+    - include: modifiers
+    - match: '\b{{ethanon_constants}}\b'
+      scope: support.constant.ethanon
+    - match: '\b{{ethanon_functions}}(?=\s*\()'
+      scope: support.function.ethanon
+    - match: '\b{{ident}}(?=\s*(?:<[^;(){}=]*>\s*)?\()'
+      scope: variable.function.ethanon
+    - include: namespace-qualifiers
+    - match: '\b[A-Z][A-Z0-9]*_[A-Z0-9_]*\b'
+      scope: constant.other.ethanon
+    - include: operators
+
+  types:
+    - match: '\b{{primitive_types}}\b'
+      scope: storage.type.ethanon
+    - match: '\b{{ethanon_types}}\b'
+      scope: support.class.ethanon
+
+  modifiers:
+    - match: '&\s*(?:inout|in|out)\b'
+      scope: storage.modifier.reference.ethanon
+    - match: '\b{{modifier_words}}\b'
+      scope: storage.modifier.ethanon
+
+  namespace-qualifiers:
+    - match: '{{ident}}(?=\s*::)'
+      scope: variable.namespace.ethanon
+    - match: '::'
+      scope: punctuation.accessor.double-colon.ethanon
+
+  handle-operators:
+    - match: '[<>]'
+      scope: punctuation.definition.generic.ethanon
+    - match: ','
+      scope: punctuation.separator.comma.ethanon
+    - match: '@'
+      scope: storage.modifier.handle.ethanon
+    - match: '&'
+      scope: storage.modifier.reference.ethanon
+    - match: '\[\s*\]'
+      scope: storage.modifier.array.ethanon
+
+  operators:
+    - match: '@'
+      scope: storage.modifier.handle.ethanon
+    - match: '::'
+      scope: punctuation.accessor.double-colon.ethanon
+    - match: '\.(?!\d)'
+      scope: punctuation.accessor.dot.ethanon
+    - match: '(?:\+|-|\*\*?|/|%|&|\||\^|<<|>>>?)='
+      scope: keyword.operator.assignment.augmented.ethanon
+    - match: '==|!=|<=|>=|<|>'
+      scope: keyword.operator.comparison.ethanon
+    - match: '='
+      scope: keyword.operator.assignment.ethanon
+    - match: '\+\+|--'
+      scope: keyword.operator.arithmetic.increment-decrement.ethanon
+    - match: '&&|\|\||!|\^\^'
+      scope: keyword.operator.logical.ethanon
+    - match: '<<|>>>?|&|\||\^|~'
+      scope: keyword.operator.bitwise.ethanon
+    - match: '\*\*|[-+*/%]'
+      scope: keyword.operator.arithmetic.ethanon
+    - match: '\?|:'
+      scope: keyword.operator.ternary.ethanon
+    - match: ';'
+      scope: punctuation.terminator.ethanon
+    - match: ','
+      scope: punctuation.separator.comma.ethanon
+    - match: '\('
+      scope: punctuation.section.parens.begin.ethanon
+    - match: '\)'
+      scope: punctuation.section.parens.end.ethanon
+    - match: '\['
+      scope: punctuation.section.brackets.begin.ethanon
+    - match: '\]'
+      scope: punctuation.section.brackets.end.ethanon
+
+  numbers:
+    - match: '\b0[xX][0-9a-fA-F]+\b'
+      scope: constant.numeric.integer.hexadecimal.ethanon
+    - match: '\b0[bB][01]+\b'
+      scope: constant.numeric.integer.binary.ethanon
+    - match: '\b0[oO][0-7]+\b'
+      scope: constant.numeric.integer.octal.ethanon
+    - match: '\b0[dD][0-9]+\b'
+      scope: constant.numeric.integer.decimal.ethanon
+    - match: '(?<![\w.]){{dec_number}}(?![\w.])'
+      scope: constant.numeric.ethanon
+
+  strings:
+    - match: '"""'
+      scope: punctuation.definition.string.begin.ethanon
+      push:
+        - meta_include_prototype: false
+        - meta_scope: string.quoted.triple.ethanon
+        - match: '"""'
+          scope: punctuation.definition.string.end.ethanon
+          pop: 1
+    - match: '"'
+      scope: punctuation.definition.string.begin.ethanon
+      push:
+        - meta_include_prototype: false
+        - meta_scope: string.quoted.double.ethanon
+        - match: '"'
+          scope: punctuation.definition.string.end.ethanon
+          pop: 1
+        - include: string-escapes
+        - match: '\n'
+          scope: invalid.illegal.unclosed-string.ethanon
+          pop: 1
+    - match: "'"
+      scope: punctuation.definition.string.begin.ethanon
+      push:
+        - meta_include_prototype: false
+        - meta_scope: string.quoted.single.ethanon
+        - match: "'"
+          scope: punctuation.definition.string.end.ethanon
+          pop: 1
+        - include: string-escapes
+        - match: '\n'
+          scope: invalid.illegal.unclosed-string.ethanon
+          pop: 1
+
+  # as_tokenizer / as_compiler ProcessStringConstant: \" \' \\ \n \r \t \0 \xFF \uFFFF \UFFFFFFFF
+  string-escapes:
+    - match: '\\(?:["''\\nrt0]|x\h{1,2}|u\h{4}|U\h{8})'
+      scope: constant.character.escape.ethanon
+    - match: '\\.'
+      scope: invalid.illegal.escape.ethanon

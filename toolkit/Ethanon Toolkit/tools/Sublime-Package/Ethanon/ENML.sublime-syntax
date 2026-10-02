@@ -1,0 +1,118 @@
+%YAML 1.2
+---
+# ENML: Ethanon's key/value data format (app.enml, items/*.enml, *.character, *.layer, *.element(s)).
+# The rules mirror the engine's parser, gs2d/src/Enml/Enml.cpp (File::ParseString):
+#   name { key = value; key = value; }
+# * Entity and attribute names: [A-Za-z0-9_]+ only.
+# * A value starts at the first non-blank character after '=' and runs to the first unescaped ';', across
+#   lines if needed. Its only escapes are \; and \\; any other backslash makes the parser reject the file.
+#   An empty value (key = ;) is rejected too.
+# * Outside values, a '/' starts a comment: '/*' ... '*/' or, for any other '/', the rest of the line.
+#   Inside a value '/' is literal (paths, URLs).
+name: ENML
+scope: source.enml
+version: 2
+
+file_extensions:
+  - enml
+  - character
+  - layer
+  - element
+  - elements
+
+variables:
+  name: '[A-Za-z0-9_]+'
+  number: '[-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][-+]?\d+)?'
+
+contexts:
+  main:
+    - include: comments
+    - match: '{{name}}'
+      scope: entity.name.section.enml
+      push: expect-block
+    - match: '\S'
+      scope: invalid.illegal.enml
+
+  comments:
+    - match: '/\*'
+      scope: punctuation.definition.comment.begin.enml
+      push:
+        - meta_scope: comment.block.enml
+        - match: '\*/'
+          scope: punctuation.definition.comment.end.enml
+          pop: 1
+    - match: '/'
+      scope: punctuation.definition.comment.enml
+      push:
+        - meta_scope: comment.line.double-slash.enml
+        - match: '$\n?'
+          pop: 1
+
+  expect-block:
+    - include: comments
+    - match: '\{'
+      scope: punctuation.section.block.begin.enml
+      set: block-body
+    - match: '\S'
+      scope: invalid.illegal.expected-brace.enml
+      pop: 1
+
+  block-body:
+    - meta_scope: meta.block.enml
+    - include: comments
+    - match: '\}'
+      scope: punctuation.section.block.end.enml
+      pop: 1
+    - match: '{{name}}'
+      scope: meta.mapping.key.enml entity.other.attribute-name.enml
+      push: expect-assign
+    - match: '\S'
+      scope: invalid.illegal.enml
+
+  expect-assign:
+    - include: comments
+    - match: '='
+      scope: keyword.operator.assignment.enml
+      set: value-start
+    - match: '\S'
+      scope: invalid.illegal.expected-assignment.enml
+      pop: 1
+
+  # No comments here: the parser takes a '/' after '=' as part of the value.
+  value-start:
+    - match: ';'
+      scope: invalid.illegal.empty-value.enml
+      pop: 1
+    - match: '(?:true|false)(?=[ \t]*;)'
+      scope: meta.mapping.value.enml constant.language.boolean.enml
+      set: value-end
+    # A number, or a comma-separated list of numbers, filling the whole value.
+    - match: '(?={{number}}(?:[ \t]*,[ \t]*{{number}})*[ \t]*;)'
+      set: number-list
+    - match: '(?=\S)'
+      set: value
+
+  number-list:
+    - meta_content_scope: meta.mapping.value.enml
+    - match: '{{number}}'
+      scope: constant.numeric.enml
+    - match: ','
+      scope: punctuation.separator.sequence.enml
+    - match: ';'
+      scope: punctuation.terminator.enml
+      pop: 1
+
+  value-end:
+    - match: ';'
+      scope: punctuation.terminator.enml
+      pop: 1
+
+  value:
+    - meta_content_scope: meta.mapping.value.enml string.unquoted.enml
+    - match: '\\[;\\]'
+      scope: constant.character.escape.enml
+    - match: '\\'
+      scope: invalid.illegal.escape.enml
+    - match: ';'
+      scope: punctuation.terminator.enml
+      pop: 1

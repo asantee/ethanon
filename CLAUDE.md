@@ -38,7 +38,8 @@ no `foreach` (checked with `machine -norun`, 2026-10-02).
    `RegisterGlobalFunction("decl", asFUNCTION(__Name), asCALL_GENERIC)` line. Parameter names are allowed in the declaration;
    use them where the unit matters (`const float milliseconds`). Script time is in milliseconds throughout (`GetTime()`).
 3. Add the name to the VS Code keyword list (`toolkit/Ethanon Toolkit/tools/vscode-extension/*/ethanon-angelscript.json`) and to
-   `ethanon-api.md` in projectx.
+   `ethanon-api.md` in projectx, and run `perl "toolkit/Ethanon Toolkit/tools/Sublime-Package/update-api-lists.pl"`: it
+   regenerates the Sublime syntax's function/type/constant lists from every `Register*` call (new types and enums too).
 
 **Overloads** keep the script name and use a differently named C++ wrapper: `DrawSprite` → `__DrawSprite` / `__DrawSpriteEx`,
 `PlaySample` → `__PlaySample` / `__FadeInSample`.

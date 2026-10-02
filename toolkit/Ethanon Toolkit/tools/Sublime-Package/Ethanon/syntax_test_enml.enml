@@ -1,0 +1,57 @@
+// SYNTAX TEST "Packages/Ethanon/ENML.sublime-syntax"
+// a comment
+// ^^^^^^^^^ comment.line.double-slash.enml
+/* block
+   comment */ item0
+// ^^^^^^^^ comment.block.enml
+//            ^^^^^ entity.name.section.enml
+{
+// <- punctuation.section.block.begin.enml
+    name = Cleric Vest;
+//  ^^^^ entity.other.attribute-name.enml
+//       ^ keyword.operator.assignment.enml
+//         ^^^^^^^^^^^ string.unquoted.enml
+//                    ^ punctuation.terminator.enml
+    armor = 8;
+//          ^ constant.numeric.enml
+    magicBoost = -1.35;
+//               ^^^^^ constant.numeric.enml
+    list = 1.0, 2,   -3;
+//         ^^^ constant.numeric.enml
+//            ^ punctuation.separator.sequence.enml
+//                   ^^ constant.numeric.enml
+    windowed = true;
+//             ^^^^ constant.language.boolean.enml
+    title = Magic Rampage 2;
+//          ^^^^^^^^^^^^^^^ string.unquoted.enml - constant.numeric
+    url = https://example.com/a; // after
+//        ^^^^^^^^^^^^^^^^^^^^^ string.unquoted.enml - comment
+//                               ^^^^^^^^ comment.line
+    text = a\;b\\c;
+//          ^^ constant.character.escape.enml
+//             ^^ constant.character.escape.enml
+//                ^ punctuation.terminator.enml
+    bad = a\b;
+//         ^ invalid.illegal.escape.enml
+    empty = ;
+//          ^ invalid.illegal.empty-value.enml
+    multi = first line
+        second line;
+//      ^^^^^^^^^^^ string.unquoted.enml
+//                 ^ punctuation.terminator.enml
+    key-name = 1;
+//     ^ invalid.illegal
+    noassign 3;
+//           ^ invalid.illegal.expected-assignment.enml
+    key = /leading/slash;
+//        ^^^^^^^^^^^^^^ string.unquoted.enml - comment
+    // commented = 1;
+//  ^^^^^^^^^^^^^^^^^ comment.line - entity
+}
+// <- punctuation.section.block.end.enml
+
+default { width = best; }
+// <- entity.name.section.enml
+//      ^ punctuation.section.block.begin.enml
+//                ^^^^ string.unquoted.enml
+//                      ^ punctuation.section.block.end.enml

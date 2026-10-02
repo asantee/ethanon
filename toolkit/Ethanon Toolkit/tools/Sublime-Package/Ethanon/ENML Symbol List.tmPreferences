@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<!-- Entity names (item0, default, macos...) in Goto Symbol (Cmd+R) -->
+	<key>scope</key>
+	<string>source.enml entity.name.section</string>
+	<key>settings</key>
+	<dict>
+		<key>showInSymbolList</key>
+		<integer>1</integer>
+		<key>showInIndexedSymbolList</key>
+		<integer>1</integer>
+	</dict>
+</dict>
+</plist>

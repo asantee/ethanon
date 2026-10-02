@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<!-- Goto Symbol (Cmd+R) and, project-wide, Goto Definition (F12) / Goto Symbol in Project (Cmd+Shift+R) -->
+	<key>scope</key>
+	<string>source.ethanon entity.name.function, source.ethanon entity.name.class, source.ethanon entity.name.enum, source.ethanon entity.name.namespace, source.ethanon entity.name.type.funcdef</string>
+	<key>settings</key>
+	<dict>
+		<key>showInSymbolList</key>
+		<integer>1</integer>
+		<key>showInIndexedSymbolList</key>
+		<integer>1</integer>
+	</dict>
+</dict>
+</plist>
