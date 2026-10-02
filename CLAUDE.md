@@ -23,6 +23,13 @@ procedures and measured findings (§ numbers below refer to it). The game's Ange
 `ETHScriptWrapper.generic.cpp`; math globals in `ETHScriptWrapper.Math.generic.cpp`; msgpack and websocket in their own
 `*Register.cpp`). Every binding uses `asCALL_GENERIC` through the `asDECLARE_FUNCTION_WRAPPER` / `asDECLARE_METHOD_WRAPPER(PR)`
 macros, and each function is registered in exactly one place: there is no native-calling-convention copy to keep in sync.
+The split by file is not strict, so grep both `*.generic.cpp` files for a name: `RegisterGlobalFunctions` also registers some
+`ETHEntity` methods (`SetPosition*`, `AddToPosition*`, `GetCurrentBucket`, `PlayParticleSystem`) and `ETHInput` methods
+(`GetCursorPos`, `SetCursorPos`, …), and `ETHScriptObjRegister.generic.cpp` also registers globals (`GetStringFromFile`,
+`SaveStringToFile`, the `matrix4x4` functions, `getAngle`). A single-argument constructor of a registered value type acts as an
+implicit conversion: `vector3` has `vector3(float)`, so a `uint` passed where a `vector3` is expected compiles
+(`entity.SetColor(0xFFFFFFFF)`), which matters when choosing overload parameter types. This AngelScript accepts `auto` and has
+no `foreach` (checked with `machine -norun`, 2026-10-02).
 
 **Adding a global function:**
 1. Declare it `static` in `ETHScriptWrapper.h`, implement it in the matching `ETHScriptWrapper.<Area>.cpp` (`Audio`, `Drawing`,
