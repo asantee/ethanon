@@ -106,6 +106,12 @@ array<ETHEntity@>@ getEntities(const vector2 &in pos, uint mask = 0xFF00)
 //           ^^^^^^ constant.numeric.integer.binary
 //                    ^^^^^^ support.constant
 //                             ^^ support.constant
+    const ::string RUNEFORGE = "runeforge";
+//                 ^^^^^^^^^ constant.other
+    const ::string RIDE_THE_WIND = "ride-the-wind";
+//                 ^^^^^^^^^^^^^ constant.other
+    T x;
+//  ^ - constant
     return ents;
 }
 
