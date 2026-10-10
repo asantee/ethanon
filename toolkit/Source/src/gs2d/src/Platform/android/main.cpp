@@ -3,6 +3,7 @@
 #include <jni.h>
 #include <signal.h>
 #include <algorithm>
+#include <mutex>
 
 #include <BaseApplication.h>
 
@@ -30,6 +31,7 @@ extern "C" {
 	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_audioMute(JNIEnv* env, jobject thiz);
 	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_audioUnmute(JNIEnv* env, jobject thiz);
 	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_audioSetSoundEffectVolume(JNIEnv* env, jobject thiz, jfloat volume);
+	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_preInit(JNIEnv* env, jobject thiz, jstring apkPath);
 	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_start(JNIEnv* env, jobject thiz, jstring apkPath, jstring externalPath, jstring globalPath, jint width, jint height);
 	JNIEXPORT void    JNICALL Java_net_asantee_gs2d_GS2DJNI_engineStartup(JNIEnv* env, jobject thiz);
 	JNIEXPORT jboolean JNICALL Java_net_asantee_gs2d_GS2DJNI_isLoading(JNIEnv* env, jobject thiz);
@@ -48,6 +50,7 @@ VideoPtr video;
 InputPtr input;
 AudioPtr audio = 0;
 boost::shared_ptr<Platform::AndroidZipFileManager> zip;
+std::string zipPath;
 SpritePtr splashSprite, cogSprite, barSprite;
 ETHEnginePtr engine;
 float predictedLoadingTimeMs = 10000.0f;
@@ -71,34 +74,79 @@ void CreateLoadingSprite(VideoPtr video, SpritePtr& sprite, const std::string& f
 	sprite->SetOrigin(Vector2(0.5f));
 }
 
+// The APK zip and the FMOD device are created by GS2DJNI.preInit on a background thread started in
+// Activity.onCreate, so the GL thread no longer spends its first frames on libzip's directory read and on
+// FMOD's output setup (AAudio/OpenSL binder calls into the audio server, seconds on some devices), which the
+// UI thread used to wait for. start() still creates whatever preInit has not, waiting for it if it is running.
+static std::mutex g_preInitMutex; // serializes EnsureZip/EnsureAudio between preInit and start
+static std::mutex g_audioMutex; // 'audio' is assigned on the preInit or GL thread and read on the UI thread
+static bool g_audioSuspendedOnce = false; // UI thread only
+
+static AudioPtr GetAudio()
+{
+	std::lock_guard<std::mutex> lock(g_audioMutex);
+	return audio;
+}
+
+// call with g_preInitMutex held
+static void EnsureZip(const std::string& apkPath)
+{
+	if (zip && zip->IsLoaded() && zipPath == apkPath)
+		return;
+
+	zip = boost::shared_ptr<Platform::AndroidZipFileManager>(new Platform::AndroidZipFileManager(apkPath.c_str()));
+	zipPath = apkPath;
+}
+
+// call with g_preInitMutex held
+static void EnsureAudio()
+{
+	if (GetAudio())
+		return;
+
+	AudioPtr newAudio = CreateAudio(0);
+	std::lock_guard<std::mutex> lock(g_audioMutex);
+	audio = newAudio;
+}
+
 JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_audioSuspend(JNIEnv* env, jobject thiz)
 {
-	if (audio)
-		audio->Suspend();
+	AudioPtr currentAudio = GetAudio();
+	if (currentAudio)
+	{
+		currentAudio->Suspend();
+		g_audioSuspendedOnce = true;
+	}
 }
 
 JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_audioResume(JNIEnv* env, jobject thiz)
 {
-	if (audio)
-		audio->Resume();
+	// preInit can create the device before the first onStart, which used to find no device and skip the resume.
+	// Keep it that way: FMOD expects mixerSuspend/mixerResume in pairs, so resume only after a suspend.
+	AudioPtr currentAudio = GetAudio();
+	if (currentAudio && g_audioSuspendedOnce)
+		currentAudio->Resume();
 }
 
 JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_audioMute(JNIEnv* env, jobject thiz)
 {
-	if (audio)
-		audio->SetMute(true);
+	AudioPtr currentAudio = GetAudio();
+	if (currentAudio)
+		currentAudio->SetMute(true);
 }
 
 JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_audioUnmute(JNIEnv* env, jobject thiz)
 {
-	if (audio)
-		audio->SetMute(false);
+	AudioPtr currentAudio = GetAudio();
+	if (currentAudio)
+		currentAudio->SetMute(false);
 }
 
 JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_audioSetSoundEffectVolume(JNIEnv* env, jobject thiz, jfloat volume)
 {
-	if (audio)
-		audio->SetSoundEffectVolume(volume);
+	AudioPtr currentAudio = GetAudio();
+	if (currentAudio)
+		currentAudio->SetSoundEffectVolume(volume);
 }
 
 std::string g_inputStr;
@@ -119,19 +167,39 @@ static std::string JStringToStdString(JNIEnv* env, jstring str)
 	return r;
 }
 
+JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_preInit(JNIEnv* env, jobject thiz, jstring apkPath)
+{
+	const std::string strApk = JStringToStdString(env, apkPath);
+	std::lock_guard<std::mutex> lock(g_preInitMutex);
+	EnsureZip(strApk);
+	EnsureAudio();
+}
+
 JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_start(
 	JNIEnv* env, jobject thiz, jstring apkPath, jstring externalPath, jstring globalPath, jint width, jint height)
 {
 	const std::string strApk = JStringToStdString(env, apkPath);
 	const std::string strExt = JStringToStdString(env, externalPath);
 	const std::string strGlo = JStringToStdString(env, globalPath);
-	zip = boost::shared_ptr<Platform::AndroidZipFileManager>(new Platform::AndroidZipFileManager(strApk.c_str()));
+	{
+		std::lock_guard<std::mutex> lock(g_preInitMutex);
+		if (application)
+		{
+			// surface re-created: open a new archive as start always did, so no libzip handle is shared with
+			// threads that may still be reading through the previous one
+			zip = boost::shared_ptr<Platform::AndroidZipFileManager>(new Platform::AndroidZipFileManager(strApk.c_str()));
+			zipPath = strApk;
+		}
+		else
+		{
+			EnsureZip(strApk);
+		}
+		EnsureAudio();
+	}
 	Platform::FileIOHubPtr fileIOHub(new Platform::AndroidFileIOHub(zip, strExt, strGlo, ETHDirectories::GetBitmapFontDirectory()));
 
 	video = VideoPtr(new AndroidGLES2Video(width, height, "Ethanon Engine", fileIOHub));
 	input = CreateInput(true, &g_inputStr);
-	if(!audio)
-		audio = CreateAudio(0);
 
 	video->SetBackgroundColor(lastBackgroundColor);
 	video->SetCameraPos(lastCameraPos);
@@ -244,7 +312,9 @@ JNIEXPORT jstring JNICALL Java_net_asantee_gs2d_GS2DJNI_mainLoop(JNIEnv* env, jo
 	g_inputStr = JStringToStdString(env, inputStr);
 
 	video->HandleEvents();
-	audio->Update();
+	AudioPtr currentAudio = GetAudio();
+	if (currentAudio)
+		currentAudio->Update();
 	input->Update();
 
 	if (IsScriptEngineLoaded())
