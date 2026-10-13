@@ -1,9 +1,15 @@
 # Ethanon engine — orientation for agents
 
+> **Never commit or push unless the operator asks for it directly in the current conversation.** Edit the files, show
+> the diff and stop. A "commit" or "push" step in a recipe in these docs is not that request, and neither is an
+> earlier approval: ask each time.
+
 Branch `v0-9-11-mr-supersimple` is the engine Magic Rampage ships on. `README.md` has the build steps per platform; the
 master build project (`Magic-Rampage-Builds/CLAUDE.md`, sibling folder of this repo) has the machine facts, release
-procedures and measured findings (§ numbers below refer to it). The game's AngelScript side is documented in
-`projectx/tools/code-toolkit/skills/mr-angelscript` (its `references/ethanon-api.md` lists the engine API as scripts use it).
+procedures and measured findings (§ numbers below refer to it). The game side is documented in `projectx/AGENTS.md`
+(how the game runs, where code and data live; topic docs in `projectx/agent-docs/`) and in the
+`projectx/tools/code-toolkit/skills/mr-angelscript` skill (its `references/ethanon-api.md` lists the engine API as scripts
+use it).
 
 ## Source map (`toolkit/Source/src`)
 
@@ -52,6 +58,39 @@ platform (Windows engine libs + Steam exe, Android, iOS), and the shipped bins m
 **Script ↔ host:** `ForwardCommand(string)` reaches the host app's command listeners (`projectx/mr-steam/Steam`,
 `projectx/xcode-project/CommandListeners`, the Android activity); `SetSharedData` / `GetSharedData` share key/value strings
 with them through `gs2d::Application::SharedData`, which is not synchronised: touch it on the main thread only.
+
+## Runtime model: what game scripts rely on
+
+Checked in the source on 2026-10-13 (paths under `toolkit/Source/src/engine` unless noted).
+
+- **Entity callbacks** are looked up once, when the entity is added (`ETHScene::AssignCallbackScript`), by
+  `ETHGlobal::FindCallbackFunction` (`Util/ETHASUtil.cpp`): prefix + `RemoveExtension(GetEntityName())`, through
+  `asIScriptModule::GetFunctionByName`, which searches the default (global) namespace only and returns null for an
+  overloaded name. Contact prefixes live in `Physics/ETHPhysicsEntityController.cpp`. `ETH_DESTRUCTOR_CALLBACK_PREFIX`
+  (`ETHTypes.h`) is defined but never used. `RunEntityCallback` silently skips a function whose first argument cannot
+  take the entity. The constructor callback runs on the first callback pass (`ETHRawEntityController::RunCallback`,
+  `Entity/ETHEntityController.cpp`), not inside `AddEntity`.
+- **Frame order** (`ETHScene::Update`): the `onSceneCreated` script function (once) → physics step →
+  `ETHActiveEntityHandler::UpdateAlwaysActiveEntities` (entities that are non-static with a callback or a simulated
+  body, or temporary: updated and called every frame, hidden or off-screen) → the `onSceneUpdate` script function →
+  `MapEntitiesToBeRendered` (visible buckets only; hidden entities skipped; the rest queued) →
+  `UpdateCurrentFrameEntities` (update + callback of the queued static entities). Then `RenderScene`. Visible buckets
+  = the camera rectangle grown by `bucketSize * clearanceFactor` on each side (`FillCurrentlyVisibleBucketList`);
+  `GetCameraPos()` is the screen's top-left in world space.
+- **Depth and parallax:** pieces are drawn in ascending `ComputeDepth()` order (a `std::multimap`;
+  `Renderer/ETHEntityRenderingManager.cpp`): `z` for entity type 0 (horizontal), the layer depth for type 5
+  (layerable). Screen position = `xy + ZAxisDirection * z` (`ETHGlobal::ToScreenPos`; Magic Rampage scenes use 0,0).
+  Parallax offset (`gs2d/src/Sprite.cpp` `ComputeParallaxOffset`) = (screen position − half virtual screen) / virtual
+  height × `z` × entity parallax × scene parallax × 0.55, so negative `z` reads as farther away.
+- Entity colour in the ambient pass = (scene ambient + emissive, clamped to 1) × entity colour × diffuse
+  (`ETHRenderEntity::DrawAmbientPass`). `SetPivotAdjust` stores the offset divided by the scale and the renderer
+  multiplies it back: a sprite-only offset. `rand(n)` / `rand(a, b)` are inclusive (`gs2d` `Randomizer::Int` →
+  `MTRand::randInt`).
+- **Runners:** `src/machine/main.cpp` (the `machine` runner; Latin-1 with CRLF, so plain `grep` treats it as binary: use
+  `grep -a`) and projectx `mr-steam/main.cpp` parse `-testing`, `-norun`, `-nowait` by exact match, plus `dir=`.
+  `machine` has no `NativeCommandManager`, so `ForwardCommand` reaches nothing there. `gs2d::CreateBaseApplication`,
+  used by the Android and Apple apps, always builds a non-testing engine. `app.enml`'s `definedWords` apply to every compile
+  (`ETHEngine.cpp`, `RegisterDefinedWords`).
 
 ## Audio
 
