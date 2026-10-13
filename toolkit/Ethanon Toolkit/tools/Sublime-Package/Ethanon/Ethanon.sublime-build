@@ -1,18 +1,18 @@
 {
 	"cmd": ["machine", "dir=$file_path", "-nowait"],
-	"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+	"file_regex": "^\\[(?:ERROR|WARN) ?\\] (.+?), line ([0-9]+):([0-9]+)? (.*)$",
 
 	"windows":
 	{
 		"cmd": ["machine.exe", "-nowait", "-norun"],
-		"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+		"file_regex": "^\\[(?:ERROR|WARN) ?\\] (.+?), line ([0-9]+):([0-9]+)? (.*)$",
 		"encoding": "cp850"
 	},
 
 	"osx":
 	{
 		"cmd":["/Applications/machine.app/Contents/MacOS/machine", "dir=$file_path", "-nowait", "-norun"],
-		"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)"
+		"file_regex": "^\\[(?:ERROR|WARN) ?\\] (.+?), line ([0-9]+):([0-9]+)? (.*)$"
 	},
 
 	"variants":
