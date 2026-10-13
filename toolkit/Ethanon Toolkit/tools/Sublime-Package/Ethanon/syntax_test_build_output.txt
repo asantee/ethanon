@@ -1,0 +1,32 @@
+# SYNTAX TEST "Packages/Ethanon/Ethanon Build Output.sublime-syntax"
+[INFO ] src/global-managers/LiveStatsLoader.angelscript, line 923: Compiling bool parseLiveStatsString(const string&in, const string&in)
+# <- comment.line.info
+[ERROR] src/global-managers/LiveStatsLoader.angelscript, line 1393: No matching symbol 'DUNGEON44_GATEKEEP_ENABLED'
+# <- invalid.illegal.tag
+#^^^^^^ invalid.illegal.tag
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+#                                                                 ^ - markup
+#                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.deleted.message
+[WARN ] src/x.angelscript, line 3: Variable 'a' hides another variable
+# <- markup.changed.tag
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+#                                  ^^^^^^^^ markup.changed.message
+Exception: Null pointer access
+# <- markup.deleted.exception
+  Callstack:
+# ^^^^^^^^^^ comment.line
+    void DungeonGameState::doDungeon44Gatekeeper() (src/states/DungeonGameState.angelscript, 142)
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.function
+#                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+Compilation successful: 0 errors
+# <- markup.inserted
+Failed while building module.
+# <- markup.deleted
+Compile time: 2362 milliseconds
+# <- comment.line
+[Finished in 2.9s with exit code 1]
+# <- markup.deleted
+[Finished in 2.1s]
+# <- markup.inserted
+[path: /opt/homebrew/bin:/usr/bin]
+# <- comment.line

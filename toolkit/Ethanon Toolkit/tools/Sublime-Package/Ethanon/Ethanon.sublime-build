@@ -1,5 +1,11 @@
 {
-	"cmd": ["machine", "dir=$file_path", "-nowait"],
+	// ethanon_build (ethanon_build.py) finds the folder holding main.angelscript above the current file,
+	// runs the command there and appends "dir=<that folder>"; output coloured by Ethanon Build Output.sublime-syntax.
+	"target": "ethanon_build",
+	"cancel": {"kill": true},
+	"syntax": "scope:text.ethanon-build",
+
+	"cmd": ["machine", "-nowait"],
 	"file_regex": "^\\[(?:ERROR|WARN) ?\\] (.+?), line ([0-9]+):([0-9]+)? (.*)$",
 
 	"windows":
@@ -11,7 +17,7 @@
 
 	"osx":
 	{
-		"cmd":["/Applications/machine.app/Contents/MacOS/machine", "dir=$file_path", "-nowait", "-norun"],
+		"cmd":["/Applications/machine.app/Contents/MacOS/machine", "-nowait", "-norun"],
 		"file_regex": "^\\[(?:ERROR|WARN) ?\\] (.+?), line ([0-9]+):([0-9]+)? (.*)$"
 	},
 
@@ -25,7 +31,7 @@
 			},
 			"osx":
 			{
-				"cmd": ["/Applications/machine.app/Contents/MacOS/machine", "dir=$file_path", "-nowait", "-testing"]
+				"cmd": ["/Applications/machine.app/Contents/MacOS/machine", "-nowait", "-testing"]
 			}
 		}
 	]

@@ -1,0 +1,59 @@
+%YAML 1.2
+---
+# Colours the build panel of Ethanon.sublime-build (engine compile and run output).
+# Assigned by the build file's "syntax" key; not meant to be picked by hand.
+name: Ethanon Build Output
+scope: text.ethanon-build
+hidden: true
+
+contexts:
+  main:
+    # Clickable parts (file + line) are one markup.underline.link span, so the scheme's underline is not
+    # overridden by a more specific filename scope. ethanon_build.py opens them on a single click.
+    # Compiler messages: "[ERROR] src/x.angelscript, line 12: message" (ETHEngine::MessageCallback)
+    - match: ^(\[ERROR\]) ((.+?), line (\d+))(:)(.*)$
+      captures:
+        1: invalid.illegal.tag.ethanon-build
+        2: markup.underline.link.ethanon-build
+        6: markup.deleted.message.ethanon-build
+    - match: ^(\[WARN ?\]) ((.+?), line (\d+))(:)(.*)$
+      captures:
+        1: markup.changed.tag.ethanon-build
+        2: markup.underline.link.ethanon-build
+        6: markup.changed.message.ethanon-build
+    - match: ^\[INFO ?\].*$
+      scope: comment.line.info.ethanon-build
+
+    # Script exceptions at run time (ETHEngine::ExceptionCallback)
+    - match: ^Exception:.*$
+      scope: markup.deleted.exception.ethanon-build
+    - match: ^  Callstack:$
+      scope: comment.line.ethanon-build
+    - match: ^    (.*) \(((.+?), (\d+))\)$
+      captures:
+        1: entity.name.function.ethanon-build
+        2: markup.underline.link.ethanon-build
+
+    # Build result
+    - match: ^(Compilation successful|ByteCode saved).*$
+      scope: markup.inserted.ethanon-build
+    - match: ^(ERROR - |Failed while building module|The program executed an ilegal operation).*$
+      scope: markup.deleted.ethanon-build
+    - match: ^Loading game script from .*$
+      scope: markup.heading.ethanon-build
+    - match: ^Compile time:.*$
+      scope: comment.line.ethanon-build
+
+    # Engine start-up banner
+    - match: ^((Resources|Program|External|GExternal):|AngelScript v|Audio device initialized|Actual size is|_{4,}).*$
+      scope: comment.line.ethanon-build
+
+    # Lines Sublime appends
+    - match: ^\[Finished in [^\]]* with exit code \d+\]
+      scope: markup.deleted.ethanon-build
+    - match: ^\[Finished( in [^\]]*)?\]
+      scope: markup.inserted.ethanon-build
+    - match: ^\[Cancelled\]
+      scope: markup.changed.ethanon-build
+    - match: '^\[(cmd|shell_cmd|dir|path): .*$'
+      scope: comment.line.ethanon-build
