@@ -502,7 +502,7 @@ void ETHSpriteEntity::Update(const float lastFrameElapsedTime, const Vector2& zA
 	{
 		m_controller->Update(lastFrameElapsedTime, buckets);
 	}
-	UpdateParticleSystems(zAxisDir, sceneParallaxIntensity, lastFrameElapsedTime);
+	UpdateParticleSystems(zAxisDir, lastFrameElapsedTime);
 }
 
 void ETHSpriteEntity::SetParticleBitmap(const unsigned int n, SpritePtr bitmap)
@@ -615,7 +615,7 @@ bool ETHSpriteEntity::AreParticlesOver() const
 	}
 }
 
-void ETHSpriteEntity::UpdateParticleSystems(const Vector2& zAxisDirection, const float sceneParallaxIntensity, const float lastFrameElapsedTime)
+void ETHSpriteEntity::UpdateParticleSystems(const Vector2& zAxisDirection, const float lastFrameElapsedTime)
 {
 	for (std::size_t t=0; t<m_particles.size(); t++)
 	{
@@ -624,7 +624,6 @@ void ETHSpriteEntity::UpdateParticleSystems(const Vector2& zAxisDirection, const
 			m_particles[t]->UpdateParticleSystem(
 				GetPosition(),
 				zAxisDirection,
-				ComputeParallaxOffset(sceneParallaxIntensity),
 				GetAngle(),
 				lastFrameElapsedTime);
 		}

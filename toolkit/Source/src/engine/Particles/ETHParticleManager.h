@@ -33,7 +33,6 @@ public:
 	void UpdateParticleSystem(
 		const Vector3& v3Pos,
 		const Vector2& zAxisDirection,
-		const Vector2& parallaxOffset,
 		const float angle,
 		const float lastFrameElapsedTime);
 
@@ -104,12 +103,23 @@ public:
 	/// Mirror the entire system along the Y-axis
 	void MirrorY(const bool mirrorGravity);
 
+	/// Bounds of the particles drawn after the last update, in world space without parallax
+	/// (min > max when no particle is drawn)
 	Vector2 GetWorldSpaceBoundingMin() const;
 	Vector2 GetWorldSpaceBoundingMax() const;
 
+	/// Bounds of the particle quads as the shaders draw them with this camera and parallax
+	/// intensity (entity parallax * scene parallax). Returns false when no particle is drawn
+	bool ComputeWorldSpaceBoundingBox(
+		const Vector2& cameraPos,
+		const float parallaxIntensity,
+		Vector2& min,
+		Vector2& max) const;
+
 	bool IsVisible(
-		const Vector2& worldSpaceScreenMin,
-		const Vector2& worldSpaceScreenMax) const;
+		const Vector2& cameraPos,
+		const Vector2& screenSize,
+		const float parallaxIntensity) const;
 
 	void SetParticleColorA(const Vector3 &color, const float alpha);
 	void SetParticleColorB(const Vector3 &color, const float alpha);
@@ -180,6 +190,10 @@ private:
 	bool m_finished, m_killed;
 	int m_nActiveParticles;
 	Vector2 m_worldSpaceBoundingMin, m_worldSpaceBoundingMax;
+	float m_boundingMinZ, m_boundingMaxZ;
+
+	void ResetBoundingBox();
+	bool IsParticleDrawn(const PARTICLE& particle) const;
 
 	/// Create a particle system
 	bool CreateParticleSystem(

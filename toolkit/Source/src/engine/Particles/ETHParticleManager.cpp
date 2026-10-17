@@ -12,6 +12,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits>
 
 ETHParticleManager::ETHParticleManager(
 	ETHResourceProviderPtr provider,
@@ -56,8 +57,8 @@ bool ETHParticleManager::CreateParticleSystem(
 		return false;
 	}
 
-	m_worldSpaceBoundingMin = ETHGlobal::ToScreenPos(v3Pos + m_system.startPoint, Vector2(0.0f));
-	m_worldSpaceBoundingMax = m_worldSpaceBoundingMin;
+	// no particle has been released yet, so none is drawn
+	ResetBoundingBox();
 
 	m_finished = false;
 	m_killed = false;
@@ -182,10 +183,20 @@ const ETHParticleSystem *ETHParticleManager::GetSystem() const
 	return &m_system;
 }
 
+// Particles are drawn as squares rotated by their angle. Returns half the side of their axis-aligned bounds
+static float ComputeHalfBoundingSize(const float size, const float angle)
+{
+	if (angle == 0.0f)
+	{
+		return size * 0.5f;
+	}
+	const float radianAngle = Util::DegreeToRadian(angle);
+	return size * 0.5f * (Abs(cosf(radianAngle)) + Abs(sinf(radianAngle)));
+}
+
 void ETHParticleManager::UpdateParticleSystem(
 	const Vector3& v3Pos,
 	const Vector2& zAxisDirection,
-	const Vector2& parallaxOffset,
 	const float angle,
 	const float lastFrameElapsedTime)
 {
@@ -195,8 +206,10 @@ void ETHParticleManager::UpdateParticleSystem(
 	Matrix4x4 rot = Matrix4x4::RotateZ(Util::DegreeToRadian(angle));
 	m_nActiveParticles = 0;
 
-	m_worldSpaceBoundingMin = ETHGlobal::ToScreenPos(v3Pos + m_system.startPoint, zAxisDirection);
-	m_worldSpaceBoundingMax = m_worldSpaceBoundingMin;
+	// The box is kept without parallax, because parallax depends on the camera position,
+	// which scripts may still change before the scene is rendered. ComputeWorldSpaceBoundingBox
+	// applies it. The min and max z of the drawn particles bound the parallax scale
+	ResetBoundingBox();
 
 	for (int t = 0; t < m_system.nParticles; t++)
 	{
@@ -213,13 +226,31 @@ void ETHParticleManager::UpdateParticleSystem(
 			rot,
 			anythingDrawn,
 			m_nActiveParticles);
-		
+
+		if (!IsParticleDrawn(particle))
+		{
+			continue;
+		}
+
+		// same position and z as DrawParticleSystem
 		const Vector2 worldSpacePos =
-			ETHGlobal::ToScreenPos(Vector3(particle.pos, m_system.startPoint.z), zAxisDirection) + parallaxOffset;
-		m_worldSpaceBoundingMin = Vector2::Vector2Min(m_worldSpaceBoundingMin, worldSpacePos - (particle.size * 0.5f));
-		m_worldSpaceBoundingMax = Vector2::Vector2Max(m_worldSpaceBoundingMax, worldSpacePos + (particle.size * 0.5f));
+			ETHGlobal::ToScreenPos(Vector3(particle.pos, particle.startPoint.z), zAxisDirection);
+		const float halfSize = ComputeHalfBoundingSize(particle.size, particle.angle);
+		m_worldSpaceBoundingMin = Vector2::Vector2Min(m_worldSpaceBoundingMin, worldSpacePos - halfSize);
+		m_worldSpaceBoundingMax = Vector2::Vector2Max(m_worldSpaceBoundingMax, worldSpacePos + halfSize);
+		m_boundingMinZ = Min(m_boundingMinZ, particle.startPoint.z);
+		m_boundingMaxZ = Max(m_boundingMaxZ, particle.startPoint.z);
 	}
 	m_finished = !anythingDrawn;
+}
+
+void ETHParticleManager::ResetBoundingBox()
+{
+	const float maxValue = std::numeric_limits<float>::max();
+	m_worldSpaceBoundingMin = Vector2(maxValue);
+	m_worldSpaceBoundingMax = Vector2(-maxValue);
+	m_boundingMinZ = maxValue;
+	m_boundingMaxZ =-maxValue;
 }
 
 Vector2 ETHParticleManager::GetWorldSpaceBoundingMin() const
@@ -232,12 +263,46 @@ Vector2 ETHParticleManager::GetWorldSpaceBoundingMax() const
 	return m_worldSpaceBoundingMax;
 }
 
-bool ETHParticleManager::IsVisible(
-	const Vector2& worldSpaceScreenMin,
-	const Vector2& worldSpaceScreenMax) const
+bool ETHParticleManager::ComputeWorldSpaceBoundingBox(
+	const Vector2& cameraPos,
+	const float parallaxIntensity,
+	Vector2& min,
+	Vector2& max) const
 {
-	if (   m_worldSpaceBoundingMin.x > worldSpaceScreenMax.x || m_worldSpaceBoundingMin.y > worldSpaceScreenMax.y
-		|| m_worldSpaceBoundingMax.x < worldSpaceScreenMin.x || m_worldSpaceBoundingMax.y < worldSpaceScreenMin.y)
+	if (m_boundingMinZ > m_boundingMaxZ)
+	{
+		return false;
+	}
+
+	// The shaders apply parallax to every vertex, which scales each particle quad around the
+	// screen center by Sprite::ComputeParallaxScale(z). The scale is linear in z, so scaling the
+	// box by the scales of the lowest and the highest z covers every drawn quad. When all
+	// particles share one z, which is the usual case, this is exactly the union of the quads
+	Sprite::SetParallaxIntensity(parallaxIntensity);
+	const float scaleA = Sprite::ComputeParallaxScale(m_boundingMinZ);
+	const float scaleB = Sprite::ComputeParallaxScale(m_boundingMaxZ);
+
+	const Vector2 screenCenter(cameraPos + (Sprite::GetVirtualScreenResolution() * 0.5f));
+	const Vector2 a(m_worldSpaceBoundingMin - screenCenter);
+	const Vector2 b(m_worldSpaceBoundingMax - screenCenter);
+	min = screenCenter + Vector2::Vector2Min(Vector2::Vector2Min(a * scaleA, a * scaleB), Vector2::Vector2Min(b * scaleA, b * scaleB));
+	max = screenCenter + Vector2::Vector2Max(Vector2::Vector2Max(a * scaleA, a * scaleB), Vector2::Vector2Max(b * scaleA, b * scaleB));
+	return true;
+}
+
+bool ETHParticleManager::IsVisible(
+	const Vector2& cameraPos,
+	const Vector2& screenSize,
+	const float parallaxIntensity) const
+{
+	Vector2 min, max;
+	if (!ComputeWorldSpaceBoundingBox(cameraPos, parallaxIntensity, min, max))
+	{
+		return false;
+	}
+
+	const Vector2 screenMax(cameraPos + screenSize);
+	if (min.x > screenMax.x || min.y > screenMax.y || max.x < cameraPos.x || max.y < cameraPos.y)
 	{
 		return false;
 	}
@@ -245,6 +310,21 @@ bool ETHParticleManager::IsVisible(
 	{
 		return true;
 	}
+}
+
+bool ETHParticleManager::IsParticleDrawn(const PARTICLE& particle) const
+{
+	if (m_system.repeat > 0)
+		if (particle.repeat >= m_system.repeat)
+			return false;
+
+	if (particle.size <= 0.0f || !particle.released || particle.color.w <= 0.0f)
+		return false;
+
+	if (Killed() && particle.elapsed > particle.lifeTime)
+		return false;
+
+	return true;
 }
 
 void ETHParticleManager::UpdateParticle(
@@ -423,14 +503,7 @@ bool ETHParticleManager::DrawParticleSystem(
 	{
 		const PARTICLE& particle = m_particles[t];
 
-		if (m_system.repeat > 0)
-			if (particle.repeat >= m_system.repeat)
-				continue;
-
-		if (particle.size <= 0.0f || !particle.released || particle.color.w <= 0.0f)
-			continue;
-
-		if (Killed() && particle.elapsed > particle.lifeTime)
+		if (!IsParticleDrawn(particle))
 			continue;
 
 		Vector3 finalAmbient(1, 1, 1);

@@ -74,7 +74,8 @@ Checked in the source on 2026-10-13 (paths under `toolkit/Source/src/engine` unl
   `ETHActiveEntityHandler::UpdateAlwaysActiveEntities` (entities that are non-static with a callback or a simulated
   body, or temporary: updated and called every frame, hidden or off-screen) → the `onSceneUpdate` script function →
   `MapEntitiesToBeRendered` (visible buckets only; hidden entities skipped; the rest queued) →
-  `UpdateCurrentFrameEntities` (update + callback of the queued static entities). Then `RenderScene`. Visible buckets
+  `UpdateCurrentFrameEntities` (update + callback of the queued static entities, so their particles are culled with the
+  previous update's state). Then `RenderScene`. Visible buckets
   = the camera rectangle grown by `bucketSize * clearanceFactor` on each side (`FillCurrentlyVisibleBucketList`);
   `GetCameraPos()` is the screen's top-left in world space.
 - **Depth and parallax:** pieces are drawn in ascending `ComputeDepth()` order (a `std::multimap`;
@@ -83,8 +84,9 @@ Checked in the source on 2026-10-13 (paths under `toolkit/Source/src/engine` unl
   Parallax offset (`gs2d/src/Sprite.cpp` `ComputeParallaxOffset`) = (screen position − half virtual screen) / virtual
   height × `z` × entity parallax × scene parallax × 0.55, so negative `z` reads as farther away. The sprite shaders add it
   to every vertex, so a sprite is also scaled around the screen centre by `Sprite::ComputeParallaxScale(z)` (bigger for
-  `z > 0`). `ETHRenderEntity::IsSpriteVisible` applies that scale (§19). `GetScreenRect` (picking) and particle bounding
-  boxes still apply only the pivot's offset.
+  `z > 0`). `ETHRenderEntity::IsSpriteVisible` applies that scale, and so does particle culling
+  (`ETHParticleManager::ComputeWorldSpaceBoundingBox`: per particle z, with the camera of the culling pass) (§19).
+  `GetScreenRect` (picking) still applies only the pivot's offset.
 - Entity colour in the ambient pass = (scene ambient + emissive, clamped to 1) × entity colour × diffuse
   (`ETHRenderEntity::DrawAmbientPass`). `SetPivotAdjust` stores the offset divided by the scale and the renderer
   multiplies it back: a sprite-only offset. `rand(n)` / `rand(a, b)` are inclusive (`gs2d` `Randomizer::Int` →

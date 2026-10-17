@@ -97,7 +97,6 @@ void ParticleEditor::DrawParticleSystem(const float lastFrameElapsedTime)
 	m_manager->UpdateParticleSystem(
 		Vector3(m_v2Pos, 0),
 		Vector2(0.0f, 0.0f),
-		Vector2(0.0f, 0.0f),
 		m_systemAngle,
 		lastFrameElapsedTime);
 

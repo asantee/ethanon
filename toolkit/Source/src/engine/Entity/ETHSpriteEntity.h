@@ -91,7 +91,7 @@ public:
 	std::string GetHaloName() const override;
 
 	void Update(const float lastFrameElapsedTime, const Vector2& zAxisDir, const float sceneParallaxIntensity, ETHBucketManager& buckets);
-	void UpdateParticleSystems(const Vector2& zAxisDirection, const float sceneParallaxIntensity, const float lastFrameElapsedTime);
+	void UpdateParticleSystems(const Vector2& zAxisDirection, const float lastFrameElapsedTime);
 
 	float ComputeLightIntensity();
 
