@@ -80,7 +80,6 @@ void CreateLoadingSprite(VideoPtr video, SpritePtr& sprite, const std::string& f
 // UI thread used to wait for. start() still creates whatever preInit has not, waiting for it if it is running.
 static std::mutex g_preInitMutex; // serializes EnsureZip/EnsureAudio between preInit and start
 static std::mutex g_audioMutex; // 'audio' is assigned on the preInit or GL thread and read on the UI thread
-static bool g_audioSuspendedOnce = false; // UI thread only
 
 static AudioPtr GetAudio()
 {
@@ -113,18 +112,15 @@ JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_audioSuspend(JNIEnv* env, j
 {
 	AudioPtr currentAudio = GetAudio();
 	if (currentAudio)
-	{
 		currentAudio->Suspend();
-		g_audioSuspendedOnce = true;
-	}
 }
 
 JNIEXPORT void JNICALL Java_net_asantee_gs2d_GS2DJNI_audioResume(JNIEnv* env, jobject thiz)
 {
-	// preInit can create the device before the first onStart, which used to find no device and skip the resume.
-	// Keep it that way: FMOD expects mixerSuspend/mixerResume in pairs, so resume only after a suspend.
+	// preInit can create the device before the first onStart; that device is running, and Resume() only acts on a
+	// suspended mixer (FMOD expects mixerSuspend/mixerResume in pairs), so the first onStart changes nothing.
 	AudioPtr currentAudio = GetAudio();
-	if (currentAudio && g_audioSuspendedOnce)
+	if (currentAudio)
 		currentAudio->Resume();
 }
 

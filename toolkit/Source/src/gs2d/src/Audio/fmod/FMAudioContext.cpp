@@ -258,9 +258,11 @@ void FMAudioContext::Update()
 	FMOD_ERRCHECK(result, m_logger);
 }
 
+// FMOD wants mixerSuspend/mixerResume in pairs on one thread. Several callers can ask for the same state (on Android
+// Activity.onStop and AdManager both suspend, onStart and AdManager both resume), so a repeated call is ignored.
 void FMAudioContext::Suspend()
 {
-	if (!m_system)
+	if (!m_system || m_suspended)
 		return;
 
 	m_suspended = true;
@@ -271,7 +273,7 @@ void FMAudioContext::Suspend()
 
 void FMAudioContext::Resume()
 {
-	if (!m_system)
+	if (!m_system || !m_suspended)
 		return;
 
 	const FMOD_RESULT result = m_system->mixerResume();
