@@ -81,7 +81,10 @@ Checked in the source on 2026-10-13 (paths under `toolkit/Source/src/engine` unl
   `Renderer/ETHEntityRenderingManager.cpp`): `z` for entity type 0 (horizontal), the layer depth for type 5
   (layerable). Screen position = `xy + ZAxisDirection * z` (`ETHGlobal::ToScreenPos`; Magic Rampage scenes use 0,0).
   Parallax offset (`gs2d/src/Sprite.cpp` `ComputeParallaxOffset`) = (screen position − half virtual screen) / virtual
-  height × `z` × entity parallax × scene parallax × 0.55, so negative `z` reads as farther away.
+  height × `z` × entity parallax × scene parallax × 0.55, so negative `z` reads as farther away. The sprite shaders add it
+  to every vertex, so a sprite is also scaled around the screen centre by `Sprite::ComputeParallaxScale(z)` (bigger for
+  `z > 0`). `ETHRenderEntity::IsSpriteVisible` applies that scale (§19). `GetScreenRect` (picking) and particle bounding
+  boxes still apply only the pivot's offset.
 - Entity colour in the ambient pass = (scene ambient + emissive, clamped to 1) × entity colour × diffuse
   (`ETHRenderEntity::DrawAmbientPass`). `SetPivotAdjust` stores the offset divided by the scale and the renderer
   multiplies it back: a sprite-only offset. `rand(n)` / `rand(a, b)` are inclusive (`gs2d` `Randomizer::Int` →

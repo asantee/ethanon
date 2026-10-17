@@ -72,6 +72,7 @@ public:
 
 	Vector2 GetSize() const override;
 	Vector2 ComputeParallaxOffset(const float sceneParallaxIntensity) const override;
+	float ComputeParallaxScale(const float sceneParallaxIntensity) const;
 	float ComputeDepth() const;
 	void SetScale(const Vector2& scale) override;
 

@@ -119,12 +119,22 @@ bool ETHRenderEntity::IsSpriteVisible(
 
 	const float angle = GetAngle();
 	const Vector2& bufferSize = m_provider->GetVideo()->GetScreenSizeF();
+
+	// GetScreenRect and ComputeInScreenSpriteCenter only shift the sprite by the parallax
+	// offset of its pivot, but the shaders apply parallax to every vertex, which also
+	// scales the sprite around the screen center. Scale the box around the pivot to
+	// match what is drawn, or sprites with z != 0 pop in and out at the screen edges
+	const Vector2 pivot = ComputeInScreenPosition(sceneProps);
+	const float parallaxScale = ComputeParallaxScale(sceneProps.parallaxIntensity);
+
 	if (angle == 0.0f)
 	{
 		const ETHEntityProperties::VIEW_RECT& rect = GetScreenRect(sceneProps);
 
-		const Vector2& min = rect.min;
-		const Vector2& max = rect.max;
+		const Vector2 a(pivot + ((rect.min - pivot) * parallaxScale));
+		const Vector2 b(pivot + ((rect.max - pivot) * parallaxScale));
+		const Vector2 min(Vector2::Vector2Min(a, b));
+		const Vector2 max(Vector2::Vector2Max(a, b));
 
 		if (min.x > bufferSize.x || min.y > bufferSize.y)
 		{
@@ -143,10 +153,11 @@ bool ETHRenderEntity::IsSpriteVisible(
 	{
 		gs2d::math::OrientedBoundingBoxPtr backbufferObb(new gs2d::math::OrientedBoundingBox(bufferSize * 0.5f, bufferSize, 0.0f));
 
-		const Vector2 size = GetSize();
+		const Vector2 size = GetSize() * Abs(parallaxScale);
+		const Vector2 center(pivot + ((ComputeInScreenSpriteCenter(sceneProps) - pivot) * parallaxScale));
 		const float radianAngle = -Util::DegreeToRadian(angle);
-		const OrientedBoundingBox entityObb(ComputeInScreenSpriteCenter(sceneProps), size, radianAngle);
-		
+		const OrientedBoundingBox entityObb(center, size, radianAngle);
+
 		return entityObb.Overlaps(*backbufferObb);
 	}
 }

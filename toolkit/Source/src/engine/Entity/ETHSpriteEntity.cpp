@@ -354,6 +354,12 @@ Vector2 ETHSpriteEntity::ComputeParallaxOffset(const float sceneParallaxIntensit
 	return Sprite::ComputeParallaxOffset(m_provider->GetVideo()->GetCameraPos(), GetPosition());
 }
 
+float ETHSpriteEntity::ComputeParallaxScale(const float sceneParallaxIntensity) const
+{
+	Sprite::SetParallaxIntensity(sceneParallaxIntensity * GetParallaxIntensity());
+	return Sprite::ComputeParallaxScale(GetPositionZ());
+}
+
 void ETHSpriteEntity::SetOrigin()
 {
 	const Vector2 v2Origin = ComputeOrigin(GetSize());

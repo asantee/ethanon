@@ -132,6 +132,15 @@ math::Vector2 Sprite::ComputeParallaxOffset(const math::Vector2& cameraPos, cons
 	return ((screenSpacePos - halfScreenSize) / m_virtualScreenResolution.y) * intensity;
 }
 
+// The sprite shaders add the parallax offset to every vertex, which scales the
+// whole sprite around the screen center by this factor. ComputeParallaxOffset
+// gives the shift of a single point: (screenSpacePos - halfScreenSize) * (scale - 1)
+float Sprite::ComputeParallaxScale(const float z)
+{
+	const float intensity = z * m_parallaxIntensity * Sprite::PARALLAX_INTENSITY_FIX;
+	return 1.0f + (intensity / m_virtualScreenResolution.y);
+}
+
 void Sprite::SetVirtualScreenResolution(const math::Vector2& resolution)
 {
 	m_virtualScreenResolution = resolution;

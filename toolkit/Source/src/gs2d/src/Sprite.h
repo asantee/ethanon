@@ -47,6 +47,7 @@ public:
 	static void SetParallaxIntensity(const float intensity);
 	static float GetParallaxIntensity();
 	static math::Vector2 ComputeParallaxOffset(const math::Vector2& cameraPos, const math::Vector3& pos);
+	static float ComputeParallaxScale(const float z);
 
 	static ShaderPtr GetDefaultShader();
 	static ShaderPtr GetFastShader();
