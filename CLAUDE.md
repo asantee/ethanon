@@ -27,8 +27,20 @@ use it).
 (`ETHGlobal::*` in `Script/ETHScriptObjRegister.cpp`), object types (declared in `ETHScriptObjRegister.cpp`, their methods in
 `ETHScriptObjRegister.generic.cpp`), then the global functions (`ETHScriptWrapper::RegisterGlobalFunctions` in
 `ETHScriptWrapper.generic.cpp`; math globals in `ETHScriptWrapper.Math.generic.cpp`; msgpack and websocket in their own
-`*Register.cpp`). Every binding uses `asCALL_GENERIC` through the `asDECLARE_FUNCTION_WRAPPER` / `asDECLARE_METHOD_WRAPPER(PR)`
+`*Register.cpp`). Every engine binding uses `asCALL_GENERIC` through the `asDECLARE_FUNCTION_WRAPPER` / `asDECLARE_METHOD_WRAPPER(PR)`
 macros, and each function is registered in exactly one place: there is no native-calling-convention copy to keep in sync.
+**The AngelScript add-ons are different** (`addons/scriptmath*.cpp` for `vector2`/`vector3` and the math functions, plus
+`scriptarray`, `scriptdictionary`, `scriptany`, `scriptfile`). They register native calling conventions
+(`asCALL_THISCALL`, `asCALL_CDECL_OBJLAST`, `asOBJ_APP_CLASS_*` flags) unless the library was built with
+`AS_MAX_PORTABILITY`, which they check at runtime. The Apple projects define it (`angelscript.xcodeproj` at project
+level, used by iOS and `machine.app`; `engine.xcodeproj`). AngelScript 2.34.0 also sets it by itself on 64-bit ARM
+(`as_config.h`: the ARM assembly excludes `__LP64__`, and there is no `as_callfunc_arm64.cpp`). So iOS, the Mac runner
+and **Android arm64-v8a use the generic path**. Only Android armeabi-v7a, x86, x86_64 and Steam (Windows x86) call the
+add-ons natively. A change to a math type's C++ layout or its registration flags can only break on those, and none of
+them is the Mac (checked 2026-10-18).
+Native calls are not faster here. In a benchmark of this AngelScript, x86-64 under Rosetta, a native call cost 28–37 ns
+and the `aswrappedcall.h` generic wrapper 14–25 ns; Magic-Rampage-Builds `CLAUDE.md` §20 has the details. The native path
+marshals arguments at runtime from the signature, while the wrapper templates are compiled and inlined.
 The split by file is not strict, so grep both `*.generic.cpp` files for a name: `RegisterGlobalFunctions` also registers some
 `ETHEntity` methods (`SetPosition*`, `AddToPosition*`, `GetCurrentBucket`, `PlayParticleSystem`) and `ETHInput` methods
 (`GetCursorPos`, `SetCursorPos`, …), and `ETHScriptObjRegister.generic.cpp` also registers globals (`GetStringFromFile`,
@@ -87,6 +99,13 @@ Checked in the source on 2026-10-13 (paths under `toolkit/Source/src/engine` unl
   `z > 0`). `ETHRenderEntity::IsSpriteVisible` applies that scale, and so does particle culling
   (`ETHParticleManager::ComputeWorldSpaceBoundingBox`: per particle z, with the camera of the culling pass) (§19).
   `GetScreenRect` (picking) still applies only the pivot's offset.
+- **No batching: every sprite and every particle is its own draw call** (checked 2026-10-18). `Sprite::Draw`
+  (`gs2d/src/Sprite.cpp`) runs `PolygonRenderer::BeginRendering` (GLES2: `glUseProgram`, two buffer binds, two attribute
+  pointers), one `glUniform4fv` of a heap-allocated `Vector4[6]`, `glActiveTexture` + `glBindTexture`, `glDrawElements`
+  for one quad, and `EndRendering`. About 13 GL calls per quad. `ETHParticleManager::DrawParticleSystem` also allocates a
+  `ShaderParameters` map and a `shared_ptr` parameter per particle per frame for its `highlight` colour. So a frame's CPU
+  cost grows with the number of quads on screen (`GetNumRenderedPieces` counts systems, not particles), and GPU fill grows
+  with their area. Batching a particle system into one draw call is the big lever. Hoisting those allocations is a smaller one.
 - Entity colour in the ambient pass = (scene ambient + emissive, clamped to 1) × entity colour × diffuse
   (`ETHRenderEntity::DrawAmbientPass`). `SetPivotAdjust` stores the offset divided by the scale and the renderer
   multiplies it back: a sprite-only offset. `rand(n)` / `rand(a, b)` are inclusive (`gs2d` `Randomizer::Int` →
