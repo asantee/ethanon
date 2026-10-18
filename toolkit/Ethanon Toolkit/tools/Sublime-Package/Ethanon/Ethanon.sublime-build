@@ -4,6 +4,7 @@
 	"target": "ethanon_build",
 	"cancel": {"kill": true},
 	"syntax": "scope:text.ethanon-build",
+	"selector": "source.ethanon, source.enml",
 
 	"cmd": ["machine", "-nowait"],
 	"file_regex": "^\\[(?:ERROR|WARN) ?\\] (.+?), line ([0-9]+):([0-9]+)? (.*)$",
