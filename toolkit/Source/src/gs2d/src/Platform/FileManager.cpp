@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <sstream>
+#include <vector>
 
 #include "../Unicode/utf8/utf8.h"
 
@@ -31,27 +32,42 @@ bool FileManager::GetUTF8FileString(const FileBuffer& buffer, std::string &out)
 
 bool FileManager::GetUTF16FileString(const FileBuffer& buffer, std::string &out)
 {
-    if (!HasUTF16LEBOM(buffer))
-        return false;
+	if (!HasUTF16LEBOM(buffer))
+		return false;
 
-	const std::size_t bufferSize = buffer->GetBufferSize();
+	// Build each 16-bit unit from its two bytes (little-endian) instead of reading the bytes through a
+	// pointer cast. Whole units only: with an odd byte count the decoder would never reach the end
 	const std::size_t bomSizeInBytes = sizeof(UTF16LE_BOM);
+	const unsigned char* bytes = &(buffer->GetAddress()[bomSizeInBytes]);
+	const std::size_t unitCount = (buffer->GetBufferSize() - bomSizeInBytes) / 2;
+	std::vector<utf8::uint16_t> units(unitCount);
+	for (std::size_t t = 0; t < unitCount; t++)
+	{
+		units[t] = static_cast<utf8::uint16_t>(bytes[t * 2] | (bytes[t * 2 + 1] << 8));
+	}
 
-	const unsigned char* begin = &(buffer->GetAddress()[bomSizeInBytes]);
-	const unsigned char* end   = &begin[bufferSize - bomSizeInBytes];
-	utf8::utf16to8((unsigned short*)begin, (unsigned short*)end, back_inserter(out));
+	const std::size_t originalSize = out.size();
+	try
+	{
+		utf8::utf16to8(units.begin(), units.end(), back_inserter(out));
+	}
+	catch (const utf8::exception&)
+	{
+		// malformed UTF-16 (an unpaired surrogate): the file fails to load instead of ending the program
+		out.resize(originalSize);
+		return false;
+	}
 	return true;
 }
 
 bool FileManager::HasUTF16LEBOM(const FileBuffer& buffer)
 {
-	const std::size_t bufferSize = buffer->GetBufferSize();
-
-	if (bufferSize < sizeof(UTF16LE_BOM))
+	if (buffer->GetBufferSize() < sizeof(UTF16LE_BOM))
 		return false;
-	
-	const unsigned short* firstTwoBytes = (unsigned short*)buffer->GetAddress();
-	return (*firstTwoBytes == UTF16LE_BOM);
+
+	// compare the bytes (FF FE) instead of reading them through a pointer cast
+	const unsigned char* bytes = buffer->GetAddress();
+	return (bytes[0] == (UTF16LE_BOM & 0xFF) && bytes[1] == (UTF16LE_BOM >> 8));
 }
 
 bool FileManager::GetUTF8FileString(const std::string &fileName, std::string &out)
@@ -103,7 +119,7 @@ bool FileManager::GetAnsiFileString(const std::string &fileName, std::string &ou
 	{
 		std::stringstream ss;
 		unsigned char *adr = buffer->GetAddress();
-		for (unsigned long t = 0; t < buffer->GetBufferSize(); t++)
+		for (std::size_t t = 0; t < buffer->GetBufferSize(); t++)
 		{
 			const char c = static_cast<char>(adr[t]);
 			if (c != 0x0D) // remove all carriage return

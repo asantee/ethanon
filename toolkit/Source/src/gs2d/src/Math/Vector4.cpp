@@ -150,9 +150,11 @@ float Vector4::DP4(const Vector4& a, const Vector4& b)
     return ((a.x * b.x) + (a.y * b.y) + (a.z * b.z) + (a.w * b.w));
 }
 
+// d comes from the normalized normal too, so pos lies on the plane for any normal length
 Vector4::Plane Vector4::ComputePlane(const Vector3& pos, const Vector3& normal)
 {
-    return (Plane(Vector3::Normalize(normal), -((normal.x * pos.x) + (normal.y * pos.y) + (normal.z * pos.z))));
+	const Vector3 n = Vector3::Normalize(normal);
+	return Plane(n, -((n.x * pos.x) + (n.y * pos.y) + (n.z * pos.z)));
 }
 
 float Vector4::PlaneDotVector(const Plane& plane, const Vector3& vec)
@@ -162,7 +164,8 @@ float Vector4::PlaneDotVector(const Plane& plane, const Vector3& vec)
 
 Vector4::Plane Vector4::ComputePlane(const Vector2& pos, const Vector2& normal)
 {
-    return (Plane(Vector2::Normalize(normal), 0, -((normal.x * pos.x) + (normal.y * pos.y))));
+	const Vector2 n = Vector2::Normalize(normal);
+	return Plane(n, 0, -((n.x * pos.x) + (n.y * pos.y)));
 }
 
 float Vector4::PlaneDotVector(const Plane& plane, const Vector2& vec)

@@ -15,7 +15,7 @@ use it).
 
 | Folder | What it is |
 |---|---|
-| `gs2d/src` | Platform layer: `Audio.h` (+ `Audio/`), video, input, `Platform/` (file I/O hubs, `FileLogger`, `SharedData`, native command forwarding; per-platform code in `Platform/{windows,macosx,android,ios,apple}`) |
+| `gs2d/src` | Platform layer: `Audio.h` (+ `Audio/`), video, input, `Platform/` (file I/O hubs, `FileLogger`, `SharedData`, native command forwarding, `FileManager` with its `FileBufferData` buffers; per-platform code in `Platform/{windows,macosx,android,ios,apple}`), `Math/` (`Vector2`/`Vector3` operators are inline plain C++ in the headers since 2026-10-19: no NEON, exact division; keep dot products in separate statements so ARM does not fuse them into a multiply-add) |
 | `engine` | Ethanon core (`ETH*`): `ETHEngine.cpp` builds the script module and drives registration; `Entity`, `Scene`, `Physics`, `Resource`, `Drawing`, `Script` |
 | `engine/Script` | Everything bound to AngelScript (below) |
 | `angelscript`, `addons` | AngelScript 2.34.0 and its add-ons (`addons/scriptbuilder.cpp` handles `#include` and section names) |

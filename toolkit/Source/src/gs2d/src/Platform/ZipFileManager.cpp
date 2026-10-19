@@ -98,7 +98,14 @@ bool ZipFileManager::GetFileBuffer(const std::string &fileName, FileBuffer &out)
 	struct zip_stat stat;
 	zip_stat_index(m_archive, index, 0, &stat);
 
-	out = FileBuffer(new _FileBuffer<unsigned char>(static_cast<unsigned long>(stat.size)));
+	out = FileBuffer(new FileBufferData<unsigned char>(static_cast<std::size_t>(stat.size)));
+	if (stat.size > 0 && !out->GetAddress())
+	{
+		// not enough memory for this file
+		out.reset();
+		zip_fclose(file);
+		return false;
+	}
 	zip_fread(file, out->GetAddress(), stat.size);
 
 	zip_fclose(file);

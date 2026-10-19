@@ -1,37 +1,46 @@
 #ifndef FILE_MANAGER_H_
 #define FILE_MANAGER_H_
 
+#include <cassert>
+#include <cstddef>
+#include <new>
 #include <string>
 
 #include <boost/shared_ptr.hpp>
 
 namespace Platform {
 
-template <class T> class _FileBuffer
+// A file's bytes. When the memory cannot be allocated the buffer stays empty (null address, size 0)
+// instead of throwing, so a file too large for the available memory fails to load
+template <class T> class FileBufferData
 {
 public:
-	_FileBuffer(const unsigned long size);
-	~_FileBuffer();
-	unsigned long GetBufferSize();
+	FileBufferData(const std::size_t size);
+	~FileBufferData();
+	std::size_t GetBufferSize();
 	T *GetAddress();
 private:
 	T *m_buffer;
-	unsigned long m_bufferSize;
+	std::size_t m_bufferSize;
 };
-typedef boost::shared_ptr<_FileBuffer<unsigned char> > FileBuffer;
+typedef boost::shared_ptr<FileBufferData<unsigned char> > FileBuffer;
 
 template <class T>
-_FileBuffer<T>::_FileBuffer(const unsigned long size)
+FileBufferData<T>::FileBufferData(const std::size_t size)
 {
 	assert(sizeof(T) == 1);
 	m_buffer = NULL;
-	m_bufferSize = size;
+	m_bufferSize = 0;
 	if (size > 0)
-		m_buffer = new T [size];
+	{
+		m_buffer = new (std::nothrow) T [size];
+		if (m_buffer)
+			m_bufferSize = size;
+	}
 }
 
 template <class T>
-_FileBuffer<T>::~_FileBuffer()
+FileBufferData<T>::~FileBufferData()
 {
 	if (m_buffer)
 	{
@@ -40,13 +49,13 @@ _FileBuffer<T>::~_FileBuffer()
 }
 
 template <class T>
-unsigned long _FileBuffer<T>::GetBufferSize()
+std::size_t FileBufferData<T>::GetBufferSize()
 {
 	return m_bufferSize;
 }
 
 template <class T>
-T *_FileBuffer<T>::GetAddress()
+T *FileBufferData<T>::GetAddress()
 {
 	return m_buffer;
 }

@@ -20,6 +20,7 @@ struct PODVector3
 	float x, y, z;
 };
 
+// Operators are plain C++ defined here so they inline (see Vector2.h)
 struct Vector3 : public PODVector3
 {
 	constexpr Vector3() noexcept : PODVector3() {}
@@ -29,20 +30,20 @@ struct Vector3 : public PODVector3
 	constexpr Vector3(const Vector2 &v2, const float vz) noexcept : PODVector3(v2.x, v2.y, vz) {}
 	float Length() const noexcept;
 	float SquaredLength() const noexcept;
-	Vector3 operator * (const float v) const noexcept;
-	Vector3 operator * (const Vector3& v) const noexcept;
-	Vector3 operator / (const float v) const noexcept;
-	Vector3 operator / (const Vector3& v) const noexcept;
-	Vector3 operator - (const float v) const noexcept;
-	Vector3 operator - (const Vector3& v) const noexcept;
-	Vector3 operator + (const float v) const noexcept;
-	Vector3 operator + (const Vector3& v) const noexcept;
-	bool operator == (const Vector3& v) const noexcept;
-	bool operator != (const Vector3& v) const noexcept;
-	Vector3& operator += (const Vector3& v) noexcept;
-	Vector3& operator -= (const Vector3& v) noexcept;
-	Vector3& operator *= (const float v) noexcept;
-	Vector3& operator /= (const float v) noexcept;
+	Vector3 operator * (const float v) const noexcept { return Vector3(x * v, y * v, z * v); }
+	Vector3 operator * (const Vector3& v) const noexcept { return Vector3(x * v.x, y * v.y, z * v.z); }
+	Vector3 operator / (const float v) const noexcept { return Vector3(x / v, y / v, z / v); }
+	Vector3 operator / (const Vector3& v) const noexcept { return Vector3(x / v.x, y / v.y, z / v.z); }
+	Vector3 operator - (const float v) const noexcept { return Vector3(x - v, y - v, z - v); }
+	Vector3 operator - (const Vector3& v) const noexcept { return Vector3(x - v.x, y - v.y, z - v.z); }
+	Vector3 operator + (const float v) const noexcept { return Vector3(x + v, y + v, z + v); }
+	Vector3 operator + (const Vector3& v) const noexcept { return Vector3(x + v.x, y + v.y, z + v.z); }
+	bool operator == (const Vector3& v) const noexcept { return (x == v.x && y == v.y && z == v.z); }
+	bool operator != (const Vector3& v) const noexcept { return (x != v.x || y != v.y || z != v.z); }
+	Vector3& operator += (const Vector3& v) noexcept { x += v.x; y += v.y; z += v.z; return *this; }
+	Vector3& operator -= (const Vector3& v) noexcept { x -= v.x; y -= v.y; z -= v.z; return *this; }
+	Vector3& operator *= (const float v) noexcept { x *= v; y *= v; z *= v; return *this; }
+	Vector3& operator /= (const float v) noexcept { x /= v; y /= v; z /= v; return *this; }
 
 	static float DP3(const Vector3& a, const Vector3& b);
 	static Vector3 cross(const Vector3& a, const Vector3& b);

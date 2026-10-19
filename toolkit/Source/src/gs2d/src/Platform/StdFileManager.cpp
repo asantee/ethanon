@@ -33,7 +33,14 @@ bool StdFileManager::GetFileBuffer(const std::string &fileName, FileBuffer &out)
 	const std::size_t len = ftell(file);
 	fseek(file, 0, SEEK_SET);
 
-	out = FileBuffer(new _FileBuffer<unsigned char>(len));
+	out = FileBuffer(new FileBufferData<unsigned char>(len));
+	if (len > 0 && !out->GetAddress())
+	{
+		// not enough memory for this file
+		out.reset();
+		fclose(file);
+		return false;
+	}
 	fread(out->GetAddress(), len, 1, file);
 	fclose(file);
 	return true;

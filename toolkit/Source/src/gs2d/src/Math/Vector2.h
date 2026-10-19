@@ -20,6 +20,8 @@ struct PODVector2
 	float x, y;
 };
 
+// The operators are plain C++ defined here so they inline: a call per operation cost more than the
+// arithmetic, and the compiler already emits good code for two floats without intrinsics
 struct Vector2 : public PODVector2
 {
 	constexpr Vector2() noexcept : PODVector2() {}
@@ -27,27 +29,34 @@ struct Vector2 : public PODVector2
 	constexpr Vector2(const Vector2& v) noexcept : PODVector2(v.x, v.y) {}
 	constexpr Vector2(const float vx, const float vy) noexcept : PODVector2(vx, vy) {}
 	float Length() const noexcept;
-	float SquaredLength() const noexcept;
-	Vector2 operator * (const float v) const noexcept;
-	Vector2 operator * (const Vector2& v) const noexcept;
-	Vector2 operator / (const float v) const noexcept;
-	Vector2 operator / (const Vector2& v) const noexcept;
-	Vector2 operator - (const float v) const noexcept;
-	Vector2 operator - (const Vector2& v) const noexcept;
-	Vector2 operator + (const float v) const noexcept;
-	Vector2 operator + (const Vector2& v) const noexcept;
-	bool operator == (const Vector2& v) const noexcept;
-	bool operator != (const Vector2& v) const noexcept;
-	Vector2& operator += (const Vector2& v) noexcept;
-	Vector2& operator -= (const Vector2& v) noexcept;
-	Vector2& operator *= (const float f) noexcept;
-	Vector2& operator /= (const float f) noexcept;
+	float SquaredLength() const noexcept { return DP2(*this, *this); }
+	Vector2 operator * (const float v) const noexcept { return Vector2(x * v, y * v); }
+	Vector2 operator * (const Vector2& v) const noexcept { return Vector2(x * v.x, y * v.y); }
+	Vector2 operator / (const float v) const noexcept { return Vector2(x / v, y / v); }
+	Vector2 operator / (const Vector2& v) const noexcept { return Vector2(x / v.x, y / v.y); }
+	Vector2 operator - (const float v) const noexcept { return Vector2(x - v, y - v); }
+	Vector2 operator - (const Vector2& v) const noexcept { return Vector2(x - v.x, y - v.y); }
+	Vector2 operator + (const float v) const noexcept { return Vector2(x + v, y + v); }
+	Vector2 operator + (const Vector2& v) const noexcept { return Vector2(x + v.x, y + v.y); }
+	bool operator == (const Vector2& v) const noexcept { return (x == v.x && y == v.y); }
+	bool operator != (const Vector2& v) const noexcept { return !(*this == v); }
+	Vector2& operator += (const Vector2& v) noexcept { x += v.x; y += v.y; return *this; }
+	Vector2& operator -= (const Vector2& v) noexcept { x -= v.x; y -= v.y; return *this; }
+	Vector2& operator *= (const float f) noexcept { x *= f; y *= f; return *this; }
+	Vector2& operator /= (const float f) noexcept { x /= f; y /= f; return *this; }
 	Vector2i ToVector2i() const noexcept;
 
 	static Vector2 ToVector2(const Vector2i& v) noexcept;
 	static float Distance(const Vector2& a, const Vector2& b) noexcept;
 	static float GetAngle(const Vector2& v) noexcept;
-	static float DP2(const Vector2& a, const Vector2& b) noexcept;
+	static float DP2(const Vector2& a, const Vector2& b) noexcept
+	{
+		// Two statements, so the compiler cannot fuse them into one multiply-add, which
+		// rounds once instead of twice: the result stays what the NEON code gave on ARM
+		const float xx = a.x * b.x;
+		const float yy = a.y * b.y;
+		return xx + yy;
+	}
 	static Vector2 Normalize(const Vector2& v) noexcept;
 	static Vector2 Vector2Min(const Vector2& a, const Vector2& b) noexcept;
 	static Vector2 Vector2Max(const Vector2& a, const Vector2& b) noexcept;
