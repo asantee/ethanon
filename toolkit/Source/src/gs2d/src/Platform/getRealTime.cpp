@@ -35,16 +35,21 @@ double getRealTime( )
 {
 #if defined(_WIN32)
 
-	LARGE_INTEGER Time;
-	LARGE_INTEGER Frequency;
+	static double frequency = 0.0;
+	if ( frequency == 0.0 )
+	{
+		LARGE_INTEGER Frequency;
+		QueryPerformanceFrequency(&Frequency);
+		frequency = (double)Frequency.QuadPart;
+	}
 
-	QueryPerformanceFrequency(&Frequency);
+	LARGE_INTEGER Time;
 	QueryPerformanceCounter(&Time);
 
-	Time.QuadPart *= 1000000;
-	Time.QuadPart /= Frequency.QuadPart;
-
-	return (double)Time.QuadPart / 1000000.0;
+	/* Divide in double: Time * 1000000 in int64 overflowed after about 10.7 days
+	   of uptime at the usual 10 MHz, and the clock jumped back 21 days. Exact
+	   below 2^53 ticks (28 years at 10 MHz). */
+	return (double)Time.QuadPart / frequency;
 
 #elif (defined(__hpux) || defined(hpux)) || ((defined(__sun__) || defined(__sun) || defined(sun)) && (defined(__SVR4) || defined(__svr4__)))
 	/* HP-UX, Solaris. ------------------------------------------ */

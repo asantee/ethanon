@@ -169,7 +169,7 @@ public:
 
 	bool SyncEnabled() const;
 	bool IsMaximizable() const;
-	double GetElapsedTimeD(const TIME_UNITY unity) const;
+	double GetElapsedTimeD(const TIME_UNITY unity = TU_MILLISECONDS) const override;
 	void ComputeFPSRate();};
 } // namespace gs2d
 

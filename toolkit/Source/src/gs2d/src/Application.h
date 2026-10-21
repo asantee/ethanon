@@ -98,6 +98,11 @@ public:
 	 */
 	virtual float GetElapsedTimeF(const TIME_UNITY unity = TU_MILLISECONDS) const = 0;
 
+	/** \brief Returns the current application elapsed time (double precision value).
+	 * \param unity Time unity.
+	 */
+	virtual double GetElapsedTimeD(const TIME_UNITY unity = TU_MILLISECONDS) const = 0;
+
 	virtual void ForwardCommand(const std::string& cmd) = 0;
 	virtual std::string PullCommands() = 0;
 

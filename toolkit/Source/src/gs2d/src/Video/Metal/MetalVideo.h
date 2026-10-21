@@ -147,7 +147,7 @@ public:
 	VIDEO_MODE GetVideoMode(const unsigned int modeIdx) const override;
 	unsigned int GetVideoModeCount() const override;
 	
-	double GetElapsedTimeD(const TIME_UNITY unity = TU_MILLISECONDS) const;
+	double GetElapsedTimeD(const TIME_UNITY unity = TU_MILLISECONDS) const override;
 };
 
 } // namespace gs2d

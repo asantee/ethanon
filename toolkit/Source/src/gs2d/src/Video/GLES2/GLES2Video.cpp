@@ -339,8 +339,18 @@ void GLES2Video::ComputeFPSRate()
 	}
 }
 
-// it will be implemented here for the boost timer is presenting strange behaviour
 float GLES2Video::GetElapsedTimeF(const TIME_UNITY unity) const
+{
+	return static_cast<float>(GetElapsedTimeD(unity));
+}
+
+unsigned long GLES2Video::GetElapsedTime(const TIME_UNITY unity) const
+{
+	return static_cast<unsigned long>(GetElapsedTimeD(unity));
+}
+
+// it will be implemented here for the boost timer is presenting strange behaviour
+double GLES2Video::GetElapsedTimeD(const TIME_UNITY unity) const
 {
 	double elapsedTimeS = getRealTime() - m_startTime;
 
@@ -360,11 +370,6 @@ float GLES2Video::GetElapsedTimeF(const TIME_UNITY unity) const
 		break;
 	};
 	return elapsedTimeS;
-}
-
-unsigned long GLES2Video::GetElapsedTime(const TIME_UNITY unity) const
-{
-	return static_cast<unsigned long>(GetElapsedTimeF(unity));
 }
 
 void GLES2Video::Message(const std::string& text, const GS_MESSAGE_TYPE type) const

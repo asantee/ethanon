@@ -119,6 +119,7 @@ public:
 	
 	float GetElapsedTimeF(const TIME_UNITY unity) const override;
 	unsigned long GetElapsedTime(const TIME_UNITY unity) const override;
+	double GetElapsedTimeD(const TIME_UNITY unity) const override;
 
 protected:
 
