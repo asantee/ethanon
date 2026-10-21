@@ -552,9 +552,13 @@ void WebsocketClient::Ping()
 		return;
 	}
 
-	if (!m_waitingPong)
+	// Beast keeps only one ping waiting for the write lock: a second one asserts
+	// (iOS keeps asserts in release) or leaks the first, so wait for its handler
+	if (!m_waitingPong && !m_pingPending)
 	{
+		m_pingPending = true;
 		m_ws.async_ping("ping", [this](beast::error_code ec){
+			m_pingPending = false;
 			#ifdef _DEBUG
 				std::cout << "ping sent!\n";
 			#endif

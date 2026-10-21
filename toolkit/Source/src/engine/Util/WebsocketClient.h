@@ -76,6 +76,7 @@ class WebsocketClient : public std::enable_shared_from_this<WebsocketClient>
 
 	MovingAverage<double> m_latency;
 	bool m_waitingPong = false;
+	bool m_pingPending = false; // async_ping started, its handler not called yet
 	boost::chrono::steady_clock::time_point m_pingTime;
 
 	uint32_t m_keepaliveTimeout;
