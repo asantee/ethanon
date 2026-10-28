@@ -2,6 +2,7 @@
 
 #include "../Video.h"
 #include "../Unicode/utf8/utf8.h"
+#include "../Unicode/RTL/RTLProcessor.h"
 
 #include "../Sprite.h"
 
@@ -345,7 +346,8 @@ inline int ConvertCharacterToIndex(const TChar* character, std::size_t& t, const
 
 Vector2 BitmapFont::ComputeCarretPosition(const std::string& text, const unsigned int pos)
 {
-	std::string cleanText = text;
+	const std::string processedText = rtl::RTLProcessor::Process(text);
+	std::string cleanText = processedText;
 	RemoveColorMarkup(cleanText);
 
 	if (!IsLoaded())
@@ -382,7 +384,8 @@ Vector2 BitmapFont::ComputeCarretPosition(const std::string& text, const unsigne
 
 Vector2 BitmapFont::ComputeTextBoxSize(const std::string& text)
 {
-	std::string cleanText = text;
+	const std::string processedText = rtl::RTLProcessor::Process(text);
+	std::string cleanText = processedText;
 	RemoveColorMarkup(cleanText);
 
 	if (!IsLoaded())
@@ -425,7 +428,8 @@ Vector2 BitmapFont::DrawBitmapText(const Vector2& pos, const std::string& text, 
 		return Vector2(0,0);
 	}
 
-	const std::size_t length = text.size();
+	const std::string processedText = rtl::RTLProcessor::Process(text);
+	const std::size_t length = processedText.size();
 	
 	Vector2 cursor = pos;
 
@@ -438,25 +442,25 @@ Vector2 BitmapFont::DrawBitmapText(const Vector2& pos, const std::string& text, 
 	int lastPageUsed =-1;
 	for (std::size_t t = 0; t < length; t++)
 	{
-		if (text[t] == ('\n'))
+		if (processedText[t] == ('\n'))
 		{
 			cursor.x = pos.x;
 			cursor.y += m_charSet.lineHeight * scale;
 			continue;
 		}
-		else if (text[t] == ('\r'))
+		else if (processedText[t] == ('\r'))
 		{
 			continue;
 		}
 
 		// check color code
-		if (IsColorCode(text, t))
+		if (IsColorCode(processedText, t))
 		{
-			const std::size_t end = text.find(COLOR_CODE_END_SEQUENCE, t);
+			const std::size_t end = processedText.find(COLOR_CODE_END_SEQUENCE, t);
 			if (end != std::string::npos)
 			{
 				const std::size_t codeStartPos = t + COLOR_CODE_BEGIN_SEQUENCE.length();
-				const std::string colorCodeValue = text.substr(codeStartPos, end);
+				const std::string colorCodeValue = processedText.substr(codeStartPos, end);
 				unsigned long localColor;
 				if (GS2D_SSCANF(colorCodeValue.c_str(), ("%lu"), &localColor) == 1)
 				{
@@ -469,8 +473,8 @@ Vector2 BitmapFont::DrawBitmapText(const Vector2& pos, const std::string& text, 
 		}
 
 		// find mapped character
-		const bool isSpace = (text[t] == (' '));
-		int charId = ConvertCharacterToIndex<char>(&text[t], t, length);
+		const bool isSpace = (processedText[t] == (' '));
+		int charId = ConvertCharacterToIndex<char>(&processedText[t], t, length);
 
   		if (!m_charSet.chars[charId].available)
 			charId = 63; // question mark

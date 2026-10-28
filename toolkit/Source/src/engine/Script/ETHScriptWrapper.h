@@ -218,6 +218,7 @@ public:
 	static Vector2 ComputeCarretPosition(const std::string &font, const std::string &text, const uint32_t pos);
 	static Vector2 ComputeTextBoxSize(const std::string &font, const std::string &text);
 	static void DrawText(const Vector2 &v2Pos, const std::string &text, const std::string &font, const uint32_t color, const float scale);
+	static std::string ProcessRTL(const std::string &text);
 	static std::string AssembleColorCode(const uint32_t color);
 	static void DrawFadingText(const Vector2 &v2Pos, const std::string &text, const std::string &font, const uint32_t color, unsigned long time, const float scale);
 	static int32_t AddEntity(const std::string &file, const Vector3 &v3Pos, const float angle, ETHEntity **ppOutEntity, const std::string &alternativeName, const float scale);

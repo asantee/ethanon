@@ -1,6 +1,7 @@
 #include "ETHScriptWrapper.h"
 
 #include "../Drawing/ETHParticleDrawer.h"
+#include <Unicode/RTL/RTLProcessor.h>
 
 #include "../Resource/ETHResourceLoader.h"
 
@@ -20,6 +21,11 @@ void ETHScriptWrapper::DrawText(const Vector2 &v2Pos, const std::string &text, c
 {
 	WarnIfRunsInMainFunction("DrawText");
 	m_drawableManager.Insert(boost::shared_ptr<ETHDrawable>(new ETHTextDrawer(m_provider, v2Pos, text, font, color, 0x0, scale)));
+}
+
+std::string ETHScriptWrapper::ProcessRTL(const std::string &text)
+{
+	return gs2d::rtl::RTLProcessor::Process(text);
 }
 
 std::string ETHScriptWrapper::AssembleColorCode(const uint32_t color)
